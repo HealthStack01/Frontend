@@ -677,7 +677,7 @@ export function StoreListStandalone({standalone, closeModal}) {
                     </Box>
                   )}
                   <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-                    List of Laboratory Stores
+                    List of Laboratories
                   </h2>
                 </Box>
 

@@ -59,6 +59,7 @@ import {
   DoctorsNotePrintOut,
 } from "./print-outs/Print-Outs";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import {AppointmentCreate} from "../Appointment/generalAppointment";
 
 export default function EncounterMain({nopresc, chosenClient}) {
   // const { register, handleSubmit, watch, errors } = useForm();
@@ -735,7 +736,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
                       item
                       sx={{
                         display: "flex",
-                        width: "calc(100% - 250px)",
+                        width: "calc(100% - 230px)",
                         alignItems: "center",
                         justifyContent: "flex-start",
                       }}
@@ -772,7 +773,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
                     <Box
                       item
                       sx={{
-                        width: "100px",
+                        width: "80px",
                       }}
                     >
                       <ReactToPrint
@@ -782,7 +783,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
                               color: "#0364FF",
                             }}
                           >
-                            <PrintOutlinedIcon />
+                            <PrintOutlinedIcon fontSize="small" />
                           </IconButton>
                         )}
                         content={() => myRefs.current[i]}
@@ -792,7 +793,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
                         color="error"
                         onClick={() => handleDelete(Clinic)}
                       >
-                        <DeleteOutlineIcon />
+                        <DeleteOutlineIcon fontSize="small" />
                       </IconButton>
                     </Box>
                   </Box>
@@ -957,6 +958,17 @@ export default function EncounterMain({nopresc, chosenClient}) {
             standalone="true"
             closeModal={() => handleCancel()}
           />
+        </ModalBox>
+
+        <ModalBox
+          open={
+            state.EndEncounterModule.selectedEndEncounter ===
+            "Set Next Appointment"
+          }
+          onClose={() => handleCancel()}
+          header="Set Next Appointment"
+        >
+          <AppointmentCreate />
         </ModalBox>
 
         <ModalBox

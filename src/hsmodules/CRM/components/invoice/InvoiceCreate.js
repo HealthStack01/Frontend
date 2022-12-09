@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {Button, Grid} from "@mui/material";
 import {Box} from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
@@ -12,15 +12,36 @@ import CustomTable from "../../../../components/customtable";
 import moment from "moment";
 import {CustomerView} from "../lead/LeadDetailView";
 import CustomerDetail from "../global/CustomerDetail";
+import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
+import {formatDistanceToNowStrict} from "date-fns";
 
 const random = require("random-string-generator");
 
 const InvoiceCreate = ({closeModal}) => {
   const [plans, setPlans] = useState([]);
+  const [duration, setDuration] = useState("");
 
-  const {register} = useForm();
+  const {
+    register,
+    control,
+    getValues,
+    formState: {isDirty},
+  } = useForm({
+    defaultValues: {plan_end_date: ""},
+  });
 
   const planColumns = [];
+
+  useEffect(() => {
+    const endDate = getValues("plan_end_date");
+    const durationVal = endDate
+      ? formatDistanceToNowStrict(new Date(endDate))
+      : "";
+
+    setDuration(durationVal);
+  }, [getValues, isDirty]);
+
+  console.log("duration", duration);
 
   return (
     <>
@@ -40,7 +61,7 @@ const InvoiceCreate = ({closeModal}) => {
               <FormsHeaderText text="Invoice Information" />
             </Box>
 
-            <Grid container spacing={1} mb={1.5}>
+            <Grid container spacing={1.5} mb={1.5}>
               <Grid item xs={4}>
                 <Input
                   label="Date"
@@ -63,6 +84,27 @@ const InvoiceCreate = ({closeModal}) => {
                   value={"100000"}
                   register={register("total_amount", {required: true})}
                   disabled={true}
+                />
+              </Grid>
+
+              <Grid item xs={4}>
+                <CustomSelect
+                  label="Payment Mode"
+                  options={["Cash", "Cheque", "Transfer"]}
+                />
+              </Grid>
+
+              <Grid item xs={4}>
+                <CustomSelect
+                  label="Payment Option"
+                  options={["Annually", "Bi-Annually", "Quarterly"]}
+                />
+              </Grid>
+
+              <Grid item xs={4}>
+                <CustomSelect
+                  label="Sub Category"
+                  options={["New", "Renewal", "Additional"]}
                 />
               </Grid>
             </Grid>
@@ -96,8 +138,8 @@ const InvoiceCreate = ({closeModal}) => {
 
               <Grid item xs={3}>
                 <Input
-                  register={register("no_month", {required: true})}
-                  label="No of Plans"
+                  register={register("no_of_heads", {required: true})}
+                  label="No of Heads"
                   type="text"
                   //placeholder="Enter customer number"
                 />
@@ -105,8 +147,35 @@ const InvoiceCreate = ({closeModal}) => {
 
               <Grid item xs={3}>
                 <Input
+                  register={register("no_of_months", {required: true})}
+                  label="No of Months"
+                  type="text"
+                  //placeholder="Enter customer number"
+                />
+              </Grid>
+
+              <Grid item xs={4}>
+                <MuiCustomDatePicker
+                  control={control}
+                  name="plan_end_date"
+                  label="Plan End Date"
+                />
+              </Grid>
+
+              <Grid item xs={4}>
+                <Input
+                  register={register("plan_duration", {required: true})}
+                  label="Duration"
+                  type="text"
+                  value={duration}
+                  //placeholder="Enter customer number"
+                />
+              </Grid>
+
+              <Grid item xs={4}>
+                <Input
                   register={register("amount", {required: true})}
-                  label="Amount"
+                  label="Total Amount"
                   type="NUMBER"
                   //placeholder="Enter customer number"
                 />

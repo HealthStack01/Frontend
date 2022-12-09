@@ -11,13 +11,8 @@ import ModalBox from "../../components/modal";
 
 import TextField from "@mui/material/TextField";
 import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
-import DebouncedInput from "./ui-components/inputs/DebouncedInput";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 
-//import MuiButton from "@mui/material/Button";
-// eslint-disable-next-line
-const searchfacility = {};
+import Stack from "@mui/material/Stack";
 
 const filter = createFilterOptions();
 
@@ -54,30 +49,6 @@ export function FacilitySearch({getSearchfacility, clear}) {
     // setSelectedFacility(obj)
     setShowPanel(false);
     await setCount(2);
-    /* const    newfacilityModule={
-            selectedFacility:facility,
-            show :'detail'
-        }
-   await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
-    //console.log(state)
-  };
-  const handleBlur = async e => {
-    /*  if (count===2){
-             console.log("stuff was chosen")
-         }
-        */
-    /*  console.log("blur")
-         setShowPanel(false)
-        console.log(JSON.stringify(simpa))
-        if (simpa===""){
-            console.log(facilities.length)
-            setSimpa("abc")
-            setSimpa("")
-            setFacilities([])
-            inputEl.current.setValue=""
-        }
-        console.log(facilities.length)
-        console.log(inputEl.current) */
   };
 
   const handleSearch = async value => {
@@ -409,31 +380,8 @@ export function SponsorSearch({getSearchfacility, clear}) {
     // setSelectedFacility(obj)
     setShowPanel(false);
     await setCount(2);
-    /* const    newfacilityModule={
-            selectedFacility:facility,
-            show :'detail'
-        }
-   await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
-    //console.log(state)
   };
-  const handleBlur = async e => {
-    /*  if (count===2){
-             console.log("stuff was chosen")
-         }
-        */
-    /*  console.log("blur")
-         setShowPanel(false)
-        console.log(JSON.stringify(simpa))
-        if (simpa===""){
-            console.log(facilities.length)
-            setSimpa("abc")
-            setSimpa("")
-            setFacilities([])
-            inputEl.current.setValue=""
-        }
-        console.log(facilities.length)
-        console.log(inputEl.current) */
-  };
+  const handleBlur = async e => {};
 
   const handleSearch = async value => {
     setVal(value);
@@ -558,27 +506,6 @@ export function SponsorSearch({getSearchfacility, clear}) {
           </div>
         </div>
       </div>
-      {/* <div className={`modal ${productModal ? 'is-active' : ''}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Facility</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            <StoreList standalone="true" />
-            <FacilityCreate />
-          </section>
-          <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer>
-        </div>
-      </div> */}
     </div>
   );
 }

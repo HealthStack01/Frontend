@@ -21,6 +21,7 @@ import moment from "moment";
 import Input from "../../components/inputs/basic/Input";
 import CustomSelect from "../../components/inputs/basic/Select";
 import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 const filter = createFilterOptions();
 
@@ -412,6 +413,10 @@ export function ProductExitCreate({closeModal}) {
     });
   };
 
+  const removeEntity = (item, index) => {
+    setProductItem(prev => prev.filter((el, i) => i !== index));
+  };
+
   useEffect(() => {
     getTotal();
     console.log(totalamount);
@@ -422,7 +427,7 @@ export function ProductExitCreate({closeModal}) {
     {
       name: "S/N",
       key: "sn",
-      width: "70px",
+      width: "50px",
       description: "SN",
       selector: row => row.sn,
       sortable: true,
@@ -438,7 +443,7 @@ export function ProductExitCreate({closeModal}) {
       inputType: "TEXT",
     },
     {
-      name: "QTY",
+      name: "Qty",
       width: "70px",
       key: "quanity",
       description: "Enter quantity",
@@ -460,7 +465,7 @@ export function ProductExitCreate({closeModal}) {
     },
 
     {
-      name: "Selling Price",
+      name: "Price",
       key: "costprice",
       description: "Enter cost price",
       selector: row => row.sellingprice,
@@ -484,12 +489,11 @@ export function ProductExitCreate({closeModal}) {
       key: "costprice",
       description: "costprice",
       selector: (row, i) => (
-        <p
-          style={{color: "red", fontSize: "0.75rem"}}
+        <DeleteOutlineIcon
+          fontSize="small"
+          sx={{color: "red"}}
           onClick={() => removeEntity(row, i)}
-        >
-          Remove
-        </p>
+        />
       ),
       sortable: true,
       required: true,
@@ -501,13 +505,13 @@ export function ProductExitCreate({closeModal}) {
     <>
       <Box
         sx={{
-          width: "90vw",
+          width: "850px",
           maxHeight: "80vh",
         }}
       >
         <Box container>
           <Grid container spacing={1}>
-            <Grid item lg={6} md={6} sm={12}>
+            <Grid item lg={12} md={12} sm={12}>
               <Box sx={{height: "40px"}} mb={1}>
                 <FormsHeaderText text="Product Detail" />
               </Box>
@@ -521,6 +525,7 @@ export function ProductExitCreate({closeModal}) {
                     type="text"
                     onChange={e => setSource(e.target.value)}
                     label="Client"
+                    disabled={true}
                   />
                 </Grid>
                 <Grid item xs={4}>
@@ -557,12 +562,13 @@ export function ProductExitCreate({closeModal}) {
                     type="text"
                     onChange={async e => await setTotalamount(e.target.value)}
                     label="Total Amount"
+                    disabled={true}
                   />
                 </Grid>
               </Grid>
             </Grid>
 
-            <Grid item lg={6} md={6} sm={12}>
+            <Grid item lg={12} md={12} sm={12}>
               <Box
                 sx={{
                   display: "flex",
@@ -1697,23 +1703,6 @@ export function InventorySearch({getSearchfacility, clear}) {
       >
         <ProductCreate />
       </ModalBox>
-      {/* 
-      <div className={`modal ${productModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Choose Store</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            <ProductCreate />
-          </section>
-        </div>
-      </div> */}
     </div>
   );
 }

@@ -160,7 +160,7 @@ export default function InventorySearchHelper({getSearchfacility, clear}) {
             return option;
           }
           if (option.inputValue) {
-            return option.name;
+            return option.inputValue;
           }
           return option.name;
         }}
@@ -184,7 +184,7 @@ export default function InventorySearchHelper({getSearchfacility, clear}) {
             </div>
           </div>
         )}
-        sx={{width: "100%", margin: "0.75rem 0"}}
+        sx={{width: "100%"}}
         freeSolo
         //size="small"
         renderInput={params => (

@@ -14,6 +14,13 @@ import {Box, Card, Collapse, Grow} from "@mui/material";
 import Input from "../../components/inputs/basic/Input";
 import ModalBox from "../../components/modal";
 
+import TextField from "@mui/material/TextField";
+import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
+
+import Stack from "@mui/material/Stack";
+
+const filter = createFilterOptions();
+
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -35,7 +42,7 @@ const useOnClickOutside = (ref, handler) => {
   }, [ref, handler]);
 };
 
-export default function ServiceSearch({getSearchfacility, clear, mode}) {
+export default function ServiceSearch({getSearchfacility, clear, mode, label}) {
   const {user} = useContext(UserContext);
   const productServ = client.service("billing");
   const [facilities, setFacilities] = useState([]);
@@ -65,32 +72,8 @@ export default function ServiceSearch({getSearchfacility, clear, mode}) {
 
     // setSelectedFacility(obj)
     setShowPanel(false);
-    /*   await setCount(2) */
-    /* const    newfacilityModule={
-            selectedFacility:facility,
-            show :'detail'
-        }
-   await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
-    //console.log(state)
   };
-  const handleBlur = async e => {
-    /*  if (count===2){
-             console.log("stuff was chosen")
-         }
-        */
-    /*  console.log("blur")
-         setShowPanel(false)
-        console.log(JSON.stringify(simpa))
-        if (simpa===""){
-            console.log(facilities.length)
-            setSimpa("abc")
-            setSimpa("")
-            setFacilities([])
-            inputEl.current.setValue=""
-        }
-        console.log(facilities.length)
-        console.log(inputEl.current) */
-  };
+  const handleBlur = async e => {};
   const handleSearch = async value => {
     console.log(mode);
     setVal(value);
@@ -239,7 +222,77 @@ export default function ServiceSearch({getSearchfacility, clear, mode}) {
 
   return (
     <div>
-      <div className="field">
+      <Autocomplete
+        size="small"
+        value={simpa}
+        //loading={loading}
+        onChange={(event, newValue) => {
+          if (typeof newValue === "string") {
+            // timeout to avoid instant validation of the dialog's form.
+            setTimeout(() => {
+              handleAddproduct();
+            });
+          } else if (newValue && newValue.inputValue) {
+            handleAddproduct();
+          } else {
+            handleRow(newValue);
+          }
+        }}
+        filterOptions={(options, params) => {
+          const filtered = filter(options, params);
+
+          if (params.inputValue !== "") {
+            filtered.push({
+              inputValue: params.inputValue,
+              name: `Add "${params.inputValue} to Services"`,
+            });
+          }
+
+          return filtered;
+        }}
+        id="free-solo-dialog-demo"
+        options={facilities}
+        getOptionLabel={option => {
+          // e.g value selected with enter, right from the input
+          if (typeof option === "string") {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option.name;
+        }}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        renderOption={(props, option) => (
+          <li {...props} style={{fontSize: "0.75rem"}}>
+            {option.name} - {option.category}
+          </li>
+        )}
+        sx={{width: "100%"}}
+        freeSolo
+        //size="small"
+        renderInput={params => (
+          <TextField
+            {...params}
+            label={label ? label : "Search for Service"}
+            onChange={e => handleSearch(e.target.value)}
+            ref={inputEl}
+            sx={{
+              fontSize: "0.75rem !important",
+              backgroundColor: "#ffffff !important",
+              "& .MuiInputBase-input": {
+                height: "0.9rem",
+              },
+            }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        )}
+      />
+      {/* <div className="field">
         <div className="control has-icons-left  ">
           <div
             className={`dropdown ${showPanel ? "is-active" : ""}`}
@@ -336,7 +389,7 @@ export default function ServiceSearch({getSearchfacility, clear, mode}) {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <ModalBox
         open={productModal}

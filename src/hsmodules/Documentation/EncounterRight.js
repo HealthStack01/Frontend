@@ -55,8 +55,13 @@ import GlobalCustomButton from "../../components/buttons/CustomButton";
 export default function EncounterRight() {
   const {state, setState} = useContext(ObjectContext);
   console.log(state.DocumentClassModule.selectedDocumentClass);
+
   const submitDocument = data => {
-    console.log({data});
+    const geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+    console.log({...data, geolocation: geolocation});
   };
 
   return (
@@ -1297,6 +1302,7 @@ export function DoctorsNoteCreate() {
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
+      console.log(draftDoc.documentdetail);
       Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
         setValue(keys, value, {
           shouldValidate: true,
@@ -1480,17 +1486,11 @@ export function DoctorsNoteCreate() {
         <div className="card-content vscrollable remPad1">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box>
-              <Input
-                register={register("title")}
-                name="text"
-                type="text"
-                label="Title"
-              />
+              <Input register={register("Title")} type="text" label="Title" />
             </Box>
             <Box>
               <Textarea
-                register={register("documentation")}
-                name="findings"
+                register={register("Documentation")}
                 type="text"
                 label="Documentation"
                 placeholder="Write here......"
@@ -1499,7 +1499,6 @@ export function DoctorsNoteCreate() {
             <Box>
               <Textarea
                 register={register("Recommendation")}
-                name="text"
                 type="text"
                 label="Recommendation"
                 placeholder="Write here......"

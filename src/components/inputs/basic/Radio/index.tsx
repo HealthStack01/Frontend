@@ -8,10 +8,11 @@ import {
 } from "@mui/material";
 import React from "react";
 
+
 interface RadioProps {
   name: string;
   title?: string;
-  options: {value: string; label: string; disabled?: boolean}[] | string[];
+  options: { value: string; label: string; disabled?: boolean }[] | string[];
   onChange?: (e: any) => void;
   defaultValue?: string;
   disabled?: boolean;
@@ -26,7 +27,7 @@ const RadioButton: React.FC<RadioProps> = ({
   disabled,
   options,
   onChange,
-  defaultValue = "",
+  defaultValue = '',
   register,
   checked,
   value,

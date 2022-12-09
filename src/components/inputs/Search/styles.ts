@@ -59,7 +59,7 @@ export const SearchField = styled.input`
   background: none;
   border-radius: 50px;
   box-sizing: border-box;
-  color: ${({theme}) => theme.grayTwo};
+  color: #000000;
   outline: none;
   transition: 0.5s;
   padding: 0.9rem;

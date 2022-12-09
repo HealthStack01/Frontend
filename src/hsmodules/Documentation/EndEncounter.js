@@ -24,20 +24,7 @@ export default function EndEncounter() {
 
   return (
     <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">DocumentClass  Module</span></div>
-            </div> */}
-      <div>
-        {/*  <div className="column is-8 "> */}
-        <EndEncounterList />
-        {/* </div> */}
-        {/*  <div className="column is-4 ">
-                {(state.DocumentClassModule.show ==='create')&&<EndEncounterCreate />}
-                {(state.DocumentClassModule.show ==='detail')&&<EndEncounterDetail  />}
-                {(state.DocumentClassModule.show ==='modify')&&<EndEncounterModify DocumentClass={selectedDocumentClass} />}
-               
-            </div> */}
-      </div>
+      <EndEncounterList />
     </section>
   );
 }
@@ -296,16 +283,6 @@ export function EndEncounterList({standalone, closeModal}) {
         await setFacilities(findDocumentClass.data);
       }
     }
-    /*   .then((res)=>{
-                console.log(res)
-                    setFacilities(res.data)
-                    setMessage(" DocumentClass  fetched successfully")
-                    setSuccess(true)
-                })
-                .catch((err)=>{
-                    setMessage("Error creating DocumentClass, probable network issues "+ err )
-                    setError(true)
-                }) */
   };
 
   useEffect(() => {
@@ -320,16 +297,6 @@ export function EndEncounterList({standalone, closeModal}) {
         // expected output: "Mangoes and papayas are $2.79 a pound."
         break;
       case "Admit to Ward":
-        //alert("Admit now!")
-        /*  await setSelectedEndEncounter(DocumentClass)
-
-                const    newDocumentClassModule={
-                    selectedEndEncounter:DocumentClass,
-                    show :'detail'
-                }
-               await setState((prevstate)=>({...prevstate, EndEncounterModule:newDocumentClassModule}))
-               //console.log(state) */
-
         break;
       case "Refer":
         break;
@@ -340,12 +307,7 @@ export function EndEncounterList({standalone, closeModal}) {
       default:
         console.log(`Sorry, we are out of `);
     }
-    /*  getFacilities()
-            
-            DocumentClassServ.on('created', (obj)=>getFacilities())
-            DocumentClassServ.on('updated', (obj)=>getFacilities())
-            DocumentClassServ.on('patched', (obj)=>getFacilities())
-            DocumentClassServ.on('removed', (obj)=>getFacilities()) */
+
     return () => {};
   }, [selectedEndEncounter]);
 
@@ -384,31 +346,11 @@ export function EndEncounterList({standalone, closeModal}) {
         <>
           <Box
             sx={{
-              width: "40vw",
+              maxWidth: "80vw",
+              maxHeight: "80vh",
             }}
           >
-            {/* <TableMenu>
-              <div style={{display: "flex", alignItems: "center"}}>
-                {handleSearch && (
-                  <div className="inner-table">
-                    <FilterMenu onSearch={e => handleSearch(e.target.value)} />
-                  </div>
-                )}
-                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-                  List of Charts
-                </h2>
-              </div>
-
-              {!standalone && (
-                <Button
-                  style={{fontSize: "14px", fontWeight: "600"}}
-                  label="Add new "
-                  onClick={handleCreateNew}
-                />
-              )}
-            </TableMenu> */}
-
-            <div style={{width: "100%", height: "430px", overflowY: "scroll"}}>
+            <div style={{width: "100%", overflowY: "scroll"}}>
               <CustomTable
                 title={""}
                 columns={classListSchema}
