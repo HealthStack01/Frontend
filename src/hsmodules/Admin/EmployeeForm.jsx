@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast, ToastContainer } from 'react-toastify';
 import Button from '../../components/buttons/Button';
@@ -11,6 +11,7 @@ import { bandTypeOptions } from '../../dummy-data';
 import client from '../../feathers';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import {Box} from "@mui/system";
 import {
   BottomWrapper,
   DetailsWrapper,
@@ -29,8 +30,10 @@ export const EmployeeForm = ({ open, setOpen }) => {
   const EmployeeServ = client.service('employee');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const data = localStorage.getItem('user');
-  const user = JSON.parse(data);
+  const {user} = useContext(UserContext)
+
+  // const data = localStorage.getItem('user');
+  // const user = JSON.parse(data);
 
   const {
     register,
@@ -63,16 +66,22 @@ export const EmployeeForm = ({ open, setOpen }) => {
     setLoading(false);
   };
   return (
-    <ModalBox open={open} onClose={setOpen} width={"50vw"}>
-      <p className='card-header-title'>Create Employee</p>
-      <form onSubmit={handleSubmit(submit)}>
+    <ModalBox open={open} onClose={setOpen} width={"50vw"} header="Create Employee">
+      <ToastContainer theme="colored" />
+      <Box display="flex" justifyContent="flex-end">
+      <GlobalCustomButton type='submit' loading={loading} onClick={handleSubmit(submit)}>
+          <ControlPointIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Create
+          </GlobalCustomButton>
+      </Box>
+      <form >
         <GridBox>
         <Input
           register={register('firstname')}
           name='firstname'
           type='text'
           label='First Name'
-          placeholder='First Name'
+        
           errorText={errors?.firstname?.message}
         />
         <Input
@@ -80,7 +89,7 @@ export const EmployeeForm = ({ open, setOpen }) => {
           name='middlename'
           type='text'
           label='Middle Name'
-          placeholder='Middle Name'
+          
           errorText={errors?.middlename?.message}
         />
         <Input
@@ -88,7 +97,7 @@ export const EmployeeForm = ({ open, setOpen }) => {
           name='lastname'
           type='text'
           label='Last Name'
-          placeholder='Last Name'
+         
           errorText={errors?.lastname?.message}
         />
         </GridBox>
@@ -98,7 +107,7 @@ export const EmployeeForm = ({ open, setOpen }) => {
           name='profession'
           type='text'
           label='Profession'
-          placeholder='Profession'
+         
           errorText={errors?.profession?.message}
         />
         <Input
@@ -106,7 +115,6 @@ export const EmployeeForm = ({ open, setOpen }) => {
           name='phone'
           type='tel'
           label='Phone No'
-          placeholder='Phone No'
           errorText={errors?.phone?.message}
         />
         <Input
@@ -114,7 +122,6 @@ export const EmployeeForm = ({ open, setOpen }) => {
           name='email'
           type='email'
           label='Email'
-          placeholder='Email'
           errorText={errors?.email?.message}
         />
 </GridBox>
@@ -124,32 +131,25 @@ export const EmployeeForm = ({ open, setOpen }) => {
           name='department'
           type='text'
           label='Department'
-          placeholder='Department'
+       
           errorText={errors?.department?.message}
         />
         <Input
-          register={register('depunit')}
-          name='depunit'
+          register={register('deptunit')}
+          name='deptunit'
           type='text'
           label='Department Unit'
-          placeholder='Department Unit'
-          errorText={errors?.depunit?.message}
+         
+          errorText={errors?.deptunit?.message}
         />
         <PasswordInput
           register={register('password')}
           name='password'
           type='text'
           label='Password'
-          placeholder='Password'
           errorText={errors?.password?.message}
         />
  </GridBox>
-        <BottomWrapper>
-          <GlobalCustomButton type='submit' loading={loading}>
-          <ControlPointIcon fontSize="small" sx={{marginRight: "5px"}} />
-            Create Employee
-          </GlobalCustomButton>
-        </BottomWrapper>
       </form>
     </ModalBox>
   );

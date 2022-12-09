@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import Input from "../../components/inputs/basic/Input";
 import ViewText from "../../components/viewtext";
 import { UserContext } from "../../context";
+import {Box} from "@mui/system";
 import client from "../../feathers";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -29,6 +30,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 // import { createClientSchema } from "./schema";
 
 const LocationView = ({ open, setOpen, location }) => {
+  // const { register, handleSubmit, setValue,reset, errors } = useForm();
   const LocationServ = client.service("location");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -52,6 +54,20 @@ const LocationView = ({ open, setOpen, location }) => {
       facility: data.currentEmployee.facility,
     },
   });
+  // useEffect(() => {
+  //   setValue("name", location.name,  {
+  //       shouldValidate: true,
+  //       shouldDirty: true
+  //   })
+  //   setValue("locationType", location.locationType,  {
+  //       shouldValidate: true,
+  //       shouldDirty: true
+  //   })
+  
+  //   return () => {
+                
+  //   }
+  // })
 
   useEffect(() => {
     reset({
@@ -65,7 +81,7 @@ const LocationView = ({ open, setOpen, location }) => {
     setLoading(true);
     e.preventDefault();
     setSuccess(false);
-
+console.log(data)
     await LocationServ.patch(location._id, data)
       .then((res) => {
         toast.success(`Location successfully updated`);
@@ -98,7 +114,8 @@ const LocationView = ({ open, setOpen, location }) => {
 
   return (
     <PageWrapper>
-      <GrayWrapper>
+      <GrayWrapper >
+     
         <HeadWrapper>
           <div style={{width:"100%"}}>
             <h2>Location Detail</h2>
@@ -115,58 +132,57 @@ const LocationView = ({ open, setOpen, location }) => {
             Delete Location
             </GlobalCustomButton>
 
-          <GlobalCustomButton
+      {!editing  ?  <GlobalCustomButton
        
-           disabled={editing}
            onClick={() => {
              setEditing(!editing);
            }}
           >
              <CreateIcon fontSize="small" sx={{marginRight: "5px"}}/> 
-             {`${!editing ? "Edit Location" : "Cancel Editing"}`}
-             
-            </GlobalCustomButton>
+             Edit
+        
+            </GlobalCustomButton> :<GlobalCustomButton onClick={handleSubmit(submit)} color="success"  text="Update" type="submit" loading={loading} />}
           </BottomWrapper>
         </HeadWrapper>
-        <form onSubmit={handleSubmit(submit)}>
+        <form >
           <ToastContainer theme="colored" />
 
-          <GridBox>
+          <GridBox >
             {!editing ? (
-               <Input
+              
+                 <Input
                label="Name"
                register={register("name")}
-               defaultValue={Location?.name}
+               defaultValue={location?.name}
+               disabled={!editing}
              />
+             
             ) : (
-              <Input
+           
+               <Input
                 label="Name"
                 register={register("name")}
                 errorText={errors?.name?.message}
               />
+            
             )}
             {!editing ? (
               <Input
               label="Location Type"
               register={register("locationType")}
-              defaultValue={Location?.locationType}
+              defaultValue={location?.locationType}
+              disabled={!editing}
             />
 
             ) : (
               <Input
-                label="Band Type"
-                register={register("bandType")}
+                label="Location Type"
+                register={register("locationType")}
                 // options={Location.sublocations}
-                errorText={errors?.LocationType?.message}
+                errorText={errors?.locationType?.message}
               />
             )}
           </GridBox>
-
-          {editing && (
-            <BottomWrapper>
-              <GlobalCustomButton  text="Save Form" type="submit" loading={loading} />
-            </BottomWrapper>
-          )}
         </form>
       </GrayWrapper>
     </PageWrapper>
