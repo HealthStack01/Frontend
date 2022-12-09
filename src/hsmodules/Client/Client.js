@@ -18,6 +18,7 @@ import ClientBilledPrescription from "../Finance/ClientBill";
 import ClientGroup from "./ClientGroup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { v4 as uuidv4 } from 'uuid';
 
 import dayjs from "dayjs";
 
@@ -1110,8 +1111,8 @@ export function ClientDetail({closeDetailModal}) {
       const res = await api.post("/register?scheme=4865616c7468737461636b", {
         firstName: Client.firstname,
         lastName: Client.lastname,
-        phoneNumber: "+2347050917563",
-        password: "Kennis0007##",
+        phoneNumber: Client.phone,
+        password: uuidv4(),
       });
       console.log(res);
       toast.success("Wallet Created Successfully");

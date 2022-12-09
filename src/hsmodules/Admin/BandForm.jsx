@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import Button from "../../components/buttons/Button";
@@ -12,6 +12,8 @@ import { bandTypeOptions } from "../../dummy-data";
 import client from "../../feathers";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import CreateIcon from '@mui/icons-material/Create';
+import {Box} from "@mui/system";
+import {Grid} from "@mui/material";
 import {
   BottomWrapper,
   DetailsWrapper,
@@ -27,7 +29,8 @@ export const BandForm = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(false);
   const [isFullRegistration, setFullRegistration] = useState(false);
   const data = localStorage.getItem("band");
-  const user = JSON.parse(data);
+  // const user = JSON.parse(data);
+  const {user} = useContext(UserContext)
 
   const {
     register,
@@ -40,7 +43,7 @@ export const BandForm = ({ open, setOpen }) => {
     defaultValues: {
       name: "",
       bandType: "",
-      description: "",
+      facility: user.currentEmployee.facilityDetail._id,
     },
   });
   const submit = async (data, e) => {
@@ -60,13 +63,20 @@ export const BandForm = ({ open, setOpen }) => {
     setLoading(false);
   };
   return (
-    <ModalBox open={open} onClose={setOpen} width={"50vw"} header={"Create Band"}>
-      <form onSubmit={handleSubmit(submit)}>
+    <ModalBox open={open} onClose={setOpen} width="40vw" header={"Create Band"}>
+      <form >
         <ToastContainer theme="colored" />
-{/* 
-        <DetailsWrapper title="Create Band" defaultExpanded={true} 
-        > */}
-        <GridBox>
+        <Box display="flex" justifyContent="flex-end" mb="1rem">
+        <GlobalCustomButton
+               onClick={handleSubmit(submit)}
+              style={{marginTop:"1rem" }}
+            >
+               <CreateIcon fontSize="small" sx={{marginRight: "5px"}}/> 
+               Create Band
+               </GlobalCustomButton>  
+        </Box>
+        <Grid>
+          <Box mb="1rem">
           <Input
            label="Name of Band"
             register={register("name")}
@@ -74,30 +84,25 @@ export const BandForm = ({ open, setOpen }) => {
             sx={{marginBottom:"2rem"}}
             placeholder="Name of Band"
           />
+          </Box>
+          <Box mb="1rem">
           <CustomSelect
             label="Choose Band Type"
             name="bandType"
             options={bandTypeOptions}
-            register={register("bandType", { required: true })}
+            register={register("bandType")}
           />
-          </GridBox>
-          <Input
+          </Box>
+         <Box>
+         <TextArea
           label="Description"
-            {...register("description", { required: true })}
+            {...register("description")}
             name="description"
             type="text"
             placeholder="Description of Band"
           />
-          <BottomWrapper>
-            <GlobalCustomButton
-              onClick={handleSubmit}
-              style={{marginTop:"1rem" }}
-            >
-               <CreateIcon fontSize="small" sx={{marginRight: "5px"}}/> 
-               Create Band
-               </GlobalCustomButton>   
-          </BottomWrapper>
-        {/* </DetailsWrapper> */}
+         </Box>
+</Grid>
       </form>
     </ModalBox>
   );
