@@ -371,7 +371,7 @@ export const getPlansColumns = (action, disableAction) => {
   const plansColumns = [
     {
       name: "S/N",
-      width: "40px",
+      width: "50px",
       style: {color: "#0364FF"},
       key: "sn",
       description: "Enter Date",
@@ -403,11 +403,33 @@ export const getPlansColumns = (action, disableAction) => {
     },
 
     {
-      name: "Duration(months)",
+      name: "Duration",
       style: {color: "#0364FF"},
       key: "no_of_months",
       description: "Enter Date",
-      selector: row => `${row.no_of_months} month(s)`,
+      selector: row => `${row.duration_length} ${row.duration_calendrical}`,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Premium",
+      style: {color: "#0364FF"},
+      key: "premium",
+      description: "Enter Date",
+      selector: row => `${row.premium}`,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Num of Heads",
+      style: {color: "#0364FF"},
+      key: "no_of_heads",
+      description: "Enter Date",
+      selector: row => `${row.no_of_heads}`,
       sortable: true,
       required: true,
       inputType: "TEXT",

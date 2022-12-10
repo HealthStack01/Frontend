@@ -32,12 +32,18 @@ export default function Invoice() {
         <InvoiceList
           openCreateModal={() => setCreateModal(true)}
           showDetailView={() => setCurrentView("details")}
+          showCreateView={() => setCurrentView("create")}
         />
       )}
 
       {currentView === "details" && (
         <InvoiceDetail handleGoBack={handleGoBack} />
       )}
+
+      {currentView === "create" && (
+        <InvoiceCreate handleGoBack={handleGoBack} />
+      )}
+
       <ModalBox
         open={createModal}
         onClose={() => setCreateModal(false)}
