@@ -20,100 +20,69 @@ import ChatInterface from "../../../../components/chat/ChatInterface";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CustomTable from "../../../../components/customtable";
-import CustomerDetail from "../global/CustomerDetail";
+import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
+import Plans from "../../Plans";
+import moment from "moment";
+import {FormsHeaderText} from "../../../../components/texts";
+import CustomSelect from "../../../../components/inputs/basic/Select";
+import Input from "../../../../components/inputs/basic/Input";
 
-const data = [
-  {
-    details: "Gold Ultra Plus",
-    months: "6",
-    num_of_plans: "40",
-    price: "58,333.00",
-    amount: "1,283,326.00",
-  },
+const random = require("random-string-generator");
 
+const plansData = [
   {
-    details: "Gold Ultra Plus",
-    months: "5",
-    num_of_plans: "30",
-    price: "58,333.00",
-    amount: "1,283,326.00",
-  },
-
-  {
-    details: "Gold Ultra Plus",
-    months: "4",
-    num_of_plans: "24",
-    price: "58,333.00",
-    amount: "1,283,326.00",
-  },
-
-  {
-    details: "Gold Ultra Plus",
-    months: "12",
-    num_of_plans: "11",
-    price: "58,333.00",
-    amount: "1,283,326.00",
-  },
-];
-
-const columns = [
-  {
-    name: "S/N",
-    key: "sn",
-    description: "Enter Date",
-    selector: (row, i) => i + 1,
-    sortable: true,
-    required: true,
-    inputType: "TEXT",
-    width: "50px",
+    plan_type: "HMO",
+    premium: "10",
+    no_of_heads: "10",
+    duration_calendrical: "Month(s)",
+    duration_length: "6",
+    amount: "1000000",
+    _id: "00",
   },
   {
-    name: "Details",
-    key: "details",
-    description: "Enter Date",
-    selector: row => row.details,
-    sortable: true,
-    required: true,
-    inputType: "TEXT",
+    plan_type: "Family",
+    premium: "5",
+    no_of_heads: "3",
+    duration_calendrical: "Year(s)",
+    duration_length: "2",
+    amount: "5000000",
+    _id: "0",
   },
   {
-    name: "No of Plan",
-    key: "num_of_plans",
-    description: "Enter Date",
-    selector: row => row.num_of_plans,
-    sortable: true,
-    required: true,
-    inputType: "TEXT",
+    plan_type: "HMO",
+    premium: "5",
+    no_of_heads: "20",
+    duration_calendrical: "Year(s)",
+    duration_length: "1",
+    amount: "10000000",
+    _id: "000",
   },
-
   {
-    name: "Unit Price(N)",
-    key: "price",
-    description: "Enter Date",
-    selector: row => row.price,
-    sortable: true,
-    required: true,
-    inputType: "TEXT",
+    plan_type: "Personal",
+    premium: "10",
+    no_of_heads: "1",
+    duration_calendrical: "Year(s)",
+    duration_length: "10",
+    amount: "5000000",
+    _id: "00000",
   },
-
   {
-    name: "No of Month",
-    key: "months",
-    description: "Enter Date",
-    selector: row => row.months,
-    sortable: true,
-    required: true,
-    inputType: "TEXT",
+    plan_type: "HMO",
+    premium: "1",
+    no_of_heads: "15",
+    duration_calendrical: "Week(s)",
+    duration_length: "12",
+    amount: "100000",
+    _id: "0000",
   },
-
   {
-    name: "Amount(N)",
-    key: "amount",
-    description: "Enter Date",
-    selector: row => row.amount,
-    sortable: true,
-    required: true,
-    inputType: "TEXT",
+    plan_type: "Family",
+    premium: "20",
+    no_of_heads: "5",
+    duration_calendrical: "Month(s)",
+    duration_length: "8",
+    amount: "20000000",
+    _id: "0000000",
   },
 ];
 
@@ -123,6 +92,27 @@ const InvoiceDetail = ({handleGoBack}) => {
   const [declineModal, setDeclineModal] = useState(false);
   const [declineReason, setDeclineReason] = useState("");
   const [chat, setChat] = useState(false);
+  const [plans, setPlans] = useState([...plansData]);
+
+  const handleAddNewPlan = plan => {
+    setPlans(prev => [plan, ...prev]);
+  };
+
+  const handleRemovePlan = plan => {
+    setPlans(prev => prev.filter(item => item._id !== plan._id));
+  };
+
+  const handleUpdatePlan = update => {
+    setPlans(prev =>
+      prev.map(item => {
+        if (item._id === update._id) {
+          return update;
+        } else {
+          return item;
+        }
+      })
+    );
+  };
 
   return (
     <Box
@@ -183,27 +173,71 @@ const InvoiceDetail = ({handleGoBack}) => {
       </Box>
 
       <Grid container spacing={2} p={2}>
-        <Grid item lg={6} md={6} sm={12}>
-          <CustomerDetail />
+        <Grid item lg={12} md={12} sm={12}>
+          <PageCustomerDetail />
         </Grid>
 
-        <Grid item lg={6} md={6} sm={12}>
-          <InvoicePlansTab />
+        <Grid item lg={12} md={12} sm={12}>
+          <Box mb={1} sx={{display: "flex", justifyContent: "space-between"}}>
+            <FormsHeaderText text="Invoice Information" />
+          </Box>
+
+          <Grid container spacing={1} mb={1.5}>
+            <Grid item lg={2} md={3} sm={4}>
+              <Input
+                label="Date"
+                value={moment(moment.now()).format("L")}
+                register={register("date", {required: true})}
+                disabled={true}
+              />
+            </Grid>
+            <Grid item lg={2} md={3} sm={4}>
+              <Input
+                label="Invoice Number"
+                value={random(12, "uppernumeric")}
+                register={register("invoice_number", {required: true})}
+                disabled={true}
+              />
+            </Grid>
+            <Grid item lg={2} md={3} sm={4}>
+              <Input
+                label="Total Amount"
+                value={"100000"}
+                register={register("total_amount", {required: true})}
+                disabled={true}
+              />
+            </Grid>
+
+            <Grid item lg={2} md={3} sm={4}>
+              <CustomSelect
+                label="Payment Mode"
+                options={["Cash", "Cheque", "Transfer"]}
+              />
+            </Grid>
+
+            <Grid item lg={2} md={3} sm={4}>
+              <CustomSelect
+                label="Payment Option"
+                options={["Annually", "Bi-Annually", "Quarterly"]}
+              />
+            </Grid>
+
+            <Grid item lg={2} md={3} sm={4}>
+              <CustomSelect
+                label="Subscribtion Category"
+                options={["New", "Renewal", "Additional"]}
+              />
+            </Grid>
+          </Grid>
         </Grid>
 
         <Grid item xs={12}>
-          <Box>
-            <CustomTable
-              columns={columns}
-              data={data}
-              pointerOnHover
-              highlightOnHover
-              striped
-              //onRowClicked={handleRowClick}
-              CustomEmptyData="There are no bills"
-              progressPending={false}
-            />
-          </Box>
+          <Plans
+            plans={plans}
+            addNewPlan={handleAddNewPlan}
+            removePlan={handleRemovePlan}
+            updatePlan={handleUpdatePlan}
+          />
         </Grid>
       </Grid>
 
@@ -239,10 +273,6 @@ const InvoiceDetail = ({handleGoBack}) => {
           <ChatInterface closeChat={() => setChat(false)} />
         </Box>
       </SwipeableDrawer>
-
-      {/* <ModalBox open={chat} onClose={() => setChat(false)}>
-        <ChatInterface />
-      </ModalBox> */}
     </Box>
   );
 };

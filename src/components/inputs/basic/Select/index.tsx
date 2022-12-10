@@ -4,6 +4,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import React, {SelectHTMLAttributes, useEffect, useState} from "react";
+import {Controller} from "react-hook-form";
 import {toast} from "react-toastify";
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
@@ -16,6 +17,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   readonly?: boolean;
   register?: any;
   disabled?: boolean;
+  control?: any;
 }
 
 const CustomSelect: React.FC<SelectProps> = ({
@@ -28,9 +30,77 @@ const CustomSelect: React.FC<SelectProps> = ({
   readonly,
   register,
   disabled = false,
+  control,
 }) => {
   console.log(options);
 
+  if (control)
+    return (
+      <FormControl
+        size="small"
+        sx={{
+          width: "100%",
+        }}
+      >
+        <InputLabel
+          shrink
+          sx={{
+            "&.MuiInputLabel-root": {
+              color: "black",
+            },
+
+            "&.Mui-focused": {
+              color: "#007aff",
+            },
+          }}
+        >
+          {label}
+        </InputLabel>
+
+        <Controller
+          name={name}
+          control={control}
+          rules={{required: "Budget Required"}}
+          render={({field: {onChange, value}}) => (
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label={label}
+              disabled={disabled || readonly}
+              notched
+              value={value}
+              onChange={onChange}
+              sx={{
+                background: "white",
+                height: "2.2rem",
+                color: "#000000",
+                fontSize: "0.93rem",
+
+                "& 	.MuiInputBase-input.Mui-disabled": {
+                  WebkitTextFillColor: "black",
+                },
+              }}
+            >
+              <MenuItem value="" sx={{width: "100%"}}>
+                <em>None</em>
+              </MenuItem>
+              {options.map((option, index) => (
+                <MenuItem
+                  value={option.value ? option.value : option}
+                  key={index}
+                  sx={{width: "100%"}}
+                >
+                  {option.label ? option.label : option}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
+          defaultValue="" // make sure to set up defaultValue
+        />
+
+        {errorText && <FormHelperText error>{errorText}</FormHelperText>}
+      </FormControl>
+    );
   return (
     <FormControl
       size="small"
@@ -55,7 +125,7 @@ const CustomSelect: React.FC<SelectProps> = ({
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"
-        disabled={disabled}
+        disabled={disabled || readonly}
         label={label}
         name={name}
         notched
@@ -71,7 +141,6 @@ const CustomSelect: React.FC<SelectProps> = ({
             WebkitTextFillColor: "black",
           },
         }}
-        //inputRef={register}
         {...register}
         value={defaultValue}
       >
