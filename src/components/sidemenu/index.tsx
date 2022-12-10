@@ -102,7 +102,7 @@ export const menuItems = [
       { name: 'Appointment', to: '/app/radiology/appointments' },
       { name: 'Bill Lab Orders', to: '/app/radiology/radiology-bill' },
       // {name: "Payment", to: "/app/radiology/payment"},
-      { name: 'Rad Result', to: '/app/radiology/radiology-result' },
+      { name: 'Radiology Result', to: '/app/radiology/radiology-result' },
     ],
   },
   // {
