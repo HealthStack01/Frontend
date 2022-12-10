@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
+import {Box} from "@mui/system";
+import TextArea from "../../components/inputs/basic/Textarea";
 // import Button from "../../components/buttons/Button";
 import Input from "../../components/inputs/basic/Input";
 import ViewText from "../../components/viewtext";
@@ -35,6 +37,8 @@ const BandView = ({ open, setOpen, band }) => {
   const [editing, setEditing] = useState(false);
   const result = localStorage.getItem("user");
   const data = JSON.parse(result);
+  // const {user} = useContext(UserContext)
+
 
   const {
     register,
@@ -62,7 +66,7 @@ const BandView = ({ open, setOpen, band }) => {
     setLoading(true);
     e.preventDefault();
     setSuccess(false);
-
+console.log(data)
     await BandServ.patch(band._id, data)
       .then((res) => {
         toast.success(`Band successfully updated`);
@@ -93,15 +97,10 @@ const BandView = ({ open, setOpen, band }) => {
   };
 
   return (
-   <ModalBox open={open} onClose={setOpen} width={"50vw"} header={"Band Detail"}>
-        <HeadWrapper>
-          {/* <div style={{width:"100%"}}>
-            <h2>Band Detail</h2>
-            <span>Band detail of {band.name}</span>
-          </div> */}
-          <BottomWrapper>
+   <ModalBox open={open} onClose={setOpen} width={"30vw"} header={"Band Detail"}>
+    <ToastContainer theme="colored" />
+        <Box display="flex" gap="2rem" justifyContent="flex-end" alignItems="center" mb="2rem">
           <GlobalCustomButton
-          
              onClick={() => handleDelete()}
             color="error"
           >
@@ -109,65 +108,88 @@ const BandView = ({ open, setOpen, band }) => {
             Delete Band
             </GlobalCustomButton>
            
-            <GlobalCustomButton
+          {!editing ?  <GlobalCustomButton
           
-           disabled={editing}
            onClick={() => {
              setEditing(!editing);
            }}
           >
              <CreateIcon fontSize="small" sx={{marginRight: "5px"}}/> 
-             {`${!editing ? "Edit Band" : "Cancel Band"}`}
-             
+             Edit Band
             </GlobalCustomButton>
-          
-          
-          </BottomWrapper>
-        </HeadWrapper>
-        <form onSubmit={handleSubmit(submit)}>
+
+          :
+          <GlobalCustomButton onClick={handleSubmit(submit)} text="Update" color="success" type="submit" loading={loading} />
+          }
+        </Box>
+        <form >
           <ToastContainer theme="colored" />
 
-          <GridBox>
+          <Box>
             {!editing ? (
-
-                <Input
+             <Box mb="1rem">
+                 <Input
                 label="Name"
                 register={register("name")}
                 defaultValue={band?.name}
-                sx={{width:"50wv"}}
+                disabled={!editing}
               />
+             </Box>
             ) : (
-              <Input
-          
+             <Box mb="1rem">
+               <Input
                 label="Name"
                 register={register("name")}
                 errorText={errors?.name?.message}
-                sx={{width:"50wv"}}
               />
+             </Box>
             )}
             {!editing ? (
-                <Input
-                sx={{width:"50wv"}}
+               <Box>
+                 <Input
+
                 label="Band Type"
                 register={register("bandType")}
                 defaultValue={band?.bandType}
+                disabled={!editing}
               />
+               </Box>
             ) : (
-              <CustomSelect
+            <Box>
+                <CustomSelect
               sx={{width:"50wv"}}
                 label="Band Type"
                 register={register("bandType")}
                 options={bandTypeOptions}
                 errorText={errors?.bandtType?.message}
               />
+            </Box>
             )}
-          </GridBox>
+          </Box>
 
-          {editing && (
+          {!editing ?  <Box>
+         <TextArea
+          label="Description"
+            {...register("description")}
+            defaultValue={band?.description}
+            disabled={!editing}
+          />
+         </Box>:
+          <Box>
+          <TextArea
+           label="Description"
+             {...register("description")}
+             name="description"
+             type="text"
+           />
+          </Box>
+         }
+
+          {/* {editing && (
             <BottomWrapper>
               <GlobalCustomButton  text="Save Form" type="submit" loading={loading} />
             </BottomWrapper>
-          )}
+          )} */}
         </form>
         </ModalBox>
   );

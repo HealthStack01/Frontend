@@ -68,6 +68,10 @@ export default function Location() {
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Location  Module</span></div>
             </div> */}
+
+
+      <LocationForm open={createModal} setOpen={handleHideCreateModal} />
+
       <div className="columns ">
         <div className="column is-8 ">
           <LocationList
@@ -76,9 +80,9 @@ export default function Location() {
           />
         </div>
         <div className="column is-4 ">
-          <ModalBox open={createModal} onClose={handleHideCreateModal}>
+          {/* <ModalBox open={createModal} onClose={handleHideCreateModal}>
             <LocationCreate/>
-          </ModalBox>
+          </ModalBox> */}
 
           <ModalBox open={detailModal} onClose={handleHideDetailModal}>
             <div>
@@ -145,22 +149,28 @@ export function LocationCreate({ open, setOpen }) {
   },[]);
 
   const onSubmit = (data, e) => {
-    e.preventDefault();
+    // e.preventDefault();
     if (data.locationType === "") {
-      alert("Kindly choose location type");
+      // alert("Kindly choose location type");
+      toast({
+        message: "Kindly choose location type",
+        type: "is-success",
+        dismissible: true,
+        pauseOnHover: true,
+      });
       return;
     }
     setMessage("");
     setError(false);
     setSuccess(false);
-    // data.createdby=user._id
+    data.createdby=user._id
     console.log(data);
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
     LocationServ.create(data)
       .then((res) => {
-        //console.log(JSON.stringify(res))
+        console.log(JSON.stringify(res))
         e.target.reset();
         /*  setMessage("Created Location successfully") */
         setSuccess(true);
@@ -173,6 +183,7 @@ export function LocationCreate({ open, setOpen }) {
         setSuccess(false);
       })
       .catch((err) => {
+        console.log(err)
         toast({
           message: "Error creating Location " + err,
           type: "is-danger",
@@ -201,7 +212,6 @@ export function LocationCreate({ open, setOpen }) {
               <div className="control">
                 {/* <div className="select"> */}
                   <CustomSelect
-                    
                     label="Choose Location Type "
                     name="type"
                     options={locationTypeOptions}
@@ -239,8 +249,7 @@ export function LocationCreate({ open, setOpen }) {
             </div>
             </GridBox>
             <GlobalCustomButton
-              onClick={onSubmit}
-              
+            type="submit"
             >
                <CreateIcon fontSize="small" sx={{marginRight: "5px"}}/> 
                Create Location

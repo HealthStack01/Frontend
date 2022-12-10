@@ -357,11 +357,12 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
                 </div>
               </TableMenu>
               <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-               
                 <CustomTable
                   title={''}
                   columns={AppointmentSchema}
-                  data={facilities}
+                  data={facilities.filter(
+                    (item) => item?.appointment_status === 'Checked In'
+                  )}
                   pointerOnHover
                   highlightOnHover
                   striped
@@ -371,127 +372,6 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
               </div>
             </PageWrapper>
           </div>
-          {/* <div className="level">
-            <div className="level-left">
-              <div className="level-item">
-                <div className="field">
-                  <p className="control has-icons-left  ">
-                    <DebounceInput
-                      className="input is-small "
-                      type="text"
-                      placeholder="Search Appointments"
-                      minLength={3}
-                      debounceTimeout={400}
-                      onChange={(e) => handleSearch(e.target.value)}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-search"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-
-              <div className="level-item">
-                <DatePicker
-                  selected={startDate}
-                  onChange={(date) => handleDate(date)}
-                  dateFormat="dd/MM/yyyy"
-                  placeholderText="Filter By Date"
-                  isClearable
-                />
-                <input name="filter_time"  ref={register ({ required: true })}  type="datetime-local" />
-              </div>
-            </div>
-            <div className="level-item">
-              {' '}
-              <span className="is-size-6 has-text-weight-medium">
-                Checked In Clients{' '}
-              </span>
-            </div>
-            <div className="level-right">
-                             <div className="level-item"> 
-                                 <div className="level-item"><div className="button is-success is-small" onClick={handleCreateNew}>New</div></div>
-                             </div>
-                         </div>
-          </div>
-          <div className="table-container pullup ">
-            <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title="Serial No">S/No</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Time">Date/Time</abbr>
-                  </th>
-                  <th>First Name</th>
-                  <th>
-                    <abbr title="Last Name">Last Name</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Class">Classification</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Location">Location</abbr>
-                  </th>
-                  <th><abbr title="Phone">Phone</abbr></th>
-                  
-                  <th>
-                    <abbr title="Type">Type</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Status">Status</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Reason">Reason</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Practitioner">Practitioner</abbr>
-                  </th>
-                  <th><abbr title="Actions">Actions</abbr></th>
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                {facilities.map((Client, i) => (
-                  <tr
-                    key={Client._id}
-                    onClick={() => handleRow(Client)}
-                    className={
-                      Client._id === (selectedAppointment?._id || null)
-                        ? 'is-selected'
-                        : ''
-                    }
-                  >
-                    <th>{i + 1}</th>
-                    <td>
-                      <strong>
-                        {format(
-                          new Date(Client.start_time),
-                          'dd-MM-yy HH:mm:ss'
-                        )}
-                      </strong>
-                    </td>
-                    <th>{Client.firstname}</th>
-                    <td>{Client.middlename}</td>
-                    <td>{Client.lastname}</td>
-                     < td>{formatDistanceToNowStrict(new Date(Client.dob))}</td>
-                     <td>{Client.gender}</td>
-                     <td>{Client.phone}</td>
-                    <td>{Client.appointmentClass}</td>
-                    <td>
-                      {Client.location_name} {Client.location_type}
-                    </td>
-                    <td>{Client.appointment_type}</td>
-                    <td>{Client.appointment_status}</td>
-                    <td>{Client.appointment_reason}</td>
-                    <td>{Client.practitioner_name}</td>
-                    <td><span   className="showAction"  >...</span></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div> */}
         </>
       ) : (
         <div>loading</div>
@@ -788,11 +668,12 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
                 </div>
               </TableMenu>
               <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-                
                 <CustomTable
                   title={''}
                   columns={AppointmentSchema}
-                  data={facilities}
+                  data={facilities.filter(
+                    (item) => item?.appointment_status === 'Checked Out'
+                  )}
                   pointerOnHover
                   highlightOnHover
                   striped
@@ -995,14 +876,14 @@ export function CheckDetails({ checkState }) {
             {' '}
           </textarea>
         </Grid>
-        <Grid item xs={12} md={12}>
+        {/* <Grid item xs={12} md={12}>
           {!edit && (
             <GlobalCustomButton text="Edit" onClick={() => setEdit(true)} />
           )}
           {edit && (
             <GlobalCustomButton text="Save" onClick={() => handleEdit()} />
           )}
-        </Grid>
+        </Grid> */}
       </Grid>
     </>
   );

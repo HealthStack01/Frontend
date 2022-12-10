@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { UserContext, ObjectContext } from "../../context";
 import { toast } from "bulma-toast";
 import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
+import BasicDateTimePicker from '../../components/inputs/DateTime';
 import DatePicker from "react-datepicker";
 import LocationSearch from "../helpers/LocationSearch";
 import EmployeeSearch from "../helpers/EmployeeSearch";
@@ -29,6 +30,8 @@ import { Box, Grid } from "@mui/material";
 import { ClientMiniSchema } from "./schema";
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
 import { MdCancel } from "react-icons/md";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -69,19 +72,19 @@ export default function ClientVisitationHistory() {
 
 export function AppointmentCreate({ showModal, setShowModal }) {
   const { state, setState } = useContext(ObjectContext);
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue, control } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
   const [success2, setSuccess2] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [clientId, setClientId] = useState();
   const [locationId, setLocationId] = useState();
   const [practionerId, setPractionerId] = useState();
   const [type, setType] = useState();
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
-  const ClientServ = client.service("appointments");
+  const ClientServ = client.service('appointments');
   //const navigate=useNavigate()
   const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
@@ -89,14 +92,14 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   // const [appointment_reason,setAppointment_reason]= useState()
-  const [appointment_status, setAppointment_status] = useState("");
-  const [appointment_type, setAppointment_type] = useState("");
+  const [appointment_status, setAppointment_status] = useState('');
+  const [appointment_type, setAppointment_type] = useState('');
   const [billingModal, setBillingModal] = useState(false);
 
   const [chosen, setChosen] = useState();
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
-  const appClass = ["On-site", "Teleconsultation", "Home Visit"];
+  const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
 
   let appointee; //  =state.ClientModule.selectedClient
   /*  const getSearchfacility=(obj)=>{
@@ -165,11 +168,11 @@ export function AppointmentCreate({ showModal, setShowModal }) {
             shouldDirty: true
         })  */
     }
-  });
+  },[]);
 
   const onSubmit = (data, e) => {
     e.preventDefault();
-    setMessage("");
+    setMessage('');
     setError(false);
     setSuccess(false);
     setShowModal(false),
@@ -177,7 +180,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
         ...prevstate,
         AppointmentModule: {
           selectedAppointment: {},
-          show: "list",
+          show: 'list',
         },
       }));
 
@@ -199,7 +202,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
     data.gender = chosen.gender;
     data.phone = chosen.phone;
     data.email = chosen.email;
-    data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
+    data.practitioner_name = chosen2.firstname + ' ' + chosen2.lastname;
     data.practitioner_profession = chosen2.profession;
     data.practitioner_department = chosen2.department;
     data.location_name = chosen1.name;
@@ -216,33 +219,24 @@ export function AppointmentCreate({ showModal, setShowModal }) {
       .then((res) => {
         //console.log(JSON.stringify(res))
         e.target.reset();
-        setAppointment_type("");
-        setAppointment_status("");
-        setClientId("");
-        setLocationId("");
+        setAppointment_type('');
+        setAppointment_status('');
+        setClientId('');
+        setLocationId('');
         /*  setMessage("Created Client successfully") */
         setSuccess(true);
         setSuccess1(true);
         setSuccess2(true);
-        toast({
-          message:
-            "Appointment created succesfully, Kindly bill patient if required",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success(
+          'Appointment created succesfully, Kindly bill patient if required'
+        );
         setSuccess(false);
         setSuccess1(false);
         setSuccess2(false);
         // showBilling()
       })
       .catch((err) => {
-        toast({
-          message: "Error creating Appointment " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error('Error creating Appointment ' + err);
       });
   };
 
@@ -277,104 +271,65 @@ export function AppointmentCreate({ showModal, setShowModal }) {
       <div className="card ">
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <ModalHeader text={"Create Appointment"} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <MdCancel
-                onClick={() => {
-                  setShowModal(false),
-                    setState((prevstate) => ({
-                      ...prevstate,
-                      AppointmentModule: {
-                        selectedAppointment: {},
-                        show: "list",
-                      },
-                    }));
-                }}
-                style={{
-                  fontSize: "2rem",
-                  color: "crimson",
-                  cursor: "pointer",
-                  float: "right",
-                }}
-              />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
+            <Grid item xs={12} sm={12} md={4}>
               <ClientSearch
                 getSearchfacility={getSearchfacility}
                 clear={success}
               />
             </Grid>
-          </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
+            <Grid item xs={12} sm={12} md={4} mb={1.5}>
               <EmployeeSearch
                 getSearchfacility={getSearchfacility2}
                 clear={success2}
               />
             </Grid>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
+            <Grid item xs={12} sm={12} md={4}>
               <LocationSearch
                 getSearchfacility={getSearchfacility1}
                 clear={success1}
               />
             </Grid>
           </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12} md={12}>
               <div className="field ml-3 ">
                 {appClass.map((c, i) => (
-                  <label
-                    className=" is-small"
-                    key={c}
-                    style={{ fontSize: "16px", fontWeight: "bold" }}
-                  >
+                  <label className=" is-small" key={c}>
                     <input
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      {...register("appointmentClass", { required: true })}
+                      {...register('appointmentClass', { required: true })}
                       style={{
-                        border: "1px solid #0364FF",
-                        transform: "scale(1.5)",
-                        color: "#0364FF",
-                        margin: ".5rem",
+                        border: '1px solid #0364FF',
+                        // transform: 'scale(1.5)',
+                        color: '#0364FF',
+                        margin: '0 .5rem',
                       }}
                     />
-                    {c + " "}
+                    {c + ' '}
                   </label>
                 ))}
               </div>
             </Grid>
           </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              <div className="field">
-                <input
-                  name="start_time"
-                  {...register("start_time", { required: true })}
-                  type="datetime-local"
-                  style={{
-                    border: "1px solid #0364FF",
-                    padding: "1rem",
-                    color: " #979DAC",
-                  }}
-                />
-              </div>
+          <Grid container spacing={2} sx={{ alignItems: 'center' }}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
+              <BasicDateTimePicker
+                label="Date"
+                register={register('start_time', { required: true })}
+              />
             </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
               <select
                 name="type"
                 value={type}
                 onChange={handleChangeType}
                 style={{
-                  border: "1px solid #0364FF",
-                  padding: "1rem",
-                  color: " #979DAC",
+                  border: '1px solid #b6b6b6',
+                  height: '38px',
+                  borderRadius: '4px',
+                  width: '100%',
                 }}
               >
                 <option defaultChecked>Choose Appointment Type </option>
@@ -387,15 +342,16 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                 <option value="Walk in">Walk-in</option>
               </select>
             </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
               <select
                 name="appointment_status"
                 value={appointment_status}
                 onChange={handleChangeStatus}
                 style={{
-                  border: "1px solid #0364FF",
-                  padding: "1rem",
-                  color: " #979DAC",
+                  border: '1px solid #b6b6b6',
+                  height: '38px',
+                  borderRadius: '4px',
+                  width: '100%',
                 }}
               >
                 <option defaultChecked>Appointment Status </option>
@@ -411,61 +367,53 @@ export function AppointmentCreate({ showModal, setShowModal }) {
               </select>
             </Grid>
           </Grid>
-          <Grid container spacing={2} mt={2}>
+          <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={12} lg={12}>
+              <label className="label" htmlFor="appointment_reason">
+                Reason for Appointment
+              </label>
               <textarea
                 className="input is-small"
                 name="appointment_reason"
-                {...register("appointment_reason", { required: true })}
+                {...register('appointment_reason', { required: true })}
                 type="text"
                 placeholder="Appointment Reason"
-                rows="10"
+                rows="3"
                 cols="50"
                 style={{
-                  border: "1px solid #0364FF",
-                  padding: "1rem",
-                  color: " #979DAC",
-                  width: "100%",
+                  border: '1px solid #b6b6b6',
+                  borderRadius: '4px',
+                  color: ' #979DAC',
+                  width: '100%',
                 }}
               >
-                {" "}
+                {' '}
               </textarea>
             </Grid>
           </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={4} lg={3}>
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: "#0364FF",
-                  width: "100%",
-                  cursor: "pointer",
-                }}
-              >
-                Save
-              </Button>
-            </Grid>
-            <Grid item xs={12} sm={12} md={4} lg={3}>
-              <Button
-                type="button"
-                onClick={(e) => e.target.reset()}
-                style={{
-                  backgroundColor: "#ffffff",
-                  width: "100%",
-                  color: "#0364FF",
-                  border: "1px solid #0364FF",
-                  cursor: "pointer",
-                }}
-              >
-                Clear
-              </Button>
-            </Grid>
-          </Grid>
+
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <GlobalCustomButton
+              variant="outlined"
+              color="error"
+              text="Cancel"
+              customStyles={{
+                marginRight: '15px',
+              }}
+              onClick={() => setShowModal(false)}
+            />
+
+            <GlobalCustomButton
+              text="Submit"
+              onClick={handleSubmit(onSubmit)}
+            />
+          </Box>
         </form>
       </div>
     </>
   );
 }
+
 
 export function ClientList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
@@ -789,14 +737,18 @@ export function ClientList({ showModal, setShowModal }) {
                 </div>
 
                 {handleCreateNew && (
-                  <Button
-                    style={{ fontSize: "14px", fontWeight: "600" }}
-                    label="Add new "
-                    onClick={handleCreateNew}
-                  />
+                  <GlobalCustomButton
+                  onClick={handleCreateNew}
+                  >
+                    <AddCircleOutline
+                      sx={{marginRight: "5px"}}
+                      fontSize="small"
+                    />
+                    Add New Visit
+                  </GlobalCustomButton>
                 )}
               </TableMenu>
-              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+              <div style={{ width: "100%", height: "100%", overflow: "auto" }}>
                 {value === "list" ? (
                   <CustomTable
                     title={""}
@@ -806,7 +758,7 @@ export function ClientList({ showModal, setShowModal }) {
                     highlightOnHover
                     striped
                     onRowClicked={handleRow}
-                    progressPending={loading}
+                    // progressPending={loading}
                   />
                 ) : (
                   <CalendarGrid appointments={mapFacilities()} />

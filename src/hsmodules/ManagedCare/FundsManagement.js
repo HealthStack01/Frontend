@@ -1,31 +1,36 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { Route, useNavigate, Link, NavLink } from "react-router-dom";
-import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import { Route, useNavigate, Link, NavLink } from 'react-router-dom';
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
-import DatePicker from "react-datepicker";
-import LocationSearch from "../helpers/LocationSearch";
-import EmployeeSearch from "../helpers/EmployeeSearch";
-import BillServiceCreate from "../Finance/BillServiceCreate";
-import "react-datepicker/dist/react-datepicker.css";
+import { UserContext, ObjectContext } from '../../context';
+import { toast } from 'bulma-toast';
+import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
+import DatePicker from 'react-datepicker';
+import LocationSearch from '../helpers/LocationSearch';
+import EmployeeSearch from '../helpers/EmployeeSearch';
+import BillServiceCreate from '../Finance/BillServiceCreate';
+import 'react-datepicker/dist/react-datepicker.css';
 
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
-import FilterMenu from "../../components/utilities/FilterMenu";
-import Button from "../../components/buttons/Button";
-import CustomTable from "../../components/customtable";
-import Switch from "../../components/switch";
-import { BsFillGridFill, BsList } from "react-icons/bs";
-import CalendarGrid from "../../components/calender";
-import ModalBox from "../../components/modal";
-import { Box, Grid } from "@mui/material";
-import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
-import { MdCancel } from "react-icons/md";
+import { PageWrapper } from '../../ui/styled/styles';
+import { TableMenu } from '../../ui/styled/global';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import Button from '../../components/buttons/Button';
+import CustomTable from '../../components/customtable';
+import Switch from '../../components/switch';
+import { BsFillGridFill, BsList } from 'react-icons/bs';
+import CalendarGrid from '../../components/calender';
+import ModalBox from '../../components/modal';
+import { Box, Grid } from '@mui/material';
+import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
+import { MdCancel } from 'react-icons/md';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import { FormsHeaderText } from '../../components/texts';
+import Input from '../../components/inputs/basic/Input';
+import RadioButton from '../../components/inputs/basic/Radio';
+import BasicDatePicker from '../../components/inputs/Date';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -36,30 +41,40 @@ export default function FundsManagement() {
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
-  const [createModal, setCreateModal] = useState(false);
+  const [showModal, setShowModal] = useState(0);
 
   return (
     <section className="section remPadTop">
-      <FundsManagementList openCreateModal={() => setCreateModal(true)} />
+      <FundsManagementList showModal={showModal} setShowModal={setShowModal} />
+      {showModal === 1 && (
+        <ModalBox open onClose={() => setShowModal(0)}>
+          <FundsManagementCreate setShowModal={setShowModal} />
+        </ModalBox>
+      )}
+      {showModal === 2 && (
+        <ModalBox open onClose={() => setShowModal(0)}>
+          <FundsManagementDetails setShowModal={setShowModal} />
+        </ModalBox>
+      )}
     </section>
   );
 }
 
-export function AppointmentCreate({ showModal, setShowModal }) {
+export function FundsManagementCreate({ showModal, setShowModal }) {
   const { state, setState } = useContext(ObjectContext);
   const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
   const [success2, setSuccess2] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [clientId, setClientId] = useState();
   const [locationId, setLocationId] = useState();
   const [practionerId, setPractionerId] = useState();
   const [type, setType] = useState();
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
-  const ClientServ = client.service("appointments");
+  const ClientServ = client.service('appointments');
   //const navigate=useNavigate()
   const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
@@ -67,14 +82,15 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   // const [appointment_reason,setAppointment_reason]= useState()
-  const [appointment_status, setAppointment_status] = useState("");
-  const [appointment_type, setAppointment_type] = useState("");
+  const [appointment_status, setAppointment_status] = useState('');
+  const [appointment_type, setAppointment_type] = useState('');
   const [billingModal, setBillingModal] = useState(false);
 
   const [chosen, setChosen] = useState();
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
-  const appClass = ["On-site", "Teleconsultation", "Home Visit"];
+  const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
+  const [accountType, setAccountType] = useState();
 
   let appointee; //  =state.ClientModule.selectedClient
   /*  const getSearchfacility=(obj)=>{
@@ -147,7 +163,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
 
   const onSubmit = (data, e) => {
     e.preventDefault();
-    setMessage("");
+    setMessage('');
     setError(false);
     setSuccess(false);
     setShowModal(false),
@@ -155,7 +171,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
         ...prevstate,
         AppointmentModule: {
           selectedAppointment: {},
-          show: "list",
+          show: 'list',
         },
       }));
 
@@ -177,7 +193,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
     data.gender = chosen.gender;
     data.phone = chosen.phone;
     data.email = chosen.email;
-    data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
+    data.practitioner_name = chosen2.firstname + ' ' + chosen2.lastname;
     data.practitioner_profession = chosen2.profession;
     data.practitioner_department = chosen2.department;
     data.location_name = chosen1.name;
@@ -194,18 +210,18 @@ export function AppointmentCreate({ showModal, setShowModal }) {
       .then((res) => {
         //console.log(JSON.stringify(res))
         e.target.reset();
-        setAppointment_type("");
-        setAppointment_status("");
-        setClientId("");
-        setLocationId("");
+        setAppointment_type('');
+        setAppointment_status('');
+        setClientId('');
+        setLocationId('');
         /*  setMessage("Created Client successfully") */
         setSuccess(true);
         setSuccess1(true);
         setSuccess2(true);
         toast({
           message:
-            "Appointment created succesfully, Kindly bill patient if required",
-          type: "is-success",
+            'Appointment created succesfully, Kindly bill patient if required',
+          type: 'is-success',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -216,8 +232,8 @@ export function AppointmentCreate({ showModal, setShowModal }) {
       })
       .catch((err) => {
         toast({
-          message: "Error creating Appointment " + err,
-          type: "is-danger",
+          message: 'Error creating Appointment ' + err,
+          type: 'is-danger',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -253,208 +269,84 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   return (
     <>
       <div className="card ">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <ModalHeader text={"Create Appointment"} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <MdCancel
-                onClick={() => {
-                  setShowModal(false),
-                    setState((prevstate) => ({
-                      ...prevstate,
-                      AppointmentModule: {
-                        selectedAppointment: {},
-                        show: "list",
-                      },
-                    }));
-                }}
-                style={{
-                  fontSize: "2rem",
-                  color: "crimson",
-                  cursor: "pointer",
-                  float: "right",
-                }}
-              />
-            </Grid>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <FormsHeaderText text={'Create Account'} />
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+            }}
+          >
+            <GlobalCustomButton
+              text={'Cancel'}
+              onClick={() => setShowModal(false)}
+              color="warning"
+              customStyles={{ marginRight: '.8rem' }}
+            />
+            <GlobalCustomButton
+              text={'Save'}
+              onClick={handleSubmit(onSubmit)}
+              color="success"
+            />
+          </Box>
+        </Box>
+        <Grid container spacing={2} mt={1}>
+          <Grid item xs={12} md={12}>
+            <Input label="Account Name" value={'Test Organization'} />
           </Grid>
-
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <ClientSearch
-                getSearchfacility={getSearchfacility}
-                clear={success}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <LocationSearch
-                getSearchfacility={getSearchfacility1}
-                clear={success1}
-              />
-            </Grid>
+          <Grid item xs={12} md={12}>
+            <RadioButton
+              title="Account Type"
+              options={[
+                { label: 'Investment account', value: 'Investment account' },
+                { label: 'Expense account', value: 'Expense account' },
+                { label: 'Revenue', value: 'Revenue' },
+              ]}
+              onChange={(e) => setAccountType(e.target.value)}
+            />
           </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <EmployeeSearch
-                getSearchfacility={getSearchfacility2}
-                clear={success2}
-              />
+          {accountType === 'Investment account' && (
+            <Grid item xs={12} md={6}>
+              <BasicDatePicker label="Maturity Date" />
             </Grid>
+          )}
+          <Grid item xs={12} md={6}>
+            <Input label="Account Name" />
           </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <div className="field ml-3 ">
-                {/* <label className= "mr-2 "> <b>Modules:</b></label> */}
-                {appClass.map((c, i) => (
-                  <label
-                    className=" is-small"
-                    key={c}
-                    style={{ fontSize: "16px", fontWeight: "bold" }}
-                  >
-                    <input
-                      type="radio"
-                      value={c}
-                      name="appointmentClass"
-                      {...register("appointmentClass", { required: true })}
-                      style={{
-                        border: "1px solid #0364FF",
-                        transform: "scale(1.5)",
-                        color: "#0364FF",
-                        margin: ".5rem",
-                      }}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-              </div>
-            </Grid>
+          <Grid item xs={12} md={6}>
+            <Input label="Account Number" />
           </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              <div className="field">
-                <input
-                  name="start_time"
-                  {...register("start_time", { required: true })}
-                  type="datetime-local"
-                  style={{
-                    border: "1px solid #0364FF",
-                    padding: "1rem",
-                    color: " #979DAC",
-                  }}
-                />
-              </div>
-            </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              <select
-                name="type"
-                value={type}
-                onChange={handleChangeType}
-                style={{
-                  border: "1px solid #0364FF",
-                  padding: "1rem",
-                  color: " #979DAC",
-                }}
-              >
-                <option defaultChecked>Choose Appointment Type </option>
-                <option value="New">New</option>
-                <option value="Followup">Followup</option>
-                <option value="Readmission with 24hrs">
-                  Readmission with 24hrs
-                </option>
-                <option value="Annual Checkup">Annual Checkup</option>
-                <option value="Walk in">Walk-in</option>
-              </select>
-            </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              <select
-                name="appointment_status"
-                value={appointment_status}
-                onChange={handleChangeStatus}
-                style={{
-                  border: "1px solid #0364FF",
-                  padding: "1rem",
-                  color: " #979DAC",
-                }}
-              >
-                <option defaultChecked>Appointment Status </option>
-                <option value="Scheduled">Scheduled</option>
-                <option value="Confirmed">Confirmed</option>
-                <option value="Checked In">Checked In</option>
-                <option value="Vitals Taken">Vitals Taken</option>
-                <option value="With Nurse">With Nurse</option>
-                <option value="With Doctor">With Doctor</option>
-                <option value="No Show">No Show</option>
-                <option value="Cancelled">Cancelled</option>
-                <option value="Billed">Billed</option>
-              </select>
-            </Grid>
+          <Grid item xs={12} md={6}>
+            <Input label="Sort Code" />
           </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={12} lg={12}>
-              <textarea
-                className="input is-small"
-                name="appointment_reason"
-                {...register("appointment_reason", { required: true })}
-                type="text"
-                placeholder="Appointment Reason"
-                rows="10"
-                cols="50"
-                style={{
-                  border: "1px solid #0364FF",
-                  padding: "1rem",
-                  color: " #979DAC",
-                  width: "100%",
-                }}
-              >
-                {" "}
-              </textarea>
-            </Grid>
+          <Grid item xs={12} md={6}>
+            <Input label="Branch Name" />
           </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={4} lg={3}>
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: "#0364FF",
-                  width: "100%",
-                  cursor: "pointer",
-                }}
-              >
-                Save
-              </Button>
-            </Grid>
-            <Grid item xs={12} sm={12} md={4} lg={3}>
-              <Button
-                type="button"
-                onClick={(e) => e.target.reset()}
-                style={{
-                  backgroundColor: "#ffffff",
-                  width: "100%",
-                  color: "#0364FF",
-                  border: "1px solid #0364FF",
-                  cursor: "pointer",
-                }}
-              >
-                Clear
-              </Button>
-            </Grid>
+          <Grid item xs={12} md={12}>
+            <Input label="Account Description" />
           </Grid>
-        </form>
+        </Grid>
       </div>
     </>
   );
 }
 
-export function FundsManagementList({ openCreateModal }) {
+export function FundsManagementList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  const ClientServ = client.service("appointments");
+  const [message, setMessage] = useState('');
+  const ClientServ = client.service('appointments');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -467,12 +359,12 @@ export function FundsManagementList({ openCreateModal }) {
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
-  const [value, setValue] = useState("list");
+  const [value, setValue] = useState('list');
 
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: "create",
+      show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -481,10 +373,10 @@ export function FundsManagementList({ openCreateModal }) {
     //console.log(state)
     const newClient = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
     await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
-    setShowModal(true);
+    setShowModal(1);
   };
 
   const handleRow = async (Client) => {
@@ -492,17 +384,18 @@ export function FundsManagementList({ openCreateModal }) {
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
-      show: "detail",
+      show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
+    setShowModal(2);
   };
   //console.log(state.employeeLocation)
 
   const handleSearch = (val) => {
-    const field = "firstname";
+    const field = 'firstname';
     //  console.log(val)
 
     let query = {
@@ -510,73 +403,73 @@ export function FundsManagementList({ openCreateModal }) {
         {
           firstname: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           lastname: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           middlename: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           phone: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           appointment_type: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           appointment_status: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           appointment_reason: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           location_type: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           location_name: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           practitioner_department: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           practitioner_profession: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           practitioner_name: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
       ],
@@ -586,7 +479,7 @@ export function FundsManagementList({ openCreateModal }) {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== "Front Desk") {
+    if (state.employeeLocation.locationType !== 'Front Desk') {
       query.locationId = state.employeeLocation.locationId;
     }
 
@@ -594,12 +487,12 @@ export function FundsManagementList({ openCreateModal }) {
       .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(" Client  fetched successfully");
+        setMessage(' Client  fetched successfully');
         setSuccess(true);
       })
       .catch((err) => {
         console.log(err);
-        setMessage("Error fetching Client, probable network issues " + err);
+        setMessage('Error fetching Client, probable network issues ' + err);
         setError(true);
       });
   };
@@ -651,13 +544,13 @@ export function FundsManagementList({ openCreateModal }) {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on("created", (obj) => handleCalendarClose());
-    ClientServ.on("updated", (obj) => handleCalendarClose());
-    ClientServ.on("patched", (obj) => handleCalendarClose());
-    ClientServ.on("removed", (obj) => handleCalendarClose());
+    ClientServ.on('created', (obj) => handleCalendarClose());
+    ClientServ.on('updated', (obj) => handleCalendarClose());
+    ClientServ.on('patched', (obj) => handleCalendarClose());
+    ClientServ.on('removed', (obj) => handleCalendarClose());
     const newClient = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
     setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
@@ -705,8 +598,8 @@ export function FundsManagementList({ openCreateModal }) {
     let mapped = [];
     facilities.map((facility, i) => {
       mapped.push({
-        title: facility?.firstname + " " + facility?.lastname,
-        start: format(new Date(facility?.start_time), "yyyy-MM-ddTHH:mm"),
+        title: facility?.firstname + ' ' + facility?.lastname,
+        start: format(new Date(facility?.start_time), 'yyyy-MM-ddTHH:mm'),
         end: facility?.end_time,
         id: i,
       });
@@ -715,40 +608,40 @@ export function FundsManagementList({ openCreateModal }) {
   };
 
   const activeStyle = {
-    backgroundColor: "#0064CC29",
-    border: "none",
-    padding: "0 .8rem",
+    backgroundColor: '#0064CC29',
+    border: 'none',
+    padding: '0 .8rem',
   };
 
   const dummyData = [
     {
-      s_n: "S/N",
-      date: "27/11/22 17:33",
-      description: "Transfer and cash",
-      amount: "2000",
-      mode: "Bank Transfer",
+      s_n: 'S/N',
+      date: '27/11/22 17:33',
+      description: 'Transfer and cash',
+      amount: '2000',
+      mode: 'Bank Transfer',
     },
     {
-        s_n: "S/N",
-      date: "27/11/22 17:33",
-      description: "Transfer and cash",
-      amount: "200",
-      mode: "Cash",
+      s_n: 'S/N',
+      date: '27/11/22 17:33',
+      description: 'Transfer and cash',
+      amount: '200',
+      mode: 'Cash',
     },
     {
-        s_n: "S/N",
-        date: "27/11/22 17:33",
-        description: "------------------",
-        amount: "1000",
-        mode: "Cash",
+      s_n: 'S/N',
+      date: '27/11/22 17:33',
+      description: '------------------',
+      amount: '1000',
+      mode: 'Cash',
     },
 
     {
-        s_n: "S/N",
-      date: "27/11/22 17:33",
-      description: "------------------",
-      amount: "100",
-      mode: "Cash",
+      s_n: 'S/N',
+      date: '27/11/22 17:33',
+      description: '------------------',
+      amount: '100',
+      mode: 'Cash',
     },
   ];
 
@@ -758,11 +651,11 @@ export function FundsManagementList({ openCreateModal }) {
     // }
     // else if
     switch (status.toLowerCase()) {
-      case "active":
-        return <span style={{ color: "#17935C" }}>{status}</span>;
+      case 'active':
+        return <span style={{ color: '#17935C' }}>{status}</span>;
 
-      case "inactive":
-        return <span style={{ color: "#0364FF" }}>{status}</span>;
+      case 'inactive':
+        return <span style={{ color: '#0364FF' }}>{status}</span>;
 
       default:
         break;
@@ -771,53 +664,50 @@ export function FundsManagementList({ openCreateModal }) {
 
   const FundsManagementSchema = [
     {
-      name: "S/N",
-      key: "s_n",
-      description: "Enter s/n",
+      name: 'S/N',
+      key: 's_n',
+      description: 'Enter s/n',
       selector: (row, i) => i + 1,
       sortable: true,
       required: true,
-      inputType: "HIDDEN",
-      
+      inputType: 'HIDDEN',
     },
     {
-
-      name: "Date",
-      key: "date",
-      description: "Enter date",
+      name: 'Date',
+      key: 'date',
+      description: 'Enter date',
       selector: (row) => row.date,
       sortable: true,
       required: true,
-      inputType: "DATE",
+      inputType: 'DATE',
     },
     {
-      name: "Description ",
-      key: "description",
-      description: "Enter description",
+      name: 'Description ',
+      key: 'description',
+      description: 'Enter description',
       selector: (row) => row.description,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Amount",
-      key: "amount",
-      description: "Enter amount",
+      name: 'Amount',
+      key: 'amount',
+      description: 'Enter amount',
       selector: (row) => row.amount,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Mode",
-      key: "mode",
-      description: "Enter mode",
+      name: 'Mode',
+      key: 'mode',
+      description: 'Enter mode',
       selector: (row, i) => row.mode,
       sortable: true,
       required: true,
-      inputType: "DATE",
+      inputType: 'DATE',
     },
-
   ];
 
   return (
@@ -826,34 +716,31 @@ export function FundsManagementList({ openCreateModal }) {
         <>
           <div className="level">
             <PageWrapper
-              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+              style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
             >
               <TableMenu>
-                <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
+                  <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
                     Fund Management
                   </h2>
-
-                  
                 </div>
 
                 {handleCreateNew && (
-                  <Button
-                    style={{ fontSize: "14px", fontWeight: "600" }}
-                    label="Add new"
-                    onClick={openCreateModal}
+                  <GlobalCustomButton
+                    text="Add new"
+                    onClick={handleCreateNew}
                   />
                 )}
               </TableMenu>
-              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
-                {value === "list" ? (
+              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+                {value === 'list' ? (
                   <CustomTable
-                    title={""}
+                    title={''}
                     columns={FundsManagementSchema}
                     data={dummyData}
                     pointerOnHover
@@ -873,6 +760,135 @@ export function FundsManagementList({ openCreateModal }) {
       ) : (
         <div>loading</div>
       )}
+    </>
+  );
+}
+
+export function FundsManagementDetails({ showModal, setShowModal }) {
+  const [edit, setEdit] = useState(false);
+
+  const dummyData = [
+    {
+      s_n: 'S/N',
+      date: '27/11/22 17:33',
+      description: 'Transfer and cash',
+      amount: '2000',
+    },
+    {
+      s_n: 'S/N',
+      date: '27/11/22 17:33',
+      description: 'Transfer and cash',
+      amount: '200',
+    },
+  ];
+
+  const FundsManagementSchema = [
+    {
+      name: 'S/N',
+      key: 's_n',
+      description: 'Enter s/n',
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Date',
+      key: 'date',
+      description: 'Enter date',
+      selector: (row) => row.date,
+      sortable: true,
+      required: true,
+      inputType: 'DATE',
+    },
+    {
+      name: 'Amount',
+      key: 'amount',
+      description: 'Enter amount',
+      selector: (row) => row.amount,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+  ];
+
+  return (
+    <>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          width: '60vw',
+        }}
+      >
+        <FormsHeaderText text={'Fund Management details'} />
+        {!edit ? (
+          <GlobalCustomButton text="Edit" onClick={() => setEdit(true)} />
+        ) : (
+          <GlobalCustomButton
+            text="Save"
+            onClick={() => setEdit(false)}
+            color="success"
+          />
+        )}
+      </Box>
+      <Grid container spacing={2} mt={1}>
+        <Grid item xs={12} md={12}>
+          <Input
+            label="Account Name"
+            value="Test Organization"
+            disabled={!edit}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Input
+            label="Account type"
+            value="Investment Account"
+            disabled={!edit}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <BasicDatePicker defaultValue={new Date()} disabled={!edit} />
+        </Grid>
+        <Grid item xs={12} md={12}>
+          <Input
+            label="Account Description"
+            value="Account for collection"
+            disabled={!edit}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Input label="Account Number" value="1234567890" disabled={!edit} />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Input label="Sort Code" value="GH389KN" disabled={!edit} />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <FormsHeaderText text="Debit" />
+          <CustomTable
+            title={''}
+            columns={FundsManagementSchema}
+            data={dummyData}
+            pointerOnHover
+            highlightOnHover
+            striped
+            //conditionalRowStyles={conditionalRowStyles}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <FormsHeaderText text="Credit" />
+          <CustomTable
+            title={''}
+            columns={FundsManagementSchema}
+            data={dummyData}
+            pointerOnHover
+            highlightOnHover
+            striped
+            //conditionalRowStyles={conditionalRowStyles}
+          />
+        </Grid>
+      </Grid>
     </>
   );
 }

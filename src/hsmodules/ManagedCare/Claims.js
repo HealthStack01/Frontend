@@ -6,7 +6,6 @@ import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
 import { Box, Grid, Button as MuiButton } from '@mui/material';
 import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
-//import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from '../../context';
 import { toast } from 'bulma-toast';
 import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
@@ -36,6 +35,9 @@ import Textarea from '../../components/inputs/basic/Textarea';
 import { MdCancel, MdAddCircle } from 'react-icons/md';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
 import PatientProfile from '../Client/PatientProfile';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import { color } from '@mui/system';
+import { FormsHeaderText } from '../../components/texts';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -47,79 +49,33 @@ export default function Claims({ standAlone }) {
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
   const [showModal, setShowModal] = useState(false);
-
+  console.log('standAlone', standAlone);
   return (
     <>
-      {!standAlone && (
-        <>
-          <section className="section remPadTop">
-            <ClaimsList showModal={showModal} setShowModal={setShowModal} />
-            {showModal && (
-              <ModalBox
-                open={state.AppointmentModule.show === 'create'}
-                onClose={() => setShowModal(false)}
-              >
-                <Grid container spacing={2}>
-                  <Grid item xs={4}>
-                    <PatientProfile />
-                  </Grid>
-                  <Grid item xs={8}>
-                    <ClaimsCreate
-                      showModal={showModal}
-                      setShowModal={setShowModal}
-                    />
-                  </Grid>
-                </Grid>
-              </ModalBox>
+      <section className="section remPadTop">
+        {!showModal ? (
+          <>
+            {standAlone ? (
+              <ClaimsList
+                showModal={showModal}
+                setShowModal={setShowModal}
+                standAlone={standAlone}
+              />
+            ) : (
+              <ClaimsList showModal={showModal} setShowModal={setShowModal} />
             )}
-            {showModal && (
-              <ModalBox
-                open={state.AppointmentModule.show === 'detail'}
-                onClose={() => setShowModal(false)}
-              >
-                <ClaimsDetails />
-              </ModalBox>
-            )}
-          </section>
-        </>
-      )}
-      {standAlone && (
-        <>
-          <section className="section remPadTop">
-            <ClaimsList
-              showModal={showModal}
-              setShowModal={setShowModal}
-              standAlone={standAlone}
-            />
-            {showModal && (
-              <ModalBox
-                open={state.AppointmentModule.show === 'create'}
-                onClose={() => setShowModal(false)}
-              >
-                <Grid container spacing={2}>
-                  <Grid item xs={4}>
-                    <PatientProfile />
-                  </Grid>
-                  <Grid item xs={8}>
-                    <ClaimsCreate
-                      showModal={showModal}
-                      setShowModal={setShowModal}
-                    />
-                  </Grid>
-                </Grid>
-              </ModalBox>
-            )}
-            {showModal && (
-              <ModalBox
-                open={state.AppointmentModule.show === 'detail'}
-                onClose={() => setShowModal(false)}
-              >
-                <ClaimsDetails />
-              </ModalBox>
-            )}
-          </section>
-        </>
-      )}
+          </>
+        ) : (
+          <Grid container spacing={2}>
+            <Grid item xs={3}>
+              <PatientProfile />
+            </Grid>
+            <Grid item xs={9}>
+              <ClaimsCreate showModal={showModal} setShowModal={setShowModal} />
+            </Grid>
+          </Grid>
+        )}
+      </section>
     </>
   );
 }
@@ -149,10 +105,13 @@ export function ClaimsCreate({ showModal, setShowModal }) {
   const [appointment_status, setAppointment_status] = useState('');
   const [appointment_type, setAppointment_type] = useState('');
   const [billingModal, setBillingModal] = useState(false);
-
+  const [showServiceModal, setShowServiceModal] = useState(false);
+  const [patient, setPatient] = useState('');
+  const [currentDate, setCurrentDate] = useState('');
   const [chosen, setChosen] = useState();
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
+
   const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
 
   let appointee; //  =state.ClientModule.selectedClient
@@ -211,13 +170,6 @@ export function ClaimsCreate({ showModal, setShowModal }) {
     //console.log(currentUser)
     return () => {};
   }, [user]);
-
-  //check user for facility or get list of facility
-  useEffect(() => {
-    //setFacility(user.activeClient.FacilityId)//
-    if (!user.stacker) {
-    }
-  });
 
   const onSubmit = (data, e) => {
     e.preventDefault();
@@ -300,29 +252,76 @@ export function ClaimsCreate({ showModal, setShowModal }) {
 
   useEffect(() => {
     getSearchfacility(state.ClientModule.selectedClient);
+    var today = new Date();
+    var date = today.toISOString().substring(0, 10);
+    setCurrentDate(date);
 
     /* appointee=state.ClientModule.selectedClient 
         console.log(appointee.firstname) */
     return () => {};
   }, [state.ClientModule.selectedClient]);
 
-  /*   const showBilling = () =>{
-        setBillingModal(true)
-       //history.push('/app/finance/billservice')
-        }
-        const  handlecloseModal1 = () =>{
-            setBillingModal(false)
-            }
+  const dummyData = [
+    {
+      item: 'Today',
+      submittedQuantity: 1,
+      submittedBill: 1000,
+      payableQuantity: 1,
+      payableBill: 1000,
+      // comments: 'Inline with agreement',
+    },
+  ];
 
-
-            const handleRow= async(Client)=>{
-              //  await setSelectedClient(Client)
-                const    newClientModule={
-                    selectedClient:Client,
-                    show :'detail'
-                }
-               await setState((prevstate)=>({...prevstate, ClientModule:newClientModule}))
-            } */
+  const serviceSchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'item',
+      key: 'item',
+      description: 'Item',
+      selector: (row) => row.item,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'QTY',
+      key: 'submittedQuantity',
+      description: 'Submitted QTY',
+      selector: (row) => row.submittedQuantity,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Unit Price',
+      key: 'submittedBill',
+      description: 'Unit Price',
+      selector: (row) => row.submittedBill,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Total Amount',
+      key: 'payableBill',
+      description: 'Payable Bill',
+      selector: (row) => row.payableBill,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    // {
+    //   name: 'comments',
+    //   key: 'comments',
+    //   description: 'Comments',
+    //   selector: (row) => row.comments,
+    //   sortable: true,
+    //   inputType: 'TEXT',
+    // },
+  ];
   const CustomSelectData = [
     {
       label: 'Today',
@@ -332,66 +331,30 @@ export function ClaimsCreate({ showModal, setShowModal }) {
 
   return (
     <>
-      <div className="card ">
+      <div
+        style={{
+          height: 'calc(100vh - 90px)',
+          overflow: 'auto',
+          margin: '0 1rem',
+        }}
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <ModalHeader text={'Claims'} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <MdCancel
-                onClick={() => {
-                  setShowModal(false);
-                }}
-                style={{
-                  fontSize: '2rem',
-                  color: 'crimson',
-                  cursor: 'pointer',
-                  float: 'right',
-                }}
-              />
+              <Box display="flex" justifyContent="flex-end">
+                {showModal && (
+                  <GlobalCustomButton
+                    onClick={() => setShowModal(false)}
+                    color="warning"
+                    text="Back"
+                  />
+                )}
+              </Box>
             </Grid>
           </Grid>
-
-          {/* <McText
-            txt={`Employer's Details`}
-            color={'#0064CC'}
-            type={'p'}
-            bold={'700'}
-            size={'18px'}
-          />
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Input name="patientname" label="Patient Name" type="text" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Input name="lashmaId" label="LASHMA ID" type="text" />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Input name="hospitalName" label="Hospital Name" type="text" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Input name="doctorName" label="Name of Doctor" type="text" />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Input
-                name="healthPlan"
-                label="Type of Health Plan"
-                type="text"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Input name="authCode" label="Authorozation Code" type="text" />
-            </Grid>
-          </Grid> */}
-
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <RadioButton
@@ -407,25 +370,41 @@ export function ClaimsCreate({ showModal, setShowModal }) {
                     value: 'In Patient',
                   },
                 ]}
+                onChange={(e) => setPatient(e.target.value)}
               />
             </Grid>
           </Grid>
 
-          <Grid container spacing={2} my={2}>
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={12} sm={6}>
+              <Input name="patientName" label="Search Beneficiary" />
+            </Grid>
+            {patient === 'In Patient' && (
+              <Grid item xs={12} sm={6}>
+                <BasicDatePicker
+                  name="addmissionDate"
+                  label="Date of Admission"
+                />
+              </Grid>
+            )}
+            {patient === 'In Patient' && (
+              <Grid item xs={12} sm={6}>
+                <BasicDatePicker
+                  name="dischargeDate"
+                  label="Date of Discharge"
+                />
+              </Grid>
+            )}
             <Grid item xs={12} sm={6}>
               <BasicDatePicker
-                name="addmissionDate"
-                label="Date of Admission"
+                name="entryDate"
+                label="Date of Entry"
+                value={currentDate}
+                defaultValue={currentDate}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <BasicDatePicker name="dischargeDate" label="Date of Discharge" />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <BasicDatePicker name="entryDate" label="Date of Entry" />
+              <Input name="preAuthCode" label="Pre-Authorization Code" />
             </Grid>
             <Grid item xs={12} sm={6}>
               <CustomSelect
@@ -434,32 +413,23 @@ export function ClaimsCreate({ showModal, setShowModal }) {
                 options={CustomSelectData}
               />
             </Grid>
-          </Grid>
-          <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <Input name="amount" label="Claim Amount" type="tel" />
             </Grid>
           </Grid>
-
-          <Grid container spacing={2} my={2}>
+          <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
-              <McText
-                txt={'Clinic Information'}
-                color={'#0064CC'}
-                type={'p'}
-                bold={'700'}
-                size={'18px'}
-              />
+              <FormsHeaderText text={'Clinic Information'} />
             </Grid>
           </Grid>
 
-          <Grid container spacing={2} my={1}>
+          <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <Textarea
                 name="diagnosis"
                 label="Diagnosis"
                 register={register('diagnosis')}
-                rows={3}
+                rows={2}
               />
             </Grid>
             {/* <Grid item xs={12} sm={6}>
@@ -483,13 +453,13 @@ export function ClaimsCreate({ showModal, setShowModal }) {
             </Grid> */}
           </Grid>
 
-          <Grid container spacing={2} my={1}>
+          <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <Textarea
                 name="investigation"
                 label="Investigation"
                 register={register('investigation')}
-                rows={3}
+                rows={2}
               />
             </Grid>
 
@@ -514,7 +484,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
             </Grid> */}
           </Grid>
 
-          <Grid container spacing={2} my={2}>
+          <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <McText
                 txt={'Treatment'}
@@ -526,7 +496,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
             </Grid>
           </Grid>
 
-          <Grid container spacing={2} my={1}>
+          <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <Textarea
                 name="drugs"
@@ -556,13 +526,13 @@ export function ClaimsCreate({ showModal, setShowModal }) {
             </Grid> */}
           </Grid>
 
-          <Grid container spacing={2} my={1}>
+          <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <Textarea
                 name="therapy"
                 label="Therapy"
                 register={register('therapy')}
-                rows={3}
+                rows={2}
               />
             </Grid>
             {/* <Grid item xs={12} sm={6}>
@@ -585,23 +555,64 @@ export function ClaimsCreate({ showModal, setShowModal }) {
               </button>
             </Grid> */}
           </Grid>
-
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={4} lg={3}>
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: '#0364FF',
-                  width: '100%',
-                  cursor: 'pointer',
-                }}
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <Box
+                sx={{ display: 'flex', justifyContent: 'space-between' }}
+                my={1}
               >
-                Submit
-              </Button>
+                <FormsHeaderText text={'Services / Products'} />
+                <GlobalCustomButton
+                  onClick={() => setShowServiceModal(true)}
+                  color="secondary"
+                  text="Add Service"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
+              </Box>
+              <CustomTable
+                title={''}
+                columns={serviceSchema}
+                data={dummyData}
+                pointerOnHover
+                highlightOnHover
+                striped
+                //conditionalRowStyles={conditionalRowStyles}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={12} sm={12} md={4} lg={3}>
+              <GlobalCustomButton text="Submit" color="success" />
             </Grid>
           </Grid>
         </form>
       </div>
+      {showServiceModal && (
+        <ModalBox
+          open={showServiceModal}
+          onClose={() => setShowServiceModal(false)}
+          header="Add Service / Product"
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <Input name="service" label="Service Name" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Input name="quantity" label="Quantity" type="number" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Input name="unitPrice" label="Amount" type="text" />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <Textarea label="Comments" name="comments" />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <GlobalCustomButton text="Add Service" color="success" />
+            </Grid>
+          </Grid>
+        </ModalBox>
+      )}
     </>
   );
 }
@@ -628,6 +639,7 @@ export function ClaimsList({ showModal, setShowModal, standAlone }) {
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState('list');
+  const navigate = useNavigate();
 
   const handleCreateNew = async () => {
     const newClientModule = {
@@ -658,6 +670,7 @@ export function ClaimsList({ showModal, setShowModal, standAlone }) {
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
+    navigate('/app/managed-care/claims-details');
   };
   //console.log(state.employeeLocation)
 
@@ -1106,25 +1119,15 @@ export function ClaimsList({ showModal, setShowModal, standAlone }) {
                         Claim
                       </h2>
                     </div>
-
-                    {handleCreateNew && (
-                      <MuiButton
-                        variant="contained"
-                        sx={{
-                          width: 'fit',
-                          textTransform: 'capitalize',
-                          fontSize: '14px',
-                          fontWeight: '600',
-                        }}
-                        onClick={handleCreateNew}
-                      >
-                        <AddCircleOutline
-                          sx={{ marginRight: '5px' }}
-                          fontSize="small"
+                    <Box>
+                      {handleCreateNew && (
+                        <GlobalCustomButton
+                          onClick={handleCreateNew}
+                          color="primary"
+                          text="Add Claims"
                         />
-                        Add Claim
-                      </MuiButton>
-                    )}
+                      )}
+                    </Box>
                   </TableMenu>
 
                   {value === 'list' ? (
@@ -1167,224 +1170,224 @@ export function ClaimsList({ showModal, setShowModal, standAlone }) {
     </>
   );
 }
-export function ClaimsDetails() {
-  const [deny, setDeny] = useState(false);
-  const [approve, setApprove] = useState(false);
-  return (
-    <>
-      <div
-        className="card"
-        style={{
-          height: '50vh',
-          overflowY: 'scroll',
-          width: '40vw',
-          margin: '0 auto',
-        }}
-      >
-        <ModalHeader text={'Claim Details - 13322BA'} />
-        <McText txt={'Patient Details'} />
-        <div style={{ backgroundColor: '#EBEBEB' }}>
-          <Grid container spacing={2} mt={1} px={2}>
-            <Grid item xs={12} style={{ width: 'fit-content' }}>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <div
-                  style={{
-                    maxWidth: '100px',
-                    height: '100px',
-                  }}
-                >
-                  <img
-                    src="/img_avatar.png"
-                    alt="avatar"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                    }}
-                  />
-                </div>
-                <div style={{ marginLeft: '10px' }}>
-                  <p style={{ fontWeight: 'bold', margin: 0 }}>Tejiri Tabor</p>
-                  <p style={{ fontWeight: 'bold', margin: 0 }}>
-                    +2348123456789
-                  </p>
-                </div>
-              </div>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} mt={1} px={2}>
-            <Grid item xs={4}>
-              <p style={{ fontWeight: 'bold' }}>DOB: 23/06/2022</p>
-            </Grid>
-            <Grid item xs={4}>
-              <p style={{ fontWeight: 'bold' }}>Age: 52</p>
-            </Grid>
-            <Grid item xs={4}>
-              <p style={{ fontWeight: 'bold' }}>Gender: Male</p>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} px={2}>
-            <Grid item xs={6}>
-              <p style={{ fontWeight: 'bold' }}>
-                Hospital Name: Lagos State Clinic{' '}
-              </p>
-            </Grid>
-            <Grid item xs={6}>
-              <p style={{ fontWeight: 'bold' }}>
-                Health Plan: Former sector plan
-              </p>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} px={2}>
-            <Grid item xs={6}>
-              <p style={{ fontWeight: 'bold' }}>
-                Date of Admission: 23/06/2022
-              </p>
-            </Grid>
-            <Grid item xs={6}>
-              <p style={{ fontWeight: 'bold' }}>
-                Date of Discharge: 23/06/2022
-              </p>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} px={2}>
-            <Grid item xs={6}>
-              <p style={{ fontWeight: 'bold' }}>Capitation: Filed</p>
-            </Grid>
-            <Grid item xs={6}>
-              <p style={{ fontWeight: 'bold' }}>Fee of Service: Filed</p>
-            </Grid>
-          </Grid>
-        </div>
-        <div
-          style={{
-            marginTop: '10px',
-            border: '1px solid #8F8F8F',
-            padding: '1rem',
-          }}
-        >
-          <p>Request Sent 08/05/2022 9:45pm</p>
-          <McText txt={'Clinical Information'} />
-          <Grid container spacing={2} mb={1}>
-            <Grid item xs={12}>
-              <p style={{ fontWeight: 'bold' }}>Presenting Complaints:</p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt
-              </p>
-            </Grid>
-          </Grid>
+// export function ClaimsDetails() {
+//   const [deny, setDeny] = useState(false);
+//   const [approve, setApprove] = useState(false);
+//   return (
+//     <>
+//       <div
+//         className="card"
+//         style={{
+//           height: '50vh',
+//           overflowY: 'scroll',
+//           width: '40vw',
+//           margin: '0 auto',
+//         }}
+//       >
+//         <ModalHeader text={'Claim Details - 13322BA'} />
+//         <McText txt={'Patient Details'} />
+//         <div style={{ backgroundColor: '#EBEBEB' }}>
+//           <Grid container spacing={2} mt={1} px={2}>
+//             <Grid item xs={12} style={{ width: 'fit-content' }}>
+//               <div style={{ display: 'flex', alignItems: 'center' }}>
+//                 <div
+//                   style={{
+//                     maxWidth: '100px',
+//                     height: '100px',
+//                   }}
+//                 >
+//                   <img
+//                     src="/img_avatar.png"
+//                     alt="avatar"
+//                     style={{
+//                       width: '100%',
+//                       height: '100%',
+//                     }}
+//                   />
+//                 </div>
+//                 <div style={{ marginLeft: '10px' }}>
+//                   <p style={{ fontWeight: 'bold', margin: 0 }}>Tejiri Tabor</p>
+//                   <p style={{ fontWeight: 'bold', margin: 0 }}>
+//                     +2348123456789
+//                   </p>
+//                 </div>
+//               </div>
+//             </Grid>
+//           </Grid>
+//           <Grid container spacing={2} mt={1} px={2}>
+//             <Grid item xs={4}>
+//               <p style={{ fontWeight: 'bold' }}>DOB: 23/06/2022</p>
+//             </Grid>
+//             <Grid item xs={4}>
+//               <p style={{ fontWeight: 'bold' }}>Age: 52</p>
+//             </Grid>
+//             <Grid item xs={4}>
+//               <p style={{ fontWeight: 'bold' }}>Gender: Male</p>
+//             </Grid>
+//           </Grid>
+//           <Grid container spacing={2} px={2}>
+//             <Grid item xs={6}>
+//               <p style={{ fontWeight: 'bold' }}>
+//                 Hospital Name: Lagos State Clinic{' '}
+//               </p>
+//             </Grid>
+//             <Grid item xs={6}>
+//               <p style={{ fontWeight: 'bold' }}>
+//                 Health Plan: Former sector plan
+//               </p>
+//             </Grid>
+//           </Grid>
+//           <Grid container spacing={2} px={2}>
+//             <Grid item xs={6}>
+//               <p style={{ fontWeight: 'bold' }}>
+//                 Date of Admission: 23/06/2022
+//               </p>
+//             </Grid>
+//             <Grid item xs={6}>
+//               <p style={{ fontWeight: 'bold' }}>
+//                 Date of Discharge: 23/06/2022
+//               </p>
+//             </Grid>
+//           </Grid>
+//           <Grid container spacing={2} px={2}>
+//             <Grid item xs={6}>
+//               <p style={{ fontWeight: 'bold' }}>Capitation: Filed</p>
+//             </Grid>
+//             <Grid item xs={6}>
+//               <p style={{ fontWeight: 'bold' }}>Fee of Service: Filed</p>
+//             </Grid>
+//           </Grid>
+//         </div>
+//         <div
+//           style={{
+//             marginTop: '10px',
+//             border: '1px solid #8F8F8F',
+//             padding: '1rem',
+//           }}
+//         >
+//           <p>Request Sent 08/05/2022 9:45pm</p>
+//           <McText txt={'Clinical Information'} />
+//           <Grid container spacing={2} mb={1}>
+//             <Grid item xs={12}>
+//               <p style={{ fontWeight: 'bold' }}>Presenting Complaints:</p>
+//               <p>
+//                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+//                 eiusmod tempor incididunt
+//               </p>
+//             </Grid>
+//           </Grid>
 
-          <McText txt={'Clinical Findings'} />
-          <Grid container spacing={2} mb={1}>
-            <Grid item xs={12}>
-              <p style={{ fontWeight: 'bold' }}>Examination Findings:</p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt
-              </p>
+//           <McText txt={'Clinical Findings'} />
+//           <Grid container spacing={2} mb={1}>
+//             <Grid item xs={12}>
+//               <p style={{ fontWeight: 'bold' }}>Examination Findings:</p>
+//               <p>
+//                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+//                 eiusmod tempor incididunt
+//               </p>
 
-              <p style={{ fontWeight: 'bold' }}>Diagonsis:</p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt
-              </p>
-              <p style={{ fontWeight: 'bold' }}>Investigations:</p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt
-              </p>
-            </Grid>
-          </Grid>
+//               <p style={{ fontWeight: 'bold' }}>Diagonsis:</p>
+//               <p>
+//                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+//                 eiusmod tempor incididunt
+//               </p>
+//               <p style={{ fontWeight: 'bold' }}>Investigations:</p>
+//               <p>
+//                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+//                 eiusmod tempor incididunt
+//               </p>
+//             </Grid>
+//           </Grid>
 
-          <McText txt={'Amount'} />
-          <Grid container spacing={2}>
-            <Grid item xs={4}>
-              <Input label={'Amount'} />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <p style={{ fontWeight: 'bold' }}>Reason for Request:</p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt
-              </p>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
-              <p>Dr. John Doe</p>
-              <p>Lagos State Hospital</p>
-            </Grid>
-          </Grid>
-        </div>
-        <div style={{ display: 'flex', marginTop: '1rem' }}>
-          <Button onClick={() => setApprove(true)}>Approve</Button>
-          <Button>On Hold</Button>
-          <Button onClick={() => setDeny(true)}>Reject</Button>
-        </div>
-      </div>
-      {approve && (
-        <>
-          <ModalBox open={approve} onClose={() => setApprove(false)}>
-            <form>
-              <ModalHeader text={`Approve Claim  13229-BA`} />
+//           <McText txt={'Amount'} />
+//           <Grid container spacing={2}>
+//             <Grid item xs={4}>
+//               <Input label={'Amount'} />
+//             </Grid>
+//           </Grid>
+//           <Grid container spacing={2}>
+//             <Grid item xs={12}>
+//               <p style={{ fontWeight: 'bold' }}>Reason for Request:</p>
+//               <p>
+//                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+//                 eiusmod tempor incididunt
+//               </p>
+//             </Grid>
+//           </Grid>
+//           <Grid container spacing={2}>
+//             <Grid item xs={12}>
+//               <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
+//               <p>Dr. John Doe</p>
+//               <p>Lagos State Hospital</p>
+//             </Grid>
+//           </Grid>
+//         </div>
+//         <div style={{ display: 'flex', marginTop: '1rem' }}>
+//           <Button onClick={() => setApprove(true)}>Approve</Button>
+//           <Button>On Hold</Button>
+//           <Button onClick={() => setDeny(true)}>Reject</Button>
+//         </div>
+//       </div>
+//       {approve && (
+//         <>
+//           <ModalBox open={approve} onClose={() => setApprove(false)}>
+//             <form>
+//               <ModalHeader text={`Approve Claim  13229-BA`} />
 
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Input label={'Name of Referral'} />
-                </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Input label={'Institution'} />
-                </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Input label={'Reason'} />
-                </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Button>OK</Button>
-                </Grid>
-              </Grid>
-            </form>
-          </ModalBox>
-        </>
-      )}
-      {deny && (
-        <>
-          <ModalBox open={deny} onClose={() => setDeny(false)}>
-            <form>
-              <ModalHeader text={`Deny Claim  13229-BA`} />
+//               <Grid container spacing={2}>
+//                 <Grid item xs={12}>
+//                   <Input label={'Name of Referral'} />
+//                 </Grid>
+//               </Grid>
+//               <Grid container spacing={2}>
+//                 <Grid item xs={12}>
+//                   <Input label={'Institution'} />
+//                 </Grid>
+//               </Grid>
+//               <Grid container spacing={2}>
+//                 <Grid item xs={12}>
+//                   <Input label={'Reason'} />
+//                 </Grid>
+//               </Grid>
+//               <Grid container spacing={2}>
+//                 <Grid item xs={12}>
+//                   <Button>OK</Button>
+//                 </Grid>
+//               </Grid>
+//             </form>
+//           </ModalBox>
+//         </>
+//       )}
+//       {deny && (
+//         <>
+//           <ModalBox open={deny} onClose={() => setDeny(false)}>
+//             <form>
+//               <ModalHeader text={`Deny Claim  13229-BA`} />
 
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Input label={'Name of Referral'} />
-                </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Input label={'Institution'} />
-                </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Input label={'Reason'} />
-                </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Button>OK</Button>
-                </Grid>
-              </Grid>
-            </form>
-          </ModalBox>
-        </>
-      )}
-    </>
-  );
-}
+//               <Grid container spacing={2}>
+//                 <Grid item xs={12}>
+//                   <Input label={'Name of Referral'} />
+//                 </Grid>
+//               </Grid>
+//               <Grid container spacing={2}>
+//                 <Grid item xs={12}>
+//                   <Input label={'Institution'} />
+//                 </Grid>
+//               </Grid>
+//               <Grid container spacing={2}>
+//                 <Grid item xs={12}>
+//                   <Input label={'Reason'} />
+//                 </Grid>
+//               </Grid>
+//               <Grid container spacing={2}>
+//                 <Grid item xs={12}>
+//                   <Button>OK</Button>
+//                 </Grid>
+//               </Grid>
+//             </form>
+//           </ModalBox>
+//         </>
+//       )}
+//     </>
+//   );
+// }

@@ -1,22 +1,31 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import { useForm } from 'react-hook-form';
-import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
-import client from '../../../feathers';
-import { toast } from 'bulma-toast';
-import { UserContext, ObjectContext } from '../../../context';
+import React, {useState, useContext, useEffect, useRef} from "react";
+import {useForm} from "react-hook-form";
+import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
+import client from "../../../feathers";
+import {toast} from "react-toastify";
+import {UserContext, ObjectContext} from "../../../context";
+import GlobalCustomButton from "../../../components/buttons/CustomButton";
+import Input from "../../../components/inputs/basic/Input";
+import MuiCustomDatePicker from "../../../components/inputs/Date/MuiDatePicker";
+import Textarea from "../../../components/inputs/basic/Textarea";
+import {Box, Grid, IconButton, Typography} from "@mui/material";
+import CustomTable from "../../../components/customtable";
+import moment from "moment";
+import CloseIcon from "@mui/icons-material/Close";
+import {FormsHeaderText} from "../../../components/texts";
 
 const VitalSignChart = () => {
-  const { register, handleSubmit, setValue } = useForm();
-  const fluidTypeOptions = ['Input', 'Output'];
-  const { user, setUser } = useContext(UserContext);
+  const {register, handleSubmit, setValue, control, reset} = useForm();
+  const fluidTypeOptions = ["Input", "Output"];
+  const {user, setUser} = useContext(UserContext);
   const [facilities, setFacilities] = useState([]);
   const [selectedFluid, setSelectedFluid] = useState();
   const [chosen, setChosen] = useState(true);
   const [chosen1, setChosen1] = useState(true);
   const [chosen2, setChosen2] = useState(true);
-  const { state } = useContext(ObjectContext);
-  const [docStatus, setDocStatus] = useState('Draft');
-  const ClientServ = client.service('clinicaldocument');
+  const {state, setState} = useContext(ObjectContext);
+  const [docStatus, setDocStatus] = useState("Draft");
+  const ClientServ = client.service("clinicaldocument");
   const fac = useRef([]);
   const struc = useRef([]);
 
@@ -32,8 +41,8 @@ const VitalSignChart = () => {
       setChosen2(false);
     } else {
       toast({
-        message: 'Patient not on admission',
-        type: 'is-danger',
+        message: "Patient not on admission",
+        type: "is-danger",
         dismissible: true,
         pauseOnHover: true,
       });
@@ -71,7 +80,7 @@ const VitalSignChart = () => {
   };
 
   useEffect(() => {
-    if (!!draftDoc && draftDoc.status === 'Draft') {
+    if (!!draftDoc && draftDoc.status === "Draft") {
       /*  Object.entries(draftDoc.documentdetail).map(([keys,value],i)=>(
                   setValue(keys, value,  {
                       shouldValidate: true,
@@ -104,32 +113,32 @@ const VitalSignChart = () => {
       state.DocumentClassModule.selectedDocumentClass._id;
     document.location =
       state.ClinicModule.selectedClinic.name +
-      ' ' +
+      " " +
       state.ClinicModule.selectedClinic.locationType;
     document.locationId = state.ClinicModule.selectedClinic._id;
     document.client = state.ClientModule.selectedClient._id;
     document.createdBy = user._id;
-    document.createdByname = user.firstname + ' ' + user.lastname;
-    document.status = docStatus === 'Draft' ? 'Draft' : 'completed';
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = docStatus === "Draft" ? "Draft" : "completed";
     document.episodeofcare_id = state.ClientModule.selectedClient.admission_id;
     console.log(document);
 
     // alert(document.status)
     ClientServ.create(document)
-      .then((res) => {
+      .then(res => {
         setChosen(true);
 
         toast({
-          message: 'Fluid Input/Output entry successful',
-          type: 'is-success',
+          message: "Fluid Input/Output entry successful",
+          type: "is-success",
           dismissible: true,
           pauseOnHover: true,
         });
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
-          message: 'Error creating Appointment ' + err,
-          type: 'is-danger',
+          message: "Error creating Appointment " + err,
+          type: "is-danger",
           dismissible: true,
           pauseOnHover: true,
         });
@@ -143,17 +152,17 @@ const VitalSignChart = () => {
     data.entrytime = new Date();
     data.location =
       state.employeeLocation.locationName +
-      ' ' +
+      " " +
       state.employeeLocation.locationType;
     data.locationId = state.employeeLocation.locationId;
     data.episodeofcare_id = state.ClientModule.selectedClient.admission_id;
     data.createdBy = user._id;
-    data.createdByname = user.firstname + ' ' + user.lastname;
+    data.createdByname = user.firstname + " " + user.lastname;
 
     // await update(data)
     struc.current = [data, ...facilities];
     // console.log(struc.current)
-    setFacilities((prev) => [data, ...facilities]);
+    setFacilities(prev => [data, ...facilities]);
     // data.recordings=facilities
     e.target.reset();
     setChosen(false);
@@ -174,33 +183,39 @@ const VitalSignChart = () => {
       state.DocumentClassModule.selectedDocumentClass._id;
     document.location =
       state.employeeLocation.locationName +
-      ' ' +
+      " " +
       state.employeeLocation.locationType;
     document.locationId = state.employeeLocation.locationId;
     document.client = state.ClientModule.selectedClient._id;
     document.createdBy = user._id;
-    document.createdByname = user.firstname + ' ' + user.lastname;
-    document.status = docStatus === 'Draft' ? 'Draft' : 'completed';
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = docStatus === "Draft" ? "Draft" : "completed";
     document.episodeofcare_id = state.ClientModule.selectedClient.admission_id;
+
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+
     console.log(document);
 
     // alert(document.status)
     if (chosen1) {
       ClientServ.create(document)
-        .then((res) => {
+        .then(res => {
           setChosen(true);
 
           toast({
-            message: 'Vital Signs entry successful',
-            type: 'is-success',
+            message: "Vital Signs entry successful",
+            type: "is-success",
             dismissible: true,
             pauseOnHover: true,
           });
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
-            message: 'Fluid Input/Output entry ' + err,
-            type: 'is-danger',
+            message: "Fluid Input/Output entry " + err,
+            type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
           });
@@ -209,20 +224,20 @@ const VitalSignChart = () => {
       ClientServ.patch(fac.current._id, {
         documentdetail: document.documentdetail,
       })
-        .then((res) => {
+        .then(res => {
           setChosen(true);
 
           toast({
-            message: 'Fluid Input/Output entry successful',
-            type: 'is-success',
+            message: "Fluid Input/Output entry successful",
+            type: "is-success",
             dismissible: true,
             pauseOnHover: true,
           });
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
-            message: 'Fluid Input/Output entry ' + err,
-            type: 'is-danger',
+            message: "Fluid Input/Output entry " + err,
+            type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
           });
@@ -230,306 +245,233 @@ const VitalSignChart = () => {
     }
   };
 
+  const vitalSignsSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: row => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+
+    {
+      name: "Date",
+      key: "Date",
+      description: "date",
+      selector: row => moment(row.date_time).calendar("L"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Temperature",
+      key: "temperature",
+      description: "temperature",
+      selector: row => row.temperature,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Pulse",
+      key: "pulse",
+      description: "pulse",
+      selector: row => row.pulse,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "RR",
+      key: "RR",
+      description: "Respiratory Rate",
+      selector: row => row.respiratory_rate,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "BP",
+      key: "BP",
+      description: "Diastolic BP",
+      selector: row => row.diastolic_bp,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "SPO2",
+      key: "SPO2",
+      description: "SPO2",
+      selector: row => row.sp02,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Pain",
+      key: "pain",
+      description: "Pain",
+      selector: row => row.pain,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Comments",
+      key: "comments",
+      description: "comments",
+      selector: row => row.comments,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Entry Time",
+      key: "entryTime",
+      description: "entrytime",
+      selector: row => row.entrytime,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  const closeForm = async () => {
+    let documentobj = {};
+    documentobj.name = "";
+    documentobj.facility = "";
+    documentobj.document = "";
+    //  alert("I am in draft mode : " + Clinic.documentname)
+    const newDocumentClassModule = {
+      selectedDocumentClass: documentobj,
+      encounter_right: false,
+      show: "detail",
+    };
+    await setState(prevstate => ({
+      ...prevstate,
+      DocumentClassModule: newDocumentClassModule,
+    }));
+  };
+
   return (
     <div className="card">
-      <div className="card-header">
-        <p className="card-header-title">Vital Signs Chart</p>
-      </div>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+        mb={1}
+      >
+        <FormsHeaderText text="Vital Signs Chart" />
+
+        <IconButton onClick={closeForm}>
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      </Box>
+
       <div className="card-content vscrollable  pt-0">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="columns mb-0 mt-0">
-            <div className="column">
-              <div className="field ">
-                <label className="label is-small">Date & Time</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register('vitals_time', { required: true })}
-                    name="vitals_time"
-                    className="input is-small"
-                    type="datetime-local"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column"></div>
-            <div className="column"></div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field">
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input is-small"
-                    {...register('Temperature')}
-                    name="Temperature"
-                    type="text"
-                    placeholder="Temperature"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital"></i>
-                  </span>
-                </p>
-              </div>
+          <Box mb="1rem">
+            <MuiCustomDatePicker
+              name="vitals_time"
+              label="Date & Time"
+              control={control}
+            />
+          </Box>
 
-              <div className="field">
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input is-small"
-                    {...register('Pulse')}
-                    name="Pulse"
-                    type="text"
-                    placeholder="Pulse"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-map-signs"></i>
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field">
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register('Respiratory_rate')}
-                    name="Respiratory_rate"
-                    type="text"
-                    placeholder="Respiratory rate"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className=" fas fa-user-md "></i>
-                  </span>
-                </p>
-              </div>
-              <div className="field">
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register('Random_glucose')}
-                    name="Random_glucose"
-                    type="text"
-                    placeholder="Blood Glucose"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field">
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register('Systolic_BP')}
-                    name="Systolic_BP"
-                    type="text"
-                    placeholder="Systolic BP"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                </p>
-              </div>
-              <div className="field">
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register('Diastolic_BP')}
-                    name="Diastolic_BP"
-                    type="text"
-                    placeholder="Diastolic_BP"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field">
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register('SPO2')}
-                    name="SPO2"
-                    type="text"
-                    placeholder="SPO2"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                </p>
-              </div>
-              <div className="field">
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register('Pain')}
-                    name="Pain"
-                    type="text"
-                    placeholder="Pain"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-          {/* <div className="field is-horizontal">
-            <div className="field-body">
-            <div className="field">
-                    <p className="control has-icons-left">
-                    
-                        <input className="input is-small" {...register("x")} name="Height" type="text" placeholder="Height (m)"  />
-                        <span className="icon is-small is-left">
-                        <i className="fas fa-envelope"></i>
-                        </span>
-                    </p>
-                </div> 
-                <div className="field">
-                    <p className="control has-icons-left">
-                    
-                        <input className="input is-small" {...register("x")} name="Weight" type="text" placeholder="Weight (Kg)"  />
-                        <span className="icon is-small is-left">
-                        <i className="fas fa-envelope"></i>
-                        </span>
-                    </p>
-                </div> 
-                
-            </div> 
-        </div>  */}
-          {/* <div className="field">
-                    <label className=" is-small">
-                        <input  type="radio"  checked={docStatus==="Draft"} name="status" value="Draft"  onChange={(e)=>{handleChangeStatus(e)}}/>
-                        <span > Draft</span>
-                    </label> <br/>
-                    <label className=" is-small">
-                        <input type="radio" checked={docStatus==="Final"} name="status"  value="Final" onChange={(e)=>handleChangeStatus(e)}/>
-                        <span> Final </span>
-                    </label>
-                </div>   */}
+          <Box mb="1rem">
+            <Input
+              {...register("Temperature")}
+              name="temperature"
+              label="Temperature"
+              type="text"
+            />
+          </Box>
+          <Box mb="1rem">
+            <Input
+              {...register("Pulse")}
+              name="pulse"
+              label="Pulse"
+              type="text"
+            />
+          </Box>
+          <Box mb="1rem">
+            <Input
+              {...register("Respiratory_rate")}
+              name="respiration_rate"
+              label="Respiration Rate"
+              type="text"
+            />
+          </Box>
+          <Box mb="1rem">
+            <Input
+              {...register("Random_glucose")}
+              name="blood_glucose"
+              label="Blood Glucose"
+              type="text"
+            />
+          </Box>
+          <Box mb="1rem">
+            <Input
+              {...register("Systolic_BP")}
+              name="systolic_bp"
+              label="Systolic BP"
+              type="text"
+            />
+          </Box>
+          <Box mb="1rem">
+            <Input
+              {...register("Diastolic_BP")}
+              name="diastolic_bp"
+              label="Diastolic BP"
+              type="text"
+            />
+          </Box>
 
-          <div className="field-body">
-            <div className="field">
-              <label className="label is-small">Comments</label>
-              <div className="control">
-                <input
-                  {...register('comments')}
-                  name="comments"
-                  className="input is-small"
-                  type="text"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="columns">
-            <div className="column">
-              <div className="field mt-4">
-                <button className="button is-info is-small">Enter</button>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field mt-4">
-                {/*  <button className="button is-success is-small is-pulled-right" disabled={chosen} onClick={handleSave}>save</button> */}
-              </div>
-            </div>
-          </div>
+          <Box mb="1rem">
+            <Input {...register("SP02")} name="sp02" label="SP02" type="text" />
+          </Box>
+
+          <Box mb="1rem">
+            <Input {...register("Pain")} name="pain" label="Pain" type="text" />
+          </Box>
+
+          <Box mb="1rem">
+            <Textarea
+              {...register("comments")}
+              name="comments"
+              label="Comments"
+              type="text"
+            />
+          </Box>
+
+          <Box mb="1rem" color="secondary">
+            <GlobalCustomButton>Submit Vital Sign</GlobalCustomButton>
+          </Box>
         </form>
       </div>
-      <div className="mx-4 ">
-        <div className="table-container pullup vscrola">
-          <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-            <thead>
-              <tr>
-                <th>
-                  <abbr title="Serial No">S/No</abbr>
-                </th>
-                <th>
-                  <abbr title="Time">Date/Time</abbr>
-                </th>
-                {/* <th>Type</th> */}
-                <th>
-                  <abbr title="Last Name">Temp</abbr>
-                </th>
-                <th>
-                  <abbr title="Class">Pulse</abbr>
-                </th>
-                <th>
-                  <abbr title="Location">RR </abbr>
-                </th>
-                <th>
-                  <abbr title="Location">BP </abbr>
-                </th>
-                <th>
-                  <abbr title="Location">SPO2</abbr>
-                </th>
-                <th>
-                  <abbr title="Location">Pain</abbr>
-                </th>
-                <th>
-                  <abbr title="Location">RBG</abbr>
-                </th>
-                <th>
-                  <abbr title="Type">Comments</abbr>
-                </th>
-                <th>
-                  <abbr title="Status">Entry Time</abbr>
-                </th>
-                {/* <th><abbr title="Reason">Reason</abbr></th>
-                                        <th><abbr title="Practitioner">Practitioner</abbr></th> */}
-                {/* <th><abbr title="Actions">Actions</abbr></th> */}
-              </tr>
-            </thead>
-            <tfoot></tfoot>
-            <tbody>
-              {facilities.map((Client, i) => (
-                <tr
-                  key={Client._id}
-                  onClick={() => handleRow(Client)}
-                  className={
-                    Client._id === (selectedFluid?._id || null)
-                      ? 'is-selected'
-                      : ''
-                  }
-                >
-                  <th>{i + 1}</th>
-                  <td>
-                    <strong>
-                      {format(new Date(Client.vitals_time), 'HH:mm:ss')}
-                    </strong>
-                  </td>
-                  <th>{Client.Temperature}</th>
-                  <th>{Client.Pulse}</th>
-                  <td>{Client.Respiratory_rate}</td>
-                  <td>
-                    {Client.Systolic_BP}/{Client.Diastolic_BP}
-                  </td>
-                  <td>{Client.SPO2}</td>
-                  <td>{Client.Pain}</td>
-                  <td>{Client.Random_glucose}</td>
-                  {/*    <td>{Client.Height}</td>
-                                           <td>{Client.Weight}</td> */}
 
-                  <td>{Client.comments}</td>
-                  {Client.entrytime && (
-                    <td>
-                      {format(new Date(Client.entrytime), 'dd-MM HH:mm:ss')}
-                    </td>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <Box>
+        <CustomTable
+          title={"Fluid Intake"}
+          columns={vitalSignsSchema}
+          data={facilities}
+          // onRowClicked={handleRow}
+          CustomEmptyData={
+            <Typography sx={{fontSize: "0.85rem"}}>
+              No Vital Signs added yet
+            </Typography>
+          }
+          pointerOnHover
+          highlightOnHover
+          striped
+        />
+      </Box>
     </div>
   );
 };

@@ -5,6 +5,7 @@ import ContactsList from "./components/contact/ContactList";
 import ModalBox from "../../components/modal";
 import ContactCreate from "./components/contact/ContactCreate";
 import {contactsData} from "./components/lead/data";
+import ContactDetail from "./components/contact/ContactDetail";
 
 const Contact = () => {
   const [createModal, setCreateModal] = useState(false);
@@ -48,7 +49,7 @@ const Contact = () => {
         onClose={() => setDetailModal(false)}
         header="Contact Detail"
       >
-        <ContactCreate closeModal={() => setCreateModal(false)} />
+        <ContactDetail closeModal={() => setCreateModal(false)} />
       </ModalBox>
     </Box>
   );

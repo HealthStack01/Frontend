@@ -22,6 +22,7 @@ import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import AdditionalInformationCard, {
   CreateAdditionalInfo,
 } from "./AdditionalInfo";
+import RadioButton from "../../../../components/inputs/basic/Radio";
 
 const LeadsCreate = ({closeModal}) => {
   const {register, handleSubmit, control} = useForm();
@@ -80,18 +81,35 @@ const LeadsCreate = ({closeModal}) => {
         }}
       >
         <Grid container spacing={2}>
-          <Grid item lg={6} md={6} sm={12}>
+          <Grid item lg={6} md={12} sm={12}>
             <Box item>
               <FormsHeaderText text="Customer Details" />
 
               <Grid container spacing={1} mt={0.5}>
-                <Grid item xs={6}>
+                {/* <Grid item xs={12}>
+                  <RadioButton
+                    title="Customer Type"
+                    options={["Individual", "Organization"]}
+                  />
+                </Grid> */}
+
+                <Grid item xs={8}>
                   <Input
                     register={register("customer_name", {required: true})}
                     label="Customer Name"
                     //placeholder="Enter customer name"
                   />
                 </Grid>
+
+                <Grid item xs={4}>
+                  <CustomSelect
+                    options={["Individual", "Organization"]}
+                    register={register("customer_name", {required: true})}
+                    label="Customer Type"
+                    //placeholder="Enter customer name"
+                  />
+                </Grid>
+
                 <Grid item xs={6}>
                   <Input
                     register={register("customer_number", {required: true})}
@@ -99,7 +117,14 @@ const LeadsCreate = ({closeModal}) => {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid item xs={6}>
+                  <Input
+                    register={register("customer_email", {required: true})}
+                    label="Customer Email"
+                  />
+                </Grid>
+
+                <Grid item xs={8}>
                   <Input
                     register={register("address", {required: true})}
                     label="Residential Address"
@@ -126,6 +151,14 @@ const LeadsCreate = ({closeModal}) => {
                   <Input
                     register={register("state", {required: true})}
                     label="State"
+                    //placeholder="Enter customer number"
+                  />
+                </Grid>
+
+                <Grid item xs={4}>
+                  <Input
+                    register={register("country", {required: true})}
+                    label="Country"
                     //placeholder="Enter customer number"
                   />
                 </Grid>
@@ -198,7 +231,7 @@ const LeadsCreate = ({closeModal}) => {
 
           {/* ****************************************************************************************** */}
 
-          <Grid item lg={6} md={6} sm={12}>
+          <Grid item lg={6} md={12} sm={12}>
             <Box mb={2}>
               <Box
                 sx={{

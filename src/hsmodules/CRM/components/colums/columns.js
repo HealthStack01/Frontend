@@ -6,6 +6,16 @@ import moment from "moment";
 export const getStaffColumns = (action, disableAction = false) => {
   const staffColumns = [
     {
+      name: "SN",
+      key: "sn",
+      description: "Enter Date",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+      width: "50px",
+    },
+    {
       name: "Name",
       key: "row",
       description: "Enter Date",
@@ -69,6 +79,16 @@ export const getStaffColumns = (action, disableAction = false) => {
 
 export const getContactColumns = (action, disableAction, omit) => {
   const contactColumns = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "Enter Date",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+      width: "50px",
+    },
     {
       name: "Name",
       key: "contact_name",
@@ -134,6 +154,25 @@ export const getContactColumns = (action, disableAction, omit) => {
 
 export const getTaskColumns = (action, disableAction) => {
   const contactColumns = [
+    {
+      name: "SN",
+      key: "sn",
+      description: "Enter Date",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      width: "50px",
+    },
+    {
+      name: "Employee",
+      key: "employee",
+      description: "Enter Staff",
+      selector: row => row.employee,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
     {
       name: "Title",
       key: "title",
@@ -332,7 +371,7 @@ export const getPlansColumns = (action, disableAction) => {
   const plansColumns = [
     {
       name: "S/N",
-      width: "40px",
+      width: "50px",
       style: {color: "#0364FF"},
       key: "sn",
       description: "Enter Date",
@@ -364,11 +403,33 @@ export const getPlansColumns = (action, disableAction) => {
     },
 
     {
-      name: "Duration(months)",
+      name: "Duration",
       style: {color: "#0364FF"},
       key: "no_of_months",
       description: "Enter Date",
-      selector: row => `${row.no_of_months} month(s)`,
+      selector: row => `${row.duration_length} ${row.duration_calendrical}`,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Premium",
+      style: {color: "#0364FF"},
+      key: "premium",
+      description: "Enter Date",
+      selector: row => `${row.premium}`,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Num of Heads",
+      style: {color: "#0364FF"},
+      key: "no_of_heads",
+      description: "Enter Date",
+      selector: row => `${row.no_of_heads}`,
       sortable: true,
       required: true,
       inputType: "TEXT",

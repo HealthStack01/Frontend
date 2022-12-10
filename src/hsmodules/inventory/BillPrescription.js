@@ -382,6 +382,19 @@ export function BillPrescriptionList({showCreateModal}) {
     },
   ];
 
+  const conditionalRowStyles = [
+    {
+      when: row => row.client_id === selectedDispense?.client_id,
+      style: {
+        backgroundColor: "#4cc9f0",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
   return (
     <>
       <div
@@ -423,7 +436,7 @@ export function BillPrescriptionList({showCreateModal}) {
         >
           <div
             style={{
-              height: "calc(100% - 70px)",
+              height: "calc(100vh - 170px)",
               transition: "width 0.5s ease-in",
               width: selectedDispense ? "30%" : "100%",
             }}
@@ -437,6 +450,7 @@ export function BillPrescriptionList({showCreateModal}) {
               striped
               onRowClicked={row => handleRow(row)}
               progressPending={loading}
+              conditionalRowStyles={conditionalRowStyles}
             />
           </div>
 
@@ -444,7 +458,7 @@ export function BillPrescriptionList({showCreateModal}) {
             <>
               <div
                 style={{
-                  height: "calc(100% - 70px)",
+                  height: "calc(100vh - 170px)",
                   width: "69.5%",
                 }}
               >

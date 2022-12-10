@@ -1,173 +1,141 @@
+import {useContext} from "react";
 import {useForm} from "react-hook-form";
+import GlobalCustomButton from "../../../components/buttons/CustomButton";
+import Input from "../../../components/inputs/basic/Input";
+// import CustomSelect from "../../../components/inputs/basic/Select";
+import MuiCustomDatePicker from "../../../components/inputs/Date/MuiDatePicker";
+import Textarea from "../../../components/inputs/basic/Textarea";
+import {Box, Grid, IconButton} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import {ObjectContext} from "../../../context";
+import {FormsHeaderText} from "../../../components/texts";
 
 const LaboratoryObservationChart = ({onSubmit}) => {
-  const {register, handleSubmit} = useForm();
+  const {register, handleSubmit, control} = useForm();
+
+  const {state, setState} = useContext(ObjectContext);
+
+  const closeForm = async () => {
+    let documentobj = {};
+    documentobj.name = "";
+    documentobj.facility = "";
+    documentobj.document = "";
+    //  alert("I am in draft mode : " + Clinic.documentname)
+    const newDocumentClassModule = {
+      selectedDocumentClass: documentobj,
+      encounter_right: false,
+      show: "detail",
+    };
+    await setState(prevstate => ({
+      ...prevstate,
+      DocumentClassModule: newDocumentClassModule,
+    }));
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="card">
-        <div className="card-header">
-          <p className="card-header-title">Laboratory Observation Chart</p>
-        </div>
-        <div className="card-content vscrollable">
-          <div className="field">
-            <label className="label is-small">Name</label>
-            <p className="control is-expanded">
-              <input
-                {...register("input_name")}
-                name="name"
-                className="input is-small"
-                type="text"
-              />
-            </p>
-          </div>
-          <div className="field">
-            <label className="label is-small">Reg. No</label>
-            <p className="control is-expanded">
-              <input
-                {...register("input_name")}
-                name="regNumber"
-                className="input is-small"
-                type="text"
-              />
-            </p>
-          </div>
-          <div className="columns">
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Date & Time</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="dateAndTime"
-                    className="input is-small"
-                    type="date"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Temp</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="temp"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">P</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="p"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">R</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="r"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="columns">
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">B/P</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="bldPre"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">FH</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="fh"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Fluid Intake</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="fluidIntake"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Fluid Output</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="fluidOutput"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="field">
-            <label className="label is-small">
-              Contractions Frequency & Strength
-            </label>
-            <p className="control is-expanded">
-              <input
-                {...register("input_name")}
-                name="contractions"
-                className="input is-small"
-                type="text"
-              />
-            </p>
-          </div>
-          <div className="field">
-            <label className="label is-small">Remark</label>
-            <div className="control">
-              <textarea
-                {...register("input_name")}
-                name="remark"
-                className="textarea is-small"
-              ></textarea>
-            </div>
-          </div>
-          <div className="field mt-4">
-            <button className="button is-success is-small">Submit Form</button>
-          </div>
-        </div>
-      </div>
-    </form>
+    <div className="card">
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+        mb={1}
+      >
+        <FormsHeaderText text="Laboratory Observation Chart" />
+
+        <IconButton onClick={closeForm}>
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      </Box>
+
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Box mb="1rem">
+          <Input {...register("name")} name="name" label="Name" type="text" />
+        </Box>
+
+        <Box mb="1rem">
+          <Input
+            {...register("regNumber")}
+            name="regNumber"
+            label="Reg.No"
+            type="text"
+          />
+        </Box>
+
+        <Box mb="1rem">
+          <MuiCustomDatePicker
+            name="dateAndTime"
+            label="Date & Time"
+            control={control}
+          />
+        </Box>
+
+        <Box mb="1rem">
+          <Input {...register("temp")} name="temp" label="Temp" type="text" />
+        </Box>
+
+        <Box mb="1rem">
+          <Input {...register("p")} name="P" label="P" type="text" />
+        </Box>
+
+        <Box mb="1rem">
+          <Input {...register("r")} name="R" label="R" type="text" />
+        </Box>
+
+        <Box mb="1rem">
+          <Input {...register("bldPre")} name="b/p" label="B/P" type="text" />
+        </Box>
+
+        <Box mb="1rem">
+          <Input {...register("fh")} name="fh" label="FH" type="text" />
+        </Box>
+
+        <Box mb="1rem">
+          <Input
+            {...register("fluidIntake")}
+            name="fluid_intake"
+            label="Fluid Intake"
+            type="text"
+          />
+        </Box>
+
+        <Box mb="1rem">
+          <Input
+            {...register("fluidOutput")}
+            name="fluidOutput"
+            label="Fluid Output"
+            type="text"
+          />
+        </Box>
+
+        <Box mb="1rem">
+          <Input
+            {...register("contractions")}
+            name="contractions"
+            label="Contractions Frequency & Strength"
+            type="text"
+          />
+        </Box>
+
+        <Box mb="1rem">
+          <Textarea
+            {...register("remark")}
+            name="remark"
+            label="Remark"
+            type="text"
+          />
+        </Box>
+        <Box mb="1rem">
+          <GlobalCustomButton
+            text="Submit Form"
+            customStyles={{
+              marginRight: "5px",
+            }}
+          />
+        </Box>
+      </form>
+    </div>
   );
 };
 

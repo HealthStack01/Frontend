@@ -1,83 +1,102 @@
+import {useContext} from "react";
 import {useForm} from "react-hook-form";
+import GlobalCustomButton from "../../../components/buttons/CustomButton";
+import Input from "../../../components/inputs/basic/Input";
+import MuiCustomDatePicker from "../../../components/inputs/Date/MuiDatePicker";
+import Textarea from "../../../components/inputs/basic/Textarea";
+import {Box, Grid, IconButton} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import {ObjectContext} from "../../../context";
+import {FormsHeaderText} from "../../../components/texts";
 
 const ContinuationSheet = ({onSubmit}) => {
-  const {register, handleSubmit} = useForm();
+  const {register, handleSubmit, control} = useForm();
+
+  const {state, setState} = useContext(ObjectContext);
+
+  const closeForm = async () => {
+    let documentobj = {};
+    documentobj.name = "";
+    documentobj.facility = "";
+    documentobj.document = "";
+    //  alert("I am in draft mode : " + Clinic.documentname)
+    const newDocumentClassModule = {
+      selectedDocumentClass: documentobj,
+      encounter_right: false,
+      show: "detail",
+    };
+    await setState(prevstate => ({
+      ...prevstate,
+      DocumentClassModule: newDocumentClassModule,
+    }));
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="card">
-        <div className="card-header">
-          <p className="card-header-title">Continuation Sheet</p>
-        </div>
-        <div className="card-content vscrollable">
-          <div className="grid mt-3">
-            <div className="field-body">
-              <div className="field">
-                <label className="label is-small">Surname</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="surname"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="field-body">
-              <div className="field">
-                <label className="label is-small">Firstname</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="firstname"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="field-body mt-3">
-            <div className="field">
-              <label className="label is-small">Date & Time</label>
-              <div className="control">
-                <input
-                  {...register("input_name")}
-                  name="dateAndTime"
-                  className="input is-small"
-                  type="datetime-local"
-                  id=""
-                />
-              </div>
-            </div>
-          </div>
-          <div className="field-body mt-3">
-            <div className="field">
-              <label className="label is-small">Description/Remark</label>
-              <div className="control">
-                <textarea
-                  {...register("input_name")}
-                  name="descOrRemark"
-                  className="textarea is-small"
-                ></textarea>
-              </div>
-            </div>
-          </div>
-          <div className="field w-100 mt-3">
-            <label className="label is-small">Signature</label>
-            <p className="control">
-              <input
-                {...register("input_name")}
-                name="signature"
-                className="input is-small"
-                type="text"
-              />
-            </p>
-          </div>
-          <div className="field mt-4">
-            <button className="button is-success is-small">Submit Form</button>
-          </div>
-        </div>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText text="Continuation Sheet" />
+
+          <IconButton onClick={closeForm}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Box>
+
+        <Box mb="1rem">
+          <Input
+            {...register("surname")}
+            name="surname"
+            label="Surname"
+            type="text"
+          />
+        </Box>
+        <Box mb="1rem">
+          <Input
+            {...register("firstname")}
+            name="firstname"
+            label="Firstname"
+            type="text"
+          />
+        </Box>
+        <Box mb="1rem">
+          <MuiCustomDatePicker
+            name="dateAndTime"
+            label="Date & Time"
+            control={control}
+          />
+        </Box>
+
+        <Box mb="1rem">
+          <Textarea
+            {...register("descOrRemark")}
+            name="description"
+            label="Descriptiom/Remark"
+            type="text"
+          />
+        </Box>
+        <Box mb="1rem">
+          <Input
+            {...register("signature")}
+            name="signature"
+            label="Signature"
+            type="text"
+          />
+        </Box>
+        <Box mb="1rem">
+          <GlobalCustomButton
+            text="Submit Form"
+            customStyles={{
+              marginRight: "5px",
+            }}
+          />
+        </Box>
       </div>
     </form>
   );

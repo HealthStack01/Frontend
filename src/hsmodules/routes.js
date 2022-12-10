@@ -25,7 +25,6 @@ import PharmacyHome from "./Pharmacy/PharmacyHome";
 
 import RadiologyHome from "./Radiology/RadiologyHome";
 
-//import TheatreCheckedin = lazy( () => import( './Appointment/TheatreWorkflow';
 import TheatreHome from "./Theatre/TheatreHome";
 
 import ClientHome from "./Client/ClientHome";

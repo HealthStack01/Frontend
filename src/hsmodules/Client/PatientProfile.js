@@ -142,14 +142,9 @@ export default function PatientProfile() {
     },
 
     {
-      title: 'Diagnois History',
+      title: 'Diagnosis History',
       action: () => setDiagnoisHistory(true),
-    },
-
-    {
-      title: 'Medical Profile',
-      action: () => setMedicalProfileModel(true),
-    },
+    }
   ];
 
   return (
@@ -355,18 +350,9 @@ export default function PatientProfile() {
       <ModalBox
         open={diagnoisHistoryModal}
         onClose={() => setDiagnoisHistory(false)}
-        header="Diagnois History"
+        header="Diagnosis History"
       >
         <ClientDiagnoisHistory closeModal={() => setDiagnoisHistory(false)} />
-      </ModalBox>
-      <ModalBox
-        open={medicalProfile}
-        onClose={() => setMedicalProfileModel(false)}
-        header="Medical Profile"
-      >
-        <ClientDiagnoisHistory
-          closeModal={() => setMedicalProfileModel(false)}
-        />
       </ModalBox>
     </div>
   );

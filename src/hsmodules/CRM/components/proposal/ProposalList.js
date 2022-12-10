@@ -37,7 +37,7 @@ const dummyData = [
   },
 ];
 
-const ProposalList = ({openCreateModal}) => {
+const ProposalList = ({showCreate, showDetail}) => {
   const [loading, setLoading] = useState(false);
 
   const returnCell = status => {
@@ -115,12 +115,16 @@ const ProposalList = ({openCreateModal}) => {
 
   const handleSearch = () => {};
 
-  const handleCreateNew = () => {};
+  const handleCreateNew = () => {
+    showCreate();
+  };
 
-  const handleRow = () => {};
+  const handleRow = () => {
+    showDetail();
+  };
 
   return (
-    <Box>
+    <Box pl={2} pr={2}>
       <Box
         sx={{
           display: "flex",
@@ -138,7 +142,7 @@ const ProposalList = ({openCreateModal}) => {
         </div>
 
         {handleCreateNew && (
-          <GlobalCustomButton onClick={openCreateModal}>
+          <GlobalCustomButton onClick={handleCreateNew}>
             <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
             Add new Proposal
           </GlobalCustomButton>

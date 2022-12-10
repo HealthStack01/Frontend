@@ -23,10 +23,10 @@ const EmptyPage = () => {
       <Box sx={{textAlign: "center"}}>
         <Box>
           <Typography variant="h4">
-            Hello <span>{userName}</span>👋
+            Welcome <span>{userName}</span>👋
           </Typography>
           <Typography variant="body1">
-            Welcome to your company {facilityName}
+            Hope you have a wonderful time
           </Typography>
         </Box>
         <img src="/empty.png" alt="Empty Notifications" width={400} />

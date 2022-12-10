@@ -24,7 +24,7 @@ import { BsFillGridFill, BsList } from 'react-icons/bs';
 import CalendarGrid from '../../components/calender';
 import ModalBox from '../../components/modal';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Autocomplete } from '@mui/material';
 import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
 import { MdCancel } from 'react-icons/md';
 import Input from '../../components/inputs/basic/Input';
@@ -32,13 +32,16 @@ import GlobalCustomButton from '../../components/buttons/CustomButton';
 import BasicDatePicker from '../../components/inputs/Date';
 import MuiCustomTimePicker from '../../components/inputs/Date/MuiTimePicker';
 import BasicDateTimePicker from '../../components/inputs/DateTime';
+import RadioButton from '../../components/inputs/basic/Radio';
+import TextField from '@mui/material/TextField';
+import { FormsHeaderText } from '../../components/texts';
+
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function ClientsAppointments() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
-  const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
   const [showModal, setShowModal] = useState(false);
@@ -83,7 +86,7 @@ export default function ClientsAppointments() {
 
 export function AppointmentCreate({ showModal, setShowModal }) {
   const { state, setState } = useContext(ObjectContext);
-  const { register, handleSubmit, setValue, control } = useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue, control, reset } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
@@ -100,7 +103,6 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   // const [appointment_reason,setAppointment_reason]= useState()
   const [appointment_status, setAppointment_status] = useState('');
@@ -111,6 +113,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
   const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
+  const Client = state.AppointmentModule.selectedAppointment;
 
   let appointee; //  =state.ClientModule.selectedClient
   /*  const getSearchfacility=(obj)=>{
@@ -125,6 +128,18 @@ export function AppointmentCreate({ showModal, setShowModal }) {
 
   const handleChangeStatus = async (e) => {
     await setAppointment_status(e.target.value);
+  };
+
+  const handleSelectedClient = async (Client) => {
+    // await setSelectedClient(Client)
+    const newClientModule = {
+      selectedClient: Client,
+      show: 'detail',
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      ClientModule: newClientModule,
+    }));
   };
 
   const getSearchfacility = (obj) => {
@@ -179,7 +194,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
             shouldDirty: true
         })  */
     }
-  });
+  }, []);
 
   const onSubmit = (data, e) => {
     e.preventDefault();
@@ -229,7 +244,6 @@ export function AppointmentCreate({ showModal, setShowModal }) {
     ClientServ.create(data)
       .then((res) => {
         //console.log(JSON.stringify(res))
-        e.target.reset();
         setAppointment_type('');
         setAppointment_status('');
         setClientId('');
@@ -266,6 +280,8 @@ export function AppointmentCreate({ showModal, setShowModal }) {
         const  handlecloseModal1 = () =>{
             setBillingModal(false)
             }
+
+
             const handleRow= async(Client)=>{
               //  await setSelectedClient(Client)
                 const    newClientModule={
@@ -281,10 +297,20 @@ export function AppointmentCreate({ showModal, setShowModal }) {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={4}>
-              <ClientSearch
-                getSearchfacility={getSearchfacility}
-                clear={success}
-              />
+              {state.ClientModule.selectedClient.firstname !== undefined ? (
+                <>
+                  <FormsHeaderText
+                    text={`
+                    ${state.ClientModule.selectedClient.firstname}
+                    ${state.ClientModule.selectedClient.lastname}`}
+                  />
+                </>
+              ) : (
+                <ClientSearch
+                  getSearchfacility={getSearchfacility}
+                  clear={success}
+                />
+              )}
             </Grid>
             <Grid item xs={12} sm={12} md={4} mb={1.5}>
               <EmployeeSearch
@@ -301,25 +327,11 @@ export function AppointmentCreate({ showModal, setShowModal }) {
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={12}>
-              <div className="field ml-3 ">
-                {appClass.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="radio"
-                      value={c}
-                      name="appointmentClass"
-                      {...register('appointmentClass', { required: true })}
-                      style={{
-                        border: '1px solid #0364FF',
-                        // transform: 'scale(1.5)',
-                        color: '#0364FF',
-                        margin: '0 .5rem',
-                      }}
-                    />
-                    {c + ' '}
-                  </label>
-                ))}
-              </div>
+              <RadioButton
+                name="appointmentClass"
+                register={register('appointmentClass', { required: true })}
+                options={appClass}
+              />
             </Grid>
           </Grid>
           <Grid container spacing={2} sx={{ alignItems: 'center' }}>
@@ -403,18 +415,17 @@ export function AppointmentCreate({ showModal, setShowModal }) {
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <GlobalCustomButton
-              variant="outlined"
-              color="error"
-              text="Cancel"
+              text="Submit"
+              onClick={handleSubmit(onSubmit)}
               customStyles={{
                 marginRight: '15px',
               }}
-              onClick={() => setShowModal(false)}
             />
-
             <GlobalCustomButton
-              text="Submit"
-              onClick={handleSubmit(onSubmit)}
+              variant="outlined"
+              color="error"
+              text="Cancel"
+              onClick={() => setShowModal(false)}
             />
           </Box>
         </form>
@@ -1058,10 +1069,18 @@ export function ClientModify({ showModal, setShowModal }) {
     });
 
     return () => {};
-  });
+  }, []);
+
   const handleChangeType = async (e) => {
     // await setAppointment_type(e.target.value)
     setValue('appointment_type', e.target.value, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+  const handleChangeClass = async (e) => {
+    // await setAppointment_type(e.target.value)
+    setValue('appointmentClass', e.target.value, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -1175,15 +1194,9 @@ export function ClientModify({ showModal, setShowModal }) {
     <>
       <div className="card ">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <p>
-                {Client.firstname} {Client.lastname}
-              </p>
-            </Grid>
-          </Grid>
+          <FormsHeaderText text={`${Client.firstname} ${Client.lastname}`} />
 
-          <Grid container spacing={2}>
+          <Grid container spacing={2} mt={1}>
             <Grid item xs={12} sm={12} md={6} lg={6}>
               <LocationSearch
                 id={Client.locationId}
@@ -1200,13 +1213,13 @@ export function ClientModify({ showModal, setShowModal }) {
             </Grid>
           </Grid>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <div className="field ml-3 ">
-                {/* <label className= "mr-2 "> <b>Modules:</b></label> */}
+            <Grid item xs={12} sm={12} md={12} lg={12}>
+              {/* <div className="field ml-3 ">
                 {appClass.map((c, i) => (
-                  <label className=" is-small" key={c}>
+                  <>
                     <input
                       type="radio"
+                      key={i}
                       value={c}
                       name="appointmentClass"
                       {...register('appointmentClass', { required: true })}
@@ -1216,10 +1229,17 @@ export function ClientModify({ showModal, setShowModal }) {
                         margin: '.5rem',
                       }}
                     />
-                    {c + ' '}
-                  </label>
+                    <label>{c}</label>
+                  </>
                 ))}
-              </div>
+              </div> */}
+              <RadioButton
+                name="appointmentClass"
+                register={register('appointmentClass', { required: true })}
+                options={appClass}
+                value={Client?.appointmentClass}
+                onChange={handleChangeClass}
+              />
             </Grid>
           </Grid>
           <Grid container spacing={2} sx={{ alignItems: 'center' }}>
@@ -1345,7 +1365,7 @@ export function ClientModify({ showModal, setShowModal }) {
   );
 }
 
-export function ClientSearch({ getSearchfacility, clear }) {
+export function ClientSearch({ id, getSearchfacility, clear, label }) {
   const ClientServ = client.service('client');
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1527,7 +1547,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
 
   return (
     <div>
-      <div className="field">
+      {/* <div className="field">
         <div className="control has-icons-left  ">
           <div
             className={`dropdown ${showPanel ? 'is-active' : ''}`}
@@ -1549,17 +1569,6 @@ export function ClientSearch({ getSearchfacility, clear }) {
             </div>
             <div className="dropdown-menu expanded" style={{ width: '100%' }}>
               <div className="dropdown-content">
-                {/* {facilities.length > 0 ? (
-                  ''
-                ) : (
-                  <div
-                    className="dropdown-item" 
-                  >
-                    {' '}
-                    <span> {val} is not yet your client</span>{' '}
-                  </div>
-                )} */}
-
                 {facilities.map((facility, i) => (
                   <div
                     className="dropdown-item"
@@ -1593,7 +1602,59 @@ export function ClientSearch({ getSearchfacility, clear }) {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
+      <Autocomplete
+        size="small"
+        value={simpa}
+        onChange={(event, newValue) => {
+          handleRow(newValue);
+          setSimpa('');
+        }}
+        id="free-solo-dialog-demo"
+        options={facilities}
+        getOptionLabel={(option) => {
+          if (typeof option === 'string') {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option.firstname;
+        }}
+        //isOptionEqualToValue={(option, value) => option.id === value.id}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        noOptionsText="No Client found"
+        renderOption={(props, option) => (
+          <li {...props} style={{ fontSize: '0.75rem' }}>
+            {option.firstname}, {option.middlename}, {option.lastname},{' '}
+          </li>
+        )}
+        sx={{
+          width: '100%',
+        }}
+        freeSolo={false}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={label || 'Search for Client'}
+            onChange={(e) => handleSearch(e.target.value)}
+            ref={inputEl}
+            sx={{
+              fontSize: '0.75rem',
+              backgroundColor: '#ffffff',
+              '& .MuiInputBase-input': {
+                height: '0.9rem',
+              },
+            }}
+            InputLabelProps={{
+              shrink: true,
+              style: { color: '#2d2d2d' },
+            }}
+          />
+        )}
+      />
     </div>
   );
 }

@@ -1,93 +1,105 @@
+import {useContext} from "react";
 import {useForm} from "react-hook-form";
+import GlobalCustomButton from "../../../components/buttons/CustomButton";
+import Input from "../../../components/inputs/basic/Input";
+import MuiCustomDatePicker from "../../../components/inputs/Date/MuiDatePicker";
+import Textarea from "../../../components/inputs/basic/Textarea";
+import {Box, Grid, IconButton, Typography} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import {ObjectContext} from "../../../context";
+import {FormsHeaderText} from "../../../components/texts";
 
 const PressureAreasTreatmentChart = ({onSubmit}) => {
-  const {register, handleSubmit} = useForm();
+  const {register, handleSubmit, control} = useForm();
+  const {state, setState} = useContext(ObjectContext);
+
+  const closeForm = async () => {
+    let documentobj = {};
+    documentobj.name = "";
+    documentobj.facility = "";
+    documentobj.document = "";
+    //  alert("I am in draft mode : " + Clinic.documentname)
+    const newDocumentClassModule = {
+      selectedDocumentClass: documentobj,
+      encounter_right: false,
+      show: "detail",
+    };
+    await setState(prevstate => ({
+      ...prevstate,
+      DocumentClassModule: newDocumentClassModule,
+    }));
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="card">
-        <div className="card-header">
-          <p className="card-header-title">Pressure Areas Treatment Chart</p>
-        </div>
-        <div className="card-content vscrollable">
-          <div className="field">
-            <label className="label is-small">Date & Time</label>
-            <div className="control">
-              <input
-                {...register("input_name")}
-                name="repositioningDateAndTime"
-                className="input is-small"
-                type="datetime-local"
-              />
-            </div>
-          </div>
-          <label className="label is-small">Repositioning (using Codes)</label>
-          <div className="columns">
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">From</label>
-                <div className="control">
-                  <input
-                    {...register("input_name")}
-                    name="repositioningFrom"
-                    className="input is-small"
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">To</label>
-                <div className="control">
-                  <input
-                    {...register("input_name")}
-                    name="repositioningTo"
-                    className="input is-small"
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="field">
-            <label className="label is-small">Pressure Area Treatment</label>
-            <div className="control">
-              <textarea
-                {...register("input_name")}
-                name="pressureAreaTxt"
-                className="textarea is-small"
-                type="number"
-              ></textarea>
-            </div>
-          </div>
-          <div className="field">
-            <label className="label is-small">Skin Inspection Comments</label>
-            <div className="control">
-              <textarea
-                {...register("input_name")}
-                name="skinInspectionComments"
-                className="textarea is-small"
-                type="number"
-              ></textarea>
-            </div>
-          </div>
-          <div className="field">
-            <label className="label is-small">Name/Signature</label>
-            <div className="control">
-              <input
-                {...register("input_name")}
-                name="nameOrSignature"
-                className="input is-small"
-                type="text"
-              />
-            </div>
-          </div>
-          <div className="field mt-4">
-            <button className="button is-success is-small">Submit Form</button>
-          </div>
-        </div>
-      </div>
-    </form>
+    <div className="card">
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+        mb={1}
+      >
+        <FormsHeaderText text="Pressure Areas Treatment Chart" />
+
+        <IconButton onClick={closeForm}>
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      </Box>
+
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Box mb="1rem">
+          <MuiCustomDatePicker
+            name="repositioningDateAndTime"
+            label="Date & Time"
+            control={control}
+          />
+        </Box>
+        <Box mb="1rem">
+          <Typography sx={{fontSize: "0.9rem"}}>
+            Repositioning (using Codes)
+          </Typography>
+        </Box>
+        <Box mb="1rem">
+          <Input {...register("repositioningFrom")} name="from" label="From" type="text" />
+        </Box>
+        <Box mb="1rem">
+          <Input {...register("repositioningTo")} name="to" label="To" type="text" />
+        </Box>
+        <Box mb="1rem">
+          <Textarea
+            {...register("pressureAreaTxt")}
+            name="pressure_area"
+            label="Pressure Area Treatment"
+            type="text"
+          />
+        </Box>
+        <Box mb="1rem">
+          <Textarea
+            {...register("skinInspectionComments")}
+            name="skin_inspection"
+            label="Skin Inspection Comments"
+            type="text"
+          />
+        </Box>
+        <Box mb="1rem">
+          <Input
+            {...register("nameOrSignature")}
+            name="name_signature"
+            label="Name/Signature"
+            type="text"
+          />
+        </Box>
+        <Box mb="1rem">
+          <GlobalCustomButton
+            text="Submit Form"
+            customStyles={{
+              marginRight: "5px",
+            }}
+          />
+        </Box>
+      </form>
+    </div>
   );
 };
 

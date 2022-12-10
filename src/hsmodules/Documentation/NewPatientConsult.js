@@ -5,17 +5,22 @@ import {useForm} from "react-hook-form";
 import {DocumentClassList} from "./DocumentClass";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import Roaster from "../Admin/Roaster";
 import {Box, getValue} from "@mui/system";
 import RadioButton from "../../components/inputs/basic/Radio";
-import {Button,Typography} from "@mui/material";
+import {Button, IconButton, Typography} from "@mui/material";
 import Input from "../../components/inputs/basic/Input";
 import Textarea from "../../components/inputs/basic/Textarea";
 import CheckboxInput from "../../components/inputs/basic/Checkbox";
+import CloseIcon from "@mui/icons-material/Close";
+import {FormsHeaderText} from "../../components/texts";
+import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
+import SingleCheckbox from "../../components/inputs/basic/Checkbox/SingleCheckbox";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 export default function NewPatientConsult() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue, control} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -352,32 +357,19 @@ export default function NewPatientConsult() {
   const physiciandetails = ["Attending_Physician_Name", "Date_Seen"];
   const clerk = ["Assessment", "Plan"];
 
-  /*  const joins=(p)=>{ "Chest Discomfort","SOB, 
-        let x=p.split(" ")
-        console.log(x)
-        x.forEach((el,i)=>({
-            setSub(prev => (prev+"_"+el))
-        }
-        ))
-    } */
   const onSubmit = (data, e) => {
     e.preventDefault();
     setMessage("");
     setError(false);
     setSuccess(false);
     let document = {};
-    // data.createdby=user._id
-    // console.log(data)
-    //data.Presenting_Complaints=symptoms
-    //  data.Allergy_Skin_Test=allergies
 
     if (user.currentEmployee) {
       document.facility = user.currentEmployee.facilityDetail._id;
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
     document.documentdetail = data;
-    document.documentname = "New Patient Consultation Form"; //"Lab Result"
-    // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
+    document.documentname = "New Patient Consultation Form";
     document.location =
       state.employeeLocation.locationName +
       " " +
@@ -387,22 +379,25 @@ export default function NewPatientConsult() {
     document.createdBy = user._id;
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = docStatus === "Draft" ? "Draft" : "completed";
-    //console.log(document)
+
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+
+    console.log(document);
 
     if (
       document.location === undefined ||
       !document.createdByname ||
       !document.facilityname
     ) {
-      toast({
-        message:
-          " Documentation data missing, requires location and facility details",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
       return;
     }
+
     let confirm = window.confirm(
       `You are about to save this document ${document.documentname} ?`
     );
@@ -410,11 +405,7 @@ export default function NewPatientConsult() {
       if (!!draftDoc && draftDoc.status === "Draft") {
         ClientServ.patch(draftDoc._id, document)
           .then(res => {
-            //console.log(JSON.stringify(res))
             e.target.reset();
-            //  setAllergies([])
-            //  setSymptoms([])
-            /*  setMessage("Created Client successfully") */
             setSuccess(true);
             toast({
               message: "New Patient Consultation Form updated succesfully",
@@ -435,11 +426,7 @@ export default function NewPatientConsult() {
       } else {
         ClientServ.create(document)
           .then(res => {
-            //console.log(JSON.stringify(res))
             e.target.reset();
-            //setAllergies([])
-            //  setSymptoms([])
-            /*  setMessage("Created Client successfully") */
             setSuccess(true);
             toast({
               message: "Pediatric Pulmonology Form created succesfully",
@@ -524,1060 +511,1079 @@ export default function NewPatientConsult() {
     //  alert("I am in draft mode : " + Clinic.documentname)
     const newDocumentClassModule = {
       selectedDocumentClass: documentobj,
-      //state.DocumentClassModule.selectedDocumentClass.name
+      encounter_right: false,
       show: "detail",
     };
     await setState(prevstate => ({
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
-    console.log("close form");
   };
   return (
     <>
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">New Patient Consultation Form</p>
-          <button
-            className="delete pushleft"
-            aria-label="close"
-            onClick={() => closeForm(false)}
-          ></button>
-        </div>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText text={"New Patient Consultation Form"} />
+
+          <IconButton onClick={closeForm}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Box>
         <div className="card-content vscrollable remPad1">
-          {/*   <label className="label is-size-7">
-                  Client:  {order.orderInfo.orderObj.clientname}
-                </label>
-                <label className="label is-size-7">
-                 Test:  {order.serviceInfo.name}
-                </label> */}
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form>
+            <Box sx={{display: "flex", flexDirection: "column"}} gap={1.5}>
+              <Box>
+                <Input
+                  register={register("Name")}
+                  type="text"
+                  label="Full name"
+                />
+              </Box>
+              <Box>
+                <MuiCustomDatePicker
+                  name="DOB"
+                  control={control}
+                  label="Date of birth"
+                />
+              </Box>
+              <Box>
+                <Input
+                  register={register("DOS")}
+                  name="text"
+                  type="text"
+                  label="DOS"
+                />
+              </Box>
+              <Box>
+                <Input
+                  register={register("PCP")}
+                  name="text"
+                  type="text"
+                  label="PCP"
+                />
+              </Box>
+              <Box>
+                <Input
+                  register={register("Physician")}
+                  name="text"
+                  type="text"
+                  label="Physician"
+                />
+              </Box>
 
+              <Box>
+                <Input
+                  register={register("Age")}
+                  name="text"
+                  type="number"
+                  label="Age"
+                />
+              </Box>
 
-    <Box>
-                <Input
-                  register={register("input_name")}
-                  name="name"
-                  type="text"
-                  placeholder="Name"
+              <Box>
+                <RadioButton
+                  title="Gender"
+                  register={register("Gender")}
+                  options={["Male", "Female"]}
                 />
-    </Box>
+              </Box>
 
-    <Box>
+              <Box>
                 <Input
-                  register={register("input_name")}
-                  name="date"
+                  register={register("Requesting_Physician")}
                   type="text"
-                  placeholder="Date of birth"
+                  label="Requesting Physician"
                 />
-    </Box>
+              </Box>
 
-    <Box>
+              <Box>
                 <Input
-                  register={register("input_name")}
-                  name="text"
+                  register={register("Reason")}
                   type="text"
-                  placeholder="DOS"
+                  label="Reason"
                 />
-    </Box>
-    <Box>
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="PCP"
-                />
-    </Box>
-    <Box>
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Physician"
-                />
-    </Box>
-   
-    <Box>
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Age"
-                />
-    </Box>  
-    <Box>   
-    <Typography>Gender</Typography>     
-            <RadioButton
-              register={register("input_name")}
-              options={[
-                "Male",
-                "Female"
-              ]}
-            /> 
-  </Box>
-    <Box>
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Requesting Physician"
-                />
-    </Box>
+              </Box>
 
-    <Box>
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Reason"
-                />
-    </Box>
-    <Box>
+              <Box>
                 <Textarea
-                  register={register("input_name")}
-                  name="findings"
+                  register={register("HPI")}
                   type="text"
-                  placeholder="HPI"
+                  label="HPI"
+                  placeholder="Write here......"
                 />
-  </Box>
-  <CheckboxInput
-            register={register("input_name")}
-            options={[
-              "Medication list filled",
-              "Patient not taking medications"
-            ]}
-          />
+              </Box>
+            </Box>
 
-    <Box>
+            <Box>
+              <SingleCheckbox
+                register={register("Medication_list_filled")}
+                label="Medication list filled"
+              />
+            </Box>
+
+            <Box>
+              <SingleCheckbox
+                register={register("Not_Taking_Meds")}
+                label="Patient not taking medications"
+              />
+            </Box>
+
+            <Box>
+              <Input
+                register={register("Allergies")}
+                type="text"
+                label="Allergies"
+              />
+            </Box>
+
+            <SingleCheckbox register={register("NKDA")} label="NKDA" />
+
+            <Box>
+              <CheckboxInput
+                label="Review of Systems:"
+                register={register("ROS")}
+                options={ROS}
+              />
+            </Box>
+
+            <Box>
+              <Textarea
+                register={register("ROS_comments")}
+                name="findings"
+                type="text"
+                label="Comments/Others"
+                placeholder="Write here......"
+              />
+            </Box>
+
+            <Box>
+              <CheckboxInput
+                label="Risk Factors:"
+                register={register("Risk_Factors")}
+                options={risk}
+              />
+            </Box>
+
+            <Box
+              sx={{display: "flex", flexDirection: "column"}}
+              gap={1.5}
+              mb={1.5}
+            >
+              <FormsHeaderText text="Social History " />
+
+              <Box>
+                <RadioButton
+                  title="Smoker"
+                  register={register("Smoker")}
+                  options={["Yes", "No"]}
+                />
+
                 <Input
-                  register={register("input_text")}
-                  name="text"
+                  register={register("Smoker_detail")}
                   type="text"
-                  placeholder="Allergies"
+                  label="Smoking details"
                 />
-    </Box>
+              </Box>
 
-  <CheckboxInput
-            register={register("input_name")}
-            options={[
-              "NKDA"
-            ]}
-          />
-           <Box> 
-          <Typography><b>Review of Systems</b></Typography>
-              {ROS.map((c, i) => (
-                  <CheckboxInput
-                    key={i}
-                    name="ROS"
-                    register={register("input_name")}
-                  options={[c + " "]}
+              <Box>
+                <RadioButton
+                  title="Alchol"
+                  register={register("Alcohol")}
+                  options={["Yes", "No"]}
                 />
-              ))}
-             </Box>
-
-    <Box>
-      <Textarea
-                  register={register("input_name")}
-                  name="findings"
-                  type="text"
-                  placeholder="Comments/Others"
-           />
-  </Box>
- <Box sx={{paddingBlock:"1rem"}}> 
-          <Typography><b>Risk Factors</b></Typography>
-              {risk.map((c, i) => (
-                  <CheckboxInput
-                    key={i}
-                    name="Risk"
-                    register={register("input_name")}
-                  options={[c + " "]}
-                />
-              ))}
-             </Box>
-    <Box>
-       <Typography><b>Social History </b></Typography>
-    <Box>  
-       <Typography>Smoker</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Yes",
-                "No"
-              ]}
-            />
                 <Input
-                  register={register("input_name")}
-                  name="text"
+                  register={register("Alcohol_detail")}
                   type="text"
-                  placeholder="Smoker details"
+                  label="Alchol details"
                 />
-    </Box>
+              </Box>
 
-    <Box>  
-       <Typography>Alchol</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Yes",
-                "No"
-              ]}
-            />
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Alchol details"
+              <Box>
+                <RadioButton
+                  title="Caffeine"
+                  register={register("Caffeine")}
+                  options={["Yes", "No"]}
                 />
-    </Box>
-
-    <Box>  
-       <Typography>Caffeine</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Yes",
-                "No"
-              ]}
-            />
                 <Input
-                  register={register("input_name")}
-                  name="text"
+                  register={register("Caffeine_detail")}
                   type="text"
                   placeholder="Caffeine details"
                 />
-    </Box>
+              </Box>
 
-    <Box>  
-       <Typography>Ocupation</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Yes",
-                "No"
-              ]}
-            />
+              <Box>
+                <RadioButton
+                  title="Ocupation"
+                  register={register("Ocupation")}
+                  options={["Yes", "No"]}
+                />
                 <Input
-                  register={register("input_name")}
+                  register={register("Ocupation_detail")}
                   name="text"
                   type="text"
                   placeholder="Ocupation details"
                 />
-    </Box>
+              </Box>
 
-    <Box>  
-       <Typography>Hobbies</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Yes",
-                "No"
-              ]}
-            />
+              <Box>
+                <RadioButton
+                  title="Hobbies"
+                  register={register("Hobbies")}
+                  options={["Yes", "No"]}
+                />
                 <Input
-                  register={register("input_name")}
+                  register={register("Hobbies_detail")}
                   name="text"
                   type="text"
-                  placeholder="Hobbies details"
+                  placeholder="Hobbies detail"
                 />
-    </Box>
-    <Box>  
-       <Typography>Other Substances</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Yes",
-                "No"
-              ]}
-            />
+              </Box>
+
+              <Box>
+                <RadioButton
+                  title="Other Subtances"
+                  register={register("Other_Substances")}
+                  options={["Yes", "No"]}
+                />
                 <Input
-                  register={register("input_name")}
+                  register={register("Other_Substances_detail")}
                   name="text"
                   type="text"
-                  placeholder="Other Substances"
+                  placeholder="Other Substances detail"
                 />
-    </Box>
+              </Box>
 
-    <Box>  
-       <Typography>Exercise</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Yes",
-                "No"
-              ]}
-            />
+              <Box>
+                <RadioButton
+                  title="Exercise"
+                  register={register("Exercise")}
+                  options={["Yes", "No"]}
+                />
                 <Input
-                  register={register("input_name")}
+                  register={register("Exercise_detail")}
                   name="text"
                   type="text"
                   placeholder="Exercise detail"
                 />
-    </Box>
-    <Box>  
-       <Typography>Marital Status</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Yes",
-                "No"
-              ]}
-            />
+              </Box>
+
+              <Box>
+                <RadioButton
+                  title="Marital Status"
+                  register={register("Marital_Status")}
+                  options={["Yes", "No"]}
+                />
                 <Input
-                  register={register("input_name")}
+                  register={register("Marital_Status_detail")}
                   name="text"
                   type="text"
                   placeholder="Marital Status detail"
                 />
-    </Box>
+              </Box>
 
-    <Box>  
-       <Typography>Other detail</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Yes",
-                "No"
-              ]}
-            />
+              <Box>
+                <RadioButton
+                  title="Others"
+                  register={register("Other")}
+                  options={["Yes", "No"]}
+                />
                 <Input
-                  register={register("input_name")}
+                  register={register("Others_detail")}
                   name="text"
                   type="text"
                   placeholder="Other detail"
                 />
-    </Box>
-    </Box>
-    <Box> 
-       <Typography><b>Family History</b></Typography>
-    <Box> 
-       <Typography>Sibling</Typography>
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-    <Box> 
-       <Typography>Dad</Typography>
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-    <Box> 
-       <Typography>Mom</Typography>
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-    <Box> 
-       <Typography>Others</Typography>
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-    </Box>
-           <Box> 
-          <Typography><b>Past Medical History</b></Typography>
-              {PMH.map((c, i) => (
-                  <CheckboxInput
-                    key={i}
-                    name="ROS"
-                    register={register("input_name")}
-                  options={[c + " "]}
-                />
-              ))}
-             </Box>
-
-    <Box>
-      <Textarea
-                  register={register("input_name")}
-                  name="findings"
-                  type="text"
-                  placeholder="Comments/Others"
-           />
-  </Box>
-    <Box> 
-       <Typography>Past Cardiac Hx</Typography>
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-    <Box> 
-       <Typography>Past Cardiac Surgery</Typography>
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-    <Box> 
-       <Typography>Past Cardiac Procedure</Typography>
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-
-    <Box> 
-       <Typography>Past Cardiac Testing</Typography>
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-
-    <Box> 
-       <Typography>Past Surgical Hx</Typography>
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-    <Box> 
-       <Typography>Others</Typography>
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-
-    <Box> 
-     <Typography><b>Physical Examination</b></Typography>
-    <Box> 
-       <Typography>BP Sitting</Typography>
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-    <Box> 
-       <Typography>BS Standing</Typography>
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-    <Box> 
-       <Typography>BS Supine</Typography>
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-
-    <Box> 
-       <Typography>HR</Typography>
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-
-    <Box> 
-       <Typography>RR</Typography>
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-
-    <Box> 
-       <Typography>Height</Typography>
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-    <Box> 
-       <Typography>Weight</Typography>
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-    <Box> 
-       <Typography>Change</Typography>
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-    <Box> 
-       <Typography>BMI</Typography>
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-    </Box>
-
-
-<Box>
-       <Typography><b>General Examination</b></Typography>
-  <CheckboxInput
-            register={register("input_name")}
-            options={[
-              "Well developed",
-              "ill Appearing",
-              "Cachetic",
-              "Obese"
-            ]}
-          />
-    </Box>
-
-    <Box>  
-       <Typography><b>Eyes</b></Typography>
-       <Typography>Conjunctiva</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Normal",
-                "Abnormal"
-              ]}
-            />
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Conjunctiva details"
-                />
-    <Box>
-       <Typography>Lids</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Normal",
-                "Abnormal"
-              ]}
-            />
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Lids details"
-                />
-    </Box>
-    </Box>
-    <Box>  
-       <Typography><b>ENMT</b></Typography>
-       <Typography>Teeth</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Normal",
-                "Abnormal"
-              ]}
-            />
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Teeth details"
-                />
-    <Box>
-       <Typography>Gums</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Normal",
-                "Abnormal"
-              ]}
-            />
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Gums details"
-                />
-    </Box>
-    <Box>
-       <Typography>Palate</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Normal",
-                "Abnormal"
-              ]}
-            />
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Palate details"
-                />
-    </Box>
-    <Box>
-       <Typography>Oral mucosa</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Normal",
-                "Abnormal"
-              ]}
-            />
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Oral mucosa details"
-                />
-    </Box>
-    </Box>
-
-    <Box>  
-       <Typography><b>Neck</b></Typography>
-       <Typography>Jugular Veins</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Normal",
-                "Abnormal"
-              ]}
-            />
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Jugular Veins details"
-                />
-    <Box>
-       <Typography>Bruits</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Normal",
-                "Abnormal"
-              ]}
-            />
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Bruits detail"
-                />
-    </Box>
-    </Box>
-    <Box>  
-       <Typography><b>Respiratory</b></Typography>
-       <Typography>Effort</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Normal",
-                "Abnormal"
-              ]}
-            />
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Effort detail"
-                />
-    <Box>  
-       <Typography>Breath Sound</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Normal",
-                "Abnormal"
-              ]}
-            />
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Breath Sound detail"
-                />
-    </Box>
-    </Box>
-    <Box>  
-       <Typography><b>GI</b></Typography>
-       <Typography>Tenderness</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Normal",
-                "Abnormal"
-              ]}
-            />
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Tenderness detail"
-                />
-    <Box>  
-       <Typography>Hepatosplenomegaly</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-            
-                "Normal",
-                "Abnormal"
-              ]}
-            />
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Hepatosplenomegaly detail"
-                />
-    </Box>
-    <Box>  
-
-       <Typography>Abdominal Aorta(size,bruits)</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Normal",
-                "Abnormal"
-              ]}
-            />
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Abdominal Aorta detail"
-                />
-    </Box>
-    </Box>
-
-    <Box>       
-       <Typography><b>Vascular System Examination</b></Typography>
-    <Box>
-       <Typography>radial</Typography>
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-    <Box>
-       <Typography>femoral</Typography>
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-    <Box>
-       <Typography>pedal</Typography>
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                />
-    </Box>
-    </Box>
-
-              <Box>         
-       <Typography>edema</Typography>
-            <RadioButton
-              register={register("input_text")}
-              options={[
-                "Yes",
-                "No"
-              ]}
-            /> 
+              </Box>
             </Box>
 
+            <Box
+              sx={{display: "flex", flexDirection: "column"}}
+              gap={1.5}
+              mb={2}
+            >
+              <FormsHeaderText text="Family History" />
+
               <Box>
-       <Typography>bruits</Typography>
-            <RadioButton
-              register={register("input_text")}
-              options={[
-                "Yes",
-                "No"
-              ]}
-            /> 
-               </Box>
-<Box>
-       <Typography><b>Musculoskeletal System Examination</b></Typography>
-              <Box>   
-       <Typography>Gait</Typography>
-            <RadioButton
-              register={register("input_text")}
-              options={[
-                "Normal",
-                "Abdominal"
-              ]}
-            /> 
-               </Box>
-  
                 <Input
-                  register={register("input_name")}
+                  label="Sibling"
+                  register={register("Sibling")}
+                  type="text"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  label="Dad"
+                  register={register("Dad")}
                   name="text"
                   type="text"
-                  placeholder="gait detail"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  label="Mom"
+                  register={register("Mom")}
+                  name="text"
+                  type="text"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  label="Otehrs"
+                  register={register("Other")}
+                  name="text"
+                  type="text"
+                />
+              </Box>
+            </Box>
+
+            <Box
+              sx={{display: "flex", flexDirection: "column"}}
+              gap={1.5}
+              mb={2}
+            >
+              <FormsHeaderText text="Past Medical History" />
+
+              <CheckboxInput register={register("PHM")} options={PMH} />
+
+              <Box>
+                <Textarea
+                  register={register("Past_Medical_History_Comments")}
+                  type="text"
+                  label="Comments/Others"
+                  placeholder="Write here......"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  register={register("Past_Cardia_HX")}
+                  type="text"
+                  label="Past Cardiac HX"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  label="Past Cardiac Surgery"
+                  register={register("Past_Cardiac_Surgery")}
+                  name="text"
+                  type="text"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  label="Past Cardiac Procedure"
+                  register={register("Past_Cardiac_Procedure")}
+                  name="text"
+                  type="text"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  label="Past Cardiac Testing"
+                  register={register("Past_Cardiac_Testing")}
+                  name="text"
+                  type="text"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  label="Past Surgical HX"
+                  register={register("Past_Surgical_HX")}
+                  name="text"
+                  type="text"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  label="Others"
+                  register={register("Other_HX")}
+                  name="text"
+                  type="text"
+                />
+              </Box>
+            </Box>
+
+            <Box
+              sx={{display: "flex", flexDirection: "column"}}
+              gap={1.5}
+              mb={2}
+            >
+              <FormsHeaderText text="Physical Examination" />
+
+              <Box>
+                <Input
+                  register={register("BP_Sitting")}
+                  name="text"
+                  type="text"
+                  label="BP Sitting"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  label="BP Standing"
+                  register={register("BP_Standing")}
+                  name="text"
+                  type="text"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  label="BP Supine"
+                  register={register("BP_Suspine")}
+                  name="text"
+                  type="text"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  register={register("HR")}
+                  name="text"
+                  type="text"
+                  label="HR"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  register={register("RR")}
+                  name="text"
+                  type="text"
+                  label="RR"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  register={register("height")}
+                  name="text"
+                  type="text"
+                  label="Height(CM)"
+                />
+              </Box>
+              <Box>
+                <Input
+                  register={register("weight")}
+                  name="text"
+                  type="text"
+                  label="Weight(KG)"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  label="Change"
+                  register={register("Change")}
+                  name="text"
+                  type="text"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  register={register("BMI")}
+                  name="text"
+                  type="text"
+                  label="BMI"
+                />
+              </Box>
+            </Box>
+
+            <Box>
+              <FormsHeaderText text="General Examination" />
+            </Box>
+
+            <Box>
+              <CheckboxInput
+                register={register("cvs")}
+                options={[
+                  "Well developed",
+                  "ill Appearing",
+                  "Cachetic",
+                  "Obese",
+                ]}
+              />
+            </Box>
+
+            <Box
+              sx={{display: "flex", flexDirection: "column"}}
+              gap={1.5}
+              mb={1.5}
+            >
+              <Typography sx={{fontSize: "0.8rem", textTransform: "uppercase"}}>
+                <b>Eyes</b>
+              </Typography>
+
+              <Box>
+                <RadioButton
+                  title="Conjunctiva"
+                  register={register("Conjunctiva")}
+                  options={["Normal", "Abnormal"]}
                 />
 
-              <Box>   
-       <Typography>Kyphosis/Scoliosis</Typography>
-            <RadioButton
-              register={register("input_text")}
-              options={[
-                "Absent",
-                "Present"
-              ]}
-            /> 
-               </Box>
                 <Input
-                  register={register("input_name")}
+                  register={register("Conjunctiva_detail")}
+                  type="text"
+                  label="Conjunctiva details"
+                />
+              </Box>
+
+              <Box>
+                <RadioButton
+                  title="Lids"
+                  register={register("Lids")}
+                  options={["Normal", "Abnormal"]}
+                />
+                <Input
+                  register={register("Lids_detail")}
                   name="text"
+                  type="text"
+                  label="Lids details"
+                />
+              </Box>
+            </Box>
+
+            <Box
+              sx={{display: "flex", flexDirection: "column"}}
+              gap={1.5}
+              mb={1.5}
+            >
+              <Typography sx={{fontSize: "0.8rem", textTransform: "uppercase"}}>
+                <b>ENMT</b>
+              </Typography>
+
+              <Box>
+                <RadioButton
+                  title="Teeth"
+                  register={register("Teeth")}
+                  options={["Normal", "Abnormal"]}
+                />
+                <Input
+                  register={register("Teeth_detail")}
+                  name="text"
+                  type="text"
+                  label="Teeth details"
+                />
+              </Box>
+
+              <Box>
+                <RadioButton
+                  title="Gums"
+                  register={register("Gums")}
+                  options={["Normal", "Abnormal"]}
+                />
+                <Input
+                  register={register("Gums_detail")}
+                  name="text"
+                  type="text"
+                  label="Gums details"
+                />
+              </Box>
+
+              <Box>
+                <RadioButton
+                  title="Palate"
+                  register={register("Palate")}
+                  options={["Normal", "Abnormal"]}
+                />
+                <Input
+                  register={register("Palate_detail")}
+                  name="text"
+                  type="text"
+                  label="Palate details"
+                />
+              </Box>
+
+              <Box>
+                <RadioButton
+                  title="Oral Mucosa"
+                  register={register("Oral_Mucosa")}
+                  options={["Normal", "Abnormal"]}
+                />
+                <Input
+                  register={register("Oral_Mucosa_detail")}
+                  name="text"
+                  type="text"
+                  label="Oral mucosa details"
+                />
+              </Box>
+            </Box>
+
+            <Box
+              sx={{display: "flex", flexDirection: "column"}}
+              gap={1.5}
+              mb={1.5}
+            >
+              <Typography sx={{fontSize: "0.8rem", textTransform: "uppercase"}}>
+                <b>Neck</b>
+              </Typography>
+
+              <Box>
+                <RadioButton
+                  title="Jugular Veins"
+                  register={register("Jugular_Veins")}
+                  options={["Normal", "Abnormal"]}
+                />
+                <Input
+                  register={register("Jugular_Veins_detail")}
+                  name="text"
+                  type="text"
+                  label="Jugular Veins details"
+                />
+              </Box>
+
+              <Box>
+                <RadioButton
+                  title="Bruits"
+                  register={register("Bruits")}
+                  options={["Normal", "Abnormal"]}
+                />
+                <Input
+                  register={register("Bruits_detail")}
+                  name="text"
+                  type="text"
+                  label="Bruits detail"
+                />
+              </Box>
+            </Box>
+
+            <Box
+              sx={{display: "flex", flexDirection: "column"}}
+              gap={1.5}
+              mb={1.5}
+            >
+              <Typography sx={{fontSize: "0.8rem", textTransform: "uppercase"}}>
+                <b>Respiratory</b>
+              </Typography>
+
+              <Box>
+                <RadioButton
+                  title="Effort"
+                  register={register("Effort")}
+                  options={["Normal", "Abnormal"]}
+                />
+                <Input
+                  register={register("Effort_detail")}
+                  name="text"
+                  type="text"
+                  label="Effort detail"
+                />
+              </Box>
+              <Box>
+                <RadioButton
+                  title="Breath Sound"
+                  register={register("Breath_Sound")}
+                  options={["Normal", "Abnormal"]}
+                />
+                <Input
+                  register={register("Breath_Sound_detail")}
+                  name="text"
+                  type="text"
+                  label="Breath Sound detail"
+                />
+              </Box>
+            </Box>
+
+            <Box
+              sx={{display: "flex", flexDirection: "column"}}
+              gap={1.5}
+              mb={1.5}
+            >
+              <Typography sx={{fontSize: "0.8rem", textTransform: "uppercase"}}>
+                <b>GI</b>
+              </Typography>
+
+              <Box>
+                <RadioButton
+                  title="Tenderness"
+                  register={register("Tenderness")}
+                  options={["Normal", "Abnormal"]}
+                />
+                <Input
+                  register={register("Tenderness_detail")}
+                  name="text"
+                  type="text"
+                  label="Tenderness detail"
+                />
+              </Box>
+
+              <Box>
+                <RadioButton
+                  title="Hepatosplenomegaly"
+                  register={register("Hepatosplenomegaly")}
+                  options={["Normal", "Abnormal"]}
+                />
+                <Input
+                  register={register("Hepatosplenomegaly_detail")}
+                  type="text"
+                  label="Hepatosplenomegaly detail"
+                />
+              </Box>
+
+              <Box>
+                <RadioButton
+                  title="Abdominal Aorta(size,bruits)"
+                  register={register("Abdominal_Aorta(size,bruits)")}
+                  options={["Normal", "Abnormal"]}
+                />
+                <Input
+                  register={register("Abdominal_Aorta_detail")}
+                  name="text"
+                  type="text"
+                  label="Abdominal Aorta detail"
+                />
+              </Box>
+            </Box>
+
+            <Box
+              sx={{display: "flex", flexDirection: "column"}}
+              gap={1.5}
+              mb={1.5}
+            >
+              <Typography sx={{fontSize: "0.8rem", textTransform: "uppercase"}}>
+                <b>Vascular System Examination</b>
+              </Typography>
+
+              <Box>
+                <Input
+                  register={register("Radial")}
+                  type="text"
+                  label="Radial"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  register={register("Femoral")}
+                  type="text"
+                  label="Femoral"
+                />
+              </Box>
+
+              <Box>
+                <Input register={register("Pedal")} type="text" label="Pedal" />
+              </Box>
+            </Box>
+
+            <Box>
+              <RadioButton
+                register={register("Edema")}
+                options={["Yes", "No"]}
+                title="Edema"
+              />
+            </Box>
+
+            <Box>
+              <RadioButton
+                title="Bruits"
+                register={register("Vascular_Bruits")}
+                options={["Yes", "No"]}
+              />
+            </Box>
+
+            <Box
+              sx={{display: "flex", flexDirection: "column"}}
+              gap={1.5}
+              mb={1.5}
+            >
+              <Typography sx={{fontSize: "0.8rem", textTransform: "uppercase"}}>
+                <b>Musculoskeletal System Examination</b>
+              </Typography>
+
+              <Box>
+                <RadioButton
+                  title="Gait"
+                  register={register("Gait")}
+                  options={["Normal", "Abdominal"]}
+                />
+
+                <Input
+                  register={register("Gait_detail")}
+                  name="text"
+                  type="text"
+                  label="Gait detail"
+                />
+              </Box>
+
+              <Box>
+                <RadioButton
+                  register={register("Kyphosis/Scoliosis ")}
+                  options={["Absent", "Present"]}
+                  title="Kyphosis/Scoliosis"
+                />
+
+                <Input
+                  register={register("Kyphosis/Scoliosis_detail ")}
                   type="text"
                   placeholder="Kyphosis/Scoliosis detail"
                 />
-</Box>
-
-
-              <Box>   
-       <Typography><b>Skin System Examination</b></Typography>
-       <Typography>Xanthoma</Typography>
-            <RadioButton
-              register={register("input_text")}
-              options={[
-                "Yes",
-                "No"
-              ]}
-            /> 
+              </Box>
             </Box>
 
+            <Box
+              sx={{display: "flex", flexDirection: "column"}}
+              gap={1.5}
+              mb={1.5}
+            >
+              <Typography sx={{fontSize: "0.8rem", textTransform: "uppercase"}}>
+                <b>Skin System Examination</b>
+              </Typography>
               <Box>
-       <Typography>Tugor</Typography>
-            <RadioButton
-              register={register("input_text")}
-              options={[
-                "good",
-                "poor"
-              ]}
-            /> 
-               </Box>
-    <Box>
-       <Typography><b>neurological System Examination</b></Typography>
-    <Box>  
-       <Typography>Affect</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Normal",
-                "Abnormal"
-              ]}
-            />
+                <RadioButton
+                  title="Xanthoma"
+                  register={register("input_text")}
+                  options={["Yes", "No"]}
+                />
+              </Box>
+
+              <Box>
+                <RadioButton
+                  title="Tugor"
+                  register={register("input_text")}
+                  options={["good", "poor"]}
+                />
+              </Box>
+            </Box>
+
+            <Box
+              sx={{display: "flex", flexDirection: "column"}}
+              gap={1.5}
+              mb={1.5}
+            >
+              <Typography sx={{fontSize: "0.8rem", textTransform: "uppercase"}}>
+                <b>neurological System Examination</b>
+              </Typography>
+
+              <Box>
+                <RadioButton
+                  title="A&O x3"
+                  register={register("A&O_x3")}
+                  options={["Normal", "Abnormal"]}
+                />
                 <Input
-                  register={register("input_name")}
-                  name="text"
+                  register={register("A&O_x3_detail")}
                   type="text"
-                  placeholder="A&O x3 detail"
+                  label="A&O x3 detail"
                 />
-    </Box>
-    <Box> 
+              </Box>
 
-       <Typography>Affect</Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "anxious",
-                "flat",
-                "appropriate"
-              ]}
-            />
+              <Box>
+                <RadioButton
+                  title="Affect"
+                  register={register("Affect")}
+                  options={["anxious", "flat", "appropriate"]}
+                />
                 <Input
-                  register={register("input_name")}
+                  register={register("Affect_detail")}
                   name="text"
                   type="text"
-                  placeholder="Abdominal Aorta detail"
+                  label="Affect Detail"
                 />
-    </Box>
-    </Box>
+              </Box>
+            </Box>
 
-    <Box> 
-       <Typography><b>Cardiac</b></Typography>
-      <Textarea
-                  register={register("input_name")}
-                  name="text"
+            <Box>
+              <Textarea
+                label="Cardiac"
+                register={register("Cardiac_Examination")}
+                name="text"
+                type="text"
+                placeholder="Cardiac Examination"
+              />
+            </Box>
+
+            <Box>
+              <Textarea
+                label="Other Examination"
+                register={register("Other_Examinations")}
+                name="text"
+                type="text"
+                placeholder="Other Examinations"
+              />
+            </Box>
+
+            <Box>
+              <Textarea
+                label="Patient EKG Interpretation"
+                register={register("EKG_Interpretation")}
+                type="text"
+                placeholder="EKG Interpretation......"
+              />
+            </Box>
+
+            <Box>
+              <Textarea
+                label="Laboratory Result"
+                register={register("Laboratory_result")}
+                name="text"
+                type="text"
+                placeholder="Laboratory Result"
+              />
+            </Box>
+
+            <Box>
+              <Textarea
+                label="Assessment"
+                register={register("Assessment")}
+                name="text"
+                type="text"
+                placeholder="Assessment"
+              />
+            </Box>
+
+            <Box>
+              <Textarea
+                label="Plan"
+                register={register("Plan")}
+                name="text"
+                type="text"
+                placeholder="Plan"
+              />
+            </Box>
+
+            <Box mb={2}>
+              <Typography
+                sx={{
+                  fontSize: "0.8rem",
+                  fontWeight: "600",
+                }}
+              >
+                Test Ordered
+              </Typography>
+
+              <CheckboxInput
+                register={register("Test_Ordered")}
+                options={tests}
+              />
+
+              <Box>
+                <Input
+                  register={register("CT_Details")}
                   type="text"
-                  placeholder="Cardiac Examination"
-           />
-  </Box>
-
-    <Box>  
-       <Typography><b>Other Examination</b></Typography>
-      <Textarea
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Other Examination"
-           />
-  </Box>
-    <Box>  
-       <Typography><b>Patient EKG Interpretation</b></Typography>
-      <Textarea
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="EKG Interpretation"
-           />
-  </Box>
-    <Box>  
-        <Typography><b>Laboratory Result</b></Typography>
-      <Textarea
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Laboratory Result"
-           />
-  </Box>
-
-
-    <Box>  
-       <Typography><b>Assessment</b></Typography>
-      <Textarea
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Assessment"
-           />
-  </Box>
-
-    <Box>  
-       <Typography><b>Plan</b></Typography>
-      <Textarea
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Plan"
-           />
-  </Box>
-
-
-           <Box> 
-          <Typography><b>Past Medical History</b></Typography>
-              {tests.map((c, i) => (
-                  <CheckboxInput
-                    key={i}
-                    name="tests"
-                    register={register("input_name")}
-                  options={[c + " "]}
+                  label="CT Details"
                 />
-              ))}
-             </Box>
-    <Box>  
-        <Typography>CT Details</Typography>
-      <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-           />
-  </Box>
+              </Box>
+            </Box>
 
-           <Box> 
-          <Typography><b>Labs</b></Typography>
-                  <CheckboxInput
-                    name="tests"
-                    register={register("input_name")}
-                  options={["BMP","CBC","PT/INR","Fasting Lipids",
-                   "LFT","TSH","T3Uptake","T4"
-                  ]}
+            <Box mb={1.5}>
+              <Typography
+                sx={{
+                  fontSize: "0.8rem",
+                  fontWeight: "600",
+                }}
+              >
+                Labs
+              </Typography>
+              <CheckboxInput
+                name="tests"
+                register={register("Labs")}
+                options={[
+                  "BMP",
+                  "CBC",
+                  "PT/INR",
+                  "Fasting Lipids",
+                  "LFT",
+                  "TSH",
+                  "T3Uptake",
+                  "T4",
+                ]}
+              />
+            </Box>
+
+            <Box mb={1.5}>
+              <Typography
+                sx={{
+                  fontSize: "0.8rem",
+                  fontWeight: "600",
+                }}
+              >
+                Followup In
+              </Typography>
+              <RadioButton
+                register={register("Followup")}
+                options={[
+                  "1-2 weeks",
+                  "1-2 months",
+                  "3-4 months",
+                  "5-6 months",
+                  "7-8 months",
+                  "9-10 months",
+                  "1 year",
+                ]}
+              />
+            </Box>
+
+            <Box
+              mb={1.5}
+              sx={{display: "flex", flexDirection: "column"}}
+              gap={1.5}
+            >
+              <Box>
+                <Typography sx={{fontSize: "0.85rem", fontWeight: "600"}}>
+                  All information on this form has been reviewed by me,
+                  indictated by my full name below:
+                </Typography>
+              </Box>
+
+              <Box>
+                <Typography sx={{fontSize: "0.85rem"}}>
+                  Attending Physician Name
+                </Typography>
+                <Input
+                  register={register("Attending_Physician_Name")}
+                  type="text"
                 />
-             </Box>
+              </Box>
 
+              <Box>
+                <Typography sx={{fontSize: "0.85rem"}}>
+                  Date Seen By Attending Physician
+                </Typography>
+                <MuiCustomDatePicker name="Date_Seen" control={control} />
+              </Box>
+            </Box>
 
-    <Box> 
-       <Typography><b>Followup In</b></Typography>
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "1-2 weeks",
-                "1-2 months",
-                "3-4 months",
-                "5-6 months",
-                "7-8 months",
-                "9-10 months",
-                "1 year"
-              ]}
-            />
-</Box>
-<Box>
-       <Typography><b>Physician Sign Off</b></Typography>
-    <Box sx={{paddingTop:"1.5rem"}}>
-    <Typography>
-    All information on this form has been reviewed by me, indictated by ny name below:
-    </Typography>
-    </Box>
-    <Box>  
-        <Typography>Attending_Physician_Name</Typography>
-      <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-           />
-  </Box>
+            <Box mb={1.5}>
+              <RadioButton
+                onChange={handleChangeStatus}
+                name="status"
+                options={["Draft", "Final"]}
+                value={docStatus}
+              />
+            </Box>
 
-    <Box>  
-        <Typography>Date_Seen</Typography>
-      <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-           />
-  </Box>
-    </Box>
-
-    
-    <Box> 
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Draft",
-                "Final",
-              ]}
-            />
-</Box>
-         <Box  
-        spacing={1}
-        sx={{
-          display: "flex",
-          gap: "2rem",
-        }}>
-          <Button variant="contained" type="button">Save</Button>
-          <Button variant="outlined" type="button">Cancel</Button>
-        </Box>
+            <Box
+              spacing={1}
+              sx={{
+                display: "flex",
+                gap: "2rem",
+              }}
+            >
+              <GlobalCustomButton
+                color="secondary"
+                type="submit"
+                onClick={handleSubmit(onSubmit)}
+              >
+                Submit Patient Consultation
+              </GlobalCustomButton>
+            </Box>
           </form>
         </div>
       </div>

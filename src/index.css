@@ -28,7 +28,7 @@ html {
   -webkit-font-smoothing: antialiased;
   min-width: 300px;
   overflow-x: hidden;
-  overflow-y: hidden !important; /*  scroll //consider media query for mobile */
+  overflow-y: hidden !important;
   text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
   padding-bottom: 2rem;
@@ -57,3 +57,17 @@ html {
 .css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root {
   height: 2.15rem !important;
 }
+
+.chat-message-highlight-search {
+  background-color: black !important;
+  padding: 3px;
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0;
+}
+/* .MuiDrawer-paper {
+  top: 5rem !important;
+  padding: 0.5rem !important;
+  box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%),
+    0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%) !important;
+} */

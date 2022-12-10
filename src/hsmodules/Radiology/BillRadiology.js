@@ -304,11 +304,11 @@ export function BillPrescriptionList({showCreateModal}) {
       inputType: "TEXT",
     },
     {
-      name: "Number of Prescriptions",
+      name: "Number of Investigations",
       key: "order",
       description: "Enter number of prescription",
       selector: row =>
-        `${row.orders.length} pending prescription${
+        `${row.orders.length} pending investigation${
           row.orders.length > 1 ? "s" : ""
         }`,
       sortable: true,
@@ -382,6 +382,19 @@ export function BillPrescriptionList({showCreateModal}) {
     },
   ];
 
+  const conditionalRowStyles = [
+    {
+      when: row => row.client_id === selectedDispense?.client_id,
+      style: {
+        backgroundColor: "#4cc9f0",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
   return (
     <>
       <div
@@ -401,7 +414,7 @@ export function BillPrescriptionList({showCreateModal}) {
               </div>
             )}
             <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-              Pending Prescription
+              List of Pending Investigations
             </h2>
           </div>
           {/* 
@@ -437,6 +450,7 @@ export function BillPrescriptionList({showCreateModal}) {
               striped
               onRowClicked={row => handleRow(row)}
               progressPending={false}
+              conditionalRowStyles={conditionalRowStyles}
             />
           </div>
 

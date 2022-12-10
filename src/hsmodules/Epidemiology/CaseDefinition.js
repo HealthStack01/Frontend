@@ -9,18 +9,20 @@ import { toast } from 'bulma-toast';
 import { format, formatDistanceToNowStrict } from 'date-fns';
 import ReportCreate from './ReportCreate';
 import PatientProfile from '../Client/PatientProfile';
-import { clinicalSignSchema, syptomSchema, labSchema } from './schema';
-
+// import { clinicalSignSchema, syptomSchema, labSchema } from './schema';
+import Checkbox from '@mui/material/Checkbox';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
-
+import { clinicalSignSchema, syptomSchema, labSchema } from './schema';
 import { TableMenu } from '../../ui/styled/global';
 import FilterMenu from '../../components/utilities/FilterMenu';
 import Button from '../../components/buttons/Button';
 import CustomTable from '../../components/customtable';
 import CustomSelect from '../../components/inputs/basic/Select';
-import ModalBox from '../../components/modal';
+// import ModalBox from '../../components/modal';
 import { Box } from '@mui/material';
 import {
   GrayWrapper,
@@ -34,6 +36,12 @@ import DataTable from 'react-data-table-component';
 import CheckboxInput from '../../components/inputs/basic/Checkbox';
 import CaseDefinitionForm from './CaseDefinationForm';
 import CaseDefinitionView from './CaseDefinationView';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import ModalBox from "../../components/modal";
+import { FormsHeaderText } from '../../components/texts';
+import Textarea from '../../components/inputs/basic/Textarea';
+import Grid from '@mui/material/Grid';
 
 // Demo styles, see 'Styles' section below for some notes on use.
 
@@ -59,13 +67,40 @@ export default function CaseDefinition() {
   const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
   const { user, setUser } = useContext(UserContext);
-  const [modal, setModal] = useState(false);
+  // const [modal, setModal] = useState(false);
 
-  const handleCloseCreateModal = () => {
-    setModal(false);
+  // const handleCloseCreateModal = () => {
+  //   setModal(false);
+  // };
+  // const handleOpenCreateModal = () => {
+  //   setModal(true);
+  // };
+  const [createModal, setCreateModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
+  const [modifyModal, setModifyModal] = useState(false);
+
+
+
+  const handleShowDetailModal = () => {
+    setDetailModal(true);
   };
-  const handleOpenCreateModal = () => {
-    setModal(true);
+
+  const handleHideDetailModal = () => {
+    setDetailModal(false);
+  };
+  const handleCreateModal = () => {
+    setCreateModal(true);
+  };
+
+  const handleHideCreateModal = () => {
+    setCreateModal(false);
+  };
+  const handleModifyModal = () => {
+    setModifyModal(true);
+  };
+
+  const handleHideModifyModal = () => {
+    setModifyModal(false);
   };
 
   return (
@@ -76,13 +111,27 @@ export default function CaseDefinition() {
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
             </div> */}
 
-      <CaseDefinitionList openCreateModal={handleOpenCreateModal} />
-      <ModalBox open={modal} onClose={handleCloseCreateModal}>
+      <CaseDefinitionList 
+      showCreateModal={handleCreateModal}
+      showDetailModal={handleShowDetailModal}
+      />
+     
+    <ModalBox width="75vw" overflow="hidden"  open={createModal} onClose={handleHideCreateModal} header="Create CaseDefinition">
+          <CaseDefinitionCreate />
+        </ModalBox>
 
-        <CaseDefinitionForm setOpen={handleCloseCreateModal} />
-      </ModalBox>
 
-      {state.EpidemiologyModule.show === 'detail' && <CaseDefinitionDetail />}
+        <ModalBox open={detailModal} onClose={handleHideDetailModal}>
+          <CaseDefinitionDetail showModifyModal={handleModifyModal} />
+        </ModalBox>
+
+
+        <ModalBox width="70vw" open={modifyModal} onClose={handleHideModifyModal}>
+        <CaseDefinitionModify/>
+        </ModalBox>
+
+
+      {/* {state.EpidemiologyModule.show === 'modify' && <CaseDefinitionModify />} */}
 
       {/*  <div className="column is-3 ">  <ReportCreate />
                 
@@ -92,438 +141,441 @@ export default function CaseDefinition() {
   );
 }
 
-export function CaseDefinitionCreate() {
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState('');
+export function CaseDefinitionCreate(){
+  const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset 
+  const [error, setError] =useState(false)
+  const [success, setSuccess] =useState(false)
+  const [message,setMessage] = useState("")
   // eslint-disable-next-line
-  const [facility, setFacility] = useState();
-  const BandServ = client.service('casedefinition');
-  //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
+  const [facility,setFacility] = useState()
+  const BandServ=client.service('casedefinition')
+  //const history = useHistory()
+  const {user} = useContext(UserContext) //,setUser
   // eslint-disable-next-line
-  const [currentUser, setCurrentUser] = useState();
-  const bandTypeOptions = ['Immediate Notification', 'Weekly', 'Monthly'];
-  const notifierOptions = [
-    'Facility Focal Person',
-    'DSNO',
-    'Asst DSNO',
-    'State Epidemiologist',
-  ];
+  const [currentUser,setCurrentUser] = useState()
+  const bandTypeOptions =["Immediate Notification","Weekly", "Monthly" ]
+  const notifierOptions =["Facility Focal Person","DSNO", "Asst DSNO","State Epidemiologist" ]
+  
+  const [finding,setFinding] = useState("")
+  const [findings,setFindings] = useState([])
+  const [findingreq,setFindingreq] = useState(false)
 
-  const [finding, setFinding] = useState('');
-  const [findings, setFindings] = useState([]);
-  const [findingreq, setFindingreq] = useState(false);
+  const [symptom,setSymptom] = useState("")
+  const [symptoms,setSymptoms] = useState([])
+  const [duration,setDuration] = useState("")
+  const [sympreq,setSympreq] = useState(false)
 
-  const [symptom, setSymptom] = useState('');
-  const [symptoms, setSymptoms] = useState([]);
-  const [duration, setDuration] = useState('');
-  const [sympreq, setSympreq] = useState(false);
-
-  const [lab, setLab] = useState('');
-  const [labs, setLabs] = useState([]);
-  const [labvalue, setLabvalue] = useState('');
+  const [lab,setLab] = useState("")
+  const [labs,setLabs] = useState([])
+  const [labvalue,setLabvalue] = useState("")
   /* const [sympreq,setSympreq] = useState(false) */
-  const [observations, setObservations] = useState([]);
-  const [mgtProtocol, setMgtProtocol] = useState('');
-  const [notified, setNotified] = useState('');
+  const [observations,setObservations]=useState([])
+  const [mgtProtocol,setMgtProtocol] = useState("")
+  const [notified,setNotified] = useState("")
 
-  const getSearchfacility = obj => {
-    setValue('facility', obj._id, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  };
-
-  useEffect(() => {
-    setCurrentUser(user);
-    //console.log(currentUser)
-    return () => {};
-  }, [user]);
-
-  //check user for facility or get list of facility
-  useEffect(() => {
-    //setFacility(user.activeBand.FacilityId)//
-    if (!user.stacker) {
-      setValue('facility', user.currentEmployee.facilityDetail._id, {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
-    }
-  });
-  const handleChecked = (e) => {
-    // console.log(e.target.checked)
-    setSympreq(e.target.checked);
-  };
-
-  const handleChecked2 = (e) => {
-    // console.log(e.target.checked)
-    setFindingreq(e.target.checked);
-  };
-
-  const onSubmit = async (data, e) => {
-    e.preventDefault();
-    /*  data.Presenting_Complaints=symptoms
-        data.Clinical_Findings=findings */
-    //data.LaboratoryConfirmation=labconfirms
-    data.observations = [];
-    data.disease = {
-      name: data.disease,
-      icdcode: '',
-      icdver: '',
-      snomed: '',
-      snomedver: '',
-    };
-
-    if (data.notificationtype === '') {
-      alert('Kindly choose notification type');
-      return;
-    }
-    if (symptoms.length > 0) {
-      let sympcollection = [];
-      symptoms.forEach((el) => {
-        let obs = {
-          category: 'symptoms',
-          name: el.symptom,
-          duration: el.duration,
-          /* note:"",
-                    snomed:"" ,
-                    response:"" , */
-          required: el.sympreq,
-          /* value:""  */
-        };
-        console.log(obs);
-        sympcollection.push(obs);
-        console.log(sympcollection);
-      });
-      data.observations = [...data.observations, ...sympcollection];
-    }
-    if (findings.length > 0) {
-      let findingscollection = [];
-      findings.forEach((el) => {
-        let obs = {
-          category: 'Signs',
-          name: el.finding,
-          /*  duration:el.duration , */
-          /* note:"",
-                    snomed:"" ,
-                    response:"" , */
-          required: el.findingreq,
-          /* value:""  */
-        };
-        findingscollection.push(obs);
-      });
-      data.observations = [...data.observations, ...findingscollection];
-    }
-    if (labs.length > 0) {
-      let labscollection = [];
-      labs.forEach((el) => {
-        let obs = {
-          category: 'Laboratory',
-          name: el.lab,
-          /*  duration:el.duration , */
-          /* note:"",
-                    snomed:"" ,
-                    response:"" , */
-          /*  required:el.findingreq, */
-          value: el.labvalue,
-        };
-        labscollection.push(obs);
-      });
-      data.observations = [...data.observations, ...labscollection];
-    }
-    let notifiedlist = [];
-    notifiedlist.push(data.notifiedPerson);
-    console.log(notifiedlist);
-    data.notification_destination = notifiedlist[0];
-    data.treatmentprotocol = mgtProtocol;
-    // await setObservations((prev)=>([...prev, symp]))
-    setMessage('');
-    setError(false);
-    setSuccess(false);
-    // data.createdby=user._id
-    console.log(data);
-    if (user.currentEmployee) {
-      data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
-    }
-    BandServ.create(data)
-      .then((res) => {
-        //console.log(JSON.stringify(res))
-        e.target.reset();
-        /*  setMessage("Created Band successfully") */
-        setSuccess(true);
-        /*   setAllergies([]) */
-        setSymptoms([]);
-        setFindings([]);
-        setLabs([]);
-        setMgtProtocol([]);
-        toast({
-          message: 'Band created succesfully',
-          type: 'is-success',
-          dismissible: true,
-          pauseOnHover: true,
-        });
-        setSuccess(false);
+  const getSearchfacility=(obj)=>{
+      
+      setValue("facility", obj._id,  {
+          shouldValidate: true,
+          shouldDirty: true
       })
-      .catch((err) => {
-        toast({
-          message: 'Error creating Band ' + err,
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
-      });
-  };
-  const handleAddSymptoms = () => {
-    let newsymptom = {
-      symptom,
-      duration,
-      sympreq,
-    };
-    console.log(newsymptom);
-    setSymptoms((prev) => [...prev, newsymptom]);
-    // setAllergy({})
-    setSymptom('');
-    setDuration('');
-    setSympreq(false);
-  };
-  const handleAddFindings = () => {
-    let newFinding = {
-      finding,
-      findingreq,
-    };
-    console.log(newFinding);
-    setFindings((prev) => [...prev, newFinding]);
-    // setAllergy({})
-    setFinding('');
-    setFindingreq(false);
-  };
-  const handleAddLabs = () => {
-    let newLabs = {
-      lab,
-      labvalue,
-    };
-    console.log(newLabs);
-    setLabs((prev) => [...prev, newLabs]);
-    // setAllergy({})
-    setLab('');
-    setLabvalue('');
-    /*  setFindingreq(false) */
-  };
-  const onDelete = (comp, i) => {
-    //console.log(comp,i)
-    setSymptoms((prevstate) => prevstate.filter((el, index) => index !== i));
-  };
-  const onDeleteFinding = (comp, i) => {
-    //console.log(comp,i)
-    setFindings((prevstate) => prevstate.filter((el, index) => index !== i));
-  };
-  const onDeleteLab = (comp, i) => {
-    //console.log(comp,i)
-    setLabs((prevstate) => prevstate.filter((el, index) => index !== i));
-  };
-  const notificationOption = [
-    'Immediate Notification',
-    'Weekly',
-    'Monthly',
-    'Whatsapp',
-  ];
-  // const labData = [{sn:1, test:"positive", value:"Acute", action:"take drug"}]
-  // const data=[{sn:1, symptom:"cholera", duration:"3 months", sympreq:true, action:"take drug"}]
-  // const clinicalSigns=[{sn:1, finding:"Stomach Ache", sympreq:false, action:"take drug"}]
+  }
+  
+  useEffect(() => {
+      setCurrentUser(user)
+      //console.log(currentUser)
+      return () => {
+      
+      }
+  }, [user])
+
+//check user for facility or get list of facility  
+  useEffect(()=>{
+      //setFacility(user.activeBand.FacilityId)//
+    if (!user.stacker){
+       
+      setValue("facility", user.currentEmployee.facilityDetail._id,  {
+          shouldValidate: true,
+          shouldDirty: true
+      }) 
+    }
+  })
+  const handleChecked=e=>{
+     // console.log(e.target.checked)
+      setSympreq(e.target.checked)
+  }
+
+  const handleChecked2=e=>{
+     // console.log(e.target.checked)
+      setFindingreq(e.target.checked)
+  }
+
+  const onSubmit = async(data,e) =>{
+      e.preventDefault();
+     /*  data.Presenting_Complaints=symptoms
+      data.Clinical_Findings=findings */
+      //data.LaboratoryConfirmation=labconfirms
+      data.observations=[]
+      data.disease={
+          name:data.disease,
+          icdcode:"",
+          icdver:"",
+          snomed:"",
+          snomedver:"",
+      }
+
+      if (data.notificationtype===""){
+          alert("Kindly choose notification type")
+          return
+      }
+      if (symptoms.length>0){
+          let sympcollection = []
+          symptoms.forEach(el=>{
+              let obs={
+                  category:"symptoms" ,
+                  name:el.symptom ,
+                  duration:el.duration ,
+                  /* note:"",
+                  snomed:"" ,
+                  response:"" , */
+                  required:el.sympreq,
+                  /* value:""  */
+              }
+              console.log(obs)
+              sympcollection.push(obs)
+              console.log(sympcollection)
+
+          })
+          data.observations=[...data.observations, ...sympcollection]
+      }
+      if (findings.length>0){
+          let findingscollection = []
+          findings.forEach(el=>{
+              let obs={
+                  category:"Signs" ,
+                  name:el.finding ,
+                 /*  duration:el.duration , */
+                  /* note:"",
+                  snomed:"" ,
+                  response:"" , */
+                  required:el.findingreq,
+                  /* value:""  */
+              }
+              findingscollection.push(obs)
+
+          })
+          data.observations=[...data.observations, ...findingscollection]
+
+      }
+      if (labs.length>0){
+          let labscollection = []
+          labs.forEach(el=>{
+              let obs={
+                  category:"Laboratory" ,
+                  name:el.lab ,
+                 /*  duration:el.duration , */
+                  /* note:"",
+                  snomed:"" ,
+                  response:"" , */
+                 /*  required:el.findingreq, */
+                  value:el.labvalue 
+              }
+             labscollection.push(obs)
+
+          })
+          data.observations=[...data.observations, ...labscollection]
+
+      }
+      let notifiedlist=[]
+      notifiedlist.push(data.notifiedPerson)
+      console.log(notifiedlist)
+      data.notification_destination= notifiedlist[0]
+      data.treatmentprotocol=mgtProtocol
+    // await setObservations((prev)=>([...prev, symp]))
+      setMessage("")
+      setError(false)
+      setSuccess(false)
+       // data.createdby=user._id
+        console.log(data);
+        if (user.currentEmployee){
+       data.facility=user.currentEmployee.facilityDetail._id  // or from facility dropdown
+        }
+      BandServ.create(data)
+      .then((res)=>{
+              //console.log(JSON.stringify(res))
+              e.target.reset();
+             /*  setMessage("Created Band successfully") */
+              setSuccess(true)
+            /*   setAllergies([]) */
+              setSymptoms([])
+              setFindings([])
+              setLabs([])
+              setMgtProtocol([])
+              toast({
+                  message: 'Band created succesfully',
+                  type: 'is-success',
+                  dismissible: true,
+                  pauseOnHover: true,
+                })
+                setSuccess(false)
+          })
+          .catch((err)=>{
+              toast({
+                  message: 'Error creating Band ' + err,
+                  type: 'is-danger',
+                  dismissible: true,
+                  pauseOnHover: true,
+                })
+          })
+
+    } 
+    const handleAddSymptoms = ()=>{
+      let newsymptom = {
+          symptom,
+          duration,
+          sympreq
+      } 
+      console.log(newsymptom)
+      setSymptoms((prev)=>([...prev, newsymptom]))
+     // setAllergy({})
+      setSymptom("")
+      setDuration("")
+      setSympreq(false)
+  }
+  const handleAddFindings = ()=>{
+      let newFinding = {
+          finding,
+          findingreq
+      } 
+      console.log(newFinding)
+      setFindings((prev)=>([...prev, newFinding]))
+     // setAllergy({})
+      setFinding("")
+      setFindingreq(false)
+  }
+  const handleAddLabs = ()=>{
+      let newLabs = {
+          lab,
+          labvalue
+      } 
+      console.log(newLabs)
+      setLabs((prev)=>([...prev, newLabs]))
+     // setAllergy({})
+      setLab("")
+      setLabvalue("")
+     /*  setFindingreq(false) */
+  }
+  const onDelete = (comp,i)=>{
+      //console.log(comp,i)
+     setSymptoms(prevstate=>prevstate.filter((el,index)=>index!==i))
+  }
+  const onDeleteFinding = (comp,i)=>{
+      //console.log(comp,i)
+     setFindings(prevstate=>prevstate.filter((el,index)=>index!==i))
+  }
+  const onDeleteLab = (comp,i)=>{
+      //console.log(comp,i)
+     setLabs(prevstate=>prevstate.filter((el,index)=>index!==i))
+  }
+
+
+ 
+
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <PageWrapper>
-          <GrayWrapper>
-            <Box>
-              <DetailsWrapper title='Notification Type and Name of Disease '>
-                <CustomSelect
-                  label='choose notification type'
-                  name='notification type'
-                  options={notificationOption}
-                  register={register('notificationType', { required: true })}
-                  onChange={e => handleChangeMode(e.target.value)}
-                />
+  <>
 
-                <Input
-                  label='name of disease'
-                  register={register('disease', { required: true })}
-                  name='disease'
-                  //  options={disease}
-                  onChange={e => handleChangeMode(e.target.value)}
-                />
-              </DetailsWrapper>
-              <DetailsWrapper title='Symptoms'>
-                <GridWrapper className='four-columns'>
-                  <Input
-                    label='Symptoms'
-                    type='text'
-                    value={symptom}
-                    register={register('symptom', { required: true })}
-                    onChange={e => {
-                      setSymptom(e.target.value);
-                    }}
-                    placeholder='Specify'
-                  />
-                  <Input
-                    label='Duration'
-                    value={duration}
-                    register={register('Duration', { required: true })}
-                    onChange={e => {
-                      setDuration(e.target.value);
-                    }}
-                    name='duration'
-                  />
-                  <Box sx={{ jusifyContent: 'space-between' }}>
-                    <input
-                      type='checkbox'
-                      value={sympreq}
-                      name='sympreq'
-                      onChange={e => {
-                        handleChecked(e);
-                      }}
-                      register={register('sympreq', { required: true })}
-                    />
-                    required
-                  </Box>
+   <form >
+<Box display="flex" justifyContent="flex-end" mb={2}>
+<GlobalCustomButton 
+               onClick={handleSubmit(onSubmit)}
+                // onClick={showCreateModal}
+                >
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Create
+                </GlobalCustomButton>
+</Box>
+   <Grid container pb="1rem" alignItems="center">
+    <Grid xs={6}>
+    <Box display="flex" gap={2}>
+   <Grid xs={6}>
+    <CustomSelect
+                  label="Choose Notification Type"
+                  name="status"
+                  options={bandTypeOptions}
+                  register={register('notificationtype')}
+              />
+    </Grid>
+    <Grid xs={6}>
+      <Input 
+      register={register("disease", {required: true})} 
+      name="disease" type="text" label="Name of Disease"/>
+    </Grid>
+   </Box>
+    </Grid>
+    <Grid xs={6}  pl={2}>
+  <Box display="flex"   justifyContent="space-between" mb={2}>
+  <Box>
+      <FormsHeaderText text="Symptoms"/>
+    </Box>
+  
+  </Box>
+  <Box display="flex" justifyContent="space-between" gap={2} mb={2}>
+    <Grid xs={5}>
+      <Input
+      //  register={register("symptoms", {required: true})}
+      value={symptom}
+      onChange={(e)=>{setSymptom(e.target.value)}}
+      name="symptoms" type="text" label="Symptoms"/>
+    </Grid>
+    <Grid xs={4}>
+      <Input 
+      // register={register("durations", {required: true})}
+      value={duration}
+      onChange={(e)=>{setDuration(e.target.value)}}
+       name="durations" type="text" label="Durations"/>
+    </Grid>
+    <Box>
+    <FormGroup>
+      <FormControlLabel control={<Checkbox value={sympreq} name="sympreq" onChange={(e)=>{handleChecked(e)}} />} label="Required" />
+      </FormGroup>
+    </Box>
+    <Box>
+    <GlobalCustomButton 
+                onClick={handleAddSymptoms}
+                >
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add
+                </GlobalCustomButton>
+    </Box>
+    </Box> 
+    <Box style={{ width: '100%', height: '100%', overflow: 'auto' }}>
+   <CustomTable
+     title={''}
+     columns={syptomSchema}
+     data={symptoms}
+     pointerOnHover
+     highlightOnHover
+     striped
+     CustomEmptyData="No Data"
+   />
+</Box>
+  </Grid>
 
-                  <Button
-                    style={{
-                      fontSize: '14px',
-                      fontWeight: '600',
-                      width: '80px',
-                    }}
+   </Grid>
+    <Grid container alignItems="center">
+    <Grid xs={6}>
+    <Box mb={2}>
+      <Textarea label="Management Protocol"  value={mgtProtocol} onChange={(e)=>{setMgtProtocol(e.target.value)}} name="mgtProtocol" type="text"/>
+    </Box>
+    <Box>
+    <CustomSelect
+                  label="Choose Person to Notify"
+                  name="notifiedPerson"
+                  options={notifierOptions}
+                  ref={register}
+              />
+    </Box>
+    </Grid>
+    
+    <Grid xs={6}  pl={2}>
+  <Box display="flex" gap={2}  justifyContent="space-between" mb={2}>
+  <Box>
+      <FormsHeaderText text="Clinical Signs"/>
+    </Box>
+  
+  </Box>
+  <Box display="flex" gap={2} justifyContent="space-between" mb={2}>
+    <Grid xs={6}>
+      <Input 
+      value={finding}  onChange={(e)=>{setFinding(e.target.value)}} label="Finding" name="finding" type="text"
+      // register={register("durations", {required: true})}
+     />
+    </Grid>
+    <Box>
+    <FormGroup>
+      <FormControlLabel control={<Checkbox value={findingreq} name="findingreq" onChange={(e)=>{handleChecked2(e)}} />} label="Required" />
+      </FormGroup>
+    </Box>
+    <Box>
+    <GlobalCustomButton 
+                 onClick={handleAddFindings}
+                >
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add
+                </GlobalCustomButton>
+    </Box>
+    </Box> 
+    <Box style={{ width: '100%', height: '100%', overflow: 'auto' }}>
+   <CustomTable
+     title={''}
+     columns={clinicalSignSchema}
+     data={findings}
+     onRowClicked={onDeleteFinding}
+     pointerOnHover
+     highlightOnHover
+     striped
+     CustomEmptyData="No Data"
+   />
+</Box>
+  </Grid>
 
-                    label='Add'
-                    onClick={handleAddSymptoms}
-                  />
-                </GridWrapper>
 
-                <CustomTable
-                  title={'Syptom'}
-                  columns={syptomSchema}
-                  data={symptoms}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                />
-              </DetailsWrapper>
-              <DetailsWrapper title='Clinical Signs'>
-                <GridWrapper>
-                  <Input
-                    label='Clinical Signs'
-                    value={finding}
-                    register={register('finding', { required: true })}
-                    onChange={e => {
-                      setFinding(e.target.value);
-                    }}
-                    type='text'
-                    placeholder='Finding'
-                  />
-                  <Box sx={{ jusifyContent: 'space-between' }}>
-                    <input
-                      type='checkbox'
-                      value={findingreq}
-                      name='sympreq'
-                      onChange={e => {
-                        handleChecked2(e);
-                      }}
-                      register={register('findingreq', { required: true })}
-                    />
-                    required
-                  </Box>
-                  <Button
-                    style={{
-                      fontSize: '14px',
-                      fontWeight: '600',
-                      width: '80px',
-                    }}
-                    label='Add '
-                    onClick={handleAddFindings}
-                  />
-                </GridWrapper>
-
-                <CustomTable
-                  title={'Clinical Signs'}
-                  columns={clinicalSignSchema}
-                  data={findings}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                />
-              </DetailsWrapper>
-              <DetailsWrapper title='Lab Confirmation'>
-                <GridWrapper>
-                  <Input
-                    value={lab}
-                    {...register('lab', { required: true })}
-                    onChange={e => {
-                      setLab(e.target.value);
-                    }}
-                    label='Lab'
-                    type='text'
-                    placeholder='Specify'
-                  />
-
-                  <Input
-                    value={labvalue}
-                    {...register('labvalue', { required: true })}
-                    onChange={e => {
-                      setLabvalue(e.target.value);
-                    }}
-                    label='Value'
-                    type='text'
-                    placeholder='Specify'
-                  />
-
-                  <Button
-                    style={{
-                      fontSize: '14px',
-                      fontWeight: '600',
-                      width: '80px',
-                    }}
-                    label='Add '
-                    onClick={handleAddLabs}
-                  />
-                </GridWrapper>
-
-                <CustomTable
-                  title={'Lab Confirmation'}
-                  columns={labSchema}
-                  data={labs}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                />
-              </DetailsWrapper>
-              <DetailsWrapper title='Management Protocol'>
-                <Input
-                  label='Management protocol'
-                  value={mgtProtocol}
-                  {...register('mgtProtocol', { required: true })}
-                  onChange={e => {
-                    setMgtProtocol(e.target.value);
-                  }}
-                />
-              </DetailsWrapper>
-
-              <BottomWrapper>
-                <Button
-                  style={{ fontSize: '14px', fontWeight: '600', width: '80px' }}
-                  label='Save '
-                />
-              </BottomWrapper>
-            </Box>
-          </GrayWrapper>
-        </PageWrapper>
-      </form>
-    </>
-  );
-}
-
-export function CaseDefinitionList({ openCreateModal }) {
+    <Grid xs={6} pl={2} mt={4}>
+   <Box display="flex" justifyContent="space-between" mb={2}>
+   <Box>
+      <FormsHeaderText text="Laboratory Confirmation" />
+    </Box>
+   
+   </Box>
+   <Box display="flex" gap={2} mb={4}>
+    <Grid xs={4}>
+      <Input
+       ref={register} name="LaboratoryConfirmation" type="text" label="Specify" 
+      />
+    </Grid>
+    <Grid xs={4}>
+      <Input 
+      // register={register("durations", {required: true})}
+      value={lab}
+      onChange={(e)=>{setLab(e.target.value)}} name="lab" type="text" label="Lab"/>
+    </Grid>
+    <Grid xs={4}>
+      <Input 
+      // register={register("durations", {required: true})}
+      value={labvalue}
+      onChange={(e)=>{setLabvalue(e.target.value)}} name="lab value" type="text" label="Value" />
+    </Grid>
+    <Box>
+    <GlobalCustomButton 
+        onClick={handleAddLabs}>
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add
+                </GlobalCustomButton>
+    </Box>
+    </Box>
+    <Box style={{ width: '100%', height: '100%', overflow: 'auto' }}>
+   
+              <CustomTable
+                title={''}
+                columns={labSchema}
+                data={labs}
+                onRowClicked={onDeleteLab}
+                pointerOnHover
+                highlightOnHover
+                striped
+                CustomEmptyData="No Data"
+              />
+        
+    </Box>
+    </Grid>
+  </Grid>
+   </form>
+  </>
+  )
+  
+ };
+ 
+export function CaseDefinitionList({showCreateModal, showDetailModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -546,10 +598,10 @@ export function CaseDefinitionList({ openCreateModal }) {
   const [open, setOpen] = useState(false);
 
   console.log('Case Defination>>>>', selectedUser);
-  const handleRowClicked = row => {
-    setSelectedUser(row);
-    setOpen(true);
-  };
+  // const handleRowClicked = row => {
+  //   setSelectedUser(row);
+  //   setOpen(true);
+  // };
 
   const handleCloseModal = () => {
     setOpen(false);
@@ -582,6 +634,7 @@ export function CaseDefinitionList({ openCreateModal }) {
       EpidemiologyModule: newBandModule,
     }));
     console.log(newBandModule);
+    showDetailModal();
   };
 
   const handleSearch = val => {
@@ -711,12 +764,7 @@ export function CaseDefinitionList({ openCreateModal }) {
     <>
       {user ? (
         <>
-          <ModalBox open={open} onClose={handleCloseModal}>
-            <CaseDefinitionView
-              casedefinition={selectedUser}
-              setOpen={handleCloseModal}
-            />
-          </ModalBox>
+          
           <PageWrapper
             style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
           >
@@ -733,11 +781,12 @@ export function CaseDefinitionList({ openCreateModal }) {
               </div>
 
               {handleCreateNew && (
-                <Button
-                  style={{ fontSize: '14px', fontWeight: '600' }}
-                  label='Add new '
-                  onClick={handleCreateNew}
-                />
+                <GlobalCustomButton 
+                onClick={showCreateModal}
+                >
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add New
+                </GlobalCustomButton>
               )}
             </TableMenu>
 
@@ -749,7 +798,8 @@ export function CaseDefinitionList({ openCreateModal }) {
                 pointerOnHover
                 highlightOnHover
                 striped
-                onRowClicked={handleRowClicked}
+                onRowClicked={handleRow}
+                // onRowClicked={handleRowClicked}
                 progressPending={loading}
               />
             </div>
@@ -762,10 +812,10 @@ export function CaseDefinitionList({ openCreateModal }) {
   );
 }
 
-export function CaseDefinitionDetail() {
+export function CaseDefinitionDetail({showModifyModal,casedefinition}) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
-  const [error, setError] = useState(false); //,
+  const [editing, setEditing] = useState(false); //,
   //const [success, setSuccess] =useState(false)
   // eslint-disable-next-line
   const [message, setMessage] = useState(''); //,
@@ -773,6 +823,9 @@ export function CaseDefinitionDetail() {
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
   const { state, setState } = useContext(ObjectContext);
+  const bandTypeOptions =["Immediate Notification","Weekly", "Monthly" ]
+  const notifierOptions =["Facility Focal Person","DSNO", "Asst DSNO","State Epidemiologist" ]
+  
 
   const Band = state.EpidemiologyModule.selectedEpid;
 
@@ -785,41 +838,148 @@ export function CaseDefinitionDetail() {
       ...prevstate,
       EpidemiologyModule: newBandModule,
     }));
+   
     //console.log(state)
+    showModifyModal()
   };
 
   return (
     <>
-      <div className='card '>
+     <form>
+<Box display="flex" justifyContent="flex-end" mb={2}>
+
+<GlobalCustomButton 
+              
+                onClick={handleEdit}
+                >
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Edit
+                </GlobalCustomButton>
+</Box>
+   <Grid container pb="1rem" alignItems="center">
+    <Grid xs={6}>
+    <Box display="flex" gap={2}>
+   <Grid xs={6}>
+    <CustomSelect
+                  label="Choose Notification Type"
+                  name="status"
+                  options={bandTypeOptions}
+                  defaultValue={Band.notificationtype}
+                  disabled={!editing}
+              />
+    </Grid>
+    <Grid xs={6}>
+      <Input 
+      defaultValue={Band.disease.name}
+      disabled={!editing}
+      name="disease" type="text" label="Name of Disease"/>
+    </Grid>
+   </Box>
+    </Grid>
+    <Grid xs={6}  pl={2}>
+  <Box display="flex" flexDirection="column"  justifyContent="space-between" mb={2}>
+  <Box>
+      <FormsHeaderText text="Symptoms"/>
+    </Box>
+    <Box style={{ width: '100%', height: '100%', overflow: 'auto' }}>
+   <CustomTable
+     title={''}
+     columns={syptomSchema}
+     data={Band.observations}
+     pointerOnHover
+     highlightOnHover
+     striped
+     CustomEmptyData="No Data"
+   />
+</Box>
+  </Box>
+  </Grid>
+   </Grid>
+<Grid container alignItems="center">  
+<Grid xs={6} >
+  <Box display="flex"  justifyContent="space-between" mb={2}>
+  <Box>
+      <FormsHeaderText text="Clinical Signs"/>
+    </Box>
+  </Box>
+    <Box style={{ width: '100%', height: '100%', overflow: 'auto' }} >
+   <CustomTable
+     title={''}
+     columns={clinicalSignSchema}
+     data={Band.observations}
+     pointerOnHover
+     highlightOnHover
+     striped
+     CustomEmptyData="No Data"
+   />
+</Box>
+  </Grid>
+<Grid xs={6} mt={4} pl={2}>
+   <Box display="flex" justifyContent="space-between" mb={2}>
+   <Box>
+      <FormsHeaderText text="Laboratory Confirmation" />
+    </Box>
+   </Box>
+    <Box style={{ width: '100%', height: '100%', overflow: 'auto' }}>
+   
+              <CustomTable
+                title={''}
+                columns={labSchema}
+                data={Band.observations}
+                pointerOnHover
+                highlightOnHover
+                striped
+                CustomEmptyData="No Data"
+              />
+    </Box>
+    </Grid>
+    <Grid xs={6}>
+    <Box mb={2}>
+      <Textarea label="Management Protocol" defaultValue={Band.treatmentprotocol}  name="mgtProtocol" type="text"/>
+    </Box>
+    <Box>
+    <CustomSelect
+                  label="Choose Person to Notify"
+                  name="notifiedPerson"
+                  options={notifierOptions}
+                  defaultValue={Band.notification_destination[0]}
+              />
+    </Box>
+    </Grid>  
+</Grid>
+   </form>
+    {/* <CaseDefinitionView/> */}
+      {/* <div className='card '>
         <div className='card-header'>
-          <p className='card-header-title'>Case Definition Details</p>
+          <p className='card-header-title'>Case Definiti</p>
         </div>
         <div className='card-content vscrollable'>
-          <div>
+           */}
+          {/* <div>
             <label className='label is-small'>
-              {' '}
+             
               <span className='icon is-small is-left'>
                 <i className='fas fa-hospital'></i>
               </span>
               Disease :
               <span className='is-size-7 padleft' name='name'>
-                {' '}
-                {Band.disease.name}{' '}
+               
+                {Band?.disease.name || "loading"}
               </span>
             </label>
-          </div>
-          <div className=' mt-2'>
+          </div> */}
+          {/* <div className=' mt-2'>
             <label className='label is-small'>
               <span className='icon is-small is-left'>
                 <i className='fas fa-map-signs'></i>
               </span>
-              Notification Type:{' '}
+              Notification Type:
               <span className='is-size-7 padleft' name='BandType'>
-                {Band.notificationtype}{' '}
+                {Band?.notificationtype || "loading"}
               </span>
             </label>
-          </div>
-          <div className=' mt-2'>
+          </div> */}
+          {/* <div className=' mt-2'>
             <label className=' mt-2'>
               <b> Symptoms </b>
             </label>
@@ -857,8 +1017,8 @@ export function CaseDefinitionDetail() {
                 ))}
               </tbody>
             </table>
-          </div>
-          <div className=' mt-2'>
+          </div> */}
+          {/* <div className=' mt-2'>
             <label className=' mt-2'>
               <b>Clinical Signs </b>
             </label>
@@ -889,15 +1049,15 @@ export function CaseDefinitionDetail() {
                         <th>{i + 1}</th>
                         <td>{ProductEntry.name}</td>
                         <td>{ProductEntry.required}</td>
-                        {/* <td>{ProductEntry.required.toString()}</td>  */}
+                        <td>{ProductEntry.required.toString()}</td> 
                       </tr>
                     )}
                   </>
                 ))}
               </tbody>
             </table>
-          </div>
-          <div className=' mt-2'>
+          </div> */}
+          {/* <div className=' mt-2'>
             <label className=' mt-2'>
               <b> Laboratory</b>
             </label>
@@ -914,7 +1074,7 @@ export function CaseDefinitionDetail() {
                   <th>
                     <abbr title='Destination'>Value</abbr>
                   </th>
-                  {/*  <th><abbr title="Destination">Required</abbr></th> */}
+                  
                 </tr>
               </thead>
               <tfoot></tfoot>
@@ -933,10 +1093,10 @@ export function CaseDefinitionDetail() {
                 ))}
               </tbody>
             </table>
-          </div>
-          <div className=' mt-2'>
+          </div> */}
+          {/* <div className=' mt-2'>
             <label className='label is-small'>
-              {' '}
+             
               <span className='icon is-small is-left'>
                 <i className='fas fa-hospital'></i>
 
@@ -945,23 +1105,23 @@ export function CaseDefinitionDetail() {
             </label>
 
             <span className='is-size-7 padleft' name='name'>
-              {' '}
-              {Band.treatmentprotocol}{' '}
+             
+              {Band.treatmentprotocol}
             </span>
-          </div>
-          <div className=' mt-2'>
+          </div> */}
+          {/* <div className=' mt-2'>
             <label className='label is-small'>
-              {' '}
+              
               <span className='icon is-small is-left'>
                 <i className='fas fa-hospital'></i>
               </span>
-              Person to Notify :{' '}
+              Person to Notify :
               <span className='is-size-7 padleft' name='name'>
-                {' '}
-                {Band.notification_destination[0]}{' '}
+               
+                {Band.notification_destination[0]}
               </span>
             </label>
-          </div>
+          </div> */}
           {/*  
             <div className="field mt-2">
                 <p className="control">
@@ -970,8 +1130,8 @@ export function CaseDefinitionDetail() {
                     </button>
                 </p>
             </div> */}
-        </div>
-      </div>
+        {/* </div>
+      </div> */}
     </>
   );
 }
@@ -986,6 +1146,25 @@ export function CaseDefinitionModify() {
   const [message, setMessage] = useState('');
   // eslint-disable-next-line
   const BandServ = client.service('casedefinition');
+  const bandTypeOptions =["Immediate Notification","Weekly", "Monthly" ]
+  const notifierOptions =["Facility Focal Person","DSNO", "Asst DSNO","State Epidemiologist" ]
+  
+  const [finding,setFinding] = useState("")
+  const [findings,setFindings] = useState([])
+  const [findingreq,setFindingreq] = useState(false)
+ 
+  const [symptom,setSymptom] = useState("")
+  const [symptoms,setSymptoms] = useState([])
+  const [duration,setDuration] = useState("")
+  const [sympreq,setSympreq] = useState(false)
+ 
+  const [lab,setLab] = useState("")
+  const [labs,setLabs] = useState([])
+  const [labvalue,setLabvalue] = useState("")
+  /* const [sympreq,setSympreq] = useState(false) */
+  const [observations,setObservations]=useState([])
+  const [mgtProtocol,setMgtProtocol] = useState("")
+  const [notified,setNotified] = useState("")
   //const navigate=useNavigate()
   // eslint-disable-next-line
   const { user } = useContext(UserContext);
@@ -993,15 +1172,15 @@ export function CaseDefinitionModify() {
 
   const Band = state.EpidemiologyModule.selectedBand;
 
-  useEffect(() => {
-    setValue('name', Band.name, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue('bandType', Band.bandType, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
+  // useEffect(() => {
+  //   setValue('name', Band.name, {
+  //     shouldValidate: true,
+  //     shouldDirty: true,
+  //   });
+  //   setValue('bandType', Band.bandType, {
+  //     shouldValidate: true,
+  //     shouldDirty: true,
+  //   });
     /*  setValue("profession", Band.profession,  {
                 shouldValidate: true,
                 shouldDirty: true
@@ -1027,8 +1206,8 @@ export function CaseDefinitionModify() {
                 shouldDirty: true
             }) */
 
-    return () => {};
-  });
+  //   return () => {};
+  // });
 
   const handleCancel = async () => {
     const newBandModule = {
@@ -1122,7 +1301,146 @@ export function CaseDefinitionModify() {
 
   return (
     <>
-      <div className='card '>
+       <form>
+<Box display="flex" justifyContent="flex-end" gap={2} mb={2}>
+<GlobalCustomButton 
+                // onClick={showCreateModal}
+                >
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Save
+                </GlobalCustomButton>
+
+                <GlobalCustomButton 
+                color='error'
+                onClick={handleDelete}
+                >
+                  {/* <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" /> */}
+                Delete
+                </GlobalCustomButton>
+                <GlobalCustomButton 
+color='warning'
+variant="outlined"
+                onClick={handleCancel}>
+                  {/* <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" /> */}
+                Cancel
+                </GlobalCustomButton>
+               
+</Box>
+   <Grid container pb="1rem" alignItems="center">
+    <Grid xs={6}>
+    <Box display="flex" gap={2}>
+   <Grid xs={6}>
+    <CustomSelect
+                  label="Choose Notification Type"
+                  name="status"
+                  options={bandTypeOptions}
+              />
+    </Grid>
+    <Grid xs={6}>
+      <Input 
+      register={register("disease", {required: true})} 
+      name="disease" type="text" label="Name of Disease"/>
+    </Grid>
+   </Box>
+    </Grid>
+    <Grid xs={6}  pl={2}>
+  <Box display="flex"  justifyContent="space-between" mb={2}>
+  <Box>
+      <FormsHeaderText text="Symptoms"/>
+    </Box>
+
+  </Box>
+  <Box display="flex" justifyContent="space-between" mb={2}>
+    <Grid xs={5}>
+      <Input
+      //  register={register("symptoms", {required: true})}
+      value={symptom}
+      onChange={(e)=>{setSymptom(e.target.value)}}
+      name="symptoms" type="text" label="Symptoms"/>
+    </Grid>
+    <Grid xs={4}>
+      <Input 
+      // register={register("durations", {required: true})}
+      value={duration}
+      onChange={(e)=>{setDuration(e.target.value)}}
+       name="durations" type="text" label="Durations"/>
+    </Grid>
+    <Box>
+    <FormGroup>
+      <FormControlLabel control={<Checkbox value={sympreq} name="sympreq" onChange={(e)=>{handleChecked(e)}} />} label="Required" />
+      </FormGroup>
+    </Box>
+    </Box> 
+  </Grid>
+
+  <Grid xs={6}  pl={2}>
+  <Box display="flex"  justifyContent="space-between" mb={2}>
+  <Box>
+      <FormsHeaderText text="Clinical Signs"/>
+    </Box>
+  </Box>
+  <Box display="flex" justifyContent="space-between" mb={2}>
+    <Grid xs={5}>
+      <Input
+       name="ClinicalFindings" type="text" label="Specify"
+     />
+    </Grid>
+    <Grid xs={4}>
+      <Input 
+      value={finding}  onChange={(e)=>{setFinding(e.target.value)}} name="finding" type="text"
+      // register={register("durations", {required: true})}
+     />
+    </Grid>
+    <Box>
+    <FormGroup>
+      <FormControlLabel control={<Checkbox value={findingreq} name="findingreq" onChange={(e)=>{handleChecked2(e)}} />} label="Required" />
+      </FormGroup>
+    </Box>
+    </Box> 
+  </Grid>
+   </Grid>
+    <Grid container alignItems="center">
+    <Grid xs={6}>
+    <Box mb={2}>
+      <Textarea label="Management Protocol"  value={mgtProtocol} onChange={(e)=>{setMgtProtocol(e.target.value)}} name="mgtProtocol" type="text"/>
+    </Box>
+    <Box>
+    <CustomSelect
+                  label="Choose Person to Notify"
+                  name="notifiedPerson"
+                  options={notifierOptions}
+              />
+    </Box>
+    </Grid>
+    <Grid xs={6} pl={2} mt={4}>
+   <Box display="flex" justifyContent="space-between" mb={2}>
+   <Box>
+      <FormsHeaderText text="Laboratory Confirmation" />
+    </Box>
+   </Box>
+   <Box display="flex" gap={2} mb={4}>
+    <Grid xs={4}>
+      <Input
+       ref={register} name="LaboratoryConfirmation" type="text" placeholder="Specify" 
+      />
+    </Grid>
+    <Grid xs={4}>
+      <Input 
+      // register={register("durations", {required: true})}
+      value={lab}
+      onChange={(e)=>{setLab(e.target.value)}} name="lab" type="text" label="Lab"/>
+    </Grid>
+    <Grid xs={4}>
+      <Input 
+      // register={register("durations", {required: true})}
+      value={labvalue}
+      onChange={(e)=>{setLabvalue(e.target.value)}} name="lab value" type="text" label="Value" />
+    </Grid>
+    </Box>
+    </Grid>
+  </Grid>
+   </form>
+      {/* <div className='card '>
         <div className='card-header'>
           <p className='card-header-title'>Band Details-Modify</p>
         </div>
@@ -1130,7 +1448,7 @@ export function CaseDefinitionModify() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className='field'>
               <label className='label is-small'>
-                {' '}
+               
                 Name
                 <p className='control has-icons-left has-icons-right'>
                   <input
@@ -1163,7 +1481,7 @@ export function CaseDefinitionModify() {
                   </span>
                 </p>
               </label>
-            </div>
+            </div> */}
             {/* <div className="field">
             <label className="label is-small">Profession
                 <p className="control has-icons-left">
@@ -1225,9 +1543,9 @@ export function CaseDefinitionModify() {
                 </p>
                 </label>
             </div> */}
-          </form>
+          {/* </form> */}
 
-          <div className='field  is-grouped mt-2'>
+          {/* <div className='field  is-grouped mt-2'>
             <p className='control'>
               <button
                 type='submit'
@@ -1256,7 +1574,7 @@ export function CaseDefinitionModify() {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

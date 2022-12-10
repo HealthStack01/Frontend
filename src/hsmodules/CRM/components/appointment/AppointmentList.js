@@ -42,7 +42,7 @@ const dummyData = [
   },
 ];
 
-const AppointmentList = ({openCreateModal}) => {
+const AppointmentList = ({openCreateModal, openDetailModal}) => {
   const [startDate, setStartDate] = useState(new Date());
   const [value, setValue] = useState("list");
   const [loading, setLoading] = useState(false);
@@ -137,10 +137,12 @@ const AppointmentList = ({openCreateModal}) => {
     padding: "0 .8rem",
   };
 
-  const handleRow = () => {};
+  const handleRow = () => {
+    openDetailModal();
+  };
 
   return (
-    <Box>
+    <Box pl={2} pr={2}>
       <Box
         sx={{
           display: "flex",

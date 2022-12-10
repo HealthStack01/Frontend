@@ -12,6 +12,7 @@ interface Props {
   errors?: any;
   name: any;
   value: 'string';
+  disabled?: boolean;
 }
 
 const BasicDateTimePicker: React.FC<Props> = ({
@@ -19,6 +20,7 @@ const BasicDateTimePicker: React.FC<Props> = ({
   onChange,
   value,
   register,
+  disabled,
   name,
   errors = {},
 }) => {
@@ -40,6 +42,7 @@ const BasicDateTimePicker: React.FC<Props> = ({
           style={{
             height: '38px',
           }}
+          disabled={disabled}
         />
         <InputLabel className="form__label" htmlFor={name}>
           {label}

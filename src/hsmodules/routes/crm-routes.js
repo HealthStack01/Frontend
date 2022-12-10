@@ -8,6 +8,7 @@ const Invoice = lazy(() => import("../CRM/Invoice"));
 const SLA = lazy(() => import("../CRM/SLA"));
 const CrmAppointment = lazy(() => import("../CRM/Appointment"));
 const Deal = lazy(() => import("../CRM/Deal"));
+const Deals = lazy(() => import("../CRM/Deals"));
 const CrmDashboard = lazy(() =>
   import("../dashBoardUiComponent/@modules/CrmDashboard")
 );
@@ -39,7 +40,7 @@ export const crmRoutes = [
   },
   {
     path: "/app/crm/deal",
-    Component: Deal,
+    Component: Deals,
   },
 
   {

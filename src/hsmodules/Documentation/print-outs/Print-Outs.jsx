@@ -14,19 +14,14 @@ export const PrintOutFixedInformation = ({Clinic}) => {
   const facilityServ = client.service("facility");
 
   const patient = state.ClientModule.selectedClient;
-  //const facility = state.facilityModule.selectedFacility;
 
   const facilityId = Clinic.facility;
 
-  //console.log(Clinic);
-
   const getFacilityDetail = useCallback(() => {
-    //console.log("");
     facilityServ
       .get(facilityId)
       .then(data => {
         setFacility(data);
-        console.log(data);
       })
       .catch(error => {
         console.log(error);
