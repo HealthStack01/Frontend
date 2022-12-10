@@ -20,6 +20,7 @@ import DatePicker from "react-datepicker";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuidv4 } from 'uuid';
+import short from "short-uuid"
 
 import dayjs from "dayjs";
 
@@ -1103,8 +1104,7 @@ export function ClientDetail({ closeDetailModal }) {
       const res = await api.post('/register?scheme=4865616c7468737461636b', {
         firstName: Client.firstname,
         lastName: Client.lastname,
-        phoneNumber: Client.phone,
-        password: uuidv4(),
+        phone:short.generate(),
       });
       console.log(res);
       toast.success('Wallet Created Successfully');

@@ -67,7 +67,7 @@ const ContinuationSheet = ({onSubmit}) => {
         </Box>
         <Box mb="1rem">
           <MuiCustomDatePicker
-            name="date_time"
+            name="dateAndTime"
             label="Date & Time"
             control={control}
           />
@@ -75,7 +75,7 @@ const ContinuationSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Textarea
-            {...register("description")}
+            {...register("descOrRemark")}
             name="description"
             label="Descriptiom/Remark"
             type="text"

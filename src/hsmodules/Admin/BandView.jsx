@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import {Box} from "@mui/system";
+import TextArea from "../../components/inputs/basic/Textarea";
 // import Button from "../../components/buttons/Button";
 import Input from "../../components/inputs/basic/Input";
 import ViewText from "../../components/viewtext";
@@ -165,6 +166,24 @@ console.log(data)
             </Box>
             )}
           </Box>
+
+          {!editing ?  <Box>
+         <TextArea
+          label="Description"
+            {...register("description")}
+            defaultValue={band?.description}
+            disabled={!editing}
+          />
+         </Box>:
+          <Box>
+          <TextArea
+           label="Description"
+             {...register("description")}
+             name="description"
+             type="text"
+           />
+          </Box>
+         }
 
           {/* {editing && (
             <BottomWrapper>

@@ -116,7 +116,7 @@ export default function CaseDefinition() {
       showDetailModal={handleShowDetailModal}
       />
      
-    <ModalBox width="70vw" overflow="hidden"  open={createModal} onClose={handleHideCreateModal} header="Create CaseDefinition">
+    <ModalBox width="75vw" overflow="hidden"  open={createModal} onClose={handleHideCreateModal} header="Create CaseDefinition">
           <CaseDefinitionCreate />
         </ModalBox>
 
@@ -159,12 +159,12 @@ export function CaseDefinitionCreate(){
   const [finding,setFinding] = useState("")
   const [findings,setFindings] = useState([])
   const [findingreq,setFindingreq] = useState(false)
- 
+
   const [symptom,setSymptom] = useState("")
   const [symptoms,setSymptoms] = useState([])
   const [duration,setDuration] = useState("")
   const [sympreq,setSympreq] = useState(false)
- 
+
   const [lab,setLab] = useState("")
   const [labs,setLabs] = useState([])
   const [labvalue,setLabvalue] = useState("")
@@ -172,210 +172,210 @@ export function CaseDefinitionCreate(){
   const [observations,setObservations]=useState([])
   const [mgtProtocol,setMgtProtocol] = useState("")
   const [notified,setNotified] = useState("")
- 
+
   const getSearchfacility=(obj)=>{
-  
-  setValue("facility", obj._id, {
-  shouldValidate: true,
-  shouldDirty: true
-  })
+      
+      setValue("facility", obj._id,  {
+          shouldValidate: true,
+          shouldDirty: true
+      })
   }
   
   useEffect(() => {
-  setCurrentUser(user)
-  //console.log(currentUser)
-  return () => {
-  
-  }
+      setCurrentUser(user)
+      //console.log(currentUser)
+      return () => {
+      
+      }
   }, [user])
- 
-  //check user for facility or get list of facility 
+
+//check user for facility or get list of facility  
   useEffect(()=>{
-  //setFacility(user.activeBand.FacilityId)//
-  if (!user.stacker){
-  
-  setValue("facility", user.currentEmployee.facilityDetail._id, {
-  shouldValidate: true,
-  shouldDirty: true
-  }) 
-  }
+      //setFacility(user.activeBand.FacilityId)//
+    if (!user.stacker){
+       
+      setValue("facility", user.currentEmployee.facilityDetail._id,  {
+          shouldValidate: true,
+          shouldDirty: true
+      }) 
+    }
   })
   const handleChecked=e=>{
-  // console.log(e.target.checked)
-  setSympreq(e.target.checked)
+     // console.log(e.target.checked)
+      setSympreq(e.target.checked)
   }
- 
+
   const handleChecked2=e=>{
-  // console.log(e.target.checked)
-  setFindingreq(e.target.checked)
+     // console.log(e.target.checked)
+      setFindingreq(e.target.checked)
   }
- 
+
   const onSubmit = async(data,e) =>{
-  e.preventDefault();
-  /* data.Presenting_Complaints=symptoms
-  data.Clinical_Findings=findings */
-  //data.LaboratoryConfirmation=labconfirms
-  data.observations=[]
-  data.disease={
-  name:data.disease,
-  icdcode:"",
-  icdver:"",
-  snomed:"",
-  snomedver:"",
-  }
- 
-  if (data.notificationtype===""){
-  alert("Kindly choose notification type")
-  return
-  }
-  if (symptoms.length>0){
-  let sympcollection = []
-  symptoms.forEach(el=>{
-  let obs={
-  category:"symptoms" ,
-  name:el.symptom ,
-  duration:el.duration ,
-  /* note:"",
-  snomed:"" ,
-  response:"" , */
-  required:el.sympreq,
-  /* value:"" */
-  }
-  console.log(obs)
-  sympcollection.push(obs)
-  console.log(sympcollection)
- 
-  })
-  data.observations=[...data.observations, ...sympcollection]
-  }
-  if (findings.length>0){
-  let findingscollection = []
-  findings.forEach(el=>{
-  let obs={
-  category:"Signs" ,
-  name:el.finding ,
-  /* duration:el.duration , */
-  /* note:"",
-  snomed:"" ,
-  response:"" , */
-  required:el.findingreq,
-  /* value:"" */
-  }
-  findingscollection.push(obs)
- 
-  })
-  data.observations=[...data.observations, ...findingscollection]
- 
-  }
-  if (labs.length>0){
-  let labscollection = []
-  labs.forEach(el=>{
-  let obs={
-  category:"Laboratory" ,
-  name:el.lab ,
-  /* duration:el.duration , */
-  /* note:"",
-  snomed:"" ,
-  response:"" , */
-  /* required:el.findingreq, */
-  value:el.labvalue 
-  }
-  labscollection.push(obs)
- 
-  })
-  data.observations=[...data.observations, ...labscollection]
- 
-  }
-  let notifiedlist=[]
-  notifiedlist.push(data.notifiedPerson)
-  console.log(notifiedlist)
-  data.notification_destination= notifiedlist[0]
-  data.treatmentprotocol=mgtProtocol
-  // await setObservations((prev)=>([...prev, symp]))
-  setMessage("")
-  setError(false)
-  setSuccess(false)
-  // data.createdby=user._id
-  console.log(data);
-  if (user.currentEmployee){
-  data.facility=user.currentEmployee.facilityDetail._id // or from facility dropdown
-  }
-  BandServ.create(data)
-  .then((res)=>{
-  //console.log(JSON.stringify(res))
-  e.target.reset();
-  /* setMessage("Created Band successfully") */
-  setSuccess(true)
-  /* setAllergies([]) */
-  setSymptoms([])
-  setFindings([])
-  setLabs([])
-  setMgtProtocol([])
-  toast({
-  message: 'Band created succesfully',
-  type: 'is-success',
-  dismissible: true,
-  pauseOnHover: true,
-  })
-  setSuccess(false)
-  })
-  .catch((err)=>{
-  toast({
-  message: 'Error creating Band ' + err,
-  type: 'is-danger',
-  dismissible: true,
-  pauseOnHover: true,
-  })
-  })
- 
-  } 
-  const handleAddSymptoms = ()=>{
-  let newsymptom = {
-  symptom,
-  duration,
-  sympreq
-  } 
-  console.log(newsymptom)
-  setSymptoms((prev)=>([...prev, newsymptom]))
-  // setAllergy({})
-  setSymptom("")
-  setDuration("")
-  setSympreq(false)
+      e.preventDefault();
+     /*  data.Presenting_Complaints=symptoms
+      data.Clinical_Findings=findings */
+      //data.LaboratoryConfirmation=labconfirms
+      data.observations=[]
+      data.disease={
+          name:data.disease,
+          icdcode:"",
+          icdver:"",
+          snomed:"",
+          snomedver:"",
+      }
+
+      if (data.notificationtype===""){
+          alert("Kindly choose notification type")
+          return
+      }
+      if (symptoms.length>0){
+          let sympcollection = []
+          symptoms.forEach(el=>{
+              let obs={
+                  category:"symptoms" ,
+                  name:el.symptom ,
+                  duration:el.duration ,
+                  /* note:"",
+                  snomed:"" ,
+                  response:"" , */
+                  required:el.sympreq,
+                  /* value:""  */
+              }
+              console.log(obs)
+              sympcollection.push(obs)
+              console.log(sympcollection)
+
+          })
+          data.observations=[...data.observations, ...sympcollection]
+      }
+      if (findings.length>0){
+          let findingscollection = []
+          findings.forEach(el=>{
+              let obs={
+                  category:"Signs" ,
+                  name:el.finding ,
+                 /*  duration:el.duration , */
+                  /* note:"",
+                  snomed:"" ,
+                  response:"" , */
+                  required:el.findingreq,
+                  /* value:""  */
+              }
+              findingscollection.push(obs)
+
+          })
+          data.observations=[...data.observations, ...findingscollection]
+
+      }
+      if (labs.length>0){
+          let labscollection = []
+          labs.forEach(el=>{
+              let obs={
+                  category:"Laboratory" ,
+                  name:el.lab ,
+                 /*  duration:el.duration , */
+                  /* note:"",
+                  snomed:"" ,
+                  response:"" , */
+                 /*  required:el.findingreq, */
+                  value:el.labvalue 
+              }
+             labscollection.push(obs)
+
+          })
+          data.observations=[...data.observations, ...labscollection]
+
+      }
+      let notifiedlist=[]
+      notifiedlist.push(data.notifiedPerson)
+      console.log(notifiedlist)
+      data.notification_destination= notifiedlist[0]
+      data.treatmentprotocol=mgtProtocol
+    // await setObservations((prev)=>([...prev, symp]))
+      setMessage("")
+      setError(false)
+      setSuccess(false)
+       // data.createdby=user._id
+        console.log(data);
+        if (user.currentEmployee){
+       data.facility=user.currentEmployee.facilityDetail._id  // or from facility dropdown
+        }
+      BandServ.create(data)
+      .then((res)=>{
+              //console.log(JSON.stringify(res))
+              e.target.reset();
+             /*  setMessage("Created Band successfully") */
+              setSuccess(true)
+            /*   setAllergies([]) */
+              setSymptoms([])
+              setFindings([])
+              setLabs([])
+              setMgtProtocol([])
+              toast({
+                  message: 'Band created succesfully',
+                  type: 'is-success',
+                  dismissible: true,
+                  pauseOnHover: true,
+                })
+                setSuccess(false)
+          })
+          .catch((err)=>{
+              toast({
+                  message: 'Error creating Band ' + err,
+                  type: 'is-danger',
+                  dismissible: true,
+                  pauseOnHover: true,
+                })
+          })
+
+    } 
+    const handleAddSymptoms = ()=>{
+      let newsymptom = {
+          symptom,
+          duration,
+          sympreq
+      } 
+      console.log(newsymptom)
+      setSymptoms((prev)=>([...prev, newsymptom]))
+     // setAllergy({})
+      setSymptom("")
+      setDuration("")
+      setSympreq(false)
   }
   const handleAddFindings = ()=>{
-  let newFinding = {
-  finding,
-  findingreq
-  } 
-  console.log(newFinding)
-  setFindings((prev)=>([...prev, newFinding]))
-  // setAllergy({})
-  setFinding("")
-  setFindingreq(false)
+      let newFinding = {
+          finding,
+          findingreq
+      } 
+      console.log(newFinding)
+      setFindings((prev)=>([...prev, newFinding]))
+     // setAllergy({})
+      setFinding("")
+      setFindingreq(false)
   }
   const handleAddLabs = ()=>{
-  let newLabs = {
-  lab,
-  labvalue
-  } 
-  console.log(newLabs)
-  setLabs((prev)=>([...prev, newLabs]))
-  // setAllergy({})
-  setLab("")
-  setLabvalue("")
-  /* setFindingreq(false) */
+      let newLabs = {
+          lab,
+          labvalue
+      } 
+      console.log(newLabs)
+      setLabs((prev)=>([...prev, newLabs]))
+     // setAllergy({})
+      setLab("")
+      setLabvalue("")
+     /*  setFindingreq(false) */
   }
   const onDelete = (comp,i)=>{
-  //console.log(comp,i)
-  setSymptoms(prevstate=>prevstate.filter((el,index)=>index!==i))
+      //console.log(comp,i)
+     setSymptoms(prevstate=>prevstate.filter((el,index)=>index!==i))
   }
   const onDeleteFinding = (comp,i)=>{
-  //console.log(comp,i)
-  setFindings(prevstate=>prevstate.filter((el,index)=>index!==i))
+      //console.log(comp,i)
+     setFindings(prevstate=>prevstate.filter((el,index)=>index!==i))
   }
   const onDeleteLab = (comp,i)=>{
-  //console.log(comp,i)
-  setLabs(prevstate=>prevstate.filter((el,index)=>index!==i))
+      //console.log(comp,i)
+     setLabs(prevstate=>prevstate.filter((el,index)=>index!==i))
   }
 
 
@@ -384,9 +384,10 @@ export function CaseDefinitionCreate(){
   return (
   <>
 
-   <form onSubmit={handleSubmit(onSubmit)}>
+   <form >
 <Box display="flex" justifyContent="flex-end" mb={2}>
 <GlobalCustomButton 
+               onClick={handleSubmit(onSubmit)}
                 // onClick={showCreateModal}
                 >
                   <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
@@ -401,6 +402,7 @@ export function CaseDefinitionCreate(){
                   label="Choose Notification Type"
                   name="status"
                   options={bandTypeOptions}
+                  register={register('notificationtype')}
               />
     </Grid>
     <Grid xs={6}>
@@ -411,20 +413,13 @@ export function CaseDefinitionCreate(){
    </Box>
     </Grid>
     <Grid xs={6}  pl={2}>
-  <Box display="flex"  justifyContent="space-between" mb={2}>
+  <Box display="flex"   justifyContent="space-between" mb={2}>
   <Box>
       <FormsHeaderText text="Symptoms"/>
     </Box>
-    <Box>
-    <GlobalCustomButton 
-                onClick={handleAddSymptoms}
-                >
-                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
-                Add
-                </GlobalCustomButton>
-    </Box>
+  
   </Box>
-  <Box display="flex" justifyContent="space-between" mb={2}>
+  <Box display="flex" justifyContent="space-between" gap={2} mb={2}>
     <Grid xs={5}>
       <Input
       //  register={register("symptoms", {required: true})}
@@ -443,6 +438,14 @@ export function CaseDefinitionCreate(){
     <FormGroup>
       <FormControlLabel control={<Checkbox value={sympreq} name="sympreq" onChange={(e)=>{handleChecked(e)}} />} label="Required" />
       </FormGroup>
+    </Box>
+    <Box>
+    <GlobalCustomButton 
+                onClick={handleAddSymptoms}
+                >
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add
+                </GlobalCustomButton>
     </Box>
     </Box> 
     <Box style={{ width: '100%', height: '100%', overflow: 'auto' }}>
@@ -469,14 +472,29 @@ export function CaseDefinitionCreate(){
                   label="Choose Person to Notify"
                   name="notifiedPerson"
                   options={notifierOptions}
+                  ref={register}
               />
     </Box>
     </Grid>
     
     <Grid xs={6}  pl={2}>
-  <Box display="flex"  justifyContent="space-between" mb={2}>
+  <Box display="flex" gap={2}  justifyContent="space-between" mb={2}>
   <Box>
       <FormsHeaderText text="Clinical Signs"/>
+    </Box>
+  
+  </Box>
+  <Box display="flex" gap={2} justifyContent="space-between" mb={2}>
+    <Grid xs={6}>
+      <Input 
+      value={finding}  onChange={(e)=>{setFinding(e.target.value)}} label="Finding" name="finding" type="text"
+      // register={register("durations", {required: true})}
+     />
+    </Grid>
+    <Box>
+    <FormGroup>
+      <FormControlLabel control={<Checkbox value={findingreq} name="findingreq" onChange={(e)=>{handleChecked2(e)}} />} label="Required" />
+      </FormGroup>
     </Box>
     <Box>
     <GlobalCustomButton 
@@ -485,24 +503,6 @@ export function CaseDefinitionCreate(){
                   <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
                 Add
                 </GlobalCustomButton>
-    </Box>
-  </Box>
-  <Box display="flex" justifyContent="space-between" mb={2}>
-    <Grid xs={5}>
-      <Input
-       name="ClinicalFindings" type="text" label="Specify"
-     />
-    </Grid>
-    <Grid xs={4}>
-      <Input 
-      value={finding}  onChange={(e)=>{setFinding(e.target.value)}} name="finding" type="text"
-      // register={register("durations", {required: true})}
-     />
-    </Grid>
-    <Box>
-    <FormGroup>
-      <FormControlLabel control={<Checkbox value={findingreq} name="findingreq" onChange={(e)=>{handleChecked2(e)}} />} label="Required" />
-      </FormGroup>
     </Box>
     </Box> 
     <Box style={{ width: '100%', height: '100%', overflow: 'auto' }}>
@@ -525,13 +525,7 @@ export function CaseDefinitionCreate(){
    <Box>
       <FormsHeaderText text="Laboratory Confirmation" />
     </Box>
-    <Box>
-    <GlobalCustomButton 
-        onClick={handleAddLabs}>
-                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
-                Add
-                </GlobalCustomButton>
-    </Box>
+   
    </Box>
    <Box display="flex" gap={2} mb={4}>
     <Grid xs={4}>
@@ -551,6 +545,13 @@ export function CaseDefinitionCreate(){
       value={labvalue}
       onChange={(e)=>{setLabvalue(e.target.value)}} name="lab value" type="text" label="Value" />
     </Grid>
+    <Box>
+    <GlobalCustomButton 
+        onClick={handleAddLabs}>
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add
+                </GlobalCustomButton>
+    </Box>
     </Box>
     <Box style={{ width: '100%', height: '100%', overflow: 'auto' }}>
    
@@ -567,9 +568,7 @@ export function CaseDefinitionCreate(){
         
     </Box>
     </Grid>
-
-
-                </Grid>
+  </Grid>
    </form>
   </>
   )
@@ -813,10 +812,10 @@ export function CaseDefinitionList({showCreateModal, showDetailModal}) {
   );
 }
 
-export function CaseDefinitionDetail({showModifyModal}) {
+export function CaseDefinitionDetail({showModifyModal,casedefinition}) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
-  const [error, setError] = useState(false); //,
+  const [editing, setEditing] = useState(false); //,
   //const [success, setSuccess] =useState(false)
   // eslint-disable-next-line
   const [message, setMessage] = useState(''); //,
@@ -865,12 +864,14 @@ export function CaseDefinitionDetail({showModifyModal}) {
                   label="Choose Notification Type"
                   name="status"
                   options={bandTypeOptions}
-                  defaultValue="Immediate Notification"
+                  defaultValue={Band.notificationtype}
+                  disabled={!editing}
               />
     </Grid>
     <Grid xs={6}>
       <Input 
-      defaultValue='Chikungunya'
+      defaultValue={Band.disease.name}
+      disabled={!editing}
       name="disease" type="text" label="Name of Disease"/>
     </Grid>
    </Box>
@@ -884,7 +885,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
    <CustomTable
      title={''}
      columns={syptomSchema}
-     data={["acute onset of fever >38.5°C"]}
+     data={Band.observations}
      pointerOnHover
      highlightOnHover
      striped
@@ -905,7 +906,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
    <CustomTable
      title={''}
      columns={clinicalSignSchema}
-     data={["Fever and severe athritis"]}
+     data={Band.observations}
      pointerOnHover
      highlightOnHover
      striped
@@ -924,7 +925,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
               <CustomTable
                 title={''}
                 columns={labSchema}
-                data={["Fever and severe athritis"]}
+                data={Band.observations}
                 pointerOnHover
                 highlightOnHover
                 striped
@@ -934,14 +935,14 @@ export function CaseDefinitionDetail({showModifyModal}) {
     </Grid>
     <Grid xs={6}>
     <Box mb={2}>
-      <Textarea label="Management Protocol" defaultValue=" Disease spread by the bite of infected mosquitoes. • The disease resembles dengue fever, • It is rarely life-threatening."  name="mgtProtocol" type="text"/>
+      <Textarea label="Management Protocol" defaultValue={Band.treatmentprotocol}  name="mgtProtocol" type="text"/>
     </Box>
     <Box>
     <CustomSelect
                   label="Choose Person to Notify"
                   name="notifiedPerson"
                   options={notifierOptions}
-                  defaultValue="Facility Focal Person"
+                  defaultValue={Band.notification_destination[0]}
               />
     </Box>
     </Grid>  

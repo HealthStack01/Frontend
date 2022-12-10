@@ -424,7 +424,7 @@ export function VitalSignCreate() {
 
               <Grid item xs={12}>
                 <Input
-                  register={register("Blood Glucose")}
+                  register={register("Random_glucose")}
                   name="text"
                   type="text"
                   label="Blood Glucose"
