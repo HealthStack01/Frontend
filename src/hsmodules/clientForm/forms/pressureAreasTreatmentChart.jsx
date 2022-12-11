@@ -50,7 +50,7 @@ const PressureAreasTreatmentChart = ({onSubmit}) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box mb="1rem">
           <MuiCustomDatePicker
-            name="date_time"
+            name="repositioningDateAndTime"
             label="Date & Time"
             control={control}
           />
@@ -61,14 +61,14 @@ const PressureAreasTreatmentChart = ({onSubmit}) => {
           </Typography>
         </Box>
         <Box mb="1rem">
-          <Input {...register("from")} name="from" label="From" type="text" />
+          <Input {...register("repositioningFrom")} name="from" label="From" type="text" />
         </Box>
         <Box mb="1rem">
-          <Input {...register("to")} name="to" label="To" type="text" />
+          <Input {...register("repositioningTo")} name="to" label="To" type="text" />
         </Box>
         <Box mb="1rem">
           <Textarea
-            {...register("pressure_area")}
+            {...register("pressureAreaTxt")}
             name="pressure_area"
             label="Pressure Area Treatment"
             type="text"
@@ -76,7 +76,7 @@ const PressureAreasTreatmentChart = ({onSubmit}) => {
         </Box>
         <Box mb="1rem">
           <Textarea
-            {...register("skin_inspection")}
+            {...register("skinInspectionComments")}
             name="skin_inspection"
             label="Skin Inspection Comments"
             type="text"
@@ -84,7 +84,7 @@ const PressureAreasTreatmentChart = ({onSubmit}) => {
         </Box>
         <Box mb="1rem">
           <Input
-            {...register("name_signature")}
+            {...register("nameOrSignature")}
             name="name_signature"
             label="Name/Signature"
             type="text"

@@ -59,7 +59,7 @@ const DialysisLogSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("dialysis")}
+            {...register("noOfDialysis")}
             name="dialysis"
             label="No of Dialysis"
             type="number"
@@ -76,7 +76,7 @@ const DialysisLogSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("dry_weight")}
+            {...register("dryWgt")}
             name="dry_weight"
             label="Dry Weight"
             type="text"
@@ -85,7 +85,15 @@ const DialysisLogSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("last_dialysis")}
+            {...register("diagonsis")}
+            name="diagonsis"
+            label="Diagonsis"
+            type="text"
+          />
+        </Box>
+        <Box mb="1rem">
+          <Input
+            {...register("lastDialysisWgt")}
             name="last_dialysis"
             label="Last Dialysis WT"
             type="text"
@@ -94,7 +102,7 @@ const DialysisLogSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("current")}
+            {...register("currentWgt")}
             name="current"
             label="Current WT"
             type="text"
@@ -103,7 +111,7 @@ const DialysisLogSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("weight")}
+            {...register("wgtLossOrGain")}
             name="weight"
             label="Weight Loses/Gain"
             type="text"
@@ -112,16 +120,23 @@ const DialysisLogSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("ultra_filtration")}
+            {...register("ultraFiltration")}
             name="ultra_filtration"
             label="Ultra Filtration"
             type="text"
           />
         </Box>
-
         <Box mb="1rem">
           <Input
-            {...register("weight_loss")}
+            {...register("postDialysisWgt")}
+            name="postDialysisWgt"
+            label="Post Dialysis WT"
+            type="text"
+          />
+        </Box>
+        <Box mb="1rem">
+          <Input
+            {...register("wgtLoss")}
             name="weight_loss"
             label="Weight Loss"
             type="text"
@@ -130,7 +145,7 @@ const DialysisLogSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("machine_type")}
+            {...register("macType")}
             name="machine_type"
             label="Machine Type"
             type="text"
@@ -139,7 +154,7 @@ const DialysisLogSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("time_started")}
+            {...register("timeStarted")}
             name="time_started"
             label="Time Started"
             type="text"
@@ -148,7 +163,7 @@ const DialysisLogSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("time_ended")}
+            {...register("timeEnded")}
             name="time_ended"
             label="Time Ended"
             type="text"
@@ -156,12 +171,12 @@ const DialysisLogSheet = ({onSubmit}) => {
         </Box>
 
         <Box mb="1rem">
-          <Input {...register("bp")} name="bp" label="B/P" type="text" />
+          <Input {...register("bP")} name="bP" label="B/P" type="text" />
         </Box>
 
         <Box mb="1rem">
           <Input
-            {...register("pulse")}
+            {...register("pulseRate")}
             name="pulse"
             label="Pulse"
             type="text"
@@ -185,11 +200,11 @@ const DialysisLogSheet = ({onSubmit}) => {
         </Box>
 
         <Box mb="1rem">
-          <Input {...register("hepc")} name="hepc" label="HEP.C" type="text" />
+          <Input {...register("hepC")} name="hepC" label="HEP.C" type="text" />
         </Box>
 
         <Box mb="1rem">
-          <Input {...register("hepb")} name="hepb" label="HEP.B" type="text" />
+          <Input {...register("hepB")} name="hepB" label="HEP.B" type="text" />
         </Box>
 
         <Box mb="1rem">
@@ -198,7 +213,7 @@ const DialysisLogSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("blood_group")}
+            {...register("bldGrp")}
             name="blood_group"
             label="Blood Group"
             type="text"
@@ -207,7 +222,7 @@ const DialysisLogSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Textarea
-            {...register("pre_assessment")}
+            {...register("preAssessment")}
             name="pre_assessment"
             label="Pre Assessment"
             type="text"
@@ -216,7 +231,7 @@ const DialysisLogSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Textarea
-            {...register("post_assessment")}
+            {...register("postAssessment")}
             name="post_assessment"
             label="Post Assessment"
             type="text"
@@ -229,7 +244,7 @@ const DialysisLogSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("hr_dialysis")}
+            {...register("hrOfDialysis")}
             name="hr_dialysis"
             label="HR of Dialysis"
             type="text"
@@ -238,7 +253,7 @@ const DialysisLogSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("type_dialysis")}
+            {...register("typeOfDialysis")}
             name="type_dialysis"
             label="Type of Dialysis"
             type="text"
@@ -247,7 +262,7 @@ const DialysisLogSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("concentrate")}
+            {...register("conc")}
             name="concentrate"
             label="Concentrate"
             type="text"
@@ -256,7 +271,7 @@ const DialysisLogSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("access_route")}
+            {...register("accessRoute")}
             name="access_route"
             label="Access Route"
             type="text"
@@ -274,7 +289,7 @@ const DialysisLogSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("blood")}
+            {...register("bld")}
             name="blood"
             label="Blood"
             type="text"

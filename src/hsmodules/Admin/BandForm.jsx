@@ -82,7 +82,7 @@ export const BandForm = ({ open, setOpen }) => {
             register={register("name")}
             errorText={errors?.name?.message}
             sx={{marginBottom:"2rem"}}
-            placeholder="Name of Band"
+            
           />
           </Box>
           <Box mb="1rem">
@@ -99,7 +99,7 @@ export const BandForm = ({ open, setOpen }) => {
             {...register("description")}
             name="description"
             type="text"
-            placeholder="Description of Band"
+           
           />
          </Box>
 </Grid>

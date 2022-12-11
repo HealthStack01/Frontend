@@ -13,7 +13,8 @@ import LocationSearch from "../helpers/LocationSearch";
 import EmployeeSearch from "../helpers/EmployeeSearch";
 import BillServiceCreate from "../Finance/BillServiceCreate";
 import "react-datepicker/dist/react-datepicker.css";
-
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import { PageWrapper } from "../../ui/styled/styles";
 import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
@@ -26,6 +27,8 @@ import ModalBox from "../../components/modal";
 import { Box, Grid } from "@mui/material";
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
 import { MdCancel } from "react-icons/md";
+import { ClientSearch } from "../helpers/ClientSearch";
+import Input from '../../components/inputs/basic/Input';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -37,14 +40,54 @@ export default function VaccineProfile() {
   //const [showState,setShowState]=useState() //create|modify|detail
   const [showModal, setShowModal] = useState(false);
 
+  const [createModal, setCreateModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
+  const [modifyModal, setModifyModal] = useState(false);
+
+
+
+  const handleShowDetailModal = () => {
+    setDetailModal(true);
+  };
+
+  const handleHideDetailModal = () => {
+    setDetailModal(false);
+  };
+  const handleCreateModal = () => {
+    setCreateModal(true);
+  };
+
+  const handleHideCreateModal = () => {
+    setCreateModal(false);
+  };
+  const handleModifyModal = () => {
+    setModifyModal(true);
+  };
+
+  const handleHideModifyModal = () => {
+    setModifyModal(false);
+  };
+
   return (
     <section className="section remPadTop">
-      <VaccineProfileList showModal={showModal} setShowModal={setShowModal} />
+      <VaccineProfileList   showCreateModal={handleCreateModal}
+      showDetailModal={handleShowDetailModal} />
+
+
+       
+    <ModalBox width="40vw" overflow="hidden"  open={createModal} onClose={handleHideCreateModal} header="Create Vaccine Profile">
+          <VaccineProfileCreate />
+        </ModalBox>
+
+        <ModalBox width="40vw" open={detailModal} onClose={handleHideDetailModal} header="Vaccine Profile Detail">
+          <VaccineProfileDetail showModifyModal={handleModifyModal} />
+        </ModalBox>
+
     </section>
   );
 }
 
-export function AppointmentCreate({ showModal, setShowModal }) {
+export function VaccineProfileCreate() {
   const { state, setState } = useContext(ObjectContext);
   const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
@@ -251,202 +294,111 @@ export function AppointmentCreate({ showModal, setShowModal }) {
 
   return (
     <>
-      <div className="card ">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <ModalHeader text={"Create Appointment"} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <MdCancel
-                onClick={() => {
-                  setShowModal(false),
-                    setState((prevstate) => ({
-                      ...prevstate,
-                      AppointmentModule: {
-                        selectedAppointment: {},
-                        show: "list",
-                      },
-                    }));
-                }}
-                style={{
-                  fontSize: "2rem",
-                  color: "crimson",
-                  cursor: "pointer",
-                  float: "right",
-                }}
-              />
-            </Grid>
+     <Box display="flex" justifyContent="flex-end" mb={2}>
+<GlobalCustomButton 
+               onClick={handleSubmit(onSubmit)}
+               
+                >
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Create
+                </GlobalCustomButton>
+</Box>
+<form>
+      <div>
+      <Box sx={{color:"#0064CC",fontSize:"14px"}} pb="1rem">
+              <h4>Vaccine Information</h4>
+            </Box>
+      
+          <Grid container xs={12}>
+           
+          <Grid xs={6}>
+          <Box mb="1rem">
+          <Input 
+      register={register("name", {required: true})} 
+      name="name" type="text" label="Name of Vitamin"/>
+          </Box>
+          <Box mb="1rem">
+          <Input 
+      register={register("role", {required: true})} 
+      name="role" type="text" label="Role Admintration"/>
+      </Box>
+          
           </Grid>
+<Grid xs={6} pl="1rem">
+<Box mb="1rem">
+          <Input 
+      register={register("dosage", {required: true})} 
+      name="dosage" type="text" label="Dosage"/>
+          </Box>
+          <Box>
+          <Input 
+      register={register("age", {required: true})} 
+      name="age" type="text" label="Target Age Group"/>
+          </Box>
+</Grid>
 
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <ClientSearch
-                getSearchfacility={getSearchfacility}
-                clear={success}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <LocationSearch
-                getSearchfacility={getSearchfacility1}
-                clear={success1}
-              />
-            </Grid>
           </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <EmployeeSearch
-                getSearchfacility={getSearchfacility2}
-                clear={success2}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <div className="field ml-3 ">
-                {/* <label className= "mr-2 "> <b>Modules:</b></label> */}
-                {appClass.map((c, i) => (
-                  <label
-                    className=" is-small"
-                    key={c}
-                    style={{ fontSize: "16px", fontWeight: "bold" }}
-                  >
-                    <input
-                      type="radio"
-                      value={c}
-                      name="appointmentClass"
-                      {...register("appointmentClass", { required: true })}
-                      style={{
-                        border: "1px solid #0364FF",
-                        transform: "scale(1.5)",
-                        color: "#0364FF",
-                        margin: ".5rem",
-                      }}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-              </div>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              <div className="field">
-                <input
-                  name="start_time"
-                  {...register("start_time", { required: true })}
-                  type="datetime-local"
-                  style={{
-                    border: "1px solid #0364FF",
-                    padding: "1rem",
-                    color: " #979DAC",
-                  }}
-                />
-              </div>
-            </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              <select
-                name="type"
-                value={type}
-                onChange={handleChangeType}
-                style={{
-                  border: "1px solid #0364FF",
-                  padding: "1rem",
-                  color: " #979DAC",
-                }}
-              >
-                <option defaultChecked>Choose Appointment Type </option>
-                <option value="New">New</option>
-                <option value="Followup">Followup</option>
-                <option value="Readmission with 24hrs">
-                  Readmission with 24hrs
-                </option>
-                <option value="Annual Checkup">Annual Checkup</option>
-                <option value="Walk in">Walk-in</option>
-              </select>
-            </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              <select
-                name="appointment_status"
-                value={appointment_status}
-                onChange={handleChangeStatus}
-                style={{
-                  border: "1px solid #0364FF",
-                  padding: "1rem",
-                  color: " #979DAC",
-                }}
-              >
-                <option defaultChecked>Appointment Status </option>
-                <option value="Scheduled">Scheduled</option>
-                <option value="Confirmed">Confirmed</option>
-                <option value="Checked In">Checked In</option>
-                <option value="Vitals Taken">Vitals Taken</option>
-                <option value="With Nurse">With Nurse</option>
-                <option value="With Doctor">With Doctor</option>
-                <option value="No Show">No Show</option>
-                <option value="Cancelled">Cancelled</option>
-                <option value="Billed">Billed</option>
-              </select>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={12} lg={12}>
-              <textarea
-                className="input is-small"
-                name="appointment_reason"
-                {...register("appointment_reason", { required: true })}
-                type="text"
-                placeholder="Appointment Reason"
-                rows="10"
-                cols="50"
-                style={{
-                  border: "1px solid #0364FF",
-                  padding: "1rem",
-                  color: " #979DAC",
-                  width: "100%",
-                }}
-              >
-                {" "}
-              </textarea>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={4} lg={3}>
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: "#0364FF",
-                  width: "100%",
-                  cursor: "pointer",
-                }}
-              >
-                Save
-              </Button>
-            </Grid>
-            <Grid item xs={12} sm={12} md={4} lg={3}>
-              <Button
-                type="button"
-                onClick={(e) => e.target.reset()}
-                style={{
-                  backgroundColor: "#ffffff",
-                  width: "100%",
-                  color: "#0364FF",
-                  border: "1px solid #0364FF",
-                  cursor: "pointer",
-                }}
-              >
-                Clear
-              </Button>
-            </Grid>
-          </Grid>
+          <Box display="flex" justifyContent="flex-end" mb={2}>
+<GlobalCustomButton 
+               onClick={handleSubmit(onSubmit)}
+               
+                >
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add New Dosage
+                </GlobalCustomButton>
+</Box>
+
+</div>
+<div>
+<Box sx={{color:"#0064CC",fontSize:"14px"}} pb="1rem">
+              <h4>Dosage</h4>
+            </Box>
+  <Grid container xs={12}>
+    <Grid xs={6}>
+    <Box pb="1rem">
+          <Input 
+      register={register("age", {required: true})} 
+      name="age" type="text" label="Minimum Age for Dose 1"/>
+          </Box>
+          <Box>
+          <Input 
+      register={register("age", {required: true})} 
+      name="age" type="text" label="Interval Between Dose 1 & Dose 2"/>
+          </Box>    
+    </Grid>
+    <Grid xs={6} pl="1rem">
+    <Box pb="1rem">
+          <GlobalCustomButton 
+               onClick={handleSubmit(onSubmit)}
+               variant="outlined"
+              
+                >
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add Dosage
+                </GlobalCustomButton>
+          </Box>
+          <Box>
+          <GlobalCustomButton 
+               onClick={handleSubmit(onSubmit)}
+                variant="outlined"
+              
+                >
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add Dosage
+                </GlobalCustomButton>
+          </Box>
+    </Grid>
+  </Grid>
+</div>
+         
         </form>
-      </div>
+      
     </>
   );
 }
 
-export function VaccineProfileList({ showModal, setShowModal }) {
-  // const { register, handleSubmit, watch, errors } = useForm();
+export function VaccineProfileList({showCreateModal, showDetailModal}) {
+  const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -483,11 +435,11 @@ export function VaccineProfileList({ showModal, setShowModal }) {
       show: "create",
     };
     await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
-    setShowModal(true);
+    // setShowModal(true);
   };
 
   const handleRow = async (Client) => {
-    setShowModal(true);
+    // setShowModal(true);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
@@ -497,6 +449,7 @@ export function VaccineProfileList({ showModal, setShowModal }) {
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
+    showDetailModal();
   };
   //console.log(state.employeeLocation)
 
@@ -832,11 +785,12 @@ export function VaccineProfileList({ showModal, setShowModal }) {
                 </div>
 
                 {handleCreateNew && (
-                  <Button
-                    style={{ fontSize: "14px", fontWeight: "600" }}
-                    label="Add new "
-                    onClick={handleCreateNew}
-                  />
+                  <GlobalCustomButton 
+                  onClick={showCreateModal}
+                  >
+                    <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                  Add New
+                  </GlobalCustomButton>
                 )}
               </TableMenu>
               <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
@@ -864,4 +818,161 @@ export function VaccineProfileList({ showModal, setShowModal }) {
       )}
     </>
   );
+}
+
+
+export function VaccineProfileDetail(){
+  const { register, handleSubmit, watch, errors } = useForm();
+  const [editing,setEditing] = useState(false)
+  return(
+    <div>
+      <Box display="flex" justifyContent="flex-end" mb={2}>
+
+{!editing ?
+  <GlobalCustomButton 
+              
+              onClick={() => setEditing(true)}
+              >
+                
+              Edit
+              </GlobalCustomButton>
+              :
+              <Box display="flex" gap="1rem">
+               <GlobalCustomButton 
+              
+color="error"
+ 
+ > 
+ Delete
+ </GlobalCustomButton>
+ <GlobalCustomButton 
+               color="success"
+               
+                > 
+                Update
+                </GlobalCustomButton>
+              </Box>
+              
+
+
+}
+</Box>
+
+
+<form>
+      <div>
+      <Box sx={{color:"#0064CC",fontSize:"14px"}} pb="1rem">
+              <h4>Vaccine Information</h4>
+            </Box>
+      
+          <Grid container xs={12}>
+           
+          <Grid xs={6}>
+{!editing ? <Box mb="1rem">
+        <Input 
+    register={register("name", {required: true})} 
+    label="Name of Vaccine" defaultValue="Vitamin A" disabled={!editing}/>
+        </Box>:  
+        <Box mb="1rem">
+          <Input 
+      register={register("name", {required: true})} 
+      name="name" type="text" label="Name of Vitamin"/>
+          </Box> 
+          }
+       {!editing ? <Box mb="1rem">
+           <Input 
+       register={register("role", {required: true})} 
+       defaultValue="Intra-muscular oral" label="Role Admintration" disabled={!editing}/>
+           </Box> :   <Box mb="1rem">
+          <Input 
+      register={register("role", {required: true})} 
+      name="role" type="text" label="Role Admintration"/>
+      </Box> }
+          
+          </Grid>
+<Grid xs={6} pl="1rem">
+   {!editing ?   <Box mb="1rem">
+          <Input 
+      register={register("dosage", {required: true})} 
+      defaultValue="0.5ml - 2-3days" label="Dosage" disabled={!editing}/>
+          </Box>  :  <Box mb="1rem">
+          <Input 
+      register={register("dosage", {required: true})} 
+      name="dosage" type="text" label="Dosage"/>
+          </Box> }
+      {!editing ?    <Box>
+           <Input 
+       register={register("age", {required: true})} 
+       defaultValue="At birth" label="Target Age Group" disabled={!editing}/>
+           </Box> :  <Box>
+          <Input 
+      register={register("age", {required: true})} 
+      name="age" type="text" label="Target Age Group"/>
+          </Box> }
+</Grid>
+
+          </Grid>
+          {!editing ? null :    <Box display="flex" justifyContent="flex-end" mb={2}>
+<GlobalCustomButton 
+               
+               
+                >
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add New Dosage
+                </GlobalCustomButton>
+</Box> }
+
+</div>
+<div>
+<Box sx={{color:"#0064CC",fontSize:"14px"}} pb="1rem">
+              <h4>Dosage</h4>
+            </Box>
+  <Grid container xs={12}>
+    <Grid xs={6}>
+  {!editing ? <Box pb="1rem">
+          <Input 
+      register={register("age", {required: true})} 
+      defaultValue="i dont know" label="Minimum Age for Dose 1" disabled={!editing}/>
+          </Box> :<Box pb="1rem">
+          <Input 
+      register={register("age", {required: true})} 
+      name="age" type="text" label="Minimum Age for Dose 1"/>
+          </Box>}
+     {!editing ? <Box>
+          <Input 
+      register={register("age", {required: true})} 
+     defaultValue="i donot know" label="Interval Between Dose 1 & Dose 2" disabled={!editing}/>
+          </Box>    : <Box>
+          <Input 
+      register={register("age", {required: true})} 
+      name="age" type="text" label="Interval Between Dose 1 & Dose 2"/>
+          </Box>   } 
+    </Grid>
+    <Grid xs={6} pl="1rem">
+   {!editing ? null : <Box pb="1rem">
+          <GlobalCustomButton 
+               
+               variant="outlined"
+              
+                >
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add Dosage
+                </GlobalCustomButton>
+          </Box> }
+          {!editing ? null : <Box>
+          <GlobalCustomButton 
+              
+                variant="outlined"
+              
+                >
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add Dosage
+                </GlobalCustomButton>
+          </Box> }
+    </Grid>
+  </Grid>
+</div>
+ </form>
+    </div>
+  )
 }
