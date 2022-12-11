@@ -42,6 +42,7 @@ import ModalBox from "../../components/modal";
 import { FormsHeaderText } from '../../components/texts';
 import Textarea from '../../components/inputs/basic/Textarea';
 import Grid from '@mui/material/Grid';
+import {MdOutlineDeleteOutline,MdOutlineUpdate,MdEdit} from 'react-icons/md'
 
 // Demo styles, see 'Styles' section below for some notes on use.
 
@@ -130,13 +131,6 @@ export default function CaseDefinition() {
         <CaseDefinitionModify/>
         </ModalBox>
 
-
-      {/* {state.EpidemiologyModule.show === 'modify' && <CaseDefinitionModify />} */}
-
-      {/*  <div className="column is-3 ">  <ReportCreate />
-                
-                {(state.financeModule.show ==='detail')&&<PatientProfile />}
-                </div> */}
     </section>
   );
 }
@@ -856,7 +850,7 @@ export function CaseDefinitionDetail({showModifyModal,casedefinition}) {
               
                 onClick={handleEdit}
                 >
-                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                  <MdEdit sx={{marginRight: "15px"}} fontSize="small" />
                 Edit
                 </GlobalCustomButton>
 </Box>
@@ -1130,20 +1124,21 @@ const onDeleteLab = (comp,i)=>{
     <>
        <form>
 <Box display="flex" justifyContent="flex-end" gap={2} mb={2}>
-<GlobalCustomButton 
-                onClick={handleSubmit(onSubmit)}
-                >
-                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
-                Save
-                </GlobalCustomButton>
 
                 <GlobalCustomButton 
                 color='error'
                 onClick={handleDelete}
                 >
-                  {/* <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" /> */}
+                  <MdOutlineDeleteOutline sx={{marginRight: "15px"}} fontSize="small" />
                 Delete
                 </GlobalCustomButton>
+                <GlobalCustomButton 
+                onClick={handleSubmit(onSubmit)}
+                >
+                   <MdOutlineUpdate sx={{marginRight: "15px"}} fontSize="small" />
+                Update
+                </GlobalCustomButton>
+
                
 </Box>
 <Grid container pb="1rem" alignItems="center">

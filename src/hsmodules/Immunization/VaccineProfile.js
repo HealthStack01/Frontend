@@ -26,7 +26,7 @@ import CalendarGrid from "../../components/calender";
 import ModalBox from "../../components/modal";
 import { Box, Grid } from "@mui/material";
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
-import { MdCancel } from "react-icons/md";
+import { MdCancel, MdOutlineDeleteOutline,MdOutlineUpdate,MdEdit } from "react-icons/md";
 import { ClientSearch } from "../helpers/ClientSearch";
 import Input from '../../components/inputs/basic/Input';
 // eslint-disable-next-line
@@ -832,8 +832,9 @@ export function VaccineProfileDetail(){
   <GlobalCustomButton 
               
               onClick={() => setEditing(true)}
+             
               >
-                
+                 <MdEdit sx={{marginRight: "15px"}} fontSize="small" />
               Edit
               </GlobalCustomButton>
               :
@@ -843,18 +844,17 @@ export function VaccineProfileDetail(){
 color="error"
  
  > 
+   <MdOutlineDeleteOutline sx={{marginRight: "15px"}} fontSize="small" />
  Delete
  </GlobalCustomButton>
  <GlobalCustomButton 
                color="success"
-               
+                
                 > 
+                 <MdOutlineUpdate sx={{marginRight: "15px"}} fontSize="small" />
                 Update
                 </GlobalCustomButton>
               </Box>
-              
-
-
 }
 </Box>
 
