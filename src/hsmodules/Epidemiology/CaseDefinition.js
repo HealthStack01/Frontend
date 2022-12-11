@@ -121,12 +121,12 @@ export default function CaseDefinition() {
         </ModalBox>
 
 
-        <ModalBox open={detailModal} onClose={handleHideDetailModal}>
+        <ModalBox width="75vw" open={detailModal} onClose={handleHideDetailModal} header="CaseDefinition Detail">
           <CaseDefinitionDetail showModifyModal={handleModifyModal} />
         </ModalBox>
 
 
-        <ModalBox width="70vw" open={modifyModal} onClose={handleHideModifyModal}>
+        <ModalBox width="75vw" open={modifyModal} onClose={handleHideModifyModal} header="CaseDefinition Modify">
         <CaseDefinitionModify/>
         </ModalBox>
 
@@ -442,6 +442,7 @@ export function CaseDefinitionCreate(){
     <Box>
     <GlobalCustomButton 
                 onClick={handleAddSymptoms}
+                variant="outlined"
                 >
                   <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
                 Add
@@ -499,6 +500,7 @@ export function CaseDefinitionCreate(){
     <Box>
     <GlobalCustomButton 
                  onClick={handleAddFindings}
+                 variant="outlined"
                 >
                   <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
                 Add
@@ -547,7 +549,9 @@ export function CaseDefinitionCreate(){
     </Grid>
     <Box>
     <GlobalCustomButton 
-        onClick={handleAddLabs}>
+        onClick={handleAddLabs}
+        variant="outlined"
+        >
                   <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
                 Add
                 </GlobalCustomButton>
@@ -864,13 +868,13 @@ export function CaseDefinitionDetail({showModifyModal,casedefinition}) {
                   label="Choose Notification Type"
                   name="status"
                   options={bandTypeOptions}
-                  defaultValue={Band.notificationtype}
+                  defaultValue={Band?.notificationtype}
                   disabled={!editing}
               />
     </Grid>
     <Grid xs={6}>
       <Input 
-      defaultValue={Band.disease.name}
+      defaultValue={Band?.disease.name}
       disabled={!editing}
       name="disease" type="text" label="Name of Disease"/>
     </Grid>
@@ -885,7 +889,7 @@ export function CaseDefinitionDetail({showModifyModal,casedefinition}) {
    <CustomTable
      title={''}
      columns={syptomSchema}
-     data={Band.observations}
+     data={Band?.observations}
      pointerOnHover
      highlightOnHover
      striped
@@ -906,7 +910,7 @@ export function CaseDefinitionDetail({showModifyModal,casedefinition}) {
    <CustomTable
      title={''}
      columns={clinicalSignSchema}
-     data={Band.observations}
+     data={Band?.observations}
      pointerOnHover
      highlightOnHover
      striped
@@ -925,7 +929,7 @@ export function CaseDefinitionDetail({showModifyModal,casedefinition}) {
               <CustomTable
                 title={''}
                 columns={labSchema}
-                data={Band.observations}
+                data={Band?.observations}
                 pointerOnHover
                 highlightOnHover
                 striped
@@ -935,203 +939,19 @@ export function CaseDefinitionDetail({showModifyModal,casedefinition}) {
     </Grid>
     <Grid xs={6}>
     <Box mb={2}>
-      <Textarea label="Management Protocol" defaultValue={Band.treatmentprotocol}  name="mgtProtocol" type="text"/>
+      <Textarea label="Management Protocol" defaultValue={Band?.treatmentprotocol}  name="mgtProtocol" type="text"/>
     </Box>
     <Box>
     <CustomSelect
                   label="Choose Person to Notify"
                   name="notifiedPerson"
                   options={notifierOptions}
-                  defaultValue={Band.notification_destination[0]}
+                  defaultValue={Band?.notification_destination[0]}
               />
     </Box>
     </Grid>  
 </Grid>
    </form>
-    {/* <CaseDefinitionView/> */}
-      {/* <div className='card '>
-        <div className='card-header'>
-          <p className='card-header-title'>Case Definiti</p>
-        </div>
-        <div className='card-content vscrollable'>
-           */}
-          {/* <div>
-            <label className='label is-small'>
-             
-              <span className='icon is-small is-left'>
-                <i className='fas fa-hospital'></i>
-              </span>
-              Disease :
-              <span className='is-size-7 padleft' name='name'>
-               
-                {Band?.disease.name || "loading"}
-              </span>
-            </label>
-          </div> */}
-          {/* <div className=' mt-2'>
-            <label className='label is-small'>
-              <span className='icon is-small is-left'>
-                <i className='fas fa-map-signs'></i>
-              </span>
-              Notification Type:
-              <span className='is-size-7 padleft' name='BandType'>
-                {Band?.notificationtype || "loading"}
-              </span>
-            </label>
-          </div> */}
-          {/* <div className=' mt-2'>
-            <label className=' mt-2'>
-              <b> Symptoms </b>
-            </label>
-            <table className='table is-striped  is-hoverable is-fullwidth is-scrollable mr-2'>
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title='Serial No'>S/No</abbr>
-                  </th>
-
-                  <th>
-                    <abbr title='Type'> Symptom</abbr>
-                  </th>
-                  <th>
-                    <abbr title='Destination'>Duration</abbr>
-                  </th>
-                  <th>
-                    <abbr title='Destination'>Required</abbr>
-                  </th>
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                {Band.observations.map((ProductEntry, i) => (
-                  <>
-                    {ProductEntry.category === 'symptoms' && (
-                      <tr key={i}>
-                        <th>{i + 1}</th>
-                        <td>{ProductEntry.name}</td>
-                        <td>{ProductEntry.duration}</td>
-                        <td>{ProductEntry.required.toString()}</td>
-                      </tr>
-                    )}
-                  </>
-                ))}
-              </tbody>
-            </table>
-          </div> */}
-          {/* <div className=' mt-2'>
-            <label className=' mt-2'>
-              <b>Clinical Signs </b>
-            </label>
-            <table className='table is-striped  is-hoverable is-fullwidth is-scrollable mr-2'>
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title='Serial No'>S/No</abbr>
-                  </th>
-
-                  <th>
-                    <abbr title='Type'> Symptom</abbr>
-                  </th>
-                  <th>
-                    <abbr title='Destination'>Duration</abbr>
-                  </th>
-                  <th>
-                    <abbr title='Destination'>Required</abbr>
-                  </th>
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                {Band.observations.map((ProductEntry, i) => (
-                  <>
-                    {ProductEntry.category === 'Signs' && (
-                      <tr key={i}>
-                        <th>{i + 1}</th>
-                        <td>{ProductEntry.name}</td>
-                        <td>{ProductEntry.required}</td>
-                        <td>{ProductEntry.required.toString()}</td> 
-                      </tr>
-                    )}
-                  </>
-                ))}
-              </tbody>
-            </table>
-          </div> */}
-          {/* <div className=' mt-2'>
-            <label className=' mt-2'>
-              <b> Laboratory</b>
-            </label>
-            <table className='table is-striped  is-hoverable is-fullwidth is-scrollable mr-2'>
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title='Serial No'>S/No</abbr>
-                  </th>
-
-                  <th>
-                    <abbr title='Type'> Lab Test </abbr>
-                  </th>
-                  <th>
-                    <abbr title='Destination'>Value</abbr>
-                  </th>
-                  
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                {Band.observations.map((ProductEntry, i) => (
-                  <>
-                    {ProductEntry.category === 'symptoms' && (
-                      <tr key={i}>
-                        <th>{i + 1}</th>
-                        <td>{ProductEntry.name}</td>
-                        <td>{ProductEntry.duration}</td>
-                        <td>{ProductEntry.required.toString()}</td>
-                      </tr>
-                    )}
-                  </>
-                ))}
-              </tbody>
-            </table>
-          </div> */}
-          {/* <div className=' mt-2'>
-            <label className='label is-small'>
-             
-              <span className='icon is-small is-left'>
-                <i className='fas fa-hospital'></i>
-
-              </span>
-              Treatment Protocol:
-            </label>
-
-            <span className='is-size-7 padleft' name='name'>
-             
-              {Band.treatmentprotocol}
-            </span>
-          </div> */}
-          {/* <div className=' mt-2'>
-            <label className='label is-small'>
-              
-              <span className='icon is-small is-left'>
-                <i className='fas fa-hospital'></i>
-              </span>
-              Person to Notify :
-              <span className='is-size-7 padleft' name='name'>
-               
-                {Band.notification_destination[0]}
-              </span>
-            </label>
-          </div> */}
-          {/*  
-            <div className="field mt-2">
-                <p className="control">
-                    <button className="button is-success is-small is-disabled" onClick={handleEdit}>
-                        Edit
-                    </button>
-                </p>
-            </div> */}
-        {/* </div>
-      </div> */}
     </>
   );
 }
@@ -1172,42 +992,7 @@ export function CaseDefinitionModify() {
 
   const Band = state.EpidemiologyModule.selectedBand;
 
-  // useEffect(() => {
-  //   setValue('name', Band.name, {
-  //     shouldValidate: true,
-  //     shouldDirty: true,
-  //   });
-  //   setValue('bandType', Band.bandType, {
-  //     shouldValidate: true,
-  //     shouldDirty: true,
-  //   });
-    /*  setValue("profession", Band.profession,  {
-                shouldValidate: true,
-                shouldDirty: true
-            })
-            setValue("phone", Band.phone,  {
-                shouldValidate: true,
-                shouldDirty: true
-            })
-            setValue("email", Band.email,  {
-                shouldValidate: true,
-                shouldDirty: true
-            })
-            setValue("department", Band.department,  {
-                shouldValidate: true,
-                shouldDirty: true
-            })
-            setValue("deptunit", Band.deptunit,  {
-                shouldValidate: true,
-                shouldDirty: true
-            }) */
-    /*   setValue("BandCategory", Band.BandCategory,  {
-                shouldValidate: true,
-                shouldDirty: true
-            }) */
 
-  //   return () => {};
-  // });
 
   const handleCancel = async () => {
     const newBandModule = {
@@ -1217,6 +1002,43 @@ export function CaseDefinitionModify() {
     await setState(prevstate => ({ ...prevstate, BandModule: newBandModule }));
     //console.log(state)
   };
+
+  const handleAddSymptoms = ()=>{
+    let newsymptom = {
+        symptom,
+        duration,
+        sympreq
+    } 
+    console.log(newsymptom)
+    setSymptoms((prev)=>([...prev, newsymptom]))
+   // setAllergy({})
+    setSymptom("")
+    setDuration("")
+    setSympreq(false)
+}
+const handleAddFindings = ()=>{
+    let newFinding = {
+        finding,
+        findingreq
+    } 
+    console.log(newFinding)
+    setFindings((prev)=>([...prev, newFinding]))
+   // setAllergy({})
+    setFinding("")
+    setFindingreq(false)
+}
+const handleAddLabs = ()=>{
+    let newLabs = {
+        lab,
+        labvalue
+    } 
+    console.log(newLabs)
+    setLabs((prev)=>([...prev, newLabs]))
+   // setAllergy({})
+    setLab("")
+    setLabvalue("")
+   /*  setFindingreq(false) */
+}
 
   const changeState = () => {
     const newBandModule = {
@@ -1261,10 +1083,15 @@ export function CaseDefinitionModify() {
     }
   };
 
-  /* ()=> setValue("firstName", "Bill", , {
-            shouldValidate: true,
-            shouldDirty: true
-          })) */
+const onDeleteFinding = (comp,i)=>{
+    //console.log(comp,i)
+   setFindings(prevstate=>prevstate.filter((el,index)=>index!==i))
+}
+const onDeleteLab = (comp,i)=>{
+    //console.log(comp,i)
+   setLabs(prevstate=>prevstate.filter((el,index)=>index!==i))
+}
+
   const onSubmit = (data, e) => {
     e.preventDefault();
 
@@ -1304,7 +1131,7 @@ export function CaseDefinitionModify() {
        <form>
 <Box display="flex" justifyContent="flex-end" gap={2} mb={2}>
 <GlobalCustomButton 
-                // onClick={showCreateModal}
+                onClick={handleSubmit(onSubmit)}
                 >
                   <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
                 Save
@@ -1317,16 +1144,9 @@ export function CaseDefinitionModify() {
                   {/* <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" /> */}
                 Delete
                 </GlobalCustomButton>
-                <GlobalCustomButton 
-color='warning'
-variant="outlined"
-                onClick={handleCancel}>
-                  {/* <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" /> */}
-                Cancel
-                </GlobalCustomButton>
                
 </Box>
-   <Grid container pb="1rem" alignItems="center">
+<Grid container pb="1rem" alignItems="center">
     <Grid xs={6}>
     <Box display="flex" gap={2}>
    <Grid xs={6}>
@@ -1334,6 +1154,7 @@ variant="outlined"
                   label="Choose Notification Type"
                   name="status"
                   options={bandTypeOptions}
+                  register={register('notificationtype')}
               />
     </Grid>
     <Grid xs={6}>
@@ -1344,13 +1165,13 @@ variant="outlined"
    </Box>
     </Grid>
     <Grid xs={6}  pl={2}>
-  <Box display="flex"  justifyContent="space-between" mb={2}>
+  <Box display="flex"   justifyContent="space-between" mb={2}>
   <Box>
       <FormsHeaderText text="Symptoms"/>
     </Box>
-
+  
   </Box>
-  <Box display="flex" justifyContent="space-between" mb={2}>
+  <Box display="flex" justifyContent="space-between" gap={2} mb={2}>
     <Grid xs={5}>
       <Input
       //  register={register("symptoms", {required: true})}
@@ -1370,34 +1191,29 @@ variant="outlined"
       <FormControlLabel control={<Checkbox value={sympreq} name="sympreq" onChange={(e)=>{handleChecked(e)}} />} label="Required" />
       </FormGroup>
     </Box>
+    <Box>
+    <GlobalCustomButton 
+                onClick={handleAddSymptoms}
+                variant="outlined"
+                >
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add
+                </GlobalCustomButton>
+    </Box>
     </Box> 
+    <Box style={{ width: '100%', height: '100%', overflow: 'auto' }}>
+   <CustomTable
+     title={''}
+     columns={syptomSchema}
+     data={symptoms}
+     pointerOnHover
+     highlightOnHover
+     striped
+     CustomEmptyData="No Data"
+   />
+</Box>
   </Grid>
 
-  <Grid xs={6}  pl={2}>
-  <Box display="flex"  justifyContent="space-between" mb={2}>
-  <Box>
-      <FormsHeaderText text="Clinical Signs"/>
-    </Box>
-  </Box>
-  <Box display="flex" justifyContent="space-between" mb={2}>
-    <Grid xs={5}>
-      <Input
-       name="ClinicalFindings" type="text" label="Specify"
-     />
-    </Grid>
-    <Grid xs={4}>
-      <Input 
-      value={finding}  onChange={(e)=>{setFinding(e.target.value)}} name="finding" type="text"
-      // register={register("durations", {required: true})}
-     />
-    </Grid>
-    <Box>
-    <FormGroup>
-      <FormControlLabel control={<Checkbox value={findingreq} name="findingreq" onChange={(e)=>{handleChecked2(e)}} />} label="Required" />
-      </FormGroup>
-    </Box>
-    </Box> 
-  </Grid>
    </Grid>
     <Grid container alignItems="center">
     <Grid xs={6}>
@@ -1409,19 +1225,66 @@ variant="outlined"
                   label="Choose Person to Notify"
                   name="notifiedPerson"
                   options={notifierOptions}
+                  ref={register}
               />
     </Box>
     </Grid>
+    
+    <Grid xs={6}  pl={2}>
+  <Box display="flex" gap={2}  justifyContent="space-between" mb={2}>
+  <Box>
+      <FormsHeaderText text="Clinical Signs"/>
+    </Box>
+  
+  </Box>
+  <Box display="flex" gap={2} justifyContent="space-between" mb={2}>
+    <Grid xs={6}>
+      <Input 
+      value={finding}  onChange={(e)=>{setFinding(e.target.value)}} label="Finding" name="finding" type="text"
+      // register={register("durations", {required: true})}
+     />
+    </Grid>
+    <Box>
+    <FormGroup>
+      <FormControlLabel control={<Checkbox value={findingreq} name="findingreq" onChange={(e)=>{handleChecked2(e)}} />} label="Required" />
+      </FormGroup>
+    </Box>
+    <Box>
+    <GlobalCustomButton 
+                 onClick={handleAddFindings}
+                 variant="outlined"
+                >
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add
+                </GlobalCustomButton>
+    </Box>
+    </Box> 
+    <Box style={{ width: '100%', height: '100%', overflow: 'auto' }}>
+   <CustomTable
+     title={''}
+     columns={clinicalSignSchema}
+     data={findings}
+     onRowClicked={onDeleteFinding}
+     pointerOnHover
+     highlightOnHover
+     striped
+     CustomEmptyData="No Data"
+   />
+</Box>
+  </Grid>
+
+
     <Grid xs={6} pl={2} mt={4}>
    <Box display="flex" justifyContent="space-between" mb={2}>
    <Box>
       <FormsHeaderText text="Laboratory Confirmation" />
     </Box>
+   
    </Box>
    <Box display="flex" gap={2} mb={4}>
     <Grid xs={4}>
       <Input
-       ref={register} name="LaboratoryConfirmation" type="text" placeholder="Specify" 
+       ref={register} name="LaboratoryConfirmation" type="text" label="Specify" 
       />
     </Grid>
     <Grid xs={4}>
@@ -1436,145 +1299,33 @@ variant="outlined"
       value={labvalue}
       onChange={(e)=>{setLabvalue(e.target.value)}} name="lab value" type="text" label="Value" />
     </Grid>
+    <Box>
+    <GlobalCustomButton 
+        onClick={handleAddLabs}
+        variant="outlined"
+        >
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add
+                </GlobalCustomButton>
+    </Box>
+    </Box>
+    <Box style={{ width: '100%', height: '100%', overflow: 'auto' }}>
+   
+              <CustomTable
+                title={''}
+                columns={labSchema}
+                data={labs}
+                onRowClicked={onDeleteLab}
+                pointerOnHover
+                highlightOnHover
+                striped
+                CustomEmptyData="No Data"
+              />
+        
     </Box>
     </Grid>
   </Grid>
    </form>
-      {/* <div className='card '>
-        <div className='card-header'>
-          <p className='card-header-title'>Band Details-Modify</p>
-        </div>
-        <div className='card-content vscrollable'>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className='field'>
-              <label className='label is-small'>
-               
-                Name
-                <p className='control has-icons-left has-icons-right'>
-                  <input
-                    className='input  is-small'
-                    {...register('name', { required: true })}
-                    name='name'
-                    type='text'
-                    placeholder='Name'
-                  />
-                  <span className='icon is-small is-left'>
-                    <i className='fas fa-hospital'></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className='field'>
-              <label className='label is-small'>
-                Band Type
-                <p className='control has-icons-left has-icons-right'>
-                  <input
-                    className='input is-small '
-                    {...register('x', { required: true })}
-                    disabled
-                    name='bandType'
-                    type='text'
-                    placeholder='Band Type'
-                  />
-                  <span className='icon is-small is-left'>
-                    <i className='fas fa-map-signs'></i>
-                  </span>
-                </p>
-              </label>
-            </div> */}
-            {/* <div className="field">
-            <label className="label is-small">Profession
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="profession" type="text" placeholder="Profession"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-map-marker-alt"></i>
-                    </span>
-                </p>
-                </label>
-                </div>
-            <div className="field">
-            <label className="label is-small">Phone
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="phone" type="text" placeholder="Phone No"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-phone-alt"></i>
-                    </span>
-                </p>
-                </label>
-                 </div>
-            <div className="field">
-            <label className="label is-small">Email
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="Band Email"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                    </span>
-                </p>
-                </label>
-                </div>
-            <div className="field">
-            <label className="label is-small">Department
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="department" type="text" placeholder="Department"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-user-md"></i>
-                    </span>
-                </p>
-                </label>
-                {errors.department && <span>This field is required</span>}
-                </div>
-            <div className="field">
-            <label className="label is-small">Departmental Unit
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="deptunit" type="text" placeholder="Departmental Unit"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-hospital-symbol"></i>
-                    </span>
-                </p>
-                </label>
-                </div> */}
-            {/*  <div className="field">
-            <label className="label is-small">Category
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="BandCategory" type="text" placeholder="Band Category"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                    </span>
-                </p>
-                </label>
-            </div> */}
-          {/* </form> */}
-
-          {/* <div className='field  is-grouped mt-2'>
-            <p className='control'>
-              <button
-                type='submit'
-                className='button is-success is-small'
-                onClick={handleSubmit(onSubmit)}
-              >
-                Save
-              </button>
-            </p>
-            <p className='control'>
-              <button
-                className='button is-warning is-small'
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
-            </p>
-            <p className='control'>
-              <button
-                className='button is-danger is-small'
-                onClick={() => handleDelete()}
-                type='delete'
-              >
-                Delete
-              </button>
-            </p>
-          </div>
-        </div>
-      </div> */}
     </>
   );
 }
