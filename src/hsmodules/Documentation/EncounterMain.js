@@ -28,17 +28,9 @@ import ReactToPrint, {useReactToPrint} from "react-to-print";
 import {Box, Collapse, Grid, IconButton, Typography} from "@mui/material";
 import Input from "../../components/inputs/basic/Input";
 import Divider from "@mui/material/Divider";
-
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import Button from "../../components/buttons/Button";
-import MuiButton from "@mui/material/Button";
 
 import Slide from "@mui/material/Slide";
-
-import ViewDocument from "../../components/ReactPDF/ViewDocument";
 
 import {
   AdmissionOrderDocument,
@@ -60,6 +52,7 @@ import {
 } from "./print-outs/Print-Outs";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {AppointmentCreate} from "../Appointment/generalAppointment";
+import DocumentationScheduleAppointment from "./ScheduleAppointment";
 
 export default function EncounterMain({nopresc, chosenClient}) {
   // const { register, handleSubmit, watch, errors } = useForm();
@@ -968,7 +961,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
           onClose={() => handleCancel()}
           header="Set Next Appointment"
         >
-          <AppointmentCreate />
+          <DocumentationScheduleAppointment />
         </ModalBox>
 
         <ModalBox

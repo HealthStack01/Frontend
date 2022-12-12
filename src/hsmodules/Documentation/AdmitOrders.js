@@ -7,12 +7,20 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import FacilityPopup from "../helpers/FacilityPopup";
 import {toast} from "bulma-toast";
-import {Box} from "@mui/material";
+import {Box, Grid, Typography} from "@mui/material";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import CustomTable from "../../components/customtable";
 import {TableMenu} from "../../ui/styled/global";
 import {format, formatDistanceToNowStrict} from "date-fns";
 import Button from "../../components/buttons/Button";
+import ModalBox from "../../components/modal";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import {FormsHeaderText} from "../../components/texts";
+import Textarea from "../../components/inputs/basic/Textarea";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 const searchfacility = {};
@@ -24,22 +32,21 @@ export default function AdmitOrders() {
   //const [showState,setShowState]=useState() //create|modify|detail
 
   return (
-    <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
-            </div> */}
-      <div className="columns ">
-        <div className="column is-6 ">
+    <Box
+      sx={{
+        width: "90vw",
+        maxHeight: "80vh",
+      }}
+    >
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={12} md={12} lg={8}>
           <AdmitOrdersList />
-        </div>
-        <div className="column is-6 ">
-          {state.EndEncounterModule.selectedEndEncounter ===
-            "Admit to Ward" && <AdmitOrdersCreate />}
-          {/*   {(state.OrderModule.show ==='detail')&&<ProductEntryDetail  />}
-                {(state.OrderModule.show ==='modify')&&<ProductEntryModify ProductEntry={selectedProductEntry} />} */}
-        </div>
-      </div>
-    </section>
+        </Grid>
+        <Grid item xs={12} sm={12} md={12} lg={4}>
+          <AdmitOrdersCreate />
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 
@@ -272,93 +279,50 @@ export function AdmitOrdersCreate() {
 
   return (
     <>
-      <div className="card card-overflow">
-        <div className="card-header">
-          <p className="card-header-title">Create Admit Orders</p>
-        </div>
-        <div className="card-content ">
-          {/*  <form onSubmit={onSubmit}> {/* handleSubmit(onSubmit)  </form>  */}
+      <Box sx={{display: "flex", flexDirection: "column"}} gap={1.5}>
+        <Box>
+          <FormsHeaderText text="Create Admission Order" />
+        </Box>
 
-          {/* array of ProductEntry items */}
+        <Box>
+          <WardHelperSearch
+            getSearchfacility={getSearchfacility}
+            clear={success}
+          />
+          <input
+            style={{display: "none"}}
+            className="input is-small" /* ref={register ({ required: true }) }   value={ward?.name} name="test" type="text" onChange={e=>setWard(e.target.value)} placeholder="test"  */
+          />
+        </Box>
 
-          <label className="label is-small">Destination Ward</label>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div
-                className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-              >
-                <WardHelperSearch
-                  getSearchfacility={getSearchfacility}
-                  clear={success}
-                />
-                <p
-                  className="control has-icons-left "
-                  style={{display: "none"}}
-                >
-                  <input
-                    className="input is-small" /* ref={register ({ required: true }) }   value={ward?.name} name="test" type="text" onChange={e=>setWard(e.target.value)} placeholder="test"  */
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas  fa-map-marker-alt"></i>
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field">
-                <p className="control ">
-                  <textarea
-                    class="textarea is-small"
-                    /* {...register("x",{required: true})} */ name="instruction"
-                    value={instruction}
-                    type="text"
-                    onChange={e => setInstruction(e.target.value)}
-                    placeholder="Instructions/Note"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="field mt-2">
-            <p className="control">
-              <button
-                className="button is-success is-small"
-                /* disabled={!productItem.length>0} */ onClick={onSubmit}
-              >
-                Create
-              </button>
-            </p>
-          </div>
-        </div>
-      </div>
-      {/*  use for documentation instruction helper */}
-      <div className={`modal ${destinationModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Choose Destination</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            <FacilityPopup
-              facilityType="Laboratory"
-              closeModal={handlecloseModal}
-            />
-            {/* <StoreList standalone="true" /> */}
-            {/*  <ProductCreate /> */}
-          </section>
-          {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer> */}
-        </div>
-      </div>
+        <Box>
+          <Textarea
+            name="instruction"
+            value={instruction}
+            type="text"
+            onChange={e => setInstruction(e.target.value)}
+            label="Instructions/Note"
+            placeholder="Write here......"
+          />
+        </Box>
+
+        <Box sx={{display: "flex", justifyContent: "flex-end"}}>
+          <GlobalCustomButton onClick={onSubmit}>
+            Submit Admission Order
+          </GlobalCustomButton>
+        </Box>
+      </Box>
+
+      <ModalBox
+        open={destinationModal}
+        onClose={handlecloseModal}
+        header="Choose Destination"
+      >
+        <FacilityPopup
+          facilityType="Laboratory"
+          closeModal={handlecloseModal}
+        />
+      </ModalBox>
     </>
   );
 }
@@ -524,6 +488,7 @@ export function AdmitOrdersList({standalone}) {
       selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
+      width: "50px",
     },
 
     {
@@ -608,16 +573,16 @@ export function AdmitOrdersList({standalone}) {
               List of Admission Orders
             </h2>
           </div>
-          <Button
-            style={{fontSize: "14px", fontWeight: "600", marginLeft: ""}}
-            label="Add new "
-            className="button is-success is-small"
-            onClick={handleCreateNew}
-          />
+
+          {!standalone && (
+            <GlobalCustomButton onClick={handleCreateNew}>
+              <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
+              Add New
+            </GlobalCustomButton>
+          )}
         </TableMenu>
 
-        {!standalone && <button onClick={() => handleDelete(ProductEntry)} />}
-        <Box style={{height: "400px", overScrollY: "scroll"}}>
+        <Box>
           <CustomTable
             title={""}
             columns={admitOrderSchema}
@@ -625,6 +590,11 @@ export function AdmitOrdersList({standalone}) {
             pointerOnHover
             highlightOnHover
             striped
+            CustomEmptyData={
+              <Typography sx={{fontSize: "0.85rem"}}>
+                No Admission Orders found......
+              </Typography>
+            }
           />
         </Box>
       </Box>
@@ -1162,7 +1132,189 @@ export function ProductEntryModify() {
   );
 }
 
-export function WardHelperSearch({getSearchfacility, clear}) {
+export function WardHelperSearch({
+  id = "",
+  getSearchfacility,
+  clear,
+  disable = false,
+  label,
+}) {
+  const productServ = client.service("location");
+  const [facilities, setFacilities] = useState([]);
+  // eslint-disable-next-line
+  const [searchError, setSearchError] = useState(false);
+  // eslint-disable-next-line
+  const [showPanel, setShowPanel] = useState(false);
+  // eslint-disable-next-line
+  const [searchMessage, setSearchMessage] = useState("");
+  // eslint-disable-next-line
+  const [simpa, setSimpa] = useState("");
+  // eslint-disable-next-line
+  const [chosen, setChosen] = useState(false);
+  // eslint-disable-next-line
+  const [count, setCount] = useState(0);
+  const inputEl = useRef(null);
+  const [val, setVal] = useState("");
+  const {user} = useContext(UserContext);
+  const {state} = useContext(ObjectContext);
+  const [productModal, setProductModal] = useState(false);
+
+  const dropDownRef = useRef(null);
+
+  const handleRow = async obj => {
+    await setChosen(true);
+    //alert("something is chaning")
+
+    await setSimpa(obj.name);
+    getSearchfacility(obj);
+    // setSelectedFacility(obj)
+    setShowPanel(false);
+    await setCount(2);
+    /* const    newfacilityModule={
+            selectedFacility:facility,
+            show :'detail'
+        }
+   await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
+    //console.log(state)
+  };
+
+  const handleSearch = async value => {
+    setVal(value);
+    if (value === "") {
+      setShowPanel(false);
+      getSearchfacility(false);
+      return;
+    }
+    const field = "name"; //field variable
+
+    if (value.length >= 3) {
+      productServ
+        .find({
+          query: {
+            //service
+            $or: [
+              {
+                [field]: {
+                  $regex: value,
+                  $options: "i",
+                },
+              },
+              {
+                locationType: "Ward",
+              },
+            ],
+            facility: user.currentEmployee.facilityDetail._id,
+            locationType: "Ward",
+            $limit: 10,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        })
+        .then(res => {
+          console.log("product  fetched successfully");
+          console.log(res);
+          if (res.total > 0) {
+            setFacilities(res.data);
+            setSearchMessage(" product  fetched successfully");
+            setShowPanel(true);
+          } else {
+            setShowPanel(false);
+            getSearchfacility({
+              test: value,
+              instruction: "",
+            });
+          }
+        })
+        .catch(err => {
+          toast({
+            message: "Error fetching test " + err,
+            type: "is-danger",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        });
+    } else {
+      console.log("less than 3 ");
+      console.log(val);
+      setShowPanel(false);
+      await setFacilities([]);
+      console.log(facilities);
+    }
+  };
+
+  useEffect(() => {
+    if (clear) {
+      console.log("success has changed", clear);
+      setSimpa("");
+    }
+    return () => {};
+  }, [clear]);
+
+  return (
+    <div>
+      <Autocomplete
+        size="small"
+        value={simpa}
+        onChange={(event, newValue) => {
+          handleRow(newValue);
+          setSimpa("");
+        }}
+        id="free-solo-dialog-demo"
+        options={facilities}
+        getOptionLabel={option => {
+          if (typeof option === "string") {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option.name;
+        }}
+        isOptionEqualToValue={(option, value) =>
+          value === undefined || value === "" || option._id === value._id
+        }
+        onInputChange={(event, newInputValue) => {
+          handleSearch(newInputValue);
+        }}
+        inputValue={val}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        noOptionsText={val !== "" ? `${val} Not Found` : "Type something"}
+        renderOption={(props, option) => (
+          <li {...props} style={{fontSize: "0.75rem"}}>
+            {option.name}
+          </li>
+        )}
+        sx={{
+          width: "100%",
+        }}
+        freeSolo={false}
+        renderInput={params => (
+          <TextField
+            {...params}
+            label={label || "Search for Location"}
+            ref={inputEl}
+            sx={{
+              fontSize: "0.75rem",
+              backgroundColor: "#ffffff",
+              "& .MuiInputBase-input": {
+                height: "0.9rem",
+              },
+            }}
+            InputLabelProps={{
+              shrink: true,
+              style: {color: "#2d2d2d"},
+            }}
+          />
+        )}
+      />
+    </div>
+  );
+}
+
+export function OldWardHelperSearch({getSearchfacility, clear}) {
   const productServ = client.service("location");
   const testServ2 = client.service("labtest");
   const [facilities, setFacilities] = useState([]);

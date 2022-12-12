@@ -2,16 +2,17 @@ import {Typography} from "@mui/material";
 
 interface componentProps {
   text: string | number;
+  color?: string;
 }
 
-const FormsHeaderText = ({text}) => {
+const FormsHeaderText = ({text, color = "#0064CC"}: componentProps) => {
   return (
     <Typography
       sx={{
-        color: "#0064CC",
+        color: color,
         textTransform: "uppercase",
         fontWeight: "800",
-        fontSize: "14px",
+        fontSize: "0.80rem",
         lineHeight: "28px",
         //marginBottom: "10px",
       }}

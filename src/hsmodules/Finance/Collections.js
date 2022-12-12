@@ -15,50 +15,32 @@ import FacilityAccount from "./FacilityAccount";
 import ModalBox from "../../components/modal";
 import CloseIcon from "@mui/icons-material/Close";
 import {Box, IconButton, Button as MuiButton, Typography} from "@mui/material";
+import {TransactionsList} from "./Transactions";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function Collections() {
   const {state} = useContext(ObjectContext); //,setState
-  // eslint-disable-next-line
-  const [selectedInventory, setSelectedInventory] = useState();
-  //const [showState,setShowState]=useState() //create|modify|detail
-  const [accountModal, setAccountModal] = useState(false);
-
-  const handleOpenAccountModal = () => {
-    setAccountModal(true);
-  };
-
-  const handleCloseAccountModal = () => {
-    setAccountModal(false);
-  };
+  const [currentScreen, setCurrentScreen] = useState("lists");
 
   return (
-    <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Inventory  Module</span></div>
-            </div> */}
+    <Box>
+      {currentScreen === "lists" && (
+        <CollectionList
+          showTransactions={() => setCurrentScreen("transactions")}
+        />
+      )}
 
-      <CollectionList openAccountModal={handleOpenAccountModal} />
-      <ModalBox
-        open={accountModal}
-        onClose={handleCloseAccountModal}
-        header="Account Details"
-      >
-        <ClientAccount closeModal={handleCloseAccountModal} />
-      </ModalBox>
-
-      {/*  {(state.InventoryModule.show ==='detail')&&<InventoryDetail  />}
-                {(state.InventoryModule.show ==='modify')&&<InventoryModify Inventory={selectedInventory} />}*/}
-    </section>
+      {currentScreen === "transactions" && (
+        <ClientAccount handleGoBack={() => setCurrentScreen("lists")} />
+      )}
+    </Box>
   );
 }
 
-export function ClientAccount({closeModal}) {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState("");
+export function ClientAccount({handleGoBack}) {
   // eslint-disable-next-line
   const [facility, setFacility] = useState([]);
   const InventoryServ = client.service("subwallettransactions");
@@ -70,38 +52,15 @@ export function ClientAccount({closeModal}) {
   const [currentUser, setCurrentUser] = useState();
   const [balance, setBalance] = useState(0);
 
-  const [accountType, setAccountType] = useState("credit");
-
-  const handleToggleAccount = type => {
-    setAccountType(prev => (prev === "credit" ? "debit" : "credit"));
-  };
-
   const clientSel = state.SelectedClient.client;
-  const getSearchfacility = obj => {
-    /*   
-        setValue("facility", obj._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        }) */
-  };
+
+  console.log("Selected Client", clientSel);
 
   useEffect(() => {
     setCurrentUser(user);
     ////console.log(currentUser)
     return () => {};
   }, [user]);
-
-  //check user for facility or get list of facility
-  /*  useEffect(()=>{
-        //setFacility(user.activeInventory.FacilityId)//
-      if (!user.stacker){
-          //console.log(currentUser)
-        setValue("facility", user.currentEmployee.facilityDetail._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        }) 
-      }
-    }) */
 
   useEffect(() => {
     getaccountdetails();
@@ -171,304 +130,84 @@ export function ClientAccount({closeModal}) {
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
 
-  const onSubmit = (data, e) => {
-    e.preventDefault();
-    setMessage("");
-    setError(false);
-    setSuccess(false);
-    // data.createdby=user._id
-    //console.log(data);
-    if (user.currentEmployee) {
-      data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
-    }
-  };
-
-  const creditSchema = [
-    {
-      name: "S/N",
-      key: "sn",
-      description: "SN",
-      selector: row => row.sn,
-      sortable: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "Date",
-      key: "createdAt",
-      description: "Enter Date",
-      selector: row => format(new Date(row.createdAt), "dd-MM-yy HH:mm"),
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-    {
-      name: "Description",
-      style: {color: "#0364FF"},
-      key: "description",
-      description: "Enter Date",
-      selector: row =>
-        row.description ? row.description : "---------------------",
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-    {
-      name: "Amount",
-      key: "amount",
-      description: "Enter Date",
-      selector: row => row.amount,
-      sortable: true,
-      required: true,
-      inputType: "NUMBER",
-    },
-    {
-      name: "Mode",
-      key: "paymentmode",
-      description: "Enter Date",
-      selector: row => row.paymentmode,
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-  ];
-
-  const debitSchema = [
-    {
-      name: "S/N",
-      key: "sn",
-      description: "SN",
-      selector: row => row.sn,
-      sortable: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "Date",
-      key: "createdAt",
-      description: "Enter Date",
-      selector: row => format(new Date(row.createdAt), "dd-MM-yy HH:mm"),
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-    {
-      name: "Description",
-      style: {color: "#0364FF"},
-      key: "description",
-      description: "Enter Date",
-      selector: row => row.description,
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-    {
-      name: "Amount",
-      key: "amount",
-      description: "Enter Date",
-      selector: row => row.amount,
-      sortable: true,
-      required: true,
-      inputType: "NUMBER",
-    },
-    {
-      name: "Mode",
-      key: "paymentmode",
-      description: "Enter Date",
-      selector: row => row.paymentmode,
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-  ];
-
   return (
-    <>
+    <Box
+      container
+      sx={{
+        width: "100%",
+        height: "100%",
+      }}
+    >
       <Box
-        container
         sx={{
-          width: "750px",
-          height: "550px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          borderBottom: "1px solid #f8f8f8",
+          backgroundColor: "#f8f8f8",
         }}
+        p={2}
       >
-        <Box
-          mb={2}
-          mt={2}
+        <GlobalCustomButton onClick={handleGoBack}>
+          <ArrowBackIcon fontSize="small" sx={{marginRight: "5px"}} />
+          Back
+        </GlobalCustomButton>
+
+        <Typography
           sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
+            textTransform: "capitalize",
+            fontWeight: "700",
+            color: "#0364FF",
           }}
+          onClick={() => console.log(user.currentEmployee.facilityDetail._id)}
+        >
+          Transaction History for {facility[0]?.fromName}
+        </Typography>
+
+        <Box
+          style={{
+            minWidth: "200px",
+            height: "40px",
+            border: "1px solid #E5E5E5",
+            display: "flex",
+            //flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "0 7px",
+          }}
+          gap={1.5}
         >
           <Typography
             sx={{
-              textTransform: "capitalize",
-              fontWeight: "700",
+              color: "#000000",
+              fontSize: "14px",
+              lineHeight: "21.86px",
+            }}
+          >
+            Account Balance
+          </Typography>
+
+          <Typography
+            sx={{
+              fontWeight: "600",
+              fontSize: "20px",
               color: "#0364FF",
             }}
           >
-            {facility[0]?.fromName}
+            <span>&#8358;</span>
+            {balance}
           </Typography>
         </Box>
-        <Box mb={2}>
-          <Box sx={{display: "flex", justifyContent: "space-between"}}>
-            <div
-              className="card-header"
-              style={{
-                width: "200px",
-                height: "80px",
-                border: "1px solid #E5E5E5",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                paddingLeft: "31px",
-                marginRight: "15px",
-              }}
-            >
-              <span
-                style={{
-                  color: "#0364FF",
-                  fontSize: "14px",
-                  lineHeight: "21.86px",
-                }}
-              >
-                Current Balance
-              </span>
-              <span
-                style={{
-                  fontWeight: "700",
-                  fontSize: "22px",
-                  color: "#000000",
-                }}
-              >
-                <span>&#8358;</span>
-                {balance}
-              </span>
-            </div>
-
-            <div
-              className="card-header"
-              style={{
-                width: "200px",
-                height: "80px",
-                border: "1px solid #E5E5E5",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                paddingLeft: "31px",
-              }}
-            >
-              <span
-                style={{
-                  color: "#0364FF",
-                  fontSize: "14px",
-                  lineHeight: "21.86px",
-                }}
-              >
-                Credit Account
-              </span>
-              <span
-                style={{
-                  fontWeight: "700",
-                  fontSize: "22px",
-                  color: "#000000",
-                }}
-              >
-                <span>&#8358;</span>
-                {balance}
-              </span>
-            </div>
-
-            <div
-              className="card-header"
-              style={{
-                width: "200px",
-                height: "80px",
-                border: "1px solid #E5E5E5",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                paddingLeft: "31px",
-              }}
-            >
-              <span
-                style={{
-                  color: "#0364FF",
-                  fontSize: "14px",
-                  lineHeight: "21.86px",
-                }}
-              >
-                Debit Account
-              </span>
-              <span
-                style={{
-                  fontWeight: "700",
-                  fontSize: "22px",
-                  color: "#000000",
-                }}
-              >
-                <span>&#8358;</span>
-                {balance}
-              </span>
-            </div>
-          </Box>
-        </Box>
-
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-          mb={2}
-          mt={2}
-        >
-          <Typography>
-            {accountType === "credit" ? "Credit Account" : "Debit Account"}
-          </Typography>
-          <MuiButton
-            variant="outlined"
-            style={{
-              width: "150px",
-              height: "48px",
-              textTransform: "capitalize",
-            }}
-            onClick={handleToggleAccount}
-          >
-            {accountType === "credit" ? "Debit" : "Credit"} Detail
-          </MuiButton>
-        </Box>
-        {accountType === "credit" ? (
-          <Box sx={{height: "350px", overflowY: "auto"}}>
-            <CustomTable
-              title={""}
-              columns={creditSchema}
-              data={facility.filter(i => i.category === "credit")}
-              pointerOnHover
-              highlightOnHover
-              striped
-              //onRowClicked={handleRow}
-              progressPending={false}
-            />
-          </Box>
-        ) : (
-          <Box sx={{height: "350px", overflowY: "auto"}}>
-            <CustomTable
-              title={""}
-              columns={debitSchema}
-              data={facility.filter(i => i.category === "debit")}
-              pointerOnHover
-              highlightOnHover
-              striped
-              //onRowClicked={handleRow}
-              progressPending={false}
-            />
-          </Box>
-        )}
       </Box>
-    </>
+
+      <Box mb={2} p={2}>
+        <TransactionsList />
+      </Box>
+    </Box>
   );
 }
 
-export function CollectionList({openAccountModal}) {
+export function CollectionList({showTransactions}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -518,7 +257,7 @@ export function CollectionList({openAccountModal}) {
       SelectedClient: newInventoryModule,
     }));
     ////console.log(state)
-    openAccountModal();
+    showTransactions();
   };
 
   const handleSearch = val => {
@@ -540,8 +279,6 @@ export function CollectionList({openAccountModal}) {
       .then(res => {
         ////console.log(res)
         setFacilities(res.data);
-        /* setMessage(" Inventory  fetched successfully")
-                setSuccess(true)  */
       })
       .catch(err => {
         //console.log(err);
@@ -587,16 +324,6 @@ export function CollectionList({openAccountModal}) {
         await setFacilities(findInventory.data);
       }
     }
-    /*   .then((res)=>{
-                //console.log(res)
-                    setFacilities(res.data)
-                    setMessage(" Inventory  fetched successfully")
-                    setSuccess(true)
-                })
-                .catch((err)=>{
-                    setMessage("Error creating Inventory, probable network issues "+ err )
-                    setError(true)
-                }) */
   };
 
   useEffect(() => {
@@ -610,13 +337,6 @@ export function CollectionList({openAccountModal}) {
     if (user) {
       getFacilities();
     } else {
-      /* const localUser= localStorage.getItem("user")
-                    const user1=JSON.parse(localUser)
-                    //console.log(localUser)
-                    //console.log(user1)
-                    fetchUser(user1)
-                    //console.log(user)
-                    getFacilities(user) */
     }
     InventoryServ.on("created", obj => getFacilities());
     InventoryServ.on("updated", obj => getFacilities());
@@ -640,7 +360,7 @@ export function CollectionList({openAccountModal}) {
       selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
-      width: "80px",
+      width: "50px",
     },
     {
       name: "Date",
@@ -687,7 +407,11 @@ export function CollectionList({openAccountModal}) {
       {user ? (
         <>
           <PageWrapper
-            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+            style={{
+              flexDirection: "column",
+              padding: "0.6rem 1rem",
+              height: "100%",
+            }}
           >
             <TableMenu>
               <div style={{display: "flex", alignItems: "center"}}>
@@ -702,7 +426,13 @@ export function CollectionList({openAccountModal}) {
               </div>
             </TableMenu>
 
-            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+            <div
+              style={{
+                width: "100%",
+                height: "calc(100% - 180px)",
+                overflow: "auto",
+              }}
+            >
               <CustomTable
                 title={""}
                 columns={CollectionSchema}
