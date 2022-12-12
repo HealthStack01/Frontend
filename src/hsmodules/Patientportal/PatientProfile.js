@@ -7,8 +7,7 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import { styled } from '@mui/material/styles'
 import IconButton from '@mui/material/IconButton';
-import UploadFileIcon from '@mui/icons-material/UploadFile';
-// import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import Typography from '@mui/material/Typography'
 // import CardContent from '@mui/material/CardContent'
 import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
@@ -20,8 +19,8 @@ import {
 
 
 const ImgStyled = styled('img')(({ theme }) => ({
-  width: 120,
-  height: 120,
+  width: 150,
+  height: 150,
   marginRight: theme.spacing(6.25),
   borderRadius: theme.shape.borderRadius
 }))
@@ -49,16 +48,18 @@ const PatientProfile = () => {
     <Box mx="4rem" width="80%">
       <form>
         <Grid container spacing={7}>
-          <Grid item xs={12} sx={{ marginTop: 2, marginBottom: 3 }}>
+          <Grid item xs={12} sx={{ margin: 2, marginBottom: 2}}>
             <Box sx={{position:"relative"}}>
               <ImgStyled src={imgSrc} alt='Profile Pic' />
-              <Box sx={{position:"absolute", left:"6rem", bottom:"-4px"}}>
-                <IconButton color="primary" aria-label="upload picture" component="label" bgColor="red">
-        <input hidden  accept='image/png, image/jpeg'
-                    id='account-settings-upload-image' type="file"  onChange={onChange}/>
-        <UploadFileIcon/>
-      </IconButton>
-              </Box>
+              {editing ?  <Box sx={{position:"absolute", left:"7rem", bottom:"-4px",backgroundColor:"#0E214D",padding:"2px", borderRadius:"100%"}}>
+                
+              <IconButton color="primary" aria-label="upload picture" component="label">
+              <input hidden  accept='image/png, image/jpeg'
+                          id='account-settings-upload-image' type="file"  onChange={onChange}/>
+              <ModeEditOutlineIcon/>
+            </IconButton>
+              </Box>: null  
+              }
             </Box>
           </Grid>
           </Grid>
