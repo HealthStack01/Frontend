@@ -1,248 +1,435 @@
-/* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
-import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
-//import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {formatDistanceToNowStrict} from "date-fns";
-import VideoConference from "../utils/VideoConference";
+import { useState } from 'react'
+import Input from "../../components/inputs/basic/Input";
+import Button from "../../components/buttons/CustomButton"
+import CustomSelect from "../../components/inputs/basic/Select";
+import { useForm } from "react-hook-form";
+import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+import { styled } from '@mui/material/styles'
+import IconButton from '@mui/material/IconButton';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import Typography from '@mui/material/Typography'
+// import CardContent from '@mui/material/CardContent'
+import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 
-// Demo styles, see 'Styles' section below for some notes on use.
+// import Button from '@mui/material/Button'
+import {
+  GridBox
+} from "../app/styles";
 
-import {PrescriptionList} from "../Documentation/Prescription";
-import BillServiceCreate from "../Finance/BillServiceCreate";
 
-export default function PatientProfile() {
-  const {state} = useContext(ObjectContext); //,setState
-  // eslint-disable-next-line
-  const [selectedClient, setSelectedClient] = useState();
-  const [billingModal, setBillingModal] = useState(false);
-  const client = state.ClientModule.selectedClient;
+const ImgStyled = styled('img')(({ theme }) => ({
+  width: 150,
+  height: 150,
+  marginRight: theme.spacing(6.25),
+  borderRadius: theme.shape.borderRadius
+}))
+
+
+const PatientProfile = () => {
   const {
-    firstname,
-    middlename,
-    lastname,
-    dob,
-    gender,
-    maritalstatus,
-    religion,
-    phone,
-    email,
-    profession,
-
-    nok_name,
-    nok_phoneno,
-    nok_email,
-    nok_relationship,
-    bloodgroup,
-    genotype,
-    disabilities,
-    specificDetails,
-    clientTags,
-    mrn,
-    address,
-    city,
-    lga,
-    //state,
-    country,
-    allergies,
-    comorbidities,
-    paymentinfo,
-  } = state.ClientModule.selectedClient;
-
-  /*   const {
-        cash,
-        cashDetails,
-        familycover,
-        familyDetails,
-        companycover,
-        companyDetails,
-        hmocover,
-        hmoDetails
-        } =state.ClientModule.selectedClient.paymentinfo */
-
-  useEffect(() => {
-    return () => {};
-  }, []);
-
-  useEffect(() => {
-    setSelectedClient(state.ClientModule.selectedClient);
-    /*  console.log(client)
-        console.log(selectedClient) */
-    return () => {};
-  });
-  const handlecloseModal1 = () => {
-    setBillingModal(false);
-  };
-  const showBilling = () => {
-    setBillingModal(true);
-    //navigate('/app/finance/billservice')
-  };
+    register,
+    handleSubmit,
+    reset,
+    control
+  } = useForm()
+  const [imgSrc, setImgSrc] = useState('https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg')
+  const [editing,setEditing]= useState(false)
+  const onChange = file => {
+    const reader = new FileReader()
+    const { files } = file.target
+    if (files && files.length !== 0) {
+      reader.onload = () => setImgSrc(reader.result)
+      reader.readAsDataURL(files[0])
+    }
+  }
 
   return (
-    <div>
-      <div className="card">
-        <div className="card-content p-1">
-          <div className="media p-0 m-0 ">
-            <div className="media-left">
-              <figure className="image is-48x48">
-                <img
-                  src="https://bulma.io/images/placeholders/96x96.png"
-                  alt="Placeholder image"
-                />
-              </figure>
-            </div>
-            <div className="media-content">
-              <p className="title is-7">
-                {firstname} {middlename} {lastname}
-              </p>
-              <p className="subtitle is-7 payment">
-                {/* {cash && "Cash"}
-                                {familycover && "Family Cover"}
-                                {companycover && "Company Cover"}
-                                {hmocover && "HMO Cover"} */}
-              </p>
-              <button
-                className="button is-success is-small btnheight mt-2"
-                onClick={showBilling}
-              >
-                Bill Client
-              </button>
-            </div>
-          </div>
+    <Box mx="4rem" width="80%">
+      <form>
+        <Grid container spacing={7}>
+          <Grid item xs={12} sx={{ margin: 2, marginBottom: 2}}>
+            <Box sx={{position:"relative"}}>
+              <ImgStyled src={imgSrc} alt='Profile Pic' />
+              {editing ?  <Box sx={{position:"absolute", left:"7rem", bottom:"-4px",backgroundColor:"#0E214D",padding:"2px", borderRadius:"100%"}}>
+                
+              <IconButton color="primary" aria-label="upload picture" component="label">
+              <input hidden  accept='image/png, image/jpeg'
+                          id='account-settings-upload-image' type="file"  onChange={onChange}/>
+              <ModeEditOutlineIcon/>
+            </IconButton>
+              </Box>: null  
+              }
+            </Box>
+          </Grid>
+          </Grid>
+          <Box display="flex" justifyContent="flex-end">
+            {!editing ?
+          <Button variant='contained' color="warning" onClick={() => setEditing(true)}>
+          Edit Profile
+        </Button>
+        :  
+       <Box>
+         <Button variant='contained' sx={{marginRight:"1.5rem"}}>
+        Save Changes
+        </Button>
+        <Button  variant='contained' color="error" onClick={() => setEditing(false)}>
+        Cancel
+        </Button>
+       </Box>
+        } 
+          </Box>
+        <GridBox>
+        <Grid item xs={6}>
+         {!editing ?    <Input register={register("firstName")} 
+            label='First Name' 
+            type="name" 
+            name="firstName"  
+            defaultValue='John' 
+            disabled={!editing}
+            /> : 
+            <Input register={register("firstName")} 
+            label='First Name' 
+            type="name" 
+            name="firstName"  
+            defaultValue='John' 
+            />}
+          </Grid>
+          <Grid item xs={6}>
+          {!editing ?   <Input register={register("lastName")} 
+            label='Last Name' 
+            type="name" 
+            name="lastName" 
+            defaultValue='Doe'
+            disabled={!editing}
+            /> :
+            <Input register={register("lastName")} 
+            label='Last Name' 
+            type="name" 
+            name="lastName" 
+            defaultValue='Doe' />
+            
+            }
+          </Grid>
+          <Grid item xs={6} >
+          {!editing ?   <Input register={register("middleName")} 
+            label='Middle Name' 
+            type="name" 
+            name="middleName"  
+            defaultValue='Pop' 
+            disabled={!editing}
+            /> : 
+            <Input register={register("middleName")} 
+            label='Middle Name' 
+            type="name" 
+            name="middleName"  
+            defaultValue='Pop' />
+            }
+          </Grid>
+          </GridBox>
+        
+        <Box sx={{marginTop:"16px", marginBottom: "14px"}}>
+      <Typography variant='p' sx={{ color:"blue",fontSize:"14px",fontWeight:"bold" }}>
+         BIO DATA
+     </Typography>
+        </Box>
+  <GridBox>
+          <Grid item xs={6} >
+           {!editing ?  <Input
+              type='email'
+              label='Email'
+              register={register("email")}
+              defaultValue='johnDoe@example.com'
+              disabled={!editing}
+            /> : 
+            <Input
+            type='email'
+            label='Email'
+            register={register("email")}
+            defaultValue='johnDoe@example.com'
+          />
+            }
+          </Grid>
+          <Grid item xs={6} >
+          {!editing? <Input 
+              type='phone'
+              label='Phone Number 1'
+              defaultValue='08101234567'
+              register={register("phoneNumber1")}
+              disabled={!editing}
+            />:
+            <Input 
+              type='phone'
+              label='Phone Number 1'
+              defaultValue='08101234567'
+              register={register("phoneNumber1")}
+            />
+            }
+          </Grid>
+          <Grid item xs={6}>
+          {!editing ?
+          <Input 
+          type='phone'
+          label='Phone Number 2'
+          defaultValue='08101234567'
+          register={register("phoneNumber2")}
+          disabled={!editing}
+        />  
+           :
+           <Input 
+              type='phone'
+              label='Phone Number 2'
+              defaultValue='08101234567'
+              register={register("phoneNumber2")}
+            />
+           }
+          </Grid>
+          <Grid item xs={6}>
+         {!editing ? 
+          <CustomSelect
+          label="Gender"
+          name="gender"
+          options={["Male","Female","Other"]}
+          register={register("gender")}
+          defaultValue="Male"
+          disabled={!editing}
+        /> 
+        :
+        <CustomSelect
+        label="Gender"
+        name="gender"
+        options={["Male","Female","Other"]}
+        register={register("gender")}
+      />
+        }
+          </Grid>
+          <Grid item xs={6}>
+          {!editing ? 
+        <MuiCustomDatePicker
+        label="Closing Date"
+        name="closing_date"
+        control={control}
+      />  
+        :
+        <MuiCustomDatePicker
+                    label="Closing Date"
+                    name="closing_date"
+                    control={control}
+                  />
+        }
+          </Grid>
+          <Grid item xs={6}>
+          {!editing ? 
+          <CustomSelect
+          label="Religion"
+          name="religion"
+          options={["Christianity","Islam","Other"]}
+          register={register("religion")}
+          defaultValue="Islam"
+          disabled={!editing}
+        /> 
+        :
+        <CustomSelect
+        label="Religion"
+          name="religion"
+          options={["Christianity","Islam","Other"]}
+          register={register("religion")}
+          defaultValue="Islam"
+      />
+        }
+          </Grid>
+          <Grid item xs={6}>
+          {!editing ?   
+          <Input
+              type='text'
+              label='Profession'
+              defaultValue='Doctor'
+              register={register("profession")}
+              disabled={!editing}
+            /> :
+            <Input
+            type='text'
+            label='Profession'
+            defaultValue='Doctor'
+            register={register("profession")}
+          />
+            }
+          </Grid>
+          <Grid item xs={6}>
+          {!editing ? <CustomSelect
+            label="Martial Status"
+            name="martial_status"
+            options={["Single","Married","Complicated","Divorce"]}
+            defaultValue="Single"
+            register={register("martial_status")}
+            disabled={!editing}
+          />
+        :
+        <CustomSelect
+            label="Martial Status"
+            name="martial_status"
+            options={["Single","Married","Complicated","Divorce"]}
+            register={register("martial_status")}
+            defaultValue="Single"
+          />
+        }
+          </Grid>
+          </GridBox>
 
-          <div className="content">
-            <time dateTime="2016-1-1">
-              {" "}
-              {formatDistanceToNowStrict(new Date(dob))}
-            </time>{" "}
-            {gender} {maritalstatus} {religion} {profession}
-            <br />
-            {bloodgroup} {genotype} <br />
-            <strong> {clientTags}</strong>
-            {/*  {phone} {email} */}
-          </div>
-        </div>
-      </div>
-      <div className="card mt-1">
-        <div className="card-content p-1">
-          {/*<div >
-                             <label className="label is-size-7">Tags:</label> 
-                           <strong> {clientTags}</strong>
-                            </div>*/}
-          <div>
-            <label className="label is-size-7">Specific Instructions:</label>
-            {specificDetails}
-          </div>
-          <div>
-            <label className="label is-size-7">Allergies:</label>
-            {allergies}
-          </div>
-          <div>
-            <label className="label is-size-7">Co-morbidities:</label>
-            {comorbidities}
-          </div>
-          <div>
-            <label className="label is-size-7">Disabilities:</label>
-            {disabilities}
-          </div>
-        </div>
-      </div>
-      <div className="card mt-1">
-        <div className="card-content p-1">
-          <div className=" is-fullwidth vscrollable-acc pr-1">
-            <div>
-              <div>
-                <div>
-                  <div>
-                    <strong> Last Visit </strong>
-                  </div>
-                </div>
-                <div>
-                  <>
-                    <label className="label is-size-7"></label>{" "}
-                  </>
-                </div>
-              </div>
-              <div>
-                <div>
-                  <div>
-                    <strong> Drug Intolerance </strong>
-                  </div>
-                </div>
-                <div>
-                  <></>
-                </div>
-              </div>
-              <div>
-                <div>
-                  <div>
-                    <strong> Medications </strong>
-                  </div>
-                </div>
-                <div className="mt-1">
-                  <PrescriptionList standalone="true" />
-                </div>
-              </div>
-              <div>
-                <div>
-                  <div>
-                    <strong> History </strong>
-                  </div>
-                </div>
-                <div>
-                  <></>
-                </div>
-              </div>
-              <div>
-                <div>
-                  <div>
-                    <strong> Problem List </strong>
-                  </div>
-                </div>
-                <div>
-                  <></>
-                </div>
-              </div>
-              <div>
-                <div>
-                  <div>
-                    <strong> Task </strong>
-                  </div>
-                </div>
-                <div>
-                  <></>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div></div>
-      {/* <VideoConference /> */}
-      <div className={`modal ${billingModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Bill Client</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal1}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <BillServiceCreate closeModal={handlecloseModal1} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
-      </div>
-    </div>
-  );
+  <Box sx={{marginTop:"16px", marginBottom: "14px"}}>
+  <Typography variant='p' sx={{ color:"blue",fontSize:"14px",fontWeight:"bold"}}>
+   ADDRESS
+  </Typography>
+  </Box>
+  <GridBox>
+          <Grid item xs={6}>
+           {!editing ?  
+           <Input
+              type='text'
+              label='Country'
+              defaultValue='Nigeria'
+              register={register("country")}
+              disabled={!editing}
+            />:
+            <Input
+            type='text'
+            label='Country'
+            defaultValue='Nigeria'
+            register={register("country")}
+          />
+            }
+          </Grid>
+          <Grid item xs={6} >
+          {!editing ?  
+           <Input
+              type='address'
+              label='Residential  Address'
+              defaultValue='53b,oduduwa way,ikeja GRA.'
+              register={register("address")}
+              disabled={!editing}
+            />
+            :
+            <Input
+            type='address'
+            label='Residential  Address'
+            defaultValue='53b,oduduwa way,ikeja GRA.'
+            register={register("address")}
+          />
+            }
+          </Grid>
+          <Grid item xs={6} >
+          {!editing ?  
+           <Input
+              type='text'
+              label='State'
+              defaultValue='Lagos'
+              register={register("state")}
+              disabled={!editing}
+            />
+            :
+            <Input
+            type='text'
+            label='State'
+            defaultValue='Lagos'
+            register={register("state")}
+          />
+            }
+          </Grid>
+          <Grid item xs={6} >
+          {!editing ?  
+           <Input
+              type='text'
+              label='Local Government'
+              defaultValue='Ikeja LGA'
+              register={register("local_gov")}
+              disabled={!editing}
+            />
+            :
+            <Input
+            type='text'
+              label='Local Government'
+              defaultValue='Ikeja LGA'
+              register={register("local_gov")}
+          />
+            }
+             
+          </Grid>
+          <Grid item xs={6} >
+          {!editing ?  
+           <Input
+              type='text'
+              label='Town'
+              defaultValue='Ikeja'
+              register={register("town")}
+              disabled={!editing}
+            />
+            :
+            <Input
+            type='text'
+              label='Town'
+              defaultValue='Ikeja'
+              register={register("town")}
+          />
+            } 
+          </Grid>
+          <Grid item xs={6} >
+          {!editing ?  
+           <Input
+              type='text'
+              label='City'
+              defaultValue='Ikeja'
+              register={register("city")}
+              disabled={!editing}
+            />
+            :
+            <Input
+            type='text'
+            label='City'
+            defaultValue='Ikeja'
+            register={register("city")}
+          />
+            }
+          </Grid>
+          <Grid item xs={6} >
+          {!editing ?  
+           <Input
+              type='text'
+              label='Neigbourhood'
+              defaultValue='Ikeja'
+              register={register("neigbourhood")}
+              disabled={!editing}
+            />
+            :
+            <Input
+            type='text'
+            label='Neigbourhood'
+            defaultValue='Ikeja'
+            register={register("neigbourhood")}
+          />
+            }
+          </Grid>
+          <Grid item xs={6}>
+          {!editing ?  
+           <Input
+              type='text'
+              label='Street Address'
+              defaultValue='Ikeja'
+              register={register("streetAddress")}
+              disabled={!editing}
+            />
+            :
+            <Input
+            type='text'
+              label='Street Address'
+              defaultValue='Ikeja'
+              register={register("streetAddress")}
+          />
+            }
+          </Grid>
+          </GridBox>
+      </form>
+    </Box>
+  )
 }
+
+export default PatientProfile

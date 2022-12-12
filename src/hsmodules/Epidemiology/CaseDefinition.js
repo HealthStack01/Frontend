@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, { useState, useContext, useEffect, useRef, useCallback } from 'react';
 import client from '../../feathers';
 import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
@@ -42,6 +42,8 @@ import ModalBox from "../../components/modal";
 import { FormsHeaderText } from '../../components/texts';
 import Textarea from '../../components/inputs/basic/Textarea';
 import Grid from '@mui/material/Grid';
+import DeleteIcon from '@mui/icons-material/Delete';
+import {MdOutlineUpdate,MdEdit} from 'react-icons/md'
 
 // Demo styles, see 'Styles' section below for some notes on use.
 
@@ -130,13 +132,6 @@ export default function CaseDefinition() {
         <CaseDefinitionModify/>
         </ModalBox>
 
-
-      {/* {state.EpidemiologyModule.show === 'modify' && <CaseDefinitionModify />} */}
-
-      {/*  <div className="column is-3 ">  <ReportCreate />
-                
-                {(state.financeModule.show ==='detail')&&<PatientProfile />}
-                </div> */}
     </section>
   );
 }
@@ -856,7 +851,7 @@ export function CaseDefinitionDetail({showModifyModal,casedefinition}) {
               
                 onClick={handleEdit}
                 >
-                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                  <MdEdit sx={{marginRight: "5px"}} fontSize="bold" />
                 Edit
                 </GlobalCustomButton>
 </Box>
@@ -1092,7 +1087,7 @@ const onDeleteLab = (comp,i)=>{
    setLabs(prevstate=>prevstate.filter((el,index)=>index!==i))
 }
 
-  const onSubmit = (data, e) => {
+  const onSubmit = useCallback( (data, e) => {
     e.preventDefault();
 
     setSuccess(false);
@@ -1124,26 +1119,27 @@ const onDeleteLab = (comp,i)=>{
           pauseOnHover: true,
         });
       });
-  };
+  },[data]);
 
   return (
     <>
        <form>
 <Box display="flex" justifyContent="flex-end" gap={2} mb={2}>
-<GlobalCustomButton 
-                onClick={handleSubmit(onSubmit)}
-                >
-                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
-                Save
-                </GlobalCustomButton>
 
                 <GlobalCustomButton 
                 color='error'
                 onClick={handleDelete}
                 >
-                  {/* <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" /> */}
+                  <DeleteIcon sx={{marginRight: "5px"}} fontSize="small" />
                 Delete
                 </GlobalCustomButton>
+                <GlobalCustomButton 
+                onClick={handleSubmit(onSubmit)}
+                >
+                   <MdOutlineUpdate sx={{marginRight: "5px"}} fontSize="bold" />
+                Update
+                </GlobalCustomButton>
+
                
 </Box>
 <Grid container pb="1rem" alignItems="center">
