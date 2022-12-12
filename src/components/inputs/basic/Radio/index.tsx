@@ -5,18 +5,13 @@ import {
   Radio,
   RadioGroup,
   Typography,
-<<<<<<< HEAD
 } from '@mui/material';
 import React from 'react';
-=======
-} from "@mui/material";
-import React from "react";
->>>>>>> c24502e042ad8da4338ab0bdcf0522be789bd0f8
 
 interface RadioProps {
   name: string;
   title?: string;
-  options: {value: string; label: string; disabled?: boolean}[] | string[];
+  options: { value: string; label: string; disabled?: boolean }[] | string[];
   onChange?: (e: any) => void;
   defaultValue?: string;
   disabled?: boolean;
@@ -31,7 +26,7 @@ const RadioButton: React.FC<RadioProps> = ({
   disabled,
   options,
   onChange,
-  defaultValue = "",
+  defaultValue = '',
   register,
   checked,
   value,
@@ -63,11 +58,7 @@ const RadioButton: React.FC<RadioProps> = ({
           }
           disabled={option.disabled}
           defaultValue={defaultValue}
-<<<<<<< HEAD
           sx={{ transform: 'scale(0.8)', marginLeft: '-1.2rem' }}
-=======
-          //sx={{transform: "scale(0.8)"}}
->>>>>>> c24502e042ad8da4338ab0bdcf0522be789bd0f8
           // checked={defaultValue === (option.value || option || '')}
         />
       ))}
