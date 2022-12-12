@@ -261,7 +261,7 @@ export function Details() {
                 <Badge
                   badgeContent={4}
                   color="success"
-                  sx={{ marginRight: '10px' }}
+                  sx={{ marginRight: '10px', marginTop: '0' }}
                 >
                   <GlobalCustomButton
                     onClick={() => setOpenDrawer(true)}

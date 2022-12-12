@@ -45,7 +45,7 @@ var random = require('random-string-generator');
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Policy() {
+export default function Policy({ standAlone }) {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
@@ -54,7 +54,15 @@ export default function Policy() {
   const [loading, setLoading] = useState(false);
   return (
     <section className="section remPadTop">
-      <PolicyList showModal={showModal} setShowModal={setShowModal} />
+      {standAlone ? (
+        <PolicyList
+          showModal={showModal}
+          setShowModal={setShowModal}
+          standAlone={standAlone}
+        />
+      ) : (
+        <PolicyList showModal={showModal} setShowModal={setShowModal} />
+      )}
       {showModal === 1 && (
         <ModalBox
           open={state.ManagedCareModule.show === 'create'}
@@ -111,7 +119,7 @@ export default function Policy() {
   );
 }
 
-export function PolicyList({ showModal, setShowModal }) {
+export function PolicyList({ showModal, setShowModal, standAlone }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -464,7 +472,7 @@ export function PolicyList({ showModal, setShowModal }) {
               </h2>
             </div>
 
-            {handleCreateNew && (
+            {!standAlone && (
               <Button
                 style={{
                   fontSize: '14px',
