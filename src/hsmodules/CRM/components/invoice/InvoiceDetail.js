@@ -132,7 +132,7 @@ const InvoiceDetail = ({handleGoBack}) => {
         p={2}
       >
         <GlobalCustomButton onClick={handleGoBack}>
-          <ArrowBackIcon />
+          <ArrowBackIcon fontSize="small" sx={{marginRight: "5px"}} />
           Back
         </GlobalCustomButton>
 

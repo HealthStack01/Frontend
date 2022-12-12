@@ -76,9 +76,10 @@ const CustomerDetail = ({editable}) => {
         <Grid item lg={4} md={4} sm={4}>
           <CustomSelect
             options={["Individual", "Organization"]}
-            register={register("customer_type", {required: true})}
             label="Customer Type"
             disabled={!editCustomer}
+            control={control}
+            name="customer_type"
           />
         </Grid>
 
@@ -219,9 +220,10 @@ export const PageCustomerDetail = ({editable}) => {
         <Grid item lg={2} md={2} sm={6} xs={6}>
           <CustomSelect
             options={["Individual", "Organization"]}
-            register={register("customer_type", {required: true})}
             label="Customer Type"
             disabled={!editCustomer}
+            control={control}
+            name="customer_type"
           />
         </Grid>
 

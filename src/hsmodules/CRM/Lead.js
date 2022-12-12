@@ -43,18 +43,26 @@ export default function Leads() {
           openCreateModal={() => setCreateModal(true)}
           openDetailModal={() => setDetailModal(true)}
           showDetail={() => setCurrentView("detail")}
+          showCreate={() => setCurrentView("create")}
         />
       )}
 
       {currentView === "detail" && <LeadDetail handleGoBack={handleGoBack} />}
 
+      {currentView === "create" && (
+        <LeadsCreate
+          closeModal={() => setCreateModal(false)}
+          handleGoBack={handleGoBack}
+        />
+      )}
+      {/* 
       <ModalBox
         open={createModal}
         onClose={() => setCreateModal(false)}
         header="Create New Lead"
       >
         <LeadsCreate closeModal={() => setCreateModal(false)} />
-      </ModalBox>
+      </ModalBox> */}
       {/* 
       <ModalBox
         open={detailModal}
@@ -67,7 +75,7 @@ export default function Leads() {
   );
 }
 
-export function LeadList({openCreateModal, openDetailModal, showDetail}) {
+export function LeadList({openCreateModal, showCreate, showDetail}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -88,7 +96,7 @@ export function LeadList({openCreateModal, openDetailModal, showDetail}) {
   const [loading, setLoading] = useState(false);
 
   const handleCreateNew = async () => {
-    openCreateModal(true);
+    showCreate(true);
   };
 
   const handleRow = async data => {

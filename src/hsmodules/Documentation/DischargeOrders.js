@@ -12,11 +12,15 @@ import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import {TableMenu} from "../../ui/styled/global";
 import Card from "@mui/material/Card";
-import {Box} from "@mui/material";
+import {Box, Grid, Typography} from "@mui/material";
 import Input from "../../components/inputs/basic/Input";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import ModalBox from "../../components/modal";
 import Textarea from "../../components/inputs/basic/Textarea";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import {FormsHeaderText} from "../../components/texts";
 
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
@@ -29,41 +33,21 @@ export default function DischargeOrders() {
   //const [showState,setShowState]=useState() //create|modify|detail
 
   return (
-    <section className="section remPadTop">
-      <Box
-        container
-        sx={{
-          display: "flex",
-          alignItems: "flex-start",
-          width: "90vw",
-          height: "600px",
-          justifyContent: "space-between",
-          overflow: "hidden",
-        }}
-      >
-        <Box
-          item
-          sx={{
-            display: "flex-inline",
-            width: "50%",
-          }}
-        >
+    <Box
+      sx={{
+        width: "90vw",
+        maxHeight: "80vh",
+      }}
+    >
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={12} md={12} lg={8}>
           <DischargeOrdersList />
-        </Box>
-
-        <Box
-          item
-          sx={{
-            display: "flex-inline",
-            width: "40%",
-          }}
-        >
-          {state.EndEncounterModule.selectedEndEncounter === "Discharge" && (
-            <DischargeOrdersCreate />
-          )}
-        </Box>
-      </Box>
-    </section>
+        </Grid>
+        <Grid item xs={12} sm={12} md={12} lg={4}>
+          <DischargeOrdersCreate />
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 
@@ -310,71 +294,57 @@ export function DischargeOrdersCreate() {
     },
   ];
 
+  const client_name = `${state.ClientModule.selectedClient.firstname} ${state.ClientModule.selectedClient.middlename} ${state.ClientModule.selectedClient.lastname}`;
+  const client_ward = state.ClientModule.selectedClient.ward;
+  const client_bed = state.ClientModule.selectedClient.bed;
+
   return (
     <>
-      <Card>
-        <Box
-          sx={{
-            padding: "15px",
-            minHeight: "400px",
-            maxHeight: "600px",
-          }}
-        >
-          <div>
-            <p className="card-header-title">
-              Create Discharge Orders for{"    "}
-              {state.ClientModule.selectedClient.firstname +
-                " " +
-                state.ClientModule.selectedClient.middlename +
-                " " +
-                state.ClientModule.selectedClient.lastname}{" "}
-              on {state.ClientModule.selectedClient.ward + " ward, "} bed:{" "}
-              {state.ClientModule.selectedClient.bed}
-            </p>
-
-            <div className="card-content ">
-              <div className="field is-horizontal">
-                <div className="field-body">
-                  <div className="field">
-                    <p className="control ">
-                      <Textarea
-                        class="textarea is-small"
-                        register={register("instruction", {required: true})}
-                        name="instruction"
-                        value={instruction}
-                        type="textarea"
-                        onChange={e => setInstruction(e.target.value)}
-                        placeholder="Instructions/Note"
-                      />
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="field mt-2">
-                <p className="control">
-                  <Button
-                    /* disabled={!productItem.length>0} */ onClick={onSubmit}
-                  >
-                    Create
-                  </Button>
-                </p>
-              </div>
-            </div>
-          </div>
-          {/*  use for documentation instruction helper */}
-          <div className={`modal ${destinationModal ? "is-active" : ""}`}>
-            <ModalBox
-              open={destinationModal}
-              onClose={() => handleChangeDestination(false)}
-            >
-              <FacilityPopup
-                facilityType="Laboratory"
-                closeModal={() => handlecloseModal(false)}
-              />
-            </ModalBox>
-          </div>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+        gap={1.5}
+      >
+        <Box>
+          <FormsHeaderText
+            text={`Discharge Order for ${client_name} on ${client_ward}, Bed: ${client_bed}`}
+          />
         </Box>
-      </Card>
+
+        <Box>
+          <Textarea
+            class="textarea is-small"
+            register={register("instruction", {required: true})}
+            name="instruction"
+            value={instruction}
+            type="textarea"
+            onChange={e => setInstruction(e.target.value)}
+            label="Instructions/Note"
+            placeholder="Write here......"
+          />
+        </Box>
+
+        <Box sx={{display: "flex", justifyContent: "flex-end"}}>
+          <GlobalCustomButton onClick={onsubmit}>
+            Disacharge {client_name}
+          </GlobalCustomButton>
+        </Box>
+
+        {/*  use for documentation instruction helper */}
+        <div className={`modal ${destinationModal ? "is-active" : ""}`}>
+          <ModalBox
+            open={destinationModal}
+            onClose={() => handleChangeDestination(false)}
+          >
+            <FacilityPopup
+              facilityType="Laboratory"
+              closeModal={() => handlecloseModal(false)}
+            />
+          </ModalBox>
+        </div>
+      </Box>
     </>
   );
 }
@@ -541,6 +511,7 @@ export function DischargeOrdersList({standalone}) {
       selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
+      width: "45px",
     },
 
     {
@@ -551,6 +522,7 @@ export function DischargeOrdersList({standalone}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "80px",
     },
 
     {
@@ -597,12 +569,11 @@ export function DischargeOrdersList({standalone}) {
       key: "destination",
       description: "Enter Destination",
       selector: row => (
-        <p
-          style={{fontSize: "0.7rem", color: "red"}}
+        <DeleteOutlineIcon
+          fontSize="small"
+          sx={{color: "red"}}
           onClick={() => handleDelete(row)}
-        >
-          Delete
-        </p>
+        />
       ),
       omit: !standalone ? false : true,
       sortable: true,
@@ -625,16 +596,16 @@ export function DischargeOrdersList({standalone}) {
               List of Discharge Orders
             </h2>
           </div>
-          <Button
-            style={{fontSize: "14px", fontWeight: "600", marginLeft: ""}}
-            label="Add new "
-            className="button is-success is-small"
-            onClick={handleCreateNew}
-          />
+
+          {!standalone && (
+            <GlobalCustomButton onClick={handleCreateNew}>
+              <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
+              Add New
+            </GlobalCustomButton>
+          )}
         </TableMenu>
 
-        {!standalone && <button onClick={() => handleDelete(ProductEntry)} />}
-        <Box style={{height: "400px", overScrollY: "scroll"}}>
+        <Box>
           <CustomTable
             title={""}
             columns={dischargeSchema}
@@ -642,6 +613,11 @@ export function DischargeOrdersList({standalone}) {
             pointerOnHover
             highlightOnHover
             striped
+            CustomEmptyData={
+              <Typography sx={{fontSize: "0.85rem"}}>
+                No Discharge Orders found......
+              </Typography>
+            }
           />
         </Box>
       </Box>

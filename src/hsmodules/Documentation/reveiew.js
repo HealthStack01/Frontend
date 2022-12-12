@@ -11,7 +11,7 @@ import {format, formatDistanceToNowStrict} from "date-fns";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 const searchfacility = {};
-import {Box, Button as MuiButton, Grid, Typography} from "@mui/material";
+import {Box, Button as MuiButton} from "@mui/material";
 import ModalBox from "../../components/modal";
 import Card from "@mui/material/Card";
 import FilterMenu from "../../components/utilities/FilterMenu";
@@ -19,13 +19,7 @@ import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import {TableMenu} from "../../ui/styled/global";
 import Input from "../../components/inputs/basic/Input";
-import {FormsHeaderText} from "../../components/texts";
-import GlobalCustomButton from "../../components/buttons/CustomButton";
-import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Grow from "@mui/material/Grow";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
 
 export default function Prescription() {
   const {state} = useContext(ObjectContext); //,setState
@@ -34,21 +28,46 @@ export default function Prescription() {
   //const [showState,setShowState]=useState() //create|modify|detail
 
   return (
-    <Box
-      sx={{
-        width: "90vw",
-        maxHeight: "80vh",
-      }}
-    >
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={12} md={12} lg={8}>
+    <section className="section remPadTop">
+      {/*  <div className="level">
+            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
+            </div> */}
+
+      {/*  {(state.OrderModule.show ==='detail')&&<ProductEntryDetail  />}
+                {(state.OrderModule.show ==='modify')&&<ProductEntryModify ProductEntry={selectedProductEntry} />} */}
+
+      <Box
+        container
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          width: "90vw",
+          height: "600px",
+          justifyContent: "space-between",
+          overflow: "hidden",
+        }}
+      >
+        <Box
+          item
+          sx={{
+            display: "flex-inline",
+            width: "60%",
+          }}
+        >
           <PrescriptionList />
-        </Grid>
-        <Grid item xs={12} sm={12} md={12} lg={4}>
+        </Box>
+
+        <Box
+          item
+          sx={{
+            display: "flex-inline",
+            width: "35%",
+          }}
+        >
           <PrescriptionCreate />
-        </Grid>
-      </Grid>
-    </Box>
+        </Box>
+      </Box>
+    </section>
   );
 }
 
@@ -108,14 +127,20 @@ export function PrescriptionCreate() {
   // consider batchformat{batchno,expirydate,qtty,baseunit}
   //consider baseunoit conversions
   const getSearchfacility = obj => {
-    console.log(obj);
     setInstruction(obj.instruction);
     setMedication(obj.medication);
 
     if (!obj) {
+      //"clear stuff"
       setInstruction("");
       setMedication("");
     }
+    // setBaseunit(obj.baseunit)
+
+    /*  setValue("facility", obj._id,  {
+            shouldValidate: true,
+            shouldDirty: true
+        }) */
   };
 
   useEffect(() => {
@@ -123,7 +148,16 @@ export function PrescriptionCreate() {
     //console.log(currentUser)
     return () => {};
   }, [user]);
-
+  /*  useEffect(() => {
+        setProductItem(
+            prevProd=>prevProd.concat(productItemI)
+        )
+        console.log(productItem)
+        return () => {
+            
+        }
+    },[productItemI])
+ */
   useEffect(() => {
     setDestination(state.DestinationModule.selectedDestination.facilityName);
     setDestinationId(state.DestinationModule.selectedDestination._id);
@@ -158,6 +192,18 @@ export function PrescriptionCreate() {
       DestinationModule: newfacilityModule,
     }));
   };
+  //check user for facility or get list of facility
+  /*  useEffect(()=>{
+        //setFacility(user.activeProductEntry.FacilityId)//
+      if (!user.stacker){
+          console.log(currentUser)
+           /* setValue("facility", user.currentEmployee.facilityDetail._id,  {
+            shouldValidate: true,
+            shouldDirty: true
+        })  
+
+      }
+    }) */
 
   const handleChangeDestination = () => {
     setDestinationModal(true);
@@ -234,10 +280,6 @@ export function PrescriptionCreate() {
     return () => {};
   }, []);
 
-  const handleRemoveProd = (prod, index) => {
-    setProductItem(prev => prev.filter((item, i) => i !== index));
-  };
-
   const productItemSchema = [
     {
       name: "S/N",
@@ -246,7 +288,6 @@ export function PrescriptionCreate() {
       description: "Enter",
       sortable: true,
       inputType: "HIDDEN",
-      width: "45px",
     },
     {
       name: "Test",
@@ -277,152 +318,199 @@ export function PrescriptionCreate() {
     },
 
     {
-      name: "Act",
+      name: "Action",
       key: "destination",
       description: "Enter Destination",
-      selector: (row, i) => (
-        <DeleteOutlineIcon
-          sx={{color: "red"}}
-          fontSize="small"
-          onClick={() => handleRemoveProd(row, i)}
-        />
-      ),
+      selector: row => <p style={{fontSize: "0.7rem", color: "red"}}>Remove</p>,
       sortable: true,
       required: true,
       inputType: "TEXT",
-      width: "60px",
     },
   ];
 
   return (
-    <Box>
+    <Card>
       <Box
-        container
         sx={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          padding: "15px",
+          minHeight: "400px",
+          maxHeight: "600px",
         }}
-        mb={1.5}
       >
-        <FormsHeaderText text="Create Prescription" />
-
-        <GlobalCustomButton
-          onClick={() => {
-            handleClickProd();
-            () => setHidePanel(true);
-          }}
-        >
-          <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
-          Add
-        </GlobalCustomButton>
-      </Box>
-
-      <Box sx={{display: "flex", flexDirection: "column"}} gap={1.5} mb={1.5}>
-        <Box>
-          <MedicationHelperSearch
-            getSearchfacility={getSearchfacility}
-            clear={success}
-            hidePanel={hidePanel}
-          />
-          {/* INVISIBLE INPUT THAT HOLDS THE VALUE FOR TESTHELPERSEARCH */}
-          <input
-            className="input is-small"
-            value={medication}
-            name="medication"
-            type="text"
-            onChange={e => setMedication(e.target.value)}
-            placeholder="medication"
-            style={{display: "none"}}
-          />
-        </Box>
-
-        <Box>
-          <Input
-            value={instruction}
-            type="text"
-            onChange={e => setInstruction(e.target.value)}
-            label="Instructions/Note"
-            name="instruction"
-            disabled={
-              !(productItemI.medication && productItemI.medication.length > 0)
-            }
-          />
-        </Box>
-        <Box
-          container
-          sx={{
-            display: "flex",
-            width: "100%",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Box
-            item
-            sx={{
-              width: "calc(100% - 100px)",
-            }}
-          >
-            <Input
-              value={
-                destination === user.currentEmployee.facilityDetail.facilityName
-                  ? "In-house"
-                  : destination
-              }
-              disabled={true}
-              type="text"
-              onChange={e => setDestination(e.target.value)}
-              label="Destination Pharmacy"
-              name="destination"
-            />
-          </Box>
-
-          <Box item>
-            <GlobalCustomButton onClick={handleChangeDestination}>
-              Change
-            </GlobalCustomButton>
-          </Box>
-        </Box>
-      </Box>
-
-      <Box>
-        {productItem.length > 0 && (
-          <Box mb={1.5}>
-            <CustomTable
-              title={"Prescription Orders"}
-              columns={productItemSchema}
-              data={productItem}
-              pointerOnHover
-              highlightOnHover
-              striped
-              //onRowClicked={handleRow}
-              progressPending={false}
-
-              //selectableRowsComponent={Checkbox}
-            />
-          </Box>
-        )}
-
-        {productItem.length > 0 && (
+        <div className="card card-overflow">
           <Box
             container
             sx={{
+              width: "100%",
               display: "flex",
               alignItems: "center",
-              justifyContent: "flex-end",
+              justifyContent: "center",
             }}
           >
-            <GlobalCustomButton onClick={onSubmit}>Complete</GlobalCustomButton>
+            <p className="card-header-title">Create Prescription</p>
           </Box>
-        )}
-      </Box>
+          <div className="card-content ">
+            {/*  <form onSubmit={onSubmit}> {/* handleSubmit(onSubmit)  </form>  */}
 
-      <ModalBox open={destinationModal} onClose={handlecloseModal}>
-        <FacilityPopup facilityType="Pharmacy" closeModal={handlecloseModal} />
-      </ModalBox>
-    </Box>
+            {/* array of ProductEntry items */}
+
+            <div className="field is-horizontal">
+              <div className="field-body">
+                <div
+                  className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
+                >
+                  <MedicationHelperSearch
+                    getSearchfacility={getSearchfacility}
+                    clear={success}
+                    hidePanel={hidePanel}
+                  />
+
+                  <Input
+                    value={instruction}
+                    type="text"
+                    onChange={e => setInstruction(e.target.value)}
+                    placeholder="Instructions/Note"
+                    name="instruction"
+                    disabled={
+                      !(
+                        productItemI.medication &&
+                        productItemI.medication.length > 0
+                      )
+                    }
+                  />
+
+                  <input
+                    className="input is-small"
+                    value={medication}
+                    name="medication"
+                    type="text"
+                    onChange={e => setMedication(e.target.value)}
+                    placeholder="medication"
+                    style={{display: "none"}}
+                  />
+
+                  <Box
+                    container
+                    sx={{
+                      display: "flex",
+                      width: "100%",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Box
+                      item
+                      sx={{
+                        width: "calc(100% - 100px)",
+                      }}
+                    >
+                      <Input
+                        value={
+                          destination ===
+                          user.currentEmployee.facilityDetail.facilityName
+                            ? "In-house"
+                            : destination
+                        }
+                        disabled={true}
+                        type="text"
+                        onChange={e => setDestination(e.target.value)}
+                        placeholder="Destination Pharmacy"
+                        name="destination"
+                      />
+                    </Box>
+
+                    <Box item>
+                      <Button
+                        onClick={handleChangeDestination}
+                        sx={{
+                          fontSize: "0.75rem",
+                          width: "85px",
+                        }}
+                      >
+                        Change
+                      </Button>
+                    </Box>
+                  </Box>
+
+                  <Box
+                    container
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-around",
+                    }}
+                    mb={2}
+                  >
+                    <Button
+                      onClick={() => {
+                        handleClickProd();
+                        () => setHidePanel(true);
+                      }}
+                      sx={{
+                        width: "40%",
+                        fontSize: "0.75rem",
+                      }}
+                    >
+                      Add Product
+                    </Button>
+                  </Box>
+                </div>
+              </div>
+            </div>
+
+            {productItem.length > 0 && (
+              <Box
+                sx={{
+                  height: "200px",
+                  overflowY: "scroll",
+                }}
+              >
+                <CustomTable
+                  title={"Lab Orders"}
+                  columns={productItemSchema}
+                  data={productItem}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  //onRowClicked={handleRow}
+                  progressPending={false}
+                  //selectableRowsComponent={Checkbox}
+                />
+              </Box>
+            )}
+
+            {productItem.length > 0 && (
+              <Box
+                container
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Button
+                  onClick={onSubmit}
+                  sx={{
+                    width: "150px",
+                    fontSize: "0.75rem",
+                  }}
+                >
+                  Create
+                </Button>
+              </Box>
+            )}
+          </div>
+        </div>
+
+        <ModalBox open={destinationModal} onClose={handlecloseModal}>
+          <FacilityPopup
+            facilityType="Pharmacy"
+            closeModal={handlecloseModal}
+          />
+        </ModalBox>
+      </Box>
+    </Card>
   );
 }
 
@@ -577,7 +665,6 @@ export function PrescriptionList({standalone}) {
       description: "Enter name of band",
       sortable: true,
       inputType: "HIDDEN",
-      width: "50px",
     },
     {
       name: "Date",
@@ -587,7 +674,6 @@ export function PrescriptionList({standalone}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
-      width: "100px",
     },
     {
       name: "Test",
@@ -615,7 +701,6 @@ export function PrescriptionList({standalone}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
-      width: "100px",
     },
     {
       name: "Status",
@@ -625,7 +710,6 @@ export function PrescriptionList({standalone}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
-      width: "100px",
     },
     {
       name: "Requesting Physician",
@@ -642,16 +726,16 @@ export function PrescriptionList({standalone}) {
       key: "destination",
       description: "Enter Destination",
       selector: row => (
-        <DeleteOutlineIcon
-          sx={{color: "red"}}
-          fontSize="small"
+        <p
+          style={{fontSize: "0.7rem", color: "red"}}
           onClick={() => handleDelete(row)}
-        />
+        >
+          Delete
+        </p>
       ),
       sortable: true,
       required: true,
       inputType: "TEXT",
-      width: "80px",
     },
   ];
 
@@ -666,19 +750,20 @@ export function PrescriptionList({standalone}) {
               </div>
             )}
             <h2 style={{marginLeft: "10px", fontSize: "0.8rem"}}>
-              List of Presciptions
+              List of Presciption
             </h2>
           </div>
 
           {!standalone && (
-            <GlobalCustomButton onClick={handleCreateNew}>
-              <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
-              Add
-            </GlobalCustomButton>
+            <Button
+              style={{fontSize: "14px", fontWeight: "600"}}
+              label="Add new "
+              onClick={handleCreateNew}
+            />
           )}
         </TableMenu>
 
-        <div style={{width: "100%", overflowY: "scroll"}}>
+        <div style={{width: "100%", height: "430px", overflowY: "scroll"}}>
           <CustomTable
             title={""}
             columns={ordersListSchema}
@@ -688,11 +773,6 @@ export function PrescriptionList({standalone}) {
             striped
             onRowClicked={handleRow}
             progressPending={false}
-            CustomEmptyData={
-              <Typography sx={{fontSize: "0.85rem"}}>
-                No Prescriptions found......
-              </Typography>
-            }
             //selectableRowsComponent={Checkbox}
           />
         </div>
@@ -1556,536 +1636,6 @@ export function DrugAdminList({standalone}) {
   );
 }
 
-export function ProductEntryDetail() {
-  //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
-  // eslint-disable-next-line
-  const [error, setError] = useState(false); //,
-  //const [success, setSuccess] =useState(false)
-  // eslint-disable-next-line
-  const [message, setMessage] = useState(""); //,
-  //const ProductEntryServ=client.service('/ProductEntry')
-  //const navigate=useNavigate()
-  //const {user,setUser} = useContext(UserContext)
-  const {state, setState} = useContext(ObjectContext);
-
-  const ProductEntry = state.ProductEntryModule.selectedProductEntry;
-
-  const handleEdit = async () => {
-    const newProductEntryModule = {
-      selectedProductEntry: ProductEntry,
-      show: "modify",
-    };
-    await setState(prevstate => ({
-      ...prevstate,
-      ProductEntryModule: newProductEntryModule,
-    }));
-    //console.log(state)
-  };
-
-  return (
-    <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">ProductEntry Details</p>
-        </div>
-        <div className="card-content vscrollable">
-          <table>
-            <tbody>
-              <tr>
-                <td>
-                  <label className="label is-small">
-                    {" "}
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                    Type
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="name">
-                    {" "}
-                    {ProductEntry.type}{" "}
-                  </span>
-                </td>
-                <td></td>
-                <td>
-                  <label className="label is-small padleft">
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                    Supplier:
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="ProductEntryType">
-                    {ProductEntry.source}{" "}
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label className="label is-small">
-                    {" "}
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                    Date:
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="name">
-                    {" "}
-                    {ProductEntry.date}{" "}
-                  </span>
-                </td>
-                <td></td>
-                <td>
-                  <label className="label is-small padleft">
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                    Invoice No:
-                  </label>
-                </td>
-
-                <td>
-                  <span className="is-size-7 padleft" name="ProductEntryType">
-                    {ProductEntry.documentNo}{" "}
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label className="label is-small">
-                    {" "}
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                    Total Amount:
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="name">
-                    {" "}
-                    {ProductEntry.totalamount}{" "}
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <label className="label is-size-7 mt-2">Product Items:</label>
-          <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-            <thead>
-              <tr>
-                <th>
-                  <abbr title="Serial No">S/No</abbr>
-                </th>
-                <th>
-                  <abbr title="Type">Name</abbr>
-                </th>
-                <th>
-                  <abbr title="Type">Quanitity</abbr>
-                </th>
-                <th>
-                  <abbr title="Document No">Unit</abbr>
-                </th>
-                <th>
-                  <abbr title="Cost Price">Cost Price</abbr>
-                </th>
-                <th>
-                  <abbr title="Cost Price">Amount</abbr>
-                </th>
-              </tr>
-            </thead>
-            <tfoot></tfoot>
-            <tbody>
-              {ProductEntry.productitems.map((ProductEntry, i) => (
-                <tr key={i}>
-                  <th>{i + 1}</th>
-                  <td>{ProductEntry.name}</td>
-                  <th>{ProductEntry.quantity}</th>
-                  <td>{ProductEntry.baseunit}</td>
-                  <td>{ProductEntry.costprice}</td>
-                  <td>{ProductEntry.amount}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {/*   <tr>
-                    <td>
-            <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-map-marker-alt"></i>
-                    </span>Profession: 
-                
-                    
-                    </label>
-                    </td>
-                <td>
-                <span className="is-size-7 padleft "  name="ProductEntryCity">{ProductEntry.profession}</span> 
-                </td>
-                </tr>
-                    <tr>
-            <td>
-            <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-phone-alt"></i>
-                    </span>Phone:           
-                    
-                        </label>
-                        </td>
-                        <td>
-                        <span className="is-size-7 padleft "  name="ProductEntryContactPhone" >{ProductEntry.phone}</span>
-                        </td>
-                  </tr>
-                    <tr><td>
-            
-            <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                    </span>Email:                     
-                    
-                         </label></td><td>
-                         <span className="is-size-7 padleft "  name="ProductEntryEmail" >{ProductEntry.email}</span>
-                         </td>
-             
-                </tr>
-                    <tr>
-            <td>
-            <label className="label is-small"> <span className="icon is-small is-left">
-                    <i className="fas fa-user-md"></i></span>Department:
-                    
-                    </label></td>
-                    <td>
-                    <span className="is-size-7 padleft "  name="ProductEntryOwner">{ProductEntry.department}</span>
-                    </td>
-               
-                </tr>
-                    <tr>
-            <td>
-            <label className="label is-small"> <span className="icon is-small is-left">
-                    <i className="fas fa-hospital-symbol"></i>
-                    </span>Departmental Unit:              
-                    
-                </label></td>
-                <td>
-                <span className="is-size-7 padleft "  name="ProductEntryType">{ProductEntry.deptunit}</span>
-                </td>
-              
-                </tr> */}
-
-          {/*   <div className="field">
-             <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                    </span>Category:              
-                    <span className="is-size-7 padleft "  name= "ProductEntryCategory">{ProductEntry.ProductEntryCategory}</span>
-                </label>
-                 </div> */}
-
-          {/*  <div className="field mt-2">
-                <p className="control">
-                    <button className="button is-success is-small" onClick={handleEdit}>
-                        Edit
-                    </button>
-                </p>
-            </div>
-            { error && <div className="message"> {message}</div>} */}
-        </div>
-      </div>
-    </>
-  );
-}
-
-export function ProductEntryModify() {
-  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
-  // eslint-disable-next-line
-  const [error, setError] = useState(false);
-  // eslint-disable-next-line
-  const [success, setSuccess] = useState(false);
-  // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  // eslint-disable-next-line
-  const ProductEntryServ = client.service("productentry");
-  //const navigate=useNavigate()
-  // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
-
-  const ProductEntry = state.ProductEntryModule.selectedProductEntry;
-
-  useEffect(() => {
-    setValue("name", ProductEntry.name, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("ProductEntryType", ProductEntry.ProductEntryType, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    /*  setValue("profession", ProductEntry.profession,  {
-                shouldValidate: true,
-                shouldDirty: true
-            })
-            setValue("phone", ProductEntry.phone,  {
-                shouldValidate: true,
-                shouldDirty: true
-            })
-            setValue("email", ProductEntry.email,  {
-                shouldValidate: true,
-                shouldDirty: true
-            })
-            setValue("department", ProductEntry.department,  {
-                shouldValidate: true,
-                shouldDirty: true
-            })
-            setValue("deptunit", ProductEntry.deptunit,  {
-                shouldValidate: true,
-                shouldDirty: true
-            }) */
-    /*   setValue("ProductEntryCategory", ProductEntry.ProductEntryCategory,  {
-                shouldValidate: true,
-                shouldDirty: true
-            }) */
-
-    return () => {};
-  });
-
-  const handleCancel = async () => {
-    const newProductEntryModule = {
-      selectedProductEntry: {},
-      show: "create",
-    };
-    await setState(prevstate => ({
-      ...prevstate,
-      ProductEntryModule: newProductEntryModule,
-    }));
-    //console.log(state)
-  };
-
-  const changeState = () => {
-    const newProductEntryModule = {
-      selectedProductEntry: {},
-      show: "create",
-    };
-    setState(prevstate => ({
-      ...prevstate,
-      ProductEntryModule: newProductEntryModule,
-    }));
-  };
-  const handleDelete = async () => {
-    let conf = window.confirm("Are you sure you want to delete this data?");
-
-    const dleteId = ProductEntry._id;
-    if (conf) {
-      ProductEntryServ.remove(dleteId)
-        .then(res => {
-          //console.log(JSON.stringify(res))
-          reset();
-          /*  setMessage("Deleted ProductEntry successfully")
-                setSuccess(true)
-                changeState()
-               setTimeout(() => {
-                setSuccess(false)
-                }, 200); */
-          toast({
-            message: "ProductEntry deleted succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-          changeState();
-        })
-        .catch(err => {
-          // setMessage("Error deleting ProductEntry, probable network issues "+ err )
-          // setError(true)
-          toast({
-            message:
-              "Error deleting ProductEntry, probable network issues or " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-        });
-    }
-  };
-
-  /* ()=> setValue("firstName", "Bill", , {
-            shouldValidate: true,
-            shouldDirty: true
-          })) */
-  const onSubmit = (data, e) => {
-    e.preventDefault();
-
-    setSuccess(false);
-
-    data.facility = ProductEntry.facility;
-    //console.log(data);
-
-    ProductEntryServ.patch(ProductEntry._id, data)
-      .then(res => {
-        //console.log(JSON.stringify(res))
-        // e.target.reset();
-        // setMessage("updated ProductEntry successfully")
-        toast({
-          message: "ProductEntry updated succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
-
-        changeState();
-      })
-      .catch(err => {
-        //setMessage("Error creating ProductEntry, probable network issues "+ err )
-        // setError(true)
-        toast({
-          message:
-            "Error updating ProductEntry, probable network issues or " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
-      });
-  };
-
-  return (
-    <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">ProductEntry Details-Modify</p>
-        </div>
-        <div className="card-content vscrollable">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <label className="label is-small">
-                {" "}
-                Name
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input  is-small"
-                    {...register("x", {required: true})}
-                    name="name"
-                    type="text"
-                    placeholder="Name"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                ProductEntry Type
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input is-small "
-                    {...register("x", {required: true})}
-                    disabled
-                    name="ProductEntryType"
-                    type="text"
-                    placeholder="ProductEntry Type"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-map-signs"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            {/* <div className="field">
-            <label className="label is-small">Profession
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="profession" type="text" placeholder="Profession"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-map-marker-alt"></i>
-                    </span>
-                </p>
-                </label>
-                </div>
-            <div className="field">
-            <label className="label is-small">Phone
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="phone" type="text" placeholder="Phone No"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-phone-alt"></i>
-                    </span>
-                </p>
-                </label>
-                 </div>
-            <div className="field">
-            <label className="label is-small">Email
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="ProductEntry Email"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                    </span>
-                </p>
-                </label>
-                </div>
-            <div className="field">
-            <label className="label is-small">Department
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="department" type="text" placeholder="Department"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-user-md"></i>
-                    </span>
-                </p>
-                </label>
-                {errors.department && <span>This field is required</span>}
-                </div>
-            <div className="field">
-            <label className="label is-small">Departmental Unit
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="deptunit" type="text" placeholder="Departmental Unit"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-hospital-symbol"></i>
-                    </span>
-                </p>
-                </label>
-                </div> */}
-            {/*  <div className="field">
-            <label className="label is-small">Category
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="ProductEntryCategory" type="text" placeholder="ProductEntry Category"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                    </span>
-                </p>
-                </label>
-            </div> */}
-          </form>
-
-          <div className="field  is-grouped mt-2">
-            <p className="control">
-              <button
-                type="submit"
-                className="button is-success is-small"
-                onClick={handleSubmit(onSubmit)}
-              >
-                Save
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-warning is-small"
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-danger is-small"
-                onClick={() => handleDelete()}
-                type="delete"
-              >
-                Delete
-              </button>
-            </p>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
-
 const useOnClickOutside = (ref, handler) => {
   useEffect(
     () => {
@@ -2113,203 +1663,7 @@ const useOnClickOutside = (ref, handler) => {
   );
 };
 
-export function MedicationHelperSearch({
-  id,
-  getSearchfacility,
-  clear,
-  disable = false,
-  label,
-}) {
-  const productServ = client.service("medicationhelper");
-  const [facilities, setFacilities] = useState([]);
-  // eslint-disable-next-line
-  const [searchError, setSearchError] = useState(false);
-  // eslint-disable-next-line
-  const [showPanel, setShowPanel] = useState(false);
-  // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState("");
-  // eslint-disable-next-line
-  const [simpa, setSimpa] = useState("");
-  // eslint-disable-next-line
-  const [chosen, setChosen] = useState(false);
-  // eslint-disable-next-line
-  const [count, setCount] = useState(0);
-  const inputEl = useRef(null);
-  const [val, setVal] = useState("");
-  const {user} = useContext(UserContext);
-  const {state} = useContext(ObjectContext);
-  const [productModal, setProductModal] = useState(false);
-
-  const dropDownRef = useRef(null);
-
-  const getInitial = async id => {
-    console.log(id);
-    if (!!id) {
-      let obj = {
-        categoryname: id,
-      };
-      console.log(obj);
-      handleRow(obj);
-    }
-  };
-
-  useEffect(() => {
-    getInitial(id);
-    return () => {};
-  }, []);
-
-  const handleRow = async obj => {
-    await setChosen(true);
-    //alert("something is chaning")
-
-    await setSimpa(obj.medication);
-    getSearchfacility(obj);
-    // setSelectedFacility(obj)
-    setShowPanel(false);
-    await setCount(2);
-    /* const    newfacilityModule={
-            selectedFacility:facility,
-            show :'detail'
-        }
-   await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
-    //console.log(state)
-  };
-
-  const handleSearch = async value => {
-    setVal(value);
-    if (value === "") {
-      setShowPanel(false);
-      getSearchfacility(false);
-      return;
-    }
-    const field = "medication"; //field variable
-
-    if (value.length >= 3) {
-      productServ
-        .find({
-          query: {
-            //service
-            [field]: {
-              $regex: value,
-              $options: "i",
-            },
-            $limit: 10,
-            $sort: {
-              createdAt: -1,
-            },
-          },
-        })
-        .then(res => {
-          if (res.total > 0) {
-            setFacilities(res.data);
-            setSearchMessage(" product  fetched successfully");
-            setShowPanel(true);
-          } else {
-            setShowPanel(false);
-            getSearchfacility({
-              medication: value,
-              instruction: "",
-            });
-          }
-        })
-        .catch(err => {
-          toast({
-            message: "Error fetching medication " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-        });
-    } else {
-      setShowPanel(false);
-      await setFacilities([]);
-    }
-  };
-
-  const handlecloseModal = () => {
-    setProductModal(false);
-    handleSearch(val);
-  };
-
-  useEffect(() => {
-    if (clear) {
-      console.log("success has changed", clear);
-      setSimpa("");
-    }
-    return () => {};
-  }, [clear]);
-
-  useOnClickOutside(dropDownRef, () => setShowPanel(false));
-
-  return (
-    <div>
-      <Autocomplete
-        size="small"
-        value={simpa}
-        onChange={(event, newValue) => {
-          handleRow(newValue);
-          setSimpa("");
-        }}
-        id="free-solo-dialog-demo"
-        options={facilities}
-        getOptionLabel={option => {
-          if (typeof option === "string") {
-            return option;
-          }
-          if (option.inputValue) {
-            return option.inputValue;
-          }
-          return option.medication;
-        }}
-        isOptionEqualToValue={(option, value) =>
-          value === undefined || value === "" || option._id === value._id
-        }
-        onInputChange={(event, newInputValue) => {
-          handleSearch(newInputValue);
-        }}
-        inputValue={val}
-        selectOnFocus
-        clearOnBlur
-        handleHomeEndKeys
-        noOptionsText={val !== "" ? `${val} Not Found` : "Type something"}
-        renderOption={(props, option) => (
-          <li {...props} style={{fontSize: "0.75rem"}}>
-            {option.medication}
-          </li>
-        )}
-        sx={{
-          width: "100%",
-        }}
-        freeSolo={false}
-        renderInput={params => (
-          <TextField
-            {...params}
-            label={label || "Search for Product"}
-            ref={inputEl}
-            sx={{
-              fontSize: "0.75rem",
-              backgroundColor: "#ffffff",
-              "& .MuiInputBase-input": {
-                height: "0.9rem",
-              },
-            }}
-            InputLabelProps={{
-              shrink: true,
-              style: {color: "#2d2d2d"},
-            }}
-          />
-        )}
-      />
-    </div>
-  );
-}
-
-export function OldMedicationHelperSearch({
-  getSearchfacility,
-  clear,
-  hidePanel,
-  label,
-}) {
+export function MedicationHelperSearch({getSearchfacility, clear, hidePanel}) {
   const productServ = client.service("medicationhelper");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -2333,10 +1687,8 @@ export function OldMedicationHelperSearch({
   const dropDownRef = useRef(null);
 
   const handleRow = async obj => {
-    console.log(obj);
     await setChosen(true);
     //alert("something is chaning")
-
     getSearchfacility(obj);
 
     await setSimpa(obj.medication);
@@ -2344,7 +1696,6 @@ export function OldMedicationHelperSearch({
     setShowPanel(false);
     await setCount(2);
   };
-
   const handleBlur = async () => {
     console.log(document.activeElement);
 
@@ -2355,6 +1706,15 @@ export function OldMedicationHelperSearch({
     });
   };
 
+  const handleBlur2 = async () => {
+    // console.log(document.activeElement)
+
+    setShowPanel(false);
+    getSearchfacility({
+      medication: val,
+      instruction: "",
+    });
+  };
   const handleSearch = async value => {
     setVal(value);
     if (value === "") {
@@ -2429,63 +1789,84 @@ export function OldMedicationHelperSearch({
     return () => {};
   }, [hidePanel]);
 
+  useOnClickOutside(dropDownRef, () => setShowPanel(false));
+
   return (
     <div>
-      <Autocomplete
-        size="small"
-        value={simpa}
-        onChange={(event, newValue) => {
-          handleRow(newValue);
-          setSimpa("");
-          setVal("");
-        }}
-        id="free-solo-dialog-demo"
-        options={facilities}
-        getOptionLabel={option => `${option.medication}`}
-        isOptionEqualToValue={(option, value) =>
-          value === undefined || value === "" || option._id === value._id
-        }
-        selectOnFocus
-        onInputChange={(event, newInputValue) => {
-          handleSearch(newInputValue);
-        }}
-        inputValue={val}
-        //clearOnBlur
-        handleHomeEndKeys
-        noOptionsText={val !== "" ? `${val} Not Found` : "Type something"}
-        renderOption={(props, option) => (
-          <Box {...props} sx={{display: "flex"}}>
-            <Typography sx={{fontSize: "0.8rem"}}>
-              {option.medication}
-            </Typography>
-            <Typography sx={{fontSize: "0.8rem"}}>
-              {option.instruction}
-            </Typography>
-          </Box>
-        )}
-        sx={{
-          width: "100%",
-        }}
-        freeSolo={false}
-        renderInput={params => (
-          <TextField
-            {...params}
-            label={label || "Search for Product"}
-            ref={inputEl}
-            sx={{
-              fontSize: "0.75rem",
-              backgroundColor: "#ffffff",
-              "& .MuiInputBase-input": {
-                height: "0.9rem",
-              },
-            }}
-            InputLabelProps={{
-              shrink: true,
-              style: {color: "#2d2d2d"},
-            }}
-          />
-        )}
-      />
+      <div className="field">
+        <div className="control has-icons-left  ">
+          <div className="control has-icons-left  ">
+            <div
+              className="dropdown-trigger"
+              style={{width: "100%", position: "relative"}}
+            >
+              <DebounceInput
+                className="input is-small "
+                type="text"
+                placeholder="Search Product"
+                value={simpa}
+                minLength={3}
+                debounceTimeout={400}
+                onBlur={e => handleBlur(e.target.value)}
+                onChange={e => handleSearch(e.target.value)}
+                inputRef={inputEl}
+                element={Input}
+              />
+
+              <Grow in={showPanel}>
+                <Box
+                  ref={dropDownRef}
+                  container
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    maxHeight: "250px",
+                    overflowY: "scroll",
+                    zIndex: "5",
+                    position: "absolute",
+                    background: "#ffffff",
+                    width: "100%",
+                    boxShadow: "3",
+                    border: "1px solid lightgray",
+                  }}
+                >
+                  {facilities.map((facility, i) => (
+                    <Box
+                      item
+                      key={i}
+                      onClick={() => handleRow(facility)}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "0 8px",
+                        width: "100%",
+                        minHeight: "50px",
+                        borderTop: i !== 0 ? "1px solid gray" : "",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: "0.75rem",
+                        }}
+                      >
+                        {facility.medication}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: "0.75rem",
+                        }}
+                      >
+                        {facility.instruction}
+                      </span>
+                    </Box>
+                  ))}
+                </Box>
+              </Grow>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

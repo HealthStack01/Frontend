@@ -1,5 +1,5 @@
 import {forwardRef, useState} from "react";
-import {Button, Grid, Typography} from "@mui/material";
+import {Button, Collapse, Grid, Typography} from "@mui/material";
 import {Box} from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
 import {useForm} from "react-hook-form";
@@ -16,6 +16,7 @@ import ModalBox from "../../../../components/modal";
 import LeadAddContact from "./AddContact";
 import CustomTable from "../../../../components/customtable";
 import EmployeeSearch from "../../../helpers/EmployeeSearch";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import {getContactColumns, getStaffColumns} from "../colums/columns";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
@@ -24,8 +25,10 @@ import AdditionalInformationCard, {
 } from "./AdditionalInfo";
 import RadioButton from "../../../../components/inputs/basic/Radio";
 
-const LeadsCreate = ({closeModal}) => {
-  const {register, handleSubmit, control} = useForm();
+const LeadsCreate = ({closeModal, handleGoBack}) => {
+  const {register, handleSubmit, control, watch} = useForm({
+    defaultValues: {customer_type: "Individual"},
+  });
   const [contactModal, setContactModal] = useState(false);
   const [contacts, setContacts] = useState([]);
   const [staffs, setStaffs] = useState([]);
@@ -72,28 +75,77 @@ const LeadsCreate = ({closeModal}) => {
     console.log(data);
   };
 
+  const customerType = watch("customer_type", "Organization");
+
   return (
     <>
       <Box
         sx={{
-          width: "85vw",
-          maxHeight: "80vh",
+          width: "100%",
         }}
       >
-        <Grid container spacing={2}>
-          <Grid item lg={6} md={12} sm={12}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            borderBottom: "1px solid #f8f8f8",
+            backgroundColor: "#f8f8f8",
+          }}
+          mb={2}
+          p={2}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+            gap={1}
+          >
+            <GlobalCustomButton onClick={handleGoBack}>
+              <ArrowBackIcon fontSize="small" sx={{marginRight: "3px"}} />
+              Go Back
+            </GlobalCustomButton>
+
+            <Typography
+              sx={{
+                fontSize: "0.95rem",
+                fontWeight: "600",
+              }}
+            >
+              Create New Lead
+            </Typography>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <GlobalCustomButton onClick={handleSubmit(onSubmit)}>
+              Create Lead
+            </GlobalCustomButton>
+          </Box>
+        </Box>
+
+        <Grid container spacing={2} pr={2} pl={2}>
+          <Grid item lg={12} md={12} sm={12}>
             <Box item>
               <FormsHeaderText text="Customer Details" />
 
               <Grid container spacing={1} mt={0.5}>
-                {/* <Grid item xs={12}>
-                  <RadioButton
-                    title="Customer Type"
+                <Grid item lg={2} md={2} sm={6} xs={6}>
+                  <CustomSelect
                     options={["Individual", "Organization"]}
+                    label="Customer Type"
+                    control={control}
+                    name="customer_type"
+                    //placeholder="Enter customer name"
                   />
-                </Grid> */}
+                </Grid>
 
-                <Grid item xs={8}>
+                <Grid item lg={4} md={4} sm={6} xs={6}>
                   <Input
                     register={register("customer_name", {required: true})}
                     label="Customer Name"
@@ -101,37 +153,33 @@ const LeadsCreate = ({closeModal}) => {
                   />
                 </Grid>
 
-                <Grid item xs={4}>
-                  <CustomSelect
-                    options={["Individual", "Organization"]}
-                    register={register("customer_name", {required: true})}
-                    label="Customer Type"
-                    //placeholder="Enter customer name"
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
+                <Grid item lg={3} md={3} sm={6} xs={6}>
                   <Input
                     register={register("customer_number", {required: true})}
                     label="Customer Number"
                   />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item lg={3} md={3} sm={6} xs={6}>
                   <Input
                     register={register("customer_email", {required: true})}
                     label="Customer Email"
                   />
                 </Grid>
 
-                <Grid item xs={8}>
+                <Grid item lg={4} md={6} sm={8}>
                   <Input
                     register={register("address", {required: true})}
-                    label="Residential Address"
+                    label={
+                      customerType === "Organization"
+                        ? "Oraganization Address"
+                        : "Residential Address"
+                    }
                     //placeholder="Enter customer name"
                   />
                 </Grid>
-                <Grid item xs={4}>
+
+                <Grid item lg={2} md={3} sm={4}>
                   <Input
                     register={register("local_govt", {required: true})}
                     label="LGA"
@@ -139,7 +187,7 @@ const LeadsCreate = ({closeModal}) => {
                   />
                 </Grid>
 
-                <Grid item xs={4}>
+                <Grid item lg={2} md={3} sm={4}>
                   <Input
                     register={register("city", {required: true})}
                     label="City"
@@ -147,7 +195,7 @@ const LeadsCreate = ({closeModal}) => {
                   />
                 </Grid>
 
-                <Grid item xs={4}>
+                <Grid item lg={2} md={3} sm={4}>
                   <Input
                     register={register("state", {required: true})}
                     label="State"
@@ -155,12 +203,24 @@ const LeadsCreate = ({closeModal}) => {
                   />
                 </Grid>
 
-                <Grid item xs={4}>
+                <Grid item lg={2} md={3} sm={4}>
                   <Input
                     register={register("country", {required: true})}
                     label="Country"
                     //placeholder="Enter customer number"
                   />
+                </Grid>
+
+                <Grid item lg={4} md={4} sm={6}>
+                  <Collapse in={customerType === "Organization"}>
+                    <Input
+                      register={register("organization_branch", {
+                        required: true,
+                      })}
+                      label="Organization Branch"
+                      //placeholder="Enter customer number"
+                    />
+                  </Collapse>
                 </Grid>
               </Grid>
             </Box>
@@ -168,14 +228,14 @@ const LeadsCreate = ({closeModal}) => {
             <Box>
               <FormsHeaderText text="Lead Details" />
               <Grid container spacing={1} mt={0.5}>
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={2} md={3} sm={6}>
                   <Input
                     register={register("deal_probability", {required: true})}
                     label="Probability"
                     //placeholder="Enter customer name"
                   />
                 </Grid>
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={2} md={3} sm={6}>
                   <Input
                     register={register("deal_size", {required: true})}
                     label="Size"
@@ -183,7 +243,7 @@ const LeadsCreate = ({closeModal}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={2} md={3} sm={6}>
                   <CustomSelect
                     register={register("deal_status", {required: true})}
                     label="Status"
@@ -193,7 +253,7 @@ const LeadsCreate = ({closeModal}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={2} md={3} sm={6}>
                   <CustomSelect
                     register={register("deal_next_action", {required: true})}
                     label="Next Action"
@@ -203,14 +263,14 @@ const LeadsCreate = ({closeModal}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={2} md={3} sm={6}>
                   <Input
                     register={register("weight_forcast", {required: true})}
                     label="Weight Forcast"
                     //placeholder="Enter customer number"
                   />
                 </Grid>
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={2} md={3} sm={6}>
                   <MuiCustomDatePicker
                     label="Closing Date"
                     name="closing_date"
@@ -218,11 +278,19 @@ const LeadsCreate = ({closeModal}) => {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid item lg={6} md={6} sm={6}>
                   <Textarea
                     label="Additional Information"
                     placeholder="Write here..."
                     register={register("additional_info")}
+                  />
+                </Grid>
+
+                <Grid item lg={6} md={6} sm={6}>
+                  <Textarea
+                    label="More Additional Information"
+                    placeholder="Write here..."
+                    register={register("more_additional_info")}
                   />
                 </Grid>
               </Grid>
@@ -231,137 +299,112 @@ const LeadsCreate = ({closeModal}) => {
 
           {/* ****************************************************************************************** */}
 
-          <Grid item lg={6} md={12} sm={12}>
-            <Box mb={2}>
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-                mb={1.6}
-              >
-                <FormsHeaderText text="Contact Details" />
-                <Button
-                  sx={{textTransform: "capitalize"}}
-                  variant="contained"
-                  onClick={() => setContactModal(true)}
-                  size="small"
-                >
-                  <AddCircleOutlineOutlinedIcon
-                    fontSize="small"
-                    sx={{marginRight: "5px"}}
-                  />{" "}
-                  Add Contact
-                </Button>
-              </Box>
+          <Grid item lg={12} md={12} sm={12}>
+            <Grid container spacing={1}>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
+                <Box>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                    mb={1.6}
+                  >
+                    <FormsHeaderText text="Contact Details" />
+                    <Button
+                      sx={{textTransform: "capitalize"}}
+                      variant="contained"
+                      onClick={() => setContactModal(true)}
+                      size="small"
+                    >
+                      <AddCircleOutlineOutlinedIcon
+                        fontSize="small"
+                        sx={{marginRight: "5px"}}
+                      />{" "}
+                      Add Contact
+                    </Button>
+                  </Box>
 
-              <Box mt={1} mb={1}>
-                <CustomTable
-                  title={"Contact List"}
-                  columns={contactColumns}
-                  data={contacts}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  //onRowClicked={handleRow}
-                  CustomEmptyData="You haven't added any contact yet..."
-                  progressPending={false}
-                />
-              </Box>
-              <ModalBox
-                open={contactModal}
-                onClose={() => setContactModal(false)}
-                header="Add Contact"
-              >
-                <LeadAddContact
-                  closeModal={() => setContactModal(false)}
-                  addContact={handleAddContact}
-                />
-              </ModalBox>
-            </Box>
-
-            <Box container>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-                mb={1.6}
-              >
-                <FormsHeaderText text="Assign Staffs" />
-                <Button
-                  sx={{textTransform: "capitalize"}}
-                  variant="contained"
-                  onClick={handleAddStaff}
-                  size="small"
-                  disabled={!selectedStaff}
-                >
-                  <AddCircleOutlineOutlinedIcon
-                    fontSize="small"
-                    sx={{marginRight: "3px"}}
-                  />
-                  Add Staff
-                </Button>
-              </Box>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <EmployeeSearch
-                    getSearchfacility={handleSelectedStaff}
-                    label="Search for Staff"
-                  />
-                </Grid>
+                  <Box mt={1} mb={1}>
+                    <CustomTable
+                      title={"Contact List"}
+                      columns={contactColumns}
+                      data={contacts}
+                      pointerOnHover
+                      highlightOnHover
+                      striped
+                      //onRowClicked={handleRow}
+                      CustomEmptyData="You haven't added any contact yet..."
+                      progressPending={false}
+                    />
+                  </Box>
+                  <ModalBox
+                    open={contactModal}
+                    onClose={() => setContactModal(false)}
+                    header="Add Contact"
+                  >
+                    <LeadAddContact
+                      closeModal={() => setContactModal(false)}
+                      addContact={handleAddContact}
+                    />
+                  </ModalBox>
+                </Box>
               </Grid>
 
-              <Box mt={1} mb={1}>
-                <CustomTable
-                  title={"Contact List"}
-                  columns={staffColumns}
-                  data={staffs}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  //onRowClicked={handleRow}
-                  CustomEmptyData="You haven't added any Staffs yet..."
-                  progressPending={false}
-                />
-              </Box>
-            </Box>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
+                <Box container>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                    gap={1.5}
+                  >
+                    <FormsHeaderText text="Assign Staffs" />
+
+                    <Box sx={{width: "calc(100% - 250px)"}}>
+                      <EmployeeSearch
+                        getSearchfacility={handleSelectedStaff}
+                        label="Search for Staff"
+                      />
+                    </Box>
+
+                    <Button
+                      sx={{textTransform: "capitalize"}}
+                      variant="contained"
+                      onClick={handleAddStaff}
+                      size="small"
+                      //disabled={!selectedStaff}
+                    >
+                      <AddCircleOutlineOutlinedIcon
+                        fontSize="small"
+                        sx={{marginRight: "3px"}}
+                      />
+                      Add Staff
+                    </Button>
+                  </Box>
+
+                  <Box mt={1} mb={1}>
+                    <CustomTable
+                      title={"Contact List"}
+                      columns={staffColumns}
+                      data={staffs}
+                      pointerOnHover
+                      highlightOnHover
+                      striped
+                      //onRowClicked={handleRow}
+                      CustomEmptyData="You haven't added any Staffs yet..."
+                      progressPending={false}
+                    />
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
-
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            width: "100%",
-            justifyContent: "flex-end",
-          }}
-        >
-          <Button
-            variant="outlined"
-            color="error"
-            size="small"
-            sx={{
-              textTransform: "capitalize",
-              marginRight: "15px",
-            }}
-            onClick={closeModal}
-          >
-            Cancel
-          </Button>
-
-          <Button
-            variant="contained"
-            sx={{textTransform: "capitalize"}}
-            onClick={handleSubmit(onSubmit)}
-            size="small"
-          >
-            Create Lead
-          </Button>
-        </Box>
 
         <ModalBox
           open={infoModal}

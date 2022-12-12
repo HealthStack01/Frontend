@@ -9,7 +9,11 @@ import FacilityPopup from "../helpers/FacilityPopup";
 import {toast} from "react-toastify";
 import {format, formatDistanceToNowStrict} from "date-fns";
 import Slide from "@mui/material/Slide";
-import {Box} from "@mui/material";
+import {Box, Grid} from "@mui/material";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 const searchfacility = {};
@@ -23,6 +27,9 @@ import Input from "../../components/inputs/basic/Input";
 import ModalBox from "../../components/modal";
 import Grow from "@mui/material/Grow";
 import Card from "@mui/material/Card";
+import {FormsHeaderText} from "../../components/texts";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 
 export default function RadiologyOrders() {
   const {state} = useContext(ObjectContext); //,setState
@@ -31,43 +38,21 @@ export default function RadiologyOrders() {
   //const [showState,setShowState]=useState() //create|modify|detail
 
   return (
-    <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
-            </div> */}
-
-      <Box
-        container
-        sx={{
-          display: "flex",
-          alignItems: "flex-start",
-          width: "90vw",
-          height: "600px",
-          justifyContent: "space-between",
-          overflow: "hidden",
-        }}
-      >
-        <Box
-          item
-          sx={{
-            display: "flex-inline",
-            width: "60%",
-          }}
-        >
+    <Box
+      sx={{
+        width: "90vw",
+        maxHeight: "80vh",
+      }}
+    >
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={12} md={12} lg={8}>
           <RadiologyOrdersList />
-        </Box>
-
-        <Box
-          item
-          sx={{
-            display: "flex-inline",
-            width: "35%",
-          }}
-        >
+        </Grid>
+        <Grid item xs={12} sm={12} md={12} lg={4}>
           <RadiologyOrdersCreate />
-        </Box>
-      </Box>
-    </section>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 
@@ -179,19 +164,6 @@ export function RadiologyOrdersCreate() {
     setDestinationModal(true);
   };
 
-  const resetform = () => {
-    setType("Purchase Invoice");
-    setDocumentNo("");
-    setTotalamount("");
-    setProductId("");
-    setSource("");
-    setDate("");
-    setName("");
-    setTest("");
-    setInstruction("");
-    setProductItem([]);
-  };
-
   const onSubmit = () => {
     //data,e
     // e.preventDefault();
@@ -258,6 +230,7 @@ export function RadiologyOrdersCreate() {
       description: "Enter",
       sortable: true,
       inputType: "HIDDEN",
+      width: "60px",
     },
     {
       name: "Test",
@@ -291,7 +264,13 @@ export function RadiologyOrdersCreate() {
       name: "Action",
       key: "destination",
       description: "Enter Destination",
-      selector: row => <p style={{fontSize: "0.7rem", color: "red"}}>Remove</p>,
+      selector: (row, i) => (
+        <DeleteOutlineIcon
+          sx={{color: "red"}}
+          fontSize="small"
+          onClick={() => handleRemoveProd(row)}
+        />
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -299,35 +278,38 @@ export function RadiologyOrdersCreate() {
   ];
 
   return (
-    <Card>
-      <Box
-        container
-        sx={{
-          padding: "15px",
-          minHeight: "400px",
-          maxHeight: "600px",
-        }}
-      >
+    <>
+      <Box container>
         <Box
           container
           sx={{
             width: "100%",
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "space-between",
           }}
+          mb={1.5}
         >
-          <p className="card-header-title">Create Radiology Orders</p>
+          <FormsHeaderText text="Create Radiology Order" />
+
+          <GlobalCustomButton
+            onClick={() => {
+              handleClickProd();
+              () => setHidePanel(true);
+            }}
+          >
+            <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
+            Add
+          </GlobalCustomButton>
         </Box>
 
-        <div className="field is-horizontal">
-          <div className="field-body">
+        <Box sx={{display: "flex", flexDirection: "column"}} gap={1.5} mb={1.5}>
+          <Box>
             <TestHelperSearch
               getSearchfacility={getSearchfacility}
               clear={success}
               hidePanel={hidePanel}
             />
-
             {/* INVISIBLE INPUT THAT HOLDS THE VALUE FOR TESTHELPERSEARCH */}
             <input
               className="input is-small"
@@ -339,91 +321,59 @@ export function RadiologyOrdersCreate() {
               placeholder="test"
               style={{display: "none"}}
             />
+          </Box>
 
+          <Box>
             <Input
               value={instruction}
               type="text"
               onChange={e => setInstruction(e.target.value)}
-              placeholder="Instructions/Note"
+              label="Instructions/Note"
               name="instruction"
               disabled={!(productItemI.test && productItemI.test.length > 0)}
             />
-
+          </Box>
+          <Box
+            container
+            sx={{
+              display: "flex",
+              width: "100%",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
             <Box
-              container
+              item
               sx={{
-                display: "flex",
-                width: "100%",
-                alignItems: "center",
-                justifyContent: "space-between",
+                width: "calc(100% - 100px)",
               }}
             >
-              <Box
-                item
-                sx={{
-                  width: "calc(100% - 100px)",
-                }}
-              >
-                <Input
-                  value={
-                    destination ===
-                    user.currentEmployee.facilityDetail.facilityName
-                      ? "In-house"
-                      : destination
-                  }
-                  disabled={true}
-                  type="text"
-                  onChange={e => setDestination(e.target.value)}
-                  placeholder="Destination Pharmacy"
-                  name="destination"
-                />
-              </Box>
-
-              <Box item>
-                <Button
-                  onClick={handleChangeDestination}
-                  sx={{
-                    fontSize: "0.75rem",
-                    width: "85px",
-                  }}
-                >
-                  Change
-                </Button>
-              </Box>
+              <Input
+                value={
+                  destination ===
+                  user.currentEmployee.facilityDetail.facilityName
+                    ? "In-house"
+                    : destination
+                }
+                disabled={true}
+                type="text"
+                onChange={e => setDestination(e.target.value)}
+                label="Destination Pharmacy"
+                name="destination"
+              />
             </Box>
 
-            <Box
-              container
-              sx={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-around",
-              }}
-              mb={2}
-            >
-              <Button
-                onClick={() => {
-                  handleClickProd();
-                  () => setHidePanel(true);
-                }}
-                sx={{
-                  width: "50%",
-                  fontSize: "0.75rem",
-                }}
-              >
-                Add
-              </Button>
+            <Box item>
+              <GlobalCustomButton onClick={handleChangeDestination}>
+                Change
+              </GlobalCustomButton>
             </Box>
-          </div>
+          </Box>
+        </Box>
 
+        <Box>
           {productItem.length > 0 && (
-            <Box
-              sx={{
-                height: "200px",
-                overflowY: "scroll",
-              }}
-            >
+            <Box mb={1.5}>
               <CustomTable
                 title={"Lab Orders"}
                 columns={productItemSchema}
@@ -444,21 +394,15 @@ export function RadiologyOrdersCreate() {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "flex-end",
               }}
             >
-              <Button
-                onClick={onSubmit}
-                sx={{
-                  width: "150px",
-                  fontSize: "0.75rem",
-                }}
-              >
-                Create
-              </Button>
+              <GlobalCustomButton onClick={onSubmit}>
+                Complete
+              </GlobalCustomButton>
             </Box>
           )}
-        </div>
+        </Box>
       </Box>
 
       <ModalBox
@@ -471,7 +415,7 @@ export function RadiologyOrdersCreate() {
           closeModal={handlecloseModal}
         />
       </ModalBox>
-    </Card>
+    </>
   );
 }
 
@@ -529,6 +473,7 @@ export function RadiologyOrdersList({standalone}) {
         });
     }
   };
+
   const handleRow = async ProductEntry => {
     await setSelectedOrder(ProductEntry);
 
@@ -618,6 +563,7 @@ export function RadiologyOrdersList({standalone}) {
       description: "Enter name of band",
       sortable: true,
       inputType: "HIDDEN",
+      width: "50px",
     },
     {
       name: "Date",
@@ -627,6 +573,7 @@ export function RadiologyOrdersList({standalone}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "100px",
     },
     {
       name: "Test",
@@ -654,6 +601,7 @@ export function RadiologyOrdersList({standalone}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "100px",
     },
     {
       name: "Status",
@@ -663,31 +611,33 @@ export function RadiologyOrdersList({standalone}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "100px",
     },
     {
-      name: "Requesting Physician",
+      name: "Physician",
       key: "facility",
       description: "Enter name of Facility",
       selector: row => row.requestingdoctor_Name,
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "100px",
     },
     {
       name: "Action",
       key: "destination",
       description: "Enter Destination",
-      selector: row => (
-        <p
-          style={{fontSize: "0.7rem", color: "red"}}
+      selector: (row, i) => (
+        <DeleteOutlineIcon
+          sx={{color: "red"}}
+          fontSize="small"
           onClick={() => handleDelete(row)}
-        >
-          Delete
-        </p>
+        />
       ),
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "100px",
     },
   ];
 
@@ -707,15 +657,14 @@ export function RadiologyOrdersList({standalone}) {
           </div>
 
           {!standalone && (
-            <Button
-              style={{fontSize: "14px", fontWeight: "600"}}
-              label="Add new "
-              onClick={handleCreateNew}
-            />
+            <GlobalCustomButton onClick={handleCreateNew}>
+              <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
+              Add
+            </GlobalCustomButton>
           )}
         </TableMenu>
 
-        <div style={{width: "100%", height: "430px", overflowY: "scroll"}}>
+        <div style={{width: "100%", overflowY: "scroll"}}>
           <CustomTable
             title={""}
             columns={ordersListSchema}
@@ -725,6 +674,11 @@ export function RadiologyOrdersList({standalone}) {
             striped
             onRowClicked={handleRow}
             progressPending={false}
+            CustomEmptyData={
+              <Typography sx={{fontSize: "0.85rem"}}>
+                No Radiology Orders found......
+              </Typography>
+            }
             //selectableRowsComponent={Checkbox}
           />
         </div>
@@ -1284,7 +1238,193 @@ const useOnClickOutside = (ref, handler) => {
   );
 };
 
-export function TestHelperSearch({getSearchfacility, clear, hidePanel}) {
+export function TestHelperSearch({
+  id,
+  getSearchfacility,
+  clear,
+  disable = false,
+  label,
+}) {
+  const productServ = client.service("labhelper");
+  const [facilities, setFacilities] = useState([]);
+  // eslint-disable-next-line
+  const [searchError, setSearchError] = useState(false);
+  // eslint-disable-next-line
+  const [showPanel, setShowPanel] = useState(false);
+  // eslint-disable-next-line
+  const [searchMessage, setSearchMessage] = useState("");
+  // eslint-disable-next-line
+  const [simpa, setSimpa] = useState("");
+  // eslint-disable-next-line
+  const [chosen, setChosen] = useState(false);
+  // eslint-disable-next-line
+  const [count, setCount] = useState(0);
+  const inputEl = useRef(null);
+  const [val, setVal] = useState("");
+  const {user} = useContext(UserContext);
+  const {state} = useContext(ObjectContext);
+  const [productModal, setProductModal] = useState(false);
+
+  const dropDownRef = useRef(null);
+
+  const getInitial = async id => {
+    console.log(id);
+    if (!!id) {
+      let obj = {
+        categoryname: id,
+      };
+      console.log(obj);
+      handleRow(obj);
+    }
+  };
+
+  useEffect(() => {
+    getInitial(id);
+    return () => {};
+  }, []);
+
+  const handleRow = async obj => {
+    await setChosen(true);
+    //alert("something is chaning")
+
+    await setSimpa(obj.test);
+    getSearchfacility(obj);
+    // setSelectedFacility(obj)
+    setShowPanel(false);
+    await setCount(2);
+    /* const    newfacilityModule={
+            selectedFacility:facility,
+            show :'detail'
+        }
+   await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
+    //console.log(state)
+  };
+
+  const handleSearch = async value => {
+    setVal(value);
+    if (value === "") {
+      setShowPanel(false);
+      getSearchfacility(false);
+      return;
+    }
+    const field = "test"; //field variable
+
+    if (value.length >= 3) {
+      productServ
+        .find({
+          query: {
+            //service
+            [field]: {
+              $regex: value,
+              $options: "i",
+            },
+            $limit: 10,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        })
+        .then(res => {
+          if (res.total > 0) {
+            setFacilities(res.data);
+            setSearchMessage(" product  fetched successfully");
+            setShowPanel(true);
+          } else {
+            setShowPanel(false);
+            getSearchfacility({
+              test: value,
+              instruction: "",
+            });
+          }
+        })
+        .catch(err => {
+          toast({
+            message: "Error fetching test " + err,
+            type: "is-danger",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        });
+    } else {
+      setShowPanel(false);
+      await setFacilities([]);
+    }
+  };
+
+  useEffect(() => {
+    if (clear) {
+      console.log("success has changed", clear);
+      setSimpa("");
+    }
+    return () => {};
+  }, [clear]);
+
+  useOnClickOutside(dropDownRef, () => setShowPanel(false));
+
+  return (
+    <div>
+      <Autocomplete
+        size="small"
+        value={simpa}
+        onChange={(event, newValue) => {
+          handleRow(newValue);
+          setSimpa("");
+        }}
+        id="free-solo-dialog-demo"
+        options={facilities}
+        getOptionLabel={option => {
+          if (typeof option === "string") {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option.test;
+        }}
+        isOptionEqualToValue={(option, value) =>
+          value === undefined || value === "" || option._id === value._id
+        }
+        onInputChange={(event, newInputValue) => {
+          handleSearch(newInputValue);
+        }}
+        inputValue={val}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        noOptionsText={val !== "" ? `${val} Not Found` : "Type something"}
+        renderOption={(props, option) => (
+          <li {...props} style={{fontSize: "0.75rem"}}>
+            {option.test}
+          </li>
+        )}
+        sx={{
+          width: "100%",
+        }}
+        freeSolo={false}
+        renderInput={params => (
+          <TextField
+            {...params}
+            label={label || "Search for Test Product"}
+            ref={inputEl}
+            sx={{
+              fontSize: "0.75rem",
+              backgroundColor: "#ffffff",
+              "& .MuiInputBase-input": {
+                height: "0.9rem",
+              },
+            }}
+            InputLabelProps={{
+              shrink: true,
+              style: {color: "#2d2d2d"},
+            }}
+          />
+        )}
+      />
+    </div>
+  );
+}
+
+export function OldTestHelperSearch({getSearchfacility, clear, hidePanel}) {
   const productServ = client.service("labhelper");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1425,7 +1565,7 @@ export function TestHelperSearch({getSearchfacility, clear, hidePanel}) {
               <DebounceInput
                 className="input is-small "
                 type="text"
-                placeholder="Search Test"
+                label="Search Test"
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}

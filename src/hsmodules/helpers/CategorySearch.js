@@ -232,11 +232,14 @@ export default function CategorySearch({
           }
           return option.categoryname;
         }}
+        isOptionEqualToValue={(option, value) =>
+          value === undefined || value === "" || option._id === value._id
+        }
         //isOptionEqualToValue={(option, value) => option.id === value.id}
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys
-        noOptionsText="No Category found"
+        noOptionsText={val !== "" ? `${val} Not Found` : "Type something"}
         renderOption={(props, option) => (
           <li {...props} style={{fontSize: "0.75rem"}}>
             {option.categoryname}
