@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import {Box} from "@mui/system";
@@ -10,6 +10,8 @@ import { UserContext } from "../../context";
 import client from "../../feathers";
 import { yupResolver } from "@hookform/resolvers/yup";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import {MdOutlineUpdate} from 'react-icons/md'
+
 import {
   BottomWrapper,
   DetailsWrapper,
@@ -62,11 +64,11 @@ const BandView = ({ open, setOpen, band }) => {
       facility: data.currentEmployee.facility,
     });
   }, []);
-  const submit = async (data, e) => {
+  
+  const submit = useCallback ( async (data, e) => {
     setLoading(true);
     e.preventDefault();
     setSuccess(false);
-console.log(data)
     await BandServ.patch(band._id, data)
       .then((res) => {
         toast.success(`Band successfully updated`);
@@ -79,7 +81,7 @@ console.log(data)
       });
 
     setLoading(false);
-  };
+  },[data]);
 
   const handleDelete = async () => {
     let conf = window.confirm("Are you sure you want to delete this data?");
@@ -119,7 +121,13 @@ console.log(data)
             </GlobalCustomButton>
 
           :
-          <GlobalCustomButton onClick={handleSubmit(submit)} text="Update" color="success" type="submit" loading={loading} />
+          <GlobalCustomButton 
+          onClick={handleSubmit(submit)}
+          color="success" type="submit" loading={loading}
+          >
+             <MdOutlineUpdate sx={{marginRight: "5px"}} fontSize="bold" />
+          Update
+          </GlobalCustomButton>
           }
         </Box>
         <form >
@@ -170,7 +178,7 @@ console.log(data)
           {!editing ?  <Box>
          <TextArea
           label="Description"
-            {...register("description")}
+          register={register("description")}
             defaultValue={band?.description}
             disabled={!editing}
           />
@@ -178,7 +186,7 @@ console.log(data)
           <Box>
           <TextArea
            label="Description"
-             {...register("description")}
+           register={register("description")}
              name="description"
              type="text"
            />

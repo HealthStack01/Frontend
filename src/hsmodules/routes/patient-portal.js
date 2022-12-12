@@ -1,9 +1,10 @@
 import {lazy} from "react";
+import PatientProfile from '../Patientportal/PatientProfile'
 
 export const patientProfileRoutes = [
   {
     path: "/app/patient-portal/profile",
-    Component: null,
+    Component: PatientProfile,
   },
   {
     path: "/app/patient-portal/view",

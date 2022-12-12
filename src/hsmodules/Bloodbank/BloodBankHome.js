@@ -50,15 +50,15 @@ export default function BloodBankHome({ children }) {
 
   return (
     <section className="section remPadTop">
-      {/*  <div className="is-1"> Appointment sdchedule for patients for this clinic</div>
+      {/*  <div className="is-1"> Appointment schedule for patients for this clinic</div>
                <div className="is-1"> Communication Command Center</div>     */}
       <section className="hero is-info is-fullheight">
-        <div className="hero-body">
+        {/* <div className="hero-body">
           <div className="container has-text-centered">
             <h1 className="title">Bloodbank Module</h1>
             <h2 className="subtitle">Have fun working today!</h2>
           </div>
-        </div>
+        </div> */}
         <div className="layout__content-main">
           {/* <ModalBox open={showModal} onClick={() => setShowModal(false)}>
             <Box

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, { useState, useContext, useEffect, useRef, useCallback } from 'react';
 import client from '../../feathers';
 import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
@@ -42,7 +42,8 @@ import ModalBox from "../../components/modal";
 import { FormsHeaderText } from '../../components/texts';
 import Textarea from '../../components/inputs/basic/Textarea';
 import Grid from '@mui/material/Grid';
-import {MdOutlineDeleteOutline,MdOutlineUpdate,MdEdit} from 'react-icons/md'
+import DeleteIcon from '@mui/icons-material/Delete';
+import {MdOutlineUpdate,MdEdit} from 'react-icons/md'
 
 // Demo styles, see 'Styles' section below for some notes on use.
 
@@ -850,7 +851,7 @@ export function CaseDefinitionDetail({showModifyModal,casedefinition}) {
               
                 onClick={handleEdit}
                 >
-                  <MdEdit sx={{marginRight: "15px"}} fontSize="small" />
+                  <MdEdit sx={{marginRight: "5px"}} fontSize="bold" />
                 Edit
                 </GlobalCustomButton>
 </Box>
@@ -1086,7 +1087,7 @@ const onDeleteLab = (comp,i)=>{
    setLabs(prevstate=>prevstate.filter((el,index)=>index!==i))
 }
 
-  const onSubmit = (data, e) => {
+  const onSubmit = useCallback( (data, e) => {
     e.preventDefault();
 
     setSuccess(false);
@@ -1118,7 +1119,7 @@ const onDeleteLab = (comp,i)=>{
           pauseOnHover: true,
         });
       });
-  };
+  },[data]);
 
   return (
     <>
@@ -1129,13 +1130,13 @@ const onDeleteLab = (comp,i)=>{
                 color='error'
                 onClick={handleDelete}
                 >
-                  <MdOutlineDeleteOutline sx={{marginRight: "15px"}} fontSize="small" />
+                  <DeleteIcon sx={{marginRight: "5px"}} fontSize="small" />
                 Delete
                 </GlobalCustomButton>
                 <GlobalCustomButton 
                 onClick={handleSubmit(onSubmit)}
                 >
-                   <MdOutlineUpdate sx={{marginRight: "15px"}} fontSize="small" />
+                   <MdOutlineUpdate sx={{marginRight: "5px"}} fontSize="bold" />
                 Update
                 </GlobalCustomButton>
 
