@@ -680,70 +680,79 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               />
             )}
             {editCorporate && (
+              <GlobalCustomButton
+                color="success"
+                onClick={handleSubmit(onSubmit)}
+                text="Update Corporate"
+                customStyles={{ marginRight: '.8rem' }}
+              />
+            )}
+            {editCorporate && (
+              <GlobalCustomButton
+                color="primary"
+                onClick={() => setEditCorporate(false)}
+                text=" Details"
+                customStyles={{ marginRight: '.8rem' }}
+              />
+            )}
+            {editCorporate && (
+              <GlobalCustomButton
+                color="error"
+                onClick={handleDelete}
+                text="Delete Corporate"
+                customStyles={{ marginRight: '.8rem' }}
+              />
+            )}
+            {editCorporate && (
+              <GlobalCustomButton
+                color="warning"
+                onClick={handleCancel}
+                text=" Cancel Update"
+                customStyles={{ marginRight: '.8rem' }}
+              />
+            )}
+            {!editCorporate && (
               <>
                 <GlobalCustomButton
+                  color="secondary"
+                  onClick={() => setCurrentPage(2)}
+                  text="Policy"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
+                <GlobalCustomButton
                   color="success"
-                  onClick={handleSubmit(onSubmit)}
-                  text="Update Corporate"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <GlobalCustomButton
-                  color="primary"
-                  onClick={() => setEditCorporate(false)}
-                  text=" Details"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <GlobalCustomButton
-                  color="error"
-                  onClick={handleDelete}
-                  text="Delete Corporate"
+                  variant="outlined"
+                  onClick={() => setCurrentPage(3)}
+                  text="Beneficiary"
                   customStyles={{ marginRight: '.8rem' }}
                 />
                 <GlobalCustomButton
                   color="warning"
-                  onClick={handleCancel}
-                  text=" Cancel Update"
+                  variant="outlined"
+                  onClick={() => setCurrentPage(4)}
+                  text="Claims"
+                  customStyles={{ marginRight: '.8rem' }}
                 />
+                <GlobalCustomButton
+                  color="primary"
+                  variant="outlined"
+                  onClick={() => setCurrentPage(5)}
+                  text="Premium"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
+                <Badge
+                  badgeContent={4}
+                  color="success"
+                  sx={{ marginRight: '10px', marginTop: '0' }}
+                >
+                  <GlobalCustomButton
+                    onClick={() => setOpenDrawer(true)}
+                    text="Chat"
+                    color="primary"
+                  />
+                </Badge>
               </>
             )}
-            <GlobalCustomButton
-              color="secondary"
-              onClick={() => setCurrentPage(2)}
-              text="Policy"
-              customStyles={{ marginRight: '.8rem' }}
-            />
-            <GlobalCustomButton
-              color="success"
-              variant="outlined"
-              onClick={() => setCurrentPage(3)}
-              text="Beneficiary"
-              customStyles={{ marginRight: '.8rem' }}
-            />
-            <GlobalCustomButton
-              color="warning"
-              variant="outlined"
-              onClick={() => setCurrentPage(4)}
-              text="Claims"
-              customStyles={{ marginRight: '.8rem' }}
-            />
-            <GlobalCustomButton
-              color="primary"
-              variant="outlined"
-              onClick={() => setCurrentPage(5)}
-              text="Premium"
-              customStyles={{ marginRight: '.8rem' }}
-            />
-            <Badge
-              badgeContent={4}
-              color="success"
-              sx={{ marginRight: '10px', marginTop: '0' }}
-            >
-              <GlobalCustomButton
-                onClick={() => setOpenDrawer(true)}
-                text="Chat"
-                color="primary"
-              />
-            </Badge>
           </Box>
         </Box>
         {currentPage === 1 && (
