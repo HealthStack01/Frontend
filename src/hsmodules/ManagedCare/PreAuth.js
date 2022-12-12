@@ -42,6 +42,11 @@ import GlobalCustomButton from '../../components/buttons/CustomButton';
 import { FormsHeaderText } from '../../components/texts';
 import ManagedCareLeft from './components/manageCareRight';
 import ChatInterface from '../../components/chat/ChatInterface';
+import CRMTasks from '../CRM/Tasks';
+import Policy from './Policy';
+import Claims from './Claims';
+import PremiumPayment from './PremiumPayment';
+import Beneficiary from './Beneficiary';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -78,7 +83,7 @@ export default function GeneralAppointments() {
       {showModal === 2 && (
         <Grid container spacing={2}>
           <Grid item xs={3}>
-            <ManagedCareLeft />
+            <PatientProfile />
           </Grid>
           <Grid item xs={9}>
             <Details />
@@ -1073,6 +1078,8 @@ export function Details() {
   const [deny, setDeny] = useState(false);
   const [approve, setApprove] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
   return (
     <>
       <Grid container spacing={3}>
@@ -1085,17 +1092,17 @@ export function Details() {
               paddingRight: '1rem',
             }}
           >
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
+            <Box>
               <Box>
                 <FormsHeaderText text={'Pre-Authorization Details - 13322BA'} />
               </Box>
-              <Box sx={{ display: 'flex', marginTop: '1rem' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  marginTop: '1rem',
+                  justifyContent: 'flex-end',
+                }}
+              >
                 <GlobalCustomButton
                   onClick={() => setApprove(true)}
                   text="Approve"
@@ -1114,6 +1121,39 @@ export function Details() {
                   color="error"
                   customStyles={{ marginRight: '.8rem' }}
                 />
+                <GlobalCustomButton
+                  onClick={() => setCurrentPage(2)}
+                  text={'Task'}
+                  variant="outlined"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
+                <GlobalCustomButton
+                  color="secondary"
+                  onClick={() => setCurrentPage(3)}
+                  text="Policy"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
+                <GlobalCustomButton
+                  color="success"
+                  variant="outlined"
+                  onClick={() => setCurrentPage(4)}
+                  text="Beneficiary"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
+                <GlobalCustomButton
+                  color="warning"
+                  variant="outlined"
+                  onClick={() => setCurrentPage(5)}
+                  text="Claims"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
+                <GlobalCustomButton
+                  color="primary"
+                  variant="outlined"
+                  onClick={() => setCurrentPage(6)}
+                  text="Premium"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
                 <Badge
                   badgeContent={4}
                   color="success"
@@ -1127,141 +1167,94 @@ export function Details() {
                 </Badge>
               </Box>
             </Box>
+            {currentPage === 1 && (
+              <div
+                style={{
+                  marginTop: '10px',
+                  border: '1px solid #8F8F8F',
+                  padding: '1rem',
+                }}
+              >
+                <p>Request Sent 08/05/2022 9:45pm</p>
+                <McText txt={'Clinical Information'} />
+                <Grid container spacing={2} mb={1}>
+                  <Grid item xs={12}>
+                    <p style={{ fontWeight: 'bold' }}>Presenting Complaints:</p>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt
+                    </p>
+                  </Grid>
+                </Grid>
 
-            <div
-              style={{
-                marginTop: '10px',
-                border: '1px solid #8F8F8F',
-                padding: '1rem',
-              }}
-            >
-              <p>Request Sent 08/05/2022 9:45pm</p>
-              <McText txt={'Clinical Information'} />
-              <Grid container spacing={2} mb={1}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Presenting Complaints:</p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt
-                  </p>
-                </Grid>
-              </Grid>
+                <FormsHeaderText text={'Clinical Findings'} />
+                <Grid container spacing={2} mb={1}>
+                  <Grid item xs={12}>
+                    <p style={{ fontWeight: 'bold' }}>
+                      Provisional Diagonosis:
+                    </p>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt
+                    </p>
 
-              <FormsHeaderText text={'Clinical Findings'} />
-              <Grid container spacing={2} mb={1}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Provisional Diagonosis:</p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt
-                  </p>
+                    <p style={{ fontWeight: 'bold' }}>
+                      Planned Procedures / Services Requiring Authorization:
+                    </p>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt
+                    </p>
+                    <p style={{ fontWeight: 'bold' }}>
+                      Planned Procedures / Services Requiring Authorization:
+                    </p>
+                  </Grid>
+                </Grid>
 
-                  <p style={{ fontWeight: 'bold' }}>
-                    Planned Procedures / Services Requiring Authorization:
-                  </p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt
-                  </p>
-                  <p style={{ fontWeight: 'bold' }}>
-                    Planned Procedures / Services Requiring Authorization:
-                  </p>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <p style={{ fontWeight: 'bold' }}>Reason for Request:</p>
+                    <span
+                      style={{
+                        fontWeight: 'bold',
+                        backgroundColor: '#ECF3FF',
+                        color: '#0364FF',
+                        padding: '.3rem',
+                        marginRight: '1rem',
+                      }}
+                    >
+                      Procedure
+                    </span>
+                    <span
+                      style={{
+                        fontWeight: 'bold',
+                        backgroundColor: '#ECF3FF',
+                        color: '#0364FF',
+                        padding: '.3rem',
+                      }}
+                    >
+                      Services
+                    </span>
+                  </Grid>
                 </Grid>
-              </Grid>
-
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Reason for Request:</p>
-                  <span
-                    style={{
-                      fontWeight: 'bold',
-                      backgroundColor: '#ECF3FF',
-                      color: '#0364FF',
-                      padding: '.3rem',
-                      marginRight: '1rem',
-                    }}
-                  >
-                    Procedure
-                  </span>
-                  <span
-                    style={{
-                      fontWeight: 'bold',
-                      backgroundColor: '#ECF3FF',
-                      color: '#0364FF',
-                      padding: '.3rem',
-                    }}
-                  >
-                    Services
-                  </span>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
+                    <p>Dr. John Doe</p>
+                    <p>Lagos State Hospital</p>
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
-                  <p>Dr. John Doe</p>
-                  <p>Lagos State Hospital</p>
-                </Grid>
-              </Grid>
-            </div>
-
-            {/* <div
-              style={{
-                marginTop: '10px',
-                border: '1px solid #8F8F8F',
-                padding: '1rem',
-              }}
-            >
-              <p>Request Sent 08/05/2022 9:45pm</p>
-              <p>
-                Request Status: <span style={{ color: '#ED0423' }}>Reject</span>
-              </p>
-              <Grid container spacing={2} mb={1}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Reason for Denial:</p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt
-                  </p>
-                </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
-                  <p>Dr. John Doe</p>
-                  <p>Lagos State Hospital</p>
-                </Grid>
-              </Grid>
-            </div> */}
-
-            {/* <div
-              style={{
-                marginTop: '10px',
-                border: '1px solid #8F8F8F',
-                padding: '1rem',
-              }}
-            >
-              <p>Request Sent 08/05/2022 9:45pm</p>
-              <p>
-                Request Status:{' '}
-                <span style={{ color: '#17935C' }}>Approve</span>
-              </p>
-              <Grid container spacing={2} mb={1}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>reason for Approval:</p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt
-                  </p>
-                </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
-                  <p>Dr. John Doe</p>
-                  <p>Lagos State Hospital</p>
-                </Grid>
-              </Grid>
-            </div> */}
+              </div>
+            )}
+            {currentPage === 2 && (
+              <div style={{ marginTop: '1rem' }}>
+                <CRMTasks />
+              </div>
+            )}
+            {currentPage === 3 && <Policy standAlone />}
+            {currentPage === 4 && <Beneficiary />}
+            {currentPage === 5 && <Claims standAlone />}
+            {currentPage === 6 && <PremiumPayment />}
           </div>
         </Grid>
       </Grid>
@@ -1272,13 +1265,7 @@ export function Details() {
               <ModalHeader text={`Approve Claim  13229-BA`} />
               <Grid container spacing={2} mt={1}>
                 <Grid item xs={12}>
-                  <Input label={'Name of Referral'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Institution'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Reason'} />
+                  <Textarea label={'Comment'} />
                 </Grid>
                 <Grid item xs={12}>
                   <GlobalCustomButton text={'Approve'} color="success" />
@@ -1296,13 +1283,7 @@ export function Details() {
 
               <Grid container spacing={2} mt={1}>
                 <Grid item xs={12}>
-                  <Input label={'Name of Referral'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Institution'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Reason'} />
+                  <Textarea label={'Comment'} />
                 </Grid>
                 <Grid item xs={12}>
                   <GlobalCustomButton text={'Reject'} color="error" />
