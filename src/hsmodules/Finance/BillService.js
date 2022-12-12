@@ -250,9 +250,7 @@ export function BillsList({openCreateModal}) {
     //console.log(findProductEntry.groupedOrder);
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
-  const handleRow = async (Client, e) => {
-    // alert(expanded)
-  };
+
   //1.consider using props for global data
   useEffect(() => {
     // //console.log("started")
@@ -438,6 +436,19 @@ export function BillsList({openCreateModal}) {
     },
   ];
 
+  const conditionalRowStyles = [
+    {
+      when: row => row.client_id === selectedClient?.client_id,
+      style: {
+        backgroundColor: "#4cc9f0",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
   return (
     <>
       <div
@@ -495,6 +506,7 @@ export function BillsList({openCreateModal}) {
               striped
               onRowClicked={row => onRowClicked(row)}
               progressPending={loading}
+              conditionalRowStyles={conditionalRowStyles}
             />
           </div>
 

@@ -378,7 +378,7 @@ const VitalSignChart = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box mb="1rem">
             <MuiCustomDatePicker
-              name="date_time"
+              name="vitals_time"
               label="Date & Time"
               control={control}
             />
@@ -386,7 +386,7 @@ const VitalSignChart = () => {
 
           <Box mb="1rem">
             <Input
-              {...register("temperature")}
+              {...register("Temperature")}
               name="temperature"
               label="Temperature"
               type="text"
@@ -394,7 +394,7 @@ const VitalSignChart = () => {
           </Box>
           <Box mb="1rem">
             <Input
-              {...register("pulse")}
+              {...register("Pulse")}
               name="pulse"
               label="Pulse"
               type="text"
@@ -402,7 +402,7 @@ const VitalSignChart = () => {
           </Box>
           <Box mb="1rem">
             <Input
-              {...register("respiratory_rate")}
+              {...register("Respiratory_rate")}
               name="respiration_rate"
               label="Respiration Rate"
               type="text"
@@ -410,7 +410,7 @@ const VitalSignChart = () => {
           </Box>
           <Box mb="1rem">
             <Input
-              {...register("blood_glucose")}
+              {...register("Random_glucose")}
               name="blood_glucose"
               label="Blood Glucose"
               type="text"
@@ -418,7 +418,7 @@ const VitalSignChart = () => {
           </Box>
           <Box mb="1rem">
             <Input
-              {...register("systolic_bp")}
+              {...register("Systolic_BP")}
               name="systolic_bp"
               label="Systolic BP"
               type="text"
@@ -426,7 +426,7 @@ const VitalSignChart = () => {
           </Box>
           <Box mb="1rem">
             <Input
-              {...register("diastolic_bp")}
+              {...register("Diastolic_BP")}
               name="diastolic_bp"
               label="Diastolic BP"
               type="text"
@@ -434,11 +434,11 @@ const VitalSignChart = () => {
           </Box>
 
           <Box mb="1rem">
-            <Input {...register("sp02")} name="sp02" label="SP02" type="text" />
+            <Input {...register("SP02")} name="sp02" label="SP02" type="text" />
           </Box>
 
           <Box mb="1rem">
-            <Input {...register("pain")} name="pain" label="Pain" type="text" />
+            <Input {...register("Pain")} name="pain" label="Pain" type="text" />
           </Box>
 
           <Box mb="1rem">

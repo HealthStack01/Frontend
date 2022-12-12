@@ -55,7 +55,13 @@ export const bandTypeOptions: string[] = [
   "Customer Sponsor",
   "Vendor",
   "Patient",
+  "Provider",
+    "Company",
+    "Plan",
 ];
+
+export const locationTypeOptions:string[] =["Front Desk","Clinic","Ward", "Store", "Laboratory", "Finance","Theatre","Pharmacy", "Radiology","Managed Care" ]
+
 
 export const status: string[] = ["Single", "Married", "Divorced"];
 export const religion: string[] = ["Christianity", "Islam", "Rather not say"];

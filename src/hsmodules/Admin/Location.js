@@ -68,6 +68,10 @@ export default function Location() {
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Location  Module</span></div>
             </div> */}
+
+
+      <LocationForm open={createModal} setOpen={handleHideCreateModal} />
+
       <div className="columns ">
         <div className="column is-8 ">
           <LocationList
@@ -76,9 +80,9 @@ export default function Location() {
           />
         </div>
         <div className="column is-4 ">
-          <ModalBox open={createModal} onClose={handleHideCreateModal}>
+          {/* <ModalBox open={createModal} onClose={handleHideCreateModal}>
             <LocationCreate/>
-          </ModalBox>
+          </ModalBox> */}
 
           <ModalBox open={detailModal} onClose={handleHideDetailModal}>
             <div>
@@ -245,7 +249,7 @@ export function LocationCreate({ open, setOpen }) {
             </div>
             </GridBox>
             <GlobalCustomButton
-            
+            type="submit"
             >
                <CreateIcon fontSize="small" sx={{marginRight: "5px"}}/> 
                Create Location

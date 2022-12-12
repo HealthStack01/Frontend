@@ -11,49 +11,66 @@ import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import CustomTable from "../../../../components/customtable";
 import moment from "moment";
 import {CustomerView} from "../lead/LeadDetailView";
-import CustomerDetail from "../global/CustomerDetail";
+import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 import {formatDistanceToNowStrict} from "date-fns";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {PageCreatePlan} from "../plans/CreatePlan";
+import Plans from "../../Plans";
 
 const random = require("random-string-generator");
 
-const InvoiceCreate = ({closeModal}) => {
+const InvoiceCreate = ({closeModal, handleGoBack}) => {
   const [plans, setPlans] = useState([]);
   const [duration, setDuration] = useState("");
 
-  const {
-    register,
-    control,
-    getValues,
-    formState: {isDirty},
-  } = useForm({
+  const {register, control, getValues} = useForm({
     defaultValues: {plan_end_date: ""},
   });
 
-  const planColumns = [];
+  const handleAddNewPlan = plan => {
+    setPlans(prev => [plan, ...prev]);
+  };
 
-  useEffect(() => {
-    const endDate = getValues("plan_end_date");
-    const durationVal = endDate
-      ? formatDistanceToNowStrict(new Date(endDate))
-      : "";
-
-    setDuration(durationVal);
-  }, [getValues, isDirty]);
-
-  console.log("duration", duration);
+  const handleRemovePlan = plan => {
+    setPlans(prev => prev.filter(item => item._id !== plan._id));
+  };
 
   return (
     <>
       <Box
         sx={{
-          width: "800px",
-          maxHeight: "80vw",
+          width: "100%",
         }}
       >
-        <Grid container spacing={2}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            borderBottom: "1px solid #f8f8f8",
+            backgroundColor: "#f8f8f8",
+          }}
+          p={2}
+        >
+          <GlobalCustomButton onClick={handleGoBack}>
+            <ArrowBackIcon />
+            Back
+          </GlobalCustomButton>
+
+          <Box
+            sx={{
+              display: "flex",
+            }}
+            gap={1}
+          >
+            <GlobalCustomButton>Complete Invoice Creation</GlobalCustomButton>
+          </Box>
+        </Box>
+
+        <Grid container spacing={2} p={2}>
           <Grid item lg={12} md={12} sm={12}>
-            <CustomerDetail />
+            <PageCustomerDetail />
           </Grid>
 
           <Grid item lg={12} md={12} sm={12}>
@@ -61,8 +78,8 @@ const InvoiceCreate = ({closeModal}) => {
               <FormsHeaderText text="Invoice Information" />
             </Box>
 
-            <Grid container spacing={1.5} mb={1.5}>
-              <Grid item xs={4}>
+            <Grid container spacing={1} mb={1.5}>
+              <Grid item lg={2} md={3} sm={4}>
                 <Input
                   label="Date"
                   value={moment(moment.now()).format("L")}
@@ -70,7 +87,7 @@ const InvoiceCreate = ({closeModal}) => {
                   disabled={true}
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item lg={2} md={3} sm={4}>
                 <Input
                   label="Invoice Number"
                   value={random(12, "uppernumeric")}
@@ -78,7 +95,7 @@ const InvoiceCreate = ({closeModal}) => {
                   disabled={true}
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item lg={2} md={3} sm={4}>
                 <Input
                   label="Total Amount"
                   value={"100000"}
@@ -87,138 +104,41 @@ const InvoiceCreate = ({closeModal}) => {
                 />
               </Grid>
 
-              <Grid item xs={4}>
+              <Grid item lg={2} md={3} sm={4}>
                 <CustomSelect
                   label="Payment Mode"
                   options={["Cash", "Cheque", "Transfer"]}
                 />
               </Grid>
 
-              <Grid item xs={4}>
+              <Grid item lg={2} md={3} sm={4}>
                 <CustomSelect
                   label="Payment Option"
                   options={["Annually", "Bi-Annually", "Quarterly"]}
                 />
               </Grid>
 
-              <Grid item xs={4}>
+              <Grid item lg={2} md={3} sm={4}>
                 <CustomSelect
-                  label="Sub Category"
+                  label="Subscribtion Category"
                   options={["New", "Renewal", "Additional"]}
                 />
               </Grid>
             </Grid>
 
-            <Box mb={1} sx={{display: "flex", justifyContent: "space-between"}}>
-              <FormsHeaderText text="Plans" />
-
-              <GlobalCustomButton>
-                <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
-                Add Plan
-              </GlobalCustomButton>
+            <Box>
+              <PageCreatePlan addNewPlan={handleAddNewPlan} />
             </Box>
 
-            <Grid container spacing={1}>
-              <Grid item xs={3}>
-                <CustomSelect
-                  register={register("plan", {required: true})}
-                  label="Plan Type"
-                  options={["Family", "HMO", "Free", "Personal"]}
-                  //placeholder="Enter customer number"
-                />
-              </Grid>
-
-              <Grid item xs={3}>
-                <Input
-                  register={register("premium", {required: true})}
-                  label="Premium"
-                  type="number"
-                />
-              </Grid>
-
-              <Grid item xs={3}>
-                <Input
-                  register={register("no_of_heads", {required: true})}
-                  label="No of Heads"
-                  type="text"
-                  //placeholder="Enter customer number"
-                />
-              </Grid>
-
-              <Grid item xs={3}>
-                <Input
-                  register={register("no_of_months", {required: true})}
-                  label="No of Months"
-                  type="text"
-                  //placeholder="Enter customer number"
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <MuiCustomDatePicker
-                  control={control}
-                  name="plan_end_date"
-                  label="Plan End Date"
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <Input
-                  register={register("plan_duration", {required: true})}
-                  label="Duration"
-                  type="text"
-                  value={duration}
-                  //placeholder="Enter customer number"
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <Input
-                  register={register("amount", {required: true})}
-                  label="Total Amount"
-                  type="NUMBER"
-                  //placeholder="Enter customer number"
-                />
-              </Grid>
-            </Grid>
-
             <Box mt={1} mb={1}>
-              <CustomTable
-                title={"Contact List"}
-                columns={planColumns}
-                data={plans}
-                pointerOnHover
-                highlightOnHover
-                striped
-                //onRowClicked={handleRow}
-                CustomEmptyData="You haven't added any Plan yet..."
-                progressPending={false}
+              <Plans
+                omitCreate={true}
+                plans={plans}
+                removePlan={handleRemovePlan}
               />
             </Box>
           </Grid>
         </Grid>
-
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-end",
-          }}
-          mt={2}
-        >
-          <GlobalCustomButton
-            variant="outlined"
-            color="error"
-            sx={{
-              marginRight: "15px",
-            }}
-            onClick={closeModal}
-          >
-            Cancel
-          </GlobalCustomButton>
-
-          <GlobalCustomButton>Create Invoice</GlobalCustomButton>
-        </Box>
       </Box>
     </>
   );

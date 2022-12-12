@@ -433,6 +433,19 @@ export function BillsList({openCreateModal}) {
     },
   ];
 
+  const conditionalRowStyles = [
+    {
+      when: row => row.client_id === selectedClient?.client_id,
+      style: {
+        backgroundColor: "#4cc9f0",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
   return (
     <>
       <div
@@ -490,6 +503,7 @@ export function BillsList({openCreateModal}) {
               striped
               onRowClicked={row => onRowClicked(row)}
               progressPending={loading}
+              conditionalRowStyles={conditionalRowStyles}
             />
           </div>
 

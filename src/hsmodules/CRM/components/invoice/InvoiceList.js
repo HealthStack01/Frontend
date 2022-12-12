@@ -8,7 +8,7 @@ import FilterMenu from "../../../../components/utilities/FilterMenu";
 import {TableMenu} from "../../../../ui/styled/global";
 import {PageWrapper} from "../../../app/styles";
 
-const InvoiceList = ({openCreateModal, openDetailModal, showDetailView}) => {
+const InvoiceList = ({openCreateModal, showCreateView, showDetailView}) => {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   // eslint-disable-next-line
@@ -154,7 +154,7 @@ const InvoiceList = ({openCreateModal, openDetailModal, showDetailView}) => {
               <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>Invoice</h2>
             </div>
 
-            <GlobalCustomButton onClick={openCreateModal}>
+            <GlobalCustomButton onClick={showCreateView}>
               <AddCircleOutlineOutlined
                 fontSize="small"
                 sx={{marginRight: "5px"}}

@@ -5,7 +5,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import Input from '../../components/inputs/basic/Input';
 import ViewText from '../../components/viewtext';
-import { UserContext } from '../../context';
+// import { UserContext } from '../../context';
+import {UserContext,ObjectContext} from '../../context'
 import client from '../../feathers';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -18,6 +19,7 @@ import {
   GridBox
 } from '../app/styles';
 import dayjs, { Dayjs } from 'dayjs';
+import {Box} from "@mui/system";
 import {
   createEmployeeSchema,
 } from './ui-components/schema';
@@ -27,110 +29,179 @@ import CloseIcon from '@mui/icons-material/Close';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ModalBox from '../../components/modal';
 
 // import { createClientSchema } from "./schema";
 
 const EmployeeView = ({ open, setOpen, employee }) => {
-  const EmployeeServ = client.service('employee');
-  const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { register, handleSubmit, setValue,reset, errors } = useForm(); //watch, errors,
+  // eslint-disable-next-line 
+  const [error, setError] =useState(false)
+  // eslint-disable-next-line 
+  const [success, setSuccess] =useState(false)
+  // eslint-disable-next-line 
+  const [message,setMessage] = useState("")
+    // const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(false);
-  const result = localStorage.getItem('user');
-  const user = JSON.parse(result);
+  // eslint-disable-next-line 
+  const EmployeeServ=client.service('employee')
+  //const history = useHistory()
+   // eslint-disable-next-line
+  const {user} = useContext(UserContext)
+  const {state,setState} = useContext(ObjectContext)
 
-  // console.log('Employee>>>>>', employee);
+  // const Employee =state.EmployeeModule.selectedEmployee 
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
-    resolver: yupResolver(createEmployeeSchema),
+      useEffect(() => {
+          setValue("firstname", employee.firstname,  {
+              shouldValidate: true,
+              shouldDirty: true
+          })
+          setValue("lastname", employee.lastname,  {
+              shouldValidate: true,
+              shouldDirty: true
+          })
+          setValue("profession", employee.profession,  {
+              shouldValidate: true,
+              shouldDirty: true
+          })
+          setValue("phone", employee.phone,  {
+              shouldValidate: true,
+              shouldDirty: true
+          })
+          setValue("email", employee.email,  {
+              shouldValidate: true,
+              shouldDirty: true
+          })
+          setValue("department", employee.department,  {
+              shouldValidate: true,
+              shouldDirty: true
+          })
+          setValue("deptunit", employee.deptunit,  {
+              shouldValidate: true,
+              shouldDirty: true
+          })
+        /*   setValue("EmployeeCategory", Employee.EmployeeCategory,  {
+              shouldValidate: true,
+              shouldDirty: true
+          }) */
+          
+          return () => {
+              
+          }
+      },[])
 
-    defaultValues: {
-      firstname: employee?.firstname,
-      middlename: employee?.middlename,
-      lastname: employee?.lastname,
-      profession: employee?.profession,
-      phone: employee?.phone,
-      email: employee?.email,
-      department: employee?.department,
-      depunit: employee?.depunit,
-      password: employee?.password,
-      facility: employee?.facility,
-    },
-  });
-
-  useEffect(() => {
-    reset({
-      firstname: employee?.firstname,
-      middlename: employee?.middlename,
-      lastname: employee?.lastname,
-      profession: employee?.profession,
-      phone: employee?.phone,
-      email: employee?.email,
-      department: employee?.department,
-      depunit: employee?.depunit,
-      password: employee?.password,
-      facility: employee?.facility,
-    });
-  }, []);
-  const submit = async (data, e) => {
-    setLoading(true);
-    e.preventDefault();
-    setSuccess(false);
-
-    data.createdby = user._id;
-    data.facility = user.currentEmployee.facility;
-
-    await EmployeeServ.patch(employee._id, data)
-      .then(res => {
-        toast.success(`Employee successfully updated`);
-        setLoading(false);
-        setOpen(false);
-      })
-      .catch(err => {
-        toast.error(`Sorry, You weren't able to updated an employee. ${err}`);
-        setLoading(false);
-      });
-
-    setLoading(false);
-  };
-
-  const handleDelete = async () => {
-    let conf = window.confirm('Are you sure you want to delete this data?');
-    const dleteId = employee._id;
-    if (conf) {
-      EmployeeServ.remove(dleteId)
-        .then(res => {
-          toast.success(`Employee successfully deleted!`);
-          setOpen(false);
-        })
-        .catch(err => {
-          toast.error(`Sorry, Unable to delete employee. ${err}`);
-        });
+ const handleCancel=async()=>{
+  const    newEmployeeModule={
+      selectedEmployee:{},
+      show :'create'
     }
-  };
+ await setState((prevstate)=>({...prevstate, EmployeeModule:newEmployeeModule}))
+ //console.log(state)
+         }
+
+
+      const changeState =()=>{
+      const    newEmployeeModule={
+          selectedEmployee:{},
+          show :'create'
+      }
+      setState((prevstate)=>({...prevstate, EmployeeModule:newEmployeeModule}))
+
+      }
+  const handleDelete=async()=>{
+      let conf=window.confirm("Are you sure you want to delete this data?")
+      
+      const dleteId=employee._id
+      if (conf){
+           
+      EmployeeServ.remove(dleteId)
+      .then((res)=>{
+              //console.log(JSON.stringify(res))
+              reset();
+             /*  setMessage("Deleted Employee successfully")
+              setSuccess(true)
+              changeState()
+             setTimeout(() => {
+              setSuccess(false)
+              }, 200); */
+              toast({
+                  message: 'Employee deleted succesfully',
+                  type: 'is-success',
+                  dismissible: true,
+                  pauseOnHover: true,
+                })
+              changeState()
+          })
+          .catch((err)=>{
+             // setMessage("Error deleting Employee, probable network issues "+ err )
+             // setError(true)
+              toast({
+                  message: "Error deleting Employee, probable network issues or "+ err,
+                  type: 'is-danger',
+                  dismissible: true,
+                  pauseOnHover: true,
+                })
+          })
+      }
+  }
+
+      
+
+ /* ()=> setValue("firstName", "Bill", , {
+          shouldValidate: true,
+          shouldDirty: true
+        })) */
+  const submit = (data,e) =>{
+      e.preventDefault();
+      
+      setSuccess(false)
+      console.log(data)
+      data.facility=employee.facility
+        //console.log(data);
+        
+      EmployeeServ.patch(employee._id,data)
+      .then((res)=>{
+               toast({
+                  message: 'Employee updated succesfully',
+                  type: 'is-success',
+                  dismissible: true,
+                  pauseOnHover: true,
+                })
+                
+              changeState()
+
+          })
+          .catch((err)=>{
+              toast({
+                  message: "Error updating Employee, probable network issues or "+ err,
+                  type: 'is-danger',
+                  dismissible: true,
+                  pauseOnHover: true,
+                })
+          })
+
+    } 
+  
 
   return (
     <PageWrapper>
-      <GrayWrapper>
-        <HeadWrapper>
-          <div style={{width:"100%"}}>
-            <h2>Employee Detail</h2>
-          </div>
-          <BottomWrapper>
-          <GlobalCustomButton
+      <GrayWrapper >
+      <ToastContainer theme="colored" />
+      <Box>
+            <h6 style={{fontSize:"14px"}}>Employee Detail</h6>
+          </Box>
+        <Box display="flex" justifyContent="flex-end" alignItems="center" gap="2rem">
          
+          <GlobalCustomButton
              onClick={() => handleDelete()}
             color="error"
           >
             <DeleteIcon fontSize="small" sx={{marginRight: "5px"}} />
-            Delete Employee
+            Delete 
             </GlobalCustomButton>
            
-            <GlobalCustomButton
+          {!editing ?   <GlobalCustomButton
           
            disabled={editing}
            onClick={() => {
@@ -138,19 +209,20 @@ const EmployeeView = ({ open, setOpen, employee }) => {
            }}
           >
              <CreateIcon fontSize="small" sx={{marginRight: "5px"}}/> 
-             {`${!editing ? "Edit Employee" : "Cancel Employee"}`}
+             Edit
              
             </GlobalCustomButton>
-          </BottomWrapper>
-        </HeadWrapper> 
-        <form onSubmit={handleSubmit(submit)} >
+: <GlobalCustomButton onClick={handleSubmit(submit)} text='Update' color='success' type='submit'  />}
+         
+        </Box> 
+        <form  >
           <ToastContainer theme='colored' />
           <GridBox>
           {!editing ? (
             <Input
             label="First Name"
-            register={register("firstname")}
             defaultValue={employee?.firstname}
+            disabled={!editing}
           />
           ) : (
             <Input
@@ -162,8 +234,9 @@ const EmployeeView = ({ open, setOpen, employee }) => {
           {!editing ? (
             <Input
             label='Middle Name'
-            register={register("middlename")}
+            register={register('middlename')}
             defaultValue={employee?.middlename}
+            disabled={!editing}
           />
           ) : (
             <Input
@@ -175,8 +248,9 @@ const EmployeeView = ({ open, setOpen, employee }) => {
           {!editing ? (
             <Input
             label='Last Name'
-            register={register("lastname")}
+
             defaultValue={employee?.lastname}
+            disabled={!editing}
           />
           ) : (
             <Input
@@ -190,8 +264,9 @@ const EmployeeView = ({ open, setOpen, employee }) => {
           {!editing ? (
             <Input
             label='Profession'
-            register={register("profession")}
+            
             defaultValue={employee?.profession}
+            disabled={!editing}
           />
           ) : (
             <Input
@@ -204,8 +279,9 @@ const EmployeeView = ({ open, setOpen, employee }) => {
            
             <Input
             label='Phone Number'
-            register={register("phone")}
+           
             defaultValue={employee?.phone}
+            disabled={!editing}
           />
             
           ) : (
@@ -219,8 +295,9 @@ const EmployeeView = ({ open, setOpen, employee }) => {
           
             <Input
             label='Email'
-            register={register("email")}
+            
             defaultValue={employee?.email}
+            disabled={!editing}
           />
           ) : (
             <Input
@@ -236,8 +313,9 @@ const EmployeeView = ({ open, setOpen, employee }) => {
            
             <Input
             label='Department'
-            register={register("department")}
+           
             defaultValue={employee?.department}
+            disabled={!editing}
           />
           ) : (
             <Input
@@ -249,25 +327,20 @@ const EmployeeView = ({ open, setOpen, employee }) => {
           {!editing ? (
             <Input
             label='Department Unit'
-            register={register("depunit")}
-            defaultValue={employee?.depunit}
+            
+            defaultValue={employee?.deptunit}
+            disabled={!editing}
           />
           ) : (
             <Input
               label='Department Unit'
-              register={register('depunit')}
-              errorText={errors?.depunit?.message}
+              register={register('deptunit')}
+              errorText={errors?.deptunit?.message}
             />
           )}
         </GridBox>
-          {editing && (
-            <BottomWrapper>
-              <GlobalCustomButton  text='Save Form' type='submit' loading={loading} />
-            </BottomWrapper>
-          )}
         </form>
-        
-      </GrayWrapper>
+    </GrayWrapper>
     </PageWrapper>
   );
 };
