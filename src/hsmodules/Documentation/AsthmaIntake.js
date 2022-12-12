@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect, useRef} from "react";
+import React, {useState, useContext, useEffect, useRef,useCallback} from "react";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
@@ -49,7 +49,7 @@ export default function AsthmaIntake() {
 
   const formValues = getValues();
 
-  useEffect(() => {
+  useCallback(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
       Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
         setValue(keys, value, {

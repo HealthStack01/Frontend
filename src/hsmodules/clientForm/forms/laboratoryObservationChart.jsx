@@ -56,8 +56,8 @@ const LaboratoryObservationChart = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("regno")}
-            name="regno"
+            {...register("regNumber")}
+            name="regNumber"
             label="Reg.No"
             type="text"
           />
@@ -65,7 +65,7 @@ const LaboratoryObservationChart = ({onSubmit}) => {
 
         <Box mb="1rem">
           <MuiCustomDatePicker
-            name="date_time"
+            name="dateAndTime"
             label="Date & Time"
             control={control}
           />
@@ -80,11 +80,11 @@ const LaboratoryObservationChart = ({onSubmit}) => {
         </Box>
 
         <Box mb="1rem">
-          <Input {...register("R")} name="R" label="R" type="text" />
+          <Input {...register("r")} name="R" label="R" type="text" />
         </Box>
 
         <Box mb="1rem">
-          <Input {...register("b/p")} name="b/p" label="B/P" type="text" />
+          <Input {...register("bldPre")} name="b/p" label="B/P" type="text" />
         </Box>
 
         <Box mb="1rem">
@@ -93,7 +93,7 @@ const LaboratoryObservationChart = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("fluid_intake")}
+            {...register("fluidIntake")}
             name="fluid_intake"
             label="Fluid Intake"
             type="text"
@@ -102,17 +102,8 @@ const LaboratoryObservationChart = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("fluid_intake")}
-            name="fluid_intake"
-            label="Fluid Intake"
-            type="text"
-          />
-        </Box>
-
-        <Box mb="1rem">
-          <Input
-            {...register("fluid_output")}
-            name="fluid_output"
+            {...register("fluidOutput")}
+            name="fluidOutput"
             label="Fluid Output"
             type="text"
           />

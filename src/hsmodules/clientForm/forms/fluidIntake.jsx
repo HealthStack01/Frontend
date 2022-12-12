@@ -344,7 +344,7 @@ const FluidIntakeOutput = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box mb="1rem">
             <MuiCustomDatePicker
-              name="fluid_time"
+              name="fluidTime"
               label="Fluid Time"
               control={control}
             />
