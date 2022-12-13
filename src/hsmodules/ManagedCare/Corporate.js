@@ -32,6 +32,8 @@ import Beneficiary from './Beneficiary';
 import Claims from './Claims';
 import PremiumPayment from './PremiumPayment';
 import ChatInterface from '../../components/chat/ChatInterface';
+import CRMTasks from '../CRM/Tasks';
+import VideoConference from '../utils/VideoConference';
 
 export default function OrganizationClient() {
   const { state } = useContext(ObjectContext); //,setState
@@ -511,6 +513,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   const { register, handleSubmit, setValue, reset } = useForm();
   const [currentPage, setCurrentPage] = useState(1);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [activateCall, setActivateCall] = useState(false);
 
   const facility = state.facilityModule.selectedFacility;
 
@@ -699,7 +702,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               <GlobalCustomButton
                 color="error"
                 onClick={handleDelete}
-                text="Delete Corporate"
+                text="Deactivate Corporate"
                 customStyles={{ marginRight: '.8rem' }}
               />
             )}
@@ -707,17 +710,30 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               <GlobalCustomButton
                 color="warning"
                 onClick={handleCancel}
-                text=" Cancel Update"
+                text=" Cancel"
                 customStyles={{ marginRight: '.8rem' }}
               />
             )}
             {!editCorporate && (
               <>
+                {activateCall && (
+                  <GlobalCustomButton
+                    onClick={() => setActivateCall(false)}
+                    color="error"
+                    customStyles={{ marginRight: '.8rem' }}
+                  >
+                    End Teleconsultation
+                  </GlobalCustomButton>
+                )}
+                <VideoConference
+                  activateCall={activateCall}
+                  setActivateCall={setActivateCall}
+                />
                 <GlobalCustomButton
                   color="secondary"
                   onClick={() => setCurrentPage(2)}
                   text="Policy"
-                  customStyles={{ marginRight: '.8rem' }}
+                  customStyles={{ margin: '0 .8rem' }}
                 />
                 <GlobalCustomButton
                   color="success"
@@ -731,6 +747,13 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                   variant="outlined"
                   onClick={() => setCurrentPage(4)}
                   text="Claims"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
+                <GlobalCustomButton
+                  color="secondary"
+                  variant="outlined"
+                  onClick={() => setCurrentPage(6)}
+                  text="Task"
                   customStyles={{ marginRight: '.8rem' }}
                 />
                 <GlobalCustomButton
@@ -844,6 +867,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
         {currentPage === 3 && <Beneficiary />}
         {currentPage === 4 && <Claims standAlone />}
         {currentPage === 5 && <PremiumPayment />}
+        {currentPage === 6 && <CRMTasks />}
       </Box>
       <Drawer
         open={openDrawer}
