@@ -86,7 +86,7 @@ export default function GeneralAppointments() {
             <PatientProfile />
           </Grid>
           <Grid item xs={9}>
-            <Details />
+            <Details setShowModal={setShowModal} />
           </Grid>
         </Grid>
       )}
@@ -126,6 +126,7 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
   const [openComplaint, setOpenComplaint] = useState(false);
   const [openFindings, setOpenFindings] = useState(false);
   const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
+  const [showServiceModal, setShowServiceModal] = useState(false);
 
   let appointee; //  =state.ClientModule.selectedClient
   /*  const getSearchfacility=(obj)=>{
@@ -380,6 +381,59 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
       inputType: 'TEXT',
     },
   ];
+  const serviceSchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'item',
+      key: 'item',
+      description: 'Item',
+      selector: (row) => row.item,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'QTY',
+      key: 'submittedQuantity',
+      description: 'Submitted QTY',
+      selector: (row) => row.submittedQuantity,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Unit Price',
+      key: 'submittedBill',
+      description: 'Unit Price',
+      selector: (row) => row.submittedBill,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Total Amount',
+      key: 'payableBill',
+      description: 'Payable Bill',
+      selector: (row) => row.payableBill,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+  ];
+
+  const dummyData3 = [
+    {
+      item: 'Today',
+      submittedQuantity: 1,
+      submittedBill: 1000,
+      payableQuantity: 1,
+      payableBill: 1000,
+      // comments: 'Inline with agreement',
+    },
+  ];
 
   return (
     <>
@@ -479,6 +533,32 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
 
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
+              <Box
+                sx={{ display: 'flex', justifyContent: 'space-between' }}
+                my={1}
+              >
+                <FormsHeaderText text={'Services / Products'} />
+                <GlobalCustomButton
+                  onClick={() => setShowServiceModal(true)}
+                  color="primary"
+                  variant="outlined"
+                  text="Add Service"
+                />
+              </Box>
+              <CustomTable
+                title={''}
+                columns={serviceSchema}
+                data={dummyData3}
+                pointerOnHover
+                highlightOnHover
+                striped
+                //conditionalRowStyles={conditionalRowStyles}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
               <Textarea
                 placeholder="Type your message here"
                 name="reason"
@@ -526,7 +606,18 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
         >
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
-              <Input label="Provisional Diagnosis" />
+              <CustomSelect
+                label="Provisional Diagnosis"
+                name="provisionalDiagnosis"
+                options={[
+                  { value: 'Fever', label: 'Fever' },
+                  { value: 'Cough', label: 'Cough' },
+                  { value: 'Headache', label: 'Headache' },
+                  { value: 'Body Pain', label: 'Body Pain' },
+                  { value: 'Diarrhea', label: 'Diarrhea' },
+                  { value: 'Vomiting', label: 'Vomiting' },
+                ]}
+              />
             </Grid>
             <Grid item xs={12} sm={12}>
               <Input label="Planned Procedure" />
@@ -536,6 +627,31 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
             </Grid>
             <Grid item xs={12} sm={12}>
               <GlobalCustomButton text={'Add'} color="success" />
+            </Grid>
+          </Grid>
+        </ModalBox>
+      )}
+      {showServiceModal && (
+        <ModalBox
+          open={showServiceModal}
+          onClose={() => setShowServiceModal(false)}
+          header="Add Service / Product"
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <Input name="service" label="Service Name" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Input name="quantity" label="Quantity" type="number" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Input name="unitPrice" label="Amount" type="text" />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <Textarea label="Comments" name="comments" />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <GlobalCustomButton text="Add Service" color="success" />
             </Grid>
           </Grid>
         </ModalBox>
@@ -1074,7 +1190,7 @@ export function PreAuthorizationList({ showModal, setShowModal }) {
     </>
   );
 }
-export function Details() {
+export function Details({ showModal, setShowModal }) {
   const [deny, setDeny] = useState(false);
   const [approve, setApprove] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -1092,17 +1208,28 @@ export function Details() {
               paddingRight: '1rem',
             }}
           >
-            <Box>
-              <Box>
-                <FormsHeaderText text={'Pre-Authorization Details - 13322BA'} />
-              </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                marginTop: '1rem',
+                justifyContent: 'space-between',
+                alignItem: 'center',
+              }}
+            >
+              <FormsHeaderText text={'Pre-Authorization Details - 13322BA'} />
+
               <Box
                 sx={{
                   display: 'flex',
-                  marginTop: '1rem',
                   justifyContent: 'flex-end',
                 }}
               >
+                <GlobalCustomButton
+                  text="Back"
+                  onClick={() => setShowModal(0)}
+                  color="warning"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
                 <GlobalCustomButton
                   onClick={() => setApprove(true)}
                   text="Approve"
@@ -1122,36 +1249,13 @@ export function Details() {
                   customStyles={{ marginRight: '.8rem' }}
                 />
                 <GlobalCustomButton
-                  onClick={() => setCurrentPage(2)}
-                  text={'Task'}
+                  onClick={
+                    currentPage === 1
+                      ? () => setCurrentPage(2)
+                      : () => setCurrentPage(1)
+                  }
+                  text={currentPage === 1 ? 'Task' : 'Details'}
                   variant="outlined"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <GlobalCustomButton
-                  color="secondary"
-                  onClick={() => setCurrentPage(3)}
-                  text="Policy"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <GlobalCustomButton
-                  color="success"
-                  variant="outlined"
-                  onClick={() => setCurrentPage(4)}
-                  text="Beneficiary"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <GlobalCustomButton
-                  color="warning"
-                  variant="outlined"
-                  onClick={() => setCurrentPage(5)}
-                  text="Claims"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <GlobalCustomButton
-                  color="primary"
-                  variant="outlined"
-                  onClick={() => setCurrentPage(6)}
-                  text="Premium"
                   customStyles={{ marginRight: '.8rem' }}
                 />
                 <Badge
@@ -1176,6 +1280,7 @@ export function Details() {
                 }}
               >
                 <p>Request Sent 08/05/2022 9:45pm</p>
+                <FormsHeaderText text={'Pre-authorization Code - 13322BA'} />
                 <McText txt={'Clinical Information'} />
                 <Grid container spacing={2} mb={1}>
                   <Grid item xs={12}>
