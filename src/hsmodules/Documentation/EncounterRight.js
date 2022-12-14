@@ -51,6 +51,9 @@ import Input from "../../components/inputs/basic/Input";
 import {FormsHeaderText} from "../../components/texts";
 import CloseIcon from "@mui/icons-material/Close";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 
 export default function EncounterRight() {
   const {state, setState} = useContext(ObjectContext);
@@ -1283,7 +1286,7 @@ export function NursingNoteCreate() {
 }
 
 export function DoctorsNoteCreate() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue, control} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -1466,6 +1469,39 @@ export function DoctorsNoteCreate() {
     }));
   };
 
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+
+  const [focusedInput, setFocusedInput] = useState("");
+
+  useEffect(() => {
+    setValue(focusedInput, `${transcript}`);
+  }, [transcript]);
+
+  const handleOnBlur = () => {
+    console.log("input");
+  };
+
+  const handleOnFocus = () => {
+    console.log("focussed");
+  };
+
+  const handleStartRecording = event => {
+    const inputName = event.target.name;
+    setFocusedInput(inputName);
+    SpeechRecognition.startListening({continuous: true});
+  };
+
+  const handleStopRecording = () => {
+    //console.log("Recording has stopped");
+    SpeechRecognition.stopListening();
+    resetTranscript();
+  };
+
   return (
     <>
       <div className="card ">
@@ -1490,18 +1526,24 @@ export function DoctorsNoteCreate() {
             </Box>
             <Box>
               <Textarea
-                register={register("Documentation")}
                 type="text"
                 label="Documentation"
                 placeholder="Write here......"
+                handleOnBlur={handleStopRecording}
+                onFocus={handleStartRecording}
+                control={control}
+                name="Documentation"
               />
             </Box>
             <Box>
               <Textarea
-                register={register("Recommendation")}
                 type="text"
                 label="Recommendation"
                 placeholder="Write here......"
+                handleOnBlur={handleStopRecording}
+                onFocus={handleStartRecording}
+                control={control}
+                name="Recommendation"
               />
             </Box>
 

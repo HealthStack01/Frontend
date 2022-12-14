@@ -1,18 +1,54 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Box, Typography} from "@mui/material";
 import {CKEditor} from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 
 import "./styles.scss";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
+import Textarea from "../../../../components/inputs/basic/Textarea";
 
 const ProposalDescription = ({setDescription, closeModal, description}) => {
-  const [text, setText] = useState(description);
+  const [text, setText] = useState("");
 
   const handleDone = () => {
     setDescription(text);
     closeModal();
   };
+
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+
+  if (!browserSupportsSpeechRecognition) {
+    return <span>Browser doesn't support speech recognition.</span>;
+  }
+
+  const handleStartRecording = () => {
+    console.log("recording started");
+    SpeechRecognition.startListening({continuous: true});
+  };
+
+  const handleStopRecording = () => {
+    console.log("Recording has stopped");
+    SpeechRecognition.stopListening();
+  };
+
+  useEffect(() => {
+    console.log(transcript);
+  }, [transcript]);
+
+  useEffect(() => {
+    const newText = transcript;
+
+    setText(transcript);
+  }, [transcript]);
+
   return (
     <Box
       sx={{
@@ -35,17 +71,27 @@ const ProposalDescription = ({setDescription, closeModal, description}) => {
             fontWeight: "600",
           }}
         >
-          Description
+          Microphone: {listening ? "on" : "off"}
         </Typography>
       </Box>
-      <CKEditor
+
+      <Textarea
+        value={text}
+        onChange={e => setText(e.target.value)}
+        onFocus={handleStartRecording}
+        onBlur={handleStopRecording}
+      />
+
+      {/* <CKEditor
         editor={ClassicEditor}
-        data={text}
+        data={transcript}
         onChange={(event, editor) => {
           const data = editor.getData();
           setText(data);
         }}
-      />
+        onFocus={handleStartRecording}
+        onBlur={handleStopRecording}
+      /> */}
 
       <Box mt={2}>
         <GlobalCustomButton

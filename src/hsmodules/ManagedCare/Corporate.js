@@ -728,7 +728,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                 <VideoConference
                   activateCall={activateCall}
                   setActivateCall={setActivateCall}
-                  title="Video Conference"
+                  label="Video Conference"
                 />
                 <GlobalCustomButton
                   color="secondary"

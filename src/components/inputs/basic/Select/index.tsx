@@ -18,6 +18,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   register?: any;
   disabled?: boolean;
   control?: any;
+  required?: boolean;
 }
 
 const CustomSelect: React.FC<SelectProps> = ({
@@ -31,6 +32,7 @@ const CustomSelect: React.FC<SelectProps> = ({
   register,
   disabled = false,
   control,
+  required = false,
 }) => {
   console.log(options);
 
@@ -60,7 +62,7 @@ const CustomSelect: React.FC<SelectProps> = ({
         <Controller
           name={name}
           control={control}
-          rules={{required: "Budget Required"}}
+          rules={{required: required}}
           render={({field: {onChange, value}}) => (
             <Select
               labelId="demo-simple-select-label"
