@@ -42,6 +42,11 @@ import GlobalCustomButton from '../../components/buttons/CustomButton';
 import { FormsHeaderText } from '../../components/texts';
 import ManagedCareLeft from './components/manageCareRight';
 import ChatInterface from '../../components/chat/ChatInterface';
+import CRMTasks from '../CRM/Tasks';
+import Policy from './Policy';
+import Claims from './Claims';
+import PremiumPayment from './PremiumPayment';
+import Beneficiary from './Beneficiary';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -78,10 +83,10 @@ export default function GeneralAppointments() {
       {showModal === 2 && (
         <Grid container spacing={2}>
           <Grid item xs={3}>
-            <ManagedCareLeft />
+            <PatientProfile />
           </Grid>
           <Grid item xs={9}>
-            <Details />
+            <Details setShowModal={setShowModal} />
           </Grid>
         </Grid>
       )}
@@ -121,6 +126,7 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
   const [openComplaint, setOpenComplaint] = useState(false);
   const [openFindings, setOpenFindings] = useState(false);
   const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
+  const [showServiceModal, setShowServiceModal] = useState(false);
 
   let appointee; //  =state.ClientModule.selectedClient
   /*  const getSearchfacility=(obj)=>{
@@ -375,6 +381,59 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
       inputType: 'TEXT',
     },
   ];
+  const serviceSchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'item',
+      key: 'item',
+      description: 'Item',
+      selector: (row) => row.item,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'QTY',
+      key: 'submittedQuantity',
+      description: 'Submitted QTY',
+      selector: (row) => row.submittedQuantity,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Unit Price',
+      key: 'submittedBill',
+      description: 'Unit Price',
+      selector: (row) => row.submittedBill,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Total Amount',
+      key: 'payableBill',
+      description: 'Payable Bill',
+      selector: (row) => row.payableBill,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+  ];
+
+  const dummyData3 = [
+    {
+      item: 'Today',
+      submittedQuantity: 1,
+      submittedBill: 1000,
+      payableQuantity: 1,
+      payableBill: 1000,
+      // comments: 'Inline with agreement',
+    },
+  ];
 
   return (
     <>
@@ -474,6 +533,32 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
 
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
+              <Box
+                sx={{ display: 'flex', justifyContent: 'space-between' }}
+                my={1}
+              >
+                <FormsHeaderText text={'Services / Products'} />
+                <GlobalCustomButton
+                  onClick={() => setShowServiceModal(true)}
+                  color="primary"
+                  variant="outlined"
+                  text="Add Service"
+                />
+              </Box>
+              <CustomTable
+                title={''}
+                columns={serviceSchema}
+                data={dummyData3}
+                pointerOnHover
+                highlightOnHover
+                striped
+                //conditionalRowStyles={conditionalRowStyles}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
               <Textarea
                 placeholder="Type your message here"
                 name="reason"
@@ -521,7 +606,18 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
         >
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
-              <Input label="Provisional Diagnosis" />
+              <CustomSelect
+                label="Provisional Diagnosis"
+                name="provisionalDiagnosis"
+                options={[
+                  { value: 'Fever', label: 'Fever' },
+                  { value: 'Cough', label: 'Cough' },
+                  { value: 'Headache', label: 'Headache' },
+                  { value: 'Body Pain', label: 'Body Pain' },
+                  { value: 'Diarrhea', label: 'Diarrhea' },
+                  { value: 'Vomiting', label: 'Vomiting' },
+                ]}
+              />
             </Grid>
             <Grid item xs={12} sm={12}>
               <Input label="Planned Procedure" />
@@ -531,6 +627,31 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
             </Grid>
             <Grid item xs={12} sm={12}>
               <GlobalCustomButton text={'Add'} color="success" />
+            </Grid>
+          </Grid>
+        </ModalBox>
+      )}
+      {showServiceModal && (
+        <ModalBox
+          open={showServiceModal}
+          onClose={() => setShowServiceModal(false)}
+          header="Add Service / Product"
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <Input name="service" label="Service Name" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Input name="quantity" label="Quantity" type="number" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Input name="unitPrice" label="Amount" type="text" />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <Textarea label="Comments" name="comments" />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <GlobalCustomButton text="Add Service" color="success" />
             </Grid>
           </Grid>
         </ModalBox>
@@ -1069,10 +1190,12 @@ export function PreAuthorizationList({ showModal, setShowModal }) {
     </>
   );
 }
-export function Details() {
+export function Details({ showModal, setShowModal }) {
   const [deny, setDeny] = useState(false);
   const [approve, setApprove] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
   return (
     <>
       <Grid container spacing={3}>
@@ -1088,14 +1211,25 @@ export function Details() {
             <Box
               sx={{
                 display: 'flex',
+                marginTop: '1rem',
                 justifyContent: 'space-between',
-                alignItems: 'center',
+                alignItem: 'center',
               }}
             >
-              <Box>
-                <FormsHeaderText text={'Pre-Authorization Details - 13322BA'} />
-              </Box>
-              <Box sx={{ display: 'flex', marginTop: '1rem' }}>
+              <FormsHeaderText text={'Pre-Authorization Details - 13322BA'} />
+
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                }}
+              >
+                <GlobalCustomButton
+                  text="Back"
+                  onClick={() => setShowModal(0)}
+                  color="warning"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
                 <GlobalCustomButton
                   onClick={() => setApprove(true)}
                   text="Approve"
@@ -1114,6 +1248,16 @@ export function Details() {
                   color="error"
                   customStyles={{ marginRight: '.8rem' }}
                 />
+                <GlobalCustomButton
+                  onClick={
+                    currentPage === 1
+                      ? () => setCurrentPage(2)
+                      : () => setCurrentPage(1)
+                  }
+                  text={currentPage === 1 ? 'Task' : 'Details'}
+                  variant="outlined"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
                 <Badge
                   badgeContent={4}
                   color="success"
@@ -1127,141 +1271,95 @@ export function Details() {
                 </Badge>
               </Box>
             </Box>
+            {currentPage === 1 && (
+              <div
+                style={{
+                  marginTop: '10px',
+                  border: '1px solid #8F8F8F',
+                  padding: '1rem',
+                }}
+              >
+                <p>Request Sent 08/05/2022 9:45pm</p>
+                <FormsHeaderText text={'Pre-authorization Code - 13322BA'} />
+                <McText txt={'Clinical Information'} />
+                <Grid container spacing={2} mb={1}>
+                  <Grid item xs={12}>
+                    <p style={{ fontWeight: 'bold' }}>Presenting Complaints:</p>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt
+                    </p>
+                  </Grid>
+                </Grid>
 
-            <div
-              style={{
-                marginTop: '10px',
-                border: '1px solid #8F8F8F',
-                padding: '1rem',
-              }}
-            >
-              <p>Request Sent 08/05/2022 9:45pm</p>
-              <McText txt={'Clinical Information'} />
-              <Grid container spacing={2} mb={1}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Presenting Complaints:</p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt
-                  </p>
-                </Grid>
-              </Grid>
+                <FormsHeaderText text={'Clinical Findings'} />
+                <Grid container spacing={2} mb={1}>
+                  <Grid item xs={12}>
+                    <p style={{ fontWeight: 'bold' }}>
+                      Provisional Diagonosis:
+                    </p>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt
+                    </p>
 
-              <FormsHeaderText text={'Clinical Findings'} />
-              <Grid container spacing={2} mb={1}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Provisional Diagonosis:</p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt
-                  </p>
+                    <p style={{ fontWeight: 'bold' }}>
+                      Planned Procedures / Services Requiring Authorization:
+                    </p>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt
+                    </p>
+                    <p style={{ fontWeight: 'bold' }}>
+                      Planned Procedures / Services Requiring Authorization:
+                    </p>
+                  </Grid>
+                </Grid>
 
-                  <p style={{ fontWeight: 'bold' }}>
-                    Planned Procedures / Services Requiring Authorization:
-                  </p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt
-                  </p>
-                  <p style={{ fontWeight: 'bold' }}>
-                    Planned Procedures / Services Requiring Authorization:
-                  </p>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <p style={{ fontWeight: 'bold' }}>Reason for Request:</p>
+                    <span
+                      style={{
+                        fontWeight: 'bold',
+                        backgroundColor: '#ECF3FF',
+                        color: '#0364FF',
+                        padding: '.3rem',
+                        marginRight: '1rem',
+                      }}
+                    >
+                      Procedure
+                    </span>
+                    <span
+                      style={{
+                        fontWeight: 'bold',
+                        backgroundColor: '#ECF3FF',
+                        color: '#0364FF',
+                        padding: '.3rem',
+                      }}
+                    >
+                      Services
+                    </span>
+                  </Grid>
                 </Grid>
-              </Grid>
-
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Reason for Request:</p>
-                  <span
-                    style={{
-                      fontWeight: 'bold',
-                      backgroundColor: '#ECF3FF',
-                      color: '#0364FF',
-                      padding: '.3rem',
-                      marginRight: '1rem',
-                    }}
-                  >
-                    Procedure
-                  </span>
-                  <span
-                    style={{
-                      fontWeight: 'bold',
-                      backgroundColor: '#ECF3FF',
-                      color: '#0364FF',
-                      padding: '.3rem',
-                    }}
-                  >
-                    Services
-                  </span>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
+                    <p>Dr. John Doe</p>
+                    <p>Lagos State Hospital</p>
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
-                  <p>Dr. John Doe</p>
-                  <p>Lagos State Hospital</p>
-                </Grid>
-              </Grid>
-            </div>
-
-            {/* <div
-              style={{
-                marginTop: '10px',
-                border: '1px solid #8F8F8F',
-                padding: '1rem',
-              }}
-            >
-              <p>Request Sent 08/05/2022 9:45pm</p>
-              <p>
-                Request Status: <span style={{ color: '#ED0423' }}>Reject</span>
-              </p>
-              <Grid container spacing={2} mb={1}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Reason for Denial:</p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt
-                  </p>
-                </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
-                  <p>Dr. John Doe</p>
-                  <p>Lagos State Hospital</p>
-                </Grid>
-              </Grid>
-            </div> */}
-
-            {/* <div
-              style={{
-                marginTop: '10px',
-                border: '1px solid #8F8F8F',
-                padding: '1rem',
-              }}
-            >
-              <p>Request Sent 08/05/2022 9:45pm</p>
-              <p>
-                Request Status:{' '}
-                <span style={{ color: '#17935C' }}>Approve</span>
-              </p>
-              <Grid container spacing={2} mb={1}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>reason for Approval:</p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt
-                  </p>
-                </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
-                  <p>Dr. John Doe</p>
-                  <p>Lagos State Hospital</p>
-                </Grid>
-              </Grid>
-            </div> */}
+              </div>
+            )}
+            {currentPage === 2 && (
+              <div style={{ marginTop: '1rem' }}>
+                <CRMTasks />
+              </div>
+            )}
+            {currentPage === 3 && <Policy standAlone />}
+            {currentPage === 4 && <Beneficiary />}
+            {currentPage === 5 && <Claims standAlone />}
+            {currentPage === 6 && <PremiumPayment />}
           </div>
         </Grid>
       </Grid>
@@ -1272,13 +1370,7 @@ export function Details() {
               <ModalHeader text={`Approve Claim  13229-BA`} />
               <Grid container spacing={2} mt={1}>
                 <Grid item xs={12}>
-                  <Input label={'Name of Referral'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Institution'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Reason'} />
+                  <Textarea label={'Comment'} />
                 </Grid>
                 <Grid item xs={12}>
                   <GlobalCustomButton text={'Approve'} color="success" />
@@ -1296,13 +1388,7 @@ export function Details() {
 
               <Grid container spacing={2} mt={1}>
                 <Grid item xs={12}>
-                  <Input label={'Name of Referral'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Institution'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Reason'} />
+                  <Textarea label={'Comment'} />
                 </Grid>
                 <Grid item xs={12}>
                   <GlobalCustomButton text={'Reject'} color="error" />

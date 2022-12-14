@@ -32,6 +32,8 @@ import Beneficiary from './Beneficiary';
 import Claims from './Claims';
 import PremiumPayment from './PremiumPayment';
 import ChatInterface from '../../components/chat/ChatInterface';
+import CRMTasks from '../CRM/Tasks';
+import VideoConference from '../utils/VideoConference';
 
 export default function OrganizationClient() {
   const { state } = useContext(ObjectContext); //,setState
@@ -511,6 +513,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   const { register, handleSubmit, setValue, reset } = useForm();
   const [currentPage, setCurrentPage] = useState(1);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [activateCall, setActivateCall] = useState(false);
 
   const facility = state.facilityModule.selectedFacility;
 
@@ -680,70 +683,99 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               />
             )}
             {editCorporate && (
+              <GlobalCustomButton
+                color="success"
+                onClick={handleSubmit(onSubmit)}
+                text="Update Corporate"
+                customStyles={{ marginRight: '.8rem' }}
+              />
+            )}
+            {editCorporate && (
+              <GlobalCustomButton
+                color="primary"
+                onClick={() => setEditCorporate(false)}
+                text=" Details"
+                customStyles={{ marginRight: '.8rem' }}
+              />
+            )}
+            {editCorporate && (
+              <GlobalCustomButton
+                color="error"
+                onClick={handleDelete}
+                text="Deactivate Corporate"
+                customStyles={{ marginRight: '.8rem' }}
+              />
+            )}
+            {editCorporate && (
+              <GlobalCustomButton
+                color="warning"
+                onClick={handleCancel}
+                text=" Cancel"
+                customStyles={{ marginRight: '.8rem' }}
+              />
+            )}
+            {!editCorporate && (
               <>
+                {activateCall && (
+                  <GlobalCustomButton
+                    onClick={() => setActivateCall(false)}
+                    color="error"
+                    customStyles={{ marginRight: '.8rem' }}
+                  >
+                    End Teleconsultation
+                  </GlobalCustomButton>
+                )}
+                <VideoConference
+                  activateCall={activateCall}
+                  setActivateCall={setActivateCall}
+                />
+                <GlobalCustomButton
+                  color="secondary"
+                  onClick={() => setCurrentPage(2)}
+                  text="Policy"
+                  customStyles={{ margin: '0 .8rem' }}
+                />
                 <GlobalCustomButton
                   color="success"
-                  onClick={handleSubmit(onSubmit)}
-                  text="Update Corporate"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <GlobalCustomButton
-                  color="primary"
-                  onClick={() => setEditCorporate(false)}
-                  text=" Details"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <GlobalCustomButton
-                  color="error"
-                  onClick={handleDelete}
-                  text="Delete Corporate"
+                  variant="outlined"
+                  onClick={() => setCurrentPage(3)}
+                  text="Beneficiary"
                   customStyles={{ marginRight: '.8rem' }}
                 />
                 <GlobalCustomButton
                   color="warning"
-                  onClick={handleCancel}
-                  text=" Cancel Update"
+                  variant="outlined"
+                  onClick={() => setCurrentPage(4)}
+                  text="Claims"
+                  customStyles={{ marginRight: '.8rem' }}
                 />
+                <GlobalCustomButton
+                  color="secondary"
+                  variant="outlined"
+                  onClick={() => setCurrentPage(6)}
+                  text="Task"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
+                <GlobalCustomButton
+                  color="primary"
+                  variant="outlined"
+                  onClick={() => setCurrentPage(5)}
+                  text="Premium"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
+                <Badge
+                  badgeContent={4}
+                  color="success"
+                  sx={{ marginRight: '10px', marginTop: '0' }}
+                >
+                  <GlobalCustomButton
+                    onClick={() => setOpenDrawer(true)}
+                    text="Chat"
+                    color="primary"
+                  />
+                </Badge>
               </>
             )}
-            <GlobalCustomButton
-              color="secondary"
-              onClick={() => setCurrentPage(2)}
-              text="Policy"
-              customStyles={{ marginRight: '.8rem' }}
-            />
-            <GlobalCustomButton
-              color="success"
-              variant="outlined"
-              onClick={() => setCurrentPage(3)}
-              text="Beneficiary"
-              customStyles={{ marginRight: '.8rem' }}
-            />
-            <GlobalCustomButton
-              color="warning"
-              variant="outlined"
-              onClick={() => setCurrentPage(4)}
-              text="Claims"
-              customStyles={{ marginRight: '.8rem' }}
-            />
-            <GlobalCustomButton
-              color="primary"
-              variant="outlined"
-              onClick={() => setCurrentPage(5)}
-              text="Premium"
-              customStyles={{ marginRight: '.8rem' }}
-            />
-            <Badge
-              badgeContent={4}
-              color="success"
-              sx={{ marginRight: '10px', marginTop: '0' }}
-            >
-              <GlobalCustomButton
-                onClick={() => setOpenDrawer(true)}
-                text="Chat"
-                color="primary"
-              />
-            </Badge>
           </Box>
         </Box>
         {currentPage === 1 && (
@@ -835,6 +867,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
         {currentPage === 3 && <Beneficiary />}
         {currentPage === 4 && <Claims standAlone />}
         {currentPage === 5 && <PremiumPayment />}
+        {currentPage === 6 && <CRMTasks />}
       </Box>
       <Drawer
         open={openDrawer}
