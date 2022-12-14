@@ -200,6 +200,8 @@ const PatientProfile = () => {
         name="gender"
         options={["Male","Female","Other"]}
         register={register("gender")}
+        defaultValue="Male"
+        control={control}
       />
         }
           </Grid>
@@ -235,6 +237,7 @@ const PatientProfile = () => {
           options={["Christianity","Islam","Other"]}
           register={register("religion")}
           defaultValue="Islam"
+          control={control}
       />
         }
           </Grid>
@@ -271,6 +274,7 @@ const PatientProfile = () => {
             options={["Single","Married","Complicated","Divorce"]}
             register={register("martial_status")}
             defaultValue="Single"
+            control={control}
           />
         }
           </Grid>
