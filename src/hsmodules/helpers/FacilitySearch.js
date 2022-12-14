@@ -1,18 +1,18 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
-import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "react-toastify";
-import {FacilityCreate} from "../Admin/Facility";
-import ModalBox from "../../components/modal";
+import { UserContext, ObjectContext } from '../../context';
+import { toast } from 'react-toastify';
+import { FacilityCreate } from '../Admin/Facility';
+import ModalBox from '../../components/modal';
 
-import TextField from "@mui/material/TextField";
-import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
+import TextField from '@mui/material/TextField';
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 
-import Stack from "@mui/material/Stack";
+import Stack from '@mui/material/Stack';
 
 const filter = createFilterOptions();
 
@@ -20,26 +20,26 @@ const filter = createFilterOptions();
 
 // eslint-disable-next-line
 
-export function FacilitySearch({getSearchfacility, clear}) {
-  const productServ = client.service("facility");
+export function FacilitySearch({ getSearchfacility, clear }) {
+  const productServ = client.service('facility');
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState("");
+  const [searchMessage, setSearchMessage] = useState('');
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState("");
+  const [simpa, setSimpa] = useState('');
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
-  const [val, setVal] = useState("");
+  const [val, setVal] = useState('');
   const [productModal, setProductModal] = useState(false);
 
-  const handleRow = async obj => {
+  const handleRow = async (obj) => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -51,15 +51,15 @@ export function FacilitySearch({getSearchfacility, clear}) {
     await setCount(2);
   };
 
-  const handleSearch = async value => {
+  const handleSearch = async (value) => {
     setVal(value);
-    if (value === "") {
+    if (value === '') {
       setShowPanel(false);
       getSearchfacility(false);
       await setFacilities([]);
       return;
     }
-    const field = "facilityName"; //field variable
+    const field = 'facilityName'; //field variable
 
     if (value.length >= 3) {
       productServ
@@ -68,7 +68,7 @@ export function FacilitySearch({getSearchfacility, clear}) {
             //service
             [field]: {
               $regex: value,
-              $options: "i",
+              $options: 'i',
             },
             $limit: 10,
             $sort: {
@@ -76,14 +76,14 @@ export function FacilitySearch({getSearchfacility, clear}) {
             },
           },
         })
-        .then(res => {
+        .then((res) => {
           // console.log("product  fetched successfully")
           //console.log(res.data)
           setFacilities(res.data);
-          setSearchMessage(" product  fetched successfully");
+          setSearchMessage(' product  fetched successfully');
           setShowPanel(true);
         })
-        .catch(err => {
+        .catch((err) => {
           toast.error(`Error Creating Service due to ${err}`);
         });
     } else {
@@ -105,19 +105,19 @@ export function FacilitySearch({getSearchfacility, clear}) {
   useEffect(() => {
     if (clear) {
       // console.log("success has changed",clear)
-      setSimpa("");
+      setSimpa('');
       // clear=!clear
     }
     return () => {};
   }, [clear]);
   return (
-    <div style={{width: "100%"}}>
+    <div style={{ width: '100%' }}>
       <Autocomplete
         size="small"
         value={simpa}
         //loading={loading}
         onChange={(event, newValue) => {
-          if (typeof newValue === "string") {
+          if (typeof newValue === 'string') {
             // timeout to avoid instant validation of the dialog's form.
             setTimeout(() => {
               handleAddproduct();
@@ -131,7 +131,7 @@ export function FacilitySearch({getSearchfacility, clear}) {
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
 
-          if (params.inputValue !== "") {
+          if (params.inputValue !== '') {
             filtered.push({
               inputValue: params.inputValue,
               facilityName: `Add "${params.inputValue} to your Facilities"`,
@@ -142,9 +142,9 @@ export function FacilitySearch({getSearchfacility, clear}) {
         }}
         id="free-solo-dialog-demo"
         options={facilities}
-        getOptionLabel={option => {
+        getOptionLabel={(option) => {
           // e.g value selected with enter, right from the input
-          if (typeof option === "string") {
+          if (typeof option === 'string') {
             return option;
           }
           if (option.inputValue) {
@@ -156,24 +156,24 @@ export function FacilitySearch({getSearchfacility, clear}) {
         clearOnBlur
         handleHomeEndKeys
         renderOption={(props, option) => (
-          <li {...props} style={{fontSize: "0.75rem"}}>
+          <li {...props} style={{ fontSize: '0.75rem' }}>
             {option.facilityName}
           </li>
         )}
-        sx={{width: "100%"}}
+        sx={{ width: '100%' }}
         freeSolo
         //size="small"
-        renderInput={params => (
+        renderInput={(params) => (
           <TextField
             {...params}
             label="Search for Organization"
-            onChange={e => handleSearch(e.target.value)}
+            onChange={(e) => handleSearch(e.target.value)}
             ref={inputEl}
             sx={{
-              fontSize: "0.75rem !important",
-              backgroundColor: "#ffffff !important",
-              "& .MuiInputBase-input": {
-                height: "0.9rem",
+              fontSize: '0.75rem !important',
+              backgroundColor: '#ffffff !important',
+              '& .MuiInputBase-input': {
+                height: '0.9rem',
               },
             }}
             InputLabelProps={{
@@ -194,33 +194,33 @@ export function FacilitySearch({getSearchfacility, clear}) {
   );
 }
 
-export function OrgFacilitySearch({getSearchfacility, clear}) {
-  const productServ = client.service("facility");
-  const orgServ = client.service("organizationclient");
+export function OrgFacilitySearch({ getSearchfacility, clear }) {
+  const productServ = client.service('facility');
+  const orgServ = client.service('organizationclient');
   const [facilities, setFacilities] = useState([]);
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState("");
+  const [searchMessage, setSearchMessage] = useState('');
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState("");
+  const [simpa, setSimpa] = useState('');
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
-  const [val, setVal] = useState("");
+  const [val, setVal] = useState('');
   const [productModal, setProductModal] = useState(false);
 
-  const handleRow = async obj => {
+  const handleRow = async (obj) => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
 
-    await setSimpa(obj.facilityName + "," + obj.facilityCity);
+    await setSimpa(obj.facilityName + ',' + obj.facilityCity);
 
     // setSelectedFacility(obj)
     setShowPanel(false);
@@ -232,7 +232,7 @@ export function OrgFacilitySearch({getSearchfacility, clear}) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async e => {
+  const handleBlur = async (e) => {
     /*  if (count===2){
              console.log("stuff was chosen")
          }
@@ -251,15 +251,15 @@ export function OrgFacilitySearch({getSearchfacility, clear}) {
         console.log(inputEl.current) */
   };
 
-  const handleSearch = async value => {
+  const handleSearch = async (value) => {
     setVal(value);
-    if (value === "") {
+    if (value === '') {
       setShowPanel(false);
       getSearchfacility(false);
       await setFacilities([]);
       return;
     }
-    const field = "facilityName"; //field variable
+    const field = 'facilityName'; //field variable
 
     if (value.length >= 3) {
       //productServ.  orgServ facility:user.currentEmployee.facilityDetail._id,
@@ -273,7 +273,7 @@ export function OrgFacilitySearch({getSearchfacility, clear}) {
                     
                  }, */
             $search: value,
-            relationshiptype: "managedcare",
+            relationshiptype: 'managedcare',
             facility: user.currentEmployee.facilityDetail._id,
             $limit: 100,
             $sort: {
@@ -281,14 +281,14 @@ export function OrgFacilitySearch({getSearchfacility, clear}) {
             },
           },
         })
-        .then(res => {
-          console.log("product  fetched successfully");
+        .then((res) => {
+          console.log('product  fetched successfully');
           console.log(res.data);
           setFacilities(res.data);
-          setSearchMessage(" product  fetched successfully");
+          setSearchMessage(' product  fetched successfully');
           setShowPanel(true);
         })
-        .catch(err => {
+        .catch((err) => {
           toast.error(`Error creating Service due to ${err}`);
         });
     } else {
@@ -310,33 +310,33 @@ export function OrgFacilitySearch({getSearchfacility, clear}) {
   useEffect(() => {
     if (clear) {
       // console.log("success has changed",clear)
-      setSimpa("");
+      setSimpa('');
       // clear=!clear
     }
     return () => {};
   }, [clear]);
 
-  console.log("simpa", orgServ);
+  console.log('simpa', orgServ);
   return (
-    <Stack spacing={3} sx={{width: 500}}>
+    <Stack spacing={3} sx={{ width: 500 }}>
       <Autocomplete
         multiple
         id="tags-standard"
         options={[
-          {title: "Ibadan Hospital"},
-          {title: "Lagos Hospital"},
-          {title: "TT Ibadan"},
-          {title: "Test Ibadan"},
+          { title: 'Ibadan Hospital' },
+          { title: 'Lagos Hospital' },
+          { title: 'TT Ibadan' },
+          { title: 'Test Ibadan' },
         ]}
-        onBlur={e => handleBlur(e)}
+        onBlur={(e) => handleBlur(e)}
         // onChange={(e) => {
         //   handleSearch(e.target.value), console.log('it is changing');
         // }}
         onChange={(e, value) => {
-          handleSearch(value), console.log("it is changing");
+          handleSearch(value), console.log('it is changing');
         }}
-        getOptionLabel={option => option.title}
-        renderInput={params => (
+        getOptionLabel={(option) => option.title}
+        renderInput={(params) => (
           <TextField
             {...params}
             variant="standard"
@@ -349,49 +349,49 @@ export function OrgFacilitySearch({getSearchfacility, clear}) {
   );
 }
 
-export function SponsorSearch({getSearchfacility, clear}) {
-  const productServ = client.service("facility");
-  const orgServ = client.service("organizationclient");
+export function SponsorSearch({ getSearchfacility, clear }) {
+  const productServ = client.service('facility');
+  const orgServ = client.service('organizationclient');
   const [facilities, setFacilities] = useState([]);
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState("");
+  const [searchMessage, setSearchMessage] = useState('');
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState("");
+  const [simpa, setSimpa] = useState('');
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
-  const [val, setVal] = useState("");
+  const [val, setVal] = useState('');
   const [productModal, setProductModal] = useState(false);
 
-  const handleRow = async obj => {
+  const handleRow = async (obj) => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
 
-    await setSimpa(obj.facilityName + "," + obj.facilityCity);
+    await setSimpa(obj.facilityName + ',' + obj.facilityCity);
 
     // setSelectedFacility(obj)
     setShowPanel(false);
     await setCount(2);
   };
-  const handleBlur = async e => {};
+  const handleBlur = async (e) => {};
 
-  const handleSearch = async value => {
+  const handleSearch = async (value) => {
     setVal(value);
-    if (value === "") {
+    if (value === '') {
       setShowPanel(false);
       getSearchfacility(false);
       await setFacilities([]);
       return;
     }
-    const field = "facilityName"; //field variable
+    const field = 'facilityName'; //field variable
 
     if (value.length >= 3) {
       //productServ.  orgServ facility:user.currentEmployee.facilityDetail._id,
@@ -404,7 +404,7 @@ export function SponsorSearch({getSearchfacility, clear}) {
                      $options:'i'       
                  }, */
             $search: value,
-            relationshiptype: "sponsor",
+            relationshiptype: 'sponsor',
             facility: user.currentEmployee.facilityDetail._id,
             $limit: 100,
             $sort: {
@@ -412,14 +412,14 @@ export function SponsorSearch({getSearchfacility, clear}) {
             },
           },
         })
-        .then(res => {
-          console.log("product  fetched successfully");
+        .then((res) => {
+          console.log('product  fetched successfully');
           console.log(res.data);
           setFacilities(res.data);
-          setSearchMessage(" product  fetched successfully");
+          setSearchMessage(' product  fetched successfully');
           setShowPanel(true);
         })
-        .catch(err => {
+        .catch((err) => {
           toast.error(`Error creating Service due to ${err}`);
         });
     } else {
@@ -441,7 +441,7 @@ export function SponsorSearch({getSearchfacility, clear}) {
   useEffect(() => {
     if (clear) {
       // console.log("success has changed",clear)
-      setSimpa("");
+      setSimpa('');
       // clear=!clear
     }
     return () => {};
@@ -451,24 +451,24 @@ export function SponsorSearch({getSearchfacility, clear}) {
       <div className="field">
         <div className="control has-icons-left  ">
           <div
-            className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{width: "100%"}}
+            className={`dropdown ${showPanel ? 'is-active' : ''}`}
+            style={{ width: '100%' }}
           >
-            <div className="dropdown-trigger" style={{width: "100%"}}>
+            <div className="dropdown-trigger" style={{ width: '100%' }}>
               <DebounceInput
                 label="Search Sponsor"
                 value={simpa}
                 placeholder="Search Sponsor"
                 minLength={3}
                 debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
+                onBlur={(e) => handleBlur(e)}
+                onChange={(e) => handleSearch(e.target.value)}
                 inputRef={inputEl}
                 style={{
-                  width: "100%",
-                  padding: "1rem .5rem",
-                  borderRadius: "4px",
-                  border: "1.5px solid rgba(0, 0, 0, 0.6)",
+                  width: '100%',
+                  padding: '1rem .5rem',
+                  borderRadius: '4px',
+                  border: '1.5px solid rgba(0, 0, 0, 0.6)',
                 }}
               />
               <span className="icon is-small is-left">
@@ -476,7 +476,7 @@ export function SponsorSearch({getSearchfacility, clear}) {
               </span>
             </div>
             {/* {searchError&&<div>{searchMessage}</div>} */}
-            <div className="dropdown-menu" style={{width: "100%"}}>
+            <div className="dropdown-menu" style={{ width: '100%' }}>
               <div className="dropdown-content">
                 {/* {facilities.length > 0 ? (
                   ''
@@ -497,7 +497,7 @@ export function SponsorSearch({getSearchfacility, clear}) {
                   >
                     <span>
                       {facility.organizationDetail.facilityName},
-                      {facility.organizationDetail.facilityCity}{" "}
+                      {facility.organizationDetail.facilityCity}{' '}
                     </span>
                   </div>
                 ))}
