@@ -7,7 +7,7 @@ import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation";
 var random = require("random-string-generator");
@@ -239,72 +239,6 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     return () => {};
   }, [date]);
 
-  const handleAccept = async () => {
-    await setButtonState(true);
-    if (paymentmode === "" || amountPaid === 0 || amountPaid === "") {
-      toast({
-        message: "Kindly choose payment mode or enter amount",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
-      await setButtonState(false);
-      return;
-    }
-    let obj = {
-      // toWallet:{ type: Schema.Types.ObjectId, ref:'facility', }, //receiving money
-      //fromWallet:{ type: Schema.Types.ObjectId, ref:'facility', },//sending money
-      //subwallet:{ type: Schema.Types.ObjectId, ref:'subwallet', },
-      client: medication.participantInfo.client._id,
-      organization: user.employeeData[0].facilityDetail._id,
-      category: "credit", //debit/credit
-      amount: amountPaid,
-      description: description,
-
-      toName: user.employeeData[0].facilityDetail.facilityName,
-      fromName:
-        medication.participantInfo.client.firstname +
-        " " +
-        medication.participantInfo.client.lastname,
-      createdby: user._id,
-
-      // refBill:[{ type: Schema.Types.ObjectId, ref:'bills'  }], //billid to be paid : ref invoice to pay
-      // info:{ type: Schema.Types.Mixed},
-      paymentmode: paymentmode,
-
-      facility: user.employeeData[0].facilityDetail._id,
-      locationId: state.LocationModule.selectedLocation._id,
-      type: "Deposit",
-    };
-    let confirm = window.confirm(
-      `Are you sure you want to accept N ${obj.amount} from ${obj.fromName}`
-    );
-    if (confirm) {
-      await SubwalletTxServ.create(obj)
-        .then(resp => {
-          // //console.log(resp)
-
-          toast({
-            message: "Deposit accepted succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-          setAmountPaid(0);
-          setDescription("");
-        })
-        .catch(err => {
-          toast({
-            message: "Error accepting deposit " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-        });
-    }
-    await setButtonState(false);
-  };
-
   const getFacilities = async () => {
     // //console.log("here b4 server")
     const findProductEntry = await SubwalletServ.find({
@@ -457,12 +391,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     // bill.partPay=partAmount
     //const itemList=productItem
     if (partAmount === "" || partAmount === 0) {
-      toast({
-        message: "Please enter an amount as part payment",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("Please enter an amount as part payment");
       return;
     }
     let item = await productItem.find(el => el._id === bill._id);
@@ -477,12 +406,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
       bill.partPay === 0 ||
       bill.partPay === undefined
     ) {
-      toast({
-        message: "Please enter an amount as part payment",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("Please enter an amount as part payment");
       return;
     }
     // //console.log(bill)
@@ -506,36 +430,22 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
 
     getTotal();
     setPartPay(prev => prev.concat(bill));
-    toast({
-      message: "Part payment updated successfully",
-      type: "is-success",
-      dismissible: true,
-      pauseOnHover: true,
-    });
+    toast.success("Part payment updated successfully");
   };
 
   const handlePayment = async () => {
     //1. check if there is sufficient amount
     if (totalamount > balance) {
-      toast({
-        message:
-          "Total amount due greater than money received. Kindly top up account or reduce number of bills to be paid",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error(
+        "Total amount due greater than money received. Kindly top up account or reduce number of bills to be paid"
+      );
 
       return;
     }
 
     productItem.forEach(el => {
       if (!el.proposedpayment.amount) {
-        toast({
-          message: "one or more bills do not have a payment method selected",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("one or more bills do not have a payment method selected");
         return;
       }
     });
@@ -600,12 +510,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     InvoiceServ.create(obj)
       .then(async resp => {
         setProductItem([]);
-        toast({
-          message: "payment successful",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success("payment successful");
         const newProductEntryModule = {
           selectedBills: [],
           selectedFinance: {},
@@ -617,12 +522,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
         }));
       })
       .catch(err => {
-        toast({
-          message: "Error occurred with payment" + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("Error occurred with payment" + err);
       });
   };
 
@@ -634,23 +534,14 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     if (part) {
       // apply fraction to all bills
       if (partBulk === "" || partBulk === 0 || partBulk === undefined) {
-        toast({
-          message: "Please enter an amount as part payment",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("Please enter an amount as part payment");
         return;
       }
 
       if (partBulk > balance) {
-        toast({
-          message:
-            "Amount entered greater than balance. Kindly top up account or reduce amount entered",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error(
+          "Amount entered greater than balance. Kindly top up account or reduce amount entered"
+        );
 
         return;
       }
@@ -678,13 +569,9 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     if (!part) {
       //check that balance can pay bills
       if (totalamount > balance) {
-        toast({
-          message:
-            "Total amount due greater than money received. Kindly top up account or reduce number of bills to be paid",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error(
+          "Total amount due greater than money received. Kindly top up account or reduce number of bills to be paid"
+        );
 
         return;
       }
@@ -752,12 +639,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     InvoiceServ.create(obj)
       .then(async resp => {
         setProductItem([]);
-        toast({
-          message: "payment successful",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success("payment successful");
         const newProductEntryModule = {
           selectedBills: [],
           selectedFinance: {},
@@ -772,12 +654,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
         setIsPart(false);
       })
       .catch(err => {
-        toast({
-          message: "Error occurred with payment" + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("Error occurred with payment" + err);
       });
 
     //2. call single end point for billspayment?
@@ -827,33 +704,19 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     {
       name: "Type",
       width: "200px",
+      center: true,
       key: "sn",
       description: "Enter Type",
-      selector: row => (
-        <div style={{display: "flex", flexDirection: "column"}}>
-          <label style={{marginBottom: "5px"}}>
-            <input
-              type="radio"
-              name={row._id}
-              value="Full"
-              checked={!partTable.find(i => i._id === row._id)}
-              onChange={e => {
-                handleChangePart(row, e);
-              }}
-            />
-            <span> Full </span>
-          </label>
-
-          <label style={{marginBottom: "5px"}}>
-            <input
-              type="radio"
-              name={row._id}
-              value="Part"
-              checked={partTable.find(i => i._id === row._id)}
-              onChange={e => handleChangePart(row, e)}
-            />
-            <span> Part </span>
-          </label>
+      selector: "row",
+      cell: row => (
+        <Box>
+          <RadioButton
+            onChange={e => {
+              handleChangePart(row, e);
+            }}
+            options={["Full", "Part"]}
+            name={row._id}
+          />
 
           {partTable.find(i => i._id === row._id) && (
             <div>
@@ -868,13 +731,13 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
               </div>
               <GlobalCustomButton
                 onClick={e => handleUpdate(row, e)}
-                sx={{marginRight: "15px", fontSize: "15px", fontWeight: "400"}}
+                color="secondary"
               >
                 Update
               </GlobalCustomButton>
             </div>
           )}
-        </div>
+        </Box>
       ),
       sortable: true,
       required: true,

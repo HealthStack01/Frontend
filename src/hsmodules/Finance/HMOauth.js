@@ -19,6 +19,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {Box, Typography} from "@mui/material";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import HMOAuthCreate from "./HmoAuthCreate";
 
 // eslint-disable-next-line
 //const searchfacility={};
@@ -48,16 +49,22 @@ export default function HMOauth() {
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
 
+  const [currentScreen, setCurrentScreen] = useState("lists");
+
   return (
     <section>
-      <BillingList />
+      {currentScreen === "lists" && (
+        <BillingList showCreate={() => setCurrentScreen("create")} />
+      )}
 
-      {/* <HmoClaimCreate /> */}
+      {currentScreen === "create" && (
+        <HMOAuthCreate handleGoBack={() => setCurrentScreen("lists")} />
+      )}
     </section>
   );
 }
 
-export function BillingList({openModal}) {
+export function BillingList({showCreate}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -146,7 +153,7 @@ export function BillingList({openModal}) {
       });
     });
 
-    openModal();
+    showCreate();
   };
 
   const handleChoseClient = async (client, e, order) => {
@@ -192,7 +199,7 @@ export function BillingList({openModal}) {
         ...prev,
         financeModule: {
           ...prev.financeModule,
-          selectedBills: prev.financeModule.selectedBills.filter(
+          selectedBills: prev?.financeModule?.selectedBills?.filter(
             el => el._id !== order._id
           ),
         },
@@ -389,8 +396,8 @@ export function BillingList({openModal}) {
 
   const financePlaymentListSchema = [
     {
-      name: "S/NO",
-      width: "50px",
+      name: "S/N",
+      width: "60px",
       headerStyle: (selector, id) => {
         return {textAlign: "center"}; // removed partial line here
       },
@@ -428,22 +435,18 @@ export function BillingList({openModal}) {
       name: "Categories Total",
       key: "bills",
       description: "Enter Category Total",
-      selector: row => {
+      selector: "bills",
+      cell: row => {
         const bills = row.bills;
         return (
           <>
             {bills.map((category, i) => (
-              <Typography sx={{fontSize: "0.75rem"}}>
+              <Typography sx={{fontSize: "0.75rem"}} data-tag="allowRowEvents">
                 {category.catName} {category.catAmount.toFixed(2)}
               </Typography>
             ))}
           </>
         );
-        //row.clientAmount.toFixed(2);
-        // //console.log(bills);
-        // bills.map((category, i) => {
-        //   return category.catAmount.toFixed(2);
-        // });
       },
       sortable: true,
       required: true,
@@ -459,7 +462,11 @@ export function BillingList({openModal}) {
             handlePay(row);
           }}
         >
-          <CheckCircleOutlineIcon sx={{marginRight: "3px"}} fontSize="small" />
+          <CheckCircleOutlineIcon
+            data-tag="allowRowEvents"
+            sx={{marginRight: "3px"}}
+            fontSize="small"
+          />
           Approve
         </GlobalCustomButton>
       ),
@@ -467,13 +474,14 @@ export function BillingList({openModal}) {
       required: true,
       inputType: "BUTTON",
       width: "120px",
+      center: true,
     },
   ];
 
   const selectedClientSchema = [
     {
-      name: "S/NO",
-      width: "70px",
+      name: "S/N",
+      width: "60px",
       key: "sn",
       description: "Enter name of Disease",
       selector: row => (
@@ -539,6 +547,19 @@ export function BillingList({openModal}) {
     },
   ];
 
+  const conditionalRowStyles = [
+    {
+      when: row => row.client_id === selectedClient?.client_id,
+      style: {
+        backgroundColor: "#4cc9f0",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
   return (
     <>
       <div
@@ -556,9 +577,21 @@ export function BillingList({openModal}) {
                 <FilterMenu onSearch={handleSearch} />
               </div>
             )}
-            <h2 style={{marginLeft: "10px", fontSize: "0.9rem"}}>
-              Unpaid Invoices/Bills
+            <h2
+              style={{
+                marginLeft: "10px",
+                fontSize: "0.9rem",
+                marginRight: "7px",
+              }}
+            >
+              Unpaid Invoices/Bills -
             </h2>
+
+            {selectedClient && (
+              <Typography sx={{color: "red", textTransform: "capitalize"}}>
+                {selectedClient.clientname}
+              </Typography>
+            )}
           </div>
 
           {selectedOrders.length > 0 && (
@@ -569,7 +602,7 @@ export function BillingList({openModal}) {
           )}
 
           {selectedOrders.length > 0 && (
-            <GlobalCustomButton onClick={openModal}>
+            <GlobalCustomButton onClick={showCreate}>
               <CheckCircleOutlineIcon
                 sx={{marginRight: "3px"}}
                 fontSize="small"
@@ -604,6 +637,7 @@ export function BillingList({openModal}) {
               striped
               onRowClicked={row => onRowClicked(row)}
               progressPending={loading}
+              conditionalRowStyles={conditionalRowStyles}
             />
           </div>
 

@@ -131,25 +131,23 @@ const DocumentationScheduleAppointment = ({closeModal}) => {
     setMessage("");
     setError(false);
     setSuccess(false);
-    setShowModal(false),
-      setState(prevstate => ({
-        ...prevstate,
-        AppointmentModule: {
-          selectedAppointment: {},
-          show: "list",
-        },
-      }));
 
-    // data.createdby=user._id
-    console.log(data);
+    setState(prevstate => ({
+      ...prevstate,
+      AppointmentModule: {
+        selectedAppointment: {},
+        show: "list",
+      },
+    }));
+
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
     data.locationId = locationId; //state.ClinicModule.selectedClinic._id
     data.practitionerId = practionerId;
-    data.appointment_type = appointment_type;
+    //data.appointment_type = appointment_type;
     // data.appointment_reason=appointment_reason
-    data.appointment_status = appointment_status;
+    //data.appointment_status = appointment_status;
     data.clientId = clientId;
     data.firstname = chosen.firstname;
     data.middlename = chosen.middlename;
@@ -165,7 +163,7 @@ const DocumentationScheduleAppointment = ({closeModal}) => {
     data.location_type = chosen1.locationType;
     data.actions = [
       {
-        action: appointment_status,
+        action: data.appointment_status,
         actor: user.currentEmployee._id,
       },
     ];
@@ -188,6 +186,7 @@ const DocumentationScheduleAppointment = ({closeModal}) => {
         setSuccess(false);
         setSuccess1(false);
         setSuccess2(false);
+        closeModal();
         // showBilling()
       })
       .catch(err => {
@@ -271,7 +270,7 @@ const DocumentationScheduleAppointment = ({closeModal}) => {
             <Grid item xs={12} sm={12} md={4} lg={4}>
               <CustomSelect
                 control={control}
-                name="type"
+                name="appointment_type"
                 options={[
                   "New",
                   "Followup",
@@ -280,6 +279,7 @@ const DocumentationScheduleAppointment = ({closeModal}) => {
                   "Walk-in",
                 ]}
                 label="Appointment Type"
+                required={true}
               />
               {/* <select
                 name="type"
@@ -320,6 +320,7 @@ const DocumentationScheduleAppointment = ({closeModal}) => {
                   "Cancelled",
                   "Billed",
                 ]}
+                required={true}
               />
               {/* <select
                 name="appointment_status"
@@ -365,12 +366,13 @@ const DocumentationScheduleAppointment = ({closeModal}) => {
                 marginRight: "15px",
               }}
             />
-            <GlobalCustomButton
+
+            {/* <GlobalCustomButton
               variant="outlined"
               color="error"
               text="Cancel"
               onClick={closeModal}
-            />
+            /> */}
           </Box>
         </form>
       </Box>

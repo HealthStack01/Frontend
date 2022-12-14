@@ -571,8 +571,6 @@ export default function HmoClaimCreate() {
     } else {
       await setBalance(0);
     }
-
-    //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
 
   useEffect(() => {
@@ -602,16 +600,6 @@ export default function HmoClaimCreate() {
     };
   }, []);
 
-  /*   useEffect(() => {
-        calcamount1=quantity*sellingprice
-         setCalcAmount(calcamount1)
-         //console.log(calcamount)
-         setChangeAmount(true)
-        return () => {
-            
-        }
-    }, [quantity]) */
-
   const handleChangePart = async (bill, e) => {
     //console.log(bill, e.target.value);
     if (e.target.value === "Part") {
@@ -635,8 +623,7 @@ export default function HmoClaimCreate() {
         paidup: Number(item.paymentInfo.paidup) + Number(payObj.amount),
         amount: payObj.amount,
       };
-      // item.paymentInfo.balance=item.paymentInfo.balance - item.paymentInfo.balance
-      //  item.paymentInfo.paidup=Number(item.paymentInfo.paidup) + Number(payObj.amount)
+
       getTotal();
       setPartPay(prev => prev.concat(bill));
     }
@@ -677,10 +664,6 @@ export default function HmoClaimCreate() {
     }
     // //console.log(bill)
     let item = await productItem.find(el => el._id === bill._id);
-    // //console.log(item)
-    /* item.partPay=partAmount
-        //console.log(item)
-        //console.log(productItem) */
 
     let partAmount = item.partPay;
 
@@ -696,21 +679,7 @@ export default function HmoClaimCreate() {
         paidup: Number(item.paymentInfo.paidup) + Number(payObj.amount),
         amount: payObj.amount,
       };
-      /* item.paymentInfo.balance=item.paymentInfo.balance-partAmount
-            item.paymentInfo.paidup=Number(item.paymentInfo.paidup)+ Number(partAmount) */
     }
-
-    /* if (bill.show==="none"){
-            const   payObj={
-                amount:  item.paymentInfo.balance,
-                mode:"Full",
-                date: new Date().toLocaleString()
-            }
-            item.paymentInfo.paymentDetails.push(payObj)
-            item.paymentInfo.balance=item.paymentInfo.balance - item.paymentInfo.balance
-            }
-            
- */
 
     getTotal();
     setPartPay(prev => prev.concat(bill));
@@ -726,13 +695,6 @@ export default function HmoClaimCreate() {
     //console.log(e.chec);
     if (e.checked) {
     }
-
-    /*   const    newProductEntryModule={
-        selectedMedication:ProductEntry,
-        show :'detail'
-    }
-  await setState((prevstate)=>({...prevstate, medicationModule:newProductEntryModule})) */
-    ////console.log(state)
   };
   const handlePayment = async () => {
     //1. check if there is sufficient amount
@@ -841,18 +803,7 @@ export default function HmoClaimCreate() {
           pauseOnHover: true,
         });
       });
-
-    //2. call single end point for billspayment?
-
-    //2.1 create subwallet transaction- debit
-
-    //2.2 update subwallet
-
-    //2.3 mark orders as paid
-
-    //2.4 mark bills as paid
   };
-  // //console.log("simpa")
   return (
     <>
       <div className="card card-overflow mb-2 ">
@@ -945,52 +896,6 @@ export default function HmoClaimCreate() {
           </button>
         </div>
         <div className="card-content ">
-          {/*  <form onSubmit={onSubmit}>  */}
-          {/*   <div className="field is-horizontal">
-             <div className="field-body">
-         
-             <div className="field">
-                     <p className="control has-icons-left has-icons-right">
-                         <input className="input is-small"  {...register("x",{required: true})}  value={source} name="client" type="text" onChange={e=>setSource(e.target.value)} placeholder="Client" />
-                         <span className="icon is-small is-left">
-                             <i className="fas fa-hospital"></i>
-                         </span>                    
-                     </p>
-                 </div>
-                 <div className="field">
-                 <p className="control has-icons-left">
-                     <input className="input is-small"  {...register("input_name")}  name="documentNo" value={documentNo} type="text" onChange={e=>setDocumentNo(e.target.value)} placeholder=" Invoice Number"/>
-                     <span className="icon is-small is-left">
-                     <i className="fas fa-phone-alt"></i>
-                     </span>
-                 </p>
-             </div>
-                </div>
-             </div> */}
-
-          {/* <div className="field is-horizontal pullup">
-             <div className="field-body" >
-             <div className="field">
-             <label className="label is-small">Total Amount Due:</label>
-             </div>
-             <div className="field" style={{width:"40%"}}>
-                 <p className="control has-icons-left "  style={{display:"none"}} >
-                     <input className="input is-small"  disabled={changeAmount} value={totalamount} name="totalamount"  onChange={e=>setTotalamount(e.target.value)} placeholder="Amount"  />
-                     <span className="icon is-small is-left">
-                     <i className="fas fa-dollar-sign"></i>
-                     </span>
-                 </p>
-                
- 
-             </div> 
-            
-             </div>
-          </div> */}
-
-          {/*   </form>   */}
-
-          {/* array of ProductEntry items */}
-
           {productItem.length > 0 && (
             <>
               <div className="vscrollable-acc pullup">
@@ -1207,35 +1112,10 @@ export default function HmoClaimCreate() {
                       Pay
                     </button>
                   </p>
-                  {/* <p className="control">
-                     <button className="button is-info is-small" disabled={!productItem.length>0} onClick={onSubmit} >
-                         Generate Invoice
-                     </button>
-                 </p>  */}
                 </div>
               </div>
             </>
           )}
-        </div>
-      </div>
-      <div className={`modal ${productModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card  modalbkgrnd">
-          <header className="modal-card-head  btnheight">
-            <p className="modal-card-title">Documentation</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body modalcolor">
-            <Encounter standalone="true" />
-          </section>
-          {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer>  */}
         </div>
       </div>
     </>

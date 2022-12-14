@@ -20,15 +20,19 @@ import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 //import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import {Box, Button, Typography} from "@mui/material";
+import {Box, Button, Grid, Typography} from "@mui/material";
 import ModalBox from "../../components/modal";
 import Input from "../../components/inputs/basic/Input";
 import MakeDeposit from "./Deposit";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {FlutterWaveIcon, PaystackIcon} from "./ui-components/Icons";
+import WalletIcon from "@mui/icons-material/Wallet";
+import RadioButton from "../../components/inputs/basic/Radio";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function PaymentCreate({closeModal}) {
+export default function HMOAuthCreate({closeModal, handleGoBack}) {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
   //const [error, setError] =useState(false)
 
@@ -141,19 +145,6 @@ export default function PaymentCreate({closeModal}) {
   const handleChangeMode = async value => {
     ////console.log(value)
     await setPaymentMode(value);
-    /*   //console.log(paymentOptions)
-       let billm= paymentOptions.filter(el=>el.name===value)
-       await setBillMode(billm)
-        //console.log(billm) */
-    // at startup
-    // check payment mode options from patient financial info
-    // load that to select options
-    // default to HMO-->company-->family-->cash
-    //when chosen
-    //append payment mode to order
-    //check service contract for pricing info
-    // calculate pricing
-    // pricing
   };
 
   const [productEntry, setProductEntry] = useState({
@@ -344,44 +335,6 @@ export default function PaymentCreate({closeModal}) {
   ////console.log(state.financeModule);
 
   useEffect(() => {
-    // const oldname =
-    //   medication.participantInfo.client.firstname +
-    //   " " +
-    //   medication.participantInfo.client.lastname;
-    // // //console.log("oldname",oldname)
-    // setSource(
-    //   medication.participantInfo.client.firstname +
-    //     " " +
-    //     medication.participantInfo.client.lastname
-    // );
-
-    // const newname = source;
-    // //   //console.log("newname",newname)
-    // if (oldname !== newname) {
-    //   //newdispense
-
-    //   setProductItem([]);
-    //   setTotalamount(0);
-    // }
-    // //is the row checked or unchecked
-    // if (state.financeModule.state) {
-    //   medication.show = "none";
-    //   medication.proposedpayment = {
-    //     balance: 0,
-    //     paidup: medication.paymentInfo.paidup + medication.paymentInfo.balance,
-    //     amount: medication.paymentInfo.balance,
-    //   };
-    //   //no payment detail push
-
-    //   setProductItem(prevProd => prevProd.concat(medication));
-    // } else {
-    //   if (productItem.length > 0) {
-    //     setProductItem(prevProd =>
-    //       prevProd.filter(el => el._id !== medication._id)
-    //     );
-    //   }
-    // }
-
     setSource(
       medication?.participantInfo?.client?.firstname +
         " " +
@@ -453,16 +406,6 @@ export default function PaymentCreate({closeModal}) {
       await setPartPay([]);
     };
   }, []);
-
-  /*   useEffect(() => {
-        calcamount1=quantity*sellingprice
-         setCalcAmount(calcamount1)
-         //console.log(calcamount)
-         setChangeAmount(true)
-        return () => {
-            
-        }
-    }, [quantity]) */
 
   const handleChangePart = async (bill, e) => {
     // //console.log(bill, e.target.value)
@@ -681,16 +624,12 @@ export default function PaymentCreate({closeModal}) {
           pauseOnHover: true,
         });
       });
+  };
 
-    //2. call single end point for billspayment?
-
-    //2.1 create subwallet transaction- debit
-
-    //2.2 update subwallet
-
-    //2.3 mark orders as paid
-
-    //2.4 mark bills as paid
+  const handleAuth = (bill, e) => {
+    //console.log(e.chec);
+    if (e.checked) {
+    }
   };
 
   const handleBulkPayment = async () => {
@@ -865,7 +804,7 @@ export default function PaymentCreate({closeModal}) {
   const paymentCreateSchema = [
     {
       name: "S/NO",
-      width: "75px",
+      width: "60px",
       key: "sn",
       description: "Enter name of Disease",
       selector: row => row.sn,
@@ -897,51 +836,78 @@ export default function PaymentCreate({closeModal}) {
       key: "sn",
       description: "Enter Type",
       selector: row => (
-        <div style={{display: "flex", flexDirection: "column"}}>
-          <label style={{marginBottom: "5px"}}>
+        <Box sx={{display: "flex", flexDirection: "column"}} gap={0.5}>
+          <label className=" is-small">
             <input
               type="radio"
               name={row._id}
-              value="Full"
-              checked={!partTable.find(i => i._id === row._id)}
+              value="Capitation"
+              checked={row.show === "none"}
               onChange={e => {
                 handleChangePart(row, e);
               }}
             />
-            <span> Full </span>
+            <span> Capitation</span>
           </label>
 
-          <label style={{marginBottom: "5px"}}>
+          <label className=" is-small">
             <input
               type="radio"
               name={row._id}
-              value="Part"
-              checked={partTable.find(i => i._id === row._id)}
+              value="Fee for Service"
               onChange={e => handleChangePart(row, e)}
             />
-            <span> Part </span>
+            <span> Fee for Service </span>
           </label>
 
-          {partTable.find(i => i._id === row._id) && (
-            <div>
-              <div style={{marginBottom: "5px"}}>
-                <Input
-                  type="text"
-                  name={row._id}
-                  placeholder="Amount"
-                  value={partBulk}
-                  onChange={e => handlePartAmount(e)}
-                />
-              </div>
-              <GlobalCustomButton
-                onClick={e => handleUpdate(row, e)}
-                color="secondary"
-              >
-                Update
-              </GlobalCustomButton>
+          <label className=" is-small">
+            <input
+              type="radio"
+              name={row._id}
+              value="Co-Pay"
+              onChange={e => handleChangePart(row, e)}
+            />
+            <span> Co-Pay </span>
+          </label>
+
+          <label className=" is-small">
+            <input
+              type="radio"
+              name={row._id}
+              value="Not Covered"
+              onChange={e => handleChangePart(row, e)}
+            />
+            <span> Not Covered </span>
+          </label>
+
+          <label className=" is-small">
+            <input
+              type="checkbox"
+              name="Auth"
+              value="Authorization Code"
+              onChange={e => handleAuth(row, e)}
+            />
+            <span> Authorization Code </span>
+          </label>
+
+          <div>
+            <div style={{marginBottom: "5px"}}>
+              <Input
+                type="text"
+                name={row._id}
+                //placeholder="Amount"
+                // value={partBulk}
+                onChange={e => handlePartAmount(row, e)}
+              />
             </div>
-          )}
-        </div>
+            <GlobalCustomButton
+              onClick={e => handleUpdate(row, e)}
+              color="secondary"
+            >
+              Update
+            </GlobalCustomButton>
+          </div>
+        </Box>
       ),
       sortable: true,
       required: true,
@@ -980,7 +946,7 @@ export default function PaymentCreate({closeModal}) {
         <ModalBox
           open={depositModal}
           onClose={() => setDepositModal(false)}
-          header={`Make Deposit`}
+          header={`Make Deposit for ${source}`}
         >
           <MakeDeposit balance={balance} />
         </ModalBox>
@@ -990,55 +956,56 @@ export default function PaymentCreate({closeModal}) {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            borderBottom: "1px solid #f8f8f8",
+            backgroundColor: "#f8f8f8",
           }}
+          p={2}
           mb={2}
         >
-          <Typography
-            sx={{
-              fontSize: "0.8rem",
-              color: "2d2d2d",
-            }}
-          >
-            Pay Bills for {source} #{documentNo}
-          </Typography>
-
-          <GlobalCustomButton onClick={() => setDepositModal(true)}>
-            <LocalAtmIcon fontSize="small" sx={{marginRight: "5px"}} />
-            Make Deposit
+          <GlobalCustomButton onClick={handleGoBack}>
+            <ArrowBackIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Back
           </GlobalCustomButton>
-        </Box>
 
-        <Box
-          container
-          sx={{width: "100%", display: "flex", flexDirection: "column"}}
-          mb={2}
-        >
-          <Box
-            container
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
+          <Box>
+            <Typography
+              sx={{
+                fontSize: "0.95rem",
+                color: "2d2d2d",
+              }}
+            >
+              Pay Bills for{" "}
+              <span
+                style={{
+                  textTransform: "capitalize",
+                  fontWeight: "600",
+                  color: "#023e8a",
+                }}
+              >
+                {source}
+              </span>{" "}
+              #{documentNo}
+            </Typography>
             <Box
               item
               sx={{
-                width: "49%",
-                height: "80px",
+                minWidth: "200px",
+                height: "40px",
                 border: "1px solid #E5E5E5",
                 display: "flex",
-                flexDirection: "column",
+                flexDirection: "row",
                 justifyContent: "center",
+                alignItems: "center",
                 padding: "0 15px",
               }}
+              gap={1}
             >
               <Typography sx={{display: "flex", alignItems: "center"}}>
-                <AccountBalanceWalletIcon color="primary" /> Total Amount Due
+                <AccountBalanceWalletIcon color="primary" /> Amount Due:
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "24px",
+                  fontSize: "20px",
                   fontWeight: "700",
                   color: "red",
                 }}
@@ -1047,123 +1014,66 @@ export default function PaymentCreate({closeModal}) {
                 &#8358;{totalamount.toFixed(2)}
               </Typography>
             </Box>
+          </Box>
 
-            <Box
-              item
-              sx={{
-                width: "49%",
-                height: "80px",
-                border: "1px solid #E5E5E5",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                padding: "0 15px",
-              }}
-            >
-              <Typography sx={{display: "flex", alignItems: "center"}}>
-                <AccountBalanceIcon color="primary" /> Current Balance
-              </Typography>
-              <Typography
-                sx={{
-                  fontSize: "24px",
-                  fontWeight: "700",
-                  color: "2d2d2d",
-                }}
-              >
-                &#8358;{balance.toFixed(2)}
-              </Typography>
-            </Box>
+          <Box>
+            <GlobalCustomButton onClick={() => setDepositModal(true)}>
+              <LocalAtmIcon fontSize="small" sx={{marginRight: "5px"}} />
+              Make Deposit
+            </GlobalCustomButton>
           </Box>
         </Box>
 
-        <div
-          style={{
-            backgroundColor: "#F8F8F8",
-            padding: "7px",
-            marginBottom: "15px",
-            boxShadow: "0 3px 3px 0 rgb(3 4 94 / 20%)",
-          }}
-        >
-          <div
-            style={{
-              width: "100%",
+        {productItem.length > 0 && (
+          <Box
+            pr={2}
+            pl={2}
+            sx={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "flex-start",
-              gap: "2rem",
-              justifyContent: "space-between",
             }}
+            gap={2}
           >
-            <div style={{display: "flex", alignItems: "center"}}>
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  name="fullPay"
-                  value="Full"
-                  checked={!part}
-                  onChange={e => {
-                    handleChangeFull(e);
-                  }}
-                />
-                <span> Full </span>
-              </label>
-
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  flexDirection: "row",
-                  marginLeft: "15px",
-                }}
-              >
-                <div>
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      name="fullPay"
-                      value="Part"
-                      onChange={e => handleChangeFull(e)}
-                    />
-                    <span> Part </span>
-                  </label>
-                </div>
-                {part && (
-                  <div style={{marginLeft: "15px", width: "200px"}}>
-                    <Input
-                      label="Amount"
-                      type="text"
-                      name="bulkpa"
-                      placeholder="Enter amount"
-                      value={partBulk}
-                      onChange={e => handleBulkAmount(e)}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-
             <div
-              className="control"
               style={{
-                display: "flex",
-                alignItems: "flex-start",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                gap: "14px",
+                height: "calc(100% - 300px)",
+                width: "100%",
               }}
             >
-              <GlobalCustomButton
-                disabled={!productItem.length > 0}
-                onClick={handlePayment}
-                sx={{marginRight: "15px"}}
-              >
+              <CustomTable
+                title={""}
+                columns={paymentCreateSchema}
+                data={productItem}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={row => row}
+                progressPending={loading}
+              />
+            </div>
+            <Box
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-end",
+              }}
+              gap={1}
+            >
+              <GlobalCustomButton onClick={handlePayment}>
                 <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
                 Pay
               </GlobalCustomButton>
-              <GlobalCustomButton sx={{marginRight: "15px"}}>
-                <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+
+              <GlobalCustomButton
+                sx={{
+                  backgroundColor: "#6c584c",
+                  "&:hover": {backgroundColor: "#6c584c;"},
+                }}
+              >
+                <WalletIcon sx={{marginRight: "5px"}} fontSize="small" />
                 Pay with Wallet
               </GlobalCustomButton>
+
               <GlobalCustomButton
                 onClick={() => {
                   handleFlutterPayment({
@@ -1176,74 +1086,33 @@ export default function PaymentCreate({closeModal}) {
                     },
                   });
                 }}
-                sx={{marginRight: "15px"}}
+                sx={{
+                  backgroundColor: "#2d3142",
+                  color: "#ffffff",
+                  "&:hover": {backgroundColor: "#2d3142"},
+                }}
               >
-                <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+                <FlutterWaveIcon />
                 Pay with Flutterwave
               </GlobalCustomButton>
+
               <PaystackConsumer {...componentProps}>
                 {({initializePayment}) => (
                   <GlobalCustomButton
                     onClick={() => initializePayment(handleSuccess, closeModal)}
-                    sx={{marginRight: "15px"}}
+                    sx={{
+                      backgroundColor: "#023e8a",
+                      "&:hover": {backgroundColor: "#023e8a"},
+                    }}
                   >
-                    <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+                    <PaystackIcon />
                     Pay with PayStack
                   </GlobalCustomButton>
                 )}
               </PaystackConsumer>
-            </div>
-          </div>
-        </div>
-
-        <div className="card-content px-1 ">
-          {productItem.length > 0 && (
-            <>
-              <div
-                style={{
-                  height: "calc(100% - 70px)",
-                  width: "100%",
-                  transition: "width 0.5s ease-in",
-                }}
-              >
-                <CustomTable
-                  title={""}
-                  columns={paymentCreateSchema}
-                  data={productItem}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  onRowClicked={row => row}
-                  progressPending={loading}
-                />
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    marginTop: "10px",
-                  }}
-                >
-                  <GlobalCustomButton
-                    disabled={!productItem.length > 0}
-                    onClick={handlePayment}
-                    sx={{marginRight: "15px"}}
-                  >
-                    <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
-                    Pay
-                  </GlobalCustomButton>
-                  <GlobalCustomButton
-                    color="error"
-                    variant="outlined"
-                    disabled={!productItem.length > 0}
-                    onClick={closeModal}
-                  >
-                    Cancel
-                  </GlobalCustomButton>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
+            </Box>
+          </Box>
+        )}
       </div>
     </>
   );

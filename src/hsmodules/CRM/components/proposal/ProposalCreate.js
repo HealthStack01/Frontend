@@ -13,7 +13,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import OutboxIcon from "@mui/icons-material/Outbox";
 import ArticleIcon from "@mui/icons-material/Article";
-import CustomerDetail from "../global/CustomerDetail";
+import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
+import {PageLeadDetailView} from "../global/LeadDetail";
 
 const CreateProposal = ({handleGoBack}) => {
   const {register, control} = useForm();
@@ -77,7 +78,7 @@ const CreateProposal = ({handleGoBack}) => {
             Save as Draft
           </GlobalCustomButton>
 
-          <GlobalCustomButton color="success">
+          <GlobalCustomButton color="success" onClick={toggleDescriptionModal}>
             <ArticleIcon fontSize="small" sx={{marginRight: "5px"}} />
             Generate Proposal
           </GlobalCustomButton>
@@ -92,12 +93,12 @@ const CreateProposal = ({handleGoBack}) => {
       <Grid container spacing={2} p={2}>
         <Grid item lg={12} md={12} sm={12}>
           <Grid container spacing={2}>
-            <Grid item lg={6} md={6} small={12}>
-              <CustomerDetail />
+            <Grid item lg={12} md={12} small={12}>
+              <PageCustomerDetail />
             </Grid>
 
-            <Grid item lg={6} md={6} small={12}>
-              <LeadView />
+            <Grid item lg={12} md={12} small={12}>
+              <PageLeadDetailView />
             </Grid>
           </Grid>
         </Grid>
@@ -122,8 +123,22 @@ const CreateProposal = ({handleGoBack}) => {
                 Proposal Description
               </Typography>
             </Box>
+
             <Box className="ck-edition-sla">
-              <CKEditor editor={ClassicEditor} data={description} />
+              <CKEditor
+                editor={ClassicEditor}
+                data={description}
+                onInit={editor => {
+                  editor.plugins.get("FileRepository").createUploadAdapter =
+                    loader => {
+                      return console.log(loader);
+                    };
+                }}
+                onChange={(event, editor) => {
+                  const data = editor.getData();
+                  setDescription(data);
+                }}
+              />
             </Box>
           </Box>
         </Grid>

@@ -37,8 +37,9 @@ import Contact from "../../Contact";
 import RadioButton from "../../../../components/inputs/basic/Radio";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import CRMTasks from "../../Tasks";
-import CustomerDetail from "../global/CustomerDetail";
-import LeadDetailView from "../global/LeadDetail";
+import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
+import LeadDetailView, {PageLeadDetailView} from "../global/LeadDetail";
+import VideoConference from "../../../utils/VideoConference";
 
 export const LeadView = () => {
   const {register, reset, control, handleSubmit} = useForm();
@@ -174,13 +175,12 @@ export const DetailView = () => {
   return (
     <>
       <Grid container spacing={2} pr={2} pl={2}>
-        <Grid item lg={6} md={12} sm={12}>
-          <Box mb={1}>
-            <LeadDetailView />
-          </Box>
-
+        <Grid item lg={12} md={12} sm={12}>
           <Box>
-            <CustomerDetail />
+            <PageCustomerDetail />
+          </Box>
+          <Box mb={1}>
+            <PageLeadDetailView />
           </Box>
         </Grid>
 
@@ -416,6 +416,7 @@ const ProposalsView = () => {
 const LeadDetail = ({handleGoBack}) => {
   const [currentView, setCurrentView] = useState("detail");
   const [scheduleAppointment, setScheduleAppointment] = useState(false);
+  const [activateCall, setActivateCall] = useState(false);
 
   const handleSetCurrentView = view => {
     setCurrentView(view);
@@ -492,6 +493,23 @@ const LeadDetail = ({handleGoBack}) => {
         </Box>
 
         <Box sx={{display: "flex", justifyContent: "flex-end"}} mb={2} gap={1}>
+          <Box>
+            <VideoConference
+              activateCall={activateCall}
+              setActivateCall={setActivateCall}
+              label="Call"
+            />
+          </Box>
+
+          {activateCall && (
+            <GlobalCustomButton
+              onClick={() => setActivateCall(false)}
+              color="error"
+            >
+              End Call
+            </GlobalCustomButton>
+          )}
+
           <GlobalCustomButton
             color="secondary"
             onClick={() => handleSetCurrentView("detail")}

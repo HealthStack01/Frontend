@@ -124,7 +124,7 @@ const ProposalList = ({showCreate, showDetail}) => {
   };
 
   return (
-    <Box pl={2} pr={2}>
+    <Box pl={2} pr={2} pt={2}>
       <Box
         sx={{
           display: "flex",
