@@ -1089,6 +1089,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
                   width: '100%',
                   padding: '1rem',
                   borderRadius: '4px',
+                  height: '3rem',
                   cursor: 'pointer',
                   border: '1px solid rgba(0, 0, 0, 0.6)',
                 }}

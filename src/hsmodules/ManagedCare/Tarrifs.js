@@ -175,6 +175,7 @@ const TarrifList = () => {
       const findServices = await ServicesServ.find({
         query: {
           facility: user.currentEmployee.facilityDetail._id,
+          $limit: 100,
           'contracts.source_org': state.facilityModule.selectedFacility._id,
           $sort: {
             category: 1,

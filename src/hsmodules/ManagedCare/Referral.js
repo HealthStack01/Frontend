@@ -51,6 +51,7 @@ import GlobalCustomButton from '../../components/buttons/CustomButton';
 import { FormsHeaderText } from '../../components/texts';
 import ChatInterface from '../../components/chat/ChatInterface';
 import CRMTasks from '../CRM/Tasks';
+import AutoCompleteBox from '../../components/inputs/AutoComplete';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -532,7 +533,7 @@ export function ReferralCreate({ showModal, setShowModal }) {
         >
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
-              <CustomSelect
+              <AutoCompleteBox
                 label="Provisional Diagnosis"
                 name="provisionalDiagnosis"
                 options={[

@@ -1,26 +1,26 @@
 /* eslint-disable */
 // import {Button} from "@mui/material";
-import {Button} from "@mui/material";
-import React, {useState, useContext, useEffect, useRef} from "react";
-import Draggable from "react-draggable";
-import {Jutsu} from "react-jutsu";
-import GlobalCustomButton from "../../components/buttons/CustomButton";
+import { Button } from '@mui/material';
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import Draggable from 'react-draggable';
+import { Jutsu } from 'react-jutsu';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
 //import Button from "../../components/buttons/Button";
 //import { useJitsi } from 'react-jutsu' // Custom hook
-import {UserContext, ObjectContext} from "../../context";
+import { UserContext, ObjectContext } from '../../context';
 
-const VideoConference = ({activateCall, setActivateCall}) => {
-  const [room, setRoom] = useState("");
-  const [name, setName] = useState("");
+const VideoConference = ({ activateCall, setActivateCall, title }) => {
+  const [room, setRoom] = useState('');
+  const [name, setName] = useState('');
   const [call, setCall] = useState(false);
-  const [password, setPassword] = useState("");
-  const {state} = useContext(ObjectContext); //,setState
+  const [password, setPassword] = useState('');
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const client = state.ClientModule.selectedClient;
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     event.preventDefault();
     setRoom(client._id);
     setName(user.firstname);
@@ -61,13 +61,13 @@ const VideoConference = ({activateCall, setActivateCall}) => {
       </div> */}
       <div
         style={{
-          position: "fixed",
-          left: "0",
-          bottom: "0",
-          width: "750px",
-          height: "500px",
-          backgroundColor: "#4d4d4d",
-          zIndex: "9999",
+          position: 'fixed',
+          left: '0',
+          bottom: '0',
+          width: '750px',
+          height: '500px',
+          backgroundColor: '#4d4d4d',
+          zIndex: '9999',
         }}
       >
         <Jutsu
@@ -78,22 +78,24 @@ const VideoConference = ({activateCall, setActivateCall}) => {
           loadingComponent={<p>loading ...</p>}
           errorComponent={
             <>
-              <p>Oops, something went wrong</p>{" "}
+              <p>Oops, something went wrong</p>{' '}
             </>
           }
-          containerStyles={{width: "100%", height: "430px"}}
+          containerStyles={{ width: '100%', height: '430px' }}
         />
         <div
           style={{
-            width: "100%",
-            height: "80px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
+            width: '100%',
+            height: '80px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
           }}
         >
-          <span style={{fontSize: "20px", color: "#ffffff", fontWeight: "600"}}>
+          <span
+            style={{ fontSize: '20px', color: '#ffffff', fontWeight: '600' }}
+          >
             Click here to Drag
           </span>
         </div>
@@ -106,12 +108,12 @@ const VideoConference = ({activateCall, setActivateCall}) => {
       {/*  <input id='password' type='text' placeholder='Password (optional)' value={password} onChange={(e) => setPassword(e.target.value)} /> */}
       <GlobalCustomButton
         color="success"
-        onClick={e => handleClick(e)}
+        onClick={(e) => handleClick(e)}
         sx={{
-          width: "100%",
+          width: '100%',
         }}
       >
-        Teleconsultation
+        {title ? title : 'Teleconsultation'}
       </GlobalCustomButton>
     </form>
   );
