@@ -28,6 +28,9 @@ import {
   Button as MuiButton,
   TextField,
   IconButton,
+  Badge,
+  Drawer,
+  Typography,
 } from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -49,6 +52,14 @@ import { Modal } from 'semantic-ui-react';
 import { generalData } from './accData';
 import Accreditation from './Accreditation';
 import DeleteOutline from '@mui/icons-material/DeleteOutline';
+import CRMTasks from '../CRM/Tasks';
+import ChatInterface from '../../components/chat/ChatInterface';
+import { UploadView } from './components/ProviderView';
+import { additionalInformationData } from '../CRM/components/lead/data';
+import AdditionalInformationCard, {
+  CreateAdditionalInfo,
+} from '../CRM/components/lead/AdditionalInfo';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -63,26 +74,23 @@ export default function Provider({ standAlone }) {
   return (
     <>
       <section className="section remPadTop">
-        <ProviderList
-          showModal={showModal}
-          setShowModal={setShowModal}
-          standAlone={standAlone}
-        />
-        {showModal === 1 && (
-          <ModalBox open={showModal} onClose={() => setShowModal(false)}>
-            <OrganizationCreate />
-          </ModalBox>
+        {showModal === 0 && (
+          <ProviderList
+            showModal={showModal}
+            setShowModal={setShowModal}
+            standAlone={standAlone}
+          />
         )}
-        {showModal === 2 && (
+        {showModal === 1 && (
           <ModalBox
             open={showModal}
             onClose={() => setShowModal(false)}
-            header="Provider Details"
+            header="Register Provider"
           >
-            {/* <NewOrganizationCreate /> */}
-            <OrganizationDetail setShowModal={setShowModal} />
+            <OrganizationCreate />
           </ModalBox>
         )}
+        {showModal === 2 && <OrganizationDetail setShowModal={setShowModal} />}
         {/* {showModal === 3 && (
           <ModalBox open={showModal} onClose={() => setShowModal(false)}>
             <NewOrganizationCreate />
@@ -1321,6 +1329,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   const [confirmActivate, setConfirmActivate] = useState(false);
   const [display, setDisplay] = useState(1);
   const [addBank, setAddBank] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
 
   const facility = state.facilityModule.selectedFacility;
 
@@ -1468,10 +1477,11 @@ export function OrganizationDetail({ showModal, setShowModal }) {
     <>
       <Box
         sx={{
-          maxheight: '80vh',
-          width: '800px',
+          width: '98%',
+          margin: '0 1rem',
         }}
       >
+        <FormsHeaderText text={'Provider Details'} />
         <Box
           sx={{
             width: '100%',
@@ -1481,6 +1491,12 @@ export function OrganizationDetail({ showModal, setShowModal }) {
           }}
           mb={2}
         >
+          <GlobalCustomButton
+            text="Back"
+            onClick={() => setShowModal(0)}
+            color="warning"
+            customStyles={{ marginRight: '10px' }}
+          />
           {!isEdit && (
             <GlobalCustomButton
               text="Edit"
@@ -1525,88 +1541,112 @@ export function OrganizationDetail({ showModal, setShowModal }) {
             </>
           )}
           <GlobalCustomButton
-            text="Close"
-            onClick={closeForm}
-            color="warning"
+            onClick={display === 1 ? () => setDisplay(3) : () => setDisplay(1)}
+            text={display === 1 ? 'Task' : 'Details'}
+            variant="outlined"
+            customStyles={{ marginRight: '.8rem' }}
+          />
+          <GlobalCustomButton
+            text="Upload"
+            onClick={() => setDisplay(4)}
+            color="success"
             customStyles={{ marginRight: '10px' }}
           />
+          <Badge badgeContent={4} color="success" sx={{ marginRight: '10px' }}>
+            <GlobalCustomButton
+              onClick={() => setOpenDrawer(true)}
+              text="Chat"
+              color="primary"
+            />
+          </Badge>
         </Box>
         {display === 1 && (
           <Box>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <Input
-                    register={register('name_provider')}
-                    label="Hospital Name"
-                    value="St.Nicholas Hospital"
-                    disabled={!isEdit}
-                  />
+                  <Box>
+                    <Grid container spacing={2}>
+                      <Grid item xs={6}>
+                        <Input
+                          register={register('name_provider')}
+                          label="Hospital Name"
+                          value="St.Nicholas Hospital"
+                          disabled={!isEdit}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Input
+                          register={register('lga')}
+                          label="Address"
+                          value="1234,5th Avenue,New York"
+                          disabled={!isEdit}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Input
+                          register={register('lga')}
+                          label="City"
+                          value="Lagos"
+                          disabled={!isEdit}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Input
+                          register={register('lga')}
+                          label="Phone"
+                          value="09123802410"
+                          disabled={!isEdit}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Input
+                          register={register('lga')}
+                          label="Email"
+                          value="motun6@gmail.com"
+                          disabled={!isEdit}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Input
+                          register={register('lga')}
+                          label="CEO"
+                          value="Dr. Simpa"
+                          disabled={!isEdit}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Input
+                          register={register('lga')}
+                          label="Type"
+                          value="HMO"
+                          disabled={!isEdit}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Input
+                          register={register('lga')}
+                          label="Category"
+                          value="HMO"
+                          disabled={!isEdit}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Input
+                          register={register('band')}
+                          label="Band"
+                          value="A"
+                          disabled={!isEdit}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Box>
                 </Grid>
                 <Grid item xs={6}>
-                  <Input
-                    register={register('lga')}
-                    label="Address"
-                    value="1234,5th Avenue,New York"
-                    disabled={!isEdit}
-                  />
+                  <AdditionalInformationView />
                 </Grid>
-                <Grid item xs={6}>
-                  <Input
-                    register={register('lga')}
-                    label="City"
-                    value="Lagos"
-                    disabled={!isEdit}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <Input
-                    register={register('lga')}
-                    label="Phone"
-                    value="09123802410"
-                    disabled={!isEdit}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <Input
-                    register={register('lga')}
-                    label="Email"
-                    value="motun6@gmail.com"
-                    disabled={!isEdit}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <Input
-                    register={register('lga')}
-                    label="CEO"
-                    value="Dr. Simpa"
-                    disabled={!isEdit}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <Input
-                    register={register('lga')}
-                    label="Type"
-                    value="HMO"
-                    disabled={!isEdit}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <Input
-                    register={register('lga')}
-                    label="Category"
-                    value="HMO"
-                    disabled={!isEdit}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <Input
-                    register={register('band')}
-                    label="Band"
-                    value="A"
-                    disabled={!isEdit}
-                  />
-                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <Box
                     sx={{
@@ -1822,6 +1862,32 @@ export function OrganizationDetail({ showModal, setShowModal }) {
           </Box>
         )}
         {display === 2 && <Accreditation />}
+        {display === 3 && <CRMTasks />}
+        {display === 4 && <UploadView />}
+        <Drawer
+          open={openDrawer}
+          sx={{
+            width: 'fit-content',
+            // height: 'fit-content',
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: 'fit-content',
+              // height: 'fit-content',
+            },
+          }}
+          variant="persistent"
+          anchor="right"
+        >
+          <Box
+            sx={{
+              width: '25vw',
+              height: '100vh',
+              overflowY: 'hidden',
+            }}
+          >
+            <ChatInterface closeChat={() => setOpenDrawer(false)} />
+          </Box>
+        </Drawer>
       </Box>
     </>
   );
@@ -2448,3 +2514,75 @@ export function NewOrganizationCreate() {
     </>
   );
 }
+
+export const AdditionalInformationView = () => {
+  const [createModal, setCreateModal] = useState(false);
+  const [informations, setInformations] = useState([
+    ...additionalInformationData,
+  ]);
+
+  const removeAdditionalInfo = (info) => {
+    setInformations((prev) => prev.filter((item) => item._id !== info._id));
+  };
+
+  const addNewInfo = (data) => {
+    setInformations((prev) => [data, ...prev]);
+  };
+
+  return (
+    <Box>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItem: 'center',
+          justifyContent: 'space-between',
+        }}
+        mb={2}
+      >
+        <FormsHeaderText text="Additional Information" />
+
+        <GlobalCustomButton onClick={() => setCreateModal(true)}>
+          <AddCircleOutlineOutlinedIcon sx={{ mr: '5px' }} fontSize="small" />{' '}
+          Add Information
+        </GlobalCustomButton>
+      </Box>
+
+      <Box>
+        {informations.length > 0 ? (
+          informations.map((info, index) => (
+            <Box sx={{ mb: 2 }}>
+              <AdditionalInformationCard
+                data={info}
+                action={() => removeAdditionalInfo(info)}
+                key={index}
+              />
+            </Box>
+          ))
+        ) : (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Typography sx={{ fontSize: '0.75rem', color: '#000000' }}>
+              You've not added any information
+            </Typography>
+          </Box>
+        )}
+      </Box>
+
+      <ModalBox
+        open={createModal}
+        onClose={() => setCreateModal(false)}
+        header="Add New Information"
+      >
+        <CreateAdditionalInfo
+          closeModal={() => setCreateModal(false)}
+          addInfo={addNewInfo}
+        />
+      </ModalBox>
+    </Box>
+  );
+};

@@ -238,11 +238,8 @@ export default function EncounterMain({nopresc, chosenClient}) {
       });
       const total = findClinic.total;
       const ulimit = total * page;
-      /*  if (total>(ulimit)){ //only load if we have not reached the total
-                alert("skip:",ulimit )
-                console.log("skip:",ulimit ) */
       await setFacilities(findClinic.data);
-      console.log(findClinic.data);
+      //console.log(findClinic.data);
       /*  } */
     } else {
       if (user.stacker) {

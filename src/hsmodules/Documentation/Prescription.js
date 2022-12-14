@@ -26,6 +26,11 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Grow from "@mui/material/Grow";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import moment from "moment";
+import Textarea from "../../components/inputs/basic/Textarea";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 export default function Prescription() {
   const {state} = useContext(ObjectContext); //,setState
@@ -712,7 +717,7 @@ export function DrugAdminList({standalone}) {
   // eslint-disable-next-line
   const [message, setMessage] = useState("");
   const OrderServ = client.service("order");
-  //const navigate=useNavigate()
+  //const history = useHistory()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -725,6 +730,10 @@ export function DrugAdminList({standalone}) {
     () => facilities.map(() => React.createRef()),
     [facilities]
   );
+  const [selectedRow, setSelectedRow] = useState({
+    row: null,
+    index: null,
+  });
   const ClientServ = client.service("clinicaldocument");
 
   const handleCreateNew = async () => {
@@ -1184,167 +1193,303 @@ export function DrugAdminList({standalone}) {
     OrderServ.on("removed", obj => getFacilities());
     return () => {};
   }, []);
-  // console.log(facilities);
-  const medicationSchema = [
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event, row, index) => {
+    setAnchorEl(event.currentTarget);
+
+    setSelectedRow(() => ({
+      row: row,
+      index: index,
+    }));
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const drugAdminColumns = [
     {
       name: "S/N",
-      key: "sn",
-      description: "SN",
-      width: "70px",
-      selector: row => row.sn,
+      key: "_id",
+      selector: (row, i) => i + 1,
+      description: "Enter name of band",
       sortable: true,
       inputType: "HIDDEN",
+      width: "50px",
     },
-
     {
       name: "Date",
-      key: "Date",
-      description: "date",
-      width: "80px",
-      selector: row => format(new Date(row.createdAt), "dd-MM-yy"),
+      key: "treatment_action",
+      description: "Enter name of band",
+      selector: row => {
+        return moment(row?.treatment_action[0]?.createdat).format("L");
+      },
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "100px",
     },
 
     {
       name: "Medication",
       key: "order",
-      description: "order",
-      width: "120px",
+      description: "Enter name of Facility",
       selector: row => row.order,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
-
     {
       name: "Instructions",
-      key: "Instructions",
-      description: "fufiled",
-      width: "100px",
+      key: "instruction",
       selector: row => row.instruction,
+      description: "Enter name of band",
       sortable: true,
-      required: true,
-      inputType: "TEXT",
+      inputType: "HIDDEN",
     },
-
     {
       name: "Status",
-      key: "status",
-      description: "status",
-      width: "80px",
+      key: "treatment_status",
+      description: "Enter name of band",
       selector: row => row.treatment_status,
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "100px",
     },
     {
       name: "Last Administered",
-      key: "lastadministered",
-      description: "lastadministered",
+      key: "facility",
+      description: "Enter name of Facility",
+      selector: row =>
+        row.treatment_action[0]?.createdat && (
+          <>{moment(row?.treatment_action[0]?.createdat).format("L")}</>
+        ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
       width: "100px",
-      selector: row => row.lastadministered,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
     },
-
     {
-      name: "Lastest Comments",
-      key: "lastest comments",
-      description: "lastest comments",
+      name: "Latest Comments",
+      key: "treatment_action",
       selector: row => row.treatment_action[0]?.comments,
+      description: "Enter name of band",
       sortable: true,
-      required: true,
-      inputType: "TEXT",
+      inputType: "HIDDEN",
     },
-
     {
       name: "Administered By",
-      key: "AdministeredBy",
-      description: "AdministeredBy",
-      selector: row => row.requestingdoctor_Name,
+      key: "name",
+      description: "Enter name of band",
+      selector: row => row.treatment_action[0]?.actorname,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
-
     {
-      name: "New comments",
-      key: "comments",
-      description: "comments",
-      selector: row => row.comments,
+      name: "New Comment",
+      key: "facility",
+      description: "Enter name of Facility",
+      selector: (row, i) => (
+        <Box sx={{width: "200px"}}>
+          <Input
+            sx={{width: "100%"}}
+            type="text"
+            name={i}
+            inputRef={refs[i]}
+            placeholder="write here...."
+          />
+        </Box>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "220px",
+      center: true,
     },
-
     {
-      name: "Action",
-      key: "action",
-      width: "180px",
-      description: "action",
-      selector: row => [
-        <Box style={{display: "flex", flexWrap: "wrap", width: "180px"}}>
-          <Button
-            style={{
-              fontSize: "0.7rem",
-              color: "white",
-              width: "70px",
-              backgroundColor: "#00C4A7",
-              marginBottom: "5px",
+      name: "Actions",
+      key: "facility",
+      description: "Enter name of Facility",
+      selector: "treatment_status",
+      cell: (row, i) => (
+        <div>
+          <GlobalCustomButton onClick={event => handleClick(event, row, i)}>
+            Actions
+            <ArrowDropDownIcon fontSize="small" sx={{marginLeft: "2px"}} />
+          </GlobalCustomButton>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
             }}
-            onClick={() => handleAdminister(row)}
           >
-            Administer
-          </Button>
+            <MenuItem
+              sx={
+                row.treatment_status === "Cancelled"
+                  ? {
+                      backgroundColor: "#e76f51",
+                      pointerEvents: "none",
+                      "&:hover": {
+                        backgroundColor: "#e76f51",
+                      },
+                    }
+                  : {}
+              }
+              onClick={() => {
+                if (row.treatment_status === "Cancelled") return handleClose();
 
-          <Button
-            style={{
-              fontSize: "0.7rem",
-              color: "white",
-              width: "70px",
-              marginBottom: "5px",
-            }}
-            onClick={() => handleHistory(row)}
-          >
-            History
-          </Button>
+                handleAdminister(selectedRow.row, selectedRow.index);
+                handleClose();
+              }}
+            >
+              Administer
+            </MenuItem>
 
-          <Button
-            style={{
-              fontSize: "0.7rem",
-              color: "white",
-              width: "70px",
-              backgroundColor: "#FFDB4A",
-            }}
-            onClick={() => handleDiscontinue(row)}
-          >
-            Discontinue
-          </Button>
+            <MenuItem
+              onClick={() => {
+                handleHistory(selectedRow.row, selectedRow.index);
+                handleClose();
+              }}
+            >
+              History
+            </MenuItem>
 
-          <Button
-            style={{
-              fontSize: "0.7rem",
-              color: "white",
-              width: "70px",
-              backgroundColor: "#F03A5F",
-            }}
-            onClick={() => handleDrop(row)}
-          >
-            Drop
-          </Button>
-        </Box>,
-      ],
-      // omit: !standalone?false: true,
+            <MenuItem
+              sx={
+                row.treatment_status === "Cancelled"
+                  ? {
+                      backgroundColor: "#e76f51",
+                      pointerEvents: "none",
+                      "&:hover": {
+                        backgroundColor: "#e76f51",
+                      },
+                    }
+                  : {}
+              }
+              onClick={() => {
+                if (row.treatment_status === "Cancelled") return handleClose();
+
+                handleDiscontinue(selectedRow.row, selectedRow.index);
+                handleClose();
+              }}
+            >
+              Discountinue
+            </MenuItem>
+
+            <MenuItem
+              sx={
+                row.treatment_status === "Cancelled"
+                  ? {
+                      backgroundColor: "#e76f51",
+                      pointerEvents: "none",
+                      "&:hover": {
+                        backgroundColor: "#e76f51",
+                      },
+                    }
+                  : {}
+              }
+              onClick={() => {
+                if (row.treatment_status === "Cancelled") return handleClose();
+
+                handleDrop(selectedRow.row, selectedRow.index);
+                handleClose();
+              }}
+            >
+              Drop
+            </MenuItem>
+          </Menu>
+        </div>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "120px",
+      center: true,
     },
   ];
 
-  const orderSchema = [
+  const conditionalRowStyles = [
+    {
+      when: row => row.treatment_status === "Cancelled",
+      style: {
+        backgroundColor: "#fed9b7",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
+  return (
+    <>
+      <Box
+        sx={{
+          width: "90vw",
+          maxHeight: "80vh",
+        }}
+      >
+        <TableMenu>
+          <div style={{display: "flex", alignItems: "center"}}>
+            {handleSearch && (
+              <div className="inner-table">
+                <FilterMenu onSearch={handleSearch} />
+              </div>
+            )}
+            <h2 style={{marginLeft: "10px", fontSize: "0.8rem"}}>
+              List of Prescriptions
+            </h2>
+          </div>
+
+          {!standalone && (
+            <GlobalCustomButton onClick={handleCreateNew}>
+              <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
+              Add
+            </GlobalCustomButton>
+          )}
+        </TableMenu>
+
+        <Box>
+          <CustomTable
+            title={""}
+            columns={drugAdminColumns}
+            data={facilities}
+            pointerOnHover
+            highlightOnHover
+            striped
+            onRowClicked={handleRow}
+            progressPending={false}
+            CustomEmptyData={
+              <Typography sx={{fontSize: "0.85rem"}}>
+                No Presciptions found......
+              </Typography>
+            }
+            conditionalRowStyles={conditionalRowStyles}
+          />
+        </Box>
+      </Box>
+
+      <ModalBox
+        open={hxModal}
+        onClose={handlecloseModal1}
+        header="Drug Admin History"
+      >
+        <DrugAdminHistory currentMed={currentMed} />
+      </ModalBox>
+    </>
+  );
+}
+
+export const DrugAdminHistory = ({currentMed}) => {
+  const historyColumns = [
     {
       name: "S/N",
       key: "sn",
@@ -1397,164 +1542,71 @@ export function DrugAdminList({standalone}) {
 
   return (
     <>
-      <div>
-        <div>
-          <div>
-            <div style={{display: "flex", marginBottom: "20px"}}>
-              {handleSearch && (
-                <div>
-                  <FilterMenu onSearch={handleSearch} />
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-        {!standalone && (
-          <>
-            <div className="level-item">
-              {" "}
-              <span className="is-size-6 has-text-weight-medium">
-                List of Prescriptions{" "}
-              </span>
-            </div>
-            <div className="level-right">
-              <div className="level-item">
-                <div className="level-item">
-                  <div
-                    className="button is-success is-small"
-                    onClick={handleCreateNew}
-                  >
-                    New
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-      <div className="table-container pullup ">
+      <Box
+        sx={{
+          width: "750px",
+          display: "flex",
+          flexDirection: "column",
+        }}
+        gap={1.5}
+      >
         <Box>
-          <div style={{height: "400px", width: "100%"}}>
+          <FormsHeaderText text={currentMed.order} />
+        </Box>
+
+        <Grid container spacing={1}>
+          <Grid item xs={6}>
+            <Input
+              label="Ordered By"
+              defaultValue={currentMed.requestingdoctor_Name}
+              disabled={true}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <Input
+              label="Time Ordered"
+              defaultValue={`${formatDistanceToNowStrict(
+                new Date(currentMed.createdAt),
+                {
+                  addSuffix: true,
+                }
+              )}-${moment(currentMed.createdAt).format("L")}`}
+              disabled={true}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Textarea
+              label="Intructions"
+              defaultValue={currentMed.instruction}
+              disabled={true}
+            />
+          </Grid>
+        </Grid>
+
+        {currentMed.hasOwnProperty("treatment_action") && (
+          <Box>
             <CustomTable
               title={""}
-              columns={medicationSchema}
-              data={facilities}
-              onRowClicked={handleRow}
+              columns={historyColumns}
+              data={currentMed.treatment_action}
+              //onRowClicked={handleRow}
               pointerOnHover
               highlightOnHover
               striped
+              CustomEmptyData={
+                <Typography sx={{fontSize: "0.8rem"}}>
+                  No Drug Admin History listed......
+                </Typography>
+              }
             />
-          </div>
-        </Box>
-      </div>
-      <div>
-        <ModalBox
-          open={hxModal}
-          onClose={handlecloseModal1}
-          header="Drug Admin History"
-        >
-          <div
-            className="modal-card"
-            style={{height: "400px", overflow: "auto"}}
-          >
-            {/* <p className="modal-card-title"> </p> */}
-
-            <Box>
-              <div>
-                <span className="is-medium">
-                  <strong>{currentMed.order}</strong>
-                </span>
-              </div>
-              <div>
-                <span>
-                  <strong>Instruction: </strong>
-                  {currentMed.instruction}
-                </span>
-              </div>
-
-              <div>
-                <span>
-                  <strong>Ordered by:</strong>{" "}
-                  {currentMed.requestingdoctor_Name}
-                </span>
-              </div>
-
-              {currentMed.createdAt && (
-                <span>
-                  <strong>
-                    {formatDistanceToNowStrict(new Date(currentMed.createdAt), {
-                      addSuffix: true,
-                    })}
-                  </strong>{" "}
-                  <span>
-                    {format(new Date(currentMed.createdAt), "dd-MM-yy")}
-                  </span>
-                </span>
-              )}
-
-              <div className="table-container pullup ">
-                <div>
-                  <span className="is-medium">
-                    <strong>{currentMed.order}</strong>
-                  </span>
-                  <br />
-                  <span>
-                    <strong>Instruction: </strong>
-                    {currentMed.instruction}
-                  </span>
-                  <br />
-                  <span>
-                    <strong>Ordered by:</strong>{" "}
-                    {currentMed.requestingdoctor_Name}
-                  </span>
-                  <br />
-                  {currentMed.createdAt && (
-                    <span>
-                      <strong>
-                        {formatDistanceToNowStrict(
-                          new Date(currentMed.createdAt),
-                          {addSuffix: true}
-                        )}
-                      </strong>{" "}
-                      <span>
-                        {format(new Date(currentMed.createdAt), "dd-MM-yy")}
-                      </span>
-                    </span>
-                  )}
-                </div>
-                <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-                  <tbody>
-                    {currentMed.hasOwnProperty("treatment_action") && (
-                      <div style={{height: "250px", overflow: "auto"}}>
-                        <CustomTable
-                          title={""}
-                          columns={orderSchema}
-                          data={facilities}
-                          onRowClicked={handleRow}
-                          pointerOnHover
-                          highlightOnHover
-                          striped
-                        />
-                      </div>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </Box>
-
-            {/* <StoreList standalone="true" /> */}
-            {/* <BillServiceCreate closeModal={handlecloseModal1}/> */}
-
-            {/* <footer className="modal-card-foot">
-                                  <button className="button is-success">Save changes</button>
-                                  <button className="button">Cancel</button>
-                                  </footer> */}
-          </div>
-        </ModalBox>
-      </div>
+          </Box>
+        )}
+      </Box>
     </>
   );
-}
+};
 
 export function ProductEntryDetail() {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
@@ -2086,33 +2138,6 @@ export function ProductEntryModify() {
   );
 }
 
-const useOnClickOutside = (ref, handler) => {
-  useEffect(
-    () => {
-      const listener = event => {
-        // Do nothing if clicking ref's element or descendent elements
-        if (!ref.current || ref.current.contains(event.target)) {
-          return;
-        }
-        handler(event);
-      };
-      document.addEventListener("mousedown", listener);
-      document.addEventListener("touchstart", listener);
-      return () => {
-        document.removeEventListener("mousedown", listener);
-        document.removeEventListener("touchstart", listener);
-      };
-    },
-    // Add ref and handler to effect dependencies
-    // It's worth noting that because passed in handler is a new ...
-    // ... function on every render that will cause this effect ...
-    // ... callback/cleanup to run every render. It's not a big deal ...
-    // ... but to optimize you can wrap handler in useCallback before ...
-    // ... passing it into this hook.
-    [ref, handler]
-  );
-};
-
 export function MedicationHelperSearch({
   id,
   getSearchfacility,
@@ -2139,8 +2164,6 @@ export function MedicationHelperSearch({
   const {user} = useContext(UserContext);
   const {state} = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
-
-  const dropDownRef = useRef(null);
 
   const getInitial = async id => {
     console.log(id);
@@ -2239,8 +2262,6 @@ export function MedicationHelperSearch({
     return () => {};
   }, [clear]);
 
-  useOnClickOutside(dropDownRef, () => setShowPanel(false));
-
   return (
     <div>
       <Autocomplete
@@ -2276,192 +2297,6 @@ export function MedicationHelperSearch({
           <li {...props} style={{fontSize: "0.75rem"}}>
             {option.medication}
           </li>
-        )}
-        sx={{
-          width: "100%",
-        }}
-        freeSolo={false}
-        renderInput={params => (
-          <TextField
-            {...params}
-            label={label || "Search for Product"}
-            ref={inputEl}
-            sx={{
-              fontSize: "0.75rem",
-              backgroundColor: "#ffffff",
-              "& .MuiInputBase-input": {
-                height: "0.9rem",
-              },
-            }}
-            InputLabelProps={{
-              shrink: true,
-              style: {color: "#2d2d2d"},
-            }}
-          />
-        )}
-      />
-    </div>
-  );
-}
-
-export function OldMedicationHelperSearch({
-  getSearchfacility,
-  clear,
-  hidePanel,
-  label,
-}) {
-  const productServ = client.service("medicationhelper");
-  const [facilities, setFacilities] = useState([]);
-  // eslint-disable-next-line
-  const [searchError, setSearchError] = useState(false);
-  // eslint-disable-next-line
-  const [showPanel, setShowPanel] = useState(false);
-  // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState("");
-  // eslint-disable-next-line
-  const [simpa, setSimpa] = useState("");
-  // eslint-disable-next-line
-  const [chosen, setChosen] = useState(false);
-  // eslint-disable-next-line
-  const [count, setCount] = useState(0);
-  const inputEl = useRef(null);
-  const [val, setVal] = useState("");
-  const [productModal, setProductModal] = useState(false);
-  const ref = useRef(null);
-  let value;
-
-  const dropDownRef = useRef(null);
-
-  const handleRow = async obj => {
-    console.log(obj);
-    await setChosen(true);
-    //alert("something is chaning")
-
-    getSearchfacility(obj);
-
-    await setSimpa(obj.medication);
-
-    setShowPanel(false);
-    await setCount(2);
-  };
-
-  const handleBlur = async () => {
-    console.log(document.activeElement);
-
-    // setShowPanel(false)
-    getSearchfacility({
-      medication: val,
-      instruction: "",
-    });
-  };
-
-  const handleSearch = async value => {
-    setVal(value);
-    if (value === "") {
-      setShowPanel(false);
-      getSearchfacility(false);
-      return;
-    }
-    const field = "medication"; //field variable
-
-    if (value.length >= 3) {
-      productServ
-        .find({
-          query: {
-            //service
-            [field]: {
-              $regex: value,
-              $options: "i",
-            },
-            $limit: 10,
-            $sort: {
-              createdAt: -1,
-            },
-          },
-        })
-        .then(res => {
-          if (res.total > 0) {
-            setFacilities(res.data);
-            setSearchMessage(" product  fetched successfully");
-            setShowPanel(true);
-          } else {
-            setShowPanel(false);
-            getSearchfacility({
-              medication: value,
-              instruction: "",
-            });
-          }
-        })
-        .catch(err => {
-          toast({
-            message: "Error fetching medication " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-        });
-    } else {
-      setShowPanel(false);
-      await setFacilities([]);
-    }
-  };
-
-  const handleAddproduct = () => {
-    setProductModal(true);
-  };
-  const handlecloseModal = () => {};
-
-  useEffect(() => {
-    setSimpa(value);
-    return () => {};
-  }, [simpa]);
-  useEffect(() => {
-    if (clear) {
-      setSimpa("");
-    }
-    return () => {};
-  }, [clear]);
-
-  useEffect(() => {
-    if (hidePanel) {
-      setShowPanel(false);
-    }
-    return () => {};
-  }, [hidePanel]);
-
-  return (
-    <div>
-      <Autocomplete
-        size="small"
-        value={simpa}
-        onChange={(event, newValue) => {
-          handleRow(newValue);
-          setSimpa("");
-          setVal("");
-        }}
-        id="free-solo-dialog-demo"
-        options={facilities}
-        getOptionLabel={option => `${option.medication}`}
-        isOptionEqualToValue={(option, value) =>
-          value === undefined || value === "" || option._id === value._id
-        }
-        selectOnFocus
-        onInputChange={(event, newInputValue) => {
-          handleSearch(newInputValue);
-        }}
-        inputValue={val}
-        //clearOnBlur
-        handleHomeEndKeys
-        noOptionsText={val !== "" ? `${val} Not Found` : "Type something"}
-        renderOption={(props, option) => (
-          <Box {...props} sx={{display: "flex"}}>
-            <Typography sx={{fontSize: "0.8rem"}}>
-              {option.medication}
-            </Typography>
-            <Typography sx={{fontSize: "0.8rem"}}>
-              {option.instruction}
-            </Typography>
-          </Box>
         )}
         sx={{
           width: "100%",
