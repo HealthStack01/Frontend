@@ -176,10 +176,10 @@ export const DetailView = () => {
     <>
       <Grid container spacing={2} pr={2} pl={2}>
         <Grid item lg={12} md={12} sm={12}>
-          <Box>
+          <Box mb={1}>
             <PageCustomerDetail />
           </Box>
-          <Box mb={1}>
+          <Box>
             <PageLeadDetailView />
           </Box>
         </Grid>
@@ -478,8 +478,8 @@ const LeadDetail = ({handleGoBack}) => {
           gap={1}
         >
           <GlobalCustomButton onClick={handleGoBack}>
-            <ArrowBackIcon />
-            Go Back
+            <ArrowBackIcon sx={{marginRight: "3px"}} fontSize="small" />
+            Back
           </GlobalCustomButton>
 
           <Typography
@@ -497,7 +497,7 @@ const LeadDetail = ({handleGoBack}) => {
             <VideoConference
               activateCall={activateCall}
               setActivateCall={setActivateCall}
-              label="Call"
+              label="Video conference"
             />
           </Box>
 
@@ -506,7 +506,7 @@ const LeadDetail = ({handleGoBack}) => {
               onClick={() => setActivateCall(false)}
               color="error"
             >
-              End Call
+              End conference
             </GlobalCustomButton>
           )}
 
