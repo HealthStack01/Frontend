@@ -87,7 +87,7 @@ export default function GeneralAppointments() {
             <PatientProfile />
           </Grid>
           <Grid item xs={9}>
-            <Details setShowModal={setShowModal} />
+            <PreAuthDetails setShowModal={setShowModal} />
           </Grid>
         </Grid>
       )}
@@ -1207,7 +1207,7 @@ export function PreAuthorizationList({ showModal, setShowModal }) {
     </>
   );
 }
-export function Details({ showModal, setShowModal }) {
+export function PreAuthDetails({ showModal, setShowModal, standAlone }) {
   const [deny, setDeny] = useState(false);
   const [approve, setApprove] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -1306,59 +1306,60 @@ export function Details({ showModal, setShowModal }) {
               }}
             >
               <FormsHeaderText text={'Pre-Authorization Details - 13322BA'} />
-
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                }}
-              >
-                <GlobalCustomButton
-                  text="Back"
-                  onClick={() => setShowModal(0)}
-                  color="warning"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <GlobalCustomButton
-                  onClick={() => setApprove(true)}
-                  text="Approve"
-                  color="success"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <GlobalCustomButton
-                  onClick={() => {}}
-                  text="On Hold"
-                  color="secondary"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <GlobalCustomButton
-                  onClick={() => setDeny(true)}
-                  text="Reject"
-                  color="error"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <GlobalCustomButton
-                  onClick={
-                    currentPage === 1
-                      ? () => setCurrentPage(2)
-                      : () => setCurrentPage(1)
-                  }
-                  text={currentPage === 1 ? 'Task' : 'Details'}
-                  variant="outlined"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <Badge
-                  badgeContent={4}
-                  color="success"
-                  sx={{ marginRight: '10px' }}
+              {!standAlone && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                  }}
                 >
                   <GlobalCustomButton
-                    onClick={() => setOpenDrawer(true)}
-                    text="Chat"
-                    color="primary"
+                    text="Back"
+                    onClick={() => setShowModal(0)}
+                    color="warning"
+                    customStyles={{ marginRight: '.8rem' }}
                   />
-                </Badge>
-              </Box>
+                  <GlobalCustomButton
+                    onClick={() => setApprove(true)}
+                    text="Approve"
+                    color="success"
+                    customStyles={{ marginRight: '.8rem' }}
+                  />
+                  <GlobalCustomButton
+                    onClick={() => {}}
+                    text="On Hold"
+                    color="secondary"
+                    customStyles={{ marginRight: '.8rem' }}
+                  />
+                  <GlobalCustomButton
+                    onClick={() => setDeny(true)}
+                    text="Reject"
+                    color="error"
+                    customStyles={{ marginRight: '.8rem' }}
+                  />
+                  <GlobalCustomButton
+                    onClick={
+                      currentPage === 1
+                        ? () => setCurrentPage(2)
+                        : () => setCurrentPage(1)
+                    }
+                    text={currentPage === 1 ? 'Task' : 'Details'}
+                    variant="outlined"
+                    customStyles={{ marginRight: '.8rem' }}
+                  />
+                  <Badge
+                    badgeContent={4}
+                    color="success"
+                    sx={{ marginRight: '10px' }}
+                  >
+                    <GlobalCustomButton
+                      onClick={() => setOpenDrawer(true)}
+                      text="Chat"
+                      color="primary"
+                    />
+                  </Badge>
+                </Box>
+              )}
             </Box>
             {currentPage === 1 && (
               <div
