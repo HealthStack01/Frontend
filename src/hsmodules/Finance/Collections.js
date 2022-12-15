@@ -40,7 +40,7 @@ export default function Collections() {
   );
 }
 
-export function ClientAccount({handleGoBack}) {
+export function ClientAccount({handleGoBack, isModal}) {
   // eslint-disable-next-line
   const [facility, setFacility] = useState([]);
   const InventoryServ = client.service("subwallettransactions");
@@ -148,10 +148,12 @@ export function ClientAccount({handleGoBack}) {
         }}
         p={2}
       >
-        <GlobalCustomButton onClick={handleGoBack}>
-          <ArrowBackIcon fontSize="small" sx={{marginRight: "5px"}} />
-          Back
-        </GlobalCustomButton>
+        {!isModal && (
+          <GlobalCustomButton onClick={handleGoBack}>
+            <ArrowBackIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Back
+          </GlobalCustomButton>
+        )}
 
         <Typography
           sx={{
@@ -201,7 +203,7 @@ export function ClientAccount({handleGoBack}) {
       </Box>
 
       <Box mb={2} p={2}>
-        <TransactionsList />
+        <TransactionsList isModal={isModal} />
       </Box>
     </Box>
   );

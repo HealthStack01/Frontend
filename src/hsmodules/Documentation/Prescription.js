@@ -31,6 +31,7 @@ import MenuItem from "@mui/material/MenuItem";
 import moment from "moment";
 import Textarea from "../../components/inputs/basic/Textarea";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 
 export default function Prescription() {
   const {state} = useContext(ObjectContext); //,setState
@@ -724,6 +725,13 @@ export function DrugAdminList({standalone}) {
   const [selectedOrder, setSelectedOrder] = useState(); //
   // eslint-disable-next-line
   const {state, setState} = useContext(ObjectContext);
+
+  const [confirmationDialog, setConfirmationDialog] = useState({
+    message: "",
+    open: false,
+    action: null,
+    type: "",
+  });
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
   const refs = useMemo(
@@ -758,111 +766,110 @@ export function DrugAdminList({standalone}) {
   };
 
   const handleAdminister = (medication, i) => {
-    let confirm = window.confirm(
-      `You are about to administer a dose of ${medication.order} for ${
-        state.ClientModule.selectedClient.firstname +
-        " " +
-        state.ClientModule.selectedClient.middlename +
-        " " +
-        state.ClientModule.selectedClient.lastname
-      } ?`
-    );
-    if (confirm) {
-      //update the medication
+    // let confirm = window.confirm(
+    //   `You are about to administer a dose of ${medication.order} for ${
+    //     state.ClientModule.selectedClient.firstname +
+    //     " " +
+    //     state.ClientModule.selectedClient.middlename +
+    //     " " +
+    //     state.ClientModule.selectedClient.lastname
+    //   } ?`
+    // );
+    // if (confirm) {
+    //update the medication
 
-      medication.treatment_status = "Active";
+    medication.treatment_status = "Active";
 
-      const treatment_action = {
-        actorname: user.firstname + " " + user.lastname,
-        actorId: user._id,
-        order_id: medication._id,
-        action: "Administered",
-        comments: refs[i].current.value,
-        createdat: new Date().toLocaleString(),
-        description:
-          "Administered current dose of " +
-          medication.order +
-          " " +
-          user.firstname +
-          " " +
-          user.lastname +
-          " @ " +
-          new Date().toLocaleString(),
-      };
-
-      medication.treatment_action = [
-        treatment_action,
-        ...medication.treatment_action,
-      ];
-      const treatment_doc = {
-        Description:
-          "Administered current dose of " +
-          medication.order +
-          " " +
-          user.firstname +
-          " " +
-          user.lastname +
-          " @ " +
-          new Date().toLocaleString(),
-        Comments: refs[i].current.value,
-      };
-      let productItem = treatment_doc;
-      let document = {};
-      // data.createdby=user._id
-      // console.log(data);
-      document.order = medication;
-      document.update = treatment_action;
-      if (user.currentEmployee) {
-        document.facility = user.currentEmployee.facilityDetail._id;
-        document.facilityname =
-          user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
-      }
-      document.documentdetail = productItem;
-
-      document.documentname = "Drug Administration"; //state.DocumentClassModule.selectedDocumentClass.name
-      // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
-      document.location =
-        state.employeeLocation.locationName +
+    const treatment_action = {
+      actorname: user.firstname + " " + user.lastname,
+      actorId: user._id,
+      order_id: medication._id,
+      action: "Administered",
+      comments: refs[i].current.value,
+      createdat: new Date().toLocaleString(),
+      description:
+        "Administered current dose of " +
+        medication.order +
         " " +
-        state.employeeLocation.locationType;
-      document.locationId = state.employeeLocation.locationId;
-      document.client = state.ClientModule.selectedClient._id;
-      document.clientname =
-        state.ClientModule.selectedClient.firstname +
+        user.firstname +
         " " +
-        state.ClientModule.selectedClient.middlename +
-        " " +
-        state.ClientModule.selectedClient.lastname;
-      document.clientobj = state.ClientModule.selectedClient;
-      document.createdBy = user._id;
-      document.createdByname = user.firstname + " " + user.lastname;
-      document.status = "completed";
+        user.lastname +
+        " @ " +
+        new Date().toLocaleString(),
+    };
 
-      ClientServ.create(document)
-        .then(res => {
-          //console.log(JSON.stringify(res))
-          // e.target.reset();
-          /*  setMessage("Created Client successfully") */
-          setSuccess(true);
-          toast({
-            message: "Drug administered succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-          setSuccess(false);
-          refs[i].current.value = "";
-          // setProductItem([])
-        })
-        .catch(err => {
-          toast({
-            message: "Error In Drugs Adminstration " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-        });
+    medication.treatment_action = [
+      treatment_action,
+      ...medication.treatment_action,
+    ];
+    const treatment_doc = {
+      Description:
+        "Administered current dose of " +
+        medication.order +
+        " " +
+        user.firstname +
+        " " +
+        user.lastname +
+        " @ " +
+        new Date().toLocaleString(),
+      Comments: refs[i].current.value,
+    };
+    let productItem = treatment_doc;
+    let document = {};
+    // data.createdby=user._id
+    // console.log(data);
+    document.order = medication;
+    document.update = treatment_action;
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
+    document.documentdetail = productItem;
+
+    document.documentname = "Drug Administration"; //state.DocumentClassModule.selectedDocumentClass.name
+    // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.clientname =
+      state.ClientModule.selectedClient.firstname +
+      " " +
+      state.ClientModule.selectedClient.middlename +
+      " " +
+      state.ClientModule.selectedClient.lastname;
+    document.clientobj = state.ClientModule.selectedClient;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = "completed";
+
+    ClientServ.create(document)
+      .then(res => {
+        //console.log(JSON.stringify(res))
+        // e.target.reset();
+        /*  setMessage("Created Client successfully") */
+        setSuccess(true);
+        toast({
+          message: "Drug administered succesfully",
+          type: "is-success",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+        setSuccess(false);
+        refs[i].current.value = "";
+        // setProductItem([])
+      })
+      .catch(err => {
+        toast({
+          message: "Error In Drugs Adminstration " + err,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      });
+    // }
   };
 
   const handleDelete = doc => {
@@ -893,216 +900,214 @@ export function DrugAdminList({standalone}) {
   };
 
   const handleDiscontinue = (medication, i) => {
-    let confirm = window.confirm(
-      `You are about to discontinue this medication ${medication.order} for ${
-        state.ClientModule.selectedClient.firstname +
-        " " +
-        state.ClientModule.selectedClient.middlename +
-        " " +
-        state.ClientModule.selectedClient.lastname
-      } ?`
-    );
-    if (confirm) {
-      medication.treatment_status = "Cancelled";
+    // let confirm = window.confirm(
+    //   `You are about to discontinue this medication ${medication.order} for ${
+    //     state.ClientModule.selectedClient.firstname +
+    //     " " +
+    //     state.ClientModule.selectedClient.middlename +
+    //     " " +
+    //     state.ClientModule.selectedClient.lastname
+    //   } ?`
+    // );
+    // if (confirm) {
+    medication.treatment_status = "Cancelled";
 
-      const treatment_action = {
-        actorname: user.firstname + " " + user.lastname,
-        actorId: user._id,
-        order_id: medication._id,
-        action: "Discountinued",
-        comments: refs[i].current.value,
-        createdat: new Date().toLocaleString(),
-        description:
-          "Discontinued " +
-          medication.order +
-          " for " +
-          user.firstname +
-          " " +
-          user.lastname +
-          " @ " +
-          new Date().toLocaleString(),
-      };
-
-      medication.treatment_action = [
-        treatment_action,
-        ...medication.treatment_action,
-      ];
-      const treatment_doc = {
-        Description:
-          "Discontinued  " +
-          medication.order +
-          " for " +
-          user.firstname +
-          " " +
-          user.lastname +
-          " @ " +
-          new Date().toLocaleString(),
-        Comments: refs[i].current.value,
-      };
-      let productItem = treatment_doc;
-      let document = {};
-      // data.createdby=user._id
-      // console.log(data);
-      document.order = medication;
-      document.update = treatment_action;
-      if (user.currentEmployee) {
-        document.facility = user.currentEmployee.facilityDetail._id;
-        document.facilityname =
-          user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
-      }
-      document.documentdetail = productItem;
-
-      document.documentname = "Drug Administration"; //state.DocumentClassModule.selectedDocumentClass.name
-      // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
-      document.location =
-        state.employeeLocation.locationName +
+    const treatment_action = {
+      actorname: user.firstname + " " + user.lastname,
+      actorId: user._id,
+      order_id: medication._id,
+      action: "Discountinued",
+      comments: refs[i].current.value,
+      createdat: new Date().toLocaleString(),
+      description:
+        "Discontinued " +
+        medication.order +
+        " for " +
+        user.firstname +
         " " +
-        state.employeeLocation.locationType;
-      document.locationId = state.employeeLocation.locationId;
-      document.client = state.ClientModule.selectedClient._id;
-      document.clientname =
-        state.ClientModule.selectedClient.firstname +
-        " " +
-        state.ClientModule.selectedClient.middlename +
-        " " +
-        state.ClientModule.selectedClient.lastname;
-      document.clientobj = state.ClientModule.selectedClient;
-      document.createdBy = user._id;
-      document.createdByname = user.firstname + " " + user.lastname;
-      document.status = "completed";
+        user.lastname +
+        " @ " +
+        new Date().toLocaleString(),
+    };
 
-      ClientServ.create(document)
-        .then(res => {
-          //console.log(JSON.stringify(res))
-          // e.target.reset();
-          /*  setMessage("Created Client successfully") */
-          setSuccess(true);
-          toast({
-            message: "Drug administered succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-          setSuccess(false);
-          refs[i].current.value = "";
-          // setProductItem([])
-        })
-        .catch(err => {
-          toast({
-            message: "Error In Drugs Adminstration " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-        });
+    medication.treatment_action = [
+      treatment_action,
+      ...medication.treatment_action,
+    ];
+    const treatment_doc = {
+      Description:
+        "Discontinued  " +
+        medication.order +
+        " for " +
+        user.firstname +
+        " " +
+        user.lastname +
+        " @ " +
+        new Date().toLocaleString(),
+      Comments: refs[i].current.value,
+    };
+    let productItem = treatment_doc;
+    let document = {};
+    // data.createdby=user._id
+    // console.log(data);
+    document.order = medication;
+    document.update = treatment_action;
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
+    document.documentdetail = productItem;
+
+    document.documentname = "Drug Administration"; //state.DocumentClassModule.selectedDocumentClass.name
+    // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.clientname =
+      state.ClientModule.selectedClient.firstname +
+      " " +
+      state.ClientModule.selectedClient.middlename +
+      " " +
+      state.ClientModule.selectedClient.lastname;
+    document.clientobj = state.ClientModule.selectedClient;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = "completed";
+
+    ClientServ.create(document)
+      .then(res => {
+        //console.log(JSON.stringify(res))
+        // e.target.reset();
+        /*  setMessage("Created Client successfully") */
+        setSuccess(true);
+        toast({
+          message: "Drug administered succesfully",
+          type: "is-success",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+        setSuccess(false);
+        refs[i].current.value = "";
+        // setProductItem([])
+      })
+      .catch(err => {
+        toast({
+          message: "Error In Drugs Adminstration " + err,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      });
+    //}
   };
 
   const handleDrop = (medication, i) => {
-    let confirm = window.confirm(
-      `You are about to drop this medication ${medication.order} for ${
-        state.ClientModule.selectedClient.firstname +
-        " " +
-        state.ClientModule.selectedClient.middlename +
-        " " +
-        state.ClientModule.selectedClient.lastname
-      } ?`
-    );
-    if (confirm) {
-      medication.treatment_status = "Aborted";
-      medication.drop = true;
+    // let confirm = window.confirm(
+    //   `You are about to drop this medication ${medication.order} for ${
+    //     state.ClientModule.selectedClient.firstname +
+    //     " " +
+    //     state.ClientModule.selectedClient.middlename +
+    //     " " +
+    //     state.ClientModule.selectedClient.lastname
+    //   } ?`
+    // );
+    // if (confirm) {
+    medication.treatment_status = "Aborted";
+    medication.drop = true;
 
-      const treatment_action = {
-        actorname: user.firstname + " " + user.lastname,
-        actorId: user._id,
-        order_id: medication._id,
-        action: "Aborted",
-        comments: refs[i].current.value,
-        createdat: new Date().toLocaleString(),
-        description:
-          "Dropped " +
-          medication.order +
-          " for " +
-          user.firstname +
-          " " +
-          user.lastname +
-          " @ " +
-          new Date().toLocaleString(),
-      };
-
-      medication.treatment_action = [
-        treatment_action,
-        ...medication.treatment_action,
-      ];
-      const treatment_doc = {
-        Description:
-          "Dropped  " +
-          medication.order +
-          " for " +
-          user.firstname +
-          " " +
-          user.lastname +
-          " @ " +
-          new Date().toLocaleString(),
-        Comments: refs[i].current.value,
-      };
-      let productItem = treatment_doc;
-      let document = {};
-      // data.createdby=user._id
-      // console.log(data);
-      document.order = medication;
-      document.update = treatment_action;
-      if (user.currentEmployee) {
-        document.facility = user.currentEmployee.facilityDetail._id;
-        document.facilityname =
-          user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
-      }
-      document.documentdetail = productItem;
-
-      document.documentname = "Drug Administration"; //state.DocumentClassModule.selectedDocumentClass.name
-      // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
-      document.location =
-        state.employeeLocation.locationName +
+    const treatment_action = {
+      actorname: user.firstname + " " + user.lastname,
+      actorId: user._id,
+      order_id: medication._id,
+      action: "Aborted",
+      comments: refs[i].current.value,
+      createdat: new Date().toLocaleString(),
+      description:
+        "Dropped " +
+        medication.order +
+        " for " +
+        user.firstname +
         " " +
-        state.employeeLocation.locationType;
-      document.locationId = state.employeeLocation.locationId;
-      document.client = state.ClientModule.selectedClient._id;
-      document.clientname =
-        state.ClientModule.selectedClient.firstname +
-        " " +
-        state.ClientModule.selectedClient.middlename +
-        " " +
-        state.ClientModule.selectedClient.lastname;
-      document.clientobj = state.ClientModule.selectedClient;
-      document.createdBy = user._id;
-      document.createdByname = user.firstname + " " + user.lastname;
-      document.status = "completed";
+        user.lastname +
+        " @ " +
+        new Date().toLocaleString(),
+    };
 
-      ClientServ.create(document)
-        .then(res => {
-          //console.log(JSON.stringify(res))
-          // e.target.reset();
-          /*  setMessage("Created Client successfully") */
-          setSuccess(true);
-          toast({
-            message: "Drug administered succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-          setSuccess(false);
-          refs[i].current.value = "";
-          // setProductItem([])
-        })
-        .catch(err => {
-          toast({
-            message: "Error In Drugs Adminstration " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-        });
+    medication.treatment_action = [
+      treatment_action,
+      ...medication.treatment_action,
+    ];
+    const treatment_doc = {
+      Description:
+        "Dropped  " +
+        medication.order +
+        " for " +
+        user.firstname +
+        " " +
+        user.lastname +
+        " @ " +
+        new Date().toLocaleString(),
+      Comments: refs[i].current.value,
+    };
+    let productItem = treatment_doc;
+    let document = {};
+    // data.createdby=user._id
+    // console.log(data);
+    document.order = medication;
+    document.update = treatment_action;
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
+    document.documentdetail = productItem;
+
+    document.documentname = "Drug Administration"; //state.DocumentClassModule.selectedDocumentClass.name
+    // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.clientname =
+      state.ClientModule.selectedClient.firstname +
+      " " +
+      state.ClientModule.selectedClient.middlename +
+      " " +
+      state.ClientModule.selectedClient.lastname;
+    document.clientobj = state.ClientModule.selectedClient;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = "completed";
+
+    ClientServ.create(document)
+      .then(res => {
+        //console.log(JSON.stringify(res))
+        // e.target.reset();
+        /*  setMessage("Created Client successfully") */
+        setSuccess(true);
+        toast({
+          message: "Drug administered succesfully",
+          type: "is-success",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+        setSuccess(false);
+        refs[i].current.value = "";
+        // setProductItem([])
+      })
+      .catch(err => {
+        toast({
+          message: "Error In Drugs Adminstration " + err,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      });
+    //}
   };
 
   const handleRow = async ProductEntry => {
@@ -1208,6 +1213,70 @@ export function DrugAdminList({standalone}) {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleConfirmAdminister = () => {
+    setConfirmationDialog(prev => ({
+      ...prev,
+      open: true,
+      message: `You are about to administer a dose of ${
+        selectedRow.row.order
+      } for ${
+        state.ClientModule.selectedClient.firstname +
+        " " +
+        state.ClientModule.selectedClient.middlename +
+        " " +
+        state.ClientModule.selectedClient.lastname
+      } ?`,
+
+      action: handleAdminister,
+      type: "update",
+    }));
+  };
+
+  const handleConfirmDiscontinue = () => {
+    setConfirmationDialog(prev => ({
+      ...prev,
+      open: true,
+      message: `You are about to discontinue this medication ${
+        selectedRow.row.order
+      } for ${
+        state.ClientModule.selectedClient.firstname +
+        " " +
+        state.ClientModule.selectedClient.middlename +
+        " " +
+        state.ClientModule.selectedClient.lastname
+      } ?`,
+
+      action: handleDiscontinue,
+      type: "update",
+    }));
+  };
+
+  const handleConfirmDrop = () => {
+    setConfirmationDialog(prev => ({
+      ...prev,
+      open: true,
+      message: `You are about to drop this medication ${
+        selectedRow.row.order
+      } for ${
+        state.ClientModule.selectedClient.firstname +
+        " " +
+        state.ClientModule.selectedClient.middlename +
+        " " +
+        state.ClientModule.selectedClient.lastname
+      } ?`,
+
+      action: handleDrop,
+      type: "danger",
+    }));
+  };
+
+  const handleCloseConfirmDialog = () => {
+    setConfirmationDialog(prev => ({
+      ...prev,
+      open: false,
+    }));
   };
 
   const drugAdminColumns = [
@@ -1346,7 +1415,8 @@ export function DrugAdminList({standalone}) {
               onClick={() => {
                 if (row.treatment_status === "Cancelled") return handleClose();
 
-                handleAdminister(selectedRow.row, selectedRow.index);
+                handleConfirmAdminister();
+                //handleAdminister(selectedRow.row, selectedRow.index);
                 handleClose();
               }}
             >
@@ -1377,7 +1447,7 @@ export function DrugAdminList({standalone}) {
               onClick={() => {
                 if (row.treatment_status === "Cancelled") return handleClose();
 
-                handleDiscontinue(selectedRow.row, selectedRow.index);
+                handleConfirmDiscontinue();
                 handleClose();
               }}
             >
@@ -1399,7 +1469,7 @@ export function DrugAdminList({standalone}) {
               onClick={() => {
                 if (row.treatment_status === "Cancelled") return handleClose();
 
-                handleDrop(selectedRow.row, selectedRow.index);
+                handleConfirmDrop();
                 handleClose();
               }}
             >
@@ -1437,6 +1507,15 @@ export function DrugAdminList({standalone}) {
           maxHeight: "80vh",
         }}
       >
+        <CustomConfirmationDialog
+          open={confirmationDialog.open}
+          message={confirmationDialog.message}
+          confirmationAction={() =>
+            confirmationDialog.action(selectedRow.row, selectedRow.index)
+          }
+          cancelAction={handleCloseConfirmDialog}
+          type={confirmationDialog.type}
+        />
         <TableMenu>
           <div style={{display: "flex", alignItems: "center"}}>
             {handleSearch && (

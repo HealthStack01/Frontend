@@ -25,7 +25,7 @@ import {FormsHeaderText} from "../../components/texts";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export function TransactionsList() {
+export function TransactionsList({isModal}) {
   // eslint-disable-next-line
   const [facility, setFacility] = useState([]);
   const InventoryServ = client.service("subwallettransactions");
@@ -121,11 +121,11 @@ export function TransactionsList() {
       >
         <Grid container spacing={1}>
           <Grid item sx={12} sm={12} md={5} lg={5}>
-            <CreditTransactions />
+            <CreditTransactions isModal={isModal} />
           </Grid>
 
           <Grid item sx={12} sm={12} md={7} lg={7}>
-            <DebitTransactions />
+            <DebitTransactions isModal={isModal} />
           </Grid>
         </Grid>
       </Box>
@@ -133,7 +133,7 @@ export function TransactionsList() {
   );
 }
 
-export const CreditTransactions = () => {
+export const CreditTransactions = ({isModal}) => {
   // eslint-disable-next-line
   const [facility, setFacility] = useState([]);
   const InventoryServ = client.service("subwallettransactions");
@@ -303,7 +303,12 @@ export const CreditTransactions = () => {
         </Box>
       </Box>
 
-      <Box sx={{height: "calc(100vh - 210px)", overflowY: "auto"}}>
+      <Box
+        sx={{
+          height: isModal ? "calc(80vh - 160px)" : "calc(100vh - 210px)",
+          overflowY: "auto",
+        }}
+      >
         <CustomTable
           title={""}
           columns={creditSchema}
@@ -319,7 +324,7 @@ export const CreditTransactions = () => {
   );
 };
 
-export const DebitTransactions = () => {
+export const DebitTransactions = ({isModal}) => {
   // eslint-disable-next-line
   const [facility, setFacility] = useState([]);
   const InventoryServ = client.service("subwallettransactions");
@@ -491,7 +496,12 @@ export const DebitTransactions = () => {
         </Box>
       </Box>
 
-      <Box sx={{height: "calc(100vh - 210px)", overflowY: "auto"}}>
+      <Box
+        sx={{
+          height: isModal ? "calc(80vh - 160px)" : "calc(100vh - 210px)",
+          overflowY: "auto",
+        }}
+      >
         <CustomTable
           title={""}
           columns={debitColumns}
