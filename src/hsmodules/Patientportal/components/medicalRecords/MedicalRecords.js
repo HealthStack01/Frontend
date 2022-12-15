@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
 import Input from "../../../../components/inputs/basic/Input";
 import Button from "../../../../components/buttons/CustomButton"
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import { useForm } from "react-hook-form";
 import {FacilitySearch} from "../../../helpers/FacilitySearch"
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-export default function MedicalRecords (){
+export default function MedicalRecords ({handleGoBack}){
   const { register, handleSubmit, watch, errors ,control} = useForm();
     const [editing,setEditing]= useState(false)
     const [success, setSuccess] = useState(false);
@@ -29,7 +31,29 @@ export default function MedicalRecords (){
 
 
     return(
-       <Box>
+       <Box  >
+         <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+          }}
+          gap={1}
+          p={4}
+        >
+          <Button onClick={handleGoBack}>
+            <ArrowBackIcon />
+            Go Back
+          </Button>
+
+          <Typography
+            sx={{
+              fontSize: "0.95rem",
+              fontWeight: "600",
+            }}
+          >
+            Medical Records
+          </Typography>
+        </Box>
           <Box display="flex" justifyContent="flex-end" pb={4}>
             {!editing ?
           <Button variant='contained' color="warning" onClick={() => setEditing(true)}>

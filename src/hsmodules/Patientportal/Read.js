@@ -25,7 +25,12 @@ export default function Read(){
 
 
     return(
-        <Box px={4} py={4}>
+        <Box px={4} py={6}>
+         <Box py={4}>
+         <Typography gutterBottom variant="h5" component="div">
+            Read about the latest blogs
+          </Typography>
+         </Box>
             <Grid container gap={4}>
     {blogData.map((data,index) =>  <Card sx={{ maxWidth: 345 }}>
         <CardMedia

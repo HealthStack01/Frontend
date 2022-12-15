@@ -51,12 +51,12 @@ const LaboratoryObservationChart = ({onSubmit}) => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box mb="1rem">
-          <Input {...register("name")} name="name" label="Name" type="text" />
+          <Input register={register("name")} name="name" label="Name" type="text" />
         </Box>
 
         <Box mb="1rem">
           <Input
-            {...register("regNumber")}
+            register={register("regNumber")}
             name="regNumber"
             label="Reg.No"
             type="text"
@@ -72,28 +72,28 @@ const LaboratoryObservationChart = ({onSubmit}) => {
         </Box>
 
         <Box mb="1rem">
-          <Input {...register("temp")} name="temp" label="Temp" type="text" />
+          <Input register={register("temp")} name="temp" label="Temp" type="text" />
         </Box>
 
         <Box mb="1rem">
-          <Input {...register("p")} name="P" label="P" type="text" />
+          <Input register={register("p")} name="P" label="P" type="text" />
         </Box>
 
         <Box mb="1rem">
-          <Input {...register("r")} name="R" label="R" type="text" />
+          <Input register={register("r")} name="R" label="R" type="text" />
         </Box>
 
         <Box mb="1rem">
-          <Input {...register("bldPre")} name="b/p" label="B/P" type="text" />
+          <Input register={register("bldPre")} name="b/p" label="B/P" type="text" />
         </Box>
 
         <Box mb="1rem">
-          <Input {...register("fh")} name="fh" label="FH" type="text" />
+          <Input register={register("fh")} name="fh" label="FH" type="text" />
         </Box>
 
         <Box mb="1rem">
           <Input
-            {...register("fluidIntake")}
+            register={register("fluidIntake")}
             name="fluid_intake"
             label="Fluid Intake"
             type="text"
@@ -102,7 +102,7 @@ const LaboratoryObservationChart = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("fluidOutput")}
+            register={register("fluidOutput")}
             name="fluidOutput"
             label="Fluid Output"
             type="text"
@@ -111,7 +111,7 @@ const LaboratoryObservationChart = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("contractions")}
+            register={register("contractions")}
             name="contractions"
             label="Contractions Frequency & Strength"
             type="text"
@@ -120,7 +120,7 @@ const LaboratoryObservationChart = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Textarea
-            {...register("remark")}
+            register={register("remark")}
             name="remark"
             label="Remark"
             type="text"

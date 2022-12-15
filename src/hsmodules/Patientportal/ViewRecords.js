@@ -13,70 +13,23 @@ import Typography from '@mui/material/Typography';
 import ModalBox from "../../components/modal";
 import MedicalRecords from "./components/medicalRecords/MedicalRecords"
 import ClinicalNotes from './components/medicalRecords/ClinicalNotes';
-import Presciption from './components/medicalRecords/Prescription';
+import Prescription from './components/medicalRecords/Prescription';
 import Referral from './components/medicalRecords/Referral';
 import Appointment from './components/medicalRecords/Appointment';
 import Lab from './components/medicalRecords/Lab';
 import HealthInsurance from './components/medicalRecords/HealthInsurance';
-
+import {
+  Link
+} from "react-router-dom"
 
   
 export default function ViewRecords(){
-  const [medicalModal, setMedicalModal] = useState(false);
-  const [clinicalModal,setClinicalModal] = useState(false)
-  const [prescriptionModal, setPrescriptionModal] = useState(false)
-  const [referralModal, setReferralModal] = useState(false)
-  const [labReportModal, setLabReportModal] = useState(false)
-  const [appointmentModal, setAppointmentModal] = useState(false)
+  const [currentView, setCurrentView] = useState("veiws");
   const [healthInsuranceModal, setHealthInsuranceModal] = useState(false)
 
 
-  const handleHideMedicalModal = () => {
-    setMedicalModal(false);
-  };
-
-  const handleMedicalModal = () => {
-    setMedicalModal(true);
-  };
-
-  const handleHideClinicalModal = () => {
-    setClinicalModal(false);
-  };
-
-  const handleClinicalModal = () => {
-    setClinicalModal(true);
-  };
-
-  const handleHidePrescriptionModal = () => {
-    setPrescriptionModal(false);
-  };
-
-  const handlePrescriptionModal = () => {
-    setPrescriptionModal(true);
-  };
-
-  const handleHideReferralModal = () => {
-    setReferralModal(false);
-  };
-
-  const handleReferralModal = () => {
-    setReferralModal(true);
-  };
-
-  const handleHideLabModal = () => {
-    setLabReportModal(false);
-  };
-
-  const handleLabModal = () => {
-    setLabReportModal(true);
-  };
-
-  const handleHideAppointmentModal = () => {
-    setAppointmentModal(false);
-  };
-
-  const handleAppointmentModal = () => {
-    setAppointmentModal(true);
+  const handleGoBack = () => {
+    setCurrentView("veiws");
   };
 
   const handleHideInsuranceModal = () => {
@@ -89,7 +42,52 @@ export default function ViewRecords(){
 
  return(
   <Box>
-    <ViewRecordItems 
+
+{currentView === "veiws" && (
+        <ViewRecordItems       
+    showMedicalModal={() => setCurrentView("medical")} 
+    showClinicalModal={() => setCurrentView("clinical")}
+    showPrescriptionModal={() => setCurrentView("prescription")}
+    showReferralModal={() => setCurrentView("referral")}
+    showLabModal={() => setCurrentView("lab")}
+    showAppointmentModal={() => setCurrentView("/appointment")}
+    // showHealthInsuranceModal={() => setCurrentView("insurance")}
+    showHealthInsuranceModal={handleInsuranceModal}
+        />
+      )}
+
+      {currentView === "medical" && (
+        <MedicalRecords handleGoBack={handleGoBack} />
+      )}
+
+
+      {currentView === "clinical" && (
+        <ClinicalNotes handleGoBack={handleGoBack} />
+      )}
+
+      {currentView === "prescription" && (
+        <Prescription handleGoBack={handleGoBack} />
+      )}
+
+      {currentView === "appointment" && (
+        <Appointment handleGoBack={handleGoBack} />
+      )}
+
+      {currentView === "referral" && (
+        <Referral handleGoBack={handleGoBack} />
+      )}
+
+      {currentView === "lab" && (
+        <Lab handleGoBack={handleGoBack} />
+      )}
+
+{/* {currentView === "insurance" && (
+        <HealthInsurance handleGoBack={handleGoBack} />
+      )} */}
+
+
+
+    {/* <ViewRecordItems 
     showMedicalModal={handleMedicalModal} 
     showClinicalModal={handleClinicalModal}
     showPrescriptionModal={handlePrescriptionModal}
@@ -97,9 +95,9 @@ export default function ViewRecords(){
     showLabModal={handleLabModal}
     showAppointmentModal={handleAppointmentModal}
     showHealthInsuranceModal={handleInsuranceModal}
-    />
+    /> */}
 
-    <ModalBox width="50vw" open={medicalModal} onClose={handleHideMedicalModal} header="Medical Records">
+    {/* <ModalBox width="50vw" open={medicalModal} onClose={handleHideMedicalModal} header="Medical Records">
           <MedicalRecords/>
         </ModalBox>
       
@@ -121,10 +119,10 @@ export default function ViewRecords(){
 
         <ModalBox width="40vw" open={labReportModal} onClose={handleHideLabModal} header="Lab">
           <Lab/>
-        </ModalBox>
+        </ModalBox>*/}
         <ModalBox open={healthInsuranceModal} onClose={handleHideInsuranceModal} header="Health Insurance">
           <HealthInsurance/>
-        </ModalBox>
+        </ModalBox> 
   </Box>
  )
 }
@@ -143,7 +141,7 @@ export function ViewRecordItems(
   ){
     return(
         <Box py="6rem" px="4rem">
-             <Grid container gap={12}>
+        <Grid container gap={12}>
         <Paper elevation={3} sx={{width:"250px",height:"100%",padding:"3rem",backgroundColor:"#f4f3ee",cursor:"pointer"}} onClick={showMedicalModal}>
         <Box sx={{textAlign:"center"}}>
         <LocalHospitalRoundedIcon sx={{color:"#FFA873",fontSize:'50px'}}/>

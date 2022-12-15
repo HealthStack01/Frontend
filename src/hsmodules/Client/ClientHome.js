@@ -18,7 +18,7 @@ export default function ClientHome({children}) {
   const {user, setUser} = useContext(UserContext);
   // const { user, setUser } = useContext(UserContext);
 
-  console.log("Stored User", user);
+  // console.log("Stored User", user);
 
   const [selectedClinic, setSelectedClinic] = useState(
     state.FrontDesk.selectedFrontDesk

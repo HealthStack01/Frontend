@@ -46,6 +46,7 @@ export  function AppointmentDetails({showAppointmentCreate}){
 
     return(
       <Box>
+       
         <Box
         sx={{
           width: "100%",
@@ -136,6 +137,7 @@ export function AppointmentCreate(){
 
   return(
     <Stack>
+      
         <Box display="flex" justifyContent="flex-end" gap="1rem" pb={4}>
           <Button>
           <BookOnlineIcon sx={{marginRight: "5px"}} fontSize="small" />

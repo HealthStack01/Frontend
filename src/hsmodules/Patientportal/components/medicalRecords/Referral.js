@@ -1,12 +1,13 @@
 import { useState } from "react";
 import Input from "../../../../components/inputs/basic/Input";
 import Button from "../../../../components/buttons/CustomButton"
-import {Stack,Box} from '@mui/material'
+import {Stack,Box,Typography} from '@mui/material'
 import { useForm } from "react-hook-form";
 import {FacilitySearch} from "../../../helpers/FacilitySearch"
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 
-export default function Referral(){
+export default function Referral({handleGoBack}){
     const { register, handleSubmit, watch, errors ,control} = useForm();
     const [success, setSuccess] = useState(false);
     const [chosen, setChosen] = useState('');
@@ -25,7 +26,29 @@ export default function Referral(){
     };
 
     return(
-        <Stack>
+        <Stack m="5rem">
+             <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+          }}
+          gap={1}
+         p={4}
+        >
+          <Button onClick={handleGoBack}>
+            <ArrowBackIcon />
+            Go Back
+          </Button>
+
+          <Typography
+            sx={{
+              fontSize: "0.95rem",
+              fontWeight: "600",
+            }}
+          >
+            Referral
+          </Typography>
+        </Box>
             <Box display="flex" justifyContent="flex-end" pb={2}> 
             <Button variant='contained' sx={{marginRight:"1.5rem"}}>
               Refer

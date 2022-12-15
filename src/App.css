@@ -12,6 +12,10 @@
   color: white; */
 }
 
+a{
+  text-decoration: none;
+}
+
 .shift-left {
   margin-left: -10 px;
 }
