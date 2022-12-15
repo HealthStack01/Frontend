@@ -48,6 +48,7 @@ import Drawer from '@mui/material/Drawer';
 import ChatInterface from '../../components/chat/ChatInterface';
 import CloseIcon from '@mui/icons-material/Close';
 import CRMTasks from '../CRM/Tasks';
+import { PreAuthDetails } from './PreAuth';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -298,6 +299,16 @@ export function Details() {
                   <Grid item xs={6}>
                     <p>Fee for Service: Applicable</p>
                   </Grid>
+                  <Grid item xs={6}>
+                    <GlobalCustomButton
+                      onClick={() => setCurrentPage(3)}
+                      text="Pre Auth Code- 123456"
+                      customStyles={{
+                        marginRight: '.8rem',
+                        marginBottom: '1rem',
+                      }}
+                    />
+                  </Grid>
                 </Grid>
                 <McText txt={'Clinical Information'} />
                 <Grid container spacing={2} mb={1}>
@@ -357,6 +368,7 @@ export function Details() {
                 <CRMTasks />
               </div>
             )}
+            {currentPage === 3 && <PreAuthDetails standAlone />}
           </div>
         </Grid>
       </Grid>
