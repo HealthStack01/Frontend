@@ -722,43 +722,45 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                     color="error"
                     customStyles={{ marginRight: '.8rem' }}
                   >
-                    End Teleconsultation
+                    End Call
                   </GlobalCustomButton>
                 )}
                 <VideoConference
                   activateCall={activateCall}
                   setActivateCall={setActivateCall}
+                  label="Video Conference"
                 />
                 <GlobalCustomButton
                   color="secondary"
+                  variant={currentPage === 2 ? 'outlined' : 'contained'}
                   onClick={() => setCurrentPage(2)}
                   text="Policy"
                   customStyles={{ margin: '0 .8rem' }}
                 />
                 <GlobalCustomButton
                   color="success"
-                  variant="outlined"
+                  variant={currentPage === 3 ? 'outlined' : 'contained'}
                   onClick={() => setCurrentPage(3)}
                   text="Beneficiary"
                   customStyles={{ marginRight: '.8rem' }}
                 />
                 <GlobalCustomButton
                   color="warning"
-                  variant="outlined"
+                  variant={currentPage === 4 ? 'outlined' : 'contained'}
                   onClick={() => setCurrentPage(4)}
                   text="Claims"
                   customStyles={{ marginRight: '.8rem' }}
                 />
                 <GlobalCustomButton
                   color="secondary"
-                  variant="outlined"
+                  variant={currentPage === 6 ? 'outlined' : 'contained'}
                   onClick={() => setCurrentPage(6)}
                   text="Task"
                   customStyles={{ marginRight: '.8rem' }}
                 />
                 <GlobalCustomButton
                   color="primary"
-                  variant="outlined"
+                  variant={currentPage === 5 ? 'outlined' : 'contained'}
                   onClick={() => setCurrentPage(5)}
                   text="Premium"
                   customStyles={{ marginRight: '.8rem' }}

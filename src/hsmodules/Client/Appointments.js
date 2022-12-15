@@ -197,18 +197,18 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   }, []);
 
   const onSubmit = (data, e) => {
+    console.log(data);
     e.preventDefault();
     setMessage('');
     setError(false);
     setSuccess(false);
-    setShowModal(false),
-      setState((prevstate) => ({
-        ...prevstate,
-        AppointmentModule: {
-          selectedAppointment: {},
-          show: 'list',
-        },
-      }));
+    setState((prevstate) => ({
+      ...prevstate,
+      AppointmentModule: {
+        selectedAppointment: {},
+        show: 'list',
+      },
+    }));
 
     // data.createdby=user._id
     console.log(data);
@@ -422,7 +422,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
               }}
             />
             <GlobalCustomButton
-              variant="outlined"
+              variant="contained"
               color="error"
               text="Cancel"
               onClick={() => setShowModal(false)}
