@@ -49,7 +49,7 @@ const RadioButton: React.FC<RadioProps> = ({
       {options.map((option, i) => (
         <FormControlLabel
           key={i}
-          value={option.value || option || ''}
+          value={option.value || option || option.name || ''}
           control={<Radio {...register} sx={{ margin: 0 }} size="small" />}
           label={
             <Typography sx={{ fontSize: '0.8rem', marginLeft: '-5px' }}>

@@ -79,10 +79,10 @@ export default function Admission() {
           </Grid>
           <Grid container>
             <Grid item xs={6}>
-              <AdmissionCreate />
+              <PatientProfile />
             </Grid>
             <Grid item xs={6}>
-              <PatientProfile />
+              <AdmissionCreate />
             </Grid>
           </Grid>
         </ModalBox>

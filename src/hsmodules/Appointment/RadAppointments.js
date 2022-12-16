@@ -24,7 +24,7 @@ import { BsFillGridFill, BsList } from 'react-icons/bs';
 import CalendarGrid from '../../components/calender';
 import ModalBox from '../../components/modal';
 import ModalHeader from './ui-components/Heading/modalHeader';
-import { Box, Grid, Autocomplete } from '@mui/material';
+import { Box, Grid, Autocomplete, TextField } from '@mui/material';
 import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
 import { MdCancel } from 'react-icons/md';
 import Input from '../../components/inputs/basic/Input';
@@ -34,6 +34,7 @@ import MuiCustomTimePicker from '../../components/inputs/Date/MuiTimePicker';
 import BasicDateTimePicker from '../../components/inputs/DateTime';
 import RadioButton from '../../components/inputs/basic/Radio';
 import { FormsHeaderText } from '../../components/texts';
+import Textarea from '../../components/inputs/basic/Textarea';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -278,6 +279,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                 }
                await setState((prevstate)=>({...prevstate, ClientModule:newClientModule}))
             } */
+  console.log(locationId);
 
   return (
     <>
@@ -400,7 +402,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
               }}
             />
             <GlobalCustomButton
-              variant="outlined"
+              variant="contained"
               color="error"
               text="Cancel"
               onClick={() => setShowModal(false)}
@@ -747,7 +749,9 @@ export function ClientList({ showModal, setShowModal }) {
                   <CustomTable
                     title={''}
                     columns={AppointmentSchema}
-                    data={facilities}
+                    data={facilities?.filter((facility) => {
+                      return facility?.location_name === 'Radiology';
+                    })}
                     pointerOnHover
                     highlightOnHover
                     striped
@@ -832,7 +836,7 @@ export function ClientDetail({ showModal, setShowModal }) {
             marginRight: '5px',
           }}
         />
-        <GlobalCustomButton onClick={handleAttend} text="Attend" />
+        {/* <GlobalCustomButton onClick={handleAttend} text="Attend to Client" /> */}
       </Box>
       <Grid container spacing={1} mt={1}>
         <Grid item xs={12} md={4}>
