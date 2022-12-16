@@ -400,7 +400,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
               }}
             />
             <GlobalCustomButton
-              variant="outlined"
+              variant="contained"
               color="error"
               text="Cancel"
               onClick={() => setShowModal(false)}
@@ -832,7 +832,7 @@ export function ClientDetail({ showModal, setShowModal }) {
             marginRight: '5px',
           }}
         />
-        <GlobalCustomButton onClick={handleAttend} text="Attend" />
+        <GlobalCustomButton onClick={handleAttend} text="Attend to Client" />
       </Box>
       <Grid container spacing={1} mt={1}>
         <Grid item xs={12} md={4}>
@@ -1284,6 +1284,7 @@ export function ClientModify({ showModal, setShowModal }) {
                 <option value="Scheduled">Scheduled</option>
                 <option value="Confirmed">Confirmed</option>
                 <option value="Checked In">Checked In</option>
+                <option value="Checked Out">Checked Out</option>
                 <option value="Vitals Taken">Vitals Taken</option>
                 <option value="With Nurse">With Nurse</option>
                 <option value="With Doctor">With Doctor</option>

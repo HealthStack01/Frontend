@@ -388,7 +388,7 @@ export function ReferralCreate({ showModal, setShowModal }) {
       <div
         className="card "
         style={{
-          margin: '0 1rem',
+          margin: '0 auto',
           width: '98%',
           height: 'calc(100vh - 90px)',
           overflow: 'scroll',
@@ -444,20 +444,17 @@ export function ReferralCreate({ showModal, setShowModal }) {
             </Grid>
           </Grid>
           <Grid container spacing={2} mt={1}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <Input name="patientName" label="Search Beneficiary" />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <Input name="patientName" label="Search Hospital" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <FacilitySearch
                 getSearchfacility={getSearchfacility}
                 clear={success}
                 label="Destination Facility"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <Input
                 name="patientName"
                 label="Referring Facility"
@@ -465,7 +462,7 @@ export function ReferralCreate({ showModal, setShowModal }) {
               />
             </Grid>
             {patient === 'In Patient' && (
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4}>
                 <BasicDatePicker
                   name="addmissionDate"
                   label="Date of Admission"
@@ -473,7 +470,7 @@ export function ReferralCreate({ showModal, setShowModal }) {
               </Grid>
             )}
             {patient === 'In Patient' && (
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4}>
                 <BasicDatePicker
                   name="dischargeDate"
                   label="Date of Discharge"
@@ -1276,7 +1273,13 @@ export function Details({ showModal, setShowModal }) {
             <p>Request Sent 08/05/2022 9:45pm</p>
             <Grid container spacing={1}>
               <Grid item xs={6}>
-                <p>Hospital Name: Lagos State Clinic </p>
+                <p>Beneficiary Name: John Doe </p>
+              </Grid>
+              <Grid item xs={6}>
+                <p>Referring Facility Facility: Ogun State Clinic </p>
+              </Grid>
+              <Grid item xs={6}>
+                <p>Destination Facility: Lagos State Clinic </p>
               </Grid>
               <Grid item xs={6}>
                 <p>Health Plan: Former sector plan</p>

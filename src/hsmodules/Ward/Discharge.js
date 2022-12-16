@@ -76,10 +76,10 @@ export default function Discharge() {
         >
           <Grid container>
             <Grid item xs={6}>
-              <DischargeCreate />
+              <PatientProfile />
             </Grid>
             <Grid item xs={6}>
-              <PatientProfile />
+              <DischargeCreate />
             </Grid>
           </Grid>
         </ModalBox>
