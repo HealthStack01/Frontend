@@ -19,7 +19,7 @@ interface componentProps {
 
 const MuiCustomDatePicker = ({
   label,
-  format = "dd-MM-yyyy",
+  format = "DD-MM-YYYY",
   //register,
   defaultValue = "",
   name,
@@ -32,7 +32,7 @@ const MuiCustomDatePicker = ({
   if (!control)
     return (
       <DesktopDatePicker
-        label="Date desktop"
+        label={label}
         inputFormat={format}
         value={value}
         onChange={handleChange}

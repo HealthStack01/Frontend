@@ -2,7 +2,7 @@ import React, {useState, useContext, useEffect, useRef} from "react";
 import {useForm} from "react-hook-form";
 import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
 import client from "../../../feathers";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {UserContext, ObjectContext} from "../../../context";
 import {Box, Grid, IconButton, Typography} from "@mui/material";
 import CustomTable from "../../../components/customtable";
@@ -13,6 +13,7 @@ import MuiCustomDatePicker from "../../../components/inputs/Date/MuiDatePicker";
 import Textarea from "../../../components/inputs/basic/Textarea";
 import CloseIcon from "@mui/icons-material/Close";
 import {FormsHeaderText} from "../../../components/texts";
+import dayjs from "dayjs";
 // import CustomTable from "../../components/customtable";
 
 const FluidIntakeOutput = () => {
@@ -41,12 +42,7 @@ const FluidIntakeOutput = () => {
     if (!!state.ClientModule.selectedClient.admission_id) {
       setChosen2(false);
     } else {
-      toast({
-        message: "Patient not on admission",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("Patient not on admission");
     }
   };
 
@@ -129,26 +125,17 @@ const FluidIntakeOutput = () => {
       .then(res => {
         setChosen(true);
 
-        toast({
-          message: "Fluid Input/Output entry successful",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success("Fluid Input/Output entry successful");
       })
       .catch(err => {
-        toast({
-          message: "Error creating Appointment " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("Error creating Appointment " + err);
       });
   };
 
   const onSubmit = async (data, e) => {
     // console.log(state.DocumentClassModule.selectedDocumentClass)
-    console.log(state.employeeLocation.locationName);
+    //console.log(state.employeeLocation.locationName);
+
     e.preventDefault();
     data.entrytime = new Date();
     data.location =
@@ -206,20 +193,10 @@ const FluidIntakeOutput = () => {
         .then(res => {
           setChosen(true);
 
-          toast({
-            message: "Fluid Input/Output entry successful",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.success("Fluid Input/Output entry successful");
         })
         .catch(err => {
-          toast({
-            message: "Fluid Input/Output entry " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error("Fluid Input/Output entry " + err);
         });
     } else {
       ClientServ.patch(fac.current._id, {
@@ -228,45 +205,39 @@ const FluidIntakeOutput = () => {
         .then(res => {
           setChosen(true);
 
-          toast({
-            message: "Fluid Input/Output entry successful",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.success("Fluid Input/Output entry successful");
         })
         .catch(err => {
-          toast({
-            message: "Fluid Input/Output entry " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error("Fluid Input/Output entry " + err);
         });
     }
   };
+
+  console.log(facilities);
+
   const inputFluidSchema = [
     {
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: row => row.sn,
+      selector: (row, i) => i + 1,
       sortable: true,
       inputType: "HIDDEN",
+      width: "50px",
     },
 
-    // {
-    //   name: "Date",
-    //   key: "Date",
-    //   description: "date",
-    //   selector: row => format(new Date(row.fluid_time), "HH:mm:ss"),
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "TEXT",
-    // },
+    {
+      name: "Date/Time",
+      key: "route",
+      description: "route",
+      selector: row => dayjs(row.fluid_time).format("HH:mm:ss"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
 
     {
-      name: "route",
+      name: "Route",
       key: "route",
       description: "route",
       selector: row => row.route,
@@ -275,15 +246,29 @@ const FluidIntakeOutput = () => {
       inputType: "TEXT",
     },
 
-    // {
-    //   name: "fluid",
-    //   key: "fluid",
-    //   description: "fluid",
-    //   selector: row => row => (row.fluidType === "Input" ? Client.volume : " "),
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "TEXT",
-    // },
+    {
+      name: "Input Volume",
+      key: "fluid",
+      description: "fluid",
+      selector: row => {
+        row.fluidType === "Input" && row.volume;
+      },
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Output Volume",
+      key: "fluid",
+      description: "fluid",
+      selector: row => {
+        row.fluidType === "Output" && row.volume;
+      },
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
 
     {
       name: "comments",
@@ -299,7 +284,17 @@ const FluidIntakeOutput = () => {
       name: "Fluid Type",
       key: "fluidtype",
       description: "fluidtype",
-      selector: row => row.fluidType,
+      selector: row => row.fluid,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Entry Time",
+      key: "route",
+      description: "route",
+      selector: row => dayjs(row.entrytime).format("dd-MM HH:mm:ss"),
       sortable: true,
       required: true,
       inputType: "TEXT",

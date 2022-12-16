@@ -32,6 +32,8 @@ import moment from "moment";
 import Textarea from "../../components/inputs/basic/Textarea";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+import RefInput from "../../components/inputs/basic/Input/ref-input";
+import dayjs from "dayjs";
 
 export default function Prescription() {
   const {state} = useContext(ObjectContext); //,setState
@@ -734,6 +736,7 @@ export function DrugAdminList({standalone}) {
   });
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
+
   const refs = useMemo(
     () => facilities.map(() => React.createRef()),
     [facilities]
@@ -845,29 +848,26 @@ export function DrugAdminList({standalone}) {
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = "completed";
 
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+
+    //return console.log(document);
+
     ClientServ.create(document)
       .then(res => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         /*  setMessage("Created Client successfully") */
         setSuccess(true);
-        toast({
-          message: "Drug administered succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success("Drug administered succesfully");
         setSuccess(false);
         refs[i].current.value = "";
         // setProductItem([])
       })
       .catch(err => {
-        toast({
-          message: "Error In Drugs Adminstration " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("Error In Drugs Adminstration " + err);
       });
     // }
   };
@@ -976,6 +976,12 @@ export function DrugAdminList({standalone}) {
     document.createdBy = user._id;
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = "completed";
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+
+    //return console.log(document);
 
     ClientServ.create(document)
       .then(res => {
@@ -983,23 +989,13 @@ export function DrugAdminList({standalone}) {
         // e.target.reset();
         /*  setMessage("Created Client successfully") */
         setSuccess(true);
-        toast({
-          message: "Drug administered succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success("Drug Discontinued succesfully");
         setSuccess(false);
         refs[i].current.value = "";
         // setProductItem([])
       })
       .catch(err => {
-        toast({
-          message: "Error In Drugs Adminstration " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("Error In Discontinuation of Drug " + err);
       });
     //}
   };
@@ -1082,6 +1078,12 @@ export function DrugAdminList({standalone}) {
     document.createdBy = user._id;
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = "completed";
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+
+    //return console.log(document);
 
     ClientServ.create(document)
       .then(res => {
@@ -1089,23 +1091,13 @@ export function DrugAdminList({standalone}) {
         // e.target.reset();
         /*  setMessage("Created Client successfully") */
         setSuccess(true);
-        toast({
-          message: "Drug administered succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success("Drug administered succesfully");
         setSuccess(false);
         refs[i].current.value = "";
         // setProductItem([])
       })
       .catch(err => {
-        toast({
-          message: "Error In Drugs Adminstration " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("Error In Drugs Adminstration " + err);
       });
     //}
   };
@@ -1151,8 +1143,10 @@ export function DrugAdminList({standalone}) {
         order_category: "Prescription",
         // storeId:state.StoreModule.selectedStore._id,
         //facility:user.currentEmployee.facilityDetail._id || "",
+        clientId: state.ClientModule.selectedClient._id,
         $limit: 10,
         $sort: {
+          treatment_status: 1,
           createdAt: -1,
         },
       },
@@ -1365,7 +1359,7 @@ export function DrugAdminList({standalone}) {
       description: "Enter name of Facility",
       selector: (row, i) => (
         <Box sx={{width: "200px"}}>
-          <Input
+          <RefInput
             sx={{width: "100%"}}
             type="text"
             name={i}
@@ -1576,16 +1570,18 @@ export const DrugAdminHistory = ({currentMed}) => {
       selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
+      width: "50px",
     },
 
     {
       name: "Date/Time",
       key: "Date",
       description: "date",
-      selector: row => format(new Date(row.createdAt), "dd-MM-yy"),
+      selector: row => dayjs(row?.createdAt).format("DD-MM-YYYY"),
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "100px",
     },
 
     {
@@ -1596,6 +1592,7 @@ export const DrugAdminHistory = ({currentMed}) => {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "100px",
     },
 
     {
@@ -1623,7 +1620,7 @@ export const DrugAdminHistory = ({currentMed}) => {
     <>
       <Box
         sx={{
-          width: "750px",
+          width: "800px",
           display: "flex",
           flexDirection: "column",
         }}

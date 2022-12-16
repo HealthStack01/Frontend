@@ -5,7 +5,7 @@ import {useForm} from "react-hook-form";
 import {DocumentClassList} from "./DocumentClass";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import Roaster from "../Admin/Roaster";
 import {Box, getValue} from "@mui/system";
 import RadioButton from "../../components/inputs/basic/Radio";
@@ -17,6 +17,7 @@ import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 import {FormsHeaderText} from "../../components/texts";
 import CloseIcon from "@mui/icons-material/Close";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 
 export default function ProgressNote() {
   const {register, handleSubmit, setValue, control} = useForm(); //, watch, errors, reset
@@ -38,6 +39,7 @@ export default function ProgressNote() {
   const [symptom, setSymptom] = useState("");
   const [symptoms, setSymptoms] = useState([]);
   const [docStatus, setDocStatus] = useState("Draft");
+  const [confirmDialog, setConfirmDialog] = useState(false);
 
   const [dataset, setDataset] = useState();
   const {state, setState} = useContext(ObjectContext);
@@ -134,62 +136,40 @@ export default function ProgressNote() {
       });
       return;
     }
-    let confirm = window.confirm(
-      `You are about to save this document ${document.documentname} ?`
-    );
-    if (confirm) {
-      if (!!draftDoc && draftDoc.status === "Draft") {
-        ClientServ.patch(draftDoc._id, document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            //  setAllergies([])
-            //  setSymptoms([])
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "New Patient Consultation Form updated succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast({
-              message: "Error updating New Patient Consultation Form " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-          });
-      } else {
-        ClientServ.create(document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            //setAllergies([])
-            //  setSymptoms([])
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "Pediatric Pulmonology Form created succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-            closeForm();
-          })
-          .catch(err => {
-            toast({
-              message: "Error creating Pediatric Pulmonology Form " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-          });
-      }
+
+    return console.log(document);
+
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then(res => {
+          //console.log(JSON.stringify(res))
+          e.target.reset();
+          //  setAllergies([])
+          //  setSymptoms([])
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("New Patient Consultation Form updated succesfully");
+          setSuccess(false);
+        })
+        .catch.error(err => {
+          toast.error("Error updating New Patient Consultation Form " + err);
+        });
+    } else {
+      ClientServ.create(document)
+        .then(res => {
+          //console.log(JSON.stringify(res))
+          e.target.reset();
+          //setAllergies([])
+          //  setSymptoms([])
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Pediatric Pulmonology Form created succesfully");
+          setSuccess(false);
+          closeForm();
+        })
+        .catch(err => {
+          toast.error("Error creating Pediatric Pulmonology Form " + err);
+        });
     }
   };
 
@@ -268,6 +248,13 @@ export default function ProgressNote() {
   return (
     <>
       <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmDialog}
+          cancelAction={() => setConfirmDialog(false)}
+          confirmationAction={handleSubmit(onSubmit)}
+          type="create"
+          message="You're about to save a Document, Progress Notes"
+        />
         <Box
           sx={{
             display: "flex",
@@ -284,7 +271,7 @@ export default function ProgressNote() {
         </Box>
 
         <div className="card-content vscrollable remPad1">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form>
             <Box>
               <MuiCustomDatePicker label="Date" name="Date" control={control} />
             </Box>
@@ -430,7 +417,11 @@ export default function ProgressNote() {
                 gap: "2rem",
               }}
             >
-              <GlobalCustomButton color="secondary" type="button">
+              <GlobalCustomButton
+                color="secondary"
+                type="button"
+                onClick={() => setConfirmDialog(true)}
+              >
                 Submit Progress Note
               </GlobalCustomButton>
             </Box>

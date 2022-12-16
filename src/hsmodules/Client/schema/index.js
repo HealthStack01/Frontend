@@ -53,10 +53,26 @@ export const ClientMiniSchema = [
   },
 
   {
-    name: "Created At",
+    name: "Registered At",
     key: "middlename",
     description: "Midlle Name",
     selector: row => dayjs(row?.createdAt).format("DD/MM/YYYY"),
+    sortable: true,
+    required: true,
+    inputType: "TEXT",
+  },
+
+  {
+    name: "Paymaent Mode",
+    key: "middlename",
+    description: "Midlle Name",
+    selector: row =>
+      row.paymentinfo.map((pay, i) => (
+        <>
+          {pay.paymentmode} {pay.paymentmode === "Cash" ? "" : ":"}{" "}
+          {pay.organizationName}
+        </>
+      )),
     sortable: true,
     required: true,
     inputType: "TEXT",
@@ -147,14 +163,14 @@ export const ClientMiniSchema = [
   // },
 
   {
-    name: "Next of Kin",
-    key: "nextofkin",
+    name: "Status",
+    key: "active",
     description: "Next of Kin",
-    selector: row => row.nextofkin,
+    selector: row => (row.active ? "Active" : "Inactive"),
     sortable: true,
     required: true,
     inputType: "TEXT",
-    omit: true,
+    omit: false,
   },
 
   {

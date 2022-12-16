@@ -36,11 +36,13 @@ const RefInput: React.FC<InputProps> = ({
   sx,
   inputRef,
   register,
+  placeholder,
 }) => (
   <div>
     <InputBox>
       <InputField
         type={type}
+        placeholder={placeholder}
         {...register}
         sx={{width: "16px", ...sx}}
         ref={inputRef}

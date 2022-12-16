@@ -60,6 +60,7 @@ import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 import {DesktopDatePicker} from "@mui/x-date-pickers/DesktopDatePicker";
 import ClientListDateFilter from "./DateFilter";
+import MuiClearDatePicker from "../../components/inputs/Date/MuiClearDatePicker";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -612,9 +613,9 @@ export function ClientList({openCreateModal, openDetailModal}) {
   const [filterStartDate, setFilterStartDate] = useState(
     dayjs(new Date(2020, 1, 1)).$d
   );
-  const [filterEndDate, setFilterEndDate] = useState(dayjs().$d);
+  const [filterEndDate, setFilterEndDate] = useState(dayjs());
   const [dateFilterModal, setDateFilterModal] = useState(false);
-  const [dateFilter, setDateFilter] = useState(false);
+  const [dateFilter, setDateFilter] = useState(null);
   // eslint-disable-next-line
   // const { user, setUser } = useContext(UserContext);
 
@@ -837,6 +838,19 @@ export function ClientList({openCreateModal, openDetailModal}) {
     setDateFilterModal(false);
   };
 
+  const conditionalRowStyles = [
+    {
+      when: row => row.active === false,
+      style: {
+        backgroundColor: "pink",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
   return (
     <>
       {user ? (
@@ -849,7 +863,7 @@ export function ClientList({openCreateModal, openDetailModal}) {
             />
           </ModalBox>
 
-          <ModalBox
+          {/* <ModalBox
             open={dateFilterModal}
             onClose={() => setDateFilterModal(false)}
             header="Filter Client By End Date"
@@ -861,7 +875,7 @@ export function ClientList({openCreateModal, openDetailModal}) {
               setEndDate={setFilterEndDate}
               filterByDate={handleFilterByDate}
             />
-          </ModalBox>
+          </ModalBox> */}
 
           <Portal>
             <ClientForm />
@@ -883,7 +897,11 @@ export function ClientList({openCreateModal, openDetailModal}) {
                 </h2>
 
                 <Box>
-                  {dateFilter ? (
+                  <MuiClearDatePicker
+                    value={filterEndDate}
+                    setValue={setFilterEndDate}
+                  />
+                  {/* {dateFilter ? (
                     <Box sx={{dispay: "flex"}} gap={1}>
                       <GlobalCustomButton
                         onClick={() => setDateFilterModal(true)}
@@ -906,7 +924,7 @@ export function ClientList({openCreateModal, openDetailModal}) {
                     >
                       Filter by Date
                     </GlobalCustomButton>
-                  )}
+                  )} */}
                 </Box>
               </Box>
               <GlobalCustomButton onClick={handleCreateNew}>
@@ -925,23 +943,14 @@ export function ClientList({openCreateModal, openDetailModal}) {
               <CustomTable
                 title={""}
                 columns={ClientMiniSchema}
-                data={filteredFacilitiesByDate}
+                data={facilities}
                 pointerOnHover
                 highlightOnHover
                 striped
                 onRowClicked={handleRow}
+                conditionalRowStyles={conditionalRowStyles}
                 progressPending={loading}
-                CustomEmptyData={
-                  dateFilter ? (
-                    <Typography>
-                      No Client Registration found betweeen{" "}
-                      {dayjs(filterStartDate).format("DD/MM/YYYY")} -{" "}
-                      {dayjs(filterEndDate).format("DD/MM/YYYY")}
-                    </Typography>
-                  ) : (
-                    <Typography>Your Client List is Empty...</Typography>
-                  )
-                }
+                CustomEmptyData={<Typography>No Client Found...</Typography>}
               />
             </div>
           </PageWrapper>
@@ -963,6 +972,7 @@ export function ClientDetail({closeDetailModal}) {
   const [billModal, setBillModal] = useState(false);
   const [appointmentModal, setAppointmentModal] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState(false);
+  const [reactivateConfirm, setReactivateConfirm] = useState(false);
   // eslint-disable-next-line
 
   const [message, setMessage] = useState("");
@@ -1010,7 +1020,7 @@ export function ClientDetail({closeDetailModal}) {
     setBillModal(false);
   };
 
-  console.log(Client);
+  //console.log(Client);
 
   useEffect(() => {
     setValue("firstname", Client.firstname, {
@@ -1176,6 +1186,48 @@ export function ClientDetail({closeDetailModal}) {
     }
   };
 
+  const handleDeactivateClient = () => {
+    setSuccess(false);
+
+    const newData = {...Client, active: false};
+
+    ClientServ.patch(Client._id, newData)
+      .then(res => {
+        setConfirmDialog(false);
+        toast.success("Client Deactivated succesfully");
+
+        changeState();
+        closeDetailModal();
+      })
+      .catch(err => {
+        setConfirmDialog(false);
+        toast.error(
+          `Error Deactivating Client, probable network issues or ${err}`
+        );
+      });
+  };
+
+  const handleReactivateClient = () => {
+    setSuccess(false);
+
+    const newData = {...Client, active: true};
+
+    ClientServ.patch(Client._id, newData)
+      .then(res => {
+        setReactivateConfirm(false);
+        toast.success("Client Deactivated succesfully");
+
+        changeState();
+        closeDetailModal();
+      })
+      .catch(err => {
+        setReactivateConfirm(false);
+        toast.error(
+          `Error Deactivating Client, probable network issues or ${err}`
+        );
+      });
+  };
+
   const handleCreateWallet = async () => {
     try {
       const res = await api.post("/register?scheme=4865616c7468737461636b", {
@@ -1197,7 +1249,7 @@ export function ClientDetail({closeDetailModal}) {
 
     setSuccess(false);
 
-    console.log(data);
+    return console.log(Client);
 
     ClientServ.patch(Client._id, data)
       .then(res => {
@@ -1213,6 +1265,21 @@ export function ClientDetail({closeDetailModal}) {
 
   return (
     <>
+      <CustomConfirmationDialog
+        open={confirmDialog}
+        cancelAction={() => setConfirmDialog(false)}
+        message={`Are you sure you want to Deactivate Client ${Client.firstname} ${Client.middlename} ${Client.lastname}`}
+        type="danger"
+        confirmationAction={handleDeactivateClient}
+      />
+
+      <CustomConfirmationDialog
+        open={reactivateConfirm}
+        cancelAction={() => setReactivateConfirm(false)}
+        message={`Are you sure you want to Reactivate Client ${Client.firstname} ${Client.middlename} ${Client.lastname}`}
+        type="update"
+        confirmationAction={handleReactivateClient}
+      />
       <Box
         sx={{
           width: "80vw",
@@ -1608,6 +1675,7 @@ export function ClientDetail({closeDetailModal}) {
               alignItems: "center",
             }}
             mt={2}
+            gap={1}
           >
             <GlobalCustomButton
               text="Update Client"
@@ -1616,16 +1684,29 @@ export function ClientDetail({closeDetailModal}) {
               customStyles={{
                 marginRight: "5px",
               }}
-              color="success"
+              color="secondary"
             />
+
+            {Client.active ? (
+              <GlobalCustomButton
+                color="error"
+                onClick={() => setConfirmDialog(true)}
+              >
+                Deactivate Client
+              </GlobalCustomButton>
+            ) : (
+              <GlobalCustomButton
+                color="success"
+                onClick={() => setReactivateConfirm(true)}
+              >
+                Re-Activate Client
+              </GlobalCustomButton>
+            )}
 
             <GlobalCustomButton
               text="Cancel"
               onClick={handleCancel}
-              customStyles={{
-                marginRight: "5px",
-              }}
-              color="error"
+              color="warning"
             />
           </Box>
         )}

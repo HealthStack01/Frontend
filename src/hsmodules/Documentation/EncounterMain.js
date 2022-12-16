@@ -16,7 +16,7 @@ import {ChartClassList} from "./DocumentClass";
 import EndEncounter, {EndEncounterList} from "./EndEncounter";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {format, formatDistanceToNowStrict} from "date-fns";
 import VideoConference from "../utils/VideoConference";
 import Prescription, {PrescriptionCreate} from "./Prescription";
@@ -53,6 +53,8 @@ import {
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {AppointmentCreate} from "../Appointment/generalAppointment";
 import DocumentationScheduleAppointment from "./ScheduleAppointment";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+import dayjs from "dayjs";
 
 export default function EncounterMain({nopresc, chosenClient}) {
   // const { register, handleSubmit, watch, errors } = useForm();
@@ -81,6 +83,8 @@ export default function EncounterMain({nopresc, chosenClient}) {
   const [showRadModal, setShowRadModal] = useState(false);
   const [showChartModal, setShowChartModal] = useState(false);
   const [showActions, setShowActions] = useState(null);
+  const [docToDelete, setDocToDelete] = useState(null);
+  const [confirmationDialog, setConfirmationDialog] = useState(false);
 
   const [activateCall, setActivateCall] = useState(false);
 
@@ -345,31 +349,32 @@ export default function EncounterMain({nopresc, chosenClient}) {
 
   const handleDelete = doc => {
     // console.log(doc)
-    let confirm = window.confirm(
-      `You are about to delete a document: ${
-        doc.documentname
-      } created on ${format(new Date(doc.createdAt), "dd-MM-yy")} ?`
-    );
-    if (confirm) {
-      ClinicServ.remove(doc._id)
-        .then(res => {
-          toast({
-            message: "Adult Asthma Questionnaire deleted succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-          setSuccess(false);
-        })
-        .catch(err => {
-          toast({
-            message: "Error deleting Adult Asthma Questionnaire " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-        });
-    }
+    // let confirm = window.confirm(
+    //   `You are about to delete a document: ${
+    //     doc.documentname
+    //   } created on ${format(new Date(doc.createdAt), "dd-MM-yy")} ?`
+    // );
+    // if (confirm) {
+    ClinicServ.remove(doc._id)
+      .then(res => {
+        toast.success("Adult Asthma Questionnaire deleted succesfully");
+        setSuccess(false);
+        setConfirmationDialog(false);
+      })
+      .catch(err => {
+        toast.error("Error deleting Adult Asthma Questionnaire " + err);
+      });
+    // }
+  };
+
+  const handleConfirmDelete = doc => {
+    setDocToDelete(doc);
+    setConfirmationDialog(true);
+  };
+
+  const closeConfirmationDialog = () => {
+    setDocToDelete(null);
+    setConfirmationDialog(false);
   };
 
   const handleCancel = async () => {
@@ -505,6 +510,15 @@ export default function EncounterMain({nopresc, chosenClient}) {
         flexGrow: "1",
       }}
     >
+      <CustomConfirmationDialog
+        open={confirmationDialog}
+        confirmationAction={() => handleDelete(docToDelete)}
+        cancelAction={closeConfirmationDialog}
+        type="danger"
+        message={`You are about to delete a document: ${
+          docToDelete?.documentname
+        } created on ${dayjs(docToDelete?.createdAt).format("DD-MM-YYYY")} ?`}
+      />
       <Box
         container
         sx={{
@@ -781,7 +795,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
 
                       <IconButton
                         color="error"
-                        onClick={() => handleDelete(Clinic)}
+                        onClick={() => handleConfirmDelete(Clinic)}
                       >
                         <DeleteOutlineIcon fontSize="small" />
                       </IconButton>

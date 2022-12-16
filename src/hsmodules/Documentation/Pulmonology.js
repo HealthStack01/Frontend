@@ -32,6 +32,7 @@ import GlobalCustomButton from "../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import CustomTable from "../../components/customtable";
 import RefInput from "../../components/inputs/basic/Input/ref-input";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 
 export default function PulmonologyIntake() {
   const {register, handleSubmit, setValue, resetField} = useForm(); //, watch, errors, reset
@@ -53,6 +54,7 @@ export default function PulmonologyIntake() {
   const [symptom, setSymptom] = useState("");
   const [symptoms, setSymptoms] = useState([]);
   const [docStatus, setDocStatus] = useState("Draft");
+  const [confirmationDialog, setConfirmationDialog] = useState(false);
 
   const [dataset, setDataset] = useState();
   const {state, setState} = useContext(ObjectContext);
@@ -267,71 +269,46 @@ export default function PulmonologyIntake() {
       !document.createdByname ||
       !document.facilityname
     ) {
-      toast({
-        message:
-          " Documentation data missing, requires location and facility details",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
       return;
     }
-    let confirm = window.confirm(
-      `You are about to save this document ${document.documentname} ?`
-    );
-    if (confirm) {
-      if (!!draftDoc && draftDoc.status === "Draft") {
-        ClientServ.patch(draftDoc._id, document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            setAllergies([]);
-            setSymptoms([]);
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "Pediatric Pulmonology Form updated succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast({
-              message: "Error updating Pediatric Pulmonology Form " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-          });
-      } else {
-        ClientServ.create(document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            setAllergies([]);
-            setSymptoms([]);
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "Pediatric Pulmonology Form created succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast({
-              message: "Error creating Pediatric Pulmonology Form " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-          });
-      }
+
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then(res => {
+          //console.log(JSON.stringify(res))
+          e.target.reset();
+          setAllergies([]);
+          setSymptoms([]);
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Pediatric Pulmonology Form updated succesfully");
+          setSuccess(false);
+          setConfirmationDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error updating Pediatric Pulmonology Form " + err);
+        });
+    } else {
+      ClientServ.create(document)
+        .then(res => {
+          //console.log(JSON.stringify(res))
+          e.target.reset();
+          setAllergies([]);
+          setSymptoms([]);
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Pediatric Pulmonology Form created succesfully");
+          setSuccess(false);
+          setConfirmationDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error creating Pediatric Pulmonology Form " + err);
+        });
     }
+    //}
   };
 
   const handleChangePart = async e => {
@@ -477,6 +454,13 @@ export default function PulmonologyIntake() {
   return (
     <>
       <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmationDialog}
+          cancelAction={() => setConfirmationDialog(false)}
+          type="create"
+          message="you're about to save Pediatric Pulmonology Form?"
+          confirmationAction={handleSubmit(onSubmit)}
+        />
         <Box
           sx={{
             display: "flex",
@@ -493,7 +477,7 @@ export default function PulmonologyIntake() {
           </IconButton>
         </Box>
         <div className="card-content vscrollable remPad1">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form>
             <Box mb={1}>
               <Input
                 register={register("Name")}
@@ -3396,6 +3380,7 @@ export default function PulmonologyIntake() {
                 color="secondary"
                 variant="contained"
                 type="submit"
+                onClick={() => setConfirmationDialog(true)}
               >
                 Submit Pulmonology
               </GlobalCustomButton>

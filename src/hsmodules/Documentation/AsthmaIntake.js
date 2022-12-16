@@ -1,4 +1,10 @@
-import React, {useState, useContext, useEffect, useRef,useCallback} from "react";
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
@@ -20,9 +26,10 @@ import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import CustomTable from "../../components/customtable";
 import RefInput from "../../components/inputs/basic/Input/ref-input";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 
 export default function AsthmaIntake() {
-  const {register, handleSubmit, setValue, getValues, watch, control} =
+  const {register, handleSubmit, setValue, getValues, watch, control, reset} =
     useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -41,6 +48,7 @@ export default function AsthmaIntake() {
   const [dataset, setDataset] = useState();
   const {state, setState} = useContext(ObjectContext);
   const [docStatus, setDocStatus] = useState("Draft");
+  const [confirmDialog, setConfirmDialog] = useState(false);
 
   const allergineInputRef = useRef(null);
   const reactionInputRef = useRef(null);
@@ -49,15 +57,17 @@ export default function AsthmaIntake() {
 
   const formValues = getValues();
 
-  useCallback(() => {
+  useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
-      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
-        setValue(keys, value, {
-          shouldValidate: true,
-          shouldDirty: true,
-        })
-      );
-      // setSymptoms(draftDoc.documentdetail.Presenting_Complaints)
+      console.log(draftDoc);
+      reset(draftDoc.documentdetail);
+      // Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+      //   setValue(keys, value, {
+      //     shouldValidate: true,
+      //     shouldDirty: true,
+      //   })
+      // );
+      //setSymptoms(draftDoc.documentdetail.Presenting_Complaints);
       setAllergies(draftDoc.documentdetail.Allergy_Skin_Test);
     }
     return () => {
@@ -129,70 +139,55 @@ export default function AsthmaIntake() {
       !document.createdByname ||
       !document.facilityname
     ) {
-      toast({
-        message:
-          " Documentation data missing, requires location and facility details",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
       return;
     }
 
-    let confirm = window.confirm(
-      `You are about to save this document ${document.documentname} ?`
-    );
-    if (confirm) {
-      if (!!draftDoc && draftDoc.status === "Draft") {
-        ClientServ.patch(draftDoc._id, document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            setAllergies([]);
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "Adult Asthma Questionnaire updated succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast({
-              message: "Error updating Adult Asthma Questionnaire " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+    // let confirm = window.confirm(
+    //   `You are about to save this document ${document.documentname} ?`
+    // );
+    // if (confirm) {
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then(res => {
+          //console.log(JSON.stringify(res))
+          Object.keys(data).forEach(key => {
+            data[key] = "";
           });
-      } else {
-        ClientServ.create(document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            setAllergies([]);
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "Adult Asthma Questionnaire created succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast({
-              message: "Error creating Adult Asthma Questionnaire " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+          setAllergies([]);
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Adult Asthma Questionnaire updated succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error updating Adult Asthma Questionnaire " + err);
+        });
+    } else {
+      ClientServ.create(document)
+        .then(res => {
+          Object.keys(data).forEach(key => {
+            data[key] = "";
           });
-      }
+          //console.log(JSON.stringify(res))
+
+          setAllergies([]);
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Adult Asthma Questionnaire created succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error creating Adult Asthma Questionnaire " + err);
+        });
     }
+    //}
   };
 
   const handleChangePart = async e => {
@@ -322,6 +317,13 @@ export default function AsthmaIntake() {
   return (
     <>
       <Box sx={{width: "100%"}}>
+        <CustomConfirmationDialog
+          open={confirmDialog}
+          cancelAction={() => setConfirmDialog(false)}
+          confirmationAction={handleSubmit(onSubmit)}
+          type="create"
+          message="You're about to create an Adult Asthma Questionnaire Document"
+        />
         <Box
           sx={{
             display: "flex",
@@ -337,7 +339,7 @@ export default function AsthmaIntake() {
           </IconButton>
         </Box>
 
-        <form onSubmit={handleSubmit(onSubmitTest)}>
+        <form>
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <Input
@@ -347,11 +349,11 @@ export default function AsthmaIntake() {
               />
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <MuiCustomDatePicker name="date" label="Date" control={control} />
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <MuiCustomDatePicker
                 label="Date of birth"
                 name="DOB"
@@ -2031,6 +2033,7 @@ export default function AsthmaIntake() {
               color="secondary"
               variant="contained"
               type="submit"
+              onClick={() => setConfirmDialog(true)}
             >
               Submit Athsma Questionnaire
             </GlobalCustomButton>
