@@ -52,6 +52,7 @@ import { FormsHeaderText } from '../../components/texts';
 import ChatInterface from '../../components/chat/ChatInterface';
 import CRMTasks from '../CRM/Tasks';
 import AutoCompleteBox from '../../components/inputs/AutoComplete';
+import { FacilitySearch } from '../helpers/FacilitySearch';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -71,10 +72,10 @@ export default function GeneralAppointments() {
       )}
       {showModal === 1 && (
         <Grid container spacing={2}>
-          <Grid item xs={4}>
+          <Grid item xs={3}>
             <PatientProfile />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={9}>
             <ReferralCreate showModal={showModal} setShowModal={setShowModal} />
           </Grid>
         </Grid>
@@ -124,6 +125,8 @@ export function ReferralCreate({ showModal, setShowModal }) {
   const [chosen2, setChosen2] = useState();
   const [openComplaint, setOpenComplaint] = useState(false);
   const [openFindings, setOpenFindings] = useState(false);
+  const [patient, setPatient] = useState('');
+
   const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
 
   let appointee; //  =state.ClientModule.selectedClient
@@ -420,6 +423,63 @@ export function ReferralCreate({ showModal, setShowModal }) {
                 />
               </Box>
             </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <RadioButton
+                name="patient"
+                title="Patient"
+                options={[
+                  {
+                    label: 'Out Patient',
+                    value: 'Out Patient',
+                  },
+                  {
+                    label: 'In Patient',
+                    value: 'In Patient',
+                  },
+                ]}
+                onChange={(e) => setPatient(e.target.value)}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={12} sm={6}>
+              <Input name="patientName" label="Search Beneficiary" />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Input name="patientName" label="Search Hospital" />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FacilitySearch
+                getSearchfacility={getSearchfacility}
+                clear={success}
+                label="Destination Facility"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Input
+                name="patientName"
+                label="Referring Facility"
+                value={'Test Organization'}
+              />
+            </Grid>
+            {patient === 'In Patient' && (
+              <Grid item xs={12} sm={6}>
+                <BasicDatePicker
+                  name="addmissionDate"
+                  label="Date of Admission"
+                />
+              </Grid>
+            )}
+            {patient === 'In Patient' && (
+              <Grid item xs={12} sm={6}>
+                <BasicDatePicker
+                  name="dischargeDate"
+                  label="Date of Discharge"
+                />
+              </Grid>
+            )}
           </Grid>
 
           <Grid container spacing={2} my={2}>
@@ -1214,6 +1274,26 @@ export function Details({ showModal, setShowModal }) {
             }}
           >
             <p>Request Sent 08/05/2022 9:45pm</p>
+            <Grid container spacing={1}>
+              <Grid item xs={6}>
+                <p>Hospital Name: Lagos State Clinic </p>
+              </Grid>
+              <Grid item xs={6}>
+                <p>Health Plan: Former sector plan</p>
+              </Grid>
+              <Grid item xs={6}>
+                <p>Date of Admission: 23/06/2022</p>
+              </Grid>
+              <Grid item xs={6}>
+                <p>Date of Discharge: 23/06/2022</p>
+              </Grid>
+              <Grid item xs={6}>
+                <p>Capitation: Filed</p>
+              </Grid>
+              <Grid item xs={6}>
+                <p>Fee for Service: Applicable</p>
+              </Grid>
+            </Grid>
             <FormsHeaderText text={'Referral Code - 13322BA'} />
             <McText txt={'Clinical Information'} />
             <Grid container spacing={2} mb={1}>

@@ -87,7 +87,7 @@ export default function GeneralAppointments() {
             <PatientProfile />
           </Grid>
           <Grid item xs={9}>
-            <Details setShowModal={setShowModal} />
+            <PreAuthDetails setShowModal={setShowModal} />
           </Grid>
         </Grid>
       )}
@@ -127,6 +127,8 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
   const [openComplaint, setOpenComplaint] = useState(false);
   const [openFindings, setOpenFindings] = useState(false);
   const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
+  const [patient, setPatient] = useState('');
+
   const [showServiceModal, setShowServiceModal] = useState(false);
 
   let appointee; //  =state.ClientModule.selectedClient
@@ -468,6 +470,50 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
                 />
               </Box>
             </Grid>
+          </Grid>
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <RadioButton
+                name="patient"
+                title="Patient"
+                options={[
+                  {
+                    label: 'Out Patient',
+                    value: 'Out Patient',
+                  },
+                  {
+                    label: 'In Patient',
+                    value: 'In Patient',
+                  },
+                ]}
+                onChange={(e) => setPatient(e.target.value)}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={12} sm={6}>
+              <Input name="patientName" label="Search Beneficiary" />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Input name="patientName" label="Search Hospital" />
+            </Grid>
+            {patient === 'In Patient' && (
+              <Grid item xs={12} sm={6}>
+                <BasicDatePicker
+                  name="addmissionDate"
+                  label="Date of Admission"
+                />
+              </Grid>
+            )}
+            {patient === 'In Patient' && (
+              <Grid item xs={12} sm={6}>
+                <BasicDatePicker
+                  name="dischargeDate"
+                  label="Date of Discharge"
+                />
+              </Grid>
+            )}
           </Grid>
 
           <Grid container spacing={2} my={2}>
@@ -1161,7 +1207,7 @@ export function PreAuthorizationList({ showModal, setShowModal }) {
     </>
   );
 }
-export function Details({ showModal, setShowModal }) {
+export function PreAuthDetails({ showModal, setShowModal, standAlone }) {
   const [deny, setDeny] = useState(false);
   const [approve, setApprove] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -1260,59 +1306,60 @@ export function Details({ showModal, setShowModal }) {
               }}
             >
               <FormsHeaderText text={'Pre-Authorization Details - 13322BA'} />
-
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                }}
-              >
-                <GlobalCustomButton
-                  text="Back"
-                  onClick={() => setShowModal(0)}
-                  color="warning"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <GlobalCustomButton
-                  onClick={() => setApprove(true)}
-                  text="Approve"
-                  color="success"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <GlobalCustomButton
-                  onClick={() => {}}
-                  text="On Hold"
-                  color="secondary"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <GlobalCustomButton
-                  onClick={() => setDeny(true)}
-                  text="Reject"
-                  color="error"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <GlobalCustomButton
-                  onClick={
-                    currentPage === 1
-                      ? () => setCurrentPage(2)
-                      : () => setCurrentPage(1)
-                  }
-                  text={currentPage === 1 ? 'Task' : 'Details'}
-                  variant="outlined"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <Badge
-                  badgeContent={4}
-                  color="success"
-                  sx={{ marginRight: '10px' }}
+              {!standAlone && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                  }}
                 >
                   <GlobalCustomButton
-                    onClick={() => setOpenDrawer(true)}
-                    text="Chat"
-                    color="primary"
+                    text="Back"
+                    onClick={() => setShowModal(0)}
+                    color="warning"
+                    customStyles={{ marginRight: '.8rem' }}
                   />
-                </Badge>
-              </Box>
+                  <GlobalCustomButton
+                    onClick={() => setApprove(true)}
+                    text="Approve"
+                    color="success"
+                    customStyles={{ marginRight: '.8rem' }}
+                  />
+                  <GlobalCustomButton
+                    onClick={() => {}}
+                    text="On Hold"
+                    color="secondary"
+                    customStyles={{ marginRight: '.8rem' }}
+                  />
+                  <GlobalCustomButton
+                    onClick={() => setDeny(true)}
+                    text="Reject"
+                    color="error"
+                    customStyles={{ marginRight: '.8rem' }}
+                  />
+                  <GlobalCustomButton
+                    onClick={
+                      currentPage === 1
+                        ? () => setCurrentPage(2)
+                        : () => setCurrentPage(1)
+                    }
+                    text={currentPage === 1 ? 'Task' : 'Details'}
+                    variant="outlined"
+                    customStyles={{ marginRight: '.8rem' }}
+                  />
+                  <Badge
+                    badgeContent={4}
+                    color="success"
+                    sx={{ marginRight: '10px' }}
+                  >
+                    <GlobalCustomButton
+                      onClick={() => setOpenDrawer(true)}
+                      text="Chat"
+                      color="primary"
+                    />
+                  </Badge>
+                </Box>
+              )}
             </Box>
             {currentPage === 1 && (
               <div
@@ -1326,6 +1373,26 @@ export function Details({ showModal, setShowModal }) {
                 }}
               >
                 <p>Request Sent 08/05/2022 9:45pm</p>
+                <Grid container spacing={1}>
+                  <Grid item xs={6}>
+                    <p>Hospital Name: Lagos State Clinic </p>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <p>Health Plan: Former sector plan</p>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <p>Date of Admission: 23/06/2022</p>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <p>Date of Discharge: 23/06/2022</p>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <p>Capitation: Filed</p>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <p>Fee for Service: Applicable</p>
+                  </Grid>
+                </Grid>
                 <FormsHeaderText text={'Pre-authorization Code - 13322BA'} />
                 <McText txt={'Clinical Information'} />
                 <Grid container spacing={2} mb={1}>

@@ -60,6 +60,9 @@ import AdditionalInformationCard, {
   CreateAdditionalInfo,
 } from '../CRM/components/lead/AdditionalInfo';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import Beneficiary from './Beneficiary';
+import Claims from './Claims';
+import GeneralAppointments, { PreAuthorizationList } from './PreAuth';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -84,7 +87,7 @@ export default function Provider({ standAlone }) {
         {showModal === 1 && (
           <ModalBox
             open={showModal}
-            onClose={() => setShowModal(false)}
+            onClose={() => setShowModal(0)}
             header="Register Provider"
           >
             <OrganizationCreate />
@@ -1552,6 +1555,23 @@ export function OrganizationDetail({ showModal, setShowModal }) {
             color="success"
             customStyles={{ marginRight: '10px' }}
           />
+          <GlobalCustomButton
+            onClick={() => setDisplay(5)}
+            text="Beneficiary"
+            customStyles={{ marginRight: '.8rem' }}
+          />
+          <GlobalCustomButton
+            color="warning"
+            onClick={() => setDisplay(6)}
+            text="Claims"
+            customStyles={{ marginRight: '.8rem' }}
+          />
+          <GlobalCustomButton
+            color="secondary"
+            onClick={() => setDisplay(7)}
+            text="Pre-Auth"
+            customStyles={{ marginRight: '.8rem' }}
+          />
           <Badge badgeContent={4} color="success" sx={{ marginRight: '10px' }}>
             <GlobalCustomButton
               onClick={() => setOpenDrawer(true)}
@@ -1640,13 +1660,65 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                         />
                       </Grid>
                     </Grid>
+                    <Grid item xs={12}>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <FormsHeaderText text="Bank Details" />
+                        {isEdit && (
+                          <GlobalCustomButton
+                            text="Add Bank"
+                            onClick={() => setAddBank(true)}
+                            color="primary"
+                            variant="outlined"
+                          />
+                        )}
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} mt={1}>
+                      <CustomTable
+                        title={''}
+                        columns={bankColumns}
+                        data={bankData}
+                        pointerOnHover
+                        highlightOnHover
+                        striped
+                      />
+                    </Grid>
+                    {isEdit && (
+                      <Box
+                        sx={{
+                          width: '100%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'left',
+                        }}
+                        mt={2}
+                      >
+                        <GlobalCustomButton
+                          text="Save"
+                          onClick={() => handleSubmit(onSubmit)}
+                          color="success"
+                          customStyles={{ marginRight: '10px' }}
+                        />
+                        <GlobalCustomButton
+                          text="Cancel"
+                          onClick={() => setIsEdit(false)}
+                          color="warning"
+                        />
+                      </Box>
+                    )}
                   </Box>
                 </Grid>
                 <Grid item xs={6}>
                   <AdditionalInformationView />
                 </Grid>
               </Grid>
-              <Grid container spacing={2}>
+              {/* <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <Box
                     sx={{
@@ -1676,30 +1748,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                     striped
                   />
                 </Grid>
-              </Grid>
-              {isEdit && (
-                <Box
-                  sx={{
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'right',
-                  }}
-                  mt={2}
-                >
-                  <GlobalCustomButton
-                    text="Save"
-                    onClick={() => handleSubmit(onSubmit)}
-                    color="success"
-                    customStyles={{ marginRight: '10px' }}
-                  />
-                  <GlobalCustomButton
-                    text="Cancel"
-                    onClick={() => setIsEdit(false)}
-                    color="warning"
-                  />
-                </Box>
-              )}
+              </Grid> */}
             </form>
             {approve && (
               <ModalBox open onClose={() => setApprove(false)}>
@@ -1864,6 +1913,9 @@ export function OrganizationDetail({ showModal, setShowModal }) {
         {display === 2 && <Accreditation />}
         {display === 3 && <CRMTasks />}
         {display === 4 && <UploadView />}
+        {display === 5 && <Beneficiary />}
+        {display === 6 && <Claims />}
+        {display === 7 && <PreAuthorizationList />}
         <Drawer
           open={openDrawer}
           sx={{
