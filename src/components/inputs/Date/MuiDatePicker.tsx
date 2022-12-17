@@ -84,7 +84,7 @@ const MuiCustomDatePicker = ({
             value={value}
             inputFormat={format}
             onChange={data => onChange(data.$d)}
-            inputRef={ref}
+            ref={ref}
             disabled={disabled}
             renderInput={params => (
               <TextField

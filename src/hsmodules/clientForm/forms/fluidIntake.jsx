@@ -17,7 +17,7 @@ import dayjs from "dayjs";
 // import CustomTable from "../../components/customtable";
 
 const FluidIntakeOutput = () => {
-  const {register, handleSubmit, setValue, control} = useForm();
+  const {register, handleSubmit, setValue, control, reset} = useForm();
   const fluidTypeOptions = ["Input", "Output"];
   const {user, setUser} = useContext(UserContext);
   const [facilities, setFacilities] = useState([]);
@@ -133,10 +133,14 @@ const FluidIntakeOutput = () => {
   };
 
   const onSubmit = async (data, e) => {
+    //return console.log(data);
     // console.log(state.DocumentClassModule.selectedDocumentClass)
     //console.log(state.employeeLocation.locationName);
+    if (!data.fluidType || data.fluidType === "") {
+      return toast.error("Please select a fluid type");
+    }
 
-    e.preventDefault();
+    //e.preventDefault();
     data.entrytime = new Date();
     data.location =
       state.employeeLocation.locationName +
@@ -152,7 +156,7 @@ const FluidIntakeOutput = () => {
     // console.log(struc.current)
     setFacilities(prev => [data, ...facilities]);
     // data.recordings=facilities
-    e.target.reset();
+    // e.target.reset();
     setChosen(false);
     //handleSave()
     let document = {};
@@ -185,13 +189,19 @@ const FluidIntakeOutput = () => {
       coordinates: [state.coordinates.latitude, state.coordinates.longitude],
     };
 
-    console.log(document);
-
-    // alert(document.status)
     if (chosen1) {
+      // console.log(document);
+
+      // alert(document.status)
       ClientServ.create(document)
         .then(res => {
           setChosen(true);
+          Object.keys(data).forEach(key => {
+            data[key] = "";
+          });
+
+          reset(data);
+          setValue("fluidTime", null);
 
           toast.success("Fluid Input/Output entry successful");
         })
@@ -204,6 +214,12 @@ const FluidIntakeOutput = () => {
       })
         .then(res => {
           setChosen(true);
+          Object.keys(data).forEach(key => {
+            data[key] = "";
+          });
+
+          reset(data);
+          setValue("fluidTime", null);
 
           toast.success("Fluid Input/Output entry successful");
         })
@@ -213,7 +229,7 @@ const FluidIntakeOutput = () => {
     }
   };
 
-  console.log(facilities);
+  //console.log(facilities);
 
   const inputFluidSchema = [
     {
@@ -250,9 +266,7 @@ const FluidIntakeOutput = () => {
       name: "Input Volume",
       key: "fluid",
       description: "fluid",
-      selector: row => {
-        row.fluidType === "Input" && row.volume;
-      },
+      selector: row => row.fluidType === "Input" && row.volume,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -262,9 +276,7 @@ const FluidIntakeOutput = () => {
       name: "Output Volume",
       key: "fluid",
       description: "fluid",
-      selector: row => {
-        row.fluidType === "Output" && row.volume;
-      },
+      selector: row => row.fluidType === "Output" && row.volume,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -294,7 +306,7 @@ const FluidIntakeOutput = () => {
       name: "Entry Time",
       key: "route",
       description: "route",
-      selector: row => dayjs(row.entrytime).format("dd-MM HH:mm:ss"),
+      selector: row => dayjs(row.entrytime).format("DD-MM HH:mm:ss"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -336,7 +348,7 @@ const FluidIntakeOutput = () => {
       </Box>
 
       <div className="card-content vscrollable  pt-0">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form>
           <Box mb="1rem">
             <MuiCustomDatePicker
               name="fluidTime"
@@ -346,16 +358,16 @@ const FluidIntakeOutput = () => {
           </Box>
           <Box mb="1rem">
             <CustomSelect
-              label="Input/Output?"
+              control={control}
+              label="Fluid Type"
               name="fluidType"
-              {...register("fluidType", {required: true})}
+              // required={true}
               options={fluidTypeOptions}
-              defaultValue="Irrition"
             />
           </Box>
           <Box mb="1rem">
             <Input
-              {...register("route")}
+              register={register("route")}
               name="route"
               label="Route"
               type="text"
@@ -363,7 +375,7 @@ const FluidIntakeOutput = () => {
           </Box>
           <Box mb="1rem">
             <Input
-              {...register("fluid")}
+              register={register("fluid")}
               name="fluid"
               label="Fluid"
               type="text"
@@ -371,7 +383,7 @@ const FluidIntakeOutput = () => {
           </Box>
           <Box mb="1rem">
             <Input
-              {...register("volume")}
+              register={register("volume")}
               name="volume"
               label="Volume (mls)"
               type="number"
@@ -379,14 +391,16 @@ const FluidIntakeOutput = () => {
           </Box>
           <Box mb="1rem">
             <Textarea
-              {...register("comments")}
+              register={register("comments")}
               name="comments"
               label="Comments"
               type="text"
             />
           </Box>
+
           <Box mb="1rem">
             <GlobalCustomButton
+              onClick={handleSubmit(onSubmit)}
               text="Enter"
               customStyles={{
                 marginRight: "5px",

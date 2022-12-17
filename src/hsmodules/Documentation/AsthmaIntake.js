@@ -145,6 +145,8 @@ export default function AsthmaIntake() {
       return;
     }
 
+    //return console.log(data);
+
     // let confirm = window.confirm(
     //   `You are about to save this document ${document.documentname} ?`
     // );
@@ -162,6 +164,8 @@ export default function AsthmaIntake() {
           toast.success("Adult Asthma Questionnaire updated succesfully");
           setSuccess(false);
           reset(data);
+          setValue("Date", null);
+          setValue("DOB", null);
           setConfirmDialog(false);
         })
         .catch(err => {
@@ -181,6 +185,8 @@ export default function AsthmaIntake() {
           toast.success("Adult Asthma Questionnaire created succesfully");
           setSuccess(false);
           reset(data);
+          setValue("Date", null);
+          setValue("DOB", null);
           setConfirmDialog(false);
         })
         .catch(err => {
@@ -305,12 +311,19 @@ export default function AsthmaIntake() {
   ];
 
   const closeEncounterRight = async () => {
-    setState(prevstate => ({
+    let documentobj = {};
+    documentobj.name = "";
+    documentobj.facility = "";
+    documentobj.document = "";
+    //  alert("I am in draft mode : " + Clinic.documentname)
+    const newDocumentClassModule = {
+      selectedDocumentClass: documentobj,
+      encounter_right: false,
+      show: "detail",
+    };
+    await setState(prevstate => ({
       ...prevstate,
-      DocumentClassModule: {
-        ...prevstate.DocumentClassModule,
-        encounter_right: false,
-      },
+      DocumentClassModule: newDocumentClassModule,
     }));
   };
 
@@ -350,7 +363,7 @@ export default function AsthmaIntake() {
             </Grid>
 
             <Grid item xs={12}>
-              <MuiCustomDatePicker name="date" label="Date" control={control} />
+              <MuiCustomDatePicker name="Date" label="Date" control={control} />
             </Grid>
 
             <Grid item xs={12}>

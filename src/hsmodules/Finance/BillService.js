@@ -28,6 +28,8 @@ import {BillingList} from "./Payment";
 import BillServiceCreate from "./BillServiceCreate";
 import {CustomButton} from "../../components/buttons/Button/base/styles";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import {FormsHeaderText} from "../../components/texts";
+import {Typography} from "@mui/material";
 
 export default function PharmacyBillService() {
   const [createModal, setCreateModal] = useState(false);
@@ -91,7 +93,7 @@ export function BillsList({openCreateModal}) {
   const [oldClient, setOldClient] = useState("");
 
   const [loading, setLoading] = useState(false);
-  const [selectedClient, setSelectedClient] = useState();
+  const [selectedClient, setSelectedClient] = useState(null);
   const [clientBills, setClientBills] = useState([]);
 
   const handleSelectedClient = async Client => {
@@ -285,6 +287,8 @@ export function BillsList({openCreateModal}) {
   }, [state.financeModule.show]);
 
   const onRowClicked = async (Client, e) => {
+    if (selectedClient && selectedClient._id === Client._id)
+      return setSelectedClient(null);
     await setSelectedClient(Client);
 
     const clientOrders = Client.bills.map(data => {
@@ -308,6 +312,14 @@ export function BillsList({openCreateModal}) {
 
     ////console.log(clientOrders);
     setClientBills(clientOrders.flat(1));
+  };
+
+  const returnNumberOfBills = bills => {
+    const billsLength = bills.reduce((accumulator, object) => {
+      return accumulator + object.order.length;
+    }, 0);
+
+    return billsLength;
   };
 
   const financePlaymentListSchema = [
@@ -353,7 +365,12 @@ export function BillsList({openCreateModal}) {
         const bills = row.bills;
         return (
           <>
-            {bills[0].catName} {bills[0].catAmount}
+            {console.log(row)}
+            {bills.map((category, i) => (
+              <Typography sx={{fontSize: "0.75rem"}} data-tag="allowRowEvents">
+                {category.catName} {category.catAmount.toFixed(2)}
+              </Typography>
+            ))}
           </>
         );
         //row.clientAmount.toFixed(2);
@@ -370,7 +387,7 @@ export function BillsList({openCreateModal}) {
       name: "No of Bills",
       key: "bills",
       description: "Enter Number of Bills",
-      selector: row => row.bills.length,
+      selector: row => returnNumberOfBills(row.bills),
       sortable: true,
       required: true,
       inputType: "BUTTON",
@@ -449,6 +466,8 @@ export function BillsList({openCreateModal}) {
     },
   ];
 
+  console.log(selectedClient);
+
   return (
     <>
       <div
@@ -467,9 +486,19 @@ export function BillsList({openCreateModal}) {
                 <FilterMenu onSearch={handleSearch} />
               </div>
             )}
-            <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+            <h2
+              style={{
+                marginLeft: "10px",
+                fontSize: "0.95rem",
+                marginRight: "10px",
+              }}
+            >
               Unpaid Bills
             </h2>
+
+            {selectedClient && (
+              <FormsHeaderText text={`- ${selectedClient?.clientname}`} />
+            )}
           </div>
 
           {handleCreateNew && (

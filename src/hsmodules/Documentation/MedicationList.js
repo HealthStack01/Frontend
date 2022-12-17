@@ -17,6 +17,7 @@ import GlobalCustomButton from "../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CustomTable from "../../components/customtable";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 
 export default function MedicationList() {
   const {register, handleSubmit, setValue, control} = useForm(); //, watch, errors, reset
@@ -39,6 +40,7 @@ export default function MedicationList() {
   const [strengthfreq, setStrengthFreq] = useState("");
   const [symptoms, setSymptoms] = useState([]);
   const [docStatus, setDocStatus] = useState("Draft");
+  const [confirmDialog, setConfirmDialog] = useState(false);
 
   const [dataset, setDataset] = useState();
   const {state, setState} = useContext(ObjectContext);
@@ -88,136 +90,8 @@ export default function MedicationList() {
     }
   });
 
-  const coughinfo = [
-    "productive",
-    "dry",
-    "barking",
-    "paroxysimal",
-    "post-tusive vomiting ",
-    "worse at night ",
-    "worse at any time of the day ",
-    "worse in certain posture ",
-    "progressive",
-  ];
-  const coughsymptoms = [
-    "fever",
-    "catarrh",
-    "night sweats",
-    "weight loss",
-    "contact with someone with chronic cough",
-    "facial swelling",
-    "leg swelling",
-  ];
-  const coughsputum = ["creamy", "brown", "blood stained", "whitish"];
-  const resp = [
-    "Difficulty breathing",
-    "fast breathing",
-    "excessive sneezing",
-    "allergy salute",
-    "chest pain",
-    "atopy",
-    "family history of atopy",
-  ];
-  const cvs = [
-    "cough",
-    "easy defatigability",
-    "breathelessness",
-    "breathelessness  at rest",
-    "breathelessness on exertion",
-    "Othopnea",
-    "Paroxymal nocturnal orthopnea",
-    "palpitation",
-    "chest pain",
-  ];
-  const yesno = ["Yes", "No"];
-  const urinary = [
-    "frequency",
-    "nocturia",
-    "polyuria",
-    "poor stream",
-    "incomplete bladder empty",
-    "urgency",
-    "hesistancy",
-  ];
-  const neuro = [
-    "headache",
-    "neck pain",
-    "neck stiffness",
-    "vertigo",
-    "dizziness",
-    "fainting spells",
-    "akward gait",
-    "weakness of upper limbs",
-    "weakness of lower limbs",
-  ];
-  const headache = [
-    "throbing",
-    "dull",
-    "generalised",
-    "frontal",
-    "right-sided",
-    "left sided",
-    "photophia",
-  ];
-  const limbs = ["Right Limb", "Left Limb", "Both Limbs"];
-  const side = ["Right", "Left", "Both"];
-  const eardis = ["Right", "Left", "Both", "Purulent", "bloody"];
-  const ent = [
-    "Sore throat",
-    "change in voice",
-    "nasal discharge",
-    "excessive sneezing",
-    "allergy salute",
-  ];
-  const endo = [
-    "heat intolerance",
-    "apathy",
-    "excessive sweating",
-    "excessive hair growth",
-    "weight gain",
-    "weight loss",
-    "menstral irregularity",
-  ];
-  const birthmode = [
-    "Spontenous varginal delivery",
-    "Elective Suregery",
-    "Emergency Surgery",
-  ];
-  const vachist = ["caregiver's report", "child health card"];
-  const pernotes = ["dull", "resonant", "hyper-resonant"];
-  const pulsenature = [
-    "Regular",
-    "Irregular",
-    "Normal volume",
-    "Pounding",
-    "Synchronous",
-    "Asynchronous",
-  ];
-  const heartsound = ["S1", "S2", "S3", "S4"];
-  const abd = [
-    "Full",
-    "Distended",
-    "Flat",
-    "moves with respiration",
-    "Abdominal vein visible",
-  ];
-  const bowelsound = [
-    "Normal",
-    "absent",
-    "hyperactive",
-    "reduced or hypoactive",
-  ];
-
-  /*  const joins=(p)=>{
-        let x=p.split(" ")
-        console.log(x)
-        x.forEach((el,i)=>({
-            setSub(prev => (prev+"_"+el))
-        }
-        ))
-    } */
   const onSubmit = (data, e) => {
-    e.preventDefault();
+    // e.preventDefault();
     setMessage("");
     setError(false);
     setSuccess(false);
@@ -260,42 +134,42 @@ export default function MedicationList() {
       );
       return;
     }
-    let confirm = window.confirm(
-      `You are about to save this document ${document.documentname} ?`
-    );
-    if (confirm) {
-      if (!!draftDoc && draftDoc.status === "Draft") {
-        ClientServ.patch(draftDoc._id, document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            setAllergies([]);
-            setSymptoms([]);
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast.success("Pediatric Pulmonology Form updated succesfully");
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast.error("Error updating Pediatric Pulmonology Form " + err);
-          });
-      } else {
-        ClientServ.create(document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            setAllergies([]);
-            setSymptoms([]);
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast.success("Medication List created succesfully");
-            setSuccess(false);
-            closeForm();
-          })
-          .catch(err => {
-            toast.error("Error creating Medication List " + err);
-          });
-      }
+
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then(res => {
+          //console.log(JSON.stringify(res))
+          //e.target.reset();
+          setAllergies([]);
+          setSymptoms([]);
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Pediatric Pulmonology Form updated succesfully");
+          setSuccess(false);
+          setValue("Date", null);
+          setConfirmDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error updating Pediatric Pulmonology Form " + err);
+        });
+    } else {
+      ClientServ.create(document)
+        .then(res => {
+          //console.log(JSON.stringify(res))
+          //e.target.reset();
+          setAllergies([]);
+          setSymptoms([]);
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Medication List created succesfully");
+          setSuccess(false);
+          closeForm();
+          setValue("Date", null);
+          setConfirmDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error creating Medication List " + err);
+        });
     }
   };
 
@@ -492,6 +366,13 @@ export default function MedicationList() {
   return (
     <>
       <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmDialog}
+          cancelAction={() => setConfirmDialog(false)}
+          type="create"
+          message="You are about to save this document Document List"
+          confirmationAction={handleSubmit(onSubmit)}
+        />
         <Box
           sx={{
             display: "flex",
@@ -508,7 +389,7 @@ export default function MedicationList() {
         </Box>
 
         <div className="card-content vscrollable remPad1">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form>
             <Box mb={2}>
               <MuiCustomDatePicker control={control} name="Date" label="Date" />
             </Box>
@@ -655,7 +536,7 @@ export default function MedicationList() {
                   color="secondary"
                   variant="contained"
                   type="submit"
-                  onClick={handleSubmit(onSubmit)}
+                  onClick={() => setConfirmDialog(true)}
                 >
                   Submit Medication List
                 </GlobalCustomButton>

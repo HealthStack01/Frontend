@@ -610,12 +610,8 @@ export function ClientList({openCreateModal, openDetailModal}) {
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
   const {state, setState} = useContext(ObjectContext);
-  const [filterStartDate, setFilterStartDate] = useState(
-    dayjs(new Date(2020, 1, 1)).$d
-  );
   const [filterEndDate, setFilterEndDate] = useState(dayjs());
-  const [dateFilterModal, setDateFilterModal] = useState(false);
-  const [dateFilter, setDateFilter] = useState(null);
+  const containerScrollRef = useRef(null);
   // eslint-disable-next-line
   // const { user, setUser } = useContext(UserContext);
 
@@ -802,17 +798,19 @@ export function ClientList({openCreateModal, openDetailModal}) {
     return () => {};
     // eslint-disable-next-line
   }, []);
+
   const rest = async () => {
     // console.log("starting rest")
     // await setRestful(true)
     await setPage(0);
     //await  setLimit(2)
     await setTotal(0);
-    await setFacilities([]);
+    //await setFacilities([]);
     await getFacilities();
     //await  setPage(0)
     //  await setRestful(false)
   };
+
   useEffect(() => {
     //console.log(facilities)
     return () => {};
@@ -820,23 +818,6 @@ export function ClientList({openCreateModal, openDetailModal}) {
   //todo: pagination and vertical scroll bar
 
   // create user form
-
-  const filteredFacilitiesByDate = facilities.filter(item => {
-    if (
-      dayjs(item.createdAt).isBetween(
-        filterStartDate,
-        dayjs(filterEndDate),
-        "day"
-      )
-    ) {
-      return item;
-    }
-  });
-
-  const handleFilterByDate = () => {
-    setDateFilter(true);
-    setDateFilterModal(false);
-  };
 
   const conditionalRowStyles = [
     {
@@ -850,6 +831,17 @@ export function ClientList({openCreateModal, openDetailModal}) {
       },
     },
   ];
+
+  const handleOnTableScroll = () => {
+    if (containerScrollRef.current) {
+      const {scrollTop, scrollHeight, clientHeight} =
+        containerScrollRef.current;
+      if (scrollTop + clientHeight === scrollHeight) {
+        // TO SOMETHING HERE
+        console.log("Reached bottom");
+      }
+    }
+  };
 
   return (
     <>
@@ -939,6 +931,8 @@ export function ClientList({openCreateModal, openDetailModal}) {
                 height: "calc(100vh - 160px)",
                 overflow: "auto",
               }}
+              ref={containerScrollRef}
+              onScroll={handleOnTableScroll}
             >
               <CustomTable
                 title={""}
@@ -1215,7 +1209,7 @@ export function ClientDetail({closeDetailModal}) {
     ClientServ.patch(Client._id, newData)
       .then(res => {
         setReactivateConfirm(false);
-        toast.success("Client Deactivated succesfully");
+        toast.success("Client Reactivated succesfully");
 
         changeState();
         closeDetailModal();
@@ -1223,7 +1217,7 @@ export function ClientDetail({closeDetailModal}) {
       .catch(err => {
         setReactivateConfirm(false);
         toast.error(
-          `Error Deactivating Client, probable network issues or ${err}`
+          `Error Reactivating Client, probable network issues or ${err}`
         );
       });
   };
@@ -1248,8 +1242,6 @@ export function ClientDetail({closeDetailModal}) {
     // e.preventDefault();
 
     setSuccess(false);
-
-    return console.log(Client);
 
     ClientServ.patch(Client._id, data)
       .then(res => {

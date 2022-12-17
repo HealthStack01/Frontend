@@ -16,6 +16,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {Box, Typography} from "@mui/material";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import PaymentCreatePage from "./PaymentCreatePage";
+import {FormsHeaderText} from "../../components/texts";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -93,7 +94,7 @@ export function BillingList({openModal, showCreateScreen}) {
   // eslint-disable-next-line
   const [selectedDispense, setSelectedDispense] = useState(); //
   const [selectedOrders, setSelectedOrders] = useState([]);
-  const [selectedClient, setSelectedClient] = useState();
+  const [selectedClient, setSelectedClient] = useState(null);
   // eslint-disable-next-line
   const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
@@ -339,6 +340,9 @@ export function BillingList({openModal, showCreateScreen}) {
   };
 
   const onRowClicked = async (client, e) => {
+    if (selectedClient && selectedClient._id === client._id)
+      return setSelectedClient(null);
+
     await setSelectedClient(client);
 
     setOldClient(client.clientname);
@@ -581,6 +585,19 @@ export function BillingList({openModal, showCreateScreen}) {
     },
   ];
 
+  const conditionalRowStyles = [
+    {
+      when: row => row.client_id === selectedClient?.client_id,
+      style: {
+        backgroundColor: "#4cc9f0",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
   return (
     <>
       <div
@@ -589,6 +606,7 @@ export function BillingList({openModal, showCreateScreen}) {
           flexDirection: "column",
           padding: "20px",
           flex: "1",
+          height: "100%",
         }}
       >
         <TableMenu>
@@ -598,9 +616,19 @@ export function BillingList({openModal, showCreateScreen}) {
                 <FilterMenu onSearch={handleSearch} />
               </div>
             )}
-            <h2 style={{marginLeft: "10px", fontSize: "0.9rem"}}>
+            <h2
+              style={{
+                marginLeft: "10px",
+                fontSize: "0.9rem",
+                marginRight: "7px",
+              }}
+            >
               Unpaid Invoices/Bills
             </h2>
+
+            {selectedClient && (
+              <FormsHeaderText text={`- ${selectedClient.clientname}`} />
+            )}
           </div>
 
           {selectedOrders.length > 0 && (
@@ -629,7 +657,7 @@ export function BillingList({openModal, showCreateScreen}) {
         >
           <div
             style={{
-              height: "calc(100% - 70px)",
+              height: "calc(100vh - 170px)",
               transition: "width 0.5s ease-in",
               width: selectedClient ? "49.5%" : "100%",
             }}
@@ -643,6 +671,7 @@ export function BillingList({openModal, showCreateScreen}) {
               striped
               onRowClicked={row => onRowClicked(row)}
               progressPending={loading}
+              conditionalRowStyles={conditionalRowStyles}
             />
           </div>
 
@@ -650,7 +679,7 @@ export function BillingList({openModal, showCreateScreen}) {
             <>
               <div
                 style={{
-                  height: "calc(100% - 70px)",
+                  height: "calc(100vh - 170px)",
                   width: "49.5%",
                   transition: "width 0.5s ease-in",
                 }}

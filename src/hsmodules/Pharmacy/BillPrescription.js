@@ -71,7 +71,7 @@ export default function PharmacyBillPrescription() {
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            width: "1000px",
+            width: "90vw",
             maxHeight: "80vh",
           }}
           gap={1}
@@ -114,7 +114,7 @@ export function BillPrescriptionList({showCreateModal}) {
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
-  const [selectedDispense, setSelectedDispense] = useState(); //
+  const [selectedDispense, setSelectedDispense] = useState(null); //
   // eslint-disable-next-line
   const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
@@ -257,6 +257,8 @@ export function BillPrescriptionList({showCreateModal}) {
   }, []);
 
   const handleRow = async ProductEntry => {
+    if (selectedDispense && selectedDispense._id === ProductEntry._id)
+      return setSelectedDispense(null);
     await setSelectedDispense(ProductEntry);
 
     const newProductEntryModule = {
@@ -402,9 +404,19 @@ export function BillPrescriptionList({showCreateModal}) {
                 <FilterMenu onSearch={handleSearch} />
               </div>
             )}
-            <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+            <h2
+              style={{
+                marginLeft: "10px",
+                fontSize: "0.95rem",
+                marginRight: "7px",
+              }}
+            >
               Pending Prescription
             </h2>
+
+            {selectedDispense && (
+              <FormsHeaderText text={`- ${selectedDispense.clientname}`} />
+            )}
           </div>
           {/* 
           {handleCreateNew && (

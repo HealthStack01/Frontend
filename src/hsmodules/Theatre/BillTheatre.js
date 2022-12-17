@@ -27,7 +27,7 @@ import ModalBox from "../../components/modal";
 import ClientBilledPrescription from "./ClientPrescription";
 import {Box} from "@mui/material";
 
-export default function TheatreBillOrder() {
+export default function RadiologyBillOrder() {
   //const {state}=useContext(ObjectContext) //,setState
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState();
@@ -69,6 +69,10 @@ export default function TheatreBillOrder() {
 
   return (
     <section className="section remPadTop">
+      {/*  <div className="level">
+            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
+            </div> */}
+
       <BillPrescriptionList showCreateModal={handleOpenCreateModal} />
       <ModalBox
         open={createModal}
@@ -92,6 +96,7 @@ export default function TheatreBillOrder() {
           >
             <PatientProfile />
           </Box>
+
           <Box
             item
             sx={{
@@ -119,7 +124,7 @@ export function BillPrescriptionList({showCreateModal}) {
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
-  const [selectedDispense, setSelectedDispense] = useState(); //
+  const [selectedDispense, setSelectedDispense] = useState(null); //
   // eslint-disable-next-line
   const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
@@ -262,6 +267,8 @@ export function BillPrescriptionList({showCreateModal}) {
   }, []);
 
   const handleRow = async ProductEntry => {
+    if (selectedDispense && selectedDispense._id === ProductEntry._id)
+      return setSelectedDispense(null);
     await setSelectedDispense(ProductEntry);
 
     const newProductEntryModule = {
@@ -279,14 +286,14 @@ export function BillPrescriptionList({showCreateModal}) {
 
   const billPrescriptionSchema = [
     {
-      name: "S/NO",
+      name: "S/N",
       key: "sn",
       description: "Enter name of Disease",
       selector: row => row.sn,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
-      width: "80px",
+      width: "50px",
     },
     {
       name: "Name",
@@ -298,11 +305,11 @@ export function BillPrescriptionList({showCreateModal}) {
       inputType: "TEXT",
     },
     {
-      name: "Number of Prescriptions",
+      name: "Number of Investigations",
       key: "order",
       description: "Enter number of prescription",
       selector: row =>
-        `${row.orders.length} pending prescription${
+        `${row.orders.length} pending investigation${
           row.orders.length > 1 ? "s" : ""
         }`,
       sortable: true,
@@ -408,7 +415,7 @@ export function BillPrescriptionList({showCreateModal}) {
               </div>
             )}
             <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-              Pending Prescription
+              List of Pending Investigations
             </h2>
           </div>
           {/* 

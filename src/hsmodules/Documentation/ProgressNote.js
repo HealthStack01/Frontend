@@ -7,7 +7,7 @@ import {DocumentClassList} from "./DocumentClass";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "react-toastify";
 import Roaster from "../Admin/Roaster";
-import {Box, getValue} from "@mui/system";
+import {Box} from "@mui/system";
 import RadioButton from "../../components/inputs/basic/Radio";
 import {Button, IconButton, Typography} from "@mui/material";
 import Input from "../../components/inputs/basic/Input";
@@ -18,9 +18,11 @@ import {FormsHeaderText} from "../../components/texts";
 import CloseIcon from "@mui/icons-material/Close";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+import CheckboxGroup from "../../components/inputs/basic/Checkbox/CheckBoxGroup";
 
 export default function ProgressNote() {
-  const {register, handleSubmit, setValue, control} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue, control, reset, getValues} =
+    useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -50,6 +52,7 @@ export default function ProgressNote() {
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
+      console.log(draftDoc.documentdetail);
       Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
         setValue(keys, value, {
           shouldValidate: true,
@@ -127,29 +130,33 @@ export default function ProgressNote() {
       !document.createdByname ||
       !document.facilityname
     ) {
-      toast({
-        message:
-          " Documentation data missing, requires location and facility details",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error(
+        " Documentation data missing, requires location and facility details"
+      );
       return;
     }
 
-    return console.log(document);
+    //return console.log(document);
 
     if (!!draftDoc && draftDoc.status === "Draft") {
       ClientServ.patch(draftDoc._id, document)
         .then(res => {
+          Object.keys(data).forEach(key => {
+            data[key] = "";
+          });
           //console.log(JSON.stringify(res))
-          e.target.reset();
+          //e.target.reset();
           //  setAllergies([])
           //  setSymptoms([])
           /*  setMessage("Created Client successfully") */
           setSuccess(true);
           toast.success("New Patient Consultation Form updated succesfully");
+          reset(data);
+          setValue("Date", null);
+          setValue("Next Review Plan Date", null);
+          setValue("Date_Seen", null);
           setSuccess(false);
+          setConfirmDialog(false);
         })
         .catch.error(err => {
           toast.error("Error updating New Patient Consultation Form " + err);
@@ -157,15 +164,20 @@ export default function ProgressNote() {
     } else {
       ClientServ.create(document)
         .then(res => {
+          Object.keys(data).forEach(key => {
+            data[key] = null;
+          });
           //console.log(JSON.stringify(res))
-          e.target.reset();
+          //e.target.reset();
           //setAllergies([])
           //  setSymptoms([])
           /*  setMessage("Created Client successfully") */
           setSuccess(true);
           toast.success("Pediatric Pulmonology Form created succesfully");
           setSuccess(false);
-          closeForm();
+          reset(data);
+          setConfirmDialog(false);
+          //closeForm();
         })
         .catch(err => {
           toast.error("Error creating Pediatric Pulmonology Form " + err);
@@ -277,11 +289,23 @@ export default function ProgressNote() {
             </Box>
 
             <Box>
-              <CheckboxInput
+              <CheckboxGroup
+                control={control}
                 label="Progress Note Type"
-                register={register("Progress_note_type")}
+                name="Progress Note Type"
                 options={["New", "Return", "Periodic"]}
+                row
+                //config={config}
               />
+
+              {/* <CheckboxInput
+                label="Progress Note Type"
+                //register={register("Progress Note Type")}
+                options={["New", "Return", "Periodic"]}
+                //selected={getValues("Progress Note Type")}
+                control={control}
+                name="Progress Note Type"
+              /> */}
             </Box>
 
             <Box>
@@ -326,23 +350,39 @@ export default function ProgressNote() {
                 Next appontment to be scheduled for
               </Typography>
               <Input
-                register={register("Next_appointment_scheduled_for")}
+                register={register("Next Appontment Schedule")}
                 name="text"
                 type="text"
               />
             </Box>
 
             <Box>
-              <CheckboxInput
+              <CheckboxGroup
+                control={control}
                 label="Needs Next Appointment For"
-                register={register("Ros")}
+                name="ROS"
                 options={[
                   "Decrease Symptoms",
                   "Improve Functioning",
                   "Consolidate Gains",
                   "Improve compliance",
                 ]}
+                row
+                //config={config}
               />
+
+              {/* <CheckboxInput
+                label="Needs Next Appointment For"
+                //register={register("ROS")}
+                options={[
+                  "Decrease Symptoms",
+                  "Improve Functioning",
+                  "Consolidate Gains",
+                  "Improve compliance",
+                ]}
+                name="ROS"
+                control={control}
+              /> */}
             </Box>
 
             <Box>
@@ -350,7 +390,7 @@ export default function ProgressNote() {
                 Prepare for Discharge
               </Typography>
               <Input
-                register={register("Prepare_for_discharge")}
+                register={register("Prepare for Discharge")}
                 name="text"
                 type="text"
               />
@@ -366,7 +406,7 @@ export default function ProgressNote() {
                 Next Review Plan Date
               </Typography>
               <MuiCustomDatePicker
-                name="Next_review_plan_date"
+                name="Next Review Plan Date"
                 control={control}
               />
             </Box>
