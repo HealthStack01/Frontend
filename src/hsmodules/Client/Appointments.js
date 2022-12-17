@@ -854,7 +854,7 @@ export function ClientDetail({ showModal, setShowModal }) {
             marginRight: '5px',
           }}
         />
-        <GlobalCustomButton onClick={handleAttend} text="Attend" />
+        <GlobalCustomButton onClick={handleAttend} text="Attend to client" />
       </Box>
       <Grid container spacing={1} mt={1}>
         <Grid item xs={12} md={4}>

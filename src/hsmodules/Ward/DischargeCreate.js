@@ -785,7 +785,7 @@ export default function DischargeCreate() {
             </Grid>
           </Grid>
           <Grid container spacing={2} my={1}>
-            <Grid item xs={12} sm={8}>
+            {/* <Grid item xs={12} sm={8}>
               <Input
                 name="client"
                 type="text"
@@ -793,7 +793,7 @@ export default function DischargeCreate() {
                 placeholder="Client"
                 defaultValue={source}
               />
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} sm={4}>
               <select
                 name="paymentmode"

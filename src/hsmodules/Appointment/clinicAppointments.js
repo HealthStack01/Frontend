@@ -35,6 +35,7 @@ import BasicDateTimePicker from '../../components/inputs/DateTime';
 import RadioButton from '../../components/inputs/basic/Radio';
 import TextField from '@mui/material/TextField';
 import { FormsHeaderText } from '../../components/texts';
+import CustomConfirmationDialog from '../../components/confirm-dialog/confirm-dialog';
 
 export default function ClinicAppointments() {
   const { state } = useContext(ObjectContext); //,setState
@@ -398,7 +399,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
               }}
             />
             <GlobalCustomButton
-              variant="outlined"
+              variant="contained"
               color="error"
               text="Cancel"
               onClick={() => setShowModal(false)}
@@ -830,7 +831,7 @@ export function ClientDetail({ showModal, setShowModal }) {
             marginRight: '5px',
           }}
         />
-        <GlobalCustomButton onClick={handleAttend} text="Attend" />
+        <GlobalCustomButton onClick={handleAttend} text="Attend to Client" />
       </Box>
       <Grid container spacing={1} mt={1}>
         <Grid item xs={12} md={4}>
@@ -960,7 +961,7 @@ export function ClientModify({ showModal, setShowModal }) {
   const [success2, setSuccess2] = useState(false);
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
-  const [confirmDialog, setConfirmDialog] = useState(false)
+  const [confirmDialog, setConfirmDialog] = useState(false);
 
   const Client = state.AppointmentModule.selectedAppointment;
   //console.log(Client)
@@ -1097,26 +1098,24 @@ export function ClientModify({ showModal, setShowModal }) {
 
     const dleteId = Client._id;
     //if (conf) {
-      ClientServ.remove(dleteId)
-        .then((res) => {
-          //console.log(JSON.stringify(res))
-          reset();
-          /*  setMessage("Deleted Client successfully")
+    ClientServ.remove(dleteId)
+      .then((res) => {
+        //console.log(JSON.stringify(res))
+        reset();
+        /*  setMessage("Deleted Client successfully")
                 setSuccess(true)
                 changeState()
                setTimeout(() => {
                 setSuccess(false)
                 }, 200); */
-          toast.success('Client deleted succesfully');
-          changeState();
-        })
-        .catch((err) => {
-          // setMessage("Error deleting Client, probable network issues "+ err )
-          // setError(true)
-          toast.error(
-            'Error deleting Client, probable network issues or ' + err
-          );
-        });
+        toast.success('Client deleted succesfully');
+        changeState();
+      })
+      .catch((err) => {
+        // setMessage("Error deleting Client, probable network issues "+ err )
+        // setError(true)
+        toast.error('Error deleting Client, probable network issues or ' + err);
+      });
     //}
   };
 
@@ -1218,18 +1217,18 @@ export function ClientModify({ showModal, setShowModal }) {
               </div> */}
               <RadioButton
                 name="appointmentClass"
-                register={register("appointmentClass", {required: true})}
+                register={register('appointmentClass', { required: true })}
                 options={appClass}
                 value={Client?.appointmentClass}
                 onChange={handleChangeClass}
               />
             </Grid>
           </Grid>
-          <Grid container spacing={2} sx={{alignItems: "center"}}>
+          <Grid container spacing={2} sx={{ alignItems: 'center' }}>
             <Grid item xs={12} sm={12} md={4}>
               <BasicDateTimePicker
                 label="Date"
-                register={register("start_time", {required: true})}
+                register={register('start_time', { required: true })}
                 value={format(
                   new Date(Client.start_time),
                   "yyyy-MM-dd'T'HH:mm:ss"
@@ -1258,10 +1257,10 @@ export function ClientModify({ showModal, setShowModal }) {
                 onChange={handleChangeType}
                 defaultValue={Client?.appointment_type}
                 style={{
-                  border: "1px solid #b6b6b6",
-                  height: "38px",
-                  borderRadius: "4px",
-                  width: "100%",
+                  border: '1px solid #b6b6b6',
+                  height: '38px',
+                  borderRadius: '4px',
+                  width: '100%',
                 }}
               >
                 <option defaultChecked>Choose Appointment Type </option>
@@ -1280,16 +1279,17 @@ export function ClientModify({ showModal, setShowModal }) {
                 onChange={handleChangeStatus}
                 defaultValue={Client?.appointment_status}
                 style={{
-                  border: "1px solid #b6b6b6",
-                  height: "38px",
-                  borderRadius: "4px",
-                  width: "100%",
+                  border: '1px solid #b6b6b6',
+                  height: '38px',
+                  borderRadius: '4px',
+                  width: '100%',
                 }}
               >
                 <option defaultChecked>Appointment Status </option>
                 <option value="Scheduled">Scheduled</option>
                 <option value="Confirmed">Confirmed</option>
                 <option value="Checked In">Checked In</option>
+                <option value="Checked Out">Checked Out</option>
                 <option value="Vitals Taken">Vitals Taken</option>
                 <option value="With Nurse">With Nurse</option>
                 <option value="With Doctor">With Doctor</option>
@@ -1307,30 +1307,30 @@ export function ClientModify({ showModal, setShowModal }) {
               <textarea
                 className="input is-small"
                 name="appointment_reason"
-                {...register("appointment_reason", {required: true})}
+                {...register('appointment_reason', { required: true })}
                 type="text"
                 placeholder="Appointment Reason"
                 rows="3"
                 cols="50"
                 style={{
-                  border: "1px solid #b6b6b6",
-                  borderRadius: "4px",
-                  color: " #979DAC",
-                  width: "100%",
+                  border: '1px solid #b6b6b6',
+                  borderRadius: '4px',
+                  color: ' #979DAC',
+                  width: '100%',
                 }}
               >
-                {" "}
+                {' '}
               </textarea>
             </Grid>
           </Grid>
 
-          <Box sx={{display: "flex", alignItems: "center"}}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <GlobalCustomButton
               variant="contained"
               color="success"
               text="Save"
               customStyles={{
-                marginRight: "15px",
+                marginRight: '15px',
               }}
               onClick={handleSubmit(onSubmit)}
             />

@@ -1,54 +1,25 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Route, useNavigate, Link, NavLink } from 'react-router-dom';
-import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
-import { useForm } from 'react-hook-form';
-import {
-  Box,
-  Grid,
-  Button as MuiButton,
-  IconButton,
-  Badge,
-} from '@mui/material';
-import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
+import { Badge, Box, Grid } from '@mui/material';
+import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
-import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
-import DatePicker from 'react-datepicker';
-import LocationSearch from '../helpers/LocationSearch';
-import EmployeeSearch from '../helpers/EmployeeSearch';
-import BillServiceCreate from '../Finance/BillServiceCreate';
+import Drawer from '@mui/material/Drawer';
 import 'react-datepicker/dist/react-datepicker.css';
-import { PageWrapper } from '../../ui/styled/styles';
-import { TableMenu } from '../../ui/styled/global';
-import FilterMenu from '../../components/utilities/FilterMenu';
-import Button from '../../components/buttons/Button';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import ChatInterface from '../../components/chat/ChatInterface';
 import CustomTable from '../../components/customtable';
-import Switch from '../../components/switch';
-import { BsFillGridFill, BsList } from 'react-icons/bs';
-import CalendarGrid from '../../components/calender';
-import ModalBox from '../../components/modal';
-import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
-import { McText } from './text';
 import Input from '../../components/inputs/basic/Input/index';
-import ToggleButton from '../../components/toggleButton';
 import RadioButton from '../../components/inputs/basic/Radio';
-import BasicDatePicker from '../../components/inputs/Date';
-import BasicDateTimePicker from '../../components/inputs/DateTime';
 import CustomSelect from '../../components/inputs/basic/Select';
 import Textarea from '../../components/inputs/basic/Textarea';
-import { MdCancel, MdAddCircle } from 'react-icons/md';
+import ModalBox from '../../components/modal';
+import { FormsHeaderText } from '../../components/texts';
+import { ObjectContext } from '../../context';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
 import PatientProfile from '../Client/PatientProfile';
-import { FormsHeaderText } from '../../components/texts';
-import GlobalCustomButton from '../../components/buttons/CustomButton';
-import Drawer from '@mui/material/Drawer';
-import ChatInterface from '../../components/chat/ChatInterface';
-import CloseIcon from '@mui/icons-material/Close';
 import CRMTasks from '../CRM/Tasks';
 import { PreAuthDetails } from './PreAuth';
+import { McText } from './text';
 
 // eslint-disable-next-line
 const searchfacility = {};

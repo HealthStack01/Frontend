@@ -257,7 +257,7 @@ export function InpatientList() {
 
     return () => {};
   }, [state.WardModule.selectedWard]);
-
+  console.log(facilities);
   return (
     <>
       {user ? (
