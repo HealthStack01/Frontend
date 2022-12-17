@@ -26,6 +26,7 @@ import ModalBox from "../../components/modal";
 // Demo styles, see 'Styles' section below for some notes on use.
 import ClientBilledPrescription from "./ClientPrescription";
 import {Box} from "@mui/material";
+import {FormsHeaderText} from "../../components/texts";
 
 export default function PharmacyBillPrescription() {
   //const {state}=useContext(ObjectContext) //,setState
@@ -257,7 +258,10 @@ export function BillPrescriptionList({showCreateModal}) {
   }, []);
 
   const handleRow = async ProductEntry => {
-    if (selectedDispense && selectedDispense._id === ProductEntry._id)
+    if (
+      selectedDispense &&
+      selectedDispense.client_id === ProductEntry.client_id
+    )
       return setSelectedDispense(null);
     await setSelectedDispense(ProductEntry);
 

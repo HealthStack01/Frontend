@@ -15,19 +15,21 @@ interface componentProps {
   control: any;
   disabled?: boolean;
   handleChange?: any;
+  value?: any;
 }
 
 const MuiCustomDatePicker = ({
   label,
-  format = "DD-MM-YYYY",
+  format = "dd-MM-yyyy",
   //register,
   defaultValue = "",
   name,
   control,
   disabled = false,
   handleChange,
+  value,
 }: componentProps) => {
-  const [value, setValue] = React.useState(null);
+  //const [value, setValue] = React.useState(null);
 
   if (!control)
     return (
@@ -38,8 +40,8 @@ const MuiCustomDatePicker = ({
         onChange={handleChange}
         renderInput={params => (
           <TextField
-            size="small"
             {...params}
+            error={false}
             sx={{
               width: "100%",
               fontSize: "0.8rem",
@@ -63,6 +65,9 @@ const MuiCustomDatePicker = ({
               "& .MuiFormLabel-root.Mui-disabled": {
                 color: "black",
               },
+            }}
+            InputLabelProps={{
+              shrink: true,
             }}
           />
         )}

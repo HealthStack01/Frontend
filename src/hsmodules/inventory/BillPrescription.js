@@ -268,7 +268,10 @@ export function BillPrescriptionList({showCreateModal}) {
   }, []);
 
   const handleRow = async ProductEntry => {
-    if (selectedDispense && selectedDispense._id === ProductEntry._id)
+    if (
+      selectedDispense &&
+      selectedDispense.client_id === ProductEntry.client_id
+    )
       return setSelectedDispense(null);
     await setSelectedDispense(ProductEntry);
 

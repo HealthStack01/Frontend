@@ -340,7 +340,7 @@ export function BillingList({openModal, showCreateScreen}) {
   };
 
   const onRowClicked = async (client, e) => {
-    if (selectedClient && selectedClient._id === client._id)
+    if (selectedClient && selectedClient.client_id === client.client_id)
       return setSelectedClient(null);
 
     await setSelectedClient(client);

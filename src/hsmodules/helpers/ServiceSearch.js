@@ -265,6 +265,15 @@ export default function ServiceSearch({getSearchfacility, clear, mode, label}) {
         isOptionEqualToValue={(option, value) =>
           value === undefined || value === "" || option._id === value._id
         }
+        onInputChange={(event, newInputValue, reason) => {
+          if (reason === "reset") {
+            setVal("");
+            setSimpa("");
+            return;
+          } else {
+            handleSearch(newInputValue);
+          }
+        }}
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys
@@ -280,7 +289,6 @@ export default function ServiceSearch({getSearchfacility, clear, mode, label}) {
           <TextField
             {...params}
             label={label ? label : "Search for Service"}
-            onChange={e => handleSearch(e.target.value)}
             ref={inputEl}
             sx={{
               fontSize: "0.75rem !important",

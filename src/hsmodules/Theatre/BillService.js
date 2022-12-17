@@ -7,7 +7,9 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
+// import PaymentCreate from "./PaymentCreate";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -281,7 +283,7 @@ export function BillsList({openCreateModal}) {
   }, [state.financeModule.show]);
 
   const onRowClicked = async (Client, e) => {
-    if (selectedClient && selectedClient._id === Client._id)
+    if (selectedClient && selectedClient.client_id === Client.client_id)
       return setSelectedClient(null);
     await setSelectedClient(Client);
 
@@ -318,8 +320,8 @@ export function BillsList({openCreateModal}) {
 
   const financePlaymentListSchema = [
     {
-      name: "S/NO",
-      width: "80px",
+      name: "S/N",
+      width: "60px",
       headerStyle: (selector, id) => {
         return {textAlign: "center"};
       },
@@ -337,16 +339,6 @@ export function BillsList({openCreateModal}) {
       key: "clientname",
       description: "Enter Name",
       selector: row => row.clientname,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Grand Total",
-      // width: "130px",
-      key: "clientAmount",
-      description: "Enter Grand Total",
-      selector: row => row.clientAmount.toFixed(2),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -378,6 +370,17 @@ export function BillsList({openCreateModal}) {
       inputType: "TEXT",
     },
     {
+      name: "Grand Total",
+      // width: "130px",
+      key: "clientAmount",
+      description: "Enter Grand Total",
+      selector: row => row.clientAmount.toFixed(2),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      width: "150px",
+    },
+    {
       name: "No of Bills",
       key: "bills",
       description: "Enter Number of Bills",
@@ -385,6 +388,8 @@ export function BillsList({openCreateModal}) {
       sortable: true,
       required: true,
       inputType: "BUTTON",
+      center: true,
+      width: "100px",
     },
   ];
 
