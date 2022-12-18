@@ -1,22 +1,21 @@
 import {Stack,Box,Typography,Card,CardMedia,CardContent,CardActions,Paper,Grid} from '@mui/material'
 import Input from '../../../../components/inputs/basic/Input'
-import {Link} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 
 
 export default function Product({product}){
- 
+ const navigate = useNavigate()
     return(
         <Box>
            
-   <Link to={`/app/patient-portal/buy/${product.id}`}>
-    <Card sx={{ width: "250px"}}>
+  
+    <Card sx={{ width: "250px"}} onClick={() => navigate(`/app/patient-portal/buy/${product.id}`)}>
     <CardMedia
       component="img"
       width="100%"
       height="192"
       image={product?.img}
-      alt="green iguana"
-    //   sx={{padding:"1rem"}}
+      alt={product?.name}
     />
     <CardContent>
       <Stack>
@@ -31,7 +30,7 @@ export default function Product({product}){
       </Stack>
     </CardContent>
   </Card> 
-  </Link>
+ 
     
         </Box>
     )
