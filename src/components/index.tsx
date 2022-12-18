@@ -1,4 +1,4 @@
-import {Box, Button, Typography} from "@mui/material";
+import {Box, Button, IconButton, Typography} from "@mui/material";
 import keyBy from "lodash/keyBy";
 import React, {useEffect, useState, useContext} from "react";
 import {ObjectContext} from "../context";
@@ -13,11 +13,13 @@ import LocationSelect from "./inputs/LocationSelect";
 import ProfileMenu from "./profilemenu";
 import {Profile, TopMenuWrapper} from "./styles";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import MenuIcon from "@mui/icons-material/Menu";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 //import { avatar } from '../../assets/images/img_avatar.png';
 
 const defaultList = [{code: "NG", label: "", location: ""}];
 
-const TopMenu = ({isOpen, handleClick}) => {
+const TopMenu = () => {
   const [locationOptions, setLocationOptions] = useState(defaultList);
   const [locationsById, setLocationsById] = useState({});
   const {list, setFindQuery, facility, locationType, setLocation} =
@@ -26,6 +28,24 @@ const TopMenu = ({isOpen, handleClick}) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const {state, setState} = useContext(ObjectContext);
+
+  const isOpen = state?.sideMenu?.open;
+
+  //console.log(state);
+
+  const closeSideMenu = () => {
+    setState(prev => ({
+      ...prev,
+      sideMenu: {open: false},
+    }));
+  };
+
+  const openSideMenu = () => {
+    setState(prev => ({
+      ...prev,
+      sideMenu: {open: true},
+    }));
+  };
 
   const handleChangeLocation = (caseType: string) => {
     switch (caseType.toLowerCase()) {
@@ -135,42 +155,24 @@ const TopMenu = ({isOpen, handleClick}) => {
   return (
     <TopMenuWrapper>
       <div style={{display: "flex", alignItems: "center", flexWrap: "nowrap"}}>
-        <span
-          onClick={handleClick}
-          style={{
-            fontSize: "1.2rem",
-            marginRight: "1rem",
-            fontWeight: "bold",
-          }}
-        >
-          {!isOpen ? (
-            <i className="bi bi-list"></i>
+        <Box mr={1.5} ml={-1}>
+          {isOpen ? (
+            <IconButton onClick={closeSideMenu}>
+              <ArrowBackIcon sx={{fill: "#2d2d2d"}} />
+            </IconButton>
           ) : (
-            <i className="bi bi-list" />
+            <IconButton onClick={openSideMenu}>
+              <MenuIcon sx={{fill: "#2d2d2d"}} />
+            </IconButton>
           )}
-        </span>
+        </Box>
+
         <span className="breadcrumb">
           <Breadcrumbs />
         </span>
       </div>
 
       <Profile>
-        {/* <div className="location-selector">
-          <LocationSelect
-            defaultLocationId={selectedLocation?._id || ""}
-            locations={locationOptions}
-            onChange={handleSelectLocation}
-          />
-          {
-            <LocationModal
-              locations={locationOptions}
-              onSelectLocation={handleSelectLocation}
-              open={open}
-              setOpen={setOpen}
-            />
-          }
-        </div> */}
-
         {state.employeeLocation.locationName && (
           <Box sx={{display: "flex", alignItems: "center"}} mr={2}>
             <GlobalCustomButton

@@ -5,6 +5,7 @@ import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import {Controller} from "react-hook-form";
 import {DesktopDatePicker} from "@mui/x-date-pickers/DesktopDatePicker";
+import dayjs, {Dayjs} from "dayjs";
 
 interface componentProps {
   format?: string;
@@ -20,7 +21,7 @@ interface componentProps {
 
 const MuiCustomDatePicker = ({
   label,
-  format = "dd-MM-yyyy",
+  format = "DD/MM/YYYY",
   //register,
   defaultValue = "",
   name,
@@ -36,7 +37,7 @@ const MuiCustomDatePicker = ({
       <DesktopDatePicker
         label={label}
         inputFormat={format}
-        value={value}
+        value={dayjs(value)}
         onChange={handleChange}
         renderInput={params => (
           <TextField

@@ -14,12 +14,19 @@ import {UserContext, ObjectContext} from "./context";
 import AppRoutes from "./hsmodules/routes";
 import {GlobalStyle} from "./ui/styled/global";
 import {darkTheme, lightTheme} from "./ui/styled/theme";
+import ActionLoader from "./components/action-loader/Action-Loader";
 
 function App() {
   const [state, setState] = useState({
-    confirmationDialog: {
+    actionLoader: {
       open: false,
+      message: "",
     },
+
+    sideMenu: {
+      open: true,
+    },
+
     facilityModule: {
       show: "list",
       selectedFacility: {},
@@ -219,6 +226,7 @@ function App() {
           <ObjectContext.Provider value={{state, setState}}>
             <MyUserProvider>
               <GlobalStyle />
+              <ActionLoader />
               <AnimatePresence initial exitBeforeEnter>
                 <Router>
                   <AppRoutes />

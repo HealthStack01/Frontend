@@ -286,21 +286,6 @@ export default function EncounterMain({nopresc, chosenClient}) {
     handleHideActions();
   };
 
-  const handlePrint = async i => {
-    var content = document.getElementById(i);
-    var pri = document.getElementById("ifmcontentstoprint").contentWindow;
-    pri.document.open();
-    pri.document.write(content.innerHTML);
-    pri.document.close();
-    pri.focus();
-    pri.print();
-
-    console.log("Hello World");
-  };
-  /*  const handlePrint =(i)=> useReactToPrint({
-        content: () => myRefs.current[i]
-      }); */
-
   useEffect(() => {
     getFacilities();
 
@@ -322,17 +307,6 @@ export default function EncounterMain({nopresc, chosenClient}) {
     ClinicServ.on("patched", obj => getFacilities(page));
     ClinicServ.on("removed", obj => getFacilities(page));
 
-    /* var options = {
-                    root: null,
-                    rootMargin: "20px",
-                    threshold: 1.0
-                 }; */
-    // initialize IntersectionObserver
-    // and attaching to Load More div
-    /*  const observer = new IntersectionObserver(handleObserver, options);
-                 if (loader.current) {
-                    observer.observe(loader.current)
-                 } */
     return () => {
       const newDocumentClassModule = {
         selectedDocumentClass: {},
@@ -348,16 +322,9 @@ export default function EncounterMain({nopresc, chosenClient}) {
   }, []);
 
   const handleDelete = doc => {
-    // console.log(doc)
-    // let confirm = window.confirm(
-    //   `You are about to delete a document: ${
-    //     doc.documentname
-    //   } created on ${format(new Date(doc.createdAt), "dd-MM-yy")} ?`
-    // );
-    // if (confirm) {
     ClinicServ.remove(doc._id)
       .then(res => {
-        toast.success("Adult Asthma Questionnaire deleted succesfully");
+        toast.success(`${docToDelete?.documentname} Deleted succesfully`);
         setSuccess(false);
         setConfirmationDialog(false);
       })
