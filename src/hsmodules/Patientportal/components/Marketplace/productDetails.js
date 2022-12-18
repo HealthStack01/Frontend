@@ -4,7 +4,7 @@ import {
   useParams,
   useNavigate
 } from "react-router-dom";
-import { productData } from './data';
+import { productDetailsData,productData } from './data';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -13,7 +13,8 @@ import Button from "../../../../components/buttons/CustomButton"
 
 
 export default function ProductDetails(){
-  const [product] = useState(productData)
+  const [productDetails] = useState(productDetailsData)
+  const [products] = useState(productData)
   const [healthInsuranceModal, setHealthInsuranceModal] = useState(false)
   const drawerWidth = 240;
 
@@ -25,14 +26,16 @@ export default function ProductDetails(){
   const handleInsuranceModal = () => {
     setHealthInsuranceModal(true);
   };
-  // const fetchProduct = productId => {
-  //   return products.filter(product => product.id === productId);
-  // };
+
+
+  const fetchProduct = productDetails.find(productDetail => productDetail.id === products.id);
+
 
   // let product = fetchProduct(params.id);
 
-  // console.log(product)
+  console.log(fetchProduct)
     return(
+     
       <Box m={4}>
         <Drawer
         sx={{
@@ -59,20 +62,20 @@ export default function ProductDetails(){
             component="img"
             width="100%"
             height="100%"
-            image="https://m.media-amazon.com/images/W/WEBP_402378-T2/images/I/81NujKDCsXL._AC_SL1500_.jpg"
-            alt="green iguana"
+            image={fetchProduct?.img}
+            alt={fetchProduct?.name}
           />
           </Stack>
           <Stack>
           <CardContent>
             <Stack>
             <Typography variant="p" fontSize="14px" fontWeight="bold" color="text.secondary">
-             {product[0]?.name}
+             {fetchProduct?.name}
             </Typography>
             </Stack>
             <Stack pb="1rem">
             <Typography variant="p" fontSize="14px" fontWeight="bold" color="text.secondary">
-            ₦{product[0]?.price}
+            ₦{fetchProduct?.price}
             </Typography>
             </Stack>
             <Stack pb="1rem">
@@ -85,9 +88,7 @@ export default function ProductDetails(){
               Description
             </Typography>
             <Typography variant="p" fontSize="14px" color="text.secondary">
-            Nexus Pharma’s Gluta-1 Injections are all lyophilized (freeze dried) glutathione. 
-            This advanced manufacturing process enhances purity and potency meaning 
-            they are engineered for injection use.
+            {fetchProduct?.description}
             </Typography>
             </Stack>
             <Stack>
@@ -95,8 +96,7 @@ export default function ProductDetails(){
               Dosage
             </Typography>
             <Typography variant="p" fontSize="14px" color="text.secondary">
-            While most of the world’s Glutathione 
-            Injections are plain API (raw ingredient in powder form), 
+           {fetchProduct?.dosage}
             </Typography>
             </Stack>
           </CardContent>

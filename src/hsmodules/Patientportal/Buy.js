@@ -41,8 +41,8 @@ export default function Buy(){
 export function BuyItems(){
   return(
     <Box>
-    {/* <Products/> */}
-    <ProductDetails />
+    <Products/>
+    {/* <ProductDetails /> */}
  </Box>
   )
 }
