@@ -13,7 +13,8 @@ import LocationSearch from "../helpers/LocationSearch";
 import EmployeeSearch from "../helpers/EmployeeSearch";
 import BillServiceCreate from "../Finance/BillServiceCreate";
 import "react-datepicker/dist/react-datepicker.css";
-
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import { PageWrapper } from "../../ui/styled/styles";
 import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
@@ -867,16 +868,17 @@ export function BloodBankLabList({ showModal, setShowModal }) {
                     </div>
                   )}
                   <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
-                    Invoice
+                    Lab List
                   </h2>
                 </div>
 
                 {handleCreateNew && (
-                  <Button
-                    style={{ fontSize: "14px", fontWeight: "600" }}
-                    label="Add new "
-                    onClick={handleCreateNew}
-                  />
+                  <GlobalCustomButton 
+                  onClick={handleCreateNew}
+                  >
+                    <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                  Add New
+                  </GlobalCustomButton>
                 )}
               </TableMenu>
               <div style={{ width: "100%", height: "600px", overflow: "auto" }}>

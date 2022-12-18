@@ -1,5 +1,9 @@
 import {lazy} from "react";
 import PatientProfile from '../Patientportal/PatientProfile'
+import ViewRecords from "../Patientportal/ViewRecords"
+import Buy from "../Patientportal/Buy"
+import Blog from "../Patientportal/Read"
+import Chat from "../Patientportal/Chat"
 
 export const patientProfileRoutes = [
   {
@@ -8,11 +12,11 @@ export const patientProfileRoutes = [
   },
   {
     path: "/app/patient-portal/view",
-    Component: null,
+    Component: ViewRecords,
   },
   {
     path: "/app/patient-portal/buy",
-    Component: null,
+    Component: Buy,
   },
   {
     path: "app/patient-portal/search",
@@ -20,11 +24,11 @@ export const patientProfileRoutes = [
   },
   {
     path: "/app/patient-portal/read",
-    Component: null,
+    Component: Blog,
   },
   {
     path: "/app/patient-portal/chat",
-    Component: null,
+    Component: Chat,
   },
   {
     path: "/app/patient-portal/dashboard",
