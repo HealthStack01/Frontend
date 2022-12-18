@@ -9,10 +9,11 @@ import Button from "../../../../components/buttons/CustomButton"
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import ModalBox from "../../../../components/modal";
 import { useForm } from "react-hook-form";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 
 
-export default function Lab(){
+export default function Lab({handleGoBack}){
   const [labCreateModal, setLabCreateModal] = useState(false)
 
   const handleHideLabCreateModal = () => {
@@ -26,7 +27,7 @@ export default function Lab(){
 
   return(
     <Stack>
-      <LabReport showLabCreateModal={handleLabCreateModal}/>
+      <LabReport handleGoBack={handleGoBack} showLabCreateModal={handleLabCreateModal}/>
 
       <ModalBox width="30vw" open={labCreateModal} onClose={handleHideLabCreateModal} header="Request Lab Test">
           <LabCreate/>
@@ -37,7 +38,7 @@ export default function Lab(){
 
 
 
-export function LabReport({showLabCreateModal}){
+export function LabReport({showLabCreateModal,handleGoBack }){
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -45,13 +46,42 @@ export function LabReport({showLabCreateModal}){
   };
 
     return(
-      <Stack gap="1.5rem">
+      <Stack gap="1.5rem" width="80%" p={4}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+          }}
+          gap={1}
+         
+        >
+         <Button onClick={handleGoBack}>
+            <ArrowBackIcon />
+            Go Back
+          </Button>
+
+          <Typography
+            sx={{
+              fontSize: "0.95rem",
+              fontWeight: "600",
+            }}
+          >
+            Laboratory
+          </Typography>
+        </Box>
+        <Box display="flex" justifyContent="flex-end">
+       <Button color="primary" aria-label="add" onClick={showLabCreateModal}>
+        <AddIcon />
+        Request
+      </Button>
+       </Box>
       <Box
         sx={{
           width: "100%",
           display: "flex",
           padding: "8px 8px",
           justifyContent: "space-between",
+          margin:"5rem",
           boxShadow: 2,
           borderRadius: "7.5px",
           cursor:"pointer"
@@ -147,11 +177,7 @@ export function LabReport({showLabCreateModal}){
       </Box>
     </List>
       </Collapse>
-       <Box display="flex" justifyContent="flex-end">
-       <Fab color="primary" aria-label="add" onClick={showLabCreateModal}>
-        <AddIcon />
-      </Fab>
-       </Box>
+      
       </Stack>
     )
 }

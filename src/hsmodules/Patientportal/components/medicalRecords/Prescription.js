@@ -1,11 +1,12 @@
 import React, {useState} from 'react'
 import MedicationLiquidIcon from '@mui/icons-material/MedicationLiquid';
 import {Box, Grid, IconButton,Collapse, Typography,Stack} from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
+import Button from "../../../../components/buttons/CustomButton"
 
-
-export default function Prescription(){
+export default function Prescription({handleGoBack}){
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -13,8 +14,30 @@ export default function Prescription(){
   };
 
     return(
-      <Stack gap="1.5rem">
-      
+      <Stack width="80%" p={4}>
+          <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+          }}
+          gap={1}
+         
+        >
+          <Button onClick={handleGoBack}>
+            <ArrowBackIcon />
+            Go Back
+          </Button>
+
+          <Typography
+            sx={{
+              fontSize: "0.95rem",
+              fontWeight: "600",
+            }}
+          >
+            Prescription
+          </Typography>
+        </Box>
+        <Box m="5rem">
       <Box
         sx={{
           width: "100%",
@@ -23,11 +46,13 @@ export default function Prescription(){
           justifyContent: "space-between",
           boxShadow: 2,
           borderRadius: "7.5px",
-          cursor:"pointer"
+          cursor:"pointer",
+          
         }}
         expand={expanded}
         onClick={handleExpandClick}
         aria-expanded={expanded}
+        
       >
         <Box
           sx={{
@@ -36,13 +61,14 @@ export default function Prescription(){
             alignItems: "center",
             borderRight: "1px solid lightgray",
           }}
+         
         >
           <Typography sx={{fontSize: "0.85rem", color: "#FCB222"}}>
             Pending
           </Typography>
         </Box>
   
-        <Box sx={{width: "calc(100% - 250px)", display: "flex"}}>
+        <Box sx={{width: "calc(100% - 250px)", display: "flex"}} >
           <Box sx={{width: "100%"}}>
           <Typography
                 style={{fontSize: "1rem", color: "#000000", marginRight: "3px"}}
@@ -112,6 +138,7 @@ export default function Prescription(){
       </Box>
     </List>
       </Collapse>
+      </Box>
       </Stack>
     )
 }

@@ -229,6 +229,7 @@ import LazyLoader from "../components/lazy-loader/Lazy-Loader";
 
 import IncomingReferral from "./Referral/ReferralListIncoming";
 import OutgoingReferral from "./Referral/ReferralListOutcoming";
+import ProductDetails from "../Patientportal/components/Marketplace/productDetails";
 
 const AccountDashboard = lazy(() =>
   import("./dashBoardUiComponent/@modules/AccountDashboard")
@@ -308,6 +309,10 @@ const AppRoutes = () => {
           <Route path="/signupindividual" element={<IndividualSignup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/create-password" element={<CreatePassword />} />
+          {/* <Route
+                path="/product/:id"
+                element={<ProductDetails />}
+              /> */}
 
           {/**************************Pouchii Wallet Routes *************************************** */}
           <Route path="/verify-otp" element={<WalletOTP />} />
@@ -879,12 +884,17 @@ const AppRoutes = () => {
               <Route path="/app/patient-portal/profile" />
               <Route path="/app/patient-portal/view" />
               <Route path="/app/patient-portal/buy" />
+              
               <Route path="/app/patient-portal/search" />
               <Route path="/app/patient-portal/read" />
               <Route path="/app/patient-portal/chat" />
               <Route path="/app/patient-portal/dashboard" />
+              <Route path="/app/patient-portal/buy/*" 
+                          element={<ProductDetails/>}
+            />
             </Route>
-
+           
+              
             {/**************************Accounting *************************************** */}
             <Route path="/app/accounting">
               <Route index element={<AccountDashboard />} />
@@ -950,6 +960,7 @@ const AppRoutes = () => {
               />
             </Route>
           </Route>
+          
         </Routes>
       </Suspense>
     </>

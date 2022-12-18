@@ -810,8 +810,8 @@ export function ClientDetail({showModal, setShowModal}) {
       ClientModule: newClientModule,
     }));
     //modify appointment
-    navigate("/app/clinic/documentation");
-    console.log("test");
+    navigate('/app/clinic/documentation');
+    
   };
 
   return (
