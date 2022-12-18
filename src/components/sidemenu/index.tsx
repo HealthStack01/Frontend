@@ -287,7 +287,7 @@ export const menuItems = [
   {
     name: "Patient Portal",
     exact: true,
-    to: "/app/patient-portal",
+    to: "/app/patient-portal/profile",
     iconClassName: "bi bi-person",
     subMenus: [
       {name: "Profile", to: "/app/patient-portal/profile"},

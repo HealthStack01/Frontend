@@ -162,7 +162,7 @@ console.log(data)
                <Input
                 label="Name"
                 register={register("name")}
-                errorText={errors?.name?.message}
+                // errorText={errors?.name?.message}
               />
             
             )}
@@ -179,7 +179,7 @@ console.log(data)
                 label="Location Type"
                 register={register("locationType")}
                 // options={Location.sublocations}
-                errorText={errors?.locationType?.message}
+                // errorText={errors?.locationType?.message}
               />
             )}
           </GridBox>

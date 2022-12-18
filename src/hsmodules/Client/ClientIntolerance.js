@@ -67,15 +67,15 @@ export default function ClientIntolerance() {
           showCreateModal={handleCreateModal}
           showDetailModal={handleShowDetailModal}
         />
-        <ModalBox width="40vw" open={createModal} onClose={handleHideCreateModal}>
+        <ModalBox width="40vw" open={createModal} onClose={handleHideCreateModal} header="Create Drug Intolerance">
           <ClientIntoleranceCreate />
         </ModalBox>
 
-        <ModalBox width="40vw" open={detailModal} onClose={handleHideDetailModal}>
+        <ModalBox width="40vw" open={detailModal} onClose={handleHideDetailModal} header="Drug Intolerance Details">
           <ClientIntoleranceDetail showModifyModal={handleModifyModal} />
         </ModalBox>
 
-        <ModalBox width="40vw" open={modifyModal} onClose={handleHideModifyModal}>
+        <ModalBox width="40vw" open={modifyModal} onClose={handleHideModifyModal} header="Modify Drug Intolerance">
           <ClientIntoleranceModify />
         </ModalBox>
       </div>
@@ -654,9 +654,7 @@ export function ClientIntoleranceDetail({showModifyModal}) {
 
   return (
     <>
-       <div className="card-header" style={{display:"flex", justifyContent:"space-between",alignItems:"center", padding:"1rem"}}>
-         <div style={{marginRight:"4rem"}}> <p>Drug Intolerance Details</p></div>
-          <div>
+       <div style={{display:"flex", justifyContent:"flex-end",paddingBottom:"1rem"}}>
           <GlobalCustomButton
                   onClick={handleEdit}
                   >
@@ -667,7 +665,6 @@ export function ClientIntoleranceDetail({showModifyModal}) {
                     Edit
                   </GlobalCustomButton>
           </div>
-        </div>
       <div className="control" style={{paddingBottom:"1rem"}}>
                 
              <CategorySearch label="Drug" defaultValue="Aspirin" disabled={!editing}/>
@@ -867,9 +864,9 @@ export function ClientIntoleranceModify() {
 
   return (
     <>
-    <div className="card-header" style={{display:"flex", justifyContent:"space-between",alignItems:"center", padding:"1rem"}}>
-         <div style={{marginRight:"4rem"}}> <p>Edit Drug Intolerance</p></div>
-         <Box sx={{display: "flex", gap:"1rem"}}>
+    <div>
+         
+         <Box sx={{display: "flex", gap:"1rem",justifyContent:"flex-end"}} pb="1rem">
            
            <GlobalCustomButton type="submit" onClick={handleSubmit(onSubmit)}>
              Save

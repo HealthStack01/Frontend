@@ -702,7 +702,7 @@ export function InventoryList({showcreateModal, openDetailModal}) {
                   </div>
                 )}
                 <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-                Immunization Inventory
+                BloodBank Inventory
                 </h2>
               </div>
 

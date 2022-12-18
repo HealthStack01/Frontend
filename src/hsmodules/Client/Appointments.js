@@ -486,6 +486,7 @@ export function ClientList({ showModal, setShowModal }) {
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
+    console.log(Client)
   };
   //console.log(state.employeeLocation)
 
@@ -707,7 +708,7 @@ export function ClientList({ showModal, setShowModal }) {
     padding: '0 .8rem',
   };
 
-  console.log(facilities);
+  // console.log(facilities[0].clientId);
 
   return (
     <>
@@ -806,7 +807,9 @@ export function ClientDetail({ showModal, setShowModal }) {
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
 
+  // console.log(state)
   const Client = state.AppointmentModule.selectedAppointment;
+ 
   //const client=Client
   const handleEdit = async () => {
     const newClientModule = {
@@ -822,11 +825,13 @@ export function ClientDetail({ showModal, setShowModal }) {
 
   const handleAttend = async () => {
     const patient = await client.service('client').get(Client.clientId);
+    // console.log(patient)
     await setSelectedClient(patient);
     const newClientModule = {
       selectedClient: patient,
       show: 'detail',
     };
+    // console.log("patient....",patient)
     await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
