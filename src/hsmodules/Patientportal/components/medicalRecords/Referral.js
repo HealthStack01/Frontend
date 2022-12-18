@@ -5,6 +5,7 @@ import {Stack,Box,Typography} from '@mui/material'
 import { useForm } from "react-hook-form";
 import {FacilitySearch} from "../../../helpers/FacilitySearch"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import IncomingReferral from "../../../Referral/ReferralListIncoming";
 
 
 export default function Referral({handleGoBack}){
@@ -26,7 +27,7 @@ export default function Referral({handleGoBack}){
     };
 
     return(
-        <Stack m="5rem">
+        <Stack>
              <Box
           sx={{
             display: "flex",
@@ -49,7 +50,10 @@ export default function Referral({handleGoBack}){
             Referral
           </Typography>
         </Box>
-            <Box display="flex" justifyContent="flex-end" pb={2}> 
+        <Box>
+        <IncomingReferral/>
+        </Box>
+            {/* <Box display="flex" justifyContent="flex-end" pb={2}> 
             <Button variant='contained' sx={{marginRight:"1.5rem"}}>
               Refer
             </Button>
@@ -71,7 +75,7 @@ export default function Referral({handleGoBack}){
               /> 
            </Box>
 
-            </form>
+            </form> */}
         </Stack>
     )
 }

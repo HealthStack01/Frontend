@@ -23,7 +23,7 @@ export const AdmissionOrderDocument = forwardRef(({Clinic}, ref) => {
     >
       <Box sx={{display: "none"}}>
         <AdmissionOrderPrintOut
-          data={Clinic.documentdetail}
+          data={Clinic?.documentdetail}
           Clinic={Clinic}
           ref={ref}
         />
@@ -32,12 +32,12 @@ export const AdmissionOrderDocument = forwardRef(({Clinic}, ref) => {
         <div className="ml-4">
           <p>
             Admit to{" "}
-            {Clinic.documentdetail.ward?.name || Clinic.documentdetail.ward}
+            {Clinic?.documentdetail.ward?.name || Clinic.documentdetail.ward}
           </p>
-          {Clinic.documentdetail.instruction && (
+          {Clinic?.documentdetail?.instruction && (
             <p>
               <label className="label is-size-7"> Instructions:</label>
-              {Clinic.documentdetail.instruction}
+              {Clinic?.documentdetail?.instruction}
             </p>
           )}
         </div>
@@ -55,7 +55,7 @@ export const DischargeOrderComponent = forwardRef(({Clinic}, ref) => {
     >
       <Box sx={{display: "none"}}>
         <DischargeOrderPrintOut
-          data={Clinic.documentdetail}
+          data={Clinic?.documentdetail}
           ref={ref}
           Clinic={Clinic}
         />
@@ -88,13 +88,13 @@ export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
       <Box sx={{display: "none"}}>
         <MedicationListPrintOut
           ref={ref}
-          data={Clinic.documentdetail}
+          data={Clinic?.documentdetail}
           Clinic={Clinic}
         />
       </Box>
       {Object.entries(Clinic.documentdetail).map(([keys, value], i) => (
         <>
-          {value.length > 0 && (
+          {value?.length > 0 && (
             <>
               {keys !== "Allergies" && keys !== "Medications" && (
                 <div className="field is-horizontal">
@@ -110,7 +110,7 @@ export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
               )}
               {keys === "Allergies" && (
                 <div id="skintest">
-                  {Clinic.documentdetail.Allergies.length > 0 && (
+                  {Clinic?.documentdetail?.Allergies?.length > 0 && (
                     <div>
                       <label className="label is-size-7">Allergies:</label>
                       <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-5 ml-5 ">
@@ -130,12 +130,12 @@ export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
                         </thead>
                         <tfoot></tfoot>
                         <tbody>
-                          {Clinic.documentdetail.Allergies.map(
+                          {Clinic?.documentdetail?.Allergies.map(
                             (ProductEntry, i) => (
                               <tr key={i}>
                                 <th>{i + 1}</th>
-                                <td>{ProductEntry.allergine}</td>
-                                <td>{ProductEntry.reaction}</td>
+                                <td>{ProductEntry?.allergine}</td>
+                                <td>{ProductEntry?.reaction}</td>
                               </tr>
                             )
                           )}
@@ -147,7 +147,7 @@ export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
               )}
               {keys === "Medications" && (
                 <div id="Medications">
-                  {Clinic.documentdetail.Medications.length > 0 && (
+                  {Clinic?.documentdetail?.Medications?.length > 0 && (
                     <div>
                       <label className="label is-size-7">Medications:</label>
                       <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-5 ml-5 ">
@@ -172,13 +172,13 @@ export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
                         </thead>
                         <tfoot></tfoot>
                         <tbody>
-                          {Clinic.documentdetail.Medications.map(
+                          {Clinic.documentdetail?.Medications.map(
                             (ProductEntry, i) => (
                               <tr key={i}>
                                 <th>{i + 1}</th>
-                                <td>{ProductEntry.drugname}</td>
-                                <td>{ProductEntry.strengthfreq}</td>
-                                <td>{ProductEntry.notes}</td>
+                                <td>{ProductEntry?.drugname}</td>
+                                <td>{ProductEntry?.strengthfreq}</td>
+                                <td>{ProductEntry?.notes}</td>
                               </tr>
                             )
                           )}
@@ -214,7 +214,7 @@ export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
 
       {Object.entries(Clinic.documentdetail).map(([keys, value], i) => (
         <>
-          {value.length > 0 && (
+          {value?.length > 0 && (
             <>
               {keys !== "Allergy_Skin_Test" &&
                 keys !== "Presenting_Complaints" && (
@@ -253,12 +253,12 @@ export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
                         </thead>
                         <tfoot></tfoot>
                         <tbody>
-                          {Clinic.documentdetail.Allergy_Skin_Test.map(
+                          {Clinic.documentdetail?.Allergy_Skin_Test.map(
                             (ProductEntry, i) => (
                               <tr key={i}>
                                 <th>{i + 1}</th>
-                                <td>{ProductEntry.allergine}</td>
-                                <td>{ProductEntry.reaction}</td>
+                                <td>{ProductEntry?.allergine}</td>
+                                <td>{ProductEntry?.reaction}</td>
                               </tr>
                             )
                           )}
@@ -292,12 +292,12 @@ export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
                         </thead>
                         <tfoot></tfoot>
                         <tbody>
-                          {Clinic.documentdetail.Presenting_Complaints.map(
+                          {Clinic.documentdetail?.Presenting_Complaints.map(
                             (ProductEntry, i) => (
                               <tr key={i}>
                                 <th>{i + 1}</th>
-                                <td>{ProductEntry.symptom}</td>
-                                <td>{ProductEntry.duration}</td>
+                                <td>{ProductEntry?.symptom}</td>
+                                <td>{ProductEntry?.duration}</td>
                               </tr>
                             )
                           )}
@@ -325,14 +325,14 @@ export const AdultAthsmaQuestionaire = forwardRef(({Clinic}, ref) => {
       <Box sx={{display: "none"}}>
         <AdultQuestionnairePrintOut
           Clinic={Clinic}
-          data={Clinic.documentdetail}
+          data={Clinic?.documentdetail}
           ref={ref}
         />
       </Box>
 
       {Object.entries(Clinic.documentdetail).map(([keys, value], i) => (
         <>
-          {value.length > 0 && (
+          {value?.length > 0 && (
             <>
               {keys !== "Allergy_Skin_Test" ? (
                 <div className="field is-horizontal">
@@ -369,12 +369,12 @@ export const AdultAthsmaQuestionaire = forwardRef(({Clinic}, ref) => {
                         </thead>
                         <tfoot></tfoot>
                         <tbody>
-                          {Clinic.documentdetail.Allergy_Skin_Test.map(
+                          {Clinic.documentdetail?.Allergy_Skin_Test.map(
                             (ProductEntry, i) => (
                               <tr key={i}>
                                 <th>{i + 1}</th>
-                                <td>{ProductEntry.allergine}</td>
-                                <td>{ProductEntry.reaction}</td>
+                                <td>{ProductEntry?.allergine}</td>
+                                <td>{ProductEntry?.reaction}</td>
                               </tr>
                             )
                           )}

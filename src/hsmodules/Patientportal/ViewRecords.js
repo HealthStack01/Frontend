@@ -18,15 +18,12 @@ import Referral from './components/medicalRecords/Referral';
 import Appointment from './components/medicalRecords/Appointment';
 import Lab from './components/medicalRecords/Lab';
 import HealthInsurance from './components/medicalRecords/HealthInsurance';
-import {
-  Link
-} from "react-router-dom"
-
+import { useNavigate } from 'react-router-dom';
   
 export default function ViewRecords(){
   const [currentView, setCurrentView] = useState("veiws");
   const [healthInsuranceModal, setHealthInsuranceModal] = useState(false)
-
+  
 
   const handleGoBack = () => {
     setCurrentView("veiws");
@@ -139,6 +136,8 @@ export function ViewRecordItems(
     showHealthInsuranceModal
   }
   ){
+    const navigate = useNavigate();
+
     return(
         <Box py="6rem" px="4rem">
         <Grid container gap={12}>
@@ -180,7 +179,7 @@ export function ViewRecordItems(
       
        </Grid>
        <Grid container  gap={12} pt={12}>
-       <Paper elevation={3} sx={{width:"250px",height:"100%", padding:"3rem",backgroundColor:"#f4f3ee",cursor:"pointer"}} onClick={showAppointmentModal}>
+       <Paper elevation={3} sx={{width:"250px",height:"100%", padding:"3rem",backgroundColor:"#f4f3ee",cursor:"pointer"}} onClick={() => navigate("/app/clients/appointments")}>
         <Box sx={{textAlign:"center"}}>
         <BookOnlineIcon sx={{color:"#03045E",fontSize:'50px'}}/>
         <Typography sx={{ fontSize: "16px",fontWeight:"bold" }} color="text.secondary">
