@@ -17,21 +17,6 @@ import dayjs from "dayjs";
 // import CustomTable from "../../components/customtable";
 
 const FluidIntakeOutput = () => {
-<<<<<<< HEAD
-  const {register, handleSubmit, setValue, control} = useForm();
-  const fluidTypeOptions=["Input","Output"]
-  const {user,setUser} = useContext(UserContext)
-  const [facilities,setFacilities]=useState([])
-  const [selectedFluid,setSelectedFluid]=useState()
-  const [chosen, setChosen]=useState(true)
-    const [chosen1, setChosen1]=useState(true)
-    const [chosen2, setChosen2]=useState(true) 
-    const {state}=useContext(ObjectContext)
-    const [docStatus,setDocStatus] = useState("Draft")
-    const ClientServ=client.service('clinicaldocument')
-    const fac = useRef([])
-    const struc = useRef([])
-=======
   const {register, handleSubmit, setValue, control, reset} = useForm();
   const fluidTypeOptions = ["Input", "Output"];
   const {user, setUser} = useContext(UserContext);
@@ -45,16 +30,13 @@ const FluidIntakeOutput = () => {
   const ClientServ = client.service("clinicaldocument");
   const fac = useRef([]);
   const struc = useRef([]);
->>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
 
-  const handleRow = ()=>{
-    console.log("let's pray")
-  }
+  const handleRow = () => {
+    console.log("let's pray");
+  };
 
-  let draftDoc=state.DocumentClassModule.selectedDocumentClass.document
+  let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
 
-<<<<<<< HEAD
-=======
   const checkonadmission = () => {
     console.log(state.ClientModule.selectedClient.admission_id);
     if (!!state.ClientModule.selectedClient.admission_id) {
@@ -63,140 +45,86 @@ const FluidIntakeOutput = () => {
       toast.error("Patient not on admission");
     }
   };
->>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
 
-      const checkonadmission=()=>{
-        console.log(state.ClientModule.selectedClient.admission_id)
-        if (!!state.ClientModule.selectedClient.admission_id){
-        setChosen2(false)
-        }
-        else{
-          toast({
-            message: 'Patient not on admission',
-            type: 'is-danger',
-            dismissible: true,
-            pauseOnHover: true,
-          })
-        }
-      }
+  useEffect(() => {
+    checkonadmission();
+    findexistingChart();
 
-    useEffect(() => {
-      checkonadmission()
-    findexistingChart()
+    return () => {};
+  }, [draftDoc]);
 
-      return () => {
-      
-      }
-    },[draftDoc])
+  const findexistingChart = async () => {
+    const findClinic = await ClientServ.find({
+      query: {
+        client: state.ClientModule.selectedClient._id,
+        facility: user.currentEmployee.facilityDetail._id,
+        documentname: state.DocumentClassModule.selectedDocumentClass.name,
+        episodeofcare_id: state.ClientModule.selectedClient.admission_id,
 
+        $limit: 20,
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    });
 
-        const findexistingChart=async()=>{
+    fac.current = findClinic.data[0];
+    //console.log(fac.current)
+    if (findClinic.total > 1) {
+      setChosen1(false);
+      setFacilities(fac.current.documentdetail.recordings);
+    }
+  };
 
-          const findClinic= await ClientServ.find(
-            {query: {
-                client:state.ClientModule.selectedClient._id,
-                facility:user.currentEmployee.facilityDetail._id,
-                documentname:state.DocumentClassModule.selectedDocumentClass.name,
-                episodeofcare_id:state.ClientModule.selectedClient.admission_id,
-
-                    $limit:20,
-                    $sort: {
-                        createdAt: -1
-                    }
-                }})
-
-              fac.current=findClinic.data[0]
-              //console.log(fac.current)
-              if (findClinic.total >1) {
-                setChosen1(false)
-                setFacilities(fac.current.documentdetail.recordings)
-              }
-          
-        }
-
-    
-          useEffect(() => {
-            if( !!draftDoc && draftDoc.status==="Draft"){
-
-              /*  Object.entries(draftDoc.documentdetail).map(([keys,value],i)=>(
+  useEffect(() => {
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      /*  Object.entries(draftDoc.documentdetail).map(([keys,value],i)=>(
                   setValue(keys, value,  {
                       shouldValidate: true,
                       shouldDirty: true
                   })
 
               )) */
-              setFacilities(draftDoc.documentdetail.recordings)
-              // setAllergies(draftDoc.documentdetail.Allergy_Skin_Test)
-              }
-                  return () => {
-                      draftDoc={}
-                  }
-              }, [draftDoc])
-          
-              
+      setFacilities(draftDoc.documentdetail.recordings);
+      // setAllergies(draftDoc.documentdetail.Allergy_Skin_Test)
+    }
+    return () => {
+      draftDoc = {};
+    };
+  }, [draftDoc]);
 
+  const handleSave = () => {
+    let document = {};
+    let data = {};
+    data.recordings = facilities;
+    // data.createdby=user._id
 
-          const handleSave=()=>{
-            
-            let document={}
-            let data={}
-            data.recordings=facilities
-            // data.createdby=user._id
-            
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+    }
+    document.documentdetail = data;
+    document.documentname =
+      state.DocumentClassModule.selectedDocumentClass.name;
+    document.documentClassId =
+      state.DocumentClassModule.selectedDocumentClass._id;
+    document.location =
+      state.ClinicModule.selectedClinic.name +
+      " " +
+      state.ClinicModule.selectedClinic.locationType;
+    document.locationId = state.ClinicModule.selectedClinic._id;
+    document.client = state.ClientModule.selectedClient._id;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = docStatus === "Draft" ? "Draft" : "completed";
+    document.episodeofcare_id = state.ClientModule.selectedClient.admission_id;
+    console.log(document);
 
-              if (user.currentEmployee){
-                document.facility=user.currentEmployee.facilityDetail._id 
-                document.facilityname=user.currentEmployee.facilityDetail.facilityName // or from facility dropdown
-                }
-              document.documentdetail= data
-                document.documentname=state.DocumentClassModule.selectedDocumentClass.name
-                document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
-                document.location=state.ClinicModule.selectedClinic.name+" "+state.ClinicModule.selectedClinic.locationType
-                document.locationId=state.ClinicModule.selectedClinic._id
-                document.client=state.ClientModule.selectedClient._id
-                document.createdBy=user._id
-                document.createdByname=user.firstname+ " "+user.lastname
-                document.status=docStatus==="Draft"?"Draft":"completed"
-                document.episodeofcare_id=state.ClientModule.selectedClient.admission_id
-              console.log(document);
+    // alert(document.status)
+    ClientServ.create(document)
+      .then(res => {
+        setChosen(true);
 
-<<<<<<< HEAD
-            // alert(document.status)
-              ClientServ.create(document)
-            .then((res)=>{
-                    
-              setChosen(true)
-                
-                    toast({
-                        message: 'Fluid Input/Output entry successful',
-                        type: 'is-success',
-                        dismissible: true,
-                        pauseOnHover: true,
-                      })
-                    
-                })
-                .catch((err)=>{
-                    toast({
-                        message: 'Error creating Appointment ' + err,
-                        type: 'is-danger',
-                        dismissible: true,
-                        pauseOnHover: true,
-                      })
-                }) 
-
-          }  
-
-          const onSubmit = async (data,e) =>{
-          // console.log(state.DocumentClassModule.selectedDocumentClass)
-          console.log(state.employeeLocation.locationName)
-            e.preventDefault();
-            data.entrytime=new Date()
-            data.location=state.employeeLocation.locationName+" "+state.employeeLocation.locationType
-            data.locationId=state.employeeLocation.locationId
-            data.episodeofcare_id=state.ClientModule.selectedClient.admission_id
-            data.createdBy=user._id
-            data.createdByname=user.firstname+ " "+user.lastname
-=======
         toast.success("Fluid Input/Output entry successful");
       })
       .catch(err => {
@@ -235,91 +163,32 @@ const FluidIntakeOutput = () => {
     data = {};
     data.recordings = struc.current;
     // data.createdby=user._id
->>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
 
-          // await update(data)
-          struc.current=[data,...facilities]
-          // console.log(struc.current)
-            setFacilities((prev)=>[data, ...facilities])
-          // data.recordings=facilities
-          // e.target.reset();
-          setChosen(false)
-          //handleSave()
-          let document={}
-            data={}
-            data.recordings=struc.current
-            // data.createdby=user._id
-            
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+    }
+    document.documentdetail = data;
+    document.documentname =
+      state.DocumentClassModule.selectedDocumentClass.name;
+    document.documentClassId =
+      state.DocumentClassModule.selectedDocumentClass._id;
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = docStatus === "Draft" ? "Draft" : "completed";
+    document.episodeofcare_id = state.ClientModule.selectedClient.admission_id;
 
-              if (user.currentEmployee){
-                document.facility=user.currentEmployee.facilityDetail._id 
-                document.facilityname=user.currentEmployee.facilityDetail.facilityName // or from facility dropdown
-                }
-              document.documentdetail= data
-                document.documentname=state.DocumentClassModule.selectedDocumentClass.name
-                document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
-                document.location=state.employeeLocation.locationName+" "+state.employeeLocation.locationType
-                document.locationId=state.employeeLocation.locationId
-                document.client=state.ClientModule.selectedClient._id
-                document.createdBy=user._id
-                document.createdByname=user.firstname+ " "+user.lastname
-                document.status=docStatus==="Draft"?"Draft":"completed"
-                document.episodeofcare_id=state.ClientModule.selectedClient.admission_id
-              console.log(document);
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
 
-<<<<<<< HEAD
-            // alert(document.status)
-            if (chosen1){
-
-              ClientServ.create(document)
-            .then((res)=>{
-                    
-              setChosen(true)
-                
-                    toast({
-                        message: 'Fluid Input/Output entry successful',
-                        type: 'is-success',
-                        dismissible: true,
-                        pauseOnHover: true,
-                      })
-                    
-                })
-                .catch((err)=>{
-                    toast({
-                        message: 'Fluid Input/Output entry ' + err,
-                        type: 'is-danger',
-                        dismissible: true,
-                        pauseOnHover: true,
-                      })
-                }) 
-
-        
-          }  else{
-            ClientServ.patch(fac.current._id,{documentdetail:document.documentdetail})
-            .then((res)=>{
-                    
-              setChosen(true)
-                
-                    toast({
-                        message: 'Fluid Input/Output entry successful',
-                        type: 'is-success',
-                        dismissible: true,
-                        pauseOnHover: true,
-                      })
-                    
-                })
-                .catch((err)=>{
-                    toast({
-                        message: 'Fluid Input/Output entry ' + err,
-                        type: 'is-danger',
-                        dismissible: true,
-                        pauseOnHover: true,
-                      })
-                }) 
-
-          }
-        }
-=======
     if (chosen1) {
       // console.log(document);
 
@@ -362,7 +231,6 @@ const FluidIntakeOutput = () => {
 
   //console.log(facilities);
 
->>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
   const inputFluidSchema = [
     {
       name: "S/N",
@@ -480,11 +348,7 @@ const FluidIntakeOutput = () => {
       </Box>
 
       <div className="card-content vscrollable  pt-0">
-<<<<<<< HEAD
-        <form >
-=======
         <form>
->>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
           <Box mb="1rem">
             <MuiCustomDatePicker
               name="fluidTime"
@@ -497,23 +361,13 @@ const FluidIntakeOutput = () => {
               control={control}
               label="Fluid Type"
               name="fluidType"
-<<<<<<< HEAD
-              register={register("fluidType")} 
-              options={fluidTypeOptions}
-              control={control}
-=======
               // required={true}
               options={fluidTypeOptions}
->>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
             />
           </Box>
           <Box mb="1rem">
             <Input
-<<<<<<< HEAD
-              register={register("route")} 
-=======
               register={register("route")}
->>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
               name="route"
               label="Route"
               type="text"
@@ -521,11 +375,7 @@ const FluidIntakeOutput = () => {
           </Box>
           <Box mb="1rem">
             <Input
-<<<<<<< HEAD
-            register={register("fluid")} 
-=======
               register={register("fluid")}
->>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
               name="fluid"
               label="Fluid"
               type="text"
@@ -533,11 +383,7 @@ const FluidIntakeOutput = () => {
           </Box>
           <Box mb="1rem">
             <Input
-<<<<<<< HEAD
-              register={register("volume")} 
-=======
               register={register("volume")}
->>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
               name="volume"
               label="Volume (mls)"
               type="number"
@@ -545,11 +391,7 @@ const FluidIntakeOutput = () => {
           </Box>
           <Box mb="1rem">
             <Textarea
-<<<<<<< HEAD
-              register={register("comments")} 
-=======
               register={register("comments")}
->>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
               name="comments"
               label="Comments"
               type="text"
@@ -560,11 +402,9 @@ const FluidIntakeOutput = () => {
             <GlobalCustomButton
               onClick={handleSubmit(onSubmit)}
               text="Enter"
-              type="submit"
               customStyles={{
                 marginRight: "5px",
               }}
-              onClick={handleSubmit(onSubmit)}
             />
           </Box>
         </form>

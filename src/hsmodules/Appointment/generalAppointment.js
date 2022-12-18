@@ -805,23 +805,13 @@ export function ClientDetail({showModal, setShowModal}) {
       selectedClient: patient,
       show: "detail",
     };
-<<<<<<< HEAD
-    
-    await setState((prevstate) => ({
-=======
     await setState(prevstate => ({
->>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
       ...prevstate,
       ClientModule: newClientModule,
     }));
     //modify appointment
-<<<<<<< HEAD
     navigate('/app/clinic/documentation');
     
-=======
-    navigate("/app/clinic/documentation");
-    console.log("test");
->>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
   };
 
   return (
