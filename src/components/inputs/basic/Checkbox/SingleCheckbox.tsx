@@ -14,6 +14,7 @@ interface componentProps {
   ) => void;
   register: any;
   size: string;
+  value?: any;
 }
 
 const SingleCheckbox = ({
@@ -23,6 +24,7 @@ const SingleCheckbox = ({
   onChange,
   register,
   size = "small",
+  value,
 }: componentProps) => {
   return (
     <FormGroup>
@@ -40,6 +42,7 @@ const SingleCheckbox = ({
             onChange={onChange}
             {...register}
             size={size}
+            // value={value}
           />
         }
       />

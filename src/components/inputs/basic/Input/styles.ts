@@ -49,6 +49,8 @@ export const InputBox = styled.div`
     font-size: 22px;
     padding: 0.25rem;
     transition: 0.4s;
+    display: flex;
+    alignitems: center;
   }
 `;
 

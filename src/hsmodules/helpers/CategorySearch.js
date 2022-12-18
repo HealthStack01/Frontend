@@ -235,6 +235,15 @@ export default function CategorySearch({
         isOptionEqualToValue={(option, value) =>
           value === undefined || value === "" || option._id === value._id
         }
+        onInputChange={(event, newInputValue, reason) => {
+          if (reason === "reset") {
+            setVal("");
+            setSimpa("");
+            return;
+          } else {
+            handleSearch(newInputValue);
+          }
+        }}
         //isOptionEqualToValue={(option, value) => option.id === value.id}
         selectOnFocus
         clearOnBlur
@@ -253,7 +262,6 @@ export default function CategorySearch({
           <TextField
             {...params}
             label={label || "Search for Category"}
-            onChange={e => handleSearch(e.target.value)}
             ref={inputEl}
             sx={{
               fontSize: "0.75rem",

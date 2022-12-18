@@ -3,6 +3,7 @@ import React, {useState, useContext, useEffect, useRef} from "react";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 //import {useNavigate} from 'react-router-dom'
 
 import {UserContext, ObjectContext} from "../../context";
@@ -20,12 +21,19 @@ import CustomTable from "../../components/customtable";
 import CustomSelect from "../../components/inputs/basic/Select";
 import "react-datepicker/dist/react-datepicker.css";
 import ModalBox from "../../components/modal";
+import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
+import TextField from "@mui/material/TextField";
+import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
+
+const filter = createFilterOptions();
+
 import {
   Box,
   Grid,
   Button as MuiButton,
   Divider,
   Typography,
+  IconButton,
 } from "@mui/material";
 import {maxHeight} from "@mui/system";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
@@ -36,6 +44,7 @@ import XLSX from "xlsx";
 import UploadExcelSheet from "../../components/excel-upload/Excel-Upload";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {FormsHeaderText} from "../../components/texts";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 //import MuiButton from "@mui/material/Button";
 
 // eslint-disable-next-line
@@ -128,6 +137,7 @@ export function ProductEntryCreate({closeModal}) {
   const [storeId, setStoreId] = useState("");
   const [productItem, setProductItem] = useState([]);
   const {state} = useContext(ObjectContext);
+  const [confirmDialog, setConfirmDialog] = useState(false);
 
   /*  const [productEntry,setProductEntry]=useState({
         productitems:[],
@@ -140,17 +150,12 @@ export function ProductEntryCreate({closeModal}) {
     })
   */
   const productItemI = {
-    type,
     productId,
     name,
     quantity,
     costprice,
-    source,
-    totalamount: quantity * costprice,
+    amount: quantity * costprice,
     baseunit,
-    date,
-    documentNo,
-    storeId,
   };
   // consider batchformat{batchno,expirydate,qtty,baseunit}
   //consider baseunoit conversions
@@ -176,28 +181,19 @@ export function ProductEntryCreate({closeModal}) {
   };
 
   const handleClickProd = async () => {
-    console.log(productId, quantity, costprice);
-    console.log("product-item", productItemI);
-
-    // if (!productId || !quantity || !costprice) {
-    //   toast.error("Kindly choose Product,price and quantity");
-    //   return;
-    // }
-    // await setSuccess(false);
-    // setProductItem(prevProd => prevProd.concat(productItemI));
-    // setType("");
-    // setProductId("");
-    // setName("");
-    // setQuantity("");
-    // setBaseunit("");
-    // setCostprice("");
-    // setSource("");
-    // setTotalamount("");
-    // setDate("");
-    // setDocumentNo("");
-    // setStoreId("");
-
-    // await setSuccess(true);
+    if (!productId || !quantity || !costprice) {
+      toast.error("Kindly choose Product,price and quantity");
+      return;
+    }
+    await setSuccess(false);
+    setProductItem(prevProd => prevProd.concat(productItemI));
+    setName("");
+    setBaseunit("");
+    setQuantity("");
+    setCostprice("");
+    await setSuccess(true);
+    // console.log(success)
+    //  console.log(productItem)
   };
 
   const handleDate = async date => {
@@ -205,73 +201,73 @@ export function ProductEntryCreate({closeModal}) {
   };
 
   const resetform = () => {
-    setType("");
+    setType("Purchase Invoice");
+    setDocumentNo("");
+    setTotalamount("");
     setProductId("");
+    setSource("");
+    setDate("");
     setName("");
-    setQuantity("");
     setBaseunit("");
     setCostprice("");
-    setSource("");
-    setTotalamount("");
-    setDate("");
-    setDocumentNo("");
-    setStoreId("");
     setProductItem([]);
   };
 
   const onSubmit = async e => {
-    let confirm = window.confirm(`Are you sure you want to save this entry ?`);
-    if (confirm) {
-      e.preventDefault();
-      setMessage("");
-      setError(false);
-      setSuccess(false);
-      if (!date) {
-        toast.error("Kindly choose date");
-        return;
-      }
-
-      let productEntry = {
-        date,
-        documentNo,
-        type,
-        totalamount,
-        source,
-      };
-      productItemI.productitems = productItem;
-      productItemI.createdby = user._id;
-      productItemI.transactioncategory = "credit";
-
-      //console.log("b4 facility",productEntry);
-      if (user.currentEmployee) {
-        productItemI.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
-      } else {
-        toast.error("You can not add inventory to any organization");
-        return;
-      }
-      if (state.StoreModule.selectedStore._id) {
-        productItemI.storeId = state.StoreModule.selectedStore._id;
-      } else {
-        toast.error("You need to select a store before adding inventory");
-        return;
-      }
-      //console.log("b4 create",productEntry);
-      ProductEntryServ.create(productItemI)
-        .then(res => {
-          //console.log(JSON.stringify(res))
-          resetform();
-          /*  setMessage("Created ProductEntry successfully") */
-          setSuccess(true);
-          toast.success("ProductEntry created succesfully");
-          setSuccess(false);
-          setProductItem([]);
-          closeModal && closeModal();
-        })
-        .catch(err => {
-          toast.error(`Error creating ProductEntry ${err}`);
-        });
+    // e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+    if (!date) {
+      toast.error("Kindly choose date");
+      return;
     }
+
+    let productEntry = {
+      date,
+      documentNo,
+      type,
+      totalamount,
+      source,
+    };
+
+    productEntry.productitems = productItem;
+    productEntry.createdby = user._id;
+    productEntry.transactioncategory = "credit";
+
+    //console.log("b4 facility",productEntry);
+    if (user.currentEmployee) {
+      productEntry.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
+    } else {
+      toast.error("You can not add inventory to any organization");
+      return;
+    }
+    if (state.StoreModule.selectedStore._id) {
+      productEntry.storeId = state.StoreModule.selectedStore._id;
+    } else {
+      toast.error("You need to select a store before adding inventory");
+      return;
+    }
+
+    //return console.log(productEntry);
+    //console.log("b4 create",productEntry);
+    ProductEntryServ.create(productEntry)
+      .then(res => {
+        //console.log(JSON.stringify(res))
+        resetform();
+        /*  setMessage("Created ProductEntry successfully") */
+        setSuccess(true);
+        toast.success("ProductEntry created succesfully");
+        setSuccess(false);
+        setConfirmDialog(false);
+        setProductItem([]);
+      })
+      .catch(err => {
+        toast.error("Error creating ProductEntry " + err);
+        setConfirmDialog(false);
+      });
   };
+
   const removeEntity = (entity, i) => {
     //console.log(entity)
     setProductItem(prev => prev.filter((obj, index) => index !== i));
@@ -292,21 +288,10 @@ export function ProductEntryCreate({closeModal}) {
       name: "Name",
       key: "type",
       description: "Enter Name",
-      selector: row => row.type,
+      selector: row => row.name,
       sortable: true,
       required: true,
       inputType: "TEXT",
-    },
-    {
-      name: "QTY",
-      width: "70px",
-      key: "quanity",
-      description: "Enter quantity",
-      selector: row => row.quantity,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-      center: true,
     },
 
     {
@@ -329,6 +314,17 @@ export function ProductEntryCreate({closeModal}) {
       inputType: "TEXT",
       center: true,
     },
+    {
+      name: "QTY",
+      width: "70px",
+      key: "quanity",
+      description: "Enter quantity",
+      selector: row => row.quantity,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      center: true,
+    },
 
     {
       name: "Amount",
@@ -345,12 +341,9 @@ export function ProductEntryCreate({closeModal}) {
       key: "costprice",
       description: "costprice",
       selector: (row, i) => (
-        <p
-          style={{color: "red", fontSize: "0.75rem"}}
-          onClick={() => removeEntity(row, i)}
-        >
-          Remove
-        </p>
+        <IconButton size="small" onClick={() => removeEntity(row, i)}>
+          <DeleteOutlineIcon fontSize="small" sx={{color: "red"}} />
+        </IconButton>
       ),
       sortable: true,
       required: true,
@@ -358,43 +351,28 @@ export function ProductEntryCreate({closeModal}) {
     },
   ];
 
-  const DatePickerCustomInput = React.forwardRef(({value, onClick}, ref) => (
-    <div
-      onClick={onClick}
-      ref={ref}
-      style={{
-        width: "100%",
-        height: "38px",
-        border: "1.5px solid #BBBBBB",
-        borderRadius: "4px",
-        display: "flex",
-        alignItems: "center",
-        //margin: "0.75rem 0",
-        fontSize: "0.85rem",
-        padding: "0 15px",
-        color: "#000000",
-        backgroundColor: "#fff",
-      }}
-    >
-      {value === "" ? "Pick Date" : value}
-    </div>
-  ));
-
   return (
     <Box
       sx={{
-        width: "85vw",
+        width: "80vw",
         maxHeight: "85vh",
         overflowY: "auto",
       }}
     >
+      <CustomConfirmationDialog
+        open={confirmDialog}
+        cancelAction={() => setConfirmDialog(false)}
+        type="create"
+        confirmationAction={onSubmit}
+        message="Are you sure you want to save this product to your Entries ?`"
+      />
       <Grid container spacing={1}>
-        <Grid item lg={6} md={6} sm={12}>
+        <Grid item lg={12} md={12} sm={12}>
           <Box mb={1} sx={{height: "40px"}}>
             <FormsHeaderText text="Product Entry Detail" />
           </Box>
           <Grid container spacing={1}>
-            <Grid item xs={8}>
+            <Grid item lg={4} md={6} sm={8} xs={12}>
               <Input
                 /* ref={register({ required: true })} */
                 value={source}
@@ -404,24 +382,25 @@ export function ProductEntryCreate({closeModal}) {
                 label="Supplier"
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item lg={2} md={3} sm={4} xs={6}>
               <CustomSelect
                 defaultValue={type}
                 name="type"
+                label="Choose Type"
                 options={["Purchase Invoice", "Initialization", "Audit"]}
                 onChange={handleChangeType}
               />
             </Grid>
-            <Grid item xs={4}>
-              <DatePicker
-                selected={date}
-                onChange={date => handleDate(date)}
-                dateFormat="dd/MM/yyyy"
-                placeholderText="Pick Date"
-                customInput={<DatePickerCustomInput />}
+            <Grid item lg={2} md={3} sm={4} xs={6}>
+              <MuiCustomDatePicker
+                value={date}
+                handleChange={value => handleDate(value)}
+                //dateFormat="dd/MM/yyyy"
+                label="Pick Date"
               />
             </Grid>
-            <Grid item xs={4}>
+
+            <Grid item lg={2} md={3} sm={4} xs={6}>
               <Input
                 name="documentNo"
                 value={documentNo}
@@ -430,7 +409,8 @@ export function ProductEntryCreate({closeModal}) {
                 label="Invoice Number"
               />
             </Grid>
-            <Grid item xs={4}>
+
+            <Grid item lg={2} md={3} sm={4} xs={6}>
               <Input
                 value={totalamount}
                 name="totalamount"
@@ -441,7 +421,8 @@ export function ProductEntryCreate({closeModal}) {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item lg={6} md={6} sm={12}>
+
+        <Grid item lg={12} md={12} sm={12}>
           <Box
             sx={{
               display: "flex",
@@ -455,13 +436,13 @@ export function ProductEntryCreate({closeModal}) {
 
             <GlobalCustomButton onClick={handleClickProd}>
               <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
-              Add
+              Add Product Item
             </GlobalCustomButton>
           </Box>
 
           <Grid container spacing={1}>
-            <Grid item lg={7} md={6} sm={8}>
-              <ProductSearchHelper
+            <Grid item lg={6} md={6} sm={8} xs={12}>
+              <ProductSearch
                 getSearchfacility={getSearchfacility}
                 clear={success}
               />
@@ -480,6 +461,17 @@ export function ProductEntryCreate({closeModal}) {
             <Grid item lg={2} md={3} sm={2}>
               <Input
                 /* ref={register({ required: true })} */
+                name="baseunit"
+                value={baseunit}
+                type="text"
+                disabled={true}
+                label="Base Unit"
+              />
+            </Grid>
+
+            <Grid item lg={2} md={3} sm={2}>
+              <Input
+                /* ref={register({ required: true })} */
                 name="quantity"
                 value={quantity}
                 type="text"
@@ -488,7 +480,7 @@ export function ProductEntryCreate({closeModal}) {
               />
             </Grid>
 
-            <Grid item lg={3} md={3} sm={2}>
+            <Grid item lg={2} md={3} sm={2}>
               <Input
                 /* ref={register({ required: true })} */
                 name="costprice"
@@ -503,7 +495,7 @@ export function ProductEntryCreate({closeModal}) {
       </Grid>
 
       {productItem.length > 0 && (
-        <Box sx={{height: "300px", widht: "300%"}}>
+        <Box mt={2}>
           <CustomTable
             title={""}
             columns={productCreateSchema}
@@ -526,12 +518,12 @@ export function ProductEntryCreate({closeModal}) {
       >
         <GlobalCustomButton
           disabled={!productItem.length > 0}
-          onClick={onSubmit}
+          onClick={() => setConfirmDialog(true)}
           sx={{
             marginRight: "10px",
           }}
         >
-          Add Product(s)
+          Create Product(s)
         </GlobalCustomButton>
 
         <GlobalCustomButton color="error" onClick={closeModal}>
@@ -566,6 +558,8 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
   const [total, setTotal] = useState(0); //TOTAL NUMBER OF FACILITIES AVAILABLE IN THE SERVER
   const [restful, setRestful] = useState(true);
   const [next, setNext] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState(false);
+  const [docToDel, setDocToDel] = useState({});
 
   const handleCreateNew = async () => {
     const newProductEntryModule = {
@@ -584,7 +578,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
     //console.log("b4",state)
 
     //console.log("handlerow",ProductEntry)
-
+    console.log(ProductEntry);
     await setSelectedProductEntry(ProductEntry);
 
     const newProductEntryModule = {
@@ -618,7 +612,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
             },
           },
         ],
-
+        transactioncategory: "credit",
         storeId: state.StoreModule.selectedStore._id,
         facility: user.currentEmployee.facilityDetail._id || "",
         $limit: 100,
@@ -687,6 +681,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
     if (user.currentEmployee) {
       const findProductEntry = await ProductEntryServ.find({
         query: {
+          transactioncategory: "credit",
           facility: user.currentEmployee.facilityDetail._id,
           storeId: state.StoreModule.selectedStore._id,
           $limit: limit,
@@ -794,34 +789,31 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
   };
 
   const handleDelete = async obj => {
-    let confirm = window.confirm(
-      `Are you sure you want to delete this entry with Document No: ${obj.documentNo} ?`
-    );
-    if (confirm) {
-      await ProductEntryServ.remove(obj._id)
-        .then(resp => {
-          toast({
-            message: "Sucessfuly deleted ProductEntry ",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-        })
-        .catch(err => {
-          toast({
-            message: "Error deleting ProductEntry " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-        });
-    }
+    await ProductEntryServ.remove(obj._id)
+      .then(resp => {
+        toast.success("Sucessfuly deleted ProductEntry ");
+        setConfirmDialog(false);
+      })
+      .catch(err => {
+        toast.error("Error deleting ProductEntry " + err);
+        setConfirmDialog(false);
+      });
+  };
+
+  const handleConfirmDelete = doc => {
+    setDocToDel(doc);
+    setConfirmDialog(true);
+  };
+
+  const handleCancelConfirm = () => {
+    setDocToDel({});
+    setConfirmDialog(false);
   };
 
   const productEntrySchema = [
     {
       name: "S/NO",
-      width: "100px",
+      width: "60px",
       key: "sn",
       description: "Enter name of Disease",
       selector: (row, i) => i + 1,
@@ -879,32 +871,26 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
       key: "action",
       description: "Enter Action",
       selector: row => (
-        <Button
-          className="button is-info is-small"
-          sx={{
-            background: "none",
-            color: "red",
-            fontSize: "0.75rem",
-            borderRadius: "2px",
-            padding: "0.27rem 1rem",
-            border: "none",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            handleDelete(row);
-          }}
-        >
-          Delete
-        </Button>
+        <IconButton size="small" onClick={() => handleConfirmDelete(row)}>
+          <DeleteOutlineIcon fontSize="small" sx={{color: "red"}} />
+        </IconButton>
       ),
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "100px",
+      center: true,
     },
   ];
 
   return (
     <>
+      <CustomConfirmationDialog
+        open={confirmDialog}
+        cancelAction={handleCancelConfirm}
+        confirmationAction={() => handleDelete(docToDel)}
+        message={`Are you sure you want to delete this entry with Document No: ${docToDel?.documentNo}`}
+      />
       {state.StoreModule.selectedStore ? (
         <>
           <PageWrapper
@@ -918,7 +904,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
                   </div>
                 )}
                 <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-                  Notifications
+                  List of Product Additions to Inventory
                 </h2>
               </div>
 
@@ -1320,7 +1306,7 @@ export function ProductEntryModify() {
   );
 }
 
-export function ProductSearch({getSearchfacility, clear}) {
+export function ProductSearch({getSearchfacility, clear, label}) {
   const productServ = client.service("products");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1420,52 +1406,97 @@ export function ProductSearch({getSearchfacility, clear}) {
   }, [clear]);
   return (
     <div>
-      <div className="field">
-        <div className="control has-icons-left  ">
-          <div className={`dropdown ${showPanel ? "is-active" : ""} wt100`}>
-            <div className="dropdown-trigger wt100">
-              <DebounceInput
-                className="input is-small "
-                type="text"
-                placeholder="Search Product"
-                value={simpa}
-                minLength={3}
-                debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
-                inputRef={inputEl}
-                element={Input}
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-search"></i>
-              </span>
-            </div>
-            {/* {searchError&&<div>{searchMessage}</div>} */}
-            <div className="dropdown-menu wt100">
-              <div className="dropdown-content">
-                {facilities.length > 0 ? (
-                  ""
-                ) : (
-                  <div className="dropdown-item" onClick={handleAddproduct}>
-                    {" "}
-                    <span>Add {val} to product list</span>{" "}
-                  </div>
-                )}
+      <div>
+        {" "}
+        <Autocomplete
+          size="small"
+          value={simpa}
+          key={"somehting"}
+          //loading={loading}
+          onChange={(event, newValue, reason) => {
+            if (reason === "clear") {
+              setSimpa("");
+              //setSimpa("");
+              return;
+            } else {
+              if (typeof newValue === "string") {
+                // timeout to avoid instant validation of the dialog's form.
+                setTimeout(() => {
+                  handleAddproduct();
+                });
+              } else if (newValue && newValue.inputValue) {
+                handleAddproduct();
+              } else {
+                handleRow(newValue);
+              }
+            }
+          }}
+          filterOptions={(options, params) => {
+            const filtered = filter(options, params);
 
-                {facilities.map((facility, i) => (
-                  <div
-                    className="dropdown-item "
-                    key={facility._id}
-                    onClick={() => handleRow(facility)}
-                  >
-                    <span>{facility.name}</span>
-                    <span>({facility.baseunit})</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+            if (params.inputValue !== "") {
+              filtered.push({
+                inputValue: params.inputValue,
+                name: `Add "${params.inputValue} to Services"`,
+              });
+            }
+
+            return filtered;
+          }}
+          id="free-solo-dialog-demo"
+          options={facilities}
+          getOptionLabel={option => {
+            // e.g value selected with enter, right from the input
+            if (typeof option === "string") {
+              return option;
+            }
+            if (option.inputValue) {
+              return option.inputValue;
+            }
+            return option.name;
+          }}
+          isOptionEqualToValue={(option, value) =>
+            value === undefined || value === "" || option._id === value._id
+          }
+          onInputChange={(event, newInputValue, reason) => {
+            if (reason === "reset") {
+              setVal("");
+              //setSimpa("");
+              return;
+            } else {
+              handleSearch(newInputValue);
+            }
+          }}
+          selectOnFocus
+          clearOnBlur
+          handleHomeEndKeys
+          renderOption={(props, option) => (
+            <li {...props} style={{fontSize: "0.75rem"}}>
+              {option.name} - {option.category}
+            </li>
+          )}
+          sx={{width: "100%"}}
+          freeSolo
+          //size="small"
+          renderInput={params => (
+            <TextField
+              {...params}
+              label={label ? label : "Search for Product"}
+              //onChange={e => handleSearch(e.target.value)}
+              ref={inputEl}
+              sx={{
+                fontSize: "0.75rem !important",
+                backgroundColor: "#ffffff !important",
+                "& .MuiInputBase-input": {
+                  height: "0.9rem",
+                },
+              }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          )}
+        />
       </div>
       <ModalBox
         open={productModal}

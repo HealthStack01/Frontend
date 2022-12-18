@@ -34,7 +34,7 @@ const CustomSelect: React.FC<SelectProps> = ({
   control,
   required = false,
 }) => {
-  console.log(options);
+  //.log(options);
 
   if (control)
     return (

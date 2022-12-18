@@ -308,7 +308,7 @@ export function TransactionClientList({showTransactions}) {
   );
 }
 
-export function TransactionClientAccount({handleGoBack}) {
+export function TransactionClientAccount({handleGoBack, isModal}) {
   // eslint-disable-next-line
   const [facility, setFacility] = useState([]);
   const InventoryServ = client.service("subwallettransactions");
@@ -474,7 +474,7 @@ export function TransactionClientAccount({handleGoBack}) {
       </Box>
 
       <Box mb={2} p={2}>
-        <TransactionsList />
+        <TransactionsList isModal={isModal} />
       </Box>
     </Box>
   );

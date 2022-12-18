@@ -709,7 +709,7 @@ export default function AdmissionCreate() {
     return () => {};
   }, [billMode]);
 
-  // console.log("simpa")
+  console.log(physicalbeds);
   return (
     <>
       <div style={{ padding: '1rem' }}>
@@ -738,7 +738,7 @@ export default function AdmissionCreate() {
             </Grid>
           </Grid>
           <Grid container spacing={2} my={1}>
-            <Grid item xs={12} sm={8}>
+            {/* <Grid item xs={12} sm={8}>
               <Input
                 name="client"
                 type="text"
@@ -746,7 +746,7 @@ export default function AdmissionCreate() {
                 placeholder="Client"
                 defaultValue={source}
               />
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} sm={4}>
               <select
                 name="paymentmode"

@@ -38,7 +38,13 @@ import {
   HeadWrapper,
 } from "../app/styles";
 import Input from "../../components/inputs/basic/Input";
-import {Box, Portal, Grid, Button as MuiButton} from "@mui/material";
+import {
+  Box,
+  Portal,
+  Grid,
+  Button as MuiButton,
+  Typography,
+} from "@mui/material";
 import CustomTable from "../../components/customtable";
 import ModalBox from "../../components/modal";
 import ClientView from "./ClientView";
@@ -51,6 +57,10 @@ import {AppointmentCreate} from "./Appointments";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+import {DesktopDatePicker} from "@mui/x-date-pickers/DesktopDatePicker";
+import ClientListDateFilter from "./DateFilter";
+import MuiClearDatePicker from "../../components/inputs/Date/MuiClearDatePicker";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -600,6 +610,8 @@ export function ClientList({openCreateModal, openDetailModal}) {
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
   const {state, setState} = useContext(ObjectContext);
+  const [filterEndDate, setFilterEndDate] = useState(dayjs());
+  const containerScrollRef = useRef(null);
   // eslint-disable-next-line
   // const { user, setUser } = useContext(UserContext);
 
@@ -786,17 +798,19 @@ export function ClientList({openCreateModal, openDetailModal}) {
     return () => {};
     // eslint-disable-next-line
   }, []);
+
   const rest = async () => {
     // console.log("starting rest")
     // await setRestful(true)
     await setPage(0);
     //await  setLimit(2)
     await setTotal(0);
-    await setFacilities([]);
+    //await setFacilities([]);
     await getFacilities();
     //await  setPage(0)
     //  await setRestful(false)
   };
+
   useEffect(() => {
     //console.log(facilities)
     return () => {};
@@ -804,6 +818,30 @@ export function ClientList({openCreateModal, openDetailModal}) {
   //todo: pagination and vertical scroll bar
 
   // create user form
+
+  const conditionalRowStyles = [
+    {
+      when: row => row.active === false,
+      style: {
+        backgroundColor: "pink",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
+  const handleOnTableScroll = () => {
+    if (containerScrollRef.current) {
+      const {scrollTop, scrollHeight, clientHeight} =
+        containerScrollRef.current;
+      if (scrollTop + clientHeight === scrollHeight) {
+        // TO SOMETHING HERE
+        console.log("Reached bottom");
+      }
+    }
+  };
 
   return (
     <>
@@ -816,14 +854,30 @@ export function ClientList({openCreateModal, openDetailModal}) {
               setOpen={handleCloseModal}
             />
           </ModalBox>
+
+          {/* <ModalBox
+            open={dateFilterModal}
+            onClose={() => setDateFilterModal(false)}
+            header="Filter Client By End Date"
+          >
+            <ClientListDateFilter
+              startDate={filterStartDate}
+              setStartDate={setFilterStartDate}
+              endDate={filterEndDate}
+              setEndDate={setFilterEndDate}
+              filterByDate={handleFilterByDate}
+            />
+          </ModalBox> */}
+
           <Portal>
             <ClientForm />
           </Portal>
+
           <PageWrapper
             style={{flexDirection: "column", padding: "0.6rem 1rem"}}
           >
             <TableMenu>
-              <div style={{display: "flex", alignItems: "center"}}>
+              <Box style={{display: "flex", alignItems: "center"}} gap={1}>
                 {handleSearch && (
                   <div className="inner-table">
                     <FilterMenu onSearch={handleSearch} />
@@ -833,7 +887,38 @@ export function ClientList({openCreateModal, openDetailModal}) {
                 <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                   List of Clients
                 </h2>
-              </div>
+
+                <Box>
+                  <MuiClearDatePicker
+                    value={filterEndDate}
+                    setValue={setFilterEndDate}
+                  />
+                  {/* {dateFilter ? (
+                    <Box sx={{dispay: "flex"}} gap={1}>
+                      <GlobalCustomButton
+                        onClick={() => setDateFilterModal(true)}
+                        sx={{marginRight: "10px"}}
+                      >
+                        {dayjs(filterStartDate).format("DD/MM/YYYY")} -{" "}
+                        {dayjs(filterEndDate).format("DD/MM/YYYY")}
+                      </GlobalCustomButton>
+
+                      <GlobalCustomButton
+                        onClick={() => setDateFilter(false)}
+                        color="error"
+                      >
+                        Clear Date Filter
+                      </GlobalCustomButton>
+                    </Box>
+                  ) : (
+                    <GlobalCustomButton
+                      onClick={() => setDateFilterModal(true)}
+                    >
+                      Filter by Date
+                    </GlobalCustomButton>
+                  )} */}
+                </Box>
+              </Box>
               <GlobalCustomButton onClick={handleCreateNew}>
                 <PersonAddIcon fontSize="small" sx={{marginRight: "5px"}} />
                 Create New Client
@@ -843,9 +928,11 @@ export function ClientList({openCreateModal, openDetailModal}) {
             <div
               style={{
                 width: "100%",
-                height: "calc(100vh - 90px)",
+                height: "calc(100vh - 160px)",
                 overflow: "auto",
               }}
+              ref={containerScrollRef}
+              onScroll={handleOnTableScroll}
             >
               <CustomTable
                 title={""}
@@ -855,7 +942,9 @@ export function ClientList({openCreateModal, openDetailModal}) {
                 highlightOnHover
                 striped
                 onRowClicked={handleRow}
+                conditionalRowStyles={conditionalRowStyles}
                 progressPending={loading}
+                CustomEmptyData={<Typography>No Client Found...</Typography>}
               />
             </div>
           </PageWrapper>
@@ -876,6 +965,8 @@ export function ClientDetail({closeDetailModal}) {
   const [billingModal, setBillingModal] = useState(false);
   const [billModal, setBillModal] = useState(false);
   const [appointmentModal, setAppointmentModal] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState(false);
+  const [reactivateConfirm, setReactivateConfirm] = useState(false);
   // eslint-disable-next-line
 
   const [message, setMessage] = useState("");
@@ -892,17 +983,6 @@ export function ClientDetail({closeDetailModal}) {
 
   let Client = state.ClientModule.selectedClient;
   // eslint-disable-next-line
-  //const client = Client;
-  const handleEdit = async () => {
-    const newClientModule = {
-      selectedClient: Client,
-      show: "modify",
-    };
-    await setState(prevstate => ({
-      ...prevstate,
-      ClientModule: newClientModule,
-    }));
-  };
 
   const handleFinancialInfo = () => {
     setFinacialInfoModal(true);
@@ -933,6 +1013,8 @@ export function ClientDetail({closeDetailModal}) {
   const handlecloseModal3 = () => {
     setBillModal(false);
   };
+
+  //console.log(Client);
 
   useEffect(() => {
     setValue("firstname", Client.firstname, {
@@ -1045,7 +1127,7 @@ export function ClientDetail({closeDetailModal}) {
     });
 
     return () => {};
-  });
+  }, []);
 
   const handleCancel = async () => {
     const newClientModule = {
@@ -1069,6 +1151,7 @@ export function ClientDetail({closeDetailModal}) {
 
     setState(prevstate => ({...prevstate, ClientModule: newClientModule}));
   };
+
   const handleDelete = async () => {
     let conf = window.confirm("Are you sure you want to delete this data?");
 
@@ -1097,6 +1180,48 @@ export function ClientDetail({closeDetailModal}) {
     }
   };
 
+  const handleDeactivateClient = () => {
+    setSuccess(false);
+
+    const newData = {...Client, active: false};
+
+    ClientServ.patch(Client._id, newData)
+      .then(res => {
+        setConfirmDialog(false);
+        toast.success("Client Deactivated succesfully");
+
+        changeState();
+        closeDetailModal();
+      })
+      .catch(err => {
+        setConfirmDialog(false);
+        toast.error(
+          `Error Deactivating Client, probable network issues or ${err}`
+        );
+      });
+  };
+
+  const handleReactivateClient = () => {
+    setSuccess(false);
+
+    const newData = {...Client, active: true};
+
+    ClientServ.patch(Client._id, newData)
+      .then(res => {
+        setReactivateConfirm(false);
+        toast.success("Client Reactivated succesfully");
+
+        changeState();
+        closeDetailModal();
+      })
+      .catch(err => {
+        setReactivateConfirm(false);
+        toast.error(
+          `Error Reactivating Client, probable network issues or ${err}`
+        );
+      });
+  };
+
   const handleCreateWallet = async () => {
     try {
       const res = await api.post("/register?scheme=4865616c7468737461636b", {
@@ -1113,27 +1238,40 @@ export function ClientDetail({closeDetailModal}) {
     }
   };
 
-  const onSubmit = (data, e) => {
-    e.preventDefault();
-
-    console.log(data);
+  const onSubmit = data => {
+    // e.preventDefault();
 
     setSuccess(false);
 
     ClientServ.patch(Client._id, data)
       .then(res => {
-        toast("Client updated succesfully");
+        toast.success("Client updated succesfully");
 
         changeState();
         closeDetailModal();
       })
       .catch(err => {
-        toast(`Error updating Client, probable network issues or ${err}`);
+        toast.error(`Error updating Client, probable network issues or ${err}`);
       });
   };
 
   return (
     <>
+      <CustomConfirmationDialog
+        open={confirmDialog}
+        cancelAction={() => setConfirmDialog(false)}
+        message={`Are you sure you want to Deactivate Client ${Client.firstname} ${Client.middlename} ${Client.lastname}`}
+        type="danger"
+        confirmationAction={handleDeactivateClient}
+      />
+
+      <CustomConfirmationDialog
+        open={reactivateConfirm}
+        cancelAction={() => setReactivateConfirm(false)}
+        message={`Are you sure you want to Reactivate Client ${Client.firstname} ${Client.middlename} ${Client.lastname}`}
+        type="update"
+        confirmationAction={handleReactivateClient}
+      />
       <Box
         sx={{
           width: "80vw",
@@ -1215,7 +1353,7 @@ export function ClientDetail({closeDetailModal}) {
         </Box>
 
         <Box>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form>
             <Grid container spacing={1}>
               {(Client.firstname || editClient) && (
                 <Grid item lg={3} md={4} sm={6}>
@@ -1262,12 +1400,6 @@ export function ClientDetail({closeDetailModal}) {
 
               {(Client.gender || editClient) && (
                 <Grid item lg={3} md={4} sm={6}>
-                  {/* <Input
-                    label="Gender"
-                    //defaultValue={Client.gender}
-                    register={register("gender")}
-                    disabled={!editClient}
-                  /> */}
                   <CustomSelect
                     label="Gender"
                     register={register("gender")}
@@ -1535,37 +1667,49 @@ export function ClientDetail({closeDetailModal}) {
               alignItems: "center",
             }}
             mt={2}
+            gap={1}
           >
             <GlobalCustomButton
-              text="Done"
+              text="Update Client"
               onClick={handleSubmit(onSubmit)}
+              //onClick={() => setConfirmDialog(true)}
               customStyles={{
                 marginRight: "5px",
               }}
-              color="success"
+              color="secondary"
             />
+
+            {Client.active ? (
+              <GlobalCustomButton
+                color="error"
+                onClick={() => setConfirmDialog(true)}
+              >
+                Deactivate Client
+              </GlobalCustomButton>
+            ) : (
+              <GlobalCustomButton
+                color="success"
+                onClick={() => setReactivateConfirm(true)}
+              >
+                Re-Activate Client
+              </GlobalCustomButton>
+            )}
 
             <GlobalCustomButton
               text="Cancel"
               onClick={handleCancel}
-              customStyles={{
-                marginRight: "5px",
-              }}
               color="warning"
             />
-
-            {/* 
-            <MuiButton
-              variant="contained"
-              color="error"
-              sx={{textTransform: "capitalize"}}
-              onClick={handleDelete}
-            >
-              Delete Client
-            </MuiButton> */}
           </Box>
         )}
       </Box>
+
+      {/* <CustomConfirmationDialog
+        open={confirmDialog}
+        cancelAction={() => setConfirmDialog(false)}
+        confirmAction={handleSubmit(onSubmit)}
+        type="update"
+      /> */}
 
       <ModalBox
         open={finacialInfoModal}
@@ -1721,7 +1865,7 @@ export function ClientModify() {
     });
 
     return () => {};
-  });
+  }, []);
 
   const handleCancel = async () => {
     const newClientModule = {

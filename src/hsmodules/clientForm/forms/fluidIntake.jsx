@@ -2,7 +2,7 @@ import React, {useState, useContext, useEffect, useRef} from "react";
 import {useForm} from "react-hook-form";
 import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
 import client from "../../../feathers";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {UserContext, ObjectContext} from "../../../context";
 import {Box, Grid, IconButton, Typography} from "@mui/material";
 import CustomTable from "../../../components/customtable";
@@ -13,9 +13,11 @@ import MuiCustomDatePicker from "../../../components/inputs/Date/MuiDatePicker";
 import Textarea from "../../../components/inputs/basic/Textarea";
 import CloseIcon from "@mui/icons-material/Close";
 import {FormsHeaderText} from "../../../components/texts";
+import dayjs from "dayjs";
 // import CustomTable from "../../components/customtable";
 
 const FluidIntakeOutput = () => {
+<<<<<<< HEAD
   const {register, handleSubmit, setValue, control} = useForm();
   const fluidTypeOptions=["Input","Output"]
   const {user,setUser} = useContext(UserContext)
@@ -29,6 +31,21 @@ const FluidIntakeOutput = () => {
     const ClientServ=client.service('clinicaldocument')
     const fac = useRef([])
     const struc = useRef([])
+=======
+  const {register, handleSubmit, setValue, control, reset} = useForm();
+  const fluidTypeOptions = ["Input", "Output"];
+  const {user, setUser} = useContext(UserContext);
+  const [facilities, setFacilities] = useState([]);
+  const [selectedFluid, setSelectedFluid] = useState();
+  const [chosen, setChosen] = useState(true);
+  const [chosen1, setChosen1] = useState(true);
+  const [chosen2, setChosen2] = useState(true);
+  const {state, setState} = useContext(ObjectContext);
+  const [docStatus, setDocStatus] = useState("Draft");
+  const ClientServ = client.service("clinicaldocument");
+  const fac = useRef([]);
+  const struc = useRef([]);
+>>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
 
   const handleRow = ()=>{
     console.log("let's pray")
@@ -36,6 +53,17 @@ const FluidIntakeOutput = () => {
 
   let draftDoc=state.DocumentClassModule.selectedDocumentClass.document
 
+<<<<<<< HEAD
+=======
+  const checkonadmission = () => {
+    console.log(state.ClientModule.selectedClient.admission_id);
+    if (!!state.ClientModule.selectedClient.admission_id) {
+      setChosen2(false);
+    } else {
+      toast.error("Patient not on admission");
+    }
+  };
+>>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
 
       const checkonadmission=()=>{
         console.log(state.ClientModule.selectedClient.admission_id)
@@ -132,6 +160,7 @@ const FluidIntakeOutput = () => {
                 document.episodeofcare_id=state.ClientModule.selectedClient.admission_id
               console.log(document);
 
+<<<<<<< HEAD
             // alert(document.status)
               ClientServ.create(document)
             .then((res)=>{
@@ -167,6 +196,46 @@ const FluidIntakeOutput = () => {
             data.episodeofcare_id=state.ClientModule.selectedClient.admission_id
             data.createdBy=user._id
             data.createdByname=user.firstname+ " "+user.lastname
+=======
+        toast.success("Fluid Input/Output entry successful");
+      })
+      .catch(err => {
+        toast.error("Error creating Appointment " + err);
+      });
+  };
+
+  const onSubmit = async (data, e) => {
+    //return console.log(data);
+    // console.log(state.DocumentClassModule.selectedDocumentClass)
+    //console.log(state.employeeLocation.locationName);
+    if (!data.fluidType || data.fluidType === "") {
+      return toast.error("Please select a fluid type");
+    }
+
+    //e.preventDefault();
+    data.entrytime = new Date();
+    data.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    data.locationId = state.employeeLocation.locationId;
+    data.episodeofcare_id = state.ClientModule.selectedClient.admission_id;
+    data.createdBy = user._id;
+    data.createdByname = user.firstname + " " + user.lastname;
+
+    // await update(data)
+    struc.current = [data, ...facilities];
+    // console.log(struc.current)
+    setFacilities(prev => [data, ...facilities]);
+    // data.recordings=facilities
+    // e.target.reset();
+    setChosen(false);
+    //handleSave()
+    let document = {};
+    data = {};
+    data.recordings = struc.current;
+    // data.createdby=user._id
+>>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
 
           // await update(data)
           struc.current=[data,...facilities]
@@ -198,6 +267,7 @@ const FluidIntakeOutput = () => {
                 document.episodeofcare_id=state.ClientModule.selectedClient.admission_id
               console.log(document);
 
+<<<<<<< HEAD
             // alert(document.status)
             if (chosen1){
 
@@ -249,28 +319,73 @@ const FluidIntakeOutput = () => {
 
           }
         }
+=======
+    if (chosen1) {
+      // console.log(document);
+
+      // alert(document.status)
+      ClientServ.create(document)
+        .then(res => {
+          setChosen(true);
+          Object.keys(data).forEach(key => {
+            data[key] = "";
+          });
+
+          reset(data);
+          setValue("fluidTime", null);
+
+          toast.success("Fluid Input/Output entry successful");
+        })
+        .catch(err => {
+          toast.error("Fluid Input/Output entry " + err);
+        });
+    } else {
+      ClientServ.patch(fac.current._id, {
+        documentdetail: document.documentdetail,
+      })
+        .then(res => {
+          setChosen(true);
+          Object.keys(data).forEach(key => {
+            data[key] = "";
+          });
+
+          reset(data);
+          setValue("fluidTime", null);
+
+          toast.success("Fluid Input/Output entry successful");
+        })
+        .catch(err => {
+          toast.error("Fluid Input/Output entry " + err);
+        });
+    }
+  };
+
+  //console.log(facilities);
+
+>>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
   const inputFluidSchema = [
     {
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: row => row.sn,
+      selector: (row, i) => i + 1,
       sortable: true,
       inputType: "HIDDEN",
+      width: "50px",
     },
 
-    // {
-    //   name: "Date",
-    //   key: "Date",
-    //   description: "date",
-    //   selector: row => format(new Date(row.fluid_time), "HH:mm:ss"),
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "TEXT",
-    // },
+    {
+      name: "Date/Time",
+      key: "route",
+      description: "route",
+      selector: row => dayjs(row.fluid_time).format("HH:mm:ss"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
 
     {
-      name: "route",
+      name: "Route",
       key: "route",
       description: "route",
       selector: row => row.route,
@@ -279,15 +394,25 @@ const FluidIntakeOutput = () => {
       inputType: "TEXT",
     },
 
-    // {
-    //   name: "fluid",
-    //   key: "fluid",
-    //   description: "fluid",
-    //   selector: row => row => (row.fluidType === "Input" ? Client.volume : " "),
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "TEXT",
-    // },
+    {
+      name: "Input Volume",
+      key: "fluid",
+      description: "fluid",
+      selector: row => row.fluidType === "Input" && row.volume,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Output Volume",
+      key: "fluid",
+      description: "fluid",
+      selector: row => row.fluidType === "Output" && row.volume,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
 
     {
       name: "comments",
@@ -303,7 +428,17 @@ const FluidIntakeOutput = () => {
       name: "Fluid Type",
       key: "fluidtype",
       description: "fluidtype",
-      selector: row => row.fluidType,
+      selector: row => row.fluid,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Entry Time",
+      key: "route",
+      description: "route",
+      selector: row => dayjs(row.entrytime).format("DD-MM HH:mm:ss"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -345,7 +480,11 @@ const FluidIntakeOutput = () => {
       </Box>
 
       <div className="card-content vscrollable  pt-0">
+<<<<<<< HEAD
         <form >
+=======
+        <form>
+>>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
           <Box mb="1rem">
             <MuiCustomDatePicker
               name="fluidTime"
@@ -355,16 +494,26 @@ const FluidIntakeOutput = () => {
           </Box>
           <Box mb="1rem">
             <CustomSelect
-              label="Input/Output?"
+              control={control}
+              label="Fluid Type"
               name="fluidType"
+<<<<<<< HEAD
               register={register("fluidType")} 
               options={fluidTypeOptions}
               control={control}
+=======
+              // required={true}
+              options={fluidTypeOptions}
+>>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
             />
           </Box>
           <Box mb="1rem">
             <Input
+<<<<<<< HEAD
               register={register("route")} 
+=======
+              register={register("route")}
+>>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
               name="route"
               label="Route"
               type="text"
@@ -372,7 +521,11 @@ const FluidIntakeOutput = () => {
           </Box>
           <Box mb="1rem">
             <Input
+<<<<<<< HEAD
             register={register("fluid")} 
+=======
+              register={register("fluid")}
+>>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
               name="fluid"
               label="Fluid"
               type="text"
@@ -380,7 +533,11 @@ const FluidIntakeOutput = () => {
           </Box>
           <Box mb="1rem">
             <Input
+<<<<<<< HEAD
               register={register("volume")} 
+=======
+              register={register("volume")}
+>>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
               name="volume"
               label="Volume (mls)"
               type="number"
@@ -388,14 +545,20 @@ const FluidIntakeOutput = () => {
           </Box>
           <Box mb="1rem">
             <Textarea
+<<<<<<< HEAD
               register={register("comments")} 
+=======
+              register={register("comments")}
+>>>>>>> 2cdde8b2112599787ced2f9dae9b55ffbf7c2233
               name="comments"
               label="Comments"
               type="text"
             />
           </Box>
+
           <Box mb="1rem">
             <GlobalCustomButton
+              onClick={handleSubmit(onSubmit)}
               text="Enter"
               type="submit"
               customStyles={{

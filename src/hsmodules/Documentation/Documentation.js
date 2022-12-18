@@ -1,5 +1,7 @@
 /* eslint-disable */
 import React, {useState, useContext, useEffect, useRef} from "react";
+import {useNavigate} from "react-router-dom";
+
 import "./styles/documentation.scss";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
@@ -20,6 +22,7 @@ const searchfacility = {};
 
 export default function Documentation({standalone}) {
   const {state, setState} = useContext(ObjectContext); //,setState
+  const navigate = useNavigate();
   // eslint-disable-next-line
   //const [selectedProductEntry,setSelectedProductEntry]=useState()
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -44,12 +47,12 @@ export default function Documentation({standalone}) {
       DocumentClassModule: newDocumentClassModule,
     }));
 
-    if (
-      Object.keys(state.ClientModule.selectedClient).length === 0 &&
-      state.ClientModule.selectedClient.constructor === Object
-    ) {
-      handleChangeClient();
-    }
+    // if (
+    //   Object.keys(state.ClientModule.selectedClient).length === 0 &&
+    //   state.ClientModule.selectedClient.constructor === Object
+    // ) {
+    //   navigate("/app/clients/clients");
+    // }
     return () => {};
   }, []);
 
@@ -62,12 +65,21 @@ export default function Documentation({standalone}) {
     console.log(showModal);
   };
 
+  if (
+    Object.keys(state.ClientModule.selectedClient).length === 0 &&
+    state.ClientModule.selectedClient.constructor === Object
+  )
+    return navigate("/app");
   return (
     <section className="section remPadTop" style={{padding: "15px"}}>
       {!standalone && (
         <Box
           container
-          sx={{width: "100%", display: "flex", justifyContent: "space-between"}}
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
         >
           <Box item sx={{width: "300px"}} mt={1}>
             <PatientProfile />

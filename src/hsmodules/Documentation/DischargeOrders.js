@@ -6,7 +6,7 @@ import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import FacilityPopup from "../helpers/FacilityPopup";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {format, formatDistanceToNowStrict} from "date-fns";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
@@ -213,6 +213,7 @@ export function DischargeOrdersCreate() {
     setInstruction("");
     setProductItem([]);
   };
+
   const onSubmit = () => {
     //data,e
     // e.preventDefault();
@@ -247,30 +248,27 @@ export function DischargeOrdersCreate() {
     document.createdBy = user._id;
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = "completed";
-    console.log(document);
+
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+
+    //return console.log(document);
+
     ClientServ.create(document)
       .then(res => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         /*  setMessage("Created Client successfully") */
         setSuccess(true);
-        toast({
-          message: "Discharge Order sent succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success("Discharge Order sent succesfully");
         setSuccess(false);
         setProductItem([]);
         closeModal();
       })
       .catch(err => {
-        toast({
-          message: "Error creating Discharge Orders " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("Error creating Discharge Orders " + err);
       });
   };
 
@@ -327,7 +325,7 @@ export function DischargeOrdersCreate() {
         </Box>
 
         <Box sx={{display: "flex", justifyContent: "flex-end"}}>
-          <GlobalCustomButton onClick={onsubmit}>
+          <GlobalCustomButton onClick={onSubmit}>
             Disacharge {client_name}
           </GlobalCustomButton>
         </Box>

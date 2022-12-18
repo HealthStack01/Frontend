@@ -28,6 +28,7 @@ import ClientProblems from "./ClientProblems";
 import ClientDiagnoisHistory from "./ClientDiagnoisHistory";
 import MedicalProfile from "./MedicalProfile";
 import {Card, Button as MuiButton} from "@mui/material";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 export default function PatientProfile() {
   const {state} = useContext(ObjectContext); //,setState
@@ -201,7 +202,7 @@ export default function PatientProfile() {
                   </MuiButton>
                 ))}
 
-              <MuiButton
+              <GlobalCustomButton
                 sx={{
                   backgroundColor: "#4F772D",
                   color: "#ffffff",
@@ -215,15 +216,15 @@ export default function PatientProfile() {
                 onClick={showBilling}
               >
                 Bill Client
-              </MuiButton>
+              </GlobalCustomButton>
 
-              <MuiButton
+              <GlobalCustomButton
                 variant="contained"
                 sx={{textTransform: "capitalize", width: "45%"}}
                 onClick={handleOpenClientAccount}
               >
                 Account
-              </MuiButton>
+              </GlobalCustomButton>
             </div>
 
             <div className="horizontal-dotted-line" />
@@ -270,7 +271,7 @@ export default function PatientProfile() {
         onClose={() => setBillingModal(false)}
         header="Client Billing"
       >
-        <ClientBilling closeModal={() => setBillingModal(false)} />
+        <BillServiceCreate closeModal={() => setBillingModal(false)} />
       </ModalBox>
 
       {/* ******************************************* MEDICATION ********************************************** */}
@@ -332,7 +333,17 @@ export default function PatientProfile() {
         onClose={() => setAccountModal(false)}
         header="Account Details"
       >
-        <ClientAccount closeModal={() => setAccountModal(false)} />
+        <Box
+          sx={{
+            width: "85vw",
+            maxHeight: "80vh",
+          }}
+        >
+          <ClientAccount
+            closeModal={() => setAccountModal(false)}
+            isModal={true}
+          />
+        </Box>
       </ModalBox>
 
       <ModalBox

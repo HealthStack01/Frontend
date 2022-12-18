@@ -31,6 +31,7 @@ import MuiButton from "@mui/material/Button";
 import BasicDatePicker from "../../components/inputs/Date";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {customStyles} from "../../components/customtable/styles";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -1355,11 +1356,11 @@ export function InventoryBatches({closeModal}) {
   };
 
   const handleBatchdel = (obj, i) => {
-    let confirm = window.confirm("Are you sure you want to delete this batch?");
-    if (confirm) {
-      // setProductItem(prev=>prev.filter((obj,index)=>index!==i ))
-      setProductItem(obj => obj.filter((el, index) => index !== i));
-    }
+    //let confirm = window.confirm("Are you sure you want to delete this batch?");
+    //if (confirm) {
+    // setProductItem(prev=>prev.filter((obj,index)=>index!==i ))
+    setProductItem(obj => obj.filter((el, index) => index !== i));
+    //}
   };
 
   const DatePickerCustomInput = React.forwardRef(({value, onClick}, ref) => (
@@ -1463,6 +1464,13 @@ export function InventoryBatches({closeModal}) {
         overflowY: "auto",
       }}
     >
+      <CustomConfirmationDialog
+        open={confirmDialog}
+        cancelAction={() => setConfirmDialog(false)}
+        confirmationAction={handleBatchdel}
+        type="danger"
+        message="Are you sure you want to delete this batch?"
+      />
       <Box
         container
         sx={{

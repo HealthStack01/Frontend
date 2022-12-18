@@ -1,15 +1,15 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, {useState, useContext, useEffect, useRef} from "react";
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
+import {UserContext, ObjectContext} from "../../context";
 import ModuleList from "./ModuleList";
-import { toast, ToastContainer } from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 import * as yup from "yup";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 // import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
@@ -18,21 +18,21 @@ import Input from "../../components/inputs/basic/Input";
 import Grid from "@mui/system/Unstable_Grid/Grid";
 import "react-datepicker/dist/react-datepicker.css";
 import ModalBox from "../../components/modal";
-import { BottomWrapper, GridWrapper } from "../app/styles";
+import {BottomWrapper, GridWrapper} from "../app/styles";
 import PasswordInput from "../../components/inputs/basic/Password";
-import { createEmployeeSchema } from "./ui-components/schema";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { EmployeeForm } from "./EmployeeForm";
+import {createEmployeeSchema} from "./ui-components/schema";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {EmployeeForm} from "./EmployeeForm";
 import EmployeeView from "./EmployeeView";
-import { Portal } from "@mui/material";
-import ControlPointIcon from '@mui/icons-material/ControlPoint';
-
+import {Portal} from "@mui/material";
+import ControlPointIcon from "@mui/icons-material/ControlPoint";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function Employee() {
-  const { state } = useContext(ObjectContext); //,setState
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedEmployee, setSelectedEmployee] = useState();
   const [createModal, setCreateModal] = useState(false);
@@ -101,8 +101,8 @@ export function EmployeeCreate() {
     handleSubmit,
     setValue,
     reset,
-    formState: { isSubmitSuccessful, errors },
-  } = useForm({ resolver: yupResolver(createEmployeeSchema) }); //, watch, errors, reset
+    formState: {isSubmitSuccessful, errors},
+  } = useForm({resolver: yupResolver(createEmployeeSchema)}); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -111,11 +111,11 @@ export function EmployeeCreate() {
   const [facility, setFacility] = useState();
   const EmployeeServ = client.service("employee");
   //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
 
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
@@ -152,14 +152,14 @@ export function EmployeeCreate() {
 
     setLoading(true);
     await EmployeeServ.create(data)
-      .then((res) => {
+      .then(res => {
         e.target.reset();
         setSuccess(true);
         toast.success(`Employee successfully created`);
 
         setSuccess(false);
       })
-      .catch((err) => {
+      .catch(err => {
         toast.error(`Sorry, You weren't able to create a employee. ${err}`);
       });
 
@@ -265,7 +265,7 @@ export function EmployeeCreate() {
   );
 }
 
-export function EmployeeList({ showCreateModal, showDetailModal }) {
+export function EmployeeList({showCreateModal, showDetailModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -281,9 +281,9 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
   // eslint-disable-next-line
   const [selectedEmployee, setSelectedEmployee] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [open, setOpen] = useState(false);
 
   const handleCreateNew = async () => {
@@ -291,13 +291,13 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
       selectedEmployee: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       EmployeeModule: newEmployeeModule,
     }));
     //console.log(state)
   };
-  const handleRow = async (Employee) => {
+  const handleRow = async Employee => {
     //console.log("b4",state)
 
     //console.log("handlerow",Employee)
@@ -308,25 +308,34 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
       selectedEmployee: Employee,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       EmployeeModule: newEmployeeModule,
     }));
     //console.log(state)
     showDetailModal();
   };
-  const handleRowClicked = (row) => {
+  const handleRowClicked = row => {
     setSelectedEmployee(row);
     setOpen(true);
+
+    const newEmployeeModule = {
+      selectedEmployee: row,
+      show: "detail",
+    };
+    setState(prevstate => ({
+      ...prevstate,
+      EmployeeModule: newEmployeeModule,
+    }));
   };
 
   const handleCloseModal = () => {
     setOpen(false);
   };
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = "firstname";
-    console.log(val);
+    //console.log(val);
     EmployeeServ.find({
       query: {
         [field]: {
@@ -340,13 +349,13 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
         },
       },
     })
-      .then((res) => {
-        console.log(res);
+      .then(res => {
+        //console.log(res);
         setFacilities(res.data);
         setMessage(" Employee  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage("Error fetching Employee, probable network issues " + err);
         setError(true);
@@ -366,7 +375,7 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
       });
 
       await setFacilities(findEmployee.data);
-      console.log("facilities", facilities);
+      //console.log("facilities", facilities);
     } else {
       if (user.stacker) {
         const findEmployee = await EmployeeServ.find({
@@ -399,14 +408,14 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
                     console.log(user)
                     getFacilities(user) */
     }
-    EmployeeServ.on("created", (obj) => getFacilities());
-    EmployeeServ.on("updated", (obj) => getFacilities());
-    EmployeeServ.on("patched", (obj) => {
+    EmployeeServ.on("created", obj => getFacilities());
+    EmployeeServ.on("updated", obj => getFacilities());
+    EmployeeServ.on("patched", obj => {
       getFacilities();
 
       //console.log(facilities.filter(el=>(el._id=selectedEmployee._id)))
     });
-    EmployeeServ.on("removed", (obj) => getFacilities());
+    EmployeeServ.on("removed", obj => getFacilities());
     return () => {};
   }, []);
 
@@ -417,46 +426,55 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
       name: "S/N",
       key: "sn",
       description: "Enter name of employee",
-      selector: (row) => row.sn,
+      selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
-      width:"80px"
+      width: "80px",
     },
     {
       name: "Firstname",
       key: "firstname",
       description: "Enter firstname",
-      selector: (row) => row.firstname,
+      selector: row => row.firstname,
       sortable: true,
       required: true,
       inputType: "TEXT",
       validator: yup.string().required("Enter your Firstname"),
+      style: {
+        textTransform: "capitalize",
+      },
     },
     {
       name: "Last Name",
       key: "lastname",
       description: "Enter lastname",
-      selector: (row) => row.lastname,
+      selector: row => row.lastname,
       sortable: true,
       required: true,
       inputType: "TEXT",
       validator: yup.string().required("Enter your Lastname"),
+      style: {
+        textTransform: "capitalize",
+      },
     },
     {
       name: "Profession",
       key: "profession",
       description: "Enter profession",
-      selector: (row) => row.profession,
+      selector: row => row.profession,
       sortable: true,
       required: true,
       inputType: "TEXT",
       validator: yup.string().required("Enter your Profession"),
+      style: {
+        textTransform: "capitalize",
+      },
     },
     {
       name: "Phone number",
       key: "phone",
       description: "Enter phone number",
-      selector: (row) => row.phone,
+      selector: row => row.phone,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -466,7 +484,7 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
       name: "Email",
       key: "email",
       description: "Enter Email",
-      selector: (row) => row.email,
+      selector: row => row.email,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -476,7 +494,7 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
       name: "Facility",
       key: "facility",
       description: "Select facility",
-      selector: (row) => row.department,
+      selector: row => row.department,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -487,7 +505,7 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
       name: "Department",
       key: "department",
       description: "Enter department",
-      selector: (row) => row.department,
+      selector: row => row.department,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -497,7 +515,7 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
       name: "Department Unit",
       key: "deptunit",
       description: "Enter department",
-      selector: (row) => row.deptunit,
+      selector: row => row.deptunit,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -520,32 +538,32 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
           </Portal>
 
           <PageWrapper
-            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
           >
             <TableMenu>
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{display: "flex", alignItems: "center"}}>
                 {handleSearch && (
                   <div className="inner-table">
                     <FilterMenu onSearch={handleSearch} />
                   </div>
                 )}
-                <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                   List of Employees
                 </h2>
               </div>
 
               {handleCreateNew && (
-                <GlobalCustomButton
-                
-                  onClick={showCreateModal}
-                >
-                  <ControlPointIcon fontSize="small" sx={{marginRight: "5px"}} />
-                  Add New 
-                  </GlobalCustomButton>
+                <GlobalCustomButton onClick={showCreateModal}>
+                  <ControlPointIcon
+                    fontSize="small"
+                    sx={{marginRight: "5px"}}
+                  />
+                  Add New
+                </GlobalCustomButton>
               )}
             </TableMenu>
 
-            <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
               <CustomTable
                 title={""}
                 columns={getEmployeeSchema}
@@ -566,7 +584,7 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
   );
 }
 
-export function EmployeeDetail({ showModifyModal }) {
+export function EmployeeDetail({showModifyModal}) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
@@ -576,7 +594,7 @@ export function EmployeeDetail({ showModifyModal }) {
   //const EmployeeServ=client.service('/Employee')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   const [showRoles, setShowRoles] = useState("");
 
   const Employee = state.EmployeeModule.selectedEmployee;
@@ -586,7 +604,7 @@ export function EmployeeDetail({ showModifyModal }) {
       selectedEmployee: Employee,
       show: "modify",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       EmployeeModule: newEmployeeModule,
     }));
@@ -604,7 +622,7 @@ export function EmployeeDetail({ showModifyModal }) {
     <>
       <div className="card ">
         <div className="card-header">
-          <p className="card-header-title" style={{ fontWeight: "bold" }}>
+          <p className="card-header-title" style={{fontWeight: "bold"}}>
             Employee Details
           </p>
         </div>
@@ -624,7 +642,7 @@ export function EmployeeDetail({ showModifyModal }) {
               <span
                 className="is-size-7 padleft"
                 name="name"
-                style={{ fontWeight: "lighter", fontSize: "20px" }}
+                style={{fontWeight: "lighter", fontSize: "20px"}}
               >
                 {" "}
                 {Employee?.firstname}{" "}
@@ -640,7 +658,7 @@ export function EmployeeDetail({ showModifyModal }) {
               >
                 Last Name:
               </span>
-              <span style={{ color: " #000000", fontSize: "20px" }}>
+              <span style={{color: " #000000", fontSize: "20px"}}>
                 {Employee?.lastname}
               </span>
             </Grid>
@@ -654,7 +672,7 @@ export function EmployeeDetail({ showModifyModal }) {
               >
                 Profession:
               </span>
-              <span style={{ color: " #000000", fontSize: "20px" }}>
+              <span style={{color: " #000000", fontSize: "20px"}}>
                 {Employee?.profession}
               </span>
             </Grid>
@@ -668,7 +686,7 @@ export function EmployeeDetail({ showModifyModal }) {
               >
                 Phone:
               </span>
-              <span style={{ color: " #000000", fontSize: "20px" }}>
+              <span style={{color: " #000000", fontSize: "20px"}}>
                 {Employee?.phone}
               </span>
             </Grid>
@@ -682,7 +700,7 @@ export function EmployeeDetail({ showModifyModal }) {
               >
                 Email:
               </span>
-              <span style={{ color: " #000000", fontSize: "20px" }}>
+              <span style={{color: " #000000", fontSize: "20px"}}>
                 {Employee?.email}
               </span>
             </Grid>
@@ -696,7 +714,7 @@ export function EmployeeDetail({ showModifyModal }) {
               >
                 Department:
               </span>
-              <span style={{ color: " #000000", fontSize: "20px" }}>
+              <span style={{color: " #000000", fontSize: "20px"}}>
                 {Employee?.department}
               </span>
             </Grid>
@@ -710,7 +728,7 @@ export function EmployeeDetail({ showModifyModal }) {
               >
                 Department Unit:
               </span>
-              <span style={{ color: " #000000", fontSize: "20px" }}>
+              <span style={{color: " #000000", fontSize: "20px"}}>
                 {Employee?.deptunit}
               </span>
             </Grid>
@@ -760,7 +778,7 @@ export function EmployeeDetail({ showModifyModal }) {
 }
 
 export function EmployeeModify() {
-  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
+  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -769,10 +787,11 @@ export function EmployeeModify() {
   const [message, setMessage] = useState("");
   // eslint-disable-next-line
   const EmployeeServ = client.service("employee");
+  const [confirmDialog, setConfirmDialog] = useState(false);
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const { user } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const Employee = state.EmployeeModule.selectedEmployee;
 
@@ -811,14 +830,14 @@ export function EmployeeModify() {
             }) */
 
     return () => {};
-  },[]);
+  }, []);
 
   const handleCancel = async () => {
     const newEmployeeModule = {
       selectedEmployee: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       EmployeeModule: newEmployeeModule,
     }));
@@ -830,46 +849,46 @@ export function EmployeeModify() {
       selectedEmployee: {},
       show: "create",
     };
-    setState((prevstate) => ({
+    setState(prevstate => ({
       ...prevstate,
       EmployeeModule: newEmployeeModule,
     }));
   };
+
   const handleDelete = async () => {
-    let conf = window.confirm("Are you sure you want to delete this data?");
+    //let conf = window.confirm("Are you sure you want to delete this data?");
 
     const dleteId = Employee._id;
-    if (conf) {
-      EmployeeServ.remove(dleteId)
-        .then((res) => {
-          //console.log(JSON.stringify(res))
-          reset();
-          /*  setMessage("Deleted Employee successfully")
+    //if (conf) {
+    EmployeeServ.remove(dleteId)
+      .then(res => {
+        //console.log(JSON.stringify(res))
+        reset();
+        /*  setMessage("Deleted Employee successfully")
                 setSuccess(true)
                 changeState()
                setTimeout(() => {
                 setSuccess(false)
                 }, 200); */
-          toast({
-            message: "Employee deleted succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-          changeState();
-        })
-        .catch((err) => {
-          // setMessage("Error deleting Employee, probable network issues "+ err )
-          // setError(true)
-          toast({
-            message:
-              "Error deleting Employee, probable network issues or " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+        toast({
+          message: "Employee deleted succesfully",
+          type: "is-success",
+          dismissible: true,
+          pauseOnHover: true,
         });
-    }
+        changeState();
+      })
+      .catch(err => {
+        // setMessage("Error deleting Employee, probable network issues "+ err )
+        // setError(true)
+        toast({
+          message: "Error deleting Employee, probable network issues or " + err,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      });
+    //}
   };
 
   /* ()=> setValue("firstName", "Bill", , {
@@ -885,7 +904,7 @@ export function EmployeeModify() {
     //console.log(data);
 
     EmployeeServ.patch(Employee._id, data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Employee successfully")
@@ -898,7 +917,7 @@ export function EmployeeModify() {
 
         changeState();
       })
-      .catch((err) => {
+      .catch(err => {
         //setMessage("Error creating Employee, probable network issues "+ err )
         // setError(true)
         toast({
@@ -913,6 +932,13 @@ export function EmployeeModify() {
   return (
     <>
       <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmDialog}
+          cancelAction={() => setConfirmDialog(false)}
+          confirmationAction={handleDelete}
+          type="danger"
+          message="Are you sure you want to delete this data?"
+        />
         <div className="card-header">
           <p className="card-header-title">Employee Details-Modify</p>
         </div>
@@ -922,7 +948,7 @@ export function EmployeeModify() {
               style={{
                 width: "50px",
               }}
-              {...register("firstname", { required: true })}
+              {...register("firstname", {required: true})}
               name="firstname"
               type="text"
               placeholder="First Name"
@@ -932,7 +958,7 @@ export function EmployeeModify() {
               style={{
                 width: "50px",
               }}
-              {...register("lastname", { required: true })}
+              {...register("lastname", {required: true})}
               name="lastname"
               type="text"
               placeholder="Last Name"
@@ -942,7 +968,7 @@ export function EmployeeModify() {
               style={{
                 width: "50px",
               }}
-              {...register("profession", { required: true })}
+              {...register("profession", {required: true})}
               name="profession"
               type="text"
               placeholder="Profession"
@@ -952,7 +978,7 @@ export function EmployeeModify() {
               style={{
                 width: "50px",
               }}
-              {...register("phone", { required: true })}
+              {...register("phone", {required: true})}
               name="phone"
               type="text"
               placeholder="Phone No"
@@ -961,7 +987,7 @@ export function EmployeeModify() {
               style={{
                 width: "50px",
               }}
-              {...register("email", { required: true })}
+              {...register("email", {required: true})}
               name="email"
               type="text"
               placeholder="Email"
@@ -970,7 +996,7 @@ export function EmployeeModify() {
               style={{
                 width: "50px",
               }}
-              {...register("department", { required: true })}
+              {...register("department", {required: true})}
               name="department"
               type="text"
               placeholder="Department"
@@ -980,14 +1006,14 @@ export function EmployeeModify() {
               style={{
                 width: "50px",
               }}
-              {...register("depunit", { required: true })}
+              {...register("depunit", {required: true})}
               name="depunit"
               type="text"
               placeholder="Department"
             />
           </form>
           <div className="block">
-            <div style={{ display: "flex" }}>
+            <div style={{display: "flex"}}>
               <GlobalCustomButton
                 type="submit"
                 onClick={handleSubmit(onSubmit)}
@@ -1005,7 +1031,7 @@ export function EmployeeModify() {
 
               <GlobalCustomButton
                 type="submit"
-                onClick={handleDelete}
+                onClick={() => setConfirmDialog(true)}
                 style={{
                   backgroundColor: "#f14668",
                   width: "100px",
@@ -1025,7 +1051,7 @@ export function EmployeeModify() {
   );
 }
 
-export function InputSearch({ getSearchfacility, clear }) {
+export function InputSearch({getSearchfacility, clear}) {
   const facilityServ = client.service("facility");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1042,7 +1068,7 @@ export function InputSearch({ getSearchfacility, clear }) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -1059,7 +1085,7 @@ export function InputSearch({ getSearchfacility, clear }) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async (e) => {
+  const handleBlur = async e => {
     if (count === 2) {
       console.log("stuff was chosen");
     }
@@ -1077,7 +1103,7 @@ export function InputSearch({ getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (val) => {
+  const handleSearch = async val => {
     const field = "facilityName"; //field variable
 
     if (val.length >= 3) {
@@ -1095,13 +1121,13 @@ export function InputSearch({ getSearchfacility, clear }) {
             },
           },
         })
-        .then((res) => {
+        .then(res => {
           console.log("facility  fetched successfully");
           setFacilities(res.data);
           setSearchMessage(" facility  fetched successfully");
           setShowPanel(true);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           setSearchMessage(
             "Error searching facility, probable network issues " + err
@@ -1135,8 +1161,8 @@ export function InputSearch({ getSearchfacility, clear }) {
                 value={simpa}
                 minLength={1}
                 debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">

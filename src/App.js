@@ -17,6 +17,9 @@ import {darkTheme, lightTheme} from "./ui/styled/theme";
 
 function App() {
   const [state, setState] = useState({
+    confirmationDialog: {
+      open: false,
+    },
     facilityModule: {
       show: "list",
       selectedFacility: {},

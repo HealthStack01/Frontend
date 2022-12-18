@@ -4,6 +4,7 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import {Controller} from "react-hook-form";
+import {DesktopDatePicker} from "@mui/x-date-pickers/DesktopDatePicker";
 
 interface componentProps {
   format?: string;
@@ -13,19 +14,65 @@ interface componentProps {
   name: string;
   control: any;
   disabled?: boolean;
+  handleChange?: any;
+  value?: any;
 }
 
 const MuiCustomDatePicker = ({
   label,
-  format = "DD-MM-YYYY",
+  format = "dd-MM-yyyy",
   //register,
   defaultValue = "",
   name,
   control,
   disabled = false,
+  handleChange,
+  value,
 }: componentProps) => {
-  const [value, setValue] = React.useState(null);
+  //const [value, setValue] = React.useState(null);
 
+  if (!control)
+    return (
+      <DesktopDatePicker
+        label={label}
+        inputFormat={format}
+        value={value}
+        onChange={handleChange}
+        renderInput={params => (
+          <TextField
+            {...params}
+            error={false}
+            sx={{
+              width: "100%",
+              fontSize: "0.8rem",
+              //height: "2rem",
+              "& .MuiInputBase-input": {
+                WebkitTextFillColor: "black",
+                fontSize: "0.8rem",
+                height: "2.2rem",
+                padding: "0 10px",
+              },
+
+              "& 	.MuiInputBase-input.Mui-disabled": {
+                WebkitTextFillColor: "black",
+                color: "black",
+              },
+
+              "& .MuiFormLabel-root": {
+                color: "black",
+              },
+
+              "& .MuiFormLabel-root.Mui-disabled": {
+                color: "black",
+              },
+            }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        )}
+      />
+    );
   return (
     <Controller
       name={name}
@@ -42,7 +89,7 @@ const MuiCustomDatePicker = ({
             value={value}
             inputFormat={format}
             onChange={data => onChange(data.$d)}
-            inputRef={ref}
+            ref={ref}
             disabled={disabled}
             renderInput={params => (
               <TextField

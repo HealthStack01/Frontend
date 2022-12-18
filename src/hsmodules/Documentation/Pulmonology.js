@@ -32,9 +32,12 @@ import GlobalCustomButton from "../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import CustomTable from "../../components/customtable";
 import RefInput from "../../components/inputs/basic/Input/ref-input";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+import CheckboxGroup from "../../components/inputs/basic/Checkbox/CheckBoxGroup";
 
 export default function PulmonologyIntake() {
-  const {register, handleSubmit, setValue, resetField} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue, resetField, control, reset} =
+    useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -53,6 +56,7 @@ export default function PulmonologyIntake() {
   const [symptom, setSymptom] = useState("");
   const [symptoms, setSymptoms] = useState([]);
   const [docStatus, setDocStatus] = useState("Draft");
+  const [confirmationDialog, setConfirmationDialog] = useState(false);
 
   const [dataset, setDataset] = useState();
   const {state, setState} = useContext(ObjectContext);
@@ -69,6 +73,7 @@ export default function PulmonologyIntake() {
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
+      console.log(draftDoc.documentdetail);
       Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
         setValue(keys, value, {
           shouldValidate: true,
@@ -229,7 +234,7 @@ export default function PulmonologyIntake() {
   ];
 
   const onSubmit = (data, e) => {
-    e.preventDefault();
+    // e.preventDefault();
     setMessage("");
     setError(false);
     setSuccess(false);
@@ -267,71 +272,54 @@ export default function PulmonologyIntake() {
       !document.createdByname ||
       !document.facilityname
     ) {
-      toast({
-        message:
-          " Documentation data missing, requires location and facility details",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
       return;
     }
-    let confirm = window.confirm(
-      `You are about to save this document ${document.documentname} ?`
-    );
-    if (confirm) {
-      if (!!draftDoc && draftDoc.status === "Draft") {
-        ClientServ.patch(draftDoc._id, document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            setAllergies([]);
-            setSymptoms([]);
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "Pediatric Pulmonology Form updated succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast({
-              message: "Error updating Pediatric Pulmonology Form " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then(res => {
+          //console.log(JSON.stringify(res))
+          // e.target.reset();
+          Object.keys(data).forEach(key => {
+            data[key] = null;
           });
-      } else {
-        ClientServ.create(document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            setAllergies([]);
-            setSymptoms([]);
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "Pediatric Pulmonology Form created succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast({
-              message: "Error creating Pediatric Pulmonology Form " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+          setAllergies([]);
+          setSymptoms([]);
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Pediatric Pulmonology Form updated succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error updating Pediatric Pulmonology Form " + err);
+        });
+    } else {
+      ClientServ.create(document)
+        .then(res => {
+          Object.keys(data).forEach(key => {
+            data[key] = null;
           });
-      }
+          //console.log(JSON.stringify(res))
+          //e.target.reset();
+          setAllergies([]);
+          setSymptoms([]);
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Pediatric Pulmonology Form created succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error creating Pediatric Pulmonology Form " + err);
+        });
     }
+    //}
   };
 
   const handleChangePart = async e => {
@@ -477,6 +465,13 @@ export default function PulmonologyIntake() {
   return (
     <>
       <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmationDialog}
+          cancelAction={() => setConfirmationDialog(false)}
+          type="create"
+          message="you're about to save Pediatric Pulmonology Form?"
+          confirmationAction={handleSubmit(onSubmit)}
+        />
         <Box
           sx={{
             display: "flex",
@@ -493,7 +488,7 @@ export default function PulmonologyIntake() {
           </IconButton>
         </Box>
         <div className="card-content vscrollable remPad1">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form>
             <Box mb={1}>
               <Input
                 register={register("Name")}
@@ -515,8 +510,10 @@ export default function PulmonologyIntake() {
             <Box>
               <RadioButton
                 title="Gender"
-                register={register("Gender")}
+                //register={register("Gender")}
                 options={["Male", "Female"]}
+                name="Gender"
+                control={control}
               />
             </Box>
 
@@ -670,8 +667,9 @@ export default function PulmonologyIntake() {
                 Cough Nature:
               </Typography>
 
-              <CheckboxInput
-                register={register("cough_nature")}
+              <CheckboxGroup
+                control={control}
+                name="cough_nature"
                 options={[
                   "productive",
                   "dry",
@@ -683,6 +681,7 @@ export default function PulmonologyIntake() {
                   "worse in certain posture",
                   "progressive",
                 ]}
+                row
               />
             </Box>
 
@@ -697,8 +696,9 @@ export default function PulmonologyIntake() {
                 Associated symptoms with cough:
               </Typography>
 
-              <CheckboxInput
-                register={register("cough_associated_symptoms")}
+              <CheckboxGroup
+                name="cough_associated_symptoms"
+                control={control}
                 options={[
                   "feveer",
                   "catarrh",
@@ -708,6 +708,7 @@ export default function PulmonologyIntake() {
                   "facial swelling",
                   "leg swelling",
                 ]}
+                row
               />
             </Box>
 
@@ -739,8 +740,9 @@ export default function PulmonologyIntake() {
                 Other Respiratory Symptoms:
               </Typography>
 
-              <CheckboxInput
-                register={register("Other_Respiratory")}
+              <CheckboxGroup
+                name="Other_Respiratory"
+                control={control}
                 options={[
                   "Difficulty breathing",
                   "fast breathing",
@@ -750,6 +752,7 @@ export default function PulmonologyIntake() {
                   "atopy",
                   "family history of atopy",
                 ]}
+                row
               />
             </Box>
 
@@ -759,8 +762,9 @@ export default function PulmonologyIntake() {
               </Typography>
               <Box>
                 <Typography>(a) Cough</Typography>
-                <CheckboxInput
-                  register={register("cvs")}
+                <CheckboxGroup
+                  control={control}
+                  name="cvs"
                   options={[
                     "cough",
                     "easy defatigability",
@@ -945,8 +949,10 @@ export default function PulmonologyIntake() {
                   Urinary Findings:
                 </Typography>
 
-                <CheckboxInput
-                  register={register("Urinary")}
+                <CheckboxGroup
+                  name="Urinary"
+                  row
+                  control={control}
                   options={[
                     "frequency",
                     "nocturia",
@@ -991,8 +997,10 @@ export default function PulmonologyIntake() {
                   options={["Yes", "No"]}
                 />
 
-                <CheckboxInput
-                  register={register("Headache_info")}
+                <CheckboxGroup
+                  name="Headache_info"
+                  row
+                  control={control}
                   options={[
                     "throbing",
                     "dull",
@@ -1158,8 +1166,10 @@ export default function PulmonologyIntake() {
                   options={["Yes", "No"]}
                 />
 
-                <CheckboxInput
-                  register={register("Weakness_Upper_Limbs_side")}
+                <CheckboxGroup
+                  name="Weakness_Upper_Limbs_side"
+                  row
+                  control={control}
                   options={["Right Limb", "Left Limb", "Both Limbs"]}
                 />
                 <Input
@@ -1185,8 +1195,10 @@ export default function PulmonologyIntake() {
                   options={["Yes", "No"]}
                 />
 
-                <CheckboxInput
-                  register={register("Weakness_Lower_Limbs_side")}
+                <CheckboxGroup
+                  name="Weakness_Lower_Limbs_side"
+                  row
+                  control={control}
                   options={["Right Limb", "Left Limb", "Both Limbs"]}
                 />
                 <Input
@@ -1218,9 +1230,11 @@ export default function PulmonologyIntake() {
                   register={register("Eye_pain")}
                   options={["Yes", "No"]}
                 />
-                <CheckboxInput
-                  register={register("Eye_pain_side")}
+                <CheckboxGroup
+                  name="Eye_pain_side"
                   options={["Right", "Left", "Both"]}
+                  row
+                  control={control}
                 />
                 <Input
                   register={register("Eye_pain_details")}
@@ -1245,8 +1259,10 @@ export default function PulmonologyIntake() {
                   register={register("Eye_discharge")}
                   options={["Yes", "No"]}
                 />
-                <CheckboxInput
-                  register={register("Eye_discharge_side")}
+                <CheckboxGroup
+                  name="Eye_discharge_side"
+                  row
+                  control={control}
                   options={["Right", "Left", "Both"]}
                 />
                 <Input
@@ -1272,8 +1288,10 @@ export default function PulmonologyIntake() {
                   register={register("Eye_swelling")}
                   options={["Yes", "No"]}
                 />
-                <CheckboxInput
-                  register={register("Eye_swelling_side")}
+                <CheckboxGroup
+                  name="Eye_swelling_side"
+                  row
+                  control={control}
                   options={["Right", "Left", "Both"]}
                 />
                 <Input
@@ -1299,8 +1317,10 @@ export default function PulmonologyIntake() {
                   register={register("Ear_pain")}
                   options={["Yes", "No"]}
                 />
-                <CheckboxInput
-                  register={register("Ear_pain_side")}
+                <CheckboxGroup
+                  name="Ear_pain_side"
+                  row
+                  control={control}
                   options={["Right", "Left", "Both"]}
                 />
                 <Input
@@ -1325,8 +1345,10 @@ export default function PulmonologyIntake() {
                   register={register("Ear_Discharge")}
                   options={["Yes", "No"]}
                 />
-                <CheckboxInput
-                  register={register("Ear_Discharge_side")}
+                <CheckboxGroup
+                  name="Ear_Discharge_side"
+                  row
+                  control={control}
                   options={["Right", "Left", "Both", "Purulent", "Bloody"]}
                 />
                 <Input
@@ -1347,8 +1369,10 @@ export default function PulmonologyIntake() {
                   Other ENT Findings:
                 </Typography>
 
-                <CheckboxInput
-                  register={register("other_ENT")}
+                <CheckboxGroup
+                  name="other_ENT"
+                  row
+                  control={control}
                   options={[
                     "Sore throat",
                     "change in voice",
@@ -1382,8 +1406,10 @@ export default function PulmonologyIntake() {
                 Endocrinology Findings
               </Typography>
 
-              <CheckboxInput
-                register={register("Endocrinology")}
+              <CheckboxGroup
+                name="Endocrinology"
+                row
+                control={control}
                 options={[
                   "heat intolerance",
                   "apathy",
@@ -2340,8 +2366,10 @@ export default function PulmonologyIntake() {
                   Pulse Character
                 </Typography>
 
-                <CheckboxInput
-                  register={register("Pulse_Character")}
+                <CheckboxGroup
+                  name="Pulse_Character"
+                  row
+                  control={control}
                   options={[
                     "Regular",
                     "Irregular",
@@ -2465,8 +2493,10 @@ export default function PulmonologyIntake() {
                 >
                   Heart Sound
                 </Typography>
-                <CheckboxInput
-                  register={register("Heart_Sound")}
+                <CheckboxGroup
+                  name="Heart_Sound"
+                  row
+                  control={control}
                   options={["S1", "S2", "S3", "S4"]}
                 />
                 <Input
@@ -2518,8 +2548,10 @@ export default function PulmonologyIntake() {
                 >
                   Abdomen
                 </Typography>
-                <CheckboxInput
-                  register={register("Abdomen")}
+                <CheckboxGroup
+                  name="Abdomen"
+                  row
+                  control={control}
                   options={[
                     "Full",
                     "Distended",
@@ -3396,6 +3428,7 @@ export default function PulmonologyIntake() {
                 color="secondary"
                 variant="contained"
                 type="submit"
+                onClick={() => setConfirmationDialog(true)}
               >
                 Submit Pulmonology
               </GlobalCustomButton>

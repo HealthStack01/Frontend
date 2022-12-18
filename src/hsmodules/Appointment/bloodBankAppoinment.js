@@ -400,7 +400,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
               }}
             />
             <GlobalCustomButton
-              variant="outlined"
+              variant="contained"
               color="error"
               text="Cancel"
               onClick={() => setShowModal(false)}
@@ -832,7 +832,7 @@ export function ClientDetail({ showModal, setShowModal }) {
             marginRight: '5px',
           }}
         />
-        <GlobalCustomButton onClick={handleAttend} text="Attend" />
+        <GlobalCustomButton onClick={handleAttend} text="Attend to Client" />
       </Box>
       <Grid container spacing={1} mt={1}>
         <Grid item xs={12} md={4}>
@@ -1094,31 +1094,29 @@ export function ClientModify({ showModal, setShowModal }) {
     }));
   };
   const handleDelete = async () => {
-    let conf = window.confirm('Are you sure you want to delete this data?');
+    //let conf = window.confirm('Are you sure you want to delete this data?');
 
     const dleteId = Client._id;
-    if (conf) {
-      ClientServ.remove(dleteId)
-        .then((res) => {
-          //console.log(JSON.stringify(res))
-          reset();
-          /*  setMessage("Deleted Client successfully")
+    //if (conf) {
+    ClientServ.remove(dleteId)
+      .then((res) => {
+        //console.log(JSON.stringify(res))
+        reset();
+        /*  setMessage("Deleted Client successfully")
                 setSuccess(true)
                 changeState()
                setTimeout(() => {
                 setSuccess(false)
                 }, 200); */
-          toast.success('Client deleted succesfully');
-          changeState();
-        })
-        .catch((err) => {
-          // setMessage("Error deleting Client, probable network issues "+ err )
-          // setError(true)
-          toast.error(
-            'Error deleting Client, probable network issues or ' + err
-          );
-        });
-    }
+        toast.success('Client deleted succesfully');
+        changeState();
+      })
+      .catch((err) => {
+        // setMessage("Error deleting Client, probable network issues "+ err )
+        // setError(true)
+        toast.error('Error deleting Client, probable network issues or ' + err);
+      });
+    // }
   };
 
   const onSubmit = (data, e) => {
@@ -1170,6 +1168,14 @@ export function ClientModify({ showModal, setShowModal }) {
   return (
     <>
       <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmDialog}
+          cancelAction={() => setConfirmDialog(false)}
+          confirmationAction={handleDelete}
+          type="danger"
+          message="Are you sure you want to delete this data?"
+        />
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormsHeaderText text={`${Client.firstname} ${Client.lastname}`} />
 
@@ -1284,6 +1290,7 @@ export function ClientModify({ showModal, setShowModal }) {
                 <option value="Scheduled">Scheduled</option>
                 <option value="Confirmed">Confirmed</option>
                 <option value="Checked In">Checked In</option>
+                <option value="Checked Out">Checked Out</option>
                 <option value="Vitals Taken">Vitals Taken</option>
                 <option value="With Nurse">With Nurse</option>
                 <option value="With Doctor">With Doctor</option>
@@ -1331,7 +1338,7 @@ export function ClientModify({ showModal, setShowModal }) {
 
             <GlobalCustomButton
               text="Delete"
-              onClick={() => handleDelete()}
+              onClick={() => setConfirmDialog(true)}
               color="error"
               variant="outlined"
             />

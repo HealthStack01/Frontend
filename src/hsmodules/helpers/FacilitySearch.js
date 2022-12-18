@@ -20,7 +20,7 @@ const filter = createFilterOptions();
 
 // eslint-disable-next-line
 
-export function FacilitySearch({ getSearchfacility, clear }) {
+export function FacilitySearch({ getSearchfacility, clear, label }) {
   const productServ = client.service('facility');
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -166,7 +166,7 @@ export function FacilitySearch({ getSearchfacility, clear }) {
         renderInput={(params) => (
           <TextField
             {...params}
-            label="Search for Organization"
+            label={label ? label : 'Search for Organization'}
             onChange={(e) => handleSearch(e.target.value)}
             ref={inputEl}
             sx={{

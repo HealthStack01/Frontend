@@ -9,6 +9,7 @@ import {toast} from "react-toastify";
 import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation";
 import ModalBox from "../../components/modal";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
 import {
   Box,
   Grid,
@@ -27,6 +28,7 @@ import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 import TextField from "@mui/material/TextField";
 import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
@@ -681,7 +683,7 @@ export default function BillPrescriptionCreate({closeModal}) {
             </Box>
 
             <Grid container spacing={1}>
-              <Grid item lg={8} md={8} sm={12}>
+              <Grid item lg={4} md={6} sm={8} xs={12}>
                 <Input
                   name="client"
                   value={source}
@@ -693,7 +695,7 @@ export default function BillPrescriptionCreate({closeModal}) {
                 />
               </Grid>
 
-              <Grid item lg={4} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6} xs={6}>
                 <CustomSelect
                   name="paymentmode"
                   defaultValue={paymentmode}
@@ -704,19 +706,19 @@ export default function BillPrescriptionCreate({closeModal}) {
                 />
               </Grid>
 
-              <Grid item lg={4} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6} xs={6}>
                 <Input
                   className="input is-small"
                   value={date}
                   name="date"
                   type="text"
                   onChange={e => setDate(e.target.value)}
-                  placeholder="Date"
+                  label="Date"
                   disabled
                 />
               </Grid>
 
-              <Grid item lg={4} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6} xs={6}>
                 <Input
                   name="documentNo"
                   value={documentNo}
@@ -726,7 +728,7 @@ export default function BillPrescriptionCreate({closeModal}) {
                   disabled
                 />
               </Grid>
-              <Grid item lg={4} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6} xs={6}>
                 <Input
                   value={totalamount}
                   name="totalamount"
@@ -737,7 +739,7 @@ export default function BillPrescriptionCreate({closeModal}) {
                 />
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid item lg={8} md={6} sm={12} xs={12}>
                 <Input
                   name="order"
                   value={medication.order}
@@ -746,8 +748,28 @@ export default function BillPrescriptionCreate({closeModal}) {
                   label="Medication"
                 />
               </Grid>
-            </Grid>
 
+              <Grid item lg={2} md={3} sm={6} xs={12}>
+                <Input
+                  name="order"
+                  value={medication.instruction}
+                  type="text"
+                  label="Instruction"
+                  disabled
+                />
+              </Grid>
+
+              <Grid item lg={2} md={3} sm={6} xs={12}>
+                <Input
+                  name="order"
+                  value={medication.order_status}
+                  type="text"
+                  label="Billing Status"
+                  disabled
+                />
+              </Grid>
+            </Grid>
+            {/* 
             <Box
               container
               sx={{
@@ -772,9 +794,9 @@ export default function BillPrescriptionCreate({closeModal}) {
               >
                 {medication.instruction}
               </Typography>
-            </Box>
+            </Box> */}
 
-            <Box
+            {/* <Box
               container
               sx={{
                 display: "flex",
@@ -798,7 +820,7 @@ export default function BillPrescriptionCreate({closeModal}) {
               >
                 {medication.order_status}
               </Typography>
-            </Box>
+            </Box> */}
           </Grid>
 
           <Grid item lg={12} md={12} sm={12}>
@@ -812,7 +834,8 @@ export default function BillPrescriptionCreate({closeModal}) {
             >
               <FormsHeaderText text="Choose Product Item" />
               <GlobalCustomButton onClick={handleClickProd}>
-                Add
+                <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
+                Add Product Item
               </GlobalCustomButton>
             </Box>
 
@@ -920,6 +943,7 @@ export default function BillPrescriptionCreate({closeModal}) {
             onClick={handleMedicationDone}
             sx={{marginLeft: "10px"}}
           >
+            <DoneAllIcon fontSize="small" sx={{marginRight: "5px"}} />
             Done
           </GlobalCustomButton>
         </Box>
@@ -1106,7 +1130,9 @@ export function InventorySearch({getSearchfacility, clear, label}) {
           }
           return option.name;
         }}
-        //isOptionEqualToValue={(option, value) => option.id === value.id}
+        isOptionEqualToValue={(option, value) =>
+          value === undefined || value === "" || option._id === value._id
+        }
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys

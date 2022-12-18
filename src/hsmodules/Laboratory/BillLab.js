@@ -27,6 +27,7 @@ import ModalBox from "../../components/modal";
 // Demo styles, see 'Styles' section below for some notes on use.
 import ClientBilledPrescription from "./ClientPrescription";
 import {Box} from "@mui/material";
+import {FormsHeaderText} from "../../components/texts";
 
 export default function BillLabOrders() {
   //const {state}=useContext(ObjectContext) //,setState
@@ -85,7 +86,7 @@ export default function BillLabOrders() {
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            width: "85vw",
+            width: "90vw",
             maxHeight: "80vh",
           }}
         >
@@ -125,7 +126,7 @@ export function BillPrescriptionList({showCreateModal}) {
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
-  const [selectedDispense, setSelectedDispense] = useState(); //
+  const [selectedDispense, setSelectedDispense] = useState(null); //
   // eslint-disable-next-line
   const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
@@ -268,16 +269,24 @@ export function BillPrescriptionList({showCreateModal}) {
   }, []);
 
   const handleRow = async ProductEntry => {
-    await setSelectedDispense(ProductEntry);
+    if (
+      selectedDispense &&
+      selectedDispense.client_id === ProductEntry.client_id
+    ) {
+      return setSelectedDispense(null);
+    } else {
+      await setSelectedDispense(ProductEntry);
 
-    const newProductEntryModule = {
-      selectedDispense: ProductEntry,
-      show: "detail",
-    };
-    await setState(prevstate => ({
-      ...prevstate,
-      DispenseModule: newProductEntryModule,
-    }));
+      const newProductEntryModule = {
+        selectedDispense: ProductEntry,
+        show: "detail",
+      };
+      await setState(prevstate => ({
+        ...prevstate,
+        DispenseModule: newProductEntryModule,
+      }));
+    }
+
     //console.log(state)
   };
 
@@ -409,9 +418,19 @@ export function BillPrescriptionList({showCreateModal}) {
                 <FilterMenu onSearch={handleSearch} />
               </div>
             )}
-            <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+            <h2
+              style={{
+                marginLeft: "10px",
+                fontSize: "0.95rem",
+                marginRight: "8px",
+              }}
+            >
               List of Pending Tests
             </h2>
+
+            {selectedDispense && (
+              <FormsHeaderText text={`- ${selectedDispense.clientname}`} />
+            )}
           </div>
         </TableMenu>
         <div
