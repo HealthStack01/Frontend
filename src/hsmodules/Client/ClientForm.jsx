@@ -266,7 +266,7 @@ const ClientForm = ({closeModal, setOpen}) => {
               <div>
                 <h2>{`${
                   isFullRegistration
-                    ? "Complete Client Registeration"
+                    ? "Full Client Registeration"
                     : "Quick Client Registeration"
                 }`}</h2>
                 {/* <span>
@@ -286,7 +286,7 @@ const ClientForm = ({closeModal, setOpen}) => {
               ) : (
                 <GlobalCustomButton onClick={() => setFullRegistration(true)}>
                   <OpenInFullIcon fontSize="small" sx={{marginRight: "5px"}} />
-                  Complete Registration
+                  Full Registration
                 </GlobalCustomButton>
               )}
             </HeadWrapper>
@@ -303,6 +303,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("firstname")}
                         errorText={errors?.firstname?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -319,6 +320,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("lastname")}
                         errorText={errors?.lastname?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -328,6 +330,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         type="tel"
                         errorText={errors?.phone?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -337,6 +340,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         type="email"
                         errorText={errors?.email?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -344,6 +348,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         control={control}
                         label="DOB"
                         name="dob"
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -454,6 +459,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("firstname")}
                         errorText={errors?.firstname?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={4}>
@@ -470,6 +476,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("lastname")}
                         errorText={errors?.lastname?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                   </Grid>
@@ -483,6 +490,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         control={control}
                         label="DOB"
                         name="dob"
+                        important={true}
                       />
                     </Grid>
 
@@ -505,6 +513,11 @@ const ClientForm = ({closeModal, setOpen}) => {
                         options={[
                           {label: "Single", value: "Single"},
                           {label: "Married", value: "Married"},
+                          {label: "Widowed", value: "Widowed"},
+                          {
+                            label: "Divorced/Seperated",
+                            value: "Divorced/Seperated",
+                          },
                         ]}
                       />
                     </Grid>
@@ -533,6 +546,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("phone")}
                         errorText={errors?.phone?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={2} md={4} sm={6}>
@@ -541,6 +555,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("email")}
                         errorText={errors?.email?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
 

@@ -72,7 +72,8 @@ export default function EncounterMain({nopresc, chosenClient}) {
   const [selectedClinic, setSelectedClinic] = useState({}); //
   const [selectedNote, setSelectedNote] = useState();
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
   const [showModal, setShowModal] = useState(false);
@@ -322,13 +323,16 @@ export default function EncounterMain({nopresc, chosenClient}) {
   }, []);
 
   const handleDelete = doc => {
+    showActionLoader();
     ClinicServ.remove(doc._id)
       .then(res => {
+        hideActionLoader();
         toast.success(`${docToDelete?.documentname} Deleted succesfully`);
         setSuccess(false);
         setConfirmationDialog(false);
       })
       .catch(err => {
+        hideActionLoader();
         toast.error("Error deleting Adult Asthma Questionnaire " + err);
       });
     // }
@@ -444,23 +448,23 @@ export default function EncounterMain({nopresc, chosenClient}) {
       show: !nopresc,
     },
     {
-      title: "Radiology",
+      title: "Radiology Request",
       action: handleRadOrders,
       show: !nopresc,
     },
     {
-      title: "Laboratory",
+      title: "Laboratory Request",
       action: handleLabOrders,
+      show: !nopresc,
+    },
+    {
+      title: "Prescription Request",
+      action: handleNewPrescription,
       show: !nopresc,
     },
     {
       title: "End Encounter",
       action: handleEndEncounter,
-      show: !nopresc,
-    },
-    {
-      title: "Prescription",
-      action: handleNewPrescription,
       show: !nopresc,
     },
     // {
@@ -595,7 +599,11 @@ export default function EncounterMain({nopresc, chosenClient}) {
                 {actionsList.map((action, i) => {
                   if (action.show) {
                     return (
-                      <MenuItem key={i} onClick={action.action}>
+                      <MenuItem
+                        key={i}
+                        onClick={action.action}
+                        sx={{fontSize: "0.8rem"}}
+                      >
                         {action.title}
                       </MenuItem>
                     );

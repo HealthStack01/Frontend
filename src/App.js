@@ -217,13 +217,41 @@ function App() {
   //   theme === 'light' ? setTheme('dark') : setTheme('light');
   // };
 
+  const showActionLoader = (message = "") => {
+    setState(prev => ({
+      ...prev,
+      actionLoader: {open: true, message: message},
+    }));
+  };
+  const hideActionLoader = () => {
+    setState(prev => ({
+      ...prev,
+      actionLoader: {open: false, message: ""},
+    }));
+  };
+
+  const toggleSideMenu = () => {
+    setState(prev => ({
+      ...prev,
+      sideMenu: {open: !prev.sideMenu.open},
+    }));
+  };
+
   return (
     <>
       <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           {/*  <ObjectProvider>
           <UserProvider> */}
-          <ObjectContext.Provider value={{state, setState}}>
+          <ObjectContext.Provider
+            value={{
+              state,
+              setState,
+              showActionLoader,
+              hideActionLoader,
+              toggleSideMenu,
+            }}
+          >
             <MyUserProvider>
               <GlobalStyle />
               <ActionLoader />

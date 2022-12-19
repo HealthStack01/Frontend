@@ -837,7 +837,7 @@ export function ClientList({openCreateModal, openDetailModal}) {
 
   const conditionalRowStyles = [
     {
-      when: row => row.active === false,
+      when: row => row.alive === false,
       style: {
         backgroundColor: "pink",
         color: "white",

@@ -1,9 +1,10 @@
 /* eslint-disable */
 // import {Button} from "@mui/material";
-import {Button} from "@mui/material";
+import {Button, Typography} from "@mui/material";
 import React, {useState, useContext, useEffect, useRef} from "react";
 import Draggable from "react-draggable";
 import {Jutsu} from "react-jutsu";
+import {toast} from "react-toastify";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 //import Button from "../../components/buttons/Button";
 //import { useJitsi } from 'react-jutsu' // Custom hook
@@ -27,6 +28,10 @@ const VideoConference = ({activateCall, setActivateCall, label}) => {
 
     // alert(`Kindly share link with client and other collaborators: https://meet.jit.si/${client._id}`)
   };
+
+  const text = `https://meet.jit.si/${client._id}`;
+
+  const handleCopyLink = () => {};
 
   return activateCall ? (
     <Draggable>
@@ -54,17 +59,50 @@ const VideoConference = ({activateCall, setActivateCall, label}) => {
           }
           containerStyles={{width: "100%", height: "220px"}}
         />
+
         <div
           style={{
             width: "100%",
-            height: "80px",
+            height: "40px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             cursor: "pointer",
+            backgroundColor: "#2d2d2d",
           }}
         >
-          <span style={{fontSize: "20px", color: "#ffffff", fontWeight: "600"}}>
+          <Typography
+            sx={{
+              fontSize: "0.75rem",
+              color: "#ffffff",
+              fontWeight: "600",
+              marginRight: "8px",
+            }}
+          >
+            {`https://meet.jit.si/${client._id}`}
+          </Typography>
+
+          <GlobalCustomButton
+            onClick={() => {
+              navigator.clipboard.writeText(text);
+              toast.success("Teleconsultation Link Copied to your Clipboard");
+            }}
+          >
+            Copy Link
+          </GlobalCustomButton>
+        </div>
+
+        <div
+          style={{
+            width: "100%",
+            height: "40px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "grabbing",
+          }}
+        >
+          <span style={{fontSize: "1rem", color: "#ffffff", fontWeight: "600"}}>
             Click here to Drag
           </span>
         </div>
