@@ -21,6 +21,8 @@ const MenuItem: React.FC<MenuItemProps> = ({
 }) => {
   const [expand, setExpand] = useState<boolean>(false);
 
+  const sortedSubMenus = subMenus.sort((a, b) => a.name.localeCompare(b.name));
+
   return (
     <NavLink
       to={to}
@@ -47,7 +49,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
 
           {subMenus && subMenus.length ? (
             <Lists className={`sub-menu ${expand ? "active" : ""}`}>
-              {subMenus.map((menu, index) => (
+              {sortedSubMenus.map((menu, index) => (
                 <ListItem key={index}>
                   <NavLink
                     to={menu.to}
