@@ -28,7 +28,7 @@ import GlobalCustomButton from '../../components/buttons/CustomButton';
 import Input from '../../components/inputs/basic/Input';
 import BasicDateTimePicker from '../../components/inputs/DateTime';
 
-export default function ImmunizationCheckIn() {
+export default function GlobalCheckIn() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
@@ -361,9 +361,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
                   title={''}
                   columns={AppointmentSchema}
                   data={facilities.filter(
-                    (item) =>
-                      item?.appointment_status === 'Checked In' &&
-                      item?.location_type === 'Immunization'
+                    (item) => item?.appointment_status === 'Checked In'
                   )}
                   pointerOnHover
                   highlightOnHover
@@ -674,9 +672,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
                   title={''}
                   columns={AppointmentSchema}
                   data={facilities.filter(
-                    (item) =>
-                      item?.appointment_status === 'Checked Out' &&
-                      item?.location_type === 'Immunization'
+                    (item) => item?.appointment_status === 'Checked Out'
                   )}
                   pointerOnHover
                   highlightOnHover

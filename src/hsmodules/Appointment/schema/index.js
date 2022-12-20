@@ -15,7 +15,7 @@ export const AppointmentSchema = [
     description: 'Date/Time',
     selector: (row) =>
       row.start_time
-        ? format(new Date(row.start_time), 'dd/MM/yyyy HH:mm')
+        ? format(new Date(row.start_time.slice(0, 19)), 'dd/MM/yyyy HH:mm')
         : '',
     sortable: true,
     required: true,

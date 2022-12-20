@@ -1,72 +1,72 @@
 /* eslint-disable */
 
-import React, {useState, useContext, useEffect, useRef} from "react";
-import {useNavigate} from "react-router-dom"; //Route, Switch,Link, NavLink,
-import client from "../../feathers";
-import api from "../../utils/api";
-import {DebounceInput} from "react-debounce-input";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom'; //Route, Switch,Link, NavLink,
+import client from '../../feathers';
+import api from '../../utils/api';
+import { DebounceInput } from 'react-debounce-input';
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "react-toastify";
-import {formatDistanceToNowStrict} from "date-fns";
-import ClientFinInfo from "./ClientFinInfo";
-import BillServiceCreate from "../Finance/BillServiceCreate";
-var random = require("random-string-generator");
+import { UserContext, ObjectContext } from '../../context';
+import { toast } from 'react-toastify';
+import { formatDistanceToNowStrict } from 'date-fns';
+import ClientFinInfo from './ClientFinInfo';
+import BillServiceCreate from '../Finance/BillServiceCreate';
+var random = require('random-string-generator');
 // import { AppointmentCreate } from "../Clinic/Appointments";
-import InfiniteScroll from "react-infinite-scroll-component";
-import ClientBilledPrescription from "../Finance/ClientBill";
-import ClientGroup from "./ClientGroup";
-import DatePicker from "react-datepicker";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import "react-datepicker/dist/react-datepicker.css";
-import {v4 as uuidv4} from "uuid";
-import short from "short-uuid";
+import InfiniteScroll from 'react-infinite-scroll-component';
+import ClientBilledPrescription from '../Finance/ClientBill';
+import ClientGroup from './ClientGroup';
+import DatePicker from 'react-datepicker';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import 'react-datepicker/dist/react-datepicker.css';
+import { v4 as uuidv4 } from 'uuid';
+import short from 'short-uuid';
 
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
 
-import FilterMenu from "../../components/utilities/FilterMenu";
-import Button from "../../components/buttons/Button";
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
-import {ClientMiniSchema} from "./schema";
-import {useForm} from "react-hook-form";
+import FilterMenu from '../../components/utilities/FilterMenu';
+import Button from '../../components/buttons/Button';
+import { PageWrapper } from '../../ui/styled/styles';
+import { TableMenu } from '../../ui/styled/global';
+import { ClientMiniSchema } from './schema';
+import { useForm } from 'react-hook-form';
 import {
   BottomWrapper,
   DetailsWrapper,
   GrayWrapper,
   GridWrapper,
   HeadWrapper,
-} from "../app/styles";
-import Input from "../../components/inputs/basic/Input";
+} from '../app/styles';
+import Input from '../../components/inputs/basic/Input';
 import {
   Box,
   Portal,
   Grid,
   Button as MuiButton,
   Typography,
-} from "@mui/material";
-import CustomTable from "../../components/customtable";
-import ModalBox from "../../components/modal";
-import ClientView from "./ClientView";
-import ClientForm from "./ClientForm";
-import CircleChart from "../dashBoardUiComponent/charts/CircleChart";
-import AreaChart from "../dashBoardUiComponent/charts/AreaChart";
-import BasicDatePicker from "../../components/inputs/Date";
-import CustomSelect from "../../components/inputs/basic/Select";
-import {AppointmentCreate} from "./Appointments";
-import GlobalCustomButton from "../../components/buttons/CustomButton";
-import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
-import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
-import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
-import {DesktopDatePicker} from "@mui/x-date-pickers/DesktopDatePicker";
-import ClientListDateFilter from "./DateFilter";
-import MuiClearDatePicker from "../../components/inputs/Date/MuiClearDatePicker";
+} from '@mui/material';
+import CustomTable from '../../components/customtable';
+import ModalBox from '../../components/modal';
+import ClientView from './ClientView';
+import ClientForm from './ClientForm';
+import CircleChart from '../dashBoardUiComponent/charts/CircleChart';
+import AreaChart from '../dashBoardUiComponent/charts/AreaChart';
+import BasicDatePicker from '../../components/inputs/Date';
+import CustomSelect from '../../components/inputs/basic/Select';
+import { AppointmentCreate } from './Appointments';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
+import MuiCustomDatePicker from '../../components/inputs/Date/MuiDatePicker';
+import CustomConfirmationDialog from '../../components/confirm-dialog/confirm-dialog';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import ClientListDateFilter from './DateFilter';
+import MuiClearDatePicker from '../../components/inputs/Date/MuiClearDatePicker';
 
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function Client() {
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [showModal, setShowModal] = useState(false);
@@ -98,7 +98,7 @@ export default function Client() {
         </div>
         <div className="column is-6 ">
           {/* {state.ClientModule.show === 'detail' && <ClientDetail />} */}
-          {state.ClientModule.show === "modify" && (
+          {state.ClientModule.show === 'modify' && (
             <ClientModify Client={selectedClient} />
           )}
           <ModalBox
@@ -125,28 +125,28 @@ export default function Client() {
   );
 }
 
-export function ClientCreate({open, setOpen}) {
+export function ClientCreate({ open, setOpen }) {
   const [showRegisteredModel, setShowRegisteredModal] = useState(false);
 
-  const {register, handleSubmit} = useForm({
+  const { register, handleSubmit } = useForm({
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      middleName: "",
+      firstName: '',
+      lastName: '',
+      middleName: '',
     },
   });
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [facility, setFacility] = useState();
-  const ClientServ = client.service("client");
-  const mpiServ = client.service("mpi");
+  const ClientServ = client.service('client');
+  const mpiServ = client.service('mpi');
   // const { user } = useContext(UserContext);
 
   // use local storage
 
-  const data = localStorage.getItem("user");
+  const data = localStorage.getItem('user');
   const user = JSON.parse(data);
 
   const [billModal, setBillModal] = useState(false);
@@ -161,22 +161,22 @@ export function ClientCreate({open, setOpen}) {
     setSuccess(false);
 
     ClientServ.create(data)
-      .then(res => {
+      .then((res) => {
         toast({
-          message: "Client created succesfully",
-          type: "is-success",
+          message: 'Client created succesfully',
+          type: 'is-success',
           dismissible: true,
           pauseOnHover: true,
         });
 
         changeState();
       })
-      .catch(err => {
+      .catch((err) => {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
         toast({
-          message: "Error creating Client, probable network issues or " + err,
-          type: "is-danger",
+          message: 'Error creating Client, probable network issues or ' + err,
+          type: 'is-danger',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -185,14 +185,14 @@ export function ClientCreate({open, setOpen}) {
 
   // eslint-disable-next-line
 
-  const getSearchfacility = obj => {
-    setValue("facility", obj._id, {
+  const getSearchfacility = (obj) => {
+    setValue('facility', obj._id, {
       shouldValidate: true,
       shouldDirty: true,
     });
   };
 
-  const handleDate = async date => {
+  const handleDate = async (date) => {
     setDate(date);
   };
 
@@ -247,7 +247,7 @@ export function ClientCreate({open, setOpen}) {
 
     if (!!data.firstname && !!data.lastname && !!data.gender && !!data.dob) {
       // console.log("simpa")
-      data.middlename = data.middlename || "";
+      data.middlename = data.middlename || '';
       (query.gender = data.gender),
         (query.dob = data.dob),
         (query.$or = [
@@ -286,7 +286,7 @@ export function ClientCreate({open, setOpen}) {
     }
   };
 
-  const checkQuery = query => {
+  const checkQuery = (query) => {
     setPatList([]);
     if (
       !(
@@ -295,9 +295,9 @@ export function ClientCreate({open, setOpen}) {
         query.constructor === Object
       )
     ) {
-      ClientServ.find({query: query})
+      ClientServ.find({ query: query })
 
-        .then(res => {
+        .then((res) => {
           console.log(res);
           if (res.total > 0) {
             // alert(res.total)
@@ -306,7 +306,7 @@ export function ClientCreate({open, setOpen}) {
             return;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     }
@@ -320,7 +320,7 @@ export function ClientCreate({open, setOpen}) {
     setBillModal(false);
   };
 
-  const choosen = async client => {
+  const choosen = async (client) => {
     //update client with facilities
     /*   if (client.facility !== user.currentEmployee.facilityDetail._id ){ //check taht it is not in list of related facilities
            
@@ -340,10 +340,10 @@ export function ClientCreate({open, setOpen}) {
     //cash payment
   };
 
-  const dupl = client => {
+  const dupl = (client) => {
     toast({
-      message: "Client previously registered in this facility",
-      type: "is-danger",
+      message: 'Client previously registered in this facility',
+      type: 'is-danger',
       dismissible: true,
       pauseOnHover: true,
     });
@@ -351,10 +351,10 @@ export function ClientCreate({open, setOpen}) {
     setPatList([]);
   };
 
-  const reg = async client => {
+  const reg = async (client) => {
     if (
       client.relatedfacilities.findIndex(
-        el => el.facility === user.currentEmployee.facilityDetail._id
+        (el) => el.facility === user.currentEmployee.facilityDetail._id
       ) === -1
     ) {
       //create mpi record
@@ -368,18 +368,18 @@ export function ClientCreate({open, setOpen}) {
       //console.log(newPat)
       await mpiServ
         .create(newPat)
-        .then(resp => {
+        .then((resp) => {
           toast({
-            message: "Client created succesfully",
-            type: "is-success",
+            message: 'Client created succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
-            message: "Error creating Client " + err,
-            type: "is-danger",
+            message: 'Error creating Client ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -391,7 +391,7 @@ export function ClientCreate({open, setOpen}) {
     //cash payment
   };
 
-  const depen = client => {
+  const depen = (client) => {
     setDependant(true);
   };
 
@@ -399,8 +399,8 @@ export function ClientCreate({open, setOpen}) {
     setLoading(true);
     if (!date) {
       toast({
-        message: "Please enter Date of Birth! ",
-        type: "is-danger",
+        message: 'Please enter Date of Birth! ',
+        type: 'is-danger',
         dismissible: true,
         pauseOnHover: true,
       });
@@ -408,7 +408,7 @@ export function ClientCreate({open, setOpen}) {
       return;
     }
     e.preventDefault();
-    setMessage("");
+    setMessage('');
     setError(false);
     setSuccess(false);
     checkClient();
@@ -433,15 +433,15 @@ export function ClientCreate({open, setOpen}) {
     if (confirm) {
       data.dob = date;
       await ClientServ.create(data)
-        .then(res => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           e.target.reset();
           /*  setMessage("Created Client successfully") */
           setSuccess(true);
           setLoading(false);
           toast({
-            message: "Client created succesfully",
-            type: "is-success",
+            message: 'Client created succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -450,10 +450,10 @@ export function ClientCreate({open, setOpen}) {
           setDependant(false);
           setDate();
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
-            message: "Error creating Client " + err,
-            type: "is-danger",
+            message: 'Error creating Client ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -464,81 +464,81 @@ export function ClientCreate({open, setOpen}) {
     }
   };
 
-  const users = [{sn: 1, lastname: "Dupe", firstname: "Ojo", age: 24}];
+  const users = [{ sn: 1, lastname: 'Dupe', firstname: 'Ojo', age: 24 }];
 
   const ClientRegisteredSchema = [
     {
-      name: "S/N",
-      key: "sn",
-      description: "SN",
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
 
-      selector: row => row.sn,
+      selector: (row) => row.sn,
       sortable: true,
     },
     {
-      name: "Last Name",
-      key: "lastname",
-      description: "Last Name",
+      name: 'Last Name',
+      key: 'lastname',
+      description: 'Last Name',
 
-      selector: row => row.lastname,
-      sortable: true,
-      required: true,
-    },
-
-    {
-      name: "First Name",
-      key: "firstname",
-      description: "First Name",
-
-      selector: row => row.firstname,
+      selector: (row) => row.lastname,
       sortable: true,
       required: true,
     },
 
     {
-      name: "Age",
-      key: "age",
-      description: "age",
+      name: 'First Name',
+      key: 'firstname',
+      description: 'First Name',
 
-      selector: row => row.age,
+      selector: (row) => row.firstname,
       sortable: true,
       required: true,
     },
 
     {
-      name: "Gender",
-      key: "gender",
-      description: "Gender",
+      name: 'Age',
+      key: 'age',
+      description: 'age',
 
-      selector: row => row.gender,
+      selector: (row) => row.age,
       sortable: true,
       required: true,
     },
 
     {
-      name: "Phome",
-      key: "phone",
-      description: "phone",
+      name: 'Gender',
+      key: 'gender',
+      description: 'Gender',
 
-      selector: row => row.phone,
+      selector: (row) => row.gender,
       sortable: true,
       required: true,
     },
 
     {
-      name: "Email",
-      key: "email",
-      description: "Enter your name",
+      name: 'Phome',
+      key: 'phone',
+      description: 'phone',
 
-      selector: row => row.email,
+      selector: (row) => row.phone,
+      sortable: true,
+      required: true,
+    },
+
+    {
+      name: 'Email',
+      key: 'email',
+      description: 'Enter your name',
+
+      selector: (row) => row.email,
       sortable: true,
       required: true,
     },
     {
-      name: "Action",
-      cell: row => {
+      name: 'Action',
+      cell: (row) => {
         return (
-          <Box sx={{display: "flex", gap: 2}}>
+          <Box sx={{ display: 'flex', gap: 2 }}>
             <Button label="Duplicate" />
             <Button label="Register" />
             <Button label="Dependent" />
@@ -555,7 +555,7 @@ export function ClientCreate({open, setOpen}) {
           open={showRegisteredModel}
           // onClose={handleHideRegisteredModal}
         >
-          <div className={`modal ${billModal ? "is-active" : ""}`}>
+          <div className={`modal ${billModal ? 'is-active' : ''}`}>
             <div className="modal-background"></div>
             <div className="modal-card modalbkgrnd z10">
               <header className="modal-card-head selectadd">
@@ -593,15 +593,15 @@ export function ClientCreate({open, setOpen}) {
   );
 }
 
-export function ClientList({openCreateModal, openDetailModal}) {
+export function ClientList({ openCreateModal, openDetailModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  const ClientServ = client.service("client");
+  const [message, setMessage] = useState('');
+  const ClientServ = client.service('client');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -609,13 +609,13 @@ export function ClientList({openCreateModal, openDetailModal}) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   const [filterEndDate, setFilterEndDate] = useState(dayjs());
   const containerScrollRef = useRef(null);
   // eslint-disable-next-line
   // const { user, setUser } = useContext(UserContext);
 
-  const data = localStorage.getItem("user");
+  const data = localStorage.getItem('user');
   const user = JSON.parse(data);
 
   // end
@@ -627,16 +627,16 @@ export function ClientList({openCreateModal, openDetailModal}) {
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
     openCreateModal(true);
     //console.log(state)
   };
-  const handleRowClicked = row => {
+  const handleRowClicked = (row) => {
     setSelectedUser(row);
     setOpen(true);
   };
@@ -645,13 +645,13 @@ export function ClientList({openCreateModal, openDetailModal}) {
     setOpen(false);
   };
 
-  const handleRow = async Client => {
+  const handleRow = async (Client) => {
     await setSelectedClient(Client);
     const newClientModule = {
       selectedClient: Client,
-      show: "detail",
+      show: 'detail',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -660,9 +660,9 @@ export function ClientList({openCreateModal, openDetailModal}) {
     openDetailModal();
   };
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     // eslint-disable-next-line
-    const field = "firstname";
+    const field = 'firstname';
     //console.log(val);
     ClientServ.find({
       query: {
@@ -670,83 +670,83 @@ export function ClientList({openCreateModal, openDetailModal}) {
           {
             firstname: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             lastname: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             middlename: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             phone: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             clientTags: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             mrn: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             email: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             specificDetails: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
-          {gender: val},
+          { gender: val },
         ],
 
-        "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
+        'relatedfacilities.facility': user.currentEmployee.facilityDetail._id, // || "",
         $limit: limit,
         $sort: {
           createdAt: -1,
         },
       },
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(" Client  fetched successfully");
+        setMessage(' Client  fetched successfully');
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
-        setMessage("Error fetching Client, probable network issues " + err);
+        setMessage('Error fetching Client, probable network issues ' + err);
         setError(true);
       });
   };
 
   const getFacilities = async () => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
-      actionLoader: {open: true},
+      actionLoader: { open: true },
     }));
     if (user.currentEmployee) {
       const findClient = await ClientServ.find({
         query: {
-          "relatedfacilities.facility": user.currentEmployee.facilityDetail._id,
+          'relatedfacilities.facility': user.currentEmployee.facilityDetail._id,
           $limit: limit,
           $skip: page * limit,
           $sort: {
@@ -756,22 +756,22 @@ export function ClientList({openCreateModal, openDetailModal}) {
       });
       if (page === 0) {
         await setFacilities(findClient.data);
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          actionLoader: {open: false},
+          actionLoader: { open: false },
         }));
       } else {
-        await setFacilities(prevstate => prevstate.concat(findClient.data));
-        setState(prev => ({
+        await setFacilities((prevstate) => prevstate.concat(findClient.data));
+        setState((prev) => ({
           ...prev,
-          actionLoader: {open: false},
+          actionLoader: { open: false },
         }));
       }
 
       await setTotal(findClient.total);
       //console.log(user.currentEmployee.facilityDetail._id, state)
       //console.log(facilities)
-      setPage(page => page + 1);
+      setPage((page) => page + 1);
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
@@ -784,9 +784,9 @@ export function ClientList({openCreateModal, openDetailModal}) {
         });
 
         await setFacilities(findClient.data);
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          actionLoader: {open: false},
+          actionLoader: { open: false },
         }));
       }
     }
@@ -806,10 +806,10 @@ export function ClientList({openCreateModal, openDetailModal}) {
                     getFacilities(user) */
     }
 
-    ClientServ.on("created", obj => rest());
-    ClientServ.on("updated", obj => rest());
-    ClientServ.on("patched", obj => rest());
-    ClientServ.on("removed", obj => rest());
+    ClientServ.on('created', (obj) => rest());
+    ClientServ.on('updated', (obj) => rest());
+    ClientServ.on('patched', (obj) => rest());
+    ClientServ.on('removed', (obj) => rest());
 
     return () => {};
     // eslint-disable-next-line
@@ -837,12 +837,12 @@ export function ClientList({openCreateModal, openDetailModal}) {
 
   const conditionalRowStyles = [
     {
-      when: row => row.alive === false,
+      when: (row) => row.alive === false,
       style: {
-        backgroundColor: "pink",
-        color: "white",
-        "&:hover": {
-          cursor: "pointer",
+        backgroundColor: 'pink',
+        color: 'white',
+        '&:hover': {
+          cursor: 'pointer',
         },
       },
     },
@@ -850,11 +850,11 @@ export function ClientList({openCreateModal, openDetailModal}) {
 
   const handleOnTableScroll = () => {
     if (containerScrollRef.current) {
-      const {scrollTop, scrollHeight, clientHeight} =
+      const { scrollTop, scrollHeight, clientHeight } =
         containerScrollRef.current;
       if (scrollTop + clientHeight === scrollHeight) {
         // TO SOMETHING HERE
-        console.log("Reached bottom");
+        console.log('Reached bottom');
       }
     }
   };
@@ -890,17 +890,17 @@ export function ClientList({openCreateModal, openDetailModal}) {
           </Portal> */}
 
           <PageWrapper
-            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+            style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
           >
             <TableMenu>
-              <Box style={{display: "flex", alignItems: "center"}} gap={1}>
+              <Box style={{ display: 'flex', alignItems: 'center' }} gap={1}>
                 {handleSearch && (
                   <div className="inner-table">
                     <FilterMenu onSearch={handleSearch} />
                   </div>
                 )}
 
-                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+                <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
                   List of Clients
                 </h2>
 
@@ -936,22 +936,22 @@ export function ClientList({openCreateModal, openDetailModal}) {
                 </Box>
               </Box>
               <GlobalCustomButton onClick={handleCreateNew}>
-                <PersonAddIcon fontSize="small" sx={{marginRight: "5px"}} />
+                <PersonAddIcon fontSize="small" sx={{ marginRight: '5px' }} />
                 Create New Client
               </GlobalCustomButton>
             </TableMenu>
 
             <div
               style={{
-                width: "100%",
-                height: "calc(100vh - 160px)",
-                overflow: "auto",
+                width: '100%',
+                height: 'calc(100vh - 160px)',
+                overflow: 'auto',
               }}
               ref={containerScrollRef}
               onScroll={handleOnTableScroll}
             >
               <CustomTable
-                title={""}
+                title={''}
                 columns={ClientMiniSchema}
                 data={facilities}
                 pointerOnHover
@@ -972,7 +972,7 @@ export function ClientList({openCreateModal, openDetailModal}) {
   );
 }
 
-export function ClientDetail({closeDetailModal}) {
+export function ClientDetail({ closeDetailModal }) {
   const navigate = useNavigate();
   // eslint-disable-next-line
 
@@ -986,17 +986,17 @@ export function ClientDetail({closeDetailModal}) {
   const [updatingClient, setUpdatingClient] = useState(false);
   // eslint-disable-next-line
 
-  const [message, setMessage] = useState("");
-  const {user, setUser} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const [message, setMessage] = useState('');
+  const { user, setUser } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const [editClient, setEditClient] = useState(false);
 
-  const ClientServ = client.service("client");
+  const ClientServ = client.service('client');
 
   const [success, setSuccess] = useState(false);
 
-  const {register, handleSubmit, setValue, reset, control} = useForm();
+  const { register, handleSubmit, setValue, reset, control } = useForm();
 
   let Client = state.ClientModule.selectedClient;
   // eslint-disable-next-line
@@ -1034,111 +1034,111 @@ export function ClientDetail({closeDetailModal}) {
   //console.log(Client);
 
   useEffect(() => {
-    setValue("firstname", Client.firstname, {
+    setValue('firstname', Client.firstname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("middlename", Client.middlename, {
+    setValue('middlename', Client.middlename, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("lastname", Client.lastname, {
+    setValue('lastname', Client.lastname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("phone", Client.phone, {
+    setValue('phone', Client.phone, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("email", Client.email, {
+    setValue('email', Client.email, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("dob", Client.dob, {
+    setValue('dob', Client.dob, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("gender", Client.gender, {
+    setValue('gender', Client.gender, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("profession", Client.profession, {
+    setValue('profession', Client.profession, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("address", Client.address, {
+    setValue('address', Client.address, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("city", Client.city, {
+    setValue('city', Client.city, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("state", Client.state, {
+    setValue('state', Client.state, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("country", Client.country, {
+    setValue('country', Client.country, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("nok_name", Client.nok_name, {
+    setValue('nok_name', Client.nok_name, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("nok_email", Client.nok_email, {
+    setValue('nok_email', Client.nok_email, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("nok_relationship", Client.nok_relationship, {
+    setValue('nok_relationship', Client.nok_relationship, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("nok_phoneno", Client.nok_phoneno, {
+    setValue('nok_phoneno', Client.nok_phoneno, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("lga", Client.lga, {
+    setValue('lga', Client.lga, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("bloodgroup", Client.bloodgroup, {
+    setValue('bloodgroup', Client.bloodgroup, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("genotype", Client.genotype, {
+    setValue('genotype', Client.genotype, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("disabilities", Client.disabilities, {
+    setValue('disabilities', Client.disabilities, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("specificDetails", Client.specificDetails, {
+    setValue('specificDetails', Client.specificDetails, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("clientTags", Client.clientTags, {
+    setValue('clientTags', Client.clientTags, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("mrn", Client.mrn, {
+    setValue('mrn', Client.mrn, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("religion", Client.religion, {
+    setValue('religion', Client.religion, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("maritalstatus", Client.maritalstatus, {
+    setValue('maritalstatus', Client.maritalstatus, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("comorbidities", Client.comorbidities, {
+    setValue('comorbidities', Client.comorbidities, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("allergies", Client.allergies, {
+    setValue('allergies', Client.allergies, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -1149,9 +1149,9 @@ export function ClientDetail({closeDetailModal}) {
   const handleCancel = async () => {
     const newClientModule = {
       selectedClient: Client,
-      show: "detail",
+      show: 'detail',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -1163,33 +1163,33 @@ export function ClientDetail({closeDetailModal}) {
   const changeState = () => {
     const newClientModule = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
 
-    setState(prevstate => ({...prevstate, ClientModule: newClientModule}));
+    setState((prevstate) => ({ ...prevstate, ClientModule: newClientModule }));
   };
 
   const handleDelete = async () => {
-    let conf = window.confirm("Are you sure you want to delete this data?");
+    let conf = window.confirm('Are you sure you want to delete this data?');
 
     const dleteId = Client._id;
     if (conf) {
       ClientServ.remove(dleteId)
-        .then(res => {
+        .then((res) => {
           reset();
 
           toast({
-            message: "Client deleted succesfully",
-            type: "is-success",
+            message: 'Client deleted succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
           changeState();
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
-            message: "Error deleting Client, probable network issues or " + err,
-            type: "is-danger",
+            message: 'Error deleting Client, probable network issues or ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1198,30 +1198,30 @@ export function ClientDetail({closeDetailModal}) {
   };
 
   const handleDeactivateClient = () => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
-      actionLoader: {open: true, message: "Deactivating Client"},
+      actionLoader: { open: true, message: 'Deactivating Client' },
     }));
     setSuccess(false);
 
-    const newData = {...Client, active: false};
+    const newData = { ...Client, active: false };
 
     ClientServ.patch(Client._id, newData)
-      .then(res => {
+      .then((res) => {
         setConfirmDialog(false);
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          actionLoader: {open: false, message: ""},
+          actionLoader: { open: false, message: '' },
         }));
-        toast.success("Client Deactivated succesfully");
+        toast.success('Client Deactivated succesfully');
 
         changeState();
         closeDetailModal();
       })
-      .catch(err => {
-        setState(prev => ({
+      .catch((err) => {
+        setState((prev) => ({
           ...prev,
-          actionLoader: {open: false, message: ""},
+          actionLoader: { open: false, message: '' },
         }));
         setConfirmDialog(false);
         toast.error(
@@ -1232,29 +1232,29 @@ export function ClientDetail({closeDetailModal}) {
 
   const handleReactivateClient = () => {
     setSuccess(false);
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
-      actionLoader: {open: true, message: "Reactivating Client"},
+      actionLoader: { open: true, message: 'Reactivating Client' },
     }));
 
-    const newData = {...Client, active: true};
+    const newData = { ...Client, active: true };
 
     ClientServ.patch(Client._id, newData)
-      .then(res => {
-        setState(prev => ({
+      .then((res) => {
+        setState((prev) => ({
           ...prev,
-          actionLoader: {open: false, message: ""},
+          actionLoader: { open: false, message: '' },
         }));
         setReactivateConfirm(false);
-        toast.success("Client Reactivated succesfully");
+        toast.success('Client Reactivated succesfully');
 
         changeState();
         closeDetailModal();
       })
-      .catch(err => {
-        setState(prev => ({
+      .catch((err) => {
+        setState((prev) => ({
           ...prev,
-          actionLoader: {open: false, message: ""},
+          actionLoader: { open: false, message: '' },
         }));
         setReactivateConfirm(false);
         toast.error(
@@ -1265,13 +1265,13 @@ export function ClientDetail({closeDetailModal}) {
 
   const handleCreateWallet = async () => {
     try {
-      const res = await api.post("/register?scheme=4865616c7468737461636b", {
+      const res = await api.post('/register?scheme=4865616c7468737461636b', {
         firstName: Client.firstname,
         lastName: Client.lastname,
         phone: short.generate(),
       });
       console.log(res);
-      toast.success("Wallet Created Successfully");
+      toast.success('Wallet Created Successfully');
       return res.data;
     } catch (error) {
       toast.error(error.message);
@@ -1279,20 +1279,20 @@ export function ClientDetail({closeDetailModal}) {
     }
   };
 
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     // e.preventDefault();
     setUpdatingClient(true);
 
     setSuccess(false);
 
     ClientServ.patch(Client._id, data)
-      .then(res => {
+      .then((res) => {
         setUpdatingClient(false);
-        toast.success("Client updated succesfully");
+        toast.success('Client updated succesfully');
         changeState();
         closeDetailModal();
       })
-      .catch(err => {
+      .catch((err) => {
         setUpdatingClient(false);
         toast.error(`Error updating Client, probable network issues or ${err}`);
       });
@@ -1319,18 +1319,18 @@ export function ClientDetail({closeDetailModal}) {
       />
       <Box
         sx={{
-          width: "80vw",
-          maxHeight: "80vh",
+          width: '80vw',
+          maxHeight: '80vh',
           // overflowY: "auto",
         }}
       >
         {Client.active ? (
           <Box
             sx={{
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "right",
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'right',
             }}
             mb={2}
           >
@@ -1339,19 +1339,19 @@ export function ClientDetail({closeDetailModal}) {
                 text="Edit Details"
                 onClick={() => setEditClient(true)}
                 customStyles={{
-                  marginRight: "5px",
+                  marginRight: '5px',
                 }}
                 color="success"
               />
             )}
-            {(user.currentEmployee?.roles.includes("Bill Client") ||
+            {(user.currentEmployee?.roles.includes('Bill Client') ||
               user.currentEmployee?.roles.length === 0 ||
               user.stacker) && (
               <GlobalCustomButton
                 text="Bill Client"
                 onClick={showBilling}
                 customStyles={{
-                  marginRight: "5px",
+                  marginRight: '5px',
                 }}
                 color="info"
               />
@@ -1359,7 +1359,7 @@ export function ClientDetail({closeDetailModal}) {
 
             <GlobalCustomButton
               sx={{
-                marginRight: "5px",
+                marginRight: '5px',
               }}
               onClick={handleCreateWallet}
             >
@@ -1370,7 +1370,7 @@ export function ClientDetail({closeDetailModal}) {
               text="Payment Information"
               onClick={handleFinancialInfo}
               customStyles={{
-                marginRight: "5px",
+                marginRight: '5px',
               }}
               color="secondary"
             />
@@ -1378,21 +1378,21 @@ export function ClientDetail({closeDetailModal}) {
               text="Schedule Appointment"
               onClick={handleSchedule}
               sx={{
-                marginRight: "5px",
-                backgroundColor: "#ee9b00",
-                color: "#ffffff",
-                "&:hover": {
-                  backgroundColor: "#ee9b00",
+                marginRight: '5px',
+                backgroundColor: '#ee9b00',
+                color: '#ffffff',
+                '&:hover': {
+                  backgroundColor: '#ee9b00',
                 },
               }}
             />
             <GlobalCustomButton
               text="Attend to Client"
               onClick={() => {
-                navigate("/app/general/documentation");
+                navigate('/app/general/documentation');
               }}
               customStyles={{
-                marginRight: "5px",
+                marginRight: '5px',
               }}
               color="success"
             />
@@ -1400,10 +1400,10 @@ export function ClientDetail({closeDetailModal}) {
         ) : (
           <Box
             sx={{
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "right",
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'right',
             }}
             mb={2}
           >
@@ -1422,7 +1422,7 @@ export function ClientDetail({closeDetailModal}) {
               {(Client.firstname || editClient) && (
                 <Grid item lg={3} md={4} sm={6}>
                   <Input
-                    register={register("firstname")}
+                    register={register('firstname')}
                     label="First Name"
                     //defaultValue={Client.firstname}
                     disabled={!editClient}
@@ -1432,7 +1432,7 @@ export function ClientDetail({closeDetailModal}) {
               {(Client.middlename || editClient) && (
                 <Grid item lg={3} md={4} sm={6}>
                   <Input
-                    register={register("middlename")}
+                    register={register('middlename')}
                     label="Middle Name"
                     //defaultValue={Client.middlename}
                     disabled={!editClient}
@@ -1445,7 +1445,7 @@ export function ClientDetail({closeDetailModal}) {
                   <Input
                     label="Last Name"
                     //defaultValue={Client.lastname}
-                    register={register("lastname")}
+                    register={register('lastname')}
                     disabled={!editClient}
                   />
                 </Grid>
@@ -1466,11 +1466,11 @@ export function ClientDetail({closeDetailModal}) {
                 <Grid item lg={3} md={4} sm={6}>
                   <CustomSelect
                     label="Gender"
-                    register={register("gender")}
+                    register={register('gender')}
                     defaultValue={Client?.gender?.toLowerCase()}
                     options={[
-                      {label: "Male", value: "male"},
-                      {label: "Female", value: "female"},
+                      { label: 'Male', value: 'male' },
+                      { label: 'Female', value: 'female' },
                     ]}
                     disable={!editClient}
                     //errorText={errors?.gender?.message}
@@ -1483,7 +1483,7 @@ export function ClientDetail({closeDetailModal}) {
                   <Input
                     label="Marital Status"
                     //defaultValue={Client.maritalstatus}
-                    register={register("maritalstatus")}
+                    register={register('maritalstatus')}
                     disabled={!editClient}
                   />
                 </Grid>
@@ -1494,7 +1494,7 @@ export function ClientDetail({closeDetailModal}) {
                   <Input
                     label="Medical Record Number"
                     //defaultValue={Client.mrn}
-                    register={register("mrn")}
+                    register={register('mrn')}
                     disabled={!editClient}
                   />
                 </Grid>
@@ -1505,7 +1505,7 @@ export function ClientDetail({closeDetailModal}) {
                   <Input
                     label="Religion"
                     //defaultValue={Client.religion}
-                    register={register("religion")}
+                    register={register('religion')}
                     disabled={!editClient}
                   />
                 </Grid>
@@ -1517,7 +1517,7 @@ export function ClientDetail({closeDetailModal}) {
                     label="Profession"
                     //defaultValue={Client.profession}
                     disabled={!editClient}
-                    register={register("profession")}
+                    register={register('profession')}
                   />
                 </Grid>
               )}
@@ -1528,7 +1528,7 @@ export function ClientDetail({closeDetailModal}) {
                     label="Phone Number"
                     //defaultValue={Client.phone}
                     disabled={!editClient}
-                    register={register("phone")}
+                    register={register('phone')}
                   />
                 </Grid>
               )}
@@ -1539,7 +1539,7 @@ export function ClientDetail({closeDetailModal}) {
                     label="Email Address"
                     //defaultValue={Client.email}
                     disabled={!editClient}
-                    register={register("email")}
+                    register={register('email')}
                   />
                 </Grid>
               )}
@@ -1550,7 +1550,7 @@ export function ClientDetail({closeDetailModal}) {
                     label="Residential Address"
                     //defaultValue={Client.address}
                     disabled={!editClient}
-                    register={register("address")}
+                    register={register('address')}
                   />
                 </Grid>
               )}
@@ -1561,7 +1561,7 @@ export function ClientDetail({closeDetailModal}) {
                     label="Town/City"
                     //defaultValue={Client.city}
                     disabled={!editClient}
-                    register={register("city")}
+                    register={register('city')}
                   />
                 </Grid>
               )}
@@ -1572,7 +1572,7 @@ export function ClientDetail({closeDetailModal}) {
                     label="Local Govt Area"
                     //defaultValue={Client.lga}
                     disabled={!editClient}
-                    register={register("lga")}
+                    register={register('lga')}
                   />
                 </Grid>
               )}
@@ -1583,7 +1583,7 @@ export function ClientDetail({closeDetailModal}) {
                     label="State"
                     //defaultValue={Client.state}
                     disabled={!editClient}
-                    register={register("state")}
+                    register={register('state')}
                   />
                 </Grid>
               )}
@@ -1593,7 +1593,7 @@ export function ClientDetail({closeDetailModal}) {
                   <Input
                     label="Country"
                     //defaultValue={Client.country}
-                    register={register("country")}
+                    register={register('country')}
                     disabled={!editClient}
                   />
                 </Grid>
@@ -1604,7 +1604,7 @@ export function ClientDetail({closeDetailModal}) {
                   <Input
                     label="Blood Group"
                     //defaultValue={Client.bloodgroup}
-                    register={register("bloodgroup")}
+                    register={register('bloodgroup')}
                     disabled={!editClient}
                   />
                 </Grid>
@@ -1615,7 +1615,7 @@ export function ClientDetail({closeDetailModal}) {
                   <Input
                     label="Genotype"
                     //defaultValue={Client.genotype}
-                    register={register("genotype")}
+                    register={register('genotype')}
                     disabled={!editClient}
                   />
                 </Grid>
@@ -1627,7 +1627,7 @@ export function ClientDetail({closeDetailModal}) {
                     label="Disabilities"
                     //defaultValue={Client.disabilities}
                     disabled={!editClient}
-                    register={register("disabilities")}
+                    register={register('disabilities')}
                   />
                 </Grid>
               )}
@@ -1638,7 +1638,7 @@ export function ClientDetail({closeDetailModal}) {
                     label="Allergies"
                     //defaultValue={Client.allergies}
                     disabled={!editClient}
-                    register={register("allergies")}
+                    register={register('allergies')}
                   />
                 </Grid>
               )}
@@ -1649,7 +1649,7 @@ export function ClientDetail({closeDetailModal}) {
                     label="Co-mobidities"
                     //defaultValue={Client.comorbidities}
                     disabled={!editClient}
-                    register={register("comorbidities")}
+                    register={register('comorbidities')}
                   />
                 </Grid>
               )}
@@ -1660,7 +1660,7 @@ export function ClientDetail({closeDetailModal}) {
                     label="Tags"
                     //defaultValue={Client.clientTags}
                     disabled={!editClient}
-                    register={register("clientTags")}
+                    register={register('clientTags')}
                   />
                 </Grid>
               )}
@@ -1671,7 +1671,7 @@ export function ClientDetail({closeDetailModal}) {
                     label="Specific Details about Client"
                     //defaultValue={Client.specificDetails}
                     disabled={!editClient}
-                    register={register("specificDetails")}
+                    register={register('specificDetails')}
                   />
                 </Grid>
               )}
@@ -1682,7 +1682,7 @@ export function ClientDetail({closeDetailModal}) {
                     label="Next of Kin Fullname"
                     //defaultValue={Client.nok_name}
                     disabled={!editClient}
-                    register={register("nok_name")}
+                    register={register('nok_name')}
                   />
                 </Grid>
               )}
@@ -1693,7 +1693,7 @@ export function ClientDetail({closeDetailModal}) {
                     label="Next of Kin Phone Number"
                     //defaultValue={Client.nok_phoneno}
                     disabled={!editClient}
-                    register={register("nok_phoneno")}
+                    register={register('nok_phoneno')}
                   />
                 </Grid>
               )}
@@ -1704,7 +1704,7 @@ export function ClientDetail({closeDetailModal}) {
                     label="Next of Kin Relationship"
                     //defaultValue={Client.nok_relationship}
                     disabled={!editClient}
-                    register={register("nok_relationship")}
+                    register={register('nok_relationship')}
                   />
                 </Grid>
               )}
@@ -1715,7 +1715,7 @@ export function ClientDetail({closeDetailModal}) {
                     label="Next of Kin Email Address"
                     //defaultValue={Client.nok_email}
                     disabled={!editClient}
-                    register={register("nok_email")}
+                    register={register('nok_email')}
                   />
                 </Grid>
               )}
@@ -1726,9 +1726,9 @@ export function ClientDetail({closeDetailModal}) {
         {editClient && (
           <Box
             sx={{
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
             }}
             mt={2}
             gap={1}
@@ -1738,7 +1738,7 @@ export function ClientDetail({closeDetailModal}) {
               onClick={handleSubmit(onSubmit)}
               loading={updatingClient}
               customStyles={{
-                marginRight: "5px",
+                marginRight: '5px',
               }}
               color="secondary"
             />
@@ -1796,7 +1796,10 @@ export function ClientDetail({closeDetailModal}) {
         onClose={handlecloseModal2}
         header="Set Appointment"
       >
-        <AppointmentCreate closeModal={handlecloseModal2} />
+        <AppointmentCreate
+          closeModal={handlecloseModal2}
+          openBill={(setBillingModal, handlecloseModal2)}
+        />
       </ModalBox>
 
       <ModalBox
@@ -1814,116 +1817,116 @@ export function ClientDetail({closeDetailModal}) {
 }
 
 export function ClientModify() {
-  const {register, handleSubmit, setValue, reset} = useForm(); //watch, errors,, errors
+  const { register, handleSubmit, setValue, reset } = useForm(); //watch, errors,, errors
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   // eslint-disable-next-line
-  const ClientServ = client.service("client");
+  const ClientServ = client.service('client');
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const Client = state.ClientModule.selectedClient;
 
   useEffect(() => {
-    setValue("firstname", Client.firstname, {
+    setValue('firstname', Client.firstname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("middlename", Client.middlename, {
+    setValue('middlename', Client.middlename, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("lastname", Client.lastname, {
+    setValue('lastname', Client.lastname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("phone", Client.phone, {
+    setValue('phone', Client.phone, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("email", Client.email, {
+    setValue('email', Client.email, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("dob", Client.dob, {
+    setValue('dob', Client.dob, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("gender", Client.gender, {
+    setValue('gender', Client.gender, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("profession", Client.profession, {
+    setValue('profession', Client.profession, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("address", Client.address, {
+    setValue('address', Client.address, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("city", Client.city, {
+    setValue('city', Client.city, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("state", Client.state, {
+    setValue('state', Client.state, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("country", Client.country, {
+    setValue('country', Client.country, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("nok_name", Client.nok_name, {
+    setValue('nok_name', Client.nok_name, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("nok_email", Client.nok_email, {
+    setValue('nok_email', Client.nok_email, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("nok_phoneno", Client.nokphoneno, {
+    setValue('nok_phoneno', Client.nokphoneno, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("lga", Client.lga, {
+    setValue('lga', Client.lga, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("bloodgroup", Client.bloodgroup, {
+    setValue('bloodgroup', Client.bloodgroup, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("genotype", Client.genotype, {
+    setValue('genotype', Client.genotype, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("disabilities", Client.disabilities, {
+    setValue('disabilities', Client.disabilities, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("specificDetails", Client.specificDetails, {
+    setValue('specificDetails', Client.specificDetails, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("clientTags", Client.clientTags, {
+    setValue('clientTags', Client.clientTags, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("mrn", Client.mrn, {
+    setValue('mrn', Client.mrn, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("comorbidities", Client.comorbidities, {
+    setValue('comorbidities', Client.comorbidities, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("allergies", Client.allergies, {
+    setValue('allergies', Client.allergies, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -1934,9 +1937,9 @@ export function ClientModify() {
   const handleCancel = async () => {
     const newClientModule = {
       selectedClient: Client,
-      show: "detail",
+      show: 'detail',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -1946,19 +1949,19 @@ export function ClientModify() {
   const changeState = () => {
     const newClientModule = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
 
-    setState(prevstate => ({...prevstate, ClientModule: newClientModule}));
+    setState((prevstate) => ({ ...prevstate, ClientModule: newClientModule }));
   };
   // eslint-disable-next-line
   const handleDelete = async () => {
-    let conf = window.confirm("Are you sure you want to delete this data?");
+    let conf = window.confirm('Are you sure you want to delete this data?');
 
     const dleteId = Client._id;
     if (conf) {
       ClientServ.remove(dleteId)
-        .then(res => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Client successfully")
@@ -1968,19 +1971,19 @@ export function ClientModify() {
                 setSuccess(false)
                 }, 200); */
           toast({
-            message: "Client deleted succesfully",
-            type: "is-success",
+            message: 'Client deleted succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
           changeState();
         })
-        .catch(err => {
+        .catch((err) => {
           // setMessage("Error deleting Client, probable network issues "+ err )
           // setError(true)
           toast({
-            message: "Error deleting Client, probable network issues or " + err,
-            type: "is-danger",
+            message: 'Error deleting Client, probable network issues or ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -2001,25 +2004,25 @@ export function ClientModify() {
     //console.log(data);
 
     ClientServ.patch(Client._id, data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Client successfully")
         toast({
-          message: "Client updated succesfully",
-          type: "is-success",
+          message: 'Client updated succesfully',
+          type: 'is-success',
           dismissible: true,
           pauseOnHover: true,
         });
 
         changeState();
       })
-      .catch(err => {
+      .catch((err) => {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
         toast({
-          message: "Error updating Client, probable network issues or " + err,
-          type: "is-danger",
+          message: 'Error updating Client, probable network issues or ' + err,
+          type: 'is-danger',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -2038,10 +2041,10 @@ export function ClientModify() {
               <div className="field-body">
                 <div className="field">
                   <p className="control has-icons-left has-icons-right">
-                    <label className="label is-size-7">First Name </label>{" "}
+                    <label className="label is-size-7">First Name </label>{' '}
                     <input
                       className="input is-small"
-                      {...register("firstname")}
+                      {...register('firstname')}
                       name="firstname"
                       type="text"
                       placeholder="First Name "
@@ -2057,7 +2060,7 @@ export function ClientModify() {
                     <label className="label is-size-7"> Middle Name </label>
                     <input
                       className="input is-small"
-                      {...register("middlename")}
+                      {...register('middlename')}
                       name="middlename"
                       type="text"
                       placeholder="Middle Name "
@@ -2073,7 +2076,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Last Name</label>
                     <input
                       className="input is-small"
-                      {...register("lastname")}
+                      {...register('lastname')}
                       name="lastname"
                       type="text"
                       placeholder="Last Name "
@@ -2093,7 +2096,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Date of Birth </label>
                     <input
                       className="input is-small"
-                      {...register("dob")}
+                      {...register('dob')}
                       name="dob"
                       type="text"
                       placeholder="Date of Birth "
@@ -2108,7 +2111,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Gender </label>
                     <input
                       className="input is-small"
-                      {...register("gender")}
+                      {...register('gender')}
                       name="gender"
                       type="text"
                       placeholder="Gender  "
@@ -2123,7 +2126,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Marital Status </label>
                     <input
                       className="input is-small"
-                      {...register("maritalstatus")}
+                      {...register('maritalstatus')}
                       name="maritalstatus"
                       type="text"
                       placeholder="Marital Status  "
@@ -2138,7 +2141,7 @@ export function ClientModify() {
                     <label className="label is-size-7"> Records Number </label>
                     <input
                       className="input is-small"
-                      {...register("mrn")}
+                      {...register('mrn')}
                       name="mrn"
                       type="text"
                       placeholder="Records Number  "
@@ -2157,7 +2160,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Religion</label>
                     <input
                       className="input is-small"
-                      {...register("religion")}
+                      {...register('religion')}
                       name="religion"
                       type="text"
                       placeholder="Religion "
@@ -2172,7 +2175,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Profession </label>
                     <input
                       className="input is-small"
-                      {...register("profession")}
+                      {...register('profession')}
                       name="profession"
                       type="text"
                       placeholder="Profession"
@@ -2187,7 +2190,7 @@ export function ClientModify() {
                     <label className="label is-size-7"> Phone No</label>
                     <input
                       className="input is-small"
-                      {...register("phone")}
+                      {...register('phone')}
                       name="phone"
                       type="text"
                       placeholder=" Phone No "
@@ -2203,7 +2206,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Email </label>
                     <input
                       className="input is-small"
-                      {...register("email")}
+                      {...register('email')}
                       name="email"
                       type="email"
                       placeholder="Email  "
@@ -2221,7 +2224,7 @@ export function ClientModify() {
                 <label className="label is-size-7">Residential Address </label>
                 <input
                   className="input is-small"
-                  {...register("address")}
+                  {...register('address')}
                   name="address"
                   type="text"
                   placeholder="Residential Address  "
@@ -2238,7 +2241,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Town/City </label>
                     <input
                       className="input is-small"
-                      {...register("city")}
+                      {...register('city')}
                       name="city"
                       type="text"
                       placeholder="Town/City  "
@@ -2253,7 +2256,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Local Govt Area </label>
                     <input
                       className="input is-small"
-                      {...register("lga")}
+                      {...register('lga')}
                       name="lga"
                       type="text"
                       placeholder="Local Govt Area  "
@@ -2268,7 +2271,7 @@ export function ClientModify() {
                     <label className="label is-size-7">State </label>
                     <input
                       className="input is-small"
-                      {...register("state")}
+                      {...register('state')}
                       name="state"
                       type="text"
                       placeholder="State"
@@ -2283,7 +2286,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Country </label>
                     <input
                       className="input is-small"
-                      {...register("country")}
+                      {...register('country')}
                       name="country"
                       type="text"
                       placeholder="Country  "
@@ -2302,7 +2305,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Blood Group </label>
                     <input
                       className="input is-small"
-                      {...register("bloodgroup")}
+                      {...register('bloodgroup')}
                       name="bloodgroup"
                       type="text"
                       placeholder="Blood Group "
@@ -2317,7 +2320,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Genotype </label>
                     <input
                       className="input is-small"
-                      {...register("genotype")}
+                      {...register('genotype')}
                       name="genotype"
                       type="text"
                       placeholder="Genotype "
@@ -2332,7 +2335,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Disabilities </label>
                     <input
                       className="input is-small"
-                      {...register("disabilities")}
+                      {...register('disabilities')}
                       name="disabilities"
                       type="text"
                       placeholder="Disabilities  "
@@ -2352,7 +2355,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Allergies </label>
                     <input
                       className="input is-small"
-                      {...register("allergies")}
+                      {...register('allergies')}
                       name="allergies"
                       type="text"
                       placeholder="Allergies  "
@@ -2367,7 +2370,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Co-mobidities </label>
                     <input
                       className="input is-small"
-                      {...register("comorbities")}
+                      {...register('comorbities')}
                       name="comorbidities"
                       type="text"
                       placeholder="Co-mobidities "
@@ -2384,7 +2387,7 @@ export function ClientModify() {
                 <label className="label is-size-7">Tags </label>
                 <input
                   className="input is-small"
-                  {...register("clientTags")}
+                  {...register('clientTags')}
                   name="clientTags"
                   type="text"
                   placeholder="Tags "
@@ -2397,11 +2400,11 @@ export function ClientModify() {
             <div className="field">
               <p className="control has-icons-left">
                 <label className="label is-size-7">
-                  Specific Details about client{" "}
+                  Specific Details about client{' '}
                 </label>
                 <input
                   className="input is-small"
-                  {...register("specificDetails")}
+                  {...register('specificDetails')}
                   name="specificDetails"
                   type="text"
                   placeholder="Specific Details about client "
@@ -2420,7 +2423,7 @@ export function ClientModify() {
                     </label>
                     <input
                       className="input is-small"
-                      {...register("nok_name")}
+                      {...register('nok_name')}
                       name="nok_name"
                       type="text"
                       placeholder="Next of Kin Full Name "
@@ -2435,7 +2438,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Phone Number</label>
                     <input
                       className="input is-small"
-                      {...register("nok_phoneno")}
+                      {...register('nok_phoneno')}
                       name="nok_phoneno"
                       type="text"
                       placeholder=" "
@@ -2448,11 +2451,11 @@ export function ClientModify() {
                 <div className="field">
                   <p className="control has-icons-left">
                     <label className="label is-size-7">
-                      Next of Kin Email{" "}
+                      Next of Kin Email{' '}
                     </label>
                     <input
                       className="input is-small"
-                      {...register("nok_email")}
+                      {...register('nok_email')}
                       name="nok_email"
                       type="email"
                       placeholder="Next of Kin Email  "
@@ -2467,7 +2470,7 @@ export function ClientModify() {
                     <label className="label is-size-7"> Relationship </label>
                     <input
                       className="input is-small"
-                      {...register("nok_relationship")}
+                      {...register('nok_relationship')}
                       name="nok_relationship"
                       type="text"
                       placeholder="Next of Kin Relationship"
@@ -2515,8 +2518,8 @@ export function ClientModify() {
   );
 }
 
-export function InputSearch({getSearchfacility, clear}) {
-  const ClientServ = client.service("client");
+export function InputSearch({ getSearchfacility, clear }) {
+  const ClientServ = client.service('client');
 
   // const facilityServ=client.service('facility')
   const [facilities, setFacilities] = useState([]);
@@ -2525,16 +2528,16 @@ export function InputSearch({getSearchfacility, clear}) {
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState("");
+  const [searchMessage, setSearchMessage] = useState('');
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState("");
+  const [simpa, setSimpa] = useState('');
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
 
-  const handleRow = async obj => {
+  const handleRow = async (obj) => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -2551,9 +2554,9 @@ export function InputSearch({getSearchfacility, clear}) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async e => {
+  const handleBlur = async (e) => {
     if (count === 2) {
-      console.log("stuff was chosen");
+      console.log('stuff was chosen');
     }
 
     /*  console.log("blur")
@@ -2569,8 +2572,8 @@ export function InputSearch({getSearchfacility, clear}) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async val => {
-    const field = "facilityName"; //field variable
+  const handleSearch = async (val) => {
+    const field = 'facilityName'; //field variable
 
     if (val.length >= 3) {
       ClientServ.find({
@@ -2578,7 +2581,7 @@ export function InputSearch({getSearchfacility, clear}) {
           //service
           [field]: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
           $limit: 10,
           $sort: {
@@ -2586,22 +2589,22 @@ export function InputSearch({getSearchfacility, clear}) {
           },
         },
       })
-        .then(res => {
-          console.log("facility  fetched successfully");
+        .then((res) => {
+          console.log('facility  fetched successfully');
 
           setFacilities(res.data);
-          setSearchMessage(" facility  fetched successfully");
+          setSearchMessage(' facility  fetched successfully');
           setShowPanel(true);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           setSearchMessage(
-            "Error searching facility, probable network issues " + err
+            'Error searching facility, probable network issues ' + err
           );
           setSearchError(true);
         });
     } else {
-      console.log("less than 3 ");
+      console.log('less than 3 ');
       console.log(val);
       setShowPanel(false);
       await setFacilities([]);
@@ -2610,7 +2613,7 @@ export function InputSearch({getSearchfacility, clear}) {
   };
   useEffect(() => {
     if (clear) {
-      setSimpa("");
+      setSimpa('');
     }
     return () => {};
   }, [clear]);
@@ -2618,7 +2621,7 @@ export function InputSearch({getSearchfacility, clear}) {
     <div>
       <div className="field">
         <div className="control has-icons-left  ">
-          <div className={`dropdown ${showPanel ? "is-active" : ""}`}>
+          <div className={`dropdown ${showPanel ? 'is-active' : ''}`}>
             <div className="dropdown-trigger">
               <DebounceInput
                 className="input is-small "
@@ -2627,8 +2630,8 @@ export function InputSearch({getSearchfacility, clear}) {
                 value={simpa}
                 minLength={1}
                 debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
+                onBlur={(e) => handleBlur(e)}
+                onChange={(e) => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
