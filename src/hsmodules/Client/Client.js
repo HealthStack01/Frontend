@@ -1268,13 +1268,14 @@ export function ClientDetail({closeDetailModal}) {
       const res = await api.post("/register?scheme=4865616c7468737461636b", {
         firstName: Client.firstname,
         lastName: Client.lastname,
-        phone: short.generate(),
+        phoneNumber: Client.phone,
+        password:`K%${short.generate()}`,
       });
       console.log(res);
       toast.success("Wallet Created Successfully");
       return res.data;
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error?.response?.data?.message);
       console.log(error);
     }
   };
