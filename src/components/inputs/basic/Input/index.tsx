@@ -1,4 +1,5 @@
 import React from "react";
+import AcUnitIcon from "@mui/icons-material/AcUnit";
 
 import {InputBox, InputField, InputLabel} from "./styles";
 
@@ -22,6 +23,7 @@ interface InputProps {
   onBlur?: () => void;
   autoComplete?: boolean;
   sx?: {};
+  important?: boolean;
 }
 
 // Reset Input MUI
@@ -45,6 +47,7 @@ const Input: React.FC<InputProps> = ({
   onBlur,
   sx,
   inputRef,
+  important,
 }) => (
   <div>
     <InputBox>
@@ -64,6 +67,9 @@ const Input: React.FC<InputProps> = ({
       />
       <InputLabel className="form__label" htmlFor={name}>
         {label}
+        {important && (
+          <AcUnitIcon sx={{color: "red", width: "12px", height: "12px"}} />
+        )}
       </InputLabel>
     </InputBox>
     {errorText && (

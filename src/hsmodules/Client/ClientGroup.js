@@ -129,7 +129,7 @@ export default function ClientGroup({list, closeModal, dupl, reg, depen}) {
     <>
       <Box
         sx={{
-          width: "85vw",
+          width: "90vw",
           maxHeight: "80vh",
         }}
       >
@@ -141,8 +141,9 @@ export default function ClientGroup({list, closeModal, dupl, reg, depen}) {
             pointerOnHover
             highlightOnHover
             striped
-            onRowClicked={handleRow}
+            //onRowClicked={handleRow}
             progressPending={loading}
+            CustomEmptyData="No duplicates found"
           />
         </Box>
       </Box>

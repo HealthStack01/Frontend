@@ -2,6 +2,8 @@ import * as yup from "yup";
 import moment from "moment";
 import {formatDistanceToNowStrict} from "date-fns";
 import dayjs from "dayjs";
+import {Box} from "@mui/system";
+import {Typography} from "@mui/material";
 
 export const ClientMiniSchema = [
   {
@@ -52,27 +54,31 @@ export const ClientMiniSchema = [
     },
   },
 
-  {
-    name: "Registered At",
-    key: "middlename",
-    description: "Midlle Name",
-    selector: row => dayjs(row?.createdAt).format("DD/MM/YYYY"),
-    sortable: true,
-    required: true,
-    inputType: "TEXT",
-  },
+  // {
+  //   name: "Registered At",
+  //   key: "middlename",
+  //   description: "Midlle Name",
+  //   selector: row => dayjs(row?.createdAt).format("DD/MM/YYYY"),
+  //   sortable: true,
+  //   required: true,
+  //   inputType: "TEXT",
+  // },
 
   {
     name: "Paymaent Mode",
     key: "middlename",
     description: "Midlle Name",
-    selector: row =>
-      row.paymentinfo.map((pay, i) => (
-        <>
-          {pay.paymentmode} {pay.paymentmode === "Cash" ? "" : ":"}{" "}
-          {pay.organizationName}
-        </>
-      )),
+    selector: row => (
+      <Box>
+        {row.paymentinfo.map((pay, i) => (
+          <Typography sx={{fontSize: "0.75rem"}}>
+            {pay.paymentmode} {pay.paymentmode === "Cash" ? "" : ":"}{" "}
+            {pay.organizationName}
+          </Typography>
+        ))}
+      </Box>
+    ),
+
     sortable: true,
     required: true,
     inputType: "TEXT",
@@ -86,6 +92,8 @@ export const ClientMiniSchema = [
     sortable: true,
     required: true,
     inputType: "TEXT",
+    width: "100px",
+    center: true,
   },
 
   {
@@ -97,6 +105,17 @@ export const ClientMiniSchema = [
     required: true,
     inputType: "SELECT_LIST",
     options: ["Male", "Female"],
+    width: "100px",
+  },
+  {
+    name: "Phone Number",
+    key: "phone",
+    description: "0806478263",
+    selector: row => row.phone,
+    sortable: true,
+    required: true,
+    inputType: "PHONE",
+    width: "140px",
   },
 
   {
@@ -107,16 +126,6 @@ export const ClientMiniSchema = [
     sortable: true,
     required: true,
     inputType: "EMAIL",
-  },
-
-  {
-    name: "Phone Number",
-    key: "phone",
-    description: "0806478263",
-    selector: row => row.phone,
-    sortable: true,
-    required: true,
-    inputType: "PHONE",
   },
 
   {
@@ -166,11 +175,12 @@ export const ClientMiniSchema = [
     name: "Status",
     key: "active",
     description: "Next of Kin",
-    selector: row => (row.active ? "Active" : "Inactive"),
+    selector: row => (row.alive ? "Alive" : "Dead"),
     sortable: true,
     required: true,
     inputType: "TEXT",
     omit: false,
+    width: "100px",
   },
 
   {

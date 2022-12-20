@@ -739,6 +739,10 @@ export function ClientList({openCreateModal, openDetailModal}) {
   };
 
   const getFacilities = async () => {
+    setState(prev => ({
+      ...prev,
+      actionLoader: {open: true},
+    }));
     if (user.currentEmployee) {
       const findClient = await ClientServ.find({
         query: {
@@ -752,8 +756,16 @@ export function ClientList({openCreateModal, openDetailModal}) {
       });
       if (page === 0) {
         await setFacilities(findClient.data);
+        setState(prev => ({
+          ...prev,
+          actionLoader: {open: false},
+        }));
       } else {
         await setFacilities(prevstate => prevstate.concat(findClient.data));
+        setState(prev => ({
+          ...prev,
+          actionLoader: {open: false},
+        }));
       }
 
       await setTotal(findClient.total);
@@ -772,6 +784,10 @@ export function ClientList({openCreateModal, openDetailModal}) {
         });
 
         await setFacilities(findClient.data);
+        setState(prev => ({
+          ...prev,
+          actionLoader: {open: false},
+        }));
       }
     }
   };
@@ -821,7 +837,7 @@ export function ClientList({openCreateModal, openDetailModal}) {
 
   const conditionalRowStyles = [
     {
-      when: row => row.active === false,
+      when: row => row.alive === false,
       style: {
         backgroundColor: "pink",
         color: "white",
@@ -868,10 +884,10 @@ export function ClientList({openCreateModal, openDetailModal}) {
               filterByDate={handleFilterByDate}
             />
           </ModalBox> */}
-
+          {/* 
           <Portal>
             <ClientForm />
-          </Portal>
+          </Portal> */}
 
           <PageWrapper
             style={{flexDirection: "column", padding: "0.6rem 1rem"}}
@@ -967,6 +983,7 @@ export function ClientDetail({closeDetailModal}) {
   const [appointmentModal, setAppointmentModal] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState(false);
   const [reactivateConfirm, setReactivateConfirm] = useState(false);
+  const [updatingClient, setUpdatingClient] = useState(false);
   // eslint-disable-next-line
 
   const [message, setMessage] = useState("");
@@ -1181,6 +1198,10 @@ export function ClientDetail({closeDetailModal}) {
   };
 
   const handleDeactivateClient = () => {
+    setState(prev => ({
+      ...prev,
+      actionLoader: {open: true, message: "Deactivating Client"},
+    }));
     setSuccess(false);
 
     const newData = {...Client, active: false};
@@ -1188,12 +1209,20 @@ export function ClientDetail({closeDetailModal}) {
     ClientServ.patch(Client._id, newData)
       .then(res => {
         setConfirmDialog(false);
+        setState(prev => ({
+          ...prev,
+          actionLoader: {open: false, message: ""},
+        }));
         toast.success("Client Deactivated succesfully");
 
         changeState();
         closeDetailModal();
       })
       .catch(err => {
+        setState(prev => ({
+          ...prev,
+          actionLoader: {open: false, message: ""},
+        }));
         setConfirmDialog(false);
         toast.error(
           `Error Deactivating Client, probable network issues or ${err}`
@@ -1203,11 +1232,19 @@ export function ClientDetail({closeDetailModal}) {
 
   const handleReactivateClient = () => {
     setSuccess(false);
+    setState(prev => ({
+      ...prev,
+      actionLoader: {open: true, message: "Reactivating Client"},
+    }));
 
     const newData = {...Client, active: true};
 
     ClientServ.patch(Client._id, newData)
       .then(res => {
+        setState(prev => ({
+          ...prev,
+          actionLoader: {open: false, message: ""},
+        }));
         setReactivateConfirm(false);
         toast.success("Client Reactivated succesfully");
 
@@ -1215,6 +1252,10 @@ export function ClientDetail({closeDetailModal}) {
         closeDetailModal();
       })
       .catch(err => {
+        setState(prev => ({
+          ...prev,
+          actionLoader: {open: false, message: ""},
+        }));
         setReactivateConfirm(false);
         toast.error(
           `Error Reactivating Client, probable network issues or ${err}`
@@ -1241,17 +1282,19 @@ export function ClientDetail({closeDetailModal}) {
 
   const onSubmit = data => {
     // e.preventDefault();
+    setUpdatingClient(true);
 
     setSuccess(false);
 
     ClientServ.patch(Client._id, data)
       .then(res => {
+        setUpdatingClient(false);
         toast.success("Client updated succesfully");
-
         changeState();
         closeDetailModal();
       })
       .catch(err => {
+        setUpdatingClient(false);
         toast.error(`Error updating Client, probable network issues or ${err}`);
       });
   };
@@ -1261,17 +1304,19 @@ export function ClientDetail({closeDetailModal}) {
       <CustomConfirmationDialog
         open={confirmDialog}
         cancelAction={() => setConfirmDialog(false)}
-        message={`Are you sure you want to Deactivate Client ${Client.firstname} ${Client.middlename} ${Client.lastname}`}
+        message={`Are you sure you want to Deactivate Client ${Client.firstname} ${Client.middlename} ${Client.lastname}?`}
         type="danger"
         confirmationAction={handleDeactivateClient}
+        customActionButtonText="Deactive Client"
       />
 
       <CustomConfirmationDialog
         open={reactivateConfirm}
         cancelAction={() => setReactivateConfirm(false)}
-        message={`Are you sure you want to Reactivate Client ${Client.firstname} ${Client.middlename} ${Client.lastname}`}
+        message={`Are you sure you want to Reactivate Client ${Client.firstname} ${Client.middlename} ${Client.lastname}?`}
         type="update"
         confirmationAction={handleReactivateClient}
+        customActionButtonText="Reactivate Client"
       />
       <Box
         sx={{
@@ -1280,78 +1325,97 @@ export function ClientDetail({closeDetailModal}) {
           // overflowY: "auto",
         }}
       >
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "right",
-          }}
-          mb={2}
-        >
-          {!editClient && (
+        {Client.active ? (
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "right",
+            }}
+            mb={2}
+          >
+            {!editClient && (
+              <GlobalCustomButton
+                text="Edit Details"
+                onClick={() => setEditClient(true)}
+                customStyles={{
+                  marginRight: "5px",
+                }}
+                color="success"
+              />
+            )}
+            {(user.currentEmployee?.roles.includes("Bill Client") ||
+              user.currentEmployee?.roles.length === 0 ||
+              user.stacker) && (
+              <GlobalCustomButton
+                text="Bill Client"
+                onClick={showBilling}
+                customStyles={{
+                  marginRight: "5px",
+                }}
+                color="info"
+              />
+            )}
+
             <GlobalCustomButton
-              text="Edit Details"
-              onClick={() => setEditClient(true)}
+              sx={{
+                marginRight: "5px",
+              }}
+              onClick={handleCreateWallet}
+            >
+              Create Wallet
+            </GlobalCustomButton>
+
+            <GlobalCustomButton
+              text="Payment Information"
+              onClick={handleFinancialInfo}
+              customStyles={{
+                marginRight: "5px",
+              }}
+              color="secondary"
+            />
+            <GlobalCustomButton
+              text="Schedule Appointment"
+              onClick={handleSchedule}
+              sx={{
+                marginRight: "5px",
+                backgroundColor: "#ee9b00",
+                color: "#ffffff",
+                "&:hover": {
+                  backgroundColor: "#ee9b00",
+                },
+              }}
+            />
+            <GlobalCustomButton
+              text="Attend to Client"
+              onClick={() => {
+                navigate("/app/general/documentation");
+              }}
               customStyles={{
                 marginRight: "5px",
               }}
               color="success"
             />
-          )}
-          {(user.currentEmployee?.roles.includes("Bill Client") ||
-            user.currentEmployee?.roles.length === 0 ||
-            user.stacker) && (
-            <GlobalCustomButton
-              text="Bill Client"
-              onClick={showBilling}
-              customStyles={{
-                marginRight: "5px",
-              }}
-              color="info"
-            />
-          )}
-
-          <GlobalCustomButton
+          </Box>
+        ) : (
+          <Box
             sx={{
-              marginRight: "5px",
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "right",
             }}
-            onClick={handleCreateWallet}
+            mb={2}
           >
-            Create Wallet
-          </GlobalCustomButton>
-
-          <GlobalCustomButton
-            text="Payment Information"
-            onClick={handleFinancialInfo}
-            customStyles={{
-              marginRight: "5px",
-            }}
-            color="secondary"
-          />
-          <GlobalCustomButton
-            text="Schedule Appointment"
-            onClick={handleSchedule}
-            sx={{
-              marginRight: "5px",
-              backgroundColor: "#ee9b00",
-              color: "#ffffff",
-              "&:hover": {
-                backgroundColor: "#ee9b00",
-              },
-            }}
-          />
-          <GlobalCustomButton
-            text="Attend to Client"
-            onClick={() => {
-              navigate("/app/general/documentation");
-            }}
-            customStyles={{
-              marginRight: "5px",
-            }}
-            color="success"
-          />
-        </Box>
+            <GlobalCustomButton
+              color="success"
+              onClick={() => setReactivateConfirm(true)}
+            >
+              Re-Activate Client
+            </GlobalCustomButton>
+          </Box>
+        )}
 
         <Box>
           <form>
@@ -1673,7 +1737,7 @@ export function ClientDetail({closeDetailModal}) {
             <GlobalCustomButton
               text="Update Client"
               onClick={handleSubmit(onSubmit)}
-              //onClick={() => setConfirmDialog(true)}
+              loading={updatingClient}
               customStyles={{
                 marginRight: "5px",
               }}

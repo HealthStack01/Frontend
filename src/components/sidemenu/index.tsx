@@ -6,13 +6,13 @@ import {Lists} from "../menuitem/style";
 import {MainMenu, Sidemenu, TopSection} from "./styles";
 
 export const menuItems = [
-  {
-    name: "Overview",
-    exact: true,
-    to: "/app",
-    iconClassName: "bi bi-house-door",
-    subMenus: [{name: "Dashboard", to: "/app/overview/dashboard"}],
-  },
+  // {
+  //   name: "Home",
+  //   exact: true,
+  //   to: "/app",
+  //   iconClassName: "bi bi-house-door",
+  //   subMenus: [{name: "Dashboard", to: "/app/overview/dashboard"}],
+  // },
   {
     name: "Client",
     exact: true,
@@ -343,15 +343,15 @@ export const menuItems = [
   //   to: "/app/documentation",
   //   iconClassName: "bi bi-box-arrow-right",
   // },
-  {
-    name: "Logout",
-    exact: true,
-    to: "/",
-    action: () => {
-      localStorage.setItem("user", "");
-    },
-    iconClassName: "bi bi-box-arrow-right",
-  },
+  // {
+  //   name: "Logout",
+  //   exact: true,
+  //   to: "/",
+  //   action: () => {
+  //     localStorage.setItem("user", "");
+  //   },
+  //   iconClassName: "bi bi-box-arrow-right",
+  // },
 ];
 
 function SideMenu({isOpen}) {
@@ -383,34 +383,57 @@ function SideMenu({isOpen}) {
     });
   }, []);
 
+  console.log("is menu open", isOpen);
+
+  const sortedMenuItems = menuItems.sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+
   return (
-    <Sidemenu className={`side-menu ${!isOpen ? "" : "hide"}`}>
+    <Sidemenu className={`side-menu ${isOpen ? "" : "hide"}`}>
       <TopSection>
         <h4>Our Hospital</h4>
       </TopSection>
       <MainMenu className="main-menu">
         <Lists>
-          {menuItems.map((menuItem, index) => (
-            <MenuItem
-              key={index}
-              name={menuItem.name}
-              to={menuItem.to}
-              subMenus={menuItem.subMenus || []}
-              iconClassName={menuItem.iconClassName}
-              onClick={() => {
-                if (menuItem.action) {
-                  menuItem.action();
-                  navigate(menuItem.to);
-                }
-                if (menuItem.to && !menuItem.subMenus) {
-                  navigate(menuItem.to);
-                }
-                if (inactive) {
-                  setInactive(false);
-                }
-              }}
-            />
+          <MenuItem
+            name="Home"
+            subMenus={[{name: "Dashboard", to: "/app/overview/dashboard"}]}
+            to="/app"
+            iconClassName="bi bi-house-door"
+          />
+          {sortedMenuItems.map((menuItem, index) => (
+            <>
+              <MenuItem
+                key={index}
+                name={menuItem.name}
+                to={menuItem.to}
+                subMenus={menuItem.subMenus || []}
+                iconClassName={menuItem.iconClassName}
+                onClick={() => {
+                  // if (menuItem.action) {
+                  //   menuItem.action();
+                  //   navigate(menuItem.to);
+                  // }
+                  if (menuItem.to && !menuItem.subMenus) {
+                    navigate(menuItem.to);
+                  }
+                  if (inactive) {
+                    setInactive(false);
+                  }
+                }}
+              />
+            </>
           ))}
+          <MenuItem
+            name="Logout"
+            to="/"
+            iconClassName="bi bi-house-door"
+            subMenus={[]}
+            onClick={() => {
+              localStorage.setItem("user", "");
+            }}
+          />
         </Lists>
       </MainMenu>
     </Sidemenu>

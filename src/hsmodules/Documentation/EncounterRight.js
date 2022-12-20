@@ -58,7 +58,7 @@ import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-di
 
 export default function EncounterRight() {
   const {state, setState} = useContext(ObjectContext);
-  console.log(state.DocumentClassModule.selectedDocumentClass);
+  //console.log(state.DocumentClassModule.selectedDocumentClass);
 
   const submitDocument = data => {
     const geolocation = {
@@ -217,7 +217,8 @@ export function VitalSignCreate() {
   const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const {state, setState} = useContext(ObjectContext);
+  const {state, setState, showActionLoader, hideActionLoader, toggleSideMenu} =
+    useContext(ObjectContext);
   const [docStatus, setDocStatus] = useState("Draft");
   const [confirmDialog, setConfirmDialog] = useState(false);
 
@@ -265,7 +266,8 @@ export function VitalSignCreate() {
   });
 
   const onSubmit = (data, e) => {
-    e.preventDefault();
+    //e.preventDefault();
+    showActionLoader();
     setMessage("");
     setError(false);
     setSuccess(false);
@@ -329,6 +331,8 @@ export function VitalSignCreate() {
       return;
     }
 
+    //return console.log(document);
+
     if (!!draftDoc && draftDoc.status === "Draft") {
       //console.log(document);
 
@@ -345,10 +349,12 @@ export function VitalSignCreate() {
 
           reset(data);
           setConfirmDialog(false);
+          hideActionLoader();
           toast.success("Documentation updated succesfully");
           setSuccess(false);
         })
         .catch(err => {
+          hideActionLoader();
           toast.error(`Error updating Documentation ${err}`);
         });
     } else {
@@ -364,10 +370,12 @@ export function VitalSignCreate() {
           setSuccess(true);
           reset(data);
           setConfirmDialog(false);
+          hideActionLoader();
           toast.success("Documentation created succesfully");
           setSuccess(false);
         })
         .catch(err => {
+          hideActionLoader();
           toast.error(`Error creating Documentation ${err}`);
         });
     }
@@ -389,6 +397,7 @@ export function VitalSignCreate() {
         encounter_right: false,
       },
     }));
+    toggleSideMenu();
   };
 
   return (
@@ -476,7 +485,7 @@ export function VitalSignCreate() {
               <Grid item xs={12}>
                 <Input
                   register={register("Height")}
-                  type="text"
+                  type="number"
                   label="Height(m)"
                 />
               </Grid>
@@ -484,7 +493,7 @@ export function VitalSignCreate() {
               <Grid item xs={12}>
                 <Input
                   register={register("Weight")}
-                  type="text"
+                  type="number"
                   label="Weight(Kg)"
                 />
               </Grid>

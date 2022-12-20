@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {useForm} from "react-hook-form";
 import {toast, ToastContainer} from "react-toastify";
 import Button from "../../components/buttons/Button";
@@ -25,16 +25,21 @@ import {Box, Grid} from "@mui/material";
 import {FormsHeaderText} from "../../components/texts";
 import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 import ClientGroup from "./ClientGroup";
+import {ObjectContext, UserContext} from "../../context";
 
 const ClientForm = ({closeModal, setOpen}) => {
   const ClientServ = client.service("client");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isFullRegistration, setFullRegistration] = useState(false);
-  const data = localStorage.getItem("user");
+  // const data = localStorage.getItem("user");
   const [patList, setPatList] = useState([]);
   const [duplicateModal, setDuplicateModal] = useState(false);
-  const user = JSON.parse(data);
+  const {state, setState} = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const [dependant, setDependant] = useState(false);
+  // const user = JSON.parse(data);
+  const mpiServ = client.service("mpi");
 
   const {
     register,
@@ -42,6 +47,7 @@ const ClientForm = ({closeModal, setOpen}) => {
     formState: {isSubmitSuccessful, errors},
     control,
     getValues,
+    reset,
   } = useForm({
     resolver: yupResolver(createClientSchema),
 
@@ -167,17 +173,29 @@ const ClientForm = ({closeModal, setOpen}) => {
   };
 
   const dupl = client => {
-    toast({
-      message: "Client previously registered in this facility",
-      type: "is-danger",
-      dismissible: true,
-      pauseOnHover: true,
+    const data = getValues();
+    Object.keys(data).forEach(key => {
+      data[key] = null;
     });
-    reset();
+
+    reset(data);
+    toast.error("Client previously registered in this facility");
+    setDuplicateModal(false);
+
     setPatList([]);
+    //console.log(Client)
   };
 
   const reg = async client => {
+    setState(prev => ({
+      ...prev,
+      actionLoader: {open: true, message: "Creating Client..."},
+    }));
+    const data = getValues();
+    Object.keys(data).forEach(key => {
+      data[key] = null;
+    });
+
     if (
       client.relatedfacilities.findIndex(
         el => el.facility === user.currentEmployee.facilityDetail._id
@@ -195,20 +213,20 @@ const ClientForm = ({closeModal, setOpen}) => {
       await mpiServ
         .create(newPat)
         .then(resp => {
-          toast({
-            message: "Client created succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.success("Client created succesfully");
+          reset(data);
+          setState(prev => ({
+            ...prev,
+            actionLoader: {open: false, message: ""},
+          }));
+          setDuplicateModal(false);
         })
         .catch(err => {
-          toast({
-            message: "Error creating Client " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          setState(prev => ({
+            ...prev,
+            actionLoader: {open: false, message: ""},
+          }));
+          toast.error("Error creating Client " + err);
         });
     }
     //reset form
@@ -219,6 +237,8 @@ const ClientForm = ({closeModal, setOpen}) => {
 
   const depen = client => {
     setDependant(true);
+    toast.success("You're Creating a Dependent Client");
+    setDuplicateModal(false);
   };
 
   return (
@@ -246,7 +266,7 @@ const ClientForm = ({closeModal, setOpen}) => {
               <div>
                 <h2>{`${
                   isFullRegistration
-                    ? "Complete Client Registeration"
+                    ? "Full Client Registeration"
                     : "Quick Client Registeration"
                 }`}</h2>
                 {/* <span>
@@ -266,7 +286,7 @@ const ClientForm = ({closeModal, setOpen}) => {
               ) : (
                 <GlobalCustomButton onClick={() => setFullRegistration(true)}>
                   <OpenInFullIcon fontSize="small" sx={{marginRight: "5px"}} />
-                  Complete Registration
+                  Full Registration
                 </GlobalCustomButton>
               )}
             </HeadWrapper>
@@ -283,6 +303,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("firstname")}
                         errorText={errors?.firstname?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -299,6 +320,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("lastname")}
                         errorText={errors?.lastname?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -308,6 +330,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         type="tel"
                         errorText={errors?.phone?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -317,6 +340,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         type="email"
                         errorText={errors?.email?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -324,6 +348,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         control={control}
                         label="DOB"
                         name="dob"
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -345,6 +370,11 @@ const ClientForm = ({closeModal, setOpen}) => {
                         options={[
                           {label: "Single", value: "Single"},
                           {label: "Married", value: "Married"},
+                          {label: "Widowed", value: "Widowed"},
+                          {
+                            label: "Divorced/Seperated",
+                            value: "Divorced/Seperated",
+                          },
                         ]}
                       />
                     </Grid>
@@ -429,6 +459,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("firstname")}
                         errorText={errors?.firstname?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={4}>
@@ -445,6 +476,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("lastname")}
                         errorText={errors?.lastname?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                   </Grid>
@@ -458,6 +490,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         control={control}
                         label="DOB"
                         name="dob"
+                        important={true}
                       />
                     </Grid>
 
@@ -480,6 +513,11 @@ const ClientForm = ({closeModal, setOpen}) => {
                         options={[
                           {label: "Single", value: "Single"},
                           {label: "Married", value: "Married"},
+                          {label: "Widowed", value: "Widowed"},
+                          {
+                            label: "Divorced/Seperated",
+                            value: "Divorced/Seperated",
+                          },
                         ]}
                       />
                     </Grid>
@@ -508,6 +546,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("phone")}
                         errorText={errors?.phone?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={2} md={4} sm={6}>
@@ -516,6 +555,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("email")}
                         errorText={errors?.email?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
 

@@ -72,7 +72,8 @@ export default function EncounterMain({nopresc, chosenClient}) {
   const [selectedClinic, setSelectedClinic] = useState({}); //
   const [selectedNote, setSelectedNote] = useState();
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
   const [showModal, setShowModal] = useState(false);
@@ -286,21 +287,6 @@ export default function EncounterMain({nopresc, chosenClient}) {
     handleHideActions();
   };
 
-  const handlePrint = async i => {
-    var content = document.getElementById(i);
-    var pri = document.getElementById("ifmcontentstoprint").contentWindow;
-    pri.document.open();
-    pri.document.write(content.innerHTML);
-    pri.document.close();
-    pri.focus();
-    pri.print();
-
-    console.log("Hello World");
-  };
-  /*  const handlePrint =(i)=> useReactToPrint({
-        content: () => myRefs.current[i]
-      }); */
-
   useEffect(() => {
     getFacilities();
 
@@ -322,17 +308,6 @@ export default function EncounterMain({nopresc, chosenClient}) {
     ClinicServ.on("patched", obj => getFacilities(page));
     ClinicServ.on("removed", obj => getFacilities(page));
 
-    /* var options = {
-                    root: null,
-                    rootMargin: "20px",
-                    threshold: 1.0
-                 }; */
-    // initialize IntersectionObserver
-    // and attaching to Load More div
-    /*  const observer = new IntersectionObserver(handleObserver, options);
-                 if (loader.current) {
-                    observer.observe(loader.current)
-                 } */
     return () => {
       const newDocumentClassModule = {
         selectedDocumentClass: {},
@@ -348,20 +323,16 @@ export default function EncounterMain({nopresc, chosenClient}) {
   }, []);
 
   const handleDelete = doc => {
-    // console.log(doc)
-    // let confirm = window.confirm(
-    //   `You are about to delete a document: ${
-    //     doc.documentname
-    //   } created on ${format(new Date(doc.createdAt), "dd-MM-yy")} ?`
-    // );
-    // if (confirm) {
+    showActionLoader();
     ClinicServ.remove(doc._id)
       .then(res => {
-        toast.success("Adult Asthma Questionnaire deleted succesfully");
+        hideActionLoader();
+        toast.success(`${docToDelete?.documentname} Deleted succesfully`);
         setSuccess(false);
         setConfirmationDialog(false);
       })
       .catch(err => {
+        hideActionLoader();
         toast.error("Error deleting Adult Asthma Questionnaire " + err);
       });
     // }
@@ -477,23 +448,23 @@ export default function EncounterMain({nopresc, chosenClient}) {
       show: !nopresc,
     },
     {
-      title: "Radiology",
+      title: "Radiology Request",
       action: handleRadOrders,
       show: !nopresc,
     },
     {
-      title: "Laboratory",
+      title: "Laboratory Request",
       action: handleLabOrders,
+      show: !nopresc,
+    },
+    {
+      title: "Prescription Request",
+      action: handleNewPrescription,
       show: !nopresc,
     },
     {
       title: "End Encounter",
       action: handleEndEncounter,
-      show: !nopresc,
-    },
-    {
-      title: "Prescription",
-      action: handleNewPrescription,
       show: !nopresc,
     },
     // {
@@ -628,7 +599,11 @@ export default function EncounterMain({nopresc, chosenClient}) {
                 {actionsList.map((action, i) => {
                   if (action.show) {
                     return (
-                      <MenuItem key={i} onClick={action.action}>
+                      <MenuItem
+                        key={i}
+                        onClick={action.action}
+                        sx={{fontSize: "0.8rem"}}
+                      >
                         {action.title}
                       </MenuItem>
                     );
