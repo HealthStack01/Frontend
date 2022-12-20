@@ -453,7 +453,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                     <Grid item xs={12}>
                       <FormsHeaderText text="Client Names" />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={4}>
+                    <Grid item lg={4} md={4} sm={4}>
                       <Input
                         label="First Name"
                         register={register("firstname")}
@@ -462,7 +462,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         important={true}
                       />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={4}>
+                    <Grid item lg={4} md={4} sm={4}>
                       <Input
                         label="Middle Name"
                         register={register("middlename")}
@@ -470,7 +470,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         onBlur={checkClient}
                       />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={4}>
+                    <Grid item lg={4} md={4} sm={4}>
                       <Input
                         label="Last Name"
                         register={register("lastname")}
@@ -598,32 +598,32 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("bloodgroup")}
                       />
                     </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={2} md={4} sm={6} xs={12}>
                       <Input label="Genotype" register={register("genotype")} />
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={8} md={6} sm={6}>
                       <Input
                         label="Disabilities"
                         register={register("disabilities")}
                       />
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={6} md={6} sm={6}>
                       <Input
                         label="Allergies"
                         register={register("allergies")}
                       />
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={6} md={4} sm={6}>
                       <Input
                         label="Co-mobidities"
                         register={register("comorbidities")}
                       />
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={12} md={4} sm={6}>
                       <Input
                         label="Specific Details "
                         register={register("specificDetails")}
@@ -641,29 +641,29 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("nok_name")}
                       />
                     </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={3} md={4} sm={6}>
                       <Input
                         label="Phone Number"
                         register={register("nok_phoneno")}
                       />
                     </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={3} md={4} sm={6}>
                       <Input
                         label=" Email"
                         register={register("nok_email")}
                         type="email"
                       />
                     </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={4} md={4} sm={6}>
                       <Input
                         label="Relationship"
                         register={register("nok_relationship")}
                       />
                     </Grid>
-                    <Grid item lg={6} md={6} sm={12}>
+                    <Grid item lg={8} md={6} sm={12}>
                       <Input
                         label="Co-mobidities"
-                        register={register("comorbidities")}
+                        register={register("nok_comorbidities")}
                       />
                     </Grid>
                   </Grid>

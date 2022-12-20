@@ -886,7 +886,7 @@ export const MedicationListPrintOut = forwardRef(({data, Clinic}, ref) => {
 
       {Object.entries(data).map(
         ([keys, value], i) =>
-          value.length > 0 && (
+          value?.length > 0 && (
             <Box key={i}>
               {keys !== "Allergies" && keys !== "Medications" && (
                 <Box>
@@ -926,12 +926,12 @@ export const MedicationListPrintOut = forwardRef(({data, Clinic}, ref) => {
                     </Typography>
                   </Box>
 
-                  {data.Allergies.length > 0 && (
+                  {data?.Allergies?.length > 0 && (
                     <Box sx={{height: "auto", width: "100%"}}>
                       <CustomTable
                         title="Allergies"
                         columns={AllergiesColumns}
-                        data={data.Allergies}
+                        data={data?.Allergies}
                         pointerOnHover
                         highlightOnHover
                         striped
@@ -953,7 +953,7 @@ export const MedicationListPrintOut = forwardRef(({data, Clinic}, ref) => {
                     </Typography>
                   </Box>
 
-                  {data.Allergies.length > 0 && (
+                  {data?.Allergies?.length > 0 && (
                     <Box sx={{height: "auto", width: "100%"}}>
                       <CustomTable
                         title="Medications"
@@ -1036,7 +1036,7 @@ export const RadiologyOrdersPrintOut = forwardRef(({data, Clinic}, ref) => {
         </Typography>
       </Box>
 
-      {data.length > 0 && (
+      {data?.length > 0 && (
         <Box sx={{height: "auto", width: "100%"}}>
           <CustomTable
             title="Tests"
@@ -1114,7 +1114,7 @@ export const LaboratoryOrdersPrintOut = forwardRef(({data, Clinic}, ref) => {
         </Typography>
       </Box>
 
-      {data.length > 0 && (
+      {data?.length > 0 && (
         <Box sx={{height: "auto", width: "100%"}}>
           <CustomTable
             title="Tests"
@@ -1275,7 +1275,7 @@ export const AdultQuestionnairePrintOut = forwardRef(({data, Clinic}, ref) => {
 
       {Object.entries(data).map(([keys, value], i) => (
         <Box key={i}>
-          {value.length > 0 &&
+          {value?.length > 0 &&
             (keys !== "Allergy_Skin_Test" ? (
               <Box>
                 <Grid container spacing={2}>
@@ -1301,7 +1301,7 @@ export const AdultQuestionnairePrintOut = forwardRef(({data, Clinic}, ref) => {
               </Box>
             ) : (
               <Box>
-                {data.Allergy_Skin_Test.length > 0 && (
+                {data?.Allergy_Skin_Test?.length > 0 && (
                   <Box sx={{height: "auto", width: "100%"}}>
                     <CustomTable
                       title="Tests"
@@ -1410,7 +1410,7 @@ export const PediatricPulmonologyList = forwardRef(({data, Clinic}, ref) => {
 
       {Object.entries(data).map(([keys, value], i) => (
         <Box key={i}>
-          {value.length > 0 && (
+          {value?.length > 0 && (
             <>
               {keys !== "Allergy_Skin_Test" &&
                 keys !== "Presenting_Complaints" && (
@@ -1451,7 +1451,7 @@ export const PediatricPulmonologyList = forwardRef(({data, Clinic}, ref) => {
                     </Typography>
                   </Box>
 
-                  {data.Allergy_Skin_Test.length > 0 && (
+                  {data?.Allergy_Skin_Test?.length > 0 && (
                     <Box sx={{height: "auto", width: "100%"}}>
                       <CustomTable
                         title="Tests"
@@ -1478,7 +1478,7 @@ export const PediatricPulmonologyList = forwardRef(({data, Clinic}, ref) => {
                     </Typography>
                   </Box>
 
-                  {data.Presenting_Complaints.length > 0 && (
+                  {data?.Presenting_Complaints?.length > 0 && (
                     <Box sx={{height: "auto", width: "100%"}}>
                       <CustomTable
                         title="Tests"

@@ -66,6 +66,8 @@ export default function EncounterRight() {
       coordinates: [state.coordinates.latitude, state.coordinates.longitude],
     };
     console.log({...data, geolocation: geolocation});
+
+    toast.error("Sorry, form is currently under upgrade");
   };
 
   return (
@@ -340,7 +342,7 @@ export function VitalSignCreate() {
         .then(res => {
           //Convert Hook forms data into empty string to reset form
           Object.keys(data).forEach(key => {
-            data[key] = "";
+            data[key] = null;
           });
 
           setDocStatus("Draft");
@@ -364,7 +366,7 @@ export function VitalSignCreate() {
         .then(res => {
           //Convert Hook forms data into empty string to reset form
           Object.keys(data).forEach(key => {
-            data[key] = "";
+            data[key] = null;
           });
 
           setSuccess(true);

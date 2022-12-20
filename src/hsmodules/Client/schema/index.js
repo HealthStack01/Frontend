@@ -72,8 +72,8 @@ export const ClientMiniSchema = [
       <Box>
         {row.paymentinfo.map((pay, i) => (
           <Typography sx={{fontSize: "0.75rem"}}>
-            {pay.paymentmode} {pay.paymentmode === "Cash" ? "" : ":"}{" "}
-            {pay.organizationName}
+            {pay?.paymentmode} {pay?.paymentmode === "Cash" ? "" : ":"}{" "}
+            {pay?.organizationName}
           </Typography>
         ))}
       </Box>
@@ -209,6 +209,15 @@ export const createClientSchema = yup.object().shape({
     .string()
     .email("Must be a valid email!")
     .required("Email is required!"),
+
+  nok_email: yup.string().email("Must be a valid email!"),
+
+  nok_phoneno: yup
+    .string()
+    .matches(
+      nigerianPhoneRegExp,
+      "Enter a valid phone number (0900000000000)."
+    ),
 });
 
 export const resetPasswordSchema = yup.object().shape({

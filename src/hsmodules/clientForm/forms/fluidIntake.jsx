@@ -14,10 +14,12 @@ import Textarea from "../../../components/inputs/basic/Textarea";
 import CloseIcon from "@mui/icons-material/Close";
 import {FormsHeaderText} from "../../../components/texts";
 import dayjs from "dayjs";
+import CustomConfirmationDialog from "../../../components/confirm-dialog/confirm-dialog";
 // import CustomTable from "../../components/customtable";
 
 const FluidIntakeOutput = () => {
-  const {register, handleSubmit, setValue, control, reset} = useForm();
+  const {register, handleSubmit, setValue, control, reset, getValues} =
+    useForm();
   const fluidTypeOptions = ["Input", "Output"];
   const {user, setUser} = useContext(UserContext);
   const [facilities, setFacilities] = useState([]);
@@ -25,7 +27,9 @@ const FluidIntakeOutput = () => {
   const [chosen, setChosen] = useState(true);
   const [chosen1, setChosen1] = useState(true);
   const [chosen2, setChosen2] = useState(true);
-  const {state, setState} = useContext(ObjectContext);
+  const [confirmDialog, setConfirmDialog] = useState(false);
+  const {state, setState, toggleSideMenu, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
   const [docStatus, setDocStatus] = useState("Draft");
   const ClientServ = client.service("clinicaldocument");
   const fac = useRef([]);
@@ -136,6 +140,7 @@ const FluidIntakeOutput = () => {
     //return console.log(data);
     // console.log(state.DocumentClassModule.selectedDocumentClass)
     //console.log(state.employeeLocation.locationName);
+    showActionLoader();
     if (!data.fluidType || data.fluidType === "") {
       return toast.error("Please select a fluid type");
     }
@@ -199,6 +204,8 @@ const FluidIntakeOutput = () => {
           Object.keys(data).forEach(key => {
             data[key] = "";
           });
+          setConfirmDialog(false);
+          hideActionLoader();
 
           reset(data);
           setValue("fluidTime", null);
@@ -206,6 +213,8 @@ const FluidIntakeOutput = () => {
           toast.success("Fluid Input/Output entry successful");
         })
         .catch(err => {
+          hideActionLoader();
+          setConfirmDialog(false);
           toast.error("Fluid Input/Output entry " + err);
         });
     } else {
@@ -217,13 +226,16 @@ const FluidIntakeOutput = () => {
           Object.keys(data).forEach(key => {
             data[key] = "";
           });
-
+          hideActionLoader();
+          setConfirmDialog(false);
           reset(data);
           setValue("fluidTime", null);
 
           toast.success("Fluid Input/Output entry successful");
         })
         .catch(err => {
+          setConfirmDialog(false);
+          hideActionLoader();
           toast.error("Fluid Input/Output entry " + err);
         });
     }
@@ -328,10 +340,19 @@ const FluidIntakeOutput = () => {
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
+
+    toggleSideMenu();
   };
 
   return (
     <div className="card">
+      <CustomConfirmationDialog
+        open={confirmDialog}
+        cancelAction={() => setConfirmDialog(false)}
+        confirmationAction={handleSubmit(onSubmit)}
+        type="create"
+        message={`You are about to create an ${getValues("fluidType")} Chart ?`}
+      />
       <Box
         sx={{
           display: "flex",
@@ -354,6 +375,8 @@ const FluidIntakeOutput = () => {
               name="fluidTime"
               label="Fluid Time"
               control={control}
+              important={true}
+              required={true}
             />
           </Box>
           <Box mb="1rem">
@@ -361,6 +384,7 @@ const FluidIntakeOutput = () => {
               control={control}
               label="Fluid Type"
               name="fluidType"
+              required={true}
               // required={true}
               options={fluidTypeOptions}
             />
@@ -400,11 +424,9 @@ const FluidIntakeOutput = () => {
 
           <Box mb="1rem">
             <GlobalCustomButton
-              onClick={handleSubmit(onSubmit)}
-              text="Enter"
-              customStyles={{
-                marginRight: "5px",
-              }}
+              color="secondary"
+              onClick={() => setConfirmDialog(true)}
+              text={`Submit Chart`}
             />
           </Box>
         </form>

@@ -18,9 +18,13 @@ import {FormsHeaderText} from "../../components/texts";
 import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 import SingleCheckbox from "../../components/inputs/basic/Checkbox/SingleCheckbox";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import CheckboxGroup from "../../components/inputs/basic/Checkbox/CheckBoxGroup";
+import GroupedRadio from "../../components/inputs/basic/Radio/GroupedRadio";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 
 export default function NewPatientConsult() {
-  const {register, handleSubmit, setValue, control} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue, control, reset, getValues} =
+    useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -39,9 +43,11 @@ export default function NewPatientConsult() {
   const [symptom, setSymptom] = useState("");
   const [symptoms, setSymptoms] = useState([]);
   const [docStatus, setDocStatus] = useState("Draft");
+  const [confirmDialog, setconfirmDialog] = useState(false);
 
   const [dataset, setDataset] = useState();
-  const {state, setState} = useContext(ObjectContext);
+  const {state, setState, showActionLoader, hideActionLoader, toggleSideMenu} =
+    useContext(ObjectContext);
 
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
 
@@ -49,6 +55,7 @@ export default function NewPatientConsult() {
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
+      //console.log(draftDoc);
       Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
         setValue(keys, value, {
           shouldValidate: true,
@@ -358,7 +365,8 @@ export default function NewPatientConsult() {
   const clerk = ["Assessment", "Plan"];
 
   const onSubmit = (data, e) => {
-    e.preventDefault();
+    showActionLoader();
+    //e.preventDefault();
     setMessage("");
     setError(false);
     setSuccess(false);
@@ -398,54 +406,48 @@ export default function NewPatientConsult() {
       return;
     }
 
-    let confirm = window.confirm(
-      `You are about to save this document ${document.documentname} ?`
-    );
-    if (confirm) {
-      if (!!draftDoc && draftDoc.status === "Draft") {
-        ClientServ.patch(draftDoc._id, document)
-          .then(res => {
-            e.target.reset();
-            setSuccess(true);
-            toast({
-              message: "New Patient Consultation Form updated succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast({
-              message: "Error updating New Patient Consultation Form " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+    //return console.log(document)
+
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then(res => {
+          // e.target.reset();
+          Object.keys(data).forEach(key => {
+            data[key] = null;
           });
-      } else {
-        ClientServ.create(document)
-          .then(res => {
-            e.target.reset();
-            setSuccess(true);
-            toast({
-              message: "Pediatric Pulmonology Form created succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-            closeForm();
-          })
-          .catch(err => {
-            toast({
-              message: "Error creating Pediatric Pulmonology Form " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+          setconfirmDialog(false);
+          hideActionLoader();
+          setSuccess(true);
+          reset(data);
+          toast.success("New Patient Consultation Form updated succesfully");
+          setSuccess(false);
+          closeForm();
+        })
+        .catch(err => {
+          hideActionLoader();
+          setconfirmDialog(false);
+          toast.error("Error updating New Patient Consultation Form " + err);
+        });
+    } else {
+      ClientServ.create(document)
+        .then(res => {
+          Object.keys(data).forEach(key => {
+            data[key] = null;
           });
-      }
+          hideActionLoader();
+          //e.target.reset();
+          setSuccess(true);
+          reset(data);
+          setconfirmDialog(false);
+          toast.success("Pediatric Pulmonology Form created succesfully");
+          setSuccess(false);
+          closeForm();
+        })
+        .catch(err => {
+          setconfirmDialog(false);
+          hideActionLoader();
+          toast.error("Error creating Pediatric Pulmonology Form " + err);
+        });
     }
   };
 
@@ -518,10 +520,20 @@ export default function NewPatientConsult() {
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
+    toggleSideMenu();
   };
+
+  //console.log("Get Values", getValues("Medication_list_filled"));
   return (
     <>
       <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmDialog}
+          type="create"
+          cancelAction={() => setconfirmDialog(false)}
+          confirmationAction={handleSubmit(onSubmit)}
+          message="You are about to save this document; New Patient Consultation Form"
+        />
         <Box
           sx={{
             display: "flex",
@@ -588,10 +600,12 @@ export default function NewPatientConsult() {
               </Box>
 
               <Box>
-                <RadioButton
-                  title="Gender"
-                  register={register("Gender")}
+                <GroupedRadio
+                  label="Gender"
+                  row
+                  name="Gender"
                   options={["Male", "Female"]}
+                  control={control}
                 />
               </Box>
 
@@ -623,14 +637,18 @@ export default function NewPatientConsult() {
 
             <Box>
               <SingleCheckbox
-                register={register("Medication_list_filled")}
+                name="Medication_list_filled"
+                control={control}
                 label="Medication list filled"
+                defaultChecked={getValues("Medication_list_filled")}
               />
             </Box>
 
             <Box>
               <SingleCheckbox
-                register={register("Not_Taking_Meds")}
+                name="Not_Taking_Meds"
+                control={control}
+                defaultChecked={getValues("Not_Taking_Meds")}
                 label="Patient not taking medications"
               />
             </Box>
@@ -643,12 +661,18 @@ export default function NewPatientConsult() {
               />
             </Box>
 
-            <SingleCheckbox register={register("NKDA")} label="NKDA" />
+            <SingleCheckbox
+              control={control}
+              label="NKDA"
+              name="NKDA"
+              defaultChecked={getValues("NKDA")}
+            />
 
             <Box>
-              <CheckboxInput
+              <CheckboxGroup
                 label="Review of Systems:"
-                register={register("ROS")}
+                name="ROS"
+                control={control}
                 options={ROS}
               />
             </Box>
@@ -664,9 +688,11 @@ export default function NewPatientConsult() {
             </Box>
 
             <Box>
-              <CheckboxInput
+              <CheckboxGroup
                 label="Risk Factors:"
-                register={register("Risk_Factors")}
+                //register={register("Risk_Factors")}
+                name="Risk_Factors"
+                control={control}
                 options={risk}
               />
             </Box>
@@ -679,9 +705,10 @@ export default function NewPatientConsult() {
               <FormsHeaderText text="Social History " />
 
               <Box>
-                <RadioButton
-                  title="Smoker"
-                  register={register("Smoker")}
+                <GroupedRadio
+                  label="Smoker"
+                  name="Smoker"
+                  control={control}
                   options={["Yes", "No"]}
                 />
 
@@ -693,22 +720,27 @@ export default function NewPatientConsult() {
               </Box>
 
               <Box>
-                <RadioButton
-                  title="Alchol"
-                  register={register("Alcohol")}
+                <GroupedRadio
+                  label="Alcohol"
+                  //register={register("Alcohol")}
+                  name="Alcohol"
                   options={["Yes", "No"]}
+                  row
+                  control={control}
                 />
                 <Input
                   register={register("Alcohol_detail")}
                   type="text"
-                  label="Alchol details"
+                  label="Alcohol details"
                 />
               </Box>
 
               <Box>
-                <RadioButton
-                  title="Caffeine"
-                  register={register("Caffeine")}
+                <GroupedRadio
+                  label="Caffeine"
+                  control={control}
+                  row
+                  name="Caffeine"
                   options={["Yes", "No"]}
                 />
                 <Input
@@ -719,9 +751,10 @@ export default function NewPatientConsult() {
               </Box>
 
               <Box>
-                <RadioButton
-                  title="Ocupation"
-                  register={register("Ocupation")}
+                <GroupedRadio
+                  label="Ocupation"
+                  control={control}
+                  name="Ocupation"
                   options={["Yes", "No"]}
                 />
                 <Input
@@ -733,9 +766,11 @@ export default function NewPatientConsult() {
               </Box>
 
               <Box>
-                <RadioButton
-                  title="Hobbies"
-                  register={register("Hobbies")}
+                <GroupedRadio
+                  label="Hobbies"
+                  //register={register("Hobbies")}
+                  name="Hobbies"
+                  control={control}
                   options={["Yes", "No"]}
                 />
                 <Input
@@ -747,10 +782,11 @@ export default function NewPatientConsult() {
               </Box>
 
               <Box>
-                <RadioButton
-                  title="Other Subtances"
-                  register={register("Other_Substances")}
+                <GroupedRadio
+                  label="Other Subtances"
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Other_Substances"
                 />
                 <Input
                   register={register("Other_Substances_detail")}
@@ -761,9 +797,10 @@ export default function NewPatientConsult() {
               </Box>
 
               <Box>
-                <RadioButton
-                  title="Exercise"
-                  register={register("Exercise")}
+                <GroupedRadio
+                  label="Exercise"
+                  control={control}
+                  name="Exercise"
                   options={["Yes", "No"]}
                 />
                 <Input
@@ -775,10 +812,11 @@ export default function NewPatientConsult() {
               </Box>
 
               <Box>
-                <RadioButton
-                  title="Marital Status"
-                  register={register("Marital_Status")}
+                <GroupedRadio
+                  label="Marital Status"
                   options={["Yes", "No"]}
+                  name="Marital_Status"
+                  control={control}
                 />
                 <Input
                   register={register("Marital_Status_detail")}
@@ -789,9 +827,11 @@ export default function NewPatientConsult() {
               </Box>
 
               <Box>
-                <RadioButton
-                  title="Others"
-                  register={register("Other")}
+                <GroupedRadio
+                  label="Others"
+                  //register={register("Other")}
+                  name="Other"
+                  control={control}
                   options={["Yes", "No"]}
                 />
                 <Input
@@ -853,7 +893,7 @@ export default function NewPatientConsult() {
             >
               <FormsHeaderText text="Past Medical History" />
 
-              <CheckboxInput register={register("PHM")} options={PMH} />
+              <CheckboxGroup name="PHM" control={control} options={PMH} />
 
               <Box>
                 <Textarea
@@ -1011,8 +1051,10 @@ export default function NewPatientConsult() {
             </Box>
 
             <Box>
-              <CheckboxInput
-                register={register("cvs")}
+              <CheckboxGroup
+                //register={register("cvs")}
+                name="CVS"
+                control={control}
                 options={[
                   "Well developed",
                   "ill Appearing",
@@ -1032,10 +1074,11 @@ export default function NewPatientConsult() {
               </Typography>
 
               <Box>
-                <RadioButton
-                  title="Conjunctiva"
-                  register={register("Conjunctiva")}
+                <GroupedRadio
+                  label="Conjunctiva"
+                  name="Conjunctiva"
                   options={["Normal", "Abnormal"]}
+                  control={control}
                 />
 
                 <Input
@@ -1046,9 +1089,10 @@ export default function NewPatientConsult() {
               </Box>
 
               <Box>
-                <RadioButton
-                  title="Lids"
-                  register={register("Lids")}
+                <GroupedRadio
+                  label="Lids"
+                  name="Lids"
+                  control={control}
                   options={["Normal", "Abnormal"]}
                 />
                 <Input
@@ -1070,9 +1114,10 @@ export default function NewPatientConsult() {
               </Typography>
 
               <Box>
-                <RadioButton
-                  title="Teeth"
-                  register={register("Teeth")}
+                <GroupedRadio
+                  label="Teeth"
+                  name="Teeth"
+                  control={control}
                   options={["Normal", "Abnormal"]}
                 />
                 <Input
@@ -1084,9 +1129,10 @@ export default function NewPatientConsult() {
               </Box>
 
               <Box>
-                <RadioButton
-                  title="Gums"
-                  register={register("Gums")}
+                <GroupedRadio
+                  label="Gums"
+                  name="Gums"
+                  control={control}
                   options={["Normal", "Abnormal"]}
                 />
                 <Input
@@ -1098,9 +1144,10 @@ export default function NewPatientConsult() {
               </Box>
 
               <Box>
-                <RadioButton
-                  title="Palate"
-                  register={register("Palate")}
+                <GroupedRadio
+                  label="Palate"
+                  name={"Palate"}
+                  control={control}
                   options={["Normal", "Abnormal"]}
                 />
                 <Input
@@ -1112,9 +1159,10 @@ export default function NewPatientConsult() {
               </Box>
 
               <Box>
-                <RadioButton
-                  title="Oral Mucosa"
-                  register={register("Oral_Mucosa")}
+                <GroupedRadio
+                  label="Oral Mucosa"
+                  control={control}
+                  name="Oral_Mucosa"
                   options={["Normal", "Abnormal"]}
                 />
                 <Input
@@ -1136,9 +1184,10 @@ export default function NewPatientConsult() {
               </Typography>
 
               <Box>
-                <RadioButton
-                  title="Jugular Veins"
-                  register={register("Jugular_Veins")}
+                <GroupedRadio
+                  label="Jugular Veins"
+                  name="Jugular_Veins"
+                  control={control}
                   options={["Normal", "Abnormal"]}
                 />
                 <Input
@@ -1150,9 +1199,10 @@ export default function NewPatientConsult() {
               </Box>
 
               <Box>
-                <RadioButton
-                  title="Bruits"
-                  register={register("Bruits")}
+                <GroupedRadio
+                  label="Bruits"
+                  name={"Bruits"}
+                  control={control}
                   options={["Normal", "Abnormal"]}
                 />
                 <Input
@@ -1174,9 +1224,10 @@ export default function NewPatientConsult() {
               </Typography>
 
               <Box>
-                <RadioButton
-                  title="Effort"
-                  register={register("Effort")}
+                <GroupedRadio
+                  label="Effort"
+                  name={"Effort"}
+                  control={control}
                   options={["Normal", "Abnormal"]}
                 />
                 <Input
@@ -1187,9 +1238,10 @@ export default function NewPatientConsult() {
                 />
               </Box>
               <Box>
-                <RadioButton
-                  title="Breath Sound"
-                  register={register("Breath_Sound")}
+                <GroupedRadio
+                  label="Breath Sound"
+                  name={"Breath_Sound"}
+                  control={control}
                   options={["Normal", "Abnormal"]}
                 />
                 <Input
@@ -1211,9 +1263,10 @@ export default function NewPatientConsult() {
               </Typography>
 
               <Box>
-                <RadioButton
-                  title="Tenderness"
-                  register={register("Tenderness")}
+                <GroupedRadio
+                  name="Tenderness"
+                  label="Tenderness"
+                  control={control}
                   options={["Normal", "Abnormal"]}
                 />
                 <Input
@@ -1225,10 +1278,11 @@ export default function NewPatientConsult() {
               </Box>
 
               <Box>
-                <RadioButton
-                  title="Hepatosplenomegaly"
-                  register={register("Hepatosplenomegaly")}
+                <GroupedRadio
+                  label="Hepatosplenomegaly"
+                  name={"Hepatosplenomegaly"}
                   options={["Normal", "Abnormal"]}
+                  control={control}
                 />
                 <Input
                   register={register("Hepatosplenomegaly_detail")}
@@ -1238,16 +1292,17 @@ export default function NewPatientConsult() {
               </Box>
 
               <Box>
-                <RadioButton
-                  title="Abdominal Aorta(size,bruits)"
-                  register={register("Abdominal_Aorta(size,bruits)")}
+                <GroupedRadio
+                  label="Abdominal Aorta (size, bruits)"
+                  name="Abdominal Aorta (size, bruits)"
+                  control={control}
                   options={["Normal", "Abnormal"]}
                 />
                 <Input
-                  register={register("Abdominal_Aorta_detail")}
+                  register={register("Abdominal Aorta (size, bruits)_detail")}
                   name="text"
                   type="text"
-                  label="Abdominal Aorta detail"
+                  label="Abdominal Aorta (size, bruits) detail"
                 />
               </Box>
             </Box>
@@ -1283,18 +1338,20 @@ export default function NewPatientConsult() {
             </Box>
 
             <Box>
-              <RadioButton
-                register={register("Edema")}
+              <GroupedRadio
+                name="Edma"
                 options={["Yes", "No"]}
-                title="Edema"
+                label="Edema"
+                control={control}
               />
             </Box>
 
             <Box>
-              <RadioButton
-                title="Bruits"
-                register={register("Vascular_Bruits")}
+              <GroupedRadio
+                label="Bruits"
+                name="Vascular_Bruits"
                 options={["Yes", "No"]}
+                control={control}
               />
             </Box>
 
@@ -1308,10 +1365,11 @@ export default function NewPatientConsult() {
               </Typography>
 
               <Box>
-                <RadioButton
-                  title="Gait"
-                  register={register("Gait")}
+                <GroupedRadio
+                  label="Gait"
+                  name="Gait"
                   options={["Normal", "Abdominal"]}
+                  control={control}
                 />
 
                 <Input
@@ -1323,10 +1381,11 @@ export default function NewPatientConsult() {
               </Box>
 
               <Box>
-                <RadioButton
-                  register={register("Kyphosis/Scoliosis ")}
+                <GroupedRadio
+                  name="Kyphosis/Scoliosis"
                   options={["Absent", "Present"]}
-                  title="Kyphosis/Scoliosis"
+                  label="Kyphosis/Scoliosis"
+                  control={control}
                 />
 
                 <Input
@@ -1346,17 +1405,19 @@ export default function NewPatientConsult() {
                 <b>Skin System Examination</b>
               </Typography>
               <Box>
-                <RadioButton
-                  title="Xanthoma"
-                  register={register("input_text")}
+                <GroupedRadio
+                  control={control}
+                  label="Xanthoma"
+                  name="Xanthoma"
                   options={["Yes", "No"]}
                 />
               </Box>
 
               <Box>
-                <RadioButton
-                  title="Tugor"
-                  register={register("input_text")}
+                <GroupedRadio
+                  control={control}
+                  label="Tugor"
+                  name="Tugor"
                   options={["good", "poor"]}
                 />
               </Box>
@@ -1372,9 +1433,10 @@ export default function NewPatientConsult() {
               </Typography>
 
               <Box>
-                <RadioButton
-                  title="A&O x3"
-                  register={register("A&O_x3")}
+                <GroupedRadio
+                  control={control}
+                  label="A&O x3"
+                  name="A&O_x3"
                   options={["Normal", "Abnormal"]}
                 />
                 <Input
@@ -1385,9 +1447,10 @@ export default function NewPatientConsult() {
               </Box>
 
               <Box>
-                <RadioButton
-                  title="Affect"
-                  register={register("Affect")}
+                <GroupedRadio
+                  control={control}
+                  label="Affect"
+                  name="Affect"
                   options={["anxious", "flat", "appropriate"]}
                 />
                 <Input
@@ -1468,8 +1531,10 @@ export default function NewPatientConsult() {
                 Test Ordered
               </Typography>
 
-              <CheckboxInput
-                register={register("Test_Ordered")}
+              <CheckboxGroup
+                //register={register("Test_Ordered")}
+                name="Test_Ordered"
+                control={control}
                 options={tests}
               />
 
@@ -1491,9 +1556,9 @@ export default function NewPatientConsult() {
               >
                 Labs
               </Typography>
-              <CheckboxInput
-                name="tests"
-                register={register("Labs")}
+              <CheckboxGroup
+                name="Labs"
+                control={control}
                 options={[
                   "BMP",
                   "CBC",
@@ -1516,8 +1581,9 @@ export default function NewPatientConsult() {
               >
                 Followup In
               </Typography>
-              <RadioButton
-                register={register("Followup")}
+              <GroupedRadio
+                control={control}
+                name="Followup"
                 options={[
                   "1-2 weeks",
                   "1-2 months",
@@ -1579,7 +1645,7 @@ export default function NewPatientConsult() {
               <GlobalCustomButton
                 color="secondary"
                 type="submit"
-                onClick={handleSubmit(onSubmit)}
+                onClick={() => setconfirmDialog(true)}
               >
                 Submit Patient Consultation
               </GlobalCustomButton>

@@ -21,6 +21,7 @@ interface componentProps {
   handleChange?: any;
   value?: any;
   important?: boolean;
+  required?: boolean;
 }
 
 const MuiCustomDatePicker = ({
@@ -34,6 +35,7 @@ const MuiCustomDatePicker = ({
   handleChange,
   value,
   important,
+  required,
 }: componentProps) => {
   //const [value, setValue] = React.useState(null);
 
@@ -84,6 +86,7 @@ const MuiCustomDatePicker = ({
       name={name}
       defaultValue={defaultValue}
       control={control}
+      rules={{required: required}}
       render={({
         field: {onChange, onBlur, value, name, ref},
         fieldState: {isTouched, isDirty, error},

@@ -19,6 +19,7 @@ import LeadDetail from "./components/lead/LeadDetailView";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import {Box} from "@mui/material";
+import client from "../../feathers";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -94,6 +95,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
   const {user, setUser} = useContext(UserContext);
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
+  const leadServer = client.service("client");
 
   const handleCreateNew = async () => {
     showCreate(true);
@@ -105,6 +107,49 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
   };
 
   const handleSearch = val => {};
+
+  const getFacilities = async () => {
+    setState(prev => ({
+      ...prev,
+      actionLoader: {open: true},
+    }));
+    if (user.currentEmployee) {
+      const findLead = await leadServer.find({
+        query: {
+          "relatedfacilities.facility": user.currentEmployee.facilityDetail._id,
+          $limit: limit,
+          $skip: page * limit,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      });
+      await setFacilities(findLead.data);
+      setState(prev => ({
+        ...prev,
+        actionLoader: {open: false},
+      }));
+
+      await setTotal(findLead.total);
+    } else {
+      if (user.stacker) {
+        const findLead = await leadServer.find({
+          query: {
+            $limit: 20,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        });
+
+        await setFacilities(findLead.data);
+        setState(prev => ({
+          ...prev,
+          actionLoader: {open: false},
+        }));
+      }
+    }
+  };
 
   const dummyData = [
     {

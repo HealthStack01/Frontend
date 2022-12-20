@@ -191,7 +191,7 @@ const EmployeeView = ({open, setOpen, employee}) => {
       <ModalBox
         open={showRoles}
         onClose={() => setShowRoles(false)}
-        header={`Set Roles for Employee ${employee.firstname} ${employee.lastname}`}
+        header={`Roles for ${employee.firstname} ${employee.lastname}`}
       >
         <ModuleList handlecloseModal={() => setShowRoles(false)} />
       </ModalBox>

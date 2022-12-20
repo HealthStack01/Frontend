@@ -389,6 +389,35 @@ function SideMenu({isOpen}) {
     a.name.localeCompare(b.name)
   );
 
+  const roles = [
+    "Bill Client",
+    "Adjust Price",
+    "Delete Notes",
+    "Client Appointment",
+    "Clinic Appointment",
+    "Clinic Checkin",
+    "Clinic Dashboard",
+    "Appointments",
+    "Laboratory Bill Client",
+    "Laboratory Bill Lab Orders",
+    "Laboratory Lab Result",
+    "Laboratory Dashboard",
+    "Pharmacy Bill Client",
+    "Pharmacy Bill Prescription Sent",
+    "Pharmcy Dispensary",
+    "Pharmacy Store Inventory",
+    "Pharmacy Product Entry",
+    "Pharmacy Issue Out",
+    "Pharmacy Dashboard",
+    "Pharmacy",
+    "Laboratory",
+    "Admin",
+  ];
+
+  const rolesMenuList = sortedMenuItems.filter(item =>
+    roles.includes(item.name)
+  );
+
   return (
     <Sidemenu className={`side-menu ${isOpen ? "" : "hide"}`}>
       <TopSection>

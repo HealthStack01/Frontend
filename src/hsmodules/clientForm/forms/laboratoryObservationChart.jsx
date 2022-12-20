@@ -1,4 +1,4 @@
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import {useForm} from "react-hook-form";
 import GlobalCustomButton from "../../../components/buttons/CustomButton";
 import Input from "../../../components/inputs/basic/Input";
@@ -9,11 +9,12 @@ import {Box, Grid, IconButton} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {ObjectContext} from "../../../context";
 import {FormsHeaderText} from "../../../components/texts";
+import {toast} from "react-toastify";
 
 const LaboratoryObservationChart = ({onSubmit}) => {
   const {register, handleSubmit, control} = useForm();
 
-  const {state, setState} = useContext(ObjectContext);
+  const {state, setState, toggleSideMenu} = useContext(ObjectContext);
 
   const closeForm = async () => {
     let documentobj = {};
@@ -30,7 +31,14 @@ const LaboratoryObservationChart = ({onSubmit}) => {
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
+    toggleSideMenu();
   };
+
+  useEffect(() => {
+    toast.error(
+      "This form isn't available at the moment, will update you when it is.."
+    );
+  }, []);
 
   return (
     <div className="card">
@@ -51,7 +59,12 @@ const LaboratoryObservationChart = ({onSubmit}) => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box mb="1rem">
-          <Input register={register("name")} name="name" label="Name" type="text" />
+          <Input
+            register={register("name")}
+            name="name"
+            label="Name"
+            type="text"
+          />
         </Box>
 
         <Box mb="1rem">
@@ -72,7 +85,12 @@ const LaboratoryObservationChart = ({onSubmit}) => {
         </Box>
 
         <Box mb="1rem">
-          <Input register={register("temp")} name="temp" label="Temp" type="text" />
+          <Input
+            register={register("temp")}
+            name="temp"
+            label="Temp"
+            type="text"
+          />
         </Box>
 
         <Box mb="1rem">
@@ -84,7 +102,12 @@ const LaboratoryObservationChart = ({onSubmit}) => {
         </Box>
 
         <Box mb="1rem">
-          <Input register={register("bldPre")} name="b/p" label="B/P" type="text" />
+          <Input
+            register={register("bldPre")}
+            name="b/p"
+            label="B/P"
+            type="text"
+          />
         </Box>
 
         <Box mb="1rem">
@@ -128,11 +151,11 @@ const LaboratoryObservationChart = ({onSubmit}) => {
         </Box>
         <Box mb="1rem">
           <GlobalCustomButton
-            text="Submit Form"
-            customStyles={{
-              marginRight: "5px",
-            }}
-          />
+            onClick={handleSubmit(onSubmit)}
+            color="secondary"
+          >
+            Submit Laboratory Observation Chart
+          </GlobalCustomButton>
         </Box>
       </form>
     </div>
