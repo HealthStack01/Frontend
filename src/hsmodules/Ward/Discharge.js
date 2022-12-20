@@ -5,7 +5,7 @@ import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
+import { toast } from 'react-toastify';
 import { format, formatDistanceToNowStrict } from 'date-fns';
 import DischargeCreate from './DischargeCreate';
 import PatientProfile from '../Client/PatientProfile';
