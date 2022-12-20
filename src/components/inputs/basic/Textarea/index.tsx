@@ -1,7 +1,7 @@
-import React, {TextareaHTMLAttributes, useRef} from "react";
-import {Controller} from "react-hook-form";
+import React, { TextareaHTMLAttributes, useRef } from 'react';
+import { Controller } from 'react-hook-form';
 
-import {TextareaField} from "./styles";
+import { TextareaField } from './styles';
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label: string;
@@ -34,14 +34,14 @@ const Textarea: React.FC<TextareaProps> = ({
         control={control}
         name={name}
         render={({
-          field: {onChange, onBlur, value, name, ref},
-          fieldState: {invalid, isTouched, isDirty, error},
+          field: { onChange, onBlur, value, name, ref },
+          fieldState: { invalid, isTouched, isDirty, error },
           formState,
         }) => (
           <div>
             <label>{label}</label>
             <TextareaField
-              ref={useRef()}
+              ref={ref}
               placeholder={placeholder}
               style={sx}
               name={name}
@@ -58,7 +58,7 @@ const Textarea: React.FC<TextareaProps> = ({
     <div>
       <label>{label}</label>
       <TextareaField
-        ref={useRef()}
+        ref={ref}
         placeholder={placeholder}
         style={sx}
         onBlur={handleOnBlur}

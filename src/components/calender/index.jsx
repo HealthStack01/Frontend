@@ -2,6 +2,7 @@ import { ViewState } from '@devexpress/dx-react-scheduler';
 import {
   Appointments,
   AppointmentTooltip,
+  AllDayPanel,
   DateNavigator,
   DayView,
   MonthView,
@@ -83,6 +84,7 @@ const Appointment = ({ children, style, ...restProps }) => (
   </Appointments.Appointment>
 );
 const CalendarGrid = ({ appointments }) => {
+  console.log('Grid View', appointments);
   return (
     <Paper>
       <Scheduler data={appointments}>
@@ -90,14 +92,14 @@ const CalendarGrid = ({ appointments }) => {
           defaultCurrentDate={new Date()}
           defaultCurrentViewName="Week"
         />
-        <DayView startDayHour={9} endDayHour={19} />
+        <DayView startDayHour={0} endDayHour={24} />
         <WeekView
-          startDayHour={9}
-          endDayHour={19}
+          startDayHour={0}
+          endDayHour={24}
           timeTableCellComponent={TimeTableCell}
           dayScaleCellComponent={DayScaleCell}
         />
-        <MonthView startDayHour={9} endDayHour={19} />
+        {/* <MonthView startDayHour={0} endDayHour={24} /> */}
         <Toolbar />
         <DateNavigator />
         <TodayButton />

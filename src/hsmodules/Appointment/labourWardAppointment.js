@@ -35,6 +35,8 @@ import BasicDateTimePicker from '../../components/inputs/DateTime';
 import RadioButton from '../../components/inputs/basic/Radio';
 import TextField from '@mui/material/TextField';
 import { FormsHeaderText } from '../../components/texts';
+import MuiClearDatePicker from '../../components/inputs/Date/MuiClearDatePicker';
+import GroupedRadio from '../../components/inputs/basic/Radio/GroupedRadio';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -282,7 +284,12 @@ export function AppointmentCreate({ showModal, setShowModal }) {
 
   return (
     <>
-      <div className="card ">
+      <div
+        className="card "
+        style={{
+          width: '70vw',
+        }}
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={4}>
@@ -582,9 +589,9 @@ export function ClientList({ showModal, setShowModal }) {
           createdAt: -1,
         },
       };
-      // if (state.employeeLocation.locationType !== "Front Desk") {
-      //   stuff.locationId = state.employeeLocation.locationId;
-      // }
+      if (state.employeeLocation.locationType !== 'Front Desk') {
+        stuff.locationId = state.employeeLocation.locationId;
+      }
 
       const findClient = await ClientServ.find({ query: stuff });
 
@@ -642,9 +649,9 @@ export function ClientList({ showModal, setShowModal }) {
         createdAt: -1,
       },
     };
-    // if (state.employeeLocation.locationType !== "Front Desk") {
-    //   query.locationId = state.employeeLocation.locationId;
-    // }
+    if (state.employeeLocation.locationType !== 'Front Desk') {
+      query.locationId = state.employeeLocation.locationId;
+    }
 
     const findClient = await ClientServ.find({ query: query });
 
@@ -673,9 +680,12 @@ export function ClientList({ showModal, setShowModal }) {
     facilities.map((facility, i) => {
       mapped.push({
         title: facility?.firstname + ' ' + facility?.lastname,
-        start: format(new Date(facility?.start_time), 'yyyy-MM-ddTHH:mm'),
-        end: facility?.end_time,
+        startDate: format(
+          new Date(facility?.start_time.slice(0, 19)),
+          'yyyy-MM-dd HH:mm'
+        ),
         id: i,
+        location: facility?.location_name,
       });
     });
     return mapped;
@@ -706,12 +716,11 @@ export function ClientList({ showModal, setShowModal }) {
                   <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
                     Appointments
                   </h2>
-                  <DatePicker
-                    selected={startDate}
-                    onChange={(date) => handleDate(date)}
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="Filter By Date"
-                    isClearable
+                  <MuiClearDatePicker
+                    value={startDate}
+                    setValue={setStartDate}
+                    label="Filter By Date"
+                    format="dd/MM/yyyy"
                   />
                   {/* <SwitchButton /> */}
                   <Switch>
@@ -748,7 +757,9 @@ export function ClientList({ showModal, setShowModal }) {
                   <CustomTable
                     title={''}
                     columns={AppointmentSchema}
-                    data={facilities}
+                    data={facilities.filter((facility) => {
+                      return facility?.location_type === 'Labour Ward';
+                    })}
                     pointerOnHover
                     highlightOnHover
                     striped
@@ -939,7 +950,8 @@ export function ClientDetail({ showModal, setShowModal }) {
 }
 
 export function ClientModify({ showModal, setShowModal }) {
-  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
+  const { register, handleSubmit, setValue, reset, errors, control } =
+    useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -956,7 +968,7 @@ export function ClientModify({ showModal, setShowModal }) {
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [appointment_status, setAppointment_status] = useState('');
   const [appointment_type, setAppointment_type] = useState('');
-  const appClass = ['On-site', 'Teleconsultation'];
+  const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
   const [locationId, setLocationId] = useState();
   const [practionerId, setPractionerId] = useState();
   const [success1, setSuccess1] = useState(false);
@@ -1192,31 +1204,10 @@ export function ClientModify({ showModal, setShowModal }) {
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              {/* <div className="field ml-3 ">
-                {appClass.map((c, i) => (
-                  <>
-                    <input
-                      type="radio"
-                      key={i}
-                      value={c}
-                      name="appointmentClass"
-                      {...register('appointmentClass', { required: true })}
-                      style={{
-                        border: '1px solid #0364FF',
-                        color: '#0364FF',
-                        margin: '.5rem',
-                      }}
-                    />
-                    <label>{c}</label>
-                  </>
-                ))}
-              </div> */}
-              <RadioButton
+              <GroupedRadio
                 name="appointmentClass"
-                register={register('appointmentClass', { required: true })}
                 options={appClass}
-                value={Client?.appointmentClass}
-                onChange={handleChangeClass}
+                control={control}
               />
             </Grid>
           </Grid>
