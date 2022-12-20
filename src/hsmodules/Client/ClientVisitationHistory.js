@@ -27,7 +27,7 @@ import ModalBox from "../../components/modal";
 import ModalHeader from "../Appointment/ui-components/Heading/modalHeader";
 // import ModalHeader from "./ui-components/Heading/modalHeader";
 import { Box, Grid } from "@mui/material";
-import { ClientMiniSchema } from "./schema";
+import { AppointmentSchema } from '../Appointment/schema';
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
 import { MdCancel } from "react-icons/md";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
@@ -43,10 +43,7 @@ const searchfacility = {};
 export default function ClientVisitationHistory() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
-  // const [selectedClient, setSelectedClient] = useState();
-  // const [selectedAppointment, setSelectedAppointment] = useState();
-  //const [showState,setShowState]=useState() //create|modify|detail
-  // const [showModal, setShowModal] = useState(false);
+ 
   const [createModal, setCreateModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
   const [modifyModal, setModifyModal] = useState(false);
@@ -79,10 +76,12 @@ export default function ClientVisitationHistory() {
   return (
     <section className="section remPadTop">
       
-        <ClientList showCreateModal={handleCreateModal}
-          showDetailModal={handleShowDetailModal} />
+        <ClientList 
+        
+        showCreateModal={handleCreateModal}
+          showDetailModal={handleShowDetailModal} 
+          />
     
-     
         <ModalBox open={createModal} onClose={handleHideCreateModal} header="Create Appointment">
           <AppointmentCreate />
         </ModalBox>
@@ -101,9 +100,10 @@ export default function ClientVisitationHistory() {
   );
 }
 
+
 export function AppointmentCreate() {
   const { state, setState } = useContext(ObjectContext);
-  const { register, handleSubmit, setValue, control } = useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue, control, reset } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
@@ -120,7 +120,6 @@ export function AppointmentCreate() {
   const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   // const [appointment_reason,setAppointment_reason]= useState()
   const [appointment_status, setAppointment_status] = useState('');
@@ -131,6 +130,7 @@ export function AppointmentCreate() {
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
   const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
+  const Client = state.AppointmentModule.selectedAppointment;
 
   let appointee; //  =state.ClientModule.selectedClient
   /*  const getSearchfacility=(obj)=>{
@@ -145,6 +145,18 @@ export function AppointmentCreate() {
 
   const handleChangeStatus = async (e) => {
     await setAppointment_status(e.target.value);
+  };
+
+  const handleSelectedClient = async (Client) => {
+    // await setSelectedClient(Client)
+    const newClientModule = {
+      selectedClient: Client,
+      show: 'detail',
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      ClientModule: newClientModule,
+    }));
   };
 
   const getSearchfacility = (obj) => {
@@ -199,21 +211,21 @@ export function AppointmentCreate() {
             shouldDirty: true
         })  */
     }
-  },[]);
+  }, []);
 
   const onSubmit = (data, e) => {
+    console.log(data);
     e.preventDefault();
     setMessage('');
     setError(false);
     setSuccess(false);
-    setShowModal(false),
-      setState((prevstate) => ({
-        ...prevstate,
-        AppointmentModule: {
-          selectedAppointment: {},
-          show: 'list',
-        },
-      }));
+    setState((prevstate) => ({
+      ...prevstate,
+      AppointmentModule: {
+        selectedAppointment: {},
+        show: 'list',
+      },
+    }));
 
     // data.createdby=user._id
     console.log(data);
@@ -249,7 +261,6 @@ export function AppointmentCreate() {
     ClientServ.create(data)
       .then((res) => {
         //console.log(JSON.stringify(res))
-        e.target.reset();
         setAppointment_type('');
         setAppointment_status('');
         setClientId('');
@@ -299,20 +310,24 @@ export function AppointmentCreate() {
 
   return (
     <>
-      <div>
-      <Box sx={{ display: 'flex', justifyContent:'flex-end', paddingBottom:"1rem" }}>
-            <GlobalCustomButton
-              text="Submit"
-              onClick={handleSubmit(onSubmit)}
-            />
-          </Box>
-        <form>
+      <div className="card ">
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={4}>
-              <ClientSearch
-                getSearchfacility={getSearchfacility}
-                clear={success}
-              />
+              {state.ClientModule.selectedClient.firstname !== undefined ? (
+                <>
+                  <FormsHeaderText
+                    text={`
+                    ${state.ClientModule.selectedClient.firstname}
+                    ${state.ClientModule.selectedClient.lastname}`}
+                  />
+                </>
+              ) : (
+                <ClientSearch
+                  getSearchfacility={getSearchfacility}
+                  clear={success}
+                />
+              )}
             </Grid>
             <Grid item xs={12} sm={12} md={4} mb={1.5}>
               <EmployeeSearch
@@ -329,25 +344,11 @@ export function AppointmentCreate() {
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={12}>
-              <div className="field ml-3 ">
-                {appClass.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="radio"
-                      value={c}
-                      name="appointmentClass"
-                      {...register('appointmentClass', { required: true })}
-                      style={{
-                        border: '1px solid #0364FF',
-                        // transform: 'scale(1.5)',
-                        color: '#0364FF',
-                        margin: '0 .5rem',
-                      }}
-                    />
-                    {c + ' '}
-                  </label>
-                ))}
-              </div>
+              <RadioButton
+                name="appointmentClass"
+                register={register('appointmentClass', { required: true })}
+                options={appClass}
+              />
             </Grid>
           </Grid>
           <Grid container spacing={2} sx={{ alignItems: 'center' }}>
@@ -428,12 +429,27 @@ export function AppointmentCreate() {
               </textarea>
             </Grid>
           </Grid>
+
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <GlobalCustomButton
+              text="Submit"
+              onClick={handleSubmit(onSubmit)}
+              customStyles={{
+                marginRight: '15px',
+              }}
+            />
+            <GlobalCustomButton
+              variant="contained"
+              color="error"
+              text="Cancel"
+              onClick={() => setShowModal(false)}
+            />
+          </Box>
         </form>
       </div>
     </>
   );
 }
-
 
 export function ClientList({showCreateModal, showDetailModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
@@ -442,8 +458,8 @@ export function ClientList({showCreateModal, showDetailModal}) {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  const ClientServ = client.service("appointments");
+  const [message, setMessage] = useState('');
+  const ClientServ = client.service('appointments');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -456,12 +472,12 @@ export function ClientList({showCreateModal, showDetailModal}) {
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
-  const [value, setValue] = useState("list");
+  const [value, setValue] = useState('list');
 
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: "create",
+      show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -470,30 +486,31 @@ export function ClientList({showCreateModal, showDetailModal}) {
     //console.log(state)
     const newClient = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
     await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
-    setShowModal(true);
+    // setShowModal(true);
+    showCreateModal()
   };
 
   const handleRow = async (Client) => {
-    
+    setShowModal(true);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
-      show: "detail",
+      show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
-
     }));
+    // console.log(Client)
     showDetailModal()
   };
   //console.log(state.employeeLocation)
 
   const handleSearch = (val) => {
-    const field = "firstname";
+    const field = 'firstname';
     //  console.log(val)
 
     let query = {
@@ -501,73 +518,73 @@ export function ClientList({showCreateModal, showDetailModal}) {
         {
           firstname: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           lastname: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           middlename: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           phone: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           appointment_type: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           appointment_status: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           appointment_reason: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           location_type: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           location_name: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           practitioner_department: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           practitioner_profession: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           practitioner_name: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
       ],
@@ -577,7 +594,7 @@ export function ClientList({showCreateModal, showDetailModal}) {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== "Front Desk") {
+    if (state.employeeLocation.locationType !== 'Front Desk') {
       query.locationId = state.employeeLocation.locationId;
     }
 
@@ -585,12 +602,12 @@ export function ClientList({showCreateModal, showDetailModal}) {
       .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(" Client  fetched successfully");
+        setMessage(' Client  fetched successfully');
         setSuccess(true);
       })
       .catch((err) => {
         console.log(err);
-        setMessage("Error fetching Client, probable network issues " + err);
+        setMessage('Error fetching Client, probable network issues ' + err);
         setError(true);
       });
   };
@@ -642,15 +659,15 @@ export function ClientList({showCreateModal, showDetailModal}) {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on("created", (obj) => handleCalendarClose());
-    ClientServ.on("updated", (obj) => handleCalendarClose());
-    ClientServ.on("patched", (obj) => handleCalendarClose());
-    ClientServ.on("removed", (obj) => handleCalendarClose());
+    ClientServ.on('created', (obj) => handleCalendarClose());
+    ClientServ.on('updated', (obj) => handleCalendarClose());
+    ClientServ.on('patched', (obj) => handleCalendarClose());
+    ClientServ.on('removed', (obj) => handleCalendarClose());
     const newClient = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    // setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -659,7 +676,7 @@ export function ClientList({showCreateModal, showDetailModal}) {
         $gt: subDays(startDate, 1),
         $lt: addDays(startDate, 1),
       },
-      facility: user.currentEmployee.facilityDetail._id,
+      facility: user.currentEmployee?.facilityDetail._id,
 
       $limit: 100,
       $sort: {
@@ -696,8 +713,8 @@ export function ClientList({showCreateModal, showDetailModal}) {
     let mapped = [];
     facilities.map((facility, i) => {
       mapped.push({
-        title: facility?.firstname + " " + facility?.lastname,
-        start: format(new Date(facility?.start_time), "yyyy-MM-ddTHH:mm"),
+        title: facility?.firstname + ' ' + facility?.lastname,
+        start: format(new Date(facility?.start_time), 'yyyy-MM-ddTHH:mm'),
         end: facility?.end_time,
         id: i,
       });
@@ -705,10 +722,12 @@ export function ClientList({showCreateModal, showDetailModal}) {
     return mapped;
   };
   const activeStyle = {
-    backgroundColor: "#0064CC29",
-    border: "none",
-    padding: "0 .8rem",
+    backgroundColor: '#0064CC29',
+    border: 'none',
+    padding: '0 .8rem',
   };
+
+  // console.log(facilities[0].clientId);
 
   return (
     <>
@@ -716,16 +735,16 @@ export function ClientList({showCreateModal, showDetailModal}) {
         <>
           <div className="level">
             <PageWrapper
-              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+              style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
             >
               <TableMenu>
-                <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
+                  <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
                     Appointments
                   </h2>
                   <DatePicker
@@ -740,47 +759,42 @@ export function ClientList({showCreateModal, showDetailModal}) {
                     <button
                       value={value}
                       onClick={() => {
-                        setValue("list");
+                        setValue('list');
                       }}
-                      style={value === "list" ? activeStyle : {}}
+                      style={value === 'list' ? activeStyle : {}}
                     >
-                      <BsList style={{ fontSize: "1rem" }} />
+                      <BsList style={{ fontSize: '1rem' }} />
                     </button>
                     <button
                       value={value}
                       onClick={() => {
-                        setValue("grid");
+                        setValue('grid');
                       }}
-                      style={value === "grid" ? activeStyle : {}}
+                      style={value === 'grid' ? activeStyle : {}}
                     >
-                      <BsFillGridFill style={{ fontSize: "1rem" }} />
+                      <BsFillGridFill style={{ fontSize: '1rem' }} />
                     </button>
                   </Switch>
                 </div>
 
                 {handleCreateNew && (
                   <GlobalCustomButton
-                  onClick={showCreateModal}
-                  >
-                    <AddCircleOutline
-                      sx={{marginRight: "5px"}}
-                      fontSize="small"
-                    />
-                    Add New Visit
-                  </GlobalCustomButton>
+                    text="Add new "
+                    onClick={handleCreateNew}
+                  />
                 )}
               </TableMenu>
-              <div style={{ width: "100%", height: "100%", overflow: "auto" }}>
-                {value === "list" ? (
+              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+                {value === 'list' ? (
                   <CustomTable
-                    title={""}
-                    columns={ClientMiniSchema}
+                    title={''}
+                    columns={AppointmentSchema}
                     data={facilities}
                     pointerOnHover
                     highlightOnHover
                     striped
                     onRowClicked={handleRow}
-                    // progressPending={loading}
+                    progressPending={loading}
                   />
                 ) : (
                   <CalendarGrid appointments={mapFacilities()} />
@@ -795,7 +809,6 @@ export function ClientList({showCreateModal, showDetailModal}) {
     </>
   );
 }
-
 
 export function ClientDetail({showModifyModal}) {
   const { register, handleSubmit, watch, setValue } = useForm(); //errors,
@@ -866,7 +879,7 @@ export function ClientDetail({showModifyModal}) {
             marginRight: '5px',
           }}
         />
-        <GlobalCustomButton onClick={handleAttend} text="Attend" />
+        <GlobalCustomButton onClick={handleAttend} text="Attend to client" />
       </Box>
       <Grid container spacing={1} mt={1}>
         <Grid item xs={12} md={4}>
@@ -970,8 +983,6 @@ export function ClientDetail({showModifyModal}) {
     </>
   );
 }
-
-
 
 export function ClientModify() {
   const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
@@ -1207,26 +1218,9 @@ export function ClientModify() {
   return (
     <>
       <div className="card ">
-      <Box sx={{ display: 'flex', justifyContent:'flex-end' ,paddingBottom:"1rem" }}>
-            <GlobalCustomButton
-              variant="contained"
-              color="success"
-              text="Save"
-              customStyles={{
-                marginRight: '15px',
-              }}
-              onClick={handleSubmit(onSubmit)}
-            />
-
-            <GlobalCustomButton
-              text="Delete"
-              onClick={() => handleDelete()}
-              color="error"
-              variant="outlined"
-            />
-          </Box>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <FormsHeaderText text={`${Client.firstname} ${Client.lastname}`} />
+
           <Grid container spacing={2} mt={1}>
             <Grid item xs={12} sm={12} md={6} lg={6}>
               <LocationSearch
@@ -1372,30 +1366,47 @@ export function ClientModify() {
             </Grid>
           </Grid>
 
-          
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <GlobalCustomButton
+              variant="contained"
+              color="success"
+              text="Save"
+              customStyles={{
+                marginRight: '15px',
+              }}
+              onClick={handleSubmit(onSubmit)}
+            />
+
+            <GlobalCustomButton
+              text="Delete"
+              onClick={() => handleDelete()}
+              color="error"
+              variant="outlined"
+            />
+          </Box>
         </form>
       </div>
     </>
   );
 }
 
-export function ClientSearch({ getSearchfacility, clear }) {
-  const ClientServ = client.service("client");
+export function ClientSearch({ id, getSearchfacility, clear, label }) {
+  const ClientServ = client.service('client');
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState("");
+  const [searchMessage, setSearchMessage] = useState('');
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState("");
+  const [simpa, setSimpa] = useState('');
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
-  const [val, setVal] = useState("");
+  const [val, setVal] = useState('');
   const { user } = useContext(UserContext);
   const { state } = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
@@ -1408,13 +1419,13 @@ export function ClientSearch({ getSearchfacility, clear }) {
 
     await setSimpa(
       obj.firstname +
-        " " +
+        ' ' +
         obj.middlename +
-        " " +
+        ' ' +
         obj.lastname +
-        " " +
+        ' ' +
         obj.gender +
-        " " +
+        ' ' +
         obj.phone
     );
 
@@ -1430,7 +1441,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
   };
   const handleBlur = async (e) => {
     if (count === 2) {
-      console.log("stuff was chosen");
+      console.log('stuff was chosen');
     }
 
     /*  console.log("blur")
@@ -1448,12 +1459,12 @@ export function ClientSearch({ getSearchfacility, clear }) {
   };
   const handleSearch = async (val) => {
     setVal(val);
-    if (val === "") {
+    if (val === '') {
       setShowPanel(false);
       getSearchfacility(false);
       return;
     }
-    const field = "name"; //field variable
+    const field = 'name'; //field variable
 
     if (val.length >= 3) {
       ClientServ.find({
@@ -1462,43 +1473,43 @@ export function ClientSearch({ getSearchfacility, clear }) {
             {
               firstname: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               lastname: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               middlename: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               phone: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               clientTags: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               mrn: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               specificDetails: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
           ],
@@ -1512,22 +1523,22 @@ export function ClientSearch({ getSearchfacility, clear }) {
         },
       })
         .then((res) => {
-          console.log("product  fetched successfully");
+          console.log('product  fetched successfully');
           console.log(res.data);
           setFacilities(res.data);
-          setSearchMessage(" product  fetched successfully");
+          setSearchMessage(' product  fetched successfully');
           setShowPanel(true);
         })
         .catch((err) => {
           toast({
-            message: "Error creating ProductEntry " + err,
-            type: "is-danger",
+            message: 'Error creating ProductEntry ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
         });
     } else {
-      console.log("less than 3 ");
+      console.log('less than 3 ');
       console.log(val);
       setShowPanel(false);
       await setFacilities([]);
@@ -1544,8 +1555,8 @@ export function ClientSearch({ getSearchfacility, clear }) {
   };
   useEffect(() => {
     if (clear) {
-      console.log("success has changed", clear);
-      setSimpa("");
+      console.log('success has changed', clear);
+      setSimpa('');
     }
     return () => {};
   }, [clear]);
@@ -1554,45 +1565,35 @@ export function ClientSearch({ getSearchfacility, clear }) {
     const allFacilities = facilities.map((facility) => {
       return {
         value: facility._id,
-        label: facility.firstname + " " + facility.lastname,
+        label: facility.firstname + ' ' + facility.lastname,
       };
     });
   };
 
   return (
     <div>
-      <div className="field">
+      {/* <div className="field">
         <div className="control has-icons-left  ">
           <div
-            className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{ width: "100%" }}
+            className={`dropdown ${showPanel ? 'is-active' : ''}`}
+            style={{ width: '100%' }}
           >
-            <div className="dropdown-trigger" style={{ width: "100%" }}>
+            <div className="dropdown-trigger" style={{ width: '100%' }}>
               <DebouncedInput
-                label={"Search for Client"}
+                label={'Search for Client'}
                 value={simpa}
                 minLength={3}
                 onBlur={handleBlur}
                 onChangeValue={handleSearch}
                 inputRef={inputEl}
+                style={{ height: '38px' }}
               />
               <span className="icon is-small is-left">
                 <i className="fas fa-search"></i>
               </span>
             </div>
-            <div className="dropdown-menu expanded" style={{ width: "100%" }}>
+            <div className="dropdown-menu expanded" style={{ width: '100%' }}>
               <div className="dropdown-content">
-                {facilities.length > 0 ? (
-                  ""
-                ) : (
-                  <div
-                    className="dropdown-item" /* onClick={handleAddproduct} */
-                  >
-                    {" "}
-                    <span> {val} is not yet your client</span>{" "}
-                  </div>
-                )}
-
                 {facilities.map((facility, i) => (
                   <div
                     className="dropdown-item"
@@ -1601,7 +1602,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
                       handleRow(facility), setCloseDropdown(true);
                     }}
                   >
-                    <div style={{ cursor: "pointer" }}>
+                    <div style={{ cursor: 'pointer' }}>
                       {closeDropdown ? (
                         <></>
                       ) : (
@@ -1610,7 +1611,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
                           <span className="padleft">{facility.middlename}</span>
                           <span className="padleft">{facility.lastname}</span>
                           <span className="padleft">
-                            {" "}
+                            {' '}
                             {formatDistanceToNowStrict(new Date(facility.dob))}
                           </span>
                           <span className="padleft">{facility.gender}</span>
@@ -1626,7 +1627,64 @@ export function ClientSearch({ getSearchfacility, clear }) {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
+      <Autocomplete
+        size="small"
+        value={simpa}
+        onChange={(event, newValue) => {
+          handleRow(newValue);
+          setSimpa('');
+        }}
+        id="free-solo-dialog-demo"
+        options={facilities}
+        getOptionLabel={(option) => {
+          if (typeof option === 'string') {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option.firstname;
+        }}
+        //isOptionEqualToValue={(option, value) => option.id === value.id}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        noOptionsText="No Client found"
+        renderOption={(props, option) => (
+          <li {...props} style={{ fontSize: '0.75rem' }}>
+            {option.firstname}, {option.middlename}, {option.lastname},{' '}
+          </li>
+        )}
+        sx={{
+          width: '100%',
+        }}
+        freeSolo={false}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={label || 'Search for Client'}
+            onChange={(e) => handleSearch(e.target.value)}
+            ref={inputEl}
+            sx={{
+              fontSize: '0.75rem',
+              backgroundColor: '#ffffff',
+              '& .MuiInputBase-input': {
+                height: '0.9rem',
+              },
+            }}
+            InputLabelProps={{
+              shrink: true,
+              style: { color: '#2d2d2d' },
+            }}
+          />
+        )}
+      />
     </div>
   );
 }
+
+
+
+
+
