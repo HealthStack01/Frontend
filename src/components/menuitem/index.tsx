@@ -53,7 +53,13 @@ const MenuItem: React.FC<MenuItemProps> = ({
 
   const rolesSubMenu = isFacility
     ? sortedSubMenus
-    : sortedSubMenus.filter(item => roles.includes(`${name} ${item.name}`));
+    : sortedSubMenus.filter(item => {
+        if (roles.includes(`${name} ${item.name}`)) {
+          return item;
+        } else if (item.name === "Dashboard") {
+          return item;
+        }
+      });
 
   return (
     <NavLink

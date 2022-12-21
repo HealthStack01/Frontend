@@ -6,6 +6,8 @@ import client from "../../../feathers";
 
 import CustomTable from "../../../components/customtable";
 import {ObjectContext} from "../../../context";
+import dayjs from "dayjs";
+import {StyledWatermark} from "./Watermark";
 
 export const PrintOutFixedInformation = ({Clinic}) => {
   const {state, setState} = useContext(ObjectContext);
@@ -472,7 +474,7 @@ export const BilledOrdersPrintOut = forwardRef(({data, Clinic}, ref) => {
 
     {
       name: "Quantity",
-      width: "70px",
+      width: "50px",
       center: true,
       key: "quantity",
       width: "100px",
@@ -564,6 +566,12 @@ export const BilledOrdersPrintOut = forwardRef(({data, Clinic}, ref) => {
           progressPending={false}
         />
       </Box>
+
+      {/* <Box>
+        <Typography sx={{fontSize: "0.75rem"}}>
+          Powered by Healthstack
+        </Typography>
+      </Box> */}
     </Box>
   );
 });
@@ -609,7 +617,9 @@ export const DoctorsNotePrintOut = forwardRef(({data, Clinic}, ref) => {
                     </Typography>
 
                     <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
-                      {value}
+                      {dayjs(value).isValid()
+                        ? dayjs(value).format("DD/MM/YYYY")
+                        : value}
                     </Typography>
                   </Box>
                 </Grid>
@@ -636,7 +646,9 @@ export const DoctorsNotePrintOut = forwardRef(({data, Clinic}, ref) => {
                     </Typography>
 
                     <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
-                      {value}
+                      {dayjs(value).isValid()
+                        ? dayjs(value).format("DD/MM/YYYY")
+                        : value}
                     </Typography>
                   </Box>
                 </Grid>
@@ -793,7 +805,7 @@ export const MedicationListPrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "S/N",
       key: "sn",
       description: "SN",
-      width: "70px",
+      width: "50px",
       center: true,
       selector: (row, i) => i + 1,
       sortable: true,
@@ -825,7 +837,7 @@ export const MedicationListPrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "S/N",
       key: "sn",
       description: "SN",
-      width: "70px",
+      width: "50px",
       center: true,
       selector: (row, i) => i + 1,
       sortable: true,
@@ -907,7 +919,9 @@ export const MedicationListPrintOut = forwardRef(({data, Clinic}, ref) => {
                         <Typography
                           sx={{fontSize: "0.75rem", color: "#000000"}}
                         >
-                          {value}
+                          {dayjs(value).isValid()
+                            ? dayjs(value).format("DD/MM/YYYY")
+                            : value}
                         </Typography>
                       </Box>
                     </Grid>
@@ -981,7 +995,7 @@ export const RadiologyOrdersPrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "S/N",
       key: "sn",
       description: "SN",
-      width: "70px",
+      width: "50px",
       center: true,
       selector: (row, i) => i + 1,
       sortable: true,
@@ -1059,7 +1073,7 @@ export const LaboratoryOrdersPrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "S/N",
       key: "sn",
       description: "SN",
-      width: "70px",
+      width: "50px",
       center: true,
       selector: (row, i) => i + 1,
       sortable: true,
@@ -1137,7 +1151,7 @@ export const PrescriptionPrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "S/N",
       key: "sn",
       description: "SN",
-      width: "70px",
+      width: "50px",
       center: true,
       selector: (row, i) => i + 1,
       sortable: true,
@@ -1225,7 +1239,7 @@ export const AdultQuestionnairePrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "S/N",
       key: "sn",
       description: "SN",
-      width: "70px",
+      width: "50px",
       center: true,
       selector: (row, i) => i + 1,
       sortable: true,
@@ -1293,7 +1307,9 @@ export const AdultQuestionnairePrintOut = forwardRef(({data, Clinic}, ref) => {
                       </Typography>
 
                       <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
-                        {value}
+                        {dayjs(value).isValid()
+                          ? dayjs(value).format("DD/MM/YYYY")
+                          : value}
                       </Typography>
                     </Box>
                   </Grid>
@@ -1328,7 +1344,7 @@ export const PediatricPulmonologyList = forwardRef(({data, Clinic}, ref) => {
       name: "S/N",
       key: "sn",
       description: "SN",
-      width: "70px",
+      width: "50px",
       center: true,
       selector: (row, i) => i + 1,
       sortable: true,
@@ -1360,7 +1376,7 @@ export const PediatricPulmonologyList = forwardRef(({data, Clinic}, ref) => {
       name: "S/N",
       key: "sn",
       description: "SN",
-      width: "70px",
+      width: "50px",
       center: true,
       selector: (row, i) => i + 1,
       sortable: true,
@@ -1432,7 +1448,9 @@ export const PediatricPulmonologyList = forwardRef(({data, Clinic}, ref) => {
                           <Typography
                             sx={{fontSize: "0.75rem", color: "#000000"}}
                           >
-                            {value}
+                            {dayjs(value).isValid()
+                              ? dayjs(value).format("DD/MM/YYYY")
+                              : value}
                           </Typography>
                         </Box>
                       </Grid>
