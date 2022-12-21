@@ -36,6 +36,8 @@ import RadioButton from '../../components/inputs/basic/Radio';
 import TextField from '@mui/material/TextField';
 import { FormsHeaderText } from '../../components/texts';
 import CustomConfirmationDialog from '../../components/confirm-dialog/confirm-dialog';
+import MuiClearDatePicker from '../../components/inputs/Date/MuiClearDatePicker';
+import GroupedRadio from '../../components/inputs/basic/Radio/GroupedRadio';
 
 export default function ClinicAppointments() {
   const { state } = useContext(ObjectContext); //,setState
@@ -280,7 +282,12 @@ export function AppointmentCreate({ showModal, setShowModal }) {
 
   return (
     <>
-      <div className="card ">
+      <div
+        className="card "
+        style={{
+          width: '70vw',
+        }}
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={4}>
@@ -580,9 +587,9 @@ export function ClientList({ showModal, setShowModal }) {
           createdAt: -1,
         },
       };
-      // if (state.employeeLocation.locationType !== "Front Desk") {
-      //   stuff.locationId = state.employeeLocation.locationId;
-      // }
+      if (state.employeeLocation.locationType !== 'Front Desk') {
+        stuff.locationId = state.employeeLocation.locationId;
+      }
 
       const findClient = await ClientServ.find({ query: stuff });
 
@@ -640,9 +647,9 @@ export function ClientList({ showModal, setShowModal }) {
         createdAt: -1,
       },
     };
-    // if (state.employeeLocation.locationType !== "Front Desk") {
-    //   query.locationId = state.employeeLocation.locationId;
-    // }
+    if (state.employeeLocation.locationType !== 'Front Desk') {
+      query.locationId = state.employeeLocation.locationId;
+    }
 
     const findClient = await ClientServ.find({ query: query });
 
@@ -671,9 +678,12 @@ export function ClientList({ showModal, setShowModal }) {
     facilities.map((facility, i) => {
       mapped.push({
         title: facility?.firstname + ' ' + facility?.lastname,
-        start: format(new Date(facility?.start_time), 'yyyy-MM-ddTHH:mm'),
-        end: facility?.end_time,
+        startDate: format(
+          new Date(facility?.start_time.slice(0, 19)),
+          'yyyy-MM-dd HH:mm'
+        ),
         id: i,
+        location: facility?.location_name,
       });
     });
     return mapped;
@@ -704,12 +714,11 @@ export function ClientList({ showModal, setShowModal }) {
                   <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
                     Appointments
                   </h2>
-                  <DatePicker
-                    selected={startDate}
-                    onChange={(date) => handleDate(date)}
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="Filter By Date"
-                    isClearable
+                  <MuiClearDatePicker
+                    value={startDate}
+                    setValue={setStartDate}
+                    label="Filter By Date"
+                    format="dd/MM/yyyy"
                   />
                   {/* <SwitchButton /> */}
                   <Switch>
@@ -746,7 +755,9 @@ export function ClientList({ showModal, setShowModal }) {
                   <CustomTable
                     title={''}
                     columns={AppointmentSchema}
-                    data={facilities}
+                    data={facilities.filter((facility) => {
+                      return facility?.location_type === 'Clinic';
+                    })}
                     pointerOnHover
                     highlightOnHover
                     striped
@@ -815,129 +826,132 @@ export function ClientDetail({ showModal, setShowModal }) {
 
   return (
     <>
-      <Box
-        sx={{
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'right',
-        }}
-        mb={2}
-      >
-        <GlobalCustomButton
-          onClick={handleEdit}
-          text="Edit Appointment Details"
-          customStyles={{
-            marginRight: '5px',
+      <Box sx={{ width: '70vw' }}>
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'right',
           }}
-        />
-        <GlobalCustomButton onClick={handleAttend} text="Attend to Client" />
-      </Box>
-      <Grid container spacing={1} mt={1}>
-        <Grid item xs={12} md={4}>
-          <Input label="First Name" value={Client?.firstname} disabled />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Input label="Middle Name" value={Client?.middlename} disabled />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Input label="Last Name" value={Client?.lastname} disabled />
-        </Grid>
-      </Grid>
-      <Grid container spacing={1} mt={1}>
-        <Grid item xs={12} md={4}>
-          <Input
-            label="Age"
-            value={formatDistanceToNowStrict(new Date(Client.dob))}
-            disabled
-          />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Input label="Gender" value={Client.gender} disabled />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Input label="Phone Number" value={Client?.phone} disabled />
-        </Grid>
-      </Grid>
-      <Grid container spacing={1} my={1}>
-        <Grid item xs={12} md={4}>
-          <Input label="Email" value={Client?.email} disabled />
-        </Grid>
-      </Grid>
-      <hr />
-      <Grid container spacing={1} mt={1}>
-        <Grid item xs={12} md={4}>
-          <Input
-            label="Start Date"
-            value={format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')}
-            disabled
-          />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Input label="Location" value={Client?.location_name} disabled />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Input
-            label="Professional"
-            value={`  ${Client.practitioner_name} (${Client.practitioner_profession})`}
-            disabled
-          />
-        </Grid>
-      </Grid>
-      <Grid container spacing={1} mt={1}>
-        <Grid item xs={12} md={4}>
-          <Input
-            label="Appointment Status"
-            value={Client?.appointment_status}
-            disabled
-          />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Input
-            label="Appointment Class"
-            value={Client?.appointmentClass}
-            disabled
-          />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Input
-            label="Appointment Type"
-            value={Client?.appointment_type}
-            disabled
-          />
-        </Grid>
-      </Grid>
-      <Grid container spacing={1} mt={1}>
-        <Grid item xs={12} md={12}>
-          <label className="label" htmlFor="appointment_reason">
-            Reason for Appointment
-          </label>
-          <textarea
-            className="input is-small"
-            name="appointment_reason"
-            value={Client?.appointment_reason}
-            disabled
-            type="text"
-            placeholder="Appointment Reason"
-            rows="3"
-            cols="50"
-            style={{
-              border: '1px solid #b6b6b6',
-              borderRadius: '4px',
-              color: ' #979DAC',
-              width: '100%',
+          mb={2}
+        >
+          <GlobalCustomButton
+            onClick={handleEdit}
+            text="Edit Appointment Details"
+            customStyles={{
+              marginRight: '5px',
             }}
-          >
-            {' '}
-          </textarea>
+          />
+          <GlobalCustomButton onClick={handleAttend} text="Attend to Client" />
+        </Box>
+        <Grid container spacing={1} mt={1}>
+          <Grid item xs={12} md={4}>
+            <Input label="First Name" value={Client?.firstname} disabled />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Input label="Middle Name" value={Client?.middlename} disabled />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Input label="Last Name" value={Client?.lastname} disabled />
+          </Grid>
         </Grid>
-      </Grid>
+        <Grid container spacing={1} mt={1}>
+          <Grid item xs={12} md={4}>
+            <Input
+              label="Age"
+              value={formatDistanceToNowStrict(new Date(Client.dob))}
+              disabled
+            />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Input label="Gender" value={Client.gender} disabled />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Input label="Phone Number" value={Client?.phone} disabled />
+          </Grid>
+        </Grid>
+        <Grid container spacing={1} my={1}>
+          <Grid item xs={12} md={4}>
+            <Input label="Email" value={Client?.email} disabled />
+          </Grid>
+        </Grid>
+        <hr />
+        <Grid container spacing={1} mt={1}>
+          <Grid item xs={12} md={4}>
+            <Input
+              label="Start Date"
+              value={format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')}
+              disabled
+            />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Input label="Location" value={Client?.location_name} disabled />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Input
+              label="Professional"
+              value={`  ${Client.practitioner_name} (${Client.practitioner_profession})`}
+              disabled
+            />
+          </Grid>
+        </Grid>
+        <Grid container spacing={1} mt={1}>
+          <Grid item xs={12} md={4}>
+            <Input
+              label="Appointment Status"
+              value={Client?.appointment_status}
+              disabled
+            />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Input
+              label="Appointment Class"
+              value={Client?.appointmentClass}
+              disabled
+            />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Input
+              label="Appointment Type"
+              value={Client?.appointment_type}
+              disabled
+            />
+          </Grid>
+        </Grid>
+        <Grid container spacing={1} mt={1}>
+          <Grid item xs={12} md={12}>
+            <label className="label" htmlFor="appointment_reason">
+              Reason for Appointment
+            </label>
+            <textarea
+              className="input is-small"
+              name="appointment_reason"
+              value={Client?.appointment_reason}
+              disabled
+              type="text"
+              placeholder="Appointment Reason"
+              rows="3"
+              cols="50"
+              style={{
+                border: '1px solid #b6b6b6',
+                borderRadius: '4px',
+                color: ' #979DAC',
+                width: '100%',
+              }}
+            >
+              {' '}
+            </textarea>
+          </Grid>
+        </Grid>
+      </Box>
     </>
   );
 }
 
 export function ClientModify({ showModal, setShowModal }) {
-  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
+  const { register, handleSubmit, setValue, reset, errors, control } =
+    useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -954,7 +968,7 @@ export function ClientModify({ showModal, setShowModal }) {
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [appointment_status, setAppointment_status] = useState('');
   const [appointment_type, setAppointment_type] = useState('');
-  const appClass = ['On-site', 'Teleconsultation'];
+  const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
   const [locationId, setLocationId] = useState();
   const [practionerId, setPractionerId] = useState();
   const [success1, setSuccess1] = useState(false);
@@ -1215,12 +1229,10 @@ export function ClientModify({ showModal, setShowModal }) {
                   </>
                 ))}
               </div> */}
-              <RadioButton
+              <GroupedRadio
                 name="appointmentClass"
-                register={register('appointmentClass', { required: true })}
                 options={appClass}
-                value={Client?.appointmentClass}
-                onChange={handleChangeClass}
+                control={control}
               />
             </Grid>
           </Grid>

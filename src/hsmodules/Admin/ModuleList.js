@@ -27,16 +27,16 @@ export default function ModuleList({handlecloseModal}) {
   const [facility, setFacility] = useState();
   const EmployeeServ = client.service("employee");
   const [confirmDialog, setConfirmDialog] = useState(false);
+  const [confirmReset, setConfirmReset] = useState(false);
   //const navigate=useNavigate()
   const {user} = useContext(UserContext); //,setUser
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+  const prevRoles = state.EmployeeModule.selectedEmployee.roles;
+
+  const [checked, setChecked] = useState([...prevRoles]);
+  const [expanded, setExpanded] = useState([]);
   // eslint-disable-next-line
-
-  const {state, setState} = useContext(ObjectContext);
-
-  let draftDoc = {};
-  draftDoc = state.EmployeeModule.selectedEmployee;
-  // console.log(draftDoc)
-
   const mList = [
     "Client",
     "Clinic",
@@ -55,9 +55,14 @@ export default function ModuleList({handlecloseModal}) {
     "Delete Notes",
   ];
 
+  let draftDoc = {};
+  draftDoc = state.EmployeeModule.selectedEmployee;
+  // console.log(draftDoc)
+
   useEffect(() => {
     //  console.log(draftDoc.roles,"loading")
-    console.log(draftDoc);
+    //console.log(draftDoc);
+    //console.log(prevRoles);
 
     Object.entries(draftDoc).map(([keys, value], i) =>
       setValue(keys, value, {
@@ -71,24 +76,33 @@ export default function ModuleList({handlecloseModal}) {
 
   useEffect(() => {
     draftDoc = state.EmployeeModule.selectedEmployee;
+
     return () => {};
   }, [state.EmployeeModule.selectedEmployee]);
 
-  const onSubmit = (data, e) => {
-    e.preventDefault();
+  const updateEmployeeRoles = () => {
+    //e.preventDefault();
+    showActionLoader();
     setMessage("");
     setError(false);
     setSuccess(false);
-    //console.log(data);
+
+    const newRoles = [...checked, ...expanded];
+
+    //return console.log(checked, expanded);
+
+    const oldEmployeeData = state.EmployeeModule.selectedEmployee;
+
+    const newEmployeeData = {...oldEmployeeData, roles: newRoles};
+
+    //return console.log(newEmployeeData);
 
     // if (confirm) {
-    EmployeeServ.patch(draftDoc._id, data) // draftDoc._id
+    EmployeeServ.patch(draftDoc._id, newEmployeeData) // draftDoc._id
       .then(res => {
-        //console.log(JSON.stringify(res))
-        // e.target.reset();
-
-        /*  setMessage("Created Client successfully") */
         setSuccess(true);
+        setConfirmDialog(false);
+        hideActionLoader();
         toast.success("Employee Roles updated succesfully");
         setSuccess(false);
         draftDoc = {};
@@ -105,8 +119,50 @@ export default function ModuleList({handlecloseModal}) {
         handlecloseModal();
       })
       .catch(err => {
+        setConfirmDialog(false);
+        hideActionLoader();
         console.log(err);
         toast.error("Error updating Employee Roles" + err);
+      });
+    // }
+  };
+
+  const resetEmployeeRoles = () => {
+    //e.preventDefault();
+    showActionLoader();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+
+    const oldEmployeeData = state.EmployeeModule.selectedEmployee;
+
+    const newEmployeeData = {...oldEmployeeData, roles: []};
+
+    EmployeeServ.patch(draftDoc._id, newEmployeeData)
+      .then(res => {
+        setSuccess(true);
+        setConfirmDialog(false);
+        hideActionLoader();
+        toast.success("Employee Roles Reset succesfully");
+        setSuccess(false);
+        draftDoc = {};
+
+        const newEmployeeModule = {
+          selectedEmployee: res,
+          show: "detail",
+        };
+        setState(prevstate => ({
+          ...prevstate,
+          EmployeeModule: newEmployeeModule,
+        }));
+
+        handlecloseModal();
+      })
+      .catch(err => {
+        setConfirmDialog(false);
+        hideActionLoader();
+        console.log(err);
+        toast.error("Error Reseting Employee Roles" + err);
       });
     // }
   };
@@ -123,12 +179,11 @@ export default function ModuleList({handlecloseModal}) {
     console.log(state);
   };
 
-  const selectedEmployee = state.EmployeeModule.selectedEmployee;
-
   //console.log(selectedEmployee);
 
-  const [checked, setChecked] = useState([]);
-  const [expanded, setExpanded] = useState([]);
+  const sortedModulesList = modulesList.sort((a, b) =>
+    a.label.localeCompare(b.label)
+  );
 
   return (
     <>
@@ -138,18 +193,15 @@ export default function ModuleList({handlecloseModal}) {
         }}
       >
         <Box sx={{display: "flex", justifyContent: "flex-end"}} gap={1}>
-          <GlobalCustomButton
-            //onClick={() => setConfirmDialog(true)}
-            onClick={() => {
-              console.log(checked);
-              console.log(expanded);
-            }}
-          >
+          <GlobalCustomButton onClick={() => setConfirmDialog(true)}>
             Confirm Roles
           </GlobalCustomButton>
 
-          <GlobalCustomButton color="error" onClick={handlecloseModal}>
-            Cancel
+          <GlobalCustomButton
+            color="warning"
+            onClick={() => setConfirmReset(true)}
+          >
+            Reset Roles
           </GlobalCustomButton>
         </Box>
 
@@ -160,29 +212,26 @@ export default function ModuleList({handlecloseModal}) {
             expanded={expanded}
             onCheck={checked => setChecked(checked)}
             onExpand={expanded => setExpanded(expanded)}
+            checkModel="all"
             //iconsClass="fa5"
           />
         </Box>
-        {/* <CustomConfirmationDialog
+
+        <CustomConfirmationDialog
           open={confirmDialog}
-          cancelAction={() => setConfirmDialog()}
+          cancelAction={() => setConfirmDialog(false)}
           type="update"
-          message="You are about to update roles for the employee?"
-          confirmationAction={handleSubmit(onSubmit)}
+          message="You are about to Update roles for the employee?"
+          confirmationAction={updateEmployeeRoles}
         />
-        <Box mb={1}>
-          <Box>
-            <Typography>Modules:</Typography>
-          </Box>
-          <div className="module-lists-checkboxes">
-            {mList.map((c, i) => (
-              <label className=" is-small" key={c}>
-                <input type="checkbox" value={c} {...register("roles")} />
-                {c + " "}
-              </label>
-            ))}
-          </div>
-        </Box> */}
+
+        <CustomConfirmationDialog
+          open={confirmReset}
+          cancelAction={() => setConfirmReset(false)}
+          type="warning"
+          message="You are about to Reset roles for the employee? This will clear all the Employee roles."
+          confirmationAction={resetEmployeeRoles}
+        />
       </Box>
     </>
   );

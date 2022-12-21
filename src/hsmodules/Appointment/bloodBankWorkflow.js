@@ -361,7 +361,9 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
                   title={''}
                   columns={AppointmentSchema}
                   data={facilities.filter(
-                    (item) => item?.appointment_status === 'Checked In'
+                    (item) =>
+                      item?.appointment_status === 'Checked In' &&
+                      item?.location_type === 'Blood Bank'
                   )}
                   pointerOnHover
                   highlightOnHover
@@ -672,7 +674,9 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
                   title={''}
                   columns={AppointmentSchema}
                   data={facilities.filter(
-                    (item) => item?.appointment_status === 'Checked Out'
+                    (item) =>
+                      item?.appointment_status === 'Checked Out' &&
+                      item?.location_type === 'Blood Bank'
                   )}
                   pointerOnHover
                   highlightOnHover

@@ -1,19 +1,19 @@
-import * as React from 'react';
-import { Box, Typography } from '@mui/material';
-import './styles.scss';
+import * as React from "react";
+import {Box, Typography} from "@mui/material";
+import "./styles.scss";
 
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Slide from '@mui/material/Slide';
-import { TransitionProps } from '@mui/material/transitions';
-import WarningIcon from '@mui/icons-material/Warning';
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Slide from "@mui/material/Slide";
+import {TransitionProps} from "@mui/material/transitions";
+import WarningIcon from "@mui/icons-material/Warning";
 
-import { ObjectContext } from '../../context';
-import GlobalCustomButton from '../buttons/CustomButton';
+import {ObjectContext} from "../../context";
+import GlobalCustomButton from "../buttons/CustomButton";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -28,7 +28,7 @@ interface componentProps {
   open: boolean;
   confirmationAction: () => null;
   cancelAction: () => null;
-  type?: string | 'danger' | 'update' | 'create' | 'neutral';
+  type?: string | "danger" | "update" | "create" | "neutral" | "warning";
   message?: string;
   customActionButtonText?: string;
   customCancelButtonText?: string;
@@ -38,10 +38,10 @@ const CustomConfirmationDialog = ({
   open = false,
   confirmationAction,
   cancelAction,
-  type = 'neutral',
-  message = 'Are you sure you want to continue?',
-  customActionButtonText = 'Continue',
-  customCancelButtonText = 'Cancel',
+  type = "neutral",
+  message = "Are you sure you want to continue?",
+  customActionButtonText = "Continue",
+  customCancelButtonText = "Cancel",
 }: componentProps) => {
   //const {state, setState} = useContext(ObjectContext);
   return (
@@ -62,14 +62,14 @@ const CustomConfirmationDialog = ({
             </div>
 
             <div>
-              <Typography sx={{ fontSize: '0.95rem' }}>{message}</Typography>
+              <Typography sx={{fontSize: "0.95rem"}}>{message}</Typography>
             </div>
           </div>
 
           <div className="confirmation-dialog-actions-container">
             <GlobalCustomButton
               color="error"
-              sx={{ marginRight: '15px' }}
+              sx={{marginRight: "15px"}}
               onClick={cancelAction}
             >
               {customCancelButtonText}

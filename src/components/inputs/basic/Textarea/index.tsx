@@ -14,6 +14,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   onFocus?: any;
   required?: boolean;
   name?: string;
+  //inputRef?: any;
 }
 
 const Textarea: React.FC<TextareaProps> = ({
@@ -41,7 +42,7 @@ const Textarea: React.FC<TextareaProps> = ({
           <div>
             <label>{label}</label>
             <TextareaField
-              ref={useRef()}
+              ref={ref}
               placeholder={placeholder}
               style={sx}
               name={name}
@@ -58,7 +59,6 @@ const Textarea: React.FC<TextareaProps> = ({
     <div>
       <label>{label}</label>
       <TextareaField
-        ref={useRef()}
         placeholder={placeholder}
         style={sx}
         onBlur={handleOnBlur}

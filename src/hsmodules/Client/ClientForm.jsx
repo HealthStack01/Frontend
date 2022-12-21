@@ -106,45 +106,44 @@ const ClientForm = ({closeModal, setOpen}) => {
       checkQuery(query);
     }
 
-    if (!!data.firstname && !!data.lastname && !!data.gender && !!data.dob) {
-      // console.log("simpa")
-      data.middlename = data.middlename || "";
-      (query.gender = data.gender),
-        (query.dob = data.dob),
-        (query.$or = [
-          {
-            firstname: data.firstname,
-            lastname: data.lastname,
-            middlename: data.middlename,
-          },
-          {
-            firstname: data.firstname,
-            lastname: data.middlename,
-            middlename: data.lastname,
-          },
-          {
-            firstname: data.middlename,
-            lastname: data.lastname,
-            middlename: data.firstname,
-          },
-          {
-            firstname: data.middlename,
-            lastname: data.firstname,
-            middlename: data.lastname,
-          },
-          {
-            firstname: data.lastname,
-            lastname: data.firstname,
-            middlename: data.middlename,
-          },
-          {
-            firstname: data.lastname,
-            lastname: data.middlename,
-            middlename: data.firstname,
-          },
-        ]);
-      checkQuery(query);
-    }
+    // if (!!data.firstname && !!data.lastname && !!data.gender && !!data.dob) {
+    //   data.middlename = data.middlename || '';
+    //   (query.gender = data.gender),
+    //     (query.dob = data.dob),
+    //     (query.$or = [
+    //       {
+    //         firstname: data.firstname,
+    //         lastname: data.lastname,
+    //         middlename: data.middlename,
+    //       },
+    //       {
+    //         firstname: data.firstname,
+    //         lastname: data.middlename,
+    //         middlename: data.lastname,
+    //       },
+    //       {
+    //         firstname: data.middlename,
+    //         lastname: data.lastname,
+    //         middlename: data.firstname,
+    //       },
+    //       {
+    //         firstname: data.middlename,
+    //         lastname: data.firstname,
+    //         middlename: data.lastname,
+    //       },
+    //       {
+    //         firstname: data.lastname,
+    //         lastname: data.firstname,
+    //         middlename: data.middlename,
+    //       },
+    //       {
+    //         firstname: data.lastname,
+    //         lastname: data.middlename,
+    //         middlename: data.firstname,
+    //       },
+    //     ]);
+    //   checkQuery(query);
+    // }
   };
 
   const checkQuery = query => {
@@ -598,7 +597,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("bloodgroup")}
                       />
                     </Grid>
-                    <Grid item lg={2} md={4} sm={6} xs={12}>
+                    <Grid item lg={2} md={4} sm={6}>
                       <Input label="Genotype" register={register("genotype")} />
                     </Grid>
 
@@ -663,7 +662,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                     <Grid item lg={8} md={6} sm={12}>
                       <Input
                         label="Co-mobidities"
-                        register={register("nok_comorbidities")}
+                        register={register("comorbidities")}
                       />
                     </Grid>
                   </Grid>

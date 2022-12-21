@@ -15,6 +15,10 @@ export const modulesList = [
     value: "Report",
     label: "Report",
   },
+  {
+    value: "Tasks",
+    label: "Tasks",
+  },
 
   {
     value: "Client",
@@ -403,6 +407,118 @@ export const modulesList = [
       {
         label: "Inventory",
         value: "Blood Bank Inventory",
+      },
+    ],
+  },
+
+  {
+    label: "Referral",
+    value: "Referral",
+
+    children: [
+      {
+        label: "Incoming",
+        value: "Referral Incoming",
+      },
+      {
+        label: "Referral Account",
+        value: "Referral Referral Account",
+      },
+      {
+        label: "Setting",
+        value: "Referral Setting",
+      },
+    ],
+  },
+
+  {
+    label: "Commnunication",
+    value: "Commnunication",
+
+    children: [
+      {
+        label: "Email",
+        value: "Commnunication Email",
+      },
+      {
+        label: "IVR",
+        value: "Commnunication IVR",
+      },
+      {
+        label: "Setting",
+        value: "Commnunication SMS",
+      },
+      {
+        label: "USSD",
+        value: "Commnunication USSD",
+      },
+      {
+        label: "WhatsApp",
+        value: "Commnunication WhatsApp",
+      },
+    ],
+  },
+
+  {
+    label: "Immunization",
+    value: "Immunization",
+
+    children: [
+      {
+        label: "Appointment",
+        value: "Immunization Appointment",
+      },
+      {
+        label: "Checkin/out",
+        value: "Immunization Checkin/out",
+      },
+      {
+        label: "Immunization schedule",
+        value: "Immunization Immunization schedule",
+      },
+      {
+        label: "Inventory",
+        value: "Immunization Inventory",
+      },
+      {
+        label: "Report",
+        value: "Immunization Report",
+      },
+      {
+        label: "Vaccine profile",
+        value: "Immunization Vaccine profile",
+      },
+    ],
+  },
+
+  {
+    label: "Accounting",
+    value: "Accounting",
+
+    children: [
+      {
+        label: "Account",
+        value: "Accounting Account",
+      },
+      {
+        label: "Chart of accounts",
+        value: "Accounting Chart of accounts",
+      },
+      {
+        label: "Expenses",
+        value: "Accounting Expenses",
+      },
+      {
+        label: "Journal",
+        value: "Accounting Journal",
+      },
+      {
+        label: "Payment",
+        value: "Accounting Payment",
+      },
+      {
+        label: "Report",
+        value: "Accounting Report",
       },
     ],
   },

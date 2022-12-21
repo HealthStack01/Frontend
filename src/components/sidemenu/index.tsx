@@ -1,18 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import {useNavigate} from "react-router-dom";
+import {ObjectContext, UserContext} from "../../context";
 
 import MenuItem from "../menuitem";
 import {Lists} from "../menuitem/style";
 import {MainMenu, Sidemenu, TopSection} from "./styles";
 
 export const menuItems = [
-  // {
-  //   name: "Home",
-  //   exact: true,
-  //   to: "/app",
-  //   iconClassName: "bi bi-house-door",
-  //   subMenus: [{name: "Dashboard", to: "/app/overview/dashboard"}],
-  // },
   {
     name: "Client",
     exact: true,
@@ -39,9 +33,41 @@ export const menuItems = [
   {
     name: "Appointments",
     exact: true,
-    to: "/app/global-appointment",
+    to: "/app/appointments",
     iconClassName: "bi bi-calendar",
+    subMenus: [
+      {name: "Blood Bank", to: "/app/appointments/blood-bank"},
+      {name: "Clinic", to: "/app/appointments/clinic"},
+      {name: "CRM", to: "/app/appointments/crm"},
+      {name: "Global", to: "/app/appointments/global"},
+      {name: "Immunization", to: "/app/appointments/immunization"},
+      {name: "Labour Ward", to: "/app/appointments/labour-ward"},
+      {name: "Pharmacy", to: "/app/appointments/pharmacy"},
+      {name: "Radiology", to: "/app/appointments/radiology"},
+      {name: "Referral", to: "/app/appointments/referral"},
+      {name: "Theatre", to: "/app/appointments/theatre"},
+    ],
   },
+
+  {
+    name: "Appt. Workflow",
+    exact: true,
+    to: "/app/appointments/workflow",
+    iconClassName: "bi bi-calendar",
+    subMenus: [
+      {name: "Blood Bank", to: "/app/appointments/workflow/blood-bank"},
+      {name: "Clinic", to: "/app/appointments/workflow/clinic"},
+      {name: "CRM", to: "/app/appointments/workflow/crm"},
+      {name: "Global", to: "/app/appointments/workflow/global"},
+      {name: "Immunization", to: "/app/appointments/workflow/immunization"},
+      {name: "Labour Ward", to: "/app/appointments/workflow/labour-ward"},
+      {name: "Pharmacy", to: "/app/appointments/workflow/pharmacy"},
+      {name: "Radiology", to: "/app/appointments/workflow/radiology"},
+      {name: "Referral", to: "/app/appointments/workflow/referral"},
+      {name: "Theatre", to: "/app/appointments/workflow/theatre"},
+    ],
+  },
+
   {
     name: "Laboratory",
     exact: true,
@@ -177,9 +203,9 @@ export const menuItems = [
     to: "/app/ward",
     iconClassName: "bi bi-person",
     subMenus: [
-      {name: "Admission", to: "/app/ward/admissions"},
+      {name: "Admission List", to: "/app/ward/admissions"},
       {name: "In-Patient", to: "/app/ward/inpatients"},
-      {name: "Discharge", to: "/app/ward/discharge"},
+      {name: "Discharge List", to: "/app/ward/discharge"},
       {name: "Dashboard", to: "/app/ward/dashboard"},
     ],
   },
@@ -356,6 +382,8 @@ export const menuItems = [
 
 function SideMenu({isOpen}) {
   const [inactive, setInactive] = useState(false);
+  const {state} = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -366,14 +394,30 @@ function SideMenu({isOpen}) {
 
   const removeActiveClassFromSubMenu = () => {};
 
-  useEffect(() => {
-    const menuItems = document.querySelectorAll(".menu-item");
+  //console.log("is menu open", isOpen);
 
-    menuItems.forEach(el => {
+  const sortedMenuItems = menuItems.sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+
+  const roles = user.currentEmployee.roles;
+
+  //console.log(user);
+
+  const isFacility = false;
+
+  const rolesMenuList = isFacility
+    ? sortedMenuItems
+    : sortedMenuItems.filter(item => roles.includes(item.name));
+
+  useEffect(() => {
+    const itemsQuery = document.querySelectorAll(".menu-item");
+
+    itemsQuery.forEach(el => {
       el.addEventListener("click", () => {
         const next = el.nextElementSibling;
         removeActiveClassFromSubMenu();
-        menuItems.forEach(el => el.classList.remove("active"));
+        itemsQuery.forEach(el => el.classList.remove("active"));
         el.classList.toggle("active");
 
         if (next !== null) {
@@ -382,41 +426,6 @@ function SideMenu({isOpen}) {
       });
     });
   }, []);
-
-  console.log("is menu open", isOpen);
-
-  const sortedMenuItems = menuItems.sort((a, b) =>
-    a.name.localeCompare(b.name)
-  );
-
-  const roles = [
-    "Bill Client",
-    "Adjust Price",
-    "Delete Notes",
-    "Client Appointment",
-    "Clinic Appointment",
-    "Clinic Checkin",
-    "Clinic Dashboard",
-    "Appointments",
-    "Laboratory Bill Client",
-    "Laboratory Bill Lab Orders",
-    "Laboratory Lab Result",
-    "Laboratory Dashboard",
-    "Pharmacy Bill Client",
-    "Pharmacy Bill Prescription Sent",
-    "Pharmcy Dispensary",
-    "Pharmacy Store Inventory",
-    "Pharmacy Product Entry",
-    "Pharmacy Issue Out",
-    "Pharmacy Dashboard",
-    "Pharmacy",
-    "Laboratory",
-    "Admin",
-  ];
-
-  const rolesMenuList = sortedMenuItems.filter(item =>
-    roles.includes(item.name)
-  );
 
   return (
     <Sidemenu className={`side-menu ${isOpen ? "" : "hide"}`}>
@@ -431,7 +440,7 @@ function SideMenu({isOpen}) {
             to="/app"
             iconClassName="bi bi-house-door"
           />
-          {sortedMenuItems.map((menuItem, index) => (
+          {rolesMenuList.map((menuItem, index) => (
             <>
               <MenuItem
                 key={index}

@@ -178,9 +178,9 @@ export function ClientDiagnosisHistoryCreate() {
           <form onSubmit={handleSubmit(onSubmit)}>
           <div style={{paddingBottom:"1rem"}}>
             <MuiCustomDatePicker
-                  label="Date of Assessment"
-                  register={register("assessment", {required: true})}
-                  name="assessment"
+                  label="Date"
+                  register={register("date", {required: true})}
+                  name="date"
                   control={control}
                 />
             </div>
@@ -199,6 +199,14 @@ export function ClientDiagnosisHistoryCreate() {
                   register={register("diagnosis", {required: true})}
                   name="diagnosis"
                   type="text"
+                />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+            <MuiCustomDatePicker
+                  label="Date of Assessment"
+                  register={register("assessment", {required: true})}
+                  name="assessment"
+                  control={control}
                 />
             </div>
             <GlobalCustomButton

@@ -349,7 +349,8 @@ export default function PatientProfile() {
       <ModalBox
         open={visitModal}
         onClose={() => setVisitModal(false)}
-        header="Client Last Visit"
+        header="Appointment History"
+        height="100%"
       >
         <ClientLastVisit closeModal={() => setVisitModal(false)} />
       </ModalBox>

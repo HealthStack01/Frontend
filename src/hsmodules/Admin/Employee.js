@@ -27,6 +27,7 @@ import EmployeeView from "./EmployeeView";
 import {Portal} from "@mui/material";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -65,11 +66,15 @@ export default function Employee() {
 
   return (
     <>
-      {/* <ModalBox open={createModal} onClose={handleHideCreateModal} width='100%'>
-        <EmployeeCreate />
-      </ModalBox> */}
+      <ModalBox
+        open={createModal}
+        onClose={handleHideCreateModal}
+        header="Create New Employee"
+      >
+        <EmployeeForm open={createModal} setOpen={handleHideCreateModal} />
+      </ModalBox>
 
-      <EmployeeForm open={createModal} setOpen={handleHideCreateModal} />
+      {/* <EmployeeForm open={createModal} setOpen={handleHideCreateModal} /> */}
 
       <ModalBox open={detailModal} onClose={handleHideDetailModal}>
         <EmployeeDetail showModifyModal={handleModifyModal} />
@@ -78,19 +83,11 @@ export default function Employee() {
       <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
         <EmployeeModify />
       </ModalBox>
-      <section className="section remPadTop">
-        {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Employee  Module</span></div>
-            </div> */}
-        <div className="columns ">
-          <div className="column is-8 ">
-            <EmployeeList
-              showCreateModal={handleCreateModal}
-              showDetailModal={handleShowDetailModal}
-            />
-          </div>
-        </div>
-      </section>
+
+      <EmployeeList
+        showCreateModal={handleCreateModal}
+        showDetailModal={handleShowDetailModal}
+      />
     </>
   );
 }
@@ -296,6 +293,7 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
       EmployeeModule: newEmployeeModule,
     }));
     //console.log(state)
+    showCreateModal();
   };
   const handleRow = async Employee => {
     //console.log("b4",state)
@@ -552,18 +550,19 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
                 </h2>
               </div>
 
-              {handleCreateNew && (
-                <GlobalCustomButton onClick={showCreateModal}>
-                  <ControlPointIcon
-                    fontSize="small"
-                    sx={{marginRight: "5px"}}
-                  />
-                  Add New
-                </GlobalCustomButton>
-              )}
+              <GlobalCustomButton onClick={handleCreateNew}>
+                <PersonAddAltIcon fontSize="small" sx={{marginRight: "5px"}} />
+                Add New Employee
+              </GlobalCustomButton>
             </TableMenu>
 
-            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+            <div
+              style={{
+                width: "100%",
+                height: "calc(100vh - 170px)",
+                overflow: "auto",
+              }}
+            >
               <CustomTable
                 title={""}
                 columns={getEmployeeSchema}

@@ -20,6 +20,10 @@
     background-color: #d90429;
   }
 
+  .dialog-warning {
+    background-color: #ff9f1c;
+  }
+
   .confirmation-dialog-content-container {
     width: 100%;
     display: flex;
@@ -51,6 +55,12 @@
     .icon-danger {
       svg {
         fill: #d90429;
+      }
+    }
+
+    .icon-warning {
+      svg {
+        fill: #ff9f1c;
       }
     }
   }

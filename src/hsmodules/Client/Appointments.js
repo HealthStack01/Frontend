@@ -84,9 +84,16 @@ export default function ClientsAppointments() {
   );
 }
 
-export function AppointmentCreate({ showModal, setShowModal }) {
+export function AppointmentCreate({ showModal, setShowModal, openBill }) {
   const { state, setState } = useContext(ObjectContext);
-  const { register, handleSubmit, setValue, control, reset } = useForm(); //, watch, errors, reset
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
@@ -255,6 +262,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
         toast.success(
           'Appointment created succesfully, Kindly bill patient if required'
         );
+        openBill(true);
         setSuccess(false);
         setSuccess1(false);
         setSuccess2(false);
@@ -293,7 +301,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
 
   return (
     <>
-      <div className="card ">
+      <div className="card " style={{ width: '70vw' }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={4}>
@@ -332,6 +340,9 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                 register={register('appointmentClass', { required: true })}
                 options={appClass}
               />
+              {errors.appointmentClass && (
+                <span style={{ color: 'red' }}>This field is required</span>
+              )}
             </Grid>
           </Grid>
           <Grid container spacing={2} sx={{ alignItems: 'center' }}>
@@ -340,6 +351,9 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                 label="Date"
                 register={register('start_time', { required: true })}
               />
+              {errors.start_time && (
+                <span style={{ color: 'red' }}>This field is required</span>
+              )}
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={4}>
               <select
@@ -410,6 +424,9 @@ export function AppointmentCreate({ showModal, setShowModal }) {
               >
                 {' '}
               </textarea>
+              {errors.appointment_reason && (
+                <span style={{ color: 'red' }}>This field is required</span>
+              )}
             </Grid>
           </Grid>
 
@@ -486,7 +503,7 @@ export function ClientList({ showModal, setShowModal }) {
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
-    console.log(Client)
+    console.log(Client);
   };
   //console.log(state.employeeLocation)
 
@@ -809,7 +826,7 @@ export function ClientDetail({ showModal, setShowModal }) {
 
   // console.log(state)
   const Client = state.AppointmentModule.selectedAppointment;
- 
+
   //const client=Client
   const handleEdit = async () => {
     const newClientModule = {
