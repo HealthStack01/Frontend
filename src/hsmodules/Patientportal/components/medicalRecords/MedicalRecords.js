@@ -31,14 +31,14 @@ export default function MedicalRecords ({handleGoBack}){
 
 
     return(
-       <Box  >
+       <Box  px="2rem">
          <Box
           sx={{
             display: "flex",
             alignItems: "center",
           }}
           gap={1}
-          p={4}
+          py={4}
         >
           <Button onClick={handleGoBack}>
             <ArrowBackIcon />
@@ -70,7 +70,7 @@ export default function MedicalRecords ({handleGoBack}){
        </Box>
         } 
           </Box>
-          <Grid container spacing={7}>
+          <Grid container spacing={7} >
           <Grid item xs={6}>
          {!editing ? 
           <CustomSelect

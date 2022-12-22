@@ -8,6 +8,8 @@ import {Box, Grid} from "@mui/material";
 import ModalHeader from "../../components/modal";
 import Input from "../../components/inputs/basic/Input";
 import CustomSelect from "../../components/inputs/basic/Select";
+import {IconButton} from "@mui/material";
+import DeleteOutline from "@mui/icons-material/DeleteOutline";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import {PageWrapper} from "../../ui/styled/styles";
@@ -25,12 +27,42 @@ import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 // eslint-disable-next-line
 const searchfacility = {};
 
+
+export const ProblemData = [
+  {
+    id:1,
+    problem: "Itching",
+    date: "27-10-2022",
+    note: "Lorem ipsum dolor....",
+    assessment: "29-10-2022"
+    
+  },
+  {
+    id: 2,
+    problem: "Sneezing",
+    date: "27-10-2022",
+    note: "Lorem ipsum dolor....",
+    assessment: "29-10-2022"
+    
+  },
+  {
+    id: 3,
+    problem: "Iritation",
+    date: "27-10-2022",
+    note: "Lorem ipsum dolor....",
+    assessment: "29-10-2022"
+    
+  },
+];
+
 export default function ClientProblems() {
   console.log("bands bands bands");
   const {state} = useContext(ObjectContext); //,setState
   const [createModal, setCreateModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
   const [modifyModal, setModifyModal] = useState(false);
+  const [problems, setProblems] = useState([...ProblemData]);
+
   // eslint-disable-next-line
   const [selectedBand, setSelectedBand] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -56,15 +88,24 @@ export default function ClientProblems() {
   const handleHideModifyModal = () => {
     setModifyModal(false);
   };
+
+  
+  const handleDeleteProblem = prob => {
+    setProblems(prev =>
+      prev.filter(item => item.id !== prob.id)
+    );
+  };
+
+
+
   return (
     <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Band  Module</span></div>
-            </div> */}
       <div>
         <ClientProblemsList
           showCreateModal={handleCreateModal}
           showDetailModal={handleShowDetailModal}
+          deleteProblem={handleDeleteProblem}
+          problems={problems}
         />
         <ModalBox width="40vw" open={createModal} onClose={handleHideCreateModal}>
           <ClientProblemsCreate />
@@ -199,14 +240,14 @@ export function ClientProblemsCreate() {
                 />
             </div>
             
-            <div style={{paddingBottom:"1rem"}}>
+            {/* <div style={{paddingBottom:"1rem"}}>
             <MuiCustomDatePicker
                   label="Date of Assessment"
                   register={register("assessment", {required: true})}
                   name="assessment"
                   control={control}
                 />
-            </div>  
+            </div>   */}
             
             <div style={{paddingBottom:"1rem"}}>
               <Textarea
@@ -327,7 +368,7 @@ export function ClientProblemsCreate() {
   );
 }
 
-export function ClientProblemsList({showCreateModal, showDetailModal}) {
+export function ClientProblemsList({showCreateModal, showDetailModal,deleteProblem,problems}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -347,6 +388,7 @@ export function ClientProblemsList({showCreateModal, showDetailModal}) {
   const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
+  
 
   const handleCreateNew = async () => {
     const newBandModule = {
@@ -470,8 +512,11 @@ export function ClientProblemsList({showCreateModal, showDetailModal}) {
     return () => {};
   }, []);
 
+
+ 
+
   //todo: pagination and vertical scroll bar
-  
+const getProblem = (action, disableAction) => {
   const ProblemSchema = [
     {
       name: "Issues",
@@ -502,39 +547,31 @@ export function ClientProblemsList({showCreateModal, showDetailModal}) {
       inputType: "TEXT",
     },
     {
-      name: "Date of Assesment",
-      key: "assessment",
-      description: "Enter date of assessment",
-      selector: row => row.assessment,
+      name: "Del",
+      width: "50px",
+      center: true,
+      key: "action",
+      description: "Enter Date",
+      selector: row => (
+        <IconButton
+          onClick={()=> action(row)}
+          disabled={disableAction}
+          color="error"
+        >
+          <DeleteOutline fontSize="small" />
+        </IconButton>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
-    }
+    },
   ];
+  return ProblemSchema
+}
 
-  const ProblemData = [
-    {
-      problem: "Itching",
-      date: "27-10-2022",
-      note: "Lorem ipsum dolor....",
-      assessment: "29-10-2022"
-      
-    },
-    {
-      problem: "Sneezing",
-      date: "27-10-2022",
-      note: "Lorem ipsum dolor....",
-      assessment: "29-10-2022"
-      
-    },
-    {
-      problem: "Iritation",
-      date: "27-10-2022",
-      note: "Lorem ipsum dolor....",
-      assessment: "29-10-2022"
-      
-    },
-  ];
+  
+
+  const ProblemSchema = getProblem(deleteProblem);
 
   return (
     <>
@@ -577,7 +614,7 @@ export function ClientProblemsList({showCreateModal, showDetailModal}) {
                   // columns={BandSchema}
                   // data={facilities}
                   columns={ProblemSchema}
-                  data={ProblemData}
+                  data={problems}
                   pointerOnHover
                   highlightOnHover
                   striped

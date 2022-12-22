@@ -2,10 +2,10 @@ import { useState } from 'react';
 import {Stack,Box,Typography,Card,CardMedia,CardContent,CardActions,Paper,Grid} from '@mui/material'
 import Input from '../../../../components/inputs/basic/Input'
 import Product from './product'
-import { productData} from './data'
+import { productDetailsData} from './data'
 
 export default function Products(){
-    const [products] = useState(productData)
+    const [products] = useState(productDetailsData)
     const [searchFeild, setSearchFeild] = useState("");
 
     const filterProduct =
