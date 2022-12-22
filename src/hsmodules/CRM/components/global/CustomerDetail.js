@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import ModeEditOutlineOutlined from '@mui/icons-material/ModeEditOutlineOutlined';
 import { Box, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { Toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import GlobalCustomButton from '../../../../components/buttons/CustomButton';
 import Input from '../../../../components/inputs/basic/Input';
 import { FormsHeaderText } from '../../../../components/texts';
