@@ -1,4 +1,4 @@
-import { ViewState } from '@devexpress/dx-react-scheduler';
+import { EditingState, ViewState } from '@devexpress/dx-react-scheduler';
 import {
   Appointments,
   AppointmentTooltip,
@@ -11,6 +11,10 @@ import {
   Toolbar,
   ViewSwitcher,
   WeekView,
+  AppointmentForm,
+  DragDropProvider,
+  Resources,
+  EditRecurrenceMenu,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { Paper } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -83,8 +87,22 @@ const Appointment = ({ children, style, ...restProps }) => (
     {children}
   </Appointments.Appointment>
 );
+const Layout = ({ children, style, ...restProps }) => (
+  <AppointmentTooltip.Content {...restProps} style={{}}>
+    {children}
+  </AppointmentTooltip.Content>
+);
 const CalendarGrid = ({ appointments }) => {
   console.log('Grid View', appointments);
+
+  // const resources = [
+  //   {
+  //     fieldName: 'clientId',
+  //     title: 'Client',
+  //     instances: details,
+  //   },
+  // ];
+
   return (
     <Paper>
       <Scheduler data={appointments}>
@@ -92,6 +110,7 @@ const CalendarGrid = ({ appointments }) => {
           defaultCurrentDate={new Date()}
           defaultCurrentViewName="Week"
         />
+        {/* <EditingState onCommitChanges={() => console.log('commit')} /> */}
         <DayView startDayHour={0} endDayHour={24} />
         <WeekView
           startDayHour={0}
@@ -99,14 +118,18 @@ const CalendarGrid = ({ appointments }) => {
           timeTableCellComponent={TimeTableCell}
           dayScaleCellComponent={DayScaleCell}
         />
+
         {/* <MonthView startDayHour={0} endDayHour={24} /> */}
         <Toolbar />
         <DateNavigator />
         <TodayButton />
         <ViewSwitcher />
         <Appointments appointmentComponent={Appointment} />
-        <AppointmentTooltip showCloseButton showOpenButton />
-        {/* <AppointmentForm /> */}
+        {/* <Resources data={resources} /> */}
+        {/* <EditRecurrenceMenu /> */}
+        <AppointmentTooltip showCloseButton contentComponent={Layout} />
+        <AppointmentForm />
+        {/* <DragDropProvider /> */}
       </Scheduler>
     </Paper>
   );

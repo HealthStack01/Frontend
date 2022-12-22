@@ -53,7 +53,7 @@ export const AppointmentSchema = [
     name: 'Location',
     key: 'location',
     description: 'Location',
-    selector: (row) => row.location_type,
+    selector: (row) => row.location_name,
     sortable: true,
     required: true,
     inputType: 'TEXT',
