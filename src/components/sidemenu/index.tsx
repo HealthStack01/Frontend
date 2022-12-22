@@ -325,6 +325,12 @@ export const menuItems = [
     ],
   },
   {
+    name: 'Market Place',
+    exact: true,
+    to: '/app/market-place',
+    iconClassName: 'bi bi-house-door',
+  },
+  {
     name: 'Accounting',
     exact: true,
     to: '/app/accounting',
