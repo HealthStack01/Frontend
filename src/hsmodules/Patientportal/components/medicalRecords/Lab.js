@@ -77,11 +77,11 @@ export function LabReport({showLabCreateModal,handleGoBack }){
        </Box>
       <Box
         sx={{
-          width: "100%",
+          width: "90%",
           display: "flex",
           padding: "8px 8px",
           justifyContent: "space-between",
-          margin:"5rem",
+          margin:"3rem",
           boxShadow: 2,
           borderRadius: "7.5px",
           cursor:"pointer"
@@ -134,8 +134,8 @@ export function LabReport({showLabCreateModal,handleGoBack }){
         
       </Box>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-      <List>
-      <Grid container alignItems="center" pb="1rem">
+      <Box px="5rem">
+      <Grid container alignItems="center" pb="1rem"  >
           <Grid item xs>
           <Typography>Macroscopy</Typography>
           </Grid>
@@ -175,7 +175,7 @@ export function LabReport({showLabCreateModal,handleGoBack }){
           <Typography>Dr. Aniebiet Ubaha</Typography>
           <Typography>Microbiologist</Typography>
       </Box>
-    </List>
+    </Box>
       </Collapse>
       
       </Stack>

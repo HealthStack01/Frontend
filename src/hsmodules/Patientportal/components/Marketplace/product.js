@@ -6,9 +6,7 @@ import {useNavigate} from "react-router-dom"
 export default function Product({product}){
  const navigate = useNavigate()
     return(
-        <Box>
-           
-  
+    <Box> 
     <Card sx={{ width: "250px"}} onClick={() => navigate(`/app/patient-portal/buy/${product.id}`)}>
     <CardMedia
       component="img"
@@ -28,6 +26,11 @@ export default function Product({product}){
         {product?.price}
       </Typography>
       </Stack>
+      <Stack pt="1rem">
+            <Typography variant="p" fontSize="14px" fontWeight="bold" color="text.secondary">
+             {product?.review} reviews
+            </Typography>
+            </Stack>
     </CardContent>
   </Card> 
  
