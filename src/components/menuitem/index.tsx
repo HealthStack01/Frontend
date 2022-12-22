@@ -49,9 +49,11 @@ const MenuItem: React.FC<MenuItemProps> = ({
     "Admin Employees",
   ];
 
-  const isFacility = false;
+  const isOrgAdmin = roles.includes("Admin");
 
-  const rolesSubMenu = isFacility
+  //console.log(isOrgAdmin);
+
+  const rolesSubMenu = isOrgAdmin
     ? sortedSubMenus
     : sortedSubMenus.filter(item => {
         if (roles.includes(`${name} ${item.name}`)) {

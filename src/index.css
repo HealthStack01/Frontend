@@ -65,6 +65,10 @@ html {
   color: #ffffff;
   margin: 0;
 }
+
+.lnndaO {
+  white-space: pre-line !important;
+}
 /* .MuiDrawer-paper {
   top: 5rem !important;
   padding: 0.5rem !important;

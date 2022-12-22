@@ -34,6 +34,8 @@ export default function ModuleList({handlecloseModal}) {
     useContext(ObjectContext);
   const prevRoles = state.EmployeeModule.selectedEmployee.roles;
 
+  //console.log(prevRoles);
+
   const [checked, setChecked] = useState([...prevRoles]);
   const [expanded, setExpanded] = useState([]);
   // eslint-disable-next-line
@@ -185,6 +187,12 @@ export default function ModuleList({handlecloseModal}) {
     a.label.localeCompare(b.label)
   );
 
+  const facilityModules = user.currentEmployee?.facilityDetail?.facilityModules;
+
+  const facilityModulesList =
+    facilityModules &&
+    modulesList.filter(item => facilityModules.includes(item.value));
+
   return (
     <>
       <Box
@@ -207,7 +215,7 @@ export default function ModuleList({handlecloseModal}) {
 
         <Box>
           <CheckboxTree
-            nodes={modulesList}
+            nodes={facilityModulesList || modulesList}
             checked={checked}
             expanded={expanded}
             onCheck={checked => setChecked(checked)}

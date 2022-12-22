@@ -61,7 +61,6 @@ const TotalPharmacySaleWithinARangeOf30Day = (service, lt, gt) => {
   };
 };
 
-
 const TotalPharmacyStockWithinARangeOf30Day = (service, lt, gt) => {
   var dayGT = 24 * 60 * 60 * 1000 * gt;
   var dayLT = 24 * 60 * 60 * 1000 * lt;

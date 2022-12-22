@@ -57,6 +57,7 @@ function Login() {
         navigate("/app");
       })
       .catch(err => {
+        setLoading(false);
         toast.error(`Error loggin in User, probable network issues  ${err}`);
       });
   };
@@ -107,27 +108,7 @@ function Login() {
                 />
               </FormGroup>
             </FormControl>
-            <p>
-              Forgot password?
-              <Link
-                className="nav-link"
-                style={{
-                  padding: "0",
-                  background: "transparent",
-                  color: "blue",
-                  marginLeft: "0.6rem",
-                }}
-                to="/forgot-password"
-              >
-                Click here
-              </Link>
-            </p>
-            {/* <Button
-              type="submit"
-              label="Login"
-              fullwidth="true"
-              loading={loading}
-            /> */}
+
             <GlobalCustomButton
               onClick={handleSubmit(onSubmit)}
               loading={loading}
@@ -146,6 +127,33 @@ function Login() {
             </GlobalCustomButton>
           </form>
 
+          <Box
+            sx={{
+              display: "flex",
+              height: "40px",
+              boxShadow: 3,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            mt={2}
+          >
+            <p>
+              Forgot password?{" "}
+              <Link
+                className="nav-link"
+                style={{
+                  padding: "0",
+                  background: "transparent",
+                  color: "blue",
+                  margin: "0",
+                }}
+                to="/forgot-password"
+              >
+                Click here
+              </Link>
+            </p>
+          </Box>
+
           <div className="bottom-center">
             <p>or continue with</p>
             <a href="#">
@@ -158,21 +166,32 @@ function Login() {
               <i className="bi bi-linkedin" />
             </a>
 
-            <p>
-              Want to create organization?
-              <Link
-                className="nav-link"
-                style={{
-                  padding: "0",
-                  background: "transparent",
-                  color: "blue",
-                  marginLeft: "0.6rem",
-                }}
-                to="/signup"
-              >
-                Click here
-              </Link>
-            </p>
+            <Box
+              sx={{
+                display: "flex",
+                height: "40px",
+                boxShadow: 3,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              mt={2}
+            >
+              <p>
+                Want to create organization?{" "}
+                <Link
+                  className="nav-link"
+                  style={{
+                    padding: "0",
+                    background: "transparent",
+                    color: "blue",
+                    margin: "0",
+                  }}
+                  to="/signup"
+                >
+                  Click here
+                </Link>
+              </p>
+            </Box>
           </div>
         </AuthWrapper>
       )}

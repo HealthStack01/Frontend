@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 
 const useFetchOrder = (service, query) => {
   const [data, setData] = useState({});
@@ -19,20 +19,20 @@ const useFetchOrder = (service, query) => {
           $limit: 1000,
         },
       })
-      .then((result) => {
+      .then(result => {
         // Once both return, update the stat
 
         setIsPending(false);
         setData(result);
         setError(null);
       })
-      .catch((error) => {
+      .catch(error => {
         setError(error);
       });
-    service.on("created", (data) => {});
+    service.on("created", data => {});
   }, [service, facilityId]);
 
-  return { data, isPending, error };
+  return {data, isPending, error};
 };
 
 export default useFetchOrder;

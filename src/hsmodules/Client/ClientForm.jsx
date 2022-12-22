@@ -390,6 +390,15 @@ const ClientForm = ({closeModal, setOpen}) => {
                         type="text"
                       />
                     </Grid>
+
+                    <Grid item lg={3} md={4} sm={6}>
+                      <Input
+                        label="LGA"
+                        type="text"
+                        register={register("lga")}
+                      />
+                    </Grid>
+
                     <Grid item lg={3} md={4} sm={6}>
                       <Input
                         label="State"
@@ -425,6 +434,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                       display: "flex",
                       justifyContent: "flex-end",
                     }}
+                    mt={2}
                   >
                     <GlobalCustomButton
                       color="warning"
@@ -673,6 +683,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                       display: "flex",
                       justifyContent: "flex-end",
                     }}
+                    mt={2}
                   >
                     <GlobalCustomButton
                       color="warning"

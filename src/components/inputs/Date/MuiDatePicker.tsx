@@ -95,21 +95,20 @@ const MuiCustomDatePicker = ({
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label={
-              <Box sx={{display: "flex"}}>
-                <Typography>
-                  {label}
-                  {important && (
-                    <AcUnitIcon
-                      sx={{
-                        color: "red",
-                        width: "15px",
-                        height: "15px",
-                        marginBottom: "0px",
-                      }}
-                    />
-                  )}
-                </Typography>
-              </Box>
+              <>
+                {label}
+                {important && (
+                  <AcUnitIcon
+                    sx={{
+                      color: "red",
+                      width: "15px",
+                      height: "15px",
+                      margin: "0px",
+                      padding: "0",
+                    }}
+                  />
+                )}
+              </>
             }
             value={value}
             inputFormat={format}
@@ -119,6 +118,22 @@ const MuiCustomDatePicker = ({
             renderInput={params => (
               <TextField
                 name={name}
+                label={
+                  <>
+                    {label}
+                    {important && (
+                      <AcUnitIcon
+                        sx={{
+                          color: "red",
+                          width: "15px",
+                          height: "15px",
+                          margin: "0px",
+                          padding: "0",
+                        }}
+                      />
+                    )}
+                  </>
+                }
                 onBlur={onBlur}
                 size="small"
                 {...params}
