@@ -406,15 +406,29 @@ function SideMenu({ isOpen }) {
     a.name.localeCompare(b.name)
   );
 
+  //const orgModules = state.facilityDetail
+
+  //const organitionMenuItems = orgModules.filter(item => orgModules.includes(item.name) )
+
   const roles = user.currentEmployee.roles;
 
-  //console.log(user);
+  //console.log(user.currentEmployee.facilityDetail.facilityModules);
 
-  const isFacility = false;
+  const isOrgAdmin = roles.includes("Admin");
 
-  const rolesMenuList = isFacility
-    ? sortedMenuItems
-    : sortedMenuItems.filter((item) => roles.includes(item.name));
+  const facilityModules = user.currentEmployee.facilityDetail?.facilityModules;
+
+  const facilitySortedMenuItems =
+    facilityModules &&
+    sortedMenuItems.filter(item => facilityModules.includes(item.name));
+
+  const getFacilitySortedMenuItems = facilitySortedMenuItems || sortedMenuItems;
+
+
+  const rolesMenuList = isOrgAdmin
+    ? getFacilitySortedMenuItems
+    : getFacilitySortedMenuItems.filter(item => roles.includes(item.name));
+
 
   useEffect(() => {
     const itemsQuery = document.querySelectorAll('.menu-item');

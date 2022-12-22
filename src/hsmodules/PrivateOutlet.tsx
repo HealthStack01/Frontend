@@ -9,11 +9,12 @@ import Dashboard from "./Dashboard/Dashboard";
 const PrivateOutlet = () => {
   // const { user: data } = useContext(UserContext);
   const {state, setState} = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
 
   const {longitude, latitude} = GetUserLocation();
 
-  const data = localStorage.getItem("user");
-  const user = JSON.parse(data);
+  // const data = localStorage.getItem("user");
+  // const user = JSON.parse(data);
 
   useEffect(() => {
     setState(prev => ({

@@ -14,7 +14,9 @@ const ContactsList = ({
   deleteContact,
   standalone,
 }) => {
-  const handleRow = () => [openDetailModal()];
+  const handleRow = () => {
+    openDetailModal();
+  };
   //first param is passed to the delete element on the table and the second param (false) decides whether or not the delete button is disabled
   const contactColumns = getContactColumns(deleteContact, false, standalone);
   return (

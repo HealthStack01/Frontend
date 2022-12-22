@@ -9,5 +9,5 @@ export const userDetails = () => {
 
   const facilityFullName = parse.employeeData[0].facilityDetail.facilityName;
 
-  return { userFullName, facilityFullName, facilityId };
+  return {userFullName, facilityFullName, facilityId};
 };

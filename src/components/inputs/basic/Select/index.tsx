@@ -5,6 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import React, {SelectHTMLAttributes, useEffect, useState} from "react";
 import {Controller} from "react-hook-form";
+import AcUnitIcon from "@mui/icons-material/AcUnit";
 import {toast} from "react-toastify";
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
@@ -19,6 +20,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   disabled?: boolean;
   control?: any;
   required?: boolean;
+  important?: boolean;
 }
 
 const CustomSelect: React.FC<SelectProps> = ({
@@ -33,6 +35,7 @@ const CustomSelect: React.FC<SelectProps> = ({
   disabled = false,
   control,
   required = false,
+  important,
 }) => {
   //.log(options);
 
@@ -46,6 +49,8 @@ const CustomSelect: React.FC<SelectProps> = ({
       >
         <InputLabel
           shrink
+          className="form__label"
+          htmlFor={name}
           sx={{
             "&.MuiInputLabel-root": {
               color: "black",
@@ -57,6 +62,9 @@ const CustomSelect: React.FC<SelectProps> = ({
           }}
         >
           {label}
+          {important && (
+            <AcUnitIcon sx={{color: "red", width: "16px", height: "16px"}} />
+          )}
         </InputLabel>
 
         <Controller
@@ -70,7 +78,16 @@ const CustomSelect: React.FC<SelectProps> = ({
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              label={label}
+              label={
+                <>
+                  {label}{" "}
+                  {important && (
+                    <AcUnitIcon
+                      sx={{color: "red", width: "14px", height: "14px"}}
+                    />
+                  )}
+                </>
+              }
               disabled={disabled || readonly}
               notched
               value={value}
@@ -87,12 +104,12 @@ const CustomSelect: React.FC<SelectProps> = ({
                 },
               }}
             >
-              <MenuItem value="" sx={{width: "100%"}}>
+              {/* <MenuItem value="" sx={{width: "100%"}}>
                 <em>None</em>
-              </MenuItem>
+              </MenuItem> */}
               {options.map((option, index) => (
                 <MenuItem
-                  value={option.value ? option.value : option}
+                  value={option.value ? option.value : option.toLowerCase()}
                   key={index}
                   sx={{width: "100%"}}
                 >
@@ -150,9 +167,9 @@ const CustomSelect: React.FC<SelectProps> = ({
         {...register}
         value={defaultValue}
       >
-        <MenuItem value="" sx={{width: "100%"}}>
+        {/* <MenuItem value="" sx={{width: "100%"}}>
           <em>None</em>
-        </MenuItem>
+        </MenuItem> */}
         {options.map((option, index) => (
           <MenuItem
             value={option.value ? option.value : option}

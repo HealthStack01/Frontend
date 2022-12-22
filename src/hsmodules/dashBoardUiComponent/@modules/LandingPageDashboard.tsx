@@ -1,7 +1,7 @@
-import { Box, Typography } from "@mui/material"; //Stack,
-import React, { useEffect, useState } from "react";
+import {Box, Typography} from "@mui/material"; //Stack,
+import React, {useEffect, useState} from "react";
 
-import { userDetails } from "../utils/fetchUserDetails";
+import {userDetails} from "../utils/fetchUserDetails";
 
 import ViewCard from "./@sections/ViewCard";
 import LineChart from "../charts/LineChart";
@@ -19,7 +19,7 @@ import {
   // ModelResult,
 } from "../utils/chartData/chartDataHandler";
 
-import { CircleSeriesData } from "../utils/chartData/circleSeries";
+import {CircleSeriesData} from "../utils/chartData/circleSeries";
 import {
   clientLineData,
   AdmittedAndDischargedPatientLineData,
@@ -31,7 +31,7 @@ import {
   StartCardWapper,
 } from "../core-ui/styles";
 import CircleChart from "../charts/CircleChart";
-import { MaleAndFemaleColumnSeriesData } from "../utils/chartData/columeData";
+import {MaleAndFemaleColumnSeriesData} from "../utils/chartData/columeData";
 // import { TotalModeltDataForPresent } from "../utils/chartData/queryHandler";
 
 const LandingPageDashboard = () => {
@@ -44,28 +44,28 @@ const LandingPageDashboard = () => {
 
   const orderService = client.service("order");
 
-  const { totalValue } = TotalNumOfData(clientService);
-  const { totalNewClient } = TotalNewClientWithinAMonth(appointmentService);
-  const { totalUpcomingAppointment } = TotalUpcomingAppointment(clientService);
-  const { monthNameForCurrentYear, newClientLineSeriesData } =
+  const {totalValue} = TotalNumOfData(clientService);
+  const {totalNewClient} = TotalNewClientWithinAMonth(appointmentService);
+  const {totalUpcomingAppointment} = TotalUpcomingAppointment(clientService);
+  const {monthNameForCurrentYear, newClientLineSeriesData} =
     clientLineData(clientService);
-  const { circleSeriesArray } = CircleSeriesData(clientService);
-  const { paymentModeBarSeries } = ClientPaymentMode(clientService);
-  const { totalDischargedPatient } = TotalDischargedPatient(admissionService);
-  const { totalAdmittedPatient } = TotalAdmittedPatient(admissionService);
+  const {circleSeriesArray} = CircleSeriesData(clientService);
+  const {paymentModeBarSeries} = ClientPaymentMode(clientService);
+  const {totalDischargedPatient} = TotalDischargedPatient(admissionService);
+  const {totalAdmittedPatient} = TotalAdmittedPatient(admissionService);
   const totalInPatient = totalAdmittedPatient - totalDischargedPatient;
 
-  const { admittedAndDischargedPatientLineSeriesData } =
+  const {admittedAndDischargedPatientLineSeriesData} =
     AdmittedAndDischargedPatientLineData(admissionService);
 
-  const { genderPatientXAxisLabel, maleAndFemaleColumnSeriesData } =
+  const {genderPatientXAxisLabel, maleAndFemaleColumnSeriesData} =
     MaleAndFemaleColumnSeriesData(admissionService);
 
   /**
    * test
    */
 
-  const { totalOrderByDestination } = FetchOrderByDestination(orderService);
+  const {totalOrderByDestination} = FetchOrderByDestination(orderService);
   // const { modelResult } = ModelResult(admissionService);
 
   console.log("model data ===>", {
@@ -73,7 +73,7 @@ const LandingPageDashboard = () => {
     totalOrderByDestination: totalOrderByDestination,
   });
   useEffect(() => {
-    const { userFullName, facilityFullName } = userDetails();
+    const {userFullName, facilityFullName} = userDetails();
     setUserName(userFullName);
     setFacilityName(facilityFullName);
   }, []);
@@ -107,11 +107,11 @@ const LandingPageDashboard = () => {
               display: "grid",
               width: "100%",
               gridGap: "10px",
-              gridTemplateColumns: { lg: "repeat(3, 1fr)", xs: "1fr" },
+              gridTemplateColumns: {lg: "repeat(3, 1fr)", xs: "1fr"},
             }}
           >
             {/* 1st column */}
-            <Box sx={{ width: "100%", p: 2 }}>
+            <Box sx={{width: "100%", p: 2}}>
               <ColumnChart
                 title="Payment Mode"
                 series={paymentModeBarSeries}
@@ -125,7 +125,7 @@ const LandingPageDashboard = () => {
             </Box>
 
             {/* 2nd column */}
-            <Box sx={{ width: "100%", p: 2 }}>
+            <Box sx={{width: "100%", p: 2}}>
               <LineChart
                 title="New Clients"
                 monthArray={monthNameForCurrentYear}
@@ -139,7 +139,7 @@ const LandingPageDashboard = () => {
             </Box>
 
             {/* 3rd column */}
-            <Box sx={{ width: "100%", p: 2 }}>
+            <Box sx={{width: "100%", p: 2}}>
               <CircleChart
                 series={circleSeriesArray}
                 labels={["Male", "Female", "Other"]}

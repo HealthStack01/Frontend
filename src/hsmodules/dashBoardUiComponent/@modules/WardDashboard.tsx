@@ -1,5 +1,5 @@
-import { Box, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import {Box, Typography} from "@mui/material";
+import React, {useEffect, useState} from "react";
 
 import ViewCard from "./@sections/ViewCard";
 import ViewCardWithFilter from "./@sections/ViewCardWithFilter";
@@ -26,9 +26,9 @@ import {
   getReAdmissionWithIn30Days,
   AverageLengthOfStayed,
 } from "../utils/chartData/queryHandler";
-import { CircleSeriesData } from "../utils/chartData/circleSeries";
-import { AdmittedAndDischargedPatientLineData } from "../utils/chartData/LineData";
-import { MaleAndFemaleColumnSeriesData } from "../utils/chartData/columeData";
+import {CircleSeriesData} from "../utils/chartData/circleSeries";
+import {AdmittedAndDischargedPatientLineData} from "../utils/chartData/LineData";
+import {MaleAndFemaleColumnSeriesData} from "../utils/chartData/columeData";
 
 import {
   DashboardContainer,
@@ -36,42 +36,38 @@ import {
   StartCardWapper,
 } from "../core-ui/styles";
 import ColumnChart from "../charts/ColumnChart";
-import { userDetails } from "../utils/fetchUserDetails";
+import {userDetails} from "../utils/fetchUserDetails";
 
 const WardDashboard = () => {
   const clientService = client.service("/client");
   const admissionService = client.service("/admission");
   // const locationService = client.service("/location");
 
-  const { circleSeriesArray } = CircleSeriesData(clientService);
-  const { totalDischargedPatient, isPending: totalDischargedIsLoading } =
+  const {circleSeriesArray} = CircleSeriesData(clientService);
+  const {totalDischargedPatient, isPending: totalDischargedIsLoading} =
     TotalDischargedPatient(admissionService);
-  const { totalAdmittedPatient } = TotalAdmittedPatient(admissionService);
+  const {totalAdmittedPatient} = TotalAdmittedPatient(admissionService);
   const totalInPatient = totalAdmittedPatient - totalDischargedPatient; //
-  const {
-    monthNameForCurrentYear,
-    admittedAndDischargedPatientLineSeriesData,
-  } = AdmittedAndDischargedPatientLineData(admissionService);
+  const {monthNameForCurrentYear, admittedAndDischargedPatientLineSeriesData} =
+    AdmittedAndDischargedPatientLineData(admissionService);
 
-  const { genderPatientXAxisLabel, maleAndFemaleColumnSeriesData } =
+  const {genderPatientXAxisLabel, maleAndFemaleColumnSeriesData} =
     MaleAndFemaleColumnSeriesData(admissionService);
-  const { totalPendingAdmissions } = PendingAdmission(admissionService);
-  const { reAdmissionRate } = getReAdmissionWithIn30Days(admissionService);
-  const {
-    totalPresentDataObject: patientAdmittedPresentDataObject,
-    isLoading,
-  } = TotalModeltDataForPresent(
-    admissionService,
-    FetchTotalAdmittedWithInPresentRange
-  );
+  const {totalPendingAdmissions} = PendingAdmission(admissionService);
+  const {reAdmissionRate} = getReAdmissionWithIn30Days(admissionService);
+  const {totalPresentDataObject: patientAdmittedPresentDataObject, isLoading} =
+    TotalModeltDataForPresent(
+      admissionService,
+      FetchTotalAdmittedWithInPresentRange
+    );
 
-  const { totalPresentDataObject: patientDischargedPresentDataObject } =
+  const {totalPresentDataObject: patientDischargedPresentDataObject} =
     TotalModeltDataForPresent(
       admissionService,
       FetchTotalDischargedWithInPresentRange
     );
 
-  const { averageLengthOfStayed } = AverageLengthOfStayed(admissionService);
+  const {averageLengthOfStayed} = AverageLengthOfStayed(admissionService);
 
   // const { totalValue: totalLocation } = TotalNumOfData(locationService); //
   // const { wardDataArray, totalBedSpaces } = TotalBedSpaces(locationService);
@@ -108,7 +104,7 @@ const WardDashboard = () => {
   const [facilityName, setFacilityName] = useState("");
 
   useEffect(() => {
-    const { userFullName, facilityFullName } = userDetails();
+    const {userFullName, facilityFullName} = userDetails();
     setUserName(userFullName);
     setFacilityName(facilityFullName);
   }, []);
@@ -154,10 +150,10 @@ const WardDashboard = () => {
               display: "grid",
               width: "100%",
               gridGap: "10px",
-              gridTemplateColumns: { lg: "repeat(3, 1fr)", xs: "1fr" },
+              gridTemplateColumns: {lg: "repeat(3, 1fr)", xs: "1fr"},
             }}
           >
-            <Box sx={{ width: "100%", pt: 1, pb: 2 }}>
+            <Box sx={{width: "100%", pt: 1, pb: 2}}>
               <LineChart
                 title="2022"
                 monthArray={monthNameForCurrentYear}
@@ -169,14 +165,14 @@ const WardDashboard = () => {
                 xLabels={dayNameArr}
               />
             </Box>
-            <Box sx={{ width: "100%", pt: 1, pb: 2 }}>
+            <Box sx={{width: "100%", pt: 1, pb: 2}}>
               <ColumnChart
                 title="Patient Age"
                 series={maleAndFemaleColumnSeriesData}
                 xLabels={genderPatientXAxisLabel}
               />
             </Box>
-            <Box sx={{ width: "100%", pt: 1, pb: 20 }}>
+            <Box sx={{width: "100%", pt: 1, pb: 20}}>
               <ViewCard count={reAdmissionRate} title="Readmission Rate" />
               <ViewCard
                 count={averageLengthOfStayed}

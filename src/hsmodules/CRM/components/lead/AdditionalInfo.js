@@ -28,11 +28,11 @@ const AdditionalInformationCard = ({action, data}) => {
         }}
       >
         <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
-          {moment(data.created_at).format("L")}
+          {moment(data.date).format("L")}
         </Typography>
 
         <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
-          {moment(data.created_at).format("LT")}
+          {moment(data.date).format("LT")}
         </Typography>
       </Box>
 
@@ -40,11 +40,16 @@ const AdditionalInformationCard = ({action, data}) => {
         <Box sx={{width: "100%"}}>
           <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
             <span
-              style={{fontSize: "0.8rem", color: "#0064CC", marginRight: "3px"}}
+              style={{
+                fontSize: "0.8rem",
+                color: "#0064CC",
+                marginRight: "3px",
+                textTransform: "capitalize",
+              }}
             >
-              {data.created_by} -
+              {data.employeename} -
             </span>
-            {data.information}
+            {data.info}
           </Typography>
         </Box>
       </Box>

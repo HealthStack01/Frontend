@@ -800,32 +800,78 @@ export default function EncounterMain({nopresc, chosenClient}) {
                         {Array.isArray(Clinic.documentdetail) ? (
                           Object.entries(Clinic.documentdetail).map(
                             ([keys, value], i) => (
-                              <div className="field is-horizontal">
-                                <div className="field-label">
-                                  <label className="label is-size-7" key={i}>
-                                    {keys}:
-                                  </label>
-                                </div>
-                                <div className="field-body">
-                                  <div className="field">{value}</div>
-                                </div>
-                              </div>
+                              <>
+                                <Box
+                                  sx={{height: "auto", width: "100%"}}
+                                  key={i}
+                                >
+                                  <Grid container spacing={2}>
+                                    <Grid item xs={12}>
+                                      <Box sx={{display: "flex"}}>
+                                        <Typography
+                                          sx={{
+                                            fontSize: "0.75rem",
+                                            fontWeight: "600",
+                                            color: "#03045e",
+                                            marginRight: "5px",
+                                          }}
+                                        >
+                                          {keys}:
+                                        </Typography>
+
+                                        <Typography
+                                          sx={{
+                                            fontSize: "0.75rem",
+                                            color: "#000000",
+                                          }}
+                                        >
+                                          {dayjs(value).isValid()
+                                            ? dayjs(value).format("DD/MM/YYYY")
+                                            : value}
+                                        </Typography>
+                                      </Box>
+                                    </Grid>
+                                  </Grid>
+                                </Box>
+                              </>
                             )
                           )
                         ) : (
                           <div className="field">
                             {Object.entries(Clinic.documentdetail).map(
                               ([keys, value], i) => (
-                                <div className="field is-horizontal">
-                                  <div className="field-label">
-                                    <label className="label is-size-7" key={i}>
-                                      {keys}:
-                                    </label>
-                                  </div>
-                                  <div className="field-body">
-                                    <div className="field">{value}</div>
-                                  </div>
-                                </div>
+                                <Box
+                                  sx={{height: "auto", width: "100%"}}
+                                  key={i}
+                                >
+                                  <Grid container spacing={2}>
+                                    <Grid item xs={12}>
+                                      <Box sx={{display: "flex"}}>
+                                        <Typography
+                                          sx={{
+                                            fontSize: "0.75rem",
+                                            fontWeight: "600",
+                                            color: "#03045e",
+                                            marginRight: "5px",
+                                          }}
+                                        >
+                                          {keys}:
+                                        </Typography>
+
+                                        <Typography
+                                          sx={{
+                                            fontSize: "0.75rem",
+                                            color: "#000000",
+                                          }}
+                                        >
+                                          {dayjs(value).isValid()
+                                            ? dayjs(value).format("DD/MM/YYYY")
+                                            : value}
+                                        </Typography>
+                                      </Box>
+                                    </Grid>
+                                  </Grid>
+                                </Box>
                               )
                             )}
                           </div>

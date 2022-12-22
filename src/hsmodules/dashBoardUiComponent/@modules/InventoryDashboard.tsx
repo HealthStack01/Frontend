@@ -1,5 +1,5 @@
-import { Box, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import {Box, Typography} from "@mui/material";
+import React, {useEffect, useState} from "react";
 
 import ViewCard from "./@sections/ViewCard";
 import ViewCardWithFilter from "./@sections/ViewCardWithFilter";
@@ -11,7 +11,7 @@ import {
   DashboardPageWrapper,
   StartCardWapper,
 } from "../core-ui/styles";
-import { userDetails } from "../utils/fetchUserDetails";
+import {userDetails} from "../utils/fetchUserDetails";
 
 import {
   FetchTotalStockQuantity,
@@ -40,12 +40,11 @@ const InventoryDashboard = () => {
   const inventoryService = client.service("inventory");
   const productEntryService = client.service("productentry");
 
-  const { fetchTotalClientAtPharmacy } =
-    FetchTotalClientAtPharmacy(billsService);
-  const { fetchTotalStockQuantity } = FetchTotalStockQuantity(inventoryService);
-  const { fetchTotalStockValue } = FetchTotalStockValue(inventoryService);
-  const { fetchTotalSalePharmacy } = FetchTotalSalePharmacy(billsService);
-  const { fetchTotalSuppiedProduct } =
+  const {fetchTotalClientAtPharmacy} = FetchTotalClientAtPharmacy(billsService);
+  const {fetchTotalStockQuantity} = FetchTotalStockQuantity(inventoryService);
+  const {fetchTotalStockValue} = FetchTotalStockValue(inventoryService);
+  const {fetchTotalSalePharmacy} = FetchTotalSalePharmacy(billsService);
+  const {fetchTotalSuppiedProduct} =
     FetchTotalSuppiedProduct(productEntryService);
 
   const {
@@ -56,7 +55,7 @@ const InventoryDashboard = () => {
     FetchTotalSaleValueWithInPresentRange
   );
 
-  const { totalPresentDataObject: inventoryStockValuePresentDataObject } =
+  const {totalPresentDataObject: inventoryStockValuePresentDataObject} =
     TotalModeltDataForPresent(
       inventoryService,
       FetchTotalStockValueWithInPresentRange
@@ -69,7 +68,7 @@ const InventoryDashboard = () => {
   // });
 
   useEffect(() => {
-    const { userFullName, facilityFullName } = userDetails();
+    const {userFullName, facilityFullName} = userDetails();
     setUserName(userFullName);
     setFacilityName(facilityFullName);
   }, []);
@@ -102,10 +101,10 @@ const InventoryDashboard = () => {
               display: "grid",
               width: "100%",
               gridGap: "10px",
-              gridTemplateColumns: { lg: "repeat(3, 1fr)", xs: "1fr" },
+              gridTemplateColumns: {lg: "repeat(3, 1fr)", xs: "1fr"},
             }}
           >
-            <Box sx={{ width: "100%", p: 0, pt: 2, pb: 2 }}>
+            <Box sx={{width: "100%", p: 0, pt: 2, pb: 2}}>
               <StartCardWapper>
                 <ViewCardWithFilter
                   count={0}
@@ -122,7 +121,7 @@ const InventoryDashboard = () => {
                 />
               </StartCardWapper>
             </Box>
-            <Box sx={{ width: "100%", p: 0, pt: 2, pb: 2 }}>
+            <Box sx={{width: "100%", p: 0, pt: 2, pb: 2}}>
               <StartCardWapper>
                 <ViewCardWithFilter
                   count={0}
@@ -139,7 +138,7 @@ const InventoryDashboard = () => {
                 />
               </StartCardWapper>{" "}
             </Box>
-            <Box sx={{ width: "100%", pt: 2, pb: 2 }}></Box>
+            <Box sx={{width: "100%", pt: 2, pb: 2}}></Box>
           </Box>
         </DashboardContainer>
       </Box>

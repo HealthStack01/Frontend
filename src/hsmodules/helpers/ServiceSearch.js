@@ -295,6 +295,7 @@ export default function ServiceSearch({getSearchfacility, clear, mode, label}) {
               backgroundColor: "#ffffff !important",
               "& .MuiInputBase-input": {
                 height: "0.9rem",
+                fontSize: "0.75rem",
               },
             }}
             InputLabelProps={{

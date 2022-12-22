@@ -1,5 +1,5 @@
-import { Box, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import {Box, Typography} from "@mui/material";
+import React, {useEffect, useState} from "react";
 
 import ViewCard from "./@sections/ViewCard";
 import ViewCardWithFilter from "./@sections/ViewCardWithFilter";
@@ -15,9 +15,9 @@ import {
   DashboardPageWrapper,
   StartCardWapper,
 } from "../core-ui/styles";
-import { userDetails } from "../utils/fetchUserDetails";
+import {userDetails} from "../utils/fetchUserDetails";
 
-import { TotalModeltDataForPresent } from "../utils/chartData/queryHandler";
+import {TotalModeltDataForPresent} from "../utils/chartData/queryHandler";
 
 import {
   FetchTotalRevenue,
@@ -35,8 +35,8 @@ const LaboratoryDashboard = () => {
 
   //query function
 
-  const { fetchTotalRevenue } = FetchTotalRevenue(billsService);
-  const { fetchTotalBalance } = FetchTotalBalance(billsService);
+  const {fetchTotalRevenue} = FetchTotalRevenue(billsService);
+  const {fetchTotalBalance} = FetchTotalBalance(billsService);
 
   const {
     totalPresentDataObject: fetchTotalMoneyCollectedPresentDataObject,
@@ -46,14 +46,14 @@ const LaboratoryDashboard = () => {
     FetchTotalMoneyCollectedWithInPresentRange
   );
 
-  const { modelResult } = ModelResult(orderService);
+  const {modelResult} = ModelResult(orderService);
 
   console.log("model data ===>", {
     modelResult: modelResult,
   });
 
   useEffect(() => {
-    const { userFullName, facilityFullName } = userDetails();
+    const {userFullName, facilityFullName} = userDetails();
     setUserName(userFullName);
     setFacilityName(facilityFullName);
   }, []);
@@ -89,10 +89,10 @@ const LaboratoryDashboard = () => {
               display: "grid",
               width: "100%",
               gridGap: "10px",
-              gridTemplateColumns: { lg: "repeat(3, 1fr)", xs: "1fr" },
+              gridTemplateColumns: {lg: "repeat(3, 1fr)", xs: "1fr"},
             }}
           >
-            <Box sx={{ width: "100%", p: 0, pt: 2, pb: 2 }}>
+            <Box sx={{width: "100%", p: 0, pt: 2, pb: 2}}>
               <ViewCard
                 count={fetchTotalBalance}
                 title="Total Pending Balance"
@@ -100,12 +100,12 @@ const LaboratoryDashboard = () => {
               {/* <AreaChart height={200} title="Trends" />
               <AreaChart height={200} title="New Clients" /> */}
             </Box>
-            <Box sx={{ width: "100%", pt: 2, pb: 2 }}>
+            <Box sx={{width: "100%", pt: 2, pb: 2}}>
               <ViewCard count={56} title=" Most frequent lab tests received" />
               {/* <BarChart title="Payment Mode" />
               <BubbleChart /> */}
             </Box>
-            <Box sx={{ width: "100%", pt: 2, pb: 2 }}>
+            <Box sx={{width: "100%", pt: 2, pb: 2}}>
               {/* <Stack
                 direction='row'
                 spacing={0.4}

@@ -1,5 +1,5 @@
-import DatePicker from '@mui/lab/DatePicker';
-import DateTimePicker from '@mui/lab/DateTimePicker';
+import DatePicker from "@mui/lab/DatePicker";
+import DateTimePicker from "@mui/lab/DateTimePicker";
 import {
   Checkbox,
   FormControl,
@@ -7,24 +7,26 @@ import {
   FormGroup,
   FormHelperText,
   TextField,
-} from '@mui/material';
-import { Controller } from 'react-hook-form';
-import JSONInput from 'react-json-editor-ajrm';
-import locale from 'react-json-editor-ajrm/locale/en';
+} from "@mui/material";
+import {Controller} from "react-hook-form";
+import JSONInput from "react-json-editor-ajrm";
+import locale from "react-json-editor-ajrm/locale/en";
 
-import CheckboxInput from '../../components/inputs/basic/Checkbox';
-import Input from '../../components/inputs/basic/Input';
-import RadioButton from '../../components/inputs/basic/Radio';
-import CustomSelect from '../../components/inputs/basic/Select';
-import Textarea from '../../components/inputs/basic/Textarea';
-import { DateFormats } from '../../hsmodules/app/Constants';
-import { toAPIDate } from '../../hsmodules/app/DateUtils';
-import ItemsInput from '../../hsmodules/app/generic/ItemsInput';
-import { InputType } from '../../hsmodules/app/schema/util';
-import AutoSuggestInput from './AutoSuggestInput';
+import CheckboxInput from "../../components/inputs/basic/Checkbox";
+import Input from "../../components/inputs/basic/Input";
+import RadioButton from "../../components/inputs/basic/Radio";
+import CustomSelect from "../../components/inputs/basic/Select";
+import Textarea from "../../components/inputs/basic/Textarea";
+import {DateFormats} from "../../hsmodules/app/Constants";
+import {toAPIDate} from "../../hsmodules/app/DateUtils";
+import ItemsInput from "../../hsmodules/app/generic/ItemsInput";
+import {InputType} from "../../hsmodules/app/schema/util";
+import AutoSuggestInput from "./AutoSuggestInput";
+import PasswordInput from "./basic/Password";
+import DefaultCustomSelect from "./basic/Select/DefaultSelect";
 
 // TODO: Anstract intp seperate components - the controller warapping
-const DynamicInput = (props) => {
+const DynamicInput = props => {
   const {
     inputType,
     label,
@@ -47,13 +49,13 @@ const DynamicInput = (props) => {
       <Controller
         name={name}
         control={control}
-        render={({ field: { ref: _re, ...field } }) => (
+        render={({field: {ref: _re, ...field}}) => (
           <Input
             {...field}
             label={label}
             disabled={readonly}
             errorText={errors[name]?.message}
-            defaultValue={data[name] || ''}
+            defaultValue={data[name] || ""}
           />
         )}
       />
@@ -65,7 +67,7 @@ const DynamicInput = (props) => {
       <Controller
         name={name}
         control={control}
-        render={({ field: { ref: _re, ...field } }) => (
+        render={({field: {ref: _re, ...field}}) => (
           <Input
             {...field}
             label={label}
@@ -79,12 +81,24 @@ const DynamicInput = (props) => {
     );
   }
 
+  if (inputType === InputType.PASSWORD) {
+    return (
+      <Controller
+        name={name}
+        control={control}
+        render={({field: {ref: _re, ...field}}) => (
+          <PasswordInput {...field} autoComplete="new-password" />
+        )}
+      />
+    );
+  }
+
   if (inputType === InputType.EMAIL) {
     return (
       <Controller
         name={name}
         control={control}
-        render={({ field: { ref: _re, ...field } }) => (
+        render={({field: {ref: _re, ...field}}) => (
           <Input
             {...field}
             label={label}
@@ -103,7 +117,7 @@ const DynamicInput = (props) => {
       <Controller
         name={name}
         control={control}
-        render={({ field: { ref: _re, value: __, ...field } }) => (
+        render={({field: {ref: _re, value: __, ...field}}) => (
           <Textarea
             {...field}
             label={label}
@@ -117,12 +131,12 @@ const DynamicInput = (props) => {
   }
 
   if (inputType === InputType.MULTIPLE_ADD && props.schema) {
-    console.debug({ props });
+    console.debug({props});
     return (
       <Controller
         name={name}
         control={control}
-        render={({ field: { ref: _re, value: __, ...field } }) => (
+        render={({field: {ref: _re, value: __, ...field}}) => (
           <ItemsInput
             {...field}
             label={label}
@@ -139,7 +153,7 @@ const DynamicInput = (props) => {
       <Controller
         name={name}
         control={control}
-        render={({ field: { ref: _re, ...field } }) => (
+        render={({field: {ref: _re, ...field}}) => (
           <RadioButton
             {...field}
             title={label}
@@ -157,7 +171,7 @@ const DynamicInput = (props) => {
       <Controller
         control={control}
         name={name}
-        render={({ field }) => (
+        render={({field}) => (
           <CheckboxInput
             {...field}
             label={label}
@@ -176,13 +190,13 @@ const DynamicInput = (props) => {
       <Controller
         control={control}
         name={name}
-        render={({ field }) => (
+        render={({field}) => (
           <FormControlLabel
             defaultValue={defaultValue}
             control={
               <Checkbox
                 name={field.name}
-                onChange={(_, value) => field.onChange({ target: { value } })}
+                onChange={(_, value) => field.onChange({target: {value}})}
                 disabled={readonly}
               />
             }
@@ -198,14 +212,14 @@ const DynamicInput = (props) => {
       <Controller
         control={control}
         name={name}
-        render={({ field: { ref: _re, ...field } }) => (
-          <CustomSelect
+        render={({field: {ref: _re, ...field}}) => (
+          <DefaultCustomSelect
             {...field}
             label={label}
             options={options}
             errorText={errors[name]?.message}
             defaultValue={
-              defaultValue != undefined ? defaultValue : data[name] || ''
+              defaultValue != undefined ? defaultValue : data[name] || ""
             }
             disabled={readonly}
           />
@@ -216,20 +230,20 @@ const DynamicInput = (props) => {
 
   if (inputType === InputType.DATETIME) {
     return (
-      <FormControl disabled={readonly} style={{ width: '100%' }}>
+      <FormControl disabled={readonly} style={{width: "100%"}}>
         <Controller
           name={name}
           control={control}
-          render={({ field: { ref: _, ...field } }) => (
+          render={({field: {ref: _, ...field}}) => (
             <>
               <DateTimePicker
                 {...field}
                 label={label}
-                onChange={(value) =>
-                  field.onChange({ target: { value: toAPIDate(value) } })
+                onChange={value =>
+                  field.onChange({target: {value: toAPIDate(value)}})
                 }
                 inputFormat={DateFormats.CONTROL_DATE_TIME}
-                renderInput={(params) => (
+                renderInput={params => (
                   <TextField
                     {...params}
                     disabled={readonly}
@@ -252,16 +266,16 @@ const DynamicInput = (props) => {
       <Controller
         name={name}
         control={control}
-        render={({ field }) => (
+        render={({field}) => (
           <>
             <DatePicker
               {...field}
               label={label}
-              onChange={(value) =>
-                field.onChange({ target: { value: toAPIDate(value) } })
+              onChange={value =>
+                field.onChange({target: {value: toAPIDate(value)}})
               }
               inputFormat={DateFormats.CONTROL_DATE}
-              renderInput={(params) => (
+              renderInput={params => (
                 <TextField
                   {...params}
                   disabled={readonly}
@@ -286,7 +300,7 @@ const DynamicInput = (props) => {
       <Controller
         control={control}
         name={name}
-        render={({ field: { ref: _re, ...field } }) => (
+        render={({field: {ref: _re, ...field}}) => (
           <AutoSuggestInput
             label={label}
             options={options}
@@ -308,15 +322,14 @@ const DynamicInput = (props) => {
         <Controller
           control={control}
           name={name}
-          render={({ field: { ref: _re, ...field } }) => (
-              <Input
+          render={({field: {ref: _re, ...field}}) => (
+            <Input
               {...field}
-             /*  id="a_unique_id" */
+              /*  id="a_unique_id" */
               placeholder="JSON Input"
-             /*  locale={locale} */
+              /*  locale={locale} */
               /* height="50px" */
             />
-            
           )}
         ></Controller>
       </FormGroup>
@@ -327,7 +340,7 @@ const DynamicInput = (props) => {
     <Controller
       name={name}
       control={control}
-      render={({ field }) => (
+      render={({field}) => (
         <Input
           {...field}
           label={label}
