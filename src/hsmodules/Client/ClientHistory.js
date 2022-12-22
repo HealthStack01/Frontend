@@ -66,7 +66,7 @@ export default function ClientHistory() {
           showCreateModal={handleCreateModal}
           showDetailModal={handleShowDetailModal}
         />
-        <ModalBox width="40vw" open={createModal} onClose={handleHideCreateModal}>
+        <ModalBox width="40vw" open={createModal} onClose={handleHideCreateModal} header="Create History">
           <ClientHistoryCreate/>
         </ModalBox>
 
@@ -164,27 +164,24 @@ export function ClientHistoryCreate() {
 
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Create History</p>
-        </div>
+      <div>
         <div className="card-content vscrollable">
           <form onSubmit={handleSubmit(onSubmit)}>
           <div style={{paddingBottom:"1rem"}}>
           <CustomSelect
                   label="Type of History"
-                  name="status"
-                  options={["Approved","Decline"]}
-                  register={register("status", {required: true})}
+                  name="type_of_history"
+                  options={["Social History", "Family History", "Gynae History"]}
+                  register={register("type_of_history", {required: true})}
                   onChange={e => handleChangeMode(e.target.value)}
                 />
             </div>
             <div style={{paddingBottom:"1rem"}}>
               <Textarea
-              register={register("socialHistory", {required: true})}
-              name="socialHistory"
+              register={register("description", {required: true})}
+              name="description"
               type="text"
-              label="Social History"
+              label="Description"
             />
             </div>
             {/* <div style={{paddingBottom:"1rem"}}>

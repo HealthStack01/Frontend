@@ -889,11 +889,8 @@ const AppRoutes = () => {
               <Route path="/app/patient-portal/read" />
               <Route path="/app/patient-portal/chat" />
               <Route path="/app/patient-portal/dashboard" />
-              <Route path="/app/patient-portal/buy/*" 
-                          element={<ProductDetails/>}
-            />
             </Route>
-           
+            {/* <Route path="/app/patient-portal/buy/product/:id" element={<ProductDetails/>} /> */}
               
             {/**************************Accounting *************************************** */}
             <Route path="/app/accounting">
