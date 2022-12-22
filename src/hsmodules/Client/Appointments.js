@@ -35,6 +35,8 @@ import BasicDateTimePicker from '../../components/inputs/DateTime';
 import RadioButton from '../../components/inputs/basic/Radio';
 import TextField from '@mui/material/TextField';
 import { FormsHeaderText } from '../../components/texts';
+import MuiClearDatePicker from '../../components/inputs/Date/MuiClearDatePicker';
+import GroupedRadio from '../../components/inputs/basic/Radio/GroupedRadio';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -84,9 +86,16 @@ export default function ClientsAppointments() {
   );
 }
 
-export function AppointmentCreate({ showModal, setShowModal }) {
+export function AppointmentCreate({ showModal, setShowModal, openBill }) {
   const { state, setState } = useContext(ObjectContext);
-  const { register, handleSubmit, setValue, control, reset } = useForm(); //, watch, errors, reset
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
@@ -255,6 +264,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
         toast.success(
           'Appointment created succesfully, Kindly bill patient if required'
         );
+        openBill(true);
         setSuccess(false);
         setSuccess1(false);
         setSuccess2(false);
@@ -293,7 +303,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
 
   return (
     <>
-      <div className="card ">
+      <div className="card " style={{ width: '70vw' }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={4}>
@@ -332,6 +342,9 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                 register={register('appointmentClass', { required: true })}
                 options={appClass}
               />
+              {errors.appointmentClass && (
+                <span style={{ color: 'red' }}>This field is required</span>
+              )}
             </Grid>
           </Grid>
           <Grid container spacing={2} sx={{ alignItems: 'center' }}>
@@ -340,6 +353,9 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                 label="Date"
                 register={register('start_time', { required: true })}
               />
+              {errors.start_time && (
+                <span style={{ color: 'red' }}>This field is required</span>
+              )}
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={4}>
               <select
@@ -404,12 +420,15 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                 style={{
                   border: '1px solid #b6b6b6',
                   borderRadius: '4px',
-                  color: ' #979DAC',
+
                   width: '100%',
                 }}
               >
                 {' '}
               </textarea>
+              {errors.appointment_reason && (
+                <span style={{ color: 'red' }}>This field is required</span>
+              )}
             </Grid>
           </Grid>
 
@@ -486,7 +505,7 @@ export function ClientList({ showModal, setShowModal }) {
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
-    console.log(Client)
+    console.log(Client);
   };
   //console.log(state.employeeLocation)
 
@@ -694,10 +713,20 @@ export function ClientList({ showModal, setShowModal }) {
     let mapped = [];
     facilities.map((facility, i) => {
       mapped.push({
-        title: facility?.firstname + ' ' + facility?.lastname,
-        start: format(new Date(facility?.start_time), 'yyyy-MM-ddTHH:mm'),
-        end: facility?.end_time,
+        title: `Name: ${facility?.firstname} ${
+          facility?.lastname
+        }. Age: ${formatDistanceToNowStrict(
+          new Date(facility?.dob)
+        )}. Gender: ${facility?.gender}. Phone: ${facility?.phone}. Email: ${
+          facility?.email
+        }`,
+        startDate: format(
+          new Date(facility?.start_time.slice(0, 19)),
+          'yyyy-MM-dd HH:mm'
+        ),
         id: i,
+        location: facility?.location_name,
+        content: 'Test',
       });
     });
     return mapped;
@@ -728,12 +757,11 @@ export function ClientList({ showModal, setShowModal }) {
                   <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
                     Appointments
                   </h2>
-                  <DatePicker
-                    selected={startDate}
-                    onChange={(date) => handleDate(date)}
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="Filter By Date"
-                    isClearable
+                  <MuiClearDatePicker
+                    value={startDate}
+                    setValue={setStartDate}
+                    label="Filter By Date"
+                    format="dd/MM/yyyy"
                   />
                   {/* <SwitchButton /> */}
                   <Switch>
@@ -809,7 +837,7 @@ export function ClientDetail({ showModal, setShowModal }) {
 
   // console.log(state)
   const Client = state.AppointmentModule.selectedAppointment;
- 
+
   //const client=Client
   const handleEdit = async () => {
     const newClientModule = {
@@ -952,7 +980,7 @@ export function ClientDetail({ showModal, setShowModal }) {
             style={{
               border: '1px solid #b6b6b6',
               borderRadius: '4px',
-              color: ' #979DAC',
+
               width: '100%',
             }}
           >
@@ -965,7 +993,8 @@ export function ClientDetail({ showModal, setShowModal }) {
 }
 
 export function ClientModify({ showModal, setShowModal }) {
-  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
+  const { register, handleSubmit, setValue, reset, errors, control } =
+    useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -982,7 +1011,7 @@ export function ClientModify({ showModal, setShowModal }) {
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [appointment_status, setAppointment_status] = useState('');
   const [appointment_type, setAppointment_type] = useState('');
-  const appClass = ['On-site', 'Teleconsultation'];
+  const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
   const [locationId, setLocationId] = useState();
   const [practionerId, setPractionerId] = useState();
   const [success1, setSuccess1] = useState(false);
@@ -1219,31 +1248,10 @@ export function ClientModify({ showModal, setShowModal }) {
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              {/* <div className="field ml-3 ">
-                {appClass.map((c, i) => (
-                  <>
-                    <input
-                      type="radio"
-                      key={i}
-                      value={c}
-                      name="appointmentClass"
-                      {...register('appointmentClass', { required: true })}
-                      style={{
-                        border: '1px solid #0364FF',
-                        color: '#0364FF',
-                        margin: '.5rem',
-                      }}
-                    />
-                    <label>{c}</label>
-                  </>
-                ))}
-              </div> */}
-              <RadioButton
+              <GroupedRadio
                 name="appointmentClass"
-                register={register('appointmentClass', { required: true })}
                 options={appClass}
-                value={Client?.appointmentClass}
-                onChange={handleChangeClass}
+                control={control}
               />
             </Grid>
           </Grid>
@@ -1269,7 +1277,7 @@ export function ClientModify({ showModal, setShowModal }) {
                   style={{
                     border: '1px solid #0364FF',
                     padding: '1rem',
-                    color: ' #979DAC',
+                    
                   }}
                 />
               </div> */}
@@ -1337,7 +1345,7 @@ export function ClientModify({ showModal, setShowModal }) {
                 style={{
                   border: '1px solid #b6b6b6',
                   borderRadius: '4px',
-                  color: ' #979DAC',
+
                   width: '100%',
                 }}
               >

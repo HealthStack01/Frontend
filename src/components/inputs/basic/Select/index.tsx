@@ -63,7 +63,10 @@ const CustomSelect: React.FC<SelectProps> = ({
           name={name}
           control={control}
           rules={{required: required}}
-          render={({field: {onChange, value}}) => (
+          render={({
+            field: {onChange, value},
+            fieldState: {isTouched, isDirty, error},
+          }) => (
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -72,6 +75,7 @@ const CustomSelect: React.FC<SelectProps> = ({
               notched
               value={value}
               onChange={onChange}
+              error={error ? true : false}
               sx={{
                 background: "white",
                 height: "2.2rem",

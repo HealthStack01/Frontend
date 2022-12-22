@@ -1,6 +1,7 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import {Link} from "react-router-dom";
 import {NavLink} from "react-router-dom";
+import {UserContext} from "../../context";
 
 import {ListItem, Lists, MenuList} from "./style";
 
@@ -20,8 +21,45 @@ const MenuItem: React.FC<MenuItemProps> = ({
   to,
 }) => {
   const [expand, setExpand] = useState<boolean>(false);
+  const {user} = useContext(UserContext);
 
   const sortedSubMenus = subMenus.sort((a, b) => a.name.localeCompare(b.name));
+
+  const roles = user.currentEmployee.roles;
+
+  const dummy_roles = [
+    "Bill Client",
+    "Adjust Price",
+    "Delete Notes",
+    "Client Appointment",
+    "Clinic Appointment",
+    "Clinic Checkin",
+    "Clinic Dashboard",
+    "Appointments",
+    "Laboratory Bill Client",
+    "Laboratory Bill Lab Orders",
+    "Laboratory Lab Result",
+    "Laboratory Dashboard",
+    "Pharmacy Store Inventory",
+    "Pharmacy Product Entry",
+    "Pharmacy Issue Out",
+    "Pharmacy Dashboard",
+    "Pharmacy",
+    "Laboratory",
+    "Admin Employees",
+  ];
+
+  const isFacility = false;
+
+  const rolesSubMenu = isFacility
+    ? sortedSubMenus
+    : sortedSubMenus.filter(item => {
+        if (roles.includes(`${name} ${item.name}`)) {
+          return item;
+        } else if (item.name === "Dashboard") {
+          return item;
+        }
+      });
 
   return (
     <NavLink
@@ -49,7 +87,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
 
           {subMenus && subMenus.length ? (
             <Lists className={`sub-menu ${expand ? "active" : ""}`}>
-              {sortedSubMenus.map((menu, index) => (
+              {rolesSubMenu.map((menu, index) => (
                 <ListItem key={index}>
                   <NavLink
                     to={menu.to}

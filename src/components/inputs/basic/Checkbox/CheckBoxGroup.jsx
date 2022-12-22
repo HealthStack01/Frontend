@@ -57,7 +57,7 @@ const CheckboxGroup = ({control, label, name, options, row, disabled}) => {
         >
           {label}
         </FormLabel>
-        <FormGroup row={row}>
+        <FormGroup row={row || true}>
           {options.map(option => (
             <FormControlLabel
               //classes={row && {root: classes.label}}
