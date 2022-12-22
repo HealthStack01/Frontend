@@ -392,7 +392,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                 style={{
                   border: '1px solid #b6b6b6',
                   borderRadius: '4px',
-                  color: ' #979DAC',
+
                   width: '100%',
                 }}
               >
@@ -681,13 +681,20 @@ export function ClientList({ showModal, setShowModal }) {
     let mapped = [];
     facilities.map((facility, i) => {
       mapped.push({
-        title: facility?.firstname + ' ' + facility?.lastname,
+        title: `Name: ${facility?.firstname} ${
+          facility?.lastname
+        }. Age: ${formatDistanceToNowStrict(
+          new Date(facility?.dob)
+        )}. Gender: ${facility?.gender}. Phone: ${facility?.phone}. Email: ${
+          facility?.email
+        }`,
         startDate: format(
           new Date(facility?.start_time.slice(0, 19)),
           'yyyy-MM-dd HH:mm'
         ),
         id: i,
         location: facility?.location_name,
+        content: 'Test',
       });
     });
     return mapped;
@@ -939,7 +946,7 @@ export function ClientDetail({ showModal, setShowModal }) {
             style={{
               border: '1px solid #b6b6b6',
               borderRadius: '4px',
-              color: ' #979DAC',
+
               width: '100%',
             }}
           >
@@ -1235,7 +1242,7 @@ export function ClientModify({ showModal, setShowModal }) {
                   style={{
                     border: '1px solid #0364FF',
                     padding: '1rem',
-                    color: ' #979DAC',
+                    
                   }}
                 />
               </div> */}
@@ -1303,7 +1310,7 @@ export function ClientModify({ showModal, setShowModal }) {
                 style={{
                   border: '1px solid #b6b6b6',
                   borderRadius: '4px',
-                  color: ' #979DAC',
+
                   width: '100%',
                 }}
               >

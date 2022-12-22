@@ -488,8 +488,6 @@ export function ClientList({showCreateModal, showDetailModal}) {
       selectedClient: {},
       show: 'create',
     };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
-    // setShowModal(true);
     showCreateModal()
   };
 
