@@ -103,19 +103,21 @@ export const EmployeeForm = ({open, setOpen}) => {
             important
           />
           <Input
-            register={register("middlename")}
-            name="middlename"
-            type="text"
-            label="Middle Name"
-            errorText={errors?.middlename?.message}
-          />
-          <Input
             register={register("lastname")}
             name="lastname"
             type="text"
             label="Last Name"
             errorText={errors?.lastname?.message}
             important
+          />
+
+          <Input
+            register={register("position")}
+            name="position"
+            type="text"
+            label="Position"
+            important
+            errorText={errors?.position?.message}
           />
         </GridBox>
         <GridBox>
@@ -127,6 +129,7 @@ export const EmployeeForm = ({open, setOpen}) => {
             errorText={errors?.profession?.message}
             important
           />
+
           <Input
             register={register("phone")}
             name="phone"
@@ -166,6 +169,7 @@ export const EmployeeForm = ({open, setOpen}) => {
             label="Password"
             errorText={errors?.password?.message}
             autoComplete="new-password"
+            important
           />
         </GridBox>
       </form>

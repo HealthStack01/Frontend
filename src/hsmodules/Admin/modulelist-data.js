@@ -367,6 +367,11 @@ export const modulesList = [
       {
         label: "Lead",
         value: "CRM Lead",
+        children: [
+          {
+            label: "Write",
+          },
+        ],
       },
       {
         label: "Proposal",

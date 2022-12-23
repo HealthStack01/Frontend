@@ -10,6 +10,7 @@ import moment from "moment";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import UpgradeOutlinedIcon from "@mui/icons-material/UpgradeOutlined";
 import {ObjectContext} from "../../../../context";
+import client from "../../../../feathers";
 
 const CustomerDetail = ({editable}) => {
   const {register, reset, control, handleSubmit} = useForm();
@@ -156,13 +157,34 @@ const CustomerDetail = ({editable}) => {
 export default CustomerDetail;
 
 export const PageCustomerDetail = ({editable}) => {
-  const {register, reset, control, handleSubmit} = useForm();
+  const dealServer = client.service("deal");
+  const {register, reset, control, handleSubmit, getValues, watch} = useForm();
   const [editCustomer, setEditCustomer] = useState(false);
-  const {state, setState} = useContext(ObjectContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
 
-  const updateDetail = data => {
-    toast.success("Customer Detail Updated");
-    setEditCustomer(false);
+  const updateDetail = async data => {
+    showActionLoader();
+    const documentId = state.DealModule.selectedDeal._id;
+
+    await dealServer
+      .patch(documentId, data)
+      .then(res => {
+        hideActionLoader();
+        setState(prev => ({
+          ...prev,
+          DealModule: {...prev.DealModule, selectedDeal: res},
+        }));
+
+        setEditCustomer(false);
+        toast.success(`Customer Details successfully updated!`);
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error(
+          `Sorry, You weren't able to update the Customer detail. ${err}`
+        );
+      });
   };
 
   useEffect(() => {
@@ -180,10 +202,14 @@ export const PageCustomerDetail = ({editable}) => {
       address: deal.address,
       country: deal.country,
       orgbranch: deal.orgbranch,
-      class: deal.clientclass,
+      clientclass: deal.clientclass,
     };
     reset(initFormValue);
   }, []);
+
+  //const type = getValues("type");
+
+  const type = watch("type", "corporate");
 
   return (
     <Box>
@@ -193,27 +219,34 @@ export const PageCustomerDetail = ({editable}) => {
           alignItem: "center",
           justifyContent: "space-between",
         }}
-        mb={1}
+        mb={2}
       >
         <FormsHeaderText text="Customer Details" />
 
-        {editable && (
-          <>
-            {editCustomer ? (
+        <Box sx={{display: "flex"}} gap={2}>
+          {editCustomer ? (
+            <>
+              <GlobalCustomButton
+                color="warning"
+                onClick={() => setEditCustomer(false)}
+              >
+                Cancel Update
+              </GlobalCustomButton>
+
               <GlobalCustomButton
                 color="success"
                 onClick={handleSubmit(updateDetail)}
               >
                 <UpgradeOutlinedIcon fontSize="small" />
-                Update
+                Update Customer Detail
               </GlobalCustomButton>
-            ) : (
-              <GlobalCustomButton onClick={() => setEditCustomer(true)}>
-                <ModeEditOutlineOutlined fontSize="small" /> Edit
-              </GlobalCustomButton>
-            )}
-          </>
-        )}
+            </>
+          ) : (
+            <GlobalCustomButton onClick={() => setEditCustomer(true)}>
+              <ModeEditOutlineOutlined fontSize="small" /> Edit
+            </GlobalCustomButton>
+          )}
+        </Box>
       </Box>
 
       <Grid container spacing={1}>
@@ -256,7 +289,7 @@ export const PageCustomerDetail = ({editable}) => {
         <Grid item lg={4} md={6} sm={8}>
           <Input
             register={register("address", {required: true})}
-            label="Residential Address"
+            label="Customer Address"
             disabled={!editCustomer}
             //placeholder="Enter customer name"
           />
@@ -297,6 +330,26 @@ export const PageCustomerDetail = ({editable}) => {
             //placeholder="Enter customer number"
           />
         </Grid>
+
+        <Grid item lg={4} md={6} sm={6}>
+          <Input
+            register={register("clientclass", {required: true})}
+            label="Customer Class"
+            disabled={!editCustomer}
+            //placeholder="Enter customer number"
+          />
+        </Grid>
+
+        {type === "corporate" && (
+          <Grid item lg={4} md={6} sm={6}>
+            <Input
+              register={register("orgbranch", {required: true})}
+              label="Organization Branch"
+              disabled={!editCustomer}
+              //placeholder="Enter customer number"
+            />
+          </Grid>
+        )}
       </Grid>
     </Box>
   );

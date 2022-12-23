@@ -4,7 +4,7 @@ import Input from "../../../../components/inputs/basic/Input";
 import {useForm} from "react-hook-form";
 import {toast} from "react-toastify";
 
-const ContactCreate = ({closeModal, createContact}) => {
+const ContactCreate = ({closeModal, createContact, server, resetForm}) => {
   const {register, handleSubmit, reset} = useForm();
 
   const initFormState = {
@@ -14,12 +14,17 @@ const ContactCreate = ({closeModal, createContact}) => {
     phoneno: "",
   };
 
-  const onSubmit = data => {
-    createContact({...data, active: true});
-
-    reset(initFormState);
-
-    toast.success("Contact successfully added");
+  const onSubmit = async data => {
+    if (server) {
+      createContact({...data, active: true});
+      if (resetForm) {
+        reset(initFormState);
+      }
+    } else {
+      createContact({...data, active: true});
+      reset(initFormState);
+      toast.success("Contact successfully added");
+    }
   };
 
   return (

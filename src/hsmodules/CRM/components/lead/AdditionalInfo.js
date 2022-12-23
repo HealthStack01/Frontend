@@ -1,10 +1,14 @@
 import DeleteOutline from "@mui/icons-material/DeleteOutline";
 import {Box, Grid, IconButton, Typography} from "@mui/material";
 import moment from "moment";
+import {useContext} from "react";
 import {useForm} from "react-hook-form";
+import {toast} from "react-toastify";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import Input from "../../../../components/inputs/basic/Input";
 import Textarea from "../../../../components/inputs/basic/Textarea";
+import {ObjectContext, UserContext} from "../../../../context";
+import client from "../../../../feathers";
 
 const AdditionalInformationCard = ({action, data}) => {
   return (
@@ -69,18 +73,64 @@ const AdditionalInformationCard = ({action, data}) => {
 export default AdditionalInformationCard;
 
 export const CreateAdditionalInfo = ({addInfo, closeModal}) => {
-  const {register, handleSubmit, control} = useForm();
+  const dealServer = client.service("deal");
+  const {state, setState, hideActionLoader, showActionLoader} =
+    useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {register, handleSubmit, control, reset} = useForm();
 
-  const handleAddInfo = data => {
-    const newData = {
-      created_by: "Sulaimon Olaniran",
-      information: data.additional_info,
-      created_at: moment.now(),
-      _id: `${Math.random()}`,
+  // const handleAddInfo = data => {
+  //   const newData = {
+  //     created_by: "Sulaimon Olaniran",
+  //     information: data.additional_info,
+  //     created_at: moment.now(),
+  //     _id: `${Math.random()}`,
+  //   };
+  //   addInfo(newData);
+  //   closeModal();
+  //   //console.log(data);
+  // };
+
+  const updateAdditionalInfo = async data => {
+    if (data.info === "") return toast.error("Please provide your information");
+    showActionLoader();
+
+    const employee = user.currentEmployee;
+
+    const newInfo = {
+      info: data.info,
+      date: new Date(),
+      employeename: `${employee.firstname} ${employee.lastname}`,
     };
-    addInfo(newData);
-    closeModal();
-    //console.log(data);
+
+    const oldDealInfo = state.DealModule.selectedDeal.additionalInfo;
+
+    const updatedDealInfo = [newInfo, ...oldDealInfo];
+
+    const documentId = state.DealModule.selectedDeal._id;
+
+    await dealServer
+      .patch(documentId, {additionalInfo: updatedDealInfo})
+      .then(res => {
+        hideActionLoader();
+        setState(prev => ({
+          ...prev,
+          DealModule: {...prev.DealModule, selectedDeal: res},
+        }));
+
+        reset({
+          info: "",
+        });
+        toast.success(
+          `You have successfully added a new Addtional Information!`
+        );
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error(
+          `Sorry, You weren't able to add a new Addtional Information!. ${err}`
+        );
+      });
   };
 
   return (
@@ -95,7 +145,8 @@ export const CreateAdditionalInfo = ({addInfo, closeModal}) => {
             <Textarea
               label="Additional Information"
               placeholder="Write here..."
-              register={register("additional_info", {required: true})}
+              important
+              register={register("info")}
             />
           </Grid>
         </Grid>
@@ -103,7 +154,7 @@ export const CreateAdditionalInfo = ({addInfo, closeModal}) => {
 
       <Box sx={{display: "flex"}}>
         <GlobalCustomButton
-          onClick={handleSubmit(handleAddInfo)}
+          onClick={handleSubmit(updateAdditionalInfo)}
           sx={{marginRight: "10px"}}
         >
           Add Information

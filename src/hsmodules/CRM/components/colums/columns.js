@@ -1,5 +1,5 @@
 import DeleteIcon from "@mui/icons-material/Delete";
-import {IconButton} from "@mui/material";
+import {IconButton, Typography} from "@mui/material";
 import DeleteOutline from "@mui/icons-material/DeleteOutline";
 import moment from "moment";
 
@@ -13,7 +13,7 @@ export const getStaffColumns = (action, disableAction = false) => {
       sortable: true,
       required: true,
       inputType: "DATE",
-      width: "50px",
+      width: "60px",
     },
     {
       name: "Name",
@@ -24,15 +24,16 @@ export const getStaffColumns = (action, disableAction = false) => {
       required: true,
       inputType: "DATE",
       style: {
+        color: "#1976d2",
         textTransform: "capitalize",
       },
     },
     {
-      name: "Profession",
+      name: "Position",
       style: {color: "#0364FF"},
       key: "contact_position",
       description: "Enter Date",
-      selector: row => row.profession,
+      selector: row => (row.position ? row.position : "----------"),
       sortable: true,
       required: true,
       inputType: "DATE",
@@ -45,7 +46,14 @@ export const getStaffColumns = (action, disableAction = false) => {
       style: {color: "#0364FF"},
       key: "contact_phone",
       description: "Enter Date",
-      selector: row => row.email,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.email}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "DATE",

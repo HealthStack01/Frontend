@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import AcUnitIcon from "@mui/icons-material/AcUnit";
 
 import {InputBox, InputField, InputLabel} from "./Input/styles";
 
@@ -11,6 +12,7 @@ interface PasswordInputProps {
   errors?: boolean;
   register?: any;
   autoComplete?: string;
+  important?: boolean;
 }
 
 const PasswordInput: React.FC<PasswordInputProps> = ({
@@ -20,6 +22,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
   errors,
   register,
   autoComplete = "on",
+  important,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -41,6 +44,9 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
         />
         <InputLabel className="form__label" htmlFor={label}>
           {label}
+          {important && (
+            <AcUnitIcon sx={{color: "red", width: "12px", height: "12px"}} />
+          )}
         </InputLabel>
         <span onClick={handleClickShowPassword}>
           {showPassword ? (

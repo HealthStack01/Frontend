@@ -191,12 +191,12 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       width: "50px",
     },
     {
-      name: "Company Name",
+      name: "Customer Name",
       key: "sn",
       description: "Enter name of Company",
       selector: row => (
         <Typography
-          sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
+          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
           data-tag="allowRowEvents"
         >
           {row.name}
@@ -210,6 +210,19 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
         textTransform: "capitalize",
       },
     },
+    {
+      name: "Customer Type",
+      key: "type",
+      description: "Enter Telestaff name",
+      selector: row => row.type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+
     {
       name: "Phone",
       key: "phone",
