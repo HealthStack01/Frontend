@@ -180,14 +180,10 @@ export const PageLeadDetailView = () => {
           `Sorry, You weren't able to update the deal detail. ${err}`
         );
       });
-
-    // toast.success("Lead Detail Updated");
-    // setEditLead(false);
   };
 
   useEffect(() => {
     const deal = state.DealModule.selectedDeal;
-    //console.log(deal);
 
     const initFormValue = {
       probability: deal.dealinfo.probability,
