@@ -118,7 +118,7 @@ export default function PatientProfile() {
 
   const profileButtons = [
     {
-      title: "Last Visit",
+      title: "Client History",
       action: () => setVisitModal(true),
     },
     {
