@@ -1,5 +1,5 @@
-import { Box, Stack, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import {Box, Stack, Typography} from "@mui/material";
+import React, {useEffect, useState} from "react";
 
 import ViewCard from "./@sections/ViewCard";
 import AreaChart from "../charts/AreaChart";
@@ -12,14 +12,14 @@ import {
   DashboardPageWrapper,
   StartCardWapper,
 } from "../core-ui/styles";
-import { userDetails } from "../utils/fetchUserDetails";
+import {userDetails} from "../utils/fetchUserDetails";
 
 const AdminDashboard = () => {
   const [userName, setUserName] = useState("");
   const [facilityName, setFacilityName] = useState("");
 
   useEffect(() => {
-    const { userFullName, facilityFullName } = userDetails();
+    const {userFullName, facilityFullName} = userDetails();
     setUserName(userFullName);
     setFacilityName(facilityFullName);
   }, []);
@@ -49,21 +49,21 @@ const AdminDashboard = () => {
               display: "grid",
               width: "100%",
               gridGap: "10px",
-              gridTemplateColumns: { lg: "repeat(3, 1fr)", xs: "1fr" },
+              gridTemplateColumns: {lg: "repeat(3, 1fr)", xs: "1fr"},
             }}
           >
-            <Box sx={{ width: "100%", p: 2 }}>
+            <Box sx={{width: "100%", p: 2}}>
               <HorizontalBar title="Patient Distribution" />
               <Stack direction="row">
                 <ViewCard count={40} title="Out Patients" />
                 <ViewCard count={16} title="In Patients" />
               </Stack>
             </Box>
-            <Box sx={{ width: "100%", p: 2 }}>
+            <Box sx={{width: "100%", p: 2}}>
               <AreaChart />
               <PieChart donutSize={0} />
             </Box>
-            <Box sx={{ width: "100%", p: 2 }}>
+            <Box sx={{width: "100%", p: 2}}>
               <BubbleChart />
             </Box>
           </Box>

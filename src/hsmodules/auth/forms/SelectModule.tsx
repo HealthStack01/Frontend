@@ -1,16 +1,16 @@
-import { Box, FormGroup, Stack } from '@mui/material';
-import React from 'react';
+import {Box, FormGroup, Stack} from "@mui/material";
+import React from "react";
 
-import DynamicInput from '../../../components/inputs/DynamicInput';
-import { ModulesSchema } from '../../app/schema/ModelSchema';
+import DynamicInput from "../../../components/inputs/DynamicInput";
+import {ModulesSchema} from "../../app/schema/ModelSchema";
 
-function SelectModule({ control }) {
+function SelectModule({control}) {
   return (
-    <Stack spacing={3} sx={{ width: '100%', mt: 4, mb: 4 }}>
+    <Stack spacing={3} sx={{width: "100%", mt: 4, mb: 4}}>
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
+          display: "flex",
+          justifyContent: "space-between",
         }}
       >
         {ModulesSchema.map((field, i) => (

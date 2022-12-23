@@ -82,7 +82,7 @@ const CheckboxInput: React.FC<CheckboxProps> = ({
                 <FormControlLabel
                   label={
                     <Typography sx={{fontSize: "0.8rem", marginLeft: "-5px"}}>
-                      {option}
+                      {option.label || option}
                     </Typography>
                   }
                   control={
@@ -132,7 +132,7 @@ const CheckboxInput: React.FC<CheckboxProps> = ({
             defaultValue={defaultValue}
             label={
               <Typography sx={{fontSize: "0.8rem", marginLeft: "-5px"}}>
-                {option}
+                {option.label || option}
               </Typography>
             }
             control={

@@ -8,15 +8,14 @@ const ContactCreate = ({closeModal, createContact}) => {
   const {register, handleSubmit, reset} = useForm();
 
   const initFormState = {
-    contact_name: "",
-    contact_position: "",
-    contact_phone: "",
-    contact_email: "",
+    name: "",
+    position: "",
+    email: "",
+    phoneno: "",
   };
 
   const onSubmit = data => {
-    //console.log(data);
-    createContact(data);
+    createContact({...data, active: true});
 
     reset(initFormState);
 
@@ -33,37 +32,37 @@ const ContactCreate = ({closeModal, createContact}) => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Input
-            register={register("contact_name", {required: true})}
+            register={register("name", {required: true})}
             label="Contact Name"
             type="text"
-            //placeholder="Enter customer name"
+            important
           />
         </Grid>
 
         <Grid item xs={12}>
           <Input
-            register={register("contact_email", {required: true})}
+            register={register("email", {required: true})}
             label="Contact Email"
             type="email"
-            //placeholder="Enter customer number"
+            important
           />
         </Grid>
 
         <Grid item xs={12}>
           <Input
-            register={register("contact_position", {required: true})}
+            register={register("position", {required: true})}
             label="Contact Position"
             type="text"
-            //placeholder="Enter customer number"
+            important
           />
         </Grid>
 
         <Grid item xs={12}>
           <Input
-            register={register("contact_phone", {required: true})}
+            register={register("phoneno", {required: true})}
             label="Contact Phone No"
             type="tel"
-            // placeholder="Enter customer name"
+            important
           />
         </Grid>
       </Grid>

@@ -89,6 +89,7 @@ import BloodbankDashboard from './dashBoardUiComponent/@modules/BloodbankDashboa
 
 import WalletOTP from './PouchiiWallet/walletOtp';
 import DetailComplaint from './Complaints/DetailComplaints';
+import { marketPlaceRoutes } from './routes/marketPlace';
 
 const moduleLocationTypes = {
   clinic: 'Clinic',
@@ -332,6 +333,14 @@ const AppRoutes = () => {
             {/**************************Patient Portal *************************************** */}
             <Route path="/app/patient-portal">
               {patientProfileRoutes.map((route) => {
+                const { path, Component } = route;
+                return <Route key={path} path={path} element={<Component />} />;
+              })}
+            </Route>
+
+            {/**************************Market Place *************************************** */}
+            <Route path="/app/market-place">
+              {marketPlaceRoutes.map((route) => {
                 const { path, Component } = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}

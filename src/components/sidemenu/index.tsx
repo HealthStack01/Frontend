@@ -1,135 +1,135 @@
-import React, {useEffect, useState, useContext} from "react";
-import {useNavigate} from "react-router-dom";
-import {ObjectContext, UserContext} from "../../context";
+import React, { useEffect, useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ObjectContext, UserContext } from '../../context';
 
-import MenuItem from "../menuitem";
-import {Lists} from "../menuitem/style";
-import {MainMenu, Sidemenu, TopSection} from "./styles";
+import MenuItem from '../menuitem';
+import { Lists } from '../menuitem/style';
+import { MainMenu, Sidemenu, TopSection } from './styles';
 
 export const menuItems = [
   {
-    name: "Client",
+    name: 'Client',
     exact: true,
-    to: "/app/clients",
-    iconClassName: "bi bi-people",
+    to: '/app/clients',
+    iconClassName: 'bi bi-people',
     subMenus: [
-      {name: "Appointment", to: "/app/clients/appointments"},
-      {name: "Client", to: "/app/clients/clients"},
-      {name: "Dashboard", to: "/app/clients/dashboard"},
+      { name: 'Appointment', to: '/app/clients/appointments' },
+      { name: 'Client', to: '/app/clients/clients' },
+      { name: 'Dashboard', to: '/app/clients/dashboard' },
     ],
   },
   {
-    name: "Clinic",
+    name: 'Clinic',
     exact: true,
-    to: "/app/clinic",
-    iconClassName: "bi bi-file-medical",
+    to: '/app/clinic',
+    iconClassName: 'bi bi-file-medical',
     subMenus: [
-      {name: "Appointment", to: "/app/clinic/appointments"},
-      {name: "checkin", to: "/app/clinic/checkin"},
-      {name: "Dashboard", to: "/app/clinic/dashboard"},
-    ],
-  },
-
-  {
-    name: "Appointments",
-    exact: true,
-    to: "/app/appointments",
-    iconClassName: "bi bi-calendar",
-    subMenus: [
-      {name: "Blood Bank", to: "/app/appointments/blood-bank"},
-      {name: "Clinic", to: "/app/appointments/clinic"},
-      {name: "CRM", to: "/app/appointments/crm"},
-      {name: "Global", to: "/app/appointments/global"},
-      {name: "Immunization", to: "/app/appointments/immunization"},
-      {name: "Labour Ward", to: "/app/appointments/labour-ward"},
-      {name: "Pharmacy", to: "/app/appointments/pharmacy"},
-      {name: "Radiology", to: "/app/appointments/radiology"},
-      {name: "Referral", to: "/app/appointments/referral"},
-      {name: "Theatre", to: "/app/appointments/theatre"},
+      { name: 'Appointment', to: '/app/clinic/appointments' },
+      { name: 'checkin', to: '/app/clinic/checkin' },
+      { name: 'Dashboard', to: '/app/clinic/dashboard' },
     ],
   },
 
   {
-    name: "Appt. Workflow",
+    name: 'Appointments',
     exact: true,
-    to: "/app/appointments/workflow",
-    iconClassName: "bi bi-calendar",
+    to: '/app/appointments',
+    iconClassName: 'bi bi-calendar',
     subMenus: [
-      {name: "Blood Bank", to: "/app/appointments/workflow/blood-bank"},
-      {name: "Clinic", to: "/app/appointments/workflow/clinic"},
-      {name: "CRM", to: "/app/appointments/workflow/crm"},
-      {name: "Global", to: "/app/appointments/workflow/global"},
-      {name: "Immunization", to: "/app/appointments/workflow/immunization"},
-      {name: "Labour Ward", to: "/app/appointments/workflow/labour-ward"},
-      {name: "Pharmacy", to: "/app/appointments/workflow/pharmacy"},
-      {name: "Radiology", to: "/app/appointments/workflow/radiology"},
-      {name: "Referral", to: "/app/appointments/workflow/referral"},
-      {name: "Theatre", to: "/app/appointments/workflow/theatre"},
+      { name: 'Blood Bank', to: '/app/appointments/blood-bank' },
+      { name: 'Clinic', to: '/app/appointments/clinic' },
+      { name: 'CRM', to: '/app/appointments/crm' },
+      { name: 'Global', to: '/app/appointments/global' },
+      { name: 'Immunization', to: '/app/appointments/immunization' },
+      { name: 'Labour Ward', to: '/app/appointments/labour-ward' },
+      { name: 'Pharmacy', to: '/app/appointments/pharmacy' },
+      { name: 'Radiology', to: '/app/appointments/radiology' },
+      { name: 'Referral', to: '/app/appointments/referral' },
+      { name: 'Theatre', to: '/app/appointments/theatre' },
     ],
   },
 
   {
-    name: "Laboratory",
+    name: 'Appt. Workflow',
     exact: true,
-    to: "/app/laboratory",
-    iconClassName: "bi bi-binoculars",
+    to: '/app/appointments/workflow',
+    iconClassName: 'bi bi-calendar',
     subMenus: [
-      {name: "Bill Client", to: "/app/laboratory/billclient"},
-      {name: "Bill Lab Orders", to: "/app/laboratory/billlaborders"},
+      { name: 'Blood Bank', to: '/app/appointments/workflow/blood-bank' },
+      { name: 'Clinic', to: '/app/appointments/workflow/clinic' },
+      { name: 'CRM', to: '/app/appointments/workflow/crm' },
+      { name: 'Global', to: '/app/appointments/workflow/global' },
+      { name: 'Immunization', to: '/app/appointments/workflow/immunization' },
+      { name: 'Labour Ward', to: '/app/appointments/workflow/labour-ward' },
+      { name: 'Pharmacy', to: '/app/appointments/workflow/pharmacy' },
+      { name: 'Radiology', to: '/app/appointments/workflow/radiology' },
+      { name: 'Referral', to: '/app/appointments/workflow/referral' },
+      { name: 'Theatre', to: '/app/appointments/workflow/theatre' },
+    ],
+  },
+
+  {
+    name: 'Laboratory',
+    exact: true,
+    to: '/app/laboratory',
+    iconClassName: 'bi bi-binoculars',
+    subMenus: [
+      { name: 'Bill Client', to: '/app/laboratory/billclient' },
+      { name: 'Bill Lab Orders', to: '/app/laboratory/billlaborders' },
       // {name: "Payment", to: "/app/laboratory/payment"},
-      {name: "Lab Result", to: "/app/laboratory/labresult"},
-      {name: "Dashboard", to: "/app/laboratory/dashboard"},
+      { name: 'Lab Result', to: '/app/laboratory/labresult' },
+      { name: 'Dashboard', to: '/app/laboratory/dashboard' },
     ],
   },
 
   {
-    name: "Pharmacy",
+    name: 'Pharmacy',
     exact: true,
-    to: "/app/pharmacy",
-    iconClassName: "bi bi-file-medical",
+    to: '/app/pharmacy',
+    iconClassName: 'bi bi-file-medical',
     subMenus: [
-      {name: "Bill Client", to: "/app/pharmacy/billclient"},
-      {name: "Bill Prescription Sent", to: "/app/pharmacy/billprescription"},
+      { name: 'Bill Client', to: '/app/pharmacy/billclient' },
+      { name: 'Bill Prescription Sent', to: '/app/pharmacy/billprescription' },
       // { name: 'Payment', to: '/app/pharmacy/payment' },
-      {name: "Dispensary", to: "/app/pharmacy/dispensary"},
-      {name: "Store Inventory", to: "/app/pharmacy/storeinventory"},
-      {name: "Product Entry", to: "/app/pharmacy/productentry"},
-      {name: "Issue Out", to: "/app/pharmacy/issueout"},
-      {name: "Requisiition", to: "/app/pharmacy/requisition"},
-      {name: "Transfer", to: "/app/pharmacy/transfer"},
-      {name: "Dashboard", to: "/app/pharmacy/dashboard"},
+      { name: 'Dispensary', to: '/app/pharmacy/dispensary' },
+      { name: 'Store Inventory', to: '/app/pharmacy/storeinventory' },
+      { name: 'Product Entry', to: '/app/pharmacy/productentry' },
+      { name: 'Issue Out', to: '/app/pharmacy/issueout' },
+      { name: 'Requisiition', to: '/app/pharmacy/requisition' },
+      { name: 'Transfer', to: '/app/pharmacy/transfer' },
+      { name: 'Dashboard', to: '/app/pharmacy/dashboard' },
     ],
   },
   {
-    name: "Finance",
+    name: 'Finance',
     exact: true,
-    to: "/app/finance",
-    iconClassName: "bi bi-cash",
+    to: '/app/finance',
+    iconClassName: 'bi bi-cash',
     subMenus: [
-      {name: "Bill Services", to: "/app/finance/billservices"},
-      {name: "Payment", to: "/app/finance/payment"},
-      {name: "Revenue", to: "/app/finance/revenue"},
-      {name: "Collections", to: "/app/finance/collections"},
-      {name: "Transactions", to: "/app/finance/client-transactions"},
-      {name: "Services", to: "/app/finance/services"},
-      {name: "HMO Authorization", to: "/app/finance/hmoauthorization"},
-      {name: "Dashboard", to: "/app/finance/dashboard"},
+      { name: 'Bill Services', to: '/app/finance/billservices' },
+      { name: 'Payment', to: '/app/finance/payment' },
+      { name: 'Revenue', to: '/app/finance/revenue' },
+      { name: 'Collections', to: '/app/finance/collections' },
+      { name: 'Transactions', to: '/app/finance/client-transactions' },
+      { name: 'Services', to: '/app/finance/services' },
+      { name: 'HMO Authorization', to: '/app/finance/hmoauthorization' },
+      { name: 'Dashboard', to: '/app/finance/dashboard' },
     ],
   },
   {
-    name: "Radiology",
+    name: 'Radiology',
     exact: true,
-    to: "/app/radiology",
-    iconClassName: "bi bi-binoculars",
+    to: '/app/radiology',
+    iconClassName: 'bi bi-binoculars',
     subMenus: [
       // {name: "Home", to: "/app/radiology"},
       // {name: "Radiology", to: "/app/radiology/radiology"},
-      {name: "Bill Client", to: "/app/radiology/billservice"},
-      {name: "Checked-In", to: "/app/radiology/checkedin"},
-      {name: "Appointment", to: "/app/radiology/appointments"},
-      {name: "Bill Lab Orders", to: "/app/radiology/radiology-bill"},
+      { name: 'Bill Client', to: '/app/radiology/billservice' },
+      { name: 'Checked-In', to: '/app/radiology/checkedin' },
+      { name: 'Appointment', to: '/app/radiology/appointments' },
+      { name: 'Bill Lab Orders', to: '/app/radiology/radiology-bill' },
       // {name: "Payment", to: "/app/radiology/payment"},
-      {name: "Radiology Result", to: "/app/radiology/radiology-result"},
+      { name: 'Radiology Result', to: '/app/radiology/radiology-result' },
     ],
   },
   // {
@@ -143,224 +143,230 @@ export const menuItems = [
   //   ],
   // },
   {
-    name: "Admin",
+    name: 'Admin',
     exact: true,
-    to: "/app/admin",
-    iconClassName: "bi bi-person",
+    to: '/app/admin',
+    iconClassName: 'bi bi-person',
     subMenus: [
-      {name: "Bands", to: "/app/admin/bands"},
-      {name: "Employees", to: "/app/admin/employees"},
-      {name: "Location", to: "/app/admin/location"},
-      {name: "Dashboard", to: "/app/admin/dashboard"},
+      { name: 'Bands', to: '/app/admin/bands' },
+      { name: 'Employees', to: '/app/admin/employees' },
+      { name: 'Location', to: '/app/admin/location' },
+      { name: 'Dashboard', to: '/app/admin/dashboard' },
     ],
   },
   {
-    name: "Inventory",
+    name: 'Inventory',
     exact: true,
-    to: "/app/inventory",
-    iconClassName: "bi bi-file-medical",
+    to: '/app/inventory',
+    iconClassName: 'bi bi-file-medical',
     subMenus: [
-      {name: "Bill Client", to: "/app/inventory/billservice"},
-      {name: "Bill Prescription Sent", to: "/app/inventory/billprescription"},
+      { name: 'Bill Client', to: '/app/inventory/billservice' },
+      { name: 'Bill Prescription Sent', to: '/app/inventory/billprescription' },
       // { name: 'Payment', to: '/app/inventory/payment' },
-      {name: "Dispensary", to: "/app/inventory/dispensary"},
-      {name: "Store Inventory", to: "/app/inventory/storeinventory"},
-      {name: "Product Entry", to: "/app/inventory/productentry"},
-      {name: "Issue Out", to: "/app/inventory/issueout"},
-      {name: "Requisiition", to: "/app/inventory/requisition"},
-      {name: "Transfer", to: "/app/inventory/transfer"},
-      {name: "Dashboard", to: "/app/inventory/dashboard"},
+      { name: 'Dispensary', to: '/app/inventory/dispensary' },
+      { name: 'Store Inventory', to: '/app/inventory/storeinventory' },
+      { name: 'Product Entry', to: '/app/inventory/productentry' },
+      { name: 'Issue Out', to: '/app/inventory/issueout' },
+      { name: 'Requisiition', to: '/app/inventory/requisition' },
+      { name: 'Transfer', to: '/app/inventory/transfer' },
+      { name: 'Dashboard', to: '/app/inventory/dashboard' },
     ],
   },
   {
-    name: "Communication",
+    name: 'Communication',
     exact: true,
-    to: "/app/communication",
-    iconClassName: "bi bi-rss",
+    to: '/app/communication',
+    iconClassName: 'bi bi-rss',
     subMenus: [
-      {name: "Channel", to: "/app/communication/channel"},
-      {name: "Questionnaires", to: "/app/communication/questionnaires"},
-      {name: "Configuration", to: "/app/communication/configuration"},
-      {name: "Submissions", to: "/app/communication/submissions"},
+      { name: 'Channel', to: '/app/communication/channel' },
+      { name: 'Questionnaires', to: '/app/communication/questionnaires' },
+      { name: 'Configuration', to: '/app/communication/configuration' },
+      { name: 'Submissions', to: '/app/communication/submissions' },
     ],
   },
   {
-    name: "Epidemiology",
+    name: 'Epidemiology',
     exact: true,
-    to: "/app/epidemiology",
-    iconClassName: "bi bi-rss",
+    to: '/app/epidemiology',
+    iconClassName: 'bi bi-rss',
     subMenus: [
-      {name: "Dashboard", to: "/app/epidemiology/dashboard"},
-      {name: "Case Definition", to: "/app/epidemiology/casedefinition"},
-      {name: "Signals", to: "/app/epidemiology/signal"},
-      {name: "Map", to: "/app/epidemiology/map"},
+      { name: 'Dashboard', to: '/app/epidemiology/dashboard' },
+      { name: 'Case Definition', to: '/app/epidemiology/casedefinition' },
+      { name: 'Signals', to: '/app/epidemiology/signal' },
+      { name: 'Map', to: '/app/epidemiology/map' },
     ],
   },
 
   {
-    name: "Ward",
+    name: 'Ward',
     exact: true,
-    to: "/app/ward",
-    iconClassName: "bi bi-person",
+    to: '/app/ward',
+    iconClassName: 'bi bi-person',
     subMenus: [
-      {name: "Admission List", to: "/app/ward/admissions"},
-      {name: "In-Patient", to: "/app/ward/inpatients"},
-      {name: "Discharge List", to: "/app/ward/discharge"},
-      {name: "Dashboard", to: "/app/ward/dashboard"},
+      { name: 'Admission List', to: '/app/ward/admissions' },
+      { name: 'In-Patient', to: '/app/ward/inpatients' },
+      { name: 'Discharge List', to: '/app/ward/discharge' },
+      { name: 'Dashboard', to: '/app/ward/dashboard' },
     ],
   },
   {
-    name: "Theatre",
+    name: 'Theatre',
     exact: true,
-    to: "/app/theatre",
-    iconClassName: "bi bi-person",
+    to: '/app/theatre',
+    iconClassName: 'bi bi-person',
     subMenus: [
-      {name: "Appointment", to: "/app/theatre/theatre-appointments"},
-      {name: "Check In", to: "/app/theatre/theatre-checkedin"},
-      {name: "Bill Client", to: "/app/theatre/billservice"},
-      {name: "Bill Order Sent", to: "/app/theatre/theatre-bill"},
+      { name: 'Appointment', to: '/app/theatre/theatre-appointments' },
+      { name: 'Check In', to: '/app/theatre/theatre-checkedin' },
+      { name: 'Bill Client', to: '/app/theatre/billservice' },
+      { name: 'Bill Order Sent', to: '/app/theatre/theatre-bill' },
     ],
   },
   {
-    name: "Managed Care",
+    name: 'Managed Care',
     exact: true,
-    to: "/app/managed-care",
-    iconClassName: "bi bi-person",
+    to: '/app/managed-care',
+    iconClassName: 'bi bi-person',
     subMenus: [
-      {name: "Policy", to: "/app/managed-care/policy"},
-      {name: "Beneficiary", to: "/app/managed-care/beneficiary"},
-      {name: "Check In", to: "/app/managed-care/checkin"},
-      {name: "Provider", to: "/app/managed-care/provider"},
-      {name: "Corporate", to: "/app/managed-care/corporate"},
-      {name: "Complaints", to: "/app/managed-care/complaints"},
-      {name: "HIA", to: "/app/managed-care/HIA"},
-      {name: "Premiums", to: "/app/managed-care/premiums"},
+      { name: 'Policy', to: '/app/managed-care/policy' },
+      { name: 'Beneficiary', to: '/app/managed-care/beneficiary' },
+      { name: 'Check In', to: '/app/managed-care/checkin' },
+      { name: 'Provider', to: '/app/managed-care/provider' },
+      { name: 'Corporate', to: '/app/managed-care/corporate' },
+      { name: 'Complaints', to: '/app/managed-care/complaints' },
+      { name: 'HIA', to: '/app/managed-care/HIA' },
+      { name: 'Premiums', to: '/app/managed-care/premiums' },
       {
-        name: "Organisation",
-        to: "/app/managed-care/organisation",
+        name: 'Organisation',
+        to: '/app/managed-care/organisation',
       },
-      {name: "Referrals", to: "/app/managed-care/referrals"},
-      {name: "Tariff", to: "/app/managed-care/tariff"},
-      {name: "Claims", to: "/app/managed-care/claims"},
-      {name: "DashBoard", to: "/app/managed-care/dashboard"},
-      {name: "Accreditation", to: "/app/managed-care/accreditation"},
+      { name: 'Referrals', to: '/app/managed-care/referrals' },
+      { name: 'Tariff', to: '/app/managed-care/tariff' },
+      { name: 'Claims', to: '/app/managed-care/claims' },
+      { name: 'DashBoard', to: '/app/managed-care/dashboard' },
+      { name: 'Accreditation', to: '/app/managed-care/accreditation' },
       {
-        name: "Fund management",
-        to: "/app/managed-care/fundmanagement",
+        name: 'Fund management',
+        to: '/app/managed-care/fundmanagement',
       },
-      {name: "Health plan", to: "/app/managed-care/healthplan"},
+      { name: 'Health plan', to: '/app/managed-care/healthplan' },
       {
-        name: "Preauthorization",
-        to: "/app/managed-care/preauthorization",
+        name: 'Preauthorization',
+        to: '/app/managed-care/preauthorization',
       },
       {
-        name: "Provider payment",
-        to: "/app/managed-care/providerpayment",
+        name: 'Provider payment',
+        to: '/app/managed-care/providerpayment',
       },
-      {name: "Report", to: "/app/managed-care/report"},
-      {name: "Dashboard", to: "/app/managed-care/dashboard"},
+      { name: 'Report', to: '/app/managed-care/report' },
+      { name: 'Dashboard', to: '/app/managed-care/dashboard' },
     ],
   },
   {
-    name: "CRM",
+    name: 'CRM',
     exact: true,
-    to: "/app/crm",
-    iconClassName: "bi bi-person",
+    to: '/app/crm',
+    iconClassName: 'bi bi-person',
     subMenus: [
-      {name: "Lead", to: "/app/crm/lead"},
-      {name: "Proposal", to: "/app/crm/proposal"},
-      {name: "Invoice", to: "/app/crm/invoice"},
-      {name: "SLA", to: "/app/crm/SLA"},
-      {name: "Dashboard", to: "/app/crm/dashboard"},
-      {name: "Appointment", to: "/app/crm/appointment"},
-      {name: "Deal", to: "/app/crm/deal"},
+      { name: 'Lead', to: '/app/crm/lead' },
+      { name: 'Proposal', to: '/app/crm/proposal' },
+      { name: 'Invoice', to: '/app/crm/invoice' },
+      { name: 'SLA', to: '/app/crm/SLA' },
+      { name: 'Dashboard', to: '/app/crm/dashboard' },
+      { name: 'Appointment', to: '/app/crm/appointment' },
+      { name: 'Deal', to: '/app/crm/deal' },
     ],
   },
   {
-    name: "Complaints",
+    name: 'Complaints',
     exact: true,
-    to: "/app/complaints",
-    iconClassName: "bi bi-person",
-    subMenus: [{name: "Complaints", to: "/app/complaints"}],
+    to: '/app/complaints',
+    iconClassName: 'bi bi-person',
+    subMenus: [{ name: 'Complaints', to: '/app/complaints' }],
   },
   {
-    name: "Referral",
+    name: 'Referral',
     exact: true,
-    to: "/app/referral",
-    iconClassName: "bi bi-person",
+    to: '/app/referral',
+    iconClassName: 'bi bi-person',
     subMenus: [
-      {name: "Incoming", to: "/app/referral/incoming"},
+      { name: 'Incoming', to: '/app/referral/incoming' },
       {
-        name: "Referral account",
-        to: "/app/referral/account",
+        name: 'Referral account',
+        to: '/app/referral/account',
       },
-      {name: "Setting", to: "/app/referral/setting"},
+      { name: 'Setting', to: '/app/referral/setting' },
     ],
   },
   {
-    name: "Communication",
+    name: 'Communication',
     exact: true,
-    to: "/app/communication",
-    iconClassName: "bi bi-person",
+    to: '/app/communication',
+    iconClassName: 'bi bi-person',
     subMenus: [
-      {name: "Whatsapp", to: "/app/communication/whatsapp"},
-      {name: "SMS", to: "/app/communication/sms"},
-      {name: "USSD", to: "/app/communication/ussd"},
-      {name: "Email", to: "/app/communication/email"},
-      {name: "IVR", to: "/app/communication/ivr"},
+      { name: 'Whatsapp', to: '/app/communication/whatsapp' },
+      { name: 'SMS', to: '/app/communication/sms' },
+      { name: 'USSD', to: '/app/communication/ussd' },
+      { name: 'Email', to: '/app/communication/email' },
+      { name: 'IVR', to: '/app/communication/ivr' },
     ],
   },
   {
-    name: "Patient Portal",
+    name: 'Patient Portal',
     exact: true,
-    to: "/app/patient-portal/profile",
-    iconClassName: "bi bi-person",
+    to: '/app/patient-portal/profile',
+    iconClassName: 'bi bi-person',
     subMenus: [
-      {name: "Profile", to: "/app/patient-portal/profile"},
-      {name: "View", to: "/app/patient-portal/view"},
-      {name: "Buy", to: "/app/patient-portal/buy"},
-      {name: "Search", to: "/app/patient-portal/search"},
-      {name: "Read", to: "/app/patient-portal/read"},
-      {name: "Chat", to: "/app/patient-portal/chat"},
+      { name: 'Profile', to: '/app/patient-portal/profile' },
+      { name: 'View', to: '/app/patient-portal/view' },
+      { name: 'Buy', to: '/app/patient-portal/buy' },
+      { name: 'Search', to: '/app/patient-portal/search' },
+      { name: 'Read', to: '/app/patient-portal/read' },
+      { name: 'Chat', to: '/app/patient-portal/chat' },
     ],
   },
   {
-    name: "Accounting",
+    name: 'Market Place',
     exact: true,
-    to: "/app/accounting",
-    iconClassName: "bi bi-person",
+    to: '/app/market-place',
+    iconClassName: 'bi bi-house-door',
+  },
+  {
+    name: 'Accounting',
+    exact: true,
+    to: '/app/accounting',
+    iconClassName: 'bi bi-person',
     subMenus: [
-      {name: "Chart of accounts", to: "/app/accounting/chart-of-account"},
-      {name: "Account", to: "/app/accounting/account"},
-      {name: "Payment", to: "/app/accounting/payment"},
-      {name: "Expenses", to: "/app/accounting/expenses"},
-      {name: "Journal", to: "/app/accounting/journal"},
-      {name: "Report", to: "/app/accounting/report"},
+      { name: 'Chart of accounts', to: '/app/accounting/chart-of-account' },
+      { name: 'Account', to: '/app/accounting/account' },
+      { name: 'Payment', to: '/app/accounting/payment' },
+      { name: 'Expenses', to: '/app/accounting/expenses' },
+      { name: 'Journal', to: '/app/accounting/journal' },
+      { name: 'Report', to: '/app/accounting/report' },
     ],
   },
   {
-    name: "Immunization",
+    name: 'Immunization',
     exact: true,
-    to: "/app/immunization",
-    iconClassName: "bi bi-person",
+    to: '/app/immunization',
+    iconClassName: 'bi bi-person',
     subMenus: [
-      {name: "Vaccine profile", to: "/app/immunization/vaccineprofile"},
-      {name: "Immunization schedule", to: "/app/immunization/schedule"},
-      {name: "Inventory", to: "/app/immunization/inventory"},
-      {name: "Appointment", to: "/app/immunization/appointment"},
-      {name: "Checkin/out", to: "/app/immunization/checkin-out"},
-      {name: "Report", to: "/app/immunization/report"},
+      { name: 'Vaccine profile', to: '/app/immunization/vaccineprofile' },
+      { name: 'Immunization schedule', to: '/app/immunization/schedule' },
+      { name: 'Inventory', to: '/app/immunization/inventory' },
+      { name: 'Appointment', to: '/app/immunization/appointment' },
+      { name: 'Checkin/out', to: '/app/immunization/checkin-out' },
+      { name: 'Report', to: '/app/immunization/report' },
     ],
   },
   {
-    name: "Blood Bank",
+    name: 'Blood Bank',
     exact: true,
-    to: "/app/blood-bank",
-    iconClassName: "bi bi-person",
+    to: '/app/blood-bank',
+    iconClassName: 'bi bi-person',
     subMenus: [
-      {name: "Inventory", to: "/app/blood-bank/inventory"},
-      {name: "Appointment", to: "/app/blood-bank/appointment"},
-      {name: "Lab", to: "/app/blood-bank/lab"},
+      { name: 'Inventory', to: '/app/blood-bank/inventory' },
+      { name: 'Appointment', to: '/app/blood-bank/appointment' },
+      { name: 'Lab', to: '/app/blood-bank/lab' },
     ],
   },
   // {
@@ -380,15 +386,15 @@ export const menuItems = [
   // },
 ];
 
-function SideMenu({isOpen}) {
+function SideMenu({ isOpen }) {
   const [inactive, setInactive] = useState(false);
-  const {state} = useContext(ObjectContext);
-  const {user} = useContext(UserContext);
+  const { state } = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (inactive) {
-      document.querySelectorAll(".sub-menu");
+      document.querySelectorAll('.sub-menu');
     }
   }, [inactive]);
 
@@ -400,35 +406,49 @@ function SideMenu({isOpen}) {
     a.name.localeCompare(b.name)
   );
 
+  //const orgModules = state.facilityDetail
+
+  //const organitionMenuItems = orgModules.filter(item => orgModules.includes(item.name) )
+
   const roles = user.currentEmployee.roles;
 
-  //console.log(user);
+  //console.log(user.currentEmployee.facilityDetail.facilityModules);
 
-  const isFacility = false;
+  const isOrgAdmin = roles.includes("Admin");
 
-  const rolesMenuList = isFacility
-    ? sortedMenuItems
-    : sortedMenuItems.filter(item => roles.includes(item.name));
+  const facilityModules = user.currentEmployee.facilityDetail?.facilityModules;
+
+  const facilitySortedMenuItems =
+    facilityModules &&
+    sortedMenuItems.filter(item => facilityModules.includes(item.name));
+
+  const getFacilitySortedMenuItems = facilitySortedMenuItems || sortedMenuItems;
+
+
+  const rolesMenuList = isOrgAdmin
+    ? getFacilitySortedMenuItems
+    : getFacilitySortedMenuItems.filter(item => roles.includes(item.name));
+
 
   useEffect(() => {
-    const itemsQuery = document.querySelectorAll(".menu-item");
+    const itemsQuery = document.querySelectorAll('.menu-item');
 
-    itemsQuery.forEach(el => {
-      el.addEventListener("click", () => {
+    itemsQuery.forEach((el) => {
+      el.addEventListener('click', () => {
         const next = el.nextElementSibling;
         removeActiveClassFromSubMenu();
-        itemsQuery.forEach(el => el.classList.remove("active"));
-        el.classList.toggle("active");
+        itemsQuery.forEach((el) => el.classList.remove('active'));
+        el.classList.toggle('active');
 
         if (next !== null) {
-          next.classList.toggle("active");
+          next.classList.toggle('active');
         }
       });
     });
   }, []);
 
   return (
-    <Sidemenu className={`side-menu ${isOpen ? "" : "hide"}`}>
+    <Sidemenu className={`side-menu ${isOpen ? '' : 'hide'}`}>
       <TopSection>
         <h4>Our Hospital</h4>
       </TopSection>
@@ -436,7 +456,7 @@ function SideMenu({isOpen}) {
         <Lists>
           <MenuItem
             name="Home"
-            subMenus={[{name: "Dashboard", to: "/app/overview/dashboard"}]}
+            subMenus={[{ name: 'Dashboard', to: '/app/overview/dashboard' }]}
             to="/app"
             iconClassName="bi bi-house-door"
           />
@@ -469,7 +489,7 @@ function SideMenu({isOpen}) {
             iconClassName="bi bi-house-door"
             subMenus={[]}
             onClick={() => {
-              localStorage.setItem("user", "");
+              localStorage.setItem('user', '');
             }}
           />
         </Lists>

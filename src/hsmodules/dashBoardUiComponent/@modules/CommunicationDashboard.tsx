@@ -1,5 +1,5 @@
-import { Box, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import {Box, Typography} from "@mui/material";
+import React, {useEffect, useState} from "react";
 
 import ViewCard from "./@sections/ViewCard";
 import LineChart from "../charts/LineChart";
@@ -14,8 +14,8 @@ import {
   // TotalDischargedPatient,
   // TotalAdmittedPatient,
 } from "../utils/chartData/chartDataHandler";
-import { CircleSeriesData } from "../utils/chartData/circleSeries";
-import { clientLineData } from "../utils/chartData/LineData";
+import {CircleSeriesData} from "../utils/chartData/circleSeries";
+import {clientLineData} from "../utils/chartData/LineData";
 
 import {
   DashboardContainer,
@@ -23,7 +23,7 @@ import {
   StartCardWapper,
 } from "../core-ui/styles";
 import CircleChart from "../charts/CircleChart";
-import { userDetails } from "../utils/fetchUserDetails";
+import {userDetails} from "../utils/fetchUserDetails";
 
 const CommunicationDashboard = () => {
   const [userName, setUserName] = useState("");
@@ -32,20 +32,20 @@ const CommunicationDashboard = () => {
   const clientService = client.service("/client");
   // const admissionService = client.service("/admission");
   const appointmentService = client.service("/appointments");
-  const { totalValue } = TotalNumOfData(clientService);
-  const { totalNewClient } = TotalNewClientWithinAMonth(appointmentService);
-  const { totalUpcomingAppointment } = TotalUpcomingAppointment(clientService);
-  const { monthNameForCurrentYear, newClientLineSeriesData } =
+  const {totalValue} = TotalNumOfData(clientService);
+  const {totalNewClient} = TotalNewClientWithinAMonth(appointmentService);
+  const {totalUpcomingAppointment} = TotalUpcomingAppointment(clientService);
+  const {monthNameForCurrentYear, newClientLineSeriesData} =
     clientLineData(clientService);
-    console.log(clientLineData, 'clientsss')
-  const { circleSeriesArray } = CircleSeriesData(clientService);
-  const { paymentModeBarSeries } = ClientPaymentMode(clientService);
+  console.log(clientLineData, "clientsss");
+  const {circleSeriesArray} = CircleSeriesData(clientService);
+  const {paymentModeBarSeries} = ClientPaymentMode(clientService);
   // const { totalDischargedPatient } = TotalDischargedPatient(admissionService);
   // const { totalAdmittedPatient } = TotalAdmittedPatient(admissionService);
   // const totalInPatient = totalAdmittedPatient - totalDischargedPatient;
 
   useEffect(() => {
-    const { userFullName, facilityFullName } = userDetails();
+    const {userFullName, facilityFullName} = userDetails();
     setUserName(userFullName);
     setFacilityName(facilityFullName);
   }, []);
@@ -81,24 +81,24 @@ const CommunicationDashboard = () => {
               gridGap: "10px",
               // background: "#ffcc99", // "#f9f9f9",
 
-              gridTemplateColumns: { lg: "repeat(3, 1fr)", xs: "1fr" },
+              gridTemplateColumns: {lg: "repeat(3, 1fr)", xs: "1fr"},
             }}
           >
-            <Box sx={{ width: "100%", p: 2 }}>
+            <Box sx={{width: "100%", p: 2}}>
               <ColumnChart
                 title="Payment Mode"
                 series={paymentModeBarSeries}
                 xLabels={["Cash", "HMO", "Comp", "Family Plan", "All"]}
               />
             </Box>
-            <Box sx={{ width: "100%", p: 2 }}>
+            <Box sx={{width: "100%", p: 2}}>
               <LineChart
                 title="New Clients"
                 monthArray={monthNameForCurrentYear}
                 series={newClientLineSeriesData}
               />
             </Box>
-            <Box sx={{ width: "100%", p: 2 }}>
+            <Box sx={{width: "100%", p: 2}}>
               <CircleChart
                 series={circleSeriesArray}
                 labels={["Male", "Female", "Other"]}

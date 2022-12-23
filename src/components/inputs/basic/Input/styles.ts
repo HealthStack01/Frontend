@@ -11,6 +11,7 @@ export const InputField = styled.input`
   border-radius: 4px;
   border: 1px solid ${({theme}) => theme.grayTwo};
   color: #000000;
+  font-size: 0.85rem;
   &:hover {
     border: 1px solid #000000;
   }

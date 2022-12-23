@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, useContext} from "react";
 import {Button, Grid, Box, Collapse, Typography} from "@mui/material";
 import Input from "../../../../components/inputs/basic/Input";
 import {useForm} from "react-hook-form";
@@ -40,6 +40,7 @@ import CRMTasks from "../../Tasks";
 import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
 import LeadDetailView, {PageLeadDetailView} from "../global/LeadDetail";
 import VideoConference from "../../../utils/VideoConference";
+import {ObjectContext} from "../../../../context";
 
 export const LeadView = () => {
   const {register, reset, control, handleSubmit} = useForm();
@@ -194,9 +195,9 @@ export const DetailView = () => {
 
 export const AdditionalInformationView = () => {
   const [createModal, setCreateModal] = useState(false);
-  const [informations, setInformations] = useState([
-    ...additionalInformationData,
-  ]);
+  const [informations, setInformations] = useState([]);
+
+  const {state} = useContext(ObjectContext);
 
   const removeAdditionalInfo = info => {
     setInformations(prev => prev.filter(item => item._id !== info._id));
@@ -205,6 +206,12 @@ export const AdditionalInformationView = () => {
   const addNewInfo = data => {
     setInformations(prev => [data, ...prev]);
   };
+
+  useEffect(() => {
+    const deal = state.DealModule.selectedDeal;
+
+    setInformations(deal.additionalInfo);
+  }, []);
 
   return (
     <Box>

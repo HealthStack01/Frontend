@@ -1,40 +1,44 @@
-import {forwardRef, useState} from "react";
+import {forwardRef, useState, useContext} from "react";
 import {Button, Collapse, Grid, Typography} from "@mui/material";
 import {Box} from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
 import {useForm} from "react-hook-form";
-import DatePicker from "react-datepicker";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 import {FormsHeaderText} from "../../../../components/texts";
 import CustomSelect from "../../../../components/inputs/basic/Select";
-import BasicDatePicker from "../../../../components/inputs/Date";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 import Textarea from "../../../../components/inputs/basic/Textarea";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import ModalBox from "../../../../components/modal";
-import LeadAddContact from "./AddContact";
 import CustomTable from "../../../../components/customtable";
 import EmployeeSearch from "../../../helpers/EmployeeSearch";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import {getContactColumns, getStaffColumns} from "../colums/columns";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
-import AdditionalInformationCard, {
-  CreateAdditionalInfo,
-} from "./AdditionalInfo";
-import RadioButton from "../../../../components/inputs/basic/Radio";
+
+import {toast} from "react-toastify";
+import ContactCreate from "../contact/ContactCreate";
+import {ObjectContext, UserContext} from "../../../../context";
+import dayjs from "dayjs";
+import client from "../../../../feathers";
 
 const LeadsCreate = ({closeModal, handleGoBack}) => {
-  const {register, handleSubmit, control, watch} = useForm({
-    defaultValues: {customer_type: "Individual"},
+  const dealServer = client.service("deal");
+
+  const {register, handleSubmit, control, watch, reset} = useForm({
+    defaultValues: {customer_type: ""},
   });
   const [contactModal, setContactModal] = useState(false);
   const [contacts, setContacts] = useState([]);
   const [staffs, setStaffs] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState(null);
+  const [success, setSuccess] = useState(false);
   const [informations, setInformations] = useState([]);
   const [infoModal, setInfoModal] = useState(false);
+
+  const {user} = useContext(UserContext);
+  const {showActionLoader, hideActionLoader} = useContext(ObjectContext);
 
   const handleAddContact = contact => {
     setContacts(prev => [contact, ...prev]);
@@ -47,12 +51,28 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
   };
 
   const handleSelectedStaff = staff => {
+    console.log(staff);
+    //setSuccess(true);
     setSelectedStaff(staff);
   };
 
   const handleAddStaff = () => {
-    setStaffs(prev => [selectedStaff, ...prev]);
+    if (selectedStaff === null) return toast.error("Please select a staff");
+    const staffDetail = {
+      name: `${selectedStaff.firstname} ${selectedStaff.lastname}`,
+      profession: selectedStaff.profession,
+      phoneno: selectedStaff.phone,
+      email: selectedStaff.email,
+      active: selectedStaff.active || true,
+      employeeId: selectedStaff._id,
+    };
+    setStaffs(prev => [staffDetail, ...prev]);
     setSelectedStaff(null);
+    setSuccess(true);
+
+    setTimeout(() => {
+      setSuccess(false);
+    }, 100);
   };
 
   const handleRemoveStaff = staff => {
@@ -63,19 +83,97 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
 
   const contactColumns = getContactColumns(handleRemoveContact);
 
-  const removeAdditionalInfo = info => {
-    setInformations(prev => prev.filter(item => item._id !== info._id));
-  };
-
-  const addNewInfo = data => {
-    setInformations(prev => [data, ...prev]);
-  };
-
-  const onSubmit = data => {
+  const onSubmitTest = data => {
     console.log(data);
   };
 
-  const customerType = watch("customer_type", "Organization");
+  const onSubmit = async data => {
+    // console.log("Data", data), console.log(user);
+    showActionLoader();
+    const employee = user.currentEmployee;
+
+    const additionalInfo = {
+      info: data.additional_info,
+      date: new Date(),
+      employeename: `${employee.firstname} ${employee.lastname}`,
+    };
+
+    const dealInfo = {
+      probability: data.probability,
+      size: data.size,
+      currStatus: data.status,
+      nextAction: data.nextAction,
+      weightForecast: data.weightForecast,
+      closingDate: data.closingDate,
+    };
+
+    const statusHistory = {
+      date: new Date(),
+      employeename: `${employee.firstname} ${employee.lastname}`,
+      employeeId: employee.userId,
+      status: data.status,
+    };
+
+    let document = {};
+
+    document.contact = contacts;
+    document.assignStaff = staffs;
+    document.additionalInfo = additionalInfo;
+    document.dealinfo = dealInfo;
+    document.statushx = statusHistory;
+    document.createdbyName = `${employee.firstname} ${employee.lastname}`;
+    document.createdby = employee.userId;
+    document.type = data.type;
+    document.name = data.name;
+    document.phone = data.phone;
+    document.email = data.email;
+    document.address = data.address;
+    document.city = data.city;
+    document.lga = data.lga;
+    document.state = data.state;
+    document.country = data.country;
+    document.orgbranch = data.orgbranch;
+    document.clientclass = data.clientclass;
+
+    console.log(document);
+
+    await dealServer
+      .create(document)
+      .then(res => {
+        Object.keys(data).forEach(key => {
+          data[key] = null;
+        });
+
+        hideActionLoader();
+        reset(data);
+        setStaffs([]);
+        setContacts([]);
+        toast.success(`Lead successfully created`);
+
+        //setLoading(false);
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error(`Sorry, You weren't able to create a Lead. ${err}`);
+        //setLoading(false);
+      });
+  };
+
+  // const onDelete = () => {
+  //   const id = "63a3537c3cb3d60016544527";
+
+  //   dealServer
+  //     .remove(id)
+  //     .then(res => {
+  //       toast.success(`Client successfully deleted!`);
+  //       setOpen(false);
+  //     })
+  //     .catch(err => {
+  //       toast.error(`Sorry, Unable to delete client. ${err}`);
+  //     });
+  // };
+
+  const customerType = watch("type", "corporate");
 
   return (
     <>
@@ -137,33 +235,37 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
               <Grid container spacing={1} mt={0.5}>
                 <Grid item lg={2} md={2} sm={6} xs={6}>
                   <CustomSelect
-                    options={["Individual", "Organization"]}
+                    options={["Individual", "Corporate"]}
                     label="Customer Type"
                     control={control}
-                    name="customer_type"
-                    //placeholder="Enter customer name"
+                    name="type"
+                    required
+                    important
                   />
                 </Grid>
 
                 <Grid item lg={4} md={4} sm={6} xs={6}>
                   <Input
-                    register={register("customer_name", {required: true})}
+                    register={register("name", {required: true})}
                     label="Customer Name"
+                    important
                     //placeholder="Enter customer name"
                   />
                 </Grid>
 
                 <Grid item lg={3} md={3} sm={6} xs={6}>
                   <Input
-                    register={register("customer_number", {required: true})}
-                    label="Customer Number"
+                    register={register("phone", {required: true})}
+                    label="Phone Number"
+                    important
                   />
                 </Grid>
 
                 <Grid item lg={3} md={3} sm={6} xs={6}>
                   <Input
-                    register={register("customer_email", {required: true})}
-                    label="Customer Email"
+                    register={register("email", {required: true})}
+                    label="Email Address"
+                    important
                   />
                 </Grid>
 
@@ -171,8 +273,8 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
                   <Input
                     register={register("address", {required: true})}
                     label={
-                      customerType === "Organization"
-                        ? "Oraganization Address"
+                      customerType === "corporate"
+                        ? "Organization Address"
                         : "Residential Address"
                     }
                     //placeholder="Enter customer name"
@@ -181,7 +283,7 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
 
                 <Grid item lg={2} md={3} sm={4}>
                   <Input
-                    register={register("local_govt", {required: true})}
+                    register={register("lga", {required: true})}
                     label="LGA"
                     //placeholder="Enter customer number"
                   />
@@ -212,10 +314,18 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
                 </Grid>
 
                 <Grid item lg={4} md={4} sm={6}>
-                  <Collapse in={customerType === "Organization"}>
+                  <Input
+                    register={register("clientclass", {required: true})}
+                    label="Customer Class"
+                    //placeholder="Enter customer number"
+                  />
+                </Grid>
+
+                <Grid item lg={4} md={4} sm={6}>
+                  <Collapse in={customerType === "corporate"}>
                     <Input
-                      register={register("organization_branch", {
-                        required: true,
+                      register={register("orgbranch", {
+                        required: customerType === "corporate" ? true : false,
                       })}
                       label="Organization Branch"
                       //placeholder="Enter customer number"
@@ -226,18 +336,18 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
             </Box>
 
             <Box>
-              <FormsHeaderText text="Lead Details" />
+              <FormsHeaderText text="Deal Details" />
               <Grid container spacing={1} mt={0.5}>
                 <Grid item lg={2} md={3} sm={6}>
                   <Input
-                    register={register("deal_probability", {required: true})}
+                    register={register("probability", {required: true})}
                     label="Probability"
                     //placeholder="Enter customer name"
                   />
                 </Grid>
                 <Grid item lg={2} md={3} sm={6}>
                   <Input
-                    register={register("deal_size", {required: true})}
+                    register={register("size", {required: true})}
                     label="Size"
                     //placeholder="Enter customer number"
                   />
@@ -245,35 +355,35 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
 
                 <Grid item lg={2} md={3} sm={6}>
                   <CustomSelect
-                    register={register("deal_status", {required: true})}
                     label="Status"
-                    options={["Open", "Closed", "Pending"]}
-                    defaultValue="Open"
-                    // placeholder="Enter customer name"
+                    options={["Open", "Pending", "Closed"]}
+                    name="status"
+                    control={control}
+                    important
+                    required
                   />
                 </Grid>
 
                 <Grid item lg={2} md={3} sm={6}>
-                  <CustomSelect
-                    register={register("deal_next_action", {required: true})}
+                  <Input
                     label="Next Action"
-                    options={["First", "Second", "Third", "Fourth"]}
-                    defaultValue="First"
+                    register={register("nextAction", {required: true})}
+
                     //placeholder="Enter customer number"
                   />
                 </Grid>
 
                 <Grid item lg={2} md={3} sm={6}>
                   <Input
-                    register={register("weight_forcast", {required: true})}
-                    label="Weight Forcast"
+                    register={register("weightForecast", {required: true})}
+                    label="Weight Forecast"
                     //placeholder="Enter customer number"
                   />
                 </Grid>
                 <Grid item lg={2} md={3} sm={6}>
                   <MuiCustomDatePicker
                     label="Closing Date"
-                    name="closing_date"
+                    name="closingDate"
                     control={control}
                   />
                 </Grid>
@@ -285,14 +395,14 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
                     register={register("additional_info")}
                   />
                 </Grid>
-
+                {/* 
                 <Grid item lg={6} md={6} sm={6}>
                   <Textarea
                     label="More Additional Information"
                     placeholder="Write here..."
                     register={register("more_additional_info")}
                   />
-                </Grid>
+                </Grid> */}
               </Grid>
             </Box>
           </Grid>
@@ -345,9 +455,9 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
                     onClose={() => setContactModal(false)}
                     header="Add Contact"
                   >
-                    <LeadAddContact
+                    <ContactCreate
                       closeModal={() => setContactModal(false)}
-                      addContact={handleAddContact}
+                      createContact={handleAddContact}
                     />
                   </ModalBox>
                 </Box>
@@ -369,6 +479,7 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
                       <EmployeeSearch
                         getSearchfacility={handleSelectedStaff}
                         label="Search for Staff"
+                        clear={success}
                       />
                     </Box>
 
@@ -406,7 +517,7 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
           </Grid>
         </Grid>
 
-        <ModalBox
+        {/* <ModalBox
           open={infoModal}
           onClose={() => setInfoModal(false)}
           header="Add New Information"
@@ -415,7 +526,7 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
             closeModal={() => setInfoModal(false)}
             addInfo={addNewInfo}
           />
-        </ModalBox>
+        </ModalBox> */}
       </Box>
     </>
   );
