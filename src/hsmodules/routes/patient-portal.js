@@ -5,7 +5,8 @@ import Buy from '../Patientportal/Buy';
 import Blog from '../Patientportal/Read';
 import Chat from '../Patientportal/Chat';
 import Search from '../Patientportal/Search';
-import ProductDetails from '../Patientportal/components/Marketplace/productDetails';
+// import ProductDetails from '../Patientportal/components/Marketplace/productDetails';
+import SearchDetails from '../Patientportal/components/search/SearchDetails';
 
 export const patientProfileRoutes = [
   {
@@ -31,6 +32,10 @@ export const patientProfileRoutes = [
   {
     path: '/app/patient-portal/search',
     Component: Search,
+  },
+   {
+    path: '/app/patient-portal/search/:Id',
+    Component: SearchDetails,
   },
   {
     path: '/app/patient-portal/read',
