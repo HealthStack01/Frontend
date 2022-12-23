@@ -107,15 +107,15 @@ export default function ClientProblems() {
           deleteProblem={handleDeleteProblem}
           problems={problems}
         />
-        <ModalBox width="40vw" open={createModal} onClose={handleHideCreateModal}>
+        <ModalBox width="40vw" open={createModal} onClose={handleHideCreateModal} header="Create Problem List">
           <ClientProblemsCreate />
         </ModalBox>
 
-        <ModalBox width="40vw" open={detailModal} onClose={handleHideDetailModal}>
+        <ModalBox width="40vw" open={detailModal} onClose={handleHideDetailModal} header="Problem List Details">
           <ClientProblemsDetail showModifyModal={handleModifyModal} />
         </ModalBox>
 
-        <ModalBox width="40vw" open={modifyModal} onClose={handleHideModifyModal}>
+        <ModalBox width="40vw" open={modifyModal} onClose={handleHideModifyModal} header="Problem List Modify">
           <ClientProblemsModify />
         </ModalBox>
       </div>
@@ -214,10 +214,7 @@ export function ClientProblemsCreate() {
 
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Create Problem</p>
-        </div>
+      <div>
         <div className="card-content vscrollable">
           <form onSubmit={handleSubmit(onSubmit)}>
               <div style={{paddingBottom:"1rem"}}>
@@ -672,9 +669,8 @@ export function ClientProblemsDetail({showModifyModal}) {
 
   return (
     <>
-     <div className="card ">
+     <div>
      <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
-          <p className="card-header-title">Problem Details</p>
           <GlobalCustomButton
           onClick={handleEdit}
                   >
@@ -896,11 +892,8 @@ export function ClientProblemsModify() {
 
   return (
     <>
-      <div className="card ">
+      <div>
       <div style={{display:"flex", justifyContent:"space-between"}}>
-        <div className="card-header">
-          <p className="card-header-title">Problem Modify</p>
-        </div>
         <Box sx={{display: "flex",gap:"0.5rem"}}>
           <GlobalCustomButton
           type="submit" onClick={handleSubmit(onSubmit)}
