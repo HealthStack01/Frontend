@@ -32,6 +32,11 @@ export const modulesList = [
         value: "Client Client",
         label: "Client ",
       },
+
+      {
+        value: "Client Bill Client",
+        label: "Bill Client ",
+      },
     ],
   },
 

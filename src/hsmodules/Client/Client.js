@@ -1345,7 +1345,7 @@ export function ClientDetail({closeDetailModal}) {
                 color="success"
               />
             )}
-            {(user.currentEmployee?.roles.includes("Bill Client") ||
+            {(user.currentEmployee?.roles.includes("Client Bill Client") ||
               user.currentEmployee?.roles.length === 0 ||
               user.stacker) && (
               <GlobalCustomButton
@@ -1811,7 +1811,7 @@ export function ClientDetail({closeDetailModal}) {
       >
         <AppointmentCreate
           closeModal={handlecloseModal2}
-          openBill={(setBillingModal, handlecloseModal2)}
+          openBill={setBillingModal}
         />
       </ModalBox>
 
