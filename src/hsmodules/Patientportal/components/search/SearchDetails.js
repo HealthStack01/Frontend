@@ -12,8 +12,13 @@ import Tab from '@mui/material/Tab'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
 import Grid from '@mui/material/Grid'
+import Badge from '@mui/material/Badge'
 import TabContext from '@mui/lab/TabContext'
-
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+import GButton from '../../../../components/buttons/CustomButton';
+import VerifiedIcon from '@mui/icons-material/Verified';
 // import AvatarGroup from '@mui/material/AvatarGroup'
 export const reviewData = [
   {
@@ -39,21 +44,27 @@ export default function SearchDetails(){
       setValue(newValue)
     }
   return (
-    <Grid container spacing={6}>
-    <Box width="40%" p="3rem">
-    <Card sx={{ position: 'relative',height:"350px" }} >
-      <CardMedia sx={{ height: '12.625rem' }} image='https://demos.themeselection.com/materio-mui-react-nextjs-admin-template-free/images/cards/background-user.png' />
+    // <Grid container spacing={6}>
+      <Stack sx={{
+      height: '80vh',
+      overflowY: 'scroll',
+      px:"14rem"
+    }}>
+    <Box width="70%"  my="3rem">
+    <Card sx={{ position: 'relative',height:"490px"}}>
+      <CardMedia sx={{ height: '12.625rem',backgroundColor:"#edede9"}}/>
       <Avatar
         alt='Robert Meyer'
         sx={{
-          width: 75,
-          height: 75,
-          left: '1.313rem',
+          width: 95,
+          height: 95,
+          left: '17rem',
           top: '10.28125rem',
           position: 'absolute',
           border: theme => `0.25rem solid ${theme.palette.common.white}`
         }}
       >AD</Avatar>
+     
       <CardContent>
         <Box
           sx={{
@@ -62,14 +73,34 @@ export default function SearchDetails(){
             display: 'flex',
             flexWrap: 'wrap',
             alignItems: 'center',
-            justifyContent: 'space-between'
+            justifyContent: 'center',
+            textAlign:"center"
           }}
         >
-          <Box sx={{ mr: 2, mb: 1, display: 'flex', flexDirection: 'column' }}>
-            <Typography variant='h6'>Robert Meyer</Typography>
-            <Typography variant='caption'>Doctor</Typography>
+
+          <Box sx={{ mr: 2, display: 'flex', flexDirection:'column' }}>
+            <Typography variant='h5'>Robert Meyer</Typography>
+            <Typography variant='h6' sx={{color:"#8a817c"}}>Doctor</Typography>
           </Box>
+         
         </Box>
+        <Box sx={{display: 'flex', justifyContent:"space-around", pb:"2rem"}}>
+            <Stack sx={{textAlign:"center" }}>
+              <PersonOutlinedIcon sx={{ml:2,fontSize:"30px",color:"#8a817c"}}/>
+              <Typography variant='h6'>1000+</Typography>
+              <Typography variant='caption' sx={{color:"#8a817c"}}>Patients</Typography>
+            </Stack>
+            <Stack sx={{textAlign:"center" }}>
+              <LocationOnOutlinedIcon sx={{ml:2,fontSize:"30px",color:"#8a817c"}}/>
+              <Typography variant='h6'>15km</Typography>
+              <Typography variant='caption' sx={{color:"#8a817c"}}>From You</Typography>
+            </Stack>
+            <Stack sx={{textAlign:"center" }}>
+              <StarBorderOutlinedIcon sx={{ml:1,fontSize:"30px",color:"#8a817c"}}/>
+              <Typography variant='h6'>4.5</Typography>
+              <Typography variant='caption' sx={{color:"#8a817c"}}>Rating</Typography>
+            </Stack>
+          </Box>
       </CardContent>
     </Card>
     <Card>
@@ -142,9 +173,9 @@ export default function SearchDetails(){
           >
             Reviews
           </Typography>
-          <Box display="flex" gap="1.5rem" pb="1rem">
+          <Box display="flex" flexDirection="column" gap="1.5rem" pb="1rem">
             {reviewData.map((data, i) => (
-              <Card sx={{ width: '40%' }} key={i}>
+              <Card sx={{ width: '70%' }} key={i}>
                 <CardHeader
                   avatar={
                     <Avatar sx={{ bgcolor: 'red' }} aria-label="recipe">
@@ -187,7 +218,11 @@ export default function SearchDetails(){
             ))}
           </Box>
         </Box>
-    </Grid>
+       <Stack width="50%" mx="3rem">
+       <GButton>Book Appointment</GButton>
+       </Stack>
+        </Stack>
+    
   )
 }
 
