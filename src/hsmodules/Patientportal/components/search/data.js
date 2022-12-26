@@ -12,5 +12,5 @@ export const doctorData=[
     name:"Paella pamananananana",
     title:"Doctor",
    rating: "4.5"
-  }
+  },
   ]

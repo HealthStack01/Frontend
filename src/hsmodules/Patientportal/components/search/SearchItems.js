@@ -1,4 +1,4 @@
-import {Box,Typography,Card,CardHeader,Avatar} from '@mui/material'
+import {Box,Typography,Card,CardHeader,Avatar,Stack} from '@mui/material'
 import StarIcon from '@mui/icons-material/Star';
 import {doctorData} from "./data"
 import { useState } from 'react';
@@ -20,15 +20,18 @@ export default function SearchList(){
       }
     });
     return(
-      <>
-       <Box width="30%">
+      <Stack m="6rem" sx={{
+        height: '80vh',
+        overflowY: 'scroll',
+      }}>
+       <Box width="70%" mb="2rem">
             <Input 
             type="search" 
             placeholder="Search..."
                onChange={(event) => setSearchFeild(event.target.value)}
                />
             </Box>
-        <Box width="50%" display="flex" flexDirection="column" gap="2rem" m="6rem">
+        <Box width="70%" display="flex" flexDirection="column" gap="2rem">
           {filterDoctor.map((data,i) => (
           <Card  key={i} onClick={() => navigate(`/app/patient-portal/search/${data.id}`)}>
               <CardHeader
@@ -52,6 +55,6 @@ export default function SearchList(){
               </Card>
           ))}
         </Box>
-        </>
+        </Stack>
     )
 }
