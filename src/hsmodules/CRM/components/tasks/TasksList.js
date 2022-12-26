@@ -1,4 +1,4 @@
-import {useState, useContext} from "react";
+import {useState, useContext, useEffect} from "react";
 
 import {UserContext, ObjectContext} from "../../../../context";
 import AddCircleOutlineOutlined from "@mui/icons-material/AddCircleOutlineOutlined";
@@ -9,73 +9,103 @@ import {TableMenu} from "../../../../ui/styled/global";
 import {PageWrapper} from "../../../app/styles";
 import {getTaskColumns} from "../colums/columns";
 import {Box} from "@mui/material";
-
-const dummyData = [
-  {
-    employee: "Pascal Grobbs",
-    type: "Contract",
-    title: "Nurse",
-    priority: "Patients",
-    information:
-      "quo laudantium quis et placeat numquam non culpa voluptatem cum ipsam rerum",
-  },
-  {
-    employee: "Mighty Mike",
-    type: "Contract",
-    title: "Nure",
-    priority: "Patients",
-    information:
-      "quo laudantium quis et placeat numquam non culpa voluptatem cum ipsam rerum",
-  },
-  {
-    employee: "Dr. Grobbs Simons",
-    type: "Full Time",
-    title: "Doctor",
-    priority: "Patients",
-    information:
-      "quo laudantium quis et placeat numquam non culpa voluptatem cum ipsam rerum",
-  },
-  {
-    employee: "Port Follow",
-    type: "Contract",
-    title: "Doctor",
-    priority: "Patients",
-    information:
-      "quo laudantium quis et placeat numquam non culpa voluptatem cum ipsam rerum",
-  },
-];
+import client from "../../../../feathers";
+import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 
 const TasksList = ({openCreateModal, openDetailModal}) => {
-  // const { register, handleSubmit, watch, errors } = useForm();
-  // eslint-disable-next-line
-  // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const dealServer = client.service("deal");
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [loading, setLoading] = useState(false);
   const [tasks, setTasks] = useState([]);
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    type: "",
+    message: "",
+    action: null,
+  });
 
-  const handleRow = async Client => {
+  useEffect(() => {
+    setTasks(state.DealModule.selectedDeal.tasks);
+  }, [state.DealModule]);
+
+  const handleRow = async row => {
+    setState(prev => ({
+      ...prev,
+      TaskModule: {...prev.TaskModule, selectedTask: row},
+    }));
     openDetailModal();
   };
 
   const handleSearch = () => {};
 
-  const handleAddTask = task => {
-    if (!task.title) return;
-    setTasks(prev => [task, ...prev]);
+  const handleRemoveTask = async task => {
+    showActionLoader();
+    //const prevTasks = state.DealModule.selectedDeal.tasks;
+    const newTasks = tasks.filter(
+      item => item._id !== task._id || item.taskId !== task.taskId
+    );
+
+    //return console.log(tasks);
+
+    const documentId = state.DealModule.selectedDeal._id;
+    await dealServer
+      .patch(documentId, {tasks: newTasks})
+      .then(res => {
+        hideActionLoader();
+        //setContacts(res.contacts);
+        setState(prev => ({
+          ...prev,
+          DealModule: {...prev.DealModule, selectedDeal: res},
+        }));
+        setConfirmDialog(false);
+        //closeModal();
+        toast.success(`You have successfully Deleted Task`);
+        //setSuccess(true);
+        //setReset(true);
+      })
+      .catch(err => {
+        //setReset(false);
+        setConfirmDialog(false);
+        hideActionLoader();
+        toast.error(`Sorry, You weren't able to Delete Task!. ${err}`);
+      });
   };
 
-  const handleRemoveTask = task => {
-    setTasks(prev => prev.filter(item => item.title !== task.title));
+  const confirmDeleteTask = task => {
+    setConfirmDialog({
+      open: true,
+      message: "You're about to delete a Task",
+      action: () => handleRemoveTask(task),
+      type: "danger",
+    });
   };
 
-  const tasksColumns = getTaskColumns(handleRemoveTask, false);
+  const closeDialog = () => {
+    setConfirmDialog({
+      open: false,
+      type: "",
+      message: "",
+      action: null,
+    });
+  };
+
+  const tasksColumns = getTaskColumns(confirmDeleteTask, false);
 
   return (
     <>
       <Box pl={2} pr={2}>
+        <CustomConfirmationDialog
+          open={confirmDialog.open}
+          cancelAction={closeDialog}
+          type={confirmDialog.type}
+          message={confirmDialog.message}
+          confirmationAction={confirmDialog.action}
+        />
+
         <Box
           sx={{
             display: "flex",
@@ -104,7 +134,7 @@ const TasksList = ({openCreateModal, openDetailModal}) => {
           <CustomTable
             title={""}
             columns={tasksColumns}
-            data={dummyData}
+            data={tasks}
             pointerOnHover
             highlightOnHover
             striped

@@ -636,10 +636,6 @@ export function ClientList({openCreateModal, openDetailModal}) {
     openCreateModal(true);
     //console.log(state)
   };
-  const handleRowClicked = row => {
-    setSelectedUser(row);
-    setOpen(true);
-  };
 
   const handleCloseModal = () => {
     setOpen(false);

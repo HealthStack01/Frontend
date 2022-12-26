@@ -24,6 +24,7 @@ export default function EmployeeSearch({
   clear,
   label,
   disabled,
+  setParentState,
 }) {
   const ClientServ = client.service("employee");
   const [facilities, setFacilities] = useState([]);
@@ -215,6 +216,7 @@ export default function EmployeeSearch({
         onChange={(event, newValue, reason) => {
           if (reason === "clear") {
             setSimpa("");
+            setParentState && setParentState(null);
           } else {
             handleRow(newValue);
           }
@@ -248,6 +250,10 @@ export default function EmployeeSearch({
         )}
         sx={{
           width: "100%",
+          "& .MuiInputBase-input.Mui-disabled": {
+            WebkitTextFillColor: "#000000",
+            color: "black",
+          },
         }}
         freeSolo={false}
         renderInput={params => (

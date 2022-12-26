@@ -1,4 +1,4 @@
-import {useState, useContext} from "react";
+import {useState, useContext, useEffect} from "react";
 
 import {UserContext, ObjectContext} from "../../../../context";
 import AddCircleOutlineOutlined from "@mui/icons-material/AddCircleOutlineOutlined";
@@ -17,8 +17,13 @@ const InvoiceList = ({openCreateModal, showCreateView, showDetailView}) => {
   const {user, setUser} = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [loading, setLoading] = useState(false);
+  const [invoices, setInvoices] = useState([]);
 
-  const handleRow = async Client => {
+  const handleRow = data => {
+    setState(prev => ({
+      ...prev,
+      InvoiceModule: {...prev.InvoiceModule, selectedInvoice: data},
+    }));
     showDetailView();
   };
 
@@ -58,6 +63,12 @@ const InvoiceList = ({openCreateModal, showCreateView, showDetailView}) => {
     },
   ];
 
+  useEffect(() => {
+    const currentDeal = state.DealModule.selectedDeal || [];
+    setInvoices(currentDeal.invoices);
+    console.log(currentDeal);
+  }, [state.DealModule]);
+
   const handleSearch = () => {};
 
   const returnCell = status => {
@@ -84,28 +95,68 @@ const InvoiceList = ({openCreateModal, showCreateView, showDetailView}) => {
       width: "50px",
     },
     {
-      name: " Name",
+      name: "Name",
       key: "name",
       description: "Enter name of Company",
-      selector: row => row.name,
+      selector: row => row.customerName,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
+      style: {
+        textTransform: "capitalize",
+      },
     },
     {
       name: "Invoice No",
       key: "invoice_no",
       description: "Enter Telestaff name",
-      selector: row => row.invoice_no,
+      selector: row => row.invoice_number,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Plan",
+      name: "Payment Mode",
+      key: "payment_type",
+      description: "Enter Telestaff name",
+      selector: row => row.payment_mode,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+    {
+      name: "Payment Option",
+      key: "payment_option",
+      description: "Enter name of Disease",
+      selector: (row, i) => row.payment_option,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+    {
+      name: "Subscription Cat",
+      key: "subscription_category",
+      description: "Enter Telestaff name",
+      selector: row => row.subscription_category,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+
+    {
+      name: "Plans",
       key: "plan",
       description: "Enter bills",
-      selector: row => row.plan,
+      selector: row => row.plans.length,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -114,26 +165,18 @@ const InvoiceList = ({openCreateModal, showCreateView, showDetailView}) => {
       name: "Amount",
       key: "amount",
       description: "Enter name of Disease",
-      selector: (row, i) => row.amount,
+      selector: (row, i) => row.total_amount,
       sortable: true,
       required: true,
       inputType: "DATE",
     },
-    {
-      name: "Unit Bought",
-      key: "unit",
-      description: "Enter name of Disease",
-      selector: (row, i) => row.unit,
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
+
     {
       name: "Status",
       key: "status",
       description: "Enter bills",
       selector: "status",
-      cell: row => returnCell(row.status),
+      cell: row => (row.status ? row.status : "----------"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -166,7 +209,7 @@ const InvoiceList = ({openCreateModal, showCreateView, showDetailView}) => {
             <CustomTable
               title={""}
               columns={InvoiceSchema}
-              data={dummyData}
+              data={invoices}
               pointerOnHover
               highlightOnHover
               striped

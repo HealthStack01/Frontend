@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, useContext} from "react";
 import {Button, Grid} from "@mui/material";
 import {Box} from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
@@ -17,16 +17,22 @@ import {formatDistanceToNowStrict} from "date-fns";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {PageCreatePlan} from "../plans/CreatePlan";
 import Plans from "../../Plans";
+import client from "../../../../feathers";
+import {ObjectContext, UserContext} from "../../../../context";
+import {toast} from "react-toastify";
 
 const random = require("random-string-generator");
 
 const InvoiceCreate = ({closeModal, handleGoBack}) => {
+  const dealServer = client.service("deal");
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+  const {user} = useContext(UserContext);
   const [plans, setPlans] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
   const [duration, setDuration] = useState("");
 
-  const {register, control, getValues} = useForm({
-    defaultValues: {plan_end_date: ""},
-  });
+  const {register, control, setValue, reset, handleSubmit} = useForm();
 
   const handleAddNewPlan = plan => {
     setPlans(prev => [plan, ...prev]);
@@ -35,6 +41,83 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
   const handleRemovePlan = plan => {
     setPlans(prev => prev.filter(item => item._id !== plan._id));
   };
+
+  const createInvoice = async data => {
+    showActionLoader();
+    const currentDeal = state.DealModule.selectedDeal;
+    const employee = user.currentEmployee;
+
+    const document = {
+      ...data,
+      plans,
+      createdAt: new Date(),
+      dealId: currentDeal._id,
+      createdBy: employee.userId,
+      createdByName: `${employee.firstname} ${employee.lastname}`,
+      customerName: currentDeal.name,
+      customerEmail: currentDeal.email,
+      customerPhone: currentDeal.phone,
+      customerAddress: currentDeal.address,
+      customerCity: currentDeal.city,
+      customerLGA: currentDeal.lga,
+      customerState: currentDeal.state,
+      customerCountry: currentDeal.country,
+      status: "pending",
+    };
+
+    //return console.log(document);
+
+    const prevInvoices = currentDeal.invoices || [];
+
+    const newInvoices = [document, ...prevInvoices];
+
+    const documentId = currentDeal._id;
+    await dealServer
+      .patch(documentId, {invoices: newInvoices})
+      .then(res => {
+        hideActionLoader();
+        //setContacts(res.contacts);
+        setState(prev => ({
+          ...prev,
+          DealModule: {...prev.DealModule, selectedDeal: res},
+        }));
+        //closeModal();
+        reset({
+          subscription_category: "",
+          payment_option: "",
+          payment_mode: "",
+          invoice_number: random(12, "uppernumeric"),
+          date: new Date(),
+          total_amount: 0,
+        });
+        setPlans([]);
+        toast.success(`You have successfully Created a new Invoice`);
+
+        //setReset(true);
+      })
+      .catch(err => {
+        //setReset(false);
+        hideActionLoader();
+        toast.error(`Sorry, Failed to Create an Invoice. ${err}`);
+      });
+  };
+
+  useEffect(() => {
+    setValue("invoice_number", random(12, "uppernumeric"));
+    setValue("date", new Date());
+    setValue("total_amount", 0);
+  }, []);
+
+  useEffect(() => {
+    //console.log(plans[0]);
+    const totalPlansSum = plans.reduce((accumulator, object) => {
+      return Number(accumulator) + Number(object.amount);
+    }, 0);
+
+    setValue("total_amount", totalPlansSum);
+
+    //console.log(totalPlansSum);
+  }, [plans]);
 
   return (
     <>
@@ -64,7 +147,12 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
             }}
             gap={1}
           >
-            <GlobalCustomButton>Complete Invoice Creation</GlobalCustomButton>
+            <GlobalCustomButton
+              color="success"
+              onClick={handleSubmit(createInvoice)}
+            >
+              Create Invoice
+            </GlobalCustomButton>
           </Box>
         </Box>
 
@@ -80,27 +168,26 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
 
             <Grid container spacing={1} mb={1.5}>
               <Grid item lg={2} md={3} sm={4}>
-                <Input
+                <MuiCustomDatePicker
                   label="Date"
-                  value={moment(moment.now()).format("L")}
-                  register={register("date", {required: true})}
                   disabled={true}
+                  control={control}
+                  name="date"
                 />
               </Grid>
               <Grid item lg={2} md={3} sm={4}>
                 <Input
                   label="Invoice Number"
-                  value={random(12, "uppernumeric")}
-                  register={register("invoice_number", {required: true})}
+                  register={register("invoice_number")}
                   disabled={true}
                 />
               </Grid>
               <Grid item lg={2} md={3} sm={4}>
                 <Input
                   label="Total Amount"
-                  value={"100000"}
-                  register={register("total_amount", {required: true})}
+                  register={register("total_amount")}
                   disabled={true}
+                  type="number"
                 />
               </Grid>
 
@@ -108,6 +195,9 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
                 <CustomSelect
                   label="Payment Mode"
                   options={["Cash", "Cheque", "Transfer"]}
+                  control={control}
+                  name="payment_mode"
+                  required
                 />
               </Grid>
 
@@ -115,6 +205,9 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
                 <CustomSelect
                   label="Payment Option"
                   options={["Annually", "Bi-Annually", "Quarterly"]}
+                  control={control}
+                  name="payment_option"
+                  required
                 />
               </Grid>
 
@@ -122,6 +215,9 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
                 <CustomSelect
                   label="Subscribtion Category"
                   options={["New", "Renewal", "Additional"]}
+                  control={control}
+                  name="subscription_category"
+                  required
                 />
               </Grid>
             </Grid>

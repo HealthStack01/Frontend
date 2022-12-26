@@ -184,6 +184,7 @@ export const PageLeadDetailView = () => {
 
   useEffect(() => {
     const deal = state.DealModule.selectedDeal;
+    //console.log(deal);
 
     const initFormValue = {
       probability: deal.dealinfo.probability,

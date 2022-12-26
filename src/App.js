@@ -18,9 +18,25 @@ import ActionLoader from "./components/action-loader/Action-Loader";
 
 function App() {
   const [state, setState] = useState({
+    InvoiceModule: {
+      selectedInvoice: {},
+      selectedPlan: {},
+    },
+    CRMAppointmentModule: {
+      selectedAppointment: {},
+    },
     DealModule: {
-      show: "list",
       selectedDeal: {},
+    },
+    TaskModule: {
+      selectedTask: {},
+    },
+
+    ContactModule: {
+      selectedContact: {},
+    },
+    StaffModule: {
+      selectedStaff: {},
     },
     actionLoader: {
       open: false,

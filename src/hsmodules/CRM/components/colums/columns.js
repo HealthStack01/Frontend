@@ -201,7 +201,19 @@ export const getTaskColumns = (action, disableAction) => {
       name: "Employee",
       key: "employee",
       description: "Enter Staff",
-      selector: row => row.employee,
+      selector: row => (
+        <Typography
+          sx={{
+            fontSize: "0.8rem",
+            whiteSpace: "normal",
+            textTransform: "capitalize",
+            color: "#1976d2",
+          }}
+          data-tag="allowRowEvents"
+        >
+          {row.employee.firstname} {row.employee.lastname}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -214,16 +226,22 @@ export const getTaskColumns = (action, disableAction) => {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
     },
     {
-      name: "Type",
+      name: "Status",
       style: {color: "#0364FF"},
       key: "type",
       description: "Enter Date",
-      selector: row => row.type,
+      selector: row => row.status,
       sortable: true,
       required: true,
       inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
     },
     {
       name: "Priority",
@@ -234,12 +252,22 @@ export const getTaskColumns = (action, disableAction) => {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
     },
     {
       name: "Information",
       key: "information",
       description: "Enter Date",
-      selector: row => row.information,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.information}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "NUMBER",
@@ -418,10 +446,13 @@ export const getPlansColumns = (action, disableAction) => {
       name: "Plan Type",
       key: "file_name",
       description: "Enter Date",
-      selector: row => row.plan_type,
+      selector: row => row.type,
       sortable: true,
       required: true,
       inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
     },
 
     {
@@ -440,7 +471,7 @@ export const getPlansColumns = (action, disableAction) => {
       style: {color: "#0364FF"},
       key: "no_of_months",
       description: "Enter Date",
-      selector: row => `${row.duration_length} ${row.duration_calendrical}`,
+      selector: row => `${row.length} ${row.calendrical}`,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -462,7 +493,7 @@ export const getPlansColumns = (action, disableAction) => {
       style: {color: "#0364FF"},
       key: "no_of_heads",
       description: "Enter Date",
-      selector: row => `${row.no_of_heads}`,
+      selector: row => `${row.heads}`,
       sortable: true,
       required: true,
       inputType: "TEXT",

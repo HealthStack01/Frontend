@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {Box} from "@mui/system";
 import {useForm} from "react-hook-form";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
@@ -26,6 +26,11 @@ import moment from "moment";
 import {FormsHeaderText} from "../../../../components/texts";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import Input from "../../../../components/inputs/basic/Input";
+import {ObjectContext, UserContext} from "../../../../context";
+import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
+import {toast} from "react-toastify";
+import client from "../../../../feathers";
+import {ModalCreatePlan} from "../plans/CreatePlan";
 
 const random = require("random-string-generator");
 
@@ -87,22 +92,81 @@ const plansData = [
 ];
 
 const InvoiceDetail = ({handleGoBack}) => {
-  const {register, reset} = useForm();
+  const dealServer = client.service("deal");
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {register, reset, control, setValue} = useForm();
   const [viewInvoice, setViewInvoice] = useState(false);
   const [declineModal, setDeclineModal] = useState(false);
   const [declineReason, setDeclineReason] = useState("");
   const [chat, setChat] = useState(false);
-  const [plans, setPlans] = useState([...plansData]);
+  const [plans, setPlans] = useState([]);
+  const [planCreateModal, setPlanCreateModal] = useState(false);
 
-  const handleAddNewPlan = plan => {
-    setPlans(prev => [plan, ...prev]);
+  const handleAddNewPlan = async plan => {
+    //return toast.error("Unable to add new plan, not operational yet");
+
+    const invoiceDetail = state.InvoiceModule.selectedInvoice;
+    const prevPlans = invoiceDetail.plans;
+    const currentDeal = state.DealModule.selectedDeal;
+
+    const newPlans = [plan, ...prevPlans];
+
+    const totalPlansSum = newPlans.reduce((accumulator, object) => {
+      return Number(accumulator) + Number(object.amount);
+    }, 0);
+
+    const documentId = currentDeal._id;
+
+    const newInvoiceDetail = {
+      ...invoiceDetail,
+      total_amount: totalPlansSum,
+      plans: newPlans,
+    };
+
+    const prevInvoices = currentDeal.invoices;
+
+    const newInvoices = prevInvoices.map(item => {
+      if (item._id === newInvoiceDetail._id) {
+        return newInvoiceDetail;
+      } else {
+        return item;
+      }
+    });
+
+    //return console.log(newInvoices);
+
+    await dealServer
+      .patch(documentId, {invoices: newInvoices})
+      .then(res => {
+        hideActionLoader();
+        //setContacts(res.contacts);
+        setState(prev => ({
+          ...prev,
+          DealModule: {...prev.DealModule, selectedDeal: res},
+        }));
+
+        setPlanCreateModal(false);
+        setPlans(newPlans);
+        toast.success(`You have successfully Added a new Plan`);
+
+        //setReset(true);
+      })
+      .catch(err => {
+        //setReset(false);
+        hideActionLoader();
+        toast.error(`Sorry, Failed to Add a new Plan. ${err}`);
+      });
   };
 
   const handleRemovePlan = plan => {
+    return toast.error("Unable to delete plan, not operational yet");
     setPlans(prev => prev.filter(item => item._id !== plan._id));
   };
 
   const handleUpdatePlan = update => {
+    return toast.error("Unable to update plan, not operational yet");
     setPlans(prev =>
       prev.map(item => {
         if (item._id === update._id) {
@@ -113,6 +177,24 @@ const InvoiceDetail = ({handleGoBack}) => {
       })
     );
   };
+
+  useEffect(() => {
+    const invoice = state.InvoiceModule.selectedInvoice;
+
+    setPlans(invoice.plans || []);
+    reset(invoice);
+  }, [state.InvoiceModule]);
+
+  useEffect(() => {
+    //console.log(plans[0]);
+    const totalPlansSum = plans.reduce((accumulator, object) => {
+      return Number(accumulator) + Number(object.amount);
+    }, 0);
+
+    setValue("total_amount", totalPlansSum);
+
+    //console.log(totalPlansSum);
+  }, [plans]);
 
   return (
     <Box
@@ -184,17 +266,17 @@ const InvoiceDetail = ({handleGoBack}) => {
 
           <Grid container spacing={1} mb={1.5}>
             <Grid item lg={2} md={3} sm={4}>
-              <Input
+              <MuiCustomDatePicker
                 label="Date"
                 value={moment(moment.now()).format("L")}
-                register={register("date", {required: true})}
                 disabled={true}
+                name="date"
+                control={control}
               />
             </Grid>
             <Grid item lg={2} md={3} sm={4}>
               <Input
                 label="Invoice Number"
-                value={random(12, "uppernumeric")}
                 register={register("invoice_number", {required: true})}
                 disabled={true}
               />
@@ -202,7 +284,6 @@ const InvoiceDetail = ({handleGoBack}) => {
             <Grid item lg={2} md={3} sm={4}>
               <Input
                 label="Total Amount"
-                value={"100000"}
                 register={register("total_amount", {required: true})}
                 disabled={true}
               />
@@ -212,6 +293,9 @@ const InvoiceDetail = ({handleGoBack}) => {
               <CustomSelect
                 label="Payment Mode"
                 options={["Cash", "Cheque", "Transfer"]}
+                control={control}
+                name="payment_mode"
+                disabled
               />
             </Grid>
 
@@ -219,6 +303,9 @@ const InvoiceDetail = ({handleGoBack}) => {
               <CustomSelect
                 label="Payment Option"
                 options={["Annually", "Bi-Annually", "Quarterly"]}
+                control={control}
+                name="payment_option"
+                disabled
               />
             </Grid>
 
@@ -226,23 +313,42 @@ const InvoiceDetail = ({handleGoBack}) => {
               <CustomSelect
                 label="Subscribtion Category"
                 options={["New", "Renewal", "Additional"]}
+                control={control}
+                name="subscription_category"
+                disabled
               />
             </Grid>
           </Grid>
         </Grid>
 
         <Grid item xs={12}>
+          <Box sx={{display: "flex", justifyContent: "space-between"}}>
+            <FormsHeaderText text="Invoice Plans List" />
+
+            <GlobalCustomButton onClick={() => setPlanCreateModal(true)}>
+              Add New Plan
+            </GlobalCustomButton>
+          </Box>
           <Plans
             plans={plans}
             addNewPlan={handleAddNewPlan}
             removePlan={handleRemovePlan}
             updatePlan={handleUpdatePlan}
+            omitCreate
           />
         </Grid>
       </Grid>
 
       <ModalBox open={viewInvoice} onClose={() => setViewInvoice(false)}>
         <InvoicePrintOut />
+      </ModalBox>
+
+      <ModalBox
+        open={planCreateModal}
+        onClose={() => setPlanCreateModal(false)}
+        header="Add New Plan"
+      >
+        <ModalCreatePlan addNewPlan={handleAddNewPlan} />
       </ModalBox>
 
       <ModalBox

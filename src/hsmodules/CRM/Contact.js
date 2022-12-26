@@ -17,23 +17,13 @@ const Contact = () => {
     useContext(ObjectContext);
   const [createModal, setCreateModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
-  const [reset, setReset] = useState(false);
-  const [contacts, setContacts] = useState([
-    ...state.DealModule.selectedDeal.contacts,
-  ]);
+
   const [confirmDialog, setConfirmDialog] = useState({
     open: false,
-    action: "",
+    action: null,
     message: "",
     type: "",
   });
-
-  //SET UP CONTACT FROM DEAL INTO THE CONTACTS ARRAY.........
-  // useEffect(() => {
-  //   const contactsData = state.DealModule.selectedDeal.contacts;
-
-  //   setContacts([...contactsData]);
-  // }, [state.DealModule]);
 
   const handleCreateContact = async contact => {
     //setReset(false);
@@ -53,7 +43,8 @@ const Contact = () => {
           ...prev,
           DealModule: {...prev.DealModule, selectedDeal: res},
         }));
-
+        setCreateModal(false);
+        //setReset(true);
         toast.success(`You have successfully added a new Contact!`);
         //setReset(true);
       })
@@ -65,13 +56,16 @@ const Contact = () => {
   };
 
   const handleDeleteContact = async contact => {
-    const newContacts = contacts.filter(item => item._id !== contact._id);
+    const prevContacts = state.DealModule.selectedDeal.contacts;
+
+    const newContacts = prevContacts.filter(item => item._id !== contact._id);
 
     const documentId = state.DealModule.selectedDeal._id;
 
     await dealServer
       .patch(documentId, {contacts: newContacts})
       .then(res => {
+        setConfirmDialog({open: false, action: null, message: "", type: ""});
         hideActionLoader();
         setState(prev => ({
           ...prev,
@@ -82,6 +76,7 @@ const Contact = () => {
       })
       .catch(err => {
         hideActionLoader();
+        setConfirmDialog({open: false, action: null, message: "", type: ""});
         toast.error(`Sorry, You weren't able to delete the Contact!. ${err}`);
       });
   };
@@ -113,7 +108,7 @@ const Contact = () => {
           openCreateModal={() => setCreateModal(true)}
           openDetailModal={() => setDetailModal(true)}
           deleteContact={handleConfirmDeleteContact}
-          contacts={contacts}
+          //contacts={contacts}
         />
       </Box>
 
@@ -126,7 +121,6 @@ const Contact = () => {
           closeModal={() => setCreateModal(false)}
           createContact={handleCreateContact}
           server={true}
-          resetForm={reset}
         />
       </ModalBox>
 
@@ -135,7 +129,7 @@ const Contact = () => {
         onClose={() => setDetailModal(false)}
         header="Contact Detail"
       >
-        <ContactDetail closeModal={() => setCreateModal(false)} />
+        <ContactDetail closeModal={() => setDetailModal(false)} />
       </ModalBox>
     </Box>
   );

@@ -60,7 +60,8 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
     if (selectedStaff === null) return toast.error("Please select a staff");
     const staffDetail = {
       name: `${selectedStaff.firstname} ${selectedStaff.lastname}`,
-      position: selectedStaff.profession,
+      position: selectedStaff.position,
+      profession: selectedStaff.profession,
       phoneno: selectedStaff.phone,
       email: selectedStaff.email,
       active: selectedStaff.active || true,

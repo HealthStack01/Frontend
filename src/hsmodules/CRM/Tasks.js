@@ -7,12 +7,14 @@ import {Box} from "@mui/material";
 import TasksList from "./components/tasks/TasksList";
 import CRMAssignTask from "./components/tasks/AssignTask";
 import CRMTaskDetail from "./components/tasks/TaskDetail";
+import {ObjectContext} from "../../context";
 
 // eslint-disable-next-line
 
 const CRMTasks = () => {
   const [assignModal, setAssignModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
+  const {state} = useContext(ObjectContext);
   const [tasks, setTasks] = useState([]);
 
   return (

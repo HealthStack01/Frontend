@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, useContext} from "react";
 import {Button, Grid} from "@mui/material";
 import {Box} from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
@@ -11,19 +11,12 @@ import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import moment from "moment";
+import {ObjectContext} from "../../../../context";
 
-const PlanDetail = ({plan, updatePlan, closeModal}) => {
+const PlanDetail = ({updatePlan, closeModal}) => {
+  const {state, setState} = useContext(ObjectContext);
   const {register, handleSubmit, control, getValues, reset} = useForm();
   const [edit, setEdit] = useState(false);
-
-  // const defaultValues = {
-  //   plan_type: "",
-  //   premium: "",
-  //   no_of_heads: "",
-  //   duration_calendrical: "",
-  //   duration_length: "",
-  //   amount: "",
-  // };
 
   const handleUpdatePlan = data => {
     const updated_plan = {
@@ -37,6 +30,7 @@ const PlanDetail = ({plan, updatePlan, closeModal}) => {
   };
 
   useEffect(() => {
+    const plan = state.InvoiceModule.selectedPlan;
     reset(plan);
   }, []);
 
@@ -80,7 +74,7 @@ const PlanDetail = ({plan, updatePlan, closeModal}) => {
               options={["Family", "HMO", "Free", "Personal"]}
               disabled={!edit}
               control={control}
-              name="plan_type"
+              name="type"
             />
           </Grid>
 
@@ -95,7 +89,7 @@ const PlanDetail = ({plan, updatePlan, closeModal}) => {
 
           <Grid item lg={6} md={6} sm={6}>
             <Input
-              register={register("no_of_heads", {required: true})}
+              register={register("heads", {required: true})}
               label="No of Heads"
               type="number"
               disabled={!edit}
@@ -109,13 +103,13 @@ const PlanDetail = ({plan, updatePlan, closeModal}) => {
               options={["Week(s)", "Month(s)", "Year(s)"]}
               disabled={!edit}
               control={control}
-              name="duration_calendrical"
+              name="calendrical"
             />
           </Grid>
 
           <Grid item lg={6} md={6} sm={6}>
             <Input
-              register={register("duration_length", {required: true})}
+              register={register("length", {required: true})}
               label="Duration Legnth"
               type="number"
               disabled={!edit}
