@@ -11,22 +11,92 @@ import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import moment from "moment";
-import {ObjectContext} from "../../../../context";
+import {ObjectContext, UserContext} from "../../../../context";
+import client from "../../../../feathers";
 
 const PlanDetail = ({updatePlan, closeModal}) => {
-  const {state, setState} = useContext(ObjectContext);
+  const dealServer = client.service("deal");
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+  const {user} = useContext(UserContext);
   const {register, handleSubmit, control, getValues, reset} = useForm();
   const [edit, setEdit] = useState(false);
 
-  const handleUpdatePlan = data => {
-    const updated_plan = {
-      ...plan,
-      ...data,
-    };
-    updatePlan(updated_plan);
-    closeModal();
+  const handleUpdatePlan = async data => {
+    showActionLoader();
+    const employee = user.currentEmployee;
+    const invoiceDetail = state.InvoiceModule.selectedInvoice;
+    const prevPlans = invoiceDetail.plans;
+    const currentDeal = state.DealModule.selectedDeal;
+    const selectedPlan = state.InvoiceModule.selectedPlan;
 
-    toast.success("Plan Updated successfully");
+    const newPlans = prevPlans.map(item => {
+      if (item._id === selectedPlan._id) {
+        return {
+          ...item,
+          ...data,
+          updatedAt: new Date(),
+          updatedBy: employee.userId,
+          updatedByName: `${employee.firstname} ${employee.lastname}`,
+        };
+      } else {
+        return item;
+      }
+    });
+
+    const totalPlansSum = newPlans.reduce((accumulator, object) => {
+      return Number(accumulator) + Number(object.amount);
+    }, 0);
+
+    const newInvoiceDetail = {
+      ...invoiceDetail,
+      total_amount: totalPlansSum,
+      plans: newPlans,
+    };
+
+    const prevInvoices = currentDeal.invoices;
+
+    //console.log(prevInvoices);
+
+    const newInvoices = prevInvoices.map(item => {
+      if (item._id === newInvoiceDetail._id) {
+        return newInvoiceDetail;
+      } else {
+        return item;
+      }
+    });
+
+    //return console.log(newInvoices);
+
+    const documentId = currentDeal._id;
+
+    await dealServer
+      .patch(documentId, {invoices: newInvoices})
+      .then(res => {
+        hideActionLoader();
+        //setContacts(res.contacts);
+        setState(prev => ({
+          ...prev,
+          DealModule: {...prev.DealModule, selectedDeal: res},
+        }));
+
+        setState(prev => ({
+          ...prev,
+          InvoiceModule: {
+            ...prev.InvoiceModule,
+            selectedInvoice: newInvoiceDetail,
+          },
+        }));
+        closeModal();
+        toast.success(`You have successfully Updated Plan`);
+
+        //setReset(true);
+      })
+      .catch(err => {
+        //setReset(false);
+        hideActionLoader();
+        toast.error(`Sorry, Failed to Update the Plan. ${err}`);
+      });
   };
 
   useEffect(() => {

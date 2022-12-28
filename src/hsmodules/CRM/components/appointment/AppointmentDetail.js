@@ -1,4 +1,4 @@
-import {useState, useContext} from "react";
+import {useState, useContext, useEffect} from "react";
 import {Box, Button, Grid} from "@mui/material";
 import Input from "../../../../components/inputs/basic/Input";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
@@ -17,16 +17,18 @@ import EditIcon from "@mui/icons-material/Edit";
 
 const AppointmentDetail = ({closeModal}) => {
   const {state} = useContext(ObjectContext);
-  const {control, register, handleSubmit} = useForm();
+  const {control, register, reset} = useForm();
   const [edit, setEdit] = useState(false);
+  const [detail, setDetail] = useState({});
 
-  const detail = state?.CRMAppointmentModule?.selectedAppointment;
+  // console.log(detail);
 
-  console.log(detail);
-
-  const onSubmit = data => {
-    console.log(data);
-  };
+  useEffect(() => {
+    const appointmentDetail = state?.CRMAppointmentModule?.selectedAppointment;
+    setDetail(appointmentDetail);
+    //console.log(appointmentDetail);
+    reset(appointmentDetail);
+  }, [state.CRMAppointmentModule]);
 
   const appointmentContactColumns = [
     {
@@ -123,36 +125,42 @@ const AppointmentDetail = ({closeModal}) => {
       </Box>
       <Grid container spacing={1} pt={1}>
         <Grid item lg={4} md={6} sm={6} xs={12}>
-          <Input label="Customer Name" defaultValue={detail.customerName} />
+          <Input
+            label="Customer Name"
+            disabled={true}
+            register={register("customerName")}
+            //defaultValue={detail.customerName && detail.customerName}
+          />
         </Grid>
 
         <Grid item lg={4} md={6} sm={6} xs={12}>
           <Input
             label="Customer Email"
-            register={register("email")}
-            defaultValue={detail.customerEmail}
+            register={register("customerEmail")}
+            //defaultValue={detail.customerEmail}
             disabled={true}
           />
         </Grid>
 
         <Grid item lg={2} md={6} sm={6} xs={12}>
           <MuiCustomDatePicker
-            label="Date"
+            label="Date & Time"
             name="date"
             control={control}
             defaultValue={detail.date}
             disabled={true}
+            format="DD/MM/YYYY hh:mm A	"
           />
         </Grid>
 
         <Grid item lg={2} md={6} sm={6} xs={12}>
-          <MuiCustomDatePicker
-            label="Time"
-            name="time"
+          <Input
+            label="Status"
+            name="status"
             control={control}
             disabled={true}
-            format="hh:mm A	"
-            defaultValue={detail.date}
+            register={register("status")}
+            //defaultValue={detail.status ? detail.status : "Not Specified"}
           />
         </Grid>
 

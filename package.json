@@ -28,6 +28,7 @@
     "@mui/x-date-pickers": "^5.0.4",
     "@react-pdf/renderer": "^3.0.0",
     "@types/ckeditor__ckeditor5-build-classic": "^29.0.1",
+    "@uiw/react-watermark": "^0.0.5",
     "apexcharts": "^3.36.0",
     "autoprefixer": "10.0.2",
     "axios": "^0.26.1",

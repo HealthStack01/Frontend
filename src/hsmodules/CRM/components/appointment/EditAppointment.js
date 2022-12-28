@@ -18,6 +18,8 @@ import {ObjectContext, UserContext} from "../../../../context";
 import client from "../../../../feathers";
 import {toast} from "react-toastify";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
+import CustomSelect from "../../../../components/inputs/basic/Select";
+import ModalBox from "../../../../components/modal";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -37,6 +39,7 @@ const EditScheduledAppointment = ({closeModal}) => {
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
   const [contactIds, setContactIds] = useState([]);
+  const [rescheduleModal, setResheduleModal] = useState(false);
 
   const contacts = state.DealModule.selectedDeal.contacts || [];
 
@@ -54,13 +57,14 @@ const EditScheduledAppointment = ({closeModal}) => {
   };
 
   const updateAppointment = async data => {
-    return toast.error(
-      "You can't currently update an appointment, work in progress"
-    );
+    // return toast.error(
+    //   "You can't currently update an appointment, work in progress"
+    // );
     showActionLoader();
 
     const currentDeal = state.DealModule.selectedDeal;
     const employee = user.currentEmployee;
+    //const currentAppointment = state.CRMAppointmentModule.selectedAppointment
 
     let document = {
       ...state.CRMAppointmentModule.selectedAppointment,
@@ -80,7 +84,13 @@ const EditScheduledAppointment = ({closeModal}) => {
 
     const prevAppointments = currentDeal.appointments || [];
 
-    const newAppointments = [document, ...prevAppointments];
+    const newAppointments = prevAppointments.map(item => {
+      if (item._id === document._id) {
+        return document;
+      } else {
+        return item;
+      }
+    });
 
     const documentId = currentDeal._id;
     await dealServer
@@ -91,6 +101,14 @@ const EditScheduledAppointment = ({closeModal}) => {
         setState(prev => ({
           ...prev,
           DealModule: {...prev.DealModule, selectedDeal: res},
+        }));
+
+        setState(prev => ({
+          ...prev,
+          CRMAppointmentModule: {
+            ...prev.CRMAppointmentModule,
+            selectedAppointment: document,
+          },
         }));
         closeModal();
         toast.success(
@@ -110,6 +128,13 @@ const EditScheduledAppointment = ({closeModal}) => {
 
   return (
     <Box sx={{width: "550px", maxHeight: "80vh"}}>
+      {/* <ModalBox
+        open={rescheduleModal}
+        onClose={() => setResheduleModal(false)}
+        header={`Reschedule Appointment with ${state.DealModule.selectedDeal.name}`}
+      >
+        <MuiCustomDatePicker />
+      </ModalBox> */}
       <Grid container spacing={2} pt={1}>
         <Grid item xs={12}>
           <Input
@@ -166,11 +191,30 @@ const EditScheduledAppointment = ({closeModal}) => {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <MuiDateTimePicker
             label="Date and Time"
             name="date"
             control={control}
+            required
+            important
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomSelect
+            label="Appointment Status"
+            name="status"
+            control={control}
+            options={[
+              "Scheduled",
+              "Active",
+              "Postponed",
+              "Cancelled",
+              "Suspended",
+              "Aborted",
+              "Completed",
+            ]}
             required
             important
           />

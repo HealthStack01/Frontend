@@ -57,8 +57,8 @@ const AppointmentList = ({openCreateModal, openDetailModal}) => {
 
   const returnCell = status => {
     switch (status.toLowerCase()) {
-      case "pending":
-        return <span style={{color: "#17935C"}}>{status}</span>;
+      case "scheduled":
+        return <span style={{color: "#ffbe0b"}}>{status}</span>;
 
       case "expired":
         return <span style={{color: "#0364FF"}}>{status}</span>;
@@ -82,7 +82,7 @@ const AppointmentList = ({openCreateModal, openDetailModal}) => {
       selector: (row, i) => i + 1,
       sortable: true,
       inputType: "HIDDEN",
-      width: "70px",
+      width: "60px",
     },
     {
       name: "Customer",
@@ -92,17 +92,11 @@ const AppointmentList = ({openCreateModal, openDetailModal}) => {
       sortable: true,
       required: true,
       inputType: "HIDDEN",
+      style: {
+        textTransform: "capitalize",
+      },
     },
-    // {
-    //   name: "Email",
-    //   key: "email",
-    //   description: "Enter Telestaff name",
-    //   selector: row => row.customerEmail,
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "TEXT",
-    //   //width: "80px",
-    // },
+
     {
       name: "Title",
       key: "title",
@@ -111,26 +105,10 @@ const AppointmentList = ({openCreateModal, openDetailModal}) => {
       sortable: true,
       required: true,
       inputType: "TEXT",
-      //width: "80px",
-    },
-    {
-      name: "Date",
-      key: "date",
-      description: "Enter bills",
-      selector: row => dayjs(row.date).format("DD/MM/YYYY"),
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-    {
-      name: "Time",
-      key: "date",
-      description: "Enter name of Disease",
-      selector: (row, i) => dayjs(row.date).format("hh:mm A	"),
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-      //width: "80px",
+      style: {
+        textTransform: "capitalize",
+      },
+      //center: true,
     },
     {
       name: "Information",
@@ -143,6 +121,27 @@ const AppointmentList = ({openCreateModal, openDetailModal}) => {
       inputType: "TEXT",
     },
     {
+      name: "Date",
+      key: "date",
+      description: "Enter bills",
+      selector: row => dayjs(row.date).format("DD/MM/YYYY"),
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+      width: "100px",
+    },
+    {
+      name: "Time",
+      key: "date",
+      description: "Enter name of Disease",
+      selector: (row, i) => dayjs(row.date).format("hh:mm A	"),
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+      width: "100px",
+      //width: "80px",
+    },
+    {
       name: "Status",
       key: "status",
       description: "Enter bills",
@@ -151,6 +150,7 @@ const AppointmentList = ({openCreateModal, openDetailModal}) => {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "120px",
     },
   ];
 

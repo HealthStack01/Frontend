@@ -1,6 +1,9 @@
 import {Divider, Typography} from "@mui/material";
 import {Box, fontWeight} from "@mui/system";
+import dayjs from "dayjs";
+import {useContext} from "react";
 import CustomTable from "../../../../components/customtable";
+import {ObjectContext, UserContext} from "../../../../context";
 
 export const customStyles = {
   rows: {
@@ -132,6 +135,15 @@ const columns = [
 ];
 
 const InvoicePrintOut = () => {
+  const {state} = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+
+  const organization = user.currentEmployee.facilityDetail;
+  const invoice = state.InvoiceModule.selectedInvoice;
+  const customer = state.DealModule.selectedDeal;
+
+  console.log(customer);
+
   return (
     <Box
       sx={{
@@ -178,7 +190,7 @@ const InvoicePrintOut = () => {
                   color: "#0064CC",
                 }}
               >
-                HCI Healthcare Limited
+                {organization?.facilityName}
               </Typography>
 
               <Divider
@@ -213,7 +225,8 @@ const InvoicePrintOut = () => {
                 color: "#999999",
               }}
             >
-              296 Herbert Macaulay Way,Yaba, Lagos.P.O.Box 782, Marina,Lagos
+              {organization?.facilityAddress}, {organization?.facilityCity}
+              {/* 296 Herbert Macaulay Way,Yaba, Lagos.P.O.Box 782, Marina,Lagos */}
             </Typography>
 
             <Typography
@@ -231,7 +244,8 @@ const InvoicePrintOut = () => {
                 color: "#999999",
               }}
             >
-              email: info@healthcare-ng.com
+              Email : {organization?.facilityEmail}
+              {/* email: info@healthcare-ng.com */}
             </Typography>
 
             <Typography
@@ -240,7 +254,7 @@ const InvoicePrintOut = () => {
                 color: "#999999",
               }}
             >
-              Tel: 01-08052099099, 07030009099, 01-4489821
+              Tel: {organization?.facilityContactPhone}
             </Typography>
           </Box>
         </Box>
@@ -262,7 +276,8 @@ const InvoicePrintOut = () => {
                 fontWeight: "600",
               }}
             >
-              HCI/INTERTEK/LAG/ HO/2022/EO/1181
+              {invoice?.invoice_number}
+              {/* HCI/INTERTEK/LAG/ HO/2022/EO/1181 */}
             </Typography>
           </Box>
 
@@ -282,7 +297,7 @@ const InvoicePrintOut = () => {
                 fontWeight: "600",
               }}
             >
-              04/08/2022{" "}
+              {dayjs(invoice?.createdAt).format("MMM D, YYYY")}
             </Typography>
           </Box>
         </Box>
@@ -318,7 +333,8 @@ const InvoicePrintOut = () => {
                 fontWeight: "600",
               }}
             >
-              INTERTEK - Caleb Brett
+              {customer?.name}
+              {/* INTERTEK - Caleb Brett */}
             </Typography>
           </Box>
 
@@ -341,7 +357,9 @@ const InvoicePrintOut = () => {
                 fontWeight: "600",
               }}
             >
-              Plot 73B, Marine Road, Apapa, Lagos, Nigeria.
+              {customer?.address}, {customer?.lga}, {customer?.city},{" "}
+              {customer?.state}, {customer?.country}.
+              {/* Plot 73B, Marine Road, Apapa, Lagos, Nigeria. */}
             </Typography>
           </Box>
 
@@ -364,7 +382,8 @@ const InvoicePrintOut = () => {
                 fontWeight: "600",
               }}
             >
-              08123456789, 09123412134
+              {customer?.phone}
+              {/* 08123456789, 09123412134 */}
             </Typography>
           </Box>
         </Box>

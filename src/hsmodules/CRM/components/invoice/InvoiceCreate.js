@@ -20,6 +20,7 @@ import Plans from "../../Plans";
 import client from "../../../../feathers";
 import {ObjectContext, UserContext} from "../../../../context";
 import {toast} from "react-toastify";
+import {v4 as uuidv4} from "uuid";
 
 const random = require("random-string-generator");
 
@@ -62,7 +63,8 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
       customerLGA: currentDeal.lga,
       customerState: currentDeal.state,
       customerCountry: currentDeal.country,
-      status: "pending",
+      status: "Pending",
+      _id: uuidv4(),
     };
 
     //return console.log(document);

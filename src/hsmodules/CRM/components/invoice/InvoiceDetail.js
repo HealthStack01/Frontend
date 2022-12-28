@@ -13,6 +13,8 @@ import ReceiptIcon from "@mui/icons-material/Receipt";
 import {Grid, IconButton} from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import SystemUpdateAltIcon from "@mui/icons-material/SystemUpdateAlt";
+import OpenWithIcon from "@mui/icons-material/OpenWith";
 
 import Badge from "@mui/material/Badge";
 
@@ -31,80 +33,31 @@ import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicke
 import {toast} from "react-toastify";
 import client from "../../../../feathers";
 import {ModalCreatePlan} from "../plans/CreatePlan";
+import EditIcon from "@mui/icons-material/Edit";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import Watermark from "@uiw/react-watermark";
+import InvoiceApproveReason from "./InvoiceApprove";
 
 const random = require("random-string-generator");
-
-const plansData = [
-  {
-    plan_type: "HMO",
-    premium: "10",
-    no_of_heads: "10",
-    duration_calendrical: "Month(s)",
-    duration_length: "6",
-    amount: "1000000",
-    _id: "00",
-  },
-  {
-    plan_type: "Family",
-    premium: "5",
-    no_of_heads: "3",
-    duration_calendrical: "Year(s)",
-    duration_length: "2",
-    amount: "5000000",
-    _id: "0",
-  },
-  {
-    plan_type: "HMO",
-    premium: "5",
-    no_of_heads: "20",
-    duration_calendrical: "Year(s)",
-    duration_length: "1",
-    amount: "10000000",
-    _id: "000",
-  },
-  {
-    plan_type: "Personal",
-    premium: "10",
-    no_of_heads: "1",
-    duration_calendrical: "Year(s)",
-    duration_length: "10",
-    amount: "5000000",
-    _id: "00000",
-  },
-  {
-    plan_type: "HMO",
-    premium: "1",
-    no_of_heads: "15",
-    duration_calendrical: "Week(s)",
-    duration_length: "12",
-    amount: "100000",
-    _id: "0000",
-  },
-  {
-    plan_type: "Family",
-    premium: "20",
-    no_of_heads: "5",
-    duration_calendrical: "Month(s)",
-    duration_length: "8",
-    amount: "20000000",
-    _id: "0000000",
-  },
-];
 
 const InvoiceDetail = ({handleGoBack}) => {
   const dealServer = client.service("deal");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
-  const {register, reset, control, setValue} = useForm();
+  const {register, reset, control, setValue, handleSubmit} = useForm();
   const [viewInvoice, setViewInvoice] = useState(false);
   const [declineModal, setDeclineModal] = useState(false);
+  const [approveModal, setApproveModal] = useState(false);
   const [declineReason, setDeclineReason] = useState("");
   const [chat, setChat] = useState(false);
   const [plans, setPlans] = useState([]);
   const [planCreateModal, setPlanCreateModal] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [invoiceStatus, setInvoiceStatus] = useState("");
 
   const handleAddNewPlan = async plan => {
+    showActionLoader();
     //return toast.error("Unable to add new plan, not operational yet");
 
     const invoiceDetail = state.InvoiceModule.selectedInvoice;
@@ -160,29 +113,123 @@ const InvoiceDetail = ({handleGoBack}) => {
       });
   };
 
-  const handleRemovePlan = plan => {
-    return toast.error("Unable to delete plan, not operational yet");
-    setPlans(prev => prev.filter(item => item._id !== plan._id));
+  const handleUpdateInvoiceDetail = async data => {
+    //showActionLoader();
+    //return toast.error("Unable to add new plan, not operational yet");
+
+    const invoiceDetail = state.InvoiceModule.selectedInvoice;
+    const currentDeal = state.DealModule.selectedDeal;
+
+    const newInvoiceDetail = {
+      ...invoiceDetail,
+      ...data,
+    };
+
+    const prevInvoices = currentDeal.invoices;
+
+    const newInvoices = prevInvoices.map(item => {
+      if (item._id === newInvoiceDetail._id) {
+        return newInvoiceDetail;
+      } else {
+        return item;
+      }
+    });
+
+    const documentId = currentDeal._id;
+
+    await dealServer
+      .patch(documentId, {invoices: newInvoices})
+      .then(res => {
+        hideActionLoader();
+        //setContacts(res.contacts);
+        setState(prev => ({
+          ...prev,
+          DealModule: {...prev.DealModule, selectedDeal: res},
+        }));
+        setState(prev => ({
+          ...prev,
+          InvoiceModule: {
+            ...prev.InvoiceModule,
+            selectedInvoice: newInvoiceDetail,
+          },
+        }));
+
+        toast.success(`You have successfully updated this Invoice`);
+
+        //setReset(true);
+      })
+      .catch(err => {
+        //setReset(false);
+        hideActionLoader();
+        toast.error(`Sorry, Failed to updated the Invoice. ${err}`);
+      });
   };
 
-  const handleUpdatePlan = update => {
-    return toast.error("Unable to update plan, not operational yet");
-    setPlans(prev =>
-      prev.map(item => {
-        if (item._id === update._id) {
-          return update;
-        } else {
-          return item;
-        }
+  const handleReopenInvoice = async () => {
+    //showActionLoader();
+    //return toast.error("Unable to add new plan, not operational yet");
+
+    const invoiceDetail = state.InvoiceModule.selectedInvoice;
+    const currentDeal = state.DealModule.selectedDeal;
+
+    const newInvoiceDetail = {
+      ...invoiceDetail,
+      status: "Pending",
+    };
+
+    const prevInvoices = currentDeal.invoices;
+
+    const newInvoices = prevInvoices.map(item => {
+      if (item._id === newInvoiceDetail._id) {
+        return newInvoiceDetail;
+      } else {
+        return item;
+      }
+    });
+
+    const documentId = currentDeal._id;
+
+    //return console.log(newInvoiceDetail);
+
+    await dealServer
+      .patch(documentId, {invoices: newInvoices})
+      .then(res => {
+        hideActionLoader();
+        //setContacts(res.contacts);
+        setState(prev => ({
+          ...prev,
+          DealModule: {...prev.DealModule, selectedDeal: res},
+        }));
+        setState(prev => ({
+          ...prev,
+          InvoiceModule: {
+            ...prev.InvoiceModule,
+            selectedInvoice: newInvoiceDetail,
+          },
+        }));
+        setInvoiceStatus("Pending");
+        setConfirmDialog(false);
+        closeModal();
+
+        toast.success(`You have successfully Opened this Invoice`);
+
+        //setReset(true);
       })
-    );
+      .catch(err => {
+        //setReset(false);
+        setConfirmDialog(false);
+        hideActionLoader();
+        toast.error(`Sorry, Failed to Open the Invoice. ${err}`);
+      });
   };
 
   useEffect(() => {
     const invoice = state.InvoiceModule.selectedInvoice;
+    //console.log(invoice);
 
     setPlans(invoice.plans || []);
     reset(invoice);
+    setInvoiceStatus(invoice.status);
   }, [state.InvoiceModule]);
 
   useEffect(() => {
@@ -196,190 +243,253 @@ const InvoiceDetail = ({handleGoBack}) => {
     //console.log(totalPlansSum);
   }, [plans]);
 
+  const returnStatusMessage = () => {
+    if (invoiceStatus.toLowerCase() === "pending") {
+      //console.log(invoiceStatus);
+      return "";
+    } else if (invoiceStatus.toLowerCase() === "declined") {
+      return "Declined";
+    } else if (invoiceStatus.toLowerCase() === "approved") {
+      console.log("why showing me approved");
+      return "Approved";
+    }
+  };
+
   return (
-    <Box
-      sx={{
-        width: "100%",
-      }}
+    <Watermark
+      content={returnStatusMessage()}
+      style={{background: "#ffffff"}}
+      fontColor={invoiceStatus.toLowerCase() === "declined" ? "red" : "green"}
     >
       <Box
         sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          borderBottom: "1px solid #f8f8f8",
-          backgroundColor: "#f8f8f8",
+          width: "100%",
         }}
-        mb={2}
-        p={2}
       >
-        <GlobalCustomButton onClick={handleGoBack}>
-          <ArrowBackIcon fontSize="small" sx={{marginRight: "5px"}} />
-          Back
-        </GlobalCustomButton>
-
+        <Watermark></Watermark>
         <Box
           sx={{
             display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            borderBottom: "1px solid #f8f8f8",
+            backgroundColor: "#f8f8f8",
           }}
-          gap={1}
+          mb={2}
+          p={2}
         >
-          <Badge badgeContent={4} color="secondary" sx={{marginRight: "10px"}}>
-            <GlobalCustomButton onClick={() => setChat(true)}>
-              <ChatIcon fontSize="small" sx={{marginRight: "5px"}} />
-              Chat
+          <GlobalCustomButton onClick={handleGoBack}>
+            <ArrowBackIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Back
+          </GlobalCustomButton>
+
+          <Box
+            sx={{
+              display: "flex",
+            }}
+            gap={1}
+          >
+            <Badge
+              badgeContent={4}
+              color="secondary"
+              sx={{marginRight: "10px"}}
+            >
+              <GlobalCustomButton onClick={() => setChat(true)}>
+                <ChatIcon fontSize="small" sx={{marginRight: "5px"}} />
+                Chat
+              </GlobalCustomButton>
+            </Badge>
+            {/* 
+            {invoiceStatus.toLowerCase() === "declined" ||
+            invoiceStatus.toLowerCase() === "approved" ? (
+              <GlobalCustomButton onClick={handleReopenInvoice}>
+                <OpenWithIcon fontSize="small" sx={{marginRight: "5px"}} />
+                Reopen Invoice
+              </GlobalCustomButton>
+            ) : null} */}
+
+            {invoiceStatus.toLowerCase() !== "declined" && (
+              <GlobalCustomButton
+                color="error"
+                onClick={() => setDeclineModal(true)}
+              >
+                <BlockIcon fontSize="small" sx={{marginRight: "5px"}} />
+                Decline
+              </GlobalCustomButton>
+            )}
+
+            {invoiceStatus.toLowerCase() !== "approved" && (
+              <GlobalCustomButton onClick={() => setApproveModal(true)}>
+                <ApprovalIcon fontSize="small" sx={{marginRight: "5px"}} />
+                Approve
+              </GlobalCustomButton>
+            )}
+
+            <GlobalCustomButton
+              color="secondary"
+              onClick={() => setViewInvoice(true)}
+            >
+              <ReceiptIcon fontSize="small" sx={{marginRight: "5px"}} />
+              View Invoice
             </GlobalCustomButton>
-          </Badge>
-
-          <GlobalCustomButton
-            color="error"
-            onClick={() => setDeclineModal(true)}
-          >
-            <BlockIcon fontSize="small" sx={{marginRight: "5px"}} />
-            Decline
-          </GlobalCustomButton>
-
-          <GlobalCustomButton
-            color="secondary"
-            onClick={() => setViewInvoice(true)}
-          >
-            <ReceiptIcon fontSize="small" sx={{marginRight: "5px"}} />
-            View Invoice
-          </GlobalCustomButton>
-
-          <GlobalCustomButton>
-            <ApprovalIcon fontSize="small" sx={{marginRight: "5px"}} />
-            Approve
-          </GlobalCustomButton>
-        </Box>
-      </Box>
-
-      <Grid container spacing={2} p={2}>
-        <Grid item lg={12} md={12} sm={12}>
-          <PageCustomerDetail />
-        </Grid>
-
-        <Grid item lg={12} md={12} sm={12}>
-          <Box mb={1} sx={{display: "flex", justifyContent: "space-between"}}>
-            <FormsHeaderText text="Invoice Information" />
           </Box>
+        </Box>
 
-          <Grid container spacing={1} mb={1.5}>
-            <Grid item lg={2} md={3} sm={4}>
-              <MuiCustomDatePicker
-                label="Date"
-                value={moment(moment.now()).format("L")}
-                disabled={true}
-                name="date"
-                control={control}
-              />
-            </Grid>
-            <Grid item lg={2} md={3} sm={4}>
-              <Input
-                label="Invoice Number"
-                register={register("invoice_number", {required: true})}
-                disabled={true}
-              />
-            </Grid>
-            <Grid item lg={2} md={3} sm={4}>
-              <Input
-                label="Total Amount"
-                register={register("total_amount", {required: true})}
-                disabled={true}
-              />
-            </Grid>
+        <Grid container spacing={2} p={2}>
+          <Grid item lg={12} md={12} sm={12}>
+            <PageCustomerDetail />
+          </Grid>
 
-            <Grid item lg={2} md={3} sm={4}>
-              <CustomSelect
-                label="Payment Mode"
-                options={["Cash", "Cheque", "Transfer"]}
-                control={control}
-                name="payment_mode"
-                disabled
-              />
-            </Grid>
+          <Grid item lg={12} md={12} sm={12}>
+            <Box mb={2} sx={{display: "flex", justifyContent: "space-between"}}>
+              <FormsHeaderText text="Invoice Information" />
 
-            <Grid item lg={2} md={3} sm={4}>
-              <CustomSelect
-                label="Payment Option"
-                options={["Annually", "Bi-Annually", "Quarterly"]}
-                control={control}
-                name="payment_option"
-                disabled
-              />
-            </Grid>
+              <Box sx={{display: "flex"}} gap={2}>
+                {edit ? (
+                  <>
+                    <GlobalCustomButton
+                      onClick={() => setEdit(false)}
+                      color="warning"
+                    >
+                      {/* <EditIcon fontSize="small" sx={{marginRight: "3px"}} /> */}
+                      Cancel
+                    </GlobalCustomButton>
 
-            <Grid item lg={2} md={3} sm={4}>
-              <CustomSelect
-                label="Subscribtion Category"
-                options={["New", "Renewal", "Additional"]}
-                control={control}
-                name="subscription_category"
-                disabled
-              />
+                    <GlobalCustomButton
+                      onClick={handleSubmit(handleUpdateInvoiceDetail)}
+                      color="success"
+                    >
+                      <SystemUpdateAltIcon
+                        fontSize="small"
+                        sx={{marginRight: "3px"}}
+                      />
+                      Update
+                    </GlobalCustomButton>
+                  </>
+                ) : (
+                  <GlobalCustomButton onClick={() => setEdit(true)}>
+                    <EditIcon fontSize="small" sx={{marginRight: "3px"}} /> Edit
+                  </GlobalCustomButton>
+                )}
+              </Box>
+            </Box>
+
+            <Grid container spacing={1} mb={1.5}>
+              <Grid item lg={2} md={3} sm={4}>
+                <MuiCustomDatePicker
+                  label="Date"
+                  value={moment(moment.now()).format("L")}
+                  disabled={true}
+                  name="date"
+                  control={control}
+                />
+              </Grid>
+              <Grid item lg={2} md={3} sm={4}>
+                <Input
+                  label="Invoice Number"
+                  register={register("invoice_number", {required: true})}
+                  disabled={true}
+                />
+              </Grid>
+              <Grid item lg={2} md={3} sm={4}>
+                <Input
+                  label="Total Amount"
+                  register={register("total_amount", {required: true})}
+                  disabled={true}
+                />
+              </Grid>
+
+              <Grid item lg={2} md={3} sm={4}>
+                <CustomSelect
+                  label="Payment Mode"
+                  options={["Cash", "Cheque", "Transfer"]}
+                  control={control}
+                  name="payment_mode"
+                  disabled={!edit}
+                />
+              </Grid>
+
+              <Grid item lg={2} md={3} sm={4}>
+                <CustomSelect
+                  label="Payment Option"
+                  options={["Annually", "Bi-Annually", "Quarterly"]}
+                  control={control}
+                  name="payment_option"
+                  disabled={!edit}
+                />
+              </Grid>
+
+              <Grid item lg={2} md={3} sm={4}>
+                <CustomSelect
+                  label="Subscribtion Category"
+                  options={["New", "Renewal", "Additional"]}
+                  control={control}
+                  name="subscription_category"
+                  disabled={!edit}
+                />
+              </Grid>
             </Grid>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Box sx={{display: "flex", justifyContent: "space-between"}}>
+              <FormsHeaderText text="Invoice Plans List" />
+
+              <GlobalCustomButton onClick={() => setPlanCreateModal(true)}>
+                <AddCircleOutline fontSize="small" sx={{marginRight: "3px"}} />
+                Add New Plan
+              </GlobalCustomButton>
+            </Box>
+            <Plans plans={plans} addNewPlan={handleAddNewPlan} omitCreate />
           </Grid>
         </Grid>
 
-        <Grid item xs={12}>
-          <Box sx={{display: "flex", justifyContent: "space-between"}}>
-            <FormsHeaderText text="Invoice Plans List" />
+        <ModalBox open={viewInvoice} onClose={() => setViewInvoice(false)}>
+          <InvoicePrintOut />
+        </ModalBox>
 
-            <GlobalCustomButton onClick={() => setPlanCreateModal(true)}>
-              Add New Plan
-            </GlobalCustomButton>
-          </Box>
-          <Plans
-            plans={plans}
-            addNewPlan={handleAddNewPlan}
-            removePlan={handleRemovePlan}
-            updatePlan={handleUpdatePlan}
-            omitCreate
-          />
-        </Grid>
-      </Grid>
-
-      <ModalBox open={viewInvoice} onClose={() => setViewInvoice(false)}>
-        <InvoicePrintOut />
-      </ModalBox>
-
-      <ModalBox
-        open={planCreateModal}
-        onClose={() => setPlanCreateModal(false)}
-        header="Add New Plan"
-      >
-        <ModalCreatePlan addNewPlan={handleAddNewPlan} />
-      </ModalBox>
-
-      <ModalBox
-        open={declineModal}
-        onClose={() => setDeclineModal(false)}
-        header="Decline Invoice"
-      >
-        <InvoiceDeclineReason
-          reason={declineReason}
-          setReason={setDeclineReason}
-          closeModal={() => setDeclineModal(false)}
-        />
-      </ModalBox>
-
-      <SwipeableDrawer
-        anchor="right"
-        open={chat}
-        onClose={() => setChat(false)}
-        onOpen={() => setChat(true)}
-      >
-        <Box
-          sx={{
-            width: "500px",
-            height: "100vh",
-            overflowY: "hidden",
-          }}
+        <ModalBox
+          open={planCreateModal}
+          onClose={() => setPlanCreateModal(false)}
+          header="Add New Plan"
         >
-          <ChatInterface closeChat={() => setChat(false)} />
-        </Box>
-      </SwipeableDrawer>
-    </Box>
+          <ModalCreatePlan addNewPlan={handleAddNewPlan} />
+        </ModalBox>
+
+        <ModalBox
+          open={declineModal}
+          onClose={() => setDeclineModal(false)}
+          header="Decline Invoice"
+        >
+          <InvoiceDeclineReason closeModal={() => setDeclineModal(false)} />
+        </ModalBox>
+
+        <ModalBox
+          open={approveModal}
+          onClose={() => setApproveModal(false)}
+          header="Approve Invoice"
+        >
+          <InvoiceApproveReason closeModal={() => setApproveModal(false)} />
+        </ModalBox>
+
+        <SwipeableDrawer
+          anchor="right"
+          open={chat}
+          onClose={() => setChat(false)}
+          onOpen={() => setChat(true)}
+        >
+          <Box
+            sx={{
+              width: "500px",
+              height: "100vh",
+              overflowY: "hidden",
+            }}
+          >
+            <ChatInterface closeChat={() => setChat(false)} />
+          </Box>
+        </SwipeableDrawer>
+      </Box>
+    </Watermark>
   );
 };
 

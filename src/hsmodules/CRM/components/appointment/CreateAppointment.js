@@ -17,6 +17,8 @@ import Checkbox from "@mui/material/Checkbox";
 import {ObjectContext, UserContext} from "../../../../context";
 import client from "../../../../feathers";
 import {toast} from "react-toastify";
+import CustomSelect from "../../../../components/inputs/basic/Select";
+import {v4 as uuidv4} from "uuid";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -31,7 +33,11 @@ const MenuProps = {
 
 const ScheduleAppointment = ({closeModal}) => {
   const dealServer = client.service("deal");
-  const {control, register, handleSubmit} = useForm();
+  const {control, register, handleSubmit} = useForm({
+    defaultValues: {
+      status: "scheduled",
+    },
+  });
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
@@ -60,7 +66,8 @@ const ScheduleAppointment = ({closeModal}) => {
       createdBy: employee.userId,
       createdByName: `${employee.firstname} ${employee.lastname}`,
       createdAt: new Date(),
-      status: "Pending",
+      _id: uuidv4(),
+      //status: "scheduled",
     };
 
     const selectedContacts = contactIds.map(id => {
@@ -105,7 +112,7 @@ const ScheduleAppointment = ({closeModal}) => {
   //console.log(contacts);
 
   return (
-    <Box sx={{width: "550px", maxHeight: "80vh"}}>
+    <Box sx={{width: "600px", maxHeight: "80vh"}}>
       <Grid container spacing={2} pt={1}>
         <Grid item xs={12}>
           <Input
@@ -162,11 +169,30 @@ const ScheduleAppointment = ({closeModal}) => {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <MuiDateTimePicker
             label="Date and Time"
             name="date"
             control={control}
+            required
+            important
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomSelect
+            label="Appointment Status"
+            name="status"
+            control={control}
+            options={[
+              "Scheduled",
+              "Active",
+              "Postponed",
+              "Cancelled",
+              "Suspended",
+              "Aborted",
+              "Completed",
+            ]}
             required
             important
           />
