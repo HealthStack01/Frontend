@@ -214,23 +214,20 @@ export function OrgFacilitySearch({ getSearchfacility, clear }) {
   const inputEl = useRef(null);
   const [val, setVal] = useState('');
   const [productModal, setProductModal] = useState(false);
+  const [selectedFacility, setSelectedFacility] = useState([]);
 
   const handleRow = async (obj) => {
     await setChosen(true);
-    //alert("something is chaning")
-    getSearchfacility(obj);
-
-    await setSimpa(obj.facilityName + ',' + obj.facilityCity);
-
-    // setSelectedFacility(obj)
+    // getSearchfacility(obj);
+    await setSimpa(obj?.facilityName + ',' + obj?.facilityCity);
     setShowPanel(false);
     await setCount(2);
-    /* const    newfacilityModule={
-            selectedFacility:facility,
-            show :'detail'
-        }
-   await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
-    //console.log(state)
+    // check if the facility is already selected, if not add it to the list
+    const found = selectedFacility.some((el) => el?._id === obj?._id);
+    if (!found) {
+      await setSelectedFacility([...selectedFacility, obj]);
+      await getSearchfacility([...selectedFacility, obj]);
+    }
   };
   const handleBlur = async (e) => {
     /*  if (count===2){
@@ -255,7 +252,7 @@ export function OrgFacilitySearch({ getSearchfacility, clear }) {
     setVal(value);
     if (value === '') {
       setShowPanel(false);
-      getSearchfacility(false);
+      getSearchfacility([]);
       await setFacilities([]);
       return;
     }
@@ -316,39 +313,41 @@ export function OrgFacilitySearch({ getSearchfacility, clear }) {
     return () => {};
   }, [clear]);
 
-  console.log('simpa', orgServ);
   return (
-    <Stack spacing={3} sx={{ width: 500 }}>
+    <Stack spacing={3} sx={{ width: '100%' }}>
       <Autocomplete
-        multiple
         id="tags-standard"
-        options={[
-          { title: 'Ibadan Hospital' },
-          { title: 'Lagos Hospital' },
-          { title: 'TT Ibadan' },
-          { title: 'Test Ibadan' },
-        ]}
+        options={facilities}
         onBlur={(e) => handleBlur(e)}
-        // onChange={(e) => {
-        //   handleSearch(e.target.value), console.log('it is changing');
-        // }}
-        onChange={(e, value) => {
-          handleSearch(value), console.log('it is changing');
+        getOptionLabel={(option) =>
+          `${option?.organizationDetail?.facilityName} , ${option?.organizationDetail?.facilityCity}`
+        }
+        onChange={(event, newValue) => {
+          console.log('newValue', newValue);
+          handleRow(newValue);
         }}
-        getOptionLabel={(option) => option.title}
         renderInput={(params) => (
           <TextField
             {...params}
-            variant="standard"
-            label="Search Provider"
-            placeholder="Search Provider"
+            label={'Search for Provider'}
+            onChange={(e) => handleSearch(e.target.value)}
+            ref={inputEl}
+            sx={{
+              fontSize: '0.75rem !important',
+              backgroundColor: '#ffffff !important',
+              '& .MuiInputBase-input': {
+                height: '0.9rem',
+              },
+            }}
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
         )}
       />
     </Stack>
   );
 }
-
 export function SponsorSearch({ getSearchfacility, clear }) {
   const productServ = client.service('facility');
   const orgServ = client.service('organizationclient');
@@ -447,65 +446,36 @@ export function SponsorSearch({ getSearchfacility, clear }) {
     return () => {};
   }, [clear]);
   return (
-    <div>
-      <div className="field">
-        <div className="control has-icons-left  ">
-          <div
-            className={`dropdown ${showPanel ? 'is-active' : ''}`}
-            style={{ width: '100%' }}
-          >
-            <div className="dropdown-trigger" style={{ width: '100%' }}>
-              <DebounceInput
-                label="Search Sponsor"
-                value={simpa}
-                placeholder="Search Sponsor"
-                minLength={3}
-                debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
-                inputRef={inputEl}
-                style={{
-                  width: '100%',
-                  padding: '1rem .5rem',
-                  borderRadius: '4px',
-                  border: '1.5px solid rgba(0, 0, 0, 0.6)',
-                }}
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-search"></i>
-              </span>
-            </div>
-            {/* {searchError&&<div>{searchMessage}</div>} */}
-            <div className="dropdown-menu" style={{ width: '100%' }}>
-              <div className="dropdown-content">
-                {/* {facilities.length > 0 ? (
-                  ''
-                ) : (
-                  <div
-                    className="dropdown-item" onClick={handleAddproduct} 
-                  >
-                    {" "}
-                    <span>{val} is not on your Sponsor list</span>{" "}
-                  </div>
-                )} */}
-
-                {facilities.map((facility, i) => (
-                  <div
-                    className="dropdown-item"
-                    key={facility.organizationDetail._id}
-                    onClick={() => handleRow(facility.organizationDetail)}
-                  >
-                    <span>
-                      {facility.organizationDetail.facilityName},
-                      {facility.organizationDetail.facilityCity}{' '}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Stack spacing={3} sx={{ width: '100%' }}>
+      <Autocomplete
+        id="tags-standard"
+        options={facilities}
+        onBlur={(e) => handleBlur(e)}
+        getOptionLabel={(option) =>
+          `${option?.organizationDetail?.facilityName} , ${option?.organizationDetail?.facilityCity}`
+        }
+        onChange={(event, newValue) => {
+          handleRow(newValue);
+        }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={'Search for Provider'}
+            onChange={(e) => handleSearch(e.target.value)}
+            ref={inputEl}
+            sx={{
+              fontSize: '0.75rem !important',
+              backgroundColor: '#ffffff !important',
+              '& .MuiInputBase-input': {
+                height: '0.9rem',
+              },
+            }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        )}
+      />
+    </Stack>
   );
 }

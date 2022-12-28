@@ -40,6 +40,8 @@ import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
 import { createClientSchema } from '../Client/schema';
 import SaveIcon from '@mui/icons-material/Save';
+import { IconButton } from '@mui/material';
+import DeleteOutline from '@mui/icons-material/DeleteOutline';
 
 var random = require('random-string-generator');
 // eslint-disable-next-line
@@ -54,26 +56,23 @@ export default function Policy({ standAlone }) {
   const [loading, setLoading] = useState(false);
   return (
     <section className="section remPadTop">
-      {standAlone ? (
-        <PolicyList
+      {standAlone
+        ? showModal === 0 && (
+            <PolicyList
+              showModal={showModal}
+              setShowModal={setShowModal}
+              standAlone={standAlone}
+            />
+          )
+        : showModal === 0 && (
+            <PolicyList showModal={showModal} setShowModal={setShowModal} />
+          )}
+      {showModal === 1 && (
+        <PolicyCreate
           showModal={showModal}
           setShowModal={setShowModal}
-          standAlone={standAlone}
+          setOpenCreate={setShowModal2}
         />
-      ) : (
-        <PolicyList showModal={showModal} setShowModal={setShowModal} />
-      )}
-      {showModal === 1 && (
-        <ModalBox
-          open={state.ManagedCareModule.show === 'create'}
-          onClose={() => setShowModal(false)}
-        >
-          <PolicyCreate
-            showModal={showModal}
-            setShowModal={setShowModal}
-            setOpenCreate={setShowModal2}
-          />
-        </ModalBox>
       )}
       {showModal2 && (
         <ModalBox open={showModal2} onClose={() => setShowModal2(false)}>
@@ -81,39 +80,37 @@ export default function Policy({ standAlone }) {
         </ModalBox>
       )}
       {showModal === 2 && (
-        <ModalBox open={showModal} onClose={() => setShowModal(false)}>
-          <Grid container>
-            <Grid item md={6}>
-              <PolicyDetail />
-            </Grid>
-            <Grid item md={6}>
-              <FormsHeaderText text="Principal Details" />
-              <CustomTable
-                title={''}
-                columns={EnrolleSchema3}
-                data={principalData}
-                pointerOnHover
-                highlightOnHover
-                striped
-                onRowClicked={() => {}}
-                progressPending={loading}
-              />
-              <FormsHeaderText text="Dependant Details" />
-              <CustomTable
-                title={''}
-                columns={EnrolleSchema3}
-                data={principalData}
-                pointerOnHover
-                highlightOnHover
-                striped
-                onRowClicked={() => {}}
-                progressPending={loading}
-              />
-              <FormsHeaderText text="Provider List" />
-              <Provider standAlone />
-            </Grid>
+        <Grid container>
+          <Grid item md={6}>
+            <PolicyDetail />
           </Grid>
-        </ModalBox>
+          <Grid item md={6}>
+            <FormsHeaderText text="Principal Details" />
+            <CustomTable
+              title={''}
+              columns={EnrolleSchema3}
+              data={principalData}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={() => {}}
+              progressPending={loading}
+            />
+            <FormsHeaderText text="Dependant Details" />
+            <CustomTable
+              title={''}
+              columns={EnrolleSchema3}
+              data={principalData}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={() => {}}
+              progressPending={loading}
+            />
+            <FormsHeaderText text="Provider List" />
+            <Provider standAlone />
+          </Grid>
+        </Grid>
       )}
     </section>
   );
@@ -508,7 +505,8 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 }
 
 export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
-  const { register, handleSubmit, setValue, getValues, reset } = useForm();
+  const { register, handleSubmit, setValue, getValues, reset, control } =
+    useForm();
   const { state, setState } = useContext(ObjectContext);
   const { user } = useContext(UserContext);
   const [clientModal, setClientModal] = useState(false);
@@ -522,7 +520,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
   const [price, setPrice] = useState('');
   const [chosenPlan, setChosenPlan] = useState();
   const [success, setSuccess] = useState(false);
-  const [chosen, setChosen] = useState('');
+  const [chosen, setChosen] = useState([]);
   const [planHMO, setPlanHMO] = useState('');
   const [error, setError] = useState(false);
   //const [documentNo,setDocumentNo] = useState("")
@@ -538,6 +536,8 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
   const ServicesServ = client.service('billing');
   const policyServ = client.service('policy');
   const BillCreateServ = client.service('createbilldirect');
+  const orgServ = client.service('organizationclient');
+  const [facilities, setFacilities] = useState([]);
   const [paymentOptions, setPaymentOptions] = useState([]);
   const [billMode, setBillMode] = useState('');
   const [obj, setObj] = useState('');
@@ -545,9 +545,12 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
   const [loading, setLoading] = useState(false);
   const [createOrg, setCreateOrg] = useState(false);
 
-  const getSearchfacility = (obj) => {
-    setChosen(obj);
-    if (!obj) {
+  const getSearchfacility = async (obj) => {
+    if (obj.length > 0) {
+      await setChosen(obj);
+      await console.log('OBJ', chosen);
+    } else {
+      setChosen([]);
     }
   };
 
@@ -808,26 +811,6 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
     setPaymentOptions(paymentoptions);
     setBillMode(billme);
   };
-
-  /* const pay={paymentinfo:
-    {
-      paymentmode:{ type: String,  default:"Cash"},
-      organizationId:{ type: Schema.Types.ObjectId },
-      organizationName:{ type: String,  },
-      principalId:{ type: String,  },
-      clientId:{ type: String,  },
-      principalName:{ type: String,  },
-      plan:{ type: String,  },
-      active:{ type: Boolean,default:true},
-      principal:{ type: String},
-      organizationType: { type: String,  },
-      agent:{ type: Schema.Types.ObjectId },
-      agentName:{ type: String,  }
-
-    }
-    }
-   */
-
   const createObj = (pay, name, cover, type) => {
     let details = {};
     details = { ...pay };
@@ -1019,14 +1002,152 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
     }
   };
 
+  // const getFacility = async () => {
+  //   let stuff = {
+  //     facility: user.currentEmployee.facilityDetail._id,
+  //     // locationId:state.employeeLocation.locationId,
+  //     $limit: 100,
+  //     $sort: {
+  //       createdAt: -1,
+  //     },
+  //   };
+  //   orgServ
+  //     .find({
+  //       query: {
+  //         relationshiptype: 'managedcare',
+  //         facility: user.currentEmployee.facilityDetail._id,
+  //         $limit: 100,
+  //         $sort: {
+  //           createdAt: -1,
+  //         },
+  //       },
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       setFacilities(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+  const handleSearch = async (value) => {
+    if (value === '') {
+      await setFacilities([]);
+      return;
+    }
+    if (value.length >= 3) {
+      orgServ
+        .find({
+          query: {
+            $search: value,
+            relationshiptype: 'managedcare',
+            facility: user.currentEmployee.facilityDetail._id,
+            $limit: 100,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        })
+        .then((res) => {
+          setFacilities(res.data);
+        })
+        .catch((err) => {
+          toast.error(`Error creating Service due to ${err}`);
+        });
+    } else {
+      await setFacilities([]);
+    }
+  };
+
   useEffect(() => {
     getBenfittingPlans();
     createPaymentOption();
+    // getFacility();
 
     return () => {};
   }, []);
 
-  console.log('==================', state.Beneficiary?.principal);
+  const OrgFacilitySchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: 'HIDDEN',
+      width: '50px',
+    },
+    {
+      name: 'Facility Name',
+      key: 'facilityname',
+      description: 'Facility Name',
+      selector: (row) => row?.organizationDetail?.facilityName,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Facility Address',
+      key: 'facilityaddress',
+      description: 'Facility Address',
+      selector: (row) => row?.organizationDetail?.facilityAddress,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Facility City',
+      key: 'facilitycity',
+      description: 'Facility City',
+      selector: (row) => row?.organizationDetail?.facilityCity,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Facility Phone',
+      key: 'facilityphone',
+      description: 'Facility Phone',
+      selector: (row) => row?.organizationDetail?.facilityContactPhone,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Facility Type',
+      key: 'facilitytype',
+      description: 'Facility Type',
+      selector: (row) => row?.organizationDetail?.facilityType,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Facility Category',
+      key: 'facilitycategory',
+      description: 'Facility Category',
+      selector: (row) => row?.organizationDetail?.facilityCategory,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Del',
+      width: '50px',
+      center: true,
+      key: 'contact_email',
+      description: 'Enter Date',
+      selector: (row) => (
+        <IconButton
+          onClick={() => {
+            setChosen(chosen.filter((item) => item._id !== row._id));
+          }}
+          color="error"
+        >
+          <DeleteOutline fontSize="small" />
+        </IconButton>
+      ),
+      sortable: true,
+      required: true,
+      inputType: 'NUMBER',
+    },
+  ];
+
+  console.log('==================', chosen);
 
   return (
     <>
@@ -1035,12 +1156,33 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
         style={{
           height: 'auto',
           overflowY: 'scroll',
-          width: '70vw',
-          margin: '0 auto',
+          width: '98%',
+          margin: '0 1rem',
         }}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader text={'Policy'} />
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <FormsHeaderText text={'Policy Create'} />
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <GlobalCustomButton
+                text={'Back'}
+                color="warning"
+                onClick={() => setShowModal(0)}
+                customStyles={{ marginRight: '.5rem' }}
+              />
+              <GlobalCustomButton
+                text={'Save'}
+                color="success"
+                customStyles={{ marginRight: '.5rem' }}
+              />
+            </Box>
+          </Box>
 
           <Grid container spacing={2} mt={2}>
             <Grid item md={12} sx={{ display: 'flex' }}>
@@ -1051,6 +1193,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
                   {...register('sponsortype', { required: true })}
                   value="Self"
                   onChange={(e) => handleChangeMode(e.target.value)}
+                  style={{ marginRight: '.5rem' }}
                 />
                 <label>Self</label>
               </Box>
@@ -1061,9 +1204,16 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
                   {...register('sponsortype', { required: true })}
                   value="Company"
                   onChange={(e) => handleChangeMode(e.target.value)}
+                  style={{ marginRight: '.5rem' }}
                 />
                 <label>Company</label>
               </Box>
+            </Grid>
+            <Grid item md={6}>
+              <OrgFacilitySearch
+                getSearchfacility={getSearchfacility}
+                clear={success}
+              />
             </Grid>
             {showCorp && (
               <Grid item md={6}>
@@ -1074,34 +1224,15 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
               </Grid>
             )}
             <Grid item md={6}>
-              <OrgFacilitySearch
-                getSearchfacility={getSearchfacility}
-                clear={success}
-              />
-            </Grid>
-            <Grid item md={6}>
-              <select
+              <CustomSelect
                 name="plan"
-                {...register('plan', { required: true })}
+                label="Choose Plan"
+                options={benefittingPlans1}
+                required
+                important
+                // control={control}
                 onChange={(e, i) => handleChangePlan(e.target.value)}
-                className="selectadd"
-                style={{
-                  width: '100%',
-                  padding: '1rem',
-                  borderRadius: '4px',
-                  height: '3rem',
-                  cursor: 'pointer',
-                  border: '1px solid rgba(0, 0, 0, 0.6)',
-                }}
-              >
-                <option value=""> Choose Plan </option>
-                {benefittingPlans1.map((option, i) => (
-                  <option key={i} value={option.name}>
-                    {' '}
-                    {option.name}
-                  </option>
-                ))}
-              </select>
+              />
             </Grid>
             <Grid item md={6}>
               <Input value={price.price} disabled label="Price" />
@@ -1140,40 +1271,57 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
               </button>
             </p>
           </Box>
-          {!!state.Beneficiary?.principal._id && (
-            <CustomTable
-              title={''}
-              columns={EnrolleSchema}
-              data={state.Beneficiary?.principal}
-              pointerOnHover
-              highlightOnHover
-              striped
-              onRowClicked={() => handleRow(state.Beneficiary?.principal)}
-              progressPending={loading}
-            />
-          )}
-          {state.Beneficiary.dependent.length > 0 && (
-            <CustomTable
-              title={''}
-              columns={EnrolleSchema2}
-              data={state.Beneficiary.dependent}
-              pointerOnHover
-              highlightOnHover
-              striped
-              onRowClicked={() => handleRow()}
-              progressPending={loading}
-            />
-          )}
-          <Button
-            type="submit"
-            variant="contained"
-            size="small"
-            color="primary"
-            style={{ marginTop: '1rem' }}
+          <Grid container spacing={2} mt={2}>
+            <Grid item md={6}>
+              {!!state.Beneficiary?.principal._id && (
+                <CustomTable
+                  title={''}
+                  columns={EnrolleSchema}
+                  data={state.Beneficiary?.principal}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={() => handleRow(state.Beneficiary?.principal)}
+                  progressPending={loading}
+                />
+              )}
+            </Grid>
+            <Grid item md={6}>
+              {state.Beneficiary.dependent.length > 0 && (
+                <CustomTable
+                  title={''}
+                  columns={EnrolleSchema2}
+                  data={state.Beneficiary.dependent}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={() => handleRow()}
+                  progressPending={loading}
+                />
+              )}
+            </Grid>
+          </Grid>
+          <Box
+            style={{
+              // height: '50vh',
+              overflowY: 'scroll',
+              width: '98%',
+              margin: '0 1rem',
+            }}
           >
-            {' '}
-            Save{' '}
-          </Button>
+            <FormsHeaderText text={'Selected Provider'} />
+            {chosen?.length > 0 && (
+              <CustomTable
+                title={''}
+                columns={OrgFacilitySchema}
+                data={chosen}
+                pointerOnHover
+                highlightOnHover
+                striped
+                progressPending={loading}
+              />
+            )}
+          </Box>
         </form>
         <ModalBox
           open={createOrg}
