@@ -489,7 +489,7 @@ export const getPlansColumns = (action, disableAction) => {
     },
 
     {
-      name: "Num of Heads",
+      name: "Number of Heads",
       style: {color: "#0364FF"},
       key: "no_of_heads",
       description: "Enter Date",

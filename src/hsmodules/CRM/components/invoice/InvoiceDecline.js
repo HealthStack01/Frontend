@@ -3,6 +3,7 @@ import {Box, Typography} from "@mui/material";
 import {CKEditor} from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import BlockIcon from "@mui/icons-material/Block";
+import {v4 as uuidv4} from "uuid";
 
 import "./styles.scss";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
@@ -21,15 +22,27 @@ const InvoiceDeclineReason = ({closeModal}) => {
   const [confirmDialog, setConfirmDialog] = useState(false);
 
   const handleDeclineInvoice = async () => {
-    //showActionLoader();
+    showActionLoader();
     //return toast.error("Unable to add new plan, not operational yet");
-
+    const employee = user.currentEmployee;
     const invoiceDetail = state.InvoiceModule.selectedInvoice;
     const currentDeal = state.DealModule.selectedDeal;
+
+    const newStatusHistory = {
+      updatedAt: new Date(),
+      updatedBy: employee.userId,
+      updatedByName: `${employee.firstname} ${employee.lastname}`,
+      comment: text,
+      title: "Declined Invoice",
+      _id: uuidv4(),
+    };
+
+    const oldStatusHistory = invoiceDetail.statusHx || [];
 
     const newInvoiceDetail = {
       ...invoiceDetail,
       status: "Declined",
+      statusHx: [newStatusHistory, ...oldStatusHistory],
     };
 
     const prevInvoices = currentDeal.invoices;
@@ -89,7 +102,7 @@ const InvoiceDeclineReason = ({closeModal}) => {
         cancelAction={() => setConfirmDialog(false)}
         confirmationAction={handleDeclineInvoice}
         type="warning"
-        message={`You're about to decline an Invoice?`}
+        message={`You're about to decline this Invoice?`}
       />
       <Box
         sx={{

@@ -5,6 +5,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import BlockIcon from "@mui/icons-material/Block";
 import ApprovalIcon from "@mui/icons-material/Approval";
 import {v4 as uuidv4} from "uuid";
+import OpenWithIcon from "@mui/icons-material/OpenWith";
 
 import "./styles.scss";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
@@ -14,7 +15,7 @@ import {toast} from "react-toastify";
 import Textarea from "../../../../components/inputs/basic/Textarea";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 
-const InvoiceApproveReason = ({closeModal}) => {
+const InvoiceReopenReason = ({closeModal}) => {
   const [text, setText] = useState("");
   const dealServer = client.service("deal");
   const {state, setState, showActionLoader, hideActionLoader} =
@@ -35,7 +36,7 @@ const InvoiceApproveReason = ({closeModal}) => {
       updatedBy: employee.userId,
       updatedByName: `${employee.firstname} ${employee.lastname}`,
       comment: text,
-      title: "Approved Invoice",
+      title: "Reopened Invoice",
       _id: uuidv4(),
     };
 
@@ -43,7 +44,7 @@ const InvoiceApproveReason = ({closeModal}) => {
 
     const newInvoiceDetail = {
       ...invoiceDetail,
-      status: "Approved",
+      status: "Pending",
       statusHx: [newStatusHistory, ...oldStatusHistory],
     };
 
@@ -80,7 +81,7 @@ const InvoiceApproveReason = ({closeModal}) => {
         setConfirmDialog(false);
         closeModal();
 
-        toast.success(`You have successfully Approved this Invoice`);
+        toast.success(`You have successfully Reopened this Invoice`);
 
         //setReset(true);
       })
@@ -88,7 +89,7 @@ const InvoiceApproveReason = ({closeModal}) => {
         //setReset(false);
         setConfirmDialog(false);
         hideActionLoader();
-        toast.error(`Sorry, Failed to Approve the Invoice. ${err}`);
+        toast.error(`Sorry, Failed to Reopen the Invoice. ${err}`);
       });
   };
 
@@ -108,7 +109,7 @@ const InvoiceApproveReason = ({closeModal}) => {
         cancelAction={() => setConfirmDialog(false)}
         confirmationAction={handleApproveInvoice}
         type="create"
-        message={`You're about to Approve this Invoice?`}
+        message={`You're about to Reaopen this Invoice?`}
       />
       <Box
         sx={{
@@ -125,7 +126,7 @@ const InvoiceApproveReason = ({closeModal}) => {
             fontWeight: "500",
           }}
         >
-          Approval Comments
+          Comment For Reopening Invoice
         </Typography>
       </Box>
 
@@ -159,12 +160,16 @@ const InvoiceApproveReason = ({closeModal}) => {
           onClick={() => setConfirmDialog(true)}
           color="success"
         >
-          <ApprovalIcon fontSize="small" sx={{marginRight: "5px"}} />
-          Approve Invoice
+          <OpenWithIcon
+            color="detail"
+            fontSize="small"
+            sx={{marginRight: "5px"}}
+          />
+          Reopen Invoice
         </GlobalCustomButton>
       </Box>
     </Box>
   );
 };
 
-export default InvoiceApproveReason;
+export default InvoiceReopenReason;

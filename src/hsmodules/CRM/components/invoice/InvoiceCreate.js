@@ -117,8 +117,6 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
     }, 0);
 
     setValue("total_amount", totalPlansSum);
-
-    //console.log(totalPlansSum);
   }, [plans]);
 
   return (

@@ -18,6 +18,9 @@ import ActionLoader from "./components/action-loader/Action-Loader";
 
 function App() {
   const [state, setState] = useState({
+    BankAccountModule: {
+      selectedBankAccount: {},
+    },
     InvoiceModule: {
       selectedInvoice: {},
       selectedPlan: {},
@@ -50,6 +53,7 @@ function App() {
     facilityModule: {
       show: "list",
       selectedFacility: {},
+      currentFacility: {},
     },
 
     EmployeeModule: {

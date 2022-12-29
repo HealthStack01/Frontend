@@ -205,7 +205,7 @@ const InvoiceList = ({openCreateModal, showCreateView, showDetailView}) => {
               Create Invoice
             </GlobalCustomButton>
           </TableMenu>
-          <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+          <div style={{width: "100%", overflow: "auto"}}>
             <CustomTable
               title={""}
               columns={InvoiceSchema}

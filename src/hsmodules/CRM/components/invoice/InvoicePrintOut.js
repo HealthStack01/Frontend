@@ -1,48 +1,48 @@
 import {Divider, Typography} from "@mui/material";
 import {Box, fontWeight} from "@mui/system";
 import dayjs from "dayjs";
-import {useContext} from "react";
+import {useContext, useState, useEffect} from "react";
 import CustomTable from "../../../../components/customtable";
 import {ObjectContext, UserContext} from "../../../../context";
 
-export const customStyles = {
+const customStyles = {
   rows: {
     style: {
-      minHeight: "40px", // override the row height
+      minHeight: "30px", // override the row height
       "&:not(:last-of-type)": {
         borderBottomWidth: "0px",
       },
-      padding: "0.25rem",
+      padding: "0.15rem",
       backgroundColor: "##F8F8F8",
     },
   },
   headRow: {
     style: {
       borderBottomWidth: "0px",
-      padding: "0.25rem",
+      padding: "0.15rem",
       backgroundColor: "#F8F8F8",
-      fontSize: "0.75rem",
+      fontSize: "0.67rem",
     },
   },
   headCells: {
     style: {
-      padding: "0.25rem",
-      paddingLeft: "0.5rem", // override the cell padding for head cells
-      paddingRight: "0.5rem",
-      paddingTop: "0.2rem",
-      paddingBottom: "0.2rem",
-      fontSize: "0.8rem",
+      padding: "0.15rem",
+      paddingLeft: "0.25rem", // override the cell padding for head cells
+      paddingRight: "0.25rem",
+      paddingTop: "0.1rem",
+      paddingBottom: "0.1rem",
+      fontSize: "0.7rem",
       fontWeight: "bold",
       color: "#000000",
     },
   },
   cells: {
     style: {
-      paddingLeft: "0.5rem", // override the cell padding for data cells
-      paddingRight: "0.5rem",
-      paddingTop: "0.2rem",
-      paddingBottom: "0.2rem",
-      fontSize: "0.79rem",
+      paddingLeft: "0.25rem", // override the cell padding for data cells
+      paddingRight: "0.25rem",
+      paddingTop: "0.1rem",
+      paddingBottom: "0.1rem",
+      fontSize: "0.69rem",
       color: "#000000",
       fontWeight: "400",
     },
@@ -85,64 +85,141 @@ const data = [
 
 const columns = [
   {
-    name: "Details",
-    key: "details",
+    name: "Type",
+    key: "file_name",
     description: "Enter Date",
-    selector: row => row.details,
+    selector: row => (
+      <Typography
+        sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+        data-tag="allowRowEvents"
+      >
+        {row.type}
+      </Typography>
+    ),
     sortable: true,
     required: true,
     inputType: "TEXT",
-  },
-  {
-    name: "No of Plan",
-    key: "num_of_plans",
-    description: "Enter Date",
-    selector: row => row.num_of_plans,
-    sortable: true,
-    required: true,
-    inputType: "TEXT",
-  },
-
-  {
-    name: "Unit Price(N)",
-    key: "price",
-    description: "Enter Date",
-    selector: row => row.price,
-    sortable: true,
-    required: true,
-    inputType: "TEXT",
+    style: {
+      textTransform: "capitalize",
+    },
+    width: "99px",
   },
 
   {
-    name: "No of Month",
-    key: "months",
+    name: "Date",
+    style: {color: "#0364FF"},
+    key: "created_at",
     description: "Enter Date",
-    selector: row => row.months,
+    selector: row => (
+      <Typography
+        sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+        data-tag="allowRowEvents"
+      >
+        {dayjs(row.created_at).format("DD/MM/YYYY")}
+      </Typography>
+    ),
+    //selector: row => dayjs(row.created_at).format("DD/MM/YYYY"),
     sortable: true,
     required: true,
     inputType: "TEXT",
+    width: "99px",
   },
 
   {
-    name: "Amount(N)",
+    name: "Duration",
+    style: {color: "#0364FF"},
+    key: "no_of_months",
+    description: "Enter Date",
+    selector: row => (
+      <Typography
+        sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+        data-tag="allowRowEvents"
+      >
+        {row.length} ${row.calendrical}
+      </Typography>
+    ),
+    //selector: row => `${row.length} ${row.calendrical}`,
+    sortable: true,
+    required: true,
+    inputType: "TEXT",
+    width: "99px",
+  },
+
+  {
+    name: "Premium",
+    style: {color: "#0364FF"},
+    key: "premium",
+    description: "Enter Date",
+    selector: row => (
+      <Typography
+        sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+        data-tag="allowRowEvents"
+      >
+        {row.premium}
+      </Typography>
+    ),
+    sortable: true,
+    required: true,
+    inputType: "TEXT",
+    width: "99px",
+  },
+
+  {
+    name: "Heads",
+    style: {color: "#0364FF"},
+    key: "no_of_heads",
+    description: "Enter Date",
+    selector: row => (
+      <Typography
+        sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+        data-tag="allowRowEvents"
+      >
+        {row.heads}
+      </Typography>
+    ),
+    sortable: true,
+    required: true,
+    inputType: "TEXT",
+    width: "70px",
+  },
+
+  {
+    name: "Amount(₦)",
+    style: {color: "#0364FF"},
     key: "amount",
     description: "Enter Date",
-    selector: row => row.amount,
+    selector: row => (
+      <Typography
+        sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+        data-tag="allowRowEvents"
+      >
+        {row.amount}
+      </Typography>
+    ),
     sortable: true,
     required: true,
     inputType: "TEXT",
+    width: "99px",
   },
 ];
 
 const InvoicePrintOut = () => {
   const {state} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
+  const [totalAmount, setTotalAmount] = useState(0);
 
   const organization = user.currentEmployee.facilityDetail;
   const invoice = state.InvoiceModule.selectedInvoice;
   const customer = state.DealModule.selectedDeal;
 
-  console.log(customer);
+  useEffect(() => {
+    //console.log(plans[0]);
+    const totalPlansSum = invoice?.plans.reduce((accumulator, object) => {
+      return Number(accumulator) + Number(object.amount);
+    }, 0);
+
+    setTotalAmount(`${totalPlansSum}.00`);
+  }, [invoice.plans]);
 
   return (
     <Box
@@ -392,13 +469,14 @@ const InvoicePrintOut = () => {
       <Box>
         <CustomTable
           columns={columns}
-          data={data}
+          data={invoice.plans}
           pointerOnHover
           highlightOnHover
           striped
           //onRowClicked={handleRowClick}
           CustomEmptyData="There are no bills"
           progressPending={false}
+          preferredCustomStyles={customStyles}
         />
       </Box>
 
@@ -437,7 +515,7 @@ const InvoicePrintOut = () => {
               color: "#000000",
             }}
           >
-            4,768,326.00
+            {totalAmount}
           </Typography>
         </Box>
 
@@ -467,7 +545,7 @@ const InvoicePrintOut = () => {
               color: "#000000",
             }}
           >
-            4,768,326.00
+            {totalAmount}
           </Typography>
         </Box>
       </Box>

@@ -10,7 +10,7 @@ import InvoiceDeclineReason from "./InvoiceDecline";
 import BlockIcon from "@mui/icons-material/Block";
 import ApprovalIcon from "@mui/icons-material/Approval";
 import ReceiptIcon from "@mui/icons-material/Receipt";
-import {Grid, IconButton} from "@mui/material";
+import {Grid, IconButton, Typography} from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import SystemUpdateAltIcon from "@mui/icons-material/SystemUpdateAlt";
@@ -37,6 +37,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import Watermark from "@uiw/react-watermark";
 import InvoiceApproveReason from "./InvoiceApprove";
+import InvoiceReopenReason from "./invoiceReopen";
+import dayjs from "dayjs";
 
 const random = require("random-string-generator");
 
@@ -49,12 +51,14 @@ const InvoiceDetail = ({handleGoBack}) => {
   const [viewInvoice, setViewInvoice] = useState(false);
   const [declineModal, setDeclineModal] = useState(false);
   const [approveModal, setApproveModal] = useState(false);
-  const [declineReason, setDeclineReason] = useState("");
+  const [reopenModal, setReopenModal] = useState(false);
   const [chat, setChat] = useState(false);
   const [plans, setPlans] = useState([]);
   const [planCreateModal, setPlanCreateModal] = useState(false);
   const [edit, setEdit] = useState(false);
   const [invoiceStatus, setInvoiceStatus] = useState("");
+  const [statusHistory, setStatusHistory] = useState([]);
+  const [watermarkMsg, setWatermarkMsg] = useState("");
 
   const handleAddNewPlan = async plan => {
     showActionLoader();
@@ -165,64 +169,6 @@ const InvoiceDetail = ({handleGoBack}) => {
       });
   };
 
-  const handleReopenInvoice = async () => {
-    //showActionLoader();
-    //return toast.error("Unable to add new plan, not operational yet");
-
-    const invoiceDetail = state.InvoiceModule.selectedInvoice;
-    const currentDeal = state.DealModule.selectedDeal;
-
-    const newInvoiceDetail = {
-      ...invoiceDetail,
-      status: "Pending",
-    };
-
-    const prevInvoices = currentDeal.invoices;
-
-    const newInvoices = prevInvoices.map(item => {
-      if (item._id === newInvoiceDetail._id) {
-        return newInvoiceDetail;
-      } else {
-        return item;
-      }
-    });
-
-    const documentId = currentDeal._id;
-
-    //return console.log(newInvoiceDetail);
-
-    await dealServer
-      .patch(documentId, {invoices: newInvoices})
-      .then(res => {
-        hideActionLoader();
-        //setContacts(res.contacts);
-        setState(prev => ({
-          ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: res},
-        }));
-        setState(prev => ({
-          ...prev,
-          InvoiceModule: {
-            ...prev.InvoiceModule,
-            selectedInvoice: newInvoiceDetail,
-          },
-        }));
-        setInvoiceStatus("Pending");
-        setConfirmDialog(false);
-        closeModal();
-
-        toast.success(`You have successfully Opened this Invoice`);
-
-        //setReset(true);
-      })
-      .catch(err => {
-        //setReset(false);
-        setConfirmDialog(false);
-        hideActionLoader();
-        toast.error(`Sorry, Failed to Open the Invoice. ${err}`);
-      });
-  };
-
   useEffect(() => {
     const invoice = state.InvoiceModule.selectedInvoice;
     //console.log(invoice);
@@ -230,6 +176,8 @@ const InvoiceDetail = ({handleGoBack}) => {
     setPlans(invoice.plans || []);
     reset(invoice);
     setInvoiceStatus(invoice.status);
+    setStatusHistory(invoice.statusHx || []);
+    returnStatusMessage();
   }, [state.InvoiceModule]);
 
   useEffect(() => {
@@ -246,20 +194,101 @@ const InvoiceDetail = ({handleGoBack}) => {
   const returnStatusMessage = () => {
     if (invoiceStatus.toLowerCase() === "pending") {
       //console.log(invoiceStatus);
-      return "";
+      return setWatermarkMsg("");
     } else if (invoiceStatus.toLowerCase() === "declined") {
-      return "Declined";
+      return setWatermarkMsg("Declined");
     } else if (invoiceStatus.toLowerCase() === "approved") {
-      console.log("why showing me approved");
-      return "Approved";
+      return setWatermarkMsg("Approved");
     }
   };
 
+  const handleRow = row => {};
+
+  const historyColumns = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "50px",
+    },
+    {
+      name: "Employee",
+      key: "name",
+      description: "Enter name of Company",
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.updatedByName}
+        </Typography>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+      width: "200px",
+      style: {
+        textTransform: "capitalize",
+        color: "#1976d2",
+      },
+    },
+    {
+      name: "Date & Time",
+      key: "name",
+      description: "Enter name of Company",
+      selector: row => dayjs(row.updatedAt).format("DD/MM/YYYY hh:mm A	"),
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+      width: "150px",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+    {
+      name: "Title",
+      key: "name",
+      description: "Enter name of Company",
+      selector: row => row.title,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+      width: "150px",
+      style: {
+        textTransform: "capitalize",
+        color: "#1976d2",
+      },
+    },
+    {
+      name: "Comment",
+      key: "sn",
+      description: "Enter name of Company",
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.comment}
+        </Typography>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+  ];
+
   return (
     <Watermark
-      content={returnStatusMessage()}
+      content={invoiceStatus.toLowerCase() === "pending" ? "" : invoiceStatus}
       style={{background: "#ffffff"}}
-      fontColor={invoiceStatus.toLowerCase() === "declined" ? "red" : "green"}
+      fontColor={
+        invoiceStatus.toLowerCase() === "declined"
+          ? "rgba(255, 0, 0, 0.3)"
+          : "rgba(0, 255, 0, 0.3)"
+      }
     >
       <Box
         sx={{
@@ -299,31 +328,33 @@ const InvoiceDetail = ({handleGoBack}) => {
                 Chat
               </GlobalCustomButton>
             </Badge>
-            {/* 
+
             {invoiceStatus.toLowerCase() === "declined" ||
             invoiceStatus.toLowerCase() === "approved" ? (
-              <GlobalCustomButton onClick={handleReopenInvoice}>
+              <GlobalCustomButton onClick={() => setReopenModal(true)}>
                 <OpenWithIcon fontSize="small" sx={{marginRight: "5px"}} />
                 Reopen Invoice
               </GlobalCustomButton>
-            ) : null} */}
+            ) : null}
 
-            {invoiceStatus.toLowerCase() !== "declined" && (
-              <GlobalCustomButton
-                color="error"
-                onClick={() => setDeclineModal(true)}
-              >
-                <BlockIcon fontSize="small" sx={{marginRight: "5px"}} />
-                Decline
-              </GlobalCustomButton>
-            )}
+            {invoiceStatus.toLowerCase() !== "declined" &&
+              invoiceStatus.toLowerCase() !== "approved" && (
+                <GlobalCustomButton
+                  color="error"
+                  onClick={() => setDeclineModal(true)}
+                >
+                  <BlockIcon fontSize="small" sx={{marginRight: "5px"}} />
+                  Decline
+                </GlobalCustomButton>
+              )}
 
-            {invoiceStatus.toLowerCase() !== "approved" && (
-              <GlobalCustomButton onClick={() => setApproveModal(true)}>
-                <ApprovalIcon fontSize="small" sx={{marginRight: "5px"}} />
-                Approve
-              </GlobalCustomButton>
-            )}
+            {invoiceStatus.toLowerCase() !== "approved" &&
+              invoiceStatus.toLowerCase() !== "declined" && (
+                <GlobalCustomButton onClick={() => setApproveModal(true)}>
+                  <ApprovalIcon fontSize="small" sx={{marginRight: "5px"}} />
+                  Approve
+                </GlobalCustomButton>
+              )}
 
             <GlobalCustomButton
               color="secondary"
@@ -442,6 +473,26 @@ const InvoiceDetail = ({handleGoBack}) => {
             </Box>
             <Plans plans={plans} addNewPlan={handleAddNewPlan} omitCreate />
           </Grid>
+
+          <Grid item xs={12}>
+            <Box sx={{display: "flex", justifyContent: "space-between"}}>
+              <FormsHeaderText text="Invoice History" />
+            </Box>
+
+            <Box sx={{zIndex: "999999"}}>
+              <CustomTable
+                title={""}
+                columns={historyColumns}
+                data={statusHistory}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={handleRow}
+                progressPending={false}
+                CustomEmptyData={"No Status History for this invoice yet..."}
+              />
+            </Box>
+          </Grid>
         </Grid>
 
         <ModalBox open={viewInvoice} onClose={() => setViewInvoice(false)}>
@@ -470,6 +521,14 @@ const InvoiceDetail = ({handleGoBack}) => {
           header="Approve Invoice"
         >
           <InvoiceApproveReason closeModal={() => setApproveModal(false)} />
+        </ModalBox>
+
+        <ModalBox
+          open={reopenModal}
+          onClose={() => setReopenModal(false)}
+          header="Reopen Invoice"
+        >
+          <InvoiceReopenReason closeModal={() => setReopenModal(false)} />
         </ModalBox>
 
         <SwipeableDrawer
