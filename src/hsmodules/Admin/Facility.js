@@ -70,7 +70,7 @@ export function FacilityCreate({ closeModal }) {
 
   return (
     <>
-      <Box sx={{ width: '500px', maxHeight: '80vh' }}>
+      <Box sx={{width: "700px", maxHeight: "80vh"}}>
         <form>
           <Grid container spacing={1}>
             <Grid item lg={6} md={12} sm={12} xs={6}>

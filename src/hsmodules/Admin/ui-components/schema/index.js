@@ -55,13 +55,14 @@ export const createEmployeeSchema = yup.object().shape({
   firstname: yup.string().required("First Name is required!"),
   middlename: yup.string(),
   lastname: yup.string().required("Last Name is required!"),
-  profession: yup.string().required("Profession is required!"),
+  profession: yup.string().required("Employee Profession is required!"),
+  position: yup.string().required("Employee Position is required!"),
   phone: yup
     .string()
     .matches(nigerianPhoneRegExp, "Enter a valid phone number (0900000000000).")
     .required("Enter the phone number of the client!"),
   email: yup.string().required("Email is required!"),
-  department: yup.string().required("Department is required!"),
+  department: yup.string().required("Employee Department is required!"),
   depunit: yup.string(),
   password: yup.string().required("Password is required!"),
 });

@@ -51,7 +51,8 @@ const EmployeeView = ({open, setOpen, employee}) => {
   //const history = useHistory()
   // eslint-disable-next-line
   const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
   const [updatingEmployee, setUpatingEmployee] = useState(false);
   const [showRoles, setShowRoles] = useState(false);
 
@@ -63,6 +64,10 @@ const EmployeeView = ({open, setOpen, employee}) => {
       shouldDirty: true,
     });
     setValue("lastname", employee.lastname, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("position", employee?.position, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -113,7 +118,9 @@ const EmployeeView = ({open, setOpen, employee}) => {
     };
     setState(prevstate => ({...prevstate, EmployeeModule: newEmployeeModule}));
   };
+
   const handleDelete = async () => {
+    showActionLoader();
     //let conf=window.confirm("Are you sure you want to delete this data?")
 
     const dleteId = employee._id;
@@ -122,30 +129,20 @@ const EmployeeView = ({open, setOpen, employee}) => {
     EmployeeServ.remove(dleteId)
       .then(res => {
         //console.log(JSON.stringify(res))
+        hideActionLoader();
         reset();
-        /*  setMessage("Deleted Employee successfully")
-              setSuccess(true)
-              changeState()
-             setTimeout(() => {
-              setSuccess(false)
-              }, 200); */
-        toast({
-          message: "Employee deleted succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        setConfirmDialog(false);
+        toast.success("Employee deleted succesfully");
         changeState();
       })
       .catch(err => {
         // setMessage("Error deleting Employee, probable network issues "+ err )
         // setError(true)
-        toast({
-          message: "Error deleting Employee, probable network issues or " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        hideActionLoader();
+        setConfirmDialog(false);
+        toast.error(
+          "Error deleting Employee, probable network issues or " + err
+        );
       });
     // }
   };
@@ -275,20 +272,7 @@ const EmployeeView = ({open, setOpen, employee}) => {
                 errorText={errors?.firstname?.message}
               />
             )}
-            {!editing ? (
-              <Input
-                label="Middle Name"
-                register={register("middlename")}
-                defaultValue={employee?.middlename}
-                disabled={!editing}
-              />
-            ) : (
-              <Input
-                label="Middle Name"
-                register={register("middlename")}
-                errorText={errors?.middlename?.message}
-              />
-            )}
+
             {!editing ? (
               <Input
                 label="Last Name"
@@ -300,6 +284,21 @@ const EmployeeView = ({open, setOpen, employee}) => {
                 label="Last Name"
                 register={register("lastname")}
                 errorText={errors?.lastname?.message}
+              />
+            )}
+
+            {!editing ? (
+              <Input
+                label="Position"
+                register={register("position")}
+                //defaultValue={employee?.middlename}
+                disabled={!editing}
+              />
+            ) : (
+              <Input
+                label="Position"
+                register={register("position")}
+                errorText={errors?.middlename?.message}
               />
             )}
           </GridBox>

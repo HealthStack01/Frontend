@@ -66,15 +66,15 @@ export default function ClientDiagnosisHistory() {
           showCreateModal={handleCreateModal}
           showDetailModal={handleShowDetailModal}
         />
-        <ModalBox width="40vw" open={createModal} onClose={handleHideCreateModal}>
+        <ModalBox width="40vw" open={createModal} onClose={handleHideCreateModal} header="Create Diagnosis History">
           <ClientDiagnosisHistoryCreate />
         </ModalBox>
         
-        <ModalBox width="40vw" open={detailModal} onClose={handleHideDetailModal}>
+        <ModalBox width="40vw" open={detailModal} onClose={handleHideDetailModal} header="Diagnosis History Details">
           <ClientDiagnosisHistoryDetail showModifyModal={handleModifyModal} />
         </ModalBox>
 
-        <ModalBox width="40vw" open={modifyModal} onClose={handleHideModifyModal}>
+        <ModalBox width="40vw" open={modifyModal} onClose={handleHideModifyModal} header="Diagnosis History Modify">
           <ClientDiagnosisHistoryModify />
         </ModalBox>
       </div>
@@ -171,14 +171,11 @@ export function ClientDiagnosisHistoryCreate() {
   return (
     <>
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Create Diagnosis History</p>
-        </div>
         <div className="card-content vscrollable">
           <form onSubmit={handleSubmit(onSubmit)}>
           <div style={{paddingBottom:"1rem"}}>
             <MuiCustomDatePicker
-                  label="Date"
+                  label="Date of Assessment"
                   register={register("date", {required: true})}
                   name="date"
                   control={control}
@@ -203,8 +200,8 @@ export function ClientDiagnosisHistoryCreate() {
             </div>
             <div style={{paddingBottom:"1rem"}}>
             <MuiCustomDatePicker
-                  label="Date of Assessment"
-                  register={register("assessment", {required: true})}
+                  label="End Date"
+                  register={register("end_date", {required: true})}
                   name="assessment"
                   control={control}
                 />
@@ -518,7 +515,6 @@ export function ClientDiagnosisHistoryDetail({showModifyModal}) {
     <>
      <div>
      <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
-          <p className="card-header-title">Diagnosis History Details</p>
           <GlobalCustomButton
           onClick={handleEdit}
                   >
@@ -715,11 +711,8 @@ export function ClientDiagnosisHistoryModify() {
 
   return (
     <>
-      <div className="card ">
+      <div>
         <div style={{display:"flex", justifyContent:"space-between"}}>
-        <div className="card-header">
-          <p className="card-header-title">Diagnosis History Modify</p>
-        </div>
         <Box sx={{display: "flex",gap:"0.5rem"}}>
           <GlobalCustomButton
           type="submit" onClick={handleSubmit(onSubmit)}

@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState, useContext} from "react";
 import {Button, Grid} from "@mui/material";
 import {Box} from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
@@ -12,19 +12,18 @@ import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicke
 import Textarea from "../../../../components/inputs/basic/Textarea";
 import EmployeeSearch from "../../../helpers/EmployeeSearch";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
+import {ObjectContext, UserContext} from "../../../../context";
+import {toast} from "react-toastify";
+import client from "../../../../feathers";
 
 const CRMTaskDetail = ({closeModal, updateTask}) => {
-  const {register, handleSubmit, reset} = useForm();
+  const dealServer = client.service("deal");
+  const {register, handleSubmit, reset, control} = useForm();
+  const {state, setState, hideActionLoader, showActionLoader} =
+    useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [edit, setEdit] = useState(false);
-
-  const formDefaultValues = {
-    employee: "Dr. Simpa Dania",
-    title: "Doctor",
-    type: "Full Time",
-    priority: "Surgery",
-    information:
-      "Lorem ipsum dolor sit amet. Eos consequuntur nisi non accusamus porro eos quaerat obcaecati ea nobis consectetur. Aut Quis esse et quas internos vel labore temporibus.",
-  };
 
   const onSubmit = data => {
     updateTask(data);
@@ -33,13 +32,75 @@ const CRMTaskDetail = ({closeModal, updateTask}) => {
   };
 
   useEffect(() => {
-    reset(formDefaultValues);
+    const task = state.TaskModule.selectedTask;
+    //console.log(task);
+
+    reset(task);
+    setSelectedEmployee(task.employee);
   }, []);
+
+  const handeGetSearchFacility = data => {
+    setSelectedEmployee(data);
+  };
+
+  const handleUpdateTask = async data => {
+    if (selectedEmployee === null)
+      return toast.error("Please search and add an Employee");
+
+    showActionLoader();
+    const employee = user.currentEmployee;
+
+    const prevTasks = [...state.DealModule.selectedDeal.tasks];
+    const currentTask = state.TaskModule.selectedTask;
+
+    const udpateInfo = {
+      updatedAt: new Date(),
+      updatedBy: employee.userId,
+      updatedByName: `${employee.firstname} ${employee.lastname}`,
+    };
+    //{...item, ...data, ...selectedEmployee, ...udpateInfo};
+
+    const newTasks = prevTasks.map(item => {
+      if (item.taskId === currentTask.taskId) {
+        return {
+          ...item,
+          ...data,
+          employee: {...selectedEmployee},
+          ...udpateInfo,
+        };
+      } else {
+        return item;
+      }
+    });
+
+    // return console.log(newTasks);
+
+    const documentId = state.DealModule.selectedDeal._id;
+    await dealServer
+      .patch(documentId, {tasks: newTasks})
+      .then(res => {
+        hideActionLoader();
+        //setContacts(res.contacts);
+        setState(prev => ({
+          ...prev,
+          DealModule: {...prev.DealModule, selectedDeal: res},
+        }));
+        closeModal();
+        toast.success(`You have successfully Updated Task`);
+        //setSuccess(true);
+        //setReset(true);
+      })
+      .catch(err => {
+        //setReset(false);
+        hideActionLoader();
+        toast.error(`Sorry, You weren't able to Update Task!. ${err}`);
+      });
+  };
 
   return (
     <Box
       sx={{
-        width: "500px",
+        width: "600px",
         maxHeight: "80vh",
       }}
       pb={1}
@@ -63,7 +124,7 @@ const CRMTaskDetail = ({closeModal, updateTask}) => {
                 marginRight: "10px",
               }}
               color="success"
-              onClick={handleSubmit(onSubmit)}
+              onClick={handleSubmit(handleUpdateTask)}
             >
               Update
             </GlobalCustomButton>
@@ -80,15 +141,13 @@ const CRMTaskDetail = ({closeModal, updateTask}) => {
 
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          {edit ? (
-            <EmployeeSearch />
-          ) : (
-            <Input
-              label="Employee"
-              register={register("employee", {required: true})}
-              disabled={!edit}
-            />
-          )}
+          <EmployeeSearch
+            id={state.TaskModule.selectedTask.employee._id}
+            getSearchfacility={handeGetSearchFacility}
+            setParentState={setSelectedEmployee}
+            disabled={!edit}
+            //disabled
+          />
         </Grid>
 
         <Grid item xs={12}>
@@ -99,22 +158,27 @@ const CRMTaskDetail = ({closeModal, updateTask}) => {
           />
         </Grid>
 
-        <Grid item xs={8}>
+        <Grid item xs={6}>
           <CustomSelect
-            register={register("type", {required: true})}
-            label="Type"
+            //register={register("type", {required: true})}
+            label="Status"
             options={["Open", "Closed", "Pending"]}
             disabled={!edit}
+            control={control}
+            name="status"
             // placeholder="Enter customer name"
           />
         </Grid>
 
-        <Grid item xs={4}>
+        <Grid item xs={6}>
           <CustomSelect
-            register={register("priority", {required: true})}
+            //register={register("priority", {required: true})}
             label="Priority"
-            options={["Open", "Closed", "Pending"]}
+            options={["High", "Medium", "Low", "Urgent", "Non-Urgent"]}
             disabled={!edit}
+            control={control}
+            name="priority"
+            required
             // placeholder="Enter customer name"
           />
         </Grid>

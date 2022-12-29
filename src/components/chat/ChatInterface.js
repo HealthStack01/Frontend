@@ -14,6 +14,7 @@ import moment from "moment";
 import {messages} from "./data";
 import FilterMenu from "../utilities/FilterMenu";
 import ExpandableSearchInput from "../inputs/Search/ExpandableSearch";
+import {toast} from "react-toastify";
 
 const ChatInterface = ({closeChat}) => {
   const [chatMessages, setChatMessages] = useState([...messages]);
@@ -30,7 +31,7 @@ const ChatInterface = ({closeChat}) => {
   };
 
   const sendNewChatMessage = () => {
-    if (message === "") return;
+    if (message === "") return toast.error("Please include your message");
 
     setSending(true);
 
@@ -125,6 +126,8 @@ const ChatInterface = ({closeChat}) => {
       return message;
   });
 
+  const currentMessages = searchValue === "" ? messages : searchedMessages;
+
   return (
     <Box
       sx={{
@@ -170,7 +173,7 @@ const ChatInterface = ({closeChat}) => {
         ref={chatBoxContainerRef}
         onScroll={handleOnScroll}
       >
-        {searchedMessages.map(messageItem => {
+        {currentMessages.map(messageItem => {
           const {message, _id, userId, time, name, status, dp} = messageItem;
           const currentUser = "00";
           const isUserMsg = currentUser === userId;

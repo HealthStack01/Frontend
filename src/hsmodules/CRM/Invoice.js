@@ -12,7 +12,7 @@ import {Box} from "@mui/material";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Invoice() {
+const Invoice = () => {
   const {state} = useContext(ObjectContext); //,setState
 
   const [createModal, setCreateModal] = useState(false);
@@ -53,4 +53,6 @@ export default function Invoice() {
       </ModalBox>
     </Box>
   );
-}
+};
+
+export default Invoice;

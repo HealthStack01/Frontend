@@ -32,6 +32,11 @@ export const modulesList = [
         value: "Client Client",
         label: "Client ",
       },
+
+      {
+        value: "Client Bill Client",
+        label: "Bill Client ",
+      },
     ],
   },
 
@@ -367,6 +372,11 @@ export const modulesList = [
       {
         label: "Lead",
         value: "CRM Lead",
+        children: [
+          {
+            label: "Write",
+          },
+        ],
       },
       {
         label: "Proposal",

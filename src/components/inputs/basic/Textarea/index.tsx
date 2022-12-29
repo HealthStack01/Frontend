@@ -1,5 +1,6 @@
 import React, {TextareaHTMLAttributes, useRef} from "react";
 import {Controller} from "react-hook-form";
+import AcUnitIcon from "@mui/icons-material/AcUnit";
 
 import {TextareaField} from "./styles";
 
@@ -14,6 +15,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   onFocus?: any;
   required?: boolean;
   name?: string;
+  important?: boolean;
   //inputRef?: any;
 }
 
@@ -27,6 +29,7 @@ const Textarea: React.FC<TextareaProps> = ({
   onFocus,
   required = false,
   name,
+  important,
   ...props
 }) => {
   if (control)
@@ -40,7 +43,14 @@ const Textarea: React.FC<TextareaProps> = ({
           formState,
         }) => (
           <div>
-            <label>{label}</label>
+            <label>
+              {label}
+              {important && (
+                <AcUnitIcon
+                  sx={{color: "red", width: "14px", height: "14px"}}
+                />
+              )}
+            </label>
             <TextareaField
               ref={ref}
               placeholder={placeholder}
@@ -57,7 +67,12 @@ const Textarea: React.FC<TextareaProps> = ({
     );
   return (
     <div>
-      <label>{label}</label>
+      <label>
+        {label}
+        {important && (
+          <AcUnitIcon sx={{color: "red", width: "14px", height: "14px"}} />
+        )}
+      </label>
       <TextareaField
         placeholder={placeholder}
         style={sx}

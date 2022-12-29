@@ -3,11 +3,6 @@ import {
   Stack,
   Box,
   Typography,
-  Card,
-  CardMedia,
-  CardContent,
-  CardActions,
-  Paper,
   Grid,
 } from '@mui/material';
 import Input from '../../../../components/inputs/basic/Input';
