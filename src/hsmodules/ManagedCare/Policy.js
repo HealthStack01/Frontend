@@ -35,6 +35,7 @@ import {
   EnrolleSchema,
   EnrolleSchema2,
   EnrolleSchema3,
+  EnrolleSchema4,
   principalData,
 } from './schema';
 
@@ -73,46 +74,14 @@ export default function Policy({ standAlone }) {
         <ModalBox
           open={showModal2}
           onClose={() => {
-            setShowModal(0);
+            setShowModal(1);
             setShowModal2(false);
           }}
         >
           <ClientCreate />
         </ModalBox>
       )}
-      {showModal === 2 && (
-        <Grid container>
-          <Grid item md={6}>
-            <PolicyDetail setShowModal={setShowModal} />
-          </Grid>
-          <Grid item md={6}>
-            <FormsHeaderText text="Principal Details" />
-            <CustomTable
-              title={''}
-              columns={EnrolleSchema3}
-              data={principalData}
-              pointerOnHover
-              highlightOnHover
-              striped
-              onRowClicked={() => {}}
-              progressPending={loading}
-            />
-            <FormsHeaderText text="Dependant Details" />
-            <CustomTable
-              title={''}
-              columns={EnrolleSchema3}
-              data={principalData}
-              pointerOnHover
-              highlightOnHover
-              striped
-              onRowClicked={() => {}}
-              progressPending={loading}
-            />
-            <FormsHeaderText text="Provider List" />
-            <Provider standAlone />
-          </Grid>
-        </Grid>
-      )}
+      {showModal === 2 && <PolicyDetail setShowModal={setShowModal} />}
     </section>
   );
 }
@@ -545,6 +514,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
   const [paymentmode, setPaymentMode] = useState('');
   const [loading, setLoading] = useState(false);
   const [createOrg, setCreateOrg] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState();
 
   const getSearchfacility = async (obj) => {
     if (obj.length > 0) {
@@ -575,6 +545,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 
   const handleChangePlan = async (value) => {
     console.log(value);
+    setSelectedPlan(value);
     if (value === '') {
       setPrice('');
       return;
@@ -614,18 +585,24 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 
   const onSubmit = async (data, e) => {
     e.preventDefault();
-    /*  if(!chosenPlan||!message){
-                toast({
-                    message: 'Please choose plan and/or sponsor! ' ,
-                    type: 'is-danger',
-                    dismissible: true,
-                    pauseOnHover: true,
-                  })
-    
-                return
-            } */
+    // generate a unique policy number where the year is the lat 2 digits of the year, plan type is a single digit, organization type is a single digit, organizationId is a system generated 6 digit that should not be repeated, and the last 1 digit is the sponsor type
+    // 1 - individual, 2 - corporate, 3 - group
+    // 1 - HMO, 2 - PPO, 3 - EPO
+    const year = new Date().getFullYear().toString().slice(-2);
+    const planType =
+      (selectedPlan === 'Gold' && '1') ||
+      (selectedPlan === 'Silver' && '2') ||
+      (selectedPlan === 'Bronze' && '3') ||
+      (selectedPlan === 'Platinum' && '4');
+    const orgType = data?.sponsortype === 'Self' ? 1 : 2;
+    const orgId = Math.floor(100000 + Math.random() * 900000);
+    const familyCode =
+      state.Beneficiary.principal._id && !state.Beneficiary.dependent._id
+        ? '-1'
+        : state.Beneficiary.dependent.length + 1;
+    const policyNo = `${year}${planType}${orgType}${orgId}${familyCode}`;
+    console.log(policyNo);
 
-    //state.Beneficiary?.principal._id
     if (!state.Beneficiary.principal._id) {
       toast.warning('Please add principal! ');
 
@@ -636,37 +613,28 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
     }
 
     let confirm = window.confirm(
-      `You are about to register a new policy CVGBH/2022/098 ?`
+      `You are about to register a new policy ${policyNo} ?`
     );
     if (confirm) {
       let policy = {
-        policyNo: 'CVGBH/2022/098',
+        policyNo: policyNo,
         organizationType: user.currentEmployee.facilityDetail.facilityType,
         organizationId: user.currentEmployee.facilityDetail._id,
         organizationName: user.currentEmployee.facilityDetail.facilityName,
         organization: user.currentEmployee.facilityDetail,
         principal: state.Beneficiary.principal, //
         dependantBeneficiaries: state.Beneficiary.dependent,
-        provider: chosen, //mixed
-        // sponsor:                                                                                                                         sponsor:state.Beneficiary.principal,  //mixed
+        providers: chosen,
+        sponsor: state.Beneficiary.principal, //mixed
         sponsorshipType: data.sponsortype,
+        sponsor: planHMO,
         plan: chosenPlan,
         premium: price.price,
         premiumContract: price,
         active: false,
         isPaid: false,
-        // paymentmode:{ type: String,  default:"Cash"}, //company
-        // ??clientId:{ type: String,  },
-        // agent"":,"" // if sales is made on behalf of a state programme
-        //  agentName:{ type: String,  },
-        // bill:{},
-        // billId:"",
-        // validityPeriods:[ { type: String,  }],
-        //  validityEnds:{ type: Schema.Types.Date,},
-        //  validitystarts:{ type: Schema.Types.Date,},
-
-        // lastCapitationPaidDate: { type: Schema.Types.Date, required: false },
-        // premiumPaymentRef: { type: Schema.Types.Mixed, required: false },
+        validitystarts: data.start_date,
+        validityEnds: data.end_date,
       };
 
       await policyServ
@@ -1265,32 +1233,38 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
             </p>
           </Box>
           <Grid container spacing={2} mt={2}>
-            <Grid item md={6}>
+            <Grid item md={12}>
               {state?.Beneficiary?.principal._id && (
-                <CustomTable
-                  title={''}
-                  columns={EnrolleSchema}
-                  data={[state?.Beneficiary?.principal]}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  onRowClicked={() => handleRow(state.Beneficiary?.principal)}
-                  progressPending={loading}
-                />
+                <>
+                  <FormsHeaderText text={'Principal'} />
+                  <CustomTable
+                    title={''}
+                    columns={EnrolleSchema}
+                    data={[state?.Beneficiary?.principal]}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    onRowClicked={() => handleRow(state.Beneficiary?.principal)}
+                    progressPending={loading}
+                  />
+                </>
               )}
             </Grid>
-            <Grid item md={6}>
+            <Grid item md={12}>
               {state?.Beneficiary?.dependent.length > 0 && (
-                <CustomTable
-                  title={''}
-                  columns={EnrolleSchema2}
-                  data={state?.Beneficiary?.dependent}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  onRowClicked={() => handleRow()}
-                  progressPending={loading}
-                />
+                <>
+                  <FormsHeaderText text={'Dependant'} />
+                  <CustomTable
+                    title={''}
+                    columns={EnrolleSchema2}
+                    data={state?.Beneficiary?.dependent}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    onRowClicked={() => handleRow()}
+                    progressPending={loading}
+                  />
+                </>
               )}
             </Grid>
           </Grid>
@@ -2130,7 +2104,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
   const [loading, setLoading] = useState(false);
   const [editCustomer, setEditCustomer] = useState(false);
 
-  let Client = state.ClientModule.selectedClient;
+  let Client = state.ManagedCareModule.selectedClient;
 
   console.log(Client);
   // eslint-disable-next-line
@@ -2181,23 +2155,10 @@ export function PolicyDetail({ showModal, setShowModal }) {
     toast.success('Customer Detail Updated');
     setEditCustomer(false);
   };
-  const initFormState = {
-    policy_no: '19834780',
-    phone: '08074567832',
-    start_date: moment().subtract(100, 'days').calendar(),
-    end_date: moment().add(3, 'years').calendar(),
-    status: 'Active',
-    policy_type: 'Individual',
-    policy_tag: '5365',
-    premium: 'N100,000',
-    sponsor_name: 'Leadway Assurance',
-    sponsor_phone: '08074567832',
-    sponsor_email: 'test@lead.com',
-    sponsor_address: 'No 1, Ogunlana Drive, Surulere, Lagos',
-  };
-  useEffect(() => {
-    reset(initFormState);
-  }, []);
+
+  // useEffect(() => {
+  //   reset(initFormState);
+  // }, []);
 
   /*  useEffect(() => {
         Client =state.ClientModule.selectedClient
@@ -2271,7 +2232,12 @@ export function PolicyDetail({ showModal, setShowModal }) {
         </Grid>
         <Box>
           {display === 1 && (
-            <Box>
+            <Box
+              sx={{
+                height: '80vh',
+                overflowY: 'scroll',
+              }}
+            >
               <Box
                 sx={{
                   display: 'flex',
@@ -2308,8 +2274,9 @@ export function PolicyDetail({ showModal, setShowModal }) {
               <Grid container spacing={1}>
                 <Grid item md={3}>
                   <Input
-                    register={register('policy_no', { required: true })}
+                    register={register('policyNo', { required: true })}
                     label="Policy No."
+                    value={Client?.policyNo}
                     disabled={!editPolicy}
                   />
                 </Grid>
@@ -2319,6 +2286,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                     register={register('phone', { required: true })}
                     label="Phone"
                     disabled={!editPolicy}
+                    value={Client?.principal?.phone}
                     //placeholder="Enter customer number"
                   />
                 </Grid>
@@ -2345,15 +2313,26 @@ export function PolicyDetail({ showModal, setShowModal }) {
                     register={register('status', { required: true })}
                     label="Status"
                     disabled={!editPolicy}
+                    value={Client?.active ? 'Active' : 'Inactive'}
                     //placeholder="Enter customer name"
                   />
                 </Grid>
 
                 <Grid item md={3}>
                   <Input
-                    register={register('policy_type', { required: true })}
+                    register={register('sponsorship_type', { required: true })}
                     label="Plan Type"
                     disabled={!editPolicy}
+                    value={Client?.sponsorshipType}
+                    //placeholder="Enter customer number"
+                  />
+                </Grid>
+                <Grid item md={3}>
+                  <Input
+                    register={register('plan_type', { required: true })}
+                    label="Sponsorship Type"
+                    disabled={!editPolicy}
+                    value={Client?.plan?.name}
                     //placeholder="Enter customer number"
                   />
                 </Grid>
@@ -2363,6 +2342,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                     register={register('policy_tag', { required: true })}
                     label="Policy Tag"
                     disabled={!editPolicy}
+                    value={Client?.principal.clientTags}
                     // placeholder="Enter customer name"
                   />
                 </Grid>
@@ -2372,6 +2352,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                     register={register('premium', { required: true })}
                     label="Premium"
                     disabled={!editPolicy}
+                    value={Client?.premium}
                     //placeholder="Enter customer number"
                   />
                 </Grid>
@@ -2392,6 +2373,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                     register={register('sponsor_name', { required: true })}
                     label="Sponsor Name"
                     disabled={!editPolicy}
+                    value={Client?.sponsor?.organizationDetail?.facilityName}
                     //placeholder="Enter customer number"
                   />
                 </Grid>
@@ -2400,6 +2382,9 @@ export function PolicyDetail({ showModal, setShowModal }) {
                     register={register('sponsor_phone', { required: true })}
                     label="Sponsor Phone"
                     disabled={!editPolicy}
+                    value={
+                      Client?.sponsor?.organizationDetail?.facilityContactPhone
+                    }
                     //placeholder="Enter customer number"
                   />
                 </Grid>
@@ -2408,6 +2393,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                     register={register('sponsor_email', { required: true })}
                     label="Sponsor Email"
                     disabled={!editPolicy}
+                    value={Client?.sponsor?.organizationDetail?.facilityEmail}
                     //placeholder="Enter customer number"
                   />
                 </Grid>
@@ -2416,38 +2402,49 @@ export function PolicyDetail({ showModal, setShowModal }) {
                     register={register('sponsor_address', { required: true })}
                     label="Sponsor Address"
                     disabled={!editPolicy}
+                    value={Client?.sponsor?.organizationDetail?.facilityAddress}
                     //placeholder="Enter customer number"
                   />
                 </Grid>
               </Grid>
+              <Grid item md={12}>
+                <FormsHeaderText text="Principal Details" />
+                <CustomTable
+                  title={''}
+                  columns={EnrolleSchema3}
+                  data={[Client?.principal]}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={() => {}}
+                  progressPending={loading}
+                />
+                <FormsHeaderText text="Dependant Details" />
+                <CustomTable
+                  title={''}
+                  columns={EnrolleSchema3}
+                  data={Client?.dependantBeneficiaries}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={() => {}}
+                  progressPending={loading}
+                />
+                <FormsHeaderText text="Provider List" />
+                <CustomTable
+                  title={''}
+                  columns={EnrolleSchema4}
+                  data={Client?.providers}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={() => {}}
+                  progressPending={loading}
+                />
+              </Grid>
             </Box>
           )}
-          {display === 3 && (
-            <>
-              <CustomTable
-                title={''}
-                columns={EnrolleSchema3}
-                data={principalData}
-                pointerOnHover
-                highlightOnHover
-                striped
-                onRowClicked={() => {}}
-                progressPending={loading}
-              />
-            </>
-          )}
-          {display === 4 && (
-            <CustomTable
-              title={''}
-              columns={EnrolleSchema3}
-              data={principalData}
-              pointerOnHover
-              highlightOnHover
-              striped
-              onRowClicked={() => {}}
-              progressPending={loading}
-            />
-          )}
+
           {display === 5 && <Claims standAlone />}
           {display === 6 && <PremiumPayment />}
         </Box>

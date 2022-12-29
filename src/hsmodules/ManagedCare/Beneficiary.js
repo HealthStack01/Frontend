@@ -1528,31 +1528,38 @@ export function ClientList({ showModal, setShowModal }) {
 
   return (
     <>
-      <div className="level">
-        <PageWrapper
-          style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
-        >
-          <TableMenu>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              {handleSearch && (
-                <div className="inner-table">
-                  <FilterMenu onSearch={handleSearch} />
-                </div>
-              )}
-              <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
-                List of Beneficiary
-              </h2>
+      <div
+        className="level"
+        style={{
+          width: '98%',
+          margin: '0 1rem',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {handleSearch && (
+            <div className="inner-table">
+              <FilterMenu onSearch={handleSearch} />
             </div>
-            {handleCreateNew && (
-              <Button
-                style={{ fontSize: '14px', fontWeight: '600px' }}
-                label="Add New"
-                onClick={handleCreateNew}
-                showicon={true}
-              />
-            )}
-          </TableMenu>
-
+          )}
+          <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
+            List of Beneficiary
+          </h2>
+        </div>
+        {handleCreateNew && (
+          <Button
+            style={{ fontSize: '14px', fontWeight: '600px' }}
+            label="Add New"
+            onClick={handleCreateNew}
+            showicon={true}
+          />
+        )}
+        <div
+          className="level"
+          style={{
+            height: '80vh',
+            overflowY: 'scroll',
+          }}
+        >
           <CustomTable
             title={''}
             columns={BeneficiarySchema}
@@ -1563,7 +1570,7 @@ export function ClientList({ showModal, setShowModal }) {
             onRowClicked={handleRow}
             progressPending={loading}
           />
-        </PageWrapper>
+        </div>
       </div>
     </>
   );

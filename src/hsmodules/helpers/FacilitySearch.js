@@ -20,7 +20,12 @@ const filter = createFilterOptions();
 
 // eslint-disable-next-line
 
-export function FacilitySearch({ getSearchfacility, clear, label }) {
+export function FacilitySearch({
+  getSearchfacility,
+  clear,
+  label,
+  closeModal,
+}) {
   const productServ = client.service('facility');
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -188,7 +193,12 @@ export function FacilitySearch({ getSearchfacility, clear, label }) {
         onClose={handlecloseModal}
         header="Create Organization"
       >
-        <FacilityCreate closeModal={handlecloseModal} />
+        <FacilityCreate
+          closeModal={() => {
+            handlecloseModal();
+            closeModal();
+          }}
+        />
       </ModalBox>
     </div>
   );
