@@ -1,16 +1,16 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect} from "react";
-import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import React, { useState, useContext, useEffect } from 'react';
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
-import {toast} from "react-toastify";
-import {UserContext, ObjectContext} from "../../context";
-import {Box, Button, Grid} from "@mui/material";
-import Input from "../../components/inputs/basic/Input";
+import { toast } from 'react-toastify';
+import { UserContext, ObjectContext } from '../../context';
+import { Box, Button, Grid } from '@mui/material';
+import Input from '../../components/inputs/basic/Input';
 
 export default function Facility() {
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedFacility, setSelectedFacility] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -27,9 +27,9 @@ export default function Facility() {
           <FacilityList />
         </div>
         <div className="column is-4 ">
-          {state.facilityModule.show === "create" && <FacilityCreate />}
-          {state.facilityModule.show === "detail" && <FacilityDetail />}
-          {state.facilityModule.show === "modify" && (
+          {state.facilityModule.show === 'create' && <FacilityCreate />}
+          {state.facilityModule.show === 'detail' && <FacilityDetail />}
+          {state.facilityModule.show === 'modify' && (
             <FacilityModify facility={selectedFacility} />
           )}
         </div>
@@ -38,35 +38,31 @@ export default function Facility() {
   );
 }
 
-export function FacilityCreate({closeModal}) {
-  const {register, handleSubmit} = useForm(); //, watch, errors, reset
+export function FacilityCreate({ closeModal }) {
+  const { register, handleSubmit } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState("");
-  const facilityServ = client.service("/facility");
+  const [message, setMessage] = useState('');
+  const facilityServ = client.service('/facility');
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
 
   const onSubmit = (data, e) => {
     e.preventDefault();
-    setMessage("");
+    setMessage('');
     setError(false);
     setSuccess(false);
     data.createdby = user._id;
-    //console.log(data);
-
     facilityServ
       .create(data)
-      .then(res => {
-        //console.log(JSON.stringify(res))
-        e.target.reset();
-        setMessage("Created Organization successfully");
+      .then((res) => {
+        setMessage('Created Organization successfully');
         setSuccess(true);
         toast.success(`${data.facilityName} Organaization Created`);
         closeModal();
       })
-      .catch(err => {
-        setMessage("Error creating facility, probable network issues " + err);
+      .catch((err) => {
+        setMessage('Error creating facility, probable network issues ' + err);
         toast.error(`Failed to create Organization due to ${err}`);
         setError(true);
       });
@@ -74,79 +70,79 @@ export function FacilityCreate({closeModal}) {
 
   return (
     <>
-      <Box sx={{width: "500px", maxHeight: "80vh"}}>
+      <Box sx={{ width: '500px', maxHeight: '80vh' }}>
         <form>
           <Grid container spacing={1}>
             <Grid item lg={6} md={12} sm={12} xs={6}>
               <Input
                 label="Organization Name"
-                register={register("facilityName", {required: true})}
+                register={register('facilityName', { required: true })}
               />
             </Grid>
 
             <Grid item lg={6} md={12} sm={12} xs={6}>
               <Input
                 label="Organization CEO"
-                register={register("facilityOwner", {required: true})}
+                register={register('facilityOwner', { required: true })}
               />
             </Grid>
 
             <Grid item lg={6} md={12} sm={12} xs={6}>
               <Input
                 label="Organization Email"
-                register={register("facilityEmail", {required: true})}
+                register={register('facilityEmail', { required: true })}
               />
             </Grid>
 
             <Grid item lg={6} md={12} sm={12} xs={6}>
               <Input
                 label="Organization Phone No"
-                register={register("facilityContactPhone", {required: true})}
+                register={register('facilityContactPhone', { required: true })}
               />
             </Grid>
 
             <Grid item lg={6} md={12} sm={12} xs={6}>
               <Input
                 label="Organization Category"
-                register={register("facilityCategory", {required: true})}
+                register={register('facilityCategory', { required: true })}
               />
             </Grid>
 
             <Grid item lg={6} md={12} sm={12} xs={6}>
               <Input
                 label="Organization Type"
-                register={register("facilityType", {required: true})}
+                register={register('facilityType', { required: true })}
               />
             </Grid>
 
             <Grid item lg={12} md={12} sm={12} xs={12}>
               <Input
                 label="Organization Address"
-                register={register("facilityAddress", {required: true})}
+                register={register('facilityAddress', { required: true })}
               />
             </Grid>
 
             <Grid item lg={6} md={12} sm={12} xs={6}>
               <Input
                 label="State/City/Town"
-                register={register("facilityCity", {required: true})}
+                register={register('facilityCity', { required: true })}
               />
             </Grid>
 
             <Grid item lg={6} md={12} sm={12} xs={6}>
               <Input
                 label="Country"
-                register={register("facilityCountry", {required: true})}
+                register={register('facilityCountry', { required: true })}
               />
             </Grid>
           </Grid>
 
-          <Box sx={{display: "flex"}}>
+          <Box sx={{ display: 'flex' }} mt={1}>
             <Button
               color="success"
               size="small"
               variant="contained"
-              sx={{textTransform: "capitalize", marginRight: "15px"}}
+              sx={{ textTransform: 'capitalize', marginRight: '15px' }}
               onClick={handleSubmit(onSubmit)}
             >
               Create
@@ -155,7 +151,7 @@ export function FacilityCreate({closeModal}) {
               color="warning"
               size="small"
               variant="outlined"
-              sx={{textTransform: "capitalize"}}
+              sx={{ textTransform: 'capitalize' }}
               onClick={closeModal}
             >
               Cancel
@@ -304,28 +300,28 @@ export function FacilityList() {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  const facilityServ = client.service("facility");
+  const [message, setMessage] = useState('');
+  const facilityServ = client.service('facility');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [selectedFacility, setSelectedFacility] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const handleCreateNew = async () => {
     const newfacilityModule = {
       selectedFacility: {},
-      show: "create",
+      show: 'create',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
     //console.log(state)
   };
-  const handleRow = async facility => {
+  const handleRow = async (facility) => {
     //console.log("b4",state)
 
     //console.log("handlerow",facility)
@@ -334,24 +330,24 @@ export function FacilityList() {
 
     const newfacilityModule = {
       selectedFacility: facility,
-      show: "detail",
+      show: 'detail',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
     //console.log(state)
   };
 
-  const handleSearch = val => {
-    const field = "facilityName";
+  const handleSearch = (val) => {
+    const field = 'facilityName';
     console.log(val);
     facilityServ
       .find({
         query: {
           [field]: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
           $limit: 10,
           $sort: {
@@ -359,15 +355,15 @@ export function FacilityList() {
           },
         },
       })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(" Organization  fetched successfully");
+        setMessage(' Organization  fetched successfully');
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
-        setMessage("Error creating facility, probable network issues " + err);
+        setMessage('Error creating facility, probable network issues ' + err);
         setError(true);
       });
   };
@@ -389,14 +385,14 @@ export function FacilityList() {
           },
         },
       })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(" Organization  fetched successfully");
+        setMessage(' Organization  fetched successfully');
         setSuccess(true);
       })
-      .catch(err => {
-        setMessage("Error creating facility, probable network issues " + err);
+      .catch((err) => {
+        setMessage('Error creating facility, probable network issues ' + err);
         setError(true);
       });
   };
@@ -404,10 +400,10 @@ export function FacilityList() {
   useEffect(() => {
     getFacilities();
 
-    facilityServ.on("created", obj => getFacilities());
-    facilityServ.on("updated", obj => getFacilities());
-    facilityServ.on("patched", obj => getFacilities());
-    facilityServ.on("removed", obj => getFacilities());
+    facilityServ.on('created', (obj) => getFacilities());
+    facilityServ.on('updated', (obj) => getFacilities());
+    facilityServ.on('patched', (obj) => getFacilities());
+    facilityServ.on('removed', (obj) => getFacilities());
     return () => {};
   }, []);
 
@@ -426,7 +422,7 @@ export function FacilityList() {
                   placeholder="Search Facilities"
                   minLength={3}
                   debounceTimeout={400}
-                  onChange={e => handleSearch(e.target.value)}
+                  onChange={(e) => handleSearch(e.target.value)}
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-search"></i>
@@ -436,9 +432,9 @@ export function FacilityList() {
           </div>
         </div>
         <div className="level-item">
-          {" "}
+          {' '}
           <span className="is-size-6 has-text-weight-medium">
-            List of Facilities{" "}
+            List of Facilities{' '}
           </span>
         </div>
         <div className="level-right">
@@ -491,8 +487,8 @@ export function FacilityList() {
                 onClick={() => handleRow(facility)}
                 className={
                   facility._id === (selectedFacility?._id || null)
-                    ? "is-selected"
-                    : ""
+                    ? 'is-selected'
+                    : ''
                 }
               >
                 <th>{i + 1}</th>
@@ -520,20 +516,20 @@ export function FacilityDetail() {
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
   // eslint-disable-next-line
-  const [message, setMessage] = useState(""); //,
+  const [message, setMessage] = useState(''); //,
   //const facilityServ=client.service('/facility')
   //const navigate=useNavigate()
-  const {user, setUser} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user, setUser } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const facility = state.facilityModule.selectedFacility;
 
   const handleEdit = async () => {
     const newfacilityModule = {
       selectedFacility: facility,
-      show: "modify",
+      show: 'modify',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
@@ -550,14 +546,14 @@ export function FacilityDetail() {
           <fieldset>
             <div className="field ">
               <label className="label is-small">
-                {" "}
+                {' '}
                 <span className="icon is-small is-left">
                   <i className="fas fa-hospital"></i>
                 </span>
-                Name:{" "}
+                Name:{' '}
                 <span className="is-small " name="facilityName">
-                  {" "}
-                  {facility.facilityName}{" "}
+                  {' '}
+                  {facility.facilityName}{' '}
                 </span>
               </label>
             </div>
@@ -568,7 +564,7 @@ export function FacilityDetail() {
                 </span>
                 Address:
                 <span className="is-small " name="facilityAddress">
-                  {facility.facilityAddress}{" "}
+                  {facility.facilityAddress}{' '}
                 </span>
               </label>
             </div>
@@ -599,7 +595,7 @@ export function FacilityDetail() {
                 <span className="icon is-small is-left">
                   <i className="fas fa-envelope"></i>
                 </span>
-                Email:{" "}
+                Email:{' '}
                 <span className="is-small " name="facilityEmail">
                   {facility.facilityEmail}
                 </span>
@@ -607,7 +603,7 @@ export function FacilityDetail() {
             </div>
             <div className="field">
               <label className="label is-small">
-                {" "}
+                {' '}
                 <span className="icon is-small is-left">
                   <i className="fas fa-user-md"></i>
                 </span>
@@ -619,7 +615,7 @@ export function FacilityDetail() {
             </div>
             <div className="field">
               <label className="label is-small">
-                {" "}
+                {' '}
                 <span className="icon is-small is-left">
                   <i className="fas fa-hospital-symbol"></i>
                 </span>
@@ -661,61 +657,61 @@ export function FacilityDetail() {
 }
 
 export function FacilityModify() {
-  const {register, handleSubmit, setValue, reset} = useForm(); //watch, errors,
+  const { register, handleSubmit, setValue, reset } = useForm(); //watch, errors,
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState("");
-  const facilityServ = client.service("/facility");
+  const [message, setMessage] = useState('');
+  const facilityServ = client.service('/facility');
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const facility = state.facilityModule.selectedFacility;
 
   useEffect(() => {
-    setValue("facilityName", facility.facilityName, {
+    setValue('facilityName', facility.facilityName, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityAddress", facility.facilityAddress, {
+    setValue('facilityAddress', facility.facilityAddress, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityCity", facility.facilityCity, {
+    setValue('facilityCity', facility.facilityCity, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityContactPhone", facility.facilityContactPhone, {
+    setValue('facilityContactPhone', facility.facilityContactPhone, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityEmail", facility.facilityEmail, {
+    setValue('facilityEmail', facility.facilityEmail, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityOwner", facility.facilityOwner, {
+    setValue('facilityOwner', facility.facilityOwner, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityType", facility.facilityType, {
+    setValue('facilityType', facility.facilityType, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityCategory", facility.facilityCategory, {
+    setValue('facilityCategory', facility.facilityCategory, {
       shouldValidate: true,
       shouldDirty: true,
     });
 
     return () => {};
-  },[]);
+  }, []);
 
   const handleCancel = async () => {
     const newfacilityModule = {
       selectedFacility: {},
-      show: "create",
+      show: 'create',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
@@ -725,21 +721,24 @@ export function FacilityModify() {
   const changeState = () => {
     const newfacilityModule = {
       selectedFacility: {},
-      show: "create",
+      show: 'create',
     };
-    setState(prevstate => ({...prevstate, facilityModule: newfacilityModule}));
+    setState((prevstate) => ({
+      ...prevstate,
+      facilityModule: newfacilityModule,
+    }));
   };
   const handleDelete = async () => {
-    let conf = window.confirm("Are you sure you want to delete this data?");
+    let conf = window.confirm('Are you sure you want to delete this data?');
 
     const dleteId = facility._id;
     if (conf) {
       facilityServ
         .remove(dleteId)
-        .then(res => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           reset();
-          setMessage("Deleted Organization successfully");
+          setMessage('Deleted Organization successfully');
           setSuccess(true);
           changeState();
           setTimeout(() => {
@@ -747,8 +746,8 @@ export function FacilityModify() {
           }, 200);
           changeState();
         })
-        .catch(err => {
-          setMessage("Error deleting facility, probable network issues " + err);
+        .catch((err) => {
+          setMessage('Error deleting facility, probable network issues ' + err);
           setError(true);
           setTimeout(() => {
             setError(false);
@@ -763,7 +762,7 @@ export function FacilityModify() {
           })) */
   const onSubmit = (data, e) => {
     e.preventDefault();
-    setMessage("");
+    setMessage('');
     setError(false);
     setSuccess(false);
     console.log(data);
@@ -772,15 +771,15 @@ export function FacilityModify() {
 
     facilityServ
       .update(facility._id, data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
-        setMessage("updated Organization successfully");
+        setMessage('updated Organization successfully');
         setSuccess(true);
         changeState();
       })
-      .catch(err => {
-        setMessage("Error creating facility, probable network issues " + err);
+      .catch((err) => {
+        setMessage('Error creating facility, probable network issues ' + err);
         setError(true);
       });
   };
@@ -834,7 +833,7 @@ export function FacilityModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register('x', { required: true })}
                     name="facilityCity"
                     type="text"
                     placeholder="City/Town"
@@ -851,7 +850,7 @@ export function FacilityModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register('x', { required: true })}
                     name="facilityContactPhone"
                     type="text"
                     placeholder="Contact Phone No"
@@ -868,7 +867,7 @@ export function FacilityModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register('x', { required: true })}
                     name="facilityEmail"
                     type="email"
                     placeholder="Organization Email"
@@ -885,7 +884,7 @@ export function FacilityModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register('x', { required: true })}
                     name="facilityOwner"
                     type="text"
                     placeholder="Organization Owner"
@@ -902,7 +901,7 @@ export function FacilityModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register('x', { required: true })}
                     name="facilityType"
                     type="text"
                     placeholder="Organization Type"
@@ -919,7 +918,7 @@ export function FacilityModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register('x', { required: true })}
                     name="facilityCategory"
                     type="text"
                     placeholder="Organization Category"
