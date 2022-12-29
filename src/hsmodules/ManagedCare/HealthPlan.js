@@ -1060,27 +1060,6 @@ export function HealthPlanDetails({ showModal, setShowModal }) {
           }}
         >
           <Grid container spacing={2} style={{ alignItems: 'top' }}>
-            <Grid item xs={3}>
-              <div
-                style={{ width: '100px', height: 'auto', borderRadius: '50%' }}
-              >
-                <img
-                  src="/img_avatar.png"
-                  alt="avatar"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                  }}
-                />
-              </div>
-            </Grid>
-            <Grid item xs={6}>
-              <p style={{ fontWeight: '700', marginTop: 0 }}>
-                Lagos State University Teaching Hospital
-              </p>
-              <p> 1, Oba Akinjobi Way, Ikeja, Lagos</p>
-              <p>08012345678</p>
-            </Grid>
             {/* <Grid item xs={3}>
               <div style={{ marginLeft: 'auto' }}>
                 <GlobalCustomButton
@@ -1136,6 +1115,7 @@ export function HealthPlanDetails({ showModal, setShowModal }) {
             marginTop: '1rem',
           }}
         >
+          <FormsHeaderText text={'Benefit'} />
           <CustomTable
             tableData={''}
             columns={HealthPlanSchema}
