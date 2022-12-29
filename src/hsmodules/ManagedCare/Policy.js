@@ -1,45 +1,42 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import {} from 'react-router-dom'; //Route, Switch,Link, NavLink,
-import client from '../../feathers';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { UserContext, ObjectContext } from '../../context';
-import { toast, ToastContainer } from 'react-toastify';
-import CustomTable from '../../components/customtable';
-import { OrgFacilitySearch, SponsorSearch } from '../helpers/FacilitySearch';
-import { PageWrapper } from '../../ui/styled/styles';
-import { TableMenu } from '../../ui/styled/global';
-import FilterMenu from '../../components/utilities/FilterMenu';
-import { Button } from '@mui/material';
-import moment from 'moment';
-import ModalBox from '../../components/modal/';
-import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
-import { Box, Grid, Typography } from '@mui/material';
-import Input from '../../components/inputs/basic/Input/index';
-import BasicDatePicker from '../../components/inputs/Date';
-import CustomSelect from '../../components/inputs/basic/Select';
 import { yupResolver } from '@hookform/resolvers/yup';
+import DeleteOutline from '@mui/icons-material/DeleteOutline';
+import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import OpenInFullIcon from '@mui/icons-material/OpenInFull';
+import SaveIcon from '@mui/icons-material/Save';
+import UpgradeOutlinedIcon from '@mui/icons-material/UpgradeOutlined';
+import { Box, Button, Grid, IconButton } from '@mui/material';
+import moment from 'moment';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom'; //Route, Switch,Link, NavLink,
+import { toast, ToastContainer } from 'react-toastify';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import CustomTable from '../../components/customtable';
+import Input from '../../components/inputs/basic/Input/index';
+import CustomSelect from '../../components/inputs/basic/Select';
+import BasicDatePicker from '../../components/inputs/Date';
+import ModalBox from '../../components/modal/';
+import { FormsHeaderText } from '../../components/texts';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import { ObjectContext, UserContext } from '../../context';
+import client from '../../feathers';
+import { TableMenu } from '../../ui/styled/global';
+import { PageWrapper } from '../../ui/styled/styles';
+import { HeadWrapper } from '../app/styles';
+import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
+import ClientGroup from '../Client/ClientGroup';
+import { createClientSchema2 } from '../Client/schema';
+import { OrgFacilitySearch, SponsorSearch } from '../helpers/FacilitySearch';
+import Claims from './Claims';
+import PremiumPayment from './PremiumPayment';
+import Provider, { OrganizationCreate } from './Providers';
 import {
   EnrolleSchema,
   EnrolleSchema2,
   EnrolleSchema3,
   principalData,
 } from './schema';
-import ClientForm from '../Client/ClientForm';
-import { HeadWrapper } from '../app/styles';
-import GlobalCustomButton from '../../components/buttons/CustomButton';
-import Provider, { OrganizationCreate, ProviderList } from './Providers';
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
-import UpgradeOutlinedIcon from '@mui/icons-material/UpgradeOutlined';
-import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import { FormsHeaderText } from '../../components/texts';
-import { G } from '@react-pdf/renderer';
-import Claims from './Claims';
-import PremiumPayment from './PremiumPayment';
-import OpenInFullIcon from '@mui/icons-material/OpenInFull';
-import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
-import { createClientSchema } from '../Client/schema';
-import SaveIcon from '@mui/icons-material/Save';
 
 var random = require('random-string-generator');
 // eslint-disable-next-line
@@ -54,66 +51,67 @@ export default function Policy({ standAlone }) {
   const [loading, setLoading] = useState(false);
   return (
     <section className="section remPadTop">
-      {standAlone ? (
-        <PolicyList
+      {standAlone
+        ? showModal === 0 && (
+            <PolicyList
+              showModal={showModal}
+              setShowModal={setShowModal}
+              standAlone={standAlone}
+            />
+          )
+        : showModal === 0 && (
+            <PolicyList showModal={showModal} setShowModal={setShowModal} />
+          )}
+      {showModal === 1 && (
+        <PolicyCreate
           showModal={showModal}
           setShowModal={setShowModal}
-          standAlone={standAlone}
+          setOpenCreate={setShowModal2}
         />
-      ) : (
-        <PolicyList showModal={showModal} setShowModal={setShowModal} />
-      )}
-      {showModal === 1 && (
-        <ModalBox
-          open={state.ManagedCareModule.show === 'create'}
-          onClose={() => setShowModal(false)}
-        >
-          <PolicyCreate
-            showModal={showModal}
-            setShowModal={setShowModal}
-            setOpenCreate={setShowModal2}
-          />
-        </ModalBox>
       )}
       {showModal2 && (
-        <ModalBox open={showModal2} onClose={() => setShowModal2(false)}>
+        <ModalBox
+          open={showModal2}
+          onClose={() => {
+            setShowModal(0);
+            setShowModal2(false);
+          }}
+        >
           <ClientCreate />
         </ModalBox>
       )}
       {showModal === 2 && (
-        <ModalBox open={showModal} onClose={() => setShowModal(false)}>
-          <Grid container>
-            <Grid item md={6}>
-              <PolicyDetail />
-            </Grid>
-            <Grid item md={6}>
-              <FormsHeaderText text="Principal Details" />
-              <CustomTable
-                title={''}
-                columns={EnrolleSchema3}
-                data={principalData}
-                pointerOnHover
-                highlightOnHover
-                striped
-                onRowClicked={() => {}}
-                progressPending={loading}
-              />
-              <FormsHeaderText text="Dependant Details" />
-              <CustomTable
-                title={''}
-                columns={EnrolleSchema3}
-                data={principalData}
-                pointerOnHover
-                highlightOnHover
-                striped
-                onRowClicked={() => {}}
-                progressPending={loading}
-              />
-              <FormsHeaderText text="Provider List" />
-              <Provider standAlone />
-            </Grid>
+        <Grid container>
+          <Grid item md={6}>
+            <PolicyDetail setShowModal={setShowModal} />
           </Grid>
-        </ModalBox>
+          <Grid item md={6}>
+            <FormsHeaderText text="Principal Details" />
+            <CustomTable
+              title={''}
+              columns={EnrolleSchema3}
+              data={principalData}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={() => {}}
+              progressPending={loading}
+            />
+            <FormsHeaderText text="Dependant Details" />
+            <CustomTable
+              title={''}
+              columns={EnrolleSchema3}
+              data={principalData}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={() => {}}
+              progressPending={loading}
+            />
+            <FormsHeaderText text="Provider List" />
+            <Provider standAlone />
+          </Grid>
+        </Grid>
       )}
     </section>
   );
@@ -508,7 +506,8 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 }
 
 export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
-  const { register, handleSubmit, setValue, getValues, reset } = useForm();
+  const { register, handleSubmit, setValue, getValues, reset, control } =
+    useForm();
   const { state, setState } = useContext(ObjectContext);
   const { user } = useContext(UserContext);
   const [clientModal, setClientModal] = useState(false);
@@ -522,7 +521,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
   const [price, setPrice] = useState('');
   const [chosenPlan, setChosenPlan] = useState();
   const [success, setSuccess] = useState(false);
-  const [chosen, setChosen] = useState('');
+  const [chosen, setChosen] = useState([]);
   const [planHMO, setPlanHMO] = useState('');
   const [error, setError] = useState(false);
   //const [documentNo,setDocumentNo] = useState("")
@@ -538,6 +537,8 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
   const ServicesServ = client.service('billing');
   const policyServ = client.service('policy');
   const BillCreateServ = client.service('createbilldirect');
+  const orgServ = client.service('organizationclient');
+  const [facilities, setFacilities] = useState([]);
   const [paymentOptions, setPaymentOptions] = useState([]);
   const [billMode, setBillMode] = useState('');
   const [obj, setObj] = useState('');
@@ -545,9 +546,12 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
   const [loading, setLoading] = useState(false);
   const [createOrg, setCreateOrg] = useState(false);
 
-  const getSearchfacility = (obj) => {
-    setChosen(obj);
-    if (!obj) {
+  const getSearchfacility = async (obj) => {
+    if (obj.length > 0) {
+      await setChosen(obj);
+      await console.log('OBJ', chosen);
+    } else {
+      setChosen([]);
     }
   };
 
@@ -623,12 +627,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 
     //state.Beneficiary?.principal._id
     if (!state.Beneficiary.principal._id) {
-      toast({
-        message: 'Please add principal! ',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.warning('Please add principal! ');
 
       return;
     }
@@ -673,16 +672,8 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
       await policyServ
         .create(policy)
         .then((res) => {
-          //console.log(JSON.stringify(res))
-          e.target.reset();
-          /*  setMessage("Created Client successfully") */
           setSuccess(true);
-          toast({
-            message: 'Client created succesfully',
-            type: 'is-success',
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.success('Client created succesfully');
           setSuccess(false);
         })
         .then(async (res) => {
@@ -701,14 +692,10 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
           await createProductEntry();
 
           await handleCreateBill();
+          await setShowModal(0);
         })
         .catch((err) => {
-          toast({
-            message: 'Error creating Client ' + err,
-            type: 'is-danger',
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error('Error creating Client ' + err);
         });
     }
   };
@@ -808,26 +795,6 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
     setPaymentOptions(paymentoptions);
     setBillMode(billme);
   };
-
-  /* const pay={paymentinfo:
-    {
-      paymentmode:{ type: String,  default:"Cash"},
-      organizationId:{ type: Schema.Types.ObjectId },
-      organizationName:{ type: String,  },
-      principalId:{ type: String,  },
-      clientId:{ type: String,  },
-      principalName:{ type: String,  },
-      plan:{ type: String,  },
-      active:{ type: Boolean,default:true},
-      principal:{ type: String},
-      organizationType: { type: String,  },
-      agent:{ type: Schema.Types.ObjectId },
-      agentName:{ type: String,  }
-
-    }
-    }
-   */
-
   const createObj = (pay, name, cover, type) => {
     let details = {};
     details = { ...pay };
@@ -1019,14 +986,152 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
     }
   };
 
+  // const getFacility = async () => {
+  //   let stuff = {
+  //     facility: user.currentEmployee.facilityDetail._id,
+  //     // locationId:state.employeeLocation.locationId,
+  //     $limit: 100,
+  //     $sort: {
+  //       createdAt: -1,
+  //     },
+  //   };
+  //   orgServ
+  //     .find({
+  //       query: {
+  //         relationshiptype: 'managedcare',
+  //         facility: user.currentEmployee.facilityDetail._id,
+  //         $limit: 100,
+  //         $sort: {
+  //           createdAt: -1,
+  //         },
+  //       },
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       setFacilities(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+  const handleSearch = async (value) => {
+    if (value === '') {
+      await setFacilities([]);
+      return;
+    }
+    if (value.length >= 3) {
+      orgServ
+        .find({
+          query: {
+            $search: value,
+            relationshiptype: 'managedcare',
+            facility: user.currentEmployee.facilityDetail._id,
+            $limit: 100,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        })
+        .then((res) => {
+          setFacilities(res.data);
+        })
+        .catch((err) => {
+          toast.error(`Error creating Service due to ${err}`);
+        });
+    } else {
+      await setFacilities([]);
+    }
+  };
+
   useEffect(() => {
     getBenfittingPlans();
     createPaymentOption();
+    // getFacility();
 
     return () => {};
   }, []);
 
-  console.log('==================', state.Beneficiary?.principal);
+  const OrgFacilitySchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: 'HIDDEN',
+      width: '50px',
+    },
+    {
+      name: 'Facility Name',
+      key: 'facilityname',
+      description: 'Facility Name',
+      selector: (row) => row?.organizationDetail?.facilityName,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Facility Address',
+      key: 'facilityaddress',
+      description: 'Facility Address',
+      selector: (row) => row?.organizationDetail?.facilityAddress,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Facility City',
+      key: 'facilitycity',
+      description: 'Facility City',
+      selector: (row) => row?.organizationDetail?.facilityCity,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Facility Phone',
+      key: 'facilityphone',
+      description: 'Facility Phone',
+      selector: (row) => row?.organizationDetail?.facilityContactPhone,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Facility Type',
+      key: 'facilitytype',
+      description: 'Facility Type',
+      selector: (row) => row?.organizationDetail?.facilityType,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Facility Category',
+      key: 'facilitycategory',
+      description: 'Facility Category',
+      selector: (row) => row?.organizationDetail?.facilityCategory,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Del',
+      width: '50px',
+      center: true,
+      key: 'contact_email',
+      description: 'Enter Date',
+      selector: (row) => (
+        <IconButton
+          onClick={() => {
+            setChosen(chosen.filter((item) => item._id !== row._id));
+          }}
+          color="error"
+        >
+          <DeleteOutline fontSize="small" />
+        </IconButton>
+      ),
+      sortable: true,
+      required: true,
+      inputType: 'NUMBER',
+    },
+  ];
+
+  console.log('==================', chosen);
 
   return (
     <>
@@ -1035,12 +1140,34 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
         style={{
           height: 'auto',
           overflowY: 'scroll',
-          width: '70vw',
-          margin: '0 auto',
+          width: '98%',
+          margin: '0 1rem',
         }}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader text={'Policy'} />
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <FormsHeaderText text={'Policy Create'} />
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <GlobalCustomButton
+                text={'Back'}
+                color="warning"
+                onClick={() => setShowModal(0)}
+                customStyles={{ marginRight: '.5rem' }}
+              />
+              <GlobalCustomButton
+                text={'Save'}
+                color="success"
+                customStyles={{ marginRight: '.5rem' }}
+                onClick={handleSubmit(onSubmit)}
+              />
+            </Box>
+          </Box>
 
           <Grid container spacing={2} mt={2}>
             <Grid item md={12} sx={{ display: 'flex' }}>
@@ -1051,6 +1178,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
                   {...register('sponsortype', { required: true })}
                   value="Self"
                   onChange={(e) => handleChangeMode(e.target.value)}
+                  style={{ marginRight: '.5rem' }}
                 />
                 <label>Self</label>
               </Box>
@@ -1061,10 +1189,12 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
                   {...register('sponsortype', { required: true })}
                   value="Company"
                   onChange={(e) => handleChangeMode(e.target.value)}
+                  style={{ marginRight: '.5rem' }}
                 />
                 <label>Company</label>
               </Box>
             </Grid>
+
             {showCorp && (
               <Grid item md={6}>
                 <SponsorSearch
@@ -1074,56 +1204,50 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
               </Grid>
             )}
             <Grid item md={6}>
-              <OrgFacilitySearch
-                getSearchfacility={getSearchfacility}
-                clear={success}
-              />
-            </Grid>
-            <Grid item md={6}>
-              <select
+              <CustomSelect
                 name="plan"
-                {...register('plan', { required: true })}
+                label="Choose Plan"
+                options={benefittingPlans1}
+                required
+                important
+                // control={control}
                 onChange={(e, i) => handleChangePlan(e.target.value)}
-                className="selectadd"
-                style={{
-                  width: '100%',
-                  padding: '1rem',
-                  borderRadius: '4px',
-                  height: '3rem',
-                  cursor: 'pointer',
-                  border: '1px solid rgba(0, 0, 0, 0.6)',
-                }}
-              >
-                <option value=""> Choose Plan </option>
-                {benefittingPlans1.map((option, i) => (
-                  <option key={i} value={option.name}>
-                    {' '}
-                    {option.name}
-                  </option>
-                ))}
-              </select>
+              />
             </Grid>
             <Grid item md={6}>
               <Input value={price.price} disabled label="Price" />
             </Grid>
+            <Grid item md={6}>
+              <BasicDatePicker
+                label="Start Date"
+                register={register('start_time', { required: true })}
+              />
+            </Grid>
+            <Grid item md={6}>
+              <BasicDatePicker
+                label="End Date"
+                register={register('end_time', { required: true })}
+              />
+            </Grid>
           </Grid>
-          <Box sx={{ float: 'right' }}>
-            <p>
-              Add Principal
-              <button
-                onClick={handleClickProd}
-                style={{
-                  border: 'none',
-                  backgroundColor: '#E8F1FF',
-                  padding: ' .5rem 1rem',
-                  marginLeft: '.5rem',
-                  cursor: 'pointer',
-                }}
-              >
-                +
-              </button>
-            </p>
-
+          <Box sx={{ float: 'left' }}>
+            {!state.Beneficiary?.principal._id && (
+              <p>
+                Add Principal
+                <button
+                  onClick={handleClickProd}
+                  style={{
+                    border: 'none',
+                    backgroundColor: '#E8F1FF',
+                    padding: ' .5rem 1rem',
+                    marginLeft: '.5rem',
+                    cursor: 'pointer',
+                  }}
+                >
+                  +
+                </button>
+              </p>
+            )}
             <p>
               Add Dependant
               <button
@@ -1140,40 +1264,66 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
               </button>
             </p>
           </Box>
-          {!!state.Beneficiary?.principal._id && (
-            <CustomTable
-              title={''}
-              columns={EnrolleSchema}
-              data={state.Beneficiary?.principal}
-              pointerOnHover
-              highlightOnHover
-              striped
-              onRowClicked={() => handleRow(state.Beneficiary?.principal)}
-              progressPending={loading}
-            />
-          )}
-          {state.Beneficiary.dependent.length > 0 && (
-            <CustomTable
-              title={''}
-              columns={EnrolleSchema2}
-              data={state.Beneficiary.dependent}
-              pointerOnHover
-              highlightOnHover
-              striped
-              onRowClicked={() => handleRow()}
-              progressPending={loading}
-            />
-          )}
-          <Button
-            type="submit"
-            variant="contained"
-            size="small"
-            color="primary"
-            style={{ marginTop: '1rem' }}
+          <Grid container spacing={2} mt={2}>
+            <Grid item md={6}>
+              {state?.Beneficiary?.principal._id && (
+                <CustomTable
+                  title={''}
+                  columns={EnrolleSchema}
+                  data={[state?.Beneficiary?.principal]}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={() => handleRow(state.Beneficiary?.principal)}
+                  progressPending={loading}
+                />
+              )}
+            </Grid>
+            <Grid item md={6}>
+              {state?.Beneficiary?.dependent.length > 0 && (
+                <CustomTable
+                  title={''}
+                  columns={EnrolleSchema2}
+                  data={state?.Beneficiary?.dependent}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={() => handleRow()}
+                  progressPending={loading}
+                />
+              )}
+            </Grid>
+          </Grid>
+          <Box
+            style={{
+              // height: '50vh',
+              overflowY: 'scroll',
+              width: '100%',
+            }}
           >
-            {' '}
-            Save{' '}
-          </Button>
+            <Grid container spacing={2} my={1}>
+              <Grid item md={8}>
+                <FormsHeaderText text={'Selected Provider'} />
+              </Grid>
+              <Grid item md={4}>
+                <OrgFacilitySearch
+                  getSearchfacility={getSearchfacility}
+                  clear={success}
+                />
+              </Grid>
+            </Grid>
+            {chosen?.length > 0 && (
+              <CustomTable
+                title={''}
+                columns={OrgFacilitySchema}
+                data={chosen?.filter((item) => item !== null)}
+                pointerOnHover
+                highlightOnHover
+                striped
+                progressPending={loading}
+              />
+            )}
+          </Box>
         </form>
         <ModalBox
           open={createOrg}
@@ -1211,6 +1361,8 @@ export function ClientCreate({ closeModal }) {
   const [showdept, setShowdept] = useState(false);
   const [isFullRegistration, setFullRegistration] = useState(false);
   const data = localStorage.getItem('user');
+  const [duplicateModal, setDuplicateModal] = useState(false);
+
   const user = JSON.parse(data);
 
   const {
@@ -1218,10 +1370,11 @@ export function ClientCreate({ closeModal }) {
     handleSubmit,
     setValue,
     getValues,
+    control,
     reset,
     formState: { isSubmitSuccessful, errors },
   } = useForm({
-    resolver: yupResolver(createClientSchema),
+    resolver: yupResolver(createClientSchema2),
 
     defaultValues: {
       firstname: '',
@@ -1245,23 +1398,10 @@ export function ClientCreate({ closeModal }) {
   const handleDate = async (date) => {
     setDate(date);
   };
-  useEffect(() => {
-    setCurrentUser(user);
-    //console.log(currentUser)
-    return () => {};
-  }, [user]);
-
-  //check user for facility or get list of facility
-  useEffect(() => {
-    //setFacility(user.activeClient.FacilityId)//
-    if (!user.stacker) {
-      /*    console.log(currentUser)
-        setValue("facility", user.currentEmployee.facilityDetail._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        })  */
-    }
-  });
+  // useEffect(() => {
+  //   setCurrentUser(user);
+  //   return () => {};
+  // }, [user]);
 
   const checkClient = () => {
     const data = getValues();
@@ -1362,32 +1502,6 @@ export function ClientCreate({ closeModal }) {
     }
   };
 
-  const handleBill = () => {
-    setBillModal(true);
-  };
-  const handlecloseModal3 = () => {
-    setBillModal(false);
-  };
-
-  const choosen = async (client) => {
-    //update client with facilities
-    /*   if (client.facility !== user.currentEmployee.facilityDetail._id ){ //check taht it is not in list of related facilities
-           
-        
-        //create mpi record
-        const newPat = {
-            client: client._id,
-            facility:user.currentEmployee.facilityDetail._id,
-            mrn:client.mrn,
-            clientTags:client.clientTags,
-            relfacilities:client.relatedfacilites
-           }
-           await mpiServ.create(newPat)
-        } */
-    //reset form
-    //toast niotification
-    //cash payment
-  };
   const dupl = (client) => {
     toast({
       message: 'Client previously registered in this facility',
@@ -1442,10 +1556,10 @@ export function ClientCreate({ closeModal }) {
   };
   const onSubmit = async (data, e) => {
     if (!date) {
-      toast.error('Please enter Date of Birth! ');
-
+      toast.warning('Please enter Date of Birth!');
       return;
     }
+
     e.preventDefault();
     setMessage('');
     setError(false);
@@ -1455,17 +1569,11 @@ export function ClientCreate({ closeModal }) {
       if (!dependant) {
         return;
       }
-      //alert("something"+","+ patList.length)
-      //let confirm = window.confirm("Is this person a dependant with parent phone number?")
-      // setOption(confirm)
       setPatList([]);
     }
-    // data.createdby=user._id
-    //  console.log(data);
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
-
     let confirm = window.confirm(
       `You are about to register a new client ${data.firstname}  ${data.middlename} ${data.lastname} ?`
     );
@@ -1473,19 +1581,14 @@ export function ClientCreate({ closeModal }) {
       data.dob = date;
       await ClientServ.create(data)
         .then((res) => {
-          console.log(res);
-          //console.log(JSON.stringify(res))
-          e.target.reset();
-          /*  setMessage("Created Client successfully") */
           setSuccess(true);
           toast.success('Client created succesfully');
           setSuccess(false);
           setPatList([]);
           setDependant(false);
           setDate();
+          reset();
           let newClientModule = {};
-          //add to context
-          // if principal
           if (state.currBeneficiary === 'principal') {
             newClientModule = {
               principal: res,
@@ -1502,54 +1605,54 @@ export function ClientCreate({ closeModal }) {
               show: 'create',
             };
           }
-
-          // if dependent
-          /*   const newClientModule={
-                    principal:principal,
-                    dependent:dependents,
-                    others:{},
-                    show:'create'
-                    }          */
           setState((prevstate) => ({
             ...prevstate,
             Beneficiary: newClientModule,
           }));
-          closeModal();
         })
         .catch((err) => {
           toast.error('Error creating Client ' + err);
           setPatList([]);
           setDependant(false);
         });
+      closeModal();
     }
   };
-  const CustomSelectData = [
-    {
-      label: 'Today',
-      value: 'today',
-    },
-  ];
 
   return (
     <>
+      <ModalBox
+        open={duplicateModal}
+        onClose={() => setDuplicateModal(false)}
+        header="Client With Similar Information already Exist"
+      >
+        <ClientGroup
+          list={patList}
+          closeModal={() => setDuplicateModal(false)}
+          //choosen={choosen}
+          dupl={dupl}
+          reg={reg}
+          depen={depen}
+        />
+      </ModalBox>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <ToastContainer theme="colored" />
-
-        {/* Start form */}
         <PageWrapper>
           <div>
             <HeadWrapper>
               <div>
                 <h2>{`${
                   isFullRegistration
-                    ? 'Complete Client Registeration'
+                    ? 'Full Client Registeration'
                     : 'Quick Client Registeration'
                 }`}</h2>
-                <span>
-                  Create a New client by filling out the form below to get
-                  started.
-                </span>
+                {/* <span>
+                Create a New client by filling out the form below to get
+                started.
+              </span> */}
               </div>
+
               {isFullRegistration ? (
                 <GlobalCustomButton onClick={() => setFullRegistration(false)}>
                   <ElectricBoltIcon
@@ -1564,7 +1667,7 @@ export function ClientCreate({ closeModal }) {
                     fontSize="small"
                     sx={{ marginRight: '5px' }}
                   />
-                  Complete Registration
+                  Full Registration
                 </GlobalCustomButton>
               )}
             </HeadWrapper>
@@ -1580,6 +1683,8 @@ export function ClientCreate({ closeModal }) {
                         label="First Name"
                         register={register('firstname')}
                         errorText={errors?.firstname?.message}
+                        onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -1587,6 +1692,7 @@ export function ClientCreate({ closeModal }) {
                         label="Middle Name"
                         register={register('middlename')}
                         errorText={errors?.middlename?.message}
+                        onBlur={checkClient}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -1594,6 +1700,8 @@ export function ClientCreate({ closeModal }) {
                         label="Last Name"
                         register={register('lastname')}
                         errorText={errors?.lastname?.message}
+                        onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -1602,6 +1710,8 @@ export function ClientCreate({ closeModal }) {
                         register={register('phone')}
                         type="tel"
                         errorText={errors?.phone?.message}
+                        onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -1610,19 +1720,29 @@ export function ClientCreate({ closeModal }) {
                         register={register('email')}
                         type="email"
                         errorText={errors?.email?.message}
+                        onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
-                      <BasicDatePicker
-                        label="dob"
-                        register={register('dob')}
-                        errorText={errors?.dob?.message}
+                      <input
+                        type="date"
+                        onChange={(e) => setDate(e.target.value)}
+                        style={{
+                          width: '100%',
+                          height: '2.2rem',
+                          border: '1px solid #BBBBBB',
+                          borderRadius: '4px',
+                          fontSize: '.85rem',
+                          padding: '0.4rem 1rem',
+                        }}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
                       <CustomSelect
                         label="Gender"
                         register={register('gender', { required: true })}
+                        onBlur={checkClient}
                         options={[
                           { label: 'Male', value: 'Male' },
                           { label: 'Female', value: 'Memale' },
@@ -1637,6 +1757,11 @@ export function ClientCreate({ closeModal }) {
                         options={[
                           { label: 'Single', value: 'Single' },
                           { label: 'Married', value: 'Married' },
+                          { label: 'Widowed', value: 'Widowed' },
+                          {
+                            label: 'Divorced/Seperated',
+                            value: 'Divorced/Seperated',
+                          },
                         ]}
                       />
                     </Grid>
@@ -1653,6 +1778,15 @@ export function ClientCreate({ closeModal }) {
                         type="text"
                       />
                     </Grid>
+
+                    <Grid item lg={3} md={4} sm={6}>
+                      <Input
+                        label="LGA"
+                        type="text"
+                        register={register('lga')}
+                      />
+                    </Grid>
+
                     <Grid item lg={3} md={4} sm={6}>
                       <Input
                         label="State"
@@ -1688,10 +1822,11 @@ export function ClientCreate({ closeModal }) {
                       display: 'flex',
                       justifyContent: 'flex-end',
                     }}
+                    mt={2}
                   >
                     <GlobalCustomButton
                       color="warning"
-                      onClick={() => closeModal(true)}
+                      onClick={closeModal}
                       sx={{ marginRight: '15px' }}
                     >
                       Cancel
@@ -1715,25 +1850,30 @@ export function ClientCreate({ closeModal }) {
                     <Grid item xs={12}>
                       <FormsHeaderText text="Client Names" />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={4}>
+                    <Grid item lg={4} md={4} sm={4}>
                       <Input
                         label="First Name"
                         register={register('firstname')}
                         errorText={errors?.firstname?.message}
+                        onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={4}>
+                    <Grid item lg={4} md={4} sm={4}>
                       <Input
                         label="Middle Name"
                         register={register('middlename')}
                         errorText={errors?.middlename?.message}
+                        onBlur={checkClient}
                       />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={4}>
+                    <Grid item lg={4} md={4} sm={4}>
                       <Input
                         label="Last Name"
                         register={register('lastname')}
                         errorText={errors?.lastname?.message}
+                        onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                   </Grid>
@@ -1743,10 +1883,18 @@ export function ClientCreate({ closeModal }) {
                       <FormsHeaderText text="Client Biodata" />
                     </Grid>
                     <Grid item lg={2} md={4} sm={6}>
-                      <BasicDatePicker
-                        label="Date of Birth"
-                        register={register('dob')}
-                        errorText={errors?.dob?.message}
+                      <input
+                        type="date"
+                        onChange={(date) => handleDate(date)}
+                        label="DOB"
+                        style={{
+                          width: '100%',
+                          height: '2.2rem',
+                          border: '1px solid #BBBBBB',
+                          borderRadius: '4px',
+                          fontSize: '.85rem',
+                          padding: '0.4rem 1rem',
+                        }}
                       />
                     </Grid>
 
@@ -1754,6 +1902,7 @@ export function ClientCreate({ closeModal }) {
                       <CustomSelect
                         label="Gender"
                         register={register('gender')}
+                        onBlur={checkClient}
                         options={[
                           { label: 'Male', value: 'male' },
                           { label: 'Female', value: 'female' },
@@ -1768,6 +1917,11 @@ export function ClientCreate({ closeModal }) {
                         options={[
                           { label: 'Single', value: 'Single' },
                           { label: 'Married', value: 'Married' },
+                          { label: 'Widowed', value: 'Widowed' },
+                          {
+                            label: 'Divorced/Seperated',
+                            value: 'Divorced/Seperated',
+                          },
                         ]}
                       />
                     </Grid>
@@ -1795,6 +1949,8 @@ export function ClientCreate({ closeModal }) {
                         label="Phone No"
                         register={register('phone')}
                         errorText={errors?.phone?.message}
+                        onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={2} md={4} sm={6}>
@@ -1802,6 +1958,8 @@ export function ClientCreate({ closeModal }) {
                         label="Email"
                         register={register('email')}
                         errorText={errors?.email?.message}
+                        onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
 
@@ -1848,28 +2006,28 @@ export function ClientCreate({ closeModal }) {
                       <Input label="Genotype" register={register('genotype')} />
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={8} md={6} sm={6}>
                       <Input
                         label="Disabilities"
                         register={register('disabilities')}
                       />
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={6} md={6} sm={6}>
                       <Input
                         label="Allergies"
                         register={register('allergies')}
                       />
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={6} md={4} sm={6}>
                       <Input
                         label="Co-mobidities"
                         register={register('comorbidities')}
                       />
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={12} md={4} sm={6}>
                       <Input
                         label="Specific Details "
                         register={register('specificDetails')}
@@ -1887,26 +2045,26 @@ export function ClientCreate({ closeModal }) {
                         register={register('nok_name')}
                       />
                     </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={3} md={4} sm={6}>
                       <Input
                         label="Phone Number"
                         register={register('nok_phoneno')}
                       />
                     </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={3} md={4} sm={6}>
                       <Input
                         label=" Email"
                         register={register('nok_email')}
                         type="email"
                       />
                     </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={4} md={4} sm={6}>
                       <Input
                         label="Relationship"
                         register={register('nok_relationship')}
                       />
                     </Grid>
-                    <Grid item lg={6} md={6} sm={12}>
+                    <Grid item lg={8} md={6} sm={12}>
                       <Input
                         label="Co-mobidities"
                         register={register('comorbidities')}
@@ -1920,10 +2078,11 @@ export function ClientCreate({ closeModal }) {
                       display: 'flex',
                       justifyContent: 'flex-end',
                     }}
+                    mt={2}
                   >
                     <GlobalCustomButton
                       color="warning"
-                      onClick={() => closeModal(true)}
+                      onClick={closeModal}
                       sx={{ marginRight: '15px' }}
                     >
                       Cancel
@@ -2054,7 +2213,8 @@ export function PolicyDetail({ showModal, setShowModal }) {
         style={{
           height: 'auto',
           overflowY: 'scroll',
-          margin: '0 auto',
+          margin: '0 1rem',
+          width: '98%',
         }}
       >
         <Grid container>
@@ -2072,6 +2232,15 @@ export function PolicyDetail({ showModal, setShowModal }) {
             my={1}
           >
             <Button
+              onClick={() => setShowModal(0)}
+              variant="contained"
+              size="small"
+              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
+              color="warning"
+            >
+              Back
+            </Button>
+            <Button
               onClick={() => setDisplay(1)}
               variant="contained"
               size="small"
@@ -2080,33 +2249,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
             >
               Details
             </Button>
-            {/* <Button
-              onClick={() => setDisplay(2)}
-              variant="contained"
-              size="small"
-              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
-              color="success"
-            >
-              Provider
-            </Button> */}
-            {/* <Button
-              onClick={() => setDisplay(3)}
-              variant="contained"
-              size="small"
-              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
-              color="info"
-            >
-              Principals
-            </Button>
-            <Button
-              onClick={() => setDisplay(4)}
-              variant="contained"
-              size="small"
-              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
-              color="success"
-            >
-              Dependants
-            </Button> */}
+
             <Button
               onClick={() => setDisplay(5)}
               variant="contained"

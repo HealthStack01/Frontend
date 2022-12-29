@@ -49,12 +49,10 @@ export default function HealthPlan() {
         <HealthPlanList showModal={showModal} setShowModal={setShowModal} />
       )}
       {showModal === 1 && (
-        <ModalBox open={showModal} onClose={() => setShowModal(0)}>
-          <HealthPlanCreate
-            showModal={showModal}
-            setShowModal={() => setShowModal(0)}
-          />
-        </ModalBox>
+        <HealthPlanCreate
+          showModal={showModal}
+          setShowModal={() => setShowModal(0)}
+        />
       )}
       {showModal === 2 && <HealthPlanDetails setShowModal={setShowModal} />}
     </section>
@@ -250,35 +248,88 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
     return () => {};
   }, [state.ClientModule.selectedClient]);
 
-  /*   const showBilling = () =>{
-        setBillingModal(true)
-       //history.push('/app/finance/billservice')
-        }
-        const  handlecloseModal1 = () =>{
-            setBillingModal(false)
-            }
-
-
-            const handleRow= async(Client)=>{
-              //  await setSelectedClient(Client)
-                const    newClientModule={
-                    selectedClient:Client,
-                    show :'detail'
-                }
-               await setState((prevstate)=>({...prevstate, ClientModule:newClientModule}))
-            } */
+  const tableData = [
+    {
+      service: 'Test Service',
+      description: 'lorem ipsum dolor sit amet',
+      fee: 'N20,000',
+      status: 'Covered',
+    },
+    {
+      service: 'Test Service',
+      description: 'lorem ipsum dolor sit amet',
+      fee: 'N20,000',
+      status: 'Covered',
+    },
+  ];
+  const HealthPlanSchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: 'HIDDEN',
+      width: '50px',
+    },
+    {
+      name: 'Service Name',
+      key: 'service',
+      description: 'service',
+      selector: (row) => row.service,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Description',
+      key: 'description',
+      description: 'Description',
+      selector: (row) => row.description,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Price',
+      key: 'fee',
+      description: 'Fee',
+      selector: (row) => row.fee,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Status',
+      key: 'status',
+      description: 'Status',
+      selector: (row) => row.status,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+  ];
 
   return (
     <>
       <div
         className="card "
         style={{
-          minWidth: '600px',
+          width: '98%',
+          margin: '0 1rem',
         }}
       >
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <FormsHeaderText text={'Create Health Plan'} />
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <GlobalCustomButton
+              type="button"
+              variant="contained"
+              color="warning"
+              onClick={() => setShowModal(0)}
+              text="Back"
+              customStyles={{ marginRight: '.8rem' }}
+            />
             <GlobalCustomButton
               type="button"
               variant="contained"
@@ -333,6 +384,17 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
                 register={register('planAmount')}
               />
             </Grid>
+            <Grid item xs={12} sm={12}>
+              <FormsHeaderText text={'Benefits'} />
+              <CustomTable
+                tableData={''}
+                columns={HealthPlanSchema}
+                data={tableData}
+                pointerOnHover
+                highlightOnHover
+                striped
+              />
+            </Grid>
           </Grid>
           {showBenefit && (
             <>
@@ -340,80 +402,56 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
                 open={showBenefit}
                 onClose={() => setShowBenefit(false)}
               >
-                <McText
-                  txt={'Add Benefits'}
-                  type={'p'}
-                  bold={'700'}
-                  size={'16px'}
-                />
-                <Grid container spacing={2} my={2}>
-                  <Grid item xs={12} sm={6}>
-                    <Input
-                      name="serviceName"
-                      label="Service Name"
-                      register={register('serviceName')}
+                <Box sx={{ width: '70vw' }}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <FormsHeaderText text={'Add Benefit'} />
+                    <GlobalCustomButton
+                      type="submit"
+                      color="success"
+                      text={'Add'}
                     />
+                  </Box>
+                  <Grid container spacing={2} my={2}>
+                    <Grid item xs={12} sm={6}>
+                      <Input
+                        name="serviceName"
+                        label="Service Name"
+                        register={register('serviceName')}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Input
+                        name="serviceDscrp"
+                        label="Description"
+                        register={register('serviceDscrp')}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Input
+                        name="serviceprice"
+                        label="Price"
+                        register={register('serviceprice')}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <CustomSelect
+                        name="serviceStatus"
+                        label="Status"
+                        register={register('serviceStatus')}
+                        options={[
+                          { value: 'Covered', label: 'Covered' },
+                          { value: 'Not Covered', label: 'Not Covered' },
+                        ]}
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid item xs={12} sm={6} my={1.5}>
-                    <CustomSelect
-                      name="serviceCategory"
-                      label="Category"
-                      register={register('serviceCategory')}
-                      options={[
-                        { value: 'Individual', label: 'Individual' },
-                        { value: 'Family', label: 'Family' },
-                      ]}
-                    />
-                  </Grid>
-                </Grid>
-                <Grid container spacing={2} my={2}>
-                  <Grid item xs={12} sm={6}>
-                    <Input
-                      name="serviceDscrp"
-                      label="Description"
-                      register={register('serviceDscrp')}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Input
-                      name="serviceprice"
-                      label="Price"
-                      register={register('serviceprice')}
-                    />
-                  </Grid>
-                </Grid>
-                <Grid container spacing={2} my={2}>
-                  <Grid item xs={12} sm={6}>
-                    <Input
-                      name="capitationPrice"
-                      label="Capitation Price"
-                      register={register('capitationPrice')}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Input
-                      name="feeForService"
-                      label="Fee for Servcice"
-                      register={register('feeForService')}
-                    />
-                  </Grid>
-                </Grid>
-                <Grid container spacing={2} mt={1}>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <Button
-                      type="button"
-                      style={{
-                        backgroundColor: '#0364FF',
-                        width: '100%',
-                        cursor: 'pointer',
-                      }}
-                      onClick={submitbenefit}
-                      fullWidth
-                    >
-                      Save
-                    </Button>
-                  </Grid>
-                </Grid>
+                </Box>
               </ModalBox>
             </>
           )}
@@ -699,7 +737,6 @@ export function HealthPlanList({ showModal, setShowModal }) {
 
   const dummyData = [
     {
-      patients_name: 'Patients Name',
       name_of_plan: 'Family plan',
       category: 'Titanium series',
       plan_type: 'Agriculture',
@@ -707,7 +744,6 @@ export function HealthPlanList({ showModal, setShowModal }) {
       status: 'Active',
     },
     {
-      patients_name: 'Patients Name',
       name_of_plan: 'Family plan',
       category: 'Titanium series',
       plan_type: 'Agriculture',
@@ -715,7 +751,6 @@ export function HealthPlanList({ showModal, setShowModal }) {
       status: 'Active',
     },
     {
-      patients_name: 'Patients Name',
       name_of_plan: 'Family plan',
       category: 'Titanium series',
       plan_type: 'Agriculture',
@@ -724,7 +759,6 @@ export function HealthPlanList({ showModal, setShowModal }) {
     },
 
     {
-      patients_name: 'Patients Name',
       name_of_plan: 'Family plan',
       category: 'Titanium series',
       plan_type: 'Agriculture',
@@ -751,15 +785,6 @@ export function HealthPlanList({ showModal, setShowModal }) {
   };
 
   const HealthPlanSchema = [
-    {
-      name: 'Patients Name',
-      key: 'patients_name',
-      description: 'Enter patients name',
-      selector: (row) => row.patients_name,
-      sortable: true,
-      required: true,
-      inputType: 'HIDDEN',
-    },
     {
       name: 'Name of Plan',
       key: 'name_of_plan',
@@ -873,39 +898,22 @@ export function HealthPlanDetails({ showModal, setShowModal }) {
 
   const tableData = [
     {
-      drugs: 'Paracetamol',
-      code: 'V1201',
-      capitation: false,
-      feeOfService: true,
+      service: 'Test Service',
+      description: 'lorem ipsum dolor sit amet',
       fee: 'N20,000',
+      status: 'Covered',
     },
     {
-      drugs: 'Paracetamol',
-      code: 'V1201',
-      capitation: false,
-      feeOfService: true,
+      service: 'Test Service',
+      description: 'lorem ipsum dolor sit amet',
       fee: 'N20,000',
+      status: 'Covered',
     },
     {
-      drugs: 'Paracetamol',
-      code: 'V1201',
-      capitation: true,
-      feeOfService: true,
+      service: 'Test Service',
+      description: 'lorem ipsum dolor sit amet',
       fee: 'N20,000',
-    },
-    {
-      drugs: 'Paracetamol',
-      code: 'V1201',
-      capitation: false,
-      feeOfService: true,
-      fee: 'N20,000',
-    },
-    {
-      drugs: 'Paracetamol',
-      code: 'V1201',
-      capitation: true,
-      feeOfService: true,
-      fee: 'N20,000',
+      status: 'Covered',
     },
   ];
   const HealthPlanSchema = [
@@ -916,48 +924,40 @@ export function HealthPlanDetails({ showModal, setShowModal }) {
       selector: (row) => row.sn,
       sortable: true,
       inputType: 'HIDDEN',
+      width: '50px',
     },
     {
-      name: 'Drugs',
-      key: 'drugs',
-      description: 'Drugs',
-      selector: (row) => row.drugs,
+      name: 'Service Name',
+      key: 'service',
+      description: 'service',
+      selector: (row) => row.service,
       sortable: true,
       required: true,
       inputType: 'TEXT',
     },
     {
-      name: 'Code',
-      key: 'code',
-      description: 'Code',
-      selector: (row) => row.code,
+      name: 'Description',
+      key: 'description',
+      description: 'Description',
+      selector: (row) => row.description,
       sortable: true,
       required: true,
       inputType: 'TEXT',
     },
     {
-      name: 'Capitation',
-      key: 'capitation',
-      description: 'Capitation',
-      selector: (row) => (row.capitation ? 'Yes' : 'No'),
-      sortable: true,
-      required: true,
-      inputType: 'CHECKBOX',
-    },
-    {
-      name: 'Fee of Service',
-      key: 'feeOfService',
-      description: 'Fee of Service',
-      selector: (row) => (row.feeOfService ? 'Yes' : 'No'),
-      sortable: true,
-      required: true,
-      inputType: 'CHECKBOX',
-    },
-    {
-      name: 'Fee',
+      name: 'Price',
       key: 'fee',
       description: 'Fee',
       selector: (row) => row.fee,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Status',
+      key: 'status',
+      description: 'Status',
+      selector: (row) => row.status,
       sortable: true,
       required: true,
       inputType: 'TEXT',
@@ -1060,28 +1060,7 @@ export function HealthPlanDetails({ showModal, setShowModal }) {
           }}
         >
           <Grid container spacing={2} style={{ alignItems: 'top' }}>
-            <Grid item xs={3}>
-              <div
-                style={{ width: '100px', height: 'auto', borderRadius: '50%' }}
-              >
-                <img
-                  src="/img_avatar.png"
-                  alt="avatar"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                  }}
-                />
-              </div>
-            </Grid>
-            <Grid item xs={6}>
-              <p style={{ fontWeight: '700', marginTop: 0 }}>
-                Lagos State University Teaching Hospital
-              </p>
-              <p> 1, Oba Akinjobi Way, Ikeja, Lagos</p>
-              <p>08012345678</p>
-            </Grid>
-            <Grid item xs={3}>
+            {/* <Grid item xs={3}>
               <div style={{ marginLeft: 'auto' }}>
                 <GlobalCustomButton
                   text="View Benefit"
@@ -1089,7 +1068,7 @@ export function HealthPlanDetails({ showModal, setShowModal }) {
                   onClick={() => setViewBenefit(true)}
                 />
               </div>
-            </Grid>
+            </Grid> */}
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -1104,11 +1083,27 @@ export function HealthPlanDetails({ showModal, setShowModal }) {
 
           <p>Details</p>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <p>Type: Formal Sector</p>
+            <Grid item xs={4}>
+              <p>Name of Plan: Test Plan</p>
             </Grid>
-            <Grid item xs={6}>
-              <p style={{ textAlign: 'right' }}>Utilized By: LASHMA</p>
+            <Grid item xs={4}>
+              <p>Plan Type: Test Plan</p>
+            </Grid>
+            <Grid item xs={4}>
+              <p>Plan Category: Test Plan</p>
+            </Grid>
+            <Grid item xs={4}>
+              <p>Premium Amount: 20,000</p>
+            </Grid>
+            <Grid item xs={4}>
+              <p>
+                Premium per Person per Annum : <span>20,000</span>
+              </p>
+            </Grid>
+            <Grid item xs={4}>
+              <p>
+                Premium per Family per Annum : <span>20,000</span>
+              </p>
             </Grid>
           </Grid>
         </div>
@@ -1120,6 +1115,7 @@ export function HealthPlanDetails({ showModal, setShowModal }) {
             marginTop: '1rem',
           }}
         >
+          <FormsHeaderText text={'Benefit'} />
           <CustomTable
             tableData={''}
             columns={HealthPlanSchema}
