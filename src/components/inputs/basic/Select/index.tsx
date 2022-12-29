@@ -104,9 +104,9 @@ const CustomSelect: React.FC<SelectProps> = ({
                 },
               }}
             >
-              {/* <MenuItem value="" sx={{width: "100%"}}>
-                <em>None</em>
-              </MenuItem> */}
+              <MenuItem value="0" sx={{ width: '100%' }}>
+                Select...
+              </MenuItem>
               {options.map((option, index) => (
                 <MenuItem
                   value={option.value || option.name || option.toLowerCase()}
@@ -167,9 +167,9 @@ const CustomSelect: React.FC<SelectProps> = ({
         {...register}
         value={defaultValue}
       >
-        {/* <MenuItem value="" sx={{width: "100%"}}>
-          <em>None</em>
-        </MenuItem> */}
+        <MenuItem value="" sx={{ width: '100%' }}>
+          Select...
+        </MenuItem>
         {options.map((option, index) => (
           <MenuItem
             value={option.value || option.name || option.toLowerCase()}

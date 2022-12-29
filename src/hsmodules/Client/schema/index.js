@@ -1,56 +1,56 @@
-import * as yup from "yup";
-import moment from "moment";
-import {formatDistanceToNowStrict} from "date-fns";
-import dayjs from "dayjs";
-import {Box} from "@mui/system";
-import {Typography} from "@mui/material";
+import * as yup from 'yup';
+import moment from 'moment';
+import { formatDistanceToNowStrict } from 'date-fns';
+import dayjs from 'dayjs';
+import { Box } from '@mui/system';
+import { Typography } from '@mui/material';
 
 export const ClientMiniSchema = [
   {
-    name: "S/N",
-    key: "sn",
-    description: "SN",
+    name: 'S/N',
+    key: 'sn',
+    description: 'SN',
     selector: (row, i) => i + 1,
     sortable: true,
-    inputType: "HIDDEN",
-    width: "50px",
+    inputType: 'HIDDEN',
+    width: '50px',
   },
   {
-    name: "First Name",
-    key: "firstname",
-    description: "First Name",
-    selector: row => row.firstname,
+    name: 'First Name',
+    key: 'firstname',
+    description: 'First Name',
+    selector: (row) => row.firstname,
     sortable: true,
     required: true,
-    inputType: "TEXT",
+    inputType: 'TEXT',
     style: {
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
     },
   },
 
   {
-    name: "Middlle Name",
-    key: "middlename",
-    description: "Midlle Name",
-    selector: row => (row.middlename ? row.middlename : "----------"),
+    name: 'Middlle Name',
+    key: 'middlename',
+    description: 'Midlle Name',
+    selector: (row) => (row.middlename ? row.middlename : '----------'),
     sortable: true,
     required: true,
-    inputType: "TEXT",
+    inputType: 'TEXT',
     style: {
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
     },
   },
 
   {
-    name: "Last Name",
-    key: "lastname",
-    description: "Last Name",
-    selector: row => row.lastname,
+    name: 'Last Name',
+    key: 'lastname',
+    description: 'Last Name',
+    selector: (row) => row.lastname,
     sortable: true,
     required: true,
-    inputType: "TEXT",
+    inputType: 'TEXT',
     style: {
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
     },
   },
 
@@ -65,14 +65,14 @@ export const ClientMiniSchema = [
   // },
 
   {
-    name: "Paymaent Mode",
-    key: "middlename",
-    description: "Midlle Name",
-    selector: row => (
+    name: 'Paymaent Mode',
+    key: 'middlename',
+    description: 'Midlle Name',
+    selector: (row) => (
       <Box>
         {row.paymentinfo.map((pay, i) => (
-          <Typography sx={{fontSize: "0.75rem"}}>
-            {pay?.paymentmode} {pay?.paymentmode === "Cash" ? "" : ":"}{" "}
+          <Typography sx={{ fontSize: '0.75rem' }}>
+            {pay?.paymentmode} {pay?.paymentmode === 'Cash' ? '' : ':'}{' '}
             {pay?.organizationName}
           </Typography>
         ))}
@@ -81,72 +81,72 @@ export const ClientMiniSchema = [
 
     sortable: true,
     required: true,
-    inputType: "TEXT",
+    inputType: 'TEXT',
   },
 
   {
-    name: "Age",
-    key: "dob",
-    description: "Date of Birth",
-    selector: row => formatDistanceToNowStrict(new Date(row.dob)),
+    name: 'Age',
+    key: 'dob',
+    description: 'Date of Birth',
+    selector: (row) => formatDistanceToNowStrict(new Date(row.dob)),
     sortable: true,
     required: true,
-    inputType: "TEXT",
-    width: "100px",
+    inputType: 'TEXT',
+    width: '100px',
     center: true,
   },
 
   {
-    name: "Gender",
-    key: "gender",
-    description: "Male",
-    selector: row => (row.gender ? row.gender : "----------"),
+    name: 'Gender',
+    key: 'gender',
+    description: 'Male',
+    selector: (row) => (row.gender ? row.gender : '----------'),
     sortable: true,
     required: true,
-    inputType: "SELECT_LIST",
-    options: ["Male", "Female"],
-    width: "100px",
+    inputType: 'SELECT_LIST',
+    options: ['Male', 'Female'],
+    width: '100px',
   },
   {
-    name: "Phone Number",
-    key: "phone",
-    description: "0806478263",
-    selector: row => row.phone,
+    name: 'Phone Number',
+    key: 'phone',
+    description: '0806478263',
+    selector: (row) => row.phone,
     sortable: true,
     required: true,
-    inputType: "PHONE",
-    width: "140px",
-  },
-
-  {
-    name: "Email",
-    key: "email",
-    description: "johndoe@mail.com",
-    selector: row => (row.email ? row.email : "----------"),
-    sortable: true,
-    required: true,
-    inputType: "EMAIL",
+    inputType: 'PHONE',
+    width: '140px',
   },
 
   {
-    name: "Residential Address",
-    key: "residentialaddress",
-    description: "Ozumba Mbadiwe",
-    selector: row => row.residentialaddress,
+    name: 'Email',
+    key: 'email',
+    description: 'johndoe@mail.com',
+    selector: (row) => (row.email ? row.email : '----------'),
     sortable: true,
     required: true,
-    inputType: "TEXT",
+    inputType: 'EMAIL',
+  },
+
+  {
+    name: 'Residential Address',
+    key: 'residentialaddress',
+    description: 'Ozumba Mbadiwe',
+    selector: (row) => row.residentialaddress,
+    sortable: true,
+    required: true,
+    inputType: 'TEXT',
     omit: true,
   },
 
   {
-    name: "Town",
-    key: "town",
-    description: "Ikate Elegushi",
-    selector: row => row.town,
+    name: 'Town',
+    key: 'town',
+    description: 'Ikate Elegushi',
+    selector: (row) => row.town,
     sortable: true,
     required: true,
-    inputType: "TEXT",
+    inputType: 'TEXT',
     omit: true,
   },
 
@@ -172,25 +172,25 @@ export const ClientMiniSchema = [
   // },
 
   {
-    name: "Status",
-    key: "active",
-    description: "Next of Kin",
-    selector: row => (row.alive ? "Alive" : "Dead"),
+    name: 'Status',
+    key: 'active',
+    description: 'Next of Kin',
+    selector: (row) => (row.alive ? 'Alive' : 'Dead'),
     sortable: true,
     required: true,
-    inputType: "TEXT",
+    inputType: 'TEXT',
     omit: false,
-    width: "100px",
+    width: '100px',
   },
 
   {
-    name: "Next of kin Phone",
-    key: "nextofkinphone",
-    description: "Next of Kin",
-    selector: row => row.nextofkinphone,
+    name: 'Next of kin Phone',
+    key: 'nextofkinphone',
+    description: 'Next of Kin',
+    selector: (row) => row.nextofkinphone,
     sortable: true,
     required: true,
-    inputType: "TEXT",
+    inputType: 'TEXT',
     omit: true,
   },
 ];
@@ -198,33 +198,52 @@ export const ClientMiniSchema = [
 const nigerianPhoneRegExp = /^([0]{1})[0-9]{10}$/;
 
 export const createClientSchema = yup.object().shape({
-  firstname: yup.string().required("Enter the first name of the client!"),
-  lastname: yup.string().required("Enter the last name of the client!"),
-  dob: yup.string().required("Enter the date of birth of the client!"),
+  firstname: yup.string().required('Enter the first name of the client!'),
+  lastname: yup.string().required('Enter the last name of the client!'),
+  dob: yup.string().required('Enter the date of birth of the client!'),
   phone: yup
     .string()
-    .matches(nigerianPhoneRegExp, "Enter a valid phone number (0900000000000).")
-    .required("Enter the phone number of the client!"),
+    .matches(nigerianPhoneRegExp, 'Enter a valid phone number (0900000000000).')
+    .required('Enter the phone number of the client!'),
   email: yup
     .string()
-    .email("Must be a valid email!")
-    .required("Email is required!"),
+    .email('Must be a valid email!')
+    .required('Email is required!'),
 
-  nok_email: yup.string().email("Must be a valid email!"),
+  nok_email: yup.string().email('Must be a valid email!'),
 
   nok_phoneno: yup
     .string()
     .matches(
       nigerianPhoneRegExp,
-      "Enter a valid phone number (0900000000000)."
+      'Enter a valid phone number (0900000000000).'
+    ),
+});
+export const createClientSchema2 = yup.object().shape({
+  firstname: yup.string().required('Enter the first name of the client!'),
+  lastname: yup.string().required('Enter the last name of the client!'),
+  phone: yup
+    .string()
+    .matches(nigerianPhoneRegExp, 'Enter a valid phone number (0900000000000).')
+    .required('Enter the phone number of the client!'),
+  email: yup
+    .string()
+    .email('Must be a valid email!')
+    .required('Email is required!'),
+
+  nok_email: yup.string().email('Must be a valid email!'),
+
+  nok_phoneno: yup
+    .string()
+    .matches(
+      nigerianPhoneRegExp,
+      'Enter a valid phone number (0900000000000).'
     ),
 });
 
 export const resetPasswordSchema = yup.object().shape({
   email: yup
     .string()
-    .email("Must be a valid email!")
-    .required("Email is required!"),
+    .email('Must be a valid email!')
+    .required('Email is required!'),
 });
-
-

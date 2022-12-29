@@ -225,7 +225,7 @@ export function OrgFacilitySearch({ getSearchfacility, clear }) {
     // check if the facility is already selected, if not add it to the list
     const found = selectedFacility.some((el) => el?._id === obj?._id);
     if (!found) {
-      await setSelectedFacility([...selectedFacility, obj]);
+      // await setSelectedFacility([...selectedFacility, obj]);
       await getSearchfacility([...selectedFacility, obj]);
     }
   };
@@ -460,7 +460,7 @@ export function SponsorSearch({ getSearchfacility, clear }) {
         renderInput={(params) => (
           <TextField
             {...params}
-            label={'Search for Provider'}
+            label={'Search for Sponsor'}
             onChange={(e) => handleSearch(e.target.value)}
             ref={inputEl}
             sx={{
