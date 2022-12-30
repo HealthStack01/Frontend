@@ -29,7 +29,11 @@ import { HeadWrapper } from '../app/styles';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
 import ClientGroup from '../Client/ClientGroup';
 import { createClientSchema2 } from '../Client/schema';
-import { OrgFacilitySearch, SponsorSearch } from '../helpers/FacilitySearch';
+import {
+  HmoFacilitySearch,
+  OrgFacilitySearch,
+  SponsorSearch,
+} from '../helpers/FacilitySearch';
 import Claims from './Claims';
 import PremiumPayment from './PremiumPayment';
 import Provider, { OrganizationCreate } from './Providers';
@@ -526,6 +530,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
   const [selectedPlan, setSelectedPlan] = useState();
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [hmo, setHmo] = useState('');
 
   const getSearchfacility = async (obj) => {
     if (obj.length > 0) {
@@ -538,6 +543,11 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 
   const getSearchfacility1 = (obj) => {
     setPlanHMO(obj);
+    if (!obj) {
+    }
+  };
+  const getSearchHmo = (obj) => {
+    setHmo(obj);
     if (!obj) {
     }
   };
@@ -1110,7 +1120,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
     },
   ];
 
-  console.log('==================', chosen);
+  console.log('==================', chosen, '=============', hmo);
 
   return (
     <>
@@ -1182,6 +1192,12 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
                 />
               </Grid>
             )}
+            <Grid item md={6}>
+              <HmoFacilitySearch
+                getSearchfacility={getSearchHmo}
+                clear={success}
+              />
+            </Grid>
             <Grid item md={6}>
               <CustomSelect
                 name="plan"
@@ -2470,6 +2486,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                   striped
                   onRowClicked={() => {}}
                   progressPending={loading}
+                  CustomEmptyData="You have no Principal yet."
                 />
                 <FormsHeaderText text="Dependant Details" />
                 <CustomTable
@@ -2481,6 +2498,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                   striped
                   onRowClicked={() => {}}
                   progressPending={loading}
+                  CustomEmptyData="You have no Dependant yet"
                 />
                 <FormsHeaderText text="Provider List" />
                 <CustomTable
@@ -2492,6 +2510,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                   striped
                   onRowClicked={() => {}}
                   progressPending={loading}
+                  CustomEmptyData="You have no Provider yet."
                 />
               </Grid>
             </Box>

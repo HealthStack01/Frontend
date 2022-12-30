@@ -1,30 +1,30 @@
-import {useState, useContext, useEffect} from "react";
+import { useState, useContext, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import { UserContext, ObjectContext } from '../../../../context';
+import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined';
+import GlobalCustomButton from '../../../../components/buttons/CustomButton';
+import CustomTable from '../../../../components/customtable';
+import FilterMenu from '../../../../components/utilities/FilterMenu';
+import { TableMenu } from '../../../../ui/styled/global';
+import { PageWrapper } from '../../../app/styles';
+import { getTaskColumns } from '../colums/columns';
+import { Box } from '@mui/material';
+import client from '../../../../feathers';
+import CustomConfirmationDialog from '../../../../components/confirm-dialog/confirm-dialog';
 
-import {UserContext, ObjectContext} from "../../../../context";
-import AddCircleOutlineOutlined from "@mui/icons-material/AddCircleOutlineOutlined";
-import GlobalCustomButton from "../../../../components/buttons/CustomButton";
-import CustomTable from "../../../../components/customtable";
-import FilterMenu from "../../../../components/utilities/FilterMenu";
-import {TableMenu} from "../../../../ui/styled/global";
-import {PageWrapper} from "../../../app/styles";
-import {getTaskColumns} from "../colums/columns";
-import {Box} from "@mui/material";
-import client from "../../../../feathers";
-import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
-
-const TasksList = ({openCreateModal, openDetailModal}) => {
-  const dealServer = client.service("deal");
-  const {state, setState, showActionLoader, hideActionLoader} =
+const TasksList = ({ openCreateModal, openDetailModal }) => {
+  const dealServer = client.service('deal');
+  const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [loading, setLoading] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [confirmDialog, setConfirmDialog] = useState({
     open: false,
-    type: "",
-    message: "",
+    type: '',
+    message: '',
     action: null,
   });
 
@@ -32,34 +32,34 @@ const TasksList = ({openCreateModal, openDetailModal}) => {
     setTasks(state.DealModule.selectedDeal.tasks);
   }, [state.DealModule]);
 
-  const handleRow = async row => {
-    setState(prev => ({
+  const handleRow = async (row) => {
+    setState((prev) => ({
       ...prev,
-      TaskModule: {...prev.TaskModule, selectedTask: row},
+      TaskModule: { ...prev.TaskModule, selectedTask: row },
     }));
     openDetailModal();
   };
 
   const handleSearch = () => {};
 
-  const handleRemoveTask = async task => {
+  const handleRemoveTask = async (task) => {
     showActionLoader();
     //const prevTasks = state.DealModule.selectedDeal.tasks;
     const newTasks = tasks.filter(
-      item => item._id !== task._id || item.taskId !== task.taskId
+      (item) => item._id !== task._id || item.taskId !== task.taskId
     );
 
     //return console.log(tasks);
 
     const documentId = state.DealModule.selectedDeal._id;
     await dealServer
-      .patch(documentId, {tasks: newTasks})
-      .then(res => {
+      .patch(documentId, { tasks: newTasks })
+      .then((res) => {
         hideActionLoader();
         //setContacts(res.contacts);
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: res},
+          DealModule: { ...prev.DealModule, selectedDeal: res },
         }));
         setConfirmDialog(false);
         //closeModal();
@@ -67,7 +67,7 @@ const TasksList = ({openCreateModal, openDetailModal}) => {
         //setSuccess(true);
         //setReset(true);
       })
-      .catch(err => {
+      .catch((err) => {
         //setReset(false);
         setConfirmDialog(false);
         hideActionLoader();
@@ -75,20 +75,20 @@ const TasksList = ({openCreateModal, openDetailModal}) => {
       });
   };
 
-  const confirmDeleteTask = task => {
+  const confirmDeleteTask = (task) => {
     setConfirmDialog({
       open: true,
       message: "You're about to delete a Task",
       action: () => handleRemoveTask(task),
-      type: "danger",
+      type: 'danger',
     });
   };
 
   const closeDialog = () => {
     setConfirmDialog({
       open: false,
-      type: "",
-      message: "",
+      type: '',
+      message: '',
       action: null,
     });
   };
@@ -108,31 +108,31 @@ const TasksList = ({openCreateModal, openDetailModal}) => {
 
         <Box
           sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}
           mb={2}
         >
-          <div style={{display: "flex", alignItems: "center"}}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <div className="inner-table">
               <FilterMenu onSearch={handleSearch} />
             </div>
 
-            <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>Tasks</h2>
+            <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>Tasks</h2>
           </div>
 
           <GlobalCustomButton onClick={openCreateModal}>
             <AddCircleOutlineOutlined
               fontSize="small"
-              sx={{marginRight: "5px"}}
+              sx={{ marginRight: '5px' }}
             />
             Assign Task
           </GlobalCustomButton>
         </Box>
-        <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+        <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
           <CustomTable
-            title={""}
+            title={''}
             columns={tasksColumns}
             data={tasks}
             pointerOnHover
