@@ -1,20 +1,22 @@
-import { useState, useContext, useEffect } from 'react';
-import { toast } from 'react-toastify';
-import { UserContext, ObjectContext } from '../../../../context';
-import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined';
-import GlobalCustomButton from '../../../../components/buttons/CustomButton';
-import CustomTable from '../../../../components/customtable';
-import FilterMenu from '../../../../components/utilities/FilterMenu';
-import { TableMenu } from '../../../../ui/styled/global';
-import { PageWrapper } from '../../../app/styles';
-import { getTaskColumns } from '../colums/columns';
-import { Box } from '@mui/material';
-import client from '../../../../feathers';
-import CustomConfirmationDialog from '../../../../components/confirm-dialog/confirm-dialog';
 
-const TasksList = ({ openCreateModal, openDetailModal }) => {
-  const dealServer = client.service('deal');
-  const { state, setState, showActionLoader, hideActionLoader } =
+import {useState, useContext, useEffect} from "react";
+
+import {UserContext, ObjectContext} from "../../../../context";
+import AddCircleOutlineOutlined from "@mui/icons-material/AddCircleOutlineOutlined";
+import GlobalCustomButton from "../../../../components/buttons/CustomButton";
+import CustomTable from "../../../../components/customtable";
+import FilterMenu from "../../../../components/utilities/FilterMenu";
+import {TableMenu} from "../../../../ui/styled/global";
+import {PageWrapper} from "../../../app/styles";
+import {getTaskColumns} from "../colums/columns";
+import {Box} from "@mui/material";
+import client from "../../../../feathers";
+import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
+import {toast} from "react-toastify";
+
+const TasksList = ({openCreateModal, openDetailModal}) => {
+  const dealServer = client.service("deal");
+  const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   // eslint-disable-next-line
   const { user, setUser } = useContext(UserContext);
