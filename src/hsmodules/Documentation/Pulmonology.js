@@ -19,7 +19,7 @@ import Input from "../../components/inputs/basic/Input";
 import Textarea from "../../components/inputs/basic/Textarea";
 import CheckboxInput from "../../components/inputs/basic/Checkbox";
 import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
-// import RadioButton from "../../components/inputs/basic/Radio";
+// import GroupedRadio from "../../components/inputs/basic/Radio";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -32,9 +32,13 @@ import GlobalCustomButton from "../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import CustomTable from "../../components/customtable";
 import RefInput from "../../components/inputs/basic/Input/ref-input";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+import CheckboxGroup from "../../components/inputs/basic/Checkbox/CheckBoxGroup";
+import GroupedRadio from "../../components/inputs/basic/Radio/GroupedRadio";
 
 export default function PulmonologyIntake() {
-  const {register, handleSubmit, setValue, resetField} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue, resetField, control, reset} =
+    useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -53,9 +57,11 @@ export default function PulmonologyIntake() {
   const [symptom, setSymptom] = useState("");
   const [symptoms, setSymptoms] = useState([]);
   const [docStatus, setDocStatus] = useState("Draft");
+  const [confirmationDialog, setConfirmationDialog] = useState(false);
 
   const [dataset, setDataset] = useState();
-  const {state, setState} = useContext(ObjectContext);
+  const {state, setState, showActionLoader, hideActionLoader, toggleSideMenu} =
+    useContext(ObjectContext);
 
   //Making use of useRef to store input values cause component too large and makes setState hang cause setState re-renders when onChange function is fired..
   const symptomInputRef = useRef(null);
@@ -69,6 +75,7 @@ export default function PulmonologyIntake() {
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
+      console.log(draftDoc.documentdetail);
       Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
         setValue(keys, value, {
           shouldValidate: true,
@@ -229,7 +236,8 @@ export default function PulmonologyIntake() {
   ];
 
   const onSubmit = (data, e) => {
-    e.preventDefault();
+    // e.preventDefault();
+    showActionLoader();
     setMessage("");
     setError(false);
     setSuccess(false);
@@ -267,71 +275,58 @@ export default function PulmonologyIntake() {
       !document.createdByname ||
       !document.facilityname
     ) {
-      toast({
-        message:
-          " Documentation data missing, requires location and facility details",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
       return;
     }
-    let confirm = window.confirm(
-      `You are about to save this document ${document.documentname} ?`
-    );
-    if (confirm) {
-      if (!!draftDoc && draftDoc.status === "Draft") {
-        ClientServ.patch(draftDoc._id, document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            setAllergies([]);
-            setSymptoms([]);
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "Pediatric Pulmonology Form updated succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast({
-              message: "Error updating Pediatric Pulmonology Form " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then(res => {
+          //console.log(JSON.stringify(res))
+          // e.target.reset();
+          Object.keys(data).forEach(key => {
+            data[key] = null;
           });
-      } else {
-        ClientServ.create(document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            setAllergies([]);
-            setSymptoms([]);
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "Pediatric Pulmonology Form created succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast({
-              message: "Error creating Pediatric Pulmonology Form " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+          setAllergies([]);
+          setSymptoms([]);
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          hideActionLoader();
+          toast.success("Pediatric Pulmonology Form updated succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch(err => {
+          hideActionLoader();
+          toast.error("Error updating Pediatric Pulmonology Form " + err);
+        });
+    } else {
+      ClientServ.create(document)
+        .then(res => {
+          Object.keys(data).forEach(key => {
+            data[key] = null;
           });
-      }
+          //console.log(JSON.stringify(res))
+          //e.target.reset();
+          setAllergies([]);
+          setSymptoms([]);
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          hideActionLoader();
+          toast.success("Pediatric Pulmonology Form created succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch(err => {
+          hideActionLoader();
+          toast.error("Error creating Pediatric Pulmonology Form " + err);
+        });
     }
+    //}
   };
 
   const handleChangePart = async e => {
@@ -358,6 +353,8 @@ export default function PulmonologyIntake() {
         encounter_right: false,
       },
     }));
+
+    toggleSideMenu();
   };
 
   const handleAllergy = async e => {
@@ -477,6 +474,13 @@ export default function PulmonologyIntake() {
   return (
     <>
       <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmationDialog}
+          cancelAction={() => setConfirmationDialog(false)}
+          type="create"
+          message="you're about to save Pediatric Pulmonology Form?"
+          confirmationAction={handleSubmit(onSubmit)}
+        />
         <Box
           sx={{
             display: "flex",
@@ -492,8 +496,9 @@ export default function PulmonologyIntake() {
             <CloseIcon fontSize="small" />
           </IconButton>
         </Box>
+
         <div className="card-content vscrollable remPad1">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form>
             <Box mb={1}>
               <Input
                 register={register("Name")}
@@ -513,10 +518,12 @@ export default function PulmonologyIntake() {
             </Box>
 
             <Box>
-              <RadioButton
-                title="Gender"
-                register={register("Gender")}
+              <GroupedRadio
+                label="Gender"
                 options={["Male", "Female"]}
+                name="Gender"
+                control={control}
+                row
               />
             </Box>
 
@@ -652,10 +659,11 @@ export default function PulmonologyIntake() {
             </Box>
 
             <Box>
-              <RadioButton
-                title="(a) Cough"
-                register={register("Cough")}
+              <GroupedRadio
+                label="(a) Cough"
                 options={["Yes", "No"]}
+                control={control}
+                name="Cough"
               />
             </Box>
 
@@ -670,8 +678,9 @@ export default function PulmonologyIntake() {
                 Cough Nature:
               </Typography>
 
-              <CheckboxInput
-                register={register("cough_nature")}
+              <CheckboxGroup
+                control={control}
+                name="cough_nature"
                 options={[
                   "productive",
                   "dry",
@@ -683,6 +692,7 @@ export default function PulmonologyIntake() {
                   "worse in certain posture",
                   "progressive",
                 ]}
+                row
               />
             </Box>
 
@@ -697,8 +707,9 @@ export default function PulmonologyIntake() {
                 Associated symptoms with cough:
               </Typography>
 
-              <CheckboxInput
-                register={register("cough_associated_symptoms")}
+              <CheckboxGroup
+                name="cough_associated_symptoms"
+                control={control}
                 options={[
                   "feveer",
                   "catarrh",
@@ -708,6 +719,7 @@ export default function PulmonologyIntake() {
                   "facial swelling",
                   "leg swelling",
                 ]}
+                row
               />
             </Box>
 
@@ -722,9 +734,10 @@ export default function PulmonologyIntake() {
                 Sputum Colour:
               </Typography>
 
-              <RadioButton
-                register={register("cough_sputum_colour")}
+              <GroupedRadio
                 options={["creamy", "brown", "blood stained", "whitish"]}
+                name="cough_sputum_colour"
+                control={control}
               />
             </Box>
 
@@ -739,8 +752,9 @@ export default function PulmonologyIntake() {
                 Other Respiratory Symptoms:
               </Typography>
 
-              <CheckboxInput
-                register={register("Other_Respiratory")}
+              <CheckboxGroup
+                name="Other_Respiratory"
+                control={control}
                 options={[
                   "Difficulty breathing",
                   "fast breathing",
@@ -750,6 +764,7 @@ export default function PulmonologyIntake() {
                   "atopy",
                   "family history of atopy",
                 ]}
+                row
               />
             </Box>
 
@@ -759,8 +774,9 @@ export default function PulmonologyIntake() {
               </Typography>
               <Box>
                 <Typography>(a) Cough</Typography>
-                <CheckboxInput
-                  register={register("cvs")}
+                <CheckboxGroup
+                  control={control}
+                  name="cvs"
                   options={[
                     "cough",
                     "easy defatigability",
@@ -792,9 +808,10 @@ export default function PulmonologyIntake() {
                   Abdominal Pain
                 </Typography>
 
-                <RadioButton
-                  register={register("Abdominal_pain")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Abdominal_pain"
                 />
                 <Input
                   register={register("Abdominal_Pain_details")}
@@ -813,9 +830,10 @@ export default function PulmonologyIntake() {
                 >
                   Abdominal Swelling
                 </Typography>
-                <RadioButton
-                  register={register("Abdominal_swelling")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Abdominal_swelling"
                 />
                 <Input
                   register={register("Abdominal_Swelling_details")}
@@ -838,9 +856,10 @@ export default function PulmonologyIntake() {
                   Diarrhea
                 </Typography>
 
-                <RadioButton
-                  register={register("Diarrhea")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Diarrhea"
                 />
 
                 <Input
@@ -866,9 +885,10 @@ export default function PulmonologyIntake() {
                   Nausea
                 </Typography>
 
-                <RadioButton
-                  register={register("Nausea")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Nausea"
                 />
                 <Input
                   register={register("Nausea_details")}
@@ -889,9 +909,10 @@ export default function PulmonologyIntake() {
                   Vomitting
                 </Typography>
 
-                <RadioButton
-                  register={register("Vomitting")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Vomitting"
                 />
                 <Input
                   register={register("Vomitting_details")}
@@ -915,9 +936,10 @@ export default function PulmonologyIntake() {
                   Constipation
                 </Typography>
 
-                <RadioButton
-                  register={register("Constipation")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  name="Constipation"
+                  control={control}
                 />
                 <Input
                   register={register("Constipation_details")}
@@ -945,8 +967,10 @@ export default function PulmonologyIntake() {
                   Urinary Findings:
                 </Typography>
 
-                <CheckboxInput
-                  register={register("Urinary")}
+                <CheckboxGroup
+                  name="Urinary"
+                  row
+                  control={control}
                   options={[
                     "frequency",
                     "nocturia",
@@ -986,13 +1010,16 @@ export default function PulmonologyIntake() {
                   Headache:
                 </Typography>
 
-                <RadioButton
-                  register={register("Headache")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  name="Headache"
+                  control={control}
                 />
 
-                <CheckboxInput
-                  register={register("Headache_info")}
+                <CheckboxGroup
+                  name="Headache_info"
+                  row
+                  control={control}
                   options={[
                     "throbing",
                     "dull",
@@ -1021,9 +1048,10 @@ export default function PulmonologyIntake() {
                   Neck Pain:
                 </Typography>
 
-                <RadioButton
-                  register={register("Neck_pain")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Neck_pain"
                 />
                 <Input
                   register={register("Neck_pain_details")}
@@ -1043,9 +1071,10 @@ export default function PulmonologyIntake() {
                   Neck Stiffness
                 </Typography>
 
-                <RadioButton
-                  register={register("Neck_Stiffness")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Neck_Stiffness"
                 />
                 <Input
                   register={register("Neck_Stiffness_details")}
@@ -1065,9 +1094,10 @@ export default function PulmonologyIntake() {
                   Vertigo
                 </Typography>
 
-                <RadioButton
-                  register={register("Vertigo")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  name="Vertigo"
+                  control={control}
                 />
                 <Input
                   register={register("Vertigo_details")}
@@ -1087,9 +1117,10 @@ export default function PulmonologyIntake() {
                   Dizziness
                 </Typography>
 
-                <RadioButton
-                  register={register("Dizziness")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  name="Dizziness"
+                  control={control}
                 />
                 <Input
                   register={register("Dizziness_details")}
@@ -1109,9 +1140,10 @@ export default function PulmonologyIntake() {
                   Fainting Spells
                 </Typography>
 
-                <RadioButton
-                  register={register("Fainting_spells")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  name="Fainting_spells"
+                  control={control}
                 />
                 <Input
                   register={register("Fainting_spells_details")}
@@ -1131,9 +1163,10 @@ export default function PulmonologyIntake() {
                   Akward Gait
                 </Typography>
 
-                <RadioButton
-                  register={register("Akward_Gait")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  name="Akward_Gait"
+                  control={control}
                 />
                 <Input
                   register={register("Akward_Gait_details")}
@@ -1153,13 +1186,16 @@ export default function PulmonologyIntake() {
                   Weakness of Upper Limbs
                 </Typography>
 
-                <RadioButton
-                  register={register("Weakness_Upper_Limbs")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  name="Weakness_Upper_Limbs"
+                  control={control}
                 />
 
-                <CheckboxInput
-                  register={register("Weakness_Upper_Limbs_side")}
+                <CheckboxGroup
+                  name="Weakness_Upper_Limbs_side"
+                  row
+                  control={control}
                   options={["Right Limb", "Left Limb", "Both Limbs"]}
                 />
                 <Input
@@ -1180,13 +1216,16 @@ export default function PulmonologyIntake() {
                   Weakness Lower Limbs
                 </Typography>
 
-                <RadioButton
-                  register={register("Weakness_Lower_Limbs")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  name="Weakness_Lower_Limbs"
+                  control={control}
                 />
 
-                <CheckboxInput
-                  register={register("Weakness_Lower_Limbs_side")}
+                <CheckboxGroup
+                  name="Weakness_Lower_Limbs_side"
+                  row
+                  control={control}
                   options={["Right Limb", "Left Limb", "Both Limbs"]}
                 />
                 <Input
@@ -1214,13 +1253,16 @@ export default function PulmonologyIntake() {
                   Eye Pain:
                 </Typography>
 
-                <RadioButton
-                  register={register("Eye_pain")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  name="Eye_pain"
+                  control={control}
                 />
-                <CheckboxInput
-                  register={register("Eye_pain_side")}
+                <CheckboxGroup
+                  name="Eye_pain_side"
                   options={["Right", "Left", "Both"]}
+                  row
+                  control={control}
                 />
                 <Input
                   register={register("Eye_pain_details")}
@@ -1241,12 +1283,15 @@ export default function PulmonologyIntake() {
                   Eye Discharge:
                 </Typography>
 
-                <RadioButton
-                  register={register("Eye_discharge")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  name="Eye_discharge"
+                  control={control}
                 />
-                <CheckboxInput
-                  register={register("Eye_discharge_side")}
+                <CheckboxGroup
+                  name="Eye_discharge_side"
+                  row
+                  control={control}
                   options={["Right", "Left", "Both"]}
                 />
                 <Input
@@ -1268,12 +1313,15 @@ export default function PulmonologyIntake() {
                   Eye Swelling
                 </Typography>
 
-                <RadioButton
-                  register={register("Eye_swelling")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  name="Eye_swelling"
+                  control={control}
                 />
-                <CheckboxInput
-                  register={register("Eye_swelling_side")}
+                <CheckboxGroup
+                  name="Eye_swelling_side"
+                  row
+                  control={control}
                   options={["Right", "Left", "Both"]}
                 />
                 <Input
@@ -1295,12 +1343,15 @@ export default function PulmonologyIntake() {
                   Ear Pain:
                 </Typography>
 
-                <RadioButton
-                  register={register("Ear_pain")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  name="Ear_pain"
+                  control={control}
                 />
-                <CheckboxInput
-                  register={register("Ear_pain_side")}
+                <CheckboxGroup
+                  name="Ear_pain_side"
+                  row
+                  control={control}
                   options={["Right", "Left", "Both"]}
                 />
                 <Input
@@ -1321,12 +1372,15 @@ export default function PulmonologyIntake() {
                   Ear Discharge:
                 </Typography>
 
-                <RadioButton
-                  register={register("Ear_Discharge")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  name="Ear_Discharge"
+                  control={control}
                 />
-                <CheckboxInput
-                  register={register("Ear_Discharge_side")}
+                <CheckboxGroup
+                  name="Ear_Discharge_side"
+                  row
+                  control={control}
                   options={["Right", "Left", "Both", "Purulent", "Bloody"]}
                 />
                 <Input
@@ -1347,8 +1401,10 @@ export default function PulmonologyIntake() {
                   Other ENT Findings:
                 </Typography>
 
-                <CheckboxInput
-                  register={register("other_ENT")}
+                <CheckboxGroup
+                  name="other_ENT"
+                  row
+                  control={control}
                   options={[
                     "Sore throat",
                     "change in voice",
@@ -1382,8 +1438,10 @@ export default function PulmonologyIntake() {
                 Endocrinology Findings
               </Typography>
 
-              <CheckboxInput
-                register={register("Endocrinology")}
+              <CheckboxGroup
+                name="Endocrinology"
+                row
+                control={control}
                 options={[
                   "heat intolerance",
                   "apathy",
@@ -1430,9 +1488,10 @@ export default function PulmonologyIntake() {
                   Previous Surgery
                 </Typography>
 
-                <RadioButton
-                  register={register("Previous_surgery")}
+                <GroupedRadio
+                  control={control}
                   options={["Yes", "No"]}
+                  name="Previous_surgery"
                 />
                 <Input
                   register={register("Previous_surgery_details")}
@@ -1452,9 +1511,10 @@ export default function PulmonologyIntake() {
                   Previous Admission
                 </Typography>
 
-                <RadioButton
-                  register={register("Previous_admission")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Previous_admission"
                 />
                 <Input
                   register={register("Previous_admission_details")}
@@ -1474,9 +1534,10 @@ export default function PulmonologyIntake() {
                   Blood Transfusion
                 </Typography>
 
-                <RadioButton
-                  register={register("Blood_transfusion")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Blood_transfusion"
                 />
                 <Input
                   register={register("Blood_transfusion_details")}
@@ -1497,9 +1558,10 @@ export default function PulmonologyIntake() {
                   Diabetes
                 </Typography>
 
-                <RadioButton
-                  register={register("Diabetes")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Diabetes"
                 />
                 <Input
                   register={register("Diabetes_details")}
@@ -1519,8 +1581,9 @@ export default function PulmonologyIntake() {
                   Hypertension
                 </Typography>
 
-                <RadioButton
-                  register={register("Hypertension")}
+                <GroupedRadio
+                  control={control}
+                  name="Hypertension"
                   options={["Yes", "No"]}
                 />
                 <Input
@@ -1541,9 +1604,10 @@ export default function PulmonologyIntake() {
                   Sickcle Cell Disease
                 </Typography>
 
-                <RadioButton
-                  register={register("Sickcle_cell_disease")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Sickcle_cell_disease"
                 />
                 <Input
                   register={register("Sickcle_cell_disease_details")}
@@ -1564,9 +1628,10 @@ export default function PulmonologyIntake() {
                   Peptic Ulcer
                 </Typography>
 
-                <RadioButton
-                  register={register("Peptic_Ulcer")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  name="Peptic_Ulcer"
+                  control={control}
                 />
                 <Input
                   register={register("Peptic_Ulcer_details")}
@@ -1587,9 +1652,10 @@ export default function PulmonologyIntake() {
                   Seizure
                 </Typography>
 
-                <RadioButton
-                  register={register("Seizure")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  name="Seizure"
+                  control={control}
                 />
                 <Input
                   register={register("Seizure_details")}
@@ -1615,9 +1681,10 @@ export default function PulmonologyIntake() {
                   Pregnancy Term?
                 </Typography>
 
-                <RadioButton
-                  register={register("Pregnancy_term")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Pregnancy_term"
                 />
                 <Input
                   register={register("Pregnancy_details")}
@@ -1641,13 +1708,14 @@ export default function PulmonologyIntake() {
                   Birth
                 </Typography>
 
-                <RadioButton
-                  register={register("Birth")}
+                <GroupedRadio
                   options={[
                     "Spontenous varginal delivery",
                     "Elective Sureqery",
                     "Emergency Surgery",
                   ]}
+                  control={control}
+                  name="Birth"
                 />
               </Box>
 
@@ -1662,9 +1730,10 @@ export default function PulmonologyIntake() {
                   Crietd At Birth?
                 </Typography>
 
-                <RadioButton
-                  register={register("Birth_Cry")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Birth_Cry"
                 />
 
                 <Box mb={1.5}>
@@ -1697,9 +1766,10 @@ export default function PulmonologyIntake() {
                   Neonatal Admission
                 </Typography>
 
-                <RadioButton
-                  register={register("Neonatal_admission")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Neonatal_admission"
                 />
 
                 <Input
@@ -1726,9 +1796,11 @@ export default function PulmonologyIntake() {
                     Had Phototherapy?
                   </Typography>
 
-                  <RadioButton
+                  <GroupedRadio
                     register={register("phototherapy")}
                     options={["Yes", "No"]}
+                    name="phototherapy"
+                    control={control}
                   />
                 </Box>
 
@@ -1743,9 +1815,10 @@ export default function PulmonologyIntake() {
                     Exchange Blood Transfusion?
                   </Typography>
 
-                  <RadioButton
-                    register={register("Exchange_blood_transfusion")}
+                  <GroupedRadio
                     options={["Yes", "No"]}
+                    name="Exchange_blood_transfusion"
+                    control={control}
                   />
                 </Box>
 
@@ -1760,9 +1833,10 @@ export default function PulmonologyIntake() {
                     Received Oxygen?
                   </Typography>
 
-                  <RadioButton
-                    register={register("Received_Oxygen")}
+                  <GroupedRadio
                     options={["Yes", "No"]}
+                    name="Received_Oxygen"
+                    control={control}
                   />
                 </Box>
               </Box>
@@ -1784,9 +1858,10 @@ export default function PulmonologyIntake() {
                   Exclusive Breastfed
                 </Typography>
 
-                <RadioButton
-                  register={register("Exclusive_Breastfed")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Exclusive_Breastfed"
                 />
                 <Input
                   register={register("Breastfed_duration")}
@@ -1815,9 +1890,10 @@ export default function PulmonologyIntake() {
                   Fully Vacinated
                 </Typography>
 
-                <RadioButton
-                  register={register("Fully_vacinated")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Fully_vacinated"
                 />
               </Box>
 
@@ -1832,9 +1908,10 @@ export default function PulmonologyIntake() {
                   BCG Scar Seen
                 </Typography>
 
-                <RadioButton
-                  register={register("BCG_Scar")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  name="BCG_Scar"
+                  control={control}
                 />
               </Box>
 
@@ -1849,9 +1926,10 @@ export default function PulmonologyIntake() {
                   Vaccination History
                 </Typography>
 
-                <RadioButton
-                  register={register("Vaccination_history")}
+                <GroupedRadio
+                  name="Vaccination_history"
                   options={["caregiver's report", "child health card"]}
+                  control={control}
                 />
               </Box>
             </Box>
@@ -1872,9 +1950,10 @@ export default function PulmonologyIntake() {
                   Had Delayed Developmental Milestones?
                 </Typography>
 
-                <RadioButton
-                  register={register("Delayed_milestones")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Delayed_milestones"
                 />
 
                 <Input
@@ -1947,9 +2026,10 @@ export default function PulmonologyIntake() {
                   Pallor
                 </Typography>
 
-                <RadioButton
-                  register={register("Pallor")}
+                <GroupedRadio
                   options={["Yes", "No"]}
+                  name="Pallor"
+                  control={control}
                 />
               </Box>
 
@@ -1964,9 +2044,11 @@ export default function PulmonologyIntake() {
                   Febrile
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Febrile")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Febrile"
                 />
               </Box>
 
@@ -1981,9 +2063,11 @@ export default function PulmonologyIntake() {
                   Cyanosed
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Cyanosed")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Cyanosed"
                 />
               </Box>
 
@@ -1998,9 +2082,11 @@ export default function PulmonologyIntake() {
                   Icteric
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Icteric")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Icteric"
                 />
               </Box>
 
@@ -2015,9 +2101,11 @@ export default function PulmonologyIntake() {
                   Lyphm Node Enlargement
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Lyphm_node_enlargement")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Lyphm_node_enlargement"
                 />
                 <Input
                   register={register("Lyphm_node_enlargements_detail")}
@@ -2037,9 +2125,11 @@ export default function PulmonologyIntake() {
                   Temperature
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Temperature")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Temperature"
                 />
                 <Input
                   register={register("input_name")}
@@ -2060,9 +2150,11 @@ export default function PulmonologyIntake() {
                   Pedal Edema
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Pedal_edema")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Pedal_edema"
                 />
                 <Input
                   register={register("Pedal_edema_detail")}
@@ -2101,9 +2193,11 @@ export default function PulmonologyIntake() {
                   Fast Breathing
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Fast_breathing")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Fast_breathing"
                 />
               </Box>
 
@@ -2118,9 +2212,11 @@ export default function PulmonologyIntake() {
                   Dyspneic
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Dyspneic")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Dyspneic"
                 />
               </Box>
 
@@ -2135,9 +2231,11 @@ export default function PulmonologyIntake() {
                   Respiratory Distress
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Respiratory_distress")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Respiratory_distress"
                 />
                 <Input
                   register={register("Respiratory_distress_evidence")}
@@ -2157,9 +2255,11 @@ export default function PulmonologyIntake() {
                   Lower Chest Wall Indrawing
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Lower_chest_wall_indrawing")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Lower_chest_wall_indrawing"
                 />
               </Box>
 
@@ -2174,9 +2274,11 @@ export default function PulmonologyIntake() {
                   Audible Wheeze
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Audible_wheeze")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Audible_wheeze"
                 />
               </Box>
 
@@ -2191,9 +2293,11 @@ export default function PulmonologyIntake() {
                   Chest Symetrical
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Chest_symetrical")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Chest_symetrical"
                 />
               </Box>
 
@@ -2208,9 +2312,11 @@ export default function PulmonologyIntake() {
                   Equal Chest Expansion
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Equal_chest_expansion")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Equal_chest_expansion"
                 />
               </Box>
 
@@ -2225,9 +2331,11 @@ export default function PulmonologyIntake() {
                   Trachea Central
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Trachea_central")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Trachea_central"
                 />
               </Box>
 
@@ -2242,9 +2350,11 @@ export default function PulmonologyIntake() {
                   Percussion Note
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Percussion_note")}
                   options={["dull", "resonant", "hyper-resonant"]}
+                  control={control}
+                  name="Percussion_note"
                 />
               </Box>
 
@@ -2273,10 +2383,12 @@ export default function PulmonologyIntake() {
               </Box>
 
               <Box>
-                <RadioButton
+                <GroupedRadio
                   title="Crackles"
                   register={register("Ausc_Crackles")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Ausc_Crackles"
                 />
                 <Input
                   register={register("Ausc_Crackles_detail")}
@@ -2286,10 +2398,12 @@ export default function PulmonologyIntake() {
               </Box>
 
               <Box>
-                <RadioButton
+                <GroupedRadio
                   title="Stridor"
                   register={register("Ausc_Stridor")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Ausc_Stridor"
                 />
                 <Input
                   register={register("Ausc_Stridor_detail")}
@@ -2300,10 +2414,12 @@ export default function PulmonologyIntake() {
               </Box>
 
               <Box>
-                <RadioButton
+                <GroupedRadio
                   title="Wheeze"
                   register={register("Ausc_Wheeze")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Ausc_Wheeze"
                 />
                 <Input
                   register={register("Ausc_Wheeze_detail")}
@@ -2340,8 +2456,10 @@ export default function PulmonologyIntake() {
                   Pulse Character
                 </Typography>
 
-                <CheckboxInput
-                  register={register("Pulse_Character")}
+                <CheckboxGroup
+                  name="Pulse_Character"
+                  row
+                  control={control}
                   options={[
                     "Regular",
                     "Irregular",
@@ -2364,9 +2482,11 @@ export default function PulmonologyIntake() {
                 >
                   Jugular Vein Distended
                 </Typography>
-                <RadioButton
+                <GroupedRadio
                   register={register("Jugular_Vein_distended")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Jugular_Vein_distended"
                 />
               </Box>
 
@@ -2381,9 +2501,11 @@ export default function PulmonologyIntake() {
                   Precordium Hyperactive
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Precordium_hyperactive")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Precordium_hyperactive"
                 />
               </Box>
 
@@ -2415,9 +2537,11 @@ export default function PulmonologyIntake() {
                   Apex Beat Displaced?
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Apex_beat_displaced")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Apex_beat_displaced"
                 />
               </Box>
 
@@ -2432,9 +2556,11 @@ export default function PulmonologyIntake() {
                   Apex Beat Located?
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Apex_beat_located")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Apex_beat_located"
                 />
               </Box>
 
@@ -2449,9 +2575,11 @@ export default function PulmonologyIntake() {
                   Thrills
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Thrills")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Thrills"
                 />
               </Box>
 
@@ -2465,8 +2593,10 @@ export default function PulmonologyIntake() {
                 >
                   Heart Sound
                 </Typography>
-                <CheckboxInput
-                  register={register("Heart_Sound")}
+                <CheckboxGroup
+                  name="Heart_Sound"
+                  row
+                  control={control}
                   options={["S1", "S2", "S3", "S4"]}
                 />
                 <Input
@@ -2488,9 +2618,11 @@ export default function PulmonologyIntake() {
                   Murmur
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Murmur")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Murmur"
                 />
                 <Input
                   register={register("Murmur_description")}
@@ -2518,8 +2650,10 @@ export default function PulmonologyIntake() {
                 >
                   Abdomen
                 </Typography>
-                <CheckboxInput
-                  register={register("Abdomen")}
+                <CheckboxGroup
+                  name="Abdomen"
+                  row
+                  control={control}
                   options={[
                     "Full",
                     "Distended",
@@ -2541,9 +2675,11 @@ export default function PulmonologyIntake() {
                   Abdominal Tenderness
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Abdominal_tenderness")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Abdominal_tenderness"
                 />
                 <Input
                   register={register("Abdominal_tenderness_details")}
@@ -2563,9 +2699,11 @@ export default function PulmonologyIntake() {
                 >
                   Liver Enlarged
                 </Typography>
-                <RadioButton
+                <GroupedRadio
                   register={register("Liver_enlarged")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Liver_enlarged"
                 />
                 <Input
                   register={register("Liver_enlarged_details")}
@@ -2585,9 +2723,11 @@ export default function PulmonologyIntake() {
                 >
                   Kidney Enlarged
                 </Typography>
-                <RadioButton
+                <GroupedRadio
                   register={register("Kidney_enlarged")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Kidney_enlarged"
                 />
                 <Input
                   register={register("Kidney_enlarged_details")}
@@ -2608,9 +2748,11 @@ export default function PulmonologyIntake() {
                   Spleen Enlarged
                 </Typography>
 
-                <RadioButton
+                <GroupedRadio
                   register={register("Spleen_enlarged")}
                   options={["Yes", "No"]}
+                  control={control}
+                  name="Spleen_enlarged"
                 />
                 <Input
                   register={register("Spleen_enlarged_details")}
@@ -2630,7 +2772,7 @@ export default function PulmonologyIntake() {
                 >
                   Bowel Sound
                 </Typography>
-                <RadioButton
+                <GroupedRadio
                   register={register("Bowel_Sound")}
                   options={[
                     "Normal",
@@ -2638,6 +2780,8 @@ export default function PulmonologyIntake() {
                     "Hyperactive",
                     "Reduced or Hypoactive",
                   ]}
+                  control={control}
+                  name="Bowel_Sound"
                 />
               </Box>
             </Box>
@@ -3396,6 +3540,7 @@ export default function PulmonologyIntake() {
                 color="secondary"
                 variant="contained"
                 type="submit"
+                onClick={() => setConfirmationDialog(true)}
               >
                 Submit Pulmonology
               </GlobalCustomButton>

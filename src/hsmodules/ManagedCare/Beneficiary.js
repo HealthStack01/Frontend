@@ -54,6 +54,10 @@ import GlobalCustomButton from '../../components/buttons/CustomButton';
 import SaveIcon from '@mui/icons-material/Save';
 import Policy from './Policy';
 import { FormsHeaderText } from '../../components/texts';
+import { styled } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import Typography from '@mui/material/Typography';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -68,13 +72,11 @@ export default function Beneficiary() {
 
   return (
     <section className="section remPadTop">
-      <ClientList showModal={showModal} setShowModal={setShowModal} />
-      {/* {state.ClientModule.show === 'create' && <BeneficiaryCreate />} */}
-      {showModal === 1 && (
-        <ModalBox open onClose={() => setShowModal(false)}>
-          <ClientDetail setShowModal={setShowModal3} />
-        </ModalBox>
+      {showModal === 0 && (
+        <ClientList showModal={showModal} setShowModal={setShowModal} />
       )}
+      {/* {state.ClientModule.show === 'create' && <BeneficiaryCreate />} */}
+      {showModal === 1 && <ClientDetail setShowModal={setShowModal} />}
       {showModal === 2 && (
         <ModalBox open onClose={() => setShowModal(false)}>
           <BeneficiaryCreate openCreate={setShowModal2} />
@@ -85,10 +87,8 @@ export default function Beneficiary() {
           <ClientCreate />
         </ModalBox>
       )}
-      {showModal3 && (
-        <ModalBox open={showModal3} onClose={() => setShowModal3(false)}>
-          <ClientModify showModal={showModal3} setShowModal={setShowModal3} />
-        </ModalBox>
+      {showModal === 3 && (
+        <ClientModify showModal={showModal3} setShowModal={setShowModal} />
       )}
     </section>
   );
@@ -1528,31 +1528,38 @@ export function ClientList({ showModal, setShowModal }) {
 
   return (
     <>
-      <div className="level">
-        <PageWrapper
-          style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
-        >
-          <TableMenu>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              {handleSearch && (
-                <div className="inner-table">
-                  <FilterMenu onSearch={handleSearch} />
-                </div>
-              )}
-              <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
-                List of Beneficiary
-              </h2>
+      <div
+        className="level"
+        style={{
+          width: '98%',
+          margin: '0 1rem',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {handleSearch && (
+            <div className="inner-table">
+              <FilterMenu onSearch={handleSearch} />
             </div>
-            {handleCreateNew && (
-              <Button
-                style={{ fontSize: '14px', fontWeight: '600px' }}
-                label="Add New"
-                onClick={handleCreateNew}
-                showicon={true}
-              />
-            )}
-          </TableMenu>
-
+          )}
+          <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
+            List of Beneficiary
+          </h2>
+        </div>
+        {handleCreateNew && (
+          <Button
+            style={{ fontSize: '14px', fontWeight: '600px' }}
+            label="Add New"
+            onClick={handleCreateNew}
+            showicon={true}
+          />
+        )}
+        <div
+          className="level"
+          style={{
+            height: '80vh',
+            overflowY: 'scroll',
+          }}
+        >
           <CustomTable
             title={''}
             columns={BeneficiarySchema}
@@ -1563,7 +1570,7 @@ export function ClientList({ showModal, setShowModal }) {
             onRowClicked={handleRow}
             progressPending={loading}
           />
-        </PageWrapper>
+        </div>
       </div>
     </>
   );
@@ -1571,11 +1578,7 @@ export function ClientList({ showModal, setShowModal }) {
 
 export function ClientDetail({ showModal, setShowModal }) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
-  // eslint-disable-next-line
-  // const history = useHistory();
-  // eslint-disable-next-line
-  // let { path, url } = useRouteMatch();
-  // eslint-disable-next-line
+
   const [error, setError] = useState(false); //,
   const [finacialInfoModal, setFinacialInfoModal] = useState(false);
   const [billingModal, setBillingModal] = useState(false);
@@ -1588,6 +1591,18 @@ export function ClientDetail({ showModal, setShowModal }) {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
+  const [imgSrc, setImgSrc] = useState(
+    'https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg'
+  );
+  const [editing, setEditing] = useState(false);
+  const onChange = (file) => {
+    const reader = new FileReader();
+    const { files } = file.target;
+    if (files && files.length !== 0) {
+      reader.onload = () => setImgSrc(reader.result);
+      reader.readAsDataURL(files[0]);
+    }
+  };
 
   let Client = state.ClientModule.selectedClient;
 
@@ -1604,7 +1619,7 @@ export function ClientDetail({ showModal, setShowModal }) {
       ClientModule: newClientModule,
     }));
     //console.log(state)
-    setShowModal(true);
+    setShowModal(3);
   };
 
   const handleFinancialInfo = () => {
@@ -1637,12 +1652,12 @@ export function ClientDetail({ showModal, setShowModal }) {
     setBillModal(false);
   };
 
-  /*  useEffect(() => {
-        Client =state.ClientModule.selectedClient
-        return () => {
-           
-        }
-    }, [billingModal]) */
+  const ImgStyled = styled('img')(({ theme }) => ({
+    width: 150,
+    height: 150,
+    marginRight: theme.spacing(6.25),
+    borderRadius: theme.shape.borderRadius,
+  }));
   return (
     <>
       <div
@@ -1650,24 +1665,34 @@ export function ClientDetail({ showModal, setShowModal }) {
         style={{
           height: 'auto',
           overflowY: 'scroll',
-          width: '50vw',
-          margin: '0 auto',
+          width: '98%',
+          margin: '0 1rem',
         }}
       >
-        <Grid container>
-          <Grid item xs={12} sm={12} md={4}>
-            <ModalHeader text={'Beneficiary Details'} />
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={12}
-            sx={{ display: 'flex', justifyContent: 'flex-end' }}
-            my={1}
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <ModalHeader text={'Beneficiary Details'} />
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+            }}
           >
+            <Button
+              onClick={() => setShowModal(0)}
+              variant="contained"
+              size="small"
+              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
+              color="warning"
+            >
+              Back
+            </Button>
             <Button
               onClick={handleEdit}
               variant="contained"
@@ -1721,154 +1746,140 @@ export function ClientDetail({ showModal, setShowModal }) {
             >
               Schedule Appointment
             </Button>
-            {/* <Button
-              onClick={() => navigate('/app/beneficiary/documentation')}
-              variant="outlined"
-              size="small"
-              sx={{ textTransform: 'capitalize' }}
-            >
-              View History
-            </Button> */}
+          </Box>
+        </Box>
 
-            {/* {(user.currentEmployee?.roles.includes('Bill Client') ||
-              user.currentEmployee?.roles.length === 0 ||
-              user.stacker) && (
-              <button
-                className="button is-success is-small btnheight mt-2"
-                onClick={showBilling}
-                style={{
-                  border: 'none',
-                  backgroundColor: '#48c774',
-                  padding: ' .5rem 1rem',
-                  marginLeft: '.5rem',
-                  cursor: 'pointer',
-                  color: 'white',
-                  float: 'right',
-                }}
-              >
-                Bill Client
-              </button>
-            )} */}
-          </Grid>
-        </Grid>
         {display === 1 && (
-          <Grid container spacing={1} mt={1}>
-            <Grid item md={4}>
-              <Input label="First Name" value={Client?.firstname} disabled />
+          <>
+            <Box sx={{ position: 'relative' }}>
+              <ImgStyled src={imgSrc} alt="Profile Pic" />
+            </Box>
+            <Grid container spacing={1} mt={1}>
+              <Grid item md={4}>
+                <Input label="First Name" value={Client?.firstname} disabled />
+              </Grid>
+              <Grid item md={4}>
+                <Input
+                  label="Middle Name"
+                  value={Client?.middlename}
+                  disabled
+                />
+              </Grid>
+              <Grid item md={4}>
+                <Input label="Last Name" value={Client?.lastname} disabled />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input
+                  label="Date of Birth"
+                  value={new Date(Client?.dob).toLocaleDateString('en-GB')}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input label="Gender" value={Client?.gender} disabled />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input
+                  label="Marital Status"
+                  value={Client?.maritalstatus}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input
+                  label="Medical Records Number"
+                  value={Client?.mrn}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input label="Religion" value={Client?.religion} disabled />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input label="Profession" value={Client?.profession} disabled />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input label="Phone Number" value={Client?.phone} disabled />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input label="Email" value={Client?.email} disabled />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input label="Address" value={Client?.address} disabled />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input label="Town/City" value={Client?.city} disabled />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input label="LGA" value={Client?.lga} disabled />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input label="State" value={Client?.state} disabled />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input label="Country" value={Client?.country} disabled />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input
+                  label="Blood Group"
+                  value={Client?.bloodgroup}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input label="Genotype" value={Client?.genotype} disable d />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input
+                  label="Disabilities"
+                  value={Client?.disabilities}
+                  disable
+                  d
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input label="Allergies" value={Client?.allergies} disabled />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input label="Tags" value={Client?.clientTags} disabled />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input
+                  label="Specific Details"
+                  value={Client?.specificDetails}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input
+                  label="Next of Kin Name"
+                  value={Client?.nok_name}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input
+                  label="Next of Kin Phone"
+                  value={Client?.nok_phoneno}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input
+                  label="Next of Kin Email"
+                  value={Client?.nok_email}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Input
+                  label="NOK Relationship"
+                  value={Client?.nok_relationship}
+                  disabled
+                />
+              </Grid>
             </Grid>
-            <Grid item md={4}>
-              <Input label="Middle Name" value={Client?.middlename} disabled />
-            </Grid>
-            <Grid item md={4}>
-              <Input label="Last Name" value={Client?.lastname} disabled />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input
-                label="Date of Birth"
-                value={new Date(Client?.dob).toLocaleDateString('en-GB')}
-                disabled
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input label="Gender" value={Client?.gender} disabled />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input
-                label="Marital Status"
-                value={Client?.maritalstatus}
-                disabled
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input
-                label="Medical Records Number"
-                value={Client?.mrn}
-                disabled
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input label="Religion" value={Client?.religion} disabled />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input label="Profession" value={Client?.profession} disabled />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input label="Phone Number" value={Client?.phone} disabled />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input label="Email" value={Client?.email} disabled />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input label="Address" value={Client?.address} disabled />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input label="Town/City" value={Client?.city} disabled />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input label="LGA" value={Client?.lga} disabled />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input label="State" value={Client?.state} disabled />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input label="Country" value={Client?.country} disabled />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input label="Blood Group" value={Client?.bloodgroup} disabled />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input label="Genotype" value={Client?.genotype} disable d />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input
-                label="Disabilities"
-                value={Client?.disabilities}
-                disable
-                d
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input label="Allergies" value={Client?.allergies} disabled />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input label="Tags" value={Client?.clientTags} disabled />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input
-                label="Specific Details"
-                value={Client?.specificDetails}
-                disabled
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input
-                label="Next of Kin Name"
-                value={Client?.nok_name}
-                disabled
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input
-                label="Next of Kin Phone"
-                value={Client?.nok_phoneno}
-                disabled
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input
-                label="Next of Kin Email"
-                value={Client?.nok_email}
-                disabled
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Input
-                label="NOK Relationship"
-                value={Client?.nok_relationship}
-                disabled
-              />
-            </Grid>
-          </Grid>
+          </>
         )}
         {display === 2 && <Claims />}
         {display === 3 && <GeneralAppointments />}
@@ -1919,6 +1930,18 @@ export function ClientModify({ showModal, setShowModal }) {
   // eslint-disable-next-line
   const { user } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
+  const [imgSrc, setImgSrc] = useState(
+    'https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg'
+  );
+  const [editing, setEditing] = useState(false);
+  const onChange = (file) => {
+    const reader = new FileReader();
+    const { files } = file.target;
+    if (files && files.length !== 0) {
+      reader.onload = () => setImgSrc(reader.result);
+      reader.readAsDataURL(files[0]);
+    }
+  };
 
   const Client = state.ClientModule.selectedClient;
 
@@ -2117,215 +2140,229 @@ export function ClientModify({ showModal, setShowModal }) {
         });
       });
   };
+  const ImgStyled = styled('img')(({ theme }) => ({
+    width: 150,
+    height: 150,
+    marginRight: theme.spacing(6.25),
+    borderRadius: theme.shape.borderRadius,
+  }));
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {/* Names Section */}
-        <ModalHeader text={'Modify Beneficiary'} />
-
-        <Box sx={{ width: '80vw', maxHeight: '80vh' }} mt={1}>
-          <Grid container spacing={1}>
-            <Grid item lg={3} md={4} sm={6}>
-              <Input
-                label="First Name"
-                register={register('firstname')}
-                // errorText={errors?.firstname?.message}
-              />
-            </Grid>
-            <Grid item lg={3} md={4} sm={6}>
-              <Input
-                label="Middle Name"
-                register={register('middlename')}
-                // errorText={errors?.middlename?.message}
-              />
-            </Grid>
-            <Grid item lg={3} md={4} sm={6}>
-              <Input
-                label="Last Name"
-                register={register('lastname')}
-                // errorText={errors?.lastname?.message}
-              />
-            </Grid>
-            <Grid item lg={3} md={4} sm={6}>
-              <Input
-                label="Phone"
-                register={register('phone')}
-                type="tel"
-                // errorText={errors?.phone?.message}
-              />
-            </Grid>
-            <Grid item lg={3} md={4} sm={6}>
-              <Input
-                label="Email"
-                register={register('email')}
-                type="email"
-                // errorText={errors?.email?.message}
-              />
-            </Grid>
-            <Grid item lg={3} md={4} sm={6}>
-              <BasicDatePicker
-                label="dob"
-                register={register('dob')}
-                // errorText={errors?.dob?.message}
-              />
-            </Grid>
-            <Grid item lg={3} md={4} sm={6}>
-              <CustomSelect
-                label="Gender"
-                register={register('gender', { required: true })}
-                options={[
-                  { label: 'Male', value: 'MALE' },
-                  { label: 'Female', value: 'FEMALE' },
-                ]}
-                // errorText={errors?.gender?.message}
-              />
-            </Grid>
-            <Grid item lg={3} md={4} sm={6}>
-              <CustomSelect
-                label="Marital Status"
-                register={register('maritalstatus')}
-                options={[
-                  { label: 'Single', value: 'SINGLE' },
-                  { label: 'Married', value: 'MARRRIED' },
-                  { label: 'Divorced', value: 'DIVORCED' },
-                  { label: 'Widowed', value: 'WIDOWED' },
-                ]}
-              />
-            </Grid>
-            <Grid item lg={2} md={4} sm={6}>
-              <Input label="Medical record Number" register={register('mrn')} />
-            </Grid>
-            <Grid item lg={2} md={4} sm={6}>
-              <Input label="Religion" register={register('religion')} />
-            </Grid>
-            <Grid item lg={2} md={4} sm={6}>
-              <Input label="Profession" register={register('profession')} />
-            </Grid>
-            <Grid item lg={6} md={6} sm={12}>
-              <Input label="Tags" register={register('clientTags')} />
-            </Grid>
-
-            <Grid item lg={6} md={6} sm={12}>
-              <Input
-                label="Residential Address"
-                register={register('address')}
-              />
-            </Grid>
-            <Grid item lg={3} md={4} sm={6}>
-              <Input label="Town" register={register('city')} />
-            </Grid>
-            <Grid item lg={3} md={4} sm={6}>
-              <Input label="State" register={register('state')} />
-            </Grid>
-            <Grid item lg={3} md={4} sm={6}>
-              <Input label="Country" register={register('country')} />
-            </Grid>
-            <Grid item xs={12}>
-              <FormsHeaderText text="Client Medical Data" />
-            </Grid>
-            <Grid item lg={2} md={4} sm={6}>
-              <Input label="Blood Group" register={register('bloodgroup')} />
-            </Grid>
-            <Grid item lg={2} md={4} sm={6}>
-              <Input label="Genotype" register={register('genotype')} />
-            </Grid>
-
-            <Grid item lg={2} md={4} sm={6}>
-              <Input label="Disabilities" register={register('disabilities')} />
-            </Grid>
-
-            <Grid item lg={2} md={4} sm={6}>
-              <Input label="Allergies" register={register('allergies')} />
-            </Grid>
-            <Grid item xs={12}>
-              <FormsHeaderText text="Client Next of Kin Information" />
-            </Grid>
-            <Grid item lg={6} md={6} sm={12}>
-              <Input label="Full Name" register={register('nok_name')} />
-            </Grid>
-            <Grid item lg={2} md={4} sm={6}>
-              <Input label="Phone Number" register={register('nok_phoneno')} />
-            </Grid>
-            <Grid item lg={2} md={4} sm={6}>
-              <Input
-                label=" Email"
-                register={register('nok_email')}
-                type="email"
-              />
-            </Grid>
-            <Grid item lg={2} md={4} sm={6}>
-              <Input
-                label="Relationship"
-                register={register('nok_relationship')}
-              />
-            </Grid>
-            <Grid item lg={6} md={6} sm={12}>
-              <Input
-                label="Co-mobidities"
-                register={register('comorbidities')}
-              />
-            </Grid>
-          </Grid>
-
-          <Box
-            sx={{
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'flex-end',
-            }}
-          >
-            <GlobalCustomButton
-              color="warning"
-              onClick={() => setOpen(false)}
-              sx={{ marginRight: '15px' }}
+      <div style={{ width: '98%', margin: '0 1rem' }}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {/* Names Section */}
+          <ModalHeader text={'Modify Beneficiary'} />
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Box
+              sx={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'flex-end',
+              }}
             >
-              Cancel
-            </GlobalCustomButton>
+              <GlobalCustomButton
+                color="warning"
+                onClick={() => setShowModal(1)}
+                sx={{ marginRight: '15px' }}
+              >
+                Back
+              </GlobalCustomButton>
 
-            <GlobalCustomButton
-              type="submit"
-              loading={loading}
-              onClick={handleSubmit(onSubmit)}
-            >
-              <SaveIcon fontSize="small" sx={{ marginRight: '5px' }} />
-              Save
-            </GlobalCustomButton>
+              <GlobalCustomButton
+                type="submit"
+                loading={loading}
+                onClick={handleSubmit(onSubmit)}
+              >
+                <SaveIcon fontSize="small" sx={{ marginRight: '5px' }} />
+                Save
+              </GlobalCustomButton>
+            </Box>
           </Box>
-        </Box>
-        {/* <BottomWrapper>
-            <Button
-              variant="contained"
-              size="small"
-              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
-              color="error"
-              onClick={() => setShowModal(false)}
-            >
-              {' '}
-              Close{' '}
-            </Button>
-            <Button
-              type="submit"
-              variant="contained"
-              size="small"
-              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
-              color="success"
-            >
-              {' '}
-              Save{' '}
-            </Button>
-            <Button
-              onClick={() => handleDelete()}
-              variant="contained"
-              size="small"
-              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
-              color="warning"
-            >
-              {' '}
-              Delete{' '}
-            </Button>
-          </BottomWrapper> */}
-      </form>
+
+          <Box sx={{ width: '80vw', maxHeight: '80vh' }} mt={1}>
+            <Box sx={{ position: 'relative' }} mb={2}>
+              <ImgStyled src={imgSrc} alt="Profile Pic" />
+              <Box
+                sx={{
+                  position: 'absolute',
+                  left: '7rem',
+                  bottom: '-4px',
+                  backgroundColor: '#0E214D',
+                  padding: '2px',
+                  borderRadius: '100%',
+                }}
+              >
+                <IconButton
+                  color="primary"
+                  aria-label="upload picture"
+                  component="label"
+                >
+                  <input
+                    hidden
+                    accept="image/png, image/jpeg"
+                    id="account-settings-upload-image"
+                    type="file"
+                    onChange={onChange}
+                  />
+                  <ModeEditOutlineIcon />
+                </IconButton>
+              </Box>
+            </Box>
+            <Grid container spacing={1}>
+              <Grid item lg={3} md={4} sm={6}>
+                <Input
+                  label="First Name"
+                  register={register('firstname')}
+                  // errorText={errors?.firstname?.message}
+                />
+              </Grid>
+              <Grid item lg={3} md={4} sm={6}>
+                <Input
+                  label="Middle Name"
+                  register={register('middlename')}
+                  // errorText={errors?.middlename?.message}
+                />
+              </Grid>
+              <Grid item lg={3} md={4} sm={6}>
+                <Input
+                  label="Last Name"
+                  register={register('lastname')}
+                  // errorText={errors?.lastname?.message}
+                />
+              </Grid>
+              <Grid item lg={3} md={4} sm={6}>
+                <Input
+                  label="Phone"
+                  register={register('phone')}
+                  type="tel"
+                  // errorText={errors?.phone?.message}
+                />
+              </Grid>
+              <Grid item lg={3} md={4} sm={6}>
+                <Input
+                  label="Email"
+                  register={register('email')}
+                  type="email"
+                  // errorText={errors?.email?.message}
+                />
+              </Grid>
+              <Grid item lg={3} md={4} sm={6}>
+                <BasicDatePicker
+                  label="dob"
+                  register={register('dob')}
+                  // errorText={errors?.dob?.message}
+                />
+              </Grid>
+              <Grid item lg={3} md={4} sm={6}>
+                <CustomSelect
+                  label="Gender"
+                  register={register('gender', { required: true })}
+                  options={[
+                    { label: 'Male', value: 'MALE' },
+                    { label: 'Female', value: 'FEMALE' },
+                  ]}
+                  // errorText={errors?.gender?.message}
+                />
+              </Grid>
+              <Grid item lg={3} md={4} sm={6}>
+                <CustomSelect
+                  label="Marital Status"
+                  register={register('maritalstatus')}
+                  options={[
+                    { label: 'Single', value: 'SINGLE' },
+                    { label: 'Married', value: 'MARRRIED' },
+                    { label: 'Divorced', value: 'DIVORCED' },
+                    { label: 'Widowed', value: 'WIDOWED' },
+                  ]}
+                />
+              </Grid>
+              <Grid item lg={2} md={4} sm={6}>
+                <Input
+                  label="Medical record Number"
+                  register={register('mrn')}
+                />
+              </Grid>
+              <Grid item lg={2} md={4} sm={6}>
+                <Input label="Religion" register={register('religion')} />
+              </Grid>
+              <Grid item lg={2} md={4} sm={6}>
+                <Input label="Profession" register={register('profession')} />
+              </Grid>
+              <Grid item lg={6} md={6} sm={12}>
+                <Input label="Tags" register={register('clientTags')} />
+              </Grid>
+
+              <Grid item lg={6} md={6} sm={12}>
+                <Input
+                  label="Residential Address"
+                  register={register('address')}
+                />
+              </Grid>
+              <Grid item lg={3} md={4} sm={6}>
+                <Input label="Town" register={register('city')} />
+              </Grid>
+              <Grid item lg={3} md={4} sm={6}>
+                <Input label="State" register={register('state')} />
+              </Grid>
+              <Grid item lg={3} md={4} sm={6}>
+                <Input label="Country" register={register('country')} />
+              </Grid>
+              <Grid item xs={12}>
+                <FormsHeaderText text="Client Medical Data" />
+              </Grid>
+              <Grid item lg={2} md={4} sm={6}>
+                <Input label="Blood Group" register={register('bloodgroup')} />
+              </Grid>
+              <Grid item lg={2} md={4} sm={6}>
+                <Input label="Genotype" register={register('genotype')} />
+              </Grid>
+
+              <Grid item lg={2} md={4} sm={6}>
+                <Input
+                  label="Disabilities"
+                  register={register('disabilities')}
+                />
+              </Grid>
+
+              <Grid item lg={2} md={4} sm={6}>
+                <Input label="Allergies" register={register('allergies')} />
+              </Grid>
+              <Grid item xs={12}>
+                <FormsHeaderText text="Client Next of Kin Information" />
+              </Grid>
+              <Grid item lg={6} md={6} sm={12}>
+                <Input label="Full Name" register={register('nok_name')} />
+              </Grid>
+              <Grid item lg={2} md={4} sm={6}>
+                <Input
+                  label="Phone Number"
+                  register={register('nok_phoneno')}
+                />
+              </Grid>
+              <Grid item lg={2} md={4} sm={6}>
+                <Input
+                  label=" Email"
+                  register={register('nok_email')}
+                  type="email"
+                />
+              </Grid>
+              <Grid item lg={2} md={4} sm={6}>
+                <Input
+                  label="Relationship"
+                  register={register('nok_relationship')}
+                />
+              </Grid>
+              <Grid item lg={6} md={6} sm={12}>
+                <Input
+                  label="Co-mobidities"
+                  register={register('comorbidities')}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        </form>
+      </div>
     </>
   );
 }

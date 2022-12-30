@@ -5,7 +5,7 @@ import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
+import { toast } from 'react-toastify';
 //import {ProductCreate} from './Products'
 import Encounter from '../Documentation/Documentation';
 import ServiceSearch from '../helpers/ServiceSearch';
@@ -151,13 +151,9 @@ export default function DischargeCreate() {
           // console.log(contract[0].price)
           await setSellingPrice(contract[0].price);
         } else {
-          toast({
-            message:
-              'Please NHIS does not have cover/price for this service. Either set service price for NHIS, try another service or bill using cash',
-            type: 'is-danger',
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.info(
+            'Please NHIS does not have cover/price for this service. Either set service price for NHIS, try another service or bill using cash'
+          );
           await setSellingPrice(0);
         }
       } else {
@@ -168,13 +164,9 @@ export default function DischargeCreate() {
           // console.log(contract[0].price)
           await setSellingPrice(contract[0].price);
         } else {
-          toast({
-            message:
-              'Please HMO does not have cover/price for this service. Either set service price for HMO , try another drug, bill using cash or adjust amount ',
-            type: 'is-danger',
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.info(
+            'Please HMO does not have cover/price for this service. Either set service price for HMO , try another drug, bill using cash or adjust amount '
+          );
           await setSellingPrice(0);
         }
       }
@@ -188,13 +180,9 @@ export default function DischargeCreate() {
         // console.log(contract[0].price)
         await setSellingPrice(contract[0].price);
       } else {
-        toast({
-          message:
-            'Please company does not have cover/price for this service. Either set service price for Company or try another drug or bill using cash',
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.info(
+          'Please company does not have cover/price for this service. Either set service price for Company or try another drug or bill using cash'
+        );
         await setSellingPrice(0);
       }
     }
@@ -205,13 +193,9 @@ export default function DischargeCreate() {
         // console.log(contract[0].price)
         await setSellingPrice(contract[0].price);
       } else {
-        toast({
-          message:
-            'Please there is no cover/price for this service. Either set service price or try another service. Setting price at zero ',
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.info(
+          'Please there is no cover/price for this service. Either set service price or try another service. Setting price at zero '
+        );
         await setSellingPrice(0);
       }
     }
@@ -280,12 +264,7 @@ export default function DischargeCreate() {
       productId === '' ||
       paymentmode === ''
     ) {
-      toast({
-        message: 'You need to choose a product and quantity to proceed',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.info('You need to choose a product and quantity to proceed');
       return;
     }
 
@@ -502,12 +481,7 @@ export default function DischargeCreate() {
         // e.target.reset();
         /*  setMessage("Created Clinic successfully") */
         setSuccess(true);
-        toast({
-          message: 'Discharge successfull',
-          type: 'is-success',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success('Discharge successfull');
         setSuccess(false);
         setChosenBed();
         setBedObject();
@@ -522,12 +496,7 @@ export default function DischargeCreate() {
         medication = '';
       })
       .catch((err) => {
-        toast({
-          message: 'Error creating Discharge ' + err,
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error('Error creating Discharge ' + err);
       });
   };
 
@@ -556,24 +525,14 @@ export default function DischargeCreate() {
     if (user.currentEmployee) {
       productEntry.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     } else {
-      toast({
-        message: 'You can not remove inventory from any organization',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.warning('You can not remove inventory from any organization');
       return;
     }
 
     if (state.StoreModule.selectedStore._id) {
       productEntry.storeId = state.StoreModule.selectedStore._id;
     } else {
-      toast({
-        message: 'You need to select a store before removing inventory',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.info('You need to select a store before removing inventory');
       return;
     }
   };
@@ -692,12 +651,7 @@ export default function DischargeCreate() {
         console.log(res.data);
       })
       .catch((err) => {
-        toast({
-          message: 'Error creating ProductEntry ' + err,
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error('Error creating ProductEntry ' + err);
       });
     console.log(admissiont);
     // setChosenBed(admissiont)
@@ -785,7 +739,7 @@ export default function DischargeCreate() {
             </Grid>
           </Grid>
           <Grid container spacing={2} my={1}>
-            <Grid item xs={12} sm={8}>
+            {/* <Grid item xs={12} sm={8}>
               <Input
                 name="client"
                 type="text"
@@ -793,7 +747,7 @@ export default function DischargeCreate() {
                 placeholder="Client"
                 defaultValue={source}
               />
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} sm={4}>
               <select
                 name="paymentmode"
@@ -991,12 +945,7 @@ export function InventorySearch({ getSearchfacility, clear }) {
           setShowPanel(true);
         })
         .catch((err) => {
-          toast({
-            message: 'Error creating ProductEntry ' + err,
-            type: 'is-danger',
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error('Error creating ProductEntry ' + err);
         });
     } else {
       // console.log("less than 3 ")

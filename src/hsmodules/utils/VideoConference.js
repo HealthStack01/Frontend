@@ -1,18 +1,18 @@
 /* eslint-disable */
 // import {Button} from "@mui/material";
-import {Button} from "@mui/material";
+import {Button, Typography} from "@mui/material";
 import React, {useState, useContext, useEffect, useRef} from "react";
 import Draggable from "react-draggable";
 import {Jutsu} from "react-jutsu";
+import {toast} from "react-toastify";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 //import Button from "../../components/buttons/Button";
 //import { useJitsi } from 'react-jutsu' // Custom hook
 import {UserContext, ObjectContext} from "../../context";
 
-const VideoConference = ({activateCall, setActivateCall}) => {
+const VideoConference = ({activateCall, setActivateCall, label}) => {
   const [room, setRoom] = useState("");
   const [name, setName] = useState("");
-  const [call, setCall] = useState(false);
   const [password, setPassword] = useState("");
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
@@ -29,43 +29,19 @@ const VideoConference = ({activateCall, setActivateCall}) => {
     // alert(`Kindly share link with client and other collaborators: https://meet.jit.si/${client._id}`)
   };
 
-  //<Draggable> </Draggable>
+  const text = `https://meet.jit.si/${client._id}`;
+
+  const handleCopyLink = () => {};
 
   return activateCall ? (
     <Draggable>
-      {/* <div
-        style={{
-          position: "fixed",
-          width: "750px",
-          height: "500px",
-          left: "100px",
-          top: "100px",
-        }}
-      >
-        <Jutsu
-          roomName={room}
-          displayName={name}
-          password={password}
-          onMeetingEnd={() => setCall(false)}
-          loadingComponent={<p>loading ...</p>}
-          errorComponent={
-            <>
-              <p>Oops, something went wrong</p>{" "}
-            </>
-          }
-          containerStyles={{width: "100%", height: "100%"}}
-        />
-        <p className="bckgrnd">
-          {`Kindly share link with client and other collaborators: https://meet.jit.si/${client._id}`}
-        </p>
-      </div> */}
       <div
         style={{
           position: "fixed",
           left: "0",
           bottom: "0",
-          width: "750px",
-          height: "500px",
+          width: "500px",
+          height: "300px",
           backgroundColor: "#4d4d4d",
           zIndex: "9999",
         }}
@@ -81,19 +57,52 @@ const VideoConference = ({activateCall, setActivateCall}) => {
               <p>Oops, something went wrong</p>{" "}
             </>
           }
-          containerStyles={{width: "100%", height: "430px"}}
+          containerStyles={{width: "100%", height: "220px"}}
         />
+
         <div
           style={{
             width: "100%",
-            height: "80px",
+            height: "40px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             cursor: "pointer",
+            backgroundColor: "#2d2d2d",
           }}
         >
-          <span style={{fontSize: "20px", color: "#ffffff", fontWeight: "600"}}>
+          <Typography
+            sx={{
+              fontSize: "0.75rem",
+              color: "#ffffff",
+              fontWeight: "600",
+              marginRight: "8px",
+            }}
+          >
+            {`https://meet.jit.si/${client._id}`}
+          </Typography>
+
+          <GlobalCustomButton
+            onClick={() => {
+              navigator.clipboard.writeText(text);
+              toast.success("Teleconsultation Link Copied to your Clipboard");
+            }}
+          >
+            Copy Link
+          </GlobalCustomButton>
+        </div>
+
+        <div
+          style={{
+            width: "100%",
+            height: "40px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "grabbing",
+          }}
+        >
+          <span style={{fontSize: "1rem", color: "#ffffff", fontWeight: "600"}}>
             Click here to Drag
           </span>
         </div>
@@ -101,9 +110,6 @@ const VideoConference = ({activateCall, setActivateCall}) => {
     </Draggable>
   ) : (
     <form>
-      {/* <input id='room' type='text' placeholder='Room' value={room} onChange={(e) => setRoom(e.target.value)} />
-      <input id='name' type='text' placeholder='Name' value={name} onChange={(e) => setName(e.target.value)} /> */}
-      {/*  <input id='password' type='text' placeholder='Password (optional)' value={password} onChange={(e) => setPassword(e.target.value)} /> */}
       <GlobalCustomButton
         color="success"
         onClick={e => handleClick(e)}
@@ -111,7 +117,7 @@ const VideoConference = ({activateCall, setActivateCall}) => {
           width: "100%",
         }}
       >
-        Teleconsultation
+        {label || "Teleconsultation"}
       </GlobalCustomButton>
     </form>
   );

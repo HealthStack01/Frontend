@@ -2,7 +2,7 @@ import React, {useState, useContext, useEffect, useRef} from "react";
 import {useForm} from "react-hook-form";
 import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
 import client from "../../../feathers";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {UserContext, ObjectContext} from "../../../context";
 import {Box, Grid, IconButton, Typography} from "@mui/material";
 import CustomTable from "../../../components/customtable";
@@ -13,10 +13,13 @@ import MuiCustomDatePicker from "../../../components/inputs/Date/MuiDatePicker";
 import Textarea from "../../../components/inputs/basic/Textarea";
 import CloseIcon from "@mui/icons-material/Close";
 import {FormsHeaderText} from "../../../components/texts";
+import dayjs from "dayjs";
+import CustomConfirmationDialog from "../../../components/confirm-dialog/confirm-dialog";
 // import CustomTable from "../../components/customtable";
 
 const FluidIntakeOutput = () => {
-  const {register, handleSubmit, setValue, control} = useForm();
+  const {register, handleSubmit, setValue, control, reset, getValues} =
+    useForm();
   const fluidTypeOptions = ["Input", "Output"];
   const {user, setUser} = useContext(UserContext);
   const [facilities, setFacilities] = useState([]);
@@ -24,7 +27,9 @@ const FluidIntakeOutput = () => {
   const [chosen, setChosen] = useState(true);
   const [chosen1, setChosen1] = useState(true);
   const [chosen2, setChosen2] = useState(true);
-  const {state, setState} = useContext(ObjectContext);
+  const [confirmDialog, setConfirmDialog] = useState(false);
+  const {state, setState, toggleSideMenu, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
   const [docStatus, setDocStatus] = useState("Draft");
   const ClientServ = client.service("clinicaldocument");
   const fac = useRef([]);
@@ -41,12 +46,7 @@ const FluidIntakeOutput = () => {
     if (!!state.ClientModule.selectedClient.admission_id) {
       setChosen2(false);
     } else {
-      toast({
-        message: "Patient not on admission",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("Patient not on admission");
     }
   };
 
@@ -129,27 +129,23 @@ const FluidIntakeOutput = () => {
       .then(res => {
         setChosen(true);
 
-        toast({
-          message: "Fluid Input/Output entry successful",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success("Fluid Input/Output entry successful");
       })
       .catch(err => {
-        toast({
-          message: "Error creating Appointment " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("Error creating Appointment " + err);
       });
   };
 
   const onSubmit = async (data, e) => {
+    //return console.log(data);
     // console.log(state.DocumentClassModule.selectedDocumentClass)
-    console.log(state.employeeLocation.locationName);
-    e.preventDefault();
+    //console.log(state.employeeLocation.locationName);
+    showActionLoader();
+    if (!data.fluidType || data.fluidType === "") {
+      return toast.error("Please select a fluid type");
+    }
+
+    //e.preventDefault();
     data.entrytime = new Date();
     data.location =
       state.employeeLocation.locationName +
@@ -165,7 +161,7 @@ const FluidIntakeOutput = () => {
     // console.log(struc.current)
     setFacilities(prev => [data, ...facilities]);
     // data.recordings=facilities
-    e.target.reset();
+    // e.target.reset();
     setChosen(false);
     //handleSave()
     let document = {};
@@ -198,28 +194,28 @@ const FluidIntakeOutput = () => {
       coordinates: [state.coordinates.latitude, state.coordinates.longitude],
     };
 
-    console.log(document);
-
-    // alert(document.status)
     if (chosen1) {
+      // console.log(document);
+
+      // alert(document.status)
       ClientServ.create(document)
         .then(res => {
           setChosen(true);
-
-          toast({
-            message: "Fluid Input/Output entry successful",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
+          Object.keys(data).forEach(key => {
+            data[key] = "";
           });
+          setConfirmDialog(false);
+          hideActionLoader();
+
+          reset(data);
+          setValue("fluidTime", null);
+
+          toast.success("Fluid Input/Output entry successful");
         })
         .catch(err => {
-          toast({
-            message: "Fluid Input/Output entry " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          hideActionLoader();
+          setConfirmDialog(false);
+          toast.error("Fluid Input/Output entry " + err);
         });
     } else {
       ClientServ.patch(fac.current._id, {
@@ -227,46 +223,49 @@ const FluidIntakeOutput = () => {
       })
         .then(res => {
           setChosen(true);
-
-          toast({
-            message: "Fluid Input/Output entry successful",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
+          Object.keys(data).forEach(key => {
+            data[key] = "";
           });
+          hideActionLoader();
+          setConfirmDialog(false);
+          reset(data);
+          setValue("fluidTime", null);
+
+          toast.success("Fluid Input/Output entry successful");
         })
         .catch(err => {
-          toast({
-            message: "Fluid Input/Output entry " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          setConfirmDialog(false);
+          hideActionLoader();
+          toast.error("Fluid Input/Output entry " + err);
         });
     }
   };
+
+  //console.log(facilities);
+
   const inputFluidSchema = [
     {
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: row => row.sn,
+      selector: (row, i) => i + 1,
       sortable: true,
       inputType: "HIDDEN",
+      width: "50px",
     },
 
-    // {
-    //   name: "Date",
-    //   key: "Date",
-    //   description: "date",
-    //   selector: row => format(new Date(row.fluid_time), "HH:mm:ss"),
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "TEXT",
-    // },
+    {
+      name: "Date/Time",
+      key: "route",
+      description: "route",
+      selector: row => dayjs(row.fluid_time).format("HH:mm:ss"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
 
     {
-      name: "route",
+      name: "Route",
       key: "route",
       description: "route",
       selector: row => row.route,
@@ -275,15 +274,25 @@ const FluidIntakeOutput = () => {
       inputType: "TEXT",
     },
 
-    // {
-    //   name: "fluid",
-    //   key: "fluid",
-    //   description: "fluid",
-    //   selector: row => row => (row.fluidType === "Input" ? Client.volume : " "),
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "TEXT",
-    // },
+    {
+      name: "Input Volume",
+      key: "fluid",
+      description: "fluid",
+      selector: row => row.fluidType === "Input" && row.volume,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Output Volume",
+      key: "fluid",
+      description: "fluid",
+      selector: row => row.fluidType === "Output" && row.volume,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
 
     {
       name: "comments",
@@ -299,7 +308,17 @@ const FluidIntakeOutput = () => {
       name: "Fluid Type",
       key: "fluidtype",
       description: "fluidtype",
-      selector: row => row.fluidType,
+      selector: row => row.fluid,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Entry Time",
+      key: "route",
+      description: "route",
+      selector: row => dayjs(row.entrytime).format("DD-MM HH:mm:ss"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -321,10 +340,19 @@ const FluidIntakeOutput = () => {
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
+
+    toggleSideMenu();
   };
 
   return (
     <div className="card">
+      <CustomConfirmationDialog
+        open={confirmDialog}
+        cancelAction={() => setConfirmDialog(false)}
+        confirmationAction={handleSubmit(onSubmit)}
+        type="create"
+        message={`You are about to create an ${getValues("fluidType")} Chart ?`}
+      />
       <Box
         sx={{
           display: "flex",
@@ -341,26 +369,29 @@ const FluidIntakeOutput = () => {
       </Box>
 
       <div className="card-content vscrollable  pt-0">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form>
           <Box mb="1rem">
             <MuiCustomDatePicker
               name="fluidTime"
               label="Fluid Time"
               control={control}
+              important={true}
+              required={true}
             />
           </Box>
           <Box mb="1rem">
             <CustomSelect
-              label="Input/Output?"
+              control={control}
+              label="Fluid Type"
               name="fluidType"
-              {...register("fluidType", {required: true})}
+              required={true}
+              // required={true}
               options={fluidTypeOptions}
-              defaultValue="Irrition"
             />
           </Box>
           <Box mb="1rem">
             <Input
-              {...register("route")}
+              register={register("route")}
               name="route"
               label="Route"
               type="text"
@@ -368,7 +399,7 @@ const FluidIntakeOutput = () => {
           </Box>
           <Box mb="1rem">
             <Input
-              {...register("fluid")}
+              register={register("fluid")}
               name="fluid"
               label="Fluid"
               type="text"
@@ -376,7 +407,7 @@ const FluidIntakeOutput = () => {
           </Box>
           <Box mb="1rem">
             <Input
-              {...register("volume")}
+              register={register("volume")}
               name="volume"
               label="Volume (mls)"
               type="number"
@@ -384,18 +415,18 @@ const FluidIntakeOutput = () => {
           </Box>
           <Box mb="1rem">
             <Textarea
-              {...register("comments")}
+              register={register("comments")}
               name="comments"
               label="Comments"
               type="text"
             />
           </Box>
+
           <Box mb="1rem">
             <GlobalCustomButton
-              text="Enter"
-              customStyles={{
-                marginRight: "5px",
-              }}
+              color="secondary"
+              onClick={() => setConfirmDialog(true)}
+              text={`Submit Chart`}
             />
           </Box>
         </form>

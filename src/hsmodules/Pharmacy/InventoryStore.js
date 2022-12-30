@@ -31,6 +31,8 @@ import MuiButton from "@mui/material/Button";
 import BasicDatePicker from "../../components/inputs/Date";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {customStyles} from "../../components/customtable/styles";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -1272,6 +1274,7 @@ export function InventoryBatches({closeModal}) {
   const [expirydate, setExpiryDate] = useState("");
   const [facilities, setFacilities] = useState([]);
   const [productItem, setProductItem] = useState([]);
+  const [confirmDialog, setConfirmDialog] = useState(false);
 
   const Inventory = state.InventoryModule.selectedInventory; // set inventory
   // setProductItem(Inventory.batches)
@@ -1355,34 +1358,35 @@ export function InventoryBatches({closeModal}) {
   };
 
   const handleBatchdel = (obj, i) => {
-    let confirm = window.confirm("Are you sure you want to delete this batch?");
-    if (confirm) {
-      // setProductItem(prev=>prev.filter((obj,index)=>index!==i ))
-      setProductItem(obj => obj.filter((el, index) => index !== i));
-    }
+    //let confirm = window.confirm("Are you sure you want to delete this batch?");
+    //if (confirm) {
+    // setProductItem(prev=>prev.filter((obj,index)=>index!==i ))
+    setProductItem(obj => obj.filter((el, index) => index !== i));
+    setConfirmDialog(false);
+    //}
   };
 
-  const DatePickerCustomInput = React.forwardRef(({value, onClick}, ref) => (
-    <div
-      onClick={onClick}
-      ref={ref}
-      style={{
-        width: "100%",
-        height: "40px",
-        border: "1.5px solid #BBBBBB",
-        borderRadius: "4px",
-        display: "flex",
-        alignItems: "center",
-        fontSize: "0.85rem",
-        padding: "0 15px",
-        color: "#000000",
-        backgroundColor: "#fff",
-        cursor: "pointer",
-      }}
-    >
-      {value === "" ? "Pick Date" : value}
-    </div>
-  ));
+  // const DatePickerCustomInput = React.forwardRef(({value, onClick}, ref) => (
+  //   <div
+  //     onClick={onClick}
+  //     ref={ref}
+  //     style={{
+  //       width: "100%",
+  //       height: "40px",
+  //       border: "1.5px solid #BBBBBB",
+  //       borderRadius: "4px",
+  //       display: "flex",
+  //       alignItems: "center",
+  //       fontSize: "0.85rem",
+  //       padding: "0 15px",
+  //       color: "#000000",
+  //       backgroundColor: "#fff",
+  //       cursor: "pointer",
+  //     }}
+  //   >
+  //     {value === "" ? "Pick Date" : value}
+  //   </div>
+  // ));
 
   const batchesSchema = [
     {
@@ -1463,6 +1467,13 @@ export function InventoryBatches({closeModal}) {
         overflowY: "auto",
       }}
     >
+      <CustomConfirmationDialog
+        open={confirmDialog}
+        cancelAction={() => setConfirmDialog(false)}
+        confirmationAction={handleBatchdel}
+        type="danger"
+        message="Are you sure you want to delete this batch?"
+      />
       <Box
         container
         sx={{
@@ -1503,13 +1514,10 @@ export function InventoryBatches({closeModal}) {
               />
             </Grid>
             <Grid item xs={4}>
-              <DatePicker
-                selected={expirydate}
-                onChange={date => setExpiryDate(date)}
-                dateFormat="dd/MM/yyyy"
-                placeholderText="Expiry Date"
-                customInput={<DatePickerCustomInput />}
-                wrapperClassName="date-picker-custom-style"
+              <MuiCustomDatePicker
+                label="Expiry Date"
+                value={expirydate}
+                handleChange={value => setExpiryDate(value)}
               />
             </Grid>
             <Grid item xs={4}>

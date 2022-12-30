@@ -20,6 +20,7 @@ interface Props {
   conditionalRowStyles?: [];
   selectableRowsComponent?: any;
   CustomEmptyData?: React.ReactNode | "";
+  preferredCustomStyles?: any;
 }
 
 const CustomLoader = () => (
@@ -44,16 +45,19 @@ const CustomTable: React.FC<Props> = ({
   conditionalRowStyles = [],
   selectableRowsComponent,
   CustomEmptyData,
+  preferredCustomStyles,
 }) => {
   return (
     <DataTable
       title={title}
       columns={columns.filter(obj => obj.selector && obj.inputType)}
-      data={data.map((obj, i) => ({...obj, sn: i + 1}))} //TODO: only add sn if it's in the schema, to improve performance here
+      data={data?.map((obj, i) => ({...obj, sn: i + 1}))} //TODO: only add sn if it's in the schema, to improve performance here
       pointerOnHover={pointerOnHover}
       highlightOnHover={highlightOnHover}
       striped={striped}
-      customStyles={customStyles}
+      customStyles={
+        preferredCustomStyles ? preferredCustomStyles : customStyles
+      }
       onRowClicked={onRowClicked}
       fixedHeader={true}
       selectableRows={selectable}

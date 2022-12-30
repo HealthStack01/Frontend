@@ -310,7 +310,7 @@ export function LabOrderList({ openReportFormModal }) {
       name: 'S/No',
       key: 'sn',
       description: 'Enter serial number',
-      selector: (row) => row.sn,
+      selector: (row) => row?.sn,
       sortable: true,
       inputType: 'HIDDEN',
     },
@@ -318,7 +318,10 @@ export function LabOrderList({ openReportFormModal }) {
       name: 'Date',
       key: 'createdAt',
       description: 'Enter date',
-      selector: (row) => format(new Date(row.createdAt), 'dd/MM/yyyy HH:mm'),
+      selector: (row) =>
+        row?.createdAt
+          ? format(new Date(row?.createdAt), 'dd/MM/yyyy HH:mm')
+          : '',
       sortable: true,
       required: true,
       inputType: 'TEXT',
@@ -329,7 +332,7 @@ export function LabOrderList({ openReportFormModal }) {
       key: 'client',
       description: 'Enter client name',
       selector: (row) => {
-        return row.orderInfo.orderObj.clientname;
+        return row?.orderInfo?.orderObj.clientname;
       },
       sortable: true,
       required: true,
@@ -340,7 +343,7 @@ export function LabOrderList({ openReportFormModal }) {
       name: 'Test',
       key: 'description',
       description: 'Enter test result details',
-      selector: (row) => row.orderInfo.orderObj.order,
+      selector: (row) => row?.orderInfo?.orderObj.order,
       sortable: true,
       required: true,
       inputType: 'TEXT',
@@ -350,7 +353,7 @@ export function LabOrderList({ openReportFormModal }) {
       name: 'Amount',
       key: 'amount',
       description: 'Enter amount',
-      selector: (row) => row.serviceInfo.price,
+      selector: (row) => row?.serviceInfo?.price,
       sortable: true,
       required: true,
       inputType: 'TEXT',
@@ -360,7 +363,7 @@ export function LabOrderList({ openReportFormModal }) {
       name: 'Billing Status',
       key: 'billing_status',
       description: 'Enter Payment Status',
-      selector: (row) => row.billing_status,
+      selector: (row) => row?.billing_status,
       sortable: true,
       required: true,
       inputType: 'TEXT',
@@ -370,7 +373,7 @@ export function LabOrderList({ openReportFormModal }) {
       name: 'Report Status',
       key: 'report_status',
       description: 'Select facility',
-      selector: (row) => row.report_status,
+      selector: (row) => row?.report_status,
       sortable: true,
       required: true,
       inputType: 'TEXT',

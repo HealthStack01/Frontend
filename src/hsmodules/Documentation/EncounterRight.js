@@ -51,10 +51,14 @@ import Input from "../../components/inputs/basic/Input";
 import {FormsHeaderText} from "../../components/texts";
 import CloseIcon from "@mui/icons-material/Close";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 
 export default function EncounterRight() {
   const {state, setState} = useContext(ObjectContext);
-  console.log(state.DocumentClassModule.selectedDocumentClass);
+  //console.log(state.DocumentClassModule.selectedDocumentClass);
 
   const submitDocument = data => {
     const geolocation = {
@@ -62,6 +66,8 @@ export default function EncounterRight() {
       coordinates: [state.coordinates.latitude, state.coordinates.longitude],
     };
     console.log({...data, geolocation: geolocation});
+
+    toast.error("Sorry, form is currently under upgrade");
   };
 
   return (
@@ -202,7 +208,7 @@ export default function EncounterRight() {
 }
 
 export function VitalSignCreate() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue, reset} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -213,8 +219,10 @@ export function VitalSignCreate() {
   const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const {state, setState} = useContext(ObjectContext);
+  const {state, setState, showActionLoader, hideActionLoader, toggleSideMenu} =
+    useContext(ObjectContext);
   const [docStatus, setDocStatus] = useState("Draft");
+  const [confirmDialog, setConfirmDialog] = useState(false);
 
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
 
@@ -260,7 +268,8 @@ export function VitalSignCreate() {
   });
 
   const onSubmit = (data, e) => {
-    e.preventDefault();
+    //e.preventDefault();
+    showActionLoader();
     setMessage("");
     setError(false);
     setSuccess(false);
@@ -324,41 +333,53 @@ export function VitalSignCreate() {
       return;
     }
 
-    // console.log(document)
-    let confirm = window.confirm(
-      `You are about to save this document ${document.documentname} ?`
-    );
-    if (confirm) {
-      if (!!draftDoc && draftDoc.status === "Draft") {
-        console.log(document);
+    //return console.log(document);
 
-        ClientServ.patch(draftDoc._id, document)
-          .then(res => {
-            e.target.reset();
-            setDocStatus("Draft");
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      //console.log(document);
 
-            setSuccess(true);
-            toast.success("Documentation updated succesfully");
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast.error(`Error updating Documentation ${err}`);
+      ClientServ.patch(draftDoc._id, document)
+        .then(res => {
+          //Convert Hook forms data into empty string to reset form
+          Object.keys(data).forEach(key => {
+            data[key] = null;
           });
-      } else {
-        console.log(document);
 
-        ClientServ.create(document)
-          .then(res => {
-            e.target.reset();
+          setDocStatus("Draft");
 
-            setSuccess(true);
-            toast.success("Documentation created succesfully");
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast.error(`Error creating Documentation ${err}`);
+          setSuccess(true);
+
+          reset(data);
+          setConfirmDialog(false);
+          hideActionLoader();
+          toast.success("Documentation updated succesfully");
+          setSuccess(false);
+        })
+        .catch(err => {
+          hideActionLoader();
+          toast.error(`Error updating Documentation ${err}`);
+        });
+    } else {
+      //console.log(document);
+
+      ClientServ.create(document)
+        .then(res => {
+          //Convert Hook forms data into empty string to reset form
+          Object.keys(data).forEach(key => {
+            data[key] = null;
           });
-      }
+
+          setSuccess(true);
+          reset(data);
+          setConfirmDialog(false);
+          hideActionLoader();
+          toast.success("Documentation created succesfully");
+          setSuccess(false);
+        })
+        .catch(err => {
+          hideActionLoader();
+          toast.error(`Error creating Documentation ${err}`);
+        });
     }
   };
 
@@ -378,11 +399,19 @@ export function VitalSignCreate() {
         encounter_right: false,
       },
     }));
+    toggleSideMenu();
   };
 
   return (
     <>
       <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmDialog}
+          cancelAction={() => setConfirmDialog(false)}
+          confirmationAction={handleSubmit(onSubmit)}
+          type="create"
+          message={`You're about to save this document ${state.DocumentClassModule.selectedDocumentClass.name} ?`}
+        />
         <Box
           sx={{
             display: "flex",
@@ -400,7 +429,7 @@ export function VitalSignCreate() {
           </IconButton>
         </Box>
         <div className="card-content vscrollable">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Input
@@ -458,7 +487,7 @@ export function VitalSignCreate() {
               <Grid item xs={12}>
                 <Input
                   register={register("Height")}
-                  type="text"
+                  type="number"
                   label="Height(m)"
                 />
               </Grid>
@@ -466,7 +495,7 @@ export function VitalSignCreate() {
               <Grid item xs={12}>
                 <Input
                   register={register("Weight")}
-                  type="text"
+                  type="number"
                   label="Weight(Kg)"
                 />
               </Grid>
@@ -492,6 +521,7 @@ export function VitalSignCreate() {
                 color="secondary"
                 variant="contained"
                 type="submit"
+                onClick={() => setConfirmDialog(true)}
               >
                 Submit Vital Signs
               </GlobalCustomButton>
@@ -506,7 +536,7 @@ export function VitalSignCreate() {
 }
 
 export function ClinicalNoteCreate() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue, reset} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -519,6 +549,7 @@ export function ClinicalNoteCreate() {
   const [currentUser, setCurrentUser] = useState();
   const {state, setState} = useContext(ObjectContext);
   const [docStatus, setDocStatus] = useState("Draft");
+  const [confirmationDialog, setConfirmationDialog] = useState(false);
 
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
 
@@ -563,6 +594,8 @@ export function ClinicalNoteCreate() {
     }
   });
 
+  const document_name = state.DocumentClassModule.selectedDocumentClass.name;
+
   const onSubmit = (data, e) => {
     e.preventDefault();
     setMessage("");
@@ -600,76 +633,59 @@ export function ClinicalNoteCreate() {
       !document.createdByname ||
       !document.facilityname
     ) {
-      toast({
-        message:
-          " Documentation data missing, requires location and facility details",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
       return;
     }
 
-    let confirm = window.confirm(
-      `You are about to save this document ${document.documentname} ?`
-    );
-    if (confirm) {
-      if (!!draftDoc && draftDoc.status === "Draft") {
-        ClientServ.patch(draftDoc._id, document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            setDocStatus("Draft");
-            // setAllergies([])
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "Documentation updated succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
+    // return console.log(document);
 
-            /*  toast({
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then(res => {
+          Object.keys(data).forEach(key => {
+            data[key] = "";
+          });
+          //console.log(JSON.stringify(res))
+
+          setDocStatus("Draft");
+          // setAllergies([])
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Documentation updated succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+
+          /*  toast({
                         message:message ,
                         type: 'is-success',
                         dismissible: true,
                         pauseOnHover: true,
                       }) */
-          })
-          .catch(err => {
-            toast({
-              message: "Error updating Documentation " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+        })
+        .catch(err => {
+          toast.error("Error updating Documentation " + err);
+        });
+    } else {
+      ClientServ.create(document)
+        .then(res => {
+          Object.keys(data).forEach(key => {
+            data[key] = "";
           });
-      } else {
-        ClientServ.create(document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "Documentation created succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast({
-              message: "Error creating Documentation " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-          });
-      }
+          //console.log(JSON.stringify(res))
+
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Documentation created succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error creating Documentation " + err);
+        });
     }
   };
   const handleChangeStatus = async e => {
@@ -693,6 +709,13 @@ export function ClinicalNoteCreate() {
   return (
     <>
       <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmationDialog}
+          cancelAction={() => setConfirmationDialog(false)}
+          type="create"
+          message={`You are about to save this document ${document_name}`}
+          confirmationAction={handleSubmit(onSubmit)}
+        />
         <Box
           sx={{
             display: "flex",
@@ -710,7 +733,7 @@ export function ClinicalNoteCreate() {
           </IconButton>
         </Box>
         <div className="card-content vscrollable">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form>
             <Box>
               <Textarea
                 register={register("Symptoms")}
@@ -721,7 +744,7 @@ export function ClinicalNoteCreate() {
             </Box>
             <Box>
               <Textarea
-                register={register("clinical_findings")}
+                register={register("Clinical Findings")}
                 type="text"
                 label="Clinical Findings"
                 placeholder="Enter clinical findings......"
@@ -736,6 +759,7 @@ export function ClinicalNoteCreate() {
                 placeholder="Enter diagnosis......"
               />
             </Box>
+
             <Box>
               <Textarea
                 register={register("plan")}
@@ -761,13 +785,13 @@ export function ClinicalNoteCreate() {
                 gap: "2rem",
               }}
             >
-              <GlobalCustomButton color="secondary" type="submit">
+              <GlobalCustomButton
+                color="secondary"
+                type="submit"
+                onClick={() => setConfirmationDialog(true)}
+              >
                 Submit Clinical Note
               </GlobalCustomButton>
-
-              {/* <Button variant="outlined" type="button">
-                Cancel
-              </Button> */}
             </Box>
           </form>
         </div>
@@ -777,7 +801,7 @@ export function ClinicalNoteCreate() {
 }
 
 export function LabNoteCreate() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue, reset, getValues} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -789,7 +813,7 @@ export function LabNoteCreate() {
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const {state, setState} = useContext(ObjectContext);
-
+  const [confirmDialog, setConfirmDialog] = useState(false);
   const [docStatus, setDocStatus] = useState("Draft");
 
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
@@ -872,69 +896,57 @@ export function LabNoteCreate() {
       !document.createdByname ||
       !document.facilityname
     ) {
-      toast({
-        message:
-          " Documentation data missing, requires location and facility details",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
       return;
     }
-    let confirm = window.confirm(
-      `You are about to save this document ${document.documentname} ?`
-    );
-    if (confirm) {
-      if (!!draftDoc && draftDoc.status === "Draft") {
-        ClientServ.patch(draftDoc._id, document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            setDocStatus("Draft");
-            // setAllergies([])
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "Documentation updated succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast({
-              message: "Error updating Documentation " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+    // let confirm = window.confirm(
+    //   `You are about to save this document ${document.documentname} ?`
+    // );
+    // if (confirm) {
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then(res => {
+          //console.log(JSON.stringify(res))
+          Object.keys(data).forEach(key => {
+            data[key] = "";
           });
-      } else {
-        ClientServ.create(document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "Lab Result created succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast({
-              message: "Error creating Lab Result " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+
+          setDocStatus("Draft");
+          // setAllergies([])
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Documentation updated succesfully");
+          setSuccess(false);
+          setConfirmDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error updating Documentation " + err);
+          reset(data);
+          setConfirmDialog(false);
+        });
+    } else {
+      ClientServ.create(document)
+        .then(res => {
+          //console.log(JSON.stringify(res))
+          Object.keys(data).forEach(key => {
+            data[key] = "";
           });
-      }
+
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Lab Result created succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error creating Lab Result " + err);
+          setConfirmDialog(false);
+        });
     }
+    // }
   };
 
   const handleChangeStatus = async e => {
@@ -961,6 +973,15 @@ export function LabNoteCreate() {
   return (
     <>
       <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmDialog}
+          cancelAction={() => setConfirmDialog(false)}
+          confirmationAction={handleSubmit(onSubmit)}
+          type="create"
+          message={`You are about to save this document ${getValues(
+            "investigation"
+          )} Result?`}
+        />
         <Box
           sx={{
             display: "flex",
@@ -976,10 +997,10 @@ export function LabNoteCreate() {
           </IconButton>
         </Box>
         <div className="card-content vscrollable remPad1">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form>
             <Box mb={1}>
               <Input
-                register={register("investigation")}
+                register={register("Investigation")}
                 name="text"
                 type="text"
                 label="Investigation"
@@ -991,7 +1012,7 @@ export function LabNoteCreate() {
                 register={register("findings")}
                 name="findings"
                 type="text"
-                label="Findings"
+                label="Finding"
                 placeholder="Write here....."
               />
             </Box>
@@ -1022,7 +1043,11 @@ export function LabNoteCreate() {
                 gap: "2rem",
               }}
             >
-              <GlobalCustomButton color="secondary" type="submit">
+              <GlobalCustomButton
+                color="secondary"
+                type="submit"
+                onClick={() => setConfirmDialog(true)}
+              >
                 Submit Lab Result
               </GlobalCustomButton>
               {/* <Button variant="outlined" type="button">
@@ -1037,7 +1062,7 @@ export function LabNoteCreate() {
 }
 
 export function NursingNoteCreate() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue, reset} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -1049,6 +1074,7 @@ export function NursingNoteCreate() {
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const {state, setState} = useContext(ObjectContext);
+  const [confirmationDiaglog, setConfirmationDialog] = useState(false);
 
   const [docStatus, setDocStatus] = useState("Draft");
 
@@ -1132,69 +1158,54 @@ export function NursingNoteCreate() {
       !document.createdByname ||
       !document.facilityname
     ) {
-      toast({
-        message:
-          " Documentation data missing, requires location and facility details",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
       return;
     }
-    let confirm = window.confirm(
-      `You are about to save this document ${document.documentname} ?`
-    );
-    if (confirm) {
-      if (!!draftDoc && draftDoc.status === "Draft") {
-        ClientServ.patch(draftDoc._id, document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            setDocStatus("Draft");
-            // setAllergies([])
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "Documentation updated succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast({
-              message: "Error updating Documentation " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+
+    //return console.log(document);
+
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then(res => {
+          Object.keys(data).forEach(key => {
+            data[key] = "";
           });
-      } else {
-        ClientServ.create(document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "Lab Result created succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast({
-              message: "Error creating Lab Result " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+          //console.log(JSON.stringify(res))
+
+          setDocStatus("Draft");
+          // setAllergies([])
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Nursing Note Document updated succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error updating Documentation " + err);
+        });
+    } else {
+      ClientServ.create(document)
+        .then(res => {
+          //console.log(JSON.stringify(res))
+          Object.keys(data).forEach(key => {
+            data[key] = "";
           });
-      }
+
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Nursing Note created succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error creating Lab Result " + err);
+        });
     }
+    //}
   };
 
   const handleChangeStatus = async e => {
@@ -1221,6 +1232,13 @@ export function NursingNoteCreate() {
   return (
     <>
       <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmationDiaglog}
+          cancelAction={() => setConfirmationDialog(false)}
+          type="create"
+          confirmationAction={handleSubmit(onSubmit)}
+          message="You are about to save this document Nursing Note"
+        />
         <Box
           sx={{
             display: "flex",
@@ -1236,7 +1254,7 @@ export function NursingNoteCreate() {
           </IconButton>
         </Box>
         <div className="card-content vscrollable remPad1">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form>
             <Box mb={1}>
               <Input register={register("Title")} type="text" label="Title" />
             </Box>
@@ -1271,7 +1289,11 @@ export function NursingNoteCreate() {
                 gap: "2rem",
               }}
             >
-              <GlobalCustomButton color="secondary" type="button">
+              <GlobalCustomButton
+                color="secondary"
+                type="button"
+                onClick={() => setConfirmationDialog(true)}
+              >
                 Submit Nursing Note
               </GlobalCustomButton>
             </Box>
@@ -1283,7 +1305,7 @@ export function NursingNoteCreate() {
 }
 
 export function DoctorsNoteCreate() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue, control, reset} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -1295,6 +1317,7 @@ export function DoctorsNoteCreate() {
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const {state, setState} = useContext(ObjectContext);
+  const [confirmDialog, setConfirmDialog] = useState(false);
 
   const [docStatus, setDocStatus] = useState("Draft");
 
@@ -1342,8 +1365,8 @@ export function DoctorsNoteCreate() {
     }
   });
 
-  const onSubmit = (data, e) => {
-    e.preventDefault();
+  const onSubmit = data => {
+    // e.preventDefault();
     setMessage("");
     setError(false);
     setSuccess(false);
@@ -1379,69 +1402,56 @@ export function DoctorsNoteCreate() {
       !document.createdByname ||
       !document.facilityname
     ) {
-      toast({
-        message:
-          " Documentation data missing, requires location and facility details",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
       return;
     }
-    let confirm = window.confirm(
-      `You are about to save this document ${document.documentname} ?`
-    );
-    if (confirm) {
-      if (!!draftDoc && draftDoc.status === "Draft") {
-        ClientServ.patch(draftDoc._id, document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            setDocStatus("Draft");
-            // setAllergies([])
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "Documentation updated succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast({
-              message: "Error updating Documentation " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+
+    //return console.log(document);
+
+    // let confirm = window.confirm(
+    //   `You are about to save this document ${document.documentname} ?`
+    // );
+    // if (confirm) {
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then(res => {
+          //console.log(JSON.stringify(res))
+          Object.keys(data).forEach(key => {
+            data[key] = "";
           });
-      } else {
-        ClientServ.create(document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "Lab Result created succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast({
-              message: "Error creating Lab Result " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+
+          setDocStatus("Draft");
+          // setAllergies([])
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Doctor's Note Document succesfully updated");
+          setSuccess(false);
+          reset(data);
+          setConfirmDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error updating Documentation " + err);
+        });
+    } else {
+      ClientServ.create(document)
+        .then(res => {
+          /*  setMessage("Created Client successfully") */
+          Object.keys(data).forEach(key => {
+            data[key] = "";
           });
-      }
+          setSuccess(true);
+          toast.success("Doctor's Note created succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error creating Doctor's Note " + err);
+        });
     }
+    //}
   };
 
   const handleChangeStatus = async e => {
@@ -1466,9 +1476,45 @@ export function DoctorsNoteCreate() {
     }));
   };
 
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+
+  const [focusedInput, setFocusedInput] = useState("");
+
+  const handleOnBlur = () => {
+    console.log("input");
+  };
+
+  const handleOnFocus = () => {
+    console.log("focussed");
+  };
+
+  const handleStartRecording = event => {
+    const inputName = event.target.name;
+    setFocusedInput(inputName);
+    SpeechRecognition.startListening({continuous: true});
+  };
+
+  const handleStopRecording = () => {
+    //console.log("Recording has stopped");
+    SpeechRecognition.stopListening();
+    resetTranscript();
+  };
+
   return (
     <>
       <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmDialog}
+          confirmationAction={handleSubmit(onSubmit)}
+          cancelAction={() => setConfirmDialog(false)}
+          type="create"
+          message="You're about to save this document Doctor Note?"
+        />
         <Box
           sx={{
             display: "flex",
@@ -1484,10 +1530,11 @@ export function DoctorsNoteCreate() {
           </IconButton>
         </Box>
         <div className="card-content vscrollable remPad1">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form>
             <Box>
               <Input register={register("Title")} type="text" label="Title" />
             </Box>
+
             <Box>
               <Textarea
                 register={register("Documentation")}
@@ -1496,6 +1543,7 @@ export function DoctorsNoteCreate() {
                 placeholder="Write here......"
               />
             </Box>
+
             <Box>
               <Textarea
                 register={register("Recommendation")}
@@ -1513,6 +1561,7 @@ export function DoctorsNoteCreate() {
                 value={docStatus}
               />
             </Box>
+
             <Box
               spacing={1}
               sx={{
@@ -1520,7 +1569,11 @@ export function DoctorsNoteCreate() {
                 gap: "2rem",
               }}
             >
-              <GlobalCustomButton color="secondary" type="button">
+              <GlobalCustomButton
+                color="secondary"
+                type="button"
+                onClick={() => setConfirmDialog(true)}
+              >
                 Submit Doctor's Note
               </GlobalCustomButton>
               {/* <Button variant="outlined" type="button">
@@ -1603,7 +1656,7 @@ export function PrescriptionCreate() {
     ClientServ.create(document)
       .then(res => {
         //console.log(JSON.stringify(res))
-        e.target.reset();
+
         /*  setMessage("Created Client successfully") */
         setSuccess(true);
         toast({
@@ -1910,7 +1963,7 @@ export function LabrequestCreate() {
     ClientServ.create(document)
       .then(res => {
         //console.log(JSON.stringify(res))
-        e.target.reset();
+
         /*  setMessage("Created Client successfully") */
         setSuccess(true);
         toast({

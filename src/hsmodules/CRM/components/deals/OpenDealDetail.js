@@ -40,6 +40,7 @@ import CRMTasks from "../../Tasks";
 import CustomerDetail from "../global/CustomerDetail";
 import LeadDetailView from "../global/LeadDetail";
 import DealDetailView from "../global/DealDetail";
+import VideoConference from "../../../utils/VideoConference";
 
 export const LeadView = () => {
   const {register, reset, control, handleSubmit} = useForm();
@@ -417,7 +418,7 @@ const ProposalsView = () => {
 const OpenDealDetail = ({handleGoBack}) => {
   const [currentView, setCurrentView] = useState("detail");
   const [scheduleAppointment, setScheduleAppointment] = useState(false);
-
+  const [activateCall, setActivateCall] = useState(false);
   const handleSetCurrentView = view => {
     setCurrentView(view);
   };
@@ -493,19 +494,29 @@ const OpenDealDetail = ({handleGoBack}) => {
         </Box>
 
         <Box sx={{display: "flex", justifyContent: "flex-end"}} mb={2} gap={1}>
+          <Box>
+            <VideoConference
+              activateCall={activateCall}
+              setActivateCall={setActivateCall}
+              label="Call"
+            />
+          </Box>
+
+          {activateCall && (
+            <GlobalCustomButton
+              onClick={() => setActivateCall(false)}
+              color="error"
+            >
+              End Call
+            </GlobalCustomButton>
+          )}
+
           <GlobalCustomButton
             color="secondary"
             onClick={() => handleSetCurrentView("detail")}
           >
             Detail
           </GlobalCustomButton>
-
-          {/* <GlobalCustomButton
-            color="warning"
-            onClick={() => handleSetCurrentView("information")}
-          >
-            Added Info
-          </GlobalCustomButton> */}
 
           <GlobalCustomButton onClick={() => handleSetCurrentView("tasks")}>
             Tasks

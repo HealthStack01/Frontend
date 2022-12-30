@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, {useState, useContext, useEffect, useRef} from "react";
-import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
-import { PaystackConsumer } from "react-paystack";
+import {useFlutterwave, closePaymentModal} from "flutterwave-react-v3";
+import {PaystackConsumer} from "react-paystack";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
@@ -80,19 +80,17 @@ export default function PaymentCreate({closeModal}) {
 
   //Paystack Config
 
-const config = {
+  const config = {
     reference: new Date().getTime().toString(),
     email: "simpa@healthstack.africa",
     amount: part ? partBulk * 100 : totalamount * 100,
-    publicKey:"pk_test_f8300ac84ffd54afdf49ea31fd3daa90ebd33275",
+    publicKey: "pk_test_f8300ac84ffd54afdf49ea31fd3daa90ebd33275",
   };
-
- 
 
   const componentProps = {
     ...config,
     text: "Make a Deposit",
-    onSuccess: (reference) => handleSuccess(reference, amount),
+    onSuccess: reference => handleSuccess(reference, amount),
     onClose: closeModal,
   };
 
@@ -104,33 +102,27 @@ const config = {
     // return history("/business/payment");
   };
 
-
   //FLUTTERWAVE CONFIG
   const configfw = {
-    public_key: 'FLWPUBK_TEST-2c01585fca911f2d419e051d15b76382-X',
+    public_key: "FLWPUBK_TEST-2c01585fca911f2d419e051d15b76382-X",
     tx_ref: Date.now(),
     amount: part ? partBulk : totalamount,
     email: "simpa@healthstack.africa",
-    currency: 'NGN',
-    payment_options: 'card,mobilemoney,ussd',
+    currency: "NGN",
+    payment_options: "card,mobilemoney,ussd",
     customer: {
-      email: 'simpa@healthstack.africa',
-       phone_number: '070********',
-      name: 'john doe',
+      email: "simpa@healthstack.africa",
+      phone_number: "070********",
+      name: "john doe",
     },
     customizations: {
-      title: 'my Payment Title',
-      description: 'Payment for items in cart',
-      logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
+      title: "my Payment Title",
+      description: "Payment for items in cart",
+      logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
     },
   };
 
-
   const handleFlutterPayment = useFlutterwave(configfw);
-
-
-
-
 
   const {state, setState} = useContext(ObjectContext);
 
@@ -933,20 +925,20 @@ const config = {
           {partTable.find(i => i._id === row._id) && (
             <div>
               <div style={{marginBottom: "5px"}}>
-                 <Input
-                        type="text"
-                        name={row._id}
-                        placeholder="Amount"
-                        value={partBulk}
-                        onChange={e => handlePartAmount(e)}
-                      />
+                <Input
+                  type="text"
+                  name={row._id}
+                  placeholder="Amount"
+                  value={partBulk}
+                  onChange={e => handlePartAmount(e)}
+                />
               </div>
               <GlobalCustomButton
-               onClick={e => handleUpdate(row, e)}
-               sx={{marginRight: "15px",fontSize:"15px",fontWeight:"400"}}
-             >
-               Update
-             </GlobalCustomButton>
+                onClick={e => handleUpdate(row, e)}
+                color="secondary"
+              >
+                Update
+              </GlobalCustomButton>
             </div>
           )}
         </div>
@@ -1096,9 +1088,9 @@ const config = {
             style={{
               width: "100%",
               display: "flex",
-              flexDirection:"column",
+              flexDirection: "column",
               alignItems: "flex-start",
-              gap:"2rem",
+              gap: "2rem",
               justifyContent: "space-between",
             }}
           >
@@ -1124,83 +1116,82 @@ const config = {
                   marginLeft: "15px",
                 }}
               >
-    <div>
-                <label className=" is-small">
-                  <input
-                    type="radio"
-                    name="fullPay"
-                    value="Part"
-                    onChange={e => handleChangeFull(e)}
-                  />
-                  <span> Part </span>
-                </label>
-      </div>
+                <div>
+                  <label className=" is-small">
+                    <input
+                      type="radio"
+                      name="fullPay"
+                      value="Part"
+                      onChange={e => handleChangeFull(e)}
+                    />
+                    <span> Part </span>
+                  </label>
+                </div>
                 {part && (
-                  <div style={{marginLeft: "15px", width:"200px"}}>
-                
-                      <Input
-                        label="Amount"
-                        type="text"
-                        name="bulkpa"
-                        placeholder="Enter amount"
-                        value={partBulk}
-                        onChange={e => handleBulkAmount(e)}
-                      />
-                  
+                  <div style={{marginLeft: "15px", width: "200px"}}>
+                    <Input
+                      label="Amount"
+                      type="text"
+                      name="bulkpa"
+                      placeholder="Enter amount"
+                      value={partBulk}
+                      onChange={e => handleBulkAmount(e)}
+                    />
                   </div>
                 )}
               </div>
             </div>
 
-            <div className="control"   style={{
-            display: "flex",
-            alignItems: "flex-start",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            gap:"14px"
-          }}>
+            <div
+              className="control"
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                gap: "14px",
+              }}
+            >
               <GlobalCustomButton
-               disabled={!productItem.length > 0}
-               onClick={handlePayment}
-               sx={{marginRight: "15px"}}
-             >
-               <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
-               Pay
-             </GlobalCustomButton>
-            <GlobalCustomButton
-               
+                disabled={!productItem.length > 0}
+                onClick={handlePayment}
                 sx={{marginRight: "15px"}}
               >
                 <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+                Pay
+              </GlobalCustomButton>
+              <GlobalCustomButton sx={{marginRight: "15px"}}>
+                <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
                 Pay with Wallet
               </GlobalCustomButton>
-            <GlobalCustomButton
-               onClick={() => {
-                handleFlutterPayment({
-                  callback: (response) => {
-                     console.log(response);
-                      closePaymentModal()
-                  },
-                  onClose: () => {closeModal},
-                });
-              }}
+              <GlobalCustomButton
+                onClick={() => {
+                  handleFlutterPayment({
+                    callback: response => {
+                      console.log(response);
+                      closePaymentModal();
+                    },
+                    onClose: () => {
+                      closeModal;
+                    },
+                  });
+                }}
                 sx={{marginRight: "15px"}}
               >
-                 <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" /> 
-                 Pay with Flutterwave
+                <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+                Pay with Flutterwave
               </GlobalCustomButton>
               <PaystackConsumer {...componentProps}>
-							{({ initializePayment }) => (
-          <GlobalCustomButton
-          onClick={() => initializePayment(handleSuccess, closeModal)}
-            sx={{marginRight: "15px"}}
-          >
-             <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" /> 
-             Pay with PayStack
-          </GlobalCustomButton>
-          )}
-          </PaystackConsumer>
-        
+                {({initializePayment}) => (
+                  <GlobalCustomButton
+                    onClick={() => initializePayment(handleSuccess, closeModal)}
+                    sx={{marginRight: "15px"}}
+                  >
+                    <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+                    Pay with PayStack
+                  </GlobalCustomButton>
+                )}
+              </PaystackConsumer>
             </div>
           </div>
         </div>
@@ -1233,22 +1224,21 @@ const config = {
                   }}
                 >
                   <GlobalCustomButton
-               disabled={!productItem.length > 0}
-               onClick={handlePayment}
-               sx={{marginRight: "15px"}}
-             >
-               <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
-               Pay
-             </GlobalCustomButton>
-             <GlobalCustomButton
-               color="error"
-               variant="outlined"
-               disabled={!productItem.length > 0}
-              onClick={closeModal}
-              >
-               
-                Cancel
-              </GlobalCustomButton>
+                    disabled={!productItem.length > 0}
+                    onClick={handlePayment}
+                    sx={{marginRight: "15px"}}
+                  >
+                    <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+                    Pay
+                  </GlobalCustomButton>
+                  <GlobalCustomButton
+                    color="error"
+                    variant="outlined"
+                    disabled={!productItem.length > 0}
+                    onClick={closeModal}
+                  >
+                    Cancel
+                  </GlobalCustomButton>
                 </div>
               </div>
             </>

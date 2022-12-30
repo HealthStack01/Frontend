@@ -18,7 +18,9 @@ import LeadDetail from "./components/lead/LeadDetailView";
 //import OldLeadDetail from "./components/lead/LeadDetail";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
-import {Box} from "@mui/material";
+import {Box, Typography} from "@mui/material";
+import client from "../../feathers";
+import dayjs from "dayjs";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -43,18 +45,26 @@ export default function Leads() {
           openCreateModal={() => setCreateModal(true)}
           openDetailModal={() => setDetailModal(true)}
           showDetail={() => setCurrentView("detail")}
+          showCreate={() => setCurrentView("create")}
         />
       )}
 
       {currentView === "detail" && <LeadDetail handleGoBack={handleGoBack} />}
 
+      {currentView === "create" && (
+        <LeadsCreate
+          closeModal={() => setCreateModal(false)}
+          handleGoBack={handleGoBack}
+        />
+      )}
+      {/* 
       <ModalBox
         open={createModal}
         onClose={() => setCreateModal(false)}
         header="Create New Lead"
       >
         <LeadsCreate closeModal={() => setCreateModal(false)} />
-      </ModalBox>
+      </ModalBox> */}
       {/* 
       <ModalBox
         open={detailModal}
@@ -67,7 +77,7 @@ export default function Leads() {
   );
 }
 
-export function LeadList({openCreateModal, openDetailModal, showDetail}) {
+export function LeadList({openCreateModal, showCreate, showDetail}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -81,22 +91,46 @@ export function LeadList({openCreateModal, openDetailModal, showDetail}) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
+  const dealServer = client.service("deal");
 
   const handleCreateNew = async () => {
-    openCreateModal(true);
+    showCreate(true);
   };
 
   const handleRow = async data => {
     //openDetailModal();
+    setState(prev => ({
+      ...prev,
+      DealModule: {...prev.DealModule, selectedDeal: data},
+    }));
     showDetail();
   };
 
   const handleSearch = val => {};
+
+  const getFacilities = async () => {
+    showActionLoader();
+    const res = await dealServer.find({});
+
+    await setFacilities(res.data);
+    console.log(res.data);
+    hideActionLoader();
+  };
+
+  useEffect(() => {
+    getFacilities();
+
+    dealServer.on("created", obj => getFacilities());
+    dealServer.on("updated", obj => getFacilities());
+    dealServer.on("patched", obj => getFacilities());
+    dealServer.on("removed", obj => getFacilities());
+  }, []);
 
   const dummyData = [
     {
@@ -131,12 +165,15 @@ export function LeadList({openCreateModal, openDetailModal, showDetail}) {
   ];
 
   const returnCell = status => {
-    switch (status.toLowerCase()) {
-      case "active":
+    switch (status?.toLowerCase()) {
+      case "open":
         return <span style={{color: "#17935C"}}>{status}</span>;
 
-      case "inactive":
+      case "pending":
         return <span style={{color: "#0364FF"}}>{status}</span>;
+
+      case "closed":
+        return <span style={{color: "red"}}>{status}</span>;
 
       default:
         break;
@@ -145,47 +182,148 @@ export function LeadList({openCreateModal, openDetailModal, showDetail}) {
 
   const LeadSchema = [
     {
-      name: "Company Name",
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "50px",
+    },
+    {
+      name: "Customer Name",
       key: "sn",
       description: "Enter name of Company",
-      selector: row => row.company_name,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.name}
+        </Typography>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+      style: {
+        color: "#1976d2",
+        textTransform: "capitalize",
+      },
+    },
+    {
+      name: "Customer Type",
+      key: "type",
+      description: "Enter Telestaff name",
+      selector: row => row.type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+
+    {
+      name: "Phone",
+      key: "phone",
+      description: "Enter name of Company",
+      selector: row => row.phone,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
     },
+
     {
-      name: "Telestaff Name",
-      key: "telestaff_name",
-      description: "Enter Telestaff name",
-      selector: row => row.telestaff_name,
+      name: "Email",
+      key: "email",
+      description: "Enter name of Company",
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.email}
+        </Typography>
+      ),
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: "HIDDEN",
     },
+    // {
+    //   name: "Telestaff Name",
+    //   key: "telestaff_name",
+    //   description: "Enter Telestaff name",
+    //   selector: row => row.telestaff_name,
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "TEXT",
+    // },
     {
-      name: "Probability Of Deal",
+      name: "Probability",
       key: "probability",
       description: "Enter bills",
-      selector: row => row.probability,
+      selector: row => row.dealinfo.probability,
       sortable: true,
       required: true,
       inputType: "TEXT",
+      center: true,
     },
     {
-      name: "Date of Submission",
+      name: "Date Submitted",
       key: "date",
       description: "Enter name of Disease",
-      selector: (row, i) => row.date,
+      selector: (row, i) => dayjs(row.createdAt).format("DD/MM/YYYY"),
       sortable: true,
       required: true,
       inputType: "DATE",
     },
     {
       name: "Status",
-      key: "status",
+      key: "dealinfo",
       description: "Enter bills",
       selector: "status",
-      cell: row => returnCell(row.status),
+      cell: row => returnCell(row.dealinfo.currStatus),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+    {
+      name: "Next Action",
+      key: "dealinfo",
+      description: "Enter bills",
+      selector: "status",
+      cell: row => (
+        <Typography
+          sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.dealinfo.nextAction}
+        </Typography>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Size",
+      key: "dealinfo",
+      description: "Enter bills",
+      selector: "status",
+      cell: row => row.dealinfo.size,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Weight Forecast",
+      key: "dealinfo",
+      description: "Enter bills",
+      selector: "status",
+      cell: row => row.dealinfo.weightForecast,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -215,7 +353,7 @@ export function LeadList({openCreateModal, openDetailModal, showDetail}) {
             <CustomTable
               title={""}
               columns={LeadSchema}
-              data={dummyData}
+              data={facilities}
               pointerOnHover
               highlightOnHover
               striped

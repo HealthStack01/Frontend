@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {useForm} from "react-hook-form";
 import {toast, ToastContainer} from "react-toastify";
 import Button from "../../components/buttons/Button";
@@ -25,16 +25,21 @@ import {Box, Grid} from "@mui/material";
 import {FormsHeaderText} from "../../components/texts";
 import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 import ClientGroup from "./ClientGroup";
+import {ObjectContext, UserContext} from "../../context";
 
 const ClientForm = ({closeModal, setOpen}) => {
   const ClientServ = client.service("client");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isFullRegistration, setFullRegistration] = useState(false);
-  const data = localStorage.getItem("user");
+  // const data = localStorage.getItem("user");
   const [patList, setPatList] = useState([]);
   const [duplicateModal, setDuplicateModal] = useState(false);
-  const user = JSON.parse(data);
+  const {state, setState} = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const [dependant, setDependant] = useState(false);
+  // const user = JSON.parse(data);
+  const mpiServ = client.service("mpi");
 
   const {
     register,
@@ -42,6 +47,7 @@ const ClientForm = ({closeModal, setOpen}) => {
     formState: {isSubmitSuccessful, errors},
     control,
     getValues,
+    reset,
   } = useForm({
     resolver: yupResolver(createClientSchema),
 
@@ -100,45 +106,44 @@ const ClientForm = ({closeModal, setOpen}) => {
       checkQuery(query);
     }
 
-    if (!!data.firstname && !!data.lastname && !!data.gender && !!data.dob) {
-      // console.log("simpa")
-      data.middlename = data.middlename || "";
-      (query.gender = data.gender),
-        (query.dob = data.dob),
-        (query.$or = [
-          {
-            firstname: data.firstname,
-            lastname: data.lastname,
-            middlename: data.middlename,
-          },
-          {
-            firstname: data.firstname,
-            lastname: data.middlename,
-            middlename: data.lastname,
-          },
-          {
-            firstname: data.middlename,
-            lastname: data.lastname,
-            middlename: data.firstname,
-          },
-          {
-            firstname: data.middlename,
-            lastname: data.firstname,
-            middlename: data.lastname,
-          },
-          {
-            firstname: data.lastname,
-            lastname: data.firstname,
-            middlename: data.middlename,
-          },
-          {
-            firstname: data.lastname,
-            lastname: data.middlename,
-            middlename: data.firstname,
-          },
-        ]);
-      checkQuery(query);
-    }
+    // if (!!data.firstname && !!data.lastname && !!data.gender && !!data.dob) {
+    //   data.middlename = data.middlename || '';
+    //   (query.gender = data.gender),
+    //     (query.dob = data.dob),
+    //     (query.$or = [
+    //       {
+    //         firstname: data.firstname,
+    //         lastname: data.lastname,
+    //         middlename: data.middlename,
+    //       },
+    //       {
+    //         firstname: data.firstname,
+    //         lastname: data.middlename,
+    //         middlename: data.lastname,
+    //       },
+    //       {
+    //         firstname: data.middlename,
+    //         lastname: data.lastname,
+    //         middlename: data.firstname,
+    //       },
+    //       {
+    //         firstname: data.middlename,
+    //         lastname: data.firstname,
+    //         middlename: data.lastname,
+    //       },
+    //       {
+    //         firstname: data.lastname,
+    //         lastname: data.firstname,
+    //         middlename: data.middlename,
+    //       },
+    //       {
+    //         firstname: data.lastname,
+    //         lastname: data.middlename,
+    //         middlename: data.firstname,
+    //       },
+    //     ]);
+    //   checkQuery(query);
+    // }
   };
 
   const checkQuery = query => {
@@ -167,17 +172,29 @@ const ClientForm = ({closeModal, setOpen}) => {
   };
 
   const dupl = client => {
-    toast({
-      message: "Client previously registered in this facility",
-      type: "is-danger",
-      dismissible: true,
-      pauseOnHover: true,
+    const data = getValues();
+    Object.keys(data).forEach(key => {
+      data[key] = null;
     });
-    reset();
+
+    reset(data);
+    toast.error("Client previously registered in this facility");
+    setDuplicateModal(false);
+
     setPatList([]);
+    //console.log(Client)
   };
 
   const reg = async client => {
+    setState(prev => ({
+      ...prev,
+      actionLoader: {open: true, message: "Creating Client..."},
+    }));
+    const data = getValues();
+    Object.keys(data).forEach(key => {
+      data[key] = null;
+    });
+
     if (
       client.relatedfacilities.findIndex(
         el => el.facility === user.currentEmployee.facilityDetail._id
@@ -195,20 +212,20 @@ const ClientForm = ({closeModal, setOpen}) => {
       await mpiServ
         .create(newPat)
         .then(resp => {
-          toast({
-            message: "Client created succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.success("Client created succesfully");
+          reset(data);
+          setState(prev => ({
+            ...prev,
+            actionLoader: {open: false, message: ""},
+          }));
+          setDuplicateModal(false);
         })
         .catch(err => {
-          toast({
-            message: "Error creating Client " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          setState(prev => ({
+            ...prev,
+            actionLoader: {open: false, message: ""},
+          }));
+          toast.error("Error creating Client " + err);
         });
     }
     //reset form
@@ -219,6 +236,8 @@ const ClientForm = ({closeModal, setOpen}) => {
 
   const depen = client => {
     setDependant(true);
+    toast.success("You're Creating a Dependent Client");
+    setDuplicateModal(false);
   };
 
   return (
@@ -246,7 +265,7 @@ const ClientForm = ({closeModal, setOpen}) => {
               <div>
                 <h2>{`${
                   isFullRegistration
-                    ? "Complete Client Registeration"
+                    ? "Full Client Registeration"
                     : "Quick Client Registeration"
                 }`}</h2>
                 {/* <span>
@@ -266,7 +285,7 @@ const ClientForm = ({closeModal, setOpen}) => {
               ) : (
                 <GlobalCustomButton onClick={() => setFullRegistration(true)}>
                   <OpenInFullIcon fontSize="small" sx={{marginRight: "5px"}} />
-                  Complete Registration
+                  Full Registration
                 </GlobalCustomButton>
               )}
             </HeadWrapper>
@@ -283,6 +302,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("firstname")}
                         errorText={errors?.firstname?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -299,6 +319,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("lastname")}
                         errorText={errors?.lastname?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -308,6 +329,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         type="tel"
                         errorText={errors?.phone?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -317,6 +339,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         type="email"
                         errorText={errors?.email?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -324,6 +347,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         control={control}
                         label="DOB"
                         name="dob"
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -345,6 +369,11 @@ const ClientForm = ({closeModal, setOpen}) => {
                         options={[
                           {label: "Single", value: "Single"},
                           {label: "Married", value: "Married"},
+                          {label: "Widowed", value: "Widowed"},
+                          {
+                            label: "Divorced/Seperated",
+                            value: "Divorced/Seperated",
+                          },
                         ]}
                       />
                     </Grid>
@@ -361,6 +390,15 @@ const ClientForm = ({closeModal, setOpen}) => {
                         type="text"
                       />
                     </Grid>
+
+                    <Grid item lg={3} md={4} sm={6}>
+                      <Input
+                        label="LGA"
+                        type="text"
+                        register={register("lga")}
+                      />
+                    </Grid>
+
                     <Grid item lg={3} md={4} sm={6}>
                       <Input
                         label="State"
@@ -396,6 +434,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                       display: "flex",
                       justifyContent: "flex-end",
                     }}
+                    mt={2}
                   >
                     <GlobalCustomButton
                       color="warning"
@@ -423,15 +462,16 @@ const ClientForm = ({closeModal, setOpen}) => {
                     <Grid item xs={12}>
                       <FormsHeaderText text="Client Names" />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={4}>
+                    <Grid item lg={4} md={4} sm={4}>
                       <Input
                         label="First Name"
                         register={register("firstname")}
                         errorText={errors?.firstname?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={4}>
+                    <Grid item lg={4} md={4} sm={4}>
                       <Input
                         label="Middle Name"
                         register={register("middlename")}
@@ -439,12 +479,13 @@ const ClientForm = ({closeModal, setOpen}) => {
                         onBlur={checkClient}
                       />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={4}>
+                    <Grid item lg={4} md={4} sm={4}>
                       <Input
                         label="Last Name"
                         register={register("lastname")}
                         errorText={errors?.lastname?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                   </Grid>
@@ -458,6 +499,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         control={control}
                         label="DOB"
                         name="dob"
+                        important={true}
                       />
                     </Grid>
 
@@ -480,6 +522,11 @@ const ClientForm = ({closeModal, setOpen}) => {
                         options={[
                           {label: "Single", value: "Single"},
                           {label: "Married", value: "Married"},
+                          {label: "Widowed", value: "Widowed"},
+                          {
+                            label: "Divorced/Seperated",
+                            value: "Divorced/Seperated",
+                          },
                         ]}
                       />
                     </Grid>
@@ -508,6 +555,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("phone")}
                         errorText={errors?.phone?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
                     <Grid item lg={2} md={4} sm={6}>
@@ -516,6 +564,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("email")}
                         errorText={errors?.email?.message}
                         onBlur={checkClient}
+                        important={true}
                       />
                     </Grid>
 
@@ -562,28 +611,28 @@ const ClientForm = ({closeModal, setOpen}) => {
                       <Input label="Genotype" register={register("genotype")} />
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={8} md={6} sm={6}>
                       <Input
                         label="Disabilities"
                         register={register("disabilities")}
                       />
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={6} md={6} sm={6}>
                       <Input
                         label="Allergies"
                         register={register("allergies")}
                       />
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={6} md={4} sm={6}>
                       <Input
                         label="Co-mobidities"
                         register={register("comorbidities")}
                       />
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={12} md={4} sm={6}>
                       <Input
                         label="Specific Details "
                         register={register("specificDetails")}
@@ -601,26 +650,26 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("nok_name")}
                       />
                     </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={3} md={4} sm={6}>
                       <Input
                         label="Phone Number"
                         register={register("nok_phoneno")}
                       />
                     </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={3} md={4} sm={6}>
                       <Input
                         label=" Email"
                         register={register("nok_email")}
                         type="email"
                       />
                     </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={4} md={4} sm={6}>
                       <Input
                         label="Relationship"
                         register={register("nok_relationship")}
                       />
                     </Grid>
-                    <Grid item lg={6} md={6} sm={12}>
+                    <Grid item lg={8} md={6} sm={12}>
                       <Input
                         label="Co-mobidities"
                         register={register("comorbidities")}
@@ -634,6 +683,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                       display: "flex",
                       justifyContent: "flex-end",
                     }}
+                    mt={2}
                   >
                     <GlobalCustomButton
                       color="warning"

@@ -313,14 +313,6 @@ export function ClaimsCreate({ showModal, setShowModal }) {
       sortable: true,
       inputType: 'TEXT',
     },
-    // {
-    //   name: 'comments',
-    //   key: 'comments',
-    //   description: 'Comments',
-    //   selector: (row) => row.comments,
-    //   sortable: true,
-    //   inputType: 'TEXT',
-    // },
   ];
   const CustomSelectData = [
     {

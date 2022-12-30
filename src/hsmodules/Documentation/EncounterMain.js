@@ -16,7 +16,7 @@ import {ChartClassList} from "./DocumentClass";
 import EndEncounter, {EndEncounterList} from "./EndEncounter";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {format, formatDistanceToNowStrict} from "date-fns";
 import VideoConference from "../utils/VideoConference";
 import Prescription, {PrescriptionCreate} from "./Prescription";
@@ -28,17 +28,9 @@ import ReactToPrint, {useReactToPrint} from "react-to-print";
 import {Box, Collapse, Grid, IconButton, Typography} from "@mui/material";
 import Input from "../../components/inputs/basic/Input";
 import Divider from "@mui/material/Divider";
-
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import Button from "../../components/buttons/Button";
-import MuiButton from "@mui/material/Button";
 
 import Slide from "@mui/material/Slide";
-
-import ViewDocument from "../../components/ReactPDF/ViewDocument";
 
 import {
   AdmissionOrderDocument,
@@ -60,6 +52,9 @@ import {
 } from "./print-outs/Print-Outs";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {AppointmentCreate} from "../Appointment/generalAppointment";
+import DocumentationScheduleAppointment from "./ScheduleAppointment";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+import dayjs from "dayjs";
 
 export default function EncounterMain({nopresc, chosenClient}) {
   // const { register, handleSubmit, watch, errors } = useForm();
@@ -77,7 +72,8 @@ export default function EncounterMain({nopresc, chosenClient}) {
   const [selectedClinic, setSelectedClinic] = useState({}); //
   const [selectedNote, setSelectedNote] = useState();
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
   const [showModal, setShowModal] = useState(false);
@@ -88,6 +84,8 @@ export default function EncounterMain({nopresc, chosenClient}) {
   const [showRadModal, setShowRadModal] = useState(false);
   const [showChartModal, setShowChartModal] = useState(false);
   const [showActions, setShowActions] = useState(null);
+  const [docToDelete, setDocToDelete] = useState(null);
+  const [confirmationDialog, setConfirmationDialog] = useState(false);
 
   const [activateCall, setActivateCall] = useState(false);
 
@@ -245,11 +243,8 @@ export default function EncounterMain({nopresc, chosenClient}) {
       });
       const total = findClinic.total;
       const ulimit = total * page;
-      /*  if (total>(ulimit)){ //only load if we have not reached the total
-                alert("skip:",ulimit )
-                console.log("skip:",ulimit ) */
       await setFacilities(findClinic.data);
-      console.log(findClinic.data);
+      //console.log(findClinic.data);
       /*  } */
     } else {
       if (user.stacker) {
@@ -292,21 +287,6 @@ export default function EncounterMain({nopresc, chosenClient}) {
     handleHideActions();
   };
 
-  const handlePrint = async i => {
-    var content = document.getElementById(i);
-    var pri = document.getElementById("ifmcontentstoprint").contentWindow;
-    pri.document.open();
-    pri.document.write(content.innerHTML);
-    pri.document.close();
-    pri.focus();
-    pri.print();
-
-    console.log("Hello World");
-  };
-  /*  const handlePrint =(i)=> useReactToPrint({
-        content: () => myRefs.current[i]
-      }); */
-
   useEffect(() => {
     getFacilities();
 
@@ -328,17 +308,6 @@ export default function EncounterMain({nopresc, chosenClient}) {
     ClinicServ.on("patched", obj => getFacilities(page));
     ClinicServ.on("removed", obj => getFacilities(page));
 
-    /* var options = {
-                    root: null,
-                    rootMargin: "20px",
-                    threshold: 1.0
-                 }; */
-    // initialize IntersectionObserver
-    // and attaching to Load More div
-    /*  const observer = new IntersectionObserver(handleObserver, options);
-                 if (loader.current) {
-                    observer.observe(loader.current)
-                 } */
     return () => {
       const newDocumentClassModule = {
         selectedDocumentClass: {},
@@ -354,32 +323,29 @@ export default function EncounterMain({nopresc, chosenClient}) {
   }, []);
 
   const handleDelete = doc => {
-    // console.log(doc)
-    let confirm = window.confirm(
-      `You are about to delete a document: ${
-        doc.documentname
-      } created on ${format(new Date(doc.createdAt), "dd-MM-yy")} ?`
-    );
-    if (confirm) {
-      ClinicServ.remove(doc._id)
-        .then(res => {
-          toast({
-            message: "Adult Asthma Questionnaire deleted succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-          setSuccess(false);
-        })
-        .catch(err => {
-          toast({
-            message: "Error deleting Adult Asthma Questionnaire " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-        });
-    }
+    showActionLoader();
+    ClinicServ.remove(docToDelete._id)
+      .then(res => {
+        hideActionLoader();
+        toast.success(`${docToDelete?.documentname} Deleted succesfully`);
+        setSuccess(false);
+        setConfirmationDialog(false);
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error("Error deleting Adult Asthma Questionnaire " + err);
+      });
+    // }
+  };
+
+  const handleConfirmDelete = doc => {
+    setDocToDelete(doc);
+    setConfirmationDialog(true);
+  };
+
+  const closeConfirmationDialog = () => {
+    setDocToDelete(null);
+    setConfirmationDialog(false);
   };
 
   const handleCancel = async () => {
@@ -482,23 +448,23 @@ export default function EncounterMain({nopresc, chosenClient}) {
       show: !nopresc,
     },
     {
-      title: "Radiology",
+      title: "Radiology Request",
       action: handleRadOrders,
       show: !nopresc,
     },
     {
-      title: "Laboratory",
+      title: "Laboratory Request",
       action: handleLabOrders,
+      show: !nopresc,
+    },
+    {
+      title: "Prescription Request",
+      action: handleNewPrescription,
       show: !nopresc,
     },
     {
       title: "End Encounter",
       action: handleEndEncounter,
-      show: !nopresc,
-    },
-    {
-      title: "Prescription",
-      action: handleNewPrescription,
       show: !nopresc,
     },
     // {
@@ -515,6 +481,15 @@ export default function EncounterMain({nopresc, chosenClient}) {
         flexGrow: "1",
       }}
     >
+      <CustomConfirmationDialog
+        open={confirmationDialog}
+        confirmationAction={() => handleDelete(docToDelete)}
+        cancelAction={closeConfirmationDialog}
+        type="danger"
+        message={`You are about to delete a document: ${
+          docToDelete?.documentname
+        } created on ${dayjs(docToDelete?.createdAt).format("DD-MM-YYYY")} ?`}
+      />
       <Box
         container
         sx={{
@@ -624,7 +599,11 @@ export default function EncounterMain({nopresc, chosenClient}) {
                 {actionsList.map((action, i) => {
                   if (action.show) {
                     return (
-                      <MenuItem key={i} onClick={action.action}>
+                      <MenuItem
+                        key={i}
+                        onClick={action.action}
+                        sx={{fontSize: "0.8rem"}}
+                      >
                         {action.title}
                       </MenuItem>
                     );
@@ -791,7 +770,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
 
                       <IconButton
                         color="error"
-                        onClick={() => handleDelete(Clinic)}
+                        onClick={() => handleConfirmDelete(Clinic)}
                       >
                         <DeleteOutlineIcon fontSize="small" />
                       </IconButton>
@@ -821,32 +800,78 @@ export default function EncounterMain({nopresc, chosenClient}) {
                         {Array.isArray(Clinic.documentdetail) ? (
                           Object.entries(Clinic.documentdetail).map(
                             ([keys, value], i) => (
-                              <div className="field is-horizontal">
-                                <div className="field-label">
-                                  <label className="label is-size-7" key={i}>
-                                    {keys}:
-                                  </label>
-                                </div>
-                                <div className="field-body">
-                                  <div className="field">{value}</div>
-                                </div>
-                              </div>
+                              <>
+                                <Box
+                                  sx={{height: "auto", width: "100%"}}
+                                  key={i}
+                                >
+                                  <Grid container spacing={2}>
+                                    <Grid item xs={12}>
+                                      <Box sx={{display: "flex"}}>
+                                        <Typography
+                                          sx={{
+                                            fontSize: "0.75rem",
+                                            fontWeight: "600",
+                                            color: "#03045e",
+                                            marginRight: "5px",
+                                          }}
+                                        >
+                                          {keys}:
+                                        </Typography>
+
+                                        <Typography
+                                          sx={{
+                                            fontSize: "0.75rem",
+                                            color: "#000000",
+                                          }}
+                                        >
+                                          {dayjs(value).isValid()
+                                            ? dayjs(value).format("DD/MM/YYYY")
+                                            : value}
+                                        </Typography>
+                                      </Box>
+                                    </Grid>
+                                  </Grid>
+                                </Box>
+                              </>
                             )
                           )
                         ) : (
                           <div className="field">
                             {Object.entries(Clinic.documentdetail).map(
                               ([keys, value], i) => (
-                                <div className="field is-horizontal">
-                                  <div className="field-label">
-                                    <label className="label is-size-7" key={i}>
-                                      {keys}:
-                                    </label>
-                                  </div>
-                                  <div className="field-body">
-                                    <div className="field">{value}</div>
-                                  </div>
-                                </div>
+                                <Box
+                                  sx={{height: "auto", width: "100%"}}
+                                  key={i}
+                                >
+                                  <Grid container spacing={2}>
+                                    <Grid item xs={12}>
+                                      <Box sx={{display: "flex"}}>
+                                        <Typography
+                                          sx={{
+                                            fontSize: "0.75rem",
+                                            fontWeight: "600",
+                                            color: "#03045e",
+                                            marginRight: "5px",
+                                          }}
+                                        >
+                                          {keys}:
+                                        </Typography>
+
+                                        <Typography
+                                          sx={{
+                                            fontSize: "0.75rem",
+                                            color: "#000000",
+                                          }}
+                                        >
+                                          {dayjs(value).isValid()
+                                            ? dayjs(value).format("DD/MM/YYYY")
+                                            : value}
+                                        </Typography>
+                                      </Box>
+                                    </Grid>
+                                  </Grid>
+                                </Box>
                               )
                             )}
                           </div>
@@ -968,7 +993,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
           onClose={() => handleCancel()}
           header="Set Next Appointment"
         >
-          <AppointmentCreate />
+          <DocumentationScheduleAppointment />
         </ModalBox>
 
         <ModalBox

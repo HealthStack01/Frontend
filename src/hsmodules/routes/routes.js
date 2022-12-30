@@ -1,291 +1,303 @@
-import {useEffect, useState, useContext, lazy, Suspense} from "react";
-import {Route, Routes, useLocation} from "react-router-dom";
+import { useEffect, useState, useContext, lazy, Suspense } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
-import {UserContext, ObjectContext} from "../context";
+import { UserContext, ObjectContext } from '../context';
 //const AboutUs = React.lazy(() => import("./About"));
 
-const AccountHome = lazy(() => import("./Accounts/AccountHome"));
+const AccountHome = lazy(() => import('./Accounts/AccountHome'));
 const ClinicAppointments = lazy(() =>
-  import("./Appointment/clinicAppointments")
+  import('./Appointment/clinicAppointments')
 );
 
-import Login from "./auth";
-import IndividualSignup from "./auth/IndividualSignup";
-import Signup from "./auth/Signup";
-import PrivateOutlet from "./PrivateOutlet";
-import Overview from "./app/Overview";
+import Login from './auth';
+import IndividualSignup from './auth/IndividualSignup';
+import Signup from './auth/Signup';
+import PrivateOutlet from './PrivateOutlet';
+import Overview from './app/Overview';
 
-const PharmacyDispense = lazy(() => import("./Pharmacy/Dispensary"));
-const BillLab = lazy(() => import("./Laboratory/BillLab"));
+const PharmacyDispense = lazy(() => import('./Pharmacy/Dispensary'));
+const BillLab = lazy(() => import('./Laboratory/BillLab'));
 
 const InventoryBillPrescription = lazy(() =>
-  import("./inventory/BillPrescription")
+  import('./inventory/BillPrescription')
 );
-const PharmacyBillService = lazy(() => import("./Pharmacy/BillService"));
+const PharmacyBillService = lazy(() => import('./Pharmacy/BillService'));
 const PharmacyBillPrescription = lazy(() =>
-  import("./Pharmacy/BillPrescription")
+  import('./Pharmacy/BillPrescription')
 );
-const BillRadiology = lazy(() => import("./Radiology/BillRadiology"));
-const LaboratoryBillService = lazy(() => import("./Laboratory/BillService"));
-const RadiologyBillService = lazy(() => import("./Radiology/BillService"));
-const InventoryBillService = lazy(() => import("./inventory/BillService"));
+const BillRadiology = lazy(() => import('./Radiology/BillRadiology'));
+const LaboratoryBillService = lazy(() => import('./Laboratory/BillService'));
+const RadiologyBillService = lazy(() => import('./Radiology/BillService'));
+const InventoryBillService = lazy(() => import('./inventory/BillService'));
 
-const FinanceBillService = lazy(() => import("./Finance/BillService"));
-const TheatreBillService = lazy(() => import("./Theatre/BillService"));
-const BillTheatre = lazy(() => import("./Theatre/BillTheatre"));
-const CaseDefinition = lazy(() => import("./Epidemiology/CaseDefinition"));
-const ChartofAccount = lazy(() => import("./Accounts/ChartofAccount"));
-const ClientsAppointments = lazy(() => import("./Client/Appointments"));
-const ClinicHome = lazy(() => import("./Clinic/ClinicHome"));
-const Clinic = lazy(() => import("./Clinic/Clinic"));
-const ClinicReport = lazy(() => import("./Clinic/ClinicReport"));
-const ClinicCheckIn = lazy(() => import("./Appointment/ClinicWorkflow"));
-const ClinicSetup = lazy(() => import("./Clinic/ClinicSetup"));
-const ClinicStore = lazy(() => import("./Clinic/ClinicStore"));
-const ClinicCheckin = lazy(() => import("./Clinic/CheckIn"));
-const Collections = lazy(() => import("./Finance/Collections"));
-const EpidemiologyDashboard = lazy(() => import("./Epidemiology/DashBoard"));
+const FinanceBillService = lazy(() => import('./Finance/BillService'));
+const TheatreBillService = lazy(() => import('./Theatre/BillService'));
+const BillTheatre = lazy(() => import('./Theatre/BillTheatre'));
+const CaseDefinition = lazy(() => import('./Epidemiology/CaseDefinition'));
+const ChartofAccount = lazy(() => import('./Accounts/ChartofAccount'));
+const ClientsAppointments = lazy(() => import('./Client/Appointments'));
+const ClinicHome = lazy(() => import('./Clinic/ClinicHome'));
+const Clinic = lazy(() => import('./Clinic/Clinic'));
+const ClinicReport = lazy(() => import('./Clinic/ClinicReport'));
+const ClinicCheckIn = lazy(() => import('./Appointment/ClinicWorkflow'));
+const ClinicSetup = lazy(() => import('./Clinic/ClinicSetup'));
+const ClinicStore = lazy(() => import('./Clinic/ClinicStore'));
+const ClinicCheckin = lazy(() => import('./Clinic/CheckIn'));
+const Collections = lazy(() => import('./Finance/Collections'));
+const EpidemiologyDashboard = lazy(() => import('./Epidemiology/DashBoard'));
 
-const InventoryDispense = lazy(() => import("./inventory/Dispensary"));
-const Documentation = lazy(() => import("./Documentation/Documentation"));
-const EpidemiologyHome = lazy(() => import("./Epidemiology/EpidemiologyHome"));
-const Expense = lazy(() => import("./Accounts/Expense"));
-const FacilityAccount = lazy(() => import("./Finance/FacilityAccount"));
-const FacilityHome = lazy(() => import("./Admin/FacilityHome"));
-const Accessibility = lazy(() => import("./Admin/Accessibility"));
-const FinanceHome = lazy(() => import("./Finance/FinanceHome"));
-const FinanceReport = lazy(() => import("./Finance/FinanceReport"));
-const FinanceSetup = lazy(() => import("./Finance/FinanceSetup"));
-const CareTeam = lazy(() => import("./Admin/CareTeam"));
-const Department = lazy(() => import("./Admin/Department"));
-const DeptUnits = lazy(() => import("./Admin/DeptUnits"));
-const Employee = lazy(() => import("./Admin/Employee"));
-const Facility = lazy(() => import("./Admin/Facility"));
-const HSModules = lazy(() => import("./Admin/HSModules"));
-const Bands = lazy(() => import("./Admin/Bands"));
-const Roaster = lazy(() => import("./Admin/Roaster"));
-const Workspace = lazy(() => import("./Admin/Workspace"));
-const WardHome = lazy(() => import("./Ward/WardHome"));
-const Inpatient = lazy(() => import("./Ward/Inpatient"));
-const Admissions = lazy(() => import("./Ward/Admissions"));
-const Discharge = lazy(() => import("./Ward/Discharge"));
-const Location = lazy(() => import("./Admin/Location"));
-const Transfer = lazy(() => import("./Ward/Transfer"));
+const InventoryDispense = lazy(() => import('./inventory/Dispensary'));
+const Documentation = lazy(() => import('./Documentation/Documentation'));
+const EpidemiologyHome = lazy(() => import('./Epidemiology/EpidemiologyHome'));
+const Expense = lazy(() => import('./Accounts/Expense'));
+const FacilityAccount = lazy(() => import('./Finance/FacilityAccount'));
+const FacilityHome = lazy(() => import('./Admin/FacilityHome'));
+const Accessibility = lazy(() => import('./Admin/Accessibility'));
+const FinanceHome = lazy(() => import('./Finance/FinanceHome'));
+const FinanceReport = lazy(() => import('./Finance/FinanceReport'));
+const FinanceSetup = lazy(() => import('./Finance/FinanceSetup'));
+const CareTeam = lazy(() => import('./Admin/CareTeam'));
+const Department = lazy(() => import('./Admin/Department'));
+const DeptUnits = lazy(() => import('./Admin/DeptUnits'));
+const Employee = lazy(() => import('./Admin/Employee'));
+const Facility = lazy(() => import('./Admin/Facility'));
+const HSModules = lazy(() => import('./Admin/HSModules'));
+const Bands = lazy(() => import('./Admin/Bands'));
+const Roaster = lazy(() => import('./Admin/Roaster'));
+const Workspace = lazy(() => import('./Admin/Workspace'));
+const WardHome = lazy(() => import('./Ward/WardHome'));
+const Inpatient = lazy(() => import('./Ward/Inpatient'));
+const Admissions = lazy(() => import('./Ward/Admissions'));
+const Discharge = lazy(() => import('./Ward/Discharge'));
+const Location = lazy(() => import('./Admin/Location'));
+const Transfer = lazy(() => import('./Ward/Transfer'));
 
-const PharmacyTransfer = lazy(() => import("./Pharmacy/Transfer"));
-const useRepository = lazy(() => import("../components/hooks/repository"));
+const PharmacyTransfer = lazy(() => import('./Pharmacy/Transfer'));
+const useRepository = lazy(() => import('../components/hooks/repository'));
 
-const FrontDesk = lazy(() => import("./Client/FrontDesk"));
+const FrontDesk = lazy(() => import('./Client/FrontDesk'));
 
-const HMOauth = lazy(() => import("./Finance/HMOauth"));
-const InventoryHome = lazy(() => import("./inventory/InventoryHome"));
-const InventoryReport = lazy(() => import("./inventory/InventoryReport"));
-const InventorySetup = lazy(() => import("./inventory/InventorySetup"));
-const PharmacyReport = lazy(() => import("./Pharmacy/InventoryReport"));
-const PharmacyInventoryStore = lazy(() => import("./Pharmacy/InventoryStore"));
+const HMOauth = lazy(() => import('./Finance/HMOauth'));
+const InventoryHome = lazy(() => import('./inventory/InventoryHome'));
+const InventoryReport = lazy(() => import('./inventory/InventoryReport'));
+const InventorySetup = lazy(() => import('./inventory/InventorySetup'));
+const PharmacyReport = lazy(() => import('./Pharmacy/InventoryReport'));
+const PharmacyInventoryStore = lazy(() => import('./Pharmacy/InventoryStore'));
 
-const PharmacyProductEntry = lazy(() => import("./Pharmacy/ProductEntry"));
-const PharmacyProductExit = lazy(() => import("./Pharmacy/ProductExit"));
-const InventoryStore = lazy(() => import("./inventory/InventoryStore"));
-const Journal = lazy(() => import("./Accounts/Journal"));
-const LaboratoryHome = lazy(() => import("./Laboratory/LaboratoryHome"));
-const LaboratoryPayment = lazy(() => import("./Laboratory/LaboratoryPayment"));
-const LabReport = lazy(() => import("./Laboratory/LabReport"));
-const Labs = lazy(() => import("./Laboratory/Labs"));
-const Ledgers = lazy(() => import("./Accounts/Ledgers"));
-const Map = lazy(() => import("./Epidemiology/Map"));
-const Patients = lazy(() => import("./Client/Client"));
-const Payment = lazy(() => import("./Finance/Payment"));
-const ClientPayment = lazy(() => import("./Client/Payment"));
+const PharmacyProductEntry = lazy(() => import('./Pharmacy/ProductEntry'));
+const PharmacyProductExit = lazy(() => import('./Pharmacy/ProductExit'));
+const InventoryStore = lazy(() => import('./inventory/InventoryStore'));
+const Journal = lazy(() => import('./Accounts/Journal'));
+const LaboratoryHome = lazy(() => import('./Laboratory/LaboratoryHome'));
+const LaboratoryPayment = lazy(() => import('./Laboratory/LaboratoryPayment'));
+const LabReport = lazy(() => import('./Laboratory/LabReport'));
+const Labs = lazy(() => import('./Laboratory/Labs'));
+const Ledgers = lazy(() => import('./Accounts/Ledgers'));
+const Map = lazy(() => import('./Epidemiology/Map'));
+const Patients = lazy(() => import('./Client/Client'));
+const Payment = lazy(() => import('./Finance/Payment'));
+const ClientPayment = lazy(() => import('./Client/Payment'));
 
-const PharmacyHome = lazy(() => import("./Pharmacy/PharmacyHome"));
+const PharmacyHome = lazy(() => import('./Pharmacy/PharmacyHome'));
 const PharmacyInventoryReport = lazy(() =>
-  import("./Pharmacy/InventoryReport")
+  import('./Pharmacy/InventoryReport')
 );
 
-const PharmacyPayment = lazy(() => import("./Pharmacy/PharmacyPayment"));
-const InventoryPayment = lazy(() => import("./inventory/InventoryPayment"));
-const FinacneProductEntry = lazy(() => import("./Finance/Services"));
-const InventoryProductEntry = lazy(() => import("./inventory/ProductEntry"));
-const FinanceProductExit = lazy(() => import("./Finance/ProductExit"));
-const InventoryProductExit = lazy(() => import("./inventory/ProductExit"));
-const FinanceProducts = lazy(() => import("./Finance/Products"));
-const InventoryProducts = lazy(() => import("./inventory/Products"));
-const PharmacyProducts = lazy(() => import("./Pharmacy/Products"));
+const PharmacyPayment = lazy(() => import('./Pharmacy/PharmacyPayment'));
+const InventoryPayment = lazy(() => import('./inventory/InventoryPayment'));
+const FinacneProductEntry = lazy(() => import('./Finance/Services'));
+const InventoryProductEntry = lazy(() => import('./inventory/ProductEntry'));
+const FinanceProductExit = lazy(() => import('./Finance/ProductExit'));
+const InventoryProductExit = lazy(() => import('./inventory/ProductExit'));
+const FinanceProducts = lazy(() => import('./Finance/Products'));
+const InventoryProducts = lazy(() => import('./inventory/Products'));
+const PharmacyProducts = lazy(() => import('./Pharmacy/Products'));
 
-const RadAppointments = lazy(() => import("./Appointment/RadAppointments"));
-const RadCheckedin = lazy(() => import("./Appointment/Radworkflow"));
-const Radiology = lazy(() => import("./Radiology/Radiologys"));
-const RadiologyHome = lazy(() => import("./Radiology/RadiologyHome"));
-const RadiologyPayment = lazy(() => import("./Radiology/RadiologyPayment"));
-const RadDetails = lazy(() => import("./Radiology/RadDetails"));
-const RadiologyReport = lazy(() => import("./Radiology/RadiologyReport"));
-const Report = lazy(() => import("./Accounts/Report"));
-const Services = lazy(() => import("./Finance/Services"));
-const EpidemiologySignals = lazy(() => import("./Epidemiology/Signals"));
+const RadAppointments = lazy(() => import('./Appointment/RadAppointments'));
+const RadCheckedin = lazy(() => import('./Appointment/Radworkflow'));
+const Radiology = lazy(() => import('./Radiology/Radiologys'));
+const RadiologyHome = lazy(() => import('./Radiology/RadiologyHome'));
+const RadiologyPayment = lazy(() => import('./Radiology/RadiologyPayment'));
+const RadDetails = lazy(() => import('./Radiology/RadDetails'));
+const RadiologyReport = lazy(() => import('./Radiology/RadiologyReport'));
+const Report = lazy(() => import('./Accounts/Report'));
+const Services = lazy(() => import('./Finance/Services'));
+const EpidemiologySignals = lazy(() => import('./Epidemiology/Signals'));
 
-const Theatre = lazy(() => import("./Theatre/Theatres"));
+const Theatre = lazy(() => import('./Theatre/Theatres'));
 const TheatreAppointments = lazy(() =>
-  import("./Appointment/TheatreAppointments")
+  import('./Appointment/TheatreAppointments')
 );
 //import TheatreCheckedin = lazy( () => import( './Appointment/TheatreWorkflow';
-const TheatreHome = lazy(() => import("./Theatre/TheatreHome"));
-const TheatrePayment = lazy(() => import("./Theatre/TheatrePayment"));
-const TheatreReport = lazy(() => import("./Theatre/TheatreReport"));
+const TheatreHome = lazy(() => import('./Theatre/TheatreHome'));
+const TheatrePayment = lazy(() => import('./Theatre/TheatrePayment'));
+const TheatreReport = lazy(() => import('./Theatre/TheatreReport'));
 
-const {Models} = lazy(() => import("./app/Constants"));
+const { Models } = lazy(() => import('./app/Constants'));
 
-const Store = lazy(() => import("./inventory/Store"));
+const Store = lazy(() => import('./inventory/Store'));
 
-const ClientHome = lazy(() => import("./Client/ClientHome"));
-const TheatreCheckIn = lazy(() => import("./Appointment/TheatreWorkflow"));
+const ClientHome = lazy(() => import('./Client/ClientHome'));
+const TheatreCheckIn = lazy(() => import('./Appointment/TheatreWorkflow'));
 const GeneralAppointments = lazy(() =>
-  import("./Appointment/generalAppointment")
+  import('./Appointment/generalAppointment')
 );
 
 const ClientDashboard = lazy(() =>
-  import("./dashBoardUiComponent/@modules/ClientDashboard")
+  import('./dashBoardUiComponent/@modules/ClientDashboard')
 );
 const ClinicDashboard = lazy(() =>
-  import("./dashBoardUiComponent/@modules/ClinicDashboard")
+  import('./dashBoardUiComponent/@modules/ClinicDashboard')
 );
 const LandingPageDashboard = lazy(() =>
-  import("./dashBoardUiComponent/@modules/LandingPageDashboard")
+  import('./dashBoardUiComponent/@modules/LandingPageDashboard')
 );
 const WardDashboard = lazy(() =>
-  import("./dashBoardUiComponent/@modules/WardDashboard")
+  import('./dashBoardUiComponent/@modules/WardDashboard')
 );
 const PharmacyDashboard = lazy(() =>
-  import("./dashBoardUiComponent/@modules/PharmacyDashboard")
+  import('./dashBoardUiComponent/@modules/PharmacyDashboard')
 );
 const InventoryDashboard = lazy(() =>
-  import("./dashBoardUiComponent/@modules/InventoryDashboard")
+  import('./dashBoardUiComponent/@modules/InventoryDashboard')
 );
 const FinanceDashboard = lazy(() =>
-  import("./dashBoardUiComponent/@modules/FinanceDashboard")
+  import('./dashBoardUiComponent/@modules/FinanceDashboard')
 );
 const LaboratoryDashboard = lazy(() =>
-  import("./dashBoardUiComponent/@modules/LaboratoryDashboard")
+  import('./dashBoardUiComponent/@modules/LaboratoryDashboard')
 );
-const ForgotPassword = lazy(() => import("./auth/ForgotPassword"));
-const CreatePassword = lazy(() => import("./auth/CreatePassword"));
-const ManagedCareHome = lazy(() => import("./ManagedCare/ManagedCareHome"));
-const Policy = lazy(() => import("./ManagedCare/Policy"));
-const Beneficiary = lazy(() => import("./ManagedCare/Beneficiary"));
-const ReferralsCollections = lazy(() => import("./ManagedCare/Referral"));
-const TarrifList = lazy(() => import("./ManagedCare/Tarrifs"));
-const HealthPlan = lazy(() => import("./ManagedCare/HealthPlan"));
-const Referral = lazy(() => import("./ManagedCare/Referral"));
-const Provider = lazy(() => import("./ManagedCare/Providers"));
-const Product = lazy(() => import("./ManagedCare/UserManagement"));
-const ProductEntry = lazy(() => import("./ManagedCare/HealthPlan"));
-const HiaOrganizationClient = lazy(() => import("./ManagedCare/HIA"));
-const CorporateClient = lazy(() => import("./ManagedCare/Corporate"));
-const Claims = lazy(() => import("./ManagedCare/Claims"));
-const FundsManagement = lazy(() => import("./ManagedCare/FundsManagement"));
+const ForgotPassword = lazy(() => import('./auth/ForgotPassword'));
+const CreatePassword = lazy(() => import('./auth/CreatePassword'));
+const ManagedCareHome = lazy(() => import('./ManagedCare/ManagedCareHome'));
+const Policy = lazy(() => import('./ManagedCare/Policy'));
+const Beneficiary = lazy(() => import('./ManagedCare/Beneficiary'));
+const ReferralsCollections = lazy(() => import('./ManagedCare/Referral'));
+const TarrifList = lazy(() => import('./ManagedCare/Tarrifs'));
+const HealthPlan = lazy(() => import('./ManagedCare/HealthPlan'));
+const Referral = lazy(() => import('./ManagedCare/Referral'));
+const Provider = lazy(() => import('./ManagedCare/Providers'));
+const Product = lazy(() => import('./ManagedCare/UserManagement'));
+const ProductEntry = lazy(() => import('./ManagedCare/HealthPlan'));
+const HiaOrganizationClient = lazy(() => import('./ManagedCare/HIA'));
+const CorporateClient = lazy(() => import('./ManagedCare/Corporate'));
+const Claims = lazy(() => import('./ManagedCare/Claims'));
+const FundsManagement = lazy(() => import('./ManagedCare/FundsManagement'));
 
 const ManagedCareFrontDashboard = lazy(() =>
-  import("./dashBoardUiComponent/@modules/ManagedCareFrontDashboard")
+  import('./dashBoardUiComponent/@modules/ManagedCareFrontDashboard')
 );
 const ProviderOrganizationClient = lazy(() =>
-  import("./ManagedCare/Providers")
+  import('./ManagedCare/Providers')
 );
-import Accreditation from "./ManagedCare/Accreditation";
+import Accreditation from './ManagedCare/Accreditation';
 
 const ComplaintsInventoryReport = lazy(() =>
-  import("./ManagedCare/Complaints")
+  import('./ManagedCare/Complaints')
 );
-const ReferralHome = lazy(() => import("./Referral/ReferralHome"));
+const ReferralHome = lazy(() => import('./Referral/ReferralHome'));
 
-const PreAuth = lazy(() => import("./ManagedCare/PreAuth"));
+const PreAuth = lazy(() => import('./ManagedCare/PreAuth'));
 
-const CRMHome = lazy(() => import("./CRM/CrmHome"));
-const Leads = lazy(() => import("./CRM/Lead"));
-const Proposal = lazy(() => import("./CRM/Proposals"));
-const Invoice = lazy(() => import("./CRM/Invoice"));
-const SLA = lazy(() => import("./CRM/SLA"));
-const CrmAppointment = lazy(() => import("./CRM/Appointment"));
-const Deal = lazy(() => import("./CRM/Deal"));
-const Complaint = lazy(() => import("./Complaints/Complaint"));
-const ImmunizationHome = lazy(() => import("./Immunization/ImmunizationHome"));
-const VaccineProfile = lazy(() => import("./Immunization/VaccineProfile"));
-const BloodBankInventory = lazy(() => import("./Bloodbank/Inventory"));
-const BloodBankHome = lazy(() => import("./Bloodbank/BloodBankHome"));
-const PremiumPayment = lazy(() => import("./ManagedCare/PremiumPayment"));
+const CRMHome = lazy(() => import('./CRM/CrmHome'));
+const Leads = lazy(() => import('./CRM/Lead'));
+const Proposal = lazy(() => import('./CRM/Proposals'));
+const Invoice = lazy(() => import('./CRM/Invoice'));
+const SLA = lazy(() => import('./CRM/SLA'));
+const CrmAppointment = lazy(() => import('./CRM/Appointment'));
+const Deal = lazy(() => import('./CRM/Deal'));
+const Complaint = lazy(() => import('./Complaints/Complaint'));
+const ImmunizationHome = lazy(() => import('./Immunization/ImmunizationHome'));
+const VaccineProfile = lazy(() => import('./Immunization/VaccineProfile'));
+const BloodBankInventory = lazy(() => import('./Bloodbank/Inventory'));
+const BloodBankHome = lazy(() => import('./Bloodbank/BloodBankHome'));
+const PremiumPayment = lazy(() => import('./ManagedCare/PremiumPayment'));
 const BloodBankAppointments = lazy(() =>
-  import("./Appointment/bloodBankAppoinment")
+  import('./Appointment/bloodBankAppoinment')
 );
 const ImmunizationAppointments = lazy(() =>
-  import("./Appointment/immunizationAppoinment")
+  import('./Appointment/immunizationAppoinment')
 );
-const ImmunizationCheckIn = lazy(() => import("./Immunization/Checkin"));
-const ReferralIncoming = lazy(() => import("./Appointment/referralWorkflow"));
-const BloodBankLab = lazy(() => import("./Bloodbank/Lab"));
-const ImmunizationInventory = lazy(() => import("./Immunization/Inventory"));
+const ImmunizationCheckIn = lazy(() => import('./Immunization/Checkin'));
+const ReferralIncoming = lazy(() => import('./Appointment/referralWorkflow'));
+const BloodBankLab = lazy(() => import('./Bloodbank/Lab'));
+const ImmunizationInventory = lazy(() => import('./Immunization/Inventory'));
 
-import PageLoaderComponent from "../components/page-loader/page-loader";
-import LazyLoader from "../components/lazy-loader/Lazy-Loader";
+import PageLoaderComponent from '../components/page-loader/page-loader';
+import LazyLoader from '../components/lazy-loader/Lazy-Loader';
 // import ReferralIncome  from "./Referral/ReferralIncome";
 
-import IncomingReferral from "./Referral/ReferralListIncoming";
-import OutgoingReferral from "./Referral/ReferralListOutcoming";
+import IncomingReferral from './Referral/ReferralListIncoming';
+import OutgoingReferral from './Referral/ReferralListOutcoming';
+import ProductDetails from '../Patientportal/components/Marketplace/productDetails';
 
 const AccountDashboard = lazy(() =>
-  import("./dashBoardUiComponent/@modules/AccountDashboard")
+  import('./dashBoardUiComponent/@modules/AccountDashboard')
 );
 const AdminDashboard = lazy(() =>
-  import("./dashBoardUiComponent/@modules/AdminDashboard")
+  import('./dashBoardUiComponent/@modules/AdminDashboard')
 );
 const RadiologyDashboard = lazy(() =>
-  import("./dashBoardUiComponent/@modules/RadiologyDashboard")
+  import('./dashBoardUiComponent/@modules/RadiologyDashboard')
 );
 const TheatreDashboard = lazy(() =>
-  import("./dashBoardUiComponent/@modules/TheatreDashboard")
+  import('./dashBoardUiComponent/@modules/TheatreDashboard')
 );
 const CrmDashboard = lazy(() =>
-  import("./dashBoardUiComponent/@modules/CrmDashboard")
+  import('./dashBoardUiComponent/@modules/CrmDashboard')
 );
 const ReferralDashboard = lazy(() =>
-  import("./dashBoardUiComponent/@modules/ReferralDashboard")
+  import('./dashBoardUiComponent/@modules/ReferralDashboard')
 );
 const CommunicationDashboard = lazy(() =>
-  import("./dashBoardUiComponent/@modules/CommunicationDashboard")
+  import('./dashBoardUiComponent/@modules/CommunicationDashboard')
 );
 const ImmunizationDashboardComponent = lazy(() =>
-  import("./dashBoardUiComponent/@modules/ImmunizationDashboard")
+  import('./dashBoardUiComponent/@modules/ImmunizationDashboard')
 );
 const BloodbankDashboard = lazy(() =>
-  import("./dashBoardUiComponent/@modules/BloodbankDashboard")
+  import('./dashBoardUiComponent/@modules/BloodbankDashboard')
 );
 const OrganizationClient = lazy(() =>
-  import("./ManagedCare/OrganizationClient")
+  import('./ManagedCare/OrganizationClient')
 );
-const ProviderPayment = lazy(() => import("./ManagedCare/ProviderPayment"));
+const ProviderPayment = lazy(() => import('./ManagedCare/ProviderPayment'));
 
-const ComplaintDetails = lazy(() => import("./ManagedCare/ComplaintDetails"));
+const ComplaintDetails = lazy(() => import('./ManagedCare/ComplaintDetails'));
 
-const WalletOTP = lazy(() => import("./PouchiiWallet/walletOtp"));
-const CheckIn = lazy(() => import("./ManagedCare/Checkin"));
-const DetailComplaint = lazy(() => import("./Complaints/DetailComplaints"));
+const WalletOTP = lazy(() => import('./PouchiiWallet/walletOtp'));
+const CheckIn = lazy(() => import('./ManagedCare/Checkin'));
+const DetailComplaint = lazy(() => import('./Complaints/DetailComplaints'));
+
+const Bloodbank = lazy(() => import('./Appointment/bloodBankAppointment'));
+// const Clinic = lazy(() => import('./Appointment/clinicAppointments'));
+const CRM = lazy(() => import('./Appointment/crmAppointment'));
+const Global = lazy(() => import('./Appointment/generalAppointment'));
+const Immunization = lazy(() => import('./Appointment/immunizationAppoinment'));
+const Labour = lazy(() => import('./Appointment/labourWardAppointment'));
+const Pharmacy = lazy(() => import('./Appointment/pharmacyAppointment'));
+// const Radiology = lazy(() => import('./Appointment/RadAppointments'));
+const ReferralApp = lazy(() => import('./Appointment/referralAppointment'));
+// const Theatre = lazy(() => import('./Appointment/TheatreAppointments'));
 
 const moduleLocationTypes = {
-  clinic: "Clinic",
-  clients: "Front Desk",
-  admin: "Front Desk",
-  pharmacy: "Pharmacy",
-  finance: "Finance",
-  inventory: "Store",
-  ward: "Ward",
-  laboratory: "Laboratory",
+  clinic: 'Clinic',
+  clients: 'Front Desk',
+  admin: 'Front Desk',
+  pharmacy: 'Pharmacy',
+  finance: 'Finance',
+  inventory: 'Store',
+  ward: 'Ward',
+  laboratory: 'Laboratory',
 };
 
 const AppRoutes = () => {
   //const {setLocationType} = useRepository(Models.LOCATION);
 
-  const [currentModule, setCurrentModule] = useState("");
+  const [currentModule, setCurrentModule] = useState('');
   const location = useLocation();
   useEffect(() => {
-    const paths = location.pathname.split("/");
+    const paths = location.pathname.split('/');
     const newModule = paths.length > 2 && paths[2];
     setCurrentModule(newModule);
     if (
@@ -296,7 +308,7 @@ const AppRoutes = () => {
     }
   }, [location]);
 
-  const {authenticatingUser} = useContext(UserContext);
+  const { authenticatingUser } = useContext(UserContext);
 
   if (authenticatingUser) return <PageLoaderComponent />;
   return (
@@ -308,6 +320,10 @@ const AppRoutes = () => {
           <Route path="/signupindividual" element={<IndividualSignup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/create-password" element={<CreatePassword />} />
+          {/* <Route
+                path="/product/:id"
+                element={<ProductDetails />}
+              /> */}
 
           {/**************************Pouchii Wallet Routes *************************************** */}
           <Route path="/verify-otp" element={<WalletOTP />} />
@@ -341,6 +357,42 @@ const AppRoutes = () => {
               path="/app/global-appointment"
               element={<GeneralAppointments />}
             />
+            {/* ***********************************Appoitment  */}
+            <Route path="/app/appointment" element={<AppointmentHome />}>
+              {/* <Route index element={<Appointment />} /> */}
+              <Route
+                path="/app/appointment/clinic"
+                element={<ClientsAppointments />}
+              />
+              <Route
+                path="/app/appointment/clients"
+                element={<ClientsAppointments />}
+              />
+              <Route
+                path="/app/appointment/blood-bank"
+                element={<Bloodbank />}
+              />
+              <Route path="/app/appointment/crm" element={<CRM />} />
+              <Route path="/app/appointment/general" element={<Global />} />
+              <Route
+                path="/app/appointment/immunization"
+                element={<Immunization />}
+              />
+              <Route path="/app/appointment/labour-ward" element={<Labour />} />
+              <Route path="/app/appointment/pharmacy" element={<Pharmacy />} />
+              <Route
+                path="/app/appointment/radiology"
+                element={<RadAppointments />}
+              />
+              <Route
+                path="/app/appointment/referral"
+                element={<ReferralApp />}
+              />
+              <Route
+                path="/app/appointment/theatre"
+                element={<TheatreAppointments />}
+              />
+            </Route>
 
             {/* ***************************** Documetation ROUTES ************************************* */}
             <Route
@@ -440,7 +492,7 @@ const AppRoutes = () => {
                 path="/app/clients/appointments"
                 element={<ClientsAppointments />}
               />
-              {""} <Route path="/app/clients/clients" element={<Patients />} />
+              {''} <Route path="/app/clients/clients" element={<Patients />} />
               <Route
                 path="/app/clients/dashboard"
                 element={<ClientDashboard />}
@@ -879,12 +931,14 @@ const AppRoutes = () => {
               <Route path="/app/patient-portal/profile" />
               <Route path="/app/patient-portal/view" />
               <Route path="/app/patient-portal/buy" />
+
               <Route path="/app/patient-portal/search" />
               <Route path="/app/patient-portal/read" />
               <Route path="/app/patient-portal/chat" />
               <Route path="/app/patient-portal/dashboard" />
             </Route>
-
+            {/* <Route path="/app/patient-portal/buy/product/:id" element={<ProductDetails/>} /> */}
+              
             {/**************************Accounting *************************************** */}
             <Route path="/app/accounting">
               <Route index element={<AccountDashboard />} />

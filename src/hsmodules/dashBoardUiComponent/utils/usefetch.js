@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 
 const useFetch = (service, query) => {
   const [data, setData] = useState({});
@@ -12,22 +12,22 @@ const useFetch = (service, query) => {
   useEffect(() => {
     service
       .find({
-        query: { ...query, facility: facilityId, $limit: 100000 },
+        query: {...query, facility: facilityId, $limit: 100000},
       })
-      .then((result) => {
+      .then(result => {
         // Once both return, update the stat
 
         setIsPending(false);
         setData(result);
         setError(null);
       })
-      .catch((error) => {
+      .catch(error => {
         setError(error);
       });
-    service.on("created", (data) => {});
+    service.on("created", data => {});
   }, [service, facilityId]);
 
-  return { data, isPending, error };
+  return {data, isPending, error};
 };
 
 export default useFetch;

@@ -32,11 +32,13 @@ import {
   Divider,
   Grid,
   Grow,
+  IconButton,
   Typography,
 } from "@mui/material";
 import CheckboxInput from "../../components/inputs/basic/Checkbox";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {FormsHeaderText} from "../../components/texts";
+import DeleteOutline from "@mui/icons-material/DeleteOutline";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -93,7 +95,7 @@ export default function FinanceServices() {
       <ModalBox
         open={detailModal}
         onClose={handleCloseDetailModal}
-        header="Service Detail"
+        header="Details of Serivice"
       >
         <ServicesDetail
           openModifyModal={handleOpenModifyModal}
@@ -104,7 +106,7 @@ export default function FinanceServices() {
       <ModalBox
         open={modifyModal}
         onClose={handleCloseModifyModal}
-        header="Modify Service"
+        header="Modify Service Detail"
       >
         <ServicesModify
           Services={selectedServices}
@@ -320,12 +322,7 @@ export function ServicesCreate({closeModal}) {
   const handleRemove = (index, contract) => {
     ////console.log(index)
     if (contract.billing_type === "Cash") {
-      toast({
-        message: "You cannot remove cash billing",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("You cannot remove cash billing");
       return;
     }
 
@@ -599,7 +596,7 @@ export function ServicesList({openCreateModal, openDetallModal}) {
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
-  const [selectedServices, setSelectedServices] = useState(); //
+  const [selectedServices, setSelectedServices] = useState([]); //
   // eslint-disable-next-line
   const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
@@ -621,22 +618,11 @@ export function ServicesList({openCreateModal, openDetallModal}) {
   };
 
   const handleRow = async Service => {
-    ////console.log("b4",state)
-
-    ////console.log("handlerow",Services)
-
-    await setSelectedServices(Service.services);
-    ////console.log(Service.services);
-
-    // const newServicesModule = {
-    //   selectedServices: Service.services,
-    //   show: "detail",
-    // };
-    // await setState(prevstate => ({
-    //   ...prevstate,
-    //   ServicesModule: newServicesModule,
-    // }));
-    ////console.log(state)
+    if (Service.categoryname === selectedServices[0]?.category) {
+      setSelectedServices([]);
+    } else {
+      await setSelectedServices(Service.services);
+    }
   };
 
   const handleSecondRow = async Service => {
@@ -646,7 +632,6 @@ export function ServicesList({openCreateModal, openDetallModal}) {
 
     //await setSelectedServices(Service.services);
     ////console.log(Service.services);
-
     const newServicesModule = {
       selectedServices: Service,
       show: "detail",
@@ -741,7 +726,7 @@ export function ServicesList({openCreateModal, openDetallModal}) {
       selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
-      width: "100px",
+      width: "60px",
       center: true,
     },
     {
@@ -757,14 +742,14 @@ export function ServicesList({openCreateModal, openDetallModal}) {
 
   const selectedServiceSchema = [
     {
-      name: "S/NO",
+      name: "S/N",
       key: "sn",
       description: "Enter name of Disease",
       selector: row => row.sn,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
-      width: "80px",
+      width: "60px",
     },
     {
       name: "Name",
@@ -800,6 +785,19 @@ export function ServicesList({openCreateModal, openDetallModal}) {
     },
   ];
 
+  const conditionalRowStyles = [
+    {
+      when: row => row.categoryname === selectedServices[0]?.category,
+      style: {
+        backgroundColor: "#4cc9f0",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
   return (
     <>
       {state.StoreModule.selectedStore ? (
@@ -820,9 +818,19 @@ export function ServicesList({openCreateModal, openDetallModal}) {
                     <FilterMenu onSearch={handleSearch} />
                   </div>
                 )}
-                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-                  Services
+                <h2
+                  style={{
+                    marginLeft: "10px",
+                    fontSize: "0.95rem",
+                    marginRight: "8px",
+                  }}
+                >
+                  List of Services
                 </h2>
+
+                {selectedServices.length > 0 && (
+                  <FormsHeaderText text={selectedServices[0]?.category} />
+                )}
               </div>
 
               {handleCreateNew && (
@@ -846,9 +854,9 @@ export function ServicesList({openCreateModal, openDetallModal}) {
             >
               <div
                 style={{
-                  height: "calc(100% - 70px)",
+                  height: "calc(100vh - 170px)",
                   transition: "width 0.5s ease-in",
-                  width: selectedServices ? "35%" : "100%",
+                  width: selectedServices.length > 0 ? "35%" : "100%",
                 }}
               >
                 <CustomTable
@@ -860,14 +868,15 @@ export function ServicesList({openCreateModal, openDetallModal}) {
                   striped
                   onRowClicked={handleRow}
                   progressPending={false}
+                  conditionalRowStyles={conditionalRowStyles}
                 />
               </div>
 
-              {selectedServices && (
+              {selectedServices.length > 0 && (
                 <>
                   <div
                     style={{
-                      height: "calc(100% - 70px)",
+                      height: "calc(100vh - 170px)",
                       width: "64%",
                     }}
                   >
@@ -1003,31 +1012,27 @@ export function ServicesDetail({openModifyModal, closeModal}) {
       </Box>
 
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Services Details</p>
-        </div>
         <div className="card-content vscrollable">
-          <table>
-            <tbody>
-              <tr>
-                <td>
-                  {Services.panel && (
-                    <p className="is-size-7 padleft" name="ServicesType">
-                      {Services.panelServices.length > 0 && (
-                        <p>
-                          {Services.panelServices.map((plan, i) => (
-                            <span key={i} className="ml-1">
-                              {plan.name};
-                            </span>
-                          ))}
-                        </p>
-                      )}{" "}
-                    </p>
-                  )}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          {Services.panelServices.length > 0 && (
+            <Box sx={{display: "flex", flexWrap: "wrap"}} gap={1} mt={1} mb={1}>
+              <FormsHeaderText text="Panel Items:" />
+              {Services.panelServices.map((plan, i) => (
+                <Typography
+                  key={i}
+                  sx={{
+                    fontSize: "0.75rem",
+                    backgroundColor: "#000000",
+                    color: "#ffffff",
+                    padding: "3px",
+                    boxShadow: 1,
+                    borderRadius: "3px",
+                  }}
+                >
+                  {plan.service_name}
+                </Typography>
+              ))}
+            </Box>
+          )}
 
           <Box
             style={{
@@ -1166,6 +1171,7 @@ export function ServicesModify({closeModal}) {
  */
 
   useEffect(() => {
+    console.log(modcon);
     setFacilityId(modcon.source_org);
     setName(modcon.source_org_name);
     setCostprice(modcon.price);
@@ -1194,14 +1200,10 @@ export function ServicesModify({closeModal}) {
 
     return () => {};
   }, []);
+
   const handleCheck = async () => {
     if (!categoryname) {
-      toast({
-        message: "Enter Category!",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("Enter Category!");
       return;
     }
     await ServicesServ.find({
@@ -1214,44 +1216,24 @@ export function ServicesModify({closeModal}) {
       .then(resp => {
         //console.log(resp);
         if (resp.data.length > 0) {
-          toast({
-            message: "Service already exist. Kindly modify it " + resp.data,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error("Service already exist. Kindly modify it " + resp.data);
           return;
         }
       })
       .catch(err => {
-        toast({
-          message: "Error checking services  " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("Error checking services  " + err);
       });
   };
 
   const handleClickProd = async () => {
     if (productItem.length > 0) {
       if (!costprice || !name) {
-        toast({
-          message: "You need to enter organization name and price ",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("You need to enter organization name and price ");
         return;
       }
     } else {
       if (!costprice || !cash) {
-        toast({
-          message: "You need to enter organization name and price ",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("You need to enter organization name and price ");
         return;
       }
     }
@@ -1364,12 +1346,7 @@ export function ServicesModify({closeModal}) {
   const handleRemove = (index, contract) => {
     ////console.log(index)
     if (contract.billing_type === "Cash") {
-      toast({
-        message: "You cannot remove cash billing",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("You cannot remove cash billing");
       return;
     }
 
@@ -1418,6 +1395,7 @@ export function ServicesModify({closeModal}) {
       ServicesModule: newServicesModule,
     }));
   };
+
   const handleDelete = async () => {
     let conf = window.confirm("Are you sure you want to delete this data?");
 
@@ -1433,24 +1411,15 @@ export function ServicesModify({closeModal}) {
                setTimeout(() => {
                 setSuccess(false)
                 }, 200); */
-          toast({
-            message: "Services deleted succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.success("Services deleted succesfully");
           changeState();
         })
         .catch(err => {
           // setMessage("Error deleting Services, probable network issues "+ err )
           // setError(true)
-          toast({
-            message:
-              "Error deleting Services, probable network issues or " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error(
+            "Error deleting Services, probable network issues or " + err
+          );
         });
     }
   };
@@ -1462,12 +1431,9 @@ export function ServicesModify({closeModal}) {
   const onSubmit = () => {
     // e.preventDefault();
     if (panel && panelList.length === 0) {
-      toast({
-        message: "Please choose services that make up panel or uncheck panel ",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error(
+        "Please choose services that make up panel or uncheck panel "
+      );
       return;
     }
 
@@ -1492,24 +1458,16 @@ export function ServicesModify({closeModal}) {
         //console.log(JSON.stringify(res));
         // e.target.reset();
         // setMessage("updated Services successfully")
-        toast({
-          message: "Services updated succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success("Services updated succesfully");
 
         changeState(res);
       })
       .catch(err => {
         //setMessage("Error creating Services, probable network issues "+ err )
         // setError(true)
-        toast({
-          message: "Error updating Services, probable network issues or " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error(
+          "Error updating Services, probable network issues or " + err
+        );
       });
   };
   const handleModCon = async (contract, i) => {
@@ -1520,8 +1478,8 @@ export function ServicesModify({closeModal}) {
 
   const pricesSchema = [
     {
-      name: "S/NO",
-      width: "70px",
+      name: "S/N",
+      width: "60px",
       key: "sn",
       description: "Enter name of Disease",
       selector: (row, i) => i + 1,
@@ -1572,14 +1530,23 @@ export function ServicesModify({closeModal}) {
       inputType: "SELECT",
     },
 
+    // import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+
     {
       name: "Action",
       key: "category",
       description: "Enter Category",
       selector: (row, i) => (
-        <p style={{color: "red"}} onClick={() => handleRemove(i, row)}>
-          Delete
-        </p>
+        <IconButton size="small">
+          <DeleteOutline
+            fontSize="small"
+            sx={{color: "red"}}
+            onClick={() => {
+              handleRemove(i, row);
+              handleModCon(row, i);
+            }}
+          />
+        </IconButton>
       ),
       sortable: true,
       required: true,
@@ -1602,7 +1569,7 @@ export function ServicesModify({closeModal}) {
               id={Services.category}
               getSearchfacility={getSearchfacility2}
               clear={success2}
-              disable={true}
+              //disable={true}
             />
           </Grid>
 
@@ -1665,17 +1632,23 @@ export function ServicesModify({closeModal}) {
           </Grid>
         </Collapse>
 
-        <Box>
-          {panel && panelList.length > 0 && (
-            <div>
-              <strong> Panel Items:</strong>{" "}
-              {panelList.map((plan, i) => (
-                <span key={i} className="ml-1">
-                  {plan.service_name};
-                </span>
-              ))}
-            </div>
-          )}
+        <Box sx={{display: "flex", flexWrap: "wrap"}} gap={1} mt={1}>
+          <FormsHeaderText text="Panel Items:" />
+          {panelList.map((plan, i) => (
+            <Typography
+              key={i}
+              sx={{
+                fontSize: "0.75rem",
+                backgroundColor: "#000000",
+                color: "#ffffff",
+                padding: "3px",
+                boxShadow: 1,
+                borderRadius: "3px",
+              }}
+            >
+              {plan.service_name}
+            </Typography>
+          ))}
         </Box>
 
         <FormsHeaderText text="Add Pricing Info" />
@@ -1768,19 +1741,19 @@ export function ServicesModify({closeModal}) {
             <Grid container spacing={2}>
               <Grid item xs={5}>
                 <Input
-                  {...register("cash", {required: true})}
+                  register={register("cash", {required: true})}
                   disabled
                   name="cash"
-                  value={cash}
+                  value={cash || "Cash"}
                   type="text"
                   onChange={e => setCash(e.target.value)}
-                  label="Cost Price"
+                  label="Type"
                 />
               </Grid>
 
               <Grid item xs={5}>
                 <Input
-                  {...register("costprice", {required: true})}
+                  register={register("costprice", {required: true})}
                   name="costprice"
                   value={costprice}
                   type="text"
@@ -1790,13 +1763,11 @@ export function ServicesModify({closeModal}) {
               </Grid>
 
               <Grid item xs={2}>
-                <MuiButton
+                <GlobalCustomButton
                   variant="outlined"
                   sx={{
                     width: "100%",
-                    height: "48px",
-                    margin: "0.75rem 0",
-                    textTransform: "capitalize",
+                    height: "38px",
                   }}
                   onClick={handleClickProd}
                 >
@@ -1805,22 +1776,23 @@ export function ServicesModify({closeModal}) {
                     fontSize="small"
                   />
                   Add
-                </MuiButton>
+                </GlobalCustomButton>
               </Grid>
             </Grid>
           </Box>
         )}
 
         <Box sx={{width: "100%", overflowY: "auto"}}>
+          <FormsHeaderText text="Prices List" />
           <CustomTable
-            title={"Prices"}
             columns={pricesSchema}
             data={productItem}
             pointerOnHover
             highlightOnHover
             striped
-            //onRowClicked={row => onRowClicked(row)}
+            onRowClicked={(row, i) => handleModCon(row, i)}
             progressPending={false}
+            CustomEmptyData="No Prices List......"
           />
         </Box>
 
@@ -1965,12 +1937,7 @@ export function ServiceSearch({
           setShowPanel(true);
         })
         .catch(err => {
-          toast({
-            message: "Error creating Services " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error("Error creating Services " + err);
         });
     } else {
       // //console.log("less than 3 ")

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 
 const useFetchData = (service, query, isFacilityId) => {
   const [data, setData] = useState([]);
@@ -14,14 +14,14 @@ const useFetchData = (service, query, isFacilityId) => {
           ...query,
           $limit: 1000,
         }
-      : { ...query, facility: facilityId, $limit: 1000 };
+      : {...query, facility: facilityId, $limit: 1000};
 
   useEffect(() => {
     service
       .find({
         query: queryObj,
       })
-      .then((result) => {
+      .then(result => {
         // Once both return, update the stat
 
         const resultArr = result.data.reverse();
@@ -29,19 +29,19 @@ const useFetchData = (service, query, isFacilityId) => {
         setData(resultArr);
         setError(null);
       })
-      .catch((error) => {
+      .catch(error => {
         setError(error);
       })
       .finally(() => {
         setIsPending(false);
       });
 
-    service.on("created", (data) =>
-      setData((currentData) => currentData.concat(data))
+    service.on("created", data =>
+      setData(currentData => currentData.concat(data))
     );
   }, [service, facilityId]);
 
-  return { data, isPending, error };
+  return {data, isPending, error};
 };
 
 export default useFetchData;

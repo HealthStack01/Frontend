@@ -1,4 +1,5 @@
 import {lazy} from "react";
+
 const FinanceBillService = lazy(() => import("../Finance/BillService"));
 const FacilityAccount = lazy(() => import("../Finance/FacilityAccount"));
 const Services = lazy(() => import("../Finance/Services"));
@@ -9,6 +10,7 @@ const Store = lazy(() => import("../inventory/Store"));
 const FinanceDashboard = lazy(() =>
   import("../dashBoardUiComponent/@modules/FinanceDashboard")
 );
+const ClientTransactions = lazy(() => import("../Finance/ClientTransactions"));
 
 export const financeRoutes = [
   {
@@ -42,5 +44,9 @@ export const financeRoutes = [
   {
     path: "/app/finance/dashboard",
     Component: FinanceDashboard,
+  },
+  {
+    path: "/app/finance/client-transactions",
+    Component: ClientTransactions,
   },
 ];

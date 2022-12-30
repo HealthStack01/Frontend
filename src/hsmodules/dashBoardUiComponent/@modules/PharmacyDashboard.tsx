@@ -1,26 +1,26 @@
-import { Box, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import {Box, Typography} from "@mui/material";
+import React, {useEffect, useState} from "react";
 
-import ViewCard from './@sections/ViewCard';
-import ViewCardWithFilter from './@sections/ViewCardWithFilter';
-import LineChart from '../charts/LineChart';
+import ViewCard from "./@sections/ViewCard";
+import ViewCardWithFilter from "./@sections/ViewCardWithFilter";
+import LineChart from "../charts/LineChart";
 // import CircleChart from "../charts/CircleChart";
-import { PharmacyLineSeriesData } from '../utils/chartData/LineData';
+import {PharmacyLineSeriesData} from "../utils/chartData/LineData";
 
-import client from '../../../feathers';
+import client from "../../../feathers";
 
 import {
   DashboardContainer,
   DashboardPageWrapper,
   StartCardWapper,
-} from '../core-ui/styles';
-import { userDetails } from '../utils/fetchUserDetails';
+} from "../core-ui/styles";
+import {userDetails} from "../utils/fetchUserDetails";
 
 import {
   TotalModeltDataForPresent,
   FetchTotalStockQuantity,
   FetchTotalStockValue,
-} from '../utils/chartData/queryHandler';
+} from "../utils/chartData/queryHandler";
 
 import {
   FetchTotalPrescriptionOrderWithInPresentRange,
@@ -30,15 +30,15 @@ import {
   FetchTotalStockValueWithInPresentRange,
   FetchTotalSalePharmacy,
   ModelResult,
-} from '../utils/chartData/chartDataHandler';
+} from "../utils/chartData/chartDataHandler";
 
 const PharmacyDashboard = () => {
-  const [userName, setUserName] = useState('');
-  const [facilityName, setFacilityName] = useState('');
+  const [userName, setUserName] = useState("");
+  const [facilityName, setFacilityName] = useState("");
 
-  const orderService = client.service('order');
-  const billsService = client.service('/bills');
-  const inventoryService = client.service('inventory');
+  const orderService = client.service("order");
+  const billsService = client.service("/bills");
+  const inventoryService = client.service("inventory");
 
   const {
     totalPresentDataObject: prescriptionOrderPresentDataObject,
@@ -47,49 +47,43 @@ const PharmacyDashboard = () => {
     orderService,
     FetchTotalPrescriptionOrderWithInPresentRange
   );
-  const { totalPresentDataObject: prescriptionBilledPresentDataObject } =
+  const {totalPresentDataObject: prescriptionBilledPresentDataObject} =
     TotalModeltDataForPresent(
       orderService,
       FetchTotalPrescriptionBilledWithInPresentRange
     );
-  const { totalPresentDataObject: prescriptionPendingPresentDataObject } =
+  const {totalPresentDataObject: prescriptionPendingPresentDataObject} =
     TotalModeltDataForPresent(
       orderService,
       FetchTotalPrescriptionPendingWithInPresentRange
     );
 
-  const { totalPresentDataObject: pharmacyStockValuePresentDataObject } =
+  const {totalPresentDataObject: pharmacyStockValuePresentDataObject} =
     TotalModeltDataForPresent(
       inventoryService,
       FetchTotalStockValueWithInPresentRange
     );
 
-  const { totalPresentDataObject: pharmacySaleValuePresentDataObject } =
+  const {totalPresentDataObject: pharmacySaleValuePresentDataObject} =
     TotalModeltDataForPresent(
       billsService,
       FetchTotalSaleValueWithInPresentRange
     );
-  const { fetchTotalStockQuantity } = FetchTotalStockQuantity(inventoryService);
+  const {fetchTotalStockQuantity} = FetchTotalStockQuantity(inventoryService);
   // const { fetchTotalStockValue } = FetchTotalStockValue(inventoryService);
 
-  const { fetchTotalSalePharmacy } = FetchTotalSalePharmacy(billsService);
+  const {fetchTotalSalePharmacy} = FetchTotalSalePharmacy(billsService);
 
-  const { monthNameForCurrentYear, pharmacyLineSeriesData } =
+  const {monthNameForCurrentYear, pharmacyLineSeriesData} =
     PharmacyLineSeriesData(billsService, inventoryService);
 
   /**
    * test
    */
-  const { modelResult } = ModelResult(billsService);
-
-  console.log('model data ===>', {
-    modelResult: modelResult,
-    monthNameForCurrentYear: monthNameForCurrentYear,
-    pharmacySaleValueSeriesData: pharmacyLineSeriesData,
-  });
+  const {modelResult} = ModelResult(billsService);
 
   useEffect(() => {
-    const { userFullName, facilityFullName } = userDetails();
+    const {userFullName, facilityFullName} = userDetails();
     setUserName(userFullName);
     setFacilityName(facilityFullName);
   }, []);
@@ -97,11 +91,11 @@ const PharmacyDashboard = () => {
     <DashboardPageWrapper>
       <Box>
         <Box>
-          <Typography variant='h2'>
+          <Typography variant="h2">
             Hello <span>{userName}</span>👋
           </Typography>
-          <Typography variant='body1'>
-            Welcome to your Pharmcy Module{' '}
+          <Typography variant="body1">
+            Welcome to your Pharmcy Module{" "}
             <span>@Front Desk {facilityName}</span>
           </Typography>
         </Box>
@@ -109,41 +103,41 @@ const PharmacyDashboard = () => {
         <StartCardWapper>
           <ViewCardWithFilter
             count={0}
-            title='No Of Prescription Sent'
+            title="No Of Prescription Sent"
             hasFilter={true}
             dataSource={prescriptionOrderPresentDataObject}
             isLoading={isSentLoading}
           />
           <ViewCardWithFilter
             count={0}
-            title='No Of Prescription Billed'
+            title="No Of Prescription Billed"
             hasFilter={true}
             dataSource={prescriptionBilledPresentDataObject}
             isLoading={isSentLoading}
           />
-          <ViewCard count={`${fetchTotalStockQuantity}K`} title='Total Stock' />
+          <ViewCard count={`${fetchTotalStockQuantity}K`} title="Total Stock" />
         </StartCardWapper>
 
         <DashboardContainer>
           <Box
             sx={{
-              display: 'grid',
-              width: '100%',
-              gridGap: '10px',
-              gridTemplateColumns: { lg: 'repeat(3, 1fr)', xs: '1fr' },
+              display: "grid",
+              width: "100%",
+              gridGap: "10px",
+              gridTemplateColumns: {lg: "repeat(3, 1fr)", xs: "1fr"},
               mb: 5,
             }}
           >
-            <Box sx={{ width: '100%', p: 2, mb: 5 }}>
+            <Box sx={{width: "100%", p: 2, mb: 5}}>
               <LineChart
-                title='Revenue'
+                title="Revenue"
                 monthArray={monthNameForCurrentYear}
                 series={pharmacyLineSeriesData}
               />
               <StartCardWapper>
                 <ViewCardWithFilter
                   count={0}
-                  title='Total Stock Value'
+                  title="Total Stock Value"
                   hasFilter={true}
                   dataSource={pharmacyStockValuePresentDataObject}
                   isLoading={isSentLoading}
@@ -162,30 +156,30 @@ const PharmacyDashboard = () => {
                 </StartCardWapper> */}
               </Box>
             </Box>
-            <Box sx={{ width: '100%', p: 2, mb: 5 }}>
+            <Box sx={{width: "100%", p: 2, mb: 5}}>
               {/* <LineChart title="Prescription Overview" /> */}
               <StartCardWapper>
                 <ViewCardWithFilter
                   count={0}
-                  title='Total Sale Value'
+                  title="Total Sale Value"
                   hasFilter={true}
                   dataSource={pharmacySaleValuePresentDataObject}
                   isLoading={isSentLoading}
                 />
               </StartCardWapper>
             </Box>
-            <Box sx={{ width: '100%', p: 2, mb: 5 }}>
+            <Box sx={{width: "100%", p: 2, mb: 5}}>
               <StartCardWapper>
                 <ViewCard
                   count={`${fetchTotalSalePharmacy}K`}
-                  title='Total Sales'
+                  title="Total Sales"
                 />
               </StartCardWapper>
               <StartCardWapper>
                 <Box>
                   <ViewCardWithFilter
                     count={0}
-                    title='No Of Prescription Pending'
+                    title="No Of Prescription Pending"
                     hasFilter={true}
                     dataSource={prescriptionPendingPresentDataObject}
                     isLoading={isSentLoading}

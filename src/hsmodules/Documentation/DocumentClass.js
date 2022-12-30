@@ -234,6 +234,7 @@ export function DocumentClassList({standalone, closeModal}) {
     await setState(prevstate => ({
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
+      sideMenu: {open: false},
     }));
     //console.log(state)
     if (standalone) {

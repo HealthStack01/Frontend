@@ -290,9 +290,12 @@ export function ClientSearch({getSearchfacility, clear, label}) {
       <Autocomplete
         size="small"
         value={simpa}
-        onChange={(event, newValue) => {
-          handleRow(newValue);
-          setSimpa("");
+        onChange={(event, newValue, reason) => {
+          if (reason === "clear") {
+            setSimpa("");
+          } else {
+            handleRow(newValue);
+          }
         }}
         id="free-solo-dialog-demo"
         options={facilities}
@@ -305,7 +308,9 @@ export function ClientSearch({getSearchfacility, clear, label}) {
           }
           return option.firstname;
         }}
-        //isOptionEqualToValue={(option, value) => option.id === value.id}
+        isOptionEqualToValue={(option, value) =>
+          value === undefined || value === "" || option._id === value._id
+        }
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys
@@ -357,6 +362,7 @@ export function ClientSearch({getSearchfacility, clear, label}) {
               backgroundColor: "#ffffff",
               "& .MuiInputBase-input": {
                 height: "0.9rem",
+                fontSize: "0.75rem",
               },
             }}
             InputLabelProps={{

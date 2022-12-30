@@ -9,6 +9,7 @@ import {toast} from "react-toastify";
 import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation";
 import ModalBox from "../../components/modal";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
 import {
   Box,
   Grid,
@@ -24,6 +25,10 @@ import CustomSelect from "../../components/inputs/basic/Select";
 import CustomTable from "../../components/customtable";
 import {FormsHeaderText} from "../../components/texts";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+
+import TextField from "@mui/material/TextField";
+import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
@@ -651,9 +656,18 @@ export default function BillPrescriptionCreate({closeModal}) {
   ];
   return (
     <>
-      <Box container sx={{width: "100%", height: "100%"}}>
-        <Grid container spacing={1} sx={{height: "calc(100% - 35px)"}}>
-          <Grid item lg={6} md={12} sm={12}>
+      <Box
+        container
+        sx={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        <Grid container spacing={1}>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
             <Box
               sx={{
                 display: "flex",
@@ -669,7 +683,7 @@ export default function BillPrescriptionCreate({closeModal}) {
             </Box>
 
             <Grid container spacing={1}>
-              <Grid item lg={8} md={8} sm={12}>
+              <Grid item lg={4} md={6} sm={8} xs={12}>
                 <Input
                   name="client"
                   value={source}
@@ -681,7 +695,7 @@ export default function BillPrescriptionCreate({closeModal}) {
                 />
               </Grid>
 
-              <Grid item lg={4} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6} xs={6}>
                 <CustomSelect
                   name="paymentmode"
                   defaultValue={paymentmode}
@@ -692,18 +706,19 @@ export default function BillPrescriptionCreate({closeModal}) {
                 />
               </Grid>
 
-              <Grid item lg={4} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6} xs={6}>
                 <Input
                   className="input is-small"
                   value={date}
                   name="date"
                   type="text"
                   onChange={e => setDate(e.target.value)}
-                  placeholder="Date"
+                  label="Date"
                   disabled
                 />
               </Grid>
-              <Grid item lg={4} md={4} sm={6}>
+
+              <Grid item lg={2} md={4} sm={6} xs={6}>
                 <Input
                   name="documentNo"
                   value={documentNo}
@@ -713,17 +728,18 @@ export default function BillPrescriptionCreate({closeModal}) {
                   disabled
                 />
               </Grid>
-              <Grid item lg={4} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6} xs={6}>
                 <Input
                   value={totalamount}
                   name="totalamount"
                   type="text"
                   onChange={e => setTotalamount(e.target.value)}
                   label=" Total Amount"
+                  disabled={true}
                 />
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid item lg={8} md={6} sm={12} xs={12}>
                 <Input
                   name="order"
                   value={medication.order}
@@ -732,8 +748,28 @@ export default function BillPrescriptionCreate({closeModal}) {
                   label="Medication"
                 />
               </Grid>
-            </Grid>
 
+              <Grid item lg={2} md={3} sm={6} xs={12}>
+                <Input
+                  name="order"
+                  value={medication.instruction}
+                  type="text"
+                  label="Instruction"
+                  disabled
+                />
+              </Grid>
+
+              <Grid item lg={2} md={3} sm={6} xs={12}>
+                <Input
+                  name="order"
+                  value={medication.order_status}
+                  type="text"
+                  label="Billing Status"
+                  disabled
+                />
+              </Grid>
+            </Grid>
+            {/* 
             <Box
               container
               sx={{
@@ -758,9 +794,9 @@ export default function BillPrescriptionCreate({closeModal}) {
               >
                 {medication.instruction}
               </Typography>
-            </Box>
+            </Box> */}
 
-            <Box
+            {/* <Box
               container
               sx={{
                 display: "flex",
@@ -784,10 +820,10 @@ export default function BillPrescriptionCreate({closeModal}) {
               >
                 {medication.order_status}
               </Typography>
-            </Box>
+            </Box> */}
           </Grid>
 
-          <Grid item lg={6} md={12} sm={12}>
+          <Grid item lg={12} md={12} sm={12}>
             <Box
               sx={{
                 display: "flex",
@@ -798,7 +834,8 @@ export default function BillPrescriptionCreate({closeModal}) {
             >
               <FormsHeaderText text="Choose Product Item" />
               <GlobalCustomButton onClick={handleClickProd}>
-                Add
+                <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
+                Add Product Item
               </GlobalCustomButton>
             </Box>
 
@@ -813,7 +850,7 @@ export default function BillPrescriptionCreate({closeModal}) {
                   <Typography
                     sx={{
                       display: "inline",
-                      fontSize: "0.85rem",
+                      fontSize: "0.8rem",
                     }}
                     component="span"
                   >
@@ -906,11 +943,11 @@ export default function BillPrescriptionCreate({closeModal}) {
             onClick={handleMedicationDone}
             sx={{marginLeft: "10px"}}
           >
+            <DoneAllIcon fontSize="small" sx={{marginRight: "5px"}} />
             Done
           </GlobalCustomButton>
         </Box>
       </Box>
-      <div className="card card-overflow" style={{width: "100%"}}></div>
 
       <ModalBox
         open={productModal}
@@ -948,7 +985,7 @@ const useOnClickOutside = (ref, handler) => {
   }, [ref, handler]);
 };
 
-export function InventorySearch({getSearchfacility, clear}) {
+export function InventorySearch({getSearchfacility, clear, label}) {
   const productServ = client.service("inventory");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1075,103 +1112,89 @@ export function InventorySearch({getSearchfacility, clear}) {
 
   return (
     <div>
-      <div className="field">
-        <div className="control has-icons-left  ">
-          <div
-            className="dropdown-trigger"
-            style={{width: "100%", position: "relative"}}
+      <Autocomplete
+        size="small"
+        value={simpa}
+        onChange={(event, newValue) => {
+          handleRow(newValue);
+          setSimpa("");
+        }}
+        id="free-solo-dialog-demo"
+        options={facilities}
+        getOptionLabel={option => {
+          if (typeof option === "string") {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option.name;
+        }}
+        isOptionEqualToValue={(option, value) =>
+          value === undefined || value === "" || option._id === value._id
+        }
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        noOptionsText={
+          val !== ""
+            ? `${val} is not in your inventory`
+            : "Search for something"
+        }
+        renderOption={(props, option) => (
+          <Box
+            {...props}
+            onClick={() => handleRow(option)}
+            sx={{
+              display: "flex",
+              cursor: "pointer",
+            }}
+            gap={1}
           >
-            <DebounceInput
-              className="input is-small  is-expanded"
-              type="text"
-              placeholder="Search Product"
-              value={simpa}
-              minLength={3}
-              debounceTimeout={400}
-              onBlur={e => handleBlur(e)}
-              onChange={e => handleSearch(e.target.value)}
-              inputRef={inputEl}
-              element={Input}
-            />
+            <Typography sx={{fontSize: "0.8rem"}}>{option.name}</Typography>
+            <Typography sx={{fontSize: "0.8rem"}}>
+              {option.quantity} {option.baseunit}(s) remaining
+            </Typography>
+            <Typography sx={{fontSize: "0.8rem"}}>
+              Price: N{option.sellingprice}
+            </Typography>
 
-            <Grow in={showPanel}>
-              <Card>
-                <Box
-                  ref={dropDownRef}
-                  container
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    maxHeight: "150px",
-                    overflowY: "scroll",
-                    zIndex: "5",
-                    position: "absolute",
-                    background: "#ffffff",
-                    width: "100%",
-                    border: "1px solid lightgray",
-                    zIndex: "500",
-                  }}
-                >
-                  {facilities.length > 0 ? (
-                    facilities.map((facility, i) => (
-                      <Box
-                        item
-                        key={i}
-                        onClick={() => handleRow(facility)}
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          padding: "0 8px",
-                          width: "100%",
-                          minHeight: "50px",
-                          borderTop: i !== 0 ? "1px solid gray" : "",
-                          cursor: "pointer",
-                          zIndex: "100",
-                        }}
-                      >
-                        <span>{facility.name}</span>
-                        <div>
-                          <span>
-                            <strong>{facility.quantity}</strong>{" "}
-                            {facility.baseunit}(s) remaining
-                          </span>
+            {/* <div>
+              <span>
+                <strong>{option.quantity}</strong> {option.baseunit}(s)
+                remaining
+              </span>
 
-                          <span style={{paddingLeft: "5px"}}>
-                            <strong>Price:</strong> N{facility.sellingprice}
-                          </span>
-                        </div>
-                      </Box>
-                    ))
-                  ) : (
-                    <Box
-                      className="dropdown-item"
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        padding: "0 8px",
-                        width: "100%",
-                        minHeight: "50px",
-                        borderTop: "1px solid gray",
-                        cursor: "pointer",
-                        zIndex: "100",
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontSize: "0.75rem",
-                        }}
-                      >
-                        {val} doesn't exist in your inventory
-                      </span>{" "}
-                    </Box>
-                  )}
-                </Box>
-              </Card>
-            </Grow>
-          </div>
-        </div>
-      </div>
+              <span style={{paddingLeft: "5px"}}>
+                <strong>Price:</strong> N{option.sellingprice}
+              </span>
+            </div> */}
+          </Box>
+        )}
+        sx={{
+          width: "100%",
+        }}
+        freeSolo={false}
+        renderInput={params => (
+          <TextField
+            {...params}
+            label={label || "Search for Product"}
+            onChange={e => handleSearch(e.target.value)}
+            ref={inputEl}
+            sx={{
+              fontSize: "0.75rem",
+              backgroundColor: "#ffffff",
+              "& .MuiInputBase-input": {
+                height: "0.9rem",
+              },
+            }}
+            InputLabelProps={{
+              shrink: true,
+              style: {color: "#2d2d2d"},
+            }}
+          />
+        )}
+      />
     </div>
   );
 }

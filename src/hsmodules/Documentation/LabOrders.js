@@ -8,7 +8,7 @@ import {UserContext, ObjectContext} from "../../context";
 import FacilityPopup from "../helpers/FacilityPopup";
 import {toast} from "react-toastify";
 import {format, formatDistanceToNowStrict} from "date-fns";
-import {Box} from "@mui/material";
+import {Box, Grid, Typography} from "@mui/material";
 import ModalBox from "../../components/modal";
 import Card from "@mui/material/Card";
 import FilterMenu from "../../components/utilities/FilterMenu";
@@ -17,6 +17,12 @@ import CustomTable from "../../components/customtable";
 import {TableMenu} from "../../ui/styled/global";
 import Input from "../../components/inputs/basic/Input";
 import Grow from "@mui/material/Grow";
+import {FormsHeaderText} from "../../components/texts";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 const searchfacility = {};
@@ -28,42 +34,21 @@ export default function LabOrders() {
   //const [showState,setShowState]=useState() //create|modify|detail
 
   return (
-    <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
-            </div> */}
-      <Box
-        container
-        sx={{
-          display: "flex",
-          alignItems: "flex-start",
-          width: "90vw",
-          height: "600px",
-          justifyContent: "space-between",
-          overflow: "hidden",
-        }}
-      >
-        <Box
-          item
-          sx={{
-            display: "flex-inline",
-            width: "60%",
-          }}
-        >
+    <Box
+      sx={{
+        width: "90vw",
+        maxHeight: "80vh",
+      }}
+    >
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={12} md={12} lg={8}>
           <LabOrdersList />
-        </Box>
-
-        <Box
-          item
-          sx={{
-            display: "flex-inline",
-            width: "35%",
-          }}
-        >
+        </Grid>
+        <Grid item xs={12} sm={12} md={12} lg={4}>
           <LabOrdersCreate />
-        </Box>
-      </Box>
-    </section>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 
@@ -147,6 +132,7 @@ export function LabOrdersCreate() {
   const handleChangeType = async e => {
     await setType(e.target.value);
   };
+
   const handleClickProd = async () => {
     await setSuccess(false);
     if (!(productItemI.test && productItemI.test.length > 0)) {
@@ -176,18 +162,6 @@ export function LabOrdersCreate() {
     setDestinationModal(true);
   };
 
-  const resetform = () => {
-    setType("Purchase Invoice");
-    setDocumentNo("");
-    setTotalamount("");
-    setProductId("");
-    setSource("");
-    setDate("");
-    setName("");
-    setTest("");
-    setInstruction("");
-    setProductItem([]);
-  };
   const onSubmit = () => {
     //data,e
     // e.preventDefault();
@@ -242,6 +216,10 @@ export function LabOrdersCreate() {
     return () => {};
   }, []);
 
+  const handleRemoveProd = (prod, index) => {
+    setProductItem(prev => prev.filter((item, i) => i !== index));
+  };
+
   const productItemSchema = [
     {
       name: "S/N",
@@ -250,6 +228,7 @@ export function LabOrdersCreate() {
       description: "Enter",
       sortable: true,
       inputType: "HIDDEN",
+      width: "50px",
     },
     {
       name: "Test",
@@ -260,15 +239,7 @@ export function LabOrdersCreate() {
       required: true,
       inputType: "TEXT",
     },
-    {
-      name: "Instruction",
-      key: "action",
-      description: "Enter Action",
-      selector: row => (row.instruction ? row.instruction : "-------"),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
+
     {
       name: "Destination",
       key: "destination",
@@ -280,181 +251,156 @@ export function LabOrdersCreate() {
     },
 
     {
-      name: "Action",
+      name: "Act",
       key: "destination",
       description: "Enter Destination",
-      selector: row => <p style={{fontSize: "0.7rem", color: "red"}}>Remove</p>,
+      selector: (row, i) => (
+        <DeleteOutlineIcon
+          sx={{color: "red"}}
+          fontSize="small"
+          onClick={() => handleRemoveProd(row, i)}
+        />
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "60px",
     },
   ];
 
   return (
     <>
-      <Card>
-        <Box
-          sx={{
-            padding: "15px",
-            minHeight: "400px",
-            maxHeight: "600px",
-          }}
-        >
-          <div className="card card-overflow">
+      <Box>
+        <div className="card card-overflow">
+          <Box
+            container
+            sx={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+            mb={2}
+          >
+            <FormsHeaderText text="Create Laboratory order" />
+
+            <GlobalCustomButton
+              onClick={() => {
+                handleClickProd();
+                () => setHidePanel(true);
+              }}
+            >
+              <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
+              Add
+            </GlobalCustomButton>
+          </Box>
+
+          <Box
+            sx={{display: "flex", flexDirection: "column"}}
+            gap={1.5}
+            mb={1.5}
+          >
+            <Box>
+              <TestHelperSearch
+                getSearchfacility={getSearchfacility}
+                clear={success}
+                hidePanel={hidePanel}
+              />
+              {/* INVISIBLE INPUT THAT HOLDS THE VALUE FOR TESTHELPERSEARCH */}
+              <input
+                className="input is-small"
+                value={test}
+                name="test"
+                type="text"
+                onChange={e => setTest(e.target.value)}
+                placeholder="test"
+                style={{display: "none"}}
+              />
+            </Box>
+
             <Box
               container
               sx={{
-                width: "100%",
                 display: "flex",
+                width: "100%",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "space-between",
               }}
             >
-              <p className="card-header-title">Create Laboratory Orders</p>
+              <Box
+                item
+                sx={{
+                  width: "calc(100% - 100px)",
+                }}
+              >
+                <Input
+                  value={
+                    destination ===
+                    user.currentEmployee.facilityDetail.facilityName
+                      ? "In-house"
+                      : destination
+                  }
+                  disabled={true}
+                  type="text"
+                  onChange={e => setDestination(e.target.value)}
+                  label="Destination Pharmacy"
+                  name="destination"
+                />
+              </Box>
+
+              <Box item>
+                <GlobalCustomButton onClick={handleChangeDestination}>
+                  Change
+                </GlobalCustomButton>
+              </Box>
             </Box>
-            <div className="card-content ">
-              <div className="field is-horizontal">
-                <div className="field-body">
-                  <TestHelperSearch
-                    getSearchfacility={getSearchfacility}
-                    clear={success}
-                    hidePanel={hidePanel}
-                  />
-                  <input
-                    className="input is-small"
-                    value={test}
-                    name="test"
-                    type="text"
-                    onChange={e => setTest(e.target.value)}
-                    placeholder="test"
-                    style={{display: "none"}}
-                  />
-                </div>
+          </Box>
 
-                <Box
-                  container
-                  sx={{
-                    display: "flex",
-                    width: "100%",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Box
-                    item
-                    sx={{
-                      width: "calc(100% - 100px)",
-                    }}
-                  >
-                    <Input
-                      value={
-                        destination ===
-                        user.currentEmployee.facilityDetail.facilityName
-                          ? "In-house"
-                          : destination
-                      }
-                      disabled={true}
-                      type="text"
-                      onChange={e => setDestination(e.target.value)}
-                      placeholder="Destination Pharmacy"
-                      name="destination"
-                    />
-                  </Box>
+          <Box>
+            {productItem.length > 0 && (
+              <Box mb={1.5}>
+                <CustomTable
+                  title={"Lab Orders"}
+                  columns={productItemSchema}
+                  data={productItem}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  //onRowClicked={handleRow}
+                  progressPending={false}
+                  //selectableRowsComponent={Checkbox}
+                />
+              </Box>
+            )}
 
-                  <Box item>
-                    <Button
-                      onClick={handleChangeDestination}
-                      sx={{
-                        fontSize: "0.75rem",
-                        width: "85px",
-                      }}
-                    >
-                      Change
-                    </Button>
-                  </Box>
-                </Box>
+            {productItem.length > 0 && (
+              <Box
+                container
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <GlobalCustomButton onClick={onSubmit}>
+                  Complete
+                </GlobalCustomButton>
+              </Box>
+            )}
+          </Box>
+        </div>
 
-                <Box
-                  container
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-around",
-                  }}
-                  mb={2}
-                >
-                  <Button
-                    onClick={() => {
-                      handleClickProd();
-                      () => setHidePanel(true);
-                    }}
-                    sx={{
-                      width: "40%",
-                      fontSize: "0.75rem",
-                    }}
-                  >
-                    Add Product
-                  </Button>
-                </Box>
-              </div>
-
-              {productItem.length > 0 && (
-                <Box
-                  sx={{
-                    height: "200px",
-                    overflowY: "scroll",
-                  }}
-                >
-                  <CustomTable
-                    title={"Lab Orders"}
-                    columns={productItemSchema}
-                    data={productItem}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    //onRowClicked={handleRow}
-                    progressPending={false}
-                    //selectableRowsComponent={Checkbox}
-                  />
-                </Box>
-              )}
-
-              {productItem.length > 0 && (
-                <Box
-                  container
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Button
-                    onClick={onSubmit}
-                    sx={{
-                      width: "150px",
-                      fontSize: "0.75rem",
-                    }}
-                  >
-                    Create
-                  </Button>
-                </Box>
-              )}
-            </div>
-          </div>
-
-          <ModalBox
-            open={destinationModal}
-            onClose={handlecloseModal}
-            header="Choose Destination"
-          >
-            <FacilityPopup
-              facilityType="Laboratory"
-              closeModal={handlecloseModal}
-            />
-          </ModalBox>
-        </Box>
-      </Card>
+        <ModalBox
+          open={destinationModal}
+          onClose={handlecloseModal}
+          header="Choose Destination"
+        >
+          <FacilityPopup
+            facilityType="Laboratory"
+            closeModal={handlecloseModal}
+          />
+        </ModalBox>
+      </Box>
     </>
   );
 }
@@ -602,6 +548,7 @@ export function LabOrdersList({standalone}) {
       description: "Enter name of band",
       sortable: true,
       inputType: "HIDDEN",
+      width: "50px",
     },
     {
       name: "Date",
@@ -662,12 +609,7 @@ export function LabOrdersList({standalone}) {
       key: "destination",
       description: "Enter Destination",
       selector: row => (
-        <p
-          style={{fontSize: "0.7rem", color: "red"}}
-          onClick={() => handleDelete(row)}
-        >
-          Delete
-        </p>
+        <DeleteOutlineIcon fontSize="small" sx={{color: "red"}} />
       ),
       sortable: true,
       required: true,
@@ -691,15 +633,14 @@ export function LabOrdersList({standalone}) {
           </div>
 
           {!standalone && (
-            <Button
-              style={{fontSize: "14px", fontWeight: "600"}}
-              label="Add new "
-              onClick={handleCreateNew}
-            />
+            <GlobalCustomButton onClick={handleCreateNew}>
+              <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
+              Add
+            </GlobalCustomButton>
           )}
         </TableMenu>
 
-        <div style={{width: "100%", height: "430px", overflowY: "scroll"}}>
+        <div style={{width: "100%", overflowY: "scroll"}}>
           <CustomTable
             title={""}
             columns={ordersListSchema}
@@ -709,6 +650,11 @@ export function LabOrdersList({standalone}) {
             striped
             onRowClicked={handleRow}
             progressPending={false}
+            CustomEmptyData={
+              <Typography sx={{fontSize: "0.85rem"}}>
+                No Laboratory Orders found......
+              </Typography>
+            }
             //selectableRowsComponent={Checkbox}
           />
         </div>
@@ -1260,7 +1206,193 @@ const useOnClickOutside = (ref, handler) => {
   );
 };
 
-export function TestHelperSearch({getSearchfacility, clear, hidePanel}) {
+export function TestHelperSearch({
+  id,
+  getSearchfacility,
+  clear,
+  disable = false,
+  label,
+}) {
+  const productServ = client.service("labhelper");
+  const [facilities, setFacilities] = useState([]);
+  // eslint-disable-next-line
+  const [searchError, setSearchError] = useState(false);
+  // eslint-disable-next-line
+  const [showPanel, setShowPanel] = useState(false);
+  // eslint-disable-next-line
+  const [searchMessage, setSearchMessage] = useState("");
+  // eslint-disable-next-line
+  const [simpa, setSimpa] = useState("");
+  // eslint-disable-next-line
+  const [chosen, setChosen] = useState(false);
+  // eslint-disable-next-line
+  const [count, setCount] = useState(0);
+  const inputEl = useRef(null);
+  const [val, setVal] = useState("");
+  const {user} = useContext(UserContext);
+  const {state} = useContext(ObjectContext);
+  const [productModal, setProductModal] = useState(false);
+
+  const dropDownRef = useRef(null);
+
+  const getInitial = async id => {
+    console.log(id);
+    if (!!id) {
+      let obj = {
+        categoryname: id,
+      };
+      console.log(obj);
+      handleRow(obj);
+    }
+  };
+
+  useEffect(() => {
+    getInitial(id);
+    return () => {};
+  }, []);
+
+  const handleRow = async obj => {
+    await setChosen(true);
+    //alert("something is chaning")
+
+    await setSimpa(obj.test);
+    getSearchfacility(obj);
+    // setSelectedFacility(obj)
+    setShowPanel(false);
+    await setCount(2);
+    /* const    newfacilityModule={
+            selectedFacility:facility,
+            show :'detail'
+        }
+   await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
+    //console.log(state)
+  };
+
+  const handleSearch = async value => {
+    setVal(value);
+    if (value === "") {
+      setShowPanel(false);
+      getSearchfacility(false);
+      return;
+    }
+    const field = "test"; //field variable
+
+    if (value.length >= 3) {
+      productServ
+        .find({
+          query: {
+            //service
+            [field]: {
+              $regex: value,
+              $options: "i",
+            },
+            $limit: 10,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        })
+        .then(res => {
+          if (res.total > 0) {
+            setFacilities(res.data);
+            setSearchMessage(" product  fetched successfully");
+            setShowPanel(true);
+          } else {
+            setShowPanel(false);
+            getSearchfacility({
+              test: value,
+              instruction: "",
+            });
+          }
+        })
+        .catch(err => {
+          toast({
+            message: "Error fetching test " + err,
+            type: "is-danger",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        });
+    } else {
+      setShowPanel(false);
+      await setFacilities([]);
+    }
+  };
+
+  useEffect(() => {
+    if (clear) {
+      console.log("success has changed", clear);
+      setSimpa("");
+    }
+    return () => {};
+  }, [clear]);
+
+  useOnClickOutside(dropDownRef, () => setShowPanel(false));
+
+  return (
+    <div>
+      <Autocomplete
+        size="small"
+        value={simpa}
+        onChange={(event, newValue) => {
+          handleRow(newValue);
+          setSimpa("");
+        }}
+        id="free-solo-dialog-demo"
+        options={facilities}
+        getOptionLabel={option => {
+          if (typeof option === "string") {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option.test;
+        }}
+        isOptionEqualToValue={(option, value) =>
+          value === undefined || value === "" || option._id === value._id
+        }
+        onInputChange={(event, newInputValue) => {
+          handleSearch(newInputValue);
+        }}
+        inputValue={val}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        noOptionsText={val !== "" ? `${val} Not Found` : "Type something"}
+        renderOption={(props, option) => (
+          <li {...props} style={{fontSize: "0.75rem"}}>
+            {option.test}
+          </li>
+        )}
+        sx={{
+          width: "100%",
+        }}
+        freeSolo={false}
+        renderInput={params => (
+          <TextField
+            {...params}
+            label={label || "Search for Test Product"}
+            ref={inputEl}
+            sx={{
+              fontSize: "0.75rem",
+              backgroundColor: "#ffffff",
+              "& .MuiInputBase-input": {
+                height: "0.9rem",
+              },
+            }}
+            InputLabelProps={{
+              shrink: true,
+              style: {color: "#2d2d2d"},
+            }}
+          />
+        )}
+      />
+    </div>
+  );
+}
+
+export function OldTestHelperSearch({getSearchfacility, clear, hidePanel}) {
   const productServ = client.service("labhelper");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1292,6 +1424,7 @@ export function TestHelperSearch({getSearchfacility, clear, hidePanel}) {
     setShowPanel(false);
     await setCount(2);
   };
+
   const handleBlur = async value => {
     /*  setShowPanel(false) */
     getSearchfacility({
@@ -1359,13 +1492,6 @@ export function TestHelperSearch({getSearchfacility, clear, hidePanel}) {
     }
   };
 
-  const handleAddproduct = () => {
-    setProductModal(true);
-  };
-  const handlecloseModal = () => {
-    // setDestinationModal(false)
-    //handleSearch(val)
-  };
   useEffect(() => {
     setSimpa(value);
     return () => {};

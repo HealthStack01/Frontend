@@ -1,25 +1,22 @@
 /* eslint-disable */
 import React, {useState, useContext, useEffect, useRef} from "react";
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
-import {format, formatDistanceToNowStrict} from "date-fns";
+import {format} from "date-fns";
 import PaymentCreate from "./PaymentCreate";
-import PatientProfile from "../Client/PatientProfile";
 import PaymentsIcon from "@mui/icons-material/Payments";
 
-import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
-import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import ModalBox from "../../components/modal";
 import "react-datepicker/dist/react-datepicker.css";
-import {Box} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import PaymentCreatePage from "./PaymentCreatePage";
+import {FormsHeaderText} from "../../components/texts";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -49,6 +46,7 @@ export default function FinancePayment() {
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
   const [openModal, setOpenModal] = useState(false);
+  const [currentScreen, setCurrentScreen] = useState("lists");
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -60,29 +58,27 @@ export default function FinancePayment() {
 
   return (
     <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
-            </div> */}
+      {currentScreen === "lists" && (
+        <BillingList
+          openModal={handleOpenModal}
+          showCreateScreen={() => setCurrentScreen("create")}
+        />
+      )}
 
-      <BillingList openModal={handleOpenModal} />
+      {currentScreen === "create" && (
+        <PaymentCreatePage handleGoBack={() => setCurrentScreen("lists")} />
+      )}
 
       <ModalBox open={openModal} onClose={handleCloseModal}>
         <Box sx={{width: "800px"}}>
           <PaymentCreate closeModal={handleCloseModal} />
         </Box>
       </ModalBox>
-
-      {/* <div className="column is-4">
-        {state.financeModule.show === "detail" && <PaymentCreate />}
-      </div> */}
-      {/*  <div className="column is-3 ">
-                {(state.financeModule.show ==='detail')&&<PatientProfile />}
-                </div> */}
     </section>
   );
 }
 
-export function BillingList({openModal}) {
+export function BillingList({openModal, showCreateScreen}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -98,7 +94,7 @@ export function BillingList({openModal}) {
   // eslint-disable-next-line
   const [selectedDispense, setSelectedDispense] = useState(); //
   const [selectedOrders, setSelectedOrders] = useState([]);
-  const [selectedClient, setSelectedClient] = useState();
+  const [selectedClient, setSelectedClient] = useState(null);
   // eslint-disable-next-line
   const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
@@ -152,13 +148,16 @@ export function BillingList({openModal}) {
             medication.paymentInfo.paidup + medication.paymentInfo.balance,
           amount: medication.paymentInfo.balance,
         };
+
         setSelectedFinance(order);
+
         const newProductEntryModule = {
           selectedFinance: order,
           show: "detail",
           state: true,
           selectedBills: [],
         };
+
         setState(prevstate => ({
           ...prevstate,
           financeModule: {
@@ -171,7 +170,9 @@ export function BillingList({openModal}) {
       });
     });
 
-    openModal();
+    showCreateScreen();
+
+    //openModal();
   };
 
   const handleChoseClient = async (client, e, order) => {
@@ -339,6 +340,9 @@ export function BillingList({openModal}) {
   };
 
   const onRowClicked = async (client, e) => {
+    if (selectedClient && selectedClient.client_id === client.client_id)
+      return setSelectedClient(null);
+
     await setSelectedClient(client);
 
     setOldClient(client.clientname);
@@ -431,8 +435,8 @@ export function BillingList({openModal}) {
 
   const financePlaymentListSchema = [
     {
-      name: "S/NO",
-      width: "80px",
+      name: "S/N",
+      width: "60px",
       headerStyle: (selector, id) => {
         return {textAlign: "center"}; // removed partial line here
       },
@@ -453,6 +457,7 @@ export function BillingList({openModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "200px",
     },
     {
       name: "Grand Total",
@@ -463,6 +468,7 @@ export function BillingList({openModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "120px",
     },
     {
       name: "Categories Total",
@@ -472,7 +478,11 @@ export function BillingList({openModal}) {
         const bills = row.bills;
         return (
           <>
-            {bills[0].catName} {bills[0].catAmount}
+            {bills.map((category, i) => (
+              <Typography sx={{fontSize: "0.75rem"}} data-tag="allowRowEvents">
+                {category.catName} {category.catAmount.toFixed(2)}
+              </Typography>
+            ))}
           </>
         );
         //row.clientAmount.toFixed(2);
@@ -494,7 +504,6 @@ export function BillingList({openModal}) {
           onClick={() => {
             handlePay(row);
           }}
-          sx={{marginRight: "15px"}}
         >
           <PaymentsIcon sx={{marginRight: "3px"}} fontSize="small" />
           Pay
@@ -503,6 +512,7 @@ export function BillingList({openModal}) {
       sortable: true,
       required: true,
       inputType: "BUTTON",
+      width: "100px",
     },
   ];
 
@@ -575,6 +585,19 @@ export function BillingList({openModal}) {
     },
   ];
 
+  const conditionalRowStyles = [
+    {
+      when: row => row.client_id === selectedClient?.client_id,
+      style: {
+        backgroundColor: "#4cc9f0",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
   return (
     <>
       <div
@@ -583,6 +606,7 @@ export function BillingList({openModal}) {
           flexDirection: "column",
           padding: "20px",
           flex: "1",
+          height: "100%",
         }}
       >
         <TableMenu>
@@ -592,9 +616,19 @@ export function BillingList({openModal}) {
                 <FilterMenu onSearch={handleSearch} />
               </div>
             )}
-            <h2 style={{marginLeft: "10px", fontSize: "0.9rem"}}>
+            <h2
+              style={{
+                marginLeft: "10px",
+                fontSize: "0.9rem",
+                marginRight: "7px",
+              }}
+            >
               Unpaid Invoices/Bills
             </h2>
+
+            {selectedClient && (
+              <FormsHeaderText text={`- ${selectedClient.clientname}`} />
+            )}
           </div>
 
           {selectedOrders.length > 0 && (
@@ -605,7 +639,7 @@ export function BillingList({openModal}) {
           )}
 
           {selectedOrders.length > 0 && (
-            <GlobalCustomButton onClick={openModal}>
+            <GlobalCustomButton onClick={showCreateScreen}>
               <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
               Make Payment
             </GlobalCustomButton>
@@ -623,7 +657,7 @@ export function BillingList({openModal}) {
         >
           <div
             style={{
-              height: "calc(100% - 70px)",
+              height: "calc(100vh - 170px)",
               transition: "width 0.5s ease-in",
               width: selectedClient ? "49.5%" : "100%",
             }}
@@ -637,6 +671,7 @@ export function BillingList({openModal}) {
               striped
               onRowClicked={row => onRowClicked(row)}
               progressPending={loading}
+              conditionalRowStyles={conditionalRowStyles}
             />
           </div>
 
@@ -644,7 +679,7 @@ export function BillingList({openModal}) {
             <>
               <div
                 style={{
-                  height: "calc(100% - 70px)",
+                  height: "calc(100vh - 170px)",
                   width: "49.5%",
                   transition: "width 0.5s ease-in",
                 }}

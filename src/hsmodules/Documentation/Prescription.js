@@ -11,7 +11,7 @@ import {format, formatDistanceToNowStrict} from "date-fns";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 const searchfacility = {};
-import {Box, Button as MuiButton} from "@mui/material";
+import {Box, Button as MuiButton, Grid, Typography} from "@mui/material";
 import ModalBox from "../../components/modal";
 import Card from "@mui/material/Card";
 import FilterMenu from "../../components/utilities/FilterMenu";
@@ -19,7 +19,21 @@ import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import {TableMenu} from "../../ui/styled/global";
 import Input from "../../components/inputs/basic/Input";
+import {FormsHeaderText} from "../../components/texts";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Grow from "@mui/material/Grow";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import moment from "moment";
+import Textarea from "../../components/inputs/basic/Textarea";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+import RefInput from "../../components/inputs/basic/Input/ref-input";
+import dayjs from "dayjs";
 
 export default function Prescription() {
   const {state} = useContext(ObjectContext); //,setState
@@ -28,46 +42,21 @@ export default function Prescription() {
   //const [showState,setShowState]=useState() //create|modify|detail
 
   return (
-    <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
-            </div> */}
-
-      {/*  {(state.OrderModule.show ==='detail')&&<ProductEntryDetail  />}
-                {(state.OrderModule.show ==='modify')&&<ProductEntryModify ProductEntry={selectedProductEntry} />} */}
-
-      <Box
-        container
-        sx={{
-          display: "flex",
-          alignItems: "flex-start",
-          width: "90vw",
-          height: "600px",
-          justifyContent: "space-between",
-          overflow: "hidden",
-        }}
-      >
-        <Box
-          item
-          sx={{
-            display: "flex-inline",
-            width: "60%",
-          }}
-        >
+    <Box
+      sx={{
+        width: "90vw",
+        maxHeight: "80vh",
+      }}
+    >
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={12} md={12} lg={8}>
           <PrescriptionList />
-        </Box>
-
-        <Box
-          item
-          sx={{
-            display: "flex-inline",
-            width: "35%",
-          }}
-        >
+        </Grid>
+        <Grid item xs={12} sm={12} md={12} lg={4}>
           <PrescriptionCreate />
-        </Box>
-      </Box>
-    </section>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 
@@ -127,20 +116,14 @@ export function PrescriptionCreate() {
   // consider batchformat{batchno,expirydate,qtty,baseunit}
   //consider baseunoit conversions
   const getSearchfacility = obj => {
+    console.log(obj);
     setInstruction(obj.instruction);
     setMedication(obj.medication);
 
     if (!obj) {
-      //"clear stuff"
       setInstruction("");
       setMedication("");
     }
-    // setBaseunit(obj.baseunit)
-
-    /*  setValue("facility", obj._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        }) */
   };
 
   useEffect(() => {
@@ -148,16 +131,7 @@ export function PrescriptionCreate() {
     //console.log(currentUser)
     return () => {};
   }, [user]);
-  /*  useEffect(() => {
-        setProductItem(
-            prevProd=>prevProd.concat(productItemI)
-        )
-        console.log(productItem)
-        return () => {
-            
-        }
-    },[productItemI])
- */
+
   useEffect(() => {
     setDestination(state.DestinationModule.selectedDestination.facilityName);
     setDestinationId(state.DestinationModule.selectedDestination._id);
@@ -192,18 +166,6 @@ export function PrescriptionCreate() {
       DestinationModule: newfacilityModule,
     }));
   };
-  //check user for facility or get list of facility
-  /*  useEffect(()=>{
-        //setFacility(user.activeProductEntry.FacilityId)//
-      if (!user.stacker){
-          console.log(currentUser)
-           /* setValue("facility", user.currentEmployee.facilityDetail._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        })  
-
-      }
-    }) */
 
   const handleChangeDestination = () => {
     setDestinationModal(true);
@@ -280,6 +242,10 @@ export function PrescriptionCreate() {
     return () => {};
   }, []);
 
+  const handleRemoveProd = (prod, index) => {
+    setProductItem(prev => prev.filter((item, i) => i !== index));
+  };
+
   const productItemSchema = [
     {
       name: "S/N",
@@ -288,6 +254,7 @@ export function PrescriptionCreate() {
       description: "Enter",
       sortable: true,
       inputType: "HIDDEN",
+      width: "45px",
     },
     {
       name: "Test",
@@ -318,199 +285,152 @@ export function PrescriptionCreate() {
     },
 
     {
-      name: "Action",
+      name: "Act",
       key: "destination",
       description: "Enter Destination",
-      selector: row => <p style={{fontSize: "0.7rem", color: "red"}}>Remove</p>,
+      selector: (row, i) => (
+        <DeleteOutlineIcon
+          sx={{color: "red"}}
+          fontSize="small"
+          onClick={() => handleRemoveProd(row, i)}
+        />
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "60px",
     },
   ];
 
   return (
-    <Card>
+    <Box>
       <Box
+        container
         sx={{
-          padding: "15px",
-          minHeight: "400px",
-          maxHeight: "600px",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
+        mb={1.5}
       >
-        <div className="card card-overflow">
+        <FormsHeaderText text="Create Prescription" />
+
+        <GlobalCustomButton
+          onClick={() => {
+            handleClickProd();
+            () => setHidePanel(true);
+          }}
+        >
+          <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
+          Add
+        </GlobalCustomButton>
+      </Box>
+
+      <Box sx={{display: "flex", flexDirection: "column"}} gap={1.5} mb={1.5}>
+        <Box>
+          <MedicationHelperSearch
+            getSearchfacility={getSearchfacility}
+            clear={success}
+            hidePanel={hidePanel}
+          />
+          {/* INVISIBLE INPUT THAT HOLDS THE VALUE FOR TESTHELPERSEARCH */}
+          <input
+            className="input is-small"
+            value={medication}
+            name="medication"
+            type="text"
+            onChange={e => setMedication(e.target.value)}
+            placeholder="medication"
+            style={{display: "none"}}
+          />
+        </Box>
+
+        <Box>
+          <Input
+            value={instruction}
+            type="text"
+            onChange={e => setInstruction(e.target.value)}
+            label="Instructions/Note"
+            name="instruction"
+            disabled={
+              !(productItemI.medication && productItemI.medication.length > 0)
+            }
+          />
+        </Box>
+        <Box
+          container
+          sx={{
+            display: "flex",
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Box
+            item
+            sx={{
+              width: "calc(100% - 100px)",
+            }}
+          >
+            <Input
+              value={
+                destination === user.currentEmployee.facilityDetail.facilityName
+                  ? "In-house"
+                  : destination
+              }
+              disabled={true}
+              type="text"
+              onChange={e => setDestination(e.target.value)}
+              label="Destination Pharmacy"
+              name="destination"
+            />
+          </Box>
+
+          <Box item>
+            <GlobalCustomButton onClick={handleChangeDestination}>
+              Change
+            </GlobalCustomButton>
+          </Box>
+        </Box>
+      </Box>
+
+      <Box>
+        {productItem.length > 0 && (
+          <Box mb={1.5}>
+            <CustomTable
+              title={"Prescription Orders"}
+              columns={productItemSchema}
+              data={productItem}
+              pointerOnHover
+              highlightOnHover
+              striped
+              //onRowClicked={handleRow}
+              progressPending={false}
+
+              //selectableRowsComponent={Checkbox}
+            />
+          </Box>
+        )}
+
+        {productItem.length > 0 && (
           <Box
             container
             sx={{
-              width: "100%",
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "flex-end",
             }}
           >
-            <p className="card-header-title">Create Prescription</p>
+            <GlobalCustomButton onClick={onSubmit}>Complete</GlobalCustomButton>
           </Box>
-          <div className="card-content ">
-            {/*  <form onSubmit={onSubmit}> {/* handleSubmit(onSubmit)  </form>  */}
-
-            {/* array of ProductEntry items */}
-
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div
-                  className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                >
-                  <MedicationHelperSearch
-                    getSearchfacility={getSearchfacility}
-                    clear={success}
-                    hidePanel={hidePanel}
-                  />
-
-                  <Input
-                    value={instruction}
-                    type="text"
-                    onChange={e => setInstruction(e.target.value)}
-                    placeholder="Instructions/Note"
-                    name="instruction"
-                    disabled={
-                      !(
-                        productItemI.medication &&
-                        productItemI.medication.length > 0
-                      )
-                    }
-                  />
-
-                  <input
-                    className="input is-small"
-                    value={medication}
-                    name="medication"
-                    type="text"
-                    onChange={e => setMedication(e.target.value)}
-                    placeholder="medication"
-                    style={{display: "none"}}
-                  />
-
-                  <Box
-                    container
-                    sx={{
-                      display: "flex",
-                      width: "100%",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Box
-                      item
-                      sx={{
-                        width: "calc(100% - 100px)",
-                      }}
-                    >
-                      <Input
-                        value={
-                          destination ===
-                          user.currentEmployee.facilityDetail.facilityName
-                            ? "In-house"
-                            : destination
-                        }
-                        disabled={true}
-                        type="text"
-                        onChange={e => setDestination(e.target.value)}
-                        placeholder="Destination Pharmacy"
-                        name="destination"
-                      />
-                    </Box>
-
-                    <Box item>
-                      <Button
-                        onClick={handleChangeDestination}
-                        sx={{
-                          fontSize: "0.75rem",
-                          width: "85px",
-                        }}
-                      >
-                        Change
-                      </Button>
-                    </Box>
-                  </Box>
-
-                  <Box
-                    container
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-around",
-                    }}
-                    mb={2}
-                  >
-                    <Button
-                      onClick={() => {
-                        handleClickProd();
-                        () => setHidePanel(true);
-                      }}
-                      sx={{
-                        width: "40%",
-                        fontSize: "0.75rem",
-                      }}
-                    >
-                      Add Product
-                    </Button>
-                  </Box>
-                </div>
-              </div>
-            </div>
-
-            {productItem.length > 0 && (
-              <Box
-                sx={{
-                  height: "200px",
-                  overflowY: "scroll",
-                }}
-              >
-                <CustomTable
-                  title={"Lab Orders"}
-                  columns={productItemSchema}
-                  data={productItem}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  //onRowClicked={handleRow}
-                  progressPending={false}
-                  //selectableRowsComponent={Checkbox}
-                />
-              </Box>
-            )}
-
-            {productItem.length > 0 && (
-              <Box
-                container
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Button
-                  onClick={onSubmit}
-                  sx={{
-                    width: "150px",
-                    fontSize: "0.75rem",
-                  }}
-                >
-                  Create
-                </Button>
-              </Box>
-            )}
-          </div>
-        </div>
-
-        <ModalBox open={destinationModal} onClose={handlecloseModal}>
-          <FacilityPopup
-            facilityType="Pharmacy"
-            closeModal={handlecloseModal}
-          />
-        </ModalBox>
+        )}
       </Box>
-    </Card>
+
+      <ModalBox open={destinationModal} onClose={handlecloseModal}>
+        <FacilityPopup facilityType="Pharmacy" closeModal={handlecloseModal} />
+      </ModalBox>
+    </Box>
   );
 }
 
@@ -665,6 +585,7 @@ export function PrescriptionList({standalone}) {
       description: "Enter name of band",
       sortable: true,
       inputType: "HIDDEN",
+      width: "50px",
     },
     {
       name: "Date",
@@ -674,6 +595,7 @@ export function PrescriptionList({standalone}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "100px",
     },
     {
       name: "Test",
@@ -701,6 +623,7 @@ export function PrescriptionList({standalone}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "100px",
     },
     {
       name: "Status",
@@ -710,6 +633,7 @@ export function PrescriptionList({standalone}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "100px",
     },
     {
       name: "Requesting Physician",
@@ -726,16 +650,16 @@ export function PrescriptionList({standalone}) {
       key: "destination",
       description: "Enter Destination",
       selector: row => (
-        <p
-          style={{fontSize: "0.7rem", color: "red"}}
+        <DeleteOutlineIcon
+          sx={{color: "red"}}
+          fontSize="small"
           onClick={() => handleDelete(row)}
-        >
-          Delete
-        </p>
+        />
       ),
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "80px",
     },
   ];
 
@@ -750,20 +674,19 @@ export function PrescriptionList({standalone}) {
               </div>
             )}
             <h2 style={{marginLeft: "10px", fontSize: "0.8rem"}}>
-              List of Presciption
+              List of Presciptions
             </h2>
           </div>
 
           {!standalone && (
-            <Button
-              style={{fontSize: "14px", fontWeight: "600"}}
-              label="Add new "
-              onClick={handleCreateNew}
-            />
+            <GlobalCustomButton onClick={handleCreateNew}>
+              <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
+              Add
+            </GlobalCustomButton>
           )}
         </TableMenu>
 
-        <div style={{width: "100%", height: "430px", overflowY: "scroll"}}>
+        <div style={{width: "100%", overflowY: "scroll"}}>
           <CustomTable
             title={""}
             columns={ordersListSchema}
@@ -773,6 +696,11 @@ export function PrescriptionList({standalone}) {
             striped
             onRowClicked={handleRow}
             progressPending={false}
+            CustomEmptyData={
+              <Typography sx={{fontSize: "0.85rem"}}>
+                No Prescriptions found......
+              </Typography>
+            }
             //selectableRowsComponent={Checkbox}
           />
         </div>
@@ -792,19 +720,31 @@ export function DrugAdminList({standalone}) {
   // eslint-disable-next-line
   const [message, setMessage] = useState("");
   const OrderServ = client.service("order");
-  //const navigate=useNavigate()
+  //const history = useHistory()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [selectedOrder, setSelectedOrder] = useState(); //
   // eslint-disable-next-line
   const {state, setState} = useContext(ObjectContext);
+
+  const [confirmationDialog, setConfirmationDialog] = useState({
+    message: "",
+    open: false,
+    action: null,
+    type: "",
+  });
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
+
   const refs = useMemo(
     () => facilities.map(() => React.createRef()),
     [facilities]
   );
+  const [selectedRow, setSelectedRow] = useState({
+    row: null,
+    index: null,
+  });
   const ClientServ = client.service("clinicaldocument");
 
   const handleCreateNew = async () => {
@@ -829,111 +769,107 @@ export function DrugAdminList({standalone}) {
   };
 
   const handleAdminister = (medication, i) => {
-    let confirm = window.confirm(
-      `You are about to administer a dose of ${medication.order} for ${
-        state.ClientModule.selectedClient.firstname +
-        " " +
-        state.ClientModule.selectedClient.middlename +
-        " " +
-        state.ClientModule.selectedClient.lastname
-      } ?`
-    );
-    if (confirm) {
-      //update the medication
+    // let confirm = window.confirm(
+    //   `You are about to administer a dose of ${medication.order} for ${
+    //     state.ClientModule.selectedClient.firstname +
+    //     " " +
+    //     state.ClientModule.selectedClient.middlename +
+    //     " " +
+    //     state.ClientModule.selectedClient.lastname
+    //   } ?`
+    // );
+    // if (confirm) {
+    //update the medication
 
-      medication.treatment_status = "Active";
+    medication.treatment_status = "Active";
 
-      const treatment_action = {
-        actorname: user.firstname + " " + user.lastname,
-        actorId: user._id,
-        order_id: medication._id,
-        action: "Administered",
-        comments: refs[i].current.value,
-        createdat: new Date().toLocaleString(),
-        description:
-          "Administered current dose of " +
-          medication.order +
-          " " +
-          user.firstname +
-          " " +
-          user.lastname +
-          " @ " +
-          new Date().toLocaleString(),
-      };
-
-      medication.treatment_action = [
-        treatment_action,
-        ...medication.treatment_action,
-      ];
-      const treatment_doc = {
-        Description:
-          "Administered current dose of " +
-          medication.order +
-          " " +
-          user.firstname +
-          " " +
-          user.lastname +
-          " @ " +
-          new Date().toLocaleString(),
-        Comments: refs[i].current.value,
-      };
-      let productItem = treatment_doc;
-      let document = {};
-      // data.createdby=user._id
-      // console.log(data);
-      document.order = medication;
-      document.update = treatment_action;
-      if (user.currentEmployee) {
-        document.facility = user.currentEmployee.facilityDetail._id;
-        document.facilityname =
-          user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
-      }
-      document.documentdetail = productItem;
-
-      document.documentname = "Drug Administration"; //state.DocumentClassModule.selectedDocumentClass.name
-      // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
-      document.location =
-        state.employeeLocation.locationName +
+    const treatment_action = {
+      actorname: user.firstname + " " + user.lastname,
+      actorId: user._id,
+      order_id: medication._id,
+      action: "Administered",
+      comments: refs[i].current.value,
+      createdat: new Date().toLocaleString(),
+      description:
+        "Administered current dose of " +
+        medication.order +
         " " +
-        state.employeeLocation.locationType;
-      document.locationId = state.employeeLocation.locationId;
-      document.client = state.ClientModule.selectedClient._id;
-      document.clientname =
-        state.ClientModule.selectedClient.firstname +
+        user.firstname +
         " " +
-        state.ClientModule.selectedClient.middlename +
-        " " +
-        state.ClientModule.selectedClient.lastname;
-      document.clientobj = state.ClientModule.selectedClient;
-      document.createdBy = user._id;
-      document.createdByname = user.firstname + " " + user.lastname;
-      document.status = "completed";
+        user.lastname +
+        " @ " +
+        new Date().toLocaleString(),
+    };
 
-      ClientServ.create(document)
-        .then(res => {
-          //console.log(JSON.stringify(res))
-          // e.target.reset();
-          /*  setMessage("Created Client successfully") */
-          setSuccess(true);
-          toast({
-            message: "Drug administered succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-          setSuccess(false);
-          refs[i].current.value = "";
-          // setProductItem([])
-        })
-        .catch(err => {
-          toast({
-            message: "Error In Drugs Adminstration " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-        });
+    medication.treatment_action = [
+      treatment_action,
+      ...medication.treatment_action,
+    ];
+    const treatment_doc = {
+      Description:
+        "Administered current dose of " +
+        medication.order +
+        " " +
+        user.firstname +
+        " " +
+        user.lastname +
+        " @ " +
+        new Date().toLocaleString(),
+      Comments: refs[i].current.value,
+    };
+    let productItem = treatment_doc;
+    let document = {};
+    // data.createdby=user._id
+    // console.log(data);
+    document.order = medication;
+    document.update = treatment_action;
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
+    document.documentdetail = productItem;
+
+    document.documentname = "Drug Administration"; //state.DocumentClassModule.selectedDocumentClass.name
+    // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.clientname =
+      state.ClientModule.selectedClient.firstname +
+      " " +
+      state.ClientModule.selectedClient.middlename +
+      " " +
+      state.ClientModule.selectedClient.lastname;
+    document.clientobj = state.ClientModule.selectedClient;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = "completed";
+
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+
+    //return console.log(document);
+
+    ClientServ.create(document)
+      .then(res => {
+        //console.log(JSON.stringify(res))
+        // e.target.reset();
+        /*  setMessage("Created Client successfully") */
+        setSuccess(true);
+        toast.success("Drug administered succesfully");
+        setSuccess(false);
+        refs[i].current.value = "";
+        // setProductItem([])
+      })
+      .catch(err => {
+        toast.error("Error In Drugs Adminstration " + err);
+      });
+    // }
   };
 
   const handleDelete = doc => {
@@ -964,216 +900,206 @@ export function DrugAdminList({standalone}) {
   };
 
   const handleDiscontinue = (medication, i) => {
-    let confirm = window.confirm(
-      `You are about to discontinue this medication ${medication.order} for ${
-        state.ClientModule.selectedClient.firstname +
-        " " +
-        state.ClientModule.selectedClient.middlename +
-        " " +
-        state.ClientModule.selectedClient.lastname
-      } ?`
-    );
-    if (confirm) {
-      medication.treatment_status = "Cancelled";
+    // let confirm = window.confirm(
+    //   `You are about to discontinue this medication ${medication.order} for ${
+    //     state.ClientModule.selectedClient.firstname +
+    //     " " +
+    //     state.ClientModule.selectedClient.middlename +
+    //     " " +
+    //     state.ClientModule.selectedClient.lastname
+    //   } ?`
+    // );
+    // if (confirm) {
+    medication.treatment_status = "Cancelled";
 
-      const treatment_action = {
-        actorname: user.firstname + " " + user.lastname,
-        actorId: user._id,
-        order_id: medication._id,
-        action: "Discountinued",
-        comments: refs[i].current.value,
-        createdat: new Date().toLocaleString(),
-        description:
-          "Discontinued " +
-          medication.order +
-          " for " +
-          user.firstname +
-          " " +
-          user.lastname +
-          " @ " +
-          new Date().toLocaleString(),
-      };
-
-      medication.treatment_action = [
-        treatment_action,
-        ...medication.treatment_action,
-      ];
-      const treatment_doc = {
-        Description:
-          "Discontinued  " +
-          medication.order +
-          " for " +
-          user.firstname +
-          " " +
-          user.lastname +
-          " @ " +
-          new Date().toLocaleString(),
-        Comments: refs[i].current.value,
-      };
-      let productItem = treatment_doc;
-      let document = {};
-      // data.createdby=user._id
-      // console.log(data);
-      document.order = medication;
-      document.update = treatment_action;
-      if (user.currentEmployee) {
-        document.facility = user.currentEmployee.facilityDetail._id;
-        document.facilityname =
-          user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
-      }
-      document.documentdetail = productItem;
-
-      document.documentname = "Drug Administration"; //state.DocumentClassModule.selectedDocumentClass.name
-      // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
-      document.location =
-        state.employeeLocation.locationName +
+    const treatment_action = {
+      actorname: user.firstname + " " + user.lastname,
+      actorId: user._id,
+      order_id: medication._id,
+      action: "Discountinued",
+      comments: refs[i].current.value,
+      createdat: new Date().toLocaleString(),
+      description:
+        "Discontinued " +
+        medication.order +
+        " for " +
+        user.firstname +
         " " +
-        state.employeeLocation.locationType;
-      document.locationId = state.employeeLocation.locationId;
-      document.client = state.ClientModule.selectedClient._id;
-      document.clientname =
-        state.ClientModule.selectedClient.firstname +
-        " " +
-        state.ClientModule.selectedClient.middlename +
-        " " +
-        state.ClientModule.selectedClient.lastname;
-      document.clientobj = state.ClientModule.selectedClient;
-      document.createdBy = user._id;
-      document.createdByname = user.firstname + " " + user.lastname;
-      document.status = "completed";
+        user.lastname +
+        " @ " +
+        new Date().toLocaleString(),
+    };
 
-      ClientServ.create(document)
-        .then(res => {
-          //console.log(JSON.stringify(res))
-          // e.target.reset();
-          /*  setMessage("Created Client successfully") */
-          setSuccess(true);
-          toast({
-            message: "Drug administered succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-          setSuccess(false);
-          refs[i].current.value = "";
-          // setProductItem([])
-        })
-        .catch(err => {
-          toast({
-            message: "Error In Drugs Adminstration " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-        });
+    medication.treatment_action = [
+      treatment_action,
+      ...medication.treatment_action,
+    ];
+    const treatment_doc = {
+      Description:
+        "Discontinued  " +
+        medication.order +
+        " for " +
+        user.firstname +
+        " " +
+        user.lastname +
+        " @ " +
+        new Date().toLocaleString(),
+      Comments: refs[i].current.value,
+    };
+    let productItem = treatment_doc;
+    let document = {};
+    // data.createdby=user._id
+    // console.log(data);
+    document.order = medication;
+    document.update = treatment_action;
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
+    document.documentdetail = productItem;
+
+    document.documentname = "Drug Administration"; //state.DocumentClassModule.selectedDocumentClass.name
+    // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.clientname =
+      state.ClientModule.selectedClient.firstname +
+      " " +
+      state.ClientModule.selectedClient.middlename +
+      " " +
+      state.ClientModule.selectedClient.lastname;
+    document.clientobj = state.ClientModule.selectedClient;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = "completed";
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+
+    //return console.log(document);
+
+    ClientServ.create(document)
+      .then(res => {
+        //console.log(JSON.stringify(res))
+        // e.target.reset();
+        /*  setMessage("Created Client successfully") */
+        setSuccess(true);
+        toast.success("Drug Discontinued succesfully");
+        setSuccess(false);
+        refs[i].current.value = "";
+        // setProductItem([])
+      })
+      .catch(err => {
+        toast.error("Error In Discontinuation of Drug " + err);
+      });
+    //}
   };
 
   const handleDrop = (medication, i) => {
-    let confirm = window.confirm(
-      `You are about to drop this medication ${medication.order} for ${
-        state.ClientModule.selectedClient.firstname +
-        " " +
-        state.ClientModule.selectedClient.middlename +
-        " " +
-        state.ClientModule.selectedClient.lastname
-      } ?`
-    );
-    if (confirm) {
-      medication.treatment_status = "Aborted";
-      medication.drop = true;
+    // let confirm = window.confirm(
+    //   `You are about to drop this medication ${medication.order} for ${
+    //     state.ClientModule.selectedClient.firstname +
+    //     " " +
+    //     state.ClientModule.selectedClient.middlename +
+    //     " " +
+    //     state.ClientModule.selectedClient.lastname
+    //   } ?`
+    // );
+    // if (confirm) {
+    medication.treatment_status = "Aborted";
+    medication.drop = true;
 
-      const treatment_action = {
-        actorname: user.firstname + " " + user.lastname,
-        actorId: user._id,
-        order_id: medication._id,
-        action: "Aborted",
-        comments: refs[i].current.value,
-        createdat: new Date().toLocaleString(),
-        description:
-          "Dropped " +
-          medication.order +
-          " for " +
-          user.firstname +
-          " " +
-          user.lastname +
-          " @ " +
-          new Date().toLocaleString(),
-      };
-
-      medication.treatment_action = [
-        treatment_action,
-        ...medication.treatment_action,
-      ];
-      const treatment_doc = {
-        Description:
-          "Dropped  " +
-          medication.order +
-          " for " +
-          user.firstname +
-          " " +
-          user.lastname +
-          " @ " +
-          new Date().toLocaleString(),
-        Comments: refs[i].current.value,
-      };
-      let productItem = treatment_doc;
-      let document = {};
-      // data.createdby=user._id
-      // console.log(data);
-      document.order = medication;
-      document.update = treatment_action;
-      if (user.currentEmployee) {
-        document.facility = user.currentEmployee.facilityDetail._id;
-        document.facilityname =
-          user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
-      }
-      document.documentdetail = productItem;
-
-      document.documentname = "Drug Administration"; //state.DocumentClassModule.selectedDocumentClass.name
-      // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
-      document.location =
-        state.employeeLocation.locationName +
+    const treatment_action = {
+      actorname: user.firstname + " " + user.lastname,
+      actorId: user._id,
+      order_id: medication._id,
+      action: "Aborted",
+      comments: refs[i].current.value,
+      createdat: new Date().toLocaleString(),
+      description:
+        "Dropped " +
+        medication.order +
+        " for " +
+        user.firstname +
         " " +
-        state.employeeLocation.locationType;
-      document.locationId = state.employeeLocation.locationId;
-      document.client = state.ClientModule.selectedClient._id;
-      document.clientname =
-        state.ClientModule.selectedClient.firstname +
-        " " +
-        state.ClientModule.selectedClient.middlename +
-        " " +
-        state.ClientModule.selectedClient.lastname;
-      document.clientobj = state.ClientModule.selectedClient;
-      document.createdBy = user._id;
-      document.createdByname = user.firstname + " " + user.lastname;
-      document.status = "completed";
+        user.lastname +
+        " @ " +
+        new Date().toLocaleString(),
+    };
 
-      ClientServ.create(document)
-        .then(res => {
-          //console.log(JSON.stringify(res))
-          // e.target.reset();
-          /*  setMessage("Created Client successfully") */
-          setSuccess(true);
-          toast({
-            message: "Drug administered succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-          setSuccess(false);
-          refs[i].current.value = "";
-          // setProductItem([])
-        })
-        .catch(err => {
-          toast({
-            message: "Error In Drugs Adminstration " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-        });
+    medication.treatment_action = [
+      treatment_action,
+      ...medication.treatment_action,
+    ];
+    const treatment_doc = {
+      Description:
+        "Dropped  " +
+        medication.order +
+        " for " +
+        user.firstname +
+        " " +
+        user.lastname +
+        " @ " +
+        new Date().toLocaleString(),
+      Comments: refs[i].current.value,
+    };
+    let productItem = treatment_doc;
+    let document = {};
+    // data.createdby=user._id
+    // console.log(data);
+    document.order = medication;
+    document.update = treatment_action;
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
+    document.documentdetail = productItem;
+
+    document.documentname = "Drug Administration"; //state.DocumentClassModule.selectedDocumentClass.name
+    // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.clientname =
+      state.ClientModule.selectedClient.firstname +
+      " " +
+      state.ClientModule.selectedClient.middlename +
+      " " +
+      state.ClientModule.selectedClient.lastname;
+    document.clientobj = state.ClientModule.selectedClient;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = "completed";
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+
+    //return console.log(document);
+
+    ClientServ.create(document)
+      .then(res => {
+        //console.log(JSON.stringify(res))
+        // e.target.reset();
+        /*  setMessage("Created Client successfully") */
+        setSuccess(true);
+        toast.success("Drug administered succesfully");
+        setSuccess(false);
+        refs[i].current.value = "";
+        // setProductItem([])
+      })
+      .catch(err => {
+        toast.error("Error In Drugs Adminstration " + err);
+      });
+    //}
   };
 
   const handleRow = async ProductEntry => {
@@ -1217,8 +1143,10 @@ export function DrugAdminList({standalone}) {
         order_category: "Prescription",
         // storeId:state.StoreModule.selectedStore._id,
         //facility:user.currentEmployee.facilityDetail._id || "",
+        clientId: state.ClientModule.selectedClient._id,
         $limit: 10,
         $sort: {
+          treatment_status: 1,
           createdAt: -1,
         },
       },
@@ -1264,167 +1192,377 @@ export function DrugAdminList({standalone}) {
     OrderServ.on("removed", obj => getFacilities());
     return () => {};
   }, []);
-  // console.log(facilities);
-  const medicationSchema = [
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event, row, index) => {
+    setAnchorEl(event.currentTarget);
+
+    setSelectedRow(() => ({
+      row: row,
+      index: index,
+    }));
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleConfirmAdminister = () => {
+    setConfirmationDialog(prev => ({
+      ...prev,
+      open: true,
+      message: `You are about to administer a dose of ${
+        selectedRow.row.order
+      } for ${
+        state.ClientModule.selectedClient.firstname +
+        " " +
+        state.ClientModule.selectedClient.middlename +
+        " " +
+        state.ClientModule.selectedClient.lastname
+      } ?`,
+
+      action: handleAdminister,
+      type: "update",
+    }));
+  };
+
+  const handleConfirmDiscontinue = () => {
+    setConfirmationDialog(prev => ({
+      ...prev,
+      open: true,
+      message: `You are about to discontinue this medication ${
+        selectedRow.row.order
+      } for ${
+        state.ClientModule.selectedClient.firstname +
+        " " +
+        state.ClientModule.selectedClient.middlename +
+        " " +
+        state.ClientModule.selectedClient.lastname
+      } ?`,
+
+      action: handleDiscontinue,
+      type: "update",
+    }));
+  };
+
+  const handleConfirmDrop = () => {
+    setConfirmationDialog(prev => ({
+      ...prev,
+      open: true,
+      message: `You are about to drop this medication ${
+        selectedRow.row.order
+      } for ${
+        state.ClientModule.selectedClient.firstname +
+        " " +
+        state.ClientModule.selectedClient.middlename +
+        " " +
+        state.ClientModule.selectedClient.lastname
+      } ?`,
+
+      action: handleDrop,
+      type: "danger",
+    }));
+  };
+
+  const handleCloseConfirmDialog = () => {
+    setConfirmationDialog(prev => ({
+      ...prev,
+      open: false,
+    }));
+  };
+
+  const drugAdminColumns = [
     {
       name: "S/N",
-      key: "sn",
-      description: "SN",
-      width: "70px",
-      selector: row => row.sn,
+      key: "_id",
+      selector: (row, i) => i + 1,
+      description: "Enter name of band",
       sortable: true,
       inputType: "HIDDEN",
+      width: "50px",
     },
-
     {
       name: "Date",
-      key: "Date",
-      description: "date",
-      width: "80px",
-      selector: row => format(new Date(row.createdAt), "dd-MM-yy"),
+      key: "treatment_action",
+      description: "Enter name of band",
+      selector: row => {
+        return moment(row?.treatment_action[0]?.createdat).format("L");
+      },
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "100px",
     },
 
     {
       name: "Medication",
       key: "order",
-      description: "order",
-      width: "120px",
+      description: "Enter name of Facility",
       selector: row => row.order,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
-
     {
       name: "Instructions",
-      key: "Instructions",
-      description: "fufiled",
-      width: "100px",
+      key: "instruction",
       selector: row => row.instruction,
+      description: "Enter name of band",
       sortable: true,
-      required: true,
-      inputType: "TEXT",
+      inputType: "HIDDEN",
     },
-
     {
       name: "Status",
-      key: "status",
-      description: "status",
-      width: "80px",
+      key: "treatment_status",
+      description: "Enter name of band",
       selector: row => row.treatment_status,
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "100px",
     },
     {
       name: "Last Administered",
-      key: "lastadministered",
-      description: "lastadministered",
+      key: "facility",
+      description: "Enter name of Facility",
+      selector: row =>
+        row.treatment_action[0]?.createdat && (
+          <>{moment(row?.treatment_action[0]?.createdat).format("L")}</>
+        ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
       width: "100px",
-      selector: row => row.lastadministered,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
     },
-
     {
-      name: "Lastest Comments",
-      key: "lastest comments",
-      description: "lastest comments",
+      name: "Latest Comments",
+      key: "treatment_action",
       selector: row => row.treatment_action[0]?.comments,
+      description: "Enter name of band",
       sortable: true,
-      required: true,
-      inputType: "TEXT",
+      inputType: "HIDDEN",
     },
-
     {
       name: "Administered By",
-      key: "AdministeredBy",
-      description: "AdministeredBy",
-      selector: row => row.requestingdoctor_Name,
+      key: "name",
+      description: "Enter name of band",
+      selector: row => row.treatment_action[0]?.actorname,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
-
     {
-      name: "New comments",
-      key: "comments",
-      description: "comments",
-      selector: row => row.comments,
+      name: "New Comment",
+      key: "facility",
+      description: "Enter name of Facility",
+      selector: (row, i) => (
+        <Box sx={{width: "200px"}}>
+          <RefInput
+            sx={{width: "100%"}}
+            type="text"
+            name={i}
+            inputRef={refs[i]}
+            placeholder="write here...."
+          />
+        </Box>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "220px",
+      center: true,
     },
-
     {
-      name: "Action",
-      key: "action",
-      width: "180px",
-      description: "action",
-      selector: row => [
-        <Box style={{display: "flex", flexWrap: "wrap", width: "180px"}}>
-          <Button
-            style={{
-              fontSize: "0.7rem",
-              color: "white",
-              width: "70px",
-              backgroundColor: "#00C4A7",
-              marginBottom: "5px",
+      name: "Actions",
+      key: "facility",
+      description: "Enter name of Facility",
+      selector: "treatment_status",
+      cell: (row, i) => (
+        <div>
+          <GlobalCustomButton onClick={event => handleClick(event, row, i)}>
+            Actions
+            <ArrowDropDownIcon fontSize="small" sx={{marginLeft: "2px"}} />
+          </GlobalCustomButton>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
             }}
-            onClick={() => handleAdminister(row)}
           >
-            Administer
-          </Button>
+            <MenuItem
+              sx={
+                row.treatment_status === "Cancelled"
+                  ? {
+                      backgroundColor: "#e76f51",
+                      pointerEvents: "none",
+                      "&:hover": {
+                        backgroundColor: "#e76f51",
+                      },
+                    }
+                  : {}
+              }
+              onClick={() => {
+                if (row.treatment_status === "Cancelled") return handleClose();
 
-          <Button
-            style={{
-              fontSize: "0.7rem",
-              color: "white",
-              width: "70px",
-              marginBottom: "5px",
-            }}
-            onClick={() => handleHistory(row)}
-          >
-            History
-          </Button>
+                handleConfirmAdminister();
+                //handleAdminister(selectedRow.row, selectedRow.index);
+                handleClose();
+              }}
+            >
+              Administer
+            </MenuItem>
 
-          <Button
-            style={{
-              fontSize: "0.7rem",
-              color: "white",
-              width: "70px",
-              backgroundColor: "#FFDB4A",
-            }}
-            onClick={() => handleDiscontinue(row)}
-          >
-            Discontinue
-          </Button>
+            <MenuItem
+              onClick={() => {
+                handleHistory(selectedRow.row, selectedRow.index);
+                handleClose();
+              }}
+            >
+              History
+            </MenuItem>
 
-          <Button
-            style={{
-              fontSize: "0.7rem",
-              color: "white",
-              width: "70px",
-              backgroundColor: "#F03A5F",
-            }}
-            onClick={() => handleDrop(row)}
-          >
-            Drop
-          </Button>
-        </Box>,
-      ],
-      // omit: !standalone?false: true,
+            <MenuItem
+              sx={
+                row.treatment_status === "Cancelled"
+                  ? {
+                      backgroundColor: "#e76f51",
+                      pointerEvents: "none",
+                      "&:hover": {
+                        backgroundColor: "#e76f51",
+                      },
+                    }
+                  : {}
+              }
+              onClick={() => {
+                if (row.treatment_status === "Cancelled") return handleClose();
+
+                handleConfirmDiscontinue();
+                handleClose();
+              }}
+            >
+              Discountinue
+            </MenuItem>
+
+            <MenuItem
+              sx={
+                row.treatment_status === "Cancelled"
+                  ? {
+                      backgroundColor: "#e76f51",
+                      pointerEvents: "none",
+                      "&:hover": {
+                        backgroundColor: "#e76f51",
+                      },
+                    }
+                  : {}
+              }
+              onClick={() => {
+                if (row.treatment_status === "Cancelled") return handleClose();
+
+                handleConfirmDrop();
+                handleClose();
+              }}
+            >
+              Drop
+            </MenuItem>
+          </Menu>
+        </div>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "120px",
+      center: true,
     },
   ];
 
-  const orderSchema = [
+  const conditionalRowStyles = [
+    {
+      when: row => row.treatment_status === "Cancelled",
+      style: {
+        backgroundColor: "#fed9b7",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
+  return (
+    <>
+      <Box
+        sx={{
+          width: "90vw",
+          maxHeight: "80vh",
+        }}
+      >
+        <CustomConfirmationDialog
+          open={confirmationDialog.open}
+          message={confirmationDialog.message}
+          confirmationAction={() =>
+            confirmationDialog.action(selectedRow.row, selectedRow.index)
+          }
+          cancelAction={handleCloseConfirmDialog}
+          type={confirmationDialog.type}
+        />
+        <TableMenu>
+          <div style={{display: "flex", alignItems: "center"}}>
+            {handleSearch && (
+              <div className="inner-table">
+                <FilterMenu onSearch={handleSearch} />
+              </div>
+            )}
+            <h2 style={{marginLeft: "10px", fontSize: "0.8rem"}}>
+              List of Prescriptions
+            </h2>
+          </div>
+
+          {!standalone && (
+            <GlobalCustomButton onClick={handleCreateNew}>
+              <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
+              Add
+            </GlobalCustomButton>
+          )}
+        </TableMenu>
+
+        <Box>
+          <CustomTable
+            title={""}
+            columns={drugAdminColumns}
+            data={facilities}
+            pointerOnHover
+            highlightOnHover
+            striped
+            onRowClicked={handleRow}
+            progressPending={false}
+            CustomEmptyData={
+              <Typography sx={{fontSize: "0.85rem"}}>
+                No Presciptions found......
+              </Typography>
+            }
+            conditionalRowStyles={conditionalRowStyles}
+          />
+        </Box>
+      </Box>
+
+      <ModalBox
+        open={hxModal}
+        onClose={handlecloseModal1}
+        header="Drug Admin History"
+      >
+        <DrugAdminHistory currentMed={currentMed} />
+      </ModalBox>
+    </>
+  );
+}
+
+export const DrugAdminHistory = ({currentMed}) => {
+  const historyColumns = [
     {
       name: "S/N",
       key: "sn",
@@ -1432,16 +1570,18 @@ export function DrugAdminList({standalone}) {
       selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
+      width: "50px",
     },
 
     {
       name: "Date/Time",
       key: "Date",
       description: "date",
-      selector: row => format(new Date(row.createdAt), "dd-MM-yy"),
+      selector: row => dayjs(row?.createdAt).format("DD-MM-YYYY"),
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "100px",
     },
 
     {
@@ -1452,6 +1592,7 @@ export function DrugAdminList({standalone}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "100px",
     },
 
     {
@@ -1477,164 +1618,71 @@ export function DrugAdminList({standalone}) {
 
   return (
     <>
-      <div>
-        <div>
-          <div>
-            <div style={{display: "flex", marginBottom: "20px"}}>
-              {handleSearch && (
-                <div>
-                  <FilterMenu onSearch={handleSearch} />
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-        {!standalone && (
-          <>
-            <div className="level-item">
-              {" "}
-              <span className="is-size-6 has-text-weight-medium">
-                List of Prescriptions{" "}
-              </span>
-            </div>
-            <div className="level-right">
-              <div className="level-item">
-                <div className="level-item">
-                  <div
-                    className="button is-success is-small"
-                    onClick={handleCreateNew}
-                  >
-                    New
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-      <div className="table-container pullup ">
+      <Box
+        sx={{
+          width: "800px",
+          display: "flex",
+          flexDirection: "column",
+        }}
+        gap={1.5}
+      >
         <Box>
-          <div style={{height: "400px", width: "100%"}}>
+          <FormsHeaderText text={currentMed.order} />
+        </Box>
+
+        <Grid container spacing={1}>
+          <Grid item xs={6}>
+            <Input
+              label="Ordered By"
+              defaultValue={currentMed.requestingdoctor_Name}
+              disabled={true}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <Input
+              label="Time Ordered"
+              defaultValue={`${formatDistanceToNowStrict(
+                new Date(currentMed.createdAt),
+                {
+                  addSuffix: true,
+                }
+              )}-${moment(currentMed.createdAt).format("L")}`}
+              disabled={true}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Textarea
+              label="Intructions"
+              defaultValue={currentMed.instruction}
+              disabled={true}
+            />
+          </Grid>
+        </Grid>
+
+        {currentMed.hasOwnProperty("treatment_action") && (
+          <Box>
             <CustomTable
               title={""}
-              columns={medicationSchema}
-              data={facilities}
-              onRowClicked={handleRow}
+              columns={historyColumns}
+              data={currentMed.treatment_action}
+              //onRowClicked={handleRow}
               pointerOnHover
               highlightOnHover
               striped
+              CustomEmptyData={
+                <Typography sx={{fontSize: "0.8rem"}}>
+                  No Drug Admin History listed......
+                </Typography>
+              }
             />
-          </div>
-        </Box>
-      </div>
-      <div>
-        <ModalBox
-          open={hxModal}
-          onClose={handlecloseModal1}
-          header="Drug Admin History"
-        >
-          <div
-            className="modal-card"
-            style={{height: "400px", overflow: "auto"}}
-          >
-            {/* <p className="modal-card-title"> </p> */}
-
-            <Box>
-              <div>
-                <span className="is-medium">
-                  <strong>{currentMed.order}</strong>
-                </span>
-              </div>
-              <div>
-                <span>
-                  <strong>Instruction: </strong>
-                  {currentMed.instruction}
-                </span>
-              </div>
-
-              <div>
-                <span>
-                  <strong>Ordered by:</strong>{" "}
-                  {currentMed.requestingdoctor_Name}
-                </span>
-              </div>
-
-              {currentMed.createdAt && (
-                <span>
-                  <strong>
-                    {formatDistanceToNowStrict(new Date(currentMed.createdAt), {
-                      addSuffix: true,
-                    })}
-                  </strong>{" "}
-                  <span>
-                    {format(new Date(currentMed.createdAt), "dd-MM-yy")}
-                  </span>
-                </span>
-              )}
-
-              <div className="table-container pullup ">
-                <div>
-                  <span className="is-medium">
-                    <strong>{currentMed.order}</strong>
-                  </span>
-                  <br />
-                  <span>
-                    <strong>Instruction: </strong>
-                    {currentMed.instruction}
-                  </span>
-                  <br />
-                  <span>
-                    <strong>Ordered by:</strong>{" "}
-                    {currentMed.requestingdoctor_Name}
-                  </span>
-                  <br />
-                  {currentMed.createdAt && (
-                    <span>
-                      <strong>
-                        {formatDistanceToNowStrict(
-                          new Date(currentMed.createdAt),
-                          {addSuffix: true}
-                        )}
-                      </strong>{" "}
-                      <span>
-                        {format(new Date(currentMed.createdAt), "dd-MM-yy")}
-                      </span>
-                    </span>
-                  )}
-                </div>
-                <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-                  <tbody>
-                    {currentMed.hasOwnProperty("treatment_action") && (
-                      <div style={{height: "250px", overflow: "auto"}}>
-                        <CustomTable
-                          title={""}
-                          columns={orderSchema}
-                          data={facilities}
-                          onRowClicked={handleRow}
-                          pointerOnHover
-                          highlightOnHover
-                          striped
-                        />
-                      </div>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </Box>
-
-            {/* <StoreList standalone="true" /> */}
-            {/* <BillServiceCreate closeModal={handlecloseModal1}/> */}
-
-            {/* <footer className="modal-card-foot">
-                                  <button className="button is-success">Save changes</button>
-                                  <button className="button">Cancel</button>
-                                  </footer> */}
-          </div>
-        </ModalBox>
-      </div>
+          </Box>
+        )}
+      </Box>
     </>
   );
-}
+};
 
 export function ProductEntryDetail() {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
@@ -2166,34 +2214,13 @@ export function ProductEntryModify() {
   );
 }
 
-const useOnClickOutside = (ref, handler) => {
-  useEffect(
-    () => {
-      const listener = event => {
-        // Do nothing if clicking ref's element or descendent elements
-        if (!ref.current || ref.current.contains(event.target)) {
-          return;
-        }
-        handler(event);
-      };
-      document.addEventListener("mousedown", listener);
-      document.addEventListener("touchstart", listener);
-      return () => {
-        document.removeEventListener("mousedown", listener);
-        document.removeEventListener("touchstart", listener);
-      };
-    },
-    // Add ref and handler to effect dependencies
-    // It's worth noting that because passed in handler is a new ...
-    // ... function on every render that will cause this effect ...
-    // ... callback/cleanup to run every render. It's not a big deal ...
-    // ... but to optimize you can wrap handler in useCallback before ...
-    // ... passing it into this hook.
-    [ref, handler]
-  );
-};
-
-export function MedicationHelperSearch({getSearchfacility, clear, hidePanel}) {
+export function MedicationHelperSearch({
+  id,
+  getSearchfacility,
+  clear,
+  disable = false,
+  label,
+}) {
   const productServ = client.service("medicationhelper");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -2210,41 +2237,43 @@ export function MedicationHelperSearch({getSearchfacility, clear, hidePanel}) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
   const [val, setVal] = useState("");
+  const {user} = useContext(UserContext);
+  const {state} = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
-  const ref = useRef(null);
-  let value;
 
-  const dropDownRef = useRef(null);
+  const getInitial = async id => {
+    console.log(id);
+    if (!!id) {
+      let obj = {
+        categoryname: id,
+      };
+      console.log(obj);
+      handleRow(obj);
+    }
+  };
+
+  useEffect(() => {
+    getInitial(id);
+    return () => {};
+  }, []);
 
   const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
-    getSearchfacility(obj);
 
     await setSimpa(obj.medication);
-
+    getSearchfacility(obj);
+    // setSelectedFacility(obj)
     setShowPanel(false);
     await setCount(2);
-  };
-  const handleBlur = async () => {
-    console.log(document.activeElement);
-
-    // setShowPanel(false)
-    getSearchfacility({
-      medication: val,
-      instruction: "",
-    });
+    /* const    newfacilityModule={
+            selectedFacility:facility,
+            show :'detail'
+        }
+   await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
+    //console.log(state)
   };
 
-  const handleBlur2 = async () => {
-    // console.log(document.activeElement)
-
-    setShowPanel(false);
-    getSearchfacility({
-      medication: val,
-      instruction: "",
-    });
-  };
   const handleSearch = async value => {
     setVal(value);
     if (value === "") {
@@ -2296,107 +2325,78 @@ export function MedicationHelperSearch({getSearchfacility, clear, hidePanel}) {
     }
   };
 
-  const handleAddproduct = () => {
-    setProductModal(true);
+  const handlecloseModal = () => {
+    setProductModal(false);
+    handleSearch(val);
   };
-  const handlecloseModal = () => {};
 
   useEffect(() => {
-    setSimpa(value);
-    return () => {};
-  }, [simpa]);
-  useEffect(() => {
     if (clear) {
+      console.log("success has changed", clear);
       setSimpa("");
     }
     return () => {};
   }, [clear]);
 
-  useEffect(() => {
-    if (hidePanel) {
-      setShowPanel(false);
-    }
-    return () => {};
-  }, [hidePanel]);
-
-  useOnClickOutside(dropDownRef, () => setShowPanel(false));
-
   return (
     <div>
-      <div className="field">
-        <div className="control has-icons-left  ">
-          <div className="control has-icons-left  ">
-            <div
-              className="dropdown-trigger"
-              style={{width: "100%", position: "relative"}}
-            >
-              <DebounceInput
-                className="input is-small "
-                type="text"
-                placeholder="Search Product"
-                value={simpa}
-                minLength={3}
-                debounceTimeout={400}
-                onBlur={e => handleBlur(e.target.value)}
-                onChange={e => handleSearch(e.target.value)}
-                inputRef={inputEl}
-                element={Input}
-              />
-
-              <Grow in={showPanel}>
-                <Box
-                  ref={dropDownRef}
-                  container
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    maxHeight: "250px",
-                    overflowY: "scroll",
-                    zIndex: "5",
-                    position: "absolute",
-                    background: "#ffffff",
-                    width: "100%",
-                    boxShadow: "3",
-                    border: "1px solid lightgray",
-                  }}
-                >
-                  {facilities.map((facility, i) => (
-                    <Box
-                      item
-                      key={i}
-                      onClick={() => handleRow(facility)}
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        padding: "0 8px",
-                        width: "100%",
-                        minHeight: "50px",
-                        borderTop: i !== 0 ? "1px solid gray" : "",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontSize: "0.75rem",
-                        }}
-                      >
-                        {facility.medication}
-                      </span>
-                      <span
-                        style={{
-                          fontSize: "0.75rem",
-                        }}
-                      >
-                        {facility.instruction}
-                      </span>
-                    </Box>
-                  ))}
-                </Box>
-              </Grow>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Autocomplete
+        size="small"
+        value={simpa}
+        onChange={(event, newValue) => {
+          handleRow(newValue);
+          setSimpa("");
+        }}
+        id="free-solo-dialog-demo"
+        options={facilities}
+        getOptionLabel={option => {
+          if (typeof option === "string") {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option.medication;
+        }}
+        isOptionEqualToValue={(option, value) =>
+          value === undefined || value === "" || option._id === value._id
+        }
+        onInputChange={(event, newInputValue) => {
+          handleSearch(newInputValue);
+        }}
+        inputValue={val}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        noOptionsText={val !== "" ? `${val} Not Found` : "Type something"}
+        renderOption={(props, option) => (
+          <li {...props} style={{fontSize: "0.75rem"}}>
+            {option.medication}
+          </li>
+        )}
+        sx={{
+          width: "100%",
+        }}
+        freeSolo={false}
+        renderInput={params => (
+          <TextField
+            {...params}
+            label={label || "Search for Product"}
+            ref={inputEl}
+            sx={{
+              fontSize: "0.75rem",
+              backgroundColor: "#ffffff",
+              "& .MuiInputBase-input": {
+                height: "0.9rem",
+              },
+            }}
+            InputLabelProps={{
+              shrink: true,
+              style: {color: "#2d2d2d"},
+            }}
+          />
+        )}
+      />
     </div>
   );
 }

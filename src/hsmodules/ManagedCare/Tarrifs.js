@@ -13,6 +13,7 @@ import {
   Portal,
   Radio,
   RadioGroup,
+  IconButton,
   Grid,
 } from '@mui/material';
 import ModalBox from '../../components/modal';
@@ -28,6 +29,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
 import { FormsHeaderText } from '../../components/texts';
 import FilterMenu from '../../components/utilities/FilterMenu';
+import DeleteOutline from '@mui/icons-material/DeleteOutline';
+import CategorySearch from '../helpers/CategorySearch';
 
 const tariffSchema = [
   {
@@ -122,7 +125,7 @@ const TarrifList = () => {
   };
   const handleRow = async (Service) => {
     console.log(Service);
-    setSelectedServices(Service?.services);
+    await setSelectedServices(Service?.services);
     const newServicesModule = {
       selectedServices: Service,
       show: 'detail',
@@ -161,12 +164,7 @@ const TarrifList = () => {
       })
       .catch((err) => {
         console.log(err);
-        toast({
-          message: 'Error during search ' + err,
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error('Error during search ' + err);
       });
   };
 
@@ -175,6 +173,7 @@ const TarrifList = () => {
       const findServices = await ServicesServ.find({
         query: {
           facility: user.currentEmployee.facilityDetail._id,
+          $limit: 100,
           'contracts.source_org': state.facilityModule.selectedFacility._id,
           $sort: {
             category: 1,
@@ -182,17 +181,10 @@ const TarrifList = () => {
         },
       });
       console.log(findServices);
-      await setFacilities(findServices.groupedOrder).then(() => {
-        console.log(facilities);
-      });
+      await setFacilities(findServices?.groupedOrder);
     } else {
       if (user.stacker) {
-        toast({
-          message: 'You do not qualify to view this',
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.warning('You do not qualify to view this');
         return;
       }
     }
@@ -214,7 +206,7 @@ const TarrifList = () => {
         <ModalBox
           open={showModal}
           onClose={() => setShowModal(false)}
-          width="50vw"
+          width="70vw"
         >
           <TariffCreate />
         </ModalBox>
@@ -276,7 +268,7 @@ const TarrifList = () => {
               />
             </div>
             {/* {selectedServices && ( */}
-            {selectedServices.length > 1 && (
+            {selectedServices.length > 0 && (
               <div
                 style={{
                   width: '49.5%',
@@ -363,22 +355,58 @@ const TariffCreate = () => {
       facility: user.currentEmployee.facility,
     },
   });
-  const onSubmit = async (data, e) => {
-    setLoading(true);
-    e.preventDefault();
+  const onSubmit = async () => {
+    // e.preventDefault();
+    let check = await handleCheck();
+    if (check) {
+      console.log(check);
+      return;
+    }
+    if (panel && panelList.length === 0) {
+      toast.warning(
+        'Please choose services that make up panel or uncheck panel '
+      );
+      return;
+    }
 
-    await setServices
-      .create(data)
+    setSuccess(false);
+
+    let data = {
+      name: serviceUnavailable.status ? serviceUnavailable.name : service.name, //source
+      category: categoryname,
+      facility: user.currentEmployee.facilityDetail._id,
+      facilityname: user.currentEmployee.facilityDetail.facilityName,
+      panel: panel,
+      panelServices: panelList,
+      contracts: productItem,
+      createdBy: user._id,
+    };
+    //  console.log(data)
+
+    ServicesServ.create(data)
       .then((res) => {
-        toast.success(`Client successfully created`);
+        setSuccessService(true);
+        //console.log(JSON.stringify(res))
+        resetform();
+        /*  setMessage("Created Services successfully") */
+        setSuccess(true);
+        setSuccess2(true);
 
-        setLoading(false);
+        toast.success('Service created succesfully');
+        setSuccess(false);
+        setSuccess2(false);
+        setSuccessService(false);
+        setProductItem([]);
+        setPanelList([]);
+        setServiceUnavailable({
+          status: false,
+          name: '',
+        });
+        // setSuccessService(true)
       })
       .catch((err) => {
-        toast.error(`Sorry, You weren't able to create an client. ${err}`);
-        setLoading(false);
+        toast.error('Error creating Services ' + err);
       });
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -396,11 +424,32 @@ const TariffCreate = () => {
     getData();
   }, []);
 
-  const handleChange = (event) => {
-    setPriceState({
-      ...state,
-      [event.target.name]: event.target.checked,
-    });
+  const handleChange = async (e, i, c) => {
+    c.checked = !c.checked;
+
+    const newPlan = {
+      name: c.name,
+      checked: false,
+    };
+    // console.log(c.checked)
+    if (c.checked) {
+      //add to benefiting plan
+      let planx = {
+        name: c.name,
+        serviceClass: '',
+        feeforService: true,
+        capitation: false,
+        reqAuthCode: false,
+        reqCopay: false,
+        copay: '',
+      };
+      //   console.log(planx)
+      await setBenefittingPlans((prev) => [...prev, planx]);
+    } else {
+      await setBenefittingPlans((prevstate) =>
+        prevstate.filter((el) => el.name !== c.name)
+      ); //remove from benefiting plan
+    }
   };
   const updateObjectInArray = (array, child) => {
     array.map((item, index) => {
@@ -422,12 +471,7 @@ const TariffCreate = () => {
     if (!existingBand.length > 0) {
       await setBand(e.target.value);
     } else {
-      toast({
-        message: ' This band already exist! Please choose another band ',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.info(' This band already exist! Please choose another band ');
       return;
     }
   };
@@ -572,7 +616,7 @@ const TariffCreate = () => {
       });
       // console.log(findServices)
       await setProviderBand(findServices.data);
-      // console.log(findServices)
+      console.log(findServices);
     }
   };
 
@@ -607,49 +651,24 @@ const TariffCreate = () => {
     //  if (productItem.length>0){
     //Check that fields are filled appropriately
     if (!costprice) {
-      toast({
-        message: 'You need to enter price ',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.warning('You need to enter price ');
       return;
     }
 
     if (!service.name && !serviceUnavailable.name) {
-      toast({
-        message: 'You need to enter service name ',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.warning('You need to enter service name ');
       return;
     }
     if (!categoryname) {
-      toast({
-        message: 'You need to enter category ',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.warning('You need to enter category ');
       return;
     }
     if (band === '') {
-      toast({
-        message: 'You need to choose provider band ',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.warning('You need to choose provider band ');
       return;
     }
     if (!benefittingplans.length > 0) {
-      toast({
-        message: 'You need to add benefiting plan ',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.warning('You need to add benefiting plan ');
 
       return;
     }
@@ -708,12 +727,7 @@ const TariffCreate = () => {
     setSuccess(true);
     setSuccess2(true);
     setSuccessService(true);
-    toast({
-      message: 'Data entry cleared succesfully',
-      type: 'is-success',
-      dismissible: true,
-      pauseOnHover: true,
-    });
+    toast.success('Data entry cleared succesfully');
     setSuccess(false);
     setSuccess2(false);
     setSuccessService(false);
@@ -729,19 +743,15 @@ const TariffCreate = () => {
   const handleRemove = (index, contract) => {
     //console.log(index)
     if (contract.billing_type === 'Cash') {
-      toast({
-        message: 'You cannot remove cash billing',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error('You cannot remove cash billing');
       return;
     }
 
     //setProductItem(prevstate=> prevstate.splice(i,1))
-    setProductItem((prevstate) =>
-      prevstate.filter((ProductionItem, i) => i !== index)
-    );
+    setProductItem((prevstate) => {
+      prevstate.filter((ProductionItem, i) => i !== index);
+      console.log(prevstate);
+    });
 
     /*  const newProductitem = [...productItem]
    newProductitem.splice(i,1)
@@ -762,12 +772,7 @@ const TariffCreate = () => {
   };
   const handleCheck = async () => {
     if (!categoryname) {
-      toast({
-        message: 'Enter Category!',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.warning('Enter Category!');
       return true;
     }
     console.log('unavailb:', serviceUnavailable.name);
@@ -784,27 +789,93 @@ const TariffCreate = () => {
     /*then((resp)=>{
         console.log(resp)*/
     if (resp.data.length > 0) {
-      toast({
-        message: 'Service already exist. Kindly modify it ', //+ resp.data ,
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.info(
+        'Service already exist. Kindly modify it ' //+ resp.data ,
+      );
       return true;
     } else {
       return false;
     }
-    // })
-    /*  .catch((err)=>{
-        toast({
-            message: 'Error checking services  '+ err ,
-            type: 'is-danger',
-            dismissible: true,
-            pauseOnHover: true,
-          })  */
-    //  })
   };
-
+  const productItemSchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'S/N',
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: 'HIDDEN',
+      width: '50px',
+    },
+    {
+      name: 'Organization',
+      key: 'organization',
+      description: 'Organization',
+      selector: (row) => row?.source_org_name,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Band',
+      key: 'band',
+      description: 'Band',
+      selector: (row) => row?.band,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Amount',
+      key: 'price',
+      description: 'Amount',
+      selector: (row) => row?.price,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Billing type',
+      key: 'billingtype',
+      description: 'Billing type',
+      selector: (row) => row?.billing_type,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Plan',
+      key: 'plan',
+      description: 'Plan',
+      selector: (row) =>
+        row?.plans.map((plan, i) => (
+          <span key={i} className="ml-1">
+            <b>{plan.name}</b>:{plan.serviceClass}/{plan.reqAuthCode.toString()}
+            /{plan.copay};<br></br>
+          </span>
+        )),
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Del',
+      width: '50px',
+      center: true,
+      key: 'contact_email',
+      description: 'Enter Date',
+      selector: (i, row) => (
+        <IconButton onClick={() => handleRemove(i, row)} color="error">
+          <DeleteOutline fontSize="small" />
+        </IconButton>
+      ),
+      sortable: true,
+      required: true,
+      inputType: 'NUMBER',
+    },
+  ];
+  console.log(benefittingPlans1);
   return (
     <Box>
       <Box
@@ -815,36 +886,48 @@ const TariffCreate = () => {
         }}
       >
         <FormsHeaderText text="Create Tariff" />
-        <GlobalCustomButton
-          text="Create Tariff"
-          type="submit"
-          color="success"
-        />
+        {productItem?.length > 0 && (
+          <Box my={1}>
+            <GlobalCustomButton
+              text="Create"
+              onClick={onSubmit}
+              color="success"
+              customStyles={{ marginRight: '.8rem' }}
+            />
+            <GlobalCustomButton
+              text="Cancel"
+              onClick={() => handleClear(false)}
+              color="error"
+            />
+          </Box>
+        )}
       </Box>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2} mt={1}>
-          <Grid item xs={12} sm={6}>
+          {/* <Grid item xs={12} sm={6}>
             <Input label="Tariff Name" />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} sm={6}>
             <SearchSelect
-              service={ServicesServ}
-              data={data}
-              setData={setData}
-              placeholder="Search Services"
+              getSearchService={getSearchService}
+              clear={successService}
+              notfound={notfound}
+              placeholder="Search Service"
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <SearchSelect
-              service={ServicesServ}
-              data={catergory}
-              setData={setCategory}
-              placeholder="Search Services Category"
+            <CategorySearch
+              getSearchfacility={getSearchfacility2}
+              clear={success2}
+              label="Search Services Category"
             />
           </Grid>
           <Grid item xs={12} sm={12}>
-            <Textarea label="Comments" />
+            <Textarea
+              label="Comments"
+              onChange={(e) => setComments(e.target.value)}
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
             <select
@@ -873,191 +956,114 @@ const TariffCreate = () => {
             </select>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Input label="Price" />
+            <Input
+              label="Price"
+              onChange={(e) => setCostprice(e.target.value)}
+            />
           </Grid>
         </Grid>
         {/* <CustomSelect label='Company Band' options={reformedBands} /> */}
 
         <Box>
           <h2>Benefiting Plans</h2>
-          <FormGroup>
-            <FormControlLabel
-              control={<Checkbox onChange={handleChange} />}
-              label="Bronze"
-              name="bronze"
-            />
-            {state.bronze && (
-              <Box>
-                <Input placeholder="Co-pay payout" label="Co-pay payout" />
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
+          {benefittingPlans1.map((c, i) => (
+            <>
+              <div className="pb-2">
+                <Grid
+                  container
+                  spacing={2}
+                  mt={1}
+                  sx={{ alignItems: 'center' }}
                 >
-                  <RadioGroup
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="capitation"
-                    name="radio-buttons-group"
-                    sx={{
-                      display: 'flex !important',
-                      justifyContent: 'space-between',
-                      flexDirection: 'row !important',
-                    }}
-                  >
-                    <FormControlLabel
-                      value="capitation"
-                      control={<Radio />}
-                      label="Capitation"
-                    />
-                    <FormControlLabel
-                      value="feeForService"
-                      control={<Radio />}
-                      label="Fee for Service"
-                    />
-                  </RadioGroup>
+                  <Grid item xs={12} sm={6}>
+                    <div className="field mr-2 ">
+                      <input
+                        className="checkbox is-small "
+                        type="checkbox"
+                        value={i}
+                        name={`selectedPlans +${i}`}
+                        key={i}
+                        onChange={(e) => handleChange(e, i, c)}
+                      />
+                      <label
+                        className="label is-small mr-2"
+                        key={i}
+                        style={{ fontSize: '0.8rem', marginLeft: '5px' }}
+                      >
+                        {c.name + ' '}
+                      </label>
+                    </div>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    {c.checked && (
+                      <Input
+                        className="input smallerinput is-small is-pulled-right "
+                        name={`copay +${i}`}
+                        value={
+                          benefittingplans.filter((el) => el.name == c.name)
+                            .copay
+                        }
+                        onChange={(e) => handleCopay(e, i, c)}
+                        label="Co-pay Amount"
+                      />
+                    )}
+                  </Grid>
+                </Grid>
+                {c.checked && (
+                  <Box>
+                    <Grid container spacing={2} mt={1}>
+                      <Grid item xs={12} sm={4}>
+                        <input
+                          className=" is-small"
+                          value="Capitation"
+                          name={`servtype +${i}`}
+                          type="radio"
+                          onChange={(e) => handleServType(e, i, c)}
+                          style={{ marginRight: '5px' }}
+                        />
+                        <span>Capitation</span>
+                      </Grid>
+                      <Grid item xs={12} sm={4}>
+                        <input
+                          className=" is-small"
+                          name={`servtype +${i}`}
+                          value="Fee for Service"
+                          type="radio"
+                          onChange={(e) => handleServType(e, i, c)}
+                          style={{ marginRight: '5px' }}
+                        />
 
-                  <FormControlLabel
-                    control={<Checkbox onChange={handleChange} />}
-                    label="Requires Pre-Authorization Code"
-                  />
-                </Box>
-              </Box>
-            )}
-            <FormControlLabel
-              control={<Checkbox onChange={handleChange} />}
-              label="Gold"
-              name="gold"
-            />
-            {state.gold && (
-              <Box>
-                <Input placeholder="Co-pay payout" label="Co-pay payout" />
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <RadioGroup
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="capitation"
-                    name="radio-buttons-group"
-                    sx={{
-                      display: 'flex !important',
-                      justifyContent: 'space-between',
-                      flexDirection: 'row !important',
-                    }}
-                  >
-                    <FormControlLabel
-                      value="capitation"
-                      control={<Radio />}
-                      label="Capitation"
-                    />
-                    <FormControlLabel
-                      value="feeForService"
-                      control={<Radio />}
-                      label="Fee for Service"
-                    />
-                  </RadioGroup>
-
-                  <FormControlLabel
-                    control={<Checkbox onChange={handleChange} />}
-                    label="Requires Pre-Authorization Code"
-                  />
-                </Box>
-              </Box>
-            )}
-            <FormControlLabel
-              control={<Checkbox onChange={handleChange} />}
-              label="Silver"
-              name="silver"
-            />
-            {state.silver && (
-              <Box>
-                <Input placeholder="Co-pay payout" label="Co-pay payout" />
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <RadioGroup
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="capitation"
-                    name="radio-buttons-group"
-                    sx={{
-                      display: 'flex !important',
-                      justifyContent: 'space-between',
-                      flexDirection: 'row !important',
-                    }}
-                  >
-                    <FormControlLabel
-                      value="capitation"
-                      control={<Radio />}
-                      label="Capitation"
-                    />
-                    <FormControlLabel
-                      value="feeForService"
-                      control={<Radio />}
-                      label="Fee for Service"
-                    />
-                  </RadioGroup>
-
-                  <FormControlLabel
-                    control={<Checkbox onChange={handleChange} />}
-                    label="Requires Pre-Authorization Code"
-                  />
-                </Box>
-              </Box>
-            )}
-            <FormControlLabel
-              control={<Checkbox onChange={handleChange} />}
-              label="Platinium"
-              name="platinium"
-            />
-            {state.platinium && (
-              <Box>
-                <Input placeholder="Co-pay payout" label="Co-pay payout" />
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <RadioGroup
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="capitation"
-                    name="radio-buttons-group"
-                    sx={{
-                      display: 'flex !important',
-                      justifyContent: 'space-between',
-                      flexDirection: 'row !important',
-                    }}
-                  >
-                    <FormControlLabel
-                      value="capitation"
-                      control={<Radio />}
-                      label="Capitation"
-                    />
-                    <FormControlLabel
-                      value="feeForService"
-                      control={<Radio />}
-                      label="Fee for Service"
-                    />
-                  </RadioGroup>
-
-                  <FormControlLabel
-                    control={<Checkbox onChange={handleChange} />}
-                    label="Requires Pre-Authorization Code"
-                  />
-                </Box>
-              </Box>
-            )}
-          </FormGroup>
+                        <span>Fee for Service</span>
+                      </Grid>
+                      <Grid item xs={12} sm={4}>
+                        <input
+                          className="checkbox is-small"
+                          name={`authCode +${i}`}
+                          type="radio"
+                          onChange={(e) => handleAuthCode(e, i, c)}
+                          style={{ marginRight: '5px' }}
+                        />
+                        <span>Requires Pre-Authorization Code</span>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                )}
+              </div>
+            </>
+          ))}
+          <GlobalCustomButton text="Add" onClick={handleClickProd} />
+          {productItem?.length > 0 && (
+            <Box my={1}>
+              <CustomTable
+                title={''}
+                columns={productItemSchema}
+                data={productItem}
+                pointerOnHover
+                highlightOnHover
+                striped
+              />
+            </Box>
+          )}
         </Box>
       </form>
     </Box>

@@ -21,13 +21,14 @@ const Dashboard: React.FC<DashProps> = ({children}) => {
       document.title = "Health Stack - Dashboard";
     }, []);
 
-    const [isOpen, setIsOpen] = useState<Boolean>(false);
+    // const [isOpen, setIsOpen] = useState<Boolean>(false);
+    const isOpen = state.sideMenu.open;
     return (
       <LayoutWrapper>
         <SideMenu isOpen={isOpen} />
         <LayoutContent>
           {/*  {locationType && ( */}
-          <TopMenu isOpen={isOpen} handleClick={() => setIsOpen(!isOpen)} />
+          <TopMenu />
           {/*  )} */}
           <div className="layout__content-main">
             {children}

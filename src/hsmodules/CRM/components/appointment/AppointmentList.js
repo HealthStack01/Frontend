@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState, useContext, useEffect} from "react";
 import {Box} from "@mui/system";
 import {BsFillGridFill, BsList} from "react-icons/bs";
 import DatePicker from "react-datepicker";
@@ -9,6 +9,9 @@ import Switch from "../../../../components/switch";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import CalendarGrid from "../../../../components/calender";
 import CustomTable from "../../../../components/customtable";
+import {ObjectContext} from "../../../../context";
+import dayjs from "dayjs";
+import MuiClearDatePicker from "../../../../components/inputs/Date/MuiClearDatePicker";
 
 const dummyData = [
   {
@@ -43,17 +46,19 @@ const dummyData = [
 ];
 
 const AppointmentList = ({openCreateModal, openDetailModal}) => {
+  const {state, setState} = useContext(ObjectContext);
   const [startDate, setStartDate] = useState(new Date());
   const [value, setValue] = useState("list");
   const [loading, setLoading] = useState(false);
   const [mapFacilities, setMapFacilities] = useState([]);
+  const [appointments, setAppointments] = useState([]);
 
   const handleSearch = () => {};
 
   const returnCell = status => {
     switch (status.toLowerCase()) {
-      case "pending":
-        return <span style={{color: "#17935C"}}>{status}</span>;
+      case "scheduled":
+        return <span style={{color: "#ffbe0b"}}>{status}</span>;
 
       case "expired":
         return <span style={{color: "#0364FF"}}>{status}</span>;
@@ -63,7 +68,13 @@ const AppointmentList = ({openCreateModal, openDetailModal}) => {
     }
   };
 
-  const CrmAppointmentSchema = [
+  const returnStatus = date => {};
+
+  useEffect(() => {
+    setAppointments(state.DealModule.selectedDeal.appointments);
+  }, [state.DealModule.selectedDeal.appointments]);
+
+  const appointmentColumns = [
     {
       name: "S/N",
       key: "sn",
@@ -71,17 +82,21 @@ const AppointmentList = ({openCreateModal, openDetailModal}) => {
       selector: (row, i) => i + 1,
       sortable: true,
       inputType: "HIDDEN",
-      width: "70px",
+      width: "60px",
     },
     {
       name: "Customer",
-      key: "customer",
+      key: "customerName",
       description: "Enter name of Company",
-      selector: row => row.customer,
+      selector: row => row.customerName,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
+      style: {
+        textTransform: "capitalize",
+      },
     },
+
     {
       name: "Title",
       key: "title",
@@ -90,25 +105,40 @@ const AppointmentList = ({openCreateModal, openDetailModal}) => {
       sortable: true,
       required: true,
       inputType: "TEXT",
-      //width: "80px",
+      style: {
+        textTransform: "capitalize",
+      },
+      //center: true,
+    },
+    {
+      name: "Information",
+      key: "information",
+      description: "Enter bills",
+      selector: "status",
+      cell: row => row.information,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
     },
     {
       name: "Date",
       key: "date",
       description: "Enter bills",
-      selector: row => row.date,
+      selector: row => dayjs(row.date).format("DD/MM/YYYY"),
       sortable: true,
       required: true,
       inputType: "DATE",
+      width: "100px",
     },
     {
       name: "Time",
-      key: "time",
+      key: "date",
       description: "Enter name of Disease",
-      selector: (row, i) => row.time,
+      selector: (row, i) => dayjs(row.date).format("hh:mm A	"),
       sortable: true,
       required: true,
       inputType: "DATE",
+      width: "100px",
       //width: "80px",
     },
     {
@@ -116,10 +146,11 @@ const AppointmentList = ({openCreateModal, openDetailModal}) => {
       key: "status",
       description: "Enter bills",
       selector: "status",
-      cell: row => returnCell(row.status),
+      cell: row => (row.status ? row.status : "Not Specified"),
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "120px",
     },
   ];
 
@@ -137,7 +168,14 @@ const AppointmentList = ({openCreateModal, openDetailModal}) => {
     padding: "0 .8rem",
   };
 
-  const handleRow = () => {
+  const handleRow = data => {
+    setState(prev => ({
+      ...prev,
+      CRMAppointmentModule: {
+        ...prev.CRMAppointmentModule,
+        selectedAppointment: data,
+      },
+    }));
     openDetailModal();
   };
 
@@ -158,12 +196,19 @@ const AppointmentList = ({openCreateModal, openDetailModal}) => {
             </div>
           )}
           <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>Appointment</h2>
-          <DatePicker
+          {/* <DatePicker
             selected={startDate}
             onChange={date => handleDate(date)}
             dateFormat="dd/MM/yyyy"
             placeholderText="Filter By Date"
             isClearable
+          /> */}
+
+          <MuiClearDatePicker
+            value={startDate}
+            setValue={setStartDate}
+            label="Filter By Date"
+            format="dd/MM/yyyy"
           />
 
           <Switch>
@@ -191,7 +236,7 @@ const AppointmentList = ({openCreateModal, openDetailModal}) => {
         {handleCreateNew && (
           <GlobalCustomButton onClick={handleCreateNew}>
             <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
-            Create Appointment
+            Schedule Appointment
           </GlobalCustomButton>
         )}
       </Box>
@@ -206,8 +251,8 @@ const AppointmentList = ({openCreateModal, openDetailModal}) => {
         {value === "list" ? (
           <CustomTable
             title={""}
-            columns={CrmAppointmentSchema}
-            data={dummyData}
+            columns={appointmentColumns}
+            data={appointments}
             pointerOnHover
             highlightOnHover
             striped

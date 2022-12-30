@@ -13,6 +13,7 @@ import CustomTable from "../../../components/customtable";
 import moment from "moment";
 import CloseIcon from "@mui/icons-material/Close";
 import {FormsHeaderText} from "../../../components/texts";
+import CustomConfirmationDialog from "../../../components/confirm-dialog/confirm-dialog";
 
 const VitalSignChart = () => {
   const {register, handleSubmit, setValue, control, reset} = useForm();
@@ -23,9 +24,12 @@ const VitalSignChart = () => {
   const [chosen, setChosen] = useState(true);
   const [chosen1, setChosen1] = useState(true);
   const [chosen2, setChosen2] = useState(true);
-  const {state, setState} = useContext(ObjectContext);
+  const {state, setState, showActionLoader, hideActionLoader, toggleSideMenu} =
+    useContext(ObjectContext);
   const [docStatus, setDocStatus] = useState("Draft");
   const ClientServ = client.service("clinicaldocument");
+  const [confirmDialog, setConfirmDialog] = useState(false);
+
   const fac = useRef([]);
   const struc = useRef([]);
 
@@ -40,12 +44,7 @@ const VitalSignChart = () => {
     if (!!state.ClientModule.selectedClient.admission_id) {
       setChosen2(false);
     } else {
-      toast({
-        message: "Patient not on admission",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("Patient not on admission");
     }
   };
 
@@ -145,10 +144,22 @@ const VitalSignChart = () => {
       });
   };
 
-  const onSubmit = async (data, e) => {
-    // console.log(state.DocumentClassModule.selectedDocumentClass)
-    console.log(state.employeeLocation.locationName);
-    e.preventDefault();
+  const formResetData = {
+    vitals_time: null,
+    Temperature: "",
+    Pulse: "",
+    Respiratory_rate: "",
+    Random_glucose: "",
+    Systolic_BP: "",
+    Diastolic_BP: "",
+    SPO2: "",
+    Pain: "",
+  };
+
+  const onSubmit = async data => {
+    //return console.log(data);
+
+    showActionLoader();
     data.entrytime = new Date();
     data.location =
       state.employeeLocation.locationName +
@@ -161,16 +172,14 @@ const VitalSignChart = () => {
 
     // await update(data)
     struc.current = [data, ...facilities];
-    // console.log(struc.current)
+
     setFacilities(prev => [data, ...facilities]);
-    // data.recordings=facilities
-    e.target.reset();
+
     setChosen(false);
     //handleSave()
     let document = {};
     data = {};
     data.recordings = struc.current;
-    // data.createdby=user._id
 
     if (user.currentEmployee) {
       document.facility = user.currentEmployee.facilityDetail._id;
@@ -197,28 +206,22 @@ const VitalSignChart = () => {
       coordinates: [state.coordinates.latitude, state.coordinates.longitude],
     };
 
-    console.log(document);
+    //return console.log(document);
 
     // alert(document.status)
     if (chosen1) {
       ClientServ.create(document)
         .then(res => {
           setChosen(true);
+          setConfirmDialog(false);
+          hideActionLoader();
+          reset(formResetData);
 
-          toast({
-            message: "Vital Signs entry successful",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.success("Vital Signs entry successful");
         })
         .catch(err => {
-          toast({
-            message: "Fluid Input/Output entry " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          hideActionLoader();
+          toast.error("Fluid Input/Output entry " + err);
         });
     } else {
       ClientServ.patch(fac.current._id, {
@@ -226,24 +229,24 @@ const VitalSignChart = () => {
       })
         .then(res => {
           setChosen(true);
-
-          toast({
-            message: "Fluid Input/Output entry successful",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          setConfirmDialog(false);
+          hideActionLoader();
+          // Object.keys(data).forEach(key => {
+          //   data[key] = null;
+          // });
+          reset(formResetData);
+          toast.success("Fluid Input/Output entry successful");
         })
         .catch(err => {
-          toast({
-            message: "Fluid Input/Output entry " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          hideActionLoader();
+          toast.error("Fluid Input/Output entry " + err);
         });
     }
   };
+
+  // const onSubmit = data => {
+  //   console.log("hello world");
+  // };
 
   const vitalSignsSchema = [
     {
@@ -252,24 +255,25 @@ const VitalSignChart = () => {
       description: "SN",
       selector: row => row.sn,
       sortable: true,
+      width: "50px",
       inputType: "HIDDEN",
     },
 
     {
       name: "Date",
-      key: "Date",
+      key: "vitals_time",
       description: "date",
-      selector: row => moment(row.date_time).calendar("L"),
+      selector: row => moment(row.vitals_time).calendar("L"),
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
 
     {
-      name: "Temperature",
-      key: "temperature",
+      name: "Temp",
+      key: "Temperature",
       description: "temperature",
-      selector: row => row.temperature,
+      selector: row => row.Temperature,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -278,8 +282,8 @@ const VitalSignChart = () => {
     {
       name: "Pulse",
       key: "pulse",
-      description: "pulse",
-      selector: row => row.pulse,
+      description: "Pulse",
+      selector: row => row.Pulse,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -288,7 +292,7 @@ const VitalSignChart = () => {
       name: "RR",
       key: "RR",
       description: "Respiratory Rate",
-      selector: row => row.respiratory_rate,
+      selector: row => row.Respiratory_rate,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -297,7 +301,7 @@ const VitalSignChart = () => {
       name: "BP",
       key: "BP",
       description: "Diastolic BP",
-      selector: row => row.diastolic_bp,
+      selector: row => row.Systolic_BP / row.Diastolic_BP,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -306,7 +310,7 @@ const VitalSignChart = () => {
       name: "SPO2",
       key: "SPO2",
       description: "SPO2",
-      selector: row => row.sp02,
+      selector: row => row.SPO2,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -315,16 +319,16 @@ const VitalSignChart = () => {
       name: "Pain",
       key: "pain",
       description: "Pain",
-      selector: row => row.pain,
+      selector: row => row.Pain,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
       name: "Comments",
-      key: "comments",
+      key: "Random_glucose",
       description: "comments",
-      selector: row => row.comments,
+      selector: row => row.Random_glucose,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -333,7 +337,7 @@ const VitalSignChart = () => {
       name: "Entry Time",
       key: "entryTime",
       description: "entrytime",
-      selector: row => row.entrytime,
+      selector: row => moment(row.entrytime).calendar("L"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -355,10 +359,18 @@ const VitalSignChart = () => {
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
+    toggleSideMenu();
   };
 
   return (
     <div className="card">
+      <CustomConfirmationDialog
+        open={confirmDialog}
+        cancelAction={() => setConfirmDialog(false)}
+        message={`You're about to create a Vital Sign Chart document?`}
+        type="create"
+        confirmationAction={handleSubmit(onSubmit)}
+      />
       <Box
         sx={{
           display: "flex",
@@ -375,83 +387,101 @@ const VitalSignChart = () => {
       </Box>
 
       <div className="card-content vscrollable  pt-0">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form>
           <Box mb="1rem">
             <MuiCustomDatePicker
               name="vitals_time"
               label="Date & Time"
               control={control}
+              important={true}
+              required={true}
             />
           </Box>
 
           <Box mb="1rem">
             <Input
-              {...register("Temperature")}
-              name="temperature"
+              //name="temperature"
               label="Temperature"
               type="text"
+              register={register("Temperature")}
             />
           </Box>
           <Box mb="1rem">
             <Input
-              {...register("Pulse")}
-              name="pulse"
+              //name="pulse"
               label="Pulse"
               type="text"
+              register={register("Pulse")}
             />
           </Box>
           <Box mb="1rem">
             <Input
-              {...register("Respiratory_rate")}
               name="respiration_rate"
               label="Respiration Rate"
               type="text"
+              register={register("Respiratory_rate")}
             />
           </Box>
           <Box mb="1rem">
             <Input
-              {...register("Random_glucose")}
-              name="blood_glucose"
+              //name="blood_glucose"
               label="Blood Glucose"
               type="text"
+              register={register("Random_glucose")}
             />
           </Box>
           <Box mb="1rem">
             <Input
-              {...register("Systolic_BP")}
-              name="systolic_bp"
+              //name="systolic_bp"
               label="Systolic BP"
-              type="text"
+              type="number"
+              register={register("Systolic_BP")}
             />
           </Box>
           <Box mb="1rem">
             <Input
-              {...register("Diastolic_BP")}
-              name="diastolic_bp"
+              //name="diastolic_bp"
               label="Diastolic BP"
-              type="text"
+              type="number"
+              register={register("Diastolic_BP")}
             />
           </Box>
 
           <Box mb="1rem">
-            <Input {...register("SP02")} name="sp02" label="SP02" type="text" />
+            <Input
+              //name="sp02"
+              label="SP02"
+              type="text"
+              register={register("SPO2")}
+            />
           </Box>
 
           <Box mb="1rem">
-            <Input {...register("Pain")} name="pain" label="Pain" type="text" />
+            <Input
+              //name="pain"
+              label="Pain"
+              type="text"
+              register={register("Pain")}
+            />
           </Box>
 
           <Box mb="1rem">
             <Textarea
-              {...register("comments")}
-              name="comments"
+              //name="comments"
               label="Comments"
               type="text"
+              register={register("comments")}
             />
           </Box>
 
-          <Box mb="1rem" color="secondary">
-            <GlobalCustomButton>Submit Vital Sign</GlobalCustomButton>
+          <Box mb="1rem">
+            <GlobalCustomButton
+              //onClick={handleSubmit(onSubmit)}
+              onClick={() => setConfirmDialog(true)}
+              color="secondary"
+            >
+              Submit Vital Sign Chart
+            </GlobalCustomButton>
           </Box>
         </form>
       </div>
@@ -464,7 +494,7 @@ const VitalSignChart = () => {
           // onRowClicked={handleRow}
           CustomEmptyData={
             <Typography sx={{fontSize: "0.85rem"}}>
-              No Vital Signs added yet
+              No Vital Signs added yet..
             </Typography>
           }
           pointerOnHover

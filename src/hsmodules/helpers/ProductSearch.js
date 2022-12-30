@@ -18,7 +18,7 @@ const searchfacility = {};
 
 const filter = createFilterOptions();
 
-export default function ProductSearchHelper({getSearchfacility, clear}) {
+export default function ProductSearchHelper({getSearchfacility, clear, label}) {
   const productServ = client.service("products");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -45,11 +45,12 @@ export default function ProductSearchHelper({getSearchfacility, clear}) {
     //alert("something is chaning")
     getSearchfacility(obj);
 
-    await setSimpa(obj.name);
+    await setSimpa(obj?.name);
     setShowPanel(false);
     await setCount(2);
   };
   const handleBlur = async e => {};
+
   const handleSearch = async value => {
     setVal(value);
     if (value === "") {
@@ -82,12 +83,7 @@ export default function ProductSearchHelper({getSearchfacility, clear}) {
         })
         .catch(err => {
           setLoading(false);
-          toast({
-            message: "Error creating ProductEntry " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error("Error creating ProductEntry " + err);
         });
     } else {
       setShowPanel(false);
@@ -119,17 +115,24 @@ export default function ProductSearchHelper({getSearchfacility, clear}) {
       <Autocomplete
         size="small"
         value={simpa}
-        loading={loading}
-        onChange={(event, newValue) => {
-          if (typeof newValue === "string") {
-            // timeout to avoid instant validation of the dialog's form.
-            setTimeout(() => {
-              handleAddproduct();
-            });
-          } else if (newValue && newValue.inputValue) {
-            handleAddproduct();
+        key={"somehting"}
+        //loading={loading}
+        onChange={(event, newValue, reason) => {
+          if (reason === "clear") {
+            setSimpa("");
+            //setSimpa("");
+            return;
           } else {
-            handleRow(newValue);
+            if (typeof newValue === "string") {
+              // timeout to avoid instant validation of the dialog's form.
+              setTimeout(() => {
+                handleAddproduct();
+              });
+            } else if (newValue && newValue.inputValue) {
+              handleAddproduct();
+            } else {
+              handleRow(newValue);
+            }
           }
         }}
         filterOptions={(options, params) => {
@@ -138,7 +141,7 @@ export default function ProductSearchHelper({getSearchfacility, clear}) {
           if (params.inputValue !== "") {
             filtered.push({
               inputValue: params.inputValue,
-              name: `Add "${params.inputValue} to your products"`,
+              name: `Add "${params.inputValue} to Services"`,
             });
           }
 
@@ -156,12 +159,24 @@ export default function ProductSearchHelper({getSearchfacility, clear}) {
           }
           return option.name;
         }}
+        isOptionEqualToValue={(option, value) =>
+          value === undefined || value === "" || option._id === value._id
+        }
+        onInputChange={(event, newInputValue, reason) => {
+          if (reason === "reset") {
+            setVal("");
+            //setSimpa("");
+            return;
+          } else {
+            handleSearch(newInputValue);
+          }
+        }}
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys
         renderOption={(props, option) => (
           <li {...props} style={{fontSize: "0.75rem"}}>
-            {option.name} {option.baseunit}
+            {option.name} - {option.category}
           </li>
         )}
         sx={{width: "100%"}}
@@ -170,11 +185,15 @@ export default function ProductSearchHelper({getSearchfacility, clear}) {
         renderInput={params => (
           <TextField
             {...params}
-            label="Search for Products"
-            onChange={e => handleSearch(e.target.value)}
+            label={label ? label : "Search for Product"}
+            //onChange={e => handleSearch(e.target.value)}
             ref={inputEl}
             sx={{
               fontSize: "0.75rem !important",
+              backgroundColor: "#ffffff !important",
+              "& .MuiInputBase-input": {
+                height: "0.9rem",
+              },
             }}
             InputLabelProps={{
               shrink: true,

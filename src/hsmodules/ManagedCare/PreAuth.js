@@ -1,47 +1,39 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Route, useNavigate, Link, NavLink } from 'react-router-dom';
-import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
+import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import client from '../../feathers';
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
-import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
-import DatePicker from 'react-datepicker';
-import LocationSearch from '../helpers/LocationSearch';
-import EmployeeSearch from '../helpers/EmployeeSearch';
-import BillServiceCreate from '../Finance/BillServiceCreate';
-import 'react-datepicker/dist/react-datepicker.css';
+import { Badge, Box, Grid } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
-import { PageWrapper } from '../../ui/styled/styles';
-import { TableMenu } from '../../ui/styled/global';
-import FilterMenu from '../../components/utilities/FilterMenu';
-import Button from '../../components/buttons/Button';
-import CustomTable from '../../components/customtable';
-import Switch from '../../components/switch';
-import { BsFillGridFill, BsList } from 'react-icons/bs';
+import { toast } from 'bulma-toast';
+import { addDays, format, subDays } from 'date-fns';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import CalendarGrid from '../../components/calender';
+import CustomTable from '../../components/customtable';
 import ModalBox from '../../components/modal';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import { ObjectContext, UserContext } from '../../context';
+import { TableMenu } from '../../ui/styled/global';
+import { PageWrapper } from '../../ui/styled/styles';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
-import { Box, Grid, Typography, IconButton, Badge } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 
-import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
-import { McText } from './text';
-import Input from '../../components/inputs/basic/Input/index';
-import ToggleButton from '../../components/toggleButton';
-import RadioButton from '../../components/inputs/basic/Radio';
-import BasicDatePicker from '../../components/inputs/Date';
-import BasicDateTimePicker from '../../components/inputs/DateTime';
-import CustomSelect from '../../components/inputs/basic/Select';
-import Textarea from '../../components/inputs/basic/Textarea';
-import { MdCancel, MdAddCircle } from 'react-icons/md';
-import PatientProfile from '../Client/PatientProfile';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
-import { FormsHeaderText } from '../../components/texts';
-import ManagedCareLeft from './components/manageCareRight';
 import ChatInterface from '../../components/chat/ChatInterface';
+import AutoCompleteBox from '../../components/inputs/AutoComplete';
+import Input from '../../components/inputs/basic/Input/index';
+import RadioButton from '../../components/inputs/basic/Radio';
+import Textarea from '../../components/inputs/basic/Textarea';
+import BasicDatePicker from '../../components/inputs/Date';
+import { FormsHeaderText } from '../../components/texts';
+import PatientProfile from '../Client/PatientProfile';
+import CRMTasks from '../CRM/Tasks';
+import Beneficiary from './Beneficiary';
+import Claims from './Claims';
+import Policy from './Policy';
+import PremiumPayment from './PremiumPayment';
+import { McText } from './text';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -78,10 +70,10 @@ export default function GeneralAppointments() {
       {showModal === 2 && (
         <Grid container spacing={2}>
           <Grid item xs={3}>
-            <ManagedCareLeft />
+            <PatientProfile />
           </Grid>
           <Grid item xs={9}>
-            <Details />
+            <PreAuthDetails setShowModal={setShowModal} />
           </Grid>
         </Grid>
       )}
@@ -121,6 +113,9 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
   const [openComplaint, setOpenComplaint] = useState(false);
   const [openFindings, setOpenFindings] = useState(false);
   const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
+  const [patient, setPatient] = useState('');
+
+  const [showServiceModal, setShowServiceModal] = useState(false);
 
   let appointee; //  =state.ClientModule.selectedClient
   /*  const getSearchfacility=(obj)=>{
@@ -375,6 +370,59 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
       inputType: 'TEXT',
     },
   ];
+  const serviceSchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'item',
+      key: 'item',
+      description: 'Item',
+      selector: (row) => row.item,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'QTY',
+      key: 'submittedQuantity',
+      description: 'Submitted QTY',
+      selector: (row) => row.submittedQuantity,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Unit Price',
+      key: 'submittedBill',
+      description: 'Unit Price',
+      selector: (row) => row.submittedBill,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Total Amount',
+      key: 'payableBill',
+      description: 'Payable Bill',
+      selector: (row) => row.payableBill,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+  ];
+
+  const dummyData3 = [
+    {
+      item: 'Today',
+      submittedQuantity: 1,
+      submittedBill: 1000,
+      payableQuantity: 1,
+      payableBill: 1000,
+      // comments: 'Inline with agreement',
+    },
+  ];
 
   return (
     <>
@@ -410,6 +458,50 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
             </Grid>
           </Grid>
 
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <RadioButton
+                name="patient"
+                title="Patient"
+                options={[
+                  {
+                    label: 'Out Patient',
+                    value: 'Out Patient',
+                  },
+                  {
+                    label: 'In Patient',
+                    value: 'In Patient',
+                  },
+                ]}
+                onChange={(e) => setPatient(e.target.value)}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={12} sm={6}>
+              <Input name="patientName" label="Search Beneficiary" />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Input name="patientName" label="Search Hospital" />
+            </Grid>
+            {patient === 'In Patient' && (
+              <Grid item xs={12} sm={6}>
+                <BasicDatePicker
+                  name="addmissionDate"
+                  label="Date of Admission"
+                />
+              </Grid>
+            )}
+            {patient === 'In Patient' && (
+              <Grid item xs={12} sm={6}>
+                <BasicDatePicker
+                  name="dischargeDate"
+                  label="Date of Discharge"
+                />
+              </Grid>
+            )}
+          </Grid>
+
           <Grid container spacing={2} my={2}>
             <Grid item xs={12} sm={6}>
               <FormsHeaderText text={'Clinical Information'} />
@@ -435,32 +527,23 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
             striped
           />
 
-          <Grid container spacing={2} my={2}>
+          <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
-              <FormsHeaderText
-                txt={'Clinic Findings'}
-                color={'#0064CC'}
-                type={'p'}
-                bold={'700'}
-                size={'18px'}
-              />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2} my={2}>
-            <Grid item xs={12} sm={6}>
-              <FormsHeaderText text={'Clinical Findings'} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <GlobalCustomButton
-                customStyles={{
-                  float: 'right',
-                }}
-                text={'Add Findings'}
-                color="primary"
-                variant="outlined"
-                onClick={() => setOpenFindings(true)}
-              />
+              <Box
+                sx={{ display: 'flex', justifyContent: 'space-between' }}
+                my={1}
+              >
+                <FormsHeaderText text={'Clinical Findings'} />
+                <GlobalCustomButton
+                  customStyles={{
+                    float: 'right',
+                  }}
+                  text={'Add Findings'}
+                  color="primary"
+                  variant="outlined"
+                  onClick={() => setOpenFindings(true)}
+                />
+              </Box>
             </Grid>
           </Grid>
           <CustomTable
@@ -471,6 +554,32 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
             highlightOnHover
             striped
           />
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <Box
+                sx={{ display: 'flex', justifyContent: 'space-between' }}
+                my={1}
+              >
+                <FormsHeaderText text={'Services / Products'} />
+                <GlobalCustomButton
+                  onClick={() => setShowServiceModal(true)}
+                  color="primary"
+                  variant="outlined"
+                  text="Add Service"
+                />
+              </Box>
+              <CustomTable
+                title={''}
+                columns={serviceSchema}
+                data={dummyData3}
+                pointerOnHover
+                highlightOnHover
+                striped
+                //conditionalRowStyles={conditionalRowStyles}
+              />
+            </Grid>
+          </Grid>
 
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
@@ -521,7 +630,18 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
         >
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
-              <Input label="Provisional Diagnosis" />
+              <AutoCompleteBox
+                label="Provisional Diagnosis"
+                name="provisionalDiagnosis"
+                options={[
+                  { value: 'Fever', label: 'Fever' },
+                  { value: 'Cough', label: 'Cough' },
+                  { value: 'Headache', label: 'Headache' },
+                  { value: 'Body Pain', label: 'Body Pain' },
+                  { value: 'Diarrhea', label: 'Diarrhea' },
+                  { value: 'Vomiting', label: 'Vomiting' },
+                ]}
+              />
             </Grid>
             <Grid item xs={12} sm={12}>
               <Input label="Planned Procedure" />
@@ -531,6 +651,31 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
             </Grid>
             <Grid item xs={12} sm={12}>
               <GlobalCustomButton text={'Add'} color="success" />
+            </Grid>
+          </Grid>
+        </ModalBox>
+      )}
+      {showServiceModal && (
+        <ModalBox
+          open={showServiceModal}
+          onClose={() => setShowServiceModal(false)}
+          header="Add Service / Product"
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <Input name="service" label="Service Name" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Input name="quantity" label="Quantity" type="number" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Input name="unitPrice" label="Amount" type="text" />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <Textarea label="Comments" name="comments" />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <GlobalCustomButton text="Add Service" color="success" />
             </Grid>
           </Grid>
         </ModalBox>
@@ -1013,27 +1158,6 @@ export function PreAuthorizationList({ showModal, setShowModal }) {
                     placeholderText="Filter By Date"
                     isClearable
                   />
-                  {/* <SwitchButton /> */}
-                  <Switch>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue('list');
-                      }}
-                      style={value === 'list' ? activeStyle : {}}
-                    >
-                      <BsList style={{ fontSize: '1rem' }} />
-                    </button>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue('grid');
-                      }}
-                      style={value === 'grid' ? activeStyle : {}}
-                    >
-                      <BsFillGridFill style={{ fontSize: '1rem' }} />
-                    </button>
-                  </Switch>
                 </div>
 
                 {handleCreateNew && (
@@ -1069,202 +1193,358 @@ export function PreAuthorizationList({ showModal, setShowModal }) {
     </>
   );
 }
-export function Details() {
+export function PreAuthDetails({ showModal, setShowModal, standAlone }) {
   const [deny, setDeny] = useState(false);
   const [approve, setApprove] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedService, setSelectedService] = useState();
+  const [showServiceDetails, setShowServiceDetails] = useState(false);
+  const [openReview, setOpenReview] = useState(false);
+  const [unitPrice, setUnitPrice] = useState(0);
+  const [quantity, setQuantity] = useState(0);
+
+  const dummyData = [
+    {
+      item: 'Today',
+      submittedQuantity: 1,
+      submittedBill: 1000,
+      payableQuantity: 1,
+      payableBill: 1000,
+      comments: 'Inline with agreement',
+    },
+  ];
+
+  const serviceSchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: 'HIDDEN',
+      width: '50px',
+    },
+    {
+      name: 'item',
+      key: 'item',
+      description: 'Item',
+      selector: (row) => row.item,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'QTY',
+      key: 'submittedQuantity',
+      description: 'Submitted QTY',
+      selector: (row) => row.submittedQuantity,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Submitted Amount',
+      key: 'submittedBill',
+      description: 'Submitted Bill',
+      selector: (row) => row.submittedBill,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Payable QTY',
+      key: 'payableQuantity',
+      description: 'Payable QTY',
+      selector: (row) => row.payableQuantity,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Payable Amount',
+      key: 'payableBill',
+      description: 'Payable Bill',
+      selector: (row) => row.payableBill,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Comments',
+      key: 'comments',
+      description: 'Comments',
+      selector: (row) => row.comments,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+  ];
+  const handleRow = (row) => {
+    setSelectedService(row);
+    setShowServiceDetails(true);
+  };
   return (
     <>
       <Grid container spacing={3}>
         <Grid item md={12}>
-          <div
-            style={{
-              width: '100%',
-              height: 'calc(100vh - 90px)',
-              overflow: 'auto',
-              paddingRight: '1rem',
-            }}
-          >
+          <div>
             <Box
               sx={{
                 display: 'flex',
+                marginTop: '1rem',
                 justifyContent: 'space-between',
-                alignItems: 'center',
+                alignItem: 'center',
               }}
             >
-              <Box>
-                <FormsHeaderText text={'Pre-Authorization Details - 13322BA'} />
-              </Box>
-              <Box sx={{ display: 'flex', marginTop: '1rem' }}>
-                <GlobalCustomButton
-                  onClick={() => setApprove(true)}
-                  text="Approve"
-                  color="success"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <GlobalCustomButton
-                  onClick={() => {}}
-                  text="On Hold"
-                  color="secondary"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <GlobalCustomButton
-                  onClick={() => setDeny(true)}
-                  text="Reject"
-                  color="error"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-                <Badge
-                  badgeContent={4}
-                  color="success"
-                  sx={{ marginRight: '10px' }}
+              <FormsHeaderText text={'Pre-Authorization Details - 13322BA'} />
+              {!standAlone && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                  }}
                 >
                   <GlobalCustomButton
-                    onClick={() => setOpenDrawer(true)}
-                    text="Chat"
-                    color="primary"
+                    text="Back"
+                    onClick={() => setShowModal(0)}
+                    color="warning"
+                    customStyles={{ marginRight: '.8rem' }}
                   />
-                </Badge>
-              </Box>
+                  <GlobalCustomButton
+                    onClick={() => setApprove(true)}
+                    text="Approve"
+                    color="success"
+                    customStyles={{ marginRight: '.8rem' }}
+                  />
+                  <GlobalCustomButton
+                    onClick={() => {}}
+                    text="On Hold"
+                    color="secondary"
+                    customStyles={{ marginRight: '.8rem' }}
+                  />
+                  <GlobalCustomButton
+                    onClick={() => setDeny(true)}
+                    text="Reject"
+                    color="error"
+                    customStyles={{ marginRight: '.8rem' }}
+                  />
+                  <GlobalCustomButton
+                    onClick={
+                      currentPage === 1
+                        ? () => setCurrentPage(2)
+                        : () => setCurrentPage(1)
+                    }
+                    text={currentPage === 1 ? 'Task' : 'Details'}
+                    variant="outlined"
+                    customStyles={{ marginRight: '.8rem' }}
+                  />
+                  <Badge
+                    badgeContent={4}
+                    color="success"
+                    sx={{ marginRight: '10px' }}
+                  >
+                    <GlobalCustomButton
+                      onClick={() => setOpenDrawer(true)}
+                      text="Chat"
+                      color="primary"
+                    />
+                  </Badge>
+                </Box>
+              )}
             </Box>
+            {currentPage === 1 && (
+              <div
+                style={{
+                  marginTop: '10px',
+                  border: '1px solid #8F8F8F',
+                  width: '98%',
+                  height: 'calc(100vh - 130px)',
+                  overflow: 'auto',
+                  padding: '1rem',
+                }}
+              >
+                <p>Request Sent 08/05/2022 9:45pm</p>
+                <Grid container spacing={1}>
+                  <Grid item xs={6}>
+                    <p>Hospital Name: Lagos State Clinic </p>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <p>Health Plan: Former sector plan</p>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <p>Date of Admission: 23/06/2022</p>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <p>Date of Discharge: 23/06/2022</p>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <p>Capitation: Filed</p>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <p>Fee for Service: Applicable</p>
+                  </Grid>
+                </Grid>
+                <FormsHeaderText text={'Pre-authorization Code - 13322BA'} />
+                <McText txt={'Clinical Information'} />
+                <Grid container spacing={2} mb={1}>
+                  <Grid item xs={12}>
+                    <p style={{ fontWeight: 'bold' }}>Presenting Complaints:</p>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt
+                    </p>
+                  </Grid>
+                </Grid>
 
-            <div
-              style={{
-                marginTop: '10px',
-                border: '1px solid #8F8F8F',
-                padding: '1rem',
-              }}
-            >
-              <p>Request Sent 08/05/2022 9:45pm</p>
-              <McText txt={'Clinical Information'} />
-              <Grid container spacing={2} mb={1}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Presenting Complaints:</p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt
-                  </p>
-                </Grid>
-              </Grid>
+                <FormsHeaderText text={'Clinical Findings'} />
+                <Grid container spacing={2} mb={1}>
+                  <Grid item xs={12}>
+                    <p style={{ fontWeight: 'bold' }}>
+                      Provisional Diagonosis:
+                    </p>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt
+                    </p>
 
-              <FormsHeaderText text={'Clinical Findings'} />
-              <Grid container spacing={2} mb={1}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Provisional Diagonosis:</p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt
-                  </p>
+                    <p style={{ fontWeight: 'bold' }}>
+                      Planned Procedures / Services Requiring Authorization:
+                    </p>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt
+                    </p>
+                    <p style={{ fontWeight: 'bold' }}>
+                      Planned Procedures / Services Requiring Authorization:
+                    </p>
+                  </Grid>
+                </Grid>
 
-                  <p style={{ fontWeight: 'bold' }}>
-                    Planned Procedures / Services Requiring Authorization:
-                  </p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt
-                  </p>
-                  <p style={{ fontWeight: 'bold' }}>
-                    Planned Procedures / Services Requiring Authorization:
-                  </p>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <p style={{ fontWeight: 'bold' }}>Reason for Request:</p>
+                    <span
+                      style={{
+                        fontWeight: 'bold',
+                        backgroundColor: '#ECF3FF',
+                        color: '#0364FF',
+                        padding: '.3rem',
+                        marginRight: '1rem',
+                      }}
+                    >
+                      Procedure
+                    </span>
+                    <span
+                      style={{
+                        fontWeight: 'bold',
+                        backgroundColor: '#ECF3FF',
+                        color: '#0364FF',
+                        padding: '.3rem',
+                      }}
+                    >
+                      Services
+                    </span>
+                  </Grid>
                 </Grid>
-              </Grid>
-
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Reason for Request:</p>
-                  <span
-                    style={{
-                      fontWeight: 'bold',
-                      backgroundColor: '#ECF3FF',
-                      color: '#0364FF',
-                      padding: '.3rem',
-                      marginRight: '1rem',
-                    }}
-                  >
-                    Procedure
-                  </span>
-                  <span
-                    style={{
-                      fontWeight: 'bold',
-                      backgroundColor: '#ECF3FF',
-                      color: '#0364FF',
-                      padding: '.3rem',
-                    }}
-                  >
-                    Services
-                  </span>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
+                    <p>Dr. John Doe</p>
+                    <p>Lagos State Hospital</p>
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
-                  <p>Dr. John Doe</p>
-                  <p>Lagos State Hospital</p>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12}>
+                    <FormsHeaderText text={'Services / Products'} />
+                    <CustomTable
+                      title={''}
+                      columns={serviceSchema}
+                      data={dummyData}
+                      pointerOnHover
+                      highlightOnHover
+                      striped
+                      onRowClicked={handleRow}
+                      //conditionalRowStyles={conditionalRowStyles}
+                    />
+                  </Grid>
                 </Grid>
-              </Grid>
-            </div>
-
-            {/* <div
-              style={{
-                marginTop: '10px',
-                border: '1px solid #8F8F8F',
-                padding: '1rem',
-              }}
-            >
-              <p>Request Sent 08/05/2022 9:45pm</p>
-              <p>
-                Request Status: <span style={{ color: '#ED0423' }}>Reject</span>
-              </p>
-              <Grid container spacing={2} mb={1}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Reason for Denial:</p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt
-                  </p>
-                </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
-                  <p>Dr. John Doe</p>
-                  <p>Lagos State Hospital</p>
-                </Grid>
-              </Grid>
-            </div> */}
-
-            {/* <div
-              style={{
-                marginTop: '10px',
-                border: '1px solid #8F8F8F',
-                padding: '1rem',
-              }}
-            >
-              <p>Request Sent 08/05/2022 9:45pm</p>
-              <p>
-                Request Status:{' '}
-                <span style={{ color: '#17935C' }}>Approve</span>
-              </p>
-              <Grid container spacing={2} mb={1}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>reason for Approval:</p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt
-                  </p>
-                </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
-                  <p>Dr. John Doe</p>
-                  <p>Lagos State Hospital</p>
-                </Grid>
-              </Grid>
-            </div> */}
+              </div>
+            )}
+            {currentPage === 2 && (
+              <div style={{ marginTop: '1rem' }}>
+                <CRMTasks />
+              </div>
+            )}
+            {currentPage === 3 && <Policy standAlone />}
+            {currentPage === 4 && <Beneficiary />}
+            {currentPage === 5 && <Claims standAlone />}
+            {currentPage === 6 && <PremiumPayment />}
           </div>
         </Grid>
       </Grid>
+      {showServiceDetails && (
+        <ModalBox
+          open={showServiceDetails}
+          onClose={() => setShowServiceDetails(false)}
+        >
+          <Box sx={{ width: '60vw' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+              }}
+              mb={2}
+            >
+              <GlobalCustomButton
+                sx={{ marginRight: '15px' }}
+                onClick={() => setOpenReview(true)}
+              >
+                Review
+              </GlobalCustomButton>
+              <GlobalCustomButton
+                color="error"
+                onClick={() => setDeny(true)}
+                sx={{ marginRight: '15px' }}
+              >
+                Reject
+              </GlobalCustomButton>
+              <GlobalCustomButton color="success" text={'Save'} />
+            </Box>
+            <Grid container spacing={2}>
+              <Grid item xs={3}>
+                <Input label={'Item'} value={selectedService?.item} disabled />
+              </Grid>
+              <Grid item xs={3}>
+                <Input
+                  label={'QTY'}
+                  value={selectedService?.submittedQuantity}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Input
+                  label={'Submitted Amount'}
+                  value={selectedService?.submittedBill}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Input
+                  label={'Payable QTY'}
+                  value={selectedService?.payableQuantity}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Input
+                  label={'Payable Amount'}
+                  value={selectedService?.payableBill}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Input label={'Comment'} />
+              </Grid>
+            </Grid>
+          </Box>
+        </ModalBox>
+      )}
       {approve && (
         <>
           <ModalBox open={approve} onClose={() => setApprove(false)}>
@@ -1272,13 +1552,7 @@ export function Details() {
               <ModalHeader text={`Approve Claim  13229-BA`} />
               <Grid container spacing={2} mt={1}>
                 <Grid item xs={12}>
-                  <Input label={'Name of Referral'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Institution'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Reason'} />
+                  <Textarea label={'Comment'} />
                 </Grid>
                 <Grid item xs={12}>
                   <GlobalCustomButton text={'Approve'} color="success" />
@@ -1296,13 +1570,7 @@ export function Details() {
 
               <Grid container spacing={2} mt={1}>
                 <Grid item xs={12}>
-                  <Input label={'Name of Referral'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Institution'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Reason'} />
+                  <Textarea label={'Comment'} />
                 </Grid>
                 <Grid item xs={12}>
                   <GlobalCustomButton text={'Reject'} color="error" />
@@ -1311,6 +1579,47 @@ export function Details() {
             </form>
           </ModalBox>
         </>
+      )}
+      {openReview && (
+        <ModalBox open={openReview} onClose={() => setOpenReview(false)}>
+          <FormsHeaderText text={'Review Service / Product'} />
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={6}>
+              <Input
+                label="Unit Price"
+                type="number"
+                onChange={(e) => {
+                  setUnitPrice(e.target.value);
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Input
+                label="Quantity"
+                type="number"
+                onChange={(e) => {
+                  setQuantity(e.target.value);
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Input
+                label="Total Amount"
+                type="number"
+                value={unitPrice * quantity}
+                disabled
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <GlobalCustomButton
+                text={'Save'}
+                color="success"
+                customStyles={{ marginRight: '.8rem' }}
+              />
+              <GlobalCustomButton text={'Cancel'} color="error" />
+            </Grid>
+          </Grid>
+        </ModalBox>
       )}
       <Drawer
         open={openDrawer}

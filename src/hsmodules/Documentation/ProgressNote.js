@@ -5,9 +5,9 @@ import {useForm} from "react-hook-form";
 import {DocumentClassList} from "./DocumentClass";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import Roaster from "../Admin/Roaster";
-import {Box, getValue} from "@mui/system";
+import {Box} from "@mui/system";
 import RadioButton from "../../components/inputs/basic/Radio";
 import {Button, IconButton, Typography} from "@mui/material";
 import Input from "../../components/inputs/basic/Input";
@@ -17,9 +17,12 @@ import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 import {FormsHeaderText} from "../../components/texts";
 import CloseIcon from "@mui/icons-material/Close";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+import CheckboxGroup from "../../components/inputs/basic/Checkbox/CheckBoxGroup";
 
 export default function ProgressNote() {
-  const {register, handleSubmit, setValue, control} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue, control, reset, getValues} =
+    useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -38,6 +41,7 @@ export default function ProgressNote() {
   const [symptom, setSymptom] = useState("");
   const [symptoms, setSymptoms] = useState([]);
   const [docStatus, setDocStatus] = useState("Draft");
+  const [confirmDialog, setConfirmDialog] = useState(false);
 
   const [dataset, setDataset] = useState();
   const {state, setState} = useContext(ObjectContext);
@@ -48,6 +52,7 @@ export default function ProgressNote() {
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
+      console.log(draftDoc.documentdetail);
       Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
         setValue(keys, value, {
           shouldValidate: true,
@@ -125,71 +130,58 @@ export default function ProgressNote() {
       !document.createdByname ||
       !document.facilityname
     ) {
-      toast({
-        message:
-          " Documentation data missing, requires location and facility details",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error(
+        " Documentation data missing, requires location and facility details"
+      );
       return;
     }
-    let confirm = window.confirm(
-      `You are about to save this document ${document.documentname} ?`
-    );
-    if (confirm) {
-      if (!!draftDoc && draftDoc.status === "Draft") {
-        ClientServ.patch(draftDoc._id, document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            //  setAllergies([])
-            //  setSymptoms([])
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "New Patient Consultation Form updated succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-          })
-          .catch(err => {
-            toast({
-              message: "Error updating New Patient Consultation Form " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+
+    //return console.log(document);
+
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then(res => {
+          Object.keys(data).forEach(key => {
+            data[key] = "";
           });
-      } else {
-        ClientServ.create(document)
-          .then(res => {
-            //console.log(JSON.stringify(res))
-            e.target.reset();
-            //setAllergies([])
-            //  setSymptoms([])
-            /*  setMessage("Created Client successfully") */
-            setSuccess(true);
-            toast({
-              message: "Pediatric Pulmonology Form created succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            setSuccess(false);
-            closeForm();
-          })
-          .catch(err => {
-            toast({
-              message: "Error creating Pediatric Pulmonology Form " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+          //console.log(JSON.stringify(res))
+          //e.target.reset();
+          //  setAllergies([])
+          //  setSymptoms([])
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("New Patient Consultation Form updated succesfully");
+          reset(data);
+          setValue("Date", null);
+          setValue("Next Review Plan Date", null);
+          setValue("Date_Seen", null);
+          setSuccess(false);
+          setConfirmDialog(false);
+        })
+        .catch.error(err => {
+          toast.error("Error updating New Patient Consultation Form " + err);
+        });
+    } else {
+      ClientServ.create(document)
+        .then(res => {
+          Object.keys(data).forEach(key => {
+            data[key] = null;
           });
-      }
+          //console.log(JSON.stringify(res))
+          //e.target.reset();
+          //setAllergies([])
+          //  setSymptoms([])
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Pediatric Pulmonology Form created succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmDialog(false);
+          //closeForm();
+        })
+        .catch(err => {
+          toast.error("Error creating Pediatric Pulmonology Form " + err);
+        });
     }
   };
 
@@ -268,6 +260,13 @@ export default function ProgressNote() {
   return (
     <>
       <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmDialog}
+          cancelAction={() => setConfirmDialog(false)}
+          confirmationAction={handleSubmit(onSubmit)}
+          type="create"
+          message="You're about to save a Document, Progress Notes"
+        />
         <Box
           sx={{
             display: "flex",
@@ -284,17 +283,29 @@ export default function ProgressNote() {
         </Box>
 
         <div className="card-content vscrollable remPad1">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form>
             <Box>
               <MuiCustomDatePicker label="Date" name="Date" control={control} />
             </Box>
 
             <Box>
-              <CheckboxInput
+              <CheckboxGroup
+                control={control}
                 label="Progress Note Type"
-                register={register("Progress_note_type")}
+                name="Progress Note Type"
                 options={["New", "Return", "Periodic"]}
+                row
+                //config={config}
               />
+
+              {/* <CheckboxInput
+                label="Progress Note Type"
+                //register={register("Progress Note Type")}
+                options={["New", "Return", "Periodic"]}
+                //selected={getValues("Progress Note Type")}
+                control={control}
+                name="Progress Note Type"
+              /> */}
             </Box>
 
             <Box>
@@ -339,23 +350,39 @@ export default function ProgressNote() {
                 Next appontment to be scheduled for
               </Typography>
               <Input
-                register={register("Next_appointment_scheduled_for")}
+                register={register("Next Appontment Schedule")}
                 name="text"
                 type="text"
               />
             </Box>
 
             <Box>
-              <CheckboxInput
+              <CheckboxGroup
+                control={control}
                 label="Needs Next Appointment For"
-                register={register("Ros")}
+                name="ROS"
                 options={[
                   "Decrease Symptoms",
                   "Improve Functioning",
                   "Consolidate Gains",
                   "Improve compliance",
                 ]}
+                row
+                //config={config}
               />
+
+              {/* <CheckboxInput
+                label="Needs Next Appointment For"
+                //register={register("ROS")}
+                options={[
+                  "Decrease Symptoms",
+                  "Improve Functioning",
+                  "Consolidate Gains",
+                  "Improve compliance",
+                ]}
+                name="ROS"
+                control={control}
+              /> */}
             </Box>
 
             <Box>
@@ -363,7 +390,7 @@ export default function ProgressNote() {
                 Prepare for Discharge
               </Typography>
               <Input
-                register={register("Prepare_for_discharge")}
+                register={register("Prepare for Discharge")}
                 name="text"
                 type="text"
               />
@@ -379,7 +406,7 @@ export default function ProgressNote() {
                 Next Review Plan Date
               </Typography>
               <MuiCustomDatePicker
-                name="Next_review_plan_date"
+                name="Next Review Plan Date"
                 control={control}
               />
             </Box>
@@ -430,7 +457,11 @@ export default function ProgressNote() {
                 gap: "2rem",
               }}
             >
-              <GlobalCustomButton color="secondary" type="button">
+              <GlobalCustomButton
+                color="secondary"
+                type="button"
+                onClick={() => setConfirmDialog(true)}
+              >
                 Submit Progress Note
               </GlobalCustomButton>
             </Box>

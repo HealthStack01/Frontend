@@ -262,6 +262,18 @@ export default function ServiceSearch({getSearchfacility, clear, mode, label}) {
           }
           return option.name;
         }}
+        isOptionEqualToValue={(option, value) =>
+          value === undefined || value === "" || option._id === value._id
+        }
+        onInputChange={(event, newInputValue, reason) => {
+          if (reason === "reset") {
+            setVal("");
+            setSimpa("");
+            return;
+          } else {
+            handleSearch(newInputValue);
+          }
+        }}
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys
@@ -277,13 +289,13 @@ export default function ServiceSearch({getSearchfacility, clear, mode, label}) {
           <TextField
             {...params}
             label={label ? label : "Search for Service"}
-            onChange={e => handleSearch(e.target.value)}
             ref={inputEl}
             sx={{
               fontSize: "0.75rem !important",
               backgroundColor: "#ffffff !important",
               "& .MuiInputBase-input": {
                 height: "0.9rem",
+                fontSize: "0.75rem",
               },
             }}
             InputLabelProps={{
@@ -292,104 +304,6 @@ export default function ServiceSearch({getSearchfacility, clear, mode, label}) {
           />
         )}
       />
-      {/* <div className="field">
-        <div className="control has-icons-left  ">
-          <div
-            className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{width: "100%"}}
-          >
-            <div
-              className="dropdown-trigger"
-              style={{width: "100%", position: "relative"}}
-            >
-              <DebounceInput
-                className="input is-small "
-                type="text"
-                placeholder="Search Services"
-                value={simpa}
-                minLength={3}
-                debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
-                inputRef={inputEl}
-                element={Input}
-              />
-
-              <Grow in={showPanel}>
-                <Card>
-                  <Box
-                    ref={dropDownRef}
-                    container
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      maxHeight: "150px",
-                      overflowY: "scroll",
-                      zIndex: "5",
-                      position: "absolute",
-                      background: "#ffffff",
-                      width: "100%",
-                      border: "1px solid lightgray",
-                      zIndex: "500",
-                    }}
-                  >
-                    {facilities.length > 0 ? (
-                      facilities.map((facility, i) => (
-                        <Box
-                          item
-                          key={i}
-                          onClick={() => handleRow(facility)}
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            padding: "0 8px",
-                            width: "100%",
-                            minHeight: "50px",
-                            borderTop: i !== 0 ? "1px solid gray" : "",
-                            cursor: "pointer",
-                            zIndex: "100",
-                          }}
-                        >
-                          <span
-                            style={{
-                              fontSize: "0.75rem",
-                            }}
-                          >
-                            {facility.name} - {facility.category}
-                          </span>
-                        </Box>
-                      ))
-                    ) : (
-                      <Box
-                        className="dropdown-item"
-                        onClick={handleAddproduct}
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          padding: "0 8px",
-                          width: "100%",
-                          minHeight: "50px",
-                          borderTop: "1px solid gray",
-                          cursor: "pointer",
-                          zIndex: "100",
-                        }}
-                      >
-                        <span
-                          style={{
-                            fontSize: "0.75rem",
-                          }}
-                        >
-                          Add {val} to service list
-                        </span>{" "}
-                      </Box>
-                    )}
-                  </Box>
-                </Card>
-              </Grow>
-            </div>
-          </div>
-        </div>
-      </div> */}
 
       <ModalBox
         open={productModal}

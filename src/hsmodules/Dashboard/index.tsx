@@ -1,20 +1,20 @@
 /* eslint-disable no-lone-blocks */
-import React, { useContext, useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import React, {useContext, useEffect, useState} from "react";
+import {Outlet} from "react-router-dom";
 
-import { LayoutContent, LayoutWrapper } from "../../components/layout/styles";
+import {LayoutContent, LayoutWrapper} from "../../components/layout/styles";
 import SideMenu from "../../components/sidemenu";
 import TopMenu from "../../components/topmenu";
-import { UserContext } from "../../context";
+import {UserContext} from "../../context";
 
 interface DashProps {
   children?: React.ReactNode | undefined;
 }
 
 // eslint-disable-next-line no-lone-blocks
-const Dashboard: React.FC<DashProps> = ({ children }) => {
+const Dashboard: React.FC<DashProps> = ({children}) => {
   {
-    const { locationType } = useContext(UserContext);
+    const {locationType} = useContext(UserContext);
 
     useEffect(() => {
       window.scrollTo({

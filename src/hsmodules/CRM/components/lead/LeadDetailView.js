@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, useContext} from "react";
 import {Button, Grid, Box, Collapse, Typography} from "@mui/material";
 import Input from "../../../../components/inputs/basic/Input";
 import {useForm} from "react-hook-form";
@@ -37,8 +37,14 @@ import Contact from "../../Contact";
 import RadioButton from "../../../../components/inputs/basic/Radio";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import CRMTasks from "../../Tasks";
-import CustomerDetail from "../global/CustomerDetail";
-import LeadDetailView from "../global/LeadDetail";
+import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
+import LeadDetailView, {PageLeadDetailView} from "../global/LeadDetail";
+import VideoConference from "../../../utils/VideoConference";
+import {ObjectContext} from "../../../../context";
+import client from "../../../../feathers";
+import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
+import StaffDetail from "../assigned-staffs/StaffDetail";
+import Invoice from "../../Invoice";
 
 export const LeadView = () => {
   const {register, reset, control, handleSubmit} = useForm();
@@ -174,13 +180,12 @@ export const DetailView = () => {
   return (
     <>
       <Grid container spacing={2} pr={2} pl={2}>
-        <Grid item lg={6} md={12} sm={12}>
+        <Grid item lg={12} md={12} sm={12}>
           <Box mb={1}>
-            <LeadDetailView />
+            <PageCustomerDetail />
           </Box>
-
           <Box>
-            <CustomerDetail />
+            <PageLeadDetailView />
           </Box>
         </Grid>
 
@@ -193,18 +198,20 @@ export const DetailView = () => {
 };
 
 export const AdditionalInformationView = () => {
+  const {state} = useContext(ObjectContext);
   const [createModal, setCreateModal] = useState(false);
   const [informations, setInformations] = useState([
-    ...additionalInformationData,
+    ...state.DealModule.selectedDeal.additionalInfo,
   ]);
+  //const [informations, setInformations] = useState([]);
 
   const removeAdditionalInfo = info => {
     setInformations(prev => prev.filter(item => item._id !== info._id));
   };
 
-  const addNewInfo = data => {
-    setInformations(prev => [data, ...prev]);
-  };
+  // const addNewInfo = data => {
+  //   setInformations(prev => [data, ...prev]);
+  // };
 
   return (
     <Box>
@@ -262,7 +269,7 @@ export const AdditionalInformationView = () => {
       >
         <CreateAdditionalInfo
           closeModal={() => setCreateModal(false)}
-          addInfo={addNewInfo}
+          //addInfo={addNewInfo}
         />
       </ModalBox>
     </Box>
@@ -270,26 +277,135 @@ export const AdditionalInformationView = () => {
 };
 
 export const StaffsListView = () => {
-  const [staffs, setStaffs] = useState([...staffsData]);
+  const dealServer = client.service("deal");
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+
+  // const [staffs, setStaffs] = useState([
+  //   // ...state.DealModule.selectedDeal.assignStaff,
+  // ]);
+  const [staffs, setStaffs] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState(null);
+  const [confirmDialog, setConfirmDialog] = useState(false);
+  const [staffToDel, setStaffToDel] = useState({});
+  const [success, setSuccess] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
+
+  useEffect(() => {
+    setStaffs(state.DealModule.selectedDeal.assignStaff);
+  }, [state.DealModule]);
 
   const handleSelectedStaff = staff => {
     setSelectedStaff(staff);
   };
 
-  const handleAddStaff = () => {
-    setStaffs(prev => [selectedStaff, ...prev]);
-    setSelectedStaff(null);
+  const handleAddStaff = async () => {
+    if (selectedStaff === null)
+      return toast.error("Please search for an Employee to add as staff");
+
+    showActionLoader();
+    //return console.log("hello world");
+    const staffDetail = {
+      name: `${selectedStaff.firstname} ${selectedStaff.lastname}`,
+      position: selectedStaff.position,
+      profession: selectedStaff.profession,
+      phoneno: selectedStaff.phone,
+      email: selectedStaff.email,
+      active: selectedStaff.active || true,
+      employeeId: selectedStaff._id,
+    };
+    //const prevStaffs = state.DealModule.selectedDeal.assignStaff;
+    const newStaffs = [staffDetail, ...staffs];
+    const documentId = state.DealModule.selectedDeal._id;
+    await dealServer
+      .patch(documentId, {assignStaff: newStaffs})
+      .then(res => {
+        hideActionLoader();
+        //setContacts(res.contacts);
+        setState(prev => ({
+          ...prev,
+          DealModule: {...prev.DealModule, selectedDeal: res},
+        }));
+        setStaffs(newStaffs);
+        toast.success(`You have successfully added a new Staff!`);
+        setSuccess(true);
+        //setReset(true);
+      })
+      .catch(err => {
+        //setReset(false);
+        hideActionLoader();
+        toast.error(`Sorry, You weren't able to add a new Staff!. ${err}`);
+      });
   };
 
-  const handleRemoveStaff = staff => {
-    setStaffs(prev => prev.filter(item => item._id !== staff._id));
+  const confirmRemoveStaff = staff => {
+    //console.log(staff);
+    setStaffToDel(staff);
+    setConfirmDialog(true);
   };
 
-  const staffColumns = getStaffColumns(handleRemoveStaff, false);
+  const handleRemoveStaff = async () => {
+    showActionLoader();
+    const newStaffs = staffs.filter(item => item._id !== staffToDel._id);
+    const documentId = state.DealModule.selectedDeal._id;
+    await dealServer
+      .patch(documentId, {assignStaff: newStaffs})
+      .then(res => {
+        hideActionLoader();
+        //setContacts(res.contacts);
+        setConfirmDialog(false);
+        setState(prev => ({
+          ...prev,
+          DealModule: {...prev.DealModule, selectedDeal: res},
+        }));
+        setStaffs(newStaffs);
+        toast.success(`You have successfully Deleted Staff!`);
+        //setReset(true);
+      })
+      .catch(err => {
+        //setReset(false);
+        setConfirmDialog(false);
+        hideActionLoader();
+        toast.error(`Sorry, You weren't able to Delete Staff!. ${err}`);
+      });
+  };
+
+  const staffColumns = getStaffColumns(confirmRemoveStaff, false);
+
+  const handleRow = row => {
+    setState(prev => ({
+      ...prev,
+      StaffModule: {...prev.StaffModule, selectedStaff: row},
+    }));
+
+    setDetailModal(true);
+  };
+
+  const conditionalRowStyles = [
+    {
+      when: row => row.active === false,
+      style: {
+        backgroundColor: "pink",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
 
   return (
     <Box container pl={2} pr={2}>
+      <CustomConfirmationDialog
+        open={confirmDialog}
+        cancelAction={() => {
+          setConfirmDialog(false);
+          setStaffToDel({});
+        }}
+        confirmationAction={() => handleRemoveStaff(staffToDel)}
+        type="danger"
+        message={`You're about to remove Staff ${staffToDel?.name}`}
+      />
       <Box
         sx={{
           display: "flex",
@@ -316,7 +432,10 @@ export const StaffsListView = () => {
 
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <EmployeeSearch getSearchfacility={handleSelectedStaff} />
+          <EmployeeSearch
+            getSearchfacility={handleSelectedStaff}
+            clear={success}
+          />
         </Grid>
       </Grid>
 
@@ -328,11 +447,16 @@ export const StaffsListView = () => {
           pointerOnHover
           highlightOnHover
           striped
-          //onRowClicked={handleRow}
+          onRowClicked={handleRow}
           CustomEmptyData="You haven't added any Staffs yet..."
           progressPending={false}
+          conditionalRowStyles={conditionalRowStyles}
         />
       </Box>
+
+      <ModalBox open={detailModal} onClose={() => setDetailModal(false)}>
+        <StaffDetail closeModal={() => setDetailModal(false)} />
+      </ModalBox>
     </Box>
   );
 };
@@ -416,46 +540,19 @@ const ProposalsView = () => {
 const LeadDetail = ({handleGoBack}) => {
   const [currentView, setCurrentView] = useState("detail");
   const [scheduleAppointment, setScheduleAppointment] = useState(false);
+  const [activateCall, setActivateCall] = useState(false);
 
   const handleSetCurrentView = view => {
     setCurrentView(view);
-  };
-
-  const RenderedComponent = () => {
-    switch (currentView) {
-      case "detail":
-        return <DetailView />;
-
-      case "information":
-        return <AdditionalInformationView />;
-
-      case "contacts":
-        return <Contact />;
-
-      case "staffs":
-        return <StaffsListView />;
-
-      case "tasks":
-        return <CRMTasks />;
-
-      case "uploads":
-        return <UploadView />;
-
-      case "appointments":
-        return <AppointmentsView />;
-
-      case "proposal":
-        return <ProposalsView />;
-
-      default:
-        break;
-    }
   };
 
   return (
     <Box
       sx={{
         width: "100%",
+        height: "calc(100vh - 100px)",
+        overflowY: "auto",
+        position: "relative",
       }}
     >
       <Box
@@ -465,6 +562,10 @@ const LeadDetail = ({handleGoBack}) => {
           justifyContent: "space-between",
           borderBottom: "1px solid #f8f8f8",
           backgroundColor: "#f8f8f8",
+          position: "sticky",
+          zIndex: 99,
+          top: 0,
+          left: 0,
         }}
         mb={2}
         p={2}
@@ -477,8 +578,8 @@ const LeadDetail = ({handleGoBack}) => {
           gap={1}
         >
           <GlobalCustomButton onClick={handleGoBack}>
-            <ArrowBackIcon />
-            Go Back
+            <ArrowBackIcon sx={{marginRight: "3px"}} fontSize="small" />
+            Back
           </GlobalCustomButton>
 
           <Typography
@@ -492,27 +593,72 @@ const LeadDetail = ({handleGoBack}) => {
         </Box>
 
         <Box sx={{display: "flex", justifyContent: "flex-end"}} mb={2} gap={1}>
+          <Box>
+            <VideoConference
+              activateCall={activateCall}
+              setActivateCall={setActivateCall}
+              label="Video conference"
+            />
+          </Box>
+
+          {activateCall && (
+            <GlobalCustomButton
+              onClick={() => setActivateCall(false)}
+              color="error"
+            >
+              End conference
+            </GlobalCustomButton>
+          )}
+
           <GlobalCustomButton
             color="secondary"
             onClick={() => handleSetCurrentView("detail")}
+            sx={
+              currentView === "detail"
+                ? {
+                    backgroundColor: "#ffffff",
+                    color: "#000000",
+                    "&:hover": {
+                      backgroundColor: "#ffffff",
+                    },
+                  }
+                : {}
+            }
           >
             Detail
           </GlobalCustomButton>
 
-          {/* <GlobalCustomButton
-            color="warning"
-            onClick={() => handleSetCurrentView("information")}
+          <GlobalCustomButton
+            onClick={() => handleSetCurrentView("tasks")}
+            sx={
+              currentView === "tasks"
+                ? {
+                    backgroundColor: "#ffffff",
+                    color: "#000000",
+                    "&:hover": {
+                      backgroundColor: "#ffffff",
+                    },
+                  }
+                : {}
+            }
           >
-            Added Info
-          </GlobalCustomButton> */}
-
-          <GlobalCustomButton onClick={() => handleSetCurrentView("tasks")}>
             Tasks
           </GlobalCustomButton>
 
           <GlobalCustomButton
             color="success"
             onClick={() => handleSetCurrentView("uploads")}
+            sx={
+              currentView === "uploads"
+                ? {
+                    backgroundColor: "#ffffff",
+                    color: "#000000",
+                    "&:hover": {
+                      backgroundColor: "#ffffff",
+                    },
+                  }
+                : {}
+            }
           >
             Uploads
           </GlobalCustomButton>
@@ -520,17 +666,70 @@ const LeadDetail = ({handleGoBack}) => {
           <GlobalCustomButton
             color="info"
             onClick={() => handleSetCurrentView("appointments")}
+            sx={
+              currentView === "appointments"
+                ? {
+                    backgroundColor: "#ffffff",
+                    color: "#000000",
+                    "&:hover": {
+                      backgroundColor: "#ffffff",
+                    },
+                  }
+                : {}
+            }
           >
             Appointments
           </GlobalCustomButton>
 
-          <GlobalCustomButton onClick={() => handleSetCurrentView("proposal")}>
+          <GlobalCustomButton
+            onClick={() => handleSetCurrentView("proposal")}
+            sx={
+              currentView === "proposal"
+                ? {
+                    backgroundColor: "#ffffff",
+                    color: "#000000",
+                    "&:hover": {
+                      backgroundColor: "#ffffff",
+                    },
+                  }
+                : {}
+            }
+          >
             Proposal
+          </GlobalCustomButton>
+
+          <GlobalCustomButton
+            onClick={() => handleSetCurrentView("invoice")}
+            color="warning"
+            sx={
+              currentView === "invoice"
+                ? {
+                    backgroundColor: "#ffffff",
+                    color: "#000000",
+                    "&:hover": {
+                      backgroundColor: "#ffffff",
+                    },
+                  }
+                : {}
+            }
+          >
+            Invoice
           </GlobalCustomButton>
 
           <GlobalCustomButton
             color="info"
             onClick={() => handleSetCurrentView("staffs")}
+            sx={
+              currentView === "staffs"
+                ? {
+                    backgroundColor: "#ffffff",
+                    color: "#000000",
+                    "&:hover": {
+                      backgroundColor: "#ffffff",
+                    },
+                  }
+                : {}
+            }
           >
             Staffs
           </GlobalCustomButton>
@@ -538,23 +737,45 @@ const LeadDetail = ({handleGoBack}) => {
           <GlobalCustomButton
             color="info"
             onClick={() => handleSetCurrentView("contacts")}
+            sx={
+              currentView === "contacts"
+                ? {
+                    backgroundColor: "#ffffff",
+                    color: "#000000",
+                    "&:hover": {
+                      backgroundColor: "#ffffff",
+                    },
+                  }
+                : {}
+            }
           >
             contacts
           </GlobalCustomButton>
         </Box>
       </Box>
 
+      {/* <Box pl={2}>
+        <FormsHeaderText text={currentView} />
+      </Box> */}
+
       <Box>
-        <RenderedComponent />
+        {currentView === "detail" && <DetailView />}
+        {currentView === "contacts" && <Contact />}
+        {currentView === "staffs" && <StaffsListView />}
+        {currentView === "tasks" && <CRMTasks />}
+        {currentView === "uploads" && <UploadView />}
+        {currentView === "proposal" && <ProposalsView />}
+        {currentView === "appointments" && <AppointmentsView />}
+        {currentView === "invoice" && <Invoice />}
       </Box>
 
-      <ModalBox
+      {/* <ModalBox
         open={scheduleAppointment}
         onClose={() => setScheduleAppointment(false)}
         header="Schedule Appointment"
       >
         <ScheduleAppointment closeModal={() => setScheduleAppointment(false)} />
-      </ModalBox>
+      </ModalBox> */}
     </Box>
   );
 };

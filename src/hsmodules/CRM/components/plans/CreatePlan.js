@@ -1,37 +1,43 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, useContext} from "react";
 import {Button, Grid} from "@mui/material";
 import {Box} from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
 import {useForm} from "react-hook-form";
 import {toast} from "react-toastify";
+import {v4 as uuidv4} from "uuid";
 
 import {FormsHeaderText} from "../../../../components/texts";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import moment from "moment";
+import {UserContext} from "../../../../context";
 
 export const PageCreatePlan = ({addNewPlan}) => {
   const {register, handleSubmit, control, getValues, reset} = useForm();
+  const {user} = useContext(UserContext);
 
   const defaultValues = {
-    plan_type: "",
+    type: "",
     premium: "",
-    no_of_heads: "",
-    duration_calendrical: "",
-    duration_length: "",
+    heads: "",
+    calendrical: "",
+    length: "",
     amount: "",
   };
 
   const onSubmit = data => {
+    const employee = user.currentEmployee;
     const newPlan = {
       ...data,
-      _id: `plan-${Math.random()}`,
-      created_at: moment.now(),
+      _id: uuidv4(),
+      created_at: new Date(),
+      createdBy: employee.userId,
+      createdByName: `${employee.firstname} ${employee.lastname}`,
     };
 
     addNewPlan(newPlan);
-    toast.success("Plan Added successfully");
+    //toast.success("Plan Added successfully");
 
     reset(defaultValues);
   };
@@ -58,7 +64,7 @@ export const PageCreatePlan = ({addNewPlan}) => {
               label="Plan Type"
               options={["Family", "HMO", "Free", "Personal"]}
               control={control}
-              name="plan_type"
+              name="type"
             />
           </Grid>
 
@@ -72,7 +78,7 @@ export const PageCreatePlan = ({addNewPlan}) => {
 
           <Grid item lg={2} md={3} sm={4}>
             <Input
-              register={register("no_of_heads", {required: true})}
+              register={register("heads", {required: true})}
               label="No of Heads"
               type="number"
               //placeholder="Enter customer number"
@@ -81,16 +87,16 @@ export const PageCreatePlan = ({addNewPlan}) => {
 
           <Grid item lg={2} md={3} sm={4}>
             <CustomSelect
-              label="Duration Calendrical"
+              label="Calendrical Duration"
               options={["Week(s)", "Month(s)", "Year(s)"]}
               control={control}
-              name="duration_calendrical"
+              name="calendrical"
             />
           </Grid>
 
           <Grid item lg={2} md={3} sm={4}>
             <Input
-              register={register("duration_length", {required: true})}
+              register={register("length", {required: true})}
               label="Duration Legnth"
               type="number"
               //placeholder="Enter customer number"
@@ -112,26 +118,31 @@ export const PageCreatePlan = ({addNewPlan}) => {
 };
 
 export const ModalCreatePlan = ({addNewPlan}) => {
+  const {user} = useContext(UserContext);
   const {register, handleSubmit, control, getValues, reset} = useForm();
 
   const defaultValues = {
-    plan_type: "",
+    type: "",
     premium: "",
-    no_of_heads: "",
-    duration_calendrical: "",
-    duration_length: "",
+    heads: "",
+    calendrical: "",
+    length: "",
     amount: "",
   };
 
-  const onSubmit = data => {
+  const onSubmit = async data => {
+    const employee = user.currentEmployee;
+
     const newPlan = {
       ...data,
-      _id: `plan-${Math.random()}`,
-      created_at: moment.now(),
+      _id: uuidv4(),
+      created_at: new Date(),
+      createdBy: employee.userId,
+      createdByName: `${employee.firstname} ${employee.lastname}`,
     };
 
-    addNewPlan(newPlan);
-    toast.success("Plan Added successfully");
+    await addNewPlan(newPlan);
+    //toast.success("Plan Added successfully");
 
     reset(defaultValues);
   };
@@ -158,7 +169,7 @@ export const ModalCreatePlan = ({addNewPlan}) => {
               label="Plan Type"
               options={["Family", "HMO", "Free", "Personal"]}
               control={control}
-              name="plan_type"
+              name="type"
             />
           </Grid>
 
@@ -172,7 +183,7 @@ export const ModalCreatePlan = ({addNewPlan}) => {
 
           <Grid item lg={6} md={6} sm={6}>
             <Input
-              register={register("no_of_heads", {required: true})}
+              register={register("heads", {required: true})}
               label="No of Heads"
               type="number"
               //placeholder="Enter customer number"
@@ -184,13 +195,13 @@ export const ModalCreatePlan = ({addNewPlan}) => {
               label="Duration Calendrical"
               options={["Week(s)", "Month(s)", "Year(s)"]}
               control={control}
-              name="duration_calendrical"
+              name="calendrical"
             />
           </Grid>
 
           <Grid item lg={6} md={6} sm={6}>
             <Input
-              register={register("duration_length", {required: true})}
+              register={register("length", {required: true})}
               label="Duration Legnth"
               type="number"
               //placeholder="Enter customer number"
@@ -201,7 +212,7 @@ export const ModalCreatePlan = ({addNewPlan}) => {
             <Input
               register={register("amount", {required: true})}
               label="Amount"
-              type="NUMBER"
+              type="number"
               //placeholder="Enter customer number"
             />
           </Grid>

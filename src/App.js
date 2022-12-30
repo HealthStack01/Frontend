@@ -14,12 +14,47 @@ import {UserContext, ObjectContext} from "./context";
 import AppRoutes from "./hsmodules/routes";
 import {GlobalStyle} from "./ui/styled/global";
 import {darkTheme, lightTheme} from "./ui/styled/theme";
+import ActionLoader from "./components/action-loader/Action-Loader";
 
 function App() {
   const [state, setState] = useState({
+    BankAccountModule: {
+      selectedBankAccount: {},
+    },
+    InvoiceModule: {
+      selectedInvoice: {},
+      selectedPlan: {},
+      selectedBankAccount: {},
+    },
+    CRMAppointmentModule: {
+      selectedAppointment: {},
+    },
+    DealModule: {
+      selectedDeal: {},
+    },
+    TaskModule: {
+      selectedTask: {},
+    },
+
+    ContactModule: {
+      selectedContact: {},
+    },
+    StaffModule: {
+      selectedStaff: {},
+    },
+    actionLoader: {
+      open: false,
+      message: "",
+    },
+
+    sideMenu: {
+      open: true,
+    },
+
     facilityModule: {
       show: "list",
       selectedFacility: {},
+      currentFacility: {},
     },
 
     EmployeeModule: {
@@ -207,15 +242,44 @@ function App() {
   //   theme === 'light' ? setTheme('dark') : setTheme('light');
   // };
 
+  const showActionLoader = (message = "") => {
+    setState(prev => ({
+      ...prev,
+      actionLoader: {open: true, message: message},
+    }));
+  };
+  const hideActionLoader = () => {
+    setState(prev => ({
+      ...prev,
+      actionLoader: {open: false, message: ""},
+    }));
+  };
+
+  const toggleSideMenu = () => {
+    setState(prev => ({
+      ...prev,
+      sideMenu: {open: !prev.sideMenu.open},
+    }));
+  };
+
   return (
     <>
       <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           {/*  <ObjectProvider>
           <UserProvider> */}
-          <ObjectContext.Provider value={{state, setState}}>
+          <ObjectContext.Provider
+            value={{
+              state,
+              setState,
+              showActionLoader,
+              hideActionLoader,
+              toggleSideMenu,
+            }}
+          >
             <MyUserProvider>
               <GlobalStyle />
+              <ActionLoader />
               <AnimatePresence initial exitBeforeEnter>
                 <Router>
                   <AppRoutes />

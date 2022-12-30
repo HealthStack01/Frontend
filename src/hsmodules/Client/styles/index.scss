@@ -46,11 +46,12 @@
           justify-content: flex-start;
           margin-left: 12px;
           h1 {
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 600;
             //line-height: 24.59px;
             color: #000000;
             word-wrap: break-word;
+            text-transform: capitalize;
           }
 
           .user-outline {

@@ -48,6 +48,7 @@ const ClientView = ({open, setOpen, user}) => {
     handleSubmit,
     formState: {errors},
     reset,
+    control
   } = useForm({
     resolver: yupResolver(createClientSchema),
 
@@ -351,6 +352,7 @@ const ClientView = ({open, setOpen, user}) => {
                   label="Gender"
                   register={register("gender")}
                   defaultValue={user?.gender}
+                  control={control}
                   options={[
                     {label: "Male", value: "male"},
                     {label: "Female", value: "female"},

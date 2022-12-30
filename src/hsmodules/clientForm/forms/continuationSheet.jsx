@@ -1,4 +1,4 @@
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import {useForm} from "react-hook-form";
 import GlobalCustomButton from "../../../components/buttons/CustomButton";
 import Input from "../../../components/inputs/basic/Input";
@@ -8,6 +8,7 @@ import {Box, Grid, IconButton} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {ObjectContext} from "../../../context";
 import {FormsHeaderText} from "../../../components/texts";
+import {toast} from "react-toastify";
 
 const ContinuationSheet = ({onSubmit}) => {
   const {register, handleSubmit, control} = useForm();
@@ -31,6 +32,12 @@ const ContinuationSheet = ({onSubmit}) => {
     }));
   };
 
+  useEffect(() => {
+    toast.error(
+      "This form isn't available at the moment, will update you when it is.."
+    );
+  }, []);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="card">
@@ -51,7 +58,7 @@ const ContinuationSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Input
-            {...register("surname")}
+            register={register("surname")}
             name="surname"
             label="Surname"
             type="text"
@@ -59,7 +66,7 @@ const ContinuationSheet = ({onSubmit}) => {
         </Box>
         <Box mb="1rem">
           <Input
-            {...register("firstname")}
+            register={register("firstname")}
             name="firstname"
             label="Firstname"
             type="text"
@@ -75,7 +82,7 @@ const ContinuationSheet = ({onSubmit}) => {
 
         <Box mb="1rem">
           <Textarea
-            {...register("descOrRemark")}
+            register={register("descOrRemark")}
             name="description"
             label="Descriptiom/Remark"
             type="text"
@@ -83,7 +90,7 @@ const ContinuationSheet = ({onSubmit}) => {
         </Box>
         <Box mb="1rem">
           <Input
-            {...register("signature")}
+            register={register("signature")}
             name="signature"
             label="Signature"
             type="text"
@@ -91,11 +98,11 @@ const ContinuationSheet = ({onSubmit}) => {
         </Box>
         <Box mb="1rem">
           <GlobalCustomButton
-            text="Submit Form"
-            customStyles={{
-              marginRight: "5px",
-            }}
-          />
+            onClick={handleSubmit(onSubmit)}
+            color="secondary"
+          >
+            Submit Continous Sheet
+          </GlobalCustomButton>
         </Box>
       </div>
     </form>

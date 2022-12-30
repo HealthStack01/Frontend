@@ -1,7 +1,9 @@
-import {Box, Typography} from "@mui/material";
+import {Box, Grid, Typography} from "@mui/material";
+import dayjs from "dayjs";
 import {forwardRef} from "react";
 
 import CustomTable from "../../../components/customtable";
+import {FormsHeaderText} from "../../../components/texts";
 import {
   AdmissionOrderPrintOut,
   AdultQuestionnairePrintOut,
@@ -15,6 +17,7 @@ import {
 } from "../print-outs/Print-Outs";
 
 export const AdmissionOrderDocument = forwardRef(({Clinic}, ref) => {
+  const data = Clinic?.documentdetail;
   return (
     <div
       className={
@@ -22,31 +25,55 @@ export const AdmissionOrderDocument = forwardRef(({Clinic}, ref) => {
       }
     >
       <Box sx={{display: "none"}}>
-        <AdmissionOrderPrintOut
-          data={Clinic.documentdetail}
-          Clinic={Clinic}
-          ref={ref}
-        />
+        <AdmissionOrderPrintOut data={data} Clinic={Clinic} ref={ref} />
       </Box>
-      <div>
-        <div className="ml-4">
-          <p>
-            Admit to{" "}
-            {Clinic.documentdetail.ward?.name || Clinic.documentdetail.ward}
-          </p>
-          {Clinic.documentdetail.instruction && (
-            <p>
-              <label className="label is-size-7"> Instructions:</label>
-              {Clinic.documentdetail.instruction}
-            </p>
-          )}
-        </div>
-      </div>
+      <Box>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Box sx={{display: "flex"}}>
+              <Typography
+                sx={{
+                  fontSize: "0.75rem",
+                  fontWeight: "600",
+                  color: "#023047",
+                  marginRight: "5px",
+                }}
+              >
+                Admit To:
+              </Typography>
+
+              <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+                {data.ward?.name || data.ward}
+              </Typography>
+            </Box>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Box sx={{display: "flex"}}>
+              <Typography
+                sx={{
+                  fontSize: "0.75rem",
+                  fontWeight: "600",
+                  color: "#023047",
+                  marginRight: "5px",
+                }}
+              >
+                Instructions:
+              </Typography>
+
+              <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+                {data.instruction}
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
     </div>
   );
 });
 
 export const DischargeOrderComponent = forwardRef(({Clinic}, ref) => {
+  const data = Clinic?.documentdetail;
   return (
     <div
       className={
@@ -54,31 +81,131 @@ export const DischargeOrderComponent = forwardRef(({Clinic}, ref) => {
       }
     >
       <Box sx={{display: "none"}}>
-        <DischargeOrderPrintOut
-          data={Clinic.documentdetail}
-          ref={ref}
-          Clinic={Clinic}
-        />
+        <DischargeOrderPrintOut data={data} ref={ref} Clinic={Clinic} />
       </Box>
-      <div>
-        <div className="ml-4">
-          <p>
-            Discharge From{" "}
-            {Clinic.documentdetail.ward?.name || Clinic.documentdetail.ward}
-          </p>
-          {Clinic.documentdetail.instruction && (
-            <p>
-              <label className="label is-size-7"> Instructions:</label>
-              {Clinic.documentdetail.instruction}
-            </p>
-          )}
-        </div>
-      </div>
+
+      <Box>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Box sx={{display: "flex"}}>
+              <Typography
+                sx={{
+                  fontSize: "0.75rem",
+                  fontWeight: "600",
+                  color: "#03045e",
+                  marginRight: "5px",
+                }}
+              >
+                Discharge From:
+              </Typography>
+
+              <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+                {data.ward?.name || data.ward}
+              </Typography>
+            </Box>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Box sx={{display: "flex"}}>
+              <Typography
+                sx={{
+                  fontSize: "0.75rem",
+                  fontWeight: "600",
+                  color: "#03045e",
+                  marginRight: "5px",
+                }}
+              >
+                Instructions:
+              </Typography>
+
+              <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+                {data.instruction
+                  ? data.instruction
+                  : "________________________"}
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
     </div>
   );
 });
 
 export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
+  const AllergiesColumns = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      width: "50px",
+      center: true,
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Allergine",
+      key: "allergine",
+      description: "Allergine",
+      selector: row => row.allergine,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Reaction",
+      key: "reaction",
+      description: "Midlle Name",
+      selector: row => row.reaction,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  const MedicationColumns = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      width: "50px",
+      center: true,
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Drug Name",
+      key: "drugname",
+      description: "Allergine",
+      selector: row => row.drugname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Strength/Frequency",
+      key: "strengthfreq",
+      description: "Midlle Name",
+      selector: row => row.strengthfreq,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Notes",
+      key: "notes",
+      description: "Midlle Name",
+      selector: row => row.notes,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+  const data = Clinic?.documentdetail;
   return (
     <div
       className={
@@ -86,117 +213,159 @@ export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
       }
     >
       <Box sx={{display: "none"}}>
-        <MedicationListPrintOut
-          ref={ref}
-          data={Clinic.documentdetail}
-          Clinic={Clinic}
-        />
+        <MedicationListPrintOut ref={ref} data={data} Clinic={Clinic} />
       </Box>
-      {Object.entries(Clinic.documentdetail).map(([keys, value], i) => (
-        <>
-          {value.length > 0 && (
-            <>
+
+      {Object.entries(data).map(
+        ([keys, value], i) =>
+          value?.length > 0 && (
+            <Box key={i}>
               {keys !== "Allergies" && keys !== "Medications" && (
-                <div className="field is-horizontal">
-                  <div className="field-label">
-                    <label className="label is-size-7" key={i}>
-                      {keys}:
-                    </label>
-                  </div>
-                  <div className="field-body">
-                    <div className="field">{value}</div>
-                  </div>
-                </div>
+                <Box>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <Box sx={{display: "flex"}}>
+                        <Typography
+                          sx={{
+                            fontSize: "0.75rem",
+                            fontWeight: "600",
+                            color: "#03045e",
+                            marginRight: "5px",
+                          }}
+                        >
+                          {keys}:
+                        </Typography>
+
+                        <Typography
+                          sx={{fontSize: "0.75rem", color: "#000000"}}
+                        >
+                          {dayjs(value).isValid()
+                            ? dayjs(value).format("DD/MM/YYYY")
+                            : value}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </Box>
               )}
+
               {keys === "Allergies" && (
-                <div id="skintest">
-                  {Clinic.documentdetail.Allergies.length > 0 && (
-                    <div>
-                      <label className="label is-size-7">Allergies:</label>
-                      <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-5 ml-5 ">
-                        <thead>
-                          <tr>
-                            <th>
-                              <abbr title="Serial No">S/No</abbr>
-                            </th>
+                <Box>
+                  <Box>
+                    <FormsHeaderText text="Allergies" />
+                  </Box>
 
-                            <th>
-                              <abbr title="Type">Allergine</abbr>
-                            </th>
-                            <th>
-                              <abbr title="Destination">Reaction</abbr>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tfoot></tfoot>
-                        <tbody>
-                          {Clinic.documentdetail.Allergies.map(
-                            (ProductEntry, i) => (
-                              <tr key={i}>
-                                <th>{i + 1}</th>
-                                <td>{ProductEntry.allergine}</td>
-                                <td>{ProductEntry.reaction}</td>
-                              </tr>
-                            )
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
+                  {data?.Allergies?.length > 0 && (
+                    <Box sx={{height: "auto", width: "100%"}}>
+                      <CustomTable
+                        title="Allergies"
+                        columns={AllergiesColumns}
+                        data={data?.Allergies}
+                        pointerOnHover
+                        highlightOnHover
+                        striped
+                        progressPending={false}
+                      />
+                    </Box>
                   )}
-                </div>
+                </Box>
               )}
+
               {keys === "Medications" && (
-                <div id="Medications">
-                  {Clinic.documentdetail.Medications.length > 0 && (
-                    <div>
-                      <label className="label is-size-7">Medications:</label>
-                      <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-5 ml-5 ">
-                        <thead>
-                          <tr>
-                            <th>
-                              <abbr title="Serial No">S/No</abbr>
-                            </th>
+                <Box>
+                  <Box>
+                    <FormsHeaderText text="Medications" />
+                  </Box>
 
-                            <th>
-                              <abbr title="Drug Name">Drug Name</abbr>
-                            </th>
-                            <th>
-                              <abbr title="Strength/Frequency">
-                                Strength/Frequency
-                              </abbr>
-                            </th>
-                            <th>
-                              <abbr title="Notes">Notes</abbr>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tfoot></tfoot>
-                        <tbody>
-                          {Clinic.documentdetail.Medications.map(
-                            (ProductEntry, i) => (
-                              <tr key={i}>
-                                <th>{i + 1}</th>
-                                <td>{ProductEntry.drugname}</td>
-                                <td>{ProductEntry.strengthfreq}</td>
-                                <td>{ProductEntry.notes}</td>
-                              </tr>
-                            )
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
+                  {data?.Allergies?.length > 0 && (
+                    <Box sx={{height: "auto", width: "100%"}}>
+                      <CustomTable
+                        title="Medications"
+                        columns={MedicationColumns}
+                        data={data.Medications}
+                        pointerOnHover
+                        highlightOnHover
+                        striped
+                        progressPending={false}
+                      />
+                    </Box>
                   )}
-                </div>
+                </Box>
               )}
-            </>
-          )}
-        </>
-      ))}
+            </Box>
+          )
+      )}
     </div>
   );
 });
 
 export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
+  const data = Clinic?.documentdetail;
+
+  const columnsOne = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      width: "50px",
+      center: true,
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Allergine",
+      key: "allergine",
+      description: "Allergine",
+      selector: row => row.allergine,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Reaction",
+      key: "reaction",
+      description: "Reaction",
+      selector: row => row.reaction,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  const columnsTwo = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      width: "50px",
+      center: true,
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Symptoms",
+      key: "symptom",
+      description: "Symptom",
+      selector: row => row.symptom,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Duration",
+      key: "duration",
+      description: "Duration",
+      selector: row => row.duration,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
   return (
     <div
       className={
@@ -212,110 +381,126 @@ export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
         />
       </Box>
 
-      {Object.entries(Clinic.documentdetail).map(([keys, value], i) => (
-        <>
-          {value.length > 0 && (
+      {Object.entries(data).map(([keys, value], i) => (
+        <Box key={i}>
+          {value?.length > 0 && (
             <>
               {keys !== "Allergy_Skin_Test" &&
                 keys !== "Presenting_Complaints" && (
-                  <div className="field is-horizontal">
-                    <div className="field-label">
-                      <label className="label is-size-7" key={i}>
-                        {keys}:
-                      </label>
-                    </div>
-                    <div className="field-body">
-                      <div className="field">{value}</div>
-                    </div>
-                  </div>
+                  <Box>
+                    <Grid container spacing={2}>
+                      <Grid item xs={6}>
+                        <Box sx={{display: "flex"}}>
+                          <Typography
+                            sx={{
+                              fontSize: "0.75rem",
+                              fontWeight: "600",
+                              color: "#03045e",
+                              marginRight: "5px",
+                            }}
+                          >
+                            {keys}:
+                          </Typography>
+
+                          <Typography
+                            sx={{fontSize: "0.75rem", color: "#000000"}}
+                          >
+                            {dayjs(value).isValid()
+                              ? dayjs(value).format("DD/MM/YYYY")
+                              : value}
+                          </Typography>
+                        </Box>
+                      </Grid>
+                    </Grid>
+                  </Box>
                 )}
+
               {keys === "Allergy_Skin_Test" && (
-                <div id="skintest">
-                  {Clinic.documentdetail.Allergy_Skin_Test.length > 0 && (
-                    <div>
-                      <label className="label is-size-7">
-                        Allergy_Skin_Test:
-                      </label>
-                      <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-5 ml-5 ">
-                        <thead>
-                          <tr>
-                            <th>
-                              <abbr title="Serial No">S/No</abbr>
-                            </th>
+                <Box>
+                  <Box>
+                    <FormsHeaderText text="Allergy Skin Test" />
+                  </Box>
 
-                            <th>
-                              <abbr title="Type">Allergine</abbr>
-                            </th>
-                            <th>
-                              <abbr title="Destination">Reaction</abbr>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tfoot></tfoot>
-                        <tbody>
-                          {Clinic.documentdetail.Allergy_Skin_Test.map(
-                            (ProductEntry, i) => (
-                              <tr key={i}>
-                                <th>{i + 1}</th>
-                                <td>{ProductEntry.allergine}</td>
-                                <td>{ProductEntry.reaction}</td>
-                              </tr>
-                            )
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
+                  {data?.Allergy_Skin_Test?.length > 0 && (
+                    <Box sx={{height: "auto", width: "100%"}}>
+                      <CustomTable
+                        title="Tests"
+                        columns={columnsOne}
+                        data={data.Allergy_Skin_Test}
+                        pointerOnHover
+                        highlightOnHover
+                        striped
+                        progressPending={false}
+                      />
+                    </Box>
                   )}
-                </div>
+                </Box>
               )}
-              {keys === "Presenting_Complaints" && (
-                <div id="Presenting_Complaints">
-                  {Clinic.documentdetail.Presenting_Complaints.length > 0 && (
-                    <div>
-                      <label className="label is-size-7">
-                        Presenting_Complaints:
-                      </label>
-                      <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-5 ml-5 ">
-                        <thead>
-                          <tr>
-                            <th>
-                              <abbr title="Serial No">S/No</abbr>
-                            </th>
 
-                            <th>
-                              <abbr title="Type">Symptoms</abbr>
-                            </th>
-                            <th>
-                              <abbr title="Destination">Duration</abbr>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tfoot></tfoot>
-                        <tbody>
-                          {Clinic.documentdetail.Presenting_Complaints.map(
-                            (ProductEntry, i) => (
-                              <tr key={i}>
-                                <th>{i + 1}</th>
-                                <td>{ProductEntry.symptom}</td>
-                                <td>{ProductEntry.duration}</td>
-                              </tr>
-                            )
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
+              {keys === "Presenting_Complaints" && (
+                <Box>
+                  <Box>
+                    <FormsHeaderText text="Presenting Complaints" />
+                  </Box>
+
+                  {data?.Presenting_Complaints?.length > 0 && (
+                    <Box sx={{height: "auto", width: "100%"}}>
+                      <CustomTable
+                        title="Tests"
+                        columns={columnsTwo}
+                        data={data.Presenting_Complaints}
+                        pointerOnHover
+                        highlightOnHover
+                        striped
+                        progressPending={false}
+                      />
+                    </Box>
                   )}
-                </div>
+                </Box>
               )}
             </>
           )}
-        </>
+        </Box>
       ))}
     </div>
   );
 });
 
 export const AdultAthsmaQuestionaire = forwardRef(({Clinic}, ref) => {
+  const data = Clinic?.documentdetail;
+
+  const columns = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      width: "50px",
+      center: true,
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Allergine",
+      key: "allergine",
+      description: "Allergine",
+      selector: row => row.allergine,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Reaction",
+      key: "reaction",
+      description: "Reaction",
+      selector: row => row.reaction,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
   return (
     <div
       className={
@@ -325,74 +510,106 @@ export const AdultAthsmaQuestionaire = forwardRef(({Clinic}, ref) => {
       <Box sx={{display: "none"}}>
         <AdultQuestionnairePrintOut
           Clinic={Clinic}
-          data={Clinic.documentdetail}
+          data={Clinic?.documentdetail}
           ref={ref}
         />
       </Box>
 
-      {Object.entries(Clinic.documentdetail).map(([keys, value], i) => (
-        <>
-          {value.length > 0 && (
-            <>
-              {keys !== "Allergy_Skin_Test" ? (
-                <div className="field is-horizontal">
-                  <div className="field-label">
-                    <label className="label is-size-7" key={i}>
-                      {keys}:
-                    </label>
-                  </div>
-                  <div className="field-body">
-                    <div className="field">{value}</div>
-                  </div>
-                </div>
-              ) : (
-                <div id="skintest">
-                  {Clinic.documentdetail.Allergy_Skin_Test.length > 0 && (
-                    <div>
-                      <label className="label is-size-7">
-                        Allergy_Skin_Test:
-                      </label>
-                      <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-5 ml-5 ">
-                        <thead>
-                          <tr>
-                            <th>
-                              <abbr title="Serial No">S/No</abbr>
-                            </th>
+      {Object.entries(data).map(([keys, value], i) => (
+        <Box key={i}>
+          {value?.length > 0 &&
+            (keys !== "Allergy_Skin_Test" ? (
+              <Box>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <Box sx={{display: "flex"}}>
+                      <Typography
+                        sx={{
+                          fontSize: "0.75rem",
+                          fontWeight: "600",
+                          color: "#03045e",
+                          marginRight: "5px",
+                        }}
+                      >
+                        {keys}:
+                      </Typography>
 
-                            <th>
-                              <abbr title="Type">Allergine</abbr>
-                            </th>
-                            <th>
-                              <abbr title="Destination">Reaction</abbr>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tfoot></tfoot>
-                        <tbody>
-                          {Clinic.documentdetail.Allergy_Skin_Test.map(
-                            (ProductEntry, i) => (
-                              <tr key={i}>
-                                <th>{i + 1}</th>
-                                <td>{ProductEntry.allergine}</td>
-                                <td>{ProductEntry.reaction}</td>
-                              </tr>
-                            )
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-                </div>
-              )}
-            </>
-          )}
-        </>
+                      <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+                        {dayjs(value).isValid()
+                          ? dayjs(value).format("DD/MM/YYYY")
+                          : value}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Box>
+            ) : (
+              <Box>
+                <FormsHeaderText text="Tests" />
+                {data?.Allergy_Skin_Test?.length > 0 && (
+                  <Box sx={{height: "auto", width: "100%"}}>
+                    <CustomTable
+                      title="Tests"
+                      columns={columns}
+                      data={data.Allergy_Skin_Test}
+                      pointerOnHover
+                      highlightOnHover
+                      striped
+                      progressPending={false}
+                    />
+                  </Box>
+                )}
+              </Box>
+            ))}
+        </Box>
       ))}
     </div>
   );
 });
 
 export const PrescriptionDocument = forwardRef(({Clinic}, ref) => {
+  const columns = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      width: "50px",
+      center: true,
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Medication",
+      key: "medication",
+      description: "Test",
+      selector: row => row.medication,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Instruction",
+      key: "instruction",
+      description: "Test",
+      selector: row => (row.instruction ? row.instruction : "------"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      center: true,
+    },
+
+    {
+      name: "Destination",
+      key: "destination",
+      description: "destination",
+      selector: row => row.destination,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
   return (
     <div
       className={
@@ -409,40 +626,17 @@ export const PrescriptionDocument = forwardRef(({Clinic}, ref) => {
 
       {Clinic.documentdetail.length > 0 && (
         <div>
-          <label>Medications:</label>
-          <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-            <thead>
-              <tr>
-                <th>
-                  <abbr title="Serial No">S/No</abbr>
-                </th>
-
-                <th>
-                  <abbr title="Type">Medication</abbr>
-                </th>
-                <th>
-                  <abbr title="Destination">Destination</abbr>
-                </th>
-              </tr>
-            </thead>
-            <tfoot></tfoot>
-            <tbody>
-              {Clinic.documentdetail.map((ProductEntry, i) => (
-                <tr key={i}>
-                  <th>{i + 1}</th>
-                  {/* <td>{ProductEntry.name}</td> */}
-                  <td>
-                    {ProductEntry.medication}
-                    <br />
-                    <span className="help is-size-7">
-                      {ProductEntry.instruction}
-                    </span>
-                  </td>
-                  <td>{ProductEntry.destination}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <FormsHeaderText text="Medications" />
+          <Box sx={{height: "auto"}}>
+            <CustomTable
+              columns={columns}
+              data={Clinic.documentdetail}
+              pointerOnHover
+              highlightOnHover
+              striped
+              progressPending={false}
+            />
+          </Box>
         </div>
       )}
     </div>
@@ -450,6 +644,39 @@ export const PrescriptionDocument = forwardRef(({Clinic}, ref) => {
 });
 
 export const RadiologyOrdersDocument = forwardRef(({Clinic}, ref) => {
+  const data = Clinic?.documentdetail;
+
+  const columns = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      width: "50px",
+      center: true,
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Test",
+      key: "test",
+      description: "Test",
+      selector: row => row.test,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Destination",
+      key: "destination",
+      description: "destination",
+      selector: row => row.destination,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
   return (
     <div
       className={
@@ -457,54 +684,64 @@ export const RadiologyOrdersDocument = forwardRef(({Clinic}, ref) => {
       }
     >
       <Box sx={{display: "none"}}>
-        <RadiologyOrdersPrintOut
-          data={Clinic.documentdetail}
-          ref={ref}
-          Clinic={Clinic}
-        />
+        <RadiologyOrdersPrintOut data={data} ref={ref} Clinic={Clinic} />
       </Box>
 
-      {Clinic.documentdetail.length > 0 && (
-        <div>
-          <label>Tests:</label>
-          <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-            <thead>
-              <tr>
-                <th>
-                  <abbr title="Serial No">S/No</abbr>
-                </th>
+      <Box>
+        <FormsHeaderText text="Tests" />
+      </Box>
 
-                <th>
-                  <abbr title="Test">Test</abbr>
-                </th>
-                <th>
-                  <abbr title="Destination">Destination</abbr>
-                </th>
-              </tr>
-            </thead>
-            <tfoot></tfoot>
-            <tbody>
-              {Clinic.documentdetail.map((ProductEntry, i) => (
-                <tr key={i}>
-                  <th>{i + 1}</th>
-                  {/* <td>{ProductEntry.name}</td> */}
-                  <td>
-                    {ProductEntry.test}
-                    <br />
-                    {/* <span className="help is-size-7">{ProductEntry.instruction}</span> */}
-                  </td>
-                  <td>{ProductEntry.destination}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      {data?.length > 0 && (
+        <Box sx={{height: "auto", width: "100%"}}>
+          <CustomTable
+            title="Tests"
+            columns={columns}
+            data={data}
+            pointerOnHover
+            highlightOnHover
+            striped
+            progressPending={false}
+          />
+        </Box>
       )}
     </div>
   );
 });
 
 export const LabOrdersDocument = forwardRef(({Clinic}, ref) => {
+  const data = Clinic?.documentdetail;
+
+  const columns = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      width: "50px",
+      center: true,
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Test",
+      key: "test",
+      description: "Test",
+      selector: row => row.test,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Destination",
+      key: "destination",
+      description: "destination",
+      selector: row => row.destination,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
   return (
     <div
       className={
@@ -512,47 +749,24 @@ export const LabOrdersDocument = forwardRef(({Clinic}, ref) => {
       }
     >
       <Box sx={{display: "none"}}>
-        <LaboratoryOrdersPrintOut
-          data={Clinic.documentdetail}
-          ref={ref}
-          Clinic={Clinic}
-        />
+        <LaboratoryOrdersPrintOut data={data} ref={ref} Clinic={Clinic} />
       </Box>
-      {Clinic.documentdetail.length > 0 && (
-        <div>
-          <label>Tests:</label>
-          <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-            <thead>
-              <tr>
-                <th>
-                  <abbr title="Serial No">S/No</abbr>
-                </th>
+      <Box>
+        <FormsHeaderText text="Tests" />
+      </Box>
 
-                <th>
-                  <abbr title="Test">Test</abbr>
-                </th>
-                <th>
-                  <abbr title="Destination">Destination</abbr>
-                </th>
-              </tr>
-            </thead>
-            <tfoot></tfoot>
-            <tbody>
-              {Clinic.documentdetail.map((ProductEntry, i) => (
-                <tr key={i}>
-                  <th>{i + 1}</th>
-                  {/* <td>{ProductEntry.name}</td> */}
-                  <td>
-                    {ProductEntry.test}
-                    <br />
-                    {/* <span className="help is-size-7">{ProductEntry.instruction}</span> */}
-                  </td>
-                  <td>{ProductEntry.destination}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      {data?.length > 0 && (
+        <Box sx={{height: "auto", width: "100%"}}>
+          <CustomTable
+            title="Tests"
+            columns={columns}
+            data={data}
+            pointerOnHover
+            highlightOnHover
+            striped
+            progressPending={false}
+          />
+        </Box>
       )}
     </div>
   );
@@ -562,7 +776,7 @@ export const BilledOrdersDocument = forwardRef(({Clinic}, ref) => {
   const columns = [
     {
       name: "S/NO",
-      width: "70px",
+      width: "50px",
       key: "sn",
       center: true,
       selector: (row, i) => i + 1,
@@ -657,6 +871,7 @@ export const BilledOrdersDocument = forwardRef(({Clinic}, ref) => {
         />
       </Box>
       <Box sx={{height: "auto"}}>
+        <FormsHeaderText text="Bill Orders" />
         <CustomTable
           title={"Bill Orders:"}
           columns={columns}

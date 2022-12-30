@@ -8,7 +8,9 @@ import {UserContext, ObjectContext} from "../../context";
 import {toast} from "react-toastify";
 import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ModalBox from "../../components/modal";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import {
   Box,
   Grid,
@@ -24,6 +26,11 @@ import CustomSelect from "../../components/inputs/basic/Select";
 import CustomTable from "../../components/customtable";
 import {FormsHeaderText} from "../../components/texts";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+
+import TextField from "@mui/material/TextField";
+import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
+import ServiceSearch from "../helpers/ServiceSearch";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
@@ -52,7 +59,7 @@ export default function BillPrescriptionCreate({closeModal}) {
   const [name, setName] = useState("");
   const [inventoryId, setInventoryId] = useState("");
   const [baseunit, setBaseunit] = useState("");
-  const [quantity, setQuantity] = useState("");
+  const [quantity, setQuantity] = useState(1);
   const [sellingprice, setSellingPrice] = useState("");
   const [costprice, setCostprice] = useState(0);
   const [invquantity, setInvQuantity] = useState("");
@@ -196,40 +203,37 @@ export default function BillPrescriptionCreate({closeModal}) {
   };
   // consider batchformat{batchno,expirydate,qtty,baseunit}
   //consider baseunoit conversions
-  const getSearchfacility = async obj1 => {
+  const getSearchfacility = async service => {
     // console.log(obj)
 
-    if (!obj1) {
+    if (!service) {
       //"clear stuff"
       setProductId("");
       setName("");
       setBaseunit("");
       setInventoryId("");
-      setSellingPrice("");
+      setSellingPrice(0);
       setInvQuantity("");
       setQAmount(null);
       setCostprice("");
       setContracts("");
       setCategory("");
+      setInventoryId("");
       setBilllingId("");
-      setObjService("");
       // setCalcAmount(null)
       return;
     }
 
-    setProductId(obj1.productId);
-    setName(obj1.name);
-    setBaseunit(obj1.baseunit);
-    setInventoryId(obj1.inventoryId);
-    setSellingPrice(obj1.sellingprice); //modify this based on billing mode
-    setInvQuantity(obj1.quantity);
-    setCostprice(obj1.costprice);
-    setBilllingId(obj1.billingId);
-    setContracts(obj1.billingDetails.contracts);
-    setCategory("Prescription"); //obj1.billingDetails.category
-    await setObj(obj1);
-    await setObjService(obj.billingDetails);
+    setContracts(service.contracts);
+    setProductId(service.productId);
+    setName(service.name);
+    setCategory(service.category); //Lab Order
+    setBaseunit(service.baseunit);
+    setInventoryId(service.inventoryId);
+    setBilllingId(service._id);
+    await setObj(service);
   };
+
   useEffect(() => {
     /*  console.log(obj)
         console.log(billMode)
@@ -348,14 +352,10 @@ export default function BillPrescriptionCreate({closeModal}) {
   };
 
   const handleQtty = async e => {
-    if (invquantity < e.target.value) {
-      toast.error("You can not sell more quantity than exist in inventory ");
-      return;
-    }
     setQuantity(e.target.value);
-    calcamount1 = quantity * sellingprice;
-    await setCalcAmount(calcamount1);
-    //console.log(calcamount)
+    if (e.target.vlue === "") {
+      setQuantity(1);
+    }
   };
 
   useEffect(() => {
@@ -538,6 +538,16 @@ export default function BillPrescriptionCreate({closeModal}) {
   }, []);
 
   useEffect(() => {
+    // const medication =state.medicationModule.selectedMedication
+    const today = new Date().toLocaleString();
+    //console.log(today)
+    setDate(today);
+    const invoiceNo = random(6, "uppernumeric");
+    setDocumentNo(invoiceNo);
+    return () => {};
+  }, []);
+
+  useEffect(() => {
     // console.log("success", success)
     if (success) {
       setSuccess(false);
@@ -583,15 +593,22 @@ export default function BillPrescriptionCreate({closeModal}) {
     return () => {};
   }, [billMode]);
 
+  const handleRemoveProductItem = (product, index) => {
+    // setProductItem(prev => prev.filter((item, i) => i !== index));
+    // handleUpdateTotal();
+    console.log("remove and update total amount");
+  };
+
   const productSchema = [
     {
-      name: "S/NO",
+      name: "S/N",
       key: "sn",
       description: "Enter name of Disease",
       selector: row => row.sn,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
+      width: "50px",
     },
     {
       name: "Name",
@@ -603,13 +620,14 @@ export default function BillPrescriptionCreate({closeModal}) {
       inputType: "TEXT",
     },
     {
-      name: "Quantity",
+      name: "QTY",
       key: "order",
       description: "Enter quantity",
       selector: row => row.quantity,
       sortable: true,
       required: true,
       inputType: "NUMBER",
+      width: "100px",
     },
     ,
     {
@@ -620,6 +638,7 @@ export default function BillPrescriptionCreate({closeModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "100px",
     },
     {
       name: "Selling Price",
@@ -629,6 +648,7 @@ export default function BillPrescriptionCreate({closeModal}) {
       sortable: true,
       required: true,
       inputType: "NUMBER",
+      width: "120px",
     },
     {
       name: "Amount",
@@ -638,22 +658,39 @@ export default function BillPrescriptionCreate({closeModal}) {
       sortable: true,
       required: true,
       inputType: "NUMBER",
+      width: "120px",
     },
     {
-      name: "Actions",
+      name: "Action",
       key: "actions",
       description: "Enter action",
-      selector: row => <p style={{color: "red", fontSize: ".75rem"}}>Remove</p>,
+      selector: (row, index) => (
+        <DeleteOutlineIcon
+          fontSize="small"
+          sx={{color: "red"}}
+          onClick={() => handleRemoveProductItem(row, index)}
+        />
+      ),
       sortable: true,
       required: true,
       inputType: "NUMBER",
+      width: "80px",
     },
   ];
   return (
     <>
-      <Box container sx={{width: "100%", height: "100%"}}>
-        <Grid container spacing={1} sx={{height: "calc(100% - 35px)"}}>
-          <Grid item lg={6} md={12} sm={12}>
+      <Box
+        container
+        sx={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        <Grid container spacing={1}>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
             <Box
               sx={{
                 display: "flex",
@@ -668,73 +705,87 @@ export default function BillPrescriptionCreate({closeModal}) {
               </GlobalCustomButton>
             </Box>
 
-            <Grid container spacing={1}>
-              <Grid item lg={8} md={8} sm={12}>
-                <Input
-                  name="client"
-                  value={source}
-                  //register={register("client", {required: true})}
-                  type="text"
-                  onChange={e => setSource(e.target.value)}
-                  label="Client"
-                  disabled
-                />
-              </Grid>
+            <form onSubmit={onSubmit}>
+              <Grid container spacing={1}>
+                <Grid item lg={4} md={6} sm={8} xs={12}>
+                  <Input
+                    name="client"
+                    value={source}
+                    //register={register("client", {required: true})}
+                    type="text"
+                    onChange={e => setSource(e.target.value)}
+                    label="Client"
+                    disabled
+                  />
+                </Grid>
 
-              <Grid item lg={4} md={4} sm={6}>
-                <CustomSelect
-                  name="paymentmode"
-                  defaultValue={paymentmode}
-                  onChange={e => handleChangeMode(e.target.value)}
-                  options={paymentOptions.map(item => item.name)}
-                  initialOption="Payment option"
-                  label="Billing Mode"
-                />
-              </Grid>
+                <Grid item lg={2} md={4} sm={6} xs={6}>
+                  <CustomSelect
+                    name="paymentmode"
+                    defaultValue={paymentmode}
+                    onChange={e => handleChangeMode(e.target.value)}
+                    options={paymentOptions.map(item => item.name)}
+                    initialOption="Payment option"
+                    label="Billing Mode"
+                  />
+                </Grid>
 
-              <Grid item lg={4} md={4} sm={6}>
-                <Input
-                  className="input is-small"
-                  value={date}
-                  name="date"
-                  type="text"
-                  onChange={e => setDate(e.target.value)}
-                  placeholder="Date"
-                  disabled
-                />
-              </Grid>
-              <Grid item lg={4} md={4} sm={6}>
-                <Input
-                  name="documentNo"
-                  value={documentNo}
-                  type="text"
-                  onChange={e => setDocumentNo(e.target.value)}
-                  label="Invoice Number"
-                  disabled
-                />
-              </Grid>
-              <Grid item lg={4} md={4} sm={6}>
-                <Input
-                  value={totalamount}
-                  name="totalamount"
-                  type="text"
-                  onChange={e => setTotalamount(e.target.value)}
-                  label=" Total Amount"
-                />
-              </Grid>
+                <Grid item lg={2} md={4} sm={6} xs={6}>
+                  <Input
+                    className="input is-small"
+                    value={date}
+                    name="date"
+                    type="text"
+                    onChange={e => setDate(e.target.value)}
+                    placeholder="Date"
+                    disabled
+                  />
+                </Grid>
 
-              <Grid item xs={12}>
-                <Input
-                  name="order"
-                  value={medication.order}
-                  type="text"
-                  onChange={e => handleQtty(e)}
-                  label="Medication"
-                />
-              </Grid>
-            </Grid>
+                <Grid item lg={2} md={4} sm={6} xs={6}>
+                  <Input
+                    name="documentNo"
+                    value={documentNo}
+                    type="text"
+                    onChange={e => setDocumentNo(e.target.value)}
+                    label="Invoice Number"
+                    disabled
+                  />
+                </Grid>
+                <Grid item lg={2} md={4} sm={6} xs={6}>
+                  <Input
+                    value={totalamount}
+                    name="totalamount"
+                    type="text"
+                    onChange={e => setTotalamount(e.target.value)}
+                    label=" Total Amount"
+                    disabled={true}
+                  />
+                </Grid>
 
-            <Box
+                <Grid item lg={10} md={8} sm={8} xs={12}>
+                  <Input
+                    name="order"
+                    value={medication.order}
+                    type="text"
+                    label="Medication"
+                    disabled={true}
+                  />
+                </Grid>
+
+                <Grid item lg={2} md={4} sm={4} xs={12}>
+                  <Input
+                    name="order"
+                    value={medication.order_status}
+                    type="text"
+                    label="Billing Status"
+                    disabled={true}
+                  />
+                </Grid>
+              </Grid>
+            </form>
+
+            {/* <Box
               container
               sx={{
                 display: "flex",
@@ -742,24 +793,13 @@ export default function BillPrescriptionCreate({closeModal}) {
               }}
             >
               <Typography
-                sx={{
-                  display: "inline",
-                  fontWeight: "bold",
-                  fontSize: "0.75rem",
-                }}
-                mr={0.5}
-                component="h1"
-              >
-                Medication :
-              </Typography>
-              <Typography
                 sx={{display: "inline", fontSize: "0.75rem"}}
                 component="span"
               >
                 {medication.instruction}
               </Typography>
-            </Box>
-
+            </Box> */}
+            {/* 
             <Box
               container
               sx={{
@@ -784,10 +824,10 @@ export default function BillPrescriptionCreate({closeModal}) {
               >
                 {medication.order_status}
               </Typography>
-            </Box>
+            </Box> */}
           </Grid>
 
-          <Grid item lg={6} md={12} sm={12}>
+          <Grid item lg={12} md={12} sm={12}>
             <Box
               sx={{
                 display: "flex",
@@ -798,29 +838,31 @@ export default function BillPrescriptionCreate({closeModal}) {
             >
               <FormsHeaderText text="Choose Product Item" />
               <GlobalCustomButton onClick={handleClickProd}>
-                Add
+                <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
+                Add Product Item
               </GlobalCustomButton>
             </Box>
 
             <Grid container spacing={1}>
               <Grid item lg={6} md={6} sm={12}>
                 <Box>
-                  <InventorySearch
+                  <ServiceSearch
                     getSearchfacility={getSearchfacility}
                     clear={success}
+                    mode={billMode}
                   />
 
-                  <Typography
+                  {/* <Typography
                     sx={{
                       display: "inline",
-                      fontSize: "0.85rem",
+                      fontSize: "0.8rem",
                     }}
                     component="span"
                   >
                     {sellingprice && "N"}
                     {sellingprice} {sellingprice && "per"} {baseunit}
                     {invquantity} {sellingprice && "remaining"}
-                  </Typography>
+                  </Typography> */}
                 </Box>
                 <input
                   style={{display: "none"}}
@@ -906,11 +948,11 @@ export default function BillPrescriptionCreate({closeModal}) {
             onClick={handleMedicationDone}
             sx={{marginLeft: "10px"}}
           >
+            <DoneAllIcon fontSize="small" sx={{marginRight: "5px"}} />
             Done
           </GlobalCustomButton>
         </Box>
       </Box>
-      <div className="card card-overflow" style={{width: "100%"}}></div>
 
       <ModalBox
         open={productModal}
@@ -948,7 +990,7 @@ const useOnClickOutside = (ref, handler) => {
   }, [ref, handler]);
 };
 
-export function InventorySearch({getSearchfacility, clear}) {
+export function InventorySearch({getSearchfacility, clear, label}) {
   const productServ = client.service("inventory");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1075,103 +1117,87 @@ export function InventorySearch({getSearchfacility, clear}) {
 
   return (
     <div>
-      <div className="field">
-        <div className="control has-icons-left  ">
-          <div
-            className="dropdown-trigger"
-            style={{width: "100%", position: "relative"}}
+      <Autocomplete
+        size="small"
+        value={simpa}
+        onChange={(event, newValue) => {
+          handleRow(newValue);
+          setSimpa("");
+        }}
+        id="free-solo-dialog-demo"
+        options={facilities}
+        getOptionLabel={option => {
+          if (typeof option === "string") {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option.name;
+        }}
+        //isOptionEqualToValue={(option, value) => option.id === value.id}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        noOptionsText={
+          val !== ""
+            ? `${val} is not in your inventory`
+            : "Search for something"
+        }
+        renderOption={(props, option) => (
+          <Box
+            {...props}
+            onClick={() => handleRow(option)}
+            sx={{
+              display: "flex",
+              cursor: "pointer",
+            }}
+            gap={1}
           >
-            <DebounceInput
-              className="input is-small  is-expanded"
-              type="text"
-              placeholder="Search Product"
-              value={simpa}
-              minLength={3}
-              debounceTimeout={400}
-              onBlur={e => handleBlur(e)}
-              onChange={e => handleSearch(e.target.value)}
-              inputRef={inputEl}
-              element={Input}
-            />
+            <Typography sx={{fontSize: "0.8rem"}}>{option.name}</Typography>
+            <Typography sx={{fontSize: "0.8rem"}}>
+              {option.quantity} {option.baseunit}(s) remaining
+            </Typography>
+            <Typography sx={{fontSize: "0.8rem"}}>
+              Price: N{option.sellingprice}
+            </Typography>
 
-            <Grow in={showPanel}>
-              <Card>
-                <Box
-                  ref={dropDownRef}
-                  container
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    maxHeight: "150px",
-                    overflowY: "scroll",
-                    zIndex: "5",
-                    position: "absolute",
-                    background: "#ffffff",
-                    width: "100%",
-                    border: "1px solid lightgray",
-                    zIndex: "500",
-                  }}
-                >
-                  {facilities.length > 0 ? (
-                    facilities.map((facility, i) => (
-                      <Box
-                        item
-                        key={i}
-                        onClick={() => handleRow(facility)}
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          padding: "0 8px",
-                          width: "100%",
-                          minHeight: "50px",
-                          borderTop: i !== 0 ? "1px solid gray" : "",
-                          cursor: "pointer",
-                          zIndex: "100",
-                        }}
-                      >
-                        <span>{facility.name}</span>
-                        <div>
-                          <span>
-                            <strong>{facility.quantity}</strong>{" "}
-                            {facility.baseunit}(s) remaining
-                          </span>
+            {/* <div>
+              <span>
+                <strong>{option.quantity}</strong> {option.baseunit}(s)
+                remaining
+              </span>
 
-                          <span style={{paddingLeft: "5px"}}>
-                            <strong>Price:</strong> N{facility.sellingprice}
-                          </span>
-                        </div>
-                      </Box>
-                    ))
-                  ) : (
-                    <Box
-                      className="dropdown-item"
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        padding: "0 8px",
-                        width: "100%",
-                        minHeight: "50px",
-                        borderTop: "1px solid gray",
-                        cursor: "pointer",
-                        zIndex: "100",
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontSize: "0.75rem",
-                        }}
-                      >
-                        {val} doesn't exist in your inventory
-                      </span>{" "}
-                    </Box>
-                  )}
-                </Box>
-              </Card>
-            </Grow>
-          </div>
-        </div>
-      </div>
+              <span style={{paddingLeft: "5px"}}>
+                <strong>Price:</strong> N{option.sellingprice}
+              </span>
+            </div> */}
+          </Box>
+        )}
+        sx={{
+          width: "100%",
+        }}
+        freeSolo={false}
+        renderInput={params => (
+          <TextField
+            {...params}
+            label={label || "Search for Product"}
+            onChange={e => handleSearch(e.target.value)}
+            ref={inputEl}
+            sx={{
+              fontSize: "0.75rem",
+              backgroundColor: "#ffffff",
+              "& .MuiInputBase-input": {
+                height: "0.9rem",
+              },
+            }}
+            InputLabelProps={{
+              shrink: true,
+              style: {color: "#2d2d2d"},
+            }}
+          />
+        )}
+      />
     </div>
   );
 }

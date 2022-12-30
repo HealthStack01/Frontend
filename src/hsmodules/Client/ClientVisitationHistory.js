@@ -27,52 +27,83 @@ import ModalBox from "../../components/modal";
 import ModalHeader from "../Appointment/ui-components/Heading/modalHeader";
 // import ModalHeader from "./ui-components/Heading/modalHeader";
 import { Box, Grid } from "@mui/material";
-import { ClientMiniSchema } from "./schema";
+import { AppointmentSchema } from '../Appointment/schema';
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
 import { MdCancel } from "react-icons/md";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import Input from '../../components/inputs/basic/Input';
+import { FormsHeaderText } from '../../components/texts';
+// import BasicDateTimePicker from '../../components/inputs/DateTime';
+import RadioButton from '../../components/inputs/basic/Radio';
+
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function ClientVisitationHistory() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
-  const [selectedClient, setSelectedClient] = useState();
-  const [selectedAppointment, setSelectedAppointment] = useState();
-  //const [showState,setShowState]=useState() //create|modify|detail
-  const [showModal, setShowModal] = useState(false);
+ 
+  const [createModal, setCreateModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
+  const [modifyModal, setModifyModal] = useState(false);
+  // eslint-disable-next-line
+ 
+  const handleShowDetailModal = () => {
+    setDetailModal(true);
+  };
+
+  const handleHideDetailModal = () => {
+    setDetailModal(false);
+  };
+  const handleCreateModal = () => {
+    setCreateModal(true);
+  };
+
+  const handleHideCreateModal = () => {
+    setCreateModal(false);
+  };
+  const handleModifyModal = () => {
+    setModifyModal(true);
+  };
+
+  const handleHideModifyModal = () => {
+    setModifyModal(false);
+  };
+
+
 
   return (
     <section className="section remPadTop">
-      {state.AppointmentModule.show === "list" && (
-        <ClientList showModal={showModal} setShowModal={setShowModal} />
-      )}
-      {showModal && (
-        <ModalBox open={state.AppointmentModule.show === "create"}>
-          <AppointmentCreate
-            showModal={showModal}
-            setShowModal={setShowModal}
+      
+        <ClientList 
+        
+        showCreateModal={handleCreateModal}
+          showDetailModal={handleShowDetailModal} 
           />
+    
+        <ModalBox open={createModal} onClose={handleHideCreateModal} header="Create Appointment">
+          <AppointmentCreate />
         </ModalBox>
-      )}
-      {showModal && (
-        <ModalBox open={state.AppointmentModule.show === "detail"}>
-          <ClientDetail showModal={showModal} setShowModal={setShowModal} />
+     
+     
+        <ModalBox open={detailModal} onClose={handleHideDetailModal} header="Client Last Visit Details">
+          <ClientDetail showModifyModal={handleModifyModal}/>
         </ModalBox>
-      )}
-      {showModal && (
-        <ModalBox open={state.AppointmentModule.show === "modify"}>
-          <ClientModify showModal={showModal} setShowModal={setShowModal} />
+     
+      
+        <ModalBox open={modifyModal} onClose={handleHideModifyModal} header="Modify Client Last Visit">
+          <ClientModify  />
         </ModalBox>
-      )}
+  
     </section>
   );
 }
 
-export function AppointmentCreate({ showModal, setShowModal }) {
+
+export function AppointmentCreate() {
   const { state, setState } = useContext(ObjectContext);
-  const { register, handleSubmit, setValue, control } = useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue, control, reset } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
@@ -89,7 +120,6 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   // const [appointment_reason,setAppointment_reason]= useState()
   const [appointment_status, setAppointment_status] = useState('');
@@ -100,6 +130,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
   const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
+  const Client = state.AppointmentModule.selectedAppointment;
 
   let appointee; //  =state.ClientModule.selectedClient
   /*  const getSearchfacility=(obj)=>{
@@ -114,6 +145,18 @@ export function AppointmentCreate({ showModal, setShowModal }) {
 
   const handleChangeStatus = async (e) => {
     await setAppointment_status(e.target.value);
+  };
+
+  const handleSelectedClient = async (Client) => {
+    // await setSelectedClient(Client)
+    const newClientModule = {
+      selectedClient: Client,
+      show: 'detail',
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      ClientModule: newClientModule,
+    }));
   };
 
   const getSearchfacility = (obj) => {
@@ -168,21 +211,21 @@ export function AppointmentCreate({ showModal, setShowModal }) {
             shouldDirty: true
         })  */
     }
-  },[]);
+  }, []);
 
   const onSubmit = (data, e) => {
+    console.log(data);
     e.preventDefault();
     setMessage('');
     setError(false);
     setSuccess(false);
-    setShowModal(false),
-      setState((prevstate) => ({
-        ...prevstate,
-        AppointmentModule: {
-          selectedAppointment: {},
-          show: 'list',
-        },
-      }));
+    setState((prevstate) => ({
+      ...prevstate,
+      AppointmentModule: {
+        selectedAppointment: {},
+        show: 'list',
+      },
+    }));
 
     // data.createdby=user._id
     console.log(data);
@@ -218,7 +261,6 @@ export function AppointmentCreate({ showModal, setShowModal }) {
     ClientServ.create(data)
       .then((res) => {
         //console.log(JSON.stringify(res))
-        e.target.reset();
         setAppointment_type('');
         setAppointment_status('');
         setClientId('');
@@ -272,10 +314,20 @@ export function AppointmentCreate({ showModal, setShowModal }) {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={4}>
-              <ClientSearch
-                getSearchfacility={getSearchfacility}
-                clear={success}
-              />
+              {state.ClientModule.selectedClient.firstname !== undefined ? (
+                <>
+                  <FormsHeaderText
+                    text={`
+                    ${state.ClientModule.selectedClient.firstname}
+                    ${state.ClientModule.selectedClient.lastname}`}
+                  />
+                </>
+              ) : (
+                <ClientSearch
+                  getSearchfacility={getSearchfacility}
+                  clear={success}
+                />
+              )}
             </Grid>
             <Grid item xs={12} sm={12} md={4} mb={1.5}>
               <EmployeeSearch
@@ -292,25 +344,11 @@ export function AppointmentCreate({ showModal, setShowModal }) {
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={12}>
-              <div className="field ml-3 ">
-                {appClass.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="radio"
-                      value={c}
-                      name="appointmentClass"
-                      {...register('appointmentClass', { required: true })}
-                      style={{
-                        border: '1px solid #0364FF',
-                        // transform: 'scale(1.5)',
-                        color: '#0364FF',
-                        margin: '0 .5rem',
-                      }}
-                    />
-                    {c + ' '}
-                  </label>
-                ))}
-              </div>
+              <RadioButton
+                name="appointmentClass"
+                register={register('appointmentClass', { required: true })}
+                options={appClass}
+              />
             </Grid>
           </Grid>
           <Grid container spacing={2} sx={{ alignItems: 'center' }}>
@@ -394,18 +432,17 @@ export function AppointmentCreate({ showModal, setShowModal }) {
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <GlobalCustomButton
-              variant="outlined"
-              color="error"
-              text="Cancel"
+              text="Submit"
+              onClick={handleSubmit(onSubmit)}
               customStyles={{
                 marginRight: '15px',
               }}
-              onClick={() => setShowModal(false)}
             />
-
             <GlobalCustomButton
-              text="Submit"
-              onClick={handleSubmit(onSubmit)}
+              variant="contained"
+              color="error"
+              text="Cancel"
+              onClick={() => setShowModal(false)}
             />
           </Box>
         </form>
@@ -414,16 +451,15 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   );
 }
 
-
-export function ClientList({ showModal, setShowModal }) {
+export function ClientList({showCreateModal, showDetailModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  const ClientServ = client.service("appointments");
+  const [message, setMessage] = useState('');
+  const ClientServ = client.service('appointments');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -436,12 +472,12 @@ export function ClientList({ showModal, setShowModal }) {
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
-  const [value, setValue] = useState("list");
+  const [value, setValue] = useState('list');
 
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: "create",
+      show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -450,10 +486,9 @@ export function ClientList({ showModal, setShowModal }) {
     //console.log(state)
     const newClient = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
-    setShowModal(true);
+    showCreateModal()
   };
 
   const handleRow = async (Client) => {
@@ -461,17 +496,19 @@ export function ClientList({ showModal, setShowModal }) {
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
-      show: "detail",
+      show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
+    // console.log(Client)
+    showDetailModal()
   };
   //console.log(state.employeeLocation)
 
   const handleSearch = (val) => {
-    const field = "firstname";
+    const field = 'firstname';
     //  console.log(val)
 
     let query = {
@@ -479,73 +516,73 @@ export function ClientList({ showModal, setShowModal }) {
         {
           firstname: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           lastname: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           middlename: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           phone: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           appointment_type: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           appointment_status: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           appointment_reason: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           location_type: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           location_name: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           practitioner_department: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           practitioner_profession: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           practitioner_name: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
       ],
@@ -555,7 +592,7 @@ export function ClientList({ showModal, setShowModal }) {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== "Front Desk") {
+    if (state.employeeLocation.locationType !== 'Front Desk') {
       query.locationId = state.employeeLocation.locationId;
     }
 
@@ -563,12 +600,12 @@ export function ClientList({ showModal, setShowModal }) {
       .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(" Client  fetched successfully");
+        setMessage(' Client  fetched successfully');
         setSuccess(true);
       })
       .catch((err) => {
         console.log(err);
-        setMessage("Error fetching Client, probable network issues " + err);
+        setMessage('Error fetching Client, probable network issues ' + err);
         setError(true);
       });
   };
@@ -620,15 +657,15 @@ export function ClientList({ showModal, setShowModal }) {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on("created", (obj) => handleCalendarClose());
-    ClientServ.on("updated", (obj) => handleCalendarClose());
-    ClientServ.on("patched", (obj) => handleCalendarClose());
-    ClientServ.on("removed", (obj) => handleCalendarClose());
+    ClientServ.on('created', (obj) => handleCalendarClose());
+    ClientServ.on('updated', (obj) => handleCalendarClose());
+    ClientServ.on('patched', (obj) => handleCalendarClose());
+    ClientServ.on('removed', (obj) => handleCalendarClose());
     const newClient = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    // setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -637,7 +674,7 @@ export function ClientList({ showModal, setShowModal }) {
         $gt: subDays(startDate, 1),
         $lt: addDays(startDate, 1),
       },
-      facility: user.currentEmployee.facilityDetail._id,
+      facility: user.currentEmployee?.facilityDetail._id,
 
       $limit: 100,
       $sort: {
@@ -674,8 +711,8 @@ export function ClientList({ showModal, setShowModal }) {
     let mapped = [];
     facilities.map((facility, i) => {
       mapped.push({
-        title: facility?.firstname + " " + facility?.lastname,
-        start: format(new Date(facility?.start_time), "yyyy-MM-ddTHH:mm"),
+        title: facility?.firstname + ' ' + facility?.lastname,
+        start: format(new Date(facility?.start_time), 'yyyy-MM-ddTHH:mm'),
         end: facility?.end_time,
         id: i,
       });
@@ -683,10 +720,12 @@ export function ClientList({ showModal, setShowModal }) {
     return mapped;
   };
   const activeStyle = {
-    backgroundColor: "#0064CC29",
-    border: "none",
-    padding: "0 .8rem",
+    backgroundColor: '#0064CC29',
+    border: 'none',
+    padding: '0 .8rem',
   };
+
+  // console.log(facilities[0].clientId);
 
   return (
     <>
@@ -694,16 +733,16 @@ export function ClientList({ showModal, setShowModal }) {
         <>
           <div className="level">
             <PageWrapper
-              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+              style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
             >
               <TableMenu>
-                <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
+                  <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
                     Appointments
                   </h2>
                   <DatePicker
@@ -718,47 +757,42 @@ export function ClientList({ showModal, setShowModal }) {
                     <button
                       value={value}
                       onClick={() => {
-                        setValue("list");
+                        setValue('list');
                       }}
-                      style={value === "list" ? activeStyle : {}}
+                      style={value === 'list' ? activeStyle : {}}
                     >
-                      <BsList style={{ fontSize: "1rem" }} />
+                      <BsList style={{ fontSize: '1rem' }} />
                     </button>
                     <button
                       value={value}
                       onClick={() => {
-                        setValue("grid");
+                        setValue('grid');
                       }}
-                      style={value === "grid" ? activeStyle : {}}
+                      style={value === 'grid' ? activeStyle : {}}
                     >
-                      <BsFillGridFill style={{ fontSize: "1rem" }} />
+                      <BsFillGridFill style={{ fontSize: '1rem' }} />
                     </button>
                   </Switch>
                 </div>
 
                 {handleCreateNew && (
                   <GlobalCustomButton
-                  onClick={handleCreateNew}
-                  >
-                    <AddCircleOutline
-                      sx={{marginRight: "5px"}}
-                      fontSize="small"
-                    />
-                    Add New Visit
-                  </GlobalCustomButton>
+                    text="Add new "
+                    onClick={handleCreateNew}
+                  />
                 )}
               </TableMenu>
-              <div style={{ width: "100%", height: "100%", overflow: "auto" }}>
-                {value === "list" ? (
+              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+                {value === 'list' ? (
                   <CustomTable
-                    title={""}
-                    columns={ClientMiniSchema}
+                    title={''}
+                    columns={AppointmentSchema}
                     data={facilities}
                     pointerOnHover
                     highlightOnHover
                     striped
                     onRowClicked={handleRow}
-                    // progressPending={loading}
+                    progressPending={loading}
                   />
                 ) : (
                   <CalendarGrid appointments={mapFacilities()} />
@@ -774,15 +808,15 @@ export function ClientList({ showModal, setShowModal }) {
   );
 }
 
-export function ClientDetail({ showModal, setShowModal }) {
-  //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
+export function ClientDetail({showModifyModal}) {
+  const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const navigate = useNavigate();
 
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
   // eslint-disable-next-line
-  const [message, setMessage] = useState(""); //,
+  const [message, setMessage] = useState(''); //,
   //const ClientServ=client.service('/Client')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
@@ -790,759 +824,183 @@ export function ClientDetail({ showModal, setShowModal }) {
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
 
+  // console.log(state)
   const Client = state.AppointmentModule.selectedAppointment;
+ 
   //const client=Client
   const handleEdit = async () => {
     const newClientModule = {
       selectedAppointment: Client,
-      show: "modify",
+      show: 'modify',
     };
     await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
     //console.log(state)
+    showModifyModal()
   };
 
   const handleAttend = async () => {
-    const patient = await client.service("client").get(Client.clientId);
+    const patient = await client.service('client').get(Client.clientId);
+    // console.log(patient)
     await setSelectedClient(patient);
     const newClientModule = {
       selectedClient: patient,
-      show: "detail",
+      show: 'detail',
     };
+    // console.log("patient....",patient)
     await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
     //modify appointment
-    navigate("/app/clinic/encounter");
+    navigate('/app/clinic/documentation');
+    console.log('test');
   };
 
   return (
     <>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <ModalHeader text={"Client Details"} />
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'right',
+        }}
+        mb={2}
+      >
+        <GlobalCustomButton
+          onClick={handleEdit}
+          text="Edit Appointment Details"
+          customStyles={{
+            marginRight: '5px',
+          }}
+        />
+        <GlobalCustomButton onClick={handleAttend} text="Attend to client" />
+      </Box>
+      <Grid container spacing={1} mt={1}>
+        <Grid item xs={12} md={4}>
+          <Input label="First Name" value={Client?.firstname} disabled />
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <MdCancel
-            onClick={() => {
-              setShowModal(false),
-                setState((prevstate) => ({
-                  ...prevstate,
-                  AppointmentModule: {
-                    selectedAppointment: {},
-                    show: "list",
-                  },
-                }));
-            }}
-            style={{
-              fontSize: "2rem",
-              color: "crimson",
-              cursor: "pointer",
-              float: "right",
-            }}
+        <Grid item xs={12} md={4}>
+          <Input label="Middle Name" value={Client?.middlename} disabled />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Input label="Last Name" value={Client?.lastname} disabled />
+        </Grid>
+      </Grid>
+      <Grid container spacing={1} mt={1}>
+        <Grid item xs={12} md={4}>
+          <Input
+            label="Age"
+            value={formatDistanceToNowStrict(new Date(Client.dob))}
+            disabled
+          />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Input label="Gender" value={Client.gender} disabled />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Input label="Phone Number" value={Client?.phone} disabled />
+        </Grid>
+      </Grid>
+      <Grid container spacing={1} my={1}>
+        <Grid item xs={12} md={4}>
+          <Input label="Email" value={Client?.email} disabled />
+        </Grid>
+      </Grid>
+      <hr />
+      <Grid container spacing={1} mt={1}>
+        <Grid item xs={12} md={4}>
+          <Input
+            label="Start Date"
+            value={format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')}
+            disabled
+          />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Input label="Location" value={Client?.location_name} disabled />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Input
+            label="Professional"
+            value={`  ${Client.practitioner_name} (${Client.practitioner_profession})`}
+            disabled
           />
         </Grid>
       </Grid>
-      <Grid container spacing={2} mt={4}>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: " #0364FF",
-              fontSize: "20px",
-              marginRight: ".8rem",
-            }}
-          >
-            First Name:
-          </span>
-          <span style={{ color: " #000000", fontSize: "20px" }}>
-            {Client?.firstname}
-          </span>
+      <Grid container spacing={1} mt={1}>
+        <Grid item xs={12} md={4}>
+          <Input
+            label="Appointment Status"
+            value={Client?.appointment_status}
+            disabled
+          />
         </Grid>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: " #0364FF",
-              fontSize: "20px",
-              marginRight: ".8rem",
-            }}
-          >
-            Middle Name:
-          </span>
-          <span style={{ color: " #000000", fontSize: "20px" }}>
-            {Client?.middlename}
-          </span>
+        <Grid item xs={12} md={4}>
+          <Input
+            label="Appointment Class"
+            value={Client?.appointmentClass}
+            disabled
+          />
         </Grid>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: " #0364FF",
-              fontSize: "20px",
-              marginRight: ".8rem",
-            }}
-          >
-            Last Name:
-          </span>
-          <span style={{ color: " #000000", fontSize: "20px" }}>
-            {Client?.lastname}
-          </span>
+        <Grid item xs={12} md={4}>
+          <Input
+            label="Appointment Type"
+            value={Client?.appointment_type}
+            disabled
+          />
         </Grid>
       </Grid>
-      <Grid container spacing={2} mt={2}>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
+      <Grid container spacing={1} mt={1}>
+        <Grid item xs={12} md={12}>
+          <label className="label" htmlFor="appointment_reason">
+            Reason for Appointment
+          </label>
+          <textarea
+            className="input is-small"
+            name="appointment_reason"
+            value={Client?.appointment_reason}
+            disabled
+            type="text"
+            placeholder="Appointment Reason"
+            rows="3"
+            cols="50"
             style={{
-              color: " #0364FF",
-              fontSize: "20px",
-              marginRight: ".8rem",
+              border: '1px solid #b6b6b6',
+              borderRadius: '4px',
+              color: ' #979DAC',
+              width: '100%',
             }}
           >
-            Date of Birth:
-          </span>
-          <span style={{ color: " #000000", fontSize: "20px" }}>
-            {new Date(Client.dob).toLocaleDateString("en-GB")}
-          </span>
-        </Grid>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: " #0364FF",
-              fontSize: "20px",
-              marginRight: ".8rem",
-            }}
-          >
-            Gender:
-          </span>
-          <span style={{ color: " #000000", fontSize: "20px" }}>
-            {Client.gender}
-          </span>
+            {' '}
+          </textarea>
         </Grid>
       </Grid>
-      <Grid container spacing={2} mt={2}>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: " #0364FF",
-              fontSize: "20px",
-              marginRight: ".8rem",
-            }}
-          >
-            Email:
-          </span>
-          <span style={{ color: " #000000", fontSize: "20px" }}>
-            {Client.email}
-          </span>
-        </Grid>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: " #0364FF",
-              fontSize: "20px",
-              marginRight: ".8rem",
-            }}
-          >
-            Phone No:
-          </span>
-          <span style={{ color: " #000000", fontSize: "20px" }}>
-            {Client.phone}
-          </span>
-        </Grid>
-      </Grid>
-      <Grid container spacing={2} mt={4}>
-        <Grid item xs={12} sm={3} md={4}>
-          <Button
-            onClick={handleEdit}
-            style={{
-              width: "100%",
-              backgroundColor: "#17935C",
-              fontSize: "18px",
-            }}
-          >
-            Edit Appointment Details
-          </Button>
-        </Grid>
-        {/* <Grid item xs={12} sm={3} md={3}>
-          <Button
-            text={"Attend"}
-            onClick={handleAttend}
-            style={{
-              width: "100%",
-              backgroundColor: "#0364FF",
-              fontSize: "18px",
-            }}
-          >
-            Attend Appointment
-          </Button>
-        </Grid> */}
-      </Grid>
-
-      {/* <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Client Details</p>
-        </div>
-        <div className="card-content vscrollable">
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.firstname && (
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <label
-                      className="label is-size-7 my-0 "
-                      name="firstname"
-                      type="text"
-                    >
-                      First Name{' '}
-                    </label>
-                    <label className="is-size-7 my-0 ">
-                      {Client.firstname}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-hospital"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-
-              {Client.middlename && (
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="middlename"
-                      type="text"
-                    >
-                      {' '}
-                      Middle Name{' '}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.middlename}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-map-signs"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.lastname && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="lastname"
-                      type="text"
-                    >
-                      Last Name
-                    </label>
-                    <label className="is-size-7 my-0">{Client.lastname}</label>
-                    <span className="icon is-small is-left">
-                      <i className=" nop-user-md "></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.dob && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="dob"
-                      type="text"
-                    >
-                      Date of Birth{' '}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {new Date(Client.dob).toLocaleDateString('en-GB')}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.gender && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="gender"
-                      type="text"
-                    >
-                      Gender{' '}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.gender}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.maritalstatus && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="maritalstatus"
-                      type="text"
-                    >
-                      Marital Status{' '}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.maritalstatus}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.mrn && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="mrn"
-                      type="text"
-                    >
-                      Medical Records Number{' '}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.mrn}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.religion && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="religion"
-                      type="text"
-                    >
-                      Religion{' '}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.religion}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.profession && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="profession"
-                      type="text"
-                    >
-                      Profession{' '}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.profession}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.phone && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="phone"
-                      type="text"
-                    >
-                      {' '}
-                      Phone No
-                    </label>
-                    <label className="is-size-7 my-0">{Client.phone}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-phone-alt"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-
-              {Client.email && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="email"
-                      type="email"
-                    >
-                      Email{' '}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.email}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {Client.address && (
-            <div className="field">
-              <p className="control has-icons-left">
-                <label
-                  className="label is-size-7 my-0"
-                  name="address"
-                  type="text"
-                >
-                  Residential Address{' '}
-                </label>
-                <label className="is-size-7 my-0">{Client.address}</label>
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-          )}
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.city && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="city"
-                      type="text"
-                    >
-                      Town/City{' '}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.city}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.lga && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="lga"
-                      type="text"
-                    >
-                      Local Govt Area{' '}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.lga}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.state && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="state"
-                      type="text"
-                    >
-                      State{' '}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.state}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.country && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="country"
-                      type="text"
-                    >
-                      Country{' '}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.country}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.bloodgroup && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="bloodgroup"
-                      type="text"
-                    >
-                      Blood Group{' '}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.bloodgroup}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-
-              {Client.genotype && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="genotype"
-                      type="text"
-                    >
-                      Genotype{' '}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.genotype}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.disabilities && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="disabilities"
-                      type="text"
-                    >
-                      Disabilities{' '}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.disabilities}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.allergies && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="allergies"
-                      type="text"
-                    >
-                      Allergies{' '}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.allergies}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.comorbidities && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="comorbidities"
-                      type="text"
-                    >
-                      Co-mobidities{' '}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.comorbidities}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          {Client.clientTags && (
-            <div className="field">
-              <p className="control has-icons-left">
-                <label
-                  className="label is-size-7 my-0"
-                  name="clientTags"
-                  type="text"
-                >
-                  Tags{' '}
-                </label>
-                <label className="is-size-7 my-0">{Client.clientTags}</label>
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-          )}
-          {Client.specificDetails && (
-            <div className="field">
-              <p className="control has-icons-left">
-                <label
-                  className="label is-size-7 my-0"
-                  name="specificDetails"
-                  type="text"
-                >
-                  Specific Details about Client{' '}
-                </label>
-                <label className="is-size-7 my-0">
-                  {Client.specificDetails}
-                </label>
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-          )}
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.nok_name && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_name"
-                      type="text"
-                    >
-                      Next of Kin Full Name
-                    </label>
-                    <label className="is-size-7 my-0">{Client.nok_name}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-clinic-medical"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.nok_phoneno && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_phoneno"
-                      type="text"
-                    >
-                      Next of Kin Phone Number
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.nok_phoneno}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-clinic-medical"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.nok_email && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_email"
-                      type="email"
-                    >
-                      Next of Kin Email{' '}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.nok_email}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.nok_relationship && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_relationship"
-                      type="text"
-                    >
-                      Next of Kin Relationship"{' '}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.nok_relationship}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="field is-grouped  mt-2">
-            <p className="control">
-              <button
-                className="button is-success is-small"
-                onClick={handleEdit}
-              >
-                Edit Appointment Details
-              </button>
-            </p>
-
-            <p className="control">
-              <button
-                className="button is-link is-small"
-                onClick={() => handleAttend()}
-              >
-                Attend to Client
-              </button>
-            </p>
-          </div>
-        </div>
-      </div> */}
     </>
   );
 }
 
-export function ClientModify({ showModal, setShowModal }) {
+export function ClientModify() {
   const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   // eslint-disable-next-line
-  const ClientServ = client.service("appointments");
+  const ClientServ = client.service('appointments');
   //const navigate=useNavigate()
   // eslint-disable-next-line
   const { user } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
-  const [appointment_status, setAppointment_status] = useState("");
-  const [appointment_type, setAppointment_type] = useState("");
-  const appClass = ["On-site", "Teleconsultation"];
+  const [appointment_status, setAppointment_status] = useState('');
+  const [appointment_type, setAppointment_type] = useState('');
+  const appClass = ['On-site', 'Teleconsultation'];
   const [locationId, setLocationId] = useState();
   const [practionerId, setPractionerId] = useState();
   const [success1, setSuccess1] = useState(false);
@@ -1576,68 +1034,76 @@ export function ClientModify({ showModal, setShowModal }) {
   };
 
   useEffect(() => {
-    setValue("firstname", Client.firstname, {
+    setValue('firstname', Client.firstname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("middlename", Client.middlename, {
+    setValue('middlename', Client.middlename, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("lastname", Client.lastname, {
+    setValue('lastname', Client.lastname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("phone", Client.phone, {
+    setValue('phone', Client.phone, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("email", Client.email, {
+    setValue('email', Client.email, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("dob", Client.dob, {
+    setValue('dob', Client.dob, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("gender", Client.gender, {
+    setValue('gender', Client.gender, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("ClientId", Client.clientId, {
+    setValue('ClientId', Client.clientId, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("appointment_reason", Client.appointment_reason, {
+    setValue('appointment_reason', Client.appointment_reason, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("appointment_status", Client.appointment_status, {
+    setValue('appointment_status', Client.appointment_status, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("appointment_type", Client.appointment_type, {
+    setValue('appointment_type', Client.appointment_type, {
       shouldValidate: true,
       shouldDirty: true,
     });
     setValue(
-      "start_time",
+      'start_time',
       format(new Date(Client.start_time), "yyyy-MM-dd'T'HH:mm:ss"),
       {
         shouldValidate: true,
         shouldDirty: true,
       }
     );
-    setValue("appointmentClass", Client.appointmentClass, {
+    setValue('appointmentClass', Client.appointmentClass, {
       shouldValidate: true,
       shouldDirty: true,
     });
 
     return () => {};
-  });
+  }, []);
+
   const handleChangeType = async (e) => {
     // await setAppointment_type(e.target.value)
-    setValue("appointment_type", e.target.value, {
+    setValue('appointment_type', e.target.value, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+  const handleChangeClass = async (e) => {
+    // await setAppointment_type(e.target.value)
+    setValue('appointmentClass', e.target.value, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -1645,7 +1111,7 @@ export function ClientModify({ showModal, setShowModal }) {
 
   const handleChangeStatus = async (e) => {
     // await setAppointment_status(e.target.value)
-    setValue("appointment_status", e.target.value, {
+    setValue('appointment_status', e.target.value, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -1654,7 +1120,7 @@ export function ClientModify({ showModal, setShowModal }) {
   const handleCancel = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: "create",
+      show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -1666,7 +1132,7 @@ export function ClientModify({ showModal, setShowModal }) {
   const changeState = () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: "list",
+      show: 'list',
     };
     setState((prevstate) => ({
       ...prevstate,
@@ -1674,7 +1140,7 @@ export function ClientModify({ showModal, setShowModal }) {
     }));
   };
   const handleDelete = async () => {
-    let conf = window.confirm("Are you sure you want to delete this data?");
+    let conf = window.confirm('Are you sure you want to delete this data?');
 
     const dleteId = Client._id;
     if (conf) {
@@ -1688,23 +1154,15 @@ export function ClientModify({ showModal, setShowModal }) {
                setTimeout(() => {
                 setSuccess(false)
                 }, 200); */
-          toast({
-            message: "Client deleted succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.success('Client deleted succesfully');
           changeState();
         })
         .catch((err) => {
           // setMessage("Error deleting Client, probable network issues "+ err )
           // setError(true)
-          toast({
-            message: "Error deleting Client, probable network issues or " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error(
+            'Error deleting Client, probable network issues or ' + err
+          );
         });
     }
   };
@@ -1723,7 +1181,7 @@ export function ClientModify({ showModal, setShowModal }) {
       // console.log(data)
       //  data.facility=Client.facility
       //console.log(data);
-      (data.practitioner_name = chosen2.firstname + " " + chosen2.lastname);
+      (data.practitioner_name = chosen2.firstname + ' ' + chosen2.lastname);
     data.practitioner_profession = chosen2.profession;
     data.practitioner_department = chosen2.department;
     data.practitionerId = chosen2._id;
@@ -1744,24 +1202,14 @@ export function ClientModify({ showModal, setShowModal }) {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Client successfully")
-        toast({
-          message: "Client updated succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success('Client updated succesfully');
 
         changeState();
       })
       .catch((err) => {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
-        toast({
-          message: "Error updating Client, probable network issues or " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error('Error updating Client, probable network issues or ' + err);
       });
   };
 
@@ -1769,40 +1217,9 @@ export function ClientModify({ showModal, setShowModal }) {
     <>
       <div className="card ">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <ModalHeader text={"Client Detals-Modify"} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <MdCancel
-                onClick={() => {
-                  setShowModal(false),
-                    setState((prevstate) => ({
-                      ...prevstate,
-                      AppointmentModule: {
-                        selectedAppointment: {},
-                        show: "list",
-                      },
-                    }));
-                }}
-                style={{
-                  fontSize: "2rem",
-                  color: "crimson",
-                  cursor: "pointer",
-                  float: "right",
-                }}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <p>
-                {Client.firstname} {Client.lastname}
-              </p>
-            </Grid>
-          </Grid>
+          <FormsHeaderText text={`${Client.firstname} ${Client.lastname}`} />
 
-          <Grid container spacing={2} mt={2}>
+          <Grid container spacing={2} mt={1}>
             <Grid item xs={12} sm={12} md={6} lg={6}>
               <LocationSearch
                 id={Client.locationId}
@@ -1810,8 +1227,6 @@ export function ClientModify({ showModal, setShowModal }) {
                 clear={success1}
               />
             </Grid>
-          </Grid>
-          <Grid container spacing={2} mt={2}>
             <Grid item xs={12} sm={12} md={6} lg={6}>
               <EmployeeSearch
                 id={Client.practitionerId}
@@ -1820,62 +1235,73 @@ export function ClientModify({ showModal, setShowModal }) {
               />
             </Grid>
           </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <div className="field ml-3 ">
-                {/* <label className= "mr-2 "> <b>Modules:</b></label> */}
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12} md={12} lg={12}>
+              {/* <div className="field ml-3 ">
                 {appClass.map((c, i) => (
-                  <label
-                    className=" is-small"
-                    key={c}
-                    style={{ fontSize: "16px", fontWeight: "bold" }}
-                  >
+                  <>
                     <input
                       type="radio"
+                      key={i}
                       value={c}
                       name="appointmentClass"
-                      {...register("appointmentClass", { required: true })}
+                      {...register('appointmentClass', { required: true })}
                       style={{
-                        border: "1px solid #0364FF",
-                        transform: "scale(1.5)",
-                        color: "#0364FF",
-                        margin: ".5rem",
+                        border: '1px solid #0364FF',
+                        color: '#0364FF',
+                        margin: '.5rem',
                       }}
                     />
-                    {c + " "}
-                  </label>
+                    <label>{c}</label>
+                  </>
                 ))}
-              </div>
+              </div> */}
+              <RadioButton
+                name="appointmentClass"
+                register={register('appointmentClass', { required: true })}
+                options={appClass}
+                value={Client?.appointmentClass}
+                onChange={handleChangeClass}
+              />
             </Grid>
           </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              <div className="field">
+          <Grid container spacing={2} sx={{ alignItems: 'center' }}>
+            <Grid item xs={12} sm={12} md={4}>
+              <BasicDateTimePicker
+                label="Date"
+                register={register('start_time', { required: true })}
+                value={format(
+                  new Date(Client.start_time),
+                  "yyyy-MM-dd'T'HH:mm:ss"
+                )}
+              />
+              {/* <div className="field">
                 <input
                   name="start_time"
-                  {...register("start_time", { required: true })}
+                  {...register('start_time', { required: true })}
                   type="datetime-local"
                   defaultValue={format(
                     new Date(Client.start_time),
                     "yyyy-MM-dd'T'HH:mm:ss"
                   )}
                   style={{
-                    border: "1px solid #0364FF",
-                    padding: "1rem",
-                    color: " #979DAC",
+                    border: '1px solid #0364FF',
+                    padding: '1rem',
+                    color: ' #979DAC',
                   }}
                 />
-              </div>
+              </div> */}
             </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
               <select
                 name="type"
                 onChange={handleChangeType}
                 defaultValue={Client?.appointment_type}
                 style={{
-                  border: "1px solid #0364FF",
-                  padding: "1rem",
-                  color: " #979DAC",
+                  border: '1px solid #b6b6b6',
+                  height: '38px',
+                  borderRadius: '4px',
+                  width: '100%',
                 }}
               >
                 <option defaultChecked>Choose Appointment Type </option>
@@ -1888,15 +1314,16 @@ export function ClientModify({ showModal, setShowModal }) {
                 <option value="Walk in">Walk-in</option>
               </select>
             </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
               <select
                 name="appointment_status"
                 onChange={handleChangeStatus}
                 defaultValue={Client?.appointment_status}
                 style={{
-                  border: "1px solid #0364FF",
-                  padding: "1rem",
-                  color: " #979DAC",
+                  border: '1px solid #b6b6b6',
+                  height: '38px',
+                  borderRadius: '4px',
+                  width: '100%',
                 }}
               >
                 <option defaultChecked>Appointment Status </option>
@@ -1912,80 +1339,72 @@ export function ClientModify({ showModal, setShowModal }) {
               </select>
             </Grid>
           </Grid>
-          <Grid container spacing={2} mt={2}>
+          <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={12} lg={12}>
+              <label className="label" htmlFor="appointment_reason">
+                Reason for Appointment
+              </label>
               <textarea
                 className="input is-small"
                 name="appointment_reason"
-                {...register("appointment_reason", { required: true })}
+                {...register('appointment_reason', { required: true })}
                 type="text"
                 placeholder="Appointment Reason"
-                rows="10"
+                rows="3"
                 cols="50"
                 style={{
-                  border: "1px solid #0364FF",
-                  padding: "1rem",
-                  color: " #979DAC",
-                  width: "100%",
+                  border: '1px solid #b6b6b6',
+                  borderRadius: '4px',
+                  color: ' #979DAC',
+                  width: '100%',
                 }}
               >
-                {" "}
+                {' '}
               </textarea>
             </Grid>
           </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={4} lg={3}>
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: "#0364FF",
-                  width: "100%",
-                  cursor: "pointer",
-                }}
-                onClick={handleSubmit(onSubmit)}
-              >
-                Save
-              </Button>
-            </Grid>
-            <Grid item xs={12} sm={12} md={4} lg={3}>
-              <Button
-                type="delete"
-                onClick={() => handleDelete()}
-                style={{
-                  backgroundColor: "#ffffff",
-                  width: "100%",
-                  color: "#0364FF",
-                  border: "1px solid #0364FF",
-                  cursor: "pointer",
-                }}
-              >
-                Delete
-              </Button>
-            </Grid>
-          </Grid>
+
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <GlobalCustomButton
+              variant="contained"
+              color="success"
+              text="Save"
+              customStyles={{
+                marginRight: '15px',
+              }}
+              onClick={handleSubmit(onSubmit)}
+            />
+
+            <GlobalCustomButton
+              text="Delete"
+              onClick={() => handleDelete()}
+              color="error"
+              variant="outlined"
+            />
+          </Box>
         </form>
       </div>
     </>
   );
 }
 
-export function ClientSearch({ getSearchfacility, clear }) {
-  const ClientServ = client.service("client");
+export function ClientSearch({ id, getSearchfacility, clear, label }) {
+  const ClientServ = client.service('client');
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState("");
+  const [searchMessage, setSearchMessage] = useState('');
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState("");
+  const [simpa, setSimpa] = useState('');
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
-  const [val, setVal] = useState("");
+  const [val, setVal] = useState('');
   const { user } = useContext(UserContext);
   const { state } = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
@@ -1998,13 +1417,13 @@ export function ClientSearch({ getSearchfacility, clear }) {
 
     await setSimpa(
       obj.firstname +
-        " " +
+        ' ' +
         obj.middlename +
-        " " +
+        ' ' +
         obj.lastname +
-        " " +
+        ' ' +
         obj.gender +
-        " " +
+        ' ' +
         obj.phone
     );
 
@@ -2020,7 +1439,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
   };
   const handleBlur = async (e) => {
     if (count === 2) {
-      console.log("stuff was chosen");
+      console.log('stuff was chosen');
     }
 
     /*  console.log("blur")
@@ -2038,12 +1457,12 @@ export function ClientSearch({ getSearchfacility, clear }) {
   };
   const handleSearch = async (val) => {
     setVal(val);
-    if (val === "") {
+    if (val === '') {
       setShowPanel(false);
       getSearchfacility(false);
       return;
     }
-    const field = "name"; //field variable
+    const field = 'name'; //field variable
 
     if (val.length >= 3) {
       ClientServ.find({
@@ -2052,43 +1471,43 @@ export function ClientSearch({ getSearchfacility, clear }) {
             {
               firstname: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               lastname: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               middlename: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               phone: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               clientTags: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               mrn: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               specificDetails: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
           ],
@@ -2102,22 +1521,22 @@ export function ClientSearch({ getSearchfacility, clear }) {
         },
       })
         .then((res) => {
-          console.log("product  fetched successfully");
+          console.log('product  fetched successfully');
           console.log(res.data);
           setFacilities(res.data);
-          setSearchMessage(" product  fetched successfully");
+          setSearchMessage(' product  fetched successfully');
           setShowPanel(true);
         })
         .catch((err) => {
           toast({
-            message: "Error creating ProductEntry " + err,
-            type: "is-danger",
+            message: 'Error creating ProductEntry ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
         });
     } else {
-      console.log("less than 3 ");
+      console.log('less than 3 ');
       console.log(val);
       setShowPanel(false);
       await setFacilities([]);
@@ -2134,8 +1553,8 @@ export function ClientSearch({ getSearchfacility, clear }) {
   };
   useEffect(() => {
     if (clear) {
-      console.log("success has changed", clear);
-      setSimpa("");
+      console.log('success has changed', clear);
+      setSimpa('');
     }
     return () => {};
   }, [clear]);
@@ -2144,45 +1563,35 @@ export function ClientSearch({ getSearchfacility, clear }) {
     const allFacilities = facilities.map((facility) => {
       return {
         value: facility._id,
-        label: facility.firstname + " " + facility.lastname,
+        label: facility.firstname + ' ' + facility.lastname,
       };
     });
   };
 
   return (
     <div>
-      <div className="field">
+      {/* <div className="field">
         <div className="control has-icons-left  ">
           <div
-            className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{ width: "100%" }}
+            className={`dropdown ${showPanel ? 'is-active' : ''}`}
+            style={{ width: '100%' }}
           >
-            <div className="dropdown-trigger" style={{ width: "100%" }}>
+            <div className="dropdown-trigger" style={{ width: '100%' }}>
               <DebouncedInput
-                label={"Search for Client"}
+                label={'Search for Client'}
                 value={simpa}
                 minLength={3}
                 onBlur={handleBlur}
                 onChangeValue={handleSearch}
                 inputRef={inputEl}
+                style={{ height: '38px' }}
               />
               <span className="icon is-small is-left">
                 <i className="fas fa-search"></i>
               </span>
             </div>
-            <div className="dropdown-menu expanded" style={{ width: "100%" }}>
+            <div className="dropdown-menu expanded" style={{ width: '100%' }}>
               <div className="dropdown-content">
-                {facilities.length > 0 ? (
-                  ""
-                ) : (
-                  <div
-                    className="dropdown-item" /* onClick={handleAddproduct} */
-                  >
-                    {" "}
-                    <span> {val} is not yet your client</span>{" "}
-                  </div>
-                )}
-
                 {facilities.map((facility, i) => (
                   <div
                     className="dropdown-item"
@@ -2191,7 +1600,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
                       handleRow(facility), setCloseDropdown(true);
                     }}
                   >
-                    <div style={{ cursor: "pointer" }}>
+                    <div style={{ cursor: 'pointer' }}>
                       {closeDropdown ? (
                         <></>
                       ) : (
@@ -2200,7 +1609,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
                           <span className="padleft">{facility.middlename}</span>
                           <span className="padleft">{facility.lastname}</span>
                           <span className="padleft">
-                            {" "}
+                            {' '}
                             {formatDistanceToNowStrict(new Date(facility.dob))}
                           </span>
                           <span className="padleft">{facility.gender}</span>
@@ -2216,7 +1625,64 @@ export function ClientSearch({ getSearchfacility, clear }) {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
+      <Autocomplete
+        size="small"
+        value={simpa}
+        onChange={(event, newValue) => {
+          handleRow(newValue);
+          setSimpa('');
+        }}
+        id="free-solo-dialog-demo"
+        options={facilities}
+        getOptionLabel={(option) => {
+          if (typeof option === 'string') {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option.firstname;
+        }}
+        //isOptionEqualToValue={(option, value) => option.id === value.id}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        noOptionsText="No Client found"
+        renderOption={(props, option) => (
+          <li {...props} style={{ fontSize: '0.75rem' }}>
+            {option.firstname}, {option.middlename}, {option.lastname},{' '}
+          </li>
+        )}
+        sx={{
+          width: '100%',
+        }}
+        freeSolo={false}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={label || 'Search for Client'}
+            onChange={(e) => handleSearch(e.target.value)}
+            ref={inputEl}
+            sx={{
+              fontSize: '0.75rem',
+              backgroundColor: '#ffffff',
+              '& .MuiInputBase-input': {
+                height: '0.9rem',
+              },
+            }}
+            InputLabelProps={{
+              shrink: true,
+              style: { color: '#2d2d2d' },
+            }}
+          />
+        )}
+      />
     </div>
   );
 }
+
+
+
+
+

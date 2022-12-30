@@ -11,6 +11,7 @@ export const InputField = styled.input`
   border-radius: 4px;
   border: 1px solid ${({theme}) => theme.grayTwo};
   color: #000000;
+  font-size: 0.85rem;
   &:hover {
     border: 1px solid #000000;
   }
@@ -49,6 +50,8 @@ export const InputBox = styled.div`
     font-size: 22px;
     padding: 0.25rem;
     transition: 0.4s;
+    display: flex;
+    alignitems: center;
   }
 `;
 

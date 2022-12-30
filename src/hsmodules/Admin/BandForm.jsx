@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState,useContext,useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import Button from "../../components/buttons/Button";
@@ -46,11 +46,10 @@ export const BandForm = ({ open, setOpen }) => {
       facility: user.currentEmployee.facilityDetail._id,
     },
   });
-  const submit = async (data, e) => {
-    setLoading(true);
+
+  const submit = useCallback(async(data, e) => {
     e.preventDefault();
     setSuccess(false);
-
     await BandServ.create(data)
       .then((res) => {
         toast.success(`Band successfully created`);
@@ -60,8 +59,10 @@ export const BandForm = ({ open, setOpen }) => {
       .catch((err) => {
         toast.error(`Sorry, You weren't able to create a band. ${err}`);
       });
-    setLoading(false);
-  };
+  },[data]);
+
+
+
   return (
     <ModalBox open={open} onClose={setOpen} width="40vw" header={"Create Band"}>
       <form >
@@ -96,10 +97,9 @@ export const BandForm = ({ open, setOpen }) => {
          <Box>
          <TextArea
           label="Description"
-            {...register("description")}
+            register={register("description")}
             name="description"
             type="text"
-           
           />
          </Box>
 </Grid>

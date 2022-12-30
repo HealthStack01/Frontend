@@ -17,9 +17,10 @@ import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import {fontSize} from "@mui/system";
 import ModalBox from "../../components/modal";
-import CustomSelect from "../../components/inputs/basic/Select";
+// import CustomSelect from "../../components/inputs/basic/Select";
 import Textarea from "../../components/inputs/basic/Textarea";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import CustomSelect from "../../components/inputs/basic/Select";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 // eslint-disable-next-line
 const searchfacility = {};
@@ -65,7 +66,7 @@ export default function ClientHistory() {
           showCreateModal={handleCreateModal}
           showDetailModal={handleShowDetailModal}
         />
-        <ModalBox width="40vw" open={createModal} onClose={handleHideCreateModal}>
+        <ModalBox width="40vw" open={createModal} onClose={handleHideCreateModal} header="Create History">
           <ClientHistoryCreate/>
         </ModalBox>
 
@@ -163,36 +164,34 @@ export function ClientHistoryCreate() {
 
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Create History</p>
-        </div>
+      <div>
         <div className="card-content vscrollable">
           <form onSubmit={handleSubmit(onSubmit)}>
           <div style={{paddingBottom:"1rem"}}>
-              <Textarea
-              register={register("familyHistory", {required: true})}
-              name="familyHistory"
-              type="text"
-              label="Family History"
-            />
+          <CustomSelect
+                  label="Type of History"
+                  name="type_of_history"
+                  options={["Social History", "Family History", "Gynae History"]}
+                  register={register("type_of_history", {required: true})}
+                  onChange={e => handleChangeMode(e.target.value)}
+                />
             </div>
             <div style={{paddingBottom:"1rem"}}>
               <Textarea
-              register={register("socialHistory", {required: true})}
-              name="socialHistory"
+              register={register("description", {required: true})}
+              name="description"
               type="text"
-              label="Social History"
+              label="Description"
             />
             </div>
-            <div style={{paddingBottom:"1rem"}}>
+            {/* <div style={{paddingBottom:"1rem"}}>
               <Textarea
               register={register("medicalHistory", {required: true})}
               name="medicalHistory"
               type="text"
               label="Medical History"
             />
-            </div>
+            </div> */}
             <GlobalCustomButton
                   >
                     <AddCircleOutline
@@ -362,7 +361,7 @@ export function ClientHistoryList({showCreateModal, showDetailModal}) {
       inputType: "HIDDEN",
     },
     {
-      name: "Family History",
+      name: "Type of History",
       key: "name",
       description: "Enter name of band",
       selector: row => row.name,
@@ -371,7 +370,7 @@ export function ClientHistoryList({showCreateModal, showDetailModal}) {
       inputType: "TEXT",
     },
     {
-      name: "Medical History",
+      name: "Description",
       key: "bandType",
       description: "Enter name of band",
       selector: row => row.bandType,
@@ -379,15 +378,6 @@ export function ClientHistoryList({showCreateModal, showDetailModal}) {
       required: true,
       inputType: "SELECT_LIST",
       options: ["Provider", "Company", "Patient", "Plan"],
-    },
-    {
-      name: "Social History",
-      key: "description",
-      description: "Enter description of band",
-      selector: row => row.description,
-      sortable: true,
-      required: false,
-      inputType: "TEXT",
     },
   ];
 

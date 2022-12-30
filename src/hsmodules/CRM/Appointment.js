@@ -1,14 +1,18 @@
-import {useState} from "react";
+import {useState, useContext} from "react";
 import {Box} from "@mui/material";
 
 import AppointmentList from "./components/appointment/AppointmentList";
 import ScheduleAppointment from "./components/appointment/CreateAppointment";
 import ModalBox from "../../components/modal";
 import AppointmentDetail from "./components/appointment/AppointmentDetail";
+import {ObjectContext} from "../../context";
 
 const CrmAppointment = ({standAlone}) => {
   const [createModal, setCreateModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
+  const {state} = useContext(ObjectContext);
+
+  const deal = state.DealModule.selectedDeal;
   return (
     <Box pt={2}>
       <AppointmentList
@@ -19,7 +23,7 @@ const CrmAppointment = ({standAlone}) => {
       <ModalBox
         open={createModal}
         onClose={() => setCreateModal(false)}
-        header="Schedule an Appointment"
+        header={`Schedule Appointment for ${deal?.name}`}
       >
         <ScheduleAppointment closeModal={() => setCreateModal(false)} />
       </ModalBox>

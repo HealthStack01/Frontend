@@ -52,13 +52,13 @@ const RadioButton: React.FC<RadioProps> = ({
           value={option.value || option || ""}
           control={<Radio {...register} sx={{margin: 0}} size="small" />}
           label={
-            <Typography sx={{fontSize: "0.8rem", marginLeft: "-5px"}}>
+            <Typography sx={{fontSize: "0.85rem", marginLeft: "-5px"}}>
               {option.label || option || ""}
             </Typography>
           }
           disabled={option.disabled}
           defaultValue={defaultValue}
-          //sx={{transform: "scale(0.8)"}}
+          sx={{transform: "scale(0.8)", marginLeft: "-1.2rem"}}
           // checked={defaultValue === (option.value || option || '')}
         />
       ))}

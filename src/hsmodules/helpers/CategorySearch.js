@@ -63,7 +63,7 @@ export default function CategorySearch({
   const dropDownRef = useRef(null);
 
   const getInitial = async id => {
-    console.log(id);
+    //console.log(id);
     if (!!id) {
       let obj = {
         categoryname: id,
@@ -79,6 +79,7 @@ export default function CategorySearch({
   }, []);
 
   const handleRow = async obj => {
+    console.log(obj);
     await setChosen(true);
     //alert("something is chaning")
 
@@ -87,31 +88,8 @@ export default function CategorySearch({
     // setSelectedFacility(obj)
     setShowPanel(false);
     await setCount(2);
-    /* const    newfacilityModule={
-            selectedFacility:facility,
-            show :'detail'
-        }
-   await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
-    //console.log(state)
   };
 
-  const handleBlur = async e => {
-    /*   if (count===2){
-             console.log("stuff was chosen")
-         } */
-    /*  console.log("blur")
-         setShowPanel(false)
-        console.log(JSON.stringify(simpa))
-        if (simpa===""){
-            console.log(facilities.length)
-            setSimpa("abc")
-            setSimpa("")
-            setFacilities([])
-            inputEl.current.setValue=""
-        }
-        console.log(facilities.length)
-        console.log(inputEl.current) */
-  };
   const handleSearch = async val => {
     setVal(val);
     if (val === "") {
@@ -119,9 +97,6 @@ export default function CategorySearch({
       getSearchfacility(false);
       return;
     }
-    const field = "name"; //field variable
-    /* name: { type: String, required: true },
-        locationType: { type: String }, */
 
     if (val.length >= 3) {
       ClientServ.find({
@@ -130,34 +105,7 @@ export default function CategorySearch({
             $regex: val,
             $options: "i",
           },
-          /*  $or:[   { lastname: {
-                        $regex:val,
-                        $options:'i' 
-                    }},
-                    { profession: {
-                        $regex:val,
-                        $options:'i' 
-                    }},
-                    { department: {
-                        $regex:val,
-                        $options:'i' 
-                    }},
-                   { clientTags: {
-                        $regex:val,
-                        $options:'i' 
-                    }},
-                    { mrn: {
-                        $regex:val,
-                        $options:'i' 
-                    }},
-                    { specificDetails: {
-                        $regex:val,
-                        $options:'i' 
-                    }}, 
-                ],*/
 
-          //facility: user.currentEmployee.facilityDetail._id,
-          //storeId: state.StoreModule.selectedStore._id,
           $limit: 1000,
           $sort: {
             category: 1,
@@ -165,9 +113,6 @@ export default function CategorySearch({
         },
       })
         .then(res => {
-          //console.log("Service category  fetched successfully")
-          //console.log(res.data)
-          // console.log(res.groupedOrder)
           setFacilities(res.groupedOrder);
           setSearchMessage("Service category fetched successfully");
           setShowPanel(true);
@@ -181,11 +126,11 @@ export default function CategorySearch({
           });
         });
     } else {
-      console.log("less than 3 ");
-      console.log(val);
+      // console.log("less than 3 ");
+      // console.log(val);
       setShowPanel(false);
       await setFacilities([]);
-      console.log(facilities);
+      //console.log(facilities);
     }
   };
 
@@ -193,18 +138,20 @@ export default function CategorySearch({
     let obj = {
       categoryname: val,
     };
-    console.log(obj);
+    //console.log(obj);
     handleRow(obj);
 
     // setProductModal(true)
   };
+
   const handlecloseModal = () => {
     setProductModal(false);
     handleSearch(val);
   };
+
   useEffect(() => {
     if (clear) {
-      console.log("success has changed", clear);
+      // console.log("success has changed", clear);
       setSimpa("");
     }
     return () => {};
@@ -217,9 +164,12 @@ export default function CategorySearch({
       <Autocomplete
         size="small"
         value={simpa}
-        onChange={(event, newValue) => {
-          handleRow(newValue);
-          setSimpa("");
+        onChange={(event, newValue, reason) => {
+          if (reason === "clear") {
+            setSimpa("");
+          } else {
+            handleRow(newValue);
+          }
         }}
         id="free-solo-dialog-demo"
         options={facilities}
@@ -232,11 +182,23 @@ export default function CategorySearch({
           }
           return option.categoryname;
         }}
+        isOptionEqualToValue={(option, value) =>
+          value === undefined || value === "" || option._id === value._id
+        }
+        onInputChange={(event, newInputValue, reason) => {
+          if (reason === "clear") {
+            setVal("");
+            return;
+          } else {
+            handleSearch(newInputValue);
+          }
+        }}
+        inputValue={val}
         //isOptionEqualToValue={(option, value) => option.id === value.id}
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys
-        noOptionsText="No Category found"
+        noOptionsText={val !== "" ? `${val} Not Found` : "Type something"}
         renderOption={(props, option) => (
           <li {...props} style={{fontSize: "0.75rem"}}>
             {option.categoryname}
@@ -250,7 +212,6 @@ export default function CategorySearch({
           <TextField
             {...params}
             label={label || "Search for Category"}
-            onChange={e => handleSearch(e.target.value)}
             ref={inputEl}
             sx={{
               fontSize: "0.75rem",

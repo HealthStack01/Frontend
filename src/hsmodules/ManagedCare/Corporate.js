@@ -12,7 +12,7 @@ import { TableMenu } from '../../ui/styled/global';
 import Button from '../../components/buttons/Button';
 import CustomTable from '../../components/customtable';
 import FilterMenu from '../../components/utilities/FilterMenu';
-import { Box, Grid, Button as MuiButton } from '@mui/material';
+import { Box, Grid, Button as MuiButton, Badge, Drawer } from '@mui/material';
 import ModalBox from '../../components/modal';
 import { FaHospital, FaAddressCard, FaUserAlt } from 'react-icons/fa';
 import { IoLocationSharp } from 'react-icons/io5';
@@ -27,6 +27,13 @@ import {
 } from '../app/styles';
 import Input from '../../components/inputs/basic/Input';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
+import Policy from './Policy';
+import Beneficiary from './Beneficiary';
+import Claims from './Claims';
+import PremiumPayment from './PremiumPayment';
+import ChatInterface from '../../components/chat/ChatInterface';
+import CRMTasks from '../CRM/Tasks';
+import VideoConference from '../utils/VideoConference';
 
 export default function OrganizationClient() {
   const { state } = useContext(ObjectContext); //,setState
@@ -41,7 +48,9 @@ export default function OrganizationClient() {
 
   return (
     <section className="section remPadTop">
-      <OrganizationList showModal={showModal} setShowModal={setShowModal} />
+      {showModal === 0 && (
+        <OrganizationList showModal={showModal} setShowModal={setShowModal} />
+      )}
 
       {showModal === 1 && (
         <ModalBox
@@ -52,15 +61,7 @@ export default function OrganizationClient() {
         </ModalBox>
       )}
       {showModal === 2 && (
-        <ModalBox
-          open={state.facilityModule.show === 'detail'}
-          onClose={() => setShowModal(0)}
-        >
-          <OrganizationDetail
-            showModal={showModal}
-            setShowModal={setShowModal}
-          />
-        </ModalBox>
+        <OrganizationDetail showModal={showModal} setShowModal={setShowModal} />
       )}
       {showModal === 3 && (
         <ModalBox
@@ -510,6 +511,9 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   const { state, setState } = useContext(ObjectContext);
   const [editCorporate, setEditCorporate] = useState(false);
   const { register, handleSubmit, setValue, reset } = useForm();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [activateCall, setActivateCall] = useState(false);
 
   const facility = state.facilityModule.selectedFacility;
 
@@ -640,141 +644,257 @@ export function OrganizationDetail({ showModal, setShowModal }) {
     <>
       <Box
         sx={{
-          width: '800px',
+          width: '98%',
           maxHeight: '80vh',
+          margin: '0 1rem',
         }}
       >
-        <HeadWrapper>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: '1rem',
+          }}
+        >
           <Box>
             <h2>Corporate Detail</h2>
             <span>Corporate Detail of {facility?.facilityName}</span>
           </Box>
-          <BottomWrapper>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+            }}
+          >
+            <GlobalCustomButton
+              color="warning"
+              onClick={() => setShowModal(0)}
+              text="Back"
+              customStyles={{ marginRight: '.8rem' }}
+            />
             {!editCorporate && (
               <GlobalCustomButton
                 variant="contained"
                 onClick={() => setEditCorporate(true)}
                 text="Edit Corporate"
+                customStyles={{ marginRight: '.8rem' }}
               />
             )}
             {editCorporate && (
-              <Box
-                sx={{
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-end',
-                }}
-                mt={2}
-              >
+              <GlobalCustomButton
+                color="success"
+                onClick={handleSubmit(onSubmit)}
+                text="Update Corporate"
+                customStyles={{ marginRight: '.8rem' }}
+              />
+            )}
+            {editCorporate && (
+              <GlobalCustomButton
+                color="primary"
+                onClick={() => setEditCorporate(false)}
+                text=" Details"
+                customStyles={{ marginRight: '.8rem' }}
+              />
+            )}
+            {editCorporate && (
+              <GlobalCustomButton
+                color="error"
+                onClick={handleDelete}
+                text="Deactivate Corporate"
+                customStyles={{ marginRight: '.8rem' }}
+              />
+            )}
+            {editCorporate && (
+              <GlobalCustomButton
+                color="warning"
+                onClick={handleCancel}
+                text=" Cancel"
+                customStyles={{ marginRight: '.8rem' }}
+              />
+            )}
+            {!editCorporate && (
+              <>
+                {activateCall && (
+                  <GlobalCustomButton
+                    onClick={() => setActivateCall(false)}
+                    color="error"
+                    customStyles={{ marginRight: '.8rem' }}
+                  >
+                    End Call
+                  </GlobalCustomButton>
+                )}
+                <VideoConference
+                  activateCall={activateCall}
+                  setActivateCall={setActivateCall}
+                  label="Video Conference"
+                />
+                <GlobalCustomButton
+                  color="secondary"
+                  variant={currentPage === 2 ? 'outlined' : 'contained'}
+                  onClick={() => setCurrentPage(2)}
+                  text="Policy"
+                  customStyles={{ margin: '0 .8rem' }}
+                />
                 <GlobalCustomButton
                   color="success"
-                  onClick={handleSubmit(onSubmit)}
-                  text="Update Corporate"
+                  variant={currentPage === 3 ? 'outlined' : 'contained'}
+                  onClick={() => setCurrentPage(3)}
+                  text="Beneficiary"
                   customStyles={{ marginRight: '.8rem' }}
                 />
-
-                <GlobalCustomButton
-                  color="error"
-                  onClick={handleDelete}
-                  text="Delete Corporate"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
-
                 <GlobalCustomButton
                   color="warning"
-                  onClick={handleCancel}
-                  text=" Cancel Update"
+                  variant={currentPage === 4 ? 'outlined' : 'contained'}
+                  onClick={() => setCurrentPage(4)}
+                  text="Claims"
+                  customStyles={{ marginRight: '.8rem' }}
                 />
-              </Box>
+                <GlobalCustomButton
+                  color="secondary"
+                  variant={currentPage === 6 ? 'outlined' : 'contained'}
+                  onClick={() => setCurrentPage(6)}
+                  text="Task"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
+                <GlobalCustomButton
+                  color="primary"
+                  variant={currentPage === 5 ? 'outlined' : 'contained'}
+                  onClick={() => setCurrentPage(5)}
+                  text="Premium"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
+                <Badge
+                  badgeContent={4}
+                  color="success"
+                  sx={{ marginRight: '10px', marginTop: '0' }}
+                >
+                  <GlobalCustomButton
+                    onClick={() => setOpenDrawer(true)}
+                    text="Chat"
+                    color="primary"
+                  />
+                </Badge>
+              </>
             )}
-          </BottomWrapper>
-        </HeadWrapper>
+          </Box>
+        </Box>
+        {currentPage === 1 && (
+          <Box>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Grid container spacing={2}>
+                {(facility?.facilityName || editCorporate) && (
+                  <Grid item xs={6}>
+                    <Input
+                      register={register('facilityName')}
+                      label="Name"
+                      disabled={!editCorporate}
+                    />
+                  </Grid>
+                )}
+                {(facility?.facilityAddress || editCorporate) && (
+                  <Grid item xs={6}>
+                    <Input
+                      register={register('facilityAddress')}
+                      label="Address"
+                      disabled={!editCorporate}
+                    />
+                  </Grid>
+                )}
+
+                {(facility?.facilityCity || editCorporate) && (
+                  <Grid item xs={6}>
+                    <Input
+                      register={register('facilityCity')}
+                      label="City"
+                      disabled={!editCorporate}
+                    />
+                  </Grid>
+                )}
+                {(facility?.facilityContactPhone || editCorporate) && (
+                  <Grid item xs={6}>
+                    <Input
+                      register={register('facilityContactPhone')}
+                      label="Phone"
+                      disabled={!editCorporate}
+                    />
+                  </Grid>
+                )}
+
+                {(facility?.facilityEmail || editCorporate) && (
+                  <Grid item xs={6}>
+                    <Input
+                      register={register('facilityEmail')}
+                      label="Email"
+                      disabled={!editCorporate}
+                    />
+                  </Grid>
+                )}
+
+                {(facility?.facilityOwner || editCorporate) && (
+                  <Grid item xs={6}>
+                    <Input
+                      register={register('facilityOwner')}
+                      label="CEO"
+                      disabled={!editCorporate}
+                    />
+                  </Grid>
+                )}
+
+                {(facility?.facilityType || editCorporate) && (
+                  <Grid item xs={6}>
+                    <Input
+                      register={register('facilityType')}
+                      label="Type"
+                      disabled={!editCorporate}
+                    />
+                  </Grid>
+                )}
+
+                {(facility?.facilityCategory || editCorporate) && (
+                  <Grid item xs={6}>
+                    <Input
+                      register={register('facilityCategory')}
+                      label="Category"
+                      disabled={!editCorporate}
+                    />
+                  </Grid>
+                )}
+              </Grid>
+            </form>
+          </Box>
+        )}
+        {currentPage === 2 && <Policy standAlone />}
+        {currentPage === 3 && <Beneficiary />}
+        {currentPage === 4 && <Claims standAlone />}
+        {currentPage === 5 && <PremiumPayment />}
+        {currentPage === 6 && <CRMTasks />}
       </Box>
-
-      <Box>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
-            {(facility?.facilityName || editCorporate) && (
-              <Grid item xs={6}>
-                <Input
-                  register={register('facilityName')}
-                  label="Name"
-                  disabled={!editCorporate}
-                />
-              </Grid>
-            )}
-            {(facility?.facilityAddress || editCorporate) && (
-              <Grid item xs={6}>
-                <Input
-                  register={register('facilityAddress')}
-                  label="Address"
-                  disabled={!editCorporate}
-                />
-              </Grid>
-            )}
-
-            {(facility?.facilityCity || editCorporate) && (
-              <Grid item xs={6}>
-                <Input
-                  register={register('facilityCity')}
-                  label="City"
-                  disabled={!editCorporate}
-                />
-              </Grid>
-            )}
-            {(facility?.facilityContactPhone || editCorporate) && (
-              <Grid item xs={6}>
-                <Input
-                  register={register('facilityContactPhone')}
-                  label="Phone"
-                  disabled={!editCorporate}
-                />
-              </Grid>
-            )}
-
-            {(facility?.facilityEmail || editCorporate) && (
-              <Grid item xs={6}>
-                <Input
-                  register={register('facilityEmail')}
-                  label="Email"
-                  disabled={!editCorporate}
-                />
-              </Grid>
-            )}
-
-            {(facility?.facilityOwner || editCorporate) && (
-              <Grid item xs={6}>
-                <Input
-                  register={register('facilityOwner')}
-                  label="CEO"
-                  disabled={!editCorporate}
-                />
-              </Grid>
-            )}
-
-            {(facility?.facilityType || editCorporate) && (
-              <Grid item xs={6}>
-                <Input
-                  register={register('facilityType')}
-                  label="Type"
-                  disabled={!editCorporate}
-                />
-              </Grid>
-            )}
-
-            {(facility?.facilityCategory || editCorporate) && (
-              <Grid item xs={6}>
-                <Input
-                  register={register('facilityCategory')}
-                  label="Category"
-                  disabled={!editCorporate}
-                />
-              </Grid>
-            )}
-          </Grid>
-        </form>
-      </Box>
+      <Drawer
+        open={openDrawer}
+        sx={{
+          width: 'fit-content',
+          height: 'fit-content',
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: 'fit-content',
+            height: 'fit-content',
+          },
+        }}
+        variant="persistent"
+        anchor="right"
+      >
+        <Box
+          sx={{
+            width: '25vw',
+            height: '100vh',
+            overflowY: 'hidden',
+          }}
+        >
+          <ChatInterface closeChat={() => setOpenDrawer(false)} />
+        </Box>
+      </Drawer>
     </>
   );
 }
