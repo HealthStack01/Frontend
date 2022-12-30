@@ -20,6 +20,7 @@ interface Props {
   conditionalRowStyles?: [];
   selectableRowsComponent?: any;
   CustomEmptyData?: React.ReactNode | "";
+  preferredCustomStyles?: any;
 }
 
 const CustomLoader = () => (
@@ -44,6 +45,7 @@ const CustomTable: React.FC<Props> = ({
   conditionalRowStyles = [],
   selectableRowsComponent,
   CustomEmptyData,
+  preferredCustomStyles,
 }) => {
   return (
     <DataTable
@@ -53,7 +55,9 @@ const CustomTable: React.FC<Props> = ({
       pointerOnHover={pointerOnHover}
       highlightOnHover={highlightOnHover}
       striped={striped}
-      customStyles={customStyles}
+      customStyles={
+        preferredCustomStyles ? preferredCustomStyles : customStyles
+      }
       onRowClicked={onRowClicked}
       fixedHeader={true}
       selectableRows={selectable}

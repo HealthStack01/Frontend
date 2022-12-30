@@ -3,6 +3,7 @@ import {Box, Typography} from "@mui/material";
 import {CKEditor} from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import BlockIcon from "@mui/icons-material/Block";
+import ApprovalIcon from "@mui/icons-material/Approval";
 import {v4 as uuidv4} from "uuid";
 
 import "./styles.scss";
@@ -13,7 +14,7 @@ import {toast} from "react-toastify";
 import Textarea from "../../../../components/inputs/basic/Textarea";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 
-const InvoiceDeclineReason = ({closeModal}) => {
+const InvoiceApproveReason = ({closeModal}) => {
   const [text, setText] = useState("");
   const dealServer = client.service("deal");
   const {state, setState, showActionLoader, hideActionLoader} =
@@ -21,10 +22,11 @@ const InvoiceDeclineReason = ({closeModal}) => {
   const {user} = useContext(UserContext);
   const [confirmDialog, setConfirmDialog] = useState(false);
 
-  const handleDeclineInvoice = async () => {
+  const handleApproveInvoice = async () => {
     showActionLoader();
-    //return toast.error("Unable to add new plan, not operational yet");
+
     const employee = user.currentEmployee;
+
     const invoiceDetail = state.InvoiceModule.selectedInvoice;
     const currentDeal = state.DealModule.selectedDeal;
 
@@ -33,7 +35,7 @@ const InvoiceDeclineReason = ({closeModal}) => {
       updatedBy: employee.userId,
       updatedByName: `${employee.firstname} ${employee.lastname}`,
       comment: text,
-      title: "Declined Invoice",
+      title: "Approved Invoice",
       _id: uuidv4(),
     };
 
@@ -41,7 +43,7 @@ const InvoiceDeclineReason = ({closeModal}) => {
 
     const newInvoiceDetail = {
       ...invoiceDetail,
-      status: "Declined",
+      status: "Approved",
       statusHx: [newStatusHistory, ...oldStatusHistory],
     };
 
@@ -78,7 +80,7 @@ const InvoiceDeclineReason = ({closeModal}) => {
         setConfirmDialog(false);
         closeModal();
 
-        toast.success(`You have successfully Declined this Invoice`);
+        toast.success(`You have successfully Approved this Invoice`);
 
         //setReset(true);
       })
@@ -86,10 +88,14 @@ const InvoiceDeclineReason = ({closeModal}) => {
         //setReset(false);
         setConfirmDialog(false);
         hideActionLoader();
-        toast.error(`Sorry, Failed to Decline the Invoice. ${err}`);
+        toast.error(`Sorry, Failed to Approve the Invoice. ${err}`);
       });
   };
 
+  const handleDone = () => {
+    //setReason(text);
+    console.log(text);
+  };
   return (
     <Box
       sx={{
@@ -100,9 +106,9 @@ const InvoiceDeclineReason = ({closeModal}) => {
       <CustomConfirmationDialog
         open={confirmDialog}
         cancelAction={() => setConfirmDialog(false)}
-        confirmationAction={handleDeclineInvoice}
-        type="warning"
-        message={`You're about to decline this Invoice?`}
+        confirmationAction={handleApproveInvoice}
+        type="create"
+        message={`You're about to Approve this Invoice?`}
       />
       <Box
         sx={{
@@ -119,7 +125,7 @@ const InvoiceDeclineReason = ({closeModal}) => {
             fontWeight: "500",
           }}
         >
-          Reason for Decline
+          Approval Comments
         </Typography>
       </Box>
 
@@ -143,7 +149,7 @@ const InvoiceDeclineReason = ({closeModal}) => {
         <GlobalCustomButton
           onClick={closeModal}
           sx={{marginRight: "15px"}}
-          variant="outlined"
+          //variant="outlined"
           color="warning"
         >
           Cancel
@@ -151,14 +157,14 @@ const InvoiceDeclineReason = ({closeModal}) => {
 
         <GlobalCustomButton
           onClick={() => setConfirmDialog(true)}
-          color="error"
+          color="success"
         >
-          <BlockIcon fontSize="small" sx={{marginRight: "5px"}} />
-          Decline Invoice
+          <ApprovalIcon fontSize="small" sx={{marginRight: "5px"}} />
+          Approve Invoice
         </GlobalCustomButton>
       </Box>
     </Box>
   );
 };
 
-export default InvoiceDeclineReason;
+export default InvoiceApproveReason;

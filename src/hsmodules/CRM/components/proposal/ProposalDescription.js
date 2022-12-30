@@ -39,16 +39,6 @@ const ProposalDescription = ({setDescription, closeModal, description}) => {
     SpeechRecognition.stopListening();
   };
 
-  useEffect(() => {
-    console.log(transcript);
-  }, [transcript]);
-
-  useEffect(() => {
-    const newText = transcript;
-
-    setText(transcript);
-  }, [transcript]);
-
   return (
     <Box
       sx={{

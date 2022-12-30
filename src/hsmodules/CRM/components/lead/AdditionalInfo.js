@@ -93,44 +93,44 @@ export const CreateAdditionalInfo = ({addInfo, closeModal}) => {
 
   const updateAdditionalInfo = async data => {
     if (data.info === "") return toast.error("Please provide your information");
-    showActionLoader();
+    // showActionLoader();
 
-    const employee = user.currentEmployee;
+    // const employee = user.currentEmployee;
 
-    const newInfo = {
-      info: data.info,
-      date: new Date(),
-      employeename: `${employee.firstname} ${employee.lastname}`,
-    };
+    // const newInfo = {
+    //   info: data.info,
+    //   date: new Date(),
+    //   employeename: `${employee.firstname} ${employee.lastname}`,
+    // };
 
-    const oldDealInfo = state.DealModule.selectedDeal.additionalInfo;
+    // const oldDealInfo = state.DealModule.selectedDeal.additionalInfo;
 
-    const updatedDealInfo = [newInfo, ...oldDealInfo];
+    // const updatedDealInfo = [newInfo, ...oldDealInfo];
 
-    const documentId = state.DealModule.selectedDeal._id;
+    // const documentId = state.DealModule.selectedDeal._id;
 
-    await dealServer
-      .patch(documentId, {additionalInfo: updatedDealInfo})
-      .then(res => {
-        hideActionLoader();
-        setState(prev => ({
-          ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: res},
-        }));
+    // await dealServer
+    //   .patch(documentId, {additionalInfo: updatedDealInfo})
+    //   .then(res => {
+    //     hideActionLoader();
+    //     setState(prev => ({
+    //       ...prev,
+    //       DealModule: {...prev.DealModule, selectedDeal: res},
+    //     }));
 
-        reset({
-          info: "",
-        });
-        toast.success(
-          `You have successfully added a new Addtional Information!`
-        );
-      })
-      .catch(err => {
-        hideActionLoader();
-        toast.error(
-          `Sorry, You weren't able to add a new Addtional Information!. ${err}`
-        );
-      });
+    //     reset({
+    //       info: "",
+    //     });
+    //     toast.success(
+    //       `You have successfully added a new Addtional Information!`
+    //     );
+    //   })
+    //   .catch(err => {
+    //     hideActionLoader();
+    //     toast.error(
+    //       `Sorry, You weren't able to add a new Addtional Information!. ${err}`
+    //     );
+    //   });
   };
 
   return (

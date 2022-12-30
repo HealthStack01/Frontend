@@ -82,3 +82,7 @@ html {
 .input {
   color: #000000;
 }
+.MuiOutlinedInput-root .MuiAutocomplete-input {
+  padding: 0 !important;
+  color: #000000 !important;
+}

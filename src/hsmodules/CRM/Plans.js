@@ -22,13 +22,17 @@ const Plans = ({
   updatePlan,
   omitCreate,
 }) => {
-  const {state} = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   const [detailModal, setDetailModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
 
   const handleRow = plan => {
-    setSelectedPlan(plan);
+    //setSelectedPlan(plan);
+    setState(prev => ({
+      ...prev,
+      InvoiceModule: {...prev.InvoiceModule, selectedPlan: plan},
+    }));
     setDetailModal(true);
   };
 
