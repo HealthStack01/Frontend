@@ -11,6 +11,7 @@ import {getTaskColumns} from "../colums/columns";
 import {Box} from "@mui/material";
 import client from "../../../../feathers";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
+import {toast} from "react-toastify";
 
 const TasksList = ({openCreateModal, openDetailModal}) => {
   const dealServer = client.service("deal");

@@ -1518,6 +1518,7 @@ export function InventoryBatches({closeModal}) {
                 label="Expiry Date"
                 value={expirydate}
                 handleChange={value => setExpiryDate(value)}
+                format="dd/MM/yyyy"
               />
             </Grid>
             <Grid item xs={4}>

@@ -395,7 +395,7 @@ export function ProductEntryCreate({closeModal}) {
               <MuiCustomDatePicker
                 value={date}
                 handleChange={value => handleDate(value)}
-                //dateFormat="dd/MM/yyyy"
+                format="dd/MM/yyyy"
                 label="Pick Date"
               />
             </Grid>
@@ -1039,24 +1039,22 @@ export function ProductEntryDetail({openModifyModal}) {
       <Box
         container
         sx={{
-          width: "100%",
+          width: "85vw",
           maxHeight: "85vh",
           overflowY: "auto",
         }}
         pt={1}
       >
         <Grid container spacing={1} mb={1}>
-          <Grid item xs={8}>
+          <Grid item lg={4} md={6} sm={6} xs={12}>
             <Input value={ProductEntry.source} label="Supplier" disabled />
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item lg={2} md={6} sm={6} xs={12}>
             <Input value={ProductEntry.type} label="Type" disabled />
           </Grid>
-        </Grid>
 
-        <Grid container spacing={1} mb={1}>
-          <Grid item xs={4}>
+          <Grid item lg={2} md={4} sm={6} xs={12}>
             <Input
               value={
                 ProductEntry.date
@@ -1068,7 +1066,7 @@ export function ProductEntryDetail({openModifyModal}) {
             />
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item lg={2} md={4} sm={6} xs={12}>
             <Input
               value={ProductEntry.documentNo}
               label="Invoice Number"
@@ -1076,7 +1074,7 @@ export function ProductEntryDetail({openModifyModal}) {
             />
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item lg={2} md={4} sm={6} xs={12}>
             <Input
               value={ProductEntry.totalamount}
               label="Total Amount"
