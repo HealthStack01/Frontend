@@ -48,8 +48,8 @@ export default function ViewRecords(){
     showReferralModal={() => setCurrentView("referral")}
     showLabModal={() => setCurrentView("lab")}
     showAppointmentModal={() => setCurrentView("/appointment")}
-    // showHealthInsuranceModal={() => setCurrentView("insurance")}
-    showHealthInsuranceModal={handleInsuranceModal}
+    showHealthInsuranceModal={() => setCurrentView("insurance")}
+    // showHealthInsuranceModal={handleInsuranceModal}
         />
       )}
 
@@ -78,9 +78,9 @@ export default function ViewRecords(){
         <Lab handleGoBack={handleGoBack} />
       )}
 
-{/* {currentView === "insurance" && (
+{currentView === "insurance" && (
         <HealthInsurance handleGoBack={handleGoBack} />
-      )} */}
+      )}
 
 
 
@@ -117,9 +117,9 @@ export default function ViewRecords(){
         <ModalBox width="40vw" open={labReportModal} onClose={handleHideLabModal} header="Lab">
           <Lab/>
         </ModalBox>*/}
-        <ModalBox open={healthInsuranceModal} onClose={handleHideInsuranceModal} header="Health Insurance">
+        {/* <ModalBox open={healthInsuranceModal} onClose={handleHideInsuranceModal} header="Health Insurance">
           <HealthInsurance/>
-        </ModalBox> 
+        </ModalBox>  */}
   </Box>
  )
 }
