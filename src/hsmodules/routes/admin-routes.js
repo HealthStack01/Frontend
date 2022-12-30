@@ -12,11 +12,16 @@ const Bands = lazy(() => import("../Admin/Bands"));
 const Roaster = lazy(() => import("../Admin/Roaster"));
 const Workspace = lazy(() => import("../Admin/Workspace"));
 const Location = lazy(() => import("../Admin/Location"));
+const AdminOrganization = lazy(() => import("../Admin/Organization"));
 
 export const adminRoutes = [
   {
     path: "/app/admin/accessibility",
     Component: Accessibility,
+  },
+  {
+    path: "/app/admin/organization",
+    Component: AdminOrganization,
   },
   {
     path: "/app/admin/careteam",

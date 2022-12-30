@@ -324,7 +324,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
 
   const handleDelete = doc => {
     showActionLoader();
-    ClinicServ.remove(doc._id)
+    ClinicServ.remove(docToDelete._id)
       .then(res => {
         hideActionLoader();
         toast.success(`${docToDelete?.documentname} Deleted succesfully`);

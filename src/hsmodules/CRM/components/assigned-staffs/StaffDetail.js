@@ -9,7 +9,7 @@ import {ObjectContext} from "../../../../context";
 import client from "../../../../feathers";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 
-const ContactDetail = ({closeModal}) => {
+const StaffDetail = ({closeModal}) => {
   const dealServer = client.service("deal");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -24,58 +24,19 @@ const ContactDetail = ({closeModal}) => {
 
   useEffect(() => {
     reset({
-      ...state.ContactModule.selectedContact,
-      status: state.ContactModule.selectedContact.active
-        ? "Active"
-        : "Inactive",
+      ...state.StaffModule.selectedStaff,
+      status: state.StaffModule.selectedStaff.active ? "Active" : "Inactive",
     });
   }, []);
 
-  const updateContact = async data => {
+  const deactivateStaff = async () => {
     showActionLoader();
-    const contactId = state.ContactModule.selectedContact._id;
+    const staffId = state.StaffModule.selectedStaff._id;
 
-    const contacts = state.DealModule.selectedDeal.contacts;
+    const staffs = state.DealModule.selectedDeal.assignStaff;
 
-    const newContacts = contacts.map(item => {
-      if (item._id === contactId) {
-        return {...item, ...data};
-      } else {
-        return item;
-      }
-    });
-
-    const documentId = state.DealModule.selectedDeal._id;
-
-    await dealServer
-      .patch(documentId, {contacts: newContacts})
-      .then(res => {
-        hideActionLoader();
-        //setContacts(res.contacts);
-        setState(prev => ({
-          ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: res},
-        }));
-        closeModal();
-        //setReset(true);
-        toast.success(`You have successfully updated this Contact!`);
-        //setReset(true);
-      })
-      .catch(err => {
-        //setReset(false);
-        hideActionLoader();
-        toast.error(`Sorry, You weren't able to update the Contact!. ${err}`);
-      });
-  };
-
-  const deactivateContact = async () => {
-    showActionLoader();
-    const contactId = state.ContactModule.selectedContact._id;
-
-    const contacts = state.DealModule.selectedDeal.contacts;
-
-    const newContacts = contacts.map(item => {
-      if (item._id === contactId) {
+    const newStaffs = staffs.map(item => {
+      if (item._id === staffId) {
         return {...item, active: false};
       } else {
         return item;
@@ -85,10 +46,10 @@ const ContactDetail = ({closeModal}) => {
     const documentId = state.DealModule.selectedDeal._id;
 
     await dealServer
-      .patch(documentId, {contacts: newContacts})
+      .patch(documentId, {assignStaff: newStaffs})
       .then(res => {
         hideActionLoader();
-        //setContacts(res.contacts);
+        //setstaffs(res.staffs);
         setState(prev => ({
           ...prev,
           DealModule: {...prev.DealModule, selectedDeal: res},
@@ -96,26 +57,24 @@ const ContactDetail = ({closeModal}) => {
         closeModal();
         //setReset(true);
         closeConfirmDialog();
-        toast.success(`You have successfully Deactivate this Contact!`);
+        toast.success(`You have successfully Deactivate this Staff!`);
         //setReset(true);
       })
       .catch(err => {
         //setReset(false);
         hideActionLoader();
-        toast.error(
-          `Sorry, You weren't able to Deactivate the Contact!. ${err}`
-        );
+        toast.error(`Sorry, You weren't able to Deactivate the Staff!. ${err}`);
       });
   };
 
-  const reactivateContact = async () => {
+  const reactivateStaff = async () => {
     showActionLoader();
-    const contactId = state.ContactModule.selectedContact._id;
+    const staffId = state.StaffModule.selectedStaff._id;
 
-    const contacts = state.DealModule.selectedDeal.contacts;
+    const staffs = state.DealModule.selectedDeal.assignStaff;
 
-    const newContacts = contacts.map(item => {
-      if (item._id === contactId) {
+    const newStaffs = staffs.map(item => {
+      if (item._id === staffId) {
         return {...item, active: true};
       } else {
         return item;
@@ -125,10 +84,10 @@ const ContactDetail = ({closeModal}) => {
     const documentId = state.DealModule.selectedDeal._id;
 
     await dealServer
-      .patch(documentId, {contacts: newContacts})
+      .patch(documentId, {assignStaff: newStaffs})
       .then(res => {
         hideActionLoader();
-        //setContacts(res.contacts);
+        //setstaffs(res.staffs);
         setState(prev => ({
           ...prev,
           DealModule: {...prev.DealModule, selectedDeal: res},
@@ -136,37 +95,37 @@ const ContactDetail = ({closeModal}) => {
         closeModal();
         closeConfirmDialog();
         //setReset(true);
-        toast.success(`You have successfully Reactivated this Contact!`);
+        toast.success(`You have successfully Reactivated this Staff!`);
         //setReset(true);
       })
       .catch(err => {
         //setReset(false);
         hideActionLoader();
         toast.error(
-          `Sorry, You weren't able to Reactivated the Contact!. ${err}`
+          `Sorry, You weren't able to Reactivated the Staff!. ${err}`
         );
       });
   };
 
   const confirmDeactivation = () => {
-    const contact = state.ContactModule.selectedContact;
+    const Staff = state.StaffModule.selectedStaff;
 
     setConfirmDialog({
       open: true,
-      message: `You are about to Deactive Contact; ${contact.name}`,
+      message: `You are about to Deactive Staff; ${Staff.name}`,
       type: "warning",
-      action: deactivateContact,
+      action: deactivateStaff,
     });
   };
 
   const confirmReactivation = () => {
-    const contact = state.ContactModule.selectedContact;
+    const Staff = state.StaffModule.selectedStaff;
 
     setConfirmDialog({
       open: true,
-      message: `You are about to Reactive Contact; ${contact.name}`,
+      message: `You are about to Reactive Staff; ${Staff.name}`,
       type: "update",
-      action: reactivateContact,
+      action: reactivateStaff,
     });
   };
 
@@ -193,7 +152,7 @@ const ContactDetail = ({closeModal}) => {
         cancelAction={closeConfirmDialog}
         type={confirmDialog.type}
       />
-      {state.ContactModule.selectedContact.active ? (
+      {state.StaffModule.selectedStaff.active ? (
         <Box
           mb={2}
           gap={1}
@@ -202,31 +161,9 @@ const ContactDetail = ({closeModal}) => {
             justifyContent: "flex-end",
           }}
         >
-          {!edit ? (
-            <GlobalCustomButton onClick={() => setEdit(true)}>
-              Edit Contact
-            </GlobalCustomButton>
-          ) : (
-            <>
-              <GlobalCustomButton
-                color="success"
-                onClick={handleSubmit(updateContact)}
-              >
-                Update Contact
-              </GlobalCustomButton>
-
-              <GlobalCustomButton color="error" onClick={confirmDeactivation}>
-                Deactivate Contact
-              </GlobalCustomButton>
-
-              <GlobalCustomButton
-                color="warning"
-                onClick={() => setEdit(false)}
-              >
-                Cancel
-              </GlobalCustomButton>
-            </>
-          )}
+          <GlobalCustomButton color="error" onClick={confirmDeactivation}>
+            Deactivate Staff
+          </GlobalCustomButton>
         </Box>
       ) : (
         <Box
@@ -238,7 +175,7 @@ const ContactDetail = ({closeModal}) => {
           }}
         >
           <GlobalCustomButton color="success" onClick={confirmReactivation}>
-            Reactivate Contact
+            Reactivate Staff
           </GlobalCustomButton>
         </Box>
       )}
@@ -247,7 +184,7 @@ const ContactDetail = ({closeModal}) => {
         <Grid item xs={12}>
           <Input
             register={register("name", {required: true})}
-            label="Contact Name"
+            label="Staff Name"
             type="text"
             disabled={!edit}
             //placeholder="Enter customer name"
@@ -257,7 +194,7 @@ const ContactDetail = ({closeModal}) => {
         <Grid item xs={12}>
           <Input
             register={register("email", {required: true})}
-            label="Contact Email"
+            label="Staff Email"
             type="email"
             disabled={!edit}
             //placeholder="Enter customer number"
@@ -267,7 +204,7 @@ const ContactDetail = ({closeModal}) => {
         <Grid item xs={12}>
           <Input
             register={register("phoneno", {required: true})}
-            label="Contact Phone No"
+            label="Staff Phone No"
             type="tel"
             disabled={!edit}
             // placeholder="Enter customer name"
@@ -277,27 +214,25 @@ const ContactDetail = ({closeModal}) => {
         <Grid item xs={12}>
           <Input
             register={register("position", {required: true})}
-            label="Contact Position"
+            label="Staff Position"
+            type="text"
+            disabled={true}
+            //placeholder="Enter customer number"
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <Input
+            register={register("status")}
+            label="Staff Status"
             type="text"
             disabled={!edit}
             //placeholder="Enter customer number"
           />
         </Grid>
-
-        {!edit && (
-          <Grid item xs={12}>
-            <Input
-              register={register("status")}
-              label="Contact Status"
-              type="text"
-              disabled={!edit}
-              //placeholder="Enter customer number"
-            />
-          </Grid>
-        )}
       </Grid>
     </Box>
   );
 };
 
-export default ContactDetail;
+export default StaffDetail;

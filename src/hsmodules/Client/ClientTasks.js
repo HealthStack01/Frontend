@@ -65,15 +65,15 @@ export default function ClientTasks() {
           showCreateModal={handleCreateModal}
           showDetailModal={handleShowDetailModal}
         />
-        <ModalBox open={createModal} onClose={handleHideCreateModal}>
+        <ModalBox open={createModal} onClose={handleHideCreateModal} header="Create Tasks">
           <ClientTasksCreate />
         </ModalBox>
 
-        <ModalBox open={detailModal} onClose={handleHideDetailModal}>
+        <ModalBox open={detailModal} onClose={handleHideDetailModal} header="Tasks Details">
           <ClientTasksDetail showModifyModal={handleModifyModal} />
         </ModalBox>
 
-        <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
+        <ModalBox open={modifyModal} onClose={handleHideModifyModal} header="Tasks Modify">
           <ClientTasksModify />
         </ModalBox>
       </div>
@@ -103,9 +103,6 @@ export function ClientTasksCreate(){
         maxHeight: "80vh",
       }}
     >
-       <div className="card-header">
-          <p className="card-header-title">Create Tasks</p>
-        </div>
       <Grid container spacing={2} pt={1}>
         <Grid item xs={12}>
           <EmployeeSearch />
@@ -116,11 +113,9 @@ export function ClientTasksCreate(){
         </Grid>
 
         <Grid item xs={8}>
-          <CustomSelect
-            register={register("type", {required: true})}
-            label="Type"
-            options={["Open", "Closed", "Pending"]}
-            // placeholder="Enter customer name"
+          <Input
+            register={register("status", {required: true})}
+            label="Status"
           />
         </Grid>
 
@@ -128,8 +123,7 @@ export function ClientTasksCreate(){
           <CustomSelect
             register={register("priority", {required: true})}
             label="Priority"
-            options={["Open", "Closed", "Pending"]}
-            // placeholder="Enter customer name"
+            options={["High","Medium","Low","Urgent","Not Urgent"]}
           />
         </Grid>
 
@@ -686,9 +680,6 @@ export function ClientTasksModify() {
   return (
     <>
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Band Details-Modify</p>
-        </div>
         <div className="card-content vscrollable">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="field">

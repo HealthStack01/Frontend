@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, useContext} from "react";
 import {Button, Grid} from "@mui/material";
 import {Box} from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
@@ -11,32 +11,96 @@ import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import moment from "moment";
+import {ObjectContext, UserContext} from "../../../../context";
+import client from "../../../../feathers";
 
-const PlanDetail = ({plan, updatePlan, closeModal}) => {
+const PlanDetail = ({updatePlan, closeModal}) => {
+  const dealServer = client.service("deal");
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+  const {user} = useContext(UserContext);
   const {register, handleSubmit, control, getValues, reset} = useForm();
   const [edit, setEdit] = useState(false);
 
-  // const defaultValues = {
-  //   plan_type: "",
-  //   premium: "",
-  //   no_of_heads: "",
-  //   duration_calendrical: "",
-  //   duration_length: "",
-  //   amount: "",
-  // };
+  const handleUpdatePlan = async data => {
+    showActionLoader();
+    const employee = user.currentEmployee;
+    const invoiceDetail = state.InvoiceModule.selectedInvoice;
+    const prevPlans = invoiceDetail.plans;
+    const currentDeal = state.DealModule.selectedDeal;
+    const selectedPlan = state.InvoiceModule.selectedPlan;
 
-  const handleUpdatePlan = data => {
-    const updated_plan = {
-      ...plan,
-      ...data,
+    const newPlans = prevPlans.map(item => {
+      if (item._id === selectedPlan._id) {
+        return {
+          ...item,
+          ...data,
+          updatedAt: new Date(),
+          updatedBy: employee.userId,
+          updatedByName: `${employee.firstname} ${employee.lastname}`,
+        };
+      } else {
+        return item;
+      }
+    });
+
+    const totalPlansSum = newPlans.reduce((accumulator, object) => {
+      return Number(accumulator) + Number(object.amount);
+    }, 0);
+
+    const newInvoiceDetail = {
+      ...invoiceDetail,
+      total_amount: totalPlansSum,
+      plans: newPlans,
     };
-    updatePlan(updated_plan);
-    closeModal();
 
-    toast.success("Plan Updated successfully");
+    const prevInvoices = currentDeal.invoices;
+
+    //console.log(prevInvoices);
+
+    const newInvoices = prevInvoices.map(item => {
+      if (item._id === newInvoiceDetail._id) {
+        return newInvoiceDetail;
+      } else {
+        return item;
+      }
+    });
+
+    //return console.log(newInvoices);
+
+    const documentId = currentDeal._id;
+
+    await dealServer
+      .patch(documentId, {invoices: newInvoices})
+      .then(res => {
+        hideActionLoader();
+        //setContacts(res.contacts);
+        setState(prev => ({
+          ...prev,
+          DealModule: {...prev.DealModule, selectedDeal: res},
+        }));
+
+        setState(prev => ({
+          ...prev,
+          InvoiceModule: {
+            ...prev.InvoiceModule,
+            selectedInvoice: newInvoiceDetail,
+          },
+        }));
+        closeModal();
+        toast.success(`You have successfully Updated Plan`);
+
+        //setReset(true);
+      })
+      .catch(err => {
+        //setReset(false);
+        hideActionLoader();
+        toast.error(`Sorry, Failed to Update the Plan. ${err}`);
+      });
   };
 
   useEffect(() => {
+    const plan = state.InvoiceModule.selectedPlan;
     reset(plan);
   }, []);
 
@@ -80,7 +144,7 @@ const PlanDetail = ({plan, updatePlan, closeModal}) => {
               options={["Family", "HMO", "Free", "Personal"]}
               disabled={!edit}
               control={control}
-              name="plan_type"
+              name="type"
             />
           </Grid>
 
@@ -95,7 +159,7 @@ const PlanDetail = ({plan, updatePlan, closeModal}) => {
 
           <Grid item lg={6} md={6} sm={6}>
             <Input
-              register={register("no_of_heads", {required: true})}
+              register={register("heads", {required: true})}
               label="No of Heads"
               type="number"
               disabled={!edit}
@@ -109,13 +173,13 @@ const PlanDetail = ({plan, updatePlan, closeModal}) => {
               options={["Week(s)", "Month(s)", "Year(s)"]}
               disabled={!edit}
               control={control}
-              name="duration_calendrical"
+              name="calendrical"
             />
           </Grid>
 
           <Grid item lg={6} md={6} sm={6}>
             <Input
-              register={register("duration_length", {required: true})}
+              register={register("length", {required: true})}
               label="Duration Legnth"
               type="number"
               disabled={!edit}

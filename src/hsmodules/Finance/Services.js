@@ -1458,7 +1458,7 @@ export function ServicesModify({closeModal}) {
         //console.log(JSON.stringify(res));
         // e.target.reset();
         // setMessage("updated Services successfully")
-        toast.error("Services updated succesfully");
+        toast.success("Services updated succesfully");
 
         changeState(res);
       })

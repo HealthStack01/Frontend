@@ -18,9 +18,29 @@ import ActionLoader from "./components/action-loader/Action-Loader";
 
 function App() {
   const [state, setState] = useState({
+    BankAccountModule: {
+      selectedBankAccount: {},
+    },
+    InvoiceModule: {
+      selectedInvoice: {},
+      selectedPlan: {},
+      selectedBankAccount: {},
+    },
+    CRMAppointmentModule: {
+      selectedAppointment: {},
+    },
     DealModule: {
-      show: "list",
       selectedDeal: {},
+    },
+    TaskModule: {
+      selectedTask: {},
+    },
+
+    ContactModule: {
+      selectedContact: {},
+    },
+    StaffModule: {
+      selectedStaff: {},
     },
     actionLoader: {
       open: false,
@@ -34,6 +54,7 @@ function App() {
     facilityModule: {
       show: "list",
       selectedFacility: {},
+      currentFacility: {},
     },
 
     EmployeeModule: {

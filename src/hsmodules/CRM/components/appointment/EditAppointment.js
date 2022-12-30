@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {Box, Button, Chip, Grid} from "@mui/material";
 import Input from "../../../../components/inputs/basic/Input";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
@@ -17,8 +17,9 @@ import Checkbox from "@mui/material/Checkbox";
 import {ObjectContext, UserContext} from "../../../../context";
 import client from "../../../../feathers";
 import {toast} from "react-toastify";
+import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import CustomSelect from "../../../../components/inputs/basic/Select";
-import {v4 as uuidv4} from "uuid";
+import ModalBox from "../../../../components/modal";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -31,43 +32,47 @@ const MenuProps = {
   },
 };
 
-const ScheduleAppointment = ({closeModal}) => {
+const EditScheduledAppointment = ({closeModal}) => {
   const dealServer = client.service("deal");
-  const {control, register, handleSubmit} = useForm({
-    defaultValues: {
-      status: "scheduled",
-    },
-  });
+  const {control, register, handleSubmit, reset} = useForm();
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
-  const [personName, setPersonName] = useState([]);
   const [contactIds, setContactIds] = useState([]);
+  const [rescheduleModal, setResheduleModal] = useState(false);
 
   const contacts = state.DealModule.selectedDeal.contacts || [];
+
+  useEffect(() => {
+    const resetData = state.CRMAppointmentModule.selectedAppointment;
+    const defaultContactIds = resetData.contacts.map(item => item._id);
+
+    reset(resetData);
+    setContactIds(defaultContactIds);
+  }, []);
 
   const handleContactChange = event => {
     const {value} = event.target;
     setContactIds(value);
   };
 
-  const createAppointment = async data => {
+  const updateAppointment = async data => {
+    // return toast.error(
+    //   "You can't currently update an appointment, work in progress"
+    // );
     showActionLoader();
 
     const currentDeal = state.DealModule.selectedDeal;
     const employee = user.currentEmployee;
+    //const currentAppointment = state.CRMAppointmentModule.selectedAppointment
 
     let document = {
+      ...state.CRMAppointmentModule.selectedAppointment,
       ...data,
-      customerName: currentDeal.name,
-      customerEmail: currentDeal.email,
-      customerPhone: currentDeal.phone,
-      dealId: currentDeal._id,
-      createdBy: employee.userId,
-      createdByName: `${employee.firstname} ${employee.lastname}`,
-      createdAt: new Date(),
-      _id: uuidv4(),
-      //status: "scheduled",
+      updatedBy: employee.userId,
+      updatedByName: `${employee.firstname} ${employee.lastname}`,
+      updatedAt: new Date(),
+      //status: "Pending",
     };
 
     const selectedContacts = contactIds.map(id => {
@@ -77,13 +82,15 @@ const ScheduleAppointment = ({closeModal}) => {
 
     document.contacts = selectedContacts;
 
-    //console.log(document);
-
     const prevAppointments = currentDeal.appointments || [];
 
-    const newAppointments = [document, ...prevAppointments];
-
-    // return console.log(newAppointments);
+    const newAppointments = prevAppointments.map(item => {
+      if (item._id === document._id) {
+        return document;
+      } else {
+        return item;
+      }
+    });
 
     const documentId = currentDeal._id;
     await dealServer
@@ -94,6 +101,14 @@ const ScheduleAppointment = ({closeModal}) => {
         setState(prev => ({
           ...prev,
           DealModule: {...prev.DealModule, selectedDeal: res},
+        }));
+
+        setState(prev => ({
+          ...prev,
+          CRMAppointmentModule: {
+            ...prev.CRMAppointmentModule,
+            selectedAppointment: document,
+          },
         }));
         closeModal();
         toast.success(
@@ -112,7 +127,14 @@ const ScheduleAppointment = ({closeModal}) => {
   //console.log(contacts);
 
   return (
-    <Box sx={{width: "600px", maxHeight: "80vh"}}>
+    <Box sx={{width: "550px", maxHeight: "80vh"}}>
+      {/* <ModalBox
+        open={rescheduleModal}
+        onClose={() => setResheduleModal(false)}
+        header={`Reschedule Appointment with ${state.DealModule.selectedDeal.name}`}
+      >
+        <MuiCustomDatePicker />
+      </ModalBox> */}
       <Grid container spacing={2} pt={1}>
         <Grid item xs={12}>
           <Input
@@ -208,30 +230,23 @@ const ScheduleAppointment = ({closeModal}) => {
       </Grid>
 
       <Box sx={{display: "flex", alignItems: "center"}} mt={2}>
-        <Button
-          variant="outlined"
-          color="warning"
+        <GlobalCustomButton
+          color="error"
           size="small"
           sx={{
-            textTransform: "capitalize",
             marginRight: "15px",
           }}
           onClick={closeModal}
         >
           Cancel
-        </Button>
+        </GlobalCustomButton>
 
-        <Button
-          size="small"
-          variant="contained"
-          sx={{textTransform: "capitalize"}}
-          onClick={handleSubmit(createAppointment)}
-        >
-          Submit
-        </Button>
+        <GlobalCustomButton onClick={handleSubmit(updateAppointment)}>
+          Update Appointment
+        </GlobalCustomButton>
       </Box>
     </Box>
   );
 };
 
-export default ScheduleAppointment;
+export default EditScheduledAppointment;
