@@ -1,9 +1,10 @@
-import {useState} from "react";
+import {useState, useEffect, useContext} from "react";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import {Box} from "@mui/material";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import FilterMenu from "../../../../components/utilities/FilterMenu";
 import CustomTable from "../../../../components/customtable";
+import {ObjectContext} from "../../../../context";
 
 const dummyData = [
   {
@@ -38,7 +39,14 @@ const dummyData = [
 ];
 
 const ProposalList = ({showCreate, showDetail}) => {
+  const {state, setState} = useContext(ObjectContext);
   const [loading, setLoading] = useState(false);
+  const [proposals, setProposals] = useState([]);
+
+  useEffect(() => {
+    const currentDeal = state.DealModule.selectedDeal;
+    setProposals(currentDeal.proposal || []);
+  }, [state.DealModule]);
 
   const returnCell = status => {
     switch (status.toLowerCase()) {
@@ -106,7 +114,7 @@ const ProposalList = ({showCreate, showDetail}) => {
       key: "status",
       description: "Enter bills",
       selector: "status",
-      cell: row => returnCell(row.status),
+      cell: row => row.status,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -153,7 +161,7 @@ const ProposalList = ({showCreate, showDetail}) => {
         <CustomTable
           title={""}
           columns={ProposalSchema}
-          data={dummyData}
+          data={proposals}
           pointerOnHover
           highlightOnHover
           striped

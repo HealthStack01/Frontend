@@ -27,97 +27,7 @@ import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 
 import BankAccount from "./BankAccount";
 import axios from "axios";
-
-const bankData = [
-  {
-    bank_name: "Access Bank",
-    account_name: "St.Nicholas Hospital",
-    account_number: "1234567890",
-    branch: "Lagos Island",
-    sort_code: "123456",
-  },
-  {
-    bank_name: "First Bank",
-    account_name: "St.Nicholas Hospital",
-    account_number: "1234567890",
-    branch: "Banana Island",
-    sort_code: "123456",
-  },
-];
-const bankColumns = [
-  {
-    name: "S/N",
-    key: "sn",
-    description: "SN",
-    selector: row => row.sn,
-    sortable: true,
-    inputType: "HIDDEN",
-    width: "60px",
-  },
-  {
-    name: "Bank Name",
-    key: "bank_name",
-    description: "Bank Name",
-    selector: row => row.bank_name,
-    sortable: true,
-    inputType: "TEXT",
-  },
-  {
-    name: "Account Name",
-    key: "account_name",
-    description: "Account Name",
-    selector: row => row.account_name,
-    sortable: true,
-    inputType: "TEXT",
-  },
-  {
-    name: "Account Number",
-    key: "account_number",
-    description: "Account Number",
-    selector: row => row.account_number,
-    sortable: true,
-    inputType: "TEXT",
-  },
-  {
-    name: "Branch",
-    key: "branch",
-    description: "Branch",
-    selector: row => row.branch,
-    sortable: true,
-    inputType: "TEXT",
-  },
-  {
-    name: "Sort Code",
-    key: "sort_code",
-    description: "Sort Code",
-    selector: row => row.sort_code,
-    sortable: true,
-    inputType: "TEXT",
-  },
-  {
-    name: "Comments",
-    key: "sort_code",
-    description: "Sort Code",
-    selector: row => (row.comment ? row.comment : "----------"),
-    sortable: true,
-    inputType: "TEXT",
-  },
-  {
-    name: "Del",
-    width: "50px",
-    center: true,
-    key: "contact_email",
-    description: "Enter Date",
-    selector: row => (
-      <IconButton onClick={() => action(row)} color="error">
-        <DeleteOutline fontSize="small" />
-      </IconButton>
-    ),
-    sortable: true,
-    required: true,
-    inputType: "NUMBER",
-  },
-];
+import {getBase64} from "../helpers/getBase64";
 
 const AdminOrganization = () => {
   const facilityServer = client.service("facility");
@@ -128,7 +38,6 @@ const AdminOrganization = () => {
   const [facility, setFacility] = useState({});
   const [edit, setEdit] = useState(false);
   const [logoAnchorEl, setLogoAnchorEl] = useState(null);
-  const [bankAccounts, setBankAccounts] = useState([]);
   const [modulesModal, setModulesModal] = useState(false);
   const [logoUploadModal, setLogoUploadModal] = useState(false);
 
@@ -145,23 +54,33 @@ const AdminOrganization = () => {
   //const {user}
 
   const getCurrentFacility = useCallback(async () => {
+    showActionLoader();
     //console.log(user);
     const id = user.currentEmployee.facilityDetail._id;
-    //console.log(id);
-
     await facilityServer
       .get(id)
       .then(resp => {
-        console.log(resp);
+        //console.log(resp);
+        hideActionLoader();
         setFacility(resp);
         reset(resp);
         //console.log(resp);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        hideActionLoader();
+        console.log(err);
+      });
   }, []);
 
   useEffect(() => {
     getCurrentFacility();
+
+    facilityServer.on("created", obj => getCurrentFacility());
+    facilityServer.on("updated", obj => getCurrentFacility());
+    facilityServer.on("patched", obj => getCurrentFacility());
+    facilityServer.on("removed", obj => getCurrentFacility());
+
+    return () => {};
   }, [getCurrentFacility]);
 
   const navigateToEmployees = () => {
@@ -230,7 +149,9 @@ const AdminOrganization = () => {
       >
         <Box>
           <IconButton onClick={handleOpemLogoOptions}>
-            <Avatar sx={{width: 68, height: 68}}>LOGO</Avatar>
+            <Avatar sx={{width: 68, height: 68}} src={facility?.facilitylogo}>
+              LOGO
+            </Avatar>
           </IconButton>
           <Menu
             anchorEl={logoAnchorEl}
@@ -239,7 +160,7 @@ const AdminOrganization = () => {
             onClose={handleCloseLogoOptions}
             anchorOrigin={{horizontal: "right", vertical: "center"}}
           >
-            <MenuItem>View Logo</MenuItem>
+            {/* <MenuItem>View Logo</MenuItem> */}
             <MenuItem>Remove Logo</MenuItem>
             <MenuItem
               onClick={() => {
@@ -247,7 +168,7 @@ const AdminOrganization = () => {
                 handleCloseLogoOptions();
               }}
             >
-              Upload Logo
+              Change Logo
             </MenuItem>
           </Menu>
         </Box>
@@ -543,34 +464,104 @@ export const OrganaizationLogoUpload = ({closeModal}) => {
   const facilityServer = client.service("facility");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
+  const {user, setUser} = useContext(UserContext);
 
   const [file, setFile] = useState("");
 
   const handleChange = file => {
-    console.log(file);
-    setFile(file);
+    //console.log(file);
+    //setFile(file);
+
+    getBase64(file)
+      .then(res => {
+        //console.log(res);
+        setFile(res);
+        //navigator.clipboard.writeText(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
-  const handleUploadLogo = () => {
+  const handleUploadLogo = async () => {
+    showActionLoader();
+    const token = localStorage.getItem("feathers-jwt");
     axios
-      .post("https://healthstack-backend.herokuapp.com/upload", file)
-      .then(res => {
-        console.log(res);
+      .post(
+        "https://healthstack-backend.herokuapp.com/upload",
+        {uri: file},
+        {headers: {Authorization: `Bearer ${token}`}}
+      )
+      .then(async res => {
+        //return console.log(res);
+        const logoUrl = res.data.url;
+        const employee = user.currentEmployee;
+        const prevOrgDetail = user.currentEmployee.facilityDetail;
+        //console.log(prevOrgDetail);
+
+        const newOrgDetail = {
+          ...prevOrgDetail,
+          facilitylogo: logoUrl,
+          updatedAt: dayjs(),
+          updatedBy: employee.userId,
+          updatedByName: `${employee.firstname} ${employee.lastname}`,
+        };
+
+        //return console.log(newOrgDetail);
+        const documentId = prevOrgDetail._id;
+
+        await facilityServer
+          .patch(documentId, {...newOrgDetail})
+          .then(resp => {
+            hideActionLoader();
+            setUser(prev => ({
+              ...prev,
+              currentEmployee: {
+                ...prev.currentEmployee,
+                facilityDetail: newOrgDetail,
+              },
+            }));
+            closeModal();
+            toast.success("You've succesfully updated your Organization Logo");
+          })
+          .catch(error => {
+            hideActionLoader();
+            toast.error(
+              `An error occured whilst updating your Organization Logo ${error}`
+            );
+            console.error(error);
+          });
       })
       .catch(error => {
+        hideActionLoader();
+        toast.error(
+          `An error occured whilst updating your Organization Logo ${error}`
+        );
         console.log(error);
       });
   };
 
   return (
-    <Box sx={{width: "400px", maxHeight: "600px"}}>
-      <FileUploader
-        multiple={false}
-        handleChange={handleChange}
-        name="upload"
-        types={["jpeg", "png", "jpg"]}
-        children={<UploadComponent />}
-      />
+    <Box sx={{width: "400px", maxHeight: "80vw"}}>
+      {file ? (
+        <Box
+          sx={{display: "flex", alignItems: "center", justifyContent: "center"}}
+        >
+          <img
+            src={file}
+            alt="logo"
+            style={{width: "200px", height: "auto", display: "block"}}
+          />
+        </Box>
+      ) : (
+        <FileUploader
+          multiple={false}
+          handleChange={handleChange}
+          name="upload"
+          types={["jpeg", "png", "jpg"]}
+          children={<UploadComponent />}
+        />
+      )}
 
       <Box sx={{display: "flex"}} gap={2} mt={2}>
         <GlobalCustomButton color="error" onClick={closeModal}>

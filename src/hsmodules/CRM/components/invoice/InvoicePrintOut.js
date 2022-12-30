@@ -1,8 +1,9 @@
-import {Divider, Typography} from "@mui/material";
+import {Avatar, Divider, Typography} from "@mui/material";
 import {Box, fontWeight} from "@mui/system";
 import dayjs from "dayjs";
 import {useContext, useState, useEffect} from "react";
 import CustomTable from "../../../../components/customtable";
+import ModalBox from "../../../../components/modal";
 import {ObjectContext, UserContext} from "../../../../context";
 
 const customStyles = {
@@ -49,40 +50,6 @@ const customStyles = {
   },
 };
 
-const data = [
-  {
-    details: "Gold Ultra Plus",
-    months: "6",
-    num_of_plans: "40",
-    price: "58,333.00",
-    amount: "1,283,326.00",
-  },
-
-  {
-    details: "Gold Ultra Plus",
-    months: "5",
-    num_of_plans: "30",
-    price: "58,333.00",
-    amount: "1,283,326.00",
-  },
-
-  {
-    details: "Gold Ultra Plus",
-    months: "4",
-    num_of_plans: "24",
-    price: "58,333.00",
-    amount: "1,283,326.00",
-  },
-
-  {
-    details: "Gold Ultra Plus",
-    months: "12",
-    num_of_plans: "11",
-    price: "58,333.00",
-    amount: "1,283,326.00",
-  },
-];
-
 const columns = [
   {
     name: "Type",
@@ -93,7 +60,7 @@ const columns = [
         sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
         data-tag="allowRowEvents"
       >
-        {row.type}
+        {row.type === "hmo" ? "HMO" : row.type}
       </Typography>
     ),
     sortable: true,
@@ -135,7 +102,7 @@ const columns = [
         sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
         data-tag="allowRowEvents"
       >
-        {row.length} ${row.calendrical}
+        {row.length} {row.calendrical}
       </Typography>
     ),
     //selector: row => `${row.length} ${row.calendrical}`,
@@ -203,14 +170,16 @@ const columns = [
   },
 ];
 
-const InvoicePrintOut = () => {
+const InvoicePrintOut = ({closeModal}) => {
   const {state} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [selectAccountModal, setSelectAccountModal] = useState(true);
 
   const organization = user.currentEmployee.facilityDetail;
   const invoice = state.InvoiceModule.selectedInvoice;
   const customer = state.DealModule.selectedDeal;
+  const account = state.InvoiceModule.selectedBankAccount;
 
   useEffect(() => {
     //console.log(plans[0]);
@@ -229,6 +198,14 @@ const InvoicePrintOut = () => {
         padding: "20px 10px",
       }}
     >
+      <ModalBox
+        open={selectAccountModal}
+        header="Select Bank Account To Receive Payment"
+      >
+        <OrganizationAccountList
+          closeModal={() => setSelectAccountModal(false)}
+        />
+      </ModalBox>
       <Box
         sx={{
           display: "flex",
@@ -237,22 +214,30 @@ const InvoicePrintOut = () => {
       >
         <Box>
           <Box sx={{display: "flex", alignItems: "center"}}>
-            <Box
-              sx={{
-                width: "40px",
-                height: "40px",
-                borderRadius: "50%",
-                backgroundColor: "#C6C6C6",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginRight: "5px",
-              }}
-            >
-              <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
-                Logo
-              </Typography>
-            </Box>
+            {organization.facilitylogo ? (
+              <Avatar
+                sx={{width: 40, height: 40, marginRight: "5px"}}
+                src={organization.facilitylogo}
+                alt="logo"
+              />
+            ) : (
+              <Box
+                sx={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  backgroundColor: "#C6C6C6",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginRight: "5px",
+                }}
+              >
+                <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+                  Logo
+                </Typography>
+              </Box>
+            )}
 
             <Box
               sx={{
@@ -567,7 +552,9 @@ const InvoicePrintOut = () => {
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: "#0364FF",
+            cursor: "pointer",
           }}
+          onClick={() => setSelectAccountModal(true)}
         >
           <Typography
             sx={{
@@ -619,7 +606,7 @@ const InvoicePrintOut = () => {
                 fontWeight: "600",
               }}
             >
-              Sterling Bank
+              {account?.bankname}
             </Typography>
           </Box>
 
@@ -642,7 +629,7 @@ const InvoicePrintOut = () => {
                 fontWeight: "600",
               }}
             >
-              HCI Healthcare Limited
+              {account?.accountname}
             </Typography>
           </Box>
 
@@ -665,7 +652,7 @@ const InvoicePrintOut = () => {
                 fontWeight: "600",
               }}
             >
-              0009930871
+              {account?.accountnumber}
             </Typography>
           </Box>
 
@@ -688,7 +675,7 @@ const InvoicePrintOut = () => {
                 fontWeight: "600",
               }}
             >
-              232150443
+              {account?.sortcode}
             </Typography>
           </Box>
         </Box>
@@ -698,3 +685,123 @@ const InvoicePrintOut = () => {
 };
 
 export default InvoicePrintOut;
+
+const OrganizationAccountList = ({closeModal}) => {
+  const {state, setState} = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+
+  const bankColumns = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: row => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "60px",
+    },
+    {
+      name: "Bank Name",
+      key: "bank_name",
+      description: "Bank Name",
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.8rem", whiteSpace: "normal", color: "#1976d2"}}
+          data-tag="allowRowEvents"
+        >
+          {row.bankname}
+        </Typography>
+      ),
+      sortable: true,
+      inputType: "TEXT",
+      width: "200px",
+    },
+    {
+      name: "Account Name",
+      key: "account_name",
+      description: "Account Name",
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.8rem", whiteSpace: "normal", color: "#1976d2"}}
+          data-tag="allowRowEvents"
+        >
+          {row.accountname}
+        </Typography>
+      ),
+      sortable: true,
+      inputType: "TEXT",
+      width: "200px",
+    },
+    {
+      name: "Account Number",
+      key: "account_number",
+      description: "Account Number",
+      selector: row => row.accountnumber,
+      sortable: true,
+      inputType: "TEXT",
+      width: "150px",
+    },
+    {
+      name: "Branch",
+      key: "branch",
+      description: "Branch",
+      selector: row => row.branch,
+      sortable: true,
+      inputType: "TEXT",
+      width: "150px",
+    },
+    {
+      name: "Sort Code",
+      key: "sort_code",
+      description: "Sort Code",
+      selector: row => row.sortcode,
+      sortable: true,
+      inputType: "TEXT",
+      width: "120px",
+    },
+    {
+      name: "Comments",
+      key: "sort_code",
+      description: "Sort Code",
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.comment ? row.comment : "----------"}
+        </Typography>
+      ),
+      sortable: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  const handleRow = account => {
+    setState(prev => ({
+      ...prev,
+      InvoiceModule: {...prev.InvoiceModule, selectedBankAccount: account},
+    }));
+    closeModal();
+  };
+
+  return (
+    <Box sx={{width: "85vw"}}>
+      <Box>
+        <CustomTable
+          title={""}
+          columns={bankColumns}
+          data={user?.currentEmployee?.facilityDetail?.facilityBankAcct || []}
+          pointerOnHover
+          highlightOnHover
+          striped
+          onRowClicked={handleRow}
+          CustomEmptyData={
+            <Typography sx={{fontSize: "0.8rem"}}>
+              You haven't added a bank account to your Organization yet...
+            </Typography>
+          }
+        />
+      </Box>
+    </Box>
+  );
+};

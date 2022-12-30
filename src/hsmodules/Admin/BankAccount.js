@@ -25,27 +25,6 @@ import dayjs from "dayjs";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 import {v4 as uuidv4} from "uuid";
 
-// const bankData = [
-//   {
-//     bankname: "Access Bank",
-//     accountname: "St.Nicholas Hospital",
-//     accountnumber: "1234567890",
-//     branch: "Lagos Island",
-//     sortcode: "123456",
-//     comment:
-//       "Lorem ipsum dolor sit amet. Qui blanditiis repellat aut mollitia galisum et rerum atque aut accusamus repudiandae ex ullam culpa aut fuga consectetur et debitis molestias.",
-//   },
-//   {
-//     bankname: "First Bank",
-//     accountname: "St.Nicholas Hospital",
-//     accountnumber: "1234567890",
-//     branch: "Banana Island",
-//     sortcode: "123456",
-//     comment:
-//       "Sed explicabo harum et laboriosam possimus eos vitae temporibus. Ut nobis enim in eligendi consectetur ut unde sunt.",
-//   },
-// ];
-
 const BankAccount = () => {
   const facilityServer = client.service("facility");
   const {state, setState, showActionLoader, hideActionLoader} =

@@ -1,3 +1,4 @@
+import {Avatar} from "@mui/material";
 import React, {useEffect, useState, useContext} from "react";
 import {useNavigate} from "react-router-dom";
 import {ObjectContext, UserContext} from "../../context";
@@ -449,7 +450,10 @@ function SideMenu({isOpen}) {
   return (
     <Sidemenu className={`side-menu ${isOpen ? "" : "hide"}`}>
       <TopSection>
-        <h4>Our Hospital</h4>
+        <h4>{user.currentEmployee.facilityDetail.facilityName}</h4>
+        <Avatar src={user.currentEmployee.facilityDetail?.facilitylogo}>
+          L
+        </Avatar>
       </TopSection>
       <MainMenu className="main-menu">
         <Lists>

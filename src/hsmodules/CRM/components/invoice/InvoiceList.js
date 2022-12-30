@@ -64,9 +64,9 @@ const InvoiceList = ({openCreateModal, showCreateView, showDetailView}) => {
   ];
 
   useEffect(() => {
-    const currentDeal = state.DealModule.selectedDeal || [];
-    setInvoices(currentDeal.invoices);
-    console.log(currentDeal);
+    const currentDeal = state.DealModule.selectedDeal;
+    setInvoices(currentDeal.invoices || []);
+    //console.log(currentDeal);
   }, [state.DealModule]);
 
   const handleSearch = () => {};

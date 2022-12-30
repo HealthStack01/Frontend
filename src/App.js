@@ -24,6 +24,7 @@ function App() {
     InvoiceModule: {
       selectedInvoice: {},
       selectedPlan: {},
+      selectedBankAccount: {},
     },
     CRMAppointmentModule: {
       selectedAppointment: {},
