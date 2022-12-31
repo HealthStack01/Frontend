@@ -7,6 +7,7 @@ import Chat from '../Patientportal/Chat';
 import Search from '../Patientportal/Search';
 // import ProductDetails from '../Patientportal/components/Marketplace/productDetails';
 import SearchDetails from '../Patientportal/components/search/SearchDetails';
+import HMOCompanyDetails from '../Patientportal/components/HealthPlans/HMOCompanyDetails'
 
 export const patientProfileRoutes = [
   {
@@ -16,6 +17,10 @@ export const patientProfileRoutes = [
   {
     path: '/app/patient-portal/view',
     Component: ViewRecords,
+  },
+  {
+    path: '/app/patient-portal/view/hmo/:id',
+    Component: HMOCompanyDetails,
   },
   {
     path: '/app/patient-portal/buy',

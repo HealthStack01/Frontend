@@ -539,7 +539,11 @@ export const OrganaizationLogoUpload = ({closeModal}) => {
     <Box sx={{width: "400px", maxHeight: "80vw"}}>
       {file ? (
         <Box
-          sx={{display: "flex", alignItems: "center", justifyContent: "center"}}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
           <img
             src={file}
