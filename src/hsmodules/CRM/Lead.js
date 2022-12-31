@@ -115,8 +115,19 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
   const handleSearch = val => {};
 
   const getFacilities = async () => {
+    const testId = "60203e1c1ec8a00015baa357";
+    const facId = user.currentEmployee.facilityDetail_id;
+
     showActionLoader();
-    const res = await dealServer.find({});
+
+    const res =
+      testId === facId
+        ? await dealServer.find({})
+        : await dealServer.find({
+            query: {
+              facilityId: facId,
+            },
+          });
 
     await setFacilities(res.data);
     console.log(res.data);

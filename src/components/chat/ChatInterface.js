@@ -1,4 +1,4 @@
-import {useState, useRef, useEffect, useCallback} from "react";
+import {useState, useRef, useEffect, useCallback, useContext} from "react";
 import {Avatar, Box, Button, IconButton, Typography} from "@mui/material";
 import Slide from "@mui/material/Slide";
 import SendIcon from "@mui/icons-material/Send";
@@ -15,11 +15,18 @@ import {messages} from "./data";
 import FilterMenu from "../utilities/FilterMenu";
 import ExpandableSearchInput from "../inputs/Search/ExpandableSearch";
 import {toast} from "react-toastify";
+import {UserContext} from "../../context";
 
-const ChatInterface = ({closeChat}) => {
-  const [chatMessages, setChatMessages] = useState([...messages]);
-  const [message, setMessage] = useState("");
-  const [sending, setSending] = useState(false);
+const ChatInterface = ({
+  closeChat,
+  messages = [],
+  sendMessage,
+  message,
+  setMessage,
+  isSendingMessage = false,
+}) => {
+  const [chatMessages, setChatMessages] = useState([]);
+  const {user} = useContext(UserContext);
   const [goDownIcon, setGoDownIcon] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
@@ -29,34 +36,6 @@ const ChatInterface = ({closeChat}) => {
   const handleChange = e => {
     setMessage(e.target.value);
   };
-
-  const sendNewChatMessage = () => {
-    if (message === "") return toast.error("Please include your message");
-
-    setSending(true);
-
-    setTimeout(() => {
-      const newChatMessage = {
-        name: "Healthstack",
-        time: moment.now(),
-        _id: `${Math.random()}`,
-        userId: "00",
-        message: message,
-        status: "delivered",
-        dp: "https://marketplace.canva.com/EAFEits4-uw/1/0/1600w/canva-boy-cartoon-gamer-animated-twitch-profile-photo-oEqs2yqaL8s.jpg",
-      };
-
-      setChatMessages(prev => [...prev, newChatMessage]);
-      setMessage("");
-      setSending(false);
-    }, 1000);
-  };
-
-  // const scrollToBottom = () => {
-  //   if (messagesContainerRef.current) {
-  //     messagesContainerRef.current.scrollIntoView({behavior: "smooth"});
-  //   }
-  // };
 
   const scrollToBottom = useCallback(() => {
     const scroll =
@@ -81,7 +60,6 @@ const ChatInterface = ({closeChat}) => {
   };
 
   useEffect(() => {
-    //scroll to bottom everytime new chat message is added
     scrollToBottom();
   }, [chatMessages, scrollToBottom]);
 
@@ -112,8 +90,6 @@ const ChatInterface = ({closeChat}) => {
         break;
     }
   };
-
-  const formatChatMessages = [];
 
   const handleSearchChange = e => {
     const value = e.target.value;
@@ -174,9 +150,10 @@ const ChatInterface = ({closeChat}) => {
         onScroll={handleOnScroll}
       >
         {currentMessages.map(messageItem => {
-          const {message, _id, userId, time, name, status, dp} = messageItem;
-          const currentUser = "00";
-          const isUserMsg = currentUser === userId;
+          const {message, _id, senderId, time, sender, status, dp} =
+            messageItem;
+          const currentUser = user.currentEmployee.userId;
+          const isUserMsg = currentUser === senderId;
           return (
             <Slide
               direction="right"
@@ -203,7 +180,7 @@ const ChatInterface = ({closeChat}) => {
                     padding: "10px",
                     boxShadow: 3,
                     borderRadius: "7.5px",
-                    backgroundColor: isUserMsg ? "#ffffff" : "#0064CC",
+                    backgroundColor: isUserMsg ? "#f8f7ff" : "#0064CC",
                   }}
                   mb={2}
                 >
@@ -227,9 +204,10 @@ const ChatInterface = ({closeChat}) => {
                           fontSize: "0.9rem",
                           color: isUserMsg ? "#0064CC" : "#ffffff",
                           fontWeight: "600",
+                          textTransform: "capitalize",
                         }}
                       >
-                        {name}
+                        {sender}
                       </Typography>
                     </Box>
                     <Typography
@@ -316,7 +294,7 @@ const ChatInterface = ({closeChat}) => {
         </Box>
 
         <Button
-          onClick={sendNewChatMessage}
+          onClick={sendMessage}
           variant="contained"
           sx={{
             padding: 0,
@@ -326,7 +304,7 @@ const ChatInterface = ({closeChat}) => {
             borderRadius: "50%",
           }}
         >
-          {sending ? <ThreeCirclesSpinner /> : <SendIcon />}
+          {isSendingMessage ? <ThreeCirclesSpinner /> : <SendIcon />}
         </Button>
       </Box>
 

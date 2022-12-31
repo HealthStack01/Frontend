@@ -5,38 +5,7 @@ import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import FilterMenu from "../../../../components/utilities/FilterMenu";
 import CustomTable from "../../../../components/customtable";
 import {ObjectContext} from "../../../../context";
-
-const dummyData = [
-  {
-    company_name: "Health Stack",
-    contact_person: "Teejay Tabor",
-    contact_position: "CEO",
-    phone_No: "09123802410",
-    status: "Active",
-  },
-  {
-    company_name: "Albert Health Stack",
-    contact_person: "KTeejay Tabor",
-    contact_position: "CEO",
-    phone_No: "09123802410",
-    status: "Active",
-  },
-  {
-    company_name: "DonaHealth Stack",
-    contact_person: "9Teejay Tabor",
-    contact_position: "CEO",
-    phone_No: "09123802410",
-    status: "Inactive",
-  },
-
-  {
-    company_name: "DaviHealth Stack",
-    contact_person: "Teejay Tabor",
-    contact_position: "CEO",
-    phone_No: "09123802410",
-    status: "Active",
-  },
-];
+import dayjs from "dayjs";
 
 const ProposalList = ({showCreate, showDetail}) => {
   const {state, setState} = useContext(ObjectContext);
@@ -61,6 +30,10 @@ const ProposalList = ({showCreate, showDetail}) => {
     }
   };
 
+  const deal = state.DealModule.selectedDeal.dealinfo;
+
+  //console.log(deal);
+
   const ProposalSchema = [
     {
       name: "SN",
@@ -74,41 +47,75 @@ const ProposalList = ({showCreate, showDetail}) => {
     },
 
     {
-      name: "Company Name",
+      name: "Customer Name",
       key: "company_name",
       description: "Enter name of Company",
-      selector: row => row.company_name,
+      selector: row => row.customerName,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
     },
     {
-      name: "Contact Person",
+      name: "Customer Email",
       key: "contact_person",
       description: "Enter Telestaff name",
-      selector: row => row.contact_person,
+      selector: row => row.customerEmail,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Contact Position",
+      name: "Customer Phone",
       key: "contact_position",
       description: "Enter bills",
-      selector: row => row.contact_position,
+      selector: row => row.customerPhone,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Phone Number",
+      name: "Deal Probability",
+      key: "contact_position",
+      description: "Enter bills",
+      selector: row => deal.probability,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Deal Status",
       key: "phone_No",
       description: "Enter name of Disease",
-      selector: (row, i) => row.phone_No,
+      selector: (row, i) => deal.currStatus,
       sortable: true,
       required: true,
       inputType: "DATE",
+      style: {
+        textTransform: "capitalize",
+      },
     },
+    {
+      name: "Date",
+      key: "contact_position",
+      description: "Enter bills",
+      selector: row => dayjs(row.createdAt).format("DD/MM/YYYY hh:mm A"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Creator",
+      key: "contact_position",
+      description: "Enter bills",
+      selector: row => row.createdByName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+
     {
       name: "Status",
       key: "status",
@@ -127,8 +134,17 @@ const ProposalList = ({showCreate, showDetail}) => {
     showCreate();
   };
 
-  const handleRow = () => {
-    showDetail();
+  const handleRow = data => {
+    setState(prev => ({
+      ...prev,
+      ProposalModule: {...prev.ProposalModule, selectedProposal: data},
+    }));
+
+    if (data.status === "Draft") {
+      showCreate();
+    } else {
+      showDetail();
+    }
   };
 
   return (

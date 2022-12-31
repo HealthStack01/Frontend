@@ -7,6 +7,9 @@ import UpgradeOutlinedIcon from "@mui/icons-material/UpgradeOutlined";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import moment from "moment";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import ChatIcon from "@mui/icons-material/Chat";
+import Badge from "@mui/material/Badge";
 
 import {FormsHeaderText} from "../../../../components/texts";
 import CustomSelect from "../../../../components/inputs/basic/Select";
@@ -45,6 +48,9 @@ import client from "../../../../feathers";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 import StaffDetail from "../assigned-staffs/StaffDetail";
 import Invoice from "../../Invoice";
+import SLA from "../../SLA";
+import ChatInterface from "../../../../components/chat/ChatInterface";
+import GlobalDealChat from "../global/DealChat";
 
 export const LeadView = () => {
   const {register, reset, control, handleSubmit} = useForm();
@@ -464,22 +470,22 @@ export const StaffsListView = () => {
 export const UploadView = () => {
   const [uploads, setUploads] = useState([]);
   const [uploadModal, setUploadModal] = useState(false);
+  const {state} = useContext(ObjectContext);
 
-  const handleAddUpload = data => {
-    setUploads(prev => [data, ...prev]);
-  };
+  useEffect(() => {
+    const currentDeal = state.DealModule.selectedDeal;
+    setUploads(currentDeal.uploads || []);
+  }, [state.DealModule]);
 
   const uploadColumns = getUploadColumns();
   return (
-    <>
+    <Box pl={2} pr={2}>
       <Box
         sx={{
           display: "flex",
           alignItem: "center",
           justifyContent: "space-between",
         }}
-        pl={2}
-        pr={2}
       >
         <FormsHeaderText text="Uploaded Docs" />
 
@@ -512,12 +518,9 @@ export const UploadView = () => {
         onClose={() => setUploadModal(false)}
         header="Upload"
       >
-        <LeadUpload
-          closeModal={() => setUploadModal(false)}
-          addUpload={handleAddUpload}
-        />
+        <LeadUpload closeModal={() => setUploadModal(false)} />
       </ModalBox>
-    </>
+    </Box>
   );
 };
 
@@ -541,6 +544,7 @@ const LeadDetail = ({handleGoBack}) => {
   const [currentView, setCurrentView] = useState("detail");
   const [scheduleAppointment, setScheduleAppointment] = useState(false);
   const [activateCall, setActivateCall] = useState(false);
+  const [chat, setChat] = useState(false);
 
   const handleSetCurrentView = view => {
     setCurrentView(view);
@@ -593,6 +597,13 @@ const LeadDetail = ({handleGoBack}) => {
         </Box>
 
         <Box sx={{display: "flex", justifyContent: "flex-end"}} mb={2} gap={1}>
+          <Badge badgeContent={4} color="secondary" sx={{marginRight: "10px"}}>
+            <GlobalCustomButton onClick={() => setChat(true)}>
+              <ChatIcon fontSize="small" sx={{marginRight: "5px"}} />
+              Chats
+            </GlobalCustomButton>
+          </Badge>
+
           <Box>
             <VideoConference
               activateCall={activateCall}
@@ -699,6 +710,23 @@ const LeadDetail = ({handleGoBack}) => {
           </GlobalCustomButton>
 
           <GlobalCustomButton
+            onClick={() => handleSetCurrentView("sla")}
+            sx={
+              currentView === "sla"
+                ? {
+                    backgroundColor: "#ffffff",
+                    color: "#000000",
+                    "&:hover": {
+                      backgroundColor: "#ffffff",
+                    },
+                  }
+                : {}
+            }
+          >
+            SLA
+          </GlobalCustomButton>
+
+          <GlobalCustomButton
             onClick={() => handleSetCurrentView("invoice")}
             color="warning"
             sx={
@@ -754,10 +782,6 @@ const LeadDetail = ({handleGoBack}) => {
         </Box>
       </Box>
 
-      {/* <Box pl={2}>
-        <FormsHeaderText text={currentView} />
-      </Box> */}
-
       <Box>
         {currentView === "detail" && <DetailView />}
         {currentView === "contacts" && <Contact />}
@@ -767,15 +791,25 @@ const LeadDetail = ({handleGoBack}) => {
         {currentView === "proposal" && <ProposalsView />}
         {currentView === "appointments" && <AppointmentsView />}
         {currentView === "invoice" && <Invoice />}
+        {currentView === "sla" && <SLA />}
       </Box>
 
-      {/* <ModalBox
-        open={scheduleAppointment}
-        onClose={() => setScheduleAppointment(false)}
-        header="Schedule Appointment"
+      <SwipeableDrawer
+        anchor="right"
+        open={chat}
+        onClose={() => setChat(false)}
+        onOpen={() => setChat(true)}
       >
-        <ScheduleAppointment closeModal={() => setScheduleAppointment(false)} />
-      </ModalBox> */}
+        <Box
+          sx={{
+            width: "500px",
+            height: "100vh",
+            overflowY: "hidden",
+          }}
+        >
+          <GlobalDealChat closeChat={() => setChat(false)} />
+        </Box>
+      </SwipeableDrawer>
     </Box>
   );
 };

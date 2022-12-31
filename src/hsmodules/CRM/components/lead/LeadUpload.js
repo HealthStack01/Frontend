@@ -1,9 +1,16 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {Box, Button, Grid, Typography} from "@mui/material";
 import {FileUploader} from "react-drag-drop-files";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 import moment from "moment";
+import GlobalCustomButton from "../../../../components/buttons/CustomButton";
+import client from "../../../../feathers";
+import {toast} from "react-toastify";
+import {ObjectContext, UserContext} from "../../../../context";
+import axios from "axios";
+import {getBase64} from "../../../helpers/getBase64";
 
 const UploadComponent = ({}) => {
   return (
@@ -26,10 +33,15 @@ const UploadComponent = ({}) => {
   );
 };
 
-const LeadUpload = ({closeModal, addUpload}) => {
+const LeadUpload = ({closeModal}) => {
+  const dealServer = client.service("deal");
   const [fileType, setFileType] = useState("");
   const [docType, setDoctype] = useState("");
   const [file, setFile] = useState(null);
+  const [base64, setBase64] = useState(null);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+  const {user} = useContext(UserContext);
 
   const selectOptions = [
     {
@@ -42,22 +54,81 @@ const LeadUpload = ({closeModal, addUpload}) => {
     },
   ];
 
-  const images = ["png", "jpg", "jpeg"];
+  const imageTypes = ["png", "jpg", "jpeg"];
+  const docTypes = ["docx", "doc", "pdf"];
 
   const handleChange = file => {
-    setFile(file);
+    getBase64(file[0])
+      .then(res => {
+        // console.log(file);
+        setFile(file);
+        setBase64(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
-  const onSubmit = () => {
-    const data = {
-      file_type: fileType,
-      file_name: file[0].name,
-      doc_type: docType,
-      date: moment.now(),
-      file: file[0],
-    };
+  const handleUploadFile = async () => {
+    if (file === null || base64 === null)
+      return toast.error("Please select a Logo to upload");
 
-    addUpload(data);
+    showActionLoader();
+
+    const token = localStorage.getItem("feathers-jwt");
+
+    axios
+      .post(
+        "https://healthstack-backend.herokuapp.com/upload",
+        {uri: base64},
+        {headers: {Authorization: `Bearer ${token}`}}
+      )
+      .then(async res => {
+        const employee = user.currentEmployee;
+        const currentDeal = state.DealModule.selectedDeal;
+
+        const document = {
+          uploadUrl: res.data.url,
+          uploadType: res.data.contentType,
+          name: file[0].name,
+          type: fileType,
+          docType: docType,
+          uploadedAt: new Date(),
+          uploadedBy: employee.userId,
+          uploadedByName: `${employee.firstname} ${employee.lastname}`,
+          dealId: currentDeal._id,
+        };
+
+        const prevUploads = currentDeal.uploads || [];
+
+        const newUploads = [document, ...prevUploads];
+
+        const documentId = currentDeal._id;
+
+        await dealServer
+          .patch(documentId, {uploads: newUploads})
+          .then(resp => {
+            hideActionLoader();
+            setState(prev => ({
+              ...prev,
+              DealModule: {...prev.DealModule, selectedDeal: resp},
+            }));
+            closeModal();
+            toast.success("Document has been sucessfully Uploaded");
+          })
+          .catch(error => {
+            hideActionLoader();
+            toast.error(
+              `An error occured whilst Uploading your Document ${error}`
+            );
+            console.error(error);
+          });
+      })
+      .catch(error => {
+        hideActionLoader();
+        toast.error(`An error occured whilst Uploading your Document ${error}`);
+        console.log(error);
+      });
   };
 
   return (
@@ -86,7 +157,7 @@ const LeadUpload = ({closeModal, addUpload}) => {
           multiple={true}
           handleChange={handleChange}
           name="upload"
-          types={fileType === "image" ? images : ["jpeg"]}
+          types={fileType === "image" ? imageTypes : docTypes}
           children={<UploadComponent />}
         />
       </Box>
@@ -102,29 +173,19 @@ const LeadUpload = ({closeModal, addUpload}) => {
         </Typography>
       </Box>
 
-      <Box sx={{display: "flex", alignItems: "center"}} mt={2}>
-        <Button
-          variant="outlined"
-          color="error"
-          size="small"
-          sx={{
-            textTransform: "capitalize",
-            marginRight: "15px",
-          }}
-          onClick={closeModal}
-        >
+      <Box sx={{display: "flex", alignItems: "center"}} mt={2} gap={2}>
+        <GlobalCustomButton color="error" onClick={closeModal}>
           Cancel
-        </Button>
+        </GlobalCustomButton>
 
-        <Button
+        <GlobalCustomButton
           variant="contained"
-          sx={{textTransform: "capitalize"}}
-          //onClick={handleSubmit(onSubmit)}
-          onClick={onSubmit}
-          size="small"
+          onClick={handleUploadFile}
+          disabled={file === null || base64 === null}
         >
-          Submit
-        </Button>
+          <UploadFileIcon fontSize="small" sx={{marginRight: "5px"}} />
+          Upload File
+        </GlobalCustomButton>
       </Box>
     </Box>
   );
