@@ -90,6 +90,7 @@ const LeadUpload = ({closeModal}) => {
         const document = {
           uploadUrl: res.data.url,
           uploadType: res.data.contentType,
+          fileType: file[0].name.split(".").pop(),
           name: file[0].name,
           type: fileType,
           docType: docType,

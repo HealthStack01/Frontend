@@ -29,6 +29,8 @@ const SLADetail = ({handleGoBack}) => {
   const [description, setDescription] = useState("");
   const [chat, setChat] = useState(false);
   const [attachedDocs, setAttachedDocs] = useState([]);
+  const [docViewModal, setDocviewModal] = useState(false);
+  const [selectedDoc, setSelectedDoc] = useState({});
 
   useEffect(() => {
     const sla = state.SLAModule.selectedSLA;
@@ -159,12 +161,39 @@ const SLADetail = ({handleGoBack}) => {
     },
   ];
 
+  const handleRow = doc => {
+    console.log(doc);
+    setSelectedDoc(doc);
+    setDocviewModal(true);
+  };
+
   return (
     <Box
       sx={{
         width: "100%",
       }}
     >
+      <ModalBox
+        open={docViewModal}
+        onClose={() => setDocviewModal(false)}
+        header={`View Document ${selectedDoc?.fileName}`}
+      >
+        <Box sx={{width: "85vw", height: "85vh", position: "relative"}}>
+          {selectedDoc?.fileType === "pdf" ? (
+            <iframe
+              src={selectedDoc?.file}
+              title={selectedDoc?.fileName}
+              style={{width: "100%", height: "100%"}}
+            />
+          ) : (
+            <iframe
+              title={selectedDoc?.fileName}
+              style={{width: "100%", height: "100%"}}
+              src={`https://view.officeapps.live.com/op/embed.aspx?src=${selectedDoc?.file}`}
+            />
+          )}
+        </Box>
+      </ModalBox>
       <Box
         sx={{
           display: "flex",
@@ -242,7 +271,7 @@ const SLADetail = ({handleGoBack}) => {
               pointerOnHover
               highlightOnHover
               striped
-              //onRowClicked={handleRow}
+              onRowClicked={handleRow}
               CustomEmptyData="There was no file attached to this SLA..."
               progressPending={false}
             />

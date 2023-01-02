@@ -1,4 +1,4 @@
-import {useState, useEffect, useContext} from "react";
+import {useState, useEffect, useContext, useCallback} from "react";
 import {Button, Grid, Box, Collapse, Typography} from "@mui/material";
 import Input from "../../../../components/inputs/basic/Input";
 import {useForm} from "react-hook-form";
@@ -10,6 +10,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import ChatIcon from "@mui/icons-material/Chat";
 import Badge from "@mui/material/Badge";
+import DocViewer, {DocViewerRenderers} from "@cyntler/react-doc-viewer";
 
 import {FormsHeaderText} from "../../../../components/texts";
 import CustomSelect from "../../../../components/inputs/basic/Select";
@@ -43,7 +44,7 @@ import CRMTasks from "../../Tasks";
 import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
 import LeadDetailView, {PageLeadDetailView} from "../global/LeadDetail";
 import VideoConference from "../../../utils/VideoConference";
-import {ObjectContext} from "../../../../context";
+import {ObjectContext, UserContext} from "../../../../context";
 import client from "../../../../feathers";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 import StaffDetail from "../assigned-staffs/StaffDetail";
@@ -471,6 +472,9 @@ export const UploadView = () => {
   const [uploads, setUploads] = useState([]);
   const [uploadModal, setUploadModal] = useState(false);
   const {state} = useContext(ObjectContext);
+  const [viewModal, setViewModal] = useState(false);
+  const [selectedDoc, setSelectedDoc] = useState({});
+  const [docs, setDocs] = useState([]);
 
   useEffect(() => {
     const currentDeal = state.DealModule.selectedDeal;
@@ -478,8 +482,43 @@ export const UploadView = () => {
   }, [state.DealModule]);
 
   const uploadColumns = getUploadColumns();
+
+  const handleRow = doc => {
+    console.log(doc);
+    setSelectedDoc(doc);
+    setViewModal(true);
+    //setDocs([data.uploadUrl]);
+  };
   return (
     <Box pl={2} pr={2}>
+      <ModalBox
+        open={viewModal}
+        onClose={() => setViewModal(false)}
+        header={`View Document ${selectedDoc?.name}`}
+      >
+        <Box sx={{width: "85vw", height: "85vh"}}>
+          {selectedDoc?.type === "image" ? (
+            <iframe
+              style={{width: "100%", height: "100%"}}
+              src={selectedDoc?.uploadUrl}
+            />
+          ) : (
+            <>
+              {selectedDoc?.fileType === "pdf" ? (
+                <iframe
+                  style={{width: "100%", height: "100%"}}
+                  src={selectedDoc?.uploadUrl}
+                />
+              ) : (
+                <iframe
+                  style={{width: "100%", height: "100%"}}
+                  src={`https://view.officeapps.live.com/op/embed.aspx?src=${selectedDoc?.uploadUrl}`}
+                />
+              )}
+            </>
+          )}
+        </Box>
+      </ModalBox>
       <Box
         sx={{
           display: "flex",
@@ -507,7 +546,7 @@ export const UploadView = () => {
           pointerOnHover
           highlightOnHover
           striped
-          //onRowClicked={handleRow}
+          onRowClicked={handleRow}
           CustomEmptyData="You haven't Uploaded any file(s) yet..."
           progressPending={false}
         />
@@ -524,31 +563,58 @@ export const UploadView = () => {
   );
 };
 
-const AppointmentsView = () => {
-  return (
-    <>
-      <CrmAppointment standAlone={true} />
-    </>
-  );
-};
-
-const ProposalsView = () => {
-  return (
-    <>
-      <CrmProposals standAlone={true} />
-    </>
-  );
-};
-
 const LeadDetail = ({handleGoBack}) => {
+  const dealServer = client.service("deal");
+  const {state} = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
   const [currentView, setCurrentView] = useState("detail");
   const [scheduleAppointment, setScheduleAppointment] = useState(false);
   const [activateCall, setActivateCall] = useState(false);
   const [chat, setChat] = useState(false);
+  const [unreadMsgs, setUnreadMsgs] = useState([]);
 
   const handleSetCurrentView = view => {
     setCurrentView(view);
   };
+
+  const getUnreadMessagesCount = useCallback(async () => {
+    setUnreadMsgs([]);
+    const id = state.DealModule.selectedDeal._id;
+    const userId = user.currentEmployee.userId;
+    // console.log(userId);
+    await dealServer
+      .get(id)
+      .then(resp => {
+        const msgs = resp.chat;
+        msgs.map(item => {
+          if (
+            item.senderId !== userId &&
+            !item.seen.includes(userId) &&
+            !unreadMsgs.includes(item._id)
+          ) {
+            //console.log(item.senderId);
+            setUnreadMsgs(prev => [item._id, ...prev]);
+          } else {
+            return;
+          }
+        });
+      })
+      .catch(err => {
+        // toast.error("There was an error getting messages for this chat");
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    getUnreadMessagesCount();
+
+    dealServer.on("created", obj => getUnreadMessagesCount());
+    dealServer.on("updated", obj => getUnreadMessagesCount());
+    dealServer.on("patched", obj => getUnreadMessagesCount());
+    dealServer.on("removed", obj => getUnreadMessagesCount());
+  }, [getUnreadMessagesCount]);
+
+  //console.log(unreadMsgs);
 
   return (
     <Box
@@ -597,7 +663,11 @@ const LeadDetail = ({handleGoBack}) => {
         </Box>
 
         <Box sx={{display: "flex", justifyContent: "flex-end"}} mb={2} gap={1}>
-          <Badge badgeContent={4} color="secondary" sx={{marginRight: "10px"}}>
+          <Badge
+            badgeContent={unreadMsgs.length}
+            color="secondary"
+            sx={{marginRight: "10px"}}
+          >
             <GlobalCustomButton onClick={() => setChat(true)}>
               <ChatIcon fontSize="small" sx={{marginRight: "5px"}} />
               Chats
@@ -788,10 +858,10 @@ const LeadDetail = ({handleGoBack}) => {
         {currentView === "staffs" && <StaffsListView />}
         {currentView === "tasks" && <CRMTasks />}
         {currentView === "uploads" && <UploadView />}
-        {currentView === "proposal" && <ProposalsView />}
-        {currentView === "appointments" && <AppointmentsView />}
-        {currentView === "invoice" && <Invoice />}
-        {currentView === "sla" && <SLA />}
+        {currentView === "proposal" && <CrmProposals isTab={true} />}
+        {currentView === "appointments" && <CrmAppointment isTab={true} />}
+        {currentView === "invoice" && <Invoice isTab={true} />}
+        {currentView === "sla" && <SLA isTab={true} />}
       </Box>
 
       <SwipeableDrawer

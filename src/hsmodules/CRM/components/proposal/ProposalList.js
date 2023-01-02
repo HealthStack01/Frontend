@@ -1,21 +1,55 @@
-import {useState, useEffect, useContext} from "react";
+import {useState, useEffect, useContext, useCallback} from "react";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import {Box} from "@mui/material";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import FilterMenu from "../../../../components/utilities/FilterMenu";
 import CustomTable from "../../../../components/customtable";
-import {ObjectContext} from "../../../../context";
+import {ObjectContext, UserContext} from "../../../../context";
 import dayjs from "dayjs";
+import client from "../../../../feathers";
+import {toast} from "react-toastify";
 
-const ProposalList = ({showCreate, showDetail}) => {
-  const {state, setState} = useContext(ObjectContext);
+const ProposalList = ({showCreate, showDetail, isTab}) => {
+  const dealServer = client.service("deal");
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+  const {user} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [proposals, setProposals] = useState([]);
 
+  const getProposalsForPage = useCallback(async () => {
+    const testId = "60203e1c1ec8a00015baa357";
+    const facId = user.currentEmployee.facilityDetail_id;
+    showActionLoader();
+
+    const res =
+      testId === facId
+        ? await dealServer.find({})
+        : await dealServer.find({
+            query: {
+              facilityId: facId,
+            },
+          });
+
+    const deals = res.data;
+
+    const promises = deals.map(async deal => deal.proposal || []);
+
+    const proposals = await Promise.all(promises);
+
+    await setProposals(proposals.flat(1));
+
+    hideActionLoader();
+  }, []);
+
   useEffect(() => {
-    const currentDeal = state.DealModule.selectedDeal;
-    setProposals(currentDeal.proposal || []);
-  }, [state.DealModule]);
+    if (isTab) {
+      const currentDeal = state.DealModule.selectedDeal;
+      setProposals(currentDeal.proposal || []);
+    } else {
+      getProposalsForPage();
+    }
+  }, [state.DealModule, getProposalsForPage, isTab]);
 
   const returnCell = status => {
     switch (status.toLowerCase()) {
@@ -134,7 +168,7 @@ const ProposalList = ({showCreate, showDetail}) => {
     showCreate();
   };
 
-  const handleRow = data => {
+  const handleRow2 = data => {
     setState(prev => ({
       ...prev,
       ProposalModule: {...prev.ProposalModule, selectedProposal: data},
@@ -144,6 +178,41 @@ const ProposalList = ({showCreate, showDetail}) => {
       showCreate();
     } else {
       showDetail();
+    }
+  };
+
+  const handleRow = async data => {
+    if (isTab) {
+      setState(prev => ({
+        ...prev,
+        ProposalModule: {...prev.ProposalModule, selectedProposal: data},
+      }));
+
+      if (data.status === "Draft") {
+        showCreate();
+      } else {
+        showDetail();
+      }
+    } else {
+      const id = data.dealId;
+      await dealServer
+        .get(id)
+        .then(resp => {
+          setState(prev => ({
+            ...prev,
+            DealModule: {...prev.DealModule, selectedDeal: resp},
+            ProposalModule: {...prev.ProposalModule, selectedProposal: data},
+          }));
+          if (data.status === "Draft") {
+            showCreate();
+          } else {
+            showDetail();
+          }
+        })
+        .catch(err => {
+          toast.error("An error occured trying to view details of Proposal");
+          console.log(err);
+        });
     }
   };
 
@@ -165,7 +234,7 @@ const ProposalList = ({showCreate, showDetail}) => {
           <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>Proposals</h2>
         </div>
 
-        {handleCreateNew && (
+        {isTab && (
           <GlobalCustomButton onClick={handleCreateNew}>
             <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
             Add new Proposal

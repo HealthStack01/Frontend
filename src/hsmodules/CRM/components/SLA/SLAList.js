@@ -1,4 +1,4 @@
-import {useContext, useState, useEffect} from "react";
+import {useContext, useState, useEffect, useCallback} from "react";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import {Box} from "@mui/material";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
@@ -6,26 +6,67 @@ import CustomTable from "../../../../components/customtable";
 import FilterMenu from "../../../../components/utilities/FilterMenu";
 import {TableMenu} from "../../../../ui/styled/global";
 import {PageWrapper} from "../../../../ui/styled/styles";
-import {ObjectContext} from "../../../../context";
+import {ObjectContext, UserContext} from "../../../../context";
 import dayjs from "dayjs";
+import client from "../../../../feathers";
+import {toast} from "react-toastify";
 
-export function SLAList({showDetail, showCreate}) {
+export function SLAList({showDetail, showCreate, isTab}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
+  const dealServer = client.service("deal");
   const [loading, setLoading] = useState(false);
-  const {state, setState} = useContext(ObjectContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+  const {user} = useContext(UserContext);
   const [slaList, setSLAList] = useState([]);
+  //const [deal, setDeal] = useState({})
+
+  const getSLAForPage = useCallback(async () => {
+    const testId = "60203e1c1ec8a00015baa357";
+    const facId = user.currentEmployee.facilityDetail_id;
+    showActionLoader();
+
+    const res =
+      testId === facId
+        ? await dealServer.find({})
+        : await dealServer.find({
+            query: {
+              facilityId: facId,
+            },
+          });
+
+    const deals = res.data;
+
+    // console.log(deals);
+
+    const promises = deals.map(async deal => deal.sla || []);
+
+    const sla = await Promise.all(promises);
+
+    //console.log(sla);
+
+    //setDeal()
+
+    await setSLAList(sla.flat(1) || []);
+
+    hideActionLoader();
+  }, []);
 
   useEffect(() => {
-    const currentDeal = state.DealModule.selectedDeal;
-    setSLAList(currentDeal.sla || []);
-  }, [state.DealModule]);
+    if (isTab) {
+      const currentDeal = state.DealModule.selectedDeal;
+      setSLAList(currentDeal.sla || []);
+    } else {
+      getSLAForPage();
+    }
+  }, [state.DealModule, getSLAForPage, isTab]);
 
   const handleCreateNew = () => {
     showCreate();
   };
 
-  const handleRow = data => {
+  const handleRow2 = data => {
     setState(prev => ({
       ...prev,
       SLAModule: {...prev.SLAModule, selectedSLA: data},
@@ -38,39 +79,42 @@ export function SLAList({showDetail, showCreate}) {
     }
   };
 
+  const handleRow = async data => {
+    if (isTab) {
+      setState(prev => ({
+        ...prev,
+        SLAModule: {...prev.SLAModule, selectedSLA: data},
+      }));
+
+      if (data.status === "Draft") {
+        showCreate();
+      } else {
+        showDetail();
+      }
+    } else {
+      const id = data.dealId;
+      await dealServer
+        .get(id)
+        .then(resp => {
+          setState(prev => ({
+            ...prev,
+            DealModule: {...prev.DealModule, selectedDeal: resp},
+            SLAModule: {...prev.SLAModule, selectedSLA: data},
+          }));
+          if (data.status === "Draft") {
+            showCreate();
+          } else {
+            showDetail();
+          }
+        })
+        .catch(err => {
+          toast.error("An error occured trying to view details of SLA");
+          console.log(err);
+        });
+    }
+  };
+
   const handleSearch = () => {};
-
-  const dummyData = [
-    {
-      company_name: "Health Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
-    },
-    {
-      company_name: "Albert Health Stack",
-      telestaff_name: "KTeejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
-    },
-    {
-      company_name: "DonaHealth Stack",
-      telestaff_name: "9Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Inactive",
-    },
-
-    {
-      company_name: "DaviHealth Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
-    },
-  ];
 
   const returnCell = status => {
     switch (status.toLowerCase()) {
@@ -84,65 +128,6 @@ export function SLAList({showDetail, showCreate}) {
         break;
     }
   };
-
-  const SLASchema = [
-    {
-      name: "SN",
-      key: "sn",
-      description: "Enter name of Company",
-      selector: (row, i) => i + 1,
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-      width: "50px",
-    },
-    {
-      name: "Company Name",
-      key: "sn",
-      description: "Enter name of Company",
-      selector: row => row.company_name,
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "Telestaff Name",
-      key: "telestaff_name",
-      description: "Enter Telestaff name",
-      selector: row => row.telestaff_name,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Probability Of Deal",
-      key: "probability",
-      description: "Enter bills",
-      selector: row => row.probability,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Date of Submission",
-      key: "date",
-      description: "Enter name of Disease",
-      selector: (row, i) => row.date,
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-    {
-      name: "Status",
-      key: "status",
-      description: "Enter bills",
-      selector: "status",
-      cell: row => returnCell(row.status),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-  ];
 
   const deal = state.DealModule.selectedDeal.dealinfo;
 
@@ -189,7 +174,7 @@ export function SLAList({showDetail, showCreate}) {
       name: "Deal Probability",
       key: "contact_position",
       description: "Enter bills",
-      selector: row => deal.probability,
+      selector: row => deal?.probability,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -198,7 +183,7 @@ export function SLAList({showDetail, showCreate}) {
       name: "Deal Status",
       key: "phone_No",
       description: "Enter name of Disease",
-      selector: (row, i) => deal.currStatus,
+      selector: (row, i) => deal?.currStatus,
       sortable: true,
       required: true,
       inputType: "DATE",
@@ -254,10 +239,12 @@ export function SLAList({showDetail, showCreate}) {
               <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>SLA</h2>
             </div>
 
-            <GlobalCustomButton onClick={handleCreateNew}>
-              <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
-              Create New SLA
-            </GlobalCustomButton>
+            {isTab && (
+              <GlobalCustomButton onClick={handleCreateNew}>
+                <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
+                Create New SLA
+              </GlobalCustomButton>
+            )}
           </TableMenu>
 
           <Box style={{width: "100%", overflow: "auto"}}>

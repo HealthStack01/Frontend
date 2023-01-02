@@ -14,6 +14,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import BlockIcon from "@mui/icons-material/Block";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import DocViewer, {DocViewerRenderers} from "@cyntler/react-doc-viewer";
 
 import {DetailView, CustomerView, LeadView} from "../lead/LeadDetailView";
 import ChatInterface from "../../../../components/chat/ChatInterface";
@@ -24,17 +25,22 @@ import dayjs from "dayjs";
 import CustomTable from "../../../../components/customtable";
 import {toast} from "react-toastify";
 
+import {pdfjs} from "react-pdf";
+import {Document, Page} from "react-pdf";
+
 const ProposalDetail = ({handleGoBack}) => {
   const {state, setState} = useContext(ObjectContext);
   const [description, setDescription] = useState("");
   const [chat, setChat] = useState(false);
   const [attachedDocs, setAttachedDocs] = useState([]);
+  const [docViewModal, setDocviewModal] = useState(false);
+  const [selectedDoc, setSelectedDoc] = useState({});
 
   useEffect(() => {
     const proposal = state.ProposalModule.selectedProposal;
 
-    setDescription(proposal.description);
-    setAttachedDocs(proposal.attachedFiles);
+    setDescription(proposal.description || "");
+    setAttachedDocs(proposal.attachedFiles || []);
 
     return () => {
       setState(prev => ({
@@ -42,7 +48,7 @@ const ProposalDetail = ({handleGoBack}) => {
         ProposalModule: {...prev.ProposalModule, selectedProposal: {}},
       }));
     };
-  }, []);
+  }, [setState, state.ProposalModule]);
 
   const handleDeleteFile = () => {
     toast.error("Sorry, you cannot make changes to this documennt");
@@ -159,12 +165,40 @@ const ProposalDetail = ({handleGoBack}) => {
     },
   ];
 
+  const handleRow = doc => {
+    console.log(doc);
+    setSelectedDoc(doc);
+    setDocviewModal(true);
+  };
+
   return (
     <Box
       sx={{
         width: "100%",
       }}
     >
+      <ModalBox
+        open={docViewModal}
+        onClose={() => setDocviewModal(false)}
+        header={`View Document ${selectedDoc?.fileName}`}
+      >
+        <Box sx={{width: "85vw", height: "85vh"}}>
+          {selectedDoc?.fileType === "pdf" ? (
+            <iframe
+              src={selectedDoc?.file}
+              title={selectedDoc?.fileName}
+              style={{width: "100%", height: "100%"}}
+            />
+          ) : (
+            <iframe
+              title={selectedDoc?.fileName}
+              style={{width: "100%", height: "100%"}}
+              src={`https://view.officeapps.live.com/op/embed.aspx?src=${selectedDoc?.file}`}
+            />
+          )}
+        </Box>
+      </ModalBox>
+
       <Box
         sx={{
           display: "flex",
@@ -242,7 +276,7 @@ const ProposalDetail = ({handleGoBack}) => {
               pointerOnHover
               highlightOnHover
               striped
-              //onRowClicked={handleRow}
+              onRowClicked={handleRow}
               CustomEmptyData="There was no file attached to this Proposal..."
               progressPending={false}
             />

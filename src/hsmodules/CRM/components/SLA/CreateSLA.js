@@ -26,6 +26,7 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import {getBase64} from "../../../helpers/getBase64";
 import axios from "axios";
 import {getUploadUrl} from "../../../helpers/getUploadUrl";
+import CircularProgress from "@mui/material/CircularProgress";
 import {toast} from "react-toastify";
 import {v4 as uuidv4} from "uuid";
 import client from "../../../../feathers";
@@ -39,6 +40,8 @@ const CreateSLA = ({handleGoBack}) => {
   const [attachModal, setAttachModal] = useState(false);
   const [attachedDocs, setAttachedDocs] = useState([]);
   const [draftedSLA, setDraftedSLA] = useState(null);
+  const [docViewModal, setDocviewModal] = useState(false);
+  const [selectedDoc, setSelectedDoc] = useState({});
 
   useEffect(() => {
     const sla = state.SLAModule.selectedSLA || null;
@@ -181,21 +184,21 @@ const CreateSLA = ({handleGoBack}) => {
     const currentDeal = state.DealModule.selectedDeal;
 
     if (attachedDocs.length > 0) {
+      // const promises = attachedDocs.map(async doc => {
+      //   if (doc.isUploaded) {
+      //     return doc;
+      //   } else {
+      //     const base64Url = await getBase64(doc.file);
+      //     return {
+      //       ...doc,
+      //       file: base64Url,
+      //     };
+      //   }
+      // });
+
+      //const docs = await Promise.all(promises);
+
       const promises = attachedDocs.map(async doc => {
-        if (doc.isUploaded) {
-          return doc;
-        } else {
-          const base64Url = await getBase64(doc.file);
-          return {
-            ...doc,
-            file: base64Url,
-          };
-        }
-      });
-
-      const docs = await Promise.all(promises);
-
-      const newPromises = docs.map(async doc => {
         if (doc.isUploaded) {
           return doc;
         } else {
@@ -208,7 +211,7 @@ const CreateSLA = ({handleGoBack}) => {
         }
       });
 
-      const attachments = await Promise.all(newPromises);
+      const attachments = await Promise.all(promises);
 
       const document = {
         attachedFiles: attachments,
@@ -356,12 +359,58 @@ const CreateSLA = ({handleGoBack}) => {
     }
   };
 
+  const handleRow = doc => {
+    console.log(doc);
+    setSelectedDoc(doc);
+    setDocviewModal(true);
+  };
+
   return (
     <Box
       sx={{
         width: "100%",
       }}
     >
+      <ModalBox
+        open={docViewModal}
+        onClose={() => setDocviewModal(false)}
+        header={`View Document ${selectedDoc?.fileName}`}
+      >
+        <Box sx={{width: "85vw", height: "85vh", position: "relative"}}>
+          {/* <Box
+            sx={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              left: "0",
+              top: "0",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              zIndex: "-1",
+            }}
+          >
+            <CircularProgress />
+            <Typography>Loading your doucment...</Typography>
+          </Box> */}
+          {selectedDoc?.fileType === "pdf" ? (
+            <iframe
+              src={selectedDoc?.file}
+              title={selectedDoc?.fileName}
+              style={{width: "100%", height: "100%"}}
+              // src={`https://docs.google.com/viewer?url=${selectedDoc?.file}&embedded=true`}
+            />
+          ) : (
+            <iframe
+              title={selectedDoc?.fileName}
+              style={{width: "100%", height: "100%"}}
+              src={`https://view.officeapps.live.com/op/embed.aspx?src=${selectedDoc?.file}`}
+            />
+          )}
+        </Box>
+      </ModalBox>
+
       <Box
         sx={{
           display: "flex",
@@ -446,7 +495,7 @@ const CreateSLA = ({handleGoBack}) => {
               pointerOnHover
               highlightOnHover
               striped
-              //onRowClicked={handleRow}
+              onRowClicked={handleRow}
               CustomEmptyData="You haven't Attached any file(s) yet..."
               progressPending={false}
             />

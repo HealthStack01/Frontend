@@ -1,4 +1,4 @@
-import {useState, useContext, useEffect} from "react";
+import {useState, useContext, useEffect, useCallback} from "react";
 import {Box} from "@mui/system";
 import {BsFillGridFill, BsList} from "react-icons/bs";
 import DatePicker from "react-datepicker";
@@ -9,44 +9,18 @@ import Switch from "../../../../components/switch";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import CalendarGrid from "../../../../components/calender";
 import CustomTable from "../../../../components/customtable";
-import {ObjectContext} from "../../../../context";
+import {ObjectContext, UserContext} from "../../../../context";
 import dayjs from "dayjs";
 import MuiClearDatePicker from "../../../../components/inputs/Date/MuiClearDatePicker";
+import client from "../../../../feathers";
+import {toast} from "react-toastify";
 
-const dummyData = [
-  {
-    customer: "Tejiri Tabor",
-    title: "HCI",
-    date: "11/9/2022",
-    time: "12:00",
-    status: "Pending",
-  },
-  {
-    customer: "Tejiri Tabor",
-    title: "KHCI",
-    date: "11/9/2022",
-    time: "12:00",
-    status: "Pending",
-  },
-  {
-    customer: "Tejiri Tabor",
-    title: "9HCI",
-    date: "11/9/2022",
-    time: "12:00",
-    status: "Expired",
-  },
-
-  {
-    customer: "Tejiri Tabor",
-    title: "HCI",
-    date: "11/9/2022",
-    time: "12:00",
-    status: "Expired",
-  },
-];
-
-const AppointmentList = ({openCreateModal, openDetailModal}) => {
-  const {state, setState} = useContext(ObjectContext);
+const AppointmentList = ({openCreateModal, openDetailModal, isTab}) => {
+  const dealServer = client.service("deal");
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+  // eslint-disable-next-line
+  const {user, setUser} = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [value, setValue] = useState("list");
   const [loading, setLoading] = useState(false);
@@ -68,11 +42,42 @@ const AppointmentList = ({openCreateModal, openDetailModal}) => {
     }
   };
 
-  const returnStatus = date => {};
+  const getAppointmentsForPage = useCallback(async () => {
+    const testId = "60203e1c1ec8a00015baa357";
+    const facId = user.currentEmployee.facilityDetail_id;
+    showActionLoader();
+
+    const res =
+      testId === facId
+        ? await dealServer.find({})
+        : await dealServer.find({
+            query: {
+              facilityId: facId,
+            },
+          });
+
+    const deals = res.data;
+
+    const promises = deals.map(async deal => deal.appointments || []);
+
+    const appointmentsList = await Promise.all(promises);
+
+    await setAppointments(appointmentsList.flat(1));
+
+    hideActionLoader();
+  }, []);
 
   useEffect(() => {
-    setAppointments(state.DealModule.selectedDeal.appointments);
-  }, [state.DealModule.selectedDeal.appointments]);
+    if (isTab) {
+      setAppointments(state.DealModule.selectedDeal.appointments);
+    } else {
+      getAppointmentsForPage();
+    }
+  }, [
+    state.DealModule.selectedDeal.appointments,
+    getAppointmentsForPage,
+    isTab,
+  ]);
 
   const appointmentColumns = [
     {
@@ -151,6 +156,9 @@ const AppointmentList = ({openCreateModal, openDetailModal}) => {
       required: true,
       inputType: "TEXT",
       width: "120px",
+      style: {
+        textTransform: "capitalize",
+      },
     },
   ];
 
@@ -168,7 +176,7 @@ const AppointmentList = ({openCreateModal, openDetailModal}) => {
     padding: "0 .8rem",
   };
 
-  const handleRow = data => {
+  const handleRow2 = data => {
     setState(prev => ({
       ...prev,
       CRMAppointmentModule: {
@@ -177,6 +185,41 @@ const AppointmentList = ({openCreateModal, openDetailModal}) => {
       },
     }));
     openDetailModal();
+  };
+
+  const handleRow = async data => {
+    if (isTab) {
+      setState(prev => ({
+        ...prev,
+        CRMAppointmentModule: {
+          ...prev.CRMAppointmentModule,
+          selectedAppointment: data,
+        },
+      }));
+      openDetailModal();
+      //showDetailView();
+    } else {
+      const id = data.dealId;
+      await dealServer
+        .get(id)
+        .then(resp => {
+          setState(prev => ({
+            ...prev,
+            DealModule: {...prev.DealModule, selectedDeal: resp},
+            CRMAppointmentModule: {
+              ...prev.CRMAppointmentModule,
+              selectedAppointment: data,
+            },
+          }));
+          //showDetailView();
+          openDetailModal();
+        })
+        .catch(err => {
+          toast.error("An error occured trying to view details of Appointment");
+          console.log(err);
+        });
+      //console.log("is page");
+    }
   };
 
   return (
@@ -233,7 +276,7 @@ const AppointmentList = ({openCreateModal, openDetailModal}) => {
           </Switch>
         </div>
 
-        {handleCreateNew && (
+        {isTab && (
           <GlobalCustomButton onClick={handleCreateNew}>
             <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
             Schedule Appointment

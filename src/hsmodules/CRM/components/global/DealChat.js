@@ -16,11 +16,30 @@ const GlobalDealChat = ({closeChat}) => {
   const [sendingMsg, setSendingMsg] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  //const [prevM]
+
+  const getChatMessages = useCallback(async () => {
+    const id = state.DealModule.selectedDeal._id;
+    await dealServer
+      .get(id)
+      .then(resp => {
+        //console.log(resp);
+        setMessages(resp.chat || []);
+      })
+      .catch(err => {
+        //toast.error("There was an error getting messages for this chat");
+        console.log(err);
+      });
+  }, [state.DealModule]);
 
   useEffect(() => {
-    const chatMessages = state.DealModule.selectedDeal.chat || [];
-    setMessages(chatMessages);
-  }, [state.DealModule]);
+    getChatMessages();
+
+    dealServer.on("created", obj => getChatMessages());
+    dealServer.on("updated", obj => getChatMessages());
+    dealServer.on("patched", obj => getChatMessages());
+    dealServer.on("removed", obj => getChatMessages());
+  }, [getChatMessages]);
 
   const sendNewChatMessage = async () => {
     setSendingMsg(true);
@@ -43,7 +62,7 @@ const GlobalDealChat = ({closeChat}) => {
       dealId: currentDeal._id,
     };
 
-    const newChat = [...prevChat, messageDoc];
+    const newChat = [...messages, messageDoc];
 
     const newDealDetail = {
       ...currentDeal,
@@ -55,17 +74,12 @@ const GlobalDealChat = ({closeChat}) => {
     await dealServer
       .patch(documentId, {chat: newChat})
       .then(res => {
-        setState(prev => ({
-          ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: newDealDetail},
-        }));
-
         setMessage("");
         setSendingMsg(false);
-        toast.success("Message sent");
+        //toast.success("Message sent");
       })
       .catch(err => {
-        toast.error("Message failed");
+        //toast.error("Message failed");
         setSendingMsg(false);
       });
   };

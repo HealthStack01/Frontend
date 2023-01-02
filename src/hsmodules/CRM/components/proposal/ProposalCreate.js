@@ -40,6 +40,8 @@ const CreateProposal = ({handleGoBack}) => {
   const [attachModal, setAttachModal] = useState(false);
   const [attachedDocs, setAttachedDocs] = useState([]);
   const [draftProposal, setDraftProposal] = useState({});
+  const [docViewModal, setDocviewModal] = useState(false);
+  const [selectedDoc, setSelectedDoc] = useState({});
 
   useEffect(() => {
     const proposal = state.ProposalModule.selectedProposal;
@@ -183,21 +185,21 @@ const CreateProposal = ({handleGoBack}) => {
     const currentDeal = state.DealModule.selectedDeal;
 
     if (attachedDocs.length > 0) {
+      // const promises = attachedDocs.map(async doc => {
+      //   if (doc.isUploaded) {
+      //     return doc;
+      //   } else {
+      //     const base64Url = await getBase64(doc.file);
+      //     return {
+      //       ...doc,
+      //       file: base64Url,
+      //     };
+      //   }
+      // });
+
+      // const docs = await Promise.all(promises);
+
       const promises = attachedDocs.map(async doc => {
-        if (doc.isUploaded) {
-          return doc;
-        } else {
-          const base64Url = await getBase64(doc.file);
-          return {
-            ...doc,
-            file: base64Url,
-          };
-        }
-      });
-
-      const docs = await Promise.all(promises);
-
-      const newPromises = docs.map(async doc => {
         if (doc.isUploaded) {
           return doc;
         } else {
@@ -210,7 +212,7 @@ const CreateProposal = ({handleGoBack}) => {
         }
       });
 
-      const attachments = await Promise.all(newPromises);
+      const attachments = await Promise.all(promises);
 
       const document = {
         attachedFiles: attachments,
@@ -352,12 +354,39 @@ const CreateProposal = ({handleGoBack}) => {
     }
   };
 
+  const handleRow = doc => {
+    console.log(doc);
+    setSelectedDoc(doc);
+    setDocviewModal(true);
+  };
+
   return (
     <Box
       sx={{
         width: "100%",
       }}
     >
+      <ModalBox
+        open={docViewModal}
+        onClose={() => setDocviewModal(false)}
+        header={`View Document ${selectedDoc?.fileName}`}
+      >
+        <Box sx={{width: "85vw", height: "85vh"}}>
+          {selectedDoc?.fileType === "pdf" ? (
+            <iframe
+              src={selectedDoc?.file}
+              title={selectedDoc?.fileName}
+              style={{width: "100%", height: "100%"}}
+            />
+          ) : (
+            <iframe
+              title={selectedDoc?.fileName}
+              style={{width: "100%", height: "100%"}}
+              src={`https://view.officeapps.live.com/op/embed.aspx?src=${selectedDoc?.file}`}
+            />
+          )}
+        </Box>
+      </ModalBox>
       <Box
         sx={{
           display: "flex",
@@ -447,7 +476,7 @@ const CreateProposal = ({handleGoBack}) => {
               pointerOnHover
               highlightOnHover
               striped
-              //onRowClicked={handleRow}
+              onRowClicked={handleRow}
               CustomEmptyData="You haven't Attached any file(s) yet..."
               progressPending={false}
             />
@@ -542,11 +571,20 @@ const UploadComponent = ({}) => {
 
 export const ProposalAttachDocument = ({closeModal, addAttachedFile}) => {
   const [file, setFile] = useState(null);
+  const [base64, setBase64] = useState(null);
   const {register, reset, handleSubmit} = useForm();
   const {user} = useContext(UserContext);
 
   const handleChange = file => {
-    setFile(file);
+    getBase64(file[0])
+      .then(res => {
+        // console.log(file);
+        setFile(file);
+        setBase64(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const handleAttachFile = data => {
@@ -557,7 +595,7 @@ export const ProposalAttachDocument = ({closeModal, addAttachedFile}) => {
       createdAt: new Date(),
       fileName: file[0].name,
       fileType: file[0].name.split(".").pop(),
-      file: file[0],
+      file: base64,
       comment: data.comment,
       _id: uuidv4(),
     };
@@ -601,7 +639,10 @@ export const ProposalAttachDocument = ({closeModal, addAttachedFile}) => {
           Cancel
         </GlobalCustomButton>
 
-        <GlobalCustomButton onClick={handleSubmit(handleAttachFile)}>
+        <GlobalCustomButton
+          disabled={file === null || base64 === null}
+          onClick={handleSubmit(handleAttachFile)}
+        >
           Attach File
         </GlobalCustomButton>
       </Box>

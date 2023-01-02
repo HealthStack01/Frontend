@@ -11,7 +11,7 @@ import {Box} from "@mui/material";
 import SLADetail from "./components/SLA/SLADetails";
 // eslint-disable-next-line
 
-export default function SLA() {
+export default function SLA({isTab}) {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [createModal, setCreateModal] = useState(false);
@@ -27,6 +27,7 @@ export default function SLA() {
         <SLAList
           showDetail={() => setCurrentView("detail")}
           showCreate={() => setCurrentView("create")}
+          isTab={isTab}
         />
       )}
 
