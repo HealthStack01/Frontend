@@ -133,7 +133,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
           });
 
     await setFacilities(res.data);
-    console.log(res.data);
+    //console.log(res.data);
     hideActionLoader();
   };
 
@@ -165,38 +165,6 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
     dealServer.on("patched", obj => updateFacilities());
     dealServer.on("removed", obj => updateFacilities());
   }, []);
-
-  const dummyData = [
-    {
-      company_name: "Health Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
-    },
-    {
-      company_name: "Albert Health Stack",
-      telestaff_name: "KTeejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
-    },
-    {
-      company_name: "DonaHealth Stack",
-      telestaff_name: "9Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Inactive",
-    },
-
-    {
-      company_name: "DaviHealth Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
-    },
-  ];
 
   const returnCell = status => {
     switch (status?.toLowerCase()) {
