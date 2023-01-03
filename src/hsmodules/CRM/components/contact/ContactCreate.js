@@ -1,11 +1,14 @@
+import {useContext} from "react";
 import {Button, Grid} from "@mui/material";
 import {Box} from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
 import {useForm} from "react-hook-form";
 import {toast} from "react-toastify";
+import {ObjectContext} from "../../../../context";
 
 const ContactCreate = ({closeModal, createContact, server}) => {
   const {register, handleSubmit, reset} = useForm();
+  const {state, setState} = useContext(ObjectContext);
 
   const initFormState = {
     name: "",

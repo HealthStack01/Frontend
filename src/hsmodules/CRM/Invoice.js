@@ -12,7 +12,7 @@ import {Box} from "@mui/material";
 // eslint-disable-next-line
 const searchfacility = {};
 
-const Invoice = () => {
+const Invoice = ({isTab}) => {
   const {state} = useContext(ObjectContext); //,setState
 
   const [createModal, setCreateModal] = useState(false);
@@ -22,10 +22,6 @@ const Invoice = () => {
     setCurrentView("lists");
   };
 
-  const handleChangeView = view => {
-    setCurrentView(view);
-  };
-
   return (
     <Box>
       {currentView === "lists" && (
@@ -33,6 +29,7 @@ const Invoice = () => {
           openCreateModal={() => setCreateModal(true)}
           showDetailView={() => setCurrentView("details")}
           showCreateView={() => setCurrentView("create")}
+          isTab={isTab}
         />
       )}
 

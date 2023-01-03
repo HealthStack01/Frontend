@@ -751,6 +751,7 @@ export function ClientList({openCreateModal, openDetailModal}) {
         },
       });
       if (page === 0) {
+        //console.log(findClient.data);
         await setFacilities(findClient.data);
         setState(prev => ({
           ...prev,

@@ -458,7 +458,7 @@ export const OrganaizationLogoUpload = ({closeModal}) => {
     useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
 
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState(null);
 
   const handleChange = file => {
     //console.log(file);
@@ -476,6 +476,7 @@ export const OrganaizationLogoUpload = ({closeModal}) => {
   };
 
   const handleUploadLogo = async () => {
+    if (file === null) return toast.error("Please select a Logo to upload");
     showActionLoader();
     const token = localStorage.getItem("feathers-jwt");
     axios
@@ -486,6 +487,7 @@ export const OrganaizationLogoUpload = ({closeModal}) => {
       )
       .then(async res => {
         //return console.log(res);
+        console.log(res);
         const logoUrl = res.data.url;
         const employee = user.currentEmployee;
         const prevOrgDetail = user.currentEmployee.facilityDetail;
@@ -537,7 +539,11 @@ export const OrganaizationLogoUpload = ({closeModal}) => {
     <Box sx={{width: "400px", maxHeight: "80vw"}}>
       {file ? (
         <Box
-          sx={{display: "flex", alignItems: "center", justifyContent: "center"}}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
           <img
             src={file}
@@ -560,7 +566,7 @@ export const OrganaizationLogoUpload = ({closeModal}) => {
           Cancel
         </GlobalCustomButton>
 
-        <GlobalCustomButton onClick={handleUploadLogo}>
+        <GlobalCustomButton onClick={handleUploadLogo} disabled={file === null}>
           Upload Logo
         </GlobalCustomButton>
       </Box>

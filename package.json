@@ -6,6 +6,7 @@
     "@babel/core": "7.0.0",
     "@ckeditor/ckeditor5-build-classic": "^35.3.1",
     "@ckeditor/ckeditor5-react": "^5.0.2",
+    "@cyntler/react-doc-viewer": "^1.10.3",
     "@date-io/date-fns": "^2.13.1",
     "@devexpress/dx-react-core": "^3.0.1",
     "@devexpress/dx-react-scheduler": "^3.0.6",
@@ -41,7 +42,6 @@
     "dayjs": "^1.11.6",
     "eslint-auto-fix": "^1.0.4",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "flutterwave-react-v3": "^1.3.0",
     "framer-motion": "^5.5.5",
@@ -105,7 +105,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start --max-old-space-size=8192 start",
     "start:dev": "react-scripts start",
     "start:prod": "yarn build && serve -s build",
     "build": "CI= react-scripts --max_old_space_size=4096 build",
@@ -143,6 +143,7 @@
     "@types/react-router-dom": "^5.3.2",
     "@types/styled-components": "^5.1.20",
     "babel-loader": "^8.2.5",
+    "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.5.1",
     "typescript": "^3.3.4000"
   },

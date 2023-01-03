@@ -4,6 +4,7 @@ import React, {useState, useContext, useEffect, useCallback} from "react";
 import {UserContext, ObjectContext} from "../../../../context";
 import "react-datepicker/dist/react-datepicker.css";
 import PendingIcon from "@mui/icons-material/Pending";
+import LockIcon from "@mui/icons-material/Lock";
 
 import {PageWrapper} from "../../../../ui/styled/styles";
 import {TableMenu} from "../../../../ui/styled/global";
@@ -13,15 +14,15 @@ import CustomTable from "../../../../components/customtable";
 //import OldLeadDetail from "./components/lead/LeadDetail";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
-import LockIcon from "@mui/icons-material/Lock";
+import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import client from "../../../../feathers";
-import dayjs from "dayjs";
-import {Typography} from "@mui/material";
 import {Box} from "@mui/system";
+import {Typography} from "@mui/material";
+import dayjs from "dayjs";
 // eslint-disable-next-line
 const searchfacility = {};
 
-const OpenDealsList = ({showClosedDeals, setDealDetail, showPendingDeals}) => {
+const PendingDealsList = ({showOpenDeals, setDealDetail, showCloseDeals}) => {
   // eslint-disable-next-line
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -29,8 +30,23 @@ const OpenDealsList = ({showClosedDeals, setDealDetail, showPendingDeals}) => {
   const {user, setUser} = useContext(UserContext);
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
-  const [openDeals, setOpenDeals] = useState([]);
+  const [closedDeals, setClosedDeals] = useState([]);
   const dealServer = client.service("deal");
+
+  const handleShowOpenDeals = async () => {
+    showOpenDeals();
+  };
+
+  const handleShowClosedDeals = () => {
+    showCloseDeals();
+  };
+
+  const handleRow = async data => {
+    //openDetailModal();
+    setDealDetail("closed-detail");
+  };
+
+  const handleSearch = val => {};
 
   const getFacilities = useCallback(async () => {
     const testId = "60203e1c1ec8a00015baa357";
@@ -38,7 +54,7 @@ const OpenDealsList = ({showClosedDeals, setDealDetail, showPendingDeals}) => {
 
     showActionLoader();
 
-    const status = "open" || "pending";
+    //const status = "close" || "pending";
 
     const res =
       testId === facId
@@ -46,65 +62,16 @@ const OpenDealsList = ({showClosedDeals, setDealDetail, showPendingDeals}) => {
         : await dealServer.find({
             query: {
               facilityId: facId,
-              "dealinfo.currStatus": status,
-              //"dealinfo.currStatus": "pending",
+              "dealinfo.currStatus": "pending",
             },
           });
-    await setOpenDeals(res.data);
+    await setClosedDeals(res.data);
     hideActionLoader();
   }, []);
 
   useEffect(() => {
     getFacilities();
   }, [getFacilities]);
-
-  const handleShowClosedDeals = async () => {
-    showClosedDeals();
-  };
-
-  const handleShowPendingDeals = () => {
-    showPendingDeals();
-  };
-
-  const handleRow = async data => {
-    //openDetailModal();
-    console.log(setDealDetail);
-    setDealDetail("open-detail");
-  };
-
-  const handleSearch = val => {};
-
-  const dummyData = [
-    {
-      company_name: "Health Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
-    },
-    {
-      company_name: "Albert Health Stack",
-      telestaff_name: "KTeejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
-    },
-    {
-      company_name: "DonaHealth Stack",
-      telestaff_name: "9Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Inactive",
-    },
-
-    {
-      company_name: "DaviHealth Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
-    },
-  ];
 
   const returnCell = status => {
     switch (status.toLowerCase()) {
@@ -114,61 +81,15 @@ const OpenDealsList = ({showClosedDeals, setDealDetail, showPendingDeals}) => {
       case "pending":
         return <span style={{color: "#0364FF"}}>{status}</span>;
 
+      case "closed":
+        return <span style={{color: "red"}}>{status}</span>;
+
       default:
         break;
     }
   };
 
-  const dealsColumns2 = [
-    {
-      name: "Company Name",
-      key: "sn",
-      description: "Enter name of Company",
-      selector: row => row.company_name,
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "Telestaff Name",
-      key: "telestaff_name",
-      description: "Enter Telestaff name",
-      selector: row => row.telestaff_name,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Probability Of Deal",
-      key: "probability",
-      description: "Enter bills",
-      selector: row => row.probability,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Date of Submission",
-      key: "date",
-      description: "Enter name of Disease",
-      selector: (row, i) => row.date,
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-    {
-      name: "Status",
-      key: "status",
-      description: "Enter bills",
-      selector: "status",
-      cell: row => returnCell(row.status),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-  ];
-
-  const dealsColumns = [
+  const closedDealColumns = [
     {
       name: "S/N",
       key: "sn",
@@ -237,15 +158,7 @@ const OpenDealsList = ({showClosedDeals, setDealDetail, showPendingDeals}) => {
       required: true,
       inputType: "HIDDEN",
     },
-    // {
-    //   name: "Telestaff Name",
-    //   key: "telestaff_name",
-    //   description: "Enter Telestaff name",
-    //   selector: row => row.telestaff_name,
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "TEXT",
-    // },
+
     {
       name: "Probability",
       key: "probability",
@@ -330,27 +243,42 @@ const OpenDealsList = ({showClosedDeals, setDealDetail, showPendingDeals}) => {
                 </div>
               )}
               <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-                List of Open Deals
+                List of Pending Deals
               </h2>
             </div>
 
             <Box sx={{display: "flex"}} gap={2}>
-              <GlobalCustomButton onClick={handleShowClosedDeals}>
-                <LockIcon fontSize="small" sx={{marginRight: "5px"}} />
-                View Closed Deals
+              <GlobalCustomButton onClick={handleShowOpenDeals}>
+                <LockOpenOutlinedIcon
+                  fontSize="small"
+                  sx={{marginRight: "5px"}}
+                />
+                View Open Deals
               </GlobalCustomButton>
 
-              <GlobalCustomButton onClick={handleShowPendingDeals} color="info">
-                <PendingIcon fontSize="small" sx={{marginRight: "5px"}} />
-                View Pending Deals
+              <GlobalCustomButton onClick={handleShowClosedDeals} color="info">
+                <LockOpenOutlinedIcon
+                  fontSize="small"
+                  sx={{marginRight: "5px"}}
+                />
+                View Closed Deals
               </GlobalCustomButton>
             </Box>
+
+            {/* <GlobalCustomButton onClick={handleShowClosedDeals}>
+              <LockOpenOutlinedIcon
+                Closed
+                fontSize="small"
+                sx={{marginRight: "5px"}}
+              />
+              View Open Deals
+            </GlobalCustomButton> */}
           </TableMenu>
           <div style={{width: "100%", overflow: "auto"}}>
             <CustomTable
               title={""}
-              columns={dealsColumns}
-              data={openDeals}
+              columns={closedDealColumns}
+              data={closedDeals}
               pointerOnHover
               highlightOnHover
               striped
@@ -365,4 +293,4 @@ const OpenDealsList = ({showClosedDeals, setDealDetail, showPendingDeals}) => {
   );
 };
 
-export default OpenDealsList;
+export default PendingDealsList;
