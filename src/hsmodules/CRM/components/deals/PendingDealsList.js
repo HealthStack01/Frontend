@@ -3,7 +3,6 @@ import React, {useState, useContext, useEffect, useCallback} from "react";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../../../context";
 import "react-datepicker/dist/react-datepicker.css";
-import PendingIcon from "@mui/icons-material/Pending";
 import LockIcon from "@mui/icons-material/Lock";
 
 import {PageWrapper} from "../../../../ui/styled/styles";
@@ -248,7 +247,7 @@ const PendingDealsList = ({showOpenDeals, setDealDetail, showCloseDeals}) => {
             </div>
 
             <Box sx={{display: "flex"}} gap={2}>
-              <GlobalCustomButton onClick={handleShowOpenDeals}>
+              <GlobalCustomButton onClick={handleShowOpenDeals} color="success">
                 <LockOpenOutlinedIcon
                   fontSize="small"
                   sx={{marginRight: "5px"}}
@@ -256,11 +255,8 @@ const PendingDealsList = ({showOpenDeals, setDealDetail, showCloseDeals}) => {
                 View Open Deals
               </GlobalCustomButton>
 
-              <GlobalCustomButton onClick={handleShowClosedDeals} color="info">
-                <LockOpenOutlinedIcon
-                  fontSize="small"
-                  sx={{marginRight: "5px"}}
-                />
+              <GlobalCustomButton onClick={handleShowClosedDeals} color="error">
+                <LockIcon fontSize="small" sx={{marginRight: "5px"}} />
                 View Closed Deals
               </GlobalCustomButton>
             </Box>

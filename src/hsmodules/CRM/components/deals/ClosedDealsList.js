@@ -386,7 +386,7 @@ const ClosedDealsList = ({showOpenDeals, setDealDetail, showPendingDeals}) => {
             </div>
 
             <Box sx={{display: "flex"}} gap={2}>
-              <GlobalCustomButton onClick={handleShowOpenDeals}>
+              <GlobalCustomButton onClick={handleShowOpenDeals} color="success">
                 <LockOpenOutlinedIcon
                   fontSize="small"
                   sx={{marginRight: "5px"}}

@@ -14,6 +14,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import BlockIcon from "@mui/icons-material/Block";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import Drawer from "@mui/material/Drawer";
 
 import {LeadView} from "../lead/LeadDetailView";
 import ChatInterface from "../../../../components/chat/ChatInterface";
@@ -310,11 +311,12 @@ const SLADetail = ({handleGoBack}) => {
         </Grid>
       </Grid>
 
-      <SwipeableDrawer
+      <Drawer
         anchor="right"
         open={chat}
         onClose={() => setChat(false)}
         onOpen={() => setChat(true)}
+        //hysteresis={0}
       >
         <Box
           sx={{
@@ -325,7 +327,7 @@ const SLADetail = ({handleGoBack}) => {
         >
           <ChatInterface closeChat={() => setChat(false)} />
         </Box>
-      </SwipeableDrawer>
+      </Drawer>
     </Box>
   );
 };

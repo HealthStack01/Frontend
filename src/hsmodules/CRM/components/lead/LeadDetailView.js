@@ -10,6 +10,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import ChatIcon from "@mui/icons-material/Chat";
 import Badge from "@mui/material/Badge";
+import Drawer from "@mui/material/Drawer";
 import DocViewer, {DocViewerRenderers} from "@cyntler/react-doc-viewer";
 
 import {FormsHeaderText} from "../../../../components/texts";
@@ -619,7 +620,7 @@ const LeadDetail = ({handleGoBack}) => {
     <Box
       sx={{
         width: "100%",
-        height: "calc(100vh - 100px)",
+        height: "calc(100vh - 80px)",
         overflowY: "auto",
         position: "relative",
       }}
@@ -863,7 +864,7 @@ const LeadDetail = ({handleGoBack}) => {
         {currentView === "sla" && <SLA isTab={true} />}
       </Box>
 
-      <SwipeableDrawer
+      <Drawer
         anchor="right"
         open={chat}
         onClose={() => setChat(false)}
@@ -878,7 +879,7 @@ const LeadDetail = ({handleGoBack}) => {
         >
           {chat && <GlobalDealChat closeChat={() => setChat(false)} />}
         </Box>
-      </SwipeableDrawer>
+      </Drawer>
     </Box>
   );
 };

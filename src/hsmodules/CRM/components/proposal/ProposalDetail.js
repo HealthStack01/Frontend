@@ -15,6 +15,7 @@ import BlockIcon from "@mui/icons-material/Block";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import DocViewer, {DocViewerRenderers} from "@cyntler/react-doc-viewer";
+import Drawer from "@mui/material/Drawer";
 
 import {DetailView, CustomerView, LeadView} from "../lead/LeadDetailView";
 import ChatInterface from "../../../../components/chat/ChatInterface";
@@ -315,7 +316,7 @@ const ProposalDetail = ({handleGoBack}) => {
         </Grid>
       </Grid>
 
-      <SwipeableDrawer
+      <Drawer
         anchor="right"
         open={chat}
         onClose={() => setChat(false)}
@@ -330,7 +331,7 @@ const ProposalDetail = ({handleGoBack}) => {
         >
           <ChatInterface closeChat={() => setChat(false)} />
         </Box>
-      </SwipeableDrawer>
+      </Drawer>
     </Box>
   );
 };
