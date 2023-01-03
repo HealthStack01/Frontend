@@ -16,6 +16,7 @@ const ProposalList = ({showCreate, showDetail, isTab}) => {
   const {user} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [proposals, setProposals] = useState([]);
+  const [deal, setDeal] = useState({});
 
   const getProposalsForPage = useCallback(async () => {
     const testId = "60203e1c1ec8a00015baa357";
@@ -31,13 +32,21 @@ const ProposalList = ({showCreate, showDetail, isTab}) => {
             },
           });
 
-    const deals = res.data;
+    const deals = res.data || [];
 
     const promises = deals.map(async deal => deal.proposal || []);
 
     const proposals = await Promise.all(promises);
 
-    await setProposals(proposals.flat(1));
+    const finalProposals = proposals.flat(1);
+
+    const currentDeal = deals.find(
+      item => item._id === finalProposals[0].dealId
+    );
+
+    setDeal(currentDeal.dealinfo);
+
+    await setProposals(finalProposals || []);
 
     hideActionLoader();
   }, []);
@@ -64,7 +73,7 @@ const ProposalList = ({showCreate, showDetail, isTab}) => {
     }
   };
 
-  const deal = state.DealModule.selectedDeal.dealinfo;
+  // const deal = state.DealModule.selectedDeal.dealinfo;
 
   //console.log(deal);
 
@@ -111,7 +120,7 @@ const ProposalList = ({showCreate, showDetail, isTab}) => {
       name: "Deal Probability",
       key: "contact_position",
       description: "Enter bills",
-      selector: row => deal.probability,
+      selector: row => deal?.probability,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -120,7 +129,7 @@ const ProposalList = ({showCreate, showDetail, isTab}) => {
       name: "Deal Status",
       key: "phone_No",
       description: "Enter name of Disease",
-      selector: (row, i) => deal.currStatus,
+      selector: (row, i) => deal?.currStatus,
       sortable: true,
       required: true,
       inputType: "DATE",

@@ -586,16 +586,15 @@ const LeadDetail = ({handleGoBack}) => {
       .get(id)
       .then(resp => {
         const msgs = resp.chat;
-        msgs.map(item => {
+        msgs.map(msg => {
           if (
-            item.senderId !== userId &&
-            !item.seen.includes(userId) &&
-            !unreadMsgs.includes(item._id)
+            msg.senderId === userId ||
+            msg.seen.includes(userId)
+            //unreadMsgs.includes(msg._id)
           ) {
-            //console.log(item.senderId);
-            setUnreadMsgs(prev => [item._id, ...prev]);
-          } else {
             return;
+          } else {
+            return setUnreadMsgs(prev => [msg._id, ...prev]);
           }
         });
       })
@@ -877,7 +876,7 @@ const LeadDetail = ({handleGoBack}) => {
             overflowY: "hidden",
           }}
         >
-          <GlobalDealChat closeChat={() => setChat(false)} />
+          {chat && <GlobalDealChat closeChat={() => setChat(false)} />}
         </Box>
       </SwipeableDrawer>
     </Box>

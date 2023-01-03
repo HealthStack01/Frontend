@@ -46,8 +46,6 @@ const GlobalDealChat = ({closeChat}) => {
     const employee = user.currentEmployee;
     const currentDeal = state.DealModule.selectedDeal;
 
-    const prevChat = currentDeal.chat || [];
-
     const messageDoc = {
       message: message,
       time: moment(),
@@ -64,11 +62,6 @@ const GlobalDealChat = ({closeChat}) => {
 
     const newChat = [...messages, messageDoc];
 
-    const newDealDetail = {
-      ...currentDeal,
-      chat: newChat,
-    };
-
     const documentId = currentDeal._id;
 
     await dealServer
@@ -79,10 +72,49 @@ const GlobalDealChat = ({closeChat}) => {
         //toast.success("Message sent");
       })
       .catch(err => {
-        //toast.error("Message failed");
+        toast.error("Message failed");
         setSendingMsg(false);
       });
   };
+
+  const handleResendMessage = messageObj => {};
+
+  // const markMessagesAsSeen = useCallback(async () => {
+  //   console.log("hello");
+  //   const userId = user.currentEmployee.userId;
+  //   const currentDeal = state.DealModule.selectedDeal;
+  //   const documentId = currentDeal._id;
+
+  //   if (messages.length > 0) {
+  //     const promises = messages.map(msg => {
+  //       if (msg.senderId === userId || msg.seen.includes(userId)) {
+  //         return msg;
+  //       } else {
+  //         const updatedMsg = {
+  //           ...msg,
+  //           seen: [userId, ...msg.seen],
+  //         };
+
+  //         return updatedMsg;
+  //       }
+  //     });
+
+  //     const updatedChat = await Promise.all(promises);
+  //     return console.log("UPDATED CHAT LIST", updatedChat);
+  //     await dealServer
+  //       .patch(documentId, {chat: updatedChat})
+  //       .then(res => {
+  //         console.log(res);
+  //       })
+  //       .catch(err => {
+  //         console.log(err);
+  //       });
+  //   }
+  // }, [user.currentEmployee, state.DealModule, messages]);
+
+  // useEffect(() => {
+  //   markMessagesAsSeen();
+  // }, [markMessagesAsSeen]);
 
   return (
     <Box sx={{width: "100%", height: "100%"}}>

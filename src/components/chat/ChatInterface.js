@@ -15,7 +15,8 @@ import {messages} from "./data";
 import FilterMenu from "../utilities/FilterMenu";
 import ExpandableSearchInput from "../inputs/Search/ExpandableSearch";
 import {toast} from "react-toastify";
-import {UserContext} from "../../context";
+import {ObjectContext, UserContext} from "../../context";
+import client from "../../feathers";
 
 const ChatInterface = ({
   closeChat,
@@ -25,8 +26,10 @@ const ChatInterface = ({
   setMessage,
   isSendingMessage = false,
 }) => {
+  const dealServer = client.service("deal");
   const [chatMessages, setChatMessages] = useState([]);
   const {user} = useContext(UserContext);
+  const {state} = useContext(ObjectContext);
   const [goDownIcon, setGoDownIcon] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
@@ -58,10 +61,6 @@ const ChatInterface = ({
       setGoDownIcon(false);
     }
   };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [chatMessages, scrollToBottom]);
 
   const messageStatus = status => {
     switch (status.toLowerCase()) {
@@ -101,6 +100,46 @@ const ChatInterface = ({
     if (message.message?.toLowerCase().includes(searchValue.toLowerCase()))
       return message;
   });
+
+  const markMessagesAsSeen = useCallback(async () => {
+    const userId = user.currentEmployee.userId;
+    const currentDeal = state.DealModule.selectedDeal;
+    const documentId = currentDeal._id;
+
+    if (messages.length > 0) {
+      const promises = messages.map(msg => {
+        if (msg.senderId === userId || msg.seen.includes(userId)) {
+          return msg;
+        } else {
+          const updatedMsg = {
+            ...msg,
+            seen: [userId, ...msg.seen],
+          };
+
+          return updatedMsg;
+        }
+      });
+
+      const updatedChat = await Promise.all(promises);
+      // return console.log("UPDATED CHAT LIST", updatedChat);
+      await dealServer
+        .patch(documentId, {chat: updatedChat})
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    markMessagesAsSeen();
+  }, [markMessagesAsSeen]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, scrollToBottom]);
 
   const currentMessages = searchValue === "" ? messages : searchedMessages;
 

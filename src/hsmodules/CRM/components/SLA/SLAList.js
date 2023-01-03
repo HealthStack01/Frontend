@@ -20,7 +20,7 @@ export function SLAList({showDetail, showCreate, isTab}) {
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
   const [slaList, setSLAList] = useState([]);
-  //const [deal, setDeal] = useState({})
+  const [deal, setDeal] = useState({});
 
   const getSLAForPage = useCallback(async () => {
     const testId = "60203e1c1ec8a00015baa357";
@@ -44,11 +44,13 @@ export function SLAList({showDetail, showCreate, isTab}) {
 
     const sla = await Promise.all(promises);
 
-    //console.log(sla);
+    const finalSLA = sla.flat(1);
 
-    //setDeal()
+    const currentDeal = deals.find(item => item._id === finalSLA[0].dealId);
 
-    await setSLAList(sla.flat(1) || []);
+    setDeal(currentDeal.dealinfo);
+
+    await setSLAList(finalSLA || []);
 
     hideActionLoader();
   }, []);
@@ -129,7 +131,7 @@ export function SLAList({showDetail, showCreate, isTab}) {
     }
   };
 
-  const deal = state.DealModule.selectedDeal.dealinfo;
+  // const deal = state.DealModule.selectedDeal.dealinfo;
 
   const SLAColumns = [
     {
