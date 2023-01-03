@@ -226,7 +226,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       // const findClient= await ClientServ.find()
       const findClient = await ClientServ.find({
         query: {
-          // facility: user.currentEmployee.facilityDetail._id,
+          organizationId: user.currentEmployee.facilityDetail._id,
           $sort: {
             createdAt: -1,
           },
@@ -425,7 +425,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       inputType: 'TEXT',
     },
   ];
-
+  console.log(user);
   return (
     <>
       <div className="level">
@@ -590,7 +590,6 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
   const handleClickProd2 = () => {
     setState((prevstate) => ({ ...prevstate, currBeneficiary: 'dependent' }));
     setDependant('dependent');
-    setClientModal(true);
     setOpenCreate(true);
   };
 
@@ -689,12 +688,12 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
   };
   const getBenfittingPlans = async () => {
     setBenefittingPlans1([]);
-    if (user.currentEmployee) {
+    if (hmo) {
       const findServices = await ServicesServ.find({
         query: {
-          facility: user.currentEmployee.facilityDetail._id,
-          'contracts.source_org': user.currentEmployee.facilityDetail._id,
-          'contracts.dest_org': user.currentEmployee.facilityDetail._id,
+          facility: hmo?._id,
+          'contracts.source_org': hmo?._id,
+          'contracts.dest_org': hmo?._id,
           category: 'Managed Care',
 
           $sort: {
@@ -1037,7 +1036,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
     // getFacility();
 
     return () => {};
-  }, []);
+  }, [hmo]);
 
   const OrgFacilitySchema = [
     {
@@ -1239,6 +1238,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
                     marginLeft: '.5rem',
                     cursor: 'pointer',
                   }}
+                  type="button"
                 >
                   +
                 </button>
@@ -1255,6 +1255,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
                   marginLeft: '.5rem',
                   cursor: 'pointer',
                 }}
+                type="button"
               >
                 +
               </button>

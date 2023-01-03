@@ -124,22 +124,13 @@ export function OrganizationCreate() {
       const findServices = await BandsServ.find({
         query: {
           facility: user.currentEmployee.facilityDetail._id,
-          bandType:
-            user.currentEmployee.facilityDetail.facilityType === 'HMO'
-              ? 'Provider'
-              : 'Company',
-
-          // storeId:state.StoreModule.selectedStore._id,
-          // $limit:20,
-          //   paginate:false,
+          bandType: 'Corporate Sponsor',
           $sort: {
             category: 1,
           },
         },
       });
-      // console.log(findServices)
       await setProviderBand(findServices.data);
-      // console.log(findServices)
     }
   };
 
@@ -223,11 +214,7 @@ export function OrganizationCreate() {
           border: '1px solid rgba(0, 0, 0, 0.6)',
         }}
       >
-        <option value="">
-          {user.currentEmployee.facilityDetail.facilityType === 'HMO'
-            ? 'Choose Provider Band'
-            : 'Choose Company Band'}{' '}
-        </option>
+        <option value="">Choose Corporate Sponsorship Type</option>
         {providerBand.map((option, i) => (
           <option key={i} value={option.name}>
             {' '}
