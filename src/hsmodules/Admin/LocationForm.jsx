@@ -1,16 +1,16 @@
-import React, { useState, useContext } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast, ToastContainer } from 'react-toastify';
+import React, {useState, useContext} from "react";
+import {useForm} from "react-hook-form";
+import {toast, ToastContainer} from "react-toastify";
 // import Button from '../../components/buttons/Button';
-import GlobalCustomButton from '../../components/buttons/CustomButton';
-import Input from '../../components/inputs/basic/Input';
-import CustomSelect from '../../components/inputs/basic/Select';
-import BasicDatePicker from '../../components/inputs/Date';
-import { UserContext } from '../../context';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { locationTypeOptions } from '../../dummy-data';
-import client from '../../feathers';
-import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import Input from "../../components/inputs/basic/Input";
+import CustomSelect from "../../components/inputs/basic/Select";
+import BasicDatePicker from "../../components/inputs/Date";
+import {UserContext} from "../../context";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {locationTypeOptions} from "../../dummy-data";
+import client from "../../feathers";
+import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import {
   BottomWrapper,
   DetailsWrapper,
@@ -18,28 +18,31 @@ import {
   GridWrapper,
   HeadWrapper,
   PageWrapper,
-} from '../app/styles';
+} from "../app/styles";
 // import { createBandSchema } from './schema';
-import { createBandSchema } from './ui-components/schema';
-import { createLocationSchema } from './ui-components/schema';
-import ModalBox from '../../components/modal';
+import {createBandSchema} from "./ui-components/schema";
+import {createLocationSchema} from "./ui-components/schema";
+import ModalBox from "../../components/modal";
 
-export const LocationForm = ({ open, setOpen }) => {
+export const LocationForm = ({open, setOpen}) => {
   // const { register, handleSubmit,setValue} = useForm();
-  const LocationServ = client.service('location');
+  const LocationServ = client.service("location");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isFullRegistration, setFullRegistration] = useState(false);
   // const data = localStorage.getItem('users');
   // const user = JSON.parse(data);
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
+
+  //Location wasn't initially defined but was consumed in defaultValues, please update your location object
+  const location = {};
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: {errors},
     reset,
   } = useForm({
     resolver: yupResolver(createLocationSchema),
@@ -57,12 +60,12 @@ export const LocationForm = ({ open, setOpen }) => {
     setSuccess(false);
     console.log(data);
     await LocationServ.create(data)
-      .then((res) => {
+      .then(res => {
         toast.success(`Location successfully created`);
         setLoading(false);
         setOpen(false);
       })
-      .catch((err) => {
+      .catch(err => {
         toast.error(`Sorry, You weren't able to create a location. ${err}`);
         setLoading(false);
       });
@@ -74,19 +77,19 @@ export const LocationForm = ({ open, setOpen }) => {
     <ModalBox open={open} onClose={setOpen} header="Create Location">
       <form>
         <ToastContainer theme="colored" />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div style={{display: "flex", flexDirection: "column", gap: "1rem"}}>
           <Input
             label="Name of Location"
-            register={register('name')}
+            register={register("name")}
             errorText={errors?.name?.message}
-            sx={{ marginBottom: '2rem' }}
+            sx={{marginBottom: "2rem"}}
           />
           <CustomSelect
             label="Choose Location Type"
             name="locationType"
             options={locationTypeOptions}
-            register={register('locationType')}
-            sx={{ marginBottom: '2rem' }}
+            register={register("locationType")}
+            sx={{marginBottom: "2rem"}}
           />
           {/* <Input
             {...register('description')}
@@ -98,7 +101,7 @@ export const LocationForm = ({ open, setOpen }) => {
         </div>
         <BottomWrapper>
           <GlobalCustomButton type="submit" onClick={handleSubmit(submit)}>
-            <ControlPointIcon fontSize="small" sx={{ marginRight: '5px' }} />
+            <ControlPointIcon fontSize="small" sx={{marginRight: "5px"}} />
             Create Location
           </GlobalCustomButton>
         </BottomWrapper>
