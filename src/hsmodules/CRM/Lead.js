@@ -112,7 +112,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
     }));
     showDetail();
     //dealServer.remove(delId);
-    console.log(data);
+    //console.log(data);
   };
 
   const handleSearch = val => {};

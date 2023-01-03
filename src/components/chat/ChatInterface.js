@@ -135,11 +135,11 @@ const ChatInterface = ({
 
   useEffect(() => {
     markMessagesAsSeen();
-  }, [markMessagesAsSeen]);
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, scrollToBottom]);
+  }, [messages]);
 
   const currentMessages = searchValue === "" ? messages : searchedMessages;
 

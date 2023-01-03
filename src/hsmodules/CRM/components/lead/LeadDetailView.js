@@ -206,23 +206,85 @@ export const DetailView = () => {
 };
 
 export const AdditionalInformationView = () => {
-  const {state} = useContext(ObjectContext);
+  const dealServer = client.service("deal");
+  const {state, setState, hideActionLoader, showActionLoader} =
+    useContext(ObjectContext);
   const [createModal, setCreateModal] = useState(false);
-  const [informations, setInformations] = useState([
-    ...state.DealModule.selectedDeal.additionalInfo,
-  ]);
+  const [informations, setInformations] = useState([]);
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    action: null,
+    message: "",
+    type: "",
+  });
   //const [informations, setInformations] = useState([]);
 
   const removeAdditionalInfo = info => {
     setInformations(prev => prev.filter(item => item._id !== info._id));
   };
 
-  // const addNewInfo = data => {
-  //   setInformations(prev => [data, ...prev]);
-  // };
+  const deleteAdditionalInfo = async info => {
+    showActionLoader();
+
+    const oldDealInfo = state.DealModule.selectedDeal.additionalInfo || [];
+
+    const updatedDealInfo = oldDealInfo.filter(item => item._id !== info._id);
+
+    const documentId = state.DealModule.selectedDeal._id;
+
+    await dealServer
+      .patch(documentId, {additionalInfo: updatedDealInfo})
+      .then(res => {
+        hideActionLoader();
+        setState(prev => ({
+          ...prev,
+          DealModule: {...prev.DealModule, selectedDeal: res},
+        }));
+        cancelConfirm();
+        toast.success(`You have successfully Deleted Addtional Information!`);
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error(
+          `Sorry, You weren't able to Delete the Addtional Information!. ${err}`
+        );
+      });
+  };
+
+  const confirmDelete = info => {
+    setConfirmDialog({
+      open: true,
+      message:
+        "You're about to delete an additional information for this deal?",
+      type: "danger",
+      action: () => deleteAdditionalInfo(info),
+    });
+  };
+
+  const cancelConfirm = () => {
+    setConfirmDialog({
+      open: false,
+      action: null,
+      type: "",
+      message: "",
+    });
+  };
+
+  useEffect(() => {
+    const infos = state.DealModule.selectedDeal.additionalInfo;
+
+    setInformations(infos);
+  }, [state.DealModule.selectedDeal]);
 
   return (
     <Box>
+      <CustomConfirmationDialog
+        open={confirmDialog.open}
+        type={confirmDialog.type}
+        message={confirmDialog.message}
+        cancelAction={cancelConfirm}
+        confirmationAction={confirmDialog.action}
+      />
       <Box
         sx={{
           display: "flex",
@@ -250,7 +312,7 @@ export const AdditionalInformationView = () => {
             <Box sx={{mb: 2}}>
               <AdditionalInformationCard
                 data={info}
-                action={() => removeAdditionalInfo(info)}
+                action={() => confirmDelete(info)}
                 key={index}
               />
             </Box>

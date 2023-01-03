@@ -15,6 +15,9 @@ import MuiClearDatePicker from "../../../../components/inputs/Date/MuiClearDateP
 import client from "../../../../feathers";
 import {toast} from "react-toastify";
 
+var isSameOrBefore = require("dayjs/plugin/isSameOrBefore");
+dayjs.extend(isSameOrBefore);
+
 const AppointmentList = ({openCreateModal, openDetailModal, isTab}) => {
   const dealServer = client.service("deal");
   const {state, setState, showActionLoader, hideActionLoader} =
@@ -27,7 +30,59 @@ const AppointmentList = ({openCreateModal, openDetailModal, isTab}) => {
   const [mapFacilities, setMapFacilities] = useState([]);
   const [appointments, setAppointments] = useState([]);
 
-  const handleSearch = () => {};
+  const handleSearch = async value => {
+    if (isTab) {
+      const appointments = state.DealModule.selectedDeal.appointments;
+
+      const filteredAppointments = appointments.filter(appointment => {
+        const searchVal = value.toLowerCase();
+        if (
+          appointment.customerName.toLowerCase().includes(searchVal) ||
+          appointment.title.toLowerCase().includes(searchVal) ||
+          appointment.status.toLowerCase().includes(searchVal) ||
+          appointment.information.toLowerCase().includes(searchVal)
+        ) {
+          return appointment;
+        }
+      });
+
+      setAppointments(filteredAppointments);
+    } else {
+      const testId = "60203e1c1ec8a00015baa357";
+      const facId = user.currentEmployee.facilityDetail_id;
+
+      const res =
+        testId === facId
+          ? await dealServer.find({})
+          : await dealServer.find({
+              query: {
+                facilityId: facId,
+              },
+            });
+
+      const deals = res.data;
+
+      const promises = deals.map(async deal => deal.appointments || []);
+
+      const appointmentsList = await Promise.all(promises);
+
+      const finalAppointments = appointmentsList.flat(1);
+
+      const filteredAppointments = finalAppointments.filter(appointment => {
+        const searchVal = value.toLowerCase();
+        if (
+          appointment.customerName.toLowerCase().includes(searchVal) ||
+          appointment.title.toLowerCase().includes(searchVal) ||
+          appointment.status.toLowerCase().includes(searchVal) ||
+          appointment.information.toLowerCase().includes(searchVal)
+        ) {
+          return appointment;
+        }
+      });
+
+      setAppointments(filteredAppointments);
+    }
+  };
 
   const returnCell = status => {
     switch (status.toLowerCase()) {
@@ -43,6 +98,7 @@ const AppointmentList = ({openCreateModal, openDetailModal, isTab}) => {
   };
 
   const getAppointmentsForPage = useCallback(async () => {
+    console.log("hello world");
     const testId = "60203e1c1ec8a00015baa357";
     const facId = user.currentEmployee.facilityDetail_id;
     showActionLoader();
@@ -62,14 +118,28 @@ const AppointmentList = ({openCreateModal, openDetailModal, isTab}) => {
 
     const appointmentsList = await Promise.all(promises);
 
-    await setAppointments(appointmentsList.flat(1));
+    const totalAppointments = appointmentsList.flat(1);
+
+    const finalAppointments = totalAppointments.filter(appointment => {
+      if (dayjs(appointment.createdAt).isSameOrBefore(startDate, "day")) {
+        return appointment;
+      }
+    });
+
+    await setAppointments(finalAppointments);
 
     hideActionLoader();
-  }, []);
+  }, [startDate]);
 
   useEffect(() => {
     if (isTab) {
-      setAppointments(state.DealModule.selectedDeal.appointments);
+      const appointemnts = state.DealModule.selectedDeal.appointments;
+      const finalAppointments = appointemnts.filter(appointment => {
+        if (dayjs(appointment.createdAt).isSameOrBefore(startDate, "day")) {
+          return appointment;
+        }
+      });
+      setAppointments(finalAppointments);
     } else {
       getAppointmentsForPage();
     }
@@ -77,6 +147,7 @@ const AppointmentList = ({openCreateModal, openDetailModal, isTab}) => {
     state.DealModule.selectedDeal.appointments,
     getAppointmentsForPage,
     isTab,
+    startDate,
   ]);
 
   const appointmentColumns = [
@@ -126,24 +197,34 @@ const AppointmentList = ({openCreateModal, openDetailModal, isTab}) => {
       inputType: "TEXT",
     },
     {
-      name: "Date",
+      name: "Date Created",
+      key: "date",
+      description: "Enter bills",
+      selector: row => dayjs(row.createdAt).format("DD/MM/YYYY"),
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+      width: "150px",
+    },
+    {
+      name: "Scheduled Date",
       key: "date",
       description: "Enter bills",
       selector: row => dayjs(row.date).format("DD/MM/YYYY"),
       sortable: true,
       required: true,
       inputType: "DATE",
-      width: "100px",
+      width: "150px",
     },
     {
-      name: "Time",
+      name: "Scheduled Time",
       key: "date",
       description: "Enter name of Disease",
       selector: (row, i) => dayjs(row.date).format("hh:mm A	"),
       sortable: true,
       required: true,
       inputType: "DATE",
-      width: "100px",
+      width: "150px",
       //width: "80px",
     },
     {

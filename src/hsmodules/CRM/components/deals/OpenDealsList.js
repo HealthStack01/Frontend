@@ -67,9 +67,11 @@ const OpenDealsList = ({showClosedDeals, setDealDetail, showPendingDeals}) => {
   };
 
   const handleRow = async data => {
-    //openDetailModal();
-    console.log(setDealDetail);
-    setDealDetail("open-detail");
+    setState(prev => ({
+      ...prev,
+      DealModule: {...prev.DealModule, selectedDeal: data},
+    }));
+    setDealDetail("detail");
   };
 
   const handleSearch = val => {};
