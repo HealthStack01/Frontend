@@ -42,6 +42,7 @@ import {
   EnrolleSchema2,
   EnrolleSchema3,
   EnrolleSchema4,
+  EnrolleSchema5,
   principalData,
 } from './schema';
 
@@ -225,9 +226,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       // const findClient= await ClientServ.find()
       const findClient = await ClientServ.find({
         query: {
-          // "relatedfacilities.facility":user.currentEmployee.facilityDetail._id,
-          // $limit:limit,
-          // $skip:page * limit,
+          // facility: user.currentEmployee.facilityDetail._id,
           $sort: {
             createdAt: -1,
           },
@@ -547,7 +546,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
     }
   };
   const getSearchHmo = (obj) => {
-    setHmo(obj);
+    setHmo(obj[0]);
     if (!obj) {
     }
   };
@@ -639,10 +638,10 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
     if (confirm) {
       let policy = {
         policyNo: policyNo,
-        organizationType: user.currentEmployee.facilityDetail.facilityType,
-        organizationId: user.currentEmployee.facilityDetail._id,
-        organizationName: user.currentEmployee.facilityDetail.facilityName,
-        organization: user.currentEmployee.facilityDetail,
+        organizationType: hmo.facilityType,
+        organizationId: hmo._id,
+        organizationName: hmo.facilityName,
+        organization: hmo,
         principal: state.Beneficiary.principal, //
         dependantBeneficiaries: state.Beneficiary.dependent,
         providers: chosen,
@@ -1212,7 +1211,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
             <Grid item md={6}>
               <Input value={price.price} disabled label="Price" />
             </Grid>
-            <Grid item md={6}>
+            {/* <Grid item md={6}>
               <MuiCustomDatePicker
                 label="Start Date"
                 control={control}
@@ -1225,7 +1224,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
                 label="End Date"
                 control={control}
               />
-            </Grid>
+            </Grid> */}
           </Grid>
           <Box sx={{ float: 'left' }}>
             {!state.Beneficiary?.principal._id && (
@@ -2437,44 +2436,49 @@ export function PolicyDetail({ showModal, setShowModal }) {
                   justifyContent: 'space-between',
                 }}
                 mb={1}
-              >
-                <FormsHeaderText text="Sponsor Details" />
-              </Box>
-              <Grid container spacing={1}>
-                <Grid item lg={6} md={6} sm={6}>
-                  <Input
-                    register={register('sponsor_name', { required: true })}
-                    label="Sponsor Name"
-                    disabled={!editPolicy}
-                    //placeholder="Enter customer number"
-                  />
-                </Grid>
-                <Grid item lg={6} md={6} sm={6}>
-                  <Input
-                    register={register('sponsor_phone', { required: true })}
-                    label="Sponsor Phone"
-                    disabled={!editPolicy}
+              ></Box>
+              {facility.sponsorshipType === 'Company' && (
+                <>
+                  <FormsHeaderText text="Sponsor Details" />
+                  <Grid container spacing={1}>
+                    <Grid item lg={6} md={6} sm={6}>
+                      <Input
+                        register={register('sponsor_name', { required: true })}
+                        label="Sponsor Name"
+                        disabled={!editPolicy}
+                        //placeholder="Enter customer number"
+                      />
+                    </Grid>
+                    <Grid item lg={6} md={6} sm={6}>
+                      <Input
+                        register={register('sponsor_phone', { required: true })}
+                        label="Sponsor Phone"
+                        disabled={!editPolicy}
 
-                    //placeholder="Enter customer number"
-                  />
-                </Grid>
-                <Grid item lg={6} md={6} sm={6}>
-                  <Input
-                    register={register('sponsor_email', { required: true })}
-                    label="Sponsor Email"
-                    disabled={!editPolicy}
-                    //placeholder="Enter customer number"
-                  />
-                </Grid>
-                <Grid item lg={6} md={6} sm={6}>
-                  <Input
-                    register={register('sponsor_address', { required: true })}
-                    label="Sponsor Address"
-                    disabled={!editPolicy}
-                    //placeholder="Enter customer number"
-                  />
-                </Grid>
-              </Grid>
+                        //placeholder="Enter customer number"
+                      />
+                    </Grid>
+                    <Grid item lg={6} md={6} sm={6}>
+                      <Input
+                        register={register('sponsor_email', { required: true })}
+                        label="Sponsor Email"
+                        disabled={!editPolicy}
+                        //placeholder="Enter customer number"
+                      />
+                    </Grid>
+                    <Grid item lg={6} md={6} sm={6}>
+                      <Input
+                        register={register('sponsor_address', {
+                          required: true,
+                        })}
+                        label="Sponsor Address"
+                        disabled={!editPolicy}
+                        //placeholder="Enter customer number"
+                      />
+                    </Grid>
+                  </Grid>
+                </>
+              )}
               <Grid item md={12}>
                 <FormsHeaderText text="Principal Details" />
                 <CustomTable
@@ -2499,6 +2503,18 @@ export function PolicyDetail({ showModal, setShowModal }) {
                   onRowClicked={() => {}}
                   progressPending={loading}
                   CustomEmptyData="You have no Dependant yet"
+                />
+                <FormsHeaderText text="HMO" />
+                <CustomTable
+                  title={''}
+                  columns={EnrolleSchema5}
+                  data={[facility?.organization]}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={() => {}}
+                  progressPending={loading}
+                  CustomEmptyData="You have no HMO yet."
                 />
                 <FormsHeaderText text="Provider List" />
                 <CustomTable
