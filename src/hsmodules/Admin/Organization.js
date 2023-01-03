@@ -129,17 +129,6 @@ const AdminOrganization = () => {
       });
   };
 
-  const handleRow = (data) => {
-    setState((prev) => ({
-      ...prev,
-      BankAccountModule: {
-        ...prev.BankAccountModule,
-        selectedBankAccount: data,
-      },
-    }));
-    // setDetailModal(true);
-  };
-
   return (
     <Box p={2}>
       <Box
