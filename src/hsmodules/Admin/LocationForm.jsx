@@ -44,11 +44,11 @@ export const LocationForm = ({ open, setOpen }) => {
   } = useForm({
     resolver: yupResolver(createLocationSchema),
 
-    // defaultValues: {
-    //   name: location.name,
-    //   locationType: location.locationType,
-    //   facility: user.currentEmployee.facilityDetail._id,
-    // },
+    defaultValues: {
+      name: location.name,
+      locationType: location.locationType,
+      facility: user.currentEmployee.facilityDetail._id,
+    },
   });
 
   const submit = async (data, e) => {
