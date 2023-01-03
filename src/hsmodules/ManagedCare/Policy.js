@@ -2463,7 +2463,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                         register={register('sponsor_email', { required: true })}
                         label="Sponsor Email"
                         disabled={!editPolicy}
-                        //placeholder="Enter customer number"
+                        //placeholder="Enter customer numbe"
                       />
                     </Grid>
                     <Grid item lg={6} md={6} sm={6}>
