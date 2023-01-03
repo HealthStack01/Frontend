@@ -69,21 +69,26 @@ export default function Accreditation({ standAlone }) {
   return (
     <>
       <section className="section remPadTop">
-        <AccreditationList
-          showModal={showModal}
-          setShowModal={setShowModal}
-          standAlone={standAlone}
-        />
+        {showModal === 0 && (
+          <AccreditationList
+            showModal={showModal}
+            setShowModal={setShowModal}
+            standAlone={standAlone}
+          />
+        )}
         {showModal === 1 && (
-          <ModalBox open={showModal} onClose={() => setShowModal(false)}>
+          <ModalBox open={showModal} onClose={() => setShowModal(0)}>
             {/* <OrganizationCreate /> */}
             {/* *********** Fix Error : OrganizationCreate is not defined ************ */}
           </ModalBox>
         )}
 
         {showModal === 2 && (
-          <ModalBox open={showModal} onClose={() => setShowModal(false)}>
-            <NewOrganizationCreate />
+          <ModalBox open={showModal} onClose={() => setShowModal(0)}>
+            <NewOrganizationCreate
+              showModal={showModal}
+              setShowModal={setShowModal}
+            />
           </ModalBox>
         )}
       </section>
@@ -99,548 +104,217 @@ export function AccreditationList({ showModal, setShowModal, standAlone }) {
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
   const [message, setMessage] = useState('');
-  const ClientServ = client.service('appointments');
-  //const navigate=useNavigate()
+  const facilityServ = client.service('facility');
+  const orgServ = client.service('organizationclient');
+  //const history = useHistory()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
-  const [selectedClient, setSelectedClient] = useState(); //
+  const [selectedFacility, setSelectedFacility] = useState(); //
   // eslint-disable-next-line
   const { state, setState } = useContext(ObjectContext);
-  // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
-  const [startDate, setStartDate] = useState(new Date());
-  const [selectedAppointment, setSelectedAppointment] = useState();
-  const [loading, setLoading] = useState(false);
-  const [value, setValue] = useState('list');
-
+  const { user } = useContext(UserContext);
+  const facility = state.facilityModule.selectedFacility;
   const handleCreateNew = async () => {
-    const newClientModule = {
-      selectedAppointment: {},
+    const newfacilityModule = {
+      selectedFacility: {},
       show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
-      AppointmentModule: newClientModule,
+      facilityModule: newfacilityModule,
     }));
-    //console.log(state)
-    const newClient = {
-      selectedClient: {},
-      show: 'create',
-    };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
-    setShowModal(2);
+    setShowModal(1);
   };
-
-  const handleRow = async (Client) => {
-    setShowModal(2);
-    await setSelectedAppointment(Client);
-    const newClientModule = {
-      selectedAppointment: Client,
+  const handleRow = async (facility) => {
+    await setSelectedFacility(facility.organizationDetail);
+    const newfacilityModule = {
+      selectedFacility: facility,
       show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
-      AppointmentModule: newClientModule,
+      facilityModule: newfacilityModule,
     }));
+    setShowModal(2);
   };
-  //console.log(state.employeeLocation)
 
   const handleSearch = (val) => {
-    const field = 'firstname';
-    //  console.log(val)
-
-    let query = {
-      $or: [
-        {
-          firstname: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          lastname: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          middlename: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          phone: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          appointment_type: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          appointment_status: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          appointment_reason: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          location_type: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          location_name: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          practitioner_department: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          practitioner_profession: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          practitioner_name: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-      ],
-      facility: user.currentEmployee.facilityDetail._id, // || "",
-      $limit: 20,
-      $sort: {
-        createdAt: -1,
-      },
-    };
-    if (state.employeeLocation.locationType !== 'Front Desk') {
-      query.locationId = state.employeeLocation.locationId;
-    }
-
-    ClientServ.find({ query: query })
-      .then((res) => {
-        console.log(res);
-        setFacilities(res.data);
-        setMessage(' Client  fetched successfully');
-        setSuccess(true);
-      })
-      .catch((err) => {
-        console.log(err);
-        setMessage('Error fetching Client, probable network issues ' + err);
-        setError(true);
-      });
-  };
-
-  const getFacilities = async () => {
-    console.log(user);
-    if (user.currentEmployee) {
-      let stuff = {
-        facility: user.currentEmployee.facilityDetail._id,
-        // locationId:state.employeeLocation.locationId,
-        $limit: 100,
-        $sort: {
-          createdAt: -1,
-        },
-      };
-      // if (state.employeeLocation.locationType !== "Front Desk") {
-      //   stuff.locationId = state.employeeLocation.locationId;
-      // }
-
-      const findClient = await ClientServ.find({ query: stuff });
-
-      await setFacilities(findClient.data);
-      console.log(findClient.data);
-    } else {
-      if (user.stacker) {
-        const findClient = await ClientServ.find({
+    const field = 'facilityName';
+    console.log(val);
+    if (val.length > 0) {
+      orgServ
+        .find({
           query: {
-            $limit: 100,
+            /* [field]: {
+                    $regex:val,
+                    $options:'i'
+                   
+                }, */
+            facility: user.currentEmployee.facilityDetail._id,
+            $search: val,
+            $limit: 10,
             $sort: {
               createdAt: -1,
             },
           },
+        })
+        .then((res) => {
+          console.log(res);
+          setFacilities(res.data);
+          setMessage(' Organization  fetched successfully');
+          setSuccess(true);
+        })
+        .catch((err) => {
+          console.log(err);
+          setMessage('Error creating facility, probable network issues ' + err);
+          setError(true);
         });
-
-        await setFacilities(findClient.data);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (user) {
-      handleCalendarClose();
-    } else {
-      /* const localUser= localStorage.getItem("user")
-                    const user1=JSON.parse(localUser)
-                    console.log(localUser)
-                    console.log(user1)
-                    fetchUser(user1)
-                    console.log(user)
-                    getFacilities(user) */
-    }
-    ClientServ.on('created', (obj) => handleCalendarClose());
-    ClientServ.on('updated', (obj) => handleCalendarClose());
-    ClientServ.on('patched', (obj) => handleCalendarClose());
-    ClientServ.on('removed', (obj) => handleCalendarClose());
-    const newClient = {
-      selectedClient: {},
-      show: 'create',
-    };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
-    return () => {};
-  }, []);
-  const handleCalendarClose = async () => {
-    let query = {
-      start_time: {
-        $gt: subDays(startDate, 1),
-        $lt: addDays(startDate, 1),
-      },
-      facility: user?.currentEmployee?.facilityDetail?._id,
-
-      $limit: 100,
-      $sort: {
-        createdAt: -1,
-      },
-    };
-    // if (state.employeeLocation.locationType !== "Front Desk") {
-    //   query.locationId = state.employeeLocation.locationId;
-    // }
-
-    const findClient = await ClientServ.find({ query: query });
-
-    await setFacilities(findClient.data);
-  };
-
-  const handleDate = async (date) => {
-    setStartDate(date);
-  };
-
-  useEffect(() => {
-    if (!!startDate) {
-      handleCalendarClose();
     } else {
       getFacilities();
     }
+  };
 
-    return () => {};
-  }, [startDate]);
-  //todo: pagination and vertical scroll bar
+  /*  if (val.length>2){
+                console.log("in")
+               
+            }
 
-  const onRowClicked = () => {};
-
-  const mapFacilities = () => {
-    let mapped = [];
-    facilities.map((facility, i) => {
-      mapped.push({
-        title: facility?.firstname + ' ' + facility?.lastname,
-        start: format(new Date(facility?.start_time), 'yyyy-MM-ddTHH:mm'),
-        end: facility?.end_time,
-        id: i,
+        }
+     */
+  const getFacilities = () => {
+    orgServ
+      .find({
+        query: {
+          facility: user.currentEmployee.facilityDetail._id,
+          $limit: 100,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setFacilities(res.data);
+        setMessage(' Organization  fetched successfully');
+        setSuccess(true);
+      })
+      .catch((err) => {
+        setMessage('Error creating facility, probable network issues ' + err);
+        setError(true);
       });
-    });
-    return mapped;
-  };
-  const activeStyle = {
-    backgroundColor: '#0064CC29',
-    border: 'none',
-    padding: '0 .8rem',
   };
 
-  const dummyData = [
-    {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'primary',
-      grade: 'A',
-      status: 'Authorized',
-    },
-    {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'Secondary',
-      grade: 'B',
-      status: 'Requested',
-    },
-    {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'Both',
-      grade: 'A',
-      status: 'Authorized',
-    },
-    {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'Secondary',
-      grade: 'A',
-      status: 'Pending',
-    },
-    {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'primary',
-      grade: 'A',
-      status: 'Authorized',
-    },
-    {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'Secondary',
-      grade: 'A',
-      status: 'Suspended',
-    },
-    {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'Secondary',
-      grade: 'A',
-      status: 'Suspended',
-    },
-    {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'Secondary',
-      grade: 'A',
-      status: 'Suspended',
-    },
-    {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'Secondary',
-      grade: 'A',
-      status: 'Expired',
-    },
-    {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'Secondary',
-      grade: 'A',
-      status: 'Suspended',
-    },
-  ];
-  const dummyData2 = [
-    {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'Secondary',
-      grade: 'A',
-      status: 'Suspended',
-    },
-    {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'Secondary',
-      grade: 'A',
-      status: 'Expired',
-    },
-    {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'Secondary',
-      grade: 'A',
-      status: 'Suspended',
-    },
-  ];
+  useEffect(() => {
+    getFacilities();
 
-  const returnCell = (status) => {
-    // if (status === "approved") {
-    //   return <span style={{color: "green"}}>{status}</span>;
-    // }
-    // else if
-    switch (status.toLowerCase()) {
-      case 'authorized':
-        return <span style={{ color: '#17935C' }}>{status}</span>;
+    orgServ.on('created', (obj) => getFacilities());
+    orgServ.on('updated', (obj) => getFacilities());
+    orgServ.on('patched', (obj) => getFacilities());
+    orgServ.on('removed', (obj) => getFacilities());
+    return () => {};
+  }, []);
 
-      case 'requested':
-        return <span style={{ color: '#0364FF' }}>{status}</span>;
-
-      case 'expired':
-        return <span style={{ color: '#ED0423' }}>{status}</span>;
-
-      case 'pending':
-        return <span style={{ color: '#EF9645' }}>{status}</span>;
-
-      case 'suspended':
-        return <span style={{ color: '#936A03' }}>{status}</span>;
-
-      default:
-        break;
-    }
-  };
-
-  const preAuthSchema = [
+  const providerSchema = [
     {
       name: 'S/N',
       key: 'sn',
-      description: 'Enter Serial Number',
-      selector: (row, i) => i + 1,
+      description: 'SN',
+      selector: (row) => row.sn,
       sortable: true,
-      required: true,
       inputType: 'HIDDEN',
+      width: '50px',
     },
     {
-      name: 'Name Provider',
-      key: 'name_provider',
-      description: 'Name Provider',
-      selector: (row) => row.name_provider,
+      name: 'Organization Name',
+      key: 'organizationName',
+      description: 'Organization Name',
+      selector: (row) =>
+        row?.hasOwnProperty('organizationDetail') &&
+        row?.organizationDetail?.facilityName,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+
+    {
+      name: 'Band',
+      key: 'band',
+      description: 'Band',
+      selector: (row) => row?.hasOwnProperty('organizationDetail') && row?.band,
       sortable: true,
       required: true,
       inputType: 'TEXT',
     },
     {
-      name: 'LGA',
-      key: 'lga',
-      description: 'LGA',
-      selector: (row) => row.lga,
+      name: 'Address',
+      key: 'address',
+      description: 'Address',
+      selector: (row) =>
+        row?.hasOwnProperty('organizationDetail') &&
+        row?.organizationDetail?.facilityAddress,
       sortable: true,
       required: true,
       inputType: 'TEXT',
     },
     {
-      name: 'Contact person',
-      key: 'contact_person',
-      description: 'Contact person',
-      selector: (row, i) => row.contact_person,
+      name: 'City',
+      key: 'city',
+      description: 'City',
+      selector: (row) =>
+        row?.hasOwnProperty('organizationDetail') &&
+        row?.organizationDetail.facilityCity,
       sortable: true,
       required: true,
-      inputType: 'NUMBER',
+      inputType: 'TEXT',
+    },
+
+    {
+      name: 'Phone',
+      key: 'phone',
+      description: 'Phone',
+      selector: (row) =>
+        row?.hasOwnProperty('organizationDetail') &&
+        row?.organizationDetail.facilityContactPhone,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
     },
     {
-      name: 'Phone Number',
-      key: 'phone_number',
-      description: 'Phone Number',
-      selector: (row, i) => row.phone_number,
+      name: 'Email',
+      key: 'email',
+      description: 'Email',
+      selector: (row) =>
+        row?.hasOwnProperty('organizationDetail') &&
+        row?.organizationDetail.facilityEmail,
       sortable: true,
       required: true,
-      inputType: 'NUMBER',
+      inputType: 'TEXT',
     },
     {
-      name: 'Classification',
-      key: 'classification',
-      description: 'Classification',
-      selector: (row, i) => row.classification,
+      name: 'Type',
+      key: 'type',
+      description: 'Type',
+      selector: (row) =>
+        row?.hasOwnProperty('organizationDetail') &&
+        row?.organizationDetail.facilityType,
       sortable: true,
       required: true,
-      inputType: 'NUMBER',
+      inputType: 'TEXT',
     },
     {
-      name: 'Grade',
-      key: 'grade',
-      description: 'Grade',
-      selector: (row, i) => row.grade,
+      name: 'Category',
+      key: 'category',
+      description: 'Category',
+      selector: (row) =>
+        row?.hasOwnProperty('organizationDetail') &&
+        row?.organizationDetail.facilityCategory,
       sortable: true,
       required: true,
-      inputType: 'NUMBER',
-    },
-    {
-      name: 'Status',
-      key: 'status',
-      description: 'Status',
-      selector: 'status',
-      cell: (row, i) => returnCell(row.status),
-      sortable: true,
-      required: true,
-      inputType: 'NUMBER',
+      inputType: 'TEXT',
     },
   ];
-
-  const conditionalRowStyles = [
-    {
-      when: (row) => row.status === 'approved',
-      style: {
-        color: 'red',
-        '&:hover': {
-          cursor: 'pointer',
-        },
-      },
-    },
-    {
-      when: (row) => row.status === 'ongoing',
-      style: {
-        color: 'rgba(0,0,0,.54)',
-        '&:hover': {
-          cursor: 'pointer',
-        },
-      },
-    },
-    {
-      when: (row) => row.status === 'pending',
-      style: {
-        color: 'pink',
-        '&:hover': {
-          cursor: 'pointer',
-        },
-      },
-    },
-    {
-      when: (row) => row.status === 'declined',
-      style: {
-        color: 'purple',
-        backgroundColor: 'green',
-        '&:hover': {
-          cursor: 'pointer',
-        },
-      },
-    },
-  ];
-
+  console.log('Facilities', facilities);
   return (
     <>
       {user ? (
@@ -656,93 +330,44 @@ export function AccreditationList({ showModal, setShowModal, standAlone }) {
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  {/* <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
-                    Pre-Authorization
-                  </h2> */}
-                  {/* <DatePicker
-                    selected={startDate}
-                    onChange={(date) => handleDate(date)}
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="Filter By Date"
-                    isClearable
-                  /> */}
-                  {/* <SwitchButton /> */}
-                  {/* <Switch>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue('list');
-                      }}
-                      style={value === 'list' ? activeStyle : {}}
-                    >
-                      <BsList style={{ fontSize: '1rem' }} />
-                    </button>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue('grid');
-                      }}
-                      style={value === 'grid' ? activeStyle : {}}
-                    >
-                      <BsFillGridFill style={{ fontSize: '1rem' }} />
-                    </button>
-                  </Switch> */}
                 </div>
 
-                {handleCreateNew && (
-                  <div>
-                    {/* <MuiButton
-                      variant="outlined"
-                      sx={{
-                        widh: 'fit',
-                        textTransform: 'capitalize',
-                        fontSize: '14px',
-                        fontWeight: '600',
-                        marginRight: '20px',
-                      }}
-                      onClick={handleCreateNew}
-                    >
-                      <FileUploadIcon
-                        sx={{ marginRight: '5px' }}
-                        fontSize="small"
-                      />
-                      Upload Provider
-                    </MuiButton> */}
-                    <MuiButton
-                      variant="contained"
-                      sx={{
-                        widh: 'fit',
-                        textTransform: 'capitalize',
-                        fontSize: '14px',
-                        fontWeight: '600',
-                      }}
-                      onClick={handleCreateNew}
-                    >
-                      <AddCircleOutlineIcon
-                        sx={{ marginRight: '5px' }}
-                        fontSize="small"
-                      />
-                      Add Accreditation
-                    </MuiButton>
-                  </div>
-                )}
+                {/* <div>
+                  <MuiButton
+                    variant="contained"
+                    sx={{
+                      widh: 'fit',
+                      textTransform: 'capitalize',
+                      fontSize: '14px',
+                      fontWeight: '600',
+                    }}
+                    onClick={handleCreateNew}
+                  >
+                    <AddCircleOutlineIcon
+                      sx={{ marginRight: '5px' }}
+                      fontSize="small"
+                    />
+                    Register Provider
+                  </MuiButton>
+                </div> */}
               </TableMenu>
-
-              {value === 'list' ? (
-                <CustomTable
-                  title={''}
-                  columns={preAuthSchema}
-                  data={standAlone ? dummyData2 : dummyData}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  onRowClicked={handleRow}
-                  progressPending={loading}
-                  //conditionalRowStyles={conditionalRowStyles}
-                />
-              ) : (
-                <CalendarGrid appointments={mapFacilities()} />
-              )}
+              <CustomTable
+                title={''}
+                columns={providerSchema}
+                data={
+                  !standAlone
+                    ? facilities.filter((item) => item.organizationDetail)
+                    : facilities.filter(
+                        (item) =>
+                          item.organizationDetail && item._id === facility._id
+                      )
+                }
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={handleRow}
+                //conditionalRowStyles={conditionalRowStyles}
+              />
             </PageWrapper>
           </div>
         </>
@@ -753,13 +378,16 @@ export function AccreditationList({ showModal, setShowModal, standAlone }) {
   );
 }
 
-export function NewOrganizationCreate() {
-  const { register, handleSubmit } = useForm(); //, watch, errors, reset
+export function NewOrganizationCreate({ showModal, setShowModal }) {
+  const { register, handleSubmit, reset } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState('');
   const facilityServ = client.service('facility');
   const orgServ = client.service('organizationclient');
+  const { user, setUser } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
+  const [loading, setLoading] = useState(false);
   const [chosen, setChosen] = useState('');
   const [band, setBand] = useState('');
   const BandsServ = client.service('bands');
@@ -775,34 +403,9 @@ export function NewOrganizationCreate() {
   const [nonMedDiv6, setNonMedDiv6] = useState([{ selectValue: '' }]);
   const [nonMedDiv7, setNonMedDiv7] = useState([{ selectValue: '' }]);
   const [nonMedDiv8, setNonMedDiv8] = useState([{ selectValue: '' }]);
-
+  const facility = state.facilityModule.selectedFacility;
   //const history = useHistory()
-  const { user } = useContext(UserContext); //,setUser
 
-  const handleChangeMode = async (e) => {
-    await setBand(e.target.value);
-  };
-  /* const onSubmit = (data,e) =>{
-        e.preventDefault();
-        setMessage("")
-        setError(false)
-        setSuccess(false)
-          data.createdby=user._id
-          //console.log(data);
-          
-        facilityServ.create(data)
-        .then((res)=>{
-                //console.log(JSON.stringify(res))
-                e.target.reset();
-                setMessage("Created Organization successfully")
-                setSuccess(true)
-            })
-            .catch((err)=>{
-                setMessage("Error creating facility, probable network issues "+ err )
-                setError(true)
-            })
-
-      }  */
   const getProviderBand = async () => {
     if (user.currentEmployee) {
       const findServices = await BandsServ.find({
@@ -812,82 +415,125 @@ export function NewOrganizationCreate() {
             user.currentEmployee.facilityDetail.facilityType === 'HMO'
               ? 'Provider'
               : 'Company',
-
-          // storeId:state.StoreModule.selectedStore._id,
-          // $limit:20,
-          //   paginate:false,
           $sort: {
             category: 1,
           },
         },
       });
-      // console.log(findServices)
       await setProviderBand(findServices.data);
-      // console.log(findServices)
     }
   };
 
-  const handleClick = () => {
-    //check band selected
-    if (band === '') {
-      toast({
-        message: 'Band not selected, Please select band',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
-      return;
-    }
+  useEffect(() => {
+    let facility = state.facilityModule.selectedFacility;
+    //  setFacility(facility);
 
-    console.log(chosen);
-    let stuff = {
-      facility: user.currentEmployee.facilityDetail._id,
-      organization: chosen._id,
-      relationshiptype: 'managedcare',
-      band,
+    const initFormValue = {
+      nameofmd: facility?.accreditation[0]?.personalDetails?.mdName,
+      mcdnNo: facility?.accreditation[0]?.personalDetails?.Mcdn,
+      mdPhone: facility?.accreditation[0]?.personalDetails?.mdPhone,
+      specialization:
+        facility?.accreditation[0]?.personalDetails?.specialiazation,
+      mdEmail: facility?.accreditation[0]?.personalDetails?.mdEmail,
+      nameofChiefMatron:
+        facility?.accreditation[0]?.personalDetails?.chiefMatron,
+      chiefMatronPhone:
+        facility?.accreditation[0]?.personalDetails?.chiefMatronPhone,
+      nameofHmoOfficer: facility?.accreditation[0]?.personalDetails?.hmoOfficer,
+      hmoOfficerPhone:
+        facility?.accreditation[0]?.personalDetails?.hmoOfficerPhone,
+      locScore: facility?.accreditation[0]?.generalOutlookDetails?.location,
+      cleanScore: facility?.accreditation[0]?.generalOutlookDetails?.cleaniness,
+      detachedScore:
+        facility?.accreditation[0]?.generalOutlookDetails?.detachedPremise,
+      parkingScore: facility?.accreditation[0]?.generalOutlookDetails?.Parking,
+      exitScore:
+        facility?.accreditation[0]?.generalOutlookDetails?.emergencyExit,
+      signScore:
+        facility?.accreditation[0]?.generalOutlookDetails?.directionalSign,
+      commScore:
+        facility?.accreditation[0]?.generalOutlookDetails?.communication,
+      refuseScore: facility?.accreditation[0]?.generalOutlookDetails?.refuse,
+      waterScore: facility?.accreditation[0]?.generalOutlookDetails?.water,
+      securityScore:
+        facility?.accreditation[0]?.generalOutlookDetails?.security,
+      cateringScore:
+        facility?.accreditation[0]?.generalOutlookDetails?.catering,
+      laundryScore: facility?.accreditation[0]?.generalOutlookDetails?.laundry,
+      fireScore:
+        facility?.accreditation[0]?.generalOutlookDetails?.fireExtinguisher,
+      ambulanceScore:
+        facility?.accreditation[0]?.generalOutlookDetails?.ambulance,
     };
-    orgServ
-      .create(stuff)
-      .then((res) => {
-        //console.log(JSON.stringify(res))
-        // e.target.reset();
-        setSuccess(true);
-        toast({
-          message: 'Organization added succesfully',
-          type: 'is-success',
-          dismissible: true,
-          pauseOnHover: true,
-        });
-        setSuccess(false);
-        setBand('');
+    reset(initFormValue);
+  }, []);
+
+  const handleClick = async (data) => {
+    setLoading(true);
+    const userId = state.facilityModule.selectedFacility._id;
+    const accreditationDetails = {
+      personalDetails: {
+        mdName: data.nameofmd,
+        Mcdn: data.mcdnNo,
+        mdPhone: data.mdPhone,
+        specialiazation: data.specialization,
+        mdEmail: data.mdEmail,
+        chiefMatron: data.nameofChiefMatron,
+        chiefMatronPhone: data.chiefMatronPhone,
+        hmoOfficer: data.nameofHmoOfficer,
+        hmoOfficerPhone: data.hmoOfficerPhone,
+      },
+      generalOutlookDetails: {
+        location: data.locScore,
+        cleaniness: data.cleanScore,
+        detachedPremise: data.detachedScore,
+        Parking: data.parkingScore,
+        emergencyExit: data.exitScore,
+        directionalSign: data.signScore,
+        communication: data.commScore,
+        refuse: data.refuseScore,
+        water: data.waterScore,
+        security: data.securityScore,
+        catering: data.cateringScore,
+        laundry: data.laundryScore,
+        fireExtinguisher: data.fireScore,
+        ambulance: data.ambulanceScore,
+      },
+    };
+    const allData = {
+      facility: facility?.facilityDetail,
+      organization: facility?.organizationDetail,
+      relationshiptype: 'managedcare',
+      band: facility?.band,
+      accreditation: [accreditationDetails],
+    };
+
+    await orgServ
+      .patch(userId, allData)
+      .then((resp) => {
+        setLoading(false);
+        setShowModal(0);
+        setState((prev) => ({
+          ...prev,
+          facilityModule: {
+            ...prev.facilityModule,
+            selectedFacility: resp,
+          },
+        }));
+        toast.success("You've succesfully uploaded a document");
       })
-      .catch((err) => {
-        toast({
-          message: 'Error adding organization ' + err,
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+      .catch((error) => {
+        setLoading(false);
+        setShowModal(0);
+        toast.error(`An error occured whilst uploading Document ${error}`);
+        console.error(error);
       });
   };
 
   useEffect(() => {
-    // console.log("starting...")
     getProviderBand();
     return () => {};
   }, []);
-  const getSearchfacility = (obj) => {
-    setChosen(obj);
-
-    /*  setCategoryName(obj.categoryname)
-        setChosen2(obj) */
-
-    if (!obj) {
-      //"clear stuff"
-      /*  setCategoryName("")
-             setChosen2() */
-    }
-  };
 
   const selectdata = [
     { value: 'test', label: 'test' },
@@ -963,6 +609,7 @@ export function NewOrganizationCreate() {
         setShowArray([]);
     }
   };
+  console.log(facility);
   return (
     <>
       {currentPage === 1 && (
@@ -985,7 +632,7 @@ export function NewOrganizationCreate() {
               <Input label={'MCDN NO'} register={register('mcdnNo')} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Input label={'MD PHONE NO'} register={register('nmPhoneNo')} />
+              <Input label={'MD PHONE NO'} register={register('mdPhone')} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <Input
@@ -1003,7 +650,7 @@ export function NewOrganizationCreate() {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Input label={'TEL'} register={register('chiefMatronTel')} />
+              <Input label={'TEL'} register={register('chiefMatronPhone')} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <Input
@@ -1012,7 +659,7 @@ export function NewOrganizationCreate() {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Input label={'TEL'} register={register('hmoOfficerTel')} />
+              <Input label={'TEL'} register={register('hmoOfficerPhone')} />
             </Grid>
           </Grid>
           <Box display="flex" mt={1}>
@@ -1082,14 +729,14 @@ export function NewOrganizationCreate() {
                           <Grid item xs={12} sm={4}>
                             <FormsHeaderText text="INSPECTION PARAMETERS " />
                           </Grid>
-                          <Grid
+                          {/* <Grid
                             item
                             xs={12}
                             sm={2}
                             sx={{ textAlign: 'center' }}
                           >
                             <FormsHeaderText text="IF PRESENT, THICK" />
-                          </Grid>
+                          </Grid> */}
                           <Grid item xs={12} sm={2}>
                             <FormsHeaderText text="1 = Low, 5 = High" />
                           </Grid>
@@ -1103,16 +750,22 @@ export function NewOrganizationCreate() {
                               <Grid item xs={12} sm={4}>
                                 <Input value={item.parameter} disabled />
                               </Grid>
-                              <Grid
+                              {/* <Grid
                                 item
                                 xs={12}
                                 sm={2}
                                 sx={{ textAlign: 'center' }}
                               >
-                                <input type="checkbox" />
-                              </Grid>
+                                <input
+                                  type="checkbox"
+                                  // {...register(`${item.present}`)}
+                                />
+                              </Grid> */}
                               <Grid item xs={12} sm={2}>
-                                <Input label={'Score'} />
+                                <Input
+                                  label={'Score'}
+                                  register={register(`${item.name}`)}
+                                />
                               </Grid>
                             </Grid>
                           </>
@@ -1474,8 +1127,9 @@ export function NewOrganizationCreate() {
             <GlobalCustomButton
               type={'submit'}
               text={'Submit'}
-              onClick={() => handleClick()}
+              onClick={handleSubmit(handleClick)}
               color={'primary'}
+              disabled={loading}
             />
           </div>
         </>

@@ -2,58 +2,86 @@ export const generalData = [
   {
     finding: 'Location',
     parameter: 'Accesibility',
+    name: 'locScore',
+    // present: ,
   },
   {
     finding: 'Any offensive odour, dirty walls, falling old paints ',
     parameter: 'Cleaniness of General premises & building',
+    name: 'cleanScore',
+    // present: ,
   },
   {
     finding: 'Separate compd, noise level  ',
     parameter: ' Detached premises',
+    name: 'detachedScore',
+    // present: ,
   },
   {
     finding: 'Can take more than 3 cars ',
     parameter: 'Vehicle Parking space',
+    name: 'parkingScore',
+    // present: ,
   },
   {
     finding: 'Are they clearly visible ',
     parameter: 'Emergency exits',
+    name: 'exitScore',
+    // present: ,
   },
   {
     finding: 'Are they clearly visible, understandable  ',
     parameter: 'Directional signs',
+    name: 'signScore',
+    // present: ,
   },
   {
     finding: 'Communication equipments (Tel, Intercom, Email,etc)',
     parameter: 'Communication facilities',
+    name: 'commScore',
+    // present: ,
   },
   {
     finding: 'Dustbin, outdoor refuge disposal system',
     parameter: 'Refuse disposal',
+    name: 'refuseScore',
+    // present: ,
   },
   {
     finding: 'Utilities: Clean water (pipe/bore-hole), PHCN/Gen- hrs',
     parameter: '. Clean Water, Electricity / generator',
+    name: 'waterScore',
+    // present: ,
   },
   {
     finding: 'Security (24 hours or less than 24 hours)',
     parameter: ' Level of security',
+    name: 'securityScore',
+    // present: ,
   },
   {
     finding: 'Qualified Caterer, clean kitchen, well stored food ',
     parameter: 'Quality of Catering services',
+    name: 'cateringScore',
+    // present: ,
   },
   {
     finding: 'Adequate manning & use of laundry services ',
     parameter: 'Quality of laundry services',
+    name: 'laundryScore',
+    // present: ,
   },
   {
     finding: 'Fire extinguisher ',
     parameter: 'Availability and functionality/expirydate',
+    name: 'fireScore',
+    // present: ,
   },
   {
     finding: 'Ambulance',
     parameter: 'Availability and functionality',
+    name: 'ambulanceScore',
+    // present: ,
   },
 ];
 export const frontdeskData = [
