@@ -236,7 +236,7 @@ export function OrgFacilitySearch({ getSearchfacility, clear }) {
     const found = selectedFacility.some((el) => el?._id === obj?._id);
     if (!found) {
       // await setSelectedFacility([...selectedFacility, obj]);
-      await getSearchfacility([...selectedFacility, obj]);
+      await getSearchfacility(obj);
     }
   };
   const handleBlur = async (e) => {

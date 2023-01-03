@@ -34,6 +34,8 @@ import PremiumPayment from './PremiumPayment';
 import ChatInterface from '../../components/chat/ChatInterface';
 import CRMTasks from '../CRM/Tasks';
 import VideoConference from '../utils/VideoConference';
+import { FormsHeaderText } from '../../components/texts';
+import CustomSelect from '../../components/inputs/basic/Select';
 
 export default function OrganizationClient() {
   const { state } = useContext(ObjectContext); //,setState
@@ -137,12 +139,7 @@ export function OrganizationCreate() {
   const handleClick = () => {
     //check band selected
     if (band === '') {
-      toast({
-        message: 'Band not selected, Please select band',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.info('Band not selected, Please select band');
       return;
     }
 
@@ -150,7 +147,7 @@ export function OrganizationCreate() {
     let stuff = {
       facility: user.currentEmployee.facilityDetail._id,
       organization: chosen._id,
-      relationshiptype: 'managedcare',
+      relationshiptype: 'sponsor',
       band,
     };
     orgServ
@@ -159,22 +156,12 @@ export function OrganizationCreate() {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         setSuccess(true);
-        toast({
-          message: 'Organization added succesfully',
-          type: 'is-success',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success('Organization added succesfully');
         setSuccess(false);
         setBand('');
       })
       .catch((err) => {
-        toast({
-          message: 'Error adding organization ' + err,
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error('Error adding organization ' + err);
       });
   };
 
@@ -198,9 +185,9 @@ export function OrganizationCreate() {
 
   return (
     <>
-      <ModalHeader text={'Add Corporate'} />
+      <FormsHeaderText text={'Add Corporate'} />
       <FacilitySearch getSearchfacility={getSearchfacility} clear={success} />
-      <select
+      {/* <select
         name="bandType"
         value={band}
         onChange={(e) => handleChangeMode(e)}
@@ -211,6 +198,7 @@ export function OrganizationCreate() {
           margin: '1rem 0',
           borderRadius: '4px',
           cursor: 'pointer',
+          height: '3rem',
           border: '1px solid rgba(0, 0, 0, 0.6)',
         }}
       >
@@ -221,10 +209,23 @@ export function OrganizationCreate() {
             {option.name}
           </option>
         ))}
-      </select>
+      </select> */}
+      <Box sx={{ margin: '1rem 0' }}>
+        <CustomSelect
+          name="bandType"
+          onChange={(e) => handleChangeMode(e)}
+          options={providerBand}
+          label="Corporate Sponsorship Type"
+        />
+      </Box>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12} md={12}>
-          <Button label="Add" type="submit" onClick={handleClick} />
+          <GlobalCustomButton
+            text="Add"
+            type="submit"
+            onClick={handleClick}
+            color="success"
+          />
         </Grid>
       </Grid>
     </>
@@ -294,6 +295,8 @@ export function OrganizationList({ showModal, setShowModal }) {
                     $options:'i'
                    
                 }, */
+            facility: user.currentEmployee.facilityDetail._id,
+            relationshiptype: 'sponsor',
             $search: val,
             $limit: 10,
             $sort: {
@@ -329,6 +332,7 @@ export function OrganizationList({ showModal, setShowModal }) {
       .find({
         query: {
           facility: user.currentEmployee.facilityDetail._id,
+          relationshiptype: 'sponsor',
           $limit: 100,
           $sort: {
             createdAt: -1,

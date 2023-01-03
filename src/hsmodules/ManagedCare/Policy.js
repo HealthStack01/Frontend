@@ -532,11 +532,9 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
   const [hmo, setHmo] = useState('');
 
   const getSearchfacility = async (obj) => {
-    if (obj.length > 0) {
-      await setChosen(obj);
+    if (obj) {
+      await setChosen([...chosen, obj]);
       await console.log('OBJ', chosen);
-    } else {
-      setChosen([]);
     }
   };
 
