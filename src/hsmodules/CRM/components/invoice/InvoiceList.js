@@ -1,4 +1,4 @@
-import {useState, useContext, useEffect} from "react";
+import {useState, useContext, useEffect, useCallback} from "react";
 
 import {UserContext, ObjectContext} from "../../../../context";
 import AddCircleOutlineOutlined from "@mui/icons-material/AddCircleOutlineOutlined";
@@ -7,67 +7,82 @@ import CustomTable from "../../../../components/customtable";
 import FilterMenu from "../../../../components/utilities/FilterMenu";
 import {TableMenu} from "../../../../ui/styled/global";
 import {PageWrapper} from "../../../app/styles";
+import client from "../../../../feathers";
+import {toast} from "react-toastify";
 
-const InvoiceList = ({openCreateModal, showCreateView, showDetailView}) => {
+const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const dealServer = client.service("deal");
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [loading, setLoading] = useState(false);
   const [invoices, setInvoices] = useState([]);
 
-  const handleRow = data => {
-    setState(prev => ({
-      ...prev,
-      InvoiceModule: {...prev.InvoiceModule, selectedInvoice: data},
-    }));
-    showDetailView();
-  };
+  const getInvoicesForPage = useCallback(async () => {
+    const testId = "60203e1c1ec8a00015baa357";
+    const facId = user.currentEmployee.facilityDetail_id;
+    showActionLoader();
 
-  const dummyData = [
-    {
-      name: "Pascal Grobbs",
-      invoice_no: "HCI/INTERTEK/LAG",
-      plan: "Family",
-      amount: "500,000:00",
-      unit: "50",
-      status: "Active",
-    },
-    {
-      name: "Matt Albert",
-      invoice_no: "HCI/INTERTEK/LAG",
-      plan: "Family",
-      amount: "500,000:00",
-      unit: "50",
-      status: "Active",
-    },
-    {
-      name: "David Coughar",
-      invoice_no: "HCI/INTERTEK/LAG",
-      plan: "Family",
-      amount: "500,000:00",
-      unit: "50",
-      status: "Inactive",
-    },
+    const res =
+      testId === facId
+        ? await dealServer.find({})
+        : await dealServer.find({
+            query: {
+              facilityId: facId,
+            },
+          });
 
-    {
-      name: "Blake Angels",
-      invoice_no: "HCI/INTERTEK/LAG",
-      plan: "Family",
-      amount: "500,000:00",
-      unit: "50",
-      status: "Active",
-    },
-  ];
+    const deals = res.data;
+
+    const promises = deals.map(async deal => deal.invoices || []);
+
+    const invoices = await Promise.all(promises);
+
+    await setInvoices(invoices.flat(1));
+
+    hideActionLoader();
+  }, []);
 
   useEffect(() => {
-    const currentDeal = state.DealModule.selectedDeal;
-    setInvoices(currentDeal.invoices || []);
-    //console.log(currentDeal);
-  }, [state.DealModule]);
+    if (isTab) {
+      const currentDeal = state.DealModule.selectedDeal;
+      setInvoices(currentDeal.invoices || []);
+    } else {
+      getInvoicesForPage();
+    }
+  }, [state.DealModule, getInvoicesForPage, isTab]);
+
+  const handleRow = async data => {
+    if (isTab) {
+      setState(prev => ({
+        ...prev,
+        InvoiceModule: {...prev.InvoiceModule, selectedInvoice: data},
+      }));
+      showDetailView();
+    } else {
+      const id = data.dealId;
+      await dealServer
+        .get(id)
+        .then(resp => {
+          setState(prev => ({
+            ...prev,
+            DealModule: {...prev.DealModule, selectedDeal: resp},
+            InvoiceModule: {...prev.InvoiceModule, selectedInvoice: data},
+          }));
+          showDetailView();
+        })
+        .catch(err => {
+          toast.error("An error occured trying to view details of invoice");
+          console.log(err);
+        });
+      //console.log("is page");
+    }
+  };
 
   const handleSearch = () => {};
 
@@ -197,13 +212,15 @@ const InvoiceList = ({openCreateModal, showCreateView, showDetailView}) => {
               <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>Invoice</h2>
             </div>
 
-            <GlobalCustomButton onClick={showCreateView}>
-              <AddCircleOutlineOutlined
-                fontSize="small"
-                sx={{marginRight: "5px"}}
-              />
-              Create Invoice
-            </GlobalCustomButton>
+            {isTab && (
+              <GlobalCustomButton onClick={showCreateView}>
+                <AddCircleOutlineOutlined
+                  fontSize="small"
+                  sx={{marginRight: "5px"}}
+                />
+                Create Invoice
+              </GlobalCustomButton>
+            )}
           </TableMenu>
           <div style={{width: "100%", overflow: "auto"}}>
             <CustomTable

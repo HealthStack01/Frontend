@@ -25,6 +25,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import GButton from '../../../../components/buttons/CustomButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Cart from './cart';
 
 export const reviewData = [
   {
@@ -48,12 +49,21 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
 }));
-export default function ProductDetails({ handleGoBack }) {
+export default function ProductDetails({ handleGoBack}) {
   const navigate = useNavigate();
   const [products] = useState(productDetailsData);
   const [healthInsuranceModal, setHealthInsuranceModal] = useState(false);
   const [value, setValue] = useState(2);
-  const [count, setCount] = useState(1);
+  const [cart, setCart] = useState([])
+  const [open, setOpen] = useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
   const drawerWidth = 240;
 
@@ -65,6 +75,39 @@ export default function ProductDetails({ handleGoBack }) {
   const handleInsuranceModal = () => {
     setHealthInsuranceModal(true);
   };
+
+  function addToCart(product) {
+    setCart((items) => {
+      const itemInCart = items.find((item) => item.product === product);
+      if (itemInCart) {
+       
+        return items.map((item) =>
+          item.product === product ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      } else {
+        return [...items, {product, quantity: 1 }];
+      }
+    });
+   
+  }
+ 
+   function removeCart(removeProduct) {
+    setCart((items) => {
+      const itemCart = items.find((item) => item === removeProduct.id);
+      console.log(itemCart)
+      if (itemCart?.quantity == 1) {
+        return items.filter((item) => item.id !== removeProduct.id)
+     }else{
+       return items.map((item) => item.id === removeProduct.id ? { ...item, quantity: item.quantity - 1 } : item);
+     }
+    });
+    console.log(cart)
+  }
+  
+  const amount = cart?.reduce((calcQuantity, cart,i) =>
+     calcQuantity + cart.quantity,
+0)
+   
   const { productId } = useParams();
 
   const product = products.find((prod) => prod.id == productId);
@@ -76,7 +119,7 @@ export default function ProductDetails({ handleGoBack }) {
           <ArrowBackIcon />
           Go Back
         </GButton>
-        <Badge color="secondary" badgeContent={count}>
+        <Badge color="secondary" badgeContent={amount} onClick={handleDrawerOpen}>
           <ShoppingBagIcon />
         </Badge>
       </Box>
@@ -85,14 +128,17 @@ export default function ProductDetails({ handleGoBack }) {
           width: drawerWidth,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
-            width: drawerWidth,
+            width: "50vh",
           },
         }}
         variant="persistent"
         anchor="right"
-        open={healthInsuranceModal}
-      ></Drawer>
-      {/* <Card> */}
+        open={open}
+        onClick={handleDrawerClose}
+      >
+            <Cart cart={product}/>
+      </Drawer>
+      {/* <td> */}
       <Box
         style={{
           height: '80vh',
@@ -190,7 +236,7 @@ export default function ProductDetails({ handleGoBack }) {
                 <Button
                   aria-label="reduce"
                   onClick={() => {
-                    setCount(Math.max(count - 1, 0));
+                    removeCart(product)
                   }}
                 >
                   <RemoveIcon fontSize="small" />
@@ -198,7 +244,7 @@ export default function ProductDetails({ handleGoBack }) {
                 <Button
                   aria-label="increase"
                   onClick={() => {
-                    setCount(count + 1);
+                    addToCart(product)
                   }}
                 >
                   <AddIcon fontSize="small" />
@@ -207,7 +253,7 @@ export default function ProductDetails({ handleGoBack }) {
             </CardActions>
             <CardActions className="card-action-dense">
               <Box sx={{ display: 'flex', gap: '2rem' }}>
-                <GButton>Add To Cart</GButton>
+                <GButton onClick={() => {addToCart(product)}}>Add To Cart</GButton>
                 <GButton>Buy Now</GButton>
               </Box>
             </CardActions>

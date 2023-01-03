@@ -1,5 +1,5 @@
-import {useContext, useState} from "react";
-import {Box, Grid, Typography} from "@mui/material";
+import {useContext, useState, useEffect} from "react";
+import {Box, Grid, IconButton, Typography} from "@mui/material";
 import Input from "../../../../components/inputs/basic/Input";
 import ModalBox from "../../../../components/modal";
 import {FormsHeaderText} from "../../../../components/texts";
@@ -16,6 +16,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import {FileUploader} from "react-drag-drop-files";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
 import {PageLeadDetailView} from "../global/LeadDetail";
@@ -32,18 +33,32 @@ import {toast} from "react-toastify";
 
 const CreateProposal = ({handleGoBack}) => {
   const dealServer = client.service("deal");
-  const {register, control} = useForm();
-  const [descriptionModal, setDescriptionModal] = useState(false);
-  const [description, setDescription] = useState("");
-  const [attachModal, setAttachModal] = useState(false);
-  const [attachedDocs, setAttachedDocs] = useState([]);
   const {user} = useContext(UserContext);
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
+  const [description, setDescription] = useState("");
+  const [attachModal, setAttachModal] = useState(false);
+  const [attachedDocs, setAttachedDocs] = useState([]);
+  const [draftProposal, setDraftProposal] = useState({});
+  const [docViewModal, setDocviewModal] = useState(false);
+  const [selectedDoc, setSelectedDoc] = useState({});
 
-  const toggleDescriptionModal = () => {
-    setDescriptionModal(prev => !prev);
-  };
+  useEffect(() => {
+    const proposal = state.ProposalModule.selectedProposal;
+
+    setDraftProposal(proposal);
+
+    setDescription(proposal.description || "");
+    setAttachedDocs(proposal.attachedFiles || []);
+
+    return () => {
+      setState(prev => ({
+        ...prev,
+        ProposalModule: {...prev.ProposalModule, selectedProposal: {}},
+      }));
+      setDraftProposal({});
+    };
+  }, []);
 
   const handleAttachDoc = document => {
     setAttachedDocs(prev => [document, ...prev]);
@@ -113,7 +128,6 @@ const CreateProposal = ({handleGoBack}) => {
 
     {
       name: "File Type",
-      //style: {color: "#0364FF"},
       key: "doc_type",
       description: "Enter Date",
       selector: row => row.fileType,
@@ -142,80 +156,208 @@ const CreateProposal = ({handleGoBack}) => {
       required: true,
       inputType: "TEXT",
     },
+
+    {
+      name: "Action",
+      key: "doc_type",
+      description: "Enter Date",
+      selector: row => (
+        <IconButton size="small" color="error">
+          <DeleteOutlineIcon fontSize="small" />
+        </IconButton>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "uppercase",
+      },
+    },
   ];
 
-  const handleCreateProposal = async () => {
-    return toast.error("Sorry, you can't play witht this yet");
+  const handleCreateProposal = async status => {
+    if (description === "" && attachedDocs.length === 0)
+      return toast.error("You cannot send/save an empty Proposal");
+
+    // return console.log("hello");
     showActionLoader();
     const employee = user.currentEmployee;
     const currentDeal = state.DealModule.selectedDeal;
-    // const token = localStorage.getItem("feathers-jwt");
 
-    const promises = attachedDocs.map(async doc => {
-      const base64Url = await getBase64(doc.file);
-      return {
-        ...doc,
-        file: base64Url,
-      };
-    });
+    if (attachedDocs.length > 0) {
+      // const promises = attachedDocs.map(async doc => {
+      //   if (doc.isUploaded) {
+      //     return doc;
+      //   } else {
+      //     const base64Url = await getBase64(doc.file);
+      //     return {
+      //       ...doc,
+      //       file: base64Url,
+      //     };
+      //   }
+      // });
 
-    const docs = await Promise.all(promises);
+      // const docs = await Promise.all(promises);
 
-    //navigator.clipboard.writeText(docs[0].file);
-
-    const newPromises = docs.map(async doc => {
-      const fileUrl = await getUploadUrl(doc.file);
-      return {
-        ...doc,
-        file: fileUrl,
-      };
-    });
-
-    const attachments = await Promise.all(newPromises);
-
-    const document = {
-      attachedFiles: attachments,
-      description: description,
-      createdAt: new Date(),
-      createdBy: employee.userId,
-      createdByName: `${employee.firstname} ${employee.lastname}`,
-      customerName: currentDeal.name,
-      customerEmail: currentDeal.email,
-      customerPhone: currentDeal.phone,
-      customerAddress: currentDeal.address,
-      customerCity: currentDeal.city,
-      customerLGA: currentDeal.lga,
-      customerState: currentDeal.state,
-      customerCountry: currentDeal.country,
-      dealId: currentDeal._id,
-      status: "Pending",
-      _id: uuidv4(),
-    };
-
-    const prevProposals = currentDeal.proposal || [];
-
-    const newProposals = [document, ...prevProposals];
-
-    return console.log(newProposals);
-
-    const documentId = currentDeal._id;
-    await dealServer
-      .patch(documentId, {proposal: newProposals})
-      .then(res => {
-        hideActionLoader();
-        setState(prev => ({
-          ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: res},
-        }));
-
-        setAttachedDocs([]);
-        setDescription("");
-        toast.success(`You have successfully Created a new Proposal`);
-      })
-      .catch(err => {
-        hideActionLoader();
-        toast.error(`Sorry, Failed to Create a Proposal. ${err}`);
+      const promises = attachedDocs.map(async doc => {
+        if (doc.isUploaded) {
+          return doc;
+        } else {
+          const fileUrl = await getUploadUrl(doc.file);
+          return {
+            ...doc,
+            file: fileUrl,
+            isUploaded: true,
+          };
+        }
       });
+
+      const attachments = await Promise.all(promises);
+
+      const document = {
+        attachedFiles: attachments,
+        description: description,
+        createdAt: new Date(),
+        createdBy: employee.userId,
+        createdByName: `${employee.firstname} ${employee.lastname}`,
+        customerName: currentDeal.name,
+        customerEmail: currentDeal.email,
+        customerPhone: currentDeal.phone,
+        customerAddress: currentDeal.address,
+        customerCity: currentDeal.city,
+        customerLGA: currentDeal.lga,
+        customerState: currentDeal.state,
+        customerCountry: currentDeal.country,
+        dealId: currentDeal._id,
+        status: status,
+        _id: uuidv4(),
+      };
+
+      const prevProposals = currentDeal.proposal || [];
+
+      const isDraft = Object.keys(draftProposal).length > 0;
+
+      const newProposals = isDraft
+        ? prevProposals.map(item => {
+            if (item._id === draftProposal._id) {
+              return {
+                ...item,
+                description: description,
+                attachedFiles: attachments,
+                status: status,
+                updatedAt: new Date(),
+              };
+            } else {
+              return item;
+            }
+          })
+        : [document, ...prevProposals];
+
+      //const newProposals = [document, ...prevProposals];
+
+      const documentId = currentDeal._id;
+      await dealServer
+        .patch(documentId, {proposal: newProposals})
+        .then(res => {
+          hideActionLoader();
+          setState(prev => ({
+            ...prev,
+            DealModule: {...prev.DealModule, selectedDeal: res},
+          }));
+
+          setAttachedDocs([]);
+          setDescription("");
+          if (status === "Draft") {
+            toast.success(
+              `You have successfully Saved this Proposal as a Draft`
+            );
+          } else {
+            toast.success(`Proposal was sent succesfully`);
+          }
+        })
+        .catch(err => {
+          hideActionLoader();
+          if (status === "Draft") {
+            toast.error(`Sorry, Failed to Save Proposal as Draft. ${err}`);
+          } else {
+            toast.error(`Sorry, Failed to send Proposal. ${err}`);
+          }
+        });
+    } else {
+      const document = {
+        attachedFiles: [],
+        description: description,
+        createdAt: new Date(),
+        createdBy: employee.userId,
+        createdByName: `${employee.firstname} ${employee.lastname}`,
+        customerName: currentDeal.name,
+        customerEmail: currentDeal.email,
+        customerPhone: currentDeal.phone,
+        customerAddress: currentDeal.address,
+        customerCity: currentDeal.city,
+        customerLGA: currentDeal.lga,
+        customerState: currentDeal.state,
+        customerCountry: currentDeal.country,
+        dealId: currentDeal._id,
+        status: status,
+        _id: uuidv4(),
+      };
+
+      const prevProposals = currentDeal.proposal || [];
+
+      const isDraft = Object.keys(draftProposal).length > 0;
+
+      const newProposals = isDraft
+        ? prevProposals.map(item => {
+            if (item._id === draftProposal._id) {
+              return {
+                ...item,
+                description: description,
+                attachedFiles: [],
+                status: status,
+                updatedAt: new Date(),
+              };
+            } else {
+              return item;
+            }
+          })
+        : [document, ...prevProposals];
+
+      const documentId = currentDeal._id;
+      await dealServer
+        .patch(documentId, {proposal: newProposals})
+        .then(res => {
+          hideActionLoader();
+          setState(prev => ({
+            ...prev,
+            DealModule: {...prev.DealModule, selectedDeal: res},
+          }));
+
+          setAttachedDocs([]);
+          setDescription("");
+          if (status === "Draft") {
+            toast.success(
+              `You have successfully Saved this Proposal as a Draft`
+            );
+          } else {
+            toast.success(`Proposal was sent succesfully`);
+          }
+        })
+        .catch(err => {
+          hideActionLoader();
+          if (status === "Draft") {
+            toast.error(`Sorry, Failed to Save Proposal as Draft. ${err}`);
+          } else {
+            toast.error(`Sorry, Failed to send Proposal. ${err}`);
+          }
+        });
+    }
+  };
+
+  const handleRow = doc => {
+    console.log(doc);
+    setSelectedDoc(doc);
+    setDocviewModal(true);
   };
 
   return (
@@ -224,6 +366,27 @@ const CreateProposal = ({handleGoBack}) => {
         width: "100%",
       }}
     >
+      <ModalBox
+        open={docViewModal}
+        onClose={() => setDocviewModal(false)}
+        header={`View Document ${selectedDoc?.fileName}`}
+      >
+        <Box sx={{width: "85vw", height: "85vh"}}>
+          {selectedDoc?.fileType === "pdf" ? (
+            <iframe
+              src={selectedDoc?.file}
+              title={selectedDoc?.fileName}
+              style={{width: "100%", height: "100%"}}
+            />
+          ) : (
+            <iframe
+              title={selectedDoc?.fileName}
+              style={{width: "100%", height: "100%"}}
+              src={`https://view.officeapps.live.com/op/embed.aspx?src=${selectedDoc?.file}`}
+            />
+          )}
+        </Box>
+      </ModalBox>
       <Box
         sx={{
           display: "flex",
@@ -265,7 +428,7 @@ const CreateProposal = ({handleGoBack}) => {
           <GlobalCustomButton
             color="info"
             sx={{marginRight: "10px"}}
-            onClick={() => console.log(description)}
+            onClick={() => handleCreateProposal("Draft")}
           >
             <SaveAsIcon fontSize="small" sx={{marginRight: "5px"}} />
             Save as Draft
@@ -276,9 +439,9 @@ const CreateProposal = ({handleGoBack}) => {
             Generate Proposal
           </GlobalCustomButton> */}
 
-          <GlobalCustomButton onClick={handleCreateProposal}>
+          <GlobalCustomButton onClick={() => handleCreateProposal("Sent")}>
             <OutboxIcon fontSize="small" sx={{marginRight: "5px"}} />
-            Create Proposal
+            Send Proposal
           </GlobalCustomButton>
         </Box>
       </Box>
@@ -313,7 +476,7 @@ const CreateProposal = ({handleGoBack}) => {
               pointerOnHover
               highlightOnHover
               striped
-              //onRowClicked={handleRow}
+              onRowClicked={handleRow}
               CustomEmptyData="You haven't Attached any file(s) yet..."
               progressPending={false}
             />
@@ -345,12 +508,6 @@ const CreateProposal = ({handleGoBack}) => {
               <CKEditor
                 editor={ClassicEditor}
                 data={description}
-                onInit={editor => {
-                  editor.plugins.get("FileRepository").createUploadAdapter =
-                    loader => {
-                      return console.log(loader);
-                    };
-                }}
                 onChange={(event, editor) => {
                   const data = editor.getData();
                   setDescription(data);
@@ -414,11 +571,20 @@ const UploadComponent = ({}) => {
 
 export const ProposalAttachDocument = ({closeModal, addAttachedFile}) => {
   const [file, setFile] = useState(null);
+  const [base64, setBase64] = useState(null);
   const {register, reset, handleSubmit} = useForm();
   const {user} = useContext(UserContext);
 
   const handleChange = file => {
-    setFile(file);
+    getBase64(file[0])
+      .then(res => {
+        // console.log(file);
+        setFile(file);
+        setBase64(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const handleAttachFile = data => {
@@ -429,7 +595,7 @@ export const ProposalAttachDocument = ({closeModal, addAttachedFile}) => {
       createdAt: new Date(),
       fileName: file[0].name,
       fileType: file[0].name.split(".").pop(),
-      file: file[0],
+      file: base64,
       comment: data.comment,
       _id: uuidv4(),
     };
@@ -473,7 +639,10 @@ export const ProposalAttachDocument = ({closeModal, addAttachedFile}) => {
           Cancel
         </GlobalCustomButton>
 
-        <GlobalCustomButton onClick={handleSubmit(handleAttachFile)}>
+        <GlobalCustomButton
+          disabled={file === null || base64 === null}
+          onClick={handleSubmit(handleAttachFile)}
+        >
           Attach File
         </GlobalCustomButton>
       </Box>

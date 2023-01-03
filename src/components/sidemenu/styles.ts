@@ -44,7 +44,7 @@ export const Sidemenu = styled.div`
 export const TopSection = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+
   & h1 {
     color: ${({theme}) => theme.btnText};
     font-size: 20px;

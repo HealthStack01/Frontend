@@ -418,7 +418,7 @@ function SideMenu({isOpen}) {
 
   const isOrgAdmin = roles.includes("Admin");
 
-  const facilityModules = user.currentEmployee.facilityDetail?.facilityModules;
+  const facilityModules = user.currentEmployee.facilityDetail.facilityModules;
 
   const facilitySortedMenuItems =
     facilityModules &&
@@ -450,10 +450,13 @@ function SideMenu({isOpen}) {
   return (
     <Sidemenu className={`side-menu ${isOpen ? "" : "hide"}`}>
       <TopSection>
-        <h4>{user.currentEmployee.facilityDetail.facilityName}</h4>
-        <Avatar src={user.currentEmployee.facilityDetail?.facilitylogo}>
+        <Avatar
+          src={user.currentEmployee.facilityDetail.facilitylogo}
+          sx={{marginRight: "15px"}}
+        >
           L
         </Avatar>
+        <h4>{user.currentEmployee.facilityDetail.facilityName}</h4>
       </TopSection>
       <MainMenu className="main-menu">
         <Lists>

@@ -103,66 +103,68 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
     showCreate(true);
   };
 
+  const delId = "63a38c888348d400163e51a6";
+
   const handleRow = async data => {
-    //openDetailModal();
     setState(prev => ({
       ...prev,
       DealModule: {...prev.DealModule, selectedDeal: data},
     }));
     showDetail();
+    //dealServer.remove(delId);
+    //console.log(data);
   };
 
   const handleSearch = val => {};
 
   const getFacilities = async () => {
+    const testId = "60203e1c1ec8a00015baa357";
+    const facId = user.currentEmployee.facilityDetail_id;
+
     showActionLoader();
-    const res = await dealServer.find({});
+
+    const res =
+      testId === facId
+        ? await dealServer.find({})
+        : await dealServer.find({
+            query: {
+              facilityId: facId,
+            },
+          });
+
+    await setFacilities(res.data);
+    //console.log(res.data);
+    hideActionLoader();
+  };
+
+  const updateFacilities = async () => {
+    const testId = "60203e1c1ec8a00015baa357";
+    const facId = user.currentEmployee.facilityDetail_id;
+
+    //showActionLoader();
+
+    const res =
+      testId === facId
+        ? await dealServer.find({})
+        : await dealServer.find({
+            query: {
+              facilityId: facId,
+            },
+          });
 
     await setFacilities(res.data);
     console.log(res.data);
-    hideActionLoader();
+    //hideActionLoader();
   };
 
   useEffect(() => {
     getFacilities();
 
-    dealServer.on("created", obj => getFacilities());
-    dealServer.on("updated", obj => getFacilities());
-    dealServer.on("patched", obj => getFacilities());
-    dealServer.on("removed", obj => getFacilities());
+    dealServer.on("created", obj => updateFacilities());
+    dealServer.on("updated", obj => updateFacilities());
+    dealServer.on("patched", obj => updateFacilities());
+    dealServer.on("removed", obj => updateFacilities());
   }, []);
-
-  const dummyData = [
-    {
-      company_name: "Health Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
-    },
-    {
-      company_name: "Albert Health Stack",
-      telestaff_name: "KTeejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
-    },
-    {
-      company_name: "DonaHealth Stack",
-      telestaff_name: "9Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Inactive",
-    },
-
-    {
-      company_name: "DaviHealth Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
-    },
-  ];
 
   const returnCell = status => {
     switch (status?.toLowerCase()) {
@@ -199,7 +201,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
           sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
           data-tag="allowRowEvents"
         >
-          {row.name}
+          {row?.name}
         </Typography>
       ),
       sortable: true,
@@ -214,7 +216,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       name: "Customer Type",
       key: "type",
       description: "Enter Telestaff name",
-      selector: row => row.type,
+      selector: row => row?.type,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -227,7 +229,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       name: "Phone",
       key: "phone",
       description: "Enter name of Company",
-      selector: row => row.phone,
+      selector: row => row?.phone,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -242,7 +244,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
           sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
           data-tag="allowRowEvents"
         >
-          {row.email}
+          {row?.email}
         </Typography>
       ),
       sortable: true,
@@ -262,7 +264,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       name: "Probability",
       key: "probability",
       description: "Enter bills",
-      selector: row => row.dealinfo.probability,
+      selector: row => row?.dealinfo?.probability,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -272,7 +274,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       name: "Date Submitted",
       key: "date",
       description: "Enter name of Disease",
-      selector: (row, i) => dayjs(row.createdAt).format("DD/MM/YYYY"),
+      selector: (row, i) => dayjs(row?.createdAt).format("DD/MM/YYYY"),
       sortable: true,
       required: true,
       inputType: "DATE",
@@ -282,7 +284,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       key: "dealinfo",
       description: "Enter bills",
       selector: "status",
-      cell: row => returnCell(row.dealinfo.currStatus),
+      cell: row => returnCell(row?.dealinfo?.currStatus),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -300,7 +302,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
           sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
           data-tag="allowRowEvents"
         >
-          {row.dealinfo.nextAction}
+          {row?.dealinfo?.nextAction}
         </Typography>
       ),
       sortable: true,
@@ -312,7 +314,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       key: "dealinfo",
       description: "Enter bills",
       selector: "status",
-      cell: row => row.dealinfo.size,
+      cell: row => row?.dealinfo?.size,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -323,7 +325,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       key: "dealinfo",
       description: "Enter bills",
       selector: "status",
-      cell: row => row.dealinfo.weightForecast,
+      cell: row => row?.dealinfo?.weightForecast,
       sortable: true,
       required: true,
       inputType: "TEXT",
