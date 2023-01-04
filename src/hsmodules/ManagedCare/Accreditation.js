@@ -379,7 +379,13 @@ export function AccreditationList({ showModal, setShowModal, standAlone }) {
 }
 
 export function NewOrganizationCreate({ showModal, setShowModal }) {
-  const { register, handleSubmit, reset } = useForm(); //, watch, errors, reset
+  const {
+    register,
+    handleSubmit,
+    reset,
+    getValues,
+    formState: { errors },
+  } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState('');
@@ -404,15 +410,20 @@ export function NewOrganizationCreate({ showModal, setShowModal }) {
   const [nonMedDiv7, setNonMedDiv7] = useState([{ selectValue: '' }]);
   const [nonMedDiv8, setNonMedDiv8] = useState([{ selectValue: '' }]);
   const facility = state.facilityModule.selectedFacility;
+  const [edit, setEdit] = useState(false);
+  const [selectedInput, setSelectedInput] = useState('');
+  const [getTotal, setGetTotal] = useState(0);
+  const [subScore, setSubScore] = useState(0);
+  const [grandTotal, setGrandTotal] = useState(0);
   //const history = useHistory()
 
   const getProviderBand = async () => {
-    if (user.currentEmployee) {
+    if (user?.currentEmployee) {
       const findServices = await BandsServ.find({
         query: {
-          facility: user.currentEmployee.facilityDetail._id,
+          facility: user?.currentEmployee?.facilityDetail._id,
           bandType:
-            user.currentEmployee.facilityDetail.facilityType === 'HMO'
+            user.currentEmployee?.facilityDetail?.facilityType === 'HMO'
               ? 'Provider'
               : 'Company',
           $sort: {
@@ -426,44 +437,90 @@ export function NewOrganizationCreate({ showModal, setShowModal }) {
 
   useEffect(() => {
     let facility = state.facilityModule.selectedFacility;
-    //  setFacility(facility);
-
+    const personal = facility?.accreditation[0]?.personalDetails;
+    const general = facility?.accreditation[0]?.generalOutlookDetails;
+    const frontDesk = facility?.accreditation[0]?.frontDeskDetails;
+    const casuality = facility?.accreditation[0]?.casualityDetails;
+    const pharmacy = facility?.accreditation[0]?.pharmacyDetails;
+    const laboratory = facility?.accreditation[0]?.laboratoryDetails;
+    const labour = facility?.accreditation[0]?.labourDetails;
+    const ward = facility?.accreditation[0]?.wardDetails;
     const initFormValue = {
-      nameofmd: facility?.accreditation[0]?.personalDetails?.mdName,
-      mcdnNo: facility?.accreditation[0]?.personalDetails?.Mcdn,
-      mdPhone: facility?.accreditation[0]?.personalDetails?.mdPhone,
-      specialization:
-        facility?.accreditation[0]?.personalDetails?.specialiazation,
-      mdEmail: facility?.accreditation[0]?.personalDetails?.mdEmail,
-      nameofChiefMatron:
-        facility?.accreditation[0]?.personalDetails?.chiefMatron,
-      chiefMatronPhone:
-        facility?.accreditation[0]?.personalDetails?.chiefMatronPhone,
-      nameofHmoOfficer: facility?.accreditation[0]?.personalDetails?.hmoOfficer,
-      hmoOfficerPhone:
-        facility?.accreditation[0]?.personalDetails?.hmoOfficerPhone,
-      locScore: facility?.accreditation[0]?.generalOutlookDetails?.location,
-      cleanScore: facility?.accreditation[0]?.generalOutlookDetails?.cleaniness,
-      detachedScore:
-        facility?.accreditation[0]?.generalOutlookDetails?.detachedPremise,
-      parkingScore: facility?.accreditation[0]?.generalOutlookDetails?.Parking,
-      exitScore:
-        facility?.accreditation[0]?.generalOutlookDetails?.emergencyExit,
-      signScore:
-        facility?.accreditation[0]?.generalOutlookDetails?.directionalSign,
-      commScore:
-        facility?.accreditation[0]?.generalOutlookDetails?.communication,
-      refuseScore: facility?.accreditation[0]?.generalOutlookDetails?.refuse,
-      waterScore: facility?.accreditation[0]?.generalOutlookDetails?.water,
-      securityScore:
-        facility?.accreditation[0]?.generalOutlookDetails?.security,
-      cateringScore:
-        facility?.accreditation[0]?.generalOutlookDetails?.catering,
-      laundryScore: facility?.accreditation[0]?.generalOutlookDetails?.laundry,
-      fireScore:
-        facility?.accreditation[0]?.generalOutlookDetails?.fireExtinguisher,
-      ambulanceScore:
-        facility?.accreditation[0]?.generalOutlookDetails?.ambulance,
+      nameofmd: personal?.mdName,
+      mcdnNo: personal?.Mcdn,
+      mdPhone: personal?.mdPhone,
+      specialization: personal?.specialiazation,
+      mdEmail: personal?.mdEmail,
+      nameofChiefMatron: personal?.chiefMatron,
+      chiefMatronPhone: personal?.chiefMatronPhone,
+      nameofHmoOfficer: personal?.hmoOfficer,
+      hmoOfficerPhone: personal?.hmoOfficerPhone,
+      locScore: general?.location,
+      cleanScore: general?.cleaniness,
+      detachedScore: general?.detachedPremise,
+      parkingScore: general?.Parking,
+      exitScore: general?.emergencyExit,
+      signScore: general?.directionalSign,
+      commScore: general?.communication,
+      refuseScore: general?.refuse,
+      waterScore: general?.water,
+      securityScore: general?.security,
+      cateringScore: general?.catering,
+      laundryScore: general?.laundry,
+      fireScore: general?.fireExtinguisher,
+      ambulanceScore: general?.ambulance,
+      receptionScore: frontDesk?.receptionSpace,
+      receptionCleanScore: frontDesk?.receptioncleaniness,
+      receptionLightScore: frontDesk?.receptionLightScore,
+      receptionSitScore: frontDesk?.sittingFacility,
+      receptionStaffScore: frontDesk?.receptionistAttitude,
+      receptionRestScore: frontDesk?.restRoom,
+      receptionWaitScore: frontDesk?.waitingRoom,
+      receptionNurseScore: frontDesk?.nurseStation,
+      consultScore: frontDesk?.consultationRoom,
+      consultLightScore: frontDesk?.consultationRoomLight,
+      consultFacilityScore: frontDesk?.consultationRoomfac,
+      treatmentScore: frontDesk?.treatmentRoom,
+      injectionScore: frontDesk?.injectionSafety,
+      casualtyScore: casuality?.emergencyCasualty,
+      casualtyEquipScore: casuality?.emergencyEquipment,
+      oxygenScore: casuality?.oxygenMask,
+      drugScore: casuality?.ngTube,
+      casualtyExamScore: casuality?.examinationCouch,
+      casualtyLaryScore: casuality?.larynoscope,
+      pharmacyScore: pharmacy?.pharmacy,
+      pharmacyQualScore: pharmacy?.pharmasist,
+      pharmacyStoreScore: pharmacy?.pharmacyStore,
+      pharmacyRangeScore: pharmacy?.pharmacyRange,
+      pharmacyRegScore: pharmacy?.pharmacyReg,
+      laboratory: laboratory?.labScore,
+      laboratoryTest: laboratory?.labTestScore,
+      laboratorySpecial: laboratory?.labSpecialScore,
+      laboratoryUltra: laboratory?.labUltraScore,
+      laboratoryRad: laboratory?.labRadScore,
+      laboratoryXray: laboratory?.labContrastScore,
+      laboratoryAdav: laboratory?.labAdvancedScore,
+      laboratoryBlood: laboratory?.labBloodScore,
+      wardScore: ward?.ward,
+      wardBedScore: ward?.wardbedStrength,
+      wardPrivateScore: ward?.warbedFac,
+      wardCleanScore: ward?.wardbedClean,
+      wardEquipScore: ward?.wardEquipment,
+      wardFeatureScore: ward?.wardfeatures,
+      wardSpaceScore: ward?.wardSpace,
+      labourScore: labour?.labhygiene,
+      labourFirstScore: labour?.labExamGlove,
+      labourManScore: labour?.labManPower,
+      labourEquipScore: labour?.labEquip,
+      labourUltraScore: labour?.labultrasound,
+      labourPadiScore: labour?.labPadiatics,
+      labourDelScore: labour?.labdeliveryPack,
+      labourBedScore: labour?.labdeliveryBed,
+      labourSuctionScore: labour?.labsuction,
+      labourResuscitatorScore: labour?.labresuscitator,
+      labourOxygenScore: labour?.labOxygen,
+      labourBabyScore: labour?.labBabyCots,
+      labourIncubatorScore: labour?.labBabyIncubator,
     };
     reset(initFormValue);
   }, []);
@@ -484,20 +541,84 @@ export function NewOrganizationCreate({ showModal, setShowModal }) {
         hmoOfficerPhone: data.hmoOfficerPhone,
       },
       generalOutlookDetails: {
-        location: data.locScore,
-        cleaniness: data.cleanScore,
-        detachedPremise: data.detachedScore,
-        Parking: data.parkingScore,
-        emergencyExit: data.exitScore,
-        directionalSign: data.signScore,
-        communication: data.commScore,
-        refuse: data.refuseScore,
-        water: data.waterScore,
-        security: data.securityScore,
-        catering: data.cateringScore,
-        laundry: data.laundryScore,
-        fireExtinguisher: data.fireScore,
-        ambulance: data.ambulanceScore,
+        location: parseInt(data.locScore),
+        cleaniness: parseInt(data.cleanScore),
+        detachedPremise: parseInt(data.detachedScore),
+        Parking: parseInt(data.parkingScore),
+        emergencyExit: parseInt(data.exitScore),
+        directionalSign: parseInt(data.signScore),
+        communication: parseInt(data.commScore),
+        refuse: parseInt(data.refuseScore),
+        water: parseInt(data.waterScore),
+        security: parseInt(data.securityScore),
+        catering: parseInt(data.cateringScore),
+        laundry: parseInt(data.laundryScore),
+        fireExtinguisher: parseInt(data.fireScore),
+        ambulance: parseInt(data.ambulanceScore),
+      },
+      frontDeskDetails: {
+        receptionSpace: parseInt(data.receptionScore),
+        receptioncleaniness: parseInt(data.receptionCleanScore),
+        receptionLightScore: parseInt(data.receptionLightScore),
+        sittingFacility: parseInt(data.receptionSitScore),
+        receptionistAttitude: parseInt(data.receptionStaffScore),
+        restRoom: parseInt(data.receptionRestScore),
+        waitingRoom: parseInt(data.receptionWaitScore),
+        nurseStation: parseInt(data.receptionNurseScore),
+        consultationRoom: parseInt(data.consultScore),
+        consultationRoomLight: parseInt(data.consultLightScore),
+        consultationRoomfac: parseInt(data.consultFacilityScore),
+        treatmentRoom: parseInt(data.treatmentScore),
+        injectionSafety: parseInt(data.injectionScore),
+      },
+      casualityDetails: {
+        emergencyCasualty: parseInt(data.casualtyScore),
+        emergencyEquipment: parseInt(data.casualtyEquipScore),
+        oxygenMask: parseInt(data.oxygenScore),
+        ngTube: parseInt(data.drugScore),
+        examinationCouch: parseInt(data.casualtyExamScore),
+        larynoscope: parseInt(data.casualtyLaryScore),
+      },
+      pharmacyDetails: {
+        pharmacy: parseInt(data.pharmacyScore),
+        pharmasist: parseInt(data.pharmacyQualScore),
+        pharmacyStore: parseInt(data.pharmacyStoreScore),
+        pharmacyRange: parseInt(data.pharmacyRangeScore),
+        pharmacyReg: parseInt(data.pharmacyRegScore),
+      },
+      laboratoryDetails: {
+        laboratory: parseInt(data.labScore),
+        laboratoryTest: parseInt(data.labTestScore),
+        laboratorySpecial: parseInt(data.labSpecialScore),
+        laboratoryUltra: parseInt(data.labUltraScore),
+        laboratoryRad: parseInt(data.labRadScore),
+        laboratoryXray: parseInt(data.labContrastScore),
+        laboratoryAdav: parseInt(data.labAdvancedScore),
+        laboratoryBlood: parseInt(data.labBloodScore),
+      },
+      wardDetails: {
+        ward: parseInt(data.wardScore),
+        wardbedStrength: parseInt(data.wardBedScore),
+        warbedFac: parseInt(data.wardPrivateScore),
+        wardbedClean: parseInt(data.wardCleanScore),
+        wardEquipment: parseInt(data.wardEquipScore),
+        wardfeatures: parseInt(data.wardFeatureScore),
+        wardSpace: parseInt(data.wardSpaceScore),
+      },
+      labourDetails: {
+        labhygiene: parseInt(data.labourScore),
+        labExamGlove: parseInt(data.labourFirstScore),
+        labManPower: parseInt(data.labourManScore),
+        labEquip: parseInt(data.labourEquipScore),
+        labultrasound: parseInt(data.labourUltraScore),
+        labPadiatics: parseInt(data.labourPadiScore),
+        labdeliveryPack: parseInt(data.labourDelScore),
+        labdeliveryBed: parseInt(data.labourBedScore),
+        labsuction: parseInt(data.labourSuctionScore),
+        labresuscitator: parseInt(data.labourResuscitatorScore),
+        labOxygen: parseInt(data.labourOxygenScore),
+        labBabyCots: parseInt(data.labourBabyScore),
+        labBabyIncubator: parseInt(data.labourIncubatorScore),
       },
     };
     const allData = {
@@ -562,60 +683,182 @@ export function NewOrganizationCreate({ showModal, setShowModal }) {
     switch (number) {
       case 1:
         setShowArray(generalData);
+        setGetTotal(1);
         break;
       case 2:
         setShowArray(frontdeskData);
+        setGetTotal(2);
         break;
       case 3:
         setShowArray(casualityData);
+        setGetTotal(3);
         break;
       case 4:
         setShowArray(pharmacyData);
+        setGetTotal(4);
         break;
       case 5:
         setShowArray(laboratoryData);
+        setGetTotal(5);
         break;
       case 6:
         setShowArray(wardData);
+        setGetTotal(6);
         break;
       case 7:
         setShowArray(labourData);
+        setGetTotal(7);
         break;
       case 8:
         setShowArray(theatreData);
+        setGetTotal(8);
         break;
       case 9:
         setShowArray(additionalData);
+        setGetTotal(9);
         break;
       case 10:
         setShowArray(adminData);
+        setGetTotal(10);
         break;
       case 11:
         setShowArray(QualityData);
+        setGetTotal(11);
         break;
       case 12:
         setShowArray(otherData);
+        setGetTotal(12);
         break;
       case 13:
         setShowArray(staffData);
+        setGetTotal(13);
         break;
       case 14:
         setShowArray(nonMedStaff);
+        setGetTotal(14);
         break;
       case 15:
         setShowArray(specialistData);
+        setGetTotal(15);
         break;
       default:
         setShowArray([]);
     }
   };
-  console.log(facility);
+  useEffect(() => {
+    const generalValue = facility?.accreditation[0]?.generalOutlookDetails;
+    const frontDeskValue = facility?.accreditation[0]?.frontDeskDetails;
+    const casualityValue = facility?.accreditation[0]?.casualityDetails;
+    const pharmacyValue = facility?.accreditation[0]?.pharmacyDetails;
+    const laboratoryValue = facility?.accreditation[0]?.laboratoryDetails;
+    const wardValue = facility?.accreditation[0]?.wardDetails;
+    const labourValue = facility?.accreditation[0]?.labourDetails;
+    switch (getTotal) {
+      case 1:
+        let subToatal =
+          generalValue?.location +
+          generalValue?.cleaniness +
+          generalValue?.detachedPremise +
+          generalValue?.Parking +
+          generalValue?.emergencyExit +
+          generalValue?.directionalSign +
+          generalValue?.communication +
+          generalValue?.refuse +
+          generalValue?.security +
+          generalValue?.fireExtinguisher +
+          generalValue?.ambulance;
+        setSubScore(isNaN(subToatal) ? 0 : subToatal);
+        break;
+      case 2:
+        let subToatal2 =
+          frontDeskValue?.receptionSpace +
+          frontDeskValue?.receptioncleaniness +
+          frontDeskValue?.receptionLightScore +
+          frontDeskValue?.sittingFacility +
+          frontDeskValue?.receptionistAttitude +
+          frontDeskValue?.restRoom +
+          frontDeskValue?.waitingRoom +
+          frontDeskValue?.nurseStation +
+          frontDeskValue?.consultationRoom +
+          frontDeskValue?.consultationRoomLight +
+          frontDeskValue?.consultationRoomfac +
+          frontDeskValue?.treatmentRoom +
+          frontDeskValue?.injectionSafety;
+        setSubScore(isNaN(subToatal2) ? 0 : subToatal2);
+        break;
+      case 3:
+        let subToatal3 =
+          casualityValue?.emergencyCasualty +
+          casualityValue?.emergencyEquipment +
+          casualityValue?.oxygenMask +
+          casualityValue?.ngTube +
+          casualityValue?.examinationCouch +
+          casualityValue?.larynoscope;
+        setSubScore(isNaN(subToatal3) ? 0 : subToatal3);
+        break;
+      case 4:
+        let subToatal4 =
+          pharmacyValue?.pharmacy +
+          pharmacyValue?.pharmasist +
+          pharmacyValue?.pharmacyStore +
+          pharmacyValue?.pharmacyRange +
+          pharmacyValue?.pharmacyReg;
+        setSubScore(isNaN(subToatal4) ? 0 : subToatal4);
+        break;
+      case 5:
+        let subToatal5 =
+          laboratoryValue?.laboratory +
+          laboratoryValue?.laboratoryTest +
+          laboratoryValue?.laboratorySpecial +
+          laboratoryValue?.laboratoryUltra +
+          laboratoryValue?.laboratoryRad +
+          laboratoryValue?.laboratoryXray +
+          laboratoryValue?.laboratoryAdav +
+          laboratoryValue?.laboratoryBlood;
+        setSubScore(isNaN(subToatal5) ? 0 : subToatal5);
+        break;
+      case 6:
+        let subToatal6 =
+          wardValue?.ward +
+          wardValue?.wardbedStrength +
+          wardValue?.warbedFac +
+          wardValue?.wardbedClean +
+          wardValue?.wardEquipment +
+          wardValue?.wardfeatures +
+          wardValue?.wardSpace;
+        setSubScore(isNaN(subToatal6) ? 0 : subToatal6);
+        break;
+      case 7:
+        let subToatal7 =
+          labourValue?.labhygiene +
+          labourValue?.labExamGlove +
+          labourValue?.labManPower +
+          labourValue?.labEquip +
+          labourValue?.labultrasound +
+          labourValue?.labPadiatics +
+          labourValue?.labdeliveryPack +
+          labourValue?.labdeliveryBed +
+          labourValue?.labsuction +
+          labourValue?.labresuscitator +
+          labourValue?.labOxygen +
+          labourValue?.labBabyCots +
+          labourValue?.labBabyIncubator;
+        setSubScore(isNaN(subToatal7) ? 0 : subToatal7);
+        break;
+      default:
+        setSubScore(0);
+    }
+  }, [getTotal, facility]);
+
+  // };
+  console.log(facility, selectedInput, 'subtotal', subScore);
   return (
     <>
       {currentPage === 1 && (
         <>
           <p style={{ fontWeight: '700' }}>
-            HCI HEALTHCARE LIMITED ASSESSMENT / CREDENTIALLING FORM (NO..)
+            {facility?.organizationDetail?.facilityName.toUpperCase()} -{' '}
+            ASSESSMENT / CREDENTIALLING FORM (NO..)
           </p>
           <p style={{ fontWeight: '700', marginBottom: '.5rem' }}>
             (PRIVATE SCHEME)
@@ -688,7 +931,8 @@ export function NewOrganizationCreate({ showModal, setShowModal }) {
             }}
           >
             <p style={{ fontWeight: '700' }}>
-              HCI HEALTHCARE LIMITED ASSESSMENT / CREDENTIALLING FORM (NO..)
+              {facility?.organizationDetail?.facilityName.toUpperCase()} -{' '}
+              ASSESSMENT / CREDENTIALLING FORM (NO..)
             </p>
             <p style={{ fontWeight: '700', marginBottom: '2rem' }}>
               (PRIVATE SCHEME)
@@ -729,14 +973,14 @@ export function NewOrganizationCreate({ showModal, setShowModal }) {
                           <Grid item xs={12} sm={4}>
                             <FormsHeaderText text="INSPECTION PARAMETERS " />
                           </Grid>
-                          {/* <Grid
+                          <Grid
                             item
                             xs={12}
                             sm={2}
                             sx={{ textAlign: 'center' }}
                           >
                             <FormsHeaderText text="IF PRESENT, THICK" />
-                          </Grid> */}
+                          </Grid>
                           <Grid item xs={12} sm={2}>
                             <FormsHeaderText text="1 = Low, 5 = High" />
                           </Grid>
@@ -750,7 +994,7 @@ export function NewOrganizationCreate({ showModal, setShowModal }) {
                               <Grid item xs={12} sm={4}>
                                 <Input value={item.parameter} disabled />
                               </Grid>
-                              {/* <Grid
+                              <Grid
                                 item
                                 xs={12}
                                 sm={2}
@@ -758,25 +1002,55 @@ export function NewOrganizationCreate({ showModal, setShowModal }) {
                               >
                                 <input
                                   type="checkbox"
-                                  // {...register(`${item.present}`)}
+                                  onChange={(e) => {
+                                    if (e.target.checked) {
+                                      setEdit(true);
+                                      setSelectedInput(item.name);
+                                    } else {
+                                      // setEdit(false);
+                                      // setSelectedInput('');
+                                    }
+                                  }}
+                                  // checked={
+                                  //   selectedInput === item.name ? true : false
+                                  // }
                                 />
-                              </Grid> */}
+                              </Grid>
                               <Grid item xs={12} sm={2}>
                                 <Input
                                   label={'Score'}
                                   register={register(`${item.name}`)}
+                                  disabled={
+                                    selectedInput === item.name ? false : true
+                                  }
+                                  type="number"
                                 />
                               </Grid>
                             </Grid>
                           </>
                         ))}
-                        <GlobalCustomButton
-                          text={'Save'}
-                          onClick={() => {
-                            setShowScore(0);
-                            toast.success('Saved');
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
                           }}
-                        />
+                        >
+                          <GlobalCustomButton
+                            text={'Save'}
+                            onClick={() => {
+                              setShowScore(0);
+                              toast.success('Saved');
+                            }}
+                          />
+                          <Box sx={{ display: 'flex', alignItems: 'center ' }}>
+                            <FormsHeaderText text="TOTAL SCORE" /> &nbsp; =
+                            &nbsp;
+                            <p style={{ fontWeight: '700', fontSize: '2rem' }}>
+                              {subScore}
+                            </p>
+                          </Box>
+                        </Box>
                       </Box>
                     </ModalBox>
                   )}

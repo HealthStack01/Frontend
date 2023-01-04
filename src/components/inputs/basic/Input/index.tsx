@@ -1,7 +1,7 @@
-import React from "react";
-import AcUnitIcon from "@mui/icons-material/AcUnit";
+import React from 'react';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
 
-import {InputBox, InputField, InputLabel} from "./styles";
+import { InputBox, InputField, InputLabel } from './styles';
 
 interface InputProps {
   label?: string;
@@ -16,7 +16,7 @@ interface InputProps {
   defaultValue?: string;
   value?: any;
   placeholder?: string;
-  size?: "small" | "medium";
+  size?: 'small' | 'medium';
   disabled?: boolean;
   inputRef?: any;
   register?: any;
@@ -33,9 +33,9 @@ interface InputProps {
 const Input: React.FC<InputProps> = ({
   label,
   errorText,
-  type = "text",
+  type,
   name,
-  defaultValue = "",
+  defaultValue = '',
   onChange,
   onKeyDown,
   placeholder,
@@ -53,7 +53,7 @@ const Input: React.FC<InputProps> = ({
     <InputBox>
       <InputField
         onChange={onChange}
-        type={type}
+        type={type ? type : 'text'}
         defaultValue={defaultValue}
         onKeyDown={onKeyDown}
         placeholder={placeholder}
@@ -62,18 +62,18 @@ const Input: React.FC<InputProps> = ({
         {...register}
         onBlur={onBlur}
         autoComplete={autoComplete}
-        sx={{width: "16px", ...sx}}
+        sx={{ width: '16px', ...sx }}
         //ref={inputRef}
       />
       <InputLabel className="form__label" htmlFor={name}>
         {label}
         {important && (
-          <AcUnitIcon sx={{color: "red", width: "12px", height: "12px"}} />
+          <AcUnitIcon sx={{ color: 'red', width: '12px', height: '12px' }} />
         )}
       </InputLabel>
     </InputBox>
     {errorText && (
-      <label style={{color: "red", fontSize: "0.7rem", textAlign: "left"}}>
+      <label style={{ color: 'red', fontSize: '0.7rem', textAlign: 'left' }}>
         {errorText}
       </label>
     )}
