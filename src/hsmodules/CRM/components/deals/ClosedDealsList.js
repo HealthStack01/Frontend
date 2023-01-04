@@ -21,7 +21,11 @@ import {Typography} from "@mui/material";
 // eslint-disable-next-line
 const searchfacility = {};
 
-const ClosedDealsList = ({showOpenDeals, setDealDetail, showPendingDeals}) => {
+const ClosedDealsList = ({
+  showOpenDeals,
+  setDealDetail,
+  showSuspendedDeals,
+}) => {
   // eslint-disable-next-line
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -36,8 +40,8 @@ const ClosedDealsList = ({showOpenDeals, setDealDetail, showPendingDeals}) => {
     showOpenDeals();
   };
 
-  const handleShowPendingDeals = () => {
-    showPendingDeals();
+  const handleShowSuspendedDeals = () => {
+    showSuspendedDeals();
   };
 
   const handleRow = async data => {
@@ -397,9 +401,12 @@ const ClosedDealsList = ({showOpenDeals, setDealDetail, showPendingDeals}) => {
                 View Open Deals
               </GlobalCustomButton>
 
-              <GlobalCustomButton onClick={handleShowPendingDeals} color="info">
+              <GlobalCustomButton
+                onClick={handleShowSuspendedDeals}
+                color="warning"
+              >
                 <PendingIcon fontSize="small" sx={{marginRight: "5px"}} />
-                View Pending Deals
+                View Suspended Deals
               </GlobalCustomButton>
             </Box>
 

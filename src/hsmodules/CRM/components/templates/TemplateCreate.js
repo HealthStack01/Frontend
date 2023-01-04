@@ -11,6 +11,7 @@ import {toast} from "react-toastify";
 import {ObjectContext, UserContext} from "../../../../context";
 import axios from "axios";
 import {getBase64} from "../../../helpers/getBase64";
+import Textarea from "../../../../components/inputs/basic/Textarea";
 
 const UploadComponent = ({}) => {
   return (
@@ -33,8 +34,9 @@ const UploadComponent = ({}) => {
   );
 };
 
-const LeadUpload = ({closeModal}) => {
+const TemplateCreate = ({closeModal}) => {
   const dealServer = client.service("deal");
+  const [description, setDescription] = useState("");
   const [fileType, setFileType] = useState("");
   const [docType, setDoctype] = useState("");
   const [file, setFile] = useState(null);
@@ -55,7 +57,7 @@ const LeadUpload = ({closeModal}) => {
   ];
 
   const imageTypes = ["png", "jpg", "jpeg"];
-  const docTypes = ["docx", "doc", "pdf"];
+  const docTypes = ["docx", "doc"];
 
   const handleChange = file => {
     getBase64(file[0])
@@ -70,6 +72,7 @@ const LeadUpload = ({closeModal}) => {
   };
 
   const handleUploadFile = async () => {
+    return toast.error("Danger Zone, keep off!!");
     if (file === null || base64 === null)
       return toast.error("Please select a File to upload");
 
@@ -92,11 +95,11 @@ const LeadUpload = ({closeModal}) => {
           uploadType: res.data.contentType,
           fileType: file[0].name.split(".").pop(),
           name: file[0].name,
-          type: fileType,
-          docType: docType,
+          template: docType,
           uploadedAt: new Date(),
           uploadedBy: employee.userId,
           uploadedByName: `${employee.firstname} ${employee.lastname}`,
+          comment: description,
           dealId: currentDeal._id,
         };
 
@@ -115,19 +118,19 @@ const LeadUpload = ({closeModal}) => {
               DealModule: {...prev.DealModule, selectedDeal: resp},
             }));
             closeModal();
-            toast.success("Document has been sucessfully Uploaded");
+            toast.success("You have successfully uploaded a Template");
           })
           .catch(error => {
             hideActionLoader();
             toast.error(
-              `An error occured whilst Uploading your Document ${error}`
+              `An error occured whilst uploading the Template ${error}`
             );
             console.error(error);
           });
       })
       .catch(error => {
         hideActionLoader();
-        toast.error(`An error occured whilst Uploading your Document ${error}`);
+        toast.error(`An error occured whilst uploading the Template ${error}`);
         console.log(error);
       });
   };
@@ -136,16 +139,9 @@ const LeadUpload = ({closeModal}) => {
     <Box sx={{width: "500px", maxHeight: "600px"}}>
       <Box mt={1} mb={2}>
         <Grid container spacing={1}>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <CustomSelect
-              options={selectOptions}
-              label="File"
-              onChange={e => setFileType(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomSelect
-              options={["SLA", "Letter of Intrest"]}
+              options={["SLA", "Letter of Intrest", "Invoice", "Proposal"]}
               label="Type"
               onChange={e => setDoctype(e.target.value)}
             />
@@ -158,7 +154,7 @@ const LeadUpload = ({closeModal}) => {
           multiple={true}
           handleChange={handleChange}
           name="upload"
-          types={fileType === "image" ? imageTypes : docTypes}
+          types={docTypes}
           children={<UploadComponent />}
         />
       </Box>
@@ -172,6 +168,14 @@ const LeadUpload = ({closeModal}) => {
             ? `File name: ${file[0].name}`
             : "You haven't selected any file"}
         </Typography>
+      </Box>
+
+      <Box>
+        <Textarea
+          label="Comment"
+          placeholder="write here..."
+          onChange={e => setDescription(e.target.value)}
+        />
       </Box>
 
       <Box sx={{display: "flex", alignItems: "center"}} mt={2} gap={2}>
@@ -192,4 +196,4 @@ const LeadUpload = ({closeModal}) => {
   );
 };
 
-export default LeadUpload;
+export default TemplateCreate;

@@ -53,6 +53,7 @@ import Invoice from "../../Invoice";
 import SLA from "../../SLA";
 import ChatInterface from "../../../../components/chat/ChatInterface";
 import GlobalDealChat from "../global/DealChat";
+import dayjs from "dayjs";
 
 export const LeadView = () => {
   const {register, reset, control, handleSubmit} = useForm();
@@ -199,6 +200,10 @@ export const DetailView = () => {
 
         <Grid item lg={6} md={12} sm={12}>
           <AdditionalInformationView />
+        </Grid>
+
+        <Grid item lg={6} md={12} sm={12}>
+          <StatusHistoryView />
         </Grid>
       </Grid>
     </>
@@ -531,6 +536,89 @@ export const StaffsListView = () => {
   );
 };
 
+export const StatusHistoryView = () => {
+  const dealServer = client.service("deal");
+  const {state, setState, hideActionLoader, showActionLoader} =
+    useContext(ObjectContext);
+  const [histories, setHistories] = useState([]);
+
+  const historyColumns = [
+    {
+      name: "SN",
+      key: "sn",
+      description: "Enter Date",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      width: "50px",
+    },
+    {
+      name: "Updated By",
+      key: "sn",
+      description: "Enter Date",
+      selector: (row, i) => row?.employeename,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+    {
+      name: "Updated At",
+      key: "sn",
+      description: "Enter Date",
+      selector: (row, i) => dayjs(row.date).format("DD/MM/YYYY hh:mm A"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+    {
+      name: "Status",
+      key: "sn",
+      description: "Enter Date",
+      selector: (row, i) => row.status,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+  ];
+
+  const handleRow = () => {};
+
+  useEffect(() => {
+    const history = state.DealModule.selectedDeal.statushx;
+    setHistories(history);
+  }, [state.DealModule]);
+
+  return (
+    <Box>
+      <FormsHeaderText text="Deal's Status History" />
+      <Box mt={1} mb={1}>
+        <CustomTable
+          title={"Contact List"}
+          columns={historyColumns}
+          data={histories}
+          pointerOnHover
+          highlightOnHover
+          striped
+          onRowClicked={handleRow}
+          CustomEmptyData="No Status History for this Deal yet..."
+          progressPending={false}
+          //conditionalRowStyles={conditionalRowStyles}
+        />
+      </Box>
+    </Box>
+  );
+};
+
 export const UploadView = () => {
   const [uploads, setUploads] = useState([]);
   const [uploadModal, setUploadModal] = useState(false);
@@ -720,7 +808,7 @@ const LeadDetail = ({handleGoBack}) => {
               fontWeight: "600",
             }}
           >
-            Lead Details
+            Deal Details
           </Typography>
         </Box>
 

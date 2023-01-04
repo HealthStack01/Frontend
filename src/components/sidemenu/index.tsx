@@ -175,7 +175,7 @@ export const menuItems = [
     ],
   },
   {
-    name: "Communication",
+    name: "Engagement",
     exact: true,
     to: "/app/communication",
     iconClassName: "bi bi-rss",
@@ -275,6 +275,7 @@ export const menuItems = [
       {name: "SLA", to: "/app/crm/SLA"},
       {name: "Dashboard", to: "/app/crm/dashboard"},
       {name: "Appointment", to: "/app/crm/appointment"},
+      {name: "Templates", to: "/app/crm/templates"},
       {name: "Deal", to: "/app/crm/deal"},
     ],
   },
@@ -310,6 +311,7 @@ export const menuItems = [
       {name: "USSD", to: "/app/communication/ussd"},
       {name: "Email", to: "/app/communication/email"},
       {name: "IVR", to: "/app/communication/ivr"},
+      {name: "Chats", to: "/app/communication/chats"},
     ],
   },
   {
@@ -371,21 +373,6 @@ export const menuItems = [
       {name: "Lab", to: "/app/blood-bank/lab"},
     ],
   },
-  // {
-  //   name: "Dont Click Me",
-  //   exact: true,
-  //   to: "/app/documentation",
-  //   iconClassName: "bi bi-box-arrow-right",
-  // },
-  // {
-  //   name: "Logout",
-  //   exact: true,
-  //   to: "/",
-  //   action: () => {
-  //     localStorage.setItem("user", "");
-  //   },
-  //   iconClassName: "bi bi-box-arrow-right",
-  // },
 ];
 
 function SideMenu({isOpen}) {

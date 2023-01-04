@@ -267,12 +267,17 @@ export function VitalSignCreate() {
     }
   });
 
-  const onSubmit = (data, e) => {
+  useEffect(() => {
+    hideActionLoader();
+  }, []);
+
+  const onSubmit = formData => {
     //e.preventDefault();
-    showActionLoader();
+    // showActionLoader();
     setMessage("");
     setError(false);
     setSuccess(false);
+    let data = formData;
     let document = {};
     // data.createdby=user._id
     // console.log(data);
@@ -333,7 +338,7 @@ export function VitalSignCreate() {
       return;
     }
 
-    //return console.log(document);
+    return console.log(document.documentdetail);
 
     if (!!draftDoc && draftDoc.status === "Draft") {
       //console.log(document);

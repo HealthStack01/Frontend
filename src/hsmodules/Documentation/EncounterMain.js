@@ -825,9 +825,10 @@ export default function EncounterMain({nopresc, chosenClient}) {
                                             color: "#000000",
                                           }}
                                         >
-                                          {dayjs(value).isValid()
+                                          {/* {dayjs(value).isValid()
                                             ? dayjs(value).format("DD/MM/YYYY")
-                                            : value}
+                                            : value} */}
+                                          {value}
                                         </Typography>
                                       </Box>
                                     </Grid>
@@ -864,9 +865,10 @@ export default function EncounterMain({nopresc, chosenClient}) {
                                             color: "#000000",
                                           }}
                                         >
-                                          {dayjs(value).isValid()
+                                          {/* {dayjs(value).isValid()
                                             ? dayjs(value).format("DD/MM/YYYY")
-                                            : value}
+                                            : value} */}
+                                          {value}
                                         </Typography>
                                       </Box>
                                     </Grid>

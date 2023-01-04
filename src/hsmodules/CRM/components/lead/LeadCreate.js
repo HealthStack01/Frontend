@@ -354,7 +354,7 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
                 <Grid item lg={2} md={3} sm={6}>
                   <CustomSelect
                     label="Status"
-                    options={["Open", "Pending", "Closed"]}
+                    options={["Open", "Suspended", "Closed"]}
                     name="status"
                     control={control}
                     important

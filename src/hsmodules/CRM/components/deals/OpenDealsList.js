@@ -21,7 +21,11 @@ import {Box} from "@mui/system";
 // eslint-disable-next-line
 const searchfacility = {};
 
-const OpenDealsList = ({showClosedDeals, setDealDetail, showPendingDeals}) => {
+const OpenDealsList = ({
+  showClosedDeals,
+  setDealDetail,
+  showSuspendedDeals,
+}) => {
   // eslint-disable-next-line
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -62,8 +66,8 @@ const OpenDealsList = ({showClosedDeals, setDealDetail, showPendingDeals}) => {
     showClosedDeals();
   };
 
-  const handleShowPendingDeals = () => {
-    showPendingDeals();
+  const handleShowSuspendedDeals = () => {
+    showSuspendedDeals();
   };
 
   const handleRow = async data => {
@@ -342,9 +346,12 @@ const OpenDealsList = ({showClosedDeals, setDealDetail, showPendingDeals}) => {
                 View Closed Deals
               </GlobalCustomButton>
 
-              <GlobalCustomButton onClick={handleShowPendingDeals} color="info">
+              <GlobalCustomButton
+                onClick={handleShowSuspendedDeals}
+                color="warning"
+              >
                 <PendingIcon fontSize="small" sx={{marginRight: "5px"}} />
-                View Pending Deals
+                View Suspended Deals
               </GlobalCustomButton>
             </Box>
           </TableMenu>
