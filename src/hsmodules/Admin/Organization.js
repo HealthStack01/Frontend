@@ -1,39 +1,39 @@
-import { useEffect, useState, useCallback, useContext } from 'react';
-import { Box } from '@mui/system';
-import client from '../../feathers';
-import { ObjectContext, UserContext } from '../../context';
-import { Avatar, Grid, IconButton, Typography } from '@mui/material';
-import Input from '../../components/inputs/basic/Input';
-import { useForm } from 'react-hook-form';
-import { FormsHeaderText } from '../../components/texts';
-import CustomSelect from '../../components/inputs/basic/Select';
-import GlobalCustomButton from '../../components/buttons/CustomButton';
-import CustomTable from '../../components/customtable';
-import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
-import DeleteOutline from '@mui/icons-material/DeleteOutline';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import { useNavigate } from 'react-router-dom';
-import EditIcon from '@mui/icons-material/Edit';
-import ModalBox from '../../components/modal';
-import Textarea from '../../components/inputs/basic/Textarea';
-import CheckboxGroup from '../../components/inputs/basic/Checkbox/CheckBoxGroup';
-import { toast } from 'react-toastify';
-import dayjs from 'dayjs';
-import { FileUploader } from 'react-drag-drop-files';
-import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import {useEffect, useState, useCallback, useContext} from "react";
+import {Box} from "@mui/system";
+import client from "../../feathers";
+import {ObjectContext, UserContext} from "../../context";
+import {Avatar, Grid, IconButton, Typography} from "@mui/material";
+import Input from "../../components/inputs/basic/Input";
+import {useForm} from "react-hook-form";
+import {FormsHeaderText} from "../../components/texts";
+import CustomSelect from "../../components/inputs/basic/Select";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import CustomTable from "../../components/customtable";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import DeleteOutline from "@mui/icons-material/DeleteOutline";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import {useNavigate} from "react-router-dom";
+import EditIcon from "@mui/icons-material/Edit";
+import ModalBox from "../../components/modal";
+import Textarea from "../../components/inputs/basic/Textarea";
+import CheckboxGroup from "../../components/inputs/basic/Checkbox/CheckBoxGroup";
+import {toast} from "react-toastify";
+import dayjs from "dayjs";
+import {FileUploader} from "react-drag-drop-files";
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 
-import BankAccount from './BankAccount';
-import axios from 'axios';
-import { getBase64 } from '../helpers/getBase64';
+import BankAccount from "./BankAccount";
+import axios from "axios";
+import {getBase64} from "../helpers/getBase64";
 
 const AdminOrganization = () => {
-  const facilityServer = client.service('facility');
-  const { register, reset, handleSubmit, control } = useForm();
-  const { user, setUser } = useContext(UserContext);
-  const { state, setState, showActionLoader, hideActionLoader } =
+  const facilityServer = client.service("facility");
+  const {register, reset, handleSubmit, control} = useForm();
+  const {user, setUser} = useContext(UserContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const [facility, setFacility] = useState({});
   const [edit, setEdit] = useState(false);
@@ -47,7 +47,7 @@ const AdminOrganization = () => {
     setLogoAnchorEl(null);
   };
 
-  const handleOpemLogoOptions = (event) => {
+  const handleOpemLogoOptions = event => {
     setLogoAnchorEl(event.currentTarget);
   };
 
@@ -59,14 +59,14 @@ const AdminOrganization = () => {
     const id = user.currentEmployee.facilityDetail._id;
     await facilityServer
       .get(id)
-      .then((resp) => {
+      .then(resp => {
         //console.log(resp);
         hideActionLoader();
         setFacility(resp);
         reset(resp);
         //console.log(resp);
       })
-      .catch((err) => {
+      .catch(err => {
         hideActionLoader();
         console.log(err);
       });
@@ -75,19 +75,19 @@ const AdminOrganization = () => {
   useEffect(() => {
     getCurrentFacility();
 
-    facilityServer.on('created', (obj) => getCurrentFacility());
-    facilityServer.on('updated', (obj) => getCurrentFacility());
-    facilityServer.on('patched', (obj) => getCurrentFacility());
-    facilityServer.on('removed', (obj) => getCurrentFacility());
+    facilityServer.on("created", obj => getCurrentFacility());
+    facilityServer.on("updated", obj => getCurrentFacility());
+    facilityServer.on("patched", obj => getCurrentFacility());
+    facilityServer.on("removed", obj => getCurrentFacility());
 
     return () => {};
   }, [getCurrentFacility]);
 
   const navigateToEmployees = () => {
-    navigate('/app/admin/employees');
+    navigate("/app/admin/employees");
   };
 
-  const updateOrganization = async (data) => {
+  const updateOrganization = async data => {
     showActionLoader();
     const employee = user.currentEmployee;
     const prevOrgDetail = user.currentEmployee.facilityDetail;
@@ -106,13 +106,13 @@ const AdminOrganization = () => {
     const documentId = prevOrgDetail._id;
 
     await facilityServer
-      .patch(documentId, { ...newOrgDetail })
-      .then((resp) => {
+      .patch(documentId, {...newOrgDetail})
+      .then(resp => {
         //console.log(resp);
         reset(resp);
         setFacility(resp);
         hideActionLoader();
-        setUser((prev) => ({
+        setUser(prev => ({
           ...prev,
           currentEmployee: {
             ...prev.currentEmployee,
@@ -122,7 +122,7 @@ const AdminOrganization = () => {
         setEdit(false);
         toast.success("You've succesfully updated your Organization Details");
       })
-      .catch((error) => {
+      .catch(error => {
         toast.error(`Error Updating your oragnization Details ${error}`);
         hideActionLoader();
         console.error(error);
@@ -133,15 +133,15 @@ const AdminOrganization = () => {
     <Box p={2}>
       <Box
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
         mb={1}
       >
         <Box>
           <IconButton onClick={handleOpemLogoOptions}>
-            <Avatar sx={{ width: 68, height: 68 }} src={facility?.facilitylogo}>
+            <Avatar sx={{width: 68, height: 68}} src={facility?.facilitylogo}>
               LOGO
             </Avatar>
           </IconButton>
@@ -150,7 +150,7 @@ const AdminOrganization = () => {
             id="account-menu"
             open={Boolean(logoAnchorEl)}
             onClose={handleCloseLogoOptions}
-            anchorOrigin={{ horizontal: 'right', vertical: 'center' }}
+            anchorOrigin={{horizontal: "right", vertical: "center"}}
           >
             {/* <MenuItem>View Logo</MenuItem> */}
             <MenuItem>Remove Logo</MenuItem>
@@ -165,26 +165,26 @@ const AdminOrganization = () => {
           </Menu>
         </Box>
 
-        <Box sx={{ display: 'flex' }} gap={2}>
+        <Box sx={{display: "flex"}} gap={2}>
           <GlobalCustomButton
             color="secondary"
             onClick={() => setModulesModal(true)}
           >
-            <AutoStoriesIcon sx={{ marginRight: '5px' }} fontSize="small" />
+            <AutoStoriesIcon sx={{marginRight: "5px"}} fontSize="small" />
             Organization Modules
           </GlobalCustomButton>
 
           <GlobalCustomButton onClick={navigateToEmployees} color="info">
-            <PeopleAltIcon sx={{ marginRight: '5px' }} fontSize="small" />{' '}
+            <PeopleAltIcon sx={{marginRight: "5px"}} fontSize="small" />{" "}
             Organization Employees
           </GlobalCustomButton>
         </Box>
       </Box>
 
-      <Box mb={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Box mb={2} sx={{display: "flex", justifyContent: "space-between"}}>
         <FormsHeaderText text="Organization Details" />
 
-        <Box sx={{ display: 'flex' }} gap={2}>
+        <Box sx={{display: "flex"}} gap={2}>
           {!edit ? (
             <GlobalCustomButton onClick={() => setEdit(true)}>
               <EditIcon fontSize="small" />
@@ -212,7 +212,7 @@ const AdminOrganization = () => {
       <Grid container spacing={2} mb={2}>
         <Grid item lg={4} md={6} sm={6} xs={12}>
           <Input
-            register={register('facilityOwner')}
+            register={register("facilityOwner")}
             label="Organization Owner"
             disabled={!edit}
           />
@@ -220,7 +220,7 @@ const AdminOrganization = () => {
 
         <Grid item lg={4} md={6} sm={6} xs={12}>
           <Input
-            register={register('facilityName')}
+            register={register("facilityName")}
             label="Organization Name"
             disabled={!edit}
           />
@@ -228,7 +228,7 @@ const AdminOrganization = () => {
 
         <Grid item lg={4} md={6} sm={6} xs={12}>
           <Input
-            register={register('facilityContactPhone')}
+            register={register("facilityContactPhone")}
             label="Phone Number"
             disabled={!edit}
           />
@@ -236,7 +236,7 @@ const AdminOrganization = () => {
 
         <Grid item lg={4} md={6} sm={6} xs={12}>
           <Input
-            register={register('facilityEmail')}
+            register={register("facilityEmail")}
             label="Email Address"
             disabled={!edit}
           />
@@ -246,7 +246,7 @@ const AdminOrganization = () => {
           <CustomSelect
             control={control}
             name="facilityType"
-            options={['Hospital']}
+            options={["Hospital"]}
             label="Organization Type"
             disabled={!edit}
           />
@@ -256,7 +256,7 @@ const AdminOrganization = () => {
           <CustomSelect
             control={control}
             name="facilityCategory"
-            options={['Home']}
+            options={["Home"]}
             label="Organization Category"
             disabled={!edit}
           />
@@ -264,7 +264,7 @@ const AdminOrganization = () => {
 
         <Grid item lg={8} md={8} sm={12} xs={12}>
           <Input
-            register={register('facilityAddress')}
+            register={register("facilityAddress")}
             label="Organization Address"
             disabled={!edit}
           />
@@ -272,7 +272,7 @@ const AdminOrganization = () => {
 
         <Grid item lg={4} md={6} sm={6} xs={12}>
           <Input
-            register={register('facilityCity')}
+            register={register("facilityCity")}
             label="Organization City"
             disabled={!edit}
           />
@@ -280,7 +280,7 @@ const AdminOrganization = () => {
 
         <Grid item lg={4} md={6} sm={6} xs={12}>
           <Input
-            register={register('facilityLGA')}
+            register={register("facilityLGA")}
             label="Organization LGA"
             disabled={!edit}
           />
@@ -288,7 +288,7 @@ const AdminOrganization = () => {
 
         <Grid item lg={4} md={6} sm={6} xs={12}>
           <Input
-            register={register('facilityState')}
+            register={register("facilityState")}
             label="Organization State"
             disabled={!edit}
           />
@@ -296,7 +296,7 @@ const AdminOrganization = () => {
 
         <Grid item lg={4} md={6} sm={6} xs={12}>
           <Input
-            register={register('facilityCountry')}
+            register={register("facilityCountry")}
             label="Organization Country"
             disabled={!edit}
           />
@@ -328,47 +328,47 @@ const AdminOrganization = () => {
 
 export default AdminOrganization;
 
-export const OrganizationModules = ({ closeModal }) => {
-  const facilityServer = client.service('facility');
-  const { control, reset, handleSubmit, setValue } = useForm();
-  const { state, setState, showActionLoader, hideActionLoader } =
+export const OrganizationModules = ({closeModal}) => {
+  const facilityServer = client.service("facility");
+  const {control, reset, handleSubmit, setValue} = useForm();
+  const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
 
   const modulelist = [
-    'Accounting',
-    'Admin',
-    'Appointments',
-    'Appt. Workflow',
-    'Blood Bank',
-    'Client',
-    'Clinic',
-    'Communication',
-    'Complaints',
-    'CRM',
-    'Epidemiology',
-    'Finance',
-    'Immunization',
-    'Inventory',
-    'Laboratory',
-    'Managed Care',
-    'Market Place',
-    'Patient Portal',
-    'Pharmacy',
-    'Radiology',
-    'Referral',
-    'Theatre',
-    'Ward',
+    "Accounting",
+    "Admin",
+    "Appointments",
+    "Appt. Workflow",
+    "Blood Bank",
+    "Client",
+    "Clinic",
+    "Communication",
+    "Complaints",
+    "CRM",
+    "Epidemiology",
+    "Finance",
+    "Immunization",
+    "Inventory",
+    "Laboratory",
+    "Managed Care",
+    "Market Place",
+    "Patient Portal",
+    "Pharmacy",
+    "Radiology",
+    "Referral",
+    "Theatre",
+    "Ward",
   ];
 
   useEffect(() => {
     //hideActionLoader();
     const prevModules =
       user.currentEmployee.facilityDetail.facilityModules || [];
-    setValue('modules', prevModules);
+    setValue("modules", prevModules);
   }, []);
 
-  const updateModules = async (data) => {
+  const updateModules = async data => {
     showActionLoader();
     const employee = user.currentEmployee;
     const prevOrgDetail = user.currentEmployee.facilityDetail;
@@ -387,11 +387,11 @@ export const OrganizationModules = ({ closeModal }) => {
     const documentId = prevOrgDetail._id;
 
     await facilityServer
-      .patch(documentId, { ...newOrgDetail })
-      .then((resp) => {
+      .patch(documentId, {...newOrgDetail})
+      .then(resp => {
         console.log(resp);
         hideActionLoader();
-        setUser((prev) => ({
+        setUser(prev => ({
           ...prev,
           currentEmployee: {
             ...prev.currentEmployee,
@@ -400,7 +400,7 @@ export const OrganizationModules = ({ closeModal }) => {
         }));
         toast.success("You've succesfully updated your Organization Modules");
       })
-      .catch((error) => {
+      .catch(error => {
         toast.error(`Error Updating your oragnization modules ${error}`);
         hideActionLoader();
         console.error(error);
@@ -408,7 +408,7 @@ export const OrganizationModules = ({ closeModal }) => {
   };
 
   return (
-    <Box sx={{ width: '60vw' }}>
+    <Box sx={{width: "60vw"}}>
       <Box>
         <CheckboxGroup
           name="modules"
@@ -418,7 +418,7 @@ export const OrganizationModules = ({ closeModal }) => {
         />
       </Box>
 
-      <Box sx={{ display: 'flex' }} gap={2}>
+      <Box sx={{display: "flex"}} gap={2}>
         <GlobalCustomButton color="error" onClick={closeModal}>
           Cancel
         </GlobalCustomButton>
@@ -435,15 +435,15 @@ const UploadComponent = ({}) => {
   return (
     <Box
       sx={{
-        width: '100%',
-        height: '300px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        border: '1px dashed gray',
-        cursor: 'pointer',
-        borderRadius: '7.5px',
+        width: "100%",
+        height: "300px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        border: "1px dashed gray",
+        cursor: "pointer",
+        borderRadius: "7.5px",
       }}
     >
       <FileUploadOutlinedIcon />
@@ -452,40 +452,42 @@ const UploadComponent = ({}) => {
   );
 };
 
-export const OrganaizationLogoUpload = ({ closeModal }) => {
-  const facilityServer = client.service('facility');
-  const { state, setState, showActionLoader, hideActionLoader } =
+export const OrganaizationLogoUpload = ({closeModal}) => {
+  const facilityServer = client.service("facility");
+  const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
 
-  const [file, setFile] = useState('');
+  const [file, setFile] = useState(null);
 
-  const handleChange = (file) => {
+  const handleChange = file => {
     //console.log(file);
     //setFile(file);
 
     getBase64(file)
-      .then((res) => {
+      .then(res => {
         //console.log(res);
         setFile(res);
         //navigator.clipboard.writeText(res);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
 
   const handleUploadLogo = async () => {
+    if (file === null) return toast.error("Please select a Logo to upload");
     showActionLoader();
-    const token = localStorage.getItem('feathers-jwt');
+    const token = localStorage.getItem("feathers-jwt");
     axios
       .post(
-        'https://healthstack-backend.herokuapp.com/upload',
-        { uri: file },
-        { headers: { Authorization: `Bearer ${token}` } }
+        "https://healthstack-backend.herokuapp.com/upload",
+        {uri: file},
+        {headers: {Authorization: `Bearer ${token}`}}
       )
-      .then(async (res) => {
+      .then(async res => {
         //return console.log(res);
+        console.log(res);
         const logoUrl = res.data.url;
         const employee = user.currentEmployee;
         const prevOrgDetail = user.currentEmployee.facilityDetail;
@@ -503,10 +505,10 @@ export const OrganaizationLogoUpload = ({ closeModal }) => {
         const documentId = prevOrgDetail._id;
 
         await facilityServer
-          .patch(documentId, { ...newOrgDetail })
-          .then((resp) => {
+          .patch(documentId, {...newOrgDetail})
+          .then(resp => {
             hideActionLoader();
-            setUser((prev) => ({
+            setUser(prev => ({
               ...prev,
               currentEmployee: {
                 ...prev.currentEmployee,
@@ -516,7 +518,7 @@ export const OrganaizationLogoUpload = ({ closeModal }) => {
             closeModal();
             toast.success("You've succesfully updated your Organization Logo");
           })
-          .catch((error) => {
+          .catch(error => {
             hideActionLoader();
             toast.error(
               `An error occured whilst updating your Organization Logo ${error}`
@@ -524,7 +526,7 @@ export const OrganaizationLogoUpload = ({ closeModal }) => {
             console.error(error);
           });
       })
-      .catch((error) => {
+      .catch(error => {
         hideActionLoader();
         toast.error(
           `An error occured whilst updating your Organization Logo ${error}`
@@ -534,19 +536,19 @@ export const OrganaizationLogoUpload = ({ closeModal }) => {
   };
 
   return (
-    <Box sx={{ width: '400px', maxHeight: '80vw' }}>
+    <Box sx={{width: "400px", maxHeight: "80vw"}}>
       {file ? (
         <Box
           sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           <img
             src={file}
             alt="logo"
-            style={{ width: '200px', height: 'auto', display: 'block' }}
+            style={{width: "200px", height: "auto", display: "block"}}
           />
         </Box>
       ) : (
@@ -554,17 +556,17 @@ export const OrganaizationLogoUpload = ({ closeModal }) => {
           multiple={false}
           handleChange={handleChange}
           name="upload"
-          types={['jpeg', 'png', 'jpg']}
+          types={["jpeg", "png", "jpg"]}
           children={<UploadComponent />}
         />
       )}
 
-      <Box sx={{ display: 'flex' }} gap={2} mt={2}>
+      <Box sx={{display: "flex"}} gap={2} mt={2}>
         <GlobalCustomButton color="error" onClick={closeModal}>
           Cancel
         </GlobalCustomButton>
 
-        <GlobalCustomButton onClick={handleUploadLogo}>
+        <GlobalCustomButton onClick={handleUploadLogo} disabled={file === null}>
           Upload Logo
         </GlobalCustomButton>
       </Box>

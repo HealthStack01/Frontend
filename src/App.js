@@ -18,6 +18,12 @@ import ActionLoader from "./components/action-loader/Action-Loader";
 
 function App() {
   const [state, setState] = useState({
+    ProposalModule: {
+      selectedProposal: {},
+    },
+    SLAModule: {
+      selectedSLA: {},
+    },
     BankAccountModule: {
       selectedBankAccount: {},
     },

@@ -6,21 +6,21 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-} from '@mui/material';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import Button from '../../../../components/buttons/CustomButton';
+} from "@mui/material";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import Button from "../../../../components/buttons/CustomButton";
 // import ModalBox from "../../../../components/modal";
 import { useState } from 'react';
 
 export default function HMOCompanyDetails() {
-  const [healthInsuranceModal, setHealthInsuranceModal] = useState(false);
+  //   const [healthInsuranceModal, setHealthInsuranceModal] = useState(false)
 
   //   const handleHideInsuranceModal = () => {
   //     setHealthInsuranceModal(false);
   //   };
 
   const handleInsuranceModal = () => {
-    setHealthInsuranceModal(true);
+    //setHealthInsuranceModal(true);
   };
 
   // <ModalBox open={healthInsuranceModal} onClose={handleHideInsuranceModal} header="Health Insurance">
@@ -38,23 +38,23 @@ export default function HMOCompanyDetails() {
           select any of our health insurance plans that fit your needs,After
           paying, watch out for the series of emails you’ll get from your no. 1
           HMO in Nigeria, explaining how to use your health plans to stay
-          healthy.{' '}
+          healthy.{" "}
         </Typography>
       </Box>
       <Stack
         sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '2rem',
-          justifyContent: 'center',
+          display: "flex",
+          flexDirection: "row",
+          gap: "2rem",
+          justifyContent: "center",
         }}
       >
         <Box
           sx={{
-            backgroundColor: '#03045e',
-            width: '300px',
-            height: '320px',
-            borderRadius: '5px',
+            backgroundColor: "#03045e",
+            width: "300px",
+            height: "320px",
+            borderRadius: "5px",
           }}
           p="1rem"
         >
@@ -66,22 +66,22 @@ export default function HMOCompanyDetails() {
               ₦40.50
             </Typography>
           </Stack>
-          <List sx={{ color: 'white' }}>
+          <List sx={{color: "white"}}>
             <ListItem disablePadding>
               <ListItemIcon>
-                <CheckCircleIcon sx={{ color: 'white' }} />
+                <CheckCircleIcon sx={{color: "white"}} />
               </ListItemIcon>
               <ListItemText>Brunch this weekend</ListItemText>
             </ListItem>
             <ListItem disablePadding>
               <ListItemIcon>
-                <CheckCircleIcon sx={{ color: 'white' }} />
+                <CheckCircleIcon sx={{color: "white"}} />
               </ListItemIcon>
               <ListItemText>Brunch this weekend</ListItemText>
             </ListItem>
             <ListItem disablePadding>
               <ListItemIcon>
-                <CheckCircleIcon sx={{ color: 'white' }} />
+                <CheckCircleIcon sx={{color: "white"}} />
               </ListItemIcon>
               <ListItemText>Brunch this weekend</ListItemText>
             </ListItem>
@@ -94,10 +94,10 @@ export default function HMOCompanyDetails() {
         </Box>
         <Box
           sx={{
-            backgroundColor: '#0096c7',
-            width: '250px',
-            height: '320px',
-            borderRadius: '5px',
+            backgroundColor: "#0096c7",
+            width: "250px",
+            height: "320px",
+            borderRadius: "5px",
           }}
           p="1rem"
         >
@@ -107,22 +107,22 @@ export default function HMOCompanyDetails() {
             </Typography>
             <Typography color="white">₦40.50</Typography>
           </Stack>
-          <List sx={{ color: 'white' }}>
+          <List sx={{color: "white"}}>
             <ListItem disablePadding>
               <ListItemIcon>
-                <CheckCircleIcon sx={{ color: 'white' }} />
+                <CheckCircleIcon sx={{color: "white"}} />
               </ListItemIcon>
               <ListItemText>Brunch this weekend</ListItemText>
             </ListItem>
             <ListItem disablePadding>
               <ListItemIcon>
-                <CheckCircleIcon sx={{ color: 'white' }} />
+                <CheckCircleIcon sx={{color: "white"}} />
               </ListItemIcon>
               <ListItemText>Brunch this weekend</ListItemText>
             </ListItem>
             <ListItem disablePadding>
               <ListItemIcon>
-                <CheckCircleIcon sx={{ color: 'white' }} />
+                <CheckCircleIcon sx={{color: "white"}} />
               </ListItemIcon>
               <ListItemText>Brunch this weekend</ListItemText>
             </ListItem>
@@ -135,10 +135,10 @@ export default function HMOCompanyDetails() {
         </Box>
         <Box
           sx={{
-            backgroundColor: '#03045e',
-            width: '250px',
-            height: '320px',
-            borderRadius: '5px',
+            backgroundColor: "#03045e",
+            width: "250px",
+            height: "320px",
+            borderRadius: "5px",
           }}
           p="1rem"
         >
@@ -148,22 +148,22 @@ export default function HMOCompanyDetails() {
             </Typography>
             <Typography color="white">₦40.50</Typography>
           </Stack>
-          <List sx={{ color: 'white' }}>
+          <List sx={{color: "white"}}>
             <ListItem disablePadding>
               <ListItemIcon>
-                <CheckCircleIcon sx={{ color: 'white' }} />
+                <CheckCircleIcon sx={{color: "white"}} />
               </ListItemIcon>
               <ListItemText>Brunch this weekend</ListItemText>
             </ListItem>
             <ListItem disablePadding>
               <ListItemIcon>
-                <CheckCircleIcon sx={{ color: 'white' }} />
+                <CheckCircleIcon sx={{color: "white"}} />
               </ListItemIcon>
               <ListItemText>Brunch this weekend</ListItemText>
             </ListItem>
             <ListItem disablePadding>
               <ListItemIcon>
-                <CheckCircleIcon sx={{ color: 'white' }} />
+                <CheckCircleIcon sx={{color: "white"}} />
               </ListItemIcon>
               <ListItemText>Brunch this weekend</ListItemText>
             </ListItem>

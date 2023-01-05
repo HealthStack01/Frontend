@@ -1,5 +1,5 @@
-import {useState} from "react";
-import {Box, Grid, Typography} from "@mui/material";
+import {useContext, useState, useEffect} from "react";
+import {Box, Grid, IconButton, Typography} from "@mui/material";
 import Input from "../../../../components/inputs/basic/Input";
 import ModalBox from "../../../../components/modal";
 import {FormsHeaderText} from "../../../../components/texts";
@@ -13,22 +13,163 @@ import Badge from "@mui/material/Badge";
 import ChatIcon from "@mui/icons-material/Chat";
 import BlockIcon from "@mui/icons-material/Block";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import DocViewer, {DocViewerRenderers} from "@cyntler/react-doc-viewer";
+import Drawer from "@mui/material/Drawer";
 
 import {DetailView, CustomerView, LeadView} from "../lead/LeadDetailView";
 import ChatInterface from "../../../../components/chat/ChatInterface";
-import CustomerDetail from "../global/CustomerDetail";
+import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
+import {PageLeadDetailView} from "../global/LeadDetail";
+import {ObjectContext} from "../../../../context";
+import dayjs from "dayjs";
+import CustomTable from "../../../../components/customtable";
+import {toast} from "react-toastify";
 
-const dummySLA =
-  "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,";
+import {pdfjs} from "react-pdf";
+import {Document, Page} from "react-pdf";
 
 const ProposalDetail = ({handleGoBack}) => {
-  const {register, control} = useForm();
-  const [descriptionModal, setDescriptionModal] = useState(false);
-  const [description, setDescription] = useState(dummySLA);
+  const {state, setState} = useContext(ObjectContext);
+  const [description, setDescription] = useState("");
   const [chat, setChat] = useState(false);
+  const [attachedDocs, setAttachedDocs] = useState([]);
+  const [docViewModal, setDocviewModal] = useState(false);
+  const [selectedDoc, setSelectedDoc] = useState({});
 
-  const toggleDescriptionModal = () => {
-    setDescriptionModal(prev => !prev);
+  useEffect(() => {
+    const proposal = state.ProposalModule.selectedProposal;
+
+    setDescription(proposal.description || "");
+    setAttachedDocs(proposal.attachedFiles || []);
+
+    return () => {
+      setState(prev => ({
+        ...prev,
+        ProposalModule: {...prev.ProposalModule, selectedProposal: {}},
+      }));
+    };
+  }, [setState, state.ProposalModule]);
+
+  const handleDeleteFile = () => {
+    toast.error("Sorry, you cannot make changes to this documennt");
+  };
+
+  const attachedFileColumns = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "Enter Date",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      width: "60px",
+    },
+    {
+      name: "Attached By",
+      key: "filename",
+      description: "Enter Date",
+      selector: row => (
+        <Typography
+          sx={{
+            fontSize: "0.8rem",
+            whiteSpace: "normal",
+            color: "#1976d2",
+            textTransform: "capitalize",
+          }}
+          data-tag="allowRowEvents"
+        >
+          {row.createdByName}
+        </Typography>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      width: "200px",
+    },
+
+    {
+      name: "File Name",
+      key: "filename",
+      description: "Enter Date",
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.8rem", whiteSpace: "normal", color: "#1976d2"}}
+          data-tag="allowRowEvents"
+        >
+          {row.fileName}
+        </Typography>
+      ),
+
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Date",
+      //style: {color: "#0364FF"},
+      key: "date",
+      description: "Enter Date",
+      selector: row => dayjs(row.createdAt).format("DD/MM/YYYY hh:mm  A "),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "File Type",
+      key: "doc_type",
+      description: "Enter Date",
+      selector: row => row.fileType,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "uppercase",
+      },
+    },
+
+    {
+      name: "Comment",
+      style: {color: "#0364FF"},
+      key: "doc_type",
+      description: "Enter Date",
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.comment}
+        </Typography>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Action",
+      key: "doc_type",
+      description: "Enter Date",
+      selector: row => (
+        <IconButton size="small" color="error" onClick={handleDeleteFile}>
+          <DeleteOutlineIcon fontSize="small" />
+        </IconButton>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "uppercase",
+      },
+    },
+  ];
+
+  const handleRow = doc => {
+    console.log(doc);
+    setSelectedDoc(doc);
+    setDocviewModal(true);
   };
 
   return (
@@ -37,6 +178,28 @@ const ProposalDetail = ({handleGoBack}) => {
         width: "100%",
       }}
     >
+      <ModalBox
+        open={docViewModal}
+        onClose={() => setDocviewModal(false)}
+        header={`View Document ${selectedDoc?.fileName}`}
+      >
+        <Box sx={{width: "85vw", height: "85vh"}}>
+          {selectedDoc?.fileType === "pdf" ? (
+            <iframe
+              src={selectedDoc?.file}
+              title={selectedDoc?.fileName}
+              style={{width: "100%", height: "100%"}}
+            />
+          ) : (
+            <iframe
+              title={selectedDoc?.fileName}
+              style={{width: "100%", height: "100%"}}
+              src={`https://view.officeapps.live.com/op/embed.aspx?src=${selectedDoc?.file}`}
+            />
+          )}
+        </Box>
+      </ModalBox>
+
       <Box
         sx={{
           display: "flex",
@@ -87,14 +250,38 @@ const ProposalDetail = ({handleGoBack}) => {
       <Grid container spacing={2} p={2} justify="center">
         <Grid item lg={12} md={12} sm={12}>
           <Grid container spacing={2}>
-            <Grid item lg={6} md={6} small={12}>
-              <CustomerDetail />
+            <Grid item lg={12} md={12} small={12}>
+              <PageCustomerDetail />
             </Grid>
 
-            <Grid item lg={6} md={6} small={12}>
-              <LeadView />
+            <Grid item lg={12} md={12} small={12}>
+              <PageLeadDetailView />
             </Grid>
           </Grid>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Box sx={{display: "flex", justifyContent: "space-between"}} mb={1.5}>
+            <FormsHeaderText text="Attached Files" />
+
+            {/* <GlobalCustomButton onClick={() => setAttachModal(true)}>
+              <AttachFileIcon fontSize="small" />
+              Attach New File
+            </GlobalCustomButton> */}
+          </Box>
+
+          <Box>
+            <CustomTable
+              columns={attachedFileColumns}
+              data={attachedDocs}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={handleRow}
+              CustomEmptyData="There was no file attached to this Proposal..."
+              progressPending={false}
+            />
+          </Box>
         </Grid>
 
         <Grid item lg={12} md={12} sm={12}>
@@ -119,13 +306,17 @@ const ProposalDetail = ({handleGoBack}) => {
             </Box>
 
             <Box className="ck-edition-sla">
-              <CKEditor editor={ClassicEditor} data={description} />
+              <CKEditor
+                editor={ClassicEditor}
+                data={description}
+                disabled={true}
+              />
             </Box>
           </Box>
         </Grid>
       </Grid>
 
-      <SwipeableDrawer
+      <Drawer
         anchor="right"
         open={chat}
         onClose={() => setChat(false)}
@@ -140,19 +331,7 @@ const ProposalDetail = ({handleGoBack}) => {
         >
           <ChatInterface closeChat={() => setChat(false)} />
         </Box>
-      </SwipeableDrawer>
-
-      <ModalBox
-        open={descriptionModal}
-        onClose={toggleDescriptionModal}
-        header="SLA Description"
-      >
-        <ProposalDescription
-          closeModal={toggleDescriptionModal}
-          setDescription={setDescription}
-          description={description}
-        />
-      </ModalBox>
+      </Drawer>
     </Box>
   );
 };

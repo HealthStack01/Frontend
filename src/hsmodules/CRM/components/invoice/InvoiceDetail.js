@@ -15,6 +15,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import SystemUpdateAltIcon from "@mui/icons-material/SystemUpdateAlt";
 import OpenWithIcon from "@mui/icons-material/OpenWith";
+import Drawer from "@mui/material/Drawer";
 
 import Badge from "@mui/material/Badge";
 
@@ -531,7 +532,7 @@ const InvoiceDetail = ({handleGoBack}) => {
           <InvoiceReopenReason closeModal={() => setReopenModal(false)} />
         </ModalBox>
 
-        <SwipeableDrawer
+        <Drawer
           anchor="right"
           open={chat}
           onClose={() => setChat(false)}
@@ -546,7 +547,7 @@ const InvoiceDetail = ({handleGoBack}) => {
           >
             <ChatInterface closeChat={() => setChat(false)} />
           </Box>
-        </SwipeableDrawer>
+        </Drawer>
       </Box>
     </Watermark>
   );

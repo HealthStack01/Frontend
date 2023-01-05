@@ -2,6 +2,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {IconButton, Typography} from "@mui/material";
 import DeleteOutline from "@mui/icons-material/DeleteOutline";
 import moment from "moment";
+import dayjs from "dayjs";
 
 export const getStaffColumns = (action, disableAction = false) => {
   const staffColumns = [
@@ -363,20 +364,46 @@ export const getAppointmentColumns = (action, disableAction) => {
 export const getUploadColumns = (action, disableAction) => {
   const contactColumns = [
     {
-      name: "File Name",
-      key: "file_name",
+      name: "SN",
+      key: "sn",
       description: "Enter Date",
-      selector: row => row.file_name,
+      selector: (row, i) => i + 1,
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "50px",
     },
     {
-      name: "Date",
-      style: {color: "#0364FF"},
+      name: "Uploaded By",
+      key: "sn",
+      description: "Enter Date",
+      selector: (row, i) => row.uploadedByName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+    {
+      name: "File Name",
+      key: "file_name",
+      description: "Enter Date",
+      selector: row => row.name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+        color: "#0364FF",
+      },
+    },
+
+    {
+      name: "Upload Time",
       key: "date",
       description: "Enter Date",
-      selector: row => moment(row.date).format("L"),
+      selector: row => dayjs(row.uploadedAt).format("DD/MM/YYYY hh:mm A"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -387,21 +414,24 @@ export const getUploadColumns = (action, disableAction) => {
       style: {color: "#0364FF"},
       key: "doc_type",
       description: "Enter Date",
-      selector: row => row.doc_type,
+      selector: row => (row.docType === "sla" ? "SLA" : "LOI"),
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
 
     {
-      name: "File Type",
+      name: "Upload Type",
       style: {color: "#0364FF"},
       key: "file_type",
       description: "Enter Date",
-      selector: row => row.file_type,
+      selector: row => row.type,
       sortable: true,
       required: true,
       inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
     },
 
     {

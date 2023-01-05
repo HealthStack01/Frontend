@@ -3,7 +3,7 @@ import React, {useState, useContext, useEffect, useCallback} from "react";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../../../context";
 import "react-datepicker/dist/react-datepicker.css";
-import PendingIcon from "@mui/icons-material/Pending";
+import LockIcon from "@mui/icons-material/Lock";
 
 import {PageWrapper} from "../../../../ui/styled/styles";
 import {TableMenu} from "../../../../ui/styled/global";
@@ -16,12 +16,12 @@ import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import client from "../../../../feathers";
 import {Box} from "@mui/system";
-import dayjs from "dayjs";
 import {Typography} from "@mui/material";
+import dayjs from "dayjs";
 // eslint-disable-next-line
 const searchfacility = {};
 
-const ClosedDealsList = ({showOpenDeals, setDealDetail, showPendingDeals}) => {
+const PendingDealsList = ({showOpenDeals, setDealDetail, showCloseDeals}) => {
   // eslint-disable-next-line
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -36,8 +36,8 @@ const ClosedDealsList = ({showOpenDeals, setDealDetail, showPendingDeals}) => {
     showOpenDeals();
   };
 
-  const handleShowPendingDeals = () => {
-    showPendingDeals();
+  const handleShowClosedDeals = () => {
+    showCloseDeals();
   };
 
   const handleRow = async data => {
@@ -64,102 +64,12 @@ const ClosedDealsList = ({showOpenDeals, setDealDetail, showPendingDeals}) => {
         : await dealServer.find({
             query: {
               facilityId: facId,
-              "dealinfo.currStatus": "closed",
+              "dealinfo.currStatus": "pending",
             },
           });
     await setClosedDeals(res.data);
     hideActionLoader();
   }, []);
-
-  const dummyData = [
-    {
-      company_name: "Health Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Closed",
-    },
-    {
-      company_name: "Albert Health Stack",
-      telestaff_name: "KTeejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Closed",
-    },
-    {
-      company_name: "DonaHealth Stack",
-      telestaff_name: "9Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Closed",
-    },
-
-    {
-      company_name: "DaviHealth Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Closed",
-    },
-    {
-      company_name: "Health Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Closed",
-    },
-    {
-      company_name: "Albert Health Stack",
-      telestaff_name: "KTeejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Closed",
-    },
-    {
-      company_name: "DonaHealth Stack",
-      telestaff_name: "9Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Closed",
-    },
-
-    {
-      company_name: "DaviHealth Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Closed",
-    },
-    {
-      company_name: "Health Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Closed",
-    },
-    {
-      company_name: "Albert Health Stack",
-      telestaff_name: "KTeejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Closed",
-    },
-    {
-      company_name: "DonaHealth Stack",
-      telestaff_name: "9Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Closed",
-    },
-
-    {
-      company_name: "DaviHealth Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Closed",
-    },
-  ];
 
   useEffect(() => {
     getFacilities();
@@ -180,55 +90,6 @@ const ClosedDealsList = ({showOpenDeals, setDealDetail, showPendingDeals}) => {
         break;
     }
   };
-
-  const dealsColumns2 = [
-    {
-      name: "Company Name",
-      key: "sn",
-      description: "Enter name of Company",
-      selector: row => row.company_name,
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "Telestaff Name",
-      key: "telestaff_name",
-      description: "Enter Telestaff name",
-      selector: row => row.telestaff_name,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Probability Of Deal",
-      key: "probability",
-      description: "Enter bills",
-      selector: row => "100%",
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Date of Completion",
-      key: "date",
-      description: "Enter name of Disease",
-      selector: (row, i) => row.date,
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-    {
-      name: "Status",
-      key: "status",
-      description: "Enter bills",
-      selector: "status",
-      cell: row => returnCell(row.status),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-  ];
 
   const closedDealColumns = [
     {
@@ -384,7 +245,7 @@ const ClosedDealsList = ({showOpenDeals, setDealDetail, showPendingDeals}) => {
                 </div>
               )}
               <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-                List of Closed Deals
+                List of Pending Deals
               </h2>
             </div>
 
@@ -397,9 +258,9 @@ const ClosedDealsList = ({showOpenDeals, setDealDetail, showPendingDeals}) => {
                 View Open Deals
               </GlobalCustomButton>
 
-              <GlobalCustomButton onClick={handleShowPendingDeals} color="info">
-                <PendingIcon fontSize="small" sx={{marginRight: "5px"}} />
-                View Pending Deals
+              <GlobalCustomButton onClick={handleShowClosedDeals} color="error">
+                <LockIcon fontSize="small" sx={{marginRight: "5px"}} />
+                View Closed Deals
               </GlobalCustomButton>
             </Box>
 
@@ -431,4 +292,4 @@ const ClosedDealsList = ({showOpenDeals, setDealDetail, showPendingDeals}) => {
   );
 };
 
-export default ClosedDealsList;
+export default PendingDealsList;

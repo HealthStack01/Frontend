@@ -7,7 +7,7 @@ import ModalBox from "../../components/modal";
 import AppointmentDetail from "./components/appointment/AppointmentDetail";
 import {ObjectContext} from "../../context";
 
-const CrmAppointment = ({standAlone}) => {
+const CrmAppointment = ({standAlone, isTab}) => {
   const [createModal, setCreateModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
   const {state} = useContext(ObjectContext);
@@ -18,6 +18,7 @@ const CrmAppointment = ({standAlone}) => {
       <AppointmentList
         openCreateModal={() => setCreateModal(true)}
         openDetailModal={() => setDetailModal(true)}
+        isTab={isTab}
       />
 
       <ModalBox

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,useDebugValue } from 'react';
 import {
   Stack,
   Box,
@@ -12,7 +12,7 @@ import { productDetailsData } from './data';
 export default function Products() {
   const [products] = useState(productDetailsData);
   const [searchFeild, setSearchFeild] = useState('');
-
+  //  const searchFeildValue = useDebugValue(searchFeild);
   const filterProduct =
     products?.length > 0 &&
     products?.filter((data) => {

@@ -84,10 +84,6 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
 
   const contactColumns = getContactColumns(handleRemoveContact);
 
-  const onSubmitTest = data => {
-    console.log(data);
-  };
-
   const onSubmit = async data => {
     // console.log("Data", data), console.log(user);
     showActionLoader();
@@ -135,6 +131,7 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
     document.country = data.country;
     document.orgbranch = data.orgbranch;
     document.clientclass = data.clientclass;
+    document.facilityId = employee.facilityDetail._id;
 
     console.log(document);
 

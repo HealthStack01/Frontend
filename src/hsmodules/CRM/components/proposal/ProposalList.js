@@ -1,52 +1,64 @@
-import {useState, useEffect, useContext} from "react";
+import {useState, useEffect, useContext, useCallback} from "react";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import {Box} from "@mui/material";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import FilterMenu from "../../../../components/utilities/FilterMenu";
 import CustomTable from "../../../../components/customtable";
-import {ObjectContext} from "../../../../context";
+import {ObjectContext, UserContext} from "../../../../context";
+import dayjs from "dayjs";
+import client from "../../../../feathers";
+import {toast} from "react-toastify";
 
-const dummyData = [
-  {
-    company_name: "Health Stack",
-    contact_person: "Teejay Tabor",
-    contact_position: "CEO",
-    phone_No: "09123802410",
-    status: "Active",
-  },
-  {
-    company_name: "Albert Health Stack",
-    contact_person: "KTeejay Tabor",
-    contact_position: "CEO",
-    phone_No: "09123802410",
-    status: "Active",
-  },
-  {
-    company_name: "DonaHealth Stack",
-    contact_person: "9Teejay Tabor",
-    contact_position: "CEO",
-    phone_No: "09123802410",
-    status: "Inactive",
-  },
-
-  {
-    company_name: "DaviHealth Stack",
-    contact_person: "Teejay Tabor",
-    contact_position: "CEO",
-    phone_No: "09123802410",
-    status: "Active",
-  },
-];
-
-const ProposalList = ({showCreate, showDetail}) => {
-  const {state, setState} = useContext(ObjectContext);
+const ProposalList = ({showCreate, showDetail, isTab}) => {
+  const dealServer = client.service("deal");
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+  const {user} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [proposals, setProposals] = useState([]);
+  const [deal, setDeal] = useState({});
+
+  const getProposalsForPage = useCallback(async () => {
+    const testId = "60203e1c1ec8a00015baa357";
+    const facId = user.currentEmployee.facilityDetail_id;
+    showActionLoader();
+
+    const res =
+      testId === facId
+        ? await dealServer.find({})
+        : await dealServer.find({
+            query: {
+              facilityId: facId,
+            },
+          });
+
+    const deals = res.data || [];
+
+    const promises = deals.map(async deal => deal.proposal || []);
+
+    const proposals = await Promise.all(promises);
+
+    const finalProposals = proposals.flat(1);
+
+    const currentDeal = deals.find(
+      item => item._id === finalProposals[0].dealId
+    );
+
+    setDeal(currentDeal.dealinfo);
+
+    await setProposals(finalProposals || []);
+
+    hideActionLoader();
+  }, []);
 
   useEffect(() => {
-    const currentDeal = state.DealModule.selectedDeal;
-    setProposals(currentDeal.proposal || []);
-  }, [state.DealModule]);
+    if (isTab) {
+      const currentDeal = state.DealModule.selectedDeal;
+      setProposals(currentDeal.proposal || []);
+    } else {
+      getProposalsForPage();
+    }
+  }, [state.DealModule, getProposalsForPage, isTab]);
 
   const returnCell = status => {
     switch (status.toLowerCase()) {
@@ -61,6 +73,10 @@ const ProposalList = ({showCreate, showDetail}) => {
     }
   };
 
+  // const deal = state.DealModule.selectedDeal.dealinfo;
+
+  //console.log(deal);
+
   const ProposalSchema = [
     {
       name: "SN",
@@ -74,41 +90,75 @@ const ProposalList = ({showCreate, showDetail}) => {
     },
 
     {
-      name: "Company Name",
+      name: "Customer Name",
       key: "company_name",
       description: "Enter name of Company",
-      selector: row => row.company_name,
+      selector: row => row.customerName,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
     },
     {
-      name: "Contact Person",
+      name: "Customer Email",
       key: "contact_person",
       description: "Enter Telestaff name",
-      selector: row => row.contact_person,
+      selector: row => row.customerEmail,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Contact Position",
+      name: "Customer Phone",
       key: "contact_position",
       description: "Enter bills",
-      selector: row => row.contact_position,
+      selector: row => row.customerPhone,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Phone Number",
+      name: "Deal Probability",
+      key: "contact_position",
+      description: "Enter bills",
+      selector: row => deal?.probability,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Deal Status",
       key: "phone_No",
       description: "Enter name of Disease",
-      selector: (row, i) => row.phone_No,
+      selector: (row, i) => deal?.currStatus,
       sortable: true,
       required: true,
       inputType: "DATE",
+      style: {
+        textTransform: "capitalize",
+      },
     },
+    {
+      name: "Date",
+      key: "contact_position",
+      description: "Enter bills",
+      selector: row => dayjs(row.createdAt).format("DD/MM/YYYY hh:mm A"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Creator",
+      key: "contact_position",
+      description: "Enter bills",
+      selector: row => row.createdByName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+
     {
       name: "Status",
       key: "status",
@@ -127,8 +177,52 @@ const ProposalList = ({showCreate, showDetail}) => {
     showCreate();
   };
 
-  const handleRow = () => {
-    showDetail();
+  const handleRow2 = data => {
+    setState(prev => ({
+      ...prev,
+      ProposalModule: {...prev.ProposalModule, selectedProposal: data},
+    }));
+
+    if (data.status === "Draft") {
+      showCreate();
+    } else {
+      showDetail();
+    }
+  };
+
+  const handleRow = async data => {
+    if (isTab) {
+      setState(prev => ({
+        ...prev,
+        ProposalModule: {...prev.ProposalModule, selectedProposal: data},
+      }));
+
+      if (data.status === "Draft") {
+        showCreate();
+      } else {
+        showDetail();
+      }
+    } else {
+      const id = data.dealId;
+      await dealServer
+        .get(id)
+        .then(resp => {
+          setState(prev => ({
+            ...prev,
+            DealModule: {...prev.DealModule, selectedDeal: resp},
+            ProposalModule: {...prev.ProposalModule, selectedProposal: data},
+          }));
+          if (data.status === "Draft") {
+            showCreate();
+          } else {
+            showDetail();
+          }
+        })
+        .catch(err => {
+          toast.error("An error occured trying to view details of Proposal");
+          console.log(err);
+        });
+    }
   };
 
   return (
@@ -149,7 +243,7 @@ const ProposalList = ({showCreate, showDetail}) => {
           <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>Proposals</h2>
         </div>
 
-        {handleCreateNew && (
+        {isTab && (
           <GlobalCustomButton onClick={handleCreateNew}>
             <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
             Add new Proposal

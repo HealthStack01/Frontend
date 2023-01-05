@@ -208,7 +208,7 @@ export const PageLeadDetailView = () => {
         }}
         mb={1}
       >
-        <FormsHeaderText text="Lead Details" />
+        <FormsHeaderText text="Deal Details" />
 
         <Box sx={{display: "flex"}} gap={1}>
           {editLead ? (
