@@ -6,6 +6,10 @@ const ReferralDashboard = lazy(() =>
   import("../dashBoardUiComponent/@modules/ReferralDashboard")
 );
 
+const DummyComponent = () => {
+  return <h1>No Yet Available</h1>;
+};
+
 export const referralRoutes = [
   {
     path: "/app/referral/dashboard",
@@ -21,14 +25,14 @@ export const referralRoutes = [
   },
   {
     path: "/app/referral/account",
-    Component: null,
+    Component: DummyComponent,
   },
   {
     path: "/app/referral/setting",
-    Component: null,
+    Component: DummyComponent,
   },
   {
     path: "/app/referral/dashboard",
-    Component: null,
+    Component: DummyComponent,
   },
 ];

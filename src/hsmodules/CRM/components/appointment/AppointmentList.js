@@ -100,8 +100,8 @@ const AppointmentList = ({openCreateModal, openDetailModal, isTab}) => {
   const getAppointmentsForPage = useCallback(async () => {
     console.log("hello world");
     const testId = "60203e1c1ec8a00015baa357";
-    const facId = user.currentEmployee.facilityDetail_id;
-    showActionLoader();
+    const facId = user.currentEmployee.facilityDetail._id;
+    setLoading(true);
 
     const res =
       testId === facId
@@ -128,7 +128,7 @@ const AppointmentList = ({openCreateModal, openDetailModal, isTab}) => {
 
     await setAppointments(finalAppointments);
 
-    hideActionLoader();
+    setLoading(false);
   }, [startDate]);
 
   useEffect(() => {

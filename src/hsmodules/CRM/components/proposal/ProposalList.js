@@ -20,8 +20,8 @@ const ProposalList = ({showCreate, showDetail, isTab}) => {
 
   const getProposalsForPage = useCallback(async () => {
     const testId = "60203e1c1ec8a00015baa357";
-    const facId = user.currentEmployee.facilityDetail_id;
-    showActionLoader();
+    const facId = user.currentEmployee.facilityDetail._id;
+    setLoading(true);
 
     const res =
       testId === facId
@@ -48,12 +48,13 @@ const ProposalList = ({showCreate, showDetail, isTab}) => {
 
     await setProposals(finalProposals || []);
 
-    hideActionLoader();
+    setLoading(false);
   }, []);
 
   useEffect(() => {
     if (isTab) {
       const currentDeal = state.DealModule.selectedDeal;
+      setDeal(currentDeal.dealinfo);
       setProposals(currentDeal.proposal || []);
     } else {
       getProposalsForPage();
@@ -171,23 +172,23 @@ const ProposalList = ({showCreate, showDetail, isTab}) => {
     },
   ];
 
+  const conditionalRowStyles = [
+    {
+      when: row => row.status === "Sent",
+      style: {
+        backgroundColor: "#80ed99",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
   const handleSearch = () => {};
 
   const handleCreateNew = () => {
     showCreate();
-  };
-
-  const handleRow2 = data => {
-    setState(prev => ({
-      ...prev,
-      ProposalModule: {...prev.ProposalModule, selectedProposal: data},
-    }));
-
-    if (data.status === "Draft") {
-      showCreate();
-    } else {
-      showDetail();
-    }
   };
 
   const handleRow = async data => {
@@ -261,7 +262,7 @@ const ProposalList = ({showCreate, showDetail, isTab}) => {
           striped
           onRowClicked={handleRow}
           progressPending={loading}
-          //conditionalRowStyles={conditionalRowStyles}
+          conditionalRowStyles={conditionalRowStyles}
         />
       </Box>
     </Box>

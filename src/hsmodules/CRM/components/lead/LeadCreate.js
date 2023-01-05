@@ -132,6 +132,7 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
     document.orgbranch = data.orgbranch;
     document.clientclass = data.clientclass;
     document.facilityId = employee.facilityDetail._id;
+    document.facilityName = employee.facilityDetail.facilityName;
 
     console.log(document);
 

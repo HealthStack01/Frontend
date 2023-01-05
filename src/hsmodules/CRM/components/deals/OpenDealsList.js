@@ -38,9 +38,8 @@ const OpenDealsList = ({
 
   const getFacilities = useCallback(async () => {
     const testId = "60203e1c1ec8a00015baa357";
-    const facId = user.currentEmployee.facilityDetail_id;
-
-    showActionLoader();
+    const facId = user.currentEmployee.facilityDetail._id;
+    setLoading(true);
 
     const status = "open" || "pending";
 
@@ -55,7 +54,7 @@ const OpenDealsList = ({
             },
           });
     await setOpenDeals(res.data);
-    hideActionLoader();
+    setLoading(false);
   }, []);
 
   useEffect(() => {

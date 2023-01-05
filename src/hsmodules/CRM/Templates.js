@@ -17,7 +17,7 @@ const CRMTemplates = () => {
   const [assignModal, setAssignModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
   const {state} = useContext(ObjectContext);
-  const [tasks, setTasks] = useState([]);
+
   const [createModal, setCreateModal] = useState(false);
 
   return (

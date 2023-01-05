@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useState, useCallback} from "react";
 import {Box} from "@mui/system";
 import {useForm} from "react-hook-form";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
@@ -61,6 +61,7 @@ const InvoiceDetail = ({handleGoBack}) => {
   const [invoiceStatus, setInvoiceStatus] = useState("");
   const [statusHistory, setStatusHistory] = useState([]);
   const [watermarkMsg, setWatermarkMsg] = useState("");
+  const [unreadMsgs, setUnreadMsgs] = useState([]);
 
   const handleAddNewPlan = async plan => {
     showActionLoader();
@@ -282,6 +283,46 @@ const InvoiceDetail = ({handleGoBack}) => {
     },
   ];
 
+  const getUnreadMessagesCount = useCallback(async () => {
+    setUnreadMsgs([]);
+    const id = state.DealModule.selectedDeal._id;
+    const userId = user.currentEmployee.userId;
+    const invoiceId = state.InvoiceModule.selectedInvoice._id;
+    // console.log(userId);
+    await dealServer
+      .get(id)
+      .then(resp => {
+        const invoices = resp.invoices || [];
+        const selectedInvoice = invoices.find(item => item._id === invoiceId);
+
+        const msgs = selectedInvoice.chat || [];
+        msgs.map(msg => {
+          if (
+            msg.senderId === userId ||
+            msg.seen.includes(userId) ||
+            unreadMsgs.includes(msg._id)
+          ) {
+            return;
+          } else {
+            return setUnreadMsgs(prev => [msg._id, ...prev]);
+          }
+        });
+      })
+      .catch(err => {
+        // toast.error("There was an error getting messages for this chat");
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    getUnreadMessagesCount();
+
+    dealServer.on("created", obj => getUnreadMessagesCount());
+    dealServer.on("updated", obj => getUnreadMessagesCount());
+    dealServer.on("patched", obj => getUnreadMessagesCount());
+    dealServer.on("removed", obj => getUnreadMessagesCount());
+  }, [getUnreadMessagesCount]);
+
   return (
     <Watermark
       content={invoiceStatus.toLowerCase() === "pending" ? "" : invoiceStatus}
@@ -321,7 +362,7 @@ const InvoiceDetail = ({handleGoBack}) => {
             gap={1}
           >
             <Badge
-              badgeContent={4}
+              badgeContent={unreadMsgs.length}
               color="secondary"
               sx={{marginRight: "10px"}}
             >

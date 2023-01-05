@@ -621,28 +621,91 @@ export const StatusHistoryView = () => {
 };
 
 export const UploadView = () => {
+  const dealServer = client.service("deal");
   const [uploads, setUploads] = useState([]);
   const [uploadModal, setUploadModal] = useState(false);
-  const {state} = useContext(ObjectContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
   const [viewModal, setViewModal] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState({});
-  const [docs, setDocs] = useState([]);
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    type: "",
+    message: "",
+    action: null,
+  });
 
   useEffect(() => {
     const currentDeal = state.DealModule.selectedDeal;
     setUploads(currentDeal.uploads || []);
   }, [state.DealModule]);
 
-  const uploadColumns = getUploadColumns();
-
   const handleRow = doc => {
     console.log(doc);
     setSelectedDoc(doc);
     setViewModal(true);
-    //setDocs([data.uploadUrl]);
   };
+
+  const handleDelete = async item => {
+    showActionLoader();
+
+    const currentDeal = state.DealModule.selectedDeal;
+
+    const prevUploads = currentDeal.uploads || [];
+
+    const newUploads = prevUploads.filter(upload => upload._id !== item._id);
+
+    const documentId = currentDeal._id;
+
+    await dealServer
+      .patch(documentId, {uploads: newUploads})
+      .then(resp => {
+        hideActionLoader();
+        setState(prev => ({
+          ...prev,
+          DealModule: {...prev.DealModule, selectedDeal: resp},
+        }));
+
+        handleCancelConfirm();
+
+        toast.success("Document has been sucessfully Deleted");
+      })
+      .catch(error => {
+        hideActionLoader();
+        toast.error(`An error occured whilst Deleting your Document ${error}`);
+        console.error(error);
+      });
+  };
+
+  const handleConfirmDelete = item => {
+    setConfirmDialog({
+      open: true,
+      type: "danger",
+      message: `You are about to deleted an uploaded Document ${item.name}?`,
+      action: () => handleDelete(item),
+    });
+  };
+
+  const handleCancelConfirm = () => {
+    setConfirmDialog({
+      open: false,
+      type: "",
+      message: "",
+      action: null,
+    });
+  };
+
+  const uploadColumns = getUploadColumns(handleConfirmDelete);
+
   return (
     <Box pl={2} pr={2}>
+      <CustomConfirmationDialog
+        open={confirmDialog.open}
+        type={confirmDialog.type}
+        message={confirmDialog.message}
+        confirmationAction={confirmDialog.action}
+        cancelAction={handleCancelConfirm}
+      />
       <ModalBox
         open={viewModal}
         onClose={() => setViewModal(false)}

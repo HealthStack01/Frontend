@@ -56,9 +56,9 @@ const ClosedDealsList = ({
 
   const getFacilities = useCallback(async () => {
     const testId = "60203e1c1ec8a00015baa357";
-    const facId = user.currentEmployee.facilityDetail_id;
+    const facId = user.currentEmployee.facilityDetail._id;
 
-    showActionLoader();
+    setLoading(true);
 
     //const status = "close" || "pending";
 
@@ -72,7 +72,7 @@ const ClosedDealsList = ({
             },
           });
     await setClosedDeals(res.data);
-    hideActionLoader();
+    setLoading(false);
   }, []);
 
   const dummyData = [

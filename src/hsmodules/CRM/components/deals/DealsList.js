@@ -8,7 +8,7 @@ import FilterMenu from "../../../../components/utilities/FilterMenu";
 import CustomTable from "../../../../components/customtable";
 import OpenDealsList from "./OpenDealsList";
 import ClosedDealsList from "./ClosedDealsList";
-import SuspendedDealsList from "./PendingDealsList";
+import SuspendedDealsList from "./SuspendedDealsList";
 
 const DealsList = ({setDealDetail}) => {
   const [dealType, setDealType] = useState("open");

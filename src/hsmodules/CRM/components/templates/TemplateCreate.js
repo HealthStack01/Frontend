@@ -36,6 +36,7 @@ const UploadComponent = ({}) => {
 
 const TemplateCreate = ({closeModal}) => {
   const dealServer = client.service("deal");
+  const templateServer = client.service("templatedoc");
   const [description, setDescription] = useState("");
   const [fileType, setFileType] = useState("");
   const [docType, setDoctype] = useState("");
@@ -57,7 +58,7 @@ const TemplateCreate = ({closeModal}) => {
   ];
 
   const imageTypes = ["png", "jpg", "jpeg"];
-  const docTypes = ["docx", "doc"];
+  const docTypes = ["docx", "doc", "pdf"];
 
   const handleChange = file => {
     getBase64(file[0])
@@ -72,7 +73,7 @@ const TemplateCreate = ({closeModal}) => {
   };
 
   const handleUploadFile = async () => {
-    return toast.error("Danger Zone, keep off!!");
+    //return toast.error("Danger Zone, keep off!!");
     if (file === null || base64 === null)
       return toast.error("Please select a File to upload");
 
@@ -91,41 +92,36 @@ const TemplateCreate = ({closeModal}) => {
         const currentDeal = state.DealModule.selectedDeal;
 
         const document = {
-          uploadUrl: res.data.url,
-          uploadType: res.data.contentType,
-          fileType: file[0].name.split(".").pop(),
-          name: file[0].name,
-          template: docType,
-          uploadedAt: new Date(),
-          uploadedBy: employee.userId,
-          uploadedByName: `${employee.firstname} ${employee.lastname}`,
-          comment: description,
-          dealId: currentDeal._id,
+          facilityId: employee.facilityDetail._id,
+          facilityNmae: employee.facilityDetail.facilityName,
+          upload: {
+            uploadUrl: res.data.url,
+            uploadType: res.data.contentType,
+            fileType: file[0].name.split(".").pop(),
+            name: file[0].name,
+            template: docType,
+            uploadedAt: new Date(),
+            uploadedBy: employee.userId,
+            uploadedByName: `${employee.firstname} ${employee.lastname}`,
+            comment: description,
+            dealId: currentDeal._id,
+          },
         };
-
-        const prevUploads = currentDeal.uploads || [];
-
-        const newUploads = [document, ...prevUploads];
-
-        const documentId = currentDeal._id;
-
-        await dealServer
-          .patch(documentId, {uploads: newUploads})
-          .then(resp => {
+        await templateServer
+          .create(document)
+          .then(res => {
             hideActionLoader();
-            setState(prev => ({
-              ...prev,
-              DealModule: {...prev.DealModule, selectedDeal: resp},
-            }));
             closeModal();
-            toast.success("You have successfully uploaded a Template");
+            toast.success(`You've successfully uploaded a template`);
+
+            //setLoading(false);
           })
-          .catch(error => {
+          .catch(err => {
             hideActionLoader();
             toast.error(
-              `An error occured whilst uploading the Template ${error}`
+              `Sorry, You weren't able to upload the template. ${err}`
             );
-            console.error(error);
+            //setLoading(false);
           });
       })
       .catch(error => {

@@ -21,7 +21,11 @@ import dayjs from "dayjs";
 // eslint-disable-next-line
 const searchfacility = {};
 
-const PendingDealsList = ({showOpenDeals, setDealDetail, showClosedDeals}) => {
+const SuspendedDealsList = ({
+  showOpenDeals,
+  setDealDetail,
+  showClosedDeals,
+}) => {
   // eslint-disable-next-line
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -52,9 +56,9 @@ const PendingDealsList = ({showOpenDeals, setDealDetail, showClosedDeals}) => {
 
   const getFacilities = useCallback(async () => {
     const testId = "60203e1c1ec8a00015baa357";
-    const facId = user.currentEmployee.facilityDetail_id;
+    const facId = user.currentEmployee.facilityDetail._id;
 
-    showActionLoader();
+    setLoading(true);
 
     //const status = "close" || "pending";
 
@@ -68,7 +72,7 @@ const PendingDealsList = ({showOpenDeals, setDealDetail, showClosedDeals}) => {
             },
           });
     await setClosedDeals(res.data);
-    hideActionLoader();
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -292,4 +296,4 @@ const PendingDealsList = ({showOpenDeals, setDealDetail, showClosedDeals}) => {
   );
 };
 
-export default PendingDealsList;
+export default SuspendedDealsList;

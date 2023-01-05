@@ -359,6 +359,7 @@ export const OrganizationModules = ({closeModal}) => {
     "Referral",
     "Theatre",
     "Ward",
+    "Engagement",
   ];
 
   useEffect(() => {

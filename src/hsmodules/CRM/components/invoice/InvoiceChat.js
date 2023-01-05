@@ -100,7 +100,48 @@ const InvoiceChat = ({closeChat}) => {
 
   const handleResendMessage = messageObj => {};
 
-  const handleMarkMsgsAsSeen = () => {};
+  const updateMessageAsSeen = async message => {
+    // return;
+    // console.log(message);
+    const userId = user.currentEmployee.userId;
+    const currentDeal = state.DealModule.selectedDeal;
+    const documentId = currentDeal._id;
+    const currentInvoice = state.InvoiceModule.selectedInvoice;
+
+    const updatedMsg = {...message, seen: [userId, ...message.seen]};
+
+    const updatedChat = messages.map(item => {
+      if (item._id === updatedMsg._id) {
+        return updatedMsg;
+      } else {
+        return item;
+      }
+    });
+
+    const updatedCurrentInvoice = {
+      ...currentInvoice,
+      chat: updatedChat,
+    };
+
+    const prevInvoices = currentDeal.invoices;
+
+    const newInvoices = prevInvoices.map(item => {
+      if (item._id === updatedCurrentInvoice._id) {
+        return updatedCurrentInvoice;
+      } else {
+        return item;
+      }
+    });
+
+    await dealServer
+      .patch(documentId, {invoices: newInvoices})
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   return (
     <Box sx={{width: "100%", height: "100%"}}>
@@ -111,7 +152,7 @@ const InvoiceChat = ({closeChat}) => {
         message={message}
         setMessage={setMessage}
         isSendingMessage={sendingMsg}
-        markMsgsAsSeen={handleMarkMsgsAsSeen}
+        markMsgAsSeen={updateMessageAsSeen}
       />
     </Box>
   );

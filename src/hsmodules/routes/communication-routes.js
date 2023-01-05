@@ -4,6 +4,10 @@ const CommunicationDashboard = lazy(() =>
   import("../dashBoardUiComponent/@modules/CommunicationDashboard")
 );
 
+const DummyComponent = () => {
+  return <h1>No Yet Available</h1>;
+};
+
 export const communicationRoutes = [
   {
     path: "/app/communication/dashboard",
@@ -11,26 +15,26 @@ export const communicationRoutes = [
   },
   {
     path: "/app/communication/whatsapp",
-    Component: "",
+    Component: DummyComponent,
   },
   {
     path: "/app/communication/sms",
-    Component: "",
+    Component: DummyComponent,
   },
   {
     path: "/app/communication/ussd",
-    Component: "",
+    Component: DummyComponent,
   },
   {
     path: "/app/communication/email",
-    Component: "",
+    Component: DummyComponent,
   },
   {
     path: "/app/communication/ivr",
-    Component: "",
+    Component: DummyComponent,
   },
   {
     path: "/app/communication/dashboard",
-    Component: "",
+    Component: DummyComponent,
   },
 ];

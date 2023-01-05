@@ -177,7 +177,7 @@ export const menuItems = [
   {
     name: "Engagement",
     exact: true,
-    to: "/app/communication",
+    to: "/app/engagment",
     iconClassName: "bi bi-rss",
     subMenus: [
       {name: "Channel", to: "/app/communication/channel"},
@@ -456,7 +456,7 @@ function SideMenu({isOpen}) {
           {rolesMenuList.map((menuItem, index) => (
             <>
               <MenuItem
-                key={index}
+                key={menuItem.name}
                 name={menuItem.name}
                 to={menuItem.to}
                 subMenus={menuItem.subMenus || []}

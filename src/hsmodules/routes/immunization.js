@@ -11,6 +11,10 @@ const ImmunizationDashboardComponent = lazy(() =>
   import("../dashBoardUiComponent/@modules/ImmunizationDashboard")
 );
 
+const DummyComponent = () => {
+  return <h1>No Yet Available</h1>;
+};
+
 export const immunizationRoutes = [
   {
     path: "/app/immunization/dashboard",
@@ -18,7 +22,7 @@ export const immunizationRoutes = [
   },
   {
     path: "/app/immunization/schedule",
-    Component: null,
+    Component: DummyComponent,
   },
   {
     path: "/app/immunization/vaccineprofile",
@@ -34,7 +38,7 @@ export const immunizationRoutes = [
   },
   {
     path: "/app/immunization/report",
-    Component: null,
+    Component: DummyComponent,
   },
   {
     path: "/app/immunization/inventory",
