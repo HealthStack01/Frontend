@@ -171,8 +171,8 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       case "open":
         return <span style={{color: "#17935C"}}>{status}</span>;
 
-      case "pending":
-        return <span style={{color: "#0364FF"}}>{status}</span>;
+      case "suspended":
+        return <span style={{color: "orange"}}>{status}</span>;
 
       case "closed":
         return <span style={{color: "red"}}>{status}</span>;

@@ -24,6 +24,7 @@ import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import {PageLeadDetailView} from "../global/LeadDetail";
 import CustomTable from "../../../../components/customtable";
+import SLAChat from "./SLAChat";
 
 const SLADetail = ({handleGoBack}) => {
   const {state, setState} = useContext(ObjectContext);
@@ -325,7 +326,7 @@ const SLADetail = ({handleGoBack}) => {
             overflowY: "hidden",
           }}
         >
-          <ChatInterface closeChat={() => setChat(false)} />
+          <SLAChat closeChat={() => setChat(false)} />
         </Box>
       </Drawer>
     </Box>

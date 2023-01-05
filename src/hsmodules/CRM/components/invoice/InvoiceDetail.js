@@ -40,6 +40,7 @@ import Watermark from "@uiw/react-watermark";
 import InvoiceApproveReason from "./InvoiceApprove";
 import InvoiceReopenReason from "./invoiceReopen";
 import dayjs from "dayjs";
+import InvoiceChat from "./InvoiceChat";
 
 const random = require("random-string-generator");
 
@@ -545,7 +546,7 @@ const InvoiceDetail = ({handleGoBack}) => {
               overflowY: "hidden",
             }}
           >
-            <ChatInterface closeChat={() => setChat(false)} />
+            <InvoiceChat closeChat={() => setChat(false)} />
           </Box>
         </Drawer>
       </Box>

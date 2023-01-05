@@ -28,6 +28,7 @@ import {toast} from "react-toastify";
 
 import {pdfjs} from "react-pdf";
 import {Document, Page} from "react-pdf";
+import ProposalChat from "./ProposalChat";
 
 const ProposalDetail = ({handleGoBack}) => {
   const {state, setState} = useContext(ObjectContext);
@@ -329,7 +330,7 @@ const ProposalDetail = ({handleGoBack}) => {
             overflowY: "hidden",
           }}
         >
-          <ChatInterface closeChat={() => setChat(false)} />
+          <ProposalChat closeChat={() => setChat(false)} />
         </Box>
       </Drawer>
     </Box>
