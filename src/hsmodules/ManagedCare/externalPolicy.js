@@ -676,7 +676,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
           await createProductItem();
           await createProductEntry();
 
-          // await handleCreateBill();
+          await handleCreateBill();
           await setShowModal(0);
         })
         .catch((err) => {
@@ -827,149 +827,149 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
   };
 
   //create billfor policy
-  // const handleCreateBill = async () => {
-  //   //handle selected single order
-  //   //documentation
+  const handleCreateBill = async () => {
+    //handle selected single order
+    //documentation
 
-  //   console.log(productEntry.current, productItem.current);
-  //   let serviceList = [];
-  //   let document = {};
+    console.log(productEntry.current, productItem.current);
+    let serviceList = [];
+    let document = {};
 
-  //   if (user.currentEmployee) {
-  //     document.facility = user.currentEmployee.facilityDetail._id;
-  //     document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
-  //   }
-  //   document.documentdetail = productItem.current;
-  //   console.log(document.documentdetail);
-  //   document.documentname = 'Billed Orders'; //state.DocumentClassModule.selectedDocumentClass.name
-  //   // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
-  //   document.location =
-  //     state.employeeLocation.locationName +
-  //     ' ' +
-  //     state.employeeLocation.locationType;
-  //   document.locationId = state.employeeLocation.locationId;
-  //   document.client = patient.current._id;
-  //   document.clientname =
-  //     patient.current.firstname +
-  //     ' ' +
-  //     patient.current.middlename +
-  //     ' ' +
-  //     patient.current.lastname;
-  //   document.clientobj = patient.current;
-  //   document.createdBy = user._id;
-  //   document.createdByname = user.firstname + ' ' + user.lastname;
-  //   document.status = 'completed';
-  //   console.log(document);
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+    }
+    document.documentdetail = productItem.current;
+    console.log(document.documentdetail);
+    document.documentname = 'Billed Orders'; //state.DocumentClassModule.selectedDocumentClass.name
+    // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
+    document.location =
+      state.employeeLocation.locationName +
+      ' ' +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = patient.current._id;
+    document.clientname =
+      patient.current.firstname +
+      ' ' +
+      patient.current.middlename +
+      ' ' +
+      patient.current.lastname;
+    document.clientobj = patient.current;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + ' ' + user.lastname;
+    document.status = 'completed';
+    console.log(document);
 
-  //   //order
-  //   document.documentdetail.forEach(async (element) => {
-  //     let orderinfo = {
-  //       //for reach document
-  //       documentationId: '', //tbf
-  //       order_category: element.category, //category
-  //       order: element.name + ' Plan', //name
-  //       instruction: '',
-  //       destination_name: document.facilityname, //facilityname
-  //       destination: document.facility, //facility id
-  //       order_status: 'Billed',
-  //       payer: '', //!!element.billMode.organizationName?element.billMode.organizationName:"",
-  //       paymentmode: '', //element.billMode.paymentmode?element.billMode.paymentmode:"",
+    //order
+    document.documentdetail.forEach(async (element) => {
+      let orderinfo = {
+        //for reach document
+        documentationId: '', //tbf
+        order_category: element.category, //category
+        order: element.name + ' Plan', //name
+        instruction: '',
+        destination_name: document.facilityname, //facilityname
+        destination: document.facility, //facility id
+        order_status: 'Billed',
+        payer: '', //!!element.billMode.organizationName?element.billMode.organizationName:"",
+        paymentmode: '', //element.billMode.paymentmode?element.billMode.paymentmode:"",
 
-  //       requestingdoctor_Id: document.createdBy,
-  //       requestingdoctor_Name: document.createdByname,
-  //       requestingdoctor_locationid: document.locationId,
-  //       requestingdoctor_locationName: document.location,
-  //       requestingdoctor_facilityId: document.facility,
-  //       requestingdoctor_facilityname: document.facilityname,
+        requestingdoctor_Id: document.createdBy,
+        requestingdoctor_Name: document.createdByname,
+        requestingdoctor_locationid: document.locationId,
+        requestingdoctor_locationName: document.location,
+        requestingdoctor_facilityId: document.facility,
+        requestingdoctor_facilityname: document.facilityname,
 
-  //       clientId: document.client,
-  //       clientname: document.clientname,
-  //       client: document.clientobj,
+        clientId: document.client,
+        clientname: document.clientname,
+        client: document.clientobj,
 
-  //       order_action: [],
-  //       medication_action: [],
-  //       treatment_action: [],
-  //     };
+        order_action: [],
+        medication_action: [],
+        treatment_action: [],
+      };
 
-  //     let billInfo = {
-  //       orderInfo: {
-  //         orderId: '', //tbf
-  //         orderObj: orderinfo,
-  //       },
-  //       serviceInfo: {
-  //         price: element.sellingprice,
-  //         quantity: element.quantity,
-  //         productId: element.productId,
-  //         name: element.name + ' Plan',
-  //         baseunit: element.baseunit,
-  //         amount: element.amount,
-  //         billingId: element.billingId,
-  //         billingContract: element.billingContract,
-  //         createdby: user._id,
-  //       },
-  //       paymentInfo: {
-  //         amountDue: element.amount,
-  //         paidup: 0,
-  //         balance: element.amount,
-  //         paymentDetails: [],
-  //       },
-  //       participantInfo: {
-  //         billingFacility: orderinfo.destination,
-  //         billingFacilityName: orderinfo.destination_name,
-  //         locationId: document.locationId, //selected location,
-  //         clientId: orderinfo.clientId,
-  //         client: orderinfo.client,
-  //         paymentmode: element.billMode,
-  //       },
-  //       createdBy: user._id,
-  //       billing_status: 'Unpaid',
-  //     };
-  //     let items = {
-  //       orderinfo,
-  //       billInfo,
-  //     };
-  //     alert('aboutto create bill ' + items.orderinfo.name);
-  //     serviceList.push(items);
-  //   });
+      let billInfo = {
+        orderInfo: {
+          orderId: '', //tbf
+          orderObj: orderinfo,
+        },
+        serviceInfo: {
+          price: element.sellingprice,
+          quantity: element.quantity,
+          productId: element.productId,
+          name: element.name + ' Plan',
+          baseunit: element.baseunit,
+          amount: element.amount,
+          billingId: element.billingId,
+          billingContract: element.billingContract,
+          createdby: user._id,
+        },
+        paymentInfo: {
+          amountDue: element.amount,
+          paidup: 0,
+          balance: element.amount,
+          paymentDetails: [],
+        },
+        participantInfo: {
+          billingFacility: orderinfo.destination,
+          billingFacilityName: orderinfo.destination_name,
+          locationId: document.locationId, //selected location,
+          clientId: orderinfo.clientId,
+          client: orderinfo.client,
+          paymentmode: element.billMode,
+        },
+        createdBy: user._id,
+        billing_status: 'Unpaid',
+      };
+      let items = {
+        orderinfo,
+        billInfo,
+      };
+      alert('aboutto create bill ' + items.orderinfo.name);
+      serviceList.push(items);
+    });
 
-  //   console.log('==================');
-  //   console.log(document, serviceList);
+    console.log('==================');
+    console.log(document, serviceList);
 
-  //   let confirm = window.confirm(
-  //     `You are about to bill ${document.clientname} for ${serviceList.length} service(s)?`
-  //   );
-  //   if (confirm) {
-  //     await BillCreateServ.create({
-  //       document,
-  //       serviceList,
-  //     })
-  //       .then((res) => {
-  //         setSuccess(true);
-  //         toast({
-  //           message: 'Billed Orders created succesfully',
-  //           type: 'is-success',
-  //           dismissible: true,
-  //           pauseOnHover: true,
-  //         });
-  //         setSuccess(false);
-  //         productItem.current = [];
-  //         //setCalcAmount(0);
-  //         const today = new Date().toLocaleString();
-  //         //console.log(today)
-  //         date.current = today;
-  //         const invoiceNo = random(6, 'uppernumeric');
-  //         documentNo.current = invoiceNo;
-  //       })
-  //       .catch((err) => {
-  //         toast({
-  //           message: 'Error creating Billed Orders ' + err,
-  //           type: 'is-danger',
-  //           dismissible: true,
-  //           pauseOnHover: true,
-  //         });
-  //       });
-  //   }
-  // };
+    let confirm = window.confirm(
+      `You are about to bill ${document.clientname} for ${serviceList.length} service(s)?`
+    );
+    if (confirm) {
+      await BillCreateServ.create({
+        document,
+        serviceList,
+      })
+        .then((res) => {
+          setSuccess(true);
+          toast({
+            message: 'Billed Orders created succesfully',
+            type: 'is-success',
+            dismissible: true,
+            pauseOnHover: true,
+          });
+          setSuccess(false);
+          productItem.current = [];
+          //setCalcAmount(0);
+          const today = new Date().toLocaleString();
+          //console.log(today)
+          date.current = today;
+          const invoiceNo = random(6, 'uppernumeric');
+          documentNo.current = invoiceNo;
+        })
+        .catch((err) => {
+          toast({
+            message: 'Error creating Billed Orders ' + err,
+            type: 'is-danger',
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        });
+    }
+  };
 
   // const getFacility = async () => {
   //   let stuff = {
