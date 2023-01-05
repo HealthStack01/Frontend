@@ -1773,7 +1773,7 @@ export function NewOrganizationCreate({ showModal, setShowModal }) {
           </>
         )}
 
-        {/* <Grid container spacing={1}>
+        {/* <Grid container spacing={1}>  
         <Grid item xs={12} sm={12} md={12}>
           <Button label="Add" type="submit" onClick={handleClick} />
         </Grid>
