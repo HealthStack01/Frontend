@@ -429,244 +429,354 @@ export const labourData = [
 
 export const theatreData = [
   {
+    id: 1,
     finding: 'Theatre: Operating Table, - Standard light',
     parameter: 'Theatre is available',
+    name: 'theatreScore',
   },
   {
+    id: 2,
     finding: 'Aaesthetic machine, -Anesthetic trolley',
     parameter: 'Theatre is well equipped',
+    name: 'theatreEquipScore',
   },
   {
+    id: 3,
     finding: 'Trolley',
     parameter: 'Theatre has Anesthetic machine',
+    name: 'theatreAnesScore',
   },
   {
+    id: 4,
     finding: 'Suction machine, Sunct catheters, Ambu bag (ad/paed)',
     parameter: 'Good aseptic measures available',
+    name: 'theatreSuctionScore',
   },
   {
+    id: 5,
     finding: 'Bowl with stand, -Kick about bowl, -boots, -caps ',
     parameter: 'Recovery room is available ',
+    name: 'theatreRecoveryScore',
   },
   {
+    id: 6,
     finding: 'Drum containing sterile dressing and packs',
     parameter: 'Presence of endoscopic equipment',
+    name: 'theatreDrumScore',
   },
   {
+    id: 7,
     finding: 'Packs for different operations',
     parameter: '',
+    name: 'theatrePackScore',
   },
   {
+    id: 8,
     finding: 'Stretchers, - Angle poise lamp',
     parameter: '',
+    name: 'theatreStretchScore',
   },
   {
+    id: 9,
     finding: 'Oxygen',
     parameter: '',
+    name: 'theatreOxygenScore',
   },
   {
+    id: 10,
     finding: 'Laryngoscope / endoscopic equipments',
     parameter: '',
+    name: 'theatreLaryngoscopeScore',
   },
 ];
 
 export const additionalData = [
   {
+    id: 1,
     finding: 'Dental',
     parameter: 'Available & Manned by qualified personn',
+    name: 'dentalScore',
   },
   {
+    id: 2,
     finding: 'Optical',
     parameter: 'Available & Manned by qualified personn',
+    name: 'opticalScore',
   },
   {
+    id: 3,
     finding: 'Physiotherapy',
     parameter: 'Available & Manned by qualified personn',
+    name: 'physiotherapyScore',
   },
   {
+    id: 4,
     finding: 'Intensive Care',
     parameter: 'Available & Manned by qualified personn',
+    name: 'intensiveScore',
   },
   {
+    id: 5,
     finding: 'Mortuary',
     parameter: 'Available & Manned by qualified personn',
+    name: 'mortuaryScore',
   },
 ];
 
 export const adminData = [
   {
+    id: 1,
     finding: 'Administration: Medical Records (manual or electronic) ',
     parameter: 'Manual or electronic',
+    name: 'adminRecordScore',
   },
   {
+    id: 2,
     finding: 'Medical Records (manual or electronic) ',
     parameter: 'Organisation and process flow',
+    name: 'adminMedRecordScore',
   },
   {
+    id: 3,
     finding: 'Accounting / Billing system',
     parameter: 'Manual or electronic',
+    name: 'adminAccountScore',
   },
   {
+    id: 4,
     finding: 'Accounting / Billing system',
     parameter: 'Organisation and process flow',
+    name: 'adminAccountFlowScore',
   },
   {
+    id: 5,
     finding: 'Internet facilities (ICT)',
     parameter: 'Functional &accessible email',
+    name: 'adminInternetScore',
   },
   {
+    id: 6,
     finding: 'Check for available hours/downtime per day. ',
     parameter: 'Functional internet services',
+    name: 'adminInternetAvalScore',
   },
   {
+    id: 7,
     finding: 'Telecommunication facilities',
     parameter: 'Designated phone lines for admin staff',
+    name: 'adminTelecomScore',
   },
 ];
 
 export const QualityData = [
   {
+    id: 1,
     finding: 'Quality Management Processes',
     parameter: 'Quality Management Officer/Team',
+    name: 'qualityOfficerScore',
   },
   {
+    id: 2,
     finding: 'Assess the Q.Mgt system that is operational.',
     parameter: 'Clinical Meetings',
+    name: 'qualityClinicalScore',
   },
   {
+    id: 3,
     finding: 'Assess the Q.Mgt system that is operational.',
     parameter: 'Case/Mortality reviews',
+    name: 'qualityCaseScore',
   },
   {
+    id: 4,
     finding: 'Assess the Q.Mgt system that is operational.',
     parameter: 'Referral /Follow-up',
+    name: 'qualityReferralScore',
   },
 ];
 
 export const otherData = [
   {
+    id: 1,
     finding: 'Total number of HMOs registered with the facility',
     parameter: '',
+    name: 'otherHmoScore',
   },
   {
+    id: 2,
     finding: 'Estimated number of lives presently registered with the facility',
     parameter: '',
+    name: 'otherLivesScore',
   },
   {
+    id: 3,
     finding: 'Professional indemnity insurance ',
     parameter: '',
+    name: 'otherIndemnityScore',
   },
 ];
 
 export const staffData = [
   {
+    id: 1,
     finding: 'LICENSURE: (Ascertain: Full Registration, Practice licence)',
     parameter: 'Registered Medical Officers',
+    name: 'staffMedScore',
   },
   {
+    id: 2,
     finding: 'MBBS, RN, RM, RN/RM, PHARM, LAB, etc ',
     parameter: 'Registered staff Nurses',
+    name: 'staffNurseScore',
   },
   {
+    id: 3,
     finding: '',
     parameter: 'Registered staff Midwives',
+    name: 'staffMidwifeScore',
   },
   {
+    id: 4,
     finding: '',
     parameter: 'Registered staff Nurses & Midwives',
+    name: 'staffNurseMidScore',
   },
   {
+    id: 5,
     finding: '',
     parameter: 'CHEW / Snr CHEW',
+    name: 'staffChewScore',
   },
   {
+    id: 6,
     finding: 'LEVEL OF EDUCATION / TRAINING: RESIDENCY /CME',
     parameter: '',
+    name: 'staffResidencyScore',
   },
   {
+    id: 7,
     finding: 'LIFE SUPPORT TRAINING',
     parameter: 'Auxillary Nurses / Trainee nurses',
+    name: 'staffAuxScore',
   },
   {
+    id: 8,
     finding: '',
     parameter: 'Pharmacists',
+    name: 'staffPharmScore',
   },
 ];
 
 export const nonMedStaff = [
   {
+    id: 1,
     finding: 'Administrative staff',
     parameter: 'Receptionist / Front Desk',
+    name: 'nonMedReceptionScore',
   },
   {
+    id: 2,
     finding: '',
     parameter: 'Secretary/Administrator',
+    name: 'nonMedSecretaryScore',
   },
   {
+    id: 3,
     finding: '',
     parameter: 'HMO Officer',
+    name: 'nonMedHmoScore',
   },
   {
+    id: 4,
     finding: '',
     parameter: 'Domestic staff',
+    name: 'nonMedDomesticScore',
   },
   {
+    id: 5,
     finding: '',
     parameter: 'No of Cleaners',
+    name: 'nonMedCleanerScore',
   },
   {
+    id: 6,
     finding: '',
     parameter: 'CRO',
+    name: 'nonMedCroScore',
   },
 ];
 
 export const specialistData = [
   {
+    id: 1,
     finding: '',
     parameter: 'O & G',
+    name: 'specialistOgScore',
   },
   {
+    id: 2,
     finding: '',
     parameter: 'Paediatrics',
+    name: 'specialistPaedScore',
   },
   {
+    id: 3,
     finding: '',
     parameter: 'Int. Medicine / Physicians',
+    name: 'specialistIntScore',
   },
   {
+    id: 4,
     finding: '',
     parameter: 'General Surgeons',
+    name: 'specialistGenScore',
   },
   {
+    id: 5,
     finding: '',
     parameter: 'Orthopaedics Surgeons',
+    name: 'specialistOrthoScore',
   },
   {
+    id: 6,
     finding: '',
     parameter: 'Cardiologists',
+    name: 'specialistCardioScore',
   },
   {
+    id: 7,
     finding: '',
     parameter: 'ENT Surgeon',
+    name: 'specialistEntScore',
   },
   {
+    id: 8,
     finding: '',
     parameter: 'Nephrologists',
+    name: 'specialistNephroScore',
   },
   {
+    id: 9,
     finding: '',
     parameter: 'Neurologists',
+    name: 'specialistNeuroScore',
   },
   {
+    id: 10,
     finding: '',
     parameter: 'Endocrinologists',
+    name: 'specialistEndoScore',
   },
   {
+    id: 11,
     finding: '',
     parameter: 'Dermatologists',
+    name: 'specialistDermScore',
   },
   {
+    id: 12,
     finding: '',
     parameter: 'Physiotherapists',
+    name: 'specialistPhysioScore',
   },
 ];
