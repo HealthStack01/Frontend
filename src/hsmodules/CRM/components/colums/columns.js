@@ -362,7 +362,7 @@ export const getAppointmentColumns = (action, disableAction) => {
 };
 
 export const getUploadColumns = (action, disableAction) => {
-  const contactColumns = [
+  const uploadColumns = [
     {
       name: "SN",
       key: "sn",
@@ -455,7 +455,7 @@ export const getUploadColumns = (action, disableAction) => {
     },
   ];
 
-  return contactColumns;
+  return uploadColumns;
 };
 
 export const getPlansColumns = (action, disableAction) => {

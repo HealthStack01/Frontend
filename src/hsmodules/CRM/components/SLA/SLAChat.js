@@ -9,7 +9,7 @@ import client from "../../../../feathers";
 import moment from "moment";
 import {toast} from "react-toastify";
 
-const InvoiceChat = ({closeChat}) => {
+const SLAChat = ({closeChat}) => {
   const dealServer = client.service("deal");
   const {state, setState} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
@@ -20,15 +20,15 @@ const InvoiceChat = ({closeChat}) => {
 
   const getChatMessages = useCallback(async () => {
     const id = state.DealModule.selectedDeal._id;
-    const invoiceId = state.InvoiceModule.selectedInvoice._id;
+    const slaId = state.SLAModule.selectedSLA._id;
 
     await dealServer
       .get(id)
       .then(resp => {
-        const invoices = resp.invoices || [];
-        const selectedInvoice = invoices.find(item => item._id === invoiceId);
+        const slas = resp.sla || [];
+        const selectedSLA = slas.find(item => item._id === slaId);
 
-        setMessages(selectedInvoice.chat || []);
+        setMessages(selectedSLA.chat || []);
       })
       .catch(err => {
         //toast.error("There was an error getting messages for this chat");
@@ -49,7 +49,7 @@ const InvoiceChat = ({closeChat}) => {
     setSendingMsg(true);
     const employee = user.currentEmployee;
     const currentDeal = state.DealModule.selectedDeal;
-    const currentInvoice = state.InvoiceModule.selectedInvoice;
+    const currentSLA = state.SLAModule.selectedSLA;
 
     const messageDoc = {
       message: message,
@@ -63,21 +63,21 @@ const InvoiceChat = ({closeChat}) => {
       sender: `${employee.firstname} ${employee.lastname}`,
       type: "text",
       dealId: currentDeal._id,
-      invoiceId: currentInvoice._id,
+      slaId: currentSLA._id,
     };
 
     const newChat = [...messages, messageDoc];
 
-    const updatedCurrentInvoice = {
-      ...currentInvoice,
+    const updatedCurrentSLA = {
+      ...currentSLA,
       chat: newChat,
     };
 
-    const prevInvoices = currentDeal.invoices;
+    const prevSLA = currentDeal.sla;
 
-    const newInvoices = prevInvoices.map(item => {
-      if (item._id === updatedCurrentInvoice._id) {
-        return updatedCurrentInvoice;
+    const newSLA = prevSLA.map(item => {
+      if (item._id === updatedCurrentSLA._id) {
+        return updatedCurrentSLA;
       } else {
         return item;
       }
@@ -86,7 +86,7 @@ const InvoiceChat = ({closeChat}) => {
     const documentId = currentDeal._id;
 
     await dealServer
-      .patch(documentId, {invoices: newInvoices})
+      .patch(documentId, {sla: newSLA})
       .then(res => {
         setMessage("");
         setSendingMsg(false);
@@ -106,7 +106,7 @@ const InvoiceChat = ({closeChat}) => {
     const userId = user.currentEmployee.userId;
     const currentDeal = state.DealModule.selectedDeal;
     const documentId = currentDeal._id;
-    const currentInvoice = state.InvoiceModule.selectedInvoice;
+    const currentSLA = state.SLAModule.selectedSLA;
 
     const updatedMsg = {...message, seen: [userId, ...message.seen]};
 
@@ -118,23 +118,23 @@ const InvoiceChat = ({closeChat}) => {
       }
     });
 
-    const updatedCurrentInvoice = {
-      ...currentInvoice,
+    const updatedCurrentSLA = {
+      ...currentSLA,
       chat: updatedChat,
     };
 
-    const prevInvoices = currentDeal.invoices;
+    const prevSLA = currentDeal.sla;
 
-    const newInvoices = prevInvoices.map(item => {
-      if (item._id === updatedCurrentInvoice._id) {
-        return updatedCurrentInvoice;
+    const newSLA = prevSLA.map(item => {
+      if (item._id === updatedCurrentSLA._id) {
+        return updatedCurrentSLA;
       } else {
         return item;
       }
     });
 
     await dealServer
-      .patch(documentId, {invoices: newInvoices})
+      .patch(documentId, {sla: newSLA})
       .then(res => {
         console.log(res);
       })
@@ -158,4 +158,4 @@ const InvoiceChat = ({closeChat}) => {
   );
 };
 
-export default InvoiceChat;
+export default SLAChat;

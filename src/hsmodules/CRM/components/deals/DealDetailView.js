@@ -11,7 +11,6 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import ChatIcon from "@mui/icons-material/Chat";
 import Badge from "@mui/material/Badge";
 import Drawer from "@mui/material/Drawer";
-import LinkIcon from "@mui/icons-material/Link";
 import DocViewer, {DocViewerRenderers} from "@cyntler/react-doc-viewer";
 
 import {FormsHeaderText} from "../../../../components/texts";
@@ -56,7 +55,7 @@ import ChatInterface from "../../../../components/chat/ChatInterface";
 import GlobalDealChat from "../global/DealChat";
 import dayjs from "dayjs";
 
-export const LeadView = () => {
+export const DealDetailView = () => {
   const {register, reset, control, handleSubmit} = useForm();
   const [editLead, setEditLead] = useState(false);
 
@@ -621,91 +620,28 @@ export const StatusHistoryView = () => {
 };
 
 export const UploadView = () => {
-  const dealServer = client.service("deal");
   const [uploads, setUploads] = useState([]);
   const [uploadModal, setUploadModal] = useState(false);
-  const {state, setState, showActionLoader, hideActionLoader} =
-    useContext(ObjectContext);
+  const {state} = useContext(ObjectContext);
   const [viewModal, setViewModal] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState({});
-  const [confirmDialog, setConfirmDialog] = useState({
-    open: false,
-    type: "",
-    message: "",
-    action: null,
-  });
+  const [docs, setDocs] = useState([]);
 
   useEffect(() => {
     const currentDeal = state.DealModule.selectedDeal;
     setUploads(currentDeal.uploads || []);
   }, [state.DealModule]);
 
+  const uploadColumns = getUploadColumns();
+
   const handleRow = doc => {
     console.log(doc);
     setSelectedDoc(doc);
     setViewModal(true);
+    //setDocs([data.uploadUrl]);
   };
-
-  const handleDelete = async item => {
-    showActionLoader();
-
-    const currentDeal = state.DealModule.selectedDeal;
-
-    const prevUploads = currentDeal.uploads || [];
-
-    const newUploads = prevUploads.filter(upload => upload._id !== item._id);
-
-    const documentId = currentDeal._id;
-
-    await dealServer
-      .patch(documentId, {uploads: newUploads})
-      .then(resp => {
-        hideActionLoader();
-        setState(prev => ({
-          ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: resp},
-        }));
-
-        handleCancelConfirm();
-
-        toast.success("Document has been sucessfully Deleted");
-      })
-      .catch(error => {
-        hideActionLoader();
-        toast.error(`An error occured whilst Deleting your Document ${error}`);
-        console.error(error);
-      });
-  };
-
-  const handleConfirmDelete = item => {
-    setConfirmDialog({
-      open: true,
-      type: "danger",
-      message: `You are about to deleted an uploaded Document ${item.name}?`,
-      action: () => handleDelete(item),
-    });
-  };
-
-  const handleCancelConfirm = () => {
-    setConfirmDialog({
-      open: false,
-      type: "",
-      message: "",
-      action: null,
-    });
-  };
-
-  const uploadColumns = getUploadColumns(handleConfirmDelete);
-
   return (
     <Box pl={2} pr={2}>
-      <CustomConfirmationDialog
-        open={confirmDialog.open}
-        type={confirmDialog.type}
-        message={confirmDialog.message}
-        confirmationAction={confirmDialog.action}
-        cancelAction={handleCancelConfirm}
-      />
       <ModalBox
         open={viewModal}
         onClose={() => setViewModal(false)}
@@ -787,7 +723,6 @@ const LeadDetail = ({handleGoBack}) => {
   const [activateCall, setActivateCall] = useState(false);
   const [chat, setChat] = useState(false);
   const [unreadMsgs, setUnreadMsgs] = useState([]);
-  const [dealStatus, setDealStatus] = useState("");
 
   const handleSetCurrentView = view => {
     setCurrentView(view);
@@ -828,12 +763,6 @@ const LeadDetail = ({handleGoBack}) => {
     dealServer.on("patched", obj => getUnreadMessagesCount());
     dealServer.on("removed", obj => getUnreadMessagesCount());
   }, [getUnreadMessagesCount]);
-
-  useEffect(() => {
-    const deal = state.DealModule.selectedDeal.dealinfo;
-
-    setDealStatus(deal.currStatus);
-  }, []);
 
   //console.log(unreadMsgs);
 
@@ -884,19 +813,13 @@ const LeadDetail = ({handleGoBack}) => {
         </Box>
 
         <Box sx={{display: "flex", justifyContent: "flex-end"}} mb={2} gap={1}>
-          {dealStatus === "closed" && (
-            <GlobalCustomButton color="info">
-              <LinkIcon fontSize="small" sx={{marginRight: "2px"}} /> Send Link
-            </GlobalCustomButton>
-          )}
-
           <Badge
             badgeContent={unreadMsgs.length}
             color="secondary"
             sx={{marginRight: "10px"}}
           >
             <GlobalCustomButton onClick={() => setChat(true)}>
-              <ChatIcon fontSize="small" sx={{marginRight: "2px"}} />
+              <ChatIcon fontSize="small" sx={{marginRight: "5px"}} />
               Chats
             </GlobalCustomButton>
           </Badge>
@@ -1111,4 +1034,4 @@ const LeadDetail = ({handleGoBack}) => {
   );
 };
 
-export default LeadDetail;
+export default DealDetailView;

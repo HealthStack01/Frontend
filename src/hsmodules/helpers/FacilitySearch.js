@@ -236,7 +236,7 @@ export function OrgFacilitySearch({ getSearchfacility, clear }) {
     const found = selectedFacility.some((el) => el?._id === obj?._id);
     if (!found) {
       // await setSelectedFacility([...selectedFacility, obj]);
-      await getSearchfacility([...selectedFacility, obj]);
+      await getSearchfacility(obj);
     }
   };
   const handleBlur = async (e) => {
@@ -424,7 +424,7 @@ export function HmoFacilitySearch({ getSearchfacility, clear }) {
 
     if (value.length >= 3) {
       //productServ.  orgServ facility:user.currentEmployee.facilityDetail._id,
-      orgServ
+      productServ
         .find({
           query: {
             //service
@@ -433,10 +433,12 @@ export function HmoFacilitySearch({ getSearchfacility, clear }) {
                      $options:'i'
                     
                  }, */
-            $search: value,
-            relationshiptype: 'hmo',
-            facility: user.currentEmployee.facilityDetail._id,
-            $limit: 100,
+            [field]: {
+              $regex: value,
+              $options: 'i',
+            },
+            // relationshiptype: 'hmo',
+            $limit: 10,
             $sort: {
               createdAt: -1,
             },
@@ -481,10 +483,14 @@ export function HmoFacilitySearch({ getSearchfacility, clear }) {
     <Stack spacing={3} sx={{ width: '100%' }}>
       <Autocomplete
         id="tags-standard"
-        options={facilities}
+        options={facilities.filter(
+          (option) =>
+            option.facilityCategory === 'HMO' ||
+            option.facilityCategory === 'hmo'
+        )}
         onBlur={(e) => handleBlur(e)}
         getOptionLabel={(option) =>
-          `${option?.organizationDetail?.facilityName} , ${option?.organizationDetail?.facilityCity}`
+          `${option?.facilityName} , ${option?.facilityCity}`
         }
         onChange={(event, newValue) => {
           console.log('newValue', newValue);

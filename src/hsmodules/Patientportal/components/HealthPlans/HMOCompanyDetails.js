@@ -10,7 +10,7 @@ import {
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Button from "../../../../components/buttons/CustomButton";
 // import ModalBox from "../../../../components/modal";
-// import { useState } from 'react';
+import { useState } from 'react';
 
 export default function HMOCompanyDetails() {
   //   const [healthInsuranceModal, setHealthInsuranceModal] = useState(false)

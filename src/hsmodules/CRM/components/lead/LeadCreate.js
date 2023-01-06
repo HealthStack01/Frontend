@@ -132,6 +132,7 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
     document.orgbranch = data.orgbranch;
     document.clientclass = data.clientclass;
     document.facilityId = employee.facilityDetail._id;
+    document.facilityName = employee.facilityDetail.facilityName;
 
     console.log(document);
 
@@ -354,7 +355,7 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
                 <Grid item lg={2} md={3} sm={6}>
                   <CustomSelect
                     label="Status"
-                    options={["Open", "Pending", "Closed"]}
+                    options={["Open", "Suspended", "Closed"]}
                     name="status"
                     control={control}
                     important

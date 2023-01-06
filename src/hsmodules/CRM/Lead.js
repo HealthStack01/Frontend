@@ -57,22 +57,6 @@ export default function Leads() {
           handleGoBack={handleGoBack}
         />
       )}
-      {/* 
-      <ModalBox
-        open={createModal}
-        onClose={() => setCreateModal(false)}
-        header="Create New Lead"
-      >
-        <LeadsCreate closeModal={() => setCreateModal(false)} />
-      </ModalBox> */}
-      {/* 
-      <ModalBox
-        open={detailModal}
-        onClose={() => setDetailModal(false)}
-        header="Lead Detail"
-      >
-        <LeadDetail closeModal={() => setDetailModal(false)} />
-      </ModalBox> */}
     </Box>
   );
 }
@@ -112,16 +96,17 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
     }));
     showDetail();
     //dealServer.remove(delId);
-    console.log(data);
+    //console.log(data);
   };
 
   const handleSearch = val => {};
 
   const getFacilities = async () => {
+    setLoading(true);
     const testId = "60203e1c1ec8a00015baa357";
     const facId = user.currentEmployee.facilityDetail_id;
 
-    showActionLoader();
+    //showActionLoader();
 
     const res =
       testId === facId
@@ -134,7 +119,8 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
 
     await setFacilities(res.data);
     //console.log(res.data);
-    hideActionLoader();
+    // hideActionLoader();
+    setLoading(false);
   };
 
   const updateFacilities = async () => {
@@ -171,8 +157,8 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       case "open":
         return <span style={{color: "#17935C"}}>{status}</span>;
 
-      case "pending":
-        return <span style={{color: "#0364FF"}}>{status}</span>;
+      case "suspended":
+        return <span style={{color: "orange"}}>{status}</span>;
 
       case "closed":
         return <span style={{color: "red"}}>{status}</span>;
@@ -251,15 +237,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       required: true,
       inputType: "HIDDEN",
     },
-    // {
-    //   name: "Telestaff Name",
-    //   key: "telestaff_name",
-    //   description: "Enter Telestaff name",
-    //   selector: row => row.telestaff_name,
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "TEXT",
-    // },
+
     {
       name: "Probability",
       key: "probability",
@@ -351,6 +329,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
               Add new Lead
             </GlobalCustomButton>
           </TableMenu>
+
           <div style={{width: "100%", overflow: "auto"}}>
             <CustomTable
               title={""}

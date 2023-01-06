@@ -3,7 +3,6 @@ import React, {useState, useContext, useEffect, useCallback} from "react";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../../../context";
 import "react-datepicker/dist/react-datepicker.css";
-import PendingIcon from "@mui/icons-material/Pending";
 import LockIcon from "@mui/icons-material/Lock";
 
 import {PageWrapper} from "../../../../ui/styled/styles";
@@ -22,7 +21,11 @@ import dayjs from "dayjs";
 // eslint-disable-next-line
 const searchfacility = {};
 
-const PendingDealsList = ({showOpenDeals, setDealDetail, showCloseDeals}) => {
+const SuspendedDealsList = ({
+  showOpenDeals,
+  setDealDetail,
+  showClosedDeals,
+}) => {
   // eslint-disable-next-line
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -38,21 +41,24 @@ const PendingDealsList = ({showOpenDeals, setDealDetail, showCloseDeals}) => {
   };
 
   const handleShowClosedDeals = () => {
-    showCloseDeals();
+    showClosedDeals();
   };
 
   const handleRow = async data => {
-    //openDetailModal();
-    setDealDetail("closed-detail");
+    setState(prev => ({
+      ...prev,
+      DealModule: {...prev.DealModule, selectedDeal: data},
+    }));
+    setDealDetail("detail");
   };
 
   const handleSearch = val => {};
 
   const getFacilities = useCallback(async () => {
     const testId = "60203e1c1ec8a00015baa357";
-    const facId = user.currentEmployee.facilityDetail_id;
+    const facId = user.currentEmployee.facilityDetail._id;
 
-    showActionLoader();
+    setLoading(true);
 
     //const status = "close" || "pending";
 
@@ -62,11 +68,11 @@ const PendingDealsList = ({showOpenDeals, setDealDetail, showCloseDeals}) => {
         : await dealServer.find({
             query: {
               facilityId: facId,
-              "dealinfo.currStatus": "pending",
+              "dealinfo.currStatus": "suspended",
             },
           });
     await setClosedDeals(res.data);
-    hideActionLoader();
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -78,8 +84,8 @@ const PendingDealsList = ({showOpenDeals, setDealDetail, showCloseDeals}) => {
       case "open":
         return <span style={{color: "#17935C"}}>{status}</span>;
 
-      case "pending":
-        return <span style={{color: "#0364FF"}}>{status}</span>;
+      case "suspended":
+        return <span style={{color: "orange"}}>{status}</span>;
 
       case "closed":
         return <span style={{color: "red"}}>{status}</span>;
@@ -243,12 +249,12 @@ const PendingDealsList = ({showOpenDeals, setDealDetail, showCloseDeals}) => {
                 </div>
               )}
               <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-                List of Pending Deals
+                List of Suspended Deals
               </h2>
             </div>
 
             <Box sx={{display: "flex"}} gap={2}>
-              <GlobalCustomButton onClick={handleShowOpenDeals}>
+              <GlobalCustomButton onClick={handleShowOpenDeals} color="success">
                 <LockOpenOutlinedIcon
                   fontSize="small"
                   sx={{marginRight: "5px"}}
@@ -256,11 +262,8 @@ const PendingDealsList = ({showOpenDeals, setDealDetail, showCloseDeals}) => {
                 View Open Deals
               </GlobalCustomButton>
 
-              <GlobalCustomButton onClick={handleShowClosedDeals} color="info">
-                <LockOpenOutlinedIcon
-                  fontSize="small"
-                  sx={{marginRight: "5px"}}
-                />
+              <GlobalCustomButton onClick={handleShowClosedDeals} color="error">
+                <LockIcon fontSize="small" sx={{marginRight: "5px"}} />
                 View Closed Deals
               </GlobalCustomButton>
             </Box>
@@ -293,4 +296,4 @@ const PendingDealsList = ({showOpenDeals, setDealDetail, showCloseDeals}) => {
   );
 };
 
-export default PendingDealsList;
+export default SuspendedDealsList;

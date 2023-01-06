@@ -10,7 +10,7 @@ import Input from "../../../../components/inputs/basic/Input";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 import {FormsHeaderText} from "../../../../components/texts";
-import {ObjectContext} from "../../../../context";
+import {ObjectContext, UserContext} from "../../../../context";
 import client from "../../../../feathers";
 
 const LeadDetailView = () => {
@@ -146,10 +146,14 @@ export const PageLeadDetailView = () => {
   const [editLead, setEditLead] = useState(false);
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const [currentStatus, setCurrentStatus] = useState("");
 
   const udpateLead = async data => {
     showActionLoader();
+    const employee = user.currentEmployee;
     const documentId = state.DealModule.selectedDeal._id;
+    const prevStatusHistory = state.DealModule.selectedDeal.statushx || [];
 
     const dealinfo = {
       probability: data.probability,
@@ -160,10 +164,22 @@ export const PageLeadDetailView = () => {
       closingDate: data.closingDate,
     };
 
+    const statusHistoryObj = {
+      date: new Date(),
+      employeename: `${employee.firstname} ${employee.lastname}`,
+      employeeId: employee.userId,
+      status: data.currStatus,
+    };
+
+    const newStatusHistory =
+      currentStatus !== data.currStatus
+        ? [statusHistoryObj, ...prevStatusHistory]
+        : [...prevStatusHistory];
+
     //console.log(dealinfo);
 
     await dealServer
-      .patch(documentId, {dealinfo: dealinfo})
+      .patch(documentId, {dealinfo: dealinfo, statushx: newStatusHistory})
       .then(res => {
         hideActionLoader();
         setState(prev => ({
@@ -182,6 +198,22 @@ export const PageLeadDetailView = () => {
       });
   };
 
+  // const cancleEdit = () => {
+  //    const deal = state.DealModule.selectedDeal;
+
+  //    const initFormValue = {
+  //      probability: deal.dealinfo.probability,
+  //      size: deal.dealinfo.size,
+  //      status: deal.dealinfo.currStatus,
+  //      nextAction: deal.dealinfo.nextAction,
+  //      weightForecast: deal.dealinfo.weightForecast,
+  //      closingDate: deal.dealinfo.closingDate,
+  //      submissionDate: deal.createdAt,
+  //    };
+  //    setEditLead(false)
+  //    reset(initFormValue);
+  // }
+
   useEffect(() => {
     const deal = state.DealModule.selectedDeal;
     //console.log(deal);
@@ -195,6 +227,8 @@ export const PageLeadDetailView = () => {
       closingDate: deal.dealinfo.closingDate,
       submissionDate: deal.createdAt,
     };
+
+    setCurrentStatus(deal.dealinfo.currStatus);
     reset(initFormValue);
   }, []);
 
@@ -262,7 +296,7 @@ export const PageLeadDetailView = () => {
         <Grid item lg={2} md={3} sm={4} xs={6}>
           <CustomSelect
             label="Status"
-            options={["Open", "Closed", "Pending"]}
+            options={["Open", "Closed", "Suspended"]}
             disabled={!editLead}
             control={control}
             name="currStatus"

@@ -24,8 +24,8 @@ export function SLAList({showDetail, showCreate, isTab}) {
 
   const getSLAForPage = useCallback(async () => {
     const testId = "60203e1c1ec8a00015baa357";
-    const facId = user.currentEmployee.facilityDetail_id;
-    showActionLoader();
+    const facId = user.currentEmployee.facilityDetail._id;
+    setLoading(true);
 
     const res =
       testId === facId
@@ -52,12 +52,13 @@ export function SLAList({showDetail, showCreate, isTab}) {
 
     await setSLAList(finalSLA || []);
 
-    hideActionLoader();
+    setLoading(false);
   }, []);
 
   useEffect(() => {
     if (isTab) {
       const currentDeal = state.DealModule.selectedDeal;
+      setDeal(currentDeal.dealinfo);
       setSLAList(currentDeal.sla || []);
     } else {
       getSLAForPage();
@@ -227,6 +228,19 @@ export function SLAList({showDetail, showCreate, isTab}) {
     },
   ];
 
+  const conditionalRowStyles = [
+    {
+      when: row => row.status === "Sent",
+      style: {
+        backgroundColor: "#80ed99",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
   return (
     <>
       <div className="level">
@@ -259,6 +273,7 @@ export function SLAList({showDetail, showCreate, isTab}) {
               striped
               onRowClicked={handleRow}
               progressPending={loading}
+              conditionalRowStyles={conditionalRowStyles}
             />
           </Box>
         </PageWrapper>

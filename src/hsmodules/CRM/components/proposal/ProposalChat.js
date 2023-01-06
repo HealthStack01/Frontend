@@ -9,7 +9,7 @@ import client from "../../../../feathers";
 import moment from "moment";
 import {toast} from "react-toastify";
 
-const InvoiceChat = ({closeChat}) => {
+const ProposalChat = ({closeChat}) => {
   const dealServer = client.service("deal");
   const {state, setState} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
@@ -20,15 +20,17 @@ const InvoiceChat = ({closeChat}) => {
 
   const getChatMessages = useCallback(async () => {
     const id = state.DealModule.selectedDeal._id;
-    const invoiceId = state.InvoiceModule.selectedInvoice._id;
+    const proposalId = state.ProposalModule.selectedProposal._id;
 
     await dealServer
       .get(id)
       .then(resp => {
-        const invoices = resp.invoices || [];
-        const selectedInvoice = invoices.find(item => item._id === invoiceId);
+        const proposals = resp.proposal || [];
+        const selectedProposal = proposals.find(
+          item => item._id === proposalId
+        );
 
-        setMessages(selectedInvoice.chat || []);
+        setMessages(selectedProposal.chat || []);
       })
       .catch(err => {
         //toast.error("There was an error getting messages for this chat");
@@ -49,7 +51,7 @@ const InvoiceChat = ({closeChat}) => {
     setSendingMsg(true);
     const employee = user.currentEmployee;
     const currentDeal = state.DealModule.selectedDeal;
-    const currentInvoice = state.InvoiceModule.selectedInvoice;
+    const currentProposal = state.ProposalModule.selectedProposal;
 
     const messageDoc = {
       message: message,
@@ -63,21 +65,21 @@ const InvoiceChat = ({closeChat}) => {
       sender: `${employee.firstname} ${employee.lastname}`,
       type: "text",
       dealId: currentDeal._id,
-      invoiceId: currentInvoice._id,
+      proposalId: currentProposal._id,
     };
 
     const newChat = [...messages, messageDoc];
 
-    const updatedCurrentInvoice = {
-      ...currentInvoice,
+    const updatedCurrentProposal = {
+      ...currentProposal,
       chat: newChat,
     };
 
-    const prevInvoices = currentDeal.invoices;
+    const prevProposals = currentDeal.proposal;
 
-    const newInvoices = prevInvoices.map(item => {
-      if (item._id === updatedCurrentInvoice._id) {
-        return updatedCurrentInvoice;
+    const newProposals = prevProposals.map(item => {
+      if (item._id === updatedCurrentProposal._id) {
+        return updatedCurrentProposal;
       } else {
         return item;
       }
@@ -86,7 +88,7 @@ const InvoiceChat = ({closeChat}) => {
     const documentId = currentDeal._id;
 
     await dealServer
-      .patch(documentId, {invoices: newInvoices})
+      .patch(documentId, {proposal: newProposals})
       .then(res => {
         setMessage("");
         setSendingMsg(false);
@@ -106,7 +108,7 @@ const InvoiceChat = ({closeChat}) => {
     const userId = user.currentEmployee.userId;
     const currentDeal = state.DealModule.selectedDeal;
     const documentId = currentDeal._id;
-    const currentInvoice = state.InvoiceModule.selectedInvoice;
+    const currentProposal = state.ProposalModule.selectedProposal;
 
     const updatedMsg = {...message, seen: [userId, ...message.seen]};
 
@@ -118,23 +120,23 @@ const InvoiceChat = ({closeChat}) => {
       }
     });
 
-    const updatedCurrentInvoice = {
-      ...currentInvoice,
+    const updatedCurrentProposal = {
+      ...currentProposal,
       chat: updatedChat,
     };
 
-    const prevInvoices = currentDeal.invoices;
+    const prevProposals = currentDeal.proposal;
 
-    const newInvoices = prevInvoices.map(item => {
-      if (item._id === updatedCurrentInvoice._id) {
-        return updatedCurrentInvoice;
+    const newProposals = prevProposals.map(item => {
+      if (item._id === updatedCurrentProposal._id) {
+        return updatedCurrentProposal;
       } else {
         return item;
       }
     });
 
     await dealServer
-      .patch(documentId, {invoices: newInvoices})
+      .patch(documentId, {proposal: newProposals})
       .then(res => {
         console.log(res);
       })
@@ -158,4 +160,4 @@ const InvoiceChat = ({closeChat}) => {
   );
 };
 
-export default InvoiceChat;
+export default ProposalChat;

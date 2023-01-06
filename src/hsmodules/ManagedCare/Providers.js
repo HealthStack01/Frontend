@@ -1636,7 +1636,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
             </Box>
           </ModalBox>
         )} */}
-        {display === 2 && <Accreditation />}
+        {display === 2 && <Accreditation standAlone={facility._id} />}
         {display === 3 && <CRMTasks />}
         {display === 4 && <UploadView />}
         {display === 5 && <Beneficiary />}

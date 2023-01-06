@@ -1,4 +1,4 @@
-import {useContext, useState, useEffect} from "react";
+import {useContext, useState, useEffect, useCallback} from "react";
 import {Box, Grid, Typography, IconButton} from "@mui/material";
 import Input from "../../../../components/inputs/basic/Input";
 import ModalBox from "../../../../components/modal";
@@ -14,23 +14,29 @@ import ChatIcon from "@mui/icons-material/Chat";
 import BlockIcon from "@mui/icons-material/Block";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import Drawer from "@mui/material/Drawer";
 
 import {LeadView} from "../lead/LeadDetailView";
 import ChatInterface from "../../../../components/chat/ChatInterface";
 import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
-import {ObjectContext} from "../../../../context";
+import {ObjectContext, UserContext} from "../../../../context";
 import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import {PageLeadDetailView} from "../global/LeadDetail";
 import CustomTable from "../../../../components/customtable";
+import SLAChat from "./SLAChat";
+import client from "../../../../feathers";
 
 const SLADetail = ({handleGoBack}) => {
+  const dealServer = client.service("deal");
   const {state, setState} = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
   const [description, setDescription] = useState("");
   const [chat, setChat] = useState(false);
   const [attachedDocs, setAttachedDocs] = useState([]);
   const [docViewModal, setDocviewModal] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState({});
+  const [unreadMsgs, setUnreadMsgs] = useState([]);
 
   useEffect(() => {
     const sla = state.SLAModule.selectedSLA;
@@ -167,6 +173,46 @@ const SLADetail = ({handleGoBack}) => {
     setDocviewModal(true);
   };
 
+  const getUnreadMessagesCount = useCallback(async () => {
+    setUnreadMsgs([]);
+    const id = state.DealModule.selectedDeal._id;
+    const userId = user.currentEmployee.userId;
+    const slaId = state.SLAModule.selectedSLA._id;
+    // console.log(userId);
+    await dealServer
+      .get(id)
+      .then(resp => {
+        const sla = resp.sla || [];
+        const selectedSLA = sla.find(item => item._id === slaId);
+
+        const msgs = selectedSLA.chat || [];
+        msgs.map(msg => {
+          if (
+            msg.senderId === userId ||
+            msg.seen.includes(userId) ||
+            unreadMsgs.includes(msg._id)
+          ) {
+            return;
+          } else {
+            return setUnreadMsgs(prev => [msg._id, ...prev]);
+          }
+        });
+      })
+      .catch(err => {
+        // toast.error("There was an error getting messages for this chat");
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    getUnreadMessagesCount();
+
+    dealServer.on("created", obj => getUnreadMessagesCount());
+    dealServer.on("updated", obj => getUnreadMessagesCount());
+    dealServer.on("patched", obj => getUnreadMessagesCount());
+    dealServer.on("removed", obj => getUnreadMessagesCount());
+  }, [getUnreadMessagesCount]);
+
   return (
     <Box
       sx={{
@@ -232,7 +278,11 @@ const SLADetail = ({handleGoBack}) => {
           }}
           gap={1}
         >
-          <Badge badgeContent={4} color="secondary" sx={{marginRight: "10px"}}>
+          <Badge
+            badgeContent={unreadMsgs.length}
+            color="secondary"
+            sx={{marginRight: "10px"}}
+          >
             <GlobalCustomButton onClick={() => setChat(true)}>
               <ChatIcon fontSize="small" sx={{marginRight: "5px"}} />
               Chats
@@ -310,11 +360,12 @@ const SLADetail = ({handleGoBack}) => {
         </Grid>
       </Grid>
 
-      <SwipeableDrawer
+      <Drawer
         anchor="right"
         open={chat}
         onClose={() => setChat(false)}
         onOpen={() => setChat(true)}
+        //hysteresis={0}
       >
         <Box
           sx={{
@@ -323,9 +374,9 @@ const SLADetail = ({handleGoBack}) => {
             overflowY: "hidden",
           }}
         >
-          <ChatInterface closeChat={() => setChat(false)} />
+          <SLAChat closeChat={() => setChat(false)} />
         </Box>
-      </SwipeableDrawer>
+      </Drawer>
     </Box>
   );
 };

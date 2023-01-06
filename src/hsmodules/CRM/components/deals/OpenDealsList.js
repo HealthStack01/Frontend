@@ -21,7 +21,11 @@ import {Box} from "@mui/system";
 // eslint-disable-next-line
 const searchfacility = {};
 
-const OpenDealsList = ({showClosedDeals, setDealDetail, showPendingDeals}) => {
+const OpenDealsList = ({
+  showClosedDeals,
+  setDealDetail,
+  showSuspendedDeals,
+}) => {
   // eslint-disable-next-line
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -34,9 +38,8 @@ const OpenDealsList = ({showClosedDeals, setDealDetail, showPendingDeals}) => {
 
   const getFacilities = useCallback(async () => {
     const testId = "60203e1c1ec8a00015baa357";
-    const facId = user.currentEmployee.facilityDetail_id;
-
-    showActionLoader();
+    const facId = user.currentEmployee.facilityDetail._id;
+    setLoading(true);
 
     const status = "open" || "pending";
 
@@ -51,7 +54,7 @@ const OpenDealsList = ({showClosedDeals, setDealDetail, showPendingDeals}) => {
             },
           });
     await setOpenDeals(res.data);
-    hideActionLoader();
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -62,14 +65,16 @@ const OpenDealsList = ({showClosedDeals, setDealDetail, showPendingDeals}) => {
     showClosedDeals();
   };
 
-  const handleShowPendingDeals = () => {
-    showPendingDeals();
+  const handleShowSuspendedDeals = () => {
+    showSuspendedDeals();
   };
 
   const handleRow = async data => {
-    //openDetailModal();
-    console.log(setDealDetail);
-    setDealDetail("open-detail");
+    setState(prev => ({
+      ...prev,
+      DealModule: {...prev.DealModule, selectedDeal: data},
+    }));
+    setDealDetail("detail");
   };
 
   const handleSearch = val => {};
@@ -335,14 +340,17 @@ const OpenDealsList = ({showClosedDeals, setDealDetail, showPendingDeals}) => {
             </div>
 
             <Box sx={{display: "flex"}} gap={2}>
-              <GlobalCustomButton onClick={handleShowClosedDeals}>
+              <GlobalCustomButton onClick={handleShowClosedDeals} color="error">
                 <LockIcon fontSize="small" sx={{marginRight: "5px"}} />
                 View Closed Deals
               </GlobalCustomButton>
 
-              <GlobalCustomButton onClick={handleShowPendingDeals} color="info">
+              <GlobalCustomButton
+                onClick={handleShowSuspendedDeals}
+                color="warning"
+              >
                 <PendingIcon fontSize="small" sx={{marginRight: "5px"}} />
-                View Pending Deals
+                View Suspended Deals
               </GlobalCustomButton>
             </Box>
           </TableMenu>

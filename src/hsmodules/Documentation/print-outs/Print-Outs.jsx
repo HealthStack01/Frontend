@@ -617,9 +617,10 @@ export const DoctorsNotePrintOut = forwardRef(({data, Clinic}, ref) => {
                     </Typography>
 
                     <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
-                      {dayjs(value).isValid()
+                      {/* {dayjs(value).isValid()
                         ? dayjs(value).format("DD/MM/YYYY")
-                        : value}
+                        : value} */}
+                      {value}
                     </Typography>
                   </Box>
                 </Grid>
@@ -646,9 +647,10 @@ export const DoctorsNotePrintOut = forwardRef(({data, Clinic}, ref) => {
                     </Typography>
 
                     <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
-                      {dayjs(value).isValid()
+                      {/* {dayjs(value).isValid()
                         ? dayjs(value).format("DD/MM/YYYY")
-                        : value}
+                        : value} */}
+                      {value}
                     </Typography>
                   </Box>
                 </Grid>
@@ -919,9 +921,10 @@ export const MedicationListPrintOut = forwardRef(({data, Clinic}, ref) => {
                         <Typography
                           sx={{fontSize: "0.75rem", color: "#000000"}}
                         >
-                          {dayjs(value).isValid()
+                          {/* {dayjs(value).isValid()
                             ? dayjs(value).format("DD/MM/YYYY")
-                            : value}
+                            : value} */}
+                          {value}
                         </Typography>
                       </Box>
                     </Grid>
@@ -1307,9 +1310,10 @@ export const AdultQuestionnairePrintOut = forwardRef(({data, Clinic}, ref) => {
                       </Typography>
 
                       <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
-                        {dayjs(value).isValid()
+                        {/* {dayjs(value).isValid()
                           ? dayjs(value).format("DD/MM/YYYY")
-                          : value}
+                          : value} */}
+                        {value}
                       </Typography>
                     </Box>
                   </Grid>
@@ -1448,9 +1452,10 @@ export const PediatricPulmonologyList = forwardRef(({data, Clinic}, ref) => {
                           <Typography
                             sx={{fontSize: "0.75rem", color: "#000000"}}
                           >
-                            {dayjs(value).isValid()
+                            {/* {dayjs(value).isValid()
                               ? dayjs(value).format("DD/MM/YYYY")
-                              : value}
+                              : value} */}
+                            {value}
                           </Typography>
                         </Box>
                       </Grid>

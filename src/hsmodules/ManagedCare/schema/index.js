@@ -8,6 +8,7 @@ export const EnrolleSchema = [
     selector: (row) => row.sn,
     sortable: true,
     inputType: 'HIDDEN',
+    width: '50px',
   },
   {
     name: 'First Name',
@@ -98,6 +99,7 @@ export const EnrolleSchema2 = [
     selector: (row) => row.sn,
     sortable: true,
     inputType: 'HIDDEN',
+    width: '50px',
   },
   {
     name: 'First Name',
@@ -201,6 +203,7 @@ export const EnrolleSchema3 = [
     selector: (row) => row.sn,
     sortable: true,
     inputType: 'HIDDEN',
+    width: '50px',
   },
   {
     name: 'First Name',
@@ -287,6 +290,7 @@ export const EnrolleSchema4 = [
     selector: (row) => row.sn,
     sortable: true,
     inputType: 'HIDDEN',
+    width: '50px',
   },
   {
     name: 'Provider Name',
@@ -346,6 +350,74 @@ export const EnrolleSchema4 = [
   },
 ];
 
+export const EnrolleSchema5 = [
+  {
+    name: 'S/N',
+    key: 'sn',
+    description: 'SN',
+    selector: (row) => row.sn,
+    sortable: true,
+    inputType: 'HIDDEN',
+    width: '50px',
+  },
+  {
+    name: 'HMO Name',
+    key: 'providerName',
+    description: 'Provider Name',
+    selector: (row) => row?.facilityName,
+    sortable: true,
+    required: true,
+    inputType: 'TEXT',
+  },
+  {
+    name: 'Address',
+    key: 'address',
+    description: 'Address',
+    selector: (row) => row?.facilityAddress,
+    sortable: true,
+    required: true,
+    inputType: 'TEXT',
+  },
+
+  {
+    name: 'City',
+    key: 'city',
+    description: 'City',
+    selector: (row) => row?.facilityCity,
+    sortable: true,
+    required: true,
+    inputType: 'TEXT',
+  },
+  {
+    name: 'Contact Person',
+    key: 'contactPerson',
+    description: 'Contact Person',
+    selector: (row) => row?.facilityOwner,
+    sortable: true,
+    required: true,
+    inputType: 'TEXT',
+  },
+  {
+    name: 'Phone',
+    key: 'phone',
+    description: 'Phone',
+    selector: (row) => row?.facilityContactPhone,
+    sortable: true,
+    required: true,
+    inputType: 'TEXT',
+  },
+
+  {
+    name: 'Category',
+    key: 'category',
+    description: 'Category',
+    selector: (row) => row?.facilityCategory,
+    sortable: true,
+    required: true,
+    inputType: 'TEXT',
+  },
+];
+
 export const FinInfoSchema = [
   {
     name: 'S/N',
@@ -354,6 +426,7 @@ export const FinInfoSchema = [
     selector: (row) => row.sn,
     sortable: true,
     inputType: 'HIDDEN',
+    width: '50px',
   },
   {
     name: 'type',
