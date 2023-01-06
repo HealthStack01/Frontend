@@ -35,7 +35,7 @@ import {
   SponsorSearch,
 } from '../helpers/FacilitySearch';
 import Claims from './Claims';
-import PremiumPayment from './PremiumPayment';
+import PremiumPayment from './Premium';
 import Provider, { OrganizationCreate } from './Providers';
 import {
   EnrolleSchema,

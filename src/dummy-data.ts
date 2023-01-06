@@ -52,12 +52,11 @@ export const departmentOptions: string[] = [
 ];
 export const unitsOptions: string[] = ["Unit 1", "Unit 1", "Unit 1", "Unit 1"];
 export const bandTypeOptions: string[] = [
-  "Customer Sponsor",
-  "Vendor",
-  "Patient",
   "Provider",
-    "Company",
-    "Plan",
+  "Company",
+  "Patient",
+  "Plan",
+  "Corporate Sponsor",
 ];
 
 export const locationTypeOptions:string[] =["Front Desk","Clinic","Ward", "Store", "Laboratory", "Finance","Theatre","Pharmacy", "Radiology","Managed Care" ]

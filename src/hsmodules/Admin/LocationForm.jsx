@@ -55,7 +55,7 @@ export const LocationForm = ({ open, setOpen }) => {
     setLoading(true);
     e.preventDefault();
     setSuccess(false);
-    console.log(data);
+    // console.log(data);
     await LocationServ.create(data)
       .then((res) => {
         toast.success(`Location successfully created`);
