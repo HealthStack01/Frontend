@@ -27,11 +27,7 @@ const ComplaintsInventoryReport = lazy(() =>
 
 const PreAuth = lazy(() => import("../ManagedCare/PreAuth"));
 
-<<<<<<< HEAD
 const Premium = lazy(() => import('../ManagedCare/Premium'));
-=======
-const PremiumPayment = lazy(() => import("../ManagedCare/PremiumPayment"));
->>>>>>> 54a763283f60a01d3420c69a0316d94283c84454
 
 const OrganizationClient = lazy(() =>
   import("../ManagedCare/OrganizationClient")
@@ -113,25 +109,8 @@ export const managedCareRoutes = [
     Component: HealthPlan,
   },
   {
-<<<<<<< HEAD
     path: '/app/managed-care/premiums',
     Component: Premium,
-=======
-    path: "/app/managed-care/premiums",
-    Component: PremiumPayment,
->>>>>>> 54a763283f60a01d3420c69a0316d94283c84454
-  },
-  {
-    path: "/app/managed-care/accreditation",
-    Component: Accreditation,
-  },
-  {
-    path: "/app/managed-care/fundmanagement",
-    Component: FundsManagement,
-  },
-  {
-    path: "/app/managed-care/providerpayment",
-    Component: ProviderPayment,
   },
   {
     path: "/app/managed-care/complaintDetails",
