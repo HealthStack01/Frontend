@@ -32,7 +32,7 @@ import CRMTasks from '../CRM/Tasks';
 import Beneficiary from './Beneficiary';
 import Claims from './Claims';
 import Policy from './Policy';
-import PremiumPayment from './PremiumPayment';
+import PremiumPayment from './Premium';
 import { McText } from './text';
 
 // eslint-disable-next-line
