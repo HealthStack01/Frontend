@@ -1,3 +1,4 @@
+import {useRef} from "react";
 import {Avatar, Divider, Typography} from "@mui/material";
 import {Box, fontWeight} from "@mui/system";
 import dayjs from "dayjs";
@@ -5,6 +6,8 @@ import {useContext, useState, useEffect} from "react";
 import CustomTable from "../../../../components/customtable";
 import ModalBox from "../../../../components/modal";
 import {ObjectContext, UserContext} from "../../../../context";
+import ReactToPrint, {useReactToPrint} from "react-to-print";
+import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 
 const customStyles = {
   rows: {
@@ -57,7 +60,7 @@ const columns = [
     description: "Enter Date",
     selector: row => (
       <Typography
-        sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+        sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
         data-tag="allowRowEvents"
       >
         {row.type === "hmo" ? "HMO" : row.type}
@@ -69,7 +72,7 @@ const columns = [
     style: {
       textTransform: "capitalize",
     },
-    width: "99px",
+    width: "120px",
   },
 
   {
@@ -79,7 +82,7 @@ const columns = [
     description: "Enter Date",
     selector: row => (
       <Typography
-        sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+        sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
         data-tag="allowRowEvents"
       >
         {dayjs(row.created_at).format("DD/MM/YYYY")}
@@ -99,7 +102,7 @@ const columns = [
     description: "Enter Date",
     selector: row => (
       <Typography
-        sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+        sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
         data-tag="allowRowEvents"
       >
         {row.length} {row.calendrical}
@@ -109,7 +112,7 @@ const columns = [
     sortable: true,
     required: true,
     inputType: "TEXT",
-    width: "99px",
+    width: "120px",
   },
 
   {
@@ -119,7 +122,7 @@ const columns = [
     description: "Enter Date",
     selector: row => (
       <Typography
-        sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+        sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
         data-tag="allowRowEvents"
       >
         {row.premium}
@@ -138,7 +141,7 @@ const columns = [
     description: "Enter Date",
     selector: row => (
       <Typography
-        sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+        sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
         data-tag="allowRowEvents"
       >
         {row.heads}
@@ -157,7 +160,7 @@ const columns = [
     description: "Enter Date",
     selector: row => (
       <Typography
-        sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+        sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
         data-tag="allowRowEvents"
       >
         {row.amount}
@@ -176,6 +179,8 @@ const InvoicePrintOut = ({closeModal}) => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [selectAccountModal, setSelectAccountModal] = useState(true);
 
+  const printRef = useRef(null);
+
   const organization = user.currentEmployee.facilityDetail;
   const invoice = state.InvoiceModule.selectedInvoice;
   const customer = state.DealModule.selectedDeal;
@@ -193,10 +198,11 @@ const InvoicePrintOut = ({closeModal}) => {
   return (
     <Box
       sx={{
-        width: "595px",
+        width: "100%",
         height: "842px",
         padding: "20px 10px",
       }}
+      ref={printRef}
     >
       <ModalBox
         open={selectAccountModal}
@@ -680,6 +686,13 @@ const InvoicePrintOut = ({closeModal}) => {
           </Box>
         </Box>
       </Box>
+
+      <ReactToPrint
+        trigger={() => (
+          <GlobalCustomButton color="info">Print Invoice</GlobalCustomButton>
+        )}
+        content={() => printRef.current}
+      />
     </Box>
   );
 };

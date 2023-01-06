@@ -26,6 +26,7 @@ import ModalBox from "../../components/modal";
 // Demo styles, see 'Styles' section below for some notes on use.
 import ClientBilledPrescription from "./ClientPrescription";
 import {Box} from "@mui/material";
+import {FormsHeaderText} from "../../components/texts";
 
 export default function PharmacyBillPrescription() {
   //const {state}=useContext(ObjectContext) //,setState
@@ -49,16 +50,6 @@ export default function PharmacyBillPrescription() {
   const {user, setUser} = useContext(UserContext);
   const [createModal, setCreateModal] = useState(false);
 
-  /*  useEffect(() => {
-        const updatedOne= state.currentClients.filter(el=>(JSON.stringify(el.client_id)===JSON.stringify(state.DispenseModule.selectedDispense.client_id)))
-        console.log("udatedone", updatedOne)
-        console.log("state", state.currentClients)
-        handleRow(updatedOne)
-         return () => {
-             
-         }
-     }, []) */
-
   const handleOpenCreateModal = () => {
     setCreateModal(true);
   };
@@ -69,10 +60,6 @@ export default function PharmacyBillPrescription() {
 
   return (
     <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
-            </div> */}
-
       <BillPrescriptionList showCreateModal={handleOpenCreateModal} />
 
       <ModalBox
@@ -88,11 +75,14 @@ export default function PharmacyBillPrescription() {
             width: "90vw",
             maxHeight: "80vh",
           }}
+          gap={1}
         >
           <Box
             item
             sx={{
-              width: "330px",
+              width: "300px",
+              height: "100%",
+              overflowY: "scroll",
             }}
           >
             <PatientProfile />
@@ -101,7 +91,7 @@ export default function PharmacyBillPrescription() {
           <Box
             item
             sx={{
-              width: "calc(100% - 340px)",
+              width: "calc(100% - 300px)",
             }}
           >
             <BillPrescriptionCreate closeModal={handleCloseCreateModal} />
@@ -422,10 +412,10 @@ export function BillPrescriptionList({showCreateModal}) {
               style={{
                 marginLeft: "10px",
                 fontSize: "0.95rem",
-                marginRight: "5px",
+                marginRight: "7px",
               }}
             >
-              Pending Prescription
+              Bill Orders Sent
             </h2>
 
             {selectedDispense && (

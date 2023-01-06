@@ -1,55 +1,55 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Route, useNavigate, Link, NavLink } from 'react-router-dom';
-import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
-import { useForm } from 'react-hook-form';
-import { Box, Grid, Button as MuiButton } from '@mui/material';
-import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
-import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
-import DatePicker from 'react-datepicker';
-import LocationSearch from '../helpers/LocationSearch';
-import EmployeeSearch from '../helpers/EmployeeSearch';
-import BillServiceCreate from '../Finance/BillServiceCreate';
-import 'react-datepicker/dist/react-datepicker.css';
-import { PageWrapper } from '../../ui/styled/styles';
-import { TableMenu } from '../../ui/styled/global';
-import FilterMenu from '../../components/utilities/FilterMenu';
-import Button from '../../components/buttons/Button';
-import CustomTable from '../../components/customtable';
-import Switch from '../../components/switch';
-import { BsFillGridFill, BsList } from 'react-icons/bs';
-import CalendarGrid from '../../components/calender';
-import ModalBox from '../../components/modal';
-import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
-import { McText } from './text';
-import Input from '../../components/inputs/basic/Input/index';
-import ToggleButton from '../../components/toggleButton';
-import RadioButton from '../../components/inputs/basic/Radio';
-import BasicDatePicker from '../../components/inputs/Date';
-import BasicDateTimePicker from '../../components/inputs/DateTime';
-import CustomSelect from '../../components/inputs/basic/Select';
-import Textarea from '../../components/inputs/basic/Textarea';
-import { MdCancel, MdAddCircle } from 'react-icons/md';
-import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
-import PatientProfile from '../Client/PatientProfile';
-import GlobalCustomButton from '../../components/buttons/CustomButton';
-import { color } from '@mui/system';
-import { FormsHeaderText } from '../../components/texts';
+import React, {useState, useContext, useEffect, useRef} from "react";
+import {Route, useNavigate, Link, NavLink} from "react-router-dom";
+import client from "../../feathers";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
+import {Box, Grid, Button as MuiButton} from "@mui/material";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
+import DatePicker from "react-datepicker";
+import LocationSearch from "../helpers/LocationSearch";
+import EmployeeSearch from "../helpers/EmployeeSearch";
+import BillServiceCreate from "../Finance/BillServiceCreate";
+import "react-datepicker/dist/react-datepicker.css";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import Switch from "../../components/switch";
+import {BsFillGridFill, BsList} from "react-icons/bs";
+import CalendarGrid from "../../components/calender";
+import ModalBox from "../../components/modal";
+import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
+import {McText} from "./text";
+import Input from "../../components/inputs/basic/Input/index";
+import ToggleButton from "../../components/toggleButton";
+import RadioButton from "../../components/inputs/basic/Radio";
+import BasicDatePicker from "../../components/inputs/Date";
+import BasicDateTimePicker from "../../components/inputs/DateTime";
+import CustomSelect from "../../components/inputs/basic/Select";
+import Textarea from "../../components/inputs/basic/Textarea";
+import {MdCancel, MdAddCircle} from "react-icons/md";
+import ModalHeader from "../Appointment/ui-components/Heading/modalHeader";
+import PatientProfile from "../Client/PatientProfile";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import {color} from "@mui/system";
+import {FormsHeaderText} from "../../components/texts";
 
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Claims({ standAlone }) {
-  const { state } = useContext(ObjectContext); //,setState
+export default function Claims({standAlone}) {
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
   const [showModal, setShowModal] = useState(false);
-  console.log('standAlone', standAlone);
+  console.log("standAlone", standAlone);
   return (
     <>
       <section className="section remPadTop">
@@ -80,39 +80,40 @@ export default function Claims({ standAlone }) {
   );
 }
 
-export function ClaimsCreate({ showModal, setShowModal }) {
-  const { state, setState } = useContext(ObjectContext);
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+export function ClaimsCreate({showModal, setShowModal}) {
+  const {state, setState} = useContext(ObjectContext);
+  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
   const [success2, setSuccess2] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [clientId, setClientId] = useState();
   const [locationId, setLocationId] = useState();
   const [practionerId, setPractionerId] = useState();
   const [type, setType] = useState();
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
-  const ClientServ = client.service('appointments');
+  const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   // const [appointment_reason,setAppointment_reason]= useState()
-  const [appointment_status, setAppointment_status] = useState('');
-  const [appointment_type, setAppointment_type] = useState('');
+  const [appointment_status, setAppointment_status] = useState("");
+  const [appointment_type, setAppointment_type] = useState("");
   const [billingModal, setBillingModal] = useState(false);
   const [showServiceModal, setShowServiceModal] = useState(false);
-  const [patient, setPatient] = useState('');
-  const [currentDate, setCurrentDate] = useState('');
+  const [patient, setPatient] = useState("");
+  const [currentDate, setCurrentDate] = useState("");
   const [chosen, setChosen] = useState();
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
+  const [addedServices, setAddedServices] = useState([]);
 
-  const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
+  const appClass = ["On-site", "Teleconsultation", "Home Visit"];
 
   let appointee; //  =state.ClientModule.selectedClient
   /*  const getSearchfacility=(obj)=>{
@@ -121,15 +122,15 @@ export function ClaimsCreate({ showModal, setShowModal }) {
             shouldDirty: true
         })
     } */
-  const handleChangeType = async (e) => {
+  const handleChangeType = async e => {
     await setAppointment_type(e.target.value);
   };
 
-  const handleChangeStatus = async (e) => {
+  const handleChangeStatus = async e => {
     await setAppointment_status(e.target.value);
   };
 
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setClientId(obj._id);
     setChosen(obj);
     //handleRow(obj)
@@ -144,7 +145,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
             shouldDirty: true
         }) */
   };
-  const getSearchfacility1 = (obj) => {
+  const getSearchfacility1 = obj => {
     setLocationId(obj._id);
     setChosen1(obj);
 
@@ -154,7 +155,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
       setChosen1();
     }
   };
-  const getSearchfacility2 = (obj) => {
+  const getSearchfacility2 = obj => {
     setPractionerId(obj._id);
     setChosen2(obj);
 
@@ -173,15 +174,15 @@ export function ClaimsCreate({ showModal, setShowModal }) {
 
   const onSubmit = (data, e) => {
     e.preventDefault();
-    setMessage('');
+    setMessage("");
     setError(false);
     setSuccess(false);
     setShowModal(false),
-      setState((prevstate) => ({
+      setState(prevstate => ({
         ...prevstate,
         AppointmentModule: {
           selectedAppointment: {},
-          show: 'list',
+          show: "list",
         },
       }));
 
@@ -203,7 +204,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
     data.gender = chosen.gender;
     data.phone = chosen.phone;
     data.email = chosen.email;
-    data.practitioner_name = chosen2.firstname + ' ' + chosen2.lastname;
+    data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
     data.practitioner_profession = chosen2.profession;
     data.practitioner_department = chosen2.department;
     data.location_name = chosen1.name;
@@ -217,21 +218,21 @@ export function ClaimsCreate({ showModal, setShowModal }) {
     console.log(data);
 
     ClientServ.create(data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         e.target.reset();
-        setAppointment_type('');
-        setAppointment_status('');
-        setClientId('');
-        setLocationId('');
+        setAppointment_type("");
+        setAppointment_status("");
+        setClientId("");
+        setLocationId("");
         /*  setMessage("Created Client successfully") */
         setSuccess(true);
         setSuccess1(true);
         setSuccess2(true);
         toast({
           message:
-            'Appointment created succesfully, Kindly bill patient if required',
-          type: 'is-success',
+            "Appointment created succesfully, Kindly bill patient if required",
+          type: "is-success",
           dismissible: true,
           pauseOnHover: true,
         });
@@ -240,10 +241,10 @@ export function ClaimsCreate({ showModal, setShowModal }) {
         setSuccess2(false);
         // showBilling()
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
-          message: 'Error creating Appointment ' + err,
-          type: 'is-danger',
+          message: "Error creating Appointment " + err,
+          type: "is-danger",
           dismissible: true,
           pauseOnHover: true,
         });
@@ -263,7 +264,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
 
   const dummyData = [
     {
-      item: 'Today',
+      item: "Today",
       submittedQuantity: 1,
       submittedBill: 1000,
       payableQuantity: 1,
@@ -274,50 +275,50 @@ export function ClaimsCreate({ showModal, setShowModal }) {
 
   const serviceSchema = [
     {
-      name: 'S/N',
-      key: 'sn',
-      description: 'SN',
-      selector: (row) => row.sn,
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: row => row.sn,
       sortable: true,
-      inputType: 'HIDDEN',
+      inputType: "HIDDEN",
     },
     {
-      name: 'item',
-      key: 'item',
-      description: 'Item',
-      selector: (row) => row.item,
+      name: "item",
+      key: "item",
+      description: "Item",
+      selector: row => row.item,
       sortable: true,
-      inputType: 'TEXT',
+      inputType: "TEXT",
     },
     {
-      name: 'QTY',
-      key: 'submittedQuantity',
-      description: 'Submitted QTY',
-      selector: (row) => row.submittedQuantity,
+      name: "QTY",
+      key: "submittedQuantity",
+      description: "Submitted QTY",
+      selector: row => row.submittedQuantity,
       sortable: true,
-      inputType: 'TEXT',
+      inputType: "TEXT",
     },
     {
-      name: 'Unit Price',
-      key: 'submittedBill',
-      description: 'Unit Price',
-      selector: (row) => row.submittedBill,
+      name: "Unit Price",
+      key: "submittedBill",
+      description: "Unit Price",
+      selector: row => row.submittedBill,
       sortable: true,
-      inputType: 'TEXT',
+      inputType: "TEXT",
     },
     {
-      name: 'Total Amount',
-      key: 'payableBill',
-      description: 'Payable Bill',
-      selector: (row) => row.payableBill,
+      name: "Total Amount",
+      key: "payableBill",
+      description: "Payable Bill",
+      selector: row => row.payableBill,
       sortable: true,
-      inputType: 'TEXT',
+      inputType: "TEXT",
     },
   ];
   const CustomSelectData = [
     {
-      label: 'Today',
-      value: 'today',
+      label: "Today",
+      value: "today",
     },
   ];
 
@@ -325,15 +326,15 @@ export function ClaimsCreate({ showModal, setShowModal }) {
     <>
       <div
         style={{
-          height: 'calc(100vh - 90px)',
-          overflow: 'auto',
-          margin: '0 1rem',
+          height: "calc(100vh - 90px)",
+          overflow: "auto",
+          margin: "0 1rem",
         }}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <ModalHeader text={'Claims'} />
+              <ModalHeader text={"Claims"} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <Box display="flex" justifyContent="flex-end">
@@ -354,15 +355,15 @@ export function ClaimsCreate({ showModal, setShowModal }) {
                 title="Patient"
                 options={[
                   {
-                    label: 'Out Patient',
-                    value: 'Out Patient',
+                    label: "Out Patient",
+                    value: "Out Patient",
                   },
                   {
-                    label: 'In Patient',
-                    value: 'In Patient',
+                    label: "In Patient",
+                    value: "In Patient",
                   },
                 ]}
-                onChange={(e) => setPatient(e.target.value)}
+                onChange={e => setPatient(e.target.value)}
               />
             </Grid>
           </Grid>
@@ -371,7 +372,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
             <Grid item xs={12} sm={6}>
               <Input name="patientName" label="Search Beneficiary" />
             </Grid>
-            {patient === 'In Patient' && (
+            {patient === "In Patient" && (
               <Grid item xs={12} sm={6}>
                 <BasicDatePicker
                   name="addmissionDate"
@@ -379,7 +380,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
                 />
               </Grid>
             )}
-            {patient === 'In Patient' && (
+            {patient === "In Patient" && (
               <Grid item xs={12} sm={6}>
                 <BasicDatePicker
                   name="dischargeDate"
@@ -411,7 +412,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
-              <FormsHeaderText text={'Clinic Information'} />
+              <FormsHeaderText text={"Clinic Information"} />
             </Grid>
           </Grid>
 
@@ -420,7 +421,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
               <Textarea
                 name="diagnosis"
                 label="Diagnosis"
-                register={register('diagnosis')}
+                register={register("diagnosis")}
                 rows={2}
               />
             </Grid>
@@ -450,7 +451,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
               <Textarea
                 name="investigation"
                 label="Investigation"
-                register={register('investigation')}
+                register={register("investigation")}
                 rows={2}
               />
             </Grid>
@@ -479,11 +480,11 @@ export function ClaimsCreate({ showModal, setShowModal }) {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <McText
-                txt={'Treatment'}
-                color={'#0064CC'}
-                type={'p'}
-                bold={'700'}
-                size={'18px'}
+                txt={"Treatment"}
+                color={"#0064CC"}
+                type={"p"}
+                bold={"700"}
+                size={"18px"}
               />
             </Grid>
           </Grid>
@@ -493,7 +494,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
               <Textarea
                 name="drugs"
                 label="Drugs"
-                register={register('drugs')}
+                register={register("drugs")}
                 rows={3}
               />
             </Grid>
@@ -523,7 +524,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
               <Textarea
                 name="therapy"
                 label="Therapy"
-                register={register('therapy')}
+                register={register("therapy")}
                 rows={2}
               />
             </Grid>
@@ -550,19 +551,19 @@ export function ClaimsCreate({ showModal, setShowModal }) {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <Box
-                sx={{ display: 'flex', justifyContent: 'space-between' }}
+                sx={{display: "flex", justifyContent: "space-between"}}
                 my={1}
               >
-                <FormsHeaderText text={'Services / Products'} />
+                <FormsHeaderText text={"Services / Products"} />
                 <GlobalCustomButton
                   onClick={() => setShowServiceModal(true)}
                   color="secondary"
                   text="Add Service"
-                  customStyles={{ marginRight: '.8rem' }}
+                  customStyles={{marginRight: ".8rem"}}
                 />
               </Box>
               <CustomTable
-                title={''}
+                title={""}
                 columns={serviceSchema}
                 data={dummyData}
                 pointerOnHover
@@ -584,90 +585,126 @@ export function ClaimsCreate({ showModal, setShowModal }) {
         <ModalBox
           open={showServiceModal}
           onClose={() => setShowServiceModal(false)}
-          header="Add Service / Product"
+          header="Add New Service / Product"
         >
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <Input name="service" label="Service Name" />
+          <Box sx={{width: "70vw"}}>
+            <Box
+              mb={2}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <FormsHeaderText text="Enter Service/Product" />
+              <GlobalCustomButton color="success">
+                <AddCircleOutline fontSize="small" sx={{marginRight: "3px"}} />
+                Add Service
+              </GlobalCustomButton>
+            </Box>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6} lg={6}>
+                <Input
+                  name="service"
+                  label="Service Name"
+                  register={register("service", {required: true})}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={6} lg={3}>
+                <Input name="quantity" label="Quantity" type="number" />
+              </Grid>
+
+              <Grid item xs={12} md={6} lg={3}>
+                <Input name="unitPrice" label="Amount" type="text" />
+              </Grid>
+
+              <Grid item xs={12} md={12}>
+                <Textarea label="Comments" name="comments" />
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={6}>
-              <Input name="quantity" label="Quantity" type="number" />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Input name="unitPrice" label="Amount" type="text" />
-            </Grid>
-            <Grid item xs={12} md={12}>
-              <Textarea label="Comments" name="comments" />
-            </Grid>
-            <Grid item xs={12} md={12}>
-              <GlobalCustomButton text="Add Service" color="success" />
-            </Grid>
-          </Grid>
+
+            <Box>
+              <Box>
+                <FormsHeaderText text="Services/Products List" />
+              </Box>
+              <CustomTable
+                title={""}
+                columns={serviceSchema}
+                data={addedServices}
+                pointerOnHover
+                highlightOnHover
+                striped
+                CustomEmptyData="You have not entered any Service/Product"
+                //conditionalRowStyles={conditionalRowStyles}
+              />
+            </Box>
+          </Box>
         </ModalBox>
       )}
     </>
   );
 }
 
-export function ClaimsList({ showModal, setShowModal, standAlone }) {
+export function ClaimsList({showModal, setShowModal, standAlone}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState('');
-  const ClientServ = client.service('appointments');
+  const [message, setMessage] = useState("");
+  const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
-  const [value, setValue] = useState('list');
+  const [value, setValue] = useState("list");
   const navigate = useNavigate();
 
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: 'create',
+      show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
     //console.log(state)
     const newClient = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
     setShowModal(true);
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     setShowModal(true);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
-      show: 'detail',
+      show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
-    navigate('/app/managed-care/claims-details');
+    navigate("/app/managed-care/claims-details");
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = (val) => {
-    const field = 'firstname';
+  const handleSearch = val => {
+    const field = "firstname";
     //  console.log(val)
 
     let query = {
@@ -675,73 +712,73 @@ export function ClaimsList({ showModal, setShowModal, standAlone }) {
         {
           firstname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           lastname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           middlename: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           phone: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_status: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_reason: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_department: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_profession: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
       ],
@@ -751,20 +788,20 @@ export function ClaimsList({ showModal, setShowModal, standAlone }) {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== 'Front Desk') {
+    if (state.employeeLocation.locationType !== "Front Desk") {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({ query: query })
-      .then((res) => {
+    ClientServ.find({query: query})
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(' Client  fetched successfully');
+        setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
-        setMessage('Error fetching Client, probable network issues ' + err);
+        setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
       });
   };
@@ -784,7 +821,7 @@ export function ClaimsList({ showModal, setShowModal, standAlone }) {
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find({ query: stuff });
+      const findClient = await ClientServ.find({query: stuff});
 
       await setFacilities(findClient.data);
       console.log(findClient.data);
@@ -816,15 +853,15 @@ export function ClaimsList({ showModal, setShowModal, standAlone }) {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on('created', (obj) => handleCalendarClose());
-    ClientServ.on('updated', (obj) => handleCalendarClose());
-    ClientServ.on('patched', (obj) => handleCalendarClose());
-    ClientServ.on('removed', (obj) => handleCalendarClose());
+    ClientServ.on("created", obj => handleCalendarClose());
+    ClientServ.on("updated", obj => handleCalendarClose());
+    ClientServ.on("patched", obj => handleCalendarClose());
+    ClientServ.on("removed", obj => handleCalendarClose());
     const newClient = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setState(prevstate => ({...prevstate, ClientModule: newClient}));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -844,12 +881,12 @@ export function ClaimsList({ showModal, setShowModal, standAlone }) {
     //   query.locationId = state.employeeLocation.locationId;
     // }
 
-    const findClient = await ClientServ.find({ query: query });
+    const findClient = await ClientServ.find({query: query});
 
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setStartDate(date);
   };
 
@@ -870,8 +907,8 @@ export function ClaimsList({ showModal, setShowModal, standAlone }) {
     let mapped = [];
     facilities.map((facility, i) => {
       mapped.push({
-        title: facility?.firstname + ' ' + facility?.lastname,
-        start: format(new Date(facility?.start_time), 'yyyy-MM-ddTHH:mm'),
+        title: facility?.firstname + " " + facility?.lastname,
+        start: format(new Date(facility?.start_time), "yyyy-MM-ddTHH:mm"),
         end: facility?.end_time,
         id: i,
       });
@@ -879,103 +916,99 @@ export function ClaimsList({ showModal, setShowModal, standAlone }) {
     return mapped;
   };
   const activeStyle = {
-    backgroundColor: '#0064CC29',
-    border: 'none',
-    padding: '0 .8rem',
+    backgroundColor: "#0064CC29",
+    border: "none",
+    padding: "0 .8rem",
   };
 
   const dummyData = [
     {
-      healthcare_Plan: 'Formal sector plan',
-      hospital_name: 'Creek Hospital',
-      bill: 'N100,000.00',
-      date: '27-10-21',
-      status: 'Approved',
-      reason: 'Lorem ipsum dolor ...',
+      healthcare_Plan: "Formal sector plan",
+      hospital_name: "Creek Hospital",
+      bill: "N100,000.00",
+      date: "27-10-21",
+      status: "Approved",
+      reason: "Lorem ipsum dolor ...",
     },
     {
-      healthcare_Plan: 'Formal sector plan',
-      hospital_name: 'Creek Hospital',
-      bill: 'N100,000.00',
-      date: '27-10-21',
-      status: 'Approved',
-      reason: 'Lorem ipsum dolor ...',
+      healthcare_Plan: "Formal sector plan",
+      hospital_name: "Creek Hospital",
+      bill: "N100,000.00",
+      date: "27-10-21",
+      status: "Approved",
+      reason: "Lorem ipsum dolor ...",
     },
     {
-      healthcare_Plan: 'Formal sector plan',
-      hospital_name: 'Creek Hospital',
-      bill: 'N100,000.00',
-      date: '27-10-21',
-      status: 'Approved',
-      reason: 'Lorem ipsum dolor ...',
+      healthcare_Plan: "Formal sector plan",
+      hospital_name: "Creek Hospital",
+      bill: "N100,000.00",
+      date: "27-10-21",
+      status: "Approved",
+      reason: "Lorem ipsum dolor ...",
     },
     {
-      healthcare_Plan: 'Formal sector plan',
-      hospital_name: 'Creek Hospital',
-      bill: 'N100,000.00',
-      date: '27-10-21',
-      status: 'Approved',
-      reason: 'Lorem ipsum dolor ...',
+      healthcare_Plan: "Formal sector plan",
+      hospital_name: "Creek Hospital",
+      bill: "N100,000.00",
+      date: "27-10-21",
+      status: "Approved",
+      reason: "Lorem ipsum dolor ...",
     },
     {
-      healthcare_Plan: 'Formal sector plan',
-      hospital_name: 'Creek Hospital',
-      bill: 'N100,000.00',
-      date: '27-10-21',
-      status: 'Approved',
-      reason: 'Lorem ipsum dolor ...',
+      healthcare_Plan: "Formal sector plan",
+      hospital_name: "Creek Hospital",
+      bill: "N100,000.00",
+      date: "27-10-21",
+      status: "Approved",
+      reason: "Lorem ipsum dolor ...",
     },
     {
-      healthcare_Plan: 'Formal sector plan',
-      hospital_name: 'Creek Hospital',
-      bill: 'N100,000.00',
-      date: '27-10-21',
-      status: 'Approved',
-      reason: 'Lorem ipsum dolor ...',
+      healthcare_Plan: "Formal sector plan",
+      hospital_name: "Creek Hospital",
+      bill: "N100,000.00",
+      date: "27-10-21",
+      status: "Approved",
+      reason: "Lorem ipsum dolor ...",
     },
     {
-      healthcare_Plan: 'Formal sector plan',
-      hospital_name: 'Creek Hospital',
-      bill: 'N100,000.00',
-      date: '27-10-21',
-      status: 'Approved',
-      reason: 'Lorem ipsum dolor ...',
+      healthcare_Plan: "Formal sector plan",
+      hospital_name: "Creek Hospital",
+      bill: "N100,000.00",
+      date: "27-10-21",
+      status: "Approved",
+      reason: "Lorem ipsum dolor ...",
     },
     {
-      healthcare_Plan: 'Formal sector plan',
-      hospital_name: 'Creek Hospital',
-      bill: 'N100,000.00',
-      date: '27-10-21',
-      status: 'Approved',
-      reason: 'Lorem ipsum dolor ...',
+      healthcare_Plan: "Formal sector plan",
+      hospital_name: "Creek Hospital",
+      bill: "N100,000.00",
+      date: "27-10-21",
+      status: "Approved",
+      reason: "Lorem ipsum dolor ...",
     },
     {
-      healthcare_Plan: 'Formal sector plan',
-      hospital_name: 'Creek Hospital',
-      bill: 'N100,000.00',
-      date: '27-10-21',
-      status: 'Approved',
-      reason: 'Lorem ipsum dolor ...',
+      healthcare_Plan: "Formal sector plan",
+      hospital_name: "Creek Hospital",
+      bill: "N100,000.00",
+      date: "27-10-21",
+      status: "Approved",
+      reason: "Lorem ipsum dolor ...",
     },
   ];
 
-  const returnCell = (status) => {
-    // if (status === "approved") {
-    //   return <span style={{color: "green"}}>{status}</span>;
-    // }
-    // else if
+  const returnCell = status => {
     switch (status.toLowerCase()) {
-      case 'approved':
-        return <span style={{ color: '#17935C' }}>{status}</span>;
+      case "approved":
+        return <span style={{color: "#17935C"}}>{status}</span>;
 
-      case 'ongoing':
-        return <span style={{ color: '#0364FF' }}>{status}</span>;
+      case "ongoing":
+        return <span style={{color: "#0364FF"}}>{status}</span>;
 
-      case 'declined':
-        return <span style={{ color: '#ED0423' }}>{status}</span>;
+      case "declined":
+        return <span style={{color: "#ED0423"}}>{status}</span>;
 
-      case 'pending':
-        return <span style={{ color: '#EF9645' }}>{status}</span>;
+      case "pending":
+        return <span style={{color: "#EF9645"}}>{status}</span>;
 
       default:
         break;
@@ -984,50 +1017,50 @@ export function ClaimsList({ showModal, setShowModal, standAlone }) {
 
   const preAuthSchema = [
     {
-      name: 'Plan',
-      key: 'healthcare plan',
-      description: 'Enter name of Healthcare Plan',
-      selector: (row) => row.healthcare_Plan,
+      name: "Plan",
+      key: "healthcare plan",
+      description: "Enter name of Healthcare Plan",
+      selector: row => row.healthcare_Plan,
       sortable: true,
       required: true,
-      inputType: 'HIDDEN',
+      inputType: "HIDDEN",
     },
     {
-      name: 'Hospital Name',
-      key: 'hospital name',
-      description: 'Enter Hospital Name',
-      selector: (row) => row.hospital_name,
+      name: "Hospital Name",
+      key: "hospital name",
+      description: "Enter Hospital Name",
+      selector: row => row.hospital_name,
       sortable: true,
       required: true,
-      inputType: 'TEXT',
+      inputType: "TEXT",
     },
     {
-      name: 'Bill For Month',
-      key: 'bills',
-      description: 'Enter bills',
-      selector: (row) => row.bill,
+      name: "Bill For Month",
+      key: "bills",
+      description: "Enter bills",
+      selector: row => row.bill,
       sortable: true,
       required: true,
-      inputType: 'TEXT',
+      inputType: "TEXT",
     },
     {
-      name: 'Date',
-      key: 'date',
-      description: 'Enter Date',
+      name: "Date",
+      key: "date",
+      description: "Enter Date",
       selector: (row, i) => row.date,
       sortable: true,
       required: true,
-      inputType: 'HIDDEN',
+      inputType: "HIDDEN",
     },
     {
-      name: ' Status',
-      key: ' status',
-      description: 'Enter  Status',
-      selector: (row) => row.status,
-      cell: (row) => returnCell(row.status),
+      name: " Status",
+      key: " status",
+      description: "Enter  Status",
+      selector: row => row.status,
+      cell: row => returnCell(row.status),
       sortable: true,
       required: true,
-      inputType: 'TEXT',
+      inputType: "TEXT",
     },
     // {
     //   name: "Status",
@@ -1040,51 +1073,51 @@ export function ClaimsList({ showModal, setShowModal, standAlone }) {
     //   inputType: "TEXT",
     // },
     {
-      name: 'Reason',
-      key: 'reason',
-      description: 'Enter for Request',
-      selector: (row) => row.reason,
+      name: "Reason",
+      key: "reason",
+      description: "Enter for Request",
+      selector: row => row.reason,
       sortable: true,
       required: true,
-      inputType: 'TEXT',
+      inputType: "TEXT",
     },
   ];
 
   const conditionalRowStyles = [
     {
-      when: (row) => row.status === 'approved',
+      when: row => row.status === "approved",
       style: {
-        color: 'red',
-        '&:hover': {
-          cursor: 'pointer',
+        color: "red",
+        "&:hover": {
+          cursor: "pointer",
         },
       },
     },
     {
-      when: (row) => row.status === 'ongoing',
+      when: row => row.status === "ongoing",
       style: {
-        color: 'rgba(0,0,0,.54)',
-        '&:hover': {
-          cursor: 'pointer',
+        color: "rgba(0,0,0,.54)",
+        "&:hover": {
+          cursor: "pointer",
         },
       },
     },
     {
-      when: (row) => row.status === 'pending',
+      when: row => row.status === "pending",
       style: {
-        color: 'pink',
-        '&:hover': {
-          cursor: 'pointer',
+        color: "pink",
+        "&:hover": {
+          cursor: "pointer",
         },
       },
     },
     {
-      when: (row) => row.status === 'declined',
+      when: row => row.status === "declined",
       style: {
-        color: 'purple',
-        backgroundColor: 'green',
-        '&:hover': {
-          cursor: 'pointer',
+        color: "purple",
+        backgroundColor: "green",
+        "&:hover": {
+          cursor: "pointer",
         },
       },
     },
@@ -1098,16 +1131,16 @@ export function ClaimsList({ showModal, setShowModal, standAlone }) {
             <>
               <div className="level">
                 <PageWrapper
-                  style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
+                  style={{flexDirection: "column", padding: "0.6rem 1rem"}}
                 >
                   <TableMenu>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div style={{display: "flex", alignItems: "center"}}>
                       {handleSearch && (
                         <div className="inner-table">
                           <FilterMenu onSearch={handleSearch} />
                         </div>
                       )}
-                      <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
+                      <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
                         Claim
                       </h2>
                     </div>
@@ -1122,9 +1155,9 @@ export function ClaimsList({ showModal, setShowModal, standAlone }) {
                     </Box>
                   </TableMenu>
 
-                  {value === 'list' ? (
+                  {value === "list" ? (
                     <CustomTable
-                      title={''}
+                      title={""}
                       columns={preAuthSchema}
                       data={dummyData}
                       pointerOnHover
@@ -1143,7 +1176,7 @@ export function ClaimsList({ showModal, setShowModal, standAlone }) {
           ) : (
             <>
               <CustomTable
-                title={''}
+                title={""}
                 columns={preAuthSchema}
                 data={dummyData}
                 pointerOnHover
@@ -1162,224 +1195,3 @@ export function ClaimsList({ showModal, setShowModal, standAlone }) {
     </>
   );
 }
-// export function ClaimsDetails() {
-//   const [deny, setDeny] = useState(false);
-//   const [approve, setApprove] = useState(false);
-//   return (
-//     <>
-//       <div
-//         className="card"
-//         style={{
-//           height: '50vh',
-//           overflowY: 'scroll',
-//           width: '40vw',
-//           margin: '0 auto',
-//         }}
-//       >
-//         <ModalHeader text={'Claim Details - 13322BA'} />
-//         <McText txt={'Patient Details'} />
-//         <div style={{ backgroundColor: '#EBEBEB' }}>
-//           <Grid container spacing={2} mt={1} px={2}>
-//             <Grid item xs={12} style={{ width: 'fit-content' }}>
-//               <div style={{ display: 'flex', alignItems: 'center' }}>
-//                 <div
-//                   style={{
-//                     maxWidth: '100px',
-//                     height: '100px',
-//                   }}
-//                 >
-//                   <img
-//                     src="/img_avatar.png"
-//                     alt="avatar"
-//                     style={{
-//                       width: '100%',
-//                       height: '100%',
-//                     }}
-//                   />
-//                 </div>
-//                 <div style={{ marginLeft: '10px' }}>
-//                   <p style={{ fontWeight: 'bold', margin: 0 }}>Tejiri Tabor</p>
-//                   <p style={{ fontWeight: 'bold', margin: 0 }}>
-//                     +2348123456789
-//                   </p>
-//                 </div>
-//               </div>
-//             </Grid>
-//           </Grid>
-//           <Grid container spacing={2} mt={1} px={2}>
-//             <Grid item xs={4}>
-//               <p style={{ fontWeight: 'bold' }}>DOB: 23/06/2022</p>
-//             </Grid>
-//             <Grid item xs={4}>
-//               <p style={{ fontWeight: 'bold' }}>Age: 52</p>
-//             </Grid>
-//             <Grid item xs={4}>
-//               <p style={{ fontWeight: 'bold' }}>Gender: Male</p>
-//             </Grid>
-//           </Grid>
-//           <Grid container spacing={2} px={2}>
-//             <Grid item xs={6}>
-//               <p style={{ fontWeight: 'bold' }}>
-//                 Hospital Name: Lagos State Clinic{' '}
-//               </p>
-//             </Grid>
-//             <Grid item xs={6}>
-//               <p style={{ fontWeight: 'bold' }}>
-//                 Health Plan: Former sector plan
-//               </p>
-//             </Grid>
-//           </Grid>
-//           <Grid container spacing={2} px={2}>
-//             <Grid item xs={6}>
-//               <p style={{ fontWeight: 'bold' }}>
-//                 Date of Admission: 23/06/2022
-//               </p>
-//             </Grid>
-//             <Grid item xs={6}>
-//               <p style={{ fontWeight: 'bold' }}>
-//                 Date of Discharge: 23/06/2022
-//               </p>
-//             </Grid>
-//           </Grid>
-//           <Grid container spacing={2} px={2}>
-//             <Grid item xs={6}>
-//               <p style={{ fontWeight: 'bold' }}>Capitation: Filed</p>
-//             </Grid>
-//             <Grid item xs={6}>
-//               <p style={{ fontWeight: 'bold' }}>Fee of Service: Filed</p>
-//             </Grid>
-//           </Grid>
-//         </div>
-//         <div
-//           style={{
-//             marginTop: '10px',
-//             border: '1px solid #8F8F8F',
-//             padding: '1rem',
-//           }}
-//         >
-//           <p>Request Sent 08/05/2022 9:45pm</p>
-//           <McText txt={'Clinical Information'} />
-//           <Grid container spacing={2} mb={1}>
-//             <Grid item xs={12}>
-//               <p style={{ fontWeight: 'bold' }}>Presenting Complaints:</p>
-//               <p>
-//                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-//                 eiusmod tempor incididunt
-//               </p>
-//             </Grid>
-//           </Grid>
-
-//           <McText txt={'Clinical Findings'} />
-//           <Grid container spacing={2} mb={1}>
-//             <Grid item xs={12}>
-//               <p style={{ fontWeight: 'bold' }}>Examination Findings:</p>
-//               <p>
-//                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-//                 eiusmod tempor incididunt
-//               </p>
-
-//               <p style={{ fontWeight: 'bold' }}>Diagonsis:</p>
-//               <p>
-//                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-//                 eiusmod tempor incididunt
-//               </p>
-//               <p style={{ fontWeight: 'bold' }}>Investigations:</p>
-//               <p>
-//                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-//                 eiusmod tempor incididunt
-//               </p>
-//             </Grid>
-//           </Grid>
-
-//           <McText txt={'Amount'} />
-//           <Grid container spacing={2}>
-//             <Grid item xs={4}>
-//               <Input label={'Amount'} />
-//             </Grid>
-//           </Grid>
-//           <Grid container spacing={2}>
-//             <Grid item xs={12}>
-//               <p style={{ fontWeight: 'bold' }}>Reason for Request:</p>
-//               <p>
-//                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-//                 eiusmod tempor incididunt
-//               </p>
-//             </Grid>
-//           </Grid>
-//           <Grid container spacing={2}>
-//             <Grid item xs={12}>
-//               <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
-//               <p>Dr. John Doe</p>
-//               <p>Lagos State Hospital</p>
-//             </Grid>
-//           </Grid>
-//         </div>
-//         <div style={{ display: 'flex', marginTop: '1rem' }}>
-//           <Button onClick={() => setApprove(true)}>Approve</Button>
-//           <Button>On Hold</Button>
-//           <Button onClick={() => setDeny(true)}>Reject</Button>
-//         </div>
-//       </div>
-//       {approve && (
-//         <>
-//           <ModalBox open={approve} onClose={() => setApprove(false)}>
-//             <form>
-//               <ModalHeader text={`Approve Claim  13229-BA`} />
-
-//               <Grid container spacing={2}>
-//                 <Grid item xs={12}>
-//                   <Input label={'Name of Referral'} />
-//                 </Grid>
-//               </Grid>
-//               <Grid container spacing={2}>
-//                 <Grid item xs={12}>
-//                   <Input label={'Institution'} />
-//                 </Grid>
-//               </Grid>
-//               <Grid container spacing={2}>
-//                 <Grid item xs={12}>
-//                   <Input label={'Reason'} />
-//                 </Grid>
-//               </Grid>
-//               <Grid container spacing={2}>
-//                 <Grid item xs={12}>
-//                   <Button>OK</Button>
-//                 </Grid>
-//               </Grid>
-//             </form>
-//           </ModalBox>
-//         </>
-//       )}
-//       {deny && (
-//         <>
-//           <ModalBox open={deny} onClose={() => setDeny(false)}>
-//             <form>
-//               <ModalHeader text={`Deny Claim  13229-BA`} />
-
-//               <Grid container spacing={2}>
-//                 <Grid item xs={12}>
-//                   <Input label={'Name of Referral'} />
-//                 </Grid>
-//               </Grid>
-//               <Grid container spacing={2}>
-//                 <Grid item xs={12}>
-//                   <Input label={'Institution'} />
-//                 </Grid>
-//               </Grid>
-//               <Grid container spacing={2}>
-//                 <Grid item xs={12}>
-//                   <Input label={'Reason'} />
-//                 </Grid>
-//               </Grid>
-//               <Grid container spacing={2}>
-//                 <Grid item xs={12}>
-//                   <Button>OK</Button>
-//                 </Grid>
-//               </Grid>
-//             </form>
-//           </ModalBox>
-//         </>
-//       )}
-//     </>
-//   );
-// }

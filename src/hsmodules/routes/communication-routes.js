@@ -37,4 +37,8 @@ export const communicationRoutes = [
     path: "/app/communication/dashboard",
     Component: DummyComponent,
   },
+  {
+    path: "/app/communication/chats",
+    Component: DummyComponent,
+  },
 ];
