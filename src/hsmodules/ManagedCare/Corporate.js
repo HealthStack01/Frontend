@@ -30,7 +30,7 @@ import GlobalCustomButton from '../../components/buttons/CustomButton';
 import Policy from './Policy';
 import Beneficiary from './Beneficiary';
 import Claims from './Claims';
-import PremiumPayment from './PremiumPayment';
+import PremiumPayment from './Premium';
 import ChatInterface from '../../components/chat/ChatInterface';
 import CRMTasks from '../CRM/Tasks';
 import VideoConference from '../utils/VideoConference';
