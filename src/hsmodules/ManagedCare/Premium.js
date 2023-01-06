@@ -22,6 +22,7 @@ import SystemUpdateAltIcon from "@mui/icons-material/SystemUpdateAlt";
 import { Stack } from '@mui/system';
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import { PageCustomerDetail } from '../CRM/components/global/CustomerDetail';
+// import Plans from '../CRM/Plans';
 
 export default function Premium({isTab}) {
   const [currentView, setCurrentView] = useState("lists");
@@ -312,12 +313,8 @@ export function PremiumList({showDetailView, isTab}) {
 export function PremiumDetails({handleGoBack}){
   const [edit, setEdit] = useState(false);
   const {register,control} = useForm();
+  const [plans, setPlans] = useState([]);
 
-  const premiumState = [
-    {
-
-    }
-  ]
 
  return (
   <Box
@@ -408,25 +405,109 @@ export function PremiumDetails({handleGoBack}){
         </Grid>
    </Grid>     
    </Grid>  
-{/* 
-  <Grid item xs={12}>
-    <Box sx={{display: "flex", justifyContent: "space-between"}}>
-      <FormsHeaderText text="Premium Staus" />
-    </Box>
-    <Box sx={{zIndex: "999999"}}>
-      <CustomTable
-        title={""}
-        columns={dummyData}
-        data={statusHistory}
-        pointerOnHover
-        highlightOnHover
-        striped
-        onRowClicked={handleRow}
-        progressPending={false}
-        CustomEmptyData={"No Status History for this invoice yet..."}
-      />
-    </Box>
-  </Grid> */}
+   <Grid item lg={12} md={12} sm={12}>
+            <Box mb={2} sx={{display: "flex", justifyContent: "space-between"}}>
+              <FormsHeaderText text="Invoice Information" />
+
+              <Box sx={{display: "flex"}} gap={2}>
+                {edit ? (
+                  <>
+                    <GlobalCustomButton
+                      onClick={() => setEdit(false)}
+                      color="warning"
+                    >
+                      {/* <EditIcon fontSize="small" sx={{marginRight: "3px"}} /> */}
+                      Cancel
+                    </GlobalCustomButton>
+
+                    <GlobalCustomButton
+                      // onClick={handleSubmit(handleUpdateInvoiceDetail)}
+                      color="success"
+                    >
+                      <SystemUpdateAltIcon
+                        fontSize="small"
+                        sx={{marginRight: "3px"}}
+                      />
+                      Update
+                    </GlobalCustomButton>
+                  </>
+                ) : (
+                  <GlobalCustomButton onClick={() => setEdit(true)}>
+                    <EditIcon fontSize="small" sx={{marginRight: "3px"}} /> Edit
+                  </GlobalCustomButton>
+                )}
+              </Box>
+            </Box>
+
+            <Grid container spacing={1} mb={1.5}>
+              <Grid item lg={2} md={3} sm={4}>
+                <MuiCustomDatePicker
+                  label="Date"
+                  value={moment(moment.now()).format("L")}
+                  disabled={true}
+                  name="date"
+                  control={control}
+                />
+              </Grid>
+              <Grid item lg={2} md={3} sm={4}>
+                <Input
+                  label="Invoice Number"
+                  register={register("invoice_number", {required: true})}
+                  disabled={true}
+                />
+              </Grid>
+              <Grid item lg={2} md={3} sm={4}>
+                <Input
+                  label="Total Amount"
+                  register={register("total_amount", {required: true})}
+                  disabled={true}
+                />
+              </Grid>
+
+              <Grid item lg={2} md={3} sm={4}>
+                <CustomSelect
+                  label="Payment Mode"
+                  options={["Cash", "Cheque", "Transfer"]}
+                  control={control}
+                  name="payment_mode"
+                  disabled={!edit}
+                />
+              </Grid>
+
+              <Grid item lg={2} md={3} sm={4}>
+                <CustomSelect
+                  label="Payment Option"
+                  options={["Annually", "Bi-Annually", "Quarterly"]}
+                  control={control}
+                  name="payment_option"
+                  disabled={!edit}
+                />
+              </Grid>
+
+              <Grid item lg={2} md={3} sm={4}>
+                <CustomSelect
+                  label="Subscribtion Category"
+                  options={["New", "Renewal", "Additional"]}
+                  control={control}
+                  name="subscription_category"
+                  disabled={!edit}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Box sx={{display: "flex", justifyContent: "space-between"}}>
+              <FormsHeaderText text="Invoice Plans List" />
+
+              <GlobalCustomButton onClick={() => setPlanCreateModal(true)}>
+                <AddCircleOutline fontSize="small" sx={{marginRight: "3px"}} />
+                Add New Plan
+              </GlobalCustomButton>
+            </Box>
+            {/* <Plans  /> */}
+          </Grid>
+
 </Grid>
 </Box>
  )

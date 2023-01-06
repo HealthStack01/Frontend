@@ -35,7 +35,7 @@ import {
   SponsorSearch,
 } from '../helpers/FacilitySearch';
 import Claims from './Claims';
-import PremiumPayment from './PremiumPayment';
+import Premium from './Premium';
 import Provider, { OrganizationCreate } from './Providers';
 import {
   EnrolleSchema,
@@ -2532,7 +2532,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
           )}
 
           {display === 5 && <Claims standAlone />}
-          {display === 6 && <PremiumPayment />}
+          {display === 6 && <Premium />}
         </Box>
       </div>
     </>
