@@ -280,7 +280,7 @@ export function OrgFacilitySearch({ getSearchfacility, clear }) {
                     
                  }, */
             $search: value,
-            relationshiptype: 'managedcare',
+            // relationshiptype: 'managedcare',
             facility: user.currentEmployee.facilityDetail._id,
             $limit: 100,
             $sort: {

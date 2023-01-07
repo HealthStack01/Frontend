@@ -148,7 +148,8 @@ export default function SearchSelect({
     }
   };
 
-  const handleAddproduct = (val) => {
+  const handleAddproduct = () => {
+    console.log('VAL', val);
     setProductModal(true);
     setShowPanel(false);
     notfound({

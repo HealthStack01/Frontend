@@ -1658,6 +1658,7 @@ export function ClientDetail({ showModal, setShowModal }) {
     marginRight: theme.spacing(6.25),
     borderRadius: theme.shape.borderRadius,
   }));
+  console.log('client', Client);
   return (
     <>
       <div
@@ -1704,10 +1705,10 @@ export function ClientDetail({ showModal, setShowModal }) {
             </Button>
             <Button
               onClick={() => setDisplay(5)}
-              variant="outlined"
+              variant="contained"
               size="small"
               sx={{ textTransform: 'capitalize', marginRight: '10px' }}
-              color="info"
+              color="success"
             >
               Policy
             </Button>
@@ -1731,7 +1732,7 @@ export function ClientDetail({ showModal, setShowModal }) {
             </Button>
             <Button
               onClick={() => setDisplay(4)}
-              variant="outlined"
+              variant="contained"
               size="small"
               sx={{ textTransform: 'capitalize', marginRight: '10px' }}
             >
@@ -1884,7 +1885,7 @@ export function ClientDetail({ showModal, setShowModal }) {
         {display === 2 && <Claims />}
         {display === 3 && <GeneralAppointments />}
         {display === 4 && <HealthPlan />}
-        {display === 5 && <Policy />}
+        {display === 5 && <Policy standAlone={Client?._id} />}
 
         {/* {finacialInfoModal && (
           <>
