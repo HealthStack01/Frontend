@@ -108,7 +108,7 @@ const CustomSelect: React.FC<SelectProps> = ({
               </MenuItem> */}
               {options.map((option, index) => (
                 <MenuItem
-                  value={option.value || option.name || option.toLowerCase()}
+                  value={option.value || option.name || option}
                   key={index}
                   sx={{width: "100%"}}
                 >
@@ -143,6 +143,9 @@ const CustomSelect: React.FC<SelectProps> = ({
         }}
       >
         {label}
+        {important && (
+          <AcUnitIcon sx={{color: "red", width: "16px", height: "16px"}} />
+        )}
       </InputLabel>
       <Select
         labelId="demo-simple-select-label"
@@ -171,7 +174,7 @@ const CustomSelect: React.FC<SelectProps> = ({
         </MenuItem> */}
         {options.map((option, index) => (
           <MenuItem
-            value={option.value || option.name || option.toLowerCase()}
+            value={option.value || option.name || option}
             key={index}
             sx={{width: "100%"}}
           >

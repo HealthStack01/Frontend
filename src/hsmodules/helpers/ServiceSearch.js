@@ -226,16 +226,22 @@ export default function ServiceSearch({getSearchfacility, clear, mode, label}) {
         size="small"
         value={simpa}
         //loading={loading}
-        onChange={(event, newValue) => {
-          if (typeof newValue === "string") {
-            // timeout to avoid instant validation of the dialog's form.
-            setTimeout(() => {
-              handleAddproduct();
-            });
-          } else if (newValue && newValue.inputValue) {
-            handleAddproduct();
+        onChange={(event, newValue, reason) => {
+          if (reason === "clear") {
+            setSimpa("");
+            //setSimpa("");
+            return;
           } else {
-            handleRow(newValue);
+            if (typeof newValue === "string") {
+              // timeout to avoid instant validation of the dialog's form.
+              setTimeout(() => {
+                handleAddproduct();
+              });
+            } else if (newValue && newValue.inputValue) {
+              handleAddproduct();
+            } else {
+              handleRow(newValue);
+            }
           }
         }}
         filterOptions={(options, params) => {

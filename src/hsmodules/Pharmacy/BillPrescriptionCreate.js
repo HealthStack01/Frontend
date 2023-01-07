@@ -1115,9 +1115,15 @@ export function InventorySearch({getSearchfacility, clear, label}) {
       <Autocomplete
         size="small"
         value={simpa}
-        onChange={(event, newValue) => {
-          handleRow(newValue);
-          setSimpa("");
+        onChange={(event, newValue, reason) => {
+          if (reason === "clear") {
+            setSimpa("");
+            //setSimpa("");
+            return;
+          } else {
+            handleRow(newValue);
+            setSimpa("");
+          }
         }}
         id="free-solo-dialog-demo"
         options={facilities}

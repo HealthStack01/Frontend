@@ -660,7 +660,7 @@ export function InventoryList({showcreateModal, openDetailModal}) {
   useEffect(() => {
     rest();
     return () => {};
-  }, [state.StoreModule.selectedStore]);
+  }, [state.InventoryModule.selectedInventory]);
 
   useEffect(() => {
     console.log(page);
