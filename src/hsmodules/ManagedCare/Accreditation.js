@@ -347,6 +347,7 @@ export function AccreditationList({
       {user ? (
         <>
           <div className="level">
+            <FormsHeaderText text={'Accreditation'} />
             <PageWrapper
               style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
             >
@@ -360,22 +361,24 @@ export function AccreditationList({
                 </div>
 
                 <div>
-                  <MuiButton
-                    variant="contained"
-                    sx={{
-                      widh: 'fit',
-                      textTransform: 'capitalize',
-                      fontSize: '14px',
-                      fontWeight: '600',
-                    }}
-                    onClick={handleCreateNew}
-                  >
-                    <AddCircleOutlineIcon
-                      sx={{ marginRight: '5px' }}
-                      fontSize="small"
-                    />
-                    Create Accreditation
-                  </MuiButton>
+                  {standAlone && (
+                    <MuiButton
+                      variant="contained"
+                      sx={{
+                        widh: 'fit',
+                        textTransform: 'capitalize',
+                        fontSize: '14px',
+                        fontWeight: '600',
+                      }}
+                      onClick={handleCreateNew}
+                    >
+                      <AddCircleOutlineIcon
+                        sx={{ marginRight: '5px' }}
+                        fontSize="small"
+                      />
+                      Create Accreditation
+                    </MuiButton>
+                  )}
                 </div>
               </TableMenu>
               <CustomTable
@@ -1993,7 +1996,7 @@ export function NewOrganizationView({ showModal, setShowModal, selectedAccr }) {
       specialistEndoScore: specialist?.specialistEndoScore,
       specialistDermScore: specialist?.specialistDermScore,
       specialistPhysioScore: specialist?.specialistPhysioScore,
-      assessmentName: assessment?.assessmentName,
+      assessmentName: selectedAccr?.assessmentName,
       observation: assessment?.observation,
       observername: assessment?.observerName,
       observerdesignation: assessment?.observerDesignation,
@@ -2557,7 +2560,7 @@ export function NewOrganizationView({ showModal, setShowModal, selectedAccr }) {
               <FormsHeaderText text={'PERSONAL DATA'} />
               <Box display="flex" mt={1}>
                 <GlobalCustomButton
-                  text={'Cancel'}
+                  text={'Back'}
                   onClick={() => setShowModal(0)}
                   color="warning"
                   customStyles={{ marginRight: '.8rem' }}
@@ -3021,7 +3024,7 @@ export function NewOrganizationView({ showModal, setShowModal, selectedAccr }) {
           <>
             <div
               style={{
-                height: '80vh',
+                height: '85vh',
                 overflowY: 'scroll',
                 width: '100%',
                 margin: '0 auto',
@@ -3176,13 +3179,13 @@ export function NewOrganizationView({ showModal, setShowModal, selectedAccr }) {
                 />
                 <label>Self</label>
               </Box> */}
-              {/* <GlobalCustomButton
-                text={'Cancel'}
+              <GlobalCustomButton
+                text={'Close'}
                 onClick={() => setShowModal(0)}
                 color={'error'}
-                customStyles={{ marginRight: '.8rem' }}
+                customStyles={{ marginRight: '.8rem', marginTop: '1rem' }}
               />
-              <GlobalCustomButton
+              {/* <GlobalCustomButton
                 type={'submit'}
                 text={'Submit'}
                 onClick={handleSubmit(handleClick)}

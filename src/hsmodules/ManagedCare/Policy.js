@@ -115,6 +115,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
+  const [display, setDisplay] = useState('approve');
 
   const handleCreateNew = async () => {
     const newClientModule = {
@@ -201,7 +202,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
           { gender: val },
         ],
 
-        'relatedfacilities.facility': user.currentEmployee.facilityDetail._id, // || "",
+        organizationId: user.currentEmployee.facilityDetail._id, // || "",
         $limit: limit,
         $sort: {
           createdAt: -1,
@@ -310,7 +311,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       name: 'Date Created',
       key: 'createdAt',
       description: 'Date Created',
-      selector: (row) => moment(row.date).format('YYYY-MM-DD'),
+      selector: (row) => moment(row.createdAt).format('YYYY-MM-DD'),
       sortable: true,
       required: true,
       inputType: 'DATE',
@@ -425,7 +426,17 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       inputType: 'TEXT',
     },
   ];
-  console.log(user);
+
+  const approvedFacilities = facilities.filter(
+    (facility) => facility.approved === true
+  );
+  const pendingFacilities = facilities.filter(
+    (facility) => facility.approved === false
+  );
+  const selectedpol = facilities.filter(
+    (item) => item?.principal._id === standAlone
+  );
+  console.log(user, 'ID', standAlone);
   return (
     <>
       <div className="level">
@@ -440,27 +451,49 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
                 </div>
               )}
               <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
-                List of Policies
+                List of {display === 'approve' ? 'Approved' : 'Pending'}{' '}
+                Policies
               </h2>
             </div>
-
-            {!standAlone && (
-              <Button
-                style={{
-                  fontSize: '14px',
-                  fontWeight: '600',
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+              }}
+            >
+              <GlobalCustomButton
+                text={
+                  display === 'approve'
+                    ? 'Pending Policies'
+                    : 'Approved Policies'
+                }
+                onClick={() =>
+                  setDisplay(display === 'approve' ? 'pending' : 'approve')
+                }
+                customStyles={{
+                  marginRight: '10px',
                 }}
-                color="primary"
-                variant="contained"
-                size="small"
-                sx={{ textTransform: 'capitalize' }}
-                onClick={handleCreateNew}
-                showicon={true}
-              >
-                {' '}
-                Add New
-              </Button>
-            )}
+                color={display === 'approve' ? 'warning' : 'success'}
+              />
+              {!standAlone && (
+                <Button
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: '600',
+                  }}
+                  color="primary"
+                  variant="contained"
+                  size="small"
+                  sx={{ textTransform: 'capitalize' }}
+                  onClick={handleCreateNew}
+                  showicon={true}
+                >
+                  {' '}
+                  Add New
+                </Button>
+              )}
+            </Box>
           </TableMenu>
           <div
             className="level"
@@ -472,12 +505,23 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
             <CustomTable
               title={''}
               columns={PolicySchema}
-              data={facilities}
+              data={
+                display === 'approve' && standAlone
+                  ? selectedpol
+                  : display === 'approve'
+                  ? approvedFacilities
+                  : pendingFacilities
+              }
               pointerOnHover
               highlightOnHover
               striped
               onRowClicked={handleRow}
               progressPending={loading}
+              CustomEmptyData={
+                display === 'approve'
+                  ? 'No Approved Policies'
+                  : 'No Pending Policies'
+              }
             />
           </div>
         </PageWrapper>
@@ -532,7 +576,14 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
   const [hmo, setHmo] = useState('');
 
   const getSearchfacility = async (obj) => {
-    if (obj) {
+    if (
+      // check if obj is an object
+      obj && // check if obj is not null
+      Object.keys(obj).length > 0 && // check if obj is not empty
+      obj.constructor === Object &&
+      // check if the obj is already present in the array
+      !chosen.some((el) => el._id === obj._id)
+    ) {
       await setChosen([...chosen, obj]);
       await console.log('OBJ', chosen);
     }
@@ -606,11 +657,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
     // 1 - individual, 2 - corporate, 3 - group
     // 1 - HMO, 2 - PPO, 3 - EPO
     const year = new Date().getFullYear().toString().slice(-2);
-    const planType =
-      (selectedPlan === 'Gold' && '1') ||
-      (selectedPlan === 'Silver' && '2') ||
-      (selectedPlan === 'Bronze' && '3') ||
-      (selectedPlan === 'Platinum' && '4');
+    const planType = selectedPlan?.charAt(0);
     const orgType = data?.sponsortype === 'Self' ? 1 : 2;
     const orgId = Math.floor(100000 + Math.random() * 900000);
     const familyCode =
@@ -635,10 +682,22 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
     if (confirm) {
       let policy = {
         policyNo: policyNo,
-        organizationType: hmo.facilityType,
-        organizationId: hmo._id,
-        organizationName: hmo.facilityName,
-        organization: hmo,
+        organizationType:
+          user.currentEmployee.facilityDetail.facilityType === 'HMO'
+            ? user.currentEmployee.facilityDetail.facilityType
+            : hmo.facilityType,
+        organizationId:
+          user.currentEmployee.facilityType === 'HMO'
+            ? user.currentEmployee.facilityDetail._id
+            : hmo._id,
+        organizationName:
+          user.currentEmployee.facilityType === 'HMO'
+            ? user.currentEmployee.facilityDetail.facilityName
+            : hmo.facilityName,
+        organization:
+          user.currentEmployee.facilityDetail.facilityType === 'HMO'
+            ? user.currentEmployee.facilityDetail
+            : hmo,
         principal: state.Beneficiary.principal, //
         dependantBeneficiaries: state.Beneficiary.dependent,
         providers: chosen,
@@ -650,6 +709,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
         premiumContract: price,
         active: false,
         isPaid: false,
+        approved: false,
         validitystarts: data.start_date,
         validityEnds: data.end_date,
       };
@@ -686,14 +746,13 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
   };
   const getBenfittingPlans = async () => {
     setBenefittingPlans1([]);
-    if (hmo) {
+    if (user.currentEmployee?.facilityDetail.facilityType === 'HMO') {
       const findServices = await ServicesServ.find({
         query: {
-          facility: hmo?._id,
-          'contracts.source_org': hmo?._id,
-          'contracts.dest_org': hmo?._id,
+          facility: user.currentEmployee.facilityDetail._id,
+          'contracts.source_org': user.currentEmployee.facilityDetail._id,
+          'contracts.dest_org': user.currentEmployee.facilityDetail._id,
           category: 'Managed Care',
-
           $sort: {
             category: 1,
           },
@@ -701,9 +760,30 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
       });
       console.log(findServices);
       if (findServices.total > 0) {
-        findServices.groupedOrder[0].services.forEach(async (c) => {
+        findServices?.groupedOrder[0]?.services?.forEach(async (c) => {
           const newPlan = {
-            name: c.name,
+            name: c?.name,
+          };
+          await setBenefittingPlans1((prev) => prev.concat(c));
+        });
+      }
+    } else if (hmo.length > 0) {
+      const findServices = await ServicesServ.find({
+        query: {
+          facility: hmo?._id,
+          'contracts.source_org': hmo?._id,
+          'contracts.dest_org': hmo?._id,
+          category: 'Managed Care',
+          $sort: {
+            category: 1,
+          },
+        },
+      });
+      console.log(findServices);
+      if (findServices.total > 0) {
+        findServices?.groupedOrder[0]?.services?.forEach(async (c) => {
+          const newPlan = {
+            name: c?.name,
           };
           await setBenefittingPlans1((prev) => prev.concat(c));
         });
@@ -1034,7 +1114,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
     // getFacility();
 
     return () => {};
-  }, [hmo]);
+  }, [hmo, user]);
 
   const OrgFacilitySchema = [
     {
@@ -1116,14 +1196,14 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
     },
   ];
 
-  console.log('==================', chosen, '=============', hmo);
+  console.log('==================', selectedPlan);
 
   return (
     <>
       <div
         className="card "
         style={{
-          height: 'auto',
+          height: '88vh',
           overflowY: 'scroll',
           width: '98%',
           margin: '0 1rem',
@@ -1188,12 +1268,14 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
                 />
               </Grid>
             )}
-            <Grid item md={6}>
-              <HmoFacilitySearch
-                getSearchfacility={getSearchHmo}
-                clear={success}
-              />
-            </Grid>
+            {user.currentEmployee.facilityDetail.facilityType !== 'HMO' && (
+              <Grid item md={6}>
+                <HmoFacilitySearch
+                  getSearchfacility={getSearchHmo}
+                  clear={success}
+                />
+              </Grid>
+            )}
             <Grid item md={6}>
               <CustomSelect
                 name="plan"
@@ -2146,7 +2228,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
       sponsor_address: Client.sponsor?.organizationDetail?.facilityAddress,
     };
     reset(initFormValue);
-  }, []);
+  }, [state.ManagedCareModule.selectedClient]);
 
   const handleFinancialInfo = () => {
     setFinacialInfoModal(true);
@@ -2233,7 +2315,8 @@ export function PolicyDetail({ showModal, setShowModal }) {
         setEditPolicy(false);
       })
       .catch((err) => {
-        toast.error('Error Approving Policy');
+        console.log(err);
+        toast.error('Error Approving Policy' + err);
         setEditPolicy(false);
       });
   };
@@ -2442,36 +2525,37 @@ export function PolicyDetail({ showModal, setShowModal }) {
                   <Grid container spacing={1}>
                     <Grid item lg={6} md={6} sm={6}>
                       <Input
-                        register={register('sponsor_name', { required: true })}
+                        register={register('sponsor_name')}
                         label="Sponsor Name"
-                        disabled={!editPolicy}
-                        //placeholder="Enter customer number"
-                      />
-                    </Grid>
-                    <Grid item lg={6} md={6} sm={6}>
-                      <Input
-                        register={register('sponsor_phone', { required: true })}
-                        label="Sponsor Phone"
-                        disabled={!editPolicy}
+                        disabled
 
                         //placeholder="Enter customer number"
                       />
                     </Grid>
                     <Grid item lg={6} md={6} sm={6}>
                       <Input
-                        register={register('sponsor_email', { required: true })}
+                        register={register('sponsor_phone')}
+                        label="Sponsor Phone"
+                        disabled
+
+                        //placeholder="Enter customer number"
+                      />
+                    </Grid>
+                    <Grid item lg={6} md={6} sm={6}>
+                      <Input
+                        register={register('sponsor_email')}
                         label="Sponsor Email"
-                        disabled={!editPolicy}
+                        disabled
+
                         //placeholder="Enter customer numbe"
                       />
                     </Grid>
                     <Grid item lg={6} md={6} sm={6}>
                       <Input
-                        register={register('sponsor_address', {
-                          required: true,
-                        })}
+                        register={register('sponsor_address')}
                         label="Sponsor Address"
-                        disabled={!editPolicy}
+                        disabled
+
                         //placeholder="Enter customer number"
                       />
                     </Grid>

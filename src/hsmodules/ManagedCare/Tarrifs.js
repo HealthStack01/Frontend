@@ -965,7 +965,7 @@ const TariffCreate = () => {
         {/* <CustomSelect label='Company Band' options={reformedBands} /> */}
 
         <Box>
-          <h2>Benefiting Plans</h2>
+          <h2>Benefitting Plans</h2>
           {benefittingPlans1.map((c, i) => (
             <>
               <div className="pb-2">
