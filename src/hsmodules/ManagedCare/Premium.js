@@ -47,8 +47,6 @@ export default function Premium({isTab}) {
   );
 }
 
-
-
 export function PremiumList({showDetailView, isTab}) {
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState('list');
@@ -309,6 +307,7 @@ export function PremiumList({showDetailView, isTab}) {
     </>
   );
 }
+
 
 export function PremiumDetails({handleGoBack}){
   const [edit, setEdit] = useState(false);
