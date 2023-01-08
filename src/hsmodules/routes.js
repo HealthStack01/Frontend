@@ -87,16 +87,10 @@ import CommunicationDashboard from "./dashBoardUiComponent/@modules/Communicatio
 import ImmunizationDashboardComponent from "./dashBoardUiComponent/@modules/ImmunizationDashboard";
 import BloodbankDashboard from "./dashBoardUiComponent/@modules/BloodbankDashboard";
 
-<<<<<<< HEAD
 import WalletOTP from './PouchiiWallet/walletOtp';
 import DetailComplaint from './Complaints/DetailComplaints';
 import { marketPlaceRoutes } from './routes/marketPlace';
 // import RemitaWithPayment from './Finance/Remita/RemitaWithPayment';
-=======
-import WalletOTP from "./PouchiiWallet/walletOtp";
-import DetailComplaint from "./Complaints/DetailComplaints";
-import {marketPlaceRoutes} from "./routes/marketPlace";
->>>>>>> f113461f09c16b9f9a575fcf1ea3d907efd70062
 
 const moduleLocationTypes = {
   clinic: "Clinic",
