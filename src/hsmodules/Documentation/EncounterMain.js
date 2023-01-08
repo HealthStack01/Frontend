@@ -655,7 +655,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
                     height: "auto",
                     boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
                   }}
-                  key={Clinic._id}
+                  key={i}
                   id={i}
                 >
                   <Box

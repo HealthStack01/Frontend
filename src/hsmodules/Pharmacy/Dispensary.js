@@ -28,6 +28,7 @@ import {InventoryStoreSchema} from "./schema";
 import ModalBox from "../../components/modal";
 import {Button as MuiButton} from "@mui/material";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import {FormsHeaderText} from "../../components/texts";
 
 export default function Dispense() {
   //const {state}=useContext(ObjectContext) //,setState
@@ -301,6 +302,8 @@ export function DispenseList({openCreateModal}) {
   };
 
   const handleRow = async (client, e) => {
+    if (selectedClient && selectedClient.client_id === client.client_id)
+      return setSelectedClient(null);
     await setSelectedClient(client);
 
     setOldClient(client.clientname);
@@ -429,6 +432,9 @@ export function DispenseList({openCreateModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
     },
     {
       name: "Prescription(s)",
@@ -505,6 +511,19 @@ export function DispenseList({openCreateModal}) {
     },
   ];
 
+  const conditionalRowStyles = [
+    {
+      when: row => row.client_id === selectedClient?.client_id,
+      style: {
+        backgroundColor: "#4cc9f0",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
   return (
     <>
       <div
@@ -522,9 +541,12 @@ export function DispenseList({openCreateModal}) {
                 <FilterMenu onSearch={handleSearch} />
               </div>
             )}
-            <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-              List of Paid Prescriptions
+            <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
+              Paid Prescriptions
             </h2>
+            {selectedClient && (
+              <FormsHeaderText text={` - ${selectedClient.clientname}`} />
+            )}
           </div>
 
           {selectedOrders.length > 0 && (
@@ -567,6 +589,7 @@ export function DispenseList({openCreateModal}) {
               striped
               onRowClicked={handleRow}
               progressPending={loading}
+              conditionalRowStyles={conditionalRowStyles}
             />
           </div>
 
