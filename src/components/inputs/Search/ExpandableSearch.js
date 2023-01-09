@@ -8,7 +8,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 
 const SearchBox = styled(TextField)`
-  width: ${p => (p.isOpen ? "100%" : "3rem")};
+  width: ${p => (p.isOpen ? "100%" : "4rem")};
   transition: width 1s cubic-bezier(0, 0.795, 0, 1);
 `;
 
@@ -16,12 +16,13 @@ const Content = ({isOpen, onSearchFocus, onSearchBlur, onChange, value}) => (
   <Box>
     <SearchBox
       className="input"
-      placeholder="Search"
+      placeholder="search.."
       isOpen={isOpen}
       onFocus={onSearchFocus}
       onBlur={onSearchBlur}
       onChange={onChange}
       value={value}
+      type="text"
       size="small"
       sx={{
         backgroundColor: "#ffffff",

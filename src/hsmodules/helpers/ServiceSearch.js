@@ -258,6 +258,7 @@ export default function ServiceSearch({getSearchfacility, clear, mode, label}) {
         }}
         id="free-solo-dialog-demo"
         options={facilities}
+        noOptionsText={val !== "" ? `${val} Not Found` : "Type something"}
         getOptionLabel={option => {
           // e.g value selected with enter, right from the input
           if (typeof option === "string") {

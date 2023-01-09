@@ -39,7 +39,7 @@ const CustomLoader = () => (
       style={{width: "200px", height: "auto", display: "block"}}
     />
     <Typography sx={{marginTop: "-2rem"}}>
-      Hold on, we're fetching your data
+      Hold on, whilst we fetch your data...
     </Typography>
   </div>
 );

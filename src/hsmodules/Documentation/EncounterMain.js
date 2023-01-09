@@ -642,7 +642,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
             {facilities.map((Clinic, i) => (
               <>
                 <Box
-                  mb={3}
+                  mb={1}
                   sx={{
                     display: "flex",
                     flexDirection: "column",
@@ -662,7 +662,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
                     container
                     sx={{
                       width: "100%",
-                      minHeight: "50px",
+                      minHeight: "20px",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
@@ -684,9 +684,9 @@ export default function EncounterMain({nopresc, chosenClient}) {
                     >
                       <span
                         style={{
-                          fontSize: "14px",
+                          fontSize: "0.75rem",
                           fontWeight: "500",
-                          lineHeight: "19.12px",
+                          //lineHeight: "19.12px",
                           color: "#000000",
                         }}
                       >
@@ -697,9 +697,9 @@ export default function EncounterMain({nopresc, chosenClient}) {
                       <span
                         style={{
                           color: "#2d2d2d",
-                          fontSize: "12px",
+                          fontSize: "0.7rem",
                           fontWeight: "400",
-                          lineHeight: "16.39px",
+                          // lineHeight: "16.39px",
                         }}
                       >
                         {format(
@@ -719,15 +719,15 @@ export default function EncounterMain({nopresc, chosenClient}) {
                         alignItems: "center",
                         justifyContent: "flex-start",
                       }}
-                      p={2}
+                      p={0.5}
                       onClick={() => setSelectedClinic(Clinic)}
                     >
                       <Typography
                         mr={0.5}
                         sx={{
-                          fontSize: "14px",
+                          fontSize: "0.75rem",
                           fontWeight: "400",
-                          lineHeight: "19.12px",
+                          // lineHeight: "19.12px",
                           color: "#000000",
                         }}
                       >
@@ -735,9 +735,9 @@ export default function EncounterMain({nopresc, chosenClient}) {
                         {Clinic.location},{Clinic.facilityname} -{" "}
                         <Typography
                           sx={{
-                            fontSize: "14px",
+                            fontSize: "0.75rem",
                             fontWeight: "400",
-                            lineHeight: "19.12px",
+                            //lineHeight: "19.12px",
                             ///color: "orange",
                             color: `${
                               Clinic.status === "completed" ? "green" : "orange"
