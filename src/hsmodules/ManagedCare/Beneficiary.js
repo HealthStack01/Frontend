@@ -1488,7 +1488,8 @@ export function ClientList({ showModal, setShowModal }) {
       name: 'Age',
       key: 'dob',
       description: 'Age',
-      selector: (row) => row.dob,
+      selector: (row) =>
+        row.dob ? formatDistanceToNowStrict(new Date(row?.dob)) : '',
       sortable: true,
       required: true,
       inputType: 'TEXT',

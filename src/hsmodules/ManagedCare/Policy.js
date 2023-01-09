@@ -1828,7 +1828,7 @@ export function ClientCreate({ closeModal }) {
                         onBlur={checkClient}
                         options={[
                           { label: 'Male', value: 'Male' },
-                          { label: 'Female', value: 'Memale' },
+                          { label: 'Female', value: 'Female' },
                         ]}
                         errorText={errors?.gender?.message}
                       />
