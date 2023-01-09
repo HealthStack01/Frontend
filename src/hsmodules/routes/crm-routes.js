@@ -11,6 +11,8 @@ const Deals = lazy(() => import("../CRM/Deals"));
 const CrmDashboard = lazy(() =>
   import("../dashBoardUiComponent/@modules/CrmDashboard")
 );
+const CRMTemplates = lazy(() => import("../CRM/Templates"));
+//import CRMTemplates from "../CRM/Templates";
 
 export const crmRoutes = [
   {
@@ -40,6 +42,10 @@ export const crmRoutes = [
   {
     path: "/app/crm/deal",
     Component: Deals,
+  },
+  {
+    path: "/app/crm/templates",
+    Component: CRMTemplates,
   },
 
   {

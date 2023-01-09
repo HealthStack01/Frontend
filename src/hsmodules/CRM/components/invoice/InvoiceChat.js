@@ -1,281 +1,161 @@
-import {useState, useRef, useEffect} from "react";
-import {Avatar, Box, Button, IconButton, Typography} from "@mui/material";
-import Slide from "@mui/material/Slide";
-import SendIcon from "@mui/icons-material/Send";
-import {ThreeCircles} from "react-loader-spinner";
+import {useState, useContext, useCallback, useEffect} from "react";
+import {Box} from "@mui/system";
+import {v4 as uuidv4} from "uuid";
 
-import "./styles.scss";
+import ChatInterface from "../../../../components/chat/ChatInterface";
+import {ObjectContext, UserContext} from "../../../../context";
+import dayjs from "dayjs";
+import client from "../../../../feathers";
 import moment from "moment";
+import {toast} from "react-toastify";
 
-import {messages} from "./data";
-
-const InvoiceChat = () => {
-  const [chatMessages, setChatMessages] = useState([...messages]);
+const InvoiceChat = ({closeChat}) => {
+  const dealServer = client.service("deal");
+  const {state, setState} = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const [sendingMsg, setSendingMsg] = useState(false);
   const [message, setMessage] = useState("");
-  const [sending, setSending] = useState(false);
+  const [messages, setMessages] = useState([]);
+  //const [prevM]
 
-  const messagesContainerRef = useRef(null);
-  const chatBoxContainerRef = useRef(null);
+  const getChatMessages = useCallback(async () => {
+    const id = state.DealModule.selectedDeal._id;
+    const invoiceId = state.InvoiceModule.selectedInvoice._id;
 
-  const handleChange = e => {
-    setMessage(e.target.value);
-  };
+    await dealServer
+      .get(id)
+      .then(resp => {
+        const invoices = resp.invoices || [];
+        const selectedInvoice = invoices.find(item => item._id === invoiceId);
 
-  const sendNewChatMessage = () => {
-    if (message === "") return;
-
-    setSending(true);
-
-    setTimeout(() => {
-      const newChatMessage = {
-        name: "Healthstack",
-        time: moment.now(),
-        _id: `${Math.random()}`,
-        userId: "00",
-        message: message,
-        status: "delivered",
-        dp: "https://marketplace.canva.com/EAFEits4-uw/1/0/1600w/canva-boy-cartoon-gamer-animated-twitch-profile-photo-oEqs2yqaL8s.jpg",
-      };
-
-      setChatMessages(prev => [...prev, newChatMessage]);
-      setMessage("");
-      setSending(false);
-    }, 1000);
-  };
-
-  const scrollToBottom = () => {
-    messagesContainerRef.current?.scrollIntoView({behavior: "smooth"});
-  };
+        setMessages(selectedInvoice.chat || []);
+      })
+      .catch(err => {
+        //toast.error("There was an error getting messages for this chat");
+        console.log(err);
+      });
+  }, [state.DealModule]);
 
   useEffect(() => {
-    //scroll to bottom everytime new chat message is added
-    scrollToBottom();
-  }, [chatMessages]);
+    getChatMessages();
 
-  const messageStatus = status => {
-    switch (status.toLowerCase()) {
-      case "delivered":
-        return (
-          <Typography style={{color: "#17935C", fontSize: "0.75rem"}}>
-            {status}
-          </Typography>
-        );
+    dealServer.on("created", obj => getChatMessages());
+    dealServer.on("updated", obj => getChatMessages());
+    dealServer.on("patched", obj => getChatMessages());
+    dealServer.on("removed", obj => getChatMessages());
+  }, [getChatMessages]);
 
-      case "seen":
-        return (
-          <Typography style={{color: "#FFA500", fontSize: "0.75rem"}}>
-            {status}
-          </Typography>
-        );
+  const sendNewChatMessage = async () => {
+    setSendingMsg(true);
+    const employee = user.currentEmployee;
+    const currentDeal = state.DealModule.selectedDeal;
+    const currentInvoice = state.InvoiceModule.selectedInvoice;
 
-      case "failed":
-        return (
-          <Typography style={{color: "#ED0423", fontSize: "0.75rem"}}>
-            {status}
-          </Typography>
-        );
+    const messageDoc = {
+      message: message,
+      time: moment(),
+      _id: uuidv4(),
+      seen: [],
+      status: "delivered",
+      //senderId: "000",
+      senderId: employee.userId,
+      dp: "",
+      sender: `${employee.firstname} ${employee.lastname}`,
+      type: "text",
+      dealId: currentDeal._id,
+      invoiceId: currentInvoice._id,
+    };
 
-      default:
-        break;
-    }
+    const newChat = [...messages, messageDoc];
+
+    const updatedCurrentInvoice = {
+      ...currentInvoice,
+      chat: newChat,
+    };
+
+    const prevInvoices = currentDeal.invoices;
+
+    const newInvoices = prevInvoices.map(item => {
+      if (item._id === updatedCurrentInvoice._id) {
+        return updatedCurrentInvoice;
+      } else {
+        return item;
+      }
+    });
+
+    const documentId = currentDeal._id;
+
+    await dealServer
+      .patch(documentId, {invoices: newInvoices})
+      .then(res => {
+        setMessage("");
+        setSendingMsg(false);
+        //toast.success("Message sent");
+      })
+      .catch(err => {
+        toast.error("Message failed");
+        setSendingMsg(false);
+      });
   };
 
-  const formatChatMessages = [];
+  const handleResendMessage = messageObj => {};
+
+  const updateMessageAsSeen = async message => {
+    // return;
+    // console.log(message);
+    const userId = user.currentEmployee.userId;
+    const currentDeal = state.DealModule.selectedDeal;
+    const documentId = currentDeal._id;
+    const currentInvoice = state.InvoiceModule.selectedInvoice;
+
+    const updatedMsg = {...message, seen: [userId, ...message.seen]};
+
+    const updatedChat = messages.map(item => {
+      if (item._id === updatedMsg._id) {
+        return updatedMsg;
+      } else {
+        return item;
+      }
+    });
+
+    const updatedCurrentInvoice = {
+      ...currentInvoice,
+      chat: updatedChat,
+    };
+
+    const prevInvoices = currentDeal.invoices;
+
+    const newInvoices = prevInvoices.map(item => {
+      if (item._id === updatedCurrentInvoice._id) {
+        return updatedCurrentInvoice;
+      } else {
+        return item;
+      }
+    });
+
+    await dealServer
+      .patch(documentId, {invoices: newInvoices})
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   return (
-    <Box
-      sx={{
-        width: "500px",
-        height: "80vh",
-        overflow: "hidden",
-      }}
-    >
-      {/* <Box
-        sx={{
-          height: "50px",
-        }}
-      ></Box> */}
-
-      <Box
-        sx={{
-          width: "100%",
-          height: "calc(100% - 60px)",
-          overflowY: "scroll",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: "10px 15px",
-        }}
-        ref={chatBoxContainerRef}
-      >
-        {chatMessages.map(messageItem => {
-          const {message, _id, userId, time, name, status, dp} = messageItem;
-          const currentUser = "00";
-          const isUserMsg = currentUser === userId;
-          return (
-            <Slide
-              direction="right"
-              in={true}
-              container={chatBoxContainerRef.current}
-            >
-              <Box
-                key={_id}
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: isUserMsg ? "flex-end" : "flex-start",
-                }}
-              >
-                {!isUserMsg && (
-                  <Avatar
-                    src={dp}
-                    sx={{width: "40px", height: "40px", marginRight: "7px"}}
-                  />
-                )}
-                <Box
-                  sx={{
-                    width: "calc(100% - 50px)",
-                    padding: "10px",
-                    boxShadow: 3,
-                    borderRadius: "7.5px",
-                    backgroundColor: isUserMsg ? "#ffffff" : "#0064CC",
-                  }}
-                  mb={2}
-                >
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                    mb={0.7}
-                  >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 0.7,
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontSize: "0.9rem",
-                          color: isUserMsg ? "#0064CC" : "#ffffff",
-                          fontWeight: "600",
-                        }}
-                      >
-                        {name}
-                      </Typography>
-                    </Box>
-                    <Typography
-                      sx={{
-                        fontSize: "0.85rem",
-                        color: isUserMsg ? "#2d2d2d" : "#ffffff",
-                      }}
-                    >
-                      {moment(time).calendar()}
-                    </Typography>
-                  </Box>
-
-                  <Box
-                    sx={{
-                      position: "relative",
-                      width: "100%",
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        fontSize: "0.85rem",
-                        color: isUserMsg ? "#000000" : "#ffffff",
-                      }}
-                    >
-                      {message} <div style={{width: "50px"}} />
-                    </Typography>
-
-                    <Box
-                      sx={{
-                        width: "100%",
-                        //position: "absolute",
-                        right: 0,
-                        bottom: "0px",
-                        display: "flex",
-                        justifyContent: "flex-end",
-                      }}
-                    >
-                      {isUserMsg && messageStatus(status)}
-                    </Box>
-                  </Box>
-                </Box>
-                {isUserMsg && (
-                  <Avatar
-                    src={dp}
-                    sx={{width: "40px", height: "40px", marginLeft: "7px"}}
-                  />
-                )}
-              </Box>
-            </Slide>
-          );
-        })}
-        <div ref={messagesContainerRef} />
-      </Box>
-
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          height: "60px",
-          padding: "0 15px",
-        }}
-      >
-        <Box
-          sx={{
-            width: "calc(100% - 50px)",
-          }}
-        >
-          <input
-            type="text"
-            className="chat-input-box"
-            placeholder="Enter your message..."
-            tabIndex="0"
-            value={message}
-            onChange={handleChange}
-          />
-        </Box>
-
-        <Button
-          onClick={sendNewChatMessage}
-          variant="contained"
-          sx={{
-            padding: 0,
-            minWidth: 0,
-            width: "40px",
-            height: "40px",
-            borderRadius: "50%",
-          }}
-        >
-          {sending ? <ThreeCirclesSpinner /> : <SendIcon />}
-        </Button>
-      </Box>
+    <Box sx={{width: "100%", height: "100%"}}>
+      <ChatInterface
+        closeChat={closeChat}
+        sendMessage={sendNewChatMessage}
+        messages={messages}
+        message={message}
+        setMessage={setMessage}
+        isSendingMessage={sendingMsg}
+        markMsgAsSeen={updateMessageAsSeen}
+      />
     </Box>
   );
 };
 
 export default InvoiceChat;
-
-const ThreeCirclesSpinner = () => {
-  return (
-    <ThreeCircles
-      height="25"
-      width="25"
-      color="#ffffff"
-      wrapperStyle={{}}
-      wrapperClass=""
-      visible={true}
-      ariaLabel="three-circles-rotating"
-      outerCircleColor=""
-      innerCircleColor=""
-      middleCircleColor=""
-    />
-  );
-};

@@ -226,16 +226,22 @@ export default function ServiceSearch({getSearchfacility, clear, mode, label}) {
         size="small"
         value={simpa}
         //loading={loading}
-        onChange={(event, newValue) => {
-          if (typeof newValue === "string") {
-            // timeout to avoid instant validation of the dialog's form.
-            setTimeout(() => {
-              handleAddproduct();
-            });
-          } else if (newValue && newValue.inputValue) {
-            handleAddproduct();
+        onChange={(event, newValue, reason) => {
+          if (reason === "clear") {
+            setSimpa("");
+            //setSimpa("");
+            return;
           } else {
-            handleRow(newValue);
+            if (typeof newValue === "string") {
+              // timeout to avoid instant validation of the dialog's form.
+              setTimeout(() => {
+                handleAddproduct();
+              });
+            } else if (newValue && newValue.inputValue) {
+              handleAddproduct();
+            } else {
+              handleRow(newValue);
+            }
           }
         }}
         filterOptions={(options, params) => {
@@ -252,6 +258,7 @@ export default function ServiceSearch({getSearchfacility, clear, mode, label}) {
         }}
         id="free-solo-dialog-demo"
         options={facilities}
+        noOptionsText={val !== "" ? `${val} Not Found` : "Type something"}
         getOptionLabel={option => {
           // e.g value selected with enter, right from the input
           if (typeof option === "string") {

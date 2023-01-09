@@ -15,6 +15,8 @@ import {Box, Card, Grow} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
 
+const filter = createFilterOptions();
+
 const useOnClickOutside = (ref, handler) => {
   useEffect(() => {
     const listener = event => {
@@ -139,6 +141,7 @@ export default function CategorySearch({
       categoryname: val,
     };
     //console.log(obj);
+    setSimpa(val);
     handleRow(obj);
 
     // setProductModal(true)
@@ -164,11 +167,27 @@ export default function CategorySearch({
       <Autocomplete
         size="small"
         value={simpa}
+        // onChange={(event, newValue, reason) => {
+        //   if (reason === "clear") {
+        //     setSimpa("");
+        //   } else {
+        //     handleRow(newValue);
+        //   }
+        // }}
         onChange={(event, newValue, reason) => {
           if (reason === "clear") {
             setSimpa("");
           } else {
-            handleRow(newValue);
+            if (typeof newValue === "string") {
+              // timeout to avoid instant validation of the dialog's form.
+              setTimeout(() => {
+                handleAddproduct();
+              });
+            } else if (newValue && newValue.inputValue) {
+              handleAddproduct();
+            } else {
+              handleRow(newValue);
+            }
           }
         }}
         id="free-solo-dialog-demo"
@@ -193,12 +212,23 @@ export default function CategorySearch({
             handleSearch(newInputValue);
           }
         }}
+        filterOptions={(options, params) => {
+          const filtered = filter(options, params);
+
+          if (params.inputValue !== "") {
+            filtered.push({
+              inputValue: params.inputValue,
+              categoryname: `Use "${params.inputValue}" as category name"`,
+            });
+          }
+
+          return filtered;
+        }}
         inputValue={val}
-        //isOptionEqualToValue={(option, value) => option.id === value.id}
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys
-        noOptionsText={val !== "" ? `${val} Not Found` : "Type something"}
+        // noOptionsText={val !== "" ? `${val} Not Found` : "Type something"}
         renderOption={(props, option) => (
           <li {...props} style={{fontSize: "0.75rem"}}>
             {option.categoryname}

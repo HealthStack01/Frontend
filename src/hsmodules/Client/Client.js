@@ -610,7 +610,7 @@ export function ClientList({openCreateModal, openDetailModal}) {
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
   const {state, setState} = useContext(ObjectContext);
-  const [filterEndDate, setFilterEndDate] = useState(dayjs());
+  const [filterEndDate, setFilterEndDate] = useState(new Date());
   const containerScrollRef = useRef(null);
   // eslint-disable-next-line
   // const { user, setUser } = useContext(UserContext);
@@ -735,16 +735,22 @@ export function ClientList({openCreateModal, openDetailModal}) {
   };
 
   const getFacilities = async () => {
-    setState(prev => ({
-      ...prev,
-      actionLoader: {open: true},
-    }));
+    // setState(prev => ({
+    //   ...prev,
+    //   actionLoader: {open: true},
+    // }));
+    setLoading(true);
     if (user.currentEmployee) {
       const findClient = await ClientServ.find({
         query: {
           "relatedfacilities.facility": user.currentEmployee.facilityDetail._id,
           $limit: limit,
           $skip: page * limit,
+          // createdAt: filterEndDate,
+          // createdAt: {
+          //   $gt: subDays(filterEndDate, 1),
+          //   $lt: addDays(filterEndDate, 1),
+          // },
           $sort: {
             createdAt: -1,
           },
@@ -753,16 +759,18 @@ export function ClientList({openCreateModal, openDetailModal}) {
       if (page === 0) {
         //console.log(findClient.data);
         await setFacilities(findClient.data);
-        setState(prev => ({
-          ...prev,
-          actionLoader: {open: false},
-        }));
+        setLoading(false);
+        // setState(prev => ({
+        //   ...prev,
+        //   actionLoader: {open: false},
+        // }));
       } else {
         await setFacilities(prevstate => prevstate.concat(findClient.data));
-        setState(prev => ({
-          ...prev,
-          actionLoader: {open: false},
-        }));
+        // setState(prev => ({
+        //   ...prev,
+        //   actionLoader: {open: false},
+        // }));
+        setLoading(false);
       }
 
       await setTotal(findClient.total);
@@ -781,10 +789,11 @@ export function ClientList({openCreateModal, openDetailModal}) {
         });
 
         await setFacilities(findClient.data);
-        setState(prev => ({
-          ...prev,
-          actionLoader: {open: false},
-        }));
+        setLoading(false);
+        // setState(prev => ({
+        //   ...prev,
+        //   actionLoader: {open: false},
+        // }));
       }
     }
   };
@@ -810,7 +819,7 @@ export function ClientList({openCreateModal, openDetailModal}) {
 
     return () => {};
     // eslint-disable-next-line
-  }, []);
+  }, [filterEndDate]);
 
   const rest = async () => {
     // console.log("starting rest")

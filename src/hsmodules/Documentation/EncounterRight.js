@@ -55,6 +55,7 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+import VoiceTextArea from "../../components/inputs/basic/Textarea/VoiceInput";
 
 export default function EncounterRight() {
   const {state, setState} = useContext(ObjectContext);
@@ -267,12 +268,17 @@ export function VitalSignCreate() {
     }
   });
 
-  const onSubmit = (data, e) => {
+  useEffect(() => {
+    hideActionLoader();
+  }, []);
+
+  const onSubmit = formData => {
     //e.preventDefault();
-    showActionLoader();
+    // showActionLoader();
     setMessage("");
     setError(false);
     setSuccess(false);
+    let data = formData;
     let document = {};
     // data.createdby=user._id
     // console.log(data);
@@ -332,8 +338,6 @@ export function VitalSignCreate() {
       );
       return;
     }
-
-    //return console.log(document);
 
     if (!!draftDoc && draftDoc.status === "Draft") {
       //console.log(document);
@@ -1318,6 +1322,8 @@ export function DoctorsNoteCreate() {
   const [currentUser, setCurrentUser] = useState();
   const {state, setState} = useContext(ObjectContext);
   const [confirmDialog, setConfirmDialog] = useState(false);
+  const [voiceRecommendation, setVoiceRecommendation] = useState(false);
+  const [voiceDocumentation, setVoiceDocumentation] = useState(false);
 
   const [docStatus, setDocStatus] = useState("Draft");
 
@@ -1408,7 +1414,7 @@ export function DoctorsNoteCreate() {
       return;
     }
 
-    //return console.log(document);
+    return console.log(document);
 
     // let confirm = window.confirm(
     //   `You are about to save this document ${document.documentname} ?`
@@ -1476,35 +1482,6 @@ export function DoctorsNoteCreate() {
     }));
   };
 
-  const {
-    transcript,
-    listening,
-    resetTranscript,
-    browserSupportsSpeechRecognition,
-  } = useSpeechRecognition();
-
-  const [focusedInput, setFocusedInput] = useState("");
-
-  const handleOnBlur = () => {
-    console.log("input");
-  };
-
-  const handleOnFocus = () => {
-    console.log("focussed");
-  };
-
-  const handleStartRecording = event => {
-    const inputName = event.target.name;
-    setFocusedInput(inputName);
-    SpeechRecognition.startListening({continuous: true});
-  };
-
-  const handleStopRecording = () => {
-    //console.log("Recording has stopped");
-    SpeechRecognition.stopListening();
-    resetTranscript();
-  };
-
   return (
     <>
       <div className="card ">
@@ -1531,26 +1508,103 @@ export function DoctorsNoteCreate() {
         </Box>
         <div className="card-content vscrollable remPad1">
           <form>
-            <Box>
+            <Box mb={1}>
               <Input register={register("Title")} type="text" label="Title" />
             </Box>
 
-            <Box>
+            {/* <Box>
               <Textarea
                 register={register("Documentation")}
                 type="text"
                 label="Documentation"
                 placeholder="Write here......"
               />
+            </Box> */}
+
+            <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+                mb={1}
+              >
+                <FormsHeaderText text="Documentation" />
+
+                <Box>
+                  {voiceDocumentation ? (
+                    <GlobalCustomButton
+                      onClick={() => setVoiceDocumentation(false)}
+                    >
+                      Type
+                    </GlobalCustomButton>
+                  ) : (
+                    <GlobalCustomButton
+                      onClick={() => setVoiceDocumentation(true)}
+                    >
+                      Speech
+                    </GlobalCustomButton>
+                  )}
+                </Box>
+              </Box>
+
+              {voiceDocumentation ? (
+                <VoiceTextArea
+                  handleChange={value => setValue("Documentation", value)}
+                  placeholder="click start before talking...."
+                />
+              ) : (
+                <Textarea
+                  register={register("Documentation")}
+                  type="text"
+                  //label="Documentation"
+                  placeholder="Write here......"
+                />
+              )}
             </Box>
 
             <Box>
-              <Textarea
-                register={register("Recommendation")}
-                type="text"
-                label="Recommendation"
-                placeholder="Write here......"
-              />
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+                mb={1}
+              >
+                <FormsHeaderText text="Recommendation" />
+
+                <Box>
+                  {voiceRecommendation ? (
+                    <GlobalCustomButton
+                      onClick={() => setVoiceRecommendation(false)}
+                    >
+                      Type
+                    </GlobalCustomButton>
+                  ) : (
+                    <GlobalCustomButton
+                      onClick={() => setVoiceRecommendation(true)}
+                    >
+                      Speech
+                    </GlobalCustomButton>
+                  )}
+                </Box>
+              </Box>
+
+              {voiceRecommendation ? (
+                <VoiceTextArea
+                  handleChange={value => setValue("Recommendation", value)}
+                  placeholder="click start before talking...."
+                />
+              ) : (
+                <Textarea
+                  register={register("Recommendation")}
+                  type="text"
+                  //label="Recommendation"
+                  placeholder="Write here......"
+                />
+              )}
             </Box>
 
             <Box>

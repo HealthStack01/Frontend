@@ -514,6 +514,7 @@ export function StoreListStandalone({standalone, closeModal}) {
   const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
 
   const handleCreateNew = async () => {
     const newStoreModule = {
@@ -573,6 +574,7 @@ export function StoreListStandalone({standalone, closeModal}) {
   };
 
   const getFacilities = async () => {
+    setLoading(true);
     if (user.currentEmployee) {
       const findStore = await StoreServ.find({
         query: {
@@ -586,6 +588,7 @@ export function StoreListStandalone({standalone, closeModal}) {
       });
 
       await setFacilities(findStore.data);
+      setLoading(false);
     } else {
       if (user.stacker) {
         const findStore = await StoreServ.find({
@@ -599,6 +602,7 @@ export function StoreListStandalone({standalone, closeModal}) {
         });
 
         await setFacilities(findStore.data);
+        setLoading(false);
       }
     }
     /*   .then((res)=>{
@@ -714,7 +718,7 @@ export function StoreListStandalone({standalone, closeModal}) {
                 highlightOnHover
                 striped
                 onRowClicked={row => handleRow(row)}
-                progressPending={false}
+                progressPending={loading}
               />
             </Box>
           </Box>

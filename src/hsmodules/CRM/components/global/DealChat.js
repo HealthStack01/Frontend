@@ -77,44 +77,31 @@ const GlobalDealChat = ({closeChat}) => {
       });
   };
 
-  const handleResendMessage = messageObj => {};
+  const updateMessageAsSeen = async message => {
+    // console.log(message);
+    const userId = user.currentEmployee.userId;
+    const currentDeal = state.DealModule.selectedDeal;
+    const documentId = currentDeal._id;
 
-  // const markMessagesAsSeen = useCallback(async () => {
-  //   console.log("hello");
-  //   const userId = user.currentEmployee.userId;
-  //   const currentDeal = state.DealModule.selectedDeal;
-  //   const documentId = currentDeal._id;
+    const updatedMsg = {...message, seen: [userId, ...message.seen]};
 
-  //   if (messages.length > 0) {
-  //     const promises = messages.map(msg => {
-  //       if (msg.senderId === userId || msg.seen.includes(userId)) {
-  //         return msg;
-  //       } else {
-  //         const updatedMsg = {
-  //           ...msg,
-  //           seen: [userId, ...msg.seen],
-  //         };
+    const updatedChat = messages.map(item => {
+      if (item._id === updatedMsg._id) {
+        return updatedMsg;
+      } else {
+        return item;
+      }
+    });
 
-  //         return updatedMsg;
-  //       }
-  //     });
-
-  //     const updatedChat = await Promise.all(promises);
-  //     return console.log("UPDATED CHAT LIST", updatedChat);
-  //     await dealServer
-  //       .patch(documentId, {chat: updatedChat})
-  //       .then(res => {
-  //         console.log(res);
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //       });
-  //   }
-  // }, [user.currentEmployee, state.DealModule, messages]);
-
-  // useEffect(() => {
-  //   markMessagesAsSeen();
-  // }, [markMessagesAsSeen]);
+    await dealServer
+      .patch(documentId, {chat: updatedChat})
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   return (
     <Box sx={{width: "100%", height: "100%"}}>
@@ -125,6 +112,7 @@ const GlobalDealChat = ({closeChat}) => {
         message={message}
         setMessage={setMessage}
         isSendingMessage={sendingMsg}
+        markMsgAsSeen={updateMessageAsSeen}
       />
     </Box>
   );

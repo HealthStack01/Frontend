@@ -426,8 +426,8 @@ export default function BillPrescriptionCreate({closeModal}) {
       return;
     }
 
-    if (state.StoreModule.selectedStore._id) {
-      productEntry.storeId = state.StoreModule.selectedStore._id;
+    if (state.InventoryModule.selectedInventory._id) {
+      productEntry.storeId = state.InventoryModule.selectedInventory._id;
     } else {
       toast.error("You need to select a store before removing inventory");
       return;
@@ -1062,7 +1062,7 @@ export function InventorySearch({getSearchfacility, clear, label}) {
               $options: "i",
             },
             facility: user.currentEmployee.facilityDetail._id,
-            storeId: state.StoreModule.selectedStore._id,
+            storeId: state.InventoryModule.selectedInventory._id,
             $limit: 10,
             $sort: {
               createdAt: -1,

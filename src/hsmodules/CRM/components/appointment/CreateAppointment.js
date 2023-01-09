@@ -43,12 +43,19 @@ const ScheduleAppointment = ({closeModal}) => {
   const {user} = useContext(UserContext);
   const [personName, setPersonName] = useState([]);
   const [contactIds, setContactIds] = useState([]);
+  const [staffIds, setStaffsId] = useState([]);
 
   const contacts = state.DealModule.selectedDeal.contacts || [];
+  const staffs = state.DealModule.selectedDeal.assignStaff || [];
 
   const handleContactChange = event => {
     const {value} = event.target;
     setContactIds(value);
+  };
+
+  const handleStaffChange = event => {
+    const {value} = event.target;
+    setStaffsId(value);
   };
 
   const createAppointment = async data => {
@@ -75,7 +82,13 @@ const ScheduleAppointment = ({closeModal}) => {
       return contact;
     });
 
+    const selectedStaffs = staffIds.map(id => {
+      const staff = staffs.find(item => item._id === id);
+      return staff;
+    });
+
     document.contacts = selectedContacts;
+    document.staffs = selectedStaffs;
 
     //console.log(document);
 
@@ -119,6 +132,59 @@ const ScheduleAppointment = ({closeModal}) => {
             label="Appointment Title"
             register={register("title", {required: true})}
           />
+        </Grid>
+
+        <Grid item xs={12}>
+          <FormControl sx={{width: "100%"}}>
+            <InputLabel id="demo-multiple-checkbox-label">
+              Select Staffs
+            </InputLabel>
+            <Select
+              labelId="demo-multiple-checkbox-label"
+              id="demo-multiple-checkbox"
+              multiple
+              value={staffIds}
+              onChange={handleStaffChange}
+              input={<OutlinedInput label="Select Staffs" />}
+              renderValue={selected => (
+                <Box sx={{display: "flex", flexWrap: "wrap", gap: 0.5}}>
+                  {selected.map(staffId => (
+                    <Chip
+                      size="small"
+                      sx={{fontSize: "0.7rem", textTransform: "capitalize"}}
+                      key={staffId}
+                      label={staffs?.find(item => item._id === staffId).name}
+                    />
+                  ))}
+                </Box>
+              )}
+              MenuProps={MenuProps}
+            >
+              {staffs.map(staff => (
+                <MenuItem
+                  key={staff._id}
+                  value={staff._id}
+                  sx={{fontSize: "0.8rem"}}
+                  //disabled={staff.in}
+                >
+                  <Checkbox
+                    checked={staffIds.includes(staff._id)}
+                    size="small"
+                    //disabled
+                  />
+                  <ListItemText
+                    primaryTypographyProps={{
+                      fontSize: "0.8rem",
+                      textTransform: "capitalize",
+                    }}
+                    primary={`${staff.name} - ${
+                      staff.position ? staff.position : "No Position"
+                    } - ${staff.active ? "Active" : "Inactive"}`}
+                  />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Grid>
 
         <Grid item xs={12}>

@@ -3,6 +3,11 @@ import {lazy} from "react";
 const CommunicationDashboard = lazy(() =>
   import("../dashBoardUiComponent/@modules/CommunicationDashboard")
 );
+const CommunicationChat = lazy(() => import("../communication/chat/Chat"));
+
+const DummyComponent = () => {
+  return <h1>No Yet Available</h1>;
+};
 
 export const communicationRoutes = [
   {
@@ -11,26 +16,30 @@ export const communicationRoutes = [
   },
   {
     path: "/app/communication/whatsapp",
-    Component: "",
+    Component: DummyComponent,
   },
   {
     path: "/app/communication/sms",
-    Component: "",
+    Component: DummyComponent,
   },
   {
     path: "/app/communication/ussd",
-    Component: "",
+    Component: DummyComponent,
   },
   {
     path: "/app/communication/email",
-    Component: "",
+    Component: DummyComponent,
   },
   {
     path: "/app/communication/ivr",
-    Component: "",
+    Component: DummyComponent,
   },
   {
     path: "/app/communication/dashboard",
-    Component: "",
+    Component: DummyComponent,
+  },
+  {
+    path: "/app/communication/chats",
+    Component: CommunicationChat,
   },
 ];

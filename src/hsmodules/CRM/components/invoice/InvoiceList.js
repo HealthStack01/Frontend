@@ -25,8 +25,8 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 
   const getInvoicesForPage = useCallback(async () => {
     const testId = "60203e1c1ec8a00015baa357";
-    const facId = user.currentEmployee.facilityDetail_id;
-    showActionLoader();
+    const facId = user.currentEmployee.facilityDetail._id;
+    setLoading(true);
 
     const res =
       testId === facId
@@ -45,7 +45,7 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 
     await setInvoices(invoices.flat(1));
 
-    hideActionLoader();
+    setLoading(false);
   }, []);
 
   useEffect(() => {

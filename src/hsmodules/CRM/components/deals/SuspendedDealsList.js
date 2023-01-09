@@ -21,7 +21,11 @@ import dayjs from "dayjs";
 // eslint-disable-next-line
 const searchfacility = {};
 
-const PendingDealsList = ({showOpenDeals, setDealDetail, showCloseDeals}) => {
+const SuspendedDealsList = ({
+  showOpenDeals,
+  setDealDetail,
+  showClosedDeals,
+}) => {
   // eslint-disable-next-line
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -37,7 +41,7 @@ const PendingDealsList = ({showOpenDeals, setDealDetail, showCloseDeals}) => {
   };
 
   const handleShowClosedDeals = () => {
-    showCloseDeals();
+    showClosedDeals();
   };
 
   const handleRow = async data => {
@@ -52,9 +56,9 @@ const PendingDealsList = ({showOpenDeals, setDealDetail, showCloseDeals}) => {
 
   const getFacilities = useCallback(async () => {
     const testId = "60203e1c1ec8a00015baa357";
-    const facId = user.currentEmployee.facilityDetail_id;
+    const facId = user.currentEmployee.facilityDetail._id;
 
-    showActionLoader();
+    setLoading(true);
 
     //const status = "close" || "pending";
 
@@ -64,11 +68,11 @@ const PendingDealsList = ({showOpenDeals, setDealDetail, showCloseDeals}) => {
         : await dealServer.find({
             query: {
               facilityId: facId,
-              "dealinfo.currStatus": "pending",
+              "dealinfo.currStatus": "suspended",
             },
           });
     await setClosedDeals(res.data);
-    hideActionLoader();
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -80,8 +84,8 @@ const PendingDealsList = ({showOpenDeals, setDealDetail, showCloseDeals}) => {
       case "open":
         return <span style={{color: "#17935C"}}>{status}</span>;
 
-      case "pending":
-        return <span style={{color: "#0364FF"}}>{status}</span>;
+      case "suspended":
+        return <span style={{color: "orange"}}>{status}</span>;
 
       case "closed":
         return <span style={{color: "red"}}>{status}</span>;
@@ -245,7 +249,7 @@ const PendingDealsList = ({showOpenDeals, setDealDetail, showCloseDeals}) => {
                 </div>
               )}
               <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-                List of Pending Deals
+                List of Suspended Deals
               </h2>
             </div>
 
@@ -292,4 +296,4 @@ const PendingDealsList = ({showOpenDeals, setDealDetail, showCloseDeals}) => {
   );
 };
 
-export default PendingDealsList;
+export default SuspendedDealsList;

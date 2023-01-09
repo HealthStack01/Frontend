@@ -128,16 +128,22 @@ export default function InventorySearchHelper({getSearchfacility, clear}) {
       <Autocomplete
         value={simpa}
         loading={loading}
-        onChange={(event, newValue) => {
-          if (typeof newValue === "string") {
-            // timeout to avoid instant validation of the dialog's form.
-            setTimeout(() => {
-              handleAddproduct();
-            });
-          } else if (newValue && newValue.inputValue) {
-            handleAddproduct();
+        onChange={(event, newValue, reason) => {
+          if (reason === "clear") {
+            setSimpa("");
+            //setSimpa("");
+            return;
           } else {
-            handleRow(newValue);
+            if (typeof newValue === "string") {
+              // timeout to avoid instant validation of the dialog's form.
+              setTimeout(() => {
+                handleAddproduct();
+              });
+            } else if (newValue && newValue.inputValue) {
+              handleAddproduct();
+            } else {
+              handleRow(newValue);
+            }
           }
         }}
         filterOptions={(options, params) => {
@@ -164,6 +170,9 @@ export default function InventorySearchHelper({getSearchfacility, clear}) {
           }
           return option.name;
         }}
+        isOptionEqualToValue={(option, value) =>
+          value === undefined || value === "" || option._id === value._id
+        }
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys

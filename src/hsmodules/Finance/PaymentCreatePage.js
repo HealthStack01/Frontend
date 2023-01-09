@@ -1,7 +1,8 @@
 /* eslint-disable */
 import React, {useState, useContext, useEffect, useRef} from "react";
-import {useFlutterwave, closePaymentModal} from "flutterwave-react-v3";
-import {PaystackConsumer} from "react-paystack";
+// import {useFlutterwave, closePaymentModal} from "flutterwave-react-v3";
+// import {PaystackConsumer} from "react-paystack";
+import RemitaPayment from "react-remita";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
@@ -82,51 +83,78 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
   const [partTable, setPartTable] = useState([]);
   const [depositModal, setDepositModal] = useState(false);
 
+
+  //Remita Config
+const config = {
+  key: "QzAwMDAyNzEyNTl8MTEwNjE4NjF8OWZjOWYwNmMyZDk3MDRhYWM3YThiOThlNTNjZTE3ZjYxOTY5NDdmZWE1YzU3NDc0ZjE2ZDZjNTg1YWYxNWY3NWM4ZjMzNzZhNjNhZWZlOWQwNmJhNTFkMjIxYTRiMjYzZDkzNGQ3NTUxNDIxYWNlOGY4ZWEyODY3ZjlhNGUwYTY=", // enter your key here
+  customerId: "86666",
+  firstName: "Simpa",
+  lastName: "Dania",
+  email: "simpa@healthstack.africa",
+  amount: part ? partBulk * 100 : totalamount * 100,
+  narration: "payment",
+};
+
+let data = {
+  ...config,
+  onSuccess: function (response) {
+    // function callback when payment is successful
+    console.log("callback Successful Response", response);
+  },
+  onError: function (response) {
+    // function callback when payment fails
+    console.log("callback Error Response", response);
+  },
+  onClose: function () {
+    // function callback when payment modal is closed
+    console.log("closed");
+  },
+};
   //Paystack Config
 
-  const config = {
-    reference: new Date().getTime().toString(),
-    email: "simpa@healthstack.africa",
-    amount: part ? partBulk * 100 : totalamount * 100,
-    publicKey: "pk_test_f8300ac84ffd54afdf49ea31fd3daa90ebd33275",
-  };
+  // const config = {
+  //   reference: new Date().getTime().toString(),
+  //   email: "simpa@healthstack.africa",
+  //   amount: part ? partBulk * 100 : totalamount * 100,
+  //   publicKey: "pk_test_f8300ac84ffd54afdf49ea31fd3daa90ebd33275",
+  // };
 
-  const componentProps = {
-    ...config,
-    text: "Make a Deposit",
-    onSuccess: reference => handleSuccess(reference, amount),
-    onClose: closeModal,
-  };
+  // const componentProps = {
+  //   ...config,
+  //   text: "Make a Deposit",
+  //   onSuccess: reference => handleSuccess(reference, amount),
+  //   onClose: closeModal,
+  // };
 
-  const handleSuccess = (amount, reference) => {
-    let transactionDetails = amount;
-    transactionDetails.amount = reference;
-    // dispatch(saveTransactionRef(transactionDetails));
-    // //console.log(transactionDetails, "AMOUNT");
-    // return history("/business/payment");
-  };
+  // const handleSuccess = (amount, reference) => {
+  //   let transactionDetails = amount;
+  //   transactionDetails.amount = reference;
+  //   // dispatch(saveTransactionRef(transactionDetails));
+  //   // //console.log(transactionDetails, "AMOUNT");
+  //   // return history("/business/payment");
+  // };
 
-  //FLUTTERWAVE CONFIG
-  const configfw = {
-    public_key: "FLWPUBK_TEST-2c01585fca911f2d419e051d15b76382-X",
-    tx_ref: Date.now(),
-    amount: part ? partBulk : totalamount,
-    email: "simpa@healthstack.africa",
-    currency: "NGN",
-    payment_options: "card,mobilemoney,ussd",
-    customer: {
-      email: "simpa@healthstack.africa",
-      phone_number: "070********",
-      name: "john doe",
-    },
-    customizations: {
-      title: "my Payment Title",
-      description: "Payment for items in cart",
-      logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
-    },
-  };
+  // //FLUTTERWAVE CONFIG
+  // const configfw = {
+  //   public_key: "FLWPUBK_TEST-2c01585fca911f2d419e051d15b76382-X",
+  //   tx_ref: Date.now(),
+  //   amount: part ? partBulk : totalamount,
+  //   email: "simpa@healthstack.africa",
+  //   currency: "NGN",
+  //   payment_options: "card,mobilemoney,ussd",
+  //   customer: {
+  //     email: "simpa@healthstack.africa",
+  //     phone_number: "070********",
+  //     name: "john doe",
+  //   },
+  //   customizations: {
+  //     title: "my Payment Title",
+  //     description: "Payment for items in cart",
+  //     logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+  //   },
+  // };
 
-  const handleFlutterPayment = useFlutterwave(configfw);
+  // const handleFlutterPayment = useFlutterwave(configfw);
 
   const {state, setState} = useContext(ObjectContext);
 
@@ -874,8 +902,21 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
                   <WalletIcon sx={{marginRight: "5px"}} fontSize="small" />
                   Pay with Wallet
                 </GlobalCustomButton>
-
-                <GlobalCustomButton
+              
+                <GlobalCustomButton 
+             sx={{
+              backgroundColor: "#023e8a",
+              "&:hover": {backgroundColor: "#023e8a"},
+            }}
+             >
+              <WalletIcon sx={{marginRight: "5px"}} fontSize="small" />
+        <RemitaPayment
+          remitaData={data}
+          className='btn' 
+          text='Pay with Remita'
+        />
+        </GlobalCustomButton>
+                {/* <GlobalCustomButton
                   onClick={() => {
                     handleFlutterPayment({
                       callback: response => {
@@ -912,7 +953,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
                       Pay with PayStack
                     </GlobalCustomButton>
                   )}
-                </PaystackConsumer>
+                </PaystackConsumer> */}
               </Box>
             </Grid>
 
@@ -1051,7 +1092,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
                 Pay with Wallet
               </GlobalCustomButton>
 
-              <GlobalCustomButton
+              {/* <GlobalCustomButton
                 onClick={() => {
                   handleFlutterPayment({
                     callback: response => {
@@ -1086,7 +1127,20 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
                     Pay with PayStack
                   </GlobalCustomButton>
                 )}
-              </PaystackConsumer>
+             </PaystackConsumer> */}
+             <GlobalCustomButton 
+             sx={{
+              backgroundColor: "#023e8a",
+              "&:hover": {backgroundColor: "#023e8a"},
+            }}
+             >
+              <WalletIcon sx={{marginRight: "5px"}} fontSize="small" />
+        <RemitaPayment
+          remitaData={data}
+          className='btn' 
+          text='Pay with Remita'
+        />
+        </GlobalCustomButton>
             </Box>
           </Box>
         )}

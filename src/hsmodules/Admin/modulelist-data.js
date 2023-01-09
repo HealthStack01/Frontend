@@ -398,6 +398,10 @@ export const modulesList = [
         label: "Appointment",
         value: "CRM Appointment",
       },
+      {
+        label: "Templates",
+        value: "CRM Templates",
+      },
     ],
   },
 
@@ -465,6 +469,34 @@ export const modulesList = [
       {
         label: "WhatsApp",
         value: "Commnunication WhatsApp",
+      },
+      {
+        label: "Chats",
+        value: "Commnunication Chats",
+      },
+    ],
+  },
+
+  {
+    label: "Engagement",
+    value: "Engagement",
+
+    children: [
+      {
+        label: "Channel",
+        value: "Engagement Channel",
+      },
+      {
+        label: "Questionnaires",
+        value: "Engagement Questionnaires",
+      },
+      {
+        label: "Configuration",
+        value: "Engagement Configuration",
+      },
+      {
+        label: "Submissions",
+        value: "Engagement Submissions",
       },
     ],
   },

@@ -533,8 +533,8 @@ export default function BillServiceCreate() {
       return;
     }
 
-    if (state.StoreModule.selectedStore._id) {
-      productEntry.storeId = state.StoreModule.selectedStore._id;
+    if (state.InventoryModule.selectedInventory._id) {
+      productEntry.storeId = state.InventoryModule.selectedInventory._id;
     } else {
       toast.error("You need to select a store before removing inventory");
       return;

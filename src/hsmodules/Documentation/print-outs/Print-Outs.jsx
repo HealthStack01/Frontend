@@ -1,5 +1,5 @@
 import {forwardRef, useContext, useState, useEffect, useCallback} from "react";
-import {Grid, Typography} from "@mui/material";
+import {Avatar, Grid, Typography} from "@mui/material";
 import {Box} from "@mui/system";
 import {formatDistanceToNowStrict, format} from "date-fns";
 import client from "../../../feathers";
@@ -8,6 +8,50 @@ import CustomTable from "../../../components/customtable";
 import {ObjectContext} from "../../../context";
 import dayjs from "dayjs";
 import {StyledWatermark} from "./Watermark";
+
+const customStyles = {
+  rows: {
+    style: {
+      minHeight: "30px", // override the row height
+      "&:not(:last-of-type)": {
+        borderBottomWidth: "0px",
+      },
+      padding: "0.15rem",
+      backgroundColor: "##F8F8F8",
+    },
+  },
+  headRow: {
+    style: {
+      borderBottomWidth: "0px",
+      padding: "0.15rem",
+      backgroundColor: "#F8F8F8",
+      fontSize: "0.67rem",
+    },
+  },
+  headCells: {
+    style: {
+      padding: "0.15rem",
+      paddingLeft: "0.25rem", // override the cell padding for head cells
+      paddingRight: "0.25rem",
+      paddingTop: "0.1rem",
+      paddingBottom: "0.1rem",
+      fontSize: "0.7rem",
+      fontWeight: "bold",
+      color: "#000000",
+    },
+  },
+  cells: {
+    style: {
+      paddingLeft: "0.25rem", // override the cell padding for data cells
+      paddingRight: "0.25rem",
+      paddingTop: "0.1rem",
+      paddingBottom: "0.1rem",
+      fontSize: "0.69rem",
+      color: "#000000",
+      fontWeight: "400",
+    },
+  },
+};
 
 export const PrintOutFixedInformation = ({Clinic}) => {
   const {state, setState} = useContext(ObjectContext);
@@ -60,17 +104,9 @@ export const PrintOutFixedInformation = ({Clinic}) => {
         </Typography>
       </Box>
 
-      <Box>
-        <img
-          style={{
-            marginTop: "15px",
-            height: "30px",
-            width: "auto",
-          }}
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Hospital_sign.svg/800px-Hospital_sign.svg.png"
-          alt=""
-        />
+      <Avatar sx={{marginTop: "5px"}} src={facility?.facilitylogo} alt="" />
 
+      <Box>
         <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
           {facility?.facilityName},
         </Typography>
@@ -453,7 +489,15 @@ export const BilledOrdersPrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "Category",
       key: "category",
       description: "Enter Category",
-      selector: row => row.category,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.category}
+        </Typography>
+      ),
+
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -464,7 +508,14 @@ export const BilledOrdersPrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "Name",
       key: "name",
       description: "Enter Name",
-      selector: row => row.name,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.name}
+        </Typography>
+      ),
       style: {whiteSpace: "unset"},
       sortable: true,
       required: true,
@@ -473,7 +524,7 @@ export const BilledOrdersPrintOut = forwardRef(({data, Clinic}, ref) => {
     },
 
     {
-      name: "Quantity",
+      name: "QTY",
       width: "50px",
       center: true,
       key: "quantity",
@@ -564,6 +615,7 @@ export const BilledOrdersPrintOut = forwardRef(({data, Clinic}, ref) => {
           highlightOnHover
           striped
           progressPending={false}
+          preferredCustomStyles={customStyles}
         />
       </Box>
 
@@ -617,9 +669,10 @@ export const DoctorsNotePrintOut = forwardRef(({data, Clinic}, ref) => {
                     </Typography>
 
                     <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
-                      {dayjs(value).isValid()
+                      {/* {dayjs(value).isValid()
                         ? dayjs(value).format("DD/MM/YYYY")
-                        : value}
+                        : value} */}
+                      {value}
                     </Typography>
                   </Box>
                 </Grid>
@@ -646,9 +699,10 @@ export const DoctorsNotePrintOut = forwardRef(({data, Clinic}, ref) => {
                     </Typography>
 
                     <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
-                      {dayjs(value).isValid()
+                      {/* {dayjs(value).isValid()
                         ? dayjs(value).format("DD/MM/YYYY")
-                        : value}
+                        : value} */}
+                      {value}
                     </Typography>
                   </Box>
                 </Grid>
@@ -815,17 +869,31 @@ export const MedicationListPrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "Allergine",
       key: "allergine",
       description: "Allergine",
-      selector: row => row.allergine,
       sortable: true,
       required: true,
       inputType: "TEXT",
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.allergine}
+        </Typography>
+      ),
     },
 
     {
       name: "Reaction",
       key: "reaction",
       description: "Midlle Name",
-      selector: row => row.reaction,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.reaction}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -847,7 +915,14 @@ export const MedicationListPrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "Drug Name",
       key: "drugname",
       description: "Allergine",
-      selector: row => row.drugname,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.drugname}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -857,7 +932,14 @@ export const MedicationListPrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "Strength/Frequency",
       key: "strengthfreq",
       description: "Midlle Name",
-      selector: row => row.strengthfreq,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.strengthfreq}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -867,7 +949,14 @@ export const MedicationListPrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "Notes",
       key: "notes",
       description: "Midlle Name",
-      selector: row => row.notes,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.notes}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -919,9 +1008,10 @@ export const MedicationListPrintOut = forwardRef(({data, Clinic}, ref) => {
                         <Typography
                           sx={{fontSize: "0.75rem", color: "#000000"}}
                         >
-                          {dayjs(value).isValid()
+                          {/* {dayjs(value).isValid()
                             ? dayjs(value).format("DD/MM/YYYY")
-                            : value}
+                            : value} */}
+                          {value}
                         </Typography>
                       </Box>
                     </Grid>
@@ -950,6 +1040,7 @@ export const MedicationListPrintOut = forwardRef(({data, Clinic}, ref) => {
                         highlightOnHover
                         striped
                         progressPending={false}
+                        preferredCustomStyles={customStyles}
                       />
                     </Box>
                   )}
@@ -977,6 +1068,7 @@ export const MedicationListPrintOut = forwardRef(({data, Clinic}, ref) => {
                         highlightOnHover
                         striped
                         progressPending={false}
+                        preferredCustomStyles={customStyles}
                       />
                     </Box>
                   )}
@@ -1005,17 +1097,31 @@ export const RadiologyOrdersPrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "Test",
       key: "test",
       description: "Test",
-      selector: row => row.test,
       sortable: true,
       required: true,
       inputType: "TEXT",
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.test}
+        </Typography>
+      ),
     },
 
     {
       name: "Destination",
       key: "destination",
       description: "destination",
-      selector: row => row.destination,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row?.destination}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1060,6 +1166,7 @@ export const RadiologyOrdersPrintOut = forwardRef(({data, Clinic}, ref) => {
             highlightOnHover
             striped
             progressPending={false}
+            preferredCustomStyles={customStyles}
           />
         </Box>
       )}
@@ -1083,7 +1190,14 @@ export const LaboratoryOrdersPrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "Test",
       key: "test",
       description: "Test",
-      selector: row => row.test,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.test}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1093,7 +1207,14 @@ export const LaboratoryOrdersPrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "Destination",
       key: "destination",
       description: "destination",
-      selector: row => row.destination,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.destination}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1138,6 +1259,7 @@ export const LaboratoryOrdersPrintOut = forwardRef(({data, Clinic}, ref) => {
             highlightOnHover
             striped
             progressPending={false}
+            preferredCustomStyles={customStyles}
           />
         </Box>
       )}
@@ -1161,7 +1283,14 @@ export const PrescriptionPrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "Medication",
       key: "medication",
       description: "Test",
-      selector: row => row.medication,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.medication}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1170,7 +1299,14 @@ export const PrescriptionPrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "Instruction",
       key: "instruction",
       description: "Test",
-      selector: row => (row.instruction ? row.instruction : "------"),
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.instruction ? row.instruction : "---------"}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1181,7 +1317,14 @@ export const PrescriptionPrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "Destination",
       key: "destination",
       description: "destination",
-      selector: row => row.destination,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row?.destination}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1226,6 +1369,7 @@ export const PrescriptionPrintOut = forwardRef(({data, Clinic}, ref) => {
             highlightOnHover
             striped
             progressPending={false}
+            preferredCustomStyles={customStyles}
           />
         </Box>
       )}
@@ -1249,7 +1393,14 @@ export const AdultQuestionnairePrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "Allergine",
       key: "allergine",
       description: "Allergine",
-      selector: row => row.allergine,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.allergine}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1259,7 +1410,14 @@ export const AdultQuestionnairePrintOut = forwardRef(({data, Clinic}, ref) => {
       name: "Reaction",
       key: "reaction",
       description: "Reaction",
-      selector: row => row.reaction,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.reaction}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1307,9 +1465,10 @@ export const AdultQuestionnairePrintOut = forwardRef(({data, Clinic}, ref) => {
                       </Typography>
 
                       <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
-                        {dayjs(value).isValid()
+                        {/* {dayjs(value).isValid()
                           ? dayjs(value).format("DD/MM/YYYY")
-                          : value}
+                          : value} */}
+                        {value}
                       </Typography>
                     </Box>
                   </Grid>
@@ -1327,6 +1486,7 @@ export const AdultQuestionnairePrintOut = forwardRef(({data, Clinic}, ref) => {
                       highlightOnHover
                       striped
                       progressPending={false}
+                      preferredCustomStyles={customStyles}
                     />
                   </Box>
                 )}
@@ -1354,7 +1514,14 @@ export const PediatricPulmonologyList = forwardRef(({data, Clinic}, ref) => {
       name: "Allergine",
       key: "allergine",
       description: "Allergine",
-      selector: row => row.allergine,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.allergine}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1364,7 +1531,14 @@ export const PediatricPulmonologyList = forwardRef(({data, Clinic}, ref) => {
       name: "Reaction",
       key: "reaction",
       description: "Reaction",
-      selector: row => row.reaction,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.reaction}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1386,7 +1560,14 @@ export const PediatricPulmonologyList = forwardRef(({data, Clinic}, ref) => {
       name: "Symptoms",
       key: "symptom",
       description: "Symptom",
-      selector: row => row.symptom,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.symptom}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1448,9 +1629,10 @@ export const PediatricPulmonologyList = forwardRef(({data, Clinic}, ref) => {
                           <Typography
                             sx={{fontSize: "0.75rem", color: "#000000"}}
                           >
-                            {dayjs(value).isValid()
+                            {/* {dayjs(value).isValid()
                               ? dayjs(value).format("DD/MM/YYYY")
-                              : value}
+                              : value} */}
+                            {value}
                           </Typography>
                         </Box>
                       </Grid>
@@ -1479,6 +1661,7 @@ export const PediatricPulmonologyList = forwardRef(({data, Clinic}, ref) => {
                         highlightOnHover
                         striped
                         progressPending={false}
+                        preferredCustomStyles={customStyles}
                       />
                     </Box>
                   )}
@@ -1506,6 +1689,7 @@ export const PediatricPulmonologyList = forwardRef(({data, Clinic}, ref) => {
                         highlightOnHover
                         striped
                         progressPending={false}
+                        preferredCustomStyles={customStyles}
                       />
                     </Box>
                   )}

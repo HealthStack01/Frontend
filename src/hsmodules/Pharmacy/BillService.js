@@ -465,8 +465,6 @@ export function BillsList({openCreateModal}) {
     },
   ];
 
-  console.log(selectedClient);
-
   return (
     <>
       <div

@@ -1,4 +1,4 @@
-import {useContext, useState, useEffect} from "react";
+import {useContext, useState, useEffect, useCallback} from "react";
 import {Box, Grid, IconButton, Typography} from "@mui/material";
 import Input from "../../../../components/inputs/basic/Input";
 import ModalBox from "../../../../components/modal";
@@ -21,21 +21,26 @@ import {DetailView, CustomerView, LeadView} from "../lead/LeadDetailView";
 import ChatInterface from "../../../../components/chat/ChatInterface";
 import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
 import {PageLeadDetailView} from "../global/LeadDetail";
-import {ObjectContext} from "../../../../context";
+import {ObjectContext, UserContext} from "../../../../context";
 import dayjs from "dayjs";
 import CustomTable from "../../../../components/customtable";
 import {toast} from "react-toastify";
 
 import {pdfjs} from "react-pdf";
 import {Document, Page} from "react-pdf";
+import ProposalChat from "./ProposalChat";
+import client from "../../../../feathers";
 
 const ProposalDetail = ({handleGoBack}) => {
+  const dealServer = client.service("deal");
   const {state, setState} = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
   const [description, setDescription] = useState("");
   const [chat, setChat] = useState(false);
   const [attachedDocs, setAttachedDocs] = useState([]);
   const [docViewModal, setDocviewModal] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState({});
+  const [unreadMsgs, setUnreadMsgs] = useState([]);
 
   useEffect(() => {
     const proposal = state.ProposalModule.selectedProposal;
@@ -172,6 +177,48 @@ const ProposalDetail = ({handleGoBack}) => {
     setDocviewModal(true);
   };
 
+  const getUnreadMessagesCount = useCallback(async () => {
+    setUnreadMsgs([]);
+    const id = state.DealModule.selectedDeal._id;
+    const userId = user.currentEmployee.userId;
+    const proposalId = state.ProposalModule.selectedProposal._id;
+    // console.log(userId);
+    await dealServer
+      .get(id)
+      .then(resp => {
+        const proposals = resp.proposal || [];
+        const selectedProposal = proposals.find(
+          item => item._id === proposalId
+        );
+
+        const msgs = selectedProposal.chat || [];
+        msgs.map(msg => {
+          if (
+            msg.senderId === userId ||
+            msg.seen.includes(userId) ||
+            unreadMsgs.includes(msg._id)
+          ) {
+            return;
+          } else {
+            return setUnreadMsgs(prev => [msg._id, ...prev]);
+          }
+        });
+      })
+      .catch(err => {
+        // toast.error("There was an error getting messages for this chat");
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    getUnreadMessagesCount();
+
+    dealServer.on("created", obj => getUnreadMessagesCount());
+    dealServer.on("updated", obj => getUnreadMessagesCount());
+    dealServer.on("patched", obj => getUnreadMessagesCount());
+    dealServer.on("removed", obj => getUnreadMessagesCount());
+  }, [getUnreadMessagesCount]);
+
   return (
     <Box
       sx={{
@@ -238,7 +285,11 @@ const ProposalDetail = ({handleGoBack}) => {
           }}
           gap={1}
         >
-          <Badge badgeContent={4} color="secondary" sx={{marginRight: "10px"}}>
+          <Badge
+            badgeContent={unreadMsgs.length}
+            color="secondary"
+            sx={{marginRight: "10px"}}
+          >
             <GlobalCustomButton onClick={() => setChat(true)}>
               <ChatIcon fontSize="small" sx={{marginRight: "5px"}} />
               Chats
@@ -329,7 +380,7 @@ const ProposalDetail = ({handleGoBack}) => {
             overflowY: "hidden",
           }}
         >
-          <ChatInterface closeChat={() => setChat(false)} />
+          <ProposalChat closeChat={() => setChat(false)} />
         </Box>
       </Drawer>
     </Box>

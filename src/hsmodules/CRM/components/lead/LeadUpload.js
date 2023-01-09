@@ -71,7 +71,7 @@ const LeadUpload = ({closeModal}) => {
 
   const handleUploadFile = async () => {
     if (file === null || base64 === null)
-      return toast.error("Please select a Logo to upload");
+      return toast.error("Please select a File to upload");
 
     showActionLoader();
 

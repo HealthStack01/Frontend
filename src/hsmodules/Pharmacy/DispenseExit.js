@@ -443,8 +443,7 @@ export function ProductExitCreate({closeModal}) {
       inputType: "TEXT",
     },
     {
-      name: "Qty",
-      width: "70px",
+      name: "Quantity",
       key: "quanity",
       description: "Enter quantity",
       selector: row => row.quantity,
@@ -505,7 +504,7 @@ export function ProductExitCreate({closeModal}) {
     <>
       <Box
         sx={{
-          width: "850px",
+          width: "90vw",
           maxHeight: "80vh",
         }}
       >
@@ -517,7 +516,7 @@ export function ProductExitCreate({closeModal}) {
               </Box>
 
               <Grid container spacing={1}>
-                <Grid item xs={8}>
+                <Grid item lg={4} md={4} sm={6} xs={12}>
                   <Input
                     /* ref={register({ required: true })} */
                     value={source}
@@ -528,15 +527,16 @@ export function ProductExitCreate({closeModal}) {
                     disabled={true}
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item lg={2} md={4} sm={6} xs={12}>
                   <CustomSelect
-                    defaultValue={type}
+                    defaultValue={type.toLowerCase()}
                     name="type"
                     options={["Sales", "In-house", "Dispense", "Audit"]}
                     onChange={handleChangeType}
+                    label="Sale Type"
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item lg={2} md={4} sm={6} xs={12}>
                   <Input
                     label="Date"
                     value={date}
@@ -546,16 +546,17 @@ export function ProductExitCreate({closeModal}) {
                     disabled
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item lg={2} md={4} sm={6} xs={12}>
                   <Input
                     name="documentNo"
                     value={documentNo}
                     type="text"
                     onChange={e => setDocumentNo(e.target.value)}
                     label="Invoice Number"
+                    disabled
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item lg={2} md={4} sm={6} xs={12}>
                   <Input
                     value={totalamount}
                     name="totalamount"
