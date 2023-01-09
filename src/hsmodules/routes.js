@@ -87,9 +87,10 @@ import CommunicationDashboard from "./dashBoardUiComponent/@modules/Communicatio
 import ImmunizationDashboardComponent from "./dashBoardUiComponent/@modules/ImmunizationDashboard";
 import BloodbankDashboard from "./dashBoardUiComponent/@modules/BloodbankDashboard";
 
-import WalletOTP from "./PouchiiWallet/walletOtp";
-import DetailComplaint from "./Complaints/DetailComplaints";
-import {marketPlaceRoutes} from "./routes/marketPlace";
+import WalletOTP from './PouchiiWallet/walletOtp';
+import DetailComplaint from './Complaints/DetailComplaints';
+import { marketPlaceRoutes } from './routes/marketPlace';
+// import RemitaWithPayment from './Finance/Remita/RemitaWithPayment';
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -137,6 +138,8 @@ const AppRoutes = () => {
           {/************************** Payment Integration Routes *************************************** */}
           <Route path="/verify-otp" element={<WalletOTP />} />
           <Route path="/payment" element={<Payment />} />
+          {/* <Route path="/remita" element={<RemitaWithPayment />} /> */}
+          
 
           {/************************** App Dashboard Routes *************************************** */}
           <Route path="/app" element={<PrivateOutlet />}>
