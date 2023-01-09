@@ -3,58 +3,26 @@ import {Box} from "@mui/system";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import {Typography} from "@mui/material";
+import {Button, Typography} from "@mui/material";
 import Textarea from "../../../components/inputs/basic/Textarea";
+import {useForm} from "react-hook-form";
+import VoiceTextArea from "../../../components/inputs/basic/Textarea/VoiceInput";
 
 const CommunicationChat = () => {
   const [text, setText] = useState("");
-  const {
-    transcript,
-    listening,
-    resetTranscript,
-    browserSupportsSpeechRecognition,
-  } = useSpeechRecognition();
 
-  if (!browserSupportsSpeechRecognition) {
-    return <span>Browser doesn't support speech recognition.</span>;
-  }
-
-  const handleStartRecording = () => {
-    console.log("recording started");
-    SpeechRecognition.startListening({continuous: true});
-  };
-
-  const handleStopRecording = () => {
-    console.log("Recording has stopped");
-    SpeechRecognition.stopListening();
+  const onSubmit = data => {
+    console.log(text);
   };
 
   return (
     <Box>
-      <Box
-        sx={{
-          height: "45px",
-          backgroundColor: "#0075D9",
-          display: "flex",
-          alignItems: "center",
-          paddingLeft: "25px",
-        }}
-      >
-        <Typography
-          sx={{
-            color: "#ffffff",
-            fontWeight: "600",
-          }}
-        >
-          Microphone: {listening ? "on" : "off"}
-        </Typography>
-      </Box>
+      <Button onClick={onSubmit}>Hello, Submit Me</Button>
 
-      <Textarea
-        value={text}
-        onChange={e => setText(e.target.value)}
-        onFocus={handleStartRecording}
-        onBlur={handleStopRecording}
+      <VoiceTextArea
+        name="voice"
+        label="Testing Voice"
+        handleChange={value => setText(value)}
       />
     </Box>
   );

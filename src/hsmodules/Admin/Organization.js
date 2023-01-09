@@ -246,7 +246,14 @@ const AdminOrganization = () => {
           <CustomSelect
             control={control}
             name="facilityType"
-            options={["Hospital"]}
+            options={[
+              "Diagnostic Lab",
+              "Diagnostics Imaging",
+              "HMO",
+              "Hospital",
+              "Pharmacy",
+              "Others",
+            ]}
             label="Organization Type"
             disabled={!edit}
           />
@@ -256,7 +263,7 @@ const AdminOrganization = () => {
           <CustomSelect
             control={control}
             name="facilityCategory"
-            options={["Home"]}
+            options={["Health", "Finance"]}
             label="Organization Category"
             disabled={!edit}
           />

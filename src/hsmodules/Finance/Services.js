@@ -672,6 +672,7 @@ export function ServicesList({openCreateModal, openDetallModal}) {
   };
 
   const getFacilities = async () => {
+    setLoading(true);
     if (user.currentEmployee) {
       const findServices = await ServicesServ.find({
         query: {
@@ -686,6 +687,7 @@ export function ServicesList({openCreateModal, openDetallModal}) {
       });
       ////console.log(findServices);
       await setFacilities(findServices.groupedOrder);
+      setLoading(false);
       ////console.log(findServices.groupedOrder);
     } else {
       if (user.stacker) {
@@ -867,7 +869,7 @@ export function ServicesList({openCreateModal, openDetallModal}) {
                   highlightOnHover
                   striped
                   onRowClicked={handleRow}
-                  progressPending={false}
+                  progressPending={loading}
                   conditionalRowStyles={conditionalRowStyles}
                 />
               </div>
@@ -1694,6 +1696,7 @@ export function ServicesModify({closeModal}) {
 
               <Grid item xs={2}>
                 <GlobalCustomButton
+                  color="success"
                   sx={{
                     width: "100%",
                     height: "38px",
@@ -1710,7 +1713,7 @@ export function ServicesModify({closeModal}) {
             </Grid>
 
             <Grid container spacing={1}>
-              <Grid item xs={10}>
+              <Grid item xs={6}>
                 <Input
                   type="text"
                   name="plan"
