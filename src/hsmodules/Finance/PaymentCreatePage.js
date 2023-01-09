@@ -2,6 +2,7 @@
 import React, {useState, useContext, useEffect, useRef} from "react";
 // import {useFlutterwave, closePaymentModal} from "flutterwave-react-v3";
 // import {PaystackConsumer} from "react-paystack";
+import "./main.css";
 import RemitaPayment from "react-remita";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
@@ -91,7 +92,7 @@ const config = {
   firstName: "Simpa",
   lastName: "Dania",
   email: "simpa@healthstack.africa",
-  amount: part ? partBulk * 100 : totalamount * 100,
+  amount: part ? partBulk : totalamount,
   narration: "payment",
 };
 
