@@ -3,7 +3,7 @@ import moment from "moment";
 import {formatDistanceToNowStrict} from "date-fns";
 import dayjs from "dayjs";
 import {Box} from "@mui/system";
-import {Typography} from "@mui/material";
+import {Avatar, Typography} from "@mui/material";
 
 export const ClientMiniSchema = [
   {
@@ -15,6 +15,18 @@ export const ClientMiniSchema = [
     inputType: "HIDDEN",
     width: "50px",
   },
+
+  {
+    name: "Image",
+    key: "middlename",
+    description: "Midlle Name",
+    selector: row => <Avatar src={row.imageUrl} />,
+    sortable: true,
+    required: true,
+    inputType: "TEXT",
+    width: "100px",
+  },
+
   {
     name: "First Name",
     key: "firstname",
@@ -54,15 +66,15 @@ export const ClientMiniSchema = [
     },
   },
 
-  {
-    name: "Registered At",
-    key: "middlename",
-    description: "Midlle Name",
-    selector: row => dayjs(row?.createdAt).format("DD/MM/YYYY"),
-    sortable: true,
-    required: true,
-    inputType: "TEXT",
-  },
+  // {
+  //   name: "Registered At",
+  //   key: "middlename",
+  //   description: "Midlle Name",
+  //   selector: row => dayjs(row?.createdAt).format("DD/MM/YYYY"),
+  //   sortable: true,
+  //   required: true,
+  //   inputType: "TEXT",
+  // },
 
   {
     name: "Payment Mode",

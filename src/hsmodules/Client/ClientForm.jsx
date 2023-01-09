@@ -8,6 +8,8 @@ import BasicDatePicker from "../../components/inputs/Date";
 import {yupResolver} from "@hookform/resolvers/yup";
 import client from "../../feathers";
 import SaveIcon from "@mui/icons-material/Save";
+import {FileUploader} from "react-drag-drop-files";
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import {
   BottomWrapper,
   GridWrapper,
@@ -21,11 +23,32 @@ import Textarea from "../../components/inputs/basic/Textarea";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
-import {Box, Grid} from "@mui/material";
+import {Box, Grid, Typography} from "@mui/material";
 import {FormsHeaderText} from "../../components/texts";
 import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 import ClientGroup from "./ClientGroup";
 import {ObjectContext, UserContext} from "../../context";
+
+const UploadComponent = ({}) => {
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        height: "300px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        border: "1px dashed gray",
+        cursor: "pointer",
+        borderRadius: "7.5px",
+      }}
+    >
+      <FileUploadOutlinedIcon />
+      <Typography>Select Logo Image or Drag and Drop here</Typography>
+    </Box>
+  );
+};
 
 const ClientForm = ({closeModal, setOpen}) => {
   const ClientServ = client.service("client");
@@ -256,6 +279,8 @@ const ClientForm = ({closeModal, setOpen}) => {
           depen={depen}
         />
       </ModalBox>
+
+      <ModalBox></ModalBox>
 
       <form onSubmit={handleSubmit(submit)}>
         <ToastContainer theme="colored" />

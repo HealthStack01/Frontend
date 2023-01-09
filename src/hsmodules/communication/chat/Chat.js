@@ -7,6 +7,7 @@ import {Button, Typography} from "@mui/material";
 import Textarea from "../../../components/inputs/basic/Textarea";
 import {useForm} from "react-hook-form";
 import VoiceTextArea from "../../../components/inputs/basic/Textarea/VoiceInput";
+import CommunicationChatStaffsList from "./components/staffs-list/staffs-list";
 
 const CommunicationChat = () => {
   const [text, setText] = useState("");
@@ -16,14 +17,16 @@ const CommunicationChat = () => {
   };
 
   return (
-    <Box>
-      <Button onClick={onSubmit}>Hello, Submit Me</Button>
-
-      <VoiceTextArea
-        name="voice"
-        label="Testing Voice"
-        handleChange={value => setText(value)}
-      />
+    <Box
+      sx={{
+        width: "100%",
+        height: "calc(100vh - 60px)",
+        backgroundColor: "green",
+      }}
+    >
+      <Box sx={{height: "100%", width: "400px", background: "#ffffff"}}>
+        <CommunicationChatStaffsList />
+      </Box>
     </Box>
   );
 };
