@@ -29,13 +29,13 @@ export default function ViewRecords(){
     setCurrentView("veiws");
   };
 
-  const handleHideInsuranceModal = () => {
-    setHealthInsuranceModal(false);
-  };
+  // const handleHideInsuranceModal = () => {
+  //   setHealthInsuranceModal(false);
+  // };
 
-  const handleInsuranceModal = () => {
-    setHealthInsuranceModal(true);
-  };
+  // const handleInsuranceModal = () => {
+  //   setHealthInsuranceModal(true);
+  // };
 
  return(
   <Box>

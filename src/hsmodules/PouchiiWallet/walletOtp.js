@@ -40,14 +40,14 @@ function WalletOTP() {
     // const {otp, phone_number} = data;
     try {
       const res = await api.get(`/verify-otp/${otp}/${phoneNumber}`);
-      console.log(res.data)
+      // console.log(res.data)
       toast.success("Phone Number Verified");
       localStorage.setItem('wallet', JSON.stringify(res.data))
       return res.data;
 
     } catch (error) {
       toast.error(error.message);
-      console.log(error.message)
+      // console.log(error.message)
     }
   };
 
@@ -84,32 +84,6 @@ function WalletOTP() {
           justifyContent: "center",
         }}
       >
-        {/* <Box
-          sx={{
-            position: "fixed",
-            width: "100%",
-            height: "70px",
-            boxShadow: "1",
-            backgroundColor: "#ffffff",
-            left: 0,
-            top: 0,
-            padding: "25px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <img
-            style={{
-              height: "50px",
-              width: "auto",
-              display: "block",
-            }}
-            src="https://healthstack.africa/wp-content/uploads/2021/10/Healthstack-logo1-300x92.png"
-            alt=""
-          />
-        </Box> */}
-
         <Box
           sx={{
             height: "60px",
