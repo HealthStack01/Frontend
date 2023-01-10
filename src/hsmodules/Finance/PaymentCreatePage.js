@@ -83,11 +83,42 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
   const [loading, setLoading] = useState(false);
   const [partTable, setPartTable] = useState([]);
   const [depositModal, setDepositModal] = useState(false);
+  const [walletProfile,setWalletProfile] = useState([])
+  const phoneNumber = '+2348108444864'
+    
 
+  // Pay with Wallet
 
+  useEffect(() => {
+      try {
+          const res = api.get(`/profiles/${phoneNumber}`);
+          console.log(res.data)
+          setWalletProfile(res.data);
+        } catch (error) {
+          console.log(error.message)
+        }
+  },[])
+  
+  const handlePayWithWallet = async () => {
+      try {
+          const res = await api.post(`/send-money`,{
+              accountNumber: "1048324537",
+              amount: 100,
+              channel: "wallettowallet",
+              pin: "1234",
+              transRef: "50099995010011",
+              phoneNumber: "+2347064907683",
+              narration: "Transfer",
+          });
+          console.log(res.data)  
+          return res.data;
+        } catch (error) {
+          console.log(error.message)
+        }
+  }
   //Remita Config
 const config = {
-  key: "QzAwMDAyNzEyNTl8MTEwNjE4NjF8OWZjOWYwNmMyZDk3MDRhYWM3YThiOThlNTNjZTE3ZjYxOTY5NDdmZWE1YzU3NDc0ZjE2ZDZjNTg1YWYxNWY3NWM4ZjMzNzZhNjNhZWZlOWQwNmJhNTFkMjIxYTRiMjYzZDkzNGQ3NTUxNDIxYWNlOGY4ZWEyODY3ZjlhNGUwYTY=", // enter your key here
+  key: "QzAwMDA1NDIwMjB8MTEwMDUzNTMwNjc5fGNlZTQ2YWIyZTdhOTg0M2EwODNlNjQyOTllNjg1ZTY4NWU5MWFlNjVkMjVlMzdkM2Q5YjEzOWFlYjg2NWEwNzdiYzdiYzcxNzZiNTM5MWZjYzY3YzUwOTNlNTUyNDFlNjhlOGEyODJmNDVkMzBmNGUwYTM5YjhlMzZmOTkyN2E4", // enter your key here
   customerId: "86666",
   firstName: "Simpa",
   lastName: "Dania",
@@ -1088,6 +1119,7 @@ let data = {
                   backgroundColor: "#6c584c",
                   "&:hover": {backgroundColor: "#6c584c;"},
                 }}
+                onClick={handlePayWithWallet}
               >
                 <WalletIcon sx={{marginRight: "5px"}} fontSize="small" />
                 Pay with Wallet

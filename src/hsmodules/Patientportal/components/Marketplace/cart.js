@@ -15,7 +15,7 @@ const removeCart = () => {};
 
 const addToCart = () => {};
 
-export default function Cart({cart}) {
+export default function Cart({cart,amount}) {
   return (
     <Stack my="20px">
       <Card>
@@ -50,24 +50,25 @@ export default function Cart({cart}) {
         </CardContent>
         <Stack>
           <CardActions>
-            <ButtonGroup>
+          <ButtonGroup size="large">
               <Button
-                aria-label="reduce"
-                onClick={() => {
-                  removeCart(cart);
-                }}
-              >
-                <RemoveIcon fontSize="small" />
-              </Button>
-              <Button
-                aria-label="increase"
-                onClick={() => {
-                  addToCart(cart);
-                }}
-              >
-                <AddIcon fontSize="small" />
-              </Button>
-            </ButtonGroup>
+                  aria-label="increase"
+                  onClick={() => {
+                    addToCart()
+                  }}
+                >
+                  <AddIcon fontSize="small" />
+                </Button>
+                <Button>{amount}</Button>
+                <Button
+                  aria-label="reduce"
+                  onClick={() => {
+                    removeCart()
+                  }}
+                >
+                  <RemoveIcon fontSize="small" />
+                </Button>
+              </ButtonGroup>
           </CardActions>
         </Stack>
       </Card>

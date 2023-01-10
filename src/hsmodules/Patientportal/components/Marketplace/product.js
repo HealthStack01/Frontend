@@ -5,15 +5,15 @@ import {
   Card,
   CardMedia,
   CardContent,
-  CardActions,
-  Paper,
-  Grid,
+  Rating
 } from '@mui/material';
 import Input from '../../../../components/inputs/basic/Input';
 import { useNavigate } from 'react-router-dom';
-
+import { useState } from 'react';
 export default function Product({ product }) {
   const navigate = useNavigate();
+  const [value, setValue] = useState(2);
+
   return (
     <Box>
       <Card
@@ -31,8 +31,8 @@ export default function Product({ product }) {
           <Stack>
             <Typography
               variant="p"
-              fontSize="14px"
-              fontWeight="semibold"
+              fontSize="18px"
+              fontWeight="bold"
               color="text.secondary"
             >
               {product?.name}
@@ -42,17 +42,25 @@ export default function Product({ product }) {
             <Typography
               variant="p"
               fontSize="16px"
-              fontWeight="bold"
-              color="text.secondary"
+              fontWeight="semibold"
+              color="blue"
             >
               {product?.price}
             </Typography>
           </Stack>
           <Stack pt="1rem">
+          <Rating
+                      name="simple-controlled"
+                      value={value}
+                      onChange={(event, newValue) => {
+                        setValue(newValue);
+                      }}
+                      
+                    />
             <Typography
               variant="p"
               fontSize="14px"
-              fontWeight="bold"
+              fontWeight="semibold"
               color="text.secondary"
             >
               {product?.review} reviews
