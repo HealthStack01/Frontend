@@ -26,7 +26,6 @@ import ModalBox from "../../components/modal";
 import Input from "../../components/inputs/basic/Input";
 import MakeDeposit from "./Deposit";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
-import RemitaWithPayment from "./Remita/RemitaWithPayment";
 // eslint-disable-next-line
 const searchfacility = {};
 
