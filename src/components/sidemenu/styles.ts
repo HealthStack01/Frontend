@@ -66,7 +66,7 @@ export const MainMenu = styled.div`
     margin: 1rem 0;
     position: relative;
     overflow-x: hidden;
-    height: 100%;
+    height: calc(100vh - 100px);
     overflow-y: auto;
   }
 

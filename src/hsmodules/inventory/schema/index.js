@@ -64,7 +64,7 @@ export const InventoryStoreSchema = [
     inputType: "TEXT",
   },
   {
-    name: "cost Price",
+    name: "Cost Price",
     key: "costprice",
     description: "Enter cost price",
     selector: row => row.costprice,
@@ -82,10 +82,10 @@ export const InventoryStoreSchema = [
     inputType: "TEXT",
   },
   {
-    name: "Re-Order level",
+    name: "Reorder level",
     key: "Re-order",
     description: "Enter Re-order Level",
-    selector: row => (row.reorder_level ? row.reorder_level : "----------"),
+    selector: row => (row.reorder_level ? row.reorder_level : "Unspecified"),
     sortable: true,
     required: true,
     inputType: "TEXT",

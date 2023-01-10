@@ -4,6 +4,8 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 import DataTable from "react-data-table-component";
 
+//import DataTable from "react-data-table-component-footer";
+
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
@@ -495,6 +497,7 @@ export function InventoryList({showcreateModal, openDetailModal}) {
 
   const handleRow = async Inventory => {
     //console.log("b4",state)
+    if ((Inventory.name = "Sum Total")) return;
 
     //console.log("handlerow",Inventory)
     console.log(Inventory);
@@ -685,6 +688,12 @@ export function InventoryList({showcreateModal, openDetailModal}) {
     },
   ];
 
+  const totalStockValue =
+    facilities.length > 0 &&
+    facilities
+      .map(item => item.stockvalue)
+      .reduce((prev, next) => Number(prev) + Number(next));
+
   return (
     <>
       {user ? (
@@ -704,6 +713,25 @@ export function InventoryList({showcreateModal, openDetailModal}) {
                 </h2>
               </div>
 
+              {facilities.length > 0 && (
+                <Box sx={{display: "flex"}} gap={0.5}>
+                  <Typography sx={{fontWeight: "600", fontSize: "0.85rem"}}>
+                    Total Stock Value:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontWeight: "600",
+                      fontSize: "0.85rem",
+                      color: "#000000",
+                    }}
+                  >
+                    {totalStockValue}
+                  </Typography>
+                </Box>
+              )}
+
+              <div />
+
               {/* {handleCreateNew && (
                 <Button
                   style={{fontSize: "14px", fontWeight: "600"}}
@@ -713,7 +741,13 @@ export function InventoryList({showcreateModal, openDetailModal}) {
               )} */}
             </TableMenu>
 
-            <div style={{width: "100%", height: "calc(100vh - 170px)"}}>
+            <div
+              style={{
+                width: "100%",
+                height: "calc(100vh - 170px)",
+                overflowY: "auto",
+              }}
+            >
               <DataTable
                 title={""}
                 columns={InventoryStoreSchema.filter(

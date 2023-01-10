@@ -3,6 +3,7 @@ import React, {useState, useContext, useEffect, useRef} from "react";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 import DataTable from "react-data-table-component";
+//import DataTable from "react-data-table-component-footer";
 
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
@@ -494,9 +495,7 @@ export function InventoryList({showcreateModal, openDetailModal}) {
   };
 
   const handleRow = async Inventory => {
-    //console.log("b4",state)
-
-    //console.log("handlerow",Inventory)
+    if ((Inventory.name = "Sum Total")) return;
     console.log(Inventory);
 
     await setSelectedInventory(Inventory);
@@ -592,6 +591,7 @@ export function InventoryList({showcreateModal, openDetailModal}) {
   };
 
   const getNewInventories = async () => {
+    setLoadidng(true);
     if (user.currentEmployee) {
       const allInventory = await InventoryServ.find({
         query: {
@@ -608,6 +608,7 @@ export function InventoryList({showcreateModal, openDetailModal}) {
       // await setFacilities(findInventory.data)
       await setTotal(allInventory.total);
       await setFacilities(allInventory.data);
+      setLoadidng(false);
 
       if (allInventory.total > allInventory.data.length) {
         // setNext(true)
@@ -633,6 +634,7 @@ export function InventoryList({showcreateModal, openDetailModal}) {
         });
 
         await setFacilities(findInventory.data);
+        setLoadidng(false);
       }
     }
   };
@@ -685,6 +687,32 @@ export function InventoryList({showcreateModal, openDetailModal}) {
     },
   ];
 
+  const totalStockValue =
+    facilities.length > 0 &&
+    facilities
+      .map(item => item.stockvalue)
+      .reduce((prev, next) => Number(prev) + Number(next));
+
+  const totalCostPrice =
+    facilities.length > 0 &&
+    facilities
+      .map(item => item.costprice)
+      .reduce((prev, next) => Number(prev) + Number(next));
+
+  const totalQuantity =
+    facilities.length > 0 &&
+    facilities
+      .map(item => item.quantity)
+      .reduce((prev, next) => Number(prev) + Number(next));
+
+  const footer = {
+    name: "Sum Total",
+    stockvalue: totalStockValue,
+    costprice: totalCostPrice,
+    quantity: totalQuantity,
+    reorder_level: "",
+  };
+
   return (
     <>
       {user ? (
@@ -704,16 +732,33 @@ export function InventoryList({showcreateModal, openDetailModal}) {
                 </h2>
               </div>
 
-              {/* {handleCreateNew && (
-                <Button
-                  style={{fontSize: "14px", fontWeight: "600"}}
-                  label="Add new "
-                  onClick={showcreateModal}
-                />
-              )} */}
+              {facilities.length > 0 && (
+                <Box sx={{display: "flex"}} gap={0.5}>
+                  <Typography sx={{fontWeight: "600", fontSize: "0.85rem"}}>
+                    Total Stock Value:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontWeight: "600",
+                      fontSize: "0.85rem",
+                      color: "#000000",
+                    }}
+                  >
+                    {totalStockValue}
+                  </Typography>
+                </Box>
+              )}
+
+              <div />
             </TableMenu>
 
-            <div style={{width: "100%", height: "calc(100vh - 170px)"}}>
+            <div
+              style={{
+                width: "100%",
+                height: "calc(100vh - 170px)",
+                overflowY: "auto",
+              }}
+            >
               <DataTable
                 title={""}
                 columns={InventoryStoreSchema.filter(

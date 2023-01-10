@@ -8,8 +8,8 @@ interface ModalProps {
   open: boolean;
   onClose?: () => void;
   children?: React.ReactNode | undefined;
-  header?: "string";
-  width?: "string";
+  header?: string;
+  width?: string;
 }
 
 const ModalBox: React.FC<ModalProps> = ({
