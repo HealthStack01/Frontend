@@ -67,7 +67,7 @@ export const getOrganisationSchema = (): Schema[] => [
     sortable: true,
     required: true,
     inputType: InputType.SELECT_LIST,
-    options: ["Health", "Finance"],
+    options: ["Healthcare", "Finance"],
   },
 ];
 
@@ -104,7 +104,7 @@ export const getOrganisationContactSchema = (
     required: true,
     options:
       (Nigeria || []).find(obj => obj.state === formData["facilityState"])
-        .lgas || [],
+        ?.lgas || [],
     inputType: InputType.SELECT_LIST,
   },
   {
@@ -116,7 +116,7 @@ export const getOrganisationContactSchema = (
     required: true,
     options:
       (Nigeria || []).find(obj => obj.state === formData["facilityState"])
-        .lgas || [],
+        ?.lgas || [],
     inputType: InputType.SELECT_LIST,
   },
   {

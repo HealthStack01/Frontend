@@ -99,7 +99,7 @@ const TopMenu = ({isOpen, handleClick}) => {
 
         <div className="profile-item">
           <i className="bi bi-bell-fill" />
-          {/* <Avatar src="/img_avatar.png" alt="" /> */}
+
           <ProfileMenu />
         </div>
       </Profile>

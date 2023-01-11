@@ -64,7 +64,12 @@ const ClosedDealsList = ({
 
     const res =
       testId === facId
-        ? await dealServer.find({})
+        ? await dealServer.find({
+            query: {
+              //facilityId: facId,
+              "dealinfo.currStatus": "closed",
+            },
+          })
         : await dealServer.find({
             query: {
               facilityId: facId,

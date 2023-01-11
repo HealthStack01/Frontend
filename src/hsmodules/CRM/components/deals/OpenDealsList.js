@@ -45,15 +45,20 @@ const OpenDealsList = ({
 
     const res =
       testId === facId
-        ? await dealServer.find({})
+        ? await dealServer.find({
+            query: {
+              //facilityId: facId,
+              "dealinfo.currStatus": "open",
+            },
+          })
         : await dealServer.find({
             query: {
               facilityId: facId,
-              "dealinfo.currStatus": status,
-              //"dealinfo.currStatus": "pending",
+              "dealinfo.currStatus": "open",
             },
           });
     await setOpenDeals(res.data);
+    //console.log(res.data);
     setLoading(false);
   }, []);
 
@@ -79,38 +84,6 @@ const OpenDealsList = ({
 
   const handleSearch = val => {};
 
-  const dummyData = [
-    {
-      company_name: "Health Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
-    },
-    {
-      company_name: "Albert Health Stack",
-      telestaff_name: "KTeejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
-    },
-    {
-      company_name: "DonaHealth Stack",
-      telestaff_name: "9Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Inactive",
-    },
-
-    {
-      company_name: "DaviHealth Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
-    },
-  ];
-
   const returnCell = status => {
     switch (status.toLowerCase()) {
       case "open":
@@ -123,55 +96,6 @@ const OpenDealsList = ({
         break;
     }
   };
-
-  const dealsColumns2 = [
-    {
-      name: "Company Name",
-      key: "sn",
-      description: "Enter name of Company",
-      selector: row => row.company_name,
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "Telestaff Name",
-      key: "telestaff_name",
-      description: "Enter Telestaff name",
-      selector: row => row.telestaff_name,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Probability Of Deal",
-      key: "probability",
-      description: "Enter bills",
-      selector: row => row.probability,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Date of Submission",
-      key: "date",
-      description: "Enter name of Disease",
-      selector: (row, i) => row.date,
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-    {
-      name: "Status",
-      key: "status",
-      description: "Enter bills",
-      selector: "status",
-      cell: row => returnCell(row.status),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-  ];
 
   const dealsColumns = [
     {

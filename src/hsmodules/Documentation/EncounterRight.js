@@ -1414,7 +1414,7 @@ export function DoctorsNoteCreate() {
       return;
     }
 
-    return console.log(document);
+    //return console.log(document);
 
     // let confirm = window.confirm(
     //   `You are about to save this document ${document.documentname} ?`
