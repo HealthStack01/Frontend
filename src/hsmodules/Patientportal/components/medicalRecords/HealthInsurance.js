@@ -1,25 +1,70 @@
-import {Box,Typography,Stack,Grid} from "@mui/material";
+import {Box,Typography,Stack,Grid,CardMedia} from "@mui/material";
+import {HealthAndSafety} from "@mui/icons-material"
 import Button from "../../../../components/buttons/CustomButton"
 import { UserContext, ObjectContext } from '../../../../context';
 import Input from '../../../../components/inputs/basic/Input/index';
 import React, { useState, useContext} from 'react';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 
-export default function HealthInsurance(){
-  
+
+export const HMOData = [
+  {
+     id:1,
+      name:"Reliance Health Care",
+      img:"https://media.glassdoor.com/sql/3850086/reliance-hmo-squareLogo-1623350632246.png"
+  },
+  {
+    id: 2,
+      name:"Reliance Health Care",
+      img:"https://media.glassdoor.com/sql/3850086/reliance-hmo-squareLogo-1623350632246.png"
+  },
+  {
+    id: 3,
+      name:"Reliance Health Care",
+      img:"https://media.glassdoor.com/sql/3850086/reliance-hmo-squareLogo-1623350632246.png"
+  },
+  {
+    id: 4,
+      name:"Reliance Health Care",
+      img:"https://media.glassdoor.com/sql/3850086/reliance-hmo-squareLogo-1623350632246.png"
+  },
+  {
+    id: 5,
+      name:"Reliance Health Care",
+      img:"https://media.glassdoor.com/sql/3850086/reliance-hmo-squareLogo-1623350632246.png"
+  },
+  {
+    id: 6,
+      name:"Reliance Health Care",
+      img:"https://media.glassdoor.com/sql/3850086/reliance-hmo-squareLogo-1623350632246.png"
+  }
+]
+
+
+export default function HealthInsurance({handleGoBack}){
+  const navigate = useNavigate();
+
    return(
+    <>
+     <Box p="1.4rem">
+    <Button  onClick={handleGoBack}>
+            <ArrowBackIcon />
+            Go Back
+          </Button>
+    </Box>
     <Box p="1rem">
-      
-    {/* <Stack display="flex" flexDirection="column" alignItems="center" gap="1rem">
-      <HealthAndSafetyIcon sx={{color:"#f4f3ee",fontSize:'450px'}}/>
+    <Stack display="flex" flexDirection="column" alignItems="center" gap="1rem">
+      <HealthAndSafety sx={{color:"#f4f3ee",fontSize:'450px'}}/>
      <Typography color="gray">You dont have any health insurance plan yet</Typography>
-     <Button width="70%" onClick={() => navigate("/app/managed-care/beneficiary")}>Get Insurance Now</Button>
-    </Stack>  */}
-    <ClientDetail/>
+     <Button width="70%" onClick={() => navigate("/app/patient-portal/view/hmo")}>Get Insurance Now</Button>
+    </Stack> 
+    {/* <ClientDetail/> */}
  </Box>
+ </>
    )
 }
-
 
 export function ClientDetail({ showModal, setShowModal }) {
    //const { register, handleSubmit, watch, setValue } = useForm(); //errors,

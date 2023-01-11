@@ -8,6 +8,7 @@ import Search from "../Patientportal/Search";
 // import ProductDetails from '../Patientportal/components/Marketplace/productDetails';
 import SearchDetails from "../Patientportal/components/search/SearchDetails";
 import HMOCompanyDetails from "../Patientportal/components/HealthPlans/HMOCompanyDetails";
+import HMOCompanyList  from "../Patientportal/components/HealthPlans/HMOCompanyList";
 
 const DummyComponent = () => {
   return <h1>No Yet Available</h1>;
@@ -25,6 +26,10 @@ export const patientProfileRoutes = [
   {
     path: "/app/patient-portal/view/hmo/:id",
     Component: HMOCompanyDetails,
+  },
+   {
+    path: "/app/patient-portal/view/hmo",
+    Component: HMOCompanyList,
   },
   {
     path: "/app/patient-portal/buy",
