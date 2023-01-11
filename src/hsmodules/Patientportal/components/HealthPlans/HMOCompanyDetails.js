@@ -9,31 +9,27 @@ import {
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Button from "../../../../components/buttons/CustomButton";
-// import ModalBox from "../../../../components/modal";
-import { useState } from 'react';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useNavigate } from 'react-router-dom';
 
 export default function HMOCompanyDetails() {
-  //   const [healthInsuranceModal, setHealthInsuranceModal] = useState(false)
-
-  //   const handleHideInsuranceModal = () => {
-  //     setHealthInsuranceModal(false);
-  //   };
-
-  const handleInsuranceModal = () => {
-    //setHealthInsuranceModal(true);
-  };
-
-  // <ModalBox open={healthInsuranceModal} onClose={handleHideInsuranceModal} header="Health Insurance">
-  //            <h1>hello</h1>
-  // </ModalBox>
-
+  const navigate = useNavigate();
+  
+ 
   return (
-    <Stack m="1rem">
+    <>
+    <Box p="1.4rem">
+    <Button  onClick={() => navigate("/app/patient-portal/view/hmo")}>
+            <ArrowBackIcon />
+            Go Back
+          </Button>
+    </Box>
+    <Stack m="1rem" display="flex" flexDirection="column" alignItems="center">
       <Box textAlign="center" py="2rem" width="80%">
-        <Typography variant="h4" textAlign="center">
+        <Typography variant="h4" fontWeight="bold" textAlign="center">
           Reliance Health Care
         </Typography>
-        <Typography variant="p">
+        <Typography variant="h6" py="1rem">
           Choose between the monthly, quarterly or yearly payment periods and
           select any of our health insurance plans that fit your needs,After
           paying, watch out for the series of emails you’ll get from your no. 1
@@ -52,7 +48,7 @@ export default function HMOCompanyDetails() {
         <Box
           sx={{
             backgroundColor: "#03045e",
-            width: "300px",
+            width: "250px",
             height: "320px",
             borderRadius: "5px",
           }}
@@ -87,7 +83,7 @@ export default function HMOCompanyDetails() {
             </ListItem>
           </List>
           <Stack mt="3rem">
-            <Button width="80%" onClick={handleInsuranceModal}>
+            <Button width="80%">
               Buy Plan
             </Button>
           </Stack>
@@ -128,14 +124,14 @@ export default function HMOCompanyDetails() {
             </ListItem>
           </List>
           <Stack mt="3rem">
-            <Button width="80%" onClick={handleInsuranceModal}>
+            <Button width="80%">
               Buy Plan
             </Button>
           </Stack>
         </Box>
         <Box
           sx={{
-            backgroundColor: "#03045e",
+            backgroundColor: "#007f5f",
             width: "250px",
             height: "320px",
             borderRadius: "5px",
@@ -144,7 +140,7 @@ export default function HMOCompanyDetails() {
         >
           <Stack p="1rem">
             <Typography color="white" fontSize="16px" fontWeight="bold">
-              GOLD PLAN
+              PREMIUM PLAN
             </Typography>
             <Typography color="white">₦40.50</Typography>
           </Stack>
@@ -169,12 +165,13 @@ export default function HMOCompanyDetails() {
             </ListItem>
           </List>
           <Stack mt="3rem">
-            <Button width="80%" onClick={handleInsuranceModal}>
+            <Button width="80%">
               Buy Plan
             </Button>
           </Stack>
         </Box>
       </Stack>
     </Stack>
+    </>
   );
 }
