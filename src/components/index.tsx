@@ -15,6 +15,7 @@ import {Profile, TopMenuWrapper} from "./styles";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import MenuIcon from "@mui/icons-material/Menu";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import AppNotifications from "./notifications/Notifications";
 //import { avatar } from '../../assets/images/img_avatar.png';
 
 const defaultList = [{code: "NG", label: "", location: ""}];
@@ -209,8 +210,8 @@ const TopMenu = () => {
         )}
 
         <div className="profile-item">
-          <i className="bi bi-bell-fill" />
-          {/* <Avatar src="/img_avatar.png" alt="" /> */}
+          <AppNotifications />
+
           <ProfileMenu />
         </div>
       </Profile>

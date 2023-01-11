@@ -28,7 +28,7 @@ const CustomLoader = () => (
   </div>
 );
 
-const CommunicationChatStaffsList = () => {
+const CommunicationChatStaffsList = ({closeStaffsList}) => {
   const EmployeeServ = client.service("employee");
   const {user} = useContext(UserContext);
   const [staffs, setStaffs] = useState([]);
@@ -122,7 +122,7 @@ const CommunicationChatStaffsList = () => {
           />
         </Box>
 
-        <IconButton>
+        <IconButton onClick={closeStaffsList}>
           <CloseIcon />
         </IconButton>
       </Box>
@@ -142,7 +142,7 @@ const CommunicationChatStaffsList = () => {
         <Box
           sx={{width: "100%", height: "calc(100% - 50px)", overflowY: "auto"}}
         >
-          {filteredStaffs.map(staff => {
+          {staffs.map(staff => {
             return <ChatEachStaff key={staff._id} staff={staff} />;
           })}
         </Box>

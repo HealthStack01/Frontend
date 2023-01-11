@@ -12,7 +12,7 @@ const FormsHeaderText = ({text, color = "#0064CC"}: componentProps) => {
         color: color,
         textTransform: "uppercase",
         fontWeight: "800",
-        fontSize: "0.80rem",
+        fontSize: "0.80rem !important",
         lineHeight: "28px",
         //marginBottom: "10px",
       }}

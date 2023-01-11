@@ -1377,7 +1377,8 @@ export function ClientDetail({closeDetailModal}) {
             <Box>
               <IconButton onClick={handleOpenOptions}>
                 <Avatar
-                  sx={{width: 68, height: 68}}
+                  sx={{width: 80, height: 80}}
+                  src={Client.imageurl}
                   //src={facility?.facilitylogo}
                 />
               </IconButton>
@@ -1919,7 +1920,6 @@ const UploadComponent = ({}) => {
 };
 
 export const UpdateClientPassport = ({closeModal, selectedClient}) => {
-  const facilityServer = client.service("facility");
   const ClientServ = client.service("client");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -1957,7 +1957,7 @@ export const UpdateClientPassport = ({closeModal, selectedClient}) => {
 
         const newClient = {
           ...selectedClient,
-          imageUrl: imageUrl,
+          imageurl: imageUrl,
         };
 
         const documentId = selectedClient._id;
@@ -1965,6 +1965,7 @@ export const UpdateClientPassport = ({closeModal, selectedClient}) => {
         await ClientServ.patch(documentId, newClient)
           .then(res => {
             hideActionLoader();
+            closeModal();
             toast.success("Patient Image Updated succesfully");
           })
           .catch(err => {

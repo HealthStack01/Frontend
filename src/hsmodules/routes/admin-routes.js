@@ -1,5 +1,5 @@
 import {lazy} from "react";
-
+//import OrganizationEmailConfiguration from "../Admin/Email-Configuration";
 const ClinicSetup = lazy(() => import("../Clinic/ClinicSetup"));
 const Accessibility = lazy(() => import("../Admin/Accessibility"));
 const CareTeam = lazy(() => import("../Admin/CareTeam"));
@@ -13,6 +13,9 @@ const Roaster = lazy(() => import("../Admin/Roaster"));
 const Workspace = lazy(() => import("../Admin/Workspace"));
 const Location = lazy(() => import("../Admin/Location"));
 const AdminOrganization = lazy(() => import("../Admin/Organization"));
+const OrganizationEmailConfiguration = lazy(() =>
+  import("../Admin/EmailConfiguration")
+);
 
 export const adminRoutes = [
   {
@@ -66,5 +69,9 @@ export const adminRoutes = [
   {
     path: "/app/admin/clinicsetup",
     Component: ClinicSetup,
+  },
+  {
+    path: "/app/admin/email-configuration",
+    Component: OrganizationEmailConfiguration,
   },
 ];

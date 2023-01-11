@@ -20,7 +20,7 @@ export const ClientMiniSchema = [
     name: "Image",
     key: "middlename",
     description: "Midlle Name",
-    selector: row => <Avatar src={row.imageUrl} />,
+    selector: row => <Avatar src={row.imageurl} />,
     sortable: true,
     required: true,
     inputType: "TEXT",
@@ -111,13 +111,16 @@ export const ClientMiniSchema = [
   {
     name: "Gender",
     key: "gender",
-    description: "Male",
-    selector: row => (row.gender ? row.gender : "Not Specified"),
+    description: "Gender",
+    selector: row => (row.gender ? row.gender : "unspecified"),
     sortable: true,
     required: true,
     inputType: "SELECT_LIST",
     options: ["Male", "Female"],
     width: "100px",
+    style: {
+      textTransform: "capitalize",
+    },
   },
   {
     name: "Phone Number",

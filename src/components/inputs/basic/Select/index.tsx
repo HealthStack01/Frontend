@@ -120,7 +120,11 @@ const CustomSelect: React.FC<SelectProps> = ({
           defaultValue="" // make sure to set up defaultValue
         />
 
-        {errorText && <FormHelperText error>{errorText}</FormHelperText>}
+        {errorText && (
+          <label style={{color: "red", fontSize: "0.7rem", textAlign: "left"}}>
+            {errorText}
+          </label>
+        )}
       </FormControl>
     );
   return (
@@ -182,7 +186,11 @@ const CustomSelect: React.FC<SelectProps> = ({
           </MenuItem>
         ))}
       </Select>
-      {errorText && <FormHelperText error>{errorText}</FormHelperText>}
+      {errorText && (
+        <label style={{color: "red", fontSize: "0.7rem", textAlign: "left"}}>
+          {errorText}
+        </label>
+      )}
     </FormControl>
   );
 };

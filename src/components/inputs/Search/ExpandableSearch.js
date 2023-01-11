@@ -24,6 +24,7 @@ const Content = ({isOpen, onSearchFocus, onSearchBlur, onChange, value}) => (
       value={value}
       type="text"
       size="small"
+      autoComplete="off"
       sx={{
         backgroundColor: "#ffffff",
         "& .MuiInputBase-input": {

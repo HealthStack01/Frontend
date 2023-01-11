@@ -61,6 +61,7 @@
     "react-beautiful-dnd": "^13.1.0",
     "react-checkbox-tree": "^1.8.0",
     "react-data-table-component": "^7.4.6",
+    "react-data-table-component-footer": "^6.12.0-beta.2",
     "react-date-range": "^1.4.0",
     "react-datepicker": "^4.8.0",
     "react-debounce-input": "^3.2.5",

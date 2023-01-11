@@ -55,6 +55,7 @@ import SLA from "../../SLA";
 import ChatInterface from "../../../../components/chat/ChatInterface";
 import GlobalDealChat from "../global/DealChat";
 import dayjs from "dayjs";
+import SendLinkViaEmail from "../deals/SendLink";
 
 export const LeadView = () => {
   const {register, reset, control, handleSubmit} = useForm();
@@ -788,6 +789,7 @@ const LeadDetail = ({handleGoBack}) => {
   const [chat, setChat] = useState(false);
   const [unreadMsgs, setUnreadMsgs] = useState([]);
   const [dealStatus, setDealStatus] = useState("");
+  const [sendLinkModal, setSendLinkModal] = useState(false);
 
   const handleSetCurrentView = view => {
     setCurrentView(view);
@@ -849,7 +851,7 @@ const LeadDetail = ({handleGoBack}) => {
       <Box
         sx={{
           display: "flex",
-          alignItems: "center",
+          alignItems: "flex-start",
           justifyContent: "space-between",
           borderBottom: "1px solid #f8f8f8",
           backgroundColor: "#f8f8f8",
@@ -860,6 +862,7 @@ const LeadDetail = ({handleGoBack}) => {
         }}
         mb={2}
         p={2}
+        pb={1}
       >
         <Box
           sx={{
@@ -883,9 +886,21 @@ const LeadDetail = ({handleGoBack}) => {
           </Typography>
         </Box>
 
-        <Box sx={{display: "flex", justifyContent: "flex-end"}} mb={2} gap={1}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            width: "calc(100% - 250px)",
+            flexWrap: "wrap",
+          }}
+          mb={2}
+          gap={1}
+        >
           {dealStatus === "closed" && (
-            <GlobalCustomButton color="info">
+            <GlobalCustomButton
+              color="info"
+              onClick={() => setSendLinkModal(true)}
+            >
               <LinkIcon fontSize="small" sx={{marginRight: "2px"}} /> Send Link
             </GlobalCustomButton>
           )}
@@ -1090,6 +1105,14 @@ const LeadDetail = ({handleGoBack}) => {
         {currentView === "invoice" && <Invoice isTab={true} />}
         {currentView === "sla" && <SLA isTab={true} />}
       </Box>
+
+      <ModalBox
+        open={sendLinkModal}
+        onClose={() => setSendLinkModal(false)}
+        header={`Send Organization Link`}
+      >
+        <SendLinkViaEmail closeModal={() => setSendLinkModal(false)} />
+      </ModalBox>
 
       <Drawer
         anchor="right"

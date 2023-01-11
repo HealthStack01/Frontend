@@ -38,7 +38,7 @@ const CustomLoader = () => (
       src="/loading.gif"
       style={{width: "200px", height: "auto", display: "block"}}
     />
-    <Typography sx={{marginTop: "-2rem"}}>
+    <Typography sx={{marginTop: "-2rem", fontSize: "0.85rem"}}>
       Hold on, whilst we fetch your data...
     </Typography>
   </div>

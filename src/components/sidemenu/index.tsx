@@ -154,6 +154,7 @@ export const menuItems = [
       {name: "Location", to: "/app/admin/location"},
       {name: "Dashboard", to: "/app/admin/dashboard"},
       {name: "Organization", to: "/app/admin/organization"},
+      {name: "Configure Email", to: "/app/admin/email-configuration"},
     ],
   },
   {

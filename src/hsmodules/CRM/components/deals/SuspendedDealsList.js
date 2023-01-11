@@ -64,7 +64,12 @@ const SuspendedDealsList = ({
 
     const res =
       testId === facId
-        ? await dealServer.find({})
+        ? await dealServer.find({
+            query: {
+              facilityId: facId,
+              "dealinfo.currStatus": "suspended",
+            },
+          })
         : await dealServer.find({
             query: {
               facilityId: facId,

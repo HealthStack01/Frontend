@@ -1,3 +1,4 @@
+import {Typography} from "@mui/material";
 import styled from "styled-components";
 
 function getCssClass(value) {
@@ -29,8 +30,15 @@ export const InventoryStoreSchema = [
     name: "product",
     key: "product",
     description: "Enter product",
-    selector: row => row.name,
-
+    //selector: row => row.name,
+    selector: row => (
+      <Typography
+        sx={{fontSize: "0.69rem", whiteSpace: "normal", color: "#000000"}}
+        data-tag="allowRowEvents"
+      >
+        {row.name}
+      </Typography>
+    ),
     sortable: true,
     required: true,
     inputType: "TEXT",
@@ -56,15 +64,15 @@ export const InventoryStoreSchema = [
   },
   {
     name: "Stock Value",
-    key: "stockValue",
+    key: "stockvalue",
     description: "Enter Stock value",
-    selector: row => row.stockvalue,
+    selector: "stockvalue",
     sortable: true,
     required: true,
     inputType: "TEXT",
   },
   {
-    name: "cost Price",
+    name: "Cost Price",
     key: "costprice",
     description: "Enter cost price",
     selector: row => row.costprice,
@@ -82,10 +90,10 @@ export const InventoryStoreSchema = [
     inputType: "TEXT",
   },
   {
-    name: "Re-Order level",
-    key: "Re-order",
+    name: "Reorder level",
+    key: "reorder_level",
     description: "Enter Re-order Level",
-    selector: row => (row.reorder_level ? row.reorder_level : "----------"),
+    selector: row => (row.reorder_level ? row.reorder_level : "Unspecified"),
     sortable: true,
     required: true,
     inputType: "TEXT",
