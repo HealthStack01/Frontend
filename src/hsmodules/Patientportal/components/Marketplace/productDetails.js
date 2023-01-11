@@ -136,7 +136,7 @@ export default function ProductDetails({ handleGoBack}) {
         open={open}
         onClick={handleDrawerClose}
       >
-            <Cart cart={product}/>
+            <Cart cart={product} amount={amount}/>
       </Drawer>
       {/* <td> */}
       <Box
@@ -145,16 +145,17 @@ export default function ProductDetails({ handleGoBack}) {
           overflowY: 'scroll',
         }}
       >
-        <Grid container spacing={6}>
+        <Grid container>
           <StyledGrid item md={5} xs={12}>
-            <CardContent
-              sx={{
+            <CardContent>
+              <Paper elevation={3}  sx={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-              }}
-            >
-              <img width="30%" height="40%" alt="" src={product?.img} />
+                p:"2rem"
+              }}>
+              <img width="60%" height="50%" alt="" src={product?.img} />
+              </Paper>
             </CardContent>
           </StyledGrid>
           <Grid
@@ -174,27 +175,26 @@ export default function ProductDetails({ handleGoBack}) {
               <Typography variant="h6" sx={{ marginBottom: 2 }} pt="1rem">
                 {product?.name}
               </Typography>
-              <Stack pb="1rem">
+              <Box display="flex" alignItems="center" gap="1rem">
+                <Rating
+                      name="simple-controlled"
+                      value={value}
+                      onChange={(event, newValue) => {
+                        setValue(newValue);
+                      }}
+                      
+                    />
+               
                 <Typography
                   variant="p"
                   fontSize="16px"
-                  fontWeight="bold"
-                  sx={{ color: 'blue' }}
-                >
-                  {product?.price}
-                </Typography>
-              </Stack>
-              <Stack pb="1rem">
-                <Typography
-                  variant="p"
-                  fontSize="16px"
-                  fontWeight="bold"
+                  fontWeight="semibold"
                   color="text.secondary"
                 >
                   {product?.review} reviews
                 </Typography>
-              </Stack>
-              <Stack pb="1rem">
+              </Box>
+              <Stack pt="1rem">
                 <Typography
                   variant="p"
                   fontSize="16px"
@@ -205,7 +205,7 @@ export default function ProductDetails({ handleGoBack}) {
                 </Typography>
                 <Typography
                   variant="p"
-                  width="50%"
+                  width="70%"
                   fontSize="14px"
                   color="text.secondary"
                 >
@@ -223,16 +223,35 @@ export default function ProductDetails({ handleGoBack}) {
                 </Typography>
                 <Typography
                   variant="p"
-                  width="50%"
+                  width="70%"
                   fontSize="14px"
                   color="text.secondary"
                 >
                   {product?.dosage}
                 </Typography>
               </Stack>
+              <Stack pt="1rem">
+                <Typography
+                  variant="h1"
+                  fontSize="18px"
+                  fontWeight="bold"
+                >
+                  {product?.price}
+                </Typography>
+              </Stack>
             </CardContent>
+
             <CardActions>
-              <ButtonGroup>
+              <ButtonGroup size="large">
+              <Button
+                  aria-label="increase"
+                  onClick={() => {
+                    addToCart(product)
+                  }}
+                >
+                  <AddIcon fontSize="small" />
+                </Button>
+                <Button>{amount}</Button>
                 <Button
                   aria-label="reduce"
                   onClick={() => {
@@ -241,21 +260,13 @@ export default function ProductDetails({ handleGoBack}) {
                 >
                   <RemoveIcon fontSize="small" />
                 </Button>
-                <Button
-                  aria-label="increase"
-                  onClick={() => {
-                    addToCart(product)
-                  }}
-                >
-                  <AddIcon fontSize="small" />
-                </Button>
               </ButtonGroup>
             </CardActions>
             <CardActions className="card-action-dense">
-              <Box sx={{ display: 'flex', gap: '2rem' }}>
-                <GButton onClick={() => {addToCart(product)}}>Add To Cart</GButton>
-                <GButton>Buy Now</GButton>
-              </Box>
+              <ButtonGroup variant="contained" fontWeight="bold" aria-label="outlined primary button group">
+              <Button onClick={() => {addToCart(product)}}>Add To Cart</Button>
+              <Button>Buy Now</Button>
+              </ButtonGroup>
             </CardActions>
           </Grid>
         </Grid>
