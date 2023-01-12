@@ -29,14 +29,8 @@
   border-radius: 4px;
 } */
 
-/* .btn { */
-/* width: 100%;
-    height: 50px;
-    padding: 12px;
-    font-size: 16px;
-    margin-bottom: 12px;
-    border-radius: 4px; */
-/* background-color: #023e8a;
-  color: #fff;
-  border: 0;
-} */
+.btn {
+	background-color: #023e8a;
+	color: #fff;
+	border: 0;
+}
