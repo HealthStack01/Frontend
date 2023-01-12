@@ -32,6 +32,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ModalBox from "../../components/modal";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 import ModuleList from "./ModuleList";
+import {Avatar, IconButton} from "@mui/material";
 
 // import { createClientSchema } from "./schema";
 
@@ -182,7 +183,7 @@ const EmployeeView = ({open, setOpen, employee}) => {
         cancelAction={() => setConfirmDialog(false)}
         confirmationAction={handleDelete}
         type="danger"
-        message="Are you sure you want to delete this data?"
+        message={`Are you sure you want to delete this employee ${employee.firstname} ${employee.lastname}?`}
       />
 
       <ModalBox
@@ -200,61 +201,71 @@ const EmployeeView = ({open, setOpen, employee}) => {
         </Box>
         <Box
           display="flex"
-          justifyContent="flex-end"
+          justifyContent="space-between"
           alignItems="center"
-          gap={1}
+          mt={1}
         >
-          {!editing ? (
-            <>
-              <GlobalCustomButton
-                disabled={editing}
-                onClick={() => {
-                  setEditing(!editing);
-                }}
-              >
-                <CreateIcon fontSize="small" sx={{marginRight: "5px"}} />
-                Edit Employee
-              </GlobalCustomButton>
+          <IconButton>
+            <Avatar
+              sx={{width: 80, height: 80}}
+              src={employee?.imageurl}
+              //src={facility?.facilitylogo}
+            />
+          </IconButton>
 
-              <GlobalCustomButton
-                color="secondary"
-                onClick={() => setShowRoles(true)}
-              >
-                <BadgeIcon fontSize="small" sx={{marginRight: "5px"}} />
-                Set Employee Roles
-              </GlobalCustomButton>
-            </>
-          ) : (
-            <>
-              <GlobalCustomButton
-                color="warning"
-                onClick={() => setEditing(false)}
-              >
-                Cancel Update
-              </GlobalCustomButton>
+          <Box sx={{display: "flex"}} gap={1}>
+            {!editing ? (
+              <>
+                <GlobalCustomButton
+                  disabled={editing}
+                  onClick={() => {
+                    setEditing(!editing);
+                  }}
+                >
+                  <CreateIcon fontSize="small" sx={{marginRight: "5px"}} />
+                  Edit Employee
+                </GlobalCustomButton>
 
-              <GlobalCustomButton
-                onClick={handleSubmit(onSubmit)}
-                color="success"
-                type="submit"
-                loading={updatingEmployee}
-              >
-                <SecurityUpdateIcon
-                  fontSize="small"
-                  sx={{marginRight: "5px"}}
-                />
-                Update Employee Detail
-              </GlobalCustomButton>
+                <GlobalCustomButton
+                  color="secondary"
+                  onClick={() => setShowRoles(true)}
+                >
+                  <BadgeIcon fontSize="small" sx={{marginRight: "5px"}} />
+                  Set Employee Roles
+                </GlobalCustomButton>
+              </>
+            ) : (
+              <>
+                <GlobalCustomButton
+                  color="warning"
+                  onClick={() => setEditing(false)}
+                >
+                  Cancel Update
+                </GlobalCustomButton>
 
-              <GlobalCustomButton
-                onClick={() => setConfirmDialog(true)}
-                color="error"
-              >
-                <DeleteIcon fontSize="small" sx={{marginRight: "5px"}} />
-                Delete Employee
-              </GlobalCustomButton>
-            </>
-          )}
+                <GlobalCustomButton
+                  onClick={handleSubmit(onSubmit)}
+                  color="success"
+                  type="submit"
+                  loading={updatingEmployee}
+                >
+                  <SecurityUpdateIcon
+                    fontSize="small"
+                    sx={{marginRight: "5px"}}
+                  />
+                  Update Employee Detail
+                </GlobalCustomButton>
+
+                <GlobalCustomButton
+                  onClick={() => setConfirmDialog(true)}
+                  color="error"
+                >
+                  <DeleteIcon fontSize="small" sx={{marginRight: "5px"}} />
+                  Delete Employee
+                </GlobalCustomButton>
+              </>
+            )}
+          </Box>
         </Box>
         <form>
           <ToastContainer theme="colored" />

@@ -226,12 +226,12 @@ export const EmailsSourceList = ({selectEmail}) => {
     } else {
       return;
     }
-    // facilityConfigServer.on("created", obj => getFacilities());
-    // facilityConfigServer.on("updated", obj => getFacilities());
-    // facilityConfigServer.on("patched", obj => {
-    //   getFacilities();
-    // });
-    // facilityConfigServer.on("removed", obj => getFacilities());
+    facilityConfigServer.on("created", obj => getFacilities());
+    facilityConfigServer.on("updated", obj => getFacilities());
+    facilityConfigServer.on("patched", obj => {
+      getFacilities();
+    });
+    facilityConfigServer.on("removed", obj => getFacilities());
     return () => {};
   }, []);
 

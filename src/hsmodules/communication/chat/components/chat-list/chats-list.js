@@ -29,7 +29,7 @@ const CustomLoader = () => (
 
 const CommunicationChatsList = ({showStaffsList}) => {
   const [fetchingChats, setFetchingChats] = useState(false);
-  const [chats, setChats] = useState([]);
+  const [chats, setChats] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   const [searchValue, setSearchValue] = useState("");
 
   const handleSearchChange = e => {
@@ -76,43 +76,44 @@ const CommunicationChatsList = ({showStaffsList}) => {
           </Box>
         ) : (
           <>
-            {/* <Box
-              sx={{
-                width: "100%",
-                height: "calc(100% - 50px)",
-                overflowY: "auto",
-              }}
-            >
-              {chats.map(chat => {
-                return <EachChat key={chat._id} chat={chat} />;
-              })}
-            </Box> */}
-
-            <Box
-              sx={{
-                width: "100%",
-                minHeight: "calc(100vh - 110px)",
-                overflowY: "auto",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-              gap={2}
-            >
-              <img
-                src="https://cdn.dribbble.com/users/1785628/screenshots/5721540/media/0a509383df0fc8df325a7049dac555d1.gif"
-                alt=""
-                style={{height: "150px", width: "auto"}}
-              />
-              <Typography sx={{fontSize: "0.85rem"}}>
-                You don't have any chat yet...
-              </Typography>
-              <GlobalCustomButton onClick={() => showStaffsList()}>
-                <ChatIcon fontSize="small" sx={{marginRight: "5px"}} />
-                Start New Chat
-              </GlobalCustomButton>
-            </Box>
+            {chats.length > 0 ? (
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "calc(100% - 50px)",
+                  overflowY: "auto",
+                }}
+              >
+                {chats.map(chat => {
+                  return <EachChat key={chat._id} chat={chat} />;
+                })}
+              </Box>
+            ) : (
+              <Box
+                sx={{
+                  width: "100%",
+                  minHeight: "calc(100vh - 110px)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                gap={2}
+              >
+                <img
+                  src="https://cdn.dribbble.com/users/37530/screenshots/2937858/drib_blink_bot.gif"
+                  alt=""
+                  style={{height: "150px", width: "auto", display: "block"}}
+                />
+                <Typography sx={{fontSize: "0.85rem"}}>
+                  You don't have any chat yet...
+                </Typography>
+                <GlobalCustomButton onClick={() => showStaffsList()}>
+                  <ChatIcon fontSize="small" sx={{marginRight: "5px"}} />
+                  Start New Chat
+                </GlobalCustomButton>
+              </Box>
+            )}
           </>
         )}
       </Box>
