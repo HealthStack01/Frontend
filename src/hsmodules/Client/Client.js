@@ -1376,11 +1376,7 @@ export function ClientDetail({closeDetailModal}) {
           >
             <Box>
               <IconButton onClick={handleOpenOptions}>
-                <Avatar
-                  sx={{width: 80, height: 80}}
-                  src={Client.imageurl}
-                  //src={facility?.facilitylogo}
-                />
+                <Avatar sx={{width: 80, height: 80}} src={Client.imageurl} />
               </IconButton>
               <Menu
                 anchorEl={anchorEl}

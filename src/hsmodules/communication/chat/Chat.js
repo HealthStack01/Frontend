@@ -10,6 +10,7 @@ import VoiceTextArea from "../../../components/inputs/basic/Textarea/VoiceInput"
 import CommunicationChatStaffsList from "./components/staffs-list/staffs-list";
 import Slide from "@mui/material/Slide";
 import CommunicationChatsList from "./components/chat-list/chats-list";
+import ChatBoard from "./components/chat-board/ChatBoard";
 
 const CommunicationChat = () => {
   const [sideMenu, setSideMenu] = useState("chats");
@@ -70,7 +71,9 @@ const CommunicationChat = () => {
           backgroundColor: "#ffffff",
           borderLeft: "1px solid #f0f0f0",
         }}
-      ></Box>
+      >
+        <ChatBoard />
+      </Box>
     </Box>
   );
 };

@@ -20,7 +20,10 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import {PageLeadDetailView} from "../global/LeadDetail";
 import dayjs from "dayjs";
 import {ObjectContext, UserContext} from "../../../../context";
-import {ProposalAttachDocument} from "../proposal/ProposalCreate";
+import {
+  ProposalAttachDocument,
+  SendProposalOrSLA,
+} from "../proposal/ProposalCreate";
 import CustomTable from "../../../../components/customtable";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import {getBase64} from "../../../helpers/getBase64";
@@ -42,6 +45,7 @@ const CreateSLA = ({handleGoBack}) => {
   const [draftedSLA, setDraftedSLA] = useState(null);
   const [docViewModal, setDocviewModal] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState({});
+  const [sendModal, setSendModal] = useState(false);
 
   useEffect(() => {
     const sla = state.SLAModule.selectedSLA || null;
@@ -359,6 +363,12 @@ const CreateSLA = ({handleGoBack}) => {
     }
   };
 
+  const showSendModal = () => {
+    if (description === "" && attachedDocs.length === 0)
+      return toast.error("You cannot send/save an empty Proposal");
+    setSendModal(true);
+  };
+
   const handleRow = doc => {
     console.log(doc);
     setSelectedDoc(doc);
@@ -377,23 +387,6 @@ const CreateSLA = ({handleGoBack}) => {
         header={`View Document ${selectedDoc?.fileName}`}
       >
         <Box sx={{width: "85vw", height: "85vh", position: "relative"}}>
-          {/* <Box
-            sx={{
-              position: "absolute",
-              width: "100%",
-              height: "100%",
-              left: "0",
-              top: "0",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "column",
-              zIndex: "-1",
-            }}
-          >
-            <CircularProgress />
-            <Typography>Loading your doucment...</Typography>
-          </Box> */}
           {selectedDoc?.fileType === "pdf" ? (
             <iframe
               src={selectedDoc?.file}
@@ -409,6 +402,14 @@ const CreateSLA = ({handleGoBack}) => {
             />
           )}
         </Box>
+      </ModalBox>
+
+      <ModalBox
+        open={sendModal}
+        onClose={() => setSendModal(false)}
+        header="Send SLA"
+      >
+        <SendProposalOrSLA handleSend={() => setSendModal(false)} />
       </ModalBox>
 
       <Box
@@ -458,7 +459,7 @@ const CreateSLA = ({handleGoBack}) => {
             Save as Draft
           </GlobalCustomButton>
 
-          <GlobalCustomButton onClick={() => handleCreateSLA("Sent")}>
+          <GlobalCustomButton onClick={showSendModal}>
             <OutboxIcon fontSize="small" sx={{marginRight: "5px"}} />
             Send SLA
           </GlobalCustomButton>

@@ -17,6 +17,7 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import {FileUploader} from "react-drag-drop-files";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import SendIcon from "@mui/icons-material/Send";
 
 import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
 import {PageLeadDetailView} from "../global/LeadDetail";
@@ -30,6 +31,7 @@ import axios from "axios";
 import {getUploadUrl} from "../../../helpers/getUploadUrl";
 import client from "../../../../feathers";
 import {toast} from "react-toastify";
+import {EmailsSourceList} from "../deals/SendLink";
 
 const CreateProposal = ({handleGoBack}) => {
   const dealServer = client.service("deal");
@@ -42,6 +44,7 @@ const CreateProposal = ({handleGoBack}) => {
   const [draftProposal, setDraftProposal] = useState({});
   const [docViewModal, setDocviewModal] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState({});
+  const [sendModal, setSendModal] = useState(false);
 
   useEffect(() => {
     const proposal = state.ProposalModule.selectedProposal;
@@ -179,26 +182,174 @@ const CreateProposal = ({handleGoBack}) => {
     if (description === "" && attachedDocs.length === 0)
       return toast.error("You cannot send/save an empty Proposal");
 
-    // return console.log("hello");
     showActionLoader();
     const employee = user.currentEmployee;
     const currentDeal = state.DealModule.selectedDeal;
 
     if (attachedDocs.length > 0) {
-      // const promises = attachedDocs.map(async doc => {
-      //   if (doc.isUploaded) {
-      //     return doc;
-      //   } else {
-      //     const base64Url = await getBase64(doc.file);
-      //     return {
-      //       ...doc,
-      //       file: base64Url,
-      //     };
-      //   }
-      // });
+      const promises = attachedDocs.map(async doc => {
+        if (doc.isUploaded) {
+          return doc;
+        } else {
+          const fileUrl = await getUploadUrl(doc.file);
+          return {
+            ...doc,
+            file: fileUrl,
+            isUploaded: true,
+          };
+        }
+      });
 
-      // const docs = await Promise.all(promises);
+      const attachments = await Promise.all(promises);
 
+      const document = {
+        attachedFiles: attachments,
+        description: description,
+        createdAt: new Date(),
+        createdBy: employee.userId,
+        createdByName: `${employee.firstname} ${employee.lastname}`,
+        customerName: currentDeal.name,
+        customerEmail: currentDeal.email,
+        customerPhone: currentDeal.phone,
+        customerAddress: currentDeal.address,
+        customerCity: currentDeal.city,
+        customerLGA: currentDeal.lga,
+        customerState: currentDeal.state,
+        customerCountry: currentDeal.country,
+        dealId: currentDeal._id,
+        status: status,
+        _id: uuidv4(),
+      };
+
+      const prevProposals = currentDeal.proposal || [];
+
+      const isDraft = Object.keys(draftProposal).length > 0;
+
+      const newProposals = isDraft
+        ? prevProposals.map(item => {
+            if (item._id === draftProposal._id) {
+              return {
+                ...item,
+                description: description,
+                attachedFiles: attachments,
+                status: status,
+                updatedAt: new Date(),
+              };
+            } else {
+              return item;
+            }
+          })
+        : [document, ...prevProposals];
+
+      //const newProposals = [document, ...prevProposals];
+
+      const documentId = currentDeal._id;
+      await dealServer
+        .patch(documentId, {proposal: newProposals})
+        .then(res => {
+          hideActionLoader();
+          setState(prev => ({
+            ...prev,
+            DealModule: {...prev.DealModule, selectedDeal: res},
+          }));
+
+          setAttachedDocs([]);
+          setDescription("");
+          if (status === "Draft") {
+            toast.success(
+              `You have successfully Saved this Proposal as a Draft`
+            );
+          } else {
+            toast.success(`Proposal was sent succesfully`);
+          }
+        })
+        .catch(err => {
+          hideActionLoader();
+          if (status === "Draft") {
+            toast.error(`Sorry, Failed to Save Proposal as Draft. ${err}`);
+          } else {
+            toast.error(`Sorry, Failed to send Proposal. ${err}`);
+          }
+        });
+    } else {
+      const document = {
+        attachedFiles: [],
+        description: description,
+        createdAt: new Date(),
+        createdBy: employee.userId,
+        createdByName: `${employee.firstname} ${employee.lastname}`,
+        customerName: currentDeal.name,
+        customerEmail: currentDeal.email,
+        customerPhone: currentDeal.phone,
+        customerAddress: currentDeal.address,
+        customerCity: currentDeal.city,
+        customerLGA: currentDeal.lga,
+        customerState: currentDeal.state,
+        customerCountry: currentDeal.country,
+        dealId: currentDeal._id,
+        status: status,
+        _id: uuidv4(),
+      };
+
+      const prevProposals = currentDeal.proposal || [];
+
+      const isDraft = Object.keys(draftProposal).length > 0;
+
+      const newProposals = isDraft
+        ? prevProposals.map(item => {
+            if (item._id === draftProposal._id) {
+              return {
+                ...item,
+                description: description,
+                attachedFiles: [],
+                status: status,
+                updatedAt: new Date(),
+              };
+            } else {
+              return item;
+            }
+          })
+        : [document, ...prevProposals];
+
+      const documentId = currentDeal._id;
+      await dealServer
+        .patch(documentId, {proposal: newProposals})
+        .then(res => {
+          hideActionLoader();
+          setState(prev => ({
+            ...prev,
+            DealModule: {...prev.DealModule, selectedDeal: res},
+          }));
+
+          setAttachedDocs([]);
+          setDescription("");
+          if (status === "Draft") {
+            toast.success(
+              `You have successfully Saved this Proposal as a Draft`
+            );
+          } else {
+            toast.success(`Proposal was sent succesfully`);
+          }
+        })
+        .catch(err => {
+          hideActionLoader();
+          if (status === "Draft") {
+            toast.error(`Sorry, Failed to Save Proposal as Draft. ${err}`);
+          } else {
+            toast.error(`Sorry, Failed to send Proposal. ${err}`);
+          }
+        });
+    }
+  };
+  const handleSendProposal = async status => {
+    if (description === "" && attachedDocs.length === 0)
+      return toast.error("You cannot send/save an empty Proposal");
+
+    showActionLoader();
+    const employee = user.currentEmployee;
+    const currentDeal = state.DealModule.selectedDeal;
+
+    if (attachedDocs.length > 0) {
       const promises = attachedDocs.map(async doc => {
         if (doc.isUploaded) {
           return doc;
@@ -360,12 +511,25 @@ const CreateProposal = ({handleGoBack}) => {
     setDocviewModal(true);
   };
 
+  const showSendModal = () => {
+    if (description === "" && attachedDocs.length === 0)
+      return toast.error("You cannot send/save an empty Proposal");
+    setSendModal(true);
+  };
+
   return (
     <Box
       sx={{
         width: "100%",
       }}
     >
+      <ModalBox
+        open={sendModal}
+        onClose={() => setSendModal(false)}
+        header="Send Proposal"
+      >
+        <SendProposalOrSLA handleSend={() => setSendModal(false)} />
+      </ModalBox>
       <ModalBox
         open={docViewModal}
         onClose={() => setDocviewModal(false)}
@@ -439,7 +603,7 @@ const CreateProposal = ({handleGoBack}) => {
             Generate Proposal
           </GlobalCustomButton> */}
 
-          <GlobalCustomButton onClick={() => handleCreateProposal("Sent")}>
+          <GlobalCustomButton onClick={showSendModal}>
             <OutboxIcon fontSize="small" sx={{marginRight: "5px"}} />
             Send Proposal
           </GlobalCustomButton>
@@ -565,6 +729,112 @@ const UploadComponent = ({}) => {
       <Typography sx={{fontSize: "0.8rem"}}>
         Select File or Drag and Drop here
       </Typography>
+    </Box>
+  );
+};
+
+export const SendProposalOrSLA = ({handleSend}) => {
+  const emailServer = client.service("email");
+  const [emailsModal, setEmailModals] = useState(true);
+  const [selectedEmail, setSelectedEmail] = useState("");
+
+  const {user} = useContext(UserContext);
+  const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
+  const {
+    register,
+    setValue,
+    reset,
+    handleSubmit,
+    formState: {errors},
+  } = useForm();
+
+  useEffect(() => {
+    const deal = state.DealModule.selectedDeal;
+    reset({
+      to: deal.email,
+      name: user.currentEmployee.facilityDetail.facilityName,
+      subject: "Proposal",
+      from: selectedEmail,
+    });
+  }, [selectedEmail]);
+
+  const handleSelectEmail = email => {
+    setSelectedEmail(email);
+    setEmailModals(false);
+  };
+
+  const handleSendProposal = () => {};
+
+  return (
+    <Box
+      sx={{
+        width: "60vw",
+      }}
+    >
+      <ModalBox
+        open={emailsModal}
+        //onClose={() => setEmailModals(false)}
+        header="Plese Select Your Email Source"
+      >
+        <EmailsSourceList selectEmail={handleSelectEmail} />
+      </ModalBox>
+      <Box sx={{display: "flex", justifyContent: "flex-end"}} mb={2}>
+        <GlobalCustomButton
+          sx={{marginTop: "5px"}}
+          color="success"
+          onClick={() => setEmailModals(true)}
+        >
+          Change Source Email
+        </GlobalCustomButton>
+      </Box>
+
+      <Grid container spacing={1} mb={2}>
+        <Grid item lg={6} md={6} sm={6}>
+          <Input
+            important
+            label="Name"
+            register={register("name", {require: "Please enter Name"})}
+            errorText={errors?.name?.message}
+          />
+        </Grid>
+
+        <Grid item lg={6} md={6} sm={6}>
+          <Input
+            important
+            label="Subject"
+            register={register("subject", {require: "Please enter Subject"})}
+            errorText={errors?.subject?.message}
+          />
+        </Grid>
+
+        <Grid item lg={6} md={6} sm={6} gap={1}>
+          <Input
+            important
+            label="From"
+            register={register("from", {require: "Please Add Source Email"})}
+            errorText={errors?.from?.message}
+            disabled
+          />
+        </Grid>
+
+        <Grid item lg={6} md={6} sm={6}>
+          <Input
+            important
+            label="To"
+            register={register("to", {
+              require: "Please Enter Destination Email",
+            })}
+            errorText={errors?.to?.message}
+          />
+        </Grid>
+      </Grid>
+
+      <Box>
+        <GlobalCustomButton onClick={handleSubmit(handleSendProposal)}>
+          Send Document
+          <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
+        </GlobalCustomButton>
+      </Box>
     </Box>
   );
 };

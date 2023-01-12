@@ -1,5 +1,5 @@
 import {useState, useEffect, useContext, useCallback} from "react";
-import {Badge, Box, IconButton} from "@mui/material";
+import {Badge, Box, IconButton, Typography} from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import Drawer from "@mui/material/Drawer";
@@ -7,6 +7,11 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import {FormsHeaderText} from "../texts";
 import GlobalCustomButton from "../buttons/CustomButton";
+
+import {dummyNotifications} from "./data";
+import EachNotification from "./EachNotification";
+
+import no_notification_gif from "./assets/no_notification.gif";
 
 const AppNotifications = () => {
   const [notifications, setNotification] = useState([]);
@@ -76,9 +81,44 @@ const AppNotifications = () => {
           <Box
             sx={{
               width: "100%",
-              minheight: "calc=(100vh - 6rem)",
+              minheight: "calc(100vh - 6rem)",
             }}
-          ></Box>
+          >
+            {dummyNotifications.length > 0 ? (
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "calc(100vh - 6rem)",
+                  overflowY: "auto",
+                }}
+              >
+                {dummyNotifications.map((notification, i) => {
+                  return (
+                    <EachNotification notification={notification} key={i} />
+                  );
+                })}
+              </Box>
+            ) : (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "100%",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <img
+                  src={no_notification_gif}
+                  alt="No Notifcation"
+                  style={{width: "400px", height: "auto", display: "block"}}
+                />
+                <Typography sx={{fontSize: "0.8rem"}}>
+                  You don't have any Notification at the moment
+                </Typography>
+              </Box>
+            )}
+          </Box>
 
           <Box
             sx={{
