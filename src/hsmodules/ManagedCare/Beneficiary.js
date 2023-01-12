@@ -15,7 +15,16 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import ClientBilledPrescription from '../Finance/ClientBill';
 import ClientGroup from './ClientGroup';
 import DatePicker from 'react-datepicker';
-
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import MuiCustomDatePicker from '../../components/inputs/Date/MuiDatePicker';
+import {
+  EnrolleSchema,
+  EnrolleSchema2,
+  EnrolleSchema3,
+  EnrolleSchema4,
+  EnrolleSchema5,
+  principalData,
+} from './schema';
 import 'react-datepicker/dist/react-datepicker.css';
 import { OrgFacilitySearch, SponsorSearch } from '../helpers/FacilitySearch';
 import { PageWrapper } from '../../ui/styled/styles';
@@ -34,7 +43,6 @@ import BasicDateTimePicker from '../../components/inputs/DateTime';
 import CustomSelect from '../../components/inputs/basic/Select';
 import Textarea from '../../components/inputs/basic/Textarea';
 import { MdCancel, MdAddCircle } from 'react-icons/md';
-import { EnrolleSchema } from './schema';
 import ClientForm from '../Client/ClientForm';
 import {
   BottomWrapper,
@@ -58,6 +66,7 @@ import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import Typography from '@mui/material/Typography';
+import moment from 'moment';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -1886,7 +1895,10 @@ export function ClientDetail({ showModal, setShowModal }) {
         {display === 2 && <Claims />}
         {display === 3 && <GeneralAppointments />}
         {display === 4 && <HealthPlan />}
-        {display === 5 && <Policy standAlone={Client?._id} />}
+        {display === 5 && (
+          <PolicyList standAlone={Client?._id} setShowModal={setDisplay} />
+        )}
+        {display === 6 && <PolicyDetail />}
 
         {/* {finacialInfoModal && (
           <>
@@ -2505,5 +2517,784 @@ export function InputSearch({ getSearchfacility, clear }) {
         </div>
       </div>
     </div>
+  );
+}
+export function PolicyList({ showModal, setShowModal, standAlone }) {
+  // const { register, handleSubmit, watch, errors } = useForm();
+  // eslint-disable-next-line
+  const [error, setError] = useState(false);
+  // eslint-disable-next-line
+  const [success, setSuccess] = useState(false);
+  // eslint-disable-next-line
+  const [message, setMessage] = useState('');
+  const ClientServ = client.service('policy');
+  //const navigate=useNavigate()
+  // const {user,setUser} = useContext(UserContext)
+  const [facilities, setFacilities] = useState([]);
+  // eslint-disable-next-line
+  const [selectedClient, setSelectedClient] = useState(); //
+  // eslint-disable-next-line
+  const { state, setState } = useContext(ObjectContext);
+  const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line
+  const { user, setUser } = useContext(UserContext);
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(50);
+  const [total, setTotal] = useState(0);
+  const [display, setDisplay] = useState('approve');
+
+  const handleCreateNew = async () => {
+    const newClientModule = {
+      selectedClient: {},
+      show: 'create',
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      ManagedCareModule: newClientModule,
+    }));
+    //console.log(state)
+    setShowModal(1);
+    console.log('test');
+  };
+
+  const handleRow = async (Client) => {
+    await setSelectedClient(Client);
+    const newClientModule = {
+      selectedClient: Client,
+      show: 'detail',
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      ManagedCareModule: newClientModule,
+    }));
+    setShowModal(6);
+  };
+
+  const handleSearch = (val) => {
+    // eslint-disable-next-line
+    const field = 'firstname';
+    console.log(val);
+    ClientServ.find({
+      query: {
+        $or: [
+          {
+            firstname: {
+              $regex: val,
+              $options: 'i',
+            },
+          },
+          {
+            lastname: {
+              $regex: val,
+              $options: 'i',
+            },
+          },
+          {
+            middlename: {
+              $regex: val,
+              $options: 'i',
+            },
+          },
+          {
+            phone: {
+              $regex: val,
+              $options: 'i',
+            },
+          },
+          {
+            clientTags: {
+              $regex: val,
+              $options: 'i',
+            },
+          },
+          {
+            mrn: {
+              $regex: val,
+              $options: 'i',
+            },
+          },
+          {
+            email: {
+              $regex: val,
+              $options: 'i',
+            },
+          },
+          {
+            specificDetails: {
+              $regex: val,
+              $options: 'i',
+            },
+          },
+          { gender: val },
+        ],
+
+        organizationId: user.currentEmployee.facilityDetail._id, // || "",
+        $limit: limit,
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        setFacilities(res.data);
+        setMessage(' Client  fetched successfully');
+        setSuccess(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setMessage('Error fetching Client, probable network issues ' + err);
+        setError(true);
+      });
+  };
+
+  const getFacilities = async () => {
+    if (user.currentEmployee) {
+      // const findClient= await ClientServ.find()
+      const findClient = await ClientServ.find({
+        query: {
+          organizationId: user.currentEmployee.facilityDetail._id,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      });
+      /*  if (page===0){ */
+      await setFacilities(findClient.data);
+      console.log(findClient.data);
+      /* }else{
+             await setFacilities(prevstate=>prevstate.concat(findClient.data))
+         } */
+
+      await setTotal(findClient.total);
+      //console.log(user.currentEmployee.facilityDetail._id, state)
+      //console.log(facilities)
+      setPage((page) => page + 1);
+    } else {
+      if (user.stacker) {
+        const findClient = await ClientServ.find({
+          query: {
+            $limit: 20,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        });
+
+        await setFacilities(findClient.data);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      //getFacilities()
+      rest();
+    } else {
+      /* const localUser= localStorage.getItem("user")
+                     const user1=JSON.parse(localUser)
+                     console.log(localUser)
+                     console.log(user1)
+                     fetchUser(user1)
+                     console.log(user)
+                     getFacilities(user) */
+    }
+    ClientServ.on('created', (obj) => rest());
+    ClientServ.on('updated', (obj) => rest());
+    ClientServ.on('patched', (obj) => rest());
+    ClientServ.on('removed', (obj) => rest());
+    return () => {};
+    // eslint-disable-next-line
+  }, []);
+  const rest = async () => {
+    // console.log("starting rest")
+    // await setRestful(true)
+    await setPage(0);
+    //await  setLimit(2)
+    await setTotal(0);
+    await setFacilities([]);
+    await getFacilities();
+    //await  setPage(0)
+    //  await setRestful(false)
+  };
+
+  useEffect(() => {
+    //console.log(facilities)
+    return () => {};
+  }, [facilities]);
+  //todo: pagination and vertical scroll bar
+  const PolicySchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: 'HIDDEN',
+      width: '80px',
+    },
+    {
+      name: 'Date Created',
+      key: 'createdAt',
+      description: 'Date Created',
+      selector: (row) => moment(row.createdAt).format('YYYY-MM-DD'),
+      sortable: true,
+      required: true,
+      inputType: 'DATE',
+    },
+    {
+      name: 'Sponsorship Type',
+      key: 'sponsorshipType',
+      description: 'Sponsorship Type',
+      selector: (row) => row.sponsorshipType,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+
+    {
+      name: 'Plan',
+      key: 'plan',
+      description: 'Plan',
+      selector: (row) => row.plan.name,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+
+    {
+      name: 'Premium',
+      key: 'premium',
+      description: 'Premium',
+      selector: (row) => row.premium,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+
+    {
+      name: 'Paid',
+      key: 'isPaid',
+      description: 'Paid',
+      selector: (row) => (row.isPaid ? 'Yes' : 'No'),
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+
+    {
+      name: 'Active',
+      key: 'active',
+      description: 'Active',
+      selector: (row) => (row.active ? 'Yes' : 'No'),
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+
+    {
+      name: 'Pricipal Last Name',
+      key: 'principal',
+      description: 'Principal Last Name',
+      selector: (row) => row.principal.lastname,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+
+    {
+      name: 'First Name',
+      key: 'firstname',
+      description: 'First Name',
+      selector: (row) => row.principal.firstname,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+
+    {
+      name: 'Middle Name',
+      key: 'middlename',
+      description: 'Middle Name',
+      selector: (row) => row.principal.middlename,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+
+    {
+      name: 'Phone',
+      key: 'phone',
+      description: 'Phone Number',
+      selector: (row) => row.principal.phone,
+      sortable: true,
+      required: true,
+      inputType: 'NUMBER',
+    },
+
+    {
+      name: 'Email',
+      key: 'email',
+      description: 'simpa@email.com',
+      selector: (row) => row.principal.email,
+      sortable: true,
+      required: true,
+      inputType: 'EMAIL',
+    },
+
+    {
+      name: 'Tags',
+      key: 'tags',
+      description: 'Tags',
+      selector: (row) => row.principal.clientTags,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+  ];
+
+  // const approvedFacilities = facilities.filter(
+  //   (facility) => facility.approved === true
+  // );
+  // const pendingFacilities = facilities.filter(
+  //   (facility) => facility.approved === false
+  // );
+  const Selectedpol = facilities.filter(
+    (item) => item?.principal._id === standAlone
+    // ||
+    // (item?.dependantBeneficiaries.length > 0 &&
+    //   item?.dependantBeneficiaries?._id === standAlone)
+  );
+  // const pendingSelectedpol = pendingFacilities.filter(
+  //   (item) =>
+  //     item?.principal._id === standAlone ||
+  //     (item?.dependantBeneficiaries.length > 0 &&
+  //       item?.dependantBeneficiaries?.map((item) => item._id === standAlone))
+  // );
+  console.log(Selectedpol, standAlone);
+  return (
+    <>
+      <div className="level">
+        <PageWrapper
+          style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
+        >
+          <TableMenu>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {handleSearch && (
+                <div className="inner-table">
+                  <FilterMenu onSearch={handleSearch} />
+                </div>
+              )}
+              <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
+                List of {display === 'approve' ? 'Approved' : 'Pending'}{' '}
+                Policies
+              </h2>
+            </div>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+              }}
+            >
+              <GlobalCustomButton
+                text={
+                  display === 'approve'
+                    ? 'Pending Policies'
+                    : 'Approved Policies'
+                }
+                onClick={() =>
+                  setDisplay(display === 'approve' ? 'pending' : 'approve')
+                }
+                customStyles={{
+                  marginRight: '10px',
+                }}
+                color={display === 'approve' ? 'warning' : 'success'}
+              />
+
+              {!standAlone && (
+                <Button
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: '600',
+                  }}
+                  color="primary"
+                  variant="contained"
+                  size="small"
+                  sx={{ textTransform: 'capitalize' }}
+                  onClick={handleCreateNew}
+                  showicon={true}
+                >
+                  {' '}
+                  Add New
+                </Button>
+              )}
+            </Box>
+          </TableMenu>
+          <div
+            className="level"
+            style={{
+              height: '80vh',
+              overflowY: 'scroll',
+            }}
+          >
+            <CustomTable
+              title={''}
+              columns={PolicySchema}
+              data={Selectedpol}
+              pointerOnHover
+              highlightOnHover
+              onRowClicked={handleRow}
+              striped
+              progressPending={loading}
+              CustomEmptyData={
+                display === 'approve'
+                  ? 'No Approved Policies'
+                  : 'No Pending Policies'
+              }
+            />
+          </div>
+        </PageWrapper>
+      </div>
+    </>
+  );
+}
+
+export function PolicyDetail({ showModal, setShowModal }) {
+  const { register, reset, control, handleSubmit } = useForm();
+  const policyServ = client.service('policy');
+  const [error, setError] = useState(false); //,
+  const [finacialInfoModal, setFinacialInfoModal] = useState(false);
+  const [billingModal, setBillingModal] = useState(false);
+  const [billModal, setBillModal] = useState(false);
+  const [appointmentModal, setAppointmentModal] = useState(false);
+  const [message, setMessage] = useState(''); //,
+  const navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
+  const [display, setDisplay] = useState(1);
+  const [editPolicy, setEditPolicy] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [editCustomer, setEditCustomer] = useState(false);
+  const [facility, setFacility] = useState([]);
+
+  useEffect(() => {
+    let Client = state.ManagedCareModule.selectedClient;
+    setFacility(Client);
+
+    const initFormValue = {
+      policyNo: Client.policyNo,
+      phone: Client.principal?.phone,
+      start_date: Client.validitystarts,
+      end_date: Client.validityEnds,
+      status: Client?.approved ? 'Approved' : 'Pending',
+      sponsorship_type: Client.sponsorshipType,
+      plan_type: Client.plan.name,
+      policy_tag: Client.principal.clientTags,
+      premium: Client.premium,
+      sponsor_name: Client.sponsor?.organizationDetail?.facilityName,
+      sponsor_phone: Client.sponsor?.organizationDetail?.facilityContactPhone,
+      sponsor_email: Client.sponsor?.organizationDetail?.facilityEmail,
+      sponsor_address: Client.sponsor?.organizationDetail?.facilityAddress,
+    };
+    reset(initFormValue);
+  }, [state.ManagedCareModule.selectedClient]);
+
+  const handleFinancialInfo = () => {
+    setFinacialInfoModal(true);
+  };
+  const handlecloseModal = () => {
+    setFinacialInfoModal(false);
+  };
+
+  const handlecloseModal1 = () => {
+    setBillingModal(false);
+  };
+
+  const handlecloseModal2 = () => {
+    setAppointmentModal(false);
+  };
+
+  const showBilling = () => {
+    setBillingModal(true);
+    //history.push('/app/finance/billservice')
+  };
+
+  const handleSchedule = () => {
+    setAppointmentModal(true);
+  };
+  const handleBill = () => {
+    setBillModal(true);
+  };
+  const handlecloseModal3 = () => {
+    setBillModal(false);
+  };
+  const updateDetail = async (data) => {
+    const docId = state.ManagedCareModule.selectedClient._id;
+    console.log(data, docId);
+    const policyDetails = {
+      policyNo: data.policyNo,
+      phone: data.phone,
+      validitystarts: data.start_date,
+      validityEnds: data.end_date,
+      status: data.active,
+      sponsorship_type: data.sponsorshipType,
+      plan_type: data.plan_type,
+      policy_tag: data.policy_tag,
+      premium: data.premium,
+      sponsor_name: data.sponsor_name,
+      sponsor_phone: data.sponsor_phone,
+      sponsor_email: data.sponsor_email,
+      sponsor_address: data.sponsor_address,
+    };
+    await policyServ
+      .patch(docId, policyDetails)
+      .then((res) => {
+        setState((prev) => ({
+          ...prev,
+          ManagedCareModule: { ...prev.ManagedCareModule, selectedClient: res },
+        }));
+        toast.success('Policy Detail Updated');
+        setEditPolicy(false);
+      })
+      .catch((err) => {
+        toast.error('Error Updating Policy Detail');
+        setEditPolicy(false);
+      });
+  };
+
+  const approvePolicy = async () => {
+    const docId = state.ManagedCareModule.selectedClient._id;
+    const policyDetails = {
+      approved: true,
+      approvalDate: new Date(),
+      approvedby: {
+        employeename: user.currentEmployee.facilityDetail.facilityName,
+        employeeId: user.currentEmployee.facilityDetail._id,
+      },
+    };
+    console.log(policyDetails);
+    await policyServ
+      .patch(docId, policyDetails)
+      .then((res) => {
+        setState((prev) => ({
+          ...prev,
+          ManagedCareModule: { ...prev.ManagedCareModule, selectedClient: res },
+        }));
+        toast.success('Policy Approved');
+        setEditPolicy(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error('Error Approving Policy' + err);
+        setEditPolicy(false);
+      });
+  };
+
+  console.log(facility);
+  return (
+    <>
+      <div
+        className="card "
+        style={{
+          height: 'auto',
+          overflowY: 'scroll',
+          margin: '0 1rem',
+          width: '98%',
+        }}
+      >
+        <Box>
+          {display === 1 && (
+            <Box
+              sx={{
+                height: '80vh',
+                overflowY: 'scroll',
+              }}
+            >
+              <Grid container spacing={1} mt={1}>
+                <Grid item md={3}>
+                  <Input
+                    register={register('policyNo', { required: true })}
+                    label="Policy No."
+                    disabled
+                  />
+                </Grid>
+
+                <Grid item md={3}>
+                  <Input
+                    register={register('phone', { required: true })}
+                    label="Phone"
+                    disabled
+                  />
+                </Grid>
+                <Grid item md={3}>
+                  <Input
+                    register={register('sponsorship_type', { required: true })}
+                    label="Sponsorship Type"
+                    disabled
+                    //placeholder="Enter customer number"
+                  />
+                </Grid>
+                <Grid item md={3}>
+                  <Input
+                    register={register('plan_type', { required: true })}
+                    label="Plan Type"
+                    disabled
+                    //placeholder="Enter customer number"
+                  />
+                </Grid>
+                <Grid item md={3}>
+                  <Input
+                    register={register('status', { required: true })}
+                    label="Status"
+                    disabled
+                    important
+                    //placeholder="Enter customer name"
+                  />
+                </Grid>
+
+                <Grid item md={3}>
+                  <Input
+                    register={register('policy_tag')}
+                    label="Policy Tag"
+                    disabled
+                    // placeholder="Enter customer name"
+                  />
+                </Grid>
+
+                <Grid item md={3}>
+                  <Input
+                    register={register('premium', { required: true })}
+                    label="Premium"
+                    disabled
+                    //placeholder="Enter customer number"
+                  />
+                </Grid>
+                <Grid item md={3}>
+                  <MuiCustomDatePicker
+                    label="Start Date"
+                    name="start_date"
+                    control={control}
+                    disabled={!editPolicy}
+                  />
+                </Grid>
+                <Grid item md={3}>
+                  <MuiCustomDatePicker
+                    label="End Date"
+                    name="end_date"
+                    control={control}
+                    disabled={!editPolicy}
+                  />
+                </Grid>
+              </Grid>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItem: 'center',
+                  justifyContent: 'space-between',
+                }}
+                mb={1}
+              ></Box>
+              {facility.sponsorshipType === 'Company' && (
+                <>
+                  <FormsHeaderText text="Sponsor Details" />
+                  <Grid container spacing={1}>
+                    <Grid item lg={6} md={6} sm={6}>
+                      <Input
+                        register={register('sponsor_name')}
+                        label="Sponsor Name"
+                        disabled
+
+                        //placeholder="Enter customer number"
+                      />
+                    </Grid>
+                    <Grid item lg={6} md={6} sm={6}>
+                      <Input
+                        register={register('sponsor_phone')}
+                        label="Sponsor Phone"
+                        disabled
+
+                        //placeholder="Enter customer number"
+                      />
+                    </Grid>
+                    <Grid item lg={6} md={6} sm={6}>
+                      <Input
+                        register={register('sponsor_email')}
+                        label="Sponsor Email"
+                        disabled
+
+                        //placeholder="Enter customer numbe"
+                      />
+                    </Grid>
+                    <Grid item lg={6} md={6} sm={6}>
+                      <Input
+                        register={register('sponsor_address')}
+                        label="Sponsor Address"
+                        disabled
+
+                        //placeholder="Enter customer number"
+                      />
+                    </Grid>
+                  </Grid>
+                </>
+              )}
+              <Grid item md={12}>
+                <FormsHeaderText text="Principal Details" />
+                <CustomTable
+                  title={''}
+                  columns={EnrolleSchema3}
+                  data={[facility?.principal]}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={() => {}}
+                  progressPending={loading}
+                  CustomEmptyData="You have no Principal yet."
+                />
+                <FormsHeaderText text="Dependant Details" />
+                <CustomTable
+                  title={''}
+                  columns={EnrolleSchema3}
+                  data={facility?.dependantBeneficiaries}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={() => {}}
+                  progressPending={loading}
+                  CustomEmptyData="You have no Dependant yet"
+                />
+                <FormsHeaderText text="HMO" />
+                <CustomTable
+                  title={''}
+                  columns={EnrolleSchema5}
+                  data={[facility?.organization]}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={() => {}}
+                  progressPending={loading}
+                  CustomEmptyData="You have no HMO yet."
+                />
+                <FormsHeaderText text="Provider List" />
+                <CustomTable
+                  title={''}
+                  columns={EnrolleSchema4}
+                  data={facility?.providers}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={() => {}}
+                  progressPending={loading}
+                  CustomEmptyData="You have no Provider yet."
+                />
+              </Grid>
+            </Box>
+          )}
+
+          {display === 5 && <Claims standAlone />}
+          {display === 6 && <PremiumPayment />}
+        </Box>
+      </div>
+    </>
   );
 }
