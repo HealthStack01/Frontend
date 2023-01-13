@@ -150,7 +150,7 @@ export function ServicesCreate({closeModal}) {
   const [currentUser, setCurrentUser] = useState("");
   const [panelList, setPanelList] = useState([]);
   const [successService, setSuccessService] = useState(false);
-  const {state} = useContext(ObjectContext);
+  const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
   const [chosen2, setChosen2] = useState();
   const [hasError, setHasError] = useState(false);
 
@@ -283,6 +283,7 @@ export function ServicesCreate({closeModal}) {
       );
       return;
     }
+    showActionLoader();
 
     setSuccess(false);
     let data = {
@@ -300,6 +301,7 @@ export function ServicesCreate({closeModal}) {
       .then(res => {
         ////console.log(JSON.stringify(res))
         resetform();
+        hideActionLoader();
         /*  setMessage("Created Services successfully") */
         setSuccess(true);
         setSuccess2(true);
@@ -310,6 +312,7 @@ export function ServicesCreate({closeModal}) {
         setPanelList([]);
       })
       .catch(err => {
+        hideActionLoader();
         toast.error("Error creating Services " + err);
       });
   };
@@ -732,7 +735,7 @@ export function ServicesList({openCreateModal, openDetallModal}) {
       center: true,
     },
     {
-      name: "categoryname",
+      name: "Category Name",
       key: "fromName",
       description: "Enter Category name",
       selector: row => (row.categoryname ? row.categoryname : "-----------"),

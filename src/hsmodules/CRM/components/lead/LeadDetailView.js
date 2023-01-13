@@ -835,7 +835,7 @@ const LeadDetail = ({handleGoBack}) => {
     const deal = state.DealModule.selectedDeal.dealinfo;
 
     setDealStatus(deal.currStatus);
-  }, []);
+  }, [state.DealModule]);
 
   //console.log(unreadMsgs);
 
@@ -896,7 +896,7 @@ const LeadDetail = ({handleGoBack}) => {
           mb={2}
           gap={1}
         >
-          {dealStatus === "closed" && (
+          {dealStatus.toLowerCase() === "closed" && (
             <GlobalCustomButton
               color="info"
               onClick={() => setSendLinkModal(true)}

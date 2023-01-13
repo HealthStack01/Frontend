@@ -4,6 +4,7 @@ import {formatDistanceToNowStrict} from "date-fns";
 import dayjs from "dayjs";
 import {Box} from "@mui/system";
 import {Avatar, Typography} from "@mui/material";
+import {returnAvatarString} from "../../helpers/returnAvatarString";
 
 export const ClientMiniSchema = [
   {
@@ -20,7 +21,17 @@ export const ClientMiniSchema = [
     name: "Image",
     key: "middlename",
     description: "Midlle Name",
-    selector: row => <Avatar src={row.imageurl} />,
+    selector: row => (
+      <Avatar
+        src={row.imageurl}
+        {...returnAvatarString(
+          `${row.firstname.replace(/\s/g, "")} ${row.lastname.replace(
+            /\s/g,
+            ""
+          )}`
+        )}
+      />
+    ),
     sortable: true,
     required: true,
     inputType: "TEXT",

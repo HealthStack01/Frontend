@@ -58,6 +58,7 @@ const SendLinkViaEmail = ({closeModal}) => {
   const handleSendEmail = async data => {
     if (emailBody === "") return toast.error("Include message in the Text Box");
     const facility = user.currentEmployee.facilityDetail;
+    showActionLoader();
 
     const document = {
       organizationId: facility._id,

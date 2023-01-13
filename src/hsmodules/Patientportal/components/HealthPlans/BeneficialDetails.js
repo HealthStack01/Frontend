@@ -4,7 +4,7 @@ import Input from '../../../../components/inputs/basic/Input/index';
 import React, { useState, useContext } from 'react';
 import { styled } from '@mui/material/styles';
 
-export default function BeneficialDetail() {
+export default function BeneficialDetail({ setShowModal }) {
 	//const { register, handleSubmit, watch, setValue } = useForm(); //errors,
 
 	const [error, setError] = useState(false); //,

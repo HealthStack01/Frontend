@@ -67,13 +67,27 @@ const SuspendedDealsList = ({
         ? await dealServer.find({
             query: {
               facilityId: facId,
-              "dealinfo.currStatus": "suspended",
+              $or: [
+                {
+                  "dealinfo.currStatus": "suspended",
+                },
+                {
+                  "dealinfo.currStatus": "suspended",
+                },
+              ],
             },
           })
         : await dealServer.find({
             query: {
               facilityId: facId,
-              "dealinfo.currStatus": "suspended",
+              $or: [
+                {
+                  "dealinfo.currStatus": "suspended",
+                },
+                {
+                  "dealinfo.currStatus": "suspended",
+                },
+              ],
             },
           });
     await setClosedDeals(res.data);

@@ -29,7 +29,9 @@ const CustomLoader = () => (
 
 const CommunicationChatsList = ({showStaffsList}) => {
   const [fetchingChats, setFetchingChats] = useState(false);
-  const [chats, setChats] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  const [chats, setChats] = useState([
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 11, 22, 222, 32, 34, 54, 345, 898, 900, 980,
+  ]);
   const [searchValue, setSearchValue] = useState("");
 
   const handleSearchChange = e => {
@@ -62,12 +64,17 @@ const CommunicationChatsList = ({showStaffsList}) => {
         </IconButton>
       </Box>
 
-      <Box>
+      <Box
+        sx={{
+          width: "100%",
+          height: "calc(100% - 50px)",
+        }}
+      >
         {fetchingChats ? (
           <Box
             sx={{
               width: "100%",
-              height: "calc(100% - 50px)",
+              height: "100%",
               alignItems: "center",
               justifyContent: "center",
             }}
@@ -75,12 +82,18 @@ const CommunicationChatsList = ({showStaffsList}) => {
             <CustomLoader />
           </Box>
         ) : (
-          <>
+          <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              overflowY: "auto",
+            }}
+          >
             {chats.length > 0 ? (
               <Box
                 sx={{
                   width: "100%",
-                  height: "calc(100% - 50px)",
+                  height: "100%",
                   overflowY: "auto",
                 }}
               >
@@ -114,7 +127,7 @@ const CommunicationChatsList = ({showStaffsList}) => {
                 </GlobalCustomButton>
               </Box>
             )}
-          </>
+          </Box>
         )}
       </Box>
     </Box>

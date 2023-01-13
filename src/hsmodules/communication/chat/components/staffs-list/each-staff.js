@@ -1,4 +1,5 @@
 import {Avatar, Box, Typography} from "@mui/material";
+import {returnAvatarString} from "../../../../helpers/returnAvatarString";
 
 const ChatEachStaff = ({staff}) => {
   return (
@@ -18,7 +19,15 @@ const ChatEachStaff = ({staff}) => {
       p={1}
     >
       <Box>
-        <Avatar />
+        <Avatar
+          src={staff.imageurl}
+          {...returnAvatarString(
+            `${staff.firstname.replace(/\s/g, "")} ${staff.lastname.replace(
+              /\s/g,
+              ""
+            )}`
+          )}
+        />
       </Box>
 
       <Box>

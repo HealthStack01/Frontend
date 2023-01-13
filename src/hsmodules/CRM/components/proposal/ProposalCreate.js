@@ -35,6 +35,7 @@ import {EmailsSourceList} from "../deals/SendLink";
 
 const CreateProposal = ({handleGoBack}) => {
   const dealServer = client.service("deal");
+  const emailServer = client.service("email");
   const {user} = useContext(UserContext);
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -341,13 +342,12 @@ const CreateProposal = ({handleGoBack}) => {
         });
     }
   };
-  const handleSendProposal = async status => {
-    if (description === "" && attachedDocs.length === 0)
-      return toast.error("You cannot send/save an empty Proposal");
 
+  const handleSendProposal = async emailData => {
     showActionLoader();
     const employee = user.currentEmployee;
     const currentDeal = state.DealModule.selectedDeal;
+    const facility = user.currentEmployee.facilityDetail;
 
     if (attachedDocs.length > 0) {
       const promises = attachedDocs.map(async doc => {
@@ -380,8 +380,23 @@ const CreateProposal = ({handleGoBack}) => {
         customerState: currentDeal.state,
         customerCountry: currentDeal.country,
         dealId: currentDeal._id,
-        status: status,
+        status: "Sent",
         _id: uuidv4(),
+      };
+
+      const emailDocument = {
+        organizationId: facility._id,
+        organizationName: facility.facilityName,
+        html: description,
+        text: "",
+        status: "pending",
+        attachments: attachments.map(item => {
+          return {
+            path: item.file,
+            filename: item.fileName,
+          };
+        }),
+        ...emailData,
       };
 
       const prevProposals = currentDeal.proposal || [];
@@ -395,7 +410,7 @@ const CreateProposal = ({handleGoBack}) => {
                 ...item,
                 description: description,
                 attachedFiles: attachments,
-                status: status,
+                status: "Sent",
                 updatedAt: new Date(),
               };
             } else {
@@ -410,29 +425,22 @@ const CreateProposal = ({handleGoBack}) => {
       await dealServer
         .patch(documentId, {proposal: newProposals})
         .then(res => {
-          hideActionLoader();
-          setState(prev => ({
-            ...prev,
-            DealModule: {...prev.DealModule, selectedDeal: res},
-          }));
+          return emailServer.create(emailDocument).then(resp => {
+            hideActionLoader();
+            setState(prev => ({
+              ...prev,
+              DealModule: {...prev.DealModule, selectedDeal: res},
+            }));
 
-          setAttachedDocs([]);
-          setDescription("");
-          if (status === "Draft") {
-            toast.success(
-              `You have successfully Saved this Proposal as a Draft`
-            );
-          } else {
+            setAttachedDocs([]);
+            setDescription("");
+            setSendModal(false);
             toast.success(`Proposal was sent succesfully`);
-          }
+          });
         })
         .catch(err => {
           hideActionLoader();
-          if (status === "Draft") {
-            toast.error(`Sorry, Failed to Save Proposal as Draft. ${err}`);
-          } else {
-            toast.error(`Sorry, Failed to send Proposal. ${err}`);
-          }
+          toast.error(`Sorry, Failed to send Proposal. ${err}`);
         });
     } else {
       const document = {
@@ -450,8 +458,17 @@ const CreateProposal = ({handleGoBack}) => {
         customerState: currentDeal.state,
         customerCountry: currentDeal.country,
         dealId: currentDeal._id,
-        status: status,
+        status: "Sent",
         _id: uuidv4(),
+      };
+
+      const emailDocument = {
+        organizationId: facility._id,
+        organizationName: facility.facilityName,
+        html: description,
+        text: "",
+        status: "pending",
+        ...emailData,
       };
 
       const prevProposals = currentDeal.proposal || [];
@@ -465,7 +482,7 @@ const CreateProposal = ({handleGoBack}) => {
                 ...item,
                 description: description,
                 attachedFiles: [],
-                status: status,
+                status: "Sent",
                 updatedAt: new Date(),
               };
             } else {
@@ -478,29 +495,22 @@ const CreateProposal = ({handleGoBack}) => {
       await dealServer
         .patch(documentId, {proposal: newProposals})
         .then(res => {
-          hideActionLoader();
-          setState(prev => ({
-            ...prev,
-            DealModule: {...prev.DealModule, selectedDeal: res},
-          }));
+          return emailServer.create(emailDocument).then(resp => {
+            hideActionLoader();
+            setState(prev => ({
+              ...prev,
+              DealModule: {...prev.DealModule, selectedDeal: res},
+            }));
 
-          setAttachedDocs([]);
-          setDescription("");
-          if (status === "Draft") {
-            toast.success(
-              `You have successfully Saved this Proposal as a Draft`
-            );
-          } else {
+            setAttachedDocs([]);
+            setDescription("");
+            setSendModal(false);
             toast.success(`Proposal was sent succesfully`);
-          }
+          });
         })
         .catch(err => {
           hideActionLoader();
-          if (status === "Draft") {
-            toast.error(`Sorry, Failed to Save Proposal as Draft. ${err}`);
-          } else {
-            toast.error(`Sorry, Failed to send Proposal. ${err}`);
-          }
+          toast.error(`Sorry, Failed to send Proposal. ${err}`);
         });
     }
   };
@@ -512,8 +522,8 @@ const CreateProposal = ({handleGoBack}) => {
   };
 
   const showSendModal = () => {
-    if (description === "" && attachedDocs.length === 0)
-      return toast.error("You cannot send/save an empty Proposal");
+    // if (description === "" && attachedDocs.length === 0)
+    //   return toast.error("You cannot send/save an empty Proposal");
     setSendModal(true);
   };
 
@@ -528,7 +538,7 @@ const CreateProposal = ({handleGoBack}) => {
         onClose={() => setSendModal(false)}
         header="Send Proposal"
       >
-        <SendProposalOrSLA handleSend={() => setSendModal(false)} />
+        <SendProposalOrSLA handleSend={handleSendProposal} />
       </ModalBox>
       <ModalBox
         open={docViewModal}
@@ -763,7 +773,9 @@ export const SendProposalOrSLA = ({handleSend}) => {
     setEmailModals(false);
   };
 
-  const handleSendProposal = () => {};
+  const handleSendProposal = data => {
+    handleSend(data);
+  };
 
   return (
     <Box

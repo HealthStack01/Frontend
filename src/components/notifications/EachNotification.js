@@ -70,12 +70,8 @@ const EachNotification = ({notification}) => {
             color: "#006d77",
           }}
         >
-          {dayjs(notification.time).fromNow()}
+          {dayjs(notification.createdAt).fromNow()}
         </Typography>
-
-        {/* <IconButton>
-          <MoreHorizIcon fontSize="small" />
-        </IconButton> */}
       </Box>
     </Box>
   );

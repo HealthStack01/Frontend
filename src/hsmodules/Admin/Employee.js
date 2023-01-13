@@ -28,6 +28,7 @@ import {Avatar, Portal} from "@mui/material";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import {returnAvatarString} from "../helpers/returnAvatarString";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -433,7 +434,14 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
       name: "Image",
       key: "sn",
       description: "Enter name of employee",
-      selector: row => <Avatar src={row.imageurl} />,
+      selector: row => (
+        <Avatar
+          src={row.imageurl}
+          {...returnAvatarString(
+            `${row.firstname.toUpperCase()} ${row.lastname.toUpperCase()}`
+          )}
+        />
+      ),
       sortable: true,
       inputType: "HIDDEN",
       width: "80px",
