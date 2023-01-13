@@ -104,9 +104,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
   const getFacilities = async () => {
     setLoading(true);
     const testId = "60203e1c1ec8a00015baa357";
-    const facId = user.currentEmployee.facilityDetail_id;
-
-    //showActionLoader();
+    const facId = user.currentEmployee.facilityDetail._id;
 
     const res =
       testId === facId
@@ -118,8 +116,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
           });
 
     await setFacilities(res.data);
-    //console.log(res.data);
-    // hideActionLoader();
+
     setLoading(false);
   };
 

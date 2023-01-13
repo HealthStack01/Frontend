@@ -1,4 +1,4 @@
-import {forwardRef, useState, useContext} from "react";
+import {forwardRef, useState, useContext, useEffect} from "react";
 import {Button, Collapse, Grid, Typography} from "@mui/material";
 import {Box} from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
@@ -25,6 +25,7 @@ import client from "../../../../feathers";
 
 const LeadsCreate = ({closeModal, handleGoBack}) => {
   const dealServer = client.service("deal");
+  const notificationsServer = client.service("notification");
 
   const {register, handleSubmit, control, watch, reset} = useForm({
     defaultValues: {customer_type: ""},
@@ -134,14 +135,23 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
     document.facilityId = employee.facilityDetail._id;
     document.facilityName = employee.facilityDetail.facilityName;
 
-    console.log(document);
+    const notificationObj = {
+      type: "create",
+      title: "New Lead Created in CRM",
+      description: `${employee.firstname} ${employee.lastname} Created a new Lead with ${data.type} ${data.name} in CRM`,
+      facilityId: employee.facilityDetail._id,
+      sender: `${employee.firstname} ${employee.lastname}`,
+      senderId: employee.userId,
+    };
 
     await dealServer
       .create(document)
-      .then(res => {
+      .then(async res => {
         Object.keys(data).forEach(key => {
           data[key] = null;
         });
+
+        await notificationsServer.create(notificationObj);
 
         hideActionLoader();
         reset(data);

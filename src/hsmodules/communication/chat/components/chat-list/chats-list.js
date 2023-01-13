@@ -64,12 +64,17 @@ const CommunicationChatsList = ({showStaffsList}) => {
         </IconButton>
       </Box>
 
-      <Box>
+      <Box
+        sx={{
+          width: "100%",
+          height: "calc(100% - 50px)",
+        }}
+      >
         {fetchingChats ? (
           <Box
             sx={{
               width: "100%",
-              height: "calc(100% - 50px)",
+              height: "100%",
               alignItems: "center",
               justifyContent: "center",
             }}
@@ -80,7 +85,7 @@ const CommunicationChatsList = ({showStaffsList}) => {
           <Box
             sx={{
               width: "100%",
-              height: "calc(100% - 50px)",
+              height: "100%",
               overflowY: "auto",
             }}
           >
@@ -88,7 +93,7 @@ const CommunicationChatsList = ({showStaffsList}) => {
               <Box
                 sx={{
                   width: "100%",
-                  height: "calc(100% - 50px)",
+                  height: "100%",
                   overflowY: "auto",
                 }}
               >

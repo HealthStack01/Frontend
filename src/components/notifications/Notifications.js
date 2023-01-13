@@ -12,10 +12,113 @@ import {dummyNotifications} from "./data";
 import EachNotification from "./EachNotification";
 
 import no_notification_gif from "./assets/no_notification.gif";
+import client from "../../feathers";
+import {UserContext} from "../../context";
+
+const CustomLoader = () => (
+  <div
+    style={{
+      padding: "24px",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
+    <img
+      src="/loading.gif"
+      style={{width: "200px", height: "auto", display: "block"}}
+    />
+    <Typography sx={{marginTop: "-2rem", fontSize: "0.85rem"}}>
+      Hold on, whilst we fetch your data...
+    </Typography>
+  </div>
+);
 
 const AppNotifications = () => {
-  const [notifications, setNotification] = useState([]);
+  const notificationsServer = client.service("notification");
+  const {user} = useContext(UserContext);
+  //const {showActionLoader, hideActionLoader} = useContext(ObjectContext);
+  const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [showDrawer, setShowDrawer] = useState(false);
+
+  const getNotifications = useCallback(async () => {
+    setLoading(true);
+    if (user.currentEmployee) {
+      const response = await notificationsServer.find({
+        query: {
+          facilityId: user.currentEmployee.facilityDetail._id,
+          $limit: 200,
+          senderId: {
+            $ne: user.currentEmployee.userId,
+          },
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      });
+
+      await setNotifications(response.data);
+      setLoading(false);
+    } else {
+      if (user.stacker) {
+        const response = await notificationsServer.find({
+          query: {
+            $limit: 100,
+            $sort: {
+              facility: -1,
+            },
+          },
+        });
+
+        await setNotifications(response.data);
+        setLoading(false);
+      }
+    }
+  }, []);
+
+  const updateNotifications = useCallback(async () => {
+    if (user.currentEmployee) {
+      const response = await notificationsServer.find({
+        query: {
+          facilityId: user.currentEmployee.facilityDetail._id,
+          $limit: 200,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      });
+
+      await setNotifications(response.data);
+      setLoading(false);
+    } else {
+      if (user.stacker) {
+        const response = await notificationsServer.find({
+          query: {
+            $limit: 100,
+            $sort: {
+              facility: -1,
+            },
+          },
+        });
+
+        await setNotifications(response.data);
+        setLoading(false);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    getNotifications();
+  }, [getNotifications]);
+
+  useEffect(() => {
+    notificationsServer.on("created", obj => updateNotifications());
+    notificationsServer.on("updated", obj => updateNotifications());
+    notificationsServer.on("patched", obj => updateNotifications());
+    notificationsServer.on("removed", obj => updateNotifications());
+  }, []);
 
   return (
     <Box>
@@ -84,7 +187,7 @@ const AppNotifications = () => {
               minheight: "calc(100vh - 6rem)",
             }}
           >
-            {dummyNotifications.length > 0 ? (
+            {notifications.length > 0 ? (
               <Box
                 sx={{
                   width: "100%",
@@ -92,7 +195,7 @@ const AppNotifications = () => {
                   overflowY: "auto",
                 }}
               >
-                {dummyNotifications.map((notification, i) => {
+                {notifications.map((notification, i) => {
                   return (
                     <EachNotification notification={notification} key={i} />
                   );

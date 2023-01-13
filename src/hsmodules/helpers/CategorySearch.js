@@ -228,7 +228,7 @@ export default function CategorySearch({
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys
-        // noOptionsText={val !== "" ? `${val} Not Found` : "Type something"}
+        noOptionsText={val !== "" ? `${val} Not Found` : "Type something"}
         renderOption={(props, option) => (
           <li {...props} style={{fontSize: "0.75rem"}}>
             {option.categoryname}
