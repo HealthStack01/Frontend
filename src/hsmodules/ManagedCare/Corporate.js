@@ -12,7 +12,15 @@ import { TableMenu } from '../../ui/styled/global';
 import Button from '../../components/buttons/Button';
 import CustomTable from '../../components/customtable';
 import FilterMenu from '../../components/utilities/FilterMenu';
-import { Box, Grid, Button as MuiButton, Badge, Drawer } from '@mui/material';
+import {
+	Box,
+	Grid,
+	Button as MuiButton,
+	Badge,
+	Drawer,
+	Avatar,
+} from '@mui/material';
+import { formatDistanceToNowStrict } from 'date-fns';
 import ModalBox from '../../components/modal';
 import { FaHospital, FaAddressCard, FaUserAlt } from 'react-icons/fa';
 import { IoLocationSharp } from 'react-icons/io5';
@@ -913,7 +921,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 						setShowModal={setCurrentPage}
 					/>
 				)}
-				{currentPage === 3 && <Beneficiary />}
+				{currentPage === 3 && <BeneList standAlone={facility?._id} />}
 				{currentPage === 4 && <Claims standAlone />}
 				{currentPage === 5 && <PremiumPayment />}
 				{currentPage === 6 && <CRMTasks />}
@@ -2007,6 +2015,355 @@ export function PolicyDetail({ showModal, setShowModal }) {
 					{display === 5 && <Claims standAlone />}
 					{display === 6 && <PremiumPayment />}
 				</Box>
+			</div>
+		</>
+	);
+}
+export function BeneList({ showModal, setShowModal, standAlone }) {
+	// const { register, handleSubmit, watch, errors } = useForm();
+	// eslint-disable-next-line
+	const [error, setError] = useState(false);
+	// eslint-disable-next-line
+	const [success, setSuccess] = useState(false);
+	// eslint-disable-next-line
+	const [message, setMessage] = useState('');
+	const ClientServ = client.service('policy');
+	// const history = useHistory();
+	// const {user,setUser} = useContext(UserContext)
+	const [facilities, setFacilities] = useState([]);
+	// eslint-disable-next-line
+	const [selectedClient, setSelectedClient] = useState(); //
+	// eslint-disable-next-line
+	const { state, setState } = useContext(ObjectContext);
+	// eslint-disable-next-line
+	const { user, setUser } = useContext(UserContext);
+	const [page, setPage] = useState(0);
+	const [limit, setLimit] = useState(50);
+	const [total, setTotal] = useState(0);
+	const [loading, setLoading] = useState(false);
+
+	const handleCreateNew = async () => {
+		const newClientModule = {
+			selectedClient: {},
+			show: 'create',
+		};
+		await setState((prevstate) => ({
+			...prevstate,
+			ClientModule: newClientModule,
+		}));
+		//console.log(state)
+		setShowModal(2);
+	};
+
+	const handleRow = async (Client) => {
+		await setSelectedClient(Client);
+		const newClientModule = {
+			selectedClient: Client,
+			show: 'detail',
+		};
+		await setState((prevstate) => ({
+			...prevstate,
+			ClientModule: newClientModule,
+		}));
+		setShowModal(1);
+	};
+
+	const handleSearch = (val) => {
+		// eslint-disable-next-line
+		const field = 'firstname';
+		console.log(val);
+		ClientServ.find({
+			query: {
+				$or: [
+					{
+						firstname: {
+							$regex: val,
+							$options: 'i',
+						},
+					},
+					{
+						lastname: {
+							$regex: val,
+							$options: 'i',
+						},
+					},
+					{
+						middlename: {
+							$regex: val,
+							$options: 'i',
+						},
+					},
+					{
+						phone: {
+							$regex: val,
+							$options: 'i',
+						},
+					},
+					{
+						clientTags: {
+							$regex: val,
+							$options: 'i',
+						},
+					},
+					{
+						mrn: {
+							$regex: val,
+							$options: 'i',
+						},
+					},
+					{
+						email: {
+							$regex: val,
+							$options: 'i',
+						},
+					},
+					{
+						specificDetails: {
+							$regex: val,
+							$options: 'i',
+						},
+					},
+					{ gender: val },
+				],
+
+				'relatedfacilities.facility': user.currentEmployee.facilityDetail._id, // || "",
+				$limit: limit,
+				$sort: {
+					createdAt: -1,
+				},
+			},
+		})
+			.then((res) => {
+				console.log(res);
+				setFacilities(res.data);
+				setMessage(' Client  fetched successfully');
+				setSuccess(true);
+			})
+			.catch((err) => {
+				console.log(err);
+				setMessage('Error fetching Client, probable network issues ' + err);
+				setError(true);
+			});
+	};
+
+	const getFacilities = async () => {
+		if (user.currentEmployee) {
+			// const findClient= await ClientServ.find()
+			const findClient = await ClientServ.find({
+				query: {
+					organization: user.currentEmployee.facilityDetail,
+					$sort: {
+						createdAt: -1,
+					},
+				},
+			});
+
+			let data = findClient.data;
+			let filteredArray = data.filter(
+				(item) =>
+					(item.sponsor !== '' &&
+						item.sponsor?.organizationDetail?._id === standAlone) ||
+					item.providers?.some(
+						(item) => item?.organizationDetail?._id === standAlone,
+					),
+			);
+			let principal = filteredArray.map((item) => item.principal);
+			let dependantBeneficiaries = filteredArray.map(
+				(item) => item.dependantBeneficiaries,
+			);
+			let joined = principal.concat(...dependantBeneficiaries);
+			setFacilities(joined);
+			await console.log(
+				'data',
+				data,
+				'filter',
+				filteredArray,
+				'standAlone',
+				standAlone,
+			);
+			await setTotal(findClient.total);
+			//console.log(user.currentEmployee.facilityDetail._id, state)
+			//console.log(facilities)
+			setPage((page) => page + 1);
+		} else {
+			if (user.stacker) {
+				const findClient = await ClientServ.find({
+					query: {
+						$limit: 20,
+						$sort: {
+							createdAt: -1,
+						},
+					},
+				});
+
+				await setFacilities(findClient.data);
+			}
+		}
+	};
+
+	useEffect(() => {
+		if (user) {
+			//getFacilities()
+			rest();
+		} else {
+			/* const localUser= localStorage.getItem("user")
+                    const user1=JSON.parse(localUser)
+                    console.log(localUser)
+                    console.log(user1)
+                    fetchUser(user1)
+                    console.log(user)
+                    getFacilities(user) */
+		}
+		ClientServ.on('created', (obj) => rest());
+		ClientServ.on('updated', (obj) => rest());
+		ClientServ.on('patched', (obj) => rest());
+		ClientServ.on('removed', (obj) => rest());
+		return () => {};
+		// eslint-disable-next-line
+	}, []);
+	const rest = async () => {
+		// console.log("starting rest")
+		// await setRestful(true)
+		await setPage(0);
+		//await  setLimit(2)
+		await setTotal(0);
+		await setFacilities([]);
+		await getFacilities();
+		//await  setPage(0)
+		//  await setRestful(false)
+	};
+
+	useEffect(() => {
+		//console.log(facilities)
+		return () => {};
+	}, [facilities, standAlone]);
+	//todo: pagination and vertical scroll bar
+
+	const BeneficiarySchema = [
+		{
+			name: 'S/N',
+			key: 'sn',
+			description: 'SN',
+			selector: (row) => row.sn,
+			sortable: true,
+			inputType: 'HIDDEN',
+			width: '50px',
+		},
+		{
+			name: 'Image',
+			key: 'sn',
+			description: 'Enter name of employee',
+			selector: (row) => <Avatar src={row?.imageurl} />,
+			sortable: true,
+			inputType: 'HIDDEN',
+			width: '80px',
+		},
+		{
+			name: 'First Name',
+			key: 'firstname',
+			description: 'First Name',
+			selector: (row) => row.firstname,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Last Name',
+			key: 'lastname',
+			description: 'Last Name',
+			selector: (row) => row.lastname,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+
+		{
+			name: 'Midlle Name',
+			key: 'middlename',
+			description: 'Midlle Name',
+			selector: (row) => row.middlename,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Age',
+			key: 'dob',
+			description: 'Age',
+			selector: (row) =>
+				row.dob ? formatDistanceToNowStrict(new Date(row?.dob)) : '',
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+
+		{
+			name: 'Gender',
+			key: 'gender',
+			description: 'Male',
+			selector: (row) => row.gender,
+			sortable: true,
+			required: true,
+			inputType: 'SELECT_LIST',
+			options: ['Male', 'Female'],
+		},
+
+		{
+			name: 'Email',
+			key: 'email',
+			description: 'johndoe@mail.com',
+			selector: (row) => row.email,
+			sortable: true,
+			required: true,
+			inputType: 'EMAIL',
+		},
+
+		{
+			name: 'Tags',
+			key: 'clientTags',
+			description: 'Tags',
+			selector: (row) => row.clientTags,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+	];
+	// const filteredFacilities = facilities.filter((facility) => {
+	return (
+		<>
+			<div
+				className='level'
+				style={{
+					width: '98%',
+					margin: '0 1rem',
+				}}>
+				<div style={{ display: 'flex', alignItems: 'center' }}>
+					{/* {handleSearch && (
+						<div className='inner-table'>
+							<FilterMenu onSearch={handleSearch} />
+						</div>
+					)} */}
+					<h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
+						List of Beneficiary
+					</h2>
+				</div>
+				<div
+					className='level'
+					style={{
+						height: '80vh',
+						overflowY: 'scroll',
+					}}>
+					<CustomTable
+						title={''}
+						columns={BeneficiarySchema}
+						data={facilities}
+						pointerOnHover
+						highlightOnHover
+						striped
+						onRowClicked={handleRow}
+						progressPending={loading}
+					/>
+				</div>
 			</div>
 		</>
 	);
