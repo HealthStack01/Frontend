@@ -35,13 +35,15 @@ export default function PayWithWallet({ amount }) {
 				phoneNumber: event.phoneNumber,
 				narration: event.description,
 			});
-			console.log(res.data);
+			// console.log(res.data);
 			toast.success('Payment Successful');
 		} catch (error) {
-			console.log(error);
+			// console.log(error);
 			toast.error('Payment Failed');
 		}
 	};
+	const pounchiiLogo =
+		'https://mywallet.remita.net/static/media/pouchii-ts.e40722f2.svg';
 
 	return (
 		<div
@@ -49,7 +51,18 @@ export default function PayWithWallet({ amount }) {
 				width: '100%',
 				padding: '0 15px',
 			}}>
-			<form onSubmit={handleSubmit}>
+			<Box sx={{ width: '100px', mx: '5rem', my: '1.5rem' }}>
+				<img
+					src={pounchiiLogo}
+					alt=''
+					style={{
+						width: '100%',
+						height: 'auto',
+						display: 'block',
+					}}
+				/>
+			</Box>
+			<form>
 				<Box
 					sx={{
 						width: '100%',

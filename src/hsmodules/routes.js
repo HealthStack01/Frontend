@@ -90,7 +90,7 @@ import BloodbankDashboard from './dashBoardUiComponent/@modules/BloodbankDashboa
 import WalletOTP from './PouchiiWallet/walletOtp';
 import DetailComplaint from './Complaints/DetailComplaints';
 import { marketPlaceRoutes } from './routes/marketPlace';
-import PayWithWallet from './PouchiiWallet/payWithWallet';
+import WalletPin from './PouchiiWallet/walletPin';
 
 const moduleLocationTypes = {
 	clinic: 'Clinic',
@@ -151,8 +151,8 @@ const AppRoutes = () => {
 						element={<Payment />}
 					/>
 					<Route
-						path='/pay-with-wallet'
-						element={<PayWithWallet />}
+						path='/wallet-pin'
+						element={<WalletPin />}
 					/>
 
 					{/************************** App Dashboard Routes *************************************** */}
