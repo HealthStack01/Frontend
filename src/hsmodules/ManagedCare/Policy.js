@@ -242,7 +242,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			// const findClient= await ClientServ.find()
 			const findClient = await ClientServ.find({
 				query: {
-					organizationId: user.currentEmployee.facilityDetail._id,
+					organization: user.currentEmployee.facilityDetail,
 					$sort: {
 						createdAt: -1,
 					},
@@ -250,7 +250,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			});
 			/*  if (page===0){ */
 			await setFacilities(findClient.data);
-			console.log(findClient.data);
+			console.log(findClient.data, user);
 			/* }else{
              await setFacilities(prevstate=>prevstate.concat(findClient.data))
          } */
@@ -345,7 +345,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Plan',
 			key: 'plan',
 			description: 'Plan',
-			selector: (row) => row.plan.name,
+			selector: (row) => row?.plan?.name,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -597,7 +597,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 	const productEntry = useRef();
 	//const [type,setType] = useState("Bill")
 	const type = useRef('Bill');
-	const ServicesServ = client.service('billing');
+	const ServicesServ = client.service('healthplan');
 	const policyServ = client.service('policy');
 	const BillCreateServ = client.service('createbilldirect');
 	const orgServ = client.service('organizationclient');
@@ -612,6 +612,8 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 	const [startDate, setStartDate] = useState('');
 	const [endDate, setEndDate] = useState('');
 	const [hmo, setHmo] = useState({});
+	const [subSponsor, setSubSponsor] = useState('');
+	const [healthplan, setHealthplan] = useState([]);
 
 	const getSearchfacility = async (obj) => {
 		if (
@@ -658,13 +660,15 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 			return;
 		}
 		console.log(benefittingPlans1);
-		let cplan = benefittingPlans1.filter((el) => el.name === value);
+		let cplan = healthplan.filter((el) => el.planName === value);
 		console.log(cplan);
 		setChosenPlan(cplan[0]);
-		let contract = cplan[0].contracts.filter(
-			(el) => el.source_org === el.dest_org,
-		);
-		setPrice(contract[0]);
+		let contract =
+			cplan[0]?.premiums[0]?.familyPremium &&
+			cplan[0]?.premiums[0]?.familyPremium !== '0'
+				? cplan[0]?.premiums[0]?.familyPremium
+				: cplan[0]?.premiums[0]?.individualPremium;
+		setPrice(contract);
 	};
 
 	const handleClickProd = () => {
@@ -787,44 +791,39 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 		if (user.currentEmployee?.facilityDetail.facilityType === 'HMO') {
 			const findServices = await ServicesServ.find({
 				query: {
-					facility: user.currentEmployee.facilityDetail._id,
-					'contracts.source_org': user.currentEmployee.facilityDetail._id,
-					'contracts.dest_org': user.currentEmployee.facilityDetail._id,
-					category: 'Managed Care',
+					organizationId: user.currentEmployee.facilityDetail._id,
+					// 'contracts.source_org': user.currentEmployee.facilityDetail._id,
+					// 'contracts.dest_org': user.currentEmployee.facilityDetail._id,
+					// category: 'Managed Care',
 					$sort: {
 						category: 1,
 					},
 				},
 			});
-			console.log(findServices);
-			if (findServices.total > 0) {
-				findServices?.groupedOrder[0]?.services?.forEach(async (c) => {
-					const newPlan = {
-						name: c?.name,
-					};
-					await setBenefittingPlans1((prev) => prev.concat(c));
-				});
+			console.log(findServices.data);
+			const data = findServices.data;
+			if (data.length > 0) {
+				setHealthplan(data);
+				// map the array for all the planName
+				const planName = data.map((plan) => plan.planName);
+				console.log('test', planName);
+				setBenefittingPlans1(planName);
 			}
 		} else if (hmo) {
 			const findServices = await ServicesServ.find({
 				query: {
-					facility: hmo?._id,
-					'contracts.source_org': hmo?._id,
-					'contracts.dest_org': hmo?._id,
-					category: 'Managed Care',
+					organizationId: hmo?._id,
 					$sort: {
 						category: 1,
 					},
 				},
 			});
-			console.log(findServices);
-			if (findServices.total > 0) {
-				findServices?.groupedOrder[0]?.services?.forEach(async (c) => {
-					const newPlan = {
-						name: c?.name,
-					};
-					await setBenefittingPlans1((prev) => prev.concat(c));
-				});
+			console.log(findServices.data);
+			const data = findServices.data;
+			if (findServices.length > 0) {
+				// map the array for all the planName
+				const planName = data.map((plan) => plan.planName);
+				setBenefittingPlans1(planName);
 			}
 		}
 	};
@@ -1233,7 +1232,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 		},
 	];
 
-	console.log('==================', selectedPlan, hmo);
+	console.log('==================', benefittingPlans1);
 
 	return (
 		<>
@@ -1300,6 +1299,38 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 								<label>Company</label>
 							</Box>
 						</Grid>
+						<Grid
+							item
+							md={6}>
+							<CustomSelect
+								name='plan'
+								label='Category Type'
+								options={
+									showCorp
+										? [
+												{
+													value: 'Large Enterprise',
+													label: 'Large Enterprise',
+												},
+												{
+													value: 'Medium Enterprise',
+													label: 'Medium Enterprise',
+												},
+												{ value: 'SME', label: 'SME' },
+												{ value: 'Association', label: 'Association' },
+												{ value: 'Multinational', label: 'Multinational' },
+										  ]
+										: [
+												{ value: 'Individual', label: 'Individual' },
+												{ value: 'Family', label: 'Family' },
+										  ]
+								}
+								required
+								important
+								// control={control}
+								onChange={(e) => setSubSponsor(e.target.value)}
+							/>
+						</Grid>
 
 						{showCorp && (
 							<Grid
@@ -1338,7 +1369,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 							item
 							md={6}>
 							<Input
-								value={price.price}
+								value={price}
 								disabled
 								label='Price'
 							/>
