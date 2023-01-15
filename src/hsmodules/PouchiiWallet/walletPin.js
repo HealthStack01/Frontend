@@ -78,6 +78,7 @@ export default function WalletPin() {
 								label='Pin'
 								value={userPin}
 								onChange={(e) => setUserPin(e.target.value)}
+								placeholder='Please enter your pin'
 							/>
 						</Grid>
 						<Grid
