@@ -66,13 +66,13 @@ const SuspendedDealsList = ({
       testId === facId
         ? await dealServer.find({
             query: {
-              facilityId: facId,
+              //facilityId: facId,
               $or: [
                 {
                   "dealinfo.currStatus": "suspended",
                 },
                 {
-                  "dealinfo.currStatus": "suspended",
+                  "dealinfo.currStatus": "Suspended",
                 },
               ],
             },
@@ -85,7 +85,7 @@ const SuspendedDealsList = ({
                   "dealinfo.currStatus": "suspended",
                 },
                 {
-                  "dealinfo.currStatus": "suspended",
+                  "dealinfo.currStatus": "Suspended",
                 },
               ],
             },

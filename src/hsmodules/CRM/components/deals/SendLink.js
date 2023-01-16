@@ -12,6 +12,7 @@ import ModalBox from "../../../../components/modal";
 import SendIcon from "@mui/icons-material/Send";
 import {toast} from "react-toastify";
 import GlobalStyles from "@mui/material/GlobalStyles";
+import {getContactColumns} from "../colums/columns";
 
 const inputGlobalStyles = (
   <GlobalStyles
@@ -25,13 +26,17 @@ const inputGlobalStyles = (
 
 const SendLinkViaEmail = ({closeModal}) => {
   const emailServer = client.service("email");
+  const {user} = useContext(UserContext);
+  const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
   const [emailsModal, setEmailModals] = useState(true);
+  const [toEmailModal, setToEmailModal] = useState(false);
   const [selectedEmail, setSelectedEmail] = useState("");
+  const [destinationEmail, setDestinationEmail] = useState(
+    state.DealModule.selectedDeal.email
+  );
   const [emailBody, setEmailBody] = useState(
     `<p>Please follow this <a style="color:red;" href="https://healthstack-test.netlify.app/signup">LINK</a> to create an Organization </p>`
   );
-  const {user} = useContext(UserContext);
-  const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
   const {
     register,
     setValue,
@@ -41,18 +46,23 @@ const SendLinkViaEmail = ({closeModal}) => {
   } = useForm();
 
   useEffect(() => {
-    const deal = state.DealModule.selectedDeal;
+    //const deal = state.DealModule.selectedDeal;
     reset({
-      to: deal.email,
+      to: destinationEmail,
       name: user.currentEmployee.facilityDetail.facilityName,
       subject: "Create Your Organization",
       from: selectedEmail,
     });
-  }, [selectedEmail]);
+  }, [selectedEmail, destinationEmail]);
 
   const handleSelectEmail = email => {
     setSelectedEmail(email);
     setEmailModals(false);
+  };
+
+  const handleSelectDestinationEmail = email => {
+    setDestinationEmail(email);
+    setToEmailModal(false);
   };
 
   const handleSendEmail = async data => {
@@ -94,6 +104,22 @@ const SendLinkViaEmail = ({closeModal}) => {
         width: "60vw",
       }}
     >
+      <ModalBox
+        open={emailsModal}
+        //onClose={() => setEmailModals(false)}
+        header="Plese Select Your Email Source"
+      >
+        <EmailsSourceList selectEmail={handleSelectEmail} />
+      </ModalBox>
+
+      <ModalBox
+        open={toEmailModal}
+        onClose={() => setToEmailModal(false)}
+        header="Select Contact To Receive Email"
+      >
+        <ContactsEmailSource selectEmail={handleSelectDestinationEmail} />
+      </ModalBox>
+
       <ModalBox
         open={emailsModal}
         //onClose={() => setEmailModals(false)}
@@ -147,6 +173,14 @@ const SendLinkViaEmail = ({closeModal}) => {
             })}
             errorText={errors?.to?.message}
           />
+
+          <GlobalCustomButton
+            sx={{marginTop: "5px"}}
+            color="secondary"
+            onClick={() => setToEmailModal(true)}
+          >
+            Change Destination Email
+          </GlobalCustomButton>
         </Grid>
 
         <Grid item xs={12}>
@@ -325,6 +359,76 @@ export const EmailsSourceList = ({selectEmail}) => {
           progressPending={loading}
         />
       </Box>
+    </Box>
+  );
+};
+
+export const ContactsEmailSource = ({selectEmail}) => {
+  const dealServer = client.service("deal");
+  const {state} = useContext(ObjectContext);
+  const [loading, setLoading] = useState(false);
+  const [contacts, setContacts] = useState([]);
+  const contactColumns = getContactColumns(null, false, true);
+
+  const getDealContacts = useCallback(async () => {
+    const id = state.DealModule.selectedDeal._id;
+    setLoading(true);
+    const resp = await dealServer.find({
+      query: {
+        _id: id,
+        $select: ["contacts"],
+      },
+    });
+
+    //console.log(resp.data);
+    setContacts(resp.data[0].contacts);
+    setLoading(false);
+  }, []);
+
+  const conditionalRowStyles = [
+    {
+      when: row => row.active === false,
+      style: {
+        backgroundColor: "pink",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
+  useEffect(() => {
+    getDealContacts();
+  }, []);
+
+  const handleRow = item => {
+    selectEmail(item.email);
+  };
+
+  return (
+    <Box sx={{width: "85vw", maxHeight: "80vh"}}>
+      <Box mb={1.5}>
+        <CustomTable
+          title={"Contact List"}
+          columns={contactColumns}
+          data={contacts}
+          //data={["", ""]}
+          pointerOnHover
+          highlightOnHover
+          striped
+          onRowClicked={handleRow}
+          CustomEmptyData="You haven't added any contact yet, Click edit to add.."
+          progressPending={loading}
+          conditionalRowStyles={conditionalRowStyles}
+        />
+      </Box>
+
+      <GlobalCustomButton
+        onClick={() => selectEmail(state.DealModule.selectedDeal.email)}
+      >
+        Use Default Customer Email
+      </GlobalCustomButton>
     </Box>
   );
 };

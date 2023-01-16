@@ -790,10 +790,32 @@ const LeadDetail = ({handleGoBack}) => {
   const [unreadMsgs, setUnreadMsgs] = useState([]);
   const [dealStatus, setDealStatus] = useState("");
   const [sendLinkModal, setSendLinkModal] = useState(false);
+  const [numOfMsg, setNumOfMsg] = useState(0);
 
   const handleSetCurrentView = view => {
     setCurrentView(view);
   };
+
+  const getUnReadMessages = useCallback(async () => {
+    const id = state.DealModule.selectedDeal._id;
+    const userId = user.currentEmployee.userId;
+    console.log(userId);
+    const resp = await dealServer.find({
+      // "chat.seen": {$nin: [userId]},
+
+      query: {
+        //lga: "Ikeja",
+        //_id: id,
+        // $select: ["chat"],
+        //lga: "Ikeja",
+        "chat.seen": {$in: [userId]},
+      },
+    });
+
+    const data = resp.data;
+    //setNumOfMsg(data.chat.length);
+    console.log(data);
+  }, []);
 
   const getUnreadMessagesCount = useCallback(async () => {
     setUnreadMsgs([]);
@@ -801,9 +823,16 @@ const LeadDetail = ({handleGoBack}) => {
     const userId = user.currentEmployee.userId;
     // console.log(userId);
     await dealServer
-      .get(id)
+      .find({
+        query: {
+          _id: id,
+          $select: ["chat"],
+        },
+      })
       .then(resp => {
-        const msgs = resp.chat;
+        const data = resp.data[0];
+        const msgs = data.chat;
+        console.log(msgs);
         msgs.map(msg => {
           if (
             msg.senderId === userId ||
@@ -824,12 +853,14 @@ const LeadDetail = ({handleGoBack}) => {
 
   useEffect(() => {
     getUnreadMessagesCount();
+  }, []);
 
+  useEffect(() => {
     dealServer.on("created", obj => getUnreadMessagesCount());
     dealServer.on("updated", obj => getUnreadMessagesCount());
     dealServer.on("patched", obj => getUnreadMessagesCount());
     dealServer.on("removed", obj => getUnreadMessagesCount());
-  }, [getUnreadMessagesCount]);
+  }, []);
 
   useEffect(() => {
     const deal = state.DealModule.selectedDeal.dealinfo;

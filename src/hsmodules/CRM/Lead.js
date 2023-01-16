@@ -21,6 +21,7 @@ import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import {Box, Typography} from "@mui/material";
 import client from "../../feathers";
 import dayjs from "dayjs";
+import {toast} from "react-toastify";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -99,7 +100,93 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
     //console.log(data);
   };
 
-  const handleSearch = val => {};
+  const handleSearch = val => {
+    // eslint-disable-next-line
+    const field = "firstname";
+    //console.log(val);
+    dealServer
+      .find({
+        query: {
+          $or: [
+            {
+              name: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+
+            {
+              phone: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              email: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              type: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              "dealinfo.probability": {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              "dealinfo.currStatus": {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              "dealinfo.size": {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              "dealinfo.nextAction": {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              "dealinfo.size": {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              "dealinfo.weightForecast": {
+                $regex: val,
+                $options: "i",
+              },
+            },
+          ],
+
+          factilityId: user.currentEmployee.facilityDetail._id, // || "",
+          $limit: 100,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      })
+      .then(res => {
+        console.log(res);
+        setFacilities(res.data);
+      })
+      .catch(err => {
+        // toast.error(`Something went wrong!!!! ${err}`);
+        console.log(err);
+      });
+  };
 
   const getFacilities = async () => {
     setLoading(true);
@@ -108,10 +195,19 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
 
     const res =
       testId === facId
-        ? await dealServer.find({})
+        ? await dealServer.find({
+            query: {
+              $sort: {
+                createdAt: -1,
+              },
+            },
+          })
         : await dealServer.find({
             query: {
               facilityId: facId,
+              $sort: {
+                createdAt: -1,
+              },
             },
           });
 
@@ -136,7 +232,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
           });
 
     await setFacilities(res.data);
-    console.log(res.data);
+    //console.log(res.data);
     //hideActionLoader();
   };
 

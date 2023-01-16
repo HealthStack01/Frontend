@@ -31,7 +31,7 @@ import axios from "axios";
 import {getUploadUrl} from "../../../helpers/getUploadUrl";
 import client from "../../../../feathers";
 import {toast} from "react-toastify";
-import {EmailsSourceList} from "../deals/SendLink";
+import {ContactsEmailSource, EmailsSourceList} from "../deals/SendLink";
 
 const CreateProposal = ({handleGoBack}) => {
   const dealServer = client.service("deal");
@@ -522,8 +522,8 @@ const CreateProposal = ({handleGoBack}) => {
   };
 
   const showSendModal = () => {
-    // if (description === "" && attachedDocs.length === 0)
-    //   return toast.error("You cannot send/save an empty Proposal");
+    if (description === "" && attachedDocs.length === 0)
+      return toast.error("You cannot send/save an empty Proposal");
     setSendModal(true);
   };
 
@@ -745,11 +745,15 @@ const UploadComponent = ({}) => {
 
 export const SendProposalOrSLA = ({handleSend}) => {
   const emailServer = client.service("email");
-  const [emailsModal, setEmailModals] = useState(true);
-  const [selectedEmail, setSelectedEmail] = useState("");
-
   const {user} = useContext(UserContext);
   const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
+  const [emailsModal, setEmailModals] = useState(true);
+  const [selectedEmail, setSelectedEmail] = useState("");
+  const [destinationEmail, setDestinationEmail] = useState(
+    state.DealModule.selectedDeal.email || ""
+  );
+  const [toEmailModal, setToEmailModal] = useState(false);
+
   const {
     register,
     setValue,
@@ -761,20 +765,25 @@ export const SendProposalOrSLA = ({handleSend}) => {
   useEffect(() => {
     const deal = state.DealModule.selectedDeal;
     reset({
-      to: deal.email,
+      to: destinationEmail,
       name: user.currentEmployee.facilityDetail.facilityName,
       subject: "Proposal",
       from: selectedEmail,
     });
-  }, [selectedEmail]);
+  }, [selectedEmail, destinationEmail]);
 
   const handleSelectEmail = email => {
     setSelectedEmail(email);
     setEmailModals(false);
   };
 
-  const handleSendProposal = data => {
+  const handleSendProposalOrSLA = data => {
     handleSend(data);
+  };
+
+  const handleSelectDestinationEmail = email => {
+    setDestinationEmail(email);
+    setToEmailModal(false);
   };
 
   return (
@@ -790,13 +799,35 @@ export const SendProposalOrSLA = ({handleSend}) => {
       >
         <EmailsSourceList selectEmail={handleSelectEmail} />
       </ModalBox>
-      <Box sx={{display: "flex", justifyContent: "flex-end"}} mb={2}>
+
+      <ModalBox
+        open={toEmailModal}
+        onClose={() => setToEmailModal(false)}
+        header="Select Contact To Receive Email"
+      >
+        <ContactsEmailSource selectEmail={handleSelectDestinationEmail} />
+      </ModalBox>
+
+      <Box
+        sx={{display: "flex", justifyContent: "flex-end"}}
+        mb={2}
+        mt={-1}
+        gap={1.5}
+      >
         <GlobalCustomButton
           sx={{marginTop: "5px"}}
           color="success"
           onClick={() => setEmailModals(true)}
         >
           Change Source Email
+        </GlobalCustomButton>
+
+        <GlobalCustomButton
+          sx={{marginTop: "5px"}}
+          color="secondary"
+          onClick={() => setToEmailModal(true)}
+        >
+          Change Destination Email
         </GlobalCustomButton>
       </Box>
 
@@ -842,7 +873,7 @@ export const SendProposalOrSLA = ({handleSend}) => {
       </Grid>
 
       <Box>
-        <GlobalCustomButton onClick={handleSubmit(handleSendProposal)}>
+        <GlobalCustomButton onClick={handleSubmit(handleSendProposalOrSLA)}>
           Send Document
           <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
         </GlobalCustomButton>

@@ -2,6 +2,7 @@ import {lazy, Fragment} from "react";
 import {Route} from "react-router-dom";
 
 import Login from "../auth";
+import OrganizationSignup from "../auth/forms/sign-up/sign-up";
 import IndividualSignup from "../auth/IndividualSignup";
 import Signup from "../auth/Signup";
 
@@ -15,7 +16,7 @@ export const authRoutes = [
   },
   {
     path: "/signup",
-    Component: Signup,
+    Component: OrganizationSignup,
   },
   {
     path: "/signupindividual",
