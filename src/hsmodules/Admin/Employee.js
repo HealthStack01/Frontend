@@ -362,6 +362,7 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
   };
 
   const getFacilities = async () => {
+    setLoading(true);
     if (user.currentEmployee) {
       const findEmployee = await EmployeeServ.find({
         query: {
@@ -374,6 +375,7 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
       });
 
       await setFacilities(findEmployee.data);
+      setLoading(false);
       //console.log("facilities", facilities);
     } else {
       if (user.stacker) {
@@ -387,6 +389,7 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
         });
 
         await setFacilities(findEmployee.data);
+        setLoading(false);
       }
     }
   };
