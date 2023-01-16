@@ -2662,15 +2662,15 @@ export function PolicyDetail({ showModal, setShowModal }) {
 		setFacility(Client);
 
 		const initFormValue = {
-			policyNo: Client.policyNo,
-			phone: Client.principal?.phone,
-			start_date: Client.validitystarts,
-			end_date: Client.validityEnds,
+			policyNo: Client?.policyNo,
+			phone: Client?.principal?.phone,
+			start_date: Client?.validitystarts,
+			end_date: Client?.validityEnds,
 			status: Client?.approved ? 'Approved' : 'Pending',
-			sponsorship_type: Client.sponsorshipType,
-			plan_type: Client.plan.name,
-			policy_tag: Client.principal.clientTags,
-			premium: Client.premium,
+			sponsorship_type: Client?.sponsorshipType,
+			plan_type: Client?.plan?.name,
+			policy_tag: Client?.principal?.clientTags,
+			premium: Client?.premium,
 			sponsor_name: Client.sponsor?.organizationDetail?.facilityName,
 			sponsor_phone: Client.sponsor?.organizationDetail?.facilityContactPhone,
 			sponsor_email: Client.sponsor?.organizationDetail?.facilityEmail,
