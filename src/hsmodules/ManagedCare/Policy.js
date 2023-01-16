@@ -663,14 +663,14 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 		let cplan = healthplan.filter((el) => el.planName === value);
 		console.log(cplan);
 		setChosenPlan(cplan[0]);
-		let contract =
-			cplan[0]?.premiums[0]?.familyPremium &&
-			cplan[0]?.premiums[0]?.familyPremium !== '0'
-				? cplan[0]?.premiums[0]?.familyPremium
-				: cplan[0]?.premiums[0]?.individualPremium;
-		setPrice(contract);
+		let contract = cplan[0]?.premiums[0]?.familyPremium;
+		if (subSponsor === 'Individual') {
+			setPrice(cplan[0]?.premiums[0]?.individualPremium);
+		} else {
+			setPrice(contract);
+		}
 	};
-
+	console.log('price', price);
 	const handleClickProd = () => {
 		setState((prevstate) => ({ ...prevstate, currBeneficiary: 'principal' }));
 		setDependant('principal');
@@ -1272,6 +1272,13 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 						container
 						spacing={2}
 						mt={2}>
+						<p
+							style={{
+								marginLeft: '1rem',
+								marginBottom: 0,
+							}}>
+							Sponsor Type
+						</p>
 						<Grid
 							item
 							md={12}
@@ -1407,21 +1414,23 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 								</button>
 							</p>
 						)}
-						<p>
-							Add Dependant
-							<button
-								onClick={handleClickProd2}
-								style={{
-									border: 'none',
-									backgroundColor: '#E8F1FF',
-									padding: ' .5rem 1rem',
-									marginLeft: '.5rem',
-									cursor: 'pointer',
-								}}
-								type='button'>
-								+
-							</button>
-						</p>
+						{subSponsor !== 'Individual' && (
+							<p>
+								Add Dependant
+								<button
+									onClick={handleClickProd2}
+									style={{
+										border: 'none',
+										backgroundColor: '#E8F1FF',
+										padding: ' .5rem 1rem',
+										marginLeft: '.5rem',
+										cursor: 'pointer',
+									}}
+									type='button'>
+									+
+								</button>
+							</p>
+						)}
 					</Box>
 					<Grid
 						container

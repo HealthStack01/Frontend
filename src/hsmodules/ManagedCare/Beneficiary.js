@@ -93,7 +93,12 @@ export default function Beneficiary({ standAlone }) {
 				/>
 			)}
 			{/* {state.ClientModule.show === 'create' && <BeneficiaryCreate />} */}
-			{showModal === 1 && <ClientDetail setShowModal={setShowModal} />}
+			{showModal === 1 && (
+				<ClientDetail
+					setShowModal={setShowModal}
+					showModal={showModal}
+				/>
+			)}
 			{showModal === 2 && (
 				<ModalBox
 					open
@@ -1791,7 +1796,7 @@ export function ClientDetail({ showModal, setShowModal }) {
 						</Button>
 						<Button
 							onClick={handleEdit}
-							variant='contained'
+							variant={showModal === 3 ? 'outlined' : 'contained'}
 							size='small'
 							sx={{ textTransform: 'capitalize', marginRight: '10px' }}
 							color='secondary'>
@@ -1799,7 +1804,7 @@ export function ClientDetail({ showModal, setShowModal }) {
 						</Button>
 						<Button
 							onClick={() => setDisplay(5)}
-							variant='contained'
+							variant={display === 5 ? 'outlined' : 'contained'}
 							size='small'
 							sx={{ textTransform: 'capitalize', marginRight: '10px' }}
 							color='success'>
@@ -1807,7 +1812,7 @@ export function ClientDetail({ showModal, setShowModal }) {
 						</Button>
 						<Button
 							onClick={() => setDisplay(2)}
-							variant='contained'
+							variant={display === 2 ? 'outlined' : 'contained'}
 							size='small'
 							sx={{ textTransform: 'capitalize', marginRight: '10px' }}
 							color='info'>
@@ -1815,7 +1820,7 @@ export function ClientDetail({ showModal, setShowModal }) {
 						</Button>
 						<Button
 							onClick={() => setDisplay(3)}
-							variant='contained'
+							variant={display === 3 ? 'outlined' : 'contained'}
 							size='small'
 							sx={{ textTransform: 'capitalize', marginRight: '10px' }}
 							color='secondary'>
@@ -1823,14 +1828,14 @@ export function ClientDetail({ showModal, setShowModal }) {
 						</Button>
 						<Button
 							onClick={() => setDisplay(4)}
-							variant='contained'
+							variant={display === 4 ? 'outlined' : 'contained'}
 							size='small'
 							sx={{ textTransform: 'capitalize', marginRight: '10px' }}>
 							Benefits
 						</Button>
 						<Button
 							onClick={handleSchedule}
-							variant='contained'
+							variant={appointmentModal ? 'outlined' : 'contained'}
 							size='small'
 							sx={{ textTransform: 'capitalize', marginRight: '10px' }}
 							color='success'>
@@ -2988,7 +2993,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			// const findClient= await ClientServ.find()
 			const findClient = await ClientServ.find({
 				query: {
-					organizationId: user.currentEmployee.facilityDetail._id,
+					organization: user.currentEmployee.facilityDetail,
 					$sort: {
 						createdAt: -1,
 					},

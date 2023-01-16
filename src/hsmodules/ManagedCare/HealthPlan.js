@@ -754,52 +754,50 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
                 onChange={(e) => setPlanType(e.target.value)}
               />
             </Grid> */}
-						{planCategory === 'Individual' ? (
-							<Grid
-								item
-								xs={12}
-								sm={4}>
-								<Input
-									name='planAmount'
-									label={'Individual Amount'}
-									onChange={(e) => setIndividualPremium(e.target.value)}
-								/>
-							</Grid>
-						) : (
-							<Grid
-								item
-								xs={12}
-								sm={4}>
-								<Input
-									name='planAmount'
-									label={'Family Amount'}
-									onChange={(e) => setFamilyPremium(e.target.value)}
-								/>
-							</Grid>
-						)}
-						{planCategory === 'Individual' ? (
-							<Grid
-								item
-								xs={12}
-								sm={4}>
-								<Input
-									name='individualLimit'
-									label='Individual Limit'
-									onChange={(e) => setIndividualLimit(e.target.value)}
-								/>
-							</Grid>
-						) : (
-							<Grid
-								item
-								xs={12}
-								sm={4}>
-								<Input
-									name='FamilyLimit'
-									label='Family Limit'
-									onChange={(e) => setFamilyLimit(e.target.value)}
-								/>
-							</Grid>
-						)}
+
+						<Grid
+							item
+							xs={12}
+							sm={4}>
+							<Input
+								name='planAmount'
+								label={'Individual Amount'}
+								onChange={(e) => setIndividualPremium(e.target.value)}
+							/>
+						</Grid>
+
+						<Grid
+							item
+							xs={12}
+							sm={4}>
+							<Input
+								name='planAmount'
+								label={'Family Amount'}
+								onChange={(e) => setFamilyPremium(e.target.value)}
+							/>
+						</Grid>
+
+						<Grid
+							item
+							xs={12}
+							sm={4}>
+							<Input
+								name='individualLimit'
+								label='Individual Limit'
+								onChange={(e) => setIndividualLimit(e.target.value)}
+							/>
+						</Grid>
+
+						<Grid
+							item
+							xs={12}
+							sm={4}>
+							<Input
+								name='FamilyLimit'
+								label='Family Limit'
+								onChange={(e) => setFamilyLimit(e.target.value)}
+							/>
+						</Grid>
 
 						<Grid
 							item
