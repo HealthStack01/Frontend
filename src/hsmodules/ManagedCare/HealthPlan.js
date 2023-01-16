@@ -226,22 +226,25 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 		setReqAuthCode(true);
 	};
 	const getSearchService = (obj) => {
+		console.log(obj);
 		setService(obj);
+		setCategoryName(obj.category);
 		if (!obj) {
 			setService('');
+			setCategoryName('');
 		}
 		setSuccessService(false);
 	};
-	const getSearchfacility2 = (obj) => {
-		setCategoryName(obj.categoryname);
-		setChosen2(obj);
+	// const getSearchfacility2 = (obj) => {
+	// 	setCategoryName(obj.categoryname);
+	// 	setChosen2(obj);
 
-		if (!obj) {
-			//"clear stuff"
-			setCategoryName('');
-			setChosen2();
-		}
-	};
+	// 	if (!obj) {
+	// 		//"clear stuff"
+	// 		setCategoryName('');
+	// 		setChosen2();
+	// 	}
+	// };
 
 	const notfound = async (obj) => {
 		//alert(obj)
@@ -893,7 +896,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 												notfound={notfound}
 											/>
 										</Grid>
-										<Grid
+										{/* <Grid
 											item
 											xs={12}
 											sm={6}>
@@ -902,7 +905,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 												clear={success2}
 												label='Search Services Category'
 											/>
-										</Grid>
+										</Grid> */}
 										<Grid
 											item
 											xs={12}

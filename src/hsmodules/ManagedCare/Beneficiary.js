@@ -70,6 +70,7 @@ import moment from 'moment';
 import { getBase64 } from '../helpers/getBase64';
 import axios from 'axios';
 import { FileUploader } from 'react-drag-drop-files';
+import MuiDateTimePicker from '../../components/inputs/DateTime/MuiDateTimePicker';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -1327,7 +1328,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 	const [success, setSuccess] = useState(false);
 	// eslint-disable-next-line
 	const [message, setMessage] = useState('');
-	const ClientServ = client.service('client');
+	const ClientServ = client.service('policy');
 	// const history = useHistory();
 	// const {user,setUser} = useContext(UserContext)
 	const [facilities, setFacilities] = useState([]);
@@ -1451,20 +1452,32 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 			// const findClient= await ClientServ.find()
 			const findClient = await ClientServ.find({
 				query: {
-					// "relatedfacilities.facility":user.currentEmployee.facilityDetail._id,
-					// $limit:limit,
-					// $skip:page * limit,
+					organization: user.currentEmployee.facilityDetail,
 					$sort: {
 						createdAt: -1,
 					},
 				},
 			});
-			/*  if (page===0){ */
-			await setFacilities(findClient.data);
-			/* }else{
-            await setFacilities(prevstate=>prevstate.concat(findClient.data))
-        } */
 
+			let data = findClient.data;
+			console.log(data);
+			// get the all principal object and plan object in the data array only
+			let principal = data.map((item) => {
+				return {
+					...item.principal,
+					// ...item.plan,
+				};
+			});
+			console.log('principal', principal);
+			// get all the dependantBeneficiaries array in the data array
+			let dependantBeneficiaries = data.map(
+				(item) => item.dependantBeneficiaries,
+			);
+			// join the two arrays
+			let joined = principal.concat(...dependantBeneficiaries);
+			// set the state
+			await setFacilities(joined);
+			await console.log(joined);
 			await setTotal(findClient.total);
 			//console.log(user.currentEmployee.facilityDetail._id, state)
 			//console.log(facilities)
@@ -1566,16 +1579,6 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 			key: 'middlename',
 			description: 'Midlle Name',
 			selector: (row) => row.middlename,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-
-		{
-			name: 'Payment Mode',
-			key: 'paymentmode',
-			description: 'Payment Mode',
-			selector: (row) => row.paymentmode,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -2178,7 +2181,7 @@ export function ClientDetail({ showModal, setShowModal }) {
 }
 
 export function ClientModify({ showModal, setShowModal }) {
-	const { register, handleSubmit, setValue, reset } = useForm(); //watch, errors,, errors
+	const { register, handleSubmit, setValue, reset, control } = useForm(); //watch, errors,, errors
 	// eslint-disable-next-line
 	const [error, setError] = useState(false);
 	// eslint-disable-next-line
@@ -2207,105 +2210,35 @@ export function ClientModify({ showModal, setShowModal }) {
 	const Client = state.ClientModule.selectedClient;
 
 	useEffect(() => {
-		setValue('firstname', Client.firstname, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('middlename', Client.middlename, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('lastname', Client.lastname, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('phone', Client.phone, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('email', Client.email, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('dob', Client.dob, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('gender', Client.gender, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('profession', Client.profession, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('address', Client.address, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('city', Client.city, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('state', Client.state, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('country', Client.country, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('nok_name', Client.nok_name, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('nok_email', Client.nok_email, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('nok_phoneno', Client.nokphoneno, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('lga', Client.lga, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('bloodgroup', Client.bloodgroup, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('genotype', Client.genotype, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('disabilities', Client.disabilities, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('specificDetails', Client.specificDetails, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('clientTags', Client.clientTags, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('mrn', Client.mrn, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('comorbidities', Client.comorbidities, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-		setValue('allergies', Client.allergies, {
-			shouldValidate: true,
-			shouldDirty: true,
-		});
-
-		return () => {};
-	});
+		let details = state.ClientModule.selectedClient;
+		const initFormValues = {
+			firstname: Client?.firstname,
+			middlename: Client?.middlename,
+			lastname: Client?.lastname,
+			phone: Client?.phone,
+			email: Client?.email,
+			dob: Client?.dob,
+			gender: Client?.gender,
+			profession: Client?.profession,
+			address: Client?.address,
+			city: Client?.city,
+			state: Client?.state,
+			country: Client?.country,
+			nok_name: Client?.nok_name,
+			nok_email: Client?.nok_email,
+			nok_phoneno: Client?.nokphoneno,
+			lga: Client?.lga,
+			bloodgroup: Client?.bloodgroup,
+			genotype: Client?.genotype,
+			disabilities: Client?.disabilities,
+			specificDetails: Client?.specificDetails,
+			clientTags: Client?.clientTags,
+			mrn: Client?.mrn,
+			comorbidities: Client?.comorbidities,
+			allergies: Client?.allergies,
+		};
+		reset(initFormValues);
+	}, []);
 
 	const handleCancel = async () => {
 		const newClientModule = {
@@ -2368,34 +2301,50 @@ export function ClientModify({ showModal, setShowModal }) {
             shouldValidate: true,
             shouldDirty: true
           })) */
-	const onSubmit = (data, e) => {
-		e.preventDefault();
+	const onSubmit = async (data) => {
 		setSuccess(false);
-
 		const token = localStorage.getItem('feathers-jwt');
-		axios
-			.post(
-				'https://healthstack-backend.herokuapp.com/upload',
-				{ uri: imgSrc },
-				{ headers: { Authorization: `Bearer ${token}` } },
-			)
-			.then(async (res) => {
-				data.imageurl = res.data.url;
-				await ClientServ.patch(Client._id, data)
-					.then((res) => {
-						//console.log(JSON.stringify(res))
-						// e.target.reset();
-						// setMessage("updated Client successfully")
-						toast('Client updated succesfully');
+		if (imgSrc !== '') {
+			axios
+				.post(
+					'https://healthstack-backend.herokuapp.com/upload',
+					{ uri: imgSrc },
+					{ headers: { Authorization: `Bearer ${token}` } },
+				)
+				.then(async (res) => {
+					data.imageurl = res.data.url;
+					console.log(data);
+					await ClientServ.patch(Client._id, data)
+						.then((res) => {
+							console.log(res);
+							// e.target.reset();
+							// setMessage("updated Client successfully")
+							toast('Client updated succesfully');
 
-						changeState();
-					})
-					.catch((err) => {
-						//setMessage("Error creating Client, probable network issues "+ err )
-						// setError(true)
-						toast('Error updating Client, probable network issues or ' + err);
-					});
-			});
+							changeState();
+						})
+						.catch((err) => {
+							//setMessage("Error creating Client, probable network issues "+ err )
+							// setError(true)
+							toast('Error updating Client, probable network issues or ' + err);
+						});
+				});
+		} else {
+			await ClientServ.patch(Client._id, data)
+				.then((res) => {
+					console.log(res);
+					// e.target.reset();
+					// setMessage("updated Client successfully")
+					toast('Client updated succesfully');
+
+					changeState();
+				})
+				.catch((err) => {
+					//setMessage("Error creating Client, probable network issues "+ err )
+					// setError(true)
+					toast('Error updating Client, probable network issues or ' + err);
+				});
+		}
 	};
 
 	const ImgStyled = styled('img')(({ theme }) => ({
@@ -2538,9 +2487,10 @@ export function ClientModify({ showModal, setShowModal }) {
 								lg={3}
 								md={4}
 								sm={6}>
-								<BasicDatePicker
-									label='dob'
-									register={register('dob')}
+								<MuiDateTimePicker
+									label='Dob'
+									name='dob'
+									control={control}
 									// errorText={errors?.dob?.message}
 								/>
 							</Grid>

@@ -31,7 +31,10 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { FlutterWaveIcon, PaystackIcon } from './ui-components/Icons';
 import WalletIcon from '@mui/icons-material/Wallet';
 import RadioButton from '../../components/inputs/basic/Radio';
-import api from '../../utils/api';
+// import api from '../../utils/api';
+import { v4 as uuidv4 } from 'uuid';
+import PayWithWallet from '../PouchiiWallet/payWithWallet';
+
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -85,43 +88,22 @@ export default function PaymentCreatePage({ closeModal, handleGoBack }) {
 	const [partTable, setPartTable] = useState([]);
 	const [depositModal, setDepositModal] = useState(false);
 	const [walletProfile, setWalletProfile] = useState([]);
-	const phoneNumber = '+2348108444864';
-
-	// Pay with Wallet
-
-	useEffect(() => {
-		try {
-			const res = api.get(`/profiles/${phoneNumber}`);
-			console.log(res.data);
-			setWalletProfile(res.data);
-		} catch (error) {
-			console.log(error.message);
-		}
-	}, []);
-
-	const handlePayWithWallet = async () => {
-		try {
-			let res = await api.post(`/send-money`, {
-				accountNumber: '1788167367',
-				amount: 100,
-				channel: 'wallettowallet',
-				pin: '1234',
-				transRef: '50099995010011',
-				phoneNumber: '+2348108444864',
-				narration: 'Transfer',
-			});
-			console.log(res.data);
-		} catch (error) {
-			console.log(error);
-		}
+	const [createModal, setCreateModal] = useState(false);
+	const handleCreateModal = () => {
+		setCreateModal(true);
 	};
+
+	const handleHideCreateModal = () => {
+		setCreateModal(false);
+	};
+
 	//Remita Config
 	const config = {
 		key: 'QzAwMDA1NDIwMjB8MTEwMDUzNTMwNjc5fGNlZTQ2YWIyZTdhOTg0M2EwODNlNjQyOTllNjg1ZTY4NWU5MWFlNjVkMjVlMzdkM2Q5YjEzOWFlYjg2NWEwNzdiYzdiYzcxNzZiNTM5MWZjYzY3YzUwOTNlNTUyNDFlNjhlOGEyODJmNDVkMzBmNGUwYTM5YjhlMzZmOTkyN2E4', // enter your key here
-		customerId: '86666',
-		firstName: 'Simpa',
-		lastName: 'Dania',
-		email: 'simpa@healthstack.africa',
+		customerId: uuidv4(),
+		firstName: source,
+		lastName: '',
+		email: '',
 		amount: part ? partBulk : totalamount,
 		narration: 'payment',
 	};
@@ -130,16 +112,14 @@ export default function PaymentCreatePage({ closeModal, handleGoBack }) {
 		...config,
 		onSuccess: function (response) {
 			// function callback when payment is successful
-			toast.success(response);
+			// console.log(response);
+			toast.success('Payment Successful');
 		},
 		onError: function (response) {
 			// function callback when payment fails
-			toast.error(response);
+			// console.log(response);
+			toast.error('Payment Failed');
 		},
-		// onClose: function () {
-		//   // function callback when payment modal is closed
-		//   toast.success(response);
-		// },
 	};
 	//Paystack Config
 
@@ -564,7 +544,7 @@ export default function PaymentCreatePage({ closeModal, handleGoBack }) {
 			amountPaid: totalamount,
 		};
 
-		// //console.log(obj)
+		//console.log(obj)
 
 		InvoiceServ.create(obj)
 			.then(async (resp) => {
@@ -830,6 +810,12 @@ export default function PaymentCreatePage({ closeModal, handleGoBack }) {
 
 	return (
 		<>
+			<ModalBox
+				open={createModal}
+				onClose={handleHideCreateModal}
+				header='Pay With Wallet'>
+				<PayWithWallet amount={part ? partBulk : totalamount} />
+			</ModalBox>
 			<div style={{ width: '100%' }}>
 				<ModalBox
 					open={depositModal}
@@ -1138,7 +1124,7 @@ export default function PaymentCreatePage({ closeModal, handleGoBack }) {
 									backgroundColor: '#6c584c',
 									'&:hover': { backgroundColor: '#6c584c;' },
 								}}
-								onClick={handlePayWithWallet}>
+								onClick={handleCreateModal}>
 								<WalletIcon
 									sx={{ marginRight: '5px' }}
 									fontSize='small'
