@@ -2213,6 +2213,7 @@ export function ClientModify({ showModal, setShowModal }) {
 	};
 
 	const Client = state.ClientModule.selectedClient;
+	console.log('Client', Client);
 
 	useEffect(() => {
 		let details = state.ClientModule.selectedClient;
@@ -3077,7 +3078,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Date Created',
 			key: 'createdAt',
 			description: 'Date Created',
-			selector: (row) => moment(row.createdAt).format('YYYY-MM-DD'),
+			selector: (row) => moment(row?.createdAt).format('YYYY-MM-DD'),
 			sortable: true,
 			required: true,
 			inputType: 'DATE',
@@ -3086,7 +3087,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Sponsorship Type',
 			key: 'sponsorshipType',
 			description: 'Sponsorship Type',
-			selector: (row) => row.sponsorshipType,
+			selector: (row) => row?.sponsorshipType,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -3096,7 +3097,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Plan',
 			key: 'plan',
 			description: 'Plan',
-			selector: (row) => row.plan.name,
+			selector: (row) => row?.plan?.name,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -3106,7 +3107,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Premium',
 			key: 'premium',
 			description: 'Premium',
-			selector: (row) => row.premium,
+			selector: (row) => row?.premium,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -3116,7 +3117,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Paid',
 			key: 'isPaid',
 			description: 'Paid',
-			selector: (row) => (row.isPaid ? 'Yes' : 'No'),
+			selector: (row) => (row?.isPaid ? 'Yes' : 'No'),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -3126,7 +3127,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Active',
 			key: 'active',
 			description: 'Active',
-			selector: (row) => (row.active ? 'Yes' : 'No'),
+			selector: (row) => (row?.active ? 'Yes' : 'No'),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -3136,7 +3137,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Pricipal Last Name',
 			key: 'principal',
 			description: 'Principal Last Name',
-			selector: (row) => row.principal.lastname,
+			selector: (row) => row?.principal?.lastname,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -3146,7 +3147,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'First Name',
 			key: 'firstname',
 			description: 'First Name',
-			selector: (row) => row.principal.firstname,
+			selector: (row) => row?.principal?.firstname,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -3156,7 +3157,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Middle Name',
 			key: 'middlename',
 			description: 'Middle Name',
-			selector: (row) => row.principal.middlename,
+			selector: (row) => row?.principal?.middlename,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -3166,7 +3167,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Phone',
 			key: 'phone',
 			description: 'Phone Number',
-			selector: (row) => row.principal.phone,
+			selector: (row) => row?.principal?.phone,
 			sortable: true,
 			required: true,
 			inputType: 'NUMBER',
@@ -3176,7 +3177,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Email',
 			key: 'email',
 			description: 'simpa@email.com',
-			selector: (row) => row.principal.email,
+			selector: (row) => row?.principal?.email,
 			sortable: true,
 			required: true,
 			inputType: 'EMAIL',
@@ -3186,7 +3187,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Tags',
 			key: 'tags',
 			description: 'Tags',
-			selector: (row) => row.principal.clientTags,
+			selector: (row) => row?.principal?.clientTags,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -3224,8 +3225,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 								</div>
 							)}
 							<h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
-								List of {display === 'approve' ? 'Approved' : 'Pending'}{' '}
-								Policies
+								List of All Policies
 							</h2>
 						</div>
 						<Box
@@ -3314,15 +3314,15 @@ export function PolicyDetail({ showModal, setShowModal }) {
 		setFacility(Client);
 
 		const initFormValue = {
-			policyNo: Client.policyNo,
-			phone: Client.principal?.phone,
-			start_date: Client.validitystarts,
-			end_date: Client.validityEnds,
+			policyNo: Client?.policyNo,
+			phone: Client?.principal?.phone,
+			start_date: Client?.validitystarts,
+			end_date: Client?.validityEnds,
 			status: Client?.approved ? 'Approved' : 'Pending',
-			sponsorship_type: Client.sponsorshipType,
-			plan_type: Client.plan.name,
-			policy_tag: Client.principal.clientTags,
-			premium: Client.premium,
+			sponsorship_type: Client?.sponsorshipType,
+			plan_type: Client?.plan?.name,
+			policy_tag: Client?.principal?.clientTags,
+			premium: Client?.premium,
 			sponsor_name: Client.sponsor?.organizationDetail?.facilityName,
 			sponsor_phone: Client.sponsor?.organizationDetail?.facilityContactPhone,
 			sponsor_email: Client.sponsor?.organizationDetail?.facilityEmail,
