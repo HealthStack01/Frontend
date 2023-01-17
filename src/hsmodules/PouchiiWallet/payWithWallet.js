@@ -18,7 +18,7 @@ export default function PayWithWallet({ amount }) {
 			userAccountNumber: '',
 			phoneNumber: '',
 			description: '',
-			traRef: new Date().getTime() + Math.trunc(365 * Math.random()),
+			traRef: `${new Date().getTime() + Math.trunc(365 * Math.random())}`,
 		},
 	);
 
@@ -35,10 +35,10 @@ export default function PayWithWallet({ amount }) {
 				phoneNumber: event.phoneNumber,
 				narration: event.description,
 			});
-			// console.log(res.data);
+			console.log(res.data);
 			toast.success('Payment Successful');
 		} catch (error) {
-			// console.log(error);
+			console.log(error);
 			toast.error('Payment Failed');
 		}
 	};
@@ -51,7 +51,7 @@ export default function PayWithWallet({ amount }) {
 				width: '100%',
 				padding: '0 15px',
 			}}>
-			<Box sx={{ width: '100px', mx: '5rem', my: '1.5rem' }}>
+			<Box sx={{ width: '100px', mx: '6rem', my: '1.5rem' }}>
 				<img
 					src={pounchiiLogo}
 					alt=''
@@ -78,7 +78,7 @@ export default function PayWithWallet({ amount }) {
 							<Input
 								value={event.nubanNumber}
 								onChange={(e) => updateEvent({ nubanNumber: e.target.value })}
-								label='Destination Account Number'
+								label='To Wallet Account Number'
 							/>
 						</Grid>
 
@@ -104,7 +104,7 @@ export default function PayWithWallet({ amount }) {
 							item
 							xs={12}>
 							<Input
-								label='Your Account Number'
+								label='From Wallet Account Number'
 								value={event.userAccountNumber}
 								onChange={(e) =>
 									updateEvent({ userAccountNumber: e.target.value })
