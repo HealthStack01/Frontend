@@ -72,7 +72,7 @@ import { pharmacyRoutes } from './routes/pharmacy-routes';
 import { radiologyRoutes } from './routes/radiology-routes';
 import { referralRoutes } from './routes/referral-routes';
 import { patientProfileRoutes } from './routes/patient-portal';
-import { immunizationRoutes } from './routes/immunization';
+import { immunizationRoutes } from './routes/immunization-routes';
 import { documentationRoutes } from './routes/documentation-routes';
 import { theatreRoutes } from './routes/theatre-routes';
 import { wardRoutes } from './routes/ward-routes';
