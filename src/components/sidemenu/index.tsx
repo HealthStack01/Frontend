@@ -251,7 +251,7 @@ export const menuItems = [
         name: "Fund management",
         to: "/app/managed-care/fundmanagement",
       },
-      {name: "Health plan", to: "/app/managed-care/healthplan"},
+      {name: "Health Plan", to: "/app/managed-care/healthplan"},
       {
         name: "Preauthorization",
         to: "/app/managed-care/preauthorization",

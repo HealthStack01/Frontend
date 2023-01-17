@@ -1017,7 +1017,7 @@ export function ClientDetail({closeDetailModal}) {
 
   let Client = state.ClientModule.selectedClient;
 
-  console.log(Client);
+  //console.log(Client);
 
   // eslint-disable-next-line
 

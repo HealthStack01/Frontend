@@ -10,13 +10,18 @@ export const InputField = styled.input`
   height: 100%;
   border-radius: 4px;
   border: 1px solid ${({theme}) => theme.grayTwo};
+  border-color: ${(props: {error: boolean}) => (props.error ? "#d32f2f" : "")};
   color: #000000;
   font-size: 0.85rem;
   &:hover {
     border: 1px solid #000000;
+    border-color: ${(props: {error: boolean}) =>
+      props.error ? "#d32f2f" : ""};
   }
   &:focus {
     border: 2px solid #3779eb;
+    border-color: ${(props: {error: boolean}) =>
+      props.error ? "#d32f2f" : ""};
   }
 
   &:focus + label {
@@ -65,6 +70,7 @@ export const InputLabel = styled.label`
   background-color: #fff;
   transition: 0.4s;
   font-size: 0.8rem !important;
+  color: ${(props: {error: boolean}) => (props.error ? "#d32f2f" : "")};
 `;
 
 export const BlueInputField = styled.input`

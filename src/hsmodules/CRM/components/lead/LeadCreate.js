@@ -13,6 +13,7 @@ import ModalBox from "../../../../components/modal";
 import CustomTable from "../../../../components/customtable";
 import EmployeeSearch from "../../../helpers/EmployeeSearch";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {useNavigate, useLocation} from "react-router-dom";
 
 import {getContactColumns, getStaffColumns} from "../colums/columns";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
@@ -40,6 +41,8 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
 
   const {user} = useContext(UserContext);
   const {showActionLoader, hideActionLoader} = useContext(ObjectContext);
+
+  const location = useLocation();
 
   const handleAddContact = contact => {
     setContacts(prev => [contact, ...prev]);
@@ -142,6 +145,7 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
       facilityId: employee.facilityDetail._id,
       sender: `${employee.firstname} ${employee.lastname}`,
       senderId: employee.userId,
+      pageUrl: location.pathname,
     };
 
     await dealServer
@@ -397,7 +401,7 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
                   />
                 </Grid>
 
-                <Grid item lg={6} md={6} sm={6}>
+                <Grid item lg={12} md={12} sm={12}>
                   <Textarea
                     label="Additional Information"
                     placeholder="Write here..."

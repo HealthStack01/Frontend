@@ -1,0 +1,63 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
+
+h1.loading {
+  font-size: 3em;
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+}
+span[class^="dot-"] {
+  opacity: 0;
+}
+.dot-one {
+  animation: dot-one 2s infinite linear;
+}
+.dot-two {
+  animation: dot-two 2s infinite linear;
+}
+.dot-three {
+  animation: dot-three 2s infinite linear;
+}
+@keyframes dot-one {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes dot-two {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes dot-three {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}

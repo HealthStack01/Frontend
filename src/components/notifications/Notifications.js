@@ -44,6 +44,7 @@ const AppNotifications = () => {
   const [showDrawer, setShowDrawer] = useState(false);
 
   const getNotifications = useCallback(async () => {
+    const userId = user.currentEmployee.userId;
     setLoading(true);
     if (user.currentEmployee) {
       const response = await notificationsServer.find({
@@ -53,6 +54,7 @@ const AppNotifications = () => {
           senderId: {
             $ne: user.currentEmployee.userId,
           },
+          isRead: {$nin: [userId]},
           $sort: {
             createdAt: -1,
           },
@@ -65,6 +67,10 @@ const AppNotifications = () => {
       if (user.stacker) {
         const response = await notificationsServer.find({
           query: {
+            senderId: {
+              $ne: user.currentEmployee.userId,
+            },
+            isRead: {$nin: [userId]},
             $limit: 100,
             $sort: {
               facility: -1,
@@ -79,10 +85,15 @@ const AppNotifications = () => {
   }, []);
 
   const updateNotifications = useCallback(async () => {
+    const userId = user.currentEmployee.userId;
     if (user.currentEmployee) {
       const response = await notificationsServer.find({
         query: {
           facilityId: user.currentEmployee.facilityDetail._id,
+          senderId: {
+            $ne: user.currentEmployee.userId,
+          },
+          isRead: {$nin: [userId]},
           $limit: 200,
           $sort: {
             createdAt: -1,
@@ -96,6 +107,10 @@ const AppNotifications = () => {
       if (user.stacker) {
         const response = await notificationsServer.find({
           query: {
+            senderId: {
+              $ne: user.currentEmployee.userId,
+            },
+            isRead: {$nin: [userId]},
             $limit: 100,
             $sort: {
               facility: -1,
@@ -133,7 +148,7 @@ const AppNotifications = () => {
         onClick={() => setShowDrawer(true)}
       >
         <Badge
-          badgeContent={4}
+          badgeContent={notifications.length}
           color="primary"
           anchorOrigin={{
             vertical: "top",
@@ -197,7 +212,11 @@ const AppNotifications = () => {
               >
                 {notifications.map((notification, i) => {
                   return (
-                    <EachNotification notification={notification} key={i} />
+                    <EachNotification
+                      notification={notification}
+                      key={i}
+                      closeDrawer={() => setShowDrawer(false)}
+                    />
                   );
                 })}
               </Box>

@@ -93,6 +93,15 @@ const ProfileMenu = () => {
           Change Image
         </MenuItem>
         <MenuItem
+          sx={{fontSize: "0.85rem"}}
+          onClick={() => {
+            navigate("/app/user");
+            handleCloseOptions();
+          }}
+        >
+          View Profile
+        </MenuItem>
+        <MenuItem
           sx={{
             fontSize: "0.85rem",
             backgroundColor: "#b21e35",

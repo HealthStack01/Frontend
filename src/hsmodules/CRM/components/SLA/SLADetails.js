@@ -15,6 +15,7 @@ import BlockIcon from "@mui/icons-material/Block";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Drawer from "@mui/material/Drawer";
+import EmailIcon from "@mui/icons-material/Email";
 
 import {LeadView} from "../lead/LeadDetailView";
 import ChatInterface from "../../../../components/chat/ChatInterface";
@@ -26,6 +27,7 @@ import {PageLeadDetailView} from "../global/LeadDetail";
 import CustomTable from "../../../../components/customtable";
 import SLAChat from "./SLAChat";
 import client from "../../../../feathers";
+import {ResendProposalOrSLA} from "../proposal/ProposalDetail";
 
 const SLADetail = ({handleGoBack}) => {
   const dealServer = client.service("deal");
@@ -37,6 +39,7 @@ const SLADetail = ({handleGoBack}) => {
   const [docViewModal, setDocviewModal] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState({});
   const [unreadMsgs, setUnreadMsgs] = useState([]);
+  const [resendModal, setResendModal] = useState(false);
 
   useEffect(() => {
     const sla = state.SLAModule.selectedSLA;
@@ -240,6 +243,19 @@ const SLADetail = ({handleGoBack}) => {
           )}
         </Box>
       </ModalBox>
+
+      <ModalBox
+        open={resendModal}
+        onClose={() => setResendModal(false)}
+        header="Resend SLA Via Email"
+      >
+        <ResendProposalOrSLA
+          closeModal={() => setResendModal(false)}
+          documentData={state.SLAModule.selectedSLA}
+          subject="Here is our SLA"
+        />
+      </ModalBox>
+
       <Box
         sx={{
           display: "flex",
@@ -288,6 +304,14 @@ const SLADetail = ({handleGoBack}) => {
               Chats
             </GlobalCustomButton>
           </Badge>
+
+          <GlobalCustomButton
+            color="success"
+            onClick={() => setResendModal(true)}
+          >
+            <EmailIcon fontSize="small" sx={{marginRight: "5px"}} /> Resend SLA
+            Via Email
+          </GlobalCustomButton>
         </Box>
       </Box>
 

@@ -129,7 +129,7 @@ const TarrifList = () => {
 	const [tariff, setTariff] = useState();
 	const { state, setState } = useContext(ObjectContext);
 	const { user } = useContext(UserContext);
-	const ServicesServ = client.service('billing');
+	const ServicesServ = client.service('healthplan');
 	const BandsServ = client.service('bands');
 	const [error, setError] = useState(false);
 	const [success, setSuccess] = useState(false);
@@ -197,7 +197,7 @@ const TarrifList = () => {
 		if (user.currentEmployee) {
 			const findServices = await ServicesServ.find({
 				query: {
-					facility: user.currentEmployee.facilityDetail._id,
+					organizationId: user.currentEmployee.facilityDetail._id,
 					$limit: 20,
 					'contracts.source_org': state.facilityModule.selectedFacility._id,
 					$sort: {
@@ -206,7 +206,7 @@ const TarrifList = () => {
 				},
 			});
 			console.log(findServices);
-			await setFacilities(findServices?.groupedOrder);
+			await setFacilities(findServices.data);
 		} else {
 			if (user.stacker) {
 				toast.warning('You do not qualify to view this');
@@ -225,22 +225,25 @@ const TarrifList = () => {
 		return () => {};
 	}, [state.facilityModule.selectedFacility]);
 
-	const filterServiceFacility = facilities?.filter(
-		(item) => item?.services?.length > 0,
-	);
-	const newFacility = () => {
-		// join all the individual  services array in the facility into one array
-		const allServices = filterServiceFacility.map((item) => item?.services);
-		// flatten the array
-		const flattenServices = [].concat.apply([], allServices);
-		// remove duplicates
-		const uniqueServices = [...new Set(flattenServices)];
-		// return the unique services
-		return uniqueServices;
-	};
-	console.log(newFacility());
+	// const filterServiceFacility = facilities?.filter(
+	// 	(item) => item?.plans?.length > 0,
+	// );
 
-	console.log(filterServiceFacility.map((item) => item?.services));
+	// get all the contacts array from from the faliity array
+	const filterServiceFacility = facilities?.map((item) => item?.contracts);
+	// join all the individual objects in the facility into one array
+	const allContacts = [].concat.apply([], filterServiceFacility);
+	console.log(allContacts);
+	// group the array by the objects with the same band, band is an array of strings
+	var groupedContacts = allContacts.reduce((r, a) => {
+		const { band } = a;
+		r[band] = r[band] ?? [];
+		r[band].push(a);
+		return r;
+	}, {});
+	console.log(groupedContacts);
+	const allPlan = groupedContacts?.map((item) => item?.plans);
+	console.log(allPlan);
 	return (
 		<>
 			<Portal>
@@ -297,7 +300,7 @@ const TarrifList = () => {
 							<CustomTable
 								title={''}
 								columns={ServiceSchema}
-								data={newFacility()}
+								data={[]}
 								pointerOnHover
 								highlightOnHover
 								striped
@@ -353,7 +356,7 @@ const TariffCreate = () => {
 	const [facility, setFacility] = useState();
 	const [providerBand, setProviderBand] = useState([]);
 	const [benefittingPlans1, setBenefittingPlans1] = useState([]);
-	const ServicesServ = client.service('billing');
+	const ServicesServ = client.service('healthplan');
 	const BandsServ = client.service('bands');
 	//const history = useHistory()
 	const { user } = useContext(UserContext); //,setUser
@@ -609,10 +612,10 @@ const TariffCreate = () => {
 		if (user.currentEmployee) {
 			const findServices = await ServicesServ.find({
 				query: {
-					facility: user.currentEmployee.facilityDetail._id,
-					'contracts.source_org': user.currentEmployee.facilityDetail._id,
-					'contracts.dest_org': user.currentEmployee.facilityDetail._id,
-					category: 'Managed Care',
+					organizationId: user.currentEmployee.facilityDetail._id,
+					// 'contracts.source_org': user.currentEmployee.facilityDetail._id,
+					// 'contracts.dest_org': user.currentEmployee.facilityDetail._id,
+					// category: 'Managed Care',
 					// storeId:state.StoreModule.selectedStore._id,
 					// $limit:20,
 					//   paginate:false,
@@ -955,36 +958,6 @@ const TariffCreate = () => {
 						item
 						xs={12}
 						sm={6}>
-						<SearchSelect
-							getSearchService={getSearchService}
-							clear={successService}
-							notfound={notfound}
-							placeholder='Search Service'
-						/>
-					</Grid>
-					<Grid
-						item
-						xs={12}
-						sm={6}>
-						<CategorySearch
-							getSearchfacility={getSearchfacility2}
-							clear={success2}
-							label='Search Services Category'
-						/>
-					</Grid>
-					<Grid
-						item
-						xs={12}
-						sm={12}>
-						<Textarea
-							label='Comments'
-							onChange={(e) => setComments(e.target.value)}
-						/>
-					</Grid>
-					<Grid
-						item
-						xs={12}
-						sm={6}>
 						<select
 							name='bandType'
 							value={band}
@@ -1018,6 +991,36 @@ const TariffCreate = () => {
 						<Input
 							label='Price'
 							onChange={(e) => setCostprice(e.target.value)}
+						/>
+					</Grid>
+					<Grid
+						item
+						xs={12}
+						sm={6}>
+						<SearchSelect
+							getSearchService={getSearchService}
+							clear={successService}
+							notfound={notfound}
+							placeholder='Search Service'
+						/>
+					</Grid>
+					<Grid
+						item
+						xs={12}
+						sm={6}>
+						<CategorySearch
+							getSearchfacility={getSearchfacility2}
+							clear={success2}
+							label='Search Services Category'
+						/>
+					</Grid>
+					<Grid
+						item
+						xs={12}
+						sm={12}>
+						<Textarea
+							label='Comments'
+							onChange={(e) => setComments(e.target.value)}
 						/>
 					</Grid>
 				</Grid>
