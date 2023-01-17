@@ -8,6 +8,8 @@ import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import axios from "axios";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import SignaturePad from "react-signature-canvas";
+import SaveIcon from "@mui/icons-material/Save";
+import SystemUpdateAltIcon from "@mui/icons-material/SystemUpdateAlt";
 
 import Input from "../../components/inputs/basic/Input";
 import {UpdateProfilePhoto} from "../../components/profilemenu";
@@ -17,15 +19,19 @@ import {ObjectContext, UserContext} from "../../context";
 import client from "../../feathers";
 
 import "./sign.css";
+import {toast} from "react-toastify";
 
 const UserAccountPage = () => {
   const EmployeeServ = client.service("employee");
   const {user} = useContext(UserContext);
-  const {register, handleSubmit, reset} = useForm();
+  const {showActionLoader, hideActionLoader} = useContext(ObjectContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const [imageUploadModal, setImageUploadModal] = useState(false);
   const [signatureModal, setSignatureModal] = useState(false);
   const [userData, setUserData] = useState({});
+  const [edit, setEdit] = useState(false);
+
+  const {register, handleSubmit, reset} = useForm();
 
   const handleCloseOptions = () => {
     setAnchorEl(null);
@@ -55,8 +61,35 @@ const UserAccountPage = () => {
   }, [getUserData]);
 
   useEffect(() => {
+    EmployeeServ.on("created", obj => getUserData());
+    EmployeeServ.on("updated", obj => getUserData());
+    EmployeeServ.on("patched", obj => getUserData());
+    EmployeeServ.on("removed", obj => getUserData());
+
+    return () => {};
+  }, []);
+
+  useEffect(() => {
     reset(userData);
   }, [userData]);
+
+  const handleUpdateDetails = async data => {
+    showActionLoader();
+    const docId = user.currentEmployee._id;
+
+    EmployeeServ.patch(docId, data)
+      .then(res => {
+        hideActionLoader();
+        setEdit(false);
+        toast.success("Employee Data succesfully updated");
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error(
+          "Error updating Employee, probable network issues or " + err
+        );
+      });
+  };
 
   return (
     <Box p={2}>
@@ -73,7 +106,10 @@ const UserAccountPage = () => {
         onClose={() => setSignatureModal(false)}
         header="Upload Signature"
       >
-        <SignatureModal closeModal={() => setSignatureModal(false)} />
+        <SignatureModal
+          closeModal={() => setSignatureModal(false)}
+          prevSignature={userData?.signatureUrl}
+        />
       </ModalBox>
 
       <Box
@@ -115,40 +151,93 @@ const UserAccountPage = () => {
             Signature
           </GlobalCustomButton>
 
-          <GlobalCustomButton>Edit Details</GlobalCustomButton>
+          {edit ? (
+            <>
+              <GlobalCustomButton onClick={() => setEdit(false)} color="error">
+                Cancel Edit
+              </GlobalCustomButton>
+
+              <GlobalCustomButton
+                onClick={handleSubmit(handleUpdateDetails)}
+                color="success"
+              >
+                <SystemUpdateAltIcon
+                  fontSize="small"
+                  sx={{marginRight: "5px"}}
+                />
+                Update Details
+              </GlobalCustomButton>
+            </>
+          ) : (
+            <GlobalCustomButton onClick={() => setEdit(true)} color="warning">
+              Edit Details
+            </GlobalCustomButton>
+          )}
         </Box>
       </Box>
 
       <Grid container spacing={2}>
         <Grid item lg={4} md={4} sm={6} xs={12}>
-          <Input label="First Name" register={register("firstname")} />
+          <Input
+            label="First Name"
+            register={register("firstname")}
+            disabled={!edit}
+          />
         </Grid>
         <Grid item lg={4} md={4} sm={6} xs={12}>
-          <Input label="Last Name" register={register("lastname")} />
-        </Grid>
-
-        <Grid item lg={4} md={4} sm={6} xs={12}>
-          <Input label="Email Address" register={register("email")} />
-        </Grid>
-
-        <Grid item lg={4} md={4} sm={6} xs={12}>
-          <Input label="Phone Number" register={register("phone")} />
-        </Grid>
-
-        <Grid item lg={4} md={4} sm={6} xs={12}>
-          <Input label="Profession" register={register("profession")} />
+          <Input
+            label="Last Name"
+            register={register("lastname")}
+            disabled={!edit}
+          />
         </Grid>
 
         <Grid item lg={4} md={4} sm={6} xs={12}>
-          <Input label="Position" register={register("position")} />
+          <Input
+            label="Email Address"
+            register={register("email")}
+            disabled={!edit}
+          />
         </Grid>
 
         <Grid item lg={4} md={4} sm={6} xs={12}>
-          <Input label="Department" register={register("department")} />
+          <Input
+            label="Phone Number"
+            register={register("phone")}
+            disabled={!edit}
+          />
         </Grid>
 
         <Grid item lg={4} md={4} sm={6} xs={12}>
-          <Input label="Department Unit" register={register("deptunit")} />
+          <Input
+            label="Profession"
+            register={register("profession")}
+            disabled={!edit}
+          />
+        </Grid>
+
+        <Grid item lg={4} md={4} sm={6} xs={12}>
+          <Input
+            label="Position"
+            register={register("position")}
+            disabled={!edit}
+          />
+        </Grid>
+
+        <Grid item lg={4} md={4} sm={6} xs={12}>
+          <Input
+            label="Department"
+            register={register("department")}
+            disabled={!edit}
+          />
+        </Grid>
+
+        <Grid item lg={4} md={4} sm={6} xs={12}>
+          <Input
+            label="Department Unit"
+            register={register("deptunit")}
+            disabled={!edit}
+          />
         </Grid>
       </Grid>
     </Box>
@@ -157,7 +246,7 @@ const UserAccountPage = () => {
 
 export default UserAccountPage;
 
-export const SignatureModal = ({closeModal}) => {
+export const SignatureModal = ({closeModal, prevSignature}) => {
   const employeeServer = client.service("employee");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -171,26 +260,17 @@ export const SignatureModal = ({closeModal}) => {
     sigCanvas.current.clear();
   };
 
-  const saveSignature = () => {
-    setImageURL(sigCanvas.current.getTrimmedCanvas().toDataURL("image/png"));
-  };
-
-  // const handleUploadSignature = () => {
-  //   const signatureBase64 =
-  //     tab === "upload"
-  //       ? imageURL
-  //       : sigCanvas.current.getTrimmedCanvas().toDataURL("image/png");
-
-  //   console.log(signatureBase64);
-  // };
-
   const handleUploadSignature = async () => {
+    const empty =
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAAtJREFUGFdjYAACAAAFAAGq1chRAAAAAElFTkSuQmCC";
     const file =
       tab === "upload"
         ? imageURL
         : sigCanvas.current.getTrimmedCanvas().toDataURL("image/png");
 
-    if (file === null) return toast.error("Please select an Image to upload");
+    if (file === null || file === empty)
+      return toast.error("You cannot save an empty Signature");
+
     showActionLoader();
     const token = localStorage.getItem("feathers-jwt");
     axios
@@ -261,7 +341,9 @@ export const SignatureModal = ({closeModal}) => {
       </Box>
 
       {tab === "upload" && (
-        <UploadSignatureImage returnBase64={file => setImageURL(file)} />
+        <Box mb={2}>
+          <UploadSignatureImage returnBase64={file => setImageURL(file)} />
+        </Box>
       )}
 
       {tab === "view" && (
@@ -274,8 +356,17 @@ export const SignatureModal = ({closeModal}) => {
             alignItems: "center",
             justifyContent: "center",
           }}
+          mb={2}
         >
-          <Typography>You haven't upload a Signature yet...</Typography>
+          {prevSignature ? (
+            <img
+              src={prevSignature}
+              alt=""
+              style={{width: "250px", height: "auto"}}
+            />
+          ) : (
+            <Typography>You haven't upload a Signature yet...</Typography>
+          )}
         </Box>
       )}
 
@@ -300,9 +391,20 @@ export const SignatureModal = ({closeModal}) => {
         </Box>
       )}
 
-      <Box>
-        <GlobalCustomButton onClick={handleUploadSignature}>
-          Upload Signature
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-end",
+        }}
+      >
+        <GlobalCustomButton
+          onClick={handleUploadSignature}
+          disabled={tab === "view"}
+        >
+          <SaveIcon fontSize="small" sx={{marginRight: "5px"}} />
+          Save Signature
         </GlobalCustomButton>
       </Box>
     </Box>

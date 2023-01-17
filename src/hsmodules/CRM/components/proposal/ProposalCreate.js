@@ -33,6 +33,8 @@ import client from "../../../../feathers";
 import {toast} from "react-toastify";
 import {ContactsEmailSource, EmailsSourceList} from "../deals/SendLink";
 
+const blah = `<p>Below are attached files:</p><p>first_name : <a href="https://www.livescores.com/?tz=1">https://www.livescores.com/?tz=1</a></p><p>second_name : <a href="https://www.livescores.com/?tz=1">https://www.livescores.com/?tz=1</a></p><p>thirdname : https://www.livescores.com/?tz=1</p>`;
+
 const CreateProposal = ({handleGoBack}) => {
   const dealServer = client.service("deal");
   const emailServer = client.service("email");
@@ -384,18 +386,23 @@ const CreateProposal = ({handleGoBack}) => {
         _id: uuidv4(),
       };
 
+      const attachedHTML = `<br> <p>Find Below Attached Documents to this Email:   ${attachments.map(
+        item =>
+          `<br> <span>${item.fileName} :  <a href=${item.file}>${item.file}</a></span> `
+      )}  </p>`;
+
       const emailDocument = {
         organizationId: facility._id,
         organizationName: facility.facilityName,
-        html: description,
+        html: description.concat(attachedHTML),
         text: "",
         status: "pending",
-        attachments: attachments.map(item => {
-          return {
-            path: item.file,
-            filename: item.fileName,
-          };
-        }),
+        // attachments: attachments.map(item => {
+        //   return {
+        //     path: item.file,
+        //     filename: item.fileName,
+        //   };
+        // }),
         ...emailData,
       };
 
@@ -962,3 +969,7 @@ export const ProposalAttachDocument = ({closeModal, addAttachedFile}) => {
     </Box>
   );
 };
+
+{
+  /* <p>Below are attached files:</p><p>first_name : <a href="https://www.livescores.com/?tz=1">https://www.livescores.com/?tz=1</a></p><p>second_name : <a href="https://www.livescores.com/?tz=1">https://www.livescores.com/?tz=1</a></p><p>thirdname : https://www.livescores.com/?tz=1</p> */
+}

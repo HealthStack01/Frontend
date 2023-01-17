@@ -26,7 +26,7 @@ import client from "../../../../feathers";
 import {toast} from "react-toastify";
 import {UserContext} from "../../../../context";
 
-const steps = ["Organization", "Contact", "Modules", "Admin"];
+const steps = ["Organization", "Contact", "Admin"];
 
 const initState = {
   organizationData: {
@@ -68,6 +68,8 @@ const OrganizationSignup = () => {
     register: organizationRegister,
     control: organizationControl,
     handleSubmit: handleSubmitOrgnization,
+    watch: organizationWatch,
+    setValue: organizationSetValue,
     formState: {errors: organizationErrors},
   } = useForm({
     resolver: yupResolver(organizationValidationSchema),
@@ -78,6 +80,7 @@ const OrganizationSignup = () => {
     register: contactRegister,
     control: contactControl,
     handleSubmit: handleSubmitContact,
+    setValue: contactSetValue,
     watch: contactWatch,
     formState: {errors: contactErrors},
   } = useForm({resolver: yupResolver(contactValidationSchema)});
@@ -101,17 +104,11 @@ const OrganizationSignup = () => {
 
   const handleGetData = data => {
     setActiveStep(prev => prev + 1);
-    if (activeStep === 2) {
-      return setFacilityData(prev => ({
-        ...prev,
-        facilityModules: data.facilityModules,
-      }));
-    } else {
-      return setFacilityData(prev => ({
-        ...prev,
-        ...data,
-      }));
-    }
+
+    return setFacilityData(prev => ({
+      ...prev,
+      ...data,
+    }));
   };
 
   const handleGoToNextForm = () => {
@@ -122,8 +119,6 @@ const OrganizationSignup = () => {
       case 1:
         return handleSubmitContact(handleGetData)();
       case 2:
-        return handleSubmitModules(handleGetData)();
-      case 3:
         return handleSubmitAdmin(handleCompleteRegistration)();
       default:
         null;
@@ -135,6 +130,9 @@ const OrganizationSignup = () => {
   };
 
   const handleCompleteRegistration = async data => {
+    return toast.error(
+      "Can't create Organization now, working on it to make it better"
+    );
     // return console.log(facilityData);
     setCreatingOrganization(true);
 
@@ -189,6 +187,8 @@ const OrganizationSignup = () => {
             register={organizationRegister}
             control={organizationControl}
             errors={organizationErrors}
+            watch={organizationWatch}
+            setValue={organizationSetValue}
           />
         );
       case 1:
@@ -198,17 +198,11 @@ const OrganizationSignup = () => {
             control={contactControl}
             watch={contactWatch}
             errors={contactErrors}
+            setValue={contactSetValue}
           />
         );
+
       case 2:
-        return (
-          <ModulesForm
-            control={modulesControl}
-            reset={modulesReset}
-            setValue={modulesSetValue}
-          />
-        );
-      case 3:
         return <AdminForm register={adminRegister} errors={adminErrors} />;
       default:
         return <div>Not Found</div>;

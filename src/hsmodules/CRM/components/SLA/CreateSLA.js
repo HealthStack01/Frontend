@@ -36,6 +36,7 @@ import client from "../../../../feathers";
 
 const CreateSLA = ({handleGoBack}) => {
   const dealServer = client.service("deal");
+  const emailServer = client.service("email");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
@@ -188,20 +189,6 @@ const CreateSLA = ({handleGoBack}) => {
     const currentDeal = state.DealModule.selectedDeal;
 
     if (attachedDocs.length > 0) {
-      // const promises = attachedDocs.map(async doc => {
-      //   if (doc.isUploaded) {
-      //     return doc;
-      //   } else {
-      //     const base64Url = await getBase64(doc.file);
-      //     return {
-      //       ...doc,
-      //       file: base64Url,
-      //     };
-      //   }
-      // });
-
-      //const docs = await Promise.all(promises);
-
       const promises = attachedDocs.map(async doc => {
         if (doc.isUploaded) {
           return doc;
@@ -363,9 +350,179 @@ const CreateSLA = ({handleGoBack}) => {
     }
   };
 
+  const handleSendSLA = async emailData => {
+    showActionLoader();
+    const employee = user.currentEmployee;
+    const currentDeal = state.DealModule.selectedDeal;
+    const facility = user.currentEmployee.facilityDetail;
+
+    if (attachedDocs.length > 0) {
+      const promises = attachedDocs.map(async doc => {
+        if (doc.isUploaded) {
+          return doc;
+        } else {
+          const fileUrl = await getUploadUrl(doc.file);
+          return {
+            ...doc,
+            file: fileUrl,
+            isUploaded: true,
+          };
+        }
+      });
+
+      const attachments = await Promise.all(promises);
+
+      const document = {
+        attachedFiles: attachments,
+        description: description,
+        createdAt: new Date(),
+        dateSent: new Date(),
+        createdBy: employee.userId,
+        createdByName: `${employee.firstname} ${employee.lastname}`,
+        customerName: currentDeal.name,
+        customerEmail: currentDeal.email,
+        customerPhone: currentDeal.phone,
+        customerAddress: currentDeal.address,
+        customerCity: currentDeal.city,
+        customerLGA: currentDeal.lga,
+        customerState: currentDeal.state,
+        customerCountry: currentDeal.country,
+        dealId: currentDeal._id,
+        status: "Sent",
+        _id: uuidv4(),
+      };
+
+      const attachedHTML = `<br> <p>Find Below Attached Documents to this Email:   ${attachments.map(
+        item =>
+          `<br> <span>${item.fileName} :  <a href=${item.file}>${item.file}</a></span> `
+      )}  </p>`;
+
+      const emailDocument = {
+        organizationId: facility._id,
+        organizationName: facility.facilityName,
+        html: description.concat(attachedHTML),
+        text: "",
+        status: "pending",
+        ...emailData,
+      };
+
+      const prevSLA = currentDeal.sla || [];
+
+      const isDraft = Object.keys(draftedSLA).length > 0;
+
+      const newSLA = isDraft
+        ? prevSLA.map(item => {
+            if (item._id === draftedSLA._id) {
+              return {
+                ...item,
+                description: description,
+                attachedFiles: attachments,
+                status: "Sent",
+                updatedAt: new Date(),
+              };
+            } else {
+              return item;
+            }
+          })
+        : [document, ...prevSLA];
+
+      const documentId = currentDeal._id;
+      await dealServer
+        .patch(documentId, {sla: newSLA})
+        .then(res => {
+          return emailServer.create(emailDocument).then(resp => {
+            hideActionLoader();
+            setState(prev => ({
+              ...prev,
+              DealModule: {...prev.DealModule, selectedDeal: res},
+            }));
+
+            setAttachedDocs([]);
+            setDescription("");
+            setSendModal(false);
+            toast.success(`SLA was sent succesfully`);
+          });
+        })
+        .catch(err => {
+          hideActionLoader();
+          toast.error(`Sorry, Failed to send SLA. ${err}`);
+        });
+    } else {
+      const document = {
+        attachedFiles: [],
+        description: description,
+        createdAt: new Date(),
+        createdBy: employee.userId,
+        createdByName: `${employee.firstname} ${employee.lastname}`,
+        customerName: currentDeal.name,
+        customerEmail: currentDeal.email,
+        customerPhone: currentDeal.phone,
+        customerAddress: currentDeal.address,
+        customerCity: currentDeal.city,
+        customerLGA: currentDeal.lga,
+        customerState: currentDeal.state,
+        customerCountry: currentDeal.country,
+        dealId: currentDeal._id,
+        status: "Sent",
+        _id: uuidv4(),
+      };
+
+      const emailDocument = {
+        organizationId: facility._id,
+        organizationName: facility.facilityName,
+        html: description,
+        text: "",
+        status: "pending",
+        ...emailData,
+      };
+
+      const prevSLA = currentDeal.sla || [];
+
+      const isDraft = Object.keys(draftedSLA).length > 0;
+
+      const newSLA = isDraft
+        ? prevSLA.map(item => {
+            if (item._id === draftedSLA._id) {
+              return {
+                ...item,
+                description: description,
+                attachedFiles: attachments,
+                status: "Sent",
+                updatedAt: new Date(),
+              };
+            } else {
+              return item;
+            }
+          })
+        : [document, ...prevSLA];
+
+      const documentId = currentDeal._id;
+      await dealServer
+        .patch(documentId, {sla: newSLA})
+        .then(res => {
+          return emailServer.create(emailDocument).then(resp => {
+            hideActionLoader();
+            setState(prev => ({
+              ...prev,
+              DealModule: {...prev.DealModule, selectedDeal: res},
+            }));
+
+            setAttachedDocs([]);
+            setDescription("");
+            setSendModal(false);
+            toast.success(`SLA was sent succesfully`);
+          });
+        })
+        .catch(err => {
+          hideActionLoader();
+          toast.error(`Sorry, Failed to send SLA. ${err}`);
+        });
+    }
+  };
+
   const showSendModal = () => {
     if (description === "" && attachedDocs.length === 0)
-      return toast.error("You cannot send/save an empty Proposal");
+      return toast.error("You cannot send/save an empty SLA");
     setSendModal(true);
   };
 

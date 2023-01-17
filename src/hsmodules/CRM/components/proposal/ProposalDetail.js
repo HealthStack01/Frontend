@@ -455,28 +455,35 @@ export const ResendProposalOrSLA = ({documentData, closeModal, subject}) => {
   const handleSendEmail = async data => {
     const facility = user.currentEmployee.facilityDetail;
     const {description, attachedFiles} = documentData;
-    showActionLoader();
+    //showActionLoader();
 
-    const attachments = attachedFiles
-      ? attachedFiles.map(item => {
-          return {
-            path: item.file,
-            filename: item.fileName,
-          };
-        })
-      : [];
+    // const attachments = attachedFiles
+    //   ? attachedFiles.map(item => {
+    //       return {
+    //         path: item.file,
+    //         filename: item.fileName,
+    //       };
+    //     })
+    //   : [];
+
+    const attachedHTML = attachedFiles
+      ? `<br> <p>Find Below Attached Documents to this Email:   ${attachedFiles.map(
+          item =>
+            `<br> <span>${item.fileName} :  <a href=${item.file}>${item.file}</a></span> `
+        )}  </p>`
+      : "";
 
     const document = {
       organizationId: facility._id,
       organizationName: facility.facilityName,
-      html: description,
-      attachments: attachments,
+      html: description.concat(attachedHTML),
+      //attachments: attachments,
       text: "",
       status: "pending",
       ...data,
     };
 
-    // return console.log(document);
+    //return console.log(document);
 
     await emailServer
       .create(document)

@@ -1,10 +1,27 @@
+import {useEffect, useState} from "react";
 import {Box} from "@mui/material";
 import {useForm} from "react-hook-form";
 import Input from "../../../../components/inputs/basic/Input";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 
-const OrganizationForm = ({register, control, errors}) => {
+import {facilityTypes} from "../../../app/facility-types";
+
+const OrganizationForm = ({register, control, errors, watch, setValue}) => {
+  const [selectedType, setSelectedType] = useState(null);
   // const {reset, handleSubmit, register, control} = useForm();
+
+  const facTypes = facilityTypes
+    .map(item => item.type)
+    .sort((a, b) => a.localeCompare(b));
+
+  const type = watch("facilityType");
+
+  useEffect(() => {
+    setSelectedType(facilityTypes.find(item => item.type === type));
+    setValue("facilityCategory", "");
+  }, [type]);
+
+  ///const selectedType = facilityTypes.find(item => item.type === type);
 
   return (
     <Box
@@ -34,14 +51,7 @@ const OrganizationForm = ({register, control, errors}) => {
         control={control}
         name="facilityType"
         errorText={errors?.facilityType?.message}
-        options={[
-          "Diagnostic Lab",
-          "Diagnostics Imaging",
-          "HMO",
-          "Hospital",
-          "Pharmacy",
-          "Others",
-        ]}
+        options={facTypes}
         important
       />
 
@@ -51,7 +61,11 @@ const OrganizationForm = ({register, control, errors}) => {
         name="facilityCategory"
         required={"Select Organization Category"}
         errorText={errors?.facilityCategory?.message}
-        options={["Healthcare", "Finance"]}
+        options={
+          selectedType
+            ? selectedType?.categories?.sort((a, b) => a.localeCompare(b))
+            : []
+        }
         important
       />
 
