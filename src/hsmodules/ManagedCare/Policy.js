@@ -218,6 +218,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 				],
 
 				organizationId: user.currentEmployee.facilityDetail._id, // || "",
+				organization: user.currentEmployee.facilityDetail,
 				$limit: limit,
 				$sort: {
 					createdAt: -1,
@@ -242,7 +243,8 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			// const findClient= await ClientServ.find()
 			const findClient = await ClientServ.find({
 				query: {
-					organization: user.currentEmployee.facilityDetail,
+					organizationId: user.currentEmployee.facilityDetail._id,
+					// organization: user.currentEmployee.facilityDetail,
 					$sort: {
 						createdAt: -1,
 					},
@@ -614,6 +616,8 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 	const [hmo, setHmo] = useState({});
 	const [subSponsor, setSubSponsor] = useState('');
 	const [healthplan, setHealthplan] = useState([]);
+	// const [organizationName, setOrganizationName] = useState('');
+	// const [organizationId, setOrganizationId] = useState('');
 
 	const getSearchfacility = async (obj) => {
 		if (
@@ -721,6 +725,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 		let confirm = window.confirm(
 			`You are about to register a new policy ${policyNo} ?`,
 		);
+		console.log(user);
 		if (confirm) {
 			let policy = {
 				policyNo: policyNo,
@@ -729,11 +734,11 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 						? user.currentEmployee.facilityDetail.facilityType
 						: hmo.facilityType,
 				organizationId:
-					user.currentEmployee.facilityType === 'HMO'
+					user.currentEmployee.facilityDetail.facilityType === 'HMO'
 						? user.currentEmployee.facilityDetail._id
 						: hmo._id,
 				organizationName:
-					user.currentEmployee.facilityType === 'HMO'
+					user.currentEmployee.facilityDetail.facilityType === 'HMO'
 						? user.currentEmployee.facilityDetail.facilityName
 						: hmo.facilityName,
 				organization:
@@ -743,7 +748,6 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 				principal: state.Beneficiary.principal, //
 				dependantBeneficiaries: state.Beneficiary.dependent,
 				providers: chosen,
-				sponsor: state.Beneficiary.principal, //mixed
 				sponsorshipType: data.sponsortype,
 				sponsor: planHMO,
 				plan: chosenPlan,
@@ -755,10 +759,16 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 				validitystarts: data.start_date,
 				validityEnds: data.end_date,
 			};
-
+			console.log('POLICY', policy);
 			await policyServ
 				.create(policy)
 				.then((res) => {
+					console.log(
+						'facilityId',
+						user.currentEmployee.facilityDetail._id,
+						'response',
+						res,
+					);
 					setSuccess(true);
 					toast.success('Client created succesfully');
 					setSuccess(false);
@@ -772,8 +782,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 					const invoiceNo = random(6, 'uppernumeric');
 					// await setDocumentNo(invoiceNo)
 					documentNo.current = invoiceNo;
-					//await setPatient(state.Beneficiary.principal)
-					patient.current = state.Beneficiary.principal;
+					state.Beneficiary.principal = {};
 					// await createBillmode()
 					await createProductItem();
 					await createProductEntry();
@@ -1148,6 +1157,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 	useEffect(() => {
 		getBenfittingPlans();
 		createPaymentOption();
+
 		// getFacility();
 
 		return () => {};
@@ -1575,6 +1585,7 @@ export function ClientCreate({ closeModal }) {
 	const [openDp, setOpenDp] = useState(false);
 	const [imageUploadModal, setImageUploadModal] = useState(false);
 	const user = JSON.parse(data);
+	const [organizationName, setOrganizationName] = useState();
 
 	const {
 		register,
@@ -1804,54 +1815,98 @@ export function ClientCreate({ closeModal }) {
 		);
 		if (confirm) {
 			const token = localStorage.getItem('feathers-jwt');
-			axios
-				.post(
-					'https://healthstack-backend.herokuapp.com/upload',
-					{ uri: file },
-					{ headers: { Authorization: `Bearer ${token}` } },
-				)
-				.then(async (res) => {
-					const imageUrl = res.data.url;
-					data.dob = date;
-					data.imageurl = imageUrl;
-					await ClientServ.create(data)
-						.then((res) => {
-							setSuccess(true);
-							toast.success('Client created succesfully');
-							setSuccess(false);
-							setPatList([]);
-							setDependant(false);
-							setDate();
-							reset();
-							let newClientModule = {};
-							if (state.currBeneficiary === 'principal') {
-								newClientModule = {
-									principal: res,
-									dependent: state.Beneficiary.dependent,
-									others: state.Beneficiary.others,
-									show: 'create',
-								};
-							}
-							if (state.currBeneficiary === 'dependent') {
-								newClientModule = {
-									principal: state.Beneficiary.principal,
-									dependent: [...state.Beneficiary.dependent, res],
-									others: state.Beneficiary.others,
-									show: 'create',
-								};
-							}
-							setState((prevstate) => ({
-								...prevstate,
-								Beneficiary: newClientModule,
-							}));
-						})
-						.catch((err) => {
-							toast.error('Error creating Client ' + err);
-							setPatList([]);
-							setDependant(false);
-						});
-					closeModal();
-				});
+			if (file) {
+				axios
+					.post(
+						'https://healthstack-backend.herokuapp.com/upload',
+						{ uri: file },
+						{ headers: { Authorization: `Bearer ${token}` } },
+					)
+					.then(async (res) => {
+						const imageUrl = res.data.url;
+						data.dob = date;
+						data.imageurl = imageUrl;
+
+						await ClientServ.create(data)
+							.then((res) => {
+								setSuccess(true);
+								toast.success('Client created succesfully');
+								setSuccess(false);
+								setPatList([]);
+								setDependant(false);
+								setDate();
+								reset();
+								let newClientModule = {};
+								if (state.currBeneficiary === 'principal') {
+									res.type = 'principal';
+									newClientModule = {
+										principal: res,
+										dependent: state.Beneficiary.dependent,
+										others: state.Beneficiary.others,
+										show: 'create',
+									};
+								}
+								if (state.currBeneficiary === 'dependent') {
+									res.type = 'dependent';
+									newClientModule = {
+										principal: state.Beneficiary.principal,
+										dependent: [...state.Beneficiary.dependent, res],
+										others: state.Beneficiary.others,
+										show: 'create',
+									};
+								}
+								setState((prevstate) => ({
+									...prevstate,
+									Beneficiary: newClientModule,
+								}));
+							})
+							.catch((err) => {
+								toast.error('Error creating Client ' + err);
+								setPatList([]);
+								setDependant(false);
+							});
+					});
+			} else {
+				data.dob = date;
+				await ClientServ.create(data)
+					.then((res) => {
+						setSuccess(true);
+						toast.success('Client created succesfully');
+						setSuccess(false);
+						setPatList([]);
+						setDependant(false);
+						setDate();
+						reset();
+						let newClientModule = {};
+						if (state.currBeneficiary === 'principal') {
+							res.type = 'principal';
+							newClientModule = {
+								principal: res,
+								dependent: state.Beneficiary.dependent,
+								others: state.Beneficiary.others,
+								show: 'create',
+							};
+						}
+						if (state.currBeneficiary === 'dependent') {
+							res.type = 'dependent';
+							newClientModule = {
+								principal: state.Beneficiary.principal,
+								dependent: [...state.Beneficiary.dependent, res],
+								others: state.Beneficiary.others,
+								show: 'create',
+							};
+						}
+						setState((prevstate) => ({
+							...prevstate,
+							Beneficiary: newClientModule,
+						}));
+					})
+					.catch((err) => {
+						toast.error('Error creating Client ' + err);
+						setPatList([]);
+						setDependant(false);
+					});
+			}
 		}
 	};
 
@@ -2182,6 +2237,41 @@ export function ClientCreate({ closeModal }) {
 									<Grid
 										container
 										spacing={1}>
+										<Grid
+											item
+											md={12}
+											sm={12}>
+											<IconButton onClick={() => setOpenDp(true)}>
+												{file ? (
+													<Box
+														sx={{
+															display: 'flex',
+															alignItems: 'center',
+															justifyContent: 'center',
+															display: 'block',
+														}}>
+														<img
+															src={file}
+															alt='logo'
+															style={{
+																width: '100px',
+																height: '100px',
+																display: 'block',
+																borderRadius: '50%',
+															}}
+														/>
+													</Box>
+												) : (
+													<FileUploader
+														multiple={false}
+														handleChange={handleChange}
+														name='upload'
+														types={['jpeg', 'png', 'jpg']}
+														children={<UploadComponent />}
+													/>
+												)}
+											</IconButton>
+										</Grid>
 										<Grid
 											item
 											xs={12}>
@@ -2668,9 +2758,10 @@ export function PolicyDetail({ showModal, setShowModal }) {
 			end_date: Client?.validityEnds,
 			status: Client?.approved ? 'Approved' : 'Pending',
 			sponsorship_type: Client?.sponsorshipType,
-			plan_type: Client?.plan?.name,
+			plan_type: Client?.plan?.planName,
 			policy_tag: Client?.principal?.clientTags,
-			premium: Client?.premium,
+			familyPremium: Client.plan?.premiums?.[0]?.familyPremium,
+			individualPremium: Client.plan?.premiums?.[0]?.individualPremium,
 			sponsor_name: Client.sponsor?.organizationDetail?.facilityName,
 			sponsor_phone: Client.sponsor?.organizationDetail?.facilityContactPhone,
 			sponsor_email: Client.sponsor?.organizationDetail?.facilityEmail,
@@ -2710,6 +2801,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
 	};
 	const updateDetail = async (data) => {
 		const docId = state.ManagedCareModule.selectedClient._id;
+		let Client = state.ManagedCareModule.selectedClient;
 		console.log(data, docId);
 		const policyDetails = {
 			policyNo: data.policyNo,
@@ -2720,7 +2812,6 @@ export function PolicyDetail({ showModal, setShowModal }) {
 			sponsorship_type: data.sponsorshipType,
 			plan_type: data.plan_type,
 			policy_tag: data.policy_tag,
-			premium: data.premium,
 			sponsor_name: data.sponsor_name,
 			sponsor_phone: data.sponsor_phone,
 			sponsor_email: data.sponsor_email,
@@ -2947,12 +3038,23 @@ export function PolicyDetail({ showModal, setShowModal }) {
 									item
 									md={3}>
 									<Input
-										register={register('premium', { required: true })}
-										label='Premium'
+										register={register('familyPremium', { required: true })}
+										label='Family Premium'
 										disabled
 										//placeholder="Enter customer number"
 									/>
 								</Grid>
+								<Grid
+									item
+									md={3}>
+									<Input
+										register={register('individualPremium', { required: true })}
+										label='Individual Premium'
+										disabled
+										//placeholder="Enter customer number"
+									/>
+								</Grid>
+
 								<Grid
 									item
 									md={3}>
