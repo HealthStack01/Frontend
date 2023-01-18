@@ -19,6 +19,7 @@ export default function PayWithWallet({ amount }) {
 			phoneNumber: '',
 			description: '',
 			traRef: `${new Date().getTime() + Math.trunc(365 * Math.random())}`,
+			loading: false,
 		},
 	);
 
@@ -135,7 +136,8 @@ export default function PayWithWallet({ amount }) {
 					onClick={handlePayWithWallet}
 					sx={{
 						marginRight: '15px',
-					}}>
+					}}
+					loading={loading}>
 					<PaymentsIcon
 						sx={{ marginRight: '5px' }}
 						fontSize='small'
