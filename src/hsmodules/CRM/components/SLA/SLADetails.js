@@ -171,7 +171,7 @@ const SLADetail = ({handleGoBack}) => {
   ];
 
   const handleRow = doc => {
-    console.log(doc);
+    //console.log(doc);
     setSelectedDoc(doc);
     setDocviewModal(true);
   };

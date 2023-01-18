@@ -245,7 +245,6 @@ export const menuItems = [
       {name: "Referrals", to: "/app/managed-care/referrals"},
       {name: "Tariff", to: "/app/managed-care/tariff"},
       {name: "Claims", to: "/app/managed-care/claims"},
-      {name: "DashBoard", to: "/app/managed-care/dashboard"},
       {name: "Accreditation", to: "/app/managed-care/accreditation"},
       {
         name: "Fund management",

@@ -1,18 +1,26 @@
+import {useState, useEffect} from "react";
 import {Box} from "@mui/material";
 
 import {Nigeria} from "../../../app/Nigeria";
 import Input from "../../../../components/inputs/basic/Input";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 
-const ContactForm = ({register, control, watch, errors}) => {
+const ContactForm = ({register, control, watch, errors, setValue}) => {
+  const [selectedState, setSelectedState] = useState(null);
   const states = Nigeria.map(obj => obj.state);
 
   //alphabetically arrange state
   const sortedStates = states.sort((a, b) => a.localeCompare(b));
 
-  const title = watch("facilityState");
+  const state = watch("facilityState");
 
-  const selectedState = Nigeria.find(item => item.state === title);
+  useEffect(() => {
+    setSelectedState(Nigeria.find(item => item.state === state));
+    setValue("facilityCity", "");
+    setValue("facilityLGA", "");
+  }, [state]);
+
+  //const selectedState = Nigeria.find(item => item.state === state);
   //console.log(selectedState);
   return (
     <Box

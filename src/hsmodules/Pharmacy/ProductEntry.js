@@ -112,6 +112,7 @@ export default function ProductEntry() {
 }
 
 export function ProductEntryCreate({closeModal}) {
+  const notificationsServer = client.service("notification");
   const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
 
   const [error, setError] = useState(false);
@@ -249,10 +250,23 @@ export function ProductEntryCreate({closeModal}) {
       return;
     }
 
+    const notificationObj = {
+      type: "Pharmacy",
+      title: "New product(s) in Pharmacy Inventory",
+      description: `${user.firstname} ${user.lastname} added new product(s) to Pharmacy Invetory`,
+      facilityId: user.currentEmployee.facilityDetail.facilityDetail._id,
+      sender: `${user.firstname} ${user.lastname}`,
+      senderId: user._id,
+      pageUrl: "/app/pharmacy/storeinventory",
+      priority: "normal",
+      dest_locationId: [state.StoreModule.selectedStore._id],
+    };
+
     //return console.log(productEntry);
     //console.log("b4 create",productEntry);
     ProductEntryServ.create(productEntry)
-      .then(res => {
+      .then(async res => {
+        await notificationsServer.create(notificationObj);
         //console.log(JSON.stringify(res))
         resetform();
         /*  setMessage("Created ProductEntry successfully") */

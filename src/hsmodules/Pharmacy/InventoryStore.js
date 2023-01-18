@@ -495,9 +495,6 @@ export function InventoryList({showcreateModal, openDetailModal}) {
   };
 
   const handleRow = async Inventory => {
-    if ((Inventory.name = "Sum Total")) return;
-    console.log(Inventory);
-
     await setSelectedInventory(Inventory);
 
     const newInventoryModule = {

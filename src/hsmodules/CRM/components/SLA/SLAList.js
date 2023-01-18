@@ -44,11 +44,27 @@ export function SLAList({showDetail, showCreate, isTab}) {
 
     const sla = await Promise.all(promises);
 
-    const finalSLA = sla.flat(1);
+    const finalSLA = sla.flat(1).map(item => {
+      const deal = deals.find(deal => deal._id === item.dealId);
+      return {
+        ...item,
+        dealinfo: deal.dealinfo,
+      };
+    });
 
-    const currentDeal = deals.find(item => item._id === finalSLA[0].dealId);
+    // const resultingSla = finalSLA.map(item => {
+    //   const deal = deals.find(deal => deal._id === item.dealId);
+    //   return {
+    //     ...item,
+    //     dealInfo: deal.dealinfo,
+    //   };
+    // });
 
-    setDeal(currentDeal.dealinfo);
+    // console.log(resultingSla);
+
+    // const currentDeal = deals.find(item => item._id === finalSLA[0].dealId);
+
+    // setDeal(currentDeal.dealinfo);
 
     await setSLAList(finalSLA || []);
 
@@ -134,6 +150,22 @@ export function SLAList({showDetail, showCreate, isTab}) {
 
   // const deal = state.DealModule.selectedDeal.dealinfo;
 
+  const returnStatus = status => {
+    switch (status?.toLowerCase()) {
+      case "open":
+        return <span style={{color: "#004b23"}}>{status}</span>;
+
+      case "suspended":
+        return <span style={{color: "orange"}}>{status}</span>;
+
+      case "closed":
+        return <span style={{color: "red"}}>{status}</span>;
+
+      default:
+        break;
+    }
+  };
+
   const SLAColumns = [
     {
       name: "SN",
@@ -177,7 +209,7 @@ export function SLAList({showDetail, showCreate, isTab}) {
       name: "Deal Probability",
       key: "contact_position",
       description: "Enter bills",
-      selector: row => deal?.probability,
+      selector: row => (!isTab ? row.dealinfo.probability : deal?.probability),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -186,7 +218,11 @@ export function SLAList({showDetail, showCreate, isTab}) {
       name: "Deal Status",
       key: "phone_No",
       description: "Enter name of Disease",
-      selector: (row, i) => deal?.currStatus,
+      selector: "currStatus",
+      cell: row =>
+        returnStatus(!isTab ? row.dealinfo.currStatus : deal?.currStatus),
+      // selector: (row, i) =>
+      //   !isTab ? row.dealinfo.currStatus : deal?.currStatus,
       sortable: true,
       required: true,
       inputType: "DATE",
@@ -232,7 +268,7 @@ export function SLAList({showDetail, showCreate, isTab}) {
     {
       when: row => row.status === "Sent",
       style: {
-        backgroundColor: "#80ed99",
+        backgroundColor: "#d8f3dc",
         color: "white",
         "&:hover": {
           cursor: "pointer",
