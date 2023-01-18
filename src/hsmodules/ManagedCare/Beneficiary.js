@@ -1457,7 +1457,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 			// const findClient= await ClientServ.find()
 			const findClient = await ClientServ.find({
 				query: {
-					organization: user.currentEmployee.facilityDetail,
+					organizationId: user.currentEmployee.facilityDetail._id,
 					$sort: {
 						createdAt: -1,
 					},
@@ -1465,27 +1465,50 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 			});
 
 			let data = findClient.data;
+
 			console.log(data);
-			// get the all principal object and plan object in the data array only
-			let principal = data.map((item) => {
-				return {
-					...item.principal,
-					// ...item.plan,
+			// let list = data.map((item) => {
+			// 	return {
+			// 		...item.principal,
+			// 		// ...item.plan,
+			// 	};
+			// });
+
+			let list = [];
+			data.map((item) => {
+				item.principal.detail = {
+					policyNo: item?.policyNo,
+					sponsor: item?.sponsor,
+					plan: item?.plan,
+					clientType: 'Principal',
+					sponsortype: item?.sponsorshipType,
+					approved: item?.approved,
 				};
+				list.push(item.principal);
+				item.dependantBeneficiaries.map((benf) => {
+					benf.detail = {
+						policyNo: item.policyNo,
+						sponsor: item.sponsor,
+						plan: item.plan,
+						clientType: 'Dependant',
+						sponsortype: item?.sponsorshipType,
+						approved: item?.approved,
+					};
+					list.push(benf);
+				});
 			});
-			console.log('principal', principal);
-			// get all the dependantBeneficiaries array in the data array
-			let dependantBeneficiaries = data.map(
-				(item) => item.dependantBeneficiaries,
-			);
-			// join the two arrays
-			let joined = principal.concat(...dependantBeneficiaries);
-			// set the state
-			await setFacilities(joined);
-			await console.log(joined);
+			await console.log(list);
+			await setFacilities(list);
+
+			// console.log('principal', principal);
+			// let dependantBeneficiaries = data.map(
+			// 	(item) => item.dependantBeneficiaries,
+			// );
+			// let joined = principal.concat(...dependantBeneficiaries);
+			// await setFacilities(joined);
+			// await console.log(joined);
 			await setTotal(findClient.total);
-			//console.log(user.currentEmployee.facilityDetail._id, state)
-			//console.log(facilities)
+
 			setPage((page) => page + 1);
 		} else {
 			if (user.stacker) {
@@ -1588,7 +1611,6 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 			required: true,
 			inputType: 'TEXT',
 		},
-
 		{
 			name: 'Age',
 			key: 'dob',
@@ -1620,17 +1642,45 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 			required: true,
 			inputType: 'EMAIL',
 		},
+		{
+			name: 'Policy No',
+			key: 'policyNo',
+			description: 'Policy No',
+			selector: (row) => row.detail?.policyNo,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Client Type',
+			key: 'clientType',
+			description: 'Client Type',
+			selector: (row) => row.detail?.clientType,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
 
 		{
-			name: 'Tags',
-			key: 'clientTags',
-			description: 'Tags',
-			selector: (row) => row.clientTags,
+			name: 'Sponsor Type',
+			key: 'sponsorType',
+			description: 'Sponsor Type',
+			selector: (row) => row.detail?.sponsortype,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Policy Status',
+			key: 'policyStatus',
+			description: 'Policy Status',
+			selector: (row) => (row.detail?.approved ? 'Approved' : 'Pending'),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
 		},
 	];
+	console.log(facilities, user);
 	// const filteredFacilities = facilities.filter((facility) => {
 	return (
 		<>
@@ -1762,6 +1812,150 @@ export function ClientDetail({ showModal, setShowModal }) {
 		marginRight: theme.spacing(6.25),
 		borderRadius: theme.shape.borderRadius,
 	}));
+	const productItemSchema = [
+		{
+			name: 'S/N',
+			key: 'sn',
+			description: 'S/N',
+			selector: (row, i) => i + 1,
+			sortable: true,
+			required: true,
+			inputType: 'HIDDEN',
+			width: '50px',
+		},
+		{
+			name: 'Service Name',
+			key: 'service',
+			description: 'Service Name',
+			selector: (row) => row?.serviceName,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Plan',
+			key: 'plan',
+			description: 'Plan',
+			selector: (row) =>
+				row?.plans.map((plan, i) => (
+					<Typography
+						sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
+						data-tag='allowRowEvents'
+						key={i}>
+						<b>{plan.name}</b>: {plan.serviceClass}
+						<br />
+						<b>PreAuth?</b>: {plan.reqAuthCode === true ? 'Yes' : 'No'}
+						<br />
+						<b>Co-Pay</b>: {plan.copay.length > 0 ? `₦${plan.copay}` : 'N/A'}
+					</Typography>
+				)),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Band',
+			key: 'band',
+			description: 'Band',
+			selector: (row) => row?.band,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Category',
+			key: 'category',
+			description: 'Category',
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					{row?.category}
+				</Typography>
+			),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Duration',
+			key: 'duration',
+			description: 'Duration',
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					{row?.duration}
+				</Typography>
+			),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Frequency',
+			key: 'frequency',
+			description: 'Frequency',
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					{row?.frequency}
+				</Typography>
+			),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Limit',
+			key: 'limit',
+			description: 'Limit',
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					{row?.limit}
+				</Typography>
+			),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Status',
+			key: 'status',
+			description: 'Status',
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					{row?.status}
+				</Typography>
+			),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		//  {
+		//    name: 'Amount',
+		//    key: 'price',
+		//    description: 'Amount',
+		//    selector: (row) => row?.price,
+		//    sortable: true,
+		//    required: true,
+		//    inputType: 'TEXT',
+		//  },
+		{
+			name: 'Billing type',
+			key: 'billingtype',
+			description: 'Billing type',
+			selector: (row) => row?.billing_type,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+	];
 	console.log('client', Client);
 	return (
 		<>
@@ -2143,7 +2337,28 @@ export function ClientDetail({ showModal, setShowModal }) {
 				)}
 				{display === 2 && <Claims />}
 				{display === 3 && <GeneralAppointments />}
-				{display === 4 && <HealthPlan standAlone />}
+				{display === 4 && (
+					<>
+						<div
+							className='card'
+							style={{
+								height: '88vh',
+								overflowY: 'scroll',
+							}}>
+							<FormsHeaderText
+								text={`${Client?.detail?.plan?.planName} Benefits`}
+							/>
+							<CustomTable
+								tableData={''}
+								columns={productItemSchema}
+								data={Client?.detail?.plan?.contracts}
+								pointerOnHover
+								highlightOnHover
+								striped
+							/>
+						</div>
+					</>
+				)}
 				{display === 5 && (
 					<PolicyList
 						standAlone={Client?._id}
