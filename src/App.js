@@ -204,11 +204,13 @@ function App() {
       selectedFinance: {},
       locationModal: false,
     },
+
     currentClients: [],
     showpanel: false,
     currDate: "",
     currDate2: "",
     labFormType: "",
+
     employeeLocation: {
       locationName: "",
       locationType: "",
@@ -216,6 +218,7 @@ function App() {
       facilityId: "",
       facilityName: "",
     },
+
     NoteModule: {
       show: false,
       selectedNote: {},

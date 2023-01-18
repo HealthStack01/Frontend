@@ -88,6 +88,10 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
 
   const contactColumns = getContactColumns(handleRemoveContact);
 
+  // useEffect(() => {
+  //   hideActionLoader();
+  // }, []);
+
   const onSubmit = async data => {
     // console.log("Data", data), console.log(user);
     showActionLoader();
@@ -139,14 +143,31 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
     document.facilityName = employee.facilityDetail.facilityName;
 
     const notificationObj = {
-      type: "create",
+      type: "CRM",
       title: "New Lead Created in CRM",
       description: `${employee.firstname} ${employee.lastname} Created a new Lead with ${data.type} ${data.name} in CRM`,
       facilityId: employee.facilityDetail._id,
       sender: `${employee.firstname} ${employee.lastname}`,
-      senderId: employee.userId,
+      senderId: employee._id,
       pageUrl: location.pathname,
+      priority: "normal",
     };
+
+    const assingedStaffNotificationObj = {
+      type: "CRM",
+      title: "You were assinged to a Lead",
+      description: `You were assigned to the following Lead ${data.type} ${data.name} in CRM`,
+      facilityId: employee.facilityDetail._id,
+      sender: `${employee.firstname} ${employee.lastname}`,
+      senderId: employee._id,
+      pageUrl: location.pathname,
+      priority: "normal",
+      dest_userId: staffs.map(item => item.employeeId),
+    };
+
+    // console.log("user userId", employee.userId);
+    // console.log("user id", employee._id);
+    // return console.log(staffs);
 
     await dealServer
       .create(document)
@@ -156,6 +177,7 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
         });
 
         await notificationsServer.create(notificationObj);
+        await notificationsServer.create(assingedStaffNotificationObj);
 
         hideActionLoader();
         reset(data);

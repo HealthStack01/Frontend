@@ -393,8 +393,7 @@ const CreateSLA = ({handleGoBack}) => {
       };
 
       const attachedHTML = `<br> <p>Find Below Attached Documents to this Email:   ${attachments.map(
-        item =>
-          `<br> <span>${item.fileName} :  <a href=${item.file}>${item.file}</a></span> `
+        item => `<br> <a href=${item.file}>${item.fileName}</a> `
       )}  </p>`;
 
       const emailDocument = {
@@ -566,7 +565,7 @@ const CreateSLA = ({handleGoBack}) => {
         onClose={() => setSendModal(false)}
         header="Send SLA"
       >
-        <SendProposalOrSLA handleSend={() => setSendModal(false)} />
+        <SendProposalOrSLA handleSend={handleSendSLA} />
       </ModalBox>
 
       <Box

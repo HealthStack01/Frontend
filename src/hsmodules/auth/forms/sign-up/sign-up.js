@@ -25,6 +25,7 @@ import AnimatedDots from "../../../../components/animated-dots/animated-dots";
 import client from "../../../../feathers";
 import {toast} from "react-toastify";
 import {UserContext} from "../../../../context";
+import {orgTypeModules} from "../../../app/app-modules";
 
 const steps = ["Organization", "Contact", "Admin"];
 
@@ -130,20 +131,29 @@ const OrganizationSignup = () => {
   };
 
   const handleCompleteRegistration = async data => {
-    return toast.error(
-      "Can't create Organization now, working on it to make it better"
-    );
+    // return toast.error(
+    //   "Can't create Organization now, working on it to make it better"
+    // );
     // return console.log(facilityData);
     setCreatingOrganization(true);
 
-    FacilityServ.create(facilityData)
+    const selectedType = orgTypeModules.find(
+      item => item.name === facilityData.facilityType
+    );
+
+    const facilityDocument = {
+      ...facilityData,
+      facilityModules: selectedType ? selectedType.modules : ["Admin"],
+    };
+
+    FacilityServ.create(facilityDocument)
       .then(res => {
         toast.success("Organization Account successfully Created");
         setCreatingOrganization(false);
         setcreatingAdmin(true);
         const adminData = {
           ...data,
-          roles: facilityData.facilityModules,
+          roles: facilityDocument.facilityModules,
           facility: res._id,
         };
 
