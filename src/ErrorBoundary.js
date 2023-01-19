@@ -47,5 +47,5 @@ export const ErrorImageContainer = styled.div`
 
 export const ErrorImageText = styled.h5`
 	font-size: 28px;
-	color: #2f8e89;
+	color: #004e98;
 `;

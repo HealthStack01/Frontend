@@ -8,47 +8,56 @@ import { useForm } from 'react-hook-form';
 import { UserContext, ObjectContext } from '../../context';
 import { toast } from 'bulma-toast';
 import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
-import DatePicker from 'react-datepicker';
-import LocationSearch from '../helpers/LocationSearch';
-import EmployeeSearch from '../helpers/EmployeeSearch';
-import BillServiceCreate from '../Finance/BillServiceCreate';
 import 'react-datepicker/dist/react-datepicker.css';
-
+import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { PageWrapper } from '../../ui/styled/styles';
 import { TableMenu } from '../../ui/styled/global';
 import FilterMenu from '../../components/utilities/FilterMenu';
-import Button from '../../components/buttons/Button';
 import CustomTable from '../../components/customtable';
-import Switch from '../../components/switch';
-import { BsFillGridFill, BsList } from 'react-icons/bs';
 import CalendarGrid from '../../components/calender';
 import ModalBox from '../../components/modal';
 import { Box, Grid, Typography } from '@mui/material';
-import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
-import { MdCancel } from 'react-icons/md';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
 import { FormsHeaderText } from '../../components/texts';
 import Input from '../../components/inputs/basic/Input';
-import RadioButton from '../../components/inputs/basic/Radio';
-import BasicDatePicker from '../../components/inputs/Date';
+import TextArea from '../../components/inputs/basic/Textarea';
 
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function FundsManagement() {
 	const [currentView, setCurrentView] = useState('list');
+	const [createModal, setCreateModal] = useState(false);
+
+	const handleCreateModal = () => {
+		setCreateModal(true);
+	};
+
+	const handleHideCreateModal = () => {
+		setCreateModal(false);
+	};
 
 	return (
 		<section className='section remPadTop'>
 			{currentView === 'list' && (
 				<FundsManagementList
 					showTransactions={() => setCurrentView('transactions')}
+					showCreateModal={handleCreateModal}
 				/>
 			)}
 			{currentView === 'transactions' && (
 				<FundsManagementDetails handleGoBack={() => setCurrentView('list')} />
 			)}
+
+			<ModalBox
+				width='50%'
+				overflow='hidden'
+				open={createModal}
+				onClose={handleHideCreateModal}
+				header='Create Fund Management'>
+				<FundsManagementCreate />
+			</ModalBox>
 		</section>
 	);
 }
@@ -265,64 +274,21 @@ export function FundsManagementCreate({ showModal, setShowModal }) {
 				<Box
 					sx={{
 						display: 'flex',
-						justifyContent: 'space-between',
+						justifyContent: 'flex-end',
 						alignItems: 'center',
 					}}>
-					<FormsHeaderText text={'Create Account'} />
-					<Box
-						sx={{
-							display: 'flex',
-							justifyContent: 'flex-end',
-							alignItems: 'center',
-						}}>
-						<GlobalCustomButton
-							text={'Cancel'}
-							onClick={() => setShowModal(false)}
-							color='warning'
-							customStyles={{ marginRight: '.8rem' }}
+					<GlobalCustomButton>
+						<AddCircleOutline
+							sx={{ marginRight: '5px' }}
+							fontSize='small'
 						/>
-						<GlobalCustomButton
-							text={'Save'}
-							onClick={handleSubmit(onSubmit)}
-							color='success'
-						/>
-					</Box>
+						Create
+					</GlobalCustomButton>
 				</Box>
 				<Grid
 					container
 					spacing={2}
 					mt={1}>
-					<Grid
-						item
-						xs={12}
-						md={12}>
-						<Input
-							label='Account Name'
-							value={'Test Organization'}
-						/>
-					</Grid>
-					<Grid
-						item
-						xs={12}
-						md={12}>
-						<RadioButton
-							title='Account Type'
-							options={[
-								{ label: 'Investment account', value: 'Investment account' },
-								{ label: 'Expense account', value: 'Expense account' },
-								{ label: 'Revenue', value: 'Revenue' },
-							]}
-							onChange={(e) => setAccountType(e.target.value)}
-						/>
-					</Grid>
-					{accountType === 'Investment account' && (
-						<Grid
-							item
-							xs={12}
-							md={6}>
-							<BasicDatePicker label='Maturity Date' />
-						</Grid>
-					)}
 					<Grid
 						item
 						xs={12}
@@ -333,25 +299,24 @@ export function FundsManagementCreate({ showModal, setShowModal }) {
 						item
 						xs={12}
 						md={6}>
-						<Input label='Account Number' />
+						<Input label='Bank Name' />
 					</Grid>
 					<Grid
 						item
 						xs={12}
 						md={6}>
-						<Input label='Sort Code' />
+						<Input label='Account Type' />
 					</Grid>
 					<Grid
 						item
 						xs={12}
 						md={6}>
-						<Input label='Branch Name' />
+						<Input label='Current Balance' />
 					</Grid>
 					<Grid
 						item
-						xs={12}
-						md={12}>
-						<Input label='Account Description' />
+						xs={12}>
+						<TextArea label='Description' />
 					</Grid>
 				</Grid>
 			</div>
@@ -359,7 +324,7 @@ export function FundsManagementCreate({ showModal, setShowModal }) {
 	);
 }
 
-export function FundsManagementList({ showTransactions }) {
+export function FundsManagementList({ showTransactions, showCreateModal }) {
 	// const { register, handleSubmit, watch, errors } = useForm();
 	// eslint-disable-next-line
 	const [error, setError] = useState(false);
@@ -382,7 +347,9 @@ export function FundsManagementList({ showTransactions }) {
 	const [loading, setLoading] = useState(false);
 	const [value, setValue] = useState('list');
 
-	// const handleCreateNew = async () => {
+	const handleCreateNew = async () => {
+		showCreateModal();
+	};
 	// 	const newClientModule = {
 	// 		selectedAppointment: {},
 	// 		show: 'create',
@@ -717,12 +684,15 @@ export function FundsManagementList({ showTransactions }) {
 									</h2>
 								</div>
 
-								{/* {handleCreateNew && (
-									<GlobalCustomButton
-										text='Add new'
-										onClick={handleCreateNew}
-									/>
-								)} */}
+								{handleCreateNew && (
+									<GlobalCustomButton onClick={handleCreateNew}>
+										<AddCircleOutline
+											sx={{ marginRight: '5px' }}
+											fontSize='small'
+										/>
+										Add New
+									</GlobalCustomButton>
+								)}
 							</TableMenu>
 							<div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
 								{value === 'list' ? (

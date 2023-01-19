@@ -164,7 +164,11 @@ export function CaseDefinitionCreate() {
 	const { user } = useContext(UserContext); //,setUser
 	// eslint-disable-next-line
 	const [currentUser, setCurrentUser] = useState();
-	const bandTypeOptions = ['Immediate Notification', 'Weekly', 'Monthly'];
+	const notificationTypeOptions = [
+		'Immediate Notification',
+		'Weekly',
+		'Monthly',
+	];
 	const notifierOptions = [
 		'Facility Focal Person',
 		'DSNO',
@@ -454,12 +458,21 @@ export function CaseDefinitionCreate() {
 							label='Management Protocol'
 						/>
 					</Grid>
-					<Grid xs={5}>
+					<Grid xs={4}>
 						<CustomSelect
 							label='Choose Person to Notify'
 							name='notify'
 							options={notifierOptions}
 							register={register('notify')}
+							control={control}
+						/>
+					</Grid>
+					<Grid xs={4}>
+						<CustomSelect
+							label='Choose Notification Type'
+							name='notificationType'
+							options={notificationTypeOptions}
+							register={register('notificationType')}
 							control={control}
 						/>
 					</Grid>
@@ -634,6 +647,7 @@ export function CaseDefinitionList({ showCreateModal, showDetailModal }) {
 			lab: 'For isolation and RT_PCR:Store at -80 or trnsport in fully charged dry shipper',
 			management: 'it is rarely life-threatening',
 			notify: 'Asst DSNO',
+			notificationtype: 'Weekly',
 		},
 		{
 			diseaseName: 'Chikungunya',
@@ -643,6 +657,7 @@ export function CaseDefinitionList({ showCreateModal, showDetailModal }) {
 			lab: 'For isolation and RT_PCR:Store at -80 or trnsport in fully charged dry shipper',
 			management: 'it is rarely life-threatening',
 			notify: 'Asst DSNO',
+			notificationtype: 'Weekly',
 		},
 		{
 			diseaseName: 'Chikungunya',
@@ -652,6 +667,7 @@ export function CaseDefinitionList({ showCreateModal, showDetailModal }) {
 			lab: 'For isolation and RT_PCR:Store at -80 or trnsport in fully charged dry shipper',
 			management: 'it is rarely life-threatening',
 			notify: 'Asst DSNO',
+			notificationtype: 'Weekly',
 		},
 		{
 			diseaseName: 'Chikungunya',
@@ -661,6 +677,7 @@ export function CaseDefinitionList({ showCreateModal, showDetailModal }) {
 			lab: 'For isolation and RT_PCR:Store at -80 or trnsport in fully charged dry shipper',
 			management: 'it is rarely life-threatening',
 			notify: 'Asst DSNO',
+			notificationtype: 'Weekly',
 		},
 		{
 			diseaseName: 'Chikungunya',
@@ -670,6 +687,7 @@ export function CaseDefinitionList({ showCreateModal, showDetailModal }) {
 			lab: 'For isolation and RT_PCR:Store at -80 or trnsport in fully charged dry shipper',
 			management: 'it is rarely life-threatening',
 			notify: 'Asst DSNO',
+			notificationtype: 'Weekly',
 		},
 	];
 
@@ -751,6 +769,15 @@ export function CaseDefinitionList({ showCreateModal, showDetailModal }) {
 			required: true,
 			inputType: 'TEXT',
 		},
+		{
+			name: 'Notification Type',
+			key: 'notificationtype',
+			description: 'Enter Notification Type',
+			selector: (row) => row.notificationtype,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
 	];
 
 	// console.log(facilities);
@@ -822,7 +849,11 @@ export function CaseDefinitionDetail({ showModifyModal, casedefinition }) {
 	//const navigate=useNavigate()
 	//const {user,setUser} = useContext(UserContext)
 	const { state, setState } = useContext(ObjectContext);
-	const bandTypeOptions = ['Immediate Notification', 'Weekly', 'Monthly'];
+	const notificationTypeOptions = [
+		'Immediate Notification',
+		'Weekly',
+		'Monthly',
+	];
 	const notifierOptions = [
 		'Facility Focal Person',
 		'DSNO',
@@ -1025,6 +1056,27 @@ export function CaseDefinitionDetail({ showModifyModal, casedefinition }) {
 								name='notify'
 								options={notifierOptions}
 								register={register('notify')}
+								control={control}
+							/>
+						</Grid>
+					)}
+					{!editing ? (
+						<Grid xs={4}>
+							<CustomSelect
+								label='Choose Notification Type'
+								name='notificationType'
+								options={notificationTypeOptions}
+								register={register('notificationType')}
+								defaultValue='Weekly'
+							/>
+						</Grid>
+					) : (
+						<Grid xs={4}>
+							<CustomSelect
+								label='Choose Notification Type'
+								name='notificationType'
+								options={notificationTypeOptions}
+								register={register('notificationType')}
 								control={control}
 							/>
 						</Grid>
