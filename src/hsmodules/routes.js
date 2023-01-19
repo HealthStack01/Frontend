@@ -94,6 +94,8 @@ import WalletPin from "./PouchiiWallet/walletPin";
 import UserAccountPage from "./Admin/UserDetail";
 import OrganizationsPage from "./Organization/Organizations";
 
+import NotFound from "../notFound";
+
 const moduleLocationTypes = {
   clinic: "Clinic",
   clients: "Front Desk",
@@ -136,7 +138,8 @@ const AppRoutes = () => {
               return <Route key={path} path={path} element={<Component />} />;
             })}
           </>
-
+          {/************************** Page not found *************************************** */}
+          <Route path="*" element={<NotFound />} />
           {/************************** Payment Integration Routes *************************************** */}
           <Route path="/verify-otp" element={<WalletOTP />} />
           <Route path="/payment" element={<Payment />} />
@@ -152,10 +155,11 @@ const AppRoutes = () => {
 
             <Route path="/app/user" element={<UserAccountPage />} />
 
+            {/* ***************************** ACCOUNTS ROUTES ************************************* */}
+
             <Route path="/app/Organizations" element={<OrganizationsPage />} />
 
             {/* ***************************** ACCOUNTS ROUTES ************************************* */}
-
             <Route path="/app/accounts" element={<AccountHome />}>
               {AccountsRoutes.map(route => {
                 const {path, Component} = route;
