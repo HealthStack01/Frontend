@@ -144,6 +144,7 @@ export const CreditTransactions = ({isModal}) => {
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [balance, setBalance] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const [accountType, setAccountType] = useState("credit");
 
@@ -163,6 +164,7 @@ export const CreditTransactions = ({isModal}) => {
   }, [clientSel]);
 
   const getaccountdetails = () => {
+    setLoading(true);
     InventoryServ.find({
       query: {
         facility: user.currentEmployee.facilityDetail._id,
@@ -176,9 +178,11 @@ export const CreditTransactions = ({isModal}) => {
     })
       .then(res => {
         setFacility(res.data);
+        setLoading(false);
       })
       .catch(err => {
-        toast("Error getting account details " + err);
+        setLoading(false);
+        toast.error("Error getting account details " + err);
       });
   };
 
@@ -317,7 +321,7 @@ export const CreditTransactions = ({isModal}) => {
           highlightOnHover
           striped
           //onRowClicked={handleRow}
-          progressPending={false}
+          progressPending={loading}
         />
       </Box>
     </Box>
@@ -335,6 +339,7 @@ export const DebitTransactions = ({isModal}) => {
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [balance, setBalance] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const [accountType, setAccountType] = useState("credit");
 
@@ -354,6 +359,7 @@ export const DebitTransactions = ({isModal}) => {
   }, [clientSel]);
 
   const getaccountdetails = () => {
+    setLoading(true);
     InventoryServ.find({
       query: {
         facility: user.currentEmployee.facilityDetail._id,
@@ -366,9 +372,11 @@ export const DebitTransactions = ({isModal}) => {
     })
       .then(res => {
         setFacility(res.data);
+        setLoading(false);
       })
       .catch(err => {
-        toast("Error getting account details " + err);
+        setLoading(false);
+        toast.error("Error getting account details " + err);
       });
   };
 
@@ -510,7 +518,7 @@ export const DebitTransactions = ({isModal}) => {
           highlightOnHover
           striped
           //onRowClicked={handleRow}
-          progressPending={false}
+          progressPending={loading}
         />
       </Box>
     </Box>

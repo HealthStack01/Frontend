@@ -322,7 +322,7 @@ export function TransactionClientAccount({handleGoBack, isModal}) {
 
   const clientSel = state.SelectedClient.client;
 
-  //console.log("Selected Client", clientSel);
+  console.log("Selected Client from client list account", clientSel);
 
   useEffect(() => {
     setCurrentUser(user);
@@ -417,10 +417,12 @@ export function TransactionClientAccount({handleGoBack, isModal}) {
         }}
         p={2}
       >
-        <GlobalCustomButton onClick={handleGoBack}>
-          <ArrowBackIcon fontSize="small" sx={{marginRight: "5px"}} />
-          Back
-        </GlobalCustomButton>
+        {!isModal && (
+          <GlobalCustomButton onClick={handleGoBack}>
+            <ArrowBackIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Back
+          </GlobalCustomButton>
+        )}
 
         <Typography
           sx={{

@@ -812,7 +812,7 @@ export default function BillServiceCreate() {
   ];
   return (
     <>
-      <Box sx={{width: "800px", maxHeight: "85vh"}}>
+      <Box sx={{width: "85vw", maxHeight: "85vh"}}>
         <Grid container spacing={0.5}>
           <Grid item lg={12} md={12} sm={12}>
             <Box>
@@ -820,22 +820,22 @@ export default function BillServiceCreate() {
                 <FormsHeaderText text="Bill Information" />
               </Box>
               <Grid container spacing={1} mb={1}>
-                <Grid item xs={8}>
-                  {source === "" ? (
-                    <ClientSearch
-                      getSearchfacility={getSearchfacility1}
-                      clear={success1}
-                    />
-                  ) : (
+                <Grid item lg={4} md={4} sm={6} xs={12}>
+                  {/* {source === "" ? ( */}
+                  <ClientSearch
+                    getSearchfacility={getSearchfacility1}
+                    clear={success1}
+                  />
+                  {/* ) : (
                     <Input
                       defaultValue={source}
                       disabled={true}
                       label="Client"
                     />
-                  )}
+                  )} */}
                 </Grid>
 
-                <Grid item xs={4} mb={1}>
+                <Grid item lg={2} md={4} sm={6} xs={12}>
                   <CustomSelect
                     name="paymentmode"
                     defaultValue={paymentmode}
@@ -846,8 +846,7 @@ export default function BillServiceCreate() {
                     //label="Billing Mode"
                   />
                 </Grid>
-
-                <Grid item xs={4} mb={1}>
+                <Grid item lg={2} md={4} sm={6} xs={12}>
                   <Input
                     value={date}
                     onChange={e => setDate(e.target.value)}
@@ -857,7 +856,7 @@ export default function BillServiceCreate() {
                   />
                 </Grid>
 
-                <Grid item xs={4} mb={1}>
+                <Grid item lg={2} md={4} sm={6} xs={12}>
                   <Input
                     value={documentNo}
                     onChange={e => setDocumentNo(e.target.value)}
@@ -867,7 +866,7 @@ export default function BillServiceCreate() {
                   />
                 </Grid>
 
-                <Grid item xs={4} mb={1}>
+                <Grid item lg={2} md={4} sm={6} xs={12}>
                   <Input
                     value={totalamount}
                     type="text"

@@ -497,10 +497,10 @@ export function InventoryList({showcreateModal, openDetailModal}) {
 
   const handleRow = async Inventory => {
     //console.log("b4",state)
-    if ((Inventory.name = "Sum Total")) return;
+    // if ((Inventory.name = "Sum Total")) return;
 
     //console.log("handlerow",Inventory)
-    console.log(Inventory);
+    //console.log(Inventory);
 
     await setSelectedInventory(Inventory);
 
@@ -595,6 +595,7 @@ export function InventoryList({showcreateModal, openDetailModal}) {
   };
 
   const getNewInventories = async () => {
+    setLoadidng(true);
     if (user.currentEmployee) {
       const allInventory = await InventoryServ.find({
         query: {
@@ -611,6 +612,7 @@ export function InventoryList({showcreateModal, openDetailModal}) {
       // await setFacilities(findInventory.data)
       await setTotal(allInventory.total);
       await setFacilities(allInventory.data);
+      setLoadidng(false);
 
       if (allInventory.total > allInventory.data.length) {
         // setNext(true)
@@ -636,6 +638,7 @@ export function InventoryList({showcreateModal, openDetailModal}) {
         });
 
         await setFacilities(findInventory.data);
+        setLoadidng(false);
       }
     }
   };

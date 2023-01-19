@@ -152,8 +152,8 @@ export const orgTypeModules = [
   },
 
   {
-    name: "Laboratory",
-    alias: [],
+    name: "Diagnostics",
+    alias: ["Laboratory", "Radiology"],
     modules: [
       "Admin",
       "Communication",
@@ -184,6 +184,85 @@ export const orgTypeModules = [
   {
     name: "Corporate",
     alias: [],
-    modules: ["Admin", "Complaint"],
+    modules: ["Admin", "Complaint", "Coporate", "Communication"],
+  },
+
+  {
+    name: "Nutritionist",
+    alias: [],
+    modules: [
+      "Admin",
+      "Communication",
+      "Finance",
+      "Client",
+      "Clinic",
+      "Account",
+      "Referral",
+      "Complaint",
+      "Appointment",
+    ],
+  },
+
+  {
+    name: "Dental",
+    alias: [],
+    modules: [
+      "Admin",
+      "Communication",
+      "Finance",
+      "Client",
+      "Clinic",
+      "Account",
+      "Referral",
+      "Complaint",
+      "Appointment",
+    ],
+  },
+
+  {
+    name: "Optometrist",
+    alias: [],
+    modules: [
+      "Admin",
+      "Communication",
+      "Finance",
+      "Client",
+      "Clinic",
+      "Account",
+      "Referral",
+      "Complaint",
+      "Appointment",
+    ],
+  },
+  {
+    name: "Ophthalmologist Center",
+    alias: [],
+    modules: [
+      "Admin",
+      "Communication",
+      "Finance",
+      "Client",
+      "Clinic",
+      "Account",
+      "Referral",
+      "Complaint",
+      "Appointment",
+    ],
+  },
+
+  {
+    name: "Physiotherapist Center",
+    alias: [],
+    modules: [
+      "Admin",
+      "Communication",
+      "Finance",
+      "Client",
+      "Clinic",
+      "Account",
+      "Referral",
+      "Complaint",
+      "Appointment",
+    ],
   },
 ];
