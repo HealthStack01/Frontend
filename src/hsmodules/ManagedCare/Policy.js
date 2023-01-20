@@ -58,6 +58,7 @@ import {
 	EnrolleSchema5,
 	principalData,
 } from './schema';
+import { ProviderPrintout } from './components/Printout';
 
 var random = require('random-string-generator');
 // eslint-disable-next-line
@@ -334,6 +335,53 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			inputType: 'DATE',
 		},
 		{
+			name: 'First Name',
+			key: 'firstname',
+			description: 'First Name',
+			selector: (row) => row.principal.firstname,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Pricipal Last Name',
+			key: 'principal',
+			description: 'Principal Last Name',
+			selector: (row) => row.principal.lastname,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Middle Name',
+			key: 'middlename',
+			description: 'Middle Name',
+			selector: (row) => row.principal.middlename,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+
+		{
+			name: 'Phone',
+			key: 'phone',
+			description: 'Phone Number',
+			selector: (row) => row.principal.phone,
+			sortable: true,
+			required: true,
+			inputType: 'NUMBER',
+		},
+
+		{
+			name: 'Email',
+			key: 'email',
+			description: 'simpa@email.com',
+			selector: (row) => row.principal.email,
+			sortable: true,
+			required: true,
+			inputType: 'EMAIL',
+		},
+		{
 			name: 'Sponsorship Type',
 			key: 'sponsorshipType',
 			description: 'Sponsorship Type',
@@ -378,66 +426,6 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			key: 'active',
 			description: 'Active',
 			selector: (row) => (row.active ? 'Yes' : 'No'),
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-
-		{
-			name: 'Pricipal Last Name',
-			key: 'principal',
-			description: 'Principal Last Name',
-			selector: (row) => row.principal.lastname,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-
-		{
-			name: 'First Name',
-			key: 'firstname',
-			description: 'First Name',
-			selector: (row) => row.principal.firstname,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-
-		{
-			name: 'Middle Name',
-			key: 'middlename',
-			description: 'Middle Name',
-			selector: (row) => row.principal.middlename,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-
-		{
-			name: 'Phone',
-			key: 'phone',
-			description: 'Phone Number',
-			selector: (row) => row.principal.phone,
-			sortable: true,
-			required: true,
-			inputType: 'NUMBER',
-		},
-
-		{
-			name: 'Email',
-			key: 'email',
-			description: 'simpa@email.com',
-			selector: (row) => row.principal.email,
-			sortable: true,
-			required: true,
-			inputType: 'EMAIL',
-		},
-
-		{
-			name: 'Tags',
-			key: 'tags',
-			description: 'Tags',
-			selector: (row) => row.principal.clientTags,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -616,6 +604,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 	const [hmo, setHmo] = useState({});
 	const [subSponsor, setSubSponsor] = useState('');
 	const [healthplan, setHealthplan] = useState([]);
+	const [planType, setPlanType] = useState('');
 	// const [organizationName, setOrganizationName] = useState('');
 	// const [organizationId, setOrganizationId] = useState('');
 
@@ -751,6 +740,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 				sponsorshipType: data.sponsortype,
 				sponsor: planHMO,
 				plan: chosenPlan,
+				planType: planType,
 				premium: price.price,
 				premiumContract: price,
 				active: false,
@@ -951,180 +941,6 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 			facility: user.currentEmployee.facilityDetail._id,
 		};
 	};
-
-	//create billfor policy
-	// const handleCreateBill = async () => {
-	//   //handle selected single order
-	//   //documentation
-
-	//   console.log(productEntry.current, productItem.current);
-	//   let serviceList = [];
-	//   let document = {};
-
-	//   if (user.currentEmployee) {
-	//     document.facility = user.currentEmployee.facilityDetail._id;
-	//     document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
-	//   }
-	//   document.documentdetail = productItem.current;
-	//   console.log(document.documentdetail);
-	//   document.documentname = 'Billed Orders'; //state.DocumentClassModule.selectedDocumentClass.name
-	//   // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
-	//   document.location =
-	//     state.employeeLocation.locationName +
-	//     ' ' +
-	//     state.employeeLocation.locationType;
-	//   document.locationId = state.employeeLocation.locationId;
-	//   document.client = patient.current._id;
-	//   document.clientname =
-	//     patient.current.firstname +
-	//     ' ' +
-	//     patient.current.middlename +
-	//     ' ' +
-	//     patient.current.lastname;
-	//   document.clientobj = patient.current;
-	//   document.createdBy = user._id;
-	//   document.createdByname = user.firstname + ' ' + user.lastname;
-	//   document.status = 'completed';
-	//   console.log(document);
-
-	//   //order
-	//   document.documentdetail.forEach(async (element) => {
-	//     let orderinfo = {
-	//       //for reach document
-	//       documentationId: '', //tbf
-	//       order_category: element.category, //category
-	//       order: element.name + ' Plan', //name
-	//       instruction: '',
-	//       destination_name: document.facilityname, //facilityname
-	//       destination: document.facility, //facility id
-	//       order_status: 'Billed',
-	//       payer: '', //!!element.billMode.organizationName?element.billMode.organizationName:"",
-	//       paymentmode: '', //element.billMode.paymentmode?element.billMode.paymentmode:"",
-
-	//       requestingdoctor_Id: document.createdBy,
-	//       requestingdoctor_Name: document.createdByname,
-	//       requestingdoctor_locationid: document.locationId,
-	//       requestingdoctor_locationName: document.location,
-	//       requestingdoctor_facilityId: document.facility,
-	//       requestingdoctor_facilityname: document.facilityname,
-
-	//       clientId: document.client,
-	//       clientname: document.clientname,
-	//       client: document.clientobj,
-
-	//       order_action: [],
-	//       medication_action: [],
-	//       treatment_action: [],
-	//     };
-
-	//     let billInfo = {
-	//       orderInfo: {
-	//         orderId: '', //tbf
-	//         orderObj: orderinfo,
-	//       },
-	//       serviceInfo: {
-	//         price: element.sellingprice,
-	//         quantity: element.quantity,
-	//         productId: element.productId,
-	//         name: element.name + ' Plan',
-	//         baseunit: element.baseunit,
-	//         amount: element.amount,
-	//         billingId: element.billingId,
-	//         billingContract: element.billingContract,
-	//         createdby: user._id,
-	//       },
-	//       paymentInfo: {
-	//         amountDue: element.amount,
-	//         paidup: 0,
-	//         balance: element.amount,
-	//         paymentDetails: [],
-	//       },
-	//       participantInfo: {
-	//         billingFacility: orderinfo.destination,
-	//         billingFacilityName: orderinfo.destination_name,
-	//         locationId: document.locationId, //selected location,
-	//         clientId: orderinfo.clientId,
-	//         client: orderinfo.client,
-	//         paymentmode: element.billMode,
-	//       },
-	//       createdBy: user._id,
-	//       billing_status: 'Unpaid',
-	//     };
-	//     let items = {
-	//       orderinfo,
-	//       billInfo,
-	//     };
-	//     alert('aboutto create bill ' + items.orderinfo.name);
-	//     serviceList.push(items);
-	//   });
-
-	//   console.log('==================');
-	//   console.log(document, serviceList);
-
-	//   let confirm = window.confirm(
-	//     `You are about to bill ${document.clientname} for ${serviceList.length} service(s)?`
-	//   );
-	//   if (confirm) {
-	//     await BillCreateServ.create({
-	//       document,
-	//       serviceList,
-	//     })
-	//       .then((res) => {
-	//         setSuccess(true);
-	//         toast({
-	//           message: 'Billed Orders created succesfully',
-	//           type: 'is-success',
-	//           dismissible: true,
-	//           pauseOnHover: true,
-	//         });
-	//         setSuccess(false);
-	//         productItem.current = [];
-	//         //setCalcAmount(0);
-	//         const today = new Date().toLocaleString();
-	//         //console.log(today)
-	//         date.current = today;
-	//         const invoiceNo = random(6, 'uppernumeric');
-	//         documentNo.current = invoiceNo;
-	//       })
-	//       .catch((err) => {
-	//         toast({
-	//           message: 'Error creating Billed Orders ' + err,
-	//           type: 'is-danger',
-	//           dismissible: true,
-	//           pauseOnHover: true,
-	//         });
-	//       });
-	//   }
-	// };
-
-	// const getFacility = async () => {
-	//   let stuff = {
-	//     facility: user.currentEmployee.facilityDetail._id,
-	//     // locationId:state.employeeLocation.locationId,
-	//     $limit: 100,
-	//     $sort: {
-	//       createdAt: -1,
-	//     },
-	//   };
-	//   orgServ
-	//     .find({
-	//       query: {
-	//         relationshiptype: 'managedcare',
-	//         facility: user.currentEmployee.facilityDetail._id,
-	//         $limit: 100,
-	//         $sort: {
-	//           createdAt: -1,
-	//         },
-	//       },
-	//     })
-	//     .then((res) => {
-	//       console.log(res.data);
-	//       setFacilities(res.data);
-	//     })
-	//     .catch((err) => {
-	//       console.log(err);
-	//     });
-	// };
 	const handleSearch = async (value) => {
 		if (value === '') {
 			await setFacilities([]);
@@ -1282,13 +1098,6 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 						container
 						spacing={2}
 						mt={2}>
-						<p
-							style={{
-								marginLeft: '1rem',
-								marginBottom: 0,
-							}}>
-							Sponsor Type
-						</p>
 						<Grid
 							item
 							md={12}
@@ -1318,41 +1127,52 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 						</Grid>
 						<Grid
 							item
-							md={6}>
+							md={4}>
 							<CustomSelect
 								name='plan'
-								label='Category Type'
-								options={
-									showCorp
-										? [
-												{
-													value: 'Large Enterprise',
-													label: 'Large Enterprise',
-												},
-												{
-													value: 'Medium Enterprise',
-													label: 'Medium Enterprise',
-												},
-												{ value: 'SME', label: 'SME' },
-												{ value: 'Association', label: 'Association' },
-												{ value: 'Multinational', label: 'Multinational' },
-										  ]
-										: [
-												{ value: 'Individual', label: 'Individual' },
-												{ value: 'Family', label: 'Family' },
-										  ]
-								}
+								label='Plan Type'
+								options={[
+									{ value: 'Individual', label: 'Individual' },
+									{ value: 'Family', label: 'Family' },
+								]}
 								required
 								important
 								// control={control}
-								onChange={(e) => setSubSponsor(e.target.value)}
+								onChange={(e) => setPlanType(e.target.value)}
 							/>
 						</Grid>
+						{showCorp && (
+							<Grid
+								item
+								md={4}>
+								<CustomSelect
+									name='plan'
+									label='Sponsor Type'
+									options={[
+										{
+											value: 'Large Enterprise',
+											label: 'Large Enterprise',
+										},
+										{
+											value: 'Medium Enterprise',
+											label: 'Medium Enterprise',
+										},
+										{ value: 'SME', label: 'SME' },
+										{ value: 'Association', label: 'Association' },
+										{ value: 'Multinational', label: 'Multinational' },
+									]}
+									required
+									important
+									// control={control}
+									onChange={(e) => setSubSponsor(e.target.value)}
+								/>
+							</Grid>
+						)}
 
 						{showCorp && (
 							<Grid
 								item
-								md={6}>
+								md={4}>
 								<SponsorSearch
 									getSearchfacility={getSearchfacility1}
 									clear={success}
@@ -1362,7 +1182,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 						{user.currentEmployee.facilityDetail.facilityType !== 'HMO' && (
 							<Grid
 								item
-								md={6}>
+								md={4}>
 								<HmoFacilitySearch
 									getSearchfacility={getSearchHmo}
 									clear={success}
@@ -1371,7 +1191,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 						)}
 						<Grid
 							item
-							md={6}>
+							md={4}>
 							<CustomSelect
 								name='plan'
 								label='Choose Plan'
@@ -1384,7 +1204,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 						</Grid>
 						<Grid
 							item
-							md={6}>
+							md={4}>
 							<Input
 								value={price}
 								disabled
@@ -2732,6 +2552,7 @@ export function ClientCreate({ closeModal }) {
 export function PolicyDetail({ showModal, setShowModal }) {
 	const { register, reset, control, handleSubmit } = useForm();
 	const policyServ = client.service('policy');
+	const ServicesServ = client.service('healthplan');
 	const [error, setError] = useState(false); //,
 	const [finacialInfoModal, setFinacialInfoModal] = useState(false);
 	const [billingModal, setBillingModal] = useState(false);
@@ -2746,7 +2567,12 @@ export function PolicyDetail({ showModal, setShowModal }) {
 	const [loading, setLoading] = useState(false);
 	const [editCustomer, setEditCustomer] = useState(false);
 	const [facility, setFacility] = useState([]);
-
+	const [benefittingPlans1, setBenefittingPlans1] = useState([]);
+	const [selectedPlan, setSelectedPlan] = useState(null);
+	const [familyPrice, setFamilyPrice] = useState('');
+	const [individualPrice, setIndividualPrice] = useState('');
+	const [healthplan, setHealthplan] = useState([]);
+	let Client = state.ManagedCareModule.selectedClient;
 	useEffect(() => {
 		let Client = state.ManagedCareModule.selectedClient;
 		setFacility(Client);
@@ -2760,8 +2586,8 @@ export function PolicyDetail({ showModal, setShowModal }) {
 			sponsorship_type: Client?.sponsorshipType,
 			plan_type: Client?.plan?.planName,
 			policy_tag: Client?.principal?.clientTags,
-			familyPremium: Client.plan?.premiums?.[0]?.familyPremium,
-			individualPremium: Client.plan?.premiums?.[0]?.individualPremium,
+			familyPremium: Client?.plan?.premiums?.[0]?.familyPremium,
+			individualPremium: Client?.plan?.premiums?.[0]?.individualPremium,
 			sponsor_name: Client.sponsor?.organizationDetail?.facilityName,
 			sponsor_phone: Client.sponsor?.organizationDetail?.facilityContactPhone,
 			sponsor_email: Client.sponsor?.organizationDetail?.facilityEmail,
@@ -2769,6 +2595,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
 		};
 		reset(initFormValue);
 	}, [state.ManagedCareModule.selectedClient]);
+	console.log(Client);
 
 	const handleFinancialInfo = () => {
 		setFinacialInfoModal(true);
@@ -2810,6 +2637,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
 			validityEnds: data.end_date,
 			status: data.active,
 			sponsorship_type: data.sponsorshipType,
+			plan: selectedPlan ? selectedPlan : Client?.plan,
 			plan_type: data.plan_type,
 			policy_tag: data.policy_tag,
 			sponsor_name: data.sponsor_name,
@@ -2837,6 +2665,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
 		const docId = state.ManagedCareModule.selectedClient._id;
 		const policyDetails = {
 			approved: true,
+			active: true,
 			approvalDate: new Date(),
 			approvedby: {
 				employeename: user.currentEmployee.facilityDetail.facilityName,
@@ -2860,8 +2689,54 @@ export function PolicyDetail({ showModal, setShowModal }) {
 				setEditPolicy(false);
 			});
 	};
+	const getBenfittingPlans = async () => {
+		setBenefittingPlans1([]);
+		if (user.currentEmployee?.facilityDetail.facilityType === 'HMO') {
+			const findServices = await ServicesServ.find({
+				query: {
+					organizationId: user.currentEmployee.facilityDetail._id,
+					$sort: {
+						category: 1,
+					},
+				},
+			});
+			console.log(findServices.data);
+			const data = findServices.data;
+			if (data.length > 0) {
+				setHealthplan(data);
+				const planName = data.map((plan) => plan.planName);
+				console.log('test', planName);
+				setBenefittingPlans1(planName);
+			}
+		}
+	};
+	const handleChangePlan = async (value) => {
+		console.log(value);
+		if (value === '') {
+			setFamilyPrice('');
+			setIndividualPrice('');
+			return;
+		}
+		console.log(benefittingPlans1);
+		let cplan = healthplan.filter((el) => el.planName === value);
+		console.log(cplan);
+		setSelectedPlan(cplan[0]);
+		setFamilyPrice(cplan[0]?.premiums[0]?.familyPremium);
+		setIndividualPrice(cplan[0]?.premiums[0]?.individualPremium);
+	};
+	useEffect(() => {
+		getBenfittingPlans();
+	}, []);
+	console.log(
+		'test',
+		healthplan?.find((plan) => plan?.planName === Client?.plan?.planName)
+			?.planName,
+		Client?.plan?.planName,
+	);
+	const filteredBene = healthplan
+		?.filter((plan) => plan?.planName !== Client?.plan?.planName)
+		.map((plan) => plan.planName);
 
-	console.log(facility);
 	return (
 		<>
 			<div
@@ -2878,7 +2753,9 @@ export function PolicyDetail({ showModal, setShowModal }) {
 						xs={12}
 						sm={12}
 						md={6}>
-						<ModalHeader text={'Policy Details'} />
+						<ModalHeader
+							text={`${Client?.principal?.firstname} ${Client?.principal?.lastname}'s Policy Details`}
+						/>
 					</Grid>
 				</Grid>
 				<Grid container>
@@ -2899,7 +2776,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
 						</Button>
 						<Button
 							onClick={() => setDisplay(1)}
-							variant='contained'
+							variant={display === 1 ? 'outlined' : 'contained'}
 							size='small'
 							sx={{ textTransform: 'capitalize', marginRight: '10px' }}
 							color='secondary'>
@@ -2908,7 +2785,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
 
 						<Button
 							onClick={() => setDisplay(5)}
-							variant='contained'
+							variant={display === 5 ? 'outlined' : 'contained'}
 							size='small'
 							color='info'
 							sx={{ textTransform: 'capitalize', marginRight: '10px' }}>
@@ -2916,7 +2793,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
 						</Button>
 						<Button
 							onClick={() => setDisplay(6)}
-							variant='outlined'
+							variant={display === 6 ? 'outlined' : 'contained'}
 							size='small'
 							sx={{ textTransform: 'capitalize', marginRight: '10px' }}>
 							Premium
@@ -2937,7 +2814,9 @@ export function PolicyDetail({ showModal, setShowModal }) {
 									justifyContent: 'space-between',
 								}}
 								mb={1}>
-								<FormsHeaderText text='Policy Details' />
+								<FormsHeaderText
+									text={`${Client?.principal?.firstname} ${Client?.principal?.lastname}'s Details`}
+								/>
 								<Box>
 									{!facility.approved && (
 										<GlobalCustomButton
@@ -3001,16 +2880,33 @@ export function PolicyDetail({ showModal, setShowModal }) {
 										//placeholder="Enter customer number"
 									/>
 								</Grid>
-								<Grid
-									item
-									md={3}>
-									<Input
-										register={register('plan_type', { required: true })}
-										label='Plan Type'
-										disabled
-										//placeholder="Enter customer number"
-									/>
-								</Grid>
+								{!editPolicy && (
+									<Grid
+										item
+										md={3}>
+										<Input
+											register={register('plan_type', { required: true })}
+											label='Plan Type'
+											disabled
+											//placeholder="Enter customer number"
+										/>
+									</Grid>
+								)}
+								{editPolicy && (
+									<Grid
+										item
+										md={3}>
+										<CustomSelect
+											name='plan'
+											label='Change Plan'
+											options={filteredBene}
+											required
+											important
+											// control={control}
+											onChange={(e, i) => handleChangePlan(e.target.value)}
+										/>
+									</Grid>
+								)}
 								<Grid
 									item
 									md={3}>
@@ -3033,27 +2929,37 @@ export function PolicyDetail({ showModal, setShowModal }) {
 										// placeholder="Enter customer name"
 									/>
 								</Grid>
-
-								<Grid
-									item
-									md={3}>
-									<Input
-										register={register('familyPremium', { required: true })}
-										label='Family Premium'
-										disabled
-										//placeholder="Enter customer number"
-									/>
-								</Grid>
-								<Grid
-									item
-									md={3}>
-									<Input
-										register={register('individualPremium', { required: true })}
-										label='Individual Premium'
-										disabled
-										//placeholder="Enter customer number"
-									/>
-								</Grid>
+								{Client?.planType === 'Family' ? (
+									<Grid
+										item
+										md={3}>
+										<Input
+											label='Family Premium'
+											disabled
+											value={
+												editPolicy
+													? familyPrice
+													: Client?.plan?.premiums?.[0]?.familyPremium
+											}
+											//placeholder="Enter customer number"
+										/>
+									</Grid>
+								) : (
+									<Grid
+										item
+										md={3}>
+										<Input
+											label='Individual Premium'
+											disabled
+											value={
+												editPolicy
+													? individualPrice
+													: Client?.plan?.premiums?.[0]?.individualPremium
+											}
+											//placeholder="Enter customer number"
+										/>
+									</Grid>
+								)}
 
 								<Grid
 									item
@@ -3200,7 +3106,13 @@ export function PolicyDetail({ showModal, setShowModal }) {
 					)}
 
 					{display === 5 && <Claims standAlone />}
-					{display === 6 && <PremiumPayment />}
+					{display === 6 && (
+						<ModalBox
+							open
+							onClose={() => setDisplay(1)}>
+							<ProviderPrintout />
+						</ModalBox>
+					)}
 				</Box>
 			</div>
 		</>

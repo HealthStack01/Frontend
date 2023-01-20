@@ -1,25 +1,25 @@
-import {useContext, useState, useEffect} from "react";
-import {Box, Grid, Typography, IconButton} from "@mui/material";
-import Input from "../../../../components/inputs/basic/Input";
-import ModalBox from "../../../../components/modal";
-import {FormsHeaderText} from "../../../../components/texts";
-import SLADescription from "./SLADescription";
-import {useForm} from "react-hook-form";
-import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
-import CustomSelect from "../../../../components/inputs/basic/Select";
-import GlobalCustomButton from "../../../../components/buttons/CustomButton";
-import {CKEditor} from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import {LeadView} from "../lead/LeadDetailView";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import SaveAsIcon from "@mui/icons-material/SaveAs";
-import OutboxIcon from "@mui/icons-material/Outbox";
-import ArticleIcon from "@mui/icons-material/Article";
-import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import {PageLeadDetailView} from "../global/LeadDetail";
-import dayjs from "dayjs";
-import {ObjectContext, UserContext} from "../../../../context";
+import { useContext, useState, useEffect } from 'react';
+import { Box, Grid, Typography, IconButton } from '@mui/material';
+import Input from '../../../../components/inputs/basic/Input';
+import ModalBox from '../../../../components/modal';
+import { FormsHeaderText } from '../../../../components/texts';
+import SLADescription from './SLADescription';
+import { useForm } from 'react-hook-form';
+import MuiCustomDatePicker from '../../../../components/inputs/Date/MuiDatePicker';
+import CustomSelect from '../../../../components/inputs/basic/Select';
+import GlobalCustomButton from '../../../../components/buttons/CustomButton';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { LeadView } from '../lead/LeadDetailView';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SaveAsIcon from '@mui/icons-material/SaveAs';
+import OutboxIcon from '@mui/icons-material/Outbox';
+import ArticleIcon from '@mui/icons-material/Article';
+import CustomerDetail, { PageCustomerDetail } from '../global/CustomerDetail';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { PageLeadDetailView } from '../global/LeadDetail';
+import dayjs from 'dayjs';
+import { ObjectContext, UserContext } from '../../../../context';
 import {
   ProposalAttachDocument,
   SendProposalOrSLA,
