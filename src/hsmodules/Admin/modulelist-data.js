@@ -1,24 +1,43 @@
-export const modulesList = [
+export const actionRoles = [
   {
     value: "Adjust Price",
     label: "Adjust Price",
   },
   {
-    value: "Delete Notes",
-    label: "Delete Notes",
+    value: "Delete Documents",
+    label: "Delete Document",
   },
   {
     value: "Complaints",
     label: "Complaints",
   },
   {
-    value: "Report",
-    label: "Report",
+    value: "Bill Client",
+    label: "Bill Client",
   },
-  {
-    value: "Tasks",
-    label: "Tasks",
-  },
+];
+
+export const modulesList = [
+  // {
+  //   value: "Adjust Price",
+  //   label: "Adjust Price",
+  // },
+  // {
+  //   value: "Delete Notes",
+  //   label: "Delete Notes",
+  // },
+  // {
+  //   value: "Complaints",
+  //   label: "Complaints",
+  // },
+  // {
+  //   value: "Report",
+  //   label: "Report",
+  // },
+  // {
+  //   value: "Tasks",
+  //   label: "Tasks",
+  // },
 
   {
     value: "Client",

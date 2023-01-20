@@ -1142,7 +1142,10 @@ const LeadDetail = ({handleGoBack}) => {
         onClose={() => setSendLinkModal(false)}
         header={`Send Organization Link`}
       >
-        <SendLinkViaEmail closeModal={() => setSendLinkModal(false)} />
+        <SendLinkViaEmail
+          closeModal={() => setSendLinkModal(false)}
+          defaultToEmail={state.DealModule.selectedDeal.email}
+        />
       </ModalBox>
 
       <Drawer

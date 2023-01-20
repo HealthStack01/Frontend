@@ -6,7 +6,7 @@ import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {formatDistanceToNowStrict} from "date-fns";
 import VideoConference from "../utils/VideoConference";
 
@@ -29,9 +29,10 @@ import ClientDiagnoisHistory from "./ClientDiagnoisHistory";
 import MedicalProfile from "./MedicalProfile";
 import {Card, Button as MuiButton} from "@mui/material";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import {TransactionClientAccount} from "../Finance/ClientTransactions";
 
 export default function PatientProfile() {
-  const {state} = useContext(ObjectContext); //,setState
+  const {state, setState} = useContext(ObjectContext); //,setState
   const {user, setUser} = useContext(UserContext);
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
@@ -108,11 +109,20 @@ export default function PatientProfile() {
   };
 
   const showBilling = () => {
+    if (!user.currentEmployee.roles.includes("Bill Client"))
+      return toast.error("You're not authorized to Bill Clients");
     setBillingModal(true);
     //navigate('/app/finance/billservice')
   };
 
   const handleOpenClientAccount = () => {
+    setState(prev => ({
+      ...prev,
+      SelectedClient: {
+        ...prev.SelectedClient,
+        client: state.ClientModule.selectedClient,
+      },
+    }));
     setAccountModal(true);
   };
 
@@ -182,26 +192,6 @@ export default function PatientProfile() {
             </div>
 
             <div className="patient-profile-action-buttons-container">
-              {user.currentEmployee?.roles.includes("Bill Client") ||
-                user.currentEmployee?.roles.length === 0 ||
-                (user.stacker && (
-                  <MuiButton
-                    sx={{
-                      backgroundColor: "#4F772D",
-                      color: "#ffffff",
-                      fontSize: "0.8rem",
-                      textTransform: "capitalize",
-                      width: "45%",
-                      "&:hover": {
-                        backgroundColor: "#4F772D",
-                      },
-                    }}
-                    onClick={showBilling}
-                  >
-                    Bill Client
-                  </MuiButton>
-                ))}
-
               <GlobalCustomButton
                 sx={{
                   backgroundColor: "#4F772D",
@@ -339,7 +329,7 @@ export default function PatientProfile() {
             maxHeight: "80vh",
           }}
         >
-          <ClientAccount
+          <TransactionClientAccount
             closeModal={() => setAccountModal(false)}
             isModal={true}
           />

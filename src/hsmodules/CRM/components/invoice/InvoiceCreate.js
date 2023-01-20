@@ -21,11 +21,14 @@ import client from "../../../../feathers";
 import {ObjectContext, UserContext} from "../../../../context";
 import {toast} from "react-toastify";
 import {v4 as uuidv4} from "uuid";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
 const random = require("random-string-generator");
 
 const InvoiceCreate = ({closeModal, handleGoBack}) => {
   const dealServer = client.service("deal");
+  const notificationsServer = client.service("notification");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
@@ -65,6 +68,17 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
       customerCountry: currentDeal.country,
       status: "Pending",
       _id: uuidv4(),
+    };
+
+    const notificationObj = {
+      type: "CRM",
+      title: "New Invoice Created For a Deal",
+      description: `${employee.firstname} ${employee.lastname} Created a new Invoi with ${data.type} ${data.name} in CRM`,
+      facilityId: employee.facilityDetail._id,
+      sender: `${employee.firstname} ${employee.lastname}`,
+      senderId: employee._id,
+      pageUrl: location.pathname,
+      priority: "normal",
     };
 
     //return console.log(document);
@@ -241,3 +255,84 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
 };
 
 export default InvoiceCreate;
+
+export const HealthPlanSearchSelect = ({handleChange}) => {
+  const HealthPlanServ = client.service("healthplan");
+  const [facilities, setFacilities] = useState([]);
+  const {user, setUser} = useContext(UserContext);
+
+  const getFacilities = async () => {
+    if (user.currentEmployee) {
+      let stuff = {
+        organizationId: user.currentEmployee.facilityDetail._id,
+        // locationId:state.employeeLocation.locationId,
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      };
+
+      const findHealthPlan = await HealthPlanServ.find({query: stuff});
+
+      await setFacilities(findHealthPlan.data);
+    } else {
+      if (user.stacker) {
+        const findClient = await HealthPlanServ.find({
+          query: {
+            $limit: 100,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        });
+
+        await setFacilities(findClient.data);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getFacilities();
+  }, []);
+
+  return (
+    <Autocomplete
+      id="country-select-demo"
+      sx={{width: "100%"}}
+      onChange={(event, newValue, reason) => {
+        handleChange(newValue);
+      }}
+      options={facilities}
+      autoHighlight
+      getOptionLabel={option => option.planName}
+      renderOption={(props, option) => (
+        <Box component="li" {...props} sx={{fontSize: "0.85rem"}}>
+          {option.planName} ({option.planCategory})
+        </Box>
+      )}
+      renderInput={params => (
+        <TextField
+          {...params}
+          inputProps={{
+            ...params.inputProps,
+            autoComplete: "new-password", // disable autocomplete and autofill
+          }}
+          label={"Choose Your Plan"}
+          //ref={inputEl}
+          sx={{
+            fontSize: "0.75rem",
+            backgroundColor: "#ffffff",
+            "& .MuiInputBase-input": {
+              height: "0.9rem",
+            },
+          }}
+          InputLabelProps={{
+            Autocomplete: "new-password",
+            shrink: true,
+            style: {color: "#2d2d2d"},
+          }}
+        />
+      )}
+    />
+  );
+};

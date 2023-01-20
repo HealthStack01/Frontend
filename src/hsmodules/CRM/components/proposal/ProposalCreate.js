@@ -387,8 +387,7 @@ const CreateProposal = ({handleGoBack}) => {
       };
 
       const attachedHTML = `<br> <p>Find Below Attached Documents to this Email:   ${attachments.map(
-        item =>
-          `<br> <span>${item.fileName} :  <a href=${item.file}>${item.file}</a></span> `
+        item => `<br> <a href=${item.file}>${item.fileName}</a> `
       )}  </p>`;
 
       const emailDocument = {

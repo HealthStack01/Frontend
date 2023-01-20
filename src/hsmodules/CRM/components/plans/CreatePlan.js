@@ -1,4 +1,4 @@
-import {useState, useEffect, useContext} from "react";
+import {useState, useEffect, useContext, useCallback} from "react";
 import {Button, Grid} from "@mui/material";
 import {Box} from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
@@ -12,9 +12,16 @@ import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import moment from "moment";
 import {UserContext} from "../../../../context";
+import {HealthPlanSearchSelect} from "../invoice/InvoiceCreate";
 
 export const PageCreatePlan = ({addNewPlan}) => {
-  const {register, handleSubmit, control, getValues, reset} = useForm();
+  const [selectedPlan, setSelectedPlan] = useState({});
+  const {register, handleSubmit, control, getValues, reset, watch, setValue} =
+    useForm({
+      defaultValues: {
+        amount: 0,
+      },
+    });
   const {user} = useContext(UserContext);
 
   const defaultValues = {
@@ -27,6 +34,7 @@ export const PageCreatePlan = ({addNewPlan}) => {
   };
 
   const onSubmit = data => {
+    return console.log(data);
     const employee = user.currentEmployee;
     const newPlan = {
       ...data,
@@ -41,6 +49,39 @@ export const PageCreatePlan = ({addNewPlan}) => {
 
     reset(defaultValues);
   };
+
+  const handleOnPlanSelect = plan => {
+    console.log(plan);
+    setSelectedPlan(plan);
+  };
+
+  const premium = watch("premium");
+  const calendrical = watch("calendrical");
+  const length = watch("length");
+  const heads = watch("heads");
+
+  const calculatePlanAmount = useCallback(() => {
+    //console.log(premium);
+    if (!premium || !calendrical || !length || !heads) return;
+
+    if (calendrical === "Month(s)") {
+      const amount = Number(premium) * Number(length);
+      //console.log(amount);
+      const headsAmount = Number(amount) * Number(heads);
+      setValue("amount", headsAmount);
+    } else {
+      const numOfYears = length;
+      const numOfYearsToMonths = 12 * Number(length);
+
+      const amount = Number(premium) * Number(numOfYearsToMonths);
+      const headsAmount = Number(amount) * Number(heads);
+      setValue("amount", headsAmount);
+    }
+  }, [premium, calendrical, length, heads]);
+
+  useEffect(() => {
+    calculatePlanAmount();
+  }, [calculatePlanAmount]);
 
   return (
     <>
@@ -60,15 +101,27 @@ export const PageCreatePlan = ({addNewPlan}) => {
 
         <Grid container spacing={1}>
           <Grid item lg={2} md={3} sm={4}>
-            <CustomSelect
+            <HealthPlanSearchSelect handleChange={handleOnPlanSelect} />
+            {/* <CustomSelect
               label="Plan Type"
               options={["Family", "HMO", "Free", "Personal"]}
               control={control}
               name="type"
-            />
+            /> */}
           </Grid>
 
           <Grid item lg={2} md={3} sm={4}>
+            {/* <CustomSelect
+              label="Premium Type"
+              options={[
+                {label: "Family", value: "familyPremium"},
+                {label: "Individual", value: "individualPremiun"},
+              ]}
+              control={control}
+              name="premium"
+              required
+            /> */}
+
             <Input
               register={register("premium", {required: true})}
               label="Premium"
@@ -77,18 +130,9 @@ export const PageCreatePlan = ({addNewPlan}) => {
           </Grid>
 
           <Grid item lg={2} md={3} sm={4}>
-            <Input
-              register={register("heads", {required: true})}
-              label="No of Heads"
-              type="number"
-              //placeholder="Enter customer number"
-            />
-          </Grid>
-
-          <Grid item lg={2} md={3} sm={4}>
             <CustomSelect
               label="Calendrical Duration"
-              options={["Week(s)", "Month(s)", "Year(s)"]}
+              options={["Month(s)", "Year(s)"]}
               control={control}
               name="calendrical"
             />
@@ -99,7 +143,13 @@ export const PageCreatePlan = ({addNewPlan}) => {
               register={register("length", {required: true})}
               label="Duration Legnth"
               type="number"
-              //placeholder="Enter customer number"
+            />
+          </Grid>
+          <Grid item lg={2} md={3} sm={4}>
+            <Input
+              register={register("heads", {required: true})}
+              label="No of Heads"
+              type="number"
             />
           </Grid>
 
@@ -108,7 +158,7 @@ export const PageCreatePlan = ({addNewPlan}) => {
               register={register("amount", {required: true})}
               label="Amount"
               type="NUMBER"
-              //placeholder="Enter customer number"
+              disabled
             />
           </Grid>
         </Grid>

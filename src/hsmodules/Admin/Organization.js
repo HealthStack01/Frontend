@@ -29,7 +29,7 @@ import BankAccount from "./BankAccount";
 import axios from "axios";
 import {getBase64} from "../helpers/getBase64";
 
-const AdminOrganization = () => {
+const AdminOrganization = ({propId}) => {
   const facilityServer = client.service("facility");
   const {register, reset, handleSubmit, control} = useForm();
   const {user, setUser} = useContext(UserContext);
@@ -56,7 +56,7 @@ const AdminOrganization = () => {
   const getCurrentFacility = useCallback(async () => {
     showActionLoader();
     //console.log(user);
-    const id = user.currentEmployee.facilityDetail._id;
+    const id = propId || user.currentEmployee.facilityDetail._id;
     await facilityServer
       .get(id)
       .then(resp => {

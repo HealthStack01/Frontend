@@ -25,7 +25,7 @@ import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Grow from "@mui/material/Grow";
 import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
+import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import moment from "moment";
@@ -34,6 +34,8 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 import RefInput from "../../components/inputs/basic/Input/ref-input";
 import dayjs from "dayjs";
+
+const filter = createFilterOptions();
 
 export default function Prescription() {
   const {state} = useContext(ObjectContext); //,setState
@@ -61,6 +63,7 @@ export default function Prescription() {
 }
 
 export function PrescriptionCreate() {
+  const notificationsServer = client.service("notification");
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -219,11 +222,27 @@ export function PrescriptionCreate() {
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = "completed";
 
+    const client = state.ClientModule.selectedClient;
+
+    const notificationObj = {
+      type: "Pharmacy",
+      title: "Pending Bill Prescription",
+      description: `You have Pending bill prescription(s) for ${client.firstname} ${client.lastname} in Pharmacy`,
+      facilityId: user.currentEmployee.facilityDetail._id,
+      sender: `${user.firstname} ${user.lastname}`,
+      senderId: user._id,
+      pageUrl: "/app/pharmacy/billprescription",
+      priority: "urgent",
+      //dest_locationId: [state.StoreModule.selectedStore._id],
+      //dest_userId: staffs.map(item => item.employeeId),
+    };
+
     ClientServ.create(document)
-      .then(res => {
+      .then(async res => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         /*  setMessage("Created Client successfully") */
+        await notificationsServer.create(notificationObj);
         setSuccess(true);
         toast.success("Presciption created succesfully");
         setDestination(user.currentEmployee.facilityDetail.facilityName);
@@ -2274,6 +2293,17 @@ export function MedicationHelperSearch({
     //console.log(state)
   };
 
+  const handleAddproduct = () => {
+    let obj = {
+      medication: val,
+    };
+    //console.log(obj);
+    setSimpa(val);
+    handleRow(obj);
+
+    // setProductModal(true)
+  };
+
   const handleSearch = async value => {
     setVal(value);
     if (value === "") {
@@ -2343,9 +2373,21 @@ export function MedicationHelperSearch({
       <Autocomplete
         size="small"
         value={simpa}
-        onChange={(event, newValue) => {
-          handleRow(newValue);
-          setSimpa("");
+        onChange={(event, newValue, reason) => {
+          if (reason === "clear") {
+            setSimpa("");
+          } else {
+            if (typeof newValue === "string") {
+              // timeout to avoid instant validation of the dialog's form.
+              setTimeout(() => {
+                handleAddproduct();
+              });
+            } else if (newValue && newValue.inputValue) {
+              handleAddproduct();
+            } else {
+              handleRow(newValue);
+            }
+          }
         }}
         id="free-solo-dialog-demo"
         options={facilities}
@@ -2363,6 +2405,18 @@ export function MedicationHelperSearch({
         }
         onInputChange={(event, newInputValue) => {
           handleSearch(newInputValue);
+        }}
+        filterOptions={(options, params) => {
+          const filtered = filter(options, params);
+
+          if (params.inputValue !== "") {
+            filtered.push({
+              inputValue: params.inputValue,
+              medication: `Use "${params.inputValue}" as Default"`,
+            });
+          }
+
+          return filtered;
         }}
         inputValue={val}
         selectOnFocus

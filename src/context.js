@@ -1,4 +1,5 @@
 import {createContext, useEffect, useState} from "react";
+//import {useNavigate} from "react-router-dom";
 import client from "./feathers";
 
 export default function MyUserProvider({children}) {
@@ -6,11 +7,13 @@ export default function MyUserProvider({children}) {
   const [user, setUser] = useState(null);
   const [authenticatingUser, setAuthenticatingUser] = useState(true);
 
+  //const navigate = useNavigate();
+
   useEffect(() => {
     (async () => {
       try {
         const resp = await client.reAuthenticate();
-        //console.log(resp);
+        console.log(resp);
 
         const user = {
           ...resp.user,
@@ -22,8 +25,8 @@ export default function MyUserProvider({children}) {
         setAuthenticatingUser(false);
         return;
       } catch (error) {
-        console.log(error);
-        // history.push("/")
+        console.log("User not authenticated", error);
+
         setAuthenticatingUser(false);
       }
     })();

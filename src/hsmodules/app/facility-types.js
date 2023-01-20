@@ -12,7 +12,7 @@ export const facilityTypes = [
     categories: ["Community", "Hospital", "Chain"],
   },
   {
-    type: "Laboratory",
+    type: "Diagnostics",
     categories: ["Community", "Hospital", "Chain"],
   },
   {
