@@ -607,6 +607,7 @@ export function FundsManagementList({ showTransactions, showCreateModal }) {
 			bankname: 'First Bank',
 			fundtype: 'Cash',
 			currentbalance: '5000000',
+			description: 'Because when the stock market fell apart in 2008',
 		},
 		{
 			s_n: 'S/N',
@@ -614,6 +615,7 @@ export function FundsManagementList({ showTransactions, showCreateModal }) {
 			bankname: 'First Bank',
 			fundtype: 'Cash',
 			currentbalance: '5000000',
+			description: 'Because when the stock market fell apart in 2008',
 		},
 	];
 
@@ -646,9 +648,9 @@ export function FundsManagementList({ showTransactions, showCreateModal }) {
 			inputType: 'TEXT',
 		},
 		{
-			name: 'Fund Type',
+			name: 'Account Type',
 			key: 'fundtype',
-			description: 'Enter Fund Type',
+			description: 'Enter Account Type',
 			selector: (row) => row.fundtype,
 			sortable: true,
 			required: true,
@@ -659,6 +661,15 @@ export function FundsManagementList({ showTransactions, showCreateModal }) {
 			key: 'currentbalance',
 			description: 'Enter Current Balance',
 			selector: (row) => row.currentbalance,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Description',
+			key: 'description',
+			description: 'Enter Description',
+			selector: (row) => row.description,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
