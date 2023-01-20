@@ -46,7 +46,8 @@ const AppNotifications = () => {
   const getNotifications = useCallback(async () => {
     const userId = user.currentEmployee.userId;
     setLoading(true);
-    if (user.currentEmployee) {
+
+    if (!user.stacker) {
       const response = await notificationsServer.find({
         query: {
           facilityId: user.currentEmployee.facilityDetail._id,
@@ -67,10 +68,6 @@ const AppNotifications = () => {
       if (user.stacker) {
         const response = await notificationsServer.find({
           query: {
-            senderId: {
-              $ne: user.currentEmployee.userId,
-            },
-            isRead: {$nin: [userId]},
             $limit: 100,
             $sort: {
               facility: -1,

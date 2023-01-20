@@ -72,7 +72,7 @@ export function ClientAccount({handleGoBack, isModal}) {
     InventoryServ.find({
       query: {
         facility: user.currentEmployee.facilityDetail._id,
-        client: clientSel.client,
+        client: clientSel.client ? clientSel.client : clientSel._id,
         // storeId:state.StoreModule.selectedStore._id,
         // category:"credit",
 

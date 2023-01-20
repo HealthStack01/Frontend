@@ -218,6 +218,7 @@ export function BillsList({openCreateModal}) {
       });
   };
   const getFacilities = async () => {
+    setLoading(true);
     // //console.log("here b4 server")
     const findProductEntry = await BillServ.find({
       query: {
@@ -244,6 +245,7 @@ export function BillsList({openCreateModal}) {
 
     //  //console.log("updatedorder", findProductEntry.groupedOrder)
     await setFacilities(findProductEntry.groupedOrder);
+    setLoading(false);
 
     //console.log(findProductEntry.groupedOrder);
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
@@ -520,7 +522,8 @@ export function BillsList({openCreateModal}) {
         >
           <div
             style={{
-              height: "calc(100% - 70px)",
+              height: "calc(100vh - 170px)",
+              overflowY: "auto",
               transition: "width 0.5s ease-in",
               width: selectedClient ? "49%" : "100%",
             }}
@@ -542,7 +545,7 @@ export function BillsList({openCreateModal}) {
             <>
               <div
                 style={{
-                  height: "calc(100% - 70px)",
+                  height: "calc(100vh - 170px)",
                   width: "49%",
                 }}
               >

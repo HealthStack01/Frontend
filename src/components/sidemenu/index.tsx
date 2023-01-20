@@ -399,13 +399,14 @@ function SideMenu({isOpen}) {
 
   //const organitionMenuItems = orgModules.filter(item => orgModules.includes(item.name) )
 
-  const roles = user.currentEmployee.roles;
+  const roles = user?.currentEmployee?.roles || [];
 
   //console.log(user.currentEmployee.facilityDetail.facilityModules);
 
-  const isOrgAdmin = roles.includes("Admin");
+  const isOrgAdmin = roles?.includes("Admin");
 
-  const facilityModules = user.currentEmployee.facilityDetail.facilityModules;
+  const facilityModules =
+    user?.currentEmployee?.facilityDetail?.facilityModules || [];
 
   const facilitySortedMenuItems =
     facilityModules &&
@@ -434,16 +435,18 @@ function SideMenu({isOpen}) {
     });
   }, []);
 
+  const finalModules = user.stacker ? sortedMenuItems : rolesMenuList;
+
   return (
     <Sidemenu className={`side-menu ${isOpen ? "" : "hide"}`}>
       <TopSection>
         <Avatar
-          src={user.currentEmployee.facilityDetail.facilitylogo}
+          src={user?.currentEmployee?.facilityDetail?.facilitylogo}
           sx={{marginRight: "15px"}}
         >
           L
         </Avatar>
-        <h4>{user.currentEmployee.facilityDetail.facilityName}</h4>
+        <h4>{user?.currentEmployee?.facilityDetail?.facilityName}</h4>
       </TopSection>
       <MainMenu className="main-menu">
         <Lists>
@@ -453,7 +456,7 @@ function SideMenu({isOpen}) {
             to="/app"
             iconClassName="bi bi-house-door"
           />
-          {rolesMenuList.map((menuItem, index) => (
+          {finalModules.map((menuItem, index) => (
             <>
               <MenuItem
                 key={menuItem.name}

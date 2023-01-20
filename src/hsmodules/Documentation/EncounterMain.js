@@ -339,6 +339,9 @@ export default function EncounterMain({nopresc, chosenClient}) {
   };
 
   const handleConfirmDelete = doc => {
+    if (!user?.currentEmployee?.roles?.includes("Delete Document"))
+      return toast.error("You don't have permission to delete Documents");
+
     setDocToDelete(doc);
     setConfirmationDialog(true);
   };

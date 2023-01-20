@@ -25,31 +25,9 @@ const MenuItem: React.FC<MenuItemProps> = ({
 
   const sortedSubMenus = subMenus.sort((a, b) => a.name.localeCompare(b.name));
 
-  const roles = user.currentEmployee.roles;
+  const roles = user?.currentEmployee?.roles || [];
 
-  const dummy_roles = [
-    "Bill Client",
-    "Adjust Price",
-    "Delete Notes",
-    "Client Appointment",
-    "Clinic Appointment",
-    "Clinic Checkin",
-    "Clinic Dashboard",
-    "Appointments",
-    "Laboratory Bill Client",
-    "Laboratory Bill Lab Orders",
-    "Laboratory Lab Result",
-    "Laboratory Dashboard",
-    "Pharmacy Store Inventory",
-    "Pharmacy Product Entry",
-    "Pharmacy Issue Out",
-    "Pharmacy Dashboard",
-    "Pharmacy",
-    "Laboratory",
-    "Admin Employees",
-  ];
-
-  const isOrgAdmin = roles.includes("Admin");
+  const isOrgAdmin = roles.includes("Admin") || [];
 
   //console.log(isOrgAdmin);
 
