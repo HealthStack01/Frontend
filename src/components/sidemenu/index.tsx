@@ -154,6 +154,7 @@ export const menuItems = [
       {name: "Location", to: "/app/admin/location"},
       {name: "Dashboard", to: "/app/admin/dashboard"},
       {name: "Organization", to: "/app/admin/organization"},
+      {name: "Configure Email", to: "/app/admin/email-configuration"},
     ],
   },
   {
@@ -175,9 +176,9 @@ export const menuItems = [
     ],
   },
   {
-    name: "Communication",
+    name: "Engagement",
     exact: true,
-    to: "/app/communication",
+    to: "/app/engagment",
     iconClassName: "bi bi-rss",
     subMenus: [
       {name: "Channel", to: "/app/communication/channel"},
@@ -244,13 +245,12 @@ export const menuItems = [
       {name: "Referrals", to: "/app/managed-care/referrals"},
       {name: "Tariff", to: "/app/managed-care/tariff"},
       {name: "Claims", to: "/app/managed-care/claims"},
-      {name: "DashBoard", to: "/app/managed-care/dashboard"},
       {name: "Accreditation", to: "/app/managed-care/accreditation"},
       {
         name: "Fund management",
         to: "/app/managed-care/fundmanagement",
       },
-      {name: "Health plan", to: "/app/managed-care/healthplan"},
+      {name: "Health Plan", to: "/app/managed-care/healthplan"},
       {
         name: "Preauthorization",
         to: "/app/managed-care/preauthorization",
@@ -275,6 +275,7 @@ export const menuItems = [
       {name: "SLA", to: "/app/crm/SLA"},
       {name: "Dashboard", to: "/app/crm/dashboard"},
       {name: "Appointment", to: "/app/crm/appointment"},
+      {name: "Templates", to: "/app/crm/templates"},
       {name: "Deal", to: "/app/crm/deal"},
     ],
   },
@@ -310,6 +311,7 @@ export const menuItems = [
       {name: "USSD", to: "/app/communication/ussd"},
       {name: "Email", to: "/app/communication/email"},
       {name: "IVR", to: "/app/communication/ivr"},
+      {name: "Chats", to: "/app/communication/chats"},
     ],
   },
   {
@@ -371,21 +373,6 @@ export const menuItems = [
       {name: "Lab", to: "/app/blood-bank/lab"},
     ],
   },
-  // {
-  //   name: "Dont Click Me",
-  //   exact: true,
-  //   to: "/app/documentation",
-  //   iconClassName: "bi bi-box-arrow-right",
-  // },
-  // {
-  //   name: "Logout",
-  //   exact: true,
-  //   to: "/",
-  //   action: () => {
-  //     localStorage.setItem("user", "");
-  //   },
-  //   iconClassName: "bi bi-box-arrow-right",
-  // },
 ];
 
 function SideMenu({isOpen}) {
@@ -412,13 +399,14 @@ function SideMenu({isOpen}) {
 
   //const organitionMenuItems = orgModules.filter(item => orgModules.includes(item.name) )
 
-  const roles = user.currentEmployee.roles;
+  const roles = user?.currentEmployee?.roles || [];
 
   //console.log(user.currentEmployee.facilityDetail.facilityModules);
 
-  const isOrgAdmin = roles.includes("Admin");
+  const isOrgAdmin = roles?.includes("Admin");
 
-  const facilityModules = user.currentEmployee.facilityDetail?.facilityModules;
+  const facilityModules =
+    user?.currentEmployee?.facilityDetail?.facilityModules || [];
 
   const facilitySortedMenuItems =
     facilityModules &&
@@ -447,13 +435,18 @@ function SideMenu({isOpen}) {
     });
   }, []);
 
+  const finalModules = user.stacker ? sortedMenuItems : rolesMenuList;
+
   return (
     <Sidemenu className={`side-menu ${isOpen ? "" : "hide"}`}>
       <TopSection>
-        <h4>{user.currentEmployee.facilityDetail.facilityName}</h4>
-        <Avatar src={user.currentEmployee.facilityDetail?.facilitylogo}>
+        <Avatar
+          src={user?.currentEmployee?.facilityDetail?.facilitylogo}
+          sx={{marginRight: "15px"}}
+        >
           L
         </Avatar>
+        <h4>{user?.currentEmployee?.facilityDetail?.facilityName}</h4>
       </TopSection>
       <MainMenu className="main-menu">
         <Lists>
@@ -463,10 +456,10 @@ function SideMenu({isOpen}) {
             to="/app"
             iconClassName="bi bi-house-door"
           />
-          {rolesMenuList.map((menuItem, index) => (
+          {finalModules.map((menuItem, index) => (
             <>
               <MenuItem
-                key={index}
+                key={menuItem.name}
                 name={menuItem.name}
                 to={menuItem.to}
                 subMenus={menuItem.subMenus || []}

@@ -33,7 +33,7 @@ interface InputProps {
 const Input: React.FC<InputProps> = ({
   label,
   errorText,
-  type = "text",
+  type,
   name,
   defaultValue = "",
   onChange,
@@ -53,7 +53,7 @@ const Input: React.FC<InputProps> = ({
     <InputBox>
       <InputField
         onChange={onChange}
-        type={type}
+        type={type ? type : "text"}
         defaultValue={defaultValue}
         onKeyDown={onKeyDown}
         placeholder={placeholder}
@@ -63,9 +63,17 @@ const Input: React.FC<InputProps> = ({
         onBlur={onBlur}
         autoComplete={autoComplete}
         sx={{width: "16px", ...sx}}
+        //className={errorText ? "has-errors" : ""}
+        error={errorText ? true : false}
+        //error={true}
+
         //ref={inputRef}
       />
-      <InputLabel className="form__label" htmlFor={name}>
+      <InputLabel
+        error={errorText ? true : false}
+        className="form__label"
+        htmlFor={name}
+      >
         {label}
         {important && (
           <AcUnitIcon sx={{color: "red", width: "12px", height: "12px"}} />

@@ -24,10 +24,11 @@ import {createEmployeeSchema} from "./ui-components/schema";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {EmployeeForm} from "./EmployeeForm";
 import EmployeeView from "./EmployeeView";
-import {Portal} from "@mui/material";
+import {Avatar, Portal} from "@mui/material";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import {returnAvatarString} from "../helpers/returnAvatarString";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -361,6 +362,7 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
   };
 
   const getFacilities = async () => {
+    setLoading(true);
     if (user.currentEmployee) {
       const findEmployee = await EmployeeServ.find({
         query: {
@@ -373,6 +375,7 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
       });
 
       await setFacilities(findEmployee.data);
+      setLoading(false);
       //console.log("facilities", facilities);
     } else {
       if (user.stacker) {
@@ -386,6 +389,7 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
         });
 
         await setFacilities(findEmployee.data);
+        setLoading(false);
       }
     }
   };
@@ -425,6 +429,22 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
       key: "sn",
       description: "Enter name of employee",
       selector: row => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "80px",
+    },
+    {
+      name: "Image",
+      key: "sn",
+      description: "Enter name of employee",
+      selector: row => (
+        <Avatar
+          src={row.imageurl}
+          {...returnAvatarString(
+            `${row.firstname.toUpperCase()} ${row.lastname.toUpperCase()}`
+          )}
+        />
+      ),
       sortable: true,
       inputType: "HIDDEN",
       width: "80px",

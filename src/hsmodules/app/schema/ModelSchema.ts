@@ -50,7 +50,14 @@ export const getOrganisationSchema = (): Schema[] => [
     sortable: true,
     required: true,
     inputType: InputType.SELECT_LIST,
-    options: ["Hospital", "Laboratory"],
+    options: [
+      "Diagnostic Lab",
+      "Diagnostics Imaging",
+      "HMO",
+      "Hospital",
+      "Pharmacy",
+      "Others",
+    ],
   },
   {
     name: "Org Category",
@@ -60,7 +67,7 @@ export const getOrganisationSchema = (): Schema[] => [
     sortable: true,
     required: true,
     inputType: InputType.SELECT_LIST,
-    options: ["Health", "Finance"],
+    options: ["Healthcare", "Finance"],
   },
 ];
 

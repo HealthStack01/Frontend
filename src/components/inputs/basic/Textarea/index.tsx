@@ -30,6 +30,7 @@ const Textarea: React.FC<TextareaProps> = ({
   required = false,
   name,
   important,
+  errorText,
   ...props
 }) => {
   if (control)
@@ -61,6 +62,13 @@ const Textarea: React.FC<TextareaProps> = ({
               onBlur={handleOnBlur}
               onFocus={onFocus}
             />
+            {errorText && (
+              <label
+                style={{color: "red", fontSize: "0.7rem", textAlign: "left"}}
+              >
+                {errorText}
+              </label>
+            )}
           </div>
         )}
       />
@@ -81,6 +89,11 @@ const Textarea: React.FC<TextareaProps> = ({
         {...props}
         {...register}
       />
+      {errorText && (
+        <label style={{color: "red", fontSize: "0.7rem", textAlign: "left"}}>
+          {errorText}
+        </label>
+      )}
     </div>
   );
 };

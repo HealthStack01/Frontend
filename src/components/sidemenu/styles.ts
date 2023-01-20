@@ -44,7 +44,7 @@ export const Sidemenu = styled.div`
 export const TopSection = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+
   & h1 {
     color: ${({theme}) => theme.btnText};
     font-size: 20px;
@@ -66,7 +66,7 @@ export const MainMenu = styled.div`
     margin: 1rem 0;
     position: relative;
     overflow-x: hidden;
-    height: 100%;
+    height: calc(100vh - 100px);
     overflow-y: auto;
   }
 

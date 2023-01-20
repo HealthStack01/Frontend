@@ -212,63 +212,6 @@ export function ClientSearch({getSearchfacility, clear, label}) {
 
   useOnClickOutside(dropDownRef, () => setShowPanel(false));
 
-  const tableSchema = [
-    {
-      name: "S/NO",
-      key: "sn",
-      description: "Enter name of Disease",
-      selector: row => row.sn,
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "Name",
-      //width: "200px",
-      key: "clientname",
-      description: "Enter Name",
-      selector: row => `${row.firstname} ${row.middlename} ${row.lastname}`,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-
-    {
-      name: "DOB",
-      key: "dob",
-      selector: row =>
-        row.dob ? formatDistanceToNowStrict(new Date(row.dob)) : "------",
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-
-    {
-      name: "Gender",
-      key: "gender",
-      selector: row => row.gender,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Profession",
-      key: "profession",
-      selector: row => row.profession,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Phone NO",
-      key: "phone",
-      selector: row => row.phone,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-  ];
-
   // <div>
   //   <span>{facility.firstname}</span>
   //   <span className="padleft">{facility.middlename}</span>
@@ -320,7 +263,7 @@ export function ClientSearch({getSearchfacility, clear, label}) {
             {...props}
             style={{display: "flex", flexWrap: "wrap"}}
             gap={1}
-            onClick={() => handleRow(option)}
+            //onClick={() => handleRow(option)}
           >
             <Typography sx={{fontSize: "0.75rem"}}>
               {option.firstname}

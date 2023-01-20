@@ -122,76 +122,72 @@ export function LocationCreate({ open, setOpen }) {
     "Radiology",
     "Managed Care",
   ];
-
-  const getSearchfacility = (obj) => {
-    setValue("facility", obj._id, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  };
-
-  useEffect(() => {
-    setCurrentUser(user);
-    //console.log(currentUser)
-    return () => {};
-  }, [user]);
-
-  //check user for facility or get list of facility
-  useEffect(() => {
-    //setFacility(user.activeLocation.FacilityId)//
-    if (!user.stacker) {
-      console.log(currentUser);
-      setValue("facility", user.currentEmployee.facilityDetail._id, {
+  const getSearchfacility=(obj)=>{
+        
+    setValue("facility", obj._id,  {
         shouldValidate: true,
-        shouldDirty: true,
-      });
-    }
-  },[]);
+        shouldDirty: true
+    })
+}
 
-  const onSubmit = (data, e) => {
-    // e.preventDefault();
-    if (data.locationType === "") {
-      // alert("Kindly choose location type");
-      toast({
-        message: "Kindly choose location type",
-        type: "is-success",
-        dismissible: true,
-        pauseOnHover: true,
-      });
-      return;
+useEffect(() => {
+    setCurrentUser(user)
+    //console.log(currentUser)
+    return () => {
+    
     }
-    setMessage("");
-    setError(false);
-    setSuccess(false);
-    data.createdby=user._id
-    console.log(data);
-    if (user.currentEmployee) {
-      data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
+}, [user])
+
+//check user for facility or get list of facility  
+useEffect(()=>{
+    //setFacility(user.activeLocation.FacilityId)//
+  if (!user.stacker){
+      console.log(currentUser)
+    setValue("facility", user.currentEmployee.facilityDetail._id,  {
+        shouldValidate: true,
+        shouldDirty: true
+    }) 
+  }
+})
+
+const onSubmit = (data,e) =>{
+    e.preventDefault();
+    if (data.locationType===""){
+        alert("Kindly choose location type")
+        return
     }
+    setMessage("")
+    setError(false)
+    setSuccess(false)
+     // data.createdby=user._id
+      console.log(data);
+      if (user.currentEmployee){
+     data.facility=user.currentEmployee.facilityDetail._id  // or from facility dropdown
+      }
     LocationServ.create(data)
-      .then((res) => {
-        console.log(JSON.stringify(res))
-        e.target.reset();
-        /*  setMessage("Created Location successfully") */
-        setSuccess(true);
-        toast({
-          message: "Location created succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
-        setSuccess(false);
-      })
-      .catch((err) => {
-        console.log(err)
-        toast({
-          message: "Error creating Location " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
-      });
-  };
+    .then((res)=>{
+            //console.log(JSON.stringify(res))
+            e.target.reset();
+           /*  setMessage("Created Location successfully") */
+            setSuccess(true)
+            toast({
+                message: 'Location created succesfully',
+                type: 'is-success',
+                dismissible: true,
+                pauseOnHover: true,
+              })
+              setSuccess(false)
+        })
+        .catch((err)=>{
+            toast({
+                message: 'Error creating Location ' + err,
+                type: 'is-danger',
+                dismissible: true,
+                pauseOnHover: true,
+              })
+        })
+
+  } 
 
   return (
     <>

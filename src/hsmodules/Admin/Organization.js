@@ -29,7 +29,7 @@ import BankAccount from "./BankAccount";
 import axios from "axios";
 import {getBase64} from "../helpers/getBase64";
 
-const AdminOrganization = () => {
+const AdminOrganization = ({propId}) => {
   const facilityServer = client.service("facility");
   const {register, reset, handleSubmit, control} = useForm();
   const {user, setUser} = useContext(UserContext);
@@ -56,7 +56,7 @@ const AdminOrganization = () => {
   const getCurrentFacility = useCallback(async () => {
     showActionLoader();
     //console.log(user);
-    const id = user.currentEmployee.facilityDetail._id;
+    const id = propId || user.currentEmployee.facilityDetail._id;
     await facilityServer
       .get(id)
       .then(resp => {
@@ -127,14 +127,6 @@ const AdminOrganization = () => {
         hideActionLoader();
         console.error(error);
       });
-  };
-
-  const handleRow = data => {
-    setState(prev => ({
-      ...prev,
-      BankAccountModule: {...prev.BankAccountModule, selectedBankAccount: data},
-    }));
-    setDetailModal(true);
   };
 
   return (
@@ -254,7 +246,14 @@ const AdminOrganization = () => {
           <CustomSelect
             control={control}
             name="facilityType"
-            options={["Hospital"]}
+            options={[
+              "Diagnostic Lab",
+              "Diagnostics Imaging",
+              "HMO",
+              "Hospital",
+              "Pharmacy",
+              "Others",
+            ]}
             label="Organization Type"
             disabled={!edit}
           />
@@ -264,7 +263,7 @@ const AdminOrganization = () => {
           <CustomSelect
             control={control}
             name="facilityCategory"
-            options={["Home"]}
+            options={["Health", "Finance"]}
             label="Organization Category"
             disabled={!edit}
           />
@@ -367,6 +366,7 @@ export const OrganizationModules = ({closeModal}) => {
     "Referral",
     "Theatre",
     "Ward",
+    "Engagement",
   ];
 
   useEffect(() => {
@@ -466,7 +466,7 @@ export const OrganaizationLogoUpload = ({closeModal}) => {
     useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
 
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState(null);
 
   const handleChange = file => {
     //console.log(file);
@@ -484,6 +484,7 @@ export const OrganaizationLogoUpload = ({closeModal}) => {
   };
 
   const handleUploadLogo = async () => {
+    if (file === null) return toast.error("Please select a Logo to upload");
     showActionLoader();
     const token = localStorage.getItem("feathers-jwt");
     axios
@@ -494,6 +495,7 @@ export const OrganaizationLogoUpload = ({closeModal}) => {
       )
       .then(async res => {
         //return console.log(res);
+        console.log(res);
         const logoUrl = res.data.url;
         const employee = user.currentEmployee;
         const prevOrgDetail = user.currentEmployee.facilityDetail;
@@ -545,7 +547,11 @@ export const OrganaizationLogoUpload = ({closeModal}) => {
     <Box sx={{width: "400px", maxHeight: "80vw"}}>
       {file ? (
         <Box
-          sx={{display: "flex", alignItems: "center", justifyContent: "center"}}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
           <img
             src={file}
@@ -568,7 +574,7 @@ export const OrganaizationLogoUpload = ({closeModal}) => {
           Cancel
         </GlobalCustomButton>
 
-        <GlobalCustomButton onClick={handleUploadLogo}>
+        <GlobalCustomButton onClick={handleUploadLogo} disabled={file === null}>
           Upload Logo
         </GlobalCustomButton>
       </Box>

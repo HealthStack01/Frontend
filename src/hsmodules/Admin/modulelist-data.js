@@ -1,24 +1,43 @@
-export const modulesList = [
+export const actionRoles = [
   {
     value: "Adjust Price",
     label: "Adjust Price",
   },
   {
-    value: "Delete Notes",
-    label: "Delete Notes",
+    value: "Delete Documents",
+    label: "Delete Document",
   },
   {
     value: "Complaints",
     label: "Complaints",
   },
   {
-    value: "Report",
-    label: "Report",
+    value: "Bill Client",
+    label: "Bill Client",
   },
-  {
-    value: "Tasks",
-    label: "Tasks",
-  },
+];
+
+export const modulesList = [
+  // {
+  //   value: "Adjust Price",
+  //   label: "Adjust Price",
+  // },
+  // {
+  //   value: "Delete Notes",
+  //   label: "Delete Notes",
+  // },
+  // {
+  //   value: "Complaints",
+  //   label: "Complaints",
+  // },
+  // {
+  //   value: "Report",
+  //   label: "Report",
+  // },
+  // {
+  //   value: "Tasks",
+  //   label: "Tasks",
+  // },
 
   {
     value: "Client",
@@ -398,6 +417,10 @@ export const modulesList = [
         label: "Appointment",
         value: "CRM Appointment",
       },
+      {
+        label: "Templates",
+        value: "CRM Templates",
+      },
     ],
   },
 
@@ -465,6 +488,34 @@ export const modulesList = [
       {
         label: "WhatsApp",
         value: "Commnunication WhatsApp",
+      },
+      {
+        label: "Chats",
+        value: "Commnunication Chats",
+      },
+    ],
+  },
+
+  {
+    label: "Engagement",
+    value: "Engagement",
+
+    children: [
+      {
+        label: "Channel",
+        value: "Engagement Channel",
+      },
+      {
+        label: "Questionnaires",
+        value: "Engagement Questionnaires",
+      },
+      {
+        label: "Configuration",
+        value: "Engagement Configuration",
+      },
+      {
+        label: "Submissions",
+        value: "Engagement Submissions",
       },
     ],
   },

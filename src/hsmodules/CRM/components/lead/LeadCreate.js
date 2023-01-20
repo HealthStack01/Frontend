@@ -1,4 +1,4 @@
-import {forwardRef, useState, useContext} from "react";
+import {forwardRef, useState, useContext, useEffect} from "react";
 import {Button, Collapse, Grid, Typography} from "@mui/material";
 import {Box} from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
@@ -13,6 +13,7 @@ import ModalBox from "../../../../components/modal";
 import CustomTable from "../../../../components/customtable";
 import EmployeeSearch from "../../../helpers/EmployeeSearch";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {useNavigate, useLocation} from "react-router-dom";
 
 import {getContactColumns, getStaffColumns} from "../colums/columns";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
@@ -25,6 +26,7 @@ import client from "../../../../feathers";
 
 const LeadsCreate = ({closeModal, handleGoBack}) => {
   const dealServer = client.service("deal");
+  const notificationsServer = client.service("notification");
 
   const {register, handleSubmit, control, watch, reset} = useForm({
     defaultValues: {customer_type: ""},
@@ -39,6 +41,8 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
 
   const {user} = useContext(UserContext);
   const {showActionLoader, hideActionLoader} = useContext(ObjectContext);
+
+  const location = useLocation();
 
   const handleAddContact = contact => {
     setContacts(prev => [contact, ...prev]);
@@ -84,9 +88,9 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
 
   const contactColumns = getContactColumns(handleRemoveContact);
 
-  const onSubmitTest = data => {
-    console.log(data);
-  };
+  // useEffect(() => {
+  //   hideActionLoader();
+  // }, []);
 
   const onSubmit = async data => {
     // console.log("Data", data), console.log(user);
@@ -135,15 +139,45 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
     document.country = data.country;
     document.orgbranch = data.orgbranch;
     document.clientclass = data.clientclass;
+    document.facilityId = employee.facilityDetail._id;
+    document.facilityName = employee.facilityDetail.facilityName;
 
-    console.log(document);
+    const notificationObj = {
+      type: "CRM",
+      title: "New Lead Created in CRM",
+      description: `${employee.firstname} ${employee.lastname} Created a new Lead with ${data.type} ${data.name} in CRM`,
+      facilityId: employee.facilityDetail._id,
+      sender: `${employee.firstname} ${employee.lastname}`,
+      senderId: employee._id,
+      pageUrl: location.pathname,
+      priority: "normal",
+    };
+
+    const assingedStaffNotificationObj = {
+      type: "CRM",
+      title: "You were assinged to a Lead",
+      description: `You were assigned to the following Lead ${data.type} ${data.name} in CRM`,
+      facilityId: employee.facilityDetail._id,
+      sender: `${employee.firstname} ${employee.lastname}`,
+      senderId: employee._id,
+      pageUrl: location.pathname,
+      priority: "normal",
+      dest_userId: staffs.map(item => item.employeeId),
+    };
+
+    // console.log("user userId", employee.userId);
+    // console.log("user id", employee._id);
+    // return console.log(staffs);
 
     await dealServer
       .create(document)
-      .then(res => {
+      .then(async res => {
         Object.keys(data).forEach(key => {
           data[key] = null;
         });
+
+        await notificationsServer.create(notificationObj);
+        await notificationsServer.create(assingedStaffNotificationObj);
 
         hideActionLoader();
         reset(data);
@@ -357,7 +391,7 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
                 <Grid item lg={2} md={3} sm={6}>
                   <CustomSelect
                     label="Status"
-                    options={["Open", "Pending", "Closed"]}
+                    options={["Open", "Suspended", "Closed"]}
                     name="status"
                     control={control}
                     important
@@ -389,7 +423,7 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
                   />
                 </Grid>
 
-                <Grid item lg={6} md={6} sm={6}>
+                <Grid item lg={12} md={12} sm={12}>
                   <Textarea
                     label="Additional Information"
                     placeholder="Write here..."

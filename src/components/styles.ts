@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const TopMenuWrapper = styled.div`
-  background: ${({ theme }) => theme.grayThree};
+  background: ${({theme}) => theme.grayThree};
   width: 100%;
   height: 60px;
   display: flex;
@@ -27,10 +27,8 @@ export const Profile = styled.div`
   display: flex;
   align-items: center;
 
-  & span,
-  & i {
-    margin-right: 20px;
-  }
+ 
+
 
   & .profile-item{
     display: flex;

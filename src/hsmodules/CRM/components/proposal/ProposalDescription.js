@@ -30,24 +30,16 @@ const ProposalDescription = ({setDescription, closeModal, description}) => {
   }
 
   const handleStartRecording = () => {
-    console.log("recording started");
+    // console.log("recording started");
     SpeechRecognition.startListening({continuous: true});
   };
 
   const handleStopRecording = () => {
-    console.log("Recording has stopped");
+    //console.log("Recording has stopped");
     SpeechRecognition.stopListening();
   };
 
-  useEffect(() => {
-    console.log(transcript);
-  }, [transcript]);
-
-  useEffect(() => {
-    const newText = transcript;
-
-    setText(transcript);
-  }, [transcript]);
+  console.log(transcript);
 
   return (
     <Box

@@ -283,8 +283,8 @@ export function ProductExitCreate({closeModal}) {
       toast.error("You can not remove inventory from any organization");
       return;
     }
-    if (state.StoreModule.selectedStore._id) {
-      productEntry.storeId = state.StoreModule.selectedStore._id;
+    if (state.InventoryModule.selectedInventory._id) {
+      productEntry.storeId = state.InventoryModule.selectedInventory._id;
     } else {
       toast.error("You need to select a store before removing inventory");
       return;
@@ -443,8 +443,7 @@ export function ProductExitCreate({closeModal}) {
       inputType: "TEXT",
     },
     {
-      name: "Qty",
-      width: "70px",
+      name: "Quantity",
       key: "quanity",
       description: "Enter quantity",
       selector: row => row.quantity,
@@ -505,7 +504,7 @@ export function ProductExitCreate({closeModal}) {
     <>
       <Box
         sx={{
-          width: "850px",
+          width: "90vw",
           maxHeight: "80vh",
         }}
       >
@@ -517,7 +516,7 @@ export function ProductExitCreate({closeModal}) {
               </Box>
 
               <Grid container spacing={1}>
-                <Grid item xs={8}>
+                <Grid item lg={4} md={4} sm={6} xs={12}>
                   <Input
                     /* ref={register({ required: true })} */
                     value={source}
@@ -528,15 +527,16 @@ export function ProductExitCreate({closeModal}) {
                     disabled={true}
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item lg={2} md={4} sm={6} xs={12}>
                   <CustomSelect
-                    defaultValue={type}
+                    defaultValue={type.toLowerCase()}
                     name="type"
                     options={["Sales", "In-house", "Dispense", "Audit"]}
                     onChange={handleChangeType}
+                    label="Sale Type"
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item lg={2} md={4} sm={6} xs={12}>
                   <Input
                     label="Date"
                     value={date}
@@ -546,16 +546,17 @@ export function ProductExitCreate({closeModal}) {
                     disabled
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item lg={2} md={4} sm={6} xs={12}>
                   <Input
                     name="documentNo"
                     value={documentNo}
                     type="text"
                     onChange={e => setDocumentNo(e.target.value)}
                     label="Invoice Number"
+                    disabled
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item lg={2} md={4} sm={6} xs={12}>
                   <Input
                     value={totalamount}
                     name="totalamount"
@@ -755,7 +756,7 @@ export function ProductExitList() {
           $options: "i",
         },
         transactioncategory: "debit",
-        storeId: state.StoreModule.selectedStore._id,
+        storeId: state.InventoryModule.selectedInventory._id,
         facility: user.currentEmployee.facilityDetail._id || "",
         $limit: 10,
         $sort: {
@@ -784,7 +785,7 @@ export function ProductExitList() {
         query: {
           transactioncategory: "debit",
           facility: user.currentEmployee.facilityDetail._id,
-          storeId: state.StoreModule.selectedStore._id,
+          storeId: state.InventoryModule.selectedInventory._id,
           $limit: 20,
           $sort: {
             createdAt: -1,
@@ -1566,7 +1567,7 @@ export function InventorySearch({getSearchfacility, clear}) {
               $options: "i",
             },
             facility: user.currentEmployee.facilityDetail._id,
-            storeId: state.StoreModule.selectedStore._id,
+            storeId: state.InventoryModule.selectedInventory._id,
             $limit: 10,
             $sort: {
               createdAt: -1,

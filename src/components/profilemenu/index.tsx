@@ -1,131 +1,248 @@
-import { MenuList } from '@mui/material';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grow from '@mui/material/Grow';
-import Popper from '@mui/material/Popper';
-import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {
+  Avatar,
+  IconButton,
+  Menu,
+  MenuItem,
+  MenuList,
+  Typography,
+} from "@mui/material";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import Popper from "@mui/material/Popper";
+import React, {useContext, useEffect, useRef, useState} from "react";
 
-import { Models } from '../../hsmodules/app/Constants';
-import useRepository from '../hooks/repository';
-import { Avatar } from '../topmenu/styles';
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import {useNavigate} from "react-router-dom";
+
+import {Models} from "../../hsmodules/app/Constants";
+import useRepository from "../hooks/repository";
+import {FileUploader} from "react-drag-drop-files";
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import axios from "axios";
+import {toast} from "react-toastify";
+import {getBase64} from "../../hsmodules/helpers/getBase64";
+import client from "../../feathers";
+import {ObjectContext, UserContext} from "../../context";
+import {Box} from "@mui/system";
+import GlobalCustomButton from "../buttons/CustomButton";
+import ModalBox from "../modal";
+//import {Avatar} from "../topmenu/styles";
 
 const ProfileMenu = () => {
-  const { user } = useRepository(Models.EMPLOYEE);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [imageUploadModal, setImageUploadModal] = useState(false);
+
+  const {user} = useContext(UserContext);
   const navigate = useNavigate();
 
-  const [open, setOpen] = useState(false);
-  const anchorRef = useRef(null);
-
-  const handleToggle = () => {
-    setOpen(prevOpen => !prevOpen);
+  const handleCloseOptions = () => {
+    setAnchorEl(null);
   };
 
-  const handleClose = (event: Event | React.SyntheticEvent) => {
-    if (
-      anchorRef.current &&
-      anchorRef.current.contains(event.target as HTMLElement)
-    ) {
-      return;
-    }
-
-    setOpen(false);
+  const handleOpenOptions = event => {
+    setAnchorEl(event.currentTarget);
   };
-
-  function handleListKeyDown(event) {
-    if (event.key === 'Tab') {
-      event.preventDefault();
-      setOpen(false);
-    } else if (event.key === 'Escape') {
-      setOpen(false);
-    }
-  }
 
   // return focus to the button when we transitioned from !open -> open
-  const prevOpen = React.useRef(open);
-  useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current!.focus();
-    }
-
-    prevOpen.current = open;
-  }, [open]);
 
   return (
-    <div style={{ position: 'relative', zIndex: '100' }}>
-      <label
-        ref={anchorRef}
-        id='composition-button'
-        aria-controls={open ? 'composition-menu' : undefined}
-        aria-expanded={open ? 'true' : undefined}
-        aria-haspopup='true'
-        onClick={handleToggle}
+    <div style={{position: "relative", zIndex: "100"}}>
+      <ModalBox
+        open={imageUploadModal}
+        onClose={() => setImageUploadModal(false)}
+        header="Upload New Profile Photo"
       >
-        <Avatar src='/img_avatar.png' alt='' />
-      </label>
+        <UpdateProfilePhoto closeModal={() => setImageUploadModal(false)} />
+      </ModalBox>
+      <Box sx={{display: "flex", flexDirection: "column"}}>
+        <IconButton onClick={handleOpenOptions}>
+          <Avatar src={user.currentEmployee.imageurl} />
+        </IconButton>
 
-      <Popper
-        open={open}
-        anchorEl={anchorRef.current}
-        role={undefined}
-        placement='bottom-start'
-        transition
-        disablePortal
+        {/* <Typography
+          sx={{
+            fontSize: "0.8rem",
+            fontWeight: "bold",
+            textTransform: "capitalize",
+          }}
+        >
+          {user.firstname} {user.lastname}
+        </Typography> */}
+      </Box>
+
+      <Menu
+        anchorEl={anchorEl}
+        id="account-menu"
+        open={Boolean(anchorEl)}
+        onClose={handleCloseOptions}
+        anchorOrigin={{horizontal: "right", vertical: "bottom"}}
+        // sx={{padding: 0}}
       >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin:
-                placement === 'bottom-start' ? 'left top' : 'left bottom',
-            }}
-          >
-            <div
-              style={{
-                background: '#fff',
-                minWidth: '200px',
-                border: '1px solid #CDD2D7',
-                borderRadius: '4px',
-                marginTop: '20px',
-              }}
-            >
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList
-                  autoFocusItem={open}
-                  id='composition-menu'
-                  aria-labelledby='composition-button'
-                  onKeyDown={handleListKeyDown}
-                  sx={{ textAlign: 'center' }}
-                >
-                  <Avatar
-                    src='/img_avatar.png'
-                    alt=''
-                    style={{ width: '80px', height: '80px' }}
-                  />
-                  <p>
-                    {user.firstname} {user.lastname}
-                  </p>
-                  {/* <div style={{ padding: '4px 8px' }}>
-                    <p>Settings</p>
-                  </div> */}
-
-                  <div style={{ padding: '4px 8px' }}>
-                    <p
-                      onClick={() => {
-                        localStorage.setItem('user', '');
-                        navigate('/');
-                      }}
-                    >
-                      <i className='bi bi-box-arrow-right'></i>Log out
-                    </p>
-                  </div>
-                </MenuList>
-              </ClickAwayListener>
-            </div>
-          </Grow>
-        )}
-      </Popper>
+        {/* <Typography>
+          {user.firstname} {user.lastname}
+        </Typography> */}
+        {/* <MenuItem>View Logo</MenuItem> */}
+        <MenuItem sx={{fontSize: "0.85rem"}}>Remove Image</MenuItem>
+        <MenuItem
+          sx={{fontSize: "0.85rem"}}
+          onClick={() => {
+            setImageUploadModal(true);
+            handleCloseOptions();
+          }}
+        >
+          Change Image
+        </MenuItem>
+        <MenuItem
+          sx={{fontSize: "0.85rem"}}
+          onClick={() => {
+            navigate("/app/user");
+            handleCloseOptions();
+          }}
+        >
+          View Profile
+        </MenuItem>
+        <MenuItem
+          sx={{
+            fontSize: "0.85rem",
+            backgroundColor: "#b21e35",
+            color: "#ffffff",
+            ":hover": {
+              backgroundColor: "#bd1f36",
+            },
+          }}
+          onClick={() => {
+            localStorage.setItem("user", "");
+            navigate("/");
+            handleCloseOptions();
+          }}
+        >
+          Log Out
+        </MenuItem>
+      </Menu>
     </div>
   );
 };
 
 export default ProfileMenu;
+
+const UploadComponent = ({}) => {
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        height: "300px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        border: "1px dashed gray",
+        cursor: "pointer",
+        borderRadius: "7.5px",
+      }}
+    >
+      <FileUploadOutlinedIcon />
+      <Typography>Select Logo Image or Drag and Drop here</Typography>
+    </Box>
+  );
+};
+
+export const UpdateProfilePhoto = ({closeModal}) => {
+  const employeeServer = client.service("employee");
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+  const {user, setUser} = useContext(UserContext);
+
+  const [file, setFile] = useState(null);
+
+  const handleChange = file => {
+    //console.log(file);
+    //setFile(file);
+
+    getBase64(file)
+      .then(res => {
+        //console.log(res);
+        setFile(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const handleUploadLogo = async () => {
+    if (file === null) return toast.error("Please select an Image to upload");
+    showActionLoader();
+    const token = localStorage.getItem("feathers-jwt");
+    axios
+      .post(
+        "https://healthstack-backend.herokuapp.com/upload",
+        {uri: file},
+        {headers: {Authorization: `Bearer ${token}`}}
+      )
+      .then(async res => {
+        const imageUrl = res.data.url;
+        const employee = user.currentEmployee;
+
+        const documentId = employee._id;
+
+        await employeeServer
+          .patch(documentId, {imageurl: imageUrl})
+          .then(res => {
+            hideActionLoader();
+            closeModal();
+            toast.success("You've successfully updated your profile photo");
+          })
+          .catch(err => {
+            hideActionLoader();
+
+            toast.error(
+              `Error Updating profile photo, probable network issues or ${err}`
+            );
+          });
+      })
+      .catch(error => {
+        hideActionLoader();
+        toast.error(
+          `An error occured whilst updating your profile photo ${error}`
+        );
+        console.log(error);
+      });
+  };
+
+  return (
+    <Box sx={{width: "400px", maxHeight: "80vw"}}>
+      {file ? (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <img
+            src={file}
+            alt="logo"
+            style={{width: "200px", height: "auto", display: "block"}}
+          />
+        </Box>
+      ) : (
+        <FileUploader
+          multiple={false}
+          handleChange={handleChange}
+          name="upload"
+          types={["jpeg", "png", "jpg"]}
+          children={<UploadComponent />}
+        />
+      )}
+
+      <Box sx={{display: "flex"}} gap={2} mt={2}>
+        <GlobalCustomButton color="error" onClick={closeModal}>
+          Cancel
+        </GlobalCustomButton>
+
+        <GlobalCustomButton onClick={handleUploadLogo} disabled={file === null}>
+          Upload Image
+        </GlobalCustomButton>
+      </Box>
+    </Box>
+  );
+};

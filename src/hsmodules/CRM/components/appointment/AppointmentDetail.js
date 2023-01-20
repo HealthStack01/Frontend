@@ -90,6 +90,66 @@ const AppointmentDetail = ({closeModal}) => {
     },
   ];
 
+  const appointmentStaffColumns = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+      width: "50px",
+    },
+    {
+      name: "Name",
+      key: "contact_name",
+      description: "Enter Date",
+      selector: row => row.name,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Position",
+      style: {color: "#0364FF"},
+      key: "contact_position",
+      description: "Enter Date",
+      selector: row => (row.position ? row.position : "---------"),
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Phone No",
+      style: {color: "#0364FF"},
+      key: "contact_phone",
+      description: "Enter Date",
+      selector: row => row.phoneno,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Email",
+      key: "contact_email",
+      description: "Enter Date",
+      selector: row => row.email,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+    {
+      name: "Status",
+      key: "contact_email",
+      description: "Enter Date",
+      selector: row => (row.active ? "Active" : "Inactive"),
+      sortable: true,
+      required: true,
+      inputType: "STRING",
+    },
+  ];
+
   return (
     <Box sx={{width: "70vw", maxHeight: "80vh"}}>
       <ModalBox
@@ -103,21 +163,6 @@ const AppointmentDetail = ({closeModal}) => {
         sx={{display: "flex", alignItems: "center", justifyContent: "flex-end"}}
         gap={1.5}
       >
-        {/* {!edit ? (
-          <GlobalCustomButton onClick={() => setEdit(true)} color="secondary">
-            Edit Appointment
-          </GlobalCustomButton>
-        ) : (
-          <>
-            {" "}
-            <GlobalCustomButton color="warning" onClick={closeModal}>
-              Cancel
-            </GlobalCustomButton>
-            <GlobalCustomButton onClick={handleSubmit(onSubmit)}>
-              Update
-            </GlobalCustomButton>
-          </>
-        )} */}
         <GlobalCustomButton onClick={() => setEdit(true)} color="secondary">
           <EditIcon fontSize="small" sx={{marginRight: "5px"}} />
           Edit Appointment
@@ -174,6 +219,22 @@ const AppointmentDetail = ({closeModal}) => {
           />
         </Grid>
       </Grid>
+
+      <Box>
+        <FormsHeaderText text="Staffs List" />
+        <CustomTable
+          title={""}
+          columns={appointmentStaffColumns}
+          data={detail.staffs || []}
+          pointerOnHover
+          highlightOnHover
+          striped
+          CustomEmptyData="There are no Staff assigned to this appointment yet"
+          // onRowClicked={handleRow}
+          progressPending={false}
+        />
+      </Box>
+
       <Box>
         <FormsHeaderText text="Contacts List" />
         <CustomTable
@@ -183,6 +244,7 @@ const AppointmentDetail = ({closeModal}) => {
           pointerOnHover
           highlightOnHover
           striped
+          CustomEmptyData="There are no contact assigned to this appointment yet"
           // onRowClicked={handleRow}
           progressPending={false}
         />

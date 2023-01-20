@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import {useContext, useEffect, useState} from "react";
+import {toast} from "react-toastify";
 
-import { UserContext } from '../../context';
-import client from '../../feathers';
-import { Views } from '../../hsmodules/app/Constants';
-import { getFormStrings } from '../../hsmodules/app/Utils';
-import { DictionaryOf } from '../../types.d';
+import {UserContext} from "../../context";
+import client from "../../feathers";
+import {Views} from "../../hsmodules/app/Constants";
+import {getFormStrings} from "../../hsmodules/app/Utils";
+import {DictionaryOf} from "../../types.d";
 
 interface Repository<T> {
   list: T[];
@@ -18,9 +18,10 @@ interface Repository<T> {
     _id: string;
     firstname: string;
     lastname: string;
+    imageurl: string;
     currentEmployee: {
       facility: string;
-      facilityDetail: { _id: string; facilityName: string };
+      facilityDetail: {_id: string; facilityName: string};
     };
   };
   setFindQuery: (query) => void;
@@ -36,25 +37,19 @@ const useRepository = <T>(
   onNavigate?: (view: string) => () => void
 ): Repository<T> => {
   let Service = client.service(modelName);
-  const {
-    user,
-    facility,
-    location,
-    setLocation,
-    locationType,
-    setLocationType,
-  } = useContext(UserContext);
+  const {user, facility, location, setLocation, locationType, setLocationType} =
+    useContext(UserContext);
   const [findQuery, setFindQuery] = useState(null);
   const [list, setList] = useState([]);
   const [groupedList, setGroupedList] = useState([]);
 
   const remove = (obj): Promise<T> => {
     return Service.remove(obj._id ? obj._id : obj)
-      .then((_) => {
+      .then(_ => {
         toast(`${modelName} deleted successfully`);
         onNavigate && onNavigate(Views.LIST)();
       })
-      .catch((err) => {
+      .catch(err => {
         toast(
           `'Error deleting ${modelName}, probable network issues or ' + ${err}'`
         );
@@ -62,11 +57,11 @@ const useRepository = <T>(
   };
 
   const find = async (query?: any): Promise<T[]> => {
-    const isString = typeof query === 'string';
-    const extras = isString ? {} : { ...findQuery, ...query };
+    const isString = typeof query === "string";
+    const extras = isString ? {} : {...findQuery, ...query};
     const params = {
       query: {
-        name: isString && query ? { $regex: query, $options: 'i' } : undefined,
+        name: isString && query ? {$regex: query, $options: "i"} : undefined,
         $limit: 200,
         $sort: {
           createdAt: -1,
@@ -78,13 +73,13 @@ const useRepository = <T>(
     return (
       Service &&
       Service.find(params)
-        .then((response) => {
+        .then(response => {
           console.debug(
-            'received response of model ',
+            "received response of model ",
             modelName,
-            ' with body ',
+            " with body ",
             {
-              params: { ...params },
+              params: {...params},
               response,
             }
           );
@@ -93,9 +88,9 @@ const useRepository = <T>(
           setGroupedList(response.groupedOrder);
           return response;
         })
-        .catch((error) => {
-          console.error('received error of model ', modelName, ' with body ', {
-            params: { ...params },
+        .catch(error => {
+          console.error("received error of model ", modelName, " with body ", {
+            params: {...params},
             error,
           });
         })
@@ -107,7 +102,7 @@ const useRepository = <T>(
     Object.entries(data).map(([key, value]) => {
       // Exceptions
       if (
-        typeof value === 'object' &&
+        typeof value === "object" &&
         !data.documentname && // Documentation
         !data.questions && // questionnaire
         !data.interactions &&
@@ -117,7 +112,7 @@ const useRepository = <T>(
         !data.disease && // case definition
         !data.observations //  case definition
       ) {
-        result = { ...result, ...value };
+        result = {...result, ...value};
       } else {
         result[key] = value;
       }
@@ -125,36 +120,33 @@ const useRepository = <T>(
     return result;
   };
 
-  const submit = (dataIn) => {
+  const submit = dataIn => {
     const data = dataIn.length ? dataIn : spreadSubData(dataIn);
     const values = getFormStrings(data._id);
-    console.debug(
-      'submitted ' + modelName + ' data ',
-      JSON.stringify({ data })
-    );
+    console.debug("submitted " + modelName + " data ", JSON.stringify({data}));
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id;
     }
     return (data._id ? Service.update(data._id, data) : Service.create(data))
-      .then((data) => {
+      .then(data => {
         toast(`${modelName.toUpperCase()} ${values.message}`);
         onNavigate && onNavigate(Views.LIST)();
         return data;
       })
-      .catch((err) => {
+      .catch(err => {
         toast.error(`Error occurred : ${err}`);
       });
   };
 
-  const get = (id) => {
+  const get = id => {
     return Service.get(id);
   };
 
   useEffect(() => {
-    Service.on('created', find);
-    Service.on('updated', find);
-    Service.on('patched', find);
-    Service.on('removed', find);
+    Service.on("created", find);
+    Service.on("updated", find);
+    Service.on("patched", find);
+    Service.on("removed", find);
     //if (onNavigate) find();
     return () => {
       Service = null;

@@ -6,7 +6,7 @@ import ProposalCreate from "./components/proposal/ProposalCreate";
 import ProposalList from "./components/proposal/ProposalList";
 import ProposalDetail from "./components/proposal/ProposalDetail";
 
-const CrmProposals = ({standAlone}) => {
+const CrmProposals = ({isTab}) => {
   const [createModal, setCreateModal] = useState(false);
   const [currentView, setCurrentView] = useState("lists");
 
@@ -20,6 +20,7 @@ const CrmProposals = ({standAlone}) => {
         <ProposalList
           showCreate={() => setCurrentView("create")}
           showDetail={() => setCurrentView("detail")}
+          isTab={isTab}
         />
       )}
 

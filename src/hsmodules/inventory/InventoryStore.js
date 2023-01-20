@@ -4,6 +4,8 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 import DataTable from "react-data-table-component";
 
+//import DataTable from "react-data-table-component-footer";
+
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
@@ -31,6 +33,8 @@ import MuiButton from "@mui/material/Button";
 import BasicDatePicker from "../../components/inputs/Date";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {customStyles} from "../../components/customtable/styles";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -493,9 +497,10 @@ export function InventoryList({showcreateModal, openDetailModal}) {
 
   const handleRow = async Inventory => {
     //console.log("b4",state)
+    // if ((Inventory.name = "Sum Total")) return;
 
     //console.log("handlerow",Inventory)
-    console.log(Inventory);
+    //console.log(Inventory);
 
     await setSelectedInventory(Inventory);
 
@@ -521,7 +526,7 @@ export function InventoryList({showcreateModal, openDetailModal}) {
           $options: "i",
         },
         facility: user.currentEmployee.facilityDetail._id || "",
-        storeId: state.StoreModule.selectedStore._id,
+        storeId: state.InventoryModule.selectedInventory._id,
         $limit: 100,
         $sort: {
           name: 1,
@@ -550,7 +555,7 @@ export function InventoryList({showcreateModal, openDetailModal}) {
       const allInventory = await InventoryServ.find({
         query: {
           facility: user.currentEmployee.facilityDetail._id,
-          storeId: state.StoreModule.selectedStore._id,
+          storeId: state.InventoryModule.selectedInventory._id,
           $limit: limit,
           $skip: page * limit,
           $sort: {
@@ -590,28 +595,30 @@ export function InventoryList({showcreateModal, openDetailModal}) {
   };
 
   const getNewInventories = async () => {
+    setLoadidng(true);
     if (user.currentEmployee) {
       const allInventory = await InventoryServ.find({
         query: {
           facility: user.currentEmployee.facilityDetail._id,
-          storeId: state.StoreModule.selectedStore._id,
-          $limit: limit,
+          storeId: state.InventoryModule.selectedInventory._id,
+          $limit: 2000, //limit,
           /*  $skip:page * limit, */
           $sort: {
             name: 1,
           },
         },
       });
-      console.log("this is data", allInventory);
+
       // await setFacilities(findInventory.data)
       await setTotal(allInventory.total);
       await setFacilities(allInventory.data);
+      setLoadidng(false);
 
       if (allInventory.total > allInventory.data.length) {
         // setNext(true)
         setPage(page => page + 1);
       } else {
-        //setNext(false)
+        //setNext(fals
       }
 
       // pages++
@@ -631,6 +638,7 @@ export function InventoryList({showcreateModal, openDetailModal}) {
         });
 
         await setFacilities(findInventory.data);
+        setLoadidng(false);
       }
     }
   };
@@ -658,7 +666,7 @@ export function InventoryList({showcreateModal, openDetailModal}) {
   useEffect(() => {
     rest();
     return () => {};
-  }, [state.StoreModule.selectedStore]);
+  }, [state.InventoryModule.selectedInventory]);
 
   useEffect(() => {
     console.log(page);
@@ -683,6 +691,12 @@ export function InventoryList({showcreateModal, openDetailModal}) {
     },
   ];
 
+  const totalStockValue =
+    facilities.length > 0 &&
+    facilities
+      .map(item => item.stockvalue)
+      .reduce((prev, next) => Number(prev) + Number(next));
+
   return (
     <>
       {user ? (
@@ -702,6 +716,25 @@ export function InventoryList({showcreateModal, openDetailModal}) {
                 </h2>
               </div>
 
+              {facilities.length > 0 && (
+                <Box sx={{display: "flex"}} gap={0.5}>
+                  <Typography sx={{fontWeight: "600", fontSize: "0.85rem"}}>
+                    Total Stock Value:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontWeight: "600",
+                      fontSize: "0.85rem",
+                      color: "#000000",
+                    }}
+                  >
+                    {totalStockValue}
+                  </Typography>
+                </Box>
+              )}
+
+              <div />
+
               {/* {handleCreateNew && (
                 <Button
                   style={{fontSize: "14px", fontWeight: "600"}}
@@ -711,7 +744,13 @@ export function InventoryList({showcreateModal, openDetailModal}) {
               )} */}
             </TableMenu>
 
-            <div style={{width: "100%", height: "calc(100vh - 170px)"}}>
+            <div
+              style={{
+                width: "100%",
+                height: "calc(100vh - 170px)",
+                overflowY: "auto",
+              }}
+            >
               <DataTable
                 title={""}
                 columns={InventoryStoreSchema.filter(
@@ -1272,6 +1311,7 @@ export function InventoryBatches({closeModal}) {
   const [expirydate, setExpiryDate] = useState("");
   const [facilities, setFacilities] = useState([]);
   const [productItem, setProductItem] = useState([]);
+  const [confirmDialog, setConfirmDialog] = useState(false);
 
   const Inventory = state.InventoryModule.selectedInventory; // set inventory
   // setProductItem(Inventory.batches)
@@ -1355,34 +1395,35 @@ export function InventoryBatches({closeModal}) {
   };
 
   const handleBatchdel = (obj, i) => {
-    let confirm = window.confirm("Are you sure you want to delete this batch?");
-    if (confirm) {
-      // setProductItem(prev=>prev.filter((obj,index)=>index!==i ))
-      setProductItem(obj => obj.filter((el, index) => index !== i));
-    }
+    //let confirm = window.confirm("Are you sure you want to delete this batch?");
+    //if (confirm) {
+    // setProductItem(prev=>prev.filter((obj,index)=>index!==i ))
+    setProductItem(obj => obj.filter((el, index) => index !== i));
+    setConfirmDialog(false);
+    //}
   };
 
-  const DatePickerCustomInput = React.forwardRef(({value, onClick}, ref) => (
-    <div
-      onClick={onClick}
-      ref={ref}
-      style={{
-        width: "100%",
-        height: "40px",
-        border: "1.5px solid #BBBBBB",
-        borderRadius: "4px",
-        display: "flex",
-        alignItems: "center",
-        fontSize: "0.85rem",
-        padding: "0 15px",
-        color: "#000000",
-        backgroundColor: "#fff",
-        cursor: "pointer",
-      }}
-    >
-      {value === "" ? "Pick Date" : value}
-    </div>
-  ));
+  // const DatePickerCustomInput = React.forwardRef(({value, onClick}, ref) => (
+  //   <div
+  //     onClick={onClick}
+  //     ref={ref}
+  //     style={{
+  //       width: "100%",
+  //       height: "40px",
+  //       border: "1.5px solid #BBBBBB",
+  //       borderRadius: "4px",
+  //       display: "flex",
+  //       alignItems: "center",
+  //       fontSize: "0.85rem",
+  //       padding: "0 15px",
+  //       color: "#000000",
+  //       backgroundColor: "#fff",
+  //       cursor: "pointer",
+  //     }}
+  //   >
+  //     {value === "" ? "Pick Date" : value}
+  //   </div>
+  // ));
 
   const batchesSchema = [
     {
@@ -1463,6 +1504,13 @@ export function InventoryBatches({closeModal}) {
         overflowY: "auto",
       }}
     >
+      <CustomConfirmationDialog
+        open={confirmDialog}
+        cancelAction={() => setConfirmDialog(false)}
+        confirmationAction={handleBatchdel}
+        type="danger"
+        message="Are you sure you want to delete this batch?"
+      />
       <Box
         container
         sx={{
@@ -1503,13 +1551,11 @@ export function InventoryBatches({closeModal}) {
               />
             </Grid>
             <Grid item xs={4}>
-              <DatePicker
-                selected={expirydate}
-                onChange={date => setExpiryDate(date)}
-                dateFormat="dd/MM/yyyy"
-                placeholderText="Expiry Date"
-                customInput={<DatePickerCustomInput />}
-                wrapperClassName="date-picker-custom-style"
+              <MuiCustomDatePicker
+                label="Expiry Date"
+                value={expirydate}
+                handleChange={value => setExpiryDate(value)}
+                format="dd/MM/yyyy"
               />
             </Grid>
             <Grid item xs={4}>

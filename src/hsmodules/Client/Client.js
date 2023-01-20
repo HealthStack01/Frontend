@@ -44,6 +44,10 @@ import {
   Grid,
   Button as MuiButton,
   Typography,
+  IconButton,
+  Avatar,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import CustomTable from "../../components/customtable";
 import ModalBox from "../../components/modal";
@@ -61,6 +65,10 @@ import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-di
 import {DesktopDatePicker} from "@mui/x-date-pickers/DesktopDatePicker";
 import ClientListDateFilter from "./DateFilter";
 import MuiClearDatePicker from "../../components/inputs/Date/MuiClearDatePicker";
+import {getBase64} from "../helpers/getBase64";
+import {FileUploader} from "react-drag-drop-files";
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import axios from "axios";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -610,7 +618,7 @@ export function ClientList({openCreateModal, openDetailModal}) {
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
   const {state, setState} = useContext(ObjectContext);
-  const [filterEndDate, setFilterEndDate] = useState(dayjs());
+  const [filterEndDate, setFilterEndDate] = useState(new Date());
   const containerScrollRef = useRef(null);
   // eslint-disable-next-line
   // const { user, setUser } = useContext(UserContext);
@@ -735,33 +743,42 @@ export function ClientList({openCreateModal, openDetailModal}) {
   };
 
   const getFacilities = async () => {
-    setState(prev => ({
-      ...prev,
-      actionLoader: {open: true},
-    }));
+    // setState(prev => ({
+    //   ...prev,
+    //   actionLoader: {open: true},
+    // }));
+    setLoading(true);
     if (user.currentEmployee) {
       const findClient = await ClientServ.find({
         query: {
           "relatedfacilities.facility": user.currentEmployee.facilityDetail._id,
           $limit: limit,
           $skip: page * limit,
+          // createdAt: filterEndDate,
+          // createdAt: {
+          //   $gt: subDays(filterEndDate, 1),
+          //   $lt: addDays(filterEndDate, 1),
+          // },
           $sort: {
             createdAt: -1,
           },
         },
       });
       if (page === 0) {
+        //console.log(findClient.data);
         await setFacilities(findClient.data);
-        setState(prev => ({
-          ...prev,
-          actionLoader: {open: false},
-        }));
+        setLoading(false);
+        // setState(prev => ({
+        //   ...prev,
+        //   actionLoader: {open: false},
+        // }));
       } else {
         await setFacilities(prevstate => prevstate.concat(findClient.data));
-        setState(prev => ({
-          ...prev,
-          actionLoader: {open: false},
-        }));
+        // setState(prev => ({
+        //   ...prev,
+        //   actionLoader: {open: false},
+        // }));
+        setLoading(false);
       }
 
       await setTotal(findClient.total);
@@ -780,10 +797,11 @@ export function ClientList({openCreateModal, openDetailModal}) {
         });
 
         await setFacilities(findClient.data);
-        setState(prev => ({
-          ...prev,
-          actionLoader: {open: false},
-        }));
+        setLoading(false);
+        // setState(prev => ({
+        //   ...prev,
+        //   actionLoader: {open: false},
+        // }));
       }
     }
   };
@@ -809,7 +827,7 @@ export function ClientList({openCreateModal, openDetailModal}) {
 
     return () => {};
     // eslint-disable-next-line
-  }, []);
+  }, [filterEndDate]);
 
   const rest = async () => {
     // console.log("starting rest")
@@ -994,8 +1012,22 @@ export function ClientDetail({closeDetailModal}) {
 
   const {register, handleSubmit, setValue, reset, control} = useForm();
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [imageUploadModal, setImageUploadModal] = useState(false);
+
   let Client = state.ClientModule.selectedClient;
+
+  //console.log(Client);
+
   // eslint-disable-next-line
+
+  const handleCloseOptions = () => {
+    setAnchorEl(null);
+  };
+
+  const handleOpenOptions = event => {
+    setAnchorEl(event.currentTarget);
+  };
 
   const handleFinancialInfo = () => {
     setFinacialInfoModal(true);
@@ -1297,6 +1329,17 @@ export function ClientDetail({closeDetailModal}) {
 
   return (
     <>
+      <ModalBox
+        open={imageUploadModal}
+        onClose={() => setImageUploadModal(false)}
+        header="Upload Patient Image"
+      >
+        <UpdateClientPassport
+          closeModal={() => setImageUploadModal(false)}
+          selectedClient={Client}
+        />
+      </ModalBox>
+
       <CustomConfirmationDialog
         open={confirmDialog}
         cancelAction={() => setConfirmDialog(false)}
@@ -1327,72 +1370,98 @@ export function ClientDetail({closeDetailModal}) {
               width: "100%",
               display: "flex",
               alignItems: "center",
-              justifyContent: "right",
+              justifyContent: "space-between",
             }}
             mb={2}
           >
-            {!editClient && (
+            <Box>
+              <IconButton onClick={handleOpenOptions}>
+                <Avatar sx={{width: 80, height: 80}} src={Client.imageurl} />
+              </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                id="account-menu"
+                open={Boolean(anchorEl)}
+                onClose={handleCloseOptions}
+                anchorOrigin={{horizontal: "right", vertical: "center"}}
+              >
+                {/* <MenuItem>View Logo</MenuItem> */}
+                <MenuItem>Remove Image</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setImageUploadModal(true);
+                    handleCloseOptions();
+                  }}
+                >
+                  Change Image
+                </MenuItem>
+              </Menu>
+            </Box>
+
+            <Box>
+              {!editClient && (
+                <GlobalCustomButton
+                  text="Edit Details"
+                  onClick={() => setEditClient(true)}
+                  customStyles={{
+                    marginRight: "5px",
+                  }}
+                  color="success"
+                />
+              )}
+              {(user.currentEmployee?.roles.includes("Client Bill Client") ||
+                user.currentEmployee?.roles.length === 0 ||
+                user.stacker) && (
+                <GlobalCustomButton
+                  text="Bill Client"
+                  onClick={showBilling}
+                  customStyles={{
+                    marginRight: "5px",
+                  }}
+                  color="info"
+                />
+              )}
+
               <GlobalCustomButton
-                text="Edit Details"
-                onClick={() => setEditClient(true)}
+                sx={{
+                  marginRight: "5px",
+                }}
+                onClick={handleCreateWallet}
+              >
+                Create Wallet
+              </GlobalCustomButton>
+
+              <GlobalCustomButton
+                text="Payment Information"
+                onClick={handleFinancialInfo}
+                customStyles={{
+                  marginRight: "5px",
+                }}
+                color="secondary"
+              />
+              <GlobalCustomButton
+                text="Schedule Appointment"
+                onClick={handleSchedule}
+                sx={{
+                  marginRight: "5px",
+                  backgroundColor: "#ee9b00",
+                  color: "#ffffff",
+                  "&:hover": {
+                    backgroundColor: "#ee9b00",
+                  },
+                }}
+              />
+              <GlobalCustomButton
+                text="Attend to Client"
+                onClick={() => {
+                  navigate("/app/general/documentation");
+                }}
                 customStyles={{
                   marginRight: "5px",
                 }}
                 color="success"
               />
-            )}
-            {(user.currentEmployee?.roles.includes("Client Bill Client") ||
-              user.currentEmployee?.roles.length === 0 ||
-              user.stacker) && (
-              <GlobalCustomButton
-                text="Bill Client"
-                onClick={showBilling}
-                customStyles={{
-                  marginRight: "5px",
-                }}
-                color="info"
-              />
-            )}
-
-            <GlobalCustomButton
-              sx={{
-                marginRight: "5px",
-              }}
-              onClick={handleCreateWallet}
-            >
-              Create Wallet
-            </GlobalCustomButton>
-
-            <GlobalCustomButton
-              text="Payment Information"
-              onClick={handleFinancialInfo}
-              customStyles={{
-                marginRight: "5px",
-              }}
-              color="secondary"
-            />
-            <GlobalCustomButton
-              text="Schedule Appointment"
-              onClick={handleSchedule}
-              sx={{
-                marginRight: "5px",
-                backgroundColor: "#ee9b00",
-                color: "#ffffff",
-                "&:hover": {
-                  backgroundColor: "#ee9b00",
-                },
-              }}
-            />
-            <GlobalCustomButton
-              text="Attend to Client"
-              onClick={() => {
-                navigate("/app/general/documentation");
-              }}
-              customStyles={{
-                marginRight: "5px",
-              }}
-              color="success"
-            />
+            </Box>
           </Box>
         ) : (
           <Box
@@ -1471,7 +1540,7 @@ export function ClientDetail({closeDetailModal}) {
                       {label: "Male", value: "male"},
                       {label: "Female", value: "female"},
                     ]}
-                    disable={!editClient}
+                    disabled={!editClient}
                     //errorText={errors?.gender?.message}
                   />
                 </Grid>
@@ -1824,6 +1893,132 @@ export function ClientDetail({closeDetailModal}) {
     </>
   );
 }
+
+const UploadComponent = ({}) => {
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        height: "300px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        border: "1px dashed gray",
+        cursor: "pointer",
+        borderRadius: "7.5px",
+      }}
+    >
+      <FileUploadOutlinedIcon />
+      <Typography>Select Logo Image or Drag and Drop here</Typography>
+    </Box>
+  );
+};
+
+export const UpdateClientPassport = ({closeModal, selectedClient}) => {
+  const ClientServ = client.service("client");
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+  const {user, setUser} = useContext(UserContext);
+
+  const [file, setFile] = useState(null);
+
+  const handleChange = file => {
+    //console.log(file);
+    //setFile(file);
+
+    getBase64(file)
+      .then(res => {
+        //console.log(res);
+        setFile(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const handleUploadLogo = async () => {
+    if (file === null) return toast.error("Please select an Image to upload");
+    showActionLoader();
+    const token = localStorage.getItem("feathers-jwt");
+    axios
+      .post(
+        "https://healthstack-backend.herokuapp.com/upload",
+        {uri: file},
+        {headers: {Authorization: `Bearer ${token}`}}
+      )
+      .then(async res => {
+        const imageUrl = res.data.url;
+        //const employee = user.currentEmployee;
+
+        const newClient = {
+          ...selectedClient,
+          imageurl: imageUrl,
+        };
+
+        const documentId = selectedClient._id;
+
+        await ClientServ.patch(documentId, newClient)
+          .then(res => {
+            hideActionLoader();
+            closeModal();
+            toast.success("Patient Image Updated succesfully");
+          })
+          .catch(err => {
+            hideActionLoader();
+
+            toast.error(
+              `Error Updating Patient Image, probable network issues or ${err}`
+            );
+          });
+      })
+      .catch(error => {
+        hideActionLoader();
+        toast.error(
+          `An error occured whilst updating your Patient Image ${error}`
+        );
+        console.log(error);
+      });
+  };
+
+  return (
+    <Box sx={{width: "400px", maxHeight: "80vw"}}>
+      {file ? (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <img
+            src={file}
+            alt="logo"
+            style={{width: "200px", height: "auto", display: "block"}}
+          />
+        </Box>
+      ) : (
+        <FileUploader
+          multiple={false}
+          handleChange={handleChange}
+          name="upload"
+          types={["jpeg", "png", "jpg"]}
+          children={<UploadComponent />}
+        />
+      )}
+
+      <Box sx={{display: "flex"}} gap={2} mt={2}>
+        <GlobalCustomButton color="error" onClick={closeModal}>
+          Cancel
+        </GlobalCustomButton>
+
+        <GlobalCustomButton onClick={handleUploadLogo} disabled={file === null}>
+          Upload Image
+        </GlobalCustomButton>
+      </Box>
+    </Box>
+  );
+};
 
 export function ClientModify() {
   const {register, handleSubmit, setValue, reset} = useForm(); //watch, errors,, errors

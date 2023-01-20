@@ -5,7 +5,7 @@ import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {ProductCreate, ProductDetail} from "./Products";
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
@@ -33,12 +33,15 @@ import {
   Button as MuiButton,
   Divider,
   Typography,
+  IconButton,
 } from "@mui/material";
 
 import ProductSearchHelper from "../helpers/ProductSearch";
 import InventorySearchHelper from "../helpers/InventorySearch";
 import {FormsHeaderText} from "../../components/texts";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import DeleteOutline from "@mui/icons-material/DeleteOutline";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -137,6 +140,7 @@ export function ProductExitCreate({closeModal}) {
   const [productItem, setProductItem] = useState([]);
   const [billingId, setBilllingId] = useState("");
   const [changeAmount, setChangeAmount] = useState(true);
+  const [confirmDialog, setConfirmDialog] = useState(false);
   const {state} = useContext(ObjectContext);
   const inputEl = useRef(0);
   let calcamount1;
@@ -218,12 +222,7 @@ export function ProductExitCreate({closeModal}) {
     console.log("calcamount: ", calcamount);
 
     if (quantity === 0 || quantity === "" || productId === "") {
-      toast({
-        message: "You need to choose a product and quantity to proceed",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("You need to choose a product and quantity to proceed");
       return;
     }
 
@@ -259,12 +258,7 @@ export function ProductExitCreate({closeModal}) {
 
   const handleQtty = async e => {
     if (invquantity < e.target.value) {
-      toast({
-        message: "You can not sell more quantity than exist in inventory ",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("You can not sell more quantity than exist in inventory ");
       return;
     }
     setQuantity(e.target.value);
@@ -320,42 +314,28 @@ export function ProductExitCreate({closeModal}) {
     productEntry.createdby = user._id;
     productEntry.transactioncategory = "debit";
 
-    console.log("b4 facility", productEntry);
+    //console.log("b4 facility", productEntry);
     if (user.currentEmployee) {
       productEntry.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     } else {
-      toast({
-        message: "You can not remove inventory from any organization",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("You can not remove inventory from any organization");
       return;
     }
-    if (state.StoreModule.selectedStore._id) {
-      productEntry.storeId = state.StoreModule.selectedStore._id;
+    if (state.InventoryModule.selectedInventory._id) {
+      productEntry.storeId = state.InventoryModule.selectedInventory._id;
     } else {
-      toast({
-        message: "You need to select a store before removing inventory",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("You need to select a store before removing inventory");
       return;
     }
-    console.log("b4 create", productEntry);
+    //return console.log("b4 create", productEntry);
     ProductEntryServ.create(productEntry)
       .then(res => {
         //console.log(JSON.stringify(res))
         resetform();
         /*  setMessage("Created ProductEntry successfully") */
         setSuccess(true);
-        toast({
-          message: "ProductExit created succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        setConfirmDialog(false);
+        toast.success("ProductExit created succesfully");
         setSuccess(false);
         setProductItem([]);
         const today = new Date().toLocaleString();
@@ -366,12 +346,8 @@ export function ProductExitCreate({closeModal}) {
         setType("Sales");
       })
       .catch(err => {
-        toast({
-          message: "Error creating ProductExit " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        setConfirmDialog(false);
+        toast.error("Error creating ProductExit " + err);
       });
   };
 
@@ -399,6 +375,11 @@ export function ProductExitCreate({closeModal}) {
 
   const onRowClicked = () => {};
 
+  const removeEntity = (entity, i) => {
+    //console.log(entity)
+    setProductItem(prev => prev.filter((obj, index) => index !== i));
+  };
+
   const productCreateSchema = [
     {
       name: "S/N",
@@ -407,6 +388,7 @@ export function ProductExitCreate({closeModal}) {
       selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
+      width: "60px",
     },
     {
       name: "Name",
@@ -462,12 +444,9 @@ export function ProductExitCreate({closeModal}) {
       key: "costprice",
       description: "costprice",
       selector: (row, i) => (
-        <p
-          style={{color: "red", fontSize: "0.75rem"}}
-          onClick={() => removeEntity(row, i)}
-        >
-          Remove
-        </p>
+        <IconButton size="small" onClick={() => removeEntity(row, i)}>
+          <DeleteOutline fontSize="small" sx={{color: "red"}} />
+        </IconButton>
       ),
       sortable: true,
       required: true,
@@ -475,39 +454,24 @@ export function ProductExitCreate({closeModal}) {
     },
   ];
 
-  const DatePickerCustomInput = React.forwardRef(({value, onClick}, ref) => (
-    <div
-      onClick={onClick}
-      ref={ref}
-      style={{
-        width: "100%",
-        height: "38px",
-        border: "1.5px solid #BBBBBB",
-        borderRadius: "4px",
-        display: "flex",
-        alignItems: "center",
-        margin: "0.75rem 0",
-        fontSize: "0.85rem",
-        padding: "0 15px",
-        color: "#000000",
-        backgroundColor: "#fff",
-      }}
-    >
-      {value === "" ? "Pick Date" : value}
-    </div>
-  ));
-
   return (
     <>
+      <CustomConfirmationDialog
+        open={confirmDialog}
+        cancelAction={() => setConfirmDialog(false)}
+        confirmationAction={onSubmit}
+        message="Are you sure you want to save this product to your Exits ?"
+        type="create"
+      />
       <Box
         sx={{
-          width: "85vw",
+          width: "80vw",
           maxHeight: "80vh",
           overflowY: "auto",
         }}
       >
         <Grid container spacing={1}>
-          <Grid item lg={6} md={6} sm={12}>
+          <Grid item lg={12} md={12} sm={12}>
             <Box
               mb={1}
               sx={{
@@ -518,7 +482,7 @@ export function ProductExitCreate({closeModal}) {
             </Box>
 
             <Grid container spacing={1}>
-              <Grid item xs={8}>
+              <Grid item lg={4} md={6} sm={8} xs={12}>
                 <Input
                   /* ref={register({ required: true })} */
                   value={source}
@@ -528,15 +492,16 @@ export function ProductExitCreate({closeModal}) {
                   label="Client"
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item lg={2} md={3} sm={4} xs={6}>
                 <CustomSelect
                   defaultValue={type}
                   name="type"
                   options={["Sales", "In-house", "Dispense", "Audit"]}
                   onChange={handleChangeType}
+                  label="Choose Type"
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item lg={2} md={3} sm={4} xs={6}>
                 <Input
                   label="Date"
                   value={date}
@@ -546,7 +511,7 @@ export function ProductExitCreate({closeModal}) {
                   disabled
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item lg={2} md={3} sm={4} xs={6}>
                 <Input
                   name="documentNo"
                   value={documentNo}
@@ -555,7 +520,7 @@ export function ProductExitCreate({closeModal}) {
                   label="Invoice Number"
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item lg={2} md={3} sm={4} xs={6}>
                 <Input
                   value={totalamount}
                   name="totalamount"
@@ -567,7 +532,7 @@ export function ProductExitCreate({closeModal}) {
             </Grid>
           </Grid>
 
-          <Grid item lg={6} md={6} sm={12}>
+          <Grid item lg={12} md={12} sm={12}>
             <Box
               sx={{
                 display: "flex",
@@ -671,12 +636,12 @@ export function ProductExitCreate({closeModal}) {
         >
           <GlobalCustomButton
             disabled={!productItem.length > 0}
-            onClick={onSubmit}
+            onClick={() => setConfirmDialog(true)}
             sx={{
               marginRight: "15px",
             }}
           >
-            Add Product(s)
+            Submit Product(s)
           </GlobalCustomButton>
 
           <GlobalCustomButton color="error" onClick={closeModal}>
@@ -749,7 +714,7 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
           $options: "i",
         },
         transactioncategory: "debit",
-        storeId: state.StoreModule.selectedStore._id,
+        storeId: state.InventoryModule.selectedInventory._id,
         facility: user.currentEmployee.facilityDetail._id || "",
         $limit: 10,
         $sort: {
@@ -778,7 +743,7 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
         query: {
           transactioncategory: "debit",
           facility: user.currentEmployee.facilityDetail._id,
-          storeId: state.StoreModule.selectedStore._id,
+          storeId: state.InventoryModule.selectedInventory._id,
           $limit: 20,
           $sort: {
             createdAt: -1,
@@ -864,6 +829,7 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
       sortable: true,
       required: true,
       inputType: "HIDDEN",
+      width: "60px",
     },
     {
       name: "date",
@@ -1023,7 +989,7 @@ export function ProductExitDetail() {
       name: "Name",
       key: "name",
       description: "Enter name of product",
-      selector: row => row.sn,
+      selector: row => row.name,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1071,23 +1037,21 @@ export function ProductExitDetail() {
       <Box
         container
         sx={{
-          width: "100%",
+          width: "85vw",
           maxHeight: "85vh",
         }}
         pt={1}
       >
         <Grid container spacing={1} mb={1}>
-          <Grid item xs={8}>
+          <Grid item lg={4} md={6} sm={6} xs={12}>
             <Input value={ProductEntry.source} label="Supplier" disabled />
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item lg={2} md={4} sm={6} xs={12}>
             <Input value={ProductEntry.type} label="Type" disabled />
           </Grid>
-        </Grid>
 
-        <Grid container spacing={1} mb={1}>
-          <Grid item xs={4}>
+          <Grid item lg={2} md={4} sm={6} xs={12}>
             <Input
               value={
                 ProductEntry.date
@@ -1099,7 +1063,7 @@ export function ProductExitDetail() {
             />
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item lg={2} md={4} sm={6} xs={12}>
             <Input
               value={ProductEntry.documentNo}
               label="Invoice Number"
@@ -1107,7 +1071,7 @@ export function ProductExitDetail() {
             />
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item lg={2} md={4} sm={6} xs={12}>
             <Input
               value={ProductEntry.totalamount}
               label="Total Amount"
@@ -1501,7 +1465,7 @@ export function InventorySearch({getSearchfacility, clear}) {
               $options: "i",
             },
             facility: user.currentEmployee.facilityDetail._id,
-            storeId: state.StoreModule.selectedStore._id,
+            storeId: state.InventoryModule.selectedInventory._id,
             $limit: 10,
             $sort: {
               createdAt: -1,
@@ -1553,8 +1517,14 @@ export function InventorySearch({getSearchfacility, clear}) {
       <Autocomplete
         size="small"
         value={simpa}
-        onChange={(event, newValue) => {
-          handleRow(newValue);
+        onChange={(event, newValue, reason) => {
+          if (reason === "clear") {
+            setSimpa("");
+            //setSimpa("");
+            return;
+          } else {
+            handleRow(newValue);
+          }
         }}
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
@@ -1579,18 +1549,22 @@ export function InventorySearch({getSearchfacility, clear}) {
           }
           return option.name;
         }}
+        isOptionEqualToValue={(option, value) =>
+          value === undefined || value === "" || option._id === value._id
+        }
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys
         renderOption={(props, option) => (
-          <div
+          <Box
+            gap={1.5}
             {...props}
             style={{
               fontSize: "0.75rem",
               display: "flex",
-              flexDirection: "column",
+              //flexDirection: "column",
+              flexWrap: "wrap",
               alignItems: "flex-start",
-              borderBottom: "1px solid gray",
             }}
           >
             <div style={{marginBottom: "5px"}}>
@@ -1610,7 +1584,7 @@ export function InventorySearch({getSearchfacility, clear}) {
                 </span>
               </div>
             </div>
-          </div>
+          </Box>
         )}
         sx={{width: "100%"}}
         freeSolo
@@ -1622,6 +1596,10 @@ export function InventorySearch({getSearchfacility, clear}) {
             ref={inputEl}
             sx={{
               fontSize: "0.75rem !important",
+              backgroundColor: "#ffffff !important",
+              "& .MuiInputBase-input": {
+                height: "0.9rem",
+              },
             }}
             //size="small"
             InputLabelProps={{

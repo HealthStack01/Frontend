@@ -44,3 +44,4 @@ export const PaystackIcon = () => (
     ></path>
   </svg>
 );
+

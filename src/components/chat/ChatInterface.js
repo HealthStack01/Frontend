@@ -1,4 +1,4 @@
-import {useState, useRef, useEffect, useCallback} from "react";
+import {useState, useRef, useEffect, useCallback, useContext} from "react";
 import {Avatar, Box, Button, IconButton, Typography} from "@mui/material";
 import Slide from "@mui/material/Slide";
 import SendIcon from "@mui/icons-material/Send";
@@ -11,15 +11,26 @@ import Highlighter from "react-highlight-words";
 import "./styles.scss";
 import moment from "moment";
 
-import {messages} from "./data";
 import FilterMenu from "../utilities/FilterMenu";
 import ExpandableSearchInput from "../inputs/Search/ExpandableSearch";
 import {toast} from "react-toastify";
+import {ObjectContext, UserContext} from "../../context";
+import client from "../../feathers";
+import EachChatMessage from "./EachMessage";
 
-const ChatInterface = ({closeChat}) => {
-  const [chatMessages, setChatMessages] = useState([...messages]);
-  const [message, setMessage] = useState("");
-  const [sending, setSending] = useState(false);
+const ChatInterface = ({
+  closeChat,
+  messages = [],
+  sendMessage,
+  message,
+  setMessage,
+  isSendingMessage = false,
+  markMsgAsSeen,
+}) => {
+  const dealServer = client.service("deal");
+  const [chatMessages, setChatMessages] = useState([]);
+  const {user} = useContext(UserContext);
+  const {state} = useContext(ObjectContext);
   const [goDownIcon, setGoDownIcon] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
@@ -29,34 +40,6 @@ const ChatInterface = ({closeChat}) => {
   const handleChange = e => {
     setMessage(e.target.value);
   };
-
-  const sendNewChatMessage = () => {
-    if (message === "") return toast.error("Please include your message");
-
-    setSending(true);
-
-    setTimeout(() => {
-      const newChatMessage = {
-        name: "Healthstack",
-        time: moment.now(),
-        _id: `${Math.random()}`,
-        userId: "00",
-        message: message,
-        status: "delivered",
-        dp: "https://marketplace.canva.com/EAFEits4-uw/1/0/1600w/canva-boy-cartoon-gamer-animated-twitch-profile-photo-oEqs2yqaL8s.jpg",
-      };
-
-      setChatMessages(prev => [...prev, newChatMessage]);
-      setMessage("");
-      setSending(false);
-    }, 1000);
-  };
-
-  // const scrollToBottom = () => {
-  //   if (messagesContainerRef.current) {
-  //     messagesContainerRef.current.scrollIntoView({behavior: "smooth"});
-  //   }
-  // };
 
   const scrollToBottom = useCallback(() => {
     const scroll =
@@ -73,47 +56,12 @@ const ChatInterface = ({closeChat}) => {
     const {scrollHeight, scrollTop, clientHeight} = event.target;
     const scrollPosition = scrollHeight - scrollTop - clientHeight;
 
-    if (scrollPosition > 200) {
+    if (scrollPosition > 400) {
       setGoDownIcon(true);
     } else if (scrollPosition <= 0) {
       setGoDownIcon(false);
     }
   };
-
-  useEffect(() => {
-    //scroll to bottom everytime new chat message is added
-    scrollToBottom();
-  }, [chatMessages, scrollToBottom]);
-
-  const messageStatus = status => {
-    switch (status.toLowerCase()) {
-      case "delivered":
-        return (
-          <Typography style={{color: "#17935C", fontSize: "0.75rem"}}>
-            {status}
-          </Typography>
-        );
-
-      case "seen":
-        return (
-          <Typography style={{color: "#FFA500", fontSize: "0.75rem"}}>
-            {status}
-          </Typography>
-        );
-
-      case "failed":
-        return (
-          <Typography style={{color: "#ED0423", fontSize: "0.75rem"}}>
-            {status}
-          </Typography>
-        );
-
-      default:
-        break;
-    }
-  };
-
-  const formatChatMessages = [];
 
   const handleSearchChange = e => {
     const value = e.target.value;
@@ -125,6 +73,14 @@ const ChatInterface = ({closeChat}) => {
     if (message.message?.toLowerCase().includes(searchValue.toLowerCase()))
       return message;
   });
+
+  // useEffect(() => {
+  //   markMsgsAsSeen();
+  // }, [markMsgsAsSeen]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const currentMessages = searchValue === "" ? messages : searchedMessages;
 
@@ -174,121 +130,16 @@ const ChatInterface = ({closeChat}) => {
         onScroll={handleOnScroll}
       >
         {currentMessages.map(messageItem => {
-          const {message, _id, userId, time, name, status, dp} = messageItem;
-          const currentUser = "00";
-          const isUserMsg = currentUser === userId;
           return (
-            <Slide
-              direction="right"
-              in={true}
-              container={chatBoxContainerRef.current}
-              key={_id}
-            >
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: isUserMsg ? "flex-end" : "flex-start",
-                }}
-              >
-                {!isUserMsg && (
-                  <Avatar
-                    src={dp}
-                    sx={{width: "40px", height: "40px", marginRight: "7px"}}
-                  />
-                )}
-                <Box
-                  sx={{
-                    width: "calc(100% - 50px)",
-                    padding: "10px",
-                    boxShadow: 3,
-                    borderRadius: "7.5px",
-                    backgroundColor: isUserMsg ? "#ffffff" : "#0064CC",
-                  }}
-                  mb={2}
-                >
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                    mb={0.7}
-                  >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 0.7,
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontSize: "0.9rem",
-                          color: isUserMsg ? "#0064CC" : "#ffffff",
-                          fontWeight: "600",
-                        }}
-                      >
-                        {name}
-                      </Typography>
-                    </Box>
-                    <Typography
-                      sx={{
-                        fontSize: "0.85rem",
-                        color: isUserMsg ? "#2d2d2d" : "#ffffff",
-                      }}
-                    >
-                      {moment(time).calendar()}
-                    </Typography>
-                  </Box>
-
-                  <Box
-                    sx={{
-                      position: "relative",
-                      width: "100%",
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        fontSize: "0.85rem",
-                        color: isUserMsg ? "#000000" : "#ffffff",
-                      }}
-                    >
-                      <Highlighter
-                        highlightClassName="chat-message-highlight-search"
-                        searchWords={[`${searchValue}`]}
-                        autoEscape={true}
-                        textToHighlight={message}
-                        activeIndex={1}
-                      />
-                      <div style={{width: "50px"}} />
-                    </Typography>
-
-                    <Box
-                      sx={{
-                        width: "100%",
-                        //position: "absolute",
-                        right: 0,
-                        bottom: "0px",
-                        display: "flex",
-                        justifyContent: "flex-end",
-                      }}
-                    >
-                      {isUserMsg && messageStatus(status)}
-                    </Box>
-                  </Box>
-                </Box>
-                {isUserMsg && (
-                  <Avatar
-                    src={dp}
-                    sx={{width: "40px", height: "40px", marginLeft: "7px"}}
-                  />
-                )}
-              </Box>
-            </Slide>
+            <EachChatMessage
+              key={messageItem._id}
+              messageObj={messageItem}
+              searchValue={searchValue}
+              chatBoxContainerRef={chatBoxContainerRef}
+              markAsSeen={markMsgAsSeen}
+            />
           );
         })}
-        {/* <div ref={messagesContainerRef} /> */}
       </Box>
 
       <Box
@@ -305,18 +156,25 @@ const ChatInterface = ({closeChat}) => {
             width: "calc(100% - 50px)",
           }}
         >
-          <input
-            type="text"
-            className="chat-input-box"
-            placeholder="Enter your message..."
-            tabIndex="0"
-            value={message}
-            onChange={handleChange}
-          />
+          <form
+            onSubmit={e => {
+              e.preventDefault();
+              sendMessage();
+            }}
+          >
+            <input
+              type="text"
+              className="chat-input-box"
+              placeholder="Enter your message..."
+              tabIndex="0"
+              value={message}
+              onChange={handleChange}
+            />
+          </form>
         </Box>
 
         <Button
-          onClick={sendNewChatMessage}
+          onClick={sendMessage}
           variant="contained"
           sx={{
             padding: 0,
@@ -326,7 +184,7 @@ const ChatInterface = ({closeChat}) => {
             borderRadius: "50%",
           }}
         >
-          {sending ? <ThreeCirclesSpinner /> : <SendIcon />}
+          {isSendingMessage ? <ThreeCirclesSpinner /> : <SendIcon />}
         </Button>
       </Box>
 

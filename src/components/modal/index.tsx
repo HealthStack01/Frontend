@@ -8,8 +8,8 @@ interface ModalProps {
   open: boolean;
   onClose?: () => void;
   children?: React.ReactNode | undefined;
-  header?: "string";
-  width?: "string";
+  header?: string;
+  width?: string;
 }
 
 const ModalBox: React.FC<ModalProps> = ({
@@ -41,6 +41,8 @@ const ModalBox: React.FC<ModalProps> = ({
         open={open}
         onClose={onClose}
         closeAfterTransition
+        disableEnforceFocus={true}
+        //PaperProps={{tabIndex: -1}}
         // BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,

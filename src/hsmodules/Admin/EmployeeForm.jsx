@@ -50,10 +50,9 @@ export const EmployeeForm = ({open, setOpen}) => {
     },
   });
 
-  const submit = async (data, e) => {
+  const submit = async data => {
     showActionLoader();
-    //setLoading(true);
-    e.preventDefault();
+
     setSuccess(false);
     data.createdby = user._id;
     data.facility = user.currentEmployee.facility;
@@ -70,7 +69,7 @@ export const EmployeeForm = ({open, setOpen}) => {
       })
       .catch(err => {
         hideActionLoader();
-        toast.error(`Sorry, You weren't able to create a Employee. ${err}`);
+        toast.error(`Sorry, You weren't able to create an Employee. ${err}`);
       });
     //setLoading(false);
   };

@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import client from '../../feathers';
 import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
-import { toast } from 'bulma-toast';
+import { toast } from 'react-toastify';
 //import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from '../../context';
 import { FacilitySearch } from '../helpers/FacilitySearch';
@@ -140,12 +140,7 @@ export function OrganizationCreate() {
   const handleClick = () => {
     //check band selected
     if (band === '') {
-      toast({
-        message: 'Band not selected, Please select band',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.info('Band not selected, Please select band');
       return;
     }
 
@@ -162,22 +157,12 @@ export function OrganizationCreate() {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         setSuccess(true);
-        toast({
-          message: 'Organization added succesfully',
-          type: 'is-success',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success('Organization added succesfully');
         setSuccess(false);
         setBand('');
       })
       .catch((err) => {
-        toast({
-          message: 'Error adding organization ' + err,
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error('Error adding organization ' + err);
       });
   };
 

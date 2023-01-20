@@ -989,7 +989,7 @@ export function ProductExitDetail() {
       name: "Name",
       key: "name",
       description: "Enter name of product",
-      selector: row => row.sn,
+      selector: row => row.name,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1037,23 +1037,21 @@ export function ProductExitDetail() {
       <Box
         container
         sx={{
-          width: "100%",
+          width: "85vw",
           maxHeight: "85vh",
         }}
         pt={1}
       >
         <Grid container spacing={1} mb={1}>
-          <Grid item xs={8}>
+          <Grid item lg={4} md={6} sm={6} xs={12}>
             <Input value={ProductEntry.source} label="Supplier" disabled />
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item lg={2} md={4} sm={6} xs={12}>
             <Input value={ProductEntry.type} label="Type" disabled />
           </Grid>
-        </Grid>
 
-        <Grid container spacing={1} mb={1}>
-          <Grid item xs={4}>
+          <Grid item lg={2} md={4} sm={6} xs={12}>
             <Input
               value={
                 ProductEntry.date
@@ -1065,7 +1063,7 @@ export function ProductExitDetail() {
             />
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item lg={2} md={4} sm={6} xs={12}>
             <Input
               value={ProductEntry.documentNo}
               label="Invoice Number"
@@ -1073,7 +1071,7 @@ export function ProductExitDetail() {
             />
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item lg={2} md={4} sm={6} xs={12}>
             <Input
               value={ProductEntry.totalamount}
               label="Total Amount"

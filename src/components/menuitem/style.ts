@@ -17,7 +17,6 @@ export const Lists = styled.ul`
   }
   &.sub-menu.active {
     height: inherit;
-    max-height: 100vh;
   }
 `;
 

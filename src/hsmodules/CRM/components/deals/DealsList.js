@@ -8,6 +8,7 @@ import FilterMenu from "../../../../components/utilities/FilterMenu";
 import CustomTable from "../../../../components/customtable";
 import OpenDealsList from "./OpenDealsList";
 import ClosedDealsList from "./ClosedDealsList";
+import SuspendedDealsList from "./SuspendedDealsList";
 
 const DealsList = ({setDealDetail}) => {
   const [dealType, setDealType] = useState("open");
@@ -16,6 +17,7 @@ const DealsList = ({setDealDetail}) => {
       {dealType === "open" && (
         <OpenDealsList
           showClosedDeals={() => setDealType("closed")}
+          showSuspendedDeals={() => setDealType("suspended")}
           setDealDetail={setDealDetail}
         />
       )}
@@ -23,6 +25,15 @@ const DealsList = ({setDealDetail}) => {
       {dealType === "closed" && (
         <ClosedDealsList
           showOpenDeals={() => setDealType("open")}
+          showSuspendedDeals={() => setDealType("suspended")}
+          setDealDetail={setDealDetail}
+        />
+      )}
+
+      {dealType === "suspended" && (
+        <SuspendedDealsList
+          showOpenDeals={() => setDealType("open")}
+          showClosedDeals={() => setDealType("closed")}
           setDealDetail={setDealDetail}
         />
       )}

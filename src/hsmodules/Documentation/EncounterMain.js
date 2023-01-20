@@ -339,6 +339,9 @@ export default function EncounterMain({nopresc, chosenClient}) {
   };
 
   const handleConfirmDelete = doc => {
+    if (!user?.currentEmployee?.roles?.includes("Delete Document"))
+      return toast.error("You don't have permission to delete Documents");
+
     setDocToDelete(doc);
     setConfirmationDialog(true);
   };
@@ -642,7 +645,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
             {facilities.map((Clinic, i) => (
               <>
                 <Box
-                  mb={3}
+                  mb={1}
                   sx={{
                     display: "flex",
                     flexDirection: "column",
@@ -655,14 +658,14 @@ export default function EncounterMain({nopresc, chosenClient}) {
                     height: "auto",
                     boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
                   }}
-                  key={Clinic._id}
+                  key={i}
                   id={i}
                 >
                   <Box
                     container
                     sx={{
                       width: "100%",
-                      minHeight: "50px",
+                      minHeight: "20px",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
@@ -684,9 +687,9 @@ export default function EncounterMain({nopresc, chosenClient}) {
                     >
                       <span
                         style={{
-                          fontSize: "14px",
+                          fontSize: "0.75rem",
                           fontWeight: "500",
-                          lineHeight: "19.12px",
+                          //lineHeight: "19.12px",
                           color: "#000000",
                         }}
                       >
@@ -697,9 +700,9 @@ export default function EncounterMain({nopresc, chosenClient}) {
                       <span
                         style={{
                           color: "#2d2d2d",
-                          fontSize: "12px",
+                          fontSize: "0.7rem",
                           fontWeight: "400",
-                          lineHeight: "16.39px",
+                          // lineHeight: "16.39px",
                         }}
                       >
                         {format(
@@ -719,15 +722,15 @@ export default function EncounterMain({nopresc, chosenClient}) {
                         alignItems: "center",
                         justifyContent: "flex-start",
                       }}
-                      p={2}
+                      p={0.5}
                       onClick={() => setSelectedClinic(Clinic)}
                     >
                       <Typography
                         mr={0.5}
                         sx={{
-                          fontSize: "14px",
+                          fontSize: "0.75rem",
                           fontWeight: "400",
-                          lineHeight: "19.12px",
+                          // lineHeight: "19.12px",
                           color: "#000000",
                         }}
                       >
@@ -735,9 +738,9 @@ export default function EncounterMain({nopresc, chosenClient}) {
                         {Clinic.location},{Clinic.facilityname} -{" "}
                         <Typography
                           sx={{
-                            fontSize: "14px",
+                            fontSize: "0.75rem",
                             fontWeight: "400",
-                            lineHeight: "19.12px",
+                            //lineHeight: "19.12px",
                             ///color: "orange",
                             color: `${
                               Clinic.status === "completed" ? "green" : "orange"
@@ -825,9 +828,10 @@ export default function EncounterMain({nopresc, chosenClient}) {
                                             color: "#000000",
                                           }}
                                         >
-                                          {dayjs(value).isValid()
+                                          {/* {dayjs(value).isValid()
                                             ? dayjs(value).format("DD/MM/YYYY")
-                                            : value}
+                                            : value} */}
+                                          {value}
                                         </Typography>
                                       </Box>
                                     </Grid>
@@ -864,9 +868,10 @@ export default function EncounterMain({nopresc, chosenClient}) {
                                             color: "#000000",
                                           }}
                                         >
-                                          {dayjs(value).isValid()
+                                          {/* {dayjs(value).isValid()
                                             ? dayjs(value).format("DD/MM/YYYY")
-                                            : value}
+                                            : value} */}
+                                          {value}
                                         </Typography>
                                       </Box>
                                     </Grid>

@@ -112,6 +112,7 @@ export default function ProductEntry() {
 }
 
 export function ProductEntryCreate({closeModal}) {
+  const notificationsServer = client.service("notification");
   const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
 
   const [error, setError] = useState(false);
@@ -249,10 +250,23 @@ export function ProductEntryCreate({closeModal}) {
       return;
     }
 
+    const notificationObj = {
+      type: "Pharmacy",
+      title: "New product(s) in Pharmacy Inventory",
+      description: `${user.firstname} ${user.lastname} added new product(s) to Pharmacy Invetory`,
+      facilityId: user.currentEmployee.facilityDetail.facilityDetail._id,
+      sender: `${user.firstname} ${user.lastname}`,
+      senderId: user._id,
+      pageUrl: "/app/pharmacy/storeinventory",
+      priority: "normal",
+      dest_locationId: [state.StoreModule.selectedStore._id],
+    };
+
     //return console.log(productEntry);
     //console.log("b4 create",productEntry);
     ProductEntryServ.create(productEntry)
-      .then(res => {
+      .then(async res => {
+        await notificationsServer.create(notificationObj);
         //console.log(JSON.stringify(res))
         resetform();
         /*  setMessage("Created ProductEntry successfully") */
@@ -395,7 +409,7 @@ export function ProductEntryCreate({closeModal}) {
               <MuiCustomDatePicker
                 value={date}
                 handleChange={value => handleDate(value)}
-                //dateFormat="dd/MM/yyyy"
+                format="dd/MM/yyyy"
                 label="Pick Date"
               />
             </Grid>
@@ -1039,24 +1053,22 @@ export function ProductEntryDetail({openModifyModal}) {
       <Box
         container
         sx={{
-          width: "100%",
+          width: "85vw",
           maxHeight: "85vh",
           overflowY: "auto",
         }}
         pt={1}
       >
         <Grid container spacing={1} mb={1}>
-          <Grid item xs={8}>
+          <Grid item lg={4} md={6} sm={6} xs={12}>
             <Input value={ProductEntry.source} label="Supplier" disabled />
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item lg={2} md={6} sm={6} xs={12}>
             <Input value={ProductEntry.type} label="Type" disabled />
           </Grid>
-        </Grid>
 
-        <Grid container spacing={1} mb={1}>
-          <Grid item xs={4}>
+          <Grid item lg={2} md={4} sm={6} xs={12}>
             <Input
               value={
                 ProductEntry.date
@@ -1068,7 +1080,7 @@ export function ProductEntryDetail({openModifyModal}) {
             />
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item lg={2} md={4} sm={6} xs={12}>
             <Input
               value={ProductEntry.documentNo}
               label="Invoice Number"
@@ -1076,7 +1088,7 @@ export function ProductEntryDetail({openModifyModal}) {
             />
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item lg={2} md={4} sm={6} xs={12}>
             <Input
               value={ProductEntry.totalamount}
               label="Total Amount"

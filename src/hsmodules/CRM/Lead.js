@@ -21,6 +21,7 @@ import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import {Box, Typography} from "@mui/material";
 import client from "../../feathers";
 import dayjs from "dayjs";
+import {toast} from "react-toastify";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -57,22 +58,6 @@ export default function Leads() {
           handleGoBack={handleGoBack}
         />
       )}
-      {/* 
-      <ModalBox
-        open={createModal}
-        onClose={() => setCreateModal(false)}
-        header="Create New Lead"
-      >
-        <LeadsCreate closeModal={() => setCreateModal(false)} />
-      </ModalBox> */}
-      {/* 
-      <ModalBox
-        open={detailModal}
-        onClose={() => setDetailModal(false)}
-        header="Lead Detail"
-      >
-        <LeadDetail closeModal={() => setDetailModal(false)} />
-      </ModalBox> */}
     </Box>
   );
 }
@@ -103,74 +88,170 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
     showCreate(true);
   };
 
+  const delId = "63a38c888348d400163e51a6";
+
   const handleRow = async data => {
-    //openDetailModal();
     setState(prev => ({
       ...prev,
       DealModule: {...prev.DealModule, selectedDeal: data},
     }));
     showDetail();
+    //dealServer.remove(delId);
+    //console.log(data);
   };
 
-  const handleSearch = val => {};
+  const handleSearch = val => {
+    // eslint-disable-next-line
+    const field = "firstname";
+    //console.log(val);
+    dealServer
+      .find({
+        query: {
+          $or: [
+            {
+              name: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+
+            {
+              phone: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              email: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              type: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              "dealinfo.probability": {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              "dealinfo.currStatus": {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              "dealinfo.size": {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              "dealinfo.nextAction": {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              "dealinfo.size": {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              "dealinfo.weightForecast": {
+                $regex: val,
+                $options: "i",
+              },
+            },
+          ],
+
+          factilityId: user.currentEmployee.facilityDetail._id, // || "",
+          $limit: 100,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      })
+      .then(res => {
+        console.log(res);
+        setFacilities(res.data);
+      })
+      .catch(err => {
+        // toast.error(`Something went wrong!!!! ${err}`);
+        console.log(err);
+      });
+  };
 
   const getFacilities = async () => {
-    showActionLoader();
-    const res = await dealServer.find({});
+    setLoading(true);
+    const testId = "60203e1c1ec8a00015baa357";
+    const facId = user.currentEmployee.facilityDetail._id;
+
+    const res =
+      testId === facId
+        ? await dealServer.find({
+            query: {
+              $sort: {
+                createdAt: -1,
+              },
+            },
+          })
+        : await dealServer.find({
+            query: {
+              facilityId: facId,
+              $sort: {
+                createdAt: -1,
+              },
+            },
+          });
 
     await setFacilities(res.data);
-    console.log(res.data);
-    hideActionLoader();
+
+    setLoading(false);
+  };
+
+  const updateFacilities = async () => {
+    const testId = "60203e1c1ec8a00015baa357";
+    const facId = user.currentEmployee.facilityDetail_id;
+
+    //showActionLoader();
+
+    const res =
+      testId === facId
+        ? await dealServer.find({})
+        : await dealServer.find({
+            query: {
+              facilityId: facId,
+            },
+          });
+
+    await setFacilities(res.data);
+    //console.log(res.data);
+    //hideActionLoader();
   };
 
   useEffect(() => {
     getFacilities();
 
-    dealServer.on("created", obj => getFacilities());
-    dealServer.on("updated", obj => getFacilities());
-    dealServer.on("patched", obj => getFacilities());
-    dealServer.on("removed", obj => getFacilities());
+    dealServer.on("created", obj => updateFacilities());
+    dealServer.on("updated", obj => updateFacilities());
+    dealServer.on("patched", obj => updateFacilities());
+    dealServer.on("removed", obj => updateFacilities());
   }, []);
-
-  const dummyData = [
-    {
-      company_name: "Health Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
-    },
-    {
-      company_name: "Albert Health Stack",
-      telestaff_name: "KTeejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
-    },
-    {
-      company_name: "DonaHealth Stack",
-      telestaff_name: "9Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Inactive",
-    },
-
-    {
-      company_name: "DaviHealth Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
-    },
-  ];
 
   const returnCell = status => {
     switch (status?.toLowerCase()) {
       case "open":
         return <span style={{color: "#17935C"}}>{status}</span>;
 
-      case "pending":
-        return <span style={{color: "#0364FF"}}>{status}</span>;
+      case "suspended":
+        return <span style={{color: "orange"}}>{status}</span>;
 
       case "closed":
         return <span style={{color: "red"}}>{status}</span>;
@@ -199,7 +280,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
           sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
           data-tag="allowRowEvents"
         >
-          {row.name}
+          {row?.name}
         </Typography>
       ),
       sortable: true,
@@ -214,7 +295,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       name: "Customer Type",
       key: "type",
       description: "Enter Telestaff name",
-      selector: row => row.type,
+      selector: row => row?.type,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -227,7 +308,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       name: "Phone",
       key: "phone",
       description: "Enter name of Company",
-      selector: row => row.phone,
+      selector: row => row?.phone,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -242,27 +323,19 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
           sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
           data-tag="allowRowEvents"
         >
-          {row.email}
+          {row?.email}
         </Typography>
       ),
       sortable: true,
       required: true,
       inputType: "HIDDEN",
     },
-    // {
-    //   name: "Telestaff Name",
-    //   key: "telestaff_name",
-    //   description: "Enter Telestaff name",
-    //   selector: row => row.telestaff_name,
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "TEXT",
-    // },
+
     {
       name: "Probability",
       key: "probability",
       description: "Enter bills",
-      selector: row => row.dealinfo.probability,
+      selector: row => row?.dealinfo?.probability,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -272,7 +345,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       name: "Date Submitted",
       key: "date",
       description: "Enter name of Disease",
-      selector: (row, i) => dayjs(row.createdAt).format("DD/MM/YYYY"),
+      selector: (row, i) => dayjs(row?.createdAt).format("DD/MM/YYYY"),
       sortable: true,
       required: true,
       inputType: "DATE",
@@ -282,7 +355,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       key: "dealinfo",
       description: "Enter bills",
       selector: "status",
-      cell: row => returnCell(row.dealinfo.currStatus),
+      cell: row => returnCell(row?.dealinfo?.currStatus),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -300,7 +373,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
           sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
           data-tag="allowRowEvents"
         >
-          {row.dealinfo.nextAction}
+          {row?.dealinfo?.nextAction}
         </Typography>
       ),
       sortable: true,
@@ -312,7 +385,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       key: "dealinfo",
       description: "Enter bills",
       selector: "status",
-      cell: row => row.dealinfo.size,
+      cell: row => row?.dealinfo?.size,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -323,7 +396,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       key: "dealinfo",
       description: "Enter bills",
       selector: "status",
-      cell: row => row.dealinfo.weightForecast,
+      cell: row => row?.dealinfo?.weightForecast,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -349,6 +422,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
               Add new Lead
             </GlobalCustomButton>
           </TableMenu>
+
           <div style={{width: "100%", overflow: "auto"}}>
             <CustomTable
               title={""}

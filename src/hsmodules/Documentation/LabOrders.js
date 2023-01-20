@@ -22,10 +22,13 @@ import GlobalCustomButton from "../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
+
+import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 const searchfacility = {};
+
+const filter = createFilterOptions();
 
 export default function LabOrders() {
   const {state} = useContext(ObjectContext); //,setState
@@ -1268,6 +1271,16 @@ export function TestHelperSearch({
     //console.log(state)
   };
 
+  const handleAddproduct = () => {
+    let obj = {
+      test: val,
+    };
+
+    handleRow(obj);
+
+    // setProductModal(true)
+  };
+
   const handleSearch = async value => {
     setVal(value);
     if (value === "") {
@@ -1334,9 +1347,21 @@ export function TestHelperSearch({
       <Autocomplete
         size="small"
         value={simpa}
-        onChange={(event, newValue) => {
-          handleRow(newValue);
-          setSimpa("");
+        onChange={(event, newValue, reason) => {
+          if (reason === "clear") {
+            setSimpa("");
+          } else {
+            if (typeof newValue === "string") {
+              // timeout to avoid instant validation of the dialog's form.
+              setTimeout(() => {
+                handleAddproduct();
+              });
+            } else if (newValue && newValue.inputValue) {
+              handleAddproduct();
+            } else {
+              handleRow(newValue);
+            }
+          }
         }}
         id="free-solo-dialog-demo"
         options={facilities}
@@ -1356,6 +1381,18 @@ export function TestHelperSearch({
           handleSearch(newInputValue);
         }}
         inputValue={val}
+        filterOptions={(options, params) => {
+          const filtered = filter(options, params);
+
+          if (params.inputValue !== "") {
+            filtered.push({
+              inputValue: params.inputValue,
+              test: `Use "${params.inputValue}" as Default"`,
+            });
+          }
+
+          return filtered;
+        }}
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys

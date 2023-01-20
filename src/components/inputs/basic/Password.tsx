@@ -58,11 +58,9 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
       </InputBox>
 
       {errors && (
-        <p>
-          <label style={{color: "red", fontSize: "0.7rem", textAlign: "left"}}>
-            {errors}
-          </label>
-        </p>
+        <label style={{color: "red", fontSize: "0.7rem", textAlign: "left"}}>
+          {errors}
+        </label>
       )}
     </div>
     // <div>

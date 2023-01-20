@@ -14,7 +14,7 @@ import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {Box, Typography} from "@mui/material";
 import CheckboxInput from "../../components/inputs/basic/Checkbox";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
-import {modulesList} from "./modulelist-data";
+import {modulesList, actionRoles} from "./modulelist-data";
 
 import "react-checkbox-tree/lib/react-checkbox-tree.css";
 
@@ -215,7 +215,7 @@ export default function ModuleList({handlecloseModal}) {
 
         <Box>
           <CheckboxTree
-            nodes={facilityModulesList || modulesList}
+            nodes={facilityModulesList.concat(actionRoles) || modulesList}
             checked={checked}
             expanded={expanded}
             onCheck={checked => setChecked(checked)}

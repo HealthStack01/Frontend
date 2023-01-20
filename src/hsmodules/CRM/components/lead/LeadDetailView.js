@@ -1,4 +1,4 @@
-import {useState, useEffect, useContext} from "react";
+import {useState, useEffect, useContext, useCallback} from "react";
 import {Button, Grid, Box, Collapse, Typography} from "@mui/material";
 import Input from "../../../../components/inputs/basic/Input";
 import {useForm} from "react-hook-form";
@@ -7,6 +7,12 @@ import UpgradeOutlinedIcon from "@mui/icons-material/UpgradeOutlined";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import moment from "moment";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import ChatIcon from "@mui/icons-material/Chat";
+import Badge from "@mui/material/Badge";
+import Drawer from "@mui/material/Drawer";
+import LinkIcon from "@mui/icons-material/Link";
+import DocViewer, {DocViewerRenderers} from "@cyntler/react-doc-viewer";
 
 import {FormsHeaderText} from "../../../../components/texts";
 import CustomSelect from "../../../../components/inputs/basic/Select";
@@ -40,11 +46,16 @@ import CRMTasks from "../../Tasks";
 import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
 import LeadDetailView, {PageLeadDetailView} from "../global/LeadDetail";
 import VideoConference from "../../../utils/VideoConference";
-import {ObjectContext} from "../../../../context";
+import {ObjectContext, UserContext} from "../../../../context";
 import client from "../../../../feathers";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 import StaffDetail from "../assigned-staffs/StaffDetail";
 import Invoice from "../../Invoice";
+import SLA from "../../SLA";
+import ChatInterface from "../../../../components/chat/ChatInterface";
+import GlobalDealChat from "../global/DealChat";
+import dayjs from "dayjs";
+import SendLinkViaEmail from "../deals/SendLink";
 
 export const LeadView = () => {
   const {register, reset, control, handleSubmit} = useForm();
@@ -192,29 +203,95 @@ export const DetailView = () => {
         <Grid item lg={6} md={12} sm={12}>
           <AdditionalInformationView />
         </Grid>
+
+        <Grid item lg={6} md={12} sm={12}>
+          <StatusHistoryView />
+        </Grid>
       </Grid>
     </>
   );
 };
 
 export const AdditionalInformationView = () => {
-  const {state} = useContext(ObjectContext);
+  const dealServer = client.service("deal");
+  const {state, setState, hideActionLoader, showActionLoader} =
+    useContext(ObjectContext);
   const [createModal, setCreateModal] = useState(false);
-  const [informations, setInformations] = useState([
-    ...state.DealModule.selectedDeal.additionalInfo,
-  ]);
+  const [informations, setInformations] = useState([]);
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    action: null,
+    message: "",
+    type: "",
+  });
   //const [informations, setInformations] = useState([]);
 
   const removeAdditionalInfo = info => {
     setInformations(prev => prev.filter(item => item._id !== info._id));
   };
 
-  // const addNewInfo = data => {
-  //   setInformations(prev => [data, ...prev]);
-  // };
+  const deleteAdditionalInfo = async info => {
+    showActionLoader();
+
+    const oldDealInfo = state.DealModule.selectedDeal.additionalInfo || [];
+
+    const updatedDealInfo = oldDealInfo.filter(item => item._id !== info._id);
+
+    const documentId = state.DealModule.selectedDeal._id;
+
+    await dealServer
+      .patch(documentId, {additionalInfo: updatedDealInfo})
+      .then(res => {
+        hideActionLoader();
+        setState(prev => ({
+          ...prev,
+          DealModule: {...prev.DealModule, selectedDeal: res},
+        }));
+        cancelConfirm();
+        toast.success(`You have successfully Deleted Addtional Information!`);
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error(
+          `Sorry, You weren't able to Delete the Addtional Information!. ${err}`
+        );
+      });
+  };
+
+  const confirmDelete = info => {
+    setConfirmDialog({
+      open: true,
+      message:
+        "You're about to delete an additional information for this deal?",
+      type: "danger",
+      action: () => deleteAdditionalInfo(info),
+    });
+  };
+
+  const cancelConfirm = () => {
+    setConfirmDialog({
+      open: false,
+      action: null,
+      type: "",
+      message: "",
+    });
+  };
+
+  useEffect(() => {
+    const infos = state.DealModule.selectedDeal.additionalInfo;
+
+    setInformations(infos);
+  }, [state.DealModule.selectedDeal]);
 
   return (
     <Box>
+      <CustomConfirmationDialog
+        open={confirmDialog.open}
+        type={confirmDialog.type}
+        message={confirmDialog.message}
+        cancelAction={cancelConfirm}
+        confirmationAction={confirmDialog.action}
+      />
       <Box
         sx={{
           display: "flex",
@@ -242,7 +319,7 @@ export const AdditionalInformationView = () => {
             <Box sx={{mb: 2}}>
               <AdditionalInformationCard
                 data={info}
-                action={() => removeAdditionalInfo(info)}
+                action={() => confirmDelete(info)}
                 key={index}
               />
             </Box>
@@ -461,25 +538,209 @@ export const StaffsListView = () => {
   );
 };
 
+export const StatusHistoryView = () => {
+  const dealServer = client.service("deal");
+  const {state, setState, hideActionLoader, showActionLoader} =
+    useContext(ObjectContext);
+  const [histories, setHistories] = useState([]);
+
+  const historyColumns = [
+    {
+      name: "SN",
+      key: "sn",
+      description: "Enter Date",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      width: "50px",
+    },
+    {
+      name: "Updated By",
+      key: "sn",
+      description: "Enter Date",
+      selector: (row, i) => row?.employeename,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+    {
+      name: "Updated At",
+      key: "sn",
+      description: "Enter Date",
+      selector: (row, i) => dayjs(row.date).format("DD/MM/YYYY hh:mm A"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+    {
+      name: "Status",
+      key: "sn",
+      description: "Enter Date",
+      selector: (row, i) => row.status,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+  ];
+
+  const handleRow = () => {};
+
+  useEffect(() => {
+    const history = state.DealModule.selectedDeal.statushx;
+    setHistories(history);
+  }, [state.DealModule]);
+
+  return (
+    <Box>
+      <FormsHeaderText text="Deal's Status History" />
+      <Box mt={1} mb={1}>
+        <CustomTable
+          title={"Contact List"}
+          columns={historyColumns}
+          data={histories}
+          pointerOnHover
+          highlightOnHover
+          striped
+          onRowClicked={handleRow}
+          CustomEmptyData="No Status History for this Deal yet..."
+          progressPending={false}
+          //conditionalRowStyles={conditionalRowStyles}
+        />
+      </Box>
+    </Box>
+  );
+};
+
 export const UploadView = () => {
+  const dealServer = client.service("deal");
   const [uploads, setUploads] = useState([]);
   const [uploadModal, setUploadModal] = useState(false);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+  const [viewModal, setViewModal] = useState(false);
+  const [selectedDoc, setSelectedDoc] = useState({});
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    type: "",
+    message: "",
+    action: null,
+  });
 
-  const handleAddUpload = data => {
-    setUploads(prev => [data, ...prev]);
+  useEffect(() => {
+    const currentDeal = state.DealModule.selectedDeal;
+    setUploads(currentDeal.uploads || []);
+  }, [state.DealModule]);
+
+  const handleRow = doc => {
+    console.log(doc);
+    setSelectedDoc(doc);
+    setViewModal(true);
   };
 
-  const uploadColumns = getUploadColumns();
+  const handleDelete = async item => {
+    showActionLoader();
+
+    const currentDeal = state.DealModule.selectedDeal;
+
+    const prevUploads = currentDeal.uploads || [];
+
+    const newUploads = prevUploads.filter(upload => upload._id !== item._id);
+
+    const documentId = currentDeal._id;
+
+    await dealServer
+      .patch(documentId, {uploads: newUploads})
+      .then(resp => {
+        hideActionLoader();
+        setState(prev => ({
+          ...prev,
+          DealModule: {...prev.DealModule, selectedDeal: resp},
+        }));
+
+        handleCancelConfirm();
+
+        toast.success("Document has been sucessfully Deleted");
+      })
+      .catch(error => {
+        hideActionLoader();
+        toast.error(`An error occured whilst Deleting your Document ${error}`);
+        console.error(error);
+      });
+  };
+
+  const handleConfirmDelete = item => {
+    setConfirmDialog({
+      open: true,
+      type: "danger",
+      message: `You are about to deleted an uploaded Document ${item.name}?`,
+      action: () => handleDelete(item),
+    });
+  };
+
+  const handleCancelConfirm = () => {
+    setConfirmDialog({
+      open: false,
+      type: "",
+      message: "",
+      action: null,
+    });
+  };
+
+  const uploadColumns = getUploadColumns(handleConfirmDelete);
+
   return (
-    <>
+    <Box pl={2} pr={2}>
+      <CustomConfirmationDialog
+        open={confirmDialog.open}
+        type={confirmDialog.type}
+        message={confirmDialog.message}
+        confirmationAction={confirmDialog.action}
+        cancelAction={handleCancelConfirm}
+      />
+      <ModalBox
+        open={viewModal}
+        onClose={() => setViewModal(false)}
+        header={`View Document ${selectedDoc?.name}`}
+      >
+        <Box sx={{width: "85vw", height: "85vh"}}>
+          {selectedDoc?.type === "image" ? (
+            <iframe
+              style={{width: "100%", height: "100%"}}
+              src={selectedDoc?.uploadUrl}
+            />
+          ) : (
+            <>
+              {selectedDoc?.fileType === "pdf" ? (
+                <iframe
+                  style={{width: "100%", height: "100%"}}
+                  src={selectedDoc?.uploadUrl}
+                />
+              ) : (
+                <iframe
+                  style={{width: "100%", height: "100%"}}
+                  src={`https://view.officeapps.live.com/op/embed.aspx?src=${selectedDoc?.uploadUrl}`}
+                />
+              )}
+            </>
+          )}
+        </Box>
+      </ModalBox>
       <Box
         sx={{
           display: "flex",
           alignItem: "center",
           justifyContent: "space-between",
         }}
-        pl={2}
-        pr={2}
       >
         <FormsHeaderText text="Uploaded Docs" />
 
@@ -501,7 +762,7 @@ export const UploadView = () => {
           pointerOnHover
           highlightOnHover
           striped
-          //onRowClicked={handleRow}
+          onRowClicked={handleRow}
           CustomEmptyData="You haven't Uploaded any file(s) yet..."
           progressPending={false}
         />
@@ -512,45 +773,108 @@ export const UploadView = () => {
         onClose={() => setUploadModal(false)}
         header="Upload"
       >
-        <LeadUpload
-          closeModal={() => setUploadModal(false)}
-          addUpload={handleAddUpload}
-        />
+        <LeadUpload closeModal={() => setUploadModal(false)} />
       </ModalBox>
-    </>
-  );
-};
-
-const AppointmentsView = () => {
-  return (
-    <>
-      <CrmAppointment standAlone={true} />
-    </>
-  );
-};
-
-const ProposalsView = () => {
-  return (
-    <>
-      <CrmProposals standAlone={true} />
-    </>
+    </Box>
   );
 };
 
 const LeadDetail = ({handleGoBack}) => {
+  const dealServer = client.service("deal");
+  const {state} = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
   const [currentView, setCurrentView] = useState("detail");
   const [scheduleAppointment, setScheduleAppointment] = useState(false);
   const [activateCall, setActivateCall] = useState(false);
+  const [chat, setChat] = useState(false);
+  const [unreadMsgs, setUnreadMsgs] = useState([]);
+  const [dealStatus, setDealStatus] = useState("");
+  const [sendLinkModal, setSendLinkModal] = useState(false);
+  const [numOfMsg, setNumOfMsg] = useState(0);
 
   const handleSetCurrentView = view => {
     setCurrentView(view);
   };
 
+  const getUnReadMessages = useCallback(async () => {
+    const id = state.DealModule.selectedDeal._id;
+    const userId = user.currentEmployee.userId;
+    console.log(userId);
+    const resp = await dealServer.find({
+      // "chat.seen": {$nin: [userId]},
+
+      query: {
+        //lga: "Ikeja",
+        //_id: id,
+        // $select: ["chat"],
+        //lga: "Ikeja",
+        "chat.seen": {$in: [userId]},
+      },
+    });
+
+    const data = resp.data;
+    //setNumOfMsg(data.chat.length);
+    console.log(data);
+  }, []);
+
+  const getUnreadMessagesCount = useCallback(async () => {
+    setUnreadMsgs([]);
+    const id = state.DealModule.selectedDeal._id;
+    const userId = user.currentEmployee.userId;
+    // console.log(userId);
+    await dealServer
+      .find({
+        query: {
+          _id: id,
+          $select: ["chat"],
+        },
+      })
+      .then(resp => {
+        const data = resp.data[0];
+        const msgs = data.chat;
+        console.log(msgs);
+        msgs.map(msg => {
+          if (
+            msg.senderId === userId ||
+            msg.seen.includes(userId) ||
+            unreadMsgs.includes(msg._id)
+          ) {
+            return;
+          } else {
+            return setUnreadMsgs(prev => [msg._id, ...prev]);
+          }
+        });
+      })
+      .catch(err => {
+        // toast.error("There was an error getting messages for this chat");
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    getUnreadMessagesCount();
+  }, []);
+
+  useEffect(() => {
+    dealServer.on("created", obj => getUnreadMessagesCount());
+    dealServer.on("updated", obj => getUnreadMessagesCount());
+    dealServer.on("patched", obj => getUnreadMessagesCount());
+    dealServer.on("removed", obj => getUnreadMessagesCount());
+  }, []);
+
+  useEffect(() => {
+    const deal = state.DealModule.selectedDeal.dealinfo;
+
+    setDealStatus(deal.currStatus);
+  }, [state.DealModule]);
+
+  //console.log(unreadMsgs);
+
   return (
     <Box
       sx={{
         width: "100%",
-        height: "calc(100vh - 100px)",
+        height: "calc(100vh - 80px)",
         overflowY: "auto",
         position: "relative",
       }}
@@ -558,7 +882,7 @@ const LeadDetail = ({handleGoBack}) => {
       <Box
         sx={{
           display: "flex",
-          alignItems: "center",
+          alignItems: "flex-start",
           justifyContent: "space-between",
           borderBottom: "1px solid #f8f8f8",
           backgroundColor: "#f8f8f8",
@@ -569,6 +893,7 @@ const LeadDetail = ({handleGoBack}) => {
         }}
         mb={2}
         p={2}
+        pb={1}
       >
         <Box
           sx={{
@@ -588,11 +913,40 @@ const LeadDetail = ({handleGoBack}) => {
               fontWeight: "600",
             }}
           >
-            Lead Details
+            Deal Details
           </Typography>
         </Box>
 
-        <Box sx={{display: "flex", justifyContent: "flex-end"}} mb={2} gap={1}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            width: "calc(100% - 250px)",
+            flexWrap: "wrap",
+          }}
+          mb={2}
+          gap={1}
+        >
+          {dealStatus.toLowerCase() === "closed" && (
+            <GlobalCustomButton
+              color="info"
+              onClick={() => setSendLinkModal(true)}
+            >
+              <LinkIcon fontSize="small" sx={{marginRight: "2px"}} /> Send Link
+            </GlobalCustomButton>
+          )}
+
+          <Badge
+            badgeContent={unreadMsgs.length}
+            color="secondary"
+            sx={{marginRight: "10px"}}
+          >
+            <GlobalCustomButton onClick={() => setChat(true)}>
+              <ChatIcon fontSize="small" sx={{marginRight: "2px"}} />
+              Chats
+            </GlobalCustomButton>
+          </Badge>
+
           <Box>
             <VideoConference
               activateCall={activateCall}
@@ -699,6 +1053,23 @@ const LeadDetail = ({handleGoBack}) => {
           </GlobalCustomButton>
 
           <GlobalCustomButton
+            onClick={() => handleSetCurrentView("sla")}
+            sx={
+              currentView === "sla"
+                ? {
+                    backgroundColor: "#ffffff",
+                    color: "#000000",
+                    "&:hover": {
+                      backgroundColor: "#ffffff",
+                    },
+                  }
+                : {}
+            }
+          >
+            SLA
+          </GlobalCustomButton>
+
+          <GlobalCustomButton
             onClick={() => handleSetCurrentView("invoice")}
             color="warning"
             sx={
@@ -754,28 +1125,45 @@ const LeadDetail = ({handleGoBack}) => {
         </Box>
       </Box>
 
-      {/* <Box pl={2}>
-        <FormsHeaderText text={currentView} />
-      </Box> */}
-
       <Box>
         {currentView === "detail" && <DetailView />}
         {currentView === "contacts" && <Contact />}
         {currentView === "staffs" && <StaffsListView />}
         {currentView === "tasks" && <CRMTasks />}
         {currentView === "uploads" && <UploadView />}
-        {currentView === "proposal" && <ProposalsView />}
-        {currentView === "appointments" && <AppointmentsView />}
-        {currentView === "invoice" && <Invoice />}
+        {currentView === "proposal" && <CrmProposals isTab={true} />}
+        {currentView === "appointments" && <CrmAppointment isTab={true} />}
+        {currentView === "invoice" && <Invoice isTab={true} />}
+        {currentView === "sla" && <SLA isTab={true} />}
       </Box>
 
-      {/* <ModalBox
-        open={scheduleAppointment}
-        onClose={() => setScheduleAppointment(false)}
-        header="Schedule Appointment"
+      <ModalBox
+        open={sendLinkModal}
+        onClose={() => setSendLinkModal(false)}
+        header={`Send Organization Link`}
       >
-        <ScheduleAppointment closeModal={() => setScheduleAppointment(false)} />
-      </ModalBox> */}
+        <SendLinkViaEmail
+          closeModal={() => setSendLinkModal(false)}
+          defaultToEmail={state.DealModule.selectedDeal.email}
+        />
+      </ModalBox>
+
+      <Drawer
+        anchor="right"
+        open={chat}
+        onClose={() => setChat(false)}
+        onOpen={() => setChat(true)}
+      >
+        <Box
+          sx={{
+            width: "500px",
+            height: "100vh",
+            overflowY: "hidden",
+          }}
+        >
+          {chat && <GlobalDealChat closeChat={() => setChat(false)} />}
+        </Box>
+      </Drawer>
     </Box>
   );
 };
