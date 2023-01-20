@@ -28,7 +28,7 @@ const random = require("random-string-generator");
 
 const InvoiceCreate = ({closeModal, handleGoBack}) => {
   const dealServer = client.service("deal");
-  const HealthPlanServ = client.service("healthplan");
+  const notificationsServer = client.service("notification");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
@@ -68,6 +68,17 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
       customerCountry: currentDeal.country,
       status: "Pending",
       _id: uuidv4(),
+    };
+
+    const notificationObj = {
+      type: "CRM",
+      title: "New Invoice Created For a Deal",
+      description: `${employee.firstname} ${employee.lastname} Created a new Invoi with ${data.type} ${data.name} in CRM`,
+      facilityId: employee.facilityDetail._id,
+      sender: `${employee.firstname} ${employee.lastname}`,
+      senderId: employee._id,
+      pageUrl: location.pathname,
+      priority: "normal",
     };
 
     //return console.log(document);

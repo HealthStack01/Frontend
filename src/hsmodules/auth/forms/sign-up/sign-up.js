@@ -5,6 +5,9 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import CircularProgress from "@mui/material/CircularProgress";
 import {Link, useNavigate} from "react-router-dom";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -61,6 +64,8 @@ const OrganizationSignup = () => {
   const [creatingAdmin, setcreatingAdmin] = useState(false);
   const [signingIn, setSigningIn] = useState(false);
   const {user, setUser} = useContext(UserContext);
+
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   const navigate = useNavigate();
 
@@ -131,10 +136,8 @@ const OrganizationSignup = () => {
   };
 
   const handleCompleteRegistration = async data => {
-    // return toast.error(
-    //   "Can't create Organization now, working on it to make it better"
-    // );
-    // return console.log(facilityData);
+    if (!agreedToTerms)
+      return toast.error("Please agree to our Terms and Conditions");
     setCreatingOrganization(true);
 
     const selectedType = orgTypeModules.find(
@@ -219,25 +222,6 @@ const OrganizationSignup = () => {
     }
   }
 
-  const handleDummySignUp = () => {
-    setCreatingOrganization(true);
-
-    setTimeout(() => {
-      setCreatingOrganization(false);
-      setcreatingAdmin(true);
-    }, 2000);
-
-    setTimeout(() => {
-      setcreatingAdmin(false);
-      setSigningIn(true);
-    }, 4000);
-
-    setTimeout(() => {
-      //setcreatingAdmin(false);
-      setSigningIn(false);
-    }, 6000);
-  };
-
   return (
     <Box
       sx={{
@@ -309,10 +293,48 @@ const OrganizationSignup = () => {
             // boxShadow: "3",
             // maxHeight: "25rem",
           }}
-          mb={2}
+          mb={1.5}
         >
           {ActiveFormStep(activeStep)}
         </Box>
+
+        {activeStep === steps.length - 1 && (
+          <Box
+            sx={{
+              width: "25rem",
+              display: "flex",
+              justifyContent: "flex-start",
+            }}
+            mb={1}
+          >
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    size="small"
+                    checked={agreedToTerms}
+                    onChange={e => setAgreedToTerms(e.target.checked)}
+                  />
+                }
+                label={
+                  <Typography
+                    sx={{
+                      fontSize: "0.8rem",
+                    }}
+                  >
+                    Please confrm that you agree to our
+                    <GlobalCustomButton
+                      variant="text"
+                      onClick={() => console.log("hello world")}
+                    >
+                      Terms & Condtions
+                    </GlobalCustomButton>
+                  </Typography>
+                }
+              />
+            </FormGroup>
+          </Box>
+        )}
 
         <Box
           sx={{
