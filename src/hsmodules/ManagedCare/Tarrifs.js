@@ -55,73 +55,6 @@ const tariffSchema = [
 	},
 ];
 
-const ServiceSchema = [
-	{
-		name: 'S/N',
-		key: 'sn',
-		description: 'S/N',
-		selector: (row, i) => i + 1,
-		sortable: true,
-		required: true,
-		inputType: 'HIDDEN',
-		width: '50px',
-	},
-	{
-		name: 'Service Name',
-		key: 'servicename',
-		description: 'Service Name',
-		selector: (row) => row?.name,
-		sortable: true,
-		required: true,
-		inputType: 'TEXT',
-	},
-	{
-		name: 'Category',
-		key: 'category',
-		description: 'Panel',
-		selector: (row) => row?.category,
-		sortable: true,
-		required: true,
-		inputType: 'TEXT',
-	},
-	// {
-	// 	name: 'Plan',
-	// 	key: 'plan',
-	// 	description: 'Plan',
-	// 	selector: (row) =>
-	// 		row?.contracts?.map((item) =>
-	// 			item.plans?.map((plan, i) => (
-	// 				<Typography
-	// 					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
-	// 					data-tag='allowRowEvents'
-	// 					key={i}>
-	// 					<b>{plan?.serviceClass}</b>
-	// 					<br />
-	// 					<b>PreAuth?</b>: {plan?.reqAuthCode === true ? 'Yes' : 'No'}
-	// 					<br />
-	// 					<b>Co-Pay</b>: {plan.copay?.length > 0 ? `₦${plan?.copay}` : 'N/A'}
-	// 				</Typography>
-	// 			)),
-	// 		),
-
-	// 	sortable: true,
-	// 	required: true,
-	// 	inputType: 'TEXT',
-	// },
-	{
-		name: 'Price',
-		key: 'price',
-		description: 'Price',
-		selector: (row) =>
-			row?.contracts?.map((item) =>
-				item?.source_org === item?.dest_org ? `₦${item?.price}` : null,
-			),
-		sortable: true,
-		required: true,
-		inputType: 'TEXT',
-	},
-];
-
 const TarrifList = () => {
 	const [showModal, setShowModal] = useState(false);
 	const [showView, setShowView] = useState(false);
@@ -136,8 +69,215 @@ const TarrifList = () => {
 	const [message, setMessage] = useState('');
 	const [facilities, setFacilities] = useState([]);
 	const [selectedServices, setSelectedServices] = useState([]);
+	const [selectedFacilities, setSelectedFacilities] = useState([]);
 	const [selectedCategory, setSelectedCategory] = useState();
-
+	const [totalServices, setTotalServices] = useState(0);
+	const [totalFacilities, setTotalFacilities] = useState(0);
+	const [newFacility, setNewFacility] = useState([]);
+	const [slide, setSlide] = useState(false);
+	const [changeView, setChangeView] = useState('service');
+	const ServiceSchema = [
+		{
+			name: 'S/N',
+			key: 'sn',
+			description: 'S/N',
+			selector: (row, i) => i + 1,
+			sortable: true,
+			required: true,
+			inputType: 'HIDDEN',
+			width: '50px',
+		},
+		{
+			name: 'Band Name',
+			key: 'bandname',
+			description: 'Band Name',
+			selector: (row) => row?.band,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'No of Facilities',
+			key: 'nofacilities',
+			description: 'No of Facilities',
+			selector: (row) =>
+				row?.contracts
+					?.map((healist) => healist?.source_org_name)
+					.filter((v, i, a) => a.indexOf(v) === i).length,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'No of Services',
+			key: 'noservices',
+			description: 'No of Services',
+			selector: (row) => row?.contracts?.length,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+	];
+	const conditionalRowStyles = [
+		{
+			when: (row) => row?.band === newFacility?.map((item) => item?.band),
+			style: {
+				backgroundColor: '#4cc9f0',
+				color: 'white',
+				'&:hover': {
+					cursor: 'pointer',
+				},
+			},
+		},
+	];
+	const productItemSchema = [
+		{
+			name: 'S/N',
+			key: 'sn',
+			description: 'S/N',
+			selector: (row, i) => i + 1,
+			sortable: true,
+			required: true,
+			inputType: 'HIDDEN',
+			width: '50px',
+		},
+		{
+			name: 'Service Name',
+			key: 'service',
+			description: 'Service Name',
+			selector: (row) => row?.serviceName,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Plan',
+			key: 'plan',
+			description: 'Plan',
+			selector: (row) =>
+				row?.plans?.map((plan, i) => (
+					<Typography
+						sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
+						data-tag='allowRowEvents'
+						key={i}>
+						<b>{plan?.serviceClass}</b>
+						<br />
+						<b>PreAuth?</b>: {plan?.reqAuthCode === true ? 'Yes' : 'No'}
+						<br />
+						<b>Co-Pay</b>: {plan.copay?.length > 0 ? `₦${plan?.copay}` : 'N/A'}
+					</Typography>
+				)),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Category',
+			key: 'category',
+			description: 'Category',
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					{row?.category}
+				</Typography>
+			),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Duration',
+			key: 'duration',
+			description: 'Duration',
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					{row?.duration}
+				</Typography>
+			),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Frequency',
+			key: 'frequency',
+			description: 'Frequency',
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					{row?.frequency}
+				</Typography>
+			),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		// {
+		// 	name: 'Limit',
+		// 	key: 'limit',
+		// 	description: 'Limit',
+		// 	selector: (row) => (
+		// 		<Typography
+		// 			sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
+		// 			data-tag='allowRowEvents'>
+		// 			{row?.limit}
+		// 		</Typography>
+		// 	),
+		// 	sortable: true,
+		// 	required: true,
+		// 	inputType: 'TEXT',
+		// },
+		{
+			name: 'Status',
+			key: 'status',
+			description: 'Status',
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					{row?.status}
+				</Typography>
+			),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Billing type',
+			key: 'billingtype',
+			description: 'Billing type',
+			selector: (row) => row?.billing_type,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+	];
+	const facilitySchema = [
+		{
+			name: 'S/N',
+			key: 'sn',
+			description: 'S/N',
+			selector: (row, i) => i + 1,
+			sortable: true,
+			required: true,
+			inputType: 'HIDDEN',
+			width: '50px',
+		},
+		{
+			name: 'Facility Name',
+			key: 'facility',
+			description: 'Facility Name',
+			selector: (row) => row?.dest_org_name,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+	];
+	console.log(selectedFacilities);
 	const handleCreateNew = async () => {
 		const newServicesModule = {
 			selectedServices: {},
@@ -148,9 +288,11 @@ const TarrifList = () => {
 			ServicesModule: newServicesModule,
 		}));
 	};
-	const handleRow = async (Service) => {
+	const handleRow = async (Service, i) => {
 		console.log(Service);
-		await setSelectedServices(Service?.services);
+		setSlide(!slide);
+		await setSelectedServices(Service?.contracts);
+		await setSelectedFacilities(Service?.contracts);
 		const newServicesModule = {
 			selectedServices: Service,
 			show: 'detail',
@@ -198,8 +340,6 @@ const TarrifList = () => {
 			const findServices = await ServicesServ.find({
 				query: {
 					organizationId: user.currentEmployee.facilityDetail._id,
-					$limit: 20,
-					'contracts.source_org': state.facilityModule.selectedFacility._id,
 					$sort: {
 						createdAt: -1,
 					},
@@ -224,28 +364,27 @@ const TarrifList = () => {
 		ServicesServ.on('removed', (obj) => getFacilities());
 		return () => {};
 	}, [state.facilityModule.selectedFacility]);
-
-	// const filterServiceFacility = facilities?.filter(
-	// 	(item) => item?.plans?.length > 0,
-	// );
-
-	// get all the contacts array from from the faliity array
-	const filterServiceFacility = facilities?.map((item) => item?.contracts);
-	// join all the individual objects in the facility into one array
-	const allContacts = [].concat.apply([], filterServiceFacility);
-	console.log(allContacts);
-	// group the array by the objects with the same band, band is an array of strings
-	var groupedContacts = allContacts.reduce((r, a) => {
-		const { band } = a;
-		r[band] = r[band] ?? [];
-		r[band].push(a);
-		return r;
-	}, {});
-	console.log(groupedContacts);
-	const allPlan = groupedContacts?.map((item) => item?.plans);
-	console.log(allPlan);
+	useEffect(() => {
+		let list = [];
+		facilities?.map((item) => {
+			item?.contracts?.map((healist) => {
+				list.push(healist);
+			});
+		});
+		// list.band with the same name and same facility should be grouped together and displayed as one array
+		const grouped = list.reduce((r, a) => {
+			r[a.band] = [...(r[a.band] || []), a];
+			return r;
+		}, {});
+		const groupedArray = Object.keys(grouped).map((key) => ({
+			band: key,
+			contracts: grouped[key],
+		}));
+		setNewFacility(groupedArray);
+	}, [facilities]);
+	console.log(newFacility?.map((item) => item?.band.toString()));
 	return (
-		<>
+		<div style={{}}>
 			<Portal>
 				<ModalBox
 					open={showModal}
@@ -259,81 +398,122 @@ const TarrifList = () => {
 					open={showView}
 					onClose={() => setShowView(false)}
 					width='50vw'>
-					<TariffView tariff={selectedCategory} />
+					<TariffView service={selectedCategory} />
 				</ModalBox>
 			</Portal>
 
-			<PageWrapper>
-				<Box sx={{ width: '98%', margin: '0 auto' }}>
-					<TableMenu>
-						<div style={{ display: 'flex', alignItems: 'center' }}>
-							<h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
-								List of Tariffs
-							</h2>
-							{handleSearch && (
-								<div className='inner-table'>
-									<FilterMenu onSearch={handleSearch} />
-								</div>
-							)}
-						</div>
+			<Box
+				sx={{
+					width: '98%',
+					margin: '0 auto',
+				}}>
+				{!slide && (
+					<>
+						<TableMenu>
+							<div style={{ display: 'flex', alignItems: 'center' }}>
+								<h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
+									List of Tariffs
+								</h2>
+								{handleSearch && (
+									<div className='inner-table'>
+										<FilterMenu onSearch={handleSearch} />
+									</div>
+								)}
+							</div>
 
-						<GlobalCustomButton
-							text='Add new '
-							onClick={() => setShowModal(true)}
-						/>
-					</TableMenu>
-					<div
-						className='columns'
-						style={{
-							display: 'flex',
-							width: '100%',
-							//flex: "1",
-							justifyContent: 'space-between',
-						}}>
-						<div
-							style={{
-								width: '100%',
-								height: 'calc(100vh - 120px)',
-								overflow: 'auto',
-								transition: 'width 0.5s ease-in',
-							}}>
-							<CustomTable
-								title={''}
-								columns={ServiceSchema}
-								data={[]}
-								pointerOnHover
-								highlightOnHover
-								striped
-								onRowClicked={(row) => handleRow(row)}
+							<GlobalCustomButton
+								text='Add new '
+								onClick={() => setShowModal(true)}
 							/>
-						</div>
-						{/* {selectedServices && ( */}
-						{/* {selectedServices.length > 0 && (
-              <div
-                style={{
-                  width: '49.5%',
-                  height: 'calc(100vh - 120px)',
-                  overflow: 'auto',
-                  transition: 'width 0.5s ease-in',
-                  margin: '0 1rem',
-                }}
-              >
-                <CustomTable
-                  title={''}
-                  columns={ServiceSchema}
-                  data={selectedServices}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  onRowClicked={(row) => handleService(row)}
-                />
-              </div>
-            )} */}
-					</div>
-					{/* )} */}
-				</Box>
-			</PageWrapper>
-		</>
+						</TableMenu>
+						<CustomTable
+							title={''}
+							columns={ServiceSchema}
+							data={newFacility}
+							pointerOnHover
+							highlightOnHover
+							striped
+							onRowClicked={(row) => handleRow(row)}
+							conditionalRowStyles={conditionalRowStyles}
+						/>
+					</>
+				)}
+
+				{selectedServices && selectedServices.length > 0 && slide && (
+					<Box
+						style={{
+							width: '100%',
+						}}>
+						<Box
+							sx={{
+								display: 'flex',
+								justifyContent: 'space-between',
+								alignItems: 'center',
+							}}>
+							<FormsHeaderText text={'Band Deatils'} />
+							<Box>
+								<GlobalCustomButton
+									text='Back'
+									onClick={() => setSlide(false)}
+									customStyles={{ marginRight: '1rem' }}
+									color='warning'
+								/>
+								<GlobalCustomButton
+									text={
+										changeView === 'service'
+											? 'View Facilities'
+											: 'View Services'
+									}
+									onClick={
+										changeView === 'facility'
+											? () => setChangeView('service')
+											: () => setChangeView('facility')
+									}
+									color={changeView === 'facility' ? 'primary' : 'secondary'}
+								/>
+							</Box>
+						</Box>
+						<Box>
+							{changeView === 'service' ? (
+								<Box
+									sx={{
+										height: '88vh',
+										overflowY: 'scroll',
+										marginTop: '1rem',
+									}}>
+									<CustomTable
+										title={''}
+										columns={productItemSchema}
+										data={selectedServices}
+										pointerOnHover
+										highlightOnHover
+										striped
+										onRowClicked={(row) => handleService(row)}
+									/>
+								</Box>
+							) : (
+								<Box
+									sx={{
+										height: '88vh',
+										overflowY: 'scroll',
+										marginTop: '1rem',
+									}}>
+									<CustomTable
+										title={''}
+										columns={facilitySchema}
+										data={selectedFacilities}
+										pointerOnHover
+										highlightOnHover
+										striped
+										onRowClicked={(row) => handleService(row)}
+									/>
+								</Box>
+							)}
+						</Box>
+					</Box>
+				)}
+			</Box>
+		</div>
 	);
 };
 
@@ -1151,7 +1331,7 @@ const TariffCreate = () => {
 	);
 };
 
-const TariffView = (tariff) => {
+const TariffView = (service) => {
 	const [editing, setEditing] = useState(false);
 	const {
 		register,
@@ -1160,14 +1340,15 @@ const TariffView = (tariff) => {
 		reset,
 	} = useForm({
 		defaultValues: {
-			name: tariff?.tariff?.name,
-			category: tariff.tariff.category,
+			name: service.serviceName,
+			comment: service.comment,
 		},
 	});
+	const selected = service.service;
 	return (
 		<Box>
 			<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-				<FormsHeaderText text={tariff?.tariff?.name} />
+				<FormsHeaderText text={service?.serviceName} />
 				<Box>
 					{!editing && (
 						<GlobalCustomButton
@@ -1191,68 +1372,68 @@ const TariffView = (tariff) => {
 				<Grid
 					item
 					xs={12}
-					sm={6}>
+					sm={4}>
 					{!editing ? (
 						<Input
-							label='Name'
-							value={tariff?.tariff?.name}
+							label='Service Name'
+							value={selected?.serviceName}
 							disabled
 						/>
 					) : (
 						<Input
 							label='Name'
-							register={register('name')}
+							register={register('serviceName')}
 						/>
 					)}
 				</Grid>
 				<Grid
 					item
 					xs={12}
-					sm={6}>
+					sm={4}>
 					{!editing ? (
 						<Input
-							label='Category'
-							value={tariff?.tariff?.category}
+							label='Duration'
+							value={selected?.duration}
 							disabled
 						/>
 					) : (
 						<Input
-							label='Category'
-							register={register('categoryname')}
+							label='Duration'
+							register={register('duration')}
 						/>
 					)}
 				</Grid>
 				<Grid
 					item
 					xs={12}
-					sm={6}>
+					sm={4}>
 					{!editing ? (
 						<Input
-							label='Facility Name'
-							value={tariff?.tariff?.facilityname}
+							label='Status'
+							value={selected?.status}
 							disabled
 						/>
 					) : (
 						<Input
-							label='Facility Name'
-							register={register('bandType')}
+							label='Status'
+							register={register('status')}
 						/>
 					)}
 				</Grid>
 				<Grid
 					item
 					xs={12}
-					sm={6}>
+					sm={12}>
 					{!editing ? (
-						<Input
+						<Textarea
+							label='Comment'
+							value={selected?.comments}
+							disabled
+						/>
+					) : (
+						<Textarea
 							label='Price'
-							value={`₦${tariff?.tariff?.contracts[0]?.price}`}
-							disabled
-						/>
-					) : (
-						<Input
-							label='Price'
-							register={register('costprice')}
+							register={register('comment')}
 						/>
 					)}
 				</Grid>
