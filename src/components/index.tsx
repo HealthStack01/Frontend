@@ -192,7 +192,7 @@ const TopMenu = () => {
                 fontSize="small"
                 sx={{marginRight: "2px"}}
               />
-              {`${state.employeeLocation.locationName} ${state.employeeLocation.locationType}`}
+              {`${state.employeeLocation.locationName} - (${state.employeeLocation.locationType})`}
               <ArrowDropDownIcon fontSize="small" sx={{marginLeft: "5px"}} />
             </GlobalCustomButton>
 

@@ -1,114 +1,114 @@
-const appModules = [
-  {
-    name: "Accounting",
-    types: [""],
-  },
-  {
-    name: "Admin",
-    types: [""],
-  },
-  {
-    name: "Blood Bank",
-    types: [""],
-  },
-  {
-    name: "Client",
-    types: [""],
-  },
-  {
-    name: "Clinic",
-    types: [""],
-  },
-  {
-    name: "Communication",
-    types: [""],
-  },
-  {
-    name: "Complaints",
-    types: [""],
-  },
-  {
-    name: "CRM",
-    types: [""],
-  },
-  {
-    name: "Engagement",
-    types: [""],
-  },
-  {
-    name: "Epidemiology",
-    types: [""],
-  },
-  {
-    name: "Finance",
-    types: [""],
-  },
-  {
-    name: "Immunization",
-    types: [""],
-  },
-  {
-    name: "Inventory",
-    types: [""],
-  },
-  {
-    name: "Laboratory",
-    types: [""],
-  },
-  {
-    name: "Managed Care",
-    types: [""],
-  },
-  {
-    name: "Market Place",
-    types: [""],
-  },
-  {
-    name: "Patient Portal",
-    types: [""],
-  },
-  {
-    name: "Pharmacy",
-    types: [""],
-  },
-  {
-    name: "Radiology",
-    types: [""],
-  },
-  {
-    name: "Referral",
-    types: [""],
-  },
-  {
-    name: "Theatre",
-    types: [""],
-  },
-  {
-    name: "Ward",
-    types: [""],
-  },
-  // {
-  //   name: "",
-  //   types: [""],
-  // },
-  // {
-  //   name: "",
-  //   types: [""],
-  // },
-  // {
-  //   name: "",
-  //   types: [""],
-  // },
-  // {
-  //   name: "",
-  //   types: [""],
-  // },
-];
+// const appModules = [
+//   {
+//     name: "Accounting",
+//     types: [""],
+//   },
+//   {
+//     name: "Admin",
+//     types: [""],
+//   },
+//   {
+//     name: "Blood Bank",
+//     types: [""],
+//   },
+//   {
+//     name: "Client",
+//     types: [""],
+//   },
+//   {
+//     name: "Clinic",
+//     types: [""],
+//   },
+//   {
+//     name: "Communication",
+//     types: [""],
+//   },
+//   {
+//     name: "Complaints",
+//     types: [""],
+//   },
+//   {
+//     name: "CRM",
+//     types: [""],
+//   },
+//   {
+//     name: "Engagement",
+//     types: [""],
+//   },
+//   {
+//     name: "Epidemiology",
+//     types: [""],
+//   },
+//   {
+//     name: "Finance",
+//     types: [""],
+//   },
+//   {
+//     name: "Immunization",
+//     types: [""],
+//   },
+//   {
+//     name: "Inventory",
+//     types: [""],
+//   },
+//   {
+//     name: "Laboratory",
+//     types: [""],
+//   },
+//   {
+//     name: "Managed Care",
+//     types: [""],
+//   },
+//   {
+//     name: "Market Place",
+//     types: [""],
+//   },
+//   {
+//     name: "Patient Portal",
+//     types: [""],
+//   },
+//   {
+//     name: "Pharmacy",
+//     types: [""],
+//   },
+//   {
+//     name: "Radiology",
+//     types: [""],
+//   },
+//   {
+//     name: "Referral",
+//     types: [""],
+//   },
+//   {
+//     name: "Theatre",
+//     types: [""],
+//   },
+//   {
+//     name: "Ward",
+//     types: [""],
+//   },
+//   // {
+//   //   name: "",
+//   //   types: [""],
+//   // },
+//   // {
+//   //   name: "",
+//   //   types: [""],
+//   // },
+//   // {
+//   //   name: "",
+//   //   types: [""],
+//   // },
+//   // {
+//   //   name: "",
+//   //   types: [""],
+//   // },
+// ];
 
-const orgTypeModules = [
+export const orgTypeModules = [
   {
     name: "Hospital",
-    alias: [],
+    alias: ["Provider", "Facility"],
     modules: [
       "Admin",
       "Client",
@@ -138,52 +138,34 @@ const orgTypeModules = [
     alias: [],
     modules: [
       "Admin",
+      "Communication",
+      "Pharmacy",
       "Client",
       "Clinic",
-      "Appointment",
-      "Check-In",
-      "Ward",
-      "Laboratory",
-      "Radiology",
-      "Pharmacy",
-      "Theatre",
-      "Blood Bank",
-      "Inventory",
-      "Communication",
-      "Immunization",
       "Finance",
-      "Accounting",
-      "Complaints",
+      "Account",
+      "Complaint",
       "Referral",
       "Epidemiology",
-      "Engagement",
+      "Inventory",
     ],
   },
 
   {
-    name: "Diagnostic Lab",
-    alias: [],
+    name: "Diagnostics",
+    alias: ["Laboratory", "Radiology"],
     modules: [
       "Admin",
+      "Communication",
+      "Laboratory",
       "Client",
       "Clinic",
-      "Appointment",
-      "Check-In",
-      "Ward",
-      "Laboratory",
-      "Radiology",
-      "Pharmacy",
-      "Theatre",
-      "Blood Bank",
-      "Inventory",
-      "Communication",
-      "Immunization",
       "Finance",
-      "Accounting",
-      "Complaints",
-      "Referral",
+      "Account",
+      "Complaint",
       "Epidemiology",
-      "Engagement",
+      "Inventory",
+      "Referral",
     ],
   },
   {
@@ -191,25 +173,96 @@ const orgTypeModules = [
     alias: [],
     modules: [
       "Admin",
+      "Communication",
+      "Finance",
+      "CRM",
+      "Managed care",
+      "Account",
+    ],
+  },
+
+  {
+    name: "Corporate",
+    alias: [],
+    modules: ["Admin", "Complaint", "Coporate", "Communication"],
+  },
+
+  {
+    name: "Nutritionist",
+    alias: [],
+    modules: [
+      "Admin",
+      "Communication",
+      "Finance",
       "Client",
       "Clinic",
-      "Appointment",
-      "Check-In",
-      "Ward",
-      "Laboratory",
-      "Radiology",
-      "Pharmacy",
-      "Theatre",
-      "Blood Bank",
-      "Inventory",
-      "Communication",
-      "Immunization",
-      "Finance",
-      "Accounting",
-      "Complaints",
+      "Account",
       "Referral",
-      "Epidemiology",
-      "Engagement",
+      "Complaint",
+      "Appointment",
+    ],
+  },
+
+  {
+    name: "Dental",
+    alias: [],
+    modules: [
+      "Admin",
+      "Communication",
+      "Finance",
+      "Client",
+      "Clinic",
+      "Account",
+      "Referral",
+      "Complaint",
+      "Appointment",
+    ],
+  },
+
+  {
+    name: "Optometrist",
+    alias: [],
+    modules: [
+      "Admin",
+      "Communication",
+      "Finance",
+      "Client",
+      "Clinic",
+      "Account",
+      "Referral",
+      "Complaint",
+      "Appointment",
+    ],
+  },
+  {
+    name: "Ophthalmologist Center",
+    alias: [],
+    modules: [
+      "Admin",
+      "Communication",
+      "Finance",
+      "Client",
+      "Clinic",
+      "Account",
+      "Referral",
+      "Complaint",
+      "Appointment",
+    ],
+  },
+
+  {
+    name: "Physiotherapist Center",
+    alias: [],
+    modules: [
+      "Admin",
+      "Communication",
+      "Finance",
+      "Client",
+      "Clinic",
+      "Account",
+      "Referral",
+      "Complaint",
+      "Appointment",
     ],
   },
 ];

@@ -468,8 +468,7 @@ export const ResendProposalOrSLA = ({documentData, closeModal, subject}) => {
 
     const attachedHTML = attachedFiles
       ? `<br> <p>Find Below Attached Documents to this Email:   ${attachedFiles.map(
-          item =>
-            `<br> <span>${item.fileName} :  <a href=${item.file}>${item.file}</a></span> `
+          item => `<br> <a href=${item.file}>${item.fileName}</a> `
         )}  </p>`
       : "";
 

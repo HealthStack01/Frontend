@@ -24,16 +24,18 @@ const inputGlobalStyles = (
   />
 );
 
-const SendLinkViaEmail = ({closeModal}) => {
+const SendLinkViaEmail = ({
+  closeModal,
+  defaultToEmail,
+  disableToEmailChange,
+}) => {
   const emailServer = client.service("email");
   const {user} = useContext(UserContext);
   const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
   const [emailsModal, setEmailModals] = useState(true);
   const [toEmailModal, setToEmailModal] = useState(false);
   const [selectedEmail, setSelectedEmail] = useState("");
-  const [destinationEmail, setDestinationEmail] = useState(
-    state.DealModule.selectedDeal.email
-  );
+  const [destinationEmail, setDestinationEmail] = useState(defaultToEmail);
   const [emailBody, setEmailBody] = useState(
     `<p>Please follow this <a style="color:red;" href="https://healthstack-test.netlify.app/signup">LINK</a> to create an Organization </p>`
   );
@@ -66,7 +68,8 @@ const SendLinkViaEmail = ({closeModal}) => {
   };
 
   const handleSendEmail = async data => {
-    if (emailBody === "") return toast.error("Include message in the Text Box");
+    if (emailBody === "")
+      return toast.error("Please, You cannot send an empty Email");
     const facility = user.currentEmployee.facilityDetail;
     showActionLoader();
 
@@ -133,7 +136,7 @@ const SendLinkViaEmail = ({closeModal}) => {
           <Input
             important
             label="Name"
-            register={register("name", {require: "Please enter Name"})}
+            register={register("name", {required: "Please enter Name"})}
             errorText={errors?.name?.message}
           />
         </Grid>
@@ -142,7 +145,7 @@ const SendLinkViaEmail = ({closeModal}) => {
           <Input
             important
             label="Subject"
-            register={register("subject", {require: "Please enter Subject"})}
+            register={register("subject", {required: "Please enter Subject"})}
             errorText={errors?.subject?.message}
           />
         </Grid>
@@ -151,7 +154,7 @@ const SendLinkViaEmail = ({closeModal}) => {
           <Input
             important
             label="From"
-            register={register("from", {require: "Please Add Source Email"})}
+            register={register("from", {required: "Please Add Source Email"})}
             errorText={errors?.from?.message}
             disabled
           />
@@ -169,18 +172,19 @@ const SendLinkViaEmail = ({closeModal}) => {
             important
             label="To"
             register={register("to", {
-              require: "Please Enter Destination Email",
+              required: "Please Enter Destination Email",
             })}
             errorText={errors?.to?.message}
           />
-
-          <GlobalCustomButton
-            sx={{marginTop: "5px"}}
-            color="secondary"
-            onClick={() => setToEmailModal(true)}
-          >
-            Change Destination Email
-          </GlobalCustomButton>
+          {!disableToEmailChange && (
+            <GlobalCustomButton
+              sx={{marginTop: "5px"}}
+              color="secondary"
+              onClick={() => setToEmailModal(true)}
+            >
+              Change Destination Email
+            </GlobalCustomButton>
+          )}
         </Grid>
 
         <Grid item xs={12}>

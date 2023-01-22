@@ -22,6 +22,7 @@ import Switch from '../../components/switch';
 import { BsFillGridFill, BsList } from 'react-icons/bs';
 import CalendarGrid from '../../components/calender';
 import ModalBox from '../../components/modal';
+import EmailIcon from '@mui/icons-material/Email';
 import {
 	Box,
 	Grid,
@@ -66,7 +67,7 @@ import Claims from './Claims';
 import GeneralAppointments, { PreAuthorizationList } from './PreAuth';
 import Textarea from '../../components/inputs/basic/Textarea';
 import { v4 as uuidv4 } from 'uuid';
-import CustomConfirmationDialog from '../../components/confirm-dialog/confirm-dialog';
+import SendLinkViaEmail from '../CRM/components/deals/SendLink';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -586,7 +587,6 @@ export function OrganizationCreate({ showModal, setShowModal }) {
 	const [band, setBand] = useState('');
 	const BandsServ = client.service('bands');
 	const [providerBand, setProviderBand] = useState([]);
-	const [facility, setFacility] = useState([]);
 	//const history = useHistory()
 	const { user } = useContext(UserContext); //,setUser
 
@@ -638,40 +638,12 @@ export function OrganizationCreate({ showModal, setShowModal }) {
 		}
 	};
 
-	const getFacilities = () => {
-		orgServ
-			.find({
-				query: {
-					facility: user.currentEmployee.facilityDetail._id,
-					relationshiptype: 'sponsor',
-					$limit: 100,
-					$sort: {
-						createdAt: -1,
-					},
-				},
-			})
-			.then((res) => {
-				console.log(res);
-				setFacility(res.data);
-			})
-			.catch((err) => {
-				setError(true);
-			});
-	};
-
 	const handleClick = () => {
 		if (band === '') {
 			toast.error('Band not selected, Please select band');
 			return;
 		}
 		console.log(chosen);
-		let found = facility.find(
-			(item) => item?.organizationDetail?._id === chosen._id,
-		);
-		if (found) {
-			toast.info('Organization already Exists');
-			return;
-		}
 		let stuff = {
 			facility: user.currentEmployee.facilityDetail._id,
 			organization: chosen._id,
@@ -694,7 +666,6 @@ export function OrganizationCreate({ showModal, setShowModal }) {
 	useEffect(() => {
 		// console.log("starting...")
 		getProviderBand();
-		getFacilities();
 		return () => {};
 	}, []);
 	const getSearchfacility = (obj) => {
@@ -752,11 +723,10 @@ export function OrganizationCreate({ showModal, setShowModal }) {
 					xs={12}
 					sm={12}
 					md={12}>
-					<GlobalCustomButton
-						text='Add'
+					<Button
+						label='Add'
 						type='submit'
 						onClick={handleClick}
-						color='success'
 					/>
 				</Grid>
 			</Grid>
@@ -782,6 +752,8 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
 	// eslint-disable-next-line
 	const { state, setState } = useContext(ObjectContext);
 	const { user } = useContext(UserContext);
+	const [sendLinkModal, setSendLinkModal] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	const handleCreateNew = async () => {
 		const newfacilityModule = {
@@ -851,6 +823,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
         }
      */
 	const getFacilities = () => {
+		setLoading(true);
 		orgServ
 			.find({
 				query: {
@@ -866,10 +839,12 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
 				setFacilities(res.data);
 				setMessage(' Organization  fetched successfully');
 				setSuccess(true);
+				setLoading(false);
 			})
 			.catch((err) => {
 				setMessage('Error creating facility, probable network issues ' + err);
 				setError(true);
+				setLoading(false);
 			});
 	};
 
@@ -891,6 +866,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
 			selector: (row) => row.sn,
 			sortable: true,
 			inputType: 'HIDDEN',
+			width: '60px',
 		},
 		{
 			name: 'Organization Name',
@@ -986,6 +962,16 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
 		<>
 			{user ? (
 				<>
+					<ModalBox
+						open={sendLinkModal}
+						onClose={() => setSendLinkModal(false)}
+						header='Send Onboarding Link to Provider'>
+						<SendLinkViaEmail
+							closeModal={() => setSendLinkModal(false)}
+							defaultToEmail={''}
+							disableToEmailChange={true}
+						/>
+					</ModalBox>
 					<div
 						className='level'
 						style={{
@@ -1003,23 +989,25 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
 									)}
 								</div>
 
-								<div>
-									<MuiButton
-										variant='contained'
-										sx={{
-											widh: 'fit',
-											textTransform: 'capitalize',
-											fontSize: '14px',
-											fontWeight: '600',
-										}}
-										onClick={handleCreateNew}>
+								<Box
+									sx={{ display: 'flex' }}
+									gap={2}>
+									<GlobalCustomButton onClick={() => setSendLinkModal(true)}>
+										<EmailIcon
+											sx={{ marginRight: '5px' }}
+											fontSize='small'
+										/>
+										Invite Provider Via Email
+									</GlobalCustomButton>
+
+									<GlobalCustomButton onClick={handleCreateNew}>
 										<AddCircleOutlineIcon
 											sx={{ marginRight: '5px' }}
 											fontSize='small'
 										/>
 										Register Provider
-									</MuiButton>
-								</div>
+									</GlobalCustomButton>
+								</Box>
 							</TableMenu>
 							<CustomTable
 								title={''}
@@ -1029,6 +1017,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
 								highlightOnHover
 								striped
 								onRowClicked={handleRow}
+								progressPending={loading}
 								//conditionalRowStyles={conditionalRowStyles}
 							/>
 						</PageWrapper>
@@ -1789,7 +1778,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
             </Box>
           </ModalBox>
         )} */}
-				{display === 2 && <Accreditation standAlone={facility?.organization} />}
+				{display === 2 && <Accreditation standAlone={facility._id} />}
 				{display === 3 && <CRMTasks />}
 				{display === 4 && <UploadView />}
 				{display === 5 && (
@@ -1823,6 +1812,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 		</>
 	);
 }
+
 export function NewOrganizationCreate() {
 	const { register, handleSubmit } = useForm(); //, watch, errors, reset
 	const [error, setError] = useState(false);
@@ -1859,7 +1849,7 @@ export function NewOrganizationCreate() {
         setSuccess(false)
           data.createdby=user._id
           //console.log(data);
-          
+
         facilityServ.create(data)
         .then((res)=>{
                 //console.log(JSON.stringify(res))
@@ -2685,85 +2675,21 @@ export function NewOrganizationCreate() {
 }
 
 export const AdditionalInformationView = () => {
-	const dealServer = client.service('organizationclient');
-	const { state, setState, hideActionLoader, showActionLoader } =
-		useContext(ObjectContext);
 	const [createModal, setCreateModal] = useState(false);
-	const [informations, setInformations] = useState([]);
-	const [confirmDialog, setConfirmDialog] = useState({
-		open: false,
-		action: null,
-		message: '',
-		type: '',
-	});
-	const facility = state.facilityModule.selectedFacility;
+	const [informations, setInformations] = useState([
+		...additionalInformationData,
+	]);
 
 	const removeAdditionalInfo = (info) => {
 		setInformations((prev) => prev.filter((item) => item._id !== info._id));
 	};
 
-	const deleteAdditionalInfo = async (info) => {
-		showActionLoader();
-
-		const oldDealInfo = facility?.info || [];
-
-		const updatedDealInfo = oldDealInfo.filter((item) => item._id !== info._id);
-
-		const documentId = facility?._id;
-
-		await dealServer
-			.patch(documentId, { info: updatedDealInfo })
-			.then((res) => {
-				hideActionLoader();
-				setState((prev) => ({
-					...prev,
-					facilityModule: { ...prev.facilityModule, selectedFacility: res },
-				}));
-				cancelConfirm();
-				toast.success(`You have successfully Deleted Addtional Information!`);
-			})
-			.catch((err) => {
-				hideActionLoader();
-				toast.error(
-					`Sorry, You weren't able to Delete the Addtional Information!. ${err}`,
-				);
-			});
+	const addNewInfo = (data) => {
+		setInformations((prev) => [data, ...prev]);
 	};
-
-	const confirmDelete = (info) => {
-		setConfirmDialog({
-			open: true,
-			message:
-				"You're about to delete an additional information for this deal?",
-			type: 'danger',
-			action: () => deleteAdditionalInfo(info),
-		});
-	};
-
-	const cancelConfirm = () => {
-		setConfirmDialog({
-			open: false,
-			action: null,
-			type: '',
-			message: '',
-		});
-	};
-
-	useEffect(() => {
-		const infos = facility?.info || [];
-
-		setInformations(infos);
-	}, [state.facilityModule.selectedFacility]);
 
 	return (
 		<Box>
-			<CustomConfirmationDialog
-				open={confirmDialog.open}
-				type={confirmDialog.type}
-				message={confirmDialog.message}
-				cancelAction={cancelConfirm}
-				confirmationAction={confirmDialog.action}
-			/>
 			<Box
 				sx={{
 					display: 'flex',
@@ -2788,7 +2714,7 @@ export const AdditionalInformationView = () => {
 						<Box sx={{ mb: 2 }}>
 							<AdditionalInformationCard
 								data={info}
-								action={() => confirmDelete(info)}
+								action={() => removeAdditionalInfo(info)}
 								key={index}
 							/>
 						</Box>
@@ -2811,7 +2737,10 @@ export const AdditionalInformationView = () => {
 				open={createModal}
 				onClose={() => setCreateModal(false)}
 				header='Add New Information'>
-				<CreateAddInfo closeModal={() => setCreateModal(false)} />
+				<CreateAdditionalInfo
+					closeModal={() => setCreateModal(false)}
+					addInfo={addNewInfo}
+				/>
 			</ModalBox>
 		</Box>
 	);
