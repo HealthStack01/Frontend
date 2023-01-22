@@ -66,6 +66,7 @@ import Claims from './Claims';
 import GeneralAppointments, { PreAuthorizationList } from './PreAuth';
 import Textarea from '../../components/inputs/basic/Textarea';
 import { v4 as uuidv4 } from 'uuid';
+import CustomConfirmationDialog from '../../components/confirm-dialog/confirm-dialog';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -585,6 +586,7 @@ export function OrganizationCreate({ showModal, setShowModal }) {
 	const [band, setBand] = useState('');
 	const BandsServ = client.service('bands');
 	const [providerBand, setProviderBand] = useState([]);
+	const [facility, setFacility] = useState([]);
 	//const history = useHistory()
 	const { user } = useContext(UserContext); //,setUser
 
@@ -636,12 +638,40 @@ export function OrganizationCreate({ showModal, setShowModal }) {
 		}
 	};
 
+	const getFacilities = () => {
+		orgServ
+			.find({
+				query: {
+					facility: user.currentEmployee.facilityDetail._id,
+					relationshiptype: 'sponsor',
+					$limit: 100,
+					$sort: {
+						createdAt: -1,
+					},
+				},
+			})
+			.then((res) => {
+				console.log(res);
+				setFacility(res.data);
+			})
+			.catch((err) => {
+				setError(true);
+			});
+	};
+
 	const handleClick = () => {
 		if (band === '') {
 			toast.error('Band not selected, Please select band');
 			return;
 		}
 		console.log(chosen);
+		let found = facility.find(
+			(item) => item?.organizationDetail?._id === chosen._id,
+		);
+		if (found) {
+			toast.info('Organization already Exists');
+			return;
+		}
 		let stuff = {
 			facility: user.currentEmployee.facilityDetail._id,
 			organization: chosen._id,
@@ -664,6 +694,7 @@ export function OrganizationCreate({ showModal, setShowModal }) {
 	useEffect(() => {
 		// console.log("starting...")
 		getProviderBand();
+		getFacilities();
 		return () => {};
 	}, []);
 	const getSearchfacility = (obj) => {
@@ -721,10 +752,11 @@ export function OrganizationCreate({ showModal, setShowModal }) {
 					xs={12}
 					sm={12}
 					md={12}>
-					<Button
-						label='Add'
+					<GlobalCustomButton
+						text='Add'
 						type='submit'
 						onClick={handleClick}
+						color='success'
 					/>
 				</Grid>
 			</Grid>
@@ -2653,21 +2685,85 @@ export function NewOrganizationCreate() {
 }
 
 export const AdditionalInformationView = () => {
+	const dealServer = client.service('organizationclient');
+	const { state, setState, hideActionLoader, showActionLoader } =
+		useContext(ObjectContext);
 	const [createModal, setCreateModal] = useState(false);
-	const [informations, setInformations] = useState([
-		...additionalInformationData,
-	]);
+	const [informations, setInformations] = useState([]);
+	const [confirmDialog, setConfirmDialog] = useState({
+		open: false,
+		action: null,
+		message: '',
+		type: '',
+	});
+	const facility = state.facilityModule.selectedFacility;
 
 	const removeAdditionalInfo = (info) => {
 		setInformations((prev) => prev.filter((item) => item._id !== info._id));
 	};
 
-	const addNewInfo = (data) => {
-		setInformations((prev) => [data, ...prev]);
+	const deleteAdditionalInfo = async (info) => {
+		showActionLoader();
+
+		const oldDealInfo = facility?.info || [];
+
+		const updatedDealInfo = oldDealInfo.filter((item) => item._id !== info._id);
+
+		const documentId = facility?._id;
+
+		await dealServer
+			.patch(documentId, { info: updatedDealInfo })
+			.then((res) => {
+				hideActionLoader();
+				setState((prev) => ({
+					...prev,
+					facilityModule: { ...prev.facilityModule, selectedFacility: res },
+				}));
+				cancelConfirm();
+				toast.success(`You have successfully Deleted Addtional Information!`);
+			})
+			.catch((err) => {
+				hideActionLoader();
+				toast.error(
+					`Sorry, You weren't able to Delete the Addtional Information!. ${err}`,
+				);
+			});
 	};
+
+	const confirmDelete = (info) => {
+		setConfirmDialog({
+			open: true,
+			message:
+				"You're about to delete an additional information for this deal?",
+			type: 'danger',
+			action: () => deleteAdditionalInfo(info),
+		});
+	};
+
+	const cancelConfirm = () => {
+		setConfirmDialog({
+			open: false,
+			action: null,
+			type: '',
+			message: '',
+		});
+	};
+
+	useEffect(() => {
+		const infos = facility?.info || [];
+
+		setInformations(infos);
+	}, [state.facilityModule.selectedFacility]);
 
 	return (
 		<Box>
+			<CustomConfirmationDialog
+				open={confirmDialog.open}
+				type={confirmDialog.type}
+				message={confirmDialog.message}
+				cancelAction={cancelConfirm}
+				confirmationAction={confirmDialog.action}
+			/>
 			<Box
 				sx={{
 					display: 'flex',
@@ -2692,7 +2788,7 @@ export const AdditionalInformationView = () => {
 						<Box sx={{ mb: 2 }}>
 							<AdditionalInformationCard
 								data={info}
-								action={() => removeAdditionalInfo(info)}
+								action={() => confirmDelete(info)}
 								key={index}
 							/>
 						</Box>
@@ -2715,10 +2811,7 @@ export const AdditionalInformationView = () => {
 				open={createModal}
 				onClose={() => setCreateModal(false)}
 				header='Add New Information'>
-				<CreateAdditionalInfo
-					closeModal={() => setCreateModal(false)}
-					addInfo={addNewInfo}
-				/>
+				<CreateAddInfo closeModal={() => setCreateModal(false)} />
 			</ModalBox>
 		</Box>
 	);
@@ -3072,3 +3165,92 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
 		</>
 	);
 }
+
+export const CreateAddInfo = ({ addInfo, closeModal }) => {
+	const dealServer = client.service('organizationclient');
+	const { state, setState, hideActionLoader, showActionLoader } =
+		useContext(ObjectContext);
+	const { user } = useContext(UserContext);
+	const { register, handleSubmit, control, reset } = useForm();
+	const facility = state.facilityModule.selectedFacility;
+
+	const updateAdditionalInfo = async (data) => {
+		if (data.info === '') return toast.error('Please provide your information');
+		showActionLoader();
+
+		const employee = user.currentEmployee;
+
+		const newInfo = {
+			info: data.info,
+			date: new Date(),
+			employeename: `${employee.firstname} ${employee.lastname}`,
+		};
+
+		const oldDealInfo = facility?.info || [];
+
+		const updatedDealInfo = [newInfo, ...oldDealInfo];
+
+		const documentId = facility?._id;
+
+		await dealServer
+			.patch(documentId, { info: updatedDealInfo })
+			.then((res) => {
+				hideActionLoader();
+				setState((prev) => ({
+					...prev,
+					facilityModule: { ...prev.facilityModule, selectedFacility: res },
+				}));
+
+				reset({
+					info: '',
+				});
+				toast.success(
+					`You have successfully added a new Addtional Information!`,
+				);
+			})
+			.catch((err) => {
+				hideActionLoader();
+				toast.error(
+					`Sorry, You weren't able to add a new Addtional Information!. ${err}`,
+				);
+			});
+	};
+
+	return (
+		<Box
+			sx={{
+				width: '400px',
+			}}>
+			<Box mb={2}>
+				<Grid
+					container
+					spacing={1}>
+					<Grid
+						item
+						xs={12}>
+						<Textarea
+							label='Additional Information'
+							placeholder='Write here...'
+							important
+							register={register('info')}
+						/>
+					</Grid>
+				</Grid>
+			</Box>
+
+			<Box sx={{ display: 'flex' }}>
+				<GlobalCustomButton
+					onClick={handleSubmit(updateAdditionalInfo)}
+					sx={{ marginRight: '10px' }}>
+					Add Information
+				</GlobalCustomButton>
+
+				<GlobalCustomButton
+					onClick={closeModal}
+					color='error'>
+					Cancel
+				</GlobalCustomButton>
+			</Box>
+		</Box>
+	);
+};

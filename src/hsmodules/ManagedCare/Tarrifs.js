@@ -32,37 +32,50 @@ import { FormsHeaderText } from '../../components/texts';
 import FilterMenu from '../../components/utilities/FilterMenu';
 import DeleteOutline from '@mui/icons-material/DeleteOutline';
 import CategorySearch from '../helpers/CategorySearch';
+import { SelectHealthPlan } from '../helpers/FacilitySearch';
 
-const tariffSchema = [
-	{
-		name: 'S/N',
-		key: 'sn',
-		description: 'Enter Serial Number',
-		selector: (row, i) => i + 1,
-		sortable: true,
-		required: true,
-		inputType: 'HIDDEN',
-		width: '50px',
-	},
-	{
-		name: 'Categories',
-		key: 'categories',
-		description: 'Categories',
-		selector: (row) => row.categoryname,
-		sortable: true,
-		required: true,
-		inputType: 'TEXT',
-	},
-];
+export default function TarrifList({ standAlone }) {
+	const { state } = useContext(ObjectContext); //,setState
+	// eslint-disable-next-line
+	const [selectedClient, setSelectedClient] = useState();
+	const [selectedAppointment, setSelectedAppointment] = useState();
+	//const [showState,setShowState]=useState() //create|modify|detail
+	const [showModal, setShowModal] = useState(0);
+	const [selectedPlan, setSelectedPlan] = useState();
 
-const TarrifList = () => {
-	const [showModal, setShowModal] = useState(false);
+	return (
+		<section className='section remPadTop'>
+			{showModal === 0 && (
+				<TarrifListView
+					showModal={showModal}
+					setShowModal={setShowModal}
+					setSelectedClient={setSelectedPlan}
+					standAlone={standAlone}
+				/>
+			)}
+			{showModal === 1 && (
+				<TariffCreate
+					showModal={showModal}
+					setShowModal={setShowModal}
+				/>
+			)}
+			{showModal === 2 && (
+				<TariffView
+					setShowModal={setShowModal}
+					selectedPlan={selectedPlan}
+					standAlone={standAlone}
+				/>
+			)}
+		</section>
+	);
+}
+export const TarrifListView = ({ showModal, setShowModal }) => {
 	const [showView, setShowView] = useState(false);
 	const [tariffs, setTariffs] = useState([]);
 	const [tariff, setTariff] = useState();
 	const { state, setState } = useContext(ObjectContext);
 	const { user } = useContext(UserContext);
-	const ServicesServ = client.service('healthplan');
+	const ServicesServ = client.service('tariff');
 	const BandsServ = client.service('bands');
 	const [error, setError] = useState(false);
 	const [success, setSuccess] = useState(false);
@@ -96,18 +109,18 @@ const TarrifList = () => {
 			required: true,
 			inputType: 'TEXT',
 		},
-		{
-			name: 'No of Facilities',
-			key: 'nofacilities',
-			description: 'No of Facilities',
-			selector: (row) =>
-				row?.contracts
-					?.map((healist) => healist?.source_org_name)
-					.filter((v, i, a) => a.indexOf(v) === i).length,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
+		// {
+		// 	name: 'No of Facilities',
+		// 	key: 'nofacilities',
+		// 	description: 'No of Facilities',
+		// 	selector: (row) =>
+		// 		row?.contracts
+		// 			?.map((healist) => healist?.source_org_name)
+		// 			.filter((v, i, a) => a.indexOf(v) === i).length,
+		// 	sortable: true,
+		// 	required: true,
+		// 	inputType: 'TEXT',
+		// },
 		{
 			name: 'No of Services',
 			key: 'noservices',
@@ -154,32 +167,20 @@ const TarrifList = () => {
 			name: 'Plan',
 			key: 'plan',
 			description: 'Plan',
-			selector: (row) =>
-				row?.plans?.map((plan, i) => (
-					<Typography
-						sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
-						data-tag='allowRowEvents'
-						key={i}>
-						<b>{plan?.serviceClass}</b>
-						<br />
-						<b>PreAuth?</b>: {plan?.reqAuthCode === true ? 'Yes' : 'No'}
-						<br />
-						<b>Co-Pay</b>: {plan.copay?.length > 0 ? `₦${plan?.copay}` : 'N/A'}
-					</Typography>
-				)),
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-		{
-			name: 'Category',
-			key: 'category',
-			description: 'Category',
 			selector: (row) => (
 				<Typography
-					sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
+					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
 					data-tag='allowRowEvents'>
-					{row?.category}
+					<b>Capitation?</b>: {row?.capitation === true ? 'Yes' : 'No'}
+					<br />
+					<b>Fee for Service?</b>:{row?.feeForService === true ? 'Yes' : 'No'}
+					<br />
+					<b>PreAuth?</b>: {row?.reqPA === true ? 'Yes' : 'No'}
+					<br />
+					<b>Co-Pay</b>:{' '}
+					{row?.copayDetail !== '' && row?.copayDetail !== undefined
+						? `₦${row?.copayDetail}`
+						: 'N/A'}
 				</Typography>
 			),
 			sortable: true,
@@ -187,29 +188,14 @@ const TarrifList = () => {
 			inputType: 'TEXT',
 		},
 		{
-			name: 'Duration',
-			key: 'duration',
-			description: 'Duration',
+			name: 'Price',
+			key: '`',
+			description: '`',
 			selector: (row) => (
 				<Typography
 					sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
 					data-tag='allowRowEvents'>
-					{row?.duration}
-				</Typography>
-			),
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-		{
-			name: 'Frequency',
-			key: 'frequency',
-			description: 'Frequency',
-			selector: (row) => (
-				<Typography
-					sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
-					data-tag='allowRowEvents'>
-					{row?.frequency}
+					{row?.price}
 				</Typography>
 			),
 			sortable: true,
@@ -217,44 +203,50 @@ const TarrifList = () => {
 			inputType: 'TEXT',
 		},
 		// {
-		// 	name: 'Limit',
-		// 	key: 'limit',
-		// 	description: 'Limit',
+		// 	name: 'Category',
+		// 	key: 'category',
+		// 	description: 'Category',
 		// 	selector: (row) => (
 		// 		<Typography
 		// 			sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
 		// 			data-tag='allowRowEvents'>
-		// 			{row?.limit}
+		// 			{row?.category}
 		// 		</Typography>
 		// 	),
 		// 	sortable: true,
 		// 	required: true,
 		// 	inputType: 'TEXT',
 		// },
-		{
-			name: 'Status',
-			key: 'status',
-			description: 'Status',
-			selector: (row) => (
-				<Typography
-					sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
-					data-tag='allowRowEvents'>
-					{row?.status}
-				</Typography>
-			),
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-		{
-			name: 'Billing type',
-			key: 'billingtype',
-			description: 'Billing type',
-			selector: (row) => row?.billing_type,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
+		// {
+		// 	name: 'Duration',
+		// 	key: 'duration',
+		// 	description: 'Duration',
+		// 	selector: (row) => (
+		// 		<Typography
+		// 			sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
+		// 			data-tag='allowRowEvents'>
+		// 			{row?.duration}
+		// 		</Typography>
+		// 	),
+		// 	sortable: true,
+		// 	required: true,
+		// 	inputType: 'TEXT',
+		// },
+		// {
+		// 	name: 'Frequency',
+		// 	key: 'frequency',
+		// 	description: 'Frequency',
+		// 	selector: (row) => (
+		// 		<Typography
+		// 			sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
+		// 			data-tag='allowRowEvents'>
+		// 			{row?.frequency}
+		// 		</Typography>
+		// 	),
+		// 	sortable: true,
+		// 	required: true,
+		// 	inputType: 'TEXT',
+		// },
 	];
 	const facilitySchema = [
 		{
@@ -277,7 +269,7 @@ const TarrifList = () => {
 			inputType: 'TEXT',
 		},
 	];
-	console.log(selectedFacilities);
+
 	const handleCreateNew = async () => {
 		const newServicesModule = {
 			selectedServices: {},
@@ -291,8 +283,7 @@ const TarrifList = () => {
 	const handleRow = async (Service, i) => {
 		console.log(Service);
 		setSlide(!slide);
-		await setSelectedServices(Service?.contracts);
-		await setSelectedFacilities(Service?.contracts);
+		setSelectedServices(Service?.contracts);
 		const newServicesModule = {
 			selectedServices: Service,
 			show: 'detail',
@@ -301,12 +292,9 @@ const TarrifList = () => {
 			...prevstate,
 			ServicesModule: newServicesModule,
 		}));
-		// setShowView(true);
-		// setTariff(Service);
 	};
 	const handleService = async (Service) => {
 		setSelectedCategory(Service);
-		setShowView(true);
 	};
 
 	const handleSearch = (val) => {
@@ -364,44 +352,9 @@ const TarrifList = () => {
 		ServicesServ.on('removed', (obj) => getFacilities());
 		return () => {};
 	}, [state.facilityModule.selectedFacility]);
-	useEffect(() => {
-		let list = [];
-		facilities?.map((item) => {
-			item?.contracts?.map((healist) => {
-				list.push(healist);
-			});
-		});
-		// list.band with the same name and same facility should be grouped together and displayed as one array
-		const grouped = list.reduce((r, a) => {
-			r[a.band] = [...(r[a.band] || []), a];
-			return r;
-		}, {});
-		const groupedArray = Object.keys(grouped).map((key) => ({
-			band: key,
-			contracts: grouped[key],
-		}));
-		setNewFacility(groupedArray);
-	}, [facilities]);
-	console.log(newFacility?.map((item) => item?.band.toString()));
+
 	return (
 		<div style={{}}>
-			<Portal>
-				<ModalBox
-					open={showModal}
-					onClose={() => setShowModal(false)}
-					width='70vw'>
-					<TariffCreate />
-				</ModalBox>
-			</Portal>
-			<Portal>
-				<ModalBox
-					open={showView}
-					onClose={() => setShowView(false)}
-					width='50vw'>
-					<TariffView service={selectedCategory} />
-				</ModalBox>
-			</Portal>
-
 			<Box
 				sx={{
 					width: '98%',
@@ -423,13 +376,13 @@ const TarrifList = () => {
 
 							<GlobalCustomButton
 								text='Add new '
-								onClick={() => setShowModal(true)}
+								onClick={() => setShowModal(1)}
 							/>
 						</TableMenu>
 						<CustomTable
 							title={''}
 							columns={ServiceSchema}
-							data={newFacility}
+							data={facilities}
 							pointerOnHover
 							highlightOnHover
 							striped
@@ -517,7 +470,7 @@ const TarrifList = () => {
 	);
 };
 
-const TariffCreate = () => {
+export const TariffCreate = ({ showModal, setShowModal }) => {
 	const [, setPriceState] = useState({
 		bronze: false,
 		gold: false,
@@ -536,7 +489,7 @@ const TariffCreate = () => {
 	const [facility, setFacility] = useState();
 	const [providerBand, setProviderBand] = useState([]);
 	const [benefittingPlans1, setBenefittingPlans1] = useState([]);
-	const ServicesServ = client.service('healthplan');
+	const ServicesServ = client.service('tariff');
 	const BandsServ = client.service('bands');
 	//const history = useHistory()
 	const { user } = useContext(UserContext); //,setUser
@@ -558,9 +511,17 @@ const TariffCreate = () => {
 	const [successService, setSuccessService] = useState(false);
 	const { state } = useContext(ObjectContext);
 	const [chosen2, setChosen2] = useState();
-	const [modifier, setModifier] = useState([]);
-	const [subplan, setSubplan] = useState({});
 	const [band, setBand] = useState('');
+	const [showService, setShowService] = useState(false);
+	const [selectedPlan, setSelectedPlan] = useState([]);
+	const [capitation, setCapitation] = useState(false);
+	const [feeForService, setFeeForService] = useState(false);
+	const [serviceClass, setServiceClass] = useState('');
+	const [copay, setCopay] = useState('');
+	const [reqCopay, setReqCopay] = useState(false);
+	const [reqAuthCode, setReqAuthCode] = useState(false);
+	const [selectedBand, setSelectedBand] = useState('');
+	const [showCoPay, setShowCoPay] = useState(false);
 	const [serviceUnavailable, setServiceUnavailable] = useState({
 		status: false,
 		name: '',
@@ -575,59 +536,6 @@ const TariffCreate = () => {
 			facility: user.currentEmployee.facility,
 		},
 	});
-	const onSubmit = async () => {
-		// e.preventDefault();
-		let check = await handleCheck();
-		if (check) {
-			console.log(check);
-			return;
-		}
-		if (panel && panelList.length === 0) {
-			toast.warning(
-				'Please choose services that make up panel or uncheck panel ',
-			);
-			return;
-		}
-
-		setSuccess(false);
-
-		let data = {
-			name: serviceUnavailable.status ? serviceUnavailable.name : service.name, //source
-			category: categoryname,
-			facility: user.currentEmployee.facilityDetail._id,
-			facilityname: user.currentEmployee.facilityDetail.facilityName,
-			panel: panel,
-			panelServices: panelList,
-			contracts: productItem,
-			createdBy: user._id,
-		};
-		//  console.log(data)
-
-		ServicesServ.create(data)
-			.then((res) => {
-				setSuccessService(true);
-				//console.log(JSON.stringify(res))
-				resetform();
-				/*  setMessage("Created Services successfully") */
-				setSuccess(true);
-				setSuccess2(true);
-
-				toast.success('Service created succesfully');
-				setSuccess(false);
-				setSuccess2(false);
-				setSuccessService(false);
-				setProductItem([]);
-				setPanelList([]);
-				setServiceUnavailable({
-					status: false,
-					name: '',
-				});
-				// setSuccessService(true)
-			})
-			.catch((err) => {
-				toast.error('Error creating Services ' + err);
-			});
-	};
 
 	useEffect(() => {
 		const getData = async () => {
@@ -635,7 +543,6 @@ const TariffCreate = () => {
 			try {
 				const findServices = await ServicesServ.find();
 				const findBands = await BandsServ.find();
-				setServices(findServices?.data);
 				setBands(findBands?.data);
 			} catch (err) {}
 			setLoading(false);
@@ -643,93 +550,6 @@ const TariffCreate = () => {
 
 		getData();
 	}, []);
-
-	const handleChange = async (e, i, c) => {
-		c.checked = !c.checked;
-
-		const newPlan = {
-			name: c.name,
-			checked: false,
-		};
-		// console.log(c.checked)
-		if (c.checked) {
-			//add to benefiting plan
-			let planx = {
-				name: c.name,
-				serviceClass: '',
-				feeforService: true,
-				capitation: false,
-				reqAuthCode: false,
-				reqCopay: false,
-				copay: '',
-			};
-			//   console.log(planx)
-			await setBenefittingPlans((prev) => [...prev, planx]);
-		} else {
-			await setBenefittingPlans((prevstate) =>
-				prevstate.filter((el) => el.name !== c.name),
-			); //remove from benefiting plan
-		}
-	};
-	const updateObjectInArray = (array, child) => {
-		array.map((item, index) => {
-			if (item.name !== child.name) {
-				// This isn't the item we care about - keep it as-is
-				return item;
-			}
-			// Otherwise, this is the one we want - return an updated value
-			//console.log(child)
-			return {
-				...child,
-			};
-		});
-		return array;
-	};
-
-	const handleChangeMode = async (e) => {
-		let existingBand = productItem.filter((el) => el.band === e.target.value);
-		if (!existingBand.length > 0) {
-			await setBand(e.target.value);
-		} else {
-			toast.info(' This band already exist! Please choose another band ');
-			return;
-		}
-	};
-
-	const handleServType = async (e, i, c) => {
-		let currentPlan = benefittingplans.filter((el) => el.name == c.name)[0];
-		currentPlan.serviceClass = e.target.value;
-		currentPlan.capitation = e.target.value === 'Capitation' ? true : false;
-		currentPlan.feeforService =
-			e.target.value === 'Fee for Service' ? true : false;
-		const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
-		await setBenefittingPlans(updatedplan);
-	};
-
-	const handleCopay = async (e, i, c) => {
-		let currentPlan = benefittingplans.filter((el) => el.name == c.name)[0];
-		currentPlan.copay = e.target.value;
-		currentPlan.reqCopay = currentPlan.copay === '' ? false : true;
-		const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
-		await setBenefittingPlans(updatedplan);
-	};
-
-	const handleAuthCode = async (e, i, c) => {
-		let currentPlan = benefittingplans.filter((el) => el.name == c.name)[0];
-		currentPlan.reqAuthCode = e.target.checked;
-		const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
-		await setBenefittingPlans(updatedplan);
-	};
-
-	useEffect(() => {
-		return () => {};
-	}, [benefittingplans]);
-
-	const [Services, setServices] = useState({
-		productitems: [],
-		panel,
-		source,
-	});
 
 	// consider batchformat{batchno,expirydate,qtty,baseunit}
 	//consider baseunoit conversions
@@ -787,35 +607,6 @@ const TariffCreate = () => {
 		return () => {};
 	}, [user]);
 
-	const getBenfittingPlans = async () => {
-		setBenefittingPlans1([]);
-		if (user.currentEmployee) {
-			const findServices = await ServicesServ.find({
-				query: {
-					organizationId: user.currentEmployee.facilityDetail._id,
-					// 'contracts.source_org': user.currentEmployee.facilityDetail._id,
-					// 'contracts.dest_org': user.currentEmployee.facilityDetail._id,
-					// category: 'Managed Care',
-					// storeId:state.StoreModule.selectedStore._id,
-					// $limit:20,
-					//   paginate:false,
-					$sort: {
-						category: 1,
-					},
-				},
-			});
-			console.log(findServices);
-			if (findServices.total > 0) {
-				findServices.groupedOrder[0].services.forEach(async (c) => {
-					const newPlan = {
-						name: c.name,
-						checked: false,
-					};
-					await setBenefittingPlans1((prev) => prev.concat(c));
-				});
-			}
-		}
-	};
 	const getProviderBand = async () => {
 		if (user.currentEmployee) {
 			const findServices = await BandsServ.find({
@@ -847,112 +638,82 @@ const TariffCreate = () => {
 		setName(user.currentEmployee.facilityDetail.facilityName);
 		setOrgType(user.currentEmployee.facilityDetail.facilityType);
 		getProviderBand();
-		getBenfittingPlans();
 		return () => {};
 	}, []);
 
+	// function to handle which service class is selected
+	const handleServType = async (e) => {
+		if (e.target.value === 'Capitation') {
+			setCapitation(true);
+			setFeeForService(false);
+			setServiceClass(e.target.value);
+		} else {
+			setCapitation(false);
+			setFeeForService(true);
+			setServiceClass(e.target.value);
+		}
+	};
+
+	const handleCopay = async (e) => {
+		setCopay(e.target.value);
+		setReqCopay(true);
+	};
+
+	const handleAuthCode = async (e) => {
+		setReqAuthCode(true);
+	};
+
 	const handleClickProd = async () => {
-		let pricingInfo = {
-			band,
-			costprice,
-			benefittingplans, //=array of planx
-		};
-
-		let productItemI = {
-			/* facilityId,
-            name,
-            quantity,
-            costprice, */
-			name: service.name,
-			categoryname,
-			comments,
-			pricingInfo,
-		};
-		//  if (productItem.length>0){
-		//Check that fields are filled appropriately
-		if (!costprice) {
-			toast.warning('You need to enter price ');
-			return;
-		}
-
-		if (!service.name && !serviceUnavailable.name) {
-			toast.warning('You need to enter service name ');
-			return;
-		}
-		if (!categoryname) {
-			toast.warning('You need to enter category ');
-			return;
-		}
-		if (band === '') {
-			toast.warning('You need to choose provider band ');
-			return;
-		}
-		if (!benefittingplans.length > 0) {
-			toast.warning('You need to add benefiting plan ');
-
-			return;
-		}
-		let check = await handleCheck();
-		if (check) {
-			return;
-		}
-		productItemI = {
-			source_org: facilityId,
-			source_org_name: name,
-			dest_org: user.currentEmployee.facilityDetail._id,
-			dest_org_name: user.currentEmployee.facilityDetail.facilityName,
-			price: costprice,
-			billing_type: orgType === 'HMO' ? 'HMO' : 'Company',
-			plans: benefittingplans,
+		let seviceItem = {
+			serviceName: service.name,
+			serviceId: service._id,
+			plans: selectedPlan,
+			benefits: selectedPlan.map((item) => item.benefits),
+			price: parseFloat(costprice),
+			coPay: reqCopay,
+			copayDetail: copay,
+			capitation: capitation,
+			feeForService: feeForService,
+			reqPA: reqAuthCode,
 			comments: comments,
-
-			band: band,
 		};
-		console.log(productItemI);
-		await setCash('');
-
-		await setSuccess(false);
-		setProductItem((prevProd) => prevProd.concat(productItemI));
-
+		console.log(seviceItem);
+		setProductItem([...productItem, seviceItem]);
+		setService('');
 		setCostprice('');
-		setBand('');
-		setBenefittingPlans([]);
-		setBenefittingPlans1([]);
-		getBenfittingPlans();
-
+		setCopay('');
+		setCapitation(false);
+		setFeeForService(false);
+		setReqAuthCode(false);
+		setReqCopay(false);
+		setSelectedPlan([]);
 		await setSuccess(true);
 	};
 
-	const resetform = () => {
-		//setFacilityId("")
-		setSource('');
-		setPanel(false);
-		//setName("")
-		setComments('');
-		setCostprice('');
-		setProductItem([]);
-		setCategoryName('');
-		setService('');
-		setPanelList([]);
-		setPlan('');
-		setBenefittingPlans([]);
-		setCash('Cash');
-		setOrgType('');
-		setServiceUnavailable('');
-		setServices('');
-	};
-	const handleClear = () => {
-		resetform();
-		/*  setMessage("Created Services successfully") */
-		setSuccess(true);
-		setSuccess2(true);
-		setSuccessService(true);
-		toast.success('Data entry cleared succesfully');
-		setSuccess(false);
-		setSuccess2(false);
-		setSuccessService(false);
-		setProductItem([]);
-		setPanelList([]);
+	const onSubmit = async () => {
+		if (bands.length === 0) {
+			return toast.error('Please add a band');
+		}
+		if (productItem.length === 0) {
+			return toast.error('Please add a service');
+		}
+
+		let data = {
+			organizationId: user.currentEmployee.facilityDetail._id,
+			organizationName: user.currentEmployee.facilityDetail.facilityName,
+			band: selectedBand,
+			contracts: productItem,
+		};
+		//  console.log(data)
+
+		ServicesServ.create(data)
+			.then((res) => {
+				toast.success('Tariff created succesfully');
+				setShowModal(0);
+			})
+			.catch((err) => {
+				toast.error('Error creating Tariff ' + err);
+			});
 	};
 
 	const handleBenefit = (e) => {
@@ -961,21 +722,12 @@ const TariffCreate = () => {
 	};
 
 	const handleRemove = (index, contract) => {
-		//console.log(index)
-		if (contract.billing_type === 'Cash') {
-			toast.error('You cannot remove cash billing');
-			return;
-		}
-
-		//setProductItem(prevstate=> prevstate.splice(i,1))
-		setProductItem((prevstate) => {
-			prevstate.filter((ProductionItem, i) => i !== index);
-			console.log(prevstate);
-		});
-
-		/*  const newProductitem = [...productItem]
-   newProductitem.splice(i,1)
-   setProductItem(newProductitem) */
+		console.log(index, contract);
+		const newProductItem = productItem.filter(
+			(ProductionItem, i) => i !== contract,
+		);
+		setProductItem(newProductItem);
+		console.log(newProductItem);
 	};
 	const handleAddPanel = () => {
 		// setSuccessService(false)
@@ -1029,37 +781,16 @@ const TariffCreate = () => {
 			width: '50px',
 		},
 		{
-			name: 'Organization',
-			key: 'organization',
-			description: 'Organization',
-			selector: (row) => row?.source_org_name,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-		{
-			name: 'Band',
-			key: 'band',
-			description: 'Band',
-			selector: (row) => row?.band,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-		{
-			name: 'Amount',
-			key: 'price',
-			description: 'Amount',
-			selector: (row) => row?.price,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-		{
-			name: 'Billing type',
-			key: 'billingtype',
-			description: 'Billing type',
-			selector: (row) => row?.billing_type,
+			name: 'Service Name',
+			key: 'serviceName',
+			description: 'Service Name',
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					{row?.serviceName}
+				</Typography>
+			),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -1068,15 +799,37 @@ const TariffCreate = () => {
 			name: 'Plan',
 			key: 'plan',
 			description: 'Plan',
-			selector: (row) =>
-				row?.plans.map((plan, i) => (
-					<span
-						key={i}
-						className='ml-1'>
-						<b>{plan.name}</b>:{plan.serviceClass}/{plan.reqAuthCode.toString()}
-						/{plan.copay};<br></br>
-					</span>
-				)),
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					<b>Capitation?</b>: {row?.capitation === true ? 'Yes' : 'No'}
+					<br />
+					<b>Free for Service?</b>:{row?.feeforService === true ? 'Yes' : 'No'}
+					<br />
+					<b>PreAuth?</b>: {row?.reqAuthCode === true ? 'Yes' : 'No'}
+					<br />
+					<b>Co-Pay</b>: {row?.copay !== '' ? `₦${row?.copay}` : 'N/A'}
+				</Typography>
+			),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Amount',
+			key: 'price',
+			description: 'Amount',
+			selector: (row) => `₦${row?.price}`,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Comment',
+			key: 'comment',
+			description: 'Comment',
+			selector: (row) => row?.comments,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -1099,9 +852,12 @@ const TariffCreate = () => {
 			inputType: 'NUMBER',
 		},
 	];
-	console.log(benefittingPlans1);
+	console.log(productItem);
 	return (
-		<Box>
+		<Box
+			style={{
+				margin: '0 1rem',
+			}}>
 			<Box
 				sx={{
 					display: 'flex',
@@ -1109,229 +865,224 @@ const TariffCreate = () => {
 					alignItems: 'center',
 				}}>
 				<FormsHeaderText text='Create Tariff' />
-				{productItem?.length > 0 && (
-					<Box my={1}>
-						<GlobalCustomButton
-							text='Create'
-							onClick={onSubmit}
-							color='success'
-							customStyles={{ marginRight: '.8rem' }}
-						/>
-						<GlobalCustomButton
-							text='Cancel'
-							onClick={() => handleClear(false)}
-							color='error'
-						/>
-					</Box>
-				)}
-			</Box>
-
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<Grid
-					container
-					spacing={2}
-					mt={1}>
-					{/* <Grid item xs={12} sm={6}>
-            <Input label="Tariff Name" />
-          </Grid> */}
-					<Grid
-						item
-						xs={12}
-						sm={6}>
-						<select
-							name='bandType'
-							value={band}
-							onChange={(e) => handleChangeMode(e)}
-							className='selectadd'
-							style={{
-								border: '1px solid #b6b6b6',
-								height: '2.2rem',
-								borderRadius: '4px',
-								width: '100%',
-							}}>
-							<option value=''>
-								{user.currentEmployee.facilityDetail.facilityType === 'HMO'
-									? 'Choose Provider Band'
-									: 'Choose Company Band'}{' '}
-							</option>
-							{providerBand.map((option, i) => (
-								<option
-									key={i}
-									value={option.name}>
-									{' '}
-									{option.name}
-								</option>
-							))}
-						</select>
-					</Grid>
-					<Grid
-						item
-						xs={12}
-						sm={6}>
-						<Input
-							label='Price'
-							onChange={(e) => setCostprice(e.target.value)}
-						/>
-					</Grid>
-					<Grid
-						item
-						xs={12}
-						sm={6}>
-						<SearchSelect
-							getSearchService={getSearchService}
-							clear={successService}
-							notfound={notfound}
-							placeholder='Search Service'
-						/>
-					</Grid>
-					<Grid
-						item
-						xs={12}
-						sm={6}>
-						<CategorySearch
-							getSearchfacility={getSearchfacility2}
-							clear={success2}
-							label='Search Services Category'
-						/>
-					</Grid>
-					<Grid
-						item
-						xs={12}
-						sm={12}>
-						<Textarea
-							label='Comments'
-							onChange={(e) => setComments(e.target.value)}
-						/>
-					</Grid>
-				</Grid>
-				{/* <CustomSelect label='Company Band' options={reformedBands} /> */}
-
-				<Box>
-					<h2>Benefitting Plans</h2>
-					{benefittingPlans1.map((c, i) => (
-						<>
-							<div className='pb-2'>
-								<Grid
-									container
-									spacing={2}
-									mt={1}
-									sx={{ alignItems: 'center' }}>
-									<Grid
-										item
-										xs={12}
-										sm={6}>
-										<div className='field mr-2 '>
-											<input
-												className='checkbox is-small '
-												type='checkbox'
-												value={i}
-												name={`selectedPlans +${i}`}
-												key={i}
-												onChange={(e) => handleChange(e, i, c)}
-											/>
-											<label
-												className='label is-small mr-2'
-												key={i}
-												style={{ fontSize: '0.8rem', marginLeft: '5px' }}>
-												{c.name + ' '}
-											</label>
-										</div>
-									</Grid>
-									<Grid
-										item
-										xs={12}
-										sm={6}>
-										{c.checked && (
-											<Input
-												className='input smallerinput is-small is-pulled-right '
-												name={`copay +${i}`}
-												value={
-													benefittingplans.filter((el) => el.name == c.name)
-														.copay
-												}
-												onChange={(e) => handleCopay(e, i, c)}
-												label='Co-pay Amount'
-											/>
-										)}
-									</Grid>
-								</Grid>
-								{c.checked && (
-									<Box>
-										<Grid
-											container
-											spacing={2}
-											mt={1}>
-											<Grid
-												item
-												xs={12}
-												sm={4}>
-												<input
-													className=' is-small'
-													value='Capitation'
-													name={`servtype +${i}`}
-													type='radio'
-													onChange={(e) => handleServType(e, i, c)}
-													style={{ marginRight: '5px' }}
-												/>
-												<span>Capitation</span>
-											</Grid>
-											<Grid
-												item
-												xs={12}
-												sm={4}>
-												<input
-													className=' is-small'
-													name={`servtype +${i}`}
-													value='Fee for Service'
-													type='radio'
-													onChange={(e) => handleServType(e, i, c)}
-													style={{ marginRight: '5px' }}
-												/>
-
-												<span>Fee for Service</span>
-											</Grid>
-											<Grid
-												item
-												xs={12}
-												sm={4}>
-												<input
-													className='checkbox is-small'
-													name={`authCode +${i}`}
-													type='radio'
-													onChange={(e) => handleAuthCode(e, i, c)}
-													style={{ marginRight: '5px' }}
-												/>
-												<span>Requires Pre-Authorization Code</span>
-											</Grid>
-										</Grid>
-									</Box>
-								)}
-							</div>
-						</>
-					))}
+				<Box sx={{ display: 'flex', alignItems: 'center' }}>
+					<GlobalCustomButton
+						text='Back'
+						onClick={() => setShowModal(0)}
+						color='warning'
+						customStyles={{ marginRight: '1rem' }}
+					/>
 					<GlobalCustomButton
 						text='Add'
-						onClick={handleClickProd}
+						onClick={onSubmit}
+						color='success'
 					/>
-					{productItem?.length > 0 && (
-						<Box my={1}>
-							<CustomTable
-								title={''}
-								columns={productItemSchema}
-								data={productItem}
-								pointerOnHover
-								highlightOnHover
-								striped
-							/>
-						</Box>
-					)}
 				</Box>
-			</form>
+			</Box>
+			<Grid
+				container
+				spacing={2}
+				mt={1}>
+				{/* <Grid item xs={12} sm={6}>
+            <Input label="Tariff Name" />
+          </Grid> */}
+				<Grid
+					item
+					xs={12}
+					sm={4}>
+					<select
+						name='bandType'
+						value={selectedBand}
+						onChange={(e) => setSelectedBand(e.target.value)}
+						className='selectadd'
+						style={{
+							border: '1px solid #b6b6b6',
+							height: '2.2rem',
+							borderRadius: '4px',
+							width: '100%',
+						}}>
+						<option value=''>
+							{user.currentEmployee.facilityDetail.facilityType === 'HMO'
+								? 'Choose Provider Band'
+								: 'Choose Company Band'}{' '}
+						</option>
+						{providerBand.map((option, i) => (
+							<option
+								key={i}
+								value={option.name}>
+								{' '}
+								{option.name}
+							</option>
+						))}
+					</select>
+				</Grid>
+			</Grid>
+			<Box
+				sx={{
+					display: 'flex',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+					margin: '1rem 0',
+				}}>
+				<FormsHeaderText text={'Services'} />
+				<GlobalCustomButton
+					type='button'
+					variant='contained'
+					color='primary'
+					onClick={() => setShowService(true)}
+					text='Add Service'
+					customStyles={{ marginRight: '.8rem' }}
+				/>
+			</Box>
+			{productItem?.length > 0 && (
+				<Box my={1}>
+					<CustomTable
+						title={''}
+						columns={productItemSchema}
+						data={productItem}
+						pointerOnHover
+						highlightOnHover
+						striped
+					/>
+				</Box>
+			)}
+
+			{showService && (
+				<ModalBox
+					open={showService}
+					onClose={() => setShowService(false)}>
+					<GlobalCustomButton
+						type='button'
+						variant='contained'
+						color='success'
+						onClick={handleClickProd}
+						text='Add Service'
+						customStyles={{ float: 'right' }}
+					/>
+					<Grid
+						container
+						spacing={2}>
+						<Grid
+							item
+							xs={12}
+							sm={4}>
+							<Input
+								label='Price'
+								onChange={(e) => setCostprice(e.target.value)}
+							/>
+						</Grid>
+						<Grid
+							item
+							xs={12}
+							sm={4}>
+							<SearchSelect
+								getSearchService={getSearchService}
+								clear={successService}
+								notfound={notfound}
+								placeholder='Search Service'
+							/>
+						</Grid>
+						<Grid
+							item
+							xs={12}
+							sm={4}>
+							<SelectHealthPlan
+								selectedPlan={selectedPlan}
+								setSelectedPlan={setSelectedPlan}
+							/>
+						</Grid>
+						<Grid
+							item
+							xs={12}
+							sm={12}>
+							<Textarea
+								label='Comments'
+								onChange={(e) => setComments(e.target.value)}
+							/>
+						</Grid>
+						<Box sx={{ width: '95%' }}>
+							<Grid
+								container
+								spacing={2}
+								m={1}>
+								<Grid
+									item
+									xs={12}
+									sm={3}>
+									<input
+										className=' is-small'
+										value='Capitation'
+										type='radio'
+										onChange={(e) => handleServType(e)}
+										style={{ marginRight: '5px' }}
+									/>
+									<span>Capitation</span>
+								</Grid>
+								<Grid
+									item
+									xs={12}
+									sm={3}>
+									<input
+										className=' is-small'
+										value='Fee for Service'
+										type='radio'
+										onChange={(e) => handleServType(e)}
+										style={{ marginRight: '5px' }}
+									/>
+
+									<span>Fee for Service</span>
+								</Grid>
+								<Grid
+									item
+									xs={12}
+									sm={3}>
+									<input
+										className='checkbox is-small'
+										type='checkbox'
+										onChange={(e) => setShowCoPay(!showCoPay)}
+										style={{ marginRight: '5px' }}
+									/>
+									<span>Co-Pay?</span>
+								</Grid>
+								<Grid
+									item
+									xs={12}
+									sm={3}>
+									<input
+										className='checkbox is-small'
+										type='checkbox'
+										onChange={(e) => handleAuthCode(e)}
+										style={{ marginRight: '5px' }}
+									/>
+									<span>Requires Pre-Authorization Code</span>
+								</Grid>
+							</Grid>
+							<Grid
+								container
+								spacing={2}>
+								<Grid
+									item
+									xs={12}
+									sm={6}
+									m={1}>
+									{showCoPay && (
+										<Input
+											className='input smallerinput is-small is-pulled-right '
+											onChange={(e) => handleCopay(e)}
+											label='Co-pay Amount'
+										/>
+									)}
+								</Grid>
+							</Grid>
+						</Box>
+					</Grid>
+				</ModalBox>
+			)}
 		</Box>
 	);
 };
 
-const TariffView = (service) => {
+export const TariffView = (service) => {
 	const [editing, setEditing] = useState(false);
 	const {
 		register,
@@ -1441,5 +1192,3 @@ const TariffView = (service) => {
 		</Box>
 	);
 };
-
-export default TarrifList;
