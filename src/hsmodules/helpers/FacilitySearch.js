@@ -767,6 +767,111 @@ export function SelectBand({ selectedBand, setSelectedBand }) {
 		</div>
 	);
 }
+export function SelectHealthPlan({ selectedPlan, setSelectedPlan }) {
+	const { user } = useContext(UserContext);
+	const HealthPlanServ = client.service('healthplan');
+	const [facilities, setFacilities] = useState([]);
+	const theme = useTheme();
+
+	const ITEM_HEIGHT = 28;
+	const ITEM_PADDING_TOP = 8;
+	const MenuProps = {
+		PaperProps: {
+			style: {
+				maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+			},
+		},
+	};
+	// function getStyles(name, personName, theme) {
+	// 	return {
+	// 		fontWeight: '0.75rem',
+	// 	};
+	// }
+	// function to get the provider band
+	const getFacilities = async () => {
+		console.log(user);
+		if (user.currentEmployee) {
+			let stuff = {
+				organizationId: user.currentEmployee.facilityDetail._id,
+				// locationId:state.employeeLocation.locationId,
+				$limit: 100,
+				$sort: {
+					createdAt: -1,
+				},
+			};
+			const findHealthPlan = await HealthPlanServ.find({ query: stuff });
+
+			await console.log('HealthPlan', findHealthPlan.data);
+			await setFacilities(findHealthPlan.data);
+		} else {
+			if (user.stacker) {
+				const findClient = await HealthPlanServ.find({
+					query: {
+						$limit: 100,
+						$sort: {
+							createdAt: -1,
+						},
+					},
+				});
+
+				await setFacilities(findClient.data);
+			}
+		}
+	};
+	const handleChange = (event) => {
+		const {
+			target: { value },
+		} = event;
+		setSelectedPlan(
+			// On autofill we get a stringified value.
+			typeof value === 'string' ? value.split(',') : value,
+		);
+	};
+
+	useEffect(() => {
+		getFacilities();
+	}, []);
+
+	return (
+		<div>
+			<FormControl
+				sx={{
+					fontSize: '0.75rem !important',
+					backgroundColor: '#ffffff !important',
+					'& .MuiInputBase-input': {
+						height: '0.9rem',
+					},
+					width: '100%',
+				}}
+				size='small'>
+				<InputLabel
+					id='demo-multiple-name-label'
+					sx={{
+						fontSize: '0.75rem !important',
+						color: '#000000 !important',
+					}}>
+					Choose Plan(s)
+				</InputLabel>
+				<Select
+					labelId='demo-multiple-name-label'
+					id='demo-multiple-name'
+					multiple
+					value={selectedPlan}
+					onChange={handleChange}
+					input={<OutlinedInput label={'Choose Plan(s)'} />}
+					MenuProps={MenuProps}>
+					{facilities?.map((option, i) => (
+						<MenuItem
+							key={i}
+							value={option}>
+							{option.planName}
+						</MenuItem>
+					))}
+				</Select>
+			</FormControl>
+		</div>
+	);
+}
 
 export function SearchCategory({ selectedCategory, setSelectedCategory }) {
 	const filter = createFilterOptions();
