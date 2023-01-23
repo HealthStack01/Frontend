@@ -216,11 +216,11 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 
 	// function to handle which service class is selected
 	const handleServType = async (e) => {
-		if (e.target.value === 'Capitation') {
+		if (e.target.value === 'Capitation' && e.target.checked) {
 			setCapitation(true);
 			setFeeforService(false);
 			setServiceClass(e.target.value);
-		} else {
+		} else if (e.target.value === 'Fee for Service' && e.target.checked) {
 			setCapitation(false);
 			setFeeforService(true);
 			setServiceClass(e.target.value);

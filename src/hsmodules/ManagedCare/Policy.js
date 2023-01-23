@@ -605,6 +605,10 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 	const [subSponsor, setSubSponsor] = useState('');
 	const [healthplan, setHealthplan] = useState([]);
 	const [planType, setPlanType] = useState('');
+	const [indiPremium, setIndiPremium] = useState('');
+	const [famPremium, setFamPremium] = useState('');
+	const [indiDuration, setIndiDuration] = useState('');
+	const [famDuration, setFamDuration] = useState('');
 	// const [organizationName, setOrganizationName] = useState('');
 	// const [organizationId, setOrganizationId] = useState('');
 
@@ -657,11 +661,16 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 		console.log(cplan);
 		setChosenPlan(cplan[0]);
 		let contract = cplan[0]?.premiums[0]?.familyPremium;
-		if (subSponsor === 'Individual') {
-			setPrice(cplan[0]?.premiums[0]?.individualPremium);
-		} else {
-			setPrice(contract);
-		}
+		cplan[0]?.premiums.map((el) => {
+			if (el.planType === 'Individual') {
+				setIndiPremium(el?.premiumAmount);
+				setIndiDuration(el?.premiumDuration);
+			}
+			if (el.planType === 'Family') {
+				setFamPremium(el?.premiumAmount);
+				setFamDuration(el?.premiumDuration);
+			}
+		});
 	};
 	console.log('price', price);
 	const handleClickProd = () => {
@@ -1202,15 +1211,50 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 								onChange={(e, i) => handleChangePlan(e.target.value)}
 							/>
 						</Grid>
-						<Grid
-							item
-							md={4}>
-							<Input
-								value={price}
-								disabled
-								label='Price'
-							/>
-						</Grid>
+						{planType === 'Individual' && (
+							<>
+								<Grid
+									item
+									md={4}>
+									<Input
+										value={indiPremium}
+										disabled
+										label='Individual Price'
+									/>
+								</Grid>
+								<Grid
+									item
+									md={4}>
+									<Input
+										value={indiDuration}
+										disabled
+										label='Individual Premium Duration'
+									/>
+								</Grid>
+							</>
+						)}
+						{planType === 'Family' && (
+							<>
+								<Grid
+									item
+									md={4}>
+									<Input
+										value={famPremium}
+										disabled
+										label='Family Price'
+									/>
+								</Grid>
+								<Grid
+									item
+									md={4}>
+									<Input
+										value={famDuration}
+										disabled
+										label='Family Premium Duration'
+									/>
+								</Grid>
+							</>
+						)}
 						{/* <Grid item md={6}>
               <MuiCustomDatePicker
                 label="Start Date"
