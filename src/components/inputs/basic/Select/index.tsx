@@ -113,7 +113,7 @@ const CustomSelect: React.FC<SelectProps> = ({
 							))}
 						</Select>
 					)}
-					defaultValue='' // make sure to set up defaultValue
+					defaultValue={defaultValue} // make sure to set up defaultValue
 				/>
 
 				{errorText && (

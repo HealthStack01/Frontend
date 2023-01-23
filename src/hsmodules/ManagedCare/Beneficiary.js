@@ -1602,15 +1602,15 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 			inputType: 'TEXT',
 		},
 
-		{
-			name: 'Midlle Name',
-			key: 'middlename',
-			description: 'Midlle Name',
-			selector: (row) => row.middlename,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
+		// {
+		// 	name: 'Midlle Name',
+		// 	key: 'middlename',
+		// 	description: 'Midlle Name',
+		// 	selector: (row) => row.middlename,
+		// 	sortable: true,
+		// 	required: true,
+		// 	inputType: 'TEXT',
+		// },
 		{
 			name: 'Age',
 			key: 'dob',
@@ -1973,7 +1973,12 @@ export function ClientDetail({ showModal, setShowModal }) {
 						justifyContent: 'space-between',
 						alignItems: 'center',
 					}}>
-					<ModalHeader text={'Beneficiary Details'} />
+					<FormsHeaderText
+						text={`
+          ${Client?.firstname}  ${Client?.lastname} 
+           Details
+          `}
+					/>
 					<Box
 						sx={{
 							display: 'flex',
@@ -3287,7 +3292,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			selector: (row, i) => i + 1,
 			sortable: true,
 			inputType: 'HIDDEN',
-			width: '80px',
+			width: '50px',
 		},
 		{
 			name: 'Date Created',
@@ -3299,66 +3304,6 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			inputType: 'DATE',
 		},
 		{
-			name: 'Sponsorship Type',
-			key: 'sponsorshipType',
-			description: 'Sponsorship Type',
-			selector: (row) => row?.sponsorshipType,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-
-		{
-			name: 'Plan',
-			key: 'plan',
-			description: 'Plan',
-			selector: (row) => row?.plan?.name,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-
-		{
-			name: 'Premium',
-			key: 'premium',
-			description: 'Premium',
-			selector: (row) => row?.premium,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-
-		{
-			name: 'Paid',
-			key: 'isPaid',
-			description: 'Paid',
-			selector: (row) => (row?.isPaid ? 'Yes' : 'No'),
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-
-		{
-			name: 'Active',
-			key: 'active',
-			description: 'Active',
-			selector: (row) => (row?.active ? 'Yes' : 'No'),
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-
-		{
-			name: 'Pricipal Last Name',
-			key: 'principal',
-			description: 'Principal Last Name',
-			selector: (row) => row?.principal?.lastname,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-
-		{
 			name: 'First Name',
 			key: 'firstname',
 			description: 'First Name',
@@ -3369,10 +3314,10 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 		},
 
 		{
-			name: 'Middle Name',
-			key: 'middlename',
-			description: 'Middle Name',
-			selector: (row) => row?.principal?.middlename,
+			name: 'Last Name',
+			key: 'principal',
+			description: 'Principal Last Name',
+			selector: (row) => row?.principal?.lastname,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -3397,12 +3342,60 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			required: true,
 			inputType: 'EMAIL',
 		},
+		{
+			name: 'Sponsorship Type',
+			key: 'sponsorshipType',
+			description: 'Sponsorship Type',
+			selector: (row) => row?.sponsorshipType,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
 
 		{
-			name: 'Tags',
-			key: 'tags',
-			description: 'Tags',
-			selector: (row) => row?.principal?.clientTags,
+			name: 'Plan',
+			key: 'plan',
+			description: 'Plan',
+			selector: (row) => row?.plan?.planName,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+
+		{
+			name: 'Family Premium',
+			key: 'familyPremium',
+			description: 'Family Premium',
+			selector: (row) => row?.plan?.premiums?.[0]?.familyPremium,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Individual Premium',
+			key: 'individualPremium',
+			description: 'Individual Premium',
+			selector: (row) => row?.plan?.premiums?.[0]?.individualPremium,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+
+		{
+			name: 'Paid',
+			key: 'isPaid',
+			description: 'Paid',
+			selector: (row) => (row?.isPaid ? 'Yes' : 'No'),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+
+		{
+			name: 'Active',
+			key: 'active',
+			description: 'Active',
+			selector: (row) => (row?.active ? 'Yes' : 'No'),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -3432,56 +3425,6 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			<div className='level'>
 				<PageWrapper
 					style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}>
-					<TableMenu>
-						<div style={{ display: 'flex', alignItems: 'center' }}>
-							{handleSearch && (
-								<div className='inner-table'>
-									<FilterMenu onSearch={handleSearch} />
-								</div>
-							)}
-							<h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
-								List of All Policies
-							</h2>
-						</div>
-						<Box
-							sx={{
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'flex-end',
-							}}>
-							{/* <GlobalCustomButton
-								text={
-									display === 'approve'
-										? 'Pending Policies'
-										: 'Approved Policies'
-								}
-								onClick={() =>
-									setDisplay(display === 'approve' ? 'pending' : 'approve')
-								}
-								customStyles={{
-									marginRight: '10px',
-								}}
-								color={display === 'approve' ? 'warning' : 'success'}
-							/> */}
-
-							{!standAlone && (
-								<Button
-									style={{
-										fontSize: '14px',
-										fontWeight: '600',
-									}}
-									color='primary'
-									variant='contained'
-									size='small'
-									sx={{ textTransform: 'capitalize' }}
-									onClick={handleCreateNew}
-									showicon={true}>
-									{' '}
-									Add New
-								</Button>
-							)}
-						</Box>
-					</TableMenu>
 					<div
 						className='level'
 						style={{
@@ -3535,9 +3478,10 @@ export function PolicyDetail({ showModal, setShowModal }) {
 			end_date: Client?.validityEnds,
 			status: Client?.approved ? 'Approved' : 'Pending',
 			sponsorship_type: Client?.sponsorshipType,
-			plan_type: Client?.plan?.name,
+			plan_type: Client?.plan?.planName,
 			policy_tag: Client?.principal?.clientTags,
-			premium: Client?.premium,
+			familyPremium: Client.plan?.premiums?.[0]?.familyPremium,
+			individualPremium: Client.plan?.premiums?.[0]?.individualPremium,
 			sponsor_name: Client.sponsor?.organizationDetail?.facilityName,
 			sponsor_phone: Client.sponsor?.organizationDetail?.facilityContactPhone,
 			sponsor_email: Client.sponsor?.organizationDetail?.facilityEmail,
@@ -3645,8 +3589,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
 				style={{
 					height: 'auto',
 					overflowY: 'scroll',
-					margin: '0 1rem',
-					width: '98%',
+					// width: '98%',
 				}}>
 				<Box>
 					{display === 1 && (
@@ -3725,8 +3668,18 @@ export function PolicyDetail({ showModal, setShowModal }) {
 									item
 									md={3}>
 									<Input
-										register={register('premium', { required: true })}
-										label='Premium'
+										register={register('familyPremium', { required: true })}
+										label='Family Premium'
+										disabled
+										//placeholder="Enter customer number"
+									/>
+								</Grid>
+								<Grid
+									item
+									md={3}>
+									<Input
+										register={register('individualPremium', { required: true })}
+										label='Individual Premium'
 										disabled
 										//placeholder="Enter customer number"
 									/>
