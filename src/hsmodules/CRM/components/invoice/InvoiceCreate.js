@@ -73,12 +73,13 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
     const notificationObj = {
       type: "CRM",
       title: "New Invoice Created For a Deal",
-      description: `${employee.firstname} ${employee.lastname} Created a new Invoi with ${data.type} ${data.name} in CRM`,
+      description: `${employee.firstname} ${employee.lastname} Created a new Invoice with ${currentDeal.type} ${currentDeal.name} in CRM`,
       facilityId: employee.facilityDetail._id,
       sender: `${employee.firstname} ${employee.lastname}`,
       senderId: employee._id,
-      pageUrl: location.pathname,
+      pageUrl: "/app/crm/lead",
       priority: "normal",
+      dest_userId: currentDeal.assignStaff.map(item => item.employeeId),
     };
 
     //return console.log(document);
@@ -90,7 +91,8 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
     const documentId = currentDeal._id;
     await dealServer
       .patch(documentId, {invoices: newInvoices})
-      .then(res => {
+      .then(async res => {
+        await notificationsServer.create(notificationObj);
         hideActionLoader();
         //setContacts(res.contacts);
         setState(prev => ({

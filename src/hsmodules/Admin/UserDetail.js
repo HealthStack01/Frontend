@@ -10,6 +10,7 @@ import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutli
 import SignaturePad from "react-signature-canvas";
 import SaveIcon from "@mui/icons-material/Save";
 import SystemUpdateAltIcon from "@mui/icons-material/SystemUpdateAlt";
+import PasswordIcon from "@mui/icons-material/Password";
 
 import Input from "../../components/inputs/basic/Input";
 import {UpdateProfilePhoto} from "../../components/profilemenu";
@@ -20,6 +21,7 @@ import client from "../../feathers";
 
 import "./sign.css";
 import {toast} from "react-toastify";
+import PasswordInput from "../../components/inputs/basic/Password";
 
 const UserAccountPage = () => {
   const EmployeeServ = client.service("employee");
@@ -30,6 +32,7 @@ const UserAccountPage = () => {
   const [signatureModal, setSignatureModal] = useState(false);
   const [userData, setUserData] = useState({});
   const [edit, setEdit] = useState(false);
+  const [passwordModal, setPasswordModal] = useState(false);
 
   const {register, handleSubmit, reset} = useForm();
 
@@ -42,6 +45,7 @@ const UserAccountPage = () => {
   };
 
   const getUserData = useCallback(() => {
+    showActionLoader();
     const userId = user.currentEmployee._id;
 
     EmployeeServ.get({
@@ -49,9 +53,11 @@ const UserAccountPage = () => {
     })
       .then(res => {
         setUserData(res);
+        hideActionLoader();
         //
       })
       .catch(err => {
+        hideActionLoader();
         console.log(err);
       });
   }, [user]);
@@ -99,6 +105,14 @@ const UserAccountPage = () => {
         header="Upload New Profile Photo"
       >
         <UpdateProfilePhoto closeModal={() => setImageUploadModal(false)} />
+      </ModalBox>
+
+      <ModalBox
+        open={passwordModal}
+        onClose={() => setPasswordModal(false)}
+        header="Change Your Password"
+      >
+        <ChangeEmployeePassword closeModal={() => setPasswordModal(false)} />
       </ModalBox>
 
       <ModalBox
@@ -151,6 +165,14 @@ const UserAccountPage = () => {
             Signature
           </GlobalCustomButton>
 
+          <GlobalCustomButton
+            onClick={() => setPasswordModal(true)}
+            color="info"
+          >
+            <DriveFileRenameOutlineIcon fontSize="small" />
+            Change Password
+          </GlobalCustomButton>
+
           {edit ? (
             <>
               <GlobalCustomButton onClick={() => setEdit(false)} color="error">
@@ -196,7 +218,7 @@ const UserAccountPage = () => {
           <Input
             label="Email Address"
             register={register("email")}
-            disabled={!edit}
+            disabled={true}
           />
         </Grid>
 
@@ -451,46 +473,6 @@ export const UploadSignatureImage = ({returnBase64}) => {
       });
   };
 
-  // const handleUploadLogo = async () => {
-  //   if (file === null) return toast.error("Please select an Image to upload");
-  //   showActionLoader();
-  //   const token = localStorage.getItem("feathers-jwt");
-  //   axios
-  //     .post(
-  //       "https://healthstack-backend.herokuapp.com/upload",
-  //       {uri: file},
-  //       {headers: {Authorization: `Bearer ${token}`}}
-  //     )
-  //     .then(async res => {
-  //       const imageUrl = res.data.url;
-  //       const employee = user.currentEmployee;
-
-  //       const documentId = employee._id;
-
-  //       await employeeServer
-  //         .patch(documentId, {imageurl: imageUrl})
-  //         .then(res => {
-  //           hideActionLoader();
-  //           closeModal();
-  //           toast.success("You've successfully updated your profile photo");
-  //         })
-  //         .catch(err => {
-  //           hideActionLoader();
-
-  //           toast.error(
-  //             `Error Updating profile photo, probable network issues or ${err}`
-  //           );
-  //         });
-  //     })
-  //     .catch(error => {
-  //       hideActionLoader();
-  //       toast.error(
-  //         `An error occured whilst updating your profile photo ${error}`
-  //       );
-  //       console.log(error);
-  //     });
-  // };
-
   return (
     <Box sx={{width: "500px", maxHeight: "80vw"}}>
       {file ? (
@@ -516,6 +498,92 @@ export const UploadSignatureImage = ({returnBase64}) => {
           children={<UploadComponent />}
         />
       )}
+    </Box>
+  );
+};
+
+export const ChangeEmployeePassword = ({closeModal}) => {
+  const {user} = useContext(UserContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+  const {register, handleSubmit} = useForm();
+
+  const handleChangePassword = async data => {
+    showActionLoader();
+    const token = localStorage.getItem("feathers-jwt");
+
+    const postObject = {
+      action: "passwordChange",
+      value: {
+        user: {
+          email: user.currentEmployee.email,
+        },
+        oldPassword: data.old_password,
+        password: data.new_password,
+      },
+    };
+
+    axios
+      .post(
+        "https://healthstack-backend.herokuapp.com/authManagement",
+        {
+          ...postObject,
+        },
+        {headers: {Authorization: `Bearer ${token}`}}
+      )
+      .then(() => {
+        hideActionLoader();
+        closeModal();
+        toast.success("You have successfully updated your account password");
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error(`There was an error updating your account ${err}`);
+      });
+  };
+
+  return (
+    <Box
+      sx={{
+        width: "500px",
+      }}
+    >
+      <form>
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+          }}
+        >
+          <PasswordInput
+            label="Old Password"
+            important
+            register={register("old_password", {
+              required: "Please provide your old password",
+            })}
+          />
+
+          <PasswordInput
+            important
+            label="New Password"
+            register={register("new_password", {
+              required: "Please provide your new password",
+            })}
+          />
+        </Box>
+      </form>
+
+      <Box mt={2}>
+        <GlobalCustomButton
+          color="success"
+          onClick={handleSubmit(handleChangePassword)}
+        >
+          <PasswordIcon fontSize="small" sx={{marginRight: "5px"}} /> Update
+          Password
+        </GlobalCustomButton>
+      </Box>
     </Box>
   );
 };

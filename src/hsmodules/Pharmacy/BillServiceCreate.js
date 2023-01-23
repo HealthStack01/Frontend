@@ -812,7 +812,7 @@ export default function BillServiceCreate() {
   ];
   return (
     <>
-      <Box sx={{width: "800px", maxHeight: "85vh"}}>
+      <Box sx={{width: "85vw", maxHeight: "85vh"}}>
         <Grid container spacing={0.5}>
           <Grid item lg={12} md={12} sm={12}>
             <Box>
@@ -825,6 +825,7 @@ export default function BillServiceCreate() {
                   <ClientSearch
                     getSearchfacility={getSearchfacility1}
                     clear={success1}
+                    id={patient._id}
                   />
                   {/* // ) : (
                   //   <Input

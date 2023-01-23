@@ -381,6 +381,8 @@ function SideMenu({isOpen}) {
   const {user} = useContext(UserContext);
   const navigate = useNavigate();
 
+  //console.log("this is the user account ohhhhh", user);
+
   useEffect(() => {
     if (inactive) {
       document.querySelectorAll(".sub-menu");
@@ -410,6 +412,7 @@ function SideMenu({isOpen}) {
 
   const facilitySortedMenuItems =
     facilityModules &&
+    facilityModules.legnth > 0 &&
     sortedMenuItems.filter(item => facilityModules.includes(item.name));
 
   const getFacilitySortedMenuItems = facilitySortedMenuItems || sortedMenuItems;

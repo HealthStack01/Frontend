@@ -770,13 +770,17 @@ export default function EncounterMain({nopresc, chosenClient}) {
                         )}
                         content={() => myRefs.current[i]}
                       />
-
-                      <IconButton
-                        color="error"
-                        onClick={() => handleConfirmDelete(Clinic)}
-                      >
-                        <DeleteOutlineIcon fontSize="small" />
-                      </IconButton>
+                      {user?.currentEmployee?.roles?.includes(
+                        "Delete Document"
+                      ) ||
+                        (user?.stacker && (
+                          <IconButton
+                            color="error"
+                            onClick={() => handleConfirmDelete(Clinic)}
+                          >
+                            <DeleteOutlineIcon fontSize="small" />
+                          </IconButton>
+                        ))}
                     </Box>
                   </Box>
                 </Box>
