@@ -341,7 +341,7 @@ export function AccreditationList({
 		//   inputType: 'TEXT',
 		// },
 	];
-	console.log('Facilities', facilities, 'Accreditation', accreditation);
+	console.log('Facilities', standAlone, 'Accreditation', accreditation);
 	return (
 		<>
 			{user ? (
@@ -390,8 +390,7 @@ export function AccreditationList({
 													user.currentEmployee.facilityDetail._id,
 										  )
 										: accreditation.filter(
-												(item) =>
-													item.facilityId === facility.facilityDetail._id,
+												(item) => item.facilityId === standAlone,
 										  )
 								}
 								pointerOnHover

@@ -34,7 +34,7 @@ export const PageCreatePlan = ({addNewPlan}) => {
   };
 
   const onSubmit = data => {
-    return console.log(data);
+    //return console.log(data);
     const employee = user.currentEmployee;
     const newPlan = {
       ...data,
@@ -53,6 +53,7 @@ export const PageCreatePlan = ({addNewPlan}) => {
   const handleOnPlanSelect = plan => {
     console.log(plan);
     setSelectedPlan(plan);
+    setValue("type", plan?.planName);
   };
 
   const premium = watch("premium");
@@ -102,12 +103,13 @@ export const PageCreatePlan = ({addNewPlan}) => {
         <Grid container spacing={1}>
           <Grid item lg={2} md={3} sm={4}>
             <HealthPlanSearchSelect handleChange={handleOnPlanSelect} />
-            {/* <CustomSelect
-              label="Plan Type"
-              options={["Family", "HMO", "Free", "Personal"]}
-              control={control}
-              name="type"
-            /> */}
+            <Box
+              sx={{
+                display: "none",
+              }}
+            >
+              <Input register={register("type")} />
+            </Box>
           </Grid>
 
           <Grid item lg={2} md={3} sm={4}>

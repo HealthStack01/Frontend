@@ -810,6 +810,7 @@ export default function BillServiceCreate() {
       inputType: "TEXT",
     },
   ];
+  //console.log(patient);
   return (
     <>
       <Box sx={{width: "85vw", maxHeight: "85vh"}}>
@@ -825,6 +826,7 @@ export default function BillServiceCreate() {
                   <ClientSearch
                     getSearchfacility={getSearchfacility1}
                     clear={success1}
+                    id={patient._id}
                   />
                   {/* ) : (
                     <Input

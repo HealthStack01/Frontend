@@ -1,227 +1,16 @@
 import {useRef} from "react";
-import {Avatar, Divider, Grid, Typography} from "@mui/material";
+import {Avatar, Divider, Typography} from "@mui/material";
 import {Box, fontWeight} from "@mui/system";
 import dayjs from "dayjs";
 import {useContext, useState, useEffect} from "react";
-import CustomTable from "../../../../components/customtable";
-import ModalBox from "../../../../components/modal";
-import {ObjectContext, UserContext} from "../../../../context";
+// import CustomTable from "../../../../components/customtable";
 import ReactToPrint, {useReactToPrint} from "react-to-print";
-import GlobalCustomButton from "../../../../components/buttons/CustomButton";
-import CRMInvoiceDesign, {
-  CRMEmailTemplate,
-  EmailTemplate,
-} from "./InvoiceDesign";
-import {ContactsEmailSource, EmailsSourceList} from "../deals/SendLink";
-import client from "../../../../feathers";
-import {toast} from "react-toastify";
-import {useForm} from "react-hook-form";
-import Input from "../../../../components/inputs/basic/Input";
-import EmailIcon from "@mui/icons-material/Email";
-import SendIcon from "@mui/icons-material/Send";
-import {renderToStaticMarkup} from "react-dom/server";
-
-const invoiceFormat = (invoice, plans) => {
-  const htmlSend = `<html>
-	<head>
-		<meta charset="utf-8" />
-		<title>A simple, clean, and responsive HTML invoice template</title>
-
-		<style>
-			.invoice-box {
-				max-width: 800px;
-				margin: auto;
-				padding: 30px;
-				border: 1px solid #eee;
-				box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-				font-size: 16px;
-				line-height: 24px;
-				font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-				color: #555;
-			}
-
-			.invoice-box table {
-				width: 100%;
-				line-height: inherit;
-				text-align: left;
-			}
-
-			.invoice-box table td {
-				padding: 5px;
-				vertical-align: top;
-			}
-
-			.invoice-box table tr td:nth-child(2) {
-				text-align: right;
-			}
-
-			.invoice-box table tr.top table td {
-				padding-bottom: 20px;
-			}
-
-			.invoice-box table tr.top table td.title {
-				font-size: 45px;
-				line-height: 45px;
-				color: #333;
-			}
-
-			.invoice-box table tr.information table td {
-				padding-bottom: 40px;
-			}
-
-			.invoice-box table tr.heading td {
-				background: #eee;
-				border-bottom: 1px solid #ddd;
-				font-weight: bold;
-			}
-
-			.invoice-box table tr.details td {
-				padding-bottom: 20px;
-			}
-
-			.invoice-box table tr.item td {
-				border-bottom: 1px solid #eee;
-			}
-
-			.invoice-box table tr.item.last td {
-				border-bottom: none;
-			}
-
-			.invoice-box table tr.total td:nth-child(2) {
-				border-top: 2px solid #eee;
-				font-weight: bold;
-			}
-
-			@media only screen and (max-width: 600px) {
-				.invoice-box table tr.top table td {
-					width: 100%;
-					display: block;
-					text-align: center;
-				}
-
-				.invoice-box table tr.information table td {
-					width: 100%;
-					display: block;
-					text-align: center;
-				}
-			}
-
-			/** RTL **/
-			.invoice-box.rtl {
-				direction: rtl;
-				font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-			}
-
-			.invoice-box.rtl table {
-				text-align: right;
-			}
-
-			.invoice-box.rtl table tr td:nth-child(2) {
-				text-align: left;
-			}
-		</style>
-	</head>
-
-	<body>
-		<div class="invoice-box">
-			<table cellpadding="0" cellspacing="0">
-				<tr class="top">
-					<td colspan="2">
-						<table>
-							<tr>
-								<td class="title">
-									<img src="https://www.sparksuite.com/images/logo.png" style="width: 100%; max-width: 300px" />
-								</td>
-
-								<td>
-									Invoice #: 123<br />
-									Created: January 1, 2015<br />
-									Due: February 1, 2015
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-
-				<tr class="information">
-					<td colspan="2">
-						<table>
-							<tr>
-								<td>
-									Sparksuite, Inc.<br />
-									12345 Sunny Road<br />
-									Sunnyville, CA 12345
-								</td>
-
-								<td>
-									Acme Corp.<br />
-									John Doe<br />
-									john@example.com
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-
-				<tr class="heading">
-					<td>Payment Method</td>
-
-					<td>Check #</td>
-				</tr>
-
-				<tr class="details">
-					<td>Check</td>
-
-					<td>1000</td>
-				</tr>
-
-				<tr class="heading">
-					<td>Type</td>
-
-					<td>Date</td>
-
-          <td>Duration</td>
-
-          <td>Premium</td>
-
-          <td>Heads</td>
-
-          <td>Amount</td>
-				</tr>
-
-        ${plans.map(
-          plan =>
-            `
-        <tr class="item">
-					<td>${plan.type}</td>
-
-					<td>${dayjs(plan.created_at).format("DD/MM/YYYY")}</td>
-
-          <td>${plan.length} ${plan.calendrical}</td>
-
-          <td>${plan.premiun}</td>
-
-          <td>${plan.heads}</td>
-
-          <td>${plan.amount}</td>
-				</tr>
-            `
-        )}
-
-
-
-				<tr class="total">
-					<td></td>
-
-					<td>Total: $385.00</td>
-				</tr>
-			</table>
-		</div>
-	</body>
-</html>`;
-
-  return htmlSend;
-};
+// import GlobalCustomButton from "../../../../components/buttons/CustomButton";
+import client from "../../feathers";
+import ModalBox from "../../components/modal";
+import {ObjectContext, UserContext} from "../../context";
+import CustomTable from "../../components/customtable";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 const customStyles = {
   rows: {
@@ -387,13 +176,79 @@ const columns = [
   },
 ];
 
-const InvoicePrintOut = ({closeModal}) => {
+const billsColumns = [
+  {
+    name: "S/N",
+    width: "50px",
+    key: "sn",
+    description: "Enter name of Disease",
+    selector: row => row.sn,
+    sortable: true,
+    required: true,
+    inputType: "HIDDEN",
+  },
+  {
+    name: "Date",
+    key: "date",
+    description: "Enter Date",
+    selector: row => dayjs(row.date).format("DD/MM/YYYY"),
+    sortable: true,
+    required: true,
+    inputType: "DATE",
+    width: "100px",
+  },
+  {
+    name: "Category",
+    key: "category",
+    description: "Enter Category",
+    selector: row => (
+      <Typography
+        sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
+        data-tag="allowRowEvents"
+      >
+        {row.category}
+      </Typography>
+    ),
+    sortable: true,
+    required: true,
+    inputType: "SELECT",
+  },
+  {
+    name: "Description",
+    key: "description",
+    description: "Enter Description",
+    selector: row => (
+      <Typography
+        sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
+        data-tag="allowRowEvents"
+      >
+        {row.description}
+      </Typography>
+    ),
+    sortable: true,
+    required: true,
+    inputType: "TEXT",
+  },
+
+  {
+    name: "Amount",
+    key: "amount",
+    description: "Enter Amount",
+    selector: row => row.amount,
+    sortable: true,
+    required: true,
+    inputType: "NUMBER",
+    width: "100px",
+  },
+];
+
+const PaymentInvoice = ({clientId, bills, clientAmount}) => {
+  const ClientServ = client.service("client");
   const {state} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
   const [totalAmount, setTotalAmount] = useState(0);
   const [selectAccountModal, setSelectAccountModal] = useState(true);
-  const [emailModal, setEmailModal] = useState(false);
-  const [invoiceData, setInvoiceData] = useState(null);
+  const [billedClient, setBilledClient] = useState(null);
 
   const printRef = useRef(null);
 
@@ -402,40 +257,28 @@ const InvoicePrintOut = ({closeModal}) => {
   const customer = state.DealModule.selectedDeal;
   const account = state.InvoiceModule.selectedBankAccount;
 
+  const handleGetClinet = async () => {
+    await ClientServ.get(clientId)
+      .then(resp => {
+        console.log(resp);
+        setBilledClient(resp);
+      })
+      .catch(err => console.log(err));
+  };
+
   useEffect(() => {
-    //console.log(plans[0]);
-    const totalPlansSum = invoice?.plans.reduce((accumulator, object) => {
-      return Number(accumulator) + Number(object.amount);
-    }, 0);
-
-    setTotalAmount(`${totalPlansSum}.00`);
-  }, [invoice.plans]);
-
-  const handlePrint = useReactToPrint({
-    content: () => printRef.current,
-    print: async printIframe => {
-      //console.log(printIframe);
-      setInvoiceData(printIframe);
-      setEmailModal(true);
-    },
-  });
+    handleGetClinet();
+  }, []);
 
   return (
     <Box
       sx={{
-        width: "100%",
+        width: "700px",
         height: "842px",
         padding: "20px 10px",
-        position: "relative",
       }}
+      ref={printRef}
     >
-      <Box
-        sx={{
-          display: "none",
-        }}
-      >
-        <CRMInvoiceDesign ref={printRef} user={user} state={state} />
-      </Box>
       <ModalBox
         open={selectAccountModal}
         header="Select Bank Account To Receive Payment"
@@ -444,20 +287,6 @@ const InvoicePrintOut = ({closeModal}) => {
           closeModal={() => setSelectAccountModal(false)}
         />
       </ModalBox>
-
-      <ModalBox
-        open={emailModal}
-        onClose={() => setEmailModal(false)}
-        header="Send Invoice Via Email"
-      >
-        <SendInvoiceViaEmail
-          closeModal={() => setEmailModal(false)}
-          invoice={invoiceData}
-          plans={invoice.plans}
-        />
-        {/* <CRMEmailTemplate /> */}
-      </ModalBox>
-
       <Box
         sx={{
           display: "flex",
@@ -647,7 +476,7 @@ const InvoicePrintOut = ({closeModal}) => {
                 fontWeight: "600",
               }}
             >
-              {customer?.name}
+              {billedClient?.firstname} {billedClient?.lastname}
               {/* INTERTEK - Caleb Brett */}
             </Typography>
           </Box>
@@ -671,8 +500,8 @@ const InvoicePrintOut = ({closeModal}) => {
                 fontWeight: "600",
               }}
             >
-              {customer?.address}, {customer?.lga}, {customer?.city},{" "}
-              {customer?.state}, {customer?.country}.
+              {billedClient?.address}, {billedClient?.lga}, {billedClient?.city}
+              , {billedClient?.state}, {billedClient?.country}.
               {/* Plot 73B, Marine Road, Apapa, Lagos, Nigeria. */}
             </Typography>
           </Box>
@@ -696,7 +525,7 @@ const InvoicePrintOut = ({closeModal}) => {
                 fontWeight: "600",
               }}
             >
-              {customer?.phone}
+              {billedClient?.phone}
               {/* 08123456789, 09123412134 */}
             </Typography>
           </Box>
@@ -705,8 +534,8 @@ const InvoicePrintOut = ({closeModal}) => {
 
       <Box>
         <CustomTable
-          columns={columns}
-          data={invoice.plans}
+          columns={billsColumns}
+          data={bills}
           pointerOnHover
           highlightOnHover
           striped
@@ -752,7 +581,7 @@ const InvoicePrintOut = ({closeModal}) => {
               color: "#000000",
             }}
           >
-            {totalAmount}
+            {clientAmount}
           </Typography>
         </Box>
 
@@ -782,7 +611,7 @@ const InvoicePrintOut = ({closeModal}) => {
               color: "#000000",
             }}
           >
-            {totalAmount}
+            {clientAmount}
           </Typography>
         </Box>
       </Box>
@@ -933,33 +762,17 @@ const InvoicePrintOut = ({closeModal}) => {
         </Box>
       </Box>
 
-      <Box
-        sx={{
-          position: "absolute",
-          left: "0px",
-          bottom: "0",
-          width: "100%",
-          //height: "40px",
-          display: "flex",
-        }}
-        gap={2}
-      >
-        <ReactToPrint
-          trigger={() => (
-            <GlobalCustomButton color="info">Print Invoice</GlobalCustomButton>
-          )}
-          content={() => printRef.current}
-        />
-
-        <GlobalCustomButton onClick={handlePrint}>
-          Send Invoice
-        </GlobalCustomButton>
-      </Box>
+      {/* <ReactToPrint
+        trigger={() => (
+          <GlobalCustomButton color="info">Print Invoice</GlobalCustomButton>
+        )}
+        content={() => printRef.current}
+      /> */}
     </Box>
   );
 };
 
-export default InvoicePrintOut;
+export default PaymentInvoice;
 
 const OrganizationAccountList = ({closeModal}) => {
   const {state, setState} = useContext(ObjectContext);
@@ -1076,173 +889,6 @@ const OrganizationAccountList = ({closeModal}) => {
             </Typography>
           }
         />
-      </Box>
-    </Box>
-  );
-};
-
-export const SendInvoiceViaEmail = ({invoice, closeModal, plans}) => {
-  const emailServer = client.service("email");
-  const {user} = useContext(UserContext);
-  const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
-  const [emailsModal, setEmailModals] = useState(true);
-  const [selectedEmail, setSelectedEmail] = useState("");
-  const [destinationEmail, setDestinationEmail] = useState(
-    state.DealModule.selectedDeal.email || ""
-  );
-  const [toEmailModal, setToEmailModal] = useState(false);
-
-  const {
-    register,
-    setValue,
-    reset,
-    handleSubmit,
-    formState: {errors},
-  } = useForm();
-
-  useEffect(() => {
-    //const deal = state.DealModule.selectedDeal.email;
-    reset({
-      to: destinationEmail,
-      name: user.currentEmployee.facilityDetail.facilityName,
-      subject: "Invoice",
-      from: selectedEmail,
-    });
-  }, [selectedEmail, destinationEmail]);
-
-  const handleSelectEmail = email => {
-    setSelectedEmail(email);
-    setEmailModals(false);
-  };
-
-  const handleSelectDestinationEmail = email => {
-    setDestinationEmail(email);
-    setToEmailModal(false);
-  };
-
-  const handleSendEmail = async data => {
-    const html = renderToStaticMarkup(<CRMEmailTemplate />);
-
-    const facility = user.currentEmployee.facilityDetail;
-    showActionLoader();
-
-    const document = {
-      organizationId: facility._id,
-      organizationName: facility.facilityName,
-      html: html,
-      //attachments: attachments,
-      text: "",
-      status: "pending",
-      ...data,
-    };
-
-    //return console.log(document);
-
-    await emailServer
-      .create(document)
-      .then(res => {
-        hideActionLoader();
-        closeModal();
-        toast.success(`Invoice was sent successfully`);
-      })
-      .catch(err => {
-        hideActionLoader();
-        console.log(err);
-        toast.error(`Sorry, Failed to send Invoice ${err}`);
-      });
-  };
-
-  return (
-    <Box
-      sx={{
-        width: "60vw",
-      }}
-    >
-      <ModalBox
-        open={emailsModal}
-        //onClose={() => setEmailModals(false)}
-        header="Plese Select Your Email Source"
-      >
-        <EmailsSourceList selectEmail={handleSelectEmail} />
-      </ModalBox>
-
-      <ModalBox
-        open={toEmailModal}
-        onClose={() => setToEmailModal(false)}
-        header="Select Contact To Receive Email"
-      >
-        <ContactsEmailSource selectEmail={handleSelectDestinationEmail} />
-      </ModalBox>
-
-      <Box
-        sx={{display: "flex", justifyContent: "flex-end"}}
-        mb={2}
-        mt={-1}
-        gap={1.5}
-      >
-        <GlobalCustomButton
-          sx={{marginTop: "5px"}}
-          color="success"
-          onClick={() => setEmailModals(true)}
-        >
-          Change Source Email
-        </GlobalCustomButton>
-
-        <GlobalCustomButton
-          sx={{marginTop: "5px"}}
-          color="secondary"
-          onClick={() => setToEmailModal(true)}
-        >
-          Change Destination Email
-        </GlobalCustomButton>
-      </Box>
-
-      <Grid container spacing={1} mb={2}>
-        <Grid item lg={6} md={6} sm={6}>
-          <Input
-            important
-            label="Name"
-            register={register("name", {require: "Please enter Name"})}
-            errorText={errors?.name?.message}
-          />
-        </Grid>
-
-        <Grid item lg={6} md={6} sm={6}>
-          <Input
-            important
-            label="Subject"
-            register={register("subject", {require: "Please enter Subject"})}
-            errorText={errors?.subject?.message}
-          />
-        </Grid>
-
-        <Grid item lg={6} md={6} sm={6} gap={1}>
-          <Input
-            important
-            label="From"
-            register={register("from", {require: "Please Add Source Email"})}
-            errorText={errors?.from?.message}
-            disabled
-          />
-        </Grid>
-
-        <Grid item lg={6} md={6} sm={6}>
-          <Input
-            important
-            label="To"
-            register={register("to", {
-              require: "Please Enter Destination Email",
-            })}
-            errorText={errors?.to?.message}
-          />
-        </Grid>
-      </Grid>
-
-      <Box>
-        <GlobalCustomButton onClick={handleSubmit(handleSendEmail)}>
-          Send Invoice Via Email
-          <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
-        </GlobalCustomButton>
       </Box>
     </Box>
   );

@@ -28,7 +28,7 @@ const random = require("random-string-generator");
 
 const InvoiceCreate = ({closeModal, handleGoBack}) => {
   const dealServer = client.service("deal");
-  const HealthPlanServ = client.service("healthplan");
+  const notificationsServer = client.service("notification");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
@@ -70,6 +70,18 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
       _id: uuidv4(),
     };
 
+    const notificationObj = {
+      type: "CRM",
+      title: "New Invoice Created For a Deal",
+      description: `${employee.firstname} ${employee.lastname} Created a new Invoice with ${currentDeal.type} ${currentDeal.name} in CRM`,
+      facilityId: employee.facilityDetail._id,
+      sender: `${employee.firstname} ${employee.lastname}`,
+      senderId: employee._id,
+      pageUrl: "/app/crm/lead",
+      priority: "normal",
+      dest_userId: currentDeal.assignStaff.map(item => item.employeeId),
+    };
+
     //return console.log(document);
 
     const prevInvoices = currentDeal.invoices || [];
@@ -79,7 +91,8 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
     const documentId = currentDeal._id;
     await dealServer
       .patch(documentId, {invoices: newInvoices})
-      .then(res => {
+      .then(async res => {
+        await notificationsServer.create(notificationObj);
         hideActionLoader();
         //setContacts(res.contacts);
         setState(prev => ({

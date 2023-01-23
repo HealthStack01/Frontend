@@ -27,9 +27,10 @@ import ClientBilling from "./ClientBilling";
 import ClientProblems from "./ClientProblems";
 import ClientDiagnoisHistory from "./ClientDiagnoisHistory";
 import MedicalProfile from "./MedicalProfile";
-import {Card, Button as MuiButton} from "@mui/material";
+import {Card, Button as MuiButton, Typography, Avatar} from "@mui/material";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {TransactionClientAccount} from "../Finance/ClientTransactions";
+import {returnAvatarString} from "../helpers/returnAvatarString";
 
 export default function PatientProfile() {
   const {state, setState} = useContext(ObjectContext); //,setState
@@ -77,6 +78,7 @@ export default function PatientProfile() {
     allergies,
     comorbidities,
     paymentinfo,
+    imageurl,
   } = state.ClientModule.selectedClient;
 
   /*   const {
@@ -165,12 +167,22 @@ export default function PatientProfile() {
           <div className="patient-profile-card">
             <div className="user-information-top-section">
               <div className="user-profile-information">
-                <div className="user-image-container">
+                <Avatar
+                  src={imageurl}
+                  sx={{width: 56, height: 56}}
+                  {...returnAvatarString(
+                    `${firstname.replace(/\s/g, "")} ${lastname.replace(
+                      /\s/g,
+                      ""
+                    )}`
+                  )}
+                />
+                {/* <div className="user-image-container">
                   <img
                     src="https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg"
                     alt=""
                   />
-                </div>
+                </div> */}
 
                 <div className="user-infromation-container">
                   <h1>
@@ -191,6 +203,24 @@ export default function PatientProfile() {
               </div>
             </div>
 
+            <Box
+              sx={{display: "flex", alignItems: "center", flexWrap: "wrap"}}
+              mb={1}
+            >
+              <Typography sx={{fontSize: "0.75rem", fontWeight: "600"}}>
+                Payment Info:
+              </Typography>
+              {paymentinfo.map((pay, i) => (
+                <Typography
+                  sx={{fontSize: "0.75rem"}}
+                  data-tag="allowRowEvents"
+                >
+                  {pay?.paymentmode} {pay?.paymentmode === "Cash" ? "" : ":"}{" "}
+                  {pay?.organizationName}
+                </Typography>
+              ))}
+            </Box>
+
             <div className="patient-profile-action-buttons-container">
               <GlobalCustomButton
                 sx={{
@@ -210,7 +240,7 @@ export default function PatientProfile() {
 
               <GlobalCustomButton
                 variant="contained"
-                sx={{textTransform: "capitalize", width: "45%"}}
+                sx={{width: "45%"}}
                 onClick={handleOpenClientAccount}
               >
                 Account
