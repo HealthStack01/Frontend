@@ -218,7 +218,7 @@ const UserAccountPage = () => {
           <Input
             label="Email Address"
             register={register("email")}
-            disabled={!edit}
+            disabled={true}
           />
         </Grid>
 

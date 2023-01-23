@@ -92,7 +92,7 @@ const columns = [
     sortable: true,
     required: true,
     inputType: "TEXT",
-    width: "99px",
+    width: "100px",
   },
 
   {
@@ -131,11 +131,10 @@ const columns = [
     sortable: true,
     required: true,
     inputType: "TEXT",
-    width: "99px",
   },
 
   {
-    name: "Heads",
+    name: "Number of Heads",
     style: {color: "#0364FF"},
     key: "no_of_heads",
     description: "Enter Date",
@@ -169,7 +168,7 @@ const columns = [
     sortable: true,
     required: true,
     inputType: "TEXT",
-    width: "99px",
+    width: "100px",
   },
 ];
 
@@ -197,8 +196,8 @@ const CRMInvoiceDesign = forwardRef((props, ref) => {
       sx={{
         width: "100%",
         height: "842px",
-        padding: "20px 10px",
       }}
+      p={5}
       ref={ref}
     >
       <Box
