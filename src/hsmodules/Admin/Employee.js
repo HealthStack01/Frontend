@@ -341,7 +341,7 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
           $regex: val,
           $options: "i",
         },
-        facility: user.currentEmployee.facilityDetail._id || "",
+        facility: user.currentEmployee.facilityDetail._id,
         $limit: 1000,
         $sort: {
           createdAt: -1,
@@ -431,7 +431,7 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
       selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
-      width: "80px",
+      width: "60px",
     },
     {
       name: "Image",
@@ -509,7 +509,7 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
       validator: yup.string().required("Enter your valid Email"),
     },
     {
-      name: "Facility",
+      name: "Department",
       key: "facility",
       description: "Select facility",
       selector: row => row.department,

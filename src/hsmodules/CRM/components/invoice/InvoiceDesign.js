@@ -1,5 +1,5 @@
-import {useRef} from "react";
-import {Avatar, Divider, Grid, Typography} from "@mui/material";
+import {useRef, forwardRef} from "react";
+import {Avatar, Divider, Typography} from "@mui/material";
 import {Box, fontWeight} from "@mui/system";
 import dayjs from "dayjs";
 import {useContext, useState, useEffect} from "react";
@@ -8,14 +8,6 @@ import ModalBox from "../../../../components/modal";
 import {ObjectContext, UserContext} from "../../../../context";
 import ReactToPrint, {useReactToPrint} from "react-to-print";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
-import CRMInvoiceDesign from "./InvoiceDesign";
-import {ContactsEmailSource, EmailsSourceList} from "../deals/SendLink";
-import client from "../../../../feathers";
-import {toast} from "react-toastify";
-import {useForm} from "react-hook-form";
-import Input from "../../../../components/inputs/basic/Input";
-import EmailIcon from "@mui/icons-material/Email";
-import SendIcon from "@mui/icons-material/Send";
 
 const customStyles = {
   rows: {
@@ -181,15 +173,10 @@ const columns = [
   },
 ];
 
-const InvoicePrintOut = ({closeModal}) => {
+const CRMInvoiceDesign = forwardRef((props, ref) => {
   const {state} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
   const [totalAmount, setTotalAmount] = useState(0);
-  const [selectAccountModal, setSelectAccountModal] = useState(true);
-  const [emailModal, setEmailModal] = useState(false);
-  const [invoiceData, setInvoiceData] = useState(null);
-
-  const printRef = useRef(null);
 
   const organization = user.currentEmployee.facilityDetail;
   const invoice = state.InvoiceModule.selectedInvoice;
@@ -205,51 +192,15 @@ const InvoicePrintOut = ({closeModal}) => {
     setTotalAmount(`${totalPlansSum}.00`);
   }, [invoice.plans]);
 
-  const handlePrint = useReactToPrint({
-    content: () => printRef.current,
-    print: async printIframe => {
-      //console.log(printIframe);
-      setInvoiceData(printIframe);
-      setEmailModal(true);
-    },
-  });
-
   return (
     <Box
       sx={{
         width: "100%",
         height: "842px",
         padding: "20px 10px",
-        position: "relative",
       }}
+      ref={ref}
     >
-      <Box
-        sx={{
-          display: "none",
-        }}
-      >
-        <CRMInvoiceDesign ref={printRef} />
-      </Box>
-      <ModalBox
-        open={selectAccountModal}
-        header="Select Bank Account To Receive Payment"
-      >
-        <OrganizationAccountList
-          closeModal={() => setSelectAccountModal(false)}
-        />
-      </ModalBox>
-
-      <ModalBox
-        open={emailModal}
-        onClose={() => setEmailModal(false)}
-        header="Send Invoice Via Email"
-      >
-        <SendInvoiceViaEmail
-          closeModal={() => setEmailModal(false)}
-          invoice={invoiceData}
-        />
-      </ModalBox>
-
       <Box
         sx={{
           display: "flex",
@@ -598,7 +549,6 @@ const InvoicePrintOut = ({closeModal}) => {
             backgroundColor: "#0364FF",
             cursor: "pointer",
           }}
-          onClick={() => setSelectAccountModal(true)}
         >
           <Typography
             sx={{
@@ -724,317 +674,8 @@ const InvoicePrintOut = ({closeModal}) => {
           </Box>
         </Box>
       </Box>
-
-      <Box
-        sx={{
-          position: "absolute",
-          left: "0px",
-          bottom: "0",
-          width: "100%",
-          //height: "40px",
-          display: "flex",
-        }}
-        gap={2}
-      >
-        <ReactToPrint
-          trigger={() => (
-            <GlobalCustomButton color="info">Print Invoice</GlobalCustomButton>
-          )}
-          content={() => printRef.current}
-        />
-
-        <GlobalCustomButton onClick={handlePrint}>
-          Send Invoice
-        </GlobalCustomButton>
-      </Box>
     </Box>
   );
-};
+});
 
-export default InvoicePrintOut;
-
-const OrganizationAccountList = ({closeModal}) => {
-  const {state, setState} = useContext(ObjectContext);
-  const {user} = useContext(UserContext);
-
-  const bankColumns = [
-    {
-      name: "S/N",
-      key: "sn",
-      description: "SN",
-      selector: row => row.sn,
-      sortable: true,
-      inputType: "HIDDEN",
-      width: "60px",
-    },
-    {
-      name: "Bank Name",
-      key: "bank_name",
-      description: "Bank Name",
-      selector: row => (
-        <Typography
-          sx={{fontSize: "0.8rem", whiteSpace: "normal", color: "#1976d2"}}
-          data-tag="allowRowEvents"
-        >
-          {row.bankname}
-        </Typography>
-      ),
-      sortable: true,
-      inputType: "TEXT",
-      width: "200px",
-    },
-    {
-      name: "Account Name",
-      key: "account_name",
-      description: "Account Name",
-      selector: row => (
-        <Typography
-          sx={{fontSize: "0.8rem", whiteSpace: "normal", color: "#1976d2"}}
-          data-tag="allowRowEvents"
-        >
-          {row.accountname}
-        </Typography>
-      ),
-      sortable: true,
-      inputType: "TEXT",
-      width: "200px",
-    },
-    {
-      name: "Account Number",
-      key: "account_number",
-      description: "Account Number",
-      selector: row => row.accountnumber,
-      sortable: true,
-      inputType: "TEXT",
-      width: "150px",
-    },
-    {
-      name: "Branch",
-      key: "branch",
-      description: "Branch",
-      selector: row => row.branch,
-      sortable: true,
-      inputType: "TEXT",
-      width: "150px",
-    },
-    {
-      name: "Sort Code",
-      key: "sort_code",
-      description: "Sort Code",
-      selector: row => row.sortcode,
-      sortable: true,
-      inputType: "TEXT",
-      width: "120px",
-    },
-    {
-      name: "Comments",
-      key: "sort_code",
-      description: "Sort Code",
-      selector: row => (
-        <Typography
-          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
-          data-tag="allowRowEvents"
-        >
-          {row.comment ? row.comment : "----------"}
-        </Typography>
-      ),
-      sortable: true,
-      inputType: "TEXT",
-    },
-  ];
-
-  const handleRow = account => {
-    setState(prev => ({
-      ...prev,
-      InvoiceModule: {...prev.InvoiceModule, selectedBankAccount: account},
-    }));
-    closeModal();
-  };
-
-  return (
-    <Box sx={{width: "85vw"}}>
-      <Box>
-        <CustomTable
-          title={""}
-          columns={bankColumns}
-          data={user?.currentEmployee?.facilityDetail?.facilityBankAcct || []}
-          pointerOnHover
-          highlightOnHover
-          striped
-          onRowClicked={handleRow}
-          CustomEmptyData={
-            <Typography sx={{fontSize: "0.8rem"}}>
-              You haven't added a bank account to your Organization yet...
-            </Typography>
-          }
-        />
-      </Box>
-    </Box>
-  );
-};
-
-export const SendInvoiceViaEmail = ({invoice, closeModal}) => {
-  const emailServer = client.service("email");
-  const {user} = useContext(UserContext);
-  const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
-  const [emailsModal, setEmailModals] = useState(true);
-  const [selectedEmail, setSelectedEmail] = useState("");
-  const [destinationEmail, setDestinationEmail] = useState(
-    state.DealModule.selectedDeal.email || ""
-  );
-  const [toEmailModal, setToEmailModal] = useState(false);
-
-  const {
-    register,
-    setValue,
-    reset,
-    handleSubmit,
-    formState: {errors},
-  } = useForm();
-
-  useEffect(() => {
-    //const deal = state.DealModule.selectedDeal.email;
-    reset({
-      to: destinationEmail,
-      name: user.currentEmployee.facilityDetail.facilityName,
-      subject: "Invoice",
-      from: selectedEmail,
-    });
-  }, [selectedEmail, destinationEmail]);
-
-  const handleSelectEmail = email => {
-    setSelectedEmail(email);
-    setEmailModals(false);
-  };
-
-  const handleSelectDestinationEmail = email => {
-    setDestinationEmail(email);
-    setToEmailModal(false);
-  };
-
-  const handleSendEmail = async data => {
-    return console.log(invoice);
-    const facility = user.currentEmployee.facilityDetail;
-    showActionLoader();
-
-    const document = {
-      organizationId: facility._id,
-      organizationName: facility.facilityName,
-      html: invoice,
-      //attachments: attachments,
-      text: "",
-      status: "pending",
-      ...data,
-    };
-
-    //return console.log(document);
-
-    await emailServer
-      .create(document)
-      .then(res => {
-        hideActionLoader();
-        closeModal();
-        toast.success(`Invoice was sent successfully`);
-      })
-      .catch(err => {
-        hideActionLoader();
-        console.log(err);
-        toast.error(`Sorry, Failed to send Invoice ${err}`);
-      });
-  };
-
-  return (
-    <Box
-      sx={{
-        width: "60vw",
-      }}
-    >
-      <ModalBox
-        open={emailsModal}
-        //onClose={() => setEmailModals(false)}
-        header="Plese Select Your Email Source"
-      >
-        <EmailsSourceList selectEmail={handleSelectEmail} />
-      </ModalBox>
-
-      <ModalBox
-        open={toEmailModal}
-        onClose={() => setToEmailModal(false)}
-        header="Select Contact To Receive Email"
-      >
-        <ContactsEmailSource selectEmail={handleSelectDestinationEmail} />
-      </ModalBox>
-
-      <Box
-        sx={{display: "flex", justifyContent: "flex-end"}}
-        mb={2}
-        mt={-1}
-        gap={1.5}
-      >
-        <GlobalCustomButton
-          sx={{marginTop: "5px"}}
-          color="success"
-          onClick={() => setEmailModals(true)}
-        >
-          Change Source Email
-        </GlobalCustomButton>
-
-        <GlobalCustomButton
-          sx={{marginTop: "5px"}}
-          color="secondary"
-          onClick={() => setToEmailModal(true)}
-        >
-          Change Destination Email
-        </GlobalCustomButton>
-      </Box>
-
-      <Grid container spacing={1} mb={2}>
-        <Grid item lg={6} md={6} sm={6}>
-          <Input
-            important
-            label="Name"
-            register={register("name", {require: "Please enter Name"})}
-            errorText={errors?.name?.message}
-          />
-        </Grid>
-
-        <Grid item lg={6} md={6} sm={6}>
-          <Input
-            important
-            label="Subject"
-            register={register("subject", {require: "Please enter Subject"})}
-            errorText={errors?.subject?.message}
-          />
-        </Grid>
-
-        <Grid item lg={6} md={6} sm={6} gap={1}>
-          <Input
-            important
-            label="From"
-            register={register("from", {require: "Please Add Source Email"})}
-            errorText={errors?.from?.message}
-            disabled
-          />
-        </Grid>
-
-        <Grid item lg={6} md={6} sm={6}>
-          <Input
-            important
-            label="To"
-            register={register("to", {
-              require: "Please Enter Destination Email",
-            })}
-            errorText={errors?.to?.message}
-          />
-        </Grid>
-      </Grid>
-
-      <Box>
-        <GlobalCustomButton onClick={handleSubmit(handleSendEmail)}>
-          Send Invoice Via Email
-          <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
-        </GlobalCustomButton>
-      </Box>
-    </Box>
-  );
-};
+export default CRMInvoiceDesign;
