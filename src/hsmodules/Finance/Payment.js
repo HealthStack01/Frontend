@@ -337,6 +337,8 @@ export function BillingList({openModal, showCreateScreen}) {
       },
     });
 
+    //console.log(findProductEntry);
+
     // //console.log("updatedorder", findProductEntry.groupedOrder)
     await setFacilities(findProductEntry.groupedOrder);
     setLoading(false);
