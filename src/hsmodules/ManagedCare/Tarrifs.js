@@ -32,7 +32,7 @@ import { FormsHeaderText } from '../../components/texts';
 import FilterMenu from '../../components/utilities/FilterMenu';
 import DeleteOutline from '@mui/icons-material/DeleteOutline';
 import CategorySearch from '../helpers/CategorySearch';
-import { SelectHealthPlan } from '../helpers/FacilitySearch';
+import { SelectedBenefit, SelectHealthPlan } from '../helpers/FacilitySearch';
 
 export default function TarrifList({ standAlone }) {
 	const { state } = useContext(ObjectContext); //,setState
@@ -156,9 +156,15 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 		},
 		{
 			name: 'Service Name',
-			key: 'service',
+			key: 'serviceName',
 			description: 'Service Name',
-			selector: (row) => row?.serviceName,
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					{row?.serviceName}
+				</Typography>
+			),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -173,14 +179,12 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 					data-tag='allowRowEvents'>
 					<b>Capitation?</b>: {row?.capitation === true ? 'Yes' : 'No'}
 					<br />
-					<b>Fee for Service?</b>:{row?.feeForService === true ? 'Yes' : 'No'}
+					<b>Free for Service?</b>:{row?.feeforService === true ? 'Yes' : 'No'}
 					<br />
-					<b>PreAuth?</b>: {row?.reqPA === true ? 'Yes' : 'No'}
+					<b>PreAuth?</b>: {row?.reqAuthCode === true ? 'Yes' : 'No'}
 					<br />
 					<b>Co-Pay</b>:{' '}
-					{row?.copayDetail !== '' && row?.copayDetail !== undefined
-						? `₦${row?.copayDetail}`
-						: 'N/A'}
+					{row?.copayDetail !== '' ? `₦${row?.copayDetail}` : 'N/A'}
 				</Typography>
 			),
 			sortable: true,
@@ -188,65 +192,52 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 			inputType: 'TEXT',
 		},
 		{
-			name: 'Price',
-			key: '`',
-			description: '`',
+			name: 'Amount',
+			key: 'price',
+			description: 'Amount',
+			selector: (row) => `₦${row?.price}`,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Benefits',
+			key: 'benefits',
+			description: 'Benefits',
 			selector: (row) => (
 				<Typography
-					sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
+					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
 					data-tag='allowRowEvents'>
-					{row?.price}
+					{row?.benefits?.map((benefit, i) => (
+						<div key={i}>
+							<b>Category:</b>
+							{benefit?.category}
+							<br />
+							<b>Frequncy:</b>
+							{benefit?.frequency}
+							<br />
+							<b>Duration: </b>
+							{benefit?.duration}
+							<br />
+							<b>Limit:</b>
+							{benefit?.limit}
+						</div>
+					))}
 				</Typography>
 			),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
 		},
-		// {
-		// 	name: 'Category',
-		// 	key: 'category',
-		// 	description: 'Category',
-		// 	selector: (row) => (
-		// 		<Typography
-		// 			sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
-		// 			data-tag='allowRowEvents'>
-		// 			{row?.category}
-		// 		</Typography>
-		// 	),
-		// 	sortable: true,
-		// 	required: true,
-		// 	inputType: 'TEXT',
-		// },
-		// {
-		// 	name: 'Duration',
-		// 	key: 'duration',
-		// 	description: 'Duration',
-		// 	selector: (row) => (
-		// 		<Typography
-		// 			sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
-		// 			data-tag='allowRowEvents'>
-		// 			{row?.duration}
-		// 		</Typography>
-		// 	),
-		// 	sortable: true,
-		// 	required: true,
-		// 	inputType: 'TEXT',
-		// },
-		// {
-		// 	name: 'Frequency',
-		// 	key: 'frequency',
-		// 	description: 'Frequency',
-		// 	selector: (row) => (
-		// 		<Typography
-		// 			sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
-		// 			data-tag='allowRowEvents'>
-		// 			{row?.frequency}
-		// 		</Typography>
-		// 	),
-		// 	sortable: true,
-		// 	required: true,
-		// 	inputType: 'TEXT',
-		// },
+		{
+			name: 'Comment',
+			key: 'comment',
+			description: 'Comment',
+			selector: (row) => row?.comments,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
 	];
 	const facilitySchema = [
 		{
@@ -522,6 +513,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 	const [reqAuthCode, setReqAuthCode] = useState(false);
 	const [selectedBand, setSelectedBand] = useState('');
 	const [showCoPay, setShowCoPay] = useState(false);
+	const [selectedBenefits, setSelectedBenefits] = useState([]);
 	const [serviceUnavailable, setServiceUnavailable] = useState({
 		status: false,
 		name: '',
@@ -643,11 +635,11 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 
 	// function to handle which service class is selected
 	const handleServType = async (e) => {
-		if (e.target.value === 'Capitation') {
+		if (e.target.value === 'Capitation' && e.target.checked) {
 			setCapitation(true);
 			setFeeForService(false);
 			setServiceClass(e.target.value);
-		} else {
+		} else if (e.target.value === 'Fee for Service' && e.target.checked) {
 			setCapitation(false);
 			setFeeForService(true);
 			setServiceClass(e.target.value);
@@ -668,7 +660,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 			serviceName: service.name,
 			serviceId: service._id,
 			plans: selectedPlan,
-			benefits: selectedPlan.map((item) => item.benefits),
+			benefits: selectedBenefits,
 			price: parseFloat(costprice),
 			coPay: reqCopay,
 			copayDetail: copay,
@@ -809,7 +801,8 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 					<br />
 					<b>PreAuth?</b>: {row?.reqAuthCode === true ? 'Yes' : 'No'}
 					<br />
-					<b>Co-Pay</b>: {row?.copay !== '' ? `₦${row?.copay}` : 'N/A'}
+					<b>Co-Pay</b>:{' '}
+					{row?.copayDetail !== '' ? `₦${row?.copayDetail}` : 'N/A'}
 				</Typography>
 			),
 			sortable: true,
@@ -821,6 +814,35 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 			key: 'price',
 			description: 'Amount',
 			selector: (row) => `₦${row?.price}`,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Benefits',
+			key: 'benefits',
+			description: 'Benefits',
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					{row?.benefits?.map((benefit, i) => (
+						<div key={i}>
+							<b>Category:</b>
+							{benefit?.category}
+							<br />
+							<b>Frequncy:</b>
+							{benefit?.frequency}
+							<br />
+							<b>Duration: </b>
+							{benefit?.duration}
+							<br />
+							<b>Limit:</b>
+							{benefit?.limit}
+						</div>
+					))}
+				</Typography>
+			),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -852,7 +874,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 			inputType: 'NUMBER',
 		},
 	];
-	console.log(productItem);
+	console.log(productItem, 'selectedBenefit', selectedBenefits);
 	return (
 		<Box
 			style={{
@@ -873,7 +895,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 						customStyles={{ marginRight: '1rem' }}
 					/>
 					<GlobalCustomButton
-						text='Add'
+						text='Create Tarrif'
 						onClick={onSubmit}
 						color='success'
 					/>
@@ -966,15 +988,6 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 							item
 							xs={12}
 							sm={4}>
-							<Input
-								label='Price'
-								onChange={(e) => setCostprice(e.target.value)}
-							/>
-						</Grid>
-						<Grid
-							item
-							xs={12}
-							sm={4}>
 							<SearchSelect
 								getSearchService={getSearchService}
 								clear={successService}
@@ -989,6 +1002,25 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 							<SelectHealthPlan
 								selectedPlan={selectedPlan}
 								setSelectedPlan={setSelectedPlan}
+							/>
+						</Grid>
+						<Grid
+							item
+							xs={12}
+							sm={4}>
+							<SelectedBenefit
+								data={selectedPlan}
+								setSelectedBenefits={setSelectedBenefits}
+								selectedBenefits={selectedBenefits}
+							/>
+						</Grid>
+						<Grid
+							item
+							xs={12}
+							sm={4}>
+							<Input
+								label='Price'
+								onChange={(e) => setCostprice(e.target.value)}
 							/>
 						</Grid>
 						<Grid

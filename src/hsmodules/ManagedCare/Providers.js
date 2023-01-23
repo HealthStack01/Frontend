@@ -68,6 +68,7 @@ import GeneralAppointments, { PreAuthorizationList } from './PreAuth';
 import Textarea from '../../components/inputs/basic/Textarea';
 import { v4 as uuidv4 } from 'uuid';
 import SendLinkViaEmail from '../CRM/components/deals/SendLink';
+import CustomConfirmationDialog from '../../components/confirm-dialog/confirm-dialog';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -1812,7 +1813,6 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 		</>
 	);
 }
-
 export function NewOrganizationCreate() {
 	const { register, handleSubmit } = useForm(); //, watch, errors, reset
 	const [error, setError] = useState(false);
@@ -1849,7 +1849,7 @@ export function NewOrganizationCreate() {
         setSuccess(false)
           data.createdby=user._id
           //console.log(data);
-
+          
         facilityServ.create(data)
         .then((res)=>{
                 //console.log(JSON.stringify(res))
@@ -2675,21 +2675,85 @@ export function NewOrganizationCreate() {
 }
 
 export const AdditionalInformationView = () => {
+	const dealServer = client.service('organizationclient');
+	const { state, setState, hideActionLoader, showActionLoader } =
+		useContext(ObjectContext);
 	const [createModal, setCreateModal] = useState(false);
-	const [informations, setInformations] = useState([
-		...additionalInformationData,
-	]);
+	const [informations, setInformations] = useState([]);
+	const [confirmDialog, setConfirmDialog] = useState({
+		open: false,
+		action: null,
+		message: '',
+		type: '',
+	});
+	const facility = state.facilityModule.selectedFacility;
 
 	const removeAdditionalInfo = (info) => {
 		setInformations((prev) => prev.filter((item) => item._id !== info._id));
 	};
 
-	const addNewInfo = (data) => {
-		setInformations((prev) => [data, ...prev]);
+	const deleteAdditionalInfo = async (info) => {
+		showActionLoader();
+
+		const oldDealInfo = facility?.info || [];
+
+		const updatedDealInfo = oldDealInfo.filter((item) => item._id !== info._id);
+
+		const documentId = facility?._id;
+
+		await dealServer
+			.patch(documentId, { info: updatedDealInfo })
+			.then((res) => {
+				hideActionLoader();
+				setState((prev) => ({
+					...prev,
+					facilityModule: { ...prev.facilityModule, selectedFacility: res },
+				}));
+				cancelConfirm();
+				toast.success(`You have successfully Deleted Addtional Information!`);
+			})
+			.catch((err) => {
+				hideActionLoader();
+				toast.error(
+					`Sorry, You weren't able to Delete the Addtional Information!. ${err}`,
+				);
+			});
 	};
+
+	const confirmDelete = (info) => {
+		setConfirmDialog({
+			open: true,
+			message:
+				"You're about to delete an additional information for this deal?",
+			type: 'danger',
+			action: () => deleteAdditionalInfo(info),
+		});
+	};
+
+	const cancelConfirm = () => {
+		setConfirmDialog({
+			open: false,
+			action: null,
+			type: '',
+			message: '',
+		});
+	};
+
+	useEffect(() => {
+		const infos = facility?.info || [];
+
+		setInformations(infos);
+	}, [state.facilityModule.selectedFacility]);
 
 	return (
 		<Box>
+			<CustomConfirmationDialog
+				open={confirmDialog.open}
+				type={confirmDialog.type}
+				message={confirmDialog.message}
+				cancelAction={cancelConfirm}
+				confirmationAction={confirmDialog.action}
+			/>
 			<Box
 				sx={{
 					display: 'flex',
@@ -2714,7 +2778,7 @@ export const AdditionalInformationView = () => {
 						<Box sx={{ mb: 2 }}>
 							<AdditionalInformationCard
 								data={info}
-								action={() => removeAdditionalInfo(info)}
+								action={() => confirmDelete(info)}
 								key={index}
 							/>
 						</Box>
@@ -2737,10 +2801,7 @@ export const AdditionalInformationView = () => {
 				open={createModal}
 				onClose={() => setCreateModal(false)}
 				header='Add New Information'>
-				<CreateAdditionalInfo
-					closeModal={() => setCreateModal(false)}
-					addInfo={addNewInfo}
-				/>
+				<CreateAddInfo closeModal={() => setCreateModal(false)} />
 			</ModalBox>
 		</Box>
 	);
