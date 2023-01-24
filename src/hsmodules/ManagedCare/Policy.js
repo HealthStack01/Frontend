@@ -395,7 +395,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Plan',
 			key: 'plan',
 			description: 'Plan',
-			selector: (row) => row?.plan?.name,
+			selector: (row) => row?.plan?.planName,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -405,7 +405,14 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Premium',
 			key: 'premium',
 			description: 'Premium',
-			selector: (row) => row.premium,
+			selector: (row) =>
+				row?.plan?.premiums?.map((p) => {
+					if (row?.planType === 'Individual' && p.planType === 'Individual') {
+						return p?.premiumAmount;
+					} else if (row?.planType === 'Family' && p.planType === 'Family') {
+						return p?.premiumAmount;
+					}
+				}),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -701,14 +708,14 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 		// 1 - individual, 2 - corporate, 3 - group
 		// 1 - HMO, 2 - PPO, 3 - EPO
 		const year = new Date().getFullYear().toString().slice(-2);
-		const planType = selectedPlan?.charAt(0);
+		const planType1 = selectedPlan?.charAt(0);
 		const orgType = data?.sponsortype === 'Self' ? 1 : 2;
 		const orgId = Math.floor(100000 + Math.random() * 900000);
 		const familyCode =
 			state.Beneficiary.principal._id && !state.Beneficiary.dependent._id
 				? '-1'
 				: state.Beneficiary.dependent.length + 1;
-		const policyNo = `${year}${planType}${orgType}${orgId}${familyCode}`;
+		const policyNo = `${year}${planType1}${orgType}${orgId}${familyCode}`;
 		console.log(policyNo);
 
 		if (!state.Beneficiary.principal._id) {
@@ -755,8 +762,14 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 				active: false,
 				isPaid: false,
 				approved: false,
-				validitystarts: data.start_date,
-				validityEnds: data.end_date,
+				statushx: [
+					{
+						date: new Date(),
+						employeename: `${user.currentEmployee.firstname} ${user.currentEmployee.lastname}`,
+						employeeId: user.currentEmployee._id,
+						status: 'Policy Created',
+					},
+				],
 			};
 			console.log('POLICY', policy);
 			await policyServ
@@ -773,20 +786,6 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 					setSuccess(false);
 				})
 				.then(async (res) => {
-					//await setType("Sales")
-					type.current = 'Sales';
-					const today = new Date().toLocaleString();
-					//await setDate(today)
-					date.current = today;
-					const invoiceNo = random(6, 'uppernumeric');
-					// await setDocumentNo(invoiceNo)
-					documentNo.current = invoiceNo;
-					state.Beneficiary.principal = {};
-					// await createBillmode()
-					await createProductItem();
-					await createProductEntry();
-
-					// await handleCreateBill();
 					await setShowModal(0);
 				})
 				.catch((err) => {
@@ -1288,7 +1287,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 								</button>
 							</p>
 						)}
-						{subSponsor !== 'Individual' && (
+						{planType !== 'Individual' && (
 							<p>
 								Add Dependant
 								<button
@@ -1962,6 +1961,7 @@ export function ClientCreate({ closeModal }) {
 											<CustomSelect
 												label='Gender'
 												register={register('gender', { required: true })}
+												important
 												onBlur={checkClient}
 												options={[
 													{ label: 'Male', value: 'Male' },
@@ -1978,6 +1978,7 @@ export function ClientCreate({ closeModal }) {
 											<CustomSelect
 												label='Marital Status'
 												register={register('maritalstatus')}
+												important
 												options={[
 													{ label: 'Single', value: 'Single' },
 													{ label: 'Married', value: 'Married' },
@@ -2626,6 +2627,8 @@ export function PolicyDetail({ showModal, setShowModal }) {
 			phone: Client?.principal?.phone,
 			start_date: Client?.validitystarts,
 			end_date: Client?.validityEnds,
+			approval_date: Client?.approvalDate,
+			approved_by: Client?.approvedby?.employeename,
 			status: Client?.approved ? 'Approved' : 'Pending',
 			sponsorship_type: Client?.sponsorshipType,
 			plan_type: Client?.plan?.planName,
@@ -2673,6 +2676,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
 	const updateDetail = async (data) => {
 		const docId = state.ManagedCareModule.selectedClient._id;
 		let Client = state.ManagedCareModule.selectedClient;
+		const employee = user.currentEmployee;
 		console.log(data, docId);
 		const policyDetails = {
 			policyNo: data.policyNo,
@@ -2688,6 +2692,15 @@ export function PolicyDetail({ showModal, setShowModal }) {
 			sponsor_phone: data.sponsor_phone,
 			sponsor_email: data.sponsor_email,
 			sponsor_address: data.sponsor_address,
+			statushx: [
+				...Client?.statushx,
+				{
+					date: new Date(),
+					employeename: `${employee?.firstname} ${employee?.lastname}`,
+					employeeId: employee?._id,
+					status: selectedPlan ? 'Plan Changed' : 'Policy Updated',
+				},
+			],
 		};
 		await policyServ
 			.patch(docId, policyDetails)
@@ -2707,14 +2720,25 @@ export function PolicyDetail({ showModal, setShowModal }) {
 
 	const approvePolicy = async () => {
 		const docId = state.ManagedCareModule.selectedClient._id;
+		const employee = user.currentEmployee;
 		const policyDetails = {
 			approved: true,
 			active: true,
+			isPaid: true,
 			approvalDate: new Date(),
 			approvedby: {
-				employeename: user.currentEmployee.facilityDetail.facilityName,
-				employeeId: user.currentEmployee.facilityDetail._id,
+				employeename: `${employee?.firstname} ${employee?.lastname}`,
+				employeeId: employee?._id,
 			},
+			statushx: [
+				...Client?.statushx,
+				{
+					date: new Date(),
+					employeename: `${employee?.firstname} ${employee?.lastname}`,
+					employeeId: employee?._id,
+					status: 'Policy Approved',
+				},
+			],
 		};
 		console.log(policyDetails);
 		await policyServ
@@ -2983,7 +3007,11 @@ export function PolicyDetail({ showModal, setShowModal }) {
 											value={
 												editPolicy
 													? familyPrice
-													: Client?.plan?.premiums?.[0]?.familyPremium
+													: Client?.plan?.premiums?.map((p) => {
+															if (p.planType === 'Family') {
+																return p.premiumAmount;
+															}
+													  })
 											}
 											//placeholder="Enter customer number"
 										/>
@@ -2998,7 +3026,11 @@ export function PolicyDetail({ showModal, setShowModal }) {
 											value={
 												editPolicy
 													? individualPrice
-													: Client?.plan?.premiums?.[0]?.individualPremium
+													: Client?.plan?.premiums?.map((p) => {
+															if (p.planType === 'Individual') {
+																return p.premiumAmount;
+															}
+													  })
 											}
 											//placeholder="Enter customer number"
 										/>
@@ -3025,6 +3057,30 @@ export function PolicyDetail({ showModal, setShowModal }) {
 										disabled={!editPolicy}
 									/>
 								</Grid>
+								{Client?.approved && (
+									<Grid
+										item
+										md={3}>
+										<Input
+											register={register('approved_by')}
+											label='Approved By'
+											disabled
+											//placeholder="Enter customer name"
+										/>
+									</Grid>
+								)}
+								{Client?.approved && (
+									<Grid
+										item
+										md={3}>
+										<MuiCustomDatePicker
+											label='Approval Date'
+											name='approval_date'
+											control={control}
+											disabled
+										/>
+									</Grid>
+								)}
 							</Grid>
 							<Box
 								sx={{
