@@ -822,10 +822,7 @@ export function SelectHealthPlan({ selectedPlan, setSelectedPlan }) {
 		const {
 			target: { value },
 		} = event;
-		setSelectedPlan(
-			// On autofill we get a stringified value.
-			typeof value === 'string' ? value.split(',') : value,
-		);
+		setSelectedPlan(value);
 	};
 
 	useEffect(() => {
@@ -855,7 +852,6 @@ export function SelectHealthPlan({ selectedPlan, setSelectedPlan }) {
 				<Select
 					labelId='demo-multiple-name-label'
 					id='demo-multiple-name'
-					multiple
 					value={selectedPlan}
 					onChange={handleChange}
 					input={<OutlinedInput label={'Choose Plan(s)'} />}
@@ -1101,5 +1097,91 @@ export function SearchCategory2({ selectedCategory, setSelectedCategory }) {
 				/>
 			)}
 		/>
+	);
+}
+
+export function SelectedBenefit({
+	data,
+	selectedBenefits,
+	setSelectedBenefits,
+}) {
+	const { user } = useContext(UserContext);
+	const BandsServ = client.service('bands');
+	const [band, setBand] = useState([]);
+	const [selectedData, setSelectedData] = useState([]);
+	const theme = useTheme();
+
+	const ITEM_HEIGHT = 28;
+	const ITEM_PADDING_TOP = 8;
+	const MenuProps = {
+		PaperProps: {
+			style: {
+				maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+			},
+		},
+	};
+	// function getStyles(name, personName, theme) {
+	// 	return {
+	// 		fontWeight: '0.75rem',
+	// 	};
+	// }
+	// function to get the provider band
+
+	const handleChange = (event) => {
+		const {
+			target: { value },
+		} = event;
+		setSelectedBenefits(
+			// On autofill we get a stringified value.
+			typeof value === 'string' ? value.split(',') : value,
+		);
+	};
+
+	useEffect(() => {
+		setSelectedData(data.benefits);
+	}, [data]);
+
+	console.log('data', data, 'selectedData', selectedData);
+	return (
+		<div>
+			<FormControl
+				sx={{
+					fontSize: '0.75rem !important',
+					backgroundColor: '#ffffff !important',
+					'& .MuiInputBase-input': {
+						height: '0.9rem',
+					},
+					width: '100%',
+				}}
+				size='small'>
+				<InputLabel
+					id='demo-multiple-name-label'
+					sx={{
+						fontSize: '0.75rem !important',
+						color: '#000000 !important',
+					}}>
+					Choose Benefits
+				</InputLabel>
+				<Select
+					labelId='demo-multiple-name-label'
+					id='demo-multiple-name'
+					multiple
+					value={selectedBenefits}
+					onChange={handleChange}
+					input={<OutlinedInput label={'Choose Benefits'} />}
+					MenuProps={MenuProps}>
+					{selectedData?.map((option, i) => {
+						console.log('option', option.category);
+						return (
+							<MenuItem
+								key={i}
+								value={option}>
+								{option.category}
+							</MenuItem>
+						);
+					})}
+				</Select>
+			</FormControl>
+		</div>
 	);
 }
