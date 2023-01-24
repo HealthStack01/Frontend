@@ -238,10 +238,10 @@ export const menuItems = [
       {name: "Complaints", to: "/app/managed-care/complaints"},
       {name: "HIA", to: "/app/managed-care/HIA"},
       {name: "Premiums", to: "/app/managed-care/premiums"},
-      {
-        name: "Organisation",
-        to: "/app/managed-care/organisation",
-      },
+      // {
+      //   name: "Organisation",
+      //   to: "/app/managed-care/organisation",
+      // },
       {name: "Referrals", to: "/app/managed-care/referrals"},
       {name: "Tariff", to: "/app/managed-care/tariff"},
       {name: "Claims", to: "/app/managed-care/claims"},
