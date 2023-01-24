@@ -495,7 +495,7 @@ export const OrganaizationLogoUpload = ({closeModal}) => {
       )
       .then(async res => {
         //return console.log(res);
-        console.log(res);
+        // console.log(res);
         const logoUrl = res.data.url;
         const employee = user.currentEmployee;
         const prevOrgDetail = user.currentEmployee.facilityDetail;
