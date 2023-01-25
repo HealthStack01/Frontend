@@ -78,7 +78,66 @@ export const OrganizationsList = ({selectOrganization}) => {
       });
   };
 
-  const handleSearch = () => {};
+  // const handleSearch = () => {};
+
+  const handleSearch = val => {
+    //console.log(val);
+    facilityServ
+      .find({
+        query: {
+          $or: [
+            {
+              facilityName: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityOwner: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityType: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityCategory: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityContactPhone: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityEmail: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+          ],
+
+          $limit: 100,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      })
+      .then(res => {
+        console.log(res);
+        setFacilities(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     getFacilities();
@@ -342,6 +401,7 @@ export const OrganizationDetails = ({organization, goBack}) => {
         hideActionLoader();
         setFacility(resp);
         reset(resp);
+
         //console.log(resp);
       })
       .catch(err => {
@@ -386,13 +446,7 @@ export const OrganizationDetails = ({organization, goBack}) => {
         reset(resp);
         setFacility(resp);
         hideActionLoader();
-        // setUser(prev => ({
-        //   ...prev,
-        //   currentEmployee: {
-        //     ...prev.currentEmployee,
-        //     facilityDetail: newOrgDetail,
-        //   },
-        // }));
+
         setEdit(false);
         toast.success("You've succesfully updated your Organization Details");
       })
@@ -547,6 +601,11 @@ export const OrganizationDetails = ({organization, goBack}) => {
           </Grid>
 
           <Grid item lg={4} md={6} sm={6} xs={12}>
+            {/* <Input
+              register={register("facilityCountry")}
+              label="Country"
+              disabled={!edit}
+            /> */}
             <CustomSelect
               label="Country"
               control={control}
@@ -559,6 +618,11 @@ export const OrganizationDetails = ({organization, goBack}) => {
           </Grid>
 
           <Grid item lg={4} md={6} sm={6} xs={12}>
+            {/* <Input
+              register={register("facilityState")}
+              label="State"
+              disabled={!edit}
+            /> */}
             <CustomSelect
               label="State"
               control={control}
@@ -571,6 +635,12 @@ export const OrganizationDetails = ({organization, goBack}) => {
           </Grid>
 
           <Grid item lg={4} md={6} sm={6} xs={12}>
+            {/* <Input
+              register={register("facilityLGA")}
+              label="LGA"
+              disabled={!edit}
+            /> */}
+
             <CustomSelect
               label="LGA"
               control={control}
@@ -587,6 +657,12 @@ export const OrganizationDetails = ({organization, goBack}) => {
           </Grid>
 
           <Grid item lg={4} md={6} sm={6} xs={12}>
+            {/* <Input
+              register={register("facilityCity")}
+              label="City"
+              disabled={!edit}
+            /> */}
+
             <CustomSelect
               label="City"
               control={control}
@@ -674,7 +750,7 @@ export const OrganizationModules = ({closeModal}) => {
     await facilityServer
       .patch(documentId, {...newOrgDetail})
       .then(resp => {
-        console.log(resp);
+        //console.log(resp);
         hideActionLoader();
         // setUser(prev => ({
         //   ...prev,

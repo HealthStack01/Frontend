@@ -24,6 +24,8 @@ import {toast} from "react-toastify";
 import dayjs from "dayjs";
 import {FileUploader} from "react-drag-drop-files";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import {facilityTypes} from "../app/facility-types";
+import {orgTypeModules} from "../app/app-modules";
 
 import BankAccount from "./BankAccount";
 import axios from "axios";
@@ -359,10 +361,17 @@ export const OrganizationModules = ({closeModal}) => {
     "Engagement",
   ];
 
+  const facilityType = user.currentEmployee.facilityDetail.facilityType;
+
+  const selectedType = orgTypeModules.find(item => item.name === facilityType);
+
+  const facilityModules = selectedType ? selectedType.modules : ["Admin"];
+
   useEffect(() => {
     //hideActionLoader();
-    const prevModules =
-      user.currentEmployee.facilityDetail.facilityModules || [];
+    const prevModules = user.currentEmployee.facilityDetail.facilityModules || [
+      "Admin",
+    ];
     setValue("modules", prevModules);
   }, []);
 
@@ -411,7 +420,7 @@ export const OrganizationModules = ({closeModal}) => {
         <CheckboxGroup
           name="modules"
           control={control}
-          options={modulelist}
+          options={facilityModules}
           row
         />
       </Box>
