@@ -58,7 +58,7 @@ export default function SearchDetails(){
         sx={{
           width: 95,
           height: 95,
-          left: '17rem',
+          left: '18rem',
           top: '10.28125rem',
           position: 'absolute',
           border: theme => `0.25rem solid ${theme.palette.common.white}`
