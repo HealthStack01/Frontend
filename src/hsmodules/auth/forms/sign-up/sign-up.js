@@ -1,4 +1,3 @@
-
 import {useContext, useEffect, useReducer, useState} from "react";
 import {Box, Typography} from "@mui/material";
 import {useForm} from "react-hook-form";
@@ -30,26 +29,27 @@ import client from "../../../../feathers";
 import {toast} from "react-toastify";
 import {UserContext} from "../../../../context";
 import {orgTypeModules} from "../../../app/app-modules";
-const steps = ['Organization', 'Contact', 'Admin'];
+
+const steps = ["Organization", "Contact", "Admin"];
 
 const initState = {
-	organizationData: {
-		facilityModules: [],
-		facilityName: '',
-		facilityType: '',
-		facilityCategory: '',
-		facilityCAC: '',
-		facilityAddress: '',
-		facilityState: '',
-		facilityCity: '',
-		facilityLGA: '',
-		facilityCountry: '',
-		facilityContactPhone: '',
-		facilityEmail: '',
-		facilityOwner: '',
-		//facilityCreated: "",
-	},
-	adminData: {},
+  organizationData: {
+    facilityModules: [],
+    facilityName: "",
+    facilityType: "",
+    facilityCategory: "",
+    facilityCAC: "",
+    facilityAddress: "",
+    facilityState: "",
+    facilityCity: "",
+    facilityLGA: "",
+    facilityCountry: "",
+    facilityContactPhone: "",
+    facilityEmail: "",
+    facilityOwner: "",
+    //facilityCreated: "",
+  },
+  adminData: {},
 };
 
 const OrganizationSignup = () => {

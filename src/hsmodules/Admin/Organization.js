@@ -24,6 +24,8 @@ import {toast} from "react-toastify";
 import dayjs from "dayjs";
 import {FileUploader} from "react-drag-drop-files";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import {facilityTypes} from "../app/facility-types";
+import {orgTypeModules} from "../app/app-modules";
 
 import BankAccount from "./BankAccount";
 import axios from "axios";
@@ -243,29 +245,19 @@ const AdminOrganization = ({propId}) => {
         </Grid>
 
         <Grid item lg={4} md={6} sm={6} xs={12}>
-          <CustomSelect
-            control={control}
-            name="facilityType"
-            options={[
-              "Diagnostic Lab",
-              "Diagnostics Imaging",
-              "HMO",
-              "Hospital",
-              "Pharmacy",
-              "Others",
-            ]}
+          <Input
             label="Organization Type"
-            disabled={!edit}
+            disabled
+            register={register("facilityType")}
           />
         </Grid>
 
         <Grid item lg={4} md={6} sm={6} xs={12}>
-          <CustomSelect
+          <Input
             control={control}
-            name="facilityCategory"
-            options={["Health", "Finance"]}
             label="Organization Category"
-            disabled={!edit}
+            disabled
+            register={register("facilityCategory")}
           />
         </Grid>
 
@@ -369,10 +361,17 @@ export const OrganizationModules = ({closeModal}) => {
     "Engagement",
   ];
 
+  const facilityType = user.currentEmployee.facilityDetail.facilityType;
+
+  const selectedType = orgTypeModules.find(item => item.name === facilityType);
+
+  const facilityModules = selectedType ? selectedType.modules : ["Admin"];
+
   useEffect(() => {
     //hideActionLoader();
-    const prevModules =
-      user.currentEmployee.facilityDetail.facilityModules || [];
+    const prevModules = user.currentEmployee.facilityDetail.facilityModules || [
+      "Admin",
+    ];
     setValue("modules", prevModules);
   }, []);
 
@@ -421,7 +420,7 @@ export const OrganizationModules = ({closeModal}) => {
         <CheckboxGroup
           name="modules"
           control={control}
-          options={modulelist}
+          options={facilityModules}
           row
         />
       </Box>
@@ -495,7 +494,7 @@ export const OrganaizationLogoUpload = ({closeModal}) => {
       )
       .then(async res => {
         //return console.log(res);
-        // console.log(res);
+        console.log(res);
         const logoUrl = res.data.url;
         const employee = user.currentEmployee;
         const prevOrgDetail = user.currentEmployee.facilityDetail;
