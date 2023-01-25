@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import client from '../../feathers';
+import DeleteOutline from '@mui/icons-material/DeleteOutline';
 import { Box, Grid, IconButton, Typography } from '@mui/material';
-import { addDays, format, subDays } from 'date-fns';
+import { format } from 'date-fns';
+import { useContext, useEffect, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
-import CalendarGrid from '../../components/calender';
 import CustomTable from '../../components/customtable';
 import Input from '../../components/inputs/basic/Input';
 import CustomSelect from '../../components/inputs/basic/Select';
@@ -13,13 +13,9 @@ import ModalBox from '../../components/modal';
 import { FormsHeaderText } from '../../components/texts';
 import FilterMenu from '../../components/utilities/FilterMenu';
 import { ObjectContext, UserContext } from '../../context';
+import client from '../../feathers';
 import { TableMenu } from '../../ui/styled/global';
 import { PageWrapper } from '../../ui/styled/styles';
-import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
-import SearchSelect from '../helpers/SearchSelect';
-import CategorySearch from '../helpers/CategorySearch';
-import DeleteOutline from '@mui/icons-material/DeleteOutline';
-import { toast } from 'react-toastify';
 import {
 	SearchCategory,
 	SearchCategory2,
@@ -1619,7 +1615,7 @@ export function HealthPlanDetails({
 			inputType: 'TEXT',
 		},
 	];
-
+	console.log('selected', selectedPlan);
 	return (
 		<>
 			<div
@@ -1630,16 +1626,22 @@ export function HealthPlanDetails({
 					width: '98%',
 					margin: '0 auto',
 				}}>
-				<Box
-					sx={{ display: 'flex', justifyContent: 'space-between' }}
-					my={1}>
-					<FormsHeaderText text={selectedPlan?.planName} />
-					<GlobalCustomButton
-						text='Back'
-						color='warning'
-						onClick={() => setShowModal(0)}
-					/>
-				</Box>
+				<Grid
+					container
+					spacing={2}
+					mb={1}>
+					<Grid
+						item
+						xs={12}
+						sm={12}>
+						<GlobalCustomButton
+							text='Back'
+							color='warning'
+							onClick={() => setShowModal(0)}
+							customStyles={{ float: 'right' }}
+						/>
+					</Grid>
+				</Grid>
 				{!standAlone && (
 					<div style={{ backgroundColor: '#EBEBEB', padding: '.5rem 1rem' }}>
 						<FormsHeaderText text={`Health Plan: ${selectedPlan?.planName}`} />
@@ -1707,22 +1709,21 @@ export function HealthPlanDetails({
 							<Grid
 								item
 								xs={4}>
-								<p>
-									Name of Plan:
-									{selectedPlan?.planName}
-								</p>
+								<p>Plan Name: {selectedPlan?.planName}</p>
 							</Grid>
 							{/* <Grid item xs={4}>
               <p>Plan Type: Test Plan</p>
             </Grid> */}
-							{/* <Grid
+							<Grid
 								item
 								xs={4}>
-								<p>
-									Plan Category:
-									{selectedPlan?.planCategory}
-								</p>
-							</Grid> */}
+								<p>Plan Category: {selectedPlan?.planCategory}</p>
+							</Grid>
+							<Grid
+								item
+								xs={4}>
+								<p>Provider Network: {selectedPlan?.providerNetwork[0]}</p>
+							</Grid>
 							{/* <Grid item xs={4}>
               <p>Premium Amount: 20,000</p>
             </Grid> */}
@@ -1730,29 +1731,67 @@ export function HealthPlanDetails({
 								item
 								xs={4}>
 								<p>
-									Premium per Person per Annum : ₦
-									{selectedPlan?.premiums[1]?.individualPremium}
+									Individual Premium: ₦
+									{selectedPlan?.premiums.map((item) => {
+										if (item?.planType === 'Individual') {
+											return item?.premiumAmount;
+										}
+									})}
 								</p>
 							</Grid>
 							<Grid
 								item
 								xs={4}>
 								<p>
-									Premium per Family per Annum : ₦
-									{selectedPlan?.premiums[0]?.familyPremium}
+									Individual Duration: ₦
+									{selectedPlan?.premiums.map((item) => {
+										if (item?.planType === 'Individual') {
+											return item?.premiumDuration;
+										}
+									})}
 								</p>
 							</Grid>
 							<Grid
 								item
 								xs={4}>
-								<p>Provider Network: {selectedPlan?.providerNetwork[0]}</p>
+								<p>Individual Limit: ₦{selectedPlan?.individualLimit}</p>
+							</Grid>
+							<Grid
+								item
+								xs={4}>
+								<p>
+									Family Premium: ₦
+									{selectedPlan?.premiums.map((item) => {
+										if (item?.planType === 'Family') {
+											return item?.premiumAmount;
+										}
+									})}
+								</p>
+							</Grid>
+
+							<Grid
+								item
+								xs={4}>
+								<p>
+									Family Duration: ₦
+									{selectedPlan?.premiums.map((item) => {
+										if (item?.planType === 'Family') {
+											return item?.premiumDuration;
+										}
+									})}
+								</p>
+							</Grid>
+							<Grid
+								item
+								xs={4}>
+								<p>Family Limit: ₦{selectedPlan?.familyLimit}</p>
 							</Grid>
 							<Grid
 								item
 								xs={4}>
 								<p>
 									Coverage Area:{' '}
-									{selectedPlan?.covrageArea?.map((item) => item)}
+									{selectedPlan?.coverageArea?.map((item) => item)}
 								</p>
 							</Grid>
 						</Grid>

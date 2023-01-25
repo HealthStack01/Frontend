@@ -1,5 +1,11 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, {
+	useState,
+	useContext,
+	useEffect,
+	useRef,
+	useCallback,
+} from 'react';
 import { Route, useNavigate, Link, NavLink } from 'react-router-dom';
 import client from '../../feathers';
 import { DebounceInput } from 'react-debounce-input';
@@ -69,6 +75,7 @@ import Textarea from '../../components/inputs/basic/Textarea';
 import { v4 as uuidv4 } from 'uuid';
 import SendLinkViaEmail from '../CRM/components/deals/SendLink';
 import CustomConfirmationDialog from '../../components/confirm-dialog/confirm-dialog';
+import ProviderChat from './components/Provider/ProviderChat';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -1052,6 +1059,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 	const [addBank, setAddBank] = useState(false);
 	const [openDrawer, setOpenDrawer] = useState(false);
 	const [newFacility, setFacility] = useState([]);
+	const [unreadMsgs, setUnreadMsgs] = useState([]);
 
 	const facility = state.facilityModule.selectedFacility;
 
@@ -1089,6 +1097,49 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 		reset(initFormValue);
 	}, []);
 
+	const getUnreadMessagesCount = useCallback(async () => {
+		setUnreadMsgs([]);
+		const id = state.facilityModule.selectedFacility._id;
+		const userId = user.currentEmployee.userId;
+		// console.log(userId);
+		await facilityServer
+			.find({
+				query: {
+					_id: id,
+					$select: ['chat'],
+				},
+			})
+			.then((resp) => {
+				const data = resp.data[0];
+				const msgs = data.chat;
+				console.log(msgs);
+				msgs.map((msg) => {
+					if (
+						msg.senderId === userId ||
+						msg.seen.includes(userId) ||
+						unreadMsgs.includes(msg._id)
+					) {
+						return;
+					} else {
+						return setUnreadMsgs((prev) => [msg._id, ...prev]);
+					}
+				});
+			})
+			.catch((err) => {
+				// toast.error("There was an error getting messages for this chat");
+				console.log(err);
+			});
+	}, []);
+
+	useEffect(() => {
+		getUnreadMessagesCount();
+	}, []);
+	useEffect(() => {
+		facilityServer.on('created', (obj) => getUnreadMessagesCount());
+		facilityServer.on('updated', (obj) => getUnreadMessagesCount());
+		facilityServer.on('patched', (obj) => getUnreadMessagesCount());
+		facilityServer.on('removed', (obj) => getUnreadMessagesCount());
+	}, []);
 	const addBankAccount = async (data) => {
 		const employee = user.currentEmployee;
 		const prevOrgDetail = state.facilityModule.selectedFacility;
@@ -1298,7 +1349,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 		//   width: '80px',
 		// },
 	];
-	console.log('facility', facility);
+	console.log('user', user);
 	const onError = (errors, e) => console.log(errors, e);
 	return (
 		<>
@@ -1413,7 +1464,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 						variant={display === 7 ? 'outlined' : 'contained'}
 					/>
 					<Badge
-						badgeContent={4}
+						badgeContent={unreadMsgs.length}
 						color='success'
 						sx={{ marginRight: '10px' }}>
 						<GlobalCustomButton
@@ -1779,7 +1830,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
             </Box>
           </ModalBox>
         )} */}
-				{display === 2 && <Accreditation standAlone={facility._id} />}
+				{display === 2 && <Accreditation standAlone={facility.organization} />}
 				{display === 3 && <CRMTasks />}
 				{display === 4 && <UploadView />}
 				{display === 5 && (
@@ -1806,7 +1857,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 							height: '100vh',
 							overflowY: 'hidden',
 						}}>
-						<ChatInterface closeChat={() => setOpenDrawer(false)} />
+						<ProviderChat closeChat={() => setOpenDrawer(false)} />
 					</Box>
 				</Drawer>
 			</Box>

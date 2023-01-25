@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import client from '../../feathers';
 import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
@@ -54,6 +54,7 @@ import {
 	EnrolleSchema5,
 	principalData,
 } from './schema';
+import CorporateChat from './components/Corporate/CorporateChat';
 export default function OrganizationClient() {
 	const { state } = useContext(ObjectContext); //,setState
 	// eslint-disable-next-line
@@ -311,10 +312,10 @@ export function OrganizationList({ showModal, setShowModal }) {
 
 		//console.log("handlerow",facility)
 
-		await setSelectedFacility(facility?.organizationDetail);
+		await setSelectedFacility(facility);
 
 		const newfacilityModule = {
-			selectedFacility: facility?.organizationDetail,
+			selectedFacility: facility,
 			show: 'detail',
 		};
 		await setState((prevstate) => ({
@@ -544,6 +545,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 	const [message, setMessage] = useState(''); //,
 	//const facilityServ=client.service('/facility')
 	//const navigate=useNavigate()
+	const orgServ = client.service('organizationclient');
 	const { user, setUser } = useContext(UserContext);
 	const { state, setState } = useContext(ObjectContext);
 	const [editCorporate, setEditCorporate] = useState(false);
@@ -551,8 +553,9 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [openDrawer, setOpenDrawer] = useState(false);
 	const [activateCall, setActivateCall] = useState(false);
+	const [unreadMsgs, setUnreadMsgs] = useState([]);
 
-	const facility = state.facilityModule.selectedFacility;
+	const facility = state.facilityModule.selectedFacility?.organizationDetail;
 
 	console.log('Facility', facility);
 
@@ -676,7 +679,49 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 				toast(`Error updating Client, probable network issues or ${err}`);
 			});
 	};
+	const getUnreadMessagesCount = useCallback(async () => {
+		setUnreadMsgs([]);
+		const id = state.facilityModule.selectedFacility._id;
+		const userId = user.currentEmployee.userId;
+		// console.log(userId);
+		await orgServ
+			.find({
+				query: {
+					_id: id,
+					$select: ['chat'],
+				},
+			})
+			.then((resp) => {
+				const data = resp.data[0];
+				const msgs = data.chat;
+				console.log(msgs);
+				msgs.map((msg) => {
+					if (
+						msg.senderId === userId ||
+						msg.seen.includes(userId) ||
+						unreadMsgs.includes(msg._id)
+					) {
+						return;
+					} else {
+						return setUnreadMsgs((prev) => [msg._id, ...prev]);
+					}
+				});
+			})
+			.catch((err) => {
+				// toast.error("There was an error getting messages for this chat");
+				console.log(err);
+			});
+	}, []);
 
+	useEffect(() => {
+		getUnreadMessagesCount();
+	}, []);
+	useEffect(() => {
+		orgServ.on('created', (obj) => getUnreadMessagesCount());
+		orgServ.on('updated', (obj) => getUnreadMessagesCount());
+		orgServ.on('patched', (obj) => getUnreadMessagesCount());
+		orgServ.on('removed', (obj) => getUnreadMessagesCount());
+	}, []);
 	return (
 		<>
 			<Box
@@ -799,7 +844,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 									customStyles={{ marginRight: '.8rem' }}
 								/>
 								<Badge
-									badgeContent={4}
+									badgeContent={unreadMsgs.length}
 									color='success'
 									sx={{ marginRight: '10px', marginTop: '0' }}>
 									<GlobalCustomButton
@@ -946,7 +991,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 						height: '100vh',
 						overflowY: 'hidden',
 					}}>
-					<ChatInterface closeChat={() => setOpenDrawer(false)} />
+					<CorporateChat closeChat={() => setOpenDrawer(false)} />
 				</Box>
 			</Drawer>
 		</>
