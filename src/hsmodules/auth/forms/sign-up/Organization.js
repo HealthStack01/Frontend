@@ -59,7 +59,7 @@ const OrganizationForm = ({register, control, errors, watch, setValue}) => {
         label="Organization Category"
         control={control}
         name="facilityCategory"
-        required={"Select Organization Category"}
+        //required={"Select Organization Category"}
         errorText={errors?.facilityCategory?.message}
         options={
           selectedType

@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import {useForm} from "react-hook-form";
 import {toast, ToastContainer} from "react-toastify";
 import Button from "../../components/buttons/Button";
@@ -28,6 +28,7 @@ import {FormsHeaderText} from "../../components/texts";
 import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 import ClientGroup from "./ClientGroup";
 import {ObjectContext, UserContext} from "../../context";
+import {Nigeria} from "../app/Nigeria";
 
 const UploadComponent = ({}) => {
   return (
@@ -71,6 +72,8 @@ const ClientForm = ({closeModal, setOpen}) => {
     control,
     getValues,
     reset,
+    setValue,
+    watch,
   } = useForm({
     resolver: yupResolver(createClientSchema),
 
@@ -84,6 +87,21 @@ const ClientForm = ({closeModal, setOpen}) => {
       facility: user.currentEmployee.facility,
     },
   });
+  const [selectedState, setSelectedState] = useState(null);
+
+  const states = Nigeria.map(obj => obj.state);
+
+  //alphabetically arrange state
+  const sortedStates = states.sort((a, b) => a.localeCompare(b));
+
+  const watchedState = watch("facilityState");
+
+  useEffect(() => {
+    setSelectedState(Nigeria.find(item => item.state === watchedState));
+    setValue("facilityCity", "");
+    setValue("facilityLGA", "");
+  }, [watchedState]);
+
   const submit = async (data, e) => {
     setLoading(true);
     e.preventDefault();
@@ -319,7 +337,7 @@ const ClientForm = ({closeModal, setOpen}) => {
 
             {!isFullRegistration ? (
               <>
-                <Box sx={{width: "80vw", maxHeight: "80vh"}}>
+                <Box sx={{width: "85vw", maxHeight: "80vh"}}>
                   <Grid container spacing={1}>
                     <Grid item lg={3} md={4} sm={6}>
                       <Input
@@ -402,42 +420,66 @@ const ClientForm = ({closeModal, setOpen}) => {
                         ]}
                       />
                     </Grid>
+
+                    <Grid item lg={3} md={4} sm={6}>
+                      <CustomSelect
+                        label="Country"
+                        control={control}
+                        name="country"
+                        //errorText={errors?.facilityCountry?.message}
+                        options={["Nigeria"]}
+                      />
+                    </Grid>
+
                     <Grid item lg={6} md={6} sm={12}>
                       <Input
                         label="Residential Address"
                         register={register("residentialaddress")}
                       />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Town"
-                        register={register("town")}
-                        type="text"
-                      />
-                    </Grid>
 
                     <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="LGA"
-                        type="text"
-                        register={register("lga")}
-                      />
-                    </Grid>
-
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
+                      <CustomSelect
                         label="State"
-                        register={register("state")}
-                        type="text"
+                        control={control}
+                        name="state"
+                        //errorText={errors?.facilityState?.message}
+                        options={sortedStates}
                       />
                     </Grid>
+
                     <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Country"
-                        register={register("country")}
-                        type="text"
+                      <CustomSelect
+                        label="Town/City"
+                        control={control}
+                        name="town"
+                        //errorText={errors?.facilityLGA?.message}
+                        options={
+                          selectedState
+                            ? selectedState.lgas.sort((a, b) =>
+                                a.localeCompare(b)
+                              )
+                            : []
+                        }
                       />
                     </Grid>
+
+                    <Grid item lg={3} md={4} sm={6}>
+                      <CustomSelect
+                        label="LGA"
+                        control={control}
+                        name="lga"
+                        //errorText={errors?.facilityLGA?.message}
+                        options={
+                          selectedState
+                            ? selectedState.lgas.sort((a, b) =>
+                                a.localeCompare(b)
+                              )
+                            : []
+                        }
+                      />
+                    </Grid>
+
                     <Grid item lg={3} md={4} sm={6}>
                       <Input
                         label="Next of Kin"
@@ -449,6 +491,20 @@ const ClientForm = ({closeModal, setOpen}) => {
                         label="Next of Kin Phone"
                         register={register("nextofkinphone")}
                         type="tel"
+                      />
+                    </Grid>
+
+                    <Grid item lg={3} md={4} sm={6}>
+                      <CustomSelect
+                        label="Client Level"
+                        important
+                        control={control}
+                        name="clientLevel"
+                        options={[
+                          {label: "Level 1", value: "1"},
+                          {label: "Level 2", value: "2"},
+                          {label: "Level 3", value: "3"},
+                        ]}
                       />
                     </Grid>
                   </Grid>
@@ -564,7 +620,19 @@ const ClientForm = ({closeModal, setOpen}) => {
                     </Grid>
 
                     <Grid item lg={2} md={4} sm={6}>
-                      <Input label="Religion" register={register("religion")} />
+                      <CustomSelect
+                        label="Religion"
+                        register={register("religion")}
+                        options={[
+                          {label: "Buddhism", value: "Buddhism"},
+                          {label: "Christianity", value: "Christianity"},
+                          {label: "Hinduism", value: "Hinduism"},
+                          {label: "Judaism", value: "Judaism"},
+                          {label: "Islam", value: "Islam"},
+                          {label: "Taoism", value: "Taoism"},
+                        ]}
+                      />
+                      {/* <Input label="Religion" register={register("religion")} /> */}
                     </Grid>
 
                     <Grid item lg={2} md={4} sm={6}>
@@ -596,29 +664,84 @@ const ClientForm = ({closeModal, setOpen}) => {
                     <Grid item lg={6} md={6} sm={12}>
                       <Input label="Tags" register={register("clientTags")} />
                     </Grid>
+
+                    <Grid item lg={2} md={4} sm={6}>
+                      <CustomSelect
+                        label="Client Level"
+                        control={control}
+                        name="clientLevel"
+                        important
+                        options={[
+                          {label: "Level 1", value: "1"},
+                          {label: "Level 2", value: "2"},
+                          {label: "Level 3", value: "3"},
+                        ]}
+                      />
+                    </Grid>
                   </Grid>
 
                   <Grid container spacing={1}>
                     <Grid item xs={12}>
                       <FormsHeaderText text="Client Address" />
                     </Grid>
-                    <Grid item lg={4} md={6} sm={8}>
-                      <Input
-                        label="Residential Address"
-                        register={register("address")}
+
+                    <Grid item lg={3} md={4} sm={6}>
+                      <CustomSelect
+                        label="Country"
+                        control={control}
+                        name="country"
+                        //errorText={errors?.facilityCountry?.message}
+                        options={["Nigeria"]}
                       />
                     </Grid>
-                    <Grid item lg={2} md={4} sm={4}>
-                      <Input label="Town/City" register={register("city")} />
+
+                    <Grid item lg={6} md={6} sm={12}>
+                      <Input
+                        label="Residential Address"
+                        register={register("residentialaddress")}
+                      />
                     </Grid>
-                    <Grid item lg={2} md={4} sm={4}>
-                      <Input label="LGA" register={register("lga")} />
+
+                    <Grid item lg={3} md={4} sm={6}>
+                      <CustomSelect
+                        label="State"
+                        control={control}
+                        name="state"
+                        //errorText={errors?.facilityState?.message}
+                        options={sortedStates}
+                      />
                     </Grid>
-                    <Grid item lg={2} md={4} sm={4}>
-                      <Input label="State" register={register("state")} />
+
+                    <Grid item lg={3} md={4} sm={6}>
+                      <CustomSelect
+                        label="Town/City"
+                        control={control}
+                        name="town"
+                        //errorText={errors?.facilityLGA?.message}
+                        options={
+                          selectedState
+                            ? selectedState.lgas.sort((a, b) =>
+                                a.localeCompare(b)
+                              )
+                            : []
+                        }
+                      />
                     </Grid>
-                    <Grid item lg={2} md={4} sm={4}>
-                      <Input label="Country" register={register("country")} />
+
+                    <Grid item lg={3} md={4} sm={6}>
+                      <CustomSelect
+                        label="LGA"
+                        control={control}
+                        name="lga"
+                        //errorText={errors?.facilityLGA?.message}
+                        options={
+                          selectedState
+                            ? selectedState.lgas.sort((a, b) =>
+                                a.localeCompare(b)
+                              )
+                            : []
+                        }
+                      />
                     </Grid>
                   </Grid>
 

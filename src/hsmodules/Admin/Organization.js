@@ -243,29 +243,19 @@ const AdminOrganization = ({propId}) => {
         </Grid>
 
         <Grid item lg={4} md={6} sm={6} xs={12}>
-          <CustomSelect
-            control={control}
-            name="facilityType"
-            options={[
-              "Diagnostic Lab",
-              "Diagnostics Imaging",
-              "HMO",
-              "Hospital",
-              "Pharmacy",
-              "Others",
-            ]}
+          <Input
             label="Organization Type"
-            disabled={!edit}
+            disabled
+            register={register("facilityType")}
           />
         </Grid>
 
         <Grid item lg={4} md={6} sm={6} xs={12}>
-          <CustomSelect
+          <Input
             control={control}
-            name="facilityCategory"
-            options={["Health", "Finance"]}
             label="Organization Category"
-            disabled={!edit}
+            disabled
+            register={register("facilityCategory")}
           />
         </Grid>
 
@@ -495,7 +485,7 @@ export const OrganaizationLogoUpload = ({closeModal}) => {
       )
       .then(async res => {
         //return console.log(res);
-        // console.log(res);
+        console.log(res);
         const logoUrl = res.data.url;
         const employee = user.currentEmployee;
         const prevOrgDetail = user.currentEmployee.facilityDetail;
