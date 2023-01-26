@@ -44,7 +44,7 @@ const AppNotifications = () => {
   const [showDrawer, setShowDrawer] = useState(false);
 
   const getNotifications = useCallback(async () => {
-    const userId = user.currentEmployee.userId;
+    const userId = user.currentEmployee._id;
     setLoading(true);
 
     if (!user.stacker) {
@@ -53,8 +53,9 @@ const AppNotifications = () => {
           facilityId: user.currentEmployee.facilityDetail._id,
           $limit: 200,
           senderId: {
-            $ne: user.currentEmployee.userId,
+            $ne: userId,
           },
+          // dest_userId: {$in: [userId]},
           isRead: {$nin: [userId]},
           $sort: {
             createdAt: -1,

@@ -1,6 +1,6 @@
 import {useRef} from "react";
 import {Avatar, Divider, Grid, Typography} from "@mui/material";
-import {Box, fontWeight} from "@mui/system";
+import {Box, fontWeight, height} from "@mui/system";
 import dayjs from "dayjs";
 import {useContext, useState, useEffect} from "react";
 import CustomTable from "../../../../components/customtable";
@@ -8,10 +8,7 @@ import ModalBox from "../../../../components/modal";
 import {ObjectContext, UserContext} from "../../../../context";
 import ReactToPrint, {useReactToPrint} from "react-to-print";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
-import CRMInvoiceDesign, {
-  CRMEmailTemplate,
-  EmailTemplate,
-} from "./InvoiceDesign";
+import CRMInvoiceDesign, {CRMEmailTemplate} from "./InvoiceDesign";
 import {ContactsEmailSource, EmailsSourceList} from "../deals/SendLink";
 import client from "../../../../feathers";
 import {toast} from "react-toastify";
@@ -20,6 +17,38 @@ import Input from "../../../../components/inputs/basic/Input";
 import EmailIcon from "@mui/icons-material/Email";
 import SendIcon from "@mui/icons-material/Send";
 import {renderToStaticMarkup} from "react-dom/server";
+import html2canvas from "html2canvas";
+import axios from "axios";
+
+// const exportAsImage = async (element, imageFileName) => {
+//   const canvas = await html2canvas(element, {
+//     logging: true,
+//     letterRendering: 1,
+//     useCORS: true,
+//   });
+//   const image = canvas.toDataURL("image/png", 1.0);
+//   //console.log(image);
+
+//   return image;
+//   // downloadImage(image, imageFileName);
+// };
+
+// const downloadImage = (blob, fileName) => {
+//   const fakeLink = window.document.createElement("a");
+//   fakeLink.style = "display:none;";
+//   fakeLink.download = fileName;
+
+//   fakeLink.href = blob;
+
+//   document.body.appendChild(fakeLink);
+//   fakeLink.click();
+//   document.body.removeChild(fakeLink);
+
+//   fakeLink.remove();
+// };
+
+const logo =
+  "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bG9nb3xlbnwwfHwwfHw%3D&w=1000&q=80";
 
 const invoiceFormat = (invoice, plans) => {
   const htmlSend = `<html>
@@ -130,7 +159,7 @@ const invoiceFormat = (invoice, plans) => {
 						<table>
 							<tr>
 								<td class="title">
-									<img src="https://www.sparksuite.com/images/logo.png" style="width: 100%; max-width: 300px" />
+									<img src=${logo} style="width: 100%; max-width: 300px" />
 								</td>
 
 								<td>
@@ -212,6 +241,10 @@ const invoiceFormat = (invoice, plans) => {
 
 				<tr class="total">
 					<td></td>
+          	<td></td>
+            	<td></td>
+              	<td></td>
+                	<td></td>
 
 					<td>Total: $385.00</td>
 				</tr>
@@ -394,8 +427,10 @@ const InvoicePrintOut = ({closeModal}) => {
   const [selectAccountModal, setSelectAccountModal] = useState(true);
   const [emailModal, setEmailModal] = useState(false);
   const [invoiceData, setInvoiceData] = useState(null);
+  const [screenshot, setScreenshot] = useState("");
 
   const printRef = useRef(null);
+  const screenshotRef = useRef(null);
 
   const organization = user.currentEmployee.facilityDetail;
   const invoice = state.InvoiceModule.selectedInvoice;
@@ -420,15 +455,42 @@ const InvoicePrintOut = ({closeModal}) => {
     },
   });
 
+  const screenshotInvoice = async () => {
+    const canvas = await html2canvas(screenshotRef.current, {
+      logging: true,
+      letterRendering: 1,
+      useCORS: true,
+    });
+    const image = canvas.toDataURL("image/png", 1.0);
+    setScreenshot(image);
+    setEmailModal(true);
+  };
+
   return (
-    <Box
-      sx={{
-        width: "100%",
-        height: "842px",
-        padding: "20px 10px",
-        position: "relative",
-      }}
-    >
+    <Box>
+      <Box
+        sx={{
+          width: "100%",
+          //height: "40px",
+          display: "flex",
+        }}
+        gap={2}
+      >
+        <ReactToPrint
+          trigger={() => (
+            <GlobalCustomButton color="info">Print Invoice</GlobalCustomButton>
+          )}
+          content={() => printRef.current}
+        />
+
+        <GlobalCustomButton
+          onClick={screenshotInvoice}
+          //onClick={handlePrint}
+        >
+          Send Invoice
+        </GlobalCustomButton>
+      </Box>
+
       <Box
         sx={{
           display: "none",
@@ -436,6 +498,7 @@ const InvoicePrintOut = ({closeModal}) => {
       >
         <CRMInvoiceDesign ref={printRef} user={user} state={state} />
       </Box>
+
       <ModalBox
         open={selectAccountModal}
         header="Select Bank Account To Receive Payment"
@@ -452,508 +515,502 @@ const InvoicePrintOut = ({closeModal}) => {
       >
         <SendInvoiceViaEmail
           closeModal={() => setEmailModal(false)}
-          invoice={invoiceData}
-          plans={invoice.plans}
+          // invoice={invoiceData}
+          // plans={invoice.plans}
+          screenshot={screenshot}
         />
         {/* <CRMEmailTemplate /> */}
       </ModalBox>
 
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
+          width: "700px",
+          height: "842px",
+          padding: "20px 10px",
+          position: "relative",
         }}
+        p={4}
+        ref={screenshotRef}
       >
-        <Box>
-          <Box sx={{display: "flex", alignItems: "center"}}>
-            {organization.facilitylogo ? (
-              <Avatar
-                sx={{width: 40, height: 40, marginRight: "5px"}}
-                src={organization.facilitylogo}
-                alt="logo"
-              />
-            ) : (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <Box>
+            <Box sx={{display: "flex", alignItems: "center"}}>
+              {organization.facilitylogo ? (
+                <Avatar
+                  sx={{width: 40, height: 40, marginRight: "5px"}}
+                  src={organization.facilitylogo}
+                  alt="logo"
+                />
+              ) : (
+                // <Avatar
+                //   sx={{width: 40, height: 40, marginRight: "5px"}}
+                //   src={organization.facilitylogo}
+                //   alt="logo"
+                // />
+                <Box
+                  sx={{
+                    width: "40px",
+                    height: "40px",
+                    borderRadius: "50%",
+                    backgroundColor: "#C6C6C6",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginRight: "5px",
+                  }}
+                >
+                  <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+                    Logo
+                  </Typography>
+                </Box>
+              )}
+
               <Box
                 sx={{
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "50%",
-                  backgroundColor: "#C6C6C6",
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center",
-                  marginRight: "5px",
                 }}
               >
-                <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
-                  Logo
+                <Typography
+                  sx={{
+                    fontSize: "0.9rem",
+                    fontWeight: "700",
+                    color: "#0064CC",
+                  }}
+                >
+                  {organization?.facilityName}
+                </Typography>
+
+                <Divider
+                  orientation="vertical"
+                  flexItem
+                  sx={{
+                    background: "#000000",
+                    margin: "0 5px",
+                  }}
+                />
+
+                <Typography
+                  sx={{
+                    fontSize: "0.8rem",
+                    color: "#000000",
+                  }}
+                >
+                  Invoice
                 </Typography>
               </Box>
-            )}
+            </Box>
 
             <Box
               sx={{
-                display: "flex",
-                alignItems: "center",
+                width: "280px",
+                marginLeft: "45px",
               }}
             >
               <Typography
                 sx={{
-                  fontSize: "0.9rem",
-                  fontWeight: "700",
-                  color: "#0064CC",
+                  fontSize: "0.65rem",
+                  color: "#999999",
                 }}
               >
-                {organization?.facilityName}
+                {organization?.facilityAddress}, {organization?.facilityCity}
+                {/* 296 Herbert Macaulay Way,Yaba, Lagos.P.O.Box 782, Marina,Lagos */}
               </Typography>
-
-              <Divider
-                orientation="vertical"
-                flexItem
-                sx={{
-                  background: "#000000",
-                  margin: "0 5px",
-                }}
-              />
 
               <Typography
                 sx={{
-                  fontSize: "0.8rem",
-                  color: "#000000",
+                  fontSize: "0.65rem",
+                  color: "#999999",
                 }}
               >
-                Invoice
+                website: www.healthcare-ng.com
+              </Typography>
+
+              <Typography
+                sx={{
+                  fontSize: "0.65rem",
+                  color: "#999999",
+                }}
+              >
+                Email : {organization?.facilityEmail}
+                {/* email: info@healthcare-ng.com */}
+              </Typography>
+
+              <Typography
+                sx={{
+                  fontSize: "0.65rem",
+                  color: "#999999",
+                }}
+              >
+                Tel: {organization?.facilityContactPhone}
               </Typography>
             </Box>
           </Box>
 
-          <Box
+          <Box>
+            <Box>
+              <Typography
+                sx={{
+                  fontSize: "0.6rem",
+                  fontWeight: "300",
+                }}
+              >
+                INVOICE NUMBER
+              </Typography>
+
+              <Typography
+                sx={{
+                  fontSize: "0.6rem",
+                  fontWeight: "600",
+                }}
+              >
+                {invoice?.invoice_number}
+                {/* HCI/INTERTEK/LAG/ HO/2022/EO/1181 */}
+              </Typography>
+            </Box>
+
+            <Box>
+              <Typography
+                sx={{
+                  fontSize: "0.6rem",
+                  fontWeight: "300",
+                }}
+              >
+                INVOICE DATE
+              </Typography>
+
+              <Typography
+                sx={{
+                  fontSize: "0.6rem",
+                  fontWeight: "600",
+                }}
+              >
+                {dayjs(invoice?.createdAt).format("MMM D, YYYY")}
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+
+        <Box mt={3} mb={3}>
+          <Typography
             sx={{
-              width: "280px",
-              marginLeft: "45px",
+              fontSize: "0.7rem",
+              color: "#000000",
+              fontWeight: "600",
             }}
           >
-            <Typography
+            RECIPIENT
+          </Typography>
+          <Box mt={0.5}>
+            <Box
               sx={{
-                fontSize: "0.65rem",
-                color: "#999999",
+                display: "flex",
               }}
             >
-              {organization?.facilityAddress}, {organization?.facilityCity}
-              {/* 296 Herbert Macaulay Way,Yaba, Lagos.P.O.Box 782, Marina,Lagos */}
-            </Typography>
+              <Typography
+                sx={{
+                  fontSize: "0.65rem",
+                  marginRight: "5px",
+                }}
+              >
+                Name:
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "0.65rem",
+                  fontWeight: "600",
+                }}
+              >
+                {customer?.name}
+                {/* INTERTEK - Caleb Brett */}
+              </Typography>
+            </Box>
 
-            <Typography
+            <Box
               sx={{
-                fontSize: "0.65rem",
-                color: "#999999",
+                display: "flex",
               }}
             >
-              website: www.healthcare-ng.com
-            </Typography>
+              <Typography
+                sx={{
+                  fontSize: "0.65rem",
+                  marginRight: "5px",
+                }}
+              >
+                Address:
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "0.65rem",
+                  fontWeight: "600",
+                }}
+              >
+                {customer?.address}, {customer?.lga}, {customer?.city},{" "}
+                {customer?.state}, {customer?.country}.
+                {/* Plot 73B, Marine Road, Apapa, Lagos, Nigeria. */}
+              </Typography>
+            </Box>
 
-            <Typography
+            <Box
               sx={{
-                fontSize: "0.65rem",
-                color: "#999999",
+                display: "flex",
               }}
             >
-              Email : {organization?.facilityEmail}
-              {/* email: info@healthcare-ng.com */}
-            </Typography>
-
-            <Typography
-              sx={{
-                fontSize: "0.65rem",
-                color: "#999999",
-              }}
-            >
-              Tel: {organization?.facilityContactPhone}
-            </Typography>
+              <Typography
+                sx={{
+                  fontSize: "0.65rem",
+                  marginRight: "5px",
+                }}
+              >
+                Phone:
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "0.65rem",
+                  fontWeight: "600",
+                }}
+              >
+                {customer?.phone}
+                {/* 08123456789, 09123412134 */}
+              </Typography>
+            </Box>
           </Box>
         </Box>
 
         <Box>
-          <Box>
-            <Typography
-              sx={{
-                fontSize: "0.6rem",
-                fontWeight: "300",
-              }}
-            >
-              INVOICE NUMBER
-            </Typography>
-
-            <Typography
-              sx={{
-                fontSize: "0.6rem",
-                fontWeight: "600",
-              }}
-            >
-              {invoice?.invoice_number}
-              {/* HCI/INTERTEK/LAG/ HO/2022/EO/1181 */}
-            </Typography>
-          </Box>
-
-          <Box>
-            <Typography
-              sx={{
-                fontSize: "0.6rem",
-                fontWeight: "300",
-              }}
-            >
-              INVOICE DATE
-            </Typography>
-
-            <Typography
-              sx={{
-                fontSize: "0.6rem",
-                fontWeight: "600",
-              }}
-            >
-              {dayjs(invoice?.createdAt).format("MMM D, YYYY")}
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
-
-      <Box mt={3} mb={3}>
-        <Typography
-          sx={{
-            fontSize: "0.7rem",
-            color: "#000000",
-            fontWeight: "600",
-          }}
-        >
-          RECIPIENT
-        </Typography>
-        <Box mt={0.5}>
-          <Box
-            sx={{
-              display: "flex",
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: "0.65rem",
-                marginRight: "5px",
-              }}
-            >
-              Name:
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: "0.65rem",
-                fontWeight: "600",
-              }}
-            >
-              {customer?.name}
-              {/* INTERTEK - Caleb Brett */}
-            </Typography>
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: "0.65rem",
-                marginRight: "5px",
-              }}
-            >
-              Address:
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: "0.65rem",
-                fontWeight: "600",
-              }}
-            >
-              {customer?.address}, {customer?.lga}, {customer?.city},{" "}
-              {customer?.state}, {customer?.country}.
-              {/* Plot 73B, Marine Road, Apapa, Lagos, Nigeria. */}
-            </Typography>
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: "0.65rem",
-                marginRight: "5px",
-              }}
-            >
-              Phone:
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: "0.65rem",
-                fontWeight: "600",
-              }}
-            >
-              {customer?.phone}
-              {/* 08123456789, 09123412134 */}
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
-
-      <Box>
-        <CustomTable
-          columns={columns}
-          data={invoice.plans}
-          pointerOnHover
-          highlightOnHover
-          striped
-          //onRowClicked={handleRowClick}
-          CustomEmptyData="There are no bills"
-          progressPending={false}
-          preferredCustomStyles={customStyles}
-        />
-      </Box>
-
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-end",
-          paddingRight: "38px",
-        }}
-        mt={2}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            borderBottom: "1px solid #CCCCCC",
-            width: "200px",
-            justifyContent: "space-between",
-            paddingBottom: "5px",
-          }}
-          mb={1}
-        >
-          <Typography
-            sx={{
-              fontSize: "0.75rem",
-              fontWeight: "600",
-              color: "#0364FF",
-            }}
-          >
-            Subtotal
-          </Typography>
-          <Typography
-            sx={{
-              fontSize: "0.75rem",
-              fontWeight: "600",
-              color: "#000000",
-            }}
-          >
-            {totalAmount}
-          </Typography>
+          <CustomTable
+            columns={columns}
+            data={invoice.plans}
+            pointerOnHover
+            highlightOnHover
+            striped
+            //onRowClicked={handleRowClick}
+            CustomEmptyData="There are no bills"
+            progressPending={false}
+            preferredCustomStyles={customStyles}
+          />
         </Box>
 
         <Box
           sx={{
             display: "flex",
-            borderBottom: "1px solid #CCCCCC",
-            width: "200px",
-            justifyContent: "space-between",
-            paddingBottom: "5px",
+            flexDirection: "column",
+            alignItems: "flex-end",
+            paddingRight: "38px",
           }}
+          mt={2}
         >
-          <Typography
+          <Box
             sx={{
-              fontSize: "0.75rem",
-              fontWeight: "600",
-              color: "#0364FF",
+              display: "flex",
+              borderBottom: "1px solid #CCCCCC",
+              width: "200px",
+              justifyContent: "space-between",
+              paddingBottom: "5px",
             }}
+            mb={1}
           >
-            Total
-          </Typography>
+            <Typography
+              sx={{
+                fontSize: "0.75rem",
+                fontWeight: "600",
+                color: "#0364FF",
+              }}
+            >
+              Subtotal
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: "0.75rem",
+                fontWeight: "600",
+                color: "#000000",
+              }}
+            >
+              {totalAmount}
+            </Typography>
+          </Box>
 
-          <Typography
+          <Box
             sx={{
-              fontSize: "0.75rem",
-              fontWeight: "600",
-              color: "#000000",
+              display: "flex",
+              borderBottom: "1px solid #CCCCCC",
+              width: "200px",
+              justifyContent: "space-between",
+              paddingBottom: "5px",
             }}
           >
-            {totalAmount}
-          </Typography>
+            <Typography
+              sx={{
+                fontSize: "0.75rem",
+                fontWeight: "600",
+                color: "#0364FF",
+              }}
+            >
+              Total
+            </Typography>
+
+            <Typography
+              sx={{
+                fontSize: "0.75rem",
+                fontWeight: "600",
+                color: "#000000",
+              }}
+            >
+              {totalAmount}
+            </Typography>
+          </Box>
         </Box>
-      </Box>
 
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-end",
-          paddingRight: "38px",
-        }}
-        mt={2}
-      >
         <Box
           sx={{
-            width: "200px",
-            height: "30px",
             display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#0364FF",
-            cursor: "pointer",
+            flexDirection: "column",
+            alignItems: "flex-end",
+            paddingRight: "38px",
           }}
-          onClick={() => setSelectAccountModal(true)}
-        >
-          <Typography
-            sx={{
-              color: "#ffffff",
-              fontSize: "0.8rem",
-            }}
-          >
-            Account Data
-          </Typography>
-        </Box>
-
-        <Box
-          sx={{
-            width: "200px",
-          }}
-        >
-          <Typography
-            sx={{
-              fontSize: "0.65rem",
-            }}
-          >
-            Payment should be made into the bank account with details stated
-            below:
-          </Typography>
-        </Box>
-
-        <Box
-          mt={0.5}
-          sx={{
-            width: "200px",
-          }}
+          mt={2}
         >
           <Box
             sx={{
+              width: "200px",
+              height: "30px",
               display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "#0364FF",
+              cursor: "pointer",
             }}
+            onClick={() => setSelectAccountModal(true)}
           >
             <Typography
               sx={{
-                fontSize: "0.7rem",
-                marginRight: "5px",
+                color: "#ffffff",
+                fontSize: "0.8rem",
               }}
             >
-              Bank:
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: "0.7rem",
-                fontWeight: "600",
-              }}
-            >
-              {account?.bankname}
+              Account Data
             </Typography>
           </Box>
 
           <Box
             sx={{
-              display: "flex",
+              width: "200px",
             }}
           >
             <Typography
               sx={{
-                fontSize: "0.7rem",
-                marginRight: "5px",
+                fontSize: "0.65rem",
               }}
             >
-              A/C name:
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: "0.7rem",
-                fontWeight: "600",
-              }}
-            >
-              {account?.accountname}
+              Payment should be made into the bank account with details stated
+              below:
             </Typography>
           </Box>
 
           <Box
+            mt={0.5}
             sx={{
-              display: "flex",
+              width: "200px",
             }}
           >
-            <Typography
+            <Box
               sx={{
-                fontSize: "0.7rem",
-                marginRight: "5px",
+                display: "flex",
               }}
             >
-              A/C Num:
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: "0.7rem",
-                fontWeight: "600",
-              }}
-            >
-              {account?.accountnumber}
-            </Typography>
-          </Box>
+              <Typography
+                sx={{
+                  fontSize: "0.7rem",
+                  marginRight: "5px",
+                }}
+              >
+                Bank:
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "0.7rem",
+                  fontWeight: "600",
+                }}
+              >
+                {account?.bankname}
+              </Typography>
+            </Box>
 
-          <Box
-            sx={{
-              display: "flex",
-            }}
-          >
-            <Typography
+            <Box
               sx={{
-                fontSize: "0.7rem",
-                marginRight: "5px",
+                display: "flex",
               }}
             >
-              Sort Code:
-            </Typography>
-            <Typography
+              <Typography
+                sx={{
+                  fontSize: "0.7rem",
+                  marginRight: "5px",
+                }}
+              >
+                A/C name:
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "0.7rem",
+                  fontWeight: "600",
+                }}
+              >
+                {account?.accountname}
+              </Typography>
+            </Box>
+
+            <Box
               sx={{
-                fontSize: "0.7rem",
-                fontWeight: "600",
+                display: "flex",
               }}
             >
-              {account?.sortcode}
-            </Typography>
+              <Typography
+                sx={{
+                  fontSize: "0.7rem",
+                  marginRight: "5px",
+                }}
+              >
+                A/C Num:
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "0.7rem",
+                  fontWeight: "600",
+                }}
+              >
+                {account?.accountnumber}
+              </Typography>
+            </Box>
+
+            <Box
+              sx={{
+                display: "flex",
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: "0.7rem",
+                  marginRight: "5px",
+                }}
+              >
+                Sort Code:
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "0.7rem",
+                  fontWeight: "600",
+                }}
+              >
+                {account?.sortcode}
+              </Typography>
+            </Box>
           </Box>
         </Box>
-      </Box>
-
-      <Box
-        sx={{
-          position: "absolute",
-          left: "0px",
-          bottom: "0",
-          width: "100%",
-          //height: "40px",
-          display: "flex",
-        }}
-        gap={2}
-      >
-        <ReactToPrint
-          trigger={() => (
-            <GlobalCustomButton color="info">Print Invoice</GlobalCustomButton>
-          )}
-          content={() => printRef.current}
-        />
-
-        <GlobalCustomButton onClick={handlePrint}>
-          Send Invoice
-        </GlobalCustomButton>
       </Box>
     </Box>
   );
@@ -1081,7 +1138,7 @@ const OrganizationAccountList = ({closeModal}) => {
   );
 };
 
-export const SendInvoiceViaEmail = ({invoice, closeModal, plans}) => {
+export const SendInvoiceViaEmail = ({closeModal, screenshot}) => {
   const emailServer = client.service("email");
   const {user} = useContext(UserContext);
   const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
@@ -1121,35 +1178,49 @@ export const SendInvoiceViaEmail = ({invoice, closeModal, plans}) => {
   };
 
   const handleSendEmail = async data => {
-    const html = renderToStaticMarkup(<CRMEmailTemplate />);
-
+    //const html = renderToStaticMarkup(<CRMEmailTemplate />);
+    //return console.log(screenshot);
     const facility = user.currentEmployee.facilityDetail;
     showActionLoader();
 
-    const document = {
-      organizationId: facility._id,
-      organizationName: facility.facilityName,
-      html: html,
-      //attachments: attachments,
-      text: "",
-      status: "pending",
-      ...data,
-    };
+    const token = localStorage.getItem("feathers-jwt");
+    axios
+      .post(
+        "https://healthstack-backend.herokuapp.com/upload",
+        {uri: screenshot},
+        {headers: {Authorization: `Bearer ${token}`}}
+      )
+      .then(async res => {
+        const imageUrl = res.data.url;
 
-    //return console.log(document);
+        const document = {
+          organizationId: facility._id,
+          organizationName: facility.facilityName,
+          html: `<img src="${imageUrl}" alt="" >`,
+          //attachments: attachments,
+          text: "",
+          status: "pending",
+          ...data,
+        };
 
-    await emailServer
-      .create(document)
-      .then(res => {
-        hideActionLoader();
-        closeModal();
-        toast.success(`Invoice was sent successfully`);
+        await emailServer
+          .create(document)
+          .then(res => {
+            hideActionLoader();
+            closeModal();
+            toast.success(`The Invoice was sent successfully`);
+          })
+          .catch(err => {
+            hideActionLoader();
+            console.log(err);
+            toast.error(`Sorry, Failed to send Invoice ${err}`);
+          });
       })
       .catch(err => {
-        hideActionLoader();
-        console.log(err);
-        toast.error(`Sorry, Failed to send Invoice ${err}`);
+        toast.error(`Sorry, failed to send Invoice ${err}`);
       });
+
+    //return console.log(document);
   };
 
   return (
