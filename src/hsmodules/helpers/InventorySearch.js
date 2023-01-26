@@ -219,7 +219,7 @@ export default function InventorySearchHelper({getSearchfacility, clear}) {
         onClose={handlecloseModal}
         header="Create New Product"
       >
-        <ProductCreate />
+        <ProductCreate closeModal={handlecloseModal} />
       </ModalBox>
     </div>
   );

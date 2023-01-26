@@ -101,8 +101,6 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
   };
 
   const handleSearch = val => {
-    // eslint-disable-next-line
-    const field = "firstname";
     //console.log(val);
     dealServer
       .find({
@@ -118,60 +116,60 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
             {
               phone: {
                 $regex: val,
-                $options: "i",
+                // $options: "i",
               },
             },
             {
               email: {
                 $regex: val,
-                $options: "i",
+                //$options: "i",
               },
             },
             {
               type: {
                 $regex: val,
-                $options: "i",
+                //$options: "i",
               },
             },
-            {
-              "dealinfo.probability": {
-                $regex: val,
-                $options: "i",
-              },
-            },
-            {
-              "dealinfo.currStatus": {
-                $regex: val,
-                $options: "i",
-              },
-            },
-            {
-              "dealinfo.size": {
-                $regex: val,
-                $options: "i",
-              },
-            },
-            {
-              "dealinfo.nextAction": {
-                $regex: val,
-                $options: "i",
-              },
-            },
-            {
-              "dealinfo.size": {
-                $regex: val,
-                $options: "i",
-              },
-            },
-            {
-              "dealinfo.weightForecast": {
-                $regex: val,
-                $options: "i",
-              },
-            },
+            // {
+            //   "dealinfo.probability": {
+            //     $regex: val,
+            //     $options: "i",
+            //   },
+            // },
+            // {
+            //   "dealinfo.currStatus": {
+            //     $regex: val,
+            //     $options: "i",
+            //   },
+            // },
+            // {
+            //   "dealinfo.size": {
+            //     $regex: val,
+            //     $options: "i",
+            //   },
+            // },
+            // {
+            //   "dealinfo.nextAction": {
+            //     $regex: val,
+            //     $options: "i",
+            //   },
+            // },
+            // {
+            //   "dealinfo.size": {
+            //     $regex: val,
+            //     $options: "i",
+            //   },
+            // },
+            // {
+            //   "dealinfo.weightForecast": {
+            //     $regex: val,
+            //     $options: "i",
+            //   },
+            // },
           ],
 
-          factilityId: user.currentEmployee.facilityDetail._id, // || "",
+          //factilityId: user.currentEmployee.facilityDetail._id, // || "",
           $limit: 100,
           $sort: {
             createdAt: -1,

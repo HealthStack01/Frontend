@@ -5,8 +5,11 @@ import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
+import {Box, Grid} from "@mui/material";
+import Input from "../../components/inputs/basic/Input";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -38,7 +41,7 @@ export default function Product() {
   );
 }
 
-export function ProductCreate() {
+export function ProductCreate({closeModal}) {
   const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -87,86 +90,62 @@ export function ProductCreate() {
         e.target.reset();
         /*  setMessage("Created Product successfully") */
         setSuccess(true);
-        toast({
-          message: "Product created succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success("Product created succesfully");
+
         setSuccess(false);
       })
       .catch(err => {
-        toast({
-          message: "Error creating Product " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("Error creating Product");
       });
   };
 
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Create Product</p>
-        </div>
-        <div className="card-content vscrollable">
-          {/* <p className=" is-small">
-                    Kindly search product list before creating new products!
-                </p> */}
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field mb-2">
-              <p className="control has-icons-left has-icons-right">
-                <input
-                  className="input is-small"
-                  {...register("x", {required: true})}
-                  name="category"
-                  type="text"
-                  placeholder="Category of Product"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-hospital"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field mb-2">
-              <p className="control has-icons-left has-icons-right">
-                <input
-                  className="input is-small"
-                  {...register("x", {required: true})}
-                  name="name"
-                  type="text"
-                  placeholder="Name of Product"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field mb-2">
-              <p className="control has-icons-left">
-                <input
-                  className="input is-small"
-                  {...register("x", {required: true})}
-                  name="baseunit"
-                  type="text"
-                  placeholder="Base unit of product"
-                />
-                <span className="icon is-small is-left">
-                  <i className=" fas fa-user-md "></i>
-                </span>
-              </p>
-            </div>
+      <Box sx={{width: "600px"}}>
+        <Grid container spacing={1} pt={1} mb={2}>
+          <Grid item xs={12}>
+            <Input
+              label="Product Category"
+              name="category"
+              type="text"
+              register={register("category", {required: true})}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Input
+              label="Product Name"
+              name="name"
+              type="text"
+              register={register("name", {required: true})}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Input
+              label="Product Base Unit"
+              name="baseunit"
+              type="text"
+              register={register("baseunit", {required: true})}
+            />
+          </Grid>
+        </Grid>
 
-            <div className="field ">
-              <p className="control">
-                <button className="button is-success is-small">Create</button>
-              </p>
-            </div>
-          </form>
-        </div>
-      </div>
+        <Box sx={{display: "flex"}}>
+          <GlobalCustomButton
+            onClick={handleSubmit(onSubmit)}
+            sx={{marginRight: "10px"}}
+            color="success"
+          >
+            Create Product
+          </GlobalCustomButton>
+          <GlobalCustomButton
+            onClick={closeModal}
+            variant="outlined"
+            color="error"
+          >
+            Cancel
+          </GlobalCustomButton>
+        </Box>
+      </Box>
     </>
   );
 }

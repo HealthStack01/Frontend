@@ -112,21 +112,13 @@ const CustomSelect: React.FC<SelectProps> = ({
                   key={index}
                   sx={{width: "100%"}}
                 >
-<<<<<<< HEAD
-                  {option.label || option.name || option}
-=======
-                  {option.label || option.name}
->>>>>>> 6dbcea3f827702dc30e5df405b174ede17e9d919
+                  {option.label || option.name || option.comments.length > 30
+                    ? option.comments.slice(0, 30) + "..."
+                    : option.comments || option}
                 </MenuItem>
               ))}
             </Select>
           )}
-<<<<<<< HEAD
-          defaultValue="" // make sure to set up defaultValue
-        />
-
-        {errorText && <FormHelperText error>{errorText}</FormHelperText>}
-=======
           defaultValue={defaultValue} // make sure to set up defaultValue
         />
 
@@ -135,7 +127,6 @@ const CustomSelect: React.FC<SelectProps> = ({
             {errorText}
           </label>
         )}
->>>>>>> 6dbcea3f827702dc30e5df405b174ede17e9d919
       </FormControl>
     );
   return (
@@ -193,13 +184,6 @@ const CustomSelect: React.FC<SelectProps> = ({
             key={index}
             sx={{width: "100%"}}
           >
-<<<<<<< HEAD
-            {option.label || option.name || option}
-          </MenuItem>
-        ))}
-      </Select>
-      {errorText && <FormHelperText error>{errorText}</FormHelperText>}
-=======
             {option.label || option.name || option.comments.length > 30
               ? option.comments.slice(0, 30) + "..."
               : option.comments || option}
@@ -211,7 +195,6 @@ const CustomSelect: React.FC<SelectProps> = ({
           {errorText}
         </label>
       )}
->>>>>>> 6dbcea3f827702dc30e5df405b174ede17e9d919
     </FormControl>
   );
 };
