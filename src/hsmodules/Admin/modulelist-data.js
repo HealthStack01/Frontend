@@ -4,6 +4,10 @@ export const actionRoles = [
     label: "Adjust Price",
   },
   {
+    value: "Attend to Client",
+    label: "Attend to Client",
+  },
+  {
     value: "Delete Documents",
     label: "Delete Document",
   },
