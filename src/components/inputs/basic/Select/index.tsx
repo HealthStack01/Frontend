@@ -108,12 +108,12 @@ const CustomSelect: React.FC<SelectProps> = ({
               </MenuItem> */}
 							{options.map((option, index) => (
 								<MenuItem
-									value={
-										option.value || option.name || option.category || option
-									}
+									value={option.value || option.name || option}
 									key={index}
 									sx={{ width: '100%' }}>
-									{option.label || option.name || option.category || option}
+									{option.label || option.name || option.comments.length > 30
+										? option.comments.slice(0, 30) + '...'
+										: option.comments || option}
 								</MenuItem>
 							))}
 						</Select>
@@ -180,10 +180,12 @@ const CustomSelect: React.FC<SelectProps> = ({
         </MenuItem> */}
 				{options.map((option, index) => (
 					<MenuItem
-						value={option.value || option.name || option.category || option}
+						value={option.value || option.name || option}
 						key={index}
 						sx={{ width: '100%' }}>
-						{option.label || option.name || option.category || option}
+						{option.label || option.name || option.comments.length > 30
+							? option.comments.slice(0, 30) + '...'
+							: option.comments || option}
 					</MenuItem>
 				))}
 			</Select>

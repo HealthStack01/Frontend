@@ -215,10 +215,7 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
 					data-tag='allowRowEvents'>
 					{row?.plans?.map((benefit, i) => (
-						<div key={i}>
-							<b>Category:</b>
-							{benefit?.benefit}
-						</div>
+						<div key={i}>{benefit?.benefit}</div>
 					))}
 				</Typography>
 			),
@@ -295,7 +292,7 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 					$regex: val,
 					$options: 'i',
 				},
-				facility: user.currentEmployee.facilityDetail._id,
+				organizationId: user.currentEmployee.facilityDetail._id,
 				$limit: 20,
 				$sort: {
 					createdAt: -1,
@@ -304,7 +301,7 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 		})
 			.then((res) => {
 				console.log(res);
-				setFacilities(res.groupedOrder);
+				setFacilities(res.data);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -711,11 +708,14 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 	};
 	const handleBenefit = async (e, i, c) => {
 		console.log(e.target.value, i, c);
+		let selectedBene = e.target.value;
+		console.log(selectedBene, selectedBene.comments);
 		let currentPlan = benefittingplans.filter(
 			(el) => el.planName === c.planName,
 		)[0];
-		currentPlan.benefit = e.target.value;
-		currentPlan.benefitCategory = e.target.value;
+		console.log(currentPlan);
+		currentPlan.benefit = selectedBene.comments;
+		currentPlan.benefitCategory = selectedBene.category;
 		// currentPlan.covered =
 		// 	facilities.benefits.filter((el) => el.category === e.target.value)[0]
 		// 		.status === 'Covered'
@@ -755,6 +755,11 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 				prevstate.filter((el) => el.name !== c.name),
 			); //remove from benefiting plan
 		}
+	};
+	const closeModal = () => {
+		setShowService(false);
+		setBenefittingPlans([]);
+		setComments('');
 	};
 
 	const handleClickProd = async () => {
@@ -865,6 +870,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 			return false;
 		}
 	};
+
 	const productItemSchema = [
 		{
 			name: 'S/N',
@@ -936,10 +942,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
 					data-tag='allowRowEvents'>
 					{row?.plans?.map((benefit, i) => (
-						<div key={i}>
-							<b>Category:</b>
-							{benefit?.benefit}
-						</div>
+						<div key={i}>{benefit?.benefit}</div>
 					))}
 				</Typography>
 			),
@@ -1073,7 +1076,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 			{showService && (
 				<ModalBox
 					open={showService}
-					onClose={() => setShowService(false)}>
+					onClose={() => closeModal()}>
 					<GlobalCustomButton
 						type='button'
 						variant='contained'
@@ -1131,6 +1134,9 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 							<Textarea
 								label='Comments'
 								onChange={(e) => setComments(e.target.value)}
+								sx={{
+									height: '40px',
+								}}
 							/>
 						</Grid>
 						{/* <Box sx={{ width: '95%' }}>
@@ -1257,19 +1263,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 													onChange={(e) => handleBenefit(e, i, c)}
 												/>
 											</Grid>
-											<Grid
-												item
-												xs={12}
-												sm={2}
-												key={i}>
-												<Input
-													className='input smallerinput is-small is-pulled-right '
-													name={`copay +${i}`}
-													type='text'
-													onChange={(e) => handleCopay(e, i, c)}
-													label='Co-pay Amount'
-												/>
-											</Grid>
+
 											<Grid
 												item
 												xs={12}
@@ -1299,6 +1293,35 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 
 												<span>Fee for Service</span>
 											</Grid>
+											<Grid
+												item
+												xs={12}
+												sm={2}
+												key={i}>
+												<input
+													className=' is-small'
+													name={`pay${i}`}
+													value='Fee for Service'
+													type='radio'
+													onChange={(e) => setShowCoPay(i)}
+													style={
+														showCoPay === i
+															? { marginBottom: '.6rem' }
+															: { marginBottom: '0' }
+													}
+												/>
+												<span>Co-Pay?</span>
+												{showCoPay === i && (
+													<Input
+														className='input smallerinput is-small is-pulled-right '
+														name={`copay +${i}`}
+														type='text'
+														onChange={(e) => handleCopay(e, i, c)}
+														label='Co-pay Amount'
+													/>
+												)}
+											</Grid>
+
 											<Grid
 												item
 												xs={12}
