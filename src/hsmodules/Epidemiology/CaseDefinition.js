@@ -64,7 +64,7 @@ export default function CaseDefinition() {
 				showDetailModal={handleShowDetailModal}
 			/>
 			<ModalBox
-				width='70%'
+				width='60%'
 				overflow='hidden'
 				open={createModal}
 				onClose={handleHideCreateModal}
@@ -73,7 +73,7 @@ export default function CaseDefinition() {
 			</ModalBox>
 
 			<ModalBox
-				width='75vw'
+				width='60%'
 				open={detailModal}
 				onClose={handleHideDetailModal}
 				header='CaseDefinition Detail'>
@@ -154,7 +154,9 @@ export function CaseDefinitionCreate() {
 				</Box>
 				<Grid
 					container>
-				<Grid xs={5} mb={2}>
+				<Grid item
+						xs={12}
+						md={6} mb={2}>
 						<CustomSelect
 							label='Choose Notification Type'
 							name='notificationType'
@@ -166,9 +168,12 @@ export function CaseDefinitionCreate() {
 					</Grid>
 				<Grid
 					container
-					gap='1rem'
+					spacing={1}
+					// gap='0.5rem'
 					alignItems='center'>
-					<Grid xs={5}>
+					<Grid item
+						xs={12}
+						md={6}>
 						<Input
 							register={register('diseaseName', { required: true })}
 							name='diseaseName'
@@ -176,7 +181,9 @@ export function CaseDefinitionCreate() {
 							label='Name of Disease'
 						/>
 					</Grid>
-					<Grid xs={5}>
+					<Grid item
+						xs={12}
+						md={6}>
 						<CustomSelect
 							label='Choose Person to Notify'
 							name='notify'
@@ -185,7 +192,9 @@ export function CaseDefinitionCreate() {
 							control={control}
 						/>
 					</Grid>
-					<Grid xs={5}>
+					<Grid item
+						xs={12}
+						md={6}>
 						<Textarea
 							register={register('symptoms', { required: true })}
 							name='symptoms'
@@ -193,7 +202,9 @@ export function CaseDefinitionCreate() {
 							label='Symptoms'
 						/>
 					</Grid>
-					<Grid xs={5}>
+					<Grid item
+						xs={12}
+						md={6}>
 						<Textarea
 							register={register('casedefinition', { required: true })}
 							name='casedefinition'
@@ -201,7 +212,9 @@ export function CaseDefinitionCreate() {
 							label='Case definition'
 						/>
 					</Grid>
-					<Grid xs={5}>
+					<Grid item
+						xs={12}
+						md={6}>
 						<Textarea
 							register={register('signs', { required: true })}
 							name='signs'
@@ -209,7 +222,9 @@ export function CaseDefinitionCreate() {
 							label='Signs'
 						/>
 					</Grid>
-					<Grid xs={5}>
+					<Grid item
+						xs={12}
+						md={6}>
 						<Textarea
 							register={register('lab', { required: true })}
 							name='lab'
@@ -217,7 +232,7 @@ export function CaseDefinitionCreate() {
 							label='Laboratory Confirmation'
 						/>
 					</Grid>
-					<Grid xs={10}>
+					<Grid xs={12}>
 						<Textarea
 							register={register('management', { required: true })}
 							name='management'
@@ -628,17 +643,22 @@ export function CaseDefinitionDetail({ showModifyModal}) {
 			<form>
 				<Grid container mb={2}>
 				{!editing ? (
-						<Grid xs={5}>
+						<Grid item
+						xs={12}
+						md={6}>
 							<CustomSelect
 								label='Choose Notification Type'
 								name='notificationType'
 								options={notificationTypeOptions}
 								register={register('notificationType',{ required: true })}
 								defaultValue={casedefinition?.notificationtype}
+								
 							/>
 						</Grid>
 					) : (
-						<Grid xs={5}>
+						<Grid item
+						xs={12}
+						md={6}>
 							<CustomSelect
 							label='Choose Notification Type'
 							name='notificationType'
@@ -651,10 +671,12 @@ export function CaseDefinitionDetail({ showModifyModal}) {
 				</Grid>
 				<Grid
 					container
-					gap='1rem'
+					spacing={1}
 					alignItems='center'>
 					{!editing ? (
-						<Grid xs={5}>
+						<Grid item
+						xs={12}
+						md={6}>
 							<Input
 								register={register('disease', { required: true })}
 								name='disease'
@@ -664,7 +686,9 @@ export function CaseDefinitionDetail({ showModifyModal}) {
 							/>
 						</Grid>
 					) : (
-						<Grid xs={5}>
+						<Grid item
+						xs={12}
+						md={6}>
 							<Input
 								register={register('disease', { required: true })}
 								name='disease'
@@ -674,7 +698,9 @@ export function CaseDefinitionDetail({ showModifyModal}) {
 						</Grid>
 					)}
 					{!editing ? (
-						<Grid xs={5}>
+						<Grid item
+						xs={12}
+						md={6}>
 							<CustomSelect
 								label='Choose Person to Notify'
 								name='notify'
@@ -685,7 +711,9 @@ export function CaseDefinitionDetail({ showModifyModal}) {
 							/>
 						</Grid>
 					) : (
-						<Grid xs={5}>
+						<Grid item
+						xs={12}
+						md={6}>
 							<CustomSelect
 								label='Choose Person to Notify'
 								name='notify'
@@ -696,7 +724,9 @@ export function CaseDefinitionDetail({ showModifyModal}) {
 						</Grid>
 					)}
 					{!editing ? (
-						<Grid xs={5}>
+						<Grid item
+						xs={12}
+						md={6}>
 							<Textarea
 								register={register('symptoms', { required: true })}
 								name='symptoms'
@@ -706,7 +736,9 @@ export function CaseDefinitionDetail({ showModifyModal}) {
 							/>
 						</Grid>
 					) : (
-						<Grid xs={5}>
+						<Grid item
+						xs={12}
+						md={6}>
 							<Textarea
 								register={register('symptoms', { required: true })}
 								name='symptoms'
@@ -717,7 +749,9 @@ export function CaseDefinitionDetail({ showModifyModal}) {
 					)}
 
 					{!editing ? (
-						<Grid xs={5}>
+						<Grid item
+						xs={12}
+						md={6}>
 							<Textarea
 								register={register('casedefinition', { required: true })}
 								name='casedefinition'
@@ -727,7 +761,9 @@ export function CaseDefinitionDetail({ showModifyModal}) {
 							/>
 						</Grid>
 					) : (
-						<Grid xs={5}>
+						<Grid item
+						xs={12}
+						md={6}>
 							<Textarea
 								register={register('casedefinition', { required: true })}
 								name='casedefinition'
@@ -737,7 +773,9 @@ export function CaseDefinitionDetail({ showModifyModal}) {
 						</Grid>
 					)}
 					{!editing ? (
-						<Grid xs={5}>
+						<Grid item
+						xs={12}
+						md={6}>
 							<Textarea
 								register={register('signs', { required: true })}
 								name='signs'
@@ -747,7 +785,9 @@ export function CaseDefinitionDetail({ showModifyModal}) {
 							/>
 						</Grid>
 					) : (
-						<Grid xs={5}>
+						<Grid item
+						xs={12}
+						md={6}>
 							<Textarea
 								register={register('signs', { required: true })}
 								name='signs'
@@ -757,7 +797,9 @@ export function CaseDefinitionDetail({ showModifyModal}) {
 						</Grid>
 					)}
 					{!editing ? (
-						<Grid xs={5}>
+						<Grid item
+						xs={12}
+						md={6}>
 							<Textarea
 								register={register('lab', { required: true })}
 								name='lab'
@@ -767,7 +809,9 @@ export function CaseDefinitionDetail({ showModifyModal}) {
 							/>
 						</Grid>
 					) : (
-						<Grid xs={5}>
+						<Grid item
+						xs={12}
+						md={6}>
 							<Textarea
 								register={register('lab', { required: true })}
 								name='lab'
@@ -778,7 +822,7 @@ export function CaseDefinitionDetail({ showModifyModal}) {
 					)}
 
 					{!editing ? (
-						<Grid xs={10}>
+						<Grid xs={12}>
 							<Textarea
 								register={register('management', { required: true })}
 								name='management'
@@ -788,7 +832,7 @@ export function CaseDefinitionDetail({ showModifyModal}) {
 							/>
 						</Grid>
 					) : (
-						<Grid xs={10}>
+						<Grid xs={12}>
 							<Textarea
 								register={register('management', { required: true })}
 								name='management'
