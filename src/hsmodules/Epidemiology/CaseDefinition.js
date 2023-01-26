@@ -15,6 +15,7 @@ import { TableMenu } from '../../ui/styled/global';
 import FilterMenu from '../../components/utilities/FilterMenu';
 import CustomTable from '../../components/customtable';
 import CustomSelect from '../../components/inputs/basic/Select';
+import Textarea from '../../components/inputs/basic/Textarea';
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 import { Box } from '@mui/material';
 import {
@@ -63,7 +64,7 @@ export default function CaseDefinition() {
 				showDetailModal={handleShowDetailModal}
 			/>
 			<ModalBox
-				width='75vw'
+				width='70%'
 				overflow='hidden'
 				open={createModal}
 				onClose={handleHideCreateModal}
@@ -143,9 +144,7 @@ export function CaseDefinitionCreate() {
 					justifyContent='flex-end'
 					mb={2}>
 					<GlobalCustomButton
-						onClick={handleSubmit(onSubmit)}
-						// onClick={showCreateModal}
-					>
+						onClick={handleSubmit(onSubmit)}>
 						<AddCircleOutline
 							sx={{ marginRight: '5px' }}
 							fontSize='small'
@@ -154,67 +153,8 @@ export function CaseDefinitionCreate() {
 					</GlobalCustomButton>
 				</Box>
 				<Grid
-					container
-					gap='1rem'
-					alignItems='center'>
-					<Grid xs={3}>
-						<Input
-							register={register('diseaseName', { required: true })}
-							name='diseaseName'
-							type='text'
-							label='Name of Disease'
-						/>
-					</Grid>
-					<Grid xs={6}>
-						<Input
-							register={register('symptoms', { required: true })}
-							name='symptoms'
-							type='text'
-							label='Symptoms'
-						/>
-					</Grid>
-					<Grid xs={6}>
-						<Input
-							register={register('casedefinition', { required: true })}
-							name='casedefinition'
-							type='text'
-							label='Case definition'
-						/>
-					</Grid>
-					<Grid xs={4}>
-						<Input
-							register={register('signs', { required: true })}
-							name='signs'
-							type='text'
-							label='Signs'
-						/>
-					</Grid>
-					<Grid xs={5}>
-						<Input
-							register={register('lab', { required: true })}
-							name='lab'
-							type='text'
-							label='Laboratory Confirmation'
-						/>
-					</Grid>
-					<Grid xs={5}>
-						<Input
-							register={register('management', { required: true })}
-							name='management'
-							type='text'
-							label='Management Protocol'
-						/>
-					</Grid>
-					<Grid xs={4}>
-						<CustomSelect
-							label='Choose Person to Notify'
-							name='notify'
-							options={notifierOptions}
-							register={register('notify')}
-							control={control}
-						/>
-					</Grid>
-					<Grid xs={4}>
+					container>
+				<Grid xs={5} mb={2}>
 						<CustomSelect
 							label='Choose Notification Type'
 							name='notificationType'
@@ -223,6 +163,69 @@ export function CaseDefinitionCreate() {
 							control={control}
 						/>
 					</Grid>
+					</Grid>
+				<Grid
+					container
+					gap='1rem'
+					alignItems='center'>
+					<Grid xs={5}>
+						<Input
+							register={register('diseaseName', { required: true })}
+							name='diseaseName'
+							type='text'
+							label='Name of Disease'
+						/>
+					</Grid>
+					<Grid xs={5}>
+						<CustomSelect
+							label='Choose Person to Notify'
+							name='notify'
+							options={notifierOptions}
+							register={register('notify')}
+							control={control}
+						/>
+					</Grid>
+					<Grid xs={5}>
+						<Textarea
+							register={register('symptoms', { required: true })}
+							name='symptoms'
+							type='text'
+							label='Symptoms'
+						/>
+					</Grid>
+					<Grid xs={5}>
+						<Textarea
+							register={register('casedefinition', { required: true })}
+							name='casedefinition'
+							type='text'
+							label='Case definition'
+						/>
+					</Grid>
+					<Grid xs={5}>
+						<Textarea
+							register={register('signs', { required: true })}
+							name='signs'
+							type='text'
+							label='Signs'
+						/>
+					</Grid>
+					<Grid xs={5}>
+						<Textarea
+							register={register('lab', { required: true })}
+							name='lab'
+							type='text'
+							label='Laboratory Confirmation'
+						/>
+					</Grid>
+					<Grid xs={10}>
+						<Textarea
+							register={register('management', { required: true })}
+							name='management'
+							type='text'
+							label='Management Protocol'
+						/>
+					</Grid>
+					
 				</Grid>
 			</form>
 		</>
@@ -623,130 +626,50 @@ export function CaseDefinitionDetail({ showModifyModal}) {
 				)}
 			</Box>
 			<form>
+				<Grid container mb={2}>
+				{!editing ? (
+						<Grid xs={5}>
+							<CustomSelect
+								label='Choose Notification Type'
+								name='notificationType'
+								options={notificationTypeOptions}
+								register={register('notificationType',{ required: true })}
+								defaultValue={casedefinition?.notificationtype}
+							/>
+						</Grid>
+					) : (
+						<Grid xs={5}>
+							<CustomSelect
+							label='Choose Notification Type'
+							name='notificationType'
+							options={notificationTypeOptions}
+							register={register('notificationType',{ required: true })}
+							control={control}
+						/>
+						</Grid>
+					)}
+				</Grid>
 				<Grid
 					container
 					gap='1rem'
 					alignItems='center'>
 					{!editing ? (
-						<Grid xs={3}>
+						<Grid xs={5}>
 							<Input
 								register={register('disease', { required: true })}
 								name='disease'
 								defaultValue={casedefinition?.disease?.name}
 								label='Name of Disease'
 								
-								
 							/>
 						</Grid>
 					) : (
-						<Grid xs={3}>
+						<Grid xs={5}>
 							<Input
 								register={register('disease', { required: true })}
 								name='disease'
 								type='text'
 								label='Name of Disease'
-							/>
-						</Grid>
-					)}
-					{!editing ? (
-						<Grid xs={6}>
-							<Input
-								register={register('symptoms', { required: true })}
-								name='symptoms'
-								defaultValue={casedefinition?.symptoms}
-								label='Symptoms'
-								
-							/>
-						</Grid>
-					) : (
-						<Grid xs={6}>
-							<Input
-								register={register('symptoms', { required: true })}
-								name='symptoms'
-								type='text'
-								label='Symptoms'
-							/>
-						</Grid>
-					)}
-
-					{!editing ? (
-						<Grid xs={6}>
-							<Input
-								register={register('casedefinition', { required: true })}
-								name='casedefinition'
-								defaultValue={casedefinition?.casedefinition}
-								label='Case Definition'
-								
-							/>
-						</Grid>
-					) : (
-						<Grid xs={6}>
-							<Input
-								register={register('casedefinition', { required: true })}
-								name='casedefinition'
-								type='text'
-								label='Case Definition'
-							/>
-						</Grid>
-					)}
-					{!editing ? (
-						<Grid xs={4}>
-							<Input
-								register={register('signs', { required: true })}
-								name='signs'
-								defaultValue={casedefinition?.signs}
-								label='Signs'
-								
-							/>
-						</Grid>
-					) : (
-						<Grid xs={4}>
-							<Input
-								register={register('signs', { required: true })}
-								name='signs'
-								type='text'
-								label='Signs'
-							/>
-						</Grid>
-					)}
-					{!editing ? (
-						<Grid xs={5}>
-							<Input
-								register={register('lab', { required: true })}
-								name='lab'
-								defaultValue={casedefinition?.labconfirmation}
-								label='Laboratory Confirmation'
-								
-							/>
-						</Grid>
-					) : (
-						<Grid xs={5}>
-							<Input
-								register={register('lab', { required: true })}
-								name='lab'
-								type='text'
-								label='Laboratory Confirmation'
-							/>
-						</Grid>
-					)}
-
-					{!editing ? (
-						<Grid xs={5}>
-							<Input
-								register={register('management', { required: true })}
-								name='management'
-								defaultValue={casedefinition?.treatmentprotocol}
-								label='Management Protocol'
-								
-							/>
-						</Grid>
-					) : (
-						<Grid xs={5}>
-							<Input
-								register={register('management', { required: true })}
-								name='management'
-								type='text'
-								label='Management Protocol'
 							/>
 						</Grid>
 					)}
@@ -773,24 +696,105 @@ export function CaseDefinitionDetail({ showModifyModal}) {
 						</Grid>
 					)}
 					{!editing ? (
-						<Grid xs={4}>
-							<CustomSelect
-								label='Choose Notification Type'
-								name='notificationType'
-								options={notificationTypeOptions}
-								register={register('notificationType',{ required: true })}
-								defaultValue={casedefinition?.notificationtype}
+						<Grid xs={5}>
+							<Textarea
+								register={register('symptoms', { required: true })}
+								name='symptoms'
+								defaultValue={casedefinition?.symptoms}
+								label='Symptoms'
+								
 							/>
 						</Grid>
 					) : (
-						<Grid xs={4}>
-							<CustomSelect
-							label='Choose Notification Type'
-							name='notificationType'
-							options={notificationTypeOptions}
-							register={register('notificationType',{ required: true })}
-							control={control}
-						/>
+						<Grid xs={5}>
+							<Textarea
+								register={register('symptoms', { required: true })}
+								name='symptoms'
+								type='text'
+								label='Symptoms'
+							/>
+						</Grid>
+					)}
+
+					{!editing ? (
+						<Grid xs={5}>
+							<Textarea
+								register={register('casedefinition', { required: true })}
+								name='casedefinition'
+								defaultValue={casedefinition?.casedefinition}
+								label='Case Definition'
+								
+							/>
+						</Grid>
+					) : (
+						<Grid xs={5}>
+							<Textarea
+								register={register('casedefinition', { required: true })}
+								name='casedefinition'
+								type='text'
+								label='Case Definition'
+							/>
+						</Grid>
+					)}
+					{!editing ? (
+						<Grid xs={5}>
+							<Textarea
+								register={register('signs', { required: true })}
+								name='signs'
+								defaultValue={casedefinition?.signs}
+								label='Signs'
+								
+							/>
+						</Grid>
+					) : (
+						<Grid xs={5}>
+							<Textarea
+								register={register('signs', { required: true })}
+								name='signs'
+								type='text'
+								label='Signs'
+							/>
+						</Grid>
+					)}
+					{!editing ? (
+						<Grid xs={5}>
+							<Textarea
+								register={register('lab', { required: true })}
+								name='lab'
+								defaultValue={casedefinition?.labconfirmation}
+								label='Laboratory Confirmation'
+								
+							/>
+						</Grid>
+					) : (
+						<Grid xs={5}>
+							<Textarea
+								register={register('lab', { required: true })}
+								name='lab'
+								type='text'
+								label='Laboratory Confirmation'
+							/>
+						</Grid>
+					)}
+
+					{!editing ? (
+						<Grid xs={10}>
+							<Textarea
+								register={register('management', { required: true })}
+								name='management'
+								defaultValue={casedefinition?.treatmentprotocol}
+								label='Management Protocol'
+								
+							/>
+						</Grid>
+					) : (
+						<Grid xs={10}>
+							<Textarea
+								register={register('management', { required: true })}
+								name='management'
+								type='text'
+								label='Management Protocol'
+							/>
 						</Grid>
 					)}
 				</Grid>

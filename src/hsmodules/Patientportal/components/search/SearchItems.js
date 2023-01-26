@@ -24,14 +24,14 @@ export default function SearchList(){
         height: '80vh',
         overflowY: 'scroll',
       }}>
-       <Box width="70%" mb="2rem">
+       <Box width="80%" mb="2rem">
             <Input 
             type="search" 
             placeholder="Search..."
                onChange={(event) => setSearchFeild(event.target.value)}
                />
             </Box>
-        <Box width="70%" display="flex" flexDirection="column" gap="2rem">
+        <Box width="80%" display="flex" flexDirection="column" gap="2rem">
           {filterDoctor.map((data,i) => (
           <Card  key={i} onClick={() => navigate(`/app/patient-portal/search/${data.id}`)}>
               <CardHeader
