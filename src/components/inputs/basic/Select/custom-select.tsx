@@ -112,7 +112,9 @@ const CustomSelect: React.FC<SelectProps> = ({
                   key={index}
                   sx={{width: "100%"}}
                 >
-                  {option.label || option.name}
+                  {option.label || option.name || option.comments.length > 30
+                    ? option.comments.slice(0, 30) + "..."
+                    : option.comments || option}
                 </MenuItem>
               ))}
             </Select>
