@@ -33,6 +33,7 @@ import FilterMenu from '../../components/utilities/FilterMenu';
 import DeleteOutline from '@mui/icons-material/DeleteOutline';
 import CategorySearch from '../helpers/CategorySearch';
 import { SelectedBenefit, SelectHealthPlan } from '../helpers/FacilitySearch';
+import { Group } from '@mui/icons-material';
 
 export default function TarrifList({ standAlone }) {
 	const { state } = useContext(ObjectContext); //,setState
@@ -177,14 +178,19 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 				<Typography
 					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
 					data-tag='allowRowEvents'>
-					<b>Capitation?</b>: {row?.capitation === true ? 'Yes' : 'No'}
-					<br />
-					<b>Free for Service?</b>:{row?.feeforService === true ? 'Yes' : 'No'}
-					<br />
-					<b>PreAuth?</b>: {row?.reqAuthCode === true ? 'Yes' : 'No'}
-					<br />
-					<b>Co-Pay</b>:{' '}
-					{row?.copayDetail !== '' ? `₦${row?.copayDetail}` : 'N/A'}
+					{row?.plans?.map((el) => (
+						<>
+							<b>Capitation?</b>: {el?.capitation === true ? 'Yes' : 'No'}
+							<br />
+							<b>Free for Service?</b>:
+							{el?.feeForService === true ? 'Yes' : 'No'}
+							<br />
+							<b>PreAuth?</b>: {el?.reqPA !== 'false' ? 'Yes' : 'No'}
+							<br />
+							<b>Co-Pay</b>:{' '}
+							{el?.copayDetail !== '' ? `₦${el?.copayDetail}` : 'N/A'}
+						</>
+					))}
 				</Typography>
 			),
 			sortable: true,
@@ -208,19 +214,10 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 				<Typography
 					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
 					data-tag='allowRowEvents'>
-					{row?.benefits?.map((benefit, i) => (
+					{row?.plans?.map((benefit, i) => (
 						<div key={i}>
 							<b>Category:</b>
-							{benefit?.category}
-							<br />
-							<b>Frequncy:</b>
-							{benefit?.frequency}
-							<br />
-							<b>Duration: </b>
-							{benefit?.duration}
-							<br />
-							<b>Limit:</b>
-							{benefit?.limit}
+							{benefit?.benefit}
 						</div>
 					))}
 				</Typography>
@@ -233,7 +230,8 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 			name: 'Comment',
 			key: 'comment',
 			description: 'Comment',
-			selector: (row) => row?.comments,
+			selector: (row) =>
+				row?.plans.map((plan, i) => <div key={i}>{plan?.comments}</div>),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -482,6 +480,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 	const [benefittingPlans1, setBenefittingPlans1] = useState([]);
 	const ServicesServ = client.service('tariff');
 	const BandsServ = client.service('bands');
+	const HealthPlanServ = client.service('healthplan');
 	//const history = useHistory()
 	const { user } = useContext(UserContext); //,setUser
 	// eslint-disable-next-line
@@ -514,6 +513,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 	const [selectedBand, setSelectedBand] = useState('');
 	const [showCoPay, setShowCoPay] = useState(false);
 	const [selectedBenefits, setSelectedBenefits] = useState([]);
+	const [facilities, setFacilities] = useState([]);
 	const [serviceUnavailable, setServiceUnavailable] = useState({
 		status: false,
 		name: '',
@@ -542,7 +542,20 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 
 		getData();
 	}, []);
-
+	const updateObjectInArray = (array, child) => {
+		array.map((item, index) => {
+			if (item.name !== child.name) {
+				// This isn't the item we care about - keep it as-is
+				return item;
+			}
+			// Otherwise, this is the one we want - return an updated value
+			//console.log(child)
+			return {
+				...child,
+			};
+		});
+		return array;
+	};
 	// consider batchformat{batchno,expirydate,qtty,baseunit}
 	//consider baseunoit conversions
 	const getSearchfacility = (obj) => {
@@ -622,9 +635,43 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 			console.log(findServices);
 		}
 	};
+	const getFacilities = async () => {
+		console.log(user);
+		if (user.currentEmployee) {
+			let stuff = {
+				organizationId: user.currentEmployee.facilityDetail._id,
+				// locationId:state.employeeLocation.locationId,
+				$limit: 100,
+				$sort: {
+					createdAt: -1,
+				},
+			};
+			// if (state.employeeLocation.locationType !== "Front Desk") {
+			//   stuff.locationId = state.employeeLocation.locationId;
+			// }
 
+			const findHealthPlan = await HealthPlanServ.find({ query: stuff });
+
+			await console.log('HealthPlan', findHealthPlan.data);
+			await setFacilities(findHealthPlan.data);
+		} else {
+			if (user.stacker) {
+				const findClient = await HealthPlanServ.find({
+					query: {
+						$limit: 100,
+						$sort: {
+							createdAt: -1,
+						},
+					},
+				});
+
+				await setFacilities(findClient.data);
+			}
+		}
+	};
 	useEffect(() => {
 		// console.log("starting...")
+		getFacilities();
 		setBenefittingPlans1([]);
 		setFacilityId(user.currentEmployee.facilityDetail._id);
 		setName(user.currentEmployee.facilityDetail.facilityName);
@@ -633,52 +680,109 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 		return () => {};
 	}, []);
 
-	// function to handle which service class is selected
-	const handleServType = async (e) => {
-		if (e.target.value === 'Capitation' && e.target.checked) {
-			setCapitation(true);
-			setFeeForService(false);
-			setServiceClass(e.target.value);
-		} else if (e.target.value === 'Fee for Service' && e.target.checked) {
-			setCapitation(false);
-			setFeeForService(true);
-			setServiceClass(e.target.value);
+	const handleServType = async (e, i, c) => {
+		let currentPlan = benefittingplans.filter(
+			(el) => el.planName === c.planName,
+		)[0];
+		currentPlan.capitation = e.target.value === 'Capitation' ? true : false;
+		currentPlan.feeforService =
+			e.target.value === 'Fee for Service' ? true : false;
+		const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
+		await setBenefittingPlans(updatedplan);
+	};
+
+	const handleCopay = async (e, i, c) => {
+		let currentPlan = benefittingplans.filter(
+			(el) => el.planName === c.planName,
+		)[0];
+		currentPlan.copayDetail = e.target.value;
+		currentPlan.coPay = currentPlan.copayDetail === '' ? false : true;
+		const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
+		await setBenefittingPlans(updatedplan);
+	};
+
+	const handleAuthCode = async (e, i, c) => {
+		let currentPlan = benefittingplans.filter(
+			(el) => el.planName === c.planName,
+		)[0];
+		currentPlan.reqPA = e.target.checked;
+		const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
+		await setBenefittingPlans(updatedplan);
+	};
+	const handleBenefit = async (e, i, c) => {
+		console.log(e.target.value, i, c);
+		let currentPlan = benefittingplans.filter(
+			(el) => el.planName === c.planName,
+		)[0];
+		currentPlan.benefit = e.target.value;
+		currentPlan.benefitCategory = e.target.value;
+		// currentPlan.covered =
+		// 	facilities.benefits.filter((el) => el.category === e.target.value)[0]
+		// 		.status === 'Covered'
+		// 		? true
+		// 		: false;
+		const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
+		await setBenefittingPlans(updatedplan);
+	};
+
+	const handleChange = async (e, i, c) => {
+		c.checked = !c.checked;
+
+		const newPlan = {
+			name: c.planName,
+			checked: false,
+		};
+		// console.log(c.checked)
+		if (c.checked) {
+			//add to benefiting plan
+			let planx = {
+				planName: c.planName,
+				planId: c._id,
+				benefit: '',
+				// benefitId : c.benefitId,
+				benefitCategory: '',
+				feeforService: true,
+				capitation: false,
+				reqPA: false,
+				coPay: false,
+				copayDetail: '',
+				comments: comments,
+			};
+			//   console.log(planx)
+			await setBenefittingPlans((prev) => [...prev, planx]);
+		} else {
+			await setBenefittingPlans((prevstate) =>
+				prevstate.filter((el) => el.name !== c.name),
+			); //remove from benefiting plan
 		}
 	};
 
-	const handleCopay = async (e) => {
-		setCopay(e.target.value);
-		setReqCopay(true);
-	};
-
-	const handleAuthCode = async (e) => {
-		setReqAuthCode(true);
-	};
-
 	const handleClickProd = async () => {
+		if (benefittingplans.length === 0) {
+			return toast.warning('Please select a plan');
+		}
+		if (costprice === '') {
+			return toast.warning('Please enter price');
+		}
+		if (service === '') {
+			return toast.warning('Please select a service');
+		}
 		let seviceItem = {
+			source_org: user.currentEmployee.facilityDetail,
+			source_org_name: user.currentEmployee.facilityDetail.facilityName,
 			serviceName: service.name,
 			serviceId: service._id,
-			plans: selectedPlan,
-			benefits: selectedBenefits,
 			price: parseFloat(costprice),
-			coPay: reqCopay,
-			copayDetail: copay,
-			capitation: capitation,
-			feeForService: feeForService,
-			reqPA: reqAuthCode,
-			comments: comments,
+			plans: benefittingplans,
+			billing_type:
+				user.currentEmployee.facilityDetail.facilityType === 'HMO'
+					? 'HMO'
+					: 'Company',
 		};
-		console.log(seviceItem);
 		setProductItem([...productItem, seviceItem]);
-		setService('');
-		setCostprice('');
-		setCopay('');
-		setCapitation(false);
-		setFeeForService(false);
-		setReqAuthCode(false);
-		setReqCopay(false);
-		setSelectedPlan([]);
+		await setBenefittingPlans([]);
+		await setService('');
+		await setCostprice('');
 		await setSuccess(true);
 	};
 
@@ -708,10 +812,10 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 			});
 	};
 
-	const handleBenefit = (e) => {
-		setBenefittingPlans((prevstate) => prevstate.concat(plan));
-		setPlan('');
-	};
+	// const handleBenefit = (e) => {
+	// 	setBenefittingPlans((prevstate) => prevstate.concat(plan));
+	// 	setPlan('');
+	// };
 
 	const handleRemove = (index, contract) => {
 		console.log(index, contract);
@@ -795,14 +899,19 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 				<Typography
 					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
 					data-tag='allowRowEvents'>
-					<b>Capitation?</b>: {row?.capitation === true ? 'Yes' : 'No'}
-					<br />
-					<b>Free for Service?</b>:{row?.feeforService === true ? 'Yes' : 'No'}
-					<br />
-					<b>PreAuth?</b>: {row?.reqAuthCode === true ? 'Yes' : 'No'}
-					<br />
-					<b>Co-Pay</b>:{' '}
-					{row?.copayDetail !== '' ? `₦${row?.copayDetail}` : 'N/A'}
+					{row?.plans?.map((el) => (
+						<>
+							<b>Capitation?</b>: {el?.capitation === true ? 'Yes' : 'No'}
+							<br />
+							<b>Free for Service?</b>:
+							{el?.feeforService === true ? 'Yes' : 'No'}
+							<br />
+							<b>PreAuth?</b>: {el?.reqAuthCode === true ? 'Yes' : 'No'}
+							<br />
+							<b>Co-Pay</b>:{' '}
+							{el?.copayDetail !== '' ? `₦${el?.copayDetail}` : 'N/A'}
+						</>
+					))}
 				</Typography>
 			),
 			sortable: true,
@@ -826,19 +935,10 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 				<Typography
 					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
 					data-tag='allowRowEvents'>
-					{row?.benefits?.map((benefit, i) => (
+					{row?.plans?.map((benefit, i) => (
 						<div key={i}>
 							<b>Category:</b>
-							{benefit?.category}
-							<br />
-							<b>Frequncy:</b>
-							{benefit?.frequency}
-							<br />
-							<b>Duration: </b>
-							{benefit?.duration}
-							<br />
-							<b>Limit:</b>
-							{benefit?.limit}
+							{benefit?.benefit}
 						</div>
 					))}
 				</Typography>
@@ -851,7 +951,8 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 			name: 'Comment',
 			key: 'comment',
 			description: 'Comment',
-			selector: (row) => row?.comments,
+			selector: (row) =>
+				row?.plans.map((plan, i) => <div key={i}>{plan?.comments}</div>),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -874,7 +975,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 			inputType: 'NUMBER',
 		},
 	];
-	console.log(productItem, 'selectedBenefit', selectedBenefits);
+	console.log('selectedBenefit', benefittingplans, 'productItem', productItem);
 	return (
 		<Box
 			style={{
@@ -995,7 +1096,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 								placeholder='Search Service'
 							/>
 						</Grid>
-						<Grid
+						{/* <Grid
 							item
 							xs={12}
 							sm={4}>
@@ -1013,7 +1114,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 								setSelectedBenefits={setSelectedBenefits}
 								selectedBenefits={selectedBenefits}
 							/>
-						</Grid>
+						</Grid> */}
 						<Grid
 							item
 							xs={12}
@@ -1032,7 +1133,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 								onChange={(e) => setComments(e.target.value)}
 							/>
 						</Grid>
-						<Box sx={{ width: '95%' }}>
+						{/* <Box sx={{ width: '95%' }}>
 							<Grid
 								container
 								spacing={2}
@@ -1106,6 +1207,115 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 									)}
 								</Grid>
 							</Grid>
+						</Box> */}
+						<Box
+							mx={2}
+							sx={{
+								width: '98%',
+							}}>
+							{facilities.map((c, i) => {
+								console.log(c);
+								return (
+									<>
+										<Grid
+											container
+											spacing={2}
+											my={1}
+											sx={{
+												alignItems: 'center',
+											}}>
+											<Grid
+												item
+												sx={{ display: 'flex', alignItems: 'center' }}
+												xs={12}
+												sm={2}
+												key={i}>
+												<p
+													style={{
+														fontWeight: 'bold',
+														marginRight: '10px',
+													}}>
+													{c.planName}
+												</p>
+												<input
+													className='checkbox is-small '
+													type='checkbox'
+													value={i}
+													name={`selectedPlans +${i}`}
+													label={c.planName}
+													onChange={(e) => handleChange(e, i, c)}
+												/>
+											</Grid>
+
+											<Grid
+												item
+												xs={12}
+												sm={2}>
+												<CustomSelect
+													options={c.benefits}
+													label='Select Benefit'
+													onChange={(e) => handleBenefit(e, i, c)}
+												/>
+											</Grid>
+											<Grid
+												item
+												xs={12}
+												sm={2}
+												key={i}>
+												<Input
+													className='input smallerinput is-small is-pulled-right '
+													name={`copay +${i}`}
+													type='text'
+													onChange={(e) => handleCopay(e, i, c)}
+													label='Co-pay Amount'
+												/>
+											</Grid>
+											<Grid
+												item
+												xs={12}
+												sm={2}
+												key={i}>
+												<input
+													className=' is-small'
+													value='Capitation'
+													name={`servtype +${i}`}
+													type='radio'
+													onChange={(e) => handleServType(e, i, c)}
+												/>
+												<span>Capitation</span>
+											</Grid>
+											<Grid
+												item
+												xs={12}
+												sm={2}
+												key={i}>
+												<input
+													className=' is-small'
+													name={`servtype +${i}`}
+													value='Fee for Service'
+													type='radio'
+													onChange={(e) => handleServType(e, i, c)}
+												/>
+
+												<span>Fee for Service</span>
+											</Grid>
+											<Grid
+												item
+												xs={12}
+												sm={2}
+												key={i}>
+												<input
+													className='checkbox is-small'
+													name={`authCode +${i}`}
+													type='checkbox'
+													onChange={(e) => handleAuthCode(e, i, c)}
+												/>
+												<span>Requires Pre-Auth?</span>
+											</Grid>
+										</Grid>
+									</>
+								);
+							})}
 						</Box>
 					</Grid>
 				</ModalBox>
