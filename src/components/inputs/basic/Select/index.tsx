@@ -106,19 +106,21 @@ const CustomSelect: React.FC<SelectProps> = ({
               {/* <MenuItem value="0" sx={{ width: '100%' }}>
                 Select...
               </MenuItem> */}
-              {options.map((option, index) => (
-                <MenuItem
-                  value={option.value || option.name || option}
-                  key={index}
-                  sx={{width: "100%"}}
-                >
-                  {option.label || option.name || option}
-                </MenuItem>
-              ))}
-            </Select>
-          )}
-          defaultValue="" //Please leave this as it is
-        />
+							{options.map((option, index) => (
+								<MenuItem
+									value={
+										option.value || option.name || option.category || option
+									}
+									key={index}
+									sx={{ width: '100%' }}>
+									{option.label || option.name || option.category || option}
+								</MenuItem>
+							))}
+						</Select>
+					)}
+					defaultValue={defaultValue} // make sure to set up defaultValue
+				/>
+
 
         {errorText && (
           <label style={{color: "red", fontSize: "0.7rem", textAlign: "left"}}>
@@ -176,23 +178,22 @@ const CustomSelect: React.FC<SelectProps> = ({
         {/* <MenuItem value="" sx={{width: "100%"}}>
           Select...
         </MenuItem> */}
-        {options.map((option, index) => (
-          <MenuItem
-            value={option.value || option.name || option}
-            key={index}
-            sx={{width: "100%"}}
-          >
-            {option.label || option.name || option}
-          </MenuItem>
-        ))}
-      </Select>
-      {errorText && (
-        <label style={{color: "red", fontSize: "0.7rem", textAlign: "left"}}>
-          {errorText}
-        </label>
-      )}
-    </FormControl>
-  );
+				{options.map((option, index) => (
+					<MenuItem
+						value={option.value || option.name || option.category || option}
+						key={index}
+						sx={{ width: '100%' }}>
+						{option.label || option.name || option.category || option}
+					</MenuItem>
+				))}
+			</Select>
+			{errorText && (
+				<label style={{ color: 'red', fontSize: '0.7rem', textAlign: 'left' }}>
+					{errorText}
+				</label>
+			)}
+		</FormControl>
+	);
 };
 
 export default CustomSelect;
