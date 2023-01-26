@@ -55,32 +55,30 @@ export default function CaseDefinition() {
     setModifyModal(false);
   };
 
-  return (
-    <Box>
-      <CaseDefinitionList
-        showCreateModal={handleCreateModal}
-        showDetailModal={handleShowDetailModal}
-      />
-      <ModalBox
-        width="70%"
-        overflow="hidden"
-        open={createModal}
-        onClose={handleHideCreateModal}
-        header="Create CaseDefinition"
-      >
-        <CaseDefinitionCreate />
-      </ModalBox>
+	return (
+		<Box>	
+			<CaseDefinitionList
+				showCreateModal={handleCreateModal}
+				showDetailModal={handleShowDetailModal}
+			/>
+			<ModalBox
+				width='60%'
+				overflow='hidden'
+				open={createModal}
+				onClose={handleHideCreateModal}
+				header='Create CaseDefinition'>
+				<CaseDefinitionCreate />
+			</ModalBox>
 
-      <ModalBox
-        width="75vw"
-        open={detailModal}
-        onClose={handleHideDetailModal}
-        header="CaseDefinition Detail"
-      >
-        <CaseDefinitionDetail showModifyModal={handleModifyModal} />
-      </ModalBox>
-    </Box>
-  );
+			<ModalBox
+				width='60%'
+				open={detailModal}
+				onClose={handleHideDetailModal}
+				header='CaseDefinition Detail'>
+				<CaseDefinitionDetail showModifyModal={handleModifyModal} />
+			</ModalBox>
+		</Box>
+	);
 }
 
 export function CaseDefinitionCreate() {
@@ -132,89 +130,116 @@ export function CaseDefinitionCreate() {
       });
   }, []);
 
-  return (
-    <>
-      <form>
-        <ToastContainer theme="colored" />
-        <Box display="flex" justifyContent="flex-end" mb={2}>
-          <GlobalCustomButton onClick={handleSubmit(onSubmit)}>
-            <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
-            Create
-          </GlobalCustomButton>
-        </Box>
-        <Grid container>
-          <Grid xs={5} mb={2}>
-            <CustomSelect
-              label="Choose Notification Type"
-              name="notificationType"
-              options={notificationTypeOptions}
-              register={register("notificationType")}
-              control={control}
-            />
-          </Grid>
-        </Grid>
-        <Grid container gap="1rem" alignItems="center">
-          <Grid xs={5}>
-            <Input
-              register={register("diseaseName", {required: true})}
-              name="diseaseName"
-              type="text"
-              label="Name of Disease"
-            />
-          </Grid>
-          <Grid xs={5}>
-            <CustomSelect
-              label="Choose Person to Notify"
-              name="notify"
-              options={notifierOptions}
-              register={register("notify")}
-              control={control}
-            />
-          </Grid>
-          <Grid xs={5}>
-            <Textarea
-              register={register("symptoms", {required: true})}
-              name="symptoms"
-              type="text"
-              label="Symptoms"
-            />
-          </Grid>
-          <Grid xs={5}>
-            <Textarea
-              register={register("casedefinition", {required: true})}
-              name="casedefinition"
-              type="text"
-              label="Case definition"
-            />
-          </Grid>
-          <Grid xs={5}>
-            <Textarea
-              register={register("signs", {required: true})}
-              name="signs"
-              type="text"
-              label="Signs"
-            />
-          </Grid>
-          <Grid xs={5}>
-            <Textarea
-              register={register("lab", {required: true})}
-              name="lab"
-              type="text"
-              label="Laboratory Confirmation"
-            />
-          </Grid>
-          <Grid xs={10}>
-            <Textarea
-              register={register("management", {required: true})}
-              name="management"
-              type="text"
-              label="Management Protocol"
-            />
-          </Grid>
-        </Grid>
-      </form>
-    </>
-  );
+	return (
+		<>
+			<form>
+			<ToastContainer theme='colored' />
+				<Box
+					display='flex'
+					justifyContent='flex-end'
+					mb={2}>
+					<GlobalCustomButton
+						onClick={handleSubmit(onSubmit)}>
+						<AddCircleOutline
+							sx={{ marginRight: '5px' }}
+							fontSize='small'
+						/>
+						Create
+					</GlobalCustomButton>
+				</Box>
+				<Grid
+					container>
+				<Grid item
+						xs={12}
+						md={6} mb={2}>
+						<CustomSelect
+							label='Choose Notification Type'
+							name='notificationType'
+							options={notificationTypeOptions}
+							register={register('notificationType')}
+							control={control}
+						/>
+					</Grid>
+					</Grid>
+				<Grid
+					container
+					spacing={1}
+					// gap='0.5rem'
+					alignItems='center'>
+					<Grid item
+						xs={12}
+						md={6}>
+						<Input
+							register={register('diseaseName', { required: true })}
+							name='diseaseName'
+							type='text'
+							label='Name of Disease'
+						/>
+					</Grid>
+					<Grid item
+						xs={12}
+						md={6}>
+						<CustomSelect
+							label='Choose Person to Notify'
+							name='notify'
+							options={notifierOptions}
+							register={register('notify')}
+							control={control}
+						/>
+					</Grid>
+					<Grid item
+						xs={12}
+						md={6}>
+						<Textarea
+							register={register('symptoms', { required: true })}
+							name='symptoms'
+							type='text'
+							label='Symptoms'
+						/>
+					</Grid>
+					<Grid item
+						xs={12}
+						md={6}>
+						<Textarea
+							register={register('casedefinition', { required: true })}
+							name='casedefinition'
+							type='text'
+							label='Case definition'
+						/>
+					</Grid>
+					<Grid item
+						xs={12}
+						md={6}>
+						<Textarea
+							register={register('signs', { required: true })}
+							name='signs'
+							type='text'
+							label='Signs'
+						/>
+					</Grid>
+					<Grid item
+						xs={12}
+						md={6}>
+						<Textarea
+							register={register('lab', { required: true })}
+							name='lab'
+							type='text'
+							label='Laboratory Confirmation'
+						/>
+					</Grid>
+					<Grid xs={12}>
+						<Textarea
+							register={register('management', { required: true })}
+							name='management'
+							type='text'
+							label='Management Protocol'
+						/>
+					</Grid>
+					
+				</Grid>
+			</form>
+		</>
+	);
 }
 
 export function CaseDefinitionList({showCreateModal, showDetailModal}) {
@@ -587,190 +612,234 @@ export function CaseDefinitionDetail({showModifyModal}) {
           Delete
         </GlobalCustomButton>
 
-        {!editing ? (
-          <GlobalCustomButton
-            onClick={() => {
-              setEditing(!editing);
-            }}
-          >
-            <CreateIcon fontSize="small" sx={{marginRight: "5px"}} />
-            Edit
-          </GlobalCustomButton>
-        ) : (
-          <GlobalCustomButton
-            color="success"
-            type="submit"
-            onClick={handleSubmit(onSubmit)}
-          >
-            <MdOutlineUpdate sx={{marginRight: "5px"}} fontSize="bold" />
-            Update
-          </GlobalCustomButton>
-        )}
-      </Box>
-      <form>
-        <Grid container mb={2}>
-          {!editing ? (
-            <Grid xs={5}>
-              <CustomSelect
-                label="Choose Notification Type"
-                name="notificationType"
-                options={notificationTypeOptions}
-                register={register("notificationType", {required: true})}
-                defaultValue={casedefinition?.notificationtype}
-              />
-            </Grid>
-          ) : (
-            <Grid xs={5}>
-              <CustomSelect
-                label="Choose Notification Type"
-                name="notificationType"
-                options={notificationTypeOptions}
-                register={register("notificationType", {required: true})}
-                control={control}
-              />
-            </Grid>
-          )}
-        </Grid>
-        <Grid container gap="1rem" alignItems="center">
-          {!editing ? (
-            <Grid xs={5}>
-              <Input
-                register={register("disease", {required: true})}
-                name="disease"
-                defaultValue={casedefinition?.disease?.name}
-                label="Name of Disease"
-              />
-            </Grid>
-          ) : (
-            <Grid xs={5}>
-              <Input
-                register={register("disease", {required: true})}
-                name="disease"
-                type="text"
-                label="Name of Disease"
-              />
-            </Grid>
-          )}
-          {!editing ? (
-            <Grid xs={5}>
-              <CustomSelect
-                label="Choose Person to Notify"
-                name="notify"
-                options={notifierOptions}
-                defaultValue={casedefinition?.notification_destination}
-                register={register("notify", {required: true})}
-              />
-            </Grid>
-          ) : (
-            <Grid xs={5}>
-              <CustomSelect
-                label="Choose Person to Notify"
-                name="notify"
-                options={notifierOptions}
-                register={register("notify", {required: true})}
-                control={control}
-              />
-            </Grid>
-          )}
-          {!editing ? (
-            <Grid xs={5}>
-              <Textarea
-                register={register("symptoms", {required: true})}
-                name="symptoms"
-                defaultValue={casedefinition?.symptoms}
-                label="Symptoms"
-              />
-            </Grid>
-          ) : (
-            <Grid xs={5}>
-              <Textarea
-                register={register("symptoms", {required: true})}
-                name="symptoms"
-                type="text"
-                label="Symptoms"
-              />
-            </Grid>
-          )}
+				{!editing ? (
+					<GlobalCustomButton
+						onClick={() => {
+							setEditing(!editing);
+						}}>
+						<CreateIcon
+							fontSize='small'
+							sx={{ marginRight: '5px' }}
+						/>
+						Edit
+					</GlobalCustomButton>
+				) : (
+					<GlobalCustomButton
+						color='success'
+						type='submit'
+						onClick={handleSubmit(onSubmit)}
+						>
+						<MdOutlineUpdate
+							sx={{ marginRight: '5px' }}
+							fontSize='bold'
+						/>
+						Update
+					</GlobalCustomButton>
+				)}
+			</Box>
+			<form>
+				<Grid container mb={2}>
+				{!editing ? (
+						<Grid item
+						xs={12}
+						md={6}>
+							<CustomSelect
+								label='Choose Notification Type'
+								name='notificationType'
+								options={notificationTypeOptions}
+								register={register('notificationType',{ required: true })}
+								defaultValue={casedefinition?.notificationtype}
+								
+							/>
+						</Grid>
+					) : (
+						<Grid item
+						xs={12}
+						md={6}>
+							<CustomSelect
+							label='Choose Notification Type'
+							name='notificationType'
+							options={notificationTypeOptions}
+							register={register('notificationType',{ required: true })}
+							control={control}
+						/>
+						</Grid>
+					)}
+				</Grid>
+				<Grid
+					container
+					spacing={1}
+					alignItems='center'>
+					{!editing ? (
+						<Grid item
+						xs={12}
+						md={6}>
+							<Input
+								register={register('disease', { required: true })}
+								name='disease'
+								defaultValue={casedefinition?.disease?.name}
+								label='Name of Disease'
+								
+							/>
+						</Grid>
+					) : (
+						<Grid item
+						xs={12}
+						md={6}>
+							<Input
+								register={register('disease', { required: true })}
+								name='disease'
+								type='text'
+								label='Name of Disease'
+							/>
+						</Grid>
+					)}
+					{!editing ? (
+						<Grid item
+						xs={12}
+						md={6}>
+							<CustomSelect
+								label='Choose Person to Notify'
+								name='notify'
+								options={notifierOptions}
+								defaultValue={casedefinition?.notification_destination}
+								register={register('notify',{ required: true })}
+								
+							/>
+						</Grid>
+					) : (
+						<Grid item
+						xs={12}
+						md={6}>
+							<CustomSelect
+								label='Choose Person to Notify'
+								name='notify'
+								options={notifierOptions}
+								register={register('notify',{ required: true })}
+								control={control}
+							/>
+						</Grid>
+					)}
+					{!editing ? (
+						<Grid item
+						xs={12}
+						md={6}>
+							<Textarea
+								register={register('symptoms', { required: true })}
+								name='symptoms'
+								defaultValue={casedefinition?.symptoms}
+								label='Symptoms'
+								
+							/>
+						</Grid>
+					) : (
+						<Grid item
+						xs={12}
+						md={6}>
+							<Textarea
+								register={register('symptoms', { required: true })}
+								name='symptoms'
+								type='text'
+								label='Symptoms'
+							/>
+						</Grid>
+					)}
 
-          {!editing ? (
-            <Grid xs={5}>
-              <Textarea
-                register={register("casedefinition", {required: true})}
-                name="casedefinition"
-                defaultValue={casedefinition?.casedefinition}
-                label="Case Definition"
-              />
-            </Grid>
-          ) : (
-            <Grid xs={5}>
-              <Textarea
-                register={register("casedefinition", {required: true})}
-                name="casedefinition"
-                type="text"
-                label="Case Definition"
-              />
-            </Grid>
-          )}
-          {!editing ? (
-            <Grid xs={5}>
-              <Textarea
-                register={register("signs", {required: true})}
-                name="signs"
-                defaultValue={casedefinition?.signs}
-                label="Signs"
-              />
-            </Grid>
-          ) : (
-            <Grid xs={5}>
-              <Textarea
-                register={register("signs", {required: true})}
-                name="signs"
-                type="text"
-                label="Signs"
-              />
-            </Grid>
-          )}
-          {!editing ? (
-            <Grid xs={5}>
-              <Textarea
-                register={register("lab", {required: true})}
-                name="lab"
-                defaultValue={casedefinition?.labconfirmation}
-                label="Laboratory Confirmation"
-              />
-            </Grid>
-          ) : (
-            <Grid xs={5}>
-              <Textarea
-                register={register("lab", {required: true})}
-                name="lab"
-                type="text"
-                label="Laboratory Confirmation"
-              />
-            </Grid>
-          )}
+					{!editing ? (
+						<Grid item
+						xs={12}
+						md={6}>
+							<Textarea
+								register={register('casedefinition', { required: true })}
+								name='casedefinition'
+								defaultValue={casedefinition?.casedefinition}
+								label='Case Definition'
+								
+							/>
+						</Grid>
+					) : (
+						<Grid item
+						xs={12}
+						md={6}>
+							<Textarea
+								register={register('casedefinition', { required: true })}
+								name='casedefinition'
+								type='text'
+								label='Case Definition'
+							/>
+						</Grid>
+					)}
+					{!editing ? (
+						<Grid item
+						xs={12}
+						md={6}>
+							<Textarea
+								register={register('signs', { required: true })}
+								name='signs'
+								defaultValue={casedefinition?.signs}
+								label='Signs'
+								
+							/>
+						</Grid>
+					) : (
+						<Grid item
+						xs={12}
+						md={6}>
+							<Textarea
+								register={register('signs', { required: true })}
+								name='signs'
+								type='text'
+								label='Signs'
+							/>
+						</Grid>
+					)}
+					{!editing ? (
+						<Grid item
+						xs={12}
+						md={6}>
+							<Textarea
+								register={register('lab', { required: true })}
+								name='lab'
+								defaultValue={casedefinition?.labconfirmation}
+								label='Laboratory Confirmation'
+								
+							/>
+						</Grid>
+					) : (
+						<Grid item
+						xs={12}
+						md={6}>
+							<Textarea
+								register={register('lab', { required: true })}
+								name='lab'
+								type='text'
+								label='Laboratory Confirmation'
+							/>
+						</Grid>
+					)}
 
-          {!editing ? (
-            <Grid xs={10}>
-              <Textarea
-                register={register("management", {required: true})}
-                name="management"
-                defaultValue={casedefinition?.treatmentprotocol}
-                label="Management Protocol"
-              />
-            </Grid>
-          ) : (
-            <Grid xs={10}>
-              <Textarea
-                register={register("management", {required: true})}
-                name="management"
-                type="text"
-                label="Management Protocol"
-              />
-            </Grid>
-          )}
-        </Grid>
-      </form>
-    </>
-  );
+					{!editing ? (
+						<Grid xs={12}>
+							<Textarea
+								register={register('management', { required: true })}
+								name='management'
+								defaultValue={casedefinition?.treatmentprotocol}
+								label='Management Protocol'
+								
+							/>
+						</Grid>
+					) : (
+						<Grid xs={12}>
+							<Textarea
+								register={register('management', { required: true })}
+								name='management'
+								type='text'
+								label='Management Protocol'
+							/>
+						</Grid>
+					)}
+				</Grid>
+			</form>
+		</>
+	);
 }
