@@ -58,7 +58,7 @@ export default function FundsManagement() {
 
 export function FundsManagementCreate() {
 	const { state, setState } = useContext(ObjectContext);
-	const { register, handleSubmit, setValue } = useForm();
+	const { register, handleSubmit, setValue,reset } = useForm();
 	const FundMgtServ = client.service('fundmgt');
 	const { user } = useContext(UserContext);
 	
@@ -67,8 +67,8 @@ export function FundsManagementCreate() {
 	const onSubmit = (data, e) => {
 		e.preventDefault();
 		
-		data.facility = user.currentEmployee.facilityDetail._id; 
-		data.organizationName = data.organizationName
+		data.organizationId = user.currentEmployee.facilityDetail._id; 
+		data.organizationName = user.currentEmployee.facilityDetail.facilityName;
         data.bank = data.bankName;
         data.accountType = data.accountType;
         data.accountNumber = data.accountNumber;
@@ -80,14 +80,14 @@ export function FundsManagementCreate() {
 
 	 FundMgtServ.create(data)
 			.then((res) => {
-				// toast.success(`Case Definition successfully created`);
+				toast.success(`Fund successfully created`);
 				console.log(res);
-				// e.target.reset();
+				reset();
 	
 			})
 			.catch((err) => {
+				toast(`Error creating fund management, ${err}`);
 				console.log(err)
-				// toast();
 			});
 		}
 
@@ -122,6 +122,7 @@ export function FundsManagementCreate() {
 						<Input 
 						label='Organisation Name' 
 						name="organizationName" 
+						defaultValue={user.currentEmployee.facilityDetail.facilityName}
 						register={register('organizationName', { required: true })}
 						type='text'
 						/>
@@ -178,17 +179,6 @@ export function FundsManagementCreate() {
 						label='Sort Code' 
 						name="sortCode" 
 						register={register('sortCode', { required: true })}
-						type='text'
-						/>
-					</Grid>
-					<Grid
-						item
-						xs={12}
-						md={6}>
-						<Input 
-						label='Transcations' 
-						name="transcations" 
-						register={register('transcations', { required: true })}
 						type='text'
 						/>
 					</Grid>
@@ -272,7 +262,7 @@ export function FundsManagementList({ showTransactions, showCreateModal }) {
 			const findFundMgt = await FundMgtServ.find(
 				{
 				query: {
-					facility: user.currentEmployee.facilityDetail._id,
+					// facility: user.currentEmployee.facilityDetail._id,
 					$limit: 50,
 					$sort: {
 						createdAt: -1,
@@ -319,26 +309,6 @@ export function FundsManagementList({ showTransactions, showCreateModal }) {
 	}, []);
 	
 	
-console.log(facilities)
-	const dummyData = [
-		{
-			s_n: 'S/N',
-			accountname: 'Amodu Kehinde',
-			bankname: 'First Bank',
-			fundtype: 'Cash',
-			currentbalance: '5000000',
-			description: 'Because when the stock market fell apart in 2008',
-		},
-		{
-			s_n: 'S/N',
-			accountname: 'Olaniyan Suleimon',
-			bankname: 'First Bank',
-			fundtype: 'Cash',
-			currentbalance: '5000000',
-			description: 'Because when the stock market fell apart in 2008',
-		},
-	];
-
 	const FundsManagementSchema = [
 		{
 			name: 'S/N',
