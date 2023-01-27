@@ -328,7 +328,20 @@ export const HealthPlanSearchSelect = ({handleChange}) => {
         })
       : [];
 
-  console.log(finalOptions.flat(1)), "hello";
+  const plans = [
+    {
+      planName: "Silver Test",
+      planCategory: "Category 1",
+      planType: "Family",
+      premiumAmount: "100000",
+    },
+    {
+      planName: "Silver Test",
+      planCategory: "Category 1",
+      planType: "Individual",
+      premiumAmount: "20000",
+    },
+  ];
 
   return (
     <Autocomplete
@@ -338,9 +351,10 @@ export const HealthPlanSearchSelect = ({handleChange}) => {
         handleChange(newValue);
       }}
       options={finalOptions.flat(1)}
-      groupBy={option => `${option.planName} (${option.planCategory}) `}
+      //options={plans}
+      groupBy={option => `${option.planName} (${option.planCategory})`}
       autoHighlight
-      getOptionLabel={option => option.planName}
+      getOptionLabel={option => `${option.planName} (${option.planType})`}
       renderOption={(props, option) => (
         <Box component="li" {...props} sx={{fontSize: "0.85rem"}}>
           {option.planType} - {option.premiumAmount}
@@ -360,6 +374,7 @@ export const HealthPlanSearchSelect = ({handleChange}) => {
             backgroundColor: "#ffffff",
             "& .MuiInputBase-input": {
               height: "0.9rem",
+              fontSize: "0.8rem",
             },
           }}
           InputLabelProps={{
