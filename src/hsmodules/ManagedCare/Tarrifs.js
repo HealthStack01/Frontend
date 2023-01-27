@@ -931,6 +931,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 					data-tag='allowRowEvents'>
 					{row?.plans?.map((el) => (
 						<>
+							<b>Plan name</b>: {el?.planName} <br />
 							<b>Capitation?</b>: {el?.capitation === true ? 'Yes' : 'No'}
 							<br />
 							<b>Free for Service?</b>:
