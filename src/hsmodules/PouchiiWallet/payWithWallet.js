@@ -137,7 +137,8 @@ export default function PayWithWallet({ amount }) {
 					sx={{
 						marginRight: '15px',
 					}}
-					loading={loading}>
+					// loading={loading}
+				>
 					<PaymentsIcon
 						sx={{ marginRight: '5px' }}
 						fontSize='small'
