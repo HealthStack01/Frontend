@@ -2864,7 +2864,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
 							variant={display === 6 ? 'outlined' : 'contained'}
 							size='small'
 							sx={{ textTransform: 'capitalize', marginRight: '10px' }}>
-							Premium
+							Send Policy
 						</Button>
 					</Grid>
 				</Grid>
@@ -3210,7 +3210,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
 						<ModalBox
 							open
 							onClose={() => setDisplay(1)}>
-							<ProviderPrintout />
+							<ProviderPrintout data={Client} />
 						</ModalBox>
 					)}
 				</Box>
