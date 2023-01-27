@@ -297,6 +297,39 @@ export const HealthPlanSearchSelect = ({handleChange}) => {
     getFacilities();
   }, []);
 
+  const createNewOptions = async () => {
+    const promises = facilities.map(item => {
+      console.log(item.premiumns);
+      const premiums = item.premiumns;
+      premiums.map(prem => {
+        return {
+          ...prem,
+          planName: item.planName,
+        };
+      });
+    });
+
+    const data = await Promise.all(promises);
+
+    console.log(data);
+  };
+
+  const finalOptions =
+    facilities.length > 0
+      ? facilities.map(item => {
+          // console.log(item);
+          return item.premiums.map(prem => {
+            return {
+              ...prem,
+              planName: item.planName,
+              planCategory: item.planCategory,
+            };
+          });
+        })
+      : [];
+
+  console.log(finalOptions.flat(1)), "hello";
+
   return (
     <Autocomplete
       id="country-select-demo"
@@ -304,12 +337,13 @@ export const HealthPlanSearchSelect = ({handleChange}) => {
       onChange={(event, newValue, reason) => {
         handleChange(newValue);
       }}
-      options={facilities}
+      options={finalOptions.flat(1)}
+      groupBy={option => `${option.planName} (${option.planCategory}) `}
       autoHighlight
       getOptionLabel={option => option.planName}
       renderOption={(props, option) => (
         <Box component="li" {...props} sx={{fontSize: "0.85rem"}}>
-          {option.planName} ({option.planCategory})
+          {option.planType} - {option.premiumAmount}
         </Box>
       )}
       renderInput={params => (

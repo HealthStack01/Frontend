@@ -161,6 +161,7 @@ const CustomSelect: React.FC<SelectProps> = ({
 					color: '#000000',
 					fontSize: '0.93rem',
 
+
 					'& 	.MuiInputBase-input.Mui-disabled': {
 						WebkitTextFillColor: 'black',
 					},

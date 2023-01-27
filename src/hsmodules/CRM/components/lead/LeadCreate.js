@@ -1,4 +1,4 @@
-import {forwardRef, useState, useContext, useEffect} from "react";
+import {forwardRef, useState, useContext, useEffect, useCallback} from "react";
 import {Button, Collapse, Grid, Typography} from "@mui/material";
 import {Box} from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
@@ -28,7 +28,7 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
   const dealServer = client.service("deal");
   const notificationsServer = client.service("notification");
 
-  const {register, handleSubmit, control, watch, reset} = useForm({
+  const {register, handleSubmit, control, watch, reset, setValue} = useForm({
     defaultValues: {customer_type: ""},
   });
   const [contactModal, setContactModal] = useState(false);
@@ -209,6 +209,19 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
   // };
 
   const customerType = watch("type", "corporate");
+  const probability = watch("probability");
+  const size = watch("size");
+
+  const calculateWeightForcast = useCallback(() => {
+    console.log("Hello");
+    const weightForecast = Number(probability) * Number(size);
+    console.log(weightForecast);
+    setValue("weightForecast", weightForecast);
+  }, [probability, size]);
+
+  useEffect(() => {
+    calculateWeightForcast();
+  }, [calculateWeightForcast]);
 
   return (
     <>
@@ -377,6 +390,7 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
                   <Input
                     register={register("probability", {required: true})}
                     label="Probability"
+                    type="number"
                     //placeholder="Enter customer name"
                   />
                 </Grid>
@@ -384,6 +398,7 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
                   <Input
                     register={register("size", {required: true})}
                     label="Size"
+                    type="number"
                     //placeholder="Enter customer number"
                   />
                 </Grid>
@@ -412,6 +427,7 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
                   <Input
                     register={register("weightForecast", {required: true})}
                     label="Weight Forecast"
+                    disabled
                     //placeholder="Enter customer number"
                   />
                 </Grid>

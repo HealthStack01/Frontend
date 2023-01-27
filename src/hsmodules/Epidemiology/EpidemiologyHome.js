@@ -25,7 +25,8 @@ export default function EpidemiologyHome({children}) {
     const notSelected = Object.keys(selectedStore).length === 0;
 
     if (notSelected) {
-      handleChangeStore();
+      return;
+      //handleChangeStore();
     }
     return () => {};
   }, []);

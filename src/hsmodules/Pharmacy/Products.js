@@ -5,7 +5,7 @@ import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {Box, Grid} from "@mui/material";
 import Input from "../../components/inputs/basic/Input";
@@ -90,27 +90,18 @@ export function ProductCreate({closeModal}) {
         e.target.reset();
         /*  setMessage("Created Product successfully") */
         setSuccess(true);
-        toast({
-          message: "Product created succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success("Product created succesfully");
+
         setSuccess(false);
       })
       .catch(err => {
-        toast({
-          message: "Error creating Product " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("Error creating Product");
       });
   };
 
   return (
     <>
-      <Box sx={{width: "400px"}}>
+      <Box sx={{width: "600px"}}>
         <Grid container spacing={1} pt={1} mb={2}>
           <Grid item xs={12}>
             <Input
