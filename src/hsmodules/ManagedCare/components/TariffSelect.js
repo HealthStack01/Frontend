@@ -22,7 +22,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 	important?: boolean;
 }
 
-const CustomSelect: React.FC<SelectProps> = ({
+const CustomTariffSelect: React.FC<SelectProps> = ({
 	label,
 	options,
 	name,
@@ -108,7 +108,9 @@ const CustomSelect: React.FC<SelectProps> = ({
 									value={option.value || option.name || option}
 									key={index}
 									sx={{ width: '100%' }}>
-									{option.label || option.name || option.category || option}
+									{option.label || option.name || option.comments.length > 30
+										? option.comments.substring(0, 30) + '...'
+										: option.comments || option}
 								</MenuItem>
 							))}
 						</Select>
@@ -161,7 +163,6 @@ const CustomSelect: React.FC<SelectProps> = ({
 					color: '#000000',
 					fontSize: '0.93rem',
 
-
 					'& 	.MuiInputBase-input.Mui-disabled': {
 						WebkitTextFillColor: 'black',
 					},
@@ -176,7 +177,9 @@ const CustomSelect: React.FC<SelectProps> = ({
 						value={option.value || option.name || option}
 						key={index}
 						sx={{ width: '100%' }}>
-						{option.label || option.name || option.category || option}
+						{option.label || option.name || option.comments.length > 30
+							? option.comments.substring(0, 30) + '...'
+							: option.comments || option}
 					</MenuItem>
 				))}
 			</Select>
@@ -189,4 +192,4 @@ const CustomSelect: React.FC<SelectProps> = ({
 	);
 };
 
-export default CustomSelect;
+export default CustomTariffSelect;
