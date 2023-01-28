@@ -9,6 +9,7 @@ import {
 	Fab,
 	Grid,
 } from '@mui/material';
+import { toast } from 'react-toastify';
 import PaymentsIcon from '@mui/icons-material/Payments';
 import BookOnlineIcon from '@mui/icons-material/BookOnline';
 import AddIcon from '@mui/icons-material/Add';
@@ -384,7 +385,7 @@ export function AppointmentCreate() {
 				toast.success(
 					'Appointment created succesfully, Kindly bill patient if required',
 				);
-				openBill(true);
+				// openBill(true);
 				setSuccess(false);
 				setSuccess1(false);
 				setSuccess2(false);

@@ -167,22 +167,20 @@ export default function PatientProfile() {
           <div className="patient-profile-card">
             <div className="user-information-top-section">
               <div className="user-profile-information">
-                <Avatar
-                  src={imageurl}
-                  sx={{width: 56, height: 56}}
-                  {...returnAvatarString(
-                    `${firstname.replace(/\s/g, "")} ${lastname.replace(
-                      /\s/g,
-                      ""
-                    )}`
-                  )}
-                />
-                {/* <div className="user-image-container">
-                  <img
-                    src="https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg"
-                    alt=""
+                {firstname && lastname ? (
+                  <Avatar
+                    src={imageurl}
+                    sx={{width: 56, height: 56}}
+                    {...returnAvatarString(
+                      `${firstname.replace(/\s/g, "")} ${lastname.replace(
+                        /\s/g,
+                        ""
+                      )}`
+                    )}
                   />
-                </div> */}
+                ) : (
+                  <Avatar />
+                )}
 
                 <div className="user-infromation-container">
                   <h1>
@@ -210,15 +208,16 @@ export default function PatientProfile() {
               <Typography sx={{fontSize: "0.75rem", fontWeight: "600"}}>
                 Payment Info:
               </Typography>
-              {paymentinfo.map((pay, i) => (
-                <Typography
-                  sx={{fontSize: "0.75rem"}}
-                  data-tag="allowRowEvents"
-                >
-                  {pay?.paymentmode} {pay?.paymentmode === "Cash" ? "" : ":"}{" "}
-                  {pay?.organizationName}
-                </Typography>
-              ))}
+              {paymentinfo &&
+                paymentinfo.map((pay, i) => (
+                  <Typography
+                    sx={{fontSize: "0.75rem"}}
+                    data-tag="allowRowEvents"
+                  >
+                    {pay?.paymentmode} {pay?.paymentmode === "Cash" ? "" : ":"}{" "}
+                    {pay?.organizationName}
+                  </Typography>
+                ))}
             </Box>
 
             <div className="patient-profile-action-buttons-container">

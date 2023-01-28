@@ -34,6 +34,7 @@ import DeleteOutline from '@mui/icons-material/DeleteOutline';
 import CategorySearch from '../helpers/CategorySearch';
 import { SelectedBenefit, SelectHealthPlan } from '../helpers/FacilitySearch';
 import { Group } from '@mui/icons-material';
+import CustomTariffSelect from './components/TariffSelect';
 
 export default function TarrifList({ standAlone }) {
 	const { state } = useContext(ObjectContext); //,setState
@@ -511,6 +512,10 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 	const [showCoPay, setShowCoPay] = useState(false);
 	const [selectedBenefits, setSelectedBenefits] = useState([]);
 	const [facilities, setFacilities] = useState([]);
+	const [sCoPay, setSCoPay] = useState(false);
+	const [beneCat, setBeneCat] = useState('');
+	const [newBene, setNewBene] = useState([]);
+	const [selectNo, setSelectNo] = useState('');
 	const [serviceUnavailable, setServiceUnavailable] = useState({
 		status: false,
 		name: '',
@@ -871,6 +876,25 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 		}
 	};
 
+	const copaySelect = (e, i) => {
+		setShowCoPay(i);
+		if (e.target.checked) {
+			setSCoPay(true);
+		} else {
+			setSCoPay(false);
+		}
+	};
+	useEffect(() => {
+		facilities?.map((c, i) => {
+			console.log('c', c);
+			const benefit = c.benefits?.find((b) => b.comments === beneCat?.comments);
+			console.log('BENE', benefit);
+			if (benefit) {
+				setNewBene([benefit]);
+			}
+			console.log('NEW BENEFITS', newBene);
+		});
+	}, [beneCat]);
 	const productItemSchema = [
 		{
 			name: 'S/N',
@@ -907,6 +931,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 					data-tag='allowRowEvents'>
 					{row?.plans?.map((el) => (
 						<>
+							<b>Plan name</b>: {el?.planName} <br />
 							<b>Capitation?</b>: {el?.capitation === true ? 'Yes' : 'No'}
 							<br />
 							<b>Free for Service?</b>:
@@ -916,6 +941,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 							<br />
 							<b>Co-Pay</b>:{' '}
 							{el?.copayDetail !== '' ? `₦${el?.copayDetail}` : 'N/A'}
+							<br />
 						</>
 					))}
 				</Typography>
@@ -979,6 +1005,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 		},
 	];
 	console.log('selectedBenefit', benefittingplans, 'productItem', productItem);
+	console.log('beneCat', beneCat);
 	return (
 		<Box
 			style={{
@@ -1077,29 +1104,33 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 				<ModalBox
 					open={showService}
 					onClose={() => closeModal()}>
-					<GlobalCustomButton
-						type='button'
-						variant='contained'
-						color='success'
-						onClick={handleClickProd}
-						text='Add Service'
-						customStyles={{ float: 'right' }}
-					/>
-					<Grid
-						container
-						spacing={2}>
+					<Box
+						sx={{
+							width: '70vw',
+						}}>
+						<GlobalCustomButton
+							type='button'
+							variant='contained'
+							color='success'
+							onClick={handleClickProd}
+							text='Add Service'
+							customStyles={{ float: 'right' }}
+						/>
 						<Grid
-							item
-							xs={12}
-							sm={4}>
-							<SearchSelect
-								getSearchService={getSearchService}
-								clear={successService}
-								notfound={notfound}
-								placeholder='Search Service'
-							/>
-						</Grid>
-						{/* <Grid
+							container
+							spacing={2}>
+							<Grid
+								item
+								xs={12}
+								sm={4}>
+								<SearchSelect
+									getSearchService={getSearchService}
+									clear={successService}
+									notfound={notfound}
+									placeholder='Search Service'
+								/>
+							</Grid>
+							{/* <Grid
 							item
 							xs={12}
 							sm={4}>
@@ -1118,28 +1149,25 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 								selectedBenefits={selectedBenefits}
 							/>
 						</Grid> */}
-						<Grid
-							item
-							xs={12}
-							sm={4}>
-							<Input
-								label='Price'
-								onChange={(e) => setCostprice(e.target.value)}
-							/>
-						</Grid>
-						<Grid
-							item
-							xs={12}
-							sm={12}>
-							<Textarea
-								label='Comments'
-								onChange={(e) => setComments(e.target.value)}
-								sx={{
-									height: '40px',
-								}}
-							/>
-						</Grid>
-						{/* <Box sx={{ width: '95%' }}>
+							<Grid
+								item
+								xs={12}
+								sm={4}>
+								<Input
+									label='Price'
+									onChange={(e) => setCostprice(e.target.value)}
+								/>
+							</Grid>
+							<Grid
+								item
+								xs={12}
+								sm={12}>
+								<Textarea
+									label='Comments'
+									onChange={(e) => setComments(e.target.value)}
+								/>
+							</Grid>
+							{/* <Box sx={{ width: '95%' }}>
 							<Grid
 								container
 								spacing={2}
@@ -1214,133 +1242,149 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 								</Grid>
 							</Grid>
 						</Box> */}
-						<Box
-							mx={2}
-							sx={{
-								width: '98%',
-							}}>
-							{facilities.map((c, i) => {
-								console.log(c);
-								return (
-									<>
-										<Grid
-											container
-											spacing={2}
-											my={1}
-											sx={{
-												alignItems: 'center',
-											}}>
+							<Box
+								mx={2}
+								sx={{
+									width: '98%',
+								}}>
+								{facilities.map((c, i) => {
+									const allCategories = c?.benefits?.map((cat) => cat);
+									console.log('ALL CATS', allCategories);
+									return (
+										<>
 											<Grid
-												item
-												sx={{ display: 'flex', alignItems: 'center' }}
-												xs={12}
-												sm={2}
-												key={i}>
-												<p
-													style={{
-														fontWeight: 'bold',
-														marginRight: '10px',
-													}}>
-													{c.planName}
-												</p>
-												<input
-													className='checkbox is-small '
-													type='checkbox'
-													value={i}
-													name={`selectedPlans +${i}`}
-													label={c.planName}
-													onChange={(e) => handleChange(e, i, c)}
-												/>
-											</Grid>
-
-											<Grid
-												item
-												xs={12}
-												sm={2}>
-												<CustomSelect
-													options={c.benefits}
-													label='Select Benefit'
-													onChange={(e) => handleBenefit(e, i, c)}
-												/>
-											</Grid>
-
-											<Grid
-												item
-												xs={12}
-												sm={2}
-												key={i}>
-												<input
-													className=' is-small'
-													value='Capitation'
-													name={`servtype +${i}`}
-													type='radio'
-													onChange={(e) => handleServType(e, i, c)}
-												/>
-												<span>Capitation</span>
-											</Grid>
-											<Grid
-												item
-												xs={12}
-												sm={2}
-												key={i}>
-												<input
-													className=' is-small'
-													name={`servtype +${i}`}
-													value='Fee for Service'
-													type='radio'
-													onChange={(e) => handleServType(e, i, c)}
-												/>
-
-												<span>Fee for Service</span>
-											</Grid>
-											<Grid
-												item
-												xs={12}
-												sm={2}
-												key={i}>
-												<input
-													className=' is-small'
-													name={`pay${i}`}
-													value='Fee for Service'
-													type='radio'
-													onChange={(e) => setShowCoPay(i)}
-													style={
-														showCoPay === i
-															? { marginBottom: '.6rem' }
-															: { marginBottom: '0' }
-													}
-												/>
-												<span>Co-Pay?</span>
-												{showCoPay === i && (
-													<Input
-														className='input smallerinput is-small is-pulled-right '
-														name={`copay +${i}`}
-														type='text'
-														onChange={(e) => handleCopay(e, i, c)}
-														label='Co-pay Amount'
+												container
+												spacing={2}
+												my={1}
+												sx={{
+													alignItems: 'center',
+												}}>
+												<Grid
+													item
+													sx={{ display: 'flex', alignItems: 'center' }}
+													xs={12}
+													sm={2}
+													key={i}>
+													<input
+														className='checkbox is-small '
+														type='checkbox'
+														value={i}
+														name={`selectedPlans +${i}`}
+														label={c.planName}
+														onChange={(e) => handleChange(e, i, c)}
 													/>
-												)}
-											</Grid>
+													<p
+														style={{
+															fontWeight: 'bold',
+															marginRight: '10px',
+														}}>
+														{c.planName}
+													</p>
+												</Grid>
+												<Grid
+													item
+													xs={12}
+													sm={2}>
+													<CustomSelect
+														options={allCategories}
+														label='Select Benefit Category'
+														onChange={(e) => {
+															setBeneCat(e.target.value);
+															setSelectNo(i);
+														}}
+													/>
+												</Grid>
 
-											<Grid
-												item
-												xs={12}
-												sm={2}
-												key={i}>
-												<input
-													className='checkbox is-small'
-													name={`authCode +${i}`}
-													type='checkbox'
-													onChange={(e) => handleAuthCode(e, i, c)}
-												/>
-												<span>Requires Pre-Auth?</span>
+												<Grid
+													item
+													xs={12}
+													sm={2}>
+													<CustomTariffSelect
+														key={i}
+														options={selectNo === i ? newBene : []}
+														label='Select Benefit'
+														onChange={(e) => handleBenefit(e, i, c)}
+													/>
+												</Grid>
+
+												<Grid
+													item
+													xs={12}
+													sm={2}
+													key={i}>
+													<input
+														className=' is-small'
+														value='Capitation'
+														name={`servtype +${i}`}
+														type='radio'
+														onChange={(e) => handleServType(e, i, c)}
+													/>
+													<span>Capitation</span>
+												</Grid>
+												<Grid
+													item
+													xs={12}
+													sm={2}
+													key={i}>
+													<input
+														className=' is-small'
+														name={`servtype +${i}`}
+														value='Fee for Service'
+														type='radio'
+														onChange={(e) => handleServType(e, i, c)}
+													/>
+
+													<span>Fee for Service</span>
+												</Grid>
+												<Grid
+													item
+													xs={12}
+													sm={2}
+													key={i}>
+													<input
+														className=' is-small'
+														name={`pay${i}`}
+														value='Fee for Service'
+														type='checkbox'
+														onChange={(e) => copaySelect(e, i)}
+														style={
+															showCoPay === i
+																? { marginBottom: '.6rem' }
+																: { marginBottom: '0' }
+														}
+													/>
+													<span>Co-Pay?</span>
+													{showCoPay === i && sCoPay && (
+														<Input
+															className='input smallerinput is-small is-pulled-right '
+															name={`copay +${i}`}
+															type='text'
+															onChange={(e) => handleCopay(e, i, c)}
+															label='Co-pay Amount'
+														/>
+													)}
+												</Grid>
+
+												<Grid
+													item
+													xs={12}
+													sm={2}
+													key={i}>
+													<input
+														className='checkbox is-small'
+														name={`authCode +${i}`}
+														type='checkbox'
+														onChange={(e) => handleAuthCode(e, i, c)}
+													/>
+													<span>Requires Pre-Auth?</span>
+												</Grid>
 											</Grid>
-										</Grid>
-									</>
-								);
-							})}
-						</Box>
-					</Grid>
+										</>
+									);
+								})}
+							</Box>
+						</Grid>
+					</Box>
 				</ModalBox>
 			)}
 		</Box>

@@ -62,34 +62,19 @@ const ClosedDealsList = ({
 
     //const status = "close" || "pending";
 
-    const res =
-      testId === facId
-        ? await dealServer.find({
-            query: {
-              //facilityId: facId,
-              $or: [
-                {
-                  "dealinfo.currStatus": "closed",
-                },
-                {
-                  "dealinfo.currStatus": "Closed",
-                },
-              ],
-            },
-          })
-        : await dealServer.find({
-            query: {
-              facilityId: facId,
-              $or: [
-                {
-                  "dealinfo.currStatus": "closed",
-                },
-                {
-                  "dealinfo.currStatus": "Closed",
-                },
-              ],
-            },
-          });
+    const res = await dealServer.find({
+      query: {
+        facilityId: facId,
+        $or: [
+          {
+            "dealinfo.currStatus": "closed",
+          },
+          {
+            "dealinfo.currStatus": "Closed",
+          },
+        ],
+      },
+    });
     await setClosedDeals(res.data);
     setLoading(false);
   }, []);
