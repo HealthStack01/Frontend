@@ -11,7 +11,6 @@ import { PageWrapper } from '../../ui/styled/styles';
 import { TableMenu } from '../../ui/styled/global';
 import FilterMenu from '../../components/utilities/FilterMenu';
 import CustomTable from '../../components/customtable';
-import CalendarGrid from '../../components/calender';
 import ModalBox from '../../components/modal';
 import { Box, Grid, Typography } from '@mui/material';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
@@ -19,6 +18,8 @@ import { FormsHeaderText } from '../../components/texts';
 import Input from '../../components/inputs/basic/Input';
 import TextArea from '../../components/inputs/basic/Textarea';
 import { toast, ToastContainer } from 'react-toastify';
+import { MdOutlineUpdate, MdEdit } from 'react-icons/md';
+import CreateIcon from '@mui/icons-material/Create';
 
 export default function FundsManagement() {
 	const [currentView, setCurrentView] = useState('list');
@@ -58,42 +59,38 @@ export default function FundsManagement() {
 
 export function FundsManagementCreate() {
 	const { state, setState } = useContext(ObjectContext);
-	const { register, handleSubmit, setValue,reset } = useForm();
+	const { register, handleSubmit, setValue, reset } = useForm();
 	const FundMgtServ = client.service('fundmgt');
 	const { user } = useContext(UserContext);
-	
-	
 
 	const onSubmit = (data, e) => {
 		e.preventDefault();
-		
-		data.organizationId = user.currentEmployee.facilityDetail._id; 
+
+		data.organizationId = user.currentEmployee.facilityDetail._id;
 		data.organizationName = user.currentEmployee.facilityDetail.facilityName;
-        data.bank = data.bankName;
-        data.accountType = data.accountType;
-        data.accountNumber = data.accountNumber;
-        data.sortcode = data.sortCode
-       data.description = data.description
-        data.currentBalance = data.currentBalance
-       data.Transactions = data.transactions
+		data.bank = data.bankName;
+		data.accountType = data.accountType;
+		data.accountNumber = data.accountNumber;
+		data.sortcode = data.sortCode;
+		data.description = data.description;
+		data.currentBalance = data.currentBalance;
+		data.Transactions = data.transactions;
 
-
-	 FundMgtServ.create(data)
+		FundMgtServ.create(data)
 			.then((res) => {
 				toast.success(`Fund successfully created`);
 				console.log(res);
 				reset();
-	
 			})
 			.catch((err) => {
 				toast(`Error creating fund management, ${err}`);
-				console.log(err)
+				console.log(err);
 			});
-		}
+	};
 
 	return (
 		<>
-		<ToastContainer theme='colored' />
+			<ToastContainer theme='colored' />
 			<div className='card '>
 				<Box
 					sx={{
@@ -101,9 +98,7 @@ export function FundsManagementCreate() {
 						justifyContent: 'flex-end',
 						alignItems: 'center',
 					}}>
-					<GlobalCustomButton
-					onClick={handleSubmit(onSubmit)}
-					>
+					<GlobalCustomButton onClick={handleSubmit(onSubmit)}>
 						<AddCircleOutline
 							sx={{ marginRight: '5px' }}
 							fontSize='small'
@@ -115,81 +110,81 @@ export function FundsManagementCreate() {
 					container
 					spacing={2}
 					mt={1}>
-						<Grid
+					<Grid
 						item
 						xs={12}
 						md={6}>
-						<Input 
-						label='Organisation Name' 
-						name="organizationName" 
-						defaultValue={user.currentEmployee.facilityDetail.facilityName}
-						register={register('organizationName', { required: true })}
-						type='text'
+						<Input
+							label='Organisation Name'
+							name='organizationName'
+							defaultValue={user.currentEmployee.facilityDetail.facilityName}
+							register={register('organizationName', { required: true })}
+							type='text'
 						/>
 					</Grid>
 					<Grid
 						item
 						xs={12}
 						md={6}>
-						<Input 
-						label='Account Number' 
-						name="accountNumber" 
-						register={register('accountNumber', { required: true })}
-						type='text'
+						<Input
+							label='Account Number'
+							name='accountNumber'
+							register={register('accountNumber', { required: true })}
+							type='text'
 						/>
 					</Grid>
 					<Grid
 						item
 						xs={12}
 						md={6}>
-						<Input 
-						label='Bank Name' 
-						name="bankName" 
-						register={register('bankName', { required: true })}
-						type='text'
+						<Input
+							label='Bank Name'
+							name='bankName'
+							register={register('bankName', { required: true })}
+							type='text'
 						/>
 					</Grid>
 					<Grid
 						item
 						xs={12}
 						md={6}>
-						<Input 
-						label='Account Type' 
-						name="accountType" 
-						register={register('accountType', { required: true })}
-						type='text'
+						<Input
+							label='Account Type'
+							name='accountType'
+							register={register('accountType', { required: true })}
+							type='text'
 						/>
 					</Grid>
 					<Grid
 						item
 						xs={12}
 						md={6}>
-						<Input 
-						label='Current Balance' 
-						name="currentBalance" 
-						register={register('currentBalance', { required: true })}
-						type='text'
+						<Input
+							label='Current Balance'
+							name='currentBalance'
+							register={register('currentBalance', { required: true })}
+							type='text'
 						/>
 					</Grid>
 					<Grid
 						item
 						xs={12}
 						md={6}>
-						<Input 
-						label='Sort Code' 
-						name="sortCode" 
-						register={register('sortCode', { required: true })}
-						type='text'
+						<Input
+							label='Sort Code'
+							name='sortCode'
+							register={register('sortCode', { required: true })}
+							type='text'
 						/>
 					</Grid>
 					<Grid
 						item
 						xs={12}>
-						<TextArea 
-						label='Description' 
-						name="description" 
-						register={register('description', { required: true })}
-						type='text'
+						<TextArea
+							label='Description'
+							name='description'
+							register={register('description', { required: true })}
+							type='text'
 						/>
 					</Grid>
 				</Grid>
@@ -201,17 +196,15 @@ export function FundsManagementCreate() {
 export function FundsManagementList({ showTransactions, showCreateModal }) {
 	const { state, setState } = useContext(ObjectContext);
 	const FundMgtServ = client.service('fundmgt');
-	const [facilities,setFacilities] = useState([])
+	const [fundmgts, setFundmgts] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const { user } = useContext(UserContext);
 	const [selectedFundMgt, setSelectedFundMgt] = useState();
-	
+
 	const handleCreateNew = async () => {
 		showCreateModal();
 	};
 
-
-	
 	const handleRow = async (FundMgt) => {
 		await setSelectedFundMgt(FundMgt);
 
@@ -221,9 +214,9 @@ export function FundsManagementList({ showTransactions, showCreateModal }) {
 		};
 		await setState((prevstate) => ({
 			...prevstate,
-			EpidemiologyModule: newFundMgtModule,
+			ManagedCareModule: newFundMgtModule,
 		}));
-		console.log(newFundMgtModule);
+		// console.log(newFundMgtModule);
 		showTransactions();
 	};
 
@@ -236,7 +229,7 @@ export function FundsManagementList({ showTransactions, showCreateModal }) {
 					$regex: val,
 					$options: 'i',
 				},
-				facility: user.currentEmployee.facilityDetail._id || '',
+				organizationId: user.currentEmployee.facilityDetail._id || '',
 				$limit: 50,
 				$sort: {
 					createdAt: -1,
@@ -245,7 +238,7 @@ export function FundsManagementList({ showTransactions, showCreateModal }) {
 		})
 			.then((res) => {
 				// console.log(res);
-				setFacilities(res.data);
+				setFundmgts(res.data);
 				// setMessage(' Case Definition  fetched successfully');
 				// setSuccess(true);
 			})
@@ -259,56 +252,48 @@ export function FundsManagementList({ showTransactions, showCreateModal }) {
 	const getFacilities = async () => {
 		setLoading(true);
 		if (user.currentEmployee) {
-			const findFundMgt = await FundMgtServ.find(
-				{
+			const findFundMgt = await FundMgtServ.find({
 				query: {
-					// facility: user.currentEmployee.facilityDetail._id,
+					organizationId: user.currentEmployee.facilityDetail._id,
 					$limit: 50,
 					$sort: {
 						createdAt: -1,
 					},
 				},
-			}
-			
-			);
+			});
 
-			await setFacilities(findFundMgt.data);
+			await setFundmgts(findFundMgt.data);
 			setLoading(false);
 		} else {
 			if (user.stacker) {
 				const findFundMgt = await FundMgtServ.find({
 					query: {
-						$limit:50,
+						$limit: 50,
 						$sort: {
 							facility: -1,
 						},
 					},
 				});
 
-				await setFacilities(findFundMgt.data);
+				await setFundmgts(findFundMgt.data);
 				setLoading(false);
 			}
 		}
 	};
 
 	useEffect(() => {
-		return () => {};
-	}, []);
+		// if (user) {
+		getFacilities();
+		// } else {
 
-	useEffect(() => {
-		if (user) {
-			getFacilities();
-		} else {
-	
-		}
+		// }
 		FundMgtServ.on('created', (obj) => getFacilities());
 		FundMgtServ.on('updated', (obj) => getFacilities());
 		FundMgtServ.on('patched', (obj) => getFacilities());
 		FundMgtServ.on('removed', (obj) => getFacilities());
 		return () => {};
 	}, []);
-	
-	
+
 	const FundsManagementSchema = [
 		{
 			name: 'S/N',
@@ -414,18 +399,17 @@ export function FundsManagementList({ showTransactions, showCreateModal }) {
 								)}
 							</TableMenu>
 							<div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-								
-									<CustomTable
-										title={''}
-										columns={FundsManagementSchema}
-										data={facilities}
-										pointerOnHover
-										highlightOnHover
-										striped
-										onRowClicked={handleRow}
-										progressPending={loading}
-										//conditionalRowStyles={conditionalRowStyles}
-									/>
+								<CustomTable
+									title={''}
+									columns={FundsManagementSchema}
+									data={fundmgts}
+									pointerOnHover
+									highlightOnHover
+									striped
+									onRowClicked={handleRow}
+									progressPending={loading}
+									//conditionalRowStyles={conditionalRowStyles}
+								/>
 							</div>
 						</PageWrapper>
 					</div>
@@ -438,17 +422,34 @@ export function FundsManagementList({ showTransactions, showCreateModal }) {
 }
 
 export function FundsManagementDetails({ handleGoBack, isModal }) {
+	const [editing, setEditing] = useState(false);
+	const { register, control, handleSubmit } = useForm();
+	const { state, setState } = useContext(ObjectContext);
+	const FundMgtServ = client.service('fundmgt');
+
+	const fundmgt = state.ManagedCareModule.selectedEpid;
+
+	const onSubmit = async (data) => {
+		data.organizationId = fundmgt.organizationId;
+		data.bank = data.bankName;
+		data.sortcode = data.sortCode;
+
+		await FundMgtServ.patch(fundmgt._id, data)
+			.then((res) => {
+				// console.log(res);
+				toast('fund management updated succesfully');
+			})
+			.catch((err) => {
+				// console.log(err);
+				toast(
+					`Error updating fund management, probable network issues or ${err}`,
+				);
+			});
+	};
+
 	return (
 		<>
-			<Box
-				sx={{
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'space-between',
-					borderBottom: '1px solid #f8f8f8',
-					backgroundColor: '#f8f8f8',
-				}}
-				p={2}>
+			<Box pl='3rem'>
 				<GlobalCustomButton onClick={handleGoBack}>
 					<ArrowBackIcon
 						fontSize='small'
@@ -456,16 +457,37 @@ export function FundsManagementDetails({ handleGoBack, isModal }) {
 					/>
 					Back
 				</GlobalCustomButton>
-
-				<Typography
-					sx={{
-						textTransform: 'capitalize',
-						fontWeight: '700',
-						color: '#0364FF',
-						textAlign: 'center',
-					}}>
-					Transaction History for Amodu Kehinde
-				</Typography>
+			</Box>
+			<Box
+				display='flex'
+				gap='2rem'
+				justifyContent='flex-end'
+				alignItems='center'
+				mb='2rem'
+				px='3rem'>
+				{!editing ? (
+					<GlobalCustomButton
+						onClick={() => {
+							setEditing(!editing);
+						}}>
+						<CreateIcon
+							fontSize='small'
+							sx={{ marginRight: '5px' }}
+						/>
+						Edit
+					</GlobalCustomButton>
+				) : (
+					<GlobalCustomButton
+						color='success'
+						type='submit'
+						onClick={handleSubmit(onSubmit)}>
+						<MdOutlineUpdate
+							sx={{ marginRight: '5px' }}
+							fontSize='bold'
+						/>
+						Update
+					</GlobalCustomButton>
+				)}
 			</Box>
 
 			<Box
@@ -473,11 +495,205 @@ export function FundsManagementDetails({ handleGoBack, isModal }) {
 				sx={{
 					width: '100%',
 					height: '100%',
-					px: '2rem',
+					px: '3rem',
 				}}>
 				<Grid
 					container
 					spacing={1}>
+					{!editing ? (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Organisation Name'
+								name='organizationName'
+								defaultValue={fundmgt.organizationName}
+								register={register('organizationName', { required: true })}
+								type='text'
+								disabled={!editing}
+							/>
+						</Grid>
+					) : (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Organisation Name'
+								name='organizationName'
+								defaultValue={fundmgt.organizationName}
+								register={register('organizationName', { required: true })}
+								type='text'
+							/>
+						</Grid>
+					)}
+					{!editing ? (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Account Number'
+								name='accountNumber'
+								defaultValue={fundmgt.accountNumber}
+								register={register('accountNumber', { required: true })}
+								type='text'
+								disabled={!editing}
+							/>
+						</Grid>
+					) : (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Account Number'
+								name='accountNumber'
+								register={register('accountNumber', { required: true })}
+								type='text'
+							/>
+						</Grid>
+					)}
+					{!editing ? (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Bank Name'
+								name='bankName'
+								defaultValue={fundmgt.bank}
+								register={register('bankName', { required: true })}
+								type='text'
+								disabled={!editing}
+							/>
+						</Grid>
+					) : (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Bank Name'
+								name='bankName'
+								register={register('bankName', { required: true })}
+								type='text'
+							/>
+						</Grid>
+					)}
+					{!editing ? (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Account Type'
+								name='accountType'
+								defaultValue={fundmgt.accountType}
+								register={register('accountType', { required: true })}
+								type='text'
+								disabled={!editing}
+							/>
+						</Grid>
+					) : (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Account Type'
+								name='accountType'
+								register={register('accountType', { required: true })}
+								type='text'
+							/>
+						</Grid>
+					)}
+					{!editing ? (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Current Balance'
+								name='currentBalance'
+								defaultValue={fundmgt.currentBalance}
+								register={register('currentBalance', { required: true })}
+								type='text'
+								disabled={!editing}
+							/>
+						</Grid>
+					) : (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Current Balance'
+								name='currentBalance'
+								register={register('currentBalance', { required: true })}
+								type='text'
+							/>
+						</Grid>
+					)}
+					{!editing ? (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Sort Code'
+								name='sortCode'
+								defaultValue={fundmgt.sortcode}
+								register={register('sortCode', { required: true })}
+								type='text'
+								disabled={!editing}
+							/>
+						</Grid>
+					) : (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Sort Code'
+								name='sortCode'
+								register={register('sortCode', { required: true })}
+								type='text'
+							/>
+						</Grid>
+					)}
+					{!editing ? (
+						<Grid
+							item
+							xs={12}>
+							<TextArea
+								label='Description'
+								name='description'
+								defaultValue={fundmgt.description}
+								register={register('description', { required: true })}
+								type='text'
+								disabled={!editing}
+							/>
+						</Grid>
+					) : (
+						<Grid
+							item
+							xs={12}>
+							<TextArea
+								label='Description'
+								name='description'
+								register={register('description', { required: true })}
+								type='text'
+							/>
+						</Grid>
+					)}
+				</Grid>
+
+				<Grid
+					container
+					spacing={1}
+					mt='2rem'>
 					<Grid
 						item
 						sx={12}
