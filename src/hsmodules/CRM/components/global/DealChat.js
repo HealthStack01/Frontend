@@ -54,7 +54,7 @@ const GlobalDealChat = ({closeChat}) => {
       status: "delivered",
       //senderId: "000",
       senderId: employee.userId,
-      dp: "",
+      dp: employee.imageurl,
       sender: `${employee.firstname} ${employee.lastname}`,
       type: "text",
       dealId: currentDeal._id,

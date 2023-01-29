@@ -10,14 +10,72 @@ import Textarea from "../../components/inputs/basic/Textarea";
 import {FacilitySearch} from "../helpers/FacilitySearch";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import ComplaintConversation from "./ComplaintConversation";
+import {ObjectContext, UserContext} from "../../context";
+import client from "../../feathers";
+import dayjs from "dayjs";
+import {toast} from "react-toastify";
 
 const NewComplaints = () => {
+  const complaintServer = client.service("complaints");
+  const {user} = useContext(UserContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+  const [complaints, setComplaints] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [showDrawer, setShowDrawer] = useState(false);
-  const complaints = [1, 2, 3, 4, 5, 6];
+  //const complaints = [1, 2, 3, 4, 5, 6];
 
   const showComplaintConversation = complaint => {
     setShowDrawer(true);
+    setState(prev => ({
+      ...prev,
+      ComplaintModule: {...prev.ComplaintModule, selectedComplaint: complaint},
+    }));
   };
+
+  const getComplaints = useCallback(async () => {
+    const facId = user.currentEmployee.facilityDetail._id;
+    setLoading(true);
+    const res = await complaintServer.find({
+      query: {
+        $sort: {
+          submissiondate: -1,
+        },
+        // facilityId: facId,
+      },
+    });
+    console.log(res.data);
+    await setComplaints(res.data);
+    setLoading(false);
+  }, []);
+
+  const updateComplaints = useCallback(async () => {
+    const facId = user.currentEmployee.facilityDetail._id;
+    //showActionLoader();
+    const res = await complaintServer.find({
+      query: {
+        $sort: {
+          submissiondate: -1,
+        },
+        // facilityId: facId,
+      },
+    });
+
+    await setComplaints(res.data);
+    hideActionLoader();
+  }, []);
+
+  useEffect(() => {
+    complaintServer.on("created", obj => updateComplaints());
+    complaintServer.on("updated", obj => updateComplaints());
+    complaintServer.on("patched", obj => updateComplaints());
+    complaintServer.on("removed", obj => updateComplaints());
+  }, []);
+
+  useEffect(() => {
+    getComplaints();
+  }, [getComplaints]);
+
   return (
     <Box p={2}>
       <Drawer
@@ -33,7 +91,7 @@ const NewComplaints = () => {
             overflowY: "hidden",
           }}
         >
-          <ComplaintConversation />
+          <ComplaintConversation closeConvo={() => setShowDrawer(false)} />
         </Box>
       </Drawer>
       <Box
@@ -50,24 +108,65 @@ const NewComplaints = () => {
             flexDirection: "column",
             alignItems: "center",
             gap: 2,
-            padding: "15px 0",
+            //padding: "15px 0",
             height: "calc(100vh - 100px)",
-            overflowY: "auto",
           }}
         >
-          {complaints.map(complaint => {
-            return (
-              <Box
-                sx={{
-                  width: "90%",
+          {complaints.length > 0 ? (
+            <Box
+              sx={{
+                width: "100%",
+                backgroundColor: "#f8f8f8",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 2,
+                padding: "15px 0",
+                height: "100%",
+                overflowY: "auto",
+              }}
+            >
+              {complaints.map(complaint => {
+                return (
+                  <Box
+                    sx={{
+                      width: "90%",
+                    }}
+                    onClick={() => showComplaintConversation(complaint)}
+                    key={complaint._id}
+                  >
+                    <EachComplaint complaint={complaint} />
+                  </Box>
+                );
+              })}
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                //justifyContent: "center",
+                backgroundColor: "#ffffff",
+              }}
+            >
+              <img
+                src="https://cdn.dribbble.com/users/530580/screenshots/5922621/paper.gif"
+                alt=""
+                style={{
+                  width: "400px",
+                  height: "auto",
+                  display: "block",
+                  marginTop: "10vh",
                 }}
-                onClick={showComplaintConversation}
-                key={complaint}
-              >
-                <EachComplaint />
-              </Box>
-            );
-          })}
+              />
+              <Typography sx={{fontSize: "0.85rem"}}>
+                There are no complaints available yet...
+              </Typography>
+            </Box>
+          )}
         </Box>
         <Box
           sx={{
@@ -83,7 +182,13 @@ const NewComplaints = () => {
 
 export default NewComplaints;
 
-const EachComplaint = () => {
+const EachComplaint = ({complaint}) => {
+  const [user, setUser] = useState(null);
+
+  const getUser = useCallback(() => {
+    //
+  }, []);
+
   return (
     <Box
       sx={{
@@ -118,7 +223,7 @@ const EachComplaint = () => {
               fontWeight: "600",
             }}
           >
-            John Doe
+            {complaint.submissionby}
           </Typography>
         </Box>
 
@@ -129,7 +234,7 @@ const EachComplaint = () => {
               color: "#ee6c4d",
             }}
           >
-            11/12/2022
+            {dayjs(complaint.submissiondate).format("DD/MM/YYYY")}
           </Typography>
           <Typography
             sx={{
@@ -149,7 +254,7 @@ const EachComplaint = () => {
             fontSize: "0.85rem",
           }}
         >
-          Subject of the Complaint - Provider
+          {complaint.subject} - {complaint.category}
         </Typography>
         <Typography
           sx={{
@@ -157,10 +262,7 @@ const EachComplaint = () => {
             color: "#000000",
           }}
         >
-          Lorem ipsum dolor sit amet. Sed quos sint ut neque iure sit corrupti
-          fuga est magnam quaerat id veritatis tempora? Cum dolor quaerat non
-          deleniti voluptatem non dolores culpa. 33 sint eligendi sit dolorem
-          obcaecati id quia illum non Quis sint?
+          {complaint.complaint}
         </Typography>
       </Box>
     </Box>
@@ -168,7 +270,47 @@ const EachComplaint = () => {
 };
 
 const CreateNewComplaint = () => {
-  const {register, handleSubmit, control} = useForm();
+  const complaintServer = client.service("complaints");
+  const {user} = useContext(UserContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+  const {register, handleSubmit, control, reset} = useForm();
+  const [selectedFac, setSelectedFac] = useState({});
+  const [clear, setClear] = useState(false);
+
+  const getSearchedFacility = fac => {
+    setSelectedFac(fac);
+  };
+
+  const createComplaint = async data => {
+    //return console.log(data);
+    showActionLoader();
+    const employee = user.currentEmployee;
+
+    const document = {
+      ...data,
+      submissiondate: dayjs(),
+      //submissionby: employee._id,
+      submissionby: `${employee.firstname} ${employee.lastname}`,
+    };
+
+    await complaintServer
+      .create(document)
+      .then(res => {
+        Object.keys(data).forEach(key => {
+          data[key] = null;
+        });
+        reset(data);
+        setClear(true);
+        hideActionLoader();
+        toast.success("Your Complaint was submitted successfully");
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error(`There was an error submitting your Complaint ${err}`);
+        console.log(err);
+      });
+  };
 
   return (
     <Box
@@ -191,11 +333,14 @@ const CreateNewComplaint = () => {
 
       <Grid container spacing={2} mb={2}>
         <Grid item xs={12}>
-          <FacilitySearch />
+          <FacilitySearch
+            getSearchfacility={getSearchedFacility}
+            clear={clear}
+          />
         </Grid>
 
         <Grid item xs={12}>
-          <Input label="Subject" register={register("subjext")} />
+          <Input label="Subject" register={register("subject")} />
         </Grid>
 
         <Grid item xs={12}>
@@ -209,7 +354,11 @@ const CreateNewComplaint = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <Textarea />
+          <Textarea
+            label="Complaint"
+            placeholder="write here..."
+            register={register("complaint")}
+          />
         </Grid>
       </Grid>
 
@@ -218,6 +367,7 @@ const CreateNewComplaint = () => {
           sx={{
             width: "100%",
           }}
+          onClick={handleSubmit(createComplaint)}
         >
           Submit Complaint
         </GlobalCustomButton>

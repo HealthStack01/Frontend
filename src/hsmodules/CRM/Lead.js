@@ -116,19 +116,19 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
             {
               phone: {
                 $regex: val,
-                // $options: "i",
+                $options: "i",
               },
             },
             {
               email: {
                 $regex: val,
-                //$options: "i",
+                $options: "i",
               },
             },
             {
               type: {
                 $regex: val,
-                //$options: "i",
+                $options: "i",
               },
             },
             // {

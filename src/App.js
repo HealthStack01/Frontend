@@ -21,6 +21,9 @@ function App() {
     OrganizationModule: {
       selectedOrganization: {},
     },
+    ComplaintModule: {
+      selectedComplaint: {},
+    },
     ProposalModule: {
       selectedProposal: {},
     },

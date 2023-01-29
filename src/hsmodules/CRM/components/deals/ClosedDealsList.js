@@ -65,6 +65,9 @@ const ClosedDealsList = ({
     const res = await dealServer.find({
       query: {
         facilityId: facId,
+        $sort: {
+          createdAt: -1,
+        },
         $or: [
           {
             "dealinfo.currStatus": "closed",
