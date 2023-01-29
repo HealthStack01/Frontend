@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import client from '../../feathers';
+import DeleteOutline from '@mui/icons-material/DeleteOutline';
 import { Box, Grid, IconButton, Typography } from '@mui/material';
-import { addDays, format, subDays } from 'date-fns';
+import { format } from 'date-fns';
+import { useContext, useEffect, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
-import CalendarGrid from '../../components/calender';
 import CustomTable from '../../components/customtable';
 import Input from '../../components/inputs/basic/Input';
 import CustomSelect from '../../components/inputs/basic/Select';
@@ -13,13 +13,14 @@ import ModalBox from '../../components/modal';
 import { FormsHeaderText } from '../../components/texts';
 import FilterMenu from '../../components/utilities/FilterMenu';
 import { ObjectContext, UserContext } from '../../context';
+import client from '../../feathers';
 import { TableMenu } from '../../ui/styled/global';
 import { PageWrapper } from '../../ui/styled/styles';
-import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
-import SearchSelect from '../helpers/SearchSelect';
-import CategorySearch from '../helpers/CategorySearch';
-import DeleteOutline from '@mui/icons-material/DeleteOutline';
-import { toast } from 'react-toastify';
+import {
+	SearchCategory,
+	SearchCategory2,
+	SelectBand,
+} from '../helpers/FacilitySearch';
 
 const searchfacility = {};
 
@@ -79,7 +80,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 	const [providerBand, setProviderBand] = useState([]);
 	const [categoryname, setCategoryName] = useState('');
 	const [chosen2, setChosen2] = useState();
-	const [band, setBand] = useState('');
+	const [band, setBand] = useState([]);
 	const [productItem, setProductItem] = useState([]);
 	const [frequency, setFrequency] = useState('');
 	const [duration, setDuration] = useState('');
@@ -88,7 +89,8 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 	const [comments, setComments] = useState('');
 	const [cap, setCap] = useState(false);
 	const [planName, setPlanName] = useState('');
-	const [planCategory, setPlanCategory] = useState('Individual');
+	const [planCategory, setPlanCategory] = useState('');
+	const [nameCategory, setNameCategory] = useState('');
 	const [planType, setPlanType] = useState('');
 	const [premium, setPremium] = useState('');
 	const [indvidualLimit, setIndividualLimit] = useState('');
@@ -103,6 +105,10 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 	const [reqCopay, setReqCopay] = useState(false);
 	const [serviceClass, setServiceClass] = useState('');
 	const [reqAuthCode, setReqAuthCode] = useState(false);
+	const [premiumDuration, setPremiumDuration] = useState('');
+	const [premiumAmount, setPremiumAmount] = useState('');
+	const [premiumDetails, setPremiumDetails] = useState([]);
+	const [showPremium, setShowPremium] = useState(false);
 	const [serviceUnavailable, setServiceUnavailable] = useState({
 		status: false,
 		name: '',
@@ -206,11 +212,11 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 
 	// function to handle which service class is selected
 	const handleServType = async (e) => {
-		if (e.target.value === 'Capitation') {
+		if (e.target.value === 'Capitation' && e.target.checked) {
 			setCapitation(true);
 			setFeeforService(false);
 			setServiceClass(e.target.value);
-		} else {
+		} else if (e.target.value === 'Fee for Service' && e.target.checked) {
 			setCapitation(false);
 			setFeeforService(true);
 			setServiceClass(e.target.value);
@@ -259,12 +265,10 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 
 	//  function to handle change in the check
 	const handleCheck = async () => {
-		if (!categoryname) {
+		if (!planCategory) {
 			toast.warning('Enter Category!');
 			return true;
 		}
-		console.log('unavailb:', serviceUnavailable.name);
-		console.log('availb:', service.name);
 		const resp = await HealthPlanServ.find({
 			query: {
 				name: serviceUnavailable.name || service.name, //source
@@ -304,73 +308,35 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 		});
 	};
 	const handleClickProd = async () => {
-		// let pricingInfo = {
-		//   band,
-		//   costprice,
-		//   benefittingplans,
-		// };
-
-		// let productItemI = {
-		//   name: service.name,
-		//   categoryname,
-		//   comments,
-		//   pricingInfo,
-		// };
-		//  if (productItem.length>0){
-		//Check that fields are filled appropriately
-		// if (!costprice) {
-		//   toast.warning('You need to enter price ');
-		//   return;
-		// }
-
-		if (!service.name && !serviceUnavailable.name) {
-			toast.warning('You need to enter service name ');
+		if (!planCategory) {
+			toast.warning('You need to enter Category');
 			return;
 		}
-		if (!categoryname) {
-			toast.warning('You need to enter category ');
-			return;
-		}
-		if (band === '') {
+		if (band.length < 1) {
 			toast.warning('You need to choose provider band ');
 			return;
 		}
-		// if (!benefittingplans.length > 0) {
-		// 	toast.warning('You need to add benefiting plan ');
-
-		// 	return;
-		// }
-		let check = await handleCheck();
-		if (check) {
-			return;
-		}
 		let productItemI = {
-			source_org: user.currentEmployee.facilityDetail._id,
-			source_org_name: user.currentEmployee.facilityDetail.facilityName,
-			dest_org: user.currentEmployee.facilityDetail._id,
-			dest_org_name: user.currentEmployee.facilityDetail.facilityName,
-			// price: costprice,
 			billing_type:
 				user.currentEmployee.facilityDetail.facilityType === 'HMO'
 					? 'HMO'
 					: 'Company',
-			plans: [
-				{
-					capitation,
-					copay,
-					feeforService,
-					reqCopay,
-					serviceClass,
-					reqAuthCode,
-				},
-			],
+			plans: {
+				capitation: capitation,
+				copay,
+				feeforService: feeforService,
+				reqCopay,
+				reqAuthCode,
+			},
+			// category: planCategory,
+			category: planCategory,
 			comments: comments,
 			capitation: cap,
 			band: band,
-			service: service,
-			serviceName: serviceUnavailable.name || service.name,
-			serviceId: service._id || '',
-			category: categoryname,
+			// service: service,
+			// serviceName: serviceUnavailable.name || service.name,
+			// serviceId: service._id || '',
+			// category: categoryname,
 			frequency: frequency,
 			duration: duration,
 			limit: limit,
@@ -383,12 +349,12 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 		setProductItem([...productItem, productItemI]);
 
 		// setCostprice('');
-		setBand('');
+		setBand([]);
 		setBenefittingPlans([]);
 		setBenefittingPlans1([]);
 		setCapitation(false);
 		setCopay('');
-		setFeeforService('');
+		setFeeforService(false);
 		setReqCopay(false);
 		setServiceClass('');
 		setReqAuthCode(false);
@@ -402,31 +368,53 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 
 		// await setSuccess(true);
 	};
+	const addPremium = async () => {
+		if (!planType) {
+			toast.warning('You need to choose plan type');
+			return;
+		}
+		if (!premiumAmount) {
+			toast.warning('You need to enter premium');
+			return;
+		}
+		if (!premiumDuration) {
+			toast.warning('You need to enter premium duration');
+			return;
+		}
+		let premiumItemI = {
+			planType: planType,
+			premiumAmount: premiumAmount,
+			premiumDuration: premiumDuration,
+		};
+		console.log(premiumItemI);
+		setPremiumDetails([...premiumDetails, premiumItemI]);
+		setPlanType('');
+		setPremiumAmount('');
+		setPremiumDuration('');
+	};
+	const handleRemovePremium = (index, contract) => {
+		console.log(index, contract);
+		const newProductItem = premiumDetails.filter(
+			(ProductionItem, i) => i !== contract,
+		);
+		setPremiumDetails(newProductItem);
+		console.log(newProductItem);
+	};
 
 	const onSubmit = async () => {
 		// e.preventDefault();
-		let check = await handleCheck();
-		if (check) {
-			console.log(check);
-			return;
-		}
 		if (productItem.length >= 1) {
 			let data = {
 				organizationId: user.currentEmployee.facilityDetail._id,
 				organizationName: user.currentEmployee.facilityDetail.facilityName,
 				planName: planName,
-				premiums: [
-					{
-						individualPremium: individualPremium,
-						familyPremium: familyPremium,
-					},
-				],
-				planCategory: planCategory,
+				premiums: premiumDetails,
+				planCategory: nameCategory,
 				familyLimit: familyLimit,
-				indvidualLimit: indvidualLimit,
+				individualLimit: indvidualLimit,
 				providerNetwork: providerNetwork,
-				covrageArea: coverageArea,
-				contracts: productItem,
+				coverageArea: coverageArea,
+				benefits: productItem,
 			};
 			//  console.log(data)
 
@@ -458,67 +446,6 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 		getProviderBand();
 	}, []);
 
-	const tableData = [
-		{
-			service: 'Test Service',
-			description: 'lorem ipsum dolor sit amet',
-			fee: 'N20,000',
-			status: 'Covered',
-		},
-		{
-			service: 'Test Service',
-			description: 'lorem ipsum dolor sit amet',
-			fee: 'N20,000',
-			status: 'Covered',
-		},
-	];
-	const HealthPlanSchema = [
-		{
-			name: 'S/N',
-			key: 'sn',
-			description: 'SN',
-			selector: (row) => row.sn,
-			sortable: true,
-			inputType: 'HIDDEN',
-			width: '50px',
-		},
-		{
-			name: 'Service Name',
-			key: 'service',
-			description: 'service',
-			selector: (row) => row.service,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-		{
-			name: 'Description',
-			key: 'description',
-			description: 'Description',
-			selector: (row) => row.description,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-		{
-			name: 'Price',
-			key: 'fee',
-			description: 'Fee',
-			selector: (row) => row.fee,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-		{
-			name: 'Status',
-			key: 'status',
-			description: 'Status',
-			selector: (row) => row.status,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-	];
 	const productItemSchema = [
 		{
 			name: 'S/N',
@@ -531,10 +458,16 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 			width: '50px',
 		},
 		{
-			name: 'Service Name',
-			key: 'service',
-			description: 'Service Name',
-			selector: (row) => row?.serviceName,
+			name: 'Category',
+			key: 'category',
+			description: 'Category',
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					{row?.planCategory}
+				</Typography>
+			),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -543,19 +476,21 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 			name: 'Plan',
 			key: 'plan',
 			description: 'Plan',
-			selector: (row) =>
-				row?.plans?.map((plan, i) => (
-					<Typography
-						sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
-						data-tag='allowRowEvents'
-						key={i}>
-						<b>{plan?.serviceClass}</b>
-						<br />
-						<b>PreAuth?</b>: {plan?.reqAuthCode === true ? 'Yes' : 'No'}
-						<br />
-						<b>Co-Pay</b>: {plan.copay?.length > 0 ? `₦${plan?.copay}` : 'N/A'}
-					</Typography>
-				)),
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					<b>Capitation?</b>: {row?.plans?.capitation === true ? 'Yes' : 'No'}
+					<br />
+					<b>Free for Service?</b>:
+					{row?.plans?.feeforService === true ? 'Yes' : 'No'}
+					<br />
+					<b>PreAuth?</b>: {row?.plans?.reqAuthCode === true ? 'Yes' : 'No'}
+					<br />
+					<b>Co-Pay</b>:{' '}
+					{row?.plans?.copay !== '' ? `₦${row?.plans?.copay}` : 'N/A'}
+				</Typography>
+			),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -564,22 +499,15 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 			name: 'Band',
 			key: 'band',
 			description: 'Band',
-			selector: (row) => row?.band,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-		{
-			name: 'Category',
-			key: 'category',
-			description: 'Category',
-			selector: (row) => (
-				<Typography
-					sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
-					data-tag='allowRowEvents'>
-					{row?.category}
-				</Typography>
-			),
+			selector: (row) =>
+				row?.band.map((band, i) => (
+					<Typography
+						key={i}
+						sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
+						data-tag='allowRowEvents'>
+						{band}
+					</Typography>
+				)),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -681,7 +609,72 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 			inputType: 'NUMBER',
 		},
 	];
-	console.log(benefittingplans, productItem);
+
+	const premiumSchema = [
+		{
+			name: 'Premium Type',
+			key: 'premiumType',
+			description: 'Premium Type',
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					{row?.planType}
+				</Typography>
+			),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Premium Duration',
+			key: 'premiumDuration',
+			description: 'Premium Duration',
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					{row?.premiumDuration}
+				</Typography>
+			),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Premium Amount',
+			key: 'premiumAmount',
+			description: 'Premium Amount',
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					{row?.premiumAmount}
+				</Typography>
+			),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Del',
+			width: '50px',
+			center: true,
+			key: 'contact_email',
+			description: 'Enter Date',
+			selector: (i, row) => (
+				<IconButton
+					onClick={() => handleRemovePremium(i, row)}
+					color='error'>
+					<DeleteOutline fontSize='small' />
+				</IconButton>
+			),
+			sortable: true,
+			required: true,
+			inputType: 'NUMBER',
+		},
+	];
+	console.log('plan Category', planCategory);
 	return (
 		<>
 			<div
@@ -732,30 +725,13 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 							item
 							xs={12}
 							sm={4}>
-							<CustomSelect
-								name='planCategory'
-								label='Category'
-								options={[
-									{ value: 'Individual', label: 'Individual' },
-									{ value: 'Family', label: 'Family' },
-								]}
-								onChange={(e) => setPlanCategory(e.target.value)}
+							<SearchCategory2
+								selectedCategory={nameCategory}
+								setSelectedCategory={setNameCategory}
 							/>
 						</Grid>
-						{/* <Grid item xs={12} sm={4}>
-              <CustomSelect
-                name="planType"
-                label="Type"
-                options={[
-                  { value: 'Individual', label: 'Individual' },
-                  { value: 'Family', label: 'Family' },
-                  { value: 'Both', label: 'Both' },
-                ]}
-                onChange={(e) => setPlanType(e.target.value)}
-              />
-            </Grid> */}
 
-						<Grid
+						{/* <Grid
 							item
 							xs={12}
 							sm={4}>
@@ -775,7 +751,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 								label={'Family Amount'}
 								onChange={(e) => setFamilyPremium(e.target.value)}
 							/>
-						</Grid>
+						</Grid> */}
 
 						<Grid
 							item
@@ -822,6 +798,40 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 								label='Coverage Area'
 								onChange={(e) => setCoverageArea(e.target.value)}
 							/>
+						</Grid>
+						<Grid
+							item
+							xs={12}
+							sm={12}>
+							<Box
+								sx={{
+									display: 'flex',
+									justifyContent: 'space-between',
+									alignItems: 'center',
+									marginBottom: '1rem',
+								}}>
+								<FormsHeaderText text={'Premiums'} />
+								<GlobalCustomButton
+									type='button'
+									variant='contained'
+									color='primary'
+									onClick={() => setShowPremium(true)}
+									text='Add Premium'
+									customStyles={{ marginRight: '.8rem' }}
+								/>
+							</Box>
+							{premiumDetails?.length > 0 && (
+								<Box my={1}>
+									<CustomTable
+										title={''}
+										columns={premiumSchema}
+										data={premiumDetails}
+										pointerOnHover
+										highlightOnHover
+										striped
+									/>
+								</Box>
+							)}
 						</Grid>
 
 						<Grid
@@ -887,11 +897,15 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 											item
 											xs={12}
 											sm={6}>
-											<SearchSelect
+											{/* <SearchSelect
 												getSearchService={getSearchService}
 												placeholder='Search Service'
 												clear={successService}
 												notfound={notfound}
+											/> */}
+											<SearchCategory
+												selectedCategory={planCategory}
+												setSelectedCategory={setPlanCategory}
 											/>
 										</Grid>
 										{/* <Grid
@@ -908,32 +922,10 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 											item
 											xs={12}
 											sm={6}>
-											<select
-												name='bandType'
-												value={band}
-												onChange={(e) => handleChangeMode(e)}
-												className='selectadd'
-												style={{
-													border: '1px solid #b6b6b6',
-													height: '2.2rem',
-													borderRadius: '4px',
-													width: '100%',
-												}}>
-												<option value=''>
-													{user.currentEmployee.facilityDetail.facilityType ===
-													'HMO'
-														? 'Choose Provider Band'
-														: 'Choose Company Band'}{' '}
-												</option>
-												{providerBand.map((option, i) => (
-													<option
-														key={i}
-														value={option.name}>
-														{' '}
-														{option.name}
-													</option>
-												))}
-											</select>
+											<SelectBand
+												selectedBand={band}
+												setSelectedBand={setBand}
+											/>
 										</Grid>
 										<Grid
 											item
@@ -1069,6 +1061,70 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 													</Grid>
 												</Grid>
 											</Box>
+										</Grid>
+									</Grid>
+								</Box>
+							</ModalBox>
+						</>
+					)}
+					{showPremium && (
+						<>
+							<ModalBox
+								title='Premium'
+								open={showPremium}
+								onClose={() => setShowPremium(false)}>
+								<Box
+									style={{
+										width: '50vw',
+									}}>
+									<Grid
+										container
+										spacing={2}>
+										<Grid
+											item
+											xs={12}
+											sm={12}>
+											<GlobalCustomButton
+												onClick={addPremium}
+												text='Add'
+												color='primary'
+												variant='contained'
+												customStyles={{ float: 'right' }}
+											/>
+										</Grid>
+										<Grid
+											item
+											xs={12}
+											sm={4}>
+											<CustomSelect
+												name='planType'
+												label='Plan Type'
+												options={[
+													{ value: 'Individual', label: 'Individual' },
+													{ value: 'Family', label: 'Family' },
+												]}
+												onChange={(e) => setPlanType(e.target.value)}
+											/>
+										</Grid>
+										<Grid
+											item
+											xs={12}
+											sm={4}>
+											<Input
+												name='premiumDuration'
+												label='Premium Duration'
+												onChange={(e) => setPremiumDuration(e.target.value)}
+											/>
+										</Grid>
+										<Grid
+											item
+											xs={12}
+											sm={4}>
+											<Input
+												name='premiumAmount'
+												label='Premium'
+												onChange={(e) => setPremiumAmount(e.target.value)}
+											/>
 										</Grid>
 									</Grid>
 								</Box>
@@ -1307,7 +1363,10 @@ export function HealthPlanList({
 			name: 'Family Amount',
 			key: 'premium',
 			description: 'Family Annual',
-			selector: (row) => row.premiums?.map((item) => `₦${item?.familyPremium}`),
+			selector: (row) =>
+				row?.premiums?.map(
+					(item) => item.planType === 'Family' && `₦${item?.premiumAmount}`,
+				),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -1317,7 +1376,9 @@ export function HealthPlanList({
 			key: 'premium',
 			description: 'Individual Annual',
 			selector: (row) =>
-				row.premiums?.map((item) => `₦${item?.individualPremium}`),
+				row?.premiums?.map(
+					(item) => item.planType === 'Individual' && `₦${item?.premiumAmount}`,
+				),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -1336,7 +1397,14 @@ export function HealthPlanList({
 			key: 'coverage_area',
 			description: 'Coverage Area',
 			selector: 'status',
-			cell: (row) => row?.covrageArea?.map((item) => item),
+			cell: (row) =>
+				row?.coverageArea?.map((item) => (
+					<Typography
+						sx={{ fontSize: '0.75rem', whiteSpace: 'normal' }}
+						data-tag='allowRowEvents'>
+						{item}
+					</Typography>
+				)),
 			sortable: true,
 			required: true,
 
@@ -1414,45 +1482,6 @@ export function HealthPlanDetails({
 			width: '50px',
 		},
 		{
-			name: 'Service Name',
-			key: 'service',
-			description: 'Service Name',
-			selector: (row) => row?.serviceName,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-		{
-			name: 'Plan',
-			key: 'plan',
-			description: 'Plan',
-			selector: (row) =>
-				row?.plans.map((plan, i) => (
-					<Typography
-						sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
-						data-tag='allowRowEvents'
-						key={i}>
-						<b>{plan.name}</b>: {plan.serviceClass}
-						<br />
-						<b>PreAuth?</b>: {plan.reqAuthCode === true ? 'Yes' : 'No'}
-						<br />
-						<b>Co-Pay</b>: {plan.copay.length > 0 ? `₦${plan.copay}` : 'N/A'}
-					</Typography>
-				)),
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-		{
-			name: 'Band',
-			key: 'band',
-			description: 'Band',
-			selector: (row) => row?.band,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-		{
 			name: 'Category',
 			key: 'category',
 			description: 'Category',
@@ -1463,6 +1492,46 @@ export function HealthPlanDetails({
 					{row?.category}
 				</Typography>
 			),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Plan',
+			key: 'plan',
+			description: 'Plan',
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					<b>Capitation?</b>: {row?.plans?.capitation === true ? 'Yes' : 'No'}
+					<br />
+					<b>Free for Service?</b>:
+					{row?.plans?.feeforService === true ? 'Yes' : 'No'}
+					<br />
+					<b>PreAuth?</b>: {row?.plans?.reqAuthCode === true ? 'Yes' : 'No'}
+					<br />
+					<b>Co-Pay</b>:{' '}
+					{row?.plans?.copay !== '' ? `₦${row?.plans?.copay}` : 'N/A'}
+				</Typography>
+			),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Band',
+			key: 'band',
+			description: 'Band',
+			selector: (row) =>
+				row?.band.map((band, i) => (
+					<Typography
+						key={i}
+						sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
+						data-tag='allowRowEvents'>
+						{band}
+					</Typography>
+				)),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -1546,7 +1615,7 @@ export function HealthPlanDetails({
 			inputType: 'TEXT',
 		},
 	];
-
+	console.log('selected', selectedPlan);
 	return (
 		<>
 			<div
@@ -1557,16 +1626,22 @@ export function HealthPlanDetails({
 					width: '98%',
 					margin: '0 auto',
 				}}>
-				<Box
-					sx={{ display: 'flex', justifyContent: 'space-between' }}
-					my={1}>
-					<FormsHeaderText text={selectedPlan?.planName} />
-					<GlobalCustomButton
-						text='Back'
-						color='warning'
-						onClick={() => setShowModal(0)}
-					/>
-				</Box>
+				<Grid
+					container
+					spacing={2}
+					mb={1}>
+					<Grid
+						item
+						xs={12}
+						sm={12}>
+						<GlobalCustomButton
+							text='Back'
+							color='warning'
+							onClick={() => setShowModal(0)}
+							customStyles={{ float: 'right' }}
+						/>
+					</Grid>
+				</Grid>
 				{!standAlone && (
 					<div style={{ backgroundColor: '#EBEBEB', padding: '.5rem 1rem' }}>
 						<FormsHeaderText text={`Health Plan: ${selectedPlan?.planName}`} />
@@ -1634,10 +1709,7 @@ export function HealthPlanDetails({
 							<Grid
 								item
 								xs={4}>
-								<p>
-									Name of Plan:
-									{selectedPlan?.planName}
-								</p>
+								<p>Plan Name: {selectedPlan?.planName}</p>
 							</Grid>
 							{/* <Grid item xs={4}>
               <p>Plan Type: Test Plan</p>
@@ -1645,10 +1717,12 @@ export function HealthPlanDetails({
 							<Grid
 								item
 								xs={4}>
-								<p>
-									Plan Category:
-									{selectedPlan?.planCategory}
-								</p>
+								<p>Plan Category: {selectedPlan?.planCategory}</p>
+							</Grid>
+							<Grid
+								item
+								xs={4}>
+								<p>Provider Network: {selectedPlan?.providerNetwork[0]}</p>
 							</Grid>
 							{/* <Grid item xs={4}>
               <p>Premium Amount: 20,000</p>
@@ -1657,28 +1731,67 @@ export function HealthPlanDetails({
 								item
 								xs={4}>
 								<p>
-									Premium per Person per Annum : ₦
-									{selectedPlan?.premiums[0]?.individualPremium}
+									Individual Premium: ₦
+									{selectedPlan?.premiums.map((item) => {
+										if (item?.planType === 'Individual') {
+											return item?.premiumAmount;
+										}
+									})}
 								</p>
 							</Grid>
 							<Grid
 								item
 								xs={4}>
 								<p>
-									Premium per Family per Annum : ₦
-									{selectedPlan?.premiums[0]?.familyPremium}
+									Individual Duration: ₦
+									{selectedPlan?.premiums.map((item) => {
+										if (item?.planType === 'Individual') {
+											return item?.premiumDuration;
+										}
+									})}
 								</p>
 							</Grid>
 							<Grid
 								item
 								xs={4}>
-								<p>Provider Network: {selectedPlan?.providerNetwork[0]}</p>
+								<p>Individual Limit: ₦{selectedPlan?.individualLimit}</p>
 							</Grid>
 							<Grid
 								item
 								xs={4}>
 								<p>
-									Coverage Area: {selectedPlan?.covrageArea.map((item) => item)}
+									Family Premium: ₦
+									{selectedPlan?.premiums.map((item) => {
+										if (item?.planType === 'Family') {
+											return item?.premiumAmount;
+										}
+									})}
+								</p>
+							</Grid>
+
+							<Grid
+								item
+								xs={4}>
+								<p>
+									Family Duration: ₦
+									{selectedPlan?.premiums.map((item) => {
+										if (item?.planType === 'Family') {
+											return item?.premiumDuration;
+										}
+									})}
+								</p>
+							</Grid>
+							<Grid
+								item
+								xs={4}>
+								<p>Family Limit: ₦{selectedPlan?.familyLimit}</p>
+							</Grid>
+							<Grid
+								item
+								xs={4}>
+								<p>
+									Coverage Area:{' '}
+									{selectedPlan?.coverageArea?.map((item) => item)}
 								</p>
 							</Grid>
 						</Grid>
@@ -1695,7 +1808,7 @@ export function HealthPlanDetails({
 					<CustomTable
 						tableData={''}
 						columns={productItemSchema}
-						data={selectedPlan?.contracts}
+						data={selectedPlan?.benefits}
 						pointerOnHover
 						highlightOnHover
 						striped

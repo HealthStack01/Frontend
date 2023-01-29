@@ -6,6 +6,7 @@ import {ObjectContext, UserContext} from "../../context";
 import MenuItem from "../menuitem";
 import {Lists} from "../menuitem/style";
 import {MainMenu, Sidemenu, TopSection} from "./styles";
+import {facilityTypes} from "../../hsmodules/app/facility-types";
 
 export const menuItems = [
   {
@@ -238,10 +239,10 @@ export const menuItems = [
       {name: "Complaints", to: "/app/managed-care/complaints"},
       {name: "HIA", to: "/app/managed-care/HIA"},
       {name: "Premiums", to: "/app/managed-care/premiums"},
-      {
-        name: "Organisation",
-        to: "/app/managed-care/organisation",
-      },
+      // {
+      //   name: "Organisation",
+      //   to: "/app/managed-care/organisation",
+      // },
       {name: "Referrals", to: "/app/managed-care/referrals"},
       {name: "Tariff", to: "/app/managed-care/tariff"},
       {name: "Claims", to: "/app/managed-care/claims"},
@@ -284,7 +285,7 @@ export const menuItems = [
     exact: true,
     to: "/app/complaints",
     iconClassName: "bi bi-person",
-    subMenus: [{name: "Complaints", to: "/app/complaints"}],
+    //subMenus: [{name: "Complaints", to: "/app/complaints"}],
   },
   {
     name: "Referral",
@@ -327,6 +328,20 @@ export const menuItems = [
       {name: "Read", to: "/app/patient-portal/read"},
       {name: "Chat", to: "/app/patient-portal/chat"},
     ],
+  },
+  {
+    name: "Organizations",
+    exact: true,
+    to: "/app/organizations",
+    iconClassName: "bi bi-person",
+    // subMenus: [
+    //   {name: "Profile", to: "/app/patient-portal/profile"},
+    //   {name: "View", to: "/app/patient-portal/view"},
+    //   {name: "Buy", to: "/app/patient-portal/buy"},
+    //   {name: "Search", to: "/app/patient-portal/search"},
+    //   {name: "Read", to: "/app/patient-portal/read"},
+    //   {name: "Chat", to: "/app/patient-portal/chat"},
+    // ],
   },
   {
     name: "Market Place",
@@ -381,6 +396,11 @@ function SideMenu({isOpen}) {
   const {user} = useContext(UserContext);
   const navigate = useNavigate();
 
+  // console.log(
+  //   "this is the user account ohhhhh",
+  //   user.currentEmployee.facilityDetail
+  // );
+
   useEffect(() => {
     if (inactive) {
       document.querySelectorAll(".sub-menu");
@@ -409,10 +429,15 @@ function SideMenu({isOpen}) {
     user?.currentEmployee?.facilityDetail?.facilityModules || [];
 
   const facilitySortedMenuItems =
-    facilityModules &&
+    // facilityModules &&
+    // facilityModules.legnth > 0 &&
     sortedMenuItems.filter(item => facilityModules.includes(item.name));
 
-  const getFacilitySortedMenuItems = facilitySortedMenuItems || sortedMenuItems;
+  //console.log(facilitySortedMenuItems);
+
+  const getFacilitySortedMenuItems =
+    facilitySortedMenuItems ||
+    sortedMenuItems.filter(item => item.name === "Admin");
 
   const rolesMenuList = isOrgAdmin
     ? getFacilitySortedMenuItems

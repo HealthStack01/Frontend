@@ -51,14 +51,11 @@ const AppointmentList = ({openCreateModal, openDetailModal, isTab}) => {
       const testId = "60203e1c1ec8a00015baa357";
       const facId = user.currentEmployee.facilityDetail_id;
 
-      const res =
-        testId === facId
-          ? await dealServer.find({})
-          : await dealServer.find({
-              query: {
-                facilityId: facId,
-              },
-            });
+      const res = await dealServer.find({
+        query: {
+          facilityId: facId,
+        },
+      });
 
       const deals = res.data;
 

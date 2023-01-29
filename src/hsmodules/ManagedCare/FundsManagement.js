@@ -1,12 +1,8 @@
 /* eslint-disable */
 import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Route, useNavigate, Link, NavLink } from 'react-router-dom';
 import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
-//import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
 import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
 import 'react-datepicker/dist/react-datepicker.css';
 import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
@@ -15,16 +11,15 @@ import { PageWrapper } from '../../ui/styled/styles';
 import { TableMenu } from '../../ui/styled/global';
 import FilterMenu from '../../components/utilities/FilterMenu';
 import CustomTable from '../../components/customtable';
-import CalendarGrid from '../../components/calender';
 import ModalBox from '../../components/modal';
 import { Box, Grid, Typography } from '@mui/material';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
 import { FormsHeaderText } from '../../components/texts';
 import Input from '../../components/inputs/basic/Input';
 import TextArea from '../../components/inputs/basic/Textarea';
-
-// eslint-disable-next-line
-const searchfacility = {};
+import { toast, ToastContainer } from 'react-toastify';
+import { MdOutlineUpdate, MdEdit } from 'react-icons/md';
+import CreateIcon from '@mui/icons-material/Create';
 
 export default function FundsManagement() {
 	const [currentView, setCurrentView] = useState('list');
@@ -62,214 +57,40 @@ export default function FundsManagement() {
 	);
 }
 
-export function FundsManagementCreate({ showModal, setShowModal }) {
+export function FundsManagementCreate() {
 	const { state, setState } = useContext(ObjectContext);
-	const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
-	const [error, setError] = useState(false);
-	const [success, setSuccess] = useState(false);
-	const [success1, setSuccess1] = useState(false);
-	const [success2, setSuccess2] = useState(false);
-	const [message, setMessage] = useState('');
-	const [clientId, setClientId] = useState();
-	const [locationId, setLocationId] = useState();
-	const [practionerId, setPractionerId] = useState();
-	const [type, setType] = useState();
-	// eslint-disable-next-line
-	const [facility, setFacility] = useState();
-	const ClientServ = client.service('appointments');
-	//const navigate=useNavigate()
-	const { user } = useContext(UserContext); //,setUser
-	// eslint-disable-next-line
-	const [currentUser, setCurrentUser] = useState();
-	const [selectedClient, setSelectedClient] = useState();
-	const [selectedAppointment, setSelectedAppointment] = useState();
-	// const [appointment_reason,setAppointment_reason]= useState()
-	const [appointment_status, setAppointment_status] = useState('');
-	const [appointment_type, setAppointment_type] = useState('');
-	const [billingModal, setBillingModal] = useState(false);
-
-	const [chosen, setChosen] = useState();
-	const [chosen1, setChosen1] = useState();
-	const [chosen2, setChosen2] = useState();
-	const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
-	const [accountType, setAccountType] = useState();
-
-	let appointee; //  =state.ClientModule.selectedClient
-	/*  const getSearchfacility=(obj)=>{
-        setValue("facility", obj._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        })
-    } */
-	const handleChangeType = async (e) => {
-		await setAppointment_type(e.target.value);
-	};
-
-	const handleChangeStatus = async (e) => {
-		await setAppointment_status(e.target.value);
-	};
-
-	const getSearchfacility = (obj) => {
-		setClientId(obj._id);
-		setChosen(obj);
-		//handleRow(obj)
-		if (!obj) {
-			//"clear stuff"
-			setClientId();
-			setChosen();
-		}
-
-		/*  setValue("facility", obj._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        }) */
-	};
-	const getSearchfacility1 = (obj) => {
-		setLocationId(obj._id);
-		setChosen1(obj);
-
-		if (!obj) {
-			//"clear stuff"
-			setLocationId();
-			setChosen1();
-		}
-	};
-	const getSearchfacility2 = (obj) => {
-		setPractionerId(obj._id);
-		setChosen2(obj);
-
-		if (!obj) {
-			//"clear stuff"
-			setPractionerId();
-			setChosen2();
-		}
-	};
-
-	useEffect(() => {
-		setCurrentUser(user);
-		//console.log(currentUser)
-		return () => {};
-	}, [user]);
-
-	//check user for facility or get list of facility
-	useEffect(() => {
-		//setFacility(user.activeClient.FacilityId)//
-		if (!user.stacker) {
-			/*    console.log(currentUser)
-        setValue("facility", user.currentEmployee.facilityDetail._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        })  */
-		}
-	});
+	const { register, handleSubmit, setValue, reset } = useForm();
+	const FundMgtServ = client.service('fundmgt');
+	const { user } = useContext(UserContext);
 
 	const onSubmit = (data, e) => {
 		e.preventDefault();
-		setMessage('');
-		setError(false);
-		setSuccess(false);
-		setShowModal(false),
-			setState((prevstate) => ({
-				...prevstate,
-				AppointmentModule: {
-					selectedAppointment: {},
-					show: 'list',
-				},
-			}));
 
-		// data.createdby=user._id
-		console.log(data);
-		if (user.currentEmployee) {
-			data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
-		}
-		data.locationId = locationId; //state.ClinicModule.selectedClinic._id
-		data.practitionerId = practionerId;
-		data.appointment_type = appointment_type;
-		// data.appointment_reason=appointment_reason
-		data.appointment_status = appointment_status;
-		data.clientId = clientId;
-		data.firstname = chosen.firstname;
-		data.middlename = chosen.middlename;
-		data.lastname = chosen.lastname;
-		data.dob = chosen.dob;
-		data.gender = chosen.gender;
-		data.phone = chosen.phone;
-		data.email = chosen.email;
-		data.practitioner_name = chosen2.firstname + ' ' + chosen2.lastname;
-		data.practitioner_profession = chosen2.profession;
-		data.practitioner_department = chosen2.department;
-		data.location_name = chosen1.name;
-		data.location_type = chosen1.locationType;
-		data.actions = [
-			{
-				action: appointment_status,
-				actor: user.currentEmployee._id,
-			},
-		];
-		console.log(data);
+		data.organizationId = user.currentEmployee.facilityDetail._id;
+		data.organizationName = user.currentEmployee.facilityDetail.facilityName;
+		data.bank = data.bankName;
+		data.accountType = data.accountType;
+		data.accountNumber = data.accountNumber;
+		data.sortcode = data.sortCode;
+		data.description = data.description;
+		data.currentBalance = data.currentBalance;
+		data.Transactions = data.transactions;
 
-		ClientServ.create(data)
+		FundMgtServ.create(data)
 			.then((res) => {
-				//console.log(JSON.stringify(res))
-				e.target.reset();
-				setAppointment_type('');
-				setAppointment_status('');
-				setClientId('');
-				setLocationId('');
-				/*  setMessage("Created Client successfully") */
-				setSuccess(true);
-				setSuccess1(true);
-				setSuccess2(true);
-				toast({
-					message:
-						'Appointment created succesfully, Kindly bill patient if required',
-					type: 'is-success',
-					dismissible: true,
-					pauseOnHover: true,
-				});
-				setSuccess(false);
-				setSuccess1(false);
-				setSuccess2(false);
-				// showBilling()
+				toast.success(`Fund successfully created`);
+				console.log(res);
+				reset();
 			})
 			.catch((err) => {
-				toast({
-					message: 'Error creating Appointment ' + err,
-					type: 'is-danger',
-					dismissible: true,
-					pauseOnHover: true,
-				});
+				toast(`Error creating fund management, ${err}`);
+				console.log(err);
 			});
 	};
 
-	useEffect(() => {
-		getSearchfacility(state.ClientModule.selectedClient);
-
-		/* appointee=state.ClientModule.selectedClient 
-        console.log(appointee.firstname) */
-		return () => {};
-	}, [state.ClientModule.selectedClient]);
-
-	/*   const showBilling = () =>{
-        setBillingModal(true)
-       //history.push('/app/finance/billservice')
-        }
-        const  handlecloseModal1 = () =>{
-            setBillingModal(false)
-            }
-
-
-            const handleRow= async(Client)=>{
-              //  await setSelectedClient(Client)
-                const    newClientModule={
-                    selectedClient:Client,
-                    show :'detail'
-                }
-               await setState((prevstate)=>({...prevstate, ClientModule:newClientModule}))
-            } */
-
 	return (
 		<>
+			<ToastContainer theme='colored' />
 			<div className='card '>
 				<Box
 					sx={{
@@ -277,7 +98,7 @@ export function FundsManagementCreate({ showModal, setShowModal }) {
 						justifyContent: 'flex-end',
 						alignItems: 'center',
 					}}>
-					<GlobalCustomButton>
+					<GlobalCustomButton onClick={handleSubmit(onSubmit)}>
 						<AddCircleOutline
 							sx={{ marginRight: '5px' }}
 							fontSize='small'
@@ -293,30 +114,78 @@ export function FundsManagementCreate({ showModal, setShowModal }) {
 						item
 						xs={12}
 						md={6}>
-						<Input label='Account Name' />
+						<Input
+							label='Organisation Name'
+							name='organizationName'
+							defaultValue={user.currentEmployee.facilityDetail.facilityName}
+							register={register('organizationName', { required: true })}
+							type='text'
+						/>
 					</Grid>
 					<Grid
 						item
 						xs={12}
 						md={6}>
-						<Input label='Bank Name' />
+						<Input
+							label='Account Number'
+							name='accountNumber'
+							register={register('accountNumber', { required: true })}
+							type='text'
+						/>
 					</Grid>
 					<Grid
 						item
 						xs={12}
 						md={6}>
-						<Input label='Account Type' />
+						<Input
+							label='Bank Name'
+							name='bankName'
+							register={register('bankName', { required: true })}
+							type='text'
+						/>
 					</Grid>
 					<Grid
 						item
 						xs={12}
 						md={6}>
-						<Input label='Current Balance' />
+						<Input
+							label='Account Type'
+							name='accountType'
+							register={register('accountType', { required: true })}
+							type='text'
+						/>
+					</Grid>
+					<Grid
+						item
+						xs={12}
+						md={6}>
+						<Input
+							label='Current Balance'
+							name='currentBalance'
+							register={register('currentBalance', { required: true })}
+							type='text'
+						/>
+					</Grid>
+					<Grid
+						item
+						xs={12}
+						md={6}>
+						<Input
+							label='Sort Code'
+							name='sortCode'
+							register={register('sortCode', { required: true })}
+							type='text'
+						/>
 					</Grid>
 					<Grid
 						item
 						xs={12}>
-						<TextArea label='Description' />
+						<TextArea
+							label='Description'
+							name='description'
+							register={register('description', { required: true })}
+							type='text'
+						/>
 					</Grid>
 				</Grid>
 			</div>
@@ -325,299 +194,105 @@ export function FundsManagementCreate({ showModal, setShowModal }) {
 }
 
 export function FundsManagementList({ showTransactions, showCreateModal }) {
-	// const { register, handleSubmit, watch, errors } = useForm();
-	// eslint-disable-next-line
-	const [error, setError] = useState(false);
-	// eslint-disable-next-line
-	const [success, setSuccess] = useState(false);
-	// eslint-disable-next-line
-	const [message, setMessage] = useState('');
-	const ClientServ = client.service('appointments');
-	//const navigate=useNavigate()
-	// const {user,setUser} = useContext(UserContext)
-	const [facilities, setFacilities] = useState([]);
-	// eslint-disable-next-line
-	const [selectedClient, setSelectedClient] = useState(); //
-	// eslint-disable-next-line
 	const { state, setState } = useContext(ObjectContext);
-	// eslint-disable-next-line
-	const { user, setUser } = useContext(UserContext);
-	const [startDate, setStartDate] = useState(new Date());
-	const [selectedAppointment, setSelectedAppointment] = useState();
+	const FundMgtServ = client.service('fundmgt');
+	const [fundmgts, setFundmgts] = useState([]);
 	const [loading, setLoading] = useState(false);
-	const [value, setValue] = useState('list');
+	const { user } = useContext(UserContext);
+	const [selectedFundMgt, setSelectedFundMgt] = useState();
 
 	const handleCreateNew = async () => {
 		showCreateModal();
 	};
-	// 	const newClientModule = {
-	// 		selectedAppointment: {},
-	// 		show: 'create',
-	// 	};
-	// 	await setState((prevstate) => ({
-	// 		...prevstate,
-	// 		AppointmentModule: newClientModule,
-	// 	}));
-	// 	//console.log(state)
-	// 	const newClient = {
-	// 		selectedClient: {},
-	// 		show: 'create',
-	// 	};
-	// 	await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
-	// 	setShowModal(1);
-	// };
 
-	const handleRow = async (Client) => {
-		await setSelectedAppointment(Client);
-		const newClientModule = {
-			selectedAppointment: Client,
+	const handleRow = async (FundMgt) => {
+		await setSelectedFundMgt(FundMgt);
+
+		const newFundMgtModule = {
+			selectedEpid: FundMgt,
 			show: 'detail',
 		};
 		await setState((prevstate) => ({
 			...prevstate,
-			AppointmentModule: newClientModule,
+			ManagedCareModule: newFundMgtModule,
 		}));
+		// console.log(newFundMgtModule);
 		showTransactions();
 	};
-	//console.log(state.employeeLocation)
 
 	const handleSearch = (val) => {
-		const field = 'firstname';
-		//  console.log(val)
-
-		let query = {
-			$or: [
-				{
-					firstname: {
-						$regex: val,
-						$options: 'i',
-					},
+		// const field = '';
+		// console.log(val);
+		FundMgtServ.find({
+			query: {
+				[field]: {
+					$regex: val,
+					$options: 'i',
 				},
-				{
-					lastname: {
-						$regex: val,
-						$options: 'i',
-					},
+				organizationId: user.currentEmployee.facilityDetail._id || '',
+				$limit: 50,
+				$sort: {
+					createdAt: -1,
 				},
-				{
-					middlename: {
-						$regex: val,
-						$options: 'i',
-					},
-				},
-				{
-					phone: {
-						$regex: val,
-						$options: 'i',
-					},
-				},
-				{
-					appointment_type: {
-						$regex: val,
-						$options: 'i',
-					},
-				},
-				{
-					appointment_status: {
-						$regex: val,
-						$options: 'i',
-					},
-				},
-				{
-					appointment_reason: {
-						$regex: val,
-						$options: 'i',
-					},
-				},
-				{
-					location_type: {
-						$regex: val,
-						$options: 'i',
-					},
-				},
-				{
-					location_name: {
-						$regex: val,
-						$options: 'i',
-					},
-				},
-				{
-					practitioner_department: {
-						$regex: val,
-						$options: 'i',
-					},
-				},
-				{
-					practitioner_profession: {
-						$regex: val,
-						$options: 'i',
-					},
-				},
-				{
-					practitioner_name: {
-						$regex: val,
-						$options: 'i',
-					},
-				},
-			],
-			facility: user.currentEmployee.facilityDetail._id, // || "",
-			$limit: 20,
-			$sort: {
-				createdAt: -1,
 			},
-		};
-		if (state.employeeLocation.locationType !== 'Front Desk') {
-			query.locationId = state.employeeLocation.locationId;
-		}
-
-		ClientServ.find({ query: query })
+		})
 			.then((res) => {
-				console.log(res);
-				setFacilities(res.data);
-				setMessage(' Client  fetched successfully');
-				setSuccess(true);
+				// console.log(res);
+				setFundmgts(res.data);
+				// setMessage(' Case Definition  fetched successfully');
+				// setSuccess(true);
 			})
 			.catch((err) => {
-				console.log(err);
-				setMessage('Error fetching Client, probable network issues ' + err);
-				setError(true);
+				// console.log(err);
+				// setMessage('Error fetching Case Definition, probable network issues ' + err);
+				// setError(true);
 			});
 	};
 
 	const getFacilities = async () => {
-		console.log(user);
+		setLoading(true);
 		if (user.currentEmployee) {
-			let stuff = {
-				facility: user.currentEmployee.facilityDetail._id,
-				// locationId:state.employeeLocation.locationId,
-				$limit: 100,
-				$sort: {
-					createdAt: -1,
+			const findFundMgt = await FundMgtServ.find({
+				query: {
+					organizationId: user.currentEmployee.facilityDetail._id,
+					$limit: 50,
+					$sort: {
+						createdAt: -1,
+					},
 				},
-			};
-			// if (state.employeeLocation.locationType !== "Front Desk") {
-			//   stuff.locationId = state.employeeLocation.locationId;
-			// }
+			});
 
-			const findClient = await ClientServ.find({ query: stuff });
-
-			await setFacilities(findClient.data);
-			console.log(findClient.data);
+			await setFundmgts(findFundMgt.data);
+			setLoading(false);
 		} else {
 			if (user.stacker) {
-				const findClient = await ClientServ.find({
+				const findFundMgt = await FundMgtServ.find({
 					query: {
-						$limit: 100,
+						$limit: 50,
 						$sort: {
-							createdAt: -1,
+							facility: -1,
 						},
 					},
 				});
 
-				await setFacilities(findClient.data);
+				await setFundmgts(findFundMgt.data);
+				setLoading(false);
 			}
 		}
 	};
 
 	useEffect(() => {
-		if (user) {
-			handleCalendarClose();
-		} else {
-			/* const localUser= localStorage.getItem("user")
-                    const user1=JSON.parse(localUser)
-                    console.log(localUser)
-                    console.log(user1)
-                    fetchUser(user1)
-                    console.log(user)
-                    getFacilities(user) */
-		}
-		ClientServ.on('created', (obj) => handleCalendarClose());
-		ClientServ.on('updated', (obj) => handleCalendarClose());
-		ClientServ.on('patched', (obj) => handleCalendarClose());
-		ClientServ.on('removed', (obj) => handleCalendarClose());
-		const newClient = {
-			selectedClient: {},
-			show: 'create',
-		};
-		setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+		// if (user) {
+		getFacilities();
+		// } else {
+
+		// }
+		FundMgtServ.on('created', (obj) => getFacilities());
+		FundMgtServ.on('updated', (obj) => getFacilities());
+		FundMgtServ.on('patched', (obj) => getFacilities());
+		FundMgtServ.on('removed', (obj) => getFacilities());
 		return () => {};
 	}, []);
-	const handleCalendarClose = async () => {
-		let query = {
-			start_time: {
-				$gt: subDays(startDate, 1),
-				$lt: addDays(startDate, 1),
-			},
-			facility: user.currentEmployee.facilityDetail._id,
-
-			$limit: 100,
-			$sort: {
-				createdAt: -1,
-			},
-		};
-		// if (state.employeeLocation.locationType !== "Front Desk") {
-		//   query.locationId = state.employeeLocation.locationId;
-		// }
-
-		const findClient = await ClientServ.find({ query: query });
-
-		await setFacilities(findClient.data);
-	};
-
-	const handleDate = async (date) => {
-		setStartDate(date);
-	};
-
-	useEffect(() => {
-		if (!!startDate) {
-			handleCalendarClose();
-		} else {
-			getFacilities();
-		}
-
-		return () => {};
-	}, [startDate]);
-	//todo: pagination and vertical scroll bar
-
-	const onRowClicked = () => {};
-
-	const mapFacilities = () => {
-		let mapped = [];
-		facilities.map((facility, i) => {
-			mapped.push({
-				title: facility?.firstname + ' ' + facility?.lastname,
-				start: format(new Date(facility?.start_time), 'yyyy-MM-ddTHH:mm'),
-				end: facility?.end_time,
-				id: i,
-			});
-		});
-		return mapped;
-	};
-
-	const activeStyle = {
-		backgroundColor: '#0064CC29',
-		border: 'none',
-		padding: '0 .8rem',
-	};
-
-	const dummyData = [
-		{
-			s_n: 'S/N',
-			accountname: 'Amodu Kehinde',
-			bankname: 'First Bank',
-			fundtype: 'Cash',
-			currentbalance: '5000000',
-			description: 'Because when the stock market fell apart in 2008',
-		},
-		{
-			s_n: 'S/N',
-			accountname: 'Olaniyan Suleimon',
-			bankname: 'First Bank',
-			fundtype: 'Cash',
-			currentbalance: '5000000',
-			description: 'Because when the stock market fell apart in 2008',
-		},
-	];
 
 	const FundsManagementSchema = [
 		{
@@ -633,7 +308,7 @@ export function FundsManagementList({ showTransactions, showCreateModal }) {
 			name: 'Account Name',
 			key: 'accountname',
 			description: 'Enter Account Name',
-			selector: (row) => row.accountname,
+			selector: (row) => row.organizationName,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -642,7 +317,16 @@ export function FundsManagementList({ showTransactions, showCreateModal }) {
 			name: 'Bank Name',
 			key: 'bankname',
 			description: 'Enter Bank Name',
-			selector: (row) => row.bankname,
+			selector: (row) => row.bank,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Account Number',
+			key: 'accountNumber',
+			description: 'Enter Account Number',
+			selector: (row) => row.accountNumber,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -651,7 +335,16 @@ export function FundsManagementList({ showTransactions, showCreateModal }) {
 			name: 'Account Type',
 			key: 'fundtype',
 			description: 'Enter Account Type',
-			selector: (row) => row.fundtype,
+			selector: (row) => row.accountType,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Sort Code',
+			key: 'sortcode',
+			description: 'Enter Sort Code',
+			selector: (row) => row.sortcode,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -660,7 +353,7 @@ export function FundsManagementList({ showTransactions, showCreateModal }) {
 			name: 'Current Balance',
 			key: 'currentbalance',
 			description: 'Enter Current Balance',
-			selector: (row) => row.currentbalance,
+			selector: (row) => row.currentBalance,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -706,21 +399,17 @@ export function FundsManagementList({ showTransactions, showCreateModal }) {
 								)}
 							</TableMenu>
 							<div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-								{value === 'list' ? (
-									<CustomTable
-										title={''}
-										columns={FundsManagementSchema}
-										data={dummyData}
-										pointerOnHover
-										highlightOnHover
-										striped
-										onRowClicked={handleRow}
-										progressPending={loading}
-										//conditionalRowStyles={conditionalRowStyles}
-									/>
-								) : (
-									<CalendarGrid appointments={mapFacilities()} />
-								)}
+								<CustomTable
+									title={''}
+									columns={FundsManagementSchema}
+									data={fundmgts}
+									pointerOnHover
+									highlightOnHover
+									striped
+									onRowClicked={handleRow}
+									progressPending={loading}
+									//conditionalRowStyles={conditionalRowStyles}
+								/>
 							</div>
 						</PageWrapper>
 					</div>
@@ -733,17 +422,34 @@ export function FundsManagementList({ showTransactions, showCreateModal }) {
 }
 
 export function FundsManagementDetails({ handleGoBack, isModal }) {
+	const [editing, setEditing] = useState(false);
+	const { register, control, handleSubmit } = useForm();
+	const { state, setState } = useContext(ObjectContext);
+	const FundMgtServ = client.service('fundmgt');
+
+	const fundmgt = state.ManagedCareModule.selectedEpid;
+
+	const onSubmit = async (data) => {
+		data.organizationId = fundmgt.organizationId;
+		data.bank = data.bankName;
+		data.sortcode = data.sortCode;
+
+		await FundMgtServ.patch(fundmgt._id, data)
+			.then((res) => {
+				// console.log(res);
+				toast('fund management updated succesfully');
+			})
+			.catch((err) => {
+				// console.log(err);
+				toast(
+					`Error updating fund management, probable network issues or ${err}`,
+				);
+			});
+	};
+
 	return (
 		<>
-			<Box
-				sx={{
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'space-between',
-					borderBottom: '1px solid #f8f8f8',
-					backgroundColor: '#f8f8f8',
-				}}
-				p={2}>
+			<Box pl='3rem'>
 				<GlobalCustomButton onClick={handleGoBack}>
 					<ArrowBackIcon
 						fontSize='small'
@@ -751,16 +457,37 @@ export function FundsManagementDetails({ handleGoBack, isModal }) {
 					/>
 					Back
 				</GlobalCustomButton>
-
-				<Typography
-					sx={{
-						textTransform: 'capitalize',
-						fontWeight: '700',
-						color: '#0364FF',
-						textAlign: 'center',
-					}}>
-					Transaction History for Amodu Kehinde
-				</Typography>
+			</Box>
+			<Box
+				display='flex'
+				gap='2rem'
+				justifyContent='flex-end'
+				alignItems='center'
+				mb='2rem'
+				px='3rem'>
+				{!editing ? (
+					<GlobalCustomButton
+						onClick={() => {
+							setEditing(!editing);
+						}}>
+						<CreateIcon
+							fontSize='small'
+							sx={{ marginRight: '5px' }}
+						/>
+						Edit
+					</GlobalCustomButton>
+				) : (
+					<GlobalCustomButton
+						color='success'
+						type='submit'
+						onClick={handleSubmit(onSubmit)}>
+						<MdOutlineUpdate
+							sx={{ marginRight: '5px' }}
+							fontSize='bold'
+						/>
+						Update
+					</GlobalCustomButton>
+				)}
 			</Box>
 
 			<Box
@@ -768,16 +495,209 @@ export function FundsManagementDetails({ handleGoBack, isModal }) {
 				sx={{
 					width: '100%',
 					height: '100%',
-					px: '2rem',
+					px: '3rem',
 				}}>
 				<Grid
 					container
 					spacing={1}>
+					{!editing ? (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Organisation Name'
+								name='organizationName'
+								defaultValue={fundmgt.organizationName}
+								register={register('organizationName', { required: true })}
+								type='text'
+								disabled={!editing}
+							/>
+						</Grid>
+					) : (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Organisation Name'
+								name='organizationName'
+								defaultValue={fundmgt.organizationName}
+								register={register('organizationName', { required: true })}
+								type='text'
+							/>
+						</Grid>
+					)}
+					{!editing ? (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Account Number'
+								name='accountNumber'
+								defaultValue={fundmgt.accountNumber}
+								register={register('accountNumber', { required: true })}
+								type='text'
+								disabled={!editing}
+							/>
+						</Grid>
+					) : (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Account Number'
+								name='accountNumber'
+								register={register('accountNumber', { required: true })}
+								type='text'
+							/>
+						</Grid>
+					)}
+					{!editing ? (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Bank Name'
+								name='bankName'
+								defaultValue={fundmgt.bank}
+								register={register('bankName', { required: true })}
+								type='text'
+								disabled={!editing}
+							/>
+						</Grid>
+					) : (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Bank Name'
+								name='bankName'
+								register={register('bankName', { required: true })}
+								type='text'
+							/>
+						</Grid>
+					)}
+					{!editing ? (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Account Type'
+								name='accountType'
+								defaultValue={fundmgt.accountType}
+								register={register('accountType', { required: true })}
+								type='text'
+								disabled={!editing}
+							/>
+						</Grid>
+					) : (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Account Type'
+								name='accountType'
+								register={register('accountType', { required: true })}
+								type='text'
+							/>
+						</Grid>
+					)}
+					{!editing ? (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Current Balance'
+								name='currentBalance'
+								defaultValue={fundmgt.currentBalance}
+								register={register('currentBalance', { required: true })}
+								type='text'
+								disabled={!editing}
+							/>
+						</Grid>
+					) : (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Current Balance'
+								name='currentBalance'
+								register={register('currentBalance', { required: true })}
+								type='text'
+							/>
+						</Grid>
+					)}
+					{!editing ? (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Sort Code'
+								name='sortCode'
+								defaultValue={fundmgt.sortcode}
+								register={register('sortCode', { required: true })}
+								type='text'
+								disabled={!editing}
+							/>
+						</Grid>
+					) : (
+						<Grid
+							item
+							xs={12}
+							md={6}>
+							<Input
+								label='Sort Code'
+								name='sortCode'
+								register={register('sortCode', { required: true })}
+								type='text'
+							/>
+						</Grid>
+					)}
+					{!editing ? (
+						<Grid
+							item
+							xs={12}>
+							<TextArea
+								label='Description'
+								name='description'
+								defaultValue={fundmgt.description}
+								register={register('description', { required: true })}
+								type='text'
+								disabled={!editing}
+							/>
+						</Grid>
+					) : (
+						<Grid
+							item
+							xs={12}>
+							<TextArea
+								label='Description'
+								name='description'
+								register={register('description', { required: true })}
+								type='text'
+							/>
+						</Grid>
+					)}
+				</Grid>
+
+				<Grid
+					container
+					spacing={1}
+					mt='2rem'>
 					<Grid
 						item
 						sx={12}
 						sm={12}
-						md={5}
 						lg={5}>
 						<CreditTransactions isModal={isModal} />
 					</Grid>

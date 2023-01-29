@@ -101,8 +101,6 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
   };
 
   const handleSearch = val => {
-    // eslint-disable-next-line
-    const field = "firstname";
     //console.log(val);
     dealServer
       .find({
@@ -133,45 +131,45 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
                 $options: "i",
               },
             },
-            {
-              "dealinfo.probability": {
-                $regex: val,
-                $options: "i",
-              },
-            },
-            {
-              "dealinfo.currStatus": {
-                $regex: val,
-                $options: "i",
-              },
-            },
-            {
-              "dealinfo.size": {
-                $regex: val,
-                $options: "i",
-              },
-            },
-            {
-              "dealinfo.nextAction": {
-                $regex: val,
-                $options: "i",
-              },
-            },
-            {
-              "dealinfo.size": {
-                $regex: val,
-                $options: "i",
-              },
-            },
-            {
-              "dealinfo.weightForecast": {
-                $regex: val,
-                $options: "i",
-              },
-            },
+            // {
+            //   "dealinfo.probability": {
+            //     $regex: val,
+            //     $options: "i",
+            //   },
+            // },
+            // {
+            //   "dealinfo.currStatus": {
+            //     $regex: val,
+            //     $options: "i",
+            //   },
+            // },
+            // {
+            //   "dealinfo.size": {
+            //     $regex: val,
+            //     $options: "i",
+            //   },
+            // },
+            // {
+            //   "dealinfo.nextAction": {
+            //     $regex: val,
+            //     $options: "i",
+            //   },
+            // },
+            // {
+            //   "dealinfo.size": {
+            //     $regex: val,
+            //     $options: "i",
+            //   },
+            // },
+            // {
+            //   "dealinfo.weightForecast": {
+            //     $regex: val,
+            //     $options: "i",
+            //   },
+            // },
           ],
 
-          factilityId: user.currentEmployee.facilityDetail._id, // || "",
+          //factilityId: user.currentEmployee.facilityDetail._id, // || "",
           $limit: 100,
           $sort: {
             createdAt: -1,
@@ -193,23 +191,14 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
     const testId = "60203e1c1ec8a00015baa357";
     const facId = user.currentEmployee.facilityDetail._id;
 
-    const res =
-      testId === facId
-        ? await dealServer.find({
-            query: {
-              $sort: {
-                createdAt: -1,
-              },
-            },
-          })
-        : await dealServer.find({
-            query: {
-              facilityId: facId,
-              $sort: {
-                createdAt: -1,
-              },
-            },
-          });
+    const res = await dealServer.find({
+      query: {
+        facilityId: facId,
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    });
 
     await setFacilities(res.data);
 
@@ -222,14 +211,14 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
 
     //showActionLoader();
 
-    const res =
-      testId === facId
-        ? await dealServer.find({})
-        : await dealServer.find({
-            query: {
-              facilityId: facId,
-            },
-          });
+    const res = await dealServer.find({
+      query: {
+        facilityId: facId,
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    });
 
     await setFacilities(res.data);
     //console.log(res.data);

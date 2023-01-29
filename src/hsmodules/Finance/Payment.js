@@ -17,6 +17,8 @@ import {Box, Typography} from "@mui/material";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import PaymentCreatePage from "./PaymentCreatePage";
 import {FormsHeaderText} from "../../components/texts";
+import {ReceiptOutlined} from "@mui/icons-material";
+import PaymentInvoice from "./PaymentInvoice";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -104,6 +106,7 @@ export function BillingList({openModal, showCreateScreen}) {
   const [oldClient, setOldClient] = useState("");
   const [clientBills, setClientBills] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [invoiceModal, setInvoiceModal] = useState(false);
 
   const handleSelectedClient = async Client => {
     const newClientModule = {
@@ -309,6 +312,7 @@ export function BillingList({openModal, showCreateScreen}) {
   };
   const getFacilities = async () => {
     // //console.log("here b4 server")
+    setLoading(true);
     const findProductEntry = await BillServ.find({
       query: {
         $or: [
@@ -333,13 +337,17 @@ export function BillingList({openModal, showCreateScreen}) {
       },
     });
 
+    //console.log(findProductEntry);
+
     // //console.log("updatedorder", findProductEntry.groupedOrder)
     await setFacilities(findProductEntry.groupedOrder);
+    setLoading(false);
     //console.log(findProductEntry.groupedOrder);
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
 
   const onRowClicked = async (client, e) => {
+    console.log(client);
     if (selectedClient && selectedClient.client_id === client.client_id)
       return setSelectedClient(null);
 
@@ -453,11 +461,18 @@ export function BillingList({openModal, showCreateScreen}) {
       //width: "200px",
       key: "clientname",
       description: "Enter Name",
-      selector: row => row.clientname,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.clientname}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
-      width: "200px",
+      width: "120px",
     },
     {
       name: "Grand Total",
@@ -479,7 +494,11 @@ export function BillingList({openModal, showCreateScreen}) {
         return (
           <>
             {bills.map((category, i) => (
-              <Typography sx={{fontSize: "0.75rem"}} data-tag="allowRowEvents">
+              <Typography
+                sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
+                data-tag="allowRowEvents"
+                key={i}
+              >
                 {category.catName} {category.catAmount.toFixed(2)}
               </Typography>
             ))}
@@ -518,7 +537,7 @@ export function BillingList({openModal, showCreateScreen}) {
 
   const selectedClientSchema = [
     {
-      name: "S/NO",
+      name: "S/N",
       width: "70px",
       key: "sn",
       description: "Enter name of Disease",
@@ -560,7 +579,14 @@ export function BillingList({openModal, showCreateScreen}) {
       name: "Description",
       key: "description",
       description: "Enter Description",
-      selector: row => row.description,
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.description}
+        </Typography>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -609,6 +635,18 @@ export function BillingList({openModal, showCreateScreen}) {
           height: "100%",
         }}
       >
+        <ModalBox
+          open={invoiceModal}
+          onClose={() => setInvoiceModal(false)}
+          header={`Invoice Detail`}
+        >
+          <PaymentInvoice
+            clientId={selectedClient?.client_id}
+            bills={clientBills}
+            clientAmount={selectedClient?.clientAmount}
+          />
+        </ModalBox>
+
         <TableMenu>
           <div style={{display: "flex", alignItems: "center"}}>
             {handleSearch && (
@@ -638,12 +676,24 @@ export function BillingList({openModal, showCreateScreen}) {
             </h2>
           )}
 
-          {selectedOrders.length > 0 && (
-            <GlobalCustomButton onClick={showCreateScreen}>
-              <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
-              Make Payment
-            </GlobalCustomButton>
-          )}
+          <Box sx={{display: "flex"}} gap={1.5}>
+            {selectedClient && (
+              <GlobalCustomButton
+                onClick={() => setInvoiceModal(true)}
+                color="info"
+              >
+                <ReceiptOutlined sx={{marginRight: "5px"}} fontSize="small" />
+                Invoice
+              </GlobalCustomButton>
+            )}
+
+            {selectedOrders.length > 0 && (
+              <GlobalCustomButton onClick={showCreateScreen}>
+                <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+                Make Payment
+              </GlobalCustomButton>
+            )}
+          </Box>
         </TableMenu>
 
         <div
@@ -692,7 +742,7 @@ export function BillingList({openModal, showCreateScreen}) {
                   highlightOnHover
                   striped
                   //onRowClicked={row => onRowClicked(row)}
-                  progressPending={loading}
+                  progressPending={false}
                 />
               </div>
             </>

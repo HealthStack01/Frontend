@@ -33,7 +33,7 @@ const EachNotification = ({notification, closeDrawer}) => {
   const markAsSeen = async () => {
     const prevReads = notification.isRead;
     const documentId = notification._id;
-    const userId = user.currentEmployee.userId;
+    const userId = user.currentEmployee._id;
     showActionLoader();
 
     const newReads = [userId, ...prevReads];

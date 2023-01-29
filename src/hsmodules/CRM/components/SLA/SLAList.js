@@ -27,14 +27,11 @@ export function SLAList({showDetail, showCreate, isTab}) {
     const facId = user.currentEmployee.facilityDetail._id;
     setLoading(true);
 
-    const res =
-      testId === facId
-        ? await dealServer.find({})
-        : await dealServer.find({
-            query: {
-              facilityId: facId,
-            },
-          });
+    const res = await dealServer.find({
+      query: {
+        facilityId: facId,
+      },
+    });
 
     const deals = res.data;
 

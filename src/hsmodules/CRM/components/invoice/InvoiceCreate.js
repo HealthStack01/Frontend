@@ -73,12 +73,13 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
     const notificationObj = {
       type: "CRM",
       title: "New Invoice Created For a Deal",
-      description: `${employee.firstname} ${employee.lastname} Created a new Invoi with ${data.type} ${data.name} in CRM`,
+      description: `${employee.firstname} ${employee.lastname} Created a new Invoice with ${currentDeal.type} ${currentDeal.name} in CRM`,
       facilityId: employee.facilityDetail._id,
       sender: `${employee.firstname} ${employee.lastname}`,
       senderId: employee._id,
-      pageUrl: location.pathname,
+      pageUrl: "/app/crm/lead",
       priority: "normal",
+      dest_userId: currentDeal.assignStaff.map(item => item.employeeId),
     };
 
     //return console.log(document);
@@ -90,7 +91,8 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
     const documentId = currentDeal._id;
     await dealServer
       .patch(documentId, {invoices: newInvoices})
-      .then(res => {
+      .then(async res => {
+        await notificationsServer.create(notificationObj);
         hideActionLoader();
         //setContacts(res.contacts);
         setState(prev => ({
@@ -295,6 +297,52 @@ export const HealthPlanSearchSelect = ({handleChange}) => {
     getFacilities();
   }, []);
 
+  const createNewOptions = async () => {
+    const promises = facilities.map(item => {
+      console.log(item.premiumns);
+      const premiums = item.premiumns;
+      premiums.map(prem => {
+        return {
+          ...prem,
+          planName: item.planName,
+        };
+      });
+    });
+
+    const data = await Promise.all(promises);
+
+    console.log(data);
+  };
+
+  const finalOptions =
+    facilities.length > 0
+      ? facilities.map(item => {
+          // console.log(item);
+          return item.premiums.map(prem => {
+            return {
+              ...prem,
+              planName: item.planName,
+              planCategory: item.planCategory,
+            };
+          });
+        })
+      : [];
+
+  const plans = [
+    {
+      planName: "Silver Test",
+      planCategory: "Category 1",
+      planType: "Family",
+      premiumAmount: "100000",
+    },
+    {
+      planName: "Silver Test",
+      planCategory: "Category 1",
+      planType: "Individual",
+      premiumAmount: "20000",
+    },
+  ];
+
   return (
     <Autocomplete
       id="country-select-demo"
@@ -302,12 +350,14 @@ export const HealthPlanSearchSelect = ({handleChange}) => {
       onChange={(event, newValue, reason) => {
         handleChange(newValue);
       }}
-      options={facilities}
+      options={finalOptions.flat(1)}
+      //options={plans}
+      groupBy={option => `${option.planName} (${option.planCategory})`}
       autoHighlight
-      getOptionLabel={option => option.planName}
+      getOptionLabel={option => `${option.planName} (${option.planType})`}
       renderOption={(props, option) => (
         <Box component="li" {...props} sx={{fontSize: "0.85rem"}}>
-          {option.planName} ({option.planCategory})
+          {option.planType} - {option.premiumAmount}
         </Box>
       )}
       renderInput={params => (
@@ -324,6 +374,7 @@ export const HealthPlanSearchSelect = ({handleChange}) => {
             backgroundColor: "#ffffff",
             "& .MuiInputBase-input": {
               height: "0.9rem",
+              fontSize: "0.8rem",
             },
           }}
           InputLabelProps={{

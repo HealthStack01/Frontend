@@ -208,7 +208,7 @@ export function AccreditationList({
 		accreditationServ
 			.find({
 				query: {
-					// createdby: user.currentEmployee.facilityDetail._id,
+					facilityId: user.currentEmployee.facilityDetail._id,
 					$limit: 100,
 					$sort: {
 						createdAt: -1,
@@ -249,7 +249,7 @@ export function AccreditationList({
 			name: 'Organization Name',
 			key: 'organizationName',
 			description: 'Organization Name',
-			selector: (row) => row?.facilityname,
+			selector: (row) => row?.organizationName,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -341,7 +341,7 @@ export function AccreditationList({
 		//   inputType: 'TEXT',
 		// },
 	];
-	console.log('Facilities', facilities, 'Accreditation', accreditation);
+	console.log('Facilities', standAlone, 'Accreditation', accreditation);
 	return (
 		<>
 			{user ? (
@@ -390,8 +390,7 @@ export function AccreditationList({
 													user.currentEmployee.facilityDetail._id,
 										  )
 										: accreditation.filter(
-												(item) =>
-													item.facilityId === facility.facilityDetail._id,
+												(item) => item.organizationId === standAlone,
 										  )
 								}
 								pointerOnHover

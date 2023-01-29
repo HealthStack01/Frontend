@@ -35,7 +35,7 @@ const useOnClickOutside = (ref, handler) => {
   }, [ref, handler]);
 };
 
-export function ClientSearch({getSearchfacility, clear, label}) {
+export function ClientSearch({getSearchfacility, clear, label, id}) {
   const ClientServ = client.service("client");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -58,7 +58,22 @@ export function ClientSearch({getSearchfacility, clear, label}) {
 
   const dropDownRef = useRef(null);
 
-  console.log(simpa);
+  const getInitial = async id => {
+    //console.log("ID from client search", id);
+    if (!!id) {
+      await ClientServ.get(id)
+        .then(resp => {
+          console.log(resp);
+          handleRow(resp);
+        })
+        .catch(err => console.log(err));
+    }
+  };
+
+  useEffect(() => {
+    getInitial(id);
+    return () => {};
+  }, [id]);
 
   const handleRow = async obj => {
     // console.log(obj);

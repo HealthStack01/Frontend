@@ -455,7 +455,7 @@ export const ResendProposalOrSLA = ({documentData, closeModal, subject}) => {
   const handleSendEmail = async data => {
     const facility = user.currentEmployee.facilityDetail;
     const {description, attachedFiles} = documentData;
-    //showActionLoader();
+    showActionLoader();
 
     // const attachments = attachedFiles
     //   ? attachedFiles.map(item => {

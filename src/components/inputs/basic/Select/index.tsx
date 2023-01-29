@@ -108,12 +108,12 @@ const CustomSelect: React.FC<SelectProps> = ({
 									value={option.value || option.name || option}
 									key={index}
 									sx={{ width: '100%' }}>
-									{option.label || option.name || option}
+									{option.label || option.name || option.category || option}
 								</MenuItem>
 							))}
 						</Select>
 					)}
-					defaultValue='' // make sure to set up defaultValue
+					defaultValue={defaultValue} // make sure to set up defaultValue
 				/>
 
 				{errorText && (
@@ -161,6 +161,7 @@ const CustomSelect: React.FC<SelectProps> = ({
 					color: '#000000',
 					fontSize: '0.93rem',
 
+
 					'& 	.MuiInputBase-input.Mui-disabled': {
 						WebkitTextFillColor: 'black',
 					},
@@ -175,7 +176,7 @@ const CustomSelect: React.FC<SelectProps> = ({
 						value={option.value || option.name || option}
 						key={index}
 						sx={{ width: '100%' }}>
-						{option.label || option.name || option}
+						{option.label || option.name || option.category || option}
 					</MenuItem>
 				))}
 			</Select>

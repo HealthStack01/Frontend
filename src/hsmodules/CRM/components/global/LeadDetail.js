@@ -1,4 +1,4 @@
-import {useState, useEffect, useContext} from "react";
+import {useState, useEffect, useContext, useCallback} from "react";
 import ModeEditOutlineOutlined from "@mui/icons-material/ModeEditOutlineOutlined";
 import UpgradeOutlined from "@mui/icons-material/UpgradeOutlined";
 import {Box, Grid} from "@mui/material";
@@ -142,7 +142,8 @@ export default LeadDetailView;
 
 export const PageLeadDetailView = () => {
   const dealServer = client.service("deal");
-  const {register, reset, control, handleSubmit} = useForm();
+  const notificationsServer = client.service("notification");
+  const {register, reset, control, handleSubmit, watch, setValue} = useForm();
   const [editLead, setEditLead] = useState(false);
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -153,6 +154,7 @@ export const PageLeadDetailView = () => {
     showActionLoader();
     const employee = user.currentEmployee;
     const documentId = state.DealModule.selectedDeal._id;
+    const currentDeal = state.DealModule.selectedDeal;
     const prevStatusHistory = state.DealModule.selectedDeal.statushx || [];
 
     const dealinfo = {
@@ -178,17 +180,42 @@ export const PageLeadDetailView = () => {
 
     //console.log(dealinfo);
 
+    const notificationObj = {
+      type: "CRM",
+      title: "Deal Status Updated",
+      description: `${employee.firstname} ${employee.lastname} Updates the status for Deal with ${currentDeal.type} ${currentDeal.name} from ${currentStatus} to ${data.currStatus} in CRM`,
+      facilityId: employee.facilityDetail._id,
+      sender: `${employee.firstname} ${employee.lastname}`,
+      senderId: employee._id,
+      pageUrl: "/app/crm/lead",
+      priority: "normal",
+      dest_userId: currentDeal.assignStaff.map(item => item.employeeId),
+    };
+
     await dealServer
       .patch(documentId, {dealinfo: dealinfo, statushx: newStatusHistory})
-      .then(res => {
-        hideActionLoader();
-        setState(prev => ({
-          ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: res},
-        }));
+      .then(async res => {
+        if (currentStatus !== data.currStatus) {
+          await notificationsServer.create(notificationObj);
 
-        setEditLead(false);
-        toast.success(`Deal Details successfully updated!`);
+          hideActionLoader();
+          setState(prev => ({
+            ...prev,
+            DealModule: {...prev.DealModule, selectedDeal: res},
+          }));
+
+          setEditLead(false);
+          toast.success(`Deal Details successfully updated!`);
+        } else {
+          hideActionLoader();
+          setState(prev => ({
+            ...prev,
+            DealModule: {...prev.DealModule, selectedDeal: res},
+          }));
+
+          setEditLead(false);
+          toast.success(`Deal Details successfully updated!`);
+        }
       })
       .catch(err => {
         hideActionLoader();
@@ -231,6 +258,20 @@ export const PageLeadDetailView = () => {
     setCurrentStatus(deal.dealinfo.currStatus);
     reset(initFormValue);
   }, []);
+
+  const probability = watch("probability");
+  const size = watch("size");
+
+  const calculateWeightForcast = useCallback(() => {
+    console.log("Hello");
+    const weightForecast = Number(probability) * Number(size);
+    console.log(weightForecast);
+    setValue("weightForecast", weightForecast);
+  }, [probability, size]);
+
+  useEffect(() => {
+    calculateWeightForcast();
+  }, [calculateWeightForcast]);
 
   return (
     <>
@@ -280,6 +321,7 @@ export const PageLeadDetailView = () => {
             register={register("probability", {required: true})}
             label="Probability"
             disabled={!editLead}
+            type="number"
             //placeholder="Enter customer name"
           />
         </Grid>
@@ -289,6 +331,7 @@ export const PageLeadDetailView = () => {
             register={register("size", {required: true})}
             label="Size"
             disabled={!editLead}
+            type="number"
             //placeholder="Enter customer number"
           />
         </Grid>
@@ -308,7 +351,8 @@ export const PageLeadDetailView = () => {
           <Input
             register={register("weightForecast", {required: true})}
             label="Weight Forcast"
-            disabled={!editLead}
+            disabled={true}
+            type="number"
           />
         </Grid>
 
