@@ -15,11 +15,12 @@ import {UserContext} from "../../../../context";
 import {HealthPlanSearchSelect} from "../invoice/InvoiceCreate";
 
 export const PageCreatePlan = ({addNewPlan}) => {
-  const [selectedPlan, setSelectedPlan] = useState({});
+  const [selectedPlan, setSelectedPlan] = useState({premiumAmount: 0});
   const {register, handleSubmit, control, getValues, reset, watch, setValue} =
     useForm({
       defaultValues: {
         amount: 0,
+        premium: 0,
       },
     });
   const {user} = useContext(UserContext);
@@ -44,6 +45,8 @@ export const PageCreatePlan = ({addNewPlan}) => {
       createdByName: `${employee.firstname} ${employee.lastname}`,
     };
 
+    //return console.log(newPlan);
+
     addNewPlan(newPlan);
     //toast.success("Plan Added successfully");
 
@@ -51,10 +54,21 @@ export const PageCreatePlan = ({addNewPlan}) => {
   };
 
   const handleOnPlanSelect = plan => {
-    console.log(plan);
+    //console.log(plan);
     setSelectedPlan(plan);
-    setValue("type", plan?.planName);
+    setValue("type", `${plan?.planName} (${plan.planCategory})`);
+    setValue("premium", Number(plan.premiumAmount));
   };
+
+  // const setPremiumValue = useCallback(() => {
+  //   const premium = selectedPlan ? selectedPlan.premiumAmount : 0;
+
+  //   setValue("premium", Number(premium));
+  // }, [selectedPlan]);
+
+  // useEffect(() => {
+  //   setPremiumValue();
+  // }, [setPremiumValue]);
 
   const premium = watch("premium");
   const calendrical = watch("calendrical");
@@ -127,7 +141,8 @@ export const PageCreatePlan = ({addNewPlan}) => {
             <Input
               register={register("premium", {required: true})}
               label="Premium"
-              type="number"
+              type="NUMBER"
+              disabled
             />
           </Grid>
 

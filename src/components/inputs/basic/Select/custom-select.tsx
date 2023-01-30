@@ -22,7 +22,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   important?: boolean;
 }
 
-const CustomSelect: React.FC<SelectProps> = ({
+const CustomSelectWithComment: React.FC<SelectProps> = ({
   label,
   options,
   name,
@@ -199,4 +199,4 @@ const CustomSelect: React.FC<SelectProps> = ({
   );
 };
 
-export default CustomSelect;
+export default CustomSelectWithComment;

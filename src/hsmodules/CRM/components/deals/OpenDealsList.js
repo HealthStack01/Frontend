@@ -41,35 +41,22 @@ const OpenDealsList = ({
     const facId = user.currentEmployee.facilityDetail._id;
     setLoading(true);
 
-    const res =
-      testId === facId
-        ? await dealServer.find({
-            query: {
-              //facilityId: facId,
-
-              $or: [
-                {
-                  "dealinfo.currStatus": "open",
-                },
-                {
-                  "dealinfo.currStatus": "Open",
-                },
-              ],
-            },
-          })
-        : await dealServer.find({
-            query: {
-              facilityId: facId,
-              $or: [
-                {
-                  "dealinfo.currStatus": "open",
-                },
-                {
-                  "dealinfo.currStatus": "Open",
-                },
-              ],
-            },
-          });
+    const res = await dealServer.find({
+      query: {
+        facilityId: facId,
+        $sort: {
+          createdAt: -1,
+        },
+        $or: [
+          {
+            "dealinfo.currStatus": "open",
+          },
+          {
+            "dealinfo.currStatus": "Open",
+          },
+        ],
+      },
+    });
     await setOpenDeals(res.data);
     //console.log(res.data);
     setLoading(false);

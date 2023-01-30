@@ -295,121 +295,132 @@ const InvoiceCreate = ({ closeModal, handleGoBack }) => {
 };
 
 export default InvoiceCreate;
+export const HealthPlanSearchSelect = ({handleChange}) => {
+  const HealthPlanServ = client.service("healthplan");
+  const [facilities, setFacilities] = useState([]);
+  const {user, setUser} = useContext(UserContext);
 
-export const HealthPlanSearchSelect = ({ handleChange }) => {
-	const HealthPlanServ = client.service('healthplan');
-	const [facilities, setFacilities] = useState([]);
-	const { user, setUser } = useContext(UserContext);
+  const getFacilities = async () => {
+    if (user.currentEmployee) {
+      let stuff = {
+        organizationId: user.currentEmployee.facilityDetail._id,
+        // locationId:state.employeeLocation.locationId,
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      };
 
-	const getFacilities = async () => {
-		if (user.currentEmployee) {
-			let stuff = {
-				organizationId: user.currentEmployee.facilityDetail._id,
-				// locationId:state.employeeLocation.locationId,
-				$limit: 100,
-				$sort: {
-					createdAt: -1,
-				},
-			};
+      const findHealthPlan = await HealthPlanServ.find({query: stuff});
 
-			const findHealthPlan = await HealthPlanServ.find({ query: stuff });
+      await setFacilities(findHealthPlan.data);
+    } else {
+      if (user.stacker) {
+        const findClient = await HealthPlanServ.find({
+          query: {
+            $limit: 100,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        });
 
-			await setFacilities(findHealthPlan.data);
-		} else {
-			if (user.stacker) {
-				const findClient = await HealthPlanServ.find({
-					query: {
-						$limit: 100,
-						$sort: {
-							createdAt: -1,
-						},
-					},
-				});
+        await setFacilities(findClient.data);
+      }
+    }
+  };
 
-				await setFacilities(findClient.data);
-			}
-		}
-	};
+  useEffect(() => {
+    getFacilities();
+  }, []);
 
-	useEffect(() => {
-		getFacilities();
-	}, []);
+  const createNewOptions = async () => {
+    const promises = facilities.map(item => {
+      console.log(item.premiumns);
+      const premiums = item.premiumns;
+      premiums.map(prem => {
+        return {
+          ...prem,
+          planName: item.planName,
+        };
+      });
+    });
 
-	const createNewOptions = async () => {
-		const promises = facilities.map((item) => {
-			console.log(item.premiumns);
-			const premiums = item.premiumns;
-			premiums.map((prem) => {
-				return {
-					...prem,
-					planName: item.planName,
-				};
-			});
-		});
+    const data = await Promise.all(promises);
 
-		const data = await Promise.all(promises);
+    console.log(data);
+  };
 
-		console.log(data);
-	};
+  const finalOptions =
+    facilities.length > 0
+      ? facilities.map(item => {
+          // console.log(item);
+          return item.premiums.map(prem => {
+            return {
+              ...prem,
+              planName: item.planName,
+              planCategory: item.planCategory,
+            };
+          });
+        })
+      : [];
 
-	const finalOptions =
-		facilities.length > 0
-			? facilities.map((item) => {
-					// console.log(item);
-					return item.premiums.map((prem) => {
-						return {
-							...prem,
-							planName: item.planName,
-							planCategory: item.planCategory,
-						};
-					});
-			  })
-			: [];
+  const plans = [
+    {
+      planName: "Silver Test",
+      planCategory: "Category 1",
+      planType: "Family",
+      premiumAmount: "100000",
+    },
+    {
+      planName: "Silver Test",
+      planCategory: "Category 1",
+      planType: "Individual",
+      premiumAmount: "20000",
+    },
+  ];
 
-	// console.log(finalOptions.flat(1)), "hello";
-
-	return (
-		<Autocomplete
-			id='country-select-demo'
-			sx={{ width: '100%' }}
-			onChange={(event, newValue, reason) => {
-				handleChange(newValue);
-			}}
-			options={finalOptions.flat(1)}
-			groupBy={(option) => `${option.planName} (${option.planCategory}) `}
-			autoHighlight
-			getOptionLabel={(option) => option.planName}
-			renderOption={(props, option) => (
-				<Box
-					component='li'
-					{...props}
-					sx={{ fontSize: '0.85rem' }}>
-					{option.planType} - {option.premiumAmount}
-				</Box>
-			)}
-			renderInput={(params) => (
-				<TextField
-					{...params}
-					inputProps={{
-						...params.inputProps,
-						autoComplete: 'new-password', // disable autocomplete and autofill
-					}}
-					label={'Choose Your Plan'}
-					//ref={inputEl}
-					sx={{
-						fontSize: '0.75rem',
-						backgroundColor: '#ffffff',
-						'& .MuiInputBase-input': {
-							height: '0.9rem',
-						},
-					}}
-					InputLabelProps={{
-						Autocomplete: 'new-password',
-						shrink: true,
-						style: { color: '#2d2d2d' },
-					}}
-				/>
-			)}
-		/>
-	);
+  return (
+    <Autocomplete
+      id="country-select-demo"
+      sx={{width: "100%"}}
+      onChange={(event, newValue, reason) => {
+        handleChange(newValue);
+      }}
+      options={finalOptions.flat(1)}
+      //options={plans}
+      groupBy={option => `${option.planName} (${option.planCategory})`}
+      autoHighlight
+      getOptionLabel={option => `${option.planName} (${option.planType})`}
+      renderOption={(props, option) => (
+        <Box component="li" {...props} sx={{fontSize: "0.85rem"}}>
+          {option.planType} - {option.premiumAmount}
+        </Box>
+      )}
+      renderInput={params => (
+        <TextField
+          {...params}
+          inputProps={{
+            ...params.inputProps,
+            autoComplete: "new-password", // disable autocomplete and autofill
+          }}
+          label={"Choose Your Plan"}
+          //ref={inputEl}
+          sx={{
+            fontSize: "0.75rem",
+            backgroundColor: "#ffffff",
+            "& .MuiInputBase-input": {
+              height: "0.9rem",
+              fontSize: "0.8rem",
+            },
+          }}
+          InputLabelProps={{
+            Autocomplete: "new-password",
+            shrink: true,
+            style: {color: "#2d2d2d"},
+          }}
+        />
+      )}
+    />
+  );
 };

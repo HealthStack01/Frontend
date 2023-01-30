@@ -47,6 +47,7 @@ import ReferralHome from "./Referral/ReferralHome";
 import CRMHome from "./CRM/CrmHome";
 
 import Complaint from "./Complaints/Complaint";
+import NewComplaints from "./Complaints/new-complaints";
 import ImmunizationHome from "./Immunization/ImmunizationHome";
 
 import BloodBankHome from "./Bloodbank/BloodBankHome";
@@ -318,7 +319,7 @@ const AppRoutes = () => {
             </Route>
 
             {/**************************COMPLAINT *************************************** */}
-            <Route path="/app/complaints" element={<Complaint />} />
+            <Route path="/app/complaints" element={<NewComplaints />} />
             <Route
               path="/app/complaints/detailComplaints"
               element={<DetailComplaint />}

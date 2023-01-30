@@ -285,7 +285,7 @@ export const menuItems = [
     exact: true,
     to: "/app/complaints",
     iconClassName: "bi bi-person",
-    subMenus: [{name: "Complaints", to: "/app/complaints"}],
+    //subMenus: [{name: "Complaints", to: "/app/complaints"}],
   },
   {
     name: "Referral",
