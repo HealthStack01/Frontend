@@ -7,25 +7,25 @@ import React, {
 	useCallback,
 } from 'react';
 import client from '../../feathers';
-import {DebounceInput} from 'react-debounce-input';
-import {useForm} from 'react-hook-form';
-import {UserContext, ObjectContext} from '../../context';
-import {toast, ToastContainer} from 'react-toastify';
-import {TableMenu} from '../../ui/styled/global';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
+import { UserContext, ObjectContext } from '../../context';
+import { toast, ToastContainer } from 'react-toastify';
+import { TableMenu } from '../../ui/styled/global';
 import FilterMenu from '../../components/utilities/FilterMenu';
 import CustomTable from '../../components/customtable';
 import CustomSelect from '../../components/inputs/basic/Select';
 import Textarea from '../../components/inputs/basic/Textarea';
 import CustomConfirmationDialog from '../../components/confirm-dialog/confirm-dialog';
-import {Box, Typography} from '@mui/material';
-import {PageWrapper} from './styles';
+import { Box, Typography } from '@mui/material';
+import { PageWrapper } from './styles';
 import Input from '../../components/inputs/basic/Input';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
 import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
 import ModalBox from '../../components/modal';
 import Grid from '@mui/material/Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {MdOutlineUpdate, MdEdit} from 'react-icons/md';
+import { MdOutlineUpdate, MdEdit } from 'react-icons/md';
 import CreateIcon from '@mui/icons-material/Create';
 
 export default function CaseDefinition() {
@@ -82,8 +82,8 @@ export default function CaseDefinition() {
 }
 
 export function CaseDefinitionCreate() {
-	const {register, handleSubmit, control, reset} = useForm();
-	const {user} = useContext(UserContext);
+	const { register, handleSubmit, control, reset } = useForm();
+	const { user } = useContext(UserContext);
 
 	const CaseDefinitionServ = client.service('casedefinition');
 	const notificationTypeOptions = [
@@ -119,12 +119,12 @@ export function CaseDefinitionCreate() {
 
 		e.preventDefault();
 		await CaseDefinitionServ.create(data)
-			.then(res => {
+			.then((res) => {
 				toast.success(`Case Definition successfully created`);
 				// console.log(res);
 				reset();
 			})
-			.catch(err => {
+			.catch((err) => {
 				// console.log(err);
 				toast.error(`Sorry, You weren't able to case definition. ${err}`);
 			});
@@ -140,7 +140,7 @@ export function CaseDefinitionCreate() {
 					mb={2}>
 					<GlobalCustomButton onClick={handleSubmit(onSubmit)}>
 						<AddCircleOutline
-							sx={{marginRight: '5px'}}
+							sx={{ marginRight: '5px' }}
 							fontSize='small'
 						/>
 						Create
@@ -171,7 +171,7 @@ export function CaseDefinitionCreate() {
 						xs={12}
 						md={6}>
 						<Input
-							register={register('diseaseName', {required: true})}
+							register={register('diseaseName', { required: true })}
 							name='diseaseName'
 							type='text'
 							label='Name of Disease'
@@ -194,7 +194,7 @@ export function CaseDefinitionCreate() {
 						xs={12}
 						md={6}>
 						<Textarea
-							register={register('symptoms', {required: true})}
+							register={register('symptoms', { required: true })}
 							name='symptoms'
 							type='text'
 							label='Symptoms'
@@ -205,7 +205,7 @@ export function CaseDefinitionCreate() {
 						xs={12}
 						md={6}>
 						<Textarea
-							register={register('casedefinition', {required: true})}
+							register={register('casedefinition', { required: true })}
 							name='casedefinition'
 							type='text'
 							label='Case definition'
@@ -216,7 +216,7 @@ export function CaseDefinitionCreate() {
 						xs={12}
 						md={6}>
 						<Textarea
-							register={register('signs', {required: true})}
+							register={register('signs', { required: true })}
 							name='signs'
 							type='text'
 							label='Signs'
@@ -227,7 +227,7 @@ export function CaseDefinitionCreate() {
 						xs={12}
 						md={6}>
 						<Textarea
-							register={register('lab', {required: true})}
+							register={register('lab', { required: true })}
 							name='lab'
 							type='text'
 							label='Laboratory Confirmation'
@@ -235,7 +235,7 @@ export function CaseDefinitionCreate() {
 					</Grid>
 					<Grid xs={12}>
 						<Textarea
-							register={register('management', {required: true})}
+							register={register('management', { required: true })}
 							name='management'
 							type='text'
 							label='Management Protocol'
@@ -247,33 +247,33 @@ export function CaseDefinitionCreate() {
 	);
 }
 
-export function CaseDefinitionList({showCreateModal, showDetailModal}) {
+export function CaseDefinitionList({ showCreateModal, showDetailModal }) {
 	const CaseDefinitionServ = client.service('casedefinition');
 	const [facilities, setFacilities] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [selectedCaseDefinition, setSelectedCaseDefinition] = useState();
-	const {state, setState} = useContext(ObjectContext);
-	const {user, setUser} = useContext(UserContext);
+	const { state, setState } = useContext(ObjectContext);
+	const { user, setUser } = useContext(UserContext);
 
 	const handleCreateNew = async () => {
 		const newBandModule = {
 			selectedEpid: {},
 			show: 'create',
 		};
-		await setState(prevstate => ({
+		await setState((prevstate) => ({
 			...prevstate,
 			EpidemiologyModule: newBandModule,
 		}));
 		openCreateModal();
 	};
-	const handleRow = async CaseDefinition => {
+	const handleRow = async (CaseDefinition) => {
 		await setSelectedCaseDefinition(CaseDefinition);
 
 		const newCaseDefinitionModule = {
 			selectedEpid: CaseDefinition,
 			show: 'detail',
 		};
-		await setState(prevstate => ({
+		await setState((prevstate) => ({
 			...prevstate,
 			EpidemiologyModule: newCaseDefinitionModule,
 		}));
@@ -281,7 +281,7 @@ export function CaseDefinitionList({showCreateModal, showDetailModal}) {
 		showDetailModal();
 	};
 
-	const handleSearch = val => {
+	const handleSearch = (val) => {
 		const field = 'disease.name';
 		console.log(val);
 		CaseDefinitionServ.find({
@@ -297,13 +297,13 @@ export function CaseDefinitionList({showCreateModal, showDetailModal}) {
 				},
 			},
 		})
-			.then(res => {
+			.then((res) => {
 				// console.log(res);
 				setFacilities(res.data);
 				setMessage(' Case Definition  fetched successfully');
 				setSuccess(true);
 			})
-			.catch(err => {
+			.catch((err) => {
 				// console.log(err);
 				setMessage(
 					'Error fetching Case Definition, probable network issues ' + err,
@@ -353,10 +353,10 @@ export function CaseDefinitionList({showCreateModal, showDetailModal}) {
 			getFacilities();
 		} else {
 		}
-		CaseDefinitionServ.on('created', obj => getFacilities());
-		CaseDefinitionServ.on('updated', obj => getFacilities());
-		CaseDefinitionServ.on('patched', obj => getFacilities());
-		CaseDefinitionServ.on('removed', obj => getFacilities());
+		CaseDefinitionServ.on('created', (obj) => getFacilities());
+		CaseDefinitionServ.on('updated', (obj) => getFacilities());
+		CaseDefinitionServ.on('patched', (obj) => getFacilities());
+		CaseDefinitionServ.on('removed', (obj) => getFacilities());
 		return () => {};
 	}, []);
 
@@ -366,7 +366,7 @@ export function CaseDefinitionList({showCreateModal, showDetailModal}) {
 			name: 'S/NO',
 			key: 'sn',
 			description: 'Enter name of Disease',
-			selector: row => row.sn,
+			selector: (row) => row.sn,
 			sortable: true,
 			required: true,
 			inputType: 'HIDDEN',
@@ -376,9 +376,9 @@ export function CaseDefinitionList({showCreateModal, showDetailModal}) {
 			name: 'Name of Disease',
 			key: 'name',
 			description: 'Enter name of Disease',
-			selector: row => (
+			selector: (row) => (
 				<Typography
-					sx={{fontSize: '0.8rem', whiteSpace: 'normal'}}
+					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
 					data-tag='allowRowEvents'>
 					{row?.disease.name}
 				</Typography>
@@ -395,7 +395,7 @@ export function CaseDefinitionList({showCreateModal, showDetailModal}) {
 			name: 'Symptoms',
 			key: 'symptoms',
 			description: 'Enter Symptoms',
-			selector: row => row.symptoms,
+			selector: (row) => row.symptoms,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -405,7 +405,7 @@ export function CaseDefinitionList({showCreateModal, showDetailModal}) {
 			name: 'Case Definition',
 			key: 'casedefinition',
 			description: 'Enter Case Definition',
-			selector: row => row.casedefinition,
+			selector: (row) => row.casedefinition,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -415,7 +415,7 @@ export function CaseDefinitionList({showCreateModal, showDetailModal}) {
 			name: 'Signs',
 			key: 'signs',
 			description: 'Enter Signs',
-			selector: row => row.signs,
+			selector: (row) => row.signs,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -425,7 +425,7 @@ export function CaseDefinitionList({showCreateModal, showDetailModal}) {
 			name: 'Laboratory Confirmation',
 			key: 'laboratory confirmation',
 			description: 'Enter Laboratory Confirmation',
-			selector: row => row.labconfirmation,
+			selector: (row) => row.labconfirmation,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -435,7 +435,7 @@ export function CaseDefinitionList({showCreateModal, showDetailModal}) {
 			name: 'Management Protocol',
 			key: 'management protocol',
 			description: 'Enter Management Protocol',
-			selector: row => row.treatmentprotocol,
+			selector: (row) => row.treatmentprotocol,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -445,7 +445,7 @@ export function CaseDefinitionList({showCreateModal, showDetailModal}) {
 			name: 'Person To Notify',
 			key: 'notify',
 			description: 'Enter Person To Notify',
-			selector: row => row.notification_destination,
+			selector: (row) => row.notification_destination,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -455,7 +455,7 @@ export function CaseDefinitionList({showCreateModal, showDetailModal}) {
 			name: 'Notification Type',
 			key: 'notificationtype',
 			description: 'Enter Notification Type',
-			selector: row => row.notificationtype,
+			selector: (row) => row.notificationtype,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -469,15 +469,15 @@ export function CaseDefinitionList({showCreateModal, showDetailModal}) {
 			{user ? (
 				<>
 					<PageWrapper
-						style={{flexDirection: 'column', padding: '0.6rem 1rem'}}>
+						style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}>
 						<TableMenu>
-							<div style={{display: 'flex', alignItems: 'center'}}>
+							<div style={{ display: 'flex', alignItems: 'center' }}>
 								{handleSearch && (
 									<div className='inner-table'>
 										<FilterMenu onSearch={handleSearch} />
 									</div>
 								)}
-								<h2 style={{marginLeft: '10px', fontSize: '0.95rem'}}>
+								<h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
 									Case Definitions
 								</h2>
 							</div>
@@ -485,7 +485,7 @@ export function CaseDefinitionList({showCreateModal, showDetailModal}) {
 							{handleCreateNew && (
 								<GlobalCustomButton onClick={showCreateModal}>
 									<AddCircleOutline
-										sx={{marginRight: '5px'}}
+										sx={{ marginRight: '5px' }}
 										fontSize='small'
 									/>
 									Add New
@@ -519,12 +519,12 @@ export function CaseDefinitionList({showCreateModal, showDetailModal}) {
 	);
 }
 
-export function CaseDefinitionDetail({showModifyModal}) {
-	const {register, control, handleSubmit} = useForm(); //errors,
+export function CaseDefinitionDetail({ showModifyModal }) {
+	const { register, control, handleSubmit } = useForm(); //errors,
 	const CaseDefinitionServ = client.service('casedefinition');
 	const [editing, setEditing] = useState(false); //,
 	const [confirmDialog, setConfirmDialog] = useState(false);
-	const {state, setState, showActionLoader, hideActionLoader} =
+	const { state, setState, showActionLoader, hideActionLoader } =
 		useContext(ObjectContext);
 
 	const notificationTypeOptions = [
@@ -546,13 +546,13 @@ export function CaseDefinitionDetail({showModifyModal}) {
 			selectedEpid: {},
 			show: 'create',
 		};
-		setState(prevstate => ({
+		setState((prevstate) => ({
 			...prevstate,
 			EpidemiologyModule: newEpidemiologyModule,
 		}));
 	};
 
-	const onSubmit = async data => {
+	const onSubmit = async (data) => {
 		data.disease = {
 			name: casedefinition.disease.name,
 			icdcode: '',
@@ -565,12 +565,12 @@ export function CaseDefinitionDetail({showModifyModal}) {
 		data.notificationtype = data.notificationType;
 		data.notification_destination = data.notify;
 		await CaseDefinitionServ.patch(casedefinition._id, data)
-			.then(res => {
-				console.log(res);
+			.then((res) => {
+				// console.log(res);
 				toast('CaseDefinition updated succesfully');
 			})
-			.catch(err => {
-				console.log(err);
+			.catch((err) => {
+				// console.log(err);
 				toast(
 					`Error updating CaseDefinition, probable network issues or ${err}`,
 				);
@@ -581,13 +581,13 @@ export function CaseDefinitionDetail({showModifyModal}) {
 	const handleDelete = async () => {
 		showActionLoader();
 		await CaseDefinitionServ.remove(casedefinition._id)
-			.then(res => {
+			.then((res) => {
 				hideActionLoader();
 				setConfirmDialog(false);
 				toast.success('CaseDefinition deleted succesfully');
 				changeState();
 			})
-			.catch(err => {
+			.catch((err) => {
 				hideActionLoader();
 				setConfirmDialog(false);
 				toast.error(
@@ -617,7 +617,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
 					color='error'>
 					<DeleteIcon
 						fontSize='small'
-						sx={{marginRight: '5px'}}
+						sx={{ marginRight: '5px' }}
 					/>
 					Delete
 				</GlobalCustomButton>
@@ -629,7 +629,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
 						}}>
 						<CreateIcon
 							fontSize='small'
-							sx={{marginRight: '5px'}}
+							sx={{ marginRight: '5px' }}
 						/>
 						Edit
 					</GlobalCustomButton>
@@ -639,7 +639,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
 						type='submit'
 						onClick={handleSubmit(onSubmit)}>
 						<MdOutlineUpdate
-							sx={{marginRight: '5px'}}
+							sx={{ marginRight: '5px' }}
 							fontSize='bold'
 						/>
 						Update
@@ -660,7 +660,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
 								label='Choose Notification Type'
 								name='notificationType'
 								options={notificationTypeOptions}
-								register={register('notificationType', {required: true})}
+								register={register('notificationType', { required: true })}
 								defaultValue={casedefinition?.notificationtype}
 							/>
 						</Grid>
@@ -673,7 +673,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
 								label='Choose Notification Type'
 								name='notificationType'
 								options={notificationTypeOptions}
-								register={register('notificationType', {required: true})}
+								register={register('notificationType', { required: true })}
 								control={control}
 							/>
 						</Grid>
@@ -691,7 +691,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
 							md={6}>
 							<Input
 								disabled
-								register={register('disease', {required: true})}
+								register={register('disease', { required: true })}
 								name='disease'
 								defaultValue={casedefinition?.disease?.name}
 								label='Name of Disease'
@@ -703,7 +703,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
 							xs={12}
 							md={6}>
 							<Input
-								register={register('disease', {required: true})}
+								register={register('disease', { required: true })}
 								name='disease'
 								type='text'
 								label='Name of Disease'
@@ -721,7 +721,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
 								name='notify'
 								options={notifierOptions}
 								defaultValue={casedefinition?.notification_destination}
-								register={register('notify', {required: true})}
+								register={register('notify', { required: true })}
 							/>
 						</Grid>
 					) : (
@@ -733,7 +733,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
 								label='Choose Person to Notify'
 								name='notify'
 								options={notifierOptions}
-								register={register('notify', {required: true})}
+								register={register('notify', { required: true })}
 								control={control}
 							/>
 						</Grid>
@@ -745,7 +745,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
 							md={6}>
 							<Textarea
 								disabled
-								register={register('symptoms', {required: true})}
+								register={register('symptoms', { required: true })}
 								name='symptoms'
 								defaultValue={casedefinition?.symptoms}
 								label='Symptoms'
@@ -757,7 +757,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
 							xs={12}
 							md={6}>
 							<Textarea
-								register={register('symptoms', {required: true})}
+								register={register('symptoms', { required: true })}
 								name='symptoms'
 								type='text'
 								label='Symptoms'
@@ -772,7 +772,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
 							md={6}>
 							<Textarea
 								disabled
-								register={register('casedefinition', {required: true})}
+								register={register('casedefinition', { required: true })}
 								name='casedefinition'
 								defaultValue={casedefinition?.casedefinition}
 								label='Case Definition'
@@ -784,7 +784,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
 							xs={12}
 							md={6}>
 							<Textarea
-								register={register('casedefinition', {required: true})}
+								register={register('casedefinition', { required: true })}
 								name='casedefinition'
 								type='text'
 								label='Case Definition'
@@ -798,7 +798,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
 							md={6}>
 							<Textarea
 								disabled
-								register={register('signs', {required: true})}
+								register={register('signs', { required: true })}
 								name='signs'
 								defaultValue={casedefinition?.signs}
 								label='Signs'
@@ -810,7 +810,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
 							xs={12}
 							md={6}>
 							<Textarea
-								register={register('signs', {required: true})}
+								register={register('signs', { required: true })}
 								name='signs'
 								type='text'
 								label='Signs'
@@ -824,7 +824,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
 							md={6}>
 							<Textarea
 								disabled
-								register={register('lab', {required: true})}
+								register={register('lab', { required: true })}
 								name='lab'
 								defaultValue={casedefinition?.labconfirmation}
 								label='Laboratory Confirmation'
@@ -836,7 +836,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
 							xs={12}
 							md={6}>
 							<Textarea
-								register={register('lab', {required: true})}
+								register={register('lab', { required: true })}
 								name='lab'
 								type='text'
 								label='Laboratory Confirmation'
@@ -848,7 +848,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
 						<Grid xs={12}>
 							<Textarea
 								disabled
-								register={register('management', {required: true})}
+								register={register('management', { required: true })}
 								name='management'
 								defaultValue={casedefinition?.treatmentprotocol}
 								label='Management Protocol'
@@ -857,7 +857,7 @@ export function CaseDefinitionDetail({showModifyModal}) {
 					) : (
 						<Grid xs={12}>
 							<Textarea
-								register={register('management', {required: true})}
+								register={register('management', { required: true })}
 								name='management'
 								type='text'
 								label='Management Protocol'
