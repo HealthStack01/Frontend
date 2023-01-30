@@ -1,6 +1,13 @@
 import { renderToStaticMarkup } from 'react-dom/server';
-import { useRef, forwardRef, useState, useContext, useEffect } from 'react';
-import { Box, Typography, Grid, Avatar } from '@mui/material';
+import {
+	useRef,
+	forwardRef,
+	useState,
+	useContext,
+	useEffect,
+	useCallback,
+} from 'react';
+import { Box, Typography, Grid, Avatar, Divider } from '@mui/material';
 import CustomTable from '../../../components/customtable';
 import ReactToPrint, { useReactToPrint } from 'react-to-print';
 import GlobalCustomButton from '../../../components/buttons/CustomButton';
@@ -15,13 +22,21 @@ import { toast } from 'react-toastify';
 import html2canvas from 'html2canvas';
 import axios from 'axios';
 import moment from 'moment';
-
+import { styled } from '@mui/material/styles';
+import Textarea from '../../../components/inputs/basic/Textarea';
 export const ProviderPrintout = ({ data, action }) => {
+	const EmployeeServ = client.service('employee');
 	const [emailModal, setEmailModal] = useState(false);
 	const [screenshot, setScreenshot] = useState('');
 	const [beneficiaries, setBeneficiaries] = useState([]);
 	const printRef = useRef(null);
 	const screenshotRef = useRef(null);
+	const [userData, setUserData] = useState({});
+	const { user } = useContext(UserContext);
+	const { state, setState } = useContext(ObjectContext);
+	const [imgSrc, setImgSrc] = useState(
+		'https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg',
+	);
 
 	const screenshotPrintout = async () => {
 		const canvas = await html2canvas(screenshotRef.current, {
@@ -75,12 +90,39 @@ export const ProviderPrintout = ({ data, action }) => {
 		list = [data?.principal, ...data?.dependantBeneficiaries];
 		setBeneficiaries(list);
 	};
+	const handleData = async () => {
+		const newData = {
+			selectedData: data,
+		};
+		await setState((prev) => ({ ...prev, data: newData }));
+	};
+	const getUserData = useCallback(() => {
+		const userId = user.currentEmployee._id;
+		EmployeeServ.get({
+			_id: userId,
+		})
+			.then((res) => {
+				setUserData(res);
+				console.log('USER DATA', res);
+				//
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, [user]);
 	useEffect(() => {
 		beneList();
+		handleData();
+		getUserData();
 	}, [data]);
-
+	const ImgStyled = styled('img')(({ theme }) => ({
+		width: 150,
+		height: 150,
+		marginRight: theme.spacing(6.25),
+		borderRadius: theme.shape.borderRadius,
+	}));
 	return (
-		<Box>
+		<Box style={{ width: '60vw' }}>
 			<Box
 				sx={{
 					width: '100%',
@@ -248,17 +290,145 @@ export const ProviderPrintout = ({ data, action }) => {
 					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
 						Yours faithfully,
 					</Typography>
-					<Box
-						sx={{ display: 'flex', justifyContent: 'space-between' }}
-						my={2}>
+					<Box my={2}>
+						<img
+							src={userData?.signatureUrl}
+							alt=''
+							style={{
+								width: '70px',
+								height: 'auto',
+							}}
+						/>
 						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
 							<b>{data?.approvedby?.employeename}</b> <br />
 							{/* {`Lead, Fulfillment`} */}
 						</Typography>
-						{/* <Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							<b>{`Funbi Test`}</b> <br />
-							{`Client Service Manager`}
-						</Typography> */}
+					</Box>
+				</Box>
+				<Box
+					style={{
+						marginTop: '1rem',
+					}}>
+					<Divider>Find below your Policy ID Card</Divider>
+				</Box>
+				<Box sx={{ maxWidth: '40%', margin: '1rem auto' }}>
+					<Box
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+						}}>
+						{/* Comapany Logo */}
+						<Avatar
+							sx={{ marginTop: '5px', marginRight: '10px' }}
+							src={data?.organization?.facilitylogo}
+							alt=''
+						/>
+						<h1>{data?.organizationName}</h1>
+					</Box>
+					<Grid
+						container
+						spacing={2}
+						sx={{ alignItems: 'center' }}>
+						<Grid
+							item
+							xs={12}
+							md={8}>
+							<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+								NAME:{' '}
+								<b>
+									{`${data?.principal?.firstname} ${data?.principal?.lastname}`}
+								</b>
+							</Typography>
+							<Divider />
+							<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+								POLICY NO: <b>{data?.policyNo}</b>
+							</Typography>
+							<Divider />
+							<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+								SEX: <b>{data?.principal?.gender}</b>
+							</Typography>
+							<Divider />
+							<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+								DATE OF BIRTH:{' '}
+								<b>{moment(data?.principal?.dob).format('DD/MM/YYYY')}</b>
+							</Typography>
+							<Divider />
+							<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+								GENOTYPE: <b>{data?.principal?.genotype}</b>
+								<Divider
+									orientation='vertical'
+									flexItem
+								/>
+							</Typography>
+							<Divider />
+							<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+								BLOOD GROUP: <b>{data?.bloodgroup}</b>
+							</Typography>
+						</Grid>
+						<Grid
+							item
+							xs={12}
+							md={4}>
+							<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+								<ImgStyled
+									src={
+										data?.principal?.imageurl
+											? data?.principal?.imageurl
+											: imgSrc
+									}
+									alt='Profile Pic'
+								/>
+							</Box>
+						</Grid>
+					</Grid>
+					<Typography
+						sx={{ fontSize: '1rem', color: '#000000', textAlign: 'justify' }}
+						mt={1}>
+						The bearer of this card is a subscriber to
+						{data?.organizationName} and entitled to receive appropriate medical
+						care from his primary care provider and other referral centres as
+						may be necessary.
+					</Typography>
+					<Typography
+						sx={{ fontSize: '1rem', color: '#000000', textAlign: 'justify' }}
+						mt={1}>
+						This card MUST be presented at the point of service and remains the
+						property of {data?.organizationName}.
+					</Typography>
+					<Typography
+						sx={{ fontSize: '1rem', color: '#000000' }}
+						mt={1}>
+						In the event of an emergency, kindly contact
+						{data?.organizationName}
+					</Typography>
+					<Typography
+						sx={{ fontSize: '1rem', color: '#000000' }}
+						mt={1}>
+						{`${data?.organization?.facilityAddress} ${
+							data?.organization?.facilityLGA || ''
+						} ${data?.organization?.facilityCity || ''} ${
+							data?.organization?.facilityState || ''
+						}`}
+					</Typography>
+					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+						CALL center: {data?.organization?.facilityContactPhone}
+					</Typography>
+					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+						EMAIL: {data?.organization?.facilityEmail}
+					</Typography>
+					<Box>
+						<Box sx={{ width: '70px', height: 'auto', float: 'right' }}>
+							<img
+								src={userData?.signatureUrl}
+								alt=''
+								style={{
+									width: '100%',
+									height: 'auto',
+								}}
+							/>
+							<Divider></Divider>
+							<b>{userData?.profession}</b>
+						</Box>
 					</Box>
 				</Box>
 			</Box>
@@ -266,7 +436,13 @@ export const ProviderPrintout = ({ data, action }) => {
 	);
 };
 
-const ComponentToPrint = forwardRef(({ data, action }, ref) => {
+const ComponentToPrint = forwardRef(({ action }, ref) => {
+	const { state, setState } = useContext(ObjectContext);
+	const [beneficiaries, setBeneficiaries] = useState([]);
+
+	const data = state?.data?.selectedData;
+
+	console.log('selectedData', data);
 	const beneschema = [
 		{
 			name: 'S/N',
@@ -281,7 +457,7 @@ const ComponentToPrint = forwardRef(({ data, action }, ref) => {
 			name: 'Beneficiary Name',
 			key: 'beneficiaryname',
 			description: 'Beneficiary Name',
-			selector: (row) => row?.name,
+			selector: (row) => `${row.firstname} ${row.lastname}`,
 			sortable: true,
 			inputType: 'HIDDEN',
 		},
@@ -289,24 +465,34 @@ const ComponentToPrint = forwardRef(({ data, action }, ref) => {
 			name: 'Policy Number',
 			key: 'policynumber',
 			description: 'Policy Number',
-			selector: (row) => row?.policyId,
+			selector: (row) => data?.policyNo,
 			sortable: true,
 			inputType: 'HIDDEN',
 		},
 		{
-			name: 'Plan Type',
-			key: 'plantype',
-			description: 'Plan Type',
-			selector: (row) => row?.planType,
+			name: 'Plan Name',
+			key: 'planname',
+			description: 'Plan Name',
+			selector: (row) => data?.plan?.planName,
 			sortable: true,
 			inputType: 'HIDDEN',
 		},
 	];
+	const beneList = () => {
+		let list = [];
+		list = [data?.principal, ...data?.dependantBeneficiaries];
+		setBeneficiaries(list);
+	};
+	useEffect(() => {
+		setTimeout(() => {
+			beneList();
+		}, 2000);
+	}, []);
 	return (
 		<Box
 			sx={{ width: '100%', height: '100%' }}
-			ref={ref}
-			p={5}>
+			p={4}
+			ref={ref}>
 			<Grid
 				container
 				spacing={2}>
@@ -322,9 +508,10 @@ const ComponentToPrint = forwardRef(({ data, action }, ref) => {
 						{/* Comapany Logo */}
 						<Avatar
 							sx={{ marginTop: '5px', marginRight: '10px' }}
+							src={data?.organization?.facilitylogo}
 							alt=''
 						/>
-						<h1>HCI</h1>
+						<h1>{data?.organizationName}</h1>
 					</Box>
 				</Grid>
 				{/* Address */}
@@ -334,19 +521,22 @@ const ComponentToPrint = forwardRef(({ data, action }, ref) => {
 					md={6}
 					style={{ textAlign: 'right' }}>
 					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						HCI Healthcare Limited
+						{data?.organizationName}
 					</Typography>
 					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						269, Herbert Macaulay Way,
+						{data?.organization?.facilityAddress},
 					</Typography>
 					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						Sabo, Yaba, Lagos.
+						{`${data?.organization?.facilityLGA || ''} ${
+							data?.organization?.facilityCity || ''
+						} ${data?.organization?.facilityState || ''}`}
+						,
 					</Typography>
 					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						0806 000 0000
+						{data?.organization?.facilityContactPhone}
 					</Typography>
 					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						inf0@healthcare.ng.com
+						{data?.organization?.facilityEmail}
 					</Typography>
 				</Grid>
 			</Grid>
@@ -360,14 +550,14 @@ const ComponentToPrint = forwardRef(({ data, action }, ref) => {
 					md={6}>
 					{/* date */}
 					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						November 12, 2020
+						{moment().format('DD/MM/YYYY')}
 					</Typography>
 					{/* Principal Name */}
 					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						Principal name
+						{`${data?.principal?.firstname} ${data?.principal?.lastname}`},
 					</Typography>
 					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						Dear Sir/Ma,
+						Dear {data?.principal?.gender === 'Male' ? 'Sir' : 'Ma'},
 					</Typography>
 				</Grid>
 			</Grid>
@@ -382,26 +572,20 @@ const ComponentToPrint = forwardRef(({ data, action }, ref) => {
 						textAlign: 'center',
 						fontWeight: 'bold',
 					}}>
-					HCI HEALTHCARE LIMITED POLICY DOCUMENT
+					{`${data?.organizationName?.toUpperCase()} POLICY DOCUMENT`}
 				</Typography>
 			</Box>
 			{/* ***********************************Document Body******************************************************* */}
 			<Box>
 				<Typography
 					sx={{ fontSize: '1rem', color: '#000000', marginBottom: '.5rem' }}>
-					Kindly find enclosed, {`HCI Healthcare Limited `}Policy Details for
-					the following beneficiaries registered on our scheme.
+					Kindly find enclosed, {data?.organizationName} Policy Details for the
+					following beneficiaries registered on our scheme.
 				</Typography>
 				<CustomTable
 					title={''}
 					columns={beneschema}
-					data={[
-						{
-							name: 'Mike Test',
-							policyId: '152E918643',
-							planType: 'Silver Ultra',
-						},
-					]}
+					data={beneficiaries}
 					pointerOnHover
 					highlightOnHover
 					striped
@@ -409,16 +593,27 @@ const ComponentToPrint = forwardRef(({ data, action }, ref) => {
 				/>
 				<Box my={2}>
 					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						<b> Start Date :</b> 01/01/2021 <br />
-						<b> End Date :</b> 31/12/2021 <br />
-						<b>Care Provider :</b> HCI Healthcare Limited
+						<b> Start Date :</b>{' '}
+						{moment(data?.validitystarts).format('DD/MM/YYYY')} <br />
+						<b> End Date :</b>
+						{moment(data?.validityEnds).format('DD/MM/YYYY')}
+						<br />
+						<b>Care Provider:</b>{' '}
+						{data?.providers?.map((p, i) => {
+							return (
+								<Typography>
+									{i + 1}. {p.organizationDetail?.facilityName}
+								</Typography>
+							);
+						})}{' '}
+						<br />
 					</Typography>
 				</Box>
 
 				<Typography
 					sx={{ fontSize: '1rem', color: '#000000', fontWeight: 'bold' }}>
 					Should you require further clarification, kindly contact us on the
-					following numbers {`0900000000`}.
+					following numbers {data?.organization?.facilityContactPhone}.
 				</Typography>
 				<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
 					Thank you.
@@ -430,13 +625,10 @@ const ComponentToPrint = forwardRef(({ data, action }, ref) => {
 					sx={{ display: 'flex', justifyContent: 'space-between' }}
 					my={2}>
 					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						<b>{`Kehinde Test`}</b> <br />
-						{`Lead, Fulfillment`}
+						<b>{data?.approvedby?.employeename}</b> <br />
+						{/* {`Lead, Fulfillment`} */}
 					</Typography>
-					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						<b>{`Funbi Test`}</b> <br />
-						{`Client Service Manager`}
-					</Typography>
+					<Divider>Find below your Policy ID Card</Divider>
 				</Box>
 			</Box>
 		</Box>
@@ -500,7 +692,7 @@ export const SendViaEmail = ({ closeModal, screenshot, data }) => {
 					organizationName: facility.facilityName,
 					html: `<img src="${imageUrl}" alt="" >`,
 					//attachments: attachments,
-					text: '',
+					text: data.message,
 					status: 'pending',
 					...data,
 				};
@@ -619,6 +811,17 @@ export const SendViaEmail = ({ closeModal, screenshot, data }) => {
 							require: 'Please Enter Destination Email',
 						})}
 						errorText={errors?.to?.message}
+					/>
+				</Grid>
+				<Grid
+					item
+					lg={12}
+					md={12}
+					sm={12}>
+					<Textarea
+						label='Message'
+						register={register('message')}
+						errorText={errors?.message?.message}
 					/>
 				</Grid>
 			</Grid>
