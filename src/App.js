@@ -1,314 +1,321 @@
-import React, {useEffect, useState} from "react";
-import "react-toastify/dist/ReactToastify.css";
+import React, {useEffect, useState} from 'react';
+import 'react-toastify/dist/ReactToastify.css';
 
-import {LocalizationProvider} from "@mui/x-date-pickers";
-import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
-import {AnimatePresence} from "framer-motion";
-import gsap from "gsap";
-import {BrowserRouter as Router} from "react-router-dom";
-import {ToastContainer} from "react-toastify";
-import {ThemeProvider} from "styled-components";
-import MyUserProvider from "./context";
-import {UserContext, ObjectContext} from "./context";
+import {LocalizationProvider} from '@mui/x-date-pickers';
+import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
+import {AnimatePresence} from 'framer-motion';
+import gsap from 'gsap';
+import {BrowserRouter as Router} from 'react-router-dom';
+import {ToastContainer} from 'react-toastify';
+import {ThemeProvider} from 'styled-components';
+import MyUserProvider from './context';
+import {UserContext, ObjectContext} from './context';
 /* import { ObjectProvider, UserProvider } from './context/context'; */
-import AppRoutes from "./hsmodules/routes";
-import {GlobalStyle} from "./ui/styled/global";
-import {darkTheme, lightTheme} from "./ui/styled/theme";
-import ActionLoader from "./components/action-loader/Action-Loader";
+import AppRoutes from './hsmodules/routes';
+import {GlobalStyle} from './ui/styled/global';
+import {darkTheme, lightTheme} from './ui/styled/theme';
+import ActionLoader from './components/action-loader/Action-Loader';
 
 function App() {
-  const [state, setState] = useState({
-    OrganizationModule: {
-      selectedOrganization: {},
-    },
-    ComplaintModule: {
-      selectedComplaint: {},
-    },
-    ProposalModule: {
-      selectedProposal: {},
-    },
-    SLAModule: {
-      selectedSLA: {},
-    },
-    BankAccountModule: {
-      selectedBankAccount: {},
-    },
-    InvoiceModule: {
-      selectedInvoice: {},
-      selectedPlan: {},
-      selectedBankAccount: {},
-    },
-    CRMAppointmentModule: {
-      selectedAppointment: {},
-    },
-    DealModule: {
-      selectedDeal: {},
-    },
-    TaskModule: {
-      selectedTask: {},
-    },
+	const [state, setState] = useState({
+		PremiumModule: {
+			selectedPremium: {},
+			selectedPlans: [],
+		},
 
-    ContactModule: {
-      selectedContact: {},
-    },
-    StaffModule: {
-      selectedStaff: {},
-    },
-    actionLoader: {
-      open: false,
-      message: "",
-    },
+		OrganizationModule: {
+			selectedOrganization: {},
+		},
+		ComplaintModule: {
+			selectedComplaint: {},
+		},
+		ProposalModule: {
+			selectedProposal: {},
+		},
+		SLAModule: {
+			selectedSLA: {},
+		},
+		BankAccountModule: {
+			selectedBankAccount: {},
+		},
+		InvoiceModule: {
+			selectedInvoice: {},
+			selectedPlan: {},
+			selectedBankAccount: {},
+		},
+		CRMAppointmentModule: {
+			selectedAppointment: {},
+		},
+		DealModule: {
+			selectedDeal: {},
+		},
+		TaskModule: {
+			selectedTask: {},
+		},
 
-    sideMenu: {
-      open: true,
-    },
+		ContactModule: {
+			selectedContact: {},
+		},
+		StaffModule: {
+			selectedStaff: {},
+		},
+		actionLoader: {
+			open: false,
+			message: '',
+		},
 
-    facilityModule: {
-      show: "list",
-      selectedFacility: {},
-      currentFacility: {},
-    },
+		sideMenu: {
+			open: true,
+		},
 
-    EmployeeModule: {
-      show: "list",
-      selectedEmployee: {},
-    },
-    ChartAccountModule: {
-      show: "list",
-      selectedAccount: {},
-    },
-    ExpenseModule: {
-      show: "list",
-      selectedExpense: {},
-    },
-    BankModule: {
-      show: "list",
-      selectedBank: {},
-    },
-    EpidemiologyModule: {
-      show: "list",
-      selectedEpid: {},
-      locationModal: false,
-    },
-    LocationModule: {
-      show: "list",
-      selectedLocation: {},
-    },
-    BandModule: {
-      show: "list",
-      selectedBand: {},
-    },
-    ProductModule: {
-      show: "list",
-      selectedProduct: {},
-    },
-    StoreModule: {
-      show: "list",
-      selectedStore: {},
-      locationModal: false,
-    },
-    RadiologyModule: {
-      show: "list",
-      selectedRadiology: {},
-      locationModal: false,
-    },
-    LaboratoryModule: {
-      show: "list",
-      selectedLab: {},
-      locationModal: false,
-    },
-    InventoryModule: {
-      show: "list",
-      selectedInventory: {},
-      locationModal: false,
-    },
-    TheatreModule: {
-      show: "list",
-      selectedTheatre: {},
-      locationModal: false,
-    },
-    ProductEntryModule: {
-      show: "list",
-      selectedProductEntry: {},
-    },
-    ProductExitModule: {
-      show: "list",
-      selectedProductEntry: {},
-    },
-    ClinicModule: {
-      show: "list",
-      selectedClinic: {},
-      locationModal: false,
-    },
-    FrontDesk: {
-      show: "list",
-      selectedFrontDesk: {},
-      locationModal: false,
-    },
-    ClientModule: {
-      show: "list",
-      selectedClient: {},
-      locationModule: false,
-    },
-    DocumentClassModule: {
-      show: "list",
-      selectedDocumentClass: {},
-      encounter_right: false,
-    },
-    WardModule: {
-      show: "list",
-      selectedWard: {},
-      locationModal: false,
-    },
-    AdmissionModule: {
-      show: "list",
-      selectedAdmission: {},
-    },
-    DischargeModule: {
-      show: "list",
-      selectedDischarge: {},
-    },
-    EndEncounterModule: {
-      show: "",
-      selectedEndEncounter: {},
-    },
-    AppointmentModule: {
-      show: "list",
-      selectedAppointment: {},
-    },
-    OrderModule: {
-      show: "list",
-      selectedOrder: {},
-    },
-    DispenseModule: {
-      show: "list",
-      selectedDispense: {},
-    },
-    DestinationModule: {
-      show: "list",
-      selectedDestination: {},
-    },
-    ManagedCareModule: {
-      show: "list",
-      selectedResource: {},
-    },
-    ManagedCare2Module: {
-      show: "list",
-      selectedResource: {},
-    },
-    medicationModule: {
-      show: "list",
-      selectedMedication: {},
-    },
-    ServicesModule: {
-      show: "list",
-      selectedServices: {},
-    },
-    financeModule: {
-      show: "list",
-      state: "false",
-      selectedFinance: {},
-      locationModal: false,
-    },
+		facilityModule: {
+			show: 'list',
+			selectedFacility: {},
+			currentFacility: {},
+		},
 
-    currentClients: [],
-    showpanel: false,
-    currDate: "",
-    currDate2: "",
-    labFormType: "",
+		EmployeeModule: {
+			show: 'list',
+			selectedEmployee: {},
+		},
+		ChartAccountModule: {
+			show: 'list',
+			selectedAccount: {},
+		},
+		ExpenseModule: {
+			show: 'list',
+			selectedExpense: {},
+		},
+		BankModule: {
+			show: 'list',
+			selectedBank: {},
+		},
+		EpidemiologyModule: {
+			show: 'list',
+			selectedEpid: {},
+			selectedSignal: {},
+			locationModal: false,
+		},
+		LocationModule: {
+			show: 'list',
+			selectedLocation: {},
+		},
+		BandModule: {
+			show: 'list',
+			selectedBand: {},
+		},
+		ProductModule: {
+			show: 'list',
+			selectedProduct: {},
+		},
+		StoreModule: {
+			show: 'list',
+			selectedStore: {},
+			locationModal: false,
+		},
+		RadiologyModule: {
+			show: 'list',
+			selectedRadiology: {},
+			locationModal: false,
+		},
+		LaboratoryModule: {
+			show: 'list',
+			selectedLab: {},
+			locationModal: false,
+		},
+		InventoryModule: {
+			show: 'list',
+			selectedInventory: {},
+			locationModal: false,
+		},
+		TheatreModule: {
+			show: 'list',
+			selectedTheatre: {},
+			locationModal: false,
+		},
+		ProductEntryModule: {
+			show: 'list',
+			selectedProductEntry: {},
+		},
+		ProductExitModule: {
+			show: 'list',
+			selectedProductEntry: {},
+		},
+		ClinicModule: {
+			show: 'list',
+			selectedClinic: {},
+			locationModal: false,
+		},
+		FrontDesk: {
+			show: 'list',
+			selectedFrontDesk: {},
+			locationModal: false,
+		},
+		ClientModule: {
+			show: 'list',
+			selectedClient: {},
+			locationModule: false,
+		},
+		DocumentClassModule: {
+			show: 'list',
+			selectedDocumentClass: {},
+			encounter_right: false,
+		},
+		WardModule: {
+			show: 'list',
+			selectedWard: {},
+			locationModal: false,
+		},
+		AdmissionModule: {
+			show: 'list',
+			selectedAdmission: {},
+		},
+		DischargeModule: {
+			show: 'list',
+			selectedDischarge: {},
+		},
+		EndEncounterModule: {
+			show: '',
+			selectedEndEncounter: {},
+		},
+		AppointmentModule: {
+			show: 'list',
+			selectedAppointment: {},
+		},
+		OrderModule: {
+			show: 'list',
+			selectedOrder: {},
+		},
+		DispenseModule: {
+			show: 'list',
+			selectedDispense: {},
+		},
+		DestinationModule: {
+			show: 'list',
+			selectedDestination: {},
+		},
+		ManagedCareModule: {
+			show: 'list',
+			selectedResource: {},
+		},
+		ManagedCare2Module: {
+			show: 'list',
+			selectedResource: {},
+		},
+		medicationModule: {
+			show: 'list',
+			selectedMedication: {},
+		},
+		ServicesModule: {
+			show: 'list',
+			selectedServices: {},
+		},
+		financeModule: {
+			show: 'list',
+			state: 'false',
+			selectedFinance: {},
+			locationModal: false,
+		},
 
-    employeeLocation: {
-      locationName: "",
-      locationType: "",
-      locationId: "",
-      facilityId: "",
-      facilityName: "",
-    },
+		currentClients: [],
+		showpanel: false,
+		currDate: '',
+		currDate2: '',
+		labFormType: '',
 
-    NoteModule: {
-      show: false,
-      selectedNote: {},
-    },
-    SelectedClient: {
-      client: {},
-      show: "list",
-    },
-    Beneficiary: {
-      principal: {},
-      dependent: [],
-      others: {},
-      show: "list",
-    },
-    currBeneficiary: "",
+		employeeLocation: {
+			locationName: '',
+			locationType: '',
+			locationId: '',
+			facilityId: '',
+			facilityName: '',
+		},
 
-    coordinates: {
-      longitude: "",
-      latitude: "",
-    },
-  });
+		NoteModule: {
+			show: false,
+			selectedNote: {},
+		},
+		SelectedClient: {
+			client: {},
+			show: 'list',
+		},
+		Beneficiary: {
+			principal: {},
+			dependent: [],
+			others: {},
+			show: 'list',
+		},
+		currBeneficiary: '',
 
-  useEffect(() => {
-    gsap.to("body", 0, {css: {visibility: "visible"}});
-  }, []);
+		coordinates: {
+			longitude: '',
+			latitude: '',
+		},
+	});
 
-  const [theme] = useState("light");
-  //TODO:  Handle  with  appropriate button
-  // const themeToggler = () => {
-  //   theme === 'light' ? setTheme('dark') : setTheme('light');
-  // };
+	useEffect(() => {
+		gsap.to('body', 0, {css: {visibility: 'visible'}});
+	}, []);
 
-  const showActionLoader = (message = "") => {
-    setState(prev => ({
-      ...prev,
-      actionLoader: {open: true, message: message},
-    }));
-  };
-  const hideActionLoader = () => {
-    setState(prev => ({
-      ...prev,
-      actionLoader: {open: false, message: ""},
-    }));
-  };
+	const [theme] = useState('light');
+	//TODO:  Handle  with  appropriate button
+	// const themeToggler = () => {
+	//   theme === 'light' ? setTheme('dark') : setTheme('light');
+	// };
 
-  const toggleSideMenu = () => {
-    setState(prev => ({
-      ...prev,
-      sideMenu: {open: !prev.sideMenu.open},
-    }));
-  };
+	const showActionLoader = (message = '') => {
+		setState(prev => ({
+			...prev,
+			actionLoader: {open: true, message: message},
+		}));
+	};
+	const hideActionLoader = () => {
+		setState(prev => ({
+			...prev,
+			actionLoader: {open: false, message: ''},
+		}));
+	};
 
-  return (
-    <>
-      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          {/*  <ObjectProvider>
+	const toggleSideMenu = () => {
+		setState(prev => ({
+			...prev,
+			sideMenu: {open: !prev.sideMenu.open},
+		}));
+	};
+
+	return (
+		<>
+			<ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+				<LocalizationProvider dateAdapter={AdapterDateFns}>
+					{/*  <ObjectProvider>
           <UserProvider> */}
-          <ObjectContext.Provider
-            value={{
-              state,
-              setState,
-              showActionLoader,
-              hideActionLoader,
-              toggleSideMenu,
-            }}
-          >
-            <MyUserProvider>
-              <GlobalStyle />
-              <ActionLoader />
-              <AnimatePresence initial exitBeforeEnter>
-                <Router>
-                  <AppRoutes />
-                </Router>
-              </AnimatePresence>
-              {/* </UserProvider>
+					<ObjectContext.Provider
+						value={{
+							state,
+							setState,
+							showActionLoader,
+							hideActionLoader,
+							toggleSideMenu,
+						}}>
+						<MyUserProvider>
+							<GlobalStyle />
+							<ActionLoader />
+							<AnimatePresence
+								initial
+								exitBeforeEnter>
+								<Router>
+									<AppRoutes />
+								</Router>
+							</AnimatePresence>
+							{/* </UserProvider>
         </ObjectProvider> */}
-            </MyUserProvider>
-          </ObjectContext.Provider>
-          <ToastContainer limit={1} />
-        </LocalizationProvider>
-      </ThemeProvider>
-    </>
-  );
+						</MyUserProvider>
+					</ObjectContext.Provider>
+					<ToastContainer limit={1} />
+				</LocalizationProvider>
+			</ThemeProvider>
+		</>
+	);
 }
 
 export default App;
