@@ -1,10 +1,10 @@
-import {FormHelperText} from '@mui/material';
+import { FormHelperText } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import React, {SelectHTMLAttributes, useEffect, useState} from 'react';
-import {Controller} from 'react-hook-form';
+import React, { SelectHTMLAttributes, useEffect, useState } from 'react';
+import { Controller } from 'react-hook-form';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
@@ -22,7 +22,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 	important?: boolean;
 }
 
-const CustomSelect: React.FC<SelectProps> = ({
+const CustomTariffSelect: React.FC<SelectProps> = ({
 	label,
 	options,
 	name,
@@ -60,17 +60,17 @@ const CustomSelect: React.FC<SelectProps> = ({
 					}}>
 					{label}
 					{important && (
-						<AcUnitIcon sx={{color: 'red', width: '16px', height: '16px'}} />
+						<AcUnitIcon sx={{ color: 'red', width: '16px', height: '16px' }} />
 					)}
 				</InputLabel>
 
 				<Controller
 					name={name}
 					control={control}
-					rules={{required: required}}
+					rules={{ required: required }}
 					render={({
-						field: {onChange, value},
-						fieldState: {isTouched, isDirty, error},
+						field: { onChange, value },
+						fieldState: { isTouched, isDirty, error },
 					}) => (
 						<Select
 							labelId='demo-simple-select-label'
@@ -80,7 +80,7 @@ const CustomSelect: React.FC<SelectProps> = ({
 									{label}{' '}
 									{important && (
 										<AcUnitIcon
-											sx={{color: 'red', width: '14px', height: '14px'}}
+											sx={{ color: 'red', width: '14px', height: '14px' }}
 										/>
 									)}
 								</>
@@ -107,17 +107,20 @@ const CustomSelect: React.FC<SelectProps> = ({
 								<MenuItem
 									value={option.value || option.name || option}
 									key={index}
-									sx={{width: '100%'}}>
-									{option.label || option.name || option.category || option}
+									sx={{ width: '100%' }}>
+									{option.label || option.name || option.comments.length > 30
+										? option.comments.substring(0, 30) + '...'
+										: option.comments || option}
 								</MenuItem>
 							))}
 						</Select>
 					)}
-					defaultValue='' // make sure to set up defaultValue
+					defaultValue={defaultValue} // make sure to set up defaultValue
 				/>
 
 				{errorText && (
-					<label style={{color: 'red', fontSize: '0.7rem', textAlign: 'left'}}>
+					<label
+						style={{ color: 'red', fontSize: '0.7rem', textAlign: 'left' }}>
 						{errorText}
 					</label>
 				)}
@@ -142,7 +145,7 @@ const CustomSelect: React.FC<SelectProps> = ({
 				}}>
 				{label}
 				{important && (
-					<AcUnitIcon sx={{color: 'red', width: '16px', height: '16px'}} />
+					<AcUnitIcon sx={{ color: 'red', width: '16px', height: '16px' }} />
 				)}
 			</InputLabel>
 			<Select
@@ -173,13 +176,15 @@ const CustomSelect: React.FC<SelectProps> = ({
 					<MenuItem
 						value={option.value || option.name || option}
 						key={index}
-						sx={{width: '100%'}}>
-						{option.label || option.name || option.category || option}
+						sx={{ width: '100%' }}>
+						{option.label || option.name || option.comments.length > 30
+							? option.comments.substring(0, 30) + '...'
+							: option.comments || option}
 					</MenuItem>
 				))}
 			</Select>
 			{errorText && (
-				<label style={{color: 'red', fontSize: '0.7rem', textAlign: 'left'}}>
+				<label style={{ color: 'red', fontSize: '0.7rem', textAlign: 'left' }}>
 					{errorText}
 				</label>
 			)}
@@ -187,4 +192,4 @@ const CustomSelect: React.FC<SelectProps> = ({
 	);
 };
 
-export default CustomSelect;
+export default CustomTariffSelect;

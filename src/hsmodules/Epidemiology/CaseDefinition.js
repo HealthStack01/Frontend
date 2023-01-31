@@ -17,7 +17,7 @@ import CustomTable from '../../components/customtable';
 import CustomSelect from '../../components/inputs/basic/Select';
 import Textarea from '../../components/inputs/basic/Textarea';
 import CustomConfirmationDialog from '../../components/confirm-dialog/confirm-dialog';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { PageWrapper } from './styles';
 import Input from '../../components/inputs/basic/Input';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
@@ -66,7 +66,7 @@ export default function CaseDefinition() {
 				overflow='hidden'
 				open={createModal}
 				onClose={handleHideCreateModal}
-				header='Create CaseDefinition'>
+				header='Create Case Definition'>
 				<CaseDefinitionCreate />
 			</ModalBox>
 
@@ -376,7 +376,13 @@ export function CaseDefinitionList({ showCreateModal, showDetailModal }) {
 			name: 'Name of Disease',
 			key: 'name',
 			description: 'Enter name of Disease',
-			selector: (row) => row.disease.name,
+			selector: (row) => (
+				<Typography
+					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
+					data-tag='allowRowEvents'>
+					{row?.disease.name}
+				</Typography>
+			),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -560,11 +566,11 @@ export function CaseDefinitionDetail({ showModifyModal }) {
 		data.notification_destination = data.notify;
 		await CaseDefinitionServ.patch(casedefinition._id, data)
 			.then((res) => {
-				console.log(res);
+				// console.log(res);
 				toast('CaseDefinition updated succesfully');
 			})
 			.catch((err) => {
-				console.log(err);
+				// console.log(err);
 				toast(
 					`Error updating CaseDefinition, probable network issues or ${err}`,
 				);
@@ -605,7 +611,7 @@ export function CaseDefinitionDetail({ showModifyModal }) {
 				gap='2rem'
 				justifyContent='flex-end'
 				alignItems='center'
-				mb='2rem'>
+				mb={1.5}>
 				<GlobalCustomButton
 					onClick={() => setConfirmDialog(true)}
 					color='error'>
@@ -650,6 +656,7 @@ export function CaseDefinitionDetail({ showModifyModal }) {
 							xs={12}
 							md={6}>
 							<CustomSelect
+								disabled
 								label='Choose Notification Type'
 								name='notificationType'
 								options={notificationTypeOptions}
@@ -672,6 +679,7 @@ export function CaseDefinitionDetail({ showModifyModal }) {
 						</Grid>
 					)}
 				</Grid>
+
 				<Grid
 					container
 					spacing={1}
@@ -682,6 +690,7 @@ export function CaseDefinitionDetail({ showModifyModal }) {
 							xs={12}
 							md={6}>
 							<Input
+								disabled
 								register={register('disease', { required: true })}
 								name='disease'
 								defaultValue={casedefinition?.disease?.name}
@@ -707,6 +716,7 @@ export function CaseDefinitionDetail({ showModifyModal }) {
 							xs={12}
 							md={6}>
 							<CustomSelect
+								disabled
 								label='Choose Person to Notify'
 								name='notify'
 								options={notifierOptions}
@@ -734,6 +744,7 @@ export function CaseDefinitionDetail({ showModifyModal }) {
 							xs={12}
 							md={6}>
 							<Textarea
+								disabled
 								register={register('symptoms', { required: true })}
 								name='symptoms'
 								defaultValue={casedefinition?.symptoms}
@@ -760,6 +771,7 @@ export function CaseDefinitionDetail({ showModifyModal }) {
 							xs={12}
 							md={6}>
 							<Textarea
+								disabled
 								register={register('casedefinition', { required: true })}
 								name='casedefinition'
 								defaultValue={casedefinition?.casedefinition}
@@ -785,6 +797,7 @@ export function CaseDefinitionDetail({ showModifyModal }) {
 							xs={12}
 							md={6}>
 							<Textarea
+								disabled
 								register={register('signs', { required: true })}
 								name='signs'
 								defaultValue={casedefinition?.signs}
@@ -810,6 +823,7 @@ export function CaseDefinitionDetail({ showModifyModal }) {
 							xs={12}
 							md={6}>
 							<Textarea
+								disabled
 								register={register('lab', { required: true })}
 								name='lab'
 								defaultValue={casedefinition?.labconfirmation}
@@ -833,6 +847,7 @@ export function CaseDefinitionDetail({ showModifyModal }) {
 					{!editing ? (
 						<Grid xs={12}>
 							<Textarea
+								disabled
 								register={register('management', { required: true })}
 								name='management'
 								defaultValue={casedefinition?.treatmentprotocol}

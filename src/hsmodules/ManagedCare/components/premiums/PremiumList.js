@@ -9,9 +9,9 @@ import {TableMenu} from '../../../../ui/styled/global';
 import {PageWrapper} from '../../../app/styles';
 import client from '../../../../feathers';
 import {toast} from 'react-toastify';
-import {List, ListItem} from '@mui/material';
+import {Box, List, ListItem} from '@mui/material';
 
-const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
+const PremiumnsListComponent = ({showDetailView}) => {
 	// const { register, handleSubmit, watch, errors } = useForm();
 	// eslint-disable-next-line
 	// eslint-disable-next-line
@@ -24,14 +24,14 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 	const [loading, setLoading] = useState(false);
 	const [invoices, setInvoices] = useState([]);
 
-	const getInvoicesForPage = useCallback(async () => {
+	const getPremiums = useCallback(async () => {
 		const testId = '60203e1c1ec8a00015baa357';
 		const facId = user.currentEmployee.facilityDetail._id;
 		setLoading(true);
 
 		const res = await dealServer.find({
 			query: {
-				facilityId: facId,
+				//facilityId: facId,
 			},
 		});
 
@@ -41,45 +41,34 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 
 		const invoices = await Promise.all(promises);
 
-		await setInvoices(invoices.flat(1));
+		await setInvoices(
+			invoices.flat(1).filter(item => item.status.toLowerCase() === 'approved'),
+		);
 
 		setLoading(false);
 	}, []);
 
 	useEffect(() => {
-		if (isTab) {
-			const currentDeal = state.DealModule.selectedDeal;
-			setInvoices(currentDeal.invoices || []);
-		} else {
-			getInvoicesForPage();
-		}
-	}, [state.DealModule, getInvoicesForPage, isTab]);
+		getPremiums();
+	}, [getPremiums]);
 
 	const handleRow = async data => {
-		if (isTab) {
-			setState(prev => ({
-				...prev,
-				InvoiceModule: {...prev.InvoiceModule, selectedInvoice: data},
-			}));
-			showDetailView();
-		} else {
-			const id = data.dealId;
-			await dealServer
-				.get(id)
-				.then(resp => {
-					setState(prev => ({
-						...prev,
-						DealModule: {...prev.DealModule, selectedDeal: resp},
-						InvoiceModule: {...prev.InvoiceModule, selectedInvoice: data},
-					}));
-					showDetailView();
-				})
-				.catch(err => {
-					toast.error('An error occured trying to view details of invoice');
-					console.log(err);
-				});
-			//console.log("is page");
-		}
+		const id = data.dealId;
+		await dealServer
+			.get(id)
+			.then(resp => {
+				setState(prev => ({
+					...prev,
+					DealModule: {...prev.DealModule, selectedDeal: resp},
+					InvoiceModule: {...prev.InvoiceModule, selectedInvoice: data},
+				}));
+				showDetailView();
+			})
+			.catch(err => {
+				toast.error('An error occured trying to view details of invoice');
+				console.log(err);
+			});
+		//console.log("is page");
 	};
 
 	const handleSearch = () => {};
@@ -225,18 +214,20 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 									<FilterMenu onSearch={handleSearch} />
 								</div>
 							)}
-							<h2 style={{margin: '0 10px', fontSize: '0.95rem'}}>Invoice</h2>
+							<h2 style={{margin: '0 10px', fontSize: '0.95rem'}}>
+								List of Paid Premiums
+							</h2>
 						</div>
 
-						{isTab && (
-							<GlobalCustomButton onClick={showCreateView}>
+						<Box>
+							<GlobalCustomButton onClick={() => console.log()}>
 								<AddCircleOutlineOutlined
 									fontSize='small'
 									sx={{marginRight: '5px'}}
 								/>
-								Create Invoice
+								Unpaid Premiums
 							</GlobalCustomButton>
-						)}
+						</Box>
 					</TableMenu>
 					<div style={{width: '100%', overflow: 'auto'}}>
 						<CustomTable
@@ -256,4 +247,4 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 	);
 };
 
-export default InvoiceList;
+export default PremiumnsListComponent;
