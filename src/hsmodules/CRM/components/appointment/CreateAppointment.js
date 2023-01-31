@@ -19,6 +19,9 @@ import client from '../../../../feathers';
 import {toast} from 'react-toastify';
 import CustomSelect from '../../../../components/inputs/basic/Select';
 import {v4 as uuidv4} from 'uuid';
+import dayjs from 'dayjs';
+import {EmailsSourceList} from '../deals/SendLink';
+import ModalBox from '../../../../components/modal';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -33,6 +36,8 @@ const MenuProps = {
 
 const ScheduleAppointment = ({closeModal}) => {
 	const dealServer = client.service('deal');
+	const emailServer = client.service('email');
+	const notificationsServer = client.service('notification');
 	const {control, register, handleSubmit} = useForm({
 		defaultValues: {
 			status: 'scheduled',
@@ -44,6 +49,8 @@ const ScheduleAppointment = ({closeModal}) => {
 	const [personName, setPersonName] = useState([]);
 	const [contactIds, setContactIds] = useState([]);
 	const [staffIds, setStaffsId] = useState([]);
+	const [emailsModal, setEmailModals] = useState(true);
+	const [selectedEmail, setSelectedEmail] = useState(null);
 
 	const contacts = state.DealModule.selectedDeal.contacts || [];
 	const staffs = state.DealModule.selectedDeal.assignStaff || [];
@@ -58,7 +65,38 @@ const ScheduleAppointment = ({closeModal}) => {
 		setStaffsId(value);
 	};
 
+	const sendEmailToContact = async (email, data) => {
+		const employee = user.currentEmployee;
+
+		const emailDocument = {
+			organizationId: employee.facilityDetail._id,
+			organizationName: employee.facilityDetail.facilityName,
+			html: '',
+			text: `You have been scheduled for an appointment with ${
+				employee.facilityDetail.facilityName
+			} at ${dayjs(data.date).format(
+				'DD/MM/YYYY hh:mm',
+			)} and title of appointment is ${data.title}`,
+			status: 'pending',
+			subject: `SCHEDULED APPOINTMENT WITH ${
+				employee.facilityDetail.facilityName
+			} AT ${dayjs(data.date).format('DD/MM/YYYY hh:mm')}`,
+			to: email,
+			name: employee.facilityDetail.facilityName,
+			//...data,
+		};
+
+		emailServer.create(emailDocument);
+	};
+
+	const handleSelectEmail = email => {
+		setSelectedEmail(email);
+		setEmailModals(false);
+	};
+
 	const createAppointment = async data => {
+		if (!selectedEmail) return setEmailModals(true);
+
 		showActionLoader();
 
 		const currentDeal = state.DealModule.selectedDeal;
@@ -74,6 +112,7 @@ const ScheduleAppointment = ({closeModal}) => {
 			createdByName: `${employee.firstname} ${employee.lastname}`,
 			createdAt: new Date(),
 			_id: uuidv4(),
+			from: selectedEmail,
 			//status: "scheduled",
 		};
 
@@ -98,19 +137,42 @@ const ScheduleAppointment = ({closeModal}) => {
 
 		// return console.log(newAppointments);
 
+		const notificationObj = {
+			type: 'CRM',
+			title: 'You were assinged to an Appointment',
+			description: `You were assigned to for an appointment titled; ${
+				data.title
+			} with ${currentDeal.name} set to take place on ${dayjs(data.date).format(
+				'DD/MM/YYYY hh:mm',
+			)} in CRM`,
+			facilityId: employee.facilityDetail._id,
+			sender: `${employee.firstname} ${employee.lastname}`,
+			senderId: employee._id,
+			pageUrl: '/app/crm/appointment',
+			priority: 'normal',
+			dest_userId: selectedStaffs.map(item => item.employeeId),
+		};
+
+		const emailPromises = selectedStaffs.map(async staff => {
+			await sendEmailToContact(staff.email, data);
+		});
+
 		const documentId = currentDeal._id;
 		await dealServer
 			.patch(documentId, {appointments: newAppointments})
-			.then(res => {
+			.then(async res => {
 				hideActionLoader();
 				//setContacts(res.contacts);
+				await notificationsServer.create(notificationObj);
+				await Promise.all(emailPromises);
 				setState(prev => ({
 					...prev,
 					DealModule: {...prev.DealModule, selectedDeal: res},
 				}));
 				closeModal();
+
 				toast.success(
-					`You have successfully Scheduled appointment for ${currentDeal.name}`,
+					`You have successfully Scheduled appointment with ${currentDeal.name}`,
 				);
 
 				//setReset(true);
@@ -126,6 +188,12 @@ const ScheduleAppointment = ({closeModal}) => {
 
 	return (
 		<Box sx={{width: '600px', maxHeight: '80vh'}}>
+			<ModalBox
+				open={emailsModal}
+				//onClose={() => setEmailModals(false)}
+				header='Plese Select Your Email Source to Notify Contact(s)'>
+				<EmailsSourceList selectEmail={handleSelectEmail} />
+			</ModalBox>
 			<Grid
 				container
 				spacing={2}
