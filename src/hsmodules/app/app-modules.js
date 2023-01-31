@@ -184,7 +184,7 @@ export const orgTypeModules = [
 	{
 		name: 'Corporate',
 		alias: [],
-		modules: ['Admin', 'Complaint', 'Coporate', 'Communication'],
+		modules: ['Admin', 'Complaint', 'Corporate', 'Communication'],
 	},
 
 	{

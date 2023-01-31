@@ -1,52 +1,52 @@
-import { useState, useEffect, useContext } from 'react';
-import { Button, Grid } from '@mui/material';
-import { Box } from '@mui/system';
+import {useState, useEffect, useContext} from 'react';
+import {Button, Grid} from '@mui/material';
+import {Box} from '@mui/system';
 import Input from '../../../../components/inputs/basic/Input';
-import { useForm } from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 
-import { FormsHeaderText } from '../../../../components/texts';
+import {FormsHeaderText} from '../../../../components/texts';
 import CustomSelect from '../../../../components/inputs/basic/Select';
 import GlobalCustomButton from '../../../../components/buttons/CustomButton';
 import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
 import CustomTable from '../../../../components/customtable';
 import moment from 'moment';
-import { CustomerView } from '../lead/LeadDetailView';
-import CustomerDetail, { PageCustomerDetail } from '../global/CustomerDetail';
+import {CustomerView} from '../lead/LeadDetailView';
+import CustomerDetail, {PageCustomerDetail} from '../global/CustomerDetail';
 import MuiCustomDatePicker from '../../../../components/inputs/Date/MuiDatePicker';
-import { formatDistanceToNowStrict } from 'date-fns';
+import {formatDistanceToNowStrict} from 'date-fns';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { PageCreatePlan } from '../plans/CreatePlan';
+import {PageCreatePlan} from '../plans/CreatePlan';
 import Plans from '../../Plans';
 import client from '../../../../feathers';
-import { ObjectContext, UserContext } from '../../../../context';
-import { toast } from 'react-toastify';
-import { v4 as uuidv4 } from 'uuid';
+import {ObjectContext, UserContext} from '../../../../context';
+import {toast} from 'react-toastify';
+import {v4 as uuidv4} from 'uuid';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
 const random = require('random-string-generator');
 
-const InvoiceCreate = ({ closeModal, handleGoBack }) => {
+const InvoiceCreate = ({closeModal, handleGoBack}) => {
 	const dealServer = client.service('deal');
 	const notificationsServer = client.service('notification');
-	const { state, setState, showActionLoader, hideActionLoader } =
+	const {state, setState, showActionLoader, hideActionLoader} =
 		useContext(ObjectContext);
-	const { user } = useContext(UserContext);
+	const {user} = useContext(UserContext);
 	const [plans, setPlans] = useState([]);
 	const [totalAmount, setTotalAmount] = useState(0);
 	const [duration, setDuration] = useState('');
 
-	const { register, control, setValue, reset, handleSubmit } = useForm();
+	const {register, control, setValue, reset, handleSubmit} = useForm();
 
-	const handleAddNewPlan = (plan) => {
-		setPlans((prev) => [plan, ...prev]);
+	const handleAddNewPlan = plan => {
+		setPlans(prev => [plan, ...prev]);
 	};
 
-	const handleRemovePlan = (plan) => {
-		setPlans((prev) => prev.filter((item) => item._id !== plan._id));
+	const handleRemovePlan = plan => {
+		setPlans(prev => prev.filter(item => item._id !== plan._id));
 	};
 
-	const createInvoice = async (data) => {
+	const createInvoice = async data => {
 		showActionLoader();
 		const currentDeal = state.DealModule.selectedDeal;
 		const employee = user.currentEmployee;
@@ -79,7 +79,7 @@ const InvoiceCreate = ({ closeModal, handleGoBack }) => {
 			senderId: employee._id,
 			pageUrl: '/app/crm/lead',
 			priority: 'normal',
-			dest_userId: currentDeal.assignStaff.map((item) => item.employeeId),
+			dest_userId: currentDeal.assignStaff.map(item => item.employeeId),
 		};
 
 		//return console.log(document);
@@ -90,14 +90,14 @@ const InvoiceCreate = ({ closeModal, handleGoBack }) => {
 
 		const documentId = currentDeal._id;
 		await dealServer
-			.patch(documentId, { invoices: newInvoices })
-			.then(async (res) => {
+			.patch(documentId, {invoices: newInvoices})
+			.then(async res => {
 				await notificationsServer.create(notificationObj);
 				hideActionLoader();
 				//setContacts(res.contacts);
-				setState((prev) => ({
+				setState(prev => ({
 					...prev,
-					DealModule: { ...prev.DealModule, selectedDeal: res },
+					DealModule: {...prev.DealModule, selectedDeal: res},
 				}));
 				//closeModal();
 				reset({
@@ -113,7 +113,7 @@ const InvoiceCreate = ({ closeModal, handleGoBack }) => {
 
 				//setReset(true);
 			})
-			.catch((err) => {
+			.catch(err => {
 				//setReset(false);
 				hideActionLoader();
 				toast.error(`Sorry, Failed to Create an Invoice. ${err}`);
@@ -187,7 +187,7 @@ const InvoiceCreate = ({ closeModal, handleGoBack }) => {
 						sm={12}>
 						<Box
 							mb={1}
-							sx={{ display: 'flex', justifyContent: 'space-between' }}>
+							sx={{display: 'flex', justifyContent: 'space-between'}}>
 							<FormsHeaderText text='Invoice Information' />
 						</Box>
 
@@ -295,132 +295,133 @@ const InvoiceCreate = ({ closeModal, handleGoBack }) => {
 };
 
 export default InvoiceCreate;
-export const HealthPlanSearchSelect = ({handleChange}) => {
-  const HealthPlanServ = client.service("healthplan");
-  const [facilities, setFacilities] = useState([]);
-  const {user, setUser} = useContext(UserContext);
 
-  const getFacilities = async () => {
-    if (user.currentEmployee) {
-      let stuff = {
-        organizationId: user.currentEmployee.facilityDetail._id,
-        // locationId:state.employeeLocation.locationId,
-        $limit: 100,
-        $sort: {
-          createdAt: -1,
-        },
-      };
+export const HealthPlanSearchSelect = ({handleChange, clearValue}) => {
+	const HealthPlanServ = client.service('healthplan');
+	const [facilities, setFacilities] = useState([]);
+	const {user, setUser} = useContext(UserContext);
+	const [value, setValue] = useState('');
 
-      const findHealthPlan = await HealthPlanServ.find({query: stuff});
+	const getFacilities = async () => {
+		if (user.currentEmployee) {
+			let stuff = {
+				organizationId: user.currentEmployee.facilityDetail._id,
+				// locationId:state.employeeLocation.locationId,
+				$limit: 100,
+				$sort: {
+					createdAt: -1,
+				},
+			};
 
-      await setFacilities(findHealthPlan.data);
-    } else {
-      if (user.stacker) {
-        const findClient = await HealthPlanServ.find({
-          query: {
-            $limit: 100,
-            $sort: {
-              createdAt: -1,
-            },
-          },
-        });
+			const findHealthPlan = await HealthPlanServ.find({query: stuff});
 
-        await setFacilities(findClient.data);
-      }
-    }
-  };
+			await setFacilities(findHealthPlan.data);
+		} else {
+			if (user.stacker) {
+				const findClient = await HealthPlanServ.find({
+					query: {
+						$limit: 100,
+						$sort: {
+							createdAt: -1,
+						},
+					},
+				});
 
-  useEffect(() => {
-    getFacilities();
-  }, []);
+				await setFacilities(findClient.data);
+			}
+		}
+	};
 
-  const createNewOptions = async () => {
-    const promises = facilities.map(item => {
-      console.log(item.premiumns);
-      const premiums = item.premiumns;
-      premiums.map(prem => {
-        return {
-          ...prem,
-          planName: item.planName,
-        };
-      });
-    });
+	useEffect(() => {
+		getFacilities();
+	}, []);
 
-    const data = await Promise.all(promises);
+	const createNewOptions = async () => {
+		const promises = facilities.map(item => {
+			console.log(item.premiumns);
+			const premiums = item.premiumns;
+			premiums.map(prem => {
+				return {
+					...prem,
+					planName: item.planName,
+				};
+			});
+		});
 
-    console.log(data);
-  };
+		const data = await Promise.all(promises);
 
-  const finalOptions =
-    facilities.length > 0
-      ? facilities.map(item => {
-          // console.log(item);
-          return item.premiums.map(prem => {
-            return {
-              ...prem,
-              planName: item.planName,
-              planCategory: item.planCategory,
-            };
-          });
-        })
-      : [];
+		console.log(data);
+	};
 
-  const plans = [
-    {
-      planName: "Silver Test",
-      planCategory: "Category 1",
-      planType: "Family",
-      premiumAmount: "100000",
-    },
-    {
-      planName: "Silver Test",
-      planCategory: "Category 1",
-      planType: "Individual",
-      premiumAmount: "20000",
-    },
-  ];
+	const finalOptions =
+		facilities.length > 0
+			? facilities.map(item => {
+					// console.log(item);
+					return item.premiums.map(prem => {
+						return {
+							...prem,
+							planName: item.planName,
+							planCategory: item.planCategory,
+						};
+					});
+			  })
+			: [];
 
-  return (
-    <Autocomplete
-      id="country-select-demo"
-      sx={{width: "100%"}}
-      onChange={(event, newValue, reason) => {
-        handleChange(newValue);
-      }}
-      options={finalOptions.flat(1)}
-      //options={plans}
-      groupBy={option => `${option.planName} (${option.planCategory})`}
-      autoHighlight
-      getOptionLabel={option => `${option.planName} (${option.planType})`}
-      renderOption={(props, option) => (
-        <Box component="li" {...props} sx={{fontSize: "0.85rem"}}>
-          {option.planType} - {option.premiumAmount}
-        </Box>
-      )}
-      renderInput={params => (
-        <TextField
-          {...params}
-          inputProps={{
-            ...params.inputProps,
-            autoComplete: "new-password", // disable autocomplete and autofill
-          }}
-          label={"Choose Your Plan"}
-          //ref={inputEl}
-          sx={{
-            fontSize: "0.75rem",
-            backgroundColor: "#ffffff",
-            "& .MuiInputBase-input": {
-              height: "0.9rem",
-              fontSize: "0.8rem",
-            },
-          }}
-          InputLabelProps={{
-            Autocomplete: "new-password",
-            shrink: true,
-            style: {color: "#2d2d2d"},
-          }}
-        />
-      )}
-    />
-  );
+	const onChange = data => {
+		//setValue(`${data.planName} (${data.planType})`);
+		setValue(data);
+		handleChange(data);
+	};
+
+	return (
+		<Autocomplete
+			id='country-select-demo'
+			sx={{width: '100%'}}
+			//value={value}
+			onChange={(event, newValue, reason) => {
+				if (reason === 'clear') {
+					setValue('');
+				} else {
+					onChange(newValue);
+				}
+			}}
+			options={finalOptions.flat(1)}
+			//options={plans}
+			groupBy={option => `${option.planName} (${option.planCategory})`}
+			autoHighlight
+			getOptionLabel={option => `${option.planName} (${option.planType})`}
+			renderOption={(props, option) => (
+				<Box
+					component='li'
+					{...props}
+					sx={{fontSize: '0.85rem'}}>
+					{option.planType} - {option.premiumAmount}
+				</Box>
+			)}
+			renderInput={params => (
+				<TextField
+					{...params}
+					inputProps={{
+						...params.inputProps,
+						autoComplete: 'new-password', // disable autocomplete and autofill
+					}}
+					label={'Choose Your Plan'}
+					//ref={inputEl}
+					sx={{
+						fontSize: '0.75rem',
+						backgroundColor: '#ffffff',
+						'& .MuiInputBase-input': {
+							height: '0.9rem',
+							fontSize: '0.8rem',
+						},
+					}}
+					InputLabelProps={{
+						Autocomplete: 'new-password',
+						shrink: true,
+						style: {color: '#2d2d2d'},
+					}}
+				/>
+			)}
+		/>
+	);
 };
