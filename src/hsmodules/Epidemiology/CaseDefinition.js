@@ -277,7 +277,7 @@ export function CaseDefinitionList({ showCreateModal, showDetailModal }) {
 			...prevstate,
 			EpidemiologyModule: newCaseDefinitionModule,
 		}));
-		console.log(newCaseDefinitionModule);
+		// console.log(newCaseDefinitionModule);
 		showDetailModal();
 	};
 
