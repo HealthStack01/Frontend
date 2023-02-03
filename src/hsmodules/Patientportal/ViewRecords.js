@@ -10,7 +10,7 @@ import BookOnlineIcon from '@mui/icons-material/BookOnline';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import BiotechIcon from '@mui/icons-material/Biotech';
 import Typography from '@mui/material/Typography';
-import ModalBox from '../../components/modal';
+// import ModalBox from '../../components/modal';
 import MedicalRecords from './components/medicalRecords/MedicalRecords';
 import ClinicalNotes from './components/medicalRecords/ClinicalNotes';
 import Prescription from './components/medicalRecords/Prescription';
@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function ViewRecords() {
 	const [currentView, setCurrentView] = useState('veiws');
-	const [healthInsuranceModal, setHealthInsuranceModal] = useState(false);
+	// const [healthInsuranceModal, setHealthInsuranceModal] = useState(false);
 
 	const handleGoBack = () => {
 		setCurrentView('veiws');
