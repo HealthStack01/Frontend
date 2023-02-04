@@ -11,10 +11,12 @@ import ModalBox from '../../components/modal';
 import axios from 'axios';
 import { baseuRL, token } from '../../utils/api';
 import { toast, ToastContainer } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
 
 const PreAuthCreate = ({ onClose }) => {
 	const { register, handleSubmit } = useForm();
 	const [open, setOpen] = useState(false);
+	const [emergency, setEmergency] = useState(false);
 	const [type, setType] = useState();
 	const [diagnosis, setDiagnosis] = useState({});
 	const [compliantList, setCompliantlIST] = useState([]);
@@ -35,6 +37,9 @@ const PreAuthCreate = ({ onClose }) => {
 
 	const submit = async data => {
 		data.clinical_details = compliantList;
+		data.policyid = uuidv4();
+		data.PAcode = uuidv4();
+		data.emergency = emergency;
 		axios
 			.post(`${baseuRL}/preauth`, data, {
 				headers: {
@@ -79,7 +84,7 @@ const PreAuthCreate = ({ onClose }) => {
 				<Box
 					sx={{
 						display: 'grid',
-						gridTemplateColumns: { xs: '1fr', lg: '4fr 1fr' },
+						gridTemplateColumns: { xs: '1fr', lg: '2fr 2fr 2fr' },
 						gap: '1rem',
 						my: '1rem',
 					}}>
@@ -87,8 +92,20 @@ const PreAuthCreate = ({ onClose }) => {
 						placeholder='Enter for Patient name'
 						register={register('beneficiary')}
 					/>
+					<Input
+						placeholder='Enter for provider'
+						register={register('provider')}
+					/>
+					<Input
+						placeholder='Enter for HMO Payer'
+						register={register('hmopayer')}
+					/>
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-						<input type='checkbox' /> <label>Emergency</label>
+						<input
+							type='checkbox'
+							onChange={() => setEmergency(!emergency)}
+						/>{' '}
+						<label>Emergency</label>
 					</Box>
 				</Box>
 
