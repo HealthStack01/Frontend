@@ -243,6 +243,8 @@ function App() {
       principal: {},
       dependent: [],
       individuals: [],
+      familyPolicies: [],
+      individualPolicies: [],
       others: {},
       show: "list",
     },

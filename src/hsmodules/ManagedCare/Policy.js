@@ -56,6 +56,7 @@ import {
 } from "./schema";
 import {ProviderPrintout} from "./components/Printout";
 import dayjs from "dayjs";
+import {ClientSearch} from "../helpers/ClientSearch";
 
 var random = require("random-string-generator");
 // eslint-disable-next-line
@@ -96,7 +97,13 @@ export default function Policy({standAlone}) {
             setShowModal2(false);
           }}
         >
-          <ClientCreate />
+          <ClientCreate
+            closeModal={() => {
+              console.log("hello world");
+              setShowModal2(false);
+              setShowModal(1);
+            }}
+          />
         </ModalBox>
       )}
       {showModal === 2 && <PolicyDetail setShowModal={setShowModal} />}
@@ -235,6 +242,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
   };
 
   const getFacilities = async () => {
+    setLoading(true);
     if (user.currentEmployee) {
       // const findClient= await ClientServ.find()
       const findClient = await ClientServ.find({
@@ -248,6 +256,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       });
       /*  if (page===0){ */
       await setFacilities(findClient.data);
+      setLoading(false);
       console.log(findClient.data, user);
       /* }else{
              await setFacilities(prevstate=>prevstate.concat(findClient.data))
@@ -269,6 +278,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
         });
 
         await setFacilities(findClient.data);
+        setLoading(false);
       }
     }
   };
@@ -604,6 +614,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
   const [famDuration, setFamDuration] = useState("");
   const [familyModal, setFamilyModal] = useState(false);
   const [multipleModal, setMultipleModal] = useState(false); //Multiple Individuals
+  const [providers, setProviders] = useState([]);
   // const [organizationName, setOrganizationName] = useState('');
   // const [organizationId, setOrganizationId] = useState('');
 
@@ -997,7 +1008,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
     return () => {};
   }, [hmo, user]);
 
-  const OrgFacilitySchema = [
+  const providerColumns = [
     {
       name: "S/N",
       key: "sn",
@@ -1064,7 +1075,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
       selector: row => (
         <IconButton
           onClick={() => {
-            setChosen(chosen.filter(item => item._id !== row._id));
+            setProviders(providers.filter(item => item._id !== row._id));
           }}
           color="error"
         >
@@ -1083,8 +1094,13 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
     hideActionLoader();
   }, []);
 
-  const handleFamilyCreate = async (data, e) => {
-    showActionLoader();
+  const handleFamilyCreate = async data => {
+    //return console.log(providers);
+
+    if (!state.Beneficiary.principal._id)
+      return toast.warning("Please add principal! ");
+
+    //showActionLoader();
     //e.preventDefault();
     // generate a unique policy number where the year is the lat 2 digits of the year, plan type is a single digit, organization type is a single digit,
     //organizationId is a system generated 6 digit that should not be repeated, and the last 1 digit is the sponsor type
@@ -1101,19 +1117,14 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
     const policyNo = `${year}${planType1}${orgType}${orgId}`;
     console.log(policyNo);
 
-    if (!state.Beneficiary.principal._id) {
-      toast.warning("Please add principal! ");
-
-      return;
-    }
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
 
-    let confirm = window.confirm(
-      `You are about to register a new policy ${policyNo} ?`
-    );
-    console.log(user);
+    // let confirm = window.confirm(
+    //   `You are about to register a new policy ${policyNo} ?`
+    // );
+    //console.log(user);
     if (confirm) {
       let policy = {
         policyNo: policyNo,
@@ -1140,7 +1151,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
             policyNo: `${policyNo}-${i + 1}`,
           };
         }),
-        providers: chosen,
+        providers: providers,
         sponsorshipType: data.sponsortype,
         sponsor: planHMO,
         plan: chosenPlan,
@@ -1159,48 +1170,36 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
           },
         ],
       };
-      console.log("POLICY", policy);
-      await policyServ
-        .create(policy)
-        .then(res => {
-          hideActionLoader();
-          // console.log(
-          //   "facilityId",
-          //   user.currentEmployee.facilityDetail._id,
-          //   "response",
-          //   res
-          // );
-          setState(prev => ({
-            ...prev,
-            Beneficiary: {
-              ...prev.Beneficiary,
-              principal: {},
-              dependent: [],
-            },
-          }));
-          // setSuccess(true);
-          toast.success("Policy created succesfully");
-          //setSuccess(false);
-        })
-        // .then(async res => {
-        //   await setShowModal(0);
-        // })
-        .catch(err => {
-          hideActionLoader();
-          toast.error("Error creating Policy " + err);
-        });
+      // console.log("POLICY", policy);
+
+      //return console.log(policy);
+
+      setState(prev => ({
+        ...prev,
+        Beneficiary: {
+          ...prev.Beneficiary,
+          familyPolicies: [policy, ...prev.Beneficiary.familyPolicies],
+          principal: {},
+          dependent: [],
+        },
+      }));
+
+      setProviders([]);
+
+      return toast.success(
+        `Policy with Policy Number - ${policyNo} added to list`
+      );
     }
   };
 
-  const multipleSubmit = async (data, doc) => {
-    //return console.log
-    // e.preventDefault();
-    if (!doc) {
-      toast.warning("Please add principal! ");
+  const handleAddIndividualPolicy = async data => {
+    //return console.log(providers);
 
-      return;
-    }
-    showActionLoader();
+    if (!state.Beneficiary.principal._id)
+      return toast.warning("Please add principal! ");
+
+    //showActionLoader();
+    //e.preventDefault();
     // generate a unique policy number where the year is the lat 2 digits of the year, plan type is a single digit, organization type is a single digit,
     //organizationId is a system generated 6 digit that should not be repeated, and the last 1 digit is the sponsor type
     // 1 - individual, 2 - corporate, 3 - group
@@ -1213,17 +1212,17 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
       state.Beneficiary.principal._id && !state.Beneficiary.dependent._id
         ? "-1"
         : state.Beneficiary.dependent.length + 1;
-    const policyNo = `${year}${planType1}${orgType}${orgId}${familyCode}`;
+    const policyNo = `${year}${planType1}${orgType}${orgId}`;
     console.log(policyNo);
 
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
 
-    let confirm = window.confirm(
-      `You are about to register a new policy ${policyNo} ?`
-    );
-    console.log(user);
+    // let confirm = window.confirm(
+    //   `You are about to register a new policy ${policyNo} ?`
+    // );
+    //console.log(user);
     if (confirm) {
       let policy = {
         policyNo: policyNo,
@@ -1243,9 +1242,14 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
           user.currentEmployee.facilityDetail.facilityType === "HMO"
             ? user.currentEmployee.facilityDetail
             : hmo,
-        principal: doc, //
-        dependantBeneficiaries: state.Beneficiary.dependent,
-        providers: chosen,
+        principal: {...state.Beneficiary.principal, policyNo: policyNo}, //
+        dependantBeneficiaries: state.Beneficiary.dependent.map((item, i) => {
+          return {
+            ...item,
+            policyNo: `${policyNo}-${i + 1}`,
+          };
+        }),
+        providers: providers,
         sponsorshipType: data.sponsortype,
         sponsor: planHMO,
         plan: chosenPlan,
@@ -1264,37 +1268,64 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
           },
         ],
       };
-      console.log("POLICY", policy);
-      await policyServ
-        .create(policy)
-        .then(res => {
-          hideActionLoader();
-          console.log(
-            "facilityId",
-            user.currentEmployee.facilityDetail._id,
-            "response",
-            res
-          );
-          setSuccess(true);
-          toast.success("Client created succesfully");
-          setSuccess(false);
-          setState(prev => ({
-            ...prev,
-            Beneficiary: {
-              ...prev.Beneficiary,
-              principal: {},
-              dependant: [],
-            },
-          }));
-        })
-        .then(async res => {
-          await setShowModal(0);
-        })
-        .catch(err => {
-          hideActionLoader();
-          toast.error("Error creating Client " + err);
-        });
+      // console.log("POLICY", policy);
+
+      //return console.log(policy);
+
+      setState(prev => ({
+        ...prev,
+        Beneficiary: {
+          ...prev.Beneficiary,
+          individualPolicies: [policy, ...prev.Beneficiary.individualPolicies],
+          principal: {},
+          dependent: [],
+        },
+      }));
+
+      setProviders([]);
+
+      return toast.success(
+        `Policy with Policy Number - ${policyNo} added to list`
+      );
     }
+  };
+
+  // console.log(
+  //   "hello world from the other side",
+  //   state.Beneficiary.familyPolicies
+  // );
+
+  const createPolicy = async policy => {
+    await policyServ.create(policy);
+  };
+
+  const handleSave = async () => {
+    showActionLoader();
+    const familyPolicies = state.Beneficiary.familyPolicies;
+    const individualPolicies = state.Beneficiary.individualPolicies;
+
+    const allPolicies = [...familyPolicies, ...individualPolicies];
+
+    const promises = allPolicies.map(async doc => {
+      await createPolicy(doc);
+    });
+
+    await Promise.all(promises);
+
+    hideActionLoader();
+
+    toast.success(
+      `You have successfully created ${allPolicies.length} Policies`
+    );
+
+    setState(prev => ({
+      ...prev,
+      Beneficiary: {
+        ...prev.Beneficiary,
+        familyPolicies: [],
+        individualPolicies: [],
+      },
+    }));
   };
 
   return (
@@ -1310,24 +1341,41 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
       >
         <ModalBox
           open={familyModal}
-          onClose={() => setFamilyModal(false)}
+          onClose={() => {
+            setFamilyModal(false);
+            setProviders([]);
+            setState(prev => ({
+              ...prev,
+              Beneficiary: {
+                ...prev.Beneficiary,
+                principal: {},
+                dependent: [],
+              },
+            }));
+          }}
           header="Create Policy For Family"
         >
           <AddFamilyToPolicy
             addPrincipal={handleClickProd}
             addDependent={handleClickProd2}
             createPolicy={handleSubmit(handleFamilyCreate)}
+            providers={providers}
+            setProviders={setProviders}
+            providerColumns={providerColumns}
           />
         </ModalBox>
 
         <ModalBox
           open={multipleModal}
           onClose={() => setMultipleModal(false)}
-          header="Create Policy For Multiple Individuals"
+          header="Create Policy For Individuals"
         >
           <AddMulipleIndividualPolicy
-            addIndividual={handleClickProd3}
-            createPolicy={handleSubmit(multipleSubmit)}
+            addIndividual={handleClickProd}
+            providers={providers}
+            setProviders={setProviders}
+            providerColumns={providerColumns}
+            createPolicy={handleSubmit(handleAddIndividualPolicy)}
           />
         </ModalBox>
         <form>
@@ -1352,6 +1400,8 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
                       principal: {},
                       dependent: [],
                       individuals: [],
+                      familyPolicies: [],
+                      individualPolicies: [],
                     },
                   }));
                 }}
@@ -1361,7 +1411,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
                 text={"Save"}
                 color="success"
                 customStyles={{marginRight: ".5rem"}}
-                onClick={handleSubmit(onSubmit)}
+                onClick={handleSave}
               />
             </Box>
           </Box>
@@ -1527,7 +1577,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
               </Grid>
             </Grid> */}
 
-            <Box
+            {/* <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
@@ -1560,14 +1610,14 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
                   progressPending={loading}
                 />
               </Box>
-            </Box>
+            </Box> */}
 
             {/* {chosen?.length > 0 && ( */}
 
             {/* )} */}
           </Box>
 
-          <Box sx={{float: "left"}} mt={2}>
+          <Box sx={{float: "left", width: "100%"}} mt={2} mb={2}>
             {planType && planType.toLowerCase() === "individual" && (
               <Box
                 sx={{
@@ -1575,18 +1625,18 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
                   gap: 1.5,
                 }}
               >
-                <GlobalCustomButton onClick={handleClickProd}>
+                <GlobalCustomButton onClick={() => setMultipleModal(true)}>
                   <AddIcon fontSize="small" sx={{marginRight: "5px"}} />
-                  Add Single Individual
+                  Add An Individual
                 </GlobalCustomButton>
 
-                <GlobalCustomButton
+                {/* <GlobalCustomButton
                   onClick={() => setMultipleModal(true)}
                   color="secondary"
                 >
                   <AddIcon fontSize="small" sx={{marginRight: "5px"}} />
                   Add Multiple Individuals
-                </GlobalCustomButton>
+                </GlobalCustomButton> */}
               </Box>
             )}
 
@@ -1631,11 +1681,150 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
                 >
                   +
                 </button>
+								dependantBeneficiaries
               </p>
             )} */}
           </Box>
 
-          <Grid container spacing={2} mt={2}>
+          <Box>
+            {state.Beneficiary.familyPolicies.length > 0 && (
+              <Box>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <FormsHeaderText text="List of Family Policies" />
+                </Box>
+
+                {state.Beneficiary.familyPolicies.map(policy => {
+                  return (
+                    <Box>
+                      <Box>
+                        <FormsHeaderText text={"Principal"} />
+                        <CustomTable
+                          title={""}
+                          columns={EnrolleSchema}
+                          data={[policy.principal]}
+                          pointerOnHover
+                          highlightOnHover
+                          striped
+                          // onRowClicked={() =>
+                          //   handleRow(state.Beneficiary?.principal)
+                          // }
+                          progressPending={false}
+                        />
+                      </Box>
+
+                      {policy.dependantBeneficiaries.length > 0 && (
+                        <Box>
+                          <FormsHeaderText text={"Dependant(s)"} />
+                          <CustomTable
+                            title={""}
+                            columns={EnrolleSchema2}
+                            data={policy.dependantBeneficiaries}
+                            pointerOnHover
+                            highlightOnHover
+                            striped
+                            onRowClicked={() => handleRow()}
+                            progressPending={loading}
+                          />
+                        </Box>
+                      )}
+
+                      {policy.providers.length > 0 && (
+                        <Box>
+                          <FormsHeaderText text={"Provider(s)"} />
+                          <CustomTable
+                            title={""}
+                            columns={providerColumns}
+                            data={policy.providers?.filter(
+                              item => item !== null
+                            )}
+                            pointerOnHover
+                            highlightOnHover
+                            striped
+                            CustomEmptyData={
+                              <Typography sx={{fontSize: "0.85rem"}}>
+                                No provider added yet...
+                              </Typography>
+                            }
+                            progressPending={loading}
+                          />
+                        </Box>
+                      )}
+                    </Box>
+                  );
+                })}
+              </Box>
+            )}
+          </Box>
+
+          <Box>
+            {state.Beneficiary.individualPolicies.length > 0 && (
+              <Box>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <FormsHeaderText text="List of Individual Policies" />
+                </Box>
+
+                {state.Beneficiary.individualPolicies.map(policy => {
+                  return (
+                    <Box>
+                      <Box>
+                        <FormsHeaderText text={"Principal"} />
+                        <CustomTable
+                          title={""}
+                          columns={EnrolleSchema}
+                          data={[policy.principal]}
+                          pointerOnHover
+                          highlightOnHover
+                          striped
+                          // onRowClicked={() =>
+                          //   handleRow(state.Beneficiary?.principal)
+                          // }
+                          progressPending={false}
+                        />
+                      </Box>
+
+                      {policy.providers.length > 0 && (
+                        <Box>
+                          <FormsHeaderText text={"Provider(s)"} />
+                          <CustomTable
+                            title={""}
+                            columns={providerColumns}
+                            data={policy.providers?.filter(
+                              item => item !== null
+                            )}
+                            pointerOnHover
+                            highlightOnHover
+                            striped
+                            CustomEmptyData={
+                              <Typography sx={{fontSize: "0.85rem"}}>
+                                No provider added yet...
+                              </Typography>
+                            }
+                            progressPending={loading}
+                          />
+                        </Box>
+                      )}
+                    </Box>
+                  );
+                })}
+              </Box>
+            )}
+          </Box>
+
+          {/* <Grid container spacing={2} mt={2}>
             <Grid item md={12}>
               {state?.Beneficiary?.principal?._id && (
                 <>
@@ -1671,7 +1860,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
                 </>
               )}
             </Grid>
-          </Grid>
+          </Grid> */}
         </form>
         <ModalBox
           open={createOrg}
@@ -1742,6 +1931,8 @@ export function ClientCreate({closeModal}) {
   const [imageUploadModal, setImageUploadModal] = useState(false);
   const user = JSON.parse(data);
   const [organizationName, setOrganizationName] = useState();
+  const [addType, setAddType] = useState(false);
+  const [clearClientSearch, setClearClientSearch] = useState(false);
 
   const {
     register,
@@ -1995,40 +2186,41 @@ export function ClientCreate({closeModal}) {
                 setDependant(false);
                 setDate();
                 reset();
-                let newBeneficiaryModule = {};
+                // let newBeneficiaryModule = {};
                 if (state.currBeneficiary === "principal") {
                   res.type = "principal";
-                  newBeneficiaryModule = {
-                    principal: res,
-                    dependent: state.Beneficiary.dependent,
-                    others: state.Beneficiary.others,
-                    show: "create",
-                  };
+                  setState(prev => ({
+                    ...prev,
+                    Beneficiary: {
+                      ...prev.Beneficiary,
+                      principal: res,
+                    },
+                  }));
                 }
                 if (state.currBeneficiary === "dependent") {
                   res.type = "dependent";
-                  newBeneficiaryModule = {
-                    principal: state.Beneficiary.principal,
-                    dependent: [...state.Beneficiary.dependent, res],
-                    others: state.Beneficiary.others,
-                    individuals: state.Beneficiary.individuals,
-                    show: "create",
-                  };
+                  setState(prev => ({
+                    ...prev,
+                    Beneficiary: {
+                      ...prev.Beneficiary,
+                      dependent: [...state.Beneficiary.dependent, res],
+                    },
+                  }));
                 }
-                if (state.currBeneficiary === "multiple_individuals") {
-                  res.type = "principal";
-                  newBeneficiaryModule = {
-                    principal: state.Beneficiary.principal,
-                    dependent: state.Beneficiary.dependent,
-                    others: state.Beneficiary.others,
-                    individuals: [...state.Beneficiary.individuals, res],
-                    show: "create",
-                  };
-                }
-                setState(prevstate => ({
-                  ...prevstate,
-                  Beneficiary: newBeneficiaryModule,
-                }));
+                // if (state.currBeneficiary === "multiple_individuals") {
+                //   res.type = "principal";
+                //   newBeneficiaryModule = {
+                //     principal: state.Beneficiary.principal,
+                //     dependent: state.Beneficiary.dependent,
+                //     others: state.Beneficiary.others,
+                //     individuals: [...state.Beneficiary.individuals, res],
+                //     show: "create",
+                //   };
+                // }
+                // setState(prevstate => ({
+                //   ...prevstate,
+                //   Beneficiary: newBeneficiaryModule,
+                // }));
               })
               .catch(err => {
                 hideActionLoader();
@@ -2049,39 +2241,27 @@ export function ClientCreate({closeModal}) {
             setDependant(false);
             setDate();
             reset();
-            let newBeneficiaryModule = {};
+
             if (state.currBeneficiary === "principal") {
               res.type = "principal";
-              newBeneficiaryModule = {
-                principal: res,
-                dependent: state.Beneficiary.dependent,
-                others: state.Beneficiary.others,
-                show: "create",
-              };
+              setState(prev => ({
+                ...prev,
+                Beneficiary: {
+                  ...prev.Beneficiary,
+                  principal: res,
+                },
+              }));
             }
             if (state.currBeneficiary === "dependent") {
               res.type = "dependent";
-              newBeneficiaryModule = {
-                principal: state.Beneficiary.principal,
-                dependent: [...state.Beneficiary.dependent, res],
-                others: state.Beneficiary.others,
-                show: "create",
-              };
+              setState(prev => ({
+                ...prev,
+                Beneficiary: {
+                  ...prev.Beneficiary,
+                  dependent: [...state.Beneficiary.dependent, res],
+                },
+              }));
             }
-            if (state.currBeneficiary === "multiple_individuals") {
-              res.type = "principal";
-              newBeneficiaryModule = {
-                principal: state.Beneficiary.principal,
-                dependent: state.Beneficiary.dependent,
-                others: state.Beneficiary.others,
-                individuals: [...state.Beneficiary.individuals, res],
-                show: "create",
-              };
-            }
-            setState(prevstate => ({
-              ...prevstate,
-              Beneficiary: newBeneficiaryModule,
-            }));
           })
           .catch(err => {
             hideActionLoader();
@@ -2091,6 +2271,34 @@ export function ClientCreate({closeModal}) {
           });
       }
     }
+  };
+
+  const handleSelectClient = client => {
+    //let newBeneficiaryModule = {};
+    if (state.currBeneficiary === "principal") {
+      client.type = "principal";
+      setState(prev => ({
+        ...prev,
+        Beneficiary: {
+          ...prev.Beneficiary,
+          principal: client,
+        },
+      }));
+    }
+    if (state.currBeneficiary === "dependent") {
+      client.type = "dependent";
+      setState(prev => ({
+        ...prev,
+        Beneficiary: {
+          ...prev.Beneficiary,
+          dependent: [...state.Beneficiary.dependent, client],
+        },
+      }));
+    }
+
+    setClearClientSearch(true);
+    setClearClientSearch(false);
+    closeModal();
   };
 
   return (
@@ -2110,7 +2318,16 @@ export function ClientCreate({closeModal}) {
         />
       </ModalBox>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <Box mb={2}>
+        <PageWrapper>
+          <ClientSearch
+            getSearchfacility={handleSelectClient}
+            clear={setClearClientSearch}
+          />
+        </PageWrapper>
+      </Box>
+
+      <form>
         <ToastContainer theme="colored" />
         <PageWrapper>
           <div>
@@ -2643,52 +2860,6 @@ export function ClientCreate({closeModal}) {
           </div>
         </PageWrapper>
       </form>
-      {/* <ModalBox
-				open={openDp}
-				onClose={() => setOpenDp(false)}
-				header='Upload New Profile Photo'>
-				<Box sx={{ width: '400px', maxHeight: '80vw' }}>
-					{file ? (
-						<Box
-							sx={{
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-							}}>
-							<img
-								src={file}
-								alt='logo'
-								style={{ width: '200px', height: 'auto', display: 'block' }}
-							/>
-						</Box>
-					) : (
-						<FileUploader
-							multiple={false}
-							handleChange={handleChange}
-							name='upload'
-							types={['jpeg', 'png', 'jpg']}
-							children={<UploadComponent />}
-						/>
-					)}
-
-					<Box
-						sx={{ display: 'flex' }}
-						gap={2}
-						mt={2}>
-						<GlobalCustomButton
-							color='error'
-							onClick={closeModal}>
-							Cancel
-						</GlobalCustomButton>
-
-						<GlobalCustomButton
-							onClick={() => setOpenDp(false)}
-							disabled={file === null}>
-							Upload Image
-						</GlobalCustomButton>
-					</Box>
-				</Box>
-			</ModalBox> */}
     </>
   );
 }
@@ -3278,10 +3449,32 @@ export function PolicyDetail({showModal, setShowModal}) {
 export const AddFamilyToPolicy = ({
   addPrincipal,
   addDependent,
-  onComplete,
   createPolicy,
+  providerColumns,
+  providers,
+  setProviders,
 }) => {
   const {state, setState} = useContext(ObjectContext);
+  //const [providers, setProviders] = useState([]);
+  const [success, setSuccess] = useState(false);
+
+  const handleAddProviders = async obj => {
+    // console.log(obj);
+    if (
+      // check if obj is an object
+      obj && // check if obj is not null
+      Object.keys(obj).length > 0 && // check if obj is not empty
+      obj.constructor === Object &&
+      // check if the obj is already present in the array
+      !providers.some(el => el._id === obj._id)
+    ) {
+      await setProviders([...providers, obj]);
+      setSuccess(true);
+      setSuccess(false);
+      //await console.log("OBJ", chosen);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -3311,7 +3504,7 @@ export const AddFamilyToPolicy = ({
         </GlobalCustomButton>
       </Box>
 
-      <Box>
+      <Box mb={1.5}>
         <FormsHeaderText text="Principal" />
         <Box
           sx={{
@@ -3340,7 +3533,7 @@ export const AddFamilyToPolicy = ({
         </Box>
       </Box>
 
-      <Box>
+      <Box mb={1.5}>
         <FormsHeaderText text="Dependent(s)" />
 
         <Box
@@ -3358,7 +3551,41 @@ export const AddFamilyToPolicy = ({
             //onRowClicked={() => handleRow()}
             CustomEmptyData={
               <Typography sx={{fontSize: "0.8rem"}}>
-                You've not added a principal yet...
+                You've not added Dependant(s) yet...
+              </Typography>
+            }
+            progressPending={false}
+          />
+        </Box>
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+        mt={2}
+        gap={2}
+      >
+        <FormsHeaderText text={"Search and Select Provider(s)"} />
+        <Box>
+          <OrgFacilitySearch
+            getSearchfacility={handleAddProviders}
+            clear={success}
+          />
+        </Box>
+
+        <Box>
+          <CustomTable
+            title={""}
+            columns={providerColumns}
+            data={providers?.filter(item => item !== null)}
+            pointerOnHover
+            highlightOnHover
+            striped
+            CustomEmptyData={
+              <Typography sx={{fontSize: "0.85rem"}}>
+                No provider added yet...
               </Typography>
             }
             progressPending={false}
@@ -3367,8 +3594,8 @@ export const AddFamilyToPolicy = ({
       </Box>
 
       <Box sx={{display: "flex"}} gap={1.5} mt={2}>
-        <GlobalCustomButton onClick={createPolicy}>
-          Create Policy For This Family
+        <GlobalCustomButton onClick={() => createPolicy()}>
+          Add Family To List
         </GlobalCustomButton>
         <GlobalCustomButton>Reset Form</GlobalCustomButton>
       </Box>
@@ -3376,23 +3603,32 @@ export const AddFamilyToPolicy = ({
   );
 };
 
-export const AddMulipleIndividualPolicy = ({addIndividual, createPolicy}) => {
+export const AddMulipleIndividualPolicy = ({
+  addIndividual,
+  createPolicy,
+  providerColumns,
+  providers,
+  setProviders,
+}) => {
   const {state, setState} = useContext(ObjectContext);
 
-  const handleCratePolicyForAll = async () => {
-    const individuals = state.Beneficiary.individuals;
+  const [success, setSuccess] = useState(false);
 
-    const promises = individuals.map(async doc => {
-      doc.type = "principal";
-      await setState(prev => ({
-        ...prev,
-        Beneficiary: {...prev.Beneficiary, principal: doc},
-      }));
-
-      await createPolicy(doc);
-    });
-
-    await Promise.all(promises);
+  const handleAddProviders = async obj => {
+    // console.log(obj);
+    if (
+      // check if obj is an object
+      obj && // check if obj is not null
+      Object.keys(obj).length > 0 && // check if obj is not empty
+      obj.constructor === Object &&
+      // check if the obj is already present in the array
+      !providers.some(el => el._id === obj._id)
+    ) {
+      await setProviders([...providers, obj]);
+      setSuccess(true);
+      setSuccess(false);
+      //await console.log("OBJ", chosen);
+    }
   };
 
   return (
@@ -3409,7 +3645,7 @@ export const AddMulipleIndividualPolicy = ({addIndividual, createPolicy}) => {
         }}
       >
         <GlobalCustomButton onClick={addIndividual}>
-          Add New Individual
+          Add To Individuals List
         </GlobalCustomButton>
       </Box>
 
@@ -3424,7 +3660,11 @@ export const AddMulipleIndividualPolicy = ({addIndividual, createPolicy}) => {
           <CustomTable
             title={""}
             columns={EnrolleSchema2}
-            data={state?.Beneficiary?.individuals}
+            data={
+              JSON.stringify(state.Beneficiary.principal) !== "{}"
+                ? [state?.Beneficiary?.principal]
+                : []
+            }
             pointerOnHover
             highlightOnHover
             striped
@@ -3439,12 +3679,46 @@ export const AddMulipleIndividualPolicy = ({addIndividual, createPolicy}) => {
         </Box>
       </Box>
 
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+        mt={2}
+        gap={2}
+      >
+        <FormsHeaderText text={"Search and Select Provider(s)"} />
+        <Box>
+          <OrgFacilitySearch
+            getSearchfacility={handleAddProviders}
+            clear={success}
+          />
+        </Box>
+
+        <Box>
+          <CustomTable
+            title={""}
+            columns={providerColumns}
+            data={providers?.filter(item => item !== null)}
+            pointerOnHover
+            highlightOnHover
+            striped
+            CustomEmptyData={
+              <Typography sx={{fontSize: "0.85rem"}}>
+                No provider added yet...
+              </Typography>
+            }
+            progressPending={false}
+          />
+        </Box>
+      </Box>
+
       <Box mt={2}>
         <GlobalCustomButton
-          onClick={handleCratePolicyForAll}
-          disabled={state.Beneficiary.individuals.length === 0}
+          onClick={createPolicy}
+          //disabled={state.Beneficiary.principal._id}
         >
-          Create Policy For All
+          Add to Individual List
         </GlobalCustomButton>
       </Box>
     </Box>
