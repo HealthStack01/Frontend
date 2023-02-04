@@ -517,7 +517,7 @@ export const preAuthSchema = [
 		name: "Patient's Name",
 		key: 'clientname',
 		description: 'Enter client name',
-		selector: row => row.patient_name,
+		selector: row => row.beneficiary,
 		sortable: true,
 		required: true,
 		inputType: 'TEXT',
@@ -566,6 +566,68 @@ export const preAuthSchema = [
 		selector: row => row.emergency,
 		sortable: true,
 		required: true,
+		inputType: 'TEXT',
+	},
+];
+
+export const diagnosisSchema = [
+	{
+		name: 'Diagnosis Type',
+		key: 'diagnosisType',
+		selector: row => row.diagnosisType,
+		sortable: true,
+		required: true,
+		inputType: 'TEXT',
+	},
+	{
+		name: 'Diagnosis',
+		key: 'diagnosis',
+		selector: row => row.diagnosis,
+		sortable: true,
+		required: true,
+		inputType: 'TEXT',
+	},
+];
+
+export const serviceSchema = [
+	{
+		name: 'S/N',
+		key: 'sn',
+		description: 'SN',
+		selector: row => row.sn,
+		sortable: true,
+		inputType: 'HIDDEN',
+	},
+	{
+		name: 'item',
+		key: 'item',
+		description: 'Item',
+		selector: row => row.item,
+		sortable: true,
+		inputType: 'TEXT',
+	},
+	{
+		name: 'QTY',
+		key: 'submittedQuantity',
+		description: 'Submitted QTY',
+		selector: row => row.submittedQuantity,
+		sortable: true,
+		inputType: 'TEXT',
+	},
+	{
+		name: 'Unit Price',
+		key: 'submittedBill',
+		description: 'Unit Price',
+		selector: row => row.submittedBill,
+		sortable: true,
+		inputType: 'TEXT',
+	},
+	{
+		name: 'Total Amount',
+		key: 'payableBill',
+		description: 'Payable Bill',
+		selector: row => row.payableBill,
+		sortable: true,
 		inputType: 'TEXT',
 	},
 ];

@@ -18,27 +18,18 @@ import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
 
 import GlobalCustomButton from '../../components/buttons/CustomButton';
 
-import AutoCompleteBox from '../../components/inputs/AutoComplete';
-import Input from '../../components/inputs/basic/Input/index';
-import RadioButton from '../../components/inputs/basic/Radio';
-import Textarea from '../../components/inputs/basic/Textarea';
 import BasicDatePicker from '../../components/inputs/Date';
-import { FormsHeaderText } from '../../components/texts';
-import PatientProfile from '../Client/PatientProfile';
-import CRMTasks from '../CRM/Tasks';
-import Beneficiary from './Beneficiary';
-import Claims from './Claims';
-import Policy from './Policy';
-import PremiumPayment from './Premium';
+
 import { McText } from './text';
 import { baseuRL, token } from '../../utils/api';
 import axios from 'axios';
 import { preAuthSchema } from './schema';
 import { DashboardPageWrapper } from '../dashBoardUiComponent/core-ui/styles';
+import PreAuthCreate from './PreAuthCreate';
 
 export const PreAuth = () => {
 	const [data, setData] = useState([]);
-	const [loading, setloading] = useState(false);
+	const [open, setOpen] = useState(false);
 	const [startDate, setStartDate] = useState(new Date());
 	useEffect(() => {
 		axios
@@ -56,54 +47,68 @@ export const PreAuth = () => {
 			});
 	});
 
-
 	const handleSearch = () => {};
-	const handleCreateNew = () => {};
-	const handleRow = () => {};
+	const handleCreateNew = () => {
+		setOpen(true);
+	};
+	const handleRow = () => {
+		setOpen(true);
+	};
+	const handleClose = () => {
+		setOpen(false);
+	};
 
 	return (
-		<DashboardPageWrapper>
-			<div>
-				<TableMenu>
-					<div style={{ display: 'flex', alignItems: 'center' }}>
-						{handleSearch && (
-							<div className='inner-table'>
-								<FilterMenu onSearch={handleSearch} />
-							</div>
-						)}
-						<h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
-							Pre-Authorization
-						</h2>
-						{/* <DatePicker
+		<>
+			<ModalBox
+				open={open}
+				onClose={handleClose}
+				width='80vw'>
+				<PreAuthCreate />
+			</ModalBox>
+			<DashboardPageWrapper>
+				<div>
+					<TableMenu>
+						<div style={{ display: 'flex', alignItems: 'center' }}>
+							{handleSearch && (
+								<div className='inner-table'>
+									<FilterMenu onSearch={handleSearch} />
+								</div>
+							)}
+							<h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
+								Pre-Authorization
+							</h2>
+							{/* <DatePicker
 						selected={startDate}
 						onChange={date => handleDate(date)}
 						dateFormat='dd/MM/yyyy'
 						placeholderText='Filter By Date'
 						isClearable
 					/> */}
-					</div>
+						</div>
 
-					{handleCreateNew && (
-						<GlobalCustomButton
-							text='Add new '
-							onClick={handleCreateNew}
+						{handleCreateNew && (
+							<GlobalCustomButton
+								text='Add new '
+								onClick={handleCreateNew}
+							/>
+						)}
+					</TableMenu>
+
+					<div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+						<CustomTable
+							title={''}
+							columns={preAuthSchema}
+							data={data}
+							pointerOnHover
+							highlightOnHover
+							striped
+							onRowClicked={handleRow}
+							loading={false}
 						/>
-					)}
-				</TableMenu>
-
-				<div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-					<CustomTable
-						title={''}
-						columns={preAuthSchema}
-						data={data}
-						pointerOnHover
-						highlightOnHover
-						striped
-						onRowClicked={handleRow}
-						loading={false}
-					/>
+					</div>
 				</div>
-			</div>
-		</DashboardPageWrapper>
+			</DashboardPageWrapper>
+		</>
 	);
 };
