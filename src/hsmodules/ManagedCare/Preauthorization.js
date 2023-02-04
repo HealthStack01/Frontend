@@ -54,18 +54,6 @@ export function FacilityServiceRevenue() {
 		return () => {};
 	}, [user]);
 
-	//check user for facility or get list of facility
-	/*  useEffect(()=>{
-        //setFacility(user.activeInventory.FacilityId)//
-      if (!user.stacker){
-          console.log(currentUser)
-        setValue("facility", user.currentEmployee.facilityDetail._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        }) 
-      }
-    }) */
-
 	useEffect(() => {
 		getaccountdetails();
 		//getBalance()
@@ -109,47 +97,6 @@ export function FacilityServiceRevenue() {
 			});
 	};
 
-	/* const getBalance=async ()=>{
-        const findProductEntry= await SubwalletServ.find(
-            {query: {
-               
-                //client:clientSel.client,
-                organization:user.currentEmployee.facilityDetail._id,
-                //storeId:state.StoreModule.selectedStore._id,
-                //clientId:state.ClientModule.selectedClient._id,
-                $limit:100,
-                $sort: {
-                    createdAt: -1
-                }
-                }})
-                 console.log(findProductEntry)
-    
-         // console.log("balance", findProductEntry.data[0].amount)
-            if (findProductEntry.data.length>0){
-                await setBalance(findProductEntry.data[0].amount)
-            }else{
-                await setBalance(0) 
-                
-            } 
-    
-          //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
-            }   
-    
- */
-	/*  const onSubmit = (data,e) =>{
-        e.preventDefault();
-        setMessage("")
-        setError(false)
-        setSuccess(false)
-         // data.createdby=user._id
-          console.log(data);
-          if (user.currentEmployee){
-         data.facility=user.currentEmployee.facilityDetail._id  // or from facility dropdown
-          }
-        
-
-      }  */
-
 	return (
 		<>
 			<div className='card cardheight'>
@@ -184,12 +131,6 @@ export function FacilityServiceRevenue() {
 									<th>
 										<abbr title='Mode'>Mode</abbr>
 									</th>
-									{/*  <th><abbr title="Stock Value">Stock Value</abbr></th>
-                                         
-                                        <th><abbr title="Selling Price">Selling Price</abbr></th>
-                                        <th><abbr title="Re-Order Level">Re-Order Level</abbr></th>
-                                        <th><abbr title="Expiry">Expiry</abbr></th> 
-                                        <th><abbr title="Actions">Actions</abbr></th> */}
 								</tr>
 							</thead>
 							<tfoot></tfoot>
