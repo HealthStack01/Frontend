@@ -45,7 +45,7 @@ export const PreAuth = () => {
 			.catch(err => {
 				console.log(err);
 			});
-	}, []);
+	});
 
 	const handleSearch = () => {};
 	const handleCreateNew = () => {

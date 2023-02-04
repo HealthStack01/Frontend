@@ -116,7 +116,7 @@ const PreAuthCreate = ({ onClose }) => {
 					<Input
 						type='date'
 						label='Date of Discharge'
-						register={register('dischargedate')}
+						register={register('approvedDate')}
 					/>
 				</Box>
 
