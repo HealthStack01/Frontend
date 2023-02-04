@@ -11,8 +11,9 @@ import { diagnosisSchema, serviceSchema } from './schema';
 const PreAuthCreate = () => {
 	const { register, handleSubmit, watch, errors } = useForm();
 	const [open, setOpen] = useState(false);
-	const [diagnosis, setDiagnosis] = useState([]);
+	const [diagnosis, setDiagnosis] = useState({});
 	const [povdiagnosis, setProvDiagnosis] = useState([]);
+	const [service, setService] = useState({});
 
 	const diagnosisData = [];
 	const prevDiagnosisData = [];
@@ -152,16 +153,6 @@ const PreAuthCreate = () => {
 						label='Treatment Plan'
 						register={register('treatmentPlan')}
 					/>
-					<Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-						<GlobalCustomButton
-							onClick={() => {
-								prevDiagnosisData.push(povdiagnosis);
-								setProvDiagnosis([]);
-							}}
-							loading={false}>
-							Save
-						</GlobalCustomButton>
-					</Box>
 				</Box>
 
 				{/* Provisional Diagnosis Findings */}
@@ -189,16 +180,6 @@ const PreAuthCreate = () => {
 						label='Treatment Plan'
 						register={register('treatmentPlan')}
 					/>
-					<Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-						<GlobalCustomButton
-							onClick={() => {
-								prevDiagnosisData.push(povdiagnosis);
-								setProvDiagnosis([]);
-							}}
-							loading={false}>
-							Save
-						</GlobalCustomButton>
-					</Box>
 				</Box>
 
 				<GlobalCustomButton
@@ -212,3 +193,83 @@ const PreAuthCreate = () => {
 };
 
 export default PreAuthCreate;
+
+const AddService = ({ service, setService }) => {
+	return (
+		<Box>
+			<h2>Service</h2>
+			<Box
+				sx={{
+					display: 'grid',
+					gridTemplateColumns: { xs: '1fr', lg: 'repeat(2,1fr)' },
+					gap: '1rem',
+					my: '1rem',
+				}}>
+				<Input
+					label='Service'
+					placeholder='Enter a Service'
+					onChange={e => setService({ ...service, item: e.target.value })}
+				/>
+				<Input
+					label='Unit Price'
+					placeholder='Enter a Unit Price'
+					onChange={e => setService({ ...service, unitPrice: e.target.value })}
+				/>
+				<Input
+					label='Quantity'
+					placeholder='Enter a quantity'
+					onChange={e => setService({ ...service, quantity: e.target.value })}
+				/>
+				<Input
+					label='Total Amount'
+					placeholder='Enter a total amount'
+					onChange={e => setService({ ...service, total: e.target.value })}
+				/>
+			</Box>
+			<Textarea
+				label='Treatment Plan'
+				onChange={e => setService({ ...service, comment: e.target.value })}
+			/>
+		</Box>
+	);
+};
+
+const AddDiagnosis = ({ service, setService }) => {
+	return (
+		<Box>
+			<h2>Diagnosis</h2>
+			<Box
+				sx={{
+					display: 'grid',
+					gridTemplateColumns: { xs: '1fr', lg: 'repeat(2,1fr)' },
+					gap: '1rem',
+					my: '1rem',
+				}}>
+				<Input
+					label='Service'
+					placeholder='Enter a Service'
+					onChange={e => setService({ ...service, item: e.target.value })}
+				/>
+				<Input
+					label='Unit Price'
+					placeholder='Enter a Unit Price'
+					onChange={e => setService({ ...service, unitPrice: e.target.value })}
+				/>
+				<Input
+					label='Quantity'
+					placeholder='Enter a quantity'
+					onChange={e => setService({ ...service, quantity: e.target.value })}
+				/>
+				<Input
+					label='Total Amount'
+					placeholder='Enter a total amount'
+					onChange={e => setService({ ...service, total: e.target.value })}
+				/>
+			</Box>
+			<Textarea
+				label='Treatment Plan'
+				onChange={e => setService({ ...service, comment: e.target.value })}
+			/>
+		</Box>
+	);
+};
