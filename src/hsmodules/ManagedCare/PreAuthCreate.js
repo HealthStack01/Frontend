@@ -1,25 +1,29 @@
 import { Box } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Input from '../../components/inputs/basic/Input';
 import CustomSelect from '../../components/inputs/basic/Select';
 import { useForm } from 'react-hook-form';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
 import Textarea from '../../components/inputs/basic/Textarea';
 import CustomTable from '../../components/customtable';
-import { diagnosisSchema, serviceSchema } from './schema';
+import { complaintSchema, diagnosisSchema, serviceSchema } from './schema';
 import ModalBox from '../../components/modal';
+import axios from 'axios';
+import { baseuRL, token } from '../../utils/api';
+import { toast, ToastContainer } from 'react-toastify';
 
-const PreAuthCreate = () => {
-	const { register, handleSubmit, watch, errors } = useForm();
+const PreAuthCreate = ({ onClose }) => {
+	const { register, handleSubmit } = useForm();
 	const [open, setOpen] = useState(false);
 	const [type, setType] = useState();
 	const [diagnosis, setDiagnosis] = useState({});
-	const [provdiagnosis, setProvDiagnosis] = useState([]);
+	const [compliantList, setCompliantlIST] = useState([]);
+	const [provdiagnosis, setProvDiagnosis] = useState({});
 	const [service, setService] = useState({});
 
-	const diagnosisData = [];
-	const provDiagnosisData = [];
-	const serviceData = [];
+	let diagnosisData = [];
+	let provDiagnosisData = [];
+	let serviceData = [];
 	const handleAddDiagnosis = () => {
 		provDiagnosisData.push(provdiagnosis);
 	};
@@ -27,13 +31,35 @@ const PreAuthCreate = () => {
 		serviceData.push(service);
 	};
 
-	const submit = async data => {};
+	useEffect(() => {}, [diagnosis]);
+
+	const submit = async data => {
+		data.clinical_details = compliantList;
+		axios
+			.post(`${baseuRL}/preauth`, data, {
+				headers: {
+					'Content-Type': 'application/json',
+					authorization: `Bearer ${token}`,
+				},
+			})
+			.then(response => {
+				toast.success(`You have successfully created a pre-authoorization`);
+				onClose();
+			})
+			.catch(err => {
+				toast.error(
+					`Sorry, You are unable to create an pre-authorization ${err}`,
+				);
+			});
+	};
+
+	console.log(compliantList, '>>>>>>>');
 	return (
 		<Box>
 			<ModalBox
 				open={open}
 				onClose={() => setOpen(false)}>
-				{type === 'service' ? (
+				{type === 'services' ? (
 					<AddService
 						service={service}
 						setService={setService}
@@ -49,6 +75,7 @@ const PreAuthCreate = () => {
 			</ModalBox>
 			<h2>Create PreAuthorization</h2>
 			<form onSubmit={handleSubmit(submit)}>
+				<ToastContainer theme='colored' />
 				<Box
 					sx={{
 						display: 'grid',
@@ -105,10 +132,10 @@ const PreAuthCreate = () => {
 						<CustomSelect
 							label='Presenting Complaints'
 							options={[
-								{ label: 'Compliant 1', value: '1' },
-								{ label: 'Compliant 2', value: '2' },
-								{ label: 'Compliant 3', value: '3' },
-								{ label: 'Compliant 4', value: '4' },
+								{ label: 'Compliant 1', value: 'Compliant 1' },
+								{ label: 'Compliant 2', value: 'Compliant 2' },
+								{ label: 'Compliant 3', value: 'Compliant 3' },
+								{ label: 'Compliant 4', value: 'Compliant 4' },
 							]}
 							onChange={e =>
 								setDiagnosis({ ...diagnosis, complaints: e.target.value })
@@ -131,7 +158,9 @@ const PreAuthCreate = () => {
 					<Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
 						<GlobalCustomButton
 							onClick={() => {
-								diagnosisData.push(diagnosis);
+								// diagnosisData.push(diagnosis);
+
+								setCompliantlIST([...compliantList, diagnosis]);
 								setDiagnosis([]);
 							}}
 							loading={false}>
@@ -140,8 +169,8 @@ const PreAuthCreate = () => {
 					</Box>
 					<CustomTable
 						title={''}
-						columns={diagnosisSchema}
-						data={[]}
+						columns={complaintSchema}
+						data={compliantList}
 						pointerOnHover
 						highlightOnHover
 						striped
@@ -171,7 +200,7 @@ const PreAuthCreate = () => {
 					<CustomTable
 						title={''}
 						columns={diagnosisSchema}
-						data={diagnosisData}
+						data={provDiagnosisData}
 						pointerOnHover
 						highlightOnHover
 						striped
@@ -201,7 +230,7 @@ const PreAuthCreate = () => {
 					<CustomTable
 						title={''}
 						columns={serviceSchema}
-						data={[]}
+						data={serviceData}
 						pointerOnHover
 						highlightOnHover
 						striped
@@ -279,27 +308,35 @@ const AddDiagnosis = ({
 	return (
 		<Box>
 			<h2>Diagnosis</h2>
-			<Input
-				label='Service'
-				placeholder='Enter a Service'
-				onChange={e =>
-					setProvDiagnosis({ ...provdiagnosis, item: e.target.value })
-				}
-			/>
-			<Input
-				label='Unit Price'
-				placeholder='Enter a Unit Price'
-				onChange={e =>
-					setProvDiagnosis({ ...provdiagnosis, unitPrice: e.target.value })
-				}
-			/>
+			<Box
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					gap: '1rem',
+					my: '1rem',
+				}}>
+				<Input
+					label='Diagnosis Type'
+					placeholder='Enter a type'
+					onChange={e =>
+						setProvDiagnosis({ ...provdiagnosis, type: e.target.value })
+					}
+				/>
+				<Input
+					label='Code'
+					placeholder='Enter Code'
+					onChange={e =>
+						setProvDiagnosis({ ...provdiagnosis, code: e.target.value })
+					}
+				/>
 
-			<Textarea
-				label='Comment'
-				onChange={e =>
-					setProvDiagnosis({ ...provdiagnosis, comment: e.target.value })
-				}
-			/>
+				<Textarea
+					label='Comment'
+					onChange={e =>
+						setProvDiagnosis({ ...provdiagnosis, comment: e.target.value })
+					}
+				/>
+			</Box>
 			<GlobalCustomButton
 				onClick={handleAddDiagnosis}
 				loading={false}>

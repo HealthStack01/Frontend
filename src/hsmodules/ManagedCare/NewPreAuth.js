@@ -45,7 +45,7 @@ export const PreAuth = () => {
 			.catch(err => {
 				console.log(err);
 			});
-	});
+	}, []);
 
 	const handleSearch = () => {};
 	const handleCreateNew = () => {
@@ -64,7 +64,7 @@ export const PreAuth = () => {
 				open={open}
 				onClose={handleClose}
 				width='80vw'>
-				<PreAuthCreate />
+				<PreAuthCreate onClose={handleClose} />
 			</ModalBox>
 			<DashboardPageWrapper>
 				<div>

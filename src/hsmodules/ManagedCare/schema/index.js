@@ -570,6 +570,24 @@ export const preAuthSchema = [
 	},
 ];
 
+export const complaintSchema = [
+	{
+		name: 'Compliant',
+		key: 'compliants',
+		selector: row => row.complaints,
+		sortable: true,
+		required: true,
+		inputType: 'TEXT',
+	},
+	{
+		name: 'Duration',
+		key: 'duration',
+		selector: row => row.duration,
+		sortable: true,
+		required: true,
+		inputType: 'TEXT',
+	},
+];
 export const diagnosisSchema = [
 	{
 		name: 'Diagnosis Type',
