@@ -7,10 +7,11 @@ import Input from '../../components/inputs/basic/Input';
 import client from '../../feathers';
 import { toast, ToastContainer } from 'react-toastify';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { forgotPasswordSchema } from './schema';
+import { createUserSchema } from './schema';
+import PasswordInput from '../../components/inputs/basic/Password';
 import axios from 'axios';
 
-const ForgotPassword = () => {
+const Register = () => {
 	const ClientServ = client.service('auth-management');
 	const baseuRL = 'https://healthstack-backend.herokuapp.com';
 
@@ -21,9 +22,10 @@ const ForgotPassword = () => {
 		handleSubmit,
 		formState: { errors },
 	} = useForm({
-		resolver: yupResolver(forgotPasswordSchema),
+		resolver: yupResolver(createUserSchema),
 		defaultValues: {
 			email: '',
+			password: '',
 		},
 	});
 
@@ -32,23 +34,16 @@ const ForgotPassword = () => {
 		event.preventDefault();
 		setLoading(true);
 
-		let body = {
-			action: 'sendResetPwd',
-			value: {
-				email: data.email,
-			},
-		};
-
 		axios
-			.post(`${baseuRL}/authManagement`, body, {
+			.post(`${baseuRL}/users`, data, {
 				headers: { 'Content-Type': 'application/json' },
 			})
 			.then(response => {
-				toast.success(`An email has been sent to you for your password reste`);
+				toast.success(`You have successfully created an account`);
 				navigate('/', { replace: true });
 			})
 			.catch(err => {
-				toast.error(`Sorry, You are unable to reset your account ${err}`);
+				toast.error(`Sorry, You are unable to create an account ${err}`);
 			});
 
 		setLoading(false);
@@ -64,6 +59,7 @@ const ForgotPassword = () => {
 					register={register('email')}
 					errorText={errors?.email?.message}
 				/>
+				<PasswordInput register={register('password')} />
 
 				<Button
 					type='submit'
@@ -90,4 +86,4 @@ const ForgotPassword = () => {
 	);
 };
 
-export default ForgotPassword;
+export default Register;

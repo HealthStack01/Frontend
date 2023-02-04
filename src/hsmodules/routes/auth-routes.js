@@ -1,5 +1,5 @@
-import {lazy, Fragment} from 'react';
-import {Route} from 'react-router-dom';
+import { lazy, Fragment } from 'react';
+import { Route } from 'react-router-dom';
 
 import Login from '../auth';
 import OrganizationSignup from '../auth/forms/sign-up/sign-up';
@@ -9,11 +9,16 @@ import Signup from '../auth/Signup';
 
 const ForgotPassword = lazy(() => import('../auth/ForgotPassword'));
 const CreatePassword = lazy(() => import('../auth/CreatePassword'));
+const Register = lazy(() => import('../auth/Register'));
 
 export const authRoutes = [
 	{
 		path: '/',
 		Component: Login,
+	},
+	{
+		path: '/register',
+		Component: Register,
 	},
 	{
 		path: '/signup',
