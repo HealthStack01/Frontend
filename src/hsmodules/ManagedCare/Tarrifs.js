@@ -1,26 +1,11 @@
-import React, { useContext, useState, useEffect } from 'react';
-import Button from '../../components/buttons/Button';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { ObjectContext, UserContext } from '../../context';
-import { PageWrapper } from '../../ui/styled/styles';
 import { TableMenu } from '../dashBoardUiComponent/core-ui/styles';
+import { DebounceInput } from 'react-debounce-input';
 import client from '../../feathers';
 import CustomTable from '../../components/customtable';
-import {
-	Box,
-	Checkbox,
-	FormControlLabel,
-	FormGroup,
-	Portal,
-	Radio,
-	RadioGroup,
-	IconButton,
-	Grid,
-	Typography,
-} from '@mui/material';
+import { Box, IconButton, Grid, Typography } from '@mui/material';
 import ModalBox from '../../components/modal';
-import ServiceSearch from '../helpers/ServiceSearch';
-import { BottomWrapper, GridBox } from '../app/styles';
-import ViewText from '../../components/viewtext';
 import { useForm } from 'react-hook-form';
 import Input from '../../components/inputs/basic/Input';
 import Textarea from '../../components/inputs/basic/Textarea';
@@ -32,7 +17,11 @@ import { FormsHeaderText } from '../../components/texts';
 import FilterMenu from '../../components/utilities/FilterMenu';
 import DeleteOutline from '@mui/icons-material/DeleteOutline';
 import CategorySearch from '../helpers/CategorySearch';
-import { SelectedBenefit, SelectHealthPlan } from '../helpers/FacilitySearch';
+import {
+	BandSearch,
+	SelectedBenefit,
+	SelectHealthPlan,
+} from '../helpers/FacilitySearch';
 import { Group } from '@mui/icons-material';
 import CustomTariffSelect from './components/TariffSelect';
 
@@ -43,7 +32,17 @@ export default function TarrifList({ standAlone }) {
 	const [selectedAppointment, setSelectedAppointment] = useState();
 	//const [showState,setShowState]=useState() //create|modify|detail
 	const [showModal, setShowModal] = useState(0);
+	const [openTarrif, setOpenTarrif] = useState(false);
+
 	const [selectedPlan, setSelectedPlan] = useState();
+
+	const handleHideTarriftModal = () => {
+		setOpenTarrif(false);
+	};
+
+	const handleTarriftModal = () => {
+		setOpenTarrif(true);
+	};
 
 	return (
 		<section className='section remPadTop'>
@@ -53,6 +52,7 @@ export default function TarrifList({ standAlone }) {
 					setShowModal={setShowModal}
 					setSelectedClient={setSelectedPlan}
 					standAlone={standAlone}
+					showTariff={handleTarriftModal}
 				/>
 			)}
 			{showModal === 1 && (
@@ -68,10 +68,18 @@ export default function TarrifList({ standAlone }) {
 					standAlone={standAlone}
 				/>
 			)}
+
+			<ModalBox
+				width='50vw'
+				open={openTarrif}
+				onClose={handleHideTarriftModal}
+				header='Inherit Tariff'>
+				<InheritTariff />
+			</ModalBox>
 		</section>
 	);
 }
-export const TarrifListView = ({ showModal, setShowModal }) => {
+export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 	const [showView, setShowView] = useState(false);
 	const [tariffs, setTariffs] = useState([]);
 	const [tariff, setTariff] = useState();
@@ -91,6 +99,11 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 	const [newFacility, setNewFacility] = useState([]);
 	const [slide, setSlide] = useState(false);
 	const [changeView, setChangeView] = useState('service');
+
+	const Services = state.ServicesModule.selectedServices;
+	// const fac = state.facilityModule.selectedFacility;
+	console.log(Services.contracts);
+
 	const ServiceSchema = [
 		{
 			name: 'S/N',
@@ -111,18 +124,18 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 			required: true,
 			inputType: 'TEXT',
 		},
-		// {
-		// 	name: 'No of Facilities',
-		// 	key: 'nofacilities',
-		// 	description: 'No of Facilities',
-		// 	selector: (row) =>
-		// 		row?.contracts
-		// 			?.map((healist) => healist?.source_org_name)
-		// 			.filter((v, i, a) => a.indexOf(v) === i).length,
-		// 	sortable: true,
-		// 	required: true,
-		// 	inputType: 'TEXT',
-		// },
+		{
+			name: 'No of Facilities',
+			key: 'nofacilities',
+			description: 'No of Facilities',
+			selector: (row) =>
+				row?.contracts
+					?.map((healist) => healist?.source_org_name)
+					.filter((v, i, a) => a.indexOf(v) === i).length,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
 		{
 			name: 'No of Services',
 			key: 'noservices',
@@ -157,6 +170,16 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 			width: '50px',
 		},
 		{
+			name: 'Band Name',
+			key: 'name',
+			description: 'Enter Band Name',
+			selector: Services.band,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+
+		{
 			name: 'Service Name',
 			key: 'serviceName',
 			description: 'Service Name',
@@ -171,33 +194,33 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 			required: true,
 			inputType: 'TEXT',
 		},
-		{
-			name: 'Plan',
-			key: 'plan',
-			description: 'Plan',
-			selector: (row) => (
-				<Typography
-					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
-					data-tag='allowRowEvents'>
-					{row?.plans?.map((el) => (
-						<>
-							<b>Capitation?</b>: {el?.capitation === true ? 'Yes' : 'No'}
-							<br />
-							<b>Free for Service?</b>:
-							{el?.feeForService === true ? 'Yes' : 'No'}
-							<br />
-							<b>PreAuth?</b>: {el?.reqPA !== 'false' ? 'Yes' : 'No'}
-							<br />
-							<b>Co-Pay</b>:{' '}
-							{el?.copayDetail !== '' ? `₦${el?.copayDetail}` : 'N/A'}
-						</>
-					))}
-				</Typography>
-			),
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
+		// {
+		// 	name: 'Plan',
+		// 	key: 'plan',
+		// 	description: 'Plan',
+		// 	selector: (row) => (
+		// 		<Typography
+		// 			sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
+		// 			data-tag='allowRowEvents'>
+		// 			{row?.plans?.map((el) => (
+		// 				<>
+		// 					<b>Capitation?</b>: {el?.capitation === true ? 'Yes' : 'No'}
+		// 					<br />
+		// 					<b>Free for Service?</b>:
+		// 					{el?.feeForService === true ? 'Yes' : 'No'}
+		// 					<br />
+		// 					<b>PreAuth?</b>: {el?.reqPA !== 'false' ? 'Yes' : 'No'}
+		// 					<br />
+		// 					<b>Co-Pay</b>:{' '}
+		// 					{el?.copayDetail !== '' ? `₦${el?.copayDetail}` : 'N/A'}
+		// 				</>
+		// 			))}
+		// 		</Typography>
+		// 	),
+		// 	sortable: true,
+		// 	required: true,
+		// 	inputType: 'TEXT',
+		// },
 		{
 			name: 'Amount',
 			key: 'price',
@@ -207,23 +230,23 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 			required: true,
 			inputType: 'TEXT',
 		},
-		{
-			name: 'Benefits',
-			key: 'benefits',
-			description: 'Benefits',
-			selector: (row) => (
-				<Typography
-					sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
-					data-tag='allowRowEvents'>
-					{row?.plans?.map((benefit, i) => (
-						<div key={i}>{benefit?.benefit}</div>
-					))}
-				</Typography>
-			),
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
+		// {
+		// 	name: 'Benefits',
+		// 	key: 'benefits',
+		// 	description: 'Benefits',
+		// 	selector: (row) => (
+		// 		<Typography
+		// 			sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
+		// 			data-tag='allowRowEvents'>
+		// 			{row?.plans?.map((benefit, i) => (
+		// 				<div key={i}>{benefit?.benefit}</div>
+		// 			))}
+		// 		</Typography>
+		// 	),
+		// 	sortable: true,
+		// 	required: true,
+		// 	inputType: 'TEXT',
+		// },
 		{
 			name: 'Comment',
 			key: 'comment',
@@ -235,6 +258,67 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 			inputType: 'TEXT',
 		},
 	];
+
+	const otherServicedata = [
+		{
+			capitation: 'Yes',
+			freeService: 'No',
+			preAuth: 'Yes',
+			coPay: '₦100000',
+		},
+	];
+
+	const otherServiceSchema = [
+		{
+			name: 'Capitation',
+			key: 'Capitation',
+			description: 'Capitation',
+			selector: (row) => row.capitation,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Free for Service',
+			key: 'free service',
+			description: 'Free for Service',
+			selector: (row) => row.freeService,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'PreAuth',
+			key: 'PreAuth',
+			description: 'PreAuth',
+			selector: (row) => row?.preAuth,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Co Pay',
+			key: 'co pay',
+			description: 'Co pay',
+			selector: (row) => row?.coPay,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+	];
+
+	// const bandNameSchema = [
+	// 	{
+	// 		name: 'Band Name',
+	// 		key: 'name',
+	// 		description: 'Enter Band Name',
+	// 		selector: (row) => row?.Services?.band,
+	// 		sortable: true,
+	// 		required: true,
+	// 		inputType: 'TEXT',
+	// 	},
+	// ];
+	// console.log(Services);
 	const facilitySchema = [
 		{
 			name: 'S/N',
@@ -257,20 +341,20 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 		},
 	];
 
-	const handleCreateNew = async () => {
-		const newServicesModule = {
-			selectedServices: {},
-			show: 'create',
-		};
-		await setState((prevstate) => ({
-			...prevstate,
-			ServicesModule: newServicesModule,
-		}));
-	};
+	// const handleCreateNew = async () => {
+	// 	const newServicesModule = {
+	// 		selectedServices: {},
+	// 		show: 'create',
+	// 	};
+	// 	await setState((prevstate) => ({
+	// 		...prevstate,
+	// 		ServicesModule: newServicesModule,
+	// 	}));
+	// };
 	const handleRow = async (Service, i) => {
-		console.log(Service);
+		// console.log(Service);
 		setSlide(!slide);
-		setSelectedServices(Service?.contracts);
+		setSelectedServices(Service);
 		const newServicesModule = {
 			selectedServices: Service,
 			show: 'detail',
@@ -280,6 +364,9 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 			ServicesModule: newServicesModule,
 		}));
 	};
+
+	// console.log(selectedServices);
+
 	const handleService = async (Service) => {
 		setSelectedCategory(Service);
 	};
@@ -320,7 +407,7 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 					},
 				},
 			});
-			console.log(findServices);
+			// console.log(findServices);
 			await setFacilities(findServices.data);
 		} else {
 			if (user.stacker) {
@@ -339,6 +426,8 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 		ServicesServ.on('removed', (obj) => getFacilities());
 		return () => {};
 	}, [state.facilityModule.selectedFacility]);
+
+	// console.log(facilities);
 
 	return (
 		<div style={{}}>
@@ -379,79 +468,113 @@ export const TarrifListView = ({ showModal, setShowModal }) => {
 					</>
 				)}
 
-				{selectedServices && selectedServices.length > 0 && slide && (
+				{/* {selectedServices && selectedServices.length > 0 && slide && ( */}
+				<Box
+					style={{
+						width: '100%',
+					}}>
 					<Box
-						style={{
-							width: '100%',
+						sx={{
+							display: 'flex',
+							justifyContent: 'space-between',
+							alignItems: 'center',
 						}}>
-						<Box
-							sx={{
-								display: 'flex',
-								justifyContent: 'space-between',
-								alignItems: 'center',
-							}}>
-							<FormsHeaderText text={'Band Deatils'} />
-							<Box>
-								<GlobalCustomButton
-									text='Back'
-									onClick={() => setSlide(false)}
-									customStyles={{ marginRight: '1rem' }}
-									color='warning'
-								/>
-								<GlobalCustomButton
-									text={
-										changeView === 'service'
-											? 'View Facilities'
-											: 'View Services'
-									}
-									onClick={
-										changeView === 'facility'
-											? () => setChangeView('service')
-											: () => setChangeView('facility')
-									}
-									color={changeView === 'facility' ? 'primary' : 'secondary'}
-								/>
-							</Box>
-						</Box>
+						<FormsHeaderText text={'Band Deatils'} />
 						<Box>
-							{changeView === 'service' ? (
-								<Box
-									sx={{
-										height: '88vh',
-										overflowY: 'scroll',
-										marginTop: '1rem',
-									}}>
+							<GlobalCustomButton
+								text='Back'
+								onClick={() => setSlide(false)}
+								customStyles={{ marginRight: '1rem' }}
+								color='warning'
+							/>
+
+							<GlobalCustomButton
+								text={
+									changeView === 'service' ? 'View Facilities' : 'View Services'
+								}
+								onClick={
+									changeView === 'facility'
+										? () => setChangeView('service')
+										: () => setChangeView('facility')
+								}
+								color={changeView === 'facility' ? 'primary' : 'secondary'}
+							/>
+							<GlobalCustomButton
+								text='Inherit Tarrif'
+								onClick={showTariff}
+								customStyles={{ marginLeft: '1rem' }}
+								// color='warning'
+							/>
+							<GlobalCustomButton
+								text='Add Tarrif'
+								onClick={() => setSlide(false)}
+								customStyles={{ marginLeft: '1rem' }}
+								// color='warning'
+							/>
+						</Box>
+					</Box>
+					<Box>
+						{changeView === 'service' ? (
+							<Grid
+								container
+								gap={2}
+								sx={{ mt: '2rem', height: '88vh', px: '0.20rem' }}>
+								{/* <Grid xs={3}>
+										<CustomTable
+											title={''}
+											columns={bandNameSchema}
+											data={Services.band}
+											pointerOnHover
+											highlightOnHover
+											striped
+
+											// onRowClicked={(row) => handleService(row)}
+										/>
+									</Grid> */}
+								<Grid xs={6}>
 									<CustomTable
 										title={''}
 										columns={productItemSchema}
-										data={selectedServices}
+										data={Services.contracts}
 										pointerOnHover
 										highlightOnHover
 										striped
 										onRowClicked={(row) => handleService(row)}
 									/>
-								</Box>
-							) : (
-								<Box
-									sx={{
-										height: '88vh',
-										overflowY: 'scroll',
-										marginTop: '1rem',
-									}}>
+								</Grid>
+								<Grid xs={4}>
 									<CustomTable
 										title={''}
-										columns={facilitySchema}
-										data={selectedFacilities}
+										columns={otherServiceSchema}
+										data={otherServicedata}
 										pointerOnHover
 										highlightOnHover
 										striped
 										onRowClicked={(row) => handleService(row)}
 									/>
-								</Box>
-							)}
-						</Box>
+								</Grid>
+							</Grid>
+						) : (
+							<Box
+								sx={{
+									height: '88vh',
+									overflowY: 'scroll',
+									marginTop: '1rem',
+								}}>
+								<CustomTable
+									title={''}
+									columns={facilitySchema}
+									data={selectedFacilities}
+									pointerOnHover
+									highlightOnHover
+									striped
+									onRowClicked={(row) => handleService(row)}
+								/>
+							</Box>
+						)}
 					</Box>
-				)}
+				</Box>
+				{/* )} */}
 			</Box>
 		</div>
 	);
@@ -1103,7 +1226,8 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 			{showService && (
 				<ModalBox
 					open={showService}
-					onClose={() => closeModal()}>
+					onClose={() => closeModal()}
+					header='Add Services'>
 					<Box
 						sx={{
 							width: '70vw',
@@ -1121,8 +1245,9 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 							spacing={2}>
 							<Grid
 								item
-								xs={12}
-								sm={4}>
+								xs={6}
+								// sm={4}
+							>
 								<SearchSelect
 									getSearchService={getSearchService}
 									clear={successService}
@@ -1151,8 +1276,9 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 						</Grid> */}
 							<Grid
 								item
-								xs={12}
-								sm={4}>
+								xs={6}
+								// sm={4}
+							>
 								<Input
 									label='Price'
 									onChange={(e) => setCostprice(e.target.value)}
@@ -1247,7 +1373,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 								sx={{
 									width: '98%',
 								}}>
-								{facilities.map((c, i) => {
+								{facilities.map((c, index) => {
 									const allCategories = c?.benefits?.map((cat) => cat);
 									console.log('ALL CATS', allCategories);
 									return (
@@ -1264,14 +1390,15 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 													sx={{ display: 'flex', alignItems: 'center' }}
 													xs={12}
 													sm={2}
-													key={i}>
+													key={index}>
 													<input
 														className='checkbox is-small '
 														type='checkbox'
-														value={i}
-														name={`selectedPlans +${i}`}
+														value={index}
+														name={`selectedPlans +${index}`}
 														label={c.planName}
-														onChange={(e) => handleChange(e, i, c)}
+														onChange={(event) => handleChange(event, index, c)}
+														style={{ marginRight: '10px' }}
 													/>
 													<p
 														style={{
@@ -1290,7 +1417,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 														label='Select Benefit Category'
 														onChange={(e) => {
 															setBeneCat(e.target.value);
-															setSelectNo(i);
+															setSelectNo(index);
 														}}
 													/>
 												</Grid>
@@ -1300,84 +1427,86 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 													xs={12}
 													sm={2}>
 													<CustomTariffSelect
-														key={i}
-														options={selectNo === i ? newBene : []}
+														key={index}
+														options={selectNo === index ? newBene : []}
 														label='Select Benefit'
-														onChange={(e) => handleBenefit(e, i, c)}
+														onChange={(event) => handleBenefit(event, index, c)}
 													/>
 												</Grid>
-
-												<Grid
-													item
-													xs={12}
-													sm={2}
-													key={i}>
-													<input
-														className=' is-small'
-														value='Capitation'
-														name={`servtype +${i}`}
-														type='radio'
-														onChange={(e) => handleServType(e, i, c)}
-													/>
-													<span>Capitation</span>
-												</Grid>
-												<Grid
-													item
-													xs={12}
-													sm={2}
-													key={i}>
-													<input
-														className=' is-small'
-														name={`servtype +${i}`}
-														value='Fee for Service'
-														type='radio'
-														onChange={(e) => handleServType(e, i, c)}
-													/>
-
-													<span>Fee for Service</span>
-												</Grid>
-												<Grid
-													item
-													xs={12}
-													sm={2}
-													key={i}>
-													<input
-														className=' is-small'
-														name={`pay${i}`}
-														value='Fee for Service'
-														type='checkbox'
-														onChange={(e) => copaySelect(e, i)}
-														style={
-															showCoPay === i
-																? { marginBottom: '.6rem' }
-																: { marginBottom: '0' }
-														}
-													/>
-													<span>Co-Pay?</span>
-													{showCoPay === i && sCoPay && (
-														<Input
-															className='input smallerinput is-small is-pulled-right '
-															name={`copay +${i}`}
-															type='text'
-															onChange={(e) => handleCopay(e, i, c)}
-															label='Co-pay Amount'
+												<Box
+													display='flex'
+													ml='1rem'
+													gap='3rem'>
+													<Box key={index}>
+														<input
+															className=' is-small'
+															value='Capitation'
+															name={`servtype +${index}`}
+															type='radio'
+															onChange={(event) =>
+																handleServType(event, index, c)
+															}
+															style={{ marginRight: '10px' }}
 														/>
-													)}
-												</Grid>
+														<span>Capitation</span>
+													</Box>
+													<Box key={index}>
+														<input
+															className=' is-small'
+															name={`servtype +${index}`}
+															value='Fee for Service'
+															type='radio'
+															onChange={(event) =>
+																handleServType(event, index, c)
+															}
+															style={{ marginRight: '10px' }}
+														/>
 
-												<Grid
-													item
-													xs={12}
-													sm={2}
-													key={i}>
-													<input
-														className='checkbox is-small'
-														name={`authCode +${i}`}
-														type='checkbox'
-														onChange={(e) => handleAuthCode(e, i, c)}
-													/>
-													<span>Requires Pre-Auth?</span>
-												</Grid>
+														<span>Fee for Service</span>
+													</Box>
+													<Box key={index}>
+														<input
+															className=' is-small'
+															name={`pay${index}`}
+															value='Fee for Service'
+															type='checkbox'
+															onChange={(event) => copaySelect(event, index)}
+															style={
+																showCoPay === index
+																	? {
+																			marginBottom: '.6rem',
+																			marginRight: '10px',
+																	  }
+																	: { marginBottom: '0', marginRight: '10px' }
+															}
+														/>
+														<span>Co-Pay?</span>
+														{showCoPay === index && sCoPay && (
+															<Input
+																className='input smallerinput is-small is-pulled-right '
+																name={`copay +${index}`}
+																type='text'
+																onChange={(event) =>
+																	handleCopay(event, index, c)
+																}
+																label='Co-pay Amount'
+															/>
+														)}
+													</Box>
+
+													<Box key={index}>
+														<input
+															className='checkbox is-small'
+															name={`authCode +${index}`}
+															type='checkbox'
+															onChange={(event) =>
+																handleAuthCode(event, index, c)
+															}
+															style={{ marginRight: '10px' }}
+														/>
+														<span>Requires Pre-Auth?</span>
+													</Box>
+												</Box>
 											</Grid>
 										</>
 									);
@@ -1501,3 +1630,20 @@ export const TariffView = (service) => {
 		</Box>
 	);
 };
+
+export function InheritTariff({ getBandfacility }) {
+	return (
+		<Box>
+			<Box sx={{ my: '1rem', display: 'flex', justifyContent: 'flex-end' }}>
+				<GlobalCustomButton
+					text='Save'
+					// onClick={() => setEditing(true)}
+				/>
+			</Box>
+
+			<Box>
+				<BandSearch getBandfacility={getBandfacility} />
+			</Box>
+		</Box>
+	);
+}
