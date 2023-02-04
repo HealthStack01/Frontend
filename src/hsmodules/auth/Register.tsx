@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthWrapper from '../../components/AuthWrapper';
@@ -16,6 +16,7 @@ const Register = () => {
 	const baseuRL = 'https://healthstack-backend.herokuapp.com';
 
 	const [loading, setLoading] = useState(false);
+	const [data, setData] = useState({ _id: '' });
 
 	const {
 		register,
@@ -40,7 +41,8 @@ const Register = () => {
 			})
 			.then(response => {
 				toast.success(`You have successfully created an account`);
-				navigate('/', { replace: true });
+				localStorage.setItem('verify_id', JSON.stringify(response.data._id));
+				navigate('/verify', { replace: true });
 			})
 			.catch(err => {
 				toast.error(`Sorry, You are unable to create an account ${err}`);
@@ -48,6 +50,7 @@ const Register = () => {
 
 		setLoading(false);
 	};
+
 	return (
 		<AuthWrapper paragraph='Forgot your password'>
 			<form onSubmit={handleSubmit(submit)}>

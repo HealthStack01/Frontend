@@ -9,7 +9,9 @@ import Signup from '../auth/Signup';
 
 const ForgotPassword = lazy(() => import('../auth/ForgotPassword'));
 const CreatePassword = lazy(() => import('../auth/CreatePassword'));
+
 const Register = lazy(() => import('../auth/Register'));
+const Verifying = lazy(() => import('../auth/Verifying'));
 
 export const authRoutes = [
 	{
@@ -19,6 +21,10 @@ export const authRoutes = [
 	{
 		path: '/register',
 		Component: Register,
+	},
+	{
+		path: '/verify',
+		Component: Verifying,
 	},
 	{
 		path: '/signup',
