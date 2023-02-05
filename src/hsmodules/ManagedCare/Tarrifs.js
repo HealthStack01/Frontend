@@ -102,7 +102,7 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 
 	const Services = state.ServicesModule.selectedServices;
 	// const fac = state.facilityModule.selectedFacility;
-	console.log(Services.contracts);
+	console.log(Services);
 
 	const ServiceSchema = [
 		{
@@ -169,15 +169,15 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 			inputType: 'HIDDEN',
 			width: '50px',
 		},
-		{
-			name: 'Band Name',
-			key: 'name',
-			description: 'Enter Band Name',
-			selector: Services.band,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
+		// {
+		// 	name: 'Band Name',
+		// 	key: 'name',
+		// 	description: 'Enter Band Name',
+		// 	selector: Services.band,
+		// 	sortable: true,
+		// 	required: true,
+		// 	inputType: 'TEXT',
+		// },
 
 		{
 			name: 'Service Name',
@@ -262,7 +262,7 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 	const otherServicedata = [
 		{
 			capitation: 'Yes',
-			freeService: 'No',
+			feeForService: 'No',
 			preAuth: 'Yes',
 			coPay: '₦100000',
 		},
@@ -273,7 +273,7 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 			name: 'Capitation',
 			key: 'Capitation',
 			description: 'Capitation',
-			selector: (row) => row.capitation,
+			selector: (row) => row?.capitation,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -282,7 +282,7 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 			name: 'Free for Service',
 			key: 'free service',
 			description: 'Free for Service',
-			selector: (row) => row.freeService,
+			selector: (row) => row?.feeForService,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -300,24 +300,45 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 			name: 'Co Pay',
 			key: 'co pay',
 			description: 'Co pay',
-			selector: (row) => row?.coPay,
+			selector: (row) => row.coPay,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
 		},
 	];
 
-	// const bandNameSchema = [
-	// 	{
-	// 		name: 'Band Name',
-	// 		key: 'name',
-	// 		description: 'Enter Band Name',
-	// 		selector: (row) => row?.Services?.band,
-	// 		sortable: true,
-	// 		required: true,
-	// 		inputType: 'TEXT',
-	// 	},
-	// ];
+	const bandNameSchema = [
+		{
+			name: 'Band Name',
+			key: 'name',
+			description: 'Enter Band Name',
+			selector: (row) => Services?.band,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'No of Facilities',
+			key: 'nofacilities',
+			description: 'No of Facilities',
+			selector: (row) =>
+				Services?.contracts
+					?.map((healist) => healist?.source_org_name)
+					.filter((v, i, a) => a.indexOf(v) === i).length,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'No of Services',
+			key: 'noservices',
+			description: 'No of Services',
+			selector: (row) => Services?.contracts?.length,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+	];
 	// console.log(Services);
 	const facilitySchema = [
 		{
@@ -352,9 +373,9 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 	// 	}));
 	// };
 	const handleRow = async (Service, i) => {
-		// console.log(Service);
+		console.log(Service);
 		setSlide(!slide);
-		setSelectedServices(Service);
+		setSelectedServices(Service?.contracts);
 		const newServicesModule = {
 			selectedServices: Service,
 			show: 'detail',
@@ -365,7 +386,7 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 		}));
 	};
 
-	// console.log(selectedServices);
+	// selectedServices.plans.map((plan, i) => console.log(plan));
 
 	const handleService = async (Service) => {
 		setSelectedCategory(Service);
@@ -468,113 +489,114 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 					</>
 				)}
 
-				{/* {selectedServices && selectedServices.length > 0 && slide && ( */}
-				<Box
-					style={{
-						width: '100%',
-					}}>
+				{selectedServices && selectedServices.length > 0 && slide && (
 					<Box
-						sx={{
-							display: 'flex',
-							justifyContent: 'space-between',
-							alignItems: 'center',
+						style={{
+							width: '100%',
 						}}>
-						<FormsHeaderText text={'Band Deatils'} />
-						<Box>
-							<GlobalCustomButton
-								text='Back'
-								onClick={() => setSlide(false)}
-								customStyles={{ marginRight: '1rem' }}
-								color='warning'
-							/>
+						<Box
+							sx={{
+								display: 'flex',
+								justifyContent: 'space-between',
+								alignItems: 'center',
+							}}>
+							<FormsHeaderText text={'Band Deatils'} />
+							<Box>
+								<GlobalCustomButton
+									text='Back'
+									onClick={() => setSlide(false)}
+									customStyles={{ marginRight: '1rem' }}
+									color='warning'
+								/>
 
-							<GlobalCustomButton
-								text={
-									changeView === 'service' ? 'View Facilities' : 'View Services'
-								}
-								onClick={
-									changeView === 'facility'
-										? () => setChangeView('service')
-										: () => setChangeView('facility')
-								}
-								color={changeView === 'facility' ? 'primary' : 'secondary'}
-							/>
-							<GlobalCustomButton
-								text='Inherit Tarrif'
-								onClick={showTariff}
-								customStyles={{ marginLeft: '1rem' }}
-								// color='warning'
-							/>
-							<GlobalCustomButton
-								text='Add Tarrif'
-								onClick={() => setSlide(false)}
-								customStyles={{ marginLeft: '1rem' }}
-								// color='warning'
-							/>
+								<GlobalCustomButton
+									text={
+										changeView === 'service'
+											? 'View Facilities'
+											: 'View Services'
+									}
+									onClick={
+										changeView === 'facility'
+											? () => setChangeView('service')
+											: () => setChangeView('facility')
+									}
+									color={changeView === 'facility' ? 'primary' : 'secondary'}
+								/>
+								<GlobalCustomButton
+									text='Inherit Tarrif'
+									onClick={showTariff}
+									customStyles={{ marginLeft: '1rem' }}
+									// color='warning'
+								/>
+								<GlobalCustomButton
+									text='Add Tarrif'
+									onClick={() => setSlide(false)}
+									customStyles={{ marginLeft: '1rem' }}
+									// color='warning'
+								/>
+							</Box>
 						</Box>
-					</Box>
-					<Box>
-						{changeView === 'service' ? (
-							<Grid
-								container
-								gap={2}
-								sx={{ mt: '2rem', height: '88vh', px: '0.20rem' }}>
-								{/* <Grid xs={3}>
+						<Box>
+							{changeView === 'service' ? (
+								<Grid
+									container
+									gap={2}
+									sx={{ mt: '2rem', height: '88vh', px: '0.20rem' }}>
+									<Grid xs={3}>
 										<CustomTable
 											title={''}
 											columns={bandNameSchema}
-											data={Services.band}
+											data={[Services]}
 											pointerOnHover
 											highlightOnHover
 											striped
-
 											// onRowClicked={(row) => handleService(row)}
 										/>
-									</Grid> */}
-								<Grid xs={6}>
+									</Grid>
+									<Grid xs={4}>
+										<CustomTable
+											title={''}
+											columns={productItemSchema}
+											data={selectedServices}
+											pointerOnHover
+											highlightOnHover
+											striped
+											onRowClicked={(row) => handleService(row)}
+										/>
+									</Grid>
+									<Grid xs={4}>
+										<CustomTable
+											title={''}
+											columns={otherServiceSchema}
+											data={otherServicedata}
+											pointerOnHover
+											highlightOnHover
+											striped
+											onRowClicked={(row) => handleService(row)}
+										/>
+									</Grid>
+								</Grid>
+							) : (
+								<Box
+									sx={{
+										height: '88vh',
+										overflowY: 'scroll',
+										marginTop: '1rem',
+									}}>
 									<CustomTable
 										title={''}
-										columns={productItemSchema}
-										data={Services.contracts}
+										columns={facilitySchema}
+										data={selectedFacilities}
 										pointerOnHover
 										highlightOnHover
 										striped
 										onRowClicked={(row) => handleService(row)}
 									/>
-								</Grid>
-								<Grid xs={4}>
-									<CustomTable
-										title={''}
-										columns={otherServiceSchema}
-										data={otherServicedata}
-										pointerOnHover
-										highlightOnHover
-										striped
-										onRowClicked={(row) => handleService(row)}
-									/>
-								</Grid>
-							</Grid>
-						) : (
-							<Box
-								sx={{
-									height: '88vh',
-									overflowY: 'scroll',
-									marginTop: '1rem',
-								}}>
-								<CustomTable
-									title={''}
-									columns={facilitySchema}
-									data={selectedFacilities}
-									pointerOnHover
-									highlightOnHover
-									striped
-									onRowClicked={(row) => handleService(row)}
-								/>
-							</Box>
-						)}
+								</Box>
+							)}
+						</Box>
 					</Box>
-				</Box>
-				{/* )} */}
+				)}
 			</Box>
 		</div>
 	);
