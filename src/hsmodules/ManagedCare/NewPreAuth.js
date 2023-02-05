@@ -47,6 +47,7 @@ export const PreAuth = () => {
 	const handleSearch = () => {};
 	const handleCreateNew = () => {
 		setOpen(true);
+		setDetails(false);
 	};
 	const handleRow = row => {
 		setOpen(true);
