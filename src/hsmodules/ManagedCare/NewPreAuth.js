@@ -28,8 +28,7 @@ export const PreAuth = () => {
 	const [details, setDetails] = useState(false);
 	const [open, setOpen] = useState(false);
 	const [startDate, setStartDate] = useState(new Date());
-
-	setInterval(() => {
+	useEffect(() => {
 		axios
 			.get(`${baseuRL}/preauth`, {
 				headers: {
@@ -43,7 +42,7 @@ export const PreAuth = () => {
 			.catch(err => {
 				console.log(err);
 			});
-	}, 1000);
+	});
 
 	const handleSearch = () => {};
 	const handleCreateNew = () => {

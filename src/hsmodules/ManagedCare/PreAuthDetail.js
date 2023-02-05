@@ -12,9 +12,10 @@ import axios from 'axios';
 import { baseuRL, token } from '../../utils/api';
 import { toast, ToastContainer } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
+import SelectSearch from 'react-select-search';
 
 const PreAuthDetail = ({ onClose, data }) => {
-	let services = data.services[0];
+	let services = data?.services ? data?.services[0] : [];
 
 	const { register, handleSubmit, reset } = useForm();
 	const [open, setOpen] = useState(false);
@@ -47,17 +48,17 @@ const PreAuthDetail = ({ onClose, data }) => {
 
 	useEffect(() => {
 		reset({
-			policyid: data.policyid,
-			PAcode: data.PAcode,
-			convo: data.convo[0],
-			beneficiary: data.beneficiary,
-			hmopayer: data.hmopayer,
-			provider: data.provider,
-			patientstate: data.patientstate,
-			submissiondate: new Date(data.submissiondate),
-			approvedDate: data.approvedDate,
-			clinical_details: data.clinical_details,
-			treatmentPlan: data.convo[1],
+			policyid: data?.policyid,
+			PAcode: data?.PAcode,
+			convo: data?.convo,
+			beneficiary: data?.beneficiary,
+			hmopayer: data?.hmopayer,
+			provider: data?.provider,
+			patientstate: data?.patientstate,
+			submissiondate: new Date(data?.submissiondate),
+			approvedDate: data?.approvedDate,
+			clinical_details: data?.clinical_details,
+			treatmentPlan: data.convo && data.convo[0],
 		});
 	}, []);
 
@@ -90,23 +91,6 @@ const PreAuthDetail = ({ onClose, data }) => {
 			});
 	};
 
-	const handleDelete = async () => {};
-	axios
-		.delete(`${baseuRL}/preauth/${row._id}`, {
-			headers: {
-				'Content-Type': 'application/json',
-				authorization: `Bearer ${token}`,
-			},
-		})
-		.then(response => {
-			toast.success(`You have successfully deleted a pre-authorization`);
-			onClose();
-		})
-		.catch(err => {
-			toast.error(
-				`Sorry, You are unable to delete an pre-authorization ${err}`,
-			);
-		});
 	return (
 		<Box>
 			<ModalBox
@@ -129,18 +113,10 @@ const PreAuthDetail = ({ onClose, data }) => {
 			<Box
 				sx={{
 					display: 'flex',
-					justifyContent: 'space-between',
+					justifyContent: 'flex-start',
 					alignItems: 'center',
 				}}>
 				<h2>Create PreAuthorization</h2>
-				<GlobalCustomButton
-					variant='outlined'
-					onClick={() => {
-						handleDelete();
-					}}
-					loading={false}>
-					Delete
-				</GlobalCustomButton>
 			</Box>
 			<form onSubmit={handleSubmit(submit)}>
 				<ToastContainer theme='colored' />

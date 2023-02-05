@@ -11,6 +11,7 @@ import ModalBox from '../../components/modal';
 import axios from 'axios';
 import { baseuRL, token } from '../../utils/api';
 import { toast, ToastContainer } from 'react-toastify';
+// @ts-ignore
 import { v4 as uuidv4 } from 'uuid';
 
 const PreAuthCreate = ({ onClose }) => {
@@ -20,6 +21,7 @@ const PreAuthCreate = ({ onClose }) => {
 	const [type, setType] = useState();
 	const [diagnosis, setDiagnosis] = useState({});
 	const [compliantList, setCompliantlIST] = useState([]);
+	const [client, setClient] = useState([]);
 	const [provList, setProvlIST] = useState([]);
 	const [serviceList, setServicelIST] = useState([]);
 	const [provdiagnosis, setProvDiagnosis] = useState({});
@@ -66,6 +68,35 @@ const PreAuthCreate = ({ onClose }) => {
 			});
 	};
 
+	const clientOptions = () => {
+		return client.map(c => ({
+			label: `${c.firstname} ${c.lastname} ${c.dob}`,
+			value: c._id,
+		}));
+	};
+
+	useEffect(() => {
+		const getOption = async endpoint => {
+			axios
+				.get(`${baseuRL}/${endpoint}`, {
+					headers: {
+						'Content-Type': 'application/json',
+						authorization: `Bearer ${token}`,
+					},
+				})
+				.then(response => {
+					setClient(response.data);
+				})
+				.catch(err => {
+					console.error(err);
+				});
+		};
+
+		getOption('client');
+	}, []);
+
+	console.log('Clients', client);
+
 	return (
 		<Box>
 			<ModalBox
@@ -99,6 +130,7 @@ const PreAuthCreate = ({ onClose }) => {
 						placeholder='Enter for Patient name'
 						register={register('beneficiary')}
 					/>
+
 					<Input
 						placeholder='Enter for provider'
 						register={register('provider')}
