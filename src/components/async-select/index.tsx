@@ -4,9 +4,16 @@ import AsyncSelect from 'react-select/async';
 interface Props {
 	options: { readonly value: string; readonly label: string }[];
 	placeholder?: string;
+	onChange?: any;
+	defaultValue?: any;
 }
 
-const SearchAsyncSelect: React.FC<Props> = ({ options, placeholder }) => {
+const SearchAsyncSelect: React.FC<Props> = ({
+	options,
+	placeholder,
+	onChange,
+	defaultValue,
+}) => {
 	const [selectedOption, setSelectedOption] = useState(null);
 	const filter = (inputValue: string) => {
 		return options.filter(i =>
@@ -29,9 +36,13 @@ const SearchAsyncSelect: React.FC<Props> = ({ options, placeholder }) => {
 			cacheOptions
 			loadOptions={loadOptions}
 			defaultOptions={options}
+			defaultValue={defaultValue}
 			placeholder={placeholder}
 			value={selectedOption}
-			onChange={setSelectedOption}
+			onChange={selectedOption => {
+				setSelectedOption(selectedOption);
+				onChange(selectedOption);
+			}}
 		/>
 	);
 };

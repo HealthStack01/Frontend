@@ -15,6 +15,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import SearchAsyncSelect from '../../components/async-select';
 import dayjs from 'dayjs';
+import RadioInput from '../../components/inputs/RadioInput';
 
 const PreAuthCreate = ({ onClose }) => {
 	const data = localStorage.getItem('user');
@@ -24,6 +25,7 @@ const PreAuthCreate = ({ onClose }) => {
 	const [open, setOpen] = useState(false);
 	const [emergency, setEmergency] = useState(false);
 	const [type, setType] = useState();
+	const [patientType, setPatientType] = useState();
 	const [diagnosis, setDiagnosis] = useState({});
 	const [compliantList, setCompliantlIST] = useState([]);
 	const [client, setClient] = useState([]);
@@ -32,7 +34,7 @@ const PreAuthCreate = ({ onClose }) => {
 	const [serviceList, setServicelIST] = useState([]);
 	const [provdiagnosis, setProvDiagnosis] = useState({});
 
-	let relatedfacilities = user.currentEmployee.facilityDetail._id;
+	let relatedfacilities = user.currentEmployee.facilityDetail.facilityName;
 	// Search fro client
 	useEffect(() => {
 		axios
@@ -109,7 +111,7 @@ const PreAuthCreate = ({ onClose }) => {
 
 	console.log('Patient', patient);
 	const handleChange = patient => {
-		setPatient(patient);
+		setPatient(patient.value);
 	};
 
 	return (
@@ -144,12 +146,9 @@ const PreAuthCreate = ({ onClose }) => {
 					<SearchAsyncSelect
 						placeholder='Search for Patient'
 						options={clientOptions()}
-						selectedOption={patient}
 						onChange={handleChange}
 					/>
 
-					
-					
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
 						<input
 							type='checkbox'
@@ -166,14 +165,15 @@ const PreAuthCreate = ({ onClose }) => {
 						gap: '1rem',
 						my: '1rem',
 					}}>
-					<CustomSelect
-						label='Patient Type'
-						register={register('patientstate')}
+					<RadioInput
 						options={[
 							{ label: 'In-patient', value: 'In-patient' },
 							{ label: 'Out of pocket', value: 'Out of pocket' },
 						]}
+						value={patientType}
+						onChange={event => setPatientType(event.target.value)}
 					/>
+
 					<Input
 						type='date'
 						label='Date of Admission'
@@ -196,26 +196,14 @@ const PreAuthCreate = ({ onClose }) => {
 							gap: '1rem',
 							my: '1rem',
 						}}>
-						<CustomSelect
+						<Input
 							label='Presenting Complaints'
-							options={[
-								{ label: 'Compliant 1', value: 'Compliant 1' },
-								{ label: 'Compliant 2', value: 'Compliant 2' },
-								{ label: 'Compliant 3', value: 'Compliant 3' },
-								{ label: 'Compliant 4', value: 'Compliant 4' },
-							]}
 							onChange={e =>
 								setDiagnosis({ ...diagnosis, complaints: e.target.value })
 							}
 						/>
-						<CustomSelect
+						<Input
 							label='Duration'
-							options={[
-								{ label: '12 months ', value: '12' },
-								{ label: '6 months ', value: '6' },
-								{ label: '3 months ', value: '3' },
-								{ label: '1 months ', value: '1' },
-							]}
 							onChange={e =>
 								setDiagnosis({ ...diagnosis, duration: e.target.value })
 							}

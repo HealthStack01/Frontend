@@ -116,7 +116,7 @@ const PreAuthDetail = ({ onClose, data }) => {
 					justifyContent: 'flex-start',
 					alignItems: 'center',
 				}}>
-				<h2>Create PreAuthorization</h2>
+				<h2>PreAuthorization Details</h2>
 			</Box>
 			<form onSubmit={handleSubmit(submit)}>
 				<ToastContainer theme='colored' />

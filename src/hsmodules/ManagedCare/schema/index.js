@@ -1,5 +1,6 @@
 import { Avatar } from '@mui/material';
 import { format, formatDistanceToNowStrict } from 'date-fns';
+import PatientName from '../components/PatientName';
 
 export const EnrolleSchema = [
 	{
@@ -517,7 +518,7 @@ export const preAuthSchema = [
 		name: "Patient's Name",
 		key: 'clientname',
 		description: 'Enter client name',
-		selector: row => row.beneficiary,
+		selector: row => <PatientName id={row.beneficiary} />,
 		sortable: true,
 		required: true,
 		inputType: 'TEXT',
