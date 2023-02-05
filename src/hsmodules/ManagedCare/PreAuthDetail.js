@@ -13,15 +13,22 @@ import { baseuRL, token } from '../../utils/api';
 import { toast, ToastContainer } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 
-const PreAuthCreate = ({ onClose }) => {
-	const { register, handleSubmit } = useForm();
+const PreAuthDetail = ({ onClose, data }) => {
+	let services = data.services[0];
+
+	const { register, handleSubmit, reset } = useForm();
 	const [open, setOpen] = useState(false);
+	const [row, setRow] = useState(data);
 	const [emergency, setEmergency] = useState(false);
 	const [type, setType] = useState();
 	const [diagnosis, setDiagnosis] = useState({});
-	const [compliantList, setCompliantlIST] = useState([]);
-	const [provList, setProvlIST] = useState([]);
-	const [serviceList, setServicelIST] = useState([]);
+	const [compliantList, setCompliantlIST] = useState(
+		services?.compliantList || [],
+	);
+	const [provList, setProvlIST] = useState(
+		services?.provisionalDiagnosis || [],
+	);
+	const [serviceList, setServicelIST] = useState(services?.servcies || []);
 	const [provdiagnosis, setProvDiagnosis] = useState({});
 	const [service, setService] = useState({});
 
@@ -36,11 +43,28 @@ const PreAuthCreate = ({ onClose }) => {
 		setOpen(false);
 	};
 
+	console.log('Row', row);
+
+	useEffect(() => {
+		reset({
+			policyid: data.policyid,
+			PAcode: data.PAcode,
+			convo: data.convo[0],
+			beneficiary: data.beneficiary,
+			hmopayer: data.hmopayer,
+			provider: data.provider,
+			patientstate: data.patientstate,
+			submissiondate: new Date(data.submissiondate),
+			approvedDate: data.approvedDate,
+			clinical_details: data.clinical_details,
+			treatmentPlan: data.convo[1],
+		});
+	}, []);
+
 	const submit = async data => {
 		data.policyid = uuidv4();
 		data.PAcode = uuidv4();
 		data.preauthCode = uuidv4();
-
 		data.convo = [data.convo, data.treatmentPlan];
 		data.services = {
 			emergency: emergency,
@@ -49,23 +73,40 @@ const PreAuthCreate = ({ onClose }) => {
 			compliantList: compliantList,
 		};
 		axios
-			.post(`${baseuRL}/preauth`, data, {
+			.patch(`${baseuRL}/preauth/${row._id}`, data, {
 				headers: {
 					'Content-Type': 'application/json',
 					authorization: `Bearer ${token}`,
 				},
 			})
 			.then(response => {
-				toast.success(`You have successfully created a pre-authoorization`);
+				toast.success(`You have successfully updated a pre-authoorization`);
 				onClose();
 			})
 			.catch(err => {
 				toast.error(
-					`Sorry, You are unable to create an pre-authorization ${err}`,
+					`Sorry, You are unable to update an pre-authorization ${err}`,
 				);
 			});
 	};
 
+	const handleDelete = async () => {};
+	axios
+		.delete(`${baseuRL}/preauth/${row._id}`, {
+			headers: {
+				'Content-Type': 'application/json',
+				authorization: `Bearer ${token}`,
+			},
+		})
+		.then(response => {
+			toast.success(`You have successfully deleted a pre-authorization`);
+			onClose();
+		})
+		.catch(err => {
+			toast.error(
+				`Sorry, You are unable to delete an pre-authorization ${err}`,
+			);
+		});
 	return (
 		<Box>
 			<ModalBox
@@ -85,7 +126,22 @@ const PreAuthCreate = ({ onClose }) => {
 					/>
 				)}
 			</ModalBox>
-			<h2>Create PreAuthorization</h2>
+			<Box
+				sx={{
+					display: 'flex',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+				}}>
+				<h2>Create PreAuthorization</h2>
+				<GlobalCustomButton
+					variant='outlined'
+					onClick={() => {
+						handleDelete();
+					}}
+					loading={false}>
+					Delete
+				</GlobalCustomButton>
+			</Box>
 			<form onSubmit={handleSubmit(submit)}>
 				<ToastContainer theme='colored' />
 				<Box
@@ -277,7 +333,7 @@ const PreAuthCreate = ({ onClose }) => {
 	);
 };
 
-export default PreAuthCreate;
+export default PreAuthDetail;
 
 const AddService = ({ service, setService, handleAddService }) => {
 	return (

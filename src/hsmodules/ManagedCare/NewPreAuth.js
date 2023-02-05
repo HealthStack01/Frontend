@@ -1,24 +1,18 @@
 /* eslint-disable */
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-//import {useNavigate} from 'react-router-dom'
 import { Badge, Box, Grid } from '@mui/material';
-import Drawer from '@mui/material/Drawer';
 import { toast } from 'bulma-toast';
 import { addDays, format, subDays } from 'date-fns';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import CustomTable from '../../components/customtable';
 import ModalBox from '../../components/modal';
 import FilterMenu from '../../components/utilities/FilterMenu';
-import { ObjectContext, UserContext } from '../../context';
+
 import { TableMenu } from '../../ui/styled/global';
 import { PageWrapper } from '../../ui/styled/styles';
-import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
 
 import GlobalCustomButton from '../../components/buttons/CustomButton';
-
-import BasicDatePicker from '../../components/inputs/Date';
 
 import { McText } from './text';
 import { baseuRL, token } from '../../utils/api';
@@ -26,12 +20,16 @@ import axios from 'axios';
 import { preAuthSchema } from './schema';
 import { DashboardPageWrapper } from '../dashBoardUiComponent/core-ui/styles';
 import PreAuthCreate from './PreAuthCreate';
+import PreAuthDetail from './PreAuthDetail';
 
 export const PreAuth = () => {
 	const [data, setData] = useState([]);
+	const [row, setRow] = useState([]);
+	const [details, setDetails] = useState(false);
 	const [open, setOpen] = useState(false);
 	const [startDate, setStartDate] = useState(new Date());
-	useEffect(() => {
+
+	setInterval(() => {
 		axios
 			.get(`${baseuRL}/preauth`, {
 				headers: {
@@ -45,26 +43,36 @@ export const PreAuth = () => {
 			.catch(err => {
 				console.log(err);
 			});
-	});
+	}, 1000);
 
 	const handleSearch = () => {};
 	const handleCreateNew = () => {
 		setOpen(true);
 	};
-	const handleRow = () => {
+	const handleRow = row => {
 		setOpen(true);
+		setRow(row);
+		setDetails(true);
 	};
 	const handleClose = () => {
 		setOpen(false);
 	};
 
+	console.log(row, '.>>>>>>');
 	return (
 		<>
 			<ModalBox
 				open={open}
 				onClose={handleClose}
 				width='80vw'>
-				<PreAuthCreate onClose={handleClose} />
+				{details ? (
+					<PreAuthDetail
+						data={row}
+						onClose={handleClose}
+					/>
+				) : (
+					<PreAuthCreate onClose={handleClose} />
+				)}
 			</ModalBox>
 			<DashboardPageWrapper>
 				<div>
