@@ -743,10 +743,7 @@ export function ClientList({openCreateModal, openDetailModal}) {
   };
 
   const getFacilities = async () => {
-    // setState(prev => ({
-    //   ...prev,
-    //   actionLoader: {open: true},
-    // }));
+   
     setLoading(true);
     if (user.currentEmployee) {
       const findClient = await ClientServ.find({
@@ -754,11 +751,6 @@ export function ClientList({openCreateModal, openDetailModal}) {
           "relatedfacilities.facility": user.currentEmployee.facilityDetail._id,
           $limit: limit,
           $skip: page * limit,
-          // createdAt: filterEndDate,
-          // createdAt: {
-          //   $gt: subDays(filterEndDate, 1),
-          //   $lt: addDays(filterEndDate, 1),
-          // },
           $sort: {
             createdAt: -1,
           },

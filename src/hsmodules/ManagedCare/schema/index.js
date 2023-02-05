@@ -540,15 +540,7 @@ export const preAuthSchema = [
 		required: true,
 		inputType: 'HIDDEN',
 	},
-	{
-		name: 'Home Payer',
-		key: 'hmopayer',
-		description: 'Enter client name',
-		selector: row => row.hmopayer,
-		sortable: true,
-		required: true,
-		inputType: 'TEXT',
-	},
+
 	{
 		name: 'Status',
 		key: 'bills',

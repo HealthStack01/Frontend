@@ -57,7 +57,6 @@ export const PreAuth = () => {
 		setOpen(false);
 	};
 
-	console.log(row, '.>>>>>>');
 	return (
 		<>
 			<ModalBox
@@ -96,7 +95,7 @@ export const PreAuth = () => {
 
 						{handleCreateNew && (
 							<GlobalCustomButton
-								text='Add new '
+								text='Add new Pre-Authorization'
 								onClick={handleCreateNew}
 							/>
 						)}

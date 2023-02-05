@@ -13,8 +13,13 @@ import { baseuRL, token } from '../../utils/api';
 import { toast, ToastContainer } from 'react-toastify';
 // @ts-ignore
 import { v4 as uuidv4 } from 'uuid';
+import SearchAsyncSelect from '../../components/async-select';
+import dayjs from 'dayjs';
 
 const PreAuthCreate = ({ onClose }) => {
+	const data = localStorage.getItem('user');
+	const user = JSON.parse(data);
+
 	const { register, handleSubmit } = useForm();
 	const [open, setOpen] = useState(false);
 	const [emergency, setEmergency] = useState(false);
@@ -22,9 +27,32 @@ const PreAuthCreate = ({ onClose }) => {
 	const [diagnosis, setDiagnosis] = useState({});
 	const [compliantList, setCompliantlIST] = useState([]);
 	const [client, setClient] = useState([]);
+	const [patient, setPatient] = useState();
 	const [provList, setProvlIST] = useState([]);
 	const [serviceList, setServicelIST] = useState([]);
 	const [provdiagnosis, setProvDiagnosis] = useState({});
+
+	let relatedfacilities = user.currentEmployee.facilityDetail._id;
+	// Search fro client
+	useEffect(() => {
+		axios
+			.get(
+				`${baseuRL}/client?relatedfacilities.facility=${relatedfacilities}`,
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						authorization: `Bearer ${token}`,
+					},
+				},
+			)
+			.then(response => {
+				setClient(response.data.data);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	}, []);
+
 	const [service, setService] = useState({});
 
 	const handleAddDiagnosis = () => {
@@ -42,6 +70,8 @@ const PreAuthCreate = ({ onClose }) => {
 		data.policyid = uuidv4();
 		data.PAcode = uuidv4();
 		data.preauthCode = uuidv4();
+		data.beneficiary = patient;
+		data.provider = relatedfacilities;
 
 		data.convo = [data.convo, data.treatmentPlan];
 		data.services = {
@@ -70,32 +100,17 @@ const PreAuthCreate = ({ onClose }) => {
 
 	const clientOptions = () => {
 		return client.map(c => ({
-			label: `${c.firstname} ${c.lastname} ${c.dob}`,
+			label: `${c.firstname} ${c.lastname} ${dayjs(c.dob).format(
+				'DD/MM/YYYY',
+			)}`,
 			value: c._id,
 		}));
 	};
 
-	useEffect(() => {
-		const getOption = async endpoint => {
-			axios
-				.get(`${baseuRL}/${endpoint}`, {
-					headers: {
-						'Content-Type': 'application/json',
-						authorization: `Bearer ${token}`,
-					},
-				})
-				.then(response => {
-					setClient(response.data);
-				})
-				.catch(err => {
-					console.error(err);
-				});
-		};
-
-		getOption('client');
-	}, []);
-
-	console.log('Clients', client);
+	console.log('Patient', patient);
+	const handleChange = patient => {
+		setPatient(patient);
+	};
 
 	return (
 		<Box>
@@ -126,19 +141,15 @@ const PreAuthCreate = ({ onClose }) => {
 						gap: '1rem',
 						my: '1rem',
 					}}>
-					<Input
-						placeholder='Enter for Patient name'
-						register={register('beneficiary')}
+					<SearchAsyncSelect
+						placeholder='Search for Patient'
+						options={clientOptions()}
+						selectedOption={patient}
+						onChange={handleChange}
 					/>
 
-					<Input
-						placeholder='Enter for provider'
-						register={register('provider')}
-					/>
-					<Input
-						placeholder='Enter for HMO Payer'
-						register={register('hmopayer')}
-					/>
+					
+					
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
 						<input
 							type='checkbox'
