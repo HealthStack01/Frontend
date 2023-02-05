@@ -28,7 +28,7 @@ const PatientName = id => {
 			.catch(err => {
 				console.log(err);
 			});
-	}, []);
+	}, [id, relatedfacilities]);
 
 	console.log('Single Client', client);
 	console.log('ID', id.id);

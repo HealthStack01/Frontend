@@ -5,14 +5,12 @@ interface Props {
 	options: { readonly value: string; readonly label: string }[];
 	placeholder?: string;
 	onChange?: any;
-	defaultValue?: any;
 }
 
 const SearchAsyncSelect: React.FC<Props> = ({
 	options,
 	placeholder,
 	onChange,
-	defaultValue,
 }) => {
 	const [selectedOption, setSelectedOption] = useState(null);
 	const filter = (inputValue: string) => {
@@ -36,7 +34,6 @@ const SearchAsyncSelect: React.FC<Props> = ({
 			cacheOptions
 			loadOptions={loadOptions}
 			defaultOptions={options}
-			defaultValue={defaultValue}
 			placeholder={placeholder}
 			value={selectedOption}
 			onChange={selectedOption => {

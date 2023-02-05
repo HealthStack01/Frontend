@@ -25,21 +25,24 @@ const PreAuthCreate = ({ onClose }) => {
 	const [open, setOpen] = useState(false);
 	const [emergency, setEmergency] = useState(false);
 	const [type, setType] = useState();
-	const [patientType, setPatientType] = useState();
+	const [patientType, setPatientType] = useState('In-patient');
 	const [diagnosis, setDiagnosis] = useState({});
 	const [compliantList, setCompliantlIST] = useState([]);
 	const [client, setClient] = useState([]);
+	const [providers, setProviders] = useState([]);
+	const [provider, setProvider] = useState();
 	const [patient, setPatient] = useState();
 	const [provList, setProvlIST] = useState([]);
 	const [serviceList, setServicelIST] = useState([]);
 	const [provdiagnosis, setProvDiagnosis] = useState({});
+	const [name, setName] = useState();
 
-	let relatedfacilities = user.currentEmployee.facilityDetail.facilityName;
+	let relatedfacilities = user.currentEmployee.facilityDetail;
 	// Search fro client
 	useEffect(() => {
 		axios
 			.get(
-				`${baseuRL}/client?relatedfacilities.facility=${relatedfacilities}`,
+				`${baseuRL}/client?relatedfacilities.facility=${relatedfacilities._id}`,
 				{
 					headers: {
 						'Content-Type': 'application/json',
@@ -53,9 +56,24 @@ const PreAuthCreate = ({ onClose }) => {
 			.catch(err => {
 				console.log(err);
 			});
-	}, []);
+	});
+	useEffect(() => {
+		axios
+			.get(`${baseuRL}/organizationclient`, {
+				headers: {
+					'Content-Type': 'application/json',
+					authorization: `Bearer ${token}`,
+				},
+			})
+			.then(response => {
+				setProviders(response.data.data);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	});
 
-	const [service, setService] = useState({});
+	const [service, setService] = useState({ name: name });
 
 	const handleAddDiagnosis = () => {
 		setProvlIST([...provList, provdiagnosis]);
@@ -73,7 +91,7 @@ const PreAuthCreate = ({ onClose }) => {
 		data.PAcode = uuidv4();
 		data.preauthCode = uuidv4();
 		data.beneficiary = patient;
-		data.provider = relatedfacilities;
+		data.provider = provider;
 
 		data.convo = [data.convo, data.treatmentPlan];
 		data.services = {
@@ -108,10 +126,18 @@ const PreAuthCreate = ({ onClose }) => {
 			value: c._id,
 		}));
 	};
+	const providerOptions = () => {
+		return providers.map(c => ({
+			label: `${c.facilityDetail.facilityName}`,
+			value: c._id,
+		}));
+	};
 
-	console.log('Patient', patient);
 	const handleChange = patient => {
 		setPatient(patient.value);
+	};
+	const handleChangeProvider = provider => {
+		setProvider(provider.value);
 	};
 
 	return (
@@ -124,6 +150,8 @@ const PreAuthCreate = ({ onClose }) => {
 						service={service}
 						setService={setService}
 						handleAddService={handleAddService}
+						name={name}
+						setName={setName}
 					/>
 				) : (
 					<AddDiagnosis
@@ -147,6 +175,11 @@ const PreAuthCreate = ({ onClose }) => {
 						placeholder='Search for Patient'
 						options={clientOptions()}
 						onChange={handleChange}
+					/>
+					<SearchAsyncSelect
+						placeholder='Search for Provider'
+						options={providerOptions()}
+						onChange={handleChangeProvider}
 					/>
 
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -174,17 +207,20 @@ const PreAuthCreate = ({ onClose }) => {
 						onChange={event => setPatientType(event.target.value)}
 					/>
 
-					<Input
-						type='date'
-						label='Date of Admission'
-						register={register('submissiondate')}
-					/>
-
-					<Input
-						type='date'
-						label='Date of Discharge'
-						register={register('approvedDate')}
-					/>
+					{patientType !== 'In-patient' && (
+						<Input
+							type='date'
+							label='Date of Admission'
+							register={register('submissiondate')}
+						/>
+					)}
+					{patientType !== 'In-patient' && (
+						<Input
+							type='date'
+							label='Date of Discharge'
+							register={register('approvedDate')}
+						/>
+					)}
 				</Box>
 
 				<Box>
@@ -310,7 +346,40 @@ const PreAuthCreate = ({ onClose }) => {
 
 export default PreAuthCreate;
 
-const AddService = ({ service, setService, handleAddService }) => {
+const AddService = ({
+	service,
+	setService,
+	handleAddService,
+	name,
+	setName,
+}) => {
+	const [services, setServices] = useState([]);
+
+	useEffect(() => {
+		axios
+			.get(`${baseuRL}/tariff`, {
+				headers: {
+					'Content-Type': 'application/json',
+					authorization: `Bearer ${token}`,
+				},
+			})
+			.then(response => {
+				setServices(response.data.data);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	});
+
+	const serviceOptions = () => {
+		return services.map(c => ({
+			label: `${c.band} `,
+			value: c._id,
+		}));
+	};
+	const handleChange = name => {
+		setService({ ...service, item: name.value });
+	};
 	return (
 		<Box>
 			<h2>Service</h2>
@@ -321,6 +390,11 @@ const AddService = ({ service, setService, handleAddService }) => {
 					gap: '1rem',
 					my: '1rem',
 				}}>
+				<SearchAsyncSelect
+					placeholder='Search for Service'
+					options={serviceOptions()}
+					onChange={handleChange}
+				/>
 				<Input
 					label='Service'
 					placeholder='Enter a Service'
