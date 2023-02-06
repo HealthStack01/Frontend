@@ -1,4 +1,10 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, {
+	useContext,
+	useState,
+	useEffect,
+	useRef,
+	useCallback,
+} from 'react';
 import { ObjectContext, UserContext } from '../../context';
 import { TableMenu } from '../dashBoardUiComponent/core-ui/styles';
 import { DebounceInput } from 'react-debounce-input';
@@ -24,6 +30,10 @@ import {
 } from '../helpers/FacilitySearch';
 import { Group } from '@mui/icons-material';
 import CustomTariffSelect from './components/TariffSelect';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { bandTypeOptions } from '../../dummy-data';
+import CreateIcon from '@mui/icons-material/Create';
+import { createBandSchema } from '../Admin/ui-components/schema';
 
 export default function TarrifList({ standAlone }) {
 	const { state } = useContext(ObjectContext); //,setState
@@ -32,6 +42,7 @@ export default function TarrifList({ standAlone }) {
 	const [selectedAppointment, setSelectedAppointment] = useState();
 	//const [showState,setShowState]=useState() //create|modify|detail
 	const [showModal, setShowModal] = useState(0);
+	const [openBand, setOpenBand] = useState(false);
 	const [openTarrif, setOpenTarrif] = useState(false);
 
 	const [selectedPlan, setSelectedPlan] = useState();
@@ -44,6 +55,14 @@ export default function TarrifList({ standAlone }) {
 		setOpenTarrif(true);
 	};
 
+	const handleHideBandModal = () => {
+		setOpenBand(false);
+	};
+
+	const handleBandModal = () => {
+		setOpenBand(true);
+	};
+
 	return (
 		<section className='section remPadTop'>
 			{showModal === 0 && (
@@ -53,6 +72,7 @@ export default function TarrifList({ standAlone }) {
 					setSelectedClient={setSelectedPlan}
 					standAlone={standAlone}
 					showTariff={handleTarriftModal}
+					showBand={handleBandModal}
 				/>
 			)}
 			{showModal === 1 && (
@@ -71,6 +91,14 @@ export default function TarrifList({ standAlone }) {
 
 			<ModalBox
 				width='50vw'
+				open={openBand}
+				onClose={handleHideBandModal}
+				header='Create Band'>
+				<BandForm />
+			</ModalBox>
+
+			<ModalBox
+				width='50vw'
 				open={openTarrif}
 				onClose={handleHideTarriftModal}
 				header='Inherit Tariff'>
@@ -79,7 +107,12 @@ export default function TarrifList({ standAlone }) {
 		</section>
 	);
 }
-export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
+export const TarrifListView = ({
+	showModal,
+	setShowModal,
+	showTariff,
+	showBand,
+}) => {
 	const [showView, setShowView] = useState(false);
 	const [tariffs, setTariffs] = useState([]);
 	const [tariff, setTariff] = useState();
@@ -94,15 +127,16 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 	const [selectedServices, setSelectedServices] = useState([]);
 	const [selectedFacilities, setSelectedFacilities] = useState([]);
 	const [selectedCategory, setSelectedCategory] = useState();
-	const [totalServices, setTotalServices] = useState(0);
-	const [totalFacilities, setTotalFacilities] = useState(0);
+	// const [totalServices, setTotalServices] = useState(0);
+	// const [totalFacilities, setTotalFacilities] = useState(0);
 	const [newFacility, setNewFacility] = useState([]);
 	const [slide, setSlide] = useState(false);
 	const [changeView, setChangeView] = useState('service');
+	const [selectPlans, setSelectPlans] = useState([]);
 
 	const Services = state.ServicesModule.selectedServices;
 	// const fac = state.facilityModule.selectedFacility;
-	console.log(Services);
+	// console.log(Services);
 
 	const ServiceSchema = [
 		{
@@ -169,15 +203,6 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 			inputType: 'HIDDEN',
 			width: '50px',
 		},
-		// {
-		// 	name: 'Band Name',
-		// 	key: 'name',
-		// 	description: 'Enter Band Name',
-		// 	selector: Services.band,
-		// 	sortable: true,
-		// 	required: true,
-		// 	inputType: 'TEXT',
-		// },
 
 		{
 			name: 'Service Name',
@@ -194,59 +219,16 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 			required: true,
 			inputType: 'TEXT',
 		},
-		// {
-		// 	name: 'Plan',
-		// 	key: 'plan',
-		// 	description: 'Plan',
-		// 	selector: (row) => (
-		// 		<Typography
-		// 			sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
-		// 			data-tag='allowRowEvents'>
-		// 			{row?.plans?.map((el) => (
-		// 				<>
-		// 					<b>Capitation?</b>: {el?.capitation === true ? 'Yes' : 'No'}
-		// 					<br />
-		// 					<b>Free for Service?</b>:
-		// 					{el?.feeForService === true ? 'Yes' : 'No'}
-		// 					<br />
-		// 					<b>PreAuth?</b>: {el?.reqPA !== 'false' ? 'Yes' : 'No'}
-		// 					<br />
-		// 					<b>Co-Pay</b>:{' '}
-		// 					{el?.copayDetail !== '' ? `₦${el?.copayDetail}` : 'N/A'}
-		// 				</>
-		// 			))}
-		// 		</Typography>
-		// 	),
-		// 	sortable: true,
-		// 	required: true,
-		// 	inputType: 'TEXT',
-		// },
+
 		{
-			name: 'Amount',
+			name: 'Price',
 			key: 'price',
-			description: 'Amount',
+			description: 'Price',
 			selector: (row) => `₦${row?.price}`,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
 		},
-		// {
-		// 	name: 'Benefits',
-		// 	key: 'benefits',
-		// 	description: 'Benefits',
-		// 	selector: (row) => (
-		// 		<Typography
-		// 			sx={{ fontSize: '0.8rem', whiteSpace: 'normal' }}
-		// 			data-tag='allowRowEvents'>
-		// 			{row?.plans?.map((benefit, i) => (
-		// 				<div key={i}>{benefit?.benefit}</div>
-		// 			))}
-		// 		</Typography>
-		// 	),
-		// 	sortable: true,
-		// 	required: true,
-		// 	inputType: 'TEXT',
-		// },
 		{
 			name: 'Comment',
 			key: 'comment',
@@ -259,21 +241,31 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 		},
 	];
 
-	const otherServicedata = [
-		{
-			capitation: 'Yes',
-			feeForService: 'No',
-			preAuth: 'Yes',
-			coPay: '₦100000',
-		},
-	];
-
 	const otherServiceSchema = [
 		{
+			name: 'S/N',
+			key: 'sn',
+			description: 'S/N',
+			selector: (row, i) => i + 1,
+			sortable: true,
+			required: true,
+			inputType: 'HIDDEN',
+			width: '50px',
+		},
+		{
+			name: 'Plan Name',
+			key: 'plan',
+			description: 'Plan',
+			selector: (row) => row.planName,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
 			name: 'Capitation',
-			key: 'Capitation',
-			description: 'Capitation',
-			selector: (row) => row?.capitation,
+			key: 'capitation',
+			description: 'capitation',
+			selector: (row) => (row?.capitation === true ? 'Yes' : 'No'),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -282,7 +274,7 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 			name: 'Free for Service',
 			key: 'free service',
 			description: 'Free for Service',
-			selector: (row) => row?.feeForService,
+			selector: (row) => (row?.feeForService === true ? 'Yes' : 'No'),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -291,7 +283,7 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 			name: 'PreAuth',
 			key: 'PreAuth',
 			description: 'PreAuth',
-			selector: (row) => row?.preAuth,
+			selector: (row) => (row?.reqPA !== 'false' ? 'Yes' : 'No'),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -300,45 +292,41 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 			name: 'Co Pay',
 			key: 'co pay',
 			description: 'Co pay',
-			selector: (row) => row.coPay,
+			selector: (row) => (row.coPay === true ? `₦${row?.copayDetail}` : 'No'),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		// {
+		// 	name: 'CoPay Amount',
+		// 	key: 'CoPay Amount',
+		// 	description: 'CoPay Amount',
+		// 	selector: (row) =>
+		// 		row.copayDetail !== '' ? `₦${row?.copayDetail}` : 'N/A',
+		// 	sortable: true,
+		// 	required: true,
+		// 	inputType: 'TEXT',
+		// },
+		{
+			name: 'Benefit Category',
+			key: 'Benefit Category',
+			description: 'Benefit Category',
+			selector: (row) => row.benefitcategory,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+		{
+			name: 'Benefit',
+			key: 'Benefit',
+			description: 'Benefit',
+			selector: (row) => row.benefit,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
 		},
 	];
 
-	const bandNameSchema = [
-		{
-			name: 'Band Name',
-			key: 'name',
-			description: 'Enter Band Name',
-			selector: (row) => Services?.band,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-		{
-			name: 'No of Facilities',
-			key: 'nofacilities',
-			description: 'No of Facilities',
-			selector: (row) =>
-				Services?.contracts
-					?.map((healist) => healist?.source_org_name)
-					.filter((v, i, a) => a.indexOf(v) === i).length,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-		{
-			name: 'No of Services',
-			key: 'noservices',
-			description: 'No of Services',
-			selector: (row) => Services?.contracts?.length,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-	];
 	// console.log(Services);
 	const facilitySchema = [
 		{
@@ -384,9 +372,29 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 			...prevstate,
 			ServicesModule: newServicesModule,
 		}));
-	};
 
-	// selectedServices.plans.map((plan, i) => console.log(plan));
+		const bandPlans = Service.contracts.map((data) => {
+			const allPlans = [];
+
+			data.plans.map((plan) => {
+				const orderData = {
+					planName: plan.planName,
+					benefit: plan.benefit,
+					benefitcategory: plan.benefitcategory,
+					feeForService: plan.feeForService,
+					capitation: plan.capitation,
+					coPay: plan.coPay,
+					copayDetail: plan.copayDetail,
+					reqPA: plan.reqPA,
+				};
+
+				allPlans.push(orderData);
+			});
+			return allPlans;
+		});
+
+		setSelectPlans(bandPlans.flat(1));
+	};
 
 	const handleService = async (Service) => {
 		setSelectedCategory(Service);
@@ -451,7 +459,7 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 	// console.log(facilities);
 
 	return (
-		<div style={{}}>
+		<div>
 			<Box
 				sx={{
 					width: '98%',
@@ -472,8 +480,8 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 							</div>
 
 							<GlobalCustomButton
-								text='Add new '
-								onClick={() => setShowModal(1)}
+								text='Add Band'
+								onClick={showBand}
 							/>
 						</TableMenu>
 						<CustomTable
@@ -500,7 +508,8 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 								justifyContent: 'space-between',
 								alignItems: 'center',
 							}}>
-							<FormsHeaderText text={'Band Deatils'} />
+							<FormsHeaderText text={'Band Details'} />
+
 							<Box>
 								<GlobalCustomButton
 									text='Back'
@@ -530,29 +539,22 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 								/>
 								<GlobalCustomButton
 									text='Add Tarrif'
-									onClick={() => setSlide(false)}
+									onClick={() => setShowModal(1)}
 									customStyles={{ marginLeft: '1rem' }}
 									// color='warning'
 								/>
 							</Box>
 						</Box>
+						<Box sx={{ mt: '2rem', px: '0.20rem' }}>
+							<FormsHeaderText text={Services?.band} />
+						</Box>
+
 						<Box>
 							{changeView === 'service' ? (
 								<Grid
 									container
 									gap={2}
 									sx={{ mt: '2rem', height: '88vh', px: '0.20rem' }}>
-									<Grid xs={3}>
-										<CustomTable
-											title={''}
-											columns={bandNameSchema}
-											data={[Services]}
-											pointerOnHover
-											highlightOnHover
-											striped
-											// onRowClicked={(row) => handleService(row)}
-										/>
-									</Grid>
 									<Grid xs={4}>
 										<CustomTable
 											title={''}
@@ -564,11 +566,11 @@ export const TarrifListView = ({ showModal, setShowModal, showTariff }) => {
 											onRowClicked={(row) => handleService(row)}
 										/>
 									</Grid>
-									<Grid xs={4}>
+									<Grid xs={7}>
 										<CustomTable
 											title={''}
 											columns={otherServiceSchema}
-											data={otherServicedata}
+											data={selectPlans}
 											pointerOnHover
 											highlightOnHover
 											striped
@@ -1654,6 +1656,10 @@ export const TariffView = (service) => {
 };
 
 export function InheritTariff({ getBandfacility }) {
+	const [success, setSuccess] = useState(false);
+	// const { user } = useContext(UserContext);
+	// const [bands,setBand] = useState()
+
 	return (
 		<Box>
 			<Box sx={{ my: '1rem', display: 'flex', justifyContent: 'flex-end' }}>
@@ -1664,8 +1670,104 @@ export function InheritTariff({ getBandfacility }) {
 			</Box>
 
 			<Box>
-				<BandSearch getBandfacility={getBandfacility} />
+				<BandSearch
+					getBandfacility={getBandfacility}
+					clear={success}
+				/>
 			</Box>
 		</Box>
 	);
 }
+
+export const BandForm = ({ open, setOpen }) => {
+	const BandServ = client.service('bands');
+	const [success, setSuccess] = useState(false);
+	const data = localStorage.getItem('band');
+	const { user } = useContext(UserContext);
+
+	const {
+		register,
+		handleSubmit,
+		reset,
+		control,
+		formState: { isSubmitSuccessful, errors },
+	} = useForm({
+		resolver: yupResolver(createBandSchema),
+
+		defaultValues: {
+			name: '',
+			bandType: '',
+			facility: user.currentEmployee.facilityDetail._id,
+		},
+	});
+
+	const submit = useCallback(
+		async (data, e) => {
+			e.preventDefault();
+			setSuccess(false);
+			await BandServ.create(data)
+				.then((res) => {
+					toast.success(`Band successfully created`);
+					setOpen(false);
+					reset();
+				})
+				.catch((err) => {
+					toast.error(`Sorry, You weren't able to create a band. ${err}`);
+				});
+		},
+		[data],
+	);
+
+	return (
+		// <ModalBox
+		// 	open={open}
+		// 	onClose={setOpen}
+		// 	width='40vw'
+		// 	header={'Create Band'}>
+		<form>
+			<ToastContainer theme='colored' />
+			<Box
+				display='flex'
+				justifyContent='flex-end'
+				mb='1rem'>
+				<GlobalCustomButton
+					onClick={handleSubmit(submit)}
+					style={{ marginTop: '1rem' }}>
+					<CreateIcon
+						fontSize='small'
+						sx={{ marginRight: '5px' }}
+					/>
+					Create Band
+				</GlobalCustomButton>
+			</Box>
+			<Grid>
+				<Box mb='1rem'>
+					<Input
+						label='Name of Band'
+						register={register('name')}
+						errorText={errors?.name?.message}
+						sx={{ marginBottom: '2rem' }}
+					/>
+				</Box>
+				<Box mb='1rem'>
+					<CustomSelect
+						label='Choose Band Type'
+						name='bandType'
+						options={bandTypeOptions}
+						register={register('bandType')}
+						control={control}
+					/>
+				</Box>
+				<Box>
+					<Textarea
+						label='Description'
+						register={register('description')}
+						name='description'
+						type='text'
+					/>
+				</Box>
+			</Grid>
+		</form>
+		// </ModalBox>
+	);
+};
