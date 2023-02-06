@@ -247,11 +247,11 @@ export function AppointmentCreate() {
 
 	let appointee; //  =state.ClientModule.selectedClient
 	/*  const getSearchfacility=(obj)=>{
-		  setValue("facility", obj._id,  {
-			  shouldValidate: true,
-			  shouldDirty: true
-		  })
-	  } */
+        setValue("facility", obj._id,  {
+            shouldValidate: true,
+            shouldDirty: true
+        })
+    } */
 	const handleChangeType = async (e) => {
 		await setAppointment_type(e.target.value);
 	};
@@ -283,9 +283,9 @@ export function AppointmentCreate() {
 		}
 
 		/*  setValue("facility", obj._id,  {
-			  shouldValidate: true,
-			  shouldDirty: true
-		  }) */
+            shouldValidate: true,
+            shouldDirty: true
+        }) */
 	};
 	const getSearchfacility1 = (obj) => {
 		setLocationId(obj._id);
@@ -319,10 +319,10 @@ export function AppointmentCreate() {
 		//setFacility(user.activeClient.FacilityId)//
 		if (!user.stacker) {
 			/*    console.log(currentUser)
-		  setValue("facility", user.currentEmployee.facilityDetail._id,  {
-			  shouldValidate: true,
-			  shouldDirty: true
-		  })  */
+        setValue("facility", user.currentEmployee.facilityDetail._id,  {
+            shouldValidate: true,
+            shouldDirty: true
+        })  */
 		}
 	}, []);
 
@@ -382,10 +382,7 @@ export function AppointmentCreate() {
 				setSuccess(true);
 				setSuccess1(true);
 				setSuccess2(true);
-				toast.success(
-					'Appointment created succesfully, Kindly bill patient if required',
-				);
-				// openBill(true);
+				toast.success('Appointment created succesfully');
 				setSuccess(false);
 				setSuccess1(false);
 				setSuccess2(false);
@@ -400,27 +397,9 @@ export function AppointmentCreate() {
 		getSearchfacility(state.ClientModule.selectedClient);
 
 		/* appointee=state.ClientModule.selectedClient 
-		  console.log(appointee.firstname) */
+        console.log(appointee.firstname) */
 		return () => {};
 	}, [state.ClientModule.selectedClient]);
-
-	/*   const showBilling = () =>{
-		  setBillingModal(true)
-		 //history.push('/app/finance/billservice')
-		  }
-		  const  handlecloseModal1 = () =>{
-			  setBillingModal(false)
-			  }
-  
-  
-			  const handleRow= async(Client)=>{
-				//  await setSelectedClient(Client)
-				  const    newClientModule={
-					  selectedClient:Client,
-					  show :'detail'
-				  }
-				 await setState((prevstate)=>({...prevstate, ClientModule:newClientModule}))
-			  } */
 
 	return (
 		<>
@@ -433,46 +412,12 @@ export function AppointmentCreate() {
 					Create
 				</Button>
 			</Box>
-			<div
-				className='card '
-				// style={{ width: '70vw' }}
-			>
+			<Box>
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<Grid
 						container
 						spacing={2}
 						alignItems='center'>
-						{/* <Grid
-							item
-							xs={12}
-							sm={12}
-							md={4}>
-							{state.ClientModule.selectedClient.firstname !== undefined ? (
-								<>
-									<FormsHeaderText
-										text={`
-					  ${state.ClientModule.selectedClient.firstname}
-					  ${state.ClientModule.selectedClient.lastname}`}
-									/>
-								</>
-							) : (
-								<ClientSearch
-									getSearchfacility={getSearchfacility}
-									clear={success}
-								/>
-							)}
-						</Grid> */}
-						{/* <Grid
-							item
-							xs={12}
-							sm={12}
-							md={4}
-							mb={1.5}>
-							<EmployeeSearch
-								getSearchfacility={getSearchfacility2}
-								clear={success2}
-							/>
-						</Grid> */}
 						<Grid
 							item
 							xs={6}
@@ -484,26 +429,6 @@ export function AppointmentCreate() {
 								clear={success1}
 							/>
 						</Grid>
-
-						{/* <Grid
-						container
-						spacing={2}>
-						<Grid
-							item
-							xs={12}
-							sm={12}
-							md={12}>
-							<RadioButton
-								name='appointmentClass'
-								register={register('appointmentClass', { required: true })}
-								options={appClass}
-							/>
-							{errors.appointmentClass && (
-								<span style={{ color: 'red' }}>This field is required</span>
-							)}
-						</Grid>
-					</Grid> */}
-
 						<Grid
 							item
 							xs={6}
@@ -569,7 +494,7 @@ export function AppointmentCreate() {
 						</Grid>
 					</Grid>
 				</form>
-			</div>
+			</Box>
 		</>
 	);
 }

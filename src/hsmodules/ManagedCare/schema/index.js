@@ -200,22 +200,24 @@ export const EnrolleSchema2 = [
 		required: true,
 		inputType: 'TEXT',
 	},
+
 ];
 
 export const principalData = [
-	{
-		firstname: 'Motun',
-		lastname: 'Oyewole',
-		paymentinfo: 'Cash',
-		age: '1996-11-08T21:32:26.004Z',
-		gender: 'Male',
-		phone: '08012345678',
-		email: 'test@motun.com',
-		clientTags: '4532',
-	},
+  {
+    firstname: "Motun",
+    lastname: "Oyewole",
+    paymentinfo: "Cash",
+    age: "1996-11-08T21:32:26.004Z",
+    gender: "Male",
+    phone: "08012345678",
+    email: "test@motun.com",
+    clientTags: "4532",
+  },
 ];
 
 export const EnrolleSchema3 = [
+
 	{
 		name: 'S/N',
 		key: 'sn',
@@ -502,6 +504,7 @@ export const FinInfoSchema = [
 		required: true,
 		inputType: 'TEXT',
 	},
+
 ];
 
 export const preAuthSchema = [
