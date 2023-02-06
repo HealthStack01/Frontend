@@ -38,33 +38,33 @@ import PatientProfile from "../Client/PatientProfile";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {color} from "@mui/system";
 import {FormsHeaderText} from "../../components/texts";
+import ClaimsListComponent from "./components/claims/ClaimsList";
+import ClaimCreateComponent from "./components/claims/ClaimsCreate";
 
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function Claims({standAlone}) {
-  const {state} = useContext(ObjectContext); //,setState
-  // eslint-disable-next-line
-  const [selectedClient, setSelectedClient] = useState();
-  const [selectedAppointment, setSelectedAppointment] = useState();
-  //const [showState,setShowState]=useState() //create|modify|detail
+  const {state, setState} = useContext(ObjectContext);
+
   const [showModal, setShowModal] = useState(false);
-  console.log("standAlone", standAlone);
-  return (
-    <>
-      <section className="section remPadTop">
+  const [view, setView] = useState("list");
+
+  const handleGoBack = () => {
+    setView("list");
+    setState(prev => ({
+      ...prev,
+      ClientModule: {
+        ...prev.ClientModule,
+        selectedClient: {},
+      },
+    }));
+  };
+
+  {
+    /* <section className="section remPadTop">
         {!showModal ? (
-          <>
-            {standAlone ? (
-              <ClaimsList
-                showModal={showModal}
-                setShowModal={setShowModal}
-                standAlone={standAlone}
-              />
-            ) : (
-              <ClaimsList showModal={showModal} setShowModal={setShowModal} />
-            )}
-          </>
+          <></>
         ) : (
           <Grid container spacing={2}>
             <Grid item xs={3}>
@@ -75,8 +75,39 @@ export default function Claims({standAlone}) {
             </Grid>
           </Grid>
         )}
-      </section>
-    </>
+      </section> */
+  }
+
+  return (
+    <Box>
+      {view === "list" && (
+        <Box>
+          <ClaimsListComponent
+            showCreate={() => setView("create")}
+            showDetail={() => setView("detail")}
+          />
+        </Box>
+      )}
+
+      {view === "create" && (
+        <Box>
+          <ClaimCreateComponent
+            handleGoBack={handleGoBack}
+            showCreate={() => setView("create")}
+            showDetail={() => setView("detail")}
+          />
+        </Box>
+      )}
+
+      {view === "detail" && (
+        <Box>
+          <ClaimsListComponent
+            showCreate={() => setView("create")}
+            showDetail={() => setView("detail")}
+          />
+        </Box>
+      )}
+    </Box>
   );
 }
 
