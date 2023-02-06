@@ -399,8 +399,9 @@ export function OrgFacilitySearch({ getSearchfacility, clear }) {
 	);
 }
 
-export function BandSearch({ getBandfacility, clear }) {
-	const BandServ = client.service('bands');
+export function BandSearch({ getBandfacility, clear, newValue }) {
+	// const BandServ = client.service('bands');
+	const ServicesServ = client.service('tariff');
 	const [facilities, setFacilities] = useState([]);
 	const { user } = useContext(UserContext);
 	// eslint-disable-next-line
@@ -419,6 +420,7 @@ export function BandSearch({ getBandfacility, clear }) {
 	const [val, setVal] = useState('');
 	const [productModal, setProductModal] = useState(false);
 	const [selectedFacility, setSelectedFacility] = useState([]);
+	// const [bandItems, setBandItems] = useState([])
 
 	const handleRow = async (obj) => {
 		await setChosen(true);
@@ -465,19 +467,16 @@ export function BandSearch({ getBandfacility, clear }) {
 
 		if (value.length >= 3) {
 			//productServ.  orgServ facility:user.currentEmployee.facilityDetail._id,
-			BandServ.find({
+			ServicesServ.find({
 				query: {
-					facility: user.currentEmployee.facilityDetail._id,
-					bandType:
-						user.currentEmployee.facilityDetail.facilityType === 'HMO'
-							? 'Provider'
-							: 'Company',
-
-					// storeId:state.StoreModule.selectedStore._id,
-					// $limit:20,
-					//   paginate:false,
+					// [field]: {
+					// 	$regex: val,
+					// 	$options: 'i',
+					// },
+					organizationId: user.currentEmployee.facilityDetail._id,
+					$limit: 20,
 					$sort: {
-						category: 1,
+						createdAt: -1,
 					},
 				},
 			})
@@ -522,14 +521,12 @@ export function BandSearch({ getBandfacility, clear }) {
 			sx={{ width: '100%' }}>
 			<Autocomplete
 				id='tags-standard'
-				options={facilities.filter(
-					(option) =>
-						option.bandType === 'Provider' || option.bandType === 'Company',
-				)}
+				options={facilities.filter((option) => option.band)}
 				onBlur={(e) => handleBlur(e)}
-				getOptionLabel={(option) => `${option?.name}`}
+				getOptionLabel={(option) => `${option?.band}`}
 				onChange={(event, newValue) => {
-					console.log('newValue', newValue);
+					// console.log('newValue', newValue);
+
 					handleRow(newValue);
 				}}
 				renderInput={(params) => (
