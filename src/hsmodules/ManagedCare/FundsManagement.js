@@ -430,6 +430,7 @@ export function FundsManagementDetails({ handleGoBack, isModal }) {
 	const fundmgt = state.ManagedCareModule.selectedEpid;
 
 	const onSubmit = async (data) => {
+		data.organizationName = fundmgt.organizationName;
 		data.organizationId = fundmgt.organizationId;
 		data.bank = data.bankName;
 		data.sortcode = data.sortCode;
