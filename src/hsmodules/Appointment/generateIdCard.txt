@@ -1,0 +1,247 @@
+/* eslint-disable */
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import { Route, useNavigate, Link, NavLink } from 'react-router-dom';
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
+//import {useNavigate} from 'react-router-dom'
+import { UserContext, ObjectContext } from '../../context';
+import { toast } from 'react-toastify';
+import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
+import DatePicker from 'react-datepicker';
+import LocationSearch from '../helpers/LocationSearch';
+import EmployeeSearch from '../helpers/EmployeeSearch';
+import BillServiceCreate from '../Finance/BillServiceCreate';
+import 'react-datepicker/dist/react-datepicker.css';
+import { PageWrapper } from '../../ui/styled/styles';
+import { TableMenu } from '../../ui/styled/global';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import Button from '../../components/buttons/Button';
+import CustomTable from '../../components/customtable';
+import { AppointmentSchema } from './schema';
+import Switch from '../../components/switch';
+import { BsFillGridFill, BsList } from 'react-icons/bs';
+import CalendarGrid from '../../components/calender';
+import ModalBox from '../../components/modal';
+import ModalHeader from './ui-components/Heading/modalHeader';
+import { Autocomplete, Box, Grid } from '@mui/material';
+import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
+import { MdCancel } from 'react-icons/md';
+import Input from '../../components/inputs/basic/Input';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import BasicDatePicker from '../../components/inputs/Date';
+import MuiCustomTimePicker from '../../components/inputs/Date/MuiTimePicker';
+import BasicDateTimePicker from '../../components/inputs/DateTime';
+import RadioButton from '../../components/inputs/basic/Radio';
+import TextField from '@mui/material/TextField';
+import { FormsHeaderText } from '../../components/texts';
+import MuiClearDatePicker from '../../components/inputs/Date/MuiClearDatePicker';
+import GroupedRadio from '../../components/inputs/basic/Radio/GroupedRadio';
+
+export default function GeneralAppointments() {
+    const { state } = useContext(ObjectContext); //,setState
+    // eslint-disable-next-line
+    const [selectedClient, setSelectedClient] = useState();
+    const [selectedAppointment, setSelectedAppointment] = useState();
+    //const [showState,setShowState]=useState() //create|modify|detail
+    const [showModal, setShowModal] = useState(false);
+
+    /**
+     * 
+     */
+    
+
+///////
+    const beneList = () => {
+		let list = [];
+		list = [data?.principal, ...data?.dependantBeneficiaries];
+		setBeneficiaries(list);
+	};
+	const handleData = async () => {
+		const newData = {
+			selectedData: data,
+		};
+		await setState((prev) => ({ ...prev, data: newData }));
+	};
+	const getUserData = useCallback(() => {
+		const userId = user.currentEmployee._id;
+		EmployeeServ.get({
+			_id: userId,
+		})
+			.then((res) => {
+				setUserData(res);
+				console.log('USER DATA', res);
+				//
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, [user]);
+	useEffect(() => {
+		beneList();
+		handleData();
+		getUserData();
+	}, [data]);
+
+    ////////
+  
+    return (
+      <section className="section remPadTop">
+        <ClientList showModal={showModal} setShowModal={setShowModal} />
+  
+        {showModal && (
+          <ModalBox
+            open={state.AppointmentModule.show === 'create'}
+            onClose={() => setShowModal(false)}
+            header="Create Appointment"
+          >
+            <AppointmentCreate
+              showModal={showModal}
+              setShowModal={setShowModal}
+            />
+          </ModalBox>
+        )}
+        {showModal && (
+          <ModalBox
+            open={state.AppointmentModule.show === 'detail'}
+            onClose={() => setShowModal(false)}
+            header="Appointment Details"
+          >
+            <ClientDetail showModal={showModal} setShowModal={setShowModal} />
+          </ModalBox>
+        )}
+        {showModal && (
+          <ModalBox
+            open={state.AppointmentModule.show === 'modify'}
+            header="Edit Appointment"
+            onClose={() => setShowModal(false)}
+          >
+            <ClientModify showModal={showModal} setShowModal={setShowModal} />
+          </ModalBox>
+        )}
+        <>
+        <Box sx={{ maxWidth: '40%', margin: '1rem auto' }}>
+					<Box
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+						}}>
+						{/* Comapany Logo */}
+						<Avatar
+							sx={{ marginTop: '5px', marginRight: '10px' }}
+							src={data?.organization?.facilitylogo}
+							alt=''
+						/>
+						<h1>{data?.organizationName}</h1>
+					</Box>
+					<Grid
+						container
+						spacing={2}
+						sx={{ alignItems: 'center' }}>
+						<Grid
+							item
+							xs={12}
+							md={8}>
+							<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+								NAME:{' '}
+								<b>
+									{`${data?.principal?.firstname} ${data?.principal?.lastname}`}
+								</b>
+							</Typography>
+							<Divider />
+							<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+								POLICY NO: <b>{data?.policyNo}</b>
+							</Typography>
+							<Divider />
+							<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+								SEX: <b>{data?.principal?.gender}</b>
+							</Typography>
+							<Divider />
+							<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+								DATE OF BIRTH:{' '}
+								<b>{moment(data?.principal?.dob).format('DD/MM/YYYY')}</b>
+							</Typography>
+							<Divider />
+							<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+								GENOTYPE: <b>{data?.principal?.genotype}</b>
+								<Divider
+									orientation='vertical'
+									flexItem
+								/>
+							</Typography>
+							<Divider />
+							<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+								BLOOD GROUP: <b>{data?.bloodgroup}</b>
+							</Typography>
+						</Grid>
+						<Grid
+							item
+							xs={12}
+							md={4}>
+							<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+								<ImgStyled
+									src={
+										data?.principal?.imageurl
+											? data?.principal?.imageurl
+											: imgSrc
+									}
+									alt='Profile Pic'
+								/>
+							</Box>
+						</Grid>
+					</Grid>
+					<Typography
+						sx={{ fontSize: '1rem', color: '#000000', textAlign: 'justify' }}
+						mt={1}>
+						The bearer of this card is a subscriber to
+						{data?.organizationName} and entitled to receive appropriate medical
+						care from his primary care provider and other referral centres as
+						may be necessary.
+					</Typography>
+					<Typography
+						sx={{ fontSize: '1rem', color: '#000000', textAlign: 'justify' }}
+						mt={1}>
+						This card MUST be presented at the point of service and remains the
+						property of {data?.organizationName}.
+					</Typography>
+					<Typography
+						sx={{ fontSize: '1rem', color: '#000000' }}
+						mt={1}>
+						In the event of an emergency, kindly contact
+						{data?.organizationName}
+					</Typography>
+					<Typography
+						sx={{ fontSize: '1rem', color: '#000000' }}
+						mt={1}>
+						{`${data?.organization?.facilityAddress} ${
+							data?.organization?.facilityLGA || ''
+						} ${data?.organization?.facilityCity || ''} ${
+							data?.organization?.facilityState || ''
+						}`}
+					</Typography>
+					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+						CALL center: {data?.organization?.facilityContactPhone}
+					</Typography>
+					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+						EMAIL: {data?.organization?.facilityEmail}
+					</Typography>
+					<Box>
+						<Box sx={{ width: '70px', height: 'auto', float: 'right' }}>
+							<img
+								src={userData?.signatureUrl}
+								alt=''
+								style={{
+									width: '100%',
+									height: 'auto',
+								}}
+							/>
+							<Divider></Divider>
+							<b>{userData?.profession}</b>
+						</Box>
+					</Box>
+				</Box>
+        </>
+      </section>
+
+    );
+  }

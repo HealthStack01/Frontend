@@ -25,7 +25,7 @@ import moment from 'moment';
 import { styled } from '@mui/material/styles';
 import Textarea from '../../../components/inputs/basic/Textarea';
 
-export const ProviderPrintout = ({ data, action }) => {
+export const ProviderPrintId = ({ data, action }) => {
 	const EmployeeServ = client.service('employee');
 	const [emailModal, setEmailModal] = useState(false);
 	const [screenshot, setScreenshot] = useState('');
@@ -85,18 +85,21 @@ export const ProviderPrintout = ({ data, action }) => {
 			inputType: 'HIDDEN',
 		},
 	];
+
 	console.log('DATA', data);
 	const beneList = () => {
 		let list = [];
-		list = [data?.principal, ...data?.dependantBeneficiaries];
+		list = [data?.principal];
 		setBeneficiaries(list);
 	};
+
 	const handleData = async () => {
 		const newData = {
 			selectedData: data,
 		};
 		await setState((prev) => ({ ...prev, data: newData }));
 	};
+
 	const getUserData = useCallback(() => {
 		const userId = user.currentEmployee._id;
 		EmployeeServ.get({
@@ -111,17 +114,20 @@ export const ProviderPrintout = ({ data, action }) => {
 				console.log(err);
 			});
 	}, [user]);
+
 	useEffect(() => {
 		beneList();
 		handleData();
 		getUserData();
 	}, [data]);
+
 	const ImgStyled = styled('img')(({ theme }) => ({
 		width: 150,
 		height: 150,
 		marginRight: theme.spacing(6.25),
 		borderRadius: theme.shape.borderRadius,
 	}));
+
 	return (
 		<Box style={{ width: '60vw' }}>
 			<Box
@@ -139,9 +145,9 @@ export const ProviderPrintout = ({ data, action }) => {
 					content={() => printRef.current}
 				/>
 
-				<GlobalCustomButton onClick={screenshotPrintout}>
+				{/* <GlobalCustomButton onClick={screenshotPrintout}>
 					Send Via Email
-				</GlobalCustomButton>
+				</GlobalCustomButton> */}
 			</Box>
 
 			<ModalBox
@@ -155,164 +161,44 @@ export const ProviderPrintout = ({ data, action }) => {
 				/>
 			</ModalBox>
 
-			<Box sx={{ display: 'none' }}>
+			<Box
+				sx={{
+					display: 'none',
+				}}>
 				<ComponentToPrint ref={printRef} />
 			</Box>
 
 			<Box
-				sx={{ width: '100%', height: '100%' }}
+				sx={{
+					width: '100%',
+					height: '100%',
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+					justifyContent: 'center',
+				}}
 				ref={screenshotRef}
-				p={4}>
-				<Grid
-					container
-					spacing={2}>
-					<Grid
-						item
-						xs={12}
-						md={6}>
-						<Box
-							sx={{
-								display: 'flex',
-								alignItems: 'center',
-							}}>
-							{/* Comapany Logo */}
-							<Avatar
-								sx={{ marginTop: '5px', marginRight: '10px' }}
-								src={data?.organization?.facilitylogo}
-								alt=''
-							/>
-							<h1>{data?.organizationName}</h1>
-						</Box>
-					</Grid>
-					{/* Address */}
-					<Grid
-						item
-						xs={12}
-						md={6}
-						style={{ textAlign: 'right' }}>
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							{data?.organizationName}
-						</Typography>
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							{data?.organization?.facilityAddress},
-						</Typography>
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							{`${data?.organization?.facilityLGA || ''} ${
-								data?.organization?.facilityCity || ''
-							} ${data?.organization?.facilityState || ''}`}
-							,
-						</Typography>
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							{data?.organization?.facilityContactPhone}
-						</Typography>
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							{data?.organization?.facilityEmail}
-						</Typography>
-					</Grid>
-				</Grid>
-				{/* ***********************************Principal******************************************************* */}
-				<Grid
-					container
-					spacing={2}>
-					<Grid
-						item
-						xs={12}
-						md={6}>
-						{/* date */}
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							{moment().format('DD/MM/YYYY')}
-						</Typography>
-						{/* Principal Name */}
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							{`${data?.principal?.firstname} ${data?.principal?.lastname}`},
-						</Typography>
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							Dear {data?.principal?.gender === 'Male' ? 'Sir' : 'Ma'},
-						</Typography>
-					</Grid>
-				</Grid>
-				{/* ***********************************Document Title******************************************************* */}
-				<Box>
-					<Typography
-						sx={{
-							fontSize: '1.2rem',
-							color: '#000000',
-							textDecoration: 'underline',
-							margin: '1rem 0px',
-							textAlign: 'center',
-							fontWeight: 'bold',
-						}}>
-						{`${data?.organizationName?.toUpperCase()} POLICY DOCUMENT`}
-					</Typography>
-				</Box>
-				{/* ***********************************Document Body******************************************************* */}
-				<Box>
-					<Typography
-						sx={{ fontSize: '1rem', color: '#000000', marginBottom: '.5rem' }}>
-						Kindly find enclosed, {data?.organizationName} Policy Details for
-						the following beneficiaries registered on our scheme.
-					</Typography>
-					<CustomTable
-						title={''}
-						columns={beneschema}
-						data={beneficiaries}
-						pointerOnHover
-						highlightOnHover
-						striped
-						onRowClicked={() => {}}
-					/>
-					<Box my={2}>
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							<b> Start Date :</b>{' '}
-							{moment(data?.validitystarts).format('DD/MM/YYYY')} <br />
-							<b> End Date :</b>
-							{moment(data?.validityEnds).format('DD/MM/YYYY')}
-							<br />
-							<b>Care Provider:</b>{' '}
-							{data?.providers?.map((p, i) => {
-								return (
-									<Typography>
-										{i + 1}. {p.organizationDetail?.facilityName}
-									</Typography>
-								);
-							})}{' '}
-							<br />
-						</Typography>
-					</Box>
-
-					<Typography
-						sx={{ fontSize: '1rem', color: '#000000', fontWeight: 'bold' }}>
-						Should you require further clarification, kindly contact us on the
-						following numbers {data?.organization?.facilityContactPhone}.
-					</Typography>
-					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						Thank you.
-					</Typography>
-					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						Yours faithfully,
-					</Typography>
-					<Box my={2}>
-						<img
-							src={userData?.signatureUrl}
-							alt=''
-							style={{
-								width: '70px',
-								height: 'auto',
-							}}
-						/>
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							<b>{data?.approvedby?.employeename}</b> <br />
-							{/* {`Lead, Fulfillment`} */}
-						</Typography>
-					</Box>
-				</Box>
-				<Box
+				p={1}>
+				{/* <Box
 					style={{
-						marginTop: '1rem',
+						marginTop: '0.2rem',
 					}}>
-					<Divider>Find below your Policy ID Card</Divider>
-				</Box>
-				<Box sx={{ maxWidth: '40%', margin: '1rem auto' }}>
+					<Divider></Divider>
+					 Find below your Policy ID Card 
+				</Box> */}
+
+				<Box
+					sx={{
+						maxWidth: '540px',
+						minWidth: '540px',
+						minHeight: '240px',
+						maxHeight: '240px',
+						margin: '2rem',
+						borderRadius: '10px',
+						// bgcolor: 'info.main',
+						border: '2px solid blue',
+					}}
+					p={2}>
 					<Box
 						sx={{
 							display: 'flex',
@@ -369,7 +255,8 @@ export const ProviderPrintout = ({ data, action }) => {
 						<Grid
 							item
 							xs={12}
-							md={4}>
+							md={4}
+							pr={2}>
 							<Box sx={{ display: 'flex', justifyContent: 'center' }}>
 								<ImgStyled
 									src={
@@ -382,7 +269,9 @@ export const ProviderPrintout = ({ data, action }) => {
 							</Box>
 						</Grid>
 					</Grid>
-					<Typography
+					{/* <div>
+
+<Typography
 						sx={{ fontSize: '1rem', color: '#000000', textAlign: 'justify' }}
 						mt={1}>
 						The bearer of this card is a subscriber to
@@ -431,6 +320,128 @@ export const ProviderPrintout = ({ data, action }) => {
 							<b>{userData?.profession}</b>
 						</Box>
 					</Box>
+</div> */}
+				</Box>
+
+				<Box
+					sx={{
+						maxWidth: '540px',
+						minWidth: '540px',
+						minHeight: '240px',
+						maxHeight: '240px',
+						margin: '2rem',
+						borderRadius: '10px',
+						border: '2px solid blue',
+						// bgcolor: 'info.main',
+					}}
+					p={2}>
+					<Grid
+						container
+						spacing={2}
+						sx={{ alignItems: 'center' }}>
+						<Grid
+							item
+							xs={12}
+							md={12}>
+							<Typography
+								sx={{
+									fontSize: '0.7rem',
+									color: '#000000',
+									textAlign: 'justify',
+								}}
+								mt={1}>
+								The bearer of this card is a subscriber to " "
+								{data?.organizationName} and entitled to receive appropriate
+								medical care from his primary care provider and other referral
+								centres as may be necessary.
+							</Typography>
+							<Typography
+								sx={{
+									fontSize: '0.7rem',
+									color: '#000000',
+									textAlign: 'justify',
+								}}
+								mt={1}>
+								This card MUST be presented at the point of service and remains
+								the property of {data?.organizationName}.
+							</Typography>
+							<Typography
+								sx={{ fontSize: '0.7rem', color: '#000000' }}
+								mt={1}>
+								In the event of an emergency, kindly contact " "
+								{data?.organizationName}
+							</Typography>
+							<Typography
+								sx={{ fontSize: '0.7rem', color: '#000000' }}
+								mt={1}>
+								{`${data?.organization?.facilityAddress} ${
+									data?.organization?.facilityLGA || ''
+								} ${data?.organization?.facilityCity || ''} ${
+									data?.organization?.facilityState || ''
+								}`}
+							</Typography>
+							<Typography sx={{ fontSize: '0.7rem', color: '#000000' }}>
+								CALL center: {data?.organization?.facilityContactPhone}
+							</Typography>
+							<Typography sx={{ fontSize: '0.7rem', color: '#000000' }}>
+								EMAIL: {data?.organization?.facilityEmail}
+							</Typography>
+							<Grid
+								container
+								spacing={2}
+								sx={{ alignItems: 'center', width: '100%' }}>
+								<Grid
+									item
+									xs={9}
+									md={9}>
+									<Box
+										sx={{
+											width: '100%',
+											height: '100%',
+											float: 'right',
+											borderRadius: '10px',
+											bgcolor: 'primary.main',
+											border: '2px solid red',
+										}}></Box>
+								</Grid>
+								<Grid
+									item
+									xs={3}
+									md={3}>
+									<Box
+										sx={{
+											width: '70px',
+											height: '40px',
+											float: 'right',
+											borderRadius: '10px',
+											bgcolor: 'info.main',
+											border: '2px solid blue',
+										}}>
+										<img
+											src={userData?.signatureUrl}
+											alt=''
+											style={{
+												width: '100%',
+												height: 'auto',
+											}}
+										/>
+										<Divider></Divider>
+										<b>{userData?.profession}</b>
+									</Box>
+								</Grid>
+							</Grid>
+						</Grid>
+						{/* <Grid
+							item
+							xs={12}
+							md={8}></Grid>
+						<Grid
+							item
+							xs={12}
+							md={4}>
+							
+						</Grid> */}
+					</Grid>
 				</Box>
 			</Box>
 		</Box>
@@ -438,12 +449,19 @@ export const ProviderPrintout = ({ data, action }) => {
 };
 
 const ComponentToPrint = forwardRef(({ action }, ref) => {
+	const EmployeeServ = client.service('employee');
 	const { state, setState } = useContext(ObjectContext);
 	const [beneficiaries, setBeneficiaries] = useState([]);
+	const [userData, setUserData] = useState({});
+	const { user } = useContext(UserContext);
+	const [imgSrc, setImgSrc] = useState(
+		'https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg',
+	);
 
 	const data = state?.data?.selectedData;
 
-	console.log('selectedData', data);
+	console.log('selectedDataNew', data);
+
 	const beneschema = [
 		{
 			name: 'S/N',
@@ -479,28 +497,77 @@ const ComponentToPrint = forwardRef(({ action }, ref) => {
 			inputType: 'HIDDEN',
 		},
 	];
+
 	const beneList = () => {
 		let list = [];
-		list = [data?.principal, ...data?.dependantBeneficiaries];
+		list = [data?.principal];
 		setBeneficiaries(list);
 	};
+
+	// const handleData = async () => {
+	// 	const newData = {
+	// 		selectedData: data,
+	// 	};
+	// 	await setState((prev) => ({ ...prev, data: newData }));
+	// };
+
+	const getUserData = useCallback(() => {
+		const userId = user.currentEmployee._id;
+		EmployeeServ.get({
+			_id: userId,
+		})
+			.then((res) => {
+				setUserData(res);
+				console.log('USER DATA', res);
+				//
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, [user]);
+
 	useEffect(() => {
 		setTimeout(() => {
 			beneList();
+			// handleData();
+			getUserData();
 		}, 2000);
 	}, []);
+
+	const ImgStyled = styled('img')(({ theme }) => ({
+		width: 150,
+		height: 150,
+		marginRight: theme.spacing(6.25),
+		borderRadius: theme.shape.borderRadius,
+	}));
+
 	return (
 		<Box
 			sx={{ width: '100%', height: '100%' }}
 			p={4}
 			ref={ref}>
-			<Grid
-				container
-				spacing={2}>
-				<Grid
-					item
-					xs={12}
-					md={6}>
+			<Box
+				sx={{
+					width: '100%',
+					height: '100%',
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+					justifyContent: 'center',
+				}}
+				p={1}>
+				<Box
+					sx={{
+						maxWidth: '540px',
+						minWidth: '540px',
+						minHeight: '240px',
+						maxHeight: '240px',
+						margin: '2rem',
+						borderRadius: '10px',
+						// bgcolor: 'info.main',
+						border: '2px solid blue',
+					}}
+					p={2}>
 					<Box
 						sx={{
 							display: 'flex',
@@ -514,122 +581,184 @@ const ComponentToPrint = forwardRef(({ action }, ref) => {
 						/>
 						<h1>{data?.organizationName}</h1>
 					</Box>
-				</Grid>
-				{/* Address */}
-				<Grid
-					item
-					xs={12}
-					md={6}
-					style={{ textAlign: 'right' }}>
-					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						{data?.organizationName}
-					</Typography>
-					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						{data?.organization?.facilityAddress},
-					</Typography>
-					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						{`${data?.organization?.facilityLGA || ''} ${
-							data?.organization?.facilityCity || ''
-						} ${data?.organization?.facilityState || ''}`}
-						,
-					</Typography>
-					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						{data?.organization?.facilityContactPhone}
-					</Typography>
-					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						{data?.organization?.facilityEmail}
-					</Typography>
-				</Grid>
-			</Grid>
-			{/* ***********************************Principal******************************************************* */}
-			<Grid
-				container
-				spacing={2}>
-				<Grid
-					item
-					xs={12}
-					md={6}>
-					{/* date */}
-					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						{moment().format('DD/MM/YYYY')}
-					</Typography>
-					{/* Principal Name */}
-					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						{`${data?.principal?.firstname} ${data?.principal?.lastname}`},
-					</Typography>
-					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						Dear {data?.principal?.gender === 'Male' ? 'Sir' : 'Ma'},
-					</Typography>
-				</Grid>
-			</Grid>
-			{/* ***********************************Document Title******************************************************* */}
-			<Box>
-				<Typography
-					sx={{
-						fontSize: '1.2rem',
-						color: '#000000',
-						textDecoration: 'underline',
-						margin: '1rem 0px',
-						textAlign: 'center',
-						fontWeight: 'bold',
-					}}>
-					{`${data?.organizationName?.toUpperCase()} POLICY DOCUMENT`}
-				</Typography>
-			</Box>
-			{/* ***********************************Document Body******************************************************* */}
-			<Box>
-				<Typography
-					sx={{ fontSize: '1rem', color: '#000000', marginBottom: '.5rem' }}>
-					Kindly find enclosed, {data?.organizationName} Policy Details for the
-					following beneficiaries registered on our scheme.
-				</Typography>
-				<CustomTable
-					title={''}
-					columns={beneschema}
-					data={beneficiaries}
-					pointerOnHover
-					highlightOnHover
-					striped
-					onRowClicked={() => {}}
-				/>
-				<Box my={2}>
-					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						<b> Start Date :</b>{' '}
-						{moment(data?.validitystarts).format('DD/MM/YYYY')} <br />
-						<b> End Date :</b>
-						{moment(data?.validityEnds).format('DD/MM/YYYY')}
-						<br />
-						<b>Care Provider:</b>{' '}
-						{data?.providers?.map((p, i) => {
-							return (
-								<Typography>
-									{i + 1}. {p.organizationDetail?.facilityName}
-								</Typography>
-							);
-						})}{' '}
-						<br />
-					</Typography>
+					<Grid
+						container
+						spacing={2}
+						sx={{ alignItems: 'center' }}>
+						<Grid
+							item
+							xs={12}
+							md={8}>
+							<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+								NAME:{' '}
+								<b>
+									{`${data?.principal?.firstname} ${data?.principal?.lastname}`}
+								</b>
+							</Typography>
+							<Divider />
+							<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+								POLICY NO: <b>{data?.policyNo}</b>
+							</Typography>
+							<Divider />
+							<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+								SEX: <b>{data?.principal?.gender}</b>
+							</Typography>
+							<Divider />
+							<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+								DATE OF BIRTH:{' '}
+								<b>{moment(data?.principal?.dob).format('DD/MM/YYYY')}</b>
+							</Typography>
+							<Divider />
+							<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+								GENOTYPE: <b>{data?.principal?.genotype}</b>
+								<Divider
+									orientation='vertical'
+									flexItem
+								/>
+							</Typography>
+							<Divider />
+							<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
+								BLOOD GROUP: <b>{data?.bloodgroup}</b>
+							</Typography>
+						</Grid>
+						<Grid
+							item
+							xs={12}
+							md={4}
+							pr={2}>
+							<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+								<ImgStyled
+									src={
+										data?.principal?.imageurl
+											? data?.principal?.imageurl
+											: imgSrc
+									}
+									alt='Profile Pic'
+								/>
+							</Box>
+						</Grid>
+					</Grid>
 				</Box>
 
-				<Typography
-					sx={{ fontSize: '1rem', color: '#000000', fontWeight: 'bold' }}>
-					Should you require further clarification, kindly contact us on the
-					following numbers {data?.organization?.facilityContactPhone}.
-				</Typography>
-				<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-					Thank you.
-				</Typography>
-				<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-					Yours faithfully,
-				</Typography>
 				<Box
-					sx={{ display: 'flex', justifyContent: 'space-between' }}
-					my={2}>
-					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						<b>{data?.approvedby?.employeename}</b> <br />
-						{/* {`Lead, Fulfillment`} */}
-					</Typography>
-					<Divider>Find below your Policy ID Card</Divider>
+					sx={{
+						maxWidth: '540px',
+						minWidth: '540px',
+						minHeight: '240px',
+						maxHeight: '240px',
+						margin: '2rem',
+						borderRadius: '10px',
+						border: '2px solid blue',
+						// bgcolor: 'info.main',
+					}}
+					p={2}>
+					<Grid
+						container
+						spacing={2}
+						sx={{ alignItems: 'center' }}>
+						<Grid
+							item
+							xs={12}
+							md={12}>
+							<Typography
+								sx={{
+									fontSize: '0.7rem',
+									color: '#000000',
+									textAlign: 'justify',
+								}}
+								mt={1}>
+								The bearer of this card is a subscriber to " "
+								{data?.organizationName} and entitled to receive appropriate
+								medical care from his primary care provider and other referral
+								centres as may be necessary.
+							</Typography>
+							<Typography
+								sx={{
+									fontSize: '0.7rem',
+									color: '#000000',
+									textAlign: 'justify',
+								}}
+								mt={1}>
+								This card MUST be presented at the point of service and remains
+								the property of {data?.organizationName}.
+							</Typography>
+							<Typography
+								sx={{ fontSize: '0.7rem', color: '#000000' }}
+								mt={1}>
+								In the event of an emergency, kindly contact " "
+								{data?.organizationName}
+							</Typography>
+							<Typography
+								sx={{ fontSize: '0.7rem', color: '#000000' }}
+								mt={1}>
+								{`${data?.organization?.facilityAddress} ${
+									data?.organization?.facilityLGA || ''
+								} ${data?.organization?.facilityCity || ''} ${
+									data?.organization?.facilityState || ''
+								}`}
+							</Typography>
+							<Typography sx={{ fontSize: '0.7rem', color: '#000000' }}>
+								CALL center: {data?.organization?.facilityContactPhone}
+							</Typography>
+							<Typography sx={{ fontSize: '0.7rem', color: '#000000' }}>
+								EMAIL: {data?.organization?.facilityEmail}
+							</Typography>
+							<Grid
+								container
+								spacing={2}
+								sx={{ alignItems: 'center', width: '100%' }}>
+								<Grid
+									item
+									xs={9}
+									md={9}>
+									<Box
+										sx={{
+											width: '100%',
+											height: '100%',
+											float: 'right',
+											borderRadius: '10px',
+											bgcolor: 'primary.main',
+											border: '2px solid red',
+										}}></Box>
+								</Grid>
+								<Grid
+									item
+									xs={3}
+									md={3}>
+									<Box
+										sx={{
+											width: '70px',
+											height: '40px',
+											float: 'right',
+											borderRadius: '10px',
+											bgcolor: 'info.main',
+											border: '2px solid blue',
+										}}>
+										<img
+											src={userData?.signatureUrl}
+											alt=''
+											style={{
+												width: '100%',
+												height: 'auto',
+											}}
+										/>
+										<Divider></Divider>
+										<b>{userData?.profession}</b>
+									</Box>
+								</Grid>
+							</Grid>
+						</Grid>
+						{/* <Grid
+							item
+							xs={12}
+							md={8}></Grid>
+						<Grid
+							item
+							xs={12}
+							md={4}>
+							
+						</Grid> */}
+					</Grid>
 				</Box>
 			</Box>
 		</Box>
