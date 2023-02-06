@@ -71,6 +71,7 @@ import { getBase64 } from '../helpers/getBase64';
 import axios from 'axios';
 import { FileUploader } from 'react-drag-drop-files';
 import MuiDateTimePicker from '../../components/inputs/DateTime/MuiDateTimePicker';
+import { ProviderPrintId } from './components/PrintId';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -1337,6 +1338,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 	// const history = useHistory();
 	// const {user,setUser} = useContext(UserContext)
 	const [facilities, setFacilities] = useState([]);
+	const [policyFacilities, setPolicyFacilities] = useState([]);
 	// eslint-disable-next-line
 	const [selectedClient, setSelectedClient] = useState(); //
 	// eslint-disable-next-line
@@ -1373,7 +1375,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 		}));
 		setShowModal(1);
 	};
-
+	console.log('fdacilities', facilities);
 	const handleSearch = (val) => {
 		// eslint-disable-next-line
 		const field = 'firstname';
@@ -1452,6 +1454,45 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 			});
 	};
 
+	const getPolicyFacilities = async () => {
+		if (user.currentEmployee) {
+			// const findClient= await ClientServ.find()
+			const findClient = await ClientServ.find({
+				query: {
+					organizationId: user.currentEmployee.facilityDetail._id,
+					// organization: user.currentEmployee.facilityDetail,
+					$sort: {
+						createdAt: -1,
+					},
+				},
+			});
+			/*  if (page===0){ */
+			await setPolicyFacilities(findClient.data);
+			console.log(findClient.data, user);
+			/* }else{
+             await setFacilities(prevstate=>prevstate.concat(findClient.data))
+         } */
+
+			// await setTotal(findClient.total);
+			//console.log(user.currentEmployee.facilityDetail._id, state)
+			//console.log(facilities)
+			setPage((page) => page + 1);
+		} else {
+			if (user.stacker) {
+				const findClient = await ClientServ.find({
+					query: {
+						$limit: 20,
+						$sort: {
+							createdAt: -1,
+						},
+					},
+				});
+
+				await setPolicyFacilities(findClient.data);
+			}
+		}
+	};
+
 	const getFacilities = async () => {
 		if (user.currentEmployee) {
 			// const findClient= await ClientServ.find()
@@ -1476,6 +1517,10 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 
 			let list = [];
 			data.map((item) => {
+				item.principal.principal = item.principal;
+				item.principal.organizationName = item.organizationName;
+				// item.principal.dependantBeneficiaries = item.dependantBeneficiaries;
+				item.principal.plan = item.plan;
 				item.principal.detail = {
 					policyNo: item?.policyNo,
 					sponsor: item?.sponsor,
@@ -1484,7 +1529,13 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 					sponsortype: item?.sponsorshipType,
 					approved: item?.approved,
 				};
+
+				item.principal.organization = {
+					...item?.sponsor?.facilityDetail,
+				};
+
 				list.push(item.principal);
+
 				item.dependantBeneficiaries.map((benf) => {
 					benf.detail = {
 						policyNo: item.policyNo,
@@ -1494,10 +1545,18 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 						sponsortype: item?.sponsorshipType,
 						approved: item?.approved,
 					};
+					benf.organizationName = item.organizationName;
+
+					benf.plan = item.plan;
+					benf.facilityDetail = {
+						...item?.sponsor?.facilityDetail,
+					};
+					benf.principal = benf;
 					list.push(benf);
 				});
 			});
-			await console.log(list);
+
+			await console.log('list', list);
 			await setFacilities(list);
 
 			// console.log('principal', principal);
@@ -1525,6 +1584,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 			}
 		}
 	};
+	// console.log('policyfacility', policyFacilities);
 
 	useEffect(() => {
 		if (user) {
@@ -1554,6 +1614,8 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 		await setTotal(0);
 		await setFacilities([]);
 		await getFacilities();
+		await getPolicyFacilities();
+
 		//await  setPage(0)
 		//  await setRestful(false)
 	};
@@ -1738,7 +1800,10 @@ export function ClientDetail({ showModal, setShowModal }) {
 	const [billingModal, setBillingModal] = useState(false);
 	const [billModal, setBillModal] = useState(false);
 	const [appointmentModal, setAppointmentModal] = useState(false);
+	const [generateIdCardModal, setGenerateIdCardModal] = useState(false);
 	const [display, setDisplay] = useState(1);
+	// eslint-disable-next-line
+	const [selectedClient, setSelectedClient] = useState(); //
 	// eslint-disable-next-line
 	const [message, setMessage] = useState(''); //,
 	//const ClientServ=client.service('/Client')
@@ -1760,7 +1825,9 @@ export function ClientDetail({ showModal, setShowModal }) {
 
 	let Client = state.ClientModule.selectedClient;
 
-	console.log(Client);
+	console.log('Client', Client);
+	// console.log('User', user);
+
 	// eslint-disable-next-line
 	const client = Client;
 	const handleEdit = async () => {
@@ -1791,6 +1858,10 @@ export function ClientDetail({ showModal, setShowModal }) {
 		setAppointmentModal(false);
 	};
 
+	const handlecloseModalIdCard = () => {
+		setGenerateIdCardModal(false);
+	};
+
 	const showBilling = () => {
 		setBillingModal(true);
 		//history.push('/app/finance/billservice')
@@ -1799,6 +1870,11 @@ export function ClientDetail({ showModal, setShowModal }) {
 	const handleSchedule = () => {
 		setAppointmentModal(true);
 	};
+
+	const handleGenegrateIdCard = () => {
+		setGenerateIdCardModal(true);
+	};
+
 	const handleBill = () => {
 		setBillModal(true);
 	};
@@ -2040,7 +2116,30 @@ export function ClientDetail({ showModal, setShowModal }) {
 							color='success'>
 							Schedule Appointment
 						</Button>
+						<Button
+							onClick={handleGenegrateIdCard}
+							variant={generateIdCardModal ? 'outlined' : 'contained'}
+							size='small'
+							sx={{ textTransform: 'capitalize', marginRight: '10px' }}
+							color='success'>
+							Generate Id-Card
+						</Button>
 					</Box>
+					{/* <Box
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'flex-end',
+						}}>
+						<Button
+							onClick={handleGenegrateIdCard}
+							variant={generateIdCardModal ? 'outlined' : 'contained'}
+							size='small'
+							sx={{ textTransform: 'capitalize', marginRight: '10px' }}
+							color='success'>
+							Generate Id-Card
+						</Button>
+					</Box> */}
 				</Box>
 
 				{display === 1 && (
@@ -2397,6 +2496,15 @@ export function ClientDetail({ showModal, setShowModal }) {
 							onClose={() => setBillingModal(false)}>
 							<ModalHeader text='Bill Beneficiary' />
 							<BillServiceCreate />
+						</ModalBox>
+					</>
+				)}
+				{generateIdCardModal && (
+					<>
+						<ModalBox
+							open
+							onClose={() => setGenerateIdCardModal(false)}>
+							<ProviderPrintId data={Client} />
 						</ModalBox>
 					</>
 				)}

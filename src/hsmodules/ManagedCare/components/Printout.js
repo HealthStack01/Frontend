@@ -24,6 +24,7 @@ import axios from 'axios';
 import moment from 'moment';
 import { styled } from '@mui/material/styles';
 import Textarea from '../../../components/inputs/basic/Textarea';
+
 export const ProviderPrintout = ({ data, action }) => {
 	const EmployeeServ = client.service('employee');
 	const [emailModal, setEmailModal] = useState(false);

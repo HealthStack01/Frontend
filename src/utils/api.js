@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-let token =
-	'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIrMjM0ODAzNjY0ODcxMiIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NzYwOTc2NjZ9.-0x814pTNLec7X70eL6YjKfqI-Z-3Kla5Wi-L6RPyfBWjtVozhe3MUrbJA-UMQTyHZDRokC3COxCvUxDSj9wxQ';
+export let token =
+	'eyJhbGciOiJIUzI1NiIsInR5cCI6ImFjY2VzcyJ9.eyJpYXQiOjE2NzU2MDg2MjAsImV4cCI6MTY3NTY5NTAyMCwiYXVkIjoiaHR0cHM6Ly95b3VyZG9tYWluLmNvbSIsImlzcyI6ImZlYXRoZXJzIiwic3ViIjoiNjA1NGFlZDgzN2JjNDkwMDE1ZjU2ZmU4IiwianRpIjoiZGI2OWM3ODYtMDY1MC00OGZlLTgyNzUtOGVmNDgwOGI1NWQyIn0.9zm1i15id_Tw_vFBUYtse9KucEq6_sT9sTBvPzaqPdw';
 
 export default axios.create({
 	baseURL: 'https://walletdemo.remita.net/api',
@@ -10,3 +10,5 @@ export default axios.create({
 		Authorization: `Bearer ${token}`,
 	},
 });
+
+export const baseuRL = 'https://healthstack-backend.herokuapp.com';
