@@ -147,6 +147,9 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 		console.log('test');
 	};
 
+	console.log('facility', facilities);
+	console.log('facility seleceted client', selectedClient);
+
 	const handleRow = async (Client) => {
 		await setSelectedClient(Client);
 		const newClientModule = {
@@ -478,7 +481,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 	//   }
 	// };
 
-	console.log(user, 'ID', standAlone);
+	// console.log(user, 'ID', standAlone);
 	return (
 		<>
 			<div className='level'>
@@ -2618,6 +2621,9 @@ export function PolicyDetail({ showModal, setShowModal }) {
 	const [individualPrice, setIndividualPrice] = useState('');
 	const [healthplan, setHealthplan] = useState([]);
 	let Client = state.ManagedCareModule.selectedClient;
+
+	console.log('policyClient', state.ManagedCareModule);
+
 	useEffect(() => {
 		let Client = state.ManagedCareModule.selectedClient;
 		setFacility(Client);
