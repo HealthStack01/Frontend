@@ -44,15 +44,24 @@ export default function TarrifList({ standAlone }) {
 	const [showModal, setShowModal] = useState(0);
 	const [openBand, setOpenBand] = useState(false);
 	const [openTarrif, setOpenTarrif] = useState(false);
+	const [openTarrifModify, setOpenTarrifModify] = useState(false);
 
 	const [selectedPlan, setSelectedPlan] = useState();
 
-	const handleHideTarriftModal = () => {
+	const handleHideTariffModal = () => {
 		setOpenTarrif(false);
 	};
 
-	const handleTarriftModal = () => {
+	const handleTariffModal = () => {
 		setOpenTarrif(true);
+	};
+
+	const handleHideTariffModifyModal = () => {
+		setOpenTarrifModify(false);
+	};
+
+	const handleTariffModifyModal = () => {
+		setOpenTarrifModify(true);
 	};
 
 	const handleHideBandModal = () => {
@@ -71,7 +80,8 @@ export default function TarrifList({ standAlone }) {
 					setShowModal={setShowModal}
 					setSelectedClient={setSelectedPlan}
 					standAlone={standAlone}
-					showTariff={handleTarriftModal}
+					showTariff={handleTariffModal}
+					showTariffModify={handleTariffModifyModal}
 					showBand={handleBandModal}
 				/>
 			)}
@@ -99,8 +109,16 @@ export default function TarrifList({ standAlone }) {
 
 			<ModalBox
 				width='50vw'
+				open={openTarrifModify}
+				onClose={handleHideTariffModifyModal}
+				header='Modify Tariff'>
+				<TariffModify />
+			</ModalBox>
+
+			<ModalBox
+				width='50vw'
 				open={openTarrif}
-				onClose={handleHideTarriftModal}
+				onClose={handleHideTariffModal}
 				header='Inherit Tariff'>
 				<InheritTariff />
 			</ModalBox>
@@ -112,6 +130,7 @@ export const TarrifListView = ({
 	setShowModal,
 	showTariff,
 	showBand,
+	showTariffModify,
 }) => {
 	const [showView, setShowView] = useState(false);
 	const [tariffs, setTariffs] = useState([]);
@@ -361,7 +380,7 @@ export const TarrifListView = ({
 	// 	}));
 	// };
 	const handleRow = async (Service, i) => {
-		console.log(Service);
+		// console.log(Service);
 		setSlide(!slide);
 		setSelectedServices(Service?.contracts);
 		const newServicesModule = {
@@ -377,7 +396,7 @@ export const TarrifListView = ({
 			const allPlans = [];
 
 			data.plans.map((plan) => {
-				const orderData = {
+				const planData = {
 					planName: plan.planName,
 					benefit: plan.benefit,
 					benefitcategory: plan.benefitcategory,
@@ -388,7 +407,7 @@ export const TarrifListView = ({
 					reqPA: plan.reqPA,
 				};
 
-				allPlans.push(orderData);
+				allPlans.push(planData);
 			});
 			return allPlans;
 		});
@@ -398,6 +417,7 @@ export const TarrifListView = ({
 
 	const handleService = async (Service) => {
 		setSelectedCategory(Service);
+		showTariffModify();
 	};
 
 	const handleSearch = (val) => {
@@ -405,10 +425,10 @@ export const TarrifListView = ({
 		console.log(val);
 		ServicesServ.find({
 			query: {
-				[field]: {
-					$regex: val,
-					$options: 'i',
-				},
+				// [field]: {
+				// 	$regex: val,
+				// 	$options: 'i',
+				// },
 				organizationId: user.currentEmployee.facilityDetail._id,
 				$limit: 20,
 				$sort: {
@@ -551,8 +571,9 @@ export const TarrifListView = ({
 
 						<Box>
 							{changeView === 'service' ? (
-								<Grid
-									container
+								<Box
+									display='grid'
+									gridTemplateColumns='repeat(12, 1fr)'
 									gap={2}
 									sx={{ mt: '2rem', height: '88vh', px: '0.20rem' }}>
 									<Grid xs={4}>
@@ -574,10 +595,10 @@ export const TarrifListView = ({
 											pointerOnHover
 											highlightOnHover
 											striped
-											onRowClicked={(row) => handleService(row)}
+											// onRowClicked={(row) => handleService(row)}
 										/>
 									</Grid>
-								</Grid>
+								</Box>
 							) : (
 								<Box
 									sx={{
@@ -1655,23 +1676,43 @@ export const TariffView = (service) => {
 	);
 };
 
-export function InheritTariff({ getBandfacility }) {
+export function InheritTariff({ getBandfacility, newValue }) {
 	const [success, setSuccess] = useState(false);
-	// const { user } = useContext(UserContext);
-	// const [bands,setBand] = useState()
+	const { register, handleSubmit } = useForm();
+	const { state, setState } = useContext(ObjectContext);
+	const { user } = useContext(UserContext);
+	const ServicesServ = client.service('tariff');
+	const Services = state.ServicesModule.selectedServices;
 
+	const onSubmit = async () => {
+		let data = {
+			organizationId: user.currentEmployee.facilityDetail._id,
+			organizationName: user.currentEmployee.facilityDetail.facilityName,
+			band: Services.band,
+			contracts: Services?.contracts,
+		};
+		//  console.log(data)
+
+		ServicesServ.create(data)
+			.then((res) => {
+				toast.success('Tariff created succesfully');
+			})
+			.catch((err) => {
+				toast.error('Error creating Tariff ' + err);
+			});
+	};
 	return (
 		<Box>
 			<Box sx={{ my: '1rem', display: 'flex', justifyContent: 'flex-end' }}>
 				<GlobalCustomButton
 					text='Save'
-					// onClick={() => setEditing(true)}
+					onClick={handleSubmit(onSubmit)}
 				/>
 			</Box>
 
 			<Box>
 				<BandSearch
-					getBandfacility={getBandfacility}
+					// getBandfacility={getBandfacility}
 					clear={success}
 				/>
 			</Box>
@@ -1679,7 +1720,7 @@ export function InheritTariff({ getBandfacility }) {
 	);
 }
 
-export const BandForm = ({ open, setOpen }) => {
+export const BandForm = () => {
 	const BandServ = client.service('bands');
 	const [success, setSuccess] = useState(false);
 	const data = localStorage.getItem('band');
@@ -1708,7 +1749,6 @@ export const BandForm = ({ open, setOpen }) => {
 			await BandServ.create(data)
 				.then((res) => {
 					toast.success(`Band successfully created`);
-					setOpen(false);
 					reset();
 				})
 				.catch((err) => {
@@ -1771,3 +1811,136 @@ export const BandForm = ({ open, setOpen }) => {
 		// </ModalBox>
 	);
 };
+
+export function TariffModify() {
+	const [service, setService] = useState('');
+	const [successService, setSuccessService] = useState(false);
+	const [serviceUnavailable, setServiceUnavailable] = useState({
+		status: false,
+		name: '',
+	});
+	const { register, handleSubmit, control } = useForm();
+	const { state, setState } = useContext(ObjectContext);
+	const { user } = useContext(UserContext);
+	const ServicesServ = client.service('tariff');
+	const [selectTariff, setSelectTariff] = useState([]);
+	const Services = state.ServicesModule.selectedServices;
+	// const servicesTariff = Services.contracts.map((data) => {
+	// 	// console.log();
+	// });
+	// console.log(servicesTariff.plans);
+
+	const getSearchService = (obj) => {
+		setService(obj);
+		if (!obj) {
+			setService('');
+		}
+		setSuccessService(false);
+	};
+
+	const notfound = async (obj) => {
+		await setServiceUnavailable(obj);
+		await setSuccessService(true);
+		if (!obj) {
+			await setServiceUnavailable('');
+		}
+	};
+
+	// console.log(selectTariff.planName);
+	const onSubmit = async (data) => {
+		data.band = data.bandName;
+		data.contracts = {
+			serviceName: data.serviceName,
+			price: data.costPrice,
+			// plans: [{ ...selectTariff }],
+			// plans: [
+			// 	{
+			// 		planName: servicesTariff.planName,
+			// 		benefit: servicesTariff.benefit,
+			// 		benefitcategory: servicesTariff.benefitcategory,
+			// 		feeForService: servicesTariff.feeForService,
+			// 		capitation: servicesTariff.capitation,
+			// 		coPay: servicesTariff.coPay,
+			// 		copayDetail: servicesTariff.copayDetail,
+			// 		reqPA: servicesTariff.reqPA,
+			// 		comments: servicesTariff.comment,
+			// 	},
+			// ],
+		};
+		data.organizationId = Services.organizationId;
+		data.organizationName = Services.organizationName;
+		ServicesServ.patch(Services._id, data)
+			.then((res) => {
+				console.log(res);
+				toast.success('Tariff updated succesfully');
+			})
+			.catch((err) => {
+				toast.error('Error updating Tariff ' + err);
+			});
+	};
+
+	return (
+		<>
+			<Box sx={{ my: '1rem', display: 'flex', justifyContent: 'flex-end' }}>
+				{/* <GlobalCustomButton
+					text='Update'
+					onClick={handleSubmit(onSubmit)}
+				/> */}
+			</Box>
+			<Grid
+				container
+				spacing={2}>
+				<Grid
+					item
+					xs={6}
+					// sm={4}
+				>
+					<Input
+						label='Band'
+						name='bandName'
+						register={register('bandName', { required: true })}
+						// defaultValue={Services.band}
+					/>
+				</Grid>
+				<Grid
+					item
+					xs={6}
+					// sm={4}
+				>
+					<SearchSelect
+						getSearchService={getSearchService}
+						clear={successService}
+						notfound={notfound}
+						placeholder='Search Service'
+						// name='servicename'
+						// register={register('servicename', { required: true })}
+						// defaultValue={servicesTariff?.serviceName}
+					/>
+				</Grid>
+				<Grid
+					item
+					xs={6}
+					// sm={4}
+				>
+					<Input
+						label='Price'
+						name='costPrice'
+						register={register('costPrice', { required: true })}
+						// defaultValue={servicesTariff?.price}
+					/>
+				</Grid>
+				<Grid
+					item
+					xs={12}
+					sm={12}>
+					<Textarea
+						label='Comments'
+						name='comment'
+						register={register('comment', { required: true })}
+						// defaultValue={Services?.plans?.comments}
+					/>
+				</Grid>
+			</Grid>
+		</>
+	);
+}
