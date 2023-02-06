@@ -11,7 +11,7 @@
 //     shadowUrl: iconShadow
 // });
 // const data = require("../../data/nigeriahealthfacilities.json");
-// /* 
+// /*
 // let iconImage =L.icon({
 //     iconUrl: icon,
 // }) */
@@ -31,7 +31,7 @@
 //     const hpdata=data.features.slice(0,100)
 
 // useEffect(() => {
-   
+
 //    navigator.geolocation.getCurrentPosition((position)=>{
 //       console.log(position)
 //       setPosition2([ position.coords.latitude, position.coords.longitude  ])
@@ -42,7 +42,6 @@
 //    // setPosition([9.081999,8.675277])
 //   }
 // }, [])
-
 
 //   return (
 //     <div>
@@ -58,80 +57,67 @@
 //             </Popup>
 //         </Marker>  */}
 //         </MapContainer>
-    
+
 //     </div>
 //   )
 // }
 
-
-import React, { useEffect } from "react";
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
-import "./style.css"
-import {useMap, MapContainer, TileLayer, Marker} from "react-leaflet"
-import "leaflet.markercluster"
+import React, {useEffect} from 'react';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+import './style.css';
+import {useMap, MapContainer, TileLayer, Marker} from 'react-leaflet';
+import 'leaflet.markercluster';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 let DefaultIcon = L.icon({
-      iconUrl: icon,
-      shadowUrl: iconShadow
-  });
-  L.Marker.prototype.options.icon =DefaultIcon;
+	iconUrl: icon,
+	shadowUrl: iconShadow,
+});
+L.Marker.prototype.options.icon = DefaultIcon;
 
+const data = require('./nigeriahealthfacilities.json');
 
-const data = require("./nigeriahealthfacilities.json");
+function Mapper() {
+	const hpdata = data.features;
 
+	const map = useMap();
 
+	const hospGeoJson = new L.GeoJSON(hpdata, {
+		onEachFeature: (feature = {}, layer) => {
+			const {properties = {}} = feature;
+			const {name} = properties;
 
-    function Mapper(){
+			if (!name) return;
 
-        const hpdata=data.features.slice(0,100)
+			layer.bindPopup(`<p>${name}</p>`);
+		},
+	});
 
-        const map = useMap()
-        
-       
+	hospGeoJson.addTo(map);
 
-    
-         
-        const hospGeoJson = new L.GeoJSON(hpdata, {
-            onEachFeature: (feature = {}, layer) => {
-              const { properties = {} } = feature;
-              const { name } = properties;
-        
-              if ( !name ) return;
-        
-              layer.bindPopup(`<p>${name}</p>`);
-            }
-          });
-        
-        
-          hospGeoJson.addTo(map);
+	// const markersBar = L.markerClusterGroup();
 
-        // const markersBar = L.markerClusterGroup();   
-        
-        // markersBar.addLayer(hospGeoJson);
-    
-        // map.addLayer(markersBar);
+	// markersBar.addLayer(hospGeoJson);
 
-
-    }
-
-    
-    
-    export default function Map() {
-
-    return <div id="map" style={{ height: "100vh" }}>
-        <MapContainer center={[9.0820, 8.6753]} zoom={4} maxZoom={10} >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&copy; <a href=&quot;https://www.openstreetmap.org/copyright&quot;>OpenStreetMap</a> contributors" />
-        <Mapper/>   
-      </MapContainer>
-
-  </div>
-
+	// map.addLayer(markersBar);
 }
 
-
-  
-        
-
-
+export default function Map() {
+	return (
+		<div
+			id='map'
+			style={{height: '100vh'}}>
+			<MapContainer
+				center={[9.082, 8.6753]}
+				zoom={4}
+				maxZoom={10}>
+				<TileLayer
+					url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+				/>
+				<Mapper />
+			</MapContainer>
+		</div>
+	);
+}
