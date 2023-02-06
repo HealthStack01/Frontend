@@ -25,7 +25,7 @@ import moment from 'moment';
 import { styled } from '@mui/material/styles';
 import Textarea from '../../../components/inputs/basic/Textarea';
 
-export const ProviderPrintout = ({ data, action }) => {
+export const ProviderPrintId = ({ data, action }) => {
 	const EmployeeServ = client.service('employee');
 	const [emailModal, setEmailModal] = useState(false);
 	const [screenshot, setScreenshot] = useState('');
@@ -85,18 +85,22 @@ export const ProviderPrintout = ({ data, action }) => {
 			inputType: 'HIDDEN',
 		},
 	];
+
 	console.log('DATA', data);
+
 	const beneList = () => {
 		let list = [];
 		list = [data?.principal, ...data?.dependantBeneficiaries];
 		setBeneficiaries(list);
 	};
+
 	const handleData = async () => {
 		const newData = {
 			selectedData: data,
 		};
 		await setState((prev) => ({ ...prev, data: newData }));
 	};
+
 	const getUserData = useCallback(() => {
 		const userId = user.currentEmployee._id;
 		EmployeeServ.get({
@@ -111,17 +115,20 @@ export const ProviderPrintout = ({ data, action }) => {
 				console.log(err);
 			});
 	}, [user]);
+
 	useEffect(() => {
 		beneList();
 		handleData();
 		getUserData();
 	}, [data]);
+
 	const ImgStyled = styled('img')(({ theme }) => ({
 		width: 150,
 		height: 150,
 		marginRight: theme.spacing(6.25),
 		borderRadius: theme.shape.borderRadius,
 	}));
+
 	return (
 		<Box style={{ width: '60vw' }}>
 			<Box
@@ -185,52 +192,8 @@ export const ProviderPrintout = ({ data, action }) => {
 						</Box>
 					</Grid>
 					{/* Address */}
-					<Grid
-						item
-						xs={12}
-						md={6}
-						style={{ textAlign: 'right' }}>
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							{data?.organizationName}
-						</Typography>
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							{data?.organization?.facilityAddress},
-						</Typography>
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							{`${data?.organization?.facilityLGA || ''} ${
-								data?.organization?.facilityCity || ''
-							} ${data?.organization?.facilityState || ''}`}
-							,
-						</Typography>
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							{data?.organization?.facilityContactPhone}
-						</Typography>
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							{data?.organization?.facilityEmail}
-						</Typography>
-					</Grid>
 				</Grid>
-				{/* ***********************************Principal******************************************************* */}
-				<Grid
-					container
-					spacing={2}>
-					<Grid
-						item
-						xs={12}
-						md={6}>
-						{/* date */}
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							{moment().format('DD/MM/YYYY')}
-						</Typography>
-						{/* Principal Name */}
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							{`${data?.principal?.firstname} ${data?.principal?.lastname}`},
-						</Typography>
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							Dear {data?.principal?.gender === 'Male' ? 'Sir' : 'Ma'},
-						</Typography>
-					</Grid>
-				</Grid>
+
 				{/* ***********************************Document Title******************************************************* */}
 				<Box>
 					<Typography
@@ -242,70 +205,11 @@ export const ProviderPrintout = ({ data, action }) => {
 							textAlign: 'center',
 							fontWeight: 'bold',
 						}}>
-						{`${data?.organizationName?.toUpperCase()} POLICY DOCUMENT`}
+						{/* {`${data?.organizationName?.toUpperCase()} POLICY DOCUMENT`} */}
+						ID Card
 					</Typography>
 				</Box>
 				{/* ***********************************Document Body******************************************************* */}
-				<Box>
-					<Typography
-						sx={{ fontSize: '1rem', color: '#000000', marginBottom: '.5rem' }}>
-						Kindly find enclosed, {data?.organizationName} Policy Details for
-						the following beneficiaries registered on our scheme.
-					</Typography>
-					<CustomTable
-						title={''}
-						columns={beneschema}
-						data={beneficiaries}
-						pointerOnHover
-						highlightOnHover
-						striped
-						onRowClicked={() => {}}
-					/>
-					<Box my={2}>
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							<b> Start Date :</b>{' '}
-							{moment(data?.validitystarts).format('DD/MM/YYYY')} <br />
-							<b> End Date :</b>
-							{moment(data?.validityEnds).format('DD/MM/YYYY')}
-							<br />
-							<b>Care Provider:</b>{' '}
-							{data?.providers?.map((p, i) => {
-								return (
-									<Typography>
-										{i + 1}. {p.organizationDetail?.facilityName}
-									</Typography>
-								);
-							})}{' '}
-							<br />
-						</Typography>
-					</Box>
-
-					<Typography
-						sx={{ fontSize: '1rem', color: '#000000', fontWeight: 'bold' }}>
-						Should you require further clarification, kindly contact us on the
-						following numbers {data?.organization?.facilityContactPhone}.
-					</Typography>
-					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						Thank you.
-					</Typography>
-					<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-						Yours faithfully,
-					</Typography>
-					<Box my={2}>
-						<img
-							src={userData?.signatureUrl}
-							alt=''
-							style={{
-								width: '70px',
-								height: 'auto',
-							}}
-						/>
-						<Typography sx={{ fontSize: '1rem', color: '#000000' }}>
-							<b>{data?.approvedby?.employeename}</b> <br />
-							{/* {`Lead, Fulfillment`} */}
-						</Typography>
-					</Box>
-				</Box>
 				<Box
 					style={{
 						marginTop: '1rem',

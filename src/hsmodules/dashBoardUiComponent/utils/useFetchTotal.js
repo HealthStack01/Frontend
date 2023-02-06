@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
-const useFetchData = (service, query, isFacilityId) => {
-	const [data, setData] = useState([]);
+const useFetchTotal = (service, query, isFacilityId) => {
+	const [data, setData] = useState({});
 	const [isPending, setIsPending] = useState(true);
 	const [error, setError] = useState(null);
 
@@ -23,10 +23,8 @@ const useFetchData = (service, query, isFacilityId) => {
 			})
 			.then((result) => {
 				// Once both return, update the stat
-
-				const resultArr = result.data.reverse();
 				setIsPending(false);
-				setData(resultArr);
+				setData(result);
 				setError(null);
 			})
 			.catch((error) => {
@@ -36,12 +34,12 @@ const useFetchData = (service, query, isFacilityId) => {
 				setIsPending(false);
 			});
 
-		service.on('created', (data) =>
-			setData((currentData) => currentData.concat(data)),
-		);
+		// service.on('created', (data) =>
+		// 	setData((currentData) => currentData.concat(data)),
+		// );
 	}, [service, facilityId]);
 
 	return { data, isPending, error };
 };
 
-export default useFetchData;
+export default useFetchTotal;
