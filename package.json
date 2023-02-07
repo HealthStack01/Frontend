@@ -52,6 +52,7 @@
 		"moment": "^2.29.4",
 		"node-sass": "^7.0.3",
 		"postcss": "^8.4.5",
+		"qrcode": "^1.5.1",
 		"random-string-generator": "^1.0.0",
 		"react": "^18.2.0",
 		"react-apexcharts": "^1.4.0",
