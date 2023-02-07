@@ -154,6 +154,7 @@ function App() {
     ClientModule: {
       show: "list",
       selectedClient: {},
+      clientPolicy: {},
       locationModule: false,
     },
     DocumentClassModule: {

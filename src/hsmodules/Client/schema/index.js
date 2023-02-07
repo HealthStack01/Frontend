@@ -19,7 +19,7 @@ export const ClientMiniSchema = [
 
   {
     name: "Image",
-    key: "middlename",
+    key: "imageurl",
     description: "Midlle Name",
     selector: row => (
       <Avatar
