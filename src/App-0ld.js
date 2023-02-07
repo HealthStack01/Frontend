@@ -10,8 +10,8 @@ import {
 /* import Home from './components/Home' */
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
-import {useState, useContext, useEffect} from "react";
-import {UserContext, ObjectContext} from "./context";
+import { useState, useContext, useEffect } from "react";
+import { UserContext, ObjectContext } from "./context";
 import MyUserProvider from "./context";
 import client from "./feathers";
 
@@ -172,7 +172,7 @@ function App() {
   });
 
   return (
-    <ObjectContext.Provider value={{state, setState}}>
+    <ObjectContext.Provider value={{ state, setState }}>
       {/*  <UserContext.Provider value={{user,setUser}}> */}
       <MyUserProvider>
         <Router>
@@ -202,9 +202,9 @@ function App() {
 export default App;
 
 // eslint-disable-next-line
-const ProtectedRoute = ({children, ...props}) => {
+const ProtectedRoute = ({ children, ...props }) => {
   // const navigate=useNavigate()
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
     const check = async () => {
@@ -233,7 +233,7 @@ const ProtectedRoute = ({children, ...props}) => {
         })();
       }
     };
-    check().then(resp => {
+    check().then((resp) => {
       //console.log("testing")
     });
     // eslint-disable-next-line
@@ -242,14 +242,14 @@ const ProtectedRoute = ({children, ...props}) => {
   return (
     <Route
       {...props}
-      render={({location}) => {
+      render={({ location }) => {
         return user /* fakeAuth.isAuthenticated === true */ ? (
           children
         ) : (
           <Redirect
             to={{
               pathname: "/",
-              state: {from: location},
+              state: { from: location },
             }}
           />
         );
