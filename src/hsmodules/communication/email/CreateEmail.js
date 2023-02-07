@@ -67,11 +67,11 @@ const CommunicationEmailCreate = ({closeModal}) => {
     const facility = user.currentEmployee.facilityDetail;
     showActionLoader();
 
-    const attachedHTML = attachedFiles
-      ? `<br> <p>Find Below Attached Documents to this Email:   ${attachedFiles.map(
-          item => `<br> <a href=${item.file}>${item.fileName}</a> `
-        )}  </p>`
-      : "";
+    // const attachedHTML = attachedFiles
+    //   ? `<br> <p>Find Below Attached Documents to this Email:   ${attachedFiles.map(
+    //       item => `<br> <a href=${item.file}>${item.fileName}</a> `
+    //     )}  </p>`
+    //   : "";
 
     const document = {
       organizationId: facility._id,

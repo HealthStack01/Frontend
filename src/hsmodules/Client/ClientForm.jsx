@@ -87,6 +87,7 @@ const ClientForm = ({closeModal, setOpen}) => {
       facility: user.currentEmployee.facility,
     },
   });
+
   const [selectedState, setSelectedState] = useState(null);
 
   const states = Nigeria.map(obj => obj.state);
@@ -94,7 +95,7 @@ const ClientForm = ({closeModal, setOpen}) => {
   //alphabetically arrange state
   const sortedStates = states.sort((a, b) => a.localeCompare(b));
 
-  const watchedState = watch("facilityState");
+  const watchedState = watch("state");
 
   useEffect(() => {
     setSelectedState(Nigeria.find(item => item.state === watchedState));
