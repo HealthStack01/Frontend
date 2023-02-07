@@ -7,11 +7,17 @@ body {
      background-color: #3298dc !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; */
-	color: #000000;
+	/* color: #000000;
 	font-weight: 400;
 	line-height: 1.5 !important;
-	font-size: 0.7rem !important;
+	font-size: 0.7rem !important; */
 }
+html {
+	/* font-size: 62.5%; */
+	font-size: 80%;
+	box-sizing: border-box;
+}
+
 /* .input {
   height: 2em !important;
 } */
@@ -21,9 +27,9 @@ body {
     monospace;
 }
  */
-.startbutton {
-	display: none !important ;
-}
+/* .startbutton {
+	display: none !important ; */
+/* }
 html {
 	-webkit-font-smoothing: antialiased;
 	min-width: 300px;
@@ -44,7 +50,7 @@ html {
 		display: block !important;
 		margin: auto;
 	}
-}
+} */
 
 .date-picker {
 	box-sizing: border-box !important;
