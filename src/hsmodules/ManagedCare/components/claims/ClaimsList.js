@@ -41,7 +41,7 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
 
   const getClaims = useCallback(async () => {
     if (user.currentEmployee) {
-      let stuff = {
+      let query = {
         facility: user.currentEmployee.facilityDetail._id,
 
         $limit: 100,
@@ -50,9 +50,10 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
         },
       };
 
-      const resp = await claimsServer.find({query: stuff});
+      const resp = await claimsServer.find({query: query});
 
       setClaims(resp.data);
+      console.log(data);
       //console.log(resp.data);
     } else {
       if (user.stacker) {
@@ -70,11 +71,9 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
     }
   }, []);
 
-  const activeStyle = {
-    backgroundColor: "#0064CC29",
-    border: "none",
-    padding: "0 .8rem",
-  };
+  useEffect(() => {
+    getClaims();
+  }, [getClaims]);
 
   const dummyData = [
     {
