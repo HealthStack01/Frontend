@@ -743,7 +743,6 @@ export function ClientList({openCreateModal, openDetailModal}) {
   };
 
   const getFacilities = async () => {
-   
     setLoading(true);
     if (user.currentEmployee) {
       const findClient = await ClientServ.find({
@@ -966,7 +965,7 @@ export function ClientList({openCreateModal, openDetailModal}) {
                 onRowClicked={handleRow}
                 conditionalRowStyles={conditionalRowStyles}
                 progressPending={loading}
-                CustomEmptyData={<Typography>No Client Found...</Typography>}
+                // CustomEmptyData={<Typography>No Client Found...</Typography>}
               />
             </div>
           </PageWrapper>
