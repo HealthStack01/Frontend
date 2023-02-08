@@ -98,6 +98,7 @@ import OrganizationsPage from "./Organization/Organizations";
 import NotFound from "../notFound";
 import CorporateModule from "./Corporate/Corporate";
 import { PolicyCreateForExternalLink } from "./ManagedCare/CreatePolicyExternalLink";
+import CreateTest from "./ManagedCare/CreateTest";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -144,11 +145,12 @@ const AppRoutes = () => {
           {/************************** Page not found *************************************** */}
           <Route path="*" element={<NotFound />} />
 
-          {/************************** external Beneficiary Routes *************************************** */}
+          {/************************** external Beneficiary Routes :hmoFacilityId *************************************** */}
           <Route
-            path="/app/managed-care/create-policy-external-link"
+            path="/create-policy-external-link/:hmoFacilityId"
             element={<PolicyCreateForExternalLink />}
           />
+          <Route path="/create-test" element={<CreateTest />} />
 
           {/************************** Payment Integration Routes *************************************** */}
           <Route path="/verify-otp" element={<WalletOTP />} />
