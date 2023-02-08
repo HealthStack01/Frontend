@@ -46,7 +46,7 @@ export default function TarrifList({ standAlone }) {
 	const [openTarrif, setOpenTarrif] = useState(false);
 	const [openTarrifModify, setOpenTarrifModify] = useState(false);
 
-  const [selectedPlan, setSelectedPlan] = useState();
+	const [selectedPlan, setSelectedPlan] = useState();
 
 	const handleHideTariffModal = () => {
 		setOpenTarrif(false);
@@ -252,8 +252,7 @@ export const TarrifListView = ({
 			name: 'Comment',
 			key: 'comment',
 			description: 'Comment',
-			selector: (row) =>
-				row?.plans.map((plan, i) => <div key={i}>{plan?.comments}</div>),
+			selector: (row) => row?.comments,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -462,37 +461,37 @@ export const TarrifListView = ({
 			});
 	};
 
-  const getFacilities = async () => {
-    if (user.currentEmployee) {
-      const findServices = await ServicesServ.find({
-        query: {
-          organizationId: user.currentEmployee.facilityDetail._id,
-          $sort: {
-            createdAt: -1,
-          },
-        },
-      });
-      console.log(findServices.data);
-      await setFacilities(findServices.data);
-    } else {
-      if (user.stacker) {
-        toast.warning("You do not qualify to view this");
-        return;
-      }
-    }
-  };
+	const getFacilities = async () => {
+		if (user.currentEmployee) {
+			const findServices = await ServicesServ.find({
+				query: {
+					organizationId: user.currentEmployee.facilityDetail._id,
+					$sort: {
+						createdAt: -1,
+					},
+				},
+			});
+			console.log(findServices.data);
+			await setFacilities(findServices.data);
+		} else {
+			if (user.stacker) {
+				toast.warning('You do not qualify to view this');
+				return;
+			}
+		}
+	};
 
-  useEffect(() => {
-    getFacilities();
+	useEffect(() => {
+		getFacilities();
 
-    ServicesServ.on("created", obj => getFacilities());
-    ServicesServ.on("updated", obj => getFacilities());
-    ServicesServ.on("patched", obj => getFacilities());
-    ServicesServ.on("removed", obj => getFacilities());
-    return () => {};
-  }, [state.facilityModule.selectedFacility]);
+		ServicesServ.on('created', (obj) => getFacilities());
+		ServicesServ.on('updated', (obj) => getFacilities());
+		ServicesServ.on('patched', (obj) => getFacilities());
+		ServicesServ.on('removed', (obj) => getFacilities());
+		return () => {};
+	}, [state.facilityModule.selectedFacility]);
 
-  // console.log(facilities);
+	// console.log(facilities);
 
 	return (
 		<div>
@@ -641,424 +640,425 @@ export const TarrifListView = ({
 	);
 };
 
-export const TariffCreate = ({showModal, setShowModal}) => {
-  const [, setPriceState] = useState({
-    bronze: false,
-    gold: false,
-    silver: false,
-    platinium: false,
-  });
-  const [loading, setLoading] = useState(false);
-  const [bands, setBands] = useState([]);
-  const [data, setData] = useState(null);
-  const [catergory, setCategory] = useState(null);
-  const [categoryname, setCategoryName] = useState("");
-  const [success, setSuccess] = useState(false);
-  const [success2, setSuccess2] = useState(false);
-  const [cash, setCash] = useState("Cash");
-  // eslint-disable-next-line
-  const [facility, setFacility] = useState();
-  const [providerBand, setProviderBand] = useState([]);
-  const [benefittingPlans1, setBenefittingPlans1] = useState([]);
-  const ServicesServ = client.service("tariff");
-  const BandsServ = client.service("bands");
-  const HealthPlanServ = client.service("healthplan");
-  //const history = useHistory()
-  const {user} = useContext(UserContext); //,setUser
-  // eslint-disable-next-line
-  const [facilityId, setFacilityId] = useState("");
-  const [source, setSource] = useState("");
-  const [panel, setPanel] = useState(false);
-  const [name, setName] = useState("");
-  const [benefittingplans, setBenefittingPlans] = useState([]);
-  const [quantity, setQuantity] = useState();
-  const [costprice, setCostprice] = useState("");
-  const [orgType, setOrgType] = useState("");
-  const [comments, setComments] = useState("");
-  const [productItem, setProductItem] = useState([]);
-  const [plan, setPlan] = useState("");
-  const [service, setService] = useState("");
-  const [currentUser, setCurrentUser] = useState("");
-  const [panelList, setPanelList] = useState([]);
-  const [successService, setSuccessService] = useState(false);
-  const {state} = useContext(ObjectContext);
-  const [chosen2, setChosen2] = useState();
-  const [band, setBand] = useState("");
-  const [showService, setShowService] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState([]);
-  const [capitation, setCapitation] = useState(false);
-  const [feeForService, setFeeForService] = useState(false);
-  const [serviceClass, setServiceClass] = useState("");
-  const [copay, setCopay] = useState("");
-  const [reqCopay, setReqCopay] = useState(false);
-  const [reqAuthCode, setReqAuthCode] = useState(false);
-  const [selectedBand, setSelectedBand] = useState("");
-  const [showCoPay, setShowCoPay] = useState(false);
-  const [selectedBenefits, setSelectedBenefits] = useState([]);
-  const [facilities, setFacilities] = useState([]);
-  const [sCoPay, setSCoPay] = useState(false);
-  const [beneCat, setBeneCat] = useState("");
-  const [newBene, setNewBene] = useState([]);
-  const [selectNo, setSelectNo] = useState("");
-  const [serviceUnavailable, setServiceUnavailable] = useState({
-    status: false,
-    name: "",
-  });
+export const TariffCreate = ({ showModal, setShowModal }) => {
+	const [, setPriceState] = useState({
+		bronze: false,
+		gold: false,
+		silver: false,
+		platinium: false,
+	});
+	const [loading, setLoading] = useState(false);
+	const [bands, setBands] = useState([]);
+	const [data, setData] = useState(null);
+	const [catergory, setCategory] = useState(null);
+	const [categoryname, setCategoryName] = useState('');
+	const [success, setSuccess] = useState(false);
+	const [success2, setSuccess2] = useState(false);
+	const [cash, setCash] = useState('Cash');
+	// eslint-disable-next-line
+	const [facility, setFacility] = useState();
+	const [providerBand, setProviderBand] = useState([]);
+	const [benefittingPlans1, setBenefittingPlans1] = useState([]);
+	const ServicesServ = client.service('tariff');
+	const BandsServ = client.service('bands');
+	const HealthPlanServ = client.service('healthplan');
+	//const history = useHistory()
+	const { user } = useContext(UserContext); //,setUser
+	// eslint-disable-next-line
+	const [facilityId, setFacilityId] = useState('');
+	const [source, setSource] = useState('');
+	const [panel, setPanel] = useState(false);
+	const [name, setName] = useState('');
+	const [benefittingplans, setBenefittingPlans] = useState([]);
+	const [quantity, setQuantity] = useState();
+	const [costprice, setCostprice] = useState('');
+	const [orgType, setOrgType] = useState('');
+	const [comments, setComments] = useState('');
+	const [productItem, setProductItem] = useState([]);
+	const [plan, setPlan] = useState('');
+	const [service, setService] = useState('');
+	const [currentUser, setCurrentUser] = useState('');
+	const [panelList, setPanelList] = useState([]);
+	const [successService, setSuccessService] = useState(false);
+	const { state } = useContext(ObjectContext);
+	const [chosen2, setChosen2] = useState();
+	const [band, setBand] = useState('');
+	const [showService, setShowService] = useState(false);
+	const [selectedPlan, setSelectedPlan] = useState([]);
+	const [capitation, setCapitation] = useState(false);
+	const [feeForService, setFeeForService] = useState(false);
+	const [serviceClass, setServiceClass] = useState('');
+	const [copay, setCopay] = useState('');
+	const [reqCopay, setReqCopay] = useState(false);
+	const [reqAuthCode, setReqAuthCode] = useState(false);
+	const [selectedBand, setSelectedBand] = useState('');
+	const [showCoPay, setShowCoPay] = useState(false);
+	const [selectedBenefits, setSelectedBenefits] = useState([]);
+	const [facilities, setFacilities] = useState([]);
+	const [sCoPay, setSCoPay] = useState(false);
+	const [beneCat, setBeneCat] = useState('');
+	const [newBene, setNewBene] = useState([]);
+	const [selectNo, setSelectNo] = useState('');
+	const [serviceUnavailable, setServiceUnavailable] = useState({
+		status: false,
+		name: '',
+	});
 
-  const {
-    register,
-    handleSubmit,
-    formState: {isSubmitSuccessful, errors},
-  } = useForm({
-    defaultValues: {
-      facility: user.currentEmployee.facility,
-    },
-  });
+	const {
+		register,
+		handleSubmit,
+		formState: { isSubmitSuccessful, errors },
+	} = useForm({
+		defaultValues: {
+			facility: user.currentEmployee.facility,
+		},
+	});
 
-  useEffect(() => {
-    const getData = async () => {
-      setLoading(true);
-      try {
-        const findServices = await ServicesServ.find();
-        const findBands = await BandsServ.find();
-        setBands(findBands?.data);
-      } catch (err) {}
-      setLoading(false);
-    };
+	useEffect(() => {
+		const getData = async () => {
+			setLoading(true);
+			try {
+				const findServices = await ServicesServ.find();
+				const findBands = await BandsServ.find();
+				setBands(findBands?.data);
+			} catch (err) {}
+			setLoading(false);
+		};
 
-    getData();
-  }, []);
-  const updateObjectInArray = (array, child) => {
-    array.map((item, index) => {
-      if (item.name !== child.name) {
-        // This isn't the item we care about - keep it as-is
-        return item;
-      }
-      // Otherwise, this is the one we want - return an updated value
-      //console.log(child)
-      return {
-        ...child,
-      };
-    });
-    return array;
-  };
-  // consider batchformat{batchno,expirydate,qtty,baseunit}
-  //consider baseunoit conversions
-  const getSearchfacility = obj => {
-    setFacilityId(obj._id);
-    setName(obj.facilityName);
-    setOrgType(obj.facilityType);
+		getData();
+	}, []);
+	const updateObjectInArray = (array, child) => {
+		array.map((item, index) => {
+			if (item.name !== child.name) {
+				// This isn't the item we care about - keep it as-is
+				return item;
+			}
+			// Otherwise, this is the one we want - return an updated value
+			//console.log(child)
+			return {
+				...child,
+			};
+		});
+		return array;
+	};
+	// consider batchformat{batchno,expirydate,qtty,baseunit}
+	//consider baseunoit conversions
+	const getSearchfacility = (obj) => {
+		setFacilityId(obj._id);
+		setName(obj.facilityName);
+		setOrgType(obj.facilityType);
 
-    if (!obj) {
-      // setName("")
-      setOrgType("");
-      setFacilityId("");
-      setCostprice("");
-    }
+		if (!obj) {
+			// setName("")
+			setOrgType('');
+			setFacilityId('');
+			setCostprice('');
+		}
 
-    /*  setValue("facility", obj._id,  {
+		/*  setValue("facility", obj._id,  {
             shouldValidate: true,
             shouldDirty: true
         }) */
-  };
-  const getSearchfacility2 = obj => {
-    setCategoryName(obj.categoryname);
-    setChosen2(obj);
+	};
+	const getSearchfacility2 = (obj) => {
+		setCategoryName(obj.categoryname);
+		setChosen2(obj);
 
-    if (!obj) {
-      //"clear stuff"
-      setCategoryName("");
-      setChosen2();
-    }
-  };
+		if (!obj) {
+			//"clear stuff"
+			setCategoryName('');
+			setChosen2();
+		}
+	};
 
-  const getSearchService = obj => {
-    setService(obj);
-    if (!obj) {
-      setService("");
-    }
-    setSuccessService(false);
-  };
+	const getSearchService = (obj) => {
+		setService(obj);
+		if (!obj) {
+			setService('');
+		}
+		setSuccessService(false);
+	};
 
-  const notfound = async obj => {
-    //alert(obj)
-    await setServiceUnavailable(obj);
-    await setSuccessService(true);
-    if (!obj) {
-      await setServiceUnavailable("");
-    }
-    // console.log(obj)
-    //here
-  };
+	const notfound = async (obj) => {
+		//alert(obj)
+		await setServiceUnavailable(obj);
+		await setSuccessService(true);
+		if (!obj) {
+			await setServiceUnavailable('');
+		}
+		// console.log(obj)
+		//here
+	};
 
-  useEffect(() => {
-    setCurrentUser(user);
+	useEffect(() => {
+		setCurrentUser(user);
 
-    //console.log(currentUser)
-    return () => {};
-  }, [user]);
+		//console.log(currentUser)
+		return () => {};
+	}, [user]);
 
-  const getProviderBand = async () => {
-    if (user.currentEmployee) {
-      const findServices = await BandsServ.find({
-        query: {
-          facility: user.currentEmployee.facilityDetail._id,
-          bandType:
-            user.currentEmployee.facilityDetail.facilityType === "HMO"
-              ? "Provider"
-              : "Company",
+	const getProviderBand = async () => {
+		if (user.currentEmployee) {
+			const findServices = await BandsServ.find({
+				query: {
+					facility: user.currentEmployee.facilityDetail._id,
+					bandType:
+						user.currentEmployee.facilityDetail.facilityType === 'HMO'
+							? 'Provider'
+							: 'Company',
 
-          // storeId:state.StoreModule.selectedStore._id,
-          // $limit:20,
-          //   paginate:false,
-          $sort: {
-            category: 1,
-          },
-        },
-      });
-      // console.log(findServices)
-      await setProviderBand(findServices.data);
-      console.log(findServices);
-    }
-  };
-  const getFacilities = async () => {
-    console.log(user);
-    if (user.currentEmployee) {
-      let stuff = {
-        organizationId: user.currentEmployee.facilityDetail._id,
-        // locationId:state.employeeLocation.locationId,
-        $limit: 100,
-        $sort: {
-          createdAt: -1,
-        },
-      };
-      // if (state.employeeLocation.locationType !== "Front Desk") {
-      //   stuff.locationId = state.employeeLocation.locationId;
-      // }
+					// storeId:state.StoreModule.selectedStore._id,
+					// $limit:20,
+					//   paginate:false,
+					$sort: {
+						category: 1,
+					},
+				},
+			});
+			// console.log(findServices)
+			await setProviderBand(findServices.data);
+			console.log(findServices);
+		}
+	};
+	const getFacilities = async () => {
+		console.log(user);
+		if (user.currentEmployee) {
+			let stuff = {
+				organizationId: user.currentEmployee.facilityDetail._id,
+				// locationId:state.employeeLocation.locationId,
+				$limit: 100,
+				$sort: {
+					createdAt: -1,
+				},
+			};
+			// if (state.employeeLocation.locationType !== "Front Desk") {
+			//   stuff.locationId = state.employeeLocation.locationId;
+			// }
 
-      const findHealthPlan = await HealthPlanServ.find({query: stuff});
+			const findHealthPlan = await HealthPlanServ.find({ query: stuff });
 
-      await console.log("HealthPlan", findHealthPlan.data);
-      await setFacilities(findHealthPlan.data);
-    } else {
-      if (user.stacker) {
-        const findClient = await HealthPlanServ.find({
-          query: {
-            $limit: 100,
-            $sort: {
-              createdAt: -1,
-            },
-          },
-        });
+			await console.log('HealthPlan', findHealthPlan.data);
+			await setFacilities(findHealthPlan.data);
+		} else {
+			if (user.stacker) {
+				const findClient = await HealthPlanServ.find({
+					query: {
+						$limit: 100,
+						$sort: {
+							createdAt: -1,
+						},
+					},
+				});
 
-        await setFacilities(findClient.data);
-      }
-    }
-  };
-  useEffect(() => {
-    // console.log("starting...")
-    getFacilities();
-    setBenefittingPlans1([]);
-    setFacilityId(user.currentEmployee.facilityDetail._id);
-    setName(user.currentEmployee.facilityDetail.facilityName);
-    setOrgType(user.currentEmployee.facilityDetail.facilityType);
-    getProviderBand();
-    return () => {};
-  }, []);
+				await setFacilities(findClient.data);
+			}
+		}
+	};
+	useEffect(() => {
+		// console.log("starting...")
+		getFacilities();
+		setBenefittingPlans1([]);
+		setFacilityId(user.currentEmployee.facilityDetail._id);
+		setName(user.currentEmployee.facilityDetail.facilityName);
+		setOrgType(user.currentEmployee.facilityDetail.facilityType);
+		getProviderBand();
+		return () => {};
+	}, []);
 
-  const handleServType = async (e, i, c) => {
-    let currentPlan = benefittingplans.filter(
-      el => el.planName === c.planName
-    )[0];
-    currentPlan.capitation = e.target.value === "Capitation" ? true : false;
-    currentPlan.feeforService =
-      e.target.value === "Fee for Service" ? true : false;
-    const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
-    await setBenefittingPlans(updatedplan);
-  };
+	const handleServType = async (e, i, c) => {
+		let currentPlan = benefittingplans.filter(
+			(el) => el.planName === c.planName,
+		)[0];
+		currentPlan.capitation = e.target.value === 'Capitation' ? true : false;
+		currentPlan.feeforService =
+			e.target.value === 'Fee for Service' ? true : false;
+		const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
+		await setBenefittingPlans(updatedplan);
+	};
 
-  const handleCopay = async (e, i, c) => {
-    let currentPlan = benefittingplans.filter(
-      el => el.planName === c.planName
-    )[0];
-    currentPlan.copayDetail = e.target.value;
-    currentPlan.coPay = currentPlan.copayDetail === "" ? false : true;
-    const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
-    await setBenefittingPlans(updatedplan);
-  };
+	const handleCopay = async (e, i, c) => {
+		let currentPlan = benefittingplans.filter(
+			(el) => el.planName === c.planName,
+		)[0];
+		currentPlan.copayDetail = e.target.value;
+		currentPlan.coPay = currentPlan.copayDetail === '' ? false : true;
+		const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
+		await setBenefittingPlans(updatedplan);
+	};
 
-  const handleAuthCode = async (e, i, c) => {
-    let currentPlan = benefittingplans.filter(
-      el => el.planName === c.planName
-    )[0];
-    currentPlan.reqPA = e.target.checked;
-    const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
-    await setBenefittingPlans(updatedplan);
-  };
-  const handleBenefit = async (e, i, c) => {
-    console.log(e.target.value, i, c);
-    let selectedBene = e.target.value;
-    console.log(selectedBene, selectedBene.comments);
-    let currentPlan = benefittingplans.filter(
-      el => el.planName === c.planName
-    )[0];
-    console.log(currentPlan);
-    currentPlan.benefit = selectedBene.comments;
-    currentPlan.benefitCategory = selectedBene.category;
-    // currentPlan.covered =
-    // 	facilities.benefits.filter((el) => el.category === e.target.value)[0]
-    // 		.status === 'Covered'
-    // 		? true
-    // 		: false;
-    const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
-    await setBenefittingPlans(updatedplan);
-  };
+	const handleAuthCode = async (e, i, c) => {
+		let currentPlan = benefittingplans.filter(
+			(el) => el.planName === c.planName,
+		)[0];
+		currentPlan.reqPA = e.target.checked;
+		const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
+		await setBenefittingPlans(updatedplan);
+	};
+	const handleBenefit = async (e, i, c) => {
+		console.log(e.target.value, i, c);
+		let selectedBene = e.target.value;
+		console.log(selectedBene, selectedBene.comments);
+		let currentPlan = benefittingplans.filter(
+			(el) => el.planName === c.planName,
+		)[0];
+		console.log(currentPlan);
+		currentPlan.benefit = selectedBene.comments;
+		currentPlan.benefitCategory = selectedBene.category;
+		// currentPlan.covered =
+		// 	facilities.benefits.filter((el) => el.category === e.target.value)[0]
+		// 		.status === 'Covered'
+		// 		? true
+		// 		: false;
+		const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
+		await setBenefittingPlans(updatedplan);
+	};
 
-  const handleChange = async (e, i, c) => {
-    c.checked = !c.checked;
+	const handleChange = async (e, i, c) => {
+		c.checked = !c.checked;
 
-    const newPlan = {
-      name: c.planName,
-      checked: false,
-    };
-    // console.log(c.checked)
-    if (c.checked) {
-      //add to benefiting plan
-      let planx = {
-        planName: c.planName,
-        planId: c._id,
-        benefit: "",
-        // benefitId : c.benefitId,
-        benefitCategory: "",
-        feeforService: true,
-        capitation: false,
-        reqPA: false,
-        coPay: false,
-        copayDetail: "",
-        comments: comments,
-      };
-      //   console.log(planx)
-      await setBenefittingPlans(prev => [...prev, planx]);
-    } else {
-      await setBenefittingPlans(prevstate =>
-        prevstate.filter(el => el.name !== c.name)
-      ); //remove from benefiting plan
-    }
-  };
-  const closeModal = () => {
-    setShowService(false);
-    setBenefittingPlans([]);
-    setComments("");
-  };
+		const newPlan = {
+			name: c.planName,
+			checked: false,
+		};
+		// console.log(c.checked)
+		if (c.checked) {
+			//add to benefiting plan
+			let planx = {
+				planName: c.planName,
+				planId: c._id,
+				benefit: '',
+				// benefitId : c.benefitId,
+				benefitCategory: '',
+				feeforService: true,
+				capitation: false,
+				reqPA: false,
+				coPay: false,
+				copayDetail: '',
+				comments: comments,
+			};
+			//   console.log(planx)
+			await setBenefittingPlans((prev) => [...prev, planx]);
+		} else {
+			await setBenefittingPlans((prevstate) =>
+				prevstate.filter((el) => el.name !== c.name),
+			); //remove from benefiting plan
+		}
+	};
+	const closeModal = () => {
+		setShowService(false);
+		setBenefittingPlans([]);
+		setComments('');
+	};
 
-  const handleClickProd = async () => {
-    if (benefittingplans.length === 0) {
-      return toast.warning("Please select a plan");
-    }
-    if (costprice === "") {
-      return toast.warning("Please enter price");
-    }
-    if (service === "") {
-      return toast.warning("Please select a service");
-    }
-    let seviceItem = {
-      source_org: user.currentEmployee.facilityDetail,
-      source_org_name: user.currentEmployee.facilityDetail.facilityName,
-      serviceName: service.name,
-      serviceId: service._id,
-      price: parseFloat(costprice),
-      plans: benefittingplans,
-      billing_type:
-        user.currentEmployee.facilityDetail.facilityType === "HMO"
-          ? "HMO"
-          : "Company",
-    };
-    setProductItem([...productItem, seviceItem]);
-    await setBenefittingPlans([]);
-    await setService("");
-    await setCostprice("");
-    await setSuccess(true);
-  };
+	const handleClickProd = async () => {
+		if (benefittingplans.length === 0) {
+			return toast.warning('Please select a plan');
+		}
+		if (costprice === '') {
+			return toast.warning('Please enter price');
+		}
+		if (service === '') {
+			return toast.warning('Please select a service');
+		}
+		let seviceItem = {
+			source_org: user.currentEmployee.facilityDetail,
+			source_org_name: user.currentEmployee.facilityDetail.facilityName,
+			serviceName: service.name,
+			serviceId: service._id,
+			price: parseFloat(costprice),
+			comments: comments,
+			plans: benefittingplans,
+			billing_type:
+				user.currentEmployee.facilityDetail.facilityType === 'HMO'
+					? 'HMO'
+					: 'Company',
+		};
+		setProductItem([...productItem, seviceItem]);
+		await setBenefittingPlans([]);
+		await setService('');
+		await setCostprice('');
+		await setSuccess(true);
+	};
 
-  const onSubmit = async () => {
-    if (bands.length === 0) {
-      return toast.error("Please add a band");
-    }
-    if (productItem.length === 0) {
-      return toast.error("Please add a service");
-    }
+	const onSubmit = async () => {
+		if (bands.length === 0) {
+			return toast.error('Please add a band');
+		}
+		if (productItem.length === 0) {
+			return toast.error('Please add a service');
+		}
 
-    let data = {
-      organizationId: user.currentEmployee.facilityDetail._id,
-      organizationName: user.currentEmployee.facilityDetail.facilityName,
-      band: selectedBand,
-      contracts: productItem,
-    };
-    //  console.log(data)
+		let data = {
+			organizationId: user.currentEmployee.facilityDetail._id,
+			organizationName: user.currentEmployee.facilityDetail.facilityName,
+			band: selectedBand,
+			contracts: productItem,
+		};
+		//  console.log(data)
 
-    ServicesServ.create(data)
-      .then(res => {
-        toast.success("Tariff created succesfully");
-        setShowModal(0);
-      })
-      .catch(err => {
-        toast.error("Error creating Tariff " + err);
-      });
-  };
+		ServicesServ.create(data)
+			.then((res) => {
+				toast.success('Tariff created succesfully');
+				setShowModal(0);
+			})
+			.catch((err) => {
+				toast.error('Error creating Tariff ' + err);
+			});
+	};
 
-  // const handleBenefit = (e) => {
-  // 	setBenefittingPlans((prevstate) => prevstate.concat(plan));
-  // 	setPlan('');
-  // };
+	// const handleBenefit = (e) => {
+	// 	setBenefittingPlans((prevstate) => prevstate.concat(plan));
+	// 	setPlan('');
+	// };
 
-  const handleRemove = (index, contract) => {
-    console.log(index, contract);
-    const newProductItem = productItem.filter(
-      (ProductionItem, i) => i !== contract
-    );
-    setProductItem(newProductItem);
-    console.log(newProductItem);
-  };
-  const handleAddPanel = () => {
-    // setSuccessService(false)
-    let newService = {
-      serviceId: service._id,
-      service_name: service.name,
-      panel: service.panel,
-    };
-    setPanelList(prevstate => prevstate.concat(newService));
-    setSuccessService(true);
-    newService = {};
-    setService("");
-    console.log("something added");
-  };
-  const handleCheck = async () => {
-    if (!categoryname) {
-      toast.warning("Enter Category!");
-      return true;
-    }
-    console.log("unavailb:", serviceUnavailable.name);
-    console.log("availb:", service.name);
-    const resp = await ServicesServ.find({
-      query: {
-        name: serviceUnavailable.name || service.name, //source
-        facility: user.currentEmployee.facilityDetail._id,
-        category: categoryname,
-      },
-    });
-    console.log(resp);
-    //.
-    /*then((resp)=>{
+	const handleRemove = (index, contract) => {
+		console.log(index, contract);
+		const newProductItem = productItem.filter(
+			(ProductionItem, i) => i !== contract,
+		);
+		setProductItem(newProductItem);
+		console.log(newProductItem);
+	};
+	const handleAddPanel = () => {
+		// setSuccessService(false)
+		let newService = {
+			serviceId: service._id,
+			service_name: service.name,
+			panel: service.panel,
+		};
+		setPanelList((prevstate) => prevstate.concat(newService));
+		setSuccessService(true);
+		newService = {};
+		setService('');
+		console.log('something added');
+	};
+	const handleCheck = async () => {
+		if (!categoryname) {
+			toast.warning('Enter Category!');
+			return true;
+		}
+		console.log('unavailb:', serviceUnavailable.name);
+		console.log('availb:', service.name);
+		const resp = await ServicesServ.find({
+			query: {
+				name: serviceUnavailable.name || service.name, //source
+				facility: user.currentEmployee.facilityDetail._id,
+				category: categoryname,
+			},
+		});
+		console.log(resp);
+		//.
+		/*then((resp)=>{
         console.log(resp)*/
-    if (resp.data.length > 0) {
-      toast.info(
-        "Service already exist. Kindly modify it " //+ resp.data ,
-      );
-      return true;
-    } else {
-      return false;
-    }
-  };
+		if (resp.data.length > 0) {
+			toast.info(
+				'Service already exist. Kindly modify it ', //+ resp.data ,
+			);
+			return true;
+		} else {
+			return false;
+		}
+	};
 
 	const copaySelect = (e, i) => {
 		setShowCoPay(i);
@@ -1114,8 +1114,7 @@ export const TariffCreate = ({showModal, setShowModal}) => {
 			name: 'Comment',
 			key: 'comment',
 			description: 'Comment',
-			selector: (row) =>
-				row?.plans.map((plan, i) => <div key={i}>{plan?.comments}</div>),
+			selector: (row) => row?.comments,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -1330,39 +1329,39 @@ export const TariffCreate = ({showModal, setShowModal}) => {
 				</Box>
 			)}
 
-      {showService && (
-        <ModalBox
-          open={showService}
-          onClose={() => closeModal()}
-          header="Add Services"
-        >
-          <Box
-            sx={{
-              width: "70vw",
-            }}
-          >
-            <GlobalCustomButton
-              type="button"
-              variant="contained"
-              color="success"
-              onClick={handleClickProd}
-              text="Add Service"
-              customStyles={{float: "right"}}
-            />
-            <Grid container spacing={2}>
-              <Grid
-                item
-                xs={6}
-                // sm={4}
-              >
-                <SearchSelect
-                  getSearchService={getSearchService}
-                  clear={successService}
-                  notfound={notfound}
-                  placeholder="Search Service"
-                />
-              </Grid>
-              {/* <Grid
+			{showService && (
+				<ModalBox
+					open={showService}
+					onClose={() => closeModal()}
+					header='Add Services'>
+					<Box
+						sx={{
+							width: '70vw',
+						}}>
+						<GlobalCustomButton
+							type='button'
+							variant='contained'
+							color='success'
+							onClick={handleClickProd}
+							text='Add Service'
+							customStyles={{ float: 'right' }}
+						/>
+						<Grid
+							container
+							spacing={2}>
+							<Grid
+								item
+								xs={6}
+								// sm={4}
+							>
+								<SearchSelect
+									getSearchService={getSearchService}
+									clear={successService}
+									notfound={notfound}
+									placeholder='Search Service'
+								/>
+							</Grid>
+							{/* <Grid
 							item
 							xs={12}
 							sm={4}>
@@ -1381,23 +1380,26 @@ export const TariffCreate = ({showModal, setShowModal}) => {
 								selectedBenefits={selectedBenefits}
 							/>
 						</Grid> */}
-              <Grid
-                item
-                xs={6}
-                // sm={4}
-              >
-                <Input
-                  label="Price"
-                  onChange={e => setCostprice(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <Textarea
-                  label="Comments"
-                  onChange={e => setComments(e.target.value)}
-                />
-              </Grid>
-              {/* <Box sx={{ width: '95%' }}>
+							<Grid
+								item
+								xs={6}
+								// sm={4}
+							>
+								<Input
+									label='Price'
+									onChange={(e) => setCostprice(e.target.value)}
+								/>
+							</Grid>
+							<Grid
+								item
+								xs={12}
+								sm={12}>
+								<Textarea
+									label='Comments'
+									onChange={(e) => setComments(e.target.value)}
+								/>
+							</Grid>
+							{/* <Box sx={{ width: '95%' }}>
 							<Grid
 								container
 								spacing={2}
@@ -1566,129 +1568,173 @@ export const TariffCreate = ({showModal, setShowModal}) => {
 															style={{ marginRight: '10px' }}
 														/>
 
-                            <span>Fee for Service</span>
-                          </Box>
-                          <Box key={index}>
-                            <input
-                              className=" is-small"
-                              name={`pay${index}`}
-                              value="Fee for Service"
-                              type="checkbox"
-                              onChange={event => copaySelect(event, index)}
-                              style={
-                                showCoPay === index
-                                  ? {
-                                      marginBottom: ".6rem",
-                                      marginRight: "10px",
-                                    }
-                                  : {marginBottom: "0", marginRight: "10px"}
-                              }
-                            />
-                            <span>Co-Pay?</span>
-                            {showCoPay === index && sCoPay && (
-                              <Input
-                                className="input smallerinput is-small is-pulled-right "
-                                name={`copay +${index}`}
-                                type="text"
-                                onChange={event => handleCopay(event, index, c)}
-                                label="Co-pay Amount"
-                              />
-                            )}
-                          </Box>
+														<span>Fee for Service</span>
+													</Box>
+													<Box key={index}>
+														<input
+															className=' is-small'
+															name={`pay${index}`}
+															value='Fee for Service'
+															type='checkbox'
+															onChange={(event) => copaySelect(event, index)}
+															style={
+																showCoPay === index
+																	? {
+																			marginBottom: '.6rem',
+																			marginRight: '10px',
+																	  }
+																	: { marginBottom: '0', marginRight: '10px' }
+															}
+														/>
+														<span>Co-Pay?</span>
+														{showCoPay === index && sCoPay && (
+															<Input
+																className='input smallerinput is-small is-pulled-right '
+																name={`copay +${index}`}
+																type='text'
+																onChange={(event) =>
+																	handleCopay(event, index, c)
+																}
+																label='Co-pay Amount'
+															/>
+														)}
+													</Box>
 
-                          <Box key={index}>
-                            <input
-                              className="checkbox is-small"
-                              name={`authCode +${index}`}
-                              type="checkbox"
-                              onChange={event =>
-                                handleAuthCode(event, index, c)
-                              }
-                              style={{marginRight: "10px"}}
-                            />
-                            <span>Requires Pre-Auth?</span>
-                          </Box>
-                        </Box>
-                      </Grid>
-                    </>
-                  );
-                })}
-              </Box>
-            </Grid>
-          </Box>
-        </ModalBox>
-      )}
-    </Box>
-  );
+													<Box key={index}>
+														<input
+															className='checkbox is-small'
+															name={`authCode +${index}`}
+															type='checkbox'
+															onChange={(event) =>
+																handleAuthCode(event, index, c)
+															}
+															style={{ marginRight: '10px' }}
+														/>
+														<span>Requires Pre-Auth?</span>
+													</Box>
+												</Box>
+											</Grid>
+										</>
+									);
+								})}
+							</Box>
+						</Grid>
+					</Box>
+				</ModalBox>
+			)}
+		</Box>
+	);
 };
 
-export const TariffView = service => {
-  const [editing, setEditing] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: {errors},
-    reset,
-  } = useForm({
-    defaultValues: {
-      name: service.serviceName,
-      comment: service.comment,
-    },
-  });
-  const selected = service.service;
-  return (
-    <Box>
-      <Box sx={{display: "flex", justifyContent: "space-between"}}>
-        <FormsHeaderText text={service?.serviceName} />
-        <Box>
-          {!editing && (
-            <GlobalCustomButton text="Edit" onClick={() => setEditing(true)} />
-          )}
-          {editing && (
-            <GlobalCustomButton
-              text="Save Form"
-              type="submit"
-              color="success"
-            />
-          )}
-        </Box>
-      </Box>
-      <Grid container spacing={2} mt={1}>
-        <Grid item xs={12} sm={4}>
-          {!editing ? (
-            <Input
-              label="Service Name"
-              value={selected?.serviceName}
-              disabled
-            />
-          ) : (
-            <Input label="Name" register={register("serviceName")} />
-          )}
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          {!editing ? (
-            <Input label="Duration" value={selected?.duration} disabled />
-          ) : (
-            <Input label="Duration" register={register("duration")} />
-          )}
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          {!editing ? (
-            <Input label="Status" value={selected?.status} disabled />
-          ) : (
-            <Input label="Status" register={register("status")} />
-          )}
-        </Grid>
-        <Grid item xs={12} sm={12}>
-          {!editing ? (
-            <Textarea label="Comment" value={selected?.comments} disabled />
-          ) : (
-            <Textarea label="Price" register={register("comment")} />
-          )}
-        </Grid>
-      </Grid>
-    </Box>
-  );
+export const TariffView = (service) => {
+	const [editing, setEditing] = useState(false);
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		reset,
+	} = useForm({
+		defaultValues: {
+			name: service.serviceName,
+			comment: service.comment,
+		},
+	});
+	const selected = service.service;
+	return (
+		<Box>
+			<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+				<FormsHeaderText text={service?.serviceName} />
+				<Box>
+					{!editing && (
+						<GlobalCustomButton
+							text='Edit'
+							onClick={() => setEditing(true)}
+						/>
+					)}
+					{editing && (
+						<GlobalCustomButton
+							text='Save Form'
+							type='submit'
+							color='success'
+						/>
+					)}
+				</Box>
+			</Box>
+			<Grid
+				container
+				spacing={2}
+				mt={1}>
+				<Grid
+					item
+					xs={12}
+					sm={4}>
+					{!editing ? (
+						<Input
+							label='Service Name'
+							value={selected?.serviceName}
+							disabled
+						/>
+					) : (
+						<Input
+							label='Name'
+							register={register('serviceName')}
+						/>
+					)}
+				</Grid>
+				<Grid
+					item
+					xs={12}
+					sm={4}>
+					{!editing ? (
+						<Input
+							label='Duration'
+							value={selected?.duration}
+							disabled
+						/>
+					) : (
+						<Input
+							label='Duration'
+							register={register('duration')}
+						/>
+					)}
+				</Grid>
+				<Grid
+					item
+					xs={12}
+					sm={4}>
+					{!editing ? (
+						<Input
+							label='Status'
+							value={selected?.status}
+							disabled
+						/>
+					) : (
+						<Input
+							label='Status'
+							register={register('status')}
+						/>
+					)}
+				</Grid>
+				<Grid
+					item
+					xs={12}
+					sm={12}>
+					{!editing ? (
+						<Textarea
+							label='Comment'
+							value={selected?.comments}
+							disabled
+						/>
+					) : (
+						<Textarea
+							label='Price'
+							register={register('comment')}
+						/>
+					)}
+				</Grid>
+			</Grid>
+		</Box>
+	);
 };
 
 export function InheritTariff({ getBandfacility, newValue }) {
@@ -1882,21 +1928,21 @@ export function TariffModify() {
 	// const [selectTariff, setSelectTariff] = useState([]);
 	const Services = state.ServicesModule.selectedServices;
 	console.log(Services);
-	const getSearchService = (obj) => {
-		setService(obj);
-		if (!obj) {
-			setService('');
-		}
-		setSuccessService(false);
-	};
+	// const getSearchService = (obj) => {
+	// 	setService(obj);
+	// 	if (!obj) {
+	// 		setService('');
+	// 	}
+	// 	setSuccessService(false);
+	// };
 
-	const notfound = async (obj) => {
-		await setServiceUnavailable(obj);
-		await setSuccessService(true);
-		if (!obj) {
-			await setServiceUnavailable('');
-		}
-	};
+	// const notfound = async (obj) => {
+	// 	await setServiceUnavailable(obj);
+	// 	await setSuccessService(true);
+	// 	if (!obj) {
+	// 		await setServiceUnavailable('');
+	// 	}
+	// };
 
 	const onSubmit = async (data) => {
 		data.band = data.bandName;
