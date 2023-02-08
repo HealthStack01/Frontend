@@ -421,9 +421,10 @@ export const TarrifListView = ({
 		setSelectPlans(bandPlans.flat(1));
 	};
 
-	const handleService = async (Service) => {
-		console.log(Service, 'Cat....');
-		setSelectedCategory(Service?.contracts);
+	const handleService = async (Service,id) => {
+        // const serviceContracts = Service?.contracts.map((data) => console.log(data))
+		// setSelectedCategory(serviceContracts);
+        // console.log(serviceContracts)
 		// const newServicesModule = {
 		// 	selectedServices: Service,
 		// 	show: 'detail',
@@ -434,6 +435,9 @@ export const TarrifListView = ({
 		// }));
 		showTariffModify();
 	};
+
+	// console.log(selectedCategory)
+
 
 	const handleSearch = (val) => {
 		const field = 'name';
@@ -514,10 +518,19 @@ export const TarrifListView = ({
 								)}
 							</div>
 
-							<GlobalCustomButton
+						<Box display="flex" gap={2}>
+                        <GlobalCustomButton
 								text='Add Band'
 								onClick={showBand}
 							/>
+
+                                   <GlobalCustomButton
+									text='Add Tarrif'
+									onClick={() => setShowModal(1)}
+									customStyles={{ marginLeft: '1rem' }}
+									// color='warning'
+								/>
+                        </Box>
 						</TableMenu>
 						<CustomTable
 							title={''}
@@ -572,12 +585,7 @@ export const TarrifListView = ({
 									customStyles={{ marginLeft: '1rem' }}
 									// color='warning'
 								/>
-								<GlobalCustomButton
-									text='Add Tarrif'
-									onClick={() => setShowModal(1)}
-									customStyles={{ marginLeft: '1rem' }}
-									// color='warning'
-								/>
+								
 							</Box>
 						</Box>
 						<Box sx={{ mt: '2rem', px: '0.20rem' }}>
@@ -1336,7 +1344,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 					header='Add Services'>
 					<Box
 						sx={{
-							width: '70vw',
+							width: '80vw',
 						}}>
 						<GlobalCustomButton
 							type='button'
@@ -1476,27 +1484,21 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 						</Box> */}
 							<Box
 								mx={1}
+								my={2}
 								sx={{
 									width: '100%',
+
 								}}>
 								{facilities.map((c, index) => {
 									const allCategories = c?.benefits?.map((cat) => cat);
 									console.log('ALL CATS', allCategories);
 									return (
 										<>
-                                        <Box display="flex" flexDirection="row">
-											<Grid
-												container
-												spacing={2}
-												my={1}
-												sx={{
-													alignItems: 'center',
-												}}>
-												<Grid
-													item
+
+											<Grid>
+                                            <Box display="flex" gap={4} pb={3}>
+												<Box
 													sx={{ display: 'flex', alignItems: 'center' }}
-													xs={12}
-													// sm={2}
 													key={index}>
 													<input
 														className='checkbox is-small '
@@ -1514,7 +1516,9 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 														}}>
 														{c.planName}
 													</p>
-												</Grid>
+												</Box>
+												{selectedPlan === "" ? null :
+												<>
 												<Grid
 													item
 													xs={12}
@@ -1540,10 +1544,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 														onChange={(event) => handleBenefit(event, index, c)}
 													/>
 												</Grid>
-												<Box
-													display='flex'
-													ml='1rem'
-													gap='1rem'>
+												
 													<Box key={index}>
 														<input
 															className='is-small'
@@ -1587,16 +1588,17 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 																	: { marginBottom: '0', marginRight: '10px' }
 															}
 														/>
-														<span>Co-Pay?</span>
+														 <span>Co-Pay?</span>
 														{showCoPay === index && sCoPay && (
 															<Input
-																className='input smallerinput is-small is-pulled-right '
+															    width="100%"
+																// className='input smallerinput is-small is-pulled-right '
 																name={`copay +${index}`}
 																type='text'
 																onChange={(event) =>
 																	handleCopay(event, index, c)
 																}
-																label='Co-pay Amount'
+																label='Amount'
 															/>
 														)}
 													</Box>
@@ -1613,9 +1615,10 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 														/>
 														<span>Requires Pre-Auth?</span>
 													</Box>
+								
+													</>}
 												</Box>
 											</Grid>
-                                            </Box>
 										</>
 									);
 								})}
@@ -1978,7 +1981,7 @@ export function TariffModify() {
 						label='Band'
 						name='bandName'
 						register={register('bandName', { required: true })}
-						defaultValue={Services.band}
+						// defaultValue={Services.band}
 					/>
 				</Grid>
 				<Grid
@@ -1987,10 +1990,10 @@ export function TariffModify() {
 					// sm={4}
 				>
 					<Input
-						label='Price'
+						label='Service Name'
 						name='servicename'
 						register={register('servicename', { required: true })}
-						defaultValue={Services.serviceName}
+						// defaultValue={Services.serviceName}
 					/>
 					{/* <SearchSelect
 						getSearchService={getSearchService}
@@ -2011,7 +2014,7 @@ export function TariffModify() {
 						label='Price'
 						name='costPrice'
 						register={register('costPrice', { required: true })}
-						defaultValue={Services.price}
+						// defaultValue={Services.price}
 					/>
 				</Grid>
 				<Grid
@@ -2022,7 +2025,7 @@ export function TariffModify() {
 						label='Comments'
 						name='comment'
 						register={register('comment', { required: true })}
-						defaultValue={Services?.comments}
+						// defaultValue={Services?.comments}
 					/>
 				</Grid>
 			</Grid>
