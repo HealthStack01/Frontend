@@ -46,8 +46,6 @@ const searchfacility = {};
 
 export default function Claims({standAlone}) {
   const {state, setState} = useContext(ObjectContext);
-
-  const [showModal, setShowModal] = useState(false);
   const [view, setView] = useState("list");
 
   const handleGoBack = () => {
@@ -60,23 +58,6 @@ export default function Claims({standAlone}) {
       },
     }));
   };
-
-  {
-    /* <section className="section remPadTop">
-        {!showModal ? (
-          <></>
-        ) : (
-          <Grid container spacing={2}>
-            <Grid item xs={3}>
-              <PatientProfile />
-            </Grid>
-            <Grid item xs={9}>
-              <ClaimsCreate showModal={showModal} setShowModal={setShowModal} />
-            </Grid>
-          </Grid>
-        )}
-      </section> */
-  }
 
   return (
     <Box>

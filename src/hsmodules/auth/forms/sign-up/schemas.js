@@ -3,10 +3,8 @@ import * as yup from "yup";
 const nigerianPhoneRegExp = /^([0]{1})[0-9]{10}$/;
 
 export const organizationValidationSchema = yup.object().shape({
-  facilityCAC: yup
-    .string()
-    .required("Enter a valid CAC number")
-    .length(14, "Invalid valid CAC number"),
+  facilityCAC: yup.string().required("Enter a valid CAC number"),
+  //.length(14, "Invalid valid CAC number"),
 
   facilityName: yup
     .string()

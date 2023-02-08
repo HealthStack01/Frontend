@@ -113,7 +113,7 @@
   },
   "scripts": {
     "start": "react-scripts start --max-old-space-size=16384 start",
-    "start:dev": "react-scripts --max-old-space-size=16384 start",
+    "start:dev": "react-scripts start",
     "start:prod": "yarn build && serve -s build",
     "build": "CI= react-scripts --max_old_space_size=4096 build",
     "test": "react-scripts test",
@@ -152,7 +152,7 @@
     "babel-loader": "^8.2.5",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.5.1",
-    "typescript": "^3.2.0000"
+    "typescript": "^3.3.4000"
   },
   "engines": {
     "node": "16.x",
