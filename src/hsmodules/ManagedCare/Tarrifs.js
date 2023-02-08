@@ -1484,6 +1484,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 									console.log('ALL CATS', allCategories);
 									return (
 										<>
+                                        <Box display="flex" flexDirection="row">
 											<Grid
 												container
 												spacing={2}
@@ -1614,6 +1615,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 													</Box>
 												</Box>
 											</Grid>
+                                            </Box>
 										</>
 									);
 								})}
@@ -1914,13 +1916,6 @@ export const BandForm = () => {
 };
 
 export function TariffModify() {
-	const [service, setService] = useState('');
-	const [comment, setComment] = useState('');
-	const [successService, setSuccessService] = useState(false);
-	const [serviceUnavailable, setServiceUnavailable] = useState({
-		status: false,
-		name: '',
-	});
 	const { register, handleSubmit, control } = useForm();
 	const { state, setState } = useContext(ObjectContext);
 	const { user } = useContext(UserContext);
