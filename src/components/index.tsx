@@ -16,6 +16,9 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import MenuIcon from "@mui/icons-material/Menu";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AppNotifications from "./notifications/Notifications";
+import ModalBox from "./modal";
+import SelectDefaultConfigEmail from "./default-email/DefaultEmail";
+import EmailIcon from "@mui/icons-material/Email";
 //import { avatar } from '../../assets/images/img_avatar.png';
 
 const defaultList = [{code: "NG", label: "", location: ""}];
@@ -154,49 +157,91 @@ const TopMenu = () => {
   };
 
   return (
-    <TopMenuWrapper>
-      <div style={{display: "flex", alignItems: "center", flexWrap: "nowrap"}}>
-        <Box mr={1.5} ml={-1}>
-          {isOpen ? (
-            <IconButton onClick={closeSideMenu}>
-              <ArrowBackIcon sx={{fill: "#2d2d2d"}} />
-            </IconButton>
-          ) : (
-            <IconButton onClick={openSideMenu}>
-              <MenuIcon sx={{fill: "#2d2d2d"}} />
-            </IconButton>
-          )}
-        </Box>
+    <>
+      <ModalBox
+        open={state.CommunicationModule.configEmailModal}
+        onClose={() => {
+          setState(prev => ({
+            ...prev,
+            CommunicationModule: {
+              ...prev.CommunicationModule,
+              configEmailModal: false,
+            },
+          }));
+        }}
+        header="Select A Default Configured Email"
+      >
+        <SelectDefaultConfigEmail />
+      </ModalBox>
 
-        <span className="breadcrumb">
-          <Breadcrumbs />
-        </span>
-      </div>
+      <TopMenuWrapper>
+        <div
+          style={{display: "flex", alignItems: "center", flexWrap: "nowrap"}}
+        >
+          <Box mr={1.5} ml={-1}>
+            {isOpen ? (
+              <IconButton onClick={closeSideMenu}>
+                <ArrowBackIcon sx={{fill: "#2d2d2d"}} />
+              </IconButton>
+            ) : (
+              <IconButton onClick={openSideMenu}>
+                <MenuIcon sx={{fill: "#2d2d2d"}} />
+              </IconButton>
+            )}
+          </Box>
 
-      <Profile>
-        {state.employeeLocation.locationName && (
+          <span className="breadcrumb">
+            <Breadcrumbs />
+          </span>
+        </div>
+
+        <Profile>
           <Box sx={{display: "flex", alignItems: "center"}} mr={2}>
             <GlobalCustomButton
-              sx={{
-                color: "#000000",
-                background: "#ffffff",
-                fontWeight: "600",
-                "&:hover": {
-                  backgroundColor: "#ffffff",
-                },
+              onClick={() => {
+                setState(prev => ({
+                  ...prev,
+                  CommunicationModule: {
+                    ...prev.CommunicationModule,
+                    configEmailModal: true,
+                  },
+                }));
               }}
-              onClick={() => handleChangeLocation(state.employeeLocation.case)}
             >
-              <LocationOnIcon
-                color="primary"
+              <EmailIcon
                 fontSize="small"
-                sx={{marginRight: "2px"}}
+                sx={{
+                  mr: "5px",
+                }}
               />
-              {`${state.employeeLocation.locationName} - (${state.employeeLocation.locationType})`}
-              <ArrowDropDownIcon fontSize="small" sx={{marginLeft: "5px"}} />
+              Choose Email
             </GlobalCustomButton>
+          </Box>
+          {state.employeeLocation.locationName && (
+            <Box sx={{display: "flex", alignItems: "center"}} mr={2}>
+              <GlobalCustomButton
+                sx={{
+                  color: "#000000",
+                  background: "#ffffff",
+                  fontWeight: "600",
+                  "&:hover": {
+                    backgroundColor: "#ffffff",
+                  },
+                }}
+                onClick={() =>
+                  handleChangeLocation(state.employeeLocation.case)
+                }
+              >
+                <LocationOnIcon
+                  color="primary"
+                  fontSize="small"
+                  sx={{marginRight: "2px"}}
+                />
+                {`${state.employeeLocation.locationName} - (${state.employeeLocation.locationType})`}
+                <ArrowDropDownIcon fontSize="small" sx={{marginLeft: "5px"}} />
+              </GlobalCustomButton>
 
-            {/* <Button
+              {/* <Button
               size="medium"
               variant="contained"
               sx={{textTransform: "capitalize", marginLeft: "10px"}}
@@ -206,16 +251,17 @@ const TopMenu = () => {
             >
               Change {state.employeeLocation.locationType}
             </Button> */}
-          </Box>
-        )}
+            </Box>
+          )}
 
-        <div className="profile-item">
-          <AppNotifications />
+          <div className="profile-item">
+            <AppNotifications />
 
-          <ProfileMenu />
-        </div>
-      </Profile>
-    </TopMenuWrapper>
+            <ProfileMenu />
+          </div>
+        </Profile>
+      </TopMenuWrapper>
+    </>
   );
 };
 

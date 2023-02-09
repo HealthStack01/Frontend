@@ -272,7 +272,9 @@ export function ClientSearch({getSearchfacility, clear, label, id}) {
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys
-        noOptionsText="No Client found"
+        noOptionsText={
+          val === "" ? "Type something..." : `${val} was not found`
+        }
         renderOption={(props, option) => (
           <Box
             {...props}

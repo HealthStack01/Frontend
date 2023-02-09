@@ -62,62 +62,57 @@
 //   )
 // }
 
-import React, {useEffect} from 'react';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
-import './style.css';
-import {useMap, MapContainer, TileLayer, Marker} from 'react-leaflet';
-import 'leaflet.markercluster';
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import React, {useEffect} from "react";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import "./style.css";
+import {useMap, MapContainer, TileLayer, Marker} from "react-leaflet";
+import "leaflet.markercluster";
+import icon from "leaflet/dist/images/marker-icon.png";
+import iconShadow from "leaflet/dist/images/marker-shadow.png";
 let DefaultIcon = L.icon({
-	iconUrl: icon,
-	shadowUrl: iconShadow,
+  iconUrl: icon,
+  shadowUrl: iconShadow,
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-const data = require('./nigeriahealthfacilities.json');
+const data = require("./nigeriahealthfacilities.json");
 
 function Mapper() {
-	const hpdata = data.features;
+  const hpdata = data.features.slice(0, 100);
 
-	const map = useMap();
+  const map = useMap();
 
-	const hospGeoJson = new L.GeoJSON(hpdata, {
-		onEachFeature: (feature = {}, layer) => {
-			const {properties = {}} = feature;
-			const {name} = properties;
+  const hospGeoJson = new L.GeoJSON(hpdata, {
+    onEachFeature: (feature = {}, layer) => {
+      const {properties = {}} = feature;
+      const {name} = properties;
 
-			if (!name) return;
+      if (!name) return;
 
-			layer.bindPopup(`<p>${name}</p>`);
-		},
-	});
+      layer.bindPopup(`<p>${name}</p>`);
+    },
+  });
 
-	hospGeoJson.addTo(map);
+  hospGeoJson.addTo(map);
 
-	// const markersBar = L.markerClusterGroup();
+  // const markersBar = L.markerClusterGroup();
 
-	// markersBar.addLayer(hospGeoJson);
+  // markersBar.addLayer(hospGeoJson);
 
-	// map.addLayer(markersBar);
+  // map.addLayer(markersBar);
 }
 
 export default function Map() {
-	return (
-		<div
-			id='map'
-			style={{height: '100vh'}}>
-			<MapContainer
-				center={[9.082, 8.6753]}
-				zoom={4}
-				maxZoom={10}>
-				<TileLayer
-					url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-				/>
-				<Mapper />
-			</MapContainer>
-		</div>
-	);
+  return (
+    <div id="map" style={{height: "100vh"}}>
+      <MapContainer center={[9.082, 8.6753]} zoom={4} maxZoom={10}>
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        <Mapper />
+      </MapContainer>
+    </div>
+  );
 }

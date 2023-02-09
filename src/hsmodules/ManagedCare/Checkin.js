@@ -46,6 +46,15 @@ export function CheckInList({openCreateModal, setShowModal}) {
 
   const getFacilities = async () => {};
 
+  useEffect(() => {
+    getFacilities();
+
+    ClientServ.on("created", obj => getFacilities());
+    ClientServ.on("updated", obj => getFacilities());
+    ClientServ.on("patched", obj => getFacilities());
+    ClientServ.on("removed", obj => getFacilities());
+  }, [getFacilities]);
+
   const dummyData = [
     {
       date_of_encounter: "27/10/21",
