@@ -403,6 +403,7 @@ function SideMenu({isOpen}) {
   const [inactive, setInactive] = useState(false);
   const {state} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
+  const [currOption, setCurrOption] = useState("");
   const navigate = useNavigate();
 
   // console.log(

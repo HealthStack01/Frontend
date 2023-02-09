@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import {Route, useNavigate, Link, NavLink} from "react-router-dom";
 
+import {List, ListItem, Typography} from "@mui/material";
 import {Box, Grid} from "@mui/material";
 //import {UserContext, ObjectContext} from "../../context";
 import {ObjectContext, UserContext} from "../../../../context";
@@ -19,6 +20,7 @@ import CustomTable from "../../../../components/customtable";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 
 import client from "../../../../feathers";
+import dayjs from "dayjs";
 
 const ClaimsListComponent = ({showCreate, showDetail}) => {
   const claimsServer = client.service("claims");
@@ -40,9 +42,10 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
   };
 
   const getClaims = useCallback(async () => {
+    setLoading(true);
     if (user.currentEmployee) {
       let query = {
-        facility: user.currentEmployee.facilityDetail._id,
+        //facility: user.currentEmployee.facilityDetail._id,
 
         $limit: 100,
         $sort: {
@@ -53,7 +56,8 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
       const resp = await claimsServer.find({query: query});
 
       setClaims(resp.data);
-      console.log(data);
+      setLoading(false);
+      console.log(resp);
       //console.log(resp.data);
     } else {
       if (user.stacker) {
@@ -67,6 +71,7 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
         });
 
         setClaims(resp.data);
+        setLoading(false);
       }
     }
   }, []);
@@ -181,66 +186,137 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
       width: "60px",
     },
     {
-      name: "Plan",
+      name: "Date",
       key: "healthcare plan",
       description: "Enter name of Healthcare Plan",
-      selector: row => row.healthcare_Plan,
+      selector: row => dayjs(row.createdAt).format("DD/MM/YYYY"),
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+      width: "100px",
+    },
+    {
+      name: "Patient Name",
+      key: "healthcare plan",
+      description: "Enter name of Healthcare Plan",
+      selector: row => (
+        <Typography
+          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.beneficiary.firstname} {row.beneficiary.lastname}
+        </Typography>
+      ),
+      style: {
+        color: "#1976d2",
+        textTransform: "capitalize",
+      },
       sortable: true,
       required: true,
       inputType: "HIDDEN",
     },
     {
-      name: "Hospital Name",
-      key: "hospital name",
-      description: "Enter Hospital Name",
-      selector: row => row.hospital_name,
+      name: "State",
+      key: "healthcare plan",
+      description: "Enter name of Healthcare Plan",
+      selector: row => row.patientstate,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: "HIDDEN",
+      width: "100px",
+      style: {
+        textTransform: "capitalize",
+      },
     },
     {
-      name: "Bill For Month",
-      key: "bills",
-      description: "Enter bills",
-      selector: row => row.bill,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Date",
-      key: "date",
-      description: "Enter Date",
-      selector: (row, i) => row.date,
+      name: "Type",
+      key: "healthcare plan",
+      description: "Enter name of Healthcare Plan",
+      selector: row => row?.claimtype,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
     },
     {
-      name: " Status",
-      key: " status",
-      description: "Enter  Status",
-      selector: row => row.status,
-      cell: row => returnCell(row.status),
+      name: "Sponsor",
+      key: "healthcare plan",
+      description: "Enter name of Healthcare Plan",
+      selector: row => row.sponsor.facilityDetail.facilityName,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: "HIDDEN",
     },
     // {
-    //   name: "Status",
-    //   key: "bills",
-    //   description: "Enter bills",
-    //   selector: "status",
-    //   cell: row => returnCell(row.status),
+    //   name: "Plan",
+    //   key: "healthcare plan",
+    //   description: "Enter name of Healthcare Plan",
+    //   selector: row => row?.healthcare_Plan,
     //   sortable: true,
     //   required: true,
-    //   inputType: "TEXT",
+    //   inputType: "HIDDEN",
     // },
     {
-      name: "Reason",
+      name: "Provider",
+      key: "hospital name",
+      description: "Enter Hospital Name",
+      selector: row => row?.provider.facilityName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Services",
+      key: "healthcare plan",
+      description: "Enter name of Healthcare Plan",
+      selector: row => (
+        <List
+          data-tag="allowRowEvents"
+          sx={{
+            listStyleType: "disc",
+            pl: 2,
+            "& .MuiListItem-root": {
+              display: "list-item",
+            },
+          }}
+        >
+          {row.services.map(item => (
+            <ListItem sx={{fontSize: "0.8rem", whiteSpace: "normal"}}>
+              {item.service.serviceName} - ₦{item.amount}
+            </ListItem>
+          ))}
+        </List>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+
+    {
+      name: "Status",
+      key: "status",
+      description: "Enter  Status",
+      selector: row => row?.status,
+      //cell: row => returnCell(row.status),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Comments",
       key: "reason",
       description: "Enter for Request",
-      selector: row => row.reason,
+      selector: row => row.comments,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Total Amount",
+      key: "bills",
+      description: "Enter bills",
+      selector: row => `₦${row?.totalamount}`,
+      //cell: row => returnCell(row?.totalamount),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -316,7 +392,7 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
           <CustomTable
             title={""}
             columns={claimsColumns}
-            data={dummyData}
+            data={claims}
             pointerOnHover
             highlightOnHover
             striped
