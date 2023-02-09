@@ -180,6 +180,7 @@ function App() {
       selectedEndEncounter: {},
     },
     AppointmentModule: {
+      selectedCheckedIn: {},
       show: "list",
       selectedAppointment: {},
     },

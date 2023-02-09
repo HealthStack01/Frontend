@@ -1,4 +1,6 @@
-// {
+{
+    "nuxt.isNuxtApp": false
+} // {
 //     "editor.formatOnSave": true,
 //     "prettier.bracketSameLine": true,
 //     "prettier.jsxSingleQuote": true,
