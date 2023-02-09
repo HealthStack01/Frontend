@@ -665,7 +665,7 @@ export function PolicyCreateForExternalLink() {
   // const [organizationName, setOrganizationName] = useState('');
   // const [organizationId, setOrganizationId] = useState('');
 
-  let { hmoFacilityId } = useParams();
+  let { hmoFacilityId, facilityType } = useParams();
 
   const getSearchfacility = async (obj) => {
     if (
@@ -883,14 +883,17 @@ export function PolicyCreateForExternalLink() {
     // console.log("******* hmoFacilityId ********", hmoFacilityId);
   };
 
-  getUser();
+  // getUser();
 
   const getBenfittingPlans = async () => {
-    console.log("******* hmoFacilityId ********", hmoFacilityId);
-    console.log("******* hmo detail ********", user);
+    console.log("******* hmoFacilityId ********", {
+      hmoFacilityId: hmoFacilityId,
+      facilityType: facilityType,
+    });
+
     setBenefittingPlans1([]);
 
-    if (user.currentEmployee?.facilityDetail.facilityType === "HMO") {
+    if (facilityType === "HMO") {
       const findServices = await ServicesServ.find({
         query: {
           organizationId: hmoFacilityId,
@@ -902,7 +905,7 @@ export function PolicyCreateForExternalLink() {
           },
         },
       });
-      console.log(findServices.data);
+      console.log("findServices.data", findServices.data);
       const data = findServices.data;
       if (data.length > 0) {
         // console.log("******* hmoFacilityId ********", hmoFacilityId);
@@ -1078,7 +1081,7 @@ export function PolicyCreateForExternalLink() {
 
   useEffect(() => {
     getBenfittingPlans();
-    getUser();
+    // getUser();
     createPaymentOption();
 
     // getFacility();
@@ -2165,6 +2168,7 @@ export function ClientCreate({ closeModal }) {
     reset();
     setPatList([]);
   };
+
   const reg = async (client) => {
     if (
       client.relatedfacilities.findIndex(
@@ -2417,533 +2421,293 @@ export function ClientCreate({ closeModal }) {
           <div>
             <HeadWrapper>
               <div>
-                <h2>{`${
-                  isFullRegistration
-                    ? "Full Client Registeration"
-                    : "Quick Client Registeration"
-                }`}</h2>
-                {/* <span>
-                Create a New client by filling out the form below to get
-                started.
-              </span> */}
+                <h2>Full Client Registeration</h2>
               </div>
-
-              {isFullRegistration ? (
-                <GlobalCustomButton onClick={() => setFullRegistration(false)}>
-                  <ElectricBoltIcon
-                    fontSize="small"
-                    sx={{ marginRight: "5px" }}
-                  />
-                  Quick Registration
-                </GlobalCustomButton>
-              ) : (
-                <GlobalCustomButton onClick={() => setFullRegistration(true)}>
-                  <OpenInFullIcon
-                    fontSize="small"
-                    sx={{ marginRight: "5px" }}
-                  />
-                  Full Registration
-                </GlobalCustomButton>
-              )}
             </HeadWrapper>
 
             <ToastContainer theme="colored" />
-
-            {!isFullRegistration ? (
-              <>
-                <Box sx={{ width: "80vw", maxHeight: "80vh" }}>
-                  <Grid container spacing={1}>
-                    <Grid item md={12} sm={12}>
-                      <IconButton onClick={() => setOpenDp(true)}>
-                        {file ? (
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
+            <>
+              <Box sx={{ width: "80vw", maxHeight: "80vh" }}>
+                <Grid container spacing={1}>
+                  <Grid item md={12} sm={12}>
+                    <IconButton onClick={() => setOpenDp(true)}>
+                      {file ? (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            // display: "block",
+                          }}
+                        >
+                          <img
+                            src={file}
+                            alt="logo"
+                            style={{
+                              width: "100px",
+                              height: "100px",
                               display: "block",
+                              borderRadius: "50%",
                             }}
-                          >
-                            <img
-                              src={file}
-                              alt="logo"
-                              style={{
-                                width: "100px",
-                                height: "100px",
-                                display: "block",
-                                borderRadius: "50%",
-                              }}
-                            />
-                          </Box>
-                        ) : (
-                          <FileUploader
-                            multiple={false}
-                            handleChange={handleChange}
-                            name="upload"
-                            types={["jpeg", "png", "jpg"]}
-                            children={<UploadComponent />}
                           />
-                        )}
-                      </IconButton>
-                    </Grid>
+                        </Box>
+                      ) : (
+                        <FileUploader
+                          multiple={false}
+                          handleChange={handleChange}
+                          name="upload"
+                          types={["jpeg", "png", "jpg"]}
+                          children={<UploadComponent />}
+                        />
+                      )}
+                    </IconButton>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormsHeaderText text="Client Names" />
+                  </Grid>
+                  <Grid item lg={4} md={4} sm={4}>
+                    <Input
+                      label="First Name"
+                      register={register("firstname")}
+                      errorText={errors?.firstname?.message}
+                      onBlur={checkClient}
+                      important={true}
+                    />
+                  </Grid>
+                  <Grid item lg={4} md={4} sm={4}>
+                    <Input
+                      label="Middle Name"
+                      register={register("middlename")}
+                      errorText={errors?.middlename?.message}
+                      onBlur={checkClient}
+                    />
+                  </Grid>
+                  <Grid item lg={4} md={4} sm={4}>
+                    <Input
+                      label="Last Name"
+                      register={register("lastname")}
+                      errorText={errors?.lastname?.message}
+                      onBlur={checkClient}
+                      important={true}
+                    />
+                  </Grid>
+                </Grid>
 
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="First Name"
-                        register={register("firstname")}
-                        errorText={errors?.firstname?.message}
-                        onBlur={checkClient}
-                        important={true}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Middle Name"
-                        register={register("middlename")}
-                        errorText={errors?.middlename?.message}
-                        onBlur={checkClient}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Last Name"
-                        register={register("lastname")}
-                        errorText={errors?.lastname?.message}
-                        onBlur={checkClient}
-                        important={true}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Phone"
-                        register={register("phone")}
-                        type="tel"
-                        errorText={errors?.phone?.message}
-                        onBlur={checkClient}
-                        important={true}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Email"
-                        register={register("email")}
-                        type="email"
-                        errorText={errors?.email?.message}
-                        onBlur={checkClient}
-                        important={true}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <input
-                        type="date"
-                        onChange={(e) => setDate(e.target.value)}
-                        style={{
-                          width: "100%",
-                          height: "2.2rem",
-                          border: "1px solid #BBBBBB",
-                          borderRadius: "4px",
-                          fontSize: ".85rem",
-                          padding: "0.4rem 1rem",
-                        }}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="Gender"
-                        register={register("gender", { required: true })}
-                        important
-                        onBlur={checkClient}
-                        options={[
-                          { label: "Male", value: "Male" },
-                          { label: "Female", value: "Female" },
-                        ]}
-                        errorText={errors?.gender?.message}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="Marital Status"
-                        register={register("maritalstatus")}
-                        important
-                        options={[
-                          { label: "Single", value: "Single" },
-                          { label: "Married", value: "Married" },
-                          { label: "Widowed", value: "Widowed" },
-                          {
-                            label: "Divorced/Seperated",
-                            value: "Divorced/Seperated",
-                          },
-                        ]}
-                      />
-                    </Grid>
-                    <Grid item lg={6} md={6} sm={12}>
-                      <Input
-                        label="Residential Address"
-                        register={register("residentialaddress")}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Town"
-                        register={register("town")}
-                        type="text"
-                      />
-                    </Grid>
-
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="LGA"
-                        type="text"
-                        register={register("lga")}
-                      />
-                    </Grid>
-
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="State"
-                        register={register("state")}
-                        type="text"
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Country"
-                        register={register("country")}
-                        type="text"
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Next of Kin"
-                        register={register("nextofkin")}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Next of Kin Phone"
-                        register={register("nextofkinphone")}
-                        type="tel"
-                      />
-                    </Grid>
+                <Grid container spacing={1}>
+                  <Grid item xs={12}>
+                    <FormsHeaderText text="Client Biodata" />
+                  </Grid>
+                  <Grid item lg={2} md={4} sm={6}>
+                    <input
+                      type="date"
+                      onChange={(date) => handleDate(date)}
+                      label="DOB"
+                      style={{
+                        width: "100%",
+                        height: "2.2rem",
+                        border: "1px solid #BBBBBB",
+                        borderRadius: "4px",
+                        fontSize: ".85rem",
+                        padding: "0.4rem 1rem",
+                      }}
+                    />
                   </Grid>
 
-                  <Box
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "flex-end",
-                    }}
-                    mt={2}
+                  <Grid item lg={2} md={4} sm={6}>
+                    <CustomSelect
+                      label="Gender"
+                      register={register("gender")}
+                      onBlur={checkClient}
+                      options={[
+                        { label: "Male", value: "male" },
+                        { label: "Female", value: "female" },
+                      ]}
+                    />
+                  </Grid>
+
+                  <Grid item lg={2} md={4} sm={6}>
+                    <CustomSelect
+                      label="Marital Status"
+                      register={register("maritalstatus")}
+                      options={[
+                        { label: "Single", value: "Single" },
+                        { label: "Married", value: "Married" },
+                        { label: "Widowed", value: "Widowed" },
+                        {
+                          label: "Divorced/Seperated",
+                          value: "Divorced/Seperated",
+                        },
+                      ]}
+                    />
+                  </Grid>
+
+                  <Grid item lg={2} md={4} sm={6}>
+                    <Input
+                      label="Medical record Number"
+                      register={register("mrn")}
+                    />
+                  </Grid>
+
+                  <Grid item lg={2} md={4} sm={6}>
+                    <Input label="Religion" register={register("religion")} />
+                  </Grid>
+
+                  <Grid item lg={2} md={4} sm={6}>
+                    <Input
+                      label="Profession"
+                      register={register("profession")}
+                    />
+                  </Grid>
+
+                  <Grid item lg={2} md={4} sm={6}>
+                    <Input
+                      label="Phone No"
+                      register={register("phone")}
+                      errorText={errors?.phone?.message}
+                      onBlur={checkClient}
+                      important={true}
+                    />
+                  </Grid>
+                  <Grid item lg={2} md={4} sm={6}>
+                    <Input
+                      label="Email"
+                      register={register("email")}
+                      errorText={errors?.email?.message}
+                      onBlur={checkClient}
+                      important={true}
+                    />
+                  </Grid>
+
+                  <Grid item lg={6} md={6} sm={12}>
+                    <Input label="Tags" register={register("clientTags")} />
+                  </Grid>
+                </Grid>
+
+                <Grid container spacing={1}>
+                  <Grid item xs={12}>
+                    <FormsHeaderText text="Client Address" />
+                  </Grid>
+                  <Grid item lg={4} md={6} sm={8}>
+                    <Input
+                      label="Residential Address"
+                      register={register("address")}
+                    />
+                  </Grid>
+                  <Grid item lg={2} md={4} sm={4}>
+                    <Input label="Town/City" register={register("city")} />
+                  </Grid>
+                  <Grid item lg={2} md={4} sm={4}>
+                    <Input label="LGA" register={register("lga")} />
+                  </Grid>
+                  <Grid item lg={2} md={4} sm={4}>
+                    <Input label="State" register={register("state")} />
+                  </Grid>
+                  <Grid item lg={2} md={4} sm={4}>
+                    <Input label="Country" register={register("country")} />
+                  </Grid>
+                </Grid>
+
+                <Grid container spacing={1}>
+                  <Grid item xs={12}>
+                    <FormsHeaderText text="Client Medical Data" />
+                  </Grid>
+                  <Grid item lg={2} md={4} sm={6}>
+                    <Input
+                      label="Blood Group"
+                      register={register("bloodgroup")}
+                    />
+                  </Grid>
+                  <Grid item lg={2} md={4} sm={6}>
+                    <Input label="Genotype" register={register("genotype")} />
+                  </Grid>
+
+                  <Grid item lg={8} md={6} sm={6}>
+                    <Input
+                      label="Disabilities"
+                      register={register("disabilities")}
+                    />
+                  </Grid>
+
+                  <Grid item lg={6} md={6} sm={6}>
+                    <Input label="Allergies" register={register("allergies")} />
+                  </Grid>
+
+                  <Grid item lg={6} md={4} sm={6}>
+                    <Input
+                      label="Co-mobidities"
+                      register={register("comorbidities")}
+                    />
+                  </Grid>
+
+                  <Grid item lg={12} md={4} sm={6}>
+                    <Input
+                      label="Specific Details "
+                      register={register("specificDetails")}
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid container spacing={1}>
+                  <Grid item xs={12}>
+                    <FormsHeaderText text="Client Next of Kin Information" />
+                  </Grid>
+                  <Grid item lg={6} md={6} sm={12}>
+                    <Input label="Full Name" register={register("nok_name")} />
+                  </Grid>
+                  <Grid item lg={3} md={4} sm={6}>
+                    <Input
+                      label="Phone Number"
+                      register={register("nok_phoneno")}
+                    />
+                  </Grid>
+                  <Grid item lg={3} md={4} sm={6}>
+                    <Input
+                      label=" Email"
+                      register={register("nok_email")}
+                      type="email"
+                    />
+                  </Grid>
+                  <Grid item lg={4} md={4} sm={6}>
+                    <Input
+                      label="Relationship"
+                      register={register("nok_relationship")}
+                    />
+                  </Grid>
+                  <Grid item lg={8} md={6} sm={12}>
+                    <Input
+                      label="Co-mobidities"
+                      register={register("comorbidities")}
+                    />
+                  </Grid>
+                </Grid>
+
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "flex-end",
+                  }}
+                  mt={2}
+                >
+                  <GlobalCustomButton
+                    color="warning"
+                    onClick={closeModal}
+                    sx={{ marginRight: "15px" }}
                   >
-                    <GlobalCustomButton
-                      color="warning"
-                      onClick={closeModal}
-                      sx={{ marginRight: "15px" }}
-                    >
-                      Cancel
-                    </GlobalCustomButton>
+                    Cancel
+                  </GlobalCustomButton>
 
-                    <GlobalCustomButton
-                      type="submit"
-                      loading={loading}
-                      onClick={handleSubmit(onSubmit)}
-                    >
-                      <SaveIcon fontSize="small" sx={{ marginRight: "5px" }} />
-                      Register Client
-                    </GlobalCustomButton>
-                  </Box>
-                </Box>
-              </>
-            ) : (
-              <>
-                <Box sx={{ width: "80vw", maxHeight: "80vh" }}>
-                  <Grid container spacing={1}>
-                    <Grid item md={12} sm={12}>
-                      <IconButton onClick={() => setOpenDp(true)}>
-                        {file ? (
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              display: "block",
-                            }}
-                          >
-                            <img
-                              src={file}
-                              alt="logo"
-                              style={{
-                                width: "100px",
-                                height: "100px",
-                                display: "block",
-                                borderRadius: "50%",
-                              }}
-                            />
-                          </Box>
-                        ) : (
-                          <FileUploader
-                            multiple={false}
-                            handleChange={handleChange}
-                            name="upload"
-                            types={["jpeg", "png", "jpg"]}
-                            children={<UploadComponent />}
-                          />
-                        )}
-                      </IconButton>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <FormsHeaderText text="Client Names" />
-                    </Grid>
-                    <Grid item lg={4} md={4} sm={4}>
-                      <Input
-                        label="First Name"
-                        register={register("firstname")}
-                        errorText={errors?.firstname?.message}
-                        onBlur={checkClient}
-                        important={true}
-                      />
-                    </Grid>
-                    <Grid item lg={4} md={4} sm={4}>
-                      <Input
-                        label="Middle Name"
-                        register={register("middlename")}
-                        errorText={errors?.middlename?.message}
-                        onBlur={checkClient}
-                      />
-                    </Grid>
-                    <Grid item lg={4} md={4} sm={4}>
-                      <Input
-                        label="Last Name"
-                        register={register("lastname")}
-                        errorText={errors?.lastname?.message}
-                        onBlur={checkClient}
-                        important={true}
-                      />
-                    </Grid>
-                  </Grid>
-
-                  <Grid container spacing={1}>
-                    <Grid item xs={12}>
-                      <FormsHeaderText text="Client Biodata" />
-                    </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
-                      <input
-                        type="date"
-                        onChange={(date) => handleDate(date)}
-                        label="DOB"
-                        style={{
-                          width: "100%",
-                          height: "2.2rem",
-                          border: "1px solid #BBBBBB",
-                          borderRadius: "4px",
-                          fontSize: ".85rem",
-                          padding: "0.4rem 1rem",
-                        }}
-                      />
-                    </Grid>
-
-                    <Grid item lg={2} md={4} sm={6}>
-                      <CustomSelect
-                        label="Gender"
-                        register={register("gender")}
-                        onBlur={checkClient}
-                        options={[
-                          { label: "Male", value: "male" },
-                          { label: "Female", value: "female" },
-                        ]}
-                      />
-                    </Grid>
-
-                    <Grid item lg={2} md={4} sm={6}>
-                      <CustomSelect
-                        label="Marital Status"
-                        register={register("maritalstatus")}
-                        options={[
-                          { label: "Single", value: "Single" },
-                          { label: "Married", value: "Married" },
-                          { label: "Widowed", value: "Widowed" },
-                          {
-                            label: "Divorced/Seperated",
-                            value: "Divorced/Seperated",
-                          },
-                        ]}
-                      />
-                    </Grid>
-
-                    <Grid item lg={2} md={4} sm={6}>
-                      <Input
-                        label="Medical record Number"
-                        register={register("mrn")}
-                      />
-                    </Grid>
-
-                    <Grid item lg={2} md={4} sm={6}>
-                      <Input label="Religion" register={register("religion")} />
-                    </Grid>
-
-                    <Grid item lg={2} md={4} sm={6}>
-                      <Input
-                        label="Profession"
-                        register={register("profession")}
-                      />
-                    </Grid>
-
-                    <Grid item lg={2} md={4} sm={6}>
-                      <Input
-                        label="Phone No"
-                        register={register("phone")}
-                        errorText={errors?.phone?.message}
-                        onBlur={checkClient}
-                        important={true}
-                      />
-                    </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
-                      <Input
-                        label="Email"
-                        register={register("email")}
-                        errorText={errors?.email?.message}
-                        onBlur={checkClient}
-                        important={true}
-                      />
-                    </Grid>
-
-                    <Grid item lg={6} md={6} sm={12}>
-                      <Input label="Tags" register={register("clientTags")} />
-                    </Grid>
-                  </Grid>
-
-                  <Grid container spacing={1}>
-                    <Grid item xs={12}>
-                      <FormsHeaderText text="Client Address" />
-                    </Grid>
-                    <Grid item lg={4} md={6} sm={8}>
-                      <Input
-                        label="Residential Address"
-                        register={register("address")}
-                      />
-                    </Grid>
-                    <Grid item lg={2} md={4} sm={4}>
-                      <Input label="Town/City" register={register("city")} />
-                    </Grid>
-                    <Grid item lg={2} md={4} sm={4}>
-                      <Input label="LGA" register={register("lga")} />
-                    </Grid>
-                    <Grid item lg={2} md={4} sm={4}>
-                      <Input label="State" register={register("state")} />
-                    </Grid>
-                    <Grid item lg={2} md={4} sm={4}>
-                      <Input label="Country" register={register("country")} />
-                    </Grid>
-                  </Grid>
-
-                  <Grid container spacing={1}>
-                    <Grid item xs={12}>
-                      <FormsHeaderText text="Client Medical Data" />
-                    </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
-                      <Input
-                        label="Blood Group"
-                        register={register("bloodgroup")}
-                      />
-                    </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
-                      <Input label="Genotype" register={register("genotype")} />
-                    </Grid>
-
-                    <Grid item lg={8} md={6} sm={6}>
-                      <Input
-                        label="Disabilities"
-                        register={register("disabilities")}
-                      />
-                    </Grid>
-
-                    <Grid item lg={6} md={6} sm={6}>
-                      <Input
-                        label="Allergies"
-                        register={register("allergies")}
-                      />
-                    </Grid>
-
-                    <Grid item lg={6} md={4} sm={6}>
-                      <Input
-                        label="Co-mobidities"
-                        register={register("comorbidities")}
-                      />
-                    </Grid>
-
-                    <Grid item lg={12} md={4} sm={6}>
-                      <Input
-                        label="Specific Details "
-                        register={register("specificDetails")}
-                      />
-                    </Grid>
-                  </Grid>
-
-                  <Grid container spacing={1}>
-                    <Grid item xs={12}>
-                      <FormsHeaderText text="Client Next of Kin Information" />
-                    </Grid>
-                    <Grid item lg={6} md={6} sm={12}>
-                      <Input
-                        label="Full Name"
-                        register={register("nok_name")}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Phone Number"
-                        register={register("nok_phoneno")}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label=" Email"
-                        register={register("nok_email")}
-                        type="email"
-                      />
-                    </Grid>
-                    <Grid item lg={4} md={4} sm={6}>
-                      <Input
-                        label="Relationship"
-                        register={register("nok_relationship")}
-                      />
-                    </Grid>
-                    <Grid item lg={8} md={6} sm={12}>
-                      <Input
-                        label="Co-mobidities"
-                        register={register("comorbidities")}
-                      />
-                    </Grid>
-                  </Grid>
-
-                  <Box
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "flex-end",
-                    }}
-                    mt={2}
+                  <GlobalCustomButton
+                    type="submit"
+                    loading={loading}
+                    onClick={handleSubmit(onSubmit)}
                   >
-                    <GlobalCustomButton
-                      color="warning"
-                      onClick={closeModal}
-                      sx={{ marginRight: "15px" }}
-                    >
-                      Cancel
-                    </GlobalCustomButton>
-
-                    <GlobalCustomButton
-                      type="submit"
-                      loading={loading}
-                      onClick={handleSubmit(onSubmit)}
-                    >
-                      <SaveIcon fontSize="small" sx={{ marginRight: "5px" }} />
-                      Register Client
-                    </GlobalCustomButton>
-                  </Box>
+                    <SaveIcon fontSize="small" sx={{ marginRight: "5px" }} />
+                    Register Client
+                  </GlobalCustomButton>
                 </Box>
-              </>
-            )}
+              </Box>
+            </>
           </div>
         </PageWrapper>
       </form>

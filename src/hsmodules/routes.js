@@ -147,7 +147,7 @@ const AppRoutes = () => {
 
           {/************************** external Beneficiary Routes :hmoFacilityId *************************************** */}
           <Route
-            path="/create-policy-external-link/:hmoFacilityId"
+            path="/create-policy-external-link/:hmoFacilityId/:facilityType"
             element={<PolicyCreateForExternalLink />}
           />
           <Route path="/create-test" element={<CreateTest />} />
