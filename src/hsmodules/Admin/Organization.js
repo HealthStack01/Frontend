@@ -177,7 +177,7 @@ const AdminOrganization = ({propId}) => {
           </Menu>
         </Box>
 
-        {facility.facilityType.toLowerCase() !== "corporate" && (
+        {facility?.facilityType?.toLowerCase() !== "corporate" && (
           <Box sx={{display: "flex"}} gap={2}>
             <GlobalCustomButton
               color="secondary"
