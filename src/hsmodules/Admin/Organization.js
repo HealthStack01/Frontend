@@ -132,14 +132,24 @@ const AdminOrganization = ({propId}) => {
   };
 
   return (
-    <Box p={2}>
+    <Box>
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          borderBottom: "1px solid #f8f8f8",
+          backgroundColor: "#f8f8f8",
+          position: "sticky",
+          zIndex: 99,
+          top: 0,
+          left: 0,
         }}
-        mb={1}
+        mb={2}
+        pl={2}
+        pr={2}
+        pt={0.5}
+        pb={0.5}
       >
         <Box>
           <IconButton onClick={handleOpemLogoOptions}>
@@ -167,23 +177,25 @@ const AdminOrganization = ({propId}) => {
           </Menu>
         </Box>
 
-        <Box sx={{display: "flex"}} gap={2}>
-          <GlobalCustomButton
-            color="secondary"
-            onClick={() => setModulesModal(true)}
-          >
-            <AutoStoriesIcon sx={{marginRight: "5px"}} fontSize="small" />
-            Organization Modules
-          </GlobalCustomButton>
+        {facility.facilityType.toLowerCase() !== "corporate" && (
+          <Box sx={{display: "flex"}} gap={2}>
+            <GlobalCustomButton
+              color="secondary"
+              onClick={() => setModulesModal(true)}
+            >
+              <AutoStoriesIcon sx={{marginRight: "5px"}} fontSize="small" />
+              Organization Modules
+            </GlobalCustomButton>
 
-          <GlobalCustomButton onClick={navigateToEmployees} color="info">
-            <PeopleAltIcon sx={{marginRight: "5px"}} fontSize="small" />{" "}
-            Organization Employees
-          </GlobalCustomButton>
-        </Box>
+            <GlobalCustomButton onClick={navigateToEmployees} color="info">
+              <PeopleAltIcon sx={{marginRight: "5px"}} fontSize="small" />{" "}
+              Organization Employees
+            </GlobalCustomButton>
+          </Box>
+        )}
       </Box>
 
-      <Box mb={2} sx={{display: "flex", justifyContent: "space-between"}}>
+      <Box mb={2} p={2} sx={{display: "flex", justifyContent: "space-between"}}>
         <FormsHeaderText text="Organization Details" />
 
         <Box sx={{display: "flex"}} gap={2}>
@@ -211,7 +223,7 @@ const AdminOrganization = ({propId}) => {
         </Box>
       </Box>
 
-      <Grid container spacing={2} mb={2}>
+      <Grid container spacing={2} mb={2} p={2}>
         <Grid item lg={4} md={6} sm={6} xs={12}>
           <Input
             register={register("facilityOwner")}
@@ -302,7 +314,7 @@ const AdminOrganization = ({propId}) => {
         </Grid>
       </Grid>
 
-      <Box>
+      <Box p={2}>
         <BankAccount />
       </Box>
 

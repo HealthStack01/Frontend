@@ -18,6 +18,10 @@ import ActionLoader from "./components/action-loader/Action-Loader";
 
 function App() {
   const [state, setState] = useState({
+    CommunicationModule: {
+      defaultEmail: {},
+      configEmailModal: false,
+    },
     PremiumModule: {
       selectedPremium: {},
       selectedPlans: [],

@@ -29,6 +29,11 @@ const MenuItem: React.FC<MenuItemProps> = ({
 
   const isOrgAdmin = roles.includes("Admin") || [];
 
+  const isCorporate =
+    user.currentEmployee.facilityDetail.facilityType === "Corporate"
+      ? true
+      : false;
+
   //console.log(isOrgAdmin);
 
   const rolesSubMenu = isOrgAdmin
@@ -41,6 +46,12 @@ const MenuItem: React.FC<MenuItemProps> = ({
         }
       });
 
+  const orgTypeSubMenu = isCorporate
+    ? rolesSubMenu.filter(
+        item => item.name !== "Location" && item.name !== "Bands"
+      )
+    : rolesSubMenu;
+
   return (
     <NavLink
       to={to}
@@ -50,11 +61,8 @@ const MenuItem: React.FC<MenuItemProps> = ({
       }}
     >
       <ListItem onClick={onClick}>
-        <MenuList
-          onClick={() => setExpand(prev => !prev)}
-          className="menu-item"
-        >
-          <div className="menu-label">
+        <MenuList className="menu-item">
+          <div className="menu-label" onClick={() => setExpand(prev => !prev)}>
             <div className="menu-label-right">
               <div className="menu-icon">
                 <i className={iconClassName} />
@@ -67,7 +75,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
 
           {subMenus && subMenus.length ? (
             <Lists className={`sub-menu ${expand ? "active" : ""}`}>
-              {rolesSubMenu.map((menu, index) => (
+              {orgTypeSubMenu.map((menu, index) => (
                 <ListItem key={index}>
                   <NavLink
                     to={menu.to}
