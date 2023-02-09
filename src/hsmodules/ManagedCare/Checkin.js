@@ -792,6 +792,7 @@ export function CheckDetails({showModal, setShowModal}) {
             Start Time:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
+          {Client.start_time}
             {/* {format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')} */}
           </span>
         </Grid>
