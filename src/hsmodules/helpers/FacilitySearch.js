@@ -399,7 +399,165 @@ export function OrgFacilitySearch({ getSearchfacility, clear }) {
 	);
 }
 
+
 export function BandSearch({ getBandfacility, clear, newValue }) {
+	// const BandServ = client.service('bands');
+	// const ServicesServ = client.service('tariff');
+	const BandsServ = client.service('bands');
+	const [facilities, setFacilities] = useState([]);
+	const { user } = useContext(UserContext);
+	// eslint-disable-next-line
+	const [searchError, setSearchError] = useState(false);
+	// eslint-disable-next-line
+	const [showPanel, setShowPanel] = useState(false);
+	// eslint-disable-next-line
+	const [searchMessage, setSearchMessage] = useState('');
+	// eslint-disable-next-line
+	const [simpa, setSimpa] = useState('');
+	// eslint-disable-next-line
+	const [chosen, setChosen] = useState(false);
+	// eslint-disable-next-line
+	const [count, setCount] = useState(0);
+	const inputEl = useRef(null);
+	const [val, setVal] = useState('');
+	const [productModal, setProductModal] = useState(false);
+	const [selectedFacility, setSelectedFacility] = useState([]);
+	// const [bandItems, setBandItems] = useState([])
+
+	const handleRow = async (obj) => {
+		await setChosen(true);
+		// getSearchfacility(obj);
+		getBandfacility(obj);
+		await setSimpa(obj?.facilityName + ',' + obj?.facilityCity);
+		setShowPanel(false);
+		await setCount(2);
+		// check if the facility is already selected, if not add it to the list
+		const found = selectedFacility.some((el) => el?._id === obj?._id);
+		if (!found) {
+			// await setSelectedFacility([...selectedFacility, obj]);
+			await getBandfacility(obj);
+		}
+	};
+	const handleBlur = async (e) => {
+		/*  if (count===2){
+             console.log("stuff was chosen")
+         }
+        */
+		/*  console.log("blur")
+         setShowPanel(false)
+        console.log(JSON.stringify(simpa))
+        if (simpa===""){
+            console.log(facilities.length)
+            setSimpa("abc")
+            setSimpa("")
+            setFacilities([])
+            inputEl.current.setValue=""
+        }
+        console.log(facilities.length)
+        console.log(inputEl.current) */
+	};
+
+	const handleSearch = async (value) => {
+		setVal(value);
+		if (value === '') {
+			setShowPanel(false);
+			getBandfacility(false);
+			await setFacilities([]);
+			return;
+		}
+		const field = 'facilityName'; //field variable
+
+		if (value.length >= 3) {
+			//productServ.  orgServ facility:user.currentEmployee.facilityDetail._id,
+			BandsServ.find({
+				query: {
+					facility: user.currentEmployee.facilityDetail._id,
+					bandType:
+						user.currentEmployee.facilityDetail.facilityType === 'HMO'
+							? 'Provider'
+							: 'Company',
+
+					// storeId:state.StoreModule.selectedStore._id,
+					// $limit:20,
+					//   paginate:false,
+					$sort: {
+						category: 1,
+					},
+				},
+			})
+				.then((res) => {
+					// console.log('Band  fetched successfully');
+					// console.log(res.data);
+					setFacilities(res.data);
+					setSearchMessage('Band  fetched successfully');
+					setShowPanel(true);
+				})
+				.catch((err) => {
+					toast.error(`Error creating Service due to ${err}`);
+				});
+		} else {
+			// console.log("less than 3 ")
+			//console.log(val)
+			setShowPanel(false);
+			await setFacilities([]);
+			//console.log(facilities)
+		}
+	};
+
+	const handleAddproduct = () => {
+		setProductModal(true);
+	};
+	const handlecloseModal = () => {
+		setProductModal(false);
+		handleSearch(val);
+	};
+	useEffect(() => {
+		if (clear) {
+			// console.log("success has changed",clear)
+			setSimpa('');
+			// clear=!clear
+		}
+		return () => {};
+	}, [clear]);
+
+	return (
+		<Stack
+			spacing={3}
+			sx={{ width: '100%' }}>
+			<Autocomplete
+				id='tags-standard'
+				options={facilities.filter((option) => option.name)}
+				onBlur={(e) => handleBlur(e)}
+				getOptionLabel={(option) => `${option?.name}`}
+				onChange={(event, newValue) => {
+					// console.log('newValue', newValue);
+
+					handleRow(newValue);
+				}}
+				renderInput={(params) => (
+					<TextField
+						{...params}
+						label={'Search for Band'}
+						onChange={(e) => handleSearch(e.target.value)}
+						ref={inputEl}
+						sx={{
+							fontSize: '0.75rem !important',
+							backgroundColor: '#ffffff !important',
+							'& .MuiInputBase-input': {
+								height: '0.9rem',
+							},
+						}}
+						InputLabelProps={{
+							shrink: true,
+						}}
+					/>
+				)}
+			/>
+		</Stack>
+	);
+}
+
+export function BandTariffSearch({ getBandfacility, clear, newValue }) {
 	// const BandServ = client.service('bands');
 	const ServicesServ = client.service('tariff');
 	const [facilities, setFacilities] = useState([]);
@@ -532,7 +690,7 @@ export function BandSearch({ getBandfacility, clear, newValue }) {
 				renderInput={(params) => (
 					<TextField
 						{...params}
-						label={'Search for Band'}
+						label={'Search for Tariff Band'}
 						onChange={(e) => handleSearch(e.target.value)}
 						ref={inputEl}
 						sx={{
