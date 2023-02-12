@@ -158,6 +158,8 @@ export const TarrifListView = ({
   // const fac = state.facilityModule.selectedFacility;
   // console.log(Services);
 
+  
+
   const ServiceSchema = [
     {
       name: "S/N",
@@ -352,6 +354,21 @@ export const TarrifListView = ({
       inputType: "TEXT",
       width: "90px",
     },
+    {
+      name: "Del",
+      width: "50px",
+      center: true,
+      key: "delete",
+      description: "Delete row",
+      selector: (i, row) => (
+        <IconButton onClick={() => handleRemove(i, row)} color="error">
+          <DeleteOutline fontSize="small" />
+        </IconButton>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
   ];
 
   // console.log(Services);
@@ -439,10 +456,17 @@ export const TarrifListView = ({
   };
 
   // console.log(selectedCategory)
+  const handleRemove = (index, contract) => {
+    const newProductItem = selectedServices.filter(
+      (ProductionItem, i) => i !== contract
+    );
+    setSelectedServices(newProductItem);
+  };
 
+  
   const handleSearch = (val) => {
     const field = "name";
-    console.log(val);
+    // console.log(val);
     ServicesServ.find({
       query: {
         // [field]: {
@@ -588,8 +612,18 @@ export const TarrifListView = ({
                 />
               </Box>
             </Box>
-            <Box sx={{ mt: "2rem", px: "0.20rem" }}>
-              <FormsHeaderText text={Services?.band} />
+            <Box sx={{ dispaly: "flex", justifyContent:"space-between", mt: "2rem", px: "0.20rem" }}>
+             <Box>
+             <FormsHeaderText text={Services?.band} />
+             </Box>
+              <Box>
+              <GlobalCustomButton
+                  text="Add Benefit"
+                  // onClick={showTariff}
+                  customStyles={{ marginLeft: "1rem" }}
+                  // color='warning'
+                />
+              </Box>
             </Box>
 
             <Box>
