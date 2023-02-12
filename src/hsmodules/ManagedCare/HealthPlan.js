@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import CustomTable from "../../components/customtable";
 import Input from "../../components/inputs/basic/Input";
+import PlainInput from "../../components/inputs/basic/Input/plainInput";
 import CustomSelect from "../../components/inputs/basic/Select";
 import ModalBox from "../../components/modal";
 import { FormsHeaderText } from "../../components/texts";
@@ -21,6 +22,12 @@ import {
   SearchCategory2,
   SelectBand,
 } from "../helpers/FacilitySearch";
+
+import CreateIcon from "@mui/icons-material/Create";
+import DeleteIcon from "@mui/icons-material/Delete";
+import SecurityUpdateIcon from "@mui/icons-material/SecurityUpdate";
+import BadgeIcon from "@mui/icons-material/Badge";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 
 const searchfacility = {};
 
@@ -205,6 +212,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
     });
     return array;
   };
+
   // function to handle chnage of band
   const handleChangeMode = async (e) => {
     setBand(e.target.value);
@@ -903,12 +911,12 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 												label='Search Services Category'
 											/>
 										</Grid> */}
-                    <Grid item xs={12} sm={6}>
+                    {/* <Grid item xs={12} sm={6}>
                       <SelectBand
                         selectedBand={band}
                         setSelectedBand={setBand}
                       />
-                    </Grid>
+                    </Grid> */}
                     <Grid item xs={12} sm={6}>
                       <Input
                         name="serviceDscrp"
@@ -1403,7 +1411,40 @@ export function HealthPlanDetails({
   const [deny, setDeny] = useState(false);
   const [approve, setApprove] = useState(false);
   const [viewBenefit, setViewBenefit] = useState(false);
-  const [showRoles, setShowRoles] = useState("");
+
+  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
+  // eslint-disable-next-line
+  const [error, setError] = useState(false);
+  // eslint-disable-next-line
+  const [success, setSuccess] = useState(false);
+  // eslint-disable-next-line
+  const [message, setMessage] = useState("");
+  // const [loading, setLoading] = useState(false);
+  const [editing, setEditing] = useState(false);
+  // eslint-disable-next-line
+  const EmployeeServ = client.service("employee");
+  const HealthPlanServ = client.service("healthplan");
+  const [confirmDialog, setConfirmDialog] = useState(false);
+  //const history = useHistory()
+  // eslint-disable-next-line
+  const { user } = useContext(UserContext);
+  const { state, setState, showActionLoader, hideActionLoader } =
+    useContext(ObjectContext);
+  const [updatingHealthPlan, setUpatingHealthPlan] = useState(false);
+  const [showRoles, setShowRoles] = useState(false);
+  const [benefitSN, setBenefitSN] = useState(null);
+  const [benefitState, setBenefitState] = useState(selectedPlan.benefits);
+  const [premiumSN, setPremiumSN] = useState(null);
+  const [premiumState, setPremiumState] = useState([]);
+
+  const addSnPremium = () => {
+    const newdata = selectedPlan.premiums.map((data, i) => {
+      data.sn = i + 1;
+      return data;
+    });
+
+    setPremiumState(newdata);
+  };
 
   const productItemSchema = [
     {
@@ -1432,30 +1473,30 @@ export function HealthPlanDetails({
       required: true,
       inputType: "TEXT",
     },
-    {
-      name: "Plan",
-      key: "plan",
-      description: "Plan",
-      selector: (row) => (
-        <Typography
-          sx={{ fontSize: "0.8rem", whiteSpace: "normal" }}
-          data-tag="allowRowEvents"
-        >
-          <b>Capitation?</b>: {row?.plans?.capitation === true ? "Yes" : "No"}
-          <br />
-          <b>Free for Service?</b>:
-          {row?.plans?.feeforService === true ? "Yes" : "No"}
-          <br />
-          <b>PreAuth?</b>: {row?.plans?.reqAuthCode === true ? "Yes" : "No"}
-          <br />
-          <b>Co-Pay</b>:{" "}
-          {row?.plans?.copay !== "" ? `₦${row?.plans?.copay}` : "N/A"}
-        </Typography>
-      ),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
+    // {
+    //   name: "Plan",
+    //   key: "plan",
+    //   description: "Plan",
+    //   selector: (row) => (
+    //     <Typography
+    //       sx={{ fontSize: "0.8rem", whiteSpace: "normal" }}
+    //       data-tag="allowRowEvents"
+    //     >
+    //       <b>Capitation?</b>: {row?.plans?.capitation === true ? "Yes" : "No"}
+    //       <br />
+    //       <b>Free for Service?</b>:
+    //       {row?.plans?.feeforService === true ? "Yes" : "No"}
+    //       <br />
+    //       <b>PreAuth?</b>: {row?.plans?.reqAuthCode === true ? "Yes" : "No"}
+    //       <br />
+    //       <b>Co-Pay</b>:{" "}
+    //       {row?.plans?.copay !== "" ? `₦${row?.plans?.copay}` : "N/A"}
+    //     </Typography>
+    //   ),
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "TEXT",
+    // },
     {
       name: "Band",
       key: "band",
@@ -1556,12 +1597,245 @@ export function HealthPlanDetails({
       required: true,
       inputType: "TEXT",
     },
+    {
+      name: "Action",
+      key: "Action",
+      description: "Action",
+      selector: (row) => (
+        <GlobalCustomButton
+          color="error"
+          onClick={() => {
+            setBenefitSN(row.sn);
+            console.log("click", row);
+            setConfirmDialog(true);
+          }}
+          customStyles={{ float: "center", p: "0.1rem" }}
+        >
+          <DeleteIcon fontSize="small" sx={{ marginRight: "5px" }} />
+          Delete
+        </GlobalCustomButton>
+      ),
+      sortable: false,
+      required: false,
+      inputType: "TEXT",
+    },
   ];
+
+  const premiumItemSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "S/N",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+      width: "50px",
+    },
+    {
+      name: "PlanType",
+      key: "planType",
+      description: "PlanType",
+      selector: (row) => (
+        <Typography
+          sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
+          data-tag="allowRowEvents"
+        >
+          {row?.planType}
+        </Typography>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "PremiumDuration",
+      key: "premiumDuration",
+      description: "PremiumDuration",
+      selector: (row) => (
+        <Typography
+          sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
+          data-tag="allowRowEvents"
+        >
+          {row?.premiumDuration}
+        </Typography>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "PremiumAmount",
+      key: "premiumAmount",
+      description: "PremiumAmount",
+      selector: (row) => (
+        <Typography
+          sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
+          data-tag="allowRowEvents"
+        >
+          ₦{row?.premiumAmount}
+        </Typography>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    // {
+    //   name: "Action",
+    //   key: "Action",
+    //   description: "Action",
+    //   selector: (row) => (
+    //     <GlobalCustomButton
+    //       color="error"
+    //       onClick={() => {
+    //         // setBenefitSN(row.sn);
+    //         console.log("click", row);
+    //         // setConfirmDialog(true);
+    //       }}
+    //       customStyles={{ float: "center", p: "0.1rem" }}
+    //     >
+    //       <DeleteIcon fontSize="small" sx={{ marginRight: "5px" }} />
+    //       Delete
+    //     </GlobalCustomButton>
+    //   ),
+    //   sortable: false,
+    //   required: false,
+    //   inputType: "TEXT",
+    // },
+  ];
+
   console.log("selected", selectedPlan);
 
   const handleEdit = async () => {
     setShowModal(3);
   };
+
+  const handleCancel = async () => {
+    const newEmployeeModule = {
+      selectedEmployee: {},
+      show: "create",
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      EmployeeModule: newEmployeeModule,
+    }));
+    //console.log(state)
+  };
+
+  const changeState = () => {
+    // const newEmployeeModule = {
+    //   selectedEmployee: {},
+    //   show: "create",
+    // };
+    // setState((prevstate) => ({
+    //   ...prevstate,
+    //   EmployeeModule: newEmployeeModule,
+    // }));
+  };
+
+  const handleDeleteBenefit = async () => {
+    console.log(" before deleted", selectedPlan.benefits);
+
+    const newUpdateBenefit = selectedPlan.benefits.filter((data, i) => {
+      let position = benefitSN - 1;
+      return position !== i;
+    });
+    const healthPlanID = selectedPlan._id;
+    let data = {
+      benefits: newUpdateBenefit,
+    };
+    console.log("deleted", newUpdateBenefit);
+    HealthPlanServ.patch(healthPlanID, data)
+      .then((res) => {
+        console.log("response", JSON.stringify(res));
+        setConfirmDialog(false);
+        setBenefitState(newUpdateBenefit);
+        toast.success("HealthPlan Details succesfully updated");
+      })
+      .catch((err) => {
+        setConfirmDialog(false);
+        toast.error(
+          "Error updating HealthPlan, probable network issues or " + err
+        );
+      });
+  };
+
+  const handleDelete = async () => {
+    console.log("deleted");
+    // showActionLoader();
+    // //let conf=window.confirm("Are you sure you want to delete this data?")
+    // const dleteId = employee._id;
+    // //if (conf){
+    // EmployeeServ.remove(dleteId)
+    //   .then((res) => {
+    //     //console.log(JSON.stringify(res))
+    //     hideActionLoader();
+    //     reset();
+    //     setConfirmDialog(false);
+    //     toast.success("Employee deleted succesfully");
+    //   })
+    //   .catch((err) => {
+    //     // setMessage("Error deleting Employee, probable network issues "+ err )
+    //     // setError(true)
+    //     hideActionLoader();
+    //     setConfirmDialog(false);
+    //     toast.error(
+    //       "Error deleting Employee, probable network issues or " + err
+    //     );
+    //   });
+    // }
+  };
+
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+    setUpatingHealthPlan(true);
+    const healthPlanID = selectedPlan._id;
+    data.providerNetwork = [`${data.providerNetwork}`];
+    data.coverageArea = [`${data.coverageArea}`];
+    console.log("data from form ", { data: data, Id: healthPlanID });
+    HealthPlanServ.patch(healthPlanID, data)
+      .then((res) => {
+        console.log("response", JSON.stringify(res));
+        setUpatingHealthPlan(false);
+        toast.success("HealthPlan Details succesfully updated");
+      })
+      .catch((err) => {
+        setUpatingHealthPlan(false);
+        toast.error(
+          "Error updating HealthPlan, probable network issues or " + err
+        );
+      });
+  };
+
+  useEffect(() => {
+    addSnPremium();
+    setValue("planName", selectedPlan?.planName, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("planCategory", selectedPlan?.planCategory, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("providerNetwork", selectedPlan?.providerNetwork[0], {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("coverageArea", selectedPlan?.coverageArea, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("individualLimit", selectedPlan?.individualLimit, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("familyLimit", selectedPlan?.familyLimit, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+
+    return () => {};
+  }, []);
 
   return (
     <>
@@ -1574,6 +1848,13 @@ export function HealthPlanDetails({
           margin: "0 auto",
         }}
       >
+        <CustomConfirmationDialog
+          open={confirmDialog}
+          cancelAction={() => setConfirmDialog(false)}
+          confirmationAction={handleDeleteBenefit}
+          type="danger"
+          message={`Are you sure you want to delete this Benefit`}
+        />
         <Grid container spacing={2} mb={1}>
           <Grid item xs={12} sm={12}>
             <GlobalCustomButton
@@ -1584,7 +1865,7 @@ export function HealthPlanDetails({
             />
           </Grid>
         </Grid>
-
+        {/* 
         {!standAlone && (
           <div style={{ backgroundColor: "#EBEBEB", padding: ".5rem 1rem" }}>
             <FormsHeaderText text={`Health Plan: ${selectedPlan?.planName}`} />
@@ -1596,9 +1877,9 @@ export function HealthPlanDetails({
                 </p>
               </Grid>
               <Grid item xs={6}>
-                {/* <p style={{ textAlign: 'right' }}>
+                <p style={{ textAlign: 'right' }}>
                 Status: <span style={{ color: '#17935C' }}>Active</span>
-              </p> */}
+              </p>
               </Grid>
             </Grid>
             <Grid container spacing={2} mb={1}>
@@ -1610,6 +1891,300 @@ export function HealthPlanDetails({
                   customStyles={{ float: "right", paddingRight: "1rem" }}
                 />
               </Grid>
+            </Grid>
+
+            <Grid container spacing={2} mb={1}>
+              <Grid item xs={12} sm={12}>
+                {!editing ? (
+                  <>
+                    <GlobalCustomButton
+                      disabled={editing}
+                      onClick={() => {
+                        setEditing(!editing);
+                      }}
+                      customStyles={{ float: "right", paddingRight: "1rem" }}
+                    >
+                      <CreateIcon
+                        fontSize="small"
+                        sx={{ marginRight: "5px" }}
+                      />
+                      Edit HealthPlan
+                    </GlobalCustomButton>
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <GlobalCustomButton
+                      onClick={handleSubmit(onSubmit)}
+                      color="success"
+                      type="submit"
+                      loading={updatingEmployee}
+                      customStyles={{
+                        float: "right",
+                        paddingRight: "1rem",
+                        marginRight: "5px",
+                      }}
+                    >
+                      <SecurityUpdateIcon
+                        fontSize="small"
+                        sx={{ marginRight: "5px" }}
+                      />
+                      Update HealthPlan Detail
+                    </GlobalCustomButton>
+                    <GlobalCustomButton
+                      onClick={() => setConfirmDialog(true)}
+                      customStyles={{
+                        float: "right",
+                        paddingRight: "1rem",
+                        marginRight: "5px",
+                      }}
+                      color="error"
+                    >
+                      <DeleteIcon
+                        fontSize="small"
+                        sx={{ marginRight: "5px" }}
+                      />
+                      Delete HealthPlan
+                    </GlobalCustomButton>
+                    <GlobalCustomButton
+                      color="warning"
+                      onClick={() => setEditing(false)}
+                      customStyles={{
+                        float: "right",
+                        paddingRight: "1rem",
+                        marginRight: "5px",
+                      }}
+                    >
+                      Cancel Update
+                    </GlobalCustomButton>
+                  </>
+                )}
+              </Grid>
+            </Grid>
+          </div>
+        )} */}
+        {!standAlone && (
+          <div
+            style={{
+              marginTop: "10px",
+              padding: "1rem",
+              boxShadow:
+                "0px 3px 3px -2px rgb(0 0 0 / 20%),0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)",
+            }}
+          >
+            <Grid container spacing={2} style={{ alignItems: "top" }}>
+              {/* <Grid item xs={3}>
+              <div style={{ marginLeft: 'auto' }}>
+                <GlobalCustomButton
+                  text="View Benefit"
+                  customStyles={{ float: 'right' }}
+                  onClick={() => setViewBenefit(true)}
+                />
+              </div>
+            </Grid> */}
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <div
+                  style={{
+                    borderBottom: "1px solid #E4EAF0",
+                    margin: "1rem 0",
+                  }}
+                ></div>
+              </Grid>
+            </Grid>
+
+            {/* <p>Details</p> */}
+            <div
+              style={{
+                backgroundColorr: "#EBeeeEBEB",
+                padding: ".2rem 0.2rem",
+              }}
+            >
+              <FormsHeaderText text={`Health Plan Details`} />
+
+              <Grid container spacing={1} mb={0.5}>
+                <Grid item xs={12} sm={12}>
+                  {!editing ? (
+                    <>
+                      <GlobalCustomButton
+                        disabled={editing}
+                        onClick={() => {
+                          setEditing(!editing);
+                        }}
+                        customStyles={{ float: "right", paddingRight: "1rem" }}
+                      >
+                        <CreateIcon
+                          fontSize="small"
+                          sx={{ marginRight: "5px" }}
+                        />
+                        Edit HealthPlan
+                      </GlobalCustomButton>
+                    </>
+                  ) : (
+                    <>
+                      {" "}
+                      <GlobalCustomButton
+                        onClick={handleSubmit(onSubmit)}
+                        color="success"
+                        type="submit"
+                        loading={updatingHealthPlan}
+                        customStyles={{
+                          float: "right",
+                          paddingRight: "1rem",
+                          marginRight: "5px",
+                        }}
+                      >
+                        <SecurityUpdateIcon
+                          fontSize="small"
+                          sx={{ marginRight: "5px" }}
+                        />
+                        Update HealthPlan Detail
+                      </GlobalCustomButton>
+                      {/* <GlobalCustomButton
+                        onClick={() => setConfirmDialog(true)}
+                        customStyles={{
+                          float: "right",
+                          paddingRight: "1rem",
+                          marginRight: "5px",
+                        }}
+                        color="error"
+                      >
+                        <DeleteIcon
+                          fontSize="small"
+                          sx={{ marginRight: "5px" }}
+                        />
+                        Delete HealthPlan
+                      </GlobalCustomButton> */}
+                      <GlobalCustomButton
+                        color="warning"
+                        onClick={() => setEditing(false)}
+                        customStyles={{
+                          float: "right",
+                          paddingRight: "1rem",
+                          marginRight: "5px",
+                        }}
+                      >
+                        Cancel Update
+                      </GlobalCustomButton>
+                    </>
+                  )}
+                </Grid>
+              </Grid>
+            </div>
+            <Grid container spacing={2}>
+              <Grid item xs={4}>
+                {!editing ? (
+                  <p>Plan Name: {selectedPlan?.planName}</p>
+                ) : (
+                  <Input
+                    label="Plan Name:"
+                    register={register("planName")}
+                    errorText={errors?.planName?.message}
+                  />
+                )}
+              </Grid>
+              <Grid item xs={4}>
+                {!editing ? (
+                  <p>Plan Category: {selectedPlan?.planCategory}</p>
+                ) : (
+                  <Input
+                    label="Plan Category: "
+                    register={register("planCategory")}
+                    errorText={errors?.planCategory?.message}
+                  />
+                )}
+              </Grid>
+              <Grid item xs={4}>
+                {!editing ? (
+                  <p>Provider Network: {selectedPlan?.providerNetwork[0]}</p>
+                ) : (
+                  <Input
+                    label="providerNetwork: "
+                    register={register("providerNetwork")}
+                    errorText={errors?.providerNetwork?.message}
+                  />
+                )}
+              </Grid>{" "}
+              <Grid item xs={4}>
+                {!editing ? (
+                  <p>
+                    Coverage Area:{" "}
+                    {selectedPlan?.coverageArea?.map((item) => item)}
+                  </p>
+                ) : (
+                  <Input
+                    label="Coverage Area: "
+                    register={register("coverageArea")}
+                    errorText={errors?.coverageArea?.message}
+                  />
+                )}
+              </Grid>
+              <Grid item xs={4}>
+                {!editing ? (
+                  <p>Individual Limit: ₦{selectedPlan?.individualLimit}</p>
+                ) : (
+                  <Input
+                    label="Individual Limit: "
+                    register={register("individualLimit")}
+                    errorText={errors?.individualLimit?.message}
+                  />
+                )}
+              </Grid>
+              <Grid item xs={4}>
+                {!editing ? (
+                  <p>Family Limit: ₦{selectedPlan?.familyLimit}</p>
+                ) : (
+                  <Input
+                    label="Family Limit: "
+                    register={register("familyLimit")}
+                    errorText={errors?.familyLimit?.message}
+                  />
+                )}
+              </Grid>
+              {/* <Grid item xs={4}>
+              <p>Premium Amount: 20,000</p>
+            </Grid> */}
+              {/* <Grid item xs={4}>
+                <p>
+                  Individual Premium: ₦
+                  {selectedPlan?.premiums.map((item) => {
+                    if (item?.planType === "Individual") {
+                      return item?.premiumAmount;
+                    }
+                  })}
+                </p>
+              </Grid> */}
+              {/* <Grid item xs={4}>
+                <p>
+                  Individual Duration:
+                  {selectedPlan?.premiums.map((item) => {
+                    if (item?.planType === "Individual") {
+                      return item?.premiumDuration;
+                    }
+                  })}
+                </p>
+              </Grid> */}
+              {/* <Grid item xs={4}>
+                <p>
+                  Family Premium: ₦
+                  {selectedPlan?.premiums.map((item) => {
+                    if (item?.planType === "Family") {
+                      return item?.premiumAmount;
+                    }
+                  })}
+                </p>
+              </Grid> */}
+              {/* <Grid item xs={4}>
+                <p>
+                  Family Duration:
+                  {selectedPlan?.premiums.map((item) => {
+                    if (item?.planType === "Family") {
+                      return item?.premiumDuration;
+                    }
+                  })}
+                </p>
+              </Grid> */}
             </Grid>
           </div>
         )}
@@ -1644,24 +2219,169 @@ export function HealthPlanDetails({
               </Grid>
             </Grid>
 
-            <p>Details</p>
+            {/* <p>Details</p> */}
+            <div
+              style={{
+                backgroundColorr: "#EBeeeEBEB",
+                padding: ".2rem 0.2rem",
+              }}
+            >
+              <Grid container spacing={1} mb={0.5}>
+                {/* <Grid item xs={12} sm={12}>
+                  {!editing ? (
+                    <>
+                      <GlobalCustomButton
+                        disabled={editing}
+                        onClick={() => {
+                          console.log("selected plan ", selectedPlan);
+                          setEditing(!editing);
+                        }}
+                        customStyles={{ float: "right", paddingRight: "1rem" }}
+                      >
+                        <CreateIcon
+                          fontSize="small"
+                          sx={{ marginRight: "5px" }}
+                        />
+                        Edit HealthPlan
+                      </GlobalCustomButton>
+                    </>
+                  ) : (
+                    <>
+                      {" "}
+                      <GlobalCustomButton
+                        onClick={handleSubmit(onSubmit)}
+                        color="success"
+                        type="submit"
+                        loading={updatingHealthPlan}
+                        customStyles={{
+                          float: "right",
+                          paddingRight: "1rem",
+                          marginRight: "5px",
+                        }}
+                      >
+                        <SecurityUpdateIcon
+                          fontSize="small"
+                          sx={{ marginRight: "5px" }}
+                        />
+                        Update HealthPlan Detail
+                      </GlobalCustomButton>
+                      <GlobalCustomButton
+                        onClick={() => setConfirmDialog(true)}
+                        customStyles={{
+                          float: "right",
+                          paddingRight: "1rem",
+                          marginRight: "5px",
+                        }}
+                        color="error"
+                      >
+                        <DeleteIcon
+                          fontSize="small"
+                          sx={{ marginRight: "5px" }}
+                        />
+                        Delete HealthPlan
+                      </GlobalCustomButton>
+                      <GlobalCustomButton
+                        color="warning"
+                        onClick={() => setEditing(false)}
+                        customStyles={{
+                          float: "right",
+                          paddingRight: "1rem",
+                          marginRight: "5px",
+                        }}
+                      >
+                        Cancel Update
+                      </GlobalCustomButton>
+                    </>
+                  )}
+                </Grid> */}
+              </Grid>
+            </div>
             <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <p>Plan Name: {selectedPlan?.planName}</p>
-              </Grid>
+              <FormsHeaderText text={"Premium Details"} />
+              <CustomTable
+                tableData={""}
+                columns={premiumItemSchema}
+                data={premiumState}
+                pointerOnHover
+                highlightOnHover
+                striped
+              />
               {/* <Grid item xs={4}>
-              <p>Plan Type: Test Plan</p>
-            </Grid> */}
-              <Grid item xs={4}>
-                <p>Plan Category: {selectedPlan?.planCategory}</p>
+                <p>Plan Type</p>
               </Grid>
               <Grid item xs={4}>
-                <p>Provider Network: {selectedPlan?.providerNetwork[0]}</p>
+                <p>Plan Duration</p>
               </Grid>
+              <Grid item xs={4}>
+                <p>Premium Amount</p>
+              </Grid> */}
+
+              {/* <Grid item xs={4}>
+                {!editing ? (
+                  <p>Plan Category: {selectedPlan?.planCategory}</p>
+                ) : (
+                  <Input
+                    label="Plan Category: "
+                    register={register("planCategory")}
+                    errorText={errors?.planCategory?.message}
+                  />
+                )}
+              </Grid>
+
+              <Grid item xs={4}>
+                {!editing ? (
+                  <p>Provider Network: {selectedPlan?.providerNetwork[0]}</p>
+                ) : (
+                  <Input
+                    label="providerNetwork: "
+                    register={register("providerNetwork")}
+                    errorText={errors?.providerNetwork?.message}
+                  />
+                )}
+              </Grid>{" "}
+
+              <Grid item xs={4}>
+                {!editing ? (
+                  <p>
+                    Coverage Area:{" "}
+                    {selectedPlan?.coverageArea?.map((item) => item)}
+                  </p>
+                ) : (
+                  <Input
+                    label="Coverage Area: "
+                    register={register("coverageArea")}
+                    errorText={errors?.coverageArea?.message}
+                  />
+                )}
+              </Grid>
+
+              <Grid item xs={4}>
+                {!editing ? (
+                  <p>Individual Limit: ₦{selectedPlan?.individualLimit}</p>
+                ) : (
+                  <Input
+                    label="Individual Limit: "
+                    register={register("individualLimit")}
+                    errorText={errors?.individualLimit?.message}
+                  />
+                )}
+              </Grid>
+
+              <Grid item xs={4}>
+                {!editing ? (
+                  <p>Family Limit: ₦{selectedPlan?.familyLimit}</p>
+                ) : (
+                  <Input
+                    label="Family Limit: "
+                    register={register("familyLimit")}
+                    errorText={errors?.familyLimit?.message}
+                  />
+                )}
+              </Grid> */}
               {/* <Grid item xs={4}>
               <p>Premium Amount: 20,000</p>
             </Grid> */}
-              <Grid item xs={4}>
+              {/* <Grid item xs={4}>
                 <p>
                   Individual Premium: ₦
                   {selectedPlan?.premiums.map((item) => {
@@ -1670,8 +2390,8 @@ export function HealthPlanDetails({
                     }
                   })}
                 </p>
-              </Grid>
-              <Grid item xs={4}>
+              </Grid> */}
+              {/* <Grid item xs={4}>
                 <p>
                   Individual Duration:
                   {selectedPlan?.premiums.map((item) => {
@@ -1680,11 +2400,8 @@ export function HealthPlanDetails({
                     }
                   })}
                 </p>
-              </Grid>
-              <Grid item xs={4}>
-                <p>Individual Limit: ₦{selectedPlan?.individualLimit}</p>
-              </Grid>
-              <Grid item xs={4}>
+              </Grid> */}
+              {/* <Grid item xs={4}>
                 <p>
                   Family Premium: ₦
                   {selectedPlan?.premiums.map((item) => {
@@ -1693,9 +2410,8 @@ export function HealthPlanDetails({
                     }
                   })}
                 </p>
-              </Grid>
-
-              <Grid item xs={4}>
+              </Grid> */}
+              {/* <Grid item xs={4}>
                 <p>
                   Family Duration:
                   {selectedPlan?.premiums.map((item) => {
@@ -1704,16 +2420,7 @@ export function HealthPlanDetails({
                     }
                   })}
                 </p>
-              </Grid>
-              <Grid item xs={4}>
-                <p>Family Limit: ₦{selectedPlan?.familyLimit}</p>
-              </Grid>
-              <Grid item xs={4}>
-                <p>
-                  Coverage Area:{" "}
-                  {selectedPlan?.coverageArea?.map((item) => item)}
-                </p>
-              </Grid>
+              </Grid> */}
             </Grid>
           </div>
         )}
@@ -1729,7 +2436,7 @@ export function HealthPlanDetails({
           <CustomTable
             tableData={""}
             columns={productItemSchema}
-            data={selectedPlan?.benefits}
+            data={benefitState}
             pointerOnHover
             highlightOnHover
             striped
