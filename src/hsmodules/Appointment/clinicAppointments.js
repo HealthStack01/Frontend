@@ -31,7 +31,7 @@ import {BsFillGridFill, BsList} from "react-icons/bs";
 import CalendarGrid from "../../components/calender";
 import ModalBox from "../../components/modal";
 import ModalHeader from "./ui-components/Heading/modalHeader";
-import {Box, Grid, Autocomplete} from "@mui/material";
+import {Box, Grid, Autocomplete, Typography} from "@mui/material";
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
 import {MdCancel} from "react-icons/md";
 import Input from "../../components/inputs/basic/Input";
@@ -216,7 +216,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
   const onSubmit = data => {
     //return console.log(state.CommunicationModule.defaultEmail);
     const employee = user.currentEmployee;
-    if (!state.CommunicationModule.defaultEmail.emailConfig.username)
+    if (!state.CommunicationModule.defaultEmail.emailConfig?.username)
       return setState(prev => ({
         ...prev,
         CommunicationModule: {
@@ -224,7 +224,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
           configEmailModal: true,
         },
       }));
-    //showActionLoader();
+    showActionLoader();
     setMessage("");
     setError(false);
     setSuccess(false);
@@ -282,7 +282,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
     const emailObj = {
       organizationId: employee.facilityDetail._id,
       organizationName: employee.facilityDetail.facilityName,
-      html: "",
+      html: "<p><p/>",
       text: `You have been scheduled for an appointment with ${
         chosen2.profession
       } ${chosen2.firstname} ${chosen2.lastname} at ${dayjs(
@@ -318,7 +318,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
     ClientServ.create(data)
       .then(async res => {
         await notificationsServer.create(notificationObj);
-        await smsServer.create(smsObj);
+        //await smsServer.create(smsObj);
         await emailServer.create(emailObj);
         hideActionLoader();
         //console.log(JSON.stringify(res))

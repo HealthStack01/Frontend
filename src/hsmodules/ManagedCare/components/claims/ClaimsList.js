@@ -42,6 +42,7 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
   };
 
   const getClaims = useCallback(async () => {
+    setLoading(true);
     if (user.currentEmployee) {
       let query = {
         //facility: user.currentEmployee.facilityDetail._id,
@@ -55,6 +56,7 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
       const resp = await claimsServer.find({query: query});
 
       setClaims(resp.data);
+      setLoading(false);
       console.log(resp);
       //console.log(resp.data);
     } else {
@@ -69,6 +71,7 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
         });
 
         setClaims(resp.data);
+        setLoading(false);
       }
     }
   }, []);
@@ -279,7 +282,7 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
         >
           {row.services.map(item => (
             <ListItem sx={{fontSize: "0.8rem", whiteSpace: "normal"}}>
-              {item.service.serviceName}
+              {item.service.serviceName} - ₦{item.amount}
             </ListItem>
           ))}
         </List>
@@ -289,16 +292,6 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
       inputType: "HIDDEN",
     },
 
-    {
-      name: "Total Amount",
-      key: "bills",
-      description: "Enter bills",
-      selector: row => row?.totalamount,
-      //cell: row => returnCell(row?.totalamount),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
     {
       name: "Status",
       key: "status",
@@ -314,6 +307,16 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
       key: "reason",
       description: "Enter for Request",
       selector: row => row.comments,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Total Amount",
+      key: "bills",
+      description: "Enter bills",
+      selector: row => `₦${row?.totalamount}`,
+      //cell: row => returnCell(row?.totalamount),
       sortable: true,
       required: true,
       inputType: "TEXT",
