@@ -18,7 +18,7 @@ import axios from "axios";
 import moment from "moment";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom"; //Route, Switch,Link, NavLink,
+import { useNavigate, useParams } from "react-router-dom"; //Route, Switch,Link, NavLink,
 import { toast, ToastContainer } from "react-toastify";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import CustomTable from "../../components/customtable";
@@ -64,6 +64,7 @@ import {
 import { ProviderPrintout } from "./components/Printout";
 import dayjs from "dayjs";
 import { ClientSearch } from "../helpers/ClientSearch";
+import { async } from "q";
 
 var random = require("random-string-generator");
 // eslint-disable-next-line
@@ -602,1320 +603,6 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
   );
 }
 
-export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
-  const { register, handleSubmit, setValue, getValues, reset, control } =
-    useForm();
-  const { state, setState, showActionLoader, hideActionLoader } =
-    useContext(ObjectContext);
-  const { user } = useContext(UserContext);
-  const [clientModal, setClientModal] = useState(false);
-  const [dependant, setDependant] = useState(false);
-  const [selectedClient, setSelectedClient] = useState();
-  //const [productItem,setProductItem] = useState([])
-  const productItem = useRef([]);
-  const [showCorp, setShowCorp] = useState(false);
-  const [message, setMessage] = useState("");
-  const [benefittingPlans1, setBenefittingPlans1] = useState([]);
-  const [price, setPrice] = useState("");
-  const [chosenPlan, setChosenPlan] = useState();
-  const [success, setSuccess] = useState(false);
-  const [chosen, setChosen] = useState([]);
-  const [planHMO, setPlanHMO] = useState("");
-  const [error, setError] = useState(false);
-  //const [documentNo,setDocumentNo] = useState("")
-  const documentNo = useRef();
-  //const [date,setDate] = useState()
-  const date = useRef();
-  //const [patient, setPatient] =useState("")
-  const patient = useRef();
-  //const [productEntry,setProductEntry]=useState()
-  const productEntry = useRef();
-  //const [type,setType] = useState("Bill")
-  const type = useRef("Bill");
-  const ServicesServ = client.service("healthplan");
-  const policyServ = client.service("policy");
-  const BillCreateServ = client.service("createbilldirect");
-  const orgServ = client.service("organizationclient");
-  const [facilities, setFacilities] = useState([]);
-  const [paymentOptions, setPaymentOptions] = useState([]);
-  const [billMode, setBillMode] = useState("");
-  const [obj, setObj] = useState("");
-  const [paymentmode, setPaymentMode] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [createOrg, setCreateOrg] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState();
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [hmo, setHmo] = useState({});
-  const [subSponsor, setSubSponsor] = useState("");
-  const [healthplan, setHealthplan] = useState([]);
-  const [planType, setPlanType] = useState("");
-  const [indiPremium, setIndiPremium] = useState("");
-  const [famPremium, setFamPremium] = useState("");
-  const [indiDuration, setIndiDuration] = useState("");
-  const [famDuration, setFamDuration] = useState("");
-  const [familyModal, setFamilyModal] = useState(false);
-  const [multipleModal, setMultipleModal] = useState(false); //Multiple Individuals
-  const [providers, setProviders] = useState([]);
-  // const [organizationName, setOrganizationName] = useState('');
-  // const [organizationId, setOrganizationId] = useState('');
-
-  const getSearchfacility = async (obj) => {
-    if (
-      // check if obj is an object
-      obj && // check if obj is not null
-      Object.keys(obj).length > 0 && // check if obj is not empty
-      obj.constructor === Object &&
-      // check if the obj is already present in the array
-      !chosen.some((el) => el._id === obj._id)
-    ) {
-      await setChosen([...chosen, obj]);
-      await console.log("OBJ", chosen);
-    }
-  };
-
-  const getSearchfacility1 = (obj) => {
-    setPlanHMO(obj);
-    if (!obj) {
-    }
-  };
-  const getSearchHmo = (obj) => {
-    setHmo(obj[0]);
-    if (!obj) {
-    }
-  };
-
-  const handleChangeMode = async (mode) => {
-    setMessage(mode);
-    if (mode === "Company") {
-      setShowCorp(true);
-    } else {
-      setShowCorp(false);
-    }
-    let billm = paymentOptions.filter((el) => el.name === mode);
-    await setBillMode(billm[0]);
-    console.log(billm);
-  };
-
-  const handleChangePlan = async (value) => {
-    console.log(value);
-    setSelectedPlan(value);
-    if (value === "") {
-      setPrice("");
-      return;
-    }
-    console.log(benefittingPlans1);
-    let cplan = healthplan.filter((el) => el.planName === value);
-    console.log(cplan);
-    setChosenPlan(cplan[0]);
-    let contract = cplan[0]?.premiums[0]?.familyPremium;
-    cplan[0]?.premiums.map((el) => {
-      if (el.planType === "Individual") {
-        setIndiPremium(el?.premiumAmount);
-        setIndiDuration(el?.premiumDuration);
-      }
-      if (el.planType === "Family") {
-        setFamPremium(el?.premiumAmount);
-        setFamDuration(el?.premiumDuration);
-      }
-    });
-  };
-  console.log("price", price);
-  const handleClickProd = () => {
-    setState((prevstate) => ({ ...prevstate, currBeneficiary: "principal" }));
-    setDependant("principal");
-    console.log(state.Beneficiary);
-    //setClientModal(true);
-    setOpenCreate(true);
-  };
-  const handleClickProd2 = () => {
-    setState((prevstate) => ({ ...prevstate, currBeneficiary: "dependent" }));
-    setDependant("dependent");
-    setOpenCreate(true);
-  };
-
-  //FOR MULTIPLE INDIVIDUALS
-  const handleClickProd3 = () => {
-    setState((prev) => ({
-      ...prev,
-      currBeneficiary: "multiple_individuals",
-    }));
-    setOpenCreate(true);
-  };
-
-  const handleRow = (Client) => {
-    //domething o
-  };
-
-  const handlecloseModal4 = () => {
-    setClientModal(false);
-    console.log(state.Beneficiary);
-  };
-
-  const onSubmit = async (data, doc) => {
-    //return console.log
-    // e.preventDefault();
-    if (!state.Beneficiary.principal._id) {
-      toast.warning("Please add principal! ");
-
-      return;
-    }
-    showActionLoader();
-    // generate a unique policy number where the year is the lat 2 digits of the year, plan type is a single digit, organization type is a single digit,
-    //organizationId is a system generated 6 digit that should not be repeated, and the last 1 digit is the sponsor type
-    // 1 - individual, 2 - corporate, 3 - group
-    // 1 - HMO, 2 - PPO, 3 - EPO
-    const year = new Date().getFullYear().toString().slice(-2);
-    const planType1 = selectedPlan?.charAt(0);
-    const orgType = data?.sponsortype === "Self" ? 1 : 2;
-    const orgId = Math.floor(100000 + Math.random() * 900000);
-    const familyCode =
-      state.Beneficiary.principal._id && !state.Beneficiary.dependent._id
-        ? "-1"
-        : state.Beneficiary.dependent.length + 1;
-    const policyNo = `${year}${planType1}${orgType}${orgId}${familyCode}`;
-    console.log(policyNo);
-
-    if (user.currentEmployee) {
-      data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
-    }
-
-    let confirm = window.confirm(
-      `You are about to register a new policy ${policyNo} ?`
-    );
-    console.log(user);
-    if (confirm) {
-      let policy = {
-        policyNo: policyNo,
-        organizationType:
-          user.currentEmployee.facilityDetail.facilityType === "HMO"
-            ? user.currentEmployee.facilityDetail.facilityType
-            : hmo.facilityType,
-        organizationId:
-          user.currentEmployee.facilityDetail.facilityType === "HMO"
-            ? user.currentEmployee.facilityDetail._id
-            : hmo._id,
-        organizationName:
-          user.currentEmployee.facilityDetail.facilityType === "HMO"
-            ? user.currentEmployee.facilityDetail.facilityName
-            : hmo.facilityName,
-        organization:
-          user.currentEmployee.facilityDetail.facilityType === "HMO"
-            ? user.currentEmployee.facilityDetail
-            : hmo,
-        principal: state.Beneficiary.principal, //
-        dependantBeneficiaries: state.Beneficiary.dependent,
-        providers: chosen,
-        sponsorshipType: data.sponsortype,
-        sponsor: planHMO,
-        plan: chosenPlan,
-        planType: planType,
-        premium: price.price,
-        premiumContract: price,
-        active: false,
-        isPaid: false,
-        approved: false,
-        statushx: [
-          {
-            date: new Date(),
-            employeename: `${user.currentEmployee.firstname} ${user.currentEmployee.lastname}`,
-            employeeId: user.currentEmployee._id,
-            status: "Policy Created",
-          },
-        ],
-      };
-      console.log("POLICY", policy);
-      await policyServ
-        .create(policy)
-        .then((res) => {
-          hideActionLoader();
-          console.log(
-            "facilityId",
-            user.currentEmployee.facilityDetail._id,
-            "response",
-            res
-          );
-          setSuccess(true);
-          toast.success("Client created succesfully");
-          setSuccess(false);
-          setState((prev) => ({
-            ...prev,
-            Beneficiary: {
-              ...prev.Beneficiary,
-              principal: {},
-              dependant: [],
-            },
-          }));
-        })
-        .then(async (res) => {
-          await setShowModal(0);
-        })
-        .catch((err) => {
-          hideActionLoader();
-          toast.error("Error creating Client " + err);
-        });
-    }
-  };
-  const getBenfittingPlans = async () => {
-    setBenefittingPlans1([]);
-    if (user.currentEmployee?.facilityDetail.facilityType === "HMO") {
-      const findServices = await ServicesServ.find({
-        query: {
-          organizationId: user.currentEmployee.facilityDetail._id,
-          // 'contracts.source_org': user.currentEmployee.facilityDetail._id,
-          // 'contracts.dest_org': user.currentEmployee.facilityDetail._id,
-          // category: 'Managed Care',
-          $sort: {
-            category: 1,
-          },
-        },
-      });
-      console.log(findServices.data);
-      const data = findServices.data;
-      if (data.length > 0) {
-        setHealthplan(data);
-        // map the array for all the planName
-        const planName = data.map((plan) => plan.planName);
-        console.log("test", planName);
-        setBenefittingPlans1(planName);
-      }
-    } else if (hmo) {
-      const findServices = await ServicesServ.find({
-        query: {
-          organizationId: hmo?._id,
-          $sort: {
-            category: 1,
-          },
-        },
-      });
-      console.log(findServices.data);
-      const data = findServices.data;
-      if (findServices.length > 0) {
-        // map the array for all the planName
-        const planName = data.map((plan) => plan.planName);
-        setBenefittingPlans1(planName);
-      }
-    }
-  };
-
-  const createPaymentOption = () => {
-    const paymentoptions = [];
-    // const info = client.paymentinfo
-    let billme;
-    let obj;
-    //ideally this should be based on whether self or corporate
-    let patient = state.Beneficiary.principal;
-    if (!!patient.paymentinfo) {
-      patient.paymentinfo.forEach((pay, i) => {
-        if (pay.active) {
-          switch (pay.paymentmode) {
-            case "Cash":
-              // code block
-              obj = createObj(pay, "Cash", "Cash", "Cash");
-
-              paymentoptions.push(obj);
-              setPaymentMode("Cash");
-              billme = obj;
-              console.log("billme", billme);
-              break;
-            case "Family":
-              // code block
-              obj = createObj(
-                pay,
-                "Family Cover",
-                "familyCover",
-                "Family Cover"
-              );
-              paymentoptions.push(obj);
-              setPaymentMode("Family Cover");
-              billme = obj;
-              // console.log("billme",billme)
-              break;
-            case "Company":
-              // code block
-              let name =
-                "Company: " + pay.organizationName + "(" + pay.plan + ")";
-
-              obj = createObj(pay, name, "CompanyCover", "Company Cover");
-              paymentoptions.push(obj);
-              setPaymentMode(
-                "Company: " + pay.organizationName + "(" + pay.plan + ")"
-              );
-              billme = obj;
-              // console.log("billme",billme)
-              break;
-            case "HMO":
-              // code block
-              console.log(pay);
-              let sname = "HMO: " + pay.organizationName + "(" + pay.plan + ")";
-
-              obj = createObj(pay, sname, "HMOCover", "HMO Cover");
-              paymentoptions.push(obj);
-              setPaymentMode(
-                "HMO: " + pay.organizationName + "(" + pay.plan + ")"
-              );
-              billme = obj;
-              //  console.log("billme",billme)
-
-              break;
-            default:
-            // code block
-          }
-        }
-      });
-    }
-    setPaymentOptions(paymentoptions);
-    setBillMode(billme);
-  };
-  const createObj = (pay, name, cover, type) => {
-    let details = {};
-    details = { ...pay };
-    details.type = type;
-
-    return {
-      name,
-      value: cover,
-      detail: details,
-      type,
-    };
-  };
-  //create productitem
-  const createProductItem = async () => {
-    productItem.current = [
-      {
-        //productId:,
-        name: chosenPlan.name,
-        quantity: "1",
-        sellingprice: price.price,
-        amount: price.price, //||qamount
-        baseunit: "",
-        costprice: "",
-        category: chosenPlan.category,
-        billingId: chosenPlan._id,
-        billingContract: price,
-        billMode: billMode, // state.Beneficiary.principal.paymentinfo[0]
-      },
-    ];
-    console.log(chosenPlan.name);
-  };
-
-  const createProductEntry = () => {
-    productEntry.current = {
-      productitems: productItem.current,
-      date: date.current,
-      documentNo: documentNo.current,
-      type: type.current,
-      totalamount: price.price,
-      createdby: user._id,
-      transactioncategory: "debit",
-      source: patient.current.firstname + " " + patient.current.lastname,
-      facility: user.currentEmployee.facilityDetail._id,
-    };
-  };
-  const handleSearch = async (value) => {
-    if (value === "") {
-      await setFacilities([]);
-      return;
-    }
-    if (value.length >= 3) {
-      orgServ
-        .find({
-          query: {
-            $search: value,
-            relationshiptype: "managedcare",
-            facility: user.currentEmployee.facilityDetail._id,
-            $limit: 100,
-            $sort: {
-              createdAt: -1,
-            },
-          },
-        })
-        .then((res) => {
-          setFacilities(res.data);
-        })
-        .catch((err) => {
-          toast.error(`Error creating Service due to ${err}`);
-        });
-    } else {
-      await setFacilities([]);
-    }
-  };
-
-  useEffect(() => {
-    getBenfittingPlans();
-    createPaymentOption();
-
-    // getFacility();
-
-    return () => {};
-  }, [hmo, user]);
-
-  const providerColumns = [
-    {
-      name: "S/N",
-      key: "sn",
-      description: "SN",
-      selector: (row) => row.sn,
-      sortable: true,
-      inputType: "HIDDEN",
-      width: "50px",
-    },
-    {
-      name: "Facility Name",
-      key: "facilityname",
-      description: "Facility Name",
-      selector: (row) => row?.organizationDetail?.facilityName,
-      sortable: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "Facility Address",
-      key: "facilityaddress",
-      description: "Facility Address",
-      selector: (row) => row?.organizationDetail?.facilityAddress,
-      sortable: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "Facility City",
-      key: "facilitycity",
-      description: "Facility City",
-      selector: (row) => row?.organizationDetail?.facilityCity,
-      sortable: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "Facility Phone",
-      key: "facilityphone",
-      description: "Facility Phone",
-      selector: (row) => row?.organizationDetail?.facilityContactPhone,
-      sortable: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "Facility Type",
-      key: "facilitytype",
-      description: "Facility Type",
-      selector: (row) => row?.organizationDetail?.facilityType,
-      sortable: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "Facility Category",
-      key: "facilitycategory",
-      description: "Facility Category",
-      selector: (row) => row?.organizationDetail?.facilityCategory,
-      sortable: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "Del",
-      width: "50px",
-      center: true,
-      key: "contact_email",
-      description: "Enter Date",
-      selector: (row) => (
-        <IconButton
-          onClick={() => {
-            setProviders(providers.filter((item) => item._id !== row._id));
-          }}
-          color="error"
-        >
-          <DeleteOutline fontSize="small" />
-        </IconButton>
-      ),
-      sortable: true,
-      required: true,
-      inputType: "NUMBER",
-    },
-  ];
-
-  console.log("==================", benefittingPlans1);
-
-  useEffect(() => {
-    hideActionLoader();
-  }, []);
-
-  const handleFamilyCreate = async (data) => {
-    //return console.log(providers);
-
-    if (!state.Beneficiary.principal._id)
-      return toast.warning("Please add principal! ");
-
-    //showActionLoader();
-    //e.preventDefault();
-    // generate a unique policy number where the year is the lat 2 digits of the year, plan type is a single digit, organization type is a single digit,
-    //organizationId is a system generated 6 digit that should not be repeated, and the last 1 digit is the sponsor type
-    // 1 - individual, 2 - corporate, 3 - group
-    // 1 - HMO, 2 - PPO, 3 - EPO
-    const year = new Date().getFullYear().toString().slice(-2);
-    const planType1 = selectedPlan?.charAt(0);
-    const orgType = data?.sponsortype === "Self" ? 1 : 2;
-    const orgId = Math.floor(100000 + Math.random() * 900000);
-    const familyCode =
-      state.Beneficiary.principal._id && !state.Beneficiary.dependent._id
-        ? "-1"
-        : state.Beneficiary.dependent.length + 1;
-    const policyNo = `${year}${planType1}${orgType}${orgId}`;
-    console.log(policyNo);
-
-    if (user.currentEmployee) {
-      data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
-    }
-
-    // let confirm = window.confirm(
-    //   `You are about to register a new policy ${policyNo} ?`
-    // );
-    //console.log(user);
-    if (confirm) {
-      let policy = {
-        policyNo: policyNo,
-        organizationType:
-          user.currentEmployee.facilityDetail.facilityType === "HMO"
-            ? user.currentEmployee.facilityDetail.facilityType
-            : hmo.facilityType,
-        organizationId:
-          user.currentEmployee.facilityDetail.facilityType === "HMO"
-            ? user.currentEmployee.facilityDetail._id
-            : hmo._id,
-        organizationName:
-          user.currentEmployee.facilityDetail.facilityType === "HMO"
-            ? user.currentEmployee.facilityDetail.facilityName
-            : hmo.facilityName,
-        organization:
-          user.currentEmployee.facilityDetail.facilityType === "HMO"
-            ? user.currentEmployee.facilityDetail
-            : hmo,
-        principal: { ...state.Beneficiary.principal, policyNo: policyNo }, //
-        dependantBeneficiaries: state.Beneficiary.dependent.map((item, i) => {
-          return {
-            ...item,
-            policyNo: `${policyNo}-${i + 1}`,
-          };
-        }),
-        providers: providers,
-        sponsorshipType: data.sponsortype,
-        sponsor: planHMO,
-        plan: chosenPlan,
-        planType: planType,
-        premium: price.price,
-        premiumContract: price,
-        active: false,
-        isPaid: false,
-        approved: false,
-        statushx: [
-          {
-            date: new Date(),
-            employeename: `${user.currentEmployee.firstname} ${user.currentEmployee.lastname}`,
-            employeeId: user.currentEmployee._id,
-            status: "Policy Created",
-          },
-        ],
-      };
-      // console.log("POLICY", policy);
-
-      //return console.log(policy);
-
-      setState((prev) => ({
-        ...prev,
-        Beneficiary: {
-          ...prev.Beneficiary,
-          familyPolicies: [policy, ...prev.Beneficiary.familyPolicies],
-          principal: {},
-          dependent: [],
-        },
-      }));
-
-      setProviders([]);
-
-      return toast.success(
-        `Policy with Policy Number - ${policyNo} added to list`
-      );
-    }
-  };
-
-  const handleAddIndividualPolicy = async (data) => {
-    //return console.log(providers);
-
-    if (!state.Beneficiary.principal._id)
-      return toast.warning("Please add principal! ");
-
-    //showActionLoader();
-    //e.preventDefault();
-    // generate a unique policy number where the year is the lat 2 digits of the year, plan type is a single digit, organization type is a single digit,
-    //organizationId is a system generated 6 digit that should not be repeated, and the last 1 digit is the sponsor type
-    // 1 - individual, 2 - corporate, 3 - group
-    // 1 - HMO, 2 - PPO, 3 - EPO
-    const year = new Date().getFullYear().toString().slice(-2);
-    const planType1 = selectedPlan?.charAt(0);
-    const orgType = data?.sponsortype === "Self" ? 1 : 2;
-    const orgId = Math.floor(100000 + Math.random() * 900000);
-    const familyCode =
-      state.Beneficiary.principal._id && !state.Beneficiary.dependent._id
-        ? "-1"
-        : state.Beneficiary.dependent.length + 1;
-    const policyNo = `${year}${planType1}${orgType}${orgId}`;
-    console.log(policyNo);
-
-    if (user.currentEmployee) {
-      data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
-    }
-
-    // let confirm = window.confirm(
-    //   `You are about to register a new policy ${policyNo} ?`
-    // );
-    //console.log(user);
-    if (confirm) {
-      let policy = {
-        policyNo: policyNo,
-        organizationType:
-          user.currentEmployee.facilityDetail.facilityType === "HMO"
-            ? user.currentEmployee.facilityDetail.facilityType
-            : hmo.facilityType,
-        organizationId:
-          user.currentEmployee.facilityDetail.facilityType === "HMO"
-            ? user.currentEmployee.facilityDetail._id
-            : hmo._id,
-        organizationName:
-          user.currentEmployee.facilityDetail.facilityType === "HMO"
-            ? user.currentEmployee.facilityDetail.facilityName
-            : hmo.facilityName,
-        organization:
-          user.currentEmployee.facilityDetail.facilityType === "HMO"
-            ? user.currentEmployee.facilityDetail
-            : hmo,
-        principal: { ...state.Beneficiary.principal, policyNo: policyNo }, //
-        dependantBeneficiaries: state.Beneficiary.dependent.map((item, i) => {
-          return {
-            ...item,
-            policyNo: `${policyNo}-${i + 1}`,
-          };
-        }),
-        providers: providers,
-        sponsorshipType: data.sponsortype,
-        sponsor: planHMO,
-        plan: chosenPlan,
-        planType: planType,
-        premium: price.price,
-        premiumContract: price,
-        active: false,
-        isPaid: false,
-        approved: false,
-        statushx: [
-          {
-            date: new Date(),
-            employeename: `${user.currentEmployee.firstname} ${user.currentEmployee.lastname}`,
-            employeeId: user.currentEmployee._id,
-            status: "Policy Created",
-          },
-        ],
-      };
-      // console.log("POLICY", policy);
-
-      //return console.log(policy);
-
-      setState((prev) => ({
-        ...prev,
-        Beneficiary: {
-          ...prev.Beneficiary,
-          individualPolicies: [policy, ...prev.Beneficiary.individualPolicies],
-          principal: {},
-          dependent: [],
-        },
-      }));
-
-      setProviders([]);
-
-      return toast.success(
-        `Policy with Policy Number - ${policyNo} added to list`
-      );
-    }
-  };
-
-  // console.log(
-  //   "hello world from the other side",
-  //   state.Beneficiary.familyPolicies
-  // );
-
-  const createPolicy = async (policy) => {
-    await policyServ.create(policy);
-  };
-
-  const handleSave = async () => {
-    showActionLoader();
-    const familyPolicies = state.Beneficiary.familyPolicies;
-    const individualPolicies = state.Beneficiary.individualPolicies;
-
-    const allPolicies = [...familyPolicies, ...individualPolicies];
-
-    const promises = allPolicies.map(async (doc) => {
-      await createPolicy(doc);
-    });
-
-    await Promise.all(promises);
-
-    hideActionLoader();
-
-    toast.success(
-      `You have successfully created ${allPolicies.length} Policies`
-    );
-
-    setState((prev) => ({
-      ...prev,
-      Beneficiary: {
-        ...prev.Beneficiary,
-        familyPolicies: [],
-        individualPolicies: [],
-      },
-    }));
-  };
-
-  return (
-    <>
-      <div
-        className="card "
-        style={{
-          height: "88vh",
-          overflowY: "scroll",
-          width: "98%",
-          margin: "0 1rem",
-        }}
-      >
-        <ModalBox
-          open={familyModal}
-          onClose={() => {
-            setFamilyModal(false);
-            setProviders([]);
-            setState((prev) => ({
-              ...prev,
-              Beneficiary: {
-                ...prev.Beneficiary,
-                principal: {},
-                dependent: [],
-              },
-            }));
-          }}
-          header="Create Policy For Family"
-        >
-          <AddFamilyToPolicy
-            addPrincipal={handleClickProd}
-            addDependent={handleClickProd2}
-            createPolicy={handleSubmit(handleFamilyCreate)}
-            providers={providers}
-            setProviders={setProviders}
-            providerColumns={providerColumns}
-          />
-        </ModalBox>
-
-        <ModalBox
-          open={multipleModal}
-          onClose={() => setMultipleModal(false)}
-          header="Create Policy For Individuals"
-        >
-          <AddMulipleIndividualPolicy
-            addIndividual={handleClickProd}
-            providers={providers}
-            setProviders={setProviders}
-            providerColumns={providerColumns}
-            createPolicy={handleSubmit(handleAddIndividualPolicy)}
-          />
-        </ModalBox>
-        <form>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <FormsHeaderText text={"Policy Create"} />
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              {/* <GlobalCustomButton
-                text={"Back"}
-                color="warning"
-                onClick={() => {
-                  setShowModal(0);
-                  setState((prev) => ({
-                    ...prev,
-                    Beneficiary: {
-                      ...prev.Beneficiary,
-                      principal: {},
-                      dependent: [],
-                      individuals: [],
-                      familyPolicies: [],
-                      individualPolicies: [],
-                    },
-                  }));
-                }}
-                customStyles={{ marginRight: ".5rem" }}
-              /> */}
-              <GlobalCustomButton
-                text={"Save"}
-                color="success"
-                customStyles={{ marginRight: ".5rem" }}
-                onClick={handleSave}
-              />
-            </Box>
-          </Box>
-
-          <Grid container spacing={2} mt={2}>
-            <Grid item md={12} sx={{ display: "flex" }}>
-              <Box style={{ marginRight: "1rem", fontSize: ".8rem" }}>
-                <input
-                  type="radio"
-                  name="sponsortype"
-                  {...register("sponsortype", { required: true })}
-                  value="Self"
-                  onChange={(e) => handleChangeMode(e.target.value)}
-                  style={{ marginRight: ".5rem" }}
-                />
-                <label>Self</label>
-              </Box>
-              <Box style={{ fontSize: ".8rem" }}>
-                <input
-                  type="radio"
-                  name="sponsortype"
-                  {...register("sponsortype", { required: true })}
-                  value="Company"
-                  onChange={(e) => handleChangeMode(e.target.value)}
-                  style={{ marginRight: ".5rem" }}
-                />
-                <label>Company</label>
-              </Box>
-            </Grid>
-
-            <Grid item md={4}>
-              <CustomSelect
-                name="plan"
-                label="Plan Type"
-                options={[
-                  { value: "Individual", label: "Individual" },
-                  { value: "Family", label: "Family" },
-                ]}
-                required
-                important
-                // control={control}
-                onChange={(e) => setPlanType(e.target.value)}
-              />
-            </Grid>
-
-            {showCorp && (
-              <Grid item md={4}>
-                <CustomSelect
-                  name="plan"
-                  label="Sponsor Type"
-                  options={[
-                    {
-                      value: "Large Enterprise",
-                      label: "Large Enterprise",
-                    },
-                    {
-                      value: "Medium Enterprise",
-                      label: "Medium Enterprise",
-                    },
-                    { value: "SME", label: "SME" },
-                    { value: "Association", label: "Association" },
-                    { value: "Multinational", label: "Multinational" },
-                  ]}
-                  required
-                  important
-                  // control={control}
-                  onChange={(e) => setSubSponsor(e.target.value)}
-                />
-              </Grid>
-            )}
-
-            {showCorp && (
-              <Grid item md={4}>
-                <SponsorSearch
-                  getSearchfacility={getSearchfacility1}
-                  clear={success}
-                />
-              </Grid>
-            )}
-            {user.currentEmployee.facilityDetail.facilityType !== "HMO" && (
-              <Grid item md={4}>
-                <HmoFacilitySearch
-                  getSearchfacility={getSearchHmo}
-                  clear={success}
-                />
-              </Grid>
-            )}
-            <Grid item md={4}>
-              <CustomSelect
-                name="plan"
-                label="Choose Plan"
-                options={benefittingPlans1}
-                required
-                important
-                // control={control}
-                onChange={(e, i) => handleChangePlan(e.target.value)}
-              />
-            </Grid>
-            {planType === "Individual" && (
-              <>
-                <Grid item md={4}>
-                  <Input
-                    value={indiPremium}
-                    disabled
-                    label="Individual Price"
-                  />
-                </Grid>
-                <Grid item md={4}>
-                  <Input
-                    value={indiDuration}
-                    disabled
-                    label="Individual Premium Duration"
-                  />
-                </Grid>
-              </>
-            )}
-            {planType === "Family" && (
-              <>
-                <Grid item md={4}>
-                  <Input value={famPremium} disabled label="Family Price" />
-                </Grid>
-                <Grid item md={4}>
-                  <Input
-                    value={famDuration}
-                    disabled
-                    label="Family Premium Duration"
-                  />
-                </Grid>
-              </>
-            )}
-            {/* <Grid item md={6}>
-              <MuiCustomDatePicker
-                label="Start Date"
-                control={control}
-                name="start_date"
-              />
-            </Grid>
-            <Grid item md={6}>
-              <MuiCustomDatePicker
-                name="end_date"
-                label="End Date"
-                control={control}
-              />
-            </Grid> */}
-          </Grid>
-
-          <Box
-            style={{
-              // height: '50vh',
-              overflowY: "scroll",
-              width: "100%",
-            }}
-          >
-            {/* <Grid container spacing={2} my={1}>
-              <Grid item md={3}>
-                <FormsHeaderText text={"Selected Provider"} />
-              </Grid>
-              <Grid item md={4}>
-                <OrgFacilitySearch
-                  getSearchfacility={getSearchfacility}
-                  clear={success}
-                />
-              </Grid>
-            </Grid> */}
-
-            {/* <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-              }}
-              mt={2}
-              gap={2}
-            >
-              <FormsHeaderText text={"Search and Select Provider(s)"} />
-              <Box>
-                <OrgFacilitySearch
-                  getSearchfacility={getSearchfacility}
-                  clear={success}
-                />
-              </Box>
-
-              <Box>
-                {" "}
-                <CustomTable
-                  title={""}
-                  columns={OrgFacilitySchema}
-                  data={chosen?.filter(item => item !== null)}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  CustomEmptyData={
-                    <Typography sx={{fontSize: "0.85rem"}}>
-                      No provider added yet...
-                    </Typography>
-                  }
-                  progressPending={loading}
-                />
-              </Box>
-            </Box> */}
-
-            {/* {chosen?.length > 0 && ( */}
-
-            {/* )} */}
-          </Box>
-
-          <Box sx={{ float: "left", width: "100%" }} mt={2} mb={2}>
-            {planType && planType.toLowerCase() === "individual" && (
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: 1.5,
-                }}
-              >
-                <GlobalCustomButton onClick={() => setMultipleModal(true)}>
-                  <AddIcon fontSize="small" sx={{ marginRight: "5px" }} />
-                  Add An Individual
-                </GlobalCustomButton>
-
-                {/* <GlobalCustomButton
-                  onClick={() => setMultipleModal(true)}
-                  color="secondary"
-                >
-                  <AddIcon fontSize="small" sx={{marginRight: "5px"}} />
-                  Add Multiple Individuals
-                </GlobalCustomButton> */}
-              </Box>
-            )}
-
-            {planType && planType.toLowerCase() !== "individual" && (
-              <GlobalCustomButton onClick={() => setFamilyModal(true)}>
-                <AddIcon fontSize="small" sx={{ marginRight: "5px" }} /> Add
-                Family
-              </GlobalCustomButton>
-            )}
-
-            {/* {!state.Beneficiary?.principal._id && (
-              <p>
-                Add Principal
-                <button
-                  onClick={handleClickProd}
-                  style={{
-                    border: "none",
-                    backgroundColor: "#E8F1FF",
-                    padding: " .5rem 1rem",
-                    marginLeft: ".5rem",
-                    cursor: "pointer",
-                  }}
-                  type="button"
-                >
-                  +
-                </button>
-              </p>
-            )}
-            {planType !== "Individual" && (
-              <p>
-                Add Dependant
-                <button
-                  onClick={handleClickProd2}
-                  style={{
-                    border: "none",
-                    backgroundColor: "#E8F1FF",
-                    padding: " .5rem 1rem",
-                    marginLeft: ".5rem",
-                    cursor: "pointer",
-                  }}
-                  type="button"
-                >
-                  +
-                </button>
-								dependantBeneficiaries
-              </p>
-            )} */}
-          </Box>
-
-          <Box>
-            {state.Beneficiary.familyPolicies.length > 0 && (
-              <Box>
-                <Box
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <FormsHeaderText text="List of Family Policies" />
-                </Box>
-
-                {state.Beneficiary.familyPolicies.map((policy) => {
-                  return (
-                    <Box>
-                      <Box>
-                        <FormsHeaderText text={"Principal"} />
-                        <CustomTable
-                          title={""}
-                          columns={EnrolleSchema}
-                          data={[policy.principal]}
-                          pointerOnHover
-                          highlightOnHover
-                          striped
-                          // onRowClicked={() =>
-                          //   handleRow(state.Beneficiary?.principal)
-                          // }
-                          progressPending={false}
-                        />
-                      </Box>
-
-                      {policy.dependantBeneficiaries.length > 0 && (
-                        <Box>
-                          <FormsHeaderText text={"Dependant(s)"} />
-                          <CustomTable
-                            title={""}
-                            columns={EnrolleSchema2}
-                            data={policy.dependantBeneficiaries}
-                            pointerOnHover
-                            highlightOnHover
-                            striped
-                            onRowClicked={() => handleRow()}
-                            progressPending={loading}
-                          />
-                        </Box>
-                      )}
-
-                      {policy.providers.length > 0 && (
-                        <Box>
-                          <FormsHeaderText text={"Provider(s)"} />
-                          <CustomTable
-                            title={""}
-                            columns={providerColumns}
-                            data={policy.providers?.filter(
-                              (item) => item !== null
-                            )}
-                            pointerOnHover
-                            highlightOnHover
-                            striped
-                            CustomEmptyData={
-                              <Typography sx={{ fontSize: "0.85rem" }}>
-                                No provider added yet...
-                              </Typography>
-                            }
-                            progressPending={loading}
-                          />
-                        </Box>
-                      )}
-                    </Box>
-                  );
-                })}
-              </Box>
-            )}
-          </Box>
-
-          <Box>
-            {state.Beneficiary.individualPolicies.length > 0 && (
-              <Box>
-                <Box
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <FormsHeaderText text="List of Individual Policies" />
-                </Box>
-
-                {state.Beneficiary.individualPolicies.map((policy) => {
-                  return (
-                    <Box>
-                      <Box>
-                        <FormsHeaderText text={"Principal"} />
-                        <CustomTable
-                          title={""}
-                          columns={EnrolleSchema}
-                          data={[policy.principal]}
-                          pointerOnHover
-                          highlightOnHover
-                          striped
-                          // onRowClicked={() =>
-                          //   handleRow(state.Beneficiary?.principal)
-                          // }
-                          progressPending={false}
-                        />
-                      </Box>
-
-                      {policy.providers.length > 0 && (
-                        <Box>
-                          <FormsHeaderText text={"Provider(s)"} />
-                          <CustomTable
-                            title={""}
-                            columns={providerColumns}
-                            data={policy.providers?.filter(
-                              (item) => item !== null
-                            )}
-                            pointerOnHover
-                            highlightOnHover
-                            striped
-                            CustomEmptyData={
-                              <Typography sx={{ fontSize: "0.85rem" }}>
-                                No provider added yet...
-                              </Typography>
-                            }
-                            progressPending={loading}
-                          />
-                        </Box>
-                      )}
-                    </Box>
-                  );
-                })}
-              </Box>
-            )}
-          </Box>
-
-          {/* <Grid container spacing={2} mt={2}>
-            <Grid item md={12}>
-              {state?.Beneficiary?.principal?._id && (
-                <>
-                  <FormsHeaderText text={"Principal"} />
-                  <CustomTable
-                    title={""}
-                    columns={EnrolleSchema}
-                    data={[state?.Beneficiary?.principal]}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    onRowClicked={() => handleRow(state.Beneficiary?.principal)}
-                    progressPending={loading}
-                  />
-                </>
-              )}
-            </Grid>
-
-            <Grid item md={12}>
-              {state?.Beneficiary?.dependent?.length > 0 && (
-                <>
-                  <FormsHeaderText text={"Dependant"} />
-                  <CustomTable
-                    title={""}
-                    columns={EnrolleSchema2}
-                    data={state?.Beneficiary?.dependent}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    onRowClicked={() => handleRow()}
-                    progressPending={loading}
-                  />
-                </>
-              )}
-            </Grid>
-          </Grid> */}
-        </form>
-        <ModalBox
-          open={createOrg}
-          onClose={() => setCreateOrg(false)}
-          header="Add Organization"
-        >
-          <OrganizationCreate />
-        </ModalBox>
-      </div>
-    </>
-  );
-}
-
 export function PolicyCreateForExternalLink() {
   const { register, handleSubmit, setValue, getValues, reset, control } =
     useForm();
@@ -1950,6 +637,9 @@ export function PolicyCreateForExternalLink() {
   const policyServ = client.service("policy");
   const BillCreateServ = client.service("createbilldirect");
   const orgServ = client.service("organizationclient");
+
+  const userServ = client.service("users");
+
   const [facilities, setFacilities] = useState([]);
   const [paymentOptions, setPaymentOptions] = useState([]);
   const [billMode, setBillMode] = useState("");
@@ -1975,6 +665,8 @@ export function PolicyCreateForExternalLink() {
   // const [organizationName, setOrganizationName] = useState('');
   // const [organizationId, setOrganizationId] = useState('');
 
+  let { hmoFacilityId, facilityType } = useParams();
+
   const getSearchfacility = async (obj) => {
     if (
       // check if obj is an object
@@ -1994,6 +686,7 @@ export function PolicyCreateForExternalLink() {
     if (!obj) {
     }
   };
+
   const getSearchHmo = (obj) => {
     setHmo(obj[0]);
     if (!obj) {
@@ -2015,10 +708,12 @@ export function PolicyCreateForExternalLink() {
   const handleChangePlan = async (value) => {
     console.log(value);
     setSelectedPlan(value);
+
     if (value === "") {
       setPrice("");
       return;
     }
+
     console.log(benefittingPlans1);
     let cplan = healthplan.filter((el) => el.planName === value);
     console.log(cplan);
@@ -2035,7 +730,9 @@ export function PolicyCreateForExternalLink() {
       }
     });
   };
+
   console.log("price", price);
+
   const handleClickProd = () => {
     setState((prevstate) => ({ ...prevstate, currBeneficiary: "principal" }));
     setDependant("principal");
@@ -2043,6 +740,7 @@ export function PolicyCreateForExternalLink() {
     //setClientModal(true);
     setOpenCreate(true);
   };
+
   const handleClickProd2 = () => {
     setState((prevstate) => ({ ...prevstate, currBeneficiary: "dependent" }));
     setDependant("dependent");
@@ -2070,6 +768,8 @@ export function PolicyCreateForExternalLink() {
   const onSubmit = async (data, doc) => {
     //return console.log
     // e.preventDefault();
+    console.log("==================state==========", state);
+    console.log("==================statedata==========", data);
     if (!state.Beneficiary.principal._id) {
       toast.warning("Please add principal! ");
 
@@ -2171,12 +871,32 @@ export function PolicyCreateForExternalLink() {
         });
     }
   };
+
+  const getUser = async () => {
+    const findServices = await userServ.find({
+      query: {
+        $sort: {
+          category: 1,
+        },
+      },
+    });
+    // console.log("******* hmoFacilityId ********", hmoFacilityId);
+  };
+
+  // getUser();
+
   const getBenfittingPlans = async () => {
+    console.log("******* hmoFacilityId ********", {
+      hmoFacilityId: hmoFacilityId,
+      facilityType: facilityType,
+    });
+
     setBenefittingPlans1([]);
-    if (user.currentEmployee?.facilityDetail.facilityType === "HMO") {
+
+    if (facilityType === "HMO") {
       const findServices = await ServicesServ.find({
         query: {
-          organizationId: user.currentEmployee.facilityDetail._id,
+          organizationId: hmoFacilityId,
           // 'contracts.source_org': user.currentEmployee.facilityDetail._id,
           // 'contracts.dest_org': user.currentEmployee.facilityDetail._id,
           // category: 'Managed Care',
@@ -2185,9 +905,12 @@ export function PolicyCreateForExternalLink() {
           },
         },
       });
-      console.log(findServices.data);
+      console.log("findServices.data", findServices.data);
       const data = findServices.data;
       if (data.length > 0) {
+        // console.log("******* hmoFacilityId ********", hmoFacilityId);
+        // console.log("******* hmo detail ********", user);
+        // console.log("******* hmo detail ********", user);
         setHealthplan(data);
         // map the array for all the planName
         const planName = data.map((plan) => plan.planName);
@@ -2358,6 +1081,7 @@ export function PolicyCreateForExternalLink() {
 
   useEffect(() => {
     getBenfittingPlans();
+    // getUser();
     createPaymentOption();
 
     // getFacility();
@@ -2724,10 +1448,14 @@ export function PolicyCreateForExternalLink() {
 
         <ModalBox
           open={multipleModal}
-          onClose={() => setMultipleModal(false)}
+          onClose={() => {
+            console.log("new state", state);
+            setMultipleModal(false);
+          }}
           header="Create Policy For Individuals"
         >
           <AddMulipleIndividualPolicy
+            stateData={state}
             addIndividual={handleClickProd}
             providers={providers}
             setProviders={setProviders}
@@ -2745,7 +1473,7 @@ export function PolicyCreateForExternalLink() {
           >
             <FormsHeaderText text={"Policy Create"} />
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <GlobalCustomButton
+              {/* <GlobalCustomButton
                 text={"Back"}
                 color="warning"
                 onClick={() => {
@@ -2762,7 +1490,7 @@ export function PolicyCreateForExternalLink() {
                   }));
                 }}
                 customStyles={{ marginRight: ".5rem" }}
-              />
+              /> */}
               <GlobalCustomButton
                 text={"Save"}
                 color="success"
@@ -2847,7 +1575,8 @@ export function PolicyCreateForExternalLink() {
                 />
               </Grid>
             )}
-            {user.currentEmployee.facilityDetail.facilityType !== "HMO" && (
+            {/* {user.currentEmployee.facilityDetail.facilityType !== "HMO" && ( */}
+            {false && (
               <Grid item md={4}>
                 <HmoFacilitySearch
                   getSearchfacility={getSearchHmo}
@@ -2866,6 +1595,7 @@ export function PolicyCreateForExternalLink() {
                 onChange={(e, i) => handleChangePlan(e.target.value)}
               />
             </Grid>
+
             {planType === "Individual" && (
               <>
                 <Grid item md={4}>
@@ -3438,6 +2168,7 @@ export function ClientCreate({ closeModal }) {
     reset();
     setPatList([]);
   };
+
   const reg = async (client) => {
     if (
       client.relatedfacilities.findIndex(
@@ -3690,533 +2421,293 @@ export function ClientCreate({ closeModal }) {
           <div>
             <HeadWrapper>
               <div>
-                <h2>{`${
-                  isFullRegistration
-                    ? "Full Client Registeration"
-                    : "Quick Client Registeration"
-                }`}</h2>
-                {/* <span>
-                Create a New client by filling out the form below to get
-                started.
-              </span> */}
+                <h2>Full Client Registeration</h2>
               </div>
-
-              {isFullRegistration ? (
-                <GlobalCustomButton onClick={() => setFullRegistration(false)}>
-                  <ElectricBoltIcon
-                    fontSize="small"
-                    sx={{ marginRight: "5px" }}
-                  />
-                  Quick Registration
-                </GlobalCustomButton>
-              ) : (
-                <GlobalCustomButton onClick={() => setFullRegistration(true)}>
-                  <OpenInFullIcon
-                    fontSize="small"
-                    sx={{ marginRight: "5px" }}
-                  />
-                  Full Registration
-                </GlobalCustomButton>
-              )}
             </HeadWrapper>
 
             <ToastContainer theme="colored" />
-
-            {!isFullRegistration ? (
-              <>
-                <Box sx={{ width: "80vw", maxHeight: "80vh" }}>
-                  <Grid container spacing={1}>
-                    <Grid item md={12} sm={12}>
-                      <IconButton onClick={() => setOpenDp(true)}>
-                        {file ? (
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
+            <>
+              <Box sx={{ width: "80vw", maxHeight: "80vh" }}>
+                <Grid container spacing={1}>
+                  <Grid item md={12} sm={12}>
+                    <IconButton onClick={() => setOpenDp(true)}>
+                      {file ? (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            // display: "block",
+                          }}
+                        >
+                          <img
+                            src={file}
+                            alt="logo"
+                            style={{
+                              width: "100px",
+                              height: "100px",
                               display: "block",
+                              borderRadius: "50%",
                             }}
-                          >
-                            <img
-                              src={file}
-                              alt="logo"
-                              style={{
-                                width: "100px",
-                                height: "100px",
-                                display: "block",
-                                borderRadius: "50%",
-                              }}
-                            />
-                          </Box>
-                        ) : (
-                          <FileUploader
-                            multiple={false}
-                            handleChange={handleChange}
-                            name="upload"
-                            types={["jpeg", "png", "jpg"]}
-                            children={<UploadComponent />}
                           />
-                        )}
-                      </IconButton>
-                    </Grid>
+                        </Box>
+                      ) : (
+                        <FileUploader
+                          multiple={false}
+                          handleChange={handleChange}
+                          name="upload"
+                          types={["jpeg", "png", "jpg"]}
+                          children={<UploadComponent />}
+                        />
+                      )}
+                    </IconButton>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormsHeaderText text="Client Names" />
+                  </Grid>
+                  <Grid item lg={4} md={4} sm={4}>
+                    <Input
+                      label="First Name"
+                      register={register("firstname")}
+                      errorText={errors?.firstname?.message}
+                      onBlur={checkClient}
+                      important={true}
+                    />
+                  </Grid>
+                  <Grid item lg={4} md={4} sm={4}>
+                    <Input
+                      label="Middle Name"
+                      register={register("middlename")}
+                      errorText={errors?.middlename?.message}
+                      onBlur={checkClient}
+                    />
+                  </Grid>
+                  <Grid item lg={4} md={4} sm={4}>
+                    <Input
+                      label="Last Name"
+                      register={register("lastname")}
+                      errorText={errors?.lastname?.message}
+                      onBlur={checkClient}
+                      important={true}
+                    />
+                  </Grid>
+                </Grid>
 
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="First Name"
-                        register={register("firstname")}
-                        errorText={errors?.firstname?.message}
-                        onBlur={checkClient}
-                        important={true}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Middle Name"
-                        register={register("middlename")}
-                        errorText={errors?.middlename?.message}
-                        onBlur={checkClient}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Last Name"
-                        register={register("lastname")}
-                        errorText={errors?.lastname?.message}
-                        onBlur={checkClient}
-                        important={true}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Phone"
-                        register={register("phone")}
-                        type="tel"
-                        errorText={errors?.phone?.message}
-                        onBlur={checkClient}
-                        important={true}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Email"
-                        register={register("email")}
-                        type="email"
-                        errorText={errors?.email?.message}
-                        onBlur={checkClient}
-                        important={true}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <input
-                        type="date"
-                        onChange={(e) => setDate(e.target.value)}
-                        style={{
-                          width: "100%",
-                          height: "2.2rem",
-                          border: "1px solid #BBBBBB",
-                          borderRadius: "4px",
-                          fontSize: ".85rem",
-                          padding: "0.4rem 1rem",
-                        }}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="Gender"
-                        register={register("gender", { required: true })}
-                        important
-                        onBlur={checkClient}
-                        options={[
-                          { label: "Male", value: "Male" },
-                          { label: "Female", value: "Female" },
-                        ]}
-                        errorText={errors?.gender?.message}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="Marital Status"
-                        register={register("maritalstatus")}
-                        important
-                        options={[
-                          { label: "Single", value: "Single" },
-                          { label: "Married", value: "Married" },
-                          { label: "Widowed", value: "Widowed" },
-                          {
-                            label: "Divorced/Seperated",
-                            value: "Divorced/Seperated",
-                          },
-                        ]}
-                      />
-                    </Grid>
-                    <Grid item lg={6} md={6} sm={12}>
-                      <Input
-                        label="Residential Address"
-                        register={register("residentialaddress")}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Town"
-                        register={register("town")}
-                        type="text"
-                      />
-                    </Grid>
-
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="LGA"
-                        type="text"
-                        register={register("lga")}
-                      />
-                    </Grid>
-
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="State"
-                        register={register("state")}
-                        type="text"
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Country"
-                        register={register("country")}
-                        type="text"
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Next of Kin"
-                        register={register("nextofkin")}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Next of Kin Phone"
-                        register={register("nextofkinphone")}
-                        type="tel"
-                      />
-                    </Grid>
+                <Grid container spacing={1}>
+                  <Grid item xs={12}>
+                    <FormsHeaderText text="Client Biodata" />
+                  </Grid>
+                  <Grid item lg={2} md={4} sm={6}>
+                    <input
+                      type="date"
+                      onChange={(date) => handleDate(date)}
+                      label="DOB"
+                      style={{
+                        width: "100%",
+                        height: "2.2rem",
+                        border: "1px solid #BBBBBB",
+                        borderRadius: "4px",
+                        fontSize: ".85rem",
+                        padding: "0.4rem 1rem",
+                      }}
+                    />
                   </Grid>
 
-                  <Box
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "flex-end",
-                    }}
-                    mt={2}
+                  <Grid item lg={2} md={4} sm={6}>
+                    <CustomSelect
+                      label="Gender"
+                      register={register("gender")}
+                      onBlur={checkClient}
+                      options={[
+                        { label: "Male", value: "male" },
+                        { label: "Female", value: "female" },
+                      ]}
+                    />
+                  </Grid>
+
+                  <Grid item lg={2} md={4} sm={6}>
+                    <CustomSelect
+                      label="Marital Status"
+                      register={register("maritalstatus")}
+                      options={[
+                        { label: "Single", value: "Single" },
+                        { label: "Married", value: "Married" },
+                        { label: "Widowed", value: "Widowed" },
+                        {
+                          label: "Divorced/Seperated",
+                          value: "Divorced/Seperated",
+                        },
+                      ]}
+                    />
+                  </Grid>
+
+                  <Grid item lg={2} md={4} sm={6}>
+                    <Input
+                      label="Medical record Number"
+                      register={register("mrn")}
+                    />
+                  </Grid>
+
+                  <Grid item lg={2} md={4} sm={6}>
+                    <Input label="Religion" register={register("religion")} />
+                  </Grid>
+
+                  <Grid item lg={2} md={4} sm={6}>
+                    <Input
+                      label="Profession"
+                      register={register("profession")}
+                    />
+                  </Grid>
+
+                  <Grid item lg={2} md={4} sm={6}>
+                    <Input
+                      label="Phone No"
+                      register={register("phone")}
+                      errorText={errors?.phone?.message}
+                      onBlur={checkClient}
+                      important={true}
+                    />
+                  </Grid>
+                  <Grid item lg={2} md={4} sm={6}>
+                    <Input
+                      label="Email"
+                      register={register("email")}
+                      errorText={errors?.email?.message}
+                      onBlur={checkClient}
+                      important={true}
+                    />
+                  </Grid>
+
+                  <Grid item lg={6} md={6} sm={12}>
+                    <Input label="Tags" register={register("clientTags")} />
+                  </Grid>
+                </Grid>
+
+                <Grid container spacing={1}>
+                  <Grid item xs={12}>
+                    <FormsHeaderText text="Client Address" />
+                  </Grid>
+                  <Grid item lg={4} md={6} sm={8}>
+                    <Input
+                      label="Residential Address"
+                      register={register("address")}
+                    />
+                  </Grid>
+                  <Grid item lg={2} md={4} sm={4}>
+                    <Input label="Town/City" register={register("city")} />
+                  </Grid>
+                  <Grid item lg={2} md={4} sm={4}>
+                    <Input label="LGA" register={register("lga")} />
+                  </Grid>
+                  <Grid item lg={2} md={4} sm={4}>
+                    <Input label="State" register={register("state")} />
+                  </Grid>
+                  <Grid item lg={2} md={4} sm={4}>
+                    <Input label="Country" register={register("country")} />
+                  </Grid>
+                </Grid>
+
+                <Grid container spacing={1}>
+                  <Grid item xs={12}>
+                    <FormsHeaderText text="Client Medical Data" />
+                  </Grid>
+                  <Grid item lg={2} md={4} sm={6}>
+                    <Input
+                      label="Blood Group"
+                      register={register("bloodgroup")}
+                    />
+                  </Grid>
+                  <Grid item lg={2} md={4} sm={6}>
+                    <Input label="Genotype" register={register("genotype")} />
+                  </Grid>
+
+                  <Grid item lg={8} md={6} sm={6}>
+                    <Input
+                      label="Disabilities"
+                      register={register("disabilities")}
+                    />
+                  </Grid>
+
+                  <Grid item lg={6} md={6} sm={6}>
+                    <Input label="Allergies" register={register("allergies")} />
+                  </Grid>
+
+                  <Grid item lg={6} md={4} sm={6}>
+                    <Input
+                      label="Co-mobidities"
+                      register={register("comorbidities")}
+                    />
+                  </Grid>
+
+                  <Grid item lg={12} md={4} sm={6}>
+                    <Input
+                      label="Specific Details "
+                      register={register("specificDetails")}
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid container spacing={1}>
+                  <Grid item xs={12}>
+                    <FormsHeaderText text="Client Next of Kin Information" />
+                  </Grid>
+                  <Grid item lg={6} md={6} sm={12}>
+                    <Input label="Full Name" register={register("nok_name")} />
+                  </Grid>
+                  <Grid item lg={3} md={4} sm={6}>
+                    <Input
+                      label="Phone Number"
+                      register={register("nok_phoneno")}
+                    />
+                  </Grid>
+                  <Grid item lg={3} md={4} sm={6}>
+                    <Input
+                      label=" Email"
+                      register={register("nok_email")}
+                      type="email"
+                    />
+                  </Grid>
+                  <Grid item lg={4} md={4} sm={6}>
+                    <Input
+                      label="Relationship"
+                      register={register("nok_relationship")}
+                    />
+                  </Grid>
+                  <Grid item lg={8} md={6} sm={12}>
+                    <Input
+                      label="Co-mobidities"
+                      register={register("comorbidities")}
+                    />
+                  </Grid>
+                </Grid>
+
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "flex-end",
+                  }}
+                  mt={2}
+                >
+                  <GlobalCustomButton
+                    color="warning"
+                    onClick={closeModal}
+                    sx={{ marginRight: "15px" }}
                   >
-                    <GlobalCustomButton
-                      color="warning"
-                      onClick={closeModal}
-                      sx={{ marginRight: "15px" }}
-                    >
-                      Cancel
-                    </GlobalCustomButton>
+                    Cancel
+                  </GlobalCustomButton>
 
-                    <GlobalCustomButton
-                      type="submit"
-                      loading={loading}
-                      onClick={handleSubmit(onSubmit)}
-                    >
-                      <SaveIcon fontSize="small" sx={{ marginRight: "5px" }} />
-                      Register Client
-                    </GlobalCustomButton>
-                  </Box>
-                </Box>
-              </>
-            ) : (
-              <>
-                <Box sx={{ width: "80vw", maxHeight: "80vh" }}>
-                  <Grid container spacing={1}>
-                    <Grid item md={12} sm={12}>
-                      <IconButton onClick={() => setOpenDp(true)}>
-                        {file ? (
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              display: "block",
-                            }}
-                          >
-                            <img
-                              src={file}
-                              alt="logo"
-                              style={{
-                                width: "100px",
-                                height: "100px",
-                                display: "block",
-                                borderRadius: "50%",
-                              }}
-                            />
-                          </Box>
-                        ) : (
-                          <FileUploader
-                            multiple={false}
-                            handleChange={handleChange}
-                            name="upload"
-                            types={["jpeg", "png", "jpg"]}
-                            children={<UploadComponent />}
-                          />
-                        )}
-                      </IconButton>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <FormsHeaderText text="Client Names" />
-                    </Grid>
-                    <Grid item lg={4} md={4} sm={4}>
-                      <Input
-                        label="First Name"
-                        register={register("firstname")}
-                        errorText={errors?.firstname?.message}
-                        onBlur={checkClient}
-                        important={true}
-                      />
-                    </Grid>
-                    <Grid item lg={4} md={4} sm={4}>
-                      <Input
-                        label="Middle Name"
-                        register={register("middlename")}
-                        errorText={errors?.middlename?.message}
-                        onBlur={checkClient}
-                      />
-                    </Grid>
-                    <Grid item lg={4} md={4} sm={4}>
-                      <Input
-                        label="Last Name"
-                        register={register("lastname")}
-                        errorText={errors?.lastname?.message}
-                        onBlur={checkClient}
-                        important={true}
-                      />
-                    </Grid>
-                  </Grid>
-
-                  <Grid container spacing={1}>
-                    <Grid item xs={12}>
-                      <FormsHeaderText text="Client Biodata" />
-                    </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
-                      <input
-                        type="date"
-                        onChange={(date) => handleDate(date)}
-                        label="DOB"
-                        style={{
-                          width: "100%",
-                          height: "2.2rem",
-                          border: "1px solid #BBBBBB",
-                          borderRadius: "4px",
-                          fontSize: ".85rem",
-                          padding: "0.4rem 1rem",
-                        }}
-                      />
-                    </Grid>
-
-                    <Grid item lg={2} md={4} sm={6}>
-                      <CustomSelect
-                        label="Gender"
-                        register={register("gender")}
-                        onBlur={checkClient}
-                        options={[
-                          { label: "Male", value: "male" },
-                          { label: "Female", value: "female" },
-                        ]}
-                      />
-                    </Grid>
-
-                    <Grid item lg={2} md={4} sm={6}>
-                      <CustomSelect
-                        label="Marital Status"
-                        register={register("maritalstatus")}
-                        options={[
-                          { label: "Single", value: "Single" },
-                          { label: "Married", value: "Married" },
-                          { label: "Widowed", value: "Widowed" },
-                          {
-                            label: "Divorced/Seperated",
-                            value: "Divorced/Seperated",
-                          },
-                        ]}
-                      />
-                    </Grid>
-
-                    <Grid item lg={2} md={4} sm={6}>
-                      <Input
-                        label="Medical record Number"
-                        register={register("mrn")}
-                      />
-                    </Grid>
-
-                    <Grid item lg={2} md={4} sm={6}>
-                      <Input label="Religion" register={register("religion")} />
-                    </Grid>
-
-                    <Grid item lg={2} md={4} sm={6}>
-                      <Input
-                        label="Profession"
-                        register={register("profession")}
-                      />
-                    </Grid>
-
-                    <Grid item lg={2} md={4} sm={6}>
-                      <Input
-                        label="Phone No"
-                        register={register("phone")}
-                        errorText={errors?.phone?.message}
-                        onBlur={checkClient}
-                        important={true}
-                      />
-                    </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
-                      <Input
-                        label="Email"
-                        register={register("email")}
-                        errorText={errors?.email?.message}
-                        onBlur={checkClient}
-                        important={true}
-                      />
-                    </Grid>
-
-                    <Grid item lg={6} md={6} sm={12}>
-                      <Input label="Tags" register={register("clientTags")} />
-                    </Grid>
-                  </Grid>
-
-                  <Grid container spacing={1}>
-                    <Grid item xs={12}>
-                      <FormsHeaderText text="Client Address" />
-                    </Grid>
-                    <Grid item lg={4} md={6} sm={8}>
-                      <Input
-                        label="Residential Address"
-                        register={register("address")}
-                      />
-                    </Grid>
-                    <Grid item lg={2} md={4} sm={4}>
-                      <Input label="Town/City" register={register("city")} />
-                    </Grid>
-                    <Grid item lg={2} md={4} sm={4}>
-                      <Input label="LGA" register={register("lga")} />
-                    </Grid>
-                    <Grid item lg={2} md={4} sm={4}>
-                      <Input label="State" register={register("state")} />
-                    </Grid>
-                    <Grid item lg={2} md={4} sm={4}>
-                      <Input label="Country" register={register("country")} />
-                    </Grid>
-                  </Grid>
-
-                  <Grid container spacing={1}>
-                    <Grid item xs={12}>
-                      <FormsHeaderText text="Client Medical Data" />
-                    </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
-                      <Input
-                        label="Blood Group"
-                        register={register("bloodgroup")}
-                      />
-                    </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
-                      <Input label="Genotype" register={register("genotype")} />
-                    </Grid>
-
-                    <Grid item lg={8} md={6} sm={6}>
-                      <Input
-                        label="Disabilities"
-                        register={register("disabilities")}
-                      />
-                    </Grid>
-
-                    <Grid item lg={6} md={6} sm={6}>
-                      <Input
-                        label="Allergies"
-                        register={register("allergies")}
-                      />
-                    </Grid>
-
-                    <Grid item lg={6} md={4} sm={6}>
-                      <Input
-                        label="Co-mobidities"
-                        register={register("comorbidities")}
-                      />
-                    </Grid>
-
-                    <Grid item lg={12} md={4} sm={6}>
-                      <Input
-                        label="Specific Details "
-                        register={register("specificDetails")}
-                      />
-                    </Grid>
-                  </Grid>
-
-                  <Grid container spacing={1}>
-                    <Grid item xs={12}>
-                      <FormsHeaderText text="Client Next of Kin Information" />
-                    </Grid>
-                    <Grid item lg={6} md={6} sm={12}>
-                      <Input
-                        label="Full Name"
-                        register={register("nok_name")}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label="Phone Number"
-                        register={register("nok_phoneno")}
-                      />
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input
-                        label=" Email"
-                        register={register("nok_email")}
-                        type="email"
-                      />
-                    </Grid>
-                    <Grid item lg={4} md={4} sm={6}>
-                      <Input
-                        label="Relationship"
-                        register={register("nok_relationship")}
-                      />
-                    </Grid>
-                    <Grid item lg={8} md={6} sm={12}>
-                      <Input
-                        label="Co-mobidities"
-                        register={register("comorbidities")}
-                      />
-                    </Grid>
-                  </Grid>
-
-                  <Box
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "flex-end",
-                    }}
-                    mt={2}
+                  <GlobalCustomButton
+                    type="submit"
+                    loading={loading}
+                    onClick={handleSubmit(onSubmit)}
                   >
-                    <GlobalCustomButton
-                      color="warning"
-                      onClick={closeModal}
-                      sx={{ marginRight: "15px" }}
-                    >
-                      Cancel
-                    </GlobalCustomButton>
-
-                    <GlobalCustomButton
-                      type="submit"
-                      loading={loading}
-                      onClick={handleSubmit(onSubmit)}
-                    >
-                      <SaveIcon fontSize="small" sx={{ marginRight: "5px" }} />
-                      Register Client
-                    </GlobalCustomButton>
-                  </Box>
+                    <SaveIcon fontSize="small" sx={{ marginRight: "5px" }} />
+                    Register Client
+                  </GlobalCustomButton>
                 </Box>
-              </>
-            )}
+              </Box>
+            </>
           </div>
         </PageWrapper>
       </form>
@@ -4972,6 +3463,8 @@ export const AddMulipleIndividualPolicy = ({
 }) => {
   const { state, setState } = useContext(ObjectContext);
 
+  console.log("state for external", state.Beneficiary.principal);
+  console.log("", state.Beneficiary.principal);
   const [success, setSuccess] = useState(false);
 
   const handleAddProviders = async (obj) => {

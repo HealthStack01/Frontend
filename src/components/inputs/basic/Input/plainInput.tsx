@@ -30,7 +30,7 @@ interface InputProps {
 
 // https://stackoverflow.com/questions/57419955/how-to-set-or-clear-value-of-material-ui-input-in-reactjs
 
-const Input: React.FC<InputProps> = ({
+const PlainInput: React.FC<InputProps> = ({
   label,
   errorText,
   type,
@@ -75,9 +75,6 @@ const Input: React.FC<InputProps> = ({
         htmlFor={name}
       >
         {label}
-        {important && (
-          <AcUnitIcon sx={{ color: "red", width: "12px", height: "12px" }} />
-        )}
       </InputLabel>
     </InputBox>
     {errorText && (
@@ -88,4 +85,4 @@ const Input: React.FC<InputProps> = ({
   </div>
 );
 
-export default Input;
+export default PlainInput;
