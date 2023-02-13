@@ -281,14 +281,14 @@ export const menuItems = [
     ],
   },
 
-  {
-    name: "Corporate",
-    exact: true,
-    to: "/app/corporate",
-    iconClassName: "bi bi-person",
-    //subMenus: [{name: "Complaints", to: "/app/complaints"}],
-  },
-  //Coporate
+  // {
+  //   name: "Corporate",
+  //   exact: true,
+  //   to: "/app/corporate",
+  //   iconClassName: "bi bi-person",
+  //   //subMenus: [{name: "Complaints", to: "/app/complaints"}],
+  // },
+
   {
     name: "Complaints",
     exact: true,
@@ -316,11 +316,11 @@ export const menuItems = [
     to: "/app/communication",
     iconClassName: "bi bi-person",
     subMenus: [
-      {name: "Whatsapp", to: "/app/communication/whatsapp"},
+      //{name: "Whatsapp", to: "/app/communication/whatsapp"},
       {name: "SMS", to: "/app/communication/sms"},
-      {name: "USSD", to: "/app/communication/ussd"},
+      // {name: "USSD", to: "/app/communication/ussd"},
       {name: "Email", to: "/app/communication/email"},
-      {name: "IVR", to: "/app/communication/ivr"},
+      // {name: "IVR", to: "/app/communication/ivr"},
       {name: "Chats", to: "/app/communication/chats"},
     ],
   },

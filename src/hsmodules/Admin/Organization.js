@@ -30,6 +30,8 @@ import {orgTypeModules} from "../app/app-modules";
 import BankAccount from "./BankAccount";
 import axios from "axios";
 import {getBase64} from "../helpers/getBase64";
+import {BeneList, PolicyList} from "../ManagedCare/Corporate";
+import Claims from "../ManagedCare/Claims";
 
 const AdminOrganization = ({propId}) => {
   const facilityServer = client.service("facility");
@@ -42,6 +44,7 @@ const AdminOrganization = ({propId}) => {
   const [logoAnchorEl, setLogoAnchorEl] = useState(null);
   const [modulesModal, setModulesModal] = useState(false);
   const [logoUploadModal, setLogoUploadModal] = useState(false);
+  const [view, setView] = useState("details");
 
   const navigate = useNavigate();
 
@@ -177,7 +180,7 @@ const AdminOrganization = ({propId}) => {
           </Menu>
         </Box>
 
-        {facility?.facilityType?.toLowerCase() !== "corporate" && (
+        {facility?.facilityType?.toLowerCase() !== "corporate" ? (
           <Box sx={{display: "flex"}} gap={2}>
             <GlobalCustomButton
               color="secondary"
@@ -192,131 +195,238 @@ const AdminOrganization = ({propId}) => {
               Organization Employees
             </GlobalCustomButton>
           </Box>
+        ) : (
+          <Box sx={{display: "flex"}} gap={2}>
+            <GlobalCustomButton
+              color="success"
+              onClick={() => setView("details")}
+              sx={
+                view === "details"
+                  ? {
+                      backgroundColor: "#ffffff",
+                      color: "#000000",
+                      "&:hover": {
+                        backgroundColor: "#ffffff",
+                      },
+                    }
+                  : {}
+              }
+            >
+              <AutoStoriesIcon sx={{marginRight: "5px"}} fontSize="small" />
+              Details
+            </GlobalCustomButton>
+
+            <GlobalCustomButton
+              color="info"
+              onClick={() => setView("policy")}
+              sx={
+                view === "policy"
+                  ? {
+                      backgroundColor: "#ffffff",
+                      color: "#000000",
+                      "&:hover": {
+                        backgroundColor: "#ffffff",
+                      },
+                    }
+                  : {}
+              }
+            >
+              <AutoStoriesIcon sx={{marginRight: "5px"}} fontSize="small" />
+              Policy
+            </GlobalCustomButton>
+
+            <GlobalCustomButton
+              color="secondary"
+              onClick={() => setView("beneficiaries")}
+              sx={
+                view === "beneficiaries"
+                  ? {
+                      backgroundColor: "#ffffff",
+                      color: "#000000",
+                      "&:hover": {
+                        backgroundColor: "#ffffff",
+                      },
+                    }
+                  : {}
+              }
+            >
+              <AutoStoriesIcon sx={{marginRight: "5px"}} fontSize="small" />
+              Beneficiaries
+            </GlobalCustomButton>
+
+            <GlobalCustomButton
+              color="primary"
+              onClick={() => setView("claims")}
+              sx={
+                view === "claims"
+                  ? {
+                      backgroundColor: "#ffffff",
+                      color: "#000000",
+                      "&:hover": {
+                        backgroundColor: "#ffffff",
+                      },
+                    }
+                  : {}
+              }
+            >
+              <AutoStoriesIcon sx={{marginRight: "5px"}} fontSize="small" />
+              Claims
+            </GlobalCustomButton>
+          </Box>
         )}
       </Box>
 
-      <Box mb={2} p={2} sx={{display: "flex", justifyContent: "space-between"}}>
-        <FormsHeaderText text="Organization Details" />
-
-        <Box sx={{display: "flex"}} gap={2}>
-          {!edit ? (
-            <GlobalCustomButton onClick={() => setEdit(true)}>
-              <EditIcon fontSize="small" />
-              Edit Details
-            </GlobalCustomButton>
-          ) : (
-            <>
-              <GlobalCustomButton color="error" onClick={() => setEdit(false)}>
-                <EditIcon fontSize="small" />
-                Cancel Edit
-              </GlobalCustomButton>
-
-              <GlobalCustomButton
-                color="success"
-                onClick={handleSubmit(updateOrganization)}
-              >
-                <EditIcon fontSize="small" />
-                Update Organaization
-              </GlobalCustomButton>
-            </>
-          )}
+      {view === "claims" && (
+        <Box>
+          <Claims standAlone={true} />
         </Box>
-      </Box>
+      )}
 
-      <Grid container spacing={2} mb={2} p={2}>
-        <Grid item lg={4} md={6} sm={6} xs={12}>
-          <Input
-            register={register("facilityOwner")}
-            label="Organization Owner"
-            disabled={!edit}
-          />
-        </Grid>
+      {view === "policy" && (
+        <Box>
+          <PolicyList standAlone={facility?._id || ""} />
+        </Box>
+      )}
 
-        <Grid item lg={4} md={6} sm={6} xs={12}>
-          <Input
-            register={register("facilityName")}
-            label="Organization Name"
-            disabled={!edit}
-          />
-        </Grid>
+      {view === "beneficiaries" && (
+        <Box>
+          <BeneList standAlone={facility?._id || ""} />
+        </Box>
+      )}
 
-        <Grid item lg={4} md={6} sm={6} xs={12}>
-          <Input
-            register={register("facilityContactPhone")}
-            label="Phone Number"
-            disabled={!edit}
-          />
-        </Grid>
+      {view === "details" && (
+        <>
+          <Box
+            mb={2}
+            p={2}
+            sx={{display: "flex", justifyContent: "space-between"}}
+          >
+            <FormsHeaderText text="Organization Details" />
 
-        <Grid item lg={4} md={6} sm={6} xs={12}>
-          <Input
-            register={register("facilityEmail")}
-            label="Email Address"
-            disabled={!edit}
-          />
-        </Grid>
+            <Box sx={{display: "flex"}} gap={2}>
+              {!edit ? (
+                <GlobalCustomButton onClick={() => setEdit(true)}>
+                  <EditIcon fontSize="small" />
+                  Edit Details
+                </GlobalCustomButton>
+              ) : (
+                <>
+                  <GlobalCustomButton
+                    color="error"
+                    onClick={() => setEdit(false)}
+                  >
+                    <EditIcon fontSize="small" />
+                    Cancel Edit
+                  </GlobalCustomButton>
 
-        <Grid item lg={4} md={6} sm={6} xs={12}>
-          <Input
-            label="Organization Type"
-            disabled
-            register={register("facilityType")}
-          />
-        </Grid>
+                  <GlobalCustomButton
+                    color="success"
+                    onClick={handleSubmit(updateOrganization)}
+                  >
+                    <EditIcon fontSize="small" />
+                    Update Organaization
+                  </GlobalCustomButton>
+                </>
+              )}
+            </Box>
+          </Box>
 
-        <Grid item lg={4} md={6} sm={6} xs={12}>
-          <Input
-            control={control}
-            label="Organization Category"
-            disabled
-            register={register("facilityCategory")}
-          />
-        </Grid>
+          <Grid container spacing={2} mb={2} p={2}>
+            <Grid item lg={4} md={6} sm={6} xs={12}>
+              <Input
+                register={register("facilityOwner")}
+                label="Organization Owner"
+                disabled={!edit}
+              />
+            </Grid>
 
-        <Grid item lg={8} md={8} sm={12} xs={12}>
-          <Input
-            register={register("facilityAddress")}
-            label="Organization Address"
-            disabled={!edit}
-          />
-        </Grid>
+            <Grid item lg={4} md={6} sm={6} xs={12}>
+              <Input
+                register={register("facilityName")}
+                label="Organization Name"
+                disabled={!edit}
+              />
+            </Grid>
 
-        <Grid item lg={4} md={6} sm={6} xs={12}>
-          <Input
-            register={register("facilityCity")}
-            label="Organization City"
-            disabled={!edit}
-          />
-        </Grid>
+            <Grid item lg={4} md={6} sm={6} xs={12}>
+              <Input
+                register={register("facilityContactPhone")}
+                label="Phone Number"
+                disabled={!edit}
+              />
+            </Grid>
 
-        <Grid item lg={4} md={6} sm={6} xs={12}>
-          <Input
-            register={register("facilityLGA")}
-            label="Organization LGA"
-            disabled={!edit}
-          />
-        </Grid>
+            <Grid item lg={4} md={6} sm={6} xs={12}>
+              <Input
+                register={register("facilityEmail")}
+                label="Email Address"
+                disabled={!edit}
+              />
+            </Grid>
 
-        <Grid item lg={4} md={6} sm={6} xs={12}>
-          <Input
-            register={register("facilityState")}
-            label="Organization State"
-            disabled={!edit}
-          />
-        </Grid>
+            <Grid item lg={4} md={6} sm={6} xs={12}>
+              <Input
+                label="Organization Type"
+                disabled
+                register={register("facilityType")}
+              />
+            </Grid>
 
-        <Grid item lg={4} md={6} sm={6} xs={12}>
-          <Input
-            register={register("facilityCountry")}
-            label="Organization Country"
-            disabled={!edit}
-          />
-        </Grid>
-      </Grid>
+            <Grid item lg={4} md={6} sm={6} xs={12}>
+              <Input
+                control={control}
+                label="Organization Category"
+                disabled
+                register={register("facilityCategory")}
+              />
+            </Grid>
 
-      <Box p={2}>
-        <BankAccount />
-      </Box>
+            <Grid item lg={8} md={8} sm={12} xs={12}>
+              <Input
+                register={register("facilityAddress")}
+                label="Organization Address"
+                disabled={!edit}
+              />
+            </Grid>
+
+            <Grid item lg={4} md={6} sm={6} xs={12}>
+              <Input
+                register={register("facilityCity")}
+                label="Organization City"
+                disabled={!edit}
+              />
+            </Grid>
+
+            <Grid item lg={4} md={6} sm={6} xs={12}>
+              <Input
+                register={register("facilityLGA")}
+                label="Organization LGA"
+                disabled={!edit}
+              />
+            </Grid>
+
+            <Grid item lg={4} md={6} sm={6} xs={12}>
+              <Input
+                register={register("facilityState")}
+                label="Organization State"
+                disabled={!edit}
+              />
+            </Grid>
+
+            <Grid item lg={4} md={6} sm={6} xs={12}>
+              <Input
+                register={register("facilityCountry")}
+                label="Organization Country"
+                disabled={!edit}
+              />
+            </Grid>
+          </Grid>
+
+          <Box p={2}>
+            <BankAccount />
+          </Box>
+        </>
+      )}
 
       <ModalBox
         open={modulesModal}
