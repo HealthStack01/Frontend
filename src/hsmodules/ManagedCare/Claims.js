@@ -40,6 +40,7 @@ import {color} from "@mui/system";
 import {FormsHeaderText} from "../../components/texts";
 import ClaimsListComponent from "./components/claims/ClaimsList";
 import ClaimCreateComponent from "./components/claims/ClaimsCreate";
+import ClaimDetailComponent from "./components/claims/ClaimsDetail";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -82,7 +83,8 @@ export default function Claims({standAlone}) {
 
       {view === "detail" && (
         <Box>
-          <ClaimsListComponent
+          <ClaimDetailComponent
+            handleGoBack={handleGoBack}
             showCreate={() => setView("create")}
             showDetail={() => setView("detail")}
           />

@@ -2,6 +2,7 @@ import {useState, useEffect, useCallback, useContext} from "react";
 import {Box, Grid, Typography} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import Drawer from "@mui/material/Drawer";
 
 import client from "../../../../feathers";
 import {ObjectContext, UserContext} from "../../../../context";
@@ -15,6 +16,8 @@ import ModalBox from "../../../../components/modal";
 import ClaimCreateComplaint from "./Complaints";
 import ClaimCreateDiagnosis from "./Diagnosis";
 import ClaimCreateService from "./Services";
+import ClaimsChat from "./ClaimsChat";
+import AssignClaim from "./AssignClaim";
 
 import {
   getComplaintColumns,
@@ -28,7 +31,7 @@ import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 
-const ClaimCreateComponent = ({handleGoBack}) => {
+const ClaimDetailComponent = ({handleGoBack}) => {
   const claimsServer = client.service("claims");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -42,12 +45,35 @@ const ClaimCreateComponent = ({handleGoBack}) => {
   const [serviceModal, setServiceModal] = useState(false);
   const policyServer = client.service("policy");
   const [policy, setPolicy] = useState({});
+  const [chat, setChat] = useState(false);
+  const [approveModal, setApproveModal] = useState(false);
+  const [hold, setHold] = useState(false);
+  const [rejectModal, setRejectModal] = useState(false);
+  const [assignModal, setAssignModal] = useState(false);
+
+  const selectedClaim = state.ClaimsModule.selectedClaim;
+  const clinical_details = selectedClaim?.clinical_details || {};
 
   const {control, handleSubmit, register, reset, watch, setValue} = useForm({
     defaultValues: {
-      claimtype: "Fee for Service",
+      patientstate: selectedClaim.patientstate,
+      claimtype: selectedClaim.claimtype,
+      comments: selectedClaim.comments,
+      totalamount: selectedClaim.totalamount,
+      investigation: clinical_details.investigation || "",
+      drugs: clinical_details.drugs || "",
+      treatment: clinical_details.treatment || "",
+      clinical_findings: clinical_details.clinical_findings || "",
+      admission_date: clinical_details.admission_date || null,
+      discharged_date: clinical_details.discharged_date || null,
     },
   });
+
+  useEffect(() => {
+    setServices(selectedClaim.services || []);
+    setDiagnosis(clinical_details.diagnosis || []);
+    setComplaints(clinical_details.complaints || []);
+  }, []);
 
   const getTotalClaimsAmount = useCallback(() => {
     if (services.length === 0) return;
@@ -165,7 +191,7 @@ const ClaimCreateComponent = ({handleGoBack}) => {
       })
       .catch(err => {
         hideActionLoader();
-        toast.error(`Failed to create Claim ${error}`);
+        toast.error(`Failed to create Claim ${err}`);
       });
   };
 
@@ -180,6 +206,14 @@ const ClaimCreateComponent = ({handleGoBack}) => {
         position: "relative",
       }}
     >
+      <ModalBox
+        open={assignModal}
+        onClose={() => setAssignModal(false)}
+        header="Assign Claim to a User"
+      >
+        <AssignClaim closeModal={() => setAssignModal(false)} />
+      </ModalBox>
+
       <ModalBox
         open={complaintModal}
         onClose={() => setComplaintModal(false)}
@@ -245,7 +279,7 @@ const ClaimCreateComponent = ({handleGoBack}) => {
               fontWeight: "600",
             }}
           >
-            Create a New Claim
+            Claim's Detail
           </Typography>
         </Box>
 
@@ -256,9 +290,43 @@ const ClaimCreateComponent = ({handleGoBack}) => {
           }}
           gap={1}
         >
-          <GlobalCustomButton onClick={handleSubmit(handleCreateClaim)}>
+          <GlobalCustomButton
+            onClick={() => setChat(true)}
+            sx={{
+              backgroundColor: "#606c38",
+              color: "#ffffff",
+              "&:hover": {
+                backgroundColor: "#606c38",
+              },
+            }}
+          >
             <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-            Create Claim
+            Chat
+          </GlobalCustomButton>
+
+          <GlobalCustomButton color="success">
+            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+            Approve
+          </GlobalCustomButton>
+
+          <GlobalCustomButton color="secondary">
+            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+            Hold
+          </GlobalCustomButton>
+
+          <GlobalCustomButton color="error">
+            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+            Reject
+          </GlobalCustomButton>
+
+          <GlobalCustomButton color="warning">
+            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+            Task
+          </GlobalCustomButton>
+
+          <GlobalCustomButton color="info" onClick={() => setAssignModal(true)}>
+            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+            Assign
           </GlobalCustomButton>
         </Box>
       </Box>
@@ -289,6 +357,8 @@ const ClaimCreateComponent = ({handleGoBack}) => {
               <ClientSearch
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
+                id={selectedClaim.beneficiary._id}
+                disabled={true}
               />
             </Grid>
 
@@ -537,8 +607,25 @@ const ClaimCreateComponent = ({handleGoBack}) => {
           </Box>
         </Box>
       </Box>
+
+      <Drawer
+        anchor="right"
+        open={chat}
+        onClose={() => setChat(false)}
+        onOpen={() => setChat(true)}
+      >
+        <Box
+          sx={{
+            width: "500px",
+            height: "100vh",
+            overflowY: "hidden",
+          }}
+        >
+          {chat && <ClaimsChat closeChat={() => setChat(false)} />}
+        </Box>
+      </Drawer>
     </Box>
   );
 };
 
-export default ClaimCreateComponent;
+export default ClaimDetailComponent;

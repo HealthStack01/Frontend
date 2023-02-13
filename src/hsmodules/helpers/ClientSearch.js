@@ -35,7 +35,13 @@ const useOnClickOutside = (ref, handler) => {
   }, [ref, handler]);
 };
 
-export function ClientSearch({getSearchfacility, clear, label, id}) {
+export function ClientSearch({
+  getSearchfacility,
+  clear,
+  label,
+  id,
+  disabled = false,
+}) {
   const ClientServ = client.service("client");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -246,6 +252,7 @@ export function ClientSearch({getSearchfacility, clear, label, id}) {
       }}
     >
       <Autocomplete
+        disabled={disabled}
         size="small"
         value={simpa}
         onChange={(event, newValue, reason) => {
@@ -324,7 +331,12 @@ export function ClientSearch({getSearchfacility, clear, label, id}) {
                 height: "0.9rem",
                 fontSize: "0.75rem",
               },
+
+              "& .MuiInputBase-input.Mui-disabled": {
+                WebkitTextFillColor: "#000000",
+              },
             }}
+            disabled={disabled}
             InputLabelProps={{
               shrink: true,
               style: {color: "#2d2d2d"},

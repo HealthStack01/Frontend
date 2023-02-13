@@ -34,7 +34,20 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
   };
 
   const handleRow = claim => {
-    //
+    console.log(claim);
+    setState(prev => ({
+      ...prev,
+      ClaimsModule: {
+        ...prev.ClaimsModule,
+        selectedClaim: claim,
+      },
+      ClientModule: {
+        ...prev.ClientModule,
+        selectedClient: claim.beneficiary,
+      },
+    }));
+
+    showDetail();
   };
 
   const handleSearch = val => {
@@ -79,81 +92,6 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
   useEffect(() => {
     getClaims();
   }, [getClaims]);
-
-  const dummyData = [
-    {
-      healthcare_Plan: "Formal sector plan",
-      hospital_name: "Creek Hospital",
-      bill: "N100,000.00",
-      date: "27-10-21",
-      status: "Approved",
-      reason: "Lorem ipsum dolor ...",
-    },
-    {
-      healthcare_Plan: "Formal sector plan",
-      hospital_name: "Creek Hospital",
-      bill: "N100,000.00",
-      date: "27-10-21",
-      status: "Approved",
-      reason: "Lorem ipsum dolor ...",
-    },
-    {
-      healthcare_Plan: "Formal sector plan",
-      hospital_name: "Creek Hospital",
-      bill: "N100,000.00",
-      date: "27-10-21",
-      status: "Approved",
-      reason: "Lorem ipsum dolor ...",
-    },
-    {
-      healthcare_Plan: "Formal sector plan",
-      hospital_name: "Creek Hospital",
-      bill: "N100,000.00",
-      date: "27-10-21",
-      status: "Approved",
-      reason: "Lorem ipsum dolor ...",
-    },
-    {
-      healthcare_Plan: "Formal sector plan",
-      hospital_name: "Creek Hospital",
-      bill: "N100,000.00",
-      date: "27-10-21",
-      status: "Approved",
-      reason: "Lorem ipsum dolor ...",
-    },
-    {
-      healthcare_Plan: "Formal sector plan",
-      hospital_name: "Creek Hospital",
-      bill: "N100,000.00",
-      date: "27-10-21",
-      status: "Approved",
-      reason: "Lorem ipsum dolor ...",
-    },
-    {
-      healthcare_Plan: "Formal sector plan",
-      hospital_name: "Creek Hospital",
-      bill: "N100,000.00",
-      date: "27-10-21",
-      status: "Approved",
-      reason: "Lorem ipsum dolor ...",
-    },
-    {
-      healthcare_Plan: "Formal sector plan",
-      hospital_name: "Creek Hospital",
-      bill: "N100,000.00",
-      date: "27-10-21",
-      status: "Approved",
-      reason: "Lorem ipsum dolor ...",
-    },
-    {
-      healthcare_Plan: "Formal sector plan",
-      hospital_name: "Creek Hospital",
-      bill: "N100,000.00",
-      date: "27-10-21",
-      status: "Approved",
-      reason: "Lorem ipsum dolor ...",
-    },
-  ];
 
   const returnCell = status => {
     switch (status.toLowerCase()) {
