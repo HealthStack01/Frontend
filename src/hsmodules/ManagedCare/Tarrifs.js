@@ -35,6 +35,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { bandTypeOptions } from "../../dummy-data";
 import CreateIcon from "@mui/icons-material/Create";
 import { createBandSchema } from "../Admin/ui-components/schema";
+import { ServicesDetail } from "../Finance/Services";
 
 export default function TarrifList({ standAlone }) {
   const { state } = useContext(ObjectContext); //,setState
@@ -134,6 +135,7 @@ export const TarrifListView = ({
   showTariffModify,
 }) => {
   const [showView, setShowView] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [tariffs, setTariffs] = useState([]);
   const [tariff, setTariff] = useState();
   const { state, setState } = useContext(ObjectContext);
@@ -143,6 +145,7 @@ export const TarrifListView = ({
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
+  const [showService, setShowService] = useState(false);
   const [facilities, setFacilities] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
@@ -491,6 +494,7 @@ export const TarrifListView = ({
   };
 
   const getFacilities = async () => {
+    setLoading(true);
     if (user.currentEmployee) {
       const findServices = await ServicesServ.find({
         query: {
@@ -500,8 +504,9 @@ export const TarrifListView = ({
           },
         },
       });
-      console.log(findServices.data);
+      // console.log(findServices.data);
       await setFacilities(findServices.data);
+      setLoading(false);
     } else {
       if (user.stacker) {
         toast.warning("You do not qualify to view this");
@@ -612,20 +617,25 @@ export const TarrifListView = ({
                 />
               </Box>
             </Box>
-            <Box sx={{ dispaly: "flex", justifyContent:"space-between", mt: "2rem", px: "0.20rem" }}>
-             <Box>
-             <FormsHeaderText text={Services?.band} />
-             </Box>
-              <Box>
-              <GlobalCustomButton
-                  text="Add Benefit"
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                my: "1rem"
+              }}
+            >
+               <FormsHeaderText text={Services?.band} />
+                <Box>
+                <GlobalCustomButton
+                  text="Add Services"
                   // onClick={showTariff}
                   customStyles={{ marginLeft: "1rem" }}
-                  // color='warning'
+                  color='secondary'
                 />
               </Box>
             </Box>
-
+            
             <Box>
               {changeView === "service" ? (
                 <Box
@@ -643,6 +653,7 @@ export const TarrifListView = ({
                       highlightOnHover
                       striped
                       onRowClicked={(row) => handleService(row)}
+                      progressPending={loading}
                     />
                   </Grid>
                   <Grid xs={7}>
@@ -653,6 +664,7 @@ export const TarrifListView = ({
                       pointerOnHover
                       highlightOnHover
                       striped
+                      progressPending={loading}
                       // onRowClicked={(row) => handleService(row)}
                     />
                   </Grid>
@@ -1946,43 +1958,72 @@ export const BandForm = () => {
 export function TariffModify() {
   const { register, handleSubmit, control } = useForm();
   const { state, setState } = useContext(ObjectContext);
-  const { user } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
+  // const { user } = useContext(UserContext);
   const ServicesServ = client.service("tariff");
   // const [existService, setExistService] = useState([]);
   const [selectPlan, setSelectPlan] = useState([]);
+  const [editing, setEditing] = useState(false)
+  const [, setPriceState] = useState({
+    bronze: false,
+    gold: false,
+    silver: false,
+    platinium: false,
+  });
+  const [bands, setBands] = useState([]);
+  const [data, setData] = useState(null);
+  const [catergory, setCategory] = useState(null);
+  const [categoryname, setCategoryName] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [success2, setSuccess2] = useState(false);
+  const [cash, setCash] = useState("Cash");
+  // eslint-disable-next-line
+  const [facility, setFacility] = useState();
+  const [providerBand, setProviderBand] = useState([]);
+  const [benefittingPlans1, setBenefittingPlans1] = useState([]);
+  const BandsServ = client.service("bands");
+  const HealthPlanServ = client.service("healthplan");
+  //const history = useHistory()
+  const { user } = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [facilityId, setFacilityId] = useState("");
+  const [source, setSource] = useState("");
+  const [panel, setPanel] = useState(false);
+  const [name, setName] = useState("");
+  const [benefittingplans, setBenefittingPlans] = useState([]);
+  const [quantity, setQuantity] = useState();
+  const [costprice, setCostprice] = useState("");
+  const [orgType, setOrgType] = useState("");
+  const [comments, setComments] = useState("");
+  const [productItem, setProductItem] = useState([]);
+  const [plan, setPlan] = useState("");
+  const [service, setService] = useState("");
+  const [currentUser, setCurrentUser] = useState("");
+  const [panelList, setPanelList] = useState([]);
+  const [successService, setSuccessService] = useState(false);
+  const [showService, setShowService] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState([]);
+  const [capitation, setCapitation] = useState(false);
+  const [feeForService, setFeeForService] = useState(false);
+  const [serviceClass, setServiceClass] = useState("");
+  const [copay, setCopay] = useState("");
+  const [reqCopay, setReqCopay] = useState(false);
+  const [reqAuthCode, setReqAuthCode] = useState(false);
+  const [selectedBand, setSelectedBand] = useState("");
+  const [showCoPay, setShowCoPay] = useState(false);
+  const [selectedBenefits, setSelectedBenefits] = useState([]);
+  const [facilities, setFacilities] = useState([]);
+  const [sCoPay, setSCoPay] = useState(false);
+  const [beneCat, setBeneCat] = useState("");
+  const [newBene, setNewBene] = useState([]);
+  const [selectNo, setSelectNo] = useState("");
 
   const Services = state.ServicesModule.selectedServices;
-  // console.log(Services);
-  // const getSearchService = (obj) => {
-  // 	setService(obj);
-  // 	if (!obj) {
-  // 		setService('');
-  // 	}
-  // 	setSuccessService(false);
-  // };
-
-  // const notfound = async (obj) => {
-  // 	await setServiceUnavailable(obj);
-  // 	await setSuccessService(true);
-  // 	if (!obj) {
-  // 		await setServiceUnavailable('');
-  // 	}
-  // };
-
-  // useEffect(() => {
-  // 	Services.contracts.map((data) => setExistService(data))
-  // },[])
-
-  // const existService = Services.contracts.map((data) => {
-  // 	return(
-  // 		data.servicename,
-  // 			data.costPrice,
-  // 			data.comment
-  // 	)
-  // })
+  // console.log(ServiceDetails)
 
   const onSubmit = async (data) => {
-    const bandPlans = Services.contracts.map((contract) => {
+    setLoading(true)
+      const bandPlans = Services.contracts.map((contract) => {
       const allPlans = [];
 
       contract.plans.map((plan) => {
@@ -2002,34 +2043,258 @@ export function TariffModify() {
       });
       return allPlans;
     });
-    setSelectPlan(bandPlans.flat(1));
+    // setSelectPlan(bandPlans.flat(1));
+    // const newPlanDetail = {
+    //   ...Services,
+    //   organizationId:Services.organizationId,
+    //   organizationName:Services.organizationName,
+    //   band: data.bandName,
+    //   contracts: {
+    //     serviceName: data.servicename,
+    //     comments: data.comment,
+    //     plans: [selectPlan],
+    //   },
+    // };
 
-    data.band = data.bandName;
-    data.contracts = {
+    data.organizationId = Services.organizationId,
+    data.organizationName = Services.organizationName,
+    data.band = data.bandName,
+    data.contracts = [{
       serviceName: data.servicename,
       price: data.costPrice,
       comments: data.comment,
-      plans: selectPlan,
-    };
-    data.organizationId = Services.organizationId;
-    data.organizationName = Services.organizationName;
+      plans: [{bandPlans}],
+    }]
+
+    // const newPlans = Services.contracts.map(item => {
+    //   if (item._id === newPlanDetail._id) {
+    //     return newPlanDetail;
+    //   } else {
+    //     return item;
+    //   }
+    // });
     ServicesServ.patch(Services._id, data)
       .then((res) => {
         console.log(res);
+        // setLoading(false)
         toast.success("Tariff updated succesfully");
       })
       .catch((err) => {
+        // setLoading(false)
         toast.error("Error updating Tariff " + err);
       });
   };
 
   return (
     <>
+    {showService && (
+        <ModalBox
+          open={showService}
+          onClose={() => closeModal()}
+          header="Add Services"
+        >
+          <Box
+            sx={{
+              width: "80vw",
+            }}
+          >
+            <GlobalCustomButton
+              type="button"
+              variant="contained"
+              color="success"
+              onClick={handleClickProd}
+              text="Add Service"
+              customStyles={{ float: "right" }}
+            />
+            <Grid container spacing={2}>
+              <Grid
+                item
+                xs={6}
+                // sm={4}
+              >
+                <SearchSelect
+                  getSearchService={getSearchService}
+                  clear={successService}
+                  notfound={notfound}
+                  placeholder="Search Service"
+                />
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                // sm={4}
+              >
+                <Input
+                  label="Price"
+                  onChange={(e) => setCostprice(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <Textarea
+                  label="Comments"
+                  onChange={(e) => setComments(e.target.value)}
+                />
+              </Grid>
+              <Box
+                mx={1}
+                my={2}
+                sx={{
+                  width: "100%",
+                }}
+              >
+                {facilities.map((c, index) => {
+                  const allCategories = c?.benefits?.map((cat) => cat);
+                  // console.log("ALL CATS", allCategories);
+                  return (
+                    <>
+                      <Grid>
+                        <Box display="flex" gap={4} pb={3}>
+                          <Box
+                            sx={{ display: "flex", alignItems: "center" }}
+                            key={index}
+                          >
+                            <input
+                              className="checkbox is-small "
+                              type="checkbox"
+                              value={index}
+                              name={`selectedPlans +${index}`}
+                              label={c.planName}
+                              onChange={(event) =>
+                                handleChange(event, index, c)
+                              }
+                              style={{ marginRight: "10px" }}
+                            />
+                            <p
+                              style={{
+                                fontWeight: "bold",
+                                marginRight: "10px",
+                              }}
+                            >
+                              {c.planName}
+                            </p>
+                          </Box>
+                          {!c.checked ? null : (
+                            <>
+                              <Grid item xs={12} sm={2}>
+                                <CustomSelect
+                                  options={allCategories}
+                                  label="Select Benefit Category"
+                                  onChange={(e) => {
+                                    setBeneCat(e.target.value);
+                                    setSelectNo(index);
+                                  }}
+                                />
+                              </Grid>
+
+                              <Grid item xs={12} sm={2}>
+                                <CustomTariffSelect
+                                  key={index}
+                                  options={selectNo === index ? newBene : []}
+                                  label="Select Benefit"
+                                  onChange={(event) =>
+                                    handleBenefit(event, index, c)
+                                  }
+                                />
+                              </Grid>
+
+                              <Box key={index}>
+                                <input
+                                  className="is-small"
+                                  value="Capitation"
+                                  name={`servtype +${index}`}
+                                  type="radio"
+                                  onChange={(event) =>
+                                    handleServType(event, index, c)
+                                  }
+                                  style={{ marginRight: "10px" }}
+                                />
+                                <span>Capitation</span>
+                              </Box>
+                              <Box key={index}>
+                                <input
+                                  className="is-small"
+                                  name={`servtype +${index}`}
+                                  value="Fee for Service"
+                                  type="radio"
+                                  onChange={(event) =>
+                                    handleServType(event, index, c)
+                                  }
+                                  style={{ marginRight: "10px" }}
+                                />
+
+                                <span>Fee for Service</span>
+                              </Box>
+                              <Box key={index}>
+                                <input
+                                  className=" is-small"
+                                  name={`pay${index}`}
+                                  value="Fee for Service"
+                                  type="checkbox"
+                                  onChange={(event) =>
+                                    copaySelect(event, index)
+                                  }
+                                  style={
+                                    showCoPay === index
+                                      ? {
+                                          marginBottom: ".6rem",
+                                          marginRight: "10px",
+                                        }
+                                      : {
+                                          marginBottom: "0",
+                                          marginRight: "10px",
+                                        }
+                                  }
+                                />
+                                <span>Co-Pay?</span>
+                                {showCoPay === index && sCoPay && (
+                                  <Input
+                                    width="100%"
+                                    // className='input smallerinput is-small is-pulled-right '
+                                    name={`copay +${index}`}
+                                    type="text"
+                                    onChange={(event) =>
+                                      handleCopay(event, index, c)
+                                    }
+                                    label="Amount"
+                                  />
+                                )}
+                              </Box>
+
+                              <Box key={index}>
+                                <input
+                                  className="checkbox is-small"
+                                  name={`authCode +${index}`}
+                                  type="checkbox"
+                                  onChange={(event) =>
+                                    handleAuthCode(event, index, c)
+                                  }
+                                  style={{ marginRight: "10px" }}
+                                />
+                                <span>Requires Pre-Auth?</span>
+                              </Box>
+                            </>
+                          )}
+                        </Box>
+                      </Grid>
+                    </>
+                  );
+                })}
+              </Box>
+            </Grid>
+          </Box>
+        </ModalBox>
+      )}
       <Box sx={{ my: "1rem", display: "flex", justifyContent: "flex-end" }}>
-        <GlobalCustomButton text="Update" onClick={handleSubmit(onSubmit)} />
+        {!editing ?  
+        <GlobalCustomButton text="Edit" onClick={() => {
+          setEditing(!editing);
+        }} />:
+         <GlobalCustomButton color="success" text="Update" type='submit'
+         onClick={handleSubmit(onSubmit)} />
+      }
       </Box>
       <Grid container spacing={2}>
-        <Grid
+       {!editing ?  <Grid
           item
           xs={6}
           // sm={4}
@@ -2038,50 +2303,111 @@ export function TariffModify() {
             label="Band"
             name="bandName"
             register={register("bandName", { required: true })}
-            // defaultValue={Services.band}
+            defaultValue={Services.band}
           />
-        </Grid>
+        </Grid>:
+         <Grid
+         item
+         xs={6}
+         // sm={4}
+       >
+         <Input
+           label="Band"
+           name="bandName"
+           register={register("bandName", { required: true })}
+           defaultValue={Services.band}
+         />
+       </Grid>
+        }
+        {!editing ? 
         <Grid
-          item
-          xs={6}
-          // sm={4}
-        >
-          <Input
-            label="Service Name"
-            name="servicename"
-            register={register("servicename", { required: true })}
-            // defaultValue={existService.serviceName}
-          />
-          {/* <SearchSelect
-						getSearchService={getSearchService}
-						clear={successService}
-						notfound={notfound}
-						placeholder='Search Service'
-						// name='servicename'
-						// register={register('servicename', { required: true })}
-						defaultValue={Services?.contracts?.serviceName}
-					/> */}
-        </Grid>
-        <Grid
-          item
-          xs={6}
-          // sm={4}
-        >
-          <Input
-            label="Price"
-            name="costPrice"
-            register={register("costPrice", { required: true })}
-            // defaultValue={existService.price}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12}>
-          <Textarea
-            label="Comments"
-            name="comment"
-            register={register("comment", { required: true })}
-            // defaultValue={existService?.comments}
-          />
-        </Grid>
+        item
+        xs={6}
+        // sm={4}
+      >
+        <Input
+          label="Service Name"
+          name="servicename"
+          register={register("servicename", 
+          { required: true })}
+          // defaultValue={existService.serviceName}
+        />
+        {/* <SearchSelect
+          getSearchService={getSearchService}
+          clear={successService}
+          notfound={notfound}
+          placeholder='Search Service'
+          // name='servicename'
+          // register={register('servicename', { required: true })}
+          defaultValue={Services?.contracts?.serviceName}
+        /> */}
+      </Grid>: 
+      <Grid
+      item
+      xs={6}
+      // sm={4}
+    >
+      <Input
+        label="Service Name"
+        name="servicename"
+        register={register("servicename", { required: true })}
+        // defaultValue={existService.serviceName}
+      />
+      {/* <SearchSelect
+        getSearchService={getSearchService}
+        clear={successService}
+        notfound={notfound}
+        placeholder='Search Service'
+        // name='servicename'
+        // register={register('servicename', { required: true })}
+        defaultValue={Services?.contracts?.serviceName}
+      /> */}
+    </Grid>  
+      }
+        {!editing ?
+      <Grid
+      item
+      xs={6}
+      // sm={4}
+    >
+      <Input
+        label="Price"
+        name="costPrice"
+        register={register("costPrice", { required: true })}
+        // defaultValue={existService.price}
+      />
+    </Grid>:
+    <Grid
+    item
+    xs={6}
+    // sm={4}
+  >
+    <Input
+      label="Price"
+      name="costPrice"
+      register={register("costPrice", { required: true })}
+      // defaultValue={existService.price}
+    />
+  </Grid>  
+      }
+        {!editing ?
+      <Grid item xs={12} sm={12}>
+      <Textarea
+        label="Comments"
+        name="comment"
+        register={register("comment", { required: true })}
+        // defaultValue={existService?.comments}
+      />
+    </Grid>:
+    <Grid item xs={12} sm={12}>
+    <Textarea
+      label="Comments"
+      name="comment"
+      register={register("comment", { required: true })}
+      // defaultValue={existService?.comments}
+    />
+  </Grid>  
+      }
       </Grid>
     </>
   );
