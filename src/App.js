@@ -18,6 +18,9 @@ import ActionLoader from "./components/action-loader/Action-Loader";
 
 function App() {
   const [state, setState] = useState({
+    ClaimsModule: {
+      selectedClaim: {},
+    },
     CommunicationModule: {
       defaultEmail: {},
       configEmailModal: false,
