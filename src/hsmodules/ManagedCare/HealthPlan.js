@@ -327,10 +327,10 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
       toast.warning("You need to enter Category");
       return;
     }
-    if (band.length < 1) {
-      toast.warning("You need to choose provider band ");
-      return;
-    }
+    // if (band.length < 1) {
+    //   toast.warning("You need to choose provider band ");
+    //   return;
+    // }
     let productItemI = {
       billing_type:
         user.currentEmployee.facilityDetail.facilityType === "HMO"
@@ -347,7 +347,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
       category: planCategory,
       comments: comments,
       capitation: cap,
-      band: band,
+      // band: band,
       // service: service,
       // serviceName: serviceUnavailable.name || service.name,
       // serviceId: service._id || '',
@@ -364,7 +364,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
     setProductItem([...productItem, productItemI]);
 
     // setCostprice('');
-    setBand([]);
+    // setBand([]);
     setBenefittingPlans([]);
     setBenefittingPlans1([]);
     setCapitation(false);
@@ -957,7 +957,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
                       />
                     </Grid>
                     <Grid item xs={12} sm={12}>
-                      <Box>
+                      {/* <Box>
                         <Grid container spacing={2} mt={1}>
                           <Grid item xs={12} sm={3}>
                             <input
@@ -1011,7 +1011,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
                             )}
                           </Grid>
                         </Grid>
-                      </Box>
+                      </Box> */}
                     </Grid>
                   </Grid>
                 </Box>
@@ -1436,6 +1436,161 @@ export function HealthPlanDetails({
   const [benefitState, setBenefitState] = useState(selectedPlan.benefits);
   const [premiumSN, setPremiumSN] = useState(null);
   const [premiumState, setPremiumState] = useState([]);
+  const [showBenefit, setShowBenefit] = useState(false);
+  //state
+  const ServicesServ = client.service("billing");
+  const BandsServ = client.service("bands");
+  const [benefittingplans, setBenefittingPlans] = useState([]);
+  const [benefittingPlans1, setBenefittingPlans1] = useState([]);
+  const [showCoPay, setShowCoPay] = useState(false);
+  const [band, setBand] = useState([]);
+  const [productItem, setProductItem] = useState([]);
+  const [frequency, setFrequency] = useState("");
+  const [duration, setDuration] = useState("");
+  const [limit, setLimit] = useState("");
+  const [status, setStatus] = useState("");
+  const [comments, setComments] = useState("");
+  const [cap, setCap] = useState(false);
+  const [planName, setPlanName] = useState("");
+  const [planCategory, setPlanCategory] = useState("");
+  const [nameCategory, setNameCategory] = useState("");
+  const [planType, setPlanType] = useState("");
+  const [premium, setPremium] = useState("");
+  const [indvidualLimit, setIndividualLimit] = useState("");
+  const [familyLimit, setFamilyLimit] = useState("");
+  const [providerNetwork, setProviderNetwork] = useState("");
+  const [coverageArea, setCoverageArea] = useState("");
+  const [individualPremium, setIndividualPremium] = useState("");
+  const [familyPremium, setFamilyPremium] = useState("");
+  const [capitation, setCapitation] = useState(false);
+  const [copay, setCopay] = useState("");
+  const [feeforService, setFeeforService] = useState(false);
+  const [reqCopay, setReqCopay] = useState(false);
+  const [serviceClass, setServiceClass] = useState("");
+  const [reqAuthCode, setReqAuthCode] = useState(false);
+  const [premiumDuration, setPremiumDuration] = useState("");
+  const [premiumAmount, setPremiumAmount] = useState("");
+  const [premiumDetails, setPremiumDetails] = useState([]);
+  const [showPremium, setShowPremium] = useState(false);
+  const [serviceUnavailable, setServiceUnavailable] = useState({
+    status: false,
+    name: "",
+  });
+
+  // get the benefitting plan for this paticular user
+  const getBenfittingPlans = async () => {
+    setBenefittingPlans1([]);
+    if (user.currentEmployee) {
+      const findServices = await ServicesServ.find({
+        query: {
+          facility: user.currentEmployee.facilityDetail._id,
+          "contracts.source_org": user.currentEmployee.facilityDetail._id,
+          "contracts.dest_org": user.currentEmployee.facilityDetail._id,
+          category: "Managed Care",
+          $sort: {
+            category: 1,
+          },
+        },
+      });
+      console.log(findServices);
+      if (findServices.total > 0) {
+        findServices.groupedOrder[0].services.forEach(async (c) => {
+          const newPlan = {
+            name: c.name,
+            checked: false,
+          };
+          await setBenefittingPlans1((prev) => prev.concat(c));
+        });
+      }
+    }
+  };
+
+  const addBenefitToHealthPlan = async () => {
+    if (!planCategory) {
+      toast.warning("You need to enter Category");
+      return;
+    }
+    // if (band.length < 1) {
+    //   toast.warning("You need to choose provider band ");
+    //   return;
+    // }
+    let productItemI = {
+      billing_type:
+        user.currentEmployee.facilityDetail.facilityType === "HMO"
+          ? "HMO"
+          : "Company",
+      plans: {
+        capitation: capitation,
+        copay,
+        feeforService: feeforService,
+        reqCopay,
+        reqAuthCode,
+      },
+      // category: planCategory,
+      category: planCategory,
+      comments: comments,
+      capitation: cap,
+      // band: band,
+      // service: service,
+      // serviceName: serviceUnavailable.name || service.name,
+      // serviceId: service._id || '',
+      // category: categoryname,
+      frequency: frequency,
+      duration: duration,
+      limit: limit,
+      status: status,
+    };
+    console.log("new benefit", productItemI);
+    // await setCash('');
+
+    // await setSuccess(false);
+    // setProductItem([...productItem, productItemI]);
+
+    const oldBenefit = [...benefitState];
+    oldBenefit.push(productItemI);
+    console.log("old benefit", oldBenefit);
+
+    let data = {
+      benefits: oldBenefit,
+    };
+    const healthPlanID = selectedPlan._id;
+    HealthPlanServ.patch(healthPlanID, data)
+      .then((res) => {
+        console.log("response", JSON.stringify(res));
+        setShowBenefit(false);
+        setBenefittingPlans([]);
+        setBenefittingPlans1([]);
+        setCapitation(false);
+        setCopay("");
+        setFeeforService(false);
+        setReqCopay(false);
+        setServiceClass("");
+        setReqAuthCode(false);
+        setShowCoPay(false);
+        setServiceUnavailable({
+          status: false,
+          name: "",
+        });
+        console.log("done");
+        setBenefitState(oldBenefit);
+        toast.success("Benefits succesfully added");
+      })
+      .catch((err) => {
+        toast.error("Error adding Benefit, probable network issues or " + err);
+      });
+  };
+
+  const handleServType = async (e) => {
+    if (e.target.value === "Capitation" && e.target.checked) {
+      setCapitation(true);
+      setFeeforService(false);
+      setServiceClass(e.target.value);
+    } else if (e.target.value === "Fee for Service" && e.target.checked) {
+      setCapitation(false);
+      setFeeforService(true);
+      setServiceClass(e.target.value);
+    }
+  };
 
   const addSnPremium = () => {
     const newdata = selectedPlan.premiums.map((data, i) => {
@@ -1444,6 +1599,15 @@ export function HealthPlanDetails({
     });
 
     setPremiumState(newdata);
+  };
+
+  const handleAuthCode = async (e) => {
+    setReqAuthCode(true);
+  };
+
+  const handleCopay = async (e) => {
+    setCopay(e.target.value);
+    setReqCopay(true);
   };
 
   const productItemSchema = [
@@ -1497,24 +1661,24 @@ export function HealthPlanDetails({
     //   required: true,
     //   inputType: "TEXT",
     // },
-    {
-      name: "Band",
-      key: "band",
-      description: "Band",
-      selector: (row) =>
-        row?.band.map((band, i) => (
-          <Typography
-            key={i}
-            sx={{ fontSize: "0.8rem", whiteSpace: "normal" }}
-            data-tag="allowRowEvents"
-          >
-            {band}
-          </Typography>
-        )),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
+    // {
+    //   name: "Band",
+    //   key: "band",
+    //   description: "Band",
+    //   selector: (row) =>
+    //     row?.band.map((band, i) => (
+    //       <Typography
+    //         key={i}
+    //         sx={{ fontSize: "0.8rem", whiteSpace: "normal" }}
+    //         data-tag="allowRowEvents"
+    //       >
+    //         {band}
+    //       </Typography>
+    //     )),
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "TEXT",
+    // },
     {
       name: "Duration",
       key: "duration",
@@ -1694,8 +1858,8 @@ export function HealthPlanDetails({
     //       }}
     //       customStyles={{ float: "center", p: "0.1rem" }}
     //     >
-    //       <DeleteIcon fontSize="small" sx={{ marginRight: "5px" }} />
-    //       Delete
+    //       <CreateIcon fontSize="small" sx={{ marginRight: "5px" }} />
+    //       Edit
     //     </GlobalCustomButton>
     //   ),
     //   sortable: false,
@@ -1865,104 +2029,6 @@ export function HealthPlanDetails({
             />
           </Grid>
         </Grid>
-        {/* 
-        {!standAlone && (
-          <div style={{ backgroundColor: "#EBEBEB", padding: ".5rem 1rem" }}>
-            <FormsHeaderText text={`Health Plan: ${selectedPlan?.planName}`} />
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <p>
-                  Created:{" "}
-                  {format(new Date(selectedPlan?.createdAt), "dd MMM, yyyy")}
-                </p>
-              </Grid>
-              <Grid item xs={6}>
-                <p style={{ textAlign: 'right' }}>
-                Status: <span style={{ color: '#17935C' }}>Active</span>
-              </p>
-              </Grid>
-            </Grid>
-            <Grid container spacing={2} mb={1}>
-              <Grid item xs={12} sm={12}>
-                <GlobalCustomButton
-                  text="Edit Health Plan"
-                  color="warning"
-                  onClick={handleEdit}
-                  customStyles={{ float: "right", paddingRight: "1rem" }}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={2} mb={1}>
-              <Grid item xs={12} sm={12}>
-                {!editing ? (
-                  <>
-                    <GlobalCustomButton
-                      disabled={editing}
-                      onClick={() => {
-                        setEditing(!editing);
-                      }}
-                      customStyles={{ float: "right", paddingRight: "1rem" }}
-                    >
-                      <CreateIcon
-                        fontSize="small"
-                        sx={{ marginRight: "5px" }}
-                      />
-                      Edit HealthPlan
-                    </GlobalCustomButton>
-                  </>
-                ) : (
-                  <>
-                    {" "}
-                    <GlobalCustomButton
-                      onClick={handleSubmit(onSubmit)}
-                      color="success"
-                      type="submit"
-                      loading={updatingEmployee}
-                      customStyles={{
-                        float: "right",
-                        paddingRight: "1rem",
-                        marginRight: "5px",
-                      }}
-                    >
-                      <SecurityUpdateIcon
-                        fontSize="small"
-                        sx={{ marginRight: "5px" }}
-                      />
-                      Update HealthPlan Detail
-                    </GlobalCustomButton>
-                    <GlobalCustomButton
-                      onClick={() => setConfirmDialog(true)}
-                      customStyles={{
-                        float: "right",
-                        paddingRight: "1rem",
-                        marginRight: "5px",
-                      }}
-                      color="error"
-                    >
-                      <DeleteIcon
-                        fontSize="small"
-                        sx={{ marginRight: "5px" }}
-                      />
-                      Delete HealthPlan
-                    </GlobalCustomButton>
-                    <GlobalCustomButton
-                      color="warning"
-                      onClick={() => setEditing(false)}
-                      customStyles={{
-                        float: "right",
-                        paddingRight: "1rem",
-                        marginRight: "5px",
-                      }}
-                    >
-                      Cancel Update
-                    </GlobalCustomButton>
-                  </>
-                )}
-              </Grid>
-            </Grid>
-          </div>
-        )} */}
         {!standAlone && (
           <div
             style={{
@@ -2197,17 +2263,7 @@ export function HealthPlanDetails({
                 "0px 3px 3px -2px rgb(0 0 0 / 20%),0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)",
             }}
           >
-            <Grid container spacing={2} style={{ alignItems: "top" }}>
-              {/* <Grid item xs={3}>
-              <div style={{ marginLeft: 'auto' }}>
-                <GlobalCustomButton
-                  text="View Benefit"
-                  customStyles={{ float: 'right' }}
-                  onClick={() => setViewBenefit(true)}
-                />
-              </div>
-            </Grid> */}
-            </Grid>
+            <Grid container spacing={2} style={{ alignItems: "top" }}></Grid>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <div
@@ -2424,6 +2480,156 @@ export function HealthPlanDetails({
             </Grid>
           </div>
         )}
+
+        {showBenefit && (
+          <>
+            <ModalBox open={showBenefit} onClose={() => setShowBenefit(false)}>
+              <Box sx={{ width: "70vw" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <FormsHeaderText text={"Add Benefit"} />
+                  <GlobalCustomButton
+                    type="button"
+                    color="success"
+                    text={"Add"}
+                    onClick={addBenefitToHealthPlan}
+                  />
+                </Box>
+                <Grid container spacing={2} my={2}>
+                  <Grid item xs={12} sm={6}>
+                    {/* <SearchSelect
+												getSearchService={getSearchService}
+												placeholder='Search Service'
+												clear={successService}
+												notfound={notfound}
+											/> */}
+                    <SearchCategory
+                      selectedCategory={planCategory}
+                      setSelectedCategory={setPlanCategory}
+                    />
+                  </Grid>
+                  {/* <Grid
+											item
+											xs={12}
+											sm={6}>
+											<CategorySearch
+												getSearchfacility={getSearchfacility2}
+												clear={success2}
+												label='Search Services Category'
+											/>
+										</Grid> */}
+                  {/* <Grid item xs={12} sm={6}>
+                      <SelectBand
+                        selectedBand={band}
+                        setSelectedBand={setBand}
+                      />
+                    </Grid> */}
+                  <Grid item xs={12} sm={6}>
+                    <Input
+                      name="serviceDscrp"
+                      label="Description"
+                      onChange={(e) => setComments(e.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <Input
+                      name="frequency"
+                      label="Frequency"
+                      onChange={(e) => setFrequency(e.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <Input
+                      name="duration"
+                      label="Duration"
+                      onChange={(e) => setDuration(e.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <Input
+                      name="limit"
+                      label="Limit"
+                      onChange={(e) => setLimit(e.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <CustomSelect
+                      name="serviceStatus"
+                      label="Status"
+                      options={[
+                        { value: "Covered", label: "Covered" },
+                        { value: "Not Covered", label: "Not Covered" },
+                      ]}
+                      onChange={(e) => setStatus(e.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={12}>
+                    {/* <Box>
+                      <Grid container spacing={2} mt={1}>
+                        <Grid item xs={12} sm={3}>
+                          <input
+                            className=" is-small"
+                            value="Capitation"
+                            type="radio"
+                            onChange={(e) => handleServType(e)}
+                            style={{ marginRight: "5px" }}
+                          />
+                          <span>Capitation</span>
+                        </Grid>
+                        <Grid item xs={12} sm={3}>
+                          <input
+                            className=" is-small"
+                            value="Fee for Service"
+                            type="radio"
+                            onChange={(e) => handleServType(e)}
+                            style={{ marginRight: "5px" }}
+                          />
+
+                          <span>Fee for Service</span>
+                        </Grid>
+                        <Grid item xs={12} sm={3}>
+                          <input
+                            className="checkbox is-small"
+                            type="checkbox"
+                            onChange={(e) => setShowCoPay(!showCoPay)}
+                            style={{ marginRight: "5px" }}
+                          />
+                          <span>Co-Pay?</span>
+                        </Grid>
+                        <Grid item xs={12} sm={3}>
+                          <input
+                            className="checkbox is-small"
+                            type="checkbox"
+                            onChange={(e) => handleAuthCode(e)}
+                            style={{ marginRight: "5px" }}
+                          />
+                          <span>Requires Pre-Authorization Code</span>
+                        </Grid>
+                      </Grid>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6} mt={1}>
+                          {showCoPay && (
+                            <Input
+                              className="input smallerinput is-small is-pulled-right "
+                              value={benefittingplans.copay}
+                              onChange={(e) => handleCopay(e)}
+                              label="Co-pay Amount"
+                            />
+                          )}
+                        </Grid>
+                      </Grid>
+                    </Box> */}
+                  </Grid>
+                </Grid>
+              </Box>
+            </ModalBox>
+          </>
+        )}
         <div
           style={{
             width: "100%",
@@ -2432,7 +2638,25 @@ export function HealthPlanDetails({
             marginTop: "1rem",
           }}
         >
-          <FormsHeaderText text={"Benefit"} />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "1rem",
+            }}
+          >
+            <FormsHeaderText text={"Benefit"} />
+            <GlobalCustomButton
+              type="button"
+              variant="contained"
+              color="secondary"
+              onClick={() => setShowBenefit(true)}
+              text="Add Benefit"
+              customStyles={{ marginRight: ".8rem" }}
+            />
+          </Box>
+
           <CustomTable
             tableData={""}
             columns={productItemSchema}
