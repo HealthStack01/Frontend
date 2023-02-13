@@ -1,9 +1,10 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
+import React, {useState, useContext, useEffect, useRef, useCallback} from "react";
 import {Route, useNavigate, Link, NavLink} from "react-router-dom";
 import client from "../../feathers";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
+import {format, formatDistanceToNowStrict} from "date-fns";
 
 import "react-datepicker/dist/react-datepicker.css";
 import {PageWrapper} from "../../ui/styled/styles";
@@ -35,16 +36,184 @@ export default function CheckIn() {
 
 export function CheckInList({openCreateModal, setShowModal}) {
   const ClientServ = client.service("appointments");
+  const { user } = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext)
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState("list");
   const [checkedin, setCheckedin] = useState(true); //TOGGLE IF TO SHOW CHECKED IN OR CHECKED OUT
+const [facilities, setFacilities] = useState([]);
+const [ selectedCheckedIn, setSelectedCheckedIn] = useState();
+const [ error, setError] = useState(false);
 
-  const handleRow = obj => {};
+
+  // const handleRow = obj => {};
   //console.log(state.employeeLocation)
 
-  const handleSearch = val => {};
 
-  const getFacilities = async () => {};
+
+
+  const handleRow = async (Client) => {
+    setShowModal(true);
+    await setSelectedCheckedIn(Client);
+    const newClientModule = {
+      selectedCheckedIn: Client,
+      show: 'detail',
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      AppointmentModule: newClientModule,
+    }));
+  };
+
+
+  const handleSearch = (val) => {
+    const field = 'firstname';
+    //  console.log(val)
+
+    let query = {
+      $or: [
+        {
+          firstname: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          lastname: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          middlename: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          phone: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          appointment_type: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          appointment_status: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          appointment_reason: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          location_type: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          location_name: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          practitioner_department: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          practitioner_profession: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          practitioner_name: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+      ],
+      facility: user.currentEmployee.facilityDetail._id, // || "",
+      $limit: 20,
+      appointment_status: 'Checked In',
+      $sort: {
+        createdAt: -1,
+      },
+    };
+    if (state.employeeLocation.locationType !== 'Front Desk') {
+      query.locationId = state.employeeLocation.locationId;
+    }
+
+    ClientServ.find({ query: query })
+      .then((res) => {
+        console.log(res);
+        setFacilities(res.data);
+        setMessage(' Client  fetched successfully');
+        setSuccess(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        // setMessage('Error fetching Client, probable network issues ' + err);
+        setError(true);
+      });
+  };
+
+  const getFacilities = useCallback(async() => {
+    if (user.currentEmployee) {
+      let stuff = {
+        facility: user.currentEmployee.facilityDetail._id,
+        appointment_status: 'Checked In',
+        // locationId:state.employeeLocation.locationId,
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      };
+      // if (state.employeeLocation.locationType !== 'Front Desk') {
+      //   stuff.locationId = state.employeeLocation.locationId;
+      // }
+
+      const findClient = await ClientServ.find();
+
+      await setFacilities(findClient.data);
+      console.log(findClient, "tttttttttttttttttttt")
+    } else {
+      if (user.stacker) {
+        const findClient = await ClientServ.find({
+          query: {
+            $limit: 100,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        });
+
+        await setFacilities(findClient.data);
+      }
+    }
+
+  }, [checkedin ])
+
+  useEffect(() => {
+    getFacilities()
+
+    ClientServ.on('created', (obj) => handleCalendarClose());
+    ClientServ.on('updated', (obj) => handleCalendarClose());
+    ClientServ.on('patched', (obj) => handleCalendarClose());
+    ClientServ.on('removed', (obj) => handleCalendarClose());
+  }, [getFacilities])
 
   useEffect(() => {
     getFacilities();
@@ -182,100 +351,194 @@ export function CheckInList({openCreateModal, setShowModal}) {
   //UPDATE COLUMNS CHANGE NAME OF EACH TO TABLE HEADER FOR CHECKIN
   const checkInColumns = [
     {
-      name: "Date of Encounter",
-      key: "date_of_encounter",
-      description: "Enter date of encounter",
-      selector: row => row.date_of_encounter,
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: row => row.sn,
       sortable: true,
-      required: true,
-      inputType: "DATE",
+      inputType: "HIDDEN",
     },
     {
-      name: "Patients Name",
-      key: "patients_name",
-      description: "Enter patients name",
-      selector: row => row.patients_name,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Policy ID",
-      key: "policy_id",
-      description: "Enter policy ID",
-      selector: row => row.policy_id,
+      name: "Date/Time",
+      key: "date",
+      description: "Date/Time",
+      selector: row => format(new Date(row.start_time), "dd/MM/yyyy HH:mm"),
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Premium Status",
-      key: "premium_status",
-      description: "Enter premium status",
-      selector: row => row.premium_status,
-      // cell: (row) => returnCell(row.status),
+      name: "First Name",
+      key: "firstname",
+      description: "First Name",
+      selector: row => row.firstname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  
+    {
+      name: "Last Name",
+      key: "lastname",
+      description: "Last Name",
+      selector: row => row.lastname,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Health encounter type",
-      key: "health_encounter_type",
-      description: "Enter health encounter type",
-      selector: (row, i) => row.health_encounter_type,
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-    {
-      name: "Encounter Status",
-      key: "encounter_status",
-      description: "Enter your encounter status",
-      selector: (row, i) => row.encounter_status,
+      name: "Classification",
+      key: "classification",
+      description: "Classification",
+      selector: row => row.appointmentClass,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Expiration Status",
-      key: "expiration_status",
-      description: "Enter your expiration status",
-      selector: (row, i) => row.expiration_status,
+      name: "Location",
+      key: "location",
+      description: "Location",
+      selector: row => row.location_type,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "PreAuth Requested",
-      key: "preAuth_requested",
-      description: "Enter your preauth request",
-      selector: (row, i) => row.preauth_requested,
+      name: "Type",
+      key: "type",
+      description: "Type",
+      selector: row => row.appointment_type,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Capitation",
-      key: "capitation",
-      description: "Enter capitation",
-      selector: (row, i) => row.capitation,
+      name: "Status",
+      key: "status",
+      description: "Status",
+      selector: row => row.appointment_status,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Fee for Service",
-      key: "fee_for_service",
-      description: "Enter fee for the service",
-      selector: (row, i) => row.fee_for_service,
+      name: "Reason",
+      key: "reason",
+      description: "Reason",
+      selector: row => row.appointment_reason,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Practitioner",
+      key: "practitioner",
+      description: "Practitioner",
+      selector: row => row.practitioner_name,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
   ];
+  
+ 
 
   //CREATE A SEPERATE COLUMN DATA FOR CHECKED OUT DATA, ONLY DIFFERENCE PROBABLY STATUS
-  const checkedOutColumns = [];
+  const checkedOutColumns = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: row => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Date/Time",
+      key: "date",
+      description: "Date/Time",
+      selector: row => format(new Date(row.start_time), "dd/MM/yyyy HH:mm"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "First Name",
+      key: "firstname",
+      description: "First Name",
+      selector: row => row.firstname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  
+    {
+      name: "Last Name",
+      key: "lastname",
+      description: "Last Name",
+      selector: row => row.lastname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Classification",
+      key: "classification",
+      description: "Classification",
+      selector: row => row.appointmentClass,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Location",
+      key: "location",
+      description: "Location",
+      selector: row => row.location_type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Type",
+      key: "type",
+      description: "Type",
+      selector: row => row.appointment_type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Status",
+      key: "status",
+      description: "Status",
+      selector: row => row.appointment_status,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Reason",
+      key: "reason",
+      description: "Reason",
+      selector: row => row.appointment_reason,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Practitioner",
+      key: "practitioner",
+      description: "Practitioner",
+      selector: row => row.practitioner_name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+  
+ 
 
   return (
     <div className="level">
@@ -295,8 +558,9 @@ export function CheckInList({openCreateModal, setShowModal}) {
           </div>
 
           <Box>
+            {checkedin === false ? <GlobalCustomButton onClick={() => {setCheckedin(true)}}>Check In</GlobalCustomButton> : <GlobalCustomButton onClick={() => {setCheckedin(false)}}>Check Out</GlobalCustomButton>}
             {/* FIRE YOUR TOGGLE FUNCTION HERE SWITCHING FROM CHECK IN TO CHECK OUT VICE VERSA */}
-            <GlobalCustomButton>HELLO</GlobalCustomButton>
+            
           </Box>
         </TableMenu>
 
@@ -312,7 +576,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
               <CustomTable
                 title={""}
                 columns={checkInColumns}
-                data={dummyData}
+                data={facilities}
                 pointerOnHover
                 highlightOnHover
                 striped
@@ -326,7 +590,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
               <CustomTable
                 title={""}
                 columns={checkedOutColumns}
-                data={dummyData}
+                data={facilities}
                 pointerOnHover
                 highlightOnHover
                 striped
@@ -360,7 +624,9 @@ export function CheckDetails({showModal, setShowModal}) {
   const [enterOTP, setEnterOTP] = useState(false);
   const [otp, setOtp] = useState("");
 
-  const Client = state.AppointmentModule.selectedAppointment;
+  const Client = state.AppointmentModule.selectedCheckedIn;
+  console.log(state.AppointmentModule, "niccee");
+  console.log(Client, "hjh");
   //const client=Client
   const handleEdit = async () => {
     const newClientModule = {
@@ -385,7 +651,7 @@ export function CheckDetails({showModal, setShowModal}) {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Grid item xs={12} sm={3} md={6} sx={{marginLeft: "auto"}}>
-            <Button
+            {/* <Button
               variant="contained"
               size="small"
               sx={{
@@ -395,7 +661,7 @@ export function CheckDetails({showModal, setShowModal}) {
               onClick={() => setEnterOTP(true)}
             >
               Enter OTP
-            </Button>
+            </Button> */}
           </Grid>
           {/* <MdCancel
             onClick={() => {
@@ -485,10 +751,10 @@ export function CheckDetails({showModal, setShowModal}) {
               marginRight: ".8rem",
             }}
           >
-            Gender:
+           Gender:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.gender}
+            {Client?.gender}
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>
@@ -535,6 +801,7 @@ export function CheckDetails({showModal, setShowModal}) {
             Start Time:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
+          {Client.start_time}
             {/* {format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')} */}
           </span>
         </Grid>
