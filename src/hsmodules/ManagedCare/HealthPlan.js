@@ -489,6 +489,22 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
       inputType: "TEXT",
     },
     {
+      name: "Description",
+      key: "comment",
+      description: "Description",
+      selector: (row) => (
+        <Typography
+          sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
+          data-tag="allowRowEvents"
+        >
+          {row?.comments}
+        </Typography>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
       name: "Plan",
       key: "plan",
       description: "Plan",
@@ -512,24 +528,24 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
       required: true,
       inputType: "TEXT",
     },
-    {
-      name: "Band",
-      key: "band",
-      description: "Band",
-      selector: (row) =>
-        row?.band.map((band, i) => (
-          <Typography
-            key={i}
-            sx={{ fontSize: "0.8rem", whiteSpace: "normal" }}
-            data-tag="allowRowEvents"
-          >
-            {band}
-          </Typography>
-        )),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
+    // {
+    //   name: "Band",
+    //   key: "band",
+    //   description: "Band",
+    //   selector: (row) =>
+    //     row?.band.map((band, i) => (
+    //       <Typography
+    //         key={i}
+    //         sx={{ fontSize: "0.8rem", whiteSpace: "normal" }}
+    //         data-tag="allowRowEvents"
+    //       >
+    //         {band}
+    //       </Typography>
+    //     )),
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "TEXT",
+    // },
     {
       name: "Duration",
       key: "duration",
@@ -1527,6 +1543,7 @@ export function HealthPlanDetails({
         reqAuthCode,
       },
       // category: planCategory,
+      description: "hello dear",
       category: planCategory,
       comments: comments,
       capitation: cap,
@@ -1631,6 +1648,22 @@ export function HealthPlanDetails({
           data-tag="allowRowEvents"
         >
           {row?.category}
+        </Typography>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Description",
+      key: "comment",
+      description: "Description",
+      selector: (row) => (
+        <Typography
+          sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
+          data-tag="allowRowEvents"
+        >
+          {row?.comments}
         </Typography>
       ),
       sortable: true,
