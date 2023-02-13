@@ -1799,18 +1799,16 @@ export function HealthPlanDetails({
       key: "Action",
       description: "Action",
       selector: (row) => (
-        <GlobalCustomButton
-          color="error"
+        <IconButton
           onClick={() => {
             setBenefitSN(row.sn);
-            console.log("click", row);
+            // console.log("click", row);
             setConfirmDialog(true);
           }}
-          customStyles={{ float: "center", p: "0.1rem" }}
+          color="error"
         >
-          <DeleteIcon fontSize="small" sx={{ marginRight: "5px" }} />
-          Delete
-        </GlobalCustomButton>
+          <DeleteOutline fontSize="small" />
+        </IconButton>
       ),
       sortable: false,
       required: false,
