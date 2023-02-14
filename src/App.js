@@ -21,6 +21,9 @@ function App() {
     ClaimsModule: {
       selectedClaim: {},
     },
+    PreAuthModule: {
+      selectedPreAuth: {},
+    },
     CommunicationModule: {
       defaultEmail: {},
       configEmailModal: false,
