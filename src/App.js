@@ -222,6 +222,10 @@ function App() {
       show: "list",
       selectedServices: {},
     },
+    TariffModule: {
+      show: "list",
+      selectedContracts: {}
+    },
     financeModule: {
       show: "list",
       state: "false",
