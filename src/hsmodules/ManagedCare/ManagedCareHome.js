@@ -16,7 +16,6 @@ export default function ManagedCareHome({children}) {
   return (
     <section className="section remPadTop">
       <section className="hero is-info is-fullheight">
-        ,
         <div className="hero-body">
           <div className="container has-text-centered"></div>
           <div className="layout__content-main">

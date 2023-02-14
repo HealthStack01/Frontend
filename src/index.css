@@ -86,3 +86,7 @@ html {
   padding: 0 !important;
   color: #000000 !important;
 }
+
+.react-select__menu.react-select__menu {
+  z-index: 2000;
+}

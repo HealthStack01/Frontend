@@ -1,44 +1,44 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Route, Switch, Link, NavLink } from 'react-router-dom';
-import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'react-toastify';
-import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
-import DatePicker from 'react-datepicker';
-import LocationSearch from '../helpers/LocationSearch';
-import EmployeeSearch from '../helpers/EmployeeSearch';
-import BillServiceCreate from '../Finance/BillServiceCreate';
-import 'react-datepicker/dist/react-datepicker.css';
-import { PageWrapper } from '../../ui/styled/styles';
-import { TableMenu } from '../../ui/styled/global';
-import FilterMenu from '../../components/utilities/FilterMenu';
-import Button from '../../components/buttons/Button';
-import CustomTable from '../../components/customtable';
-import { AppointmentSchema } from '../Clinic/schema';
-import { CustomButton } from '../../components/buttons/Button/base/styles';
-import ModalBox from '../../components/modal';
-import ModalHeader from './ui-components/Heading/modalHeader';
-import { Box, Grid } from '@mui/material';
-import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
-import { MdCancel } from 'react-icons/md';
-import GlobalCustomButton from '../../components/buttons/CustomButton';
-import Input from '../../components/inputs/basic/Input';
-import BasicDateTimePicker from '../../components/inputs/DateTime';
+import React, {useState, useContext, useEffect, useRef} from "react";
+import {Route, Switch, Link, NavLink} from "react-router-dom";
+import client from "../../feathers";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
+import {useNavigate} from "react-router-dom";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "react-toastify";
+import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
+import DatePicker from "react-datepicker";
+import LocationSearch from "../helpers/LocationSearch";
+import EmployeeSearch from "../helpers/EmployeeSearch";
+import BillServiceCreate from "../Finance/BillServiceCreate";
+import "react-datepicker/dist/react-datepicker.css";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import {AppointmentSchema} from "../Clinic/schema";
+import {CustomButton} from "../../components/buttons/Button/base/styles";
+import ModalBox from "../../components/modal";
+import ModalHeader from "./ui-components/Heading/modalHeader";
+import {Box, Grid} from "@mui/material";
+import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
+import {MdCancel} from "react-icons/md";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import Input from "../../components/inputs/basic/Input";
+import BasicDateTimePicker from "../../components/inputs/DateTime";
 
 export default function ClinicCheckIn() {
-  const { state } = useContext(ObjectContext); //,setState
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
-  const [checkinpage, setCheckinpage] = useState('checkin');
+  const [checkinpage, setCheckinpage] = useState("checkin");
   const [showModal, setShowModal] = useState(false);
 
   return (
     <section className="section remPadTop">
-      {checkinpage === 'checkin' && (
+      {checkinpage === "checkin" && (
         <CheckIn
           pageView={checkinpage}
           setPageView={setCheckinpage}
@@ -46,7 +46,7 @@ export default function ClinicCheckIn() {
           setShowModal={setShowModal}
         />
       )}
-      {checkinpage === 'checkout' && (
+      {checkinpage === "checkout" && (
         <CheckOut
           pageView={checkinpage}
           setPageView={setCheckinpage}
@@ -56,10 +56,10 @@ export default function ClinicCheckIn() {
       )}
       {showModal && (
         <ModalBox
-          open={state.AppointmentModule.show === 'detail'}
+          open={state.AppointmentModule.show === "detail"}
           onClose={() => setShowModal(false)}
           header={
-            checkinpage === 'checkin' ? 'Check In Details' : 'Check Out Details'
+            checkinpage === "checkin" ? "Check In Details" : "Check Out Details"
           }
         >
           <CheckDetails checkState={checkinpage} />
@@ -69,24 +69,24 @@ export default function ClinicCheckIn() {
   );
 }
 
-export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
+export function CheckIn({pageView, setPageView, showModal, setShowModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState('');
-  const ClientServ = client.service('appointments');
+  const [message, setMessage] = useState("");
+  const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
@@ -94,36 +94,36 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: 'create',
+      show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
     //console.log(state)
     const newClient = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     setShowModal(true);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
-      show: 'detail',
+      show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = (val) => {
-    const field = 'firstname';
+  const handleSearch = val => {
+    const field = "firstname";
     //  console.log(val)
 
     let query = {
@@ -131,97 +131,97 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
         {
           firstname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           lastname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           middlename: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           phone: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_status: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_reason: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_department: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_profession: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
       ],
       facility: user.currentEmployee.facilityDetail._id, // || "",
       $limit: 20,
-      appointment_status: 'Checked In',
+      appointment_status: "Checked In",
       $sort: {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== 'Front Desk') {
+    if (state.employeeLocation.locationType !== "Front Desk") {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({ query: query })
-      .then((res) => {
+    ClientServ.find({query: query})
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(' Client  fetched successfully');
+        setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
-        setMessage('Error fetching Client, probable network issues ' + err);
+        setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
       });
   };
@@ -230,7 +230,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
     if (user.currentEmployee) {
       let stuff = {
         facility: user.currentEmployee.facilityDetail._id,
-        appointment_status: 'Checked In',
+        appointment_status: "Checked In",
         // locationId:state.employeeLocation.locationId,
         $limit: 100,
         $sort: {
@@ -241,7 +241,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find({ query: stuff });
+      const findClient = await ClientServ.find({query: stuff});
 
       await setFacilities(findClient.data);
     } else {
@@ -272,15 +272,15 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
                          console.log(user)
                          getFacilities(user) */
     }
-    ClientServ.on('created', (obj) => handleCalendarClose());
-    ClientServ.on('updated', (obj) => handleCalendarClose());
-    ClientServ.on('patched', (obj) => handleCalendarClose());
-    ClientServ.on('removed', (obj) => handleCalendarClose());
+    ClientServ.on("created", obj => handleCalendarClose());
+    ClientServ.on("updated", obj => handleCalendarClose());
+    ClientServ.on("patched", obj => handleCalendarClose());
+    ClientServ.on("removed", obj => handleCalendarClose());
     const newClient = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setState(prevstate => ({...prevstate, ClientModule: newClient}));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -300,12 +300,12 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
     //   query.locationId = state.employeeLocation.locationId;
     // }
 
-    const findClient = await ClientServ.find({ query: query });
+    const findClient = await ClientServ.find({query: query});
 
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setStartDate(date);
   };
 
@@ -326,15 +326,15 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
         <>
           <div className="level">
             <PageWrapper
-              style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
+              style={{flexDirection: "column", padding: "0.6rem 1rem"}}
             >
               <TableMenu>
                 <div
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
+                    display: "flex",
+                    alignItems: "center",
 
-                    width: '100%',
+                    width: "100%",
                   }}
                 >
                   {handleSearch && (
@@ -342,28 +342,28 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
+                  <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                     Checked In Clients
                   </h2>
 
                   <GlobalCustomButton
-                    text={pageView === 'checkin' ? 'Check Out' : 'Check In'}
-                    onClick={() => setPageView('checkout')}
+                    text={pageView === "checkin" ? "Check Out" : "Check In"}
+                    onClick={() => setPageView("checkout")}
                     customStyles={{
-                      float: 'right',
-                      marginLeft: 'auto',
+                      float: "right",
+                      marginLeft: "auto",
                     }}
                   />
                 </div>
               </TableMenu>
-              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
                 <CustomTable
-                  title={''}
+                  title={""}
                   columns={AppointmentSchema}
                   data={facilities.filter(
-                    (item) =>
-                      item?.appointment_status === 'Checked In' &&
-                      item?.location_type === 'Clinic'
+                    item =>
+                      item?.appointment_status === "Checked In" &&
+                      item?.location_type === "Clinic"
                   )}
                   pointerOnHover
                   highlightOnHover
@@ -381,60 +381,60 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
     </>
   );
 }
-export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
+export function CheckOut({pageView, setPageView, showModal, setShowModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState('');
-  const ClientServ = client.service('appointments');
+  const [message, setMessage] = useState("");
+  const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: 'create',
+      show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
     //console.log(state)
     const newClient = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     setShowModal(true);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
-      show: 'detail',
+      show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = (val) => {
-    const field = 'firstname';
+  const handleSearch = val => {
+    const field = "firstname";
     //  console.log(val)
 
     let query = {
@@ -442,98 +442,98 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
         {
           firstname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           lastname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           middlename: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           phone: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_status: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_reason: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_department: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_profession: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
       ],
       facility: user.currentEmployee.facilityDetail._id, // || "",
       $limit: 20,
-      appointment_status: 'Checked Out',
+      appointment_status: "Checked Out",
 
       $sort: {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== 'Front Desk') {
+    if (state.employeeLocation.locationType !== "Front Desk") {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({ query: query })
-      .then((res) => {
+    ClientServ.find({query: query})
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(' Client  fetched successfully');
+        setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
-        setMessage('Error fetching Client, probable network issues ' + err);
+        setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
       });
   };
@@ -542,7 +542,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
     if (user.currentEmployee) {
       let stuff = {
         facility: user.currentEmployee.facilityDetail._id,
-        appointment_status: 'Checked Out',
+        appointment_status: "Checked Out",
         // locationId:state.employeeLocation.locationId,
         $limit: 100,
         $sort: {
@@ -553,7 +553,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find({ query: stuff });
+      const findClient = await ClientServ.find({query: stuff});
 
       await setFacilities(findClient.data);
     } else {
@@ -584,15 +584,15 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
                          console.log(user)
                          getFacilities(user) */
     }
-    ClientServ.on('created', (obj) => handleCalendarClose());
-    ClientServ.on('updated', (obj) => handleCalendarClose());
-    ClientServ.on('patched', (obj) => handleCalendarClose());
-    ClientServ.on('removed', (obj) => handleCalendarClose());
+    ClientServ.on("created", obj => handleCalendarClose());
+    ClientServ.on("updated", obj => handleCalendarClose());
+    ClientServ.on("patched", obj => handleCalendarClose());
+    ClientServ.on("removed", obj => handleCalendarClose());
     const newClient = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setState(prevstate => ({...prevstate, ClientModule: newClient}));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -612,12 +612,12 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
     //   query.locationId = state.employeeLocation.locationId;
     // }
 
-    const findClient = await ClientServ.find({ query: query });
+    const findClient = await ClientServ.find({query: query});
 
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setStartDate(date);
   };
 
@@ -639,16 +639,16 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
           <div className="level">
             <PageWrapper
               style={{
-                flexDirection: 'column',
-                padding: '0.6rem 1rem',
+                flexDirection: "column",
+                padding: "0.6rem 1rem",
               }}
             >
               <TableMenu>
                 <div
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    width: '100%',
+                    display: "flex",
+                    alignItems: "center",
+                    width: "100%",
                   }}
                 >
                   {handleSearch && (
@@ -656,27 +656,27 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
+                  <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                     Checked Out Clients
                   </h2>
                   <GlobalCustomButton
-                    text={pageView === 'checkin' ? 'Check Out' : 'Check In'}
-                    onClick={() => setPageView('checkin')}
+                    text={pageView === "checkin" ? "Check Out" : "Check In"}
+                    onClick={() => setPageView("checkin")}
                     customStyles={{
-                      float: 'right',
-                      marginLeft: 'auto',
+                      float: "right",
+                      marginLeft: "auto",
                     }}
                   />
                 </div>
               </TableMenu>
-              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
                 <CustomTable
-                  title={''}
+                  title={""}
                   columns={AppointmentSchema}
                   data={facilities.filter(
-                    (item) =>
-                      item?.appointment_status === 'Checked Out' &&
-                      item?.location_type === 'Clinic'
+                    item =>
+                      item?.appointment_status === "Checked Out" &&
+                      item?.location_type === "Clinic"
                   )}
                   pointerOnHover
                   highlightOnHover
@@ -694,7 +694,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
     </>
   );
 }
-export function CheckDetails({ checkState }) {
+export function CheckDetails({checkState}) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const navigate = useNavigate();
@@ -702,11 +702,11 @@ export function CheckDetails({ checkState }) {
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
   // eslint-disable-next-line
-  const [message, setMessage] = useState(''); //,
+  const [message, setMessage] = useState(""); //,
   //const ClientServ=client.service('/Client')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [edit, setEdit] = useState(false);
@@ -716,9 +716,9 @@ export function CheckDetails({ checkState }) {
   const handleEdit = async () => {
     const newClientModule = {
       selectedAppointment: Client,
-      show: 'modify',
+      show: "modify",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -730,10 +730,10 @@ export function CheckDetails({ checkState }) {
     <>
       <Box
         sx={{
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'right',
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "right",
         }}
         mb={2}
       >
@@ -805,15 +805,15 @@ export function CheckDetails({ checkState }) {
         <Grid item xs={12} md={4}>
           <Input
             label="Start Date"
-            value={format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')}
+            value={format(new Date(Client.start_time), "dd/MM/yyyy HH:mm")}
             disabled={edit ? false : true}
           />
         </Grid>
-        {checkState === 'checkout' && (
+        {checkState === "checkout" && (
           <Grid item xs={12} md={4}>
             <Input
               label="End Date"
-              value={format(new Date(Client?.updatedAt), 'dd/MM/yyyy HH:mm')}
+              value={format(new Date(Client?.updatedAt), "dd/MM/yyyy HH:mm")}
               disabled={edit ? false : true}
             />
           </Grid>
@@ -871,13 +871,13 @@ export function CheckDetails({ checkState }) {
             rows="3"
             cols="50"
             style={{
-              border: '1px solid #b6b6b6',
-              borderRadius: '4px',
-              color: ' #979DAC',
-              width: '100%',
+              border: "1px solid #b6b6b6",
+              borderRadius: "4px",
+              color: " #979DAC",
+              width: "100%",
             }}
           >
-            {' '}
+            {" "}
           </textarea>
         </Grid>
         {/* <Grid item xs={12} md={12}>
