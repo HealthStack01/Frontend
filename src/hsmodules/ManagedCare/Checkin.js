@@ -1,5 +1,11 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef, useCallback} from "react";
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import {Route, useNavigate, Link, NavLink} from "react-router-dom";
 import client from "../../feathers";
 //import {useNavigate} from 'react-router-dom'
@@ -36,38 +42,33 @@ export default function CheckIn() {
 
 export function CheckInList({openCreateModal, setShowModal}) {
   const ClientServ = client.service("appointments");
-  const { user } = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext)
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState("list");
   const [checkedin, setCheckedin] = useState(true); //TOGGLE IF TO SHOW CHECKED IN OR CHECKED OUT
-const [facilities, setFacilities] = useState([]);
-const [ selectedCheckedIn, setSelectedCheckedIn] = useState();
-const [ error, setError] = useState(false);
-
+  const [facilities, setFacilities] = useState([]);
+  const [selectedCheckedIn, setSelectedCheckedIn] = useState();
+  const [error, setError] = useState(false);
 
   // const handleRow = obj => {};
   //console.log(state.employeeLocation)
 
-
-
-
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     setShowModal(true);
     await setSelectedCheckedIn(Client);
     const newClientModule = {
       selectedCheckedIn: Client,
-      show: 'detail',
+      show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
 
-
-  const handleSearch = (val) => {
-    const field = 'firstname';
+  const handleSearch = val => {
+    const field = "firstname";
     //  console.log(val)
 
     let query = {
@@ -75,106 +76,106 @@ const [ error, setError] = useState(false);
         {
           firstname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           lastname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           middlename: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           phone: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_status: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_reason: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_department: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_profession: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
       ],
       facility: user.currentEmployee.facilityDetail._id, // || "",
       $limit: 20,
-      appointment_status: 'Checked In',
+      appointment_status: "Checked In",
       $sort: {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== 'Front Desk') {
+    if (state.employeeLocation.locationType !== "Front Desk") {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({ query: query })
-      .then((res) => {
+    ClientServ.find({query: query})
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(' Client  fetched successfully');
+        setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         // setMessage('Error fetching Client, probable network issues ' + err);
         setError(true);
       });
   };
 
-  const getFacilities = useCallback(async() => {
+  const getFacilities = useCallback(async () => {
     if (user.currentEmployee) {
       let stuff = {
         facility: user.currentEmployee.facilityDetail._id,
-        appointment_status: 'Checked In',
+        appointment_status: "Checked In",
         // locationId:state.employeeLocation.locationId,
         $limit: 100,
         $sort: {
@@ -188,7 +189,7 @@ const [ error, setError] = useState(false);
       const findClient = await ClientServ.find();
 
       await setFacilities(findClient.data);
-      console.log(findClient, "tttttttttttttttttttt")
+      console.log(findClient, "tttttttttttttttttttt");
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
@@ -203,17 +204,25 @@ const [ error, setError] = useState(false);
         await setFacilities(findClient.data);
       }
     }
-
-  }, [checkedin ])
+  }, [checkedin]);
 
   useEffect(() => {
-    getFacilities()
+    getFacilities();
 
-    ClientServ.on('created', (obj) => handleCalendarClose());
-    ClientServ.on('updated', (obj) => handleCalendarClose());
-    ClientServ.on('patched', (obj) => handleCalendarClose());
-    ClientServ.on('removed', (obj) => handleCalendarClose());
-  }, [getFacilities])
+    ClientServ.on("created", obj => handleCalendarClose());
+    ClientServ.on("updated", obj => handleCalendarClose());
+    ClientServ.on("patched", obj => handleCalendarClose());
+    ClientServ.on("removed", obj => handleCalendarClose());
+  }, [getFacilities]);
+
+  useEffect(() => {
+    getFacilities();
+
+    ClientServ.on("created", obj => getFacilities());
+    ClientServ.on("updated", obj => getFacilities());
+    ClientServ.on("patched", obj => getFacilities());
+    ClientServ.on("removed", obj => getFacilities());
+  }, [getFacilities]);
 
   const dummyData = [
     {
@@ -368,6 +377,7 @@ const [ error, setError] = useState(false);
       inputType: "TEXT",
     },
   
+
     {
       name: "Last Name",
       key: "lastname",
@@ -463,7 +473,6 @@ const [ error, setError] = useState(false);
       required: true,
       inputType: "TEXT",
     },
-  
     {
       name: "Last Name",
       key: "lastname",
@@ -528,8 +537,6 @@ const [ error, setError] = useState(false);
       inputType: "TEXT",
     },
   ];
-  
- 
 
   return (
     <div className="level">
@@ -552,6 +559,24 @@ const [ error, setError] = useState(false);
             {checkedin === false ? <GlobalCustomButton onClick={() => {setCheckedin(true)}}>Check In</GlobalCustomButton> : <GlobalCustomButton onClick={() => {setCheckedin(false)}}>Check Out</GlobalCustomButton>}
             {/* FIRE YOUR TOGGLE FUNCTION HERE SWITCHING FROM CHECK IN TO CHECK OUT VICE VERSA */}
             
+            {checkedin === false ? (
+              <GlobalCustomButton
+                onClick={() => {
+                  setCheckedin(true);
+                }}
+              >
+                Check In
+              </GlobalCustomButton>
+            ) : (
+              <GlobalCustomButton
+                onClick={() => {
+                  setCheckedin(false);
+                }}
+              >
+                Check Out
+              </GlobalCustomButton>
+            )}
+            {/* FIRE YOUR TOGGLE FUNCTION HERE SWITCHING FROM CHECK IN TO CHECK OUT VICE VERSA */}
           </Box>
         </TableMenu>
 
@@ -792,6 +817,7 @@ export function CheckDetails({showModal, setShowModal}) {
             Start Time:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
+            {Client.start_time}
             {/* {format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')} */}
           </span>
         </Grid>
