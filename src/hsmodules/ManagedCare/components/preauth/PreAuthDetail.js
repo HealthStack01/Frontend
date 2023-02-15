@@ -16,9 +16,9 @@ import ModalBox from "../../../../components/modal";
 import ClaimCreateComplaint from "./Complaints";
 import ClaimCreateDiagnosis from "./Diagnosis";
 import ClaimCreateService from "./Services";
-import ClaimsChat from "./ClaimsChat";
-import AssignClaim from "./AssignClaim";
-import ClaimsStatus from "./ClaimsStatus";
+import ClaimsChat from "./PreAuthChat";
+import AssignClaim from "./AssignPreAuth";
+import ClaimsStatus from "./PreAuthStatus";
 import ClaimsTask from "../../Tasks";
 
 import {
@@ -33,8 +33,8 @@ import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 
-const ClaimDetailComponent = ({handleGoBack}) => {
-  const claimsServer = client.service("claims");
+const PreAuthDetailComponent = ({handleGoBack}) => {
+  const preAuthServer = client.service("preauth");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
@@ -55,33 +55,33 @@ const ClaimDetailComponent = ({handleGoBack}) => {
   const [statusModal, setStatusModal] = useState(false);
   const [view, setView] = useState("details");
 
-  const selectedClaim = state.ClaimsModule.selectedClaim;
-  const clinical_details = selectedClaim?.clinical_details || {};
+  const selectedPreAuth = state.PreAuthModule.selectedPreAuth;
+  const clinical_details = selectedPreAuth?.clinical_details || {};
 
   const {control, handleSubmit, register, reset, watch, setValue} = useForm({});
 
   useEffect(() => {
     const resetForm = {
-      patientstate: selectedClaim.patientstate,
-      claimtype: selectedClaim.claimtype,
-      comments: selectedClaim.comments,
-      totalamount: selectedClaim.totalamount,
+      patientstate: selectedPreAuth.patientstate,
+      claimtype: selectedPreAuth.claimtype,
+      comments: selectedPreAuth.comments,
+      totalamount: selectedPreAuth.totalamount,
       investigation: clinical_details.investigation || "",
       drugs: clinical_details.drugs || "",
       treatment: clinical_details.treatment || "",
       clinical_findings: clinical_details.clinical_findings || "",
       admission_date: clinical_details.admission_date || null,
       discharged_date: clinical_details.discharged_date || null,
-      status: selectedClaim.status,
-      date: selectedClaim.createdAt,
+      status: selectedPreAuth.status,
+      date: selectedPreAuth.createdAt,
     };
     reset(resetForm);
-    setServices(selectedClaim.services || []);
+    setServices(selectedPreAuth.services || []);
     setDiagnosis(clinical_details.diagnosis || []);
     setComplaints(clinical_details.complaints || []);
-  }, [state.ClaimsModule.selectedClaim]);
+  }, [state.PreAuthModule.selectedPreAuth]);
 
-  const getTotalClaimsAmount = useCallback(() => {
+  const getTotalPreAuthAmount = useCallback(() => {
     if (services.length === 0) return;
 
     const sum = services.reduce((accumulator, object) => {
@@ -94,8 +94,8 @@ const ClaimDetailComponent = ({handleGoBack}) => {
   }, [services]);
 
   useEffect(() => {
-    getTotalClaimsAmount();
-  }, [getTotalClaimsAmount]);
+    getTotalPreAuthAmount();
+  }, [getTotalPreAuthAmount]);
 
   const handleSelectClient = client => {
     setState(prev => ({
@@ -189,7 +189,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
 
     console.log(document);
 
-    await claimsServer
+    await preAuthServer
       .create(document)
       .then(res => {
         hideActionLoader();
@@ -354,7 +354,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
               fontWeight: "600",
             }}
           >
-            Claim's Detail
+            Preauthorization's Detail
           </Typography>
         </Box>
 
@@ -399,7 +399,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
 
           <GlobalCustomButton color="info" onClick={() => setAssignModal(true)}>
             <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-            Assign Claim
+            Assign Preauthorization
           </GlobalCustomButton>
         </Box>
       </Box>
@@ -425,12 +425,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
             width: "calc(100% - 26rem)",
           }}
         >
-          {view === "tasks" && (
-            <ClaimsTask
-              taskServer={claimsServer}
-              taskState={state.ClaimsModule.selectedClaim}
-            />
-          )}
+          {view === "tasks" && <ClaimsTask taskServer={preAuthServer} taskState={state.PreAuthModule.selectedPreAuth} />}
 
           {view === "details" && (
             <>
@@ -456,7 +451,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <ClientSearch
                     clear={clearClientSearch}
                     getSearchfacility={handleSelectClient}
-                    id={selectedClaim.beneficiary._id}
+                    id={selectedPreAuth.beneficiary._id}
                     disabled={true}
                   />
                 </Grid>
@@ -711,7 +706,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <CustomTable
                     title={""}
                     columns={statushxColumns}
-                    data={selectedClaim.statushx || []}
+                    data={selectedPreAuth.statushx || []}
                     pointerOnHover
                     highlightOnHover
                     striped
@@ -747,4 +742,4 @@ const ClaimDetailComponent = ({handleGoBack}) => {
   );
 };
 
-export default ClaimDetailComponent;
+export default PreAuthDetailComponent;

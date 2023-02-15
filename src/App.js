@@ -21,6 +21,9 @@ function App() {
     ClaimsModule: {
       selectedClaim: {},
     },
+    PreAuthModule: {
+      selectedPreAuth: {},
+    },
     CommunicationModule: {
       defaultEmail: {},
       configEmailModal: false,
@@ -218,6 +221,10 @@ function App() {
     ServicesModule: {
       show: "list",
       selectedServices: {},
+    },
+    TariffModule: {
+      show: "list",
+      selectedContracts: {}
     },
     financeModule: {
       show: "list",

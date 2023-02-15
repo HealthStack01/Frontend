@@ -28,8 +28,8 @@ import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 
-const ClaimCreateComponent = ({handleGoBack}) => {
-  const claimsServer = client.service("claims");
+const PreAuthCreateComponent = ({handleGoBack}) => {
+  const claimsServer = client.service("preauth");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
@@ -49,7 +49,7 @@ const ClaimCreateComponent = ({handleGoBack}) => {
     },
   });
 
-  const getTotalClaimsAmount = useCallback(() => {
+  const getTotalPreAuthAmount = useCallback(() => {
     if (services.length === 0) return;
 
     const sum = services.reduce((accumulator, object) => {
@@ -62,8 +62,8 @@ const ClaimCreateComponent = ({handleGoBack}) => {
   }, [services]);
 
   useEffect(() => {
-    getTotalClaimsAmount();
-  }, [getTotalClaimsAmount]);
+    getTotalPreAuthAmount();
+  }, [getTotalPreAuthAmount]);
 
   const handleSelectClient = client => {
     setState(prev => ({
@@ -113,7 +113,7 @@ const ClaimCreateComponent = ({handleGoBack}) => {
   const diagnosisColumns = getDiagnosisColumns();
   const servicesColumns = getServicesColumns();
 
-  const handleCreateClaim = async data => {
+  const handleCreatePreAuthorization = async data => {
     if (!state.ClientModule.selectedClient._id)
       return toast.warning("Please add Client..");
 
@@ -163,6 +163,8 @@ const ClaimCreateComponent = ({handleGoBack}) => {
       .then(res => {
         hideActionLoader();
         toast.success("You have succesfully created a Claim");
+        setClearClientSearch(true);
+        setClearClientSearch(false);
       })
       .catch(err => {
         hideActionLoader();
@@ -246,7 +248,7 @@ const ClaimCreateComponent = ({handleGoBack}) => {
               fontWeight: "600",
             }}
           >
-            Create a New Claim
+            Create a New Preauthorization
           </Typography>
         </Box>
 
@@ -257,9 +259,11 @@ const ClaimCreateComponent = ({handleGoBack}) => {
           }}
           gap={1}
         >
-          <GlobalCustomButton onClick={handleSubmit(handleCreateClaim)}>
+          <GlobalCustomButton
+            onClick={handleSubmit(handleCreatePreAuthorization)}
+          >
             <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-            Create Claim
+            Create Preauthorization
           </GlobalCustomButton>
         </Box>
       </Box>
@@ -542,4 +546,4 @@ const ClaimCreateComponent = ({handleGoBack}) => {
   );
 };
 
-export default ClaimCreateComponent;
+export default PreAuthCreateComponent;

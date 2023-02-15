@@ -9,8 +9,8 @@ import client from "../../../../feathers";
 import moment from "moment";
 import {toast} from "react-toastify";
 
-const ClaimsChat = ({closeChat}) => {
-  const claimsServer = client.service("claims");
+const PreAuthChat = ({closeChat}) => {
+  const preAuthServer = client.service("preauth");
   const {state, setState} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
   const [sendingMsg, setSendingMsg] = useState(false);
@@ -19,8 +19,8 @@ const ClaimsChat = ({closeChat}) => {
   //const [prevM]
 
   const getChatMessages = useCallback(async () => {
-    const id = state.ClaimsModule.selectedClaim._id;
-    await claimsServer
+    const id = state.PreAuthModule.selectedPreAuth._id;
+    await preAuthServer
       .get(id)
       .then(resp => {
         //console.log(resp);
@@ -30,15 +30,15 @@ const ClaimsChat = ({closeChat}) => {
         //toast.error("There was an error getting messages for this chat");
         console.log(err);
       });
-  }, [state.ClaimsModule]);
+  }, [state.PreAuthModule]);
 
   useEffect(() => {
     getChatMessages();
 
-    claimsServer.on("created", obj => getChatMessages());
-    claimsServer.on("updated", obj => getChatMessages());
-    claimsServer.on("patched", obj => getChatMessages());
-    claimsServer.on("removed", obj => getChatMessages());
+    preAuthServer.on("created", obj => getChatMessages());
+    preAuthServer.on("updated", obj => getChatMessages());
+    preAuthServer.on("patched", obj => getChatMessages());
+    preAuthServer.on("removed", obj => getChatMessages());
   }, [getChatMessages]);
 
   const sendNewChatMessage = async () => {
@@ -64,7 +64,7 @@ const ClaimsChat = ({closeChat}) => {
 
     const documentId = currentClaim._id;
 
-    await claimsServer
+    await preAuthServer
       .patch(documentId, {convo: newChat})
       .then(res => {
         setMessage("");
@@ -93,7 +93,7 @@ const ClaimsChat = ({closeChat}) => {
       }
     });
 
-    await claimsServer
+    await preAuthServer
       .patch(documentId, {convo: updatedChat})
       .then(res => {
         console.log(res);
@@ -118,4 +118,4 @@ const ClaimsChat = ({closeChat}) => {
   );
 };
 
-export default ClaimsChat;
+export default PreAuthChat;

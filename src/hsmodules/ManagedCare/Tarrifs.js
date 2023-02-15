@@ -35,6 +35,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { bandTypeOptions } from "../../dummy-data";
 import CreateIcon from "@mui/icons-material/Create";
 import { createBandSchema } from "../Admin/ui-components/schema";
+import { ServicesDetail } from "../Finance/Services";
 
 export default function TarrifList({ standAlone }) {
   const { state } = useContext(ObjectContext); //,setState
@@ -46,7 +47,7 @@ export default function TarrifList({ standAlone }) {
   const [openBand, setOpenBand] = useState(false);
   const [openTarrif, setOpenTarrif] = useState(false);
   const [openTarrifModify, setOpenTarrifModify] = useState(false);
-
+  const [openService, setOpenService] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState();
 
   const handleHideTariffModal = () => {
@@ -63,6 +64,15 @@ export default function TarrifList({ standAlone }) {
 
   const handleTariffModifyModal = () => {
     setOpenTarrifModify(true);
+  };
+
+
+  const handleHideServiceModal = () => {
+    setOpenService(false);
+  };
+
+  const handleServiceModal = () => {
+    setOpenService(true);
   };
 
   const handleHideBandModal = () => {
@@ -84,6 +94,7 @@ export default function TarrifList({ standAlone }) {
           showTariff={handleTariffModal}
           showTariffModify={handleTariffModifyModal}
           showBand={handleBandModal}
+          showServices={handleServiceModal}
         />
       )}
       {showModal === 1 && (
@@ -115,6 +126,15 @@ export default function TarrifList({ standAlone }) {
         <TariffModify />
       </ModalBox>
 
+        <ModalBox
+          open={openService}
+          onClose={handleHideServiceModal}
+          header="Modify Plans"
+        >
+         <AddService/>
+        </ModalBox>
+      
+
       <ModalBox
         width="50vw"
         open={openTarrif}
@@ -131,9 +151,11 @@ export const TarrifListView = ({
   setShowModal,
   showTariff,
   showBand,
+  showServices,
   showTariffModify,
 }) => {
   const [showView, setShowView] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [tariffs, setTariffs] = useState([]);
   const [tariff, setTariff] = useState();
   const { state, setState } = useContext(ObjectContext);
@@ -143,6 +165,7 @@ export const TarrifListView = ({
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
+  const [showService, setShowService] = useState(false);
   const [facilities, setFacilities] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
@@ -156,7 +179,7 @@ export const TarrifListView = ({
 
   const Services = state.ServicesModule.selectedServices;
   // const fac = state.facilityModule.selectedFacility;
-  // console.log(Services);
+  console.log(Services);
 
   
 
@@ -440,27 +463,30 @@ export const TarrifListView = ({
     setSelectPlans(bandPlans.flat(1));
   };
 
-  const handleService = async (Service, id) => {
-    // const serviceContracts = Service?.contracts.map((data) => console.log(data))
-    // setSelectedCategory(serviceContracts);
-    // console.log(serviceContracts)
-    // const newServicesModule = {
-    // 	selectedServices: Service,
-    // 	show: 'detail',
-    // };
-    // await setState((prevstate) => ({
-    // 	...prevstate,
-    // 	ServicesModule: newServicesModule,
-    // }));
+  // console.log(selectedServices)
+
+  const handleService = async (Category) => {
+    console.log(Category)
+  setSelectedCategory(Category?.contracts)
+    const newContractModule = {
+      selectedContracts: Category,
+      show: "detail",
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      TariffModule: newContractModule,
+    }));
+   ;
     showTariffModify();
   };
-
+// console.log(selectedCategory)
+   const Contracts = state.TariffModule.selectedContracts;
   // console.log(selectedCategory)
-  const handleRemove = (index, contract) => {
-    const newProductItem = selectedServices.filter(
-      (ProductionItem, i) => i !== contract
+  const handleRemove = (contract) => {
+    const newProductItem = Contracts.filter(
+      (productionItem) => productionItem._id  !== contract._id
     );
-    setSelectedServices(newProductItem);
+   setSelectedCategory(newProductItem);
   };
 
   
@@ -491,6 +517,7 @@ export const TarrifListView = ({
   };
 
   const getFacilities = async () => {
+    setLoading(true);
     if (user.currentEmployee) {
       const findServices = await ServicesServ.find({
         query: {
@@ -500,8 +527,9 @@ export const TarrifListView = ({
           },
         },
       });
-      console.log(findServices.data);
+      // console.log(findServices.data);
       await setFacilities(findServices.data);
+      setLoading(false);
     } else {
       if (user.stacker) {
         toast.warning("You do not qualify to view this");
@@ -612,20 +640,25 @@ export const TarrifListView = ({
                 />
               </Box>
             </Box>
-            <Box sx={{ dispaly: "flex", justifyContent:"space-between", mt: "2rem", px: "0.20rem" }}>
-             <Box>
-             <FormsHeaderText text={Services?.band} />
-             </Box>
-              <Box>
-              <GlobalCustomButton
-                  text="Add Benefit"
-                  // onClick={showTariff}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                my: "1rem"
+              }}
+            >
+               <FormsHeaderText text={Services?.band} />
+                <Box>
+                <GlobalCustomButton
+                  text="Add Services"
+                  onClick={showServices}
                   customStyles={{ marginLeft: "1rem" }}
-                  // color='warning'
+                  color='secondary'
                 />
               </Box>
             </Box>
-
+            
             <Box>
               {changeView === "service" ? (
                 <Box
@@ -643,6 +676,7 @@ export const TarrifListView = ({
                       highlightOnHover
                       striped
                       onRowClicked={(row) => handleService(row)}
+                      progressPending={loading}
                     />
                   </Grid>
                   <Grid xs={7}>
@@ -653,6 +687,7 @@ export const TarrifListView = ({
                       pointerOnHover
                       highlightOnHover
                       striped
+                      progressPending={loading}
                       // onRowClicked={(row) => handleService(row)}
                     />
                   </Grid>
@@ -672,7 +707,7 @@ export const TarrifListView = ({
                     pointerOnHover
                     highlightOnHover
                     striped
-                    onRowClicked={(row) => handleService(row)}
+                    // onRowClicked={(row) => handleService(row)}
                   />
                 </Box>
               )}
@@ -1749,7 +1784,7 @@ export function InheritTariff({ getBandfacility, newValue }) {
   const [providerBand, setProviderBand] = useState([]);
   const [selectedBand, setSelectedBand] = useState("");
   const Services = state.ServicesModule.selectedServices;
-
+// console.log(Services)
   const getProviderBand = async () => {
     if (user.currentEmployee) {
       const findServices = await BandsServ.find({
@@ -1944,92 +1979,96 @@ export const BandForm = () => {
 };
 
 export function TariffModify() {
-  const { register, handleSubmit, control } = useForm();
   const { state, setState } = useContext(ObjectContext);
   const { user } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
   const ServicesServ = client.service("tariff");
-  // const [existService, setExistService] = useState([]);
   const [selectPlan, setSelectPlan] = useState([]);
+  const [editing, setEditing] = useState(false)
+   const [service, setService] = useState("");
+   const [successService, setSuccessService] = useState(false);
+   const [serviceUnavailable, setServiceUnavailable] = useState({
+    status: false,
+    name: "",
+  });
+  const contractDetails = state.TariffModule.selectedContracts;
+ const servicesDetails = state.ServicesModule.selectedServices;
+  console.log(contractDetails)
+  const { register, handleSubmit} = useForm({
+    defaultValues: {
+      bandName: servicesDetails?.band,
+      servicename: contractDetails?.serviceName,
+        comment: contractDetails?.comments,
+        costPrice: contractDetails?.price,
+    }
+  });
 
-  const Services = state.ServicesModule.selectedServices;
-  // console.log(Services);
-  // const getSearchService = (obj) => {
-  // 	setService(obj);
-  // 	if (!obj) {
-  // 		setService('');
-  // 	}
-  // 	setSuccessService(false);
-  // };
+  
 
-  // const notfound = async (obj) => {
-  // 	await setServiceUnavailable(obj);
-  // 	await setSuccessService(true);
-  // 	if (!obj) {
-  // 		await setServiceUnavailable('');
-  // 	}
-  // };
+  const getSearchService = (obj) => {
+    setService(obj);
+    if (!obj) {
+      setService("");
+    }
+    setSuccessService(false);
+  };
 
-  // useEffect(() => {
-  // 	Services.contracts.map((data) => setExistService(data))
-  // },[])
-
-  // const existService = Services.contracts.map((data) => {
-  // 	return(
-  // 		data.servicename,
-  // 			data.costPrice,
-  // 			data.comment
-  // 	)
-  // })
-
+  const notfound = async (obj) => {
+    //alert(obj)
+    await setServiceUnavailable(obj);
+    await setSuccessService(true);
+    if (!obj) {
+      await setServiceUnavailable("");
+    }
+    // console.log(obj)
+    //here
+  };
+  
   const onSubmit = async (data) => {
-    const bandPlans = Services.contracts.map((contract) => {
-      const allPlans = [];
-
-      contract.plans.map((plan) => {
-        const planData = {
-          planName: plan.planName,
-          benefit: plan.benefit,
-          benefitcategory: plan.benefitcategory,
-          feeForService: plan.feeForService,
-          capitation: plan.capitation,
-          coPay: plan.coPay,
-          copayDetail: plan.copayDetail,
-          reqPA: plan.reqPA,
-          comments: plan.comments,
-        };
-
-        allPlans.push(planData);
-      });
-      return allPlans;
-    });
-    setSelectPlan(bandPlans.flat(1));
-
-    data.band = data.bandName;
-    data.contracts = {
-      serviceName: data.servicename,
-      price: data.costPrice,
-      comments: data.comment,
-      plans: selectPlan,
+    setLoading(true)
+//  let contract = Services.contracts.find((data) => data._id === id )
+//  console.log(contract)
+    const newPlanDetail = {
+      ...contractDetails,
+      ...servicesDetails,
+      organizationId: user.currentEmployee.facilityDetail._id,
+      organizationName: user.currentEmployee.facilityDetail.facilityName,
+      band: data.bandName,
+      contracts: [{
+        serviceName: service?.name,
+        comments: data.comment,
+        price: data.costPrice,
+        plans : contractDetails?.plans
+      }]
     };
-    data.organizationId = Services.organizationId;
-    data.organizationName = Services.organizationName;
-    ServicesServ.patch(Services._id, data)
+
+
+    ServicesServ.patch(servicesDetails._id, newPlanDetail)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
+        setLoading(false)
         toast.success("Tariff updated succesfully");
       })
       .catch((err) => {
+        setLoading(false)
         toast.error("Error updating Tariff " + err);
       });
   };
 
   return (
     <>
+    
       <Box sx={{ my: "1rem", display: "flex", justifyContent: "flex-end" }}>
-        <GlobalCustomButton text="Update" onClick={handleSubmit(onSubmit)} />
+        {!editing ?  
+        <GlobalCustomButton text="Edit" onClick={() => {
+          setEditing(!editing);
+        }} />:
+         <GlobalCustomButton color="success" text="Update" type='submit'
+         onClick={handleSubmit(onSubmit)} />
+      }
       </Box>
       <Grid container spacing={2}>
-        <Grid
+       {!editing ?  <Grid
           item
           xs={6}
           // sm={4}
@@ -2040,49 +2079,512 @@ export function TariffModify() {
             register={register("bandName", { required: true })}
             // defaultValue={Services.band}
           />
-        </Grid>
+        </Grid>:
+         <Grid
+         item
+         xs={6}
+         // sm={4}
+       >
+         <Input
+           label="Band"
+           name="bandName"
+           register={register("bandName", { required: true })}
+          //  defaultValue={Services.band}
+         />
+       </Grid>
+        }
+        {!editing ? 
         <Grid
-          item
-          xs={6}
-          // sm={4}
-        >
-          <Input
-            label="Service Name"
-            name="servicename"
-            register={register("servicename", { required: true })}
-            // defaultValue={existService.serviceName}
-          />
-          {/* <SearchSelect
-						getSearchService={getSearchService}
-						clear={successService}
-						notfound={notfound}
-						placeholder='Search Service'
-						// name='servicename'
-						// register={register('servicename', { required: true })}
-						defaultValue={Services?.contracts?.serviceName}
-					/> */}
-        </Grid>
-        <Grid
-          item
-          xs={6}
-          // sm={4}
-        >
-          <Input
-            label="Price"
-            name="costPrice"
-            register={register("costPrice", { required: true })}
-            // defaultValue={existService.price}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12}>
-          <Textarea
-            label="Comments"
-            name="comment"
-            register={register("comment", { required: true })}
-            // defaultValue={existService?.comments}
-          />
-        </Grid>
+        item
+        xs={6}
+        // sm={4}
+      >
+        <Input
+          label="Service Name"
+          name="servicename"
+          register={register("servicename", 
+          { required: true })}
+          // defaultValue={.serviceName}
+        />
+      </Grid>: 
+      <Grid
+      item
+      xs={6}
+      // sm={4}
+    >
+      {/* <Input
+        label="Service Name"
+        name="servicename"
+        register={register("servicename", { required: true })}
+        // defaultValue={existService.serviceName}
+      /> */}
+      <SearchSelect
+        getSearchService={getSearchService}
+        clear={successService}
+        notfound={notfound}
+        placeholder='Search Service'
+      />
+    </Grid>  
+      }
+        {!editing ?
+      <Grid
+      item
+      xs={6}
+      // sm={4}
+    >
+      <Input
+        label="Price"
+        name="costPrice"
+        register={register("costPrice", { required: true })}
+      />
+    </Grid>:
+    <Grid
+    item
+    xs={6}
+    // sm={4}
+  >
+    <Input
+      label="Price"
+      name="costPrice"
+      register={register("costPrice", { required: true })}
+    />
+  </Grid>  
+      }
+        {!editing ?
+      <Grid item xs={12} sm={12}>
+      <Textarea
+        label="Comments"
+        name="comment"
+        register={register("comment", { required: true })}
+      />
+    </Grid>:
+    <Grid item xs={12} sm={12}>
+    <Textarea
+      label="Comments"
+      name="comment"
+      register={register("comment", { required: true })}
+    />
+  </Grid>  
+      }
       </Grid>
     </>
   );
 }
+
+
+export function AddService(){
+  const [, setPriceState] = useState({
+    bronze: false,
+    gold: false,
+    silver: false,
+    platinium: false,
+  });
+  const { state, setState } = useContext(ObjectContext);
+  const Services = state.ServicesModule.selectedServices;
+  const HealthPlanServ = client.service("healthplan");
+  //const history = useHistory()
+  const { user } = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [facilityId, setFacilityId] = useState("");
+    const [name, setName] = useState("");
+  const [bandName, setBandName] = useState("");
+  const [benefittingplans, setBenefittingPlans] = useState([]);
+  const ServicesServ = client.service("tariff");
+  const [productItem, setProductItem] = useState([]);
+  const [selectedBand, setSelectedBand] = useState("");
+  const [showCoPay, setShowCoPay] = useState(false);
+  const [selectedBenefits, setSelectedBenefits] = useState([]);
+  const [facilities, setFacilities] = useState([]);
+  const [sCoPay, setSCoPay] = useState(false);
+  const [beneCat, setBeneCat] = useState("");
+  const [newBene, setNewBene] = useState([]);
+  const [selectNo, setSelectNo] = useState("");
+  const [orgType, setOrgType] = useState("");
+
+  // const getSearchService = (obj) => {
+  //   setService(obj);
+  //   if (!obj) {
+  //     setService("");
+  //   }
+  //   setSuccessService(false);
+  // };
+
+  // const notfound = async (obj) => {
+  //   //alert(obj)
+  //   await setServiceUnavailable(obj);
+  //   await setSuccessService(true);
+  //   if (!obj) {
+  //     await setServiceUnavailable("");
+  //   }
+  //   // console.log(obj)
+  //   //here
+  // };
+  const updateObjectInArray = (array, child) => {
+    array.map((item, index) => {
+      if (item.name !== child.name) {
+        // This isn't the item we care about - keep it as-is
+        return item;
+      }
+      // Otherwise, this is the one we want - return an updated value
+      //console.log(child)
+      return {
+        ...child,
+      };
+    });
+    return array;
+  };
+
+  const getFacilities = async () => {
+    // console.log(user);
+    if (user.currentEmployee) {
+      let stuff = {
+        organizationId: user.currentEmployee.facilityDetail._id,
+        // locationId:state.employeeLocation.locationId,
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      };
+      // if (state.employeeLocation.locationType !== "Front Desk") {
+      //   stuff.locationId = state.employeeLocation.locationId;
+      // }
+
+      const findHealthPlan = await HealthPlanServ.find({ query: stuff });
+
+      await console.log("HealthPlan", findHealthPlan.data);
+      await setFacilities(findHealthPlan.data);
+    } else {
+      if (user.stacker) {
+        const findClient = await HealthPlanServ.find({
+          query: {
+            $limit: 100,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        });
+
+        await setFacilities(findClient.data);
+      }
+    }
+  };
+  useEffect(() => {
+    // console.log("starting...")
+    getFacilities();
+    // setBenefittingPlans1([]);
+    setFacilityId(user.currentEmployee.facilityDetail._id);
+    setName(user.currentEmployee.facilityDetail.facilityName);
+    setOrgType(user.currentEmployee.facilityDetail.facilityType);
+    // getProviderBand();
+    return () => {};
+  }, []);
+
+  const handleServType = async (e, i, c) => {
+    let currentPlan = benefittingplans.filter(
+      (el) => el.planName === c.planName
+    )[0];
+    currentPlan.capitation = e.target.value === "Capitation" ? true : false;
+    currentPlan.feeforService =
+      e.target.value === "Fee for Service" ? true : false;
+    const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
+    await setBenefittingPlans(updatedplan);
+  };
+
+  const handleCopay = async (e, i, c) => {
+    let currentPlan = benefittingplans.filter(
+      (el) => el.planName === c.planName
+    )[0];
+    currentPlan.copayDetail = e.target.value;
+    currentPlan.coPay = currentPlan.copayDetail === "" ? false : true;
+    const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
+    await setBenefittingPlans(updatedplan);
+  };
+
+  const handleAuthCode = async (e, i, c) => {
+    let currentPlan = benefittingplans.filter(
+      (el) => el.planName === c.planName
+    )[0];
+    currentPlan.reqPA = e.target.checked;
+    const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
+    await setBenefittingPlans(updatedplan);
+  };
+  const handleBenefit = async (e, i, c) => {
+    console.log(e.target.value, i, c);
+    let selectedBene = e.target.value;
+    console.log(selectedBene, selectedBene.comments);
+    let currentPlan = benefittingplans.filter(
+      (el) => el.planName === c.planName
+    )[0];
+    console.log(currentPlan);
+    currentPlan.benefit = selectedBene.comments;
+    currentPlan.benefitCategory = selectedBene.category;
+    // currentPlan.covered =
+    // 	facilities.benefits.filter((el) => el.category === e.target.value)[0]
+    // 		.status === 'Covered'
+    // 		? true
+    // 		: false;
+    const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
+    await setBenefittingPlans(updatedplan);
+  };
+
+  const handleChange = async (e, i, c) => {
+    c.checked = !c.checked;
+
+    const newPlan = {
+      name: c.planName,
+      checked: false,
+    };
+    // console.log(c.checked)
+    if (c.checked) {
+      //add to benefiting plan
+      let planx = {
+        planName: c.planName,
+        planId: c._id,
+        benefit: "",
+        // benefitId : c.benefitId,
+        benefitCategory: "",
+        feeforService: true,
+        capitation: false,
+        reqPA: false,
+        coPay: false,
+        copayDetail: "",
+        comments: "",
+      };
+      //   console.log(planx)
+      await setBenefittingPlans((prev) => [...prev, planx]);
+    } else {
+      await setBenefittingPlans((prevstate) =>
+        prevstate.filter((el) => el.name !== c.name)
+      ); //remove from benefiting plan
+    }
+  };
+
+  const contractDetails = state.TariffModule.selectedContracts;
+
+  
+  const handleClickServices = async () => {
+    let seviceItem = {
+      source_org: user.currentEmployee.facilityDetail,
+      source_org_name: user.currentEmployee.facilityDetail.facilityName,
+      serviceName: contractDetails.serviceName,
+      serviceId: contractDetails.service._id,
+      price: contractDetails.price,
+      comments: contractDetails.comments,
+      plans: benefittingplans,
+    }
+
+    ServicesServ.patch(contractDetails._id, seviceItem)
+    .then((res) => {
+      toast.success("Tariff updated succesfully");
+    })
+    .catch((err) => {
+      toast.error("Error updating Tariff " + err);
+    });
+    
+  };
+
+ 
+
+  return(
+     <Box
+            sx={{
+              width: "80vw",
+            }}
+          >
+            <GlobalCustomButton
+              type="button"
+              variant="contained"
+              color="success"
+              onClick={handleClickServices}
+              text="Update Service"
+              customStyles={{ float: "right" }}
+            />
+            <Grid container spacing={2}>
+            {/* <Grid
+                item
+                xs={6}
+                // sm={4}
+              >
+                <Input
+                  label="Band"
+                  onChange={(e) => setBandName(e.target.value)}
+                  defaultValue={Services?.band}
+                />
+              </Grid> */}
+             {/*  <Grid
+                item
+                xs={6}
+                // sm={4}
+              >
+                <SearchSelect
+                  getSearchService={getSearchService}
+                  clear={successService}
+                  notfound={notfound}
+                  placeholder="Search Service"
+                />
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                // sm={4}
+              >
+                <Input
+                  label="Price"
+                  onChange={(e) => setCostprice(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <Textarea
+                  label="Comments"
+                  onChange={(e) => setComments(e.target.value)}
+                />
+              </Grid> */}
+              <Box
+                mx={1}
+                my={2}
+                sx={{
+                  width: "100%",
+                }}
+              >
+                {facilities.map((c) => {
+                  const allCategories = c?.benefits?.map((cat) => cat);
+                  // console.log("ALL CATS", allCategories);
+                  return (
+                    <>
+                      <Grid>
+                        <Box display="flex" gap={4} pb={3}>
+                          <Box
+                            sx={{ display: "flex", alignItems: "center" }}
+                            key={c._id}
+                          >
+                            <input
+                              className="checkbox is-small "
+                              type="checkbox"
+                              value={c._id}
+                              name={`selectedPlans +${c._id}`}
+                              label={c.planName}
+                              onChange={(event) =>
+                                handleChange(event, c._id, c)
+                              }
+                              style={{ marginRight: "10px" }}
+                            />
+                            <p
+                              style={{
+                                fontWeight: "bold",
+                                marginRight: "10px",
+                              }}
+                            >
+                              {c.planName}
+                            </p>
+                          </Box>
+                          {!c.checked ? null : (
+                            <>
+                              <Grid item xs={12} sm={2}>
+                                <CustomSelect
+                                  options={allCategories}
+                                  label="Select Benefit Category"
+                                  onChange={(e) => {
+                                    setBeneCat(e.target.value);
+                                    setSelectNo(c._id);
+                                  }}
+                                />
+                              </Grid>
+
+                              <Grid item xs={12} sm={2}>
+                                <CustomTariffSelect
+                                  key={c._id}
+                                  options={selectNo === c._id ? newBene : []}
+                                  label="Select Benefit"
+                                  onChange={(event) =>
+                                    handleBenefit(event, c._id, c)
+                                  }
+                                />
+                              </Grid>
+
+                              <Box key={c._id}>
+                                <input
+                                  className="is-small"
+                                  value="Capitation"
+                                  name={`servtype +${c._id}`}
+                                  type="radio"
+                                  onChange={(event) =>
+                                    handleServType(event, c._id, c)
+                                  }
+                                  style={{ marginRight: "10px" }}
+                                />
+                                <span>Capitation</span>
+                              </Box>
+                              <Box key={c._id}>
+                                <input
+                                  className="is-small"
+                                  name={`servtype +${c._id}`}
+                                  value="Fee for Service"
+                                  type="radio"
+                                  onChange={(event) =>
+                                    handleServType(event, c._id, c)
+                                  }
+                                  style={{ marginRight: "10px" }}
+                                />
+
+                                <span>Fee for Service</span>
+                              </Box>
+                              <Box key={c._id}>
+                                <input
+                                  className=" is-small"
+                                  name={`pay${c._id}`}
+                                  value="Fee for Service"
+                                  type="checkbox"
+                                  onChange={(event) =>
+                                    copaySelect(event, c._id)
+                                  }
+                                  style={
+                                    showCoPay === c._id
+                                      ? {
+                                          marginBottom: ".6rem",
+                                          marginRight: "10px",
+                                        }
+                                      : {
+                                          marginBottom: "0",
+                                          marginRight: "10px",
+                                        }
+                                  }
+                                />
+                                <span>Co-Pay?</span>
+                                {showCoPay === c._id && sCoPay && (
+                                  <Input
+                                    width="100%"
+                                    // className='input smallerinput is-small is-pulled-right '
+                                    name={`copay +${c._id}`}
+                                    type="text"
+                                    onChange={(event) =>
+                                      handleCopay(event, c._id, c)
+                                    }
+                                    label="Amount"
+                                  />
+                                )}
+                              </Box>
+
+                              <Box key={c._id}>
+                                <input
+                                  className="checkbox is-small"
+                                  name={`authCode +${c._id}`}
+                                  type="checkbox"
+                                  onChange={(event) =>
+                                    handleAuthCode(event, c._id, c)
+                                  }
+                                  style={{ marginRight: "10px" }}
+                                />
+                                <span>Requires Pre-Auth?</span>
+                              </Box>
+                            </>
+                          )}
+                        </Box>
+                      </Grid>
+                    </>
+                  );
+                })}
+              </Box>
+            </Grid>
+          </Box>
+  )
+} 

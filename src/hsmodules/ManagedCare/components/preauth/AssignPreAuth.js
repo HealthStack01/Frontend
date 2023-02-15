@@ -11,7 +11,7 @@ import client from "../../../../feathers";
 import {v4 as uuidv4} from "uuid";
 
 const AssignClaim = ({closeModal}) => {
-  const claimsServer = client.service("claims");
+  const preAuthServer = client.service("preauth");
   const [selectedUser, setSelectedUser] = useState(null);
   const {control, register, handleSubmit} = useForm();
   const [selectedEmployee, setSelectedEmployee] = useState(null);
@@ -31,7 +31,7 @@ const AssignClaim = ({closeModal}) => {
     showActionLoader();
     const employee = user.currentEmployee;
 
-    const prevTasks = state.ClaimsModule.selectedClaim.task || [];
+    const prevTasks = state.PreAuthModule.selectedPreAuth.task || [];
 
     const taskData = {
       employee: selectedEmployee,
@@ -48,15 +48,15 @@ const AssignClaim = ({closeModal}) => {
 
     const newTasks = [taskData, ...prevTasks];
 
-    const documentId = state.ClaimsModule.selectedClaim._id;
-    await claimsServer
+    const documentId = state.PreAuthModule.selectedPreAuth._id;
+    await preAuthServer
       .patch(documentId, {task: newTasks})
       .then(res => {
         hideActionLoader();
         //setContacts(res.contacts);
         setState(prev => ({
           ...prev,
-          ClaimsModule: {...prev.ClaimsModule, selectedClaim: res},
+          PreAuthModule: {...prev.PreAuthModule, selectedPreAuth: res},
         }));
         closeModal();
         toast.success(
