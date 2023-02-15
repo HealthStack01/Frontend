@@ -1,7 +1,7 @@
 import React from "react";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 
-import {InputBox, InputField, InputLabel} from "./styles";
+import { InputBox, InputField, InputLabel } from "./styles";
 
 interface InputProps {
   label?: string;
@@ -62,7 +62,7 @@ const Input: React.FC<InputProps> = ({
         {...register}
         onBlur={onBlur}
         autoComplete={autoComplete}
-        sx={{width: "16px", ...sx}}
+        sx={{ width: "16px", ...sx }}
         //className={errorText ? "has-errors" : ""}
         error={errorText ? true : false}
         //error={true}
@@ -76,12 +76,12 @@ const Input: React.FC<InputProps> = ({
       >
         {label}
         {important && (
-          <AcUnitIcon sx={{color: "red", width: "12px", height: "12px"}} />
+          <AcUnitIcon sx={{ color: "red", width: "12px", height: "12px" }} />
         )}
       </InputLabel>
     </InputBox>
     {errorText && (
-      <label style={{color: "red", fontSize: "0.7rem", textAlign: "left"}}>
+      <label style={{ color: "red", fontSize: "0.7rem", textAlign: "left" }}>
         {errorText}
       </label>
     )}
