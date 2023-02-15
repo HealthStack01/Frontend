@@ -1453,6 +1453,11 @@ export function HealthPlanDetails({
   const [premiumSN, setPremiumSN] = useState(null);
   const [premiumState, setPremiumState] = useState([]);
   const [showBenefit, setShowBenefit] = useState(false);
+  const [editIndividualPremium, setEditIndividualPremium] = useState(false);
+  const [individualPremiumState, setIndividualPremiumState] = useState({});
+  const [createPremium, setCreatePremium] = useState(false);
+  const [editPremiumDurationTwo, setEditPremiumDurationTwo] = useState("");
+  const [benefitDurationTwo, setBenefitDurationTwo] = useState("");
   //state
   const ServicesServ = client.service("billing");
   const BandsServ = client.service("bands");
@@ -1485,6 +1490,7 @@ export function HealthPlanDetails({
   const [serviceClass, setServiceClass] = useState("");
   const [reqAuthCode, setReqAuthCode] = useState(false);
   const [premiumDuration, setPremiumDuration] = useState("");
+  const [premiumDurationTwo, setPremiumDurationTwo] = useState("");
   const [premiumAmount, setPremiumAmount] = useState("");
   const [premiumDetails, setPremiumDetails] = useState([]);
   const [showPremium, setShowPremium] = useState(false);
@@ -1492,6 +1498,9 @@ export function HealthPlanDetails({
     status: false,
     name: "",
   });
+  const [editPlanType, setEditPlanType] = useState("");
+  const [editPremiumDuration, setEditPremiumDuration] = useState("");
+  const [editPremiumAmount, setEditPremiumAmount] = useState("");
 
   // get the benefitting plan for this paticular user
   const getBenfittingPlans = async () => {
@@ -1554,6 +1563,7 @@ export function HealthPlanDetails({
       // category: categoryname,
       frequency: frequency,
       duration: duration,
+      durationTwo: benefitDurationTwo,
       limit: limit,
       status: status,
     };
@@ -1721,7 +1731,7 @@ export function HealthPlanDetails({
           sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
           data-tag="allowRowEvents"
         >
-          {row?.duration}
+          {`${row?.duration} ${row?.durationTwo}`}
         </Typography>
       ),
       sortable: true,
@@ -1798,10 +1808,10 @@ export function HealthPlanDetails({
       name: "Action",
       key: "Action",
       description: "Action",
-      selector: (row) => (
+      selector: (row, i) => (
         <IconButton
           onClick={() => {
-            setBenefitSN(row.sn);
+            setBenefitSN(i);
             // console.log("click", row);
             setConfirmDialog(true);
           }}
@@ -1831,13 +1841,29 @@ export function HealthPlanDetails({
       name: "PlanType",
       key: "planType",
       description: "PlanType",
-      selector: (row) => (
-        <Typography
-          sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
-          data-tag="allowRowEvents"
-        >
-          {row?.planType}
-        </Typography>
+      selector: (row, i) => (
+        <>
+          <Typography
+            sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
+            data-tag="allowRowEvents"
+          >
+            {row?.planType}
+          </Typography>
+          {/* {!editPremuim && row.sn === i + 1 ? (
+            <Typography
+              sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
+              data-tag="allowRowEvents"
+            >
+              {row?.planType}
+            </Typography>
+          ) : (
+            <Input
+              label="PlanType :"
+              register={register("planType")}
+              errorText={errors?.planType?.message}
+            />
+          )} */}
+        </>
       ),
       sortable: true,
       required: true,
@@ -1852,7 +1878,7 @@ export function HealthPlanDetails({
           sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
           data-tag="allowRowEvents"
         >
-          {row?.premiumDuration}
+          {`${row?.premiumDuration} ${row?.premiumDurationTwo}`}
         </Typography>
       ),
       sortable: true,
@@ -1875,28 +1901,32 @@ export function HealthPlanDetails({
       required: true,
       inputType: "TEXT",
     },
-    // {
-    //   name: "Action",
-    //   key: "Action",
-    //   description: "Action",
-    //   selector: (row) => (
-    //     <GlobalCustomButton
-    //       color="error"
-    //       onClick={() => {
-    //         // setBenefitSN(row.sn);
-    //         console.log("click", row);
-    //         // setConfirmDialog(true);
-    //       }}
-    //       customStyles={{ float: "center", p: "0.1rem" }}
-    //     >
-    //       <CreateIcon fontSize="small" sx={{ marginRight: "5px" }} />
-    //       Edit
-    //     </GlobalCustomButton>
-    //   ),
-    //   sortable: false,
-    //   required: false,
-    //   inputType: "TEXT",
-    // },
+    {
+      name: "Action",
+      key: "Action",
+      description: "Action",
+      selector: (row, i) => (
+        <GlobalCustomButton
+          color="error"
+          onClick={() => {
+            setPremiumSN(i);
+            console.log("click", i, row);
+            setEditIndividualPremium(true);
+            setEditPlanType(row.planType);
+            setIndividualPremiumState(row);
+            setEditPremiumDurationTwo(row?.premiumDurationTwo);
+            // setConfirmDialog(true);
+          }}
+          customStyles={{ float: "center", p: "0.1rem" }}
+        >
+          <CreateIcon fontSize="small" sx={{ marginRight: "5px" }} />
+          Edit
+        </GlobalCustomButton>
+      ),
+      sortable: false,
+      required: false,
+      inputType: "TEXT",
+    },
   ];
 
   console.log("selected", selectedPlan);
@@ -1929,10 +1959,10 @@ export function HealthPlanDetails({
   };
 
   const handleDeleteBenefit = async () => {
-    console.log(" before deleted", selectedPlan.benefits);
+    console.log(" before deleted", benefitState);
 
-    const newUpdateBenefit = selectedPlan.benefits.filter((data, i) => {
-      let position = benefitSN - 1;
+    const newUpdateBenefit = benefitState.filter((data, i) => {
+      let position = benefitSN;
       return position !== i;
     });
     const healthPlanID = selectedPlan._id;
@@ -1942,10 +1972,10 @@ export function HealthPlanDetails({
     console.log("deleted", newUpdateBenefit);
     HealthPlanServ.patch(healthPlanID, data)
       .then((res) => {
-        console.log("response", JSON.stringify(res));
-        setConfirmDialog(false);
-        setBenefitState(newUpdateBenefit);
+        console.log("response", res); //JSON.stringify(res)
+        setBenefitState(res.benefits);
         toast.success("HealthPlan Details succesfully updated");
+        setConfirmDialog(false);
       })
       .catch((err) => {
         setConfirmDialog(false);
@@ -2002,6 +2032,114 @@ export function HealthPlanDetails({
       });
   };
 
+  const onSubmitPremium = async () => {
+    // setCreatePremium(false);
+    if (!planType) {
+      toast.warning("You need to choose plan type");
+      return;
+    }
+    if (!premiumAmount) {
+      toast.warning("You need to enter premium");
+      return;
+    }
+    if (!premiumDuration) {
+      toast.warning("You need to enter premium duration");
+      return;
+    }
+    if (!premiumDurationTwo) {
+      toast.warning("You need to enter premium duration");
+      return;
+    }
+    let premiumItemI = {
+      planType: planType,
+      premiumAmount: premiumAmount,
+      premiumDuration: premiumDuration,
+      premiumDurationTwo: premiumDurationTwo,
+    };
+    console.log(premiumItemI);
+    setPremiumDetails([...premiumDetails, premiumItemI]);
+
+    const oldPremiumArr = [...premiumState];
+    oldPremiumArr.push(premiumItemI);
+    console.log("old PremiumArr", oldPremiumArr);
+
+    let data = {
+      premiums: oldPremiumArr,
+    };
+    const healthPlanID = selectedPlan._id;
+    HealthPlanServ.patch(healthPlanID, data)
+      .then((res) => {
+        setPremiumState(oldPremiumArr);
+        setCreatePremium(false);
+        setPlanType("");
+        setPremiumAmount("");
+        setPremiumDuration("");
+        toast.success("Premium succesfully added");
+      })
+      .catch((err) => {
+        toast.error("Error adding Premium, probable network issues or " + err);
+      });
+  };
+
+  const onSubmitEditPremium = async () => {
+    // e.preventDefault();
+    // if (!editPlanType) {
+    //   toast.warning("You need to choose plan type");
+    //   return;
+    // }
+    // if (!editPremiumAmount) {
+    //   toast.warning("You need to enter premium");
+    //   return;
+    // }
+    // if (!editPremiumDuration) {
+    //   toast.warning("You need to enter premium duration");
+    //   return;
+    // }
+
+    const newUpdatedPremiumState = premiumState.map((data, i) => {
+      let position = premiumSN;
+      if (position === i) {
+        data.planType =
+          editPlanType === "" ? individualPremiumState.planType : editPlanType;
+        data.premiumAmount =
+          editPremiumAmount === ""
+            ? individualPremiumState.premiumAmount
+            : editPremiumAmount;
+        data.premiumDuration =
+          editPremiumDuration === ""
+            ? individualPremiumState.premiumDuration
+            : editPremiumDuration;
+        data.premiumDurationTwo =
+          editPremiumDurationTwo === ""
+            ? individualPremiumState?.premiumDurationTwo
+            : editPremiumDurationTwo;
+        console.log("data premium", data);
+        return data;
+      } else {
+        return data;
+      }
+    });
+    console.log("newUpdatedPremium", newUpdatedPremiumState);
+
+    let data = {
+      premiums: newUpdatedPremiumState,
+    };
+    const healthPlanID = selectedPlan._id;
+    HealthPlanServ.patch(healthPlanID, data)
+      .then((res) => {
+        setPremiumState(newUpdatedPremiumState);
+        setEditIndividualPremium(false);
+        setIndividualPremiumState({});
+        setEditPlanType("");
+        setEditPremiumAmount("");
+        setEditPremiumDuration("");
+        toast.success("Premium succesfully added");
+      })
+      .catch((err) => {
+        toast.error("Error adding Premium, probable network issues or " + err);
+      });
+  };
+
   useEffect(() => {
     addSnPremium();
     setValue("planName", selectedPlan?.planName, {
@@ -2025,6 +2163,20 @@ export function HealthPlanDetails({
       shouldDirty: true,
     });
     setValue("familyLimit", selectedPlan?.familyLimit, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+
+    setValue("planType", individualPremiumState?.planType, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("premiumAmount", individualPremiumState?.premiumAmount, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+
+    setValue("premiumDuration", individualPremiumState?.premiumDuration, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -2383,8 +2535,225 @@ export function HealthPlanDetails({
                 </Grid> */}
               </Grid>
             </div>
-            <Grid container spacing={2}>
-              <FormsHeaderText text={"Premium Details"} />
+            {createPremium && (
+              <>
+                <ModalBox
+                  title="Premium"
+                  open={createPremium}
+                  onClose={() => setCreatePremium(false)}
+                >
+                  <Box
+                    style={{
+                      width: "70vw",
+                    }}
+                  >
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sm={12}>
+                        <GlobalCustomButton
+                          onClick={onSubmitPremium}
+                          text="Add"
+                          color="primary"
+                          variant="contained"
+                          customStyles={{ float: "right" }}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={3}>
+                        <CustomSelect
+                          name="planType"
+                          label="Plan Type"
+                          options={[
+                            { value: "Individual", label: "Individual" },
+                            { value: "Family", label: "Family" },
+                          ]}
+                          onChange={(e) => setPlanType(e.target.value)}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Grid container>
+                          <Grid item xs={6} sm={6}>
+                            <Input
+                              name="premiumDuration"
+                              label="Premium Duration"
+                              type="number"
+                              onChange={(e) =>
+                                setPremiumDuration(e.target.value)
+                              }
+                            />{" "}
+                          </Grid>
+                          <Grid
+                            item
+                            xs={6}
+                            sm={6}
+                            style={{ padding: "0px", margin: "0px" }}
+                          >
+                            <CustomSelect
+                              name="duration"
+                              label="Duration Type"
+                              options={[
+                                { value: "Weeks", label: "weeks" },
+                                { value: "Months", label: "Months" },
+                                { value: "Years", label: "Years" },
+                              ]}
+                              onChange={(e) =>
+                                setPremiumDurationTwo(e.target.value)
+                              }
+                            />
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                      <Grid item xs={12} sm={3}>
+                        <Input
+                          name="premiumAmount"
+                          label="Premium"
+                          type="number"
+                          onChange={(e) => setPremiumAmount(e.target.value)}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </ModalBox>
+              </>
+            )}
+            {editIndividualPremium && (
+              <>
+                <ModalBox
+                  title="Edit Premium"
+                  open={editIndividualPremium}
+                  onClose={() => setEditIndividualPremium(false)}
+                >
+                  <Box
+                    style={{
+                      width: "70vw",
+                    }}
+                  >
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sm={12}>
+                        <GlobalCustomButton
+                          onClick={onSubmitEditPremium}
+                          // onClick={handleSubmit(onSubmitEditPremium)}
+                          text="save"
+                          color="primary"
+                          variant="contained"
+                          customStyles={{ float: "right" }}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={3}>
+                        <CustomSelect
+                          name="planType"
+                          label="Plan Type"
+                          options={[
+                            { value: "Individual", label: "Individual" },
+                            { value: "Family", label: "Family" },
+                          ]}
+                          onChange={(e) => setEditPlanType(e.target.value)}
+                          defaultValue={`${editPlanType}`}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Grid container>
+                          <Grid item xs={6} sm={6}>
+                            <Input
+                              name="premiumDuration"
+                              label="Premium Duration"
+                              type="number"
+                              onChange={(e) =>
+                                setEditPremiumDuration(e.target.value)
+                              }
+                              defaultValue={
+                                editPremiumDuration === ""
+                                  ? individualPremiumState.premiumDuration
+                                  : editPremiumDuration
+                              }
+                            />{" "}
+                          </Grid>
+                          <Grid
+                            item
+                            xs={6}
+                            sm={6}
+                            style={{ padding: "0px", margin: "0px" }}
+                          >
+                            <CustomSelect
+                              name="duration"
+                              label="Duration Type"
+                              options={[
+                                { value: "Weeks", label: "weeks" },
+                                { value: "Months", label: "Months" },
+                                { value: "Years", label: "Years" },
+                              ]}
+                              onChange={(e) =>
+                                setEditPremiumDurationTwo(e.target.value)
+                              }
+                              defaultValue={`${editPremiumDurationTwo}`}
+                            />
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                      <Grid item xs={12} sm={3}>
+                        <Input
+                          name="premiumAmount"
+                          label="Premium"
+                          type="number"
+                          onChange={(e) => setEditPremiumAmount(e.target.value)}
+                          defaultValue={`${individualPremiumState.premiumAmount}`}
+                        />
+                      </Grid>
+                      {/* <Grid item xs={12} sm={4}>
+                        <CustomSelect
+                          name="planType"
+                          label="Plan Type"
+                          options={[
+                            { value: "Individual", label: "Individual" },
+                            { value: "Family", label: "Family" },
+                          ]}
+                          onChange={(e) => setEditPlanType(e.target.value)}
+                          defaultValue={individualPremiumState.planType}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4}>
+                        <Input
+                          label="premiumDuration: "
+                          register={register("premiumDuration")}
+                          errorText={errors?.premiumDuration?.message}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4}>
+                        <Input
+                          label="premiumAmount: "
+                          register={register("premiumAmount")}
+                          errorText={errors?.premiumAmount?.message}
+                        />
+                      </Grid> */}
+                    </Grid>
+                  </Box>
+                </ModalBox>
+              </>
+            )}
+            <div
+              style={{
+                width: "100%",
+                height: "auto",
+                overflow: "auto",
+                marginTop: "1rem",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "1rem",
+                }}
+              >
+                <FormsHeaderText text={"Premium Details"} />
+                <GlobalCustomButton
+                  type="button"
+                  variant="contained"
+                  color="primary"
+                  onClick={() => setCreatePremium(true)}
+                  text="Add Premium"
+                  customStyles={{ marginRight: ".8rem" }}
+                />
+              </Box>
               <CustomTable
                 tableData={""}
                 columns={premiumItemSchema}
@@ -2508,7 +2877,7 @@ export function HealthPlanDetails({
                   })}
                 </p>
               </Grid> */}
-            </Grid>
+            </div>
           </div>
         )}
 
@@ -2567,19 +2936,44 @@ export function HealthPlanDetails({
                       onChange={(e) => setComments(e.target.value)}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid item xs={12} sm={2}>
                     <Input
                       name="frequency"
                       label="Frequency"
+                      type="number"
                       onChange={(e) => setFrequency(e.target.value)}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
-                    <Input
-                      name="duration"
-                      label="Duration"
-                      onChange={(e) => setDuration(e.target.value)}
-                    />
+                  <Grid item xs={12} sm={4}>
+                    <Grid container>
+                      <Grid item xs={5} sm={5}>
+                        <Input
+                          name="duration"
+                          label="Duration"
+                          type="number"
+                          onChange={(e) => setDuration(e.target.value)}
+                        />
+                      </Grid>
+                      <Grid
+                        item
+                        xs={7}
+                        sm={7}
+                        style={{ padding: "0px", margin: "0px" }}
+                      >
+                        <CustomSelect
+                          name="duration"
+                          label="Duration Type"
+                          options={[
+                            { value: "Weeks", label: "weeks" },
+                            { value: "Months", label: "Months" },
+                            { value: "Years", label: "Years" },
+                          ]}
+                          onChange={(e) =>
+                            setBenefitDurationTwo(e.target.value)
+                          }
+                        />
+                      </Grid>
+                    </Grid>
                   </Grid>
                   <Grid item xs={12} sm={3}>
                     <Input
