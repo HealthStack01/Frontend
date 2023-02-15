@@ -354,7 +354,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
               fontWeight: "600",
             }}
           >
-            Claim's Detail
+            Claim's Detail - <FormsHeaderText text={selectedClaim?.preauthid} />
           </Typography>
         </Box>
 

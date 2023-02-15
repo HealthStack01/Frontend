@@ -57,7 +57,7 @@ const ClaimsChat = ({closeChat}) => {
       dp: employee.imageurl,
       sender: `${employee.firstname} ${employee.lastname}`,
       type: "text",
-      dealId: currentClaim._id,
+      claimId: currentClaim._id,
     };
 
     const newChat = [...messages, messageDoc];
