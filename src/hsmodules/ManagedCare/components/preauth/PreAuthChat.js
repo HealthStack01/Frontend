@@ -44,7 +44,7 @@ const PreAuthChat = ({closeChat}) => {
   const sendNewChatMessage = async () => {
     setSendingMsg(true);
     const employee = user.currentEmployee;
-    const currentClaim = state.ClaimsModule.selectedClaim;
+    const currentPreAuth = state.PreAuthModule.selectedPreAuth;
 
     const messageDoc = {
       message: message,
@@ -57,12 +57,12 @@ const PreAuthChat = ({closeChat}) => {
       dp: employee.imageurl,
       sender: `${employee.firstname} ${employee.lastname}`,
       type: "text",
-      dealId: currentClaim._id,
+      preAuthId: currentPreAuth._id,
     };
 
     const newChat = [...messages, messageDoc];
 
-    const documentId = currentClaim._id;
+    const documentId = currentPreAuth._id;
 
     await preAuthServer
       .patch(documentId, {convo: newChat})
@@ -80,8 +80,8 @@ const PreAuthChat = ({closeChat}) => {
   const updateMessageAsSeen = async message => {
     // console.log(message);
     const userId = user.currentEmployee.userId;
-    const currentClaim = state.ClaimsModule.selectedClaim;
-    const documentId = currentClaim._id;
+    const currentPreAuth = state.PreAuthModule.selectedPreAuth;
+    const documentId = currentPreAuth._id;
 
     const updatedMsg = {...message, seen: [userId, ...message.seen]};
 

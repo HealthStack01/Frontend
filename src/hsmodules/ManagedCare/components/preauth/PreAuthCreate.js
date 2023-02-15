@@ -16,6 +16,8 @@ import ClaimCreateComplaint from "./Complaints";
 import ClaimCreateDiagnosis from "./Diagnosis";
 import ClaimCreateService from "./Services";
 
+const random = require("random-string-generator");
+
 import {
   getComplaintColumns,
   getDiagnosisColumns,
@@ -27,6 +29,7 @@ import Input from "../../../../components/inputs/basic/Input";
 import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
+import {SelectAdmission, SelectAppointment} from "../claims/ClaimsCreate";
 
 const PreAuthCreateComponent = ({handleGoBack}) => {
   const claimsServer = client.service("preauth");
@@ -42,12 +45,26 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
   const [serviceModal, setServiceModal] = useState(false);
   const policyServer = client.service("policy");
   const [policy, setPolicy] = useState({});
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [appointmentModal, setAppointmentModal] = useState(false);
+  const [selectedAdmission, setSelectedAdmission] = useState(null);
+  const [admissonModal, setAdmissionModal] = useState(false);
 
   const {control, handleSubmit, register, reset, watch, setValue} = useForm({
     defaultValues: {
       claimtype: "Fee for Service",
     },
   });
+
+  useEffect(() => {
+    setState(prev => ({
+      ...prev,
+      ClientModule: {
+        ...prev.ClientModule,
+        selectedClient: {},
+      },
+    }));
+  }, []);
 
   const getTotalPreAuthAmount = useCallback(() => {
     if (services.length === 0) return;
@@ -144,7 +161,9 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
       submissiondate: dayjs(),
       submissionby: employee,
       status: "Submitted",
-
+      preauthid: random(12, "uppernumeric"),
+      appointmentid: selectedAppointment?._id,
+      admissionid: selectedAdmission?._id,
       geolocation: {
         type: "Point",
         coordinates: [state.coordinates.latitude, state.coordinates.longitude],
@@ -162,17 +181,37 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
       .create(document)
       .then(res => {
         hideActionLoader();
-        toast.success("You have succesfully created a Claim");
+        toast.success("You have succesfully created a Preauthorization");
         setClearClientSearch(true);
         setClearClientSearch(false);
       })
       .catch(err => {
         hideActionLoader();
-        toast.error(`Failed to create Claim ${err}`);
+        toast.error(`Failed to create Preauthorization ${err}`);
       });
   };
 
   const patientState = watch("patientstate");
+
+  useEffect(() => {
+    if (patientState === "outpatient") {
+      setAppointmentModal(true);
+    } else if (patientState === "inpatient") {
+      setAdmissionModal(true);
+    }
+  }, [patientState]);
+
+  const handleSelectAppointment = appointment => {
+    setSelectedAppointment(appointment);
+    setSelectedAdmission(null);
+    setAppointmentModal(false);
+  };
+
+  const handleSelectAdmission = admission => {
+    setSelectedAdmission(admission);
+    setSelectedAppointment(null);
+    setAdmissionModal(false);
+  };
 
   return (
     <Box
@@ -203,6 +242,22 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
           closeModal={() => setDiagnosisModal(false)}
           setDiagnosis={setDiagnosis}
         />
+      </ModalBox>
+
+      <ModalBox
+        open={appointmentModal}
+        onClose={() => setAppointmentModal(false)}
+        header={`Appointments for ${state.ClientModule.selectedClient.firstname} ${state.ClientModule.selectedClient.lastname}`}
+      >
+        <SelectAppointment selectAppointment={handleSelectAppointment} />
+      </ModalBox>
+
+      <ModalBox
+        open={admissonModal}
+        onClose={() => setAdmissionModal(false)}
+        header={`Admission Orders for ${state.ClientModule.selectedClient.firstname} ${state.ClientModule.selectedClient.lastname}`}
+      >
+        <SelectAdmission selectAdmission={handleSelectAdmission} />
       </ModalBox>
 
       <ModalBox
@@ -290,14 +345,24 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
           }}
         >
           <Grid container spacing={2} mb={2}>
-            <Grid item lg={8} md={7}>
+            <Grid item lg={6} md={5}>
               <ClientSearch
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
               />
             </Grid>
 
-            <Grid item lg={4} md={5}>
+            <Grid item lg={3} md={3.5}>
+              <CustomSelect
+                label="Urgency"
+                required
+                control={control}
+                name="urgency"
+                options={["Urgent"]}
+              />
+            </Grid>
+
+            <Grid item lg={3} md={3.5}>
               <CustomSelect
                 label="Patient Type"
                 required

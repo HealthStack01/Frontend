@@ -354,7 +354,8 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
               fontWeight: "600",
             }}
           >
-            Preauthorization's Detail
+            Preauthorization's Detail -{" "}
+            <FormsHeaderText text={selectedPreAuth?.preauthid} />
           </Typography>
         </Box>
 
@@ -425,7 +426,12 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
             width: "calc(100% - 26rem)",
           }}
         >
-          {view === "tasks" && <ClaimsTask taskServer={preAuthServer} taskState={state.PreAuthModule.selectedPreAuth} />}
+          {view === "tasks" && (
+            <ClaimsTask
+              taskServer={preAuthServer}
+              taskState={state.PreAuthModule.selectedPreAuth}
+            />
+          )}
 
           {view === "details" && (
             <>
@@ -447,7 +453,7 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
                   />
                 </Grid>
 
-                <Grid item lg={8} md={7}>
+                <Grid item lg={6} md={6}>
                   <ClientSearch
                     clear={clearClientSearch}
                     getSearchfacility={handleSelectClient}
@@ -456,7 +462,17 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
                   />
                 </Grid>
 
-                <Grid item lg={4} md={5}>
+                <Grid item lg={3} md={3}>
+                  <CustomSelect
+                    label="Urgency"
+                    required
+                    control={control}
+                    name="urgency"
+                    options={["Urgent"]}
+                  />
+                </Grid>
+
+                <Grid item lg={3} md={3}>
                   <CustomSelect
                     label="Patient Type"
                     required
