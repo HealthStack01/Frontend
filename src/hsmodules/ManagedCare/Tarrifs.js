@@ -23,6 +23,8 @@ import { FormsHeaderText } from "../../components/texts";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import DeleteOutline from "@mui/icons-material/DeleteOutline";
 import CategorySearch from "../helpers/CategorySearch";
+import CustomConfirmationDialog from '../../components/confirm-dialog/confirm-dialog';
+
 import {
   BandSearch,
   BandTariffSearch,
@@ -49,6 +51,7 @@ export default function TarrifList({ standAlone }) {
   const [openTarrifModify, setOpenTarrifModify] = useState(false);
   const [openService, setOpenService] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState();
+  
 
   const handleHideTariffModal = () => {
     setOpenTarrif(false);
@@ -82,6 +85,14 @@ export default function TarrifList({ standAlone }) {
   const handleBandModal = () => {
     setOpenBand(true);
   };
+
+  // const handleHidePlanModal = () => {
+  //   setOpenBand(false);
+  // };
+
+  // const handlePlanModal = () => {
+  //   setOpenBand(true);
+  // };
 
   return (
     <section className="section remPadTop">
@@ -126,13 +137,13 @@ export default function TarrifList({ standAlone }) {
         <TariffModify />
       </ModalBox>
 
-        <ModalBox
+        {/* <ModalBox
           open={openService}
           onClose={handleHideServiceModal}
           header="Modify Plans"
         >
-         <AddService/>
-        </ModalBox>
+         <PlanModify/>
+        </ModalBox> */}
       
 
       <ModalBox
@@ -169,20 +180,228 @@ export const TarrifListView = ({
   const [facilities, setFacilities] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedCategory, setSelectedCategory] = useState(null);
   // const [totalServices, setTotalServices] = useState(0);
   // const [totalFacilities, setTotalFacilities] = useState(0);
   const [newFacility, setNewFacility] = useState([]);
   const [slide, setSlide] = useState(false);
   const [changeView, setChangeView] = useState("service");
   const [selectPlans, setSelectPlans] = useState([]);
+  const [confirmDialog, setConfirmDialog] = useState(false);
+  const [serviceSN, setServiceSN] = useState(null)
+  
+// console.log(Services)
+ 
+  const handleRow = async (Service, i) => {
+    // console.log(Service);
+    setSlide(!slide);
+    setSelectedServices(Service?.contracts);
+    const newServicesModule = {
+      selectedServices: Service,
+      show: "detail",
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      ServicesModule: newServicesModule,
+    }));
+  };
 
-  const Services = state.ServicesModule.selectedServices;
-  // const fac = state.facilityModule.selectedFacility;
-  console.log(Services);
 
   
+  // const handleSelectedCategory = async Client => {
+  //   const newContractModule = {
+  //     selectedContracts: Category,
+  //     show: "detail",
+  //   };
+  //   await setState((prevstate) => ({
+  //     ...prevstate,
+  //     TariffModule: newContractModule,
+  //   }));
+  //  ;
+  // };
 
+  // console.log(selectedServices)
+
+  const Services = state.ServicesModule.selectedServices;
+
+
+  const handleService = async (Category) => {
+    console.log(Category.plans)
+  //   if (selectedServices && selectedServices.contracts._id === Service._id)
+  //   return setSelectedServices(null);
+  setSelectedCategory(Category);
+  const bandPlans = Category.plans.map((plan) => 
+
+        planName = plan.planName,
+        benefit = plan.benefit,
+        benefitcategory = plan.benefitcategory,
+        feeForService = plan.feeForService,
+        capitation = plan.capitation,
+        coPay = plan.coPay,
+        copayDetail = plan.copayDetail,
+        reqPA = plan.reqPA,
+   )
+   setSelectPlans(bandPlans?.flat(1));
+  };
+
+  // console.log(Services)
+  console.log(selectPlans)
+
+  const handleTariff = async (Category) => {
+    setSelectedCategory(Category?.contracts)
+    const newContractModule = {
+      selectedContracts: Category,
+      show: "detail",
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      TariffModule: newContractModule,
+    }));
+   ;
+   showServices()
+  }
+  
+
+  const handleDelete = () => {
+  
+    const newUpdatedServices = Object.values(Services).filter((data, i) => {
+      let position = serviceSN;
+      return position !== i;
+    });
+    let data = {
+      selectedService: newUpdatedServices,
+    };
+  
+    const dleteId = Services._id;
+    // console.log(dleteId)
+		ServicesServ.remove(dleteId, data)
+			.then((res) => {
+        setState(prev => ({
+          ...prev,
+          ServicesModule: {...prev.ServicesModule, selectedServices: res.selectedService},
+        }));
+        setState(prev => ({
+          ...prev,
+          TariffModule: {...prev.TariffModule, selectedCategory: res.selectedService},
+        }));
+        setSelectPlans(res.selectedService) 
+        setConfirmDialog(false)
+				toast.success(`Tariff successfully deleted!`);
+			})
+			.catch((err) => {
+				toast.error(`Sorry, Unable to delete tariff. ${err}`);
+			});
+		//}
+  };
+
+  // const handleDelete = async () => {
+	// 	//let conf = window.confirm("Are you sure you want to delete this data?");
+		// const dleteId = Services._id;
+		// // if (conf) {
+		// ServicesServ.remove(dleteId)
+		// 	.then((res) => {
+		// 		toast.success(`Tariff successfully deleted!`);
+		// 	})
+		// 	.catch((err) => {
+		// 		toast.error(`Sorry, Unable to delete tariff. ${err}`);
+		// 	});
+		//}
+	// };
+// console.log(selectedCategory)
+  //  const Contracts = state.TariffModule.selectedContracts;
+  // // console.log(selectedCategory)
+  // const handleRemove = (contract) => {
+  //   const newProductItem = Contracts.filter(
+  //     (productionItem) => productionItem._id  !== contract._id
+  //   );
+  //  setSelectedCategory(newProductItem);
+  // };
+
+  
+  const handleSearch = (val) => {
+    const field = "name";
+    // console.log(val);
+    ServicesServ.find({
+      query: {
+        // [field]: {
+        // 	$regex: val,
+        // 	$options: 'i',
+        // },
+        organizationId: user.currentEmployee.facilityDetail._id,
+        $limit: 20,
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        setFacilities(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Error during search " + err);
+      });
+  };
+
+  const getFacilities = async () => {
+    setLoading(true);
+    if (user.currentEmployee) {
+      const findServices = await ServicesServ.find({
+        query: {
+          organizationId: user.currentEmployee.facilityDetail._id,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      });
+      // console.log(findServices.data);
+      await setFacilities(findServices.data);
+      setLoading(false);
+    } else {
+      if (user.stacker) {
+        toast.warning("You do not qualify to view this");
+        return;
+      }
+    }
+  };
+
+  // const getServices = async () => {
+  //   setLoading(true);
+  //   if (user.currentEmployee) {
+  //     const findServices = await ServicesServ.find({
+  //       query: {
+  //         organizationId: user.currentEmployee.facilityDetail._id,
+
+  //         $sort: {
+  //           createdAt: -1,
+  //         },
+  //       },
+  //     });
+  //     // console.log(findServices.data);
+  //     await setFacilities(findServices.data);
+  //     setLoading(false);
+  //   } else {
+  //     if (user.stacker) {
+  //       toast.warning("You do not qualify to view this");
+  //       return;
+  //     }
+  //   }
+  // };
+
+  useEffect(() => {
+    getFacilities();
+    // getServices();
+    ServicesServ.on("created", (obj) => getFacilities());
+    ServicesServ.on("updated", (obj) => getFacilities());
+    ServicesServ.on("patched", (obj) => getFacilities());
+    ServicesServ.on("removed", (obj) => getFacilities());
+    return () => {};
+  }, [state.facilityModule.selectedFacility]);
+
+  // console.log(facilities);
+
+  
   const ServiceSchema = [
     {
       name: "S/N",
@@ -225,18 +444,7 @@ export const TarrifListView = ({
       inputType: "TEXT",
     },
   ];
-  const conditionalRowStyles = [
-    {
-      when: (row) => row?.band === newFacility?.map((item) => item?.band),
-      style: {
-        backgroundColor: "#4cc9f0",
-        color: "white",
-        "&:hover": {
-          cursor: "pointer",
-        },
-      },
-    },
-  ];
+
   const productItemSchema = [
     {
       name: "S/N",
@@ -378,15 +586,47 @@ export const TarrifListView = ({
       width: "90px",
     },
     {
+      name: "Action",
+      key: "Action",
+      description: "Action",
+      selector: (row, i) => (
+        <GlobalCustomButton
+          color="error"
+          onClick={() => {
+            setServiceSN(i);
+            // // console.log("click", i, row);
+            // setEditIndividualPremium(true);
+            // setEditPlanType(row.planType);
+            // setIndividualPremiumState(row);
+            // setEditPremiumDurationType(row?.premiumDurationType);
+            // setConfirmDialog(true);
+          }}
+          customStyles={{ float: "center", p: "0.1rem" }}
+        >
+          <CreateIcon fontSize="small" sx={{ marginRight: "5px" }} />
+          Edit
+        </GlobalCustomButton>
+      ),
+      sortable: false,
+      required: false,
+      inputType: "TEXT",
+    },
+    {
       name: "Del",
       width: "50px",
       center: true,
       key: "delete",
       description: "Delete row",
       selector: (i, row) => (
-        <IconButton onClick={() => handleRemove(i, row)} color="error">
-          <DeleteOutline fontSize="small" />
-        </IconButton>
+        <IconButton
+        onClick={() => {
+          setServiceSN(i);
+          setConfirmDialog(true);
+        }}
+        color="error"
+      >
+        <DeleteOutline fontSize="small" />
+      </IconButton>
       ),
       sortable: true,
       required: true,
@@ -417,141 +657,31 @@ export const TarrifListView = ({
     },
   ];
 
-  // const handleCreateNew = async () => {
-  // 	const newServicesModule = {
-  // 		selectedServices: {},
-  // 		show: 'create',
-  // 	};
-  // 	await setState((prevstate) => ({
-  // 		...prevstate,
-  // 		ServicesModule: newServicesModule,
-  // 	}));
-  // };
-  const handleRow = async (Service, i) => {
-    // console.log(Service);
-    setSlide(!slide);
-    setSelectedServices(Service?.contracts);
-    const newServicesModule = {
-      selectedServices: Service,
-      show: "detail",
-    };
-    await setState((prevstate) => ({
-      ...prevstate,
-      ServicesModule: newServicesModule,
-    }));
 
-    const bandPlans = Service.contracts.map((data) => {
-      const allPlans = [];
-
-      data.plans.map((plan) => {
-        const planData = {
-          planName: plan.planName,
-          benefit: plan.benefit,
-          benefitcategory: plan.benefitcategory,
-          feeForService: plan.feeForService,
-          capitation: plan.capitation,
-          coPay: plan.coPay,
-          copayDetail: plan.copayDetail,
-          reqPA: plan.reqPA,
-        };
-
-        allPlans.push(planData);
-      });
-      return allPlans;
-    });
-
-    setSelectPlans(bandPlans.flat(1));
-  };
-
-  // console.log(selectedServices)
-
-  const handleService = async (Category) => {
-    console.log(Category)
-  setSelectedCategory(Category?.contracts)
-    const newContractModule = {
-      selectedContracts: Category,
-      show: "detail",
-    };
-    await setState((prevstate) => ({
-      ...prevstate,
-      TariffModule: newContractModule,
-    }));
-   ;
-    showTariffModify();
-  };
-// console.log(selectedCategory)
-   const Contracts = state.TariffModule.selectedContracts;
-  // console.log(selectedCategory)
-  const handleRemove = (contract) => {
-    const newProductItem = Contracts.filter(
-      (productionItem) => productionItem._id  !== contract._id
-    );
-   setSelectedCategory(newProductItem);
-  };
-
-  
-  const handleSearch = (val) => {
-    const field = "name";
-    // console.log(val);
-    ServicesServ.find({
-      query: {
-        // [field]: {
-        // 	$regex: val,
-        // 	$options: 'i',
-        // },
-        organizationId: user.currentEmployee.facilityDetail._id,
-        $limit: 20,
-        $sort: {
-          createdAt: -1,
+  const conditionalRowStyles = [
+    {
+      when: row => row._id === selectedServices?._id,
+      style: {
+        backgroundColor: "#4cc9f0",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
         },
       },
-    })
-      .then((res) => {
-        console.log(res);
-        setFacilities(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Error during search " + err);
-      });
-  };
+    },
+  ];
 
-  const getFacilities = async () => {
-    setLoading(true);
-    if (user.currentEmployee) {
-      const findServices = await ServicesServ.find({
-        query: {
-          organizationId: user.currentEmployee.facilityDetail._id,
-          $sort: {
-            createdAt: -1,
-          },
-        },
-      });
-      // console.log(findServices.data);
-      await setFacilities(findServices.data);
-      setLoading(false);
-    } else {
-      if (user.stacker) {
-        toast.warning("You do not qualify to view this");
-        return;
-      }
-    }
-  };
-
-  useEffect(() => {
-    getFacilities();
-
-    ServicesServ.on("created", (obj) => getFacilities());
-    ServicesServ.on("updated", (obj) => getFacilities());
-    ServicesServ.on("patched", (obj) => getFacilities());
-    ServicesServ.on("removed", (obj) => getFacilities());
-    return () => {};
-  }, [state.facilityModule.selectedFacility]);
-
-  // console.log(facilities);
+ 
 
   return (
     <div>
+      <CustomConfirmationDialog
+				open={confirmDialog}
+				cancelAction={() => setConfirmDialog(false)}
+				confirmationAction={handleDelete}
+				type='danger'
+				message='Are you sure you want to delete this data?'
+			/>
       <Box
         sx={{
           width: "98%",
@@ -596,7 +726,7 @@ export const TarrifListView = ({
           </>
         )}
 
-        {selectedServices && selectedServices.length > 0 && slide && (
+        {slide && (
           <Box
             style={{
               width: "100%",
@@ -649,7 +779,17 @@ export const TarrifListView = ({
               }}
             >
                <FormsHeaderText text={Services?.band} />
-                <Box>
+             
+                <Box display="flex" gap="1rem">
+                <GlobalCustomButton
+          color="error"
+          onClick={() => {
+            setServiceSN(i);
+          }}
+        >
+          <CreateIcon fontSize="small" sx={{ marginRight: "5px" }} />
+          Edit
+        </GlobalCustomButton>
                 <GlobalCustomButton
                   text="Add Services"
                   onClick={showServices}
@@ -662,35 +802,52 @@ export const TarrifListView = ({
             <Box>
               {changeView === "service" ? (
                 <Box
-                  display="grid"
-                  gridTemplateColumns="repeat(12, 1fr)"
-                  gap={2}
-                  sx={{ mt: "2rem", height: "88vh", px: "0.20rem" }}
+                
+                  sx={{
+                    display: "flex",
+            width: "100%",
+            justifyContent: "space-between",
+                  }}
                 >
-                  <Grid xs={4}>
+                 <Box
+                 sx={{
+                  height: "calc(100vh - 170px)",
+              transition: "width 0.5s ease-in",
+              width: selectedCategory ? "49.5%" : "100%",
+                 }}
+                 >
                     <CustomTable
                       title={""}
                       columns={productItemSchema}
-                      data={selectedServices}
+                      data={Services?.contracts}
                       pointerOnHover
                       highlightOnHover
                       striped
                       onRowClicked={(row) => handleService(row)}
                       progressPending={loading}
+                      conditionalRowStyles={conditionalRowStyles}
                     />
-                  </Grid>
-                  <Grid xs={7}>
-                    <CustomTable
-                      title={""}
-                      columns={otherServiceSchema}
-                      data={selectPlans}
-                      pointerOnHover
-                      highlightOnHover
-                      striped
-                      progressPending={loading}
-                      // onRowClicked={(row) => handleService(row)}
-                    />
-                  </Grid>
+                 </Box>
+                {selectedCategory && 
+                 <Box 
+                 sx={{
+                  height: "calc(100vh - 170px)",
+                  width: "49.5%",
+                  transition: "width 0.5s ease-in",
+                 }}
+                 >
+                  <CustomTable
+                    title={""}
+                    columns={otherServiceSchema}
+                    data={selectPlans}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    progressPending={loading}
+                    // onRowClicked={(row) => handleTariff(row)}
+                  />
+                  </Box>
+                }
                 </Box>
               ) : (
                 <Box
@@ -2046,6 +2203,14 @@ export function TariffModify() {
     ServicesServ.patch(servicesDetails._id, newPlanDetail)
       .then((res) => {
         // console.log(res);
+        setState(prev => ({
+          ...prev,
+          ServicesModule: {...prev.ServicesModule, selectedServices: res},
+        }));
+        setState(prev => ({
+          ...prev,
+          TariffModule: {...prev.TariffModule, selectedCategory: res},
+        }));
         setLoading(false)
         toast.success("Tariff updated succesfully");
       })
@@ -2077,6 +2242,7 @@ export function TariffModify() {
             label="Band"
             name="bandName"
             register={register("bandName", { required: true })}
+            disabled={!editing}
             // defaultValue={Services.band}
           />
         </Grid>:
@@ -2104,6 +2270,7 @@ export function TariffModify() {
           name="servicename"
           register={register("servicename", 
           { required: true })}
+          disabled={!editing}
           // defaultValue={.serviceName}
         />
       </Grid>: 
@@ -2136,6 +2303,7 @@ export function TariffModify() {
         label="Price"
         name="costPrice"
         register={register("costPrice", { required: true })}
+        disabled={!editing}
       />
     </Grid>:
     <Grid
@@ -2156,6 +2324,7 @@ export function TariffModify() {
         label="Comments"
         name="comment"
         register={register("comment", { required: true })}
+        disabled={!editing}
       />
     </Grid>:
     <Grid item xs={12} sm={12}>
@@ -2190,6 +2359,7 @@ export function AddService(){
   const [bandName, setBandName] = useState("");
   const [benefittingplans, setBenefittingPlans] = useState([]);
   const ServicesServ = client.service("tariff");
+  const [service, setService] = useState("");
   const [productItem, setProductItem] = useState([]);
   const [selectedBand, setSelectedBand] = useState("");
   const [showCoPay, setShowCoPay] = useState(false);
@@ -2200,25 +2370,26 @@ export function AddService(){
   const [newBene, setNewBene] = useState([]);
   const [selectNo, setSelectNo] = useState("");
   const [orgType, setOrgType] = useState("");
+  const [successService, setSuccessService] = useState(false);
 
-  // const getSearchService = (obj) => {
-  //   setService(obj);
-  //   if (!obj) {
-  //     setService("");
-  //   }
-  //   setSuccessService(false);
-  // };
+  const getSearchService = (obj) => {
+    setService(obj);
+    if (!obj) {
+      setService("");
+    }
+    setSuccessService(false);
+  };
 
-  // const notfound = async (obj) => {
-  //   //alert(obj)
-  //   await setServiceUnavailable(obj);
-  //   await setSuccessService(true);
-  //   if (!obj) {
-  //     await setServiceUnavailable("");
-  //   }
-  //   // console.log(obj)
-  //   //here
-  // };
+  const notfound = async (obj) => {
+    //alert(obj)
+    await setServiceUnavailable(obj);
+    await setSuccessService(true);
+    if (!obj) {
+      await setServiceUnavailable("");
+    }
+    // console.log(obj)
+    //here
+  };
   const updateObjectInArray = (array, child) => {
     array.map((item, index) => {
       if (item.name !== child.name) {
@@ -2373,7 +2544,9 @@ export function AddService(){
       plans: benefittingplans,
     }
 
-    ServicesServ.patch(contractDetails._id, seviceItem)
+    const id = contractDetails._id
+
+    ServicesServ.patch(id, seviceItem)
     .then((res) => {
       toast.success("Tariff updated succesfully");
     })
@@ -2396,22 +2569,11 @@ export function AddService(){
               variant="contained"
               color="success"
               onClick={handleClickServices}
-              text="Update Service"
+              text="Add Service"
               customStyles={{ float: "right" }}
             />
             <Grid container spacing={2}>
-            {/* <Grid
-                item
-                xs={6}
-                // sm={4}
-              >
-                <Input
-                  label="Band"
-                  onChange={(e) => setBandName(e.target.value)}
-                  defaultValue={Services?.band}
-                />
-              </Grid> */}
-             {/*  <Grid
+              <Grid
                 item
                 xs={6}
                 // sm={4}
@@ -2438,7 +2600,7 @@ export function AddService(){
                   label="Comments"
                   onChange={(e) => setComments(e.target.value)}
                 />
-              </Grid> */}
+              </Grid>
               <Box
                 mx={1}
                 my={2}
@@ -2588,3 +2750,5 @@ export function AddService(){
           </Box>
   )
 } 
+
+
