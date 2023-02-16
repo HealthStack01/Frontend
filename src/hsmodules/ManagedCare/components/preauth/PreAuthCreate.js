@@ -16,6 +16,8 @@ import ClaimCreateComplaint from "./Complaints";
 import ClaimCreateDiagnosis from "./Diagnosis";
 import ClaimCreateService from "./Services";
 
+const random = require("random-string-generator");
+
 import {
   getComplaintColumns,
   getDiagnosisColumns,
@@ -27,9 +29,10 @@ import Input from "../../../../components/inputs/basic/Input";
 import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
+import {SelectAdmission, SelectAppointment} from "../claims/ClaimsCreate";
 
-const ClaimCreateComponent = ({handleGoBack}) => {
-  const claimsServer = client.service("claims");
+const PreAuthCreateComponent = ({handleGoBack}) => {
+  const claimsServer = client.service("preauth");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
@@ -63,7 +66,7 @@ const ClaimCreateComponent = ({handleGoBack}) => {
     }));
   }, []);
 
-  const getTotalClaimsAmount = useCallback(() => {
+  const getTotalPreAuthAmount = useCallback(() => {
     if (services.length === 0) return;
 
     const sum = services.reduce((accumulator, object) => {
@@ -76,8 +79,8 @@ const ClaimCreateComponent = ({handleGoBack}) => {
   }, [services]);
 
   useEffect(() => {
-    getTotalClaimsAmount();
-  }, [getTotalClaimsAmount]);
+    getTotalPreAuthAmount();
+  }, [getTotalPreAuthAmount]);
 
   const handleSelectClient = client => {
     setState(prev => ({
@@ -127,7 +130,7 @@ const ClaimCreateComponent = ({handleGoBack}) => {
   const diagnosisColumns = getDiagnosisColumns();
   const servicesColumns = getServicesColumns();
 
-  const handleCreateClaim = async data => {
+  const handleCreatePreAuthorization = async data => {
     if (!state.ClientModule.selectedClient._id)
       return toast.warning("Please add Client..");
 
@@ -158,7 +161,7 @@ const ClaimCreateComponent = ({handleGoBack}) => {
       submissiondate: dayjs(),
       submissionby: employee,
       status: "Submitted",
-      claimid: random(12, "uppernumeric"),
+      preauthid: random(12, "uppernumeric"),
       appointmentid: selectedAppointment?._id,
       admissionid: selectedAdmission?._id,
       geolocation: {
@@ -178,11 +181,13 @@ const ClaimCreateComponent = ({handleGoBack}) => {
       .create(document)
       .then(res => {
         hideActionLoader();
-        toast.success("You have succesfully created a Claim");
+        toast.success("You have succesfully created a Preauthorization");
+        setClearClientSearch(true);
+        setClearClientSearch(false);
       })
       .catch(err => {
         hideActionLoader();
-        toast.error(`Failed to create Claim ${err}`);
+        toast.error(`Failed to create Preauthorization ${err}`);
       });
   };
 
@@ -229,6 +234,17 @@ const ClaimCreateComponent = ({handleGoBack}) => {
       </ModalBox>
 
       <ModalBox
+        open={diagnosisModal}
+        onClose={() => setDiagnosisModal(false)}
+        header="Add Complaints to Claim"
+      >
+        <ClaimCreateDiagnosis
+          closeModal={() => setDiagnosisModal(false)}
+          setDiagnosis={setDiagnosis}
+        />
+      </ModalBox>
+
+      <ModalBox
         open={appointmentModal}
         onClose={() => setAppointmentModal(false)}
         header={`Appointments for ${state.ClientModule.selectedClient.firstname} ${state.ClientModule.selectedClient.lastname}`}
@@ -242,17 +258,6 @@ const ClaimCreateComponent = ({handleGoBack}) => {
         header={`Admission Orders for ${state.ClientModule.selectedClient.firstname} ${state.ClientModule.selectedClient.lastname}`}
       >
         <SelectAdmission selectAdmission={handleSelectAdmission} />
-      </ModalBox>
-
-      <ModalBox
-        open={diagnosisModal}
-        onClose={() => setDiagnosisModal(false)}
-        header="Add Complaints to Claim"
-      >
-        <ClaimCreateDiagnosis
-          closeModal={() => setDiagnosisModal(false)}
-          setDiagnosis={setDiagnosis}
-        />
       </ModalBox>
 
       <ModalBox
@@ -298,7 +303,7 @@ const ClaimCreateComponent = ({handleGoBack}) => {
               fontWeight: "600",
             }}
           >
-            Create a New Claim
+            Create a New Preauthorization
           </Typography>
         </Box>
 
@@ -309,9 +314,11 @@ const ClaimCreateComponent = ({handleGoBack}) => {
           }}
           gap={1}
         >
-          <GlobalCustomButton onClick={handleSubmit(handleCreateClaim)}>
+          <GlobalCustomButton
+            onClick={handleSubmit(handleCreatePreAuthorization)}
+          >
             <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-            Create Claim
+            Create Preauthorization
           </GlobalCustomButton>
         </Box>
       </Box>
@@ -338,14 +345,24 @@ const ClaimCreateComponent = ({handleGoBack}) => {
           }}
         >
           <Grid container spacing={2} mb={2}>
-            <Grid item lg={8} md={7}>
+            <Grid item lg={6} md={5}>
               <ClientSearch
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
               />
             </Grid>
 
-            <Grid item lg={4} md={5}>
+            <Grid item lg={3} md={3.5}>
+              <CustomSelect
+                label="Urgency"
+                required
+                control={control}
+                name="urgency"
+                options={["Urgent"]}
+              />
+            </Grid>
+
+            <Grid item lg={3} md={3.5}>
               <CustomSelect
                 label="Patient Type"
                 required
@@ -594,283 +611,4 @@ const ClaimCreateComponent = ({handleGoBack}) => {
   );
 };
 
-export default ClaimCreateComponent;
-
-export const SelectAppointment = ({selectAppointment}) => {
-  const appointmentServer = client.service("appointments");
-  const {state} = useContext(ObjectContext);
-  const [appointments, setAppointments] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  const selectedClient = state.ClientModule.selectedClient;
-
-  const getClientAppointments = useCallback(async () => {
-    setLoading(true);
-    let query = {
-      $sort: {
-        createdAt: -1,
-      },
-      firstname: selectedClient.firstname,
-      lastname: selectedClient.lastname,
-    };
-
-    const resp = await appointmentServer.find({query: query});
-
-    await setAppointments(resp.data);
-    setLoading(false);
-    //console.log(resp.data);
-  }, [state.ClientModule.selectedClient]);
-
-  useEffect(() => {
-    getClientAppointments();
-  }, [getClientAppointments]);
-
-  const handleRow = item => {
-    selectAppointment(item);
-  };
-
-  const appointmentColumns = [
-    {
-      name: "S/N",
-      key: "sn",
-      description: "SN",
-      selector: row => row.sn,
-      sortable: true,
-      inputType: "HIDDEN",
-      width: "60px",
-    },
-    {
-      name: "Date/Time",
-      key: "date",
-      description: "Date/Time",
-      selector: row => dayjs(row.start_time).format("DD/MM/YYYY HH:mm"),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "First Name",
-      key: "firstname",
-      description: "First Name",
-      selector: row => row.firstname,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-
-    {
-      name: "Last Name",
-      key: "lastname",
-      description: "Last Name",
-      selector: row => row.lastname,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Classification",
-      key: "classification",
-      description: "Classification",
-      selector: row => row.appointmentClass,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Location",
-      key: "location",
-      description: "Location",
-      selector: row => row.location_name,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Type",
-      key: "type",
-      description: "Type",
-      selector: row => row.appointment_type,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Status",
-      key: "status",
-      description: "Status",
-      selector: row => row.appointment_status,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Reason",
-      key: "reason",
-      description: "Reason",
-      selector: row => row.appointment_reason,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Practitioner",
-      key: "practitioner",
-      description: "Practitioner",
-      selector: row => row.practitioner_name,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-  ];
-
-  return (
-    <Box
-      sx={{
-        width: "85vw",
-      }}
-    >
-      <Box>
-        <CustomTable
-          title={""}
-          columns={appointmentColumns}
-          data={appointments}
-          pointerOnHover
-          highlightOnHover
-          striped
-          onRowClicked={handleRow}
-          progressPending={loading}
-        />
-      </Box>
-    </Box>
-  );
-};
-
-export const SelectAdmission = ({selectAdmission}) => {
-  const admissionServer = client.service("order");
-  const {state} = useContext(ObjectContext);
-  const [admissions, setAdmissions] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  const selectedClient = state.ClientModule.selectedClient;
-
-  const getClientAppointments = useCallback(async () => {
-    setLoading(true);
-    let query = {
-      $sort: {
-        createdAt: -1,
-      },
-      firstname: selectedClient.firstname,
-      lastname: selectedClient.lastname,
-    };
-
-    const resp = await admissionServer.find({query: query});
-
-    await setAdmissions(resp.data);
-    setLoading(false);
-    //console.log(resp.data);
-  }, [state.ClientModule.selectedClient]);
-
-  useEffect(() => {
-    getClientAppointments();
-  }, [getClientAppointments]);
-
-  const handleRow = item => {
-    selectAdmission(item);
-  };
-
-  const admissionColumns = [
-    {
-      name: "S/N",
-      key: "sn",
-      description: "SN",
-      selector: row => row.sn,
-      sortable: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "Date/Time",
-      key: "createdAt",
-      description: "Date/Time",
-      selector: row => format(new Date(row?.createdAt), "dd/MM/yyyy HH:mm"),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "First Name",
-      key: "firstname",
-      description: "First Name",
-      selector: row => row.client.firstname,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Last Name",
-      key: "lastname",
-      description: "Last Name",
-      selector: row => row.client.lastname,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Admission Order",
-      key: "order",
-      description: "Admission Order",
-      selector: row => row.order,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Fulfilled",
-      key: "fulfilled",
-      description: "Fulfilled",
-      selector: row => (row.fulfilled ? "Yes" : "No"),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-
-    {
-      name: "Status",
-      key: "order_status",
-      description: "Status",
-      selector: row => row.order_status,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Requesting Practitioner",
-      key: "requestingdoctor_Name",
-      description: "Practitioner",
-      selector: row => row.requestingdoctor_Name,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-  ];
-
-  return (
-    <Box
-      sx={{
-        width: "85vw",
-      }}
-    >
-      <Box>
-        <CustomTable
-          title={""}
-          columns={admissionColumns}
-          data={admissions}
-          pointerOnHover
-          highlightOnHover
-          striped
-          onRowClicked={handleRow}
-          progressPending={loading}
-        />
-      </Box>
-    </Box>
-  );
-};
+export default PreAuthCreateComponent;
