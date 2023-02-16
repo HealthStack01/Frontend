@@ -2007,7 +2007,7 @@ export function HealthPlanDetails({
       inputType: "TEXT",
     },
     {
-      name: "Delele",
+      name: "Delete",
       width: "50px",
       center: true,
       key: "contact_email",
