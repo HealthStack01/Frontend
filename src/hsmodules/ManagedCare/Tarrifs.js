@@ -23,7 +23,7 @@ import { FormsHeaderText } from "../../components/texts";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import DeleteOutline from "@mui/icons-material/DeleteOutline";
 import CategorySearch from "../helpers/CategorySearch";
-import CustomConfirmationDialog from '../../components/confirm-dialog/confirm-dialog';
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 
 import {
   BandSearch,
@@ -51,7 +51,6 @@ export default function TarrifList({ standAlone }) {
   const [openTarrifModify, setOpenTarrifModify] = useState(false);
   const [openService, setOpenService] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState();
-  
 
   const handleHideTariffModal = () => {
     setOpenTarrif(false);
@@ -68,7 +67,6 @@ export default function TarrifList({ standAlone }) {
   const handleTariffModifyModal = () => {
     setOpenTarrifModify(true);
   };
-
 
   const handleHideServiceModal = () => {
     setOpenService(false);
@@ -137,14 +135,13 @@ export default function TarrifList({ standAlone }) {
         <TariffModify />
       </ModalBox>
 
-        {/* <ModalBox
+      {/* <ModalBox
           open={openService}
           onClose={handleHideServiceModal}
           header="Modify Plans"
         >
          <PlanModify/>
         </ModalBox> */}
-      
 
       <ModalBox
         width="50vw"
@@ -188,10 +185,10 @@ export const TarrifListView = ({
   const [changeView, setChangeView] = useState("service");
   const [selectPlans, setSelectPlans] = useState([]);
   const [confirmDialog, setConfirmDialog] = useState(false);
-  const [serviceSN, setServiceSN] = useState(null)
-  
-// console.log(Services)
- 
+  const [serviceSN, setServiceSN] = useState(null);
+
+  // console.log(Services)
+
   const handleRow = async (Service, i) => {
     // console.log(Service);
     setSlide(!slide);
@@ -206,8 +203,6 @@ export const TarrifListView = ({
     }));
   };
 
-
-  
   // const handleSelectedCategory = async Client => {
   //   const newContractModule = {
   //     selectedContracts: Category,
@@ -224,31 +219,29 @@ export const TarrifListView = ({
 
   const Services = state.ServicesModule.selectedServices;
 
-
   const handleService = async (Category) => {
-    console.log(Category.plans)
-  //   if (selectedServices && selectedServices.contracts._id === Service._id)
-  //   return setSelectedServices(null);
-  setSelectedCategory(Category);
-  const bandPlans = Category.plans.map((plan) => 
-
-        planName = plan.planName,
-        benefit = plan.benefit,
-        benefitcategory = plan.benefitcategory,
-        feeForService = plan.feeForService,
-        capitation = plan.capitation,
-        coPay = plan.coPay,
-        copayDetail = plan.copayDetail,
-        reqPA = plan.reqPA,
-   )
-   setSelectPlans(bandPlans?.flat(1));
+    console.log(Category.plans);
+    //   if (selectedServices && selectedServices.contracts._id === Service._id)
+    //   return setSelectedServices(null);
+    setSelectedCategory(Category);
+    const bandPlans = Category.plans.map(
+      (plan) => (planName = plan.planName),
+      (benefit = plan.benefit),
+      (benefitcategory = plan.benefitcategory),
+      (feeForService = plan.feeForService),
+      (capitation = plan.capitation),
+      (coPay = plan.coPay),
+      (copayDetail = plan.copayDetail),
+      (reqPA = plan.reqPA)
+    );
+    setSelectPlans(bandPlans?.flat(1));
   };
 
   // console.log(Services)
-  console.log(selectPlans)
+  console.log(selectPlans);
 
   const handleTariff = async (Category) => {
-    setSelectedCategory(Category?.contracts)
+    setSelectedCategory(Category?.contracts);
     const newContractModule = {
       selectedContracts: Category,
       show: "detail",
@@ -257,13 +250,10 @@ export const TarrifListView = ({
       ...prevstate,
       TariffModule: newContractModule,
     }));
-   ;
-   showServices()
-  }
-  
+    showServices();
+  };
 
   const handleDelete = () => {
-  
     const newUpdatedServices = Object.values(Services).filter((data, i) => {
       let position = serviceSN;
       return position !== i;
@@ -271,43 +261,49 @@ export const TarrifListView = ({
     let data = {
       selectedService: newUpdatedServices,
     };
-  
+
     const dleteId = Services._id;
     // console.log(dleteId)
-		ServicesServ.remove(dleteId, data)
-			.then((res) => {
-        setState(prev => ({
+    ServicesServ.remove(dleteId, data)
+      .then((res) => {
+        setState((prev) => ({
           ...prev,
-          ServicesModule: {...prev.ServicesModule, selectedServices: res.selectedService},
+          ServicesModule: {
+            ...prev.ServicesModule,
+            selectedServices: res.selectedService,
+          },
         }));
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          TariffModule: {...prev.TariffModule, selectedCategory: res.selectedService},
+          TariffModule: {
+            ...prev.TariffModule,
+            selectedCategory: res.selectedService,
+          },
         }));
-        setSelectPlans(res.selectedService) 
-        setConfirmDialog(false)
-				toast.success(`Tariff successfully deleted!`);
-			})
-			.catch((err) => {
-				toast.error(`Sorry, Unable to delete tariff. ${err}`);
-			});
-		//}
+        setSelectPlans(res.selectedService);
+        setConfirmDialog(false);
+        toast.success(`Tariff successfully deleted!`);
+      })
+      .catch((err) => {
+        toast.error(`Sorry, Unable to delete tariff. ${err}`);
+      });
+    //}
   };
 
   // const handleDelete = async () => {
-	// 	//let conf = window.confirm("Are you sure you want to delete this data?");
-		// const dleteId = Services._id;
-		// // if (conf) {
-		// ServicesServ.remove(dleteId)
-		// 	.then((res) => {
-		// 		toast.success(`Tariff successfully deleted!`);
-		// 	})
-		// 	.catch((err) => {
-		// 		toast.error(`Sorry, Unable to delete tariff. ${err}`);
-		// 	});
-		//}
-	// };
-// console.log(selectedCategory)
+  // 	//let conf = window.confirm("Are you sure you want to delete this data?");
+  // const dleteId = Services._id;
+  // // if (conf) {
+  // ServicesServ.remove(dleteId)
+  // 	.then((res) => {
+  // 		toast.success(`Tariff successfully deleted!`);
+  // 	})
+  // 	.catch((err) => {
+  // 		toast.error(`Sorry, Unable to delete tariff. ${err}`);
+  // 	});
+  //}
+  // };
+  // console.log(selectedCategory)
   //  const Contracts = state.TariffModule.selectedContracts;
   // // console.log(selectedCategory)
   // const handleRemove = (contract) => {
@@ -317,7 +313,6 @@ export const TarrifListView = ({
   //  setSelectedCategory(newProductItem);
   // };
 
-  
   const handleSearch = (val) => {
     const field = "name";
     // console.log(val);
@@ -401,7 +396,6 @@ export const TarrifListView = ({
 
   // console.log(facilities);
 
-  
   const ServiceSchema = [
     {
       name: "S/N",
@@ -619,14 +613,14 @@ export const TarrifListView = ({
       description: "Delete row",
       selector: (i, row) => (
         <IconButton
-        onClick={() => {
-          setServiceSN(i);
-          setConfirmDialog(true);
-        }}
-        color="error"
-      >
-        <DeleteOutline fontSize="small" />
-      </IconButton>
+          onClick={() => {
+            setServiceSN(i);
+            setConfirmDialog(true);
+          }}
+          color="error"
+        >
+          <DeleteOutline fontSize="small" />
+        </IconButton>
       ),
       sortable: true,
       required: true,
@@ -657,10 +651,9 @@ export const TarrifListView = ({
     },
   ];
 
-
   const conditionalRowStyles = [
     {
-      when: row => row._id === selectedServices?._id,
+      when: (row) => row._id === selectedServices?._id,
       style: {
         backgroundColor: "#4cc9f0",
         color: "white",
@@ -671,17 +664,15 @@ export const TarrifListView = ({
     },
   ];
 
- 
-
   return (
     <div>
       <CustomConfirmationDialog
-				open={confirmDialog}
-				cancelAction={() => setConfirmDialog(false)}
-				confirmationAction={handleDelete}
-				type='danger'
-				message='Are you sure you want to delete this data?'
-			/>
+        open={confirmDialog}
+        cancelAction={() => setConfirmDialog(false)}
+        confirmationAction={handleDelete}
+        type="danger"
+        message="Are you sure you want to delete this data?"
+      />
       <Box
         sx={{
           width: "98%",
@@ -775,47 +766,46 @@ export const TarrifListView = ({
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
-                my: "1rem"
+                my: "1rem",
               }}
             >
-               <FormsHeaderText text={Services?.band} />
-             
-                <Box display="flex" gap="1rem">
+              <FormsHeaderText text={Services?.band} />
+
+              <Box display="flex" gap="1rem">
                 <GlobalCustomButton
-          color="error"
-          onClick={() => {
-            setServiceSN(i);
-          }}
-        >
-          <CreateIcon fontSize="small" sx={{ marginRight: "5px" }} />
-          Edit
-        </GlobalCustomButton>
+                  color="error"
+                  onClick={() => {
+                    setServiceSN(i);
+                  }}
+                >
+                  <CreateIcon fontSize="small" sx={{ marginRight: "5px" }} />
+                  Edit
+                </GlobalCustomButton>
                 <GlobalCustomButton
                   text="Add Services"
                   onClick={showServices}
                   customStyles={{ marginLeft: "1rem" }}
-                  color='secondary'
+                  color="secondary"
                 />
               </Box>
             </Box>
-            
+
             <Box>
               {changeView === "service" ? (
                 <Box
-                
                   sx={{
                     display: "flex",
-            width: "100%",
-            justifyContent: "space-between",
+                    width: "100%",
+                    justifyContent: "space-between",
                   }}
                 >
-                 <Box
-                 sx={{
-                  height: "calc(100vh - 170px)",
-              transition: "width 0.5s ease-in",
-              width: selectedCategory ? "49.5%" : "100%",
-                 }}
-                 >
+                  <Box
+                    sx={{
+                      height: "calc(100vh - 170px)",
+                      transition: "width 0.5s ease-in",
+                      width: selectedCategory ? "49.5%" : "100%",
+                    }}
+                  >
                     <CustomTable
                       title={""}
                       columns={productItemSchema}
@@ -827,27 +817,27 @@ export const TarrifListView = ({
                       progressPending={loading}
                       conditionalRowStyles={conditionalRowStyles}
                     />
-                 </Box>
-                {selectedCategory && 
-                 <Box 
-                 sx={{
-                  height: "calc(100vh - 170px)",
-                  width: "49.5%",
-                  transition: "width 0.5s ease-in",
-                 }}
-                 >
-                  <CustomTable
-                    title={""}
-                    columns={otherServiceSchema}
-                    data={selectPlans}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    progressPending={loading}
-                    // onRowClicked={(row) => handleTariff(row)}
-                  />
                   </Box>
-                }
+                  {selectedCategory && (
+                    <Box
+                      sx={{
+                        height: "calc(100vh - 170px)",
+                        width: "49.5%",
+                        transition: "width 0.5s ease-in",
+                      }}
+                    >
+                      <CustomTable
+                        title={""}
+                        columns={otherServiceSchema}
+                        data={selectPlans}
+                        pointerOnHover
+                        highlightOnHover
+                        striped
+                        progressPending={loading}
+                        // onRowClicked={(row) => handleTariff(row)}
+                      />
+                    </Box>
+                  )}
                 </Box>
               ) : (
                 <Box
@@ -1941,7 +1931,7 @@ export function InheritTariff({ getBandfacility, newValue }) {
   const [providerBand, setProviderBand] = useState([]);
   const [selectedBand, setSelectedBand] = useState("");
   const Services = state.ServicesModule.selectedServices;
-// console.log(Services)
+  // console.log(Services)
   const getProviderBand = async () => {
     if (user.currentEmployee) {
       const findServices = await BandsServ.find({
@@ -1960,6 +1950,8 @@ export function InheritTariff({ getBandfacility, newValue }) {
           },
         },
       });
+
+      console.log("provideerBand", findServices.data);
       await setProviderBand(findServices.data);
     }
   };
@@ -2141,26 +2133,24 @@ export function TariffModify() {
   const [loading, setLoading] = useState(false);
   const ServicesServ = client.service("tariff");
   const [selectPlan, setSelectPlan] = useState([]);
-  const [editing, setEditing] = useState(false)
-   const [service, setService] = useState("");
-   const [successService, setSuccessService] = useState(false);
-   const [serviceUnavailable, setServiceUnavailable] = useState({
+  const [editing, setEditing] = useState(false);
+  const [service, setService] = useState("");
+  const [successService, setSuccessService] = useState(false);
+  const [serviceUnavailable, setServiceUnavailable] = useState({
     status: false,
     name: "",
   });
   const contractDetails = state.TariffModule.selectedContracts;
- const servicesDetails = state.ServicesModule.selectedServices;
-  console.log(contractDetails)
-  const { register, handleSubmit} = useForm({
+  const servicesDetails = state.ServicesModule.selectedServices;
+  console.log(contractDetails);
+  const { register, handleSubmit } = useForm({
     defaultValues: {
       bandName: servicesDetails?.band,
       servicename: contractDetails?.serviceName,
-        comment: contractDetails?.comments,
-        costPrice: contractDetails?.price,
-    }
+      comment: contractDetails?.comments,
+      costPrice: contractDetails?.price,
+    },
   });
-
-  
 
   const getSearchService = (obj) => {
     setService(obj);
@@ -2180,168 +2170,179 @@ export function TariffModify() {
     // console.log(obj)
     //here
   };
-  
+
   const onSubmit = async (data) => {
-    setLoading(true)
-//  let contract = Services.contracts.find((data) => data._id === id )
-//  console.log(contract)
+    setLoading(true);
+    //  let contract = Services.contracts.find((data) => data._id === id )
+    //  console.log(contract)
     const newPlanDetail = {
       ...contractDetails,
       ...servicesDetails,
       organizationId: user.currentEmployee.facilityDetail._id,
       organizationName: user.currentEmployee.facilityDetail.facilityName,
       band: data.bandName,
-      contracts: [{
-        serviceName: service?.name,
-        comments: data.comment,
-        price: data.costPrice,
-        plans : contractDetails?.plans
-      }]
+      contracts: [
+        {
+          serviceName: service?.name,
+          comments: data.comment,
+          price: data.costPrice,
+          plans: contractDetails?.plans,
+        },
+      ],
     };
-
 
     ServicesServ.patch(servicesDetails._id, newPlanDetail)
       .then((res) => {
         // console.log(res);
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          ServicesModule: {...prev.ServicesModule, selectedServices: res},
+          ServicesModule: { ...prev.ServicesModule, selectedServices: res },
         }));
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          TariffModule: {...prev.TariffModule, selectedCategory: res},
+          TariffModule: { ...prev.TariffModule, selectedCategory: res },
         }));
-        setLoading(false)
+        setLoading(false);
         toast.success("Tariff updated succesfully");
       })
       .catch((err) => {
-        setLoading(false)
+        setLoading(false);
         toast.error("Error updating Tariff " + err);
       });
   };
 
   return (
     <>
-    
       <Box sx={{ my: "1rem", display: "flex", justifyContent: "flex-end" }}>
-        {!editing ?  
-        <GlobalCustomButton text="Edit" onClick={() => {
-          setEditing(!editing);
-        }} />:
-         <GlobalCustomButton color="success" text="Update" type='submit'
-         onClick={handleSubmit(onSubmit)} />
-      }
+        {!editing ? (
+          <GlobalCustomButton
+            text="Edit"
+            onClick={() => {
+              setEditing(!editing);
+            }}
+          />
+        ) : (
+          <GlobalCustomButton
+            color="success"
+            text="Update"
+            type="submit"
+            onClick={handleSubmit(onSubmit)}
+          />
+        )}
       </Box>
       <Grid container spacing={2}>
-       {!editing ?  <Grid
-          item
-          xs={6}
-          // sm={4}
-        >
-          <Input
-            label="Band"
-            name="bandName"
-            register={register("bandName", { required: true })}
-            disabled={!editing}
-            // defaultValue={Services.band}
-          />
-        </Grid>:
-         <Grid
-         item
-         xs={6}
-         // sm={4}
-       >
-         <Input
-           label="Band"
-           name="bandName"
-           register={register("bandName", { required: true })}
-          //  defaultValue={Services.band}
-         />
-       </Grid>
-        }
-        {!editing ? 
-        <Grid
-        item
-        xs={6}
-        // sm={4}
-      >
-        <Input
-          label="Service Name"
-          name="servicename"
-          register={register("servicename", 
-          { required: true })}
-          disabled={!editing}
-          // defaultValue={.serviceName}
-        />
-      </Grid>: 
-      <Grid
-      item
-      xs={6}
-      // sm={4}
-    >
-      {/* <Input
+        {!editing ? (
+          <Grid
+            item
+            xs={6}
+            // sm={4}
+          >
+            <Input
+              label="Band"
+              name="bandName"
+              register={register("bandName", { required: true })}
+              disabled={!editing}
+              // defaultValue={Services.band}
+            />
+          </Grid>
+        ) : (
+          <Grid
+            item
+            xs={6}
+            // sm={4}
+          >
+            <Input
+              label="Band"
+              name="bandName"
+              register={register("bandName", { required: true })}
+              //  defaultValue={Services.band}
+            />
+          </Grid>
+        )}
+        {!editing ? (
+          <Grid
+            item
+            xs={6}
+            // sm={4}
+          >
+            <Input
+              label="Service Name"
+              name="servicename"
+              register={register("servicename", { required: true })}
+              disabled={!editing}
+              // defaultValue={.serviceName}
+            />
+          </Grid>
+        ) : (
+          <Grid
+            item
+            xs={6}
+            // sm={4}
+          >
+            {/* <Input
         label="Service Name"
         name="servicename"
         register={register("servicename", { required: true })}
         // defaultValue={existService.serviceName}
       /> */}
-      <SearchSelect
-        getSearchService={getSearchService}
-        clear={successService}
-        notfound={notfound}
-        placeholder='Search Service'
-      />
-    </Grid>  
-      }
-        {!editing ?
-      <Grid
-      item
-      xs={6}
-      // sm={4}
-    >
-      <Input
-        label="Price"
-        name="costPrice"
-        register={register("costPrice", { required: true })}
-        disabled={!editing}
-      />
-    </Grid>:
-    <Grid
-    item
-    xs={6}
-    // sm={4}
-  >
-    <Input
-      label="Price"
-      name="costPrice"
-      register={register("costPrice", { required: true })}
-    />
-  </Grid>  
-      }
-        {!editing ?
-      <Grid item xs={12} sm={12}>
-      <Textarea
-        label="Comments"
-        name="comment"
-        register={register("comment", { required: true })}
-        disabled={!editing}
-      />
-    </Grid>:
-    <Grid item xs={12} sm={12}>
-    <Textarea
-      label="Comments"
-      name="comment"
-      register={register("comment", { required: true })}
-    />
-  </Grid>  
-      }
+            <SearchSelect
+              getSearchService={getSearchService}
+              clear={successService}
+              notfound={notfound}
+              placeholder="Search Service"
+            />
+          </Grid>
+        )}
+        {!editing ? (
+          <Grid
+            item
+            xs={6}
+            // sm={4}
+          >
+            <Input
+              label="Price"
+              name="costPrice"
+              register={register("costPrice", { required: true })}
+              disabled={!editing}
+            />
+          </Grid>
+        ) : (
+          <Grid
+            item
+            xs={6}
+            // sm={4}
+          >
+            <Input
+              label="Price"
+              name="costPrice"
+              register={register("costPrice", { required: true })}
+            />
+          </Grid>
+        )}
+        {!editing ? (
+          <Grid item xs={12} sm={12}>
+            <Textarea
+              label="Comments"
+              name="comment"
+              register={register("comment", { required: true })}
+              disabled={!editing}
+            />
+          </Grid>
+        ) : (
+          <Grid item xs={12} sm={12}>
+            <Textarea
+              label="Comments"
+              name="comment"
+              register={register("comment", { required: true })}
+            />
+          </Grid>
+        )}
       </Grid>
     </>
   );
 }
 
-
-export function AddService(){
+export function AddService() {
   const [, setPriceState] = useState({
     bronze: false,
     gold: false,
@@ -2355,7 +2356,7 @@ export function AddService(){
   const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [facilityId, setFacilityId] = useState("");
-    const [name, setName] = useState("");
+  const [name, setName] = useState("");
   const [bandName, setBandName] = useState("");
   const [benefittingplans, setBenefittingPlans] = useState([]);
   const ServicesServ = client.service("tariff");
@@ -2532,7 +2533,6 @@ export function AddService(){
 
   const contractDetails = state.TariffModule.selectedContracts;
 
-  
   const handleClickServices = async () => {
     let seviceItem = {
       source_org: user.currentEmployee.facilityDetail,
@@ -2542,213 +2542,197 @@ export function AddService(){
       price: contractDetails.price,
       comments: contractDetails.comments,
       plans: benefittingplans,
-    }
+    };
 
-    const id = contractDetails._id
+    const id = contractDetails._id;
 
     ServicesServ.patch(id, seviceItem)
-    .then((res) => {
-      toast.success("Tariff updated succesfully");
-    })
-    .catch((err) => {
-      toast.error("Error updating Tariff " + err);
-    });
-    
+      .then((res) => {
+        toast.success("Tariff updated succesfully");
+      })
+      .catch((err) => {
+        toast.error("Error updating Tariff " + err);
+      });
   };
 
- 
+  return (
+    <Box
+      sx={{
+        width: "80vw",
+      }}
+    >
+      <GlobalCustomButton
+        type="button"
+        variant="contained"
+        color="success"
+        onClick={handleClickServices}
+        text="Add Service"
+        customStyles={{ float: "right" }}
+      />
+      <Grid container spacing={2}>
+        <Grid
+          item
+          xs={6}
+          // sm={4}
+        >
+          <SearchSelect
+            getSearchService={getSearchService}
+            clear={successService}
+            notfound={notfound}
+            placeholder="Search Service"
+          />
+        </Grid>
+        <Grid
+          item
+          xs={6}
+          // sm={4}
+        >
+          <Input label="Price" onChange={(e) => setCostprice(e.target.value)} />
+        </Grid>
+        <Grid item xs={12} sm={12}>
+          <Textarea
+            label="Comments"
+            onChange={(e) => setComments(e.target.value)}
+          />
+        </Grid>
+        <Box
+          mx={1}
+          my={2}
+          sx={{
+            width: "100%",
+          }}
+        >
+          {facilities.map((c) => {
+            const allCategories = c?.benefits?.map((cat) => cat);
+            // console.log("ALL CATS", allCategories);
+            return (
+              <>
+                <Grid>
+                  <Box display="flex" gap={4} pb={3}>
+                    <Box
+                      sx={{ display: "flex", alignItems: "center" }}
+                      key={c._id}
+                    >
+                      <input
+                        className="checkbox is-small "
+                        type="checkbox"
+                        value={c._id}
+                        name={`selectedPlans +${c._id}`}
+                        label={c.planName}
+                        onChange={(event) => handleChange(event, c._id, c)}
+                        style={{ marginRight: "10px" }}
+                      />
+                      <p
+                        style={{
+                          fontWeight: "bold",
+                          marginRight: "10px",
+                        }}
+                      >
+                        {c.planName}
+                      </p>
+                    </Box>
+                    {!c.checked ? null : (
+                      <>
+                        <Grid item xs={12} sm={2}>
+                          <CustomSelect
+                            options={allCategories}
+                            label="Select Benefit Category"
+                            onChange={(e) => {
+                              setBeneCat(e.target.value);
+                              setSelectNo(c._id);
+                            }}
+                          />
+                        </Grid>
 
-  return(
-     <Box
-            sx={{
-              width: "80vw",
-            }}
-          >
-            <GlobalCustomButton
-              type="button"
-              variant="contained"
-              color="success"
-              onClick={handleClickServices}
-              text="Add Service"
-              customStyles={{ float: "right" }}
-            />
-            <Grid container spacing={2}>
-              <Grid
-                item
-                xs={6}
-                // sm={4}
-              >
-                <SearchSelect
-                  getSearchService={getSearchService}
-                  clear={successService}
-                  notfound={notfound}
-                  placeholder="Search Service"
-                />
-              </Grid>
-              <Grid
-                item
-                xs={6}
-                // sm={4}
-              >
-                <Input
-                  label="Price"
-                  onChange={(e) => setCostprice(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <Textarea
-                  label="Comments"
-                  onChange={(e) => setComments(e.target.value)}
-                />
-              </Grid>
-              <Box
-                mx={1}
-                my={2}
-                sx={{
-                  width: "100%",
-                }}
-              >
-                {facilities.map((c) => {
-                  const allCategories = c?.benefits?.map((cat) => cat);
-                  // console.log("ALL CATS", allCategories);
-                  return (
-                    <>
-                      <Grid>
-                        <Box display="flex" gap={4} pb={3}>
-                          <Box
-                            sx={{ display: "flex", alignItems: "center" }}
+                        <Grid item xs={12} sm={2}>
+                          <CustomTariffSelect
                             key={c._id}
-                          >
-                            <input
-                              className="checkbox is-small "
-                              type="checkbox"
-                              value={c._id}
-                              name={`selectedPlans +${c._id}`}
-                              label={c.planName}
-                              onChange={(event) =>
-                                handleChange(event, c._id, c)
-                              }
-                              style={{ marginRight: "10px" }}
+                            options={selectNo === c._id ? newBene : []}
+                            label="Select Benefit"
+                            onChange={(event) => handleBenefit(event, c._id, c)}
+                          />
+                        </Grid>
+
+                        <Box key={c._id}>
+                          <input
+                            className="is-small"
+                            value="Capitation"
+                            name={`servtype +${c._id}`}
+                            type="radio"
+                            onChange={(event) =>
+                              handleServType(event, c._id, c)
+                            }
+                            style={{ marginRight: "10px" }}
+                          />
+                          <span>Capitation</span>
+                        </Box>
+                        <Box key={c._id}>
+                          <input
+                            className="is-small"
+                            name={`servtype +${c._id}`}
+                            value="Fee for Service"
+                            type="radio"
+                            onChange={(event) =>
+                              handleServType(event, c._id, c)
+                            }
+                            style={{ marginRight: "10px" }}
+                          />
+
+                          <span>Fee for Service</span>
+                        </Box>
+                        <Box key={c._id}>
+                          <input
+                            className=" is-small"
+                            name={`pay${c._id}`}
+                            value="Fee for Service"
+                            type="checkbox"
+                            onChange={(event) => copaySelect(event, c._id)}
+                            style={
+                              showCoPay === c._id
+                                ? {
+                                    marginBottom: ".6rem",
+                                    marginRight: "10px",
+                                  }
+                                : {
+                                    marginBottom: "0",
+                                    marginRight: "10px",
+                                  }
+                            }
+                          />
+                          <span>Co-Pay?</span>
+                          {showCoPay === c._id && sCoPay && (
+                            <Input
+                              width="100%"
+                              // className='input smallerinput is-small is-pulled-right '
+                              name={`copay +${c._id}`}
+                              type="text"
+                              onChange={(event) => handleCopay(event, c._id, c)}
+                              label="Amount"
                             />
-                            <p
-                              style={{
-                                fontWeight: "bold",
-                                marginRight: "10px",
-                              }}
-                            >
-                              {c.planName}
-                            </p>
-                          </Box>
-                          {!c.checked ? null : (
-                            <>
-                              <Grid item xs={12} sm={2}>
-                                <CustomSelect
-                                  options={allCategories}
-                                  label="Select Benefit Category"
-                                  onChange={(e) => {
-                                    setBeneCat(e.target.value);
-                                    setSelectNo(c._id);
-                                  }}
-                                />
-                              </Grid>
-
-                              <Grid item xs={12} sm={2}>
-                                <CustomTariffSelect
-                                  key={c._id}
-                                  options={selectNo === c._id ? newBene : []}
-                                  label="Select Benefit"
-                                  onChange={(event) =>
-                                    handleBenefit(event, c._id, c)
-                                  }
-                                />
-                              </Grid>
-
-                              <Box key={c._id}>
-                                <input
-                                  className="is-small"
-                                  value="Capitation"
-                                  name={`servtype +${c._id}`}
-                                  type="radio"
-                                  onChange={(event) =>
-                                    handleServType(event, c._id, c)
-                                  }
-                                  style={{ marginRight: "10px" }}
-                                />
-                                <span>Capitation</span>
-                              </Box>
-                              <Box key={c._id}>
-                                <input
-                                  className="is-small"
-                                  name={`servtype +${c._id}`}
-                                  value="Fee for Service"
-                                  type="radio"
-                                  onChange={(event) =>
-                                    handleServType(event, c._id, c)
-                                  }
-                                  style={{ marginRight: "10px" }}
-                                />
-
-                                <span>Fee for Service</span>
-                              </Box>
-                              <Box key={c._id}>
-                                <input
-                                  className=" is-small"
-                                  name={`pay${c._id}`}
-                                  value="Fee for Service"
-                                  type="checkbox"
-                                  onChange={(event) =>
-                                    copaySelect(event, c._id)
-                                  }
-                                  style={
-                                    showCoPay === c._id
-                                      ? {
-                                          marginBottom: ".6rem",
-                                          marginRight: "10px",
-                                        }
-                                      : {
-                                          marginBottom: "0",
-                                          marginRight: "10px",
-                                        }
-                                  }
-                                />
-                                <span>Co-Pay?</span>
-                                {showCoPay === c._id && sCoPay && (
-                                  <Input
-                                    width="100%"
-                                    // className='input smallerinput is-small is-pulled-right '
-                                    name={`copay +${c._id}`}
-                                    type="text"
-                                    onChange={(event) =>
-                                      handleCopay(event, c._id, c)
-                                    }
-                                    label="Amount"
-                                  />
-                                )}
-                              </Box>
-
-                              <Box key={c._id}>
-                                <input
-                                  className="checkbox is-small"
-                                  name={`authCode +${c._id}`}
-                                  type="checkbox"
-                                  onChange={(event) =>
-                                    handleAuthCode(event, c._id, c)
-                                  }
-                                  style={{ marginRight: "10px" }}
-                                />
-                                <span>Requires Pre-Auth?</span>
-                              </Box>
-                            </>
                           )}
                         </Box>
-                      </Grid>
-                    </>
-                  );
-                })}
-              </Box>
-            </Grid>
-          </Box>
-  )
-} 
 
-
+                        <Box key={c._id}>
+                          <input
+                            className="checkbox is-small"
+                            name={`authCode +${c._id}`}
+                            type="checkbox"
+                            onChange={(event) =>
+                              handleAuthCode(event, c._id, c)
+                            }
+                            style={{ marginRight: "10px" }}
+                          />
+                          <span>Requires Pre-Auth?</span>
+                        </Box>
+                      </>
+                    )}
+                  </Box>
+                </Grid>
+              </>
+            );
+          })}
+        </Box>
+      </Grid>
+    </Box>
+  );
+}
