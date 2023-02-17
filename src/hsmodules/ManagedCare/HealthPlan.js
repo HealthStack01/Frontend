@@ -625,15 +625,6 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
       required: true,
       inputType: "TEXT",
     },
-    //  {
-    //    name: 'Amount',
-    //    key: 'price',
-    //    description: 'Amount',
-    //    selector: (row) => row?.price,
-    //    sortable: true,
-    //    required: true,
-    //    inputType: 'TEXT',
-    //  },
     {
       name: "Billing type",
       key: "billingtype",
@@ -712,7 +703,6 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
     },
     {
       name: "Del",
-      width: "50px",
       center: true,
       key: "contact_email",
       description: "Enter Date",
@@ -1187,6 +1177,9 @@ export function HealthPlanList({
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState("list");
+  const [openInheritHealthPlan, setOpenInheritHealthPlan] = useState(false);
+  const [selectedHealthPlan, setSelectedHealthPlan] = useState({});
+  const [onSave, setOnSave] = useState(false);
 
   const handleCreateNew = async () => {
     setShowModal(1);
@@ -1335,6 +1328,37 @@ export function HealthPlanList({
       }
     }
   };
+  const handleSubmitInheritHealthPlan = async () => {
+    console.log("selectedHealthPlan", selectedHealthPlan);
+    if (onSave) {
+      let data = {
+        organizationId: user.currentEmployee.facilityDetail._id,
+        organizationName: user.currentEmployee.facilityDetail.facilityName,
+        planName: selectedHealthPlan.planName,
+        premiums: selectedHealthPlan.premiums,
+        planCategory: selectedHealthPlan.planCategory,
+        familyLimit: selectedHealthPlan.familyLimit,
+        individualLimit: selectedHealthPlan.indvidualLimit,
+        providerNetwork: selectedHealthPlan.providerNetwork,
+        coverageArea: selectedHealthPlan.coverageArea,
+        benefits: selectedHealthPlan.benefits,
+      };
+
+      HealthPlanServ.create(data)
+        .then((res) => {
+          setOpenInheritHealthPlan(false);
+          setSelectedHealthPlan({});
+          getFacilities();
+          setOnSave(false);
+          toast.success("HealthPlan Inherit Successfully");
+        })
+        .catch((err) => {
+          toast.error("Error creating Services " + err);
+        });
+    } else {
+      toast.warning("You need to select a health plan you want to inherit");
+    }
+  };
 
   useEffect(() => {
     getFacilities();
@@ -1466,12 +1490,74 @@ export function HealthPlanList({
                     Health Plan
                   </h2>
                 </div>
+                {openInheritHealthPlan && (
+                  <>
+                    <ModalBox
+                      width="50vw"
+                      open={openInheritHealthPlan}
+                      onClose={() => setOpenInheritHealthPlan(false)}
+                      header="Inherit HealthPlan"
+                    >
+                      <Box>
+                        <Box
+                          sx={{
+                            my: "1rem",
+                            display: "flex",
+                            justifyContent: "flex-end",
+                          }}
+                        >
+                          <GlobalCustomButton
+                            text="Save"
+                            onClick={handleSubmitInheritHealthPlan}
+                          />
+                        </Box>
 
+                        <Box display="flex" flexDirection="column" gap={3}>
+                          <Box>
+                            {/* <BandSearch clear={success} value={selectedBand} onChange={(e) => setSelectedBand(e.target.value)}/> */}
+                            <CustomSelect
+                              name="planName"
+                              placeholder="Choose HealthPlan"
+                              options={facilities}
+                              value={selectedHealthPlan}
+                              label="Select HealthPlan"
+                              onChange={(e) => {
+                                setSelectedHealthPlan(e.target.value);
+                                setOnSave(true);
+                              }}
+                            />
+                          </Box>
+                        </Box>
+                      </Box>
+                    </ModalBox>
+                  </>
+                )}
                 {!standAlone && (
-                  <GlobalCustomButton
-                    text="Add new "
-                    onClick={handleCreateNew}
-                  />
+                  <>
+                    {" "}
+                    <Grid container spacing={1} mb={0.5}>
+                      <Grid item xs={12} sm={12}>
+                        <GlobalCustomButton
+                          text="Inherit HealthPlan "
+                          onClick={() => setOpenInheritHealthPlan(true)}
+                          customStyles={{
+                            float: "right",
+                            paddingRight: "1rem",
+                            marginRight: "5px",
+                          }}
+                        />
+                        <GlobalCustomButton
+                          text="Add new "
+                          onClick={handleCreateNew}
+                          customStyles={{
+                            float: "right",
+                            paddingRight: "1rem",
+                            marginRight: "5px",
+                          }}
+                        />
+                      </Grid>
+                    </Grid>
+                  </>
                 )}
               </TableMenu>
 
@@ -2008,7 +2094,6 @@ export function HealthPlanDetails({
     },
     {
       name: "Delele",
-      width: "50px",
       center: true,
       key: "contact_email",
       description: "Enter Date",
