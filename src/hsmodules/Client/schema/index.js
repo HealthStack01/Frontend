@@ -233,8 +233,8 @@ export const createClientSchema = yup.object().shape({
     .required("Enter the phone number of the client!"),
   email: yup
     .string()
-    .email("Must be a valid email!")
-    .required("Email is required!"),
+    .email("Must be a valid email!"),
+    //.required("Email is required!"),
 
   nok_email: yup.string().email("Must be a valid email!"),
 
@@ -254,8 +254,8 @@ export const createClientSchema2 = yup.object().shape({
     .required("Enter the phone number of the client!"),
   email: yup
     .string()
-    .email("Must be a valid email!")
-    .required("Email is required!"),
+    .email("Must be a valid email!"),
+    //.required("Email is required!"),
 
   nok_email: yup.string().email("Must be a valid email!"),
 
