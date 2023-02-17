@@ -52,6 +52,7 @@ export default function TarrifList({ standAlone }) {
   const [openService, setOpenService] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState();
   
+  const Services = state.ServicesModule.selectedServices;
 
   const handleHideTariffModal = () => {
     setOpenTarrif(false);
@@ -137,14 +138,19 @@ export default function TarrifList({ standAlone }) {
         <TariffModify />
       </ModalBox>
 
-        {/* <ModalBox
+       
+      <ModalBox
           open={openService}
           onClose={handleHideServiceModal}
           header="Modify Plans"
         >
-         <PlanModify/>
-        </ModalBox> */}
-      
+          <Input
+            label="Band"
+            name="bandName"
+            // register={register("bandName", { required: true })}
+            defaultValue={Services.band}
+          />
+        </ModalBox>
 
       <ModalBox
         width="50vw"
@@ -189,7 +195,7 @@ export const TarrifListView = ({
   const [selectPlans, setSelectPlans] = useState([]);
   const [confirmDialog, setConfirmDialog] = useState(false);
   const [serviceSN, setServiceSN] = useState(null)
-  
+  const [editing, setEditing] = useState('')
 // console.log(Services)
  
   const handleRow = async (Service, i) => {
@@ -206,9 +212,11 @@ export const TarrifListView = ({
     }));
   };
 
+  const Services = state.ServicesModule.selectedServices;
 
   
-  // const handleSelectedCategory = async Client => {
+  // const handleSelectedCategory = async Category => {
+
   //   const newContractModule = {
   //     selectedContracts: Category,
   //     show: "detail",
@@ -220,32 +228,44 @@ export const TarrifListView = ({
   //  ;
   // };
 
-  // console.log(selectedServices)
-
-  const Services = state.ServicesModule.selectedServices;
+  console.log(selectedServices)
 
 
   const handleService = async (Category) => {
-    console.log(Category.plans)
-  //   if (selectedServices && selectedServices.contracts._id === Service._id)
-  //   return setSelectedServices(null);
-  setSelectedCategory(Category);
-  const bandPlans = Category.plans.map((plan) => 
+    console.log(Category)
+    // if (selectedCategory && selectedCategory._id === Category._id)
+    // return setSelectedCategory(null);
+//  await setSelectedCategory(selectedServices);
+const newContractModule = {
+  selectedContracts: Category,
+  show: "detail",
+};
+await setState((prevstate) => ({
+  ...prevstate,
+  TariffModule: newContractModule,
+}));
+  const bandPlans = selectedServices.map(data => {
+    const allPlans = [];
+    data.plans.map(plan => {
+      const planData = {
+        planName:plan.planName,
+        benefit:plan.benefit,
+        benefitcategory :plan.benefitcategory,
+        feeForService :plan.feeForService,
+        capitation:plan.capitation,
+        coPay:plan.coPay,
+        copayDetail:plan.copayDetail,
+        reqPA:plan.reqPA,
+      };
 
-        planName = plan.planName,
-        benefit = plan.benefit,
-        benefitcategory = plan.benefitcategory,
-        feeForService = plan.feeForService,
-        capitation = plan.capitation,
-        coPay = plan.coPay,
-        copayDetail = plan.copayDetail,
-        reqPA = plan.reqPA,
-   )
-   setSelectPlans(bandPlans?.flat(1));
+      allPlans.push(planData);
+    });
+    return allPlans;
+  });
+  setSelectedCategory(bandPlans?.flat(1));
   };
+  console.log(selectedCategory)
 
-  // console.log(Services)
-  console.log(selectPlans)
 
   const handleTariff = async (Category) => {
     setSelectedCategory(Category?.contracts)
@@ -258,7 +278,8 @@ export const TarrifListView = ({
       TariffModule: newContractModule,
     }));
    ;
-   showServices()
+   
+  //  showServices()
   }
   
 
@@ -472,6 +493,7 @@ export const TarrifListView = ({
       sortable: true,
       required: true,
       inputType: "TEXT",
+    
     },
 
     {
@@ -482,6 +504,7 @@ export const TarrifListView = ({
       sortable: true,
       required: true,
       inputType: "TEXT",
+      
     },
     {
       name: "Comment",
@@ -491,6 +514,7 @@ export const TarrifListView = ({
       sortable: true,
       required: true,
       inputType: "TEXT",
+     
     },
   ];
 
@@ -784,7 +808,7 @@ export const TarrifListView = ({
                 <GlobalCustomButton
           color="error"
           onClick={() => {
-            setServiceSN(i);
+            showServices();
           }}
         >
           <CreateIcon fontSize="small" sx={{ marginRight: "5px" }} />
@@ -819,7 +843,7 @@ export const TarrifListView = ({
                     <CustomTable
                       title={""}
                       columns={productItemSchema}
-                      data={Services?.contracts}
+                      data={selectedServices}
                       pointerOnHover
                       highlightOnHover
                       striped
@@ -839,12 +863,12 @@ export const TarrifListView = ({
                   <CustomTable
                     title={""}
                     columns={otherServiceSchema}
-                    data={selectPlans}
+                    data={selectedCategory}
                     pointerOnHover
                     highlightOnHover
                     striped
                     progressPending={loading}
-                    // onRowClicked={(row) => handleTariff(row)}
+                    onRowClicked={(row) => handleTariff(row)}
                   />
                   </Box>
                 }
