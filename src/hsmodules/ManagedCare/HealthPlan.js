@@ -108,7 +108,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
   const [nameCategory, setNameCategory] = useState("");
   const [planType, setPlanType] = useState("");
   const [premium, setPremium] = useState("");
-  const [indvidualLimit, setIndividualLimit] = useState("");
+  const [individualLimit, setIndividualLimit] = useState("");
   const [familyLimit, setFamilyLimit] = useState("");
   const [providerNetwork, setProviderNetwork] = useState("");
   const [coverageArea, setCoverageArea] = useState("");
@@ -441,7 +441,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
         premiums: premiumDetails,
         planCategory: nameCategory,
         familyLimit: familyLimit,
-        individualLimit: indvidualLimit,
+        individualLimit: individualLimit,
         providerNetwork: providerNetwork,
         coverageArea: coverageArea,
         benefits: productItem,
@@ -1338,7 +1338,7 @@ export function HealthPlanList({
         premiums: selectedHealthPlan.premiums,
         planCategory: selectedHealthPlan.planCategory,
         familyLimit: selectedHealthPlan.familyLimit,
-        individualLimit: selectedHealthPlan.indvidualLimit,
+        individualLimit: selectedHealthPlan.individualLimit,
         providerNetwork: selectedHealthPlan.providerNetwork,
         coverageArea: selectedHealthPlan.coverageArea,
         benefits: selectedHealthPlan.benefits,
