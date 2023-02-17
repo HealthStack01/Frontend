@@ -1622,7 +1622,7 @@ export function HealthPlanDetails({
   const [individualPremiumState, setIndividualPremiumState] = useState({});
   const [createPremium, setCreatePremium] = useState(false);
   const [editPremiumDurationType, setEditPremiumDurationType] = useState("");
-  const [benefitDurationTwo, setBenefitDurationTwo] = useState("");
+  const [benefitDurationType, setBenefitDurationType] = useState("");
   //state
   const ServicesServ = client.service("billing");
   const BandsServ = client.service("bands");
@@ -1728,7 +1728,7 @@ export function HealthPlanDetails({
       // category: categoryname,
       frequency: frequency,
       duration: duration,
-      durationTwo: benefitDurationTwo,
+      durationType: benefitDurationType,
       limit: limit,
       status: status,
     };
@@ -3162,7 +3162,7 @@ export function HealthPlanDetails({
                             { value: "Years", label: "Years" },
                           ]}
                           onChange={(e) =>
-                            setBenefitDurationTwo(e.target.value)
+                            setBenefitDurationType(e.target.value)
                           }
                         />
                       </Grid>
