@@ -1365,6 +1365,7 @@ export function SearchCategory({ selectedCategory, setSelectedCategory }) {
   const HealthPlanServ = client.service("healthplan");
   const { user } = useContext(UserContext);
   const [healthPlan, setHealthPlan] = useState([]);
+
   const getFacilities = async () => {
     console.log(user);
     if (user.currentEmployee) {
@@ -1386,8 +1387,10 @@ export function SearchCategory({ selectedCategory, setSelectedCategory }) {
       let category = newData
         ?.map((item) => item.category)
         ?.filter((item) => item);
-      await setHealthPlan(category);
-      await console.log(category);
+      //removing duplicate value from the array of category
+      let uniqueCategory = [...new Set(category)];
+      await setHealthPlan(uniqueCategory);
+      await console.log("selectSearchCategory", uniqueCategory);
     } else {
       if (user.stacker) {
         const findClient = await HealthPlanServ.find({
@@ -1406,7 +1409,11 @@ export function SearchCategory({ selectedCategory, setSelectedCategory }) {
         let allCategory = allBenefit.map((item) => {
           return item?.category;
         });
-        setHealthPlan(allCategory);
+
+        //removing duplicate value from the array of category
+        let uniqueCategory = [...new Set(allCategory)];
+
+        setHealthPlan(uniqueCategory);
       }
     }
   };
@@ -1414,7 +1421,8 @@ export function SearchCategory({ selectedCategory, setSelectedCategory }) {
   useEffect(() => {
     getFacilities();
   }, []);
-  console.log(healthPlan);
+
+  console.log("selectSearchCategory", healthPlan);
   return (
     <Autocomplete
       value={selectedCategory}

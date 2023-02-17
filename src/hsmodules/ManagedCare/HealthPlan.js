@@ -129,6 +129,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
     status: false,
     name: "",
   });
+  const [facilities, setFacilities] = useState([]);
 
   // **********************************Functions**********************************
 
@@ -258,6 +259,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
     }
     setSuccessService(false);
   };
+
   // const getSearchfacility2 = (obj) => {
   // 	setCategoryName(obj.categoryname);
   // 	setChosen2(obj);
@@ -431,6 +433,49 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
     console.log(newProductItem);
   };
 
+  const checkIfPlanNameAlreadyExists = (planArr, nameOfPlan) => {
+    const result = planArr.filter((ele) => {
+      return ele.planName.toLowerCase() === nameOfPlan.toLowerCase();
+    });
+    return result;
+  };
+
+  // function to fetch th list of healtheplan already created
+  const getFacilities = async () => {
+    console.log(user);
+    if (user.currentEmployee) {
+      let stuff = {
+        organizationId: user.currentEmployee.facilityDetail._id,
+        // locationId:state.employeeLocation.locationId,
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      };
+      // if (state.employeeLocation.locationType !== "Front Desk") {
+      //   stuff.locationId = state.employeeLocation.locationId;
+      // }
+
+      const findHealthPlan = await HealthPlanServ.find({ query: stuff });
+
+      await console.log("HealthPlan", findHealthPlan.data);
+      await setFacilities(findHealthPlan.data);
+    } else {
+      if (user.stacker) {
+        const findClient = await HealthPlanServ.find({
+          query: {
+            $limit: 100,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        });
+
+        await setFacilities(findClient.data);
+      }
+    }
+  };
+
   const onSubmit = async () => {
     // e.preventDefault();
     if (productItem.length >= 1) {
@@ -446,6 +491,20 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
         coverageArea: coverageArea,
         benefits: productItem,
       };
+
+      if (!planName) {
+        toast.warning("You need to enter the health plan name");
+        return;
+      }
+
+      const result = checkIfPlanNameAlreadyExists(facilities, planName);
+
+      if (result.length > 0) {
+        toast.warning(
+          "Sorry,A health Plan already exists with this name, Please Enter  a different health Plan  name"
+        );
+        return;
+      }
       //  console.log(data)
 
       HealthPlanServ.create(data)
@@ -474,6 +533,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
   useEffect(() => {
     getBenfittingPlans();
     getProviderBand();
+    getFacilities();
   }, []);
 
   const productItemSchema = [
@@ -758,6 +818,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
                 name="plan"
                 label="Name of Plan"
                 onChange={(e) => setPlanName(e.target.value)}
+                important
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -1180,6 +1241,8 @@ export function HealthPlanList({
   const [openInheritHealthPlan, setOpenInheritHealthPlan] = useState(false);
   const [selectedHealthPlan, setSelectedHealthPlan] = useState({});
   const [onSave, setOnSave] = useState(false);
+  const [healthPlanName, setHealthPlanName] = useState("");
+  const [healthPlanCategory, setHealthPlanCategory] = useState("");
 
   const handleCreateNew = async () => {
     setShowModal(1);
@@ -1328,15 +1391,22 @@ export function HealthPlanList({
       }
     }
   };
+
+  const checkIfPlanNameAlreadyExists = (planArr, nameOfPlan) => {
+    const result = planArr.filter((ele) => {
+      return ele.planName.toLowerCase() === nameOfPlan.toLowerCase();
+    });
+    return result;
+  };
   const handleSubmitInheritHealthPlan = async () => {
     console.log("selectedHealthPlan", selectedHealthPlan);
     if (onSave) {
       let data = {
         organizationId: user.currentEmployee.facilityDetail._id,
         organizationName: user.currentEmployee.facilityDetail.facilityName,
-        planName: selectedHealthPlan.planName,
+        planName: healthPlanName,
         premiums: selectedHealthPlan.premiums,
-        planCategory: selectedHealthPlan.planCategory,
+        planCategory: healthPlanCategory,
         familyLimit: selectedHealthPlan.familyLimit,
         individualLimit: selectedHealthPlan.individualLimit,
         providerNetwork: selectedHealthPlan.providerNetwork,
@@ -1344,13 +1414,36 @@ export function HealthPlanList({
         benefits: selectedHealthPlan.benefits,
       };
 
+      if (!healthPlanName) {
+        toast.warning("You need to enter the health plan name");
+        return;
+      }
+
+      if (!healthPlanCategory) {
+        toast.warning("You need to enter the health plan category");
+        return;
+      }
+
+      const result = checkIfPlanNameAlreadyExists(facilities, healthPlanName);
+
+      if (result.length > 0) {
+        toast.warning(
+          "Sorry,A health Plan already exists with this name, Please Enter  a different health Plan  name"
+        );
+        return;
+      }
+
+      console.log("data inherit", data);
+
       HealthPlanServ.create(data)
         .then((res) => {
           setOpenInheritHealthPlan(false);
           setSelectedHealthPlan({});
           getFacilities();
           setOnSave(false);
-          toast.success("HealthPlan Inherit Successfully");
+          toast.success(
+            `HealthPlan with the name ${healthPlanName} Successfully created`
+          );
         })
         .catch((err) => {
           toast.error("Error creating Services " + err);
@@ -1496,7 +1589,7 @@ export function HealthPlanList({
                       width="50vw"
                       open={openInheritHealthPlan}
                       onClose={() => setOpenInheritHealthPlan(false)}
-                      header="Inherit HealthPlan"
+                      // header="Inherit HealthPlan"
                     >
                       <Box>
                         <Box
@@ -1513,20 +1606,47 @@ export function HealthPlanList({
                         </Box>
 
                         <Box display="flex" flexDirection="column" gap={3}>
-                          <Box>
-                            {/* <BandSearch clear={success} value={selectedBand} onChange={(e) => setSelectedBand(e.target.value)}/> */}
-                            <CustomSelect
-                              name="planName"
-                              placeholder="Choose HealthPlan"
-                              options={facilities}
-                              value={selectedHealthPlan}
-                              label="Select HealthPlan"
-                              onChange={(e) => {
-                                setSelectedHealthPlan(e.target.value);
-                                setOnSave(true);
-                              }}
-                            />
-                          </Box>
+                          <Grid container spacing={2} my={2}>
+                            <Grid item xs={12} sm={12}>
+                              {/* <BandSearch clear={success} value={selectedBand} onChange={(e) => setSelectedBand(e.target.value)}/> */}
+                              <CustomSelect
+                                name="planName"
+                                placeholder="Choose HealthPlan"
+                                options={facilities}
+                                value={selectedHealthPlan}
+                                label="Select HealthPlan to Inherit"
+                                onChange={(e) => {
+                                  setSelectedHealthPlan(e.target.value);
+                                  setOnSave(true);
+                                }}
+                                important
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={12}>
+                              <Grid container spacing={2} my={2}>
+                                <Grid item xs={12} sm={6}>
+                                  <Input
+                                    name="planName"
+                                    label="Plan Name:"
+                                    onChange={(e) =>
+                                      setHealthPlanName(e.target.value)
+                                    }
+                                    important
+                                  />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                  <Input
+                                    name="planType"
+                                    label="Plan Category: "
+                                    onChange={(e) =>
+                                      setHealthPlanCategory(e.target.value)
+                                    }
+                                    important
+                                  />
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                          </Grid>
                         </Box>
                       </Box>
                     </ModalBox>
@@ -1623,6 +1743,7 @@ export function HealthPlanDetails({
   const [createPremium, setCreatePremium] = useState(false);
   const [editPremiumDurationType, setEditPremiumDurationType] = useState("");
   const [benefitDurationType, setBenefitDurationType] = useState("");
+  const [facilities, setFacilities] = useState([]);
   //state
   const ServicesServ = client.service("billing");
   const BandsServ = client.service("bands");
@@ -2169,36 +2290,80 @@ export function HealthPlanDetails({
         );
       });
   };
+  const checkIfPlanNameAlreadyExistsDuringEditing = (
+    planArr,
+    nameOfPlan,
+    previousHealthPlanName
+  ) => {
+    const prevdata = planArr.filter((ele) => {
+      return ele.planName !== previousHealthPlanName;
+    });
+    const result = prevdata.filter((ele) => {
+      return ele.planName.toLowerCase() === nameOfPlan.toLowerCase();
+    });
+    return result;
+  };
 
-  const handleDelete = async () => {
-    console.log("deleted");
-    // showActionLoader();
-    // //let conf=window.confirm("Are you sure you want to delete this data?")
-    // const dleteId = employee._id;
-    // //if (conf){
-    // EmployeeServ.remove(dleteId)
-    //   .then((res) => {
-    //     //console.log(JSON.stringify(res))
-    //     hideActionLoader();
-    //     reset();
-    //     setConfirmDialog(false);
-    //     toast.success("Employee deleted succesfully");
-    //   })
-    //   .catch((err) => {
-    //     // setMessage("Error deleting Employee, probable network issues "+ err )
-    //     // setError(true)
-    //     hideActionLoader();
-    //     setConfirmDialog(false);
-    //     toast.error(
-    //       "Error deleting Employee, probable network issues or " + err
-    //     );
-    //   });
-    // }
+  const getFacilities = async () => {
+    if (user.currentEmployee) {
+      let stuff = {
+        organizationId: user.currentEmployee.facilityDetail._id,
+        // locationId:state.employeeLocation.locationId,
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      };
+      // if (state.employeeLocation.locationType !== "Front Desk") {
+      //   stuff.locationId = state.employeeLocation.locationId;
+      // }
+
+      const findHealthPlan = await HealthPlanServ.find({ query: stuff });
+
+      await console.log("HealthPlan", findHealthPlan.data);
+      await setFacilities(findHealthPlan.data);
+    } else {
+      if (user.stacker) {
+        const findClient = await HealthPlanServ.find({
+          query: {
+            $limit: 100,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        });
+
+        await setFacilities(findClient.data);
+      }
+    }
   };
 
   const onSubmit = (data, e) => {
     e.preventDefault();
     setUpatingHealthPlan(true);
+
+    console.log("edit plan", data);
+
+    if (!data.planName) {
+      toast.warning("Health Plan Name cannot be empty");
+      setUpatingHealthPlan(false);
+      return;
+    }
+
+    const result = checkIfPlanNameAlreadyExistsDuringEditing(
+      facilities,
+      data.planName,
+      selectedPlan.planName
+    );
+
+    if (result.length > 0) {
+      toast.warning(
+        "Sorry,A health Plan already exists with this name, Please Enter  a different health Plan  name"
+      );
+      setUpatingHealthPlan(false);
+      return;
+    }
+
     const healthPlanID = selectedPlan._id;
     data.providerNetwork = [`${data.providerNetwork}`];
     data.coverageArea = [`${data.coverageArea}`];
@@ -2327,6 +2492,7 @@ export function HealthPlanDetails({
 
   useEffect(() => {
     addSnPremium();
+    getFacilities();
     setValue("planName", selectedPlan?.planName, {
       shouldValidate: true,
       shouldDirty: true,
@@ -2414,17 +2580,7 @@ export function HealthPlanDetails({
                 "0px 3px 3px -2px rgb(0 0 0 / 20%),0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)",
             }}
           >
-            <Grid container spacing={2} style={{ alignItems: "top" }}>
-              {/* <Grid item xs={3}>
-              <div style={{ marginLeft: 'auto' }}>
-                <GlobalCustomButton
-                  text="View Benefit"
-                  customStyles={{ float: 'right' }}
-                  onClick={() => setViewBenefit(true)}
-                />
-              </div>
-            </Grid> */}
-            </Grid>
+            <Grid container spacing={2} style={{ alignItems: "top" }}></Grid>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <div
@@ -2436,7 +2592,6 @@ export function HealthPlanDetails({
               </Grid>
             </Grid>
 
-            {/* <p>Details</p> */}
             <div
               style={{
                 backgroundColorr: "#EBeeeEBEB",
@@ -2523,6 +2678,7 @@ export function HealthPlanDetails({
                     label="Plan Name:"
                     register={register("planName")}
                     errorText={errors?.planName?.message}
+                    important
                   />
                 )}
               </Grid>
