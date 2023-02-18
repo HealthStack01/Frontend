@@ -137,6 +137,24 @@ const ScheduleAppointment = ({closeModal}) => {
 
     // return console.log(newAppointments);
 
+    const emailObj = {
+      organizationId: employee.facilityDetail._id,
+      organizationName: employee.facilityDetail.facilityName,
+      html: "",
+      text: `You have been scheduled for an appointment with ${
+        employee.facilityDetail.facilityName
+      } at ${dayjs(data.date).format(
+        "DD/MM/YYYY hh:mm"
+      )} and title of appointment is ${data.title}`,
+      status: "pending",
+      subject: `SCHEDULED APPOINTMENT WITH ${
+        employee.facilityDetail.facilityName
+      } AT ${dayjs(data.date).format("DD/MM/YYYY hh:mm")}`,
+      to: currentDeal.email,
+      name: employee.facilityDetail.facilityName,
+      from: selectedEmail,
+    };
+
     const notificationObj = {
       type: "CRM",
       title: "You were assinged to an Appointment",
@@ -164,6 +182,7 @@ const ScheduleAppointment = ({closeModal}) => {
         hideActionLoader();
         //setContacts(res.contacts);
         await notificationsServer.create(notificationObj);
+        await emailServer.create(emailObj);
         await Promise.all(emailPromises);
         setState(prev => ({
           ...prev,

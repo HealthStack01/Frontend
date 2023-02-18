@@ -281,13 +281,13 @@ export const menuItems = [
     ],
   },
 
-  // {
-  //   name: "Corporate",
-  //   exact: true,
-  //   to: "/app/corporate",
-  //   iconClassName: "bi bi-person",
-  //   //subMenus: [{name: "Complaints", to: "/app/complaints"}],
-  // },
+  {
+    name: "Corporate",
+    exact: true,
+    to: "/app/corporate",
+    iconClassName: "bi bi-person",
+    //subMenus: [{name: "Complaints", to: "/app/complaints"}],
+  },
 
   {
     name: "Complaints",

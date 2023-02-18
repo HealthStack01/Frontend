@@ -20,6 +20,7 @@ import PreauthorizationChat from "./PreAuthChat";
 import AssignPreauthorization from "./AssignPreAuth";
 import PreauthorizationStatus from "./PreAuthStatus";
 import PreauthorizationTask from "../../Tasks";
+import UpadteService from "./UpdateService";
 
 import {
   getComplaintColumns,
@@ -54,6 +55,7 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
   const [assignModal, setAssignModal] = useState(false);
   const [statusModal, setStatusModal] = useState(false);
   const [view, setView] = useState("details");
+  const [updateServiceModal, setUpdateServiceModal] = useState(false);
 
   const selectedPreAuth = state.PreAuthModule.selectedPreAuth;
   const clinical_details = selectedPreAuth?.clinical_details || {};
@@ -265,6 +267,17 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
     },
   ];
 
+  const onServiceRowClick = item => {
+    setState(prev => ({
+      ...prev,
+      PreAuthModule: {
+        ...prev.PreAuthModule,
+        selectedService: item,
+      },
+    }));
+    setUpdateServiceModal(true);
+  };
+
   return (
     <Box
       sx={{
@@ -274,6 +287,14 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
         position: "relative",
       }}
     >
+      <ModalBox
+        open={updateServiceModal}
+        onClose={() => setUpdateServiceModal(false)}
+        header="Update Serive"
+      >
+        <UpadteService closeModal={() => setUpdateServiceModal(false)} />
+      </ModalBox>
+
       <ModalBox
         open={statusModal}
         onClose={() => setStatusModal(false)}
@@ -720,7 +741,7 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
                     pointerOnHover
                     highlightOnHover
                     striped
-                    //onRowClicked={handleRow}
+                    onRowClicked={onServiceRowClick}
                     //conditionalRowStyles={conditionalRowStyles}
                     progressPending={false}
                     CustomEmptyData={
