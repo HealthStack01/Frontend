@@ -13,13 +13,14 @@ import CustomSelect from "../../../../components/inputs/basic/Select";
 import {useForm} from "react-hook-form";
 import {FormsHeaderText} from "../../../../components/texts";
 import ModalBox from "../../../../components/modal";
-import ClaimCreateComplaint from "./Complaints";
-import ClaimCreateDiagnosis from "./Diagnosis";
-import ClaimCreateService from "./Services";
-import ClaimsChat from "./PreAuthChat";
-import AssignClaim from "./AssignPreAuth";
-import ClaimsStatus from "./PreAuthStatus";
-import ClaimsTask from "../../Tasks";
+import PreauthorizationCreateComplaint from "./Complaints";
+import PreauthorizationCreateDiagnosis from "./Diagnosis";
+import PreauthorizationCreateService from "./Services";
+import PreauthorizationChat from "./PreAuthChat";
+import AssignPreauthorization from "./AssignPreAuth";
+import PreauthorizationStatus from "./PreAuthStatus";
+import PreauthorizationTask from "../../Tasks";
+import UpadteService from "./UpdateService";
 
 import {
   getComplaintColumns,
@@ -54,6 +55,7 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
   const [assignModal, setAssignModal] = useState(false);
   const [statusModal, setStatusModal] = useState(false);
   const [view, setView] = useState("details");
+  const [updateServiceModal, setUpdateServiceModal] = useState(false);
 
   const selectedPreAuth = state.PreAuthModule.selectedPreAuth;
   const clinical_details = selectedPreAuth?.clinical_details || {};
@@ -63,7 +65,7 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
   useEffect(() => {
     const resetForm = {
       patientstate: selectedPreAuth.patientstate,
-      claimtype: selectedPreAuth.claimtype,
+      preauthtype: selectedPreAuth.preauthtype,
       comments: selectedPreAuth.comments,
       totalamount: selectedPreAuth.totalamount,
       investigation: clinical_details.investigation || "",
@@ -166,11 +168,12 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
       policy: policy,
       hmopayer: policy.organization,
       sponsor: policy.sponsor,
-      claimtype: data.claimtype,
+      preauthtype: data.preauthtype,
       totalamount: data.totalamount,
       comments: data.comments,
       patientstate: data.patientstate,
       provider: facility,
+      priority: data.priority,
       services: services,
       beneficiary: state.ClientModule.selectedClient,
       submissiondate: dayjs(),
@@ -193,11 +196,11 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
       .create(document)
       .then(res => {
         hideActionLoader();
-        toast.success("You have succesfully created a Claim");
+        toast.success("You have succesfully created a Preauthorization");
       })
       .catch(err => {
         hideActionLoader();
-        toast.error(`Failed to create Claim ${err}`);
+        toast.error(`Failed to create Preauthorization ${err}`);
       });
   };
 
@@ -264,6 +267,17 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
     },
   ];
 
+  const onServiceRowClick = item => {
+    setState(prev => ({
+      ...prev,
+      PreAuthModule: {
+        ...prev.PreAuthModule,
+        selectedService: item,
+      },
+    }));
+    setUpdateServiceModal(true);
+  };
+
   return (
     <Box
       sx={{
@@ -274,27 +288,35 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
       }}
     >
       <ModalBox
+        open={updateServiceModal}
+        onClose={() => setUpdateServiceModal(false)}
+        header="Update Serive"
+      >
+        <UpadteService closeModal={() => setUpdateServiceModal(false)} />
+      </ModalBox>
+
+      <ModalBox
         open={statusModal}
         onClose={() => setStatusModal(false)}
-        header="Update Claim Status"
+        header="Update Preauthorization Status"
       >
-        <ClaimsStatus closeModal={() => setStatusModal(false)} />
+        <PreauthorizationStatus closeModal={() => setStatusModal(false)} />
       </ModalBox>
 
       <ModalBox
         open={assignModal}
         onClose={() => setAssignModal(false)}
-        header="Assign Claim to a User"
+        header="Assign Preauthorization to a User"
       >
-        <AssignClaim closeModal={() => setAssignModal(false)} />
+        <AssignPreauthorization closeModal={() => setAssignModal(false)} />
       </ModalBox>
 
       <ModalBox
         open={complaintModal}
         onClose={() => setComplaintModal(false)}
-        header="Add Complaints to Claim"
+        header="Add Complaints to Preauthorization"
       >
-        <ClaimCreateComplaint
+        <PreauthorizationCreateComplaint
           closeModal={() => setComplaintModal(false)}
           setComplaints={setComplaints}
         />
@@ -303,9 +325,9 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
       <ModalBox
         open={diagnosisModal}
         onClose={() => setDiagnosisModal(false)}
-        header="Add Complaints to Claim"
+        header="Add Diagnosis to Preauthorization"
       >
-        <ClaimCreateDiagnosis
+        <PreauthorizationCreateDiagnosis
           closeModal={() => setDiagnosisModal(false)}
           setDiagnosis={setDiagnosis}
         />
@@ -314,9 +336,9 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
       <ModalBox
         open={serviceModal}
         onClose={() => setServiceModal(false)}
-        header="Add Services to Claim"
+        header="Add Services to Preauthorization"
       >
-        <ClaimCreateService
+        <PreauthorizationCreateService
           closeModal={() => setServiceModal(false)}
           setServices={setServices}
         />
@@ -348,15 +370,23 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
             Back
           </GlobalCustomButton>
 
-          <Typography
+          <Box
             sx={{
-              fontSize: "0.95rem",
-              fontWeight: "600",
+              display: "flex",
+              alignItems: "center",
+              gap: 0.5,
             }}
           >
-            Preauthorization's Detail -{" "}
-            <FormsHeaderText text={selectedPreAuth?.preauthid} />
-          </Typography>
+            <Typography
+              sx={{
+                fontSize: "0.85rem",
+                fontWeight: "600",
+              }}
+            >
+              Preauthorization's Detail
+            </Typography>
+            <FormsHeaderText text={`- ${selectedPreAuth?.preauthid}`} />
+          </Box>
         </Box>
 
         <Box
@@ -427,7 +457,7 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
           }}
         >
           {view === "tasks" && (
-            <ClaimsTask
+            <PreauthorizationTask
               taskServer={preAuthServer}
               taskState={state.PreAuthModule.selectedPreAuth}
             />
@@ -447,7 +477,7 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
 
                 <Grid item lg={6}>
                   <Input
-                    label="Claim's Status"
+                    label="Preauthorization's Status"
                     register={register("status")}
                     disabled
                   />
@@ -464,11 +494,11 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
 
                 <Grid item lg={3} md={3}>
                   <CustomSelect
-                    label="Urgency"
+                    label="Priority"
                     required
                     control={control}
-                    name="urgency"
-                    options={["Urgent"]}
+                    name="priority"
+                    options={["Low", "Medium", "High", "Emergency"]}
                   />
                 </Grid>
 
@@ -512,6 +542,24 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
                   </Grid>
                 </Grid>
               )}
+
+              <Box>
+                <FormsHeaderText text="Preauthorization's Status History" />
+                <Box mt={1} mb={1}>
+                  <CustomTable
+                    title={""}
+                    columns={statushxColumns}
+                    data={selectedPreAuth.statushx || []}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    //onRowClicked={handleRow}
+                    CustomEmptyData="No Status History for this Preauthorization yet..."
+                    progressPending={false}
+                    //conditionalRowStyles={conditionalRowStyles}
+                  />
+                </Box>
+              </Box>
 
               <Box mb={2}>
                 <Box
@@ -639,21 +687,21 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
                 }}
                 gap={1.5}
               >
-                <FormsHeaderText text="Claim's Info" />
+                <FormsHeaderText text="Preauthorization's Info" />
 
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
                     <CustomSelect
-                      label="Claim Type"
+                      label="Preauthroization Type"
                       control={control}
-                      name="claimtype"
+                      name="preauthorizationtype"
                       options={["Capitation", "Fee for Service"]}
                     />
                   </Grid>
 
                   <Grid item xs={6}>
                     <Input
-                      label="Total Claim's Amount"
+                      label="Total Preauthorization's Amount"
                       disabled
                       type="number"
                       register={register("totalamount")}
@@ -693,7 +741,7 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
                     pointerOnHover
                     highlightOnHover
                     striped
-                    //onRowClicked={handleRow}
+                    onRowClicked={onServiceRowClick}
                     //conditionalRowStyles={conditionalRowStyles}
                     progressPending={false}
                     CustomEmptyData={
@@ -715,24 +763,6 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
                   />
                 </Box>
               </Box>
-
-              <Box>
-                <FormsHeaderText text="Claim's Status History" />
-                <Box mt={1} mb={1}>
-                  <CustomTable
-                    title={""}
-                    columns={statushxColumns}
-                    data={selectedPreAuth.statushx || []}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    //onRowClicked={handleRow}
-                    CustomEmptyData="No Status History for this Claim yet..."
-                    progressPending={false}
-                    //conditionalRowStyles={conditionalRowStyles}
-                  />
-                </Box>
-              </Box>
             </>
           )}
         </Box>
@@ -751,7 +781,7 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
             overflowY: "hidden",
           }}
         >
-          {chat && <ClaimsChat closeChat={() => setChat(false)} />}
+          {chat && <PreauthorizationChat closeChat={() => setChat(false)} />}
         </Box>
       </Drawer>
     </Box>

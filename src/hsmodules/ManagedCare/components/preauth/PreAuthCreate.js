@@ -12,9 +12,9 @@ import CustomSelect from "../../../../components/inputs/basic/Select";
 import {useForm} from "react-hook-form";
 import {FormsHeaderText} from "../../../../components/texts";
 import ModalBox from "../../../../components/modal";
-import ClaimCreateComplaint from "./Complaints";
-import ClaimCreateDiagnosis from "./Diagnosis";
-import ClaimCreateService from "./Services";
+import PreauthorizationCreateComplaint from "./Complaints";
+import PreauthorizationCreateDiagnosis from "./Diagnosis";
+import PreauthorizationCreateService from "./Services";
 
 const random = require("random-string-generator");
 
@@ -32,7 +32,7 @@ import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicke
 import {SelectAdmission, SelectAppointment} from "../claims/ClaimsCreate";
 
 const PreAuthCreateComponent = ({handleGoBack}) => {
-  const claimsServer = client.service("preauth");
+  const preAuthServer = client.service("preauth");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
@@ -52,7 +52,7 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
 
   const {control, handleSubmit, register, reset, watch, setValue} = useForm({
     defaultValues: {
-      claimtype: "Fee for Service",
+      preauthtype: "Fee for Service",
     },
   });
 
@@ -130,6 +130,10 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
   const diagnosisColumns = getDiagnosisColumns();
   const servicesColumns = getServicesColumns();
 
+  // useEffect(() => {
+  //   hideActionLoader();
+  // }, []);
+
   const handleCreatePreAuthorization = async data => {
     if (!state.ClientModule.selectedClient._id)
       return toast.warning("Please add Client..");
@@ -149,21 +153,22 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
 
     const document = {
       policy: policy,
-      hmopayer: policy.organization,
-      sponsor: policy.sponsor,
-      claimtype: data.claimtype,
+      hmopayer: policy?.organization,
+      sponsor: policy?.sponsor,
+      preauthtype: data.preauthtype,
       totalamount: data.totalamount,
       comments: data.comments,
       patientstate: data.patientstate,
       provider: facility,
       services: services,
+      priority: data.prioriy,
       beneficiary: state.ClientModule.selectedClient,
       submissiondate: dayjs(),
       submissionby: employee,
       status: "Submitted",
       preauthid: random(12, "uppernumeric"),
-      appointmentid: selectedAppointment?._id,
-      admissionid: selectedAdmission?._id,
+      appointmentid: selectedAppointment,
+      admissionid: selectedAdmission,
       geolocation: {
         type: "Point",
         coordinates: [state.coordinates.latitude, state.coordinates.longitude],
@@ -175,9 +180,9 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
       },
     };
 
-    console.log(document);
+    // console.log(document);
 
-    await claimsServer
+    await preAuthServer
       .create(document)
       .then(res => {
         hideActionLoader();
@@ -225,9 +230,9 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
       <ModalBox
         open={complaintModal}
         onClose={() => setComplaintModal(false)}
-        header="Add Complaints to Claim"
+        header="Add Complaints to Preauthorization"
       >
-        <ClaimCreateComplaint
+        <PreauthorizationCreateComplaint
           closeModal={() => setComplaintModal(false)}
           setComplaints={setComplaints}
         />
@@ -236,9 +241,9 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
       <ModalBox
         open={diagnosisModal}
         onClose={() => setDiagnosisModal(false)}
-        header="Add Complaints to Claim"
+        header="Add Diagnosis to Preauthorization"
       >
-        <ClaimCreateDiagnosis
+        <PreauthorizationCreateDiagnosis
           closeModal={() => setDiagnosisModal(false)}
           setDiagnosis={setDiagnosis}
         />
@@ -263,9 +268,9 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
       <ModalBox
         open={serviceModal}
         onClose={() => setServiceModal(false)}
-        header="Add Services to Claim"
+        header="Add Services to Preauthorization"
       >
-        <ClaimCreateService
+        <PreauthorizationCreateService
           closeModal={() => setServiceModal(false)}
           setServices={setServices}
         />
@@ -354,11 +359,11 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
 
             <Grid item lg={3} md={3.5}>
               <CustomSelect
-                label="Urgency"
+                label="Priority"
                 required
                 control={control}
-                name="urgency"
-                options={["Urgent"]}
+                name="priority"
+                options={["Low", "Medium", "High", "Emergency"]}
               />
             </Grid>
 
@@ -529,21 +534,21 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
             }}
             gap={1.5}
           >
-            <FormsHeaderText text="Claim's Info" />
+            <FormsHeaderText text="Preauthorization's Info" />
 
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <CustomSelect
-                  label="Claim Type"
+                  label="Preauthorization Type"
                   control={control}
-                  name="claimtype"
+                  name="preauthtype"
                   options={["Capitation", "Fee for Service"]}
                 />
               </Grid>
 
               <Grid item xs={6}>
                 <Input
-                  label="Total Claim's Amount"
+                  label="Total Preauthorization's Amount"
                   disabled
                   type="number"
                   register={register("totalamount")}

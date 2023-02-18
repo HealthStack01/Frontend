@@ -34,7 +34,7 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
   };
 
   const handleRow = item => {
-    //console.log(item);
+    //return console.log(item);
     setState(prev => ({
       ...prev,
       PreAuthModule: {
@@ -204,27 +204,28 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
     },
 
     {
-      name: "Services",
+      name: "Num of Services",
       key: "healthcare plan",
       description: "Enter name of Healthcare Plan",
-      selector: row => (
-        <List
-          data-tag="allowRowEvents"
-          sx={{
-            listStyleType: "disc",
-            pl: 2,
-            "& .MuiListItem-root": {
-              display: "list-item",
-            },
-          }}
-        >
-          {row.services.map(item => (
-            <ListItem sx={{fontSize: "0.8rem", whiteSpace: "normal"}}>
-              {item?.service?.serviceName} - ₦{item?.amount}
-            </ListItem>
-          ))}
-        </List>
-      ),
+      // selector: row => (
+      //   <List
+      //     data-tag="allowRowEvents"
+      //     sx={{
+      //       listStyleType: "disc",
+      //       pl: 2,
+      //       "& .MuiListItem-root": {
+      //         display: "list-item",
+      //       },
+      //     }}
+      //   >
+      //     {row.services.map(item => (
+      //       <ListItem sx={{fontSize: "0.8rem", whiteSpace: "normal"}}>
+      //         {item?.service?.serviceName} - ₦{item?.amount}
+      //       </ListItem>
+      //     ))}
+      //   </List>
+      // ),
+      selector: row => row.services.length,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -241,20 +242,20 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
       inputType: "TEXT",
     },
     {
-      name: "Comments",
-      key: "reason",
-      description: "Enter for Request",
-      selector: row => row?.comments,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
       name: "Total Amount",
       key: "bills",
       description: "Enter bills",
       selector: row => `₦${row?.totalamount}`,
       //cell: row => returnCell(row?.totalamount),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Comments",
+      key: "reason",
+      description: "Enter for Request",
+      selector: row => row?.comments,
       sortable: true,
       required: true,
       inputType: "TEXT",

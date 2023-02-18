@@ -204,27 +204,28 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
     },
 
     {
-      name: "Services",
+      name: "Num of Services",
       key: "healthcare plan",
       description: "Enter name of Healthcare Plan",
-      selector: row => (
-        <List
-          data-tag="allowRowEvents"
-          sx={{
-            listStyleType: "disc",
-            pl: 2,
-            "& .MuiListItem-root": {
-              display: "list-item",
-            },
-          }}
-        >
-          {row.services.map(item => (
-            <ListItem sx={{fontSize: "0.8rem", whiteSpace: "normal"}}>
-              {item.service.serviceName} - ₦{item.amount}
-            </ListItem>
-          ))}
-        </List>
-      ),
+      // selector: row => (
+      //   <List
+      //     data-tag="allowRowEvents"
+      //     sx={{
+      //       listStyleType: "disc",
+      //       pl: 2,
+      //       "& .MuiListItem-root": {
+      //         display: "list-item",
+      //       },
+      //     }}
+      //   >
+      //     {row.services.map(item => (
+      //       <ListItem sx={{fontSize: "0.8rem", whiteSpace: "normal"}}>
+      //         {item.service.serviceName} - ₦{item.amount}
+      //       </ListItem>
+      //     ))}
+      //   </List>
+      // ),
+      selector: row => row.services.length,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
