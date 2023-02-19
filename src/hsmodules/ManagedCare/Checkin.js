@@ -661,7 +661,7 @@ export function CheckDetails({showModal, setShowModal}) {
 
   return (
     <>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{width: "60vh"}}> 
         <Grid item xs={12} sm={6}>
           <ModalHeader text={"Client Details"} />
         </Grid>
@@ -704,7 +704,7 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
@@ -718,7 +718,7 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
@@ -732,7 +732,7 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
@@ -749,21 +749,21 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Age:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {/* {formatDistanceToNowStrict(new Date(Client?.dob))} */}
+            {formatDistanceToNowStrict(new Date(Client?.dob))}
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
@@ -777,14 +777,14 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Phone No:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.phone}
+            {Client?.phone}
           </span>
         </Grid>
       </Grid>
@@ -793,14 +793,14 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Email:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.email}
+            {Client?.email}
           </span>
         </Grid>
       </Grid>
@@ -810,29 +810,29 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Start Time:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.start_time}
-            {/* {format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')} */}
+            {Client?.start_time}
+            {format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')}
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Location:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {/* {`${Client.location_name} (${Client.location_type})`} */}
+            {/* {`${Client?.location_name} (${Client.location_type})`} */}
           </span>
         </Grid>
 
@@ -840,7 +840,7 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
@@ -856,28 +856,28 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Appointment Status:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.appointment_status}
+            {Client?.appointment_status}
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Appointment Class:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.appointmentClass}
+            {Client?.appointmentClass}
           </span>
         </Grid>
 
@@ -885,14 +885,14 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Appointment Type:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.appointment_type}
+            {Client?.appointment_type}
           </span>
         </Grid>
       </Grid>
@@ -901,14 +901,14 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Reason for Appointment:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.appointment_reason}
+            {Client?.appointment_reason}
           </span>
         </Grid>
       </Grid>

@@ -187,8 +187,29 @@ export function AppointmentCreate({ showModal, setShowModal }) {
     }
   }, []);
 
+  const generateOTP = () => {
+    var minm = 100000;
+    var maxm = 999999;
+    const otp = Math.floor(Math.random() * (maxm - minm + 1)) + minm;
+    return otp.toString();
+  };
+
+  // Check if user has HMO
+  const checkHMO = obj => obj.paymentmode === "HMO";
+
   const onSubmit = (data, e) => {
     e.preventDefault();
+
+    const employee = user.currentEmployee;
+    if (!state.CommunicationModule.defaultEmail.emailConfig?.username)
+      return setState(prev => ({
+        ...prev,
+        CommunicationModule: {
+          ...prev.CommunicationModule,
+          configEmailModal: true,
+        },
+      }));
+
     setMessage('');
     setError(false);
     setSuccess(false);
@@ -208,9 +229,9 @@ export function AppointmentCreate({ showModal, setShowModal }) {
     }
     data.locationId = locationId; //state.ClinicModule.selectedClinic._id
     data.practitionerId = practionerId;
-    data.appointment_type = appointment_type;
+    // data.appointment_type = appointment_type;
     // data.appointment_reason=appointment_reason
-    data.appointment_status = appointment_status;
+    // data.appointment_status = appointment_status;
     data.clientId = clientId;
     data.firstname = chosen.firstname;
     data.middlename = chosen.middlename;
@@ -226,15 +247,57 @@ export function AppointmentCreate({ showModal, setShowModal }) {
     data.location_type = chosen1.locationType;
     data.actions = [
       {
-        action: appointment_status,
+        status: appointment_status,
         actor: user.currentEmployee._id,
       },
     ];
     console.log(data);
 
+
+    const notificationObj = {
+      type: "Clinic",
+      title: `Scheduled ${data.appointmentClass} ${data.appointment_type} Appointment`,
+      description: `You have a schedule appointment with ${chosen.firstname} ${
+        chosen.lastname
+      } set to take place exactly at ${dayjs(data.start_time).format(
+        "DD/MM/YYYY hh:mm"
+      )} in ${chosen1.name} Clinic for ${data.appointment_reason}`,
+      facilityId: employee.facilityDetail._id,
+      sender: `${employee.firstname} ${employee.lastname}`,
+      senderId: employee._id,
+      pageUrl: "/app/clinic/appointments",
+      priority: "normal",
+      dest_userId: [chosen2._id],
+    };
+
+
+    const emailObj = {
+      organizationId: employee.facilityDetail._id,
+      organizationName: employee.facilityDetail.facilityName,
+      html: "<p><p/>",
+      text: `You have been scheduled for an appointment with ${
+        chosen2.profession
+      } ${chosen2.firstname} ${chosen2.lastname} at ${dayjs(
+        data.start_time
+      ).format("DD/MM/YYYY hh:mm")} ${
+        isHMO ? `and your OTP code is ${generatedOTP}` : ""
+      } `,
+      status: "pending",
+      subject: `SCHEDULED APPOINTMENT WITH ${
+        employee.facilityDetail.facilityName
+      } AT ${dayjs(data.date).format("DD/MM/YYYY hh:mm")}`,
+      to: chosen.email,
+      name: employee.facilityDetail.facilityName,
+      from: state.CommunicationModule.defaultEmail.emailConfig.username,
+    };
+
+
     ClientServ.create(data)
-      .then((res) => {
+      .then(async res => {
+        await notificationsServer.create(notificationObj);
         //console.log(JSON.stringify(res))
+        await emailServer.create(emailObj);
+         hideActionLoader();
         setAppointment_type('');
         setAppointment_status('');
         setClientId('');
@@ -284,8 +347,8 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   console.log(locationId);
 
   return (
-    <>
-      <div className="card ">
+    <Box sx={{width: "60vw"}}>
+      <div className="card " >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={4}>
@@ -412,7 +475,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
           </Box>
         </form>
       </div>
-    </>
+    </Box>
   );
 }
 
