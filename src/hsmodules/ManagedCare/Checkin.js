@@ -554,6 +554,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
                 : "List of Checked-Out Patients"}
             </h2>
           </div>
+          
 
           <Box>
             {checkedin === false ? <GlobalCustomButton onClick={() => {setCheckedin(true)}}>Check In</GlobalCustomButton> : <GlobalCustomButton onClick={() => {setCheckedin(false)}}>Check Out</GlobalCustomButton>}
