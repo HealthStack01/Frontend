@@ -348,14 +348,23 @@ const ClaimDetailComponent = ({handleGoBack}) => {
             Back
           </GlobalCustomButton>
 
-          <Typography
+          <Box
             sx={{
-              fontSize: "0.95rem",
-              fontWeight: "600",
+              display: "flex",
+              alignItems: "center",
+              gap: 0.5,
             }}
           >
-            Claim's Detail - <FormsHeaderText text={selectedClaim?.preauthid} />
-          </Typography>
+            <Typography
+              sx={{
+                fontSize: "0.85rem",
+                fontWeight: "600",
+              }}
+            >
+              Claim's Detail
+            </Typography>
+            <FormsHeaderText text={`- ${selectedClaim?.preauthid}`} />
+          </Box>
         </Box>
 
         <Box

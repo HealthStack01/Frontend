@@ -159,8 +159,8 @@ const ClaimCreateComponent = ({handleGoBack}) => {
       submissionby: employee,
       status: "Submitted",
       claimid: random(12, "uppernumeric"),
-      appointmentid: selectedAppointment?._id,
-      admissionid: selectedAdmission?._id,
+      appointmentid: selectedAppointment,
+      admissionid: selectedAdmission,
       geolocation: {
         type: "Point",
         coordinates: [state.coordinates.latitude, state.coordinates.longitude],
@@ -247,7 +247,7 @@ const ClaimCreateComponent = ({handleGoBack}) => {
       <ModalBox
         open={diagnosisModal}
         onClose={() => setDiagnosisModal(false)}
-        header="Add Complaints to Claim"
+        header="Add Diagnosis to Claim"
       >
         <ClaimCreateDiagnosis
           closeModal={() => setDiagnosisModal(false)}

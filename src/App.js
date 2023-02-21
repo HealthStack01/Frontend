@@ -23,6 +23,7 @@ function App() {
     },
     PreAuthModule: {
       selectedPreAuth: {},
+      selectedService: {},
     },
     CommunicationModule: {
       defaultEmail: {},
@@ -224,7 +225,7 @@ function App() {
     },
     TariffModule: {
       show: "list",
-      selectedContracts: {}
+      selectedContracts: {},
     },
     financeModule: {
       show: "list",

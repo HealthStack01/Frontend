@@ -37,18 +37,18 @@ export const menuItems = [
     exact: true,
     to: "/app/appointments",
     iconClassName: "bi bi-calendar",
-    subMenus: [
-      {name: "Blood Bank", to: "/app/appointments/blood-bank"},
-      {name: "Clinic", to: "/app/appointments/clinic"},
-      {name: "CRM", to: "/app/appointments/crm"},
-      {name: "Global", to: "/app/appointments/global"},
-      {name: "Immunization", to: "/app/appointments/immunization"},
-      {name: "Labour Ward", to: "/app/appointments/labour-ward"},
-      {name: "Pharmacy", to: "/app/appointments/pharmacy"},
-      {name: "Radiology", to: "/app/appointments/radiology"},
-      {name: "Referral", to: "/app/appointments/referral"},
-      {name: "Theatre", to: "/app/appointments/theatre"},
-    ],
+    // subMenus: [
+    //   {name: "Blood Bank", to: "/app/appointments/blood-bank"},
+    //   {name: "Clinic", to: "/app/appointments/clinic"},
+    //   {name: "CRM", to: "/app/appointments/crm"},
+    //   {name: "Global", to: "/app/appointments/global"},
+    //   {name: "Immunization", to: "/app/appointments/immunization"},
+    //   {name: "Labour Ward", to: "/app/appointments/labour-ward"},
+    //   {name: "Pharmacy", to: "/app/appointments/pharmacy"},
+    //   {name: "Radiology", to: "/app/appointments/radiology"},
+    //   {name: "Referral", to: "/app/appointments/referral"},
+    //   {name: "Theatre", to: "/app/appointments/theatre"},
+    // ],
   },
 
   {
@@ -281,13 +281,13 @@ export const menuItems = [
     ],
   },
 
-  // {
-  //   name: "Corporate",
-  //   exact: true,
-  //   to: "/app/corporate",
-  //   iconClassName: "bi bi-person",
-  //   //subMenus: [{name: "Complaints", to: "/app/complaints"}],
-  // },
+  {
+    name: "Corporate",
+    exact: true,
+    to: "/app/corporate",
+    iconClassName: "bi bi-person",
+    //subMenus: [{name: "Complaints", to: "/app/complaints"}],
+  },
 
   {
     name: "Complaints",

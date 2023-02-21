@@ -50,6 +50,7 @@ import Textarea from "../../components/inputs/basic/Textarea";
 import MuiDateTimePicker from "../../components/inputs/DateTime/MuiDateTimePicker";
 import OtpInput from "react-otp-input";
 import dayjs from "dayjs";
+import axios from "axios";
 
 export default function ClinicAppointments() {
   const {state} = useContext(ObjectContext); //,setState
@@ -336,6 +337,9 @@ export function AppointmentCreate({showModal, setShowModal}) {
         setSuccess(false);
         setSuccess1(false);
         setSuccess2(false);
+        await axios.post(
+          `https://portal.nigeriabulksms.com/api/?username=apmis&apmis=pass&message=${smsObj.message}&sender=${user.currentEmployee.facilityDetail.facilityName}&mobiles=${chosen.phone}`
+        );
         // showBilling()
       })
       .catch(err => {

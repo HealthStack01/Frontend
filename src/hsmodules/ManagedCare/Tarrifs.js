@@ -42,6 +42,7 @@ import { ServicesDetail } from "../Finance/Services";
 export default function TarrifList({ standAlone }) {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
+  const { register, handleSubmit, setValue, reset } = useForm();
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -50,7 +51,10 @@ export default function TarrifList({ standAlone }) {
   const [openTarrif, setOpenTarrif] = useState(false);
   const [openTarrifModify, setOpenTarrifModify] = useState(false);
   const [openService, setOpenService] = useState(false);
+  const [openPlan, setOpenPlan] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState();
+  
+  const Services = state.ServicesModule.selectedServices;
 
   const handleHideTariffModal = () => {
     setOpenTarrif(false);
@@ -84,13 +88,15 @@ export default function TarrifList({ standAlone }) {
     setOpenBand(true);
   };
 
-  // const handleHidePlanModal = () => {
-  //   setOpenBand(false);
-  // };
+  const handleHidePlanModal = () => {
+    setOpenPlan(false);
+  };
 
-  // const handlePlanModal = () => {
-  //   setOpenBand(true);
-  // };
+  const handlePlanModal = () => {
+    setOpenPlan(true);
+  };
+
+  
 
   return (
     <section className="section remPadTop">
@@ -104,6 +110,8 @@ export default function TarrifList({ standAlone }) {
           showTariffModify={handleTariffModifyModal}
           showBand={handleBandModal}
           showServices={handleServiceModal}
+          showServicesPlan={handlePlanModal}
+
         />
       )}
       {showModal === 1 && (
@@ -127,6 +135,37 @@ export default function TarrifList({ standAlone }) {
       </ModalBox>
 
       <ModalBox
+      open={openPlan}
+      onClose={handleHidePlanModal}
+      header="Modify Plans"
+      >
+      <AddService/>
+      </ModalBox> 
+      
+               <ModalBox
+               open={openService}
+               onClose={handleHideServiceModal}
+               header="Modify Band Name"
+             >
+              
+            <Box display="flex" justifyContent="flex-end">
+            <GlobalCustomButton
+                          // onClick={onSubmitBand}
+                          text="Save"
+                          color="primary"
+                          variant="contained"
+                          sx={{my:'1rem'}}
+                          // customStyles={{ float: "right" }}
+                        />
+            </Box>
+               <Input
+                 label="Band"
+                 name="bandName"
+                 register={register("bandName", { required: true })}
+                 defaultValue={Services?.band}
+               />
+             </ModalBox>
+      <ModalBox
         width="50vw"
         open={openTarrifModify}
         onClose={handleHideTariffModifyModal}
@@ -135,13 +174,6 @@ export default function TarrifList({ standAlone }) {
         <TariffModify />
       </ModalBox>
 
-      {/* <ModalBox
-          open={openService}
-          onClose={handleHideServiceModal}
-          header="Modify Plans"
-        >
-         <PlanModify/>
-        </ModalBox> */}
 
       <ModalBox
         width="50vw"
@@ -160,6 +192,9 @@ export const TarrifListView = ({
   showTariff,
   showBand,
   showServices,
+  showServicesPlan,
+  handleHidePlanModal,
+  handleHideServiceModal,
   showTariffModify,
 }) => {
   const [showView, setShowView] = useState(false);
@@ -185,10 +220,10 @@ export const TarrifListView = ({
   const [changeView, setChangeView] = useState("service");
   const [selectPlans, setSelectPlans] = useState([]);
   const [confirmDialog, setConfirmDialog] = useState(false);
-  const [serviceSN, setServiceSN] = useState(null);
-
-  // console.log(Services)
-
+  const [serviceSN, setServiceSN] = useState(null)
+  const [editing, setEditing] = useState('')
+// console.log(Services)
+ 
   const handleRow = async (Service, i) => {
     // console.log(Service);
     setSlide(!slide);
@@ -203,7 +238,13 @@ export const TarrifListView = ({
     }));
   };
 
-  // const handleSelectedCategory = async Client => {
+  const Services = state.ServicesModule.selectedServices;
+  const contractDetails = state.TariffModule.selectedContracts;
+
+  // console.log(contractDetails.plans)
+  
+  // const handleSelectedCategory = async Category => {
+
   //   const newContractModule = {
   //     selectedContracts: Category,
   //     show: "detail",
@@ -214,32 +255,6 @@ export const TarrifListView = ({
   //   }));
   //  ;
   // };
-
-  // console.log(selectedServices)
-
-  const Services = state.ServicesModule.selectedServices;
-
-  const handleService = async (Category) => {
-    console.log(Category.plans);
-    //   if (selectedServices && selectedServices.contracts._id === Service._id)
-    //   return setSelectedServices(null);
-    setSelectedCategory(Category);
-    const bandPlans = Category.plans.map(
-      (plan) => (planName = plan.planName),
-      (benefit = plan.benefit),
-      (benefitcategory = plan.benefitcategory),
-      (feeForService = plan.feeForService),
-      (capitation = plan.capitation),
-      (coPay = plan.coPay),
-      (copayDetail = plan.copayDetail),
-      (reqPA = plan.reqPA)
-    );
-    setSelectPlans(bandPlans?.flat(1));
-  };
-
-  // console.log(Services)
-  console.log(selectPlans);
-
   const handleTariff = async (Category) => {
     setSelectedCategory(Category?.contracts);
     const newContractModule = {
@@ -250,68 +265,46 @@ export const TarrifListView = ({
       ...prevstate,
       TariffModule: newContractModule,
     }));
-    showServices();
-  };
+   ;
+  showServicesPlan()
+  }
+  console.log(selectedServices)
 
-  const handleDelete = () => {
-    const newUpdatedServices = Object.values(Services).filter((data, i) => {
-      let position = serviceSN;
-      return position !== i;
-    });
-    let data = {
-      selectedService: newUpdatedServices,
+  const handleService = async (Category) => {
+    // console.log(Category)
+    const newContractModule = {
+      selectedContracts: Category,
+      show: "list",
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      TariffModule: newContractModule,
+    }));
+    // await setSelectedCategory(Category.contracts);
+ const bandPlans = selectedServices?.map(data => {
+  const allPlans = [];
+  data.plans.map(plan => {
+    const planData = {
+      planName:plan.planName,
+      planId: plan.planId,
+      benefit:plan.benefit,
+      benefitcategory :plan.benefitcategory,
+      feeForService :plan.feeForService,
+      capitation:plan.capitation,
+      coPay:plan.coPay,
+      copayDetail:plan.copayDetail,
+      reqPA:plan.reqPA,
     };
 
-    const dleteId = Services._id;
-    // console.log(dleteId)
-    ServicesServ.remove(dleteId, data)
-      .then((res) => {
-        setState((prev) => ({
-          ...prev,
-          ServicesModule: {
-            ...prev.ServicesModule,
-            selectedServices: res.selectedService,
-          },
-        }));
-        setState((prev) => ({
-          ...prev,
-          TariffModule: {
-            ...prev.TariffModule,
-            selectedCategory: res.selectedService,
-          },
-        }));
-        setSelectPlans(res.selectedService);
-        setConfirmDialog(false);
-        toast.success(`Tariff successfully deleted!`);
-      })
-      .catch((err) => {
-        toast.error(`Sorry, Unable to delete tariff. ${err}`);
-      });
-    //}
-  };
+    allPlans.push(planData);
+  });
+  return allPlans;
+});
 
-  // const handleDelete = async () => {
-  // 	//let conf = window.confirm("Are you sure you want to delete this data?");
-  // const dleteId = Services._id;
-  // // if (conf) {
-  // ServicesServ.remove(dleteId)
-  // 	.then((res) => {
-  // 		toast.success(`Tariff successfully deleted!`);
-  // 	})
-  // 	.catch((err) => {
-  // 		toast.error(`Sorry, Unable to delete tariff. ${err}`);
-  // 	});
-  //}
-  // };
-  // console.log(selectedCategory)
-  //  const Contracts = state.TariffModule.selectedContracts;
-  // // console.log(selectedCategory)
-  // const handleRemove = (contract) => {
-  //   const newProductItem = Contracts.filter(
-  //     (productionItem) => productionItem._id  !== contract._id
-  //   );
-  //  setSelectedCategory(newProductItem);
-  // };
+setSelectedCategory(bandPlans?.flat(1));
+};
+  console.log(selectedCategory)
+
 
   const handleSearch = (val) => {
     const field = "name";
@@ -361,32 +354,8 @@ export const TarrifListView = ({
     }
   };
 
-  // const getServices = async () => {
-  //   setLoading(true);
-  //   if (user.currentEmployee) {
-  //     const findServices = await ServicesServ.find({
-  //       query: {
-  //         organizationId: user.currentEmployee.facilityDetail._id,
-
-  //         $sort: {
-  //           createdAt: -1,
-  //         },
-  //       },
-  //     });
-  //     // console.log(findServices.data);
-  //     await setFacilities(findServices.data);
-  //     setLoading(false);
-  //   } else {
-  //     if (user.stacker) {
-  //       toast.warning("You do not qualify to view this");
-  //       return;
-  //     }
-  //   }
-  // };
-
   useEffect(() => {
     getFacilities();
-    // getServices();
     ServicesServ.on("created", (obj) => getFacilities());
     ServicesServ.on("updated", (obj) => getFacilities());
     ServicesServ.on("patched", (obj) => getFacilities());
@@ -466,6 +435,7 @@ export const TarrifListView = ({
       sortable: true,
       required: true,
       inputType: "TEXT",
+    
     },
 
     {
@@ -476,6 +446,7 @@ export const TarrifListView = ({
       sortable: true,
       required: true,
       inputType: "TEXT",
+      
     },
     {
       name: "Comment",
@@ -485,6 +456,7 @@ export const TarrifListView = ({
       sortable: true,
       required: true,
       inputType: "TEXT",
+     
     },
   ];
 
@@ -586,15 +558,15 @@ export const TarrifListView = ({
       selector: (row, i) => (
         <GlobalCustomButton
           color="error"
-          onClick={() => {
-            setServiceSN(i);
+          onClick={handleTariff
+           
             // // console.log("click", i, row);
             // setEditIndividualPremium(true);
             // setEditPlanType(row.planType);
             // setIndividualPremiumState(row);
             // setEditPremiumDurationType(row?.premiumDurationType);
             // setConfirmDialog(true);
-          }}
+          }
           customStyles={{ float: "center", p: "0.1rem" }}
         >
           <CreateIcon fontSize="small" sx={{ marginRight: "5px" }} />
@@ -606,7 +578,7 @@ export const TarrifListView = ({
       inputType: "TEXT",
     },
     {
-      name: "Del",
+      name: "Delete",
       width: "50px",
       center: true,
       key: "delete",
@@ -651,9 +623,42 @@ export const TarrifListView = ({
     },
   ];
 
+console.log(serviceSN)
+  const handleDelete = () => {
+    console.log(selectedCategory)
+    const newUpdatedServices = selectedCategory?.find((data,i) => i === serviceSN)
+    console.log(newUpdatedServices)
+
+    ServicesServ.remove(newUpdatedServices)
+      .then((res) => {
+        setState((prev) => ({
+          ...prev,
+          ServicesModule: {
+            ...prev.ServicesModule,
+            selectedServices: res,
+          },
+        }));
+        setState((prev) => ({
+          ...prev,
+          TariffModule: {
+            ...prev.TariffModule,
+            selectedCategory: res,
+          },
+        }));
+        setSelectedCategory(res.selectedService);
+        setConfirmDialog(false);
+        toast.success(`Tariff successfully deleted!`);
+      })
+      .catch((err) => {
+        toast.error(`Sorry, Unable to delete tariff. ${err}`);
+      });
+    //}
+  };
+
+
   const conditionalRowStyles = [
     {
-      when: (row) => row._id === selectedServices?._id,
+      when: (row) => row?.serviceName === selectedServices?.serviceName,
       style: {
         backgroundColor: "#4cc9f0",
         color: "white",
@@ -663,6 +668,9 @@ export const TarrifListView = ({
       },
     },
   ];
+
+
+
 
   return (
     <div>
@@ -692,7 +700,6 @@ export const TarrifListView = ({
                   </div>
                 )}
               </div>
-
               <Box display="flex" gap={2}>
                 <GlobalCustomButton text="Add Band" onClick={showBand} />
 
@@ -712,7 +719,6 @@ export const TarrifListView = ({
               highlightOnHover
               striped
               onRowClicked={(row) => handleRow(row)}
-              conditionalRowStyles={conditionalRowStyles}
             />
           </>
         )}
@@ -736,6 +742,7 @@ export const TarrifListView = ({
                 <GlobalCustomButton
                   text="Back"
                   onClick={() => setSlide(false)}
+                 
                   customStyles={{ marginRight: "1rem" }}
                   color="warning"
                 />
@@ -772,15 +779,17 @@ export const TarrifListView = ({
               <FormsHeaderText text={Services?.band} />
 
               <Box display="flex" gap="1rem">
+          
                 <GlobalCustomButton
-                  color="error"
-                  onClick={() => {
-                    setServiceSN(i);
-                  }}
-                >
-                  <CreateIcon fontSize="small" sx={{ marginRight: "5px" }} />
-                  Edit
-                </GlobalCustomButton>
+          color="error"
+          onClick={() => {
+            showServices();
+          }}
+        >
+
+          <CreateIcon fontSize="small" sx={{ marginRight: "5px" }} />
+          Edit
+        </GlobalCustomButton>
                 <GlobalCustomButton
                   text="Add Services"
                   onClick={showServices}
@@ -797,47 +806,50 @@ export const TarrifListView = ({
                     display: "flex",
                     width: "100%",
                     justifyContent: "space-between",
+                    gap: "0.5rem"
                   }}
                 >
                   <Box
                     sx={{
                       height: "calc(100vh - 170px)",
                       transition: "width 0.5s ease-in",
-                      width: selectedCategory ? "49.5%" : "100%",
+                      width: selectedCategory ? "30%" : "100%",
                     }}
                   >
                     <CustomTable
                       title={""}
                       columns={productItemSchema}
-                      data={Services?.contracts}
+                      data={selectedServices}
                       pointerOnHover
                       highlightOnHover
                       striped
-                      onRowClicked={(row) => handleService(row)}
+                      onRowClicked={(row) =>handleService(row)}
                       progressPending={loading}
                       conditionalRowStyles={conditionalRowStyles}
                     />
-                  </Box>
-                  {selectedCategory && (
-                    <Box
-                      sx={{
-                        height: "calc(100vh - 170px)",
-                        width: "49.5%",
-                        transition: "width 0.5s ease-in",
-                      }}
-                    >
-                      <CustomTable
-                        title={""}
-                        columns={otherServiceSchema}
-                        data={selectPlans}
-                        pointerOnHover
-                        highlightOnHover
-                        striped
-                        progressPending={loading}
-                        // onRowClicked={(row) => handleTariff(row)}
-                      />
-                    </Box>
-                  )}
+                 </Box>
+                {selectedCategory && 
+                 <Box 
+                 sx={{
+                  height: "calc(100vh - 170px)",
+                  width: "80%",
+                  transition: "width 0.5s ease-in",
+                 }}
+                 >
+                  
+                  
+                  <CustomTable
+                    title={""}
+                    columns={otherServiceSchema}
+                    data={selectedCategory}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    progressPending={loading}
+                    // onRowClicked={(row) => handleDelete(row)}
+                  />
+                 </Box>
+}
                 </Box>
               ) : (
                 <Box
@@ -2060,7 +2072,7 @@ export const BandForm = () => {
     async (data, e) => {
       e.preventDefault();
       setSuccess(false);
-      let existBand = providerBand.filter((band) => band.name === data.name);
+      let existBand = providerBand.find((band) => band.name === name);
 
       if (existBand) {
         toast.error("Band name already exist");
@@ -2530,30 +2542,72 @@ export function AddService() {
       ); //remove from benefiting plan
     }
   };
-
   const contractDetails = state.TariffModule.selectedContracts;
+  const servicesDetails = state.ServicesModule.selectedServices;
 
-  const handleClickServices = async () => {
-    let seviceItem = {
-      source_org: user.currentEmployee.facilityDetail,
-      source_org_name: user.currentEmployee.facilityDetail.facilityName,
-      serviceName: contractDetails.serviceName,
-      serviceId: contractDetails.service._id,
-      price: contractDetails.price,
-      comments: contractDetails.comments,
-      plans: benefittingplans,
+  const handleClickServices = async (data) => {
+    setLoading(true);
+    //  let contract = Services.contracts.find((data) => data._id === id )
+    //  console.log(contract)
+    const newPlanDetail = {
+      ...contractDetails,
+      ...servicesDetails,
+      organizationId: user.currentEmployee.facilityDetail._id,
+      organizationName: user.currentEmployee.facilityDetail.facilityName,
+      band: data.bandName,
+      contracts: [
+        {
+          serviceName: service?.name,
+          comments: data.comment,
+          price: data.costPrice,
+          plans: contractDetails?.plans,
+        },
+      ],
     };
 
-    const id = contractDetails._id;
-
-    ServicesServ.patch(id, seviceItem)
+    ServicesServ.patch(servicesDetails._id, newPlanDetail)
       .then((res) => {
+        // console.log(res);
+        setState((prev) => ({
+          ...prev,
+          ServicesModule: { ...prev.ServicesModule, selectedServices: res },
+        }));
+        setState((prev) => ({
+          ...prev,
+          TariffModule: { ...prev.TariffModule, selectedCategory: res },
+        }));
+        setLoading(false);
         toast.success("Tariff updated succesfully");
       })
       .catch((err) => {
+        setLoading(false);
         toast.error("Error updating Tariff " + err);
       });
   };
+
+  // const contractDetails = state.TariffModule.selectedContracts;
+
+  // const handleClickServices = async () => {
+  //   let seviceItem = {
+  //     source_org: user.currentEmployee.facilityDetail,
+  //     source_org_name: user.currentEmployee.facilityDetail.facilityName,
+  //     serviceName: contractDetails.serviceName,
+  //     serviceId: contractDetails.service._id,
+  //     price: contractDetails.price,
+  //     comments: contractDetails.comments,
+  //     plans: benefittingplans,
+  //   };
+
+  //   const id = contractDetails._id;
+
+  //   ServicesServ.patch(id, seviceItem)
+  //     .then((res) => {
+  //       toast.success("Tariff updated succesfully");
+  //     })
+  //     .catch((err) => {
+  //       toast.error("Error updating Tariff " + err);
+  //     });
+  // };
 
   return (
     <Box

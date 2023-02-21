@@ -156,7 +156,7 @@ export const SearchTariffService = ({handleServiceChange}) => {
           },
         },
       });
-      console.log(findServices.data[0].contracts);
+      console.log(findServices.data);
       setServices(findServices.data[0].contracts);
     } else {
       if (user.stacker) {
