@@ -511,6 +511,24 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                 </Grid>
               )}
 
+              <Box>
+                <FormsHeaderText text="Claim's Status History" />
+                <Box mt={1} mb={1}>
+                  <CustomTable
+                    title={""}
+                    columns={statushxColumns}
+                    data={selectedClaim.statushx || []}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    //onRowClicked={handleRow}
+                    CustomEmptyData="No Status History for this Claim yet..."
+                    progressPending={false}
+                    //conditionalRowStyles={conditionalRowStyles}
+                  />
+                </Box>
+              </Box>
+
               <Box mb={2}>
                 <Box
                   sx={{
@@ -710,24 +728,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <Textarea
                     placeholder="Write here..."
                     register={register("comments")}
-                  />
-                </Box>
-              </Box>
-
-              <Box>
-                <FormsHeaderText text="Claim's Status History" />
-                <Box mt={1} mb={1}>
-                  <CustomTable
-                    title={""}
-                    columns={statushxColumns}
-                    data={selectedClaim.statushx || []}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    //onRowClicked={handleRow}
-                    CustomEmptyData="No Status History for this Claim yet..."
-                    progressPending={false}
-                    //conditionalRowStyles={conditionalRowStyles}
                   />
                 </Box>
               </Box>
