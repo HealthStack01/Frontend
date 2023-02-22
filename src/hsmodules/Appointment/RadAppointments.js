@@ -201,28 +201,17 @@ export function AppointmentCreate({ showModal, setShowModal }) {
 
   const onSubmit = (data, e) => {
     e.preventDefault();
-
-    const employee = user.currentEmployee;
-    if (!state.CommunicationModule.defaultEmail.emailConfig?.username)
-      return setState(prev => ({
-        ...prev,
-        CommunicationModule: {
-          ...prev.CommunicationModule,
-          configEmailModal: true,
+    setMessage('');
+    setError(false);
+    setSuccess(false);
+    setShowModal(false),
+      setState((prevstate) => ({
+        ...prevstate,
+        AppointmentModule: {
+          selectedAppointment: {},
+          show: 'list',
         },
       }));
-
-      showActionLoader();
-      setMessage("");
-      setError(false);
-      setSuccess(false);
-    setShowModal(false);
-   
-
-      const generatedOTP = generateOTP();
-
-      const isHMO = chosen.paymentinfo.some(checkHMO);
-
 
     // data.createdby=user._id
     console.log(data);
@@ -231,9 +220,9 @@ export function AppointmentCreate({ showModal, setShowModal }) {
     }
     data.locationId = locationId; //state.ClinicModule.selectedClinic._id
     data.practitionerId = practionerId;
-    // data.appointment_type = appointment_type;
+    data.appointment_type = appointment_type;
     // data.appointment_reason=appointment_reason
-    // data.appointment_status = appointment_status;
+    data.appointment_status = appointment_status;
     data.clientId = clientId;
     data.firstname = chosen.firstname;
     data.middlename = chosen.middlename;
@@ -246,62 +235,18 @@ export function AppointmentCreate({ showModal, setShowModal }) {
     data.practitioner_profession = chosen2.profession;
     data.practitioner_department = chosen2.department;
     data.location_name = chosen1.name;
-    data.otp = generatedOTP;
     data.location_type = chosen1.locationType;
-    data.organization_type = employee.facilityDetail.facilityType;
     data.actions = [
       {
-        status: data.appointment_status,
+        action: appointment_status,
         actor: user.currentEmployee._id,
       },
     ];
     console.log(data);
 
-
-    const notificationObj = {
-      type: "Clinic",
-      title: `Scheduled ${data.appointmentClass} ${data.appointment_type} Appointment`,
-      description: `You have a schedule appointment with ${chosen.firstname} ${
-        chosen.lastname
-      } set to take place exactly at ${dayjs(data.start_time).format(
-        "DD/MM/YYYY hh:mm"
-      )} in ${chosen1.name} Clinic for ${data.appointment_reason}`,
-      facilityId: employee.facilityDetail._id,
-      sender: `${employee.firstname} ${employee.lastname}`,
-      senderId: employee._id,
-      pageUrl: "/app/clinic/appointments",
-      priority: "normal",
-      dest_userId: [chosen2._id],
-    };
-
-
-    const emailObj = {
-      organizationId: employee.facilityDetail._id,
-      organizationName: employee.facilityDetail.facilityName,
-      html: "<p><p/>",
-      text: `You have been scheduled for an appointment with ${
-        chosen2.profession
-      } ${chosen2.firstname} ${chosen2.lastname} at ${dayjs(
-        data.start_time
-      ).format("DD/MM/YYYY hh:mm")} ${
-        isHMO ? `and your OTP code is ${generatedOTP}` : ""
-      } `,
-      status: "pending",
-      subject: `SCHEDULED APPOINTMENT WITH ${
-        employee.facilityDetail.facilityName
-      } AT ${dayjs(data.date).format("DD/MM/YYYY hh:mm")}`,
-      to: chosen.email,
-      name: employee.facilityDetail.facilityName,
-      from: state.CommunicationModule.defaultEmail.emailConfig.username,
-    };
-
-
     ClientServ.create(data)
-      .then(async res => {
-        await notificationsServer.create(notificationObj);
+      .then((res) => {
         //console.log(JSON.stringify(res))
-        await emailServer.create(emailObj);
-         hideActionLoader();
         setAppointment_type('');
         setAppointment_status('');
         setClientId('');
@@ -318,9 +263,8 @@ export function AppointmentCreate({ showModal, setShowModal }) {
         setSuccess2(false);
         // showBilling()
       })
-      .catch(err => {
-        hideActionLoader();
-        toast.error("Error creating Appointment " + err);
+      .catch((err) => {
+        toast.error('Error creating Appointment ' + err);
       });
   };
 
@@ -339,8 +283,6 @@ export function AppointmentCreate({ showModal, setShowModal }) {
         const  handlecloseModal1 = () =>{
             setBillingModal(false)
             }
-
-
             const handleRow= async(Client)=>{
               //  await setSelectedClient(Client)
                 const    newClientModule={
@@ -403,11 +345,8 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                 required
                 important
                 options={[
-                  "New",
-                  "Followup",
-                  "Readmission with 24hrs",
-                  "Annual Checkup",
-                  "Walk-in",
+                  "New Procedure",
+                  "Repeat Procedure",
                 ]}
               />
             </Grid>
@@ -422,12 +361,13 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                   "Scheduled",
                   "Confirmed",
                   "Checked In",
-                  "Vitals Taken",
-                  "With Nurse",
-                  "With Doctor",
                   "No Show",
-                  "Cancelled",
+                  "Checked Out ",
+                  "Completed Procedure ",
+                  "Procedure In Progress",
+                  "Paid",
                   "Billed",
+                  "Cancelled"
                 ]}
               />
             </Grid>

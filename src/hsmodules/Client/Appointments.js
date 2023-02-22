@@ -819,6 +819,8 @@ export function ClientDetail({ showModal, setShowModal }) {
   const { state, setState } = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
+  const [isHMO, setIsHMO] = useState(false);
+  const ClientServ = client.service("appointments");
 
   // console.log(state)
   const Client = state.AppointmentModule.selectedAppointment;
@@ -854,11 +856,50 @@ export function ClientDetail({ showModal, setShowModal }) {
     console.log("test");
   };
 
+  const checkinPatient = (data, e) => {
+    ClientServ.patch(Client._id, {appointment_status: "Checked In"})
+      .then(res => {
+        //console.log(JSON.stringify(res))
+        // e.target.reset();
+        // setMessage("updated Client successfully")
+        toast.success("Client succesfully Checked In");
+
+        changeState();
+        return
+      })
+      .catch(err => {
+        toast.error("Error updating Client, probable network issues or " + err);
+      });
+  };
+
+
+  const checkOutPatient = () => {
+    ClientServ.patch(Client._id, {appointment_status: "Checked Out"})
+      .then(res => {
+        toast.success("Client succesfully Checked In");
+
+        changeState();
+      })
+      .catch(err => {
+        toast.error("Error updating Client, probable network issues or " + err);
+      });
+  };
+
+  //  const isHMO = chosen.paymentinfo.some(checkHMO);
+
+  const defaultCheckinClient = () => {
+    if (isHMO) {
+      setOtpModal(true);
+    } else {
+      checkinPatient();
+    }
+  };
+
   return (
     <>
       <Box
         sx={{
-          width: "100%",
+          width: "70vw",
           display: "flex",
           alignItems: "center",
           justifyContent: "right",
@@ -872,7 +913,30 @@ export function ClientDetail({ showModal, setShowModal }) {
             marginRight: "5px",
           }}
         />
-        <GlobalCustomButton onClick={handleAttend} text="Attend to client" />
+
+          <Box>
+            {Client.appointment_status.toLowerCase() !== "checked in" && (
+              <GlobalCustomButton
+                color="success"
+                onClick={defaultCheckinClient}
+              >
+                Check-In Client
+              </GlobalCustomButton>
+            )}
+
+            {Client.appointment_status.toLowerCase() === "checked in" && (
+              <GlobalCustomButton color="success" onClick={checkOutPatient}>
+                Check-Out Client
+              </GlobalCustomButton>
+            )}
+          </Box>
+
+
+        <GlobalCustomButton onClick={handleAttend} text="Attend to client" 
+        customStyles={{
+          marginRight: "5px",
+        }}
+        />
       </Box>
       <Grid container spacing={1} mt={1}>
         <Grid item xs={12} md={4}>
