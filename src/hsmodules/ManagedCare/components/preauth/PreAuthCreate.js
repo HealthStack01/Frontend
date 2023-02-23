@@ -167,8 +167,8 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
       submissionby: employee,
       status: "Submitted",
       preauthid: random(12, "uppernumeric"),
-      appointmentid: selectedAppointment,
-      admissionid: selectedAdmission,
+      appointment: selectedAppointment,
+      admission: selectedAdmission,
       geolocation: {
         type: "Point",
         coordinates: [state.coordinates.latitude, state.coordinates.longitude],

@@ -20,6 +20,7 @@ function App() {
   const [state, setState] = useState({
     ClaimsModule: {
       selectedClaim: {},
+      selectedService: {},
     },
     PreAuthModule: {
       selectedPreAuth: {},

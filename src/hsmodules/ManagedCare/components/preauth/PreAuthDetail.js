@@ -278,6 +278,19 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
     setUpdateServiceModal(true);
   };
 
+  const servicesConditionalRowStyles = [
+    {
+      when: row => row.status.toLowerCase() === "rejected",
+      style: {
+        backgroundColor: "pink",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
   return (
     <Box
       sx={{
@@ -290,7 +303,7 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
       <ModalBox
         open={updateServiceModal}
         onClose={() => setUpdateServiceModal(false)}
-        header="Update Serive"
+        header="Update Service"
       >
         <UpadteService closeModal={() => setUpdateServiceModal(false)} />
       </ModalBox>
@@ -742,7 +755,7 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
                     highlightOnHover
                     striped
                     onRowClicked={onServiceRowClick}
-                    //conditionalRowStyles={conditionalRowStyles}
+                    conditionalRowStyles={servicesConditionalRowStyles}
                     progressPending={false}
                     CustomEmptyData={
                       <Typography sx={{fontSize: "0.8rem"}}>

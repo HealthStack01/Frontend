@@ -51,6 +51,7 @@ import MuiDateTimePicker from "../../components/inputs/DateTime/MuiDateTimePicke
 import OtpInput from "react-otp-input";
 import dayjs from "dayjs";
 import axios from "axios";
+import ClientPaymentTypeSelect from "../../components/client-payment/ClientPaymentType";
 
 export default function ClinicAppointments() {
   const {state} = useContext(ObjectContext); //,setState
@@ -129,6 +130,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
   const [appointment_status, setAppointment_status] = useState("");
   const [appointment_type, setAppointment_type] = useState("");
   const [billingModal, setBillingModal] = useState(false);
+  const [paymentMode, setPaymentMode] = useState(null);
 
   const [chosen, setChosen] = useState();
   const [chosen1, setChosen1] = useState();
@@ -237,12 +239,20 @@ export function AppointmentCreate({showModal, setShowModal}) {
     if (user.currentEmployee) {
       data.facility = employee.facilityDetail._id; // or from facility dropdown
     }
+
+    if (paymentMode.paymentmode.toLowerCase() === "hmo") {
+      data.sponsor = paymentMode.policy.sponsor;
+      data.hmo = paymentMode.policy.organization;
+      data.policy = paymentMode.policy;
+    }
     data.locationId = locationId; //state.ClinicModule.selectedClinic._id
     data.practitionerId = practionerId;
     //data.appointment_type = appointment_type;
     // data.appointment_reason=appointment_reason
     //data.appointment_status = appointment_status;
     data.clientId = clientId;
+    data.client = chosen;
+
     data.firstname = chosen.firstname;
     data.middlename = chosen.middlename;
     data.lastname = chosen.lastname;
@@ -386,26 +396,33 @@ export function AppointmentCreate({showModal, setShowModal}) {
       <div
         className="card "
         style={{
-          width: "75vw",
+          width: "65vw",
         }}
       >
         <form>
           <Grid container spacing={2} mb={1}>
-            <Grid item xs={12} sm={12} md={4}>
+            <Grid item xs={12} sm={12} md={8} lg={8}>
               <ClientSearch
                 getSearchfacility={getSearchfacility}
                 clear={success}
               />
             </Grid>
 
-            <Grid item xs={12} sm={12} md={4}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
+              <ClientPaymentTypeSelect
+                payments={chosen?.paymentinfo}
+                handleChange={item => setPaymentMode(item)}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={12} md={6}>
               <EmployeeSearch
                 getSearchfacility={getSearchfacility2}
                 clear={success2}
               />
             </Grid>
 
-            <Grid item xs={12} sm={12} md={4}>
+            <Grid item xs={12} sm={12} md={6}>
               <LocationSearch
                 getSearchfacility={getSearchfacility1}
                 clear={success1}
@@ -665,7 +682,7 @@ export function ClientList({showModal, setShowModal}) {
   };
 
   const getFacilities = useCallback(async () => {
-    console.log(user);
+    //console.log(user);
     if (user.currentEmployee) {
       let query = {
         facility: user.currentEmployee.facilityDetail._id,
@@ -676,7 +693,7 @@ export function ClientList({showModal, setShowModal}) {
         },
       };
       if (state.employeeLocation.locationType !== "Front Desk") {
-        stuff.locationId = state.employeeLocation.locationId;
+        query.locationId = state.employeeLocation.locationId;
       }
 
       const findClient = await ClientServ.find({query: query});
@@ -703,27 +720,17 @@ export function ClientList({showModal, setShowModal}) {
     if (user) {
       handleCalendarClose();
     } else {
-      /* const localUser= localStorage.getItem("user")
-                    const user1=JSON.parse(localUser)
-                    console.log(localUser)
-                    console.log(user1)
-                    fetchUser(user1)
-                    console.log(user)
-                    getFacilities(user) */
+      return;
     }
     ClientServ.on("created", obj => handleCalendarClose());
     ClientServ.on("updated", obj => handleCalendarClose());
     ClientServ.on("patched", obj => handleCalendarClose());
     ClientServ.on("removed", obj => handleCalendarClose());
-    const newClient = {
-      selectedClient: {},
-      show: "create",
-    };
-    setState(prevstate => ({...prevstate, ClientModule: newClient}));
+
     return () => {};
   }, [getFacilities]);
 
-  const handleCalendarClose = async () => {
+  const handleCalendarClose = useCallback(async () => {
     let query = {
       start_time: {
         $gt: subDays(startDate, 1),
@@ -743,7 +750,7 @@ export function ClientList({showModal, setShowModal}) {
     const findClient = await ClientServ.find({query: query});
 
     await setFacilities(findClient.data);
-  };
+  }, [state.ClinicModule.selectedClinic]);
 
   const handleDate = async date => {
     setStartDate(date);
@@ -965,7 +972,7 @@ export function ClientDetail({showModal, setShowModal}) {
         // setMessage("updated Client successfully")
         toast.success("Client succesfully Checked In");
 
-        changeState();
+        // changeState();
       })
       .catch(err => {
         toast.error("Error updating Client, probable network issues or " + err);
@@ -979,7 +986,7 @@ export function ClientDetail({showModal, setShowModal}) {
       .then(res => {
         toast.success("Client succesfully Checked In");
 
-        changeState();
+        //changeState();
       })
       .catch(err => {
         toast.error("Error updating Client, probable network issues or " + err);
@@ -991,7 +998,7 @@ export function ClientDetail({showModal, setShowModal}) {
       .then(res => {
         toast.success("Client succesfully Checked In");
 
-        changeState();
+        //changeState();
       })
       .catch(err => {
         toast.error("Error updating Client, probable network issues or " + err);

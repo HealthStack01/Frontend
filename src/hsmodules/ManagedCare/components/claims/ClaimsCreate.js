@@ -217,7 +217,6 @@ const ClaimCreateComponent = ({handleGoBack}) => {
         query: {
           "provider._id": user.currentEmployee.facilityDetail._id,
           "beneficiary._id": state.ClientModule.selectedClient?._id,
-
           $limit: 100,
           $sort: {
             createdAt: -1,
@@ -225,9 +224,13 @@ const ClaimCreateComponent = ({handleGoBack}) => {
         },
       })
       .then(res => {
-        setPreAuthServices(res.data[0].services);
+        const services = res.data[0].services;
+        const approvedServices = services.filter(
+          item => item.status.toLowerCase() === "approved"
+        );
+        setPreAuthServices(approvedServices);
         // setServices(prev => [...res.data[0].services, ...prev]);
-        console.log(res);
+        //console.log(res);
       });
   }, [state.ClientModule.selectedClient]);
 
@@ -756,7 +759,11 @@ export const SelectAppointment = ({selectAppointment}) => {
         width: "85vw",
       }}
     >
-      <Box>
+      <Box
+        sx={{
+          width: "85vw",
+        }}
+      >
         <CustomTable
           title={""}
           columns={appointmentColumns}
