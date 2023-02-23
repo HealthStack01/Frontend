@@ -251,9 +251,9 @@ const {
     setOpenPlan(false);
   };
 
-  const handlePlanModal = () => {
-    setOpenPlan(true);
-  };
+  // const handlePlanModal = () => {
+  //   ;
+  // };
 
 /// add ser
 
@@ -528,7 +528,7 @@ const {
       name: "Free for Service",
       key: "free service",
       description: "Free for Service",
-      selector: (row) => (row?.feeForService === true ? "Yes" : "No"),
+      selector: (row) => (row?.feeForService === "true" ? "Yes" : "No"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -591,14 +591,16 @@ const {
       selector: (row, i) => (
         <GlobalCustomButton
           color="error"
-          onClick={handlePlanModal
-           
+          onClick={() => {
+          setOpenPlan(true)
+           setServiceSN(row);
             // // console.log("click", i, row);
             // setEditIndividualPremium(true);
             // setEditPlanType(row.planType);
             // setIndividualPremiumState(row);
             // setEditPremiumDurationType(row?.premiumDurationType);
             // setConfirmDialog(true);
+          }
           }
           customStyles={{ float: "center", p: "0.1rem" }}
         >
@@ -700,14 +702,14 @@ const {
     //}
   };
 
+  // console.log(serviceSN)
 
-  const handleUpdatePlan =  (data) => {
+  const handleUpdatePlan =  () => {
 
-    // const oldPlan = contractDetails?.plans?.map((el) => el.planId === selectedCategory.planId)
-
+//      const oldPlan = contractDetails.plans?.find((el) => el.planId === selectedCategory?.planId)
+// console.log(oldPlan);
  
       const newPlanDetail = {
-        ...contractDetails,
         ...Services,
         organizationId: user.currentEmployee.facilityDetail._id,
         organizationName: user.currentEmployee.facilityDetail.facilityName,
@@ -718,16 +720,16 @@ const {
             comments: contractDetails?.comments,
             price: contractDetails?.price,
             plans: [
-              {
-                planName: contractDetails.plans.planName,
-                benefit: contractDetails.plans.benefit,
-                benefitCategory: contractDetails.plans.benefitCategory,
-                feeforService: data.feeforService || contractDetails.plans.feeforService,
-                capitation: data.capitation || contractDetails.plans.capitation,
-                reqPA: data.reqPA || contractDetails.plans.reqPA,
-                coPay: data.scoPay || contractDetails.plans.coPay, 
-                copayDetail: data.copayDetail || contractDetails.plans.copayDetail,
-                comments: contractDetails.plans.comments,
+              { 
+                planName: serviceSN?.planName,
+                benefit: serviceSN?.benefit,
+                benefitCategory: serviceSN?.benefitCategory,
+                feeforService: feeForService,
+                capitation: capitation,
+                reqPA: serviceSN?.reqPA,
+                coPay: serviceSN?.coPay, 
+                copayDetail: serviceSN?.copayDetail,
+                comments: serviceSN?.comments,
               }
           ],
           },
@@ -862,7 +864,7 @@ const {
                                   value="Fee for Service"
                                   type="radio"
                                   onChange={(event) =>
-                                    setFeeForService(event.value === "Fee for Service" ? true : false)
+                                    setFeeForService(event.target.value === "Fee for Service" ? true : false)
                                   }
                                   defaultChecked={c.feeforService}
                                   style={{ marginRight: "10px" }}
