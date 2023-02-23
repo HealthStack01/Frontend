@@ -24,6 +24,8 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 import DeleteOutline from "@mui/icons-material/DeleteOutline";
 import CategorySearch from "../helpers/CategorySearch";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+import RadioInput from '../../components/inputs/RadioInput';
+
 
 import {
   BandSearch,
@@ -110,7 +112,7 @@ export default function TarrifList({ standAlone }) {
           showTariffModify={handleTariffModifyModal}
           showBand={handleBandModal}
           showServices={handleServiceModal}
-          showServicesPlan={handlePlanModal}
+          // showServicesPlan={handlePlanModal}
 
         />
       )}
@@ -134,15 +136,15 @@ export default function TarrifList({ standAlone }) {
         <BandForm />
       </ModalBox>
 
-      <ModalBox
+      {/* <ModalBox
       open={openPlan}
       onClose={handleHidePlanModal}
       header="Modify Plans"
       >
       <AddService/>
-      </ModalBox> 
+      </ModalBox>  */}
       
-               <ModalBox
+               {/* <ModalBox
                open={openService}
                onClose={handleHideServiceModal}
                header="Modify Band Name"
@@ -164,7 +166,7 @@ export default function TarrifList({ standAlone }) {
                  register={register("bandName", { required: true })}
                  defaultValue={Services?.band}
                />
-             </ModalBox>
+             </ModalBox> */}
       <ModalBox
         width="50vw"
         open={openTarrifModify}
@@ -183,6 +185,12 @@ export default function TarrifList({ standAlone }) {
       >
         <InheritTariff />
       </ModalBox>
+
+      {/* <ModalBox open={openPlan}
+      onClose={handleHidePlanModal}
+      header="Modify Plans">
+        <ModifyPlan/>
+      </ModalBox> */}
     </section>
   );
 }
@@ -193,8 +201,9 @@ export const TarrifListView = ({
   showBand,
   showServices,
   showServicesPlan,
-  handleHidePlanModal,
+  // handleHidePlanModal,
   handleHideServiceModal,
+  // openPlan,
   showTariffModify,
 }) => {
   const [showView, setShowView] = useState(false);
@@ -222,6 +231,32 @@ export const TarrifListView = ({
   const [confirmDialog, setConfirmDialog] = useState(false);
   const [serviceSN, setServiceSN] = useState(null)
   const [editing, setEditing] = useState('')
+  const [openPlan, setOpenPlan] = useState(false);
+  const [sCoPay, setSCoPay] = useState(false);
+const [beneCat, setBeneCat] = useState("");
+const [newBene, setNewBene] = useState([]);
+const [selectNo, setSelectNo] = useState("");
+const [capitation, setCapitation] = useState('');
+const [copayDetails, setCopayDetails] = useState('');
+const [showCoPay, setShowCoPay] = useState(false);
+const [feeForService, setFeeForService] = useState('');
+const [authCode, setAuthCode] = useState('');
+
+const {
+  handleSubmit,
+  
+} = useForm();
+
+  const handleHidePlanModal = () => {
+    setOpenPlan(false);
+  };
+
+  const handlePlanModal = () => {
+    setOpenPlan(true);
+  };
+
+/// add ser
+
 // console.log(Services)
  
   const handleRow = async (Service, i) => {
@@ -236,27 +271,11 @@ export const TarrifListView = ({
       ...prevstate,
       ServicesModule: newServicesModule,
     }));
+
   };
 
-  const Services = state.ServicesModule.selectedServices;
-  const contractDetails = state.TariffModule.selectedContracts;
-
-  // console.log(contractDetails.plans)
-  
-  // const handleSelectedCategory = async Category => {
-
-  //   const newContractModule = {
-  //     selectedContracts: Category,
-  //     show: "detail",
-  //   };
-  //   await setState((prevstate) => ({
-  //     ...prevstate,
-  //     TariffModule: newContractModule,
-  //   }));
-  //  ;
-  // };
-  const handleTariff = async (Category) => {
-    setSelectedCategory(Category?.contracts);
+  const handleService = async (Category) => {
+      setSelectedCategory(Category?.contracts);
     const newContractModule = {
       selectedContracts: Category,
       show: "detail",
@@ -265,47 +284,53 @@ export const TarrifListView = ({
       ...prevstate,
       TariffModule: newContractModule,
     }));
-   ;
-  showServicesPlan()
-  }
-  console.log(selectedServices)
+    const bandPlans = selectedServices?.map(data => {
+      const allPlans = [];
+      data.plans.map(plan => {
+        const planData = {
+          _id: plan._id,
+          planName:plan.planName,
+          planId: plan.planId,
+          benefit:plan.benefit,
+          benefitcategory :plan.benefitcategory,
+          feeForService :plan.feeForService,
+          capitation:plan.capitation,
+          coPay:plan.coPay,
+          copayDetail:plan.copayDetail,
+          reqPA:plan.reqPA,
+        };
+    
+        allPlans.push(planData);
+      });
+      return allPlans;
+    });
+    setSelectedCategory(bandPlans?.flat(1))
+    setSelectPlans(selectedCategory)
+   };
 
-  const handleService = async (Category) => {
-    // console.log(Category)
-    const newContractModule = {
-      selectedContracts: Category,
-      show: "list",
-    };
-    await setState((prevstate) => ({
-      ...prevstate,
-      TariffModule: newContractModule,
-    }));
-    // await setSelectedCategory(Category.contracts);
- const bandPlans = selectedServices?.map(data => {
-  const allPlans = [];
-  data.plans.map(plan => {
-    const planData = {
-      planName:plan.planName,
-      planId: plan.planId,
-      benefit:plan.benefit,
-      benefitcategory :plan.benefitcategory,
-      feeForService :plan.feeForService,
-      capitation:plan.capitation,
-      coPay:plan.coPay,
-      copayDetail:plan.copayDetail,
-      reqPA:plan.reqPA,
-    };
+  const Services = state.ServicesModule.selectedServices;
+  const contractDetails = state.TariffModule.selectedContracts;
 
-    allPlans.push(planData);
-  });
-  return allPlans;
-});
+  // console.log(Services)
+  
+  // const handleTariff = async () => {
+  // //   setSelectedCategory(Category?.contracts);
+  // //   const newContractModule = {
+  // //     selectedContracts: Category,
+  // //     show: "detail",
+  // //   };
+  // //   await setState((prevstate) => ({
+  // //     ...prevstate,
+  // //     TariffModule: newContractModule,
+  // //   }));
+  // //  ;
+  // showServicesPlan()
+  // }
+ 
+ 
 
-setSelectedCategory(bandPlans?.flat(1));
-};
-  console.log(selectedCategory)
-
-
+ 
+ 
   const handleSearch = (val) => {
     const field = "name";
     // console.log(val);
@@ -362,6 +387,14 @@ setSelectedCategory(bandPlans?.flat(1));
     ServicesServ.on("removed", (obj) => getFacilities());
     return () => {};
   }, [state.facilityModule.selectedFacility]);
+
+  // useEffect(() => {
+  //   if (state.ServicesModule.show === "detail") {
+  //     setSlide(true);
+  //   } else {
+  //     setSlide(false);
+  //   }
+  // }, [st-+ate.ServicesModule.selectedServices]);
 
   // console.log(facilities);
 
@@ -558,7 +591,7 @@ setSelectedCategory(bandPlans?.flat(1));
       selector: (row, i) => (
         <GlobalCustomButton
           color="error"
-          onClick={handleTariff
+          onClick={handlePlanModal
            
             // // console.log("click", i, row);
             // setEditIndividualPremium(true);
@@ -600,7 +633,7 @@ setSelectedCategory(bandPlans?.flat(1));
     },
   ];
 
-  // console.log(Services);
+
   const facilitySchema = [
     {
       name: "S/N",
@@ -623,38 +656,108 @@ setSelectedCategory(bandPlans?.flat(1));
     },
   ];
 
-console.log(serviceSN)
+  //  const handleRemove = (index, contract) => {
+  //   const newProductItem = selectedServices.filter(
+  //     (ProductionItem, i) => i !== contract
+  //   );
+  //   setSelectedServices(newProductItem);
+  // };
   const handleDelete = () => {
-    console.log(selectedCategory)
-    const newUpdatedServices = selectedCategory?.find((data,i) => i === serviceSN)
+    const newUpdatedServices = Object.values(selectedCategory)?.filter((data) => data._id !== serviceSN._id);
     console.log(newUpdatedServices)
 
-    ServicesServ.remove(newUpdatedServices)
+    const newPlanDetail = {
+      ...contractDetails,
+      ...Services,
+      organizationId: user.currentEmployee.facilityDetail._id,
+      organizationName: user.currentEmployee.facilityDetail.facilityName,
+      band: Services.bandName,
+      contracts: [
+        {
+          serviceName: contractDetails?.serviceName,
+          comments: contractDetails?.comments,
+          price: contractDetails?.price,
+          plans: newUpdatedServices,
+        },
+      ],
+    };
+
+    const selectId = Services._id;
+
+   console.log(selectId)
+
+    ServicesServ.patch(selectId, newPlanDetail)
       .then((res) => {
-        setState((prev) => ({
-          ...prev,
-          ServicesModule: {
-            ...prev.ServicesModule,
-            selectedServices: res,
-          },
-        }));
-        setState((prev) => ({
-          ...prev,
-          TariffModule: {
-            ...prev.TariffModule,
-            selectedCategory: res,
-          },
-        }));
-        setSelectedCategory(res.selectedService);
+        console.log(res)
+        setSelectPlans(res.contracts.filter(item => item.serviceId === selectedCategory.serviceId).plans);
+        setSelectedServices(res.contracts)
         setConfirmDialog(false);
-        toast.success(`Tariff successfully deleted!`);
+        toast.success(`Plan successfully deleted!`);
       })
       .catch((err) => {
-        toast.error(`Sorry, Unable to delete tariff. ${err}`);
+        toast.error(`Sorry, Unable to delete plan. ${err}`);
       });
     //}
   };
 
+
+  const handleUpdatePlan =  (data) => {
+
+    // const oldPlan = contractDetails?.plans?.map((el) => el.planId === selectedCategory.planId)
+
+ 
+      const newPlanDetail = {
+        ...contractDetails,
+        ...Services,
+        organizationId: user.currentEmployee.facilityDetail._id,
+        organizationName: user.currentEmployee.facilityDetail.facilityName,
+        band: Services.bandName,
+        contracts: [
+          {
+            serviceName: contractDetails?.serviceName,
+            comments: contractDetails?.comments,
+            price: contractDetails?.price,
+            plans: [
+              {
+                planName: contractDetails.plans.planName,
+                benefit: contractDetails.plans.benefit,
+                benefitCategory: contractDetails.plans.benefitCategory,
+                feeforService: data.feeforService || contractDetails.plans.feeforService,
+                capitation: data.capitation || contractDetails.plans.capitation,
+                reqPA: data.reqPA || contractDetails.plans.reqPA,
+                coPay: data.scoPay || contractDetails.plans.coPay, 
+                copayDetail: data.copayDetail || contractDetails.plans.copayDetail,
+                comments: contractDetails.plans.comments,
+              }
+          ],
+          },
+        ],
+      }
+    
+    
+      const selectId = Services._id;
+      
+    
+      ServicesServ.patch(selectId, newPlanDetail)
+        .then((res) => {
+          console.log(res)
+          setSelectPlans(res.contracts.filter(item => item.serviceId === selectedCategory.serviceId).plans);
+          setSelectedServices(res.contracts)
+          setConfirmDialog(false);
+          toast.success(`Plan successfully updated!`);
+        })
+        .catch((err) => {
+          toast.error(`Sorry, Unable to update plan. ${err}`);
+        });
+      //}
+    
+      
+    
+    
+     //}
+     
+   }
+   
 
   const conditionalRowStyles = [
     {
@@ -669,11 +772,164 @@ console.log(serviceSN)
     },
   ];
 
-
-
+ 
 
   return (
     <div>
+      <div>
+      <ModalBox open={openPlan}
+      onClose={handleHidePlanModal}
+      header="Modify Plans">
+         <Box display='flex' justifyContent="flex-end" py="1rem">          
+    <GlobalCustomButton
+            // color="success"
+            text="Save"
+            type="submit"
+            onClick={handleSubmit(handleUpdatePlan)}
+          />
+     </Box>
+       {contractDetails?.plans?.map((c, index) => {
+                  const allCategories = c?.benefits?.map((cat) => cat);
+                  // console.log(c);
+                  return (
+                    <>
+                      <Grid>
+                        <Box display="flex" gap={4} pb={3}>
+                          <Box
+                            sx={{ display: "flex", alignItems: "center" }}
+                            key={index}
+                          >
+                            <input
+                              className="checkbox is-small "
+                              type="checkbox"
+                              value={true}
+                              name={`selectedPlans +${index}`}
+                              label={c.planName}
+                              defaultChecked={true}
+                              style={{ marginRight: "10px" }}
+                            />
+                            <p
+                              style={{
+                                fontWeight: "bold",
+                                marginRight: "10px",
+                              }}
+                            >
+                              {c.planName}
+                            </p>
+                          </Box>
+                              <Grid item xs={12}>
+                                <CustomSelect
+                                  options={allCategories || []}
+                                  label="Select Benefit Category"
+                                  onChange={(e) => {
+                                    setBeneCat(e.target.value);
+                                    setSelectNo(index);
+                                  }}
+                                  defaultValue={c.benefit || ''}
+                                />
+                              </Grid> 
+                              <Grid item xs={12}>
+                                <CustomTariffSelect
+                                  key={index}
+                                  options={selectNo === index ? newBene : []}
+                                  label="Select Benefit"
+                                  onChange={(event) =>
+                                    setNewBene(event.target.value)
+                                  }
+                                  defaultValue={c.benefitCategory ||''}
+                                />
+                              </Grid>
+
+                              <Box key={index}>
+                                 <input
+                                  className="is-small"
+                                  value="Capitation"
+                                  name={`servtype +${index}`}
+                                  type="radio"
+                                  onChange={(event) =>
+                                    setCapitation(event.target.value === "Capitation" ? true : false)
+                                  }
+                                  defaultChecked={c.capitation}
+                                  style={{ marginRight: "10px" }}
+                                />
+                                <span>Capitation</span> 
+                              </Box>
+                              <Box key={index}>
+
+                                <input
+                                  className="is-small"
+                                  name={`servtype +${index}`}
+                                  value="Fee for Service"
+                                  type="radio"
+                                  onChange={(event) =>
+                                    setFeeForService(event.value === "Fee for Service" ? true : false)
+                                  }
+                                  defaultChecked={c.feeforService}
+                                  style={{ marginRight: "10px" }}
+                                />
+
+                                <span>Fee for Service</span>
+                              </Box>
+                              <Box key={index}>
+                                <input
+                                  className=" is-small"
+                                  name={`pay${index}`}
+                                  value= {sCoPay}
+                                  type="checkbox"
+                                  onChange={(event) =>
+                                    setSCoPay(event.target.checked ? true && copayDetails : false)
+                                  }
+                                  defaultChecked={c.coPay}
+                                  style={
+                                    showCoPay === index
+                                      ? {
+                                          marginBottom: ".6rem",
+                                          marginRight: "10px",
+                                        }
+                                      : {
+                                          marginBottom: "0",
+                                          marginRight: "10px",
+                                        }
+                                  }
+                                />
+                                <span>Co-Pay?</span>
+                                {showCoPay === index && sCoPay && (
+                                  <Input
+                                    width="100%"
+                                    // className='input smallerinput is-small is-pulled-right '
+                                    name={`copay +${index}`}
+                                    type="text"
+                                    value={copayDetails}
+                                    onChange={(event) =>
+                                      setCopayDetails(event.target.value)
+                                    }
+                                    defaultValue={c.copayDetail}
+                                    label="Amount"
+                                  />
+                                )}
+                              </Box>
+
+                              <Box key={index}>
+                                <input
+                                  className="checkbox is-small"
+                                  name={`authCode +${index}`}
+                                  type="checkbox"
+                                  value={authCode}
+                                  onChange={(event) =>
+                                    setAuthCode(event.target.checked ? true : false)
+                                  }
+                                  defaultChecked={c.reqPA}
+                                  style={{ marginRight: "10px" }}
+                                />
+                                <span>Requires Pre-Auth?</span>
+                              </Box>
+                        </Box>
+                      </Grid>
+                    </>
+                  );
+                })}
+      </ModalBox>
+      </div>
       <CustomConfirmationDialog
         open={confirmDialog}
         cancelAction={() => setConfirmDialog(false)}
@@ -783,7 +1039,7 @@ console.log(serviceSN)
                 <GlobalCustomButton
           color="error"
           onClick={() => {
-            showServices();
+            showTariffModify();
           }}
         >
 
@@ -792,7 +1048,7 @@ console.log(serviceSN)
         </GlobalCustomButton>
                 <GlobalCustomButton
                   text="Add Services"
-                  onClick={showServices}
+                  onClick={showService}
                   customStyles={{ marginLeft: "1rem" }}
                   color="secondary"
                 />
@@ -841,7 +1097,7 @@ console.log(serviceSN)
                   <CustomTable
                     title={""}
                     columns={otherServiceSchema}
-                    data={selectedCategory}
+                    data={selectPlans ? selectPlans : []}
                     pointerOnHover
                     highlightOnHover
                     striped
@@ -2609,6 +2865,9 @@ export function AddService() {
   //     });
   // };
 
+  // const newUpdatedServices = Object.values(contractDetails)?.find((data) => data._id == serviceSN._id)
+
+
   return (
     <Box
       sx={{
@@ -2623,8 +2882,8 @@ export function AddService() {
         text="Add Service"
         customStyles={{ float: "right" }}
       />
-      <Grid container spacing={2}>
-        <Grid
+    <Grid container spacing={2}>
+        {/* <Grid
           item
           xs={6}
           // sm={4}
@@ -2648,7 +2907,7 @@ export function AddService() {
             label="Comments"
             onChange={(e) => setComments(e.target.value)}
           />
-        </Grid>
+        </Grid>  */}
         <Box
           mx={1}
           my={2}
@@ -2789,4 +3048,362 @@ export function AddService() {
       </Grid>
     </Box>
   );
+}
+
+export function ModifyPlan(){
+  const HealthPlanServ = client.service("healthplan");
+//const history = useHistory()
+const { user } = useContext(UserContext); //,setUser
+  const { state, setState } = useContext(ObjectContext);
+// eslint-disable-next-line
+const [facilityId, setFacilityId] = useState("");
+const [name, setName] = useState("");
+const [bandName, setBandName] = useState("");
+const [benefittingplans, setBenefittingPlans] = useState([]);
+const ServicesServ = client.service("tariff");
+const [service, setService] = useState("");
+const [productItem, setProductItem] = useState([]);
+const [selectedBand, setSelectedBand] = useState("");
+const [showCoPay, setShowCoPay] = useState(false);
+const [selectedBenefits, setSelectedBenefits] = useState([]);
+const [facilities, setFacilities] = useState([]);
+const [sCoPay, setSCoPay] = useState(false);
+const [beneCat, setBeneCat] = useState("");
+const [newBene, setNewBene] = useState([]);
+const [selectNo, setSelectNo] = useState("");
+const [capitation, setCapitation] = useState('');
+const [copayDetails, setCopayDetails] = useState('');
+const [orgType, setOrgType] = useState("");
+const [successService, setSuccessService] = useState(false);
+
+const {
+  handleSubmit,
+  
+} = useForm();
+
+const Services = state.ServicesModule.selectedServices;
+const contractDetails = state.TariffModule.selectedContracts;
+
+
+
+const updateObjectInArray = (array, child) => {
+  array.map((item, index) => {
+    if (item.name !== child.name) {
+      // This isn't the item we care about - keep it as-is
+      return item;
+    }
+    // Otherwise, this is the one we want - return an updated value
+    //console.log(child)
+    return {
+      ...child,
+    };
+  });
+  return array;
+};
+
+const handleServType = async (e, i, c) => {
+  let currentPlan = benefittingplans.filter(
+    (el) => el.planName === c.planName
+  )[0];
+  currentPlan.capitation = e.target.value === "Capitation" ? true : false;
+  currentPlan.feeforService =
+    e.target.value === "Fee for Service" ? true : false;
+  const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
+  await setBenefittingPlans(updatedplan);
+};
+
+const handleCopay = async (e, i, c) => {
+  let currentPlan = benefittingplans.filter(
+    (el) => el.planName === c.planName
+  )[0];
+  currentPlan.copayDetail = e.target.value;
+  currentPlan.coPay = currentPlan.copayDetail === "" ? false : true;
+  const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
+  await setBenefittingPlans(updatedplan);
+};
+
+const handleAuthCode = async (e, i, c) => {
+  let currentPlan = benefittingplans.filter(
+    (el) => el.planName === c.planName
+  )[0];
+  currentPlan.reqPA = e.target.checked;
+  const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
+  await setBenefittingPlans(updatedplan);
+};
+const handleBenefit = async (e, i, c) => {
+  console.log(e.target.value, i, c);
+  let selectedBene = e.target.value;
+  console.log(selectedBene, selectedBene.comments);
+  let currentPlan = benefittingplans.filter(
+    (el) => el.planName === c.planName
+  )[0];
+  console.log(currentPlan);
+  currentPlan.benefit = selectedBene.comments;
+  currentPlan.benefitCategory = selectedBene.category;
+  // currentPlan.covered =
+  // 	facilities.benefits.filter((el) => el.category === e.target.value)[0]
+  // 		.status === 'Covered'
+  // 		? true
+  // 		: false;
+  const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
+  await setBenefittingPlans(updatedplan);
+};
+
+const copaySelect = (e, i) => {
+  setShowCoPay(i);
+  if (e.target.checked) {
+    setSCoPay(true);
+  } else {
+    setSCoPay(false);
+  }
+};
+
+// const handleChange = async (e, i, c) => {
+//   c.checked = !c.checked;
+
+//   const newPlan = {
+//     name: c.planName,
+//     checked: false,
+//   };
+//   // console.log(c.checked)
+//   if (c.checked) {
+//     //add to benefiting plan
+//     let planx = {
+//       planName: c.planName,
+//       planId: c._id,
+//       benefit: "",
+//       // benefitId : c.benefitId,
+//       benefitCategory: "",
+//       feeforService: true,
+//       capitation: false,
+//       reqPA: false,
+//       coPay: false,
+//       copayDetail: "",
+//       comments: "",
+//     };
+//     //   console.log(planx)
+//     await setBenefittingPlans((prev) => [...prev, planx]);
+//   } else {
+//     await setBenefittingPlans((prevstate) =>
+//       prevstate.filter((el) => el.name !== c.name)
+//     ); //remove from benefiting plan
+//   }
+// };
+
+// benefittingplans
+  
+
+const handleUpdateServices =  (data) => {
+
+ const oldPlan = contractDetails.filter((el) => el.planName === planName)
+   
+  const newPlanDetail = {
+    ...contractDetails,
+    ...Services,
+    organizationId: user.currentEmployee.facilityDetail._id,
+    organizationName: user.currentEmployee.facilityDetail.facilityName,
+    band: Services.bandName,
+    contracts: [
+      {
+        serviceName: contractDetails?.serviceName,
+        comments: contractDetails?.comments,
+        price: contractDetails?.price,
+        plans: [ 
+          {
+            ...oldPlan, 
+              benefit: data.beneCat,
+              benefitCategory: data.newBene,
+              feeforService: data.feeforService,
+              capitation: data.capitation,
+              reqPA: data.reqPA,
+              coPay: data.scoPay,
+              copayDetail: data.copayDetail,
+            }
+      ],
+      },
+    ],
+  };
+  
+  console.log(benefittingplans);
+  const selectId = Services._id;
+  
+
+  ServicesServ.patch(selectId, newPlanDetail)
+    .then((res) => {
+      console.log(res);
+      setState((prev) => ({
+        ...prev,
+        ServicesModule: { ...prev.ServicesModule, selectedServices: res },
+      }));
+      setState((prev) => ({
+        ...prev,
+        TariffModule: { ...prev.TariffModule, selectedCategory: res },
+      }));
+
+      toast.success(`Plan successfully deleted!`);
+    })
+    .catch((err) => {
+      toast.error(`Sorry, Unable to update plan. ${err}`);
+    });
+  //}
+  
+}
+
+
+  return(
+   <div>
+    <Box display='flex' justifyContent="flex-end" py="1rem">          
+    <GlobalCustomButton
+            // color="success"
+            text="Save"
+            type="submit"
+            onClick={handleSubmit(handleUpdateServices)}
+          />
+     </Box>
+       {contractDetails.plans.map((c, index) => {
+                  const allCategories = c?.benefits?.map((cat) => cat);
+                  return (
+                    <>
+                      <Grid>
+                        <Box display="flex" gap={4} pb={3}>
+                          <Box
+                            sx={{ display: "flex", alignItems: "center" }}
+                            key={index}
+                          >
+                            <input
+                              className="checkbox is-small "
+                              type="checkbox"
+                              value={true}
+                              name={`selectedPlans +${index}`}
+                              label={c.planName}
+                              defaultChecked={true}
+                              style={{ marginRight: "10px" }}
+                            />
+                            <p
+                              style={{
+                                fontWeight: "bold",
+                                marginRight: "10px",
+                              }}
+                            >
+                              {c.planName}
+                            </p>
+                          </Box>
+                              <Grid item xs={12}>
+                                <CustomSelect
+                                  options={allCategories}
+                                  label="Select Benefit Category"
+                                  onChange={(e) => {
+                                    setBeneCat(e.target.value);
+                                    setSelectNo(index);
+                                  }}
+                                />
+                              </Grid>
+                              <Grid item xs={12}>
+                                <CustomTariffSelect
+                                  key={index}
+                                  options={selectNo === index ? newBene : []}
+                                  label="Select Benefit"
+                                  onChange={(event) =>
+                                    handleBenefit(event, index, c)
+                                  }
+                                />
+                              </Grid>
+
+                              <Box key={index}>
+                              <RadioInput
+						options={[
+							{ label: 'Capitation', value: 'Capitation' }
+						]}
+						value={capitation}
+						onChange={event => setCapitation(event.target.value === "Capitation" ? true : false)}
+					/>
+                                {/* <input
+                                  className="is-small"
+                                  value="Capitation"
+                                  name={`servtype +${index}`}
+                                  type="radio"
+                                  onChange={(event) =>
+                                    handleServType(event, index, c)
+                                  }
+                                  style={{ marginRight: "10px" }}
+                                />
+                                <span>Capitation</span> */}
+                              </Box>
+                              <Box key={index}>
+                              <RadioInput
+						options={[
+							{ label: 'fee For Service', value: 'Fee for Service' }
+						]}
+						value={feeForService}
+						onChange={event => setFeeForService(event.value === "Fee for Service" ? true : false)}
+					/>
+                                {/* <input
+                                  className="is-small"
+                                  name={`servtype +${index}`}
+                                  value="Fee for Service"
+                                  type="radio"
+                                  onChange={(event) =>
+                                    handleServType(event, index, c)
+                                  }
+                                  style={{ marginRight: "10px" }}
+                                />
+
+                                <span>Fee for Service</span> */}
+                              </Box>
+                              <Box key={index}>
+                                <input
+                                  className=" is-small"
+                                  name={`pay${index}`}
+                                  value= {sCoPay}
+                                  type="checkbox"
+                                  onChange={(event) =>
+                                    setSCoPay(event.target.checked ? true && copayDetail : false)
+                                  }
+                                  style={
+                                    showCoPay === index
+                                      ? {
+                                          marginBottom: ".6rem",
+                                          marginRight: "10px",
+                                        }
+                                      : {
+                                          marginBottom: "0",
+                                          marginRight: "10px",
+                                        }
+                                  }
+                                />
+                                <span>Co-Pay?</span>
+                                {showCoPay === index && sCoPay && (
+                                  <Input
+                                    width="100%"
+                                    // className='input smallerinput is-small is-pulled-right '
+                                    name={`copay +${index}`}
+                                    type="text"
+                                    value={copayDetail}
+                                    onChange={(event) =>
+                                      setCopayDetail(event.target.value)
+                                    }
+                                    label="Amount"
+                                  />
+                                )}
+                              </Box>
+
+                              <Box key={index}>
+                                <input
+                                  className="checkbox is-small"
+                                  name={`authCode +${index}`}
+                                  type="checkbox"
+                                  onChange={(event) =>
+                                   setPreAuth(event.target.checked ? true : false)
+                                  }
+                                  style={{ marginRight: "10px" }}
+                                />
+                                <span>Requires Pre-Auth?</span>
+                              </Box>
+                        </Box>
+                      </Grid>
+                    </>
+                  );
+                })}
+    </div>
+  )
 }
