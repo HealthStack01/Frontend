@@ -34,6 +34,10 @@ const ClaimCreateServices = ({setServices, closeModal}) => {
     const serviceObj = {
       ...data,
       service: service,
+      status: "Submitted",
+      _id: uuidv4(),
+      pay_quantity: data.quantity,
+      pay_amount: data.amount,
     };
     //return console.log(serviceObj);
     setServices(prev => [serviceObj, ...prev]);
@@ -48,7 +52,7 @@ const ClaimCreateServices = ({setServices, closeModal}) => {
   };
 
   const handleGetService = data => {
-    console.log(data);
+    //console.log(data);
     setService(data);
     setValue("unitprice", data ? data.price : 0);
   };

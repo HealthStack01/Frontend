@@ -32,6 +32,7 @@ import Input from "../../../../components/inputs/basic/Input";
 import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
+import UpadteService from "./UpdateService";
 
 const ClaimDetailComponent = ({handleGoBack}) => {
   const claimsServer = client.service("claims");
@@ -54,6 +55,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
   const [assignModal, setAssignModal] = useState(false);
   const [statusModal, setStatusModal] = useState(false);
   const [view, setView] = useState("details");
+  const [updateServiceModal, setUpdateServiceModal] = useState(false);
 
   const selectedClaim = state.ClaimsModule.selectedClaim;
   const clinical_details = selectedClaim?.clinical_details || {};
@@ -264,6 +266,30 @@ const ClaimDetailComponent = ({handleGoBack}) => {
     },
   ];
 
+  const onServiceRowClick = item => {
+    setState(prev => ({
+      ...prev,
+      ClaimsModule: {
+        ...prev.ClaimsModule,
+        selectedService: item,
+      },
+    }));
+    setUpdateServiceModal(true);
+  };
+
+  const servicesConditionalRowStyles = [
+    {
+      when: row => row?.status?.toLowerCase() === "rejected",
+      style: {
+        backgroundColor: "pink",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
   return (
     <Box
       sx={{
@@ -273,6 +299,14 @@ const ClaimDetailComponent = ({handleGoBack}) => {
         position: "relative",
       }}
     >
+      <ModalBox
+        open={updateServiceModal}
+        onClose={() => setUpdateServiceModal(false)}
+        header="Update Service"
+      >
+        <UpadteService closeModal={() => setUpdateServiceModal(false)} />
+      </ModalBox>
+
       <ModalBox
         open={statusModal}
         onClose={() => setStatusModal(false)}
@@ -511,6 +545,24 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                 </Grid>
               )}
 
+              <Box>
+                <FormsHeaderText text="Claim's Status History" />
+                <Box mt={1} mb={1}>
+                  <CustomTable
+                    title={""}
+                    columns={statushxColumns}
+                    data={selectedClaim.statushx || []}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    //onRowClicked={handleRow}
+                    CustomEmptyData="No Status History for this Claim yet..."
+                    progressPending={false}
+                    //conditionalRowStyles={conditionalRowStyles}
+                  />
+                </Box>
+              </Box>
+
               <Box mb={2}>
                 <Box
                   sx={{
@@ -691,8 +743,8 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                     pointerOnHover
                     highlightOnHover
                     striped
-                    //onRowClicked={handleRow}
-                    //conditionalRowStyles={conditionalRowStyles}
+                    onRowClicked={onServiceRowClick}
+                    conditionalRowStyles={servicesConditionalRowStyles}
                     progressPending={false}
                     CustomEmptyData={
                       <Typography sx={{fontSize: "0.8rem"}}>
@@ -710,24 +762,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <Textarea
                     placeholder="Write here..."
                     register={register("comments")}
-                  />
-                </Box>
-              </Box>
-
-              <Box>
-                <FormsHeaderText text="Claim's Status History" />
-                <Box mt={1} mb={1}>
-                  <CustomTable
-                    title={""}
-                    columns={statushxColumns}
-                    data={selectedClaim.statushx || []}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    //onRowClicked={handleRow}
-                    CustomEmptyData="No Status History for this Claim yet..."
-                    progressPending={false}
-                    //conditionalRowStyles={conditionalRowStyles}
                   />
                 </Box>
               </Box>

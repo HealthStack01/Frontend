@@ -116,6 +116,14 @@ export const getServicesColumns = deleteAction => {
       sortable: true,
       inputType: "TEXT",
     },
+    {
+      name: "Status",
+      key: "submittedBill",
+      description: "Unit Price",
+      selector: row => row?.status,
+      sortable: true,
+      inputType: "TEXT",
+    },
   ];
 
   return columns;

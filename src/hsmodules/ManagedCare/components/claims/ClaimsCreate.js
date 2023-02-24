@@ -30,6 +30,7 @@ import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicke
 
 const ClaimCreateComponent = ({handleGoBack}) => {
   const claimsServer = client.service("claims");
+  const preAuthServer = client.service("preauth");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
@@ -46,6 +47,7 @@ const ClaimCreateComponent = ({handleGoBack}) => {
   const [appointmentModal, setAppointmentModal] = useState(false);
   const [selectedAdmission, setSelectedAdmission] = useState(null);
   const [admissonModal, setAdmissionModal] = useState(false);
+  const [preAuthServices, setPreAuthServices] = useState([]);
 
   const {control, handleSubmit, register, reset, watch, setValue} = useForm({
     defaultValues: {
@@ -207,6 +209,34 @@ const ClaimCreateComponent = ({handleGoBack}) => {
     setSelectedAppointment(null);
     setAdmissionModal(false);
   };
+
+  const checkForPreauthorization = useCallback(() => {
+    setPreAuthServices([]);
+    preAuthServer
+      .find({
+        query: {
+          "provider._id": user.currentEmployee.facilityDetail._id,
+          "beneficiary._id": state.ClientModule.selectedClient?._id,
+          $limit: 100,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      })
+      .then(res => {
+        const services = res.data[0].services;
+        const approvedServices = services.filter(
+          item => item.status.toLowerCase() === "approved"
+        );
+        setPreAuthServices(approvedServices);
+        // setServices(prev => [...res.data[0].services, ...prev]);
+        //console.log(res);
+      });
+  }, [state.ClientModule.selectedClient]);
+
+  useEffect(() => {
+    checkForPreauthorization();
+  }, [checkForPreauthorization]);
 
   return (
     <Box
@@ -562,7 +592,7 @@ const ClaimCreateComponent = ({handleGoBack}) => {
               <CustomTable
                 title={""}
                 columns={servicesColumns}
-                data={services}
+                data={[...services, ...preAuthServices]}
                 pointerOnHover
                 highlightOnHover
                 striped
@@ -729,7 +759,11 @@ export const SelectAppointment = ({selectAppointment}) => {
         width: "85vw",
       }}
     >
-      <Box>
+      <Box
+        sx={{
+          width: "85vw",
+        }}
+      >
         <CustomTable
           title={""}
           columns={appointmentColumns}
