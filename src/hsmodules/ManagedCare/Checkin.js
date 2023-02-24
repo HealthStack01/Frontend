@@ -50,6 +50,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
   const [facilities, setFacilities] = useState([]);
   const [selectedCheckedIn, setSelectedCheckedIn] = useState();
   const [error, setError] = useState(false);
+  const [checkoutAppointment, setCheckoutAppointment] = useState([]);
 
   // const handleRow = obj => {};
   //console.log(state.employeeLocation)
@@ -66,6 +67,31 @@ export function CheckInList({openCreateModal, setShowModal}) {
       AppointmentModule: newClientModule,
     }));
   };
+
+  const checkedinFn = () => {
+    let query = {
+      facility: user.currentEmployee.facilityDetail._id, // || "",
+      $limit: 20,
+      appointment_status: "Checked In",
+      $sort: {
+        createdAt: -1,
+      },
+    }
+
+    ClientServ.find({query: query})
+    .then(res => {
+      console.log(res);
+      setFacilities(res.data);
+      setMessage(" Client  fetched successfully");
+      setSuccess(true);
+    })
+    .catch(err => {
+      console.log(err);
+      // setMessage('Error fetching Client, probable network issues ' + err);
+      setError(true);
+    });
+
+  }
 
   const handleSearch = val => {
     const field = "firstname";
@@ -159,7 +185,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
 
     ClientServ.find({query: query})
       .then(res => {
-        console.log(res);
+        console.log(res.data, "data fetched from appointment");
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
@@ -171,10 +197,64 @@ export function CheckInList({openCreateModal, setShowModal}) {
       });
   };
 
+  // const checkedoutFn = async() => {
+  //   const findClient = await ClientServ.find({
+  //     query: {
+  //       $limit: 100,
+  //       appointment_status: "Checked Out",
+  //       $sort: {
+  //         createdAt: -1,
+  //       },
+  //       $select: ["appointment_status"]
+  //     },
+  //   });
+  //   console.log(select, "select here");
+  // }
+
+
+
+  const getCheckout = useCallback(async () => {
+    if (user.currentEmployee) {
+      let stuff = {
+        // facility: user.currentEmployee.facilityDetail._id,
+        appointment_status: "Checked Out",
+        // locationId:state.employeeLocation.locationId,
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      };
+      // if (state.employeeLocation.locationType !== 'Front Desk') {
+      //   stuff.locationId = state.employeeLocation.locationId;
+      // }
+
+      const findAppointment = await ClientServ.find({query: stuff});
+
+      await setCheckoutAppointment(findAppointment.data);
+      console.log(findAppointment, "tttttttttttttttttttt");
+    } else {
+      if (user.stacker) {
+        const findAppointment = await ClientServ.find({
+          query: {
+            $limit: 100,
+            appointment_status: "Checked Out",
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        });
+
+        await setCheckoutAppointment(findAppointment.data);
+      }
+    }
+  }, []);
+
+
+
   const getFacilities = useCallback(async () => {
     if (user.currentEmployee) {
       let stuff = {
-        facility: user.currentEmployee.facilityDetail._id,
+        // facility: user.currentEmployee.facilityDetail._id,
         appointment_status: "Checked In",
         // locationId:state.employeeLocation.locationId,
         $limit: 100,
@@ -186,7 +266,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find();
+      const findClient = await ClientServ.find({query: stuff});
 
       await setFacilities(findClient.data);
       console.log(findClient, "tttttttttttttttttttt");
@@ -195,6 +275,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
         const findClient = await ClientServ.find({
           query: {
             $limit: 100,
+            appointment_status: "Checked In",
             $sort: {
               createdAt: -1,
             },
@@ -208,6 +289,9 @@ export function CheckInList({openCreateModal, setShowModal}) {
 
   useEffect(() => {
     getFacilities();
+    getCheckout();
+
+    
 
     ClientServ.on("created", obj => handleCalendarClose());
     ClientServ.on("updated", obj => handleCalendarClose());
@@ -215,14 +299,14 @@ export function CheckInList({openCreateModal, setShowModal}) {
     ClientServ.on("removed", obj => handleCalendarClose());
   }, [getFacilities]);
 
-  useEffect(() => {
-    getFacilities();
+  // useEffect(() => {
+  //   getFacilities();
 
-    ClientServ.on("created", obj => getFacilities());
-    ClientServ.on("updated", obj => getFacilities());
-    ClientServ.on("patched", obj => getFacilities());
-    ClientServ.on("removed", obj => getFacilities());
-  }, [getFacilities]);
+  //   ClientServ.on("created", obj => getFacilities());
+  //   ClientServ.on("updated", obj => getFacilities());
+  //   ClientServ.on("patched", obj => getFacilities());
+  //   ClientServ.on("removed", obj => getFacilities());
+  // }, [getFacilities]);
 
   const dummyData = [
     {
@@ -454,6 +538,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
+      width: "110px",
     },
     {
       name: "Date/Time",
@@ -463,6 +548,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "First Name",
@@ -472,6 +558,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "Last Name",
@@ -481,6 +568,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "Classification",
@@ -490,6 +578,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "Location",
@@ -499,6 +588,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "Type",
@@ -508,6 +598,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "Status",
@@ -517,6 +608,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "Reason",
@@ -526,6 +618,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "Practitioner",
@@ -535,6 +628,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
   ];
 
@@ -556,14 +650,16 @@ export function CheckInList({openCreateModal, setShowModal}) {
           </div>
 
           <Box>
-            {/* {checkedin === false  ? <GlobalCustomButton onClick={() => {setCheckedin(true)}}>Check In</GlobalCustomButton> : <GlobalCustomButton onClick={() => {setCheckedin(false)}}>Check Out</GlobalCustomButton>}
+            {/* {checkedin === false ? <GlobalCustomButton onClick={() => {setCheckedin(true)}}>Check In</GlobalCustomButton> : <GlobalCustomButton onClick={() => {setCheckedin(false)}}>Check Out</GlobalCustomButton>}
             FIRE YOUR TOGGLE FUNCTION HERE SWITCHING FROM CHECK IN TO CHECK OUT VICE VERSA */}
             
-            {checkedin === false ? (
+            {!checkedin  ? (
               <GlobalCustomButton
                 onClick={() => {
                   setCheckedin(true);
+                  // checkedinFn();
                 }}
+              
               >
                 Check In
               </GlobalCustomButton>
@@ -587,7 +683,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
             overflow: "auto",
           }}
         >
-          {checkedin ? (
+          {checkedin === true ? (
             <>
               <CustomTable
                 title={""}
@@ -606,7 +702,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
               <CustomTable
                 title={""}
                 columns={checkedOutColumns}
-                data={facilities}
+                data={checkoutAppointment}
                 pointerOnHover
                 highlightOnHover
                 striped

@@ -921,7 +921,7 @@ export function ClientDetail({showModal, setShowModal}) {
   }, [getClient]);
 
   const handleAttend = async () => {
-    const patient = await client.service("client").get(Client.clientId);
+    //const patient = await client.service("client").get(Client.clientId);
     setSelectedClient(currentPatient);
     const newClientModule = {
       selectedClient: patient,
@@ -963,7 +963,6 @@ export function ClientDetail({showModal, setShowModal}) {
         toast.success("Client succesfully Checked In");
 
         changeState();
-        
       })
       .catch(err => {
         toast.error("Error updating Client, probable network issues or " + err);
@@ -982,7 +981,7 @@ export function ClientDetail({showModal, setShowModal}) {
       });
   };
 
-  // const isHMO = chosen.paymentinfo.some(checkHMO);
+  //const isHMO = chosen.paymentinfo.some(checkHMO);
 
   const defaultCheckinClient = () => {
     if (isHMO) {

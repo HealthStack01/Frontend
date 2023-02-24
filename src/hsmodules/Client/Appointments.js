@@ -19,6 +19,7 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import { AppointmentSchema } from "../Appointment/schema";
+// import {AppointmentSchema} from "./schema";
 import Switch from "../../components/switch";
 import { BsFillGridFill, BsList } from "react-icons/bs";
 import CalendarGrid from "../../components/calender";
@@ -40,6 +41,7 @@ import GroupedRadio from "../../components/inputs/basic/Radio/GroupedRadio";
 import MuiDateTimePicker from "../../components/inputs/DateTime/MuiDateTimePicker";
 import CustomSelect from "../../components/inputs/basic/Select";
 import Textarea from "../../components/inputs/basic/Textarea";
+import OtpInput from "react-otp-input";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -120,6 +122,7 @@ export function AppointmentCreate({ showModal, setShowModal, openBill }) {
   const [appointment_status, setAppointment_status] = useState("");
   const [appointment_type, setAppointment_type] = useState("");
   const [billingModal, setBillingModal] = useState(false);
+  const [otpValue, setOtpValue] = useState(null);
 
   const [chosen, setChosen] = useState();
   const [chosen1, setChosen1] = useState();
@@ -134,6 +137,12 @@ export function AppointmentCreate({ showModal, setShowModal, openBill }) {
             shouldDirty: true
         })
     } */
+
+    useEffect(() => {
+      setOtpValue(null);
+    }, []);
+
+
   const handleChangeType = async (e) => {
     await setAppointment_type(e.target.value);
   };
@@ -152,6 +161,10 @@ export function AppointmentCreate({ showModal, setShowModal, openBill }) {
       ...prevstate,
       ClientModule: newClientModule,
     }));
+  };
+
+  const handleOtpChange = otp => {
+    setOtpValue(otp);
   };
 
   const getSearchfacility = (obj) => {
@@ -188,6 +201,33 @@ export function AppointmentCreate({ showModal, setShowModal, openBill }) {
       setPractionerId();
       setChosen2();
     }
+  };
+
+  const checkinPatientWithOTP = () => {
+    if (otpValue.toString() !== Client.otp)
+      return toast.error("Incorrect OTP supplied");
+    ClientServ.patch(Client._id, {appointment_status: "Checked In"})
+      .then(res => {
+        toast.success("Client succesfully Checked In");
+
+        changeState();
+        
+      })
+      .catch(err => {
+        toast.error("Error updating Client, probable network issues or " + err);
+      });
+  };
+
+  const checkOutPatient = () => {
+    ClientServ.patch(Client._id, {appointment_status: "Checked Out"})
+      .then(res => {
+        toast.success("Client succesfully Checked In");
+
+        changeState();
+      })
+      .catch(err => {
+        toast.error("Error updating Client, probable network issues or " + err);
+      });
   };
 
   useEffect(() => {
@@ -460,6 +500,7 @@ export function ClientList({ showModal, setShowModal }) {
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState("list");
+
 
   const handleCreateNew = async () => {
     const newClientModule = {
@@ -778,7 +819,7 @@ export function ClientList({ showModal, setShowModal }) {
                   />
                 )}
               </TableMenu>
-              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+              <div style={{ width: "100%", height: "600px",  }}>
                 {value === "list" ? (
                   <CustomTable
                     title={""}
@@ -820,6 +861,8 @@ export function ClientDetail({ showModal, setShowModal }) {
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [isHMO, setIsHMO] = useState(false);
+  const [otpModal, setOtpModal] = useState(false);
+  const [otpValue, setOtpValue] = useState(null);
   const ClientServ = client.service("appointments");
 
   // console.log(state)
@@ -856,16 +899,19 @@ export function ClientDetail({ showModal, setShowModal }) {
     console.log("test");
   };
 
-  const checkinPatient = (data, e) => {
+  const handleOtpChange = otp => {
+    setOtpValue(otp);
+  };
+
+  const checkinPatientWithOTP = () => {
+    if (otpValue.toString() !== Client.otp)
+      return toast.error("Incorrect OTP supplied");
     ClientServ.patch(Client._id, {appointment_status: "Checked In"})
       .then(res => {
-        //console.log(JSON.stringify(res))
-        // e.target.reset();
-        // setMessage("updated Client successfully")
         toast.success("Client succesfully Checked In");
 
         changeState();
-        return
+        
       })
       .catch(err => {
         toast.error("Error updating Client, probable network issues or " + err);
@@ -885,6 +931,25 @@ export function ClientDetail({ showModal, setShowModal }) {
       });
   };
 
+  const checkinPatient = (data, e) => {
+    ClientServ.patch(Client._id, {appointment_status: "Checked In"})
+      .then(res => {
+        //console.log(JSON.stringify(res))
+        // e.target.reset();
+        // setMessage("updated Client successfully")
+        toast.success("Client succesfully Checked In");
+
+        changeState();
+        return
+      })
+      .catch(err => {
+        toast.error("Error updating Client, probable network issues or " + err);
+      });
+  };
+
+
+
+
   //  const isHMO = chosen.paymentinfo.some(checkHMO);
 
   const defaultCheckinClient = () => {
@@ -897,9 +962,37 @@ export function ClientDetail({ showModal, setShowModal }) {
 
   return (
     <>
+    <Box  sx={{width: "70vw"}}>
+     <ModalBox open={otpModal} onClose={() => setOtpModal(false)}>
+          <Box>
+            <OtpInput
+              value={otpValue}
+              onChange={handleOtpChange}
+              numInputs={6}
+              isInputSecure={false}
+              separator={<span style={{padding: "0 6px"}}></span>}
+              inputStyle={{
+                width: "100%",
+                display: "block",
+                padding: "12px 0",
+                margin: "1rem 0",
+                border: "1px solid #a6a6a6",
+                borderRadius: "3px",
+                background: "#f0fbee",
+                textAlign: "center",
+              }}
+            />
+
+            <Box>
+              <GlobalCustomButton onClick={checkinPatientWithOTP}>
+                Confrim Check-In
+              </GlobalCustomButton>
+            </Box>
+          </Box>
+        </ModalBox>
       <Box
         sx={{
-          width: "70vw",
+          width: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "right",
@@ -919,13 +1012,16 @@ export function ClientDetail({ showModal, setShowModal }) {
               <GlobalCustomButton
                 color="success"
                 onClick={defaultCheckinClient}
+              
               >
                 Check-In Client
               </GlobalCustomButton>
             )}
 
             {Client.appointment_status.toLowerCase() === "checked in" && (
-              <GlobalCustomButton color="success" onClick={checkOutPatient}>
+              <GlobalCustomButton color="success" onClick={checkOutPatient}
+             
+              >
                 Check-Out Client
               </GlobalCustomButton>
             )}
@@ -934,7 +1030,7 @@ export function ClientDetail({ showModal, setShowModal }) {
 
         <GlobalCustomButton onClick={handleAttend} text="Attend to client" 
         customStyles={{
-          marginRight: "5px",
+          marginLeft: "5px",
         }}
         />
       </Box>
@@ -1014,30 +1110,20 @@ export function ClientDetail({ showModal, setShowModal }) {
       </Grid>
       <Grid container spacing={1} mt={1}>
         <Grid item xs={12} md={12}>
-          <label className="label" htmlFor="appointment_reason">
-            Reason for Appointment
-          </label>
-          <textarea
-            className="input is-small"
-            name="appointment_reason"
-            value={Client?.appointment_reason}
-            disabled
-            type="text"
-            placeholder="Appointment Reason"
-            rows="3"
-            cols="50"
-            style={{
-              border: "1px solid #b6b6b6",
-              borderRadius: "4px",
-              color: " #979DAC",
-              width: "100%",
-            }}
-          >
-            {" "}
-          </textarea>
+        <Textarea
+                label="Reason for Appointment"
+                //name="appointment_reason"
+                important
+                register={register("appointment_reason", {required: true})}
+                type="text"
+                placeholder="write here.."
+              />
         </Grid>
       </Grid>
-    </>
+    
+    
+      </Box>
+      </>
   );
 }
 
