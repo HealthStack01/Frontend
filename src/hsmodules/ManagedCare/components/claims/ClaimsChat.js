@@ -30,7 +30,7 @@ const ClaimsChat = ({closeChat}) => {
         //toast.error("There was an error getting messages for this chat");
         console.log(err);
       });
-  }, [state.DealModule]);
+  }, [state.ClaimsModule]);
 
   useEffect(() => {
     getChatMessages();
@@ -57,7 +57,7 @@ const ClaimsChat = ({closeChat}) => {
       dp: employee.imageurl,
       sender: `${employee.firstname} ${employee.lastname}`,
       type: "text",
-      dealId: currentClaim._id,
+      claimId: currentClaim._id,
     };
 
     const newChat = [...messages, messageDoc];

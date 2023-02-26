@@ -20,6 +20,11 @@ function App() {
   const [state, setState] = useState({
     ClaimsModule: {
       selectedClaim: {},
+      selectedService: {},
+    },
+    PreAuthModule: {
+      selectedPreAuth: {},
+      selectedService: {},
     },
     CommunicationModule: {
       defaultEmail: {},
@@ -190,6 +195,7 @@ function App() {
       selectedCheckedIn: {},
       show: "list",
       selectedAppointment: {},
+      selectedPatient: null,
     },
     OrderModule: {
       show: "list",
@@ -218,6 +224,10 @@ function App() {
     ServicesModule: {
       show: "list",
       selectedServices: {},
+    },
+    TariffModule: {
+      show: "list",
+      selectedContracts: {},
     },
     financeModule: {
       show: "list",

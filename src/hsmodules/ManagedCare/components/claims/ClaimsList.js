@@ -179,7 +179,7 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
       name: "Sponsor",
       key: "healthcare plan",
       description: "Enter name of Healthcare Plan",
-      selector: row => row.sponsor.facilityDetail.facilityName,
+      selector: row => row?.sponsor?.facilityDetail?.facilityName,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -197,34 +197,35 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
       name: "Provider",
       key: "hospital name",
       description: "Enter Hospital Name",
-      selector: row => row?.provider.facilityName,
+      selector: row => row?.provider?.facilityName,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
 
     {
-      name: "Services",
+      name: "Num of Services",
       key: "healthcare plan",
       description: "Enter name of Healthcare Plan",
-      selector: row => (
-        <List
-          data-tag="allowRowEvents"
-          sx={{
-            listStyleType: "disc",
-            pl: 2,
-            "& .MuiListItem-root": {
-              display: "list-item",
-            },
-          }}
-        >
-          {row.services.map(item => (
-            <ListItem sx={{fontSize: "0.8rem", whiteSpace: "normal"}}>
-              {item.service.serviceName} - ₦{item.amount}
-            </ListItem>
-          ))}
-        </List>
-      ),
+      // selector: row => (
+      //   <List
+      //     data-tag="allowRowEvents"
+      //     sx={{
+      //       listStyleType: "disc",
+      //       pl: 2,
+      //       "& .MuiListItem-root": {
+      //         display: "list-item",
+      //       },
+      //     }}
+      //   >
+      //     {row.services.map(item => (
+      //       <ListItem sx={{fontSize: "0.8rem", whiteSpace: "normal"}}>
+      //         {item.service.serviceName} - ₦{item.amount}
+      //       </ListItem>
+      //     ))}
+      //   </List>
+      // ),
+      selector: row => row.services.length,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -241,20 +242,20 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
       inputType: "TEXT",
     },
     {
-      name: "Comments",
-      key: "reason",
-      description: "Enter for Request",
-      selector: row => row.comments,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
       name: "Total Amount",
       key: "bills",
       description: "Enter bills",
       selector: row => `₦${row?.totalamount}`,
       //cell: row => returnCell(row?.totalamount),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Comments",
+      key: "reason",
+      description: "Enter for Request",
+      selector: row => row.comments,
       sortable: true,
       required: true,
       inputType: "TEXT",

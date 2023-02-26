@@ -55,9 +55,9 @@ const CommunicationSMSCreate = ({closeModal}) => {
     const token = localStorage.getItem("feathers-jwt");
 
     return axios
-      .post("https://healthstack-backend.herokuapp.com/sms", document, {
-        headers: {Authorization: `Bearer ${token}`},
-      })
+      .post(
+        `https://portal.nigeriabulksms.com/api/?username=apmis&apmis=pass&message=${data.message}&sender=${user.currentEmployee.facilityDetail.facilityName}&mobiles=${data.phone_number}`
+      )
       .then(res => {
         hideActionLoader();
         closeModal();
@@ -70,19 +70,6 @@ const CommunicationSMSCreate = ({closeModal}) => {
       });
 
     //axios.get("https://healthstack-backend.herokuapp.com/sms");
-
-    await smsServer
-      .create(document)
-      .then(res => {
-        hideActionLoader();
-        closeModal();
-        toast.success(`SMS was sent successfully`);
-      })
-      .catch(err => {
-        hideActionLoader();
-        console.log(err);
-        toast.error(`Sorry, Failed to send SMS ${err}`);
-      });
   };
 
   return (
@@ -96,7 +83,9 @@ const CommunicationSMSCreate = ({closeModal}) => {
           <Input
             important
             label="Phone Number"
-            register={register("phone_number", {require: "Please enter Name"})}
+            register={register("phone_number", {
+              require: "Please enter Name",
+            })}
             errorText={errors?.name?.number}
           />
         </Grid>
@@ -105,7 +94,9 @@ const CommunicationSMSCreate = ({closeModal}) => {
           <Textarea
             important
             label="Message"
-            register={register("message", {require: "Please enter Subject"})}
+            register={register("message", {
+              require: "Please enter Subject",
+            })}
             errorText={errors?.message?.message}
           />
         </Grid>

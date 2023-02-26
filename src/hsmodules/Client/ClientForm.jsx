@@ -29,6 +29,7 @@ import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 import ClientGroup from "./ClientGroup";
 import {ObjectContext, UserContext} from "../../context";
 import {Nigeria} from "../app/Nigeria";
+import dayjs from "dayjs";
 
 const UploadComponent = ({}) => {
   return (
@@ -59,7 +60,8 @@ const ClientForm = ({closeModal, setOpen}) => {
   // const data = localStorage.getItem("user");
   const [patList, setPatList] = useState([]);
   const [duplicateModal, setDuplicateModal] = useState(false);
-  const {state, setState} = useContext(ObjectContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
   const {user} = useContext(UserContext);
   const [dependant, setDependant] = useState(false);
   // const user = JSON.parse(data);
@@ -104,22 +106,34 @@ const ClientForm = ({closeModal, setOpen}) => {
   }, [watchedState]);
 
   const submit = async (data, e) => {
+    showActionLoader();
     setLoading(true);
     e.preventDefault();
     setSuccess(false);
+    const defaultEmail = `${data.firstname}-${data.lastname}-${dayjs(
+      data.dob
+    ).format("DD/MM/YYY")}@healthstack.africa`;
 
-    await ClientServ.create(data)
+    const clientData = {
+      ...data,
+      email: data.email || defaultEmail,
+    };
+
+    await ClientServ.create(clientData)
       .then(res => {
         toast.success(`Client successfully created`);
 
         setLoading(false);
+        hideActionLoader();
       })
       .catch(err => {
         toast.error(`Sorry, You weren't able to create an client. ${err}`);
         setLoading(false);
+        hideActionLoader();
       });
     setOpen(false);
     setLoading(false);
+    hideActionLoader();
   };
 
   const checkClient = () => {
@@ -383,7 +397,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         type="email"
                         errorText={errors?.email?.message}
                         onBlur={checkClient}
-                        important={true}
+                        //important={true}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -598,6 +612,25 @@ const ClientForm = ({closeModal, setOpen}) => {
                     </Grid>
 
                     <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Phone No"
+                        register={register("phone")}
+                        errorText={errors?.phone?.message}
+                        onBlur={checkClient}
+                        important={true}
+                      />
+                    </Grid>
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Email"
+                        register={register("email")}
+                        errorText={errors?.email?.message}
+                        onBlur={checkClient}
+                        //important={true}
+                      />
+                    </Grid>
+
+                    <Grid item lg={2} md={4} sm={6}>
                       <CustomSelect
                         label="Marital Status"
                         register={register("maritalstatus")}
@@ -640,25 +673,6 @@ const ClientForm = ({closeModal, setOpen}) => {
                       <Input
                         label="Profession"
                         register={register("profession")}
-                      />
-                    </Grid>
-
-                    <Grid item lg={2} md={4} sm={6}>
-                      <Input
-                        label="Phone No"
-                        register={register("phone")}
-                        errorText={errors?.phone?.message}
-                        onBlur={checkClient}
-                        important={true}
-                      />
-                    </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
-                      <Input
-                        label="Email"
-                        register={register("email")}
-                        errorText={errors?.email?.message}
-                        onBlur={checkClient}
-                        important={true}
                       />
                     </Grid>
 

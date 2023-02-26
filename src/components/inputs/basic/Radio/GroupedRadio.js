@@ -12,7 +12,15 @@ import {
 import {useWatch, useController} from "react-hook-form";
 //import {FormLabel} from "../";
 
-const GroupedRadio = ({control, label, name, options, row, disabled}) => {
+const GroupedRadio = ({
+  control,
+  label,
+  name,
+  options,
+  row,
+  disabled,
+  required = false,
+}) => {
   const {
     field: {ref, value, onChange, ...inputProps},
     formState: {errors},
@@ -32,6 +40,7 @@ const GroupedRadio = ({control, label, name, options, row, disabled}) => {
         <FormLabel
           sx={{color: "#000000", fontSize: "0.85rem"}}
           component="legend"
+          //required={required}
         >
           {label}
         </FormLabel>

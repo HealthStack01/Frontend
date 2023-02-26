@@ -1,5 +1,5 @@
 import {useContext, useState, useEffect} from "react";
-import {Box, Grid, Typography} from "@mui/material";
+import {Box, Grid, IconButton, Typography} from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import {useForm} from "react-hook-form";
 //import {ErrorMessage} from "@hookform/error-message";
@@ -14,6 +14,8 @@ import client from "../../feathers";
 import {ObjectContext, UserContext} from "../../context";
 import {toast} from "react-toastify";
 import CustomSelect from "../../components/inputs/basic/Select";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 
 const OrganizationEmailConfiguration = () => {
   const facilityConfigServer = client.service("facility-config");
@@ -21,6 +23,13 @@ const OrganizationEmailConfiguration = () => {
   const {showActionLoader, hideActionLoader} = useContext(ObjectContext);
   const [facilities, setFacilities] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    action: null,
+    type: "",
+    message: "",
+  });
+
   const {
     register,
     reset,
@@ -114,6 +123,39 @@ const OrganizationEmailConfiguration = () => {
     return () => {};
   }, []);
 
+  const deleteEmail = async email => {
+    showActionLoader();
+    facilityConfigServer
+      .remove(email._id)
+      .then(res => {
+        cancelConfirm();
+        hideActionLoader();
+        toast.success("You've successfully deleted the Email");
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error(`Failed to delete email configuration ${err}`);
+      });
+  };
+
+  const confirmDeleteEmail = email => {
+    setConfirmDialog(prev => ({
+      open: true,
+      action: () => deleteEmail(email),
+      message: `You're about to delete an Email with username ${email.username}`,
+      type: "danger",
+    }));
+  };
+
+  const cancelConfirm = () => {
+    setConfirmDialog(prev => ({
+      open: false,
+      action: null,
+      message: ``,
+      type: "",
+    }));
+  };
+
   const columns = [
     {
       name: "S/N",
@@ -177,6 +219,23 @@ const OrganizationEmailConfiguration = () => {
       sortable: true,
       inputType: "HIDDEN",
     },
+    {
+      name: "Delete",
+      key: "emailConfig",
+      description: "SN",
+      width: "100px",
+      selector: (row, i) => (
+        <IconButton
+          size="small"
+          onClick={() => confirmDeleteEmail(row)}
+          sx={{color: "red"}}
+        >
+          <DeleteIcon fontSize="small" />
+        </IconButton>
+      ),
+      sortable: true,
+      inputType: "HIDDEN",
+    },
   ];
 
   return (
@@ -187,6 +246,13 @@ const OrganizationEmailConfiguration = () => {
       }}
       p={2}
     >
+      <CustomConfirmationDialog
+        open={confirmDialog.open}
+        cancelAction={cancelConfirm}
+        confirmationAction={confirmDialog.action}
+        message={confirmDialog.message}
+        type={confirmDialog.type}
+      />
       <Box>
         <Box
           sx={{

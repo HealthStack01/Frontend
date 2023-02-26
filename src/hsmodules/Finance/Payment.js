@@ -346,8 +346,8 @@ export function BillingList({openModal, showCreateScreen}) {
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
 
-  const onRowClicked = async (client, e) => {
-    console.log(client);
+   const onRowClicked = async (client, e) => {
+  //   console.log(client);
     if (selectedClient && selectedClient.client_id === client.client_id)
       return setSelectedClient(null);
 
@@ -611,6 +611,7 @@ export function BillingList({openModal, showCreateScreen}) {
     },
   ];
 
+  console.log(selectedClient)
   const conditionalRowStyles = [
     {
       when: row => row.client_id === selectedClient?.client_id,
@@ -750,5 +751,5 @@ export function BillingList({openModal, showCreateScreen}) {
         </div>
       </div>
     </>
-  );
+  )
 }
