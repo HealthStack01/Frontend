@@ -150,10 +150,18 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
     // delete clinical_data.claimtype;
     // delete clinical_data.comments;
     // delete clinical_data.patientstate;
+    const statushx = {
+      status: data.status,
+      date: new Date(),
+      employeename: `${employee.firstname} ${employee.lastname}`,
+      employeeId: employee.userId,
+      comment: "Submission of Preauthorization",
+    };
 
     const document = {
       policy: policy,
       hmopayer: policy?.organization,
+      statushx: statushx,
       sponsor: policy?.sponsor,
       preauthtype: data.preauthtype,
       totalamount: data.totalamount,

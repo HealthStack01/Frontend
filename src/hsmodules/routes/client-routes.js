@@ -10,6 +10,12 @@ const ClientDashboard = lazy(() =>
   import("../dashBoardUiComponent/@modules/ClientDashboard")
 );
 
+const AppointmentComponent = lazy(() =>
+  import("../../components/appointment/Appointment")
+);
+
+const ClientAppointments = () => <AppointmentComponent module="Client" />;
+
 export const clientRoutes = [
   {
     path: "/app/clients/documentation",
@@ -33,7 +39,7 @@ export const clientRoutes = [
   },
   {
     path: "/app/clients/appointments",
-    Component: ClientsAppointments,
+    Component: ClientAppointments,
   },
   {
     path: "/app/clients/clients",

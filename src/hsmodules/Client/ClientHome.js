@@ -66,27 +66,23 @@ export default function ClientHome({children}) {
   }, [state.FrontDesk.selectedFrontDesk]);
 
   return (
-    <section className="section remPadTop">
-      <section className="hero is-info is-fullheight">
-        <div className="layout__content-main">
-          <ModalBox open={state.FrontDesk.locationModal}>
-            <Box
-              sx={{
-                maxWidth: "600px",
-                maxHeight: "80vh",
-              }}
-            >
-              <FrontDeskList
-                standalone={true}
-                closeModal={handleCloseLocationModule}
-              />
-            </Box>
-          </ModalBox>
+    <div>
+      <ModalBox open={state.FrontDesk.locationModal}>
+        <Box
+          sx={{
+            maxWidth: "600px",
+            maxHeight: "80vh",
+          }}
+        >
+          <FrontDeskList
+            standalone={true}
+            closeModal={handleCloseLocationModule}
+          />
+        </Box>
+      </ModalBox>
 
-          {children}
-          <Outlet />
-        </div>
-      </section>
-    </section>
+      {children}
+      <Outlet />
+    </div>
   );
 }

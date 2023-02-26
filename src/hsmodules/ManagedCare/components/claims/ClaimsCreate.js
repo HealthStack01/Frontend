@@ -28,6 +28,8 @@ import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 
+const random = require("random-string-generator");
+
 const ClaimCreateComponent = ({handleGoBack}) => {
   const claimsServer = client.service("claims");
   const preAuthServer = client.service("preauth");
@@ -122,6 +124,7 @@ const ClaimCreateComponent = ({handleGoBack}) => {
   }, [state.ClientModule]);
 
   useEffect(() => {
+    hideActionLoader();
     getPolicy();
   }, [getPolicy]);
 
@@ -145,11 +148,19 @@ const ClaimCreateComponent = ({handleGoBack}) => {
     // delete clinical_data.claimtype;
     // delete clinical_data.comments;
     // delete clinical_data.patientstate;
+     const statushx = {
+       status: data.status,
+       date: new Date(),
+       employeename: `${employee.firstname} ${employee.lastname}`,
+       employeeId: employee.userId,
+       comment: "Submission of claim",
+     };
 
     const document = {
       policy: policy,
-      hmopayer: policy.organization,
-      sponsor: policy.sponsor,
+      hmopayer: policy?.organization,
+      statushx : statushx,
+      sponsor: policy?.sponsor,
       claimtype: data.claimtype,
       totalamount: data.totalamount,
       comments: data.comments,
@@ -174,7 +185,7 @@ const ClaimCreateComponent = ({handleGoBack}) => {
       },
     };
 
-    console.log(document);
+    // console.log(document);
 
     await claimsServer
       .create(document)
@@ -825,7 +836,7 @@ export const SelectAdmission = ({selectAdmission}) => {
       name: "Date/Time",
       key: "createdAt",
       description: "Date/Time",
-      selector: row => format(new Date(row?.createdAt), "dd/MM/yyyy HH:mm"),
+      selector: row => dayjs(row?.createdAt).format("DD/MM/YYYY HH:mm"),
       sortable: true,
       required: true,
       inputType: "TEXT",

@@ -10,11 +10,11 @@ const ClientPaymentTypeSelect = ({payments, handleChange}) => {
     handleChange(val);
   };
 
-  console.log(payments);
+  // console.log(payments);
 
   return (
     <Autocomplete
-      id="country-select-demo"
+      id="client-payment-select"
       sx={{width: "100%"}}
       //value={value}
       onChange={(event, newValue, reason) => {
@@ -26,7 +26,11 @@ const ClientPaymentTypeSelect = ({payments, handleChange}) => {
       }}
       options={payments || []}
       autoHighlight
-      getOptionLabel={option => `${option.paymentmode}`}
+      getOptionLabel={option =>
+        `${option.paymentmode}  ${
+          option.organizationName && `- ${option.organizationName}`
+        }`
+      }
       renderOption={(props, option) => (
         <Box component="li" {...props} sx={{fontSize: "0.85rem"}}>
           {option.paymentmode}{" "}

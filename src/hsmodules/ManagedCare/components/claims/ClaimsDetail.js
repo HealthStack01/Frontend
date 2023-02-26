@@ -397,7 +397,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
             >
               Claim's Detail
             </Typography>
-            <FormsHeaderText text={`- ${selectedClaim?.preauthid}`} />
+            <FormsHeaderText text={`- ${selectedClaim?.claimid}`} />
           </Box>
         </Box>
 
