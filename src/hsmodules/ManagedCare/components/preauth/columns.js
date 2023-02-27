@@ -1,4 +1,7 @@
-export const getComplaintColumns = deleteAction => {
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import {IconButton} from "@mui/material";
+
+export const getComplaintColumns = (deleteAction, omitDelete = true) => {
   const columns = [
     {
       name: "S/N",
@@ -26,12 +29,31 @@ export const getComplaintColumns = deleteAction => {
       inputType: "HIDDEN",
       width: "100px",
     },
+
+    {
+      name: "Delete",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => (
+        <IconButton
+          size="small"
+          onClick={() => deleteAction(row)}
+          sx={{color: "red"}}
+        >
+          <DeleteOutlineIcon fontSize="small" />
+        </IconButton>
+      ),
+      sortable: true,
+      inputType: "HIDDEN",
+      omit: omitDelete,
+      width: "100px",
+    },
   ];
 
   return columns;
 };
 
-export const getDiagnosisColumns = deleteAction => {
+export const getDiagnosisColumns = (deleteAction, omitDelete = true) => {
   const columns = [
     {
       name: "S/N",
@@ -58,12 +80,30 @@ export const getDiagnosisColumns = deleteAction => {
       sortable: true,
       inputType: "HIDDEN",
     },
+    {
+      name: "Delete",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => (
+        <IconButton
+          size="small"
+          onClick={() => deleteAction(row)}
+          sx={{color: "red"}}
+        >
+          <DeleteOutlineIcon fontSize="small" />
+        </IconButton>
+      ),
+      sortable: true,
+      inputType: "HIDDEN",
+      omit: omitDelete,
+      width: "100px",
+    },
   ];
 
   return columns;
 };
 
-export const getServicesColumns = deleteAction => {
+export const getServicesColumns = (deleteAction, omitDelete = true) => {
   const columns = [
     {
       name: "S/N",
@@ -123,6 +163,24 @@ export const getServicesColumns = deleteAction => {
       selector: row => row?.status,
       sortable: true,
       inputType: "TEXT",
+    },
+    {
+      name: "Delete",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => (
+        <IconButton
+          size="small"
+          onClick={() => deleteAction(row)}
+          sx={{color: "red"}}
+        >
+          <DeleteOutlineIcon fontSize="small" />
+        </IconButton>
+      ),
+      sortable: true,
+      inputType: "HIDDEN",
+      omit: omitDelete,
+      width: "100px",
     },
   ];
 

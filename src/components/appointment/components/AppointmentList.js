@@ -148,12 +148,18 @@ const AppointmentList = ({showDetail, showCreate, module}) => {
     let query = {
       facility: user.currentEmployee.facilityDetail._id,
       $limit: 100,
-      location_type: module,
+      //location_type: module,
       $sort: {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== "Front Desk") {
+    if (module !== "Client") {
+      query.location_type = module;
+    }
+    if (
+      module !== "Client" &&
+      state.employeeLocation.locationType !== "Front Desk"
+    ) {
       query.locationId = state.employeeLocation.locationId;
     }
 

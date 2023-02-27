@@ -27,6 +27,7 @@ import Input from "../../../../components/inputs/basic/Input";
 import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
+import TextAreaVoiceAndText from "../../../../components/inputs/basic/Textarea/VoiceAndText";
 
 const random = require("random-string-generator");
 
@@ -50,6 +51,11 @@ const ClaimCreateComponent = ({handleGoBack}) => {
   const [selectedAdmission, setSelectedAdmission] = useState(null);
   const [admissonModal, setAdmissionModal] = useState(false);
   const [preAuthServices, setPreAuthServices] = useState([]);
+  const [clinicFindInputType, setClinicFindInputType] = useState("type");
+  const [investigationInputType, setInvestigationInputType] = useState("type");
+  const [drugsInputType, setDrugsInputType] = useState("type");
+  const [treatmentInputType, setTreatmentInputType] = useState("type");
+  const [commentsInputType, setCommentsInputType] = useState("type");
 
   const {control, handleSubmit, register, reset, watch, setValue} = useForm({
     defaultValues: {
@@ -148,18 +154,18 @@ const ClaimCreateComponent = ({handleGoBack}) => {
     // delete clinical_data.claimtype;
     // delete clinical_data.comments;
     // delete clinical_data.patientstate;
-     const statushx = {
-       status: data.status,
-       date: new Date(),
-       employeename: `${employee.firstname} ${employee.lastname}`,
-       employeeId: employee.userId,
-       comment: "Submission of claim",
-     };
+    const statushx = {
+      status: data.status,
+      date: new Date(),
+      employeename: `${employee.firstname} ${employee.lastname}`,
+      employeeId: employee.userId,
+      comment: "Submission of claim",
+    };
 
     const document = {
       policy: policy,
       hmopayer: policy?.organization,
-      statushx : statushx,
+      statushx: statushx,
       sponsor: policy?.sponsor,
       claimtype: data.claimtype,
       totalamount: data.totalamount,
@@ -465,14 +471,21 @@ const ClaimCreateComponent = ({handleGoBack}) => {
           </Box>
 
           <Box mb={2}>
-            <FormsHeaderText text="Clinical Findings" />
+            <TextAreaVoiceAndText
+              label="Clinical Findings"
+              type={clinicFindInputType}
+              changeType={setClinicFindInputType}
+              register={register("clinical_findings")}
+              voiceOnChange={value => setValue("clinical_findings", value)}
+            />
+            {/* <FormsHeaderText text="Clinical Findings" />
 
             <Box>
               <Textarea
                 placeholder="Write here..."
                 register={register("clinical_findings")}
               />
-            </Box>
+            </Box> */}
           </Box>
 
           <Box mb={2}>
@@ -513,36 +526,57 @@ const ClaimCreateComponent = ({handleGoBack}) => {
           </Box>
 
           <Box mb={2}>
-            <FormsHeaderText text="Investigation" />
+            <TextAreaVoiceAndText
+              label="Investigation"
+              type={investigationInputType}
+              changeType={setInvestigationInputType}
+              register={register("investigation")}
+              voiceOnChange={value => setValue("investigation", value)}
+            />
+            {/* <FormsHeaderText text="Investigation" />
 
             <Box>
               <Textarea
                 placeholder="Write here..."
                 register={register("investigation")}
               />
-            </Box>
+            </Box> */}
           </Box>
 
           <Box mb={2}>
-            <FormsHeaderText text="Drugs" />
+            <TextAreaVoiceAndText
+              label="Drugs"
+              type={drugsInputType}
+              changeType={setDrugsInputType}
+              register={register("drugs")}
+              voiceOnChange={value => setValue("drugs", value)}
+            />
+            {/* <FormsHeaderText text="Drugs" />
 
             <Box>
               <Textarea
                 placeholder="Write here..."
                 register={register("drugs")}
               />
-            </Box>
+            </Box> */}
           </Box>
 
           <Box mb={2}>
-            <FormsHeaderText text="Treatment" />
+            <TextAreaVoiceAndText
+              label="Treatments"
+              type={treatmentInputType}
+              changeType={setTreatmentInputType}
+              register={register("treatment")}
+              voiceOnChange={value => setValue("treatment", value)}
+            />
+            {/* <FormsHeaderText text="Treatment" />
 
             <Box>
               <Textarea
                 placeholder="Write here..."
                 register={register("treatment")}
               />
-            </Box>
+            </Box> */}
           </Box>
 
           <Box
@@ -620,14 +654,21 @@ const ClaimCreateComponent = ({handleGoBack}) => {
           </Box>
 
           <Box mb={2}>
-            <FormsHeaderText text="Comments" />
+            <TextAreaVoiceAndText
+              label="Comments"
+              type={commentsInputType}
+              changeType={setCommentsInputType}
+              register={register("comments")}
+              voiceOnChange={value => setValue("comments", value)}
+            />
+            {/* <FormsHeaderText text="Comments" />
 
             <Box>
               <Textarea
                 placeholder="Write here..."
                 register={register("comments")}
               />
-            </Box>
+            </Box> */}
           </Box>
         </Box>
       </Box>
