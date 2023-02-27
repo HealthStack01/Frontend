@@ -587,11 +587,12 @@ const selectedContractDetails = state.TariffModule.selectedContracts;
   };
   console.log(selectedContractDetails)
 console.log(selectedServiceDetails)
+console.log(selectedServices)
 
 
   const conditionalRowStyles = [
     {
-      when: (row) => row?.serviceId === selectedServices,
+      when: (row) => row?.planId === selectPlans?.planId,
       style: {
         backgroundColor: "#4cc9f0",
         color: "white",
@@ -2202,9 +2203,9 @@ export function TariffModify({handleHideTariffModifyModal}) {
       band: selectedServiceDetails?.band,
       contracts: [
         {
-          serviceName: selectedContractDetails?.serviceName,
-          comments: selectedContractDetails.comments,
-          price: selectedContractDetails.price,
+          serviceName: service?.name,
+          comments: data.comment,
+          price: data.costPrice,
           plans: [
             { 
               planName:selectedContractDetails.plans[0]?.planName,
