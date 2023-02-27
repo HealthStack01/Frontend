@@ -2207,15 +2207,15 @@ export function TariffModify({handleHideTariffModifyModal}) {
           price: selectedContractDetails.price,
           plans: [
             { 
-              planName:newplans?.planName,
-              benefit: newplans?.benefit,
-              benefitCategory: newplans?.benefitCategory,
+              planName:selectedContractDetails.plans[0]?.planName,
+              benefit: selectedContractDetails.plans[0]?.benefit,
+              benefitCategory: selectedContractDetails.plans[0]?.benefitCategory,
               feeforService: feeForService,
               capitation: capitation,
-              reqPA: newplans?.reqPA,
-              coPay: newplans?.coPay, 
-              copayDetail: newplans?.copayDetail,
-              comments: newplans?.comments,
+              reqPA: selectedContractDetails.plans[0]?.reqPA,
+              coPay: selectedContractDetails.plans[0]?.coPay, 
+              copayDetail: selectedContractDetails.plans[0]?.copayDetail,
+              comments: selectedContractDetails.plans[0]?.comments,
             }
         ],
         },
