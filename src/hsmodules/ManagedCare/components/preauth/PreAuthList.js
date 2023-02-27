@@ -166,15 +166,7 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
         textTransform: "capitalize",
       },
     },
-    {
-      name: "Type",
-      key: "healthcare plan",
-      description: "Enter name of Healthcare Plan",
-      selector: row => row?.claimtype,
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-    },
+
     {
       name: "Sponsor",
       key: "healthcare plan",
@@ -184,15 +176,7 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
       required: true,
       inputType: "HIDDEN",
     },
-    // {
-    //   name: "Plan",
-    //   key: "healthcare plan",
-    //   description: "Enter name of Healthcare Plan",
-    //   selector: row => row?.healthcare_Plan,
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "HIDDEN",
-    // },
+
     {
       name: "Provider",
       key: "hospital name",
@@ -204,34 +188,6 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
     },
 
     {
-      name: "Num of Services",
-      key: "healthcare plan",
-      description: "Enter name of Healthcare Plan",
-      // selector: row => (
-      //   <List
-      //     data-tag="allowRowEvents"
-      //     sx={{
-      //       listStyleType: "disc",
-      //       pl: 2,
-      //       "& .MuiListItem-root": {
-      //         display: "list-item",
-      //       },
-      //     }}
-      //   >
-      //     {row.services.map(item => (
-      //       <ListItem sx={{fontSize: "0.8rem", whiteSpace: "normal"}}>
-      //         {item?.service?.serviceName} - ₦{item?.amount}
-      //       </ListItem>
-      //     ))}
-      //   </List>
-      // ),
-      selector: row => row.services.length,
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-    },
-
-    {
       name: "Status",
       key: "status",
       description: "Enter  Status",
@@ -240,6 +196,38 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
       sortable: true,
       required: true,
       inputType: "TEXT",
+    },
+    {
+      name: "Task",
+      key: "status",
+      description: "Enter  Status",
+      selector: row => (row?.task?.length > 0 ? row.task[0].title : ""),
+      //cell: row => returnCell(row.status),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Assigned To",
+      key: "status",
+      description: "Enter  Status",
+      selector: row =>
+        row?.task?.length > 0
+          ? `${row.task[0].employee.firstname} ${row.task[0].employee.lastname}`
+          : "",
+      //cell: row => returnCell(row.status),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Num of Services",
+      key: "healthcare plan",
+      description: "Enter name of Healthcare Plan",
+      selector: row => row.services.length,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
     },
     {
       name: "Total Amount",

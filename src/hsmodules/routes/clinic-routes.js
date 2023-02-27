@@ -17,6 +17,11 @@ const Payment = lazy(() => import("../Finance/Payment"));
 const ClinicDashboard = lazy(() =>
   import("../dashBoardUiComponent/@modules/ClinicDashboard")
 );
+const AppointmentComponent = lazy(() =>
+  import("../../components/appointment/Appointment")
+);
+
+const ClinicAppointment = () => <AppointmentComponent module="Clinic" />;
 
 export const clinicRoutes = [
   {
@@ -25,7 +30,7 @@ export const clinicRoutes = [
   },
   {
     path: "/app/clinic/appointments",
-    Component: ClinicAppointments,
+    Component: ClinicAppointment,
   },
   {
     path: "/app/clinic/checkin",
@@ -47,10 +52,10 @@ export const clinicRoutes = [
     path: "/app/clinic/clinicsetup",
     Component: ClinicSetup,
   },
-  {
-    path: "/app/clinic/appointments",
-    Component: ClinicAppointments,
-  },
+  // {
+  //   path: "/app/clinic/appointments",
+  //   Component: ClinicAppointments,
+  // },
   {
     path: "/app/clinic/clinicstore",
     Component: ClinicStore,

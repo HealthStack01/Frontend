@@ -52,6 +52,7 @@ import OtpInput from "react-otp-input";
 import dayjs from "dayjs";
 import axios from "axios";
 import ClientPaymentTypeSelect from "../../components/client-payment/ClientPaymentType";
+import {ClientSearch} from "../helpers/ClientSearch";
 
 export default function ClinicAppointments() {
   const {state} = useContext(ObjectContext); //,setState
@@ -245,14 +246,10 @@ export function AppointmentCreate({showModal, setShowModal}) {
       data.hmo = paymentMode.policy.organization;
       data.policy = paymentMode.policy;
     }
-    data.locationId = locationId; //state.ClinicModule.selectedClinic._id
+    data.locationId = locationId;
     data.practitionerId = practionerId;
-    //data.appointment_type = appointment_type;
-    // data.appointment_reason=appointment_reason
-    //data.appointment_status = appointment_status;
     data.clientId = clientId;
     data.client = chosen;
-
     data.firstname = chosen.firstname;
     data.middlename = chosen.middlename;
     data.lastname = chosen.lastname;
@@ -1590,7 +1587,7 @@ export function ClientModify({showModal, setShowModal}) {
   );
 }
 
-export function ClientSearch({id, getSearchfacility, clear, label}) {
+export function ClientSearch2({id, getSearchfacility, clear, label}) {
   const ClientServ = client.service("client");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line

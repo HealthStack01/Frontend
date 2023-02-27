@@ -7,12 +7,18 @@ const TheatreDashboard = lazy(() =>
   import("../dashBoardUiComponent/@modules/TheatreDashboard")
 );
 const Theatre = lazy(() => import("../Theatre/Theatres"));
-const TheatreAppointments = lazy(() =>
-  import("../Appointment/TheatreAppointments")
-);
+// const TheatreAppointments = lazy(() =>
+//   import("../Appointment/TheatreAppointments")
+// );
 const TheatrePayment = lazy(() => import("../Theatre/TheatrePayment"));
 const TheatreReport = lazy(() => import("../Theatre/TheatreReport"));
 const TheatreCheckIn = lazy(() => import("../Appointment/TheatreWorkflow"));
+
+const AppointmentComponent = lazy(() =>
+  import("../../components/appointment/Appointment")
+);
+
+const TheatreAppointments = () => <AppointmentComponent module="Theatre" />;
 
 export const theatreRoutes = [
   {

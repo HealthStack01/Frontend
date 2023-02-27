@@ -28,9 +28,9 @@ const UpdateService = () => {
     const data = {
       service_name: service.service.serviceName,
       quantity: service.quantity,
-      pay_quantity: service.pay_quantity || service.quantity,
+      pay_quantity: service.pay_quantity,
       amount: service.amount,
-      pay_amount: service.pay_amount || service.amount,
+      pay_amount: service.pay_amount,
       comments: service.comments,
       unitprice: service.unitprice,
     };

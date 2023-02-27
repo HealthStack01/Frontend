@@ -195,6 +195,7 @@ function App() {
       selectedCheckedIn: {},
       show: "list",
       selectedAppointment: {},
+      selectedPatient: null,
     },
     OrderModule: {
       show: "list",

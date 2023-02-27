@@ -184,7 +184,8 @@ export function ClientSearch({
             },
           ],
 
-          facility: user.currentEmployee.facilityDetail._id,
+          //facility: user.currentEmployee.facilityDetail._id,
+          "relatedfacilities.facility": user.currentEmployee.facilityDetail._id,
           //storeId: state.StoreModule.selectedStore._id,
           $limit: 10,
           $sort: {
