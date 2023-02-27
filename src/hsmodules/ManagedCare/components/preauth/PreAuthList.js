@@ -201,7 +201,7 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
       name: "Task",
       key: "status",
       description: "Enter  Status",
-      selector: row => (row?.tasks?.length > 0 ? row.tasks[0].title : ""),
+      selector: row => (row?.task?.length > 0 ? row.task[0].title : ""),
       //cell: row => returnCell(row.status),
       sortable: true,
       required: true,
@@ -212,8 +212,8 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
       key: "status",
       description: "Enter  Status",
       selector: row =>
-        row?.tasks?.length > 0
-          ? `${row.tasks[0].employee.firstname} ${row.tasks[0].employee.lastname}`
+        row?.task?.length > 0
+          ? `${row.task[0].employee.firstname} ${row.task[0].employee.lastname}`
           : "",
       //cell: row => returnCell(row.status),
       sortable: true,
