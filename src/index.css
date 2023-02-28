@@ -1,5 +1,5 @@
 body {
-	/*  margin: 0;
+  /*  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -7,10 +7,10 @@ body {
      background-color: #3298dc !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; */
-	color: #000000;
-	font-weight: 400;
-	line-height: 1.5 !important;
-	font-size: 0.7rem !important;
+  color: #000000;
+  font-weight: 400;
+  line-height: 1.5 !important;
+  font-size: 0.7rem !important;
 }
 /* .input {
   height: 2em !important;
@@ -22,52 +22,52 @@ body {
 }
  */
 .startbutton {
-	display: none !important ;
+  display: none !important ;
 }
 html {
-	-webkit-font-smoothing: antialiased;
-	min-width: 300px;
-	overflow-x: hidden;
-	overflow-y: hidden !important;
-	text-size-adjust: 100%;
-	text-rendering: optimizeLegibility;
-	padding-bottom: 2rem;
+  -webkit-font-smoothing: antialiased;
+  min-width: 300px;
+  overflow-x: hidden;
+  overflow-y: hidden !important;
+  text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  padding-bottom: 2rem;
 }
 @media only screen and (max-width: 1024px) {
-	html {
-		overflow-y: auto !important;
-		overflow-x: auto;
-	}
+  html {
+    overflow-y: auto !important;
+    overflow-x: auto;
+  }
 }
 @media only screen and (max-width: 1024px) {
-	.startbutton {
-		display: block !important;
-		margin: auto;
-	}
+  .startbutton {
+    display: block !important;
+    margin: auto;
+  }
 }
 
 .date-picker {
-	box-sizing: border-box !important;
-	padding: 6px;
-	border-radius: 4px;
-	border: 1px solid #b6b6b6;
-	width: '100%' !important;
+  box-sizing: border-box !important;
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #b6b6b6;
+  width: "100%" !important;
 }
 
 .css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root {
-	height: 2.15rem !important;
+  height: 2.15rem !important;
 }
 
 .chat-message-highlight-search {
-	background-color: black !important;
-	padding: 3px;
-	font-weight: 500;
-	color: #ffffff;
-	margin: 0;
+  background-color: black !important;
+  padding: 3px;
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0;
 }
 
 .lnndaO {
-	white-space: pre-line !important;
+  white-space: pre-line !important;
 }
 /* .MuiDrawer-paper {
   top: 5rem !important;
@@ -76,17 +76,17 @@ html {
     0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%) !important;
 } */
 .Content-title {
-	font-weight: 500 !important;
-	font-size: 1rem !important;
+  font-weight: 500 !important;
+  font-size: 1rem !important;
 }
 .input {
-	color: #000000;
+  color: #000000;
 }
 .MuiOutlinedInput-root .MuiAutocomplete-input {
-	padding: 0 !important;
-	color: #000000 !important;
+  padding: 0 !important;
+  color: #000000 !important;
 }
 
 .react-select__menu.react-select__menu {
-	z-index: 2000;
+  z-index: 2000;
 }

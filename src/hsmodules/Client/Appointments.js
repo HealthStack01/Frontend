@@ -1,42 +1,47 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Route, useNavigate, Link, NavLink } from 'react-router-dom';
-import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
-import { useForm } from 'react-hook-form';
+import React, { useState, useContext, useEffect, useRef } from "react";
+import { Route, useNavigate, Link, NavLink } from "react-router-dom";
+import client from "../../feathers";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'react-toastify';
-import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
-import DatePicker from 'react-datepicker';
-import LocationSearch from '../helpers/LocationSearch';
-import EmployeeSearch from '../helpers/EmployeeSearch';
-import BillServiceCreate from '../Finance/BillServiceCreate';
-import 'react-datepicker/dist/react-datepicker.css';
-import { PageWrapper } from '../../ui/styled/styles';
-import { TableMenu } from '../../ui/styled/global';
-import FilterMenu from '../../components/utilities/FilterMenu';
-import Button from '../../components/buttons/Button';
-import CustomTable from '../../components/customtable';
-import { AppointmentSchema } from '../Appointment/schema';
-import Switch from '../../components/switch';
-import { BsFillGridFill, BsList } from 'react-icons/bs';
-import CalendarGrid from '../../components/calender';
-import ModalBox from '../../components/modal';
-import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
-import { Box, Grid, Autocomplete } from '@mui/material';
-import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
-import { MdCancel } from 'react-icons/md';
-import Input from '../../components/inputs/basic/Input';
-import GlobalCustomButton from '../../components/buttons/CustomButton';
-import BasicDatePicker from '../../components/inputs/Date';
-import MuiCustomTimePicker from '../../components/inputs/Date/MuiTimePicker';
-import BasicDateTimePicker from '../../components/inputs/DateTime';
-import RadioButton from '../../components/inputs/basic/Radio';
-import TextField from '@mui/material/TextField';
-import { FormsHeaderText } from '../../components/texts';
-import MuiClearDatePicker from '../../components/inputs/Date/MuiClearDatePicker';
-import GroupedRadio from '../../components/inputs/basic/Radio/GroupedRadio';
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "react-toastify";
+import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
+import DatePicker from "react-datepicker";
+import LocationSearch from "../helpers/LocationSearch";
+import EmployeeSearch from "../helpers/EmployeeSearch";
+import BillServiceCreate from "../Finance/BillServiceCreate";
+import "react-datepicker/dist/react-datepicker.css";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import { AppointmentSchema } from "../Appointment/schema";
+// import {AppointmentSchema} from "./schema";
+import Switch from "../../components/switch";
+import { BsFillGridFill, BsList } from "react-icons/bs";
+import CalendarGrid from "../../components/calender";
+import ModalBox from "../../components/modal";
+import ModalHeader from "../Appointment/ui-components/Heading/modalHeader";
+import { Box, Grid, Autocomplete } from "@mui/material";
+import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
+import { MdCancel } from "react-icons/md";
+import Input from "../../components/inputs/basic/Input";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import BasicDatePicker from "../../components/inputs/Date";
+import MuiCustomTimePicker from "../../components/inputs/Date/MuiTimePicker";
+import BasicDateTimePicker from "../../components/inputs/DateTime";
+import RadioButton from "../../components/inputs/basic/Radio";
+import TextField from "@mui/material/TextField";
+import { FormsHeaderText } from "../../components/texts";
+import MuiClearDatePicker from "../../components/inputs/Date/MuiClearDatePicker";
+import GroupedRadio from "../../components/inputs/basic/Radio/GroupedRadio";
+import MuiDateTimePicker from "../../components/inputs/DateTime/MuiDateTimePicker";
+import CustomSelect from "../../components/inputs/basic/Select";
+import Textarea from "../../components/inputs/basic/Textarea";
+import OtpInput from "react-otp-input";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -54,7 +59,7 @@ export default function ClientsAppointments() {
 
       {showModal && (
         <ModalBox
-          open={state.AppointmentModule.show === 'create'}
+          open={state.AppointmentModule.show === "create"}
           onClose={() => setShowModal(false)}
           header="Create Appointment"
         >
@@ -66,7 +71,7 @@ export default function ClientsAppointments() {
       )}
       {showModal && (
         <ModalBox
-          open={state.AppointmentModule.show === 'detail'}
+          open={state.AppointmentModule.show === "detail"}
           onClose={() => setShowModal(false)}
           header="Appointment Details"
         >
@@ -75,7 +80,7 @@ export default function ClientsAppointments() {
       )}
       {showModal && (
         <ModalBox
-          open={state.AppointmentModule.show === 'modify'}
+          open={state.AppointmentModule.show === "modify"}
           header="Edit Appointment"
           onClose={() => setShowModal(false)}
         >
@@ -100,28 +105,29 @@ export function AppointmentCreate({ showModal, setShowModal, openBill }) {
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
   const [success2, setSuccess2] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [clientId, setClientId] = useState();
   const [locationId, setLocationId] = useState();
   const [practionerId, setPractionerId] = useState();
   const [type, setType] = useState();
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
-  const ClientServ = client.service('appointments');
+  const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
   const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   // const [appointment_reason,setAppointment_reason]= useState()
-  const [appointment_status, setAppointment_status] = useState('');
-  const [appointment_type, setAppointment_type] = useState('');
+  const [appointment_status, setAppointment_status] = useState("");
+  const [appointment_type, setAppointment_type] = useState("");
   const [billingModal, setBillingModal] = useState(false);
+  const [otpValue, setOtpValue] = useState(null);
 
   const [chosen, setChosen] = useState();
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
-  const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
+  const appClass = ["On-site", "Teleconsultation", "Home Visit"];
   const Client = state.AppointmentModule.selectedAppointment;
 
   let appointee; //  =state.ClientModule.selectedClient
@@ -131,6 +137,12 @@ export function AppointmentCreate({ showModal, setShowModal, openBill }) {
             shouldDirty: true
         })
     } */
+
+    useEffect(() => {
+      setOtpValue(null);
+    }, []);
+
+
   const handleChangeType = async (e) => {
     await setAppointment_type(e.target.value);
   };
@@ -143,12 +155,16 @@ export function AppointmentCreate({ showModal, setShowModal, openBill }) {
     // await setSelectedClient(Client)
     const newClientModule = {
       selectedClient: Client,
-      show: 'detail',
+      show: "detail",
     };
     await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
+  };
+
+  const handleOtpChange = otp => {
+    setOtpValue(otp);
   };
 
   const getSearchfacility = (obj) => {
@@ -187,6 +203,33 @@ export function AppointmentCreate({ showModal, setShowModal, openBill }) {
     }
   };
 
+  const checkinPatientWithOTP = () => {
+    if (otpValue.toString() !== Client.otp)
+      return toast.error("Incorrect OTP supplied");
+    ClientServ.patch(Client._id, {appointment_status: "Checked In"})
+      .then(res => {
+        toast.success("Client succesfully Checked In");
+
+        changeState();
+        
+      })
+      .catch(err => {
+        toast.error("Error updating Client, probable network issues or " + err);
+      });
+  };
+
+  const checkOutPatient = () => {
+    ClientServ.patch(Client._id, {appointment_status: "Checked Out"})
+      .then(res => {
+        toast.success("Client succesfully Checked In");
+
+        changeState();
+      })
+      .catch(err => {
+        toast.error("Error updating Client, probable network issues or " + err);
+      });
+  };
+
   useEffect(() => {
     setCurrentUser(user);
     //console.log(currentUser)
@@ -208,14 +251,14 @@ export function AppointmentCreate({ showModal, setShowModal, openBill }) {
   const onSubmit = (data, e) => {
     console.log(data);
     e.preventDefault();
-    setMessage('');
+    setMessage("");
     setError(false);
     setSuccess(false);
     setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: {
         selectedAppointment: {},
-        show: 'list',
+        show: "list",
       },
     }));
 
@@ -237,7 +280,7 @@ export function AppointmentCreate({ showModal, setShowModal, openBill }) {
     data.gender = chosen.gender;
     data.phone = chosen.phone;
     data.email = chosen.email;
-    data.practitioner_name = chosen2.firstname + ' ' + chosen2.lastname;
+    data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
     data.practitioner_profession = chosen2.profession;
     data.practitioner_department = chosen2.department;
     data.location_name = chosen1.name;
@@ -253,16 +296,16 @@ export function AppointmentCreate({ showModal, setShowModal, openBill }) {
     ClientServ.create(data)
       .then((res) => {
         //console.log(JSON.stringify(res))
-        setAppointment_type('');
-        setAppointment_status('');
-        setClientId('');
-        setLocationId('');
+        setAppointment_type("");
+        setAppointment_status("");
+        setClientId("");
+        setLocationId("");
         /*  setMessage("Created Client successfully") */
         setSuccess(true);
         setSuccess1(true);
         setSuccess2(true);
         toast.success(
-          'Appointment created succesfully, Kindly bill patient if required'
+          "Appointment created succesfully, Kindly bill patient if required"
         );
         openBill(true);
         setSuccess(false);
@@ -271,7 +314,7 @@ export function AppointmentCreate({ showModal, setShowModal, openBill }) {
         // showBilling()
       })
       .catch((err) => {
-        toast.error('Error creating Appointment ' + err);
+        toast.error("Error creating Appointment " + err);
       });
   };
 
@@ -303,7 +346,7 @@ export function AppointmentCreate({ showModal, setShowModal, openBill }) {
 
   return (
     <>
-      <div className="card " style={{ width: '70vw' }}>
+      <div className="card " style={{ width: "70vw" }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={4}>
@@ -339,105 +382,87 @@ export function AppointmentCreate({ showModal, setShowModal, openBill }) {
             <Grid item xs={12} sm={12} md={12}>
               <RadioButton
                 name="appointmentClass"
-                register={register('appointmentClass', { required: true })}
+                register={register("appointmentClass", { required: true })}
                 options={appClass}
               />
               {errors.appointmentClass && (
-                <span style={{ color: 'red' }}>This field is required</span>
+                <span style={{ color: "red" }}>This field is required</span>
               )}
             </Grid>
           </Grid>
-          <Grid container spacing={2} sx={{ alignItems: 'center' }}>
+          <Grid container spacing={2} sx={{ alignItems: "center" }}>
             <Grid item xs={12} sm={12} md={4} lg={4}>
-              <BasicDateTimePicker
-                label="Date"
-                register={register('start_time', { required: true })}
+              <MuiDateTimePicker
+                control={control}
+                name="start_time"
+                label="Date and Time"
+                required
+                important
+                // register={register("start_time", {required: true})}
               />
               {errors.start_time && (
-                <span style={{ color: 'red' }}>This field is required</span>
+                <span style={{ color: "red" }}>This field is required</span>
               )}
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={4}>
-              <select
-                name="type"
-                value={type}
-                onChange={handleChangeType}
-                style={{
-                  border: '1px solid #b6b6b6',
-                  height: '38px',
-                  borderRadius: '4px',
-                  width: '100%',
-                }}
-              >
-                <option defaultChecked>Choose Appointment Type </option>
-                <option value="New">New</option>
-                <option value="Followup">Followup</option>
-                <option value="Readmission with 24hrs">
-                  Readmission with 24hrs
-                </option>
-                <option value="Annual Checkup">Annual Checkup</option>
-                <option value="Walk in">Walk-in</option>
-              </select>
+              <CustomSelect
+                control={control}
+                name="appointment_type"
+                label="Appointment Type"
+                required
+                important
+                options={[
+                  "New",
+                  "Followup",
+                  "Readmission with 24hrs",
+                  "Annual Checkup",
+                  "Walk-in",
+                ]}
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={4}>
-              <select
+              <CustomSelect
+                required
+                important
+                control={control}
                 name="appointment_status"
-                value={appointment_status}
-                onChange={handleChangeStatus}
-                style={{
-                  border: '1px solid #b6b6b6',
-                  height: '38px',
-                  borderRadius: '4px',
-                  width: '100%',
-                }}
-              >
-                <option defaultChecked>Appointment Status </option>
-                <option value="Scheduled">Scheduled</option>
-                <option value="Confirmed">Confirmed</option>
-                <option value="Checked In">Checked In</option>
-                <option value="Vitals Taken">Vitals Taken</option>
-                <option value="With Nurse">With Nurse</option>
-                <option value="With Doctor">With Doctor</option>
-                <option value="No Show">No Show</option>
-                <option value="Cancelled">Cancelled</option>
-                <option value="Billed">Billed</option>
-              </select>
+                label="Appointment Status "
+                options={[
+                  "Scheduled",
+                  "Confirmed",
+                  "Checked In",
+                  "Vitals Taken",
+                  "With Nurse",
+                  "With Doctor",
+                  "No Show",
+                  "Cancelled",
+                  "Billed",
+                ]}
+              />
             </Grid>
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              <label className="label" htmlFor="appointment_reason">
-                Reason for Appointment
-              </label>
-              <textarea
-                className="input is-small"
-                name="appointment_reason"
-                {...register('appointment_reason', { required: true })}
+              <Textarea
+                label="Reason for Appointment"
+                //name="appointment_reason"
+                important
+                register={register("appointment_reason", { required: true })}
                 type="text"
-                placeholder="Appointment Reason"
-                rows="3"
-                cols="50"
-                style={{
-                  border: '1px solid #b6b6b6',
-                  borderRadius: '4px',
-                  color: ' #979DAC',
-                  width: '100%',
-                }}
-              >
-                {' '}
-              </textarea>
+                placeholder="write here.."
+              />
               {errors.appointment_reason && (
-                <span style={{ color: 'red' }}>This field is required</span>
+                <span style={{ color: "red" }}>This field is required</span>
               )}
             </Grid>
           </Grid>
 
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <GlobalCustomButton
               text="Submit"
               onClick={handleSubmit(onSubmit)}
               customStyles={{
-                marginRight: '15px',
+                marginRight: "15px",
               }}
             />
             <GlobalCustomButton
@@ -460,8 +485,8 @@ export function ClientList({ showModal, setShowModal }) {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState('');
-  const ClientServ = client.service('appointments');
+  const [message, setMessage] = useState("");
+  const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -474,12 +499,13 @@ export function ClientList({ showModal, setShowModal }) {
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
-  const [value, setValue] = useState('list');
+  const [value, setValue] = useState("list");
+
 
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: 'create',
+      show: "create",
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -488,7 +514,7 @@ export function ClientList({ showModal, setShowModal }) {
     //console.log(state)
     const newClient = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
     await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     setShowModal(true);
@@ -499,7 +525,7 @@ export function ClientList({ showModal, setShowModal }) {
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
-      show: 'detail',
+      show: "detail",
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -510,7 +536,7 @@ export function ClientList({ showModal, setShowModal }) {
   //console.log(state.employeeLocation)
 
   const handleSearch = (val) => {
-    const field = 'firstname';
+    const field = "firstname";
     //  console.log(val)
 
     let query = {
@@ -518,73 +544,73 @@ export function ClientList({ showModal, setShowModal }) {
         {
           firstname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           lastname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           middlename: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           phone: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_status: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_reason: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_department: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_profession: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
       ],
@@ -594,7 +620,7 @@ export function ClientList({ showModal, setShowModal }) {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== 'Front Desk') {
+    if (state.employeeLocation.locationType !== "Front Desk") {
       query.locationId = state.employeeLocation.locationId;
     }
 
@@ -602,12 +628,12 @@ export function ClientList({ showModal, setShowModal }) {
       .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(' Client  fetched successfully');
+        setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
       .catch((err) => {
         console.log(err);
-        setMessage('Error fetching Client, probable network issues ' + err);
+        setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
       });
   };
@@ -659,13 +685,13 @@ export function ClientList({ showModal, setShowModal }) {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on('created', (obj) => handleCalendarClose());
-    ClientServ.on('updated', (obj) => handleCalendarClose());
-    ClientServ.on('patched', (obj) => handleCalendarClose());
-    ClientServ.on('removed', (obj) => handleCalendarClose());
+    ClientServ.on("created", (obj) => handleCalendarClose());
+    ClientServ.on("updated", (obj) => handleCalendarClose());
+    ClientServ.on("patched", (obj) => handleCalendarClose());
+    ClientServ.on("removed", (obj) => handleCalendarClose());
     const newClient = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
     setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
@@ -722,19 +748,19 @@ export function ClientList({ showModal, setShowModal }) {
         }`,
         startDate: format(
           new Date(facility?.start_time.slice(0, 19)),
-          'yyyy-MM-dd HH:mm'
+          "yyyy-MM-dd HH:mm"
         ),
         id: i,
         location: facility?.location_name,
-        content: 'Test',
+        content: "Test",
       });
     });
     return mapped;
   };
   const activeStyle = {
-    backgroundColor: '#0064CC29',
-    border: 'none',
-    padding: '0 .8rem',
+    backgroundColor: "#0064CC29",
+    border: "none",
+    padding: "0 .8rem",
   };
 
   // console.log(facilities[0].clientId);
@@ -745,16 +771,16 @@ export function ClientList({ showModal, setShowModal }) {
         <>
           <div className="level">
             <PageWrapper
-              style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
+              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
             >
               <TableMenu>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ display: "flex", alignItems: "center" }}>
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
+                  <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
                     Appointments
                   </h2>
                   <MuiClearDatePicker
@@ -768,20 +794,20 @@ export function ClientList({ showModal, setShowModal }) {
                     <button
                       value={value}
                       onClick={() => {
-                        setValue('list');
+                        setValue("list");
                       }}
-                      style={value === 'list' ? activeStyle : {}}
+                      style={value === "list" ? activeStyle : {}}
                     >
-                      <BsList style={{ fontSize: '1rem' }} />
+                      <BsList style={{ fontSize: "1rem" }} />
                     </button>
                     <button
                       value={value}
                       onClick={() => {
-                        setValue('grid');
+                        setValue("grid");
                       }}
-                      style={value === 'grid' ? activeStyle : {}}
+                      style={value === "grid" ? activeStyle : {}}
                     >
-                      <BsFillGridFill style={{ fontSize: '1rem' }} />
+                      <BsFillGridFill style={{ fontSize: "1rem" }} />
                     </button>
                   </Switch>
                 </div>
@@ -793,10 +819,10 @@ export function ClientList({ showModal, setShowModal }) {
                   />
                 )}
               </TableMenu>
-              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-                {value === 'list' ? (
+              <div style={{ width: "100%", height: "600px",  }}>
+                {value === "list" ? (
                   <CustomTable
-                    title={''}
+                    title={""}
                     columns={AppointmentSchema}
                     data={facilities}
                     pointerOnHover
@@ -827,13 +853,17 @@ export function ClientDetail({ showModal, setShowModal }) {
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
   // eslint-disable-next-line
-  const [message, setMessage] = useState(''); //,
+  const [message, setMessage] = useState(""); //,
   //const ClientServ=client.service('/Client')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
   const { state, setState } = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
+  const [isHMO, setIsHMO] = useState(false);
+  const [otpModal, setOtpModal] = useState(false);
+  const [otpValue, setOtpValue] = useState(null);
+  const ClientServ = client.service("appointments");
 
   // console.log(state)
   const Client = state.AppointmentModule.selectedAppointment;
@@ -842,7 +872,7 @@ export function ClientDetail({ showModal, setShowModal }) {
   const handleEdit = async () => {
     const newClientModule = {
       selectedAppointment: Client,
-      show: 'modify',
+      show: "modify",
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -852,12 +882,12 @@ export function ClientDetail({ showModal, setShowModal }) {
   };
 
   const handleAttend = async () => {
-    const patient = await client.service('client').get(Client.clientId);
+    const patient = await client.service("client").get(Client.clientId);
     // console.log(patient)
     await setSelectedClient(patient);
     const newClientModule = {
       selectedClient: patient,
-      show: 'detail',
+      show: "detail",
     };
     // console.log("patient....",patient)
     await setState((prevstate) => ({
@@ -865,18 +895,107 @@ export function ClientDetail({ showModal, setShowModal }) {
       ClientModule: newClientModule,
     }));
     //modify appointment
-    navigate('/app/clinic/documentation');
-    console.log('test');
+    navigate("/app/clinic/documentation");
+    console.log("test");
+  };
+
+  const handleOtpChange = otp => {
+    setOtpValue(otp);
+  };
+
+  const checkinPatientWithOTP = () => {
+    if (otpValue.toString() !== Client.otp)
+      return toast.error("Incorrect OTP supplied");
+    ClientServ.patch(Client._id, {appointment_status: "Checked In"})
+      .then(res => {
+        toast.success("Client succesfully Checked In");
+
+        changeState();
+        
+      })
+      .catch(err => {
+        toast.error("Error updating Client, probable network issues or " + err);
+      });
+  };
+
+
+  const checkOutPatient = () => {
+    ClientServ.patch(Client._id, {appointment_status: "Checked Out"})
+      .then(res => {
+        toast.success("Client succesfully Checked In");
+
+        changeState();
+      })
+      .catch(err => {
+        toast.error("Error updating Client, probable network issues or " + err);
+      });
+  };
+
+  const checkinPatient = (data, e) => {
+    ClientServ.patch(Client._id, {appointment_status: "Checked In"})
+      .then(res => {
+        //console.log(JSON.stringify(res))
+        // e.target.reset();
+        // setMessage("updated Client successfully")
+        toast.success("Client succesfully Checked In");
+
+        changeState();
+        return
+      })
+      .catch(err => {
+        toast.error("Error updating Client, probable network issues or " + err);
+      });
+  };
+
+
+
+
+  //  const isHMO = chosen.paymentinfo.some(checkHMO);
+
+  const defaultCheckinClient = () => {
+    if (isHMO) {
+      setOtpModal(true);
+    } else {
+      checkinPatient();
+    }
   };
 
   return (
     <>
+    <Box  sx={{width: "70vw"}}>
+     <ModalBox open={otpModal} onClose={() => setOtpModal(false)}>
+          <Box>
+            <OtpInput
+              value={otpValue}
+              onChange={handleOtpChange}
+              numInputs={6}
+              isInputSecure={false}
+              separator={<span style={{padding: "0 6px"}}></span>}
+              inputStyle={{
+                width: "100%",
+                display: "block",
+                padding: "12px 0",
+                margin: "1rem 0",
+                border: "1px solid #a6a6a6",
+                borderRadius: "3px",
+                background: "#f0fbee",
+                textAlign: "center",
+              }}
+            />
+
+            <Box>
+              <GlobalCustomButton onClick={checkinPatientWithOTP}>
+                Confrim Check-In
+              </GlobalCustomButton>
+            </Box>
+          </Box>
+        </ModalBox>
       <Box
         sx={{
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'right',
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "right",
         }}
         mb={2}
       >
@@ -884,10 +1003,36 @@ export function ClientDetail({ showModal, setShowModal }) {
           onClick={handleEdit}
           text="Edit Appointment Details"
           customStyles={{
-            marginRight: '5px',
+            marginRight: "5px",
           }}
         />
-        <GlobalCustomButton onClick={handleAttend} text="Attend to client" />
+
+          <Box>
+            {Client.appointment_status.toLowerCase() !== "checked in" && (
+              <GlobalCustomButton
+                color="success"
+                onClick={defaultCheckinClient}
+              
+              >
+                Check-In Client
+              </GlobalCustomButton>
+            )}
+
+            {Client.appointment_status.toLowerCase() === "checked in" && (
+              <GlobalCustomButton color="success" onClick={checkOutPatient}
+             
+              >
+                Check-Out Client
+              </GlobalCustomButton>
+            )}
+          </Box>
+
+
+        <GlobalCustomButton onClick={handleAttend} text="Attend to client" 
+        customStyles={{
+          marginLeft: "5px",
+        }}
+        />
       </Box>
       <Grid container spacing={1} mt={1}>
         <Grid item xs={12} md={4}>
@@ -925,7 +1070,7 @@ export function ClientDetail({ showModal, setShowModal }) {
         <Grid item xs={12} md={4}>
           <Input
             label="Start Date"
-            value={format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')}
+            value={format(new Date(Client.start_time), "dd/MM/yyyy HH:mm")}
             disabled
           />
         </Grid>
@@ -965,30 +1110,20 @@ export function ClientDetail({ showModal, setShowModal }) {
       </Grid>
       <Grid container spacing={1} mt={1}>
         <Grid item xs={12} md={12}>
-          <label className="label" htmlFor="appointment_reason">
-            Reason for Appointment
-          </label>
-          <textarea
-            className="input is-small"
-            name="appointment_reason"
-            value={Client?.appointment_reason}
-            disabled
-            type="text"
-            placeholder="Appointment Reason"
-            rows="3"
-            cols="50"
-            style={{
-              border: '1px solid #b6b6b6',
-              borderRadius: '4px',
-              color: ' #979DAC',
-              width: '100%',
-            }}
-          >
-            {' '}
-          </textarea>
+        <Textarea
+                label="Reason for Appointment"
+                //name="appointment_reason"
+                important
+                register={register("appointment_reason", {required: true})}
+                type="text"
+                placeholder="write here.."
+              />
         </Grid>
       </Grid>
-    </>
+    
+    
+      </Box>
+      </>
   );
 }
 
@@ -1000,18 +1135,18 @@ export function ClientModify({ showModal, setShowModal }) {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   // eslint-disable-next-line
-  const ClientServ = client.service('appointments');
+  const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
   // eslint-disable-next-line
   const { user } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
-  const [appointment_status, setAppointment_status] = useState('');
-  const [appointment_type, setAppointment_type] = useState('');
-  const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
+  const [appointment_status, setAppointment_status] = useState("");
+  const [appointment_type, setAppointment_type] = useState("");
+  const appClass = ["On-site", "Teleconsultation", "Home Visit"];
   const [locationId, setLocationId] = useState();
   const [practionerId, setPractionerId] = useState();
   const [success1, setSuccess1] = useState(false);
@@ -1045,59 +1180,59 @@ export function ClientModify({ showModal, setShowModal }) {
   };
 
   useEffect(() => {
-    setValue('firstname', Client.firstname, {
+    setValue("firstname", Client.firstname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('middlename', Client.middlename, {
+    setValue("middlename", Client.middlename, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('lastname', Client.lastname, {
+    setValue("lastname", Client.lastname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('phone', Client.phone, {
+    setValue("phone", Client.phone, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('email', Client.email, {
+    setValue("email", Client.email, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('dob', Client.dob, {
+    setValue("dob", Client.dob, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('gender', Client.gender, {
+    setValue("gender", Client.gender, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('ClientId', Client.clientId, {
+    setValue("ClientId", Client.clientId, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('appointment_reason', Client.appointment_reason, {
+    setValue("appointment_reason", Client.appointment_reason, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('appointment_status', Client.appointment_status, {
+    setValue("appointment_status", Client.appointment_status, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('appointment_type', Client.appointment_type, {
+    setValue("appointment_type", Client.appointment_type, {
       shouldValidate: true,
       shouldDirty: true,
     });
     setValue(
-      'start_time',
+      "start_time",
       format(new Date(Client.start_time), "yyyy-MM-dd'T'HH:mm:ss"),
       {
         shouldValidate: true,
         shouldDirty: true,
       }
     );
-    setValue('appointmentClass', Client.appointmentClass, {
+    setValue("appointmentClass", Client.appointmentClass, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -1107,14 +1242,14 @@ export function ClientModify({ showModal, setShowModal }) {
 
   const handleChangeType = async (e) => {
     // await setAppointment_type(e.target.value)
-    setValue('appointment_type', e.target.value, {
+    setValue("appointment_type", e.target.value, {
       shouldValidate: true,
       shouldDirty: true,
     });
   };
   const handleChangeClass = async (e) => {
     // await setAppointment_type(e.target.value)
-    setValue('appointmentClass', e.target.value, {
+    setValue("appointmentClass", e.target.value, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -1122,7 +1257,7 @@ export function ClientModify({ showModal, setShowModal }) {
 
   const handleChangeStatus = async (e) => {
     // await setAppointment_status(e.target.value)
-    setValue('appointment_status', e.target.value, {
+    setValue("appointment_status", e.target.value, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -1131,7 +1266,7 @@ export function ClientModify({ showModal, setShowModal }) {
   const handleCancel = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: 'create',
+      show: "create",
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -1143,7 +1278,7 @@ export function ClientModify({ showModal, setShowModal }) {
   const changeState = () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: 'list',
+      show: "list",
     };
     setState((prevstate) => ({
       ...prevstate,
@@ -1151,7 +1286,7 @@ export function ClientModify({ showModal, setShowModal }) {
     }));
   };
   const handleDelete = async () => {
-    let conf = window.confirm('Are you sure you want to delete this data?');
+    let conf = window.confirm("Are you sure you want to delete this data?");
 
     const dleteId = Client._id;
     if (conf) {
@@ -1165,14 +1300,14 @@ export function ClientModify({ showModal, setShowModal }) {
                setTimeout(() => {
                 setSuccess(false)
                 }, 200); */
-          toast.success('Client deleted succesfully');
+          toast.success("Client deleted succesfully");
           changeState();
         })
         .catch((err) => {
           // setMessage("Error deleting Client, probable network issues "+ err )
           // setError(true)
           toast.error(
-            'Error deleting Client, probable network issues or ' + err
+            "Error deleting Client, probable network issues or " + err
           );
         });
     }
@@ -1192,7 +1327,7 @@ export function ClientModify({ showModal, setShowModal }) {
       // console.log(data)
       //  data.facility=Client.facility
       //console.log(data);
-      (data.practitioner_name = chosen2.firstname + ' ' + chosen2.lastname);
+      (data.practitioner_name = chosen2.firstname + " " + chosen2.lastname);
     data.practitioner_profession = chosen2.profession;
     data.practitioner_department = chosen2.department;
     data.practitionerId = chosen2._id;
@@ -1213,14 +1348,14 @@ export function ClientModify({ showModal, setShowModal }) {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Client successfully")
-        toast.success('Client updated succesfully');
+        toast.success("Client updated succesfully");
 
         changeState();
       })
       .catch((err) => {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
-        toast.error('Error updating Client, probable network issues or ' + err);
+        toast.error("Error updating Client, probable network issues or " + err);
       });
   };
 
@@ -1255,11 +1390,11 @@ export function ClientModify({ showModal, setShowModal }) {
               />
             </Grid>
           </Grid>
-          <Grid container spacing={2} sx={{ alignItems: 'center' }}>
+          <Grid container spacing={2} sx={{ alignItems: "center" }}>
             <Grid item xs={12} sm={12} md={4}>
               <BasicDateTimePicker
                 label="Date"
-                register={register('start_time', { required: true })}
+                register={register("start_time", { required: true })}
                 value={format(
                   new Date(Client.start_time),
                   "yyyy-MM-dd'T'HH:mm:ss"
@@ -1288,10 +1423,10 @@ export function ClientModify({ showModal, setShowModal }) {
                 onChange={handleChangeType}
                 defaultValue={Client?.appointment_type}
                 style={{
-                  border: '1px solid #b6b6b6',
-                  height: '38px',
-                  borderRadius: '4px',
-                  width: '100%',
+                  border: "1px solid #b6b6b6",
+                  height: "38px",
+                  borderRadius: "4px",
+                  width: "100%",
                 }}
               >
                 <option defaultChecked>Choose Appointment Type </option>
@@ -1310,10 +1445,10 @@ export function ClientModify({ showModal, setShowModal }) {
                 onChange={handleChangeStatus}
                 defaultValue={Client?.appointment_status}
                 style={{
-                  border: '1px solid #b6b6b6',
-                  height: '38px',
-                  borderRadius: '4px',
-                  width: '100%',
+                  border: "1px solid #b6b6b6",
+                  height: "38px",
+                  borderRadius: "4px",
+                  width: "100%",
                 }}
               >
                 <option defaultChecked>Appointment Status </option>
@@ -1337,30 +1472,30 @@ export function ClientModify({ showModal, setShowModal }) {
               <textarea
                 className="input is-small"
                 name="appointment_reason"
-                {...register('appointment_reason', { required: true })}
+                {...register("appointment_reason", { required: true })}
                 type="text"
                 placeholder="Appointment Reason"
                 rows="3"
                 cols="50"
                 style={{
-                  border: '1px solid #b6b6b6',
-                  borderRadius: '4px',
-                  color: ' #979DAC',
-                  width: '100%',
+                  border: "1px solid #b6b6b6",
+                  borderRadius: "4px",
+                  color: " #979DAC",
+                  width: "100%",
                 }}
               >
-                {' '}
+                {" "}
               </textarea>
             </Grid>
           </Grid>
 
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <GlobalCustomButton
               variant="contained"
               color="success"
               text="Save"
               customStyles={{
-                marginRight: '15px',
+                marginRight: "15px",
               }}
               onClick={handleSubmit(onSubmit)}
             />
@@ -1379,22 +1514,22 @@ export function ClientModify({ showModal, setShowModal }) {
 }
 
 export function ClientSearch({ id, getSearchfacility, clear, label }) {
-  const ClientServ = client.service('client');
+  const ClientServ = client.service("client");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState('');
+  const [searchMessage, setSearchMessage] = useState("");
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState('');
+  const [simpa, setSimpa] = useState("");
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
-  const [val, setVal] = useState('');
+  const [val, setVal] = useState("");
   const { user } = useContext(UserContext);
   const { state } = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
@@ -1407,13 +1542,13 @@ export function ClientSearch({ id, getSearchfacility, clear, label }) {
 
     await setSimpa(
       obj.firstname +
-        ' ' +
+        " " +
         obj.middlename +
-        ' ' +
+        " " +
         obj.lastname +
-        ' ' +
+        " " +
         obj.gender +
-        ' ' +
+        " " +
         obj.phone
     );
 
@@ -1429,7 +1564,7 @@ export function ClientSearch({ id, getSearchfacility, clear, label }) {
   };
   const handleBlur = async (e) => {
     if (count === 2) {
-      console.log('stuff was chosen');
+      console.log("stuff was chosen");
     }
 
     /*  console.log("blur")
@@ -1447,12 +1582,12 @@ export function ClientSearch({ id, getSearchfacility, clear, label }) {
   };
   const handleSearch = async (val) => {
     setVal(val);
-    if (val === '') {
+    if (val === "") {
       setShowPanel(false);
       getSearchfacility(false);
       return;
     }
-    const field = 'name'; //field variable
+    const field = "name"; //field variable
 
     if (val.length >= 3) {
       ClientServ.find({
@@ -1461,43 +1596,43 @@ export function ClientSearch({ id, getSearchfacility, clear, label }) {
             {
               firstname: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
             {
               lastname: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
             {
               middlename: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
             {
               phone: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
             {
               clientTags: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
             {
               mrn: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
             {
               specificDetails: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
           ],
@@ -1511,22 +1646,22 @@ export function ClientSearch({ id, getSearchfacility, clear, label }) {
         },
       })
         .then((res) => {
-          console.log('product  fetched successfully');
+          console.log("product  fetched successfully");
           console.log(res.data);
           setFacilities(res.data);
-          setSearchMessage(' product  fetched successfully');
+          setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
         })
         .catch((err) => {
           toast({
-            message: 'Error creating ProductEntry ' + err,
-            type: 'is-danger',
+            message: "Error creating ProductEntry " + err,
+            type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
           });
         });
     } else {
-      console.log('less than 3 ');
+      console.log("less than 3 ");
       console.log(val);
       setShowPanel(false);
       await setFacilities([]);
@@ -1543,8 +1678,8 @@ export function ClientSearch({ id, getSearchfacility, clear, label }) {
   };
   useEffect(() => {
     if (clear) {
-      console.log('success has changed', clear);
-      setSimpa('');
+      console.log("success has changed", clear);
+      setSimpa("");
     }
     return () => {};
   }, [clear]);
@@ -1553,7 +1688,7 @@ export function ClientSearch({ id, getSearchfacility, clear, label }) {
     const allFacilities = facilities.map((facility) => {
       return {
         value: facility._id,
-        label: facility.firstname + ' ' + facility.lastname,
+        label: facility.firstname + " " + facility.lastname,
       };
     });
   };
@@ -1621,12 +1756,12 @@ export function ClientSearch({ id, getSearchfacility, clear, label }) {
         value={simpa}
         onChange={(event, newValue) => {
           handleRow(newValue);
-          setSimpa('');
+          setSimpa("");
         }}
         id="free-solo-dialog-demo"
         options={facilities}
         getOptionLabel={(option) => {
-          if (typeof option === 'string') {
+          if (typeof option === "string") {
             return option;
           }
           if (option.inputValue) {
@@ -1640,30 +1775,30 @@ export function ClientSearch({ id, getSearchfacility, clear, label }) {
         handleHomeEndKeys
         noOptionsText="No Client found"
         renderOption={(props, option) => (
-          <li {...props} style={{ fontSize: '0.75rem' }}>
-            {option.firstname}, {option.middlename}, {option.lastname},{' '}
+          <li {...props} style={{ fontSize: "0.75rem" }}>
+            {option.firstname}, {option.middlename}, {option.lastname},{" "}
           </li>
         )}
         sx={{
-          width: '100%',
+          width: "100%",
         }}
         freeSolo={false}
         renderInput={(params) => (
           <TextField
             {...params}
-            label={label || 'Search for Client'}
+            label={label || "Search for Client"}
             onChange={(e) => handleSearch(e.target.value)}
             ref={inputEl}
             sx={{
-              fontSize: '0.75rem',
-              backgroundColor: '#ffffff',
-              '& .MuiInputBase-input': {
-                height: '0.9rem',
+              fontSize: "0.75rem",
+              backgroundColor: "#ffffff",
+              "& .MuiInputBase-input": {
+                height: "0.9rem",
               },
             }}
             InputLabelProps={{
               shrink: true,
-              style: { color: '#2d2d2d' },
+              style: { color: "#2d2d2d" },
             }}
           />
         )}

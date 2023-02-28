@@ -334,6 +334,7 @@ export function ClinicList({standalone, closeModal}) {
   };
 
   const getFacilities = async () => {
+    setLoading(true);
     if (user.currentEmployee) {
       const findClinic = await ClinicServ.find({
         query: {
@@ -347,6 +348,7 @@ export function ClinicList({standalone, closeModal}) {
       });
 
       await setFacilities(findClinic.data);
+      setLoading(false);
     } else {
       if (user.stacker) {
         const findClinic = await ClinicServ.find({
@@ -360,6 +362,7 @@ export function ClinicList({standalone, closeModal}) {
         });
 
         await setFacilities(findClinic.data);
+        setLoading(false);
       }
     }
     /*   .then((res)=>{

@@ -37,6 +37,9 @@ import TextField from '@mui/material/TextField';
 import { FormsHeaderText } from '../../components/texts';
 import MuiClearDatePicker from '../../components/inputs/Date/MuiClearDatePicker';
 import GroupedRadio from '../../components/inputs/basic/Radio/GroupedRadio';
+import MuiDateTimePicker from '../../components/inputs/DateTime/MuiDateTimePicker';
+import CustomSelect from '../../components/inputs/basic/Select';
+import Textarea from '../../components/inputs/basic/Textarea';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -322,80 +325,61 @@ export function AppointmentCreate({ showModal, setShowModal }) {
           </Grid>
           <Grid container spacing={2} sx={{ alignItems: 'center' }}>
             <Grid item xs={12} sm={12} md={4} lg={4}>
-              <BasicDateTimePicker
-                label="Date"
-                register={register('start_time', { required: true })}
+            <MuiDateTimePicker
+                important
+                required
+                label="Date and Time"
+                control={control}
+                name="start_time"
               />
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={4}>
-              <select
-                name="type"
-                value={type}
-                onChange={handleChangeType}
-                style={{
-                  border: '1px solid #b6b6b6',
-                  height: '38px',
-                  borderRadius: '4px',
-                  width: '100%',
-                }}
-              >
-                <option defaultChecked>Choose Appointment Type </option>
-                <option value="New">New</option>
-                <option value="Followup">Followup</option>
-                <option value="Readmission with 24hrs">
-                  Readmission with 24hrs
-                </option>
-                <option value="Annual Checkup">Annual Checkup</option>
-                <option value="Walk in">Walk-in</option>
-              </select>
+            <CustomSelect
+                control={control}
+                name="appointment_type"
+                label="Appointment Type"
+                required
+                important
+                options={[
+                  "New",
+                  "Followup",
+                  "Readmission with 24hrs",
+                  "Annual Checkup",
+                  "Walk-in",
+                ]}
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={4}>
-              <select
+            <CustomSelect
+                required
+                important
+                control={control}
                 name="appointment_status"
-                value={appointment_status}
-                onChange={handleChangeStatus}
-                style={{
-                  border: '1px solid #b6b6b6',
-                  height: '38px',
-                  borderRadius: '4px',
-                  width: '100%',
-                }}
-              >
-                <option defaultChecked>Appointment Status </option>
-                <option value="Scheduled">Scheduled</option>
-                <option value="Confirmed">Confirmed</option>
-                <option value="Checked In">Checked In</option>
-                <option value="Vitals Taken">Vitals Taken</option>
-                <option value="With Nurse">With Nurse</option>
-                <option value="With Doctor">With Doctor</option>
-                <option value="No Show">No Show</option>
-                <option value="Cancelled">Cancelled</option>
-                <option value="Billed">Billed</option>
-              </select>
+                label="Appointment Status "
+                options={[
+                  "Scheduled",
+                  "Confirmed",
+                  "Checked In",
+                  "Vitals Taken",
+                  "With Nurse",
+                  "With Doctor",
+                  "No Show",
+                  "Cancelled",
+                  "Billed",
+                ]}
+              />
             </Grid>
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              <label className="label" htmlFor="appointment_reason">
-                Reason for Appointment
-              </label>
-              <textarea
-                className="input is-small"
-                name="appointment_reason"
-                {...register('appointment_reason', { required: true })}
+            <Textarea
+                label="Reason for Appointment"
+                //name="appointment_reason"
+                important
+                register={register("appointment_reason", {required: true})}
                 type="text"
-                placeholder="Appointment Reason"
-                rows="3"
-                cols="50"
-                style={{
-                  border: '1px solid #b6b6b6',
-                  borderRadius: '4px',
-
-                  width: '100%',
-                }}
-              >
-                {' '}
-              </textarea>
+                placeholder="write here.."
+              />
             </Grid>
           </Grid>
 

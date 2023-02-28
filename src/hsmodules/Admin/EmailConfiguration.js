@@ -141,7 +141,7 @@ const OrganizationEmailConfiguration = () => {
       inputType: "HIDDEN",
       style: {
         color: "#1976d2",
-        textTransform: "capitalize",
+        //textTransform: "capitalize",
       },
     },
     {

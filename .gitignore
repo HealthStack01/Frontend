@@ -4,7 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
-
+/src/feathers.js
+.
 # testing
 /coverage
 
