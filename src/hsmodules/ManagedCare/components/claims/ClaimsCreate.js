@@ -228,6 +228,7 @@ const ClaimCreateComponent = ({handleGoBack}) => {
   };
 
   const checkForPreauthorization = useCallback(() => {
+    if (!state.ClientModule.selectedClient._id) return;
     setPreAuthServices([]);
     preAuthServer
       .find({
@@ -241,11 +242,12 @@ const ClaimCreateComponent = ({handleGoBack}) => {
         },
       })
       .then(res => {
-        const services = res.data[0].services;
-        const approvedServices = services.filter(
+        const data = res.data[0].services;
+        const approvedServices = data.filter(
           item => item.status.toLowerCase() === "approved"
         );
-        setPreAuthServices(approvedServices);
+        //setPreAuthServices(approvedServices);
+        setServices([...approvedServices, ...services]);
         // setServices(prev => [...res.data[0].services, ...prev]);
         //console.log(res);
       });
@@ -637,7 +639,7 @@ const ClaimCreateComponent = ({handleGoBack}) => {
               <CustomTable
                 title={""}
                 columns={servicesColumns}
-                data={[...services, ...preAuthServices]}
+                data={[...services]}
                 pointerOnHover
                 highlightOnHover
                 striped

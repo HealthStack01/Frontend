@@ -2188,10 +2188,10 @@ export function ClientCreate({closeModal}) {
 
   // ****************************************************************************
   const onSubmit = async (data, e) => {
-    if (!date) {
-      toast.warning("Please enter Date of Birth!");
-      return;
-    }
+    // if (!date) {
+    //   toast.warning("Please enter Date of Birth!");
+    //   return;
+    // }
 
     showActionLoader();
 
