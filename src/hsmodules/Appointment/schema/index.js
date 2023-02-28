@@ -127,6 +127,7 @@ export const AppointmentSchema = [
     sortable: true,
     required: true,
     inputType: "TEXT",
+    width: "100px",
   },
   {
     name: "First Name",
@@ -136,6 +137,7 @@ export const AppointmentSchema = [
     sortable: true,
     required: true,
     inputType: "TEXT",
+    width: "100px",
   },
 
   {
@@ -146,6 +148,7 @@ export const AppointmentSchema = [
     sortable: true,
     required: true,
     inputType: "TEXT",
+    width: "100px",
   },
   {
     name: "Classification",
@@ -155,6 +158,7 @@ export const AppointmentSchema = [
     sortable: true,
     required: true,
     inputType: "TEXT",
+    width: "100px",
   },
   {
     name: "Location",
@@ -164,6 +168,7 @@ export const AppointmentSchema = [
     sortable: true,
     required: true,
     inputType: "TEXT",
+    width: "100px",
   },
   {
     name: "Type",
@@ -173,6 +178,7 @@ export const AppointmentSchema = [
     sortable: true,
     required: true,
     inputType: "TEXT",
+    width: "100px",
   },
   {
     name: "Status",
@@ -182,6 +188,7 @@ export const AppointmentSchema = [
     sortable: true,
     required: true,
     inputType: "TEXT",
+    width: "100px",
   },
   {
     name: "Reason",
@@ -191,6 +198,7 @@ export const AppointmentSchema = [
     sortable: true,
     required: true,
     inputType: "TEXT",
+    width: "100px",
   },
   {
     name: "Practitioner",
@@ -200,6 +208,7 @@ export const AppointmentSchema = [
     sortable: true,
     required: true,
     inputType: "TEXT",
+    width: "100px",
   },
 ];
 
