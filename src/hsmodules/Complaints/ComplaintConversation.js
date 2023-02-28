@@ -87,7 +87,7 @@ const ComplaintConversation = ({closeConvo}) => {
     setMessage(e.target.value);
   };
 
-  const handleSearchChange = () => {
+  const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearchValue(value);
   };

@@ -37,6 +37,9 @@ import TextField from '@mui/material/TextField';
 import { FormsHeaderText } from '../../components/texts';
 import MuiClearDatePicker from '../../components/inputs/Date/MuiClearDatePicker';
 import GroupedRadio from '../../components/inputs/basic/Radio/GroupedRadio';
+import MuiDateTimePicker from '../../components/inputs/DateTime/MuiDateTimePicker';
+import CustomSelect from '../../components/inputs/basic/Select';
+import Textarea from '../../components/inputs/basic/Textarea';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -322,101 +325,71 @@ export function AppointmentCreate({ showModal, setShowModal }) {
           </Grid>
           <Grid container spacing={2} sx={{ alignItems: 'center' }}>
             <Grid item xs={12} sm={12} md={4} lg={4}>
-              <BasicDateTimePicker
-                label="Date"
-                register={register('start_time', { required: true })}
+              <MuiDateTimePicker
+              important
+              required
+              label="Date and Time"
+              control={control}
+              name="start_time"
+            />
+            </Grid>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
+            {/* onChange={handleChangeType} */}
+            <CustomSelect
+                control={control}
+                name="appointment_type"
+                label="Appointment Type"
+                required
+                important
+                options={[
+                  "New Procedure",
+                  "Repeat Procedure",
+                ]}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={4}>
-              <select
-                name="type"
-                value={type}
-                onChange={handleChangeType}
-                style={{
-                  border: '1px solid #b6b6b6',
-                  height: '38px',
-                  borderRadius: '4px',
-                  width: '100%',
-                }}
-              >
-                <option defaultChecked>Choose Appointment Type </option>
-                <option value="New">New Procedure</option>
-                <option value="Repeat">Repeat Procedure</option>
-              </select>
-            </Grid>
-            <Grid item xs={12} sm={12} md={4} lg={4}>
-              <select
+            <CustomSelect
+                required
+                important
+                control={control}
                 name="appointment_status"
-                value={appointment_status}
-                onChange={handleChangeStatus}
-                style={{
-                  border: '1px solid #b6b6b6',
-                  height: '38px',
-                  borderRadius: '4px',
-                  width: '100%',
-                }}
-              >
-                <option value="" defaultChecked>
-                  Appointment Status{' '}
-                </option>
-                <option value="Scheduled">Scheduled</option>
-                <option value="Confirmed">Confirmed</option>
-                <option value="Billed">Billed</option>
-                <option value="Paid">Paid</option>
-                <option value="Checked In">Checked In</option>
-                <option value="Procedure in Progress">
-                  Procedure in Progress
-                </option>
-                <option value="Completed Procedure">Completed Procedure</option>
-                <option value="No Show">No Show</option>
-                <option value="Cancelled">Cancelled</option>
-              </select>
+                label="Appointment Status "
+                options={[
+                  "Scheduled",
+                  "Confirmed",
+                  "Checked In",
+                  "No Show",
+                  "Checked Out ",
+                  "Completed Procedure ",
+                  "Procedure In Progress",
+                  "Paid",
+                  "Billed",
+                  "Cancelled"
+                ]}
+              />
             </Grid>
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              <label className="label" htmlFor="appointment_reason">
-                Reason for Appointment
-              </label>
-              <textarea
-                className="input is-small"
-                name="appointment_reason"
-                {...register('appointment_reason', { required: true })}
+            
+              <Textarea
+                label="Reason for Appointment"
+                //name="appointment_reason"
+                important
+                register={register("appointment_reason", {required: true})}
                 type="text"
-                placeholder="Appointment Reason"
-                rows="3"
-                cols="50"
-                style={{
-                  border: '1px solid #b6b6b6',
-                  borderRadius: '4px',
-
-                  width: '100%',
-                }}
-              >
-                {' '}
-              </textarea>
+                placeholder="write here.."
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              <label className="label" htmlFor="information">
-                Other Information
-              </label>
-              <textarea
-                className="input is-small"
-                name="information"
-                {...register('information', { required: true })}
+            <Textarea
+                label=" Other Informationt"
+                //name="appointment_reason"
+                important
+                register={register("appointment_reason", {required: true})}
                 type="text"
-                placeholder="Other Information"
-                rows="3"
-                cols="50"
-                style={{
-                  border: '1px solid #b6b6b6',
-                  borderRadius: '4px',
-
-                  width: '100%',
-                }}
-              >
-                {' '}
-              </textarea>
+                placeholder="write here.."
+              />
             </Grid>
           </Grid>
 
@@ -481,6 +454,11 @@ export function ClientList({ showModal, setShowModal }) {
     await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     setShowModal(true);
   };
+  const newClient = {
+    selectedClient: {},
+    show: "create",
+  }
+
 
   const handleRow = async (Client) => {
     setShowModal(true);
