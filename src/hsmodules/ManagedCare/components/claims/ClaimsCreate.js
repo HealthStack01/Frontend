@@ -155,7 +155,7 @@ const ClaimCreateComponent = ({handleGoBack}) => {
     // delete clinical_data.comments;
     // delete clinical_data.patientstate;
     const statushx = {
-      status: data.status,
+      status: "Submitted",
       date: new Date(),
       employeename: `${employee.firstname} ${employee.lastname}`,
       employeeId: employee.userId,
