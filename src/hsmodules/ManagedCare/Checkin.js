@@ -1,5 +1,11 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef, useCallback} from "react";
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import {Route, useNavigate, Link, NavLink} from "react-router-dom";
 import client from "../../feathers";
 //import {useNavigate} from 'react-router-dom'
@@ -36,38 +42,59 @@ export default function CheckIn() {
 
 export function CheckInList({openCreateModal, setShowModal}) {
   const ClientServ = client.service("appointments");
-  const { user } = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext)
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState("list");
   const [checkedin, setCheckedin] = useState(true); //TOGGLE IF TO SHOW CHECKED IN OR CHECKED OUT
-const [facilities, setFacilities] = useState([]);
-const [ selectedCheckedIn, setSelectedCheckedIn] = useState();
-const [ error, setError] = useState(false);
-
+  const [facilities, setFacilities] = useState([]);
+  const [selectedCheckedIn, setSelectedCheckedIn] = useState();
+  const [error, setError] = useState(false);
+  const [checkoutAppointment, setCheckoutAppointment] = useState([]);
 
   // const handleRow = obj => {};
   //console.log(state.employeeLocation)
 
-
-
-
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     setShowModal(true);
     await setSelectedCheckedIn(Client);
     const newClientModule = {
       selectedCheckedIn: Client,
-      show: 'detail',
+      show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
 
+  const checkedinFn = () => {
+    let query = {
+      facility: user.currentEmployee.facilityDetail._id, // || "",
+      $limit: 20,
+      appointment_status: "Checked In",
+      $sort: {
+        createdAt: -1,
+      },
+    }
 
-  const handleSearch = (val) => {
-    const field = 'firstname';
+    ClientServ.find({query: query})
+    .then(res => {
+      console.log(res);
+      setFacilities(res.data);
+      setMessage(" Client  fetched successfully");
+      setSuccess(true);
+    })
+    .catch(err => {
+      console.log(err);
+      // setMessage('Error fetching Client, probable network issues ' + err);
+      setError(true);
+    });
+
+  }
+
+  const handleSearch = val => {
+    const field = "firstname";
     //  console.log(val)
 
     let query = {
@@ -75,106 +102,122 @@ const [ error, setError] = useState(false);
         {
           firstname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           lastname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           middlename: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           phone: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_status: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_reason: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_department: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_profession: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
       ],
       facility: user.currentEmployee.facilityDetail._id, // || "",
       $limit: 20,
-      appointment_status: 'Checked In',
+      appointment_status: "Checked In",
       $sort: {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== 'Front Desk') {
+    if (state.employeeLocation.locationType !== "Front Desk") {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({ query: query })
-      .then((res) => {
-        console.log(res);
+    ClientServ.find({query: query})
+      .then(res => {
+        console.log(res.data, "data fetched from appointment");
         setFacilities(res.data);
-        setMessage(' Client  fetched successfully');
+        setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         // setMessage('Error fetching Client, probable network issues ' + err);
         setError(true);
       });
   };
 
-  const getFacilities = useCallback(async() => {
+  // const checkedoutFn = async() => {
+  //   const findClient = await ClientServ.find({
+  //     query: {
+  //       $limit: 100,
+  //       appointment_status: "Checked Out",
+  //       $sort: {
+  //         createdAt: -1,
+  //       },
+  //       $select: ["appointment_status"]
+  //     },
+  //   });
+  //   console.log(select, "select here");
+  // }
+
+
+
+  const getCheckout = useCallback(async () => {
     if (user.currentEmployee) {
       let stuff = {
-        facility: user.currentEmployee.facilityDetail._id,
-        appointment_status: 'Checked In',
+        // facility: user.currentEmployee.facilityDetail._id,
+        appointment_status: "Checked Out",
         // locationId:state.employeeLocation.locationId,
         $limit: 100,
         $sort: {
@@ -185,15 +228,54 @@ const [ error, setError] = useState(false);
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find();
+      const findAppointment = await ClientServ.find({query: stuff});
+
+      await setCheckoutAppointment(findAppointment.data);
+      console.log(findAppointment, "tttttttttttttttttttt");
+    } else {
+      if (user.stacker) {
+        const findAppointment = await ClientServ.find({
+          query: {
+            $limit: 100,
+            appointment_status: "Checked Out",
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        });
+
+        await setCheckoutAppointment(findAppointment.data);
+      }
+    }
+  }, []);
+
+
+
+  const getFacilities = useCallback(async () => {
+    if (user.currentEmployee) {
+      let stuff = {
+        // facility: user.currentEmployee.facilityDetail._id,
+        appointment_status: "Checked In",
+        // locationId:state.employeeLocation.locationId,
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      };
+      // if (state.employeeLocation.locationType !== 'Front Desk') {
+      //   stuff.locationId = state.employeeLocation.locationId;
+      // }
+
+      const findClient = await ClientServ.find({query: stuff});
 
       await setFacilities(findClient.data);
-      console.log(findClient, "tttttttttttttttttttt")
+      console.log(findClient, "tttttttttttttttttttt");
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
           query: {
             $limit: 100,
+            appointment_status: "Checked In",
             $sort: {
               createdAt: -1,
             },
@@ -203,17 +285,28 @@ const [ error, setError] = useState(false);
         await setFacilities(findClient.data);
       }
     }
-
-  }, [checkedin ])
+  }, [checkedin]);
 
   useEffect(() => {
-    getFacilities()
+    getFacilities();
+    getCheckout();
 
-    ClientServ.on('created', (obj) => handleCalendarClose());
-    ClientServ.on('updated', (obj) => handleCalendarClose());
-    ClientServ.on('patched', (obj) => handleCalendarClose());
-    ClientServ.on('removed', (obj) => handleCalendarClose());
-  }, [getFacilities])
+    
+
+    ClientServ.on("created", obj => handleCalendarClose());
+    ClientServ.on("updated", obj => handleCalendarClose());
+    ClientServ.on("patched", obj => handleCalendarClose());
+    ClientServ.on("removed", obj => handleCalendarClose());
+  }, [getFacilities]);
+
+  // useEffect(() => {
+  //   getFacilities();
+
+  //   ClientServ.on("created", obj => getFacilities());
+  //   ClientServ.on("updated", obj => getFacilities());
+  //   ClientServ.on("patched", obj => getFacilities());
+  //   ClientServ.on("removed", obj => getFacilities());
+  // }, [getFacilities]);
 
   const dummyData = [
     {
@@ -368,6 +461,7 @@ const [ error, setError] = useState(false);
       inputType: "TEXT",
     },
   
+
     {
       name: "Last Name",
       key: "lastname",
@@ -444,6 +538,7 @@ const [ error, setError] = useState(false);
       selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
+      width: "110px",
     },
     {
       name: "Date/Time",
@@ -453,6 +548,7 @@ const [ error, setError] = useState(false);
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "First Name",
@@ -462,8 +558,8 @@ const [ error, setError] = useState(false);
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
-  
     {
       name: "Last Name",
       key: "lastname",
@@ -472,6 +568,7 @@ const [ error, setError] = useState(false);
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "Classification",
@@ -481,6 +578,7 @@ const [ error, setError] = useState(false);
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "Location",
@@ -490,6 +588,7 @@ const [ error, setError] = useState(false);
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "Type",
@@ -499,6 +598,7 @@ const [ error, setError] = useState(false);
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "Status",
@@ -508,6 +608,7 @@ const [ error, setError] = useState(false);
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "Reason",
@@ -517,6 +618,7 @@ const [ error, setError] = useState(false);
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "Practitioner",
@@ -526,10 +628,9 @@ const [ error, setError] = useState(false);
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
   ];
-  
- 
 
   return (
     <div className="level">
@@ -542,16 +643,37 @@ const [ error, setError] = useState(false);
               </div>
             )}
             <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-              {checkedin
+              { !checkedin
                 ? "List of Checked-In Patients"
                 : "List of Checked-Out Patients"}
             </h2>
           </div>
 
           <Box>
-            {checkedin === false ? <GlobalCustomButton onClick={() => {setCheckedin(true)}}>Check In</GlobalCustomButton> : <GlobalCustomButton onClick={() => {setCheckedin(false)}}>Check Out</GlobalCustomButton>}
-            {/* FIRE YOUR TOGGLE FUNCTION HERE SWITCHING FROM CHECK IN TO CHECK OUT VICE VERSA */}
+            {/* {checkedin === false ? <GlobalCustomButton onClick={() => {setCheckedin(true)}}>Check In</GlobalCustomButton> : <GlobalCustomButton onClick={() => {setCheckedin(false)}}>Check Out</GlobalCustomButton>}
+            FIRE YOUR TOGGLE FUNCTION HERE SWITCHING FROM CHECK IN TO CHECK OUT VICE VERSA */}
             
+            { !checkedin  ? (
+              <GlobalCustomButton
+                onClick={() => {
+                  setCheckedin(true);
+                  // checkedinFn();
+                }}
+              
+                
+              >
+                Check Out
+              </GlobalCustomButton>
+            ) : (
+              <GlobalCustomButton
+                onClick={() => {
+                  setCheckedin(false);
+                }}
+              >
+                Check In
+              </GlobalCustomButton>
+            )}
+            {/* FIRE YOUR TOGGLE FUNCTION HERE SWITCHING FROM CHECK IN TO CHECK OUT VICE VERSA */}
           </Box>
         </TableMenu>
 
@@ -562,7 +684,7 @@ const [ error, setError] = useState(false);
             overflow: "auto",
           }}
         >
-          {checkedin ? (
+          {!checkedin ? (
             <>
               <CustomTable
                 title={""}
@@ -581,7 +703,7 @@ const [ error, setError] = useState(false);
               <CustomTable
                 title={""}
                 columns={checkedOutColumns}
-                data={facilities}
+                data={checkoutAppointment}
                 pointerOnHover
                 highlightOnHover
                 striped
@@ -636,7 +758,7 @@ export function CheckDetails({showModal, setShowModal}) {
 
   return (
     <>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{width: "60vh"}}> 
         <Grid item xs={12} sm={6}>
           <ModalHeader text={"Client Details"} />
         </Grid>
@@ -679,7 +801,7 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
@@ -693,7 +815,7 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
@@ -707,7 +829,7 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
@@ -724,21 +846,21 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Age:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {/* {formatDistanceToNowStrict(new Date(Client?.dob))} */}
+            {formatDistanceToNowStrict(new Date(Client?.dob))}
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
@@ -752,14 +874,14 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Phone No:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.phone}
+            {Client?.phone}
           </span>
         </Grid>
       </Grid>
@@ -768,14 +890,14 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Email:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.email}
+            {Client?.email}
           </span>
         </Grid>
       </Grid>
@@ -785,29 +907,29 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Start Time:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-          {Client.start_time}
-            {/* {format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')} */}
+            {Client?.start_time}
+            {format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')}
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Location:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {/* {`${Client.location_name} (${Client.location_type})`} */}
+            {/* {`${Client?.location_name} (${Client.location_type})`} */}
           </span>
         </Grid>
 
@@ -815,7 +937,7 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
@@ -831,28 +953,28 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Appointment Status:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.appointment_status}
+            {Client?.appointment_status}
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Appointment Class:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.appointmentClass}
+            {Client?.appointmentClass}
           </span>
         </Grid>
 
@@ -860,14 +982,14 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Appointment Type:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.appointment_type}
+            {Client?.appointment_type}
           </span>
         </Grid>
       </Grid>
@@ -876,14 +998,14 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Reason for Appointment:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.appointment_reason}
+            {Client?.appointment_reason}
           </span>
         </Grid>
       </Grid>
