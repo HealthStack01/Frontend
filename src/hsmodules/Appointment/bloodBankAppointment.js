@@ -284,7 +284,8 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   return (
     <>
       <div
-        className="card "
+      sx={{width: "70vw"}}
+        // className="card "
         style={{
           width: '70vw',
         }}

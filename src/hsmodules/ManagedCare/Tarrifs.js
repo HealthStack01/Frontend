@@ -39,7 +39,8 @@ export default function TarrifList({ standAlone }) {
   const [openTarrif, setOpenTarrif] = useState(false);
   const [openTarrifModify, setOpenTarrifModify] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState();
-  
+  const [openBandName, setOpenBandName] = useState(false);
+
 
   const handleHideTariffModal = () => {
     setOpenTarrif(false);
@@ -65,7 +66,13 @@ export default function TarrifList({ standAlone }) {
     setOpenBand(true);
   };
 
-
+  const handleHideBandNameModal = () => {
+    setOpenBandName(false);
+  };
+  
+  const handleBandNameModal = () => {
+    setOpenBandName(true);
+  };
   
 
   return (
@@ -79,7 +86,7 @@ export default function TarrifList({ standAlone }) {
           showTariff={handleTariffModal}
           showTariffModify={handleTariffModifyModal}
           showBand={handleBandModal}
-          // showBandName={handleBandNameModal}
+          showBandName={handleBandNameModal}
           // showServicesPlan={handlePlanModal}
 
         />
@@ -113,7 +120,13 @@ export default function TarrifList({ standAlone }) {
         <TariffModify />
       </ModalBox>
 
-
+      <ModalBox
+             open={openBandName}
+             onClose={handleHideBandNameModal}
+             header="Modify Band Name"
+           >
+            <ModifyBandNames/>
+             </ModalBox>
       <ModalBox
         width="50vw"
         open={openTarrif}
@@ -125,14 +138,17 @@ export default function TarrifList({ standAlone }) {
     </section>
   );
 }
+
 export const TarrifListView = ({
   setShowModal,
   showTariff,
   showBand,
   showTariffModify,
+  showBandName
 }) => {
   const [showView, setShowView] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [openTarrifModify, setOpenTarrifModify] = useState(false);
   const [tariffs, setTariffs] = useState([]);
   const [tariff, setTariff] = useState();
   const { state, setState } = useContext(ObjectContext);
@@ -152,43 +168,12 @@ export const TarrifListView = ({
   const [changeView, setChangeView] = useState("service");
   const [selectPlans, setSelectPlans] = useState([]);
   const [confirmDialog, setConfirmDialog] = useState(false);
-  const [serviceSN, setServiceSN] = useState(null)
-  const [editing, setEditing] = useState('')
-  const [openPlan, setOpenPlan] = useState(false);
-  const [sCoPay, setSCoPay] = useState(false);
-const [beneCat, setBeneCat] = useState("");
-const [newBene, setNewBene] = useState([]);
-const [selectNo, setSelectNo] = useState("");
-const [capitation, setCapitation] = useState(false);
-const [copayDetails, setCopayDetails] = useState('');
-const [showCoPay, setShowCoPay] = useState(false);
-const [feeForService, setFeeForService] = useState(true);
-const [authCode, setAuthCode] = useState('');
-const [openBandName, setOpenBandName] = useState(false);
-const {
-  handleSubmit,
-  register
-} = useForm();
+  const [singleSelectPlan, setSingleSelectPlan] = useState(null)
+ 
+const selectedServiceDetails = state.ServicesModule.selectedServices;
+const selectedContractDetails = state.TariffModule.selectedContracts;
 
-const handleHideBandNameModal = () => {
-  setOpenBandName(false);
-};
 
-const handleBandNameModal = () => {
-  setOpenBandName(true);
-};
-
-  // const handleHidePlanModal = () => {
-  //   setOpenPlan(false);
-  // };
-
-  // const handlePlanModal = () => {
-  //   ;
-  // };
-
-/// add ser
-
-// console.log(Services)
  
   const handleRow = async (Service, i) => {
     // console.log(Service);
@@ -206,7 +191,6 @@ const handleBandNameModal = () => {
   };
 
   const handleService = async (Category) => {
- 
       setSelectedCategory(Category?.contracts);
     const newContractModule = {
       selectedContracts: Category,
@@ -240,29 +224,8 @@ const handleBandNameModal = () => {
     setSelectPlans(selectedCategory)
    };
 
-  const Services = state.ServicesModule.selectedServices;
-  const contractDetails = state.TariffModule.selectedContracts;
-
-  // console.log(Services)
-  
-  // const handleTariff = async () => {
-  // //   setSelectedCategory(Category?.contracts);
-  // //   const newContractModule = {
-  // //     selectedContracts: Category,
-  // //     show: "detail",
-  // //   };
-  // //   await setState((prevstate) => ({
-  // //     ...prevstate,
-  // //     TariffModule: newContractModule,
-  // //   }));
-  // //  ;
-  // showServicesPlan()
-  // }
- 
  
 
- 
- 
   const handleSearch = (val) => {
     const field = "name";
     // console.log(val);
@@ -313,6 +276,7 @@ const handleBandNameModal = () => {
 
   useEffect(() => {
     getFacilities();
+     
     ServicesServ.on("created", (obj) => getFacilities());
     ServicesServ.on("updated", (obj) => getFacilities());
     ServicesServ.on("patched", (obj) => getFacilities());
@@ -320,15 +284,6 @@ const handleBandNameModal = () => {
     return () => {};
   }, [state.facilityModule.selectedFacility]);
 
-  // useEffect(() => {
-  //   if (state.ServicesModule.show === "detail") {
-  //     setSlide(true);
-  //   } else {
-  //     setSlide(false);
-  //   }
-  // }, [st-+ate.ServicesModule.selectedServices]);
-
-  // console.log(facilities);
 
   const ServiceSchema = [
     {
@@ -525,7 +480,7 @@ const handleBandNameModal = () => {
           color="error"
           onClick={() => {
           setOpenPlan(true)
-           setServiceSN(row);
+           setSingleSelectPlan(row);
             // // console.log("click", i, row);
             // setEditIndividualPremium(true);
             // setEditPlanType(row.planType);
@@ -553,7 +508,7 @@ const handleBandNameModal = () => {
       selector: (i, row) => (
         <IconButton
           onClick={() => {
-            setServiceSN(i);
+            setSingleSelectPlan(i);
             setConfirmDialog(true);
           }}
           color="error"
@@ -566,7 +521,6 @@ const handleBandNameModal = () => {
       inputType: "NUMBER",
     },
   ];
-
 
   const facilitySchema = [
     {
@@ -590,36 +544,34 @@ const handleBandNameModal = () => {
     },
   ];
 
-  //  const handleRemove = (index, contract) => {
-  //   const newProductItem = selectedServices.filter(
-  //     (ProductionItem, i) => i !== contract
-  //   );
-  //   setSelectedServices(newProductItem);
-  // };
-  const handleDelete = () => {
-    const newUpdatedServices = Object.values(selectedCategory)?.filter((data) => data._id !== serviceSN._id);
-    console.log(newUpdatedServices)
+  // DELETE THE PLANS FUNCTIONS
+  function handleDelete(){
+    // THIS IS USE TO THE THE SELECTED PLAN IN THE CONTRACTS
+    const newUpdatedServices = Object.values(selectedCategory)?.filter((data) => data._id !== singleSelectPlan._id);
+    // console.log(newUpdatedServices)
 
     const newPlanDetail = {
-      ...contractDetails,
-      ...Services,
+      ...selectedContractDetails,
+      ...selectedServiceDetails,
       organizationId: user.currentEmployee.facilityDetail._id,
       organizationName: user.currentEmployee.facilityDetail.facilityName,
-      band: Services.bandName,
+      band: selectedServiceDetails.bandName,
       contracts: [
         {
-          serviceName: contractDetails?.serviceName,
-          comments: contractDetails?.comments,
-          price: contractDetails?.price,
+          serviceName: selectedContractDetails?.serviceName,
+          comments: selectedContractDetails?.comments,
+          price: selectedContractDetails?.price,
           plans: newUpdatedServices,
         },
       ],
     };
 
-    const selectId = Services._id;
+    // SELECTED SERVICES ID
+    const selectId = selectedServiceDetails._id;
 
-   console.log(selectId)
+  //  console.log(selectId)
 
+// THIS IS USE TO UPDATE THE CONTRACTS DATA, AFTER THE PLAN WAS DELETE FROM THE ARRAY
     ServicesServ.patch(selectId, newPlanDetail)
       .then((res) => {
         console.log(res)
@@ -633,70 +585,14 @@ const handleBandNameModal = () => {
       });
     //}
   };
+  console.log(selectedContractDetails)
+console.log(selectedServiceDetails)
+console.log(selectedServices)
 
-  console.log(capitation , feeForService)
-
-  const handleUpdatePlan =  () => {
-
-//      const oldPlan = contractDetails.plans?.find((el) => el.planId === selectedCategory?.planId)
-// console.log(oldPlan);
- 
-      const newPlanDetail = {
-        ...contractDetails,
-        ...Services,
-        organizationId: user.currentEmployee.facilityDetail._id,
-        organizationName: user.currentEmployee.facilityDetail.facilityName,
-        band: Services.bandName,
-        contracts: [
-          {
-            serviceName: contractDetails?.serviceName,
-            comments: contractDetails?.comments,
-            price: contractDetails?.price,
-            plans: [
-              { 
-                planName: serviceSN?.planName,
-                benefit: serviceSN?.benefit,
-                benefitCategory: serviceSN?.benefitCategory,
-                feeforService: feeForService,
-                capitation: capitation,
-                reqPA: serviceSN?.reqPA,
-                coPay: serviceSN?.coPay, 
-                copayDetail: serviceSN?.copayDetail,
-                comments: serviceSN?.comments,
-              }
-          ],
-          },
-        ],
-      }
-    
-    
-      const selectId = Services._id;
-      
-    
-      ServicesServ.patch(selectId, newPlanDetail)
-        .then((res) => {
-          console.log(res)
-          setSelectPlans(res.contracts.filter(item => item.serviceId === selectedCategory.serviceId).plans);
-          setSelectedServices(res.contracts)
-          setConfirmDialog(false);
-          toast.success(`Plan successfully updated!`);
-        })
-        .catch((err) => {
-          toast.error(`Sorry, Unable to update plan. ${err}`);
-        });
-      //}
-    
-      
-    
-    
-     //}
-     
-   }
-   
 
   const conditionalRowStyles = [
     {
-      when: (row) => row?.serviceName === selectedServices?.serviceName,
+      when: (row) => row?.planId === selectPlans?.planId,
       style: {
         backgroundColor: "#4cc9f0",
         color: "white",
@@ -708,34 +604,9 @@ const handleBandNameModal = () => {
   ];
 
  
-
   return (
     <div>
-      <Box>
-      <ModalBox
-               open={openBandName}
-               onClose={handleHideBandNameModal}
-               header="Modify Band Name"
-             >
-              
-            <Box display="flex" justifyContent="flex-end">
-            <GlobalCustomButton
-                          // onClick={onSubmitBand}
-                          text="Save"
-                          color="primary"
-                          variant="contained"
-                          sx={{my:'1rem'}}
-                          // customStyles={{ float: "right" }}
-                        />
-            </Box>
-               <Input
-                 label="Band"
-                 name="bandName"
-                 register={register("bandName", { required: true })}
-                 defaultValue={Services?.band}
-               />
-             </ModalBox>
-      </Box>
+     
       <CustomConfirmationDialog
         open={confirmDialog}
         cancelAction={() => setConfirmDialog(false)}
@@ -838,13 +709,13 @@ const handleBandNameModal = () => {
                 my: "1rem",
               }}
             >
-              <FormsHeaderText text={Services?.band} />
+              <FormsHeaderText text={selectedServiceDetails?.band} />
 
               <Box display="flex" gap="1rem">
           
                 <GlobalCustomButton
           color="error"
-          onClick={handleBandNameModal}
+          onClick={() => {showBandName()}}
         >
 
           <CreateIcon fontSize="small" sx={{ marginRight: "5px" }} />
@@ -852,9 +723,7 @@ const handleBandNameModal = () => {
         </GlobalCustomButton>
                 <GlobalCustomButton
                   text="Edit Services"
-                  onClick={() => {
-                    showTariffModify();
-                  }}
+                  onClick={ () =>  showTariffModify()}
                   customStyles={{ marginLeft: "1rem" }}
                   color="warning"
                 />
@@ -880,7 +749,7 @@ const handleBandNameModal = () => {
                     <CustomTable
                       title={""}
                       columns={productItemSchema}
-                      data={selectedServices}
+                      data={selectedServices || []}
                       pointerOnHover
                       highlightOnHover
                       striped
@@ -935,6 +804,74 @@ const handleBandNameModal = () => {
       </Box>
     </div>
   );
+};
+
+export const ModifyBandNames = () => {
+  const { state, setState } = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const ServicesServ = client.service("tariff");
+
+const selectedServiceDetails = state.ServicesModule.selectedServices;
+const selectedContractDetails = state.TariffModule.selectedContracts;
+
+const { register, handleSubmit } = useForm();
+    //UPDATE BAND FUNCTION
+    const handleUpdateBand  = async(data) =>{
+      const newPlanDetails = {
+        ...selectedContractDetails,
+      ...selectedServiceDetails,
+        organizationId: user.currentEmployee.facilityDetail._id,
+        organizationName: user.currentEmployee.facilityDetail.facilityName,
+        band: data.bandName,
+        contracts: [
+          {
+            serviceName: selectedContractDetails?.serviceName,
+            comments: selectedContractDetails?.comments,
+            price: selectedContractDetails?.price,
+            plans: selectedContractDetails.plans
+          },
+        ],
+      }
+      const selectId = selectedServiceDetails._id;
+
+   await ServicesServ.patch(selectId, newPlanDetails)
+        .then((res) => {
+          setState((prev) => ({
+            ...prev,
+            ServicesModule: { ...prev.ServicesModule, selectedServices: res},
+          }));
+          setState((prev) => ({
+            ...prev,
+            TariffModule: { ...prev.TariffModule, selectedCategory: res},
+          }));
+          toast.success(`Band name successfully updated!`);
+        })
+        .catch((err) => {
+          toast.error(`Sorry, Unable to update band name. ${err}`);
+        });
+  }
+  return (
+    <Box>
+   
+            
+          <Box display="flex" justifyContent="flex-end">
+          <GlobalCustomButton
+                        onClick={handleSubmit(handleUpdateBand)}
+                        text="Save"
+                        color="primary"
+                        variant="contained"
+                        sx={{my:'1rem'}}
+                        // customStyles={{ float: "right" }}
+                      />
+          </Box>
+             <Input
+               label="Band"
+               name="bandName"
+               register={register("bandName", { required: true })}
+                defaultValue={selectedServiceDetails?.band}
+             />
+    </Box>
+  )
 };
 
 export const TariffCreate = ({ showModal, setShowModal }) => {
@@ -2198,7 +2135,7 @@ export const BandForm = () => {
   );
 };
 
-export function TariffModify() {
+export function TariffModify({handleHideTariffModifyModal}) {
   const { state, setState } = useContext(ObjectContext);
   const { user } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
@@ -2221,15 +2158,16 @@ export function TariffModify() {
   const [sCoPay, setSCoPay] = useState(false);
   const [authCode, setAuthCode] = useState('');
   
-  const contractDetails = state.TariffModule.selectedContracts;
-  const servicesDetails = state.ServicesModule.selectedServices;
-  console.log(contractDetails);
+  const selectedServiceDetails = state.ServicesModule.selectedServices;
+  const selectedContractDetails = state.TariffModule.selectedContracts;
+
+  
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      bandName: servicesDetails?.band,
-      servicename: contractDetails?.serviceName,
-      comment: contractDetails?.comments,
-      costPrice: contractDetails?.price,
+      bandName: selectedServiceDetails?.band,
+      servicename: selectedContractDetails?.serviceName,
+      comment: selectedContractDetails?.comments,
+      costPrice: selectedContractDetails?.price,
     },
   });
 
@@ -2256,12 +2194,13 @@ export function TariffModify() {
     setLoading(true);
     //  let contract = Services.contracts.find((data) => data._id === id )
     //  console.log(contract)
+    
     const newPlanDetail = {
-      ...contractDetails,
-      ...servicesDetails,
+      ...selectedContractDetails,
+      ...selectedServiceDetails,
       organizationId: user.currentEmployee.facilityDetail._id,
       organizationName: user.currentEmployee.facilityDetail.facilityName,
-      band: servicesDetails?.bandName,
+      band: selectedServiceDetails?.band,
       contracts: [
         {
           serviceName: service?.name,
@@ -2269,39 +2208,41 @@ export function TariffModify() {
           price: data.costPrice,
           plans: [
             { 
-              planName: contractDetails.plans?.planName,
-              benefit: contractDetails.plans?.benefit,
-              benefitCategory: contractDetails.plans?.benefitCategory,
+              planName:selectedContractDetails.plans[0]?.planName,
+              benefit: selectedContractDetails.plans[0]?.benefit,
+              benefitCategory: selectedContractDetails.plans[0]?.benefitCategory,
               feeforService: feeForService,
               capitation: capitation,
-              reqPA: contractDetails.plans?.reqPA,
-              coPay: contractDetails.plans?.coPay, 
-              copayDetail: contractDetails.plans?.copayDetail,
-              comments: contractDetails.plans?.comments,
+              reqPA: selectedContractDetails.plans[0]?.reqPA,
+              coPay: selectedContractDetails.plans[0]?.coPay, 
+              copayDetail: selectedContractDetails.plans[0]?.copayDetail,
+              comments: selectedContractDetails.plans[0]?.comments,
             }
         ],
         },
       ],
     };
 
-    console.log(contractDetails);
+  
 
-    ServicesServ.patch(servicesDetails._id, newPlanDetail)
+    // console.log(contractDetails);
+  
+
+    ServicesServ.patch(selectedServiceDetails._id, newPlanDetail)
       .then((res) => {
         console.log(res)
-          setSelectedCategory(res.contracts.filter(item => item.serviceId === contractDetails.serviceId).plans);
-          setSelectedServices(res.contracts)
         setState((prev) => ({
           ...prev,
-          ServicesModule: { ...prev.ServicesModule, selectedServices: res },
+          ServicesModule: { ...prev.ServicesModule, selectedServices: res},
         }));
         setState((prev) => ({
           ...prev,
-          TariffModule: { ...prev.TariffModule, selectedCategory: res },
+          TariffModule: { ...prev.TariffModule, selectedCategory: res},
         }));
         setLoading(false);
         toast.success("Tariff updated succesfully");
       })
+      handleHideTariffModifyModal()
       .catch((err) => {
         setLoading(false);
         toast.error("Error updating Tariff " + err);
@@ -2403,7 +2344,7 @@ export function TariffModify() {
         )}
       </Grid>
         <Box mt="2rem">
-         {contractDetails?.plans?.map((c, index) => {
+         {selectedContractDetails?.plans?.map((c, index) => {
                     const allCategories = c?.benefits?.map((cat) => cat);
                     return (
                       <>
