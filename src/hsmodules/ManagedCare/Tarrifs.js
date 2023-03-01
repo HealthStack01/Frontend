@@ -262,7 +262,7 @@ export const TarrifListView = ({
           planName:plan.planName,
           planId: plan.planId,
           benefit:plan.benefit,
-          benefitcategory : plan.category,
+          benefitcategory : plan.benefitcategory,
           feeForService :plan.feeForService,
           capitation:plan.capitation,
           coPay:plan.coPay,
@@ -278,7 +278,7 @@ export const TarrifListView = ({
     setSelectPlans(selectedCategory)
    };
 
- 
+ console.log(selectedCategory)
 
   const handleSearch = (val) => {
     const field = "name";
@@ -508,8 +508,7 @@ export const TarrifListView = ({
       name: "Benefit Category",
       key: "Benefit Category",
       description: "Benefit Category",
-      selector: (row) => row.category,
-      sortable: true,
+      selector: (row) => row.benefitcategory,
       required: true,
       inputType: "TEXT",
       width: "100px",
@@ -716,7 +715,7 @@ const onSubmit = useCallback ((data) => {
 
   const conditionalRowStyles = [
     {
-      when: (row) => row?.serviceId === selectedServices?.serviceId,
+      when: (row) => row?.selectId === selectedContractDetails?.serviceId,
       style: {
         backgroundColor: "#4cc9f0",
         color: "white",
@@ -1298,6 +1297,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
   const [beneCat, setBeneCat] = useState("");
   const [newBene, setNewBene] = useState([]);
   const [selectNo, setSelectNo] = useState("");
+  // const [selectedBene, setSelectedBene] = useState("");
   const [serviceUnavailable, setServiceUnavailable] = useState({
     status: false,
     name: "",
@@ -1458,6 +1458,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
     // console.log("starting...")
     getFacilities();
     setBenefittingPlans1([]);
+    setBenefittingPlans([]);
     setFacilityId(user.currentEmployee.facilityDetail._id);
     setName(user.currentEmployee.facilityDetail.facilityName);
     setOrgType(user.currentEmployee.facilityDetail.facilityType);
@@ -1470,8 +1471,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
       (el) => el.planName === c.planName
     )[0];
     currentPlan.capitation = e.target.value === "Capitation" ? true : false;
-    currentPlan.feeforService =
-      e.target.value === "Fee for Service" ? true : false;
+    currentPlan.feeforService = e.target.value === "Fee for Service" ? true : false;
     const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
     await setBenefittingPlans(updatedplan);
   };
@@ -1496,14 +1496,14 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
   };
   const handleBenefit = async (e, i, c) => {
     console.log(e.target.value, i, c);
-    let selectedBene = e.target.value;
-    console.log(selectedBene, selectedBene.comments);
-    let currentPlan = benefittingplans.filter(
-      (el) => el.planName === c.planName
-    )[0];
-    console.log(currentPlan);
-    currentPlan.benefit = selectedBene.comments;
-    currentPlan.benefitCategory = selectedBene.category;
+    const selectedBene = e.target.value;
+    console.log(selectedBene);
+    let currentPlan = benefittingplans.find(
+      (el) => el.planName === c?.planName
+    );
+    console.log("Current plan",currentPlan);
+    currentPlan.benefit = selectedBene?.description;
+    currentPlan.benefitcategory = beneCat?.category;
     // currentPlan.covered =
     // 	facilities.benefits.filter((el) => el.category === e.target.value)[0]
     // 		.status === 'Covered'
@@ -1511,6 +1511,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
     // 		: false;
     const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
     await setBenefittingPlans(updatedplan);
+    console.log("update plan",updatedplan);
   };
 
   const handleChange = async (e, i, c) => {
@@ -1528,7 +1529,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
         planId: c._id,
         benefit: "",
         // benefitId : c.benefitId,
-        benefitCategory: "",
+        benefitcategory: "",
         feeforService: true,
         capitation: false,
         reqPA: false,
@@ -1622,46 +1623,46 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
     setProductItem(newProductItem);
     console.log(newProductItem);
   };
-  const handleAddPanel = () => {
-    // setSuccessService(false)
-    let newService = {
-      serviceId: service._id,
-      service_name: service.name,
-      panel: service.panel,
-    };
-    setPanelList((prevstate) => prevstate.concat(newService));
-    setSuccessService(true);
-    newService = {};
-    setService("");
-    console.log("something added");
-  };
-  const handleCheck = async () => {
-    if (!categoryname) {
-      toast.warning("Enter Category!");
-      return true;
-    }
-    console.log("unavailb:", serviceUnavailable.name);
-    console.log("availb:", service.name);
-    const resp = await ServicesServ.find({
-      query: {
-        name: serviceUnavailable.name || service.name, //source
-        facility: user.currentEmployee.facilityDetail._id,
-        category: categoryname,
-      },
-    });
-    console.log(resp);
-    //.
-    /*then((resp)=>{
-        console.log(resp)*/
-    if (resp.data.length > 0) {
-      toast.info(
-        "Service already exist. Kindly modify it " //+ resp.data ,
-      );
-      return true;
-    } else {
-      return false;
-    }
-  };
+  // const handleAddPanel = () => {
+  //   // setSuccessService(false)
+  //   let newService = {
+  //     serviceId: service._id,
+  //     service_name: service.name,
+  //     panel: service.panel,
+  //   };
+  //   setPanelList((prevstate) => prevstate.concat(newService));
+  //   setSuccessService(true);
+  //   newService = {};
+  //   setService("");
+  //   console.log("something added");
+  // };
+  // const handleCheck = async () => {
+  //   if (!categoryname) {
+  //     toast.warning("Enter Category!");
+  //     return true;
+  //   }
+  //   console.log("unavailb:", serviceUnavailable.name);
+  //   console.log("availb:", service.name);
+  //   const resp = await ServicesServ.find({
+  //     query: {
+  //       name: serviceUnavailable.name || service.name, //source
+  //       facility: user.currentEmployee.facilityDetail._id,
+  //       category: categoryname,
+  //     },
+  //   });
+  //   console.log(resp);
+  //   //.
+  //   /*then((resp)=>{
+  //       console.log(resp)*/
+  //   if (resp.data.length > 0) {
+  //     toast.info(
+  //       "Service already exist. Kindly modify it " //+ resp.data ,
+  //     );
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // };
 
   const copaySelect = (e, i) => {
     setShowCoPay(i);
@@ -1674,7 +1675,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
   useEffect(() => {
     facilities?.map((c, i) => {
       console.log("c", c);
-      const benefit = c.benefits?.find((b) => b.comments === beneCat?.comments);
+      const benefit = c.benefits?.find((b) => b.description === beneCat?.description);
       console.log("BENE", benefit);
       if (benefit) {
         setNewBene([benefit]);
@@ -1849,11 +1850,6 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
             color="warning"
             customStyles={{ marginRight: "1rem" }}
           />
-          <GlobalCustomButton
-            text="Create Tarrif"
-            onClick={onSubmit}
-            color="success"
-          />
         </Box>
       </Box>
       <Grid container spacing={2} mt={1}>
@@ -1909,14 +1905,21 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
         }}
       >
         <FormsHeaderText text={"Services"} />
-        <GlobalCustomButton
+        <Box>   
+           <GlobalCustomButton
           type="button"
           variant="contained"
           color="primary"
           onClick={() => setShowService(true)}
-          text="Add Service"
-          customStyles={{ marginRight: ".8rem" }}
+          text="Add Service" 
         />
+         <GlobalCustomButton
+            text="Create Tarrif"
+            onClick={onSubmit}
+            color="success"
+            customStyles={{ marginLeft: "1.8rem" }}
+          />
+        </Box>
       </Box>
       {productItem?.length > 0 && (
         <Box my={1}>
@@ -2121,17 +2124,19 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
                                     setBeneCat(e.target.value);
                                     setSelectNo(index);
                                   }}
+                                  // value={beneCat?.category}
                                 />
                               </Grid>
 
                               <Grid item xs={12} sm={2}>
                                 <CustomTariffSelect
                                   key={index}
-                                  options={selectNo === index ? newBene : []}
+                                  options={newBene}
                                   label="Select Benefit"
                                   onChange={(event) =>
-                                    handleBenefit(event, index, c)
+                                    handleBenefit(event,index,c)
                                   }
+                                  // value={?.benefit}
                                 />
                               </Grid>
 
