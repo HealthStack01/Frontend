@@ -1,0 +1,13 @@
+{
+    "nuxt.isNuxtApp": false
+} // {
+//     "editor.formatOnSave": true,
+//     "prettier.bracketSameLine": true,
+//     "prettier.jsxSingleQuote": true,
+//     "prettier.trailingComma": "all",
+//     "prettier.useTabs": true,
+//     "prettier.vueIndentScriptAndStyle": true,
+//     "editor.defaultFormatter": "esbenp.prettier-vscode",
+//     "prettier.singleAttributePerLine": true,
+//     "prettier.singleQuote": true
+// }

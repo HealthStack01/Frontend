@@ -1,0 +1,36 @@
+.complaint_wrapper{
+    padding: 7px 21px;
+    border: 2px solid #CCCCCC;
+    width: 95%;
+    margin-bottom: 15px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.6);
+}
+.complaint_wrapper2{
+    padding: 8px 10px;
+    border: 2px solid #CCCCCC;
+    width: 100%;
+    margin-bottom: 0px;
+    /* box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.6); */
+}
+.complaint_head, .complaint_foot{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+}
+.complaint_foot{
+    margin-left:50px;
+}
+.complaint_head p{
+    color: #03045E;
+}
+
+.complaint_head_left{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.complaint_head_left h1{
+    color: #000;
+    font-size: 16px;
+}

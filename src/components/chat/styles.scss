@@ -1,0 +1,34 @@
+.chat-input-box {
+  float: left;
+  height: 40px;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 40px;
+  margin: 0 0.5rem 0 0;
+  width: 100%;
+  background-color: #dedfed;
+  box-shadow: inset 0 0 0 2px #dedfed;
+  font-size: 14px;
+  font-family: "Quicksand", sans-serif;
+  font-weight: bold;
+  transition: 0.15s all ease-in-out;
+  box-sizing: border-box;
+}
+
+.chat-input-box::placeholder {
+  color: #b1b1b1;
+  opacity: 1;
+}
+.chat-input-box:-ms-input-placeholder {
+  color: #b1b1b1;
+}
+.chat-input-box::-ms-input-placeholder {
+  color: #b1b1b1;
+}
+.chat-input-box:focus,
+.chatApp__convInput:active {
+  box-shadow: inset 0 0 0 2px #7690d6;
+}
+.chat-input-box:focus {
+  outline: none;
+}
