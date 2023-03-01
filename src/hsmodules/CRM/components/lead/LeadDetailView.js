@@ -357,10 +357,7 @@ export const StaffsListView = () => {
   const dealServer = client.service("deal");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
-
-  // const [staffs, setStaffs] = useState([
-  //   // ...state.DealModule.selectedDeal.assignStaff,
-  // ]);
+  const {user} = useContext(UserContext);
   const [staffs, setStaffs] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState(null);
   const [confirmDialog, setConfirmDialog] = useState(false);
@@ -493,18 +490,16 @@ export const StaffsListView = () => {
       >
         <FormsHeaderText text="Assigned Staffs" />
 
-        <Button
-          variant="contained"
-          size="small"
-          sx={{textTransform: "capitalize"}}
-          onClick={handleAddStaff}
-        >
-          <AddCircleOutlineOutlinedIcon
-            sx={{marginRight: "5px"}}
-            fontSize="small"
-          />
-          Add Staff
-        </Button>
+        {(user?.currentEmployee?.roles?.includes("Admin") ||
+          user?.currentEmployee?.roles?.includes("CRM Assign Staff")) && (
+          <GlobalCustomButton onClick={handleAddStaff}>
+            <AddCircleOutlineOutlinedIcon
+              sx={{marginRight: "5px"}}
+              fontSize="small"
+            />
+            Add Staff
+          </GlobalCustomButton>
+        )}
       </Box>
 
       <Grid container spacing={2}>
