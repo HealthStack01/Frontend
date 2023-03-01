@@ -374,32 +374,38 @@ const InvoiceDetail = ({handleGoBack}) => {
               </GlobalCustomButton>
             </Badge>
 
-            {invoiceStatus.toLowerCase() === "declined" ||
-            invoiceStatus.toLowerCase() === "approved" ? (
-              <GlobalCustomButton onClick={() => setReopenModal(true)}>
-                <OpenWithIcon fontSize="small" sx={{marginRight: "5px"}} />
-                Reopen Invoice
-              </GlobalCustomButton>
-            ) : null}
-
-            {invoiceStatus.toLowerCase() !== "declined" &&
-              invoiceStatus.toLowerCase() !== "approved" && (
-                <GlobalCustomButton
-                  color="error"
-                  onClick={() => setDeclineModal(true)}
-                >
-                  <BlockIcon fontSize="small" sx={{marginRight: "5px"}} />
-                  Decline
-                </GlobalCustomButton>
-              )}
-
-            {invoiceStatus.toLowerCase() !== "approved" &&
-              invoiceStatus.toLowerCase() !== "declined" && (
-                <GlobalCustomButton onClick={() => setApproveModal(true)}>
-                  <ApprovalIcon fontSize="small" sx={{marginRight: "5px"}} />
-                  Approve
-                </GlobalCustomButton>
-              )}
+            {(user?.currentEmployee?.roles?.includes("Admin") ||
+              user?.currentEmployee?.roles?.includes("CRM Authorization")) && (
+              <>
+                {invoiceStatus.toLowerCase() === "declined" ||
+                invoiceStatus.toLowerCase() === "approved" ? (
+                  <GlobalCustomButton onClick={() => setReopenModal(true)}>
+                    <OpenWithIcon fontSize="small" sx={{marginRight: "5px"}} />
+                    Reopen Invoice
+                  </GlobalCustomButton>
+                ) : null}
+                {invoiceStatus.toLowerCase() !== "declined" &&
+                  invoiceStatus.toLowerCase() !== "approved" && (
+                    <GlobalCustomButton
+                      color="error"
+                      onClick={() => setDeclineModal(true)}
+                    >
+                      <BlockIcon fontSize="small" sx={{marginRight: "5px"}} />
+                      Decline
+                    </GlobalCustomButton>
+                  )}
+                {invoiceStatus.toLowerCase() !== "approved" &&
+                  invoiceStatus.toLowerCase() !== "declined" && (
+                    <GlobalCustomButton onClick={() => setApproveModal(true)}>
+                      <ApprovalIcon
+                        fontSize="small"
+                        sx={{marginRight: "5px"}}
+                      />
+                      Approve
+                    </GlobalCustomButton>
+                  )}
+              </>
+            )}
 
             <GlobalCustomButton
               color="secondary"
