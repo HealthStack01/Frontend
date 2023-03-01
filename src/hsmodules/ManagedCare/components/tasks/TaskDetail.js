@@ -26,12 +26,6 @@ const CRMTaskDetail = ({closeModal, updateTask}) => {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [edit, setEdit] = useState(false);
 
-  const onSubmit = data => {
-    updateTask(data);
-    closeModal();
-    //reset(formDefaultValues);
-  };
-
   useEffect(() => {
     const task = state.TaskModule.selectedTask;
     //console.log(task);
@@ -59,7 +53,6 @@ const CRMTaskDetail = ({closeModal, updateTask}) => {
       updatedBy: employee.userId,
       updatedByName: `${employee.firstname} ${employee.lastname}`,
     };
-    //{...item, ...data, ...selectedEmployee, ...udpateInfo};
 
     const newTasks = prevTasks.map(item => {
       if (item.taskId === currentTask.taskId) {
@@ -74,25 +67,19 @@ const CRMTaskDetail = ({closeModal, updateTask}) => {
       }
     });
 
-    // return console.log(newTasks);
-
     const documentId = state.ClaimsModule.selectedClaim._id;
     await claimsServer
       .patch(documentId, {task: newTasks})
       .then(res => {
         hideActionLoader();
-        //setContacts(res.contacts);
         setState(prev => ({
           ...prev,
           ClaimsModule: {...prev.ClaimsModule, selectedClaim: res},
         }));
         closeModal();
         toast.success(`You have successfully Updated Task`);
-        //setSuccess(true);
-        //setReset(true);
       })
       .catch(err => {
-        //setReset(false);
         hideActionLoader();
         toast.error(`Sorry, You weren't able to Update Task!. ${err}`);
       });

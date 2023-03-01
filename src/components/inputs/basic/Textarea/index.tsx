@@ -5,7 +5,7 @@ import AcUnitIcon from "@mui/icons-material/AcUnit";
 import {TextareaField} from "./styles";
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  label: string;
+  label?: string;
   errorText?: string;
   register?: any;
   placeholder?: string;

@@ -1,4 +1,4 @@
-import {useState, useContext, useEffect} from "react";
+import {useState, useContext, useEffect, useCallback} from "react";
 import {Box, Grid} from "@mui/material";
 import {useForm} from "react-hook-form";
 import {toast} from "react-toastify";
@@ -21,6 +21,7 @@ import ModalBox from "../../modal";
 
 const EditAppointment = ({closeModal}) => {
   const appointmentsServer = client.service("appointments");
+  const clientServer = client.service("client");
   const smsServer = client.service("sms");
   const emailServer = client.service("email");
   const notificationsServer = client.service("notification");
@@ -37,7 +38,13 @@ const EditAppointment = ({closeModal}) => {
 
   const appointment = state.AppointmentModule.selectedAppointment;
 
+  const getClient = useCallback(async () => {
+    const patient = await clientServer.get(appointment.clientId);
+    setPatient(patient);
+  }, [appointment]);
+
   useEffect(() => {
+    getClient();
     const data = {
       appointmentClass: appointment.appointmentClass,
       start_time: appointment.start_time,
@@ -47,7 +54,7 @@ const EditAppointment = ({closeModal}) => {
     };
 
     reset(data);
-  }, [state.AppointmentModule.selectedPatient]);
+  }, [state.AppointmentModule.selectedPatient, getClient]);
 
   const handleGetPatient = patient => {
     setPatient(patient);
@@ -131,9 +138,9 @@ const EditAppointment = ({closeModal}) => {
       ...appointment.actions,
     ];
 
-    return console.log(data);
+    //return console.log(data);
     appointmentsServer
-      .create(data)
+      .patch(appointment._id, data)
       .then(async res => {
         hideActionLoader();
         closeModal();
@@ -224,13 +231,13 @@ const EditAppointment = ({closeModal}) => {
         <Grid item xs={12} sm={12} md={8} lg={8}>
           <ClientSearch
             getSearchfacility={handleGetPatient}
-            id={appointment?.client?._id}
+            id={patient?._id}
           />
         </Grid>
 
         <Grid item xs={12} sm={12} md={4} lg={4}>
           <ClientPaymentTypeSelect
-            payments={appointment?.client?.paymentinfo}
+            payments={patient?.paymentinfo}
             handleChange={handleGetPaymentMode}
           />
         </Grid>

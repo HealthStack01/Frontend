@@ -11,6 +11,7 @@
 
 # production
 /build
+/state-house
 
 # misc
 .DS_Store

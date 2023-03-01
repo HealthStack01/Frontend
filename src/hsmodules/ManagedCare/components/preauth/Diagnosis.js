@@ -44,11 +44,12 @@ const ClaimCreateDiagnosis = ({setDiagnosis, closeModal}) => {
             control={control}
             name="type"
             options={[
-              "Diagnosis 1",
-              "Diagnosis 2",
-              "Diagnosis 3",
-              "Diagnosis 4",
-              "Diagnosis 5",
+              "Associated diagnosis",
+              "Co-morbidity Diagnosis",
+              "Principal diagnosis",
+              "Provisional Diagnosis",
+              "Rule-Out Diagnosis ",
+              "Working Diagnosis",
             ]}
           />
         </Grid>
