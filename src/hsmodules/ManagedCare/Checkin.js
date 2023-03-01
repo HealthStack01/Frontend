@@ -211,7 +211,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
   //   console.log(select, "select here");
   // }
 
-
+// checked out 
 
   const getCheckout = useCallback(async () => {
     if (user.currentEmployee) {
