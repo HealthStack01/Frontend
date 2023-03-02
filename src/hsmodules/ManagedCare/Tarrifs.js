@@ -7,7 +7,6 @@ import React, {
 } from "react";
 import { ObjectContext, UserContext } from "../../context";
 import { TableMenu } from "../dashBoardUiComponent/core-ui/styles";
-import { DebounceInput } from "react-debounce-input";
 import client from "../../feathers";
 import CustomTable from "../../components/customtable";
 import { Box, IconButton, Grid, Typography } from "@mui/material";
@@ -22,39 +21,26 @@ import GlobalCustomButton from "../../components/buttons/CustomButton";
 import { FormsHeaderText } from "../../components/texts";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import DeleteOutline from "@mui/icons-material/DeleteOutline";
-import CategorySearch from "../helpers/CategorySearch";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 
+
 import {
-  BandSearch,
   BandTariffSearch,
-  SelectedBenefit,
-  SelectHealthPlan,
 } from "../helpers/FacilitySearch";
-import { Group } from "@mui/icons-material";
 import CustomTariffSelect from "./components/TariffSelect";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { bandTypeOptions } from "../../dummy-data";
 import CreateIcon from "@mui/icons-material/Create";
 import { createBandSchema } from "../Admin/ui-components/schema";
-import { ServicesDetail } from "../Finance/Services";
 
 export default function TarrifList({ standAlone }) {
-  const { state } = useContext(ObjectContext); //,setState
-  // eslint-disable-next-line
-  const { register, handleSubmit, setValue, reset } = useForm();
-  const [selectedClient, setSelectedClient] = useState();
-  const [selectedAppointment, setSelectedAppointment] = useState();
-  //const [showState,setShowState]=useState() //create|modify|detail
   const [showModal, setShowModal] = useState(0);
   const [openBand, setOpenBand] = useState(false);
   const [openTarrif, setOpenTarrif] = useState(false);
   const [openTarrifModify, setOpenTarrifModify] = useState(false);
-  const [openService, setOpenService] = useState(false);
-  const [openPlan, setOpenPlan] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState();
-  
-  const Services = state.ServicesModule.selectedServices;
+  const [openBandName, setOpenBandName] = useState(false);
+
 
   const handleHideTariffModal = () => {
     setOpenTarrif(false);
@@ -72,14 +58,6 @@ export default function TarrifList({ standAlone }) {
     setOpenTarrifModify(true);
   };
 
-  const handleHideServiceModal = () => {
-    setOpenService(false);
-  };
-
-  const handleServiceModal = () => {
-    setOpenService(true);
-  };
-
   const handleHideBandModal = () => {
     setOpenBand(false);
   };
@@ -88,14 +66,13 @@ export default function TarrifList({ standAlone }) {
     setOpenBand(true);
   };
 
-  const handleHidePlanModal = () => {
-    setOpenPlan(false);
+  const handleHideBandNameModal = () => {
+    setOpenBandName(false);
   };
-
-  const handlePlanModal = () => {
-    setOpenPlan(true);
+  
+  const handleBandNameModal = () => {
+    setOpenBandName(true);
   };
-
   
 
   return (
@@ -109,8 +86,8 @@ export default function TarrifList({ standAlone }) {
           showTariff={handleTariffModal}
           showTariffModify={handleTariffModifyModal}
           showBand={handleBandModal}
-          showServices={handleServiceModal}
-          showServicesPlan={handlePlanModal}
+          showBandName={handleBandNameModal}
+          // showServicesPlan={handlePlanModal}
 
         />
       )}
@@ -134,47 +111,22 @@ export default function TarrifList({ standAlone }) {
         <BandForm />
       </ModalBox>
 
-      <ModalBox
-      open={openPlan}
-      onClose={handleHidePlanModal}
-      header="Modify Plans"
-      >
-      <AddService/>
-      </ModalBox> 
-      
-               <ModalBox
-               open={openService}
-               onClose={handleHideServiceModal}
-               header="Modify Band Name"
-             >
-              
-            <Box display="flex" justifyContent="flex-end">
-            <GlobalCustomButton
-                          // onClick={onSubmitBand}
-                          text="Save"
-                          color="primary"
-                          variant="contained"
-                          sx={{my:'1rem'}}
-                          // customStyles={{ float: "right" }}
-                        />
-            </Box>
-               <Input
-                 label="Band"
-                 name="bandName"
-                 register={register("bandName", { required: true })}
-                 defaultValue={Services?.band}
-               />
-             </ModalBox>
-      <ModalBox
-        width="50vw"
+      {/* <ModalBox
+        width="100%"
         open={openTarrifModify}
         onClose={handleHideTariffModifyModal}
         header="Modify Tariff"
       >
         <TariffModify />
-      </ModalBox>
+      </ModalBox> */}
 
-
+      <ModalBox
+             open={openBandName}
+             onClose={handleHideBandNameModal}
+             header="Modify Band Name"
+           >
+            <ModifyBandNames/>
+             </ModalBox>
       <ModalBox
         width="50vw"
         open={openTarrif}
@@ -186,19 +138,17 @@ export default function TarrifList({ standAlone }) {
     </section>
   );
 }
-export const TarrifListView = ({
-  showModal,
+
+export const TarrifListView = ({ 
   setShowModal,
   showTariff,
   showBand,
-  showServices,
-  showServicesPlan,
-  handleHidePlanModal,
-  handleHideServiceModal,
   showTariffModify,
+  showBandName
 }) => {
   const [showView, setShowView] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [openTarrifModify, setOpenTarrifModify] = useState(false);
   const [tariffs, setTariffs] = useState([]);
   const [tariff, setTariff] = useState();
   const { state, setState } = useContext(ObjectContext);
@@ -213,16 +163,71 @@ export const TarrifListView = ({
   const [selectedServices, setSelectedServices] = useState([]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  // const [totalServices, setTotalServices] = useState(0);
-  // const [totalFacilities, setTotalFacilities] = useState(0);
-  const [newFacility, setNewFacility] = useState([]);
+
   const [slide, setSlide] = useState(false);
   const [changeView, setChangeView] = useState("service");
   const [selectPlans, setSelectPlans] = useState([]);
   const [confirmDialog, setConfirmDialog] = useState(false);
-  const [serviceSN, setServiceSN] = useState(null)
-  const [editing, setEditing] = useState('')
-// console.log(Services)
+  const [singleSelectPlan, setSingleSelectPlan] = useState(null)
+
+  const [editing, setEditing] = useState(false);
+  const [service, setService] = useState("");
+  const [successService, setSuccessService] = useState(false);
+  const [serviceUnavailable, setServiceUnavailable] = useState({
+    status: false,
+    name: "",
+  });
+  const [beneCat, setBeneCat] = useState("");
+  const [newBene, setNewBene] = useState([]);
+  const [selectNo, setSelectNo] = useState("");
+  const [capitation, setCapitation] = useState(false);
+  const [copayDetails, setCopayDetails] = useState('');
+  const [showCoPay, setShowCoPay] = useState(false);
+  const [feeForService, setFeeForService] = useState(true);
+  const [sCoPay, setSCoPay] = useState(false);
+  const [authCode, setAuthCode] = useState('');
+  
+  const selectedServiceDetails = state.ServicesModule.selectedServices;
+  const selectedContractDetails = state.TariffModule.selectedContracts;
+
+  
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      bandName: selectedServiceDetails?.band,
+      servicename: selectedContractDetails?.serviceName,
+      comment: selectedContractDetails?.comments,
+      costPrice: selectedContractDetails?.price,
+    },
+  });
+
+  const getSearchService = (obj) => {
+    setService(obj);
+    if (!obj) {
+      setService("");
+    }
+    setSuccessService(false);
+  };
+
+  const notfound = async (obj) => {
+    //alert(obj)
+    await setServiceUnavailable(obj);
+    await setSuccessService(true);
+    if (!obj) {
+      await setServiceUnavailable("");
+    }
+    // console.log(obj)
+    //here
+  };
+
+  const handleHideTariffModifyModal = () => {
+    setOpenTarrifModify(false);
+  };
+
+  const handleTariffModifyModal = () => {
+    setOpenTarrifModify(true);
+  };
+
+ 
  
   const handleRow = async (Service, i) => {
     // console.log(Service);
@@ -236,27 +241,11 @@ export const TarrifListView = ({
       ...prevstate,
       ServicesModule: newServicesModule,
     }));
+
   };
 
-  const Services = state.ServicesModule.selectedServices;
-  const contractDetails = state.TariffModule.selectedContracts;
-
-  // console.log(contractDetails.plans)
-  
-  // const handleSelectedCategory = async Category => {
-
-  //   const newContractModule = {
-  //     selectedContracts: Category,
-  //     show: "detail",
-  //   };
-  //   await setState((prevstate) => ({
-  //     ...prevstate,
-  //     TariffModule: newContractModule,
-  //   }));
-  //  ;
-  // };
-  const handleTariff = async (Category) => {
-    setSelectedCategory(Category?.contracts);
+  const handleService = async (Category) => {
+      setSelectedCategory(Category?.contracts);
     const newContractModule = {
       selectedContracts: Category,
       show: "detail",
@@ -265,46 +254,31 @@ export const TarrifListView = ({
       ...prevstate,
       TariffModule: newContractModule,
     }));
-   ;
-  showServicesPlan()
-  }
-  console.log(selectedServices)
+    const bandPlans = selectedServices?.map(data => {
+      const allPlans = [];
+      data.plans.map(plan => {
+        const planData = {
+          _id: plan._id,
+          planName:plan.planName,
+          planId: plan.planId,
+          benefit:plan.benefit,
+          benefitcategory : plan.benefitcategory,
+          feeForService :plan.feeForService,
+          capitation:plan.capitation,
+          coPay:plan.coPay,
+          copayDetail:plan.copayDetail,
+          reqPA:plan.reqPA,
+        };
+    
+        allPlans.push(planData);
+      });
+      return allPlans;
+    });
+    setSelectedCategory(bandPlans?.flat(1))
+    setSelectPlans(selectedCategory)
+   };
 
-  const handleService = async (Category) => {
-    // console.log(Category)
-    const newContractModule = {
-      selectedContracts: Category,
-      show: "list",
-    };
-    await setState((prevstate) => ({
-      ...prevstate,
-      TariffModule: newContractModule,
-    }));
-    // await setSelectedCategory(Category.contracts);
- const bandPlans = selectedServices?.map(data => {
-  const allPlans = [];
-  data.plans.map(plan => {
-    const planData = {
-      planName:plan.planName,
-      planId: plan.planId,
-      benefit:plan.benefit,
-      benefitcategory :plan.benefitcategory,
-      feeForService :plan.feeForService,
-      capitation:plan.capitation,
-      coPay:plan.coPay,
-      copayDetail:plan.copayDetail,
-      reqPA:plan.reqPA,
-    };
-
-    allPlans.push(planData);
-  });
-  return allPlans;
-});
-
-setSelectedCategory(bandPlans?.flat(1));
-};
-  console.log(selectedCategory)
-
+ console.log(selectedCategory)
 
   const handleSearch = (val) => {
     const field = "name";
@@ -363,7 +337,6 @@ setSelectedCategory(bandPlans?.flat(1));
     return () => {};
   }, [state.facilityModule.selectedFacility]);
 
-  // console.log(facilities);
 
   const ServiceSchema = [
     {
@@ -495,7 +468,7 @@ setSelectedCategory(bandPlans?.flat(1));
       name: "Free for Service",
       key: "free service",
       description: "Free for Service",
-      selector: (row) => (row?.feeForService === true ? "Yes" : "No"),
+      selector: (row) => (row?.feeForService !== true ? "Yes" : "No"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -536,7 +509,6 @@ setSelectedCategory(bandPlans?.flat(1));
       key: "Benefit Category",
       description: "Benefit Category",
       selector: (row) => row.benefitcategory,
-      sortable: true,
       required: true,
       inputType: "TEXT",
       width: "100px",
@@ -558,14 +530,16 @@ setSelectedCategory(bandPlans?.flat(1));
       selector: (row, i) => (
         <GlobalCustomButton
           color="error"
-          onClick={handleTariff
-           
+          onClick={() => {
+            handleTariffModifyModal()
+           setSingleSelectPlan(row);
             // // console.log("click", i, row);
             // setEditIndividualPremium(true);
             // setEditPlanType(row.planType);
             // setIndividualPremiumState(row);
             // setEditPremiumDurationType(row?.premiumDurationType);
             // setConfirmDialog(true);
+          }
           }
           customStyles={{ float: "center", p: "0.1rem" }}
         >
@@ -586,7 +560,7 @@ setSelectedCategory(bandPlans?.flat(1));
       selector: (i, row) => (
         <IconButton
           onClick={() => {
-            setServiceSN(i);
+            setSingleSelectPlan(i);
             setConfirmDialog(true);
           }}
           color="error"
@@ -600,7 +574,6 @@ setSelectedCategory(bandPlans?.flat(1));
     },
   ];
 
-  // console.log(Services);
   const facilitySchema = [
     {
       name: "S/N",
@@ -623,42 +596,126 @@ setSelectedCategory(bandPlans?.flat(1));
     },
   ];
 
-console.log(serviceSN)
-  const handleDelete = () => {
-    console.log(selectedCategory)
-    const newUpdatedServices = selectedCategory?.find((data,i) => i === serviceSN)
-    console.log(newUpdatedServices)
+  // DELETE THE PLANS FUNCTIONS
+  function handleDelete(){
+    // THIS IS USE TO THE THE SELECTED PLAN IN THE CONTRACTS
+    const newUpdatedServices = Object.values(selectedCategory)?.filter((data) => data._id !== singleSelectPlan._id);
+    // console.log(newUpdatedServices)
 
-    ServicesServ.remove(newUpdatedServices)
+    const newPlanDetail = {
+      ...selectedContractDetails,
+      ...selectedServiceDetails,
+      organizationId: user.currentEmployee.facilityDetail._id,
+      organizationName: user.currentEmployee.facilityDetail.facilityName,
+      band: selectedServiceDetails.bandName,
+      contracts: [
+        {
+          serviceName: selectedContractDetails?.serviceName,
+          comments: selectedContractDetails?.comments,
+          price: selectedContractDetails?.price,
+          plans: newUpdatedServices,
+        },
+      ],
+    };
+
+    // SELECTED SERVICES ID
+    const selectId = selectedServiceDetails._id;
+
+  //  console.log(selectId)
+
+// THIS IS USE TO UPDATE THE CONTRACTS DATA, AFTER THE PLAN WAS DELETE FROM THE ARRAY
+    ServicesServ.patch(selectId, newPlanDetail)
       .then((res) => {
-        setState((prev) => ({
-          ...prev,
-          ServicesModule: {
-            ...prev.ServicesModule,
-            selectedServices: res,
-          },
-        }));
-        setState((prev) => ({
-          ...prev,
-          TariffModule: {
-            ...prev.TariffModule,
-            selectedCategory: res,
-          },
-        }));
-        setSelectedCategory(res.selectedService);
+        console.log(res)
+        setSelectPlans(res.contracts.filter(item => item.serviceId === selectedCategory.serviceId).plans);
+        setSelectedServices(res.contracts)
         setConfirmDialog(false);
-        toast.success(`Tariff successfully deleted!`);
+        toast.success(`Plan successfully deleted!`);
       })
       .catch((err) => {
-        toast.error(`Sorry, Unable to delete tariff. ${err}`);
+        toast.error(`Sorry, Unable to delete plan. ${err}`);
       });
     //}
   };
+//   console.log(selectedContractDetails)
+// console.log(selectedServiceDetails)
+// console.log(selectedServices)
 
+
+
+const onSubmit = useCallback ((data) => {
+  setLoading(true);
+  
+  // const prevServices = selectedServiceDetails
+  const prevContracts = selectedServiceDetails.contracts || [];
+  const prevPlans = selectedContractDetails.plans || [];
+  // console.log(prevContracts)
+
+  const updatedPlan = {
+    ...singleSelectPlan,
+    feeforService: feeForService,
+    capitation: capitation,
+  };
+
+  const newPlans = Array.from(prevPlans).map(item => {
+    if(item?._id === singleSelectPlan?._id){
+      return updatedPlan
+    }
+    else{
+      return item
+    }
+  })
+
+
+  const updatedContract = {
+    ...selectedContractDetails,
+    serviceName: service?.name,
+    comments: data.comment,
+    price: data.costPrice,
+    plans : newPlans
+  }
+
+
+  const newContract = Array.from(prevContracts).map(item => {
+    if(item._id === updatedContract._id){
+      return updatedContract
+    }
+    else{
+      return item
+    }
+  })
+
+  const newService = {
+    ...selectedServiceDetails,
+    organizationId: user.currentEmployee.facilityDetail._id,
+    organizationName: user.currentEmployee.facilityDetail.facilityName,
+    band: selectedServiceDetails.band,
+    contracts : newContract
+    }
+  
+  ServicesServ.patch(selectedServiceDetails._id, newService)
+    .then((res) => {
+      console.log(res)
+      setState((prev) => ({
+        ...prev,
+        ServicesModule: { ...prev.ServicesModule, selectedServices: res},
+      }));
+      setState((prev) => ({
+        ...prev,
+        TariffModule: { ...prev.TariffModule, selectedCategory: res},
+      }));
+      setLoading(false);
+      toast.success("Tariff updated succesfully");
+    })
+    .catch((err) => {
+      setLoading(false);
+      toast.error("Error updating Tariff " + err);
+    });
+},[state.ServicesModule.selectedServices, state.TariffModule.selectedCategory]);
 
   const conditionalRowStyles = [
     {
-      when: (row) => row?.serviceName === selectedServices?.serviceName,
+      when: (row) => row?.selectId === selectedContractDetails?.serviceId,
       style: {
         backgroundColor: "#4cc9f0",
         color: "white",
@@ -669,11 +726,251 @@ console.log(serviceSN)
     },
   ];
 
-
-
-
   return (
     <div>
+       <ModalBox
+    width="100%"
+    open={openTarrifModify}
+    onClose={handleHideTariffModifyModal}
+    header="Modify Tariff"
+    >
+      <Box sx={{ my: "1rem", display: "flex", justifyContent: "flex-end" }}>
+        {!editing ? (
+          <GlobalCustomButton
+            text="Edit"
+            onClick={() => {
+              setEditing(!editing);
+            }}
+          />
+        ) : (
+          <GlobalCustomButton
+            color="success"
+            text="Update"
+            type="submit"
+            onClick={handleSubmit(onSubmit)}
+          />
+        )}
+      </Box>
+      <Grid container spacing={2}>
+       
+        {!editing ? (
+          <Grid
+            item
+            xs={6}
+            // sm={4}
+          >
+            <Input
+              label="Service Name"
+              name="servicename"
+              register={register("servicename", { required: true })}
+              disabled={!editing}
+              defaultValue={selectedContractDetails?.serviceName}
+            />
+          </Grid>
+        ) : (
+          <Grid
+            item
+            xs={6}
+            // sm={4}
+          >
+            <SearchSelect
+              getSearchService={getSearchService}
+              clear={successService}
+              notfound={notfound}
+              placeholder="Search Service"
+            />
+          </Grid>
+        )}
+        {!editing ? (
+          <Grid
+            item
+            xs={6}
+            // sm={4}
+          >
+            <Input
+              label="Price"
+              name="costPrice"
+              register={register("costPrice", { required: true })}
+              disabled={!editing}
+              defaultValue={selectedContractDetails?.price}
+            />
+          </Grid>
+        ) : (
+          <Grid
+            item
+            xs={6}
+            // sm={4}
+          >
+            <Input
+              label="Price"
+              name="costPrice"
+              register={register("costPrice", { required: true })}
+            />
+          </Grid>
+        )}
+        {!editing ? (
+          <Grid item xs={12} sm={12}>
+            <Textarea
+              label="Comments"
+              name="comment"
+              register={register("comment", { required: true })}
+              disabled={!editing}
+              defaultValue={selectedContractDetails?.comments}
+            />
+          </Grid>
+        ) : (
+          <Grid item xs={12} sm={12}>
+            <Textarea
+              label="Comments"
+              name="comment"
+              register={register("comment", { required: true })}
+            />
+          </Grid>
+        )}
+      </Grid>
+        <Box mt="2rem">
+         {selectedContractDetails?.plans?.map((c, index) => {
+                    const allCategories = c?.benefits?.map((cat) => cat);
+                    return (
+                      <>
+                          <Box display="flex" gap={4} pb={3}>
+                            <Box
+                              sx={{ display: "flex", alignItems: "center",gap: "1rem" }}
+                              key={index}
+                            >
+                              <input
+                                className="checkbox is-small "
+                                type="checkbox"
+                                value={true}
+                                name={`selectedPlans +${index}`}
+                                label={c.planName}
+                                defaultChecked={true}
+                              />
+                              <p
+                                style={{
+                                  fontWeight: "bold",
+                                  fontSize: "0.8rem",
+                                }}
+                              >
+                                {c.planName}
+                              </p>
+                            </Box>
+                            <Grid container spacing={2} alignItems="center">
+                            <Grid item xs={3}>
+                                  <CustomSelect
+                                    options={allCategories || []}
+                                    label="Select Benefit Category"
+                                    onChange={(e) => {
+                                      setBeneCat(e.target.value);
+                                      setSelectNo(index);
+                                    }}
+                                    defaultValue={c.benefit || ''}
+                                  />
+                                </Grid> 
+                                <Grid item xs={3}>
+                                  <CustomTariffSelect
+                                    key={index}
+                                    options={selectNo === index ? newBene : []}
+                                    label="Select Benefit"
+                                    onChange={(event) =>
+                                      setNewBene(event.target.value)
+                                    }
+                                    defaultValue={c.comments ||''}
+                                  />
+                                </Grid>
+                               <Box display="flex" px="1rem" gap="2rem" alignItems="center">
+                                <Box key={index}>
+                                   <input
+                                    className="is-small"
+                                    value="Capitation"
+                                    name={`servtype +${index}`}
+                                    type="radio"
+                                    onChange={(event) =>
+                                      setCapitation(event.target.value === "Capitation" ? true : false)
+                                    }
+                                    defaultChecked={c.capitation}
+                                    style={{ marginRight: "10px" }}
+                                  />
+                                  <span>Capitation</span> 
+                                </Box>
+                                <Box key={index}>
+  
+                                  <input
+                                    className="is-small"
+                                    name={`servtype +${index}`}
+                                    value="Fee for Service"
+                                    type="radio"
+                                    onChange={(event) =>
+                                      setFeeForService(event.target.value === "Fee for Service" ? true : false)
+                                    }
+                                    defaultChecked={c.feeforService}
+                                    style={{ marginRight: "10px" }}
+                                  />
+  
+                                  <span>Fee for Service</span>
+                                </Box>
+                                <Box key={index}>
+                                  <input
+                                    className=" is-small"
+                                    name={`pay${index}`}
+                                    value= {sCoPay}
+                                    type="checkbox"
+                                    onChange={(event) =>
+                                      setSCoPay(event.target.checked ? true && copayDetails : false)
+                                    }
+                                    defaultChecked={c.coPay}
+                                    style={
+                                      showCoPay === index
+                                        ? {
+                                            marginBottom: ".6rem",
+                                            marginRight: "10px",
+                                          }
+                                        : {
+                                            marginBottom: "0",
+                                            marginRight: "10px",
+                                          }
+                                    }
+                                  />
+                                  <span>Co-Pay?</span>
+                                  {showCoPay === index && sCoPay && (
+                                    <Input
+                                      width="100%"
+                                      // className='input smallerinput is-small is-pulled-right '
+                                      name={`copay +${index}`}
+                                      type="text"
+                                      value={copayDetails}
+                                      onChange={(event) =>
+                                        setCopayDetails(event.target.value)
+                                      }
+                                      defaultValue={c.copayDetail}
+                                      label="Amount"
+                                    />
+                                  )}
+                                </Box>
+  
+                                <Box key={index}>
+                                  <input
+                                    className="checkbox is-small"
+                                    name={`authCode +${index}`}
+                                    type="checkbox"
+                                    value={authCode}
+                                    onChange={(event) =>
+                                      setAuthCode(event.target.checked ? true : false)
+                                    }
+                                    defaultChecked={c.reqPA}
+                                    style={{ marginRight: "10px" }}
+                                  />
+                                  <span>Requires Pre-Auth?</span>
+                                </Box>
+                                </Box>
+                                </Grid>
+                          </Box>
+                          
+                      </>
+                    );
+                  })}
+        </Box>
+    </ModalBox>
       <CustomConfirmationDialog
         open={confirmDialog}
         cancelAction={() => setConfirmDialog(false)}
@@ -776,29 +1073,26 @@ console.log(serviceSN)
                 my: "1rem",
               }}
             >
-              <FormsHeaderText text={Services?.band} />
+              <FormsHeaderText text={selectedServiceDetails?.band} />
 
               <Box display="flex" gap="1rem">
           
                 <GlobalCustomButton
           color="error"
-          onClick={() => {
-            showServices();
-          }}
+          onClick={() => {showBandName()}}
         >
 
           <CreateIcon fontSize="small" sx={{ marginRight: "5px" }} />
-          Edit
+          Edit Band Name
         </GlobalCustomButton>
-                <GlobalCustomButton
-                  text="Add Services"
-                  onClick={showServices}
+                {/* <GlobalCustomButton
+                  text="Edit Services"
+                  onClick={() => showTariffModify()}
                   customStyles={{ marginLeft: "1rem" }}
-                  color="secondary"
-                />
+                  color="warning"
+                /> */}
               </Box>
             </Box>
-
             <Box>
               {changeView === "service" ? (
                 <Box
@@ -819,7 +1113,7 @@ console.log(serviceSN)
                     <CustomTable
                       title={""}
                       columns={productItemSchema}
-                      data={selectedServices}
+                      data={selectedServices || []}
                       pointerOnHover
                       highlightOnHover
                       striped
@@ -836,12 +1130,10 @@ console.log(serviceSN)
                   transition: "width 0.5s ease-in",
                  }}
                  >
-                  
-                  
                   <CustomTable
                     title={""}
                     columns={otherServiceSchema}
-                    data={selectedCategory}
+                    data={selectPlans ? selectPlans : []}
                     pointerOnHover
                     highlightOnHover
                     striped
@@ -876,6 +1168,74 @@ console.log(serviceSN)
       </Box>
     </div>
   );
+};
+
+export const ModifyBandNames = () => {
+  const { state, setState } = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const ServicesServ = client.service("tariff");
+
+const selectedServiceDetails = state.ServicesModule.selectedServices;
+const selectedContractDetails = state.TariffModule.selectedContracts;
+
+const { register, handleSubmit } = useForm();
+    //UPDATE BAND FUNCTION
+    const handleUpdateBand  = async(data) =>{
+      const newPlanDetails = {
+        ...selectedContractDetails,
+      ...selectedServiceDetails,
+        organizationId: user.currentEmployee.facilityDetail._id,
+        organizationName: user.currentEmployee.facilityDetail.facilityName,
+        band: data.bandName,
+        contracts: [
+          {
+            serviceName: selectedContractDetails?.serviceName,
+            comments: selectedContractDetails?.comments,
+            price: selectedContractDetails?.price,
+            plans: selectedContractDetails.plans
+          },
+        ],
+      }
+      const selectId = selectedServiceDetails._id;
+
+   await ServicesServ.patch(selectId, newPlanDetails)
+        .then((res) => {
+          setState((prev) => ({
+            ...prev,
+            ServicesModule: { ...prev.ServicesModule, selectedServices: res},
+          }));
+          setState((prev) => ({
+            ...prev,
+            TariffModule: { ...prev.TariffModule, selectedCategory: res},
+          }));
+          toast.success(`Band name successfully updated!`);
+        })
+        .catch((err) => {
+          toast.error(`Sorry, Unable to update band name. ${err}`);
+        });
+  }
+  return (
+    <Box>
+   
+            
+          <Box display="flex" justifyContent="flex-end">
+          <GlobalCustomButton
+                        onClick={handleSubmit(handleUpdateBand)}
+                        text="Save"
+                        color="primary"
+                        variant="contained"
+                        sx={{my:'1rem'}}
+                        // customStyles={{ float: "right" }}
+                      />
+          </Box>
+             <Input
+               label="Band"
+               name="bandName"
+               register={register("bandName", { required: true })}
+                defaultValue={selectedServiceDetails?.band}
+             />
+    </Box>
+  )
 };
 
 export const TariffCreate = ({ showModal, setShowModal }) => {
@@ -937,6 +1297,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
   const [beneCat, setBeneCat] = useState("");
   const [newBene, setNewBene] = useState([]);
   const [selectNo, setSelectNo] = useState("");
+  // const [selectedBene, setSelectedBene] = useState("");
   const [serviceUnavailable, setServiceUnavailable] = useState({
     status: false,
     name: "",
@@ -1097,6 +1458,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
     // console.log("starting...")
     getFacilities();
     setBenefittingPlans1([]);
+    setBenefittingPlans([]);
     setFacilityId(user.currentEmployee.facilityDetail._id);
     setName(user.currentEmployee.facilityDetail.facilityName);
     setOrgType(user.currentEmployee.facilityDetail.facilityType);
@@ -1109,8 +1471,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
       (el) => el.planName === c.planName
     )[0];
     currentPlan.capitation = e.target.value === "Capitation" ? true : false;
-    currentPlan.feeforService =
-      e.target.value === "Fee for Service" ? true : false;
+    currentPlan.feeforService = e.target.value === "Fee for Service" ? true : false;
     const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
     await setBenefittingPlans(updatedplan);
   };
@@ -1135,14 +1496,14 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
   };
   const handleBenefit = async (e, i, c) => {
     console.log(e.target.value, i, c);
-    let selectedBene = e.target.value;
-    console.log(selectedBene, selectedBene.comments);
-    let currentPlan = benefittingplans.filter(
-      (el) => el.planName === c.planName
-    )[0];
-    console.log(currentPlan);
-    currentPlan.benefit = selectedBene.comments;
-    currentPlan.benefitCategory = selectedBene.category;
+    const selectedBene = e.target.value;
+    console.log(selectedBene);
+    let currentPlan = benefittingplans.find(
+      (el) => el.planName === c?.planName
+    );
+    console.log("Current plan",currentPlan);
+    currentPlan.benefit = selectedBene?.description;
+    currentPlan.benefitcategory = beneCat?.category;
     // currentPlan.covered =
     // 	facilities.benefits.filter((el) => el.category === e.target.value)[0]
     // 		.status === 'Covered'
@@ -1150,6 +1511,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
     // 		: false;
     const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
     await setBenefittingPlans(updatedplan);
+    console.log("update plan",updatedplan);
   };
 
   const handleChange = async (e, i, c) => {
@@ -1167,7 +1529,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
         planId: c._id,
         benefit: "",
         // benefitId : c.benefitId,
-        benefitCategory: "",
+        benefitcategory: "",
         feeforService: true,
         capitation: false,
         reqPA: false,
@@ -1239,6 +1601,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 
     ServicesServ.create(data)
       .then((res) => {
+        console.log(res);
         toast.success("Tariff created succesfully");
         setShowModal(0);
       })
@@ -1260,46 +1623,46 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
     setProductItem(newProductItem);
     console.log(newProductItem);
   };
-  const handleAddPanel = () => {
-    // setSuccessService(false)
-    let newService = {
-      serviceId: service._id,
-      service_name: service.name,
-      panel: service.panel,
-    };
-    setPanelList((prevstate) => prevstate.concat(newService));
-    setSuccessService(true);
-    newService = {};
-    setService("");
-    console.log("something added");
-  };
-  const handleCheck = async () => {
-    if (!categoryname) {
-      toast.warning("Enter Category!");
-      return true;
-    }
-    console.log("unavailb:", serviceUnavailable.name);
-    console.log("availb:", service.name);
-    const resp = await ServicesServ.find({
-      query: {
-        name: serviceUnavailable.name || service.name, //source
-        facility: user.currentEmployee.facilityDetail._id,
-        category: categoryname,
-      },
-    });
-    console.log(resp);
-    //.
-    /*then((resp)=>{
-        console.log(resp)*/
-    if (resp.data.length > 0) {
-      toast.info(
-        "Service already exist. Kindly modify it " //+ resp.data ,
-      );
-      return true;
-    } else {
-      return false;
-    }
-  };
+  // const handleAddPanel = () => {
+  //   // setSuccessService(false)
+  //   let newService = {
+  //     serviceId: service._id,
+  //     service_name: service.name,
+  //     panel: service.panel,
+  //   };
+  //   setPanelList((prevstate) => prevstate.concat(newService));
+  //   setSuccessService(true);
+  //   newService = {};
+  //   setService("");
+  //   console.log("something added");
+  // };
+  // const handleCheck = async () => {
+  //   if (!categoryname) {
+  //     toast.warning("Enter Category!");
+  //     return true;
+  //   }
+  //   console.log("unavailb:", serviceUnavailable.name);
+  //   console.log("availb:", service.name);
+  //   const resp = await ServicesServ.find({
+  //     query: {
+  //       name: serviceUnavailable.name || service.name, //source
+  //       facility: user.currentEmployee.facilityDetail._id,
+  //       category: categoryname,
+  //     },
+  //   });
+  //   console.log(resp);
+  //   //.
+  //   /*then((resp)=>{
+  //       console.log(resp)*/
+  //   if (resp.data.length > 0) {
+  //     toast.info(
+  //       "Service already exist. Kindly modify it " //+ resp.data ,
+  //     );
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // };
 
   const copaySelect = (e, i) => {
     setShowCoPay(i);
@@ -1312,7 +1675,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
   useEffect(() => {
     facilities?.map((c, i) => {
       console.log("c", c);
-      const benefit = c.benefits?.find((b) => b.comments === beneCat?.comments);
+      const benefit = c.benefits?.find((b) => b.description === beneCat?.description);
       console.log("BENE", benefit);
       if (benefit) {
         setNewBene([benefit]);
@@ -1487,11 +1850,6 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
             color="warning"
             customStyles={{ marginRight: "1rem" }}
           />
-          <GlobalCustomButton
-            text="Create Tarrif"
-            onClick={onSubmit}
-            color="success"
-          />
         </Box>
       </Box>
       <Grid container spacing={2} mt={1}>
@@ -1547,14 +1905,21 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
         }}
       >
         <FormsHeaderText text={"Services"} />
-        <GlobalCustomButton
+        <Box>   
+           <GlobalCustomButton
           type="button"
           variant="contained"
           color="primary"
           onClick={() => setShowService(true)}
-          text="Add Service"
-          customStyles={{ marginRight: ".8rem" }}
+          text="Add Service" 
         />
+         <GlobalCustomButton
+            text="Create Tarrif"
+            onClick={onSubmit}
+            color="success"
+            customStyles={{ marginLeft: "1.8rem" }}
+          />
+        </Box>
       </Box>
       {productItem?.length > 0 && (
         <Box my={1}>
@@ -1759,17 +2124,19 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
                                     setBeneCat(e.target.value);
                                     setSelectNo(index);
                                   }}
+                                  // value={beneCat?.category}
                                 />
                               </Grid>
 
                               <Grid item xs={12} sm={2}>
                                 <CustomTariffSelect
                                   key={index}
-                                  options={selectNo === index ? newBene : []}
+                                  options={newBene}
                                   label="Select Benefit"
                                   onChange={(event) =>
-                                    handleBenefit(event, index, c)
+                                    handleBenefit(event,index,c)
                                   }
+                                  // value={?.benefit}
                                 />
                               </Grid>
 
@@ -2144,7 +2511,7 @@ export function TariffModify() {
   const { user } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const ServicesServ = client.service("tariff");
-  const [selectPlan, setSelectPlan] = useState([]);
+  // const [selectPlan, setSelectPlan] = useState([]);
   const [editing, setEditing] = useState(false);
   const [service, setService] = useState("");
   const [successService, setSuccessService] = useState(false);
@@ -2152,15 +2519,29 @@ export function TariffModify() {
     status: false,
     name: "",
   });
-  const contractDetails = state.TariffModule.selectedContracts;
-  const servicesDetails = state.ServicesModule.selectedServices;
-  console.log(contractDetails);
+  const [beneCat, setBeneCat] = useState("");
+  const [newBene, setNewBene] = useState([]);
+  const [selectNo, setSelectNo] = useState("");
+  const [capitation, setCapitation] = useState(false);
+  const [copayDetails, setCopayDetails] = useState('');
+  const [showCoPay, setShowCoPay] = useState(false);
+  const [feeForService, setFeeForService] = useState(true);
+  const [sCoPay, setSCoPay] = useState(false);
+  const [authCode, setAuthCode] = useState('');
+  const [openTarrifModify, setOpenTarrifModify] = useState(false);
+
+ 
+  
+  const selectedServiceDetails = state.ServicesModule.selectedServices;
+  const selectedContractDetails = state.TariffModule.selectedContracts;
+
+  
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      bandName: servicesDetails?.band,
-      servicename: contractDetails?.serviceName,
-      comment: contractDetails?.comments,
-      costPrice: contractDetails?.price,
+      bandName: selectedServiceDetails?.band,
+      servicename: selectedContractDetails?.serviceName,
+      comment: selectedContractDetails?.comments,
+      costPrice: selectedContractDetails?.price,
     },
   });
 
@@ -2187,32 +2568,103 @@ export function TariffModify() {
     setLoading(true);
     //  let contract = Services.contracts.find((data) => data._id === id )
     //  console.log(contract)
+    
     const newPlanDetail = {
-      ...contractDetails,
-      ...servicesDetails,
+      ...selectedContractDetails,
+      ...selectedServiceDetails,
       organizationId: user.currentEmployee.facilityDetail._id,
       organizationName: user.currentEmployee.facilityDetail.facilityName,
-      band: data.bandName,
+      band: selectedServiceDetails?.band,
       contracts: [
         {
           serviceName: service?.name,
           comments: data.comment,
           price: data.costPrice,
-          plans: contractDetails?.plans,
+          plans: [
+            { 
+              planName:selectedContractDetails.plans[0]?.planName,
+              benefit: selectedContractDetails.plans[0]?.benefit,
+              benefitCategory: selectedContractDetails.plans[0]?.benefitCategory,
+              feeforService: feeForService,
+              capitation: capitation,
+              reqPA: selectedContractDetails.plans[0]?.reqPA,
+              coPay: selectedContractDetails.plans[0]?.coPay, 
+              copayDetail: selectedContractDetails.plans[0]?.copayDetail,
+              comments: selectedContractDetails.plans[0]?.comments,
+            }
+        ],
         },
       ],
     };
 
-    ServicesServ.patch(servicesDetails._id, newPlanDetail)
+  
+
+    // console.log(contractDetails);
+  
+
+    ServicesServ.patch(selectedServiceDetails._id, newPlanDetail)
       .then((res) => {
-        // console.log(res);
+        console.log(res)
         setState((prev) => ({
           ...prev,
-          ServicesModule: { ...prev.ServicesModule, selectedServices: res },
+          ServicesModule: { ...prev.ServicesModule, selectedServices: res},
         }));
         setState((prev) => ({
           ...prev,
-          TariffModule: { ...prev.TariffModule, selectedCategory: res },
+          TariffModule: { ...prev.TariffModule, selectedCategory: res},
+        }));
+        setLoading(false);
+        toast.success("Tariff updated succesfully");
+      })
+      handleHideTariffModifyModal()
+      .catch((err) => {
+        setLoading(false);
+        toast.error("Error updating Tariff " + err);
+      });
+  };
+
+  const onPlanSubmit = async (data) => {
+    setLoading(true);
+    
+    const prevServices = selectedServiceDetails
+    const prevPlans = selectedContractDetails.plans
+    
+    const newPlanDetail = {
+          ...selectedContractDetails,
+          serviceName: service?.name,
+          comments: data.comment,
+          price: data.costPrice,
+          plans: [
+            { 
+              ...prevPlans,
+              feeforService: feeForService,
+              capitation: capitation,
+            }
+        ],
+    };
+
+    console.log(newPlanDetail)
+  
+  const prevContracts = prevServices.contracts
+
+   const newContracts = Object.values(prevContracts).map(item => {
+      if (item._id === newPlanDetail._id) {
+        return newPlanDetail;
+      } else {
+        return item;
+      }
+    });
+
+    ServicesServ.patch(prevServices._id, newContracts)
+      .then((res) => {
+        console.log(res)
+        setState((prev) => ({
+          ...prev,
+          ServicesModule: { ...prev.ServicesModule, selectedServices: newPlanDetail},
+        }));
+        setState((prev) => ({
+          ...prev,
+          TariffModule: { ...prev.TariffModule, selectedCategory: newPlanDetail},
         }));
         setLoading(false);
         toast.success("Tariff updated succesfully");
@@ -2224,7 +2676,12 @@ export function TariffModify() {
   };
 
   return (
-    <>
+    <ModalBox
+    width="100%"
+    open={openTarrifModify}
+    onClose={handleHideTariffModifyModal}
+    header="Modify Tariff"
+    >
       <Box sx={{ my: "1rem", display: "flex", justifyContent: "flex-end" }}>
         {!editing ? (
           <GlobalCustomButton
@@ -2238,39 +2695,12 @@ export function TariffModify() {
             color="success"
             text="Update"
             type="submit"
-            onClick={handleSubmit(onSubmit)}
+            onClick={handleSubmit(onPlanSubmit)}
           />
         )}
       </Box>
       <Grid container spacing={2}>
-        {!editing ? (
-          <Grid
-            item
-            xs={6}
-            // sm={4}
-          >
-            <Input
-              label="Band"
-              name="bandName"
-              register={register("bandName", { required: true })}
-              disabled={!editing}
-              // defaultValue={Services.band}
-            />
-          </Grid>
-        ) : (
-          <Grid
-            item
-            xs={6}
-            // sm={4}
-          >
-            <Input
-              label="Band"
-              name="bandName"
-              register={register("bandName", { required: true })}
-              //  defaultValue={Services.band}
-            />
-          </Grid>
-        )}
+       
         {!editing ? (
           <Grid
             item
@@ -2282,7 +2712,7 @@ export function TariffModify() {
               name="servicename"
               register={register("servicename", { required: true })}
               disabled={!editing}
-              // defaultValue={.serviceName}
+             
             />
           </Grid>
         ) : (
@@ -2291,12 +2721,6 @@ export function TariffModify() {
             xs={6}
             // sm={4}
           >
-            {/* <Input
-        label="Service Name"
-        name="servicename"
-        register={register("servicename", { required: true })}
-        // defaultValue={existService.serviceName}
-      /> */}
             <SearchSelect
               getSearchService={getSearchService}
               clear={successService}
@@ -2316,6 +2740,7 @@ export function TariffModify() {
               name="costPrice"
               register={register("costPrice", { required: true })}
               disabled={!editing}
+              defaultValue={selectedContractDetails?.price}
             />
           </Grid>
         ) : (
@@ -2338,6 +2763,7 @@ export function TariffModify() {
               name="comment"
               register={register("comment", { required: true })}
               disabled={!editing}
+              defaultValue={selectedContractDetails?.comments}
             />
           </Grid>
         ) : (
@@ -2350,7 +2776,149 @@ export function TariffModify() {
           </Grid>
         )}
       </Grid>
-    </>
+        <Box mt="2rem">
+         {selectedContractDetails?.plans?.map((c, index) => {
+                    const allCategories = c?.benefits?.map((cat) => cat);
+                    return (
+                      <>
+                          <Box display="flex" gap={4} pb={3}>
+                            <Box
+                              sx={{ display: "flex", alignItems: "center",gap: "1rem" }}
+                              key={index}
+                            >
+                              <input
+                                className="checkbox is-small "
+                                type="checkbox"
+                                value={true}
+                                name={`selectedPlans +${index}`}
+                                label={c.planName}
+                                defaultChecked={true}
+                              />
+                              <p
+                                style={{
+                                  fontWeight: "bold",
+                                  fontSize: "0.8rem",
+                                }}
+                              >
+                                {c.planName}
+                              </p>
+                            </Box>
+                            <Grid container spacing={2} alignItems="center">
+                            <Grid item xs={3}>
+                                  <CustomSelect
+                                    options={allCategories || []}
+                                    label="Select Benefit Category"
+                                    onChange={(e) => {
+                                      setBeneCat(e.target.value);
+                                      setSelectNo(index);
+                                    }}
+                                    defaultValue={c.benefit || ''}
+                                  />
+                                </Grid> 
+                                <Grid item xs={3}>
+                                  <CustomTariffSelect
+                                    key={index}
+                                    options={selectNo === index ? newBene : []}
+                                    label="Select Benefit"
+                                    onChange={(event) =>
+                                      setNewBene(event.target.value)
+                                    }
+                                    defaultValue={c.comments ||''}
+                                  />
+                                </Grid>
+                               <Box display="flex" px="1rem" gap="2rem" alignItems="center">
+                                <Box key={index}>
+                                   <input
+                                    className="is-small"
+                                    value="Capitation"
+                                    name={`servtype +${index}`}
+                                    type="radio"
+                                    onChange={(event) =>
+                                      setCapitation(event.target.value === "Capitation" ? true : false)
+                                    }
+                                    defaultChecked={c.capitation}
+                                    style={{ marginRight: "10px" }}
+                                  />
+                                  <span>Capitation</span> 
+                                </Box>
+                                <Box key={index}>
+  
+                                  <input
+                                    className="is-small"
+                                    name={`servtype +${index}`}
+                                    value="Fee for Service"
+                                    type="radio"
+                                    onChange={(event) =>
+                                      setFeeForService(event.target.value === "Fee for Service" ? true : false)
+                                    }
+                                    defaultChecked={c.feeforService}
+                                    style={{ marginRight: "10px" }}
+                                  />
+  
+                                  <span>Fee for Service</span>
+                                </Box>
+                                <Box key={index}>
+                                  <input
+                                    className=" is-small"
+                                    name={`pay${index}`}
+                                    value= {sCoPay}
+                                    type="checkbox"
+                                    onChange={(event) =>
+                                      setSCoPay(event.target.checked ? true && copayDetails : false)
+                                    }
+                                    defaultChecked={c.coPay}
+                                    style={
+                                      showCoPay === index
+                                        ? {
+                                            marginBottom: ".6rem",
+                                            marginRight: "10px",
+                                          }
+                                        : {
+                                            marginBottom: "0",
+                                            marginRight: "10px",
+                                          }
+                                    }
+                                  />
+                                  <span>Co-Pay?</span>
+                                  {showCoPay === index && sCoPay && (
+                                    <Input
+                                      width="100%"
+                                      // className='input smallerinput is-small is-pulled-right '
+                                      name={`copay +${index}`}
+                                      type="text"
+                                      value={copayDetails}
+                                      onChange={(event) =>
+                                        setCopayDetails(event.target.value)
+                                      }
+                                      defaultValue={c.copayDetail}
+                                      label="Amount"
+                                    />
+                                  )}
+                                </Box>
+  
+                                <Box key={index}>
+                                  <input
+                                    className="checkbox is-small"
+                                    name={`authCode +${index}`}
+                                    type="checkbox"
+                                    value={authCode}
+                                    onChange={(event) =>
+                                      setAuthCode(event.target.checked ? true : false)
+                                    }
+                                    defaultChecked={c.reqPA}
+                                    style={{ marginRight: "10px" }}
+                                  />
+                                  <span>Requires Pre-Auth?</span>
+                                </Box>
+                                </Box>
+                                </Grid>
+                          </Box>
+                          
+                      </>
+                    );
+                  })}
+        </Box>
+    </ModalBox>
   );
 }
 
@@ -2609,6 +3177,9 @@ export function AddService() {
   //     });
   // };
 
+  // const newUpdatedServices = Object.values(contractDetails)?.find((data) => data._id == serviceSN._id)
+
+
   return (
     <Box
       sx={{
@@ -2623,8 +3194,8 @@ export function AddService() {
         text="Add Service"
         customStyles={{ float: "right" }}
       />
-      <Grid container spacing={2}>
-        <Grid
+    <Grid container spacing={2}>
+        {/* <Grid
           item
           xs={6}
           // sm={4}
@@ -2648,7 +3219,7 @@ export function AddService() {
             label="Comments"
             onChange={(e) => setComments(e.target.value)}
           />
-        </Grid>
+        </Grid>  */}
         <Box
           mx={1}
           my={2}
@@ -2790,3 +3361,4 @@ export function AddService() {
     </Box>
   );
 }
+

@@ -33,6 +33,7 @@ import Input from "../../../../components/inputs/basic/Input";
 import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
+import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 
 const PreAuthDetailComponent = ({handleGoBack}) => {
   const preAuthServer = client.service("preauth");
@@ -56,6 +57,12 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
   const [statusModal, setStatusModal] = useState(false);
   const [view, setView] = useState("details");
   const [updateServiceModal, setUpdateServiceModal] = useState(false);
+  const [confirmationDiaglog, setConfirmationDialog] = useState({
+    open: false,
+    message: "",
+    type: "",
+    action: null,
+  });
 
   const selectedPreAuth = state.PreAuthModule.selectedPreAuth;
   const clinical_details = selectedPreAuth?.clinical_details || {};
@@ -142,10 +149,6 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
   useEffect(() => {
     getPolicy();
   }, [getPolicy]);
-
-  const complaintColumns = getComplaintColumns();
-  const diagnosisColumns = getDiagnosisColumns();
-  const servicesColumns = getServicesColumns();
 
   const handleCreateClaim = async data => {
     if (!state.ClientModule.selectedClient._id)
@@ -278,6 +281,138 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
     setUpdateServiceModal(true);
   };
 
+  const servicesConditionalRowStyles = [
+    {
+      when: row => row.status.toLowerCase() === "rejected",
+      style: {
+        backgroundColor: "pink",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
+  const deleteDiagnosis = async diagnosis => {
+    showActionLoader();
+    const prevDiagnosis = selectedPreAuth.diagnosis || [];
+
+    const newDiagnosis = prevDiagnosis.filter(
+      item => item._id !== diagnosis._id
+    );
+
+    await preAuthServer
+      .patch(selectedPreAuth._id, {diagnosis: newDiagnosis})
+      .then(res => {
+        hideActionLoader();
+        toast.success("You've successfully removed a Diagnosis");
+        setState(prev => ({
+          ...prev,
+          PreAuthModule: {
+            ...prev.PreAuthModule,
+            selectedPreAuth: res,
+          },
+        }));
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error(`Deleting Diagnosis failed due to ${err}`);
+      });
+  };
+
+  const deleteComplaint = async complaint => {
+    showActionLoader();
+    const prevComplaints = selectedPreAuth.complaints || [];
+
+    const newComplaints = prevComplaints.filter(
+      item => item._id !== complaint._id
+    );
+
+    await preAuthServer
+      .patch(selectedPreAuth._id, {complaints: newComplaints})
+      .then(res => {
+        hideActionLoader();
+        toast.success("You've successfully removed a Complaint");
+        setState(prev => ({
+          ...prev,
+          PreAuthModule: {
+            ...prev.PreAuthModule,
+            selectedPreAuth: res,
+          },
+        }));
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error(`Deleting Complaint failed due to ${err}`);
+      });
+  };
+
+  const deleteService = async service => {
+    showActionLoader();
+    const prevServices = selectedPreAuth.services || [];
+
+    const newServices = prevServices.filter(item => item._id !== service._id);
+
+    await preAuthServer
+      .patch(selectedPreAuth._id, {services: newServices})
+      .then(res => {
+        hideActionLoader();
+        toast.success("You've successfully removed a Service");
+        setState(prev => ({
+          ...prev,
+          PreAuthModule: {
+            ...prev.PreAuthModule,
+            selectedPreAuth: res,
+          },
+        }));
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error(`Deleting Service failed due to ${err}`);
+      });
+  };
+
+  const confirmDeleteDiagnosis = diagnosis => {
+    setConfirmationDialog({
+      open: true,
+      message: `You're about to delete a Diagnosis ${diagnosis.diagnosis}`,
+      type: "warning",
+      action: () => deleteDiagnosis(diagnosis),
+    });
+  };
+
+  const confirmDeleteComplaint = complaint => {
+    setConfirmationDialog({
+      open: true,
+      message: `You're about to delete a Complaint ${complaint.complaint}`,
+      type: "warning",
+      action: () => deleteComplaint(complaint),
+    });
+  };
+
+  const confirmDeleteService = service => {
+    setConfirmationDialog({
+      open: true,
+      message: `You're about to delete a Service ${service.service.serviceName}`,
+      type: "warning",
+      action: () => deleteService(service),
+    });
+  };
+
+  const cancelConfirmDialog = () => {
+    setConfirmationDialog({
+      open: false,
+      message: "",
+      type: "",
+      action: null,
+    });
+  };
+
+  const complaintColumns = getComplaintColumns(confirmDeleteComplaint, false);
+  const diagnosisColumns = getDiagnosisColumns(confirmDeleteDiagnosis, false);
+  const servicesColumns = getServicesColumns(confirmDeleteService, false);
+
   return (
     <Box
       sx={{
@@ -287,10 +422,17 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
         position: "relative",
       }}
     >
+      <CustomConfirmationDialog
+        open={confirmationDiaglog.open}
+        message={confirmationDiaglog.message}
+        confirmationAction={confirmationDiaglog.action}
+        type={confirmationDiaglog.type}
+        cancelAction={cancelConfirmDialog}
+      />
       <ModalBox
         open={updateServiceModal}
         onClose={() => setUpdateServiceModal(false)}
-        header="Update Serive"
+        header="Update Service"
       >
         <UpadteService closeModal={() => setUpdateServiceModal(false)} />
       </ModalBox>
@@ -742,7 +884,7 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
                     highlightOnHover
                     striped
                     onRowClicked={onServiceRowClick}
-                    //conditionalRowStyles={conditionalRowStyles}
+                    conditionalRowStyles={servicesConditionalRowStyles}
                     progressPending={false}
                     CustomEmptyData={
                       <Typography sx={{fontSize: "0.8rem"}}>

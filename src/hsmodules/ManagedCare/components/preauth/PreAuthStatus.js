@@ -10,17 +10,17 @@ import client from "../../../../feathers";
 import {ObjectContext, UserContext} from "../../../../context";
 import {toast} from "react-toastify";
 
-const ClaimsStatus = ({closeModal}) => {
-  const claimsServer = client.service("claims");
+const PreAuthStatus = ({closeModal}) => {
+  const preAuthServer = client.service("preauth");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
 
-  const selectedClaim = state.ClaimsModule.selectedClaim;
+  const selectedPreAuth = state.PreAuthModule.selectedPreAuth;
 
   const {control, register, handleSubmit} = useForm({
     defaultValues: {
-      status: selectedClaim.status,
+      status: selectedPreAuth.status,
     },
   });
 
@@ -36,19 +36,19 @@ const ClaimsStatus = ({closeModal}) => {
       comment: data.comment,
     };
 
-    const prevHistory = selectedClaim.statushx || [];
+    const prevHistory = selectedPreAuth.statushx || [];
     const newStatushx = [statushx, ...prevHistory];
 
-    await claimsServer
-      .patch(selectedClaim._id, {status: data.status, statushx: newStatushx})
+    await preAuthServer
+      .patch(selectedPreAuth._id, {status: data.status, statushx: newStatushx})
       .then(res => {
         hideActionLoader();
-        toast.success("You've successfully updated Claim's status");
+        toast.success("You've successfully updated Preauthorization's status");
         setState(prev => ({
           ...prev,
-          ClaimsModule: {
-            ...prev.ClaimsModule,
-            selectedClaim: res,
+          PreAuthModule: {
+            ...prev.PreAuthModule,
+            selectedPreAuth: res,
           },
         }));
         closeModal();
@@ -56,7 +56,7 @@ const ClaimsStatus = ({closeModal}) => {
       .catch(err => {
         hideActionLoader();
         console.log(err);
-        toast.error(`Failed to updated Claim's Status ${err}`);
+        toast.error(`Failed to updated Preauthorization's Status ${err}`);
       });
   };
 
@@ -77,10 +77,7 @@ const ClaimsStatus = ({closeModal}) => {
               "Approval Complete",
               "Declined",
               "Queried",
-              "Queued for Payment",
               "Vetted",
-              "Payment Instruction Sent",
-              "Paid",
               "Submitted",
             ]}
           />
@@ -116,4 +113,4 @@ const ClaimsStatus = ({closeModal}) => {
   );
 };
 
-export default ClaimsStatus;
+export default PreAuthStatus;

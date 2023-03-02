@@ -36,7 +36,7 @@ const TextareaField = styled.textarea<any>`
 `;
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  label: string;
+  label?: string;
   errorText?: string;
   register?: any;
   placeholder?: string;
@@ -91,13 +91,6 @@ const VoiceTextArea: React.FC<TextareaProps> = ({
 
   return (
     <Box>
-      <label>
-        {label}
-        {/* {important && (
-          <AcUnitIcon sx={{color: "red", width: "14px", height: "14px"}} />
-        )} */}
-      </label>
-
       <Box
         sx={{
           display: "flex",

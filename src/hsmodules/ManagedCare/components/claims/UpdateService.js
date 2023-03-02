@@ -14,7 +14,7 @@ import {FormsHeaderText} from "../../../../components/texts";
 import CustomTable from "../../../../components/customtable";
 
 const UpdateService = () => {
-  const preAuthServer = client.service("preauth");
+  const claimsServer = client.service("claims");
   const {state, setState} = useContext(ObjectContext);
   const {register, reset} = useForm();
   const [reviewModal, setReviewModal] = useState(false);
@@ -23,7 +23,7 @@ const UpdateService = () => {
   const [statushx, setStatushx] = useState([]);
 
   useEffect(() => {
-    const service = state.PreAuthModule.selectedService;
+    const service = state.ClaimsModule.selectedService;
     // console.log(service);
     const data = {
       service_name: service.service.serviceName,
@@ -37,7 +37,7 @@ const UpdateService = () => {
 
     reset(data);
     setStatushx(service.statushx || []);
-  }, [state.PreAuthModule.selectedService]);
+  }, [state.ClaimsModule.selectedService]);
 
   const statushxColumns = [
     {
@@ -223,7 +223,7 @@ const UpdateService = () => {
 export default UpdateService;
 
 export const ReviewService = ({closeModal}) => {
-  const preAuthServer = client.service("preauth");
+  const claimsServer = client.service("claims");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
@@ -231,11 +231,11 @@ export const ReviewService = ({closeModal}) => {
 
   const updateService = async data => {
     showActionLoader();
-    const preAuth = state.PreAuthModule.selectedPreAuth;
-    const service = state.PreAuthModule.selectedService;
+    const claim = state.ClaimsModule.selectedClaim;
+    const service = state.ClaimsModule.selectedService;
     const employee = user.currentEmployee;
 
-    const prevServices = preAuth.services || [];
+    const prevServices = claim.services || [];
 
     const prevServicehx = service.statushx || [];
 
@@ -265,18 +265,18 @@ export const ReviewService = ({closeModal}) => {
       }
     });
 
-    const updatedPreAuth = {
-      ...preAuth,
+    const updatedClaim = {
+      ...claim,
       services: updatedServices,
     };
 
-    await preAuthServer
-      .patch(preAuth._id, updatedPreAuth)
+    await claimsServer
+      .patch(claim._id, updatedClaim)
       .then(res => {
         setState(prev => ({
           ...prev,
-          PreAuthModule: {
-            selectedPreAuth: res,
+          ClaimsModule: {
+            selectedClaim: res,
             selectedService: newService,
           },
         }));
@@ -292,7 +292,7 @@ export const ReviewService = ({closeModal}) => {
 
   useEffect(() => {
     //hideActionLoader();
-    const service = state.PreAuthModule.selectedService;
+    const service = state.ClaimsModule.selectedService;
     const data = {
       service_name: service.service.serviceName,
       quantity: service.quantity,
@@ -362,7 +362,7 @@ export const ReviewService = ({closeModal}) => {
 };
 
 export const RejectService = ({closeModal}) => {
-  const preAuthServer = client.service("preauth");
+  const claimsServer = client.service("claims");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
@@ -370,11 +370,11 @@ export const RejectService = ({closeModal}) => {
 
   const updateService = async data => {
     showActionLoader();
-    const preAuth = state.PreAuthModule.selectedPreAuth;
-    const service = state.PreAuthModule.selectedService;
+    const claim = state.ClaimsModule.selectedClaim;
+    const service = state.ClaimsModule.selectedService;
     const employee = user.currentEmployee;
 
-    const prevServices = preAuth.services || [];
+    const prevServices = claim.services || [];
 
     const prevServicehx = service.statushx || [];
 
@@ -402,18 +402,18 @@ export const RejectService = ({closeModal}) => {
       }
     });
 
-    const updatedPreAuth = {
-      ...preAuth,
+    const updatedClaim = {
+      ...claim,
       services: updatedServices,
     };
 
-    await preAuthServer
-      .patch(preAuth._id, updatedPreAuth)
+    await claimsServer
+      .patch(claim._id, updatedClaim)
       .then(res => {
         setState(prev => ({
           ...prev,
-          PreAuthModule: {
-            selectedPreAuth: res,
+          ClaimsModule: {
+            selectedClaim: res,
             selectedService: newService,
           },
         }));
@@ -456,7 +456,7 @@ export const RejectService = ({closeModal}) => {
 };
 
 export const ApproveService = ({closeModal}) => {
-  const preAuthServer = client.service("preauth");
+  const claimsServer = client.service("claims");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
@@ -464,11 +464,11 @@ export const ApproveService = ({closeModal}) => {
 
   const updateService = async data => {
     showActionLoader();
-    const preAuth = state.PreAuthModule.selectedPreAuth;
-    const service = state.PreAuthModule.selectedService;
+    const claim = state.ClaimsModule.selectedClaim;
+    const service = state.ClaimsModule.selectedService;
     const employee = user.currentEmployee;
 
-    const prevServices = preAuth.services || [];
+    const prevServices = claim.services || [];
 
     const prevServicehx = service.statushx || [];
 
@@ -496,18 +496,18 @@ export const ApproveService = ({closeModal}) => {
       }
     });
 
-    const updatedPreAuth = {
-      ...preAuth,
+    const updatedClaim = {
+      ...claim,
       services: updatedServices,
     };
 
-    await preAuthServer
-      .patch(preAuth._id, updatedPreAuth)
+    await claimsServer
+      .patch(claim._id, updatedClaim)
       .then(res => {
         setState(prev => ({
           ...prev,
-          PreAuthModule: {
-            selectedPreAuth: res,
+          ClaimsModule: {
+            selectedClaim: res,
             selectedService: newService,
           },
         }));

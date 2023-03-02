@@ -36,7 +36,8 @@ function Login() {
     setTimeout(() => setLoaderTimer(false), 1500);
   }, []);
 
-  const onSubmit = async ({email, password}) => {
+  const onSubmit = async data => {
+    const {email, password} = data;
     setLoading(true);
     await client
       .authenticate({

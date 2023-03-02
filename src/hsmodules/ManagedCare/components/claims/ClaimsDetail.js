@@ -32,6 +32,8 @@ import Input from "../../../../components/inputs/basic/Input";
 import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
+import UpadteService from "./UpdateService";
+import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 
 const ClaimDetailComponent = ({handleGoBack}) => {
   const claimsServer = client.service("claims");
@@ -54,6 +56,13 @@ const ClaimDetailComponent = ({handleGoBack}) => {
   const [assignModal, setAssignModal] = useState(false);
   const [statusModal, setStatusModal] = useState(false);
   const [view, setView] = useState("details");
+  const [updateServiceModal, setUpdateServiceModal] = useState(false);
+  const [confirmationDiaglog, setConfirmationDialog] = useState({
+    open: false,
+    message: "",
+    type: "",
+    action: null,
+  });
 
   const selectedClaim = state.ClaimsModule.selectedClaim;
   const clinical_details = selectedClaim?.clinical_details || {};
@@ -140,10 +149,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
   useEffect(() => {
     getPolicy();
   }, [getPolicy]);
-
-  const complaintColumns = getComplaintColumns();
-  const diagnosisColumns = getDiagnosisColumns();
-  const servicesColumns = getServicesColumns();
 
   const handleCreateClaim = async data => {
     if (!state.ClientModule.selectedClient._id)
@@ -264,6 +269,149 @@ const ClaimDetailComponent = ({handleGoBack}) => {
     },
   ];
 
+  const onServiceRowClick = item => {
+    setState(prev => ({
+      ...prev,
+      ClaimsModule: {
+        ...prev.ClaimsModule,
+        selectedService: item,
+      },
+    }));
+    setUpdateServiceModal(true);
+  };
+
+  const servicesConditionalRowStyles = [
+    {
+      when: row => row?.status?.toLowerCase() === "rejected",
+      style: {
+        backgroundColor: "pink",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
+  const deleteDiagnosis = async diagnosis => {
+    showActionLoader();
+    const prevDiagnosis = selectedClaim.diagnosis || [];
+
+    const newDiagnosis = prevDiagnosis.filter(
+      item => item._id !== diagnosis._id
+    );
+
+    await claimsServer
+      .patch(selectedPreAuth._id, {diagnosis: newDiagnosis})
+      .then(res => {
+        hideActionLoader();
+        toast.success("You've successfully removed a Diagnosis");
+        setState(prev => ({
+          ...prev,
+          ClaimsModule: {
+            ...prev.ClaimsModule,
+            selectedClaim: res,
+          },
+        }));
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error(`Deleting Diagnosis failed due to ${err}`);
+      });
+  };
+
+  const deleteComplaint = async complaint => {
+    showActionLoader();
+    const prevComplaints = selectedClaim.complaints || [];
+
+    const newComplaints = prevComplaints.filter(
+      item => item._id !== complaint._id
+    );
+
+    await preAuthServer
+      .patch(selectedClaim._id, {complaints: newComplaints})
+      .then(res => {
+        hideActionLoader();
+        toast.success("You've successfully removed a Complaint");
+        setState(prev => ({
+          ...prev,
+          ClaimsModule: {
+            ...prev.ClaimsModule,
+            selectedClaim: res,
+          },
+        }));
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error(`Deleting Complaint failed due to ${err}`);
+      });
+  };
+
+  const deleteService = async service => {
+    showActionLoader();
+    const prevServices = selectedClaim.services || [];
+
+    const newServices = prevServices.filter(item => item._id !== service._id);
+
+    await claimsServer
+      .patch(selectedClaim._id, {services: newServices})
+      .then(res => {
+        hideActionLoader();
+        toast.success("You've successfully removed a Service");
+        setState(prev => ({
+          ...prev,
+          ClaimsModule: {
+            ...prev.ClaimsModule,
+            selectedClaim: res,
+          },
+        }));
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error(`Deleting Service failed due to ${err}`);
+      });
+  };
+
+  const confirmDeleteDiagnosis = diagnosis => {
+    setConfirmationDialog({
+      open: true,
+      message: `You're about to delete a Diagnosis ${diagnosis.diagnosis}`,
+      type: "warning",
+      action: () => deleteDiagnosis(diagnosis),
+    });
+  };
+
+  const confirmDeleteComplaint = complaint => {
+    setConfirmationDialog({
+      open: true,
+      message: `You're about to delete a Complaint ${complaint.complaint}`,
+      type: "warning",
+      action: () => deleteComplaint(complaint),
+    });
+  };
+
+  const confirmDeleteService = service => {
+    setConfirmationDialog({
+      open: true,
+      message: `You're about to delete a Service ${service.service.serviceName}`,
+      type: "warning",
+      action: () => deleteService(service),
+    });
+  };
+
+  const cancelConfirmDialog = () => {
+    setConfirmationDialog({
+      open: false,
+      message: "",
+      type: "",
+      action: null,
+    });
+  };
+
+  const complaintColumns = getComplaintColumns(confirmDeleteComplaint, false);
+  const diagnosisColumns = getDiagnosisColumns(confirmDeleteDiagnosis, false);
+  const servicesColumns = getServicesColumns(confirmDeleteService, false);
+
   return (
     <Box
       sx={{
@@ -273,6 +421,20 @@ const ClaimDetailComponent = ({handleGoBack}) => {
         position: "relative",
       }}
     >
+      <CustomConfirmationDialog
+        open={confirmationDiaglog.open}
+        message={confirmationDiaglog.message}
+        confirmationAction={confirmationDiaglog.action}
+        type={confirmationDiaglog.type}
+        cancelAction={cancelConfirmDialog}
+      />
+      <ModalBox
+        open={updateServiceModal}
+        onClose={() => setUpdateServiceModal(false)}
+        header="Update Service"
+      >
+        <UpadteService closeModal={() => setUpdateServiceModal(false)} />
+      </ModalBox>
       <ModalBox
         open={statusModal}
         onClose={() => setStatusModal(false)}
@@ -280,7 +442,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
       >
         <ClaimsStatus closeModal={() => setStatusModal(false)} />
       </ModalBox>
-
       <ModalBox
         open={assignModal}
         onClose={() => setAssignModal(false)}
@@ -288,7 +449,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
       >
         <AssignClaim closeModal={() => setAssignModal(false)} />
       </ModalBox>
-
       <ModalBox
         open={complaintModal}
         onClose={() => setComplaintModal(false)}
@@ -299,7 +459,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
           setComplaints={setComplaints}
         />
       </ModalBox>
-
       <ModalBox
         open={diagnosisModal}
         onClose={() => setDiagnosisModal(false)}
@@ -310,7 +469,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
           setDiagnosis={setDiagnosis}
         />
       </ModalBox>
-
       <ModalBox
         open={serviceModal}
         onClose={() => setServiceModal(false)}
@@ -363,7 +521,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
             >
               Claim's Detail
             </Typography>
-            <FormsHeaderText text={`- ${selectedClaim?.preauthid}`} />
+            <FormsHeaderText text={`- ${selectedClaim?.claimid}`} />
           </Box>
         </Box>
 
@@ -412,7 +570,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
           </GlobalCustomButton>
         </Box>
       </Box>
-
       <Box
         sx={{
           display: "flex",
@@ -510,6 +667,24 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   </Grid>
                 </Grid>
               )}
+
+              <Box>
+                <FormsHeaderText text="Claim's Status History" />
+                <Box mt={1} mb={1}>
+                  <CustomTable
+                    title={""}
+                    columns={statushxColumns}
+                    data={selectedClaim.statushx || []}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    //onRowClicked={handleRow}
+                    CustomEmptyData="No Status History for this Claim yet..."
+                    progressPending={false}
+                    //conditionalRowStyles={conditionalRowStyles}
+                  />
+                </Box>
+              </Box>
 
               <Box mb={2}>
                 <Box
@@ -691,8 +866,8 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                     pointerOnHover
                     highlightOnHover
                     striped
-                    //onRowClicked={handleRow}
-                    //conditionalRowStyles={conditionalRowStyles}
+                    onRowClicked={onServiceRowClick}
+                    conditionalRowStyles={servicesConditionalRowStyles}
                     progressPending={false}
                     CustomEmptyData={
                       <Typography sx={{fontSize: "0.8rem"}}>
@@ -713,29 +888,10 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   />
                 </Box>
               </Box>
-
-              <Box>
-                <FormsHeaderText text="Claim's Status History" />
-                <Box mt={1} mb={1}>
-                  <CustomTable
-                    title={""}
-                    columns={statushxColumns}
-                    data={selectedClaim.statushx || []}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    //onRowClicked={handleRow}
-                    CustomEmptyData="No Status History for this Claim yet..."
-                    progressPending={false}
-                    //conditionalRowStyles={conditionalRowStyles}
-                  />
-                </Box>
-              </Box>
             </>
           )}
         </Box>
       </Box>
-
       <Drawer
         anchor="right"
         open={chat}

@@ -8,6 +8,11 @@ const Radiology = lazy(() => import("../Radiology/Radiologys"));
 const RadiologyPayment = lazy(() => import("../Radiology/RadiologyPayment"));
 const RadDetails = lazy(() => import("../Radiology/RadDetails"));
 const RadiologyReport = lazy(() => import("../Radiology/RadiologyReport"));
+const AppointmentComponent = lazy(() =>
+  import("../../components/appointment/Appointment")
+);
+
+const RadiologyAppointments = () => <AppointmentComponent module="Radiology" />;
 
 export const radiologyRoutes = [
   {
@@ -16,7 +21,7 @@ export const radiologyRoutes = [
   },
   {
     path: "/app/radiology/appointments",
-    Component: RadAppointments,
+    Component: RadiologyAppointments,
   },
   {
     path: "/app/radiology/billservice",

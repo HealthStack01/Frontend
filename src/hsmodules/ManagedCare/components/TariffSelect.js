@@ -108,9 +108,9 @@ const CustomTariffSelect: React.FC<SelectProps> = ({
 									value={option.value || option.name || option}
 									key={index}
 									sx={{ width: '100%' }}>
-									{option.label || option.name || option.comments.length > 30
-										? option.comments.substring(0, 30) + '...'
-										: option.comments || option}
+									{option.label || option.name || option.description.length > 30
+										? option.description.substring(0, 30) + '...'
+										: option.description || option}
 								</MenuItem>
 							))}
 						</Select>
@@ -177,9 +177,9 @@ const CustomTariffSelect: React.FC<SelectProps> = ({
 						value={option.value || option.name || option}
 						key={index}
 						sx={{ width: '100%' }}>
-						{option.label || option.name || option.comments.length > 30
-							? option.comments.substring(0, 30) + '...'
-							: option.comments || option}
+						{option.label || option.name || option.description.length > 30
+							? option.description.substring(0, 30) + '...'
+							: option.description || option}
 					</MenuItem>
 				))}
 			</Select>

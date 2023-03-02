@@ -1165,10 +1165,10 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
 
-    // let confirm = window.confirm(
-    //   `You are about to register a new policy ${policyNo} ?`
-    // );
-    //console.log(user);
+    let confirm = window.confirm(
+      `You are about to register a new policy ${policyNo} ?`
+    );
+    console.log(user);
     if (confirm) {
       let policy = {
         policyNo: policyNo,
@@ -1263,10 +1263,10 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
 
-    // let confirm = window.confirm(
-    //   `You are about to register a new policy ${policyNo} ?`
-    // );
-    //console.log(user);
+    let confirm = window.confirm(
+      `You are about to register a new policy ${policyNo} ?`
+    );
+    console.log(user);
     if (confirm) {
       let policy = {
         policyNo: policyNo,
@@ -2198,10 +2198,10 @@ export function ClientCreate({ closeModal }) {
 
   // ****************************************************************************
   const onSubmit = async (data, e) => {
-    if (!date) {
-      toast.warning("Please enter Date of Birth!");
-      return;
-    }
+    // if (!date) {
+    //   toast.warning("Please enter Date of Birth!");
+    //   return;
+    // }
 
     showActionLoader();
 

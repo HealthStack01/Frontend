@@ -50,6 +50,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
   const [facilities, setFacilities] = useState([]);
   const [selectedCheckedIn, setSelectedCheckedIn] = useState();
   const [error, setError] = useState(false);
+  const [checkoutAppointment, setCheckoutAppointment] = useState([]);
 
   // const handleRow = obj => {};
   //console.log(state.employeeLocation)
@@ -66,6 +67,31 @@ export function CheckInList({openCreateModal, setShowModal}) {
       AppointmentModule: newClientModule,
     }));
   };
+
+  const checkedinFn = () => {
+    let query = {
+      facility: user.currentEmployee.facilityDetail._id, // || "",
+      $limit: 20,
+      appointment_status: "Checked In",
+      $sort: {
+        createdAt: -1,
+      },
+    }
+
+    ClientServ.find({query: query})
+    .then(res => {
+      console.log(res);
+      setFacilities(res.data);
+      setMessage(" Client  fetched successfully");
+      setSuccess(true);
+    })
+    .catch(err => {
+      console.log(err);
+      // setMessage('Error fetching Client, probable network issues ' + err);
+      setError(true);
+    });
+
+  }
 
   const handleSearch = val => {
     const field = "firstname";
@@ -159,7 +185,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
 
     ClientServ.find({query: query})
       .then(res => {
-        console.log(res);
+        console.log(res.data, "data fetched from appointment");
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
@@ -171,10 +197,64 @@ export function CheckInList({openCreateModal, setShowModal}) {
       });
   };
 
+  // const checkedoutFn = async() => {
+  //   const findClient = await ClientServ.find({
+  //     query: {
+  //       $limit: 100,
+  //       appointment_status: "Checked Out",
+  //       $sort: {
+  //         createdAt: -1,
+  //       },
+  //       $select: ["appointment_status"]
+  //     },
+  //   });
+  //   console.log(select, "select here");
+  // }
+
+// checked out 
+
+  const getCheckout = useCallback(async () => {
+    if (user.currentEmployee) {
+      let stuff = {
+        // facility: user.currentEmployee.facilityDetail._id,
+        appointment_status: "Checked Out",
+        // locationId:state.employeeLocation.locationId,
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      };
+      // if (state.employeeLocation.locationType !== 'Front Desk') {
+      //   stuff.locationId = state.employeeLocation.locationId;
+      // }
+
+      const findAppointment = await ClientServ.find({query: stuff});
+
+      await setCheckoutAppointment(findAppointment.data);
+      console.log(findAppointment, "tttttttttttttttttttt");
+    } else {
+      if (user.stacker) {
+        const findAppointment = await ClientServ.find({
+          query: {
+            $limit: 100,
+            appointment_status: "Checked Out",
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        });
+
+        await setCheckoutAppointment(findAppointment.data);
+      }
+    }
+  }, []);
+
+
+
   const getFacilities = useCallback(async () => {
     if (user.currentEmployee) {
       let stuff = {
-        facility: user.currentEmployee.facilityDetail._id,
+        // facility: user.currentEmployee.facilityDetail._id,
         appointment_status: "Checked In",
         // locationId:state.employeeLocation.locationId,
         $limit: 100,
@@ -186,7 +266,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find();
+      const findClient = await ClientServ.find({query: stuff});
 
       await setFacilities(findClient.data);
       console.log(findClient, "tttttttttttttttttttt");
@@ -195,6 +275,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
         const findClient = await ClientServ.find({
           query: {
             $limit: 100,
+            appointment_status: "Checked In",
             $sort: {
               createdAt: -1,
             },
@@ -208,6 +289,9 @@ export function CheckInList({openCreateModal, setShowModal}) {
 
   useEffect(() => {
     getFacilities();
+    getCheckout();
+
+    
 
     ClientServ.on("created", obj => handleCalendarClose());
     ClientServ.on("updated", obj => handleCalendarClose());
@@ -215,14 +299,14 @@ export function CheckInList({openCreateModal, setShowModal}) {
     ClientServ.on("removed", obj => handleCalendarClose());
   }, [getFacilities]);
 
-  useEffect(() => {
-    getFacilities();
+  // useEffect(() => {
+  //   getFacilities();
 
-    ClientServ.on("created", obj => getFacilities());
-    ClientServ.on("updated", obj => getFacilities());
-    ClientServ.on("patched", obj => getFacilities());
-    ClientServ.on("removed", obj => getFacilities());
-  }, [getFacilities]);
+  //   ClientServ.on("created", obj => getFacilities());
+  //   ClientServ.on("updated", obj => getFacilities());
+  //   ClientServ.on("patched", obj => getFacilities());
+  //   ClientServ.on("removed", obj => getFacilities());
+  // }, [getFacilities]);
 
   const dummyData = [
     {
@@ -376,6 +460,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       required: true,
       inputType: "TEXT",
     },
+  
 
     {
       name: "Last Name",
@@ -441,6 +526,8 @@ export function CheckInList({openCreateModal, setShowModal}) {
       inputType: "TEXT",
     },
   ];
+  
+ 
 
   //CREATE A SEPERATE COLUMN DATA FOR CHECKED OUT DATA, ONLY DIFFERENCE PROBABLY STATUS
   const checkedOutColumns = [
@@ -451,6 +538,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
+      width: "110px",
     },
     {
       name: "Date/Time",
@@ -460,6 +548,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "First Name",
@@ -469,8 +558,8 @@ export function CheckInList({openCreateModal, setShowModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
-
     {
       name: "Last Name",
       key: "lastname",
@@ -479,6 +568,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "Classification",
@@ -488,6 +578,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "Location",
@@ -497,6 +588,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "Type",
@@ -506,6 +598,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "Status",
@@ -515,6 +608,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "Reason",
@@ -524,6 +618,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
     {
       name: "Practitioner",
@@ -533,6 +628,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "110px",
     },
   ];
 
@@ -547,20 +643,26 @@ export function CheckInList({openCreateModal, setShowModal}) {
               </div>
             )}
             <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-              {checkedin
+              { !checkedin
                 ? "List of Checked-In Patients"
                 : "List of Checked-Out Patients"}
             </h2>
           </div>
 
           <Box>
-            {checkedin === false ? (
+            {/* {checkedin === false ? <GlobalCustomButton onClick={() => {setCheckedin(true)}}>Check In</GlobalCustomButton> : <GlobalCustomButton onClick={() => {setCheckedin(false)}}>Check Out</GlobalCustomButton>}
+            FIRE YOUR TOGGLE FUNCTION HERE SWITCHING FROM CHECK IN TO CHECK OUT VICE VERSA */}
+            
+            { !checkedin  ? (
               <GlobalCustomButton
                 onClick={() => {
                   setCheckedin(true);
+                  // checkedinFn();
                 }}
+              
+                
               >
-                Check In
+                Check Out
               </GlobalCustomButton>
             ) : (
               <GlobalCustomButton
@@ -568,7 +670,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
                   setCheckedin(false);
                 }}
               >
-                Check Out
+                Check In
               </GlobalCustomButton>
             )}
             {/* FIRE YOUR TOGGLE FUNCTION HERE SWITCHING FROM CHECK IN TO CHECK OUT VICE VERSA */}
@@ -582,7 +684,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
             overflow: "auto",
           }}
         >
-          {checkedin ? (
+          {!checkedin ? (
             <>
               <CustomTable
                 title={""}
@@ -601,7 +703,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
               <CustomTable
                 title={""}
                 columns={checkedOutColumns}
-                data={facilities}
+                data={checkoutAppointment}
                 pointerOnHover
                 highlightOnHover
                 striped
@@ -656,7 +758,7 @@ export function CheckDetails({showModal, setShowModal}) {
 
   return (
     <>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{width: "60vh"}}> 
         <Grid item xs={12} sm={6}>
           <ModalHeader text={"Client Details"} />
         </Grid>
@@ -699,7 +801,7 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
@@ -713,7 +815,7 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
@@ -727,7 +829,7 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
@@ -744,25 +846,25 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Age:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {/* {formatDistanceToNowStrict(new Date(Client?.dob))} */}
+            {formatDistanceToNowStrict(new Date(Client?.dob))}
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
-            Gender:
+           Gender:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
             {Client?.gender}
@@ -772,14 +874,14 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Phone No:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.phone}
+            {Client?.phone}
           </span>
         </Grid>
       </Grid>
@@ -788,14 +890,14 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Email:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.email}
+            {Client?.email}
           </span>
         </Grid>
       </Grid>
@@ -805,29 +907,29 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Start Time:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.start_time}
-            {/* {format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')} */}
+            {Client?.start_time}
+            {format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')}
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Location:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {/* {`${Client.location_name} (${Client.location_type})`} */}
+            {/* {`${Client?.location_name} (${Client.location_type})`} */}
           </span>
         </Grid>
 
@@ -835,7 +937,7 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
@@ -851,28 +953,28 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Appointment Status:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.appointment_status}
+            {Client?.appointment_status}
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Appointment Class:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.appointmentClass}
+            {Client?.appointmentClass}
           </span>
         </Grid>
 
@@ -880,14 +982,14 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Appointment Type:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.appointment_type}
+            {Client?.appointment_type}
           </span>
         </Grid>
       </Grid>
@@ -896,14 +998,14 @@ export function CheckDetails({showModal, setShowModal}) {
           <span
             style={{
               color: " #0364FF",
-              fontSize: "16px",
+              fontSize: "0.8rem",
               marginRight: ".8rem",
             }}
           >
             Reason for Appointment:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
-            {Client.appointment_reason}
+            {Client?.appointment_reason}
           </span>
         </Grid>
       </Grid>

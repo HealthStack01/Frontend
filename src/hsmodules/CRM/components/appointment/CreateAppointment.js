@@ -140,7 +140,12 @@ const ScheduleAppointment = ({closeModal}) => {
     const emailObj = {
       organizationId: employee.facilityDetail._id,
       organizationName: employee.facilityDetail.facilityName,
-      html: "",
+      html: `<p>You have been scheduled for an appointment with ${
+        employee.facilityDetail.facilityName
+      } at ${dayjs(data.date).format(
+        "DD/MM/YYYY hh:mm"
+      )} and title of appointment is ${data.title} </p>`,
+
       text: `You have been scheduled for an appointment with ${
         employee.facilityDetail.facilityName
       } at ${dayjs(data.date).format(

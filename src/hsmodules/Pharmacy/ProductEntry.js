@@ -137,7 +137,7 @@ export function ProductEntryCreate({closeModal}) {
   const [costprice, setCostprice] = useState("");
   const [storeId, setStoreId] = useState("");
   const [productItem, setProductItem] = useState([]);
-  const {state} = useContext(ObjectContext);
+  const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
   const [confirmDialog, setConfirmDialog] = useState(false);
 
   /*  const [productEntry,setProductEntry]=useState({
@@ -215,6 +215,7 @@ export function ProductEntryCreate({closeModal}) {
   };
 
   const onSubmit = async e => {
+    showActionLoader();
     // e.preventDefault();
     setMessage("");
     setError(false);
@@ -254,7 +255,7 @@ export function ProductEntryCreate({closeModal}) {
       type: "Pharmacy",
       title: "New product(s) in Pharmacy Inventory",
       description: `${user.firstname} ${user.lastname} added new product(s) to Pharmacy Invetory`,
-      facilityId: user.currentEmployee.facilityDetail.facilityDetail._id,
+      facilityId: user.currentEmployee.facilityDetail._id,
       sender: `${user.firstname} ${user.lastname}`,
       senderId: user._id,
       pageUrl: "/app/pharmacy/storeinventory",
@@ -268,6 +269,7 @@ export function ProductEntryCreate({closeModal}) {
       .then(async res => {
         await notificationsServer.create(notificationObj);
         //console.log(JSON.stringify(res))
+        hideActionLoader();
         resetform();
         /*  setMessage("Created ProductEntry successfully") */
         setSuccess(true);
@@ -277,6 +279,7 @@ export function ProductEntryCreate({closeModal}) {
         setProductItem([]);
       })
       .catch(err => {
+        hideActionLoader();
         toast.error("Error creating ProductEntry " + err);
         setConfirmDialog(false);
       });
