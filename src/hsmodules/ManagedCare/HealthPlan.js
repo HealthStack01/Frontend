@@ -452,12 +452,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
           createdAt: -1,
         },
       };
-      // if (state.employeeLocation.locationType !== "Front Desk") {
-      //   stuff.locationId = state.employeeLocation.locationId;
-      // }
-
       const findHealthPlan = await HealthPlanServ.find({ query: stuff });
-
       await console.log("HealthPlan", findHealthPlan.data);
       await setFacilities(findHealthPlan.data);
     } else {
@@ -2290,6 +2285,7 @@ export function HealthPlanDetails({
         );
       });
   };
+
   const checkIfPlanNameAlreadyExistsDuringEditing = (
     planArr,
     nameOfPlan,
