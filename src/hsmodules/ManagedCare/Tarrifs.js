@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useRef,
   useCallback,
+  useLayoutEffect,
 } from "react";
 import { ObjectContext, UserContext } from "../../context";
 import { TableMenu } from "../dashBoardUiComponent/core-ui/styles";
@@ -191,14 +192,14 @@ export const TarrifListView = ({
   const selectedContractDetails = state.TariffModule.selectedContracts;
 
   
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      bandName: selectedServiceDetails?.band,
-      servicename: selectedContractDetails?.serviceName,
-      comment: selectedContractDetails?.comments,
-      costPrice: selectedContractDetails?.price,
-    },
-  });
+  const { register, handleSubmit,reset} = useForm(
+    // defaultValues: {
+    //   bandName: selectedServiceDetails?.band,
+    //   servicename: selectedContractDetails?.serviceName,
+    //   comment: selectedContractDetails?.comments,
+    //   costPrice: selectedContractDetails?.price,
+    // },
+  );
 
   const getSearchService = (obj) => {
     setService(obj);
@@ -276,9 +277,10 @@ export const TarrifListView = ({
     });
     setSelectedCategory(bandPlans?.flat(1))
     setSelectPlans(selectedCategory)
+    
    };
 
- console.log(selectedCategory)
+//  console.log(selectedCategory)
 
   const handleSearch = (val) => {
     const field = "name";
@@ -637,13 +639,10 @@ export const TarrifListView = ({
       });
     //}
   };
-//   console.log(selectedContractDetails)
-// console.log(selectedServiceDetails)
-// console.log(selectedServices)
 
+  // UPDATE THE PLANS FUNCTIONS
 
-
-const onSubmit = useCallback ((data) => {
+const onSubmit = async (data) => {
   setLoading(true);
   
   // const prevServices = selectedServiceDetails
@@ -692,10 +691,12 @@ const onSubmit = useCallback ((data) => {
     band: selectedServiceDetails.band,
     contracts : newContract
     }
-  
-  ServicesServ.patch(selectedServiceDetails._id, newService)
+
+   
+ await ServicesServ.patch(selectedServiceDetails._id, newService)
     .then((res) => {
       console.log(res)
+      setSelectedServices(res.contracts)
       setState((prev) => ({
         ...prev,
         ServicesModule: { ...prev.ServicesModule, selectedServices: res},
@@ -704,6 +705,7 @@ const onSubmit = useCallback ((data) => {
         ...prev,
         TariffModule: { ...prev.TariffModule, selectedCategory: res},
       }));
+      setOpenTarrifModify(false)
       setLoading(false);
       toast.success("Tariff updated succesfully");
     })
@@ -711,11 +713,14 @@ const onSubmit = useCallback ((data) => {
       setLoading(false);
       toast.error("Error updating Tariff " + err);
     });
-},[state.ServicesModule.selectedServices, state.TariffModule.selectedCategory]);
+};
+
+
+
 
   const conditionalRowStyles = [
     {
-      when: (row) => row?.selectId === selectedContractDetails?.serviceId,
+      when: (row) => row?.serviceId === selectedContractDetails?.serviceId,
       style: {
         backgroundColor: "#4cc9f0",
         color: "white",
@@ -725,6 +730,8 @@ const onSubmit = useCallback ((data) => {
       },
     },
   ];
+
+ 
 
   return (
     <div>
@@ -856,7 +863,17 @@ const onSubmit = useCallback ((data) => {
                               </p>
                             </Box>
                             <Grid container spacing={2} alignItems="center">
+                             {!editing ? (
                             <Grid item xs={3}>
+                                  <Input
+                                    label="Select Benefit Category"
+                                    name="benefitcatergory"
+                                    defaultValue={singleSelectPlan?.benefitcategory}
+                                    disabled={!editing}
+                                  />
+                                </Grid> 
+                                    ) : (
+                                  <Grid item xs={3}>
                                   <CustomSelect
                                     options={allCategories || []}
                                     label="Select Benefit Category"
@@ -864,10 +881,21 @@ const onSubmit = useCallback ((data) => {
                                       setBeneCat(e.target.value);
                                       setSelectNo(index);
                                     }}
-                                    defaultValue={c.benefit || ''}
+                                  
                                   />
                                 </Grid> 
+                                    )} 
+                                      {!editing ? (
                                 <Grid item xs={3}>
+                                  <Input
+                                    label="Select Benefit"
+                                    defaultValue={singleSelectPlan?.benefit}
+                                    name="benefit"
+                                    disabled={!editing}
+                                  />
+                                </Grid>
+                                ) : (
+                                  <Grid item xs={3}>
                                   <CustomTariffSelect
                                     key={index}
                                     options={selectNo === index ? newBene : []}
@@ -875,9 +903,9 @@ const onSubmit = useCallback ((data) => {
                                     onChange={(event) =>
                                       setNewBene(event.target.value)
                                     }
-                                    defaultValue={c.comments ||''}
                                   />
-                                </Grid>
+                                  </Grid>
+                                )} 
                                <Box display="flex" px="1rem" gap="2rem" alignItems="center">
                                 <Box key={index}>
                                    <input
@@ -1575,6 +1603,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
           : "Company",
     };
     setProductItem([...productItem, seviceItem]);
+    closeModal()
     await setBenefittingPlans([]);
     await setService("");
     await setCostprice("");
@@ -1683,6 +1712,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
       console.log("NEW BENEFITS", newBene);
     });
   }, [beneCat]);
+ 
   const productItemSchema = [
     {
       name: "S/N",
@@ -1827,6 +1857,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
       inputType: "NUMBER",
     },
   ];
+
   console.log("selectedBenefit", benefittingplans, "productItem", productItem);
   console.log("beneCat", beneCat);
   return (
@@ -2387,8 +2418,8 @@ export const BandForm = () => {
   const BandsServ = client.service("bands");
   const { state, setState } = useContext(ObjectContext);
   const [providerBand, setProviderBand] = useState([]);
-  // const [existBand, setExistBand] = useState('');
-  const Services = state.ServicesModule.selectedServices;
+  // // const [existBand, setExistBand] = useState('');
+  // const Services = state.ServicesModule.selectedServices;
 
   const data = localStorage.getItem("band");
   const { user } = useContext(UserContext);
@@ -2408,6 +2439,10 @@ export const BandForm = () => {
       facility: user.currentEmployee.facilityDetail._id,
     },
   });
+
+ const bandTypeOption = [
+    "Provider"
+  ];
 
   const getProviderBand = async () => {
     if (user.currentEmployee) {
@@ -2439,7 +2474,7 @@ export const BandForm = () => {
     async (data, e) => {
       e.preventDefault();
       setSuccess(false);
-      let existBand = providerBand.find((band) => band.name === name);
+      let existBand = providerBand.find((band) => band.name === data.name);
 
       if (existBand) {
         toast.error("Band name already exist");
@@ -2487,7 +2522,7 @@ export const BandForm = () => {
           <CustomSelect
             label="Choose Band Type"
             name="bandType"
-            options={bandTypeOptions}
+            options={bandTypeOption}
             register={register("bandType")}
             control={control}
           />
