@@ -39,7 +39,6 @@ const EmployeeLocation = ({handlecloseModal}) => {
   const [checked, setChecked] = useState([]);
   const [expanded, setExpanded] = useState([]);
 
-  let draftDoc = {};
   const currentEmployee = state.EmployeeModule.selectedEmployee;
   const prevRoles = state.EmployeeModule.selectedEmployee.locations || [];
   const prevRolesIds = prevRoles.map(item => {
@@ -56,7 +55,7 @@ const EmployeeLocation = ({handlecloseModal}) => {
         },
       },
     });
-    //console.log(resp.data);
+    console.log(resp.data);
     setLocations(resp.data);
     setChecked(prevRolesIds);
   }, [user.currentEmployee]);
@@ -64,17 +63,6 @@ const EmployeeLocation = ({handlecloseModal}) => {
   useEffect(() => {
     getFacilityLocations();
   }, [getFacilityLocations]);
-
-  useEffect(() => {
-    Object.entries(draftDoc).map(([keys, value], i) =>
-      setValue(keys, value, {
-        shouldValidate: true,
-        shouldDirty: true,
-      })
-    );
-
-    return () => {};
-  }, []);
 
   const updateEmployeeLocations = () => {
     showActionLoader();
@@ -92,7 +80,7 @@ const EmployeeLocation = ({handlecloseModal}) => {
 
     //return console.log(newLocations);
 
-    EmployeeServ.patch(employee._id, {locaitons: newLocations})
+    EmployeeServ.patch(employee._id, {locations: newLocations})
       .then(res => {
         setConfirmDialog(false);
         hideActionLoader();
