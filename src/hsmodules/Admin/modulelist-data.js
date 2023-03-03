@@ -398,8 +398,8 @@ export const modulesList = [
         value: "Managed Care Audit Claim",
       },
       {
-        label: "Authorization",
-        value: "Managed Care Authorization",
+        label: "Claim Authorization",
+        value: "Managed Care Claim Authorization",
       },
       {
         label: "Assign Preauthorization Request",

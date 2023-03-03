@@ -429,6 +429,8 @@ export function FrontDeskList({standalone, closeModal}) {
     },
   ];
 
+  const employeeLocations = user.currentEmployee.locations || [];
+
   return (
     <>
       {user ? (
@@ -468,7 +470,9 @@ export function FrontDeskList({standalone, closeModal}) {
               <CustomTable
                 title={""}
                 columns={frontDeskListSchema}
-                data={facilities}
+                data={employeeLocations.filter(
+                  item => item.locationType === "Front Desk"
+                )}
                 pointerOnHover
                 highlightOnHover
                 striped

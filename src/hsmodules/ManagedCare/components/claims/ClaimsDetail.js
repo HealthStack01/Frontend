@@ -564,10 +564,18 @@ const ClaimDetailComponent = ({handleGoBack}) => {
             Change Status
           </GlobalCustomButton>
 
-          <GlobalCustomButton color="info" onClick={() => setAssignModal(true)}>
-            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-            Assign Claim
-          </GlobalCustomButton>
+          {(user?.currentEmployee?.roles?.includes("Admin") ||
+            user?.currentEmployee?.roles?.includes(
+              "Managed Care Assign Claim"
+            )) && (
+            <GlobalCustomButton
+              color="info"
+              onClick={() => setAssignModal(true)}
+            >
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Assign Claim
+            </GlobalCustomButton>
+          )}
         </Box>
       </Box>
       <Box

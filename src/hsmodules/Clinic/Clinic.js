@@ -460,6 +460,8 @@ export function ClinicList({standalone, closeModal}) {
     },
   ];
 
+  const employeeLocations = user.currentEmployee.locations || [];
+
   return (
     <>
       {user ? (
@@ -491,12 +493,14 @@ export function ClinicList({standalone, closeModal}) {
                 <CustomTable
                   title={""}
                   columns={clinicListSchema}
-                  data={facilities}
+                  data={employeeLocations.filter(
+                    item => item.locationType === "Clinic"
+                  )}
                   pointerOnHover
                   highlightOnHover
                   striped
                   onRowClicked={handleRow}
-                  progressPending={loading}
+                  progressPending={false}
                 />
               </div>
             </PageWrapper>

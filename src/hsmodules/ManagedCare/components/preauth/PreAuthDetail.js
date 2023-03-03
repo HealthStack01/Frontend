@@ -570,10 +570,10 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
             Change Status
           </GlobalCustomButton>
 
-          <GlobalCustomButton color="info" onClick={() => setAssignModal(true)}>
+          {/* <GlobalCustomButton color="info" onClick={() => setAssignModal(true)}>
             <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
             Assign Preauthorization
-          </GlobalCustomButton>
+          </GlobalCustomButton> */}
         </Box>
       </Box>
 
