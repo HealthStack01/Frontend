@@ -669,7 +669,7 @@ export function StoreListStandalone({standalone, closeModal}) {
     <>
       {user ? (
         <>
-          <Box container sx={{width: "100%", height: "100%"}}>
+          <Box container sx={{width: "100%", height: "inherit"}}>
             <Box item>
               <TableMenu>
                 <Box sx={{display: "flex", alignItems: "center"}}>
@@ -697,7 +697,7 @@ export function StoreListStandalone({standalone, closeModal}) {
               item
               sx={{
                 width: "100%",
-                height: "400px",
+                height: "auto",
                 overflowY: "auto",
               }}
             >

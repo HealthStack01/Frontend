@@ -11,15 +11,16 @@ export default function PharmacyHome({children}) {
   const [showModal, setShowModal] = useState(false);
   const {user, setUser} = useContext(UserContext);
 
-  const [selectedStore, setSelectedStore] = useState(
-    state.StoreModule.selectedStore
+  const employeeLocations = user.currentEmployee.locations || [];
+  const pharmacyLocations = employeeLocations.filter(
+    item => item.locationType === "Pharmacy"
   );
 
-  // const handleCloseModal = () => {
-  //   state.showStoreModal = "modal";
-  //   setState(state);
-  //   console.log(state.showStoreModal);
-  // };
+  const location = state.StoreModule.selectedStore._id
+    ? state.StoreModule.selectedStore
+    : pharmacyLocations[0];
+
+  const [selectedStore, setSelectedStore] = useState(location);
 
   const handleCloseModal = () => [
     setState(prev => ({
@@ -29,10 +30,29 @@ export default function PharmacyHome({children}) {
   ];
 
   useEffect(() => {
-    const notSelected = Object.keys(selectedStore).length === 0;
+    const notSelected =
+      selectedStore && Object.keys(selectedStore).length === 0;
 
     if (notSelected) {
       handleChangeStore();
+    } else {
+      const newEmployeeLocation = {
+        locationName: selectedStore.name,
+        locationType: "Pharmacy",
+        locationId: selectedStore._id,
+        facilityId: user.currentEmployee.facilityDetail._id,
+        facilityName: user.currentEmployee.facilityDetail.facilityName,
+        case: "pharmacy",
+      };
+
+      setState(prevstate => ({
+        ...prevstate,
+        employeeLocation: newEmployeeLocation,
+        StoreModule: {
+          ...prevstate.StoreModule,
+          selectedStore: selectedStore,
+        },
+      }));
     }
     return () => {};
   }, []);

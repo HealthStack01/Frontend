@@ -7,26 +7,44 @@ import ModalBox from "../../components/modal";
 import {Box} from "@mui/material";
 
 export default function RadiologyHome({children}) {
-  // const [activeModal, setActiveModal]=useState("modal is-active ")
   const {state, setState} = useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
-  // eslint-disable-next-line
-  const [selectedStore, setSelectedStore] = useState(
-    state.RadiologyModule.selectedRadiology
-  );
-  const [showModal, setShowModal] = useState(false);
 
-  // const handleCloseModal=()=>{
-  //     state.showStoreModal  =  "modal"
-  //     setState(state)
-  //     console.log( state.showStoreModal)
-  // }
+  const employeeLocations = user.currentEmployee.locations || [];
+  const radLocations = employeeLocations.filter(
+    item => item.locationType === "Radiology"
+  );
+
+  const location = state.RadiologyModule.selectedRadiology._id
+    ? state.RadiologyModule.selectedRadiology
+    : radLocations[0];
+
+  const [selectedStore, setSelectedStore] = useState(location);
 
   useEffect(() => {
-    const notSelected = Object.keys(selectedStore).length === 0;
+    const notSelected =
+      selectedStore && Object.keys(selectedStore).length === 0;
 
     if (notSelected) {
       handleChangeStore();
+    } else {
+      const newEmployeeLocation = {
+        locationName: selectedStore.name,
+        locationType: "Radiology",
+        locationId: selectedStore._id,
+        facilityId: user.currentEmployee.facilityDetail._id,
+        facilityName: user.currentEmployee.facilityDetail.facilityName,
+        case: "radiology",
+      };
+
+      setState(prevstate => ({
+        ...prevstate,
+        employeeLocation: newEmployeeLocation,
+        RadiologyModule: {
+          ...prevstate.RadiologyModule,
+          selectedRadiology: selectedStore,
+        },
+      }));
     }
     return () => {};
   }, []);
