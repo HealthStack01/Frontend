@@ -32,6 +32,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ModalBox from "../../components/modal";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 import ModuleList from "./ModuleList";
+import EmployeeLocation from "./EmployeeLocation";
 import {Avatar, IconButton} from "@mui/material";
 
 // import { createClientSchema } from "./schema";
@@ -56,6 +57,7 @@ const EmployeeView = ({open, setOpen, employee}) => {
     useContext(ObjectContext);
   const [updatingEmployee, setUpatingEmployee] = useState(false);
   const [showRoles, setShowRoles] = useState(false);
+  const [locationModal, setLocationModal] = useState(false);
 
   // const Employee =state.EmployeeModule.selectedEmployee
 
@@ -194,6 +196,14 @@ const EmployeeView = ({open, setOpen, employee}) => {
         <ModuleList handlecloseModal={() => setShowRoles(false)} />
       </ModalBox>
 
+      <ModalBox
+        open={locationModal}
+        onClose={() => setLocationModal(false)}
+        header={`Locations for ${employee.firstname} ${employee.lastname}`}
+      >
+        <EmployeeLocation handlecloseModal={() => setLocationModal(false)} />
+      </ModalBox>
+
       <GrayWrapper>
         <ToastContainer theme="colored" />
         <Box>
@@ -225,13 +235,20 @@ const EmployeeView = ({open, setOpen, employee}) => {
                   <CreateIcon fontSize="small" sx={{marginRight: "5px"}} />
                   Edit Employee
                 </GlobalCustomButton>
-
                 <GlobalCustomButton
                   color="secondary"
                   onClick={() => setShowRoles(true)}
                 >
                   <BadgeIcon fontSize="small" sx={{marginRight: "5px"}} />
                   Set Employee Roles
+                </GlobalCustomButton>
+
+                <GlobalCustomButton
+                  color="secondary"
+                  onClick={() => setLocationModal(true)}
+                >
+                  <BadgeIcon fontSize="small" sx={{marginRight: "5px"}} />
+                  Set Employee Locations
                 </GlobalCustomButton>
               </>
             ) : (

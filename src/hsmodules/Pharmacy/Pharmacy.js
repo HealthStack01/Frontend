@@ -662,6 +662,8 @@ export function PharmacyListStandalone({standalone, closeModal}) {
     },
   ];
 
+  const employeeLocations = user.currentEmployee.locations || [];
+
   return (
     <>
       {user ? (
@@ -700,7 +702,9 @@ export function PharmacyListStandalone({standalone, closeModal}) {
               <CustomTable
                 title={""}
                 columns={pharmacListSchema}
-                data={facilities}
+                data={employeeLocations.filter(
+                  item => item.locationType === "Pharmacy"
+                )}
                 pointerOnHover
                 highlightOnHover
                 striped

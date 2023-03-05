@@ -16,6 +16,7 @@ import CustomTable from "../../../../components/customtable";
 const UpdateService = () => {
   const claimsServer = client.service("claims");
   const {state, setState} = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
   const {register, reset} = useForm();
   const [reviewModal, setReviewModal] = useState(false);
   const [rejectModal, setRejectModal] = useState(false);
@@ -129,28 +130,35 @@ const UpdateService = () => {
         <ApproveService closeModal={() => setApproveModal(false)} />
       </ModalBox>
 
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-end",
-          gap: 1.5,
-        }}
-        mb={2}
-      >
-        <GlobalCustomButton onClick={() => setReviewModal(true)}>
-          Review
-        </GlobalCustomButton>
-        <GlobalCustomButton color="error" onClick={() => setRejectModal(true)}>
-          Reject
-        </GlobalCustomButton>
-        <GlobalCustomButton
-          color="success"
-          onClick={() => setApproveModal(true)}
-        >
-          Accept
-        </GlobalCustomButton>
-      </Box>
+      {user.currentEmployee.roles.includes(
+        "Managed Care Audit Claim" && (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              gap: 1.5,
+            }}
+            mb={2}
+          >
+            <GlobalCustomButton onClick={() => setReviewModal(true)}>
+              Review
+            </GlobalCustomButton>
+            <GlobalCustomButton
+              color="error"
+              onClick={() => setRejectModal(true)}
+            >
+              Reject
+            </GlobalCustomButton>
+            <GlobalCustomButton
+              color="success"
+              onClick={() => setApproveModal(true)}
+            >
+              Accept
+            </GlobalCustomButton>
+          </Box>
+        )
+      )}
 
       <Box>
         <Grid container spacing={1}>
