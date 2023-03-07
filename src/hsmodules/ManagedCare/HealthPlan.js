@@ -1238,7 +1238,9 @@ export function HealthPlanList({
   const [onSave, setOnSave] = useState(false);
   const [healthPlanName, setHealthPlanName] = useState("");
   const [healthPlanCategory, setHealthPlanCategory] = useState("");
-
+  const [confirmDialogForPremium, setConfirmDialogForPremium] = useState(false);
+  const [selectedHealthPlanId, setSelectedHealthPlanId] = useState("");
+  const [userRole, setUserRole] = useState(false);
   const handleCreateNew = async () => {
     setShowModal(1);
   };
@@ -1247,7 +1249,7 @@ export function HealthPlanList({
     setShowModal(2);
     setSelectedClient(Client);
   };
-  //console.log(state.employeeLocation)
+  console.log("user", user);
 
   const handleSearch = (val) => {
     const field = "firstname";
@@ -1353,7 +1355,9 @@ export function HealthPlanList({
   };
 
   const getFacilities = async () => {
-    console.log(user);
+    const userRol = user?.currentEmployee?.roles?.includes("Delete Documents");
+    setUserRole(userRol);
+    console.log("userRole", userRole);
     if (user.currentEmployee) {
       let stuff = {
         organizationId: user.currentEmployee.facilityDetail._id,
@@ -1446,6 +1450,20 @@ export function HealthPlanList({
     } else {
       toast.warning("You need to select a health plan you want to inherit");
     }
+  };
+
+  const handleDeleteHealthPlan = async () => {
+    HealthPlanServ.remove(selectedHealthPlanId)
+      .then((res) => {
+        toast.success("HealthPlan succesfully deleted");
+        setConfirmDialogForPremium(false);
+        getFacilities();
+      })
+      .catch((err) => {
+        toast.error(
+          "Error deleting Premium, probable network issues or " + err
+        );
+      });
   };
 
   useEffect(() => {
@@ -1556,10 +1574,41 @@ export function HealthPlanList({
 
       inputType: "TEXT",
     },
+    {
+      name: "Action",
+      center: true,
+      key: "Action",
+      description: "Action",
+      selector: (row, i) => (
+        <>
+          {userRole && (
+            <IconButton
+              onClick={() => {
+                setSelectedHealthPlanId(row._id);
+                setConfirmDialogForPremium(true);
+              }}
+              color="error"
+            >
+              <DeleteOutline fontSize="small" />
+            </IconButton>
+          )}
+        </>
+      ),
+      sortable: false,
+      required: false,
+      inputType: "NUMBER",
+    },
   ];
   console.log(facilities);
   return (
     <>
+      <CustomConfirmationDialog
+        open={confirmDialogForPremium}
+        cancelAction={() => setConfirmDialogForPremium(false)}
+        confirmationAction={handleDeleteHealthPlan}
+        type="danger"
+        message={`Are you sure you want to delete this premium`}
+      />
       {user ? (
         <>
           <div className="level">
@@ -2250,7 +2299,7 @@ export function HealthPlanDetails({
       .then((res) => {
         setPremiumState(res.premiums);
         setConfirmDialogForPremium(false);
-        toast.success("Premium succesfully added");
+        toast.success("Premium succesfully deleted");
       })
       .catch((err) => {
         toast.error(

@@ -1,14 +1,14 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useCallback} from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
-import {toast} from "react-toastify";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {FacilitySearch} from "../helpers/FacilitySearch";
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
+import { UserContext, ObjectContext } from "../../context";
+import { FacilitySearch } from "../helpers/FacilitySearch";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import FilterMenu from "../../components/utilities/FilterMenu";
@@ -23,12 +23,12 @@ import {
   Avatar,
   Typography,
 } from "@mui/material";
-import {formatDistanceToNowStrict} from "date-fns";
+import { formatDistanceToNowStrict } from "date-fns";
 import ModalBox from "../../components/modal";
-import {FaHospital, FaAddressCard, FaUserAlt} from "react-icons/fa";
-import {IoLocationSharp} from "react-icons/io5";
-import {BsFillTelephoneFill, BsHouseDoorFill} from "react-icons/bs";
-import {MdEmail, MdLocalHospital} from "react-icons/md";
+import { FaHospital, FaAddressCard, FaUserAlt } from "react-icons/fa";
+import { IoLocationSharp } from "react-icons/io5";
+import { BsFillTelephoneFill, BsHouseDoorFill } from "react-icons/bs";
+import { MdEmail, MdLocalHospital } from "react-icons/md";
 import ModalHeader from "../Appointment/ui-components/Heading/modalHeader";
 import {
   BottomWrapper,
@@ -45,7 +45,7 @@ import PremiumPayment from "./Premium";
 import ChatInterface from "../../components/chat/ChatInterface";
 import CRMTasks from "../CRM/Tasks";
 import VideoConference from "../utils/VideoConference";
-import {FormsHeaderText} from "../../components/texts";
+import { FormsHeaderText } from "../../components/texts";
 import CustomSelect from "../../components/inputs/basic/Select";
 import moment from "moment";
 import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
@@ -59,7 +59,7 @@ import {
 } from "./schema";
 import CorporateChat from "./components/Corporate/CorporateChat";
 export default function OrganizationClient() {
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedFacility, setSelectedFacility] = useState();
   const [success, setSuccess] = useState(false);
@@ -105,7 +105,7 @@ export default function OrganizationClient() {
 }
 
 export function OrganizationCreate() {
-  const {register, handleSubmit} = useForm(); //, watch, errors, reset
+  const { register, handleSubmit } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -117,9 +117,9 @@ export function OrganizationCreate() {
   const [providerBand, setProviderBand] = useState([]);
   const [facilities, setFacilities] = useState([]);
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
 
-  const handleChangeMode = async e => {
+  const handleChangeMode = async (e) => {
     await setBand(e.target.value);
   };
   const getFacilities = () => {
@@ -134,13 +134,13 @@ export function OrganizationCreate() {
           },
         },
       })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Organization  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         setMessage("Error creating facility, probable network issues " + err);
         setError(true);
       });
@@ -168,7 +168,7 @@ export function OrganizationCreate() {
     }
     //if chosen._id if present in facilities, return
     let found = facilities.find(
-      item => item?.organizationDetail?._id === chosen._id
+      (item) => item?.organizationDetail?._id === chosen._id
     );
     if (found) {
       toast.info("Organization already Exists");
@@ -184,7 +184,7 @@ export function OrganizationCreate() {
     };
     orgServ
       .create(stuff)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         setSuccess(true);
@@ -192,7 +192,7 @@ export function OrganizationCreate() {
         setSuccess(false);
         setBand("");
       })
-      .catch(err => {
+      .catch((err) => {
         toast.error("Error adding organization " + err);
       });
   };
@@ -203,7 +203,7 @@ export function OrganizationCreate() {
     getFacilities();
     return () => {};
   }, []);
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     setChosen(obj);
 
     /*  setCategoryName(obj.categoryname)
@@ -243,10 +243,10 @@ export function OrganizationCreate() {
           </option>
         ))}
       </select> */}
-      <Box sx={{margin: "1rem 0"}}>
+      <Box sx={{ margin: "1rem 0" }}>
         <CustomSelect
           name="bandType"
-          onChange={e => handleChangeMode(e)}
+          onChange={(e) => handleChangeMode(e)}
           options={providerBand}
           label="Corporate Sponsorship Type"
         />
@@ -265,7 +265,7 @@ export function OrganizationCreate() {
   );
 }
 
-export function OrganizationList({showModal, setShowModal}) {
+export function OrganizationList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -281,8 +281,8 @@ export function OrganizationList({showModal, setShowModal}) {
   // eslint-disable-next-line
   const [selectedFacility, setSelectedFacility] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
-  const {user} = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
 
   const handleCreateNew = async () => {
@@ -290,14 +290,14 @@ export function OrganizationList({showModal, setShowModal}) {
       selectedFacility: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
     //console.log(state)
     setShowModal(1);
   };
-  const handleRow = async facility => {
+  const handleRow = async (facility) => {
     //console.log("b4",state)
 
     //console.log("handlerow",facility)
@@ -308,7 +308,7 @@ export function OrganizationList({showModal, setShowModal}) {
       selectedFacility: facility,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
@@ -316,7 +316,7 @@ export function OrganizationList({showModal, setShowModal}) {
     setShowModal(2);
   };
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     const field = "facilityName";
     console.log(val);
     if (val.length > 0) {
@@ -337,13 +337,13 @@ export function OrganizationList({showModal, setShowModal}) {
             },
           },
         })
-        .then(res => {
+        .then((res) => {
           console.log(res);
           setFacilities(res.data);
           setMessage(" Organization  fetched successfully");
           setSuccess(true);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           setMessage("Error creating facility, probable network issues " + err);
           setError(true);
@@ -372,13 +372,13 @@ export function OrganizationList({showModal, setShowModal}) {
           },
         },
       })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Organization  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         setMessage("Error creating facility, probable network issues " + err);
         setError(true);
       });
@@ -387,18 +387,19 @@ export function OrganizationList({showModal, setShowModal}) {
   useEffect(() => {
     getFacilities();
 
-    orgServ.on("created", obj => getFacilities());
-    orgServ.on("updated", obj => getFacilities());
-    orgServ.on("patched", obj => getFacilities());
-    orgServ.on("removed", obj => getFacilities());
+    orgServ.on("created", (obj) => getFacilities());
+    orgServ.on("updated", (obj) => getFacilities());
+    orgServ.on("patched", (obj) => getFacilities());
+    orgServ.on("removed", (obj) => getFacilities());
     return () => {};
   }, []);
+
   const OrganizationClientSchema = [
     {
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: row => row.sn,
+      selector: (row) => row.sn,
       sortable: true,
       inputType: "HIDDEN",
     },
@@ -406,7 +407,7 @@ export function OrganizationList({showModal, setShowModal}) {
       name: "Organization",
       key: "facilityName",
       description: "Organization",
-      selector: row => row?.organizationDetail?.facilityName,
+      selector: (row) => row?.organizationDetail?.facilityName,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -415,7 +416,7 @@ export function OrganizationList({showModal, setShowModal}) {
       name: "Band",
       key: "band",
       description: "Band",
-      selector: row => row.Band,
+      selector: (row) => row.Band,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -425,7 +426,7 @@ export function OrganizationList({showModal, setShowModal}) {
       name: "Address",
       key: "facilityAddress",
       description: "Address",
-      selector: row => row?.organizationDetail?.facilityAddress,
+      selector: (row) => row?.organizationDetail?.facilityAddress,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -435,7 +436,7 @@ export function OrganizationList({showModal, setShowModal}) {
       name: "City",
       key: "facilityCity",
       description: "City",
-      selector: row => row?.organizationDetail?.facilityCity,
+      selector: (row) => row?.organizationDetail?.facilityCity,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -445,7 +446,7 @@ export function OrganizationList({showModal, setShowModal}) {
       name: "Phone",
       key: "phone",
       description: "Phone",
-      selector: row => row?.organizationDetail?.facilityContactPhone,
+      selector: (row) => row?.organizationDetail?.facilityContactPhone,
       sortable: true,
       required: true,
       inputType: "PHONE",
@@ -455,7 +456,7 @@ export function OrganizationList({showModal, setShowModal}) {
       name: "Email",
       key: "facilityEmail",
       description: "simpa@gmail.com",
-      selector: row => row?.organizationDetail?.facilityEmail,
+      selector: (row) => row?.organizationDetail?.facilityEmail,
       sortable: true,
       required: true,
       inputType: "EMAIL",
@@ -465,7 +466,7 @@ export function OrganizationList({showModal, setShowModal}) {
       name: "Type",
       key: "facilityType",
       description: "Facility Type",
-      selector: row => row?.organizationDetail?.facilityType,
+      selector: (row) => row?.organizationDetail?.facilityType,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -475,7 +476,7 @@ export function OrganizationList({showModal, setShowModal}) {
       name: "Category",
       key: "facilityCategory",
       description: "Category",
-      selector: row => row?.organizationDetail?.facilityCategory,
+      selector: (row) => row?.organizationDetail?.facilityCategory,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -486,16 +487,18 @@ export function OrganizationList({showModal, setShowModal}) {
     <>
       {" "}
       {/* <OrganizationCreate /> */}
-      <div className="level" style={{padding: "1rem"}}>
-        <PageWrapper style={{flexDirection: "column", padding: "0.6rem,1rem"}}>
+      <div className="level" style={{ padding: "1rem" }}>
+        <PageWrapper
+          style={{ flexDirection: "column", padding: "0.6rem,1rem" }}
+        >
           <TableMenu>
-            <div style={{display: "flex", alignItems: "center"}}>
+            <div style={{ display: "flex", alignItems: "center" }}>
               {handleSearch && (
                 <div className="inner-table">
                   <FilterMenu onSearch={handleSearch} />
                 </div>
               )}
-              <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+              <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
                 List of Corporates
               </h2>
             </div>
@@ -520,7 +523,7 @@ export function OrganizationList({showModal, setShowModal}) {
   );
 }
 
-export function OrganizationDetail({showModal, setShowModal}) {
+export function OrganizationDetail({ showModal, setShowModal }) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
@@ -530,10 +533,10 @@ export function OrganizationDetail({showModal, setShowModal}) {
   //const facilityServ=client.service('/facility')
   //const navigate=useNavigate()
   const orgServ = client.service("organizationclient");
-  const {user, setUser} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user, setUser } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
   const [editCorporate, setEditCorporate] = useState(false);
-  const {register, handleSubmit, setValue, reset} = useForm();
+  const { register, handleSubmit, setValue, reset } = useForm();
   const [currentPage, setCurrentPage] = useState(1);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [activateCall, setActivateCall] = useState(false);
@@ -548,7 +551,7 @@ export function OrganizationDetail({showModal, setShowModal}) {
       selectedFacility: facility,
       show: "modify",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
@@ -560,30 +563,32 @@ export function OrganizationDetail({showModal, setShowModal}) {
       selectedFacility: facility,
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
     console.log("close form");
   };
+
   const handleCancel = async () => {
     const newfacilityModule = {
       selectedFacility: facility,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
     setEditCorporate(false);
   };
+
   const handleDelete = async () => {
     let conf = window.confirm("Are you sure you want to delete this data?");
     const dleteId = facility._id;
     if (conf) {
       orgServ
         .remove(dleteId)
-        .then(res => {
+        .then((res) => {
           reset();
           toast({
             message: "Corporate deleted successfully",
@@ -593,7 +598,7 @@ export function OrganizationDetail({showModal, setShowModal}) {
           });
           changeState();
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
             message: "Error deleting Corporate,probably network issue or" + err,
             type: "is-danger",
@@ -644,6 +649,7 @@ export function OrganizationDetail({showModal, setShowModal}) {
       shouldDirty: true,
     });
   });
+
   const onSubmit = (data, e) => {
     e.preventDefault();
 
@@ -654,12 +660,12 @@ export function OrganizationDetail({showModal, setShowModal}) {
     orgServ
       .patch(facility._id, data)
 
-      .then(res => {
+      .then((res) => {
         toast("Hia updated succesfully");
         changeState();
         closeDetailModal();
       })
-      .catch(err => {
+      .catch((err) => {
         toast(`Error updating Client, probable network issues or ${err}`);
       });
   };
@@ -676,11 +682,11 @@ export function OrganizationDetail({showModal, setShowModal}) {
           $select: ["chat"],
         },
       })
-      .then(resp => {
+      .then((resp) => {
         const data = resp.data[0];
         const msgs = data.chat;
         console.log(msgs);
-        msgs.map(msg => {
+        msgs.map((msg) => {
           if (
             msg.senderId === userId ||
             msg.seen.includes(userId) ||
@@ -688,11 +694,11 @@ export function OrganizationDetail({showModal, setShowModal}) {
           ) {
             return;
           } else {
-            return setUnreadMsgs(prev => [msg._id, ...prev]);
+            return setUnreadMsgs((prev) => [msg._id, ...prev]);
           }
         });
       })
-      .catch(err => {
+      .catch((err) => {
         // toast.error("There was an error getting messages for this chat");
         console.log(err);
       });
@@ -701,12 +707,14 @@ export function OrganizationDetail({showModal, setShowModal}) {
   useEffect(() => {
     getUnreadMessagesCount();
   }, []);
+
   useEffect(() => {
-    orgServ.on("created", obj => getUnreadMessagesCount());
-    orgServ.on("updated", obj => getUnreadMessagesCount());
-    orgServ.on("patched", obj => getUnreadMessagesCount());
-    orgServ.on("removed", obj => getUnreadMessagesCount());
+    orgServ.on("created", (obj) => getUnreadMessagesCount());
+    orgServ.on("updated", (obj) => getUnreadMessagesCount());
+    orgServ.on("patched", (obj) => getUnreadMessagesCount());
+    orgServ.on("removed", (obj) => getUnreadMessagesCount());
   }, []);
+
   return (
     <>
       <Box
@@ -739,14 +747,14 @@ export function OrganizationDetail({showModal, setShowModal}) {
               color="warning"
               onClick={() => setShowModal(0)}
               text="Back"
-              customStyles={{marginRight: ".8rem"}}
+              customStyles={{ marginRight: ".8rem" }}
             />
             {!editCorporate && (
               <GlobalCustomButton
                 variant="contained"
                 onClick={() => setEditCorporate(true)}
                 text="Edit Corporate"
-                customStyles={{marginRight: ".8rem"}}
+                customStyles={{ marginRight: ".8rem" }}
               />
             )}
             {editCorporate && (
@@ -754,7 +762,7 @@ export function OrganizationDetail({showModal, setShowModal}) {
                 color="success"
                 onClick={handleSubmit(onSubmit)}
                 text="Update Corporate"
-                customStyles={{marginRight: ".8rem"}}
+                customStyles={{ marginRight: ".8rem" }}
               />
             )}
             {editCorporate && (
@@ -762,7 +770,7 @@ export function OrganizationDetail({showModal, setShowModal}) {
                 color="primary"
                 onClick={() => setEditCorporate(false)}
                 text=" Details"
-                customStyles={{marginRight: ".8rem"}}
+                customStyles={{ marginRight: ".8rem" }}
               />
             )}
             {editCorporate && (
@@ -770,7 +778,7 @@ export function OrganizationDetail({showModal, setShowModal}) {
                 color="error"
                 onClick={handleDelete}
                 text="Deactivate Corporate"
-                customStyles={{marginRight: ".8rem"}}
+                customStyles={{ marginRight: ".8rem" }}
               />
             )}
             {editCorporate && (
@@ -778,7 +786,7 @@ export function OrganizationDetail({showModal, setShowModal}) {
                 color="warning"
                 onClick={handleCancel}
                 text=" Cancel"
-                customStyles={{marginRight: ".8rem"}}
+                customStyles={{ marginRight: ".8rem" }}
               />
             )}
             {!editCorporate && (
@@ -787,7 +795,7 @@ export function OrganizationDetail({showModal, setShowModal}) {
                   <GlobalCustomButton
                     onClick={() => setActivateCall(false)}
                     color="error"
-                    customStyles={{marginRight: ".8rem"}}
+                    customStyles={{ marginRight: ".8rem" }}
                   >
                     End Call
                   </GlobalCustomButton>
@@ -802,40 +810,40 @@ export function OrganizationDetail({showModal, setShowModal}) {
                   variant={currentPage === 2 ? "outlined" : "contained"}
                   onClick={() => setCurrentPage(2)}
                   text="Policy"
-                  customStyles={{margin: "0 .8rem"}}
+                  customStyles={{ margin: "0 .8rem" }}
                 />
                 <GlobalCustomButton
                   color="success"
                   variant={currentPage === 3 ? "outlined" : "contained"}
                   onClick={() => setCurrentPage(3)}
                   text="Beneficiary"
-                  customStyles={{marginRight: ".8rem"}}
+                  customStyles={{ marginRight: ".8rem" }}
                 />
                 <GlobalCustomButton
                   color="warning"
                   variant={currentPage === 4 ? "outlined" : "contained"}
                   onClick={() => setCurrentPage(4)}
                   text="Claims"
-                  customStyles={{marginRight: ".8rem"}}
+                  customStyles={{ marginRight: ".8rem" }}
                 />
                 <GlobalCustomButton
                   color="secondary"
                   variant={currentPage === 6 ? "outlined" : "contained"}
                   onClick={() => setCurrentPage(6)}
                   text="Task"
-                  customStyles={{marginRight: ".8rem"}}
+                  customStyles={{ marginRight: ".8rem" }}
                 />
                 <GlobalCustomButton
                   color="primary"
                   variant={currentPage === 5 ? "outlined" : "contained"}
                   onClick={() => setCurrentPage(5)}
                   text="Premium"
-                  customStyles={{marginRight: ".8rem"}}
+                  customStyles={{ marginRight: ".8rem" }}
                 />
                 <Badge
                   badgeContent={unreadMsgs.length}
                   color="success"
-                  sx={{marginRight: "10px", marginTop: "0"}}
+                  sx={{ marginRight: "10px", marginTop: "0" }}
                 >
                   <GlobalCustomButton
                     onClick={() => setOpenDrawer(true)}
@@ -973,15 +981,15 @@ export function OrganizationDetail({showModal, setShowModal}) {
 }
 
 export function OrganizationModify() {
-  const {register, handleSubmit, setValue, reset} = useForm(); //watch, errors,
+  const { register, handleSubmit, setValue, reset } = useForm(); //watch, errors,
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
   const facilityServ = client.service("/facility");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const facility = state.facilityModule.selectedFacility;
 
@@ -1027,7 +1035,7 @@ export function OrganizationModify() {
       selectedFacility: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
@@ -1039,7 +1047,7 @@ export function OrganizationModify() {
       selectedFacility: {},
       show: "create",
     };
-    setState(prevstate => ({
+    setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
@@ -1051,7 +1059,7 @@ export function OrganizationModify() {
     if (conf) {
       facilityServ
         .remove(dleteId)
-        .then(res => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           reset();
           setMessage("Deleted Organization successfully");
@@ -1062,7 +1070,7 @@ export function OrganizationModify() {
           }, 200);
           changeState();
         })
-        .catch(err => {
+        .catch((err) => {
           setMessage("Error deleting facility, probable network issues " + err);
           setError(true);
           setTimeout(() => {
@@ -1087,7 +1095,7 @@ export function OrganizationModify() {
 
     facilityServ
       .update(facility._id, data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         setMessage("updated Organization successfully");
@@ -1095,7 +1103,7 @@ export function OrganizationModify() {
         setSuccess(true);
         changeState();
       })
-      .catch(err => {
+      .catch((err) => {
         toast.error("Error updating facility, probable network issues " + err);
         setMessage("Error creating facility, probable network issues " + err);
         setError(true);
@@ -1167,7 +1175,7 @@ export function OrganizationModify() {
         </Grid>
 
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={12} md={12} style={{display: "flex"}}>
+          <Grid item xs={12} sm={12} md={12} style={{ display: "flex" }}>
             <Button type="submit" label="Save" />
             <Button type="button" label="Cancel" onClick={handleCancel} />
             <Button type="button" label="Delete" onClick={handleDelete} />
@@ -1178,7 +1186,7 @@ export function OrganizationModify() {
     </>
   );
 }
-export function PolicyList({showModal, showDetail, standAlone}) {
+export function PolicyList({ showModal, showDetail, standAlone }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -1193,10 +1201,10 @@ export function PolicyList({showModal, showDetail, standAlone}) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
@@ -1208,7 +1216,7 @@ export function PolicyList({showModal, showDetail, standAlone}) {
       selectedClient: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ManagedCareModule: newClientModule,
     }));
@@ -1217,13 +1225,13 @@ export function PolicyList({showModal, showDetail, standAlone}) {
     console.log("test");
   };
 
-  const handleRow = async Client => {
+  const handleRow = async (Client) => {
     await setSelectedClient(Client);
     const newClientModule = {
       selectedClient: Client,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ManagedCareModule: newClientModule,
     }));
@@ -1231,7 +1239,7 @@ export function PolicyList({showModal, showDetail, standAlone}) {
     setView("details");
   };
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     // eslint-disable-next-line
     const field = "firstname";
     console.log(val);
@@ -1286,7 +1294,7 @@ export function PolicyList({showModal, showDetail, standAlone}) {
               $options: "i",
             },
           },
-          {gender: val},
+          { gender: val },
         ],
 
         organizationId: user.currentEmployee.facilityDetail._id, // || "",
@@ -1296,13 +1304,13 @@ export function PolicyList({showModal, showDetail, standAlone}) {
         },
       },
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -1332,7 +1340,7 @@ export function PolicyList({showModal, showDetail, standAlone}) {
       await setTotal(findClient.total);
       //console.log(user.currentEmployee.facilityDetail._id, state)
       //console.log(facilities)
-      setPage(page => page + 1);
+      setPage((page) => page + 1);
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
@@ -1363,10 +1371,10 @@ export function PolicyList({showModal, showDetail, standAlone}) {
                      console.log(user)
                      getFacilities(user) */
     }
-    ClientServ.on("created", obj => rest());
-    ClientServ.on("updated", obj => rest());
-    ClientServ.on("patched", obj => rest());
-    ClientServ.on("removed", obj => rest());
+    ClientServ.on("created", (obj) => rest());
+    ClientServ.on("updated", (obj) => rest());
+    ClientServ.on("patched", (obj) => rest());
+    ClientServ.on("removed", (obj) => rest());
     return () => {};
     // eslint-disable-next-line
   }, []);
@@ -1401,7 +1409,7 @@ export function PolicyList({showModal, showDetail, standAlone}) {
       name: "Date Created",
       key: "createdAt",
       description: "Date Created",
-      selector: row => moment(row.createdAt).format("YYYY-MM-DD"),
+      selector: (row) => moment(row.createdAt).format("YYYY-MM-DD"),
       sortable: true,
       required: true,
       inputType: "DATE",
@@ -1410,7 +1418,7 @@ export function PolicyList({showModal, showDetail, standAlone}) {
       name: "Sponsorship Type",
       key: "sponsorshipType",
       description: "Sponsorship Type",
-      selector: row => row.sponsorshipType,
+      selector: (row) => row.sponsorshipType,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1420,7 +1428,7 @@ export function PolicyList({showModal, showDetail, standAlone}) {
       name: "Plan",
       key: "plan",
       description: "Plan",
-      selector: row => row.plan.name,
+      selector: (row) => row.plan.name,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1430,7 +1438,7 @@ export function PolicyList({showModal, showDetail, standAlone}) {
       name: "Premium",
       key: "premium",
       description: "Premium",
-      selector: row => row.premium,
+      selector: (row) => row.premium,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1440,7 +1448,7 @@ export function PolicyList({showModal, showDetail, standAlone}) {
       name: "Paid",
       key: "isPaid",
       description: "Paid",
-      selector: row => (row.isPaid ? "Yes" : "No"),
+      selector: (row) => (row.isPaid ? "Yes" : "No"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1450,7 +1458,7 @@ export function PolicyList({showModal, showDetail, standAlone}) {
       name: "Active",
       key: "active",
       description: "Active",
-      selector: row => (row.active ? "Yes" : "No"),
+      selector: (row) => (row.active ? "Yes" : "No"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1460,7 +1468,7 @@ export function PolicyList({showModal, showDetail, standAlone}) {
       name: "Pricipal Last Name",
       key: "principal",
       description: "Principal Last Name",
-      selector: row => row.principal.lastname,
+      selector: (row) => row.principal.lastname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1470,7 +1478,7 @@ export function PolicyList({showModal, showDetail, standAlone}) {
       name: "First Name",
       key: "firstname",
       description: "First Name",
-      selector: row => row.principal.firstname,
+      selector: (row) => row.principal.firstname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1480,7 +1488,7 @@ export function PolicyList({showModal, showDetail, standAlone}) {
       name: "Middle Name",
       key: "middlename",
       description: "Middle Name",
-      selector: row => row.principal.middlename,
+      selector: (row) => row.principal.middlename,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1490,7 +1498,7 @@ export function PolicyList({showModal, showDetail, standAlone}) {
       name: "Phone",
       key: "phone",
       description: "Phone Number",
-      selector: row => row.principal.phone,
+      selector: (row) => row.principal.phone,
       sortable: true,
       required: true,
       inputType: "NUMBER",
@@ -1500,7 +1508,7 @@ export function PolicyList({showModal, showDetail, standAlone}) {
       name: "Email",
       key: "email",
       description: "simpa@email.com",
-      selector: row => row.principal.email,
+      selector: (row) => row.principal.email,
       sortable: true,
       required: true,
       inputType: "EMAIL",
@@ -1510,7 +1518,7 @@ export function PolicyList({showModal, showDetail, standAlone}) {
       name: "Tags",
       key: "tags",
       description: "Tags",
-      selector: row => row.principal.clientTags,
+      selector: (row) => row.principal.clientTags,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1525,9 +1533,9 @@ export function PolicyList({showModal, showDetail, standAlone}) {
   // );
 
   const Selectedpol = facilities.filter(
-    facility =>
+    (facility) =>
       facility?.sponsor?.organization === standAlone ||
-      facility?.providers?.some(item => item.organization === standAlone)
+      facility?.providers?.some((item) => item.organization === standAlone)
   );
   // const pendingSelectedpol = pendingFacilities.filter(
   //   (item) =>
@@ -1579,15 +1587,17 @@ export function PolicyList({showModal, showDetail, standAlone}) {
   return (
     <>
       <div className="level">
-        <PageWrapper style={{flexDirection: "column", padding: "0.6rem 1rem"}}>
+        <PageWrapper
+          style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+        >
           <TableMenu>
-            <div style={{display: "flex", alignItems: "center"}}>
+            <div style={{ display: "flex", alignItems: "center" }}>
               {handleSearch && (
                 <div className="inner-table">
                   <FilterMenu onSearch={handleSearch} />
                 </div>
               )}
-              <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+              <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
                 List of {display === "approve" ? "Approved" : "Pending"}{" "}
                 Policies
               </h2>
@@ -1623,7 +1633,7 @@ export function PolicyList({showModal, showDetail, standAlone}) {
                   color="primary"
                   variant="contained"
                   size="small"
-                  sx={{textTransform: "capitalize"}}
+                  sx={{ textTransform: "capitalize" }}
                   onClick={handleCreateNew}
                   showicon={true}
                 >
@@ -1658,8 +1668,8 @@ export function PolicyList({showModal, showDetail, standAlone}) {
   );
 }
 
-export function PolicyDetail({showModal, setShowModal}) {
-  const {register, reset, control, handleSubmit} = useForm();
+export function PolicyDetail({ showModal, setShowModal }) {
+  const { register, reset, control, handleSubmit } = useForm();
   const policyServ = client.service("policy");
   const [error, setError] = useState(false); //,
   const [finacialInfoModal, setFinacialInfoModal] = useState(false);
@@ -1667,8 +1677,8 @@ export function PolicyDetail({showModal, setShowModal}) {
   const [billModal, setBillModal] = useState(false);
   const [appointmentModal, setAppointmentModal] = useState(false);
   const [message, setMessage] = useState(""); //,
-  const {user, setUser} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user, setUser } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
   const [display, setDisplay] = useState(1);
   const [editPolicy, setEditPolicy] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -1726,7 +1736,7 @@ export function PolicyDetail({showModal, setShowModal}) {
   const handlecloseModal3 = () => {
     setBillModal(false);
   };
-  const updateDetail = async data => {
+  const updateDetail = async (data) => {
     const docId = state.ManagedCareModule.selectedClient._id;
     console.log(data, docId);
     const policyDetails = {
@@ -1746,15 +1756,15 @@ export function PolicyDetail({showModal, setShowModal}) {
     };
     await policyServ
       .patch(docId, policyDetails)
-      .then(res => {
-        setState(prev => ({
+      .then((res) => {
+        setState((prev) => ({
           ...prev,
-          ManagedCareModule: {...prev.ManagedCareModule, selectedClient: res},
+          ManagedCareModule: { ...prev.ManagedCareModule, selectedClient: res },
         }));
         toast.success("Policy Detail Updated");
         setEditPolicy(false);
       })
-      .catch(err => {
+      .catch((err) => {
         toast.error("Error Updating Policy Detail");
         setEditPolicy(false);
       });
@@ -1773,15 +1783,15 @@ export function PolicyDetail({showModal, setShowModal}) {
     console.log(policyDetails);
     await policyServ
       .patch(docId, policyDetails)
-      .then(res => {
-        setState(prev => ({
+      .then((res) => {
+        setState((prev) => ({
           ...prev,
-          ManagedCareModule: {...prev.ManagedCareModule, selectedClient: res},
+          ManagedCareModule: { ...prev.ManagedCareModule, selectedClient: res },
         }));
         toast.success("Policy Approved");
         setEditPolicy(false);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         toast.error("Error Approving Policy" + err);
         setEditPolicy(false);
@@ -1811,7 +1821,7 @@ export function PolicyDetail({showModal, setShowModal}) {
               <Grid container spacing={1} mt={1}>
                 <Grid item md={3}>
                   <Input
-                    register={register("policyNo", {required: true})}
+                    register={register("policyNo", { required: true })}
                     label="Policy No."
                     disabled
                   />
@@ -1819,14 +1829,14 @@ export function PolicyDetail({showModal, setShowModal}) {
 
                 <Grid item md={3}>
                   <Input
-                    register={register("phone", {required: true})}
+                    register={register("phone", { required: true })}
                     label="Phone"
                     disabled
                   />
                 </Grid>
                 <Grid item md={3}>
                   <Input
-                    register={register("sponsorship_type", {required: true})}
+                    register={register("sponsorship_type", { required: true })}
                     label="Sponsorship Type"
                     disabled
                     //placeholder="Enter customer number"
@@ -1834,7 +1844,7 @@ export function PolicyDetail({showModal, setShowModal}) {
                 </Grid>
                 <Grid item md={3}>
                   <Input
-                    register={register("plan_type", {required: true})}
+                    register={register("plan_type", { required: true })}
                     label="Plan Type"
                     disabled
                     //placeholder="Enter customer number"
@@ -1842,7 +1852,7 @@ export function PolicyDetail({showModal, setShowModal}) {
                 </Grid>
                 <Grid item md={3}>
                   <Input
-                    register={register("status", {required: true})}
+                    register={register("status", { required: true })}
                     label="Status"
                     disabled
                     important
@@ -1861,7 +1871,7 @@ export function PolicyDetail({showModal, setShowModal}) {
 
                 <Grid item md={3}>
                   <Input
-                    register={register("premium", {required: true})}
+                    register={register("premium", { required: true })}
                     label="Premium"
                     disabled
                     //placeholder="Enter customer number"
@@ -1995,7 +2005,7 @@ export function PolicyDetail({showModal, setShowModal}) {
     </>
   );
 }
-export function BeneList({showModal, setShowModal, standAlone}) {
+export function BeneList({ showModal, setShowModal, standAlone }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -2010,9 +2020,9 @@ export function BeneList({showModal, setShowModal, standAlone}) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
@@ -2023,7 +2033,7 @@ export function BeneList({showModal, setShowModal, standAlone}) {
       selectedClient: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -2031,20 +2041,20 @@ export function BeneList({showModal, setShowModal, standAlone}) {
     setShowModal(2);
   };
 
-  const handleRow = async Client => {
+  const handleRow = async (Client) => {
     await setSelectedClient(Client);
     const newClientModule = {
       selectedClient: Client,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
     setShowModal(1);
   };
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     // eslint-disable-next-line
     const field = "firstname";
     console.log(val);
@@ -2099,7 +2109,7 @@ export function BeneList({showModal, setShowModal, standAlone}) {
               $options: "i",
             },
           },
-          {gender: val},
+          { gender: val },
         ],
 
         "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
@@ -2109,13 +2119,13 @@ export function BeneList({showModal, setShowModal, standAlone}) {
         },
       },
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -2136,16 +2146,16 @@ export function BeneList({showModal, setShowModal, standAlone}) {
 
       let data = findClient.data;
       let filteredArray = data.filter(
-        item =>
+        (item) =>
           (item.sponsor !== "" &&
             item.sponsor?.organizationDetail?._id === standAlone) ||
           item.providers?.some(
-            item => item?.organizationDetail?._id === standAlone
+            (item) => item?.organizationDetail?._id === standAlone
           )
       );
-      let principal = filteredArray.map(item => item.principal);
+      let principal = filteredArray.map((item) => item.principal);
       let dependantBeneficiaries = filteredArray.map(
-        item => item.dependantBeneficiaries
+        (item) => item.dependantBeneficiaries
       );
       let joined = principal.concat(...dependantBeneficiaries);
       setFacilities(joined);
@@ -2160,7 +2170,7 @@ export function BeneList({showModal, setShowModal, standAlone}) {
       await setTotal(findClient.total);
       //console.log(user.currentEmployee.facilityDetail._id, state)
       //console.log(facilities)
-      setPage(page => page + 1);
+      setPage((page) => page + 1);
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
@@ -2190,10 +2200,10 @@ export function BeneList({showModal, setShowModal, standAlone}) {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on("created", obj => rest());
-    ClientServ.on("updated", obj => rest());
-    ClientServ.on("patched", obj => rest());
-    ClientServ.on("removed", obj => rest());
+    ClientServ.on("created", (obj) => rest());
+    ClientServ.on("updated", (obj) => rest());
+    ClientServ.on("patched", (obj) => rest());
+    ClientServ.on("removed", (obj) => rest());
     return () => {};
     // eslint-disable-next-line
   }, []);
@@ -2220,7 +2230,7 @@ export function BeneList({showModal, setShowModal, standAlone}) {
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: row => row.sn,
+      selector: (row) => row.sn,
       sortable: true,
       inputType: "HIDDEN",
       width: "50px",
@@ -2229,7 +2239,7 @@ export function BeneList({showModal, setShowModal, standAlone}) {
       name: "Image",
       key: "sn",
       description: "Enter name of employee",
-      selector: row => <Avatar src={row?.imageurl} />,
+      selector: (row) => <Avatar src={row?.imageurl} />,
       sortable: true,
       inputType: "HIDDEN",
       width: "80px",
@@ -2238,7 +2248,7 @@ export function BeneList({showModal, setShowModal, standAlone}) {
       name: "First Name",
       key: "firstname",
       description: "First Name",
-      selector: row => row.firstname,
+      selector: (row) => row.firstname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -2247,7 +2257,7 @@ export function BeneList({showModal, setShowModal, standAlone}) {
       name: "Last Name",
       key: "lastname",
       description: "Last Name",
-      selector: row => row.lastname,
+      selector: (row) => row.lastname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -2257,7 +2267,7 @@ export function BeneList({showModal, setShowModal, standAlone}) {
       name: "Midlle Name",
       key: "middlename",
       description: "Midlle Name",
-      selector: row => row.middlename,
+      selector: (row) => row.middlename,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -2266,7 +2276,7 @@ export function BeneList({showModal, setShowModal, standAlone}) {
       name: "Age",
       key: "dob",
       description: "Age",
-      selector: row =>
+      selector: (row) =>
         row.dob ? formatDistanceToNowStrict(new Date(row?.dob)) : "",
       sortable: true,
       required: true,
@@ -2277,7 +2287,7 @@ export function BeneList({showModal, setShowModal, standAlone}) {
       name: "Gender",
       key: "gender",
       description: "Male",
-      selector: row => row.gender,
+      selector: (row) => row.gender,
       sortable: true,
       required: true,
       inputType: "SELECT_LIST",
@@ -2288,7 +2298,7 @@ export function BeneList({showModal, setShowModal, standAlone}) {
       name: "Email",
       key: "email",
       description: "johndoe@mail.com",
-      selector: row => row.email,
+      selector: (row) => row.email,
       sortable: true,
       required: true,
       inputType: "EMAIL",
@@ -2298,7 +2308,7 @@ export function BeneList({showModal, setShowModal, standAlone}) {
       name: "Tags",
       key: "clientTags",
       description: "Tags",
-      selector: row => row.clientTags,
+      selector: (row) => row.clientTags,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -2314,13 +2324,13 @@ export function BeneList({showModal, setShowModal, standAlone}) {
           margin: "0 1rem",
         }}
       >
-        <div style={{display: "flex", alignItems: "center"}}>
+        <div style={{ display: "flex", alignItems: "center" }}>
           {/* {handleSearch && (
 						<div className='inner-table'>
 							<FilterMenu onSearch={handleSearch} />
 						</div>
 					)} */}
-          <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+          <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
             List of Beneficiary
           </h2>
         </div>
