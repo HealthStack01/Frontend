@@ -662,6 +662,8 @@ export function StoreListStandalone({standalone, closeModal}) {
     },
   ];
 
+  const employeeLocations = user.currentEmployee.locations || [];
+
   return (
     <>
       {user ? (
@@ -701,7 +703,9 @@ export function StoreListStandalone({standalone, closeModal}) {
               <CustomTable
                 title={""}
                 columns={storeListSchema}
-                data={facilities}
+                data={employeeLocations.filter(
+                  item => item.locationType === "Store"
+                )}
                 pointerOnHover
                 highlightOnHover
                 striped

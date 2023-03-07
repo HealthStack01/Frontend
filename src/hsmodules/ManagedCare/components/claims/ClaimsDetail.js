@@ -57,6 +57,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
   const [statusModal, setStatusModal] = useState(false);
   const [view, setView] = useState("details");
   const [updateServiceModal, setUpdateServiceModal] = useState(false);
+  const [edit, setEdit] = useState(false);
   const [confirmationDiaglog, setConfirmationDialog] = useState({
     open: false,
     message: "",
@@ -150,7 +151,8 @@ const ClaimDetailComponent = ({handleGoBack}) => {
     getPolicy();
   }, [getPolicy]);
 
-  const handleCreateClaim = async data => {
+  const handleUpdateClaim = async data => {
+    return console.log(data);
     if (!state.ClientModule.selectedClient._id)
       return toast.warning("Please add Client..");
 
@@ -408,9 +410,9 @@ const ClaimDetailComponent = ({handleGoBack}) => {
     });
   };
 
-  const complaintColumns = getComplaintColumns(confirmDeleteComplaint, false);
-  const diagnosisColumns = getDiagnosisColumns(confirmDeleteDiagnosis, false);
-  const servicesColumns = getServicesColumns(confirmDeleteService, false);
+  const complaintColumns = getComplaintColumns(confirmDeleteComplaint, !edit);
+  const diagnosisColumns = getDiagnosisColumns(confirmDeleteDiagnosis, !edit);
+  const servicesColumns = getServicesColumns(confirmDeleteService, !edit);
 
   return (
     <Box
@@ -532,6 +534,29 @@ const ClaimDetailComponent = ({handleGoBack}) => {
           }}
           gap={1}
         >
+          {user.currentEmployee.roles.includes("Managed Care Audit Claim") &&
+            (edit ? (
+              <>
+                <GlobalCustomButton color="info" onClick={() => setEdit(false)}>
+                  <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                  Cancel Edit
+                </GlobalCustomButton>
+
+                <GlobalCustomButton
+                  color="info"
+                  onClick={handleSubmit(handleUpdateClaim)}
+                >
+                  <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                  Update Claim
+                </GlobalCustomButton>
+              </>
+            ) : (
+              <GlobalCustomButton color="info" onClick={() => setEdit(true)}>
+                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                Edit Claim
+              </GlobalCustomButton>
+            ))}
+
           <GlobalCustomButton color="info" onClick={() => setView("details")}>
             <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
             Details
@@ -564,10 +589,18 @@ const ClaimDetailComponent = ({handleGoBack}) => {
             Change Status
           </GlobalCustomButton>
 
-          <GlobalCustomButton color="info" onClick={() => setAssignModal(true)}>
-            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-            Assign Claim
-          </GlobalCustomButton>
+          {(user?.currentEmployee?.roles?.includes("Admin") ||
+            user?.currentEmployee?.roles?.includes(
+              "Managed Care Assign Claim"
+            )) && (
+            <GlobalCustomButton
+              color="info"
+              onClick={() => setAssignModal(true)}
+            >
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Assign Claim
+            </GlobalCustomButton>
+          )}
         </Box>
       </Box>
       <Box
@@ -633,6 +666,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                     required
                     control={control}
                     name="patientstate"
+                    disabled={!edit}
                     options={[
                       {
                         label: "In Patient",
@@ -655,6 +689,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                       control={control}
                       name="admission_date"
                       label="Admission Date"
+                      disabled={!edit}
                     />
                   </Grid>
 
@@ -663,6 +698,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                       control={control}
                       name="discharged_date"
                       label="Discharged Date"
+                      disabled={!edit}
                     />
                   </Grid>
                 </Grid>
@@ -697,10 +733,12 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                 >
                   <FormsHeaderText text="Complaints Data" />
 
-                  <GlobalCustomButton onClick={() => setComplaintModal(true)}>
-                    <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-                    New Complaint
-                  </GlobalCustomButton>
+                  {edit && (
+                    <GlobalCustomButton onClick={() => setComplaintModal(true)}>
+                      <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                      New Complaint
+                    </GlobalCustomButton>
+                  )}
                 </Box>
 
                 <Box>
@@ -730,6 +768,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <Textarea
                     placeholder="Write here..."
                     register={register("clinical_findings")}
+                    disabled={!edit}
                   />
                 </Box>
               </Box>
@@ -745,10 +784,12 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                 >
                   <FormsHeaderText text="Diagnosis Data" />
 
-                  <GlobalCustomButton onClick={() => setDiagnosisModal(true)}>
-                    <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-                    New Diagnosis
-                  </GlobalCustomButton>
+                  {edit && (
+                    <GlobalCustomButton onClick={() => setDiagnosisModal(true)}>
+                      <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                      New Diagnosis
+                    </GlobalCustomButton>
+                  )}
                 </Box>
 
                 <Box>
@@ -778,6 +819,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <Textarea
                     placeholder="Write here..."
                     register={register("investigation")}
+                    disabled={!edit}
                   />
                 </Box>
               </Box>
@@ -789,6 +831,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <Textarea
                     placeholder="Write here..."
                     register={register("drugs")}
+                    disabled={!edit}
                   />
                 </Box>
               </Box>
@@ -800,6 +843,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <Textarea
                     placeholder="Write here..."
                     register={register("treatment")}
+                    disabled={!edit}
                   />
                 </Box>
               </Box>
@@ -821,6 +865,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                       control={control}
                       name="claimtype"
                       options={["Capitation", "Fee for Service"]}
+                      disabled={!edit}
                     />
                   </Grid>
 
@@ -846,16 +891,18 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                 >
                   <FormsHeaderText text="Services Data" />
 
-                  <GlobalCustomButton
-                    onClick={() => {
-                      if (!state.ClientModule.selectedClient._id)
-                        return toast.warning("You need to select a client");
-                      setServiceModal(true);
-                    }}
-                  >
-                    <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-                    New Service
-                  </GlobalCustomButton>
+                  {edit && (
+                    <GlobalCustomButton
+                      onClick={() => {
+                        if (!state.ClientModule.selectedClient._id)
+                          return toast.warning("You need to select a client");
+                        setServiceModal(true);
+                      }}
+                    >
+                      <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                      New Service
+                    </GlobalCustomButton>
+                  )}
                 </Box>
 
                 <Box>
@@ -885,6 +932,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <Textarea
                     placeholder="Write here..."
                     register={register("comments")}
+                    disabled={!edit}
                   />
                 </Box>
               </Box>

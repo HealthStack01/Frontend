@@ -73,12 +73,30 @@ const ClaimsStatus = ({closeModal}) => {
             control={control}
             name="status"
             options={[
-              "Approval Started",
-              "Approval Complete",
-              "Declined",
+              {
+                name: "Approved",
+                value: "Approved",
+                disabled: !user.currentEmployee.roles.includes(
+                  "Managed Care Claim Authorization"
+                ),
+              },
+              {
+                name: "Declined",
+                value: "Declined",
+                disabled: !user?.currentEmployee?.roles?.includes(
+                  "Managed Care Claim Authorization"
+                ),
+              },
+              {
+                name: "Vetted",
+                value: "Vetted",
+                disabled: !user?.currentEmployee?.roles?.includes(
+                  "Managed Care Vet Claim"
+                ),
+              },
               "Queried",
               "Queued for Payment",
-              "Vetted",
+
               "Payment Instruction Sent",
               "Paid",
               "Submitted",

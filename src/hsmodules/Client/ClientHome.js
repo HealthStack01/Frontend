@@ -16,19 +16,43 @@ export default function ClientHome({children}) {
   const {state, setState} = useContext(ObjectContext);
   const [showModal, setShowModal] = useState(false);
   const {user, setUser} = useContext(UserContext);
-  // const { user, setUser } = useContext(UserContext);
-
-  // console.log("Stored User", user);
-
-  const [selectedClinic, setSelectedClinic] = useState(
-    state.FrontDesk.selectedFrontDesk
+  const employeeLocations = user.currentEmployee.locations || [];
+  const frontDesks = employeeLocations.filter(
+    item => item.locationType === "Front Desk"
   );
 
+  const location = state.FrontDesk.selectedFrontDesk._id
+    ? state.FrontDesk.selectedFrontDesk
+    : frontDesks[0];
+
+  const [selectedClinic, setSelectedClinic] = useState(location);
+
   useEffect(() => {
-    const notSelected = Object.keys(selectedClinic).length === 0;
+    const notSelected =
+      selectedClinic && Object.keys(selectedClinic).length === 0;
 
     if (notSelected) {
       handleChangeFrontDesk();
+    } else {
+      const newEmployeeLocation = {
+        locationName: selectedClinic.name,
+        locationType: "Front Desk",
+        locationId: selectedClinic._id,
+        facilityId: user.currentEmployee.facilityDetail._id,
+        facilityName: user.currentEmployee.facilityDetail.facilityName,
+        case: "client",
+      };
+
+      const newClinicModule = {
+        selectedFrontDesk: selectedClinic,
+        show: "detail",
+      };
+
+      setState(prevstate => ({
+        ...prevstate,
+        employeeLocation: newEmployeeLocation,
+        FrontDesk: newClinicModule,
+      }));
     }
     return () => {};
   }, []);

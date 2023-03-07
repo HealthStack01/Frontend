@@ -663,6 +663,7 @@ export function StoreListStandalone({standalone, closeModal}) {
     },
   ];
 
+  const employeeLocations = user.currentEmployee.locations || [];
   return (
     <>
       {user ? (
@@ -695,14 +696,16 @@ export function StoreListStandalone({standalone, closeModal}) {
               item
               sx={{
                 width: "100%",
-                height: "calc(100% - 80px)",
+                maxHeight: "calc(100% - 180px)",
                 overflowY: "scroll",
               }}
             >
               <CustomTable
                 title={""}
                 columns={storeListSchema}
-                data={facilities}
+                data={employeeLocations.filter(
+                  item => item.locationType === "Radiology"
+                )}
                 pointerOnHover
                 highlightOnHover
                 striped

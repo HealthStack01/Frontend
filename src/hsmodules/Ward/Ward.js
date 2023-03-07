@@ -429,6 +429,8 @@ export function WardList({standalone, closeModal}) {
     },
   ];
 
+  const employeeLocations = user.currentEmployee.locations || [];
+
   return (
     <>
       {user ? (
@@ -468,7 +470,9 @@ export function WardList({standalone, closeModal}) {
               <CustomTable
                 title={""}
                 columns={wardListSchema}
-                data={facilities}
+                data={employeeLocations.filter(
+                  item => item.locationType === "Ward"
+                )}
                 pointerOnHover
                 highlightOnHover
                 striped

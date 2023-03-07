@@ -9,23 +9,41 @@ import {Box} from "@mui/material";
 export default function LaboratoryHome({children}) {
   const {state, setState} = useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
-  // eslint-disable-next-line
-  const [selectedLab, setSelectedLab] = useState(
-    state.LaboratoryModule.selectedLab
-  );
-  const [showModal, setShowModal] = useState(false);
 
-  // const handleCloseModal = () => {
-  //   state.showStoreModal = "modal";
-  //   setState(state);
-  //   console.log(state.showStoreModal);
-  // };
+  const employeeLocations = user.currentEmployee.locations || [];
+  const labLocations = employeeLocations.filter(
+    item => item.locationType === "Laboratory"
+  );
+
+  const location = state.LaboratoryModule.selectedLab._id
+    ? state.LaboratoryModule.selectedLab
+    : labLocations[0];
+
+  const [selectedLab, setSelectedLab] = useState(location);
 
   useEffect(() => {
-    const notSelected = Object.keys(selectedLab).length === 0;
+    const notSelected = selectedLab && Object.keys(selectedLab).length === 0;
 
     if (notSelected) {
       handleChangeStore();
+    } else {
+      const newEmployeeLocation = {
+        locationName: selectedLab.name,
+        locationType: "Laboratory",
+        locationId: selectedLab._id,
+        facilityId: user.currentEmployee.facilityDetail._id,
+        facilityName: user.currentEmployee.facilityDetail.facilityName,
+        case: "laboratory",
+      };
+
+      setState(prevstate => ({
+        ...prevstate,
+        employeeLocation: newEmployeeLocation,
+        LaboratoryModule: {
+          ...prevstate.LaboratoryModule,
+          selectedLab: selectedLab,
+        },
+      }));
     }
     return () => {};
   }, []);
