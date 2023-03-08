@@ -37,7 +37,7 @@ import { bandTypeOptions } from "../../dummy-data";
 import CreateIcon from "@mui/icons-material/Create";
 import { createBandSchema } from "../Admin/ui-components/schema";
 
-export default function TarrifList({ standAlone }) {
+export default function Tariff({ standAlone }) {
   const [showModal, setShowModal] = useState(0);
   const [openBand, setOpenBand] = useState(false);
   const [openTarrif, setOpenTarrif] = useState(false);
@@ -2133,76 +2133,6 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
           </Box>
         </ModalBox>
       )}
-    </Box>
-  );
-};
-
-
-export const TariffView = (service) => {
-  const [editing, setEditing] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
-    defaultValues: {
-      name: service.serviceName,
-      comment: service.comment,
-    },
-  });
-  const selected = service.service;
-  return (
-    <Box>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <FormsHeaderText text={service?.serviceName} />
-        <Box>
-          {!editing && (
-            <GlobalCustomButton text="Edit" onClick={() => setEditing(true)} />
-          )}
-          {editing && (
-            <GlobalCustomButton
-              text="Save Form"
-              type="submit"
-              color="success"
-            />
-          )}
-        </Box>
-      </Box>
-      <Grid container spacing={2} mt={1}>
-        <Grid item xs={12} sm={4}>
-          {!editing ? (
-            <Input
-              label="Service Name"
-              value={selected?.serviceName}
-              disabled
-            />
-          ) : (
-            <Input label="Name" register={register("serviceName")} />
-          )}
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          {!editing ? (
-            <Input label="Duration" value={selected?.duration} disabled />
-          ) : (
-            <Input label="Duration" register={register("duration")} />
-          )}
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          {!editing ? (
-            <Input label="Status" value={selected?.status} disabled />
-          ) : (
-            <Input label="Status" register={register("status")} />
-          )}
-        </Grid>
-        <Grid item xs={12} sm={12}>
-          {!editing ? (
-            <Textarea label="Comment" value={selected?.comments} disabled />
-          ) : (
-            <Textarea label="Price" register={register("comment")} />
-          )}
-        </Grid>
-      </Grid>
     </Box>
   );
 };

@@ -33,7 +33,7 @@ export default function CheckIn() {
       <CheckInList setShowModal={() => setShowModal(1)} />
       {showModal === 1 && (
         <ModalBox open onClose={() => setShowModal(0)}>
-          <CheckDetails />
+          <CheckOutList/>
         </ModalBox>
       )}
     </section>
@@ -213,10 +213,10 @@ export function CheckInList({openCreateModal, setShowModal}) {
 
 // checked out 
 
-  const getCheckout = useCallback(async () => {
+  const getCheckOut = useCallback(async () => {
     if (user.currentEmployee) {
       let stuff = {
-        // facility: user.currentEmployee.facilityDetail._id,
+        facility: user.currentEmployee.facilityDetail._id,
         appointment_status: "Checked Out",
         // locationId:state.employeeLocation.locationId,
         $limit: 100,
@@ -231,7 +231,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       const findAppointment = await ClientServ.find({query: stuff});
 
       await setCheckoutAppointment(findAppointment.data);
-      console.log(findAppointment, "tttttttttttttttttttt");
+      // console.log(findAppointment, "Check out");
     } else {
       if (user.stacker) {
         const findAppointment = await ClientServ.find({
@@ -251,10 +251,10 @@ export function CheckInList({openCreateModal, setShowModal}) {
 
 
 
-  const getFacilities = useCallback(async () => {
+  const getCheckIn = useCallback(async () => {
     if (user.currentEmployee) {
       let stuff = {
-        // facility: user.currentEmployee.facilityDetail._id,
+        facility: user.currentEmployee.facilityDetail._id,
         appointment_status: "Checked In",
         // locationId:state.employeeLocation.locationId,
         $limit: 100,
@@ -269,7 +269,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       const findClient = await ClientServ.find({query: stuff});
 
       await setFacilities(findClient.data);
-      console.log(findClient, "tttttttttttttttttttt");
+      // console.log(findClient, "Check In....");
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
@@ -288,149 +288,16 @@ export function CheckInList({openCreateModal, setShowModal}) {
   }, [checkedin]);
 
   useEffect(() => {
-    getFacilities();
-    getCheckout();
-
-    
+    getCheckIn();
+    getCheckOut();
 
     ClientServ.on("created", obj => handleCalendarClose());
     ClientServ.on("updated", obj => handleCalendarClose());
     ClientServ.on("patched", obj => handleCalendarClose());
     ClientServ.on("removed", obj => handleCalendarClose());
-  }, [getFacilities]);
+  }, [getCheckIn]);
 
-  // useEffect(() => {
-  //   getFacilities();
-
-  //   ClientServ.on("created", obj => getFacilities());
-  //   ClientServ.on("updated", obj => getFacilities());
-  //   ClientServ.on("patched", obj => getFacilities());
-  //   ClientServ.on("removed", obj => getFacilities());
-  // }, [getFacilities]);
-
-  const dummyData = [
-    {
-      date_of_encounter: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      premium_status: "",
-      health_encounter_type: "Out patient",
-      encounter_status: "Confirmed",
-      expiration_status: "Active",
-      preauth_requested: "",
-      capitation: "Filed",
-      fee_for_service: "Not Filed",
-    },
-    {
-      date_of_encounter: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      premium_status: "",
-      health_encounter_type: "In patient",
-      encounter_status: "Confirmed",
-      expiration_status: "Expired",
-      preauth_requested: "",
-      capitation: "Unfiled",
-      fee_for_service: "Not Required",
-    },
-    {
-      date_of_encounter: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      premium_status: "",
-      health_encounter_type: "In patient",
-      encounter_status: "Unconfirmed",
-      expiration_status: "Active",
-      preauth_requested: "",
-      capitation: "Filed",
-      fee_for_service: "Not Required",
-    },
-
-    {
-      date_of_encounter: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      premium_status: "",
-      health_encounter_type: "Out patient",
-      encounter_status: "Confirmed",
-      expiration_status: "Active",
-      preauth_requested: "",
-      capitation: "Filed",
-      fee_for_service: "Not Filed",
-    },
-    {
-      date_of_encounter: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      premium_status: "",
-      health_encounter_type: "Out patient",
-      encounter_status: "Confirmed",
-      expiration_status: "Cancelled",
-      preauth_requested: "",
-      capitation: "Filed",
-      fee_for_service: "Not Filed",
-    },
-    {
-      date_of_encounter: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      premium_status: "",
-      health_encounter_type: "In patient",
-      encounter_status: "Uncorfirmed",
-      expiration_status: "Active",
-      preauth_requested: "",
-      capitation: "Filed",
-      fee_for_service: "Not Required",
-    },
-    {
-      date_of_encounter: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      premium_status: "",
-      health_encounter_type: "Out patient",
-      encounter_status: "Unconfirmed",
-      expiration_status: "Expired",
-      preauth_requested: "",
-      capitation: "Filed",
-      fee_for_service: "Not Filed",
-    },
-    {
-      date_of_encounter: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      premium_status: "",
-      health_encounter_type: "In patient",
-      encounter_status: "Confirmed",
-      expiration_status: "Cancelled",
-      preauth_requested: "",
-      capitation: "Filed",
-      fee_for_service: "Not Required",
-    },
-    {
-      date_of_encounter: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      premium_status: "",
-      health_encounter_type: "Out patient",
-      encounter_status: "Unconfirmed",
-      expiration_status: "Active",
-      preauth_requested: "",
-      capitation: "Filed",
-      fee_for_service: "Not Required",
-    },
-    {
-      date_of_encounter: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      premium_status: "",
-      health_encounter_type: "In patient",
-      encounter_status: "Confirmed",
-      expiration_status: "Active",
-      preauth_requested: "",
-      capitation: "Filed",
-      fee_for_service: "Not Filed",
-    },
-  ];
+ 
 
   //UPDATE COLUMNS CHANGE NAME OF EACH TO TABLE HEADER FOR CHECKIN
   const checkInColumns = [
@@ -719,7 +586,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
   );
 }
 
-export function CheckDetails({showModal, setShowModal}) {
+export function CheckOutList({showModal, setShowModal}) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const navigate = useNavigate();
