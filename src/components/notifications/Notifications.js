@@ -93,7 +93,7 @@ const AppNotifications = () => {
   }, []);
 
   const updateNotifications = useCallback(async () => {
-    const userId = user.currentEmployee.userId;
+    const userId = user.currentEmployee._id;
 
     if (!user.stacker) {
       const response = await notificationsServer.find({

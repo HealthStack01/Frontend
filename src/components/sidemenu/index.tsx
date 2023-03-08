@@ -286,7 +286,13 @@ export const menuItems = [
     exact: true,
     to: "/app/corporate",
     iconClassName: "bi bi-person",
-    //subMenus: [{name: "Complaints", to: "/app/complaints"}],
+    subMenus: [
+      {name: "Premiums", to: "/app/corporate/premiums"},
+      {name: "Beneficiary", to: "/app/corporate/beneficiary"},
+      {name: "Claims", to: "/app/corporate/claims"},
+      {name: "Policy", to: "/app/corporate/policy"},
+      {name: "Health Plan", to: "/app/corporate/healthplan"},
+    ],
   },
 
   {
@@ -322,6 +328,7 @@ export const menuItems = [
       {name: "Email", to: "/app/communication/email"},
       // {name: "IVR", to: "/app/communication/ivr"},
       {name: "Chats", to: "/app/communication/chats"},
+      {name: "Notifications", to: "/app/communication/notifications"},
     ],
   },
   {

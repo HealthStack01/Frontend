@@ -30,6 +30,10 @@ function App() {
       defaultEmail: {},
       configEmailModal: false,
     },
+    NotificationModule: {
+      selectedNotification: {},
+    },
+
     PremiumModule: {
       selectedPremium: {},
       selectedPlans: [],

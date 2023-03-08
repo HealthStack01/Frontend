@@ -316,17 +316,25 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
             </Box>
           </TableMenu>
 
-          <CustomTable
-            title={""}
-            columns={preAuthColumns}
-            data={preAuths}
-            pointerOnHover
-            highlightOnHover
-            striped
-            onRowClicked={handleRow}
-            progressPending={loading}
-            //conditionalRowStyles={conditionalRowStyles}
-          />
+          <Box
+            sx={{
+              width: "100%",
+              height: "calc(100vh - 180px)",
+              overflowY: "auto",
+            }}
+          >
+            <CustomTable
+              title={""}
+              columns={preAuthColumns}
+              data={preAuths}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={handleRow}
+              progressPending={loading}
+              //conditionalRowStyles={conditionalRowStyles}
+            />
+          </Box>
         </PageWrapper>
       </div>
     </>
