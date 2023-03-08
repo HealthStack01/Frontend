@@ -1243,7 +1243,9 @@ export function HealthPlanList({
   const [onSave, setOnSave] = useState(false);
   const [healthPlanName, setHealthPlanName] = useState("");
   const [healthPlanCategory, setHealthPlanCategory] = useState("");
-
+  const [confirmDialogForPremium, setConfirmDialogForPremium] = useState(false);
+  const [selectedHealthPlanId, setSelectedHealthPlanId] = useState("");
+  const [userRole, setUserRole] = useState(false);
   const handleCreateNew = async () => {
     setShowModal(1);
   };
@@ -1252,7 +1254,7 @@ export function HealthPlanList({
     setShowModal(2);
     setSelectedClient(Client);
   };
-  //console.log(state.employeeLocation)
+  console.log("user", user);
 
   const handleSearch = (val) => {
     const field = "firstname";
@@ -1343,22 +1345,27 @@ export function HealthPlanList({
       query.locationId = state.employeeLocation.locationId;
     }
 
+    setLoading(true);
     ClientServ.find({ query: query })
       .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
+        setLoading(false);
       });
   };
 
   const getFacilities = async () => {
-    console.log(user);
+    const userRol = user?.currentEmployee?.roles?.includes("Delete Documents");
+    setUserRole(userRol);
+    console.log("userRole", userRole);
     if (user.currentEmployee) {
       let stuff = {
         organizationId: user.currentEmployee.facilityDetail._id,
@@ -1374,8 +1381,9 @@ export function HealthPlanList({
 
       const findHealthPlan = await HealthPlanServ.find({ query: stuff });
 
-      await console.log("HealthPlan", findHealthPlan.data);
+      //await console.log("HealthPlan", findHealthPlan.data);
       await setFacilities(findHealthPlan.data);
+      setLoading(false);
     } else {
       if (user.stacker) {
         const findClient = await HealthPlanServ.find({
@@ -1388,6 +1396,7 @@ export function HealthPlanList({
         });
 
         await setFacilities(findClient.data);
+        setLoading(false);
       }
     }
   };
@@ -1453,6 +1462,20 @@ export function HealthPlanList({
     }
   };
 
+  const handleDeleteHealthPlan = async () => {
+    HealthPlanServ.remove(selectedHealthPlanId)
+      .then((res) => {
+        toast.success("HealthPlan succesfully deleted");
+        setConfirmDialogForPremium(false);
+        getFacilities();
+      })
+      .catch((err) => {
+        toast.error(
+          "Error deleting Premium, probable network issues or " + err
+        );
+      });
+  };
+
   useEffect(() => {
     getFacilities();
   }, []);
@@ -1481,6 +1504,16 @@ export function HealthPlanList({
   };
 
   const HealthPlanSchema = [
+    {
+      name: "S/N",
+      key: "name_of_plan",
+      description: "Enter name of plan",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      width: "60px",
+    },
     {
       name: "Name of Plan",
       key: "name_of_plan",
@@ -1561,97 +1594,136 @@ export function HealthPlanList({
 
       inputType: "TEXT",
     },
+    {
+      name: "Action",
+      center: true,
+      key: "Action",
+      description: "Action",
+      selector: (row, i) => (
+        <>
+          {userRole && (
+            <IconButton
+              onClick={() => {
+                setSelectedHealthPlanId(row._id);
+                setConfirmDialogForPremium(true);
+              }}
+              color="error"
+            >
+              <DeleteOutline fontSize="small" />
+            </IconButton>
+          )}
+        </>
+      ),
+      sortable: false,
+      required: false,
+      inputType: "NUMBER",
+    },
   ];
   console.log(facilities);
   return (
     <>
+      <CustomConfirmationDialog
+        open={confirmDialogForPremium}
+        cancelAction={() => setConfirmDialogForPremium(false)}
+        confirmationAction={handleDeleteHealthPlan}
+        type="danger"
+        message={`Are you sure you want to delete this premium`}
+      />
       {user ? (
         <>
+          {" "}
+          {openInheritHealthPlan && (
+            <>
+              <ModalBox
+                width="50vw"
+                open={openInheritHealthPlan}
+                onClose={() => setOpenInheritHealthPlan(false)}
+                // header="Inherit HealthPlan"
+              >
+                <Box>
+                  <Box
+                    sx={{
+                      my: "1rem",
+                      display: "flex",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <GlobalCustomButton
+                      text="Save"
+                      onClick={handleSubmitInheritHealthPlan}
+                    />
+                  </Box>
+
+                  <Box display="flex" flexDirection="column" gap={3}>
+                    <Grid container spacing={2} my={2}>
+                      <Grid item xs={12} sm={12}>
+                        {/* <BandSearch clear={success} value={selectedBand} onChange={(e) => setSelectedBand(e.target.value)}/> */}
+                        <CustomSelect
+                          name="planName"
+                          placeholder="Choose HealthPlan"
+                          options={facilities}
+                          value={selectedHealthPlan}
+                          label="Select HealthPlan to Inherit"
+                          onChange={(e) => {
+                            setSelectedHealthPlan(e.target.value);
+                            setOnSave(true);
+                          }}
+                          important
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={12}>
+                        <Grid container spacing={2} my={2}>
+                          <Grid item xs={12} sm={6}>
+                            <Input
+                              name="planName"
+                              label="Plan Name:"
+                              onChange={(e) =>
+                                setHealthPlanName(e.target.value)
+                              }
+                              important
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={6}>
+                            <Input
+                              name="planType"
+                              label="Plan Category: "
+                              onChange={(e) =>
+                                setHealthPlanCategory(e.target.value)
+                              }
+                              important
+                            />
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </Box>
+              </ModalBox>
+            </>
+          )}
           <div className="level">
             <PageWrapper
               style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
             >
               <TableMenu>
-                <div style={{ display: "flex", alignItems: "center" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    minWidth: "200px",
+                  }}
+                >
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
 
-                  <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
-                    Health Plan
+                  <h2 style={{ fontSize: "0.95rem", marginLeft: "10px" }}>
+                    List of Health Plans
                   </h2>
                 </div>
-                {openInheritHealthPlan && (
-                  <>
-                    <ModalBox
-                      width="50vw"
-                      open={openInheritHealthPlan}
-                      onClose={() => setOpenInheritHealthPlan(false)}
-                      // header="Inherit HealthPlan"
-                    >
-                      <Box>
-                        <Box
-                          sx={{
-                            my: "1rem",
-                            display: "flex",
-                            justifyContent: "flex-end",
-                          }}
-                        >
-                          <GlobalCustomButton
-                            text="Save"
-                            onClick={handleSubmitInheritHealthPlan}
-                          />
-                        </Box>
 
-                        <Box display="flex" flexDirection="column" gap={3}>
-                          <Grid container spacing={2} my={2}>
-                            <Grid item xs={12} sm={12}>
-                              {/* <BandSearch clear={success} value={selectedBand} onChange={(e) => setSelectedBand(e.target.value)}/> */}
-                              <CustomSelect
-                                name="planName"
-                                placeholder="Choose HealthPlan"
-                                options={facilities}
-                                value={selectedHealthPlan}
-                                label="Select HealthPlan to Inherit"
-                                onChange={(e) => {
-                                  setSelectedHealthPlan(e.target.value);
-                                  setOnSave(true);
-                                }}
-                                important
-                              />
-                            </Grid>
-                            <Grid item xs={12} sm={12}>
-                              <Grid container spacing={2} my={2}>
-                                <Grid item xs={12} sm={6}>
-                                  <Input
-                                    name="planName"
-                                    label="Plan Name:"
-                                    onChange={(e) =>
-                                      setHealthPlanName(e.target.value)
-                                    }
-                                    important
-                                  />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                  <Input
-                                    name="planType"
-                                    label="Plan Category: "
-                                    onChange={(e) =>
-                                      setHealthPlanCategory(e.target.value)
-                                    }
-                                    important
-                                  />
-                                </Grid>
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                        </Box>
-                      </Box>
-                    </ModalBox>
-                  </>
-                )}
                 {!standAlone && (
                   <>
                     {" "}
@@ -1681,17 +1753,25 @@ export function HealthPlanList({
                 )}
               </TableMenu>
 
-              <CustomTable
-                title={""}
-                columns={HealthPlanSchema}
-                data={facilities}
-                pointerOnHover
-                highlightOnHover
-                striped
-                onRowClicked={handleRow}
-                progressPending={loading}
-                //conditionalRowStyles={conditionalRowStyles}
-              />
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "calc(100vh - 180px)",
+                  overflowY: "auto",
+                }}
+              >
+                <CustomTable
+                  title={""}
+                  columns={HealthPlanSchema}
+                  data={facilities}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={handleRow}
+                  progressPending={loading}
+                  //conditionalRowStyles={conditionalRowStyles}
+                />
+              </Box>
             </PageWrapper>
           </div>
         </>
@@ -2188,12 +2268,12 @@ export function HealthPlanDetails({
       inputType: "TEXT",
     },
     {
-      name: "Action",
+      name: "Edit Premium",
       key: "Action",
       description: "Action",
       selector: (row, i) => (
-        <GlobalCustomButton
-          color="error"
+        <IconButton
+          color="success"
           onClick={() => {
             setPremiumSN(i);
             // console.log("click", i, row);
@@ -2203,18 +2283,16 @@ export function HealthPlanDetails({
             setEditPremiumDurationType(row?.premiumDurationType);
             // setConfirmDialog(true);
           }}
-          customStyles={{ float: "center", p: "0.1rem" }}
         >
-          <CreateIcon fontSize="small" sx={{ marginRight: "5px" }} />
-          Edit
-        </GlobalCustomButton>
+          <CreateIcon fontSize="small" />
+        </IconButton>
       ),
       sortable: false,
       required: false,
       inputType: "TEXT",
     },
     {
-      name: "Delele",
+      name: "Delele Premium",
       center: true,
       key: "contact_email",
       description: "Enter Date",
@@ -2255,7 +2333,7 @@ export function HealthPlanDetails({
       .then((res) => {
         setPremiumState(res.premiums);
         setConfirmDialogForPremium(false);
-        toast.success("Premium succesfully added");
+        toast.success("Premium succesfully deleted");
       })
       .catch((err) => {
         toast.error(
@@ -2290,6 +2368,7 @@ export function HealthPlanDetails({
         );
       });
   };
+
   const checkIfPlanNameAlreadyExistsDuringEditing = (
     planArr,
     nameOfPlan,
@@ -3093,7 +3172,7 @@ export function HealthPlanDetails({
                   marginBottom: "1rem",
                 }}
               >
-                <FormsHeaderText text={"Premium Details"} />
+                <FormsHeaderText text={"Health-Plan Premiums List"} />
                 <GlobalCustomButton
                   type="button"
                   variant="contained"
@@ -3103,14 +3182,23 @@ export function HealthPlanDetails({
                   customStyles={{ marginRight: ".8rem" }}
                 />
               </Box>
-              <CustomTable
-                tableData={""}
-                columns={premiumItemSchema}
-                data={premiumState}
-                pointerOnHover
-                highlightOnHover
-                striped
-              />
+
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "auto",
+                }}
+              >
+                <CustomTable
+                  tableData={""}
+                  columns={premiumItemSchema}
+                  data={premiumState}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                />
+              </Box>
+
               {/* <Grid item xs={4}>
                 <p>Plan Type</p>
               </Grid>
@@ -3420,7 +3508,7 @@ export function HealthPlanDetails({
               marginBottom: "1rem",
             }}
           >
-            <FormsHeaderText text={"Benefit"} />
+            <FormsHeaderText text={"Health-Plan Benefits List"} />
             <GlobalCustomButton
               type="button"
               variant="contained"
@@ -3431,14 +3519,21 @@ export function HealthPlanDetails({
             />
           </Box>
 
-          <CustomTable
-            tableData={""}
-            columns={productItemSchema}
-            data={benefitState}
-            pointerOnHover
-            highlightOnHover
-            striped
-          />
+          <Box
+            sx={{
+              width: "100%",
+              height: "auto",
+            }}
+          >
+            <CustomTable
+              tableData={""}
+              columns={productItemSchema}
+              data={benefitState}
+              pointerOnHover
+              highlightOnHover
+              striped
+            />
+          </Box>
         </div>
       </div>
     </>

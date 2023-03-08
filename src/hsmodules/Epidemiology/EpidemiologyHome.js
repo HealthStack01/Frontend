@@ -9,20 +9,19 @@ import {Box} from "@mui/material";
 export default function EpidemiologyHome({children}) {
   const {state, setState} = useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
-  const [storeModal, setStoreModal] = useState(false);
 
-  const [selectedStore, setSelectedStore] = useState(
-    state.EpidemiologyModule.selectedEpid
-  );
+  const employeeLocations = user.currentEmployee.locations || [];
+  const epidLocations = [];
 
-  // const handleCloseModal = () => {
-  //   state.showStoreModal = "modal";
-  //   setState(state);
-  //   console.log(state.showStoreModal);
-  // };
+  const location = state.EpidemiologyModule.selectedEpid._id
+    ? state.EpidemiologyModule.selectedEpid
+    : epidLocations[0];
+
+  const [selectedStore, setSelectedStore] = useState(location);
 
   useEffect(() => {
-    const notSelected = Object.keys(selectedStore).length === 0;
+    const notSelected =
+      selectedStore && Object.keys(selectedStore).length === 0;
 
     if (notSelected) {
       return;

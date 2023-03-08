@@ -2244,12 +2244,15 @@ export function ClientCreate({ closeModal }) {
       }
       setPatList([]);
     }
+
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
+
     let confirm = window.confirm(
       `You are about to register a new client ${data.firstname}  ${data.middlename} ${data.lastname} ?`
     );
+
     if (confirm) {
       const token = localStorage.getItem("feathers-jwt");
       if (file) {
