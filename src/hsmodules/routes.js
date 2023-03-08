@@ -77,6 +77,7 @@ import {immunizationRoutes} from "./routes/immunization-routes";
 import {documentationRoutes} from "./routes/documentation-routes";
 import {theatreRoutes} from "./routes/theatre-routes";
 import {wardRoutes} from "./routes/ward-routes";
+import {corporateRoutes} from "./routes/corporate-routes";
 
 import AccountDashboard from "./dashBoardUiComponent/@modules/AccountDashboard";
 import AdminDashboard from "./dashBoardUiComponent/@modules/AdminDashboard";
@@ -170,7 +171,7 @@ const AppRoutes = () => {
 
             <Route path="/app/user" element={<UserAccountPage />} />
 
-            <Route path="/app/corporate" element={<AdminOrganization />} />
+            {/* <Route path="/app/corporate" element={<AdminOrganization />} /> */}
 
             {/* ***************************** ACCOUNTS ROUTES ************************************* */}
 
@@ -179,6 +180,15 @@ const AppRoutes = () => {
             {/* ***************************** ACCOUNTS ROUTES ************************************* */}
             <Route path="/app/accounts" element={<AccountHome />}>
               {AccountsRoutes.map(route => {
+                const {path, Component} = route;
+                return <Route key={path} path={path} element={<Component />} />;
+              })}
+            </Route>
+
+            {/**************************MANAGED CARE *************************************** */}
+            <Route path="/app/corporate" element={<ManagedCareHome />}>
+              <Route index element={<ManagedCareFrontDashboard />} />
+              {corporateRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}

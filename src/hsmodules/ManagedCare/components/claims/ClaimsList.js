@@ -333,17 +333,25 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
             </Box>
           </TableMenu>
 
-          <CustomTable
-            title={""}
-            columns={claimsColumns}
-            data={claims}
-            pointerOnHover
-            highlightOnHover
-            striped
-            onRowClicked={handleRow}
-            progressPending={loading}
-            //conditionalRowStyles={conditionalRowStyles}
-          />
+          <Box
+            sx={{
+              width: "100%",
+              height: "calc(100vh - 180px)",
+              overflowY: "auto",
+            }}
+          >
+            <CustomTable
+              title={""}
+              columns={claimsColumns}
+              data={claims}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={handleRow}
+              progressPending={loading}
+              //conditionalRowStyles={conditionalRowStyles}
+            />
+          </Box>
         </PageWrapper>
       </div>
     </>
