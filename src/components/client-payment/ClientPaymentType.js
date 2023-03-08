@@ -1,25 +1,45 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import {Box} from "@mui/material";
 
-const ClientPaymentTypeSelect = ({payments, handleChange}) => {
-  const [value, setValue] = useState("");
+const ClientPaymentTypeSelect = ({
+  payments = [],
+  handleChange,
+  disabled = false,
+}) => {
+  const [value, setValue] = useState(null);
 
   const onChange = val => {
     handleChange(val);
+    setValue(val);
   };
 
   // console.log(payments);
 
+  useEffect(() => {
+    if (payments?.some(checkHMO)) {
+      const selectedPayment = payments[1];
+      setValue(selectedPayment);
+      handleChange(selectedPayment);
+    } else {
+      const selectedPayment = payments[0];
+      setValue(selectedPayment);
+      handleChange(selectedPayment);
+    }
+  }, [payments]);
+
+  const checkHMO = obj => obj.paymentmode === "HMO";
+
   return (
     <Autocomplete
+      disabled={disabled}
       id="client-payment-select"
       sx={{width: "100%"}}
-      //value={value}
+      value={value}
       onChange={(event, newValue, reason) => {
         if (reason === "clear") {
-          setValue("");
+          setValue(null);
         } else {
           onChange(newValue);
         }
@@ -28,7 +48,7 @@ const ClientPaymentTypeSelect = ({payments, handleChange}) => {
       autoHighlight
       getOptionLabel={option =>
         `${option.paymentmode}  ${
-          option.organizationName && `- ${option.organizationName}`
+          option.organizationName ? `- ${option.organizationName}` : ""
         }`
       }
       renderOption={(props, option) => (
@@ -49,6 +69,10 @@ const ClientPaymentTypeSelect = ({payments, handleChange}) => {
           sx={{
             fontSize: "0.75rem",
             backgroundColor: "#ffffff",
+            "& .MuiInputBase-input.Mui-disabled": {
+              WebkitTextFillColor: "#000000",
+              color: "black",
+            },
             "& .MuiInputBase-input": {
               height: "0.9rem",
               fontSize: "0.8rem",
@@ -66,3 +90,10 @@ const ClientPaymentTypeSelect = ({payments, handleChange}) => {
 };
 
 export default ClientPaymentTypeSelect;
+// sx={{
+//       width: "100%",
+//       "& .MuiInputBase-input.Mui-disabled": {
+//         WebkitTextFillColor: "#000000",
+//         color: "black",
+//       },
+//     }}

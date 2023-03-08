@@ -292,6 +292,8 @@ export const menuItems = [
       {name: "Claims", to: "/app/corporate/claims"},
       {name: "Policy", to: "/app/corporate/policy"},
       {name: "Health Plan", to: "/app/corporate/healthplan"},
+      {name: "Check In", to: "/app/corporate/Checkin"},
+      {name: "Dashboard", to: "/app/corporate/dashboard"},
     ],
   },
 
