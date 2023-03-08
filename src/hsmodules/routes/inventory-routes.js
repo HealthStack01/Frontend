@@ -17,6 +17,7 @@ const InventoryProductEntry = lazy(() => import("../inventory/ProductEntry"));
 const InventoryProductExit = lazy(() => import("../inventory/ProductExit"));
 const InventoryProducts = lazy(() => import("../inventory/Products"));
 const Store = lazy(() => import("../inventory/Store"));
+const InventoryTransfer = lazy(() => import("../inventory/InventoryTransfer"));
 
 export const inventoryRoutes = [
   {
@@ -38,6 +39,10 @@ export const inventoryRoutes = [
   {
     path: "/app/inventory/storeinventory",
     Component: InventoryStore,
+  },
+  {
+    path: "/app/inventory/transfer",
+    Component: InventoryTransfer,
   },
   {
     path: "/app/inventory/inv-admin",
