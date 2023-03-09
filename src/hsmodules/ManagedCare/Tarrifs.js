@@ -17,6 +17,7 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 import DeleteOutline from "@mui/icons-material/DeleteOutline";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 import SingleCheckbox from "../../components/inputs/basic/Checkbox/SingleCheckbox";
+import CheckboxGroup from "../../components/inputs/basic/Checkbox/CheckBoxGroup";
 
 import {
   BandTariffSearch,
@@ -127,7 +128,7 @@ export default function Tariff({ standAlone }) {
       <ModalBox
         open={openFacilityModal}
         onClose={handleHideFacilityModal}
-        header="Create Facility"
+        header="Add Provider"
       >
         <AddFacility />
       </ModalBox>
@@ -598,7 +599,17 @@ export const TarrifListView = ({
       sortable: true,
       required: true,
       inputType: "TEXT",
-      width: "150px",
+      width: "250px",
+    },
+    {
+      name: "Class Type",
+      key: "class",
+      description: "Class",
+      selector: (row) => row?.class.map((item)=> item),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      width: "250px",
     },
   ];
 
@@ -2330,7 +2341,7 @@ export const BandForm = () => {
   );
 };
 
-export function AddService({ setOpenServicesModal }) {
+export function AddService() {
   const [, setPriceState] = useState({
     bronze: false,
     gold: false,
@@ -2759,7 +2770,7 @@ export function AddService({ setOpenServicesModal }) {
 }
 
 export function AddFacility() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, control} = useForm();
   const { state, setState } = useContext(ObjectContext);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
@@ -2768,51 +2779,57 @@ export function AddFacility() {
   const [chosen, setChosen] = useState("");
   const [band, setBand] = useState("");
   const { user } = useContext(UserContext);
-  const [primary, setPrimary] = useState(false);
-  const [secondary, setSecondary] = useState(false);
-  const [tertiary, setTertiary] = useState(false);
+  const [active, setActive] = useState(false);
   const [openFacilityModal, setOpenFacilityModal] = useState(false);
 
   const selectedServiceDetails = state.ServicesModule.selectedServices;
 
-  const handleClick = () => {
-    setOpenFacilityModal(true)
-    let addnewProvider = {
-      dest_org: chosen._id, //consumer-facility
-      dest_org_name: chosen?.organizationDetail?.facilityName,
-    };
+  const prevProviders = selectedServiceDetails?.providers;
 
-    const newServicePro = {
-      organizationId: user.currentEmployee.facilityDetail._id,
-      organizationName: user.currentEmployee.facilityDetail.facilityName,
-      band: selectedServiceDetails?.band,
-      contracts: selectedServiceDetails?.contracts,
-      providers: addnewProvider,
-    };
-    ServicesServ.patch(selectedServiceDetails._id, newServicePro)
-      .then((res) => {
-        // console.log(res)
-        setState((prev) => ({
-          ...prev,
-          ServicesModule: { ...prev.ServicesModule, selectedServices: res },
-        }));
-        setSuccess(true);
-        toast.success("Facility added succesfully");
-        setSuccess(false);
-        setOpenFacilityModal(false)
-        setBand("");
-      })
-      .catch((err) => {
-        setOpenFacilityModal(false)
-        toast.error("Error adding or facility " + err);
-      });
-  };
+  // const existingProviders = prevProviders.filter(
+  //   (items) => items.dest_org_name === chosen?.organizationDetail?.facilityName
+  // );
+
+  const handleClick = (data) => {
+    setOpenFacilityModal(true);
+      const addnewProvider = {
+        dest_org: chosen._id,
+        dest_org_name: chosen?.organizationDetail?.facilityName,
+        class: data.classType,
+      };
+      const newServicePro = {
+        organizationId: user.currentEmployee.facilityDetail._id,
+        organizationName: user.currentEmployee.facilityDetail.facilityName,
+        band: selectedServiceDetails?.band,
+        contracts: selectedServiceDetails?.contracts,
+        providers: [...prevProviders, addnewProvider],
+      };
+      ServicesServ.patch(selectedServiceDetails._id, newServicePro)
+        .then((res) => {
+          console.log(res);
+          setState((prev) => ({
+            ...prev,
+            ServicesModule: { ...prev.ServicesModule, selectedServices: res },
+          }));
+          setSuccess(true);
+          toast.success("Facility added succesfully");
+          setSuccess(false);
+          setOpenFacilityModal(false);
+          setBand("");
+        })
+        .catch((err) => {
+          setOpenFacilityModal(false);
+          toast.error("Error adding or facility " + err);
+        });
+    }
 
   const getSearchfacility = (obj) => {
     setChosen(obj);
     if (!obj) {
     }
   };
+
+
 
   return (
     <>
@@ -2823,37 +2840,18 @@ export function AddFacility() {
         />
       </Box>
 
-      <Box display="flex" gap="1rem" alignItems="center">
-        <Box>
-          <SingleCheckbox
-            label="Primary"
-            name="primary"
-            checked={primary}
-            onChange={(e) => setPrimary(e.target.checked)}
-          />
-        </Box>
-        <Box>
-          <SingleCheckbox
-            label="Secondary"
-            name="secondary"
-            checked={secondary}
-            onChange={(e) => setSecondary(e.target.checked)}
-          />
-        </Box>
-        <Box>
-          <SingleCheckbox
-            label="Tertiary"
-            name="tertiary"
-            checked={tertiary}
-            onChange={(e) => setTertiary(e.target.checked)}
-          />
-        </Box>
+      <Box>
+        <CheckboxGroup
+          name="classType"
+          control={control}
+          options={["Primary", "Secondary", "Tertiary"]}
+        />
       </Box>
       <Box my="1rem">
         <GlobalCustomButton
           text="Add Facility"
           type="submit"
-          onClick={handleClick}
+          onClick={handleSubmit(handleClick)}
         />
       </Box>
     </>
