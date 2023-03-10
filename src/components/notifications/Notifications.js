@@ -5,6 +5,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import Drawer from "@mui/material/Drawer";
 import CloseIcon from "@mui/icons-material/Close";
+import {useNavigate, useLocation} from "react-router-dom";
 
 import {FormsHeaderText} from "../texts";
 import GlobalCustomButton from "../buttons/CustomButton";
@@ -48,6 +49,8 @@ const AppNotifications = () => {
   const [updatedNumOfNote, setUpdatedNumOfNote] = useState(0);
 
   const [play, {stop}] = useSound(notificationSound);
+
+  const navigate = useNavigate();
 
   const getNotifications = useCallback(async () => {
     const userId = user.currentEmployee._id;
@@ -269,7 +272,14 @@ const AppNotifications = () => {
               backgroundColor: "#f8f9fa",
             }}
           >
-            <GlobalCustomButton>View All</GlobalCustomButton>
+            <GlobalCustomButton
+              onClick={() => {
+                navigate("/app/communication/notifications");
+                setShowDrawer(false);
+              }}
+            >
+              View All
+            </GlobalCustomButton>
           </Box>
         </Box>
       </Drawer>

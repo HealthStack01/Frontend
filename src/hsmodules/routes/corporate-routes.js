@@ -1,7 +1,6 @@
 import {lazy} from "react";
-//import {PreAuth} from "../ManagedCare/NewPreAuth";
 
-const Policy = lazy(() => import("../ManagedCare/Policy"));
+const Policy = lazy(() => import("../_Corporate/Policy"));
 const ExternalPolicy = lazy(() => import("../ManagedCare/externalPolicy"));
 const Beneficiary = lazy(() => import("../ManagedCare/Beneficiary"));
 const TarrifList = lazy(() => import("../ManagedCare/Tarrifs"));
@@ -11,37 +10,21 @@ const Referral = lazy(() => import("../ManagedCare/Referral"));
 const HiaOrganizationClient = lazy(() => import("../ManagedCare/HIA"));
 const CorporateClient = lazy(() => import("../ManagedCare/Corporate"));
 const Claims = lazy(() => import("../ManagedCare/Claims"));
-//const ClaimsDetails = lazy(() => import('../ManagedCare/ClaimsDetails'));
 const FundsManagement = lazy(() => import("../ManagedCare/FundsManagement"));
-
 const ManagedCareFrontDashboard = lazy(() =>
   import("../dashBoardUiComponent/@modules/ManagedCareFrontDashboard")
 );
 const ProviderOrganizationClient = lazy(() =>
   import("../ManagedCare/Providers")
 );
-const Accreditation = lazy(() => import("../ManagedCare/Accreditation"));
-
 const ComplaintsInventoryReport = lazy(() =>
   import("../ManagedCare/Complaints")
 );
-
-const PreAuth = lazy(() => import("../ManagedCare/PreAuth"));
-
 const Premium = lazy(() => import("../ManagedCare/Premium"));
-
-const OrganizationClient = lazy(() =>
-  import("../ManagedCare/OrganizationClient")
-);
-const ProviderPayment = lazy(() => import("../ManagedCare/ProviderPayment"));
-
 const ComplaintDetails = lazy(() => import("../ManagedCare/ComplaintDetails"));
 const CheckIn = lazy(() => import("../ManagedCare/Checkin"));
-//const PreAuthDetails = lazy(() => import("../ManagedCare/PreAuthDetails"));
 
-const DummyComponent = () => {
-  return <h1>No Yet Available</h1>;
-};
+const CorporateBeneficiary = () => <Beneficiary standalone={true} />;
 
 export const corporateRoutes = [
   {
@@ -88,7 +71,7 @@ export const corporateRoutes = [
   },
   {
     path: "/app/corporate/beneficiary",
-    Component: Beneficiary,
+    Component: CorporateBeneficiary,
   },
 
   {

@@ -1,16 +1,16 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { Navigate } from "react-router-dom"; //Route, Switch,Link, NavLink,
+import React, {useState, useContext, useEffect, useRef} from "react";
+import {Navigate} from "react-router-dom"; //Route, Switch,Link, NavLink,
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "react-toastify";
-import { formatDistanceToNowStrict } from "date-fns";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
+import {useNavigate} from "react-router-dom";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "react-toastify";
+import {formatDistanceToNowStrict} from "date-fns";
 import ClientFinInfo from "./ClientFinInfo";
 import BillServiceCreate from "../Finance/BillServiceCreate";
-import { AppointmentCreate } from "../Appointment/generalAppointment";
+import {AppointmentCreate} from "../Appointment/generalAppointment";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ClientBilledPrescription from "../Finance/ClientBill";
 import ClientGroup from "./ClientGroup";
@@ -26,15 +26,15 @@ import {
   principalData,
 } from "./schema";
 import "react-datepicker/dist/react-datepicker.css";
-import { OrgFacilitySearch, SponsorSearch } from "../helpers/FacilitySearch";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
+import {OrgFacilitySearch, SponsorSearch} from "../helpers/FacilitySearch";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
-import { Avatar, Box, Button } from "@mui/material";
+import {Avatar, Box, Button} from "@mui/material";
 import CustomTable from "../../components/customtable";
 import ModalBox from "../../components/modal";
 import ModalHeader from "../Appointment/ui-components/Heading/modalHeader";
-import { Grid } from "@mui/material";
+import {Grid} from "@mui/material";
 import Input from "../../components/inputs/basic/Input/index";
 import ToggleButton from "../../components/toggleButton";
 import RadioButton from "../../components/inputs/basic/Radio";
@@ -42,41 +42,36 @@ import BasicDatePicker from "../../components/inputs/Date";
 import BasicDateTimePicker from "../../components/inputs/DateTime";
 import CustomSelect from "../../components/inputs/basic/Select";
 import Textarea from "../../components/inputs/basic/Textarea";
-import { MdCancel, MdAddCircle } from "react-icons/md";
+import {MdCancel, MdAddCircle} from "react-icons/md";
 import ClientForm from "../Client/ClientForm";
-import {
-  BottomWrapper,
-  GridWrapper,
-  HeadWrapper,
-  ViewBox,
-} from "../app/styles";
+import {BottomWrapper, GridWrapper, HeadWrapper, ViewBox} from "../app/styles";
 import ClinicAppointments from "../Appointment/clinicAppointments";
 import PharmacyBillService from "../Finance/BillService";
 import Claims from "./Claims";
 import GeneralAppointments from "./Referral";
 import HealthPlan from "./HealthPlan";
 var random = require("random-string-generator");
-import { yupResolver } from "@hookform/resolvers/yup";
-import { createClientSchema } from "../Client/schema";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {createClientSchema} from "../Client/schema";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import SaveIcon from "@mui/icons-material/Save";
 import Policy from "./Policy";
-import { FormsHeaderText } from "../../components/texts";
-import { styled } from "@mui/material/styles";
+import {FormsHeaderText} from "../../components/texts";
+import {styled} from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import Typography from "@mui/material/Typography";
 import moment from "moment";
-import { getBase64 } from "../helpers/getBase64";
+import {getBase64} from "../helpers/getBase64";
 import axios from "axios";
-import { FileUploader } from "react-drag-drop-files";
+import {FileUploader} from "react-drag-drop-files";
 import MuiDateTimePicker from "../../components/inputs/DateTime/MuiDateTimePicker";
-import { ProviderPrintId } from "./components/PrintId";
+import {ProviderPrintId} from "./components/PrintId";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Beneficiary({ standAlone }) {
-  const { state } = useContext(ObjectContext); //,setState
+export default function Beneficiary({standalone = false}) {
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -87,11 +82,7 @@ export default function Beneficiary({ standAlone }) {
   return (
     <section className="section remPadTop">
       {showModal === 0 && (
-        <ClientList
-          showModal={showModal}
-          setShowModal={setShowModal}
-          standAlone={standAlone}
-        />
+        <ClientList showModal={showModal} setShowModal={setShowModal} />
       )}
       {/* {state.ClientModule.show === 'create' && <BeneficiaryCreate />} */}
       {showModal === 1 && (
@@ -114,8 +105,8 @@ export default function Beneficiary({ standAlone }) {
   );
 }
 
-export function ClientCreate({ closeModal }) {
-  const { register, handleSubmit, setValue, getValues, reset } = useForm(); //, watch, errors, reset
+export function ClientCreate({closeModal}) {
+  const {register, handleSubmit, setValue, getValues, reset} = useForm(); //, watch, errors, reset
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -127,24 +118,24 @@ export function ClientCreate({ closeModal }) {
   const ClientServ = client.service("client");
   const mpiServ = client.service("mpi");
   //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
   const [billModal, setBillModal] = useState(false);
   const [patList, setPatList] = useState([]);
   const [dependant, setDependant] = useState(false);
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [date, setDate] = useState();
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
 
   // eslint-disable-next-line
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
     });
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setDate(date);
   };
   useEffect(() => {
@@ -238,7 +229,7 @@ export function ClientCreate({ closeModal }) {
     }
   };
 
-  const checkQuery = (query) => {
+  const checkQuery = query => {
     setPatList([]);
     if (
       !(
@@ -247,8 +238,8 @@ export function ClientCreate({ closeModal }) {
         query.constructor === Object
       )
     ) {
-      ClientServ.find({ query: query })
-        .then((res) => {
+      ClientServ.find({query: query})
+        .then(res => {
           console.log(res);
           if (res.total > 0) {
             // alert(res.total)
@@ -257,7 +248,7 @@ export function ClientCreate({ closeModal }) {
             return;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     }
@@ -270,7 +261,7 @@ export function ClientCreate({ closeModal }) {
     setBillModal(false);
   };
 
-  const choosen = async (client) => {
+  const choosen = async client => {
     //update client with facilities
     /*   if (client.facility !== user.currentEmployee.facilityDetail._id ){ //check taht it is not in list of related facilities
            
@@ -289,7 +280,7 @@ export function ClientCreate({ closeModal }) {
     //toast niotification
     //cash payment
   };
-  const dupl = (client) => {
+  const dupl = client => {
     toast({
       message: "Client previously registered in this facility",
       type: "is-danger",
@@ -299,10 +290,10 @@ export function ClientCreate({ closeModal }) {
     reset();
     setPatList([]);
   };
-  const reg = async (client) => {
+  const reg = async client => {
     if (
       client.relatedfacilities.findIndex(
-        (el) => el.facility === user.currentEmployee.facilityDetail._id
+        el => el.facility === user.currentEmployee.facilityDetail._id
       ) === -1
     ) {
       //create mpi record
@@ -316,7 +307,7 @@ export function ClientCreate({ closeModal }) {
       //console.log(newPat)
       await mpiServ
         .create(newPat)
-        .then((resp) => {
+        .then(resp => {
           toast({
             message: "Client created succesfully",
             type: "is-success",
@@ -324,7 +315,7 @@ export function ClientCreate({ closeModal }) {
             pauseOnHover: true,
           });
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
             message: "Error creating Client " + err,
             type: "is-danger",
@@ -338,7 +329,7 @@ export function ClientCreate({ closeModal }) {
     setPatList([]);
     //cash payment
   };
-  const depen = (client) => {
+  const depen = client => {
     setDependant(true);
   };
   const onSubmit = async (data, e) => {
@@ -378,7 +369,7 @@ export function ClientCreate({ closeModal }) {
     if (confirm) {
       data.dob = date;
       await ClientServ.create(data)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           //console.log(JSON.stringify(res))
           e.target.reset();
@@ -421,13 +412,13 @@ export function ClientCreate({ closeModal }) {
                     others:{},
                     show:'create'
                     }          */
-          setState((prevstate) => ({
+          setState(prevstate => ({
             ...prevstate,
             Beneficiary: newClientModule,
           }));
           closeModal();
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
             message: "Error creating Client " + err,
             type: "is-danger",
@@ -475,7 +466,7 @@ export function ClientCreate({ closeModal }) {
               <BasicDatePicker
                 label="Date of Birth"
                 register={register("dob")}
-                onChange={(date) => handleDate(date)}
+                onChange={date => handleDate(date)}
                 errorText={errors?.dob?.message}
               />
             </GridWrapper>
@@ -490,16 +481,16 @@ export function ClientCreate({ closeModal }) {
                 label="Gender"
                 register={register("gender")}
                 options={[
-                  { label: "Male", value: "male" },
-                  { label: "Female", value: "female" },
+                  {label: "Male", value: "male"},
+                  {label: "Female", value: "female"},
                 ]}
               />
               <CustomSelect
                 label="Marital Status"
                 register={register("maritalstatus")}
                 options={[
-                  { label: "Single", value: "Single" },
-                  { label: "Married", value: "Married" },
+                  {label: "Single", value: "Single"},
+                  {label: "Married", value: "Married"},
                 ]}
               />
               <Input label="Medical record Number" register={register("mrn")} />
@@ -590,8 +581,8 @@ export function ClientCreate({ closeModal }) {
   );
 }
 
-export function BeneficiaryCreate({ openCreate }) {
-  const { register, handleSubmit, setValue, getValues, reset } = useForm(); //, watch, errors, reset
+export function BeneficiaryCreate({openCreate}) {
+  const {register, handleSubmit, setValue, getValues, reset} = useForm(); //, watch, errors, reset
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -604,7 +595,7 @@ export function BeneficiaryCreate({ openCreate }) {
   const policyServ = client.service("policy");
   //const history = useHistory()
   const [chosen, setChosen] = useState("");
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
   const [billModal, setBillModal] = useState(false);
   const [clientModal, setClientModal] = useState(false);
   const [showCorp, setShowCorp] = useState(false);
@@ -622,7 +613,7 @@ export function BeneficiaryCreate({ openCreate }) {
   const [date, setDate] = useState();
   const [type, setType] = useState("Sales ");
   const [chosenPlan, setChosenPlan] = useState();
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   const [documentNo, setDocumentNo] = useState("");
   const hMO = ["simpa", "dania"];
   const [benefittingPlans1, setBenefittingPlans1] = useState([]);
@@ -637,7 +628,7 @@ export function BeneficiaryCreate({ openCreate }) {
             shouldDirty: true
         })
     } */
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setDate(date);
   };
 
@@ -655,13 +646,13 @@ export function BeneficiaryCreate({ openCreate }) {
     return () => {};
   }, []);
 
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setChosen(obj);
     if (!obj) {
     }
   };
 
-  const getSearchfacility1 = (obj) => {
+  const getSearchfacility1 = obj => {
     setPlanHMO(obj);
     if (!obj) {
     }
@@ -686,36 +677,36 @@ export function BeneficiaryCreate({ openCreate }) {
       });
       console.log(findServices);
       if (findServices.total > 0) {
-        findServices.groupedOrder[0].services.forEach(async (c) => {
+        findServices.groupedOrder[0].services.forEach(async c => {
           const newPlan = {
             name: c.name,
             // checked:false
           };
-          await setBenefittingPlans1((prev) => prev.concat(c));
+          await setBenefittingPlans1(prev => prev.concat(c));
         });
       }
     }
   };
 
-  const handleChangeMode = (mode) => {
+  const handleChangeMode = mode => {
     setMessage(mode);
     if (mode == "Corporate") {
       setShowCorp(true);
     }
   };
 
-  const handleChangePlan = async (value) => {
+  const handleChangePlan = async value => {
     console.log(value);
     if (value == "") {
       setPrice("");
       return;
     }
     console.log(benefittingPlans1);
-    let cplan = benefittingPlans1.filter((el) => el.name === value);
+    let cplan = benefittingPlans1.filter(el => el.name === value);
     console.log(cplan);
     setChosenPlan(cplan[0]);
     let contract = cplan[0].contracts.filter(
-      (el) => el.source_org === el.dest_org
+      el => el.source_org === el.dest_org
     );
     setPrice(contract[0]);
   };
@@ -733,7 +724,7 @@ export function BeneficiaryCreate({ openCreate }) {
     console.log(state.Beneficiary);
   };
 
-  const choosen = async (client) => {
+  const choosen = async client => {
     //update client with facilities
     /*   if (client.facility !== user.currentEmployee.facilityDetail._id ){ //check taht it is not in list of related facilities
            
@@ -752,7 +743,7 @@ export function BeneficiaryCreate({ openCreate }) {
     //toast niotification
     //cash payment
   };
-  const dupl = (client) => {
+  const dupl = client => {
     toast({
       message: "Client previously registered in this facility",
       type: "is-danger",
@@ -762,10 +753,10 @@ export function BeneficiaryCreate({ openCreate }) {
     reset();
     setPatList([]);
   };
-  const reg = async (client) => {
+  const reg = async client => {
     if (
       client.relatedfacilities.findIndex(
-        (el) => el.facility === user.currentEmployee.facilityDetail._id
+        el => el.facility === user.currentEmployee.facilityDetail._id
       ) === -1
     ) {
       //create mpi record
@@ -779,7 +770,7 @@ export function BeneficiaryCreate({ openCreate }) {
       //console.log(newPat)
       await mpiServ
         .create(newPat)
-        .then((resp) => {
+        .then(resp => {
           toast({
             message: "Client created succesfully",
             type: "is-success",
@@ -787,7 +778,7 @@ export function BeneficiaryCreate({ openCreate }) {
             pauseOnHover: true,
           });
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
             message: "Error creating Client " + err,
             type: "is-danger",
@@ -801,7 +792,7 @@ export function BeneficiaryCreate({ openCreate }) {
     setPatList([]);
     //cash payment
   };
-  const depen = (client) => {
+  const depen = client => {
     setDependant(true);
   };
   //create productitem
@@ -865,7 +856,7 @@ export function BeneficiaryCreate({ openCreate }) {
     console.log(document);
 
     //order
-    document.documentdetail.forEach(async (element) => {
+    document.documentdetail.forEach(async element => {
       let orderinfo = {
         //for reach document
         documentationId: "", //tbf
@@ -946,7 +937,7 @@ export function BeneficiaryCreate({ openCreate }) {
         document,
         serviceList,
       })
-        .then((res) => {
+        .then(res => {
           setSuccess(true);
           toast({
             message: "Billed Orders created succesfully",
@@ -963,7 +954,7 @@ export function BeneficiaryCreate({ openCreate }) {
           const invoiceNo = random(6, "uppernumeric");
           setDocumentNo(invoiceNo);
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
             message: "Error creating Billed Orders " + err,
             type: "is-danger",
@@ -1051,7 +1042,7 @@ export function BeneficiaryCreate({ openCreate }) {
 
       await policyServ
         .create(policy)
-        .then((res) => {
+        .then(res => {
           //console.log(JSON.stringify(res))
           e.target.reset();
           /*  setMessage("Created Client successfully") */
@@ -1067,7 +1058,7 @@ export function BeneficiaryCreate({ openCreate }) {
                   setDependant(false)
                   setDate() */
         })
-        .then(async (res) => {
+        .then(async res => {
           //  await setType("Sales")
           //    const today=new Date().toLocaleString()
           // await setDate(today)
@@ -1078,7 +1069,7 @@ export function BeneficiaryCreate({ openCreate }) {
           // await createProductEntry()
           // await handleCreateBill()
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
             message: "Error creating Client " + err,
             type: "is-danger",
@@ -1092,27 +1083,27 @@ export function BeneficiaryCreate({ openCreate }) {
   };
 
   const handleClickProd = () => {
-    setState((prevstate) => ({ ...prevstate, currBeneficiary: "principal" }));
+    setState(prevstate => ({...prevstate, currBeneficiary: "principal"}));
     setDependant("principal");
     console.log(state.Beneficiary);
     setClientModal(true);
     setOpenCreate(true);
   };
   const handleClickProd2 = () => {
-    setState((prevstate) => ({ ...prevstate, currBeneficiary: "dependent" }));
+    setState(prevstate => ({...prevstate, currBeneficiary: "dependent"}));
     setDependant("dependent");
     setClientModal(true);
     setOpenCreate(true);
   };
-  const handleHMO = (e) => {
+  const handleHMO = e => {
     console.log(e);
   };
 
-  const handlePlan = (e) => {
+  const handlePlan = e => {
     console.log(e);
   };
 
-  const handleRow = (Client) => {
+  const handleRow = Client => {
     //domething o
   };
   return (
@@ -1133,7 +1124,7 @@ export function BeneficiaryCreate({ openCreate }) {
             <Grid item md={12}>
               <select
                 name="plan"
-                {...register("plan", { required: true })}
+                {...register("plan", {required: true})}
                 onChange={(e, i) => handleChangePlan(e.target.value)}
                 className="selectadd"
                 style={{
@@ -1159,8 +1150,8 @@ export function BeneficiaryCreate({ openCreate }) {
             <Grid item md={12}>
               <select
                 name="sponsortype"
-                {...register("sponsortype", { required: true })}
-                onChange={(e) => handleChangeMode(e.target.value)}
+                {...register("sponsortype", {required: true})}
+                onChange={e => handleChangeMode(e.target.value)}
                 className="selectadd"
                 style={{
                   width: "100%",
@@ -1190,7 +1181,7 @@ export function BeneficiaryCreate({ openCreate }) {
               />
             </Grid>
           </Grid>
-          <p style={{ display: "flex" }}>
+          <p style={{display: "flex"}}>
             Add Principal
             <button
               onClick={handleClickProd}
@@ -1252,7 +1243,7 @@ export function BeneficiaryCreate({ openCreate }) {
   );
 }
 
-export function ClientList({ showModal, setShowModal, standAlone }) {
+export function ClientList({showModal, setShowModal, standAlone}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -1268,9 +1259,9 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
@@ -1281,7 +1272,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       selectedClient: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -1289,20 +1280,20 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
     setShowModal(2);
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     await setSelectedClient(Client);
     const newClientModule = {
       selectedClient: Client,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
     setShowModal(1);
   };
-  console.log("fdacilities", facilities);
-  const handleSearch = (val) => {
+
+  const handleSearch = val => {
     // eslint-disable-next-line
     const field = "firstname";
     console.log(val);
@@ -1357,7 +1348,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
               $options: "i",
             },
           },
-          { gender: val },
+          {gender: val},
         ],
 
         "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
@@ -1367,13 +1358,13 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -1402,7 +1393,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       // await setTotal(findClient.total);
       //console.log(user.currentEmployee.facilityDetail._id, state)
       //console.log(facilities)
-      setPage((page) => page + 1);
+      setPage(page => page + 1);
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
@@ -1442,7 +1433,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       // });
 
       let list = [];
-      data.map((item) => {
+      data.map(item => {
         item.principal.principal = item.principal;
         item.principal.organizationName = item.organizationName;
         // item.principal.dependantBeneficiaries = item.dependantBeneficiaries;
@@ -1462,7 +1453,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 
         list.push(item.principal);
 
-        item.dependantBeneficiaries.map((benf) => {
+        item.dependantBeneficiaries.map(benf => {
           benf.detail = {
             policyNo: item.policyNo,
             sponsor: item.sponsor,
@@ -1485,16 +1476,9 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       await console.log("list", list);
       await setFacilities(list);
 
-      // console.log('principal', principal);
-      // let dependantBeneficiaries = data.map(
-      // 	(item) => item.dependantBeneficiaries,
-      // );
-      // let joined = principal.concat(...dependantBeneficiaries);
-      // await setFacilities(joined);
-      // await console.log(joined);
       await setTotal(findClient.total);
 
-      setPage((page) => page + 1);
+      setPage(page => page + 1);
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
@@ -1510,25 +1494,17 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       }
     }
   };
-  // console.log('policyfacility', policyFacilities);
 
   useEffect(() => {
     if (user) {
       //getFacilities()
       rest();
     } else {
-      /* const localUser= localStorage.getItem("user")
-                    const user1=JSON.parse(localUser)
-                    console.log(localUser)
-                    console.log(user1)
-                    fetchUser(user1)
-                    console.log(user)
-                    getFacilities(user) */
     }
-    ClientServ.on("created", (obj) => rest());
-    ClientServ.on("updated", (obj) => rest());
-    ClientServ.on("patched", (obj) => rest());
-    ClientServ.on("removed", (obj) => rest());
+    ClientServ.on("created", obj => rest());
+    ClientServ.on("updated", obj => rest());
+    ClientServ.on("patched", obj => rest());
+    ClientServ.on("removed", obj => rest());
     return () => {};
     // eslint-disable-next-line
   }, []);
@@ -1557,7 +1533,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: (row) => row.sn,
+      selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
       width: "50px",
@@ -1566,7 +1542,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       name: "Image",
       key: "sn",
       description: "Enter name of employee",
-      selector: (row) => <Avatar src={row?.imageurl} />,
+      selector: row => <Avatar src={row?.imageurl} />,
       sortable: true,
       inputType: "HIDDEN",
       width: "80px",
@@ -1575,7 +1551,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       name: "First Name",
       key: "firstname",
       description: "First Name",
-      selector: (row) => row.firstname,
+      selector: row => row.firstname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1584,7 +1560,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       name: "Last Name",
       key: "lastname",
       description: "Last Name",
-      selector: (row) => row.lastname,
+      selector: row => row.lastname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1603,7 +1579,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       name: "Age",
       key: "dob",
       description: "Age",
-      selector: (row) =>
+      selector: row =>
         row.dob ? formatDistanceToNowStrict(new Date(row?.dob)) : "",
       sortable: true,
       required: true,
@@ -1614,7 +1590,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       name: "Gender",
       key: "gender",
       description: "Male",
-      selector: (row) => row.gender,
+      selector: row => row.gender,
       sortable: true,
       required: true,
       inputType: "SELECT_LIST",
@@ -1625,7 +1601,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       name: "Email",
       key: "email",
       description: "johndoe@mail.com",
-      selector: (row) => row.email,
+      selector: row => row.email,
       sortable: true,
       required: true,
       inputType: "EMAIL",
@@ -1634,7 +1610,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       name: "Policy No",
       key: "policyNo",
       description: "Policy No",
-      selector: (row) => row.detail?.policyNo,
+      selector: row => row.detail?.policyNo,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1643,7 +1619,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       name: "Client Type",
       key: "clientType",
       description: "Client Type",
-      selector: (row) => row.detail?.clientType,
+      selector: row => row.detail?.clientType,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1653,7 +1629,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       name: "Sponsor Type",
       key: "sponsorType",
       description: "Sponsor Type",
-      selector: (row) => row.detail?.sponsortype,
+      selector: row => row.detail?.sponsortype,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1662,7 +1638,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       name: "Policy Status",
       key: "policyStatus",
       description: "Policy Status",
-      selector: (row) => (row.detail?.approved ? "Approved" : "Pending"),
+      selector: row => (row.detail?.approved ? "Approved" : "Pending"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1679,19 +1655,19 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
           margin: "0 1rem",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={{display: "flex", alignItems: "center"}}>
           {handleSearch && (
             <div className="inner-table">
               <FilterMenu onSearch={handleSearch} />
             </div>
           )}
-          <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+          <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
             List of Beneficiary
           </h2>
         </div>
         {handleCreateNew && (
           <Button
-            style={{ fontSize: "14px", fontWeight: "600px" }}
+            style={{fontSize: "14px", fontWeight: "600px"}}
             label="Add New"
             onClick={handleCreateNew}
             showicon={true}
@@ -1720,7 +1696,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
   );
 }
 
-export function ClientDetail({ showModal, setShowModal }) {
+export function ClientDetail({showModal, setShowModal}) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
 
   const [error, setError] = useState(false); //,
@@ -1736,15 +1712,15 @@ export function ClientDetail({ showModal, setShowModal }) {
   const [message, setMessage] = useState(""); //,
   //const ClientServ=client.service('/Client')
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user, setUser} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
   const [imgSrc, setImgSrc] = useState(
     "https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg"
   );
   const [editing, setEditing] = useState(false);
-  const onChange = (file) => {
+  const onChange = file => {
     const reader = new FileReader();
-    const { files } = file.target;
+    const {files} = file.target;
     if (files && files.length !== 0) {
       reader.onload = () => setImgSrc(reader.result);
       reader.readAsDataURL(files[0]);
@@ -1763,7 +1739,7 @@ export function ClientDetail({ showModal, setShowModal }) {
       selectedClient: Client,
       show: "modify",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -1810,7 +1786,7 @@ export function ClientDetail({ showModal, setShowModal }) {
     setBillModal(false);
   };
 
-  const ImgStyled = styled("img")(({ theme }) => ({
+  const ImgStyled = styled("img")(({theme}) => ({
     width: 150,
     height: 150,
     marginRight: theme.spacing(6.25),
@@ -1831,7 +1807,7 @@ export function ClientDetail({ showModal, setShowModal }) {
       name: "Service Name",
       key: "service",
       description: "Service Name",
-      selector: (row) => row?.serviceName,
+      selector: row => row?.serviceName,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1840,10 +1816,10 @@ export function ClientDetail({ showModal, setShowModal }) {
       name: "Plan",
       key: "plan",
       description: "Plan",
-      selector: (row) =>
+      selector: row =>
         row?.plans.map((plan, i) => (
           <Typography
-            sx={{ fontSize: "0.8rem", whiteSpace: "normal" }}
+            sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
             data-tag="allowRowEvents"
             key={i}
           >
@@ -1862,7 +1838,7 @@ export function ClientDetail({ showModal, setShowModal }) {
       name: "Band",
       key: "band",
       description: "Band",
-      selector: (row) => row?.band,
+      selector: row => row?.band,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1871,9 +1847,9 @@ export function ClientDetail({ showModal, setShowModal }) {
       name: "Category",
       key: "category",
       description: "Category",
-      selector: (row) => (
+      selector: row => (
         <Typography
-          sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
+          sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
           data-tag="allowRowEvents"
         >
           {row?.category}
@@ -1887,9 +1863,9 @@ export function ClientDetail({ showModal, setShowModal }) {
       name: "Duration",
       key: "duration",
       description: "Duration",
-      selector: (row) => (
+      selector: row => (
         <Typography
-          sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
+          sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
           data-tag="allowRowEvents"
         >
           {row?.duration}
@@ -1903,9 +1879,9 @@ export function ClientDetail({ showModal, setShowModal }) {
       name: "Frequency",
       key: "frequency",
       description: "Frequency",
-      selector: (row) => (
+      selector: row => (
         <Typography
-          sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
+          sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
           data-tag="allowRowEvents"
         >
           {row?.frequency}
@@ -1919,9 +1895,9 @@ export function ClientDetail({ showModal, setShowModal }) {
       name: "Limit",
       key: "limit",
       description: "Limit",
-      selector: (row) => (
+      selector: row => (
         <Typography
-          sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
+          sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
           data-tag="allowRowEvents"
         >
           {row?.limit}
@@ -1935,9 +1911,9 @@ export function ClientDetail({ showModal, setShowModal }) {
       name: "Status",
       key: "status",
       description: "Status",
-      selector: (row) => (
+      selector: row => (
         <Typography
-          sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
+          sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
           data-tag="allowRowEvents"
         >
           {row?.status}
@@ -1960,7 +1936,7 @@ export function ClientDetail({ showModal, setShowModal }) {
       name: "Billing type",
       key: "billingtype",
       description: "Billing type",
-      selector: (row) => row?.billing_type,
+      selector: row => row?.billing_type,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -2010,7 +1986,7 @@ export function ClientDetail({ showModal, setShowModal }) {
                 onClick={() => setShowModal(0)}
                 variant="contained"
                 size="small"
-                sx={{ textTransform: "capitalize", marginRight: "10px" }}
+                sx={{textTransform: "capitalize", marginRight: "10px"}}
                 color="warning"
               >
                 Back
@@ -2019,7 +1995,7 @@ export function ClientDetail({ showModal, setShowModal }) {
                 onClick={handleEdit}
                 variant={showModal === 3 ? "outlined" : "contained"}
                 size="small"
-                sx={{ textTransform: "capitalize", marginRight: "10px" }}
+                sx={{textTransform: "capitalize", marginRight: "10px"}}
                 color="secondary"
               >
                 Edit Details
@@ -2028,7 +2004,7 @@ export function ClientDetail({ showModal, setShowModal }) {
                 onClick={() => setDisplay(5)}
                 variant={display === 5 ? "outlined" : "contained"}
                 size="small"
-                sx={{ textTransform: "capitalize", marginRight: "10px" }}
+                sx={{textTransform: "capitalize", marginRight: "10px"}}
                 color="success"
               >
                 Policy
@@ -2037,7 +2013,7 @@ export function ClientDetail({ showModal, setShowModal }) {
                 onClick={() => setDisplay(2)}
                 variant={display === 2 ? "outlined" : "contained"}
                 size="small"
-                sx={{ textTransform: "capitalize", marginRight: "10px" }}
+                sx={{textTransform: "capitalize", marginRight: "10px"}}
                 color="info"
               >
                 Claims
@@ -2046,7 +2022,7 @@ export function ClientDetail({ showModal, setShowModal }) {
                 onClick={() => setDisplay(3)}
                 variant={display === 3 ? "outlined" : "contained"}
                 size="small"
-                sx={{ textTransform: "capitalize", marginRight: "10px" }}
+                sx={{textTransform: "capitalize", marginRight: "10px"}}
                 color="secondary"
               >
                 Referrals
@@ -2055,7 +2031,7 @@ export function ClientDetail({ showModal, setShowModal }) {
                 onClick={() => setDisplay(4)}
                 variant={display === 4 ? "outlined" : "contained"}
                 size="small"
-                sx={{ textTransform: "capitalize", marginRight: "10px" }}
+                sx={{textTransform: "capitalize", marginRight: "10px"}}
               >
                 Benefits
               </Button>
@@ -2063,7 +2039,7 @@ export function ClientDetail({ showModal, setShowModal }) {
                 onClick={handleSchedule}
                 variant={appointmentModal ? "outlined" : "contained"}
                 size="small"
-                sx={{ textTransform: "capitalize", marginRight: "10px" }}
+                sx={{textTransform: "capitalize", marginRight: "10px"}}
                 color="success"
               >
                 Schedule Appointment
@@ -2089,7 +2065,7 @@ export function ClientDetail({ showModal, setShowModal }) {
 
         {display === 1 && (
           <>
-            <Box sx={{ position: "relative" }}>
+            <Box sx={{position: "relative"}}>
               <ImgStyled
                 src={Client?.imageurl ? Client?.imageurl : imgSrc}
                 alt="Profile Pic"
@@ -2106,7 +2082,7 @@ export function ClientDetail({ showModal, setShowModal }) {
                   onClick={handleGenegrateIdCard}
                   variant={generateIdCardModal ? "outlined" : "contained"}
                   size="small"
-                  sx={{ textTransform: "capitalize", marginRight: "10px" }}
+                  sx={{textTransform: "capitalize", marginRight: "10px"}}
                   color="success"
                 >
                   Generate Id-Card
@@ -2306,8 +2282,8 @@ export function ClientDetail({ showModal, setShowModal }) {
   );
 }
 
-export function ClientModify({ showModal, setShowModal }) {
-  const { register, handleSubmit, setValue, reset, control } = useForm(); //watch, errors,, errors
+export function ClientModify({showModal, setShowModal}) {
+  const {register, handleSubmit, setValue, reset, control} = useForm(); //watch, errors,, errors
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -2319,16 +2295,16 @@ export function ClientModify({ showModal, setShowModal }) {
   const ClientServ = client.service("client");
   //const history = useHistory()
   // eslint-disable-next-line
-  const { user } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
   const [imgSrc, setImgSrc] = useState("");
   const [editing, setEditing] = useState(false);
-  const onChange = (file) => {
+  const onChange = file => {
     getBase64(file)
-      .then((res) => {
+      .then(res => {
         setImgSrc(res);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
@@ -2372,7 +2348,7 @@ export function ClientModify({ showModal, setShowModal }) {
       selectedClient: Client,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -2385,7 +2361,7 @@ export function ClientModify({ showModal, setShowModal }) {
       selectedClient: {},
       show: "create",
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClientModule }));
+    setState(prevstate => ({...prevstate, ClientModule: newClientModule}));
   };
   // eslint-disable-next-line
   const handleDelete = async () => {
@@ -2394,7 +2370,7 @@ export function ClientModify({ showModal, setShowModal }) {
     const dleteId = Client._id;
     if (conf) {
       ClientServ.remove(dleteId)
-        .then((res) => {
+        .then(res => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Client successfully")
@@ -2411,7 +2387,7 @@ export function ClientModify({ showModal, setShowModal }) {
           });
           changeState();
         })
-        .catch((err) => {
+        .catch(err => {
           // setMessage("Error deleting Client, probable network issues "+ err )
           // setError(true)
           toast({
@@ -2428,21 +2404,21 @@ export function ClientModify({ showModal, setShowModal }) {
             shouldValidate: true,
             shouldDirty: true
           })) */
-  const onSubmit = async (data) => {
+  const onSubmit = async data => {
     setSuccess(false);
     const token = localStorage.getItem("feathers-jwt");
     if (imgSrc !== "") {
       axios
         .post(
           "https://healthstack-backend.herokuapp.com/upload",
-          { uri: imgSrc },
-          { headers: { Authorization: `Bearer ${token}` } }
+          {uri: imgSrc},
+          {headers: {Authorization: `Bearer ${token}`}}
         )
-        .then(async (res) => {
+        .then(async res => {
           data.imageurl = res.data.url;
           console.log(data);
           await ClientServ.patch(Client._id, data)
-            .then((res) => {
+            .then(res => {
               console.log(res);
               // e.target.reset();
               // setMessage("updated Client successfully")
@@ -2450,7 +2426,7 @@ export function ClientModify({ showModal, setShowModal }) {
 
               changeState();
             })
-            .catch((err) => {
+            .catch(err => {
               //setMessage("Error creating Client, probable network issues "+ err )
               // setError(true)
               toast("Error updating Client, probable network issues or " + err);
@@ -2458,7 +2434,7 @@ export function ClientModify({ showModal, setShowModal }) {
         });
     } else {
       await ClientServ.patch(Client._id, data)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           // e.target.reset();
           // setMessage("updated Client successfully")
@@ -2466,7 +2442,7 @@ export function ClientModify({ showModal, setShowModal }) {
 
           changeState();
         })
-        .catch((err) => {
+        .catch(err => {
           //setMessage("Error creating Client, probable network issues "+ err )
           // setError(true)
           toast("Error updating Client, probable network issues or " + err);
@@ -2474,7 +2450,7 @@ export function ClientModify({ showModal, setShowModal }) {
     }
   };
 
-  const ImgStyled = styled("img")(({ theme }) => ({
+  const ImgStyled = styled("img")(({theme}) => ({
     width: 150,
     height: 150,
     marginRight: theme.spacing(6.25),
@@ -2483,11 +2459,11 @@ export function ClientModify({ showModal, setShowModal }) {
 
   return (
     <>
-      <div style={{ width: "98%", margin: "0 1rem" }}>
+      <div style={{width: "98%", margin: "0 1rem"}}>
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* Names Section */}
           <ModalHeader text={"Modify Beneficiary"} />
-          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Box sx={{display: "flex", justifyContent: "flex-end"}}>
             <Box
               sx={{
                 width: "100%",
@@ -2498,7 +2474,7 @@ export function ClientModify({ showModal, setShowModal }) {
               <GlobalCustomButton
                 color="warning"
                 onClick={() => setShowModal(0)}
-                sx={{ marginRight: "15px" }}
+                sx={{marginRight: "15px"}}
               >
                 Back
               </GlobalCustomButton>
@@ -2508,14 +2484,14 @@ export function ClientModify({ showModal, setShowModal }) {
                 loading={loading}
                 onClick={handleSubmit(onSubmit)}
               >
-                <SaveIcon fontSize="small" sx={{ marginRight: "5px" }} />
+                <SaveIcon fontSize="small" sx={{marginRight: "5px"}} />
                 Save
               </GlobalCustomButton>
             </Box>
           </Box>
 
-          <Box sx={{ width: "80vw", maxHeight: "80vh" }} mt={1}>
-            <Box sx={{ position: "relative" }} mb={2}>
+          <Box sx={{width: "80vw", maxHeight: "80vh"}} mt={1}>
+            <Box sx={{position: "relative"}} mb={2}>
               <ImgStyled
                 src={imgSrc ? imgSrc : Client?.imageurl}
                 alt="Profile Pic"
@@ -2596,10 +2572,10 @@ export function ClientModify({ showModal, setShowModal }) {
               <Grid item lg={3} md={4} sm={6}>
                 <CustomSelect
                   label="Gender"
-                  register={register("gender", { required: true })}
+                  register={register("gender", {required: true})}
                   options={[
-                    { label: "Male", value: "MALE" },
-                    { label: "Female", value: "FEMALE" },
+                    {label: "Male", value: "MALE"},
+                    {label: "Female", value: "FEMALE"},
                   ]}
                   // errorText={errors?.gender?.message}
                 />
@@ -2609,10 +2585,10 @@ export function ClientModify({ showModal, setShowModal }) {
                   label="Marital Status"
                   register={register("maritalstatus")}
                   options={[
-                    { label: "Single", value: "SINGLE" },
-                    { label: "Married", value: "MARRRIED" },
-                    { label: "Divorced", value: "DIVORCED" },
-                    { label: "Widowed", value: "WIDOWED" },
+                    {label: "Single", value: "SINGLE"},
+                    {label: "Married", value: "MARRRIED"},
+                    {label: "Divorced", value: "DIVORCED"},
+                    {label: "Widowed", value: "WIDOWED"},
                   ]}
                 />
               </Grid>
@@ -2706,7 +2682,7 @@ export function ClientModify({ showModal, setShowModal }) {
   );
 }
 
-export function InputSearch({ getSearchfacility, clear }) {
+export function InputSearch({getSearchfacility, clear}) {
   const ClientServ = client.service("client");
   // const facilityServ=client.service('facility')
   const [facilities, setFacilities] = useState([]);
@@ -2724,7 +2700,7 @@ export function InputSearch({ getSearchfacility, clear }) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -2741,7 +2717,7 @@ export function InputSearch({ getSearchfacility, clear }) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async (e) => {
+  const handleBlur = async e => {
     if (count === 2) {
       console.log("stuff was chosen");
     }
@@ -2759,7 +2735,7 @@ export function InputSearch({ getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (val) => {
+  const handleSearch = async val => {
     const field = "facilityName"; //field variable
 
     if (val.length >= 3) {
@@ -2776,13 +2752,13 @@ export function InputSearch({ getSearchfacility, clear }) {
           },
         },
       })
-        .then((res) => {
+        .then(res => {
           console.log("facility  fetched successfully");
           setFacilities(res.data);
           setSearchMessage(" facility  fetched successfully");
           setShowPanel(true);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           setSearchMessage(
             "Error searching facility, probable network issues " + err
@@ -2816,8 +2792,8 @@ export function InputSearch({ getSearchfacility, clear }) {
                 value={simpa}
                 minLength={1}
                 debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
@@ -2844,7 +2820,7 @@ export function InputSearch({ getSearchfacility, clear }) {
     </div>
   );
 }
-export function PolicyList({ showModal, setShowModal, standAlone }) {
+export function PolicyList({showModal, setShowModal, standAlone}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -2859,10 +2835,10 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
@@ -2873,7 +2849,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       selectedClient: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ManagedCareModule: newClientModule,
     }));
@@ -2882,20 +2858,20 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
     console.log("test");
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     await setSelectedClient(Client);
     const newClientModule = {
       selectedClient: Client,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ManagedCareModule: newClientModule,
     }));
     setShowModal(6);
   };
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     // eslint-disable-next-line
     const field = "firstname";
     console.log(val);
@@ -2950,7 +2926,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
               $options: "i",
             },
           },
-          { gender: val },
+          {gender: val},
         ],
 
         organizationId: user.currentEmployee.facilityDetail._id, // || "",
@@ -2960,13 +2936,13 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -2994,7 +2970,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       await setTotal(findClient.total);
       //console.log(user.currentEmployee.facilityDetail._id, state)
       //console.log(facilities)
-      setPage((page) => page + 1);
+      setPage(page => page + 1);
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
@@ -3024,10 +3000,10 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
                      console.log(user)
                      getFacilities(user) */
     }
-    ClientServ.on("created", (obj) => rest());
-    ClientServ.on("updated", (obj) => rest());
-    ClientServ.on("patched", (obj) => rest());
-    ClientServ.on("removed", (obj) => rest());
+    ClientServ.on("created", obj => rest());
+    ClientServ.on("updated", obj => rest());
+    ClientServ.on("patched", obj => rest());
+    ClientServ.on("removed", obj => rest());
     return () => {};
     // eslint-disable-next-line
   }, []);
@@ -3062,7 +3038,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       name: "Date Created",
       key: "createdAt",
       description: "Date Created",
-      selector: (row) => moment(row?.createdAt).format("YYYY-MM-DD"),
+      selector: row => moment(row?.createdAt).format("YYYY-MM-DD"),
       sortable: true,
       required: true,
       inputType: "DATE",
@@ -3071,7 +3047,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       name: "First Name",
       key: "firstname",
       description: "First Name",
-      selector: (row) => row?.principal?.firstname,
+      selector: row => row?.principal?.firstname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -3081,7 +3057,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       name: "Last Name",
       key: "principal",
       description: "Principal Last Name",
-      selector: (row) => row?.principal?.lastname,
+      selector: row => row?.principal?.lastname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -3091,7 +3067,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       name: "Phone",
       key: "phone",
       description: "Phone Number",
-      selector: (row) => row?.principal?.phone,
+      selector: row => row?.principal?.phone,
       sortable: true,
       required: true,
       inputType: "NUMBER",
@@ -3101,7 +3077,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       name: "Email",
       key: "email",
       description: "simpa@email.com",
-      selector: (row) => row?.principal?.email,
+      selector: row => row?.principal?.email,
       sortable: true,
       required: true,
       inputType: "EMAIL",
@@ -3110,7 +3086,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       name: "Sponsorship Type",
       key: "sponsorshipType",
       description: "Sponsorship Type",
-      selector: (row) => row?.sponsorshipType,
+      selector: row => row?.sponsorshipType,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -3120,7 +3096,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       name: "Plan",
       key: "plan",
       description: "Plan",
-      selector: (row) => row?.plan?.planName,
+      selector: row => row?.plan?.planName,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -3130,7 +3106,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       name: "Family Premium",
       key: "familyPremium",
       description: "Family Premium",
-      selector: (row) => row?.plan?.premiums?.[0]?.familyPremium,
+      selector: row => row?.plan?.premiums?.[0]?.familyPremium,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -3139,7 +3115,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       name: "Individual Premium",
       key: "individualPremium",
       description: "Individual Premium",
-      selector: (row) => row?.plan?.premiums?.[0]?.individualPremium,
+      selector: row => row?.plan?.premiums?.[0]?.individualPremium,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -3149,7 +3125,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       name: "Paid",
       key: "isPaid",
       description: "Paid",
-      selector: (row) => (row?.isPaid ? "Yes" : "No"),
+      selector: row => (row?.isPaid ? "Yes" : "No"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -3159,7 +3135,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       name: "Active",
       key: "active",
       description: "Active",
-      selector: (row) => (row?.active ? "Yes" : "No"),
+      selector: row => (row?.active ? "Yes" : "No"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -3173,9 +3149,9 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
   //   (facility) => facility.approved === false
   // );
   const Selectedpol = facilities.filter(
-    (item) =>
+    item =>
       item?.principal._id === standAlone ||
-      item?.dependantBeneficiaries?.some((item) => item._id === standAlone)
+      item?.dependantBeneficiaries?.some(item => item._id === standAlone)
   );
   // const pendingSelectedpol = pendingFacilities.filter(
   //   (item) =>
@@ -3187,9 +3163,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
   return (
     <>
       <div className="level">
-        <PageWrapper
-          style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
-        >
+        <PageWrapper style={{flexDirection: "column", padding: "0.6rem 1rem"}}>
           <div
             className="level"
             style={{
@@ -3215,8 +3189,8 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
   );
 }
 
-export function PolicyDetail({ showModal, setShowModal }) {
-  const { register, reset, control, handleSubmit } = useForm();
+export function PolicyDetail({showModal, setShowModal}) {
+  const {register, reset, control, handleSubmit} = useForm();
   const policyServ = client.service("policy");
   const [error, setError] = useState(false); //,
   const [finacialInfoModal, setFinacialInfoModal] = useState(false);
@@ -3225,8 +3199,8 @@ export function PolicyDetail({ showModal, setShowModal }) {
   const [appointmentModal, setAppointmentModal] = useState(false);
   const [message, setMessage] = useState(""); //,
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user, setUser} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
   const [display, setDisplay] = useState(1);
   const [editPolicy, setEditPolicy] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -3285,7 +3259,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
   const handlecloseModal3 = () => {
     setBillModal(false);
   };
-  const updateDetail = async (data) => {
+  const updateDetail = async data => {
     const docId = state.ManagedCareModule.selectedClient._id;
     console.log(data, docId);
     const policyDetails = {
@@ -3305,15 +3279,15 @@ export function PolicyDetail({ showModal, setShowModal }) {
     };
     await policyServ
       .patch(docId, policyDetails)
-      .then((res) => {
-        setState((prev) => ({
+      .then(res => {
+        setState(prev => ({
           ...prev,
-          ManagedCareModule: { ...prev.ManagedCareModule, selectedClient: res },
+          ManagedCareModule: {...prev.ManagedCareModule, selectedClient: res},
         }));
         toast.success("Policy Detail Updated");
         setEditPolicy(false);
       })
-      .catch((err) => {
+      .catch(err => {
         toast.error("Error Updating Policy Detail");
         setEditPolicy(false);
       });
@@ -3332,15 +3306,15 @@ export function PolicyDetail({ showModal, setShowModal }) {
     console.log(policyDetails);
     await policyServ
       .patch(docId, policyDetails)
-      .then((res) => {
-        setState((prev) => ({
+      .then(res => {
+        setState(prev => ({
           ...prev,
-          ManagedCareModule: { ...prev.ManagedCareModule, selectedClient: res },
+          ManagedCareModule: {...prev.ManagedCareModule, selectedClient: res},
         }));
         toast.success("Policy Approved");
         setEditPolicy(false);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         toast.error("Error Approving Policy" + err);
         setEditPolicy(false);
@@ -3369,7 +3343,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
               <Grid container spacing={1} mt={1}>
                 <Grid item md={3}>
                   <Input
-                    register={register("policyNo", { required: true })}
+                    register={register("policyNo", {required: true})}
                     label="Policy No."
                     disabled
                   />
@@ -3377,14 +3351,14 @@ export function PolicyDetail({ showModal, setShowModal }) {
 
                 <Grid item md={3}>
                   <Input
-                    register={register("phone", { required: true })}
+                    register={register("phone", {required: true})}
                     label="Phone"
                     disabled
                   />
                 </Grid>
                 <Grid item md={3}>
                   <Input
-                    register={register("sponsorship_type", { required: true })}
+                    register={register("sponsorship_type", {required: true})}
                     label="Sponsorship Type"
                     disabled
                     //placeholder="Enter customer number"
@@ -3392,7 +3366,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                 </Grid>
                 <Grid item md={3}>
                   <Input
-                    register={register("plan_type", { required: true })}
+                    register={register("plan_type", {required: true})}
                     label="Plan Type"
                     disabled
                     //placeholder="Enter customer number"
@@ -3400,7 +3374,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                 </Grid>
                 <Grid item md={3}>
                   <Input
-                    register={register("status", { required: true })}
+                    register={register("status", {required: true})}
                     label="Status"
                     disabled
                     important
@@ -3419,7 +3393,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
 
                 <Grid item md={3}>
                   <Input
-                    register={register("familyPremium", { required: true })}
+                    register={register("familyPremium", {required: true})}
                     label="Family Premium"
                     disabled
                     //placeholder="Enter customer number"
@@ -3427,7 +3401,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                 </Grid>
                 <Grid item md={3}>
                   <Input
-                    register={register("individualPremium", { required: true })}
+                    register={register("individualPremium", {required: true})}
                     label="Individual Premium"
                     disabled
                     //placeholder="Enter customer number"

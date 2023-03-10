@@ -1,11 +1,11 @@
-import { useEffect, useState, useCallback, useContext } from "react";
-import { Box } from "@mui/system";
+import {useEffect, useState, useCallback, useContext} from "react";
+import {Box} from "@mui/system";
 import client from "../../feathers";
-import { ObjectContext, UserContext } from "../../context";
-import { Avatar, Grid, IconButton, Typography } from "@mui/material";
+import {ObjectContext, UserContext} from "../../context";
+import {Avatar, Grid, IconButton, Typography} from "@mui/material";
 import Input from "../../components/inputs/basic/Input";
-import { useForm } from "react-hook-form";
-import { FormsHeaderText } from "../../components/texts";
+import {useForm} from "react-hook-form";
+import {FormsHeaderText} from "../../components/texts";
 import CustomSelect from "../../components/inputs/basic/Select";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import CustomTable from "../../components/customtable";
@@ -15,30 +15,30 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import ModalBox from "../../components/modal";
 import Textarea from "../../components/inputs/basic/Textarea";
 import CheckboxGroup from "../../components/inputs/basic/Checkbox/CheckBoxGroup";
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
 import dayjs from "dayjs";
-import { FileUploader } from "react-drag-drop-files";
+import {FileUploader} from "react-drag-drop-files";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
-import { facilityTypes } from "../app/facility-types";
-import { orgTypeModules } from "../app/app-modules";
+import {facilityTypes} from "../app/facility-types";
+import {orgTypeModules} from "../app/app-modules";
 
 import BankAccount from "./BankAccount";
 import axios from "axios";
-import { getBase64 } from "../helpers/getBase64";
-import { BeneList, PolicyList } from "../ManagedCare/Corporate";
+import {getBase64} from "../helpers/getBase64";
+import {BeneList, PolicyList} from "../ManagedCare/Corporate";
 import Claims from "../ManagedCare/Claims";
 import PremiumPayment from "../ManagedCare/Claims";
 
-const AdminOrganization = ({ propId }) => {
+const AdminOrganization = ({propId}) => {
   const facilityServer = client.service("facility");
-  const { register, reset, handleSubmit, control } = useForm();
-  const { user, setUser } = useContext(UserContext);
-  const { state, setState, showActionLoader, hideActionLoader } =
+  const {register, reset, handleSubmit, control} = useForm();
+  const {user, setUser} = useContext(UserContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const [facility, setFacility] = useState({});
   const [edit, setEdit] = useState(false);
@@ -54,7 +54,7 @@ const AdminOrganization = ({ propId }) => {
     setLogoAnchorEl(null);
   };
 
-  const handleOpemLogoOptions = (event) => {
+  const handleOpemLogoOptions = event => {
     setLogoAnchorEl(event.currentTarget);
   };
 
@@ -66,14 +66,14 @@ const AdminOrganization = ({ propId }) => {
     const id = propId || user.currentEmployee.facilityDetail._id;
     await facilityServer
       .get(id)
-      .then((resp) => {
+      .then(resp => {
         //console.log(resp);
         hideActionLoader();
         setFacility(resp);
         reset(resp);
         //console.log(resp);
       })
-      .catch((err) => {
+      .catch(err => {
         hideActionLoader();
         console.log(err);
       });
@@ -82,10 +82,10 @@ const AdminOrganization = ({ propId }) => {
   useEffect(() => {
     getCurrentFacility();
 
-    facilityServer.on("created", (obj) => getCurrentFacility());
-    facilityServer.on("updated", (obj) => getCurrentFacility());
-    facilityServer.on("patched", (obj) => getCurrentFacility());
-    facilityServer.on("removed", (obj) => getCurrentFacility());
+    facilityServer.on("created", obj => getCurrentFacility());
+    facilityServer.on("updated", obj => getCurrentFacility());
+    facilityServer.on("patched", obj => getCurrentFacility());
+    facilityServer.on("removed", obj => getCurrentFacility());
 
     return () => {};
   }, [getCurrentFacility]);
@@ -94,7 +94,7 @@ const AdminOrganization = ({ propId }) => {
     navigate("/app/admin/employees");
   };
 
-  const updateOrganization = async (data) => {
+  const updateOrganization = async data => {
     showActionLoader();
     const employee = user.currentEmployee;
     const prevOrgDetail = user.currentEmployee.facilityDetail;
@@ -113,13 +113,13 @@ const AdminOrganization = ({ propId }) => {
     const documentId = prevOrgDetail._id;
 
     await facilityServer
-      .patch(documentId, { ...newOrgDetail })
-      .then((resp) => {
+      .patch(documentId, {...newOrgDetail})
+      .then(resp => {
         //console.log(resp);
         reset(resp);
         setFacility(resp);
         hideActionLoader();
-        setUser((prev) => ({
+        setUser(prev => ({
           ...prev,
           currentEmployee: {
             ...prev.currentEmployee,
@@ -129,7 +129,7 @@ const AdminOrganization = ({ propId }) => {
         setEdit(false);
         toast.success("You've succesfully updated your Organization Details");
       })
-      .catch((error) => {
+      .catch(error => {
         toast.error(`Error Updating your oragnization Details ${error}`);
         hideActionLoader();
         console.error(error);
@@ -158,7 +158,7 @@ const AdminOrganization = ({ propId }) => {
       >
         <Box>
           <IconButton onClick={handleOpemLogoOptions}>
-            <Avatar sx={{ width: 68, height: 68 }} src={facility?.facilitylogo}>
+            <Avatar sx={{width: 68, height: 68}} src={facility?.facilitylogo}>
               LOGO
             </Avatar>
           </IconButton>
@@ -167,7 +167,7 @@ const AdminOrganization = ({ propId }) => {
             id="account-menu"
             open={Boolean(logoAnchorEl)}
             onClose={handleCloseLogoOptions}
-            anchorOrigin={{ horizontal: "right", vertical: "center" }}
+            anchorOrigin={{horizontal: "right", vertical: "center"}}
           >
             {/* <MenuItem>View Logo</MenuItem> */}
             <MenuItem>Remove Logo</MenuItem>
@@ -184,23 +184,23 @@ const AdminOrganization = ({ propId }) => {
         {/* {currentPage === 1 && <PolicyList standAlone={facility?._id || ""} />}
         {currentPage === 2 && <PremiumPayment />} */}
 
-        {facility?.facilityType?.toLowerCase() !== "corporate" ? (
-          <Box sx={{ display: "flex" }} gap={2}>
+        {facility?.facilityType?.toLowerCase() === "corporate" ? (
+          <Box sx={{display: "flex"}} gap={2}>
             <GlobalCustomButton
               color="secondary"
               onClick={() => setModulesModal(true)}
             >
-              <AutoStoriesIcon sx={{ marginRight: "5px" }} fontSize="small" />
+              <AutoStoriesIcon sx={{marginRight: "5px"}} fontSize="small" />
               Organization Modules
             </GlobalCustomButton>
 
             <GlobalCustomButton onClick={navigateToEmployees} color="info">
-              <PeopleAltIcon sx={{ marginRight: "5px" }} fontSize="small" />{" "}
+              <PeopleAltIcon sx={{marginRight: "5px"}} fontSize="small" />{" "}
               Organization Employees
             </GlobalCustomButton>
           </Box>
         ) : (
-          <Box sx={{ display: "flex" }} gap={2}>
+          <Box sx={{display: "flex"}} gap={2}>
             <GlobalCustomButton
               color="success"
               onClick={() => setView("details")}
@@ -216,7 +216,7 @@ const AdminOrganization = ({ propId }) => {
                   : {}
               }
             >
-              <AutoStoriesIcon sx={{ marginRight: "5px" }} fontSize="small" />
+              <AutoStoriesIcon sx={{marginRight: "5px"}} fontSize="small" />
               Details
             </GlobalCustomButton>
 
@@ -235,7 +235,7 @@ const AdminOrganization = ({ propId }) => {
                   : {}
               }
             >
-              <AutoStoriesIcon sx={{ marginRight: "5px" }} fontSize="small" />
+              <AutoStoriesIcon sx={{marginRight: "5px"}} fontSize="small" />
               Policy
             </GlobalCustomButton>
 
@@ -254,7 +254,7 @@ const AdminOrganization = ({ propId }) => {
                   : {}
               }
             >
-              <AutoStoriesIcon sx={{ marginRight: "5px" }} fontSize="small" />
+              <AutoStoriesIcon sx={{marginRight: "5px"}} fontSize="small" />
               Beneficiaries
             </GlobalCustomButton>
 
@@ -273,7 +273,7 @@ const AdminOrganization = ({ propId }) => {
                   : {}
               }
             >
-              <AutoStoriesIcon sx={{ marginRight: "5px" }} fontSize="small" />
+              <AutoStoriesIcon sx={{marginRight: "5px"}} fontSize="small" />
               Claims
             </GlobalCustomButton>
           </Box>
@@ -299,17 +299,17 @@ const AdminOrganization = ({ propId }) => {
           <Box
             mb={2}
             p={2}
-            sx={{ display: "flex", justifyContent: "space-between" }}
+            sx={{display: "flex", justifyContent: "space-between"}}
           >
             <FormsHeaderText text="Organization Details" />
           </Box>
           <Box
             mb={2}
             p={2}
-            sx={{ display: "flex", justifyContent: "space-between" }}
+            sx={{display: "flex", justifyContent: "space-between"}}
           >
             {" "}
-            <Box sx={{ display: "flex" }} gap={2}>
+            <Box sx={{display: "flex"}} gap={2}>
               {!edit ? (
                 <>
                   <GlobalCustomButton onClick={() => setEdit(true)}>
@@ -473,12 +473,12 @@ const AdminOrganization = ({ propId }) => {
 
 export default AdminOrganization;
 
-export const OrganizationModules = ({ closeModal }) => {
+export const OrganizationModules = ({closeModal}) => {
   const facilityServer = client.service("facility");
-  const { control, reset, handleSubmit, setValue } = useForm();
-  const { state, setState, showActionLoader, hideActionLoader } =
+  const {control, reset, handleSubmit, setValue} = useForm();
+  const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
 
   const modulelist = [
     "Accounting",
@@ -509,9 +509,7 @@ export const OrganizationModules = ({ closeModal }) => {
 
   const facilityType = user.currentEmployee.facilityDetail.facilityType;
 
-  const selectedType = orgTypeModules.find(
-    (item) => item.name === facilityType
-  );
+  const selectedType = orgTypeModules.find(item => item.name === facilityType);
 
   const facilityModules = selectedType ? selectedType.modules : ["Admin"];
 
@@ -523,7 +521,7 @@ export const OrganizationModules = ({ closeModal }) => {
     setValue("modules", prevModules);
   }, []);
 
-  const updateModules = async (data) => {
+  const updateModules = async data => {
     showActionLoader();
     const employee = user.currentEmployee;
     const prevOrgDetail = user.currentEmployee.facilityDetail;
@@ -542,11 +540,11 @@ export const OrganizationModules = ({ closeModal }) => {
     const documentId = prevOrgDetail._id;
 
     await facilityServer
-      .patch(documentId, { ...newOrgDetail })
-      .then((resp) => {
+      .patch(documentId, {...newOrgDetail})
+      .then(resp => {
         console.log(resp);
         hideActionLoader();
-        setUser((prev) => ({
+        setUser(prev => ({
           ...prev,
           currentEmployee: {
             ...prev.currentEmployee,
@@ -555,7 +553,7 @@ export const OrganizationModules = ({ closeModal }) => {
         }));
         toast.success("You've succesfully updated your Organization Modules");
       })
-      .catch((error) => {
+      .catch(error => {
         toast.error(`Error Updating your oragnization modules ${error}`);
         hideActionLoader();
         console.error(error);
@@ -563,7 +561,7 @@ export const OrganizationModules = ({ closeModal }) => {
   };
 
   return (
-    <Box sx={{ width: "60vw" }}>
+    <Box sx={{width: "60vw"}}>
       <Box>
         <CheckboxGroup
           name="modules"
@@ -573,7 +571,7 @@ export const OrganizationModules = ({ closeModal }) => {
         />
       </Box>
 
-      <Box sx={{ display: "flex" }} gap={2}>
+      <Box sx={{display: "flex"}} gap={2}>
         <GlobalCustomButton color="error" onClick={closeModal}>
           Cancel
         </GlobalCustomButton>
@@ -607,25 +605,25 @@ const UploadComponent = ({}) => {
   );
 };
 
-export const OrganaizationLogoUpload = ({ closeModal }) => {
+export const OrganaizationLogoUpload = ({closeModal}) => {
   const facilityServer = client.service("facility");
-  const { state, setState, showActionLoader, hideActionLoader } =
+  const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
 
   const [file, setFile] = useState(null);
 
-  const handleChange = (file) => {
+  const handleChange = file => {
     //console.log(file);
     //setFile(file);
 
     getBase64(file)
-      .then((res) => {
+      .then(res => {
         //console.log(res);
         setFile(res);
         //navigator.clipboard.writeText(res);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
@@ -637,10 +635,10 @@ export const OrganaizationLogoUpload = ({ closeModal }) => {
     axios
       .post(
         "https://healthstack-backend.herokuapp.com/upload",
-        { uri: file },
-        { headers: { Authorization: `Bearer ${token}` } }
+        {uri: file},
+        {headers: {Authorization: `Bearer ${token}`}}
       )
-      .then(async (res) => {
+      .then(async res => {
         //return console.log(res);
         console.log(res);
         const logoUrl = res.data.url;
@@ -660,10 +658,10 @@ export const OrganaizationLogoUpload = ({ closeModal }) => {
         const documentId = prevOrgDetail._id;
 
         await facilityServer
-          .patch(documentId, { ...newOrgDetail })
-          .then((resp) => {
+          .patch(documentId, {...newOrgDetail})
+          .then(resp => {
             hideActionLoader();
-            setUser((prev) => ({
+            setUser(prev => ({
               ...prev,
               currentEmployee: {
                 ...prev.currentEmployee,
@@ -673,7 +671,7 @@ export const OrganaizationLogoUpload = ({ closeModal }) => {
             closeModal();
             toast.success("You've succesfully updated your Organization Logo");
           })
-          .catch((error) => {
+          .catch(error => {
             hideActionLoader();
             toast.error(
               `An error occured whilst updating your Organization Logo ${error}`
@@ -681,7 +679,7 @@ export const OrganaizationLogoUpload = ({ closeModal }) => {
             console.error(error);
           });
       })
-      .catch((error) => {
+      .catch(error => {
         hideActionLoader();
         toast.error(
           `An error occured whilst updating your Organization Logo ${error}`
@@ -691,7 +689,7 @@ export const OrganaizationLogoUpload = ({ closeModal }) => {
   };
 
   return (
-    <Box sx={{ width: "400px", maxHeight: "80vw" }}>
+    <Box sx={{width: "400px", maxHeight: "80vw"}}>
       {file ? (
         <Box
           sx={{
@@ -703,7 +701,7 @@ export const OrganaizationLogoUpload = ({ closeModal }) => {
           <img
             src={file}
             alt="logo"
-            style={{ width: "200px", height: "auto", display: "block" }}
+            style={{width: "200px", height: "auto", display: "block"}}
           />
         </Box>
       ) : (
@@ -716,7 +714,7 @@ export const OrganaizationLogoUpload = ({ closeModal }) => {
         />
       )}
 
-      <Box sx={{ display: "flex" }} gap={2} mt={2}>
+      <Box sx={{display: "flex"}} gap={2} mt={2}>
         <GlobalCustomButton color="error" onClick={closeModal}>
           Cancel
         </GlobalCustomButton>
