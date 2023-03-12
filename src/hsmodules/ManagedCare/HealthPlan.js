@@ -2548,7 +2548,7 @@ export function HealthPlanDetails({
         return data;
       }
     });
-    console.log("newUpdatedPremium", newUpdatedPremiumState);
+    // console.log("newUpdatedPremium", newUpdatedPremiumState);
 
     let data = {
       premiums: newUpdatedPremiumState,

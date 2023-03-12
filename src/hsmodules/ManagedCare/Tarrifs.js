@@ -338,6 +338,8 @@ export const TarrifListView = ({
     }
   };
 
+  console.log("facilities", facilities);
+
   useEffect(() => {
     getTariffServices();
     ServicesServ.on("created", (obj) => getTariffServices());
@@ -605,7 +607,7 @@ export const TarrifListView = ({
       name: "Class Type",
       key: "class",
       description: "Class",
-      selector: (row) => row?.class.map((item)=> item),
+      selector: (row) => row?.class.map((item) => item),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -2770,7 +2772,7 @@ export function AddService() {
 }
 
 export function AddFacility() {
-  const { register, handleSubmit, control} = useForm();
+  const { register, handleSubmit, control } = useForm();
   const { state, setState } = useContext(ObjectContext);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
@@ -2792,44 +2794,42 @@ export function AddFacility() {
 
   const handleClick = (data) => {
     setOpenFacilityModal(true);
-      const addnewProvider = {
-        dest_org: chosen._id,
-        dest_org_name: chosen?.organizationDetail?.facilityName,
-        class: data.classType,
-      };
-      const newServicePro = {
-        organizationId: user.currentEmployee.facilityDetail._id,
-        organizationName: user.currentEmployee.facilityDetail.facilityName,
-        band: selectedServiceDetails?.band,
-        contracts: selectedServiceDetails?.contracts,
-        providers: [...prevProviders, addnewProvider],
-      };
-      ServicesServ.patch(selectedServiceDetails._id, newServicePro)
-        .then((res) => {
-          console.log(res);
-          setState((prev) => ({
-            ...prev,
-            ServicesModule: { ...prev.ServicesModule, selectedServices: res },
-          }));
-          setSuccess(true);
-          toast.success("Facility added succesfully");
-          setSuccess(false);
-          setOpenFacilityModal(false);
-          setBand("");
-        })
-        .catch((err) => {
-          setOpenFacilityModal(false);
-          toast.error("Error adding or facility " + err);
-        });
-    }
+    const addnewProvider = {
+      dest_org: chosen._id,
+      dest_org_name: chosen?.organizationDetail?.facilityName,
+      class: data.classType,
+    };
+    const newServicePro = {
+      organizationId: user.currentEmployee.facilityDetail._id,
+      organizationName: user.currentEmployee.facilityDetail.facilityName,
+      band: selectedServiceDetails?.band,
+      contracts: selectedServiceDetails?.contracts,
+      providers: [...prevProviders, addnewProvider],
+    };
+    ServicesServ.patch(selectedServiceDetails._id, newServicePro)
+      .then((res) => {
+        console.log(res);
+        setState((prev) => ({
+          ...prev,
+          ServicesModule: { ...prev.ServicesModule, selectedServices: res },
+        }));
+        setSuccess(true);
+        toast.success("Facility added succesfully");
+        setSuccess(false);
+        setOpenFacilityModal(false);
+        setBand("");
+      })
+      .catch((err) => {
+        setOpenFacilityModal(false);
+        toast.error("Error adding or facility " + err);
+      });
+  };
 
   const getSearchfacility = (obj) => {
     setChosen(obj);
     if (!obj) {
     }
   };
-
-
 
   return (
     <>
