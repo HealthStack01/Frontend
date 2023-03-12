@@ -583,16 +583,19 @@ export function OrganizationCreate({ showModal, setShowModal }) {
     // 	return;
     // }
     console.log(chosen);
-    let stuff = {
+    let query = {
       facility: user.currentEmployee.facilityDetail._id,
       organization: chosen._id,
       relationshiptype: "managedcare",
-      providerStatus: "Submited",
+      status: "Pending",
     };
 
+    console.log("query", query);
+
     orgServ
-      .create(stuff)
+      .create(query)
       .then((res) => {
+        console.log("res", res);
         setSuccess(true);
         toast.success("Organization added succesfully");
         setSuccess(false);
@@ -656,7 +659,7 @@ export function OrganizationCreate({ showModal, setShowModal }) {
 					</option>
 				))}
 			</select> */}
-      <Grid container spacing={1}>
+      <Grid container spacing={1} pt={0.8}>
         <Grid item xs={12} sm={12} md={12}>
           <Button label="Add" type="submit" onClick={handleClick} />
         </Grid>
@@ -887,6 +890,15 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
       required: true,
       inputType: "TEXT",
     },
+    {
+      name: "Status",
+      key: "status",
+      description: "Provider status",
+      selector: (row) => row?.status,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
   ];
   console.log("Facilities", facilities);
   return (
@@ -966,6 +978,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   // eslint-disable-next-line
   const [message, setMessage] = useState(""); //,
   const facilityServer = client.service("organizationclient");
+  const ServicesServ = client.service("tariff");
   //const history = useHistory()
   const { user, setUser } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
@@ -981,6 +994,10 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [newFacility, setFacility] = useState([]);
   const [unreadMsgs, setUnreadMsgs] = useState([]);
+  const [providerBand, setProviderBand] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [bandStatus, setBandStatus] = useState(null);
+  const [approveBand, setApproveBand] = useState(false);
 
   const facility = state.facilityModule.selectedFacility;
 
@@ -999,9 +1016,65 @@ export function OrganizationDetail({ showModal, setShowModal }) {
     setConfirmActivate(false);
   };
 
+  const onSubmitStatus = async (status) => {
+    let data = {
+      status: status,
+    };
+    const organisationID = newFacility._id;
+    facilityServer
+      .patch(organisationID, data)
+      .then((res) => {
+        setBandStatus(status);
+        setValue("status", status, {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+        toast.success("Premium succesfully added");
+      })
+      .catch((err) => {
+        toast.error("Error adding Premium, probable network issues or " + err);
+      });
+  };
+
+  const getTariffServices = async (facility) => {
+    if (user.currentEmployee) {
+      const findServices = await ServicesServ.find({
+        query: {
+          organizationId: user.currentEmployee.facilityDetail._id,
+          "providers.dest_org": facility._id,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      });
+
+      // console.log("band", findServices.data);
+      setProviderBand(findServices.data[0]);
+
+      setValue("bandName", findServices?.data[0]?.band, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+    } else {
+      if (user.stacker) {
+        toast.warning("You do not qualify to view this");
+        return "";
+      }
+    }
+  };
+
   useEffect(() => {
     let facility = state.facilityModule.selectedFacility;
     setFacility(facility);
+
+    // var result =
+
+    getTariffServices(facility);
+
+    // console.log("selected facility", result);
+
+    let status = facility?.status === undefined ? "" : facility?.status;
+    setBandStatus(status);
 
     const initFormValue = {
       facilityName: facility?.organizationDetail?.facilityName,
@@ -1012,9 +1085,9 @@ export function OrganizationDetail({ showModal, setShowModal }) {
       facilityOwner: facility?.organizationDetail?.facilityOwner,
       facilityType: facility?.organizationDetail?.facilityType,
       facilityCategory: facility?.organizationDetail?.facilityCategory,
-      bandType: facility?.band,
-      status: facility?.active ? "Approved" : "Rejected",
+      status: facility?.status,
     };
+    console.log("selected initFormValue", initFormValue);
     reset(initFormValue);
   }, []);
 
@@ -1279,6 +1352,89 @@ export function OrganizationDetail({ showModal, setShowModal }) {
     // },
   ];
 
+  const productItemSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "S/N",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+      width: "50px",
+    },
+
+    {
+      name: "Service Name",
+      key: "serviceName",
+      description: "Service Name",
+      selector: (row) => (
+        <Typography
+          sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
+          data-tag="allowRowEvents"
+        >
+          {row?.serviceName}
+        </Typography>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Price",
+      key: "price",
+      description: "Price",
+      selector: (row) => `₦${row?.price}`,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Comment",
+      key: "comment",
+      description: "Comment",
+      selector: (row) => row?.comments,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  // const handleService = async (Category) => {
+  //   setSelectedCategory(Category?.contracts);
+  //   const newContractModule = {
+  //     selectedContracts: Category,
+  //     show: "detail",
+  //   };
+  //   await setState((prevstate) => ({
+  //     ...prevstate,
+  //     TariffModule: newContractModule,
+  //   }));
+  //   const bandPlans = selectedServices?.map((data) => {
+  //     const allPlans = [];
+  //     data.plans.map((plan) => {
+  //       const planData = {
+  //         _id: plan._id,
+  //         planName: plan.planName,
+  //         planId: plan.planId,
+  //         benefit: plan.benefit,
+  //         benefitcategory: plan.benefitcategory,
+  //         feeForService: plan.feeForService,
+  //         capitation: plan.capitation,
+  //         coPay: plan.coPay,
+  //         copayDetail: plan.copayDetail,
+  //         reqPA: plan.reqPA,
+  //       };
+
+  //       allPlans.push(planData);
+  //     });
+  //     return allPlans;
+  //   });
+  //   setSelectedCategory(bandPlans?.flat(1));
+  //   setSelectPlans(selectedCategory);
+  // };
+
   console.log("user", user);
   const onError = (errors, e) => console.log(errors, e);
   return (
@@ -1389,6 +1545,13 @@ export function OrganizationDetail({ showModal, setShowModal }) {
             variant={display === 6 ? "outlined" : "contained"}
           />
           <GlobalCustomButton
+            color="success"
+            onClick={() => setDisplay(8)}
+            text="Tariff"
+            customStyles={{ marginRight: ".8rem" }}
+            variant={display === 8 ? "outlined" : "contained"}
+          />
+          <GlobalCustomButton
             color="secondary"
             onClick={() => setDisplay(7)}
             text="Pre-Auth"
@@ -1406,6 +1569,86 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               color="primary"
             />
           </Badge>
+        </Box>
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "right",
+          }}
+          mb={2}
+        >
+          {bandStatus === "" && (
+            <>
+              <GlobalCustomButton
+                text="Approve"
+                onClick={() => {
+                  let status = "Approved";
+                  onSubmitStatus(status);
+                }}
+                color="success"
+                customStyles={{ marginRight: "10px" }}
+              />
+              <GlobalCustomButton
+                text="Decline"
+                onClick={() => {
+                  let status = "Declined";
+                  onSubmitStatus(status);
+                }}
+                color="warning"
+                customStyles={{ marginRight: "10px" }}
+              />
+            </>
+          )}
+          {bandStatus === "Pending" && (
+            <>
+              <GlobalCustomButton
+                text="Approve"
+                onClick={() => {
+                  let status = "Approved";
+                  onSubmitStatus(status);
+                }}
+                color="success"
+                customStyles={{ marginRight: "10px" }}
+              />
+              <GlobalCustomButton
+                text="Decline"
+                onClick={() => {
+                  let status = "Declined";
+                  onSubmitStatus(status);
+                }}
+                color="warning"
+                customStyles={{ marginRight: "10px" }}
+              />
+            </>
+          )}
+          {bandStatus === "Declined" && (
+            <>
+              <GlobalCustomButton
+                text="Approve"
+                onClick={() => {
+                  let status = "Approved";
+                  onSubmitStatus(status);
+                }}
+                color="success"
+                customStyles={{ marginRight: "10px" }}
+              />
+            </>
+          )}
+          {bandStatus === "Approved" && (
+            <>
+              <GlobalCustomButton
+                text="Decline"
+                onClick={() => {
+                  let status = "Declined";
+                  onSubmitStatus(status);
+                }}
+                color="warning"
+                customStyles={{ marginRight: "10px" }}
+              />
+            </>
+          )}
         </Box>
         {display === 1 && (
           <Box>
@@ -1479,7 +1722,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                     </Grid>
                     <Grid item xs={6}>
                       <Input
-                        register={register("bandType")}
+                        register={register("bandName")}
                         label="Band"
                         disabled
                       />
@@ -1508,7 +1751,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                     <CustomTable
                       title={""}
                       columns={bankColumns}
-                      data={facility?.facilityDetail?.facilityBankAcct}
+                      data={facility?.organizationDetail?.facilityBankAcct}
                       pointerOnHover
                       highlightOnHover
                       striped
@@ -1735,6 +1978,37 @@ export function OrganizationDetail({ showModal, setShowModal }) {
         )}
         {display === 6 && <Claims />}
         {display === 7 && <PreAuthorizationList />}
+        {display === 8 && (
+          <Box
+            sx={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "space-between",
+              gap: "0.5rem",
+            }}
+          >
+            <Box
+              sx={{
+                height: "calc(100vh - 170px)",
+                transition: "width 0.5s ease-in",
+                width: selectedCategory ? "30%" : "100%",
+              }}
+            >
+              <FormsHeaderText text={"Band Details"} />
+              <CustomTable
+                title={""}
+                columns={productItemSchema}
+                data={providerBand?.contracts || []}
+                pointerOnHover
+                highlightOnHover
+                striped
+                // onRowClicked={(row) => handleService(row)}
+                // progressPending={loading}
+                // conditionalRowStyles={conditionalRowStyles}
+              />
+            </Box>
+          </Box>
+        )}
         <Drawer
           open={openDrawer}
           sx={{
