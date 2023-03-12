@@ -6,6 +6,9 @@ const CommunicationDashboard = lazy(() =>
 const CommunicationChat = lazy(() => import("../communication/chat/Chat"));
 const CommunicationEmail = lazy(() => import("../communication/email/Email"));
 const CommunicationSMS = lazy(() => import("../communication/sms/SMS"));
+const CommunicationNotifications = lazy(() =>
+  import("../communication/notifications/Notifications")
+);
 
 const DummyComponent = () => {
   return <h1>No Yet Available</h1>;
@@ -36,12 +39,14 @@ export const communicationRoutes = [
     path: "/app/communication/ivr",
     Component: DummyComponent,
   },
-  {
-    path: "/app/communication/dashboard",
-    Component: DummyComponent,
-  },
+
   {
     path: "/app/communication/chats",
     Component: CommunicationChat,
+  },
+
+  {
+    path: "/app/communication/notifications",
+    Component: CommunicationNotifications,
   },
 ];

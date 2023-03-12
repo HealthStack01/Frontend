@@ -222,10 +222,14 @@ export default function LocationSearch({
             {option.name}, {option.locationType}
           </li>
         )}
+        freeSolo={false}
         sx={{
           width: "100%",
+          "& .MuiInputBase-input.Mui-disabled": {
+            WebkitTextFillColor: "#000000",
+            color: "black",
+          },
         }}
-        freeSolo={false}
         renderInput={params => (
           <TextField
             {...params}

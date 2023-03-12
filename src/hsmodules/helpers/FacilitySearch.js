@@ -213,212 +213,6 @@ export function FacilitySearch({
   );
 }
 
-
-export function OrgFacilityProviderSearch({
-  getSearchfacility,
-  clear,
-  label,
-  closeModal,
-}) {
-  const productServ = client.service("organizationclient");
-  const [facilities, setFacilities] = useState([]);
-  // eslint-disable-next-line
-  const [searchError, setSearchError] = useState(false);
-  // eslint-disable-next-line
-  const [showPanel, setShowPanel] = useState(false);
-  // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState("");
-  // eslint-disable-next-line
-  const [simpa, setSimpa] = useState("");
-  // eslint-disable-next-line
-  const [chosen, setChosen] = useState(false);
-  // eslint-disable-next-line
-  const [count, setCount] = useState(0);
-  const { user } = useContext(UserContext);
-  const inputEl = useRef(null);
-  const [val, setVal] = useState("");
-  const [productModal, setProductModal] = useState(false);
-
-  // const handleRow = async (obj) => {
-  //   await setChosen(true);
-  //   //alert("something is chaning")
-  //   getSearchfacility(obj);
-
-  //   await setSimpa(obj.facilityName);
-
-  //   // setSelectedFacility(obj)
-  //   setShowPanel(false);
-  //   await setCount(2);
-  // };
-
-  const [selectedFacility, setSelectedFacility] = useState([]);
-
-  const handleRow = async (obj) => {
-    await setChosen(true);
-    // getSearchfacility(obj);
-    await setSimpa(obj?.facilityName + "," + obj?.facilityCity);
-    setShowPanel(false);
-    await setCount(2);
-    // check if the facility is already selected, if not add it to the list
-    const found = selectedFacility.some((el) => el?._id === obj?._id);
-    if (!found) {
-      // await setSelectedFacility([...selectedFacility, obj]);
-      await getSearchfacility(obj);
-    }
-    setShowPanel(false);
-    await setCount(2);
-  };
-
-  const handleSearch = async (value) => {
-    setVal(value);
-    if (value === "") {
-      setShowPanel(false);
-      getSearchfacility(false);
-      await setFacilities([]);
-      return;
-    }
-    const field = "facilityName"; //field variable
-
-    if (value.length >= 3) {
-      productServ
-        .find({
-          query: {
-            $search: value,
-            facility: user.currentEmployee.facilityDetail._id,
-            $limit: 100,
-            $sort: {
-              createdAt: -1,
-            },
-          },
-        })
-        .then((res) => {
-          // console.log("product  fetched successfully")
-          //console.log(res.data)
-          setFacilities(res.data);
-          setSearchMessage(" product  fetched successfully");
-          setShowPanel(true);
-        })
-        .catch((err) => {
-          toast.error(`Error Creating Service due to ${err}`);
-        });
-    } else {
-      // console.log("less than 3 ")
-      //console.log(val)
-      setShowPanel(false);
-      await setFacilities([]);
-      //console.log(facilities)
-    }
-  };
-
-  const handleAddproduct = () => {
-    setProductModal(true);
-  };
-  const handlecloseModal = () => {
-    setProductModal(false);
-    handleSearch(val);
-  };
-  useEffect(() => {
-    if (clear) {
-      // console.log("success has changed",clear)
-      setSimpa("");
-      // clear=!clear
-    }
-    return () => {};
-  }, [clear]);
-  return (
-    <div style={{ width: "100%" }}>
-      <Autocomplete
-        size="small"
-        value={simpa}
-        //loading={loading}
-        onChange={(event, newValue, reason) => {
-          if (reason === "clear") {
-            setSimpa("");
-          } else {
-            if (typeof newValue === "string") {
-              // timeout to avoid instant validation of the dialog's form.
-              setTimeout(() => {
-                handleAddproduct();
-              });
-            } else if (newValue && newValue.inputValue) {
-              handleAddproduct();
-            } else {
-              handleRow(newValue);
-            }
-          }
-        }}
-        filterOptions={(options, params) => {
-          const filtered = filter(options, params);
-
-          if (params.inputValue !== "") {
-            filtered.push({
-              inputValue: params.inputValue,
-              facilityName: `Add "${params.inputValue} to your Facilities"`,
-            });
-          }
-
-          return filtered;
-        }}
-        id="free-solo-dialog-demo"
-        options={facilities}
-        getOptionLabel={(option) => {
-          // e.g value selected with enter, right from the input
-          if (typeof option === "string") {
-            return option;
-          }
-          if (option.inputValue) {
-            return option.inputValue;
-          }
-          return option.facilityName;
-        }}
-        selectOnFocus
-        clearOnBlur
-        handleHomeEndKeys
-        renderOption={(props, option) => (
-          <li {...props} style={{ fontSize: "0.75rem" }}>
-            {option.facilityName}
-          </li>
-        )}
-        sx={{ width: "100%" }}
-        freeSolo
-        //size="small"
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label={label ? label : "Search for Organization"}
-            onChange={(e) => handleSearch(e.target.value)}
-            ref={inputEl}
-            sx={{
-              fontSize: "0.75rem !important",
-              backgroundColor: "#ffffff !important",
-              "& .MuiInputBase-input": {
-                height: "0.9rem",
-                fontSize: "0.8rem",
-              },
-            }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        )}
-      />
-
-      <ModalBox
-        open={productModal}
-        onClose={handlecloseModal}
-        header="Create Organization"
-      >
-        <FacilityCreate
-          closeModal={() => {
-            handlecloseModal();
-            closeModal();
-          }}
-        />
-      </ModalBox>
-    </div>
-  );
-}
-
 export function OrgFacilitySearch({ getSearchfacility, clear }) {
   const productServ = client.service("facility");
   const orgServ = client.service("organizationclient");
@@ -599,6 +393,194 @@ export function OrgFacilitySearch({ getSearchfacility, clear }) {
         )}
       />
     </Stack>
+  );
+}
+
+export function OrgFacilityProviderSearch({
+  getSearchfacility,
+  clear,
+  label,
+  closeModal,
+}) {
+  const productServ = client.service("organizationclient");
+  const [facilities, setFacilities] = useState([]);
+  // eslint-disable-next-line
+  const [searchError, setSearchError] = useState(false);
+  // eslint-disable-next-line
+  const [showPanel, setShowPanel] = useState(false);
+  // eslint-disable-next-line
+  const [searchMessage, setSearchMessage] = useState("");
+  // eslint-disable-next-line
+  const [simpa, setSimpa] = useState("");
+  // eslint-disable-next-line
+  const [chosen, setChosen] = useState(false);
+  // eslint-disable-next-line
+  const [count, setCount] = useState(0);
+  const { user } = useContext(UserContext);
+  const inputEl = useRef(null);
+  const [val, setVal] = useState("");
+  const [productModal, setProductModal] = useState(false);
+
+  const handleRow = async (obj) => {
+    await setChosen(true);
+    //alert("something is chaning")
+    getSearchfacility(obj);
+
+    await setSimpa(obj.facilityName);
+
+    // setSelectedFacility(obj)
+    setShowPanel(false);
+    await setCount(2);
+  };
+
+
+
+  const handleSearch = async (value) => {
+    setVal(value);
+    if (value === "") {
+      setShowPanel(false);
+      getSearchfacility(false);
+      await setFacilities([]);
+      return;
+    }
+    const field = "facilityName"; //field variable
+
+    if (value.length >= 3) {
+      productServ
+        .find({
+          query: {
+            $search: value,
+            facility: user.currentEmployee.facilityDetail._id,
+            $limit: 100,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        })
+        .then((res) => {
+          // console.log("product  fetched successfully")
+          //console.log(res.data)
+          setFacilities(res.data);
+          setSearchMessage(" product  fetched successfully");
+          setShowPanel(true);
+        })
+        .catch((err) => {
+          toast.error(`Error Creating Service due to ${err}`);
+        });
+    } else {
+      // console.log("less than 3 ")
+      //console.log(val)
+      setShowPanel(false);
+      await setFacilities([]);
+      //console.log(facilities)
+    }
+  };
+
+  const handleAddproduct = () => {
+    setProductModal(true);
+  };
+  const handlecloseModal = () => {
+    setProductModal(false);
+    handleSearch(val);
+  };
+  useEffect(() => {
+    if (clear) {
+      // console.log("success has changed",clear)
+      setSimpa("");
+      // clear=!clear
+    }
+    return () => {};
+  }, [clear]);
+  return (
+    <div style={{ width: "100%" }}>
+      <Autocomplete
+        size="small"
+        value={simpa}
+        //loading={loading}
+        onChange={(event, newValue, reason) => {
+          if (reason === "clear") {
+            setSimpa("");
+          } else {
+            if (typeof newValue === "string") {
+              // timeout to avoid instant validation of the dialog's form.
+              setTimeout(() => {
+                handleAddproduct();
+              });
+            } else if (newValue && newValue.inputValue) {
+              handleAddproduct();
+            } else {
+              handleRow(newValue);
+            }
+          }
+        }}
+        filterOptions={(options, params) => {
+          const filtered = filter(options, params);
+
+          if (params.inputValue !== "") {
+            filtered.push({
+              inputValue: params.inputValue,
+              facilityName: `Add "${params.inputValue} to your Facilities"`,
+            });
+          }
+
+          return filtered;
+        }}
+        id="free-solo-dialog-demo"
+        options={facilities}
+        getOptionLabel={(option) => {
+          // e.g value selected with enter, right from the input
+          if (typeof option === "string") {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option?.organizationDetail?.facilityName;
+        }}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        renderOption={(props, option) => (
+          <li {...props} style={{ fontSize: "1rem" }}>
+            {option?.organizationDetail?.facilityName}
+          </li>
+        )}
+        sx={{ width: "100%" }}
+        //size="small"
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={label ? label : "Search for Providers"}
+            onChange={(e) => handleSearch(e.target.value)}
+            ref={inputEl}
+            sx={{
+              fontSize: "0.75rem !important",
+              backgroundColor: "#ffffff !important",
+              "& .MuiInputBase-input": {
+                height: "0.9rem",
+                fontSize: "0.8rem",
+              },
+            }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        )}
+      />
+
+      <ModalBox
+        open={productModal}
+        onClose={handlecloseModal}
+        header="Create Organization"
+      >
+        <FacilityCreate
+          closeModal={() => {
+            handlecloseModal();
+            closeModal();
+          }}
+        />
+      </ModalBox>
+    </div>
   );
 }
 

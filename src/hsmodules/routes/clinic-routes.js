@@ -1,13 +1,13 @@
 import {lazy} from "react";
 import {Route, Routes, useLocation} from "react-router-dom";
 
-const ClinicAppointments = lazy(() =>
-  import("../Appointment/clinicAppointments")
-);
+// const ClinicAppointments = lazy(() =>
+//   import("../Appointment/clinicAppointments")
+// );
 const ClinicHome = lazy(() => import("../Clinic/ClinicHome"));
 const Clinic = lazy(() => import("../Clinic/Clinic"));
 const ClinicReport = lazy(() => import("../Clinic/ClinicReport"));
-const ClinicCheckIn = lazy(() => import("../Appointment/ClinicWorkflow"));
+//const ClinicCheckIn = lazy(() => import("../Appointment/ClinicWorkflow"));
 const ClinicSetup = lazy(() => import("../Clinic/ClinicSetup"));
 const ClinicStore = lazy(() => import("../Clinic/ClinicStore"));
 const ClinicCheckin = lazy(() => import("../Clinic/CheckIn"));
@@ -21,7 +21,12 @@ const AppointmentComponent = lazy(() =>
   import("../../components/appointment/Appointment")
 );
 
+const CheckInComponent = lazy(() =>
+  import("../../components/emr-checkin/Check-in")
+);
+
 const ClinicAppointment = () => <AppointmentComponent module="Clinic" />;
+const ClinicCheckIn = () => <CheckInComponent module="Clinic" />;
 
 export const clinicRoutes = [
   {

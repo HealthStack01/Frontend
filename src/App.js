@@ -18,6 +18,11 @@ import ActionLoader from "./components/action-loader/Action-Loader";
 
 function App() {
   const [state, setState] = useState({
+    CorporateModule: {
+      selectedPolicy: {},
+      selectedClaim: {},
+      selectedBeneficiary: {},
+    },
     ClaimsModule: {
       selectedClaim: {},
       selectedService: {},
@@ -30,6 +35,10 @@ function App() {
       defaultEmail: {},
       configEmailModal: false,
     },
+    NotificationModule: {
+      selectedNotification: {},
+    },
+
     PremiumModule: {
       selectedPremium: {},
       selectedPlans: [],
