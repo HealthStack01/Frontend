@@ -2133,7 +2133,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
   );
 };
 
-export function InheritTariff({ getBandfacility, newValue }) {
+export function InheritTariff() {
   const [success, setSuccess] = useState(false);
   const { register, handleSubmit } = useForm();
   const { state, setState } = useContext(ObjectContext);

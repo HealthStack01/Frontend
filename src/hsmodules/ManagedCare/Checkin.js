@@ -231,7 +231,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       const findAppointment = await ClientServ.find({query: stuff});
 
       await setCheckoutAppointment(findAppointment.data);
-      // console.log(findAppointment, "Check out");
+      console.log(findAppointment, "Check out");
     } else {
       if (user.stacker) {
         const findAppointment = await ClientServ.find({
@@ -269,7 +269,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       const findClient = await ClientServ.find({query: stuff});
 
       await setFacilities(findClient.data);
-      // console.log(findClient, "Check In....");
+      console.log(findClient, "Check In....");
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
