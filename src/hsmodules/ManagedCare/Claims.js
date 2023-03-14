@@ -1,8 +1,8 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
-import {Box, Grid, Button as MuiButton} from "@mui/material";
+import React, { useState, useContext, useEffect, useRef } from "react";
+import { Box, Grid, Button as MuiButton } from "@mui/material";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
-import {UserContext, ObjectContext} from "../../context";
+import { UserContext, ObjectContext } from "../../context";
 
 import ClaimsListComponent from "./components/claims/ClaimsList";
 import ClaimCreateComponent from "./components/claims/ClaimsCreate";
@@ -11,13 +11,13 @@ import ClaimDetailComponent from "./components/claims/ClaimsDetail";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Claims({standAlone}) {
-  const {state, setState} = useContext(ObjectContext);
+export default function Claims({ standAlone }) {
+  const { state, setState } = useContext(ObjectContext);
   const [view, setView] = useState("list");
 
   const handleGoBack = () => {
     setView("list");
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       ClientModule: {
         ...prev.ClientModule,

@@ -338,6 +338,8 @@ export const TarrifListView = ({
     }
   };
 
+  console.log("facilities", facilities);
+
   useEffect(() => {
     getTariffServices();
     ServicesServ.on("created", (obj) => getTariffServices());
@@ -605,7 +607,7 @@ export const TarrifListView = ({
       name: "Class Type",
       key: "class",
       description: "Class",
-      selector: (row) => row?.class.map((item)=> item),
+      selector: (row) => row?.class.map((item) => item),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -2779,7 +2781,7 @@ export function AddService() {
 }
 
 export function AddFacility() {
-  const { register, handleSubmit, control} = useForm();
+  const { register, handleSubmit, control } = useForm();
   const { state, setState } = useContext(ObjectContext);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
@@ -2846,8 +2848,6 @@ export function AddFacility() {
       if (!obj) {
       }
     };
-
-
 
 
   return (

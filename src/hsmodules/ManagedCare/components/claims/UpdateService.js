@@ -130,34 +130,32 @@ const UpdateService = () => {
         <ApproveService closeModal={() => setApproveModal(false)} />
       </ModalBox>
 
-      {user.currentEmployee.roles.includes(
-        "Managed Care Audit Claim" && (
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              gap: 1.5,
-            }}
-            mb={2}
+      {user.currentEmployee.roles.includes("Managed Care Audit Claim") && (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            gap: 1.5,
+          }}
+          mb={2}
+        >
+          <GlobalCustomButton onClick={() => setReviewModal(true)}>
+            Review
+          </GlobalCustomButton>
+          <GlobalCustomButton
+            color="error"
+            onClick={() => setRejectModal(true)}
           >
-            <GlobalCustomButton onClick={() => setReviewModal(true)}>
-              Review
-            </GlobalCustomButton>
-            <GlobalCustomButton
-              color="error"
-              onClick={() => setRejectModal(true)}
-            >
-              Reject
-            </GlobalCustomButton>
-            <GlobalCustomButton
-              color="success"
-              onClick={() => setApproveModal(true)}
-            >
-              Accept
-            </GlobalCustomButton>
-          </Box>
-        )
+            Reject
+          </GlobalCustomButton>
+          <GlobalCustomButton
+            color="success"
+            onClick={() => setApproveModal(true)}
+          >
+            Accept
+          </GlobalCustomButton>
+        </Box>
       )}
 
       <Box>
