@@ -16,6 +16,7 @@ import CustomTable from "../../../../components/customtable";
 const UpdateService = () => {
   const preAuthServer = client.service("preauth");
   const {state, setState} = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
   const {register, reset} = useForm();
   const [reviewModal, setReviewModal] = useState(false);
   const [rejectModal, setRejectModal] = useState(false);
@@ -129,28 +130,35 @@ const UpdateService = () => {
         <ApproveService closeModal={() => setApproveModal(false)} />
       </ModalBox>
 
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-end",
-          gap: 1.5,
-        }}
-        mb={2}
-      >
-        <GlobalCustomButton onClick={() => setReviewModal(true)}>
-          Review
-        </GlobalCustomButton>
-        <GlobalCustomButton color="error" onClick={() => setRejectModal(true)}>
-          Reject
-        </GlobalCustomButton>
-        <GlobalCustomButton
-          color="success"
-          onClick={() => setApproveModal(true)}
+      {user.currentEmployee.roles.includes(
+        "Managed Care Audit Preauthorization Request"
+      ) && (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            gap: 1.5,
+          }}
+          mb={2}
         >
-          Accept
-        </GlobalCustomButton>
-      </Box>
+          <GlobalCustomButton onClick={() => setReviewModal(true)}>
+            Review
+          </GlobalCustomButton>
+          <GlobalCustomButton
+            color="error"
+            onClick={() => setRejectModal(true)}
+          >
+            Reject
+          </GlobalCustomButton>
+          <GlobalCustomButton
+            color="success"
+            onClick={() => setApproveModal(true)}
+          >
+            Accept
+          </GlobalCustomButton>
+        </Box>
+      )}
 
       <Box>
         <Grid container spacing={1}>
