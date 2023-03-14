@@ -5,10 +5,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import Drawer from "@mui/material/Drawer";
 import CloseIcon from "@mui/icons-material/Close";
-<<<<<<< HEAD
-=======
 import {useNavigate, useLocation} from "react-router-dom";
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
 import {FormsHeaderText} from "../texts";
 import GlobalCustomButton from "../buttons/CustomButton";
@@ -53,11 +50,8 @@ const AppNotifications = () => {
 
   const [play, {stop}] = useSound(notificationSound);
 
-<<<<<<< HEAD
-=======
   const navigate = useNavigate();
 
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
   const getNotifications = useCallback(async () => {
     const userId = user.currentEmployee._id;
     setLoading(true);
@@ -102,11 +96,7 @@ const AppNotifications = () => {
   }, []);
 
   const updateNotifications = useCallback(async () => {
-<<<<<<< HEAD
-    const userId = user.currentEmployee.userId;
-=======
     const userId = user.currentEmployee._id;
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
     if (!user.stacker) {
       const response = await notificationsServer.find({
@@ -282,9 +272,6 @@ const AppNotifications = () => {
               backgroundColor: "#f8f9fa",
             }}
           >
-<<<<<<< HEAD
-            <GlobalCustomButton>View All</GlobalCustomButton>
-=======
             <GlobalCustomButton
               onClick={() => {
                 navigate("/app/communication/notifications");
@@ -293,7 +280,6 @@ const AppNotifications = () => {
             >
               View All
             </GlobalCustomButton>
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
           </Box>
         </Box>
       </Drawer>

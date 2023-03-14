@@ -22,11 +22,8 @@ const ClaimsTasks = ({taskServer, taskState}) => {
       <TasksList
         openCreateModal={() => setAssignModal(true)}
         openDetailModal={() => setDetailModal(true)}
-<<<<<<< HEAD
-=======
         taskState={taskState}
         taskServer={taskServer}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       />
 
       <ModalBox
