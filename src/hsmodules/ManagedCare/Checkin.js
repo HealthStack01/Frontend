@@ -216,7 +216,8 @@ export function CheckInList({openCreateModal, setShowModal}) {
   const getCheckOut = useCallback(async () => {
     if (user.currentEmployee) {
       let stuff = {
-        facility: user.currentEmployee.facilityDetail._id,
+        // hmo: user.currentEmployee.facilityDetail.facilityType === ,
+        // facility: user.currentEmployee.facilityDetail._id,
         appointment_status: "Checked Out",
         // locationId:state.employeeLocation.locationId,
         $limit: 100,
@@ -254,7 +255,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
   const getCheckIn = useCallback(async () => {
     if (user.currentEmployee) {
       let stuff = {
-        facility: user.currentEmployee.facilityDetail._id,
+        hmo: user.currentEmployee.facilityDetail.facilityType === "HMO",
         appointment_status: "Checked In",
         // locationId:state.employeeLocation.locationId,
         $limit: 100,

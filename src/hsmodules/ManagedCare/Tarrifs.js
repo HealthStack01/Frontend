@@ -1137,6 +1137,15 @@ export const TarrifListView = ({
                   />
                 )}
 
+               {changeView === "facility" && (
+                  <GlobalCustomButton
+                    text="Delete Facility"
+                    // onClick={showFacility}
+                    customStyles={{ marginLeft: "1rem" }}
+                    color='warning'
+                  />
+                )}
+
                 {changeView === "service" && (
                   <GlobalCustomButton
                     text="Inherit Tarrif"
@@ -2786,9 +2795,10 @@ export function AddFacility() {
 
   const prevProviders = selectedServiceDetails?.providers;
 
-  // const existingProviders = prevProviders.filter(
-  //   (items) => items.dest_org_name === chosen?.organizationDetail?.facilityName
-  // );
+
+   const existingProviders = prevProviders.filter(
+    (items) => items.dest_org_name === chosen?.organizationDetail?.facilityName
+  );
 
   const handleClick = (data) => {
     setOpenFacilityModal(true);
@@ -2804,6 +2814,12 @@ export function AddFacility() {
         contracts: selectedServiceDetails?.contracts,
         providers: [...prevProviders, addnewProvider],
       };
+
+      if(existingProviders.length > 0){
+        toast.warning('Provider already selected')
+        return;
+      }
+
       ServicesServ.patch(selectedServiceDetails._id, newServicePro)
         .then((res) => {
           console.log(res);
@@ -2821,13 +2837,16 @@ export function AddFacility() {
           setOpenFacilityModal(false);
           toast.error("Error adding or facility " + err);
         });
-    }
 
-  const getSearchfacility = (obj) => {
-    setChosen(obj);
-    if (!obj) {
-    }
-  };
+      }
+    
+
+    const getSearchfacility = (obj) => {
+      setChosen(obj);
+      if (!obj) {
+      }
+    };
+
 
 
 
