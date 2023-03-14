@@ -6,11 +6,23 @@ import CustomSelect from "../../../../components/inputs/basic/Select";
 
 import {facilityTypes} from "../../../app/facility-types";
 
-const OrganizationForm = ({register, control, errors, watch, setValue}) => {
+const OrganizationForm = ({
+  register,
+  control,
+  errors,
+  watch,
+  setValue,
+  option = "",
+}) => {
   const [selectedType, setSelectedType] = useState(null);
   // const {reset, handleSubmit, register, control} = useForm();
 
-  const facTypes = facilityTypes
+  const filterFacilityTypes =
+    option !== ""
+      ? facilityTypes.filter(item => item.option === option)
+      : facilityTypes;
+
+  const facTypes = filterFacilityTypes
     .map(item => item.type)
     .sort((a, b) => a.localeCompare(b));
 

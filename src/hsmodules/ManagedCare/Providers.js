@@ -6,26 +6,26 @@ import React, {
   useRef,
   useCallback,
 } from "react";
-import { Route, useNavigate, Link, NavLink } from "react-router-dom";
+import {Route, useNavigate, Link, NavLink} from "react-router-dom";
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "react-toastify";
-import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "react-toastify";
+import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
 import DatePicker from "react-datepicker";
 import LocationSearch from "../helpers/LocationSearch";
 import EmployeeSearch from "../helpers/EmployeeSearch";
 import BillServiceCreate from "../Finance/BillServiceCreate";
 import "react-datepicker/dist/react-datepicker.css";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import Switch from "../../components/switch";
-import { BsFillGridFill, BsList } from "react-icons/bs";
+import {BsFillGridFill, BsList} from "react-icons/bs";
 import CalendarGrid from "../../components/calender";
 import ModalBox from "../../components/modal";
 import EmailIcon from "@mui/icons-material/Email";
@@ -44,43 +44,43 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
 import Input from "../../components/inputs/basic/Input/index";
-import { MdCancel } from "react-icons/md";
-import { FacilitySearch } from "../helpers/FacilitySearch";
-import { McText } from "./text";
+import {MdCancel} from "react-icons/md";
+import {FacilitySearch} from "../helpers/FacilitySearch";
+import {McText} from "./text";
 import CustomSelect from "../../components/inputs/basic/Select";
 import BasicDatePicker from "../../components/inputs/Date";
-import { FaHospital, FaAddressCard, FaUserAlt } from "react-icons/fa";
-import { IoLocationSharp } from "react-icons/io5";
-import { BsFillTelephoneFill, BsHouseDoorFill } from "react-icons/bs";
-import { MdEmail, MdLocalHospital } from "react-icons/md";
-import { FormsHeaderText } from "../../components/texts";
+import {FaHospital, FaAddressCard, FaUserAlt} from "react-icons/fa";
+import {IoLocationSharp} from "react-icons/io5";
+import {BsFillTelephoneFill, BsHouseDoorFill} from "react-icons/bs";
+import {MdEmail, MdLocalHospital} from "react-icons/md";
+import {FormsHeaderText} from "../../components/texts";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
-import { G } from "@react-pdf/renderer";
-import { Modal } from "semantic-ui-react";
-import { generalData } from "./accData";
+import {G} from "@react-pdf/renderer";
+import {Modal} from "semantic-ui-react";
+import {generalData} from "./accData";
 import Accreditation from "./Accreditation";
 import DeleteOutline from "@mui/icons-material/DeleteOutline";
 import CRMTasks from "../CRM/Tasks";
 import ChatInterface from "../../components/chat/ChatInterface";
-import { UploadView } from "./components/ProviderView";
-import { additionalInformationData } from "../CRM/components/lead/data";
+import {UploadView} from "./components/ProviderView";
+import {additionalInformationData} from "../CRM/components/lead/data";
 import AdditionalInformationCard, {
   CreateAdditionalInfo,
 } from "../CRM/components/lead/AdditionalInfo";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import Beneficiary from "./Beneficiary";
 import Claims from "./Claims";
-import GeneralAppointments, { PreAuthorizationList } from "./PreAuth";
+import GeneralAppointments, {PreAuthorizationList} from "./PreAuth";
 import Textarea from "../../components/inputs/basic/Textarea";
-import { v4 as uuidv4 } from "uuid";
+import {v4 as uuidv4} from "uuid";
 import SendLinkViaEmail from "../CRM/components/deals/SendLink";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 import ProviderChat from "./components/Provider/ProviderChat";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Provider({ standAlone }) {
-  const { state } = useContext(ObjectContext); //,setState
+export default function Provider({standAlone}) {
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
@@ -112,9 +112,9 @@ export default function Provider({ standAlone }) {
   );
 }
 
-export function AppointmentCreate({ showModal, setShowModal }) {
-  const { state, setState } = useContext(ObjectContext);
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+export function AppointmentCreate({showModal, setShowModal}) {
+  const {state, setState} = useContext(ObjectContext);
+  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
@@ -128,7 +128,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   const [facility, setFacility] = useState();
   const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [selectedClient, setSelectedClient] = useState();
@@ -150,15 +150,15 @@ export function AppointmentCreate({ showModal, setShowModal }) {
             shouldDirty: true
         })
     } */
-  const handleChangeType = async (e) => {
+  const handleChangeType = async e => {
     await setAppointment_type(e.target.value);
   };
 
-  const handleChangeStatus = async (e) => {
+  const handleChangeStatus = async e => {
     await setAppointment_status(e.target.value);
   };
 
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setClientId(obj._id);
     setChosen(obj);
     //handleRow(obj)
@@ -174,7 +174,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
         }) */
   };
 
-  const getSearchfacility1 = (obj) => {
+  const getSearchfacility1 = obj => {
     setLocationId(obj._id);
     setChosen1(obj);
 
@@ -185,7 +185,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
     }
   };
 
-  const getSearchfacility2 = (obj) => {
+  const getSearchfacility2 = obj => {
     setPractionerId(obj._id);
     setChosen2(obj);
 
@@ -220,7 +220,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
     setError(false);
     setSuccess(false);
     setShowModal(false),
-      setState((prevstate) => ({
+      setState(prevstate => ({
         ...prevstate,
         AppointmentModule: {
           selectedAppointment: {},
@@ -260,7 +260,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
     console.log(data);
 
     ClientServ.create(data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         e.target.reset();
         setAppointment_type("");
@@ -283,7 +283,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
         setSuccess2(false);
         // showBilling()
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
           message: "Error creating Appointment " + err,
           type: "is-danger",
@@ -331,7 +331,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
               <MdCancel
                 onClick={() => {
                   setShowModal(false),
-                    setState((prevstate) => ({
+                    setState(prevstate => ({
                       ...prevstate,
                       AppointmentModule: {
                         selectedAppointment: {},
@@ -379,13 +379,13 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                   <label
                     className=" is-small"
                     key={c}
-                    style={{ fontSize: "16px", fontWeight: "bold" }}
+                    style={{fontSize: "16px", fontWeight: "bold"}}
                   >
                     <input
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      {...register("appointmentClass", { required: true })}
+                      {...register("appointmentClass", {required: true})}
                       style={{
                         border: "1px solid #0364FF",
                         transform: "scale(1.5)",
@@ -404,7 +404,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
               <div className="field">
                 <input
                   name="start_time"
-                  {...register("start_time", { required: true })}
+                  {...register("start_time", {required: true})}
                   type="datetime-local"
                   style={{
                     border: "1px solid #0364FF",
@@ -464,7 +464,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
               <textarea
                 className="input is-small"
                 name="appointment_reason"
-                {...register("appointment_reason", { required: true })}
+                {...register("appointment_reason", {required: true})}
                 type="text"
                 placeholder="Appointment Reason"
                 rows="10"
@@ -496,7 +496,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
             <Grid item xs={12} sm={12} md={4} lg={3}>
               <Button
                 type="button"
-                onClick={(e) => e.target.reset()}
+                onClick={e => e.target.reset()}
                 style={{
                   backgroundColor: "#ffffff",
                   width: "100%",
@@ -515,8 +515,8 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   );
 }
 
-export function OrganizationCreate({ showModal, setShowModal }) {
-  const { register, handleSubmit } = useForm(); //, watch, errors, reset
+export function OrganizationCreate({showModal, setShowModal}) {
+  const {register, handleSubmit} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -527,9 +527,9 @@ export function OrganizationCreate({ showModal, setShowModal }) {
   const BandsServ = client.service("bands");
   const [providerBand, setProviderBand] = useState([]);
   //const history = useHistory()
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
 
-  const handleChangeMode = async (e) => {
+  const handleChangeMode = async e => {
     await setBand(e.target.value);
   };
   /* const onSubmit = (data,e) =>{
@@ -594,14 +594,14 @@ export function OrganizationCreate({ showModal, setShowModal }) {
 
     orgServ
       .create(query)
-      .then((res) => {
+      .then(res => {
         console.log("res", res);
         setSuccess(true);
         toast.success("Organization added succesfully");
         setSuccess(false);
         setBand("");
       })
-      .catch((err) => {
+      .catch(err => {
         toast.error("Error adding organization " + err);
       });
   };
@@ -612,7 +612,7 @@ export function OrganizationCreate({ showModal, setShowModal }) {
     return () => {};
   }, []);
 
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setChosen(obj);
 
     /*  setCategoryName(obj.categoryname)
@@ -668,7 +668,7 @@ export function OrganizationCreate({ showModal, setShowModal }) {
   );
 }
 
-export function ProviderList({ showModal, setShowModal, standAlone }) {
+export function ProviderList({showModal, setShowModal, standAlone}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -684,8 +684,8 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
   // eslint-disable-next-line
   const [selectedFacility, setSelectedFacility] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
-  const { user } = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
   const [sendLinkModal, setSendLinkModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -694,26 +694,26 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
       selectedFacility: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
     setShowModal(1);
   };
-  const handleRow = async (facility) => {
+  const handleRow = async facility => {
     await setSelectedFacility(facility.organizationDetail);
     const newfacilityModule = {
       selectedFacility: facility,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
     setShowModal(2);
   };
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = "facilityName";
     console.log(val);
     if (val.length > 0) {
@@ -733,13 +733,13 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
             },
           },
         })
-        .then((res) => {
+        .then(res => {
           console.log(res);
           setFacilities(res.data);
           setMessage(" Organization  fetched successfully");
           setSuccess(true);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           setMessage("Error creating facility, probable network issues " + err);
           setError(true);
@@ -768,14 +768,14 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
           },
         },
       })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Organization  fetched successfully");
         setSuccess(true);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(err => {
         setMessage("Error creating facility, probable network issues " + err);
         setError(true);
         setLoading(false);
@@ -785,10 +785,10 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
   useEffect(() => {
     getFacilities();
 
-    orgServ.on("created", (obj) => getFacilities());
-    orgServ.on("updated", (obj) => getFacilities());
-    orgServ.on("patched", (obj) => getFacilities());
-    orgServ.on("removed", (obj) => getFacilities());
+    orgServ.on("created", obj => getFacilities());
+    orgServ.on("updated", obj => getFacilities());
+    orgServ.on("patched", obj => getFacilities());
+    orgServ.on("removed", obj => getFacilities());
     return () => {};
   }, []);
 
@@ -797,7 +797,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: (row) => row.sn,
+      selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
       width: "60px",
@@ -806,7 +806,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
       name: "Provider Name",
       key: "organizationName",
       description: "Provider Name",
-      selector: (row) =>
+      selector: row =>
         row?.hasOwnProperty("organizationDetail") &&
         row?.organizationDetail?.facilityName,
       sortable: true,
@@ -818,7 +818,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
       name: "Band",
       key: "band",
       description: "Band",
-      selector: (row) => row?.hasOwnProperty("organizationDetail") && row?.band,
+      selector: row => row?.hasOwnProperty("organizationDetail") && row?.band,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -838,7 +838,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
       name: "City",
       key: "city",
       description: "City",
-      selector: (row) =>
+      selector: row =>
         row?.hasOwnProperty("organizationDetail") &&
         row?.organizationDetail.facilityCity,
       sortable: true,
@@ -850,7 +850,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
       name: "Phone",
       key: "phone",
       description: "Phone",
-      selector: (row) =>
+      selector: row =>
         row?.hasOwnProperty("organizationDetail") &&
         row?.organizationDetail.facilityContactPhone,
       sortable: true,
@@ -872,7 +872,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
       name: "Type",
       key: "type",
       description: "Type",
-      selector: (row) =>
+      selector: row =>
         row?.hasOwnProperty("organizationDetail") &&
         row?.organizationDetail.facilityType,
       sortable: true,
@@ -883,7 +883,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
       name: "Category",
       key: "category",
       description: "Category",
-      selector: (row) =>
+      selector: row =>
         row?.hasOwnProperty("organizationDetail") &&
         row?.organizationDetail.facilityCategory,
       sortable: true,
@@ -894,7 +894,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
       name: "Status",
       key: "status",
       description: "Provider status",
-      selector: (row) => row?.status,
+      selector: row => row?.status,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -914,6 +914,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
               closeModal={() => setSendLinkModal(false)}
               defaultToEmail={""}
               disableToEmailChange={true}
+              orgType="provider"
             />
           </ModalBox>
           <div
@@ -924,10 +925,10 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
             }}
           >
             <PageWrapper
-              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+              style={{flexDirection: "column", padding: "0.6rem 1rem"}}
             >
               <TableMenu>
-                <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{display: "flex", alignItems: "center"}}>
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
@@ -935,15 +936,15 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
                   )}
                 </div>
 
-                <Box sx={{ display: "flex" }} gap={2}>
+                <Box sx={{display: "flex"}} gap={2}>
                   <GlobalCustomButton onClick={() => setSendLinkModal(true)}>
-                    <EmailIcon sx={{ marginRight: "5px" }} fontSize="small" />
+                    <EmailIcon sx={{marginRight: "5px"}} fontSize="small" />
                     Invite Provider Via Email
                   </GlobalCustomButton>
 
                   <GlobalCustomButton onClick={handleCreateNew}>
                     <AddCircleOutlineIcon
-                      sx={{ marginRight: "5px" }}
+                      sx={{marginRight: "5px"}}
                       fontSize="small"
                     />
                     Register Provider
@@ -953,7 +954,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
               <CustomTable
                 title={""}
                 columns={providerSchema}
-                data={facilities.filter((item) => item.organizationDetail)}
+                data={facilities.filter(item => item.organizationDetail)}
                 pointerOnHover
                 highlightOnHover
                 striped
@@ -971,7 +972,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
   );
 }
 
-export function OrganizationDetail({ showModal, setShowModal }) {
+export function OrganizationDetail({showModal, setShowModal}) {
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
@@ -980,9 +981,9 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   const facilityServer = client.service("organizationclient");
   const ServicesServ = client.service("tariff");
   //const history = useHistory()
-  const { user, setUser } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
-  const { register, handleSubmit, setValue, reset } = useForm();
+  const {user, setUser} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
+  const {register, handleSubmit, setValue, reset} = useForm();
   const [isEdit, setIsEdit] = useState(false);
   const [approve, setApprove] = useState(false);
   const [reject, setReject] = useState(false);
@@ -1016,14 +1017,14 @@ export function OrganizationDetail({ showModal, setShowModal }) {
     setConfirmActivate(false);
   };
 
-  const onSubmitStatus = async (status) => {
+  const onSubmitStatus = async status => {
     let data = {
       status: status,
     };
     const organisationID = newFacility._id;
     facilityServer
       .patch(organisationID, data)
-      .then((res) => {
+      .then(res => {
         setBandStatus(status);
         setValue("status", status, {
           shouldValidate: true,
@@ -1031,12 +1032,12 @@ export function OrganizationDetail({ showModal, setShowModal }) {
         });
         toast.success("Premium succesfully added");
       })
-      .catch((err) => {
+      .catch(err => {
         toast.error("Error adding Premium, probable network issues or " + err);
       });
   };
 
-  const getTariffServices = async (facility) => {
+  const getTariffServices = async facility => {
     if (user.currentEmployee) {
       const findServices = await ServicesServ.find({
         query: {
@@ -1103,11 +1104,11 @@ export function OrganizationDetail({ showModal, setShowModal }) {
           $select: ["chat"],
         },
       })
-      .then((resp) => {
+      .then(resp => {
         const data = resp.data[0];
         const msgs = data.chat;
         console.log(msgs);
-        msgs.map((msg) => {
+        msgs.map(msg => {
           if (
             msg.senderId === userId ||
             msg.seen.includes(userId) ||
@@ -1115,11 +1116,11 @@ export function OrganizationDetail({ showModal, setShowModal }) {
           ) {
             return;
           } else {
-            return setUnreadMsgs((prev) => [msg._id, ...prev]);
+            return setUnreadMsgs(prev => [msg._id, ...prev]);
           }
         });
       })
-      .catch((err) => {
+      .catch(err => {
         // toast.error("There was an error getting messages for this chat");
         console.log(err);
       });
@@ -1130,13 +1131,13 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   }, []);
 
   useEffect(() => {
-    facilityServer.on("created", (obj) => getUnreadMessagesCount());
-    facilityServer.on("updated", (obj) => getUnreadMessagesCount());
-    facilityServer.on("patched", (obj) => getUnreadMessagesCount());
-    facilityServer.on("removed", (obj) => getUnreadMessagesCount());
+    facilityServer.on("created", obj => getUnreadMessagesCount());
+    facilityServer.on("updated", obj => getUnreadMessagesCount());
+    facilityServer.on("patched", obj => getUnreadMessagesCount());
+    facilityServer.on("removed", obj => getUnreadMessagesCount());
   }, []);
 
-  const addBankAccount = async (data) => {
+  const addBankAccount = async data => {
     const employee = user.currentEmployee;
     const prevOrgDetail = state.facilityModule.selectedFacility;
 
@@ -1173,12 +1174,12 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 
     await facilityServer
       .update(documentId, newOrgDetail)
-      .then((resp) => {
-        Object.keys(data).forEach((key) => {
+      .then(resp => {
+        Object.keys(data).forEach(key => {
           data[key] = null;
         });
         reset(data);
-        setUser((prev) => ({
+        setUser(prev => ({
           ...prev,
           currentEmployee: {
             ...prev.currentEmployee,
@@ -1190,7 +1191,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
         );
         setAddBank(false);
       })
-      .catch((error) => {
+      .catch(error => {
         toast.error(
           `Error adding new bank account to your oragnization; ${error}`
         );
@@ -1209,16 +1210,16 @@ export function OrganizationDetail({ showModal, setShowModal }) {
     };
     await facilityServer
       .patch(facility._id, providerDetail)
-      .then((res) => {
+      .then(res => {
         toast.success("Provider Approved successfully");
         setApprove(false);
-        setState((prev) => ({
+        setState(prev => ({
           ...prev,
-          facilityModule: { ...prev.facilityModule, selectedFacility: res },
+          facilityModule: {...prev.facilityModule, selectedFacility: res},
         }));
       })
 
-      .catch((err) => {
+      .catch(err => {
         toast.error("Error Approving Provider " + err);
       });
   };
@@ -1233,16 +1234,16 @@ export function OrganizationDetail({ showModal, setShowModal }) {
     };
     await facilityServer
       .patch(facility._id, providerDetail)
-      .then((res) => {
+      .then(res => {
         toast.success("Provider Rejected successfully");
         setReject(false);
-        setState((prev) => ({
+        setState(prev => ({
           ...prev,
-          facilityModule: { ...prev.facilityModule, selectedFacility: res },
+          facilityModule: {...prev.facilityModule, selectedFacility: res},
         }));
       })
 
-      .catch((err) => {
+      .catch(err => {
         toast.error("Error Rejecting Provider " + err);
       });
   };
@@ -1252,7 +1253,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: (row) => row.sn,
+      selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
       width: "60px",
@@ -1261,9 +1262,9 @@ export function OrganizationDetail({ showModal, setShowModal }) {
       name: "Bank Name",
       key: "bank_name",
       description: "Bank Name",
-      selector: (row) => (
+      selector: row => (
         <Typography
-          sx={{ fontSize: "0.8rem", whiteSpace: "normal", color: "#1976d2" }}
+          sx={{fontSize: "0.8rem", whiteSpace: "normal", color: "#1976d2"}}
           data-tag="allowRowEvents"
         >
           {row.bankname}
@@ -1278,9 +1279,9 @@ export function OrganizationDetail({ showModal, setShowModal }) {
       name: "Account Name",
       key: "account_name",
       description: "Account Name",
-      selector: (row) => (
+      selector: row => (
         <Typography
-          sx={{ fontSize: "0.8rem", whiteSpace: "normal", color: "#1976d2" }}
+          sx={{fontSize: "0.8rem", whiteSpace: "normal", color: "#1976d2"}}
           data-tag="allowRowEvents"
         >
           {row.accountname}
@@ -1295,7 +1296,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
       name: "Account Number",
       key: "account_number",
       description: "Account Number",
-      selector: (row) => row.accountnumber,
+      selector: row => row.accountnumber,
       sortable: true,
       inputType: "TEXT",
       width: "150px",
@@ -1304,7 +1305,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
       name: "Branch",
       key: "branch",
       description: "Branch",
-      selector: (row) => row.branch,
+      selector: row => row.branch,
       sortable: true,
       inputType: "TEXT",
       width: "150px",
@@ -1313,7 +1314,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
       name: "Sort Code",
       key: "sort_code",
       description: "Sort Code",
-      selector: (row) => row.sortcode,
+      selector: row => row.sortcode,
       sortable: true,
       inputType: "TEXT",
       width: "120px",
@@ -1322,9 +1323,9 @@ export function OrganizationDetail({ showModal, setShowModal }) {
       name: "Comments",
       key: "sort_code",
       description: "Sort Code",
-      selector: (row) => (
+      selector: row => (
         <Typography
-          sx={{ fontSize: "0.8rem", whiteSpace: "normal" }}
+          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
           data-tag="allowRowEvents"
         >
           {row.comment ? row.comment : "----------"}
@@ -1368,9 +1369,9 @@ export function OrganizationDetail({ showModal, setShowModal }) {
       name: "Service Name",
       key: "serviceName",
       description: "Service Name",
-      selector: (row) => (
+      selector: row => (
         <Typography
-          sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
+          sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
           data-tag="allowRowEvents"
         >
           {row?.serviceName}
@@ -1385,7 +1386,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
       name: "Price",
       key: "price",
       description: "Price",
-      selector: (row) => `₦${row?.price}`,
+      selector: row => `₦${row?.price}`,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1394,7 +1395,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
       name: "Comment",
       key: "comment",
       description: "Comment",
-      selector: (row) => row?.comments,
+      selector: row => row?.comments,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1459,14 +1460,14 @@ export function OrganizationDetail({ showModal, setShowModal }) {
             text="Back"
             onClick={() => setShowModal(0)}
             color="warning"
-            customStyles={{ marginRight: "10px" }}
+            customStyles={{marginRight: "10px"}}
           />
           {isEdit && (
             <GlobalCustomButton
               text="Cancel"
               onClick={() => setIsEdit(false)}
               color="error"
-              customStyles={{ marginRight: "10px" }}
+              customStyles={{marginRight: "10px"}}
             />
           )}
           {!isEdit && (
@@ -1476,7 +1477,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                 setIsEdit(true), setDisplay(1);
               }}
               color="secondary"
-              customStyles={{ marginRight: "10px" }}
+              customStyles={{marginRight: "10px"}}
               variant={isEdit === true ? "outlined" : "contained"}
             />
           )}
@@ -1484,7 +1485,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
             text="Accreditation"
             onClick={() => setDisplay(2)}
             color="primary"
-            customStyles={{ marginRight: "10px" }}
+            customStyles={{marginRight: "10px"}}
             variant={display === 2 ? "outlined" : "contained"}
           />
           {isEdit && (
@@ -1494,7 +1495,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                   text="Approve"
                   onClick={() => setApprove(true)}
                   color="success"
-                  customStyles={{ marginRight: "10px" }}
+                  customStyles={{marginRight: "10px"}}
                 />
               )}
               {facility.active === true && (
@@ -1502,7 +1503,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                   text="Reject"
                   onClick={() => setReject(true)}
                   color="error"
-                  customStyles={{ marginRight: "10px" }}
+                  customStyles={{marginRight: "10px"}}
                   variant="contained"
                 />
               )}
@@ -1522,46 +1523,46 @@ export function OrganizationDetail({ showModal, setShowModal }) {
             onClick={display === 1 ? () => setDisplay(3) : () => setDisplay(1)}
             text={display === 1 ? "Task" : "Details"}
             variant={display === 3 ? "outlined" : "contained"}
-            customStyles={{ marginRight: ".8rem" }}
+            customStyles={{marginRight: ".8rem"}}
           />
           <GlobalCustomButton
             text="Upload"
             onClick={() => setDisplay(4)}
             color="success"
-            customStyles={{ marginRight: "10px" }}
+            customStyles={{marginRight: "10px"}}
             variant={display === 4 ? "outlined" : "contained"}
           />
           <GlobalCustomButton
             onClick={() => setDisplay(5)}
             text="Beneficiary"
-            customStyles={{ marginRight: ".8rem" }}
+            customStyles={{marginRight: ".8rem"}}
             variant={display === 5 ? "outlined" : "contained"}
           />
           <GlobalCustomButton
             color="warning"
             onClick={() => setDisplay(6)}
             text="Claims"
-            customStyles={{ marginRight: ".8rem" }}
+            customStyles={{marginRight: ".8rem"}}
             variant={display === 6 ? "outlined" : "contained"}
           />
           <GlobalCustomButton
             color="success"
             onClick={() => setDisplay(8)}
             text="Tariff"
-            customStyles={{ marginRight: ".8rem" }}
+            customStyles={{marginRight: ".8rem"}}
             variant={display === 8 ? "outlined" : "contained"}
           />
           <GlobalCustomButton
             color="secondary"
             onClick={() => setDisplay(7)}
             text="Pre-Auth"
-            customStyles={{ marginRight: ".8rem" }}
+            customStyles={{marginRight: ".8rem"}}
             variant={display === 7 ? "outlined" : "contained"}
           />
           <Badge
             badgeContent={unreadMsgs.length}
             color="success"
-            sx={{ marginRight: "10px" }}
+            sx={{marginRight: "10px"}}
           >
             <GlobalCustomButton
               onClick={() => setOpenDrawer(true)}
@@ -1588,7 +1589,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                   onSubmitStatus(status);
                 }}
                 color="success"
-                customStyles={{ marginRight: "10px" }}
+                customStyles={{marginRight: "10px"}}
               />
               <GlobalCustomButton
                 text="Decline"
@@ -1597,7 +1598,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                   onSubmitStatus(status);
                 }}
                 color="warning"
-                customStyles={{ marginRight: "10px" }}
+                customStyles={{marginRight: "10px"}}
               />
             </>
           )}
@@ -1610,7 +1611,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                   onSubmitStatus(status);
                 }}
                 color="success"
-                customStyles={{ marginRight: "10px" }}
+                customStyles={{marginRight: "10px"}}
               />
               <GlobalCustomButton
                 text="Decline"
@@ -1619,7 +1620,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                   onSubmitStatus(status);
                 }}
                 color="warning"
-                customStyles={{ marginRight: "10px" }}
+                customStyles={{marginRight: "10px"}}
               />
             </>
           )}
@@ -1632,7 +1633,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                   onSubmitStatus(status);
                 }}
                 color="success"
-                customStyles={{ marginRight: "10px" }}
+                customStyles={{marginRight: "10px"}}
               />
             </>
           )}
@@ -1645,7 +1646,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                   onSubmitStatus(status);
                 }}
                 color="warning"
-                customStyles={{ marginRight: "10px" }}
+                customStyles={{marginRight: "10px"}}
               />
             </>
           )}
@@ -1791,7 +1792,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
         )}
         {approve && (
           <ModalBox open onClose={() => setApprove(false)}>
-            <p style={{ textAlign: "center" }}>
+            <p style={{textAlign: "center"}}>
               <FormsHeaderText
                 text={`Are you sure you want to approve "St.Nicholas Hospital"?"`}
               />
@@ -1809,7 +1810,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                 text="Yes"
                 onClick={() => onApprove()}
                 color="success"
-                customStyles={{ marginRight: "10px" }}
+                customStyles={{marginRight: "10px"}}
               />
               <GlobalCustomButton
                 text="No"
@@ -1821,7 +1822,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
         )}
         {reject && (
           <ModalBox open onClose={() => setReject(false)}>
-            <p style={{ textAlign: "center" }}>
+            <p style={{textAlign: "center"}}>
               <FormsHeaderText
                 text={`Are you sure you want to reject "St.Nicholas Hospital"?"`}
               />
@@ -1839,7 +1840,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                 text="Yes"
                 onClick={() => handleReject()}
                 color="error"
-                customStyles={{ marginRight: "10px" }}
+                customStyles={{marginRight: "10px"}}
               />
               <GlobalCustomButton
                 text="No"
@@ -1851,7 +1852,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
         )}
         {confirmDeactivate && (
           <ModalBox open onClose={() => setConfirmDeactivate(false)}>
-            <p style={{ textAlign: "center" }}>
+            <p style={{textAlign: "center"}}>
               <FormsHeaderText
                 text={`Are you sure you want to deactivate "St.Nicholas Hospital"?"`}
               />
@@ -1869,7 +1870,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                 text="Yes"
                 onClick={() => handleDeactivate()}
                 color="error"
-                customStyles={{ marginRight: "10px" }}
+                customStyles={{marginRight: "10px"}}
               />
               <GlobalCustomButton
                 text="No"
@@ -1881,7 +1882,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
         )}
         {confirmActivate && (
           <ModalBox open onClose={() => setConfirmDeactivate(false)}>
-            <p style={{ textAlign: "center" }}>
+            <p style={{textAlign: "center"}}>
               <FormsHeaderText
                 text={`Are you sure you want to Activate "St.Nicholas Hospital"?"`}
               />
@@ -1899,7 +1900,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                 text="Yes"
                 onClick={() => handleActivate()}
                 color="success"
-                customStyles={{ marginRight: "10px" }}
+                customStyles={{marginRight: "10px"}}
               />
               <GlobalCustomButton
                 text="No"
@@ -2039,7 +2040,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 }
 
 export function NewOrganizationCreate() {
-  const { register, handleSubmit } = useForm(); //, watch, errors, reset
+  const {register, handleSubmit} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -2052,19 +2053,19 @@ export function NewOrganizationCreate() {
   const [currentPage, setCurrentPage] = useState(1);
   const [showScore, setShowScore] = useState(0);
   const [showArray, setShowArray] = useState([]);
-  const [nonMedDiv, setNonMedDiv] = useState([{ selectValue: "" }]);
-  const [nonMedDiv2, setNonMedDiv2] = useState([{ selectValue: "" }]);
-  const [nonMedDiv3, setNonMedDiv3] = useState([{ selectValue: "" }]);
-  const [nonMedDiv4, setNonMedDiv4] = useState([{ selectValue: "" }]);
-  const [nonMedDiv5, setNonMedDiv5] = useState([{ selectValue: "" }]);
-  const [nonMedDiv6, setNonMedDiv6] = useState([{ selectValue: "" }]);
-  const [nonMedDiv7, setNonMedDiv7] = useState([{ selectValue: "" }]);
-  const [nonMedDiv8, setNonMedDiv8] = useState([{ selectValue: "" }]);
+  const [nonMedDiv, setNonMedDiv] = useState([{selectValue: ""}]);
+  const [nonMedDiv2, setNonMedDiv2] = useState([{selectValue: ""}]);
+  const [nonMedDiv3, setNonMedDiv3] = useState([{selectValue: ""}]);
+  const [nonMedDiv4, setNonMedDiv4] = useState([{selectValue: ""}]);
+  const [nonMedDiv5, setNonMedDiv5] = useState([{selectValue: ""}]);
+  const [nonMedDiv6, setNonMedDiv6] = useState([{selectValue: ""}]);
+  const [nonMedDiv7, setNonMedDiv7] = useState([{selectValue: ""}]);
+  const [nonMedDiv8, setNonMedDiv8] = useState([{selectValue: ""}]);
 
   //const history = useHistory()
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
 
-  const handleChangeMode = async (e) => {
+  const handleChangeMode = async e => {
     await setBand(e.target.value);
   };
   /* const onSubmit = (data,e) =>{
@@ -2133,7 +2134,7 @@ export function NewOrganizationCreate() {
     };
     orgServ
       .create(stuff)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         setSuccess(true);
@@ -2146,7 +2147,7 @@ export function NewOrganizationCreate() {
         setSuccess(false);
         setBand("");
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
           message: "Error adding organization " + err,
           type: "is-danger",
@@ -2161,7 +2162,7 @@ export function NewOrganizationCreate() {
     getProviderBand();
     return () => {};
   }, []);
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setChosen(obj);
 
     /*  setCategoryName(obj.categoryname)
@@ -2286,27 +2287,27 @@ export function NewOrganizationCreate() {
     }
   };
   const selectdata = [
-    { value: "test", label: "test" },
-    { value: "test2", label: "test2" },
+    {value: "test", label: "test"},
+    {value: "test2", label: "test2"},
   ];
 
   const generalOutlook = [
-    { value: 1, label: "1. GENERAL OUTLOOK & INFRASTRUCTURE" },
-    { value: 2, label: "2. OPD / FRONT DESK" },
-    { value: 3, label: "3. CASUALTY AND EMERGENCY" },
-    { value: 4, label: "4. PHARMACY" },
-    { value: 5, label: "5. LABORATORY/ RADIOLOGICAL EQUIPMENTS" },
-    { value: 6, label: "6. WARD" },
-    { value: 7, label: "7. LABOUR ROOM" },
-    { value: 8, label: "8. THEATRE" },
-    { value: 9, label: "9. ADDITIONAL FACILITIES" },
-    { value: 10, label: "10. ADMINISTRATION" },
-    { value: 11, label: "11. QUALITY MANAGEMENT PROCESSES" },
-    { value: 12, label: "12. OTHER PARAMETERS" },
-    { value: 13, label: "13. MEDICAL PERSONNEL /STAFF" },
+    {value: 1, label: "1. GENERAL OUTLOOK & INFRASTRUCTURE"},
+    {value: 2, label: "2. OPD / FRONT DESK"},
+    {value: 3, label: "3. CASUALTY AND EMERGENCY"},
+    {value: 4, label: "4. PHARMACY"},
+    {value: 5, label: "5. LABORATORY/ RADIOLOGICAL EQUIPMENTS"},
+    {value: 6, label: "6. WARD"},
+    {value: 7, label: "7. LABOUR ROOM"},
+    {value: 8, label: "8. THEATRE"},
+    {value: 9, label: "9. ADDITIONAL FACILITIES"},
+    {value: 10, label: "10. ADMINISTRATION"},
+    {value: 11, label: "11. QUALITY MANAGEMENT PROCESSES"},
+    {value: 12, label: "12. OTHER PARAMETERS"},
+    {value: 13, label: "13. MEDICAL PERSONNEL /STAFF"},
   ];
 
-  const handleFormToDisplay = (number) => {
+  const handleFormToDisplay = number => {
     switch (number) {
       case 1:
         setShowArray(generalData);
@@ -2320,10 +2321,10 @@ export function NewOrganizationCreate() {
     <>
       {currentPage === 1 && (
         <>
-          <p style={{ fontWeight: "700" }}>
+          <p style={{fontWeight: "700"}}>
             HCI HEALTHCARE LIMITED ASSESSMENT / CREDENTIALLING FORM (NO..)
           </p>
-          <p style={{ fontWeight: "700", marginBottom: ".5rem" }}>
+          <p style={{fontWeight: "700", marginBottom: ".5rem"}}>
             (PRIVATE SCHEME)
           </p>
           <McText txt={"PERSONAL DATA"} type={"p"} bold={700} />
@@ -2373,7 +2374,7 @@ export function NewOrganizationCreate() {
               text={"Cancel"}
               onClick={() => setCurrentPage(0)}
               color="secondary"
-              customStyles={{ marginRight: ".8rem" }}
+              customStyles={{marginRight: ".8rem"}}
             />
             <GlobalCustomButton
               text={"Next"}
@@ -2393,10 +2394,10 @@ export function NewOrganizationCreate() {
               margin: "0 auto",
             }}
           >
-            <p style={{ fontWeight: "700" }}>
+            <p style={{fontWeight: "700"}}>
               HCI HEALTHCARE LIMITED ASSESSMENT / CREDENTIALLING FORM (NO..)
             </p>
-            <p style={{ fontWeight: "700", marginBottom: "2rem" }}>
+            <p style={{fontWeight: "700", marginBottom: "2rem"}}>
               (PRIVATE SCHEME)
             </p>
             {generalOutlook.map((item, index) => (
@@ -2479,10 +2480,10 @@ export function NewOrganizationCreate() {
               margin: "0 auto",
             }}
           >
-            <p style={{ fontWeight: "700" }}>
+            <p style={{fontWeight: "700"}}>
               HCI HEALTHCARE LIMITED ASSESSMENT / CREDENTIALLING FORM (NO..)
             </p>
-            <p style={{ fontWeight: "700", marginBottom: "2rem" }}>
+            <p style={{fontWeight: "700", marginBottom: "2rem"}}>
               (PRIVATE SCHEME)
             </p>
             <McText txt={"NON-MEDICAL STAFF"} type={"p"} bold={700} />
@@ -2499,10 +2500,10 @@ export function NewOrganizationCreate() {
               margin: "0 auto",
             }}
           >
-            <p style={{ fontWeight: "700" }}>
+            <p style={{fontWeight: "700"}}>
               HCI HEALTHCARE LIMITED ASSESSMENT / CREDENTIALLING FORM (NO..)
             </p>
-            <p style={{ fontWeight: "700", marginBottom: "2rem" }}>
+            <p style={{fontWeight: "700", marginBottom: "2rem"}}>
               (PRIVATE SCHEME)
             </p>
             <McText
@@ -2663,7 +2664,7 @@ export function NewOrganizationCreate() {
 
 export const AdditionalInformationView = () => {
   const dealServer = client.service("organizationclient");
-  const { state, setState, hideActionLoader, showActionLoader } =
+  const {state, setState, hideActionLoader, showActionLoader} =
     useContext(ObjectContext);
   const [createModal, setCreateModal] = useState(false);
   const [informations, setInformations] = useState([]);
@@ -2675,31 +2676,31 @@ export const AdditionalInformationView = () => {
   });
   const facility = state.facilityModule.selectedFacility;
 
-  const removeAdditionalInfo = (info) => {
-    setInformations((prev) => prev.filter((item) => item._id !== info._id));
+  const removeAdditionalInfo = info => {
+    setInformations(prev => prev.filter(item => item._id !== info._id));
   };
 
-  const deleteAdditionalInfo = async (info) => {
+  const deleteAdditionalInfo = async info => {
     showActionLoader();
 
     const oldDealInfo = facility?.info || [];
 
-    const updatedDealInfo = oldDealInfo.filter((item) => item._id !== info._id);
+    const updatedDealInfo = oldDealInfo.filter(item => item._id !== info._id);
 
     const documentId = facility?._id;
 
     await dealServer
-      .patch(documentId, { info: updatedDealInfo })
-      .then((res) => {
+      .patch(documentId, {info: updatedDealInfo})
+      .then(res => {
         hideActionLoader();
-        setState((prev) => ({
+        setState(prev => ({
           ...prev,
-          facilityModule: { ...prev.facilityModule, selectedFacility: res },
+          facilityModule: {...prev.facilityModule, selectedFacility: res},
         }));
         cancelConfirm();
         toast.success(`You have successfully Deleted Addtional Information!`);
       })
-      .catch((err) => {
+      .catch(err => {
         hideActionLoader();
         toast.error(
           `Sorry, You weren't able to Delete the Addtional Information!. ${err}`
@@ -2707,7 +2708,7 @@ export const AdditionalInformationView = () => {
       });
   };
 
-  const confirmDelete = (info) => {
+  const confirmDelete = info => {
     setConfirmDialog({
       open: true,
       message:
@@ -2752,15 +2753,15 @@ export const AdditionalInformationView = () => {
         <FormsHeaderText text="Additional Information" />
 
         <GlobalCustomButton onClick={() => setCreateModal(true)}>
-          <AddCircleOutlineOutlinedIcon sx={{ mr: "5px" }} fontSize="small" />{" "}
-          Add Information
+          <AddCircleOutlineOutlinedIcon sx={{mr: "5px"}} fontSize="small" /> Add
+          Information
         </GlobalCustomButton>
       </Box>
 
       <Box>
         {informations.length > 0 ? (
           informations.map((info, index) => (
-            <Box sx={{ mb: 2 }}>
+            <Box sx={{mb: 2}}>
               <AdditionalInformationCard
                 data={info}
                 action={() => confirmDelete(info)}
@@ -2776,7 +2777,7 @@ export const AdditionalInformationView = () => {
               justifyContent: "center",
             }}
           >
-            <Typography sx={{ fontSize: "0.75rem", color: "#000000" }}>
+            <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
               You've not added any information
             </Typography>
           </Box>
@@ -2794,7 +2795,7 @@ export const AdditionalInformationView = () => {
   );
 };
 
-export function BeneList({ showModal, setShowModal, standAlone }) {
+export function BeneList({showModal, setShowModal, standAlone}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -2809,9 +2810,9 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
@@ -2822,7 +2823,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
       selectedClient: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -2830,20 +2831,20 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
     setShowModal(2);
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     await setSelectedClient(Client);
     const newClientModule = {
       selectedClient: Client,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
     setShowModal(1);
   };
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     // eslint-disable-next-line
     const field = "firstname";
     console.log(val);
@@ -2898,7 +2899,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
               $options: "i",
             },
           },
-          { gender: val },
+          {gender: val},
         ],
 
         "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
@@ -2908,13 +2909,13 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -2935,16 +2936,16 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
 
       let data = findClient.data;
       let filteredArray = data.filter(
-        (item) =>
+        item =>
           (item.sponsor !== "" &&
             item.sponsor?.organizationDetail?._id === standAlone) ||
           item.providers?.some(
-            (item) => item?.organizationDetail?._id === standAlone
+            item => item?.organizationDetail?._id === standAlone
           )
       );
-      let principal = filteredArray.map((item) => item.principal);
+      let principal = filteredArray.map(item => item.principal);
       let dependantBeneficiaries = filteredArray.map(
-        (item) => item.dependantBeneficiaries
+        item => item.dependantBeneficiaries
       );
       let joined = principal.concat(...dependantBeneficiaries);
       setFacilities(joined);
@@ -2959,7 +2960,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
       await setTotal(findClient.total);
       //console.log(user.currentEmployee.facilityDetail._id, state)
       //console.log(facilities)
-      setPage((page) => page + 1);
+      setPage(page => page + 1);
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
@@ -2989,10 +2990,10 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on("created", (obj) => rest());
-    ClientServ.on("updated", (obj) => rest());
-    ClientServ.on("patched", (obj) => rest());
-    ClientServ.on("removed", (obj) => rest());
+    ClientServ.on("created", obj => rest());
+    ClientServ.on("updated", obj => rest());
+    ClientServ.on("patched", obj => rest());
+    ClientServ.on("removed", obj => rest());
     return () => {};
     // eslint-disable-next-line
   }, []);
@@ -3019,7 +3020,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: (row) => row.sn,
+      selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
       width: "50px",
@@ -3028,7 +3029,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
       name: "Image",
       key: "sn",
       description: "Enter name of employee",
-      selector: (row) => <Avatar src={row?.imageurl} />,
+      selector: row => <Avatar src={row?.imageurl} />,
       sortable: true,
       inputType: "HIDDEN",
       width: "80px",
@@ -3037,7 +3038,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
       name: "First Name",
       key: "firstname",
       description: "First Name",
-      selector: (row) => row.firstname,
+      selector: row => row.firstname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -3046,7 +3047,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
       name: "Last Name",
       key: "lastname",
       description: "Last Name",
-      selector: (row) => row.lastname,
+      selector: row => row.lastname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -3056,7 +3057,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
       name: "Midlle Name",
       key: "middlename",
       description: "Midlle Name",
-      selector: (row) => row.middlename,
+      selector: row => row.middlename,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -3065,7 +3066,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
       name: "Age",
       key: "dob",
       description: "Age",
-      selector: (row) =>
+      selector: row =>
         row.dob ? formatDistanceToNowStrict(new Date(row?.dob)) : "",
       sortable: true,
       required: true,
@@ -3076,7 +3077,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
       name: "Gender",
       key: "gender",
       description: "Male",
-      selector: (row) => row.gender,
+      selector: row => row.gender,
       sortable: true,
       required: true,
       inputType: "SELECT_LIST",
@@ -3087,7 +3088,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
       name: "Email",
       key: "email",
       description: "johndoe@mail.com",
-      selector: (row) => row.email,
+      selector: row => row.email,
       sortable: true,
       required: true,
       inputType: "EMAIL",
@@ -3097,7 +3098,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
       name: "Tags",
       key: "clientTags",
       description: "Tags",
-      selector: (row) => row.clientTags,
+      selector: row => row.clientTags,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -3113,13 +3114,13 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
           margin: "0 1rem",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={{display: "flex", alignItems: "center"}}>
           {/* {handleSearch && (
 						<div className='inner-table'>
 							<FilterMenu onSearch={handleSearch} />
 						</div>
 					)} */}
-          <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+          <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
             List of Beneficiary
           </h2>
         </div>
@@ -3146,15 +3147,15 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
   );
 }
 
-export const CreateAddInfo = ({ addInfo, closeModal }) => {
+export const CreateAddInfo = ({addInfo, closeModal}) => {
   const dealServer = client.service("organizationclient");
-  const { state, setState, hideActionLoader, showActionLoader } =
+  const {state, setState, hideActionLoader, showActionLoader} =
     useContext(ObjectContext);
-  const { user } = useContext(UserContext);
-  const { register, handleSubmit, control, reset } = useForm();
+  const {user} = useContext(UserContext);
+  const {register, handleSubmit, control, reset} = useForm();
   const facility = state.facilityModule.selectedFacility;
 
-  const updateAdditionalInfo = async (data) => {
+  const updateAdditionalInfo = async data => {
     if (data.info === "") return toast.error("Please provide your information");
     showActionLoader();
 
@@ -3173,12 +3174,12 @@ export const CreateAddInfo = ({ addInfo, closeModal }) => {
     const documentId = facility?._id;
 
     await dealServer
-      .patch(documentId, { info: updatedDealInfo })
-      .then((res) => {
+      .patch(documentId, {info: updatedDealInfo})
+      .then(res => {
         hideActionLoader();
-        setState((prev) => ({
+        setState(prev => ({
           ...prev,
-          facilityModule: { ...prev.facilityModule, selectedFacility: res },
+          facilityModule: {...prev.facilityModule, selectedFacility: res},
         }));
 
         reset({
@@ -3188,7 +3189,7 @@ export const CreateAddInfo = ({ addInfo, closeModal }) => {
           `You have successfully added a new Addtional Information!`
         );
       })
-      .catch((err) => {
+      .catch(err => {
         hideActionLoader();
         toast.error(
           `Sorry, You weren't able to add a new Addtional Information!. ${err}`
@@ -3215,10 +3216,10 @@ export const CreateAddInfo = ({ addInfo, closeModal }) => {
         </Grid>
       </Box>
 
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{display: "flex"}}>
         <GlobalCustomButton
           onClick={handleSubmit(updateAdditionalInfo)}
-          sx={{ marginRight: "10px" }}
+          sx={{marginRight: "10px"}}
         >
           Add Information
         </GlobalCustomButton>
