@@ -131,11 +131,7 @@ const BandView = ({ open, setOpen, band }) => {
 						fontSize='small'
 						sx={{ marginRight: '5px' }}
 					/>
-<<<<<<< HEAD
-					Delete Band
-=======
 					Delete
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
 				</GlobalCustomButton>
 
 				{!editing ? (
@@ -147,11 +143,7 @@ const BandView = ({ open, setOpen, band }) => {
 							fontSize='small'
 							sx={{ marginRight: '5px' }}
 						/>
-<<<<<<< HEAD
-						Edit Band
-=======
 						Edit
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
 					</GlobalCustomButton>
 				) : (
 					<GlobalCustomButton

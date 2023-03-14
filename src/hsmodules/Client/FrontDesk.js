@@ -429,11 +429,8 @@ export function FrontDeskList({standalone, closeModal}) {
     },
   ];
 
-<<<<<<< HEAD
-=======
   const employeeLocations = user.currentEmployee.locations || [];
 
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
   return (
     <>
       {user ? (
@@ -473,13 +470,9 @@ export function FrontDeskList({standalone, closeModal}) {
               <CustomTable
                 title={""}
                 columns={frontDeskListSchema}
-<<<<<<< HEAD
-                data={facilities}
-=======
                 data={employeeLocations.filter(
                   item => item.locationType === "Front Desk"
                 )}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                 pointerOnHover
                 highlightOnHover
                 striped

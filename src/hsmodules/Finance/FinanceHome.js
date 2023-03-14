@@ -11,12 +11,6 @@ export default function FinacneHome({children}) {
   const {state, setState} = useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
   const [storeModal, setStoreModal] = useState(false);
-<<<<<<< HEAD
-  const [selectedStore, setSelectedStore] = useState(
-    state.financeModule.selectedFinance
-  );
-
-=======
 
   const employeeLocations = user.currentEmployee.locations || [];
   const financeLocations = employeeLocations.filter(
@@ -29,7 +23,6 @@ export default function FinacneHome({children}) {
 
   const [selectedStore, setSelectedStore] = useState(location);
 
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
   // const handleCloseModal = () => {
   //   state.showStoreModal = "modal";
   //   setState(state);
@@ -37,12 +30,6 @@ export default function FinacneHome({children}) {
 
   useEffect(() => {
     //console.log(state.financeModule.selectedFinance);
-<<<<<<< HEAD
-    const notSelected = Object.keys(selectedStore).length === 0;
-
-    if (notSelected) {
-      handleChangeStore();
-=======
     const notSelected =
       selectedStore && Object.keys(selectedStore).length === 0;
 
@@ -68,7 +55,6 @@ export default function FinacneHome({children}) {
         employeeLocation: newEmployeeLocation,
         financeModule: newStoreModule,
       }));
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
     }
     return () => {};
   }, []);

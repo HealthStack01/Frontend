@@ -357,14 +357,7 @@ export const StaffsListView = () => {
   const dealServer = client.service("deal");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
-<<<<<<< HEAD
-
-  // const [staffs, setStaffs] = useState([
-  //   // ...state.DealModule.selectedDeal.assignStaff,
-  // ]);
-=======
   const {user} = useContext(UserContext);
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
   const [staffs, setStaffs] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState(null);
   const [confirmDialog, setConfirmDialog] = useState(false);
@@ -497,20 +490,6 @@ export const StaffsListView = () => {
       >
         <FormsHeaderText text="Assigned Staffs" />
 
-<<<<<<< HEAD
-        <Button
-          variant="contained"
-          size="small"
-          sx={{textTransform: "capitalize"}}
-          onClick={handleAddStaff}
-        >
-          <AddCircleOutlineOutlinedIcon
-            sx={{marginRight: "5px"}}
-            fontSize="small"
-          />
-          Add Staff
-        </Button>
-=======
         {(user?.currentEmployee?.roles?.includes("Admin") ||
           user?.currentEmployee?.roles?.includes("CRM Assign Staff")) && (
           <GlobalCustomButton onClick={handleAddStaff}>
@@ -521,7 +500,6 @@ export const StaffsListView = () => {
             Add Staff
           </GlobalCustomButton>
         )}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       </Box>
 
       <Grid container spacing={2}>

@@ -9,25 +9,6 @@ import {Box} from "@mui/material";
 export default function LaboratoryHome({children}) {
   const {state, setState} = useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
-<<<<<<< HEAD
-  // eslint-disable-next-line
-  const [selectedLab, setSelectedLab] = useState(
-    state.LaboratoryModule.selectedLab
-  );
-  const [showModal, setShowModal] = useState(false);
-
-  // const handleCloseModal = () => {
-  //   state.showStoreModal = "modal";
-  //   setState(state);
-  //   console.log(state.showStoreModal);
-  // };
-
-  useEffect(() => {
-    const notSelected = Object.keys(selectedLab).length === 0;
-
-    if (notSelected) {
-      handleChangeStore();
-=======
 
   const employeeLocations = user.currentEmployee.locations || [];
   const labLocations = employeeLocations.filter(
@@ -63,7 +44,6 @@ export default function LaboratoryHome({children}) {
           selectedLab: selectedLab,
         },
       }));
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
     }
     return () => {};
   }, []);
