@@ -166,6 +166,7 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
         textTransform: "capitalize",
       },
     },
+<<<<<<< HEAD
     {
       name: "Type",
       key: "healthcare plan",
@@ -175,11 +176,26 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
       required: true,
       inputType: "HIDDEN",
     },
+=======
+    // {
+    //   name: "Type",
+    //   key: "healthcare plan",
+    //   description: "Enter name of Healthcare Plan",
+    //   selector: row => row?.claimtype,
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "HIDDEN",
+    // },
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
     {
       name: "Sponsor",
       key: "healthcare plan",
       description: "Enter name of Healthcare Plan",
+<<<<<<< HEAD
       selector: row => row.sponsor.facilityDetail.facilityName,
+=======
+      selector: row => row?.sponsor?.facilityDetail?.facilityName,
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -197,13 +213,18 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
       name: "Provider",
       key: "hospital name",
       description: "Enter Hospital Name",
+<<<<<<< HEAD
       selector: row => row?.provider.facilityName,
+=======
+      selector: row => row?.provider?.facilityName,
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
 
     {
+<<<<<<< HEAD
       name: "Services",
       key: "healthcare plan",
       description: "Enter name of Healthcare Plan",
@@ -231,6 +252,8 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
     },
 
     {
+=======
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
       name: "Status",
       key: "status",
       description: "Enter  Status",
@@ -241,15 +264,49 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
       inputType: "TEXT",
     },
     {
+<<<<<<< HEAD
       name: "Comments",
       key: "reason",
       description: "Enter for Request",
       selector: row => row.comments,
+=======
+      name: "Task",
+      key: "status",
+      description: "Enter  Status",
+      selector: row => (row?.task?.length > 0 ? row.task[0].title : ""),
+      //cell: row => returnCell(row.status),
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
+<<<<<<< HEAD
+=======
+      name: "Assigned To",
+      key: "status",
+      description: "Enter  Status",
+      selector: row =>
+        row?.task?.length > 0
+          ? `${row.task[0].employee.firstname} ${row.task[0].employee.lastname}`
+          : "",
+      //cell: row => returnCell(row.status),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Num of Services",
+      key: "healthcare plan",
+      description: "Enter name of Healthcare Plan",
+
+      selector: row => row.services.length,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
       name: "Total Amount",
       key: "bills",
       description: "Enter bills",
@@ -259,6 +316,18 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
       required: true,
       inputType: "TEXT",
     },
+<<<<<<< HEAD
+=======
+    {
+      name: "Comments",
+      key: "reason",
+      description: "Enter for Request",
+      selector: row => row.comments,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
   ];
 
   const conditionalRowStyles = [
@@ -327,6 +396,7 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
             </Box>
           </TableMenu>
 
+<<<<<<< HEAD
           <CustomTable
             title={""}
             columns={claimsColumns}
@@ -338,6 +408,27 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
             progressPending={loading}
             //conditionalRowStyles={conditionalRowStyles}
           />
+=======
+          <Box
+            sx={{
+              width: "100%",
+              height: "calc(100vh - 180px)",
+              overflowY: "auto",
+            }}
+          >
+            <CustomTable
+              title={""}
+              columns={claimsColumns}
+              data={claims}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={handleRow}
+              progressPending={loading}
+              //conditionalRowStyles={conditionalRowStyles}
+            />
+          </Box>
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
         </PageWrapper>
       </div>
     </>

@@ -1,63 +1,65 @@
-// <th>
-//   <abbr title="Serial No">S/No</abbr>
-// </th>
-// <th>
-//   <abbr title="Category">Category</abbr>
-// </th>
-// <th>
-//   <abbr title="Name">Name</abbr>
-// </th>
-// <th>
-//   <abbr title="Quantity">Quanitity</abbr>
-// </th>
-// <th>
-//   <abbr title="Unit">Unit</abbr>
-// </th>
-// <th>
-//   <abbr title="Selling Price">Selling Price</abbr>
-// </th>
-// <th>
-//   <abbr title="Amount">Amount</abbr>
-// </th>
-// <th>
-//   <abbr title="Billing Mode">Mode</abbr>
-// </th>
-// <th>
-//   <abbr title="Actions">Actions</abbr>
-// </th>
+const band = {
+  tariff: {
+    contracts: [
+      {
+        plans: [],
+      },
+    ],
+  },
+};
 
-const dummyData = [
-  {
-    category: "Treatment",
-    name: "Dummy data",
-    quantity: "1",
-    baseunit: "test",
-    sellingprice: "1000",
-    amount: "1000",
-    billMode: {
-      type: "Cash",
+const bandServer = {patch: ""};
+
+const selectedBand = {}; //get your selected band to update the plan
+const selectedContract = {}; //get selected contract the band is in
+const selectedPlan = {}; //get the plan you want to update
+
+const handleUpdatePlan = data => {
+  //Get your previous contracts from the band
+  const prevContracts = selectedBand.tariff.contracts;
+
+  //get your previous plans from the contract the plan you want to update is in
+  const prevPlans = selectedContract.plans || [];
+
+  //update the plan with your new data and parse previous data before new data
+  const updatedPlan = {
+    ...selectedPlan,
+    ...data,
+  };
+
+  //put the updated plan in the previous plans array by mapping through
+  const newPlans = prevPlans.map(item => {
+    if (item._id === selectedPlan._id) {
+      return updatedPlan;
+    } else {
+      return item;
+    }
+  });
+
+  //put the new plans in the contract that you selected from start that has the plan you want to updated
+  const updatedContract = {
+    ...selectedContract,
+    plans: newPlans,
+  };
+
+  //put the new contract that you updated into the list of contracts
+  const newContracts = prevContracts.map(item => {
+    if (item._id === updatedContract._id) {
+      return updatedContract;
+    } else {
+      return item;
+    }
+  });
+
+  //put the list of contracts into the tariff of the band that you selected to update the plan in the first place
+  const newBand = {
+    ...selectedBand,
+    tariff: {
+      serviceName: "",
+      contracts: newContracts,
     },
-  },
-  {
-    category: "Accessment",
-    name: "Test Table",
-    quantity: "2",
-    baseunit: "test-test",
-    sellingprice: "1500",
-    amount: "3000",
-    billMode: {
-      type: "Cash",
-    },
-  },
-  {
-    category: "Check-up",
-    name: "John Doe",
-    quantity: "4",
-    baseunit: "test-joe",
-    sellingprice: "300",
-    amount: "1200",
-    billMode: {
-      type: "Transfer",
-    },
-  },
-];
+  };
+
+  //update the band
+  bandServer.patch(selectedBand._id, newBand);
+};

@@ -37,18 +37,18 @@ export const menuItems = [
     exact: true,
     to: "/app/appointments",
     iconClassName: "bi bi-calendar",
-    subMenus: [
-      {name: "Blood Bank", to: "/app/appointments/blood-bank"},
-      {name: "Clinic", to: "/app/appointments/clinic"},
-      {name: "CRM", to: "/app/appointments/crm"},
-      {name: "Global", to: "/app/appointments/global"},
-      {name: "Immunization", to: "/app/appointments/immunization"},
-      {name: "Labour Ward", to: "/app/appointments/labour-ward"},
-      {name: "Pharmacy", to: "/app/appointments/pharmacy"},
-      {name: "Radiology", to: "/app/appointments/radiology"},
-      {name: "Referral", to: "/app/appointments/referral"},
-      {name: "Theatre", to: "/app/appointments/theatre"},
-    ],
+    // subMenus: [
+    //   {name: "Blood Bank", to: "/app/appointments/blood-bank"},
+    //   {name: "Clinic", to: "/app/appointments/clinic"},
+    //   {name: "CRM", to: "/app/appointments/crm"},
+    //   {name: "Global", to: "/app/appointments/global"},
+    //   {name: "Immunization", to: "/app/appointments/immunization"},
+    //   {name: "Labour Ward", to: "/app/appointments/labour-ward"},
+    //   {name: "Pharmacy", to: "/app/appointments/pharmacy"},
+    //   {name: "Radiology", to: "/app/appointments/radiology"},
+    //   {name: "Referral", to: "/app/appointments/referral"},
+    //   {name: "Theatre", to: "/app/appointments/theatre"},
+    // ],
   },
 
   {
@@ -281,13 +281,21 @@ export const menuItems = [
     ],
   },
 
-  // {
-  //   name: "Corporate",
-  //   exact: true,
-  //   to: "/app/corporate",
-  //   iconClassName: "bi bi-person",
-  //   //subMenus: [{name: "Complaints", to: "/app/complaints"}],
-  // },
+  {
+    name: "Corporate",
+    exact: true,
+    to: "/app/corporate",
+    iconClassName: "bi bi-person",
+    subMenus: [
+      {name: "Premiums", to: "/app/corporate/premiums"},
+      {name: "Beneficiary", to: "/app/corporate/beneficiary"},
+      {name: "Claims", to: "/app/corporate/claims"},
+      {name: "Policy", to: "/app/corporate/policy"},
+      {name: "Health Plan", to: "/app/corporate/healthplan"},
+      {name: "Check In", to: "/app/corporate/Checkin"},
+      {name: "Dashboard", to: "/app/corporate/dashboard"},
+    ],
+  },
 
   {
     name: "Complaints",
@@ -322,6 +330,7 @@ export const menuItems = [
       {name: "Email", to: "/app/communication/email"},
       // {name: "IVR", to: "/app/communication/ivr"},
       {name: "Chats", to: "/app/communication/chats"},
+      {name: "Notifications", to: "/app/communication/notifications"},
     ],
   },
   {

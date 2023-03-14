@@ -27,9 +27,19 @@ import Input from "../../../../components/inputs/basic/Input";
 import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
+<<<<<<< HEAD
 
 const ClaimCreateComponent = ({handleGoBack}) => {
   const claimsServer = client.service("claims");
+=======
+import TextAreaVoiceAndText from "../../../../components/inputs/basic/Textarea/VoiceAndText";
+
+const random = require("random-string-generator");
+
+const ClaimCreateComponent = ({handleGoBack}) => {
+  const claimsServer = client.service("claims");
+  const preAuthServer = client.service("preauth");
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
@@ -46,6 +56,15 @@ const ClaimCreateComponent = ({handleGoBack}) => {
   const [appointmentModal, setAppointmentModal] = useState(false);
   const [selectedAdmission, setSelectedAdmission] = useState(null);
   const [admissonModal, setAdmissionModal] = useState(false);
+<<<<<<< HEAD
+=======
+  const [preAuthServices, setPreAuthServices] = useState([]);
+  const [clinicFindInputType, setClinicFindInputType] = useState("type");
+  const [investigationInputType, setInvestigationInputType] = useState("type");
+  const [drugsInputType, setDrugsInputType] = useState("type");
+  const [treatmentInputType, setTreatmentInputType] = useState("type");
+  const [commentsInputType, setCommentsInputType] = useState("type");
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
   const {control, handleSubmit, register, reset, watch, setValue} = useForm({
     defaultValues: {
@@ -120,6 +139,10 @@ const ClaimCreateComponent = ({handleGoBack}) => {
   }, [state.ClientModule]);
 
   useEffect(() => {
+<<<<<<< HEAD
+=======
+    hideActionLoader();
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
     getPolicy();
   }, [getPolicy]);
 
@@ -143,11 +166,27 @@ const ClaimCreateComponent = ({handleGoBack}) => {
     // delete clinical_data.claimtype;
     // delete clinical_data.comments;
     // delete clinical_data.patientstate;
+<<<<<<< HEAD
 
     const document = {
       policy: policy,
       hmopayer: policy.organization,
       sponsor: policy.sponsor,
+=======
+    const statushx = {
+      status: "Submitted",
+      date: new Date(),
+      employeename: `${employee.firstname} ${employee.lastname}`,
+      employeeId: employee.userId,
+      comment: "Submission of claim",
+    };
+
+    const document = {
+      policy: policy,
+      hmopayer: policy?.organization,
+      statushx: statushx,
+      sponsor: policy?.sponsor,
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
       claimtype: data.claimtype,
       totalamount: data.totalamount,
       comments: data.comments,
@@ -159,8 +198,13 @@ const ClaimCreateComponent = ({handleGoBack}) => {
       submissionby: employee,
       status: "Submitted",
       claimid: random(12, "uppernumeric"),
+<<<<<<< HEAD
       appointmentid: selectedAppointment?._id,
       admissionid: selectedAdmission?._id,
+=======
+      appointmentid: selectedAppointment,
+      admissionid: selectedAdmission,
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
       geolocation: {
         type: "Point",
         coordinates: [state.coordinates.latitude, state.coordinates.longitude],
@@ -172,7 +216,11 @@ const ClaimCreateComponent = ({handleGoBack}) => {
       },
     };
 
+<<<<<<< HEAD
     console.log(document);
+=======
+    // console.log(document);
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
     await claimsServer
       .create(document)
@@ -208,6 +256,39 @@ const ClaimCreateComponent = ({handleGoBack}) => {
     setAdmissionModal(false);
   };
 
+<<<<<<< HEAD
+=======
+  const checkForPreauthorization = useCallback(() => {
+    if (!state.ClientModule.selectedClient._id) return;
+    setPreAuthServices([]);
+    preAuthServer
+      .find({
+        query: {
+          "provider._id": user.currentEmployee.facilityDetail._id,
+          "beneficiary._id": state.ClientModule.selectedClient?._id,
+          $limit: 100,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      })
+      .then(res => {
+        const data = res.data[0].services;
+        const approvedServices = data.filter(
+          item => item.status.toLowerCase() === "approved"
+        );
+        //setPreAuthServices(approvedServices);
+        setServices([...approvedServices, ...services]);
+        // setServices(prev => [...res.data[0].services, ...prev]);
+        //console.log(res);
+      });
+  }, [state.ClientModule.selectedClient]);
+
+  useEffect(() => {
+    checkForPreauthorization();
+  }, [checkForPreauthorization]);
+
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
   return (
     <Box
       sx={{
@@ -247,7 +328,11 @@ const ClaimCreateComponent = ({handleGoBack}) => {
       <ModalBox
         open={diagnosisModal}
         onClose={() => setDiagnosisModal(false)}
+<<<<<<< HEAD
         header="Add Complaints to Claim"
+=======
+        header="Add Diagnosis to Claim"
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
       >
         <ClaimCreateDiagnosis
           closeModal={() => setDiagnosisModal(false)}
@@ -424,14 +509,29 @@ const ClaimCreateComponent = ({handleGoBack}) => {
           </Box>
 
           <Box mb={2}>
+<<<<<<< HEAD
             <FormsHeaderText text="Clinical Findings" />
+=======
+            <TextAreaVoiceAndText
+              label="Clinical Findings"
+              type={clinicFindInputType}
+              changeType={setClinicFindInputType}
+              register={register("clinical_findings")}
+              voiceOnChange={value => setValue("clinical_findings", value)}
+            />
+            {/* <FormsHeaderText text="Clinical Findings" />
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
             <Box>
               <Textarea
                 placeholder="Write here..."
                 register={register("clinical_findings")}
               />
+<<<<<<< HEAD
             </Box>
+=======
+            </Box> */}
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
           </Box>
 
           <Box mb={2}>
@@ -472,36 +572,81 @@ const ClaimCreateComponent = ({handleGoBack}) => {
           </Box>
 
           <Box mb={2}>
+<<<<<<< HEAD
             <FormsHeaderText text="Investigation" />
+=======
+            <TextAreaVoiceAndText
+              label="Investigation"
+              type={investigationInputType}
+              changeType={setInvestigationInputType}
+              register={register("investigation")}
+              voiceOnChange={value => setValue("investigation", value)}
+            />
+            {/* <FormsHeaderText text="Investigation" />
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
             <Box>
               <Textarea
                 placeholder="Write here..."
                 register={register("investigation")}
               />
+<<<<<<< HEAD
             </Box>
           </Box>
 
           <Box mb={2}>
             <FormsHeaderText text="Drugs" />
+=======
+            </Box> */}
+          </Box>
+
+          <Box mb={2}>
+            <TextAreaVoiceAndText
+              label="Drugs"
+              type={drugsInputType}
+              changeType={setDrugsInputType}
+              register={register("drugs")}
+              voiceOnChange={value => setValue("drugs", value)}
+            />
+            {/* <FormsHeaderText text="Drugs" />
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
             <Box>
               <Textarea
                 placeholder="Write here..."
                 register={register("drugs")}
               />
+<<<<<<< HEAD
             </Box>
           </Box>
 
           <Box mb={2}>
             <FormsHeaderText text="Treatment" />
+=======
+            </Box> */}
+          </Box>
+
+          <Box mb={2}>
+            <TextAreaVoiceAndText
+              label="Treatments"
+              type={treatmentInputType}
+              changeType={setTreatmentInputType}
+              register={register("treatment")}
+              voiceOnChange={value => setValue("treatment", value)}
+            />
+            {/* <FormsHeaderText text="Treatment" />
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
             <Box>
               <Textarea
                 placeholder="Write here..."
                 register={register("treatment")}
               />
+<<<<<<< HEAD
             </Box>
+=======
+            </Box> */}
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
           </Box>
 
           <Box
@@ -562,7 +707,11 @@ const ClaimCreateComponent = ({handleGoBack}) => {
               <CustomTable
                 title={""}
                 columns={servicesColumns}
+<<<<<<< HEAD
                 data={services}
+=======
+                data={[...services]}
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
                 pointerOnHover
                 highlightOnHover
                 striped
@@ -579,14 +728,29 @@ const ClaimCreateComponent = ({handleGoBack}) => {
           </Box>
 
           <Box mb={2}>
+<<<<<<< HEAD
             <FormsHeaderText text="Comments" />
+=======
+            <TextAreaVoiceAndText
+              label="Comments"
+              type={commentsInputType}
+              changeType={setCommentsInputType}
+              register={register("comments")}
+              voiceOnChange={value => setValue("comments", value)}
+            />
+            {/* <FormsHeaderText text="Comments" />
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
             <Box>
               <Textarea
                 placeholder="Write here..."
                 register={register("comments")}
               />
+<<<<<<< HEAD
             </Box>
+=======
+            </Box> */}
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
           </Box>
         </Box>
       </Box>
@@ -729,7 +893,15 @@ export const SelectAppointment = ({selectAppointment}) => {
         width: "85vw",
       }}
     >
+<<<<<<< HEAD
       <Box>
+=======
+      <Box
+        sx={{
+          width: "85vw",
+        }}
+      >
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
         <CustomTable
           title={""}
           columns={appointmentColumns}
@@ -791,7 +963,11 @@ export const SelectAdmission = ({selectAdmission}) => {
       name: "Date/Time",
       key: "createdAt",
       description: "Date/Time",
+<<<<<<< HEAD
       selector: row => format(new Date(row?.createdAt), "dd/MM/yyyy HH:mm"),
+=======
+      selector: row => dayjs(row?.createdAt).format("DD/MM/YYYY HH:mm"),
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
       sortable: true,
       required: true,
       inputType: "TEXT",

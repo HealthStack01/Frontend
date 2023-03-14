@@ -10,6 +10,7 @@ export default function TheatreHome({children}) {
   // const [activeModal, setActiveModal]=useState("modal is-active ")
   const {state, setState} = useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
+<<<<<<< HEAD
   // eslint-disable-next-line
   const [selectedStore, setSelectedStore] = useState(
     state.TheatreModule.selectedTheatre
@@ -27,6 +28,44 @@ export default function TheatreHome({children}) {
 
     if (notSelected) {
       handleChangeStore();
+=======
+
+  const employeeLocations = user.currentEmployee.locations || [];
+  const theatreLocations = employeeLocations.filter(
+    item => item.locationType === "Theatre"
+  );
+
+  const location = state.TheatreModule.selectedTheatre._id
+    ? state.TheatreModule.selectedTheatre
+    : theatreLocations[0];
+
+  const [selectedStore, setSelectedStore] = useState(location);
+
+  useEffect(() => {
+    const notSelected =
+      selectedStore && Object.keys(selectedStore).length === 0;
+
+    if (notSelected) {
+      handleChangeStore();
+    } else {
+      const newEmployeeLocation = {
+        locationName: selectedStore.name,
+        locationType: "Theatre",
+        locationId: selectedStore._id,
+        facilityId: user.currentEmployee.facilityDetail._id,
+        facilityName: user.currentEmployee.facilityDetail.facilityName,
+        case: "theatre",
+      };
+
+      setState(prevstate => ({
+        ...prevstate,
+        employeeLocation: newEmployeeLocation,
+        TheatreModule: {
+          ...prevstate.TheatreModule,
+          selectedTheatre: selectedStore,
+        },
+      }));
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
     }
     return () => {};
   }, []);

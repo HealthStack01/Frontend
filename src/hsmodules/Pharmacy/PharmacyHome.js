@@ -11,6 +11,7 @@ export default function PharmacyHome({children}) {
   const [showModal, setShowModal] = useState(false);
   const {user, setUser} = useContext(UserContext);
 
+<<<<<<< HEAD
   const [selectedStore, setSelectedStore] = useState(
     state.StoreModule.selectedStore
   );
@@ -20,6 +21,18 @@ export default function PharmacyHome({children}) {
   //   setState(state);
   //   console.log(state.showStoreModal);
   // };
+=======
+  const employeeLocations = user.currentEmployee.locations || [];
+  const pharmacyLocations = employeeLocations.filter(
+    item => item.locationType === "Pharmacy"
+  );
+
+  const location = state.StoreModule.selectedStore._id
+    ? state.StoreModule.selectedStore
+    : pharmacyLocations[0];
+
+  const [selectedStore, setSelectedStore] = useState(location);
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
   const handleCloseModal = () => [
     setState(prev => ({
@@ -29,10 +42,36 @@ export default function PharmacyHome({children}) {
   ];
 
   useEffect(() => {
+<<<<<<< HEAD
     const notSelected = Object.keys(selectedStore).length === 0;
 
     if (notSelected) {
       handleChangeStore();
+=======
+    const notSelected =
+      selectedStore && Object.keys(selectedStore).length === 0;
+
+    if (notSelected) {
+      handleChangeStore();
+    } else {
+      const newEmployeeLocation = {
+        locationName: selectedStore.name,
+        locationType: "Pharmacy",
+        locationId: selectedStore._id,
+        facilityId: user.currentEmployee.facilityDetail._id,
+        facilityName: user.currentEmployee.facilityDetail.facilityName,
+        case: "pharmacy",
+      };
+
+      setState(prevstate => ({
+        ...prevstate,
+        employeeLocation: newEmployeeLocation,
+        StoreModule: {
+          ...prevstate.StoreModule,
+          selectedStore: selectedStore,
+        },
+      }));
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
     }
     return () => {};
   }, []);

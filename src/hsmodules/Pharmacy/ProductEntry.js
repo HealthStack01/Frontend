@@ -137,7 +137,11 @@ export function ProductEntryCreate({closeModal}) {
   const [costprice, setCostprice] = useState("");
   const [storeId, setStoreId] = useState("");
   const [productItem, setProductItem] = useState([]);
+<<<<<<< HEAD
   const {state} = useContext(ObjectContext);
+=======
+  const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
   const [confirmDialog, setConfirmDialog] = useState(false);
 
   /*  const [productEntry,setProductEntry]=useState({
@@ -215,6 +219,10 @@ export function ProductEntryCreate({closeModal}) {
   };
 
   const onSubmit = async e => {
+<<<<<<< HEAD
+=======
+    showActionLoader();
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
     // e.preventDefault();
     setMessage("");
     setError(false);
@@ -254,7 +262,11 @@ export function ProductEntryCreate({closeModal}) {
       type: "Pharmacy",
       title: "New product(s) in Pharmacy Inventory",
       description: `${user.firstname} ${user.lastname} added new product(s) to Pharmacy Invetory`,
+<<<<<<< HEAD
       facilityId: user.currentEmployee.facilityDetail.facilityDetail._id,
+=======
+      facilityId: user.currentEmployee.facilityDetail._id,
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
       sender: `${user.firstname} ${user.lastname}`,
       senderId: user._id,
       pageUrl: "/app/pharmacy/storeinventory",
@@ -268,6 +280,10 @@ export function ProductEntryCreate({closeModal}) {
       .then(async res => {
         await notificationsServer.create(notificationObj);
         //console.log(JSON.stringify(res))
+<<<<<<< HEAD
+=======
+        hideActionLoader();
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
         resetform();
         /*  setMessage("Created ProductEntry successfully") */
         setSuccess(true);
@@ -277,6 +293,10 @@ export function ProductEntryCreate({closeModal}) {
         setProductItem([]);
       })
       .catch(err => {
+<<<<<<< HEAD
+=======
+        hideActionLoader();
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
         toast.error("Error creating ProductEntry " + err);
         setConfirmDialog(false);
       });
@@ -448,10 +468,27 @@ export function ProductEntryCreate({closeModal}) {
           >
             <FormsHeaderText text="Add Product Items" />
 
+<<<<<<< HEAD
             <GlobalCustomButton onClick={handleClickProd}>
               <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
               Add Product Item
             </GlobalCustomButton>
+=======
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+              }}
+            >
+              <UploadExcelSheet updateState={setProductItem} />
+
+              <GlobalCustomButton onClick={handleClickProd}>
+                <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add Product
+              </GlobalCustomButton>
+            </Box>
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
           </Box>
 
           <Grid container spacing={1}>
@@ -692,6 +729,10 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
   };
 
   const getNewFacilities = async () => {
+<<<<<<< HEAD
+=======
+    setLoading(true);
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
     if (user.currentEmployee) {
       const findProductEntry = await ProductEntryServ.find({
         query: {
@@ -709,6 +750,10 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
         .then(resp => {
           setTotal(resp.total);
           setFacilities(resp.data);
+<<<<<<< HEAD
+=======
+          setLoading(false);
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
           if (resp.total > resp.data.length) {
             setNext(true);
 
@@ -718,6 +763,10 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
           }
         })
         .catch(err => {
+<<<<<<< HEAD
+=======
+          setLoading(false);
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
           console.log(err);
         });
     } else {
@@ -732,11 +781,19 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
         });
 
         await setFacilities(findProductEntry.data);
+<<<<<<< HEAD
+=======
+        setLoading(false);
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
       }
     }
   };
 
   const getUpdatedFacilities = async () => {
+<<<<<<< HEAD
+=======
+    setLoading(true);
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
     const findProductEntry = await ProductEntryServ.find({
       query: {
         facility: user.currentEmployee.facilityDetail._id,
@@ -751,6 +808,10 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
       .then(resp => {
         setTotal(resp.total);
         updatelist(resp.data);
+<<<<<<< HEAD
+=======
+        setLoading(false);
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
         //setFacilities(resp.data)
         if (resp.total > resp.data.length) {
           setNext(true);
@@ -760,6 +821,10 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
         }
       })
       .catch(err => {
+<<<<<<< HEAD
+=======
+        setLoading(false);
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
         console.log(err);
       });
   };

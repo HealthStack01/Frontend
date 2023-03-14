@@ -4,7 +4,11 @@ import {lazy} from "react";
 const Policy = lazy(() => import("../ManagedCare/Policy"));
 const ExternalPolicy = lazy(() => import("../ManagedCare/externalPolicy"));
 const Beneficiary = lazy(() => import("../ManagedCare/Beneficiary"));
+<<<<<<< HEAD
 const TarrifList = lazy(() => import("../ManagedCare/Tarrifs"));
+=======
+const Tariff = lazy(() => import("../ManagedCare/Tarrifs"));
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
 const HealthPlan = lazy(() => import("../ManagedCare/HealthPlan"));
 const Referral = lazy(() => import("../ManagedCare/Referral"));
 
@@ -123,7 +127,11 @@ export const managedCareRoutes = [
   },
   {
     path: "/app/managed-care/tariff",
+<<<<<<< HEAD
     Component: TarrifList,
+=======
+    Component: Tariff,
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
   },
   {
     path: "/app/managed-care/preauthorization",

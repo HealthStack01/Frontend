@@ -10,6 +10,15 @@ const ClientDashboard = lazy(() =>
   import("../dashBoardUiComponent/@modules/ClientDashboard")
 );
 
+<<<<<<< HEAD
+=======
+const AppointmentComponent = lazy(() =>
+  import("../../components/appointment/Appointment")
+);
+
+const ClientAppointments = () => <AppointmentComponent module="Client" />;
+
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
 export const clientRoutes = [
   {
     path: "/app/clients/documentation",
@@ -33,7 +42,11 @@ export const clientRoutes = [
   },
   {
     path: "/app/clients/appointments",
+<<<<<<< HEAD
     Component: ClientsAppointments,
+=======
+    Component: ClientAppointments,
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
   },
   {
     path: "/app/clients/clients",

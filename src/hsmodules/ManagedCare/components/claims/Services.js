@@ -34,6 +34,13 @@ const ClaimCreateServices = ({setServices, closeModal}) => {
     const serviceObj = {
       ...data,
       service: service,
+<<<<<<< HEAD
+=======
+      status: "Submitted",
+      _id: uuidv4(),
+      pay_quantity: data.quantity,
+      pay_amount: data.amount,
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
     };
     //return console.log(serviceObj);
     setServices(prev => [serviceObj, ...prev]);
@@ -48,7 +55,11 @@ const ClaimCreateServices = ({setServices, closeModal}) => {
   };
 
   const handleGetService = data => {
+<<<<<<< HEAD
     console.log(data);
+=======
+    //console.log(data);
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
     setService(data);
     setValue("unitprice", data ? data.price : 0);
   };

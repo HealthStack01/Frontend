@@ -428,7 +428,7 @@ export function FundsManagementDetails({ handleGoBack, isModal }) {
 	const FundMgtServ = client.service('fundmgt');
 
 	const fundmgt = state.ManagedCareModule.selectedEpid;
-
+        console.log(fundmgt)
 	const onSubmit = async (data) => {
 		data.organizationName = fundmgt.organizationName;
 		data.organizationId = fundmgt.organizationId;

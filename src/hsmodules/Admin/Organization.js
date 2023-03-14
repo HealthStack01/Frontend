@@ -32,6 +32,7 @@ import axios from "axios";
 import {getBase64} from "../helpers/getBase64";
 import {BeneList, PolicyList} from "../ManagedCare/Corporate";
 import Claims from "../ManagedCare/Claims";
+import PremiumPayment from "../ManagedCare/Claims";
 
 const AdminOrganization = ({propId}) => {
   const facilityServer = client.service("facility");
@@ -45,6 +46,7 @@ const AdminOrganization = ({propId}) => {
   const [modulesModal, setModulesModal] = useState(false);
   const [logoUploadModal, setLogoUploadModal] = useState(false);
   const [view, setView] = useState("details");
+  const [currentPage, setCurrentPage] = useState(0);
 
   const navigate = useNavigate();
 
@@ -179,8 +181,10 @@ const AdminOrganization = ({propId}) => {
             </MenuItem>
           </Menu>
         </Box>
+        {/* {currentPage === 1 && <PolicyList standAlone={facility?._id || ""} />}
+        {currentPage === 2 && <PremiumPayment />} */}
 
-        {facility?.facilityType?.toLowerCase() !== "corporate" ? (
+        {facility?.facilityType?.toLowerCase() === "corporate" ? (
           <Box sx={{display: "flex"}} gap={2}>
             <GlobalCustomButton
               color="secondary"
@@ -275,25 +279,21 @@ const AdminOrganization = ({propId}) => {
           </Box>
         )}
       </Box>
-
       {view === "claims" && (
         <Box>
           <Claims standAlone={true} />
         </Box>
       )}
-
       {view === "policy" && (
         <Box>
           <PolicyList standAlone={facility?._id || ""} />
         </Box>
       )}
-
       {view === "beneficiaries" && (
         <Box>
           <BeneList standAlone={facility?._id || ""} />
         </Box>
       )}
-
       {view === "details" && (
         <>
           <Box
@@ -302,18 +302,43 @@ const AdminOrganization = ({propId}) => {
             sx={{display: "flex", justifyContent: "space-between"}}
           >
             <FormsHeaderText text="Organization Details" />
-
+          </Box>
+          <Box
+            mb={2}
+            p={2}
+            sx={{display: "flex", justifyContent: "space-between"}}
+          >
+            {" "}
             <Box sx={{display: "flex"}} gap={2}>
               {!edit ? (
-                <GlobalCustomButton onClick={() => setEdit(true)}>
-                  <EditIcon fontSize="small" />
-                  Edit Details
-                </GlobalCustomButton>
+                <>
+                  <GlobalCustomButton onClick={() => setEdit(true)}>
+                    <EditIcon fontSize="small" />
+                    Edit Details
+                  </GlobalCustomButton>
+                  {/* <GlobalCustomButton
+                color="secondary"
+                variant={view === "policy" ? "outlined" : "contained"}
+                onClick={() => setView("policy")}
+                text="Policy"
+                customStyles={{ margin: "0 .8rem" }}
+              />
+              <GlobalCustomButton
+                color="primary"
+                variant={view === "premium" ? "outlined" : "contained"}
+                onClick={() => setView("premium")}
+                text="Premium"
+                customStyles={{ marginRight: ".8rem" }}
+              /> */}
+                </>
               ) : (
                 <>
                   <GlobalCustomButton
                     color="error"
-                    onClick={() => setEdit(false)}
+                    onClick={() => {
+                      setEdit(false);
+                      setView("details");
+                    }}
                   >
                     <EditIcon fontSize="small" />
                     Cancel Edit
@@ -427,7 +452,7 @@ const AdminOrganization = ({propId}) => {
           </Box>
         </>
       )}
-
+      {view === "premium" && <PremiumPayment />}
       <ModalBox
         open={modulesModal}
         onClose={() => setModulesModal(false)}
@@ -435,14 +460,13 @@ const AdminOrganization = ({propId}) => {
       >
         <OrganizationModules closeModal={() => setModulesModal(false)} />
       </ModalBox>
-
       <ModalBox
         open={logoUploadModal}
         onClose={() => setLogoUploadModal(false)}
         header="Upload Organization Logo"
       >
         <OrganaizationLogoUpload closeModal={() => setLogoUploadModal(false)} />
-      </ModalBox>
+      </ModalBox>{" "}
     </Box>
   );
 };

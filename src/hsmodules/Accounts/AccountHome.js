@@ -1,7 +1,7 @@
 import React from 'react'
 import LocationModal from '../../components/inputs/LocationModal';
 
-// account home function
+// account 
 export default function AccountHome() {
     const locationOptions = []
     const open = false;

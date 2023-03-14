@@ -26,12 +26,15 @@ const CRMTaskDetail = ({closeModal, updateTask}) => {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [edit, setEdit] = useState(false);
 
+<<<<<<< HEAD
   const onSubmit = data => {
     updateTask(data);
     closeModal();
     //reset(formDefaultValues);
   };
 
+=======
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
   useEffect(() => {
     const task = state.TaskModule.selectedTask;
     //console.log(task);
@@ -59,7 +62,10 @@ const CRMTaskDetail = ({closeModal, updateTask}) => {
       updatedBy: employee.userId,
       updatedByName: `${employee.firstname} ${employee.lastname}`,
     };
+<<<<<<< HEAD
     //{...item, ...data, ...selectedEmployee, ...udpateInfo};
+=======
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
     const newTasks = prevTasks.map(item => {
       if (item.taskId === currentTask.taskId) {
@@ -74,25 +80,36 @@ const CRMTaskDetail = ({closeModal, updateTask}) => {
       }
     });
 
+<<<<<<< HEAD
     // return console.log(newTasks);
 
+=======
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
     const documentId = state.ClaimsModule.selectedClaim._id;
     await claimsServer
       .patch(documentId, {task: newTasks})
       .then(res => {
         hideActionLoader();
+<<<<<<< HEAD
         //setContacts(res.contacts);
+=======
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
         setState(prev => ({
           ...prev,
           ClaimsModule: {...prev.ClaimsModule, selectedClaim: res},
         }));
         closeModal();
         toast.success(`You have successfully Updated Task`);
+<<<<<<< HEAD
         //setSuccess(true);
         //setReset(true);
       })
       .catch(err => {
         //setReset(false);
+=======
+      })
+      .catch(err => {
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
         hideActionLoader();
         toast.error(`Sorry, You weren't able to Update Task!. ${err}`);
       });

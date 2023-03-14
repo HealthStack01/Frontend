@@ -10,23 +10,44 @@ export default function InventoryHome({children}) {
   // const [activeModal, setActiveModal]=useState("modal is-active ")
   const {state, setState} = useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
-  // eslint-disable-next-line
-  const [selectedInventory, setSelectedStore] = useState(
-    state.InventoryModule.selectedInventory
-  );
-  const [showModal, setShowModal] = useState(false);
 
-  // const handleCloseModal = () => {
-  //   state.showStoreModal = "modal";
-  //   setState(state);
-  //   console.log(state.showStoreModal);
-  // };
+  const employeeLocations = user.currentEmployee.locations || [];
+  const inventoryLocations = employeeLocations.filter(
+    item => item.locationType === "Store"
+  );
+
+  const location = state.InventoryModule.selectedInventory._id
+    ? state.InventoryModule.selectedInventory
+    : inventoryLocations[0];
+
+  const [selectedInventory, setSelectedStore] = useState(location);
 
   useEffect(() => {
-    const notSelected = Object.keys(selectedInventory).length === 0;
+    const notSelected =
+      selectedInventory && Object.keys(selectedInventory).length === 0;
 
     if (notSelected) {
       handleChangeStore();
+    } else {
+      const newEmployeeLocation = {
+        locationName: selectedInventory.name,
+        locationType: "Store",
+        locationId: selectedInventory._id,
+        facilityId: user.currentEmployee.facilityDetail._id,
+        facilityName: user.currentEmployee.facilityDetail.facilityName,
+        case: "inventory",
+      };
+
+      const newStoreModule = {
+        selectedInventory: selectedInventory,
+        show: "detail",
+      };
+
+      setState(prevstate => ({
+        ...prevstate,
+        employeeLocation: newEmployeeLocation,
+        InventoryModule: newStoreModule,
+      }));
     }
     return () => {};
   }, []);

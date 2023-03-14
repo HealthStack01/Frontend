@@ -18,16 +18,27 @@ import ActionLoader from "./components/action-loader/Action-Loader";
 
 function App() {
   const [state, setState] = useState({
+    CorporateModule: {
+      selectedPolicy: {},
+      selectedClaim: {},
+      selectedBeneficiary: {},
+    },
     ClaimsModule: {
       selectedClaim: {},
+      selectedService: {},
     },
     PreAuthModule: {
       selectedPreAuth: {},
+      selectedService: {},
     },
     CommunicationModule: {
       defaultEmail: {},
       configEmailModal: false,
     },
+    NotificationModule: {
+      selectedNotification: {},
+    },
+
     PremiumModule: {
       selectedPremium: {},
       selectedPlans: [],
@@ -193,6 +204,7 @@ function App() {
       selectedCheckedIn: {},
       show: "list",
       selectedAppointment: {},
+      selectedPatient: null,
     },
     OrderModule: {
       show: "list",
@@ -224,7 +236,7 @@ function App() {
     },
     TariffModule: {
       show: "list",
-      selectedContracts: {}
+      selectedContracts: {},
     },
     financeModule: {
       show: "list",

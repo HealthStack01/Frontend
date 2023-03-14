@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 export const getComplaintColumns = deleteAction => {
+=======
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import {IconButton} from "@mui/material";
+
+export const getComplaintColumns = (deleteAction, omitDelete = true) => {
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
   const columns = [
     {
       name: "S/N",
@@ -26,12 +33,38 @@ export const getComplaintColumns = deleteAction => {
       inputType: "HIDDEN",
       width: "100px",
     },
+<<<<<<< HEAD
+=======
+
+    {
+      name: "Delete",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => (
+        <IconButton
+          size="small"
+          onClick={() => deleteAction(row)}
+          sx={{color: "red"}}
+        >
+          <DeleteOutlineIcon fontSize="small" />
+        </IconButton>
+      ),
+      sortable: true,
+      inputType: "HIDDEN",
+      omit: omitDelete,
+      width: "100px",
+    },
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
   ];
 
   return columns;
 };
 
+<<<<<<< HEAD
 export const getDiagnosisColumns = deleteAction => {
+=======
+export const getDiagnosisColumns = (deleteAction, omitDelete = true) => {
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
   const columns = [
     {
       name: "S/N",
@@ -58,12 +91,37 @@ export const getDiagnosisColumns = deleteAction => {
       sortable: true,
       inputType: "HIDDEN",
     },
+<<<<<<< HEAD
+=======
+    {
+      name: "Delete",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => (
+        <IconButton
+          size="small"
+          onClick={() => deleteAction(row)}
+          sx={{color: "red"}}
+        >
+          <DeleteOutlineIcon fontSize="small" />
+        </IconButton>
+      ),
+      sortable: true,
+      inputType: "HIDDEN",
+      omit: omitDelete,
+      width: "100px",
+    },
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
   ];
 
   return columns;
 };
 
+<<<<<<< HEAD
 export const getServicesColumns = deleteAction => {
+=======
+export const getServicesColumns = (deleteAction, omitDelete = true) => {
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
   const columns = [
     {
       name: "S/N",
@@ -116,6 +174,35 @@ export const getServicesColumns = deleteAction => {
       sortable: true,
       inputType: "TEXT",
     },
+<<<<<<< HEAD
+=======
+    {
+      name: "Status",
+      key: "submittedBill",
+      description: "Unit Price",
+      selector: row => row?.status,
+      sortable: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Delete",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => (
+        <IconButton
+          size="small"
+          onClick={() => deleteAction(row)}
+          sx={{color: "red"}}
+        >
+          <DeleteOutlineIcon fontSize="small" />
+        </IconButton>
+      ),
+      sortable: true,
+      inputType: "HIDDEN",
+      omit: omitDelete,
+      width: "100px",
+    },
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
   ];
 
   return columns;

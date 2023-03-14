@@ -32,6 +32,11 @@ import Input from "../../../../components/inputs/basic/Input";
 import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
+<<<<<<< HEAD
+=======
+import UpadteService from "./UpdateService";
+import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
 const ClaimDetailComponent = ({handleGoBack}) => {
   const claimsServer = client.service("claims");
@@ -54,6 +59,17 @@ const ClaimDetailComponent = ({handleGoBack}) => {
   const [assignModal, setAssignModal] = useState(false);
   const [statusModal, setStatusModal] = useState(false);
   const [view, setView] = useState("details");
+<<<<<<< HEAD
+=======
+  const [updateServiceModal, setUpdateServiceModal] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [confirmationDiaglog, setConfirmationDialog] = useState({
+    open: false,
+    message: "",
+    type: "",
+    action: null,
+  });
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
   const selectedClaim = state.ClaimsModule.selectedClaim;
   const clinical_details = selectedClaim?.clinical_details || {};
@@ -141,11 +157,16 @@ const ClaimDetailComponent = ({handleGoBack}) => {
     getPolicy();
   }, [getPolicy]);
 
+<<<<<<< HEAD
   const complaintColumns = getComplaintColumns();
   const diagnosisColumns = getDiagnosisColumns();
   const servicesColumns = getServicesColumns();
 
   const handleCreateClaim = async data => {
+=======
+  const handleUpdateClaim = async data => {
+    return console.log(data);
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
     if (!state.ClientModule.selectedClient._id)
       return toast.warning("Please add Client..");
 
@@ -264,6 +285,152 @@ const ClaimDetailComponent = ({handleGoBack}) => {
     },
   ];
 
+<<<<<<< HEAD
+=======
+  const onServiceRowClick = item => {
+    setState(prev => ({
+      ...prev,
+      ClaimsModule: {
+        ...prev.ClaimsModule,
+        selectedService: item,
+      },
+    }));
+    setUpdateServiceModal(true);
+  };
+
+  const servicesConditionalRowStyles = [
+    {
+      when: row => row?.status?.toLowerCase() === "rejected",
+      style: {
+        backgroundColor: "pink",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
+  const deleteDiagnosis = async diagnosis => {
+    showActionLoader();
+    const prevDiagnosis = selectedClaim.diagnosis || [];
+
+    const newDiagnosis = prevDiagnosis.filter(
+      item => item._id !== diagnosis._id
+    );
+
+    await claimsServer
+      .patch(selectedPreAuth._id, {diagnosis: newDiagnosis})
+      .then(res => {
+        hideActionLoader();
+        toast.success("You've successfully removed a Diagnosis");
+        setState(prev => ({
+          ...prev,
+          ClaimsModule: {
+            ...prev.ClaimsModule,
+            selectedClaim: res,
+          },
+        }));
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error(`Deleting Diagnosis failed due to ${err}`);
+      });
+  };
+
+  const deleteComplaint = async complaint => {
+    showActionLoader();
+    const prevComplaints = selectedClaim.complaints || [];
+
+    const newComplaints = prevComplaints.filter(
+      item => item._id !== complaint._id
+    );
+
+    await preAuthServer
+      .patch(selectedClaim._id, {complaints: newComplaints})
+      .then(res => {
+        hideActionLoader();
+        toast.success("You've successfully removed a Complaint");
+        setState(prev => ({
+          ...prev,
+          ClaimsModule: {
+            ...prev.ClaimsModule,
+            selectedClaim: res,
+          },
+        }));
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error(`Deleting Complaint failed due to ${err}`);
+      });
+  };
+
+  const deleteService = async service => {
+    showActionLoader();
+    const prevServices = selectedClaim.services || [];
+
+    const newServices = prevServices.filter(item => item._id !== service._id);
+
+    await claimsServer
+      .patch(selectedClaim._id, {services: newServices})
+      .then(res => {
+        hideActionLoader();
+        toast.success("You've successfully removed a Service");
+        setState(prev => ({
+          ...prev,
+          ClaimsModule: {
+            ...prev.ClaimsModule,
+            selectedClaim: res,
+          },
+        }));
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error(`Deleting Service failed due to ${err}`);
+      });
+  };
+
+  const confirmDeleteDiagnosis = diagnosis => {
+    setConfirmationDialog({
+      open: true,
+      message: `You're about to delete a Diagnosis ${diagnosis.diagnosis}`,
+      type: "warning",
+      action: () => deleteDiagnosis(diagnosis),
+    });
+  };
+
+  const confirmDeleteComplaint = complaint => {
+    setConfirmationDialog({
+      open: true,
+      message: `You're about to delete a Complaint ${complaint.complaint}`,
+      type: "warning",
+      action: () => deleteComplaint(complaint),
+    });
+  };
+
+  const confirmDeleteService = service => {
+    setConfirmationDialog({
+      open: true,
+      message: `You're about to delete a Service ${service.service.serviceName}`,
+      type: "warning",
+      action: () => deleteService(service),
+    });
+  };
+
+  const cancelConfirmDialog = () => {
+    setConfirmationDialog({
+      open: false,
+      message: "",
+      type: "",
+      action: null,
+    });
+  };
+
+  const complaintColumns = getComplaintColumns(confirmDeleteComplaint, !edit);
+  const diagnosisColumns = getDiagnosisColumns(confirmDeleteDiagnosis, !edit);
+  const servicesColumns = getServicesColumns(confirmDeleteService, !edit);
+
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
   return (
     <Box
       sx={{
@@ -273,6 +440,23 @@ const ClaimDetailComponent = ({handleGoBack}) => {
         position: "relative",
       }}
     >
+<<<<<<< HEAD
+=======
+      <CustomConfirmationDialog
+        open={confirmationDiaglog.open}
+        message={confirmationDiaglog.message}
+        confirmationAction={confirmationDiaglog.action}
+        type={confirmationDiaglog.type}
+        cancelAction={cancelConfirmDialog}
+      />
+      <ModalBox
+        open={updateServiceModal}
+        onClose={() => setUpdateServiceModal(false)}
+        header="Update Service"
+      >
+        <UpadteService closeModal={() => setUpdateServiceModal(false)} />
+      </ModalBox>
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
       <ModalBox
         open={statusModal}
         onClose={() => setStatusModal(false)}
@@ -280,7 +464,10 @@ const ClaimDetailComponent = ({handleGoBack}) => {
       >
         <ClaimsStatus closeModal={() => setStatusModal(false)} />
       </ModalBox>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
       <ModalBox
         open={assignModal}
         onClose={() => setAssignModal(false)}
@@ -288,7 +475,10 @@ const ClaimDetailComponent = ({handleGoBack}) => {
       >
         <AssignClaim closeModal={() => setAssignModal(false)} />
       </ModalBox>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
       <ModalBox
         open={complaintModal}
         onClose={() => setComplaintModal(false)}
@@ -299,7 +489,10 @@ const ClaimDetailComponent = ({handleGoBack}) => {
           setComplaints={setComplaints}
         />
       </ModalBox>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
       <ModalBox
         open={diagnosisModal}
         onClose={() => setDiagnosisModal(false)}
@@ -310,7 +503,10 @@ const ClaimDetailComponent = ({handleGoBack}) => {
           setDiagnosis={setDiagnosis}
         />
       </ModalBox>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
       <ModalBox
         open={serviceModal}
         onClose={() => setServiceModal(false)}
@@ -348,6 +544,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
             Back
           </GlobalCustomButton>
 
+<<<<<<< HEAD
           <Typography
             sx={{
               fontSize: "0.95rem",
@@ -356,6 +553,25 @@ const ClaimDetailComponent = ({handleGoBack}) => {
           >
             Claim's Detail - <FormsHeaderText text={selectedClaim?.preauthid} />
           </Typography>
+=======
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 0.5,
+            }}
+          >
+            <Typography
+              sx={{
+                fontSize: "0.85rem",
+                fontWeight: "600",
+              }}
+            >
+              Claim's Detail
+            </Typography>
+            <FormsHeaderText text={`- ${selectedClaim?.claimid}`} />
+          </Box>
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
         </Box>
 
         <Box
@@ -365,6 +581,32 @@ const ClaimDetailComponent = ({handleGoBack}) => {
           }}
           gap={1}
         >
+<<<<<<< HEAD
+=======
+          {user.currentEmployee.roles.includes("Managed Care Audit Claim") &&
+            (edit ? (
+              <>
+                <GlobalCustomButton color="info" onClick={() => setEdit(false)}>
+                  <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                  Cancel Edit
+                </GlobalCustomButton>
+
+                <GlobalCustomButton
+                  color="info"
+                  onClick={handleSubmit(handleUpdateClaim)}
+                >
+                  <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                  Update Claim
+                </GlobalCustomButton>
+              </>
+            ) : (
+              <GlobalCustomButton color="info" onClick={() => setEdit(true)}>
+                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                Edit Claim
+              </GlobalCustomButton>
+            ))}
+
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
           <GlobalCustomButton color="info" onClick={() => setView("details")}>
             <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
             Details
@@ -397,6 +639,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
             Change Status
           </GlobalCustomButton>
 
+<<<<<<< HEAD
           <GlobalCustomButton color="info" onClick={() => setAssignModal(true)}>
             <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
             Assign Claim
@@ -404,6 +647,22 @@ const ClaimDetailComponent = ({handleGoBack}) => {
         </Box>
       </Box>
 
+=======
+          {(user?.currentEmployee?.roles?.includes("Admin") ||
+            user?.currentEmployee?.roles?.includes(
+              "Managed Care Assign Claim"
+            )) && (
+            <GlobalCustomButton
+              color="info"
+              onClick={() => setAssignModal(true)}
+            >
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Assign Claim
+            </GlobalCustomButton>
+          )}
+        </Box>
+      </Box>
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
       <Box
         sx={{
           display: "flex",
@@ -467,6 +726,10 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                     required
                     control={control}
                     name="patientstate"
+<<<<<<< HEAD
+=======
+                    disabled={!edit}
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
                     options={[
                       {
                         label: "In Patient",
@@ -489,6 +752,10 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                       control={control}
                       name="admission_date"
                       label="Admission Date"
+<<<<<<< HEAD
+=======
+                      disabled={!edit}
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
                     />
                   </Grid>
 
@@ -497,11 +764,36 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                       control={control}
                       name="discharged_date"
                       label="Discharged Date"
+<<<<<<< HEAD
+=======
+                      disabled={!edit}
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
                     />
                   </Grid>
                 </Grid>
               )}
 
+<<<<<<< HEAD
+=======
+              <Box>
+                <FormsHeaderText text="Claim's Status History" />
+                <Box mt={1} mb={1}>
+                  <CustomTable
+                    title={""}
+                    columns={statushxColumns}
+                    data={selectedClaim.statushx || []}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    //onRowClicked={handleRow}
+                    CustomEmptyData="No Status History for this Claim yet..."
+                    progressPending={false}
+                    //conditionalRowStyles={conditionalRowStyles}
+                  />
+                </Box>
+              </Box>
+
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
               <Box mb={2}>
                 <Box
                   sx={{
@@ -513,10 +805,19 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                 >
                   <FormsHeaderText text="Complaints Data" />
 
+<<<<<<< HEAD
                   <GlobalCustomButton onClick={() => setComplaintModal(true)}>
                     <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                     New Complaint
                   </GlobalCustomButton>
+=======
+                  {edit && (
+                    <GlobalCustomButton onClick={() => setComplaintModal(true)}>
+                      <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                      New Complaint
+                    </GlobalCustomButton>
+                  )}
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
                 </Box>
 
                 <Box>
@@ -546,6 +847,10 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <Textarea
                     placeholder="Write here..."
                     register={register("clinical_findings")}
+<<<<<<< HEAD
+=======
+                    disabled={!edit}
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
                   />
                 </Box>
               </Box>
@@ -561,10 +866,19 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                 >
                   <FormsHeaderText text="Diagnosis Data" />
 
+<<<<<<< HEAD
                   <GlobalCustomButton onClick={() => setDiagnosisModal(true)}>
                     <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                     New Diagnosis
                   </GlobalCustomButton>
+=======
+                  {edit && (
+                    <GlobalCustomButton onClick={() => setDiagnosisModal(true)}>
+                      <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                      New Diagnosis
+                    </GlobalCustomButton>
+                  )}
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
                 </Box>
 
                 <Box>
@@ -594,6 +908,10 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <Textarea
                     placeholder="Write here..."
                     register={register("investigation")}
+<<<<<<< HEAD
+=======
+                    disabled={!edit}
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
                   />
                 </Box>
               </Box>
@@ -605,6 +923,10 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <Textarea
                     placeholder="Write here..."
                     register={register("drugs")}
+<<<<<<< HEAD
+=======
+                    disabled={!edit}
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
                   />
                 </Box>
               </Box>
@@ -616,6 +938,10 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <Textarea
                     placeholder="Write here..."
                     register={register("treatment")}
+<<<<<<< HEAD
+=======
+                    disabled={!edit}
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
                   />
                 </Box>
               </Box>
@@ -637,6 +963,10 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                       control={control}
                       name="claimtype"
                       options={["Capitation", "Fee for Service"]}
+<<<<<<< HEAD
+=======
+                      disabled={!edit}
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
                     />
                   </Grid>
 
@@ -662,6 +992,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                 >
                   <FormsHeaderText text="Services Data" />
 
+<<<<<<< HEAD
                   <GlobalCustomButton
                     onClick={() => {
                       if (!state.ClientModule.selectedClient._id)
@@ -672,6 +1003,20 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                     <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                     New Service
                   </GlobalCustomButton>
+=======
+                  {edit && (
+                    <GlobalCustomButton
+                      onClick={() => {
+                        if (!state.ClientModule.selectedClient._id)
+                          return toast.warning("You need to select a client");
+                        setServiceModal(true);
+                      }}
+                    >
+                      <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                      New Service
+                    </GlobalCustomButton>
+                  )}
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
                 </Box>
 
                 <Box>
@@ -682,8 +1027,13 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                     pointerOnHover
                     highlightOnHover
                     striped
+<<<<<<< HEAD
                     //onRowClicked={handleRow}
                     //conditionalRowStyles={conditionalRowStyles}
+=======
+                    onRowClicked={onServiceRowClick}
+                    conditionalRowStyles={servicesConditionalRowStyles}
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
                     progressPending={false}
                     CustomEmptyData={
                       <Typography sx={{fontSize: "0.8rem"}}>
@@ -701,6 +1051,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <Textarea
                     placeholder="Write here..."
                     register={register("comments")}
+<<<<<<< HEAD
                   />
                 </Box>
               </Box>
@@ -719,6 +1070,9 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                     CustomEmptyData="No Status History for this Claim yet..."
                     progressPending={false}
                     //conditionalRowStyles={conditionalRowStyles}
+=======
+                    disabled={!edit}
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
                   />
                 </Box>
               </Box>
@@ -726,7 +1080,10 @@ const ClaimDetailComponent = ({handleGoBack}) => {
           )}
         </Box>
       </Box>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
       <Drawer
         anchor="right"
         open={chat}

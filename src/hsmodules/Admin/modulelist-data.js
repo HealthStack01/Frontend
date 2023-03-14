@@ -385,6 +385,42 @@ export const modulesList = [
         label: "Provider Payment",
         value: "Managed Care Provider Payment",
       },
+      {
+        label: "Assign Claim",
+        value: "Managed Care Assign Claim",
+      },
+      {
+        label: "Vet Claim",
+        value: "Managed Care Vet Claim",
+      },
+      {
+        label: "Audit Claim",
+        value: "Managed Care Audit Claim",
+      },
+      {
+        label: "Claim Authorization",
+        value: "Managed Care Claim Authorization",
+      },
+      {
+        label: "Assign Preauthorization Request",
+        value: "Managed Care Assign Preauthorization Request",
+      },
+      {
+        label: "Vet Preauthorization Request",
+        value: "Managed Care Vet Preauthorization Request",
+      },
+      {
+        label: "Audit Preauthorization Request",
+        value: "Managed Care Audit Preauthorization Request",
+      },
+      {
+        label: "Underwriting",
+        value: "Managed Care Underwriting",
+      },
+      {
+        label: "Review",
+        value: "Managed Care Review",
+      },
     ],
   },
 
@@ -424,6 +460,18 @@ export const modulesList = [
       {
         label: "Templates",
         value: "CRM Templates",
+      },
+      {
+        label: "Assign Staff",
+        value: "CRM Assign Staff",
+      },
+      {
+        label: "Assign Task",
+        value: "CRM Assign Task",
+      },
+      {
+        label: "Authorization",
+        value: "CRM Authorization",
       },
     ],
   },

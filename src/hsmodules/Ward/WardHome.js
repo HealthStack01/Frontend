@@ -8,6 +8,7 @@ import {Box} from "@mui/material";
 import Ward, {WardList} from "./Ward";
 
 export default function WardHome({children}) {
+<<<<<<< HEAD
   // const [activeModal, setActiveModal]=useState("modal is-active ")
   const {state, setState} = useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
@@ -28,6 +29,45 @@ export default function WardHome({children}) {
 
     if (notSelected) {
       handleChangeWard();
+=======
+  const {state, setState} = useContext(ObjectContext);
+  const {user, setUser} = useContext(UserContext);
+
+  const employeeLocations = user.currentEmployee.locations || [];
+  const wardLocations = employeeLocations.filter(
+    item => item.locationType === "Ward"
+  );
+
+  const location = state.WardModule.selectedWard._id
+    ? state.WardModule.selectedWard
+    : wardLocations[0];
+
+  const [selectedWard, setSelectedWard] = useState(location);
+
+  useEffect(() => {
+    const notSelected = selectedWard && Object.keys(selectedWard).length === 0;
+
+    if (notSelected) {
+      handleChangeWard();
+    } else {
+      const newEmployeeLocation = {
+        locationName: selectedWard.name,
+        locationType: "Ward",
+        locationId: selectedWard._id,
+        facilityId: user.currentEmployee.facilityDetail._id,
+        facilityName: user.currentEmployee.facilityDetail.facilityName,
+        case: "ward",
+      };
+
+      setState(prevstate => ({
+        ...prevstate,
+        employeeLocation: newEmployeeLocation,
+        WardModule: {
+          ...prevstate.WardModule,
+          selectedWard: selectedWard,
+        },
+      }));
+>>>>>>> 6629424bb56c5124204d6f95a047225340175196
     }
     return () => {};
   }, []);

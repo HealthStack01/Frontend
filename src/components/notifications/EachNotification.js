@@ -9,7 +9,7 @@ import Badge from "@mui/material/Badge";
 import client from "../../feathers";
 import {ObjectContext, UserContext} from "../../context";
 import {toast} from "react-toastify";
-import {useNavigate, useLocation} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 var relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);

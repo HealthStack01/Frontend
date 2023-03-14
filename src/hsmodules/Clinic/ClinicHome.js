@@ -11,21 +11,42 @@ export default function ClinicHome({children}) {
   const {state, setState} = useContext(ObjectContext);
   const [showModal, setShowModal] = useState(false);
   const {user, setUser} = useContext(UserContext);
-  const [selectedClinic, setSelectedClinic] = useState(
-    state.ClinicModule.selectedClinic
+  const employeeLocations = user.currentEmployee.locations || [];
+  const clinics = employeeLocations.filter(
+    item => item.locationType === "Clinic"
   );
+  const location = state.ClinicModule.selectedClinic._id
+    ? state.ClinicModule.selectedClinic
+    : clinics[0];
 
-  // const handleCloseModal = () => {
-  //   state.showStoreModal = "modal";
-  //   setState(state);
-  //   console.log(state.showStoreModal);
-  // };
+  const [selectedClinic, setSelectedClinic] = useState(location);
 
   useEffect(() => {
-    const notSelected = Object.keys(selectedClinic).length === 0;
+    const notSelected =
+      selectedClinic && Object.keys(selectedClinic).length === 0;
 
     if (notSelected) {
       handleChangeClinic();
+    } else {
+      const newEmployeeLocation = {
+        locationName: selectedClinic.name,
+        locationType: "Clinic",
+        locationId: selectedClinic._id,
+        facilityId: user.currentEmployee.facilityDetail._id,
+        facilityName: user.currentEmployee.facilityDetail.facilityName,
+        case: "clinic",
+      };
+
+      const newClinicModule = {
+        selectedClinic: selectedClinic,
+        show: "detail",
+      };
+
+      setState(prevstate => ({
+        ...prevstate,
+        employeeLocation: newEmployeeLocation,
+        ClinicModule: newClinicModule,
+      }));
     }
     return () => {};
   }, []);
