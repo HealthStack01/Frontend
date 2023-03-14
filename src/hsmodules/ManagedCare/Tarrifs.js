@@ -1139,6 +1139,15 @@ export const TarrifListView = ({
                   />
                 )}
 
+               {changeView === "facility" && (
+                  <GlobalCustomButton
+                    text="Delete Facility"
+                    // onClick={showFacility}
+                    customStyles={{ marginLeft: "1rem" }}
+                    color='warning'
+                  />
+                )}
+
                 {changeView === "service" && (
                   <GlobalCustomButton
                     text="Inherit Tarrif"
@@ -2135,7 +2144,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
   );
 };
 
-export function InheritTariff({ getBandfacility, newValue }) {
+export function InheritTariff() {
   const [success, setSuccess] = useState(false);
   const { register, handleSubmit } = useForm();
   const { state, setState } = useContext(ObjectContext);
@@ -2788,48 +2797,58 @@ export function AddFacility() {
 
   const prevProviders = selectedServiceDetails?.providers;
 
-  // const existingProviders = prevProviders.filter(
-  //   (items) => items.dest_org_name === chosen?.organizationDetail?.facilityName
-  // );
+
+   const existingProviders = prevProviders.filter(
+    (items) => items.dest_org_name === chosen?.organizationDetail?.facilityName
+  );
 
   const handleClick = (data) => {
     setOpenFacilityModal(true);
-    const addnewProvider = {
-      dest_org: chosen._id,
-      dest_org_name: chosen?.organizationDetail?.facilityName,
-      class: data.classType,
-    };
-    const newServicePro = {
-      organizationId: user.currentEmployee.facilityDetail._id,
-      organizationName: user.currentEmployee.facilityDetail.facilityName,
-      band: selectedServiceDetails?.band,
-      contracts: selectedServiceDetails?.contracts,
-      providers: [...prevProviders, addnewProvider],
-    };
-    ServicesServ.patch(selectedServiceDetails._id, newServicePro)
-      .then((res) => {
-        console.log(res);
-        setState((prev) => ({
-          ...prev,
-          ServicesModule: { ...prev.ServicesModule, selectedServices: res },
-        }));
-        setSuccess(true);
-        toast.success("Facility added succesfully");
-        setSuccess(false);
-        setOpenFacilityModal(false);
-        setBand("");
-      })
-      .catch((err) => {
-        setOpenFacilityModal(false);
-        toast.error("Error adding or facility " + err);
-      });
-  };
+      const addnewProvider = {
+        dest_org: chosen._id,
+        dest_org_name: chosen?.organizationDetail?.facilityName,
+        class: data.classType,
+      };
+      const newServicePro = {
+        organizationId: user.currentEmployee.facilityDetail._id,
+        organizationName: user.currentEmployee.facilityDetail.facilityName,
+        band: selectedServiceDetails?.band,
+        contracts: selectedServiceDetails?.contracts,
+        providers: [...prevProviders, addnewProvider],
+      };
 
-  const getSearchfacility = (obj) => {
-    setChosen(obj);
-    if (!obj) {
-    }
-  };
+      if(existingProviders.length > 0){
+        toast.warning('Provider already selected')
+        return;
+      }
+
+      ServicesServ.patch(selectedServiceDetails._id, newServicePro)
+        .then((res) => {
+          console.log(res);
+          setState((prev) => ({
+            ...prev,
+            ServicesModule: { ...prev.ServicesModule, selectedServices: res },
+          }));
+          setSuccess(true);
+          toast.success("Facility added succesfully");
+          setSuccess(false);
+          setOpenFacilityModal(false);
+          setBand("");
+        })
+        .catch((err) => {
+          setOpenFacilityModal(false);
+          toast.error("Error adding or facility " + err);
+        });
+
+      }
+    
+
+    const getSearchfacility = (obj) => {
+      setChosen(obj);
+      if (!obj) {
+      }
+    };
+
 
   return (
     <>

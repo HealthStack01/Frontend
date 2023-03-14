@@ -216,7 +216,8 @@ export function CheckInList({openCreateModal, setShowModal}) {
   const getCheckOut = useCallback(async () => {
     if (user.currentEmployee) {
       let stuff = {
-        facility: user.currentEmployee.facilityDetail._id,
+        // hmo: user.currentEmployee.facilityDetail.facilityType === ,
+        // facility: user.currentEmployee.facilityDetail._id,
         appointment_status: "Checked Out",
         // locationId:state.employeeLocation.locationId,
         $limit: 100,
@@ -231,7 +232,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       const findAppointment = await ClientServ.find({query: stuff});
 
       await setCheckoutAppointment(findAppointment.data);
-      // console.log(findAppointment, "Check out");
+      console.log(findAppointment, "Check out");
     } else {
       if (user.stacker) {
         const findAppointment = await ClientServ.find({
@@ -254,7 +255,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
   const getCheckIn = useCallback(async () => {
     if (user.currentEmployee) {
       let stuff = {
-        facility: user.currentEmployee.facilityDetail._id,
+        hmo: user.currentEmployee.facilityDetail.facilityType === "HMO",
         appointment_status: "Checked In",
         // locationId:state.employeeLocation.locationId,
         $limit: 100,
@@ -269,7 +270,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
       const findClient = await ClientServ.find({query: stuff});
 
       await setFacilities(findClient.data);
-      // console.log(findClient, "Check In....");
+      console.log(findClient, "Check In....");
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({

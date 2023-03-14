@@ -451,10 +451,20 @@ export function ProductEntryCreate({closeModal}) {
           >
             <FormsHeaderText text="Add Product Items" />
 
-            <GlobalCustomButton onClick={handleClickProd}>
-              <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
-              Add Product Item
-            </GlobalCustomButton>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+              }}
+            >
+              <UploadExcelSheet updateState={setProductItem} />
+
+              <GlobalCustomButton onClick={handleClickProd}>
+                <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add Product
+              </GlobalCustomButton>
+            </Box>
           </Box>
 
           <Grid container spacing={1}>
@@ -695,6 +705,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
   };
 
   const getNewFacilities = async () => {
+    setLoading(true);
     if (user.currentEmployee) {
       const findProductEntry = await ProductEntryServ.find({
         query: {
@@ -712,6 +723,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
         .then(resp => {
           setTotal(resp.total);
           setFacilities(resp.data);
+          setLoading(false);
           if (resp.total > resp.data.length) {
             setNext(true);
 
@@ -721,6 +733,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
           }
         })
         .catch(err => {
+          setLoading(false);
           console.log(err);
         });
     } else {
@@ -735,11 +748,13 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
         });
 
         await setFacilities(findProductEntry.data);
+        setLoading(false);
       }
     }
   };
 
   const getUpdatedFacilities = async () => {
+    setLoading(true);
     const findProductEntry = await ProductEntryServ.find({
       query: {
         facility: user.currentEmployee.facilityDetail._id,
@@ -754,6 +769,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
       .then(resp => {
         setTotal(resp.total);
         updatelist(resp.data);
+        setLoading(false);
         //setFacilities(resp.data)
         if (resp.total > resp.data.length) {
           setNext(true);
@@ -763,6 +779,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
         }
       })
       .catch(err => {
+        setLoading(false);
         console.log(err);
       });
   };

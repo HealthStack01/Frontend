@@ -920,6 +920,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
               closeModal={() => setSendLinkModal(false)}
               defaultToEmail={""}
               disableToEmailChange={true}
+              orgType="provider"
             />
           </ModalBox>
           <div
@@ -1519,7 +1520,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                   text="Approve"
                   onClick={() => setApprove(true)}
                   color="success"
-                  customStyles={{ marginRight: "10px" }}
+                  customStyles={{marginRight: "10px"}}
                 />
               )} */}
               {/* {facility.active === true && (
@@ -1527,7 +1528,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                   text="Reject"
                   onClick={() => setReject(true)}
                   color="error"
-                  customStyles={{ marginRight: "10px" }}
+                  customStyles={{marginRight: "10px"}}
                   variant="contained"
                 />
               )} */}

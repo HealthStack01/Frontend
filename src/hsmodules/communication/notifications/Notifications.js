@@ -13,6 +13,7 @@ import Textarea from "../../../components/inputs/basic/Textarea";
 import GlobalCustomButton from "../../../components/buttons/CustomButton";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
+import CustomSelect from "../../../components/inputs/basic/Select";
 
 const Notifications = () => {
   const [detailModal, setDetailModal] = useState(false);
@@ -36,34 +37,57 @@ export default Notifications;
 
 const NotificationsList = ({showDetail}) => {
   const notificationsServer = client.service("notification");
+  const {control, watch} = useForm({
+    defaultValues: {
+      status: "All",
+      priority: "All",
+    },
+  });
   const {user} = useContext(UserContext);
   const {state, setState} = useContext(ObjectContext);
   const [loading, setLoading] = useState(false);
   const [notifications, setNotifications] = useState([]);
 
+  const notification_status = watch("status");
+  const notification_priority = watch("priority");
+
   const getNotifications = useCallback(async () => {
     const userId = user.currentEmployee._id;
-    console.log(userId);
+    //console.log(userId);
     setLoading(true);
 
-    const response = await notificationsServer.find({
-      query: {
-        facilityId: user.currentEmployee.facilityDetail._id,
-        $limit: 200,
-        senderId: {
-          $ne: userId,
-        },
-        $sort: {
-          createdAt: -1,
-        },
+    let query = {
+      facilityId: user.currentEmployee.facilityDetail._id,
+      $limit: 200,
+      senderId: {
+        $ne: userId,
       },
+      $sort: {
+        createdAt: -1,
+      },
+    };
+
+    if (notification_priority !== "All") {
+      query.priority = notification_priority.toLowerCase();
+    }
+
+    if (notification_status === "Seen") {
+      query.isRead = {$in: [userId]};
+    }
+
+    if (notification_status === "Unseen") {
+      query.isRead = {$nin: [userId]};
+    }
+
+    const response = await notificationsServer.find({
+      query: query,
     });
 
     setNotifications(response.data);
     console.log(response.data);
 
     setLoading(false);
-  }, []);
+  }, [notification_status, notification_priority]);
 
   const handleSearch = val => {};
 
@@ -80,7 +104,7 @@ const NotificationsList = ({showDetail}) => {
 
   useEffect(() => {
     getNotifications();
-  }, []);
+  }, [getNotifications]);
 
   const notificationColumns = [
     {
@@ -160,7 +184,15 @@ const NotificationsList = ({showDetail}) => {
       }}
       p={2}
     >
-      <Box mb={2}>
+      <Box
+        mb={2}
+        sx={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
         <Box
           sx={{
             display: "flex",
@@ -170,12 +202,33 @@ const NotificationsList = ({showDetail}) => {
           <FilterMenu onSearch={handleSearch} />
           <FormsHeaderText text="List of All Your Notifications" />
         </Box>
+        <Box
+          sx={{
+            width: "300px",
+            display: "flex",
+            gap: 1.5,
+          }}
+        >
+          <CustomSelect
+            label="Notification Status"
+            control={control}
+            options={["All", "Seen", "Unseen"]}
+            name="status"
+          />
+
+          <CustomSelect
+            label="Notification Priority"
+            control={control}
+            options={["All", "Normal", "Urgent"]}
+            name="priority"
+          />
+        </Box>
       </Box>
 
       <Box
         sx={{
           width: "100%",
-          height: "calc(100vh - 180px)",
+          height: "calc(100vh - 150px)",
           overflowY: "auto",
         }}
       >

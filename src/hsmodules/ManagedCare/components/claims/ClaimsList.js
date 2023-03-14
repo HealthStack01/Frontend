@@ -58,7 +58,7 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
     setLoading(true);
     if (user.currentEmployee) {
       let query = {
-        //facility: user.currentEmployee.facilityDetail._id,
+        "provider._id": user.currentEmployee.facilityDetail._id,
 
         $limit: 100,
         $sort: {
@@ -193,15 +193,15 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
     //   required: true,
     //   inputType: "HIDDEN",
     // },
-    {
-      name: "Provider",
-      key: "hospital name",
-      description: "Enter Hospital Name",
-      selector: row => row?.provider?.facilityName,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
+    // {
+    //   name: "Provider",
+    //   key: "hospital name",
+    //   description: "Enter Hospital Name",
+    //   selector: row => row?.provider?.facilityName,
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "TEXT",
+    // },
 
     {
       name: "Status",
