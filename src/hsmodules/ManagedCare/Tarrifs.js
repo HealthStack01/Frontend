@@ -1,11 +1,4 @@
-import React, {
-  useContext,
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  useLayoutEffect,
-} from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import { ObjectContext, UserContext } from "../../context";
 import { TableMenu } from "../dashBoardUiComponent/core-ui/styles";
 import client from "../../feathers";
@@ -24,12 +17,13 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 import DeleteOutline from "@mui/icons-material/DeleteOutline";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 import SingleCheckbox from "../../components/inputs/basic/Checkbox/SingleCheckbox";
+import CheckboxGroup from "../../components/inputs/basic/Checkbox/CheckBoxGroup";
 
 import {
   BandTariffSearch,
-  FacilitySearch,
+  // FacilitySearch,
   OrgFacilityProviderSearch,
-  OrgFacilitySearch,
+  // OrgFacilitySearch,
 } from "../helpers/FacilitySearch";
 import CustomTariffSelect from "./components/TariffSelect";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -37,7 +31,7 @@ import { bandTypeOptions } from "../../dummy-data";
 import CreateIcon from "@mui/icons-material/Create";
 import { createBandSchema } from "../Admin/ui-components/schema";
 
-export default function TarrifList({ standAlone }) {
+export default function Tariff({ standAlone }) {
   const [showModal, setShowModal] = useState(0);
   const [openBand, setOpenBand] = useState(false);
   const [openTarrif, setOpenTarrif] = useState(false);
@@ -134,7 +128,7 @@ export default function TarrifList({ standAlone }) {
       <ModalBox
         open={openFacilityModal}
         onClose={handleHideFacilityModal}
-        header="Create Facility"
+        header="Add Provider"
       >
         <AddFacility />
       </ModalBox>
@@ -249,7 +243,7 @@ export const TarrifListView = ({
     // console.log(Service);
     setSlide(!slide);
     setSelectedServices(Service?.contracts);
-    setSelectedFacilities(Service?.providers)
+    setSelectedFacilities(Service?.providers);
     const newServicesModule = {
       selectedServices: Service,
       show: "detail",
@@ -344,6 +338,8 @@ export const TarrifListView = ({
     }
   };
 
+  console.log("facilities", facilities);
+
   useEffect(() => {
     getTariffServices();
     ServicesServ.on("created", (obj) => getTariffServices());
@@ -353,8 +349,9 @@ export const TarrifListView = ({
     return () => {};
   }, [state.facilityModule.selectedFacility]);
 
-  console.log(selectedFacilities);
-  console.log(selectedServices);
+  // console.log(facilities);
+  // console.log(selectedFacilities);
+  // console.log(selectedServices);
 
   const ServiceSchema = [
     {
@@ -380,10 +377,7 @@ export const TarrifListView = ({
       name: "No of Facilities",
       key: "nofacilities",
       description: "No of Facilities",
-      selector: (row) =>
-        row?.contracts
-          ?.map((healist) => healist?.source_org_name)
-          .filter((v, i, a) => a.indexOf(v) === i).length,
+      selector: (row) => row?.providers?.length,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -607,13 +601,20 @@ export const TarrifListView = ({
       sortable: true,
       required: true,
       inputType: "TEXT",
-      width: "150px",
+      width: "250px",
+    },
+    {
+      name: "Class Type",
+      key: "class",
+      description: "Class",
+      selector: (row) => row?.class.map((item) => item),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      width: "250px",
     },
   ];
 
-
-
- 
   // DELETE THE PLANS FUNCTIONS
   function handleDelete() {
     // THIS IS USE TO THE THE SELECTED PLAN IN THE CONTRACTS
@@ -709,7 +710,7 @@ export const TarrifListView = ({
       organizationName: user.currentEmployee.facilityDetail.facilityName,
       band: selectedServiceDetails.band,
       contracts: newContract,
-      providers: selectedServiceDetails?.providers
+      providers: selectedServiceDetails?.providers,
     };
 
     await ServicesServ.patch(selectedServiceDetails._id, newService)
@@ -1138,6 +1139,15 @@ export const TarrifListView = ({
                   />
                 )}
 
+               {changeView === "facility" && (
+                  <GlobalCustomButton
+                    text="Delete Facility"
+                    // onClick={showFacility}
+                    customStyles={{ marginLeft: "1rem" }}
+                    color='warning'
+                  />
+                )}
+
                 {changeView === "service" && (
                   <GlobalCustomButton
                     text="Inherit Tarrif"
@@ -1534,7 +1544,8 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
       (el) => el.planName === c.planName
     )[0];
     currentPlan.capitation = e.target.value === "Capitation" ? true : false;
-    currentPlan.feeforService = e.target.value === "Fee for Service" ? true : false;
+    currentPlan.feeforService =
+      e.target.value === "Fee for Service" ? true : false;
     const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
     await setBenefittingPlans(updatedplan);
   };
@@ -1565,7 +1576,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
     let currentPlan = benefittingplans.find(
       (el) => el.planName === c?.planName
     );
-    console.log("Current plan",currentPlan);
+    console.log("Current plan", currentPlan);
     currentPlan.benefit = selectedBene?.comments;
     currentPlan.benefitcategory = beneCat?.category;
     // currentPlan.covered =
@@ -1575,7 +1586,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
     // 		: false;
     const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
     await setBenefittingPlans(updatedplan);
-    console.log("update plan",updatedplan);
+    console.log("update plan", updatedplan);
   };
 
   const handleChange = async (e, i, c) => {
@@ -1639,7 +1650,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
           : "Company",
     };
     setProductItem([...productItem, seviceItem]);
-    closeModal()
+    closeModal();
     await setBenefittingPlans([]);
     await setService("");
     await setCostprice("");
@@ -1661,7 +1672,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
       band: selectedBand,
       contracts: productItem,
     };
-    
+
     ServicesServ.create(data)
       .then((res) => {
         console.log(res);
@@ -1673,7 +1684,6 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
       });
   };
 
- 
   const handleRemove = (index, contract) => {
     console.log(index, contract);
     const newProductItem = productItem.filter(
@@ -1682,7 +1692,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
     setProductItem(newProductItem);
     console.log(newProductItem);
   };
- 
+
   const copaySelect = (e, i) => {
     setShowCoPay(i);
     if (e.target.checked) {
@@ -1702,7 +1712,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
       console.log("NEW BENEFITS", newBene);
     });
   }, [beneCat]);
- 
+
   const productItemSchema = [
     {
       name: "S/N",
@@ -1890,7 +1900,6 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
             label="Select Band"
             onChange={(e) => setSelectedBand(e.target.value)}
           />
-          
         </Grid>
       </Grid>
       <Box
@@ -1902,15 +1911,15 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
         }}
       >
         <FormsHeaderText text={"Services"} />
-        <Box>   
-           <GlobalCustomButton
-          type="button"
-          variant="contained"
-          color="primary"
-          onClick={() => setShowService(true)}
-          text="Add Service" 
-        />
-         <GlobalCustomButton
+        <Box>
+          <GlobalCustomButton
+            type="button"
+            variant="contained"
+            color="primary"
+            onClick={() => setShowService(true)}
+            text="Add Service"
+          />
+          <GlobalCustomButton
             text="Create Tarrif"
             onClick={onSubmit}
             color="success"
@@ -1963,7 +1972,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
                   placeholder="Search Service"
                 />
               </Grid>
-             
+
               <Grid
                 item
                 xs={6}
@@ -1980,7 +1989,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
                   onChange={(e) => setComments(e.target.value)}
                 />
               </Grid>
-            
+
               <Box
                 mx={1}
                 my={2}
@@ -2030,7 +2039,6 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
                                     setBeneCat(e.target.value);
                                     setSelectNo(index);
                                   }}
-                                  
                                 />
                               </Grid>
 
@@ -2040,9 +2048,8 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
                                   options={newBene}
                                   label="Select Benefit"
                                   onChange={(event) =>
-                                    handleBenefit(event,index,c)
+                                    handleBenefit(event, index, c)
                                   }
-                                  
                                 />
                               </Grid>
 
@@ -2137,77 +2144,7 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
   );
 };
 
-
-export const TariffView = (service) => {
-  const [editing, setEditing] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
-    defaultValues: {
-      name: service.serviceName,
-      comment: service.comment,
-    },
-  });
-  const selected = service.service;
-  return (
-    <Box>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <FormsHeaderText text={service?.serviceName} />
-        <Box>
-          {!editing && (
-            <GlobalCustomButton text="Edit" onClick={() => setEditing(true)} />
-          )}
-          {editing && (
-            <GlobalCustomButton
-              text="Save Form"
-              type="submit"
-              color="success"
-            />
-          )}
-        </Box>
-      </Box>
-      <Grid container spacing={2} mt={1}>
-        <Grid item xs={12} sm={4}>
-          {!editing ? (
-            <Input
-              label="Service Name"
-              value={selected?.serviceName}
-              disabled
-            />
-          ) : (
-            <Input label="Name" register={register("serviceName")} />
-          )}
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          {!editing ? (
-            <Input label="Duration" value={selected?.duration} disabled />
-          ) : (
-            <Input label="Duration" register={register("duration")} />
-          )}
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          {!editing ? (
-            <Input label="Status" value={selected?.status} disabled />
-          ) : (
-            <Input label="Status" register={register("status")} />
-          )}
-        </Grid>
-        <Grid item xs={12} sm={12}>
-          {!editing ? (
-            <Textarea label="Comment" value={selected?.comments} disabled />
-          ) : (
-            <Textarea label="Price" register={register("comment")} />
-          )}
-        </Grid>
-      </Grid>
-    </Box>
-  );
-};
-
-export function InheritTariff({ getBandfacility, newValue }) {
+export function InheritTariff() {
   const [success, setSuccess] = useState(false);
   const { register, handleSubmit } = useForm();
   const { state, setState } = useContext(ObjectContext);
@@ -2415,7 +2352,7 @@ export const BandForm = () => {
   );
 };
 
-export function AddService({ setOpenServicesModal }) {
+export function AddService() {
   const [, setPriceState] = useState({
     bronze: false,
     gold: false,
@@ -2647,7 +2584,7 @@ export function AddService({ setOpenServicesModal }) {
       organizationName: user.currentEmployee.facilityDetail.facilityName,
       band: servicesDetails?.band,
       contracts: prevContracts.concat(addservices),
-      providers: servicesDetails?.providers
+      providers: servicesDetails?.providers,
     };
 
     ServicesServ.patch(servicesDetails._id, newAddedServices)
@@ -2844,98 +2781,96 @@ export function AddService({ setOpenServicesModal }) {
 }
 
 export function AddFacility() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, control } = useForm();
   const { state, setState } = useContext(ObjectContext);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
   const ServicesServ = client.service("tariff");
   const orgServ = client.service("organizationclient");
-  const [chosen, setChosen] = useState('');
+  const [chosen, setChosen] = useState("");
   const [band, setBand] = useState("");
   const { user } = useContext(UserContext);
-  const [primary, setPrimary] = useState(false);
-  const [secondary, setSecondary] = useState(false);
-  const [tertiary, setTertiary] = useState(false);
-  
+  const [active, setActive] = useState(false);
+  const [openFacilityModal, setOpenFacilityModal] = useState(false);
+
   const selectedServiceDetails = state.ServicesModule.selectedServices;
-  
- 
-  const handleClick = () => {
-    let addnewProvider = {
-        dest_org: chosen._id, //consumer-facility
+
+  const prevProviders = selectedServiceDetails?.providers;
+
+
+   const existingProviders = prevProviders.filter(
+    (items) => items.dest_org_name === chosen?.organizationDetail?.facilityName
+  );
+
+  const handleClick = (data) => {
+    setOpenFacilityModal(true);
+      const addnewProvider = {
+        dest_org: chosen._id,
         dest_org_name: chosen?.organizationDetail?.facilityName,
+        class: data.classType,
+      };
+      const newServicePro = {
+        organizationId: user.currentEmployee.facilityDetail._id,
+        organizationName: user.currentEmployee.facilityDetail.facilityName,
+        band: selectedServiceDetails?.band,
+        contracts: selectedServiceDetails?.contracts,
+        providers: [...prevProviders, addnewProvider],
+      };
+
+      if(existingProviders.length > 0){
+        toast.warning('Provider already selected')
+        return;
+      }
+
+      ServicesServ.patch(selectedServiceDetails._id, newServicePro)
+        .then((res) => {
+          console.log(res);
+          setState((prev) => ({
+            ...prev,
+            ServicesModule: { ...prev.ServicesModule, selectedServices: res },
+          }));
+          setSuccess(true);
+          toast.success("Facility added succesfully");
+          setSuccess(false);
+          setOpenFacilityModal(false);
+          setBand("");
+        })
+        .catch((err) => {
+          setOpenFacilityModal(false);
+          toast.error("Error adding or facility " + err);
+        });
+
+      }
+    
+
+    const getSearchfacility = (obj) => {
+      setChosen(obj);
+      if (!obj) {
+      }
     };
 
-    const newServicePro = {
-      organizationId: user.currentEmployee.facilityDetail._id,
-      organizationName: user.currentEmployee.facilityDetail.facilityName,
-      band: selectedServiceDetails?.band,
-      contracts: selectedServiceDetails?.contracts,
-      providers: addnewProvider
-    }
-    ServicesServ
-      .patch(selectedServiceDetails._id, newServicePro)
-      .then((res) => {
-        console.log(res)
-        setSuccess(true);
-        toast.success("Facility added succesfully");
-        setSuccess(false);
-        setBand("");
-      })
-      .catch((err) => {
-        toast.error("Error adding or facility " + err);
-      });
-  };
 
-  const getSearchfacility = (obj) => {
-    setChosen(obj);
-    if (!obj) {
-    }
-  };
-
-
-  // console.log('PRO NEW',provider)
-  console.log('PRO OLD',chosen?.organizationDetail?.facilityName)
   return (
     <>
-      
-       <OrgFacilitySearch
-        getSearchfacility={getSearchfacility}
-        clear={success}
-        // closeModal={handleHideFacilityModal()}
-      />
+      <Box>
+        <OrgFacilityProviderSearch
+          getSearchfacility={getSearchfacility}
+          clear={success}
+        />
+      </Box>
 
-      <Box display="flex" gap="1rem" alignItems="center">
-        <Box>
-          <SingleCheckbox
-            label="Primary"
-            name="primary"
-            checked={primary}
-            onChange={(e) => setPrimary(e.target.checked)}
-          />
-        </Box>
-        <Box>
-          <SingleCheckbox
-            label="Secondary"
-            name="secondary"
-            checked={secondary}
-            onChange={(e) => setSecondary(e.target.checked)}
-          />
-        </Box>
-        <Box>
-          <SingleCheckbox
-            label="Tertiary"
-            name="tertiary"
-            checked={tertiary}
-            onChange={(e) => setTertiary(e.target.checked)}
-          />
-        </Box>
+      <Box>
+        <CheckboxGroup
+          name="classType"
+          control={control}
+          options={["Primary", "Secondary", "Tertiary"]}
+        />
       </Box>
       <Box my="1rem">
         <GlobalCustomButton
           text="Add Facility"
           type="submit"
-          onClick={handleClick}
+          onClick={handleSubmit(handleClick)}
         />
       </Box>
     </>

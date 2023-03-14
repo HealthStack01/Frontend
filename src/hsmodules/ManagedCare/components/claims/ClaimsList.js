@@ -58,7 +58,7 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
     setLoading(true);
     if (user.currentEmployee) {
       let query = {
-        //facility: user.currentEmployee.facilityDetail._id,
+        "provider._id": user.currentEmployee.facilityDetail._id,
 
         $limit: 100,
         $sort: {
@@ -193,15 +193,15 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
     //   required: true,
     //   inputType: "HIDDEN",
     // },
-    {
-      name: "Provider",
-      key: "hospital name",
-      description: "Enter Hospital Name",
-      selector: row => row?.provider?.facilityName,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
+    // {
+    //   name: "Provider",
+    //   key: "hospital name",
+    //   description: "Enter Hospital Name",
+    //   selector: row => row?.provider?.facilityName,
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "TEXT",
+    // },
 
     {
       name: "Status",
@@ -333,17 +333,25 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
             </Box>
           </TableMenu>
 
-          <CustomTable
-            title={""}
-            columns={claimsColumns}
-            data={claims}
-            pointerOnHover
-            highlightOnHover
-            striped
-            onRowClicked={handleRow}
-            progressPending={loading}
-            //conditionalRowStyles={conditionalRowStyles}
-          />
+          <Box
+            sx={{
+              width: "100%",
+              height: "calc(100vh - 180px)",
+              overflowY: "auto",
+            }}
+          >
+            <CustomTable
+              title={""}
+              columns={claimsColumns}
+              data={claims}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={handleRow}
+              progressPending={loading}
+              //conditionalRowStyles={conditionalRowStyles}
+            />
+          </Box>
         </PageWrapper>
       </div>
     </>

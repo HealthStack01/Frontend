@@ -434,7 +434,7 @@ export function LocationList({showCreateModal, showDetailModal}) {
       {user ? (
         <>
           <Portal>
-            <ModalBox open={open} onClose={handleCloseModal} width="100%">
+            <ModalBox open={open} header="Location Details" onClose={handleCloseModal} width="80%">
               <LocationView
                 location={selectedLocation}
                 open={open}
@@ -575,10 +575,8 @@ export function LocationDetail({showModifyModal}) {
       return;
     }
 
-    console.log(data);
-    /*   if (user.currentEmployee){
-         data.facility=user.currentEmployee.facilityDetail._id  // or from facility dropdown
-          } */
+    // console.log(data);
+  
     if (!Location.sublocations) {
       Location.sublocations = [];
     }
@@ -656,7 +654,7 @@ export function LocationDetail({showModifyModal}) {
         <BottomWrapper>
           <GlobalCustomButton onClick={handleDelete} color="error">
             <DeleteIcon fontSize="small" sx={{marginRight: "5px"}} />
-            Delete Location
+            Delete
           </GlobalCustomButton>
 
           <GlobalCustomButton onClick={handleEdit}>

@@ -393,6 +393,7 @@ export function OrganizationList({showModal, setShowModal}) {
     orgServ.on("removed", obj => getFacilities());
     return () => {};
   }, []);
+
   const OrganizationClientSchema = [
     {
       name: "S/N",
@@ -541,8 +542,6 @@ export function OrganizationDetail({showModal, setShowModal}) {
 
   const facility = state.facilityModule.selectedFacility?.organizationDetail;
 
-  console.log("Facility", facility);
-
   const handleEdit = async () => {
     const newfacilityModule = {
       selectedFacility: facility,
@@ -566,6 +565,7 @@ export function OrganizationDetail({showModal, setShowModal}) {
     }));
     console.log("close form");
   };
+
   const handleCancel = async () => {
     const newfacilityModule = {
       selectedFacility: facility,
@@ -577,6 +577,7 @@ export function OrganizationDetail({showModal, setShowModal}) {
     }));
     setEditCorporate(false);
   };
+
   const handleDelete = async () => {
     let conf = window.confirm("Are you sure you want to delete this data?");
     const dleteId = facility._id;
@@ -644,6 +645,7 @@ export function OrganizationDetail({showModal, setShowModal}) {
       shouldDirty: true,
     });
   });
+
   const onSubmit = (data, e) => {
     e.preventDefault();
 
@@ -679,7 +681,7 @@ export function OrganizationDetail({showModal, setShowModal}) {
       .then(resp => {
         const data = resp.data[0];
         const msgs = data.chat;
-        console.log(msgs);
+        //console.log(msgs);
         msgs.map(msg => {
           if (
             msg.senderId === userId ||
@@ -701,12 +703,14 @@ export function OrganizationDetail({showModal, setShowModal}) {
   useEffect(() => {
     getUnreadMessagesCount();
   }, []);
+
   useEffect(() => {
     orgServ.on("created", obj => getUnreadMessagesCount());
     orgServ.on("updated", obj => getUnreadMessagesCount());
     orgServ.on("patched", obj => getUnreadMessagesCount());
     orgServ.on("removed", obj => getUnreadMessagesCount());
   }, []);
+
   return (
     <>
       <Box
@@ -2127,7 +2131,7 @@ export function BeneList({showModal, setShowModal, standAlone}) {
       // const findClient= await ClientServ.find()
       const findClient = await ClientServ.find({
         query: {
-          organization: user.currentEmployee.facilityDetail,
+          organizationId: user.currentEmployee.facilityDetail._id,
           $sort: {
             createdAt: -1,
           },
@@ -2135,6 +2139,7 @@ export function BeneList({showModal, setShowModal, standAlone}) {
       });
 
       let data = findClient.data;
+      console.log(data);
       let filteredArray = data.filter(
         item =>
           (item.sponsor !== "" &&
@@ -2149,14 +2154,14 @@ export function BeneList({showModal, setShowModal, standAlone}) {
       );
       let joined = principal.concat(...dependantBeneficiaries);
       setFacilities(joined);
-      await console.log(
-        "data",
-        data,
-        "filter",
-        filteredArray,
-        "standAlone",
-        standAlone
-      );
+      // await console.log(
+      //   "data",
+      //   data,
+      //   "filter",
+      //   filteredArray,
+      //   "standAlone",
+      //   standAlone
+      // );
       await setTotal(findClient.total);
       //console.log(user.currentEmployee.facilityDetail._id, state)
       //console.log(facilities)

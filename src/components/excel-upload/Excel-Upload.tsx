@@ -1,6 +1,7 @@
+import React, {useRef} from "react";
 import {Box, Button} from "@mui/material";
-import {useRef} from "react";
 import * as XLSX from "xlsx";
+import GlobalCustomButton from "../buttons/CustomButton";
 
 interface componentProps {
   updateState?: Function;
@@ -21,7 +22,7 @@ const UploadExcelSheet = ({updateState, actionButton}: componentProps) => {
     const rABS = !!reader.readAsBinaryString;
     reader.onload = e => {
       /* Parse data */
-      const bstr = e.target.result;
+      const bstr = e.target.result || null;
       const wb = XLSX.read(bstr, {type: rABS ? "binary" : "array"});
       /* Get first worksheet */
       const wsname = wb.SheetNames[0];
@@ -37,10 +38,13 @@ const UploadExcelSheet = ({updateState, actionButton}: componentProps) => {
 
       const newObjects = objects.map(obj => {
         return {
-          baseunit: obj?.BaseUnit,
-          type: obj.Product,
-          quantity: obj.Qty,
-          costprice: obj.Costprice,
+          baseunit: obj?.baseunit,
+          type: obj.category,
+          quantity: obj.quantity,
+          costprice: obj.costprice,
+          productId: obj._id,
+          amount: Number(obj.costprice) * Number(obj.quantity),
+          name: obj.name,
         };
       });
 
@@ -66,7 +70,7 @@ const UploadExcelSheet = ({updateState, actionButton}: componentProps) => {
   };
 
   return (
-    <Box sx={{width: "100%"}}>
+    <Box sx={{width: "auto"}}>
       <input
         type="file"
         name="upload_excel_sheet"
@@ -76,12 +80,9 @@ const UploadExcelSheet = ({updateState, actionButton}: componentProps) => {
         ref={inputRef}
         style={{display: "none"}}
       />
-      <Button
-        sx={{width: "100%", textTransform: "capitalize"}}
-        onClick={handleFilesSelection}
-      >
-        Upload
-      </Button>
+      <GlobalCustomButton onClick={handleFilesSelection} color="success">
+        Upload Products
+      </GlobalCustomButton>
     </Box>
   );
 };

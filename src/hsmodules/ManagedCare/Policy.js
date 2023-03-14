@@ -3157,12 +3157,7 @@ export function PolicyDetail({showModal, setShowModal}) {
   useEffect(() => {
     getBenfittingPlans();
   }, []);
-  console.log(
-    "test",
-    healthplan?.find(plan => plan?.planName === Client?.plan?.planName)
-      ?.planName,
-    Client?.plan?.planName
-  );
+
   const filteredBene = healthplan
     ?.filter(plan => plan?.planName !== Client?.plan?.planName)
     .map(plan => plan.planName);
