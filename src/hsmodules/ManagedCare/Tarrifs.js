@@ -21,9 +21,7 @@ import CheckboxGroup from "../../components/inputs/basic/Checkbox/CheckBoxGroup"
 
 import {
   BandTariffSearch,
-  // FacilitySearch,
   OrgFacilityProviderSearch,
-  // OrgFacilitySearch,
 } from "../helpers/FacilitySearch";
 import CustomTariffSelect from "./components/TariffSelect";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -338,7 +336,7 @@ export const TarrifListView = ({
     }
   };
 
-  console.log("facilities", facilities);
+  // console.log("facilities", facilities);
 
   useEffect(() => {
     getTariffServices();
@@ -1253,6 +1251,7 @@ export const ModifyBandNames = () => {
   const selectedContractDetails = state.TariffModule.selectedContracts;
 
   const { register, handleSubmit } = useForm();
+
   //UPDATE BAND FUNCTION
   const handleUpdateBand = async (data) => {
     const newPlanDetails = {
@@ -1310,7 +1309,7 @@ export const ModifyBandNames = () => {
   );
 };
 
-export const TariffCreate = ({ showModal, setShowModal }) => {
+export const TariffCreate = ({setShowModal }) => {
   const [, setPriceState] = useState({
     bronze: false,
     gold: false,
@@ -2146,15 +2145,18 @@ export const TariffCreate = ({ showModal, setShowModal }) => {
 
 export function InheritTariff() {
   const [success, setSuccess] = useState(false);
-  const { register, handleSubmit } = useForm();
+  const {handleSubmit } = useForm();
   const { state, setState } = useContext(ObjectContext);
   const { user } = useContext(UserContext);
   const ServicesServ = client.service("tariff");
   const BandsServ = client.service("bands");
   const [providerBand, setProviderBand] = useState([]);
   const [selectedBand, setSelectedBand] = useState("");
-  const Services = state.ServicesModule.selectedServices;
-  // console.log(Services)
+
+   // A VARIABLE THAT GET THE SELECTED SERVICES DETAILS 
+  const selectedServiceDetails = state.ServicesModule.selectedServices;
+ 
+  // A FUNCTION THAT FETCH BAND DETAILS
   const getProviderBand = async () => {
     if (user.currentEmployee) {
       const findServices = await BandsServ.find({
@@ -2164,17 +2166,11 @@ export function InheritTariff() {
             user.currentEmployee.facilityDetail.facilityType === "HMO"
               ? "Provider"
               : "Company",
-
-          // storeId:state.StoreModule.selectedStore._id,
-          // $limit:20,
-          //   paginate:false,
           $sort: {
             category: 1,
           },
         },
       });
-
-      console.log("provideerBand", findServices.data);
       await setProviderBand(findServices.data);
     }
   };
@@ -2183,20 +2179,24 @@ export function InheritTariff() {
     getProviderBand();
   }, []);
 
+  // A FUNCTION THAT INHERIT TARIFF
   const onSubmit = async () => {
+    setSuccess(true)
     let data = {
       organizationId: user.currentEmployee.facilityDetail._id,
       organizationName: user.currentEmployee.facilityDetail.facilityName,
       band: selectedBand,
-      contracts: Services?.contracts,
+      contracts: selectedServiceDetails?.contracts,
     };
 
     ServicesServ.create(data)
       .then((res) => {
         toast.success("Tariff created succesfully");
+        setSuccess(false)
       })
       .catch((err) => {
         toast.error("Error creating Tariff " + err);
+        setSuccess(false)
       });
   };
   return (
@@ -2207,7 +2207,6 @@ export function InheritTariff() {
 
       <Box display="flex" flexDirection="column" gap={3}>
         <Box>
-          {/* <BandSearch clear={success} value={selectedBand} onChange={(e) => setSelectedBand(e.target.value)}/> */}
           <CustomSelect
             name="bandType"
             placeholder="Choose Provider Band"
@@ -2285,20 +2284,21 @@ export const BandForm = () => {
     async (data, e) => {
       e.preventDefault();
       setSuccess(false);
-      let existBand = providerBand.find((band) => band.name === data.name);
+      let existBand = providerBand.filter((item) => item.name === data.name);
 
       if (existBand) {
-        toast.error("Band name already exist");
-      } else {
-        await BandServ.create(data)
-          .then((res) => {
-            toast.success(`Band successfully created`);
-            reset();
-          })
-          .catch((err) => {
-            toast.error(`Sorry, You weren't able to create a band. ${err}`);
-          });
-      }
+        toast.warning("Band name already exist");
+        return;
+      } 
+
+      await BandServ.create(data)
+      .then((res) => {
+        toast.success(`Band successfully created`);
+        reset();
+      })
+      .catch((err) => {
+        toast.error(`Sorry, You weren't able to create a band. ${err}`);
+      });
     },
     [data]
   );
@@ -2353,28 +2353,15 @@ export const BandForm = () => {
 };
 
 export function AddService() {
-  const [, setPriceState] = useState({
-    bronze: false,
-    gold: false,
-    silver: false,
-    platinium: false,
-  });
-  const { state, setState } = useContext(ObjectContext);
-  const Services = state.ServicesModule.selectedServices;
+  const { state} = useContext(ObjectContext);
   const HealthPlanServ = client.service("healthplan");
-  //const history = useHistory()
-  const { user } = useContext(UserContext); //,setUser
-  // eslint-disable-next-line
+  const { user } = useContext(UserContext);
   const [facilityId, setFacilityId] = useState("");
   const [name, setName] = useState("");
-  const [bandName, setBandName] = useState("");
   const [benefittingplans, setBenefittingPlans] = useState([]);
   const ServicesServ = client.service("tariff");
   const [service, setService] = useState("");
-  const [productItem, setProductItem] = useState([]);
-  const [selectedBand, setSelectedBand] = useState("");
   const [showCoPay, setShowCoPay] = useState(false);
-  const [selectedBenefits, setSelectedBenefits] = useState([]);
   const [facilities, setFacilities] = useState([]);
   const [sCoPay, setSCoPay] = useState(false);
   const [beneCat, setBeneCat] = useState("");
@@ -2781,50 +2768,53 @@ export function AddService() {
 }
 
 export function AddFacility() {
-  const { register, handleSubmit, control } = useForm();
+  const {handleSubmit, control } = useForm();
   const { state, setState } = useContext(ObjectContext);
   const [success, setSuccess] = useState(false);
-  const [success1, setSuccess1] = useState(false);
   const ServicesServ = client.service("tariff");
-  const orgServ = client.service("organizationclient");
-  const [chosen, setChosen] = useState("");
-  const [band, setBand] = useState("");
+  const [chosenOrganisation, setChosenOrganisation] = useState("");
   const { user } = useContext(UserContext);
-  const [active, setActive] = useState(false);
-  const [openFacilityModal, setOpenFacilityModal] = useState(false);
 
+  // A VARIABLE THAT GET THE SELECTED SERVICES DETAILS
   const selectedServiceDetails = state.ServicesModule.selectedServices;
 
-  const prevProviders = selectedServiceDetails?.providers;
+  // A VARIABLE THAT GET THE PREV SELECTED SERVICES PROVIDERS
+  const prevServicesProviders = selectedServiceDetails?.providers;
 
-
-   const existingProviders = prevProviders.filter(
-    (items) => items.dest_org_name === chosen?.organizationDetail?.facilityName
+   // A VARIABLE THAT FILTER PREV SERVICES PROVIDERS TO AVOID DUPLICATION
+   const existingProviders = prevServicesProviders.filter(
+    (items) => items.dest_org_name === chosenOrganisation?.organizationDetail?.facilityName
   );
 
+  // A FUNCTION TO ADD FACILITIES PROVIDER TO THE TARIFF
   const handleClick = (data) => {
-    setOpenFacilityModal(true);
+
+    // AN OBJECT TO ADD FACILITIES PROVIDER  
       const addnewProvider = {
-        dest_org: chosen._id,
-        dest_org_name: chosen?.organizationDetail?.facilityName,
+        dest_org: chosenOrganisation._id,
+        dest_org_name: chosenOrganisation?.organizationDetail?.facilityName,
         class: data.classType,
       };
-      const newServicePro = {
+
+      // AN OBJECT THAT UPDATE THE SERVICES TARIFF WITH THE NEW FACILITIES PROVIDER
+      const newServiceTariff = {
         organizationId: user.currentEmployee.facilityDetail._id,
         organizationName: user.currentEmployee.facilityDetail.facilityName,
         band: selectedServiceDetails?.band,
         contracts: selectedServiceDetails?.contracts,
-        providers: [...prevProviders, addnewProvider],
+        providers: [...prevServicesProviders, addnewProvider],
       };
 
+      // TO CHECK IF A PROVIDER ALREADY EXIST
       if(existingProviders.length > 0){
-        toast.warning('Provider already selected')
+        toast.warning('Provider facilities already selected')
         return;
       }
 
-      ServicesServ.patch(selectedServiceDetails._id, newServicePro)
+    // A CALL TO UPDATE THE WHOLE SERVICES WITH CREATED FACILITIES PROVIDER
+      ServicesServ.patch(selectedServiceDetails._id, newServiceTariff)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           setState((prev) => ({
             ...prev,
             ServicesModule: { ...prev.ServicesModule, selectedServices: res },
@@ -2832,11 +2822,8 @@ export function AddFacility() {
           setSuccess(true);
           toast.success("Facility added succesfully");
           setSuccess(false);
-          setOpenFacilityModal(false);
-          setBand("");
         })
         .catch((err) => {
-          setOpenFacilityModal(false);
           toast.error("Error adding or facility " + err);
         });
 
@@ -2844,7 +2831,7 @@ export function AddFacility() {
     
 
     const getSearchfacility = (obj) => {
-      setChosen(obj);
+      setChosenOrganisation(obj);
       if (!obj) {
       }
     };
