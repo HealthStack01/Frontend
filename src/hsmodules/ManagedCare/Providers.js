@@ -659,8 +659,14 @@ export function OrganizationCreate({ showModal, setShowModal }) {
 					</option>
 				))}
 			</select> */}
-      <Grid container spacing={1} pt={0.8}>
-        <Grid item xs={12} sm={12} md={12}>
+      <Grid container pt={1}>
+        <Grid
+          style={{ width: "26px", height: "4px" }}
+          item
+          xs={12}
+          sm={12}
+          md={12}
+        >
           <Button label="Add" type="submit" onClick={handleClick} />
         </Grid>
       </Grid>
