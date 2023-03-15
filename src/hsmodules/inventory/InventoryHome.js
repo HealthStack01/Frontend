@@ -2,9 +2,10 @@
 import React, {useState, useEffect, useContext} from "react";
 import Store, {StoreList, StoreListStandalone} from "./Store";
 import {UserContext, ObjectContext} from "../../context";
-import {Outlet} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import ModalBox from "../../components/modal";
 import {Box} from "@mui/material";
+import {toast} from "react-toastify";
 
 export default function InventoryHome({children}) {
   // const [activeModal, setActiveModal]=useState("modal is-active ")
@@ -22,7 +23,17 @@ export default function InventoryHome({children}) {
 
   const [selectedInventory, setSelectedStore] = useState(location);
 
+  const navigate = useNavigate();
+
+  const noLocation = () => {
+    toast.error(
+      "You need to set an Inventory Location to access the Inventory Module"
+    );
+    navigate("/app");
+  };
+
   useEffect(() => {
+    if (!selectedInventory) return noLocation();
     const notSelected =
       selectedInventory && Object.keys(selectedInventory).length === 0;
 

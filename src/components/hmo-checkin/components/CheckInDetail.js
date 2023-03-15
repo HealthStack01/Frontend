@@ -1,4 +1,4 @@
-import {useState, useContext, useEffect} from "react";
+import {useState, useContext, useEffect, useCallback} from "react";
 import {Box, Grid} from "@mui/material";
 import {useForm} from "react-hook-form";
 import {toast} from "react-toastify";
@@ -15,24 +15,46 @@ import MuiDateTimePicker from "../../inputs/DateTime/MuiDateTimePicker";
 import CustomSelect from "../../inputs/basic/Select";
 import Textarea from "../../inputs/basic/Textarea";
 import GlobalCustomButton from "../../buttons/CustomButton";
+import GroupedRadio from "../../inputs/basic/Radio/GroupedRadio";
+import OtpInput from "react-otp-input";
+import ModalBox from "../../modal";
 
-const AppointmentCreate = ({closeModal}) => {
+const CheckInAppointmentDetail = ({closeModal}) => {
   const appointmentsServer = client.service("appointments");
+  const clientServer = client.service("client");
   const smsServer = client.service("sms");
   const emailServer = client.service("email");
   const notificationsServer = client.service("notification");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
-  const {register, reset, control, handleSubmit} = useForm();
+  const {register, reset, control, handleSubmit, watch} = useForm();
   const [patient, setPatient] = useState(null);
   const [practioner, setPractitioner] = useState(null);
   const [location, setLocation] = useState(null);
   const [paymentMode, setPaymentMode] = useState(null);
+  const [otpModal, setOtpModal] = useState(false);
+  const [otpValue, setOtpValue] = useState(null);
+
+  const appointment = state.AppointmentModule.selectedAppointment;
+
+  const getClient = useCallback(async () => {
+    const patient = await clientServer.get(appointment.clientId);
+    setPatient(patient);
+  }, [appointment]);
 
   useEffect(() => {
-    setPatient(state.AppointmentModule.selectedPatient);
-  }, [state.AppointmentModule.selectedPatient]);
+    getClient();
+    const data = {
+      appointmentClass: appointment.appointmentClass,
+      start_time: appointment.start_time,
+      appointment_type: appointment.appointment_type,
+      appointment_status: appointment.appointment_status,
+      appointment_reason: appointment.appointment_reason,
+    };
+
+    reset(data);
+  }, [state.AppointmentModule.selectedPatient, getClient]);
 
   const handleGetPatient = patient => {
     setPatient(patient);
@@ -47,7 +69,6 @@ const AppointmentCreate = ({closeModal}) => {
   };
 
   const handleGetPaymentMode = paymentMode => {
-    console.log(paymentMode);
     setPaymentMode(paymentMode);
   };
 
@@ -58,20 +79,10 @@ const AppointmentCreate = ({closeModal}) => {
     return otp.toString();
   };
 
-  // useEffect(() => {
-  //   if(patient.paymentinfo.some(checkHMO)){
-
-  //   }
-  //   else{
-  //     setPaymentMode()
-  //   }
-
-  // }, [patient])
-
   // Check if user has HMO
   const checkHMO = obj => obj.paymentmode === "HMO";
 
-  const handleCreateAppointment = async data => {
+  const handleUpdateAppointment = async data => {
     const employee = user.currentEmployee;
     const generatedOTP = generateOTP();
     const isHMO = patient.paymentinfo.some(checkHMO);
@@ -82,19 +93,17 @@ const AppointmentCreate = ({closeModal}) => {
     if (!location) return toast.warning("Please select a Location");
     if (!paymentMode)
       return toast.warning("Please select a Payment Mode for Client/Patient");
-    if (!state.CommunicationModule.defaultEmail.emailConfig?.username)
-      return setState(prev => ({
-        ...prev,
-        CommunicationModule: {
-          ...prev.CommunicationModule,
-          configEmailModal: true,
-        },
-      }));
+    if (isHMO && !otpValue) {
+      return setOtpModal(true);
+    }
+    if (isHMO && otpValue.toString() !== appointment?.otp) {
+      return toast.error("Incorrect OTP code supplied");
+    }
 
-    showActionLoader();
+    // showActionLoader();
 
     if (user.currentEmployee) {
-      data.facility = employee.facilityDetail._id; // or from facility dropdown
+      data.facility = employee.facilityDetail._id;
     }
 
     if (paymentMode.paymentmode.toLowerCase() === "hmo") {
@@ -119,85 +128,48 @@ const AppointmentCreate = ({closeModal}) => {
     data.practitioner_department = practioner.department;
     data.location_name = location.name;
     data.location_type = location.locationType;
-    data.otp = generatedOTP;
+    data.otp = appointment.otp;
     data.organization_type = employee.facilityDetail.facilityType;
     data.actions = [
       {
         status: data.appointment_status,
         actor: user.currentEmployee._id,
       },
+      ...appointment.actions,
     ];
 
-    const notificationObj = {
-      type: "Clinic",
-      title: `Scheduled ${data.appointmentClass} ${data.appointment_type} Appointment`,
-      description: `You have a schedule appointment with ${patient.firstname} ${
-        patient.lastname
-      } set to take place exactly at ${dayjs(data.start_time).format(
-        "DD/MM/YYYY hh:mm"
-      )} in ${location.name} Clinic for ${data.appointment_reason}`,
-      facilityId: employee.facilityDetail._id,
-      sender: `${employee.firstname} ${employee.lastname}`,
-      senderId: employee._id,
-      pageUrl: "/app/clinic/appointments",
-      priority: "normal",
-      dest_userId: [practioner._id],
-    };
-
-    const emailObj = {
-      organizationId: employee.facilityDetail._id,
-      organizationName: employee.facilityDetail.facilityName,
-      html: `<p>You have been scheduled for an appointment with ${
-        practioner.profession
-      } ${practioner.firstname} ${practioner.lastname} at ${dayjs(
-        data.start_time
-      ).format("DD/MM/YYYY hh:mm")} ${
-        isHMO ? `and your OTP code is ${generatedOTP}` : ""
-      } </p>`,
-
-      text: ``,
-      status: "pending",
-      subject: `SCHEDULED APPOINTMENT WITH ${
-        employee.facilityDetail.facilityName
-      } AT ${dayjs(data.date).format("DD/MM/YYYY hh:mm")}`,
-      to: patient.email,
-      name: employee.facilityDetail.facilityName,
-      from: state.CommunicationModule.defaultEmail.emailConfig.username,
-    };
-
-    const smsObj = {
-      message: `You have been scheduled for an appointment with ${
-        practioner.profession
-      } ${practioner.firstname} ${practioner.lastname} at ${dayjs(
-        data.start_time
-      ).format("DD/MM/YYYY hh:mm")} ${
-        isHMO ? `and your OTP code is ${generatedOTP}` : ""
-      } `,
-      recipients: [patient.phone],
-    };
-
+    //return console.log(data);
     appointmentsServer
-      .create(data)
+      .patch(appointment._id, data)
       .then(async res => {
         hideActionLoader();
         closeModal();
-        toast.success(
-          "Appointment created succesfully, Kindly bill patient if required"
-        );
-        await notificationsServer.create(notificationObj);
-        //await smsServer.create(smsObj);
-        await emailServer.create(emailObj);
-        hideActionLoader();
-
-        // await axios.post(
-        //   `https://portal.nigeriabulksms.com/api/?username=apmis&apmis=pass&message=${smsObj.message}&sender=${user.currentEmployee.facilityDetail.facilityName}&mobiles=${chosen.phone}`
-        // );
+        toast.success("Appointment updated succesfully");
       })
       .catch(err => {
         hideActionLoader();
-        toast.error("Error creating Appointment " + err);
+        toast.error("Error updating Appointment " + err);
       });
   };
+
+  const handleOtpChange = otp => {
+    setOtpValue(otp);
+  };
+
+  const watch_staus = watch("appointment_status");
+
+  useEffect(() => {
+    if (
+      watch_staus?.toLowerCase() === "checked in" &&
+      appointment?.client?.paymentinfo?.some(checkHMO) &&
+      !appointment.verified
+    ) {
+      setOtpModal(true);
+    } else {
+      setOtpValue(null);
+      setOtpModal(false);
+    }
+  }, [watch_staus]);
 
   return (
     <Box
@@ -205,36 +177,102 @@ const AppointmentCreate = ({closeModal}) => {
         width: "70vw",
       }}
     >
+      <ModalBox
+        open={otpModal}
+        onClose={() => {
+          setOtpModal(false);
+          () => setOtpValue(null);
+        }}
+        header={`Enter OTP Code to Continue to Check In Client`}
+      >
+        <Box>
+          <OtpInput
+            value={otpValue}
+            onChange={handleOtpChange}
+            numInputs={6}
+            isInputSecure={false}
+            separator={<span style={{padding: "0 6px"}}></span>}
+            inputStyle={{
+              width: "100%",
+              display: "block",
+              padding: "12px 0",
+              margin: "1rem 0",
+              border: "1px solid #a6a6a6",
+              borderRadius: "3px",
+              background: "#f0fbee",
+              textAlign: "center",
+            }}
+          />
+
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+            }}
+          >
+            <GlobalCustomButton onClick={() => setOtpModal(false)}>
+              Continue
+            </GlobalCustomButton>
+
+            <GlobalCustomButton
+              color="error"
+              onClick={() => {
+                setOtpModal(false);
+                () => setOtpValue(null);
+              }}
+            >
+              Cancel
+            </GlobalCustomButton>
+          </Box>
+        </Box>
+      </ModalBox>
+
       <Grid container spacing={2} mb={1}>
         <Grid item xs={12} sm={12} md={8} lg={8}>
-          <ClientSearch getSearchfacility={handleGetPatient} />
+          <ClientSearch
+            disabled={true}
+            getSearchfacility={handleGetPatient}
+            id={patient?._id}
+          />
         </Grid>
 
         <Grid item xs={12} sm={12} md={4} lg={4}>
           <ClientPaymentTypeSelect
+            disabled={true}
             payments={patient?.paymentinfo}
             handleChange={handleGetPaymentMode}
           />
         </Grid>
 
         <Grid item xs={12} sm={12} md={6}>
-          <EmployeeSearch getSearchfacility={handleGetPractitioner} />
+          <EmployeeSearch
+            disabled={true}
+            getSearchfacility={handleGetPractitioner}
+            id={appointment?.practitionerId}
+          />
         </Grid>
 
         <Grid item xs={12} sm={12} md={6}>
-          <LocationSearch getSearchfacility={handleGetLocation} />
+          <LocationSearch
+            disabled={true}
+            getSearchfacility={handleGetLocation}
+            id={appointment?.locationId}
+          />
         </Grid>
 
         <Grid item xs={12} sm={12} md={12}>
-          <RadioButton
+          <GroupedRadio
+            disabled={true}
+            control={control}
+            required={true}
             name="appointmentClass"
-            register={register("appointmentClass", {required: true})}
             options={["On-site", "Teleconsultation", "Home Visit"]}
           />
         </Grid>
 
         <Grid item xs={12} sm={12} md={4} lg={4}>
           <MuiDateTimePicker
+            disabled
             control={control}
             name="start_time"
             label="Date and Time"
@@ -244,6 +282,7 @@ const AppointmentCreate = ({closeModal}) => {
         </Grid>
         <Grid item xs={12} sm={12} md={4} lg={4}>
           <CustomSelect
+            disabled
             control={control}
             name="appointment_type"
             label="Appointment Type"
@@ -288,6 +327,7 @@ const AppointmentCreate = ({closeModal}) => {
             register={register("appointment_reason", {required: true})}
             type="text"
             placeholder="write here.."
+            disabled
           />
         </Grid>
       </Grid>
@@ -298,8 +338,8 @@ const AppointmentCreate = ({closeModal}) => {
           gap: 2,
         }}
       >
-        <GlobalCustomButton onClick={handleSubmit(handleCreateAppointment)}>
-          Create Appointment
+        <GlobalCustomButton onClick={handleSubmit(handleUpdateAppointment)}>
+          Update Appointment
         </GlobalCustomButton>
 
         <GlobalCustomButton onClick={closeModal} color="error">
@@ -310,4 +350,4 @@ const AppointmentCreate = ({closeModal}) => {
   );
 };
 
-export default AppointmentCreate;
+export default CheckInAppointmentDetail;

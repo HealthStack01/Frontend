@@ -2,10 +2,11 @@
 import React, {useState, useEffect, useContext} from "react";
 import Store, {StoreList} from "./Clinic";
 import {UserContext, ObjectContext} from "../../context";
-import {Outlet} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import ModalBox from "../../components/modal";
 import {Box} from "@mui/material";
 import Ward, {WardList} from "./Ward";
+import {toast} from "react-toastify";
 
 export default function WardHome({children}) {
   const {state, setState} = useContext(ObjectContext);
@@ -22,7 +23,15 @@ export default function WardHome({children}) {
 
   const [selectedWard, setSelectedWard] = useState(location);
 
+  const navigate = useNavigate();
+
+  const noLocation = () => {
+    toast.error("You need to set up a Ward Location to access the Ward Module");
+    navigate("/app");
+  };
+
   useEffect(() => {
+    if (!selectedWard) return noLocation();
     const notSelected = selectedWard && Object.keys(selectedWard).length === 0;
 
     if (notSelected) {
