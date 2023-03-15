@@ -159,25 +159,25 @@ const OrganizationSignup = () => {
         toast.success("Organization Account successfully Created");
         setCreatingOrganization(false);
         setSigningIn(true);
-        console.log(res);
+        //console.log(res);
 
-        // await client
-        //   .authenticate({
-        //     strategy: "local",
-        //     email: data.email,
-        //     password: data.password,
-        //   })
-        //   .then(res => {
-        //     const user = {
-        //       ...res.user,
-        //       currentEmployee: {...res.user.employeeData[0]},
-        //     };
-        //     localStorage.setItem("user", JSON.stringify(user));
-        //     setUser(user);
-        //     toast.success("You have successfully been logged in");
-        //     setSigningIn(false);
-        //     navigate("/app");
-        //   });
+        await client
+          .authenticate({
+            strategy: "local",
+            email: data.email,
+            password: data.password,
+          })
+          .then(res => {
+            const user = {
+              ...res.user,
+              currentEmployee: {...res.user.employeeData[0]},
+            };
+            localStorage.setItem("user", JSON.stringify(user));
+            setUser(user);
+            toast.success("You have successfully been logged in");
+            setSigningIn(false);
+            navigate("/app");
+          });
       })
       .catch(err => {
         setCreatingOrganization(false);

@@ -5,6 +5,8 @@ import {UserContext, ObjectContext} from "../../context";
 import {Outlet} from "react-router-dom";
 import ModalBox from "../../components/modal";
 import {Box} from "@mui/material";
+import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 export default function FinacneHome({children}) {
   // const [activeModal, setActiveModal]=useState("modal is-active ")
@@ -23,13 +25,17 @@ export default function FinacneHome({children}) {
 
   const [selectedStore, setSelectedStore] = useState(location);
 
-  // const handleCloseModal = () => {
-  //   state.showStoreModal = "modal";
-  //   setState(state);
-  //   //console.log(state.showStoreModal);
+  const navigate = useNavigate();
+
+  const noLocation = () => {
+    toast.error(
+      "You need to set a Finance Location to access the Finance Module"
+    );
+    navigate("/app");
+  };
 
   useEffect(() => {
-    //console.log(state.financeModule.selectedFinance);
+    if (!selectedStore) return noLocation();
     const notSelected =
       selectedStore && Object.keys(selectedStore).length === 0;
 

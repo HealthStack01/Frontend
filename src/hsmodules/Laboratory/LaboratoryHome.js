@@ -2,9 +2,10 @@
 import React, {useState, useEffect, useContext} from "react";
 import Store, {StoreList, StoreListStandalone} from "./Labs";
 import {UserContext, ObjectContext} from "../../context";
-import {Outlet} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import ModalBox from "../../components/modal";
 import {Box} from "@mui/material";
+import {toast} from "react-toastify";
 
 export default function LaboratoryHome({children}) {
   const {state, setState} = useContext(ObjectContext);
@@ -21,7 +22,17 @@ export default function LaboratoryHome({children}) {
 
   const [selectedLab, setSelectedLab] = useState(location);
 
+  const navigate = useNavigate();
+
+  const noLocation = () => {
+    toast.error(
+      "You need to set up a Laboratory Location to access the Laboratory Module"
+    );
+    navigate("/app");
+  };
+
   useEffect(() => {
+    if (!selectedLab) return noLocation();
     const notSelected = selectedLab && Object.keys(selectedLab).length === 0;
 
     if (notSelected) {

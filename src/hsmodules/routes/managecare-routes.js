@@ -37,6 +37,9 @@ const ProviderPayment = lazy(() => import("../ManagedCare/ProviderPayment"));
 
 const ComplaintDetails = lazy(() => import("../ManagedCare/ComplaintDetails"));
 const CheckIn = lazy(() => import("../ManagedCare/Checkin"));
+const ManagedCareCheckIn = lazy(() =>
+  import("../../components/hmo-checkin/Check-in")
+);
 //const PreAuthDetails = lazy(() => import("../ManagedCare/PreAuthDetails"));
 
 const DummyComponent = () => {
@@ -94,7 +97,7 @@ export const managedCareRoutes = [
   },
   {
     path: "/app/managed-care/checkin",
-    Component: CheckIn,
+    Component: ManagedCareCheckIn,
   },
   {
     path: "/app/managed-care/beneficiary",
