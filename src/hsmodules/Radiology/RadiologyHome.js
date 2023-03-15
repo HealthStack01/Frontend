@@ -7,28 +7,6 @@ import ModalBox from "../../components/modal";
 import {Box} from "@mui/material";
 
 export default function RadiologyHome({children}) {
-<<<<<<< HEAD
-  // const [activeModal, setActiveModal]=useState("modal is-active ")
-  const {state, setState} = useContext(ObjectContext);
-  const {user, setUser} = useContext(UserContext);
-  // eslint-disable-next-line
-  const [selectedStore, setSelectedStore] = useState(
-    state.RadiologyModule.selectedRadiology
-  );
-  const [showModal, setShowModal] = useState(false);
-
-  // const handleCloseModal=()=>{
-  //     state.showStoreModal  =  "modal"
-  //     setState(state)
-  //     console.log( state.showStoreModal)
-  // }
-
-  useEffect(() => {
-    const notSelected = Object.keys(selectedStore).length === 0;
-
-    if (notSelected) {
-      handleChangeStore();
-=======
   const {state, setState} = useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
 
@@ -67,7 +45,6 @@ export default function RadiologyHome({children}) {
           selectedRadiology: selectedStore,
         },
       }));
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
     }
     return () => {};
   }, []);

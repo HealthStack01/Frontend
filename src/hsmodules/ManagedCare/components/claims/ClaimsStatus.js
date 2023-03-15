@@ -73,14 +73,6 @@ const ClaimsStatus = ({closeModal}) => {
             control={control}
             name="status"
             options={[
-<<<<<<< HEAD
-              "Approval Started",
-              "Approval Complete",
-              "Declined",
-              "Queried",
-              "Queued for Payment",
-              "Vetted",
-=======
               {
                 name: "Approved",
                 value: "Approved",
@@ -105,7 +97,6 @@ const ClaimsStatus = ({closeModal}) => {
               "Queried",
               "Queued for Payment",
 
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
               "Payment Instruction Sent",
               "Paid",
               "Submitted",

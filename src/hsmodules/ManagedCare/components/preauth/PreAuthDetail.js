@@ -13,15 +13,6 @@ import CustomSelect from "../../../../components/inputs/basic/Select";
 import {useForm} from "react-hook-form";
 import {FormsHeaderText} from "../../../../components/texts";
 import ModalBox from "../../../../components/modal";
-<<<<<<< HEAD
-import ClaimCreateComplaint from "./Complaints";
-import ClaimCreateDiagnosis from "./Diagnosis";
-import ClaimCreateService from "./Services";
-import ClaimsChat from "./PreAuthChat";
-import AssignClaim from "./AssignPreAuth";
-import ClaimsStatus from "./PreAuthStatus";
-import ClaimsTask from "../../Tasks";
-=======
 import PreauthorizationCreateComplaint from "./Complaints";
 import PreauthorizationCreateDiagnosis from "./Diagnosis";
 import PreauthorizationCreateService from "./Services";
@@ -30,7 +21,6 @@ import AssignPreauthorization from "./AssignPreAuth";
 import PreauthorizationStatus from "./PreAuthStatus";
 import PreauthorizationTask from "../../Tasks";
 import UpadteService from "./UpdateService";
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
 import {
   getComplaintColumns,
@@ -43,10 +33,7 @@ import Input from "../../../../components/inputs/basic/Input";
 import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
-<<<<<<< HEAD
-=======
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
 const PreAuthDetailComponent = ({handleGoBack}) => {
   const preAuthServer = client.service("preauth");
@@ -69,8 +56,6 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
   const [assignModal, setAssignModal] = useState(false);
   const [statusModal, setStatusModal] = useState(false);
   const [view, setView] = useState("details");
-<<<<<<< HEAD
-=======
   const [updateServiceModal, setUpdateServiceModal] = useState(false);
   const [confirmationDiaglog, setConfirmationDialog] = useState({
     open: false,
@@ -78,7 +63,6 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
     type: "",
     action: null,
   });
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
   const selectedPreAuth = state.PreAuthModule.selectedPreAuth;
   const clinical_details = selectedPreAuth?.clinical_details || {};
@@ -88,11 +72,7 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
   useEffect(() => {
     const resetForm = {
       patientstate: selectedPreAuth.patientstate,
-<<<<<<< HEAD
-      claimtype: selectedPreAuth.claimtype,
-=======
       preauthtype: selectedPreAuth.preauthtype,
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       comments: selectedPreAuth.comments,
       totalamount: selectedPreAuth.totalamount,
       investigation: clinical_details.investigation || "",
@@ -170,13 +150,6 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
     getPolicy();
   }, [getPolicy]);
 
-<<<<<<< HEAD
-  const complaintColumns = getComplaintColumns();
-  const diagnosisColumns = getDiagnosisColumns();
-  const servicesColumns = getServicesColumns();
-
-=======
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
   const handleCreateClaim = async data => {
     if (!state.ClientModule.selectedClient._id)
       return toast.warning("Please add Client..");
@@ -198,19 +171,12 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
       policy: policy,
       hmopayer: policy.organization,
       sponsor: policy.sponsor,
-<<<<<<< HEAD
-      claimtype: data.claimtype,
-=======
       preauthtype: data.preauthtype,
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       totalamount: data.totalamount,
       comments: data.comments,
       patientstate: data.patientstate,
       provider: facility,
-<<<<<<< HEAD
-=======
       priority: data.priority,
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       services: services,
       beneficiary: state.ClientModule.selectedClient,
       submissiondate: dayjs(),
@@ -233,19 +199,11 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
       .create(document)
       .then(res => {
         hideActionLoader();
-<<<<<<< HEAD
-        toast.success("You have succesfully created a Claim");
-      })
-      .catch(err => {
-        hideActionLoader();
-        toast.error(`Failed to create Claim ${err}`);
-=======
         toast.success("You have succesfully created a Preauthorization");
       })
       .catch(err => {
         hideActionLoader();
         toast.error(`Failed to create Preauthorization ${err}`);
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       });
   };
 
@@ -312,8 +270,6 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
     },
   ];
 
-<<<<<<< HEAD
-=======
   const onServiceRowClick = item => {
     setState(prev => ({
       ...prev,
@@ -457,7 +413,6 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
   const diagnosisColumns = getDiagnosisColumns(confirmDeleteDiagnosis, false);
   const servicesColumns = getServicesColumns(confirmDeleteService, false);
 
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
   return (
     <Box
       sx={{
@@ -467,14 +422,6 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
         position: "relative",
       }}
     >
-<<<<<<< HEAD
-      <ModalBox
-        open={statusModal}
-        onClose={() => setStatusModal(false)}
-        header="Update Claim Status"
-      >
-        <ClaimsStatus closeModal={() => setStatusModal(false)} />
-=======
       <CustomConfirmationDialog
         open={confirmationDiaglog.open}
         message={confirmationDiaglog.message}
@@ -496,35 +443,22 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
         header="Update Preauthorization Status"
       >
         <PreauthorizationStatus closeModal={() => setStatusModal(false)} />
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       </ModalBox>
 
       <ModalBox
         open={assignModal}
         onClose={() => setAssignModal(false)}
-<<<<<<< HEAD
-        header="Assign Claim to a User"
-      >
-        <AssignClaim closeModal={() => setAssignModal(false)} />
-=======
         header="Assign Preauthorization to a User"
       >
         <AssignPreauthorization closeModal={() => setAssignModal(false)} />
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       </ModalBox>
 
       <ModalBox
         open={complaintModal}
         onClose={() => setComplaintModal(false)}
-<<<<<<< HEAD
-        header="Add Complaints to Claim"
-      >
-        <ClaimCreateComplaint
-=======
         header="Add Complaints to Preauthorization"
       >
         <PreauthorizationCreateComplaint
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
           closeModal={() => setComplaintModal(false)}
           setComplaints={setComplaints}
         />
@@ -533,15 +467,9 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
       <ModalBox
         open={diagnosisModal}
         onClose={() => setDiagnosisModal(false)}
-<<<<<<< HEAD
-        header="Add Complaints to Claim"
-      >
-        <ClaimCreateDiagnosis
-=======
         header="Add Diagnosis to Preauthorization"
       >
         <PreauthorizationCreateDiagnosis
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
           closeModal={() => setDiagnosisModal(false)}
           setDiagnosis={setDiagnosis}
         />
@@ -550,15 +478,9 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
       <ModalBox
         open={serviceModal}
         onClose={() => setServiceModal(false)}
-<<<<<<< HEAD
-        header="Add Services to Claim"
-      >
-        <ClaimCreateService
-=======
         header="Add Services to Preauthorization"
       >
         <PreauthorizationCreateService
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
           closeModal={() => setServiceModal(false)}
           setServices={setServices}
         />
@@ -590,17 +512,6 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
             Back
           </GlobalCustomButton>
 
-<<<<<<< HEAD
-          <Typography
-            sx={{
-              fontSize: "0.95rem",
-              fontWeight: "600",
-            }}
-          >
-            Preauthorization's Detail -{" "}
-            <FormsHeaderText text={selectedPreAuth?.preauthid} />
-          </Typography>
-=======
           <Box
             sx={{
               display: "flex",
@@ -618,7 +529,6 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
             </Typography>
             <FormsHeaderText text={`- ${selectedPreAuth?.preauthid}`} />
           </Box>
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
         </Box>
 
         <Box
@@ -660,17 +570,10 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
             Change Status
           </GlobalCustomButton>
 
-<<<<<<< HEAD
-          <GlobalCustomButton color="info" onClick={() => setAssignModal(true)}>
-            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-            Assign Preauthorization
-          </GlobalCustomButton>
-=======
           {/* <GlobalCustomButton color="info" onClick={() => setAssignModal(true)}>
             <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
             Assign Preauthorization
           </GlobalCustomButton> */}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
         </Box>
       </Box>
 
@@ -696,11 +599,7 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
           }}
         >
           {view === "tasks" && (
-<<<<<<< HEAD
-            <ClaimsTask
-=======
             <PreauthorizationTask
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
               taskServer={preAuthServer}
               taskState={state.PreAuthModule.selectedPreAuth}
             />
@@ -720,11 +619,7 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
 
                 <Grid item lg={6}>
                   <Input
-<<<<<<< HEAD
-                    label="Claim's Status"
-=======
                     label="Preauthorization's Status"
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                     register={register("status")}
                     disabled
                   />
@@ -741,19 +636,11 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
 
                 <Grid item lg={3} md={3}>
                   <CustomSelect
-<<<<<<< HEAD
-                    label="Urgency"
-                    required
-                    control={control}
-                    name="urgency"
-                    options={["Urgent"]}
-=======
                     label="Priority"
                     required
                     control={control}
                     name="priority"
                     options={["Low", "Medium", "High", "Emergency"]}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                   />
                 </Grid>
 
@@ -798,8 +685,6 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
                 </Grid>
               )}
 
-<<<<<<< HEAD
-=======
               <Box>
                 <FormsHeaderText text="Preauthorization's Status History" />
                 <Box mt={1} mb={1}>
@@ -818,7 +703,6 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
                 </Box>
               </Box>
 
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
               <Box mb={2}>
                 <Box
                   sx={{
@@ -945,35 +829,21 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
                 }}
                 gap={1.5}
               >
-<<<<<<< HEAD
-                <FormsHeaderText text="Claim's Info" />
-=======
                 <FormsHeaderText text="Preauthorization's Info" />
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
                     <CustomSelect
-<<<<<<< HEAD
-                      label="Claim Type"
-                      control={control}
-                      name="claimtype"
-=======
                       label="Preauthroization Type"
                       control={control}
                       name="preauthorizationtype"
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                       options={["Capitation", "Fee for Service"]}
                     />
                   </Grid>
 
                   <Grid item xs={6}>
                     <Input
-<<<<<<< HEAD
-                      label="Total Claim's Amount"
-=======
                       label="Total Preauthorization's Amount"
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                       disabled
                       type="number"
                       register={register("totalamount")}
@@ -1013,13 +883,8 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
                     pointerOnHover
                     highlightOnHover
                     striped
-<<<<<<< HEAD
-                    //onRowClicked={handleRow}
-                    //conditionalRowStyles={conditionalRowStyles}
-=======
                     onRowClicked={onServiceRowClick}
                     conditionalRowStyles={servicesConditionalRowStyles}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                     progressPending={false}
                     CustomEmptyData={
                       <Typography sx={{fontSize: "0.8rem"}}>
@@ -1040,27 +905,6 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
                   />
                 </Box>
               </Box>
-<<<<<<< HEAD
-
-              <Box>
-                <FormsHeaderText text="Claim's Status History" />
-                <Box mt={1} mb={1}>
-                  <CustomTable
-                    title={""}
-                    columns={statushxColumns}
-                    data={selectedPreAuth.statushx || []}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    //onRowClicked={handleRow}
-                    CustomEmptyData="No Status History for this Claim yet..."
-                    progressPending={false}
-                    //conditionalRowStyles={conditionalRowStyles}
-                  />
-                </Box>
-              </Box>
-=======
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
             </>
           )}
         </Box>
@@ -1079,11 +923,7 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
             overflowY: "hidden",
           }}
         >
-<<<<<<< HEAD
-          {chat && <ClaimsChat closeChat={() => setChat(false)} />}
-=======
           {chat && <PreauthorizationChat closeChat={() => setChat(false)} />}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
         </Box>
       </Drawer>
     </Box>

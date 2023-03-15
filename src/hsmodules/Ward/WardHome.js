@@ -8,28 +8,6 @@ import {Box} from "@mui/material";
 import Ward, {WardList} from "./Ward";
 
 export default function WardHome({children}) {
-<<<<<<< HEAD
-  // const [activeModal, setActiveModal]=useState("modal is-active ")
-  const {state, setState} = useContext(ObjectContext);
-  const {user, setUser} = useContext(UserContext);
-  // eslint-disable-next-line
-  const [selectedWard, setSelectedWard] = useState(
-    state.WardModule.selectedWard
-  );
-  const [showModal, setShowModal] = useState(false);
-
-  // const handleCloseModal = () => {
-  //   state.showStoreModal = "modal";
-  //   setState(state);
-  //   console.log(state.showStoreModal);
-  // };
-
-  useEffect(() => {
-    const notSelected = Object.keys(selectedWard).length === 0;
-
-    if (notSelected) {
-      handleChangeWard();
-=======
   const {state, setState} = useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
 
@@ -67,7 +45,6 @@ export default function WardHome({children}) {
           selectedWard: selectedWard,
         },
       }));
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
     }
     return () => {};
   }, []);

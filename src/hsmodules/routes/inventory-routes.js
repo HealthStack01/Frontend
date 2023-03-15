@@ -17,10 +17,7 @@ const InventoryProductEntry = lazy(() => import("../inventory/ProductEntry"));
 const InventoryProductExit = lazy(() => import("../inventory/ProductExit"));
 const InventoryProducts = lazy(() => import("../inventory/Products"));
 const Store = lazy(() => import("../inventory/Store"));
-<<<<<<< HEAD
-=======
 const InventoryTransfer = lazy(() => import("../inventory/InventoryTransfer"));
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
 export const inventoryRoutes = [
   {
@@ -44,13 +41,10 @@ export const inventoryRoutes = [
     Component: InventoryStore,
   },
   {
-<<<<<<< HEAD
-=======
     path: "/app/inventory/transfer",
     Component: InventoryTransfer,
   },
   {
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
     path: "/app/inventory/inv-admin",
     Component: InventorySetup,
   },

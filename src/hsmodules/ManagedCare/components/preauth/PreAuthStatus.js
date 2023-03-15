@@ -10,30 +10,17 @@ import client from "../../../../feathers";
 import {ObjectContext, UserContext} from "../../../../context";
 import {toast} from "react-toastify";
 
-<<<<<<< HEAD
-const ClaimsStatus = ({closeModal}) => {
-  const claimsServer = client.service("claims");
-=======
 const PreAuthStatus = ({closeModal}) => {
   const preAuthServer = client.service("preauth");
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
 
-<<<<<<< HEAD
-  const selectedClaim = state.ClaimsModule.selectedClaim;
-
-  const {control, register, handleSubmit} = useForm({
-    defaultValues: {
-      status: selectedClaim.status,
-=======
   const selectedPreAuth = state.PreAuthModule.selectedPreAuth;
 
   const {control, register, handleSubmit} = useForm({
     defaultValues: {
       status: selectedPreAuth.status,
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
     },
   });
 
@@ -49,21 +36,6 @@ const PreAuthStatus = ({closeModal}) => {
       comment: data.comment,
     };
 
-<<<<<<< HEAD
-    const prevHistory = selectedClaim.statushx || [];
-    const newStatushx = [statushx, ...prevHistory];
-
-    await claimsServer
-      .patch(selectedClaim._id, {status: data.status, statushx: newStatushx})
-      .then(res => {
-        hideActionLoader();
-        toast.success("You've successfully updated Claim's status");
-        setState(prev => ({
-          ...prev,
-          ClaimsModule: {
-            ...prev.ClaimsModule,
-            selectedClaim: res,
-=======
     const prevHistory = selectedPreAuth.statushx || [];
     const newStatushx = [statushx, ...prevHistory];
 
@@ -77,7 +49,6 @@ const PreAuthStatus = ({closeModal}) => {
           PreAuthModule: {
             ...prev.PreAuthModule,
             selectedPreAuth: res,
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
           },
         }));
         closeModal();
@@ -85,11 +56,7 @@ const PreAuthStatus = ({closeModal}) => {
       .catch(err => {
         hideActionLoader();
         console.log(err);
-<<<<<<< HEAD
-        toast.error(`Failed to updated Claim's Status ${err}`);
-=======
         toast.error(`Failed to updated Preauthorization's Status ${err}`);
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       });
   };
 
@@ -110,14 +77,7 @@ const PreAuthStatus = ({closeModal}) => {
               "Approval Complete",
               "Declined",
               "Queried",
-<<<<<<< HEAD
-              "Queued for Payment",
               "Vetted",
-              "Payment Instruction Sent",
-              "Paid",
-=======
-              "Vetted",
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
               "Submitted",
             ]}
           />
@@ -153,8 +113,4 @@ const PreAuthStatus = ({closeModal}) => {
   );
 };
 
-<<<<<<< HEAD
-export default ClaimsStatus;
-=======
 export default PreAuthStatus;
->>>>>>> 6629424bb56c5124204d6f95a047225340175196

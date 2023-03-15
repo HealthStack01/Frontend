@@ -32,11 +32,8 @@ import Input from "../../../../components/inputs/basic/Input";
 import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
-<<<<<<< HEAD
-=======
 import UpadteService from "./UpdateService";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
 const ClaimDetailComponent = ({handleGoBack}) => {
   const claimsServer = client.service("claims");
@@ -59,8 +56,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
   const [assignModal, setAssignModal] = useState(false);
   const [statusModal, setStatusModal] = useState(false);
   const [view, setView] = useState("details");
-<<<<<<< HEAD
-=======
   const [updateServiceModal, setUpdateServiceModal] = useState(false);
   const [edit, setEdit] = useState(false);
   const [confirmationDiaglog, setConfirmationDialog] = useState({
@@ -69,7 +64,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
     type: "",
     action: null,
   });
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
   const selectedClaim = state.ClaimsModule.selectedClaim;
   const clinical_details = selectedClaim?.clinical_details || {};
@@ -157,16 +151,8 @@ const ClaimDetailComponent = ({handleGoBack}) => {
     getPolicy();
   }, [getPolicy]);
 
-<<<<<<< HEAD
-  const complaintColumns = getComplaintColumns();
-  const diagnosisColumns = getDiagnosisColumns();
-  const servicesColumns = getServicesColumns();
-
-  const handleCreateClaim = async data => {
-=======
   const handleUpdateClaim = async data => {
     return console.log(data);
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
     if (!state.ClientModule.selectedClient._id)
       return toast.warning("Please add Client..");
 
@@ -285,8 +271,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
     },
   ];
 
-<<<<<<< HEAD
-=======
   const onServiceRowClick = item => {
     setState(prev => ({
       ...prev,
@@ -430,7 +414,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
   const diagnosisColumns = getDiagnosisColumns(confirmDeleteDiagnosis, !edit);
   const servicesColumns = getServicesColumns(confirmDeleteService, !edit);
 
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
   return (
     <Box
       sx={{
@@ -440,8 +423,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
         position: "relative",
       }}
     >
-<<<<<<< HEAD
-=======
       <CustomConfirmationDialog
         open={confirmationDiaglog.open}
         message={confirmationDiaglog.message}
@@ -456,7 +437,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
       >
         <UpadteService closeModal={() => setUpdateServiceModal(false)} />
       </ModalBox>
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       <ModalBox
         open={statusModal}
         onClose={() => setStatusModal(false)}
@@ -464,10 +444,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
       >
         <ClaimsStatus closeModal={() => setStatusModal(false)} />
       </ModalBox>
-<<<<<<< HEAD
-
-=======
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       <ModalBox
         open={assignModal}
         onClose={() => setAssignModal(false)}
@@ -475,10 +451,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
       >
         <AssignClaim closeModal={() => setAssignModal(false)} />
       </ModalBox>
-<<<<<<< HEAD
-
-=======
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       <ModalBox
         open={complaintModal}
         onClose={() => setComplaintModal(false)}
@@ -489,10 +461,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
           setComplaints={setComplaints}
         />
       </ModalBox>
-<<<<<<< HEAD
-
-=======
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       <ModalBox
         open={diagnosisModal}
         onClose={() => setDiagnosisModal(false)}
@@ -503,10 +471,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
           setDiagnosis={setDiagnosis}
         />
       </ModalBox>
-<<<<<<< HEAD
-
-=======
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       <ModalBox
         open={serviceModal}
         onClose={() => setServiceModal(false)}
@@ -544,16 +508,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
             Back
           </GlobalCustomButton>
 
-<<<<<<< HEAD
-          <Typography
-            sx={{
-              fontSize: "0.95rem",
-              fontWeight: "600",
-            }}
-          >
-            Claim's Detail - <FormsHeaderText text={selectedClaim?.preauthid} />
-          </Typography>
-=======
           <Box
             sx={{
               display: "flex",
@@ -571,7 +525,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
             </Typography>
             <FormsHeaderText text={`- ${selectedClaim?.claimid}`} />
           </Box>
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
         </Box>
 
         <Box
@@ -581,8 +534,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
           }}
           gap={1}
         >
-<<<<<<< HEAD
-=======
           {user.currentEmployee.roles.includes("Managed Care Audit Claim") &&
             (edit ? (
               <>
@@ -606,7 +557,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
               </GlobalCustomButton>
             ))}
 
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
           <GlobalCustomButton color="info" onClick={() => setView("details")}>
             <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
             Details
@@ -639,15 +589,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
             Change Status
           </GlobalCustomButton>
 
-<<<<<<< HEAD
-          <GlobalCustomButton color="info" onClick={() => setAssignModal(true)}>
-            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-            Assign Claim
-          </GlobalCustomButton>
-        </Box>
-      </Box>
-
-=======
           {(user?.currentEmployee?.roles?.includes("Admin") ||
             user?.currentEmployee?.roles?.includes(
               "Managed Care Assign Claim"
@@ -662,7 +603,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
           )}
         </Box>
       </Box>
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       <Box
         sx={{
           display: "flex",
@@ -726,10 +666,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                     required
                     control={control}
                     name="patientstate"
-<<<<<<< HEAD
-=======
                     disabled={!edit}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                     options={[
                       {
                         label: "In Patient",
@@ -752,10 +689,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                       control={control}
                       name="admission_date"
                       label="Admission Date"
-<<<<<<< HEAD
-=======
                       disabled={!edit}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                     />
                   </Grid>
 
@@ -764,17 +698,12 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                       control={control}
                       name="discharged_date"
                       label="Discharged Date"
-<<<<<<< HEAD
-=======
                       disabled={!edit}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                     />
                   </Grid>
                 </Grid>
               )}
 
-<<<<<<< HEAD
-=======
               <Box>
                 <FormsHeaderText text="Claim's Status History" />
                 <Box mt={1} mb={1}>
@@ -793,7 +722,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                 </Box>
               </Box>
 
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
               <Box mb={2}>
                 <Box
                   sx={{
@@ -805,19 +733,12 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                 >
                   <FormsHeaderText text="Complaints Data" />
 
-<<<<<<< HEAD
-                  <GlobalCustomButton onClick={() => setComplaintModal(true)}>
-                    <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-                    New Complaint
-                  </GlobalCustomButton>
-=======
                   {edit && (
                     <GlobalCustomButton onClick={() => setComplaintModal(true)}>
                       <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                       New Complaint
                     </GlobalCustomButton>
                   )}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                 </Box>
 
                 <Box>
@@ -847,10 +768,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <Textarea
                     placeholder="Write here..."
                     register={register("clinical_findings")}
-<<<<<<< HEAD
-=======
                     disabled={!edit}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                   />
                 </Box>
               </Box>
@@ -866,19 +784,12 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                 >
                   <FormsHeaderText text="Diagnosis Data" />
 
-<<<<<<< HEAD
-                  <GlobalCustomButton onClick={() => setDiagnosisModal(true)}>
-                    <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-                    New Diagnosis
-                  </GlobalCustomButton>
-=======
                   {edit && (
                     <GlobalCustomButton onClick={() => setDiagnosisModal(true)}>
                       <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                       New Diagnosis
                     </GlobalCustomButton>
                   )}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                 </Box>
 
                 <Box>
@@ -908,10 +819,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <Textarea
                     placeholder="Write here..."
                     register={register("investigation")}
-<<<<<<< HEAD
-=======
                     disabled={!edit}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                   />
                 </Box>
               </Box>
@@ -923,10 +831,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <Textarea
                     placeholder="Write here..."
                     register={register("drugs")}
-<<<<<<< HEAD
-=======
                     disabled={!edit}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                   />
                 </Box>
               </Box>
@@ -938,10 +843,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <Textarea
                     placeholder="Write here..."
                     register={register("treatment")}
-<<<<<<< HEAD
-=======
                     disabled={!edit}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                   />
                 </Box>
               </Box>
@@ -963,10 +865,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                       control={control}
                       name="claimtype"
                       options={["Capitation", "Fee for Service"]}
-<<<<<<< HEAD
-=======
                       disabled={!edit}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                     />
                   </Grid>
 
@@ -992,18 +891,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                 >
                   <FormsHeaderText text="Services Data" />
 
-<<<<<<< HEAD
-                  <GlobalCustomButton
-                    onClick={() => {
-                      if (!state.ClientModule.selectedClient._id)
-                        return toast.warning("You need to select a client");
-                      setServiceModal(true);
-                    }}
-                  >
-                    <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-                    New Service
-                  </GlobalCustomButton>
-=======
                   {edit && (
                     <GlobalCustomButton
                       onClick={() => {
@@ -1016,7 +903,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                       New Service
                     </GlobalCustomButton>
                   )}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                 </Box>
 
                 <Box>
@@ -1027,13 +913,8 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                     pointerOnHover
                     highlightOnHover
                     striped
-<<<<<<< HEAD
-                    //onRowClicked={handleRow}
-                    //conditionalRowStyles={conditionalRowStyles}
-=======
                     onRowClicked={onServiceRowClick}
                     conditionalRowStyles={servicesConditionalRowStyles}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                     progressPending={false}
                     CustomEmptyData={
                       <Typography sx={{fontSize: "0.8rem"}}>
@@ -1051,28 +932,7 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <Textarea
                     placeholder="Write here..."
                     register={register("comments")}
-<<<<<<< HEAD
-                  />
-                </Box>
-              </Box>
-
-              <Box>
-                <FormsHeaderText text="Claim's Status History" />
-                <Box mt={1} mb={1}>
-                  <CustomTable
-                    title={""}
-                    columns={statushxColumns}
-                    data={selectedClaim.statushx || []}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    //onRowClicked={handleRow}
-                    CustomEmptyData="No Status History for this Claim yet..."
-                    progressPending={false}
-                    //conditionalRowStyles={conditionalRowStyles}
-=======
                     disabled={!edit}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                   />
                 </Box>
               </Box>
@@ -1080,10 +940,6 @@ const ClaimDetailComponent = ({handleGoBack}) => {
           )}
         </Box>
       </Box>
-<<<<<<< HEAD
-
-=======
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       <Drawer
         anchor="right"
         open={chat}

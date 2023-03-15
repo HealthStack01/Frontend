@@ -259,6 +259,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
     }
     setSuccessService(false);
   };
+
   // const getSearchfacility2 = (obj) => {
   // 	setCategoryName(obj.categoryname);
   // 	setChosen2(obj);
@@ -325,6 +326,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
       status: status,
     });
   };
+
   const handleClickProd = async () => {
     if (!planCategory) {
       toast.warning("You need to enter Category");
@@ -836,7 +838,6 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
 								onChange={(e) => setIndividualPremium(e.target.value)}
 							/>
 						</Grid>
-
 						<Grid
 							item
 							xs={12}
@@ -1085,7 +1086,6 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
                               onChange={(e) => handleServType(e)}
                               style={{ marginRight: "5px" }}
                             />
-
                             <span>Fee for Service</span>
                           </Grid>
                           <Grid item xs={12} sm={3}>
@@ -1350,10 +1350,7 @@ export function HealthPlanList({
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
-<<<<<<< HEAD
-=======
         setLoading(false);
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       })
       .catch((err) => {
         console.log(err);
@@ -1808,7 +1805,7 @@ export function HealthPlanDetails({
   const [confirmDialog, setConfirmDialog] = useState(false);
   const [confirmDialogForPremium, setConfirmDialogForPremium] = useState(false);
   //const history = useHistory()
-
+  // eslint-disable-next-line
   const { user } = useContext(UserContext);
   const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
@@ -1825,7 +1822,7 @@ export function HealthPlanDetails({
   const [editPremiumDurationType, setEditPremiumDurationType] = useState("");
   const [benefitDurationType, setBenefitDurationType] = useState("");
   const [facilities, setFacilities] = useState([]);
-  
+  //state
   const ServicesServ = client.service("billing");
   const BandsServ = client.service("bands");
   const [benefittingplans, setBenefittingPlans] = useState([]);
@@ -3221,7 +3218,6 @@ export function HealthPlanDetails({
                   />
                 )}
               </Grid>
-
               <Grid item xs={4}>
                 {!editing ? (
                   <p>Provider Network: {selectedPlan?.providerNetwork[0]}</p>
@@ -3233,7 +3229,6 @@ export function HealthPlanDetails({
                   />
                 )}
               </Grid>{" "}
-
               <Grid item xs={4}>
                 {!editing ? (
                   <p>
@@ -3248,7 +3243,6 @@ export function HealthPlanDetails({
                   />
                 )}
               </Grid>
-
               <Grid item xs={4}>
                 {!editing ? (
                   <p>Individual Limit: ₦{selectedPlan?.individualLimit}</p>
@@ -3260,7 +3254,6 @@ export function HealthPlanDetails({
                   />
                 )}
               </Grid>
-
               <Grid item xs={4}>
                 {!editing ? (
                   <p>Family Limit: ₦{selectedPlan?.familyLimit}</p>
@@ -3452,7 +3445,6 @@ export function HealthPlanDetails({
                             onChange={(e) => handleServType(e)}
                             style={{ marginRight: "5px" }}
                           />
-
                           <span>Fee for Service</span>
                         </Grid>
                         <Grid item xs={12} sm={3}>

@@ -13,16 +13,12 @@ import client from "../../../../feathers";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 import {toast} from "react-toastify";
 
-<<<<<<< HEAD
-const TasksList = ({openCreateModal, openDetailModal}) => {
-=======
 const TasksList = ({
   openCreateModal,
   openDetailModal,
   taskState,
   taskServer,
 }) => {
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
   const claimsServer = client.service("claims");
   const dealServer = client.service("deal");
   const {state, setState, showActionLoader, hideActionLoader} =
@@ -40,13 +36,8 @@ const TasksList = ({
   });
 
   useEffect(() => {
-<<<<<<< HEAD
-    setTasks(state.ClaimsModule.selectedClaim.task || []);
-  }, [state.ClaimsModule]);
-=======
     setTasks(taskState.task || []);
   }, [taskState]);
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
   const handleRow = async row => {
     setState(prev => ({

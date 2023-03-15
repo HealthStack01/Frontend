@@ -12,15 +12,9 @@ import CustomSelect from "../../../../components/inputs/basic/Select";
 import {useForm} from "react-hook-form";
 import {FormsHeaderText} from "../../../../components/texts";
 import ModalBox from "../../../../components/modal";
-<<<<<<< HEAD
-import ClaimCreateComplaint from "./Complaints";
-import ClaimCreateDiagnosis from "./Diagnosis";
-import ClaimCreateService from "./Services";
-=======
 import PreauthorizationCreateComplaint from "./Complaints";
 import PreauthorizationCreateDiagnosis from "./Diagnosis";
 import PreauthorizationCreateService from "./Services";
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
 const random = require("random-string-generator");
 
@@ -36,16 +30,10 @@ import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 import {SelectAdmission, SelectAppointment} from "../claims/ClaimsCreate";
-<<<<<<< HEAD
-
-const PreAuthCreateComponent = ({handleGoBack}) => {
-  const claimsServer = client.service("preauth");
-=======
 import TextAreaVoiceAndText from "../../../../components/inputs/basic/Textarea/VoiceAndText";
 
 const PreAuthCreateComponent = ({handleGoBack}) => {
   const preAuthServer = client.service("preauth");
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
@@ -62,12 +50,6 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
   const [appointmentModal, setAppointmentModal] = useState(false);
   const [selectedAdmission, setSelectedAdmission] = useState(null);
   const [admissonModal, setAdmissionModal] = useState(false);
-<<<<<<< HEAD
-
-  const {control, handleSubmit, register, reset, watch, setValue} = useForm({
-    defaultValues: {
-      claimtype: "Fee for Service",
-=======
   const [clinicFindInputType, setClinicFindInputType] = useState("type");
   const [investigationInputType, setInvestigationInputType] = useState("type");
   const [drugsInputType, setDrugsInputType] = useState("type");
@@ -77,7 +59,6 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
   const {control, handleSubmit, register, reset, watch, setValue} = useForm({
     defaultValues: {
       preauthtype: "Fee for Service",
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
     },
   });
 
@@ -155,13 +136,10 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
   const diagnosisColumns = getDiagnosisColumns();
   const servicesColumns = getServicesColumns();
 
-<<<<<<< HEAD
-=======
   // useEffect(() => {
   //   hideActionLoader();
   // }, []);
 
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
   const handleCreatePreAuthorization = async data => {
     if (!state.ClientModule.selectedClient._id)
       return toast.warning("Please add Client..");
@@ -178,14 +156,6 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
     // delete clinical_data.claimtype;
     // delete clinical_data.comments;
     // delete clinical_data.patientstate;
-<<<<<<< HEAD
-
-    const document = {
-      policy: policy,
-      hmopayer: policy.organization,
-      sponsor: policy.sponsor,
-      claimtype: data.claimtype,
-=======
     const statushx = {
       status: "Submitted",
       date: new Date(),
@@ -200,28 +170,19 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
       statushx: statushx,
       sponsor: policy?.sponsor,
       preauthtype: data.preauthtype,
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       totalamount: data.totalamount,
       comments: data.comments,
       patientstate: data.patientstate,
       provider: facility,
       services: services,
-<<<<<<< HEAD
-=======
       priority: data.prioriy,
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       beneficiary: state.ClientModule.selectedClient,
       submissiondate: dayjs(),
       submissionby: employee,
       status: "Submitted",
       preauthid: random(12, "uppernumeric"),
-<<<<<<< HEAD
-      appointmentid: selectedAppointment?._id,
-      admissionid: selectedAdmission?._id,
-=======
       appointment: selectedAppointment,
       admission: selectedAdmission,
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       geolocation: {
         type: "Point",
         coordinates: [state.coordinates.latitude, state.coordinates.longitude],
@@ -233,15 +194,9 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
       },
     };
 
-<<<<<<< HEAD
-    console.log(document);
-
-    await claimsServer
-=======
     // console.log(document);
 
     await preAuthServer
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       .create(document)
       .then(res => {
         hideActionLoader();
@@ -289,15 +244,9 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
       <ModalBox
         open={complaintModal}
         onClose={() => setComplaintModal(false)}
-<<<<<<< HEAD
-        header="Add Complaints to Claim"
-      >
-        <ClaimCreateComplaint
-=======
         header="Add Complaints to Preauthorization"
       >
         <PreauthorizationCreateComplaint
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
           closeModal={() => setComplaintModal(false)}
           setComplaints={setComplaints}
         />
@@ -306,15 +255,9 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
       <ModalBox
         open={diagnosisModal}
         onClose={() => setDiagnosisModal(false)}
-<<<<<<< HEAD
-        header="Add Complaints to Claim"
-      >
-        <ClaimCreateDiagnosis
-=======
         header="Add Diagnosis to Preauthorization"
       >
         <PreauthorizationCreateDiagnosis
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
           closeModal={() => setDiagnosisModal(false)}
           setDiagnosis={setDiagnosis}
         />
@@ -339,15 +282,9 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
       <ModalBox
         open={serviceModal}
         onClose={() => setServiceModal(false)}
-<<<<<<< HEAD
-        header="Add Services to Claim"
-      >
-        <ClaimCreateService
-=======
         header="Add Services to Preauthorization"
       >
         <PreauthorizationCreateService
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
           closeModal={() => setServiceModal(false)}
           setServices={setServices}
         />
@@ -436,19 +373,11 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
 
             <Grid item lg={3} md={3.5}>
               <CustomSelect
-<<<<<<< HEAD
-                label="Urgency"
-                required
-                control={control}
-                name="urgency"
-                options={["Urgent"]}
-=======
                 label="Priority"
                 required
                 control={control}
                 name="priority"
                 options={["Low", "Medium", "High", "Emergency"]}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
               />
             </Grid>
 
@@ -531,9 +460,6 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
           </Box>
 
           <Box mb={2}>
-<<<<<<< HEAD
-            <FormsHeaderText text="Clinical Findings" />
-=======
             <TextAreaVoiceAndText
               label="Clinical Findings"
               type={clinicFindInputType}
@@ -542,18 +468,12 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
               voiceOnChange={value => setValue("clinical_findings", value)}
             />
             {/* <FormsHeaderText text="Clinical Findings" />
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
-
             <Box>
               <Textarea
                 placeholder="Write here..."
                 register={register("clinical_findings")}
               />
-<<<<<<< HEAD
-            </Box>
-=======
             </Box> */}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
           </Box>
 
           <Box mb={2}>
@@ -594,9 +514,6 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
           </Box>
 
           <Box mb={2}>
-<<<<<<< HEAD
-            <FormsHeaderText text="Investigation" />
-=======
             <TextAreaVoiceAndText
               label="Investigation"
               type={investigationInputType}
@@ -606,20 +523,11 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
             />
 
             {/* <FormsHeaderText text="Investigation" />
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
-
             <Box>
               <Textarea
                 placeholder="Write here..."
                 register={register("investigation")}
               />
-<<<<<<< HEAD
-            </Box>
-          </Box>
-
-          <Box mb={2}>
-            <FormsHeaderText text="Drugs" />
-=======
             </Box> */}
           </Box>
 
@@ -633,20 +541,11 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
             />
 
             {/* <FormsHeaderText text="Drugs" />
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
-
             <Box>
               <Textarea
                 placeholder="Write here..."
                 register={register("drugs")}
               />
-<<<<<<< HEAD
-            </Box>
-          </Box>
-
-          <Box mb={2}>
-            <FormsHeaderText text="Treatment" />
-=======
             </Box> */}
           </Box>
 
@@ -660,18 +559,12 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
             />
 
             {/* <FormsHeaderText text="Treatment" />
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
-
             <Box>
               <Textarea
                 placeholder="Write here..."
                 register={register("treatment")}
               />
-<<<<<<< HEAD
-            </Box>
-=======
             </Box> */}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
           </Box>
 
           <Box
@@ -682,35 +575,21 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
             }}
             gap={1.5}
           >
-<<<<<<< HEAD
-            <FormsHeaderText text="Claim's Info" />
-=======
             <FormsHeaderText text="Preauthorization's Info" />
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
 
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <CustomSelect
-<<<<<<< HEAD
-                  label="Claim Type"
-                  control={control}
-                  name="claimtype"
-=======
                   label="Preauthorization Type"
                   control={control}
                   name="preauthtype"
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                   options={["Capitation", "Fee for Service"]}
                 />
               </Grid>
 
               <Grid item xs={6}>
                 <Input
-<<<<<<< HEAD
-                  label="Total Claim's Amount"
-=======
                   label="Total Preauthorization's Amount"
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
                   disabled
                   type="number"
                   register={register("totalamount")}
@@ -763,9 +642,6 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
           </Box>
 
           <Box mb={2}>
-<<<<<<< HEAD
-            <FormsHeaderText text="Comments" />
-=======
             <TextAreaVoiceAndText
               label="Comments"
               type={commentsInputType}
@@ -775,18 +651,12 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
             />
 
             {/* <FormsHeaderText text="Comments" />
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
-
             <Box>
               <Textarea
                 placeholder="Write here..."
                 register={register("comments")}
               />
-<<<<<<< HEAD
-            </Box>
-=======
             </Box> */}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
           </Box>
         </Box>
       </Box>

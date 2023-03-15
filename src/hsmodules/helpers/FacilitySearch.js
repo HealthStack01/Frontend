@@ -396,8 +396,6 @@ export function OrgFacilitySearch({ getSearchfacility, clear }) {
   );
 }
 
-<<<<<<< HEAD
-=======
 export function OrgFacilityProviderSearch({
   getSearchfacility,
   clear,
@@ -586,7 +584,6 @@ export function OrgFacilityProviderSearch({
   );
 }
 
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
 export function BandSearch({ getBandfacility, clear, newValue }) {
   // const BandServ = client.service('bands');
   // const ServicesServ = client.service('tariff');
@@ -1556,10 +1553,6 @@ export function SearchCategory({ selectedCategory, setSelectedCategory }) {
   const HealthPlanServ = client.service("healthplan");
   const { user } = useContext(UserContext);
   const [healthPlan, setHealthPlan] = useState([]);
-<<<<<<< HEAD
-=======
-
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
   const getFacilities = async () => {
     console.log(user);
     if (user.currentEmployee) {
@@ -1581,15 +1574,10 @@ export function SearchCategory({ selectedCategory, setSelectedCategory }) {
       let category = newData
         ?.map((item) => item.category)
         ?.filter((item) => item);
-<<<<<<< HEAD
-      await setHealthPlan(category);
-      await console.log(category);
-=======
       //removing duplicate value from the array of category
       let uniqueCategory = [...new Set(category)];
       await setHealthPlan(uniqueCategory);
       await console.log("selectSearchCategory", uniqueCategory);
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
     } else {
       if (user.stacker) {
         const findClient = await HealthPlanServ.find({
@@ -1608,15 +1596,11 @@ export function SearchCategory({ selectedCategory, setSelectedCategory }) {
         let allCategory = allBenefit.map((item) => {
           return item?.category;
         });
-<<<<<<< HEAD
-        setHealthPlan(allCategory);
-=======
 
         //removing duplicate value from the array of category
         let uniqueCategory = [...new Set(allCategory)];
 
         setHealthPlan(uniqueCategory);
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       }
     }
   };
@@ -1624,12 +1608,8 @@ export function SearchCategory({ selectedCategory, setSelectedCategory }) {
   useEffect(() => {
     getFacilities();
   }, []);
-<<<<<<< HEAD
-  console.log(healthPlan);
-=======
 
   console.log("selectSearchCategory", healthPlan);
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
   return (
     <Autocomplete
       value={selectedCategory}
@@ -1891,8 +1871,4 @@ export function SelectedBenefit({
       </FormControl>
     </div>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196

@@ -34,11 +34,7 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
   };
 
   const handleRow = item => {
-<<<<<<< HEAD
-    //console.log(item);
-=======
     //return console.log(item);
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
     setState(prev => ({
       ...prev,
       PreAuthModule: {
@@ -170,19 +166,6 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
         textTransform: "capitalize",
       },
     },
-<<<<<<< HEAD
-    {
-      name: "Type",
-      key: "healthcare plan",
-      description: "Enter name of Healthcare Plan",
-      selector: row => row?.claimtype,
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-    },
-=======
-
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
     {
       name: "Sponsor",
       key: "healthcare plan",
@@ -192,19 +175,6 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
       required: true,
       inputType: "HIDDEN",
     },
-<<<<<<< HEAD
-    // {
-    //   name: "Plan",
-    //   key: "healthcare plan",
-    //   description: "Enter name of Healthcare Plan",
-    //   selector: row => row?.healthcare_Plan,
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "HIDDEN",
-    // },
-=======
-
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
     {
       name: "Provider",
       key: "hospital name",
@@ -216,36 +186,6 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
     },
 
     {
-<<<<<<< HEAD
-      name: "Services",
-      key: "healthcare plan",
-      description: "Enter name of Healthcare Plan",
-      selector: row => (
-        <List
-          data-tag="allowRowEvents"
-          sx={{
-            listStyleType: "disc",
-            pl: 2,
-            "& .MuiListItem-root": {
-              display: "list-item",
-            },
-          }}
-        >
-          {row.services.map(item => (
-            <ListItem sx={{fontSize: "0.8rem", whiteSpace: "normal"}}>
-              {item?.service?.serviceName} - ₦{item?.amount}
-            </ListItem>
-          ))}
-        </List>
-      ),
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-    },
-
-    {
-=======
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       name: "Status",
       key: "status",
       description: "Enter  Status",
@@ -256,25 +196,16 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
       inputType: "TEXT",
     },
     {
-<<<<<<< HEAD
-      name: "Comments",
-      key: "reason",
-      description: "Enter for Request",
-      selector: row => row?.comments,
-=======
       name: "Task",
       key: "status",
       description: "Enter  Status",
       selector: row => (row?.task?.length > 0 ? row.task[0].title : ""),
       //cell: row => returnCell(row.status),
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-<<<<<<< HEAD
-=======
       name: "Assigned To",
       key: "status",
       description: "Enter  Status",
@@ -297,7 +228,6 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
       inputType: "HIDDEN",
     },
     {
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       name: "Total Amount",
       key: "bills",
       description: "Enter bills",
@@ -307,8 +237,6 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
       required: true,
       inputType: "TEXT",
     },
-<<<<<<< HEAD
-=======
     {
       name: "Comments",
       key: "reason",
@@ -318,7 +246,6 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
       required: true,
       inputType: "TEXT",
     },
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
   ];
 
   const conditionalRowStyles = [
@@ -387,19 +314,6 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
             </Box>
           </TableMenu>
 
-<<<<<<< HEAD
-          <CustomTable
-            title={""}
-            columns={preAuthColumns}
-            data={preAuths}
-            pointerOnHover
-            highlightOnHover
-            striped
-            onRowClicked={handleRow}
-            progressPending={loading}
-            //conditionalRowStyles={conditionalRowStyles}
-          />
-=======
           <Box
             sx={{
               width: "100%",
@@ -419,7 +333,6 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
               //conditionalRowStyles={conditionalRowStyles}
             />
           </Box>
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
         </PageWrapper>
       </div>
     </>

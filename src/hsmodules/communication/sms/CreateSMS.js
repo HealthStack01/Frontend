@@ -55,15 +55,9 @@ const CommunicationSMSCreate = ({closeModal}) => {
     const token = localStorage.getItem("feathers-jwt");
 
     return axios
-<<<<<<< HEAD
-      .post("https://healthstack-backend.herokuapp.com/sms", document, {
-        headers: {Authorization: `Bearer ${token}`},
-      })
-=======
       .post(
         `https://portal.nigeriabulksms.com/api/?username=apmis&apmis=pass&message=${data.message}&sender=${user.currentEmployee.facilityDetail.facilityName}&mobiles=${data.phone_number}`
       )
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
       .then(res => {
         hideActionLoader();
         closeModal();
@@ -76,22 +70,6 @@ const CommunicationSMSCreate = ({closeModal}) => {
       });
 
     //axios.get("https://healthstack-backend.herokuapp.com/sms");
-<<<<<<< HEAD
-
-    await smsServer
-      .create(document)
-      .then(res => {
-        hideActionLoader();
-        closeModal();
-        toast.success(`SMS was sent successfully`);
-      })
-      .catch(err => {
-        hideActionLoader();
-        console.log(err);
-        toast.error(`Sorry, Failed to send SMS ${err}`);
-      });
-=======
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
   };
 
   return (
@@ -105,13 +83,9 @@ const CommunicationSMSCreate = ({closeModal}) => {
           <Input
             important
             label="Phone Number"
-<<<<<<< HEAD
-            register={register("phone_number", {require: "Please enter Name"})}
-=======
             register={register("phone_number", {
               require: "Please enter Name",
             })}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
             errorText={errors?.name?.number}
           />
         </Grid>
@@ -120,13 +94,9 @@ const CommunicationSMSCreate = ({closeModal}) => {
           <Textarea
             important
             label="Message"
-<<<<<<< HEAD
-            register={register("message", {require: "Please enter Subject"})}
-=======
             register={register("message", {
               require: "Please enter Subject",
             })}
->>>>>>> 6629424bb56c5124204d6f95a047225340175196
             errorText={errors?.message?.message}
           />
         </Grid>
