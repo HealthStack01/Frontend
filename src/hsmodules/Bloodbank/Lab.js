@@ -1,32 +1,24 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { Route, useNavigate, Link, NavLink } from "react-router-dom";
-import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import client from "../../feathers";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
-import DatePicker from "react-datepicker";
-import LocationSearch from "../helpers/LocationSearch";
-import EmployeeSearch from "../helpers/EmployeeSearch";
-import BillServiceCreate from "../Finance/BillServiceCreate";
-import "react-datepicker/dist/react-datepicker.css";
-import GlobalCustomButton from '../../components/buttons/CustomButton';
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
-import FilterMenu from "../../components/utilities/FilterMenu";
-import Button from "../../components/buttons/Button";
-import CustomTable from "../../components/customtable";
-import Switch from "../../components/switch";
-import { BsFillGridFill, BsList } from "react-icons/bs";
-import CalendarGrid from "../../components/calender";
-import ModalBox from "../../components/modal";
-import { Box, Grid } from "@mui/material";
-import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
+import { Grid } from "@mui/material";
+import { toast } from "bulma-toast";
+import { addDays, format, subDays } from "date-fns";
+import "react-datepicker/dist/react-datepicker.css";
 import { MdCancel } from "react-icons/md";
+import Button from "../../components/buttons/Button";
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import CalendarGrid from "../../components/calender";
+import CustomTable from "../../components/customtable";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import { ObjectContext, UserContext } from "../../context";
+import { TableMenu } from "../../ui/styled/global";
+import { PageWrapper } from "../../ui/styled/styles";
+import EmployeeSearch from "../helpers/EmployeeSearch";
+import LocationSearch from "../helpers/LocationSearch";
 // eslint-disable-next-line
 const searchfacility = {};
 

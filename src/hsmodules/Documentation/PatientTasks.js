@@ -3,7 +3,6 @@ import React, {useState, useContext, useEffect, useRef} from "react";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
-//import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
@@ -11,15 +10,12 @@ import {toast} from "bulma-toast";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import {fontSize} from "@mui/system";
 import CustomSelect from "../../components/inputs/basic/Select"
 import Input from "../../components/inputs/basic/Input";
-import ModalBox from "../Client/ui-components/modal";
-// eslint-disable-next-line
-const searchfacility = {};
+import ModalBox from '../../components/modal';
+
 
 export default function PatientTasks() {
-  console.log("bands bands bands");
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedBand, setSelectedBand] = useState();

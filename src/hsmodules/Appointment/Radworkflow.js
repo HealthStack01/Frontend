@@ -1,32 +1,18 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Route, Switch, Link, NavLink } from 'react-router-dom';
-import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'react-toastify';
-import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
-import DatePicker from 'react-datepicker';
-import LocationSearch from '../helpers/LocationSearch';
-import EmployeeSearch from '../helpers/EmployeeSearch';
-import BillServiceCreate from '../Finance/BillServiceCreate';
-import 'react-datepicker/dist/react-datepicker.css';
-import { PageWrapper } from '../../ui/styled/styles';
-import { TableMenu } from '../../ui/styled/global';
-import FilterMenu from '../../components/utilities/FilterMenu';
-import Button from '../../components/buttons/Button';
-import CustomTable from '../../components/customtable';
-import { AppointmentSchema } from '../Clinic/schema';
-import { CustomButton } from '../../components/buttons/Button/base/styles';
-import ModalBox from '../../components/modal';
-import ModalHeader from './ui-components/Heading/modalHeader';
 import { Box, Grid } from '@mui/material';
-import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
-import { MdCancel } from 'react-icons/md';
+import { addDays, format, formatDistanceToNowStrict, subDays } from 'date-fns';
+import { useContext, useEffect, useState } from 'react';
+import 'react-datepicker/dist/react-datepicker.css';
+import { useNavigate } from 'react-router-dom';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
+import CustomTable from '../../components/customtable';
 import Input from '../../components/inputs/basic/Input';
-import BasicDateTimePicker from '../../components/inputs/DateTime';
+import ModalBox from '../../components/modal';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import { ObjectContext, UserContext } from '../../context';
+import client from '../../feathers';
+import { TableMenu } from '../../ui/styled/global';
+import { PageWrapper } from '../../ui/styled/styles';
+import { AppointmentSchema } from '../Clinic/schema';
 
 export default function RadCheckIn() {
   const { state } = useContext(ObjectContext); //,setState

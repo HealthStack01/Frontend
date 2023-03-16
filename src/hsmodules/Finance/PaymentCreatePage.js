@@ -28,7 +28,6 @@ import Input from '../../components/inputs/basic/Input';
 import MakeDeposit from './Deposit';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { FlutterWaveIcon, PaystackIcon } from './ui-components/Icons';
 import WalletIcon from '@mui/icons-material/Wallet';
 import RadioButton from '../../components/inputs/basic/Radio';
 // import api from '../../utils/api';

@@ -12,7 +12,7 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import {fontSize} from "@mui/system";
-import ModalBox from "../Client/ui-components/modal";
+import ModalBox from '../../components/modal';
 // eslint-disable-next-line
 const searchfacility = {};
 

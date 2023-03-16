@@ -1,65 +1,35 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useCallback} from 'react';
-import client from '../../feathers';
-import {DebounceInput} from 'react-debounce-input';
-import {useForm} from 'react-hook-form';
-import {toast} from 'react-toastify';
-//import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from '../../context';
-import {FacilitySearch} from '../helpers/FacilitySearch';
-import {PageWrapper} from '../../ui/styled/styles';
-import {TableMenu} from '../../ui/styled/global';
-import Button from '../../components/buttons/Button';
-import CustomTable from '../../components/customtable';
-import FilterMenu from '../../components/utilities/FilterMenu';
-import {
-	Box,
-	Grid,
-	Button as MuiButton,
-	Badge,
-	Drawer,
-	Avatar,
-} from '@mui/material';
-import {formatDistanceToNowStrict} from 'date-fns';
-import ModalBox from '../../components/modal';
-import {FaHospital, FaAddressCard, FaUserAlt} from 'react-icons/fa';
-import {IoLocationSharp} from 'react-icons/io5';
-import {BsFillTelephoneFill, BsHouseDoorFill} from 'react-icons/bs';
-import {MdEmail, MdLocalHospital} from 'react-icons/md';
-import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
-import {
-	BottomWrapper,
-	GrayWrapper,
-	GridWrapper,
-	HeadWrapper,
-} from '../app/styles';
-import Input from '../../components/inputs/basic/Input';
-import GlobalCustomButton from '../../components/buttons/CustomButton';
-//import Policy from './Policy';
-//import Beneficiary from './Beneficiary';
-//import Claims from './Claims';
-import Claims from '../ManagedCare/Claims';
-//import PremiumPayment from './Premium';
-import PremiumPayment from '../ManagedCare/Claims';
-import ChatInterface from '../../components/chat/ChatInterface';
-import CRMTasks from '../CRM/Tasks';
-import VideoConference from '../utils/VideoConference';
-import {FormsHeaderText} from '../../components/texts';
-import CustomSelect from '../../components/inputs/basic/Select';
+import { Avatar, Badge, Box, Drawer, Grid } from '@mui/material';
+import { formatDistanceToNowStrict } from 'date-fns';
 import moment from 'moment';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import Button from '../../components/buttons/Button';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import CustomTable from '../../components/customtable';
+import Input from '../../components/inputs/basic/Input';
+import CustomSelect from '../../components/inputs/basic/Select';
 import MuiCustomDatePicker from '../../components/inputs/Date/MuiDatePicker';
+import ModalBox from '../../components/modal';
+import { FormsHeaderText } from '../../components/texts';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import { ObjectContext, UserContext } from '../../context';
+import client from '../../feathers';
+import { TableMenu } from '../../ui/styled/global';
+import { PageWrapper } from '../../ui/styled/styles';
+import CRMTasks from '../CRM/Tasks';
+import { FacilitySearch } from '../helpers/FacilitySearch';
 import {
-	EnrolleSchema,
-	EnrolleSchema2,
-	EnrolleSchema3,
-	EnrolleSchema4,
-	EnrolleSchema5,
-	principalData,
-} from './schema';
+	default as Claims,
+	default as PremiumPayment,
+} from '../ManagedCare/Claims';
+import VideoConference from '../utils/VideoConference';
 import CorporateChat from './components/Corporate/CorporateChat';
+import { EnrolleSchema3, EnrolleSchema4, EnrolleSchema5 } from './schema';
 
 export default function CorporateModule() {
-	const {state} = useContext(ObjectContext); //,setState
+	const { state } = useContext(ObjectContext); //,setState
 	// eslint-disable-next-line
 	const [selectedFacility, setSelectedFacility] = useState();
 	const [success, setSuccess] = useState(false);
@@ -109,7 +79,7 @@ export default function CorporateModule() {
 }
 
 export function OrganizationCreate() {
-	const {register, handleSubmit} = useForm(); //, watch, errors, reset
+	const { register, handleSubmit } = useForm(); //, watch, errors, reset
 	const [error, setError] = useState(false);
 	const [success, setSuccess] = useState(false);
 	const [message, setMessage] = useState('');
@@ -121,7 +91,7 @@ export function OrganizationCreate() {
 	const [providerBand, setProviderBand] = useState([]);
 	const [facilities, setFacilities] = useState([]);
 	//const navigate=useNavigate()
-	const {user} = useContext(UserContext); //,setUser
+	const { user } = useContext(UserContext); //,setUser
 
 	const handleChangeMode = async e => {
 		await setBand(e.target.value);
@@ -227,30 +197,8 @@ export function OrganizationCreate() {
 				getSearchfacility={getSearchfacility}
 				clear={success}
 			/>
-			{/* <select
-        name="bandType"
-        value={band}
-        onChange={(e) => handleChangeMode(e)}
-        className="selectadd"
-        style={{
-          width: '100%',
-          padding: '1rem',
-          margin: '1rem 0',
-          borderRadius: '4px',
-          cursor: 'pointer',
-          height: '3rem',
-          border: '1px solid rgba(0, 0, 0, 0.6)',
-        }}
-      >
-        <option value="">Choose Corporate Sponsorship Type</option>
-        {providerBand.map((option, i) => (
-          <option key={i} value={option.name}>
-            {' '}
-            {option.name}
-          </option>
-        ))}
-      </select> */}
-			<Box sx={{margin: '1rem 0'}}>
+
+			<Box sx={{ margin: '1rem 0' }}>
 				<CustomSelect
 					name='bandType'
 					onChange={e => handleChangeMode(e)}
@@ -278,7 +226,7 @@ export function OrganizationCreate() {
 	);
 }
 
-export function OrganizationList({showModal, setShowModal}) {
+export function OrganizationList({ showModal, setShowModal }) {
 	// const { register, handleSubmit, watch, errors } = useForm();
 	// eslint-disable-next-line
 	const [error, setError] = useState(false);
@@ -294,8 +242,8 @@ export function OrganizationList({showModal, setShowModal}) {
 	// eslint-disable-next-line
 	const [selectedFacility, setSelectedFacility] = useState(); //
 	// eslint-disable-next-line
-	const {state, setState} = useContext(ObjectContext);
-	const {user} = useContext(UserContext);
+	const { state, setState } = useContext(ObjectContext);
+	const { user } = useContext(UserContext);
 	const [loading, setLoading] = useState(false);
 
 	const handleCreateNew = async () => {
@@ -502,16 +450,17 @@ export function OrganizationList({showModal, setShowModal}) {
 			{/* <OrganizationCreate /> */}
 			<div
 				className='level'
-				style={{padding: '1rem'}}>
-				<PageWrapper style={{flexDirection: 'column', padding: '0.6rem,1rem'}}>
+				style={{ padding: '1rem' }}>
+				<PageWrapper
+					style={{ flexDirection: 'column', padding: '0.6rem,1rem' }}>
 					<TableMenu>
-						<div style={{display: 'flex', alignItems: 'center'}}>
+						<div style={{ display: 'flex', alignItems: 'center' }}>
 							{handleSearch && (
 								<div className='inner-table'>
 									<FilterMenu onSearch={handleSearch} />
 								</div>
 							)}
-							<h2 style={{marginLeft: '10px', fontSize: '0.95rem'}}>
+							<h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
 								List of Corporates
 							</h2>
 						</div>
@@ -539,7 +488,7 @@ export function OrganizationList({showModal, setShowModal}) {
 	);
 }
 
-export function OrganizationDetail({showModal, setShowModal}) {
+export function OrganizationDetail({ showModal, setShowModal }) {
 	//const { register, handleSubmit, watch, setValue } = useForm(); //errors,
 	// eslint-disable-next-line
 	const [error, setError] = useState(false); //,
@@ -549,10 +498,10 @@ export function OrganizationDetail({showModal, setShowModal}) {
 	//const facilityServ=client.service('/facility')
 	//const navigate=useNavigate()
 	const orgServ = client.service('organizationclient');
-	const {user, setUser} = useContext(UserContext);
-	const {state, setState} = useContext(ObjectContext);
+	const { user, setUser } = useContext(UserContext);
+	const { state, setState } = useContext(ObjectContext);
 	const [editCorporate, setEditCorporate] = useState(false);
-	const {register, handleSubmit, setValue, reset} = useForm();
+	const { register, handleSubmit, setValue, reset } = useForm();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [openDrawer, setOpenDrawer] = useState(false);
 	const [activateCall, setActivateCall] = useState(false);
@@ -754,14 +703,14 @@ export function OrganizationDetail({showModal, setShowModal}) {
 							color='warning'
 							onClick={() => setShowModal(0)}
 							text='Back'
-							customStyles={{marginRight: '.8rem'}}
+							customStyles={{ marginRight: '.8rem' }}
 						/>
 						{!editCorporate && (
 							<GlobalCustomButton
 								variant='contained'
 								onClick={() => setEditCorporate(true)}
 								text='Edit Corporate'
-								customStyles={{marginRight: '.8rem'}}
+								customStyles={{ marginRight: '.8rem' }}
 							/>
 						)}
 						{editCorporate && (
@@ -769,7 +718,7 @@ export function OrganizationDetail({showModal, setShowModal}) {
 								color='success'
 								onClick={handleSubmit(onSubmit)}
 								text='Update Corporate'
-								customStyles={{marginRight: '.8rem'}}
+								customStyles={{ marginRight: '.8rem' }}
 							/>
 						)}
 						{editCorporate && (
@@ -777,7 +726,7 @@ export function OrganizationDetail({showModal, setShowModal}) {
 								color='primary'
 								onClick={() => setEditCorporate(false)}
 								text=' Details'
-								customStyles={{marginRight: '.8rem'}}
+								customStyles={{ marginRight: '.8rem' }}
 							/>
 						)}
 						{editCorporate && (
@@ -785,7 +734,7 @@ export function OrganizationDetail({showModal, setShowModal}) {
 								color='error'
 								onClick={handleDelete}
 								text='Deactivate Corporate'
-								customStyles={{marginRight: '.8rem'}}
+								customStyles={{ marginRight: '.8rem' }}
 							/>
 						)}
 						{editCorporate && (
@@ -793,7 +742,7 @@ export function OrganizationDetail({showModal, setShowModal}) {
 								color='warning'
 								onClick={handleCancel}
 								text=' Cancel'
-								customStyles={{marginRight: '.8rem'}}
+								customStyles={{ marginRight: '.8rem' }}
 							/>
 						)}
 						{!editCorporate && (
@@ -802,7 +751,7 @@ export function OrganizationDetail({showModal, setShowModal}) {
 									<GlobalCustomButton
 										onClick={() => setActivateCall(false)}
 										color='error'
-										customStyles={{marginRight: '.8rem'}}>
+										customStyles={{ marginRight: '.8rem' }}>
 										End Call
 									</GlobalCustomButton>
 								)}
@@ -816,21 +765,21 @@ export function OrganizationDetail({showModal, setShowModal}) {
 									variant={currentPage === 2 ? 'outlined' : 'contained'}
 									onClick={() => setCurrentPage(2)}
 									text='Policy'
-									customStyles={{margin: '0 .8rem'}}
+									customStyles={{ margin: '0 .8rem' }}
 								/>
 								<GlobalCustomButton
 									color='success'
 									variant={currentPage === 3 ? 'outlined' : 'contained'}
 									onClick={() => setCurrentPage(3)}
 									text='Beneficiary'
-									customStyles={{marginRight: '.8rem'}}
+									customStyles={{ marginRight: '.8rem' }}
 								/>
 								<GlobalCustomButton
 									color='warning'
 									variant={currentPage === 4 ? 'outlined' : 'contained'}
 									onClick={() => setCurrentPage(4)}
 									text='Claims'
-									customStyles={{marginRight: '.8rem'}}
+									customStyles={{ marginRight: '.8rem' }}
 								/>
 								{/* <GlobalCustomButton
 									color='secondary'
@@ -844,12 +793,12 @@ export function OrganizationDetail({showModal, setShowModal}) {
 									variant={currentPage === 5 ? 'outlined' : 'contained'}
 									onClick={() => setCurrentPage(5)}
 									text='Premium'
-									customStyles={{marginRight: '.8rem'}}
+									customStyles={{ marginRight: '.8rem' }}
 								/>
 								<Badge
 									badgeContent={unreadMsgs.length}
 									color='success'
-									sx={{marginRight: '10px', marginTop: '0'}}>
+									sx={{ marginRight: '10px', marginTop: '0' }}>
 									<GlobalCustomButton
 										onClick={() => setOpenDrawer(true)}
 										text='Chat'
@@ -1002,15 +951,15 @@ export function OrganizationDetail({showModal, setShowModal}) {
 }
 
 export function OrganizationModify() {
-	const {register, handleSubmit, setValue, reset} = useForm(); //watch, errors,
+	const { register, handleSubmit, setValue, reset } = useForm(); //watch, errors,
 	const [error, setError] = useState(false);
 	const [success, setSuccess] = useState(false);
 	const [message, setMessage] = useState('');
 	const facilityServ = client.service('/facility');
 	//const navigate=useNavigate()
 	// eslint-disable-next-line
-	const {user} = useContext(UserContext);
-	const {state, setState} = useContext(ObjectContext);
+	const { user } = useContext(UserContext);
+	const { state, setState } = useContext(ObjectContext);
 
 	const facility = state.facilityModule.selectedFacility;
 
@@ -1133,7 +1082,7 @@ export function OrganizationModify() {
 
 	return (
 		<>
-			<ModalHeader text={'Modify Corporate'} />
+			<h2>Modify Corporate</h2>
 			{success && <div className='message'> {message}</div>}
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Grid
@@ -1237,7 +1186,7 @@ export function OrganizationModify() {
 						xs={12}
 						sm={12}
 						md={12}
-						style={{display: 'flex'}}>
+						style={{ display: 'flex' }}>
 						<Button
 							type='submit'
 							label='Save'
@@ -1259,7 +1208,7 @@ export function OrganizationModify() {
 		</>
 	);
 }
-export function PolicyList({showModal, setShowModal, standAlone}) {
+export function PolicyList({ showModal, setShowModal, standAlone }) {
 	// const { register, handleSubmit, watch, errors } = useForm();
 	// eslint-disable-next-line
 	const [error, setError] = useState(false);
@@ -1274,10 +1223,10 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
 	// eslint-disable-next-line
 	const [selectedClient, setSelectedClient] = useState(); //
 	// eslint-disable-next-line
-	const {state, setState} = useContext(ObjectContext);
+	const { state, setState } = useContext(ObjectContext);
 	const [loading, setLoading] = useState(false);
 	// eslint-disable-next-line
-	const {user, setUser} = useContext(UserContext);
+	const { user, setUser } = useContext(UserContext);
 	const [page, setPage] = useState(0);
 	const [limit, setLimit] = useState(50);
 	const [total, setTotal] = useState(0);
@@ -1365,7 +1314,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
 							$options: 'i',
 						},
 					},
-					{gender: val},
+					{ gender: val },
 				],
 
 				organizationId: user.currentEmployee.facilityDetail._id, // || "",
@@ -1615,15 +1564,16 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
 	return (
 		<>
 			<div className='level'>
-				<PageWrapper style={{flexDirection: 'column', padding: '0.6rem 1rem'}}>
+				<PageWrapper
+					style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}>
 					<TableMenu>
-						<div style={{display: 'flex', alignItems: 'center'}}>
+						<div style={{ display: 'flex', alignItems: 'center' }}>
 							{handleSearch && (
 								<div className='inner-table'>
 									<FilterMenu onSearch={handleSearch} />
 								</div>
 							)}
-							<h2 style={{marginLeft: '10px', fontSize: '0.95rem'}}>
+							<h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
 								List of {display === 'approve' ? 'Approved' : 'Pending'}{' '}
 								Policies
 							</h2>
@@ -1658,7 +1608,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
 									color='primary'
 									variant='contained'
 									size='small'
-									sx={{textTransform: 'capitalize'}}
+									sx={{ textTransform: 'capitalize' }}
 									onClick={handleCreateNew}
 									showicon={true}>
 									{' '}
@@ -1691,8 +1641,8 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
 	);
 }
 
-export function PolicyDetail({showModal, setShowModal}) {
-	const {register, reset, control, handleSubmit} = useForm();
+export function PolicyDetail({ showModal, setShowModal }) {
+	const { register, reset, control, handleSubmit } = useForm();
 	const policyServ = client.service('policy');
 	const [error, setError] = useState(false); //,
 	const [finacialInfoModal, setFinacialInfoModal] = useState(false);
@@ -1700,8 +1650,8 @@ export function PolicyDetail({showModal, setShowModal}) {
 	const [billModal, setBillModal] = useState(false);
 	const [appointmentModal, setAppointmentModal] = useState(false);
 	const [message, setMessage] = useState(''); //,
-	const {user, setUser} = useContext(UserContext);
-	const {state, setState} = useContext(ObjectContext);
+	const { user, setUser } = useContext(UserContext);
+	const { state, setState } = useContext(ObjectContext);
 	const [display, setDisplay] = useState(1);
 	const [editPolicy, setEditPolicy] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -1782,7 +1732,7 @@ export function PolicyDetail({showModal, setShowModal}) {
 			.then(res => {
 				setState(prev => ({
 					...prev,
-					ManagedCareModule: {...prev.ManagedCareModule, selectedClient: res},
+					ManagedCareModule: { ...prev.ManagedCareModule, selectedClient: res },
 				}));
 				toast.success('Policy Detail Updated');
 				setEditPolicy(false);
@@ -1809,7 +1759,7 @@ export function PolicyDetail({showModal, setShowModal}) {
 			.then(res => {
 				setState(prev => ({
 					...prev,
-					ManagedCareModule: {...prev.ManagedCareModule, selectedClient: res},
+					ManagedCareModule: { ...prev.ManagedCareModule, selectedClient: res },
 				}));
 				toast.success('Policy Approved');
 				setEditPolicy(false);
@@ -1847,7 +1797,7 @@ export function PolicyDetail({showModal, setShowModal}) {
 									item
 									md={3}>
 									<Input
-										register={register('policyNo', {required: true})}
+										register={register('policyNo', { required: true })}
 										label='Policy No.'
 										disabled
 									/>
@@ -1857,7 +1807,7 @@ export function PolicyDetail({showModal, setShowModal}) {
 									item
 									md={3}>
 									<Input
-										register={register('phone', {required: true})}
+										register={register('phone', { required: true })}
 										label='Phone'
 										disabled
 									/>
@@ -1866,7 +1816,7 @@ export function PolicyDetail({showModal, setShowModal}) {
 									item
 									md={3}>
 									<Input
-										register={register('sponsorship_type', {required: true})}
+										register={register('sponsorship_type', { required: true })}
 										label='Sponsorship Type'
 										disabled
 										//placeholder="Enter customer number"
@@ -1876,7 +1826,7 @@ export function PolicyDetail({showModal, setShowModal}) {
 									item
 									md={3}>
 									<Input
-										register={register('plan_type', {required: true})}
+										register={register('plan_type', { required: true })}
 										label='Plan Type'
 										disabled
 										//placeholder="Enter customer number"
@@ -1886,7 +1836,7 @@ export function PolicyDetail({showModal, setShowModal}) {
 									item
 									md={3}>
 									<Input
-										register={register('status', {required: true})}
+										register={register('status', { required: true })}
 										label='Status'
 										disabled
 										important
@@ -1909,7 +1859,7 @@ export function PolicyDetail({showModal, setShowModal}) {
 									item
 									md={3}>
 									<Input
-										register={register('premium', {required: true})}
+										register={register('premium', { required: true })}
 										label='Premium'
 										disabled
 										//placeholder="Enter customer number"
@@ -2066,7 +2016,7 @@ export function PolicyDetail({showModal, setShowModal}) {
 		</>
 	);
 }
-export function BeneList({showModal, setShowModal, standAlone}) {
+export function BeneList({ showModal, setShowModal, standAlone }) {
 	// const { register, handleSubmit, watch, errors } = useForm();
 	// eslint-disable-next-line
 	const [error, setError] = useState(false);
@@ -2081,9 +2031,9 @@ export function BeneList({showModal, setShowModal, standAlone}) {
 	// eslint-disable-next-line
 	const [selectedClient, setSelectedClient] = useState(); //
 	// eslint-disable-next-line
-	const {state, setState} = useContext(ObjectContext);
+	const { state, setState } = useContext(ObjectContext);
 	// eslint-disable-next-line
-	const {user, setUser} = useContext(UserContext);
+	const { user, setUser } = useContext(UserContext);
 	const [page, setPage] = useState(0);
 	const [limit, setLimit] = useState(50);
 	const [total, setTotal] = useState(0);
@@ -2170,7 +2120,7 @@ export function BeneList({showModal, setShowModal, standAlone}) {
 							$options: 'i',
 						},
 					},
-					{gender: val},
+					{ gender: val },
 				],
 
 				'relatedfacilities.facility': user.currentEmployee.facilityDetail._id, // || "",
@@ -2384,13 +2334,13 @@ export function BeneList({showModal, setShowModal, standAlone}) {
 					width: '98%',
 					margin: '0 1rem',
 				}}>
-				<div style={{display: 'flex', alignItems: 'center'}}>
+				<div style={{ display: 'flex', alignItems: 'center' }}>
 					{/* {handleSearch && (
 						<div className='inner-table'>
 							<FilterMenu onSearch={handleSearch} />
 						</div>
 					)} */}
-					<h2 style={{marginLeft: '10px', fontSize: '0.95rem'}}>
+					<h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
 						List of Beneficiary
 					</h2>
 				</div>

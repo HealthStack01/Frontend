@@ -10,16 +10,17 @@ import { format, formatDistanceToNowStrict } from 'date-fns';
 import DischargeCreate from './DischargeCreate';
 import PatientProfile from '../Client/PatientProfile';
 import { DischargeOrdersList } from '../Documentation/DischargeOrders';
-import { PageWrapper } from './ui-components/styled/styles';
+
 import { TableMenu } from '../../ui/styled/global';
 import FilterMenu from '../../components/utilities/FilterMenu';
 import Button from '../../components/buttons/Button';
 import CustomTable from '../../components/customtable';
 import { WardDischargedPatient } from './schema';
 import ModalBox from '../../components/modal';
-import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
+
 import { MdCancel } from 'react-icons/md';
 import { Box, Grid } from '@mui/material';
+import { PageWrapper } from '../../ui/styled/styles';
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};

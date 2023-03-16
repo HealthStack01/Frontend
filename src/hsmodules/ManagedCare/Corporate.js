@@ -26,7 +26,7 @@ import { FaHospital, FaAddressCard, FaUserAlt } from 'react-icons/fa';
 import { IoLocationSharp } from 'react-icons/io5';
 import { BsFillTelephoneFill, BsHouseDoorFill } from 'react-icons/bs';
 import { MdEmail, MdLocalHospital } from 'react-icons/md';
-import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
+
 import {
 	BottomWrapper,
 	GrayWrapper,
@@ -120,7 +120,7 @@ export function OrganizationCreate() {
 	//const navigate=useNavigate()
 	const { user } = useContext(UserContext); //,setUser
 
-	const handleChangeMode = async (e) => {
+	const handleChangeMode = async e => {
 		await setBand(e.target.value);
 	};
 	const getFacilities = () => {
@@ -135,13 +135,13 @@ export function OrganizationCreate() {
 					},
 				},
 			})
-			.then((res) => {
+			.then(res => {
 				console.log(res);
 				setFacilities(res.data);
 				setMessage(' Organization  fetched successfully');
 				setSuccess(true);
 			})
-			.catch((err) => {
+			.catch(err => {
 				setMessage('Error creating facility, probable network issues ' + err);
 				setError(true);
 			});
@@ -169,7 +169,7 @@ export function OrganizationCreate() {
 		}
 		//if chosen._id if present in facilities, return
 		let found = facilities.find(
-			(item) => item?.organizationDetail?._id === chosen._id,
+			item => item?.organizationDetail?._id === chosen._id,
 		);
 		if (found) {
 			toast.info('Organization already Exists');
@@ -185,7 +185,7 @@ export function OrganizationCreate() {
 		};
 		orgServ
 			.create(stuff)
-			.then((res) => {
+			.then(res => {
 				//console.log(JSON.stringify(res))
 				// e.target.reset();
 				setSuccess(true);
@@ -193,7 +193,7 @@ export function OrganizationCreate() {
 				setSuccess(false);
 				setBand('');
 			})
-			.catch((err) => {
+			.catch(err => {
 				toast.error('Error adding organization ' + err);
 			});
 	};
@@ -204,7 +204,7 @@ export function OrganizationCreate() {
 		getFacilities();
 		return () => {};
 	}, []);
-	const getSearchfacility = (obj) => {
+	const getSearchfacility = obj => {
 		setChosen(obj);
 
 		/*  setCategoryName(obj.categoryname)
@@ -250,7 +250,7 @@ export function OrganizationCreate() {
 			<Box sx={{ margin: '1rem 0' }}>
 				<CustomSelect
 					name='bandType'
-					onChange={(e) => handleChangeMode(e)}
+					onChange={e => handleChangeMode(e)}
 					options={providerBand}
 					label='Corporate Sponsorship Type'
 				/>
@@ -300,14 +300,14 @@ export function OrganizationList({ showModal, setShowModal }) {
 			selectedFacility: {},
 			show: 'create',
 		};
-		await setState((prevstate) => ({
+		await setState(prevstate => ({
 			...prevstate,
 			facilityModule: newfacilityModule,
 		}));
 		//console.log(state)
 		setShowModal(1);
 	};
-	const handleRow = async (facility) => {
+	const handleRow = async facility => {
 		//console.log("b4",state)
 
 		//console.log("handlerow",facility)
@@ -318,7 +318,7 @@ export function OrganizationList({ showModal, setShowModal }) {
 			selectedFacility: facility,
 			show: 'detail',
 		};
-		await setState((prevstate) => ({
+		await setState(prevstate => ({
 			...prevstate,
 			facilityModule: newfacilityModule,
 		}));
@@ -326,7 +326,7 @@ export function OrganizationList({ showModal, setShowModal }) {
 		setShowModal(2);
 	};
 
-	const handleSearch = (val) => {
+	const handleSearch = val => {
 		const field = 'facilityName';
 		console.log(val);
 		if (val.length > 0) {
@@ -347,13 +347,13 @@ export function OrganizationList({ showModal, setShowModal }) {
 						},
 					},
 				})
-				.then((res) => {
+				.then(res => {
 					console.log(res);
 					setFacilities(res.data);
 					setMessage(' Organization  fetched successfully');
 					setSuccess(true);
 				})
-				.catch((err) => {
+				.catch(err => {
 					console.log(err);
 					setMessage('Error creating facility, probable network issues ' + err);
 					setError(true);
@@ -382,13 +382,13 @@ export function OrganizationList({ showModal, setShowModal }) {
 					},
 				},
 			})
-			.then((res) => {
+			.then(res => {
 				console.log(res);
 				setFacilities(res.data);
 				setMessage(' Organization  fetched successfully');
 				setSuccess(true);
 			})
-			.catch((err) => {
+			.catch(err => {
 				setMessage('Error creating facility, probable network issues ' + err);
 				setError(true);
 			});
@@ -397,10 +397,10 @@ export function OrganizationList({ showModal, setShowModal }) {
 	useEffect(() => {
 		getFacilities();
 
-		orgServ.on('created', (obj) => getFacilities());
-		orgServ.on('updated', (obj) => getFacilities());
-		orgServ.on('patched', (obj) => getFacilities());
-		orgServ.on('removed', (obj) => getFacilities());
+		orgServ.on('created', obj => getFacilities());
+		orgServ.on('updated', obj => getFacilities());
+		orgServ.on('patched', obj => getFacilities());
+		orgServ.on('removed', obj => getFacilities());
 		return () => {};
 	}, []);
 	const OrganizationClientSchema = [
@@ -408,7 +408,7 @@ export function OrganizationList({ showModal, setShowModal }) {
 			name: 'S/N',
 			key: 'sn',
 			description: 'SN',
-			selector: (row) => row.sn,
+			selector: row => row.sn,
 			sortable: true,
 			inputType: 'HIDDEN',
 		},
@@ -416,7 +416,7 @@ export function OrganizationList({ showModal, setShowModal }) {
 			name: 'Organization',
 			key: 'facilityName',
 			description: 'Organization',
-			selector: (row) => row?.organizationDetail?.facilityName,
+			selector: row => row?.organizationDetail?.facilityName,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -425,7 +425,7 @@ export function OrganizationList({ showModal, setShowModal }) {
 			name: 'Band',
 			key: 'band',
 			description: 'Band',
-			selector: (row) => row.Band,
+			selector: row => row.Band,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -435,7 +435,7 @@ export function OrganizationList({ showModal, setShowModal }) {
 			name: 'Address',
 			key: 'facilityAddress',
 			description: 'Address',
-			selector: (row) => row?.organizationDetail?.facilityAddress,
+			selector: row => row?.organizationDetail?.facilityAddress,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -445,7 +445,7 @@ export function OrganizationList({ showModal, setShowModal }) {
 			name: 'City',
 			key: 'facilityCity',
 			description: 'City',
-			selector: (row) => row?.organizationDetail?.facilityCity,
+			selector: row => row?.organizationDetail?.facilityCity,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -455,7 +455,7 @@ export function OrganizationList({ showModal, setShowModal }) {
 			name: 'Phone',
 			key: 'phone',
 			description: 'Phone',
-			selector: (row) => row?.organizationDetail?.facilityContactPhone,
+			selector: row => row?.organizationDetail?.facilityContactPhone,
 			sortable: true,
 			required: true,
 			inputType: 'PHONE',
@@ -465,7 +465,7 @@ export function OrganizationList({ showModal, setShowModal }) {
 			name: 'Email',
 			key: 'facilityEmail',
 			description: 'simpa@gmail.com',
-			selector: (row) => row?.organizationDetail?.facilityEmail,
+			selector: row => row?.organizationDetail?.facilityEmail,
 			sortable: true,
 			required: true,
 			inputType: 'EMAIL',
@@ -475,7 +475,7 @@ export function OrganizationList({ showModal, setShowModal }) {
 			name: 'Type',
 			key: 'facilityType',
 			description: 'Facility Type',
-			selector: (row) => row?.organizationDetail?.facilityType,
+			selector: row => row?.organizationDetail?.facilityType,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -485,7 +485,7 @@ export function OrganizationList({ showModal, setShowModal }) {
 			name: 'Category',
 			key: 'facilityCategory',
 			description: 'Category',
-			selector: (row) => row?.organizationDetail?.facilityCategory,
+			selector: row => row?.organizationDetail?.facilityCategory,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -564,7 +564,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 			selectedFacility: facility,
 			show: 'modify',
 		};
-		await setState((prevstate) => ({
+		await setState(prevstate => ({
 			...prevstate,
 			facilityModule: newfacilityModule,
 		}));
@@ -576,7 +576,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 			selectedFacility: facility,
 			show: 'create',
 		};
-		await setState((prevstate) => ({
+		await setState(prevstate => ({
 			...prevstate,
 			facilityModule: newfacilityModule,
 		}));
@@ -587,7 +587,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 			selectedFacility: facility,
 			show: 'detail',
 		};
-		await setState((prevstate) => ({
+		await setState(prevstate => ({
 			...prevstate,
 			facilityModule: newfacilityModule,
 		}));
@@ -599,7 +599,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 		if (conf) {
 			orgServ
 				.remove(dleteId)
-				.then((res) => {
+				.then(res => {
 					reset();
 					toast({
 						message: 'Corporate deleted successfully',
@@ -609,7 +609,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 					});
 					changeState();
 				})
-				.catch((err) => {
+				.catch(err => {
 					toast({
 						message: 'Error deleting Corporate,probably network issue or' + err,
 						type: 'is-danger',
@@ -670,12 +670,12 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 		orgServ
 			.patch(facility._id, data)
 
-			.then((res) => {
+			.then(res => {
 				toast('Hia updated succesfully');
 				changeState();
 				closeDetailModal();
 			})
-			.catch((err) => {
+			.catch(err => {
 				toast(`Error updating Client, probable network issues or ${err}`);
 			});
 	};
@@ -691,11 +691,11 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 					$select: ['chat'],
 				},
 			})
-			.then((resp) => {
+			.then(resp => {
 				const data = resp.data[0];
 				const msgs = data.chat;
 				console.log(msgs);
-				msgs.map((msg) => {
+				msgs.map(msg => {
 					if (
 						msg.senderId === userId ||
 						msg.seen.includes(userId) ||
@@ -703,11 +703,11 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 					) {
 						return;
 					} else {
-						return setUnreadMsgs((prev) => [msg._id, ...prev]);
+						return setUnreadMsgs(prev => [msg._id, ...prev]);
 					}
 				});
 			})
-			.catch((err) => {
+			.catch(err => {
 				// toast.error("There was an error getting messages for this chat");
 				console.log(err);
 			});
@@ -717,10 +717,10 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 		getUnreadMessagesCount();
 	}, []);
 	useEffect(() => {
-		orgServ.on('created', (obj) => getUnreadMessagesCount());
-		orgServ.on('updated', (obj) => getUnreadMessagesCount());
-		orgServ.on('patched', (obj) => getUnreadMessagesCount());
-		orgServ.on('removed', (obj) => getUnreadMessagesCount());
+		orgServ.on('created', obj => getUnreadMessagesCount());
+		orgServ.on('updated', obj => getUnreadMessagesCount());
+		orgServ.on('patched', obj => getUnreadMessagesCount());
+		orgServ.on('removed', obj => getUnreadMessagesCount());
 	}, []);
 	return (
 		<>
@@ -1053,7 +1053,7 @@ export function OrganizationModify() {
 			selectedFacility: {},
 			show: 'create',
 		};
-		await setState((prevstate) => ({
+		await setState(prevstate => ({
 			...prevstate,
 			facilityModule: newfacilityModule,
 		}));
@@ -1065,7 +1065,7 @@ export function OrganizationModify() {
 			selectedFacility: {},
 			show: 'create',
 		};
-		setState((prevstate) => ({
+		setState(prevstate => ({
 			...prevstate,
 			facilityModule: newfacilityModule,
 		}));
@@ -1077,7 +1077,7 @@ export function OrganizationModify() {
 		if (conf) {
 			facilityServ
 				.remove(dleteId)
-				.then((res) => {
+				.then(res => {
 					//console.log(JSON.stringify(res))
 					reset();
 					setMessage('Deleted Organization successfully');
@@ -1088,7 +1088,7 @@ export function OrganizationModify() {
 					}, 200);
 					changeState();
 				})
-				.catch((err) => {
+				.catch(err => {
 					setMessage('Error deleting facility, probable network issues ' + err);
 					setError(true);
 					setTimeout(() => {
@@ -1113,7 +1113,7 @@ export function OrganizationModify() {
 
 		facilityServ
 			.update(facility._id, data)
-			.then((res) => {
+			.then(res => {
 				//console.log(JSON.stringify(res))
 				// e.target.reset();
 				setMessage('updated Organization successfully');
@@ -1121,7 +1121,7 @@ export function OrganizationModify() {
 				setSuccess(true);
 				changeState();
 			})
-			.catch((err) => {
+			.catch(err => {
 				toast.error('Error updating facility, probable network issues ' + err);
 				setMessage('Error creating facility, probable network issues ' + err);
 				setError(true);
@@ -1130,7 +1130,7 @@ export function OrganizationModify() {
 
 	return (
 		<>
-			<ModalHeader text={'Modify Corporate'} />
+			<h2>Modify Corporate</h2>
 			{success && <div className='message'> {message}</div>}
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Grid
@@ -1285,7 +1285,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			selectedClient: {},
 			show: 'create',
 		};
-		await setState((prevstate) => ({
+		await setState(prevstate => ({
 			...prevstate,
 			ManagedCareModule: newClientModule,
 		}));
@@ -1294,20 +1294,20 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 		console.log('test');
 	};
 
-	const handleRow = async (Client) => {
+	const handleRow = async Client => {
 		await setSelectedClient(Client);
 		const newClientModule = {
 			selectedClient: Client,
 			show: 'detail',
 		};
-		await setState((prevstate) => ({
+		await setState(prevstate => ({
 			...prevstate,
 			ManagedCareModule: newClientModule,
 		}));
 		setShowModal(7);
 	};
 
-	const handleSearch = (val) => {
+	const handleSearch = val => {
 		// eslint-disable-next-line
 		const field = 'firstname';
 		console.log(val);
@@ -1372,13 +1372,13 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 				},
 			},
 		})
-			.then((res) => {
+			.then(res => {
 				console.log(res);
 				setFacilities(res.data);
 				setMessage(' Client  fetched successfully');
 				setSuccess(true);
 			})
-			.catch((err) => {
+			.catch(err => {
 				console.log(err);
 				setMessage('Error fetching Client, probable network issues ' + err);
 				setError(true);
@@ -1406,7 +1406,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			await setTotal(findClient.total);
 			//console.log(user.currentEmployee.facilityDetail._id, state)
 			//console.log(facilities)
-			setPage((page) => page + 1);
+			setPage(page => page + 1);
 		} else {
 			if (user.stacker) {
 				const findClient = await ClientServ.find({
@@ -1436,10 +1436,10 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
                      console.log(user)
                      getFacilities(user) */
 		}
-		ClientServ.on('created', (obj) => rest());
-		ClientServ.on('updated', (obj) => rest());
-		ClientServ.on('patched', (obj) => rest());
-		ClientServ.on('removed', (obj) => rest());
+		ClientServ.on('created', obj => rest());
+		ClientServ.on('updated', obj => rest());
+		ClientServ.on('patched', obj => rest());
+		ClientServ.on('removed', obj => rest());
 		return () => {};
 		// eslint-disable-next-line
 	}, []);
@@ -1474,7 +1474,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Date Created',
 			key: 'createdAt',
 			description: 'Date Created',
-			selector: (row) => moment(row.createdAt).format('YYYY-MM-DD'),
+			selector: row => moment(row.createdAt).format('YYYY-MM-DD'),
 			sortable: true,
 			required: true,
 			inputType: 'DATE',
@@ -1483,7 +1483,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Sponsorship Type',
 			key: 'sponsorshipType',
 			description: 'Sponsorship Type',
-			selector: (row) => row.sponsorshipType,
+			selector: row => row.sponsorshipType,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -1493,7 +1493,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Plan',
 			key: 'plan',
 			description: 'Plan',
-			selector: (row) => row.plan.name,
+			selector: row => row.plan.name,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -1503,7 +1503,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Premium',
 			key: 'premium',
 			description: 'Premium',
-			selector: (row) => row.premium,
+			selector: row => row.premium,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -1513,7 +1513,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Paid',
 			key: 'isPaid',
 			description: 'Paid',
-			selector: (row) => (row.isPaid ? 'Yes' : 'No'),
+			selector: row => (row.isPaid ? 'Yes' : 'No'),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -1523,7 +1523,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Active',
 			key: 'active',
 			description: 'Active',
-			selector: (row) => (row.active ? 'Yes' : 'No'),
+			selector: row => (row.active ? 'Yes' : 'No'),
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -1533,7 +1533,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Pricipal Last Name',
 			key: 'principal',
 			description: 'Principal Last Name',
-			selector: (row) => row.principal.lastname,
+			selector: row => row.principal.lastname,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -1543,7 +1543,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'First Name',
 			key: 'firstname',
 			description: 'First Name',
-			selector: (row) => row.principal.firstname,
+			selector: row => row.principal.firstname,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -1553,7 +1553,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Middle Name',
 			key: 'middlename',
 			description: 'Middle Name',
-			selector: (row) => row.principal.middlename,
+			selector: row => row.principal.middlename,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -1563,7 +1563,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Phone',
 			key: 'phone',
 			description: 'Phone Number',
-			selector: (row) => row.principal.phone,
+			selector: row => row.principal.phone,
 			sortable: true,
 			required: true,
 			inputType: 'NUMBER',
@@ -1573,7 +1573,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Email',
 			key: 'email',
 			description: 'simpa@email.com',
-			selector: (row) => row.principal.email,
+			selector: row => row.principal.email,
 			sortable: true,
 			required: true,
 			inputType: 'EMAIL',
@@ -1583,7 +1583,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 			name: 'Tags',
 			key: 'tags',
 			description: 'Tags',
-			selector: (row) => row.principal.clientTags,
+			selector: row => row.principal.clientTags,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -1598,9 +1598,9 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
 	// );
 
 	const Selectedpol = facilities.filter(
-		(facility) =>
+		facility =>
 			facility?.sponsor?.organization === standAlone ||
-			facility?.providers?.some((item) => item.organization === standAlone),
+			facility?.providers?.some(item => item.organization === standAlone),
 	);
 	// const pendingSelectedpol = pendingFacilities.filter(
 	//   (item) =>
@@ -1757,7 +1757,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
 	const handlecloseModal3 = () => {
 		setBillModal(false);
 	};
-	const updateDetail = async (data) => {
+	const updateDetail = async data => {
 		const docId = state.ManagedCareModule.selectedClient._id;
 		console.log(data, docId);
 		const policyDetails = {
@@ -1777,15 +1777,15 @@ export function PolicyDetail({ showModal, setShowModal }) {
 		};
 		await policyServ
 			.patch(docId, policyDetails)
-			.then((res) => {
-				setState((prev) => ({
+			.then(res => {
+				setState(prev => ({
 					...prev,
 					ManagedCareModule: { ...prev.ManagedCareModule, selectedClient: res },
 				}));
 				toast.success('Policy Detail Updated');
 				setEditPolicy(false);
 			})
-			.catch((err) => {
+			.catch(err => {
 				toast.error('Error Updating Policy Detail');
 				setEditPolicy(false);
 			});
@@ -1804,15 +1804,15 @@ export function PolicyDetail({ showModal, setShowModal }) {
 		console.log(policyDetails);
 		await policyServ
 			.patch(docId, policyDetails)
-			.then((res) => {
-				setState((prev) => ({
+			.then(res => {
+				setState(prev => ({
 					...prev,
 					ManagedCareModule: { ...prev.ManagedCareModule, selectedClient: res },
 				}));
 				toast.success('Policy Approved');
 				setEditPolicy(false);
 			})
-			.catch((err) => {
+			.catch(err => {
 				console.log(err);
 				toast.error('Error Approving Policy' + err);
 				setEditPolicy(false);
@@ -2092,7 +2092,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
 			selectedClient: {},
 			show: 'create',
 		};
-		await setState((prevstate) => ({
+		await setState(prevstate => ({
 			...prevstate,
 			ClientModule: newClientModule,
 		}));
@@ -2100,20 +2100,20 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
 		setShowModal(2);
 	};
 
-	const handleRow = async (Client) => {
+	const handleRow = async Client => {
 		await setSelectedClient(Client);
 		const newClientModule = {
 			selectedClient: Client,
 			show: 'detail',
 		};
-		await setState((prevstate) => ({
+		await setState(prevstate => ({
 			...prevstate,
 			ClientModule: newClientModule,
 		}));
 		setShowModal(1);
 	};
 
-	const handleSearch = (val) => {
+	const handleSearch = val => {
 		// eslint-disable-next-line
 		const field = 'firstname';
 		console.log(val);
@@ -2178,13 +2178,13 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
 				},
 			},
 		})
-			.then((res) => {
+			.then(res => {
 				console.log(res);
 				setFacilities(res.data);
 				setMessage(' Client  fetched successfully');
 				setSuccess(true);
 			})
-			.catch((err) => {
+			.catch(err => {
 				console.log(err);
 				setMessage('Error fetching Client, probable network issues ' + err);
 				setError(true);
@@ -2205,16 +2205,16 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
 
 			let data = findClient.data;
 			let filteredArray = data.filter(
-				(item) =>
+				item =>
 					(item.sponsor !== '' &&
 						item.sponsor?.organizationDetail?._id === standAlone) ||
 					item.providers?.some(
-						(item) => item?.organizationDetail?._id === standAlone,
+						item => item?.organizationDetail?._id === standAlone,
 					),
 			);
-			let principal = filteredArray.map((item) => item.principal);
+			let principal = filteredArray.map(item => item.principal);
 			let dependantBeneficiaries = filteredArray.map(
-				(item) => item.dependantBeneficiaries,
+				item => item.dependantBeneficiaries,
 			);
 			let joined = principal.concat(...dependantBeneficiaries);
 			setFacilities(joined);
@@ -2229,7 +2229,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
 			await setTotal(findClient.total);
 			//console.log(user.currentEmployee.facilityDetail._id, state)
 			//console.log(facilities)
-			setPage((page) => page + 1);
+			setPage(page => page + 1);
 		} else {
 			if (user.stacker) {
 				const findClient = await ClientServ.find({
@@ -2259,10 +2259,10 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
                     console.log(user)
                     getFacilities(user) */
 		}
-		ClientServ.on('created', (obj) => rest());
-		ClientServ.on('updated', (obj) => rest());
-		ClientServ.on('patched', (obj) => rest());
-		ClientServ.on('removed', (obj) => rest());
+		ClientServ.on('created', obj => rest());
+		ClientServ.on('updated', obj => rest());
+		ClientServ.on('patched', obj => rest());
+		ClientServ.on('removed', obj => rest());
 		return () => {};
 		// eslint-disable-next-line
 	}, []);
@@ -2289,7 +2289,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
 			name: 'S/N',
 			key: 'sn',
 			description: 'SN',
-			selector: (row) => row.sn,
+			selector: row => row.sn,
 			sortable: true,
 			inputType: 'HIDDEN',
 			width: '50px',
@@ -2298,7 +2298,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
 			name: 'Image',
 			key: 'sn',
 			description: 'Enter name of employee',
-			selector: (row) => <Avatar src={row?.imageurl} />,
+			selector: row => <Avatar src={row?.imageurl} />,
 			sortable: true,
 			inputType: 'HIDDEN',
 			width: '80px',
@@ -2307,7 +2307,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
 			name: 'First Name',
 			key: 'firstname',
 			description: 'First Name',
-			selector: (row) => row.firstname,
+			selector: row => row.firstname,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -2316,7 +2316,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
 			name: 'Last Name',
 			key: 'lastname',
 			description: 'Last Name',
-			selector: (row) => row.lastname,
+			selector: row => row.lastname,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -2326,7 +2326,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
 			name: 'Midlle Name',
 			key: 'middlename',
 			description: 'Midlle Name',
-			selector: (row) => row.middlename,
+			selector: row => row.middlename,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -2335,7 +2335,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
 			name: 'Age',
 			key: 'dob',
 			description: 'Age',
-			selector: (row) =>
+			selector: row =>
 				row.dob ? formatDistanceToNowStrict(new Date(row?.dob)) : '',
 			sortable: true,
 			required: true,
@@ -2346,7 +2346,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
 			name: 'Gender',
 			key: 'gender',
 			description: 'Male',
-			selector: (row) => row.gender,
+			selector: row => row.gender,
 			sortable: true,
 			required: true,
 			inputType: 'SELECT_LIST',
@@ -2357,7 +2357,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
 			name: 'Email',
 			key: 'email',
 			description: 'johndoe@mail.com',
-			selector: (row) => row.email,
+			selector: row => row.email,
 			sortable: true,
 			required: true,
 			inputType: 'EMAIL',
@@ -2367,7 +2367,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
 			name: 'Tags',
 			key: 'clientTags',
 			description: 'Tags',
-			selector: (row) => row.clientTags,
+			selector: row => row.clientTags,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',

@@ -19,7 +19,6 @@ import CustomTable from "../../components/customtable";
 import {fontSize} from "@mui/system";
 import {Box, Checkbox} from "@mui/material";
 import {TableMenu} from "../../ui/styled/global";
-//import ModalBox from "./ui-components/modal";
 
 export default function DocumentClass() {
   const {state} = useContext(ObjectContext); //,setState

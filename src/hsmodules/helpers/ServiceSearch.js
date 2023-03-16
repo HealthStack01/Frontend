@@ -1,23 +1,16 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-
-import DebouncedInput from "./ui-components/inputs/DebouncedInput";
-import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {ServicesCreate} from "../Finance/Services";
+import { toast } from "bulma-toast";
+import { UserContext } from "../../context";
+import { ServicesCreate } from "../Finance/Services";
 
-import {Box, Card, Collapse, Grow} from "@mui/material";
-import Input from "../../components/inputs/basic/Input";
 import ModalBox from "../../components/modal";
 
+import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
 
-import Stack from "@mui/material/Stack";
 
 const filter = createFilterOptions();
 

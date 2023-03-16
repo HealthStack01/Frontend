@@ -1,21 +1,17 @@
-import React, {useState, useContext, useEffect, useRef} from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 //import {Route, Switch,   Link, NavLink, } from 'react-router-dom'
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import DebouncedInput from "./ui-components/inputs/DebouncedInput";
 //import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {formatDistanceToNowStrict, format} from "date-fns";
+import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
-import CustomTable from "../../components/customtable";
+import { toast } from "bulma-toast";
+import { formatDistanceToNowStrict } from "date-fns";
+import { ObjectContext, UserContext } from "../../context";
 // eslint-disable-next-line
 //const searchfacility={};
-import {Box, Card, Grow, Typography} from "@mui/material";
-import ModalBox from "./ui-components/modal";
-import Input from "../../components/inputs/basic/Input";
+import { Box, Typography } from "@mui/material";
+import ModalBox from '../../components/modal';
 
 const useOnClickOutside = (ref, handler) => {
   useEffect(() => {
@@ -104,23 +100,7 @@ export function ClientSearch({getSearchfacility, clear, label, id}) {
     //console.log(state)
   };
 
-  const handleBlur = async e => {
-    /*   if (count===2){
-             console.log("stuff was chosen")
-         } */
-    /*  console.log("blur")
-         setShowPanel(false)
-        console.log(JSON.stringify(simpa))
-        if (simpa===""){
-            console.log(facilities.length)
-            setSimpa("abc")
-            setSimpa("")
-            setFacilities([])
-            inputEl.current.setValue=""
-        }
-        console.log(facilities.length)
-        console.log(inputEl.current) */
-  };
+ 
   const handleSearch = async val => {
     setVal(val);
     if (val === "") {
@@ -210,9 +190,7 @@ export function ClientSearch({getSearchfacility, clear, label, id}) {
     }
   };
 
-  const handleAddproduct = () => {
-    setProductModal(true);
-  };
+ 
   const handlecloseModal = () => {
     setProductModal(false);
     handleSearch(val);
@@ -227,17 +205,7 @@ export function ClientSearch({getSearchfacility, clear, label, id}) {
 
   useOnClickOutside(dropDownRef, () => setShowPanel(false));
 
-  // <div>
-  //   <span>{facility.firstname}</span>
-  //   <span className="padleft">{facility.middlename}</span>
-  //   <span className="padleft">{facility.lastname}</span>
-  //   <span className="padleft">
-  //     {facility.dob && formatDistanceToNowStrict(new Date(facility.dob))}
-  //   </span>
-  //   <span className="padleft">{facility.gender}</span>
-  //   <span className="padleft">{facility.profession}</span>
-  //   <span className="padleft">{facility.phone}</span>
-  // </div>;
+
 
   return (
     <div

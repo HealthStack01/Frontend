@@ -1,15 +1,12 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 //import {Route, Switch,   Link, NavLink, } from 'react-router-dom'
 import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
 //import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'react-toastify';
-import { formatDistanceToNowStrict, format } from 'date-fns';
-import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
 import { Autocomplete } from '@mui/material';
 import TextField from '@mui/material/TextField';
+import { toast } from 'react-toastify';
+import { ObjectContext, UserContext } from '../../context';
 
 // eslint-disable-next-line
 //const searchfacility={};

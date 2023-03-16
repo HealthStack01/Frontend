@@ -14,8 +14,8 @@ var random = require('random-string-generator');
 import ModalBox from '../../components/modal';
 import { MdCancel } from 'react-icons/md';
 import { Box, Grid } from '@mui/material';
-import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
-import Button from './ui-components/buttons/Button';
+
+
 import GlobalCustomButton from '../../components/buttons/CustomButton';
 import Input from '../../components/inputs/basic/Input';
 const searchfacility = {};
@@ -724,7 +724,8 @@ export default function DischargeCreate() {
             }}
           >
             <Grid item xs={12} sm={6}>
-              <ModalHeader text={'Discharge Patient'} />
+
+              <h2>Discharge Patient</h2>
             </Grid>
             <Grid item xs={12} sm={6}>
               <GlobalCustomButton

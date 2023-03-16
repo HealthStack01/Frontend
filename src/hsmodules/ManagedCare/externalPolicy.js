@@ -1,49 +1,46 @@
-import {yupResolver} from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import DeleteOutline from "@mui/icons-material/DeleteOutline";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import SaveIcon from "@mui/icons-material/Save";
 import UpgradeOutlinedIcon from "@mui/icons-material/UpgradeOutlined";
-import {Box, Button, Grid, IconButton} from "@mui/material";
+import { Box, Button, Grid, IconButton } from "@mui/material";
 import moment from "moment";
-import {useContext, useEffect, useRef, useState} from "react";
-import {useForm} from "react-hook-form";
-import {useNavigate} from "react-router-dom"; //Route, Switch,Link, NavLink,
-import {toast, ToastContainer} from "react-toastify";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom"; //Route, Switch,Link, NavLink,
+import { toast, ToastContainer } from "react-toastify";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import CustomTable from "../../components/customtable";
 import Input from "../../components/inputs/basic/Input/index";
 import CustomSelect from "../../components/inputs/basic/Select";
-import BasicDatePicker from "../../components/inputs/Date";
-import MuiClearDatePicker from "../../components/inputs/Date/MuiClearDatePicker";
 import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 import ModalBox from "../../components/modal/";
-import {FormsHeaderText} from "../../components/texts";
+import { FormsHeaderText } from "../../components/texts";
 import FilterMenu from "../../components/utilities/FilterMenu";
-import {ObjectContext, UserContext} from "../../context";
+import { ObjectContext, UserContext } from "../../context";
 import client from "../../feathers";
-import {TableMenu} from "../../ui/styled/global";
-import {PageWrapper} from "../../ui/styled/styles";
-import {HeadWrapper} from "../app/styles";
-import ModalHeader from "../Appointment/ui-components/Heading/modalHeader";
+import { TableMenu } from "../../ui/styled/global";
+import { PageWrapper } from "../../ui/styled/styles";
+import { HeadWrapper } from "../app/styles";
+
 import ClientGroup from "../Client/ClientGroup";
-import {createClientSchema2} from "../Client/schema";
+import { createClientSchema2 } from "../Client/schema";
 import {
   HmoFacilitySearch,
   OrgFacilitySearch,
-  SponsorSearch,
+  SponsorSearch
 } from "../helpers/FacilitySearch";
 import Claims from "./Claims";
 import Premium from "./Premium";
-import Provider, {OrganizationCreate} from "./Providers";
+import { OrganizationCreate } from "./Providers";
 import {
   EnrolleSchema,
   EnrolleSchema2,
   EnrolleSchema3,
   EnrolleSchema4,
-  EnrolleSchema5,
-  principalData,
+  EnrolleSchema5
 } from "./schema";
 
 var random = require("random-string-generator");
@@ -2247,7 +2244,7 @@ export function PolicyDetail({showModal, setShowModal}) {
       >
         <Grid container>
           <Grid item xs={12} sm={12} md={6}>
-            <ModalHeader text={"Policy Details"} />
+            <h2>Policy Details</h2>
           </Grid>
         </Grid>
         <Grid container>

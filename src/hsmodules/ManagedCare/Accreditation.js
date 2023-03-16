@@ -1,72 +1,42 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Route, useNavigate, Link, NavLink } from 'react-router-dom';
-import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
+import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import client from '../../feathers';
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'react-toastify';
-import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
-import DatePicker from 'react-datepicker';
-import LocationSearch from '../helpers/LocationSearch';
-import EmployeeSearch from '../helpers/EmployeeSearch';
-import BillServiceCreate from '../Finance/BillServiceCreate';
-import 'react-datepicker/dist/react-datepicker.css';
-import { PageWrapper } from '../../ui/styled/styles';
-import { TableMenu } from '../../ui/styled/global';
-import FilterMenu from '../../components/utilities/FilterMenu';
-import Button from '../../components/buttons/Button';
-import CustomTable from '../../components/customtable';
-import Switch from '../../components/switch';
-import { BsFillGridFill, BsList } from 'react-icons/bs';
-import CalendarGrid from '../../components/calender';
-import ModalBox from '../../components/modal';
-import { Box, Grid, Button as MuiButton, TextField } from '@mui/material';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
-import Input from '../../components/inputs/basic/Input/index';
-import { MdCancel } from 'react-icons/md';
-import { FacilitySearch } from '../helpers/FacilitySearch';
-import { McText } from './text';
-import CustomSelect from '../../components/inputs/basic/Select';
-import BasicDatePicker from '../../components/inputs/Date';
-import { FaHospital, FaAddressCard, FaUserAlt } from 'react-icons/fa';
-import { IoLocationSharp } from 'react-icons/io5';
-import { BsFillTelephoneFill, BsHouseDoorFill } from 'react-icons/bs';
-import { MdEmail, MdLocalHospital } from 'react-icons/md';
-import { FormsHeaderText } from '../../components/texts';
+import { Box, Button as MuiButton, Grid } from '@mui/material';
+import 'react-datepicker/dist/react-datepicker.css';
+import { toast } from 'react-toastify';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
-import { G } from '@react-pdf/renderer';
-import { Modal } from 'semantic-ui-react';
-import {
-	generalData,
-	frontdeskData,
-	casualityData,
-	pharmacyData,
-	laboratoryData,
-	wardData,
-	labourData,
-	theatreData,
-	additionalData,
-	adminData,
-	QualityData,
-	otherData,
-	staffData,
-	nonMedStaff,
-	specialistData,
-} from './accData';
+import CustomTable from '../../components/customtable';
+import Input from '../../components/inputs/basic/Input/index';
 import Textarea from '../../components/inputs/basic/Textarea';
 import MuiCustomDatePicker from '../../components/inputs/Date/MuiDatePicker';
-
-const searchfacility = {};
+import { FormsHeaderText } from '../../components/texts';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import { ObjectContext, UserContext } from '../../context';
+import { TableMenu } from '../../ui/styled/global';
+import { PageWrapper } from '../../ui/styled/styles';
+import {
+	additionalData,
+	adminData,
+	casualityData,
+	frontdeskData,
+	generalData,
+	laboratoryData,
+	labourData,
+	nonMedStaff,
+	otherData,
+	pharmacyData,
+	QualityData,
+	specialistData,
+	staffData,
+	theatreData,
+	wardData,
+} from './accData';
+import { McText } from './text';
 
 export default function Accreditation({ standAlone }) {
-	const { state } = useContext(ObjectContext); //,setState
-	// eslint-disable-next-line
 	const [selectedClient, setSelectedClient] = useState();
-	const [selectedAppointment, setSelectedAppointment] = useState();
-	//const [showState,setShowState]=useState() //create|modify|detail
 	const [showModal, setShowModal] = useState(0);
 	const [selectedAccr, setSelectedAccr] = useState([]);
 	return (
@@ -136,12 +106,12 @@ export function AccreditationList({
 		// }));
 		setShowModal(1);
 	};
-	const handleRow = async (facility) => {
+	const handleRow = async facility => {
 		setShowModal(2);
 		selectedAccr(facility);
 	};
 
-	const handleSearch = (val) => {
+	const handleSearch = val => {
 		const field = 'facilityName';
 		console.log(val);
 		if (val.length > 0) {
@@ -161,13 +131,13 @@ export function AccreditationList({
 						},
 					},
 				})
-				.then((res) => {
+				.then(res => {
 					console.log(res);
 					setFacilities(res.data);
 					setMessage(' Organization  fetched successfully');
 					setSuccess(true);
 				})
-				.catch((err) => {
+				.catch(err => {
 					console.log(err);
 					setMessage('Error creating facility, probable network issues ' + err);
 					setError(true);
@@ -195,13 +165,13 @@ export function AccreditationList({
 					},
 				},
 			})
-			.then((res) => {
+			.then(res => {
 				console.log(res);
 				setFacilities(res.data);
 				setMessage(' Organization  fetched successfully');
 				setSuccess(true);
 			})
-			.catch((err) => {
+			.catch(err => {
 				setMessage('Error creating facility, probable network issues ' + err);
 				setError(true);
 			});
@@ -215,11 +185,11 @@ export function AccreditationList({
 					},
 				},
 			})
-			.then((res) => {
+			.then(res => {
 				console.log(res);
 				setAccreditation(res.data);
 			})
-			.catch((err) => {
+			.catch(err => {
 				setMessage('Error creating facility, probable network issues ' + err);
 				setError(true);
 			});
@@ -228,10 +198,10 @@ export function AccreditationList({
 	useEffect(() => {
 		getFacilities();
 
-		orgServ.on('created', (obj) => getFacilities());
-		orgServ.on('updated', (obj) => getFacilities());
-		orgServ.on('patched', (obj) => getFacilities());
-		orgServ.on('removed', (obj) => getFacilities());
+		orgServ.on('created', obj => getFacilities());
+		orgServ.on('updated', obj => getFacilities());
+		orgServ.on('patched', obj => getFacilities());
+		orgServ.on('removed', obj => getFacilities());
 		return () => {};
 	}, []);
 
@@ -240,7 +210,7 @@ export function AccreditationList({
 			name: 'S/N',
 			key: 'sn',
 			description: 'SN',
-			selector: (row) => row.sn,
+			selector: row => row.sn,
 			sortable: true,
 			inputType: 'HIDDEN',
 			width: '50px',
@@ -249,7 +219,7 @@ export function AccreditationList({
 			name: 'Organization Name',
 			key: 'organizationName',
 			description: 'Organization Name',
-			selector: (row) => row?.organizationName,
+			selector: row => row?.organizationName,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -258,7 +228,7 @@ export function AccreditationList({
 			name: 'Assessment Name',
 			key: 'assessmentName',
 			description: 'Assessment Name',
-			selector: (row) => row?.assessmentName,
+			selector: row => row?.assessmentName,
 			sortable: true,
 			required: true,
 			inputType: 'TEXT',
@@ -385,12 +355,12 @@ export function AccreditationList({
 								data={
 									!standAlone
 										? accreditation.filter(
-												(item) =>
+												item =>
 													item.facilityId ===
 													user.currentEmployee.facilityDetail._id,
 										  )
 										: accreditation.filter(
-												(item) => item.organizationId === standAlone,
+												item => item.organizationId === standAlone,
 										  )
 								}
 								pointerOnHover
@@ -640,7 +610,7 @@ export function NewOrganizationCreate({ showModal, setShowModal }) {
 	//   reset(initFormValue);
 	// }, []);
 
-	const handleClick = async (data) => {
+	const handleClick = async data => {
 		setLoading(true);
 		const userId = state.facilityModule.selectedFacility._id;
 		const employee = user.currentEmployee;
@@ -839,10 +809,10 @@ export function NewOrganizationCreate({ showModal, setShowModal }) {
 
 		await accreditationServ
 			.create(allData)
-			.then((resp) => {
+			.then(resp => {
 				setLoading(false);
 				setShowModal(0);
-				setState((prev) => ({
+				setState(prev => ({
 					...prev,
 					facilityModule: {
 						...prev.facilityModule,
@@ -851,7 +821,7 @@ export function NewOrganizationCreate({ showModal, setShowModal }) {
 				}));
 				toast.success("You've succesfully created a new Assessment");
 			})
-			.catch((error) => {
+			.catch(error => {
 				setLoading(false);
 				setShowModal(0);
 				toast.error(`An error occured whilst creating an Assessment ${error}`);
@@ -887,7 +857,7 @@ export function NewOrganizationCreate({ showModal, setShowModal }) {
 		{ value: 15, label: '15. SPECIALISTS /FELLOWS' },
 	];
 
-	const handleFormToDisplay = (number) => {
+	const handleFormToDisplay = number => {
 		switch (number) {
 			case 1:
 				setShowArray(generalData);
@@ -1315,7 +1285,7 @@ export function NewOrganizationCreate({ showModal, setShowModal }) {
 								(PRIVATE SCHEME)
 							</p>
 							{generalOutlook
-								.filter((item) => item.value <= 13)
+								.filter(item => item.value <= 13)
 								.map((item, index) => (
 									<>
 										<Box
@@ -1402,7 +1372,7 @@ export function NewOrganizationCreate({ showModal, setShowModal }) {
 																sx={{ textAlign: 'center' }}>
 																<input
 																	type='checkbox'
-																	onChange={(e) => {
+																	onChange={e => {
 																		if (e.target.checked) {
 																			setEdit(true);
 																			setSelectedInput(item.name);
@@ -1488,8 +1458,8 @@ export function NewOrganizationCreate({ showModal, setShowModal }) {
 							</p>
 
 							{generalOutlook
-								.filter((item) => item.value > 13)
-								.map((item) => (
+								.filter(item => item.value > 13)
+								.map(item => (
 									<>
 										<Box
 											sx={{
@@ -1579,7 +1549,7 @@ export function NewOrganizationCreate({ showModal, setShowModal }) {
 																}}>
 																<input
 																	type='checkbox'
-																	onChange={(e) => {
+																	onChange={e => {
 																		if (e.target.checked) {
 																			setEdit(true);
 																			setSelectedInput(item.name);
@@ -2214,7 +2184,7 @@ export function NewOrganizationView({ showModal, setShowModal, selectedAccr }) {
 		reset(initFormValue);
 	}, []);
 
-	const handleClick = async (data) => {
+	const handleClick = async data => {
 		setLoading(true);
 		const userId = state.facilityModule.selectedFacility._id;
 		const employee = user.currentEmployee;
@@ -2413,10 +2383,10 @@ export function NewOrganizationView({ showModal, setShowModal, selectedAccr }) {
 
 		await accreditationServ
 			.create(allData)
-			.then((resp) => {
+			.then(resp => {
 				setLoading(false);
 				setShowModal(0);
-				setState((prev) => ({
+				setState(prev => ({
 					...prev,
 					facilityModule: {
 						...prev.facilityModule,
@@ -2425,7 +2395,7 @@ export function NewOrganizationView({ showModal, setShowModal, selectedAccr }) {
 				}));
 				toast.success("You've succesfully created a new Assessment");
 			})
-			.catch((error) => {
+			.catch(error => {
 				setLoading(false);
 				setShowModal(0);
 				toast.error(`An error occured whilst creating an Assessment ${error}`);
@@ -2461,7 +2431,7 @@ export function NewOrganizationView({ showModal, setShowModal, selectedAccr }) {
 		{ value: 15, label: '15. SPECIALISTS /FELLOWS' },
 	];
 
-	const handleFormToDisplay = (number) => {
+	const handleFormToDisplay = number => {
 		switch (number) {
 			case 1:
 				setShowArray(generalData);
@@ -2898,7 +2868,7 @@ export function NewOrganizationView({ showModal, setShowModal, selectedAccr }) {
 								(PRIVATE SCHEME)
 							</p>
 							{generalOutlook
-								.filter((item) => item.value <= 13)
+								.filter(item => item.value <= 13)
 								.map((item, index) => (
 									<>
 										<Box
@@ -2985,7 +2955,7 @@ export function NewOrganizationView({ showModal, setShowModal, selectedAccr }) {
 																sx={{ textAlign: 'center' }}>
 																<input
 																	type='checkbox'
-																	onChange={(e) => {
+																	onChange={e => {
 																		if (e.target.checked) {
 																			setEdit(true);
 																			setSelectedInput(item.name);
@@ -3068,8 +3038,8 @@ export function NewOrganizationView({ showModal, setShowModal, selectedAccr }) {
 							</p>
 
 							{generalOutlook
-								.filter((item) => item.value > 13)
-								.map((item) => (
+								.filter(item => item.value > 13)
+								.map(item => (
 									<>
 										<Box
 											sx={{
@@ -3159,7 +3129,7 @@ export function NewOrganizationView({ showModal, setShowModal, selectedAccr }) {
 																}}>
 																<input
 																	type='checkbox'
-																	onChange={(e) => {
+																	onChange={e => {
 																		if (e.target.checked) {
 																			setEdit(true);
 																			setSelectedInput(item.name);

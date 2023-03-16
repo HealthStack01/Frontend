@@ -1,29 +1,24 @@
-import React, {useState, useContext, useEffect, useRef} from "react";
-import {Route, Switch, Link, NavLink} from "react-router-dom";
-import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
-import {useNavigate} from "react-router-dom";
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
-import DatePicker from "react-datepicker";
-import LocationSearch from "../helpers/LocationSearch";
-import EmployeeSearch from "../helpers/EmployeeSearch";
-import BillServiceCreate from "../Finance/BillServiceCreate";
+import { Grid } from "@mui/material";
+import { toast } from "bulma-toast";
+import { addDays, format, formatDistanceToNowStrict, subDays } from "date-fns";
+import { useContext, useEffect, useRef, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
-import FilterMenu from "../../components/utilities/FilterMenu";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
+import { MdCancel } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/buttons/Button";
+import { CustomButton } from "../../components/buttons/Button/base/styles";
 import CustomTable from "../../components/customtable";
-import {AppointmentSchema} from "../Clinic/schema";
-import {CustomButton} from "../../components/buttons/Button/base/styles";
 import ModalBox from "../../components/modal";
-import {Box, Grid} from "@mui/material";
-import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
-import {MdCancel} from "react-icons/md";
-import ModalHeader from "../Appointment/ui-components/Heading/modalHeader";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import { ObjectContext, UserContext } from "../../context";
+import client from "../../feathers";
+import { TableMenu } from "../../ui/styled/global";
+import { PageWrapper } from "../../ui/styled/styles";
+import { AppointmentSchema } from "../Clinic/schema";
+import EmployeeSearch from "../helpers/EmployeeSearch";
+import LocationSearch from "../helpers/LocationSearch";
 export default function ImmunizationCheckIn() {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
@@ -835,7 +830,7 @@ export function CheckDetails({showModal, setShowModal}) {
     <>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
-          <ModalHeader text={"Client Details"} />
+          <h2>Client Details</h2>
         </Grid>
         <Grid item xs={12} sm={6}>
           <MdCancel

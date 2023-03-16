@@ -16,8 +16,8 @@ import { toast } from 'react-toastify';
 import Encounter from '../Documentation/Documentation';
 import ServiceSearch from '../helpers/ServiceSearch';
 import { Box, Grid } from '@mui/material';
-import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
-import Button from './ui-components/buttons/Button';
+
+
 import CustomSelect from '../../components/inputs/basic/Select';
 import { FormHelperText } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
@@ -723,7 +723,8 @@ export default function AdmissionCreate() {
             }}
           >
             <Grid item xs={12} sm={6}>
-              <ModalHeader text={'Admit Patient'} />
+
+              <h2>Admit Patient</h2>
             </Grid>
             <Grid item xs={12} sm={6}>
               <GlobalCustomButton

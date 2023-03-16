@@ -15,14 +15,8 @@ import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import ModalBox from "./ui-components/modal";
-/* import {ProductCreate} from './Products' */
-// eslint-disable-next-line
-//const searchfacility={};
+import ModalBox from '../../components/modal';
 
-// Demo styles, see 'Styles' section below for some notes on use.
-
-//import BillPrescriptionCreate from './BillPrescriptionCreate';
 
 export default function LaboratoryPayment() {
   //const {state}=useContext(ObjectContext) //,setState
