@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import Input from "../../components/inputs/basic/Input";
 import ViewText from "../../components/viewtext";
-import { UserContext } from "../../context";
+import { UserContext,ObjectContext } from "../../context";
 import { Box, IconButton, Grid, Typography } from "@mui/material";
 import client from "../../feathers";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -35,6 +35,7 @@ const LocationView = ({ open, setOpen, location }) => {
   const [editing, setEditing] = useState(false);
   const result = localStorage.getItem("user");
   const [openLoc, setOpenLoc] = useState(false);
+  const [openSubLoc, setOpenSubLoc] = useState(false);
   const sublocationTypeOptions = ["Bed", "Unit"];
   const [typeLocation,setTypeLocation] = useState('')
   const [typeName, setTypeName] = useState('')
@@ -47,6 +48,10 @@ const LocationView = ({ open, setOpen, location }) => {
     setOpenLoc(false);
   };
 
+
+  const handleClose = () => {
+    setOpenSubLoc(false);
+  };
   const {
     register,
     handleSubmit,
@@ -86,6 +91,8 @@ const LocationView = ({ open, setOpen, location }) => {
     });
   }, []);
 
+  const existingSublocation = location.sublocations.filter(items => items.typeName === typeName)
+
   const onSubmit = (e) => {
     // e.preventDefault();
     if (typeLocation === "" && typeName === "") {
@@ -94,6 +101,11 @@ const LocationView = ({ open, setOpen, location }) => {
    
     if (!location.sublocations) {
       location.sublocations = [];
+    }
+
+    if(existingSublocation.length > 0){
+      toast.warning('Name already choosen')
+      return;
     }
 
     let data = {
@@ -145,6 +157,14 @@ const LocationView = ({ open, setOpen, location }) => {
     }
   };
 
+
+  const handleRowClick = (row) => {
+    // console.log(row);
+    setTypeLocation(row.type)
+    setTypeName(row.typeName)
+    setOpenSubLoc(true)
+  }
+
  
 
   const LocationDetailSchema = [
@@ -180,10 +200,44 @@ const LocationView = ({ open, setOpen, location }) => {
   return (
     <Box>
       <ModalBox
+        open={openSubLoc}
+        header="Sub Location Details"
+        onClose={handleClose}
+        width="60%"
+      >
+        <Box display="flex" justifyContent="flex-end" py="1rem">
+        <GlobalCustomButton 
+        // onClick={() => handleDelete()} 
+        color="error">
+          <DeleteIcon fontSize="small" />
+          Delete
+        </GlobalCustomButton>
+        </Box>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <CustomSelect
+              label="Choose Sub-location Type"
+              name="typeLocation"
+              defaultValue={typeLocation}
+              options={sublocationTypeOptions}
+              // onChange={(e) => setTypeLocation(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Input
+             name='typeName'
+              label="Name of sub location"
+              // onChange={(e) => setTypeName(e.target.value)}
+              defaultValue={typeName}
+            />
+          </Grid>
+        </Grid>
+      </ModalBox>
+      <ModalBox
         open={openLoc}
         header="Add Sub Location"
         onClose={handleCloseModal}
-        width="80%"
+        width="60%"
       >
         <Box display="flex" justifyContent="flex-end" py="1rem">
           <GlobalCustomButton onClick={() => (onSubmit())}>
@@ -288,7 +342,7 @@ const LocationView = ({ open, setOpen, location }) => {
               color="warning"
               onClick={() => setOpenLoc(true)}
             >
-              Add Sub Location
+              Add SubLocation
             </GlobalCustomButton>
           </Box>
           <CustomTable
@@ -297,6 +351,7 @@ const LocationView = ({ open, setOpen, location }) => {
             data={location.sublocations}
             pointerOnHover
             highlightOnHover
+            onRowClicked={handleRowClick}
             striped
             progressPending={false}
           />
