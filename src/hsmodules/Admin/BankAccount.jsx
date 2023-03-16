@@ -2,30 +2,21 @@ import { useEffect, useState, useCallback, useContext } from 'react';
 import { Box } from '@mui/system';
 import client from '../../feathers';
 import { ObjectContext, UserContext } from '../../context';
-import { Avatar, Grid, IconButton, Typography } from '@mui/material';
+import { Grid, IconButton, Typography } from '@mui/material';
 import Input from '../../components/inputs/basic/Input';
 import { useForm } from 'react-hook-form';
 import { FormsHeaderText } from '../../components/texts';
-import CustomSelect from '../../components/inputs/basic/Select';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
 import CustomTable from '../../components/customtable';
 import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
 import DeleteOutline from '@mui/icons-material/DeleteOutline';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import { useNavigate } from 'react-router-dom';
-import EditIcon from '@mui/icons-material/Edit';
 import ModalBox from '../../components/modal';
 import Textarea from '../../components/inputs/basic/Textarea';
-import CheckboxGroup from '../../components/inputs/basic/Checkbox/CheckBoxGroup';
 import { toast } from 'react-toastify';
-import dayjs from 'dayjs';
 import CustomConfirmationDialog from '../../components/confirm-dialog/confirm-dialog';
 import { v4 as uuidv4 } from 'uuid';
 
-const OrganizationBankAccount = () => {
+const BankAccount = () => {
 	const facilityServer = client.service('facility');
 	const { state, setState, showActionLoader, hideActionLoader } =
 		useContext(ObjectContext);
@@ -40,13 +31,12 @@ const OrganizationBankAccount = () => {
 		message: '',
 	});
 
-	const currentOrganization = state.OrganizationModule.selectedOrganization;
-
 	useEffect(() => {
 		// hideActionLoader();
-		const orgBankAccounts = currentOrganization.facilityBankAcct || [];
+		const orgBankAccounts =
+			user.currentEmployee.facilityDetail.facilityBankAcct || [];
 		setBankAccounts(orgBankAccounts);
-	}, [state.OrganizationModule.selectedOrganization]);
+	}, [user.currentEmployee.facilityDetail]);
 
 	const handleRow = data => {
 		setState(prev => ({
@@ -74,7 +64,7 @@ const OrganizationBankAccount = () => {
 
 	const deleteBankAccount = async account => {
 		showActionLoader();
-		const prevOrgDetail = currentOrganization;
+		const prevOrgDetail = user.currentEmployee.facilityDetail;
 
 		const prevBankAccounts = prevOrgDetail.facilityBankAcct || [];
 
@@ -89,19 +79,19 @@ const OrganizationBankAccount = () => {
 
 		// console.log(newOrgDetail);
 
-		const documentId = currentOrganization._id;
+		const documentId = prevOrgDetail._id;
 
 		await facilityServer
 			.patch(documentId, { ...newOrgDetail })
 			.then(resp => {
 				hideActionLoader();
-				// setUser(prev => ({
-				//   ...prev,
-				//   currentEmployee: {
-				//     ...prev.currentEmployee,
-				//     facilityDetail: newOrgDetail,
-				//   },
-				// }));
+				setUser(prev => ({
+					...prev,
+					currentEmployee: {
+						...prev.currentEmployee,
+						facilityDetail: newOrgDetail,
+					},
+				}));
 
 				cancelConfrim();
 
@@ -115,7 +105,7 @@ const OrganizationBankAccount = () => {
 					`Failed to delete the bank account from your oragnization; ${error}`,
 				);
 				hideActionLoader();
-				// console.error(error);
+				console.error(error);
 			});
 	};
 
@@ -260,7 +250,7 @@ const OrganizationBankAccount = () => {
 						onRowClicked={handleRow}
 						CustomEmptyData={
 							<Typography sx={{ fontSize: '0.8rem' }}>
-								This Organization doesn't have any bank account yet...
+								You haven't added a bank account to your Organization yet...
 							</Typography>
 						}
 					/>
@@ -284,21 +274,18 @@ const OrganizationBankAccount = () => {
 	);
 };
 
-export default OrganizationBankAccount;
+export default BankAccount;
 
 export const AddNewBankAccount = ({ closeModal }) => {
 	const facilityServer = client.service('facility');
 	const { register, handleSubmit, control, reset } = useForm();
 	const { user, setUser } = useContext(UserContext);
-	const { state, setState, showActionLoader, hideActionLoader } =
-		useContext(ObjectContext);
-
-	const currentOrganization = state.OrganizationModule.selectedOrganization;
+	const { showActionLoader, hideActionLoader } = useContext(ObjectContext);
 
 	const addBankAccount = async data => {
 		showActionLoader();
 		const employee = user.currentEmployee;
-		const prevOrgDetail = currentOrganization;
+		const prevOrgDetail = user.currentEmployee.facilityDetail;
 
 		const document = {
 			...data,
@@ -328,13 +315,13 @@ export const AddNewBankAccount = ({ closeModal }) => {
 				});
 				reset(data);
 				hideActionLoader();
-				// setUser(prev => ({
-				//   ...prev,
-				//   currentEmployee: {
-				//     ...prev.currentEmployee,
-				//     facilityDetail: newOrgDetail,
-				//   },
-				// }));
+				setUser(prev => ({
+					...prev,
+					currentEmployee: {
+						...prev.currentEmployee,
+						facilityDetail: newOrgDetail,
+					},
+				}));
 				closeModal();
 
 				toast.success(

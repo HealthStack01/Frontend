@@ -95,6 +95,7 @@
 		"react-to-print": "^2.14.9",
 		"react-toastify": "^9.1.0",
 		"rsuite": "^5.8.1",
+		"sass": "^1.59.3",
 		"semantic-ui-react": "^2.1.2",
 		"serve": "^13.0.2",
 		"short-uuid": "^4.2.2",
@@ -116,6 +117,7 @@
 	"scripts": {
 		"start": "vite",
 		"start:dev": "vite",
+		"preview": "vite preview",
 		"start:prod": "yarn build && serve -s build",
 		"build": "tsc && vite build",
 		"lint": "tsc --noEmit && eslint 'src/**/*.{js,jsx,ts,tsx}'",

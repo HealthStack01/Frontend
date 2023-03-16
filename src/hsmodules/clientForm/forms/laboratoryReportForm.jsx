@@ -362,7 +362,7 @@ export function Haematology() {
 		top: '0',
 		left: '0',
 		padding: '0.9rem',
-		width: '100%',
+
 		height: '100%',
 		borderRadius: ' 4px',
 		border: '1.5px solid #BBBBBB',
@@ -1572,7 +1572,7 @@ export function Biochemistry() {
 		top: '0',
 		left: '0',
 		padding: '0.9rem',
-		width: '100%',
+
 		height: '100%',
 		borderRadius: ' 4px',
 		border: '1.5px solid #BBBBBB',
