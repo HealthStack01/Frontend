@@ -4,7 +4,6 @@ import ErrorBoundary from './ErrorBoundary';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-/* import reportWebVitals from './reportWebVitals'; */
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
