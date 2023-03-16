@@ -30,9 +30,6 @@ const PatientName = id => {
 			});
 	}, [id, relatedfacilities]);
 
-	console.log('Single Client', client);
-	console.log('ID', id.id);
-
 	return (
 		<div>
 			{client[0]?.firstname} {client[0]?.lastname}

@@ -2,7 +2,6 @@ import {useContext, useState, useEffect} from "react";
 import {Box, Grid, Typography} from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import {useForm} from "react-hook-form";
-//import {ErrorMessage} from "@hookform/error-message";
 
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {FormsHeaderText} from "../../components/texts";

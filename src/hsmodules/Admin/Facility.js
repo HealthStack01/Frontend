@@ -3,7 +3,6 @@ import React, { useState, useContext, useEffect } from 'react';
 import client from '../../feathers';
 import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
-//import {useNavigate} from 'react-router-dom'
 import { toast } from 'react-toastify';
 import { UserContext, ObjectContext } from '../../context';
 import { Box, Button, Grid } from '@mui/material';
@@ -11,11 +10,8 @@ import Input from '../../components/inputs/basic/Input';
 
 export default function Facility() {
   const { state } = useContext(ObjectContext); //,setState
-  // eslint-disable-next-line
   const [selectedFacility, setSelectedFacility] = useState();
-  //const [showState,setShowState]=useState() //create|modify|detail
 
-  //console.log("Organization parent", state)
 
   return (
     <section className="section remPadTop">

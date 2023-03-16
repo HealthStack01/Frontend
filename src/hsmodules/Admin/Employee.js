@@ -3,7 +3,6 @@ import React, {useState, useContext, useEffect, useRef} from "react";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
-//import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import ModuleList from "./ModuleList";
 import {toast, ToastContainer} from "react-toastify";
@@ -11,7 +10,7 @@ import * as yup from "yup";
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
-// import Button from "../../components/buttons/Button";
+
 import CustomTable from "../../components/customtable";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import Input from "../../components/inputs/basic/Input";

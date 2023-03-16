@@ -1,11 +1,9 @@
 import React, { useState, useContext, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast, ToastContainer } from 'react-toastify';
-import Button from '../../components/buttons/Button';
 import Input from '../../components/inputs/basic/Input';
 import TextArea from '../../components/inputs/basic/Textarea';
 import CustomSelect from '../../components/inputs/basic/Select';
-import BasicDatePicker from '../../components/inputs/Date';
 import { UserContext } from '../../context';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { bandTypeOptions } from '../../dummy-data';
@@ -14,7 +12,6 @@ import GlobalCustomButton from '../../components/buttons/CustomButton';
 import CreateIcon from '@mui/icons-material/Create';
 import { Box } from '@mui/system';
 import { Grid } from '@mui/material';
-import { BottomWrapper, DetailsWrapper, GridBox } from '../app/styles';
 // import { createBandSchema } from './schema';
 import { createBandSchema } from './ui-components/schema';
 import ModalBox from '../../components/modal';
@@ -22,8 +19,7 @@ import ModalBox from '../../components/modal';
 export const BandForm = ({ open, setOpen }) => {
 	const BandServ = client.service('bands');
 	const [success, setSuccess] = useState(false);
-	const [loading, setLoading] = useState(false);
-	const [isFullRegistration, setFullRegistration] = useState(false);
+
 	const data = localStorage.getItem('band');
 	// const user = JSON.parse(data);
 	const { user } = useContext(UserContext);
@@ -49,12 +45,12 @@ export const BandForm = ({ open, setOpen }) => {
 			e.preventDefault();
 			setSuccess(false);
 			await BandServ.create(data)
-				.then((res) => {
+				.then(res => {
 					toast.success(`Band successfully created`);
 					setOpen(false);
 					reset();
 				})
-				.catch((err) => {
+				.catch(err => {
 					toast.error(`Sorry, You weren't able to create a band. ${err}`);
 				});
 		},

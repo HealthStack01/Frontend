@@ -128,7 +128,7 @@ const PreAuthCreate = ({ onClose }) => {
 	};
 	const providerOptions = () => {
 		return providers.map(c => ({
-			label: `${c.facilityDetail.facilityName}`,
+			label: `${c?.facilityDetail?.facilityName}`,
 			value: c._id,
 		}));
 	};
@@ -144,6 +144,7 @@ const PreAuthCreate = ({ onClose }) => {
 		<Box>
 			<ModalBox
 				open={open}
+				width='60vw'
 				onClose={() => setOpen(false)}>
 				{type === 'services' ? (
 					<AddService
@@ -201,7 +202,7 @@ const PreAuthCreate = ({ onClose }) => {
 					<RadioInput
 						options={[
 							{ label: 'In-patient', value: 'In-patient' },
-							{ label: 'Out of pocket', value: 'Out of pocket' },
+							{ label: 'Out-Patient', value: 'Out-Patient' },
 						]}
 						value={patientType}
 						onChange={event => setPatientType(event.target.value)}

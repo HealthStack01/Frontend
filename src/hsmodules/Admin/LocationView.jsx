@@ -2,24 +2,17 @@ import React, { useContext, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import Input from "../../components/inputs/basic/Input";
-import ViewText from "../../components/viewtext";
 import { UserContext } from "../../context";
-import {Box} from "@mui/system";
 import client from "../../feathers";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   BottomWrapper,
-  DetailsWrapper,
   GrayWrapper,
   GridBox,
   HeadWrapper,
   PageWrapper,
 } from "../app/styles";
-import dayjs, { Dayjs } from "dayjs";
 import { createLocationSchema } from "./ui-components/schema";
-import CustomSelect from "../../components/inputs/basic/Select";
-import { bandTypeOptions } from "../../dummy-data";
-// import ModalBox from "../../components/modal";
 
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import CreateIcon from '@mui/icons-material/Create';

@@ -1,40 +1,27 @@
 import React, {useState, useContext, useEffect} from "react";
 import {useForm} from "react-hook-form";
 import {toast, ToastContainer} from "react-toastify";
-import Button from "../../components/buttons/Button";
 import Input from "../../components/inputs/basic/Input";
-import CustomSelect from "../../components/inputs/basic/Select";
-import BasicDatePicker from "../../components/inputs/Date";
 import {ObjectContext, UserContext} from "../../context";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {bandTypeOptions} from "../../dummy-data";
 import client from "../../feathers";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {Box} from "@mui/system";
 import {
-  BottomWrapper,
-  DetailsWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
+
   GridBox,
 } from "../app/styles";
-// import { createBandSchema } from './schema';
-import {createBandSchema, createEmployeeSchema} from "./ui-components/schema";
-import ModalBox from "../../components/modal";
+import { createEmployeeSchema} from "./ui-components/schema";
 import PasswordInput from "../../components/inputs/basic/Password";
 
 export const EmployeeForm = ({open, setOpen}) => {
   const EmployeeServ = client.service("employee");
   const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
   const {user} = useContext(UserContext);
   const {showActionLoader, hideActionLoader} = useContext(ObjectContext);
 
-  // const data = localStorage.getItem('user');
-  // const user = JSON.parse(data);
+
 
   const {
     register,
