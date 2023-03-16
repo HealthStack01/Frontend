@@ -30,6 +30,7 @@
 		"@react-pdf/renderer": "^3.0.0",
 		"@types/ckeditor__ckeditor5-build-classic": "^29.0.1",
 		"@uiw/react-watermark": "^0.0.5",
+		"@vitejs/plugin-react": "^3.1.0",
 		"apexcharts": "^3.36.0",
 		"autoprefixer": "10.0.2",
 		"axios": "^0.26.1",
@@ -86,7 +87,6 @@
 		"react-recompose": "^0.31.2",
 		"react-remita": "^1.0.0",
 		"react-router-dom": "^6.4.3",
-		"react-scripts": "^5.0.0",
 		"react-select": "^5.7.0",
 		"react-select-search": "^4.1.6",
 		"react-semantic-ui-datepickers": "^2.17.1",
@@ -107,17 +107,17 @@
 		"styled-components": "^5.3.6",
 		"use-sound": "^4.0.1",
 		"uuid": "^9.0.0",
+		"vite-plugin-svgr": "^2.4.0",
+		"vite-tsconfig-paths": "^4.0.7",
 		"web-vitals": "^2.1.2",
 		"xlsx": "^0.18.5",
 		"yup": "^0.32.11"
 	},
 	"scripts": {
-		"start": "react-scripts start",
-		"start:dev": "react-scripts start",
+		"start": "vite",
+		"start:dev": "vite",
 		"start:prod": "yarn build && serve -s build",
-		"build": "CI= react-scripts --max_old_space_size=4096 build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject",
+		"build": "tsc && vite build",
 		"lint": "tsc --noEmit && eslint 'src/**/*.{js,jsx,ts,tsx}'",
 		"lint:fix": "eslint --fix . --ext .ts,.tsx"
 	},
@@ -153,7 +153,8 @@
 		"babel-loader": "^8.2.5",
 		"eslint-plugin-prettier": "^4.2.1",
 		"prettier": "^2.5.1",
-		"typescript": "^3.3.4000"
+		"typescript": "^3.3.4000",
+		"vite": "^4.2.0"
 	},
 	"engines": {
 		"node": "16.x",
