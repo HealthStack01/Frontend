@@ -37,7 +37,7 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
       },
     }));
 
-    //showDetail();
+    showDetail();
   };
 
   const handleSearch = val => {
@@ -117,7 +117,7 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
           },
         },
       ],
-      //facility: user.currentEmployee.facilityDetail._id, // || "",
+      facility: user.currentEmployee.facilityDetail._id, // || "",
       appointment_status: isCheckedIn ? "Checked In" : "Checked Out",
       $limit: 100,
       $sort: {
@@ -143,7 +143,7 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
   const getAppointments = useCallback(async () => {
     setLoading(true);
     let query = {
-      // facility: user.currentEmployee.facilityDetail._id,
+      "hmo._id": user.currentEmployee.facilityDetail._id,
       appointment_status: isCheckedIn ? "Checked In" : "Checked Out",
       $limit: 100,
       $sort: {
@@ -155,8 +155,7 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
       return;
     } else {
       const res = await appointmentsServer.find({query: query});
-      const filteredData = res.data.filter(item => item.hmo !== null);
-      // console.log(filteredData);
+
       setAppointments(res.data);
       setLoading(false);
     }
@@ -189,6 +188,18 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
     },
     {
       name: "Client Name",
+      key: "firstname",
+      description: "First Name",
+      selector: row => `${row.firstname} ${row.lastname}`,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+    {
+      name: "Provider",
       key: "firstname",
       description: "First Name",
       selector: row => `${row.firstname} ${row.lastname}`,
@@ -259,15 +270,6 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
       key: "practitioner",
       description: "Practitioner",
       selector: row => row.practitioner_name,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "HMO",
-      key: "practitioner",
-      description: "Practitioner",
-      selector: row => row?.hmo?._id,
       sortable: true,
       required: true,
       inputType: "TEXT",

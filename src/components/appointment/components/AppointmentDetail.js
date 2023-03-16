@@ -87,9 +87,15 @@ const AppointmentDetail = ({closeModal}) => {
       });
   };
 
+  const handleIncorrectOTP = () => {
+    toast.error(
+      "The OTP code you supplied is incorrect, please provide the correct code."
+    );
+    setOtpValue(null);
+  };
+
   const checkinPatientWithOTP = () => {
-    if (otpValue.toString() !== appointment.otp)
-      return toast.error("Incorrect OTP code supplied");
+    if (otpValue.toString() !== appointment.otp) return handleIncorrectOTP();
     showActionLoader();
     appointmentsServer
       .patch(appointment._id, {
@@ -99,6 +105,7 @@ const AppointmentDetail = ({closeModal}) => {
       .then(res => {
         hideActionLoader();
         toast.success("Client succesfully Checked In");
+        setOtpModal(false);
         setState(prev => ({
           ...prev,
           AppointmentModule: {

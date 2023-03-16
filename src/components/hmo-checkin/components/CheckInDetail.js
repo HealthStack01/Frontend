@@ -304,7 +304,8 @@ const CheckInAppointmentDetail = ({closeModal}) => {
             important
             control={control}
             name="appointment_status"
-            label="Appointment Status "
+            label="Appointment Status"
+            disabled
             options={[
               "Scheduled",
               "Confirmed",

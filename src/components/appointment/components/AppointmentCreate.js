@@ -176,6 +176,8 @@ const AppointmentCreate = ({closeModal}) => {
       recipients: [patient.phone],
     };
 
+    //console.log(data);
+
     appointmentsServer
       .create(data)
       .then(async res => {
