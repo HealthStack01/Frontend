@@ -1,28 +1,26 @@
-import {useContext} from "react";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {Box, Step, StepButton, Stepper} from "@mui/material";
-import React, {useEffect, useState} from "react";
-import {useForm} from "react-hook-form";
-import {Link, useNavigate} from "react-router-dom";
-import {toast} from "react-toastify";
+import { yupResolver } from "@hookform/resolvers/yup";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
+import { Box, Step, StepButton, Stepper } from "@mui/material";
+import { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import AuthWrapper from "../../components/AuthWrapper";
-import Button from "../../components/buttons/Button";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import { ObjectContext, UserContext } from "../../context";
 import client from "../../feathers";
 import {
   getOrganisationContactSchema,
   getOrganisationSchema,
-  OnboardingEmployeeSchema,
+  OnboardingEmployeeSchema
 } from "../app/schema/ModelSchema";
-import {getResolver} from "../app/schema/util";
+import { getResolver } from "../app/schema/util";
 import AddAdmin from "./forms/AddAdmin";
 import CreateOrganization from "./forms/CreateOrganization";
 import SelectModule from "./forms/SelectModule";
-import {ObjectContext, UserContext} from "../../context";
-import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 const steps = ["Organization", "Contact ", "Modules", "Admin"];
 

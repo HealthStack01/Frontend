@@ -1,17 +1,17 @@
-import React, { useState, useContext, useEffect } from 'react';
-import client from '../../feathers';
-import { UserContext, ObjectContext } from '../../context';
-import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
-import 'react-datepicker/dist/react-datepicker.css';
-import { PageWrapper } from '../../ui/styled/styles';
-import { TableMenu } from '../../ui/styled/global';
-import FilterMenu from '../../components/utilities/FilterMenu';
-import CustomTable from '../../components/customtable';
-import { AppointmentSchema } from '../Clinic/schema';
-import ModalBox from '../../components/modal';
 import { Box, Grid } from '@mui/material';
+import { addDays, format, formatDistanceToNowStrict, subDays } from 'date-fns';
+import { useContext, useEffect, useState } from 'react';
+import 'react-datepicker/dist/react-datepicker.css';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
+import CustomTable from '../../components/customtable';
 import Input from '../../components/inputs/basic/Input';
+import ModalBox from '../../components/modal';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import { ObjectContext, UserContext } from '../../context';
+import client from '../../feathers';
+import { TableMenu } from '../../ui/styled/global';
+import { PageWrapper } from '../../ui/styled/styles';
+import { AppointmentSchema } from '../Clinic/schema';
 
 export default function ClinicCheckIn() {
 	const { state } = useContext(ObjectContext); //,setState
@@ -61,22 +61,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
 	const [startDate, setStartDate] = useState(new Date());
 	const [loading, setLoading] = useState(false);
 
-	const handleCreateNew = async () => {
-		const newClientModule = {
-			selectedAppointment: {},
-			show: 'create',
-		};
-		await setState(prevstate => ({
-			...prevstate,
-			AppointmentModule: newClientModule,
-		}));
-		//console.log(state)
-		const newClient = {
-			selectedClient: {},
-			show: 'create',
-		};
-		await setState(prevstate => ({ ...prevstate, ClientModule: newClient }));
-	};
+
 
 	const handleRow = async Client => {
 		setShowModal(true);
@@ -267,9 +252,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
 		await setFacilities(findClient.data);
 	};
 
-	const handleDate = async date => {
-		setStartDate(date);
-	};
+
 
 	useEffect(() => {
 		if (!!startDate) {
@@ -364,8 +347,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
 	//console.log(state.employeeLocation)
 
 	const handleSearch = val => {
-		const field = 'firstname';
-		//  console.log(val)
+	
 
 		let query = {
 			$or: [
@@ -604,19 +586,7 @@ export function CheckDetails({ checkState }) {
 	const [edit, setEdit] = useState(false);
 
 	const Client = state.AppointmentModule.selectedAppointment;
-	//const client=Client
-	const handleEdit = async () => {
-		const newClientModule = {
-			selectedAppointment: Client,
-			show: 'modify',
-		};
-		await setState(prevstate => ({
-			...prevstate,
-			AppointmentModule: newClientModule,
-		}));
-		//console.log(state)
-		setEdit(true);
-	};
+	
 
 	return (
 		<>

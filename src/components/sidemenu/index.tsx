@@ -1,13 +1,11 @@
-import {Avatar} from '@mui/material';
-import React, {useEffect, useState, useContext} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {ObjectContext, UserContext} from '../../context';
+import { Avatar } from '@mui/material';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ObjectContext, UserContext } from '../../context';
 
 import MenuItem from '../menuitem';
-import {Lists} from '../menuitem/style';
-import {MainMenu, Sidemenu, TopSection} from './styles';
-import {facilityTypes} from '../../hsmodules/app/facility-types';
-
+import { Lists } from '../menuitem/style';
+import { MainMenu, Sidemenu, TopSection } from './styles';
 export const menuItems = [
 	{
 		name: 'Client',

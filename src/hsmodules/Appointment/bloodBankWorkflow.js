@@ -1,18 +1,17 @@
-import React, { useState, useContext, useEffect } from 'react';
-import client from '../../feathers';
-import { useNavigate } from 'react-router-dom';
-import { UserContext, ObjectContext } from '../../context';
-import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
-import 'react-datepicker/dist/react-datepicker.css';
-import { PageWrapper } from '../../ui/styled/styles';
-import { TableMenu } from '../../ui/styled/global';
-import FilterMenu from '../../components/utilities/FilterMenu';
-import CustomTable from '../../components/customtable';
-import { AppointmentSchema } from '../Clinic/schema';
-import ModalBox from '../../components/modal';
 import { Box, Grid } from '@mui/material';
+import { addDays, format, formatDistanceToNowStrict, subDays } from 'date-fns';
+import { useContext, useEffect, useState } from 'react';
+import 'react-datepicker/dist/react-datepicker.css';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
+import CustomTable from '../../components/customtable';
 import Input from '../../components/inputs/basic/Input';
+import ModalBox from '../../components/modal';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import { ObjectContext, UserContext } from '../../context';
+import client from '../../feathers';
+import { TableMenu } from '../../ui/styled/global';
+import { PageWrapper } from '../../ui/styled/styles';
+import { AppointmentSchema } from '../Clinic/schema';
 
 export default function BloodBankCheckIn() {
 	const { state } = useContext(ObjectContext); //,setState

@@ -1,14 +1,13 @@
-import React, {useEffect, useState} from "react";
-import {userDetails} from "../utils/fetchUserDetails";
-import {
-  DashboardContainer,
-  DashboardPageWrapper,
-  StartCardWapper,
-} from "../core-ui/styles";
-import ViewCard from "./@sections/ViewCard";
-import {Box, Typography} from "@mui/material";
-import PieChart from "../charts/PieChat";
+import { Box, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import AreaChart from "../charts/AreaChart";
+import PieChart from "../charts/PieChat";
+import {
+  DashboardPageWrapper,
+  StartCardWapper
+} from "../core-ui/styles";
+import { userDetails } from "../utils/fetchUserDetails";
+import ViewCard from "./@sections/ViewCard";
 
 const CrmDashboard = () => {
   const [userName, setUserName] = useState("");

@@ -3,23 +3,21 @@ import {
 	Checkbox,
 	FormControl,
 	FormControlLabel,
-	FormGroup,
+	FormGroup
 } from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 
+import LoginIcon from '@mui/icons-material/Login';
+import axios from 'axios';
 import AuthWrapper from '../../components/AuthWrapper';
-import Button from '../../components/buttons/Button';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
 import Input from '../../components/inputs/basic/Input';
 import PasswordInput from '../../components/inputs/basic/Password';
 import Preloader from '../../components/utilities/Preloader';
 import { UserContext } from '../../context';
-import client from '../../feathers';
-import LoginIcon from '@mui/icons-material/Login';
-import GlobalCustomButton from '../../components/buttons/CustomButton';
-import axios from 'axios';
 
 function Login() {
 	const navigate = useNavigate();

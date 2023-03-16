@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AuthWrapper from '../../components/AuthWrapper';
 
-import client from '../../feathers';
-import { toast, ToastContainer } from 'react-toastify';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { toast } from 'react-toastify';
+import client from '../../feathers';
 import { createUserSchema } from './schema';
 
-import axios from 'axios';
 import { Box } from '@mui/material';
+import axios from 'axios';
 import { Circles } from 'react-loader-spinner';
 
 const Register = () => {

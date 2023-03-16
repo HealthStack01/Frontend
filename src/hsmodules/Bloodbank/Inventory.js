@@ -7,7 +7,6 @@ import DataTable from "react-data-table-component";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
-//import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -111,13 +110,6 @@ export default function BloodBankInventory() {
 
 
 
-  // const handleCloseModal = () => {
-  //   setModifyModal(false)
-  //   setRedorderModal(false)
-  //   setBatchModal(false)
-  //   setAuditModal(false)
-  //   setDetailModal(false)
-  // }
 
   return (
     <section>

@@ -1,35 +1,28 @@
-import {Box, Typography} from "@mui/material";
-import React, {useEffect, useState} from "react";
+import { Box, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 
+import LineChart from "../charts/LineChart";
 import ViewCard from "./@sections/ViewCard";
 import ViewCardWithFilter from "./@sections/ViewCardWithFilter";
-import LineChart from "../charts/LineChart";
 // import CircleChart from "../charts/CircleChart";
-import {PharmacyLineSeriesData} from "../utils/chartData/LineData";
+import { PharmacyLineSeriesData } from "../utils/chartData/LineData";
 
 import client from "../../../feathers";
 
 import {
   DashboardContainer,
   DashboardPageWrapper,
-  StartCardWapper,
+  StartCardWapper
 } from "../core-ui/styles";
-import {userDetails} from "../utils/fetchUserDetails";
+import { userDetails } from "../utils/fetchUserDetails";
 
 import {
-  TotalModeltDataForPresent,
-  FetchTotalStockQuantity,
-  FetchTotalStockValue,
+  FetchTotalStockQuantity, TotalModeltDataForPresent
 } from "../utils/chartData/queryHandler";
 
 import {
-  FetchTotalPrescriptionOrderWithInPresentRange,
-  FetchTotalPrescriptionBilledWithInPresentRange,
-  FetchTotalPrescriptionPendingWithInPresentRange,
-  FetchTotalSaleValueWithInPresentRange,
-  FetchTotalStockValueWithInPresentRange,
-  FetchTotalSalePharmacy,
-  ModelResult,
+  FetchTotalPrescriptionBilledWithInPresentRange, FetchTotalPrescriptionOrderWithInPresentRange, FetchTotalPrescriptionPendingWithInPresentRange, FetchTotalSalePharmacy, FetchTotalSaleValueWithInPresentRange,
+  FetchTotalStockValueWithInPresentRange, ModelResult
 } from "../utils/chartData/chartDataHandler";
 
 const PharmacyDashboard = () => {

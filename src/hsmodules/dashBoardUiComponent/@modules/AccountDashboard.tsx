@@ -1,24 +1,22 @@
-import {Box, Typography} from "@mui/material";
-import React, {useEffect, useState, useContext} from "react";
+import { Box, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 
-import ViewCard from "./@sections/ViewCard";
 import AreaChart from "../charts/AreaChart";
 import BarChart from "../charts/BarChart";
 import BubbleChart from "../charts/BubbleChart";
 import CircleChart from "../charts/CircleChart";
+import ViewCard from "./@sections/ViewCard";
 
 import {
   DashboardContainer,
   DashboardPageWrapper,
-  StartCardWapper,
+  StartCardWapper
 } from "../core-ui/styles";
-import {userDetails} from "../utils/fetchUserDetails";
-import {UserContext} from "../../../context";
+import { userDetails } from "../utils/fetchUserDetails";
 
 const AccountDashboard = () => {
   const [userName, setUserName] = useState("");
   const [facilityName, setFacilityName] = useState("");
-  const {user} = useContext(UserContext);
 
   useEffect(() => {
     const {userFullName, facilityFullName} = userDetails();

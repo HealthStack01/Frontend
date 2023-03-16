@@ -1,36 +1,26 @@
 /* eslint-disable */
 import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Route, useNavigate, Link, NavLink } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
-//import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from '../../context';
 import { toast } from 'react-toastify';
 import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
-import DatePicker from 'react-datepicker';
 import LocationSearch from '../helpers/LocationSearch';
 import EmployeeSearch from '../helpers/EmployeeSearch';
-import BillServiceCreate from '../Finance/BillServiceCreate';
 import 'react-datepicker/dist/react-datepicker.css';
 import { PageWrapper } from '../../ui/styled/styles';
 import { TableMenu } from '../../ui/styled/global';
 import FilterMenu from '../../components/utilities/FilterMenu';
-import Button from '../../components/buttons/Button';
 import CustomTable from '../../components/customtable';
 import { AppointmentSchema } from './schema';
 import Switch from '../../components/switch';
 import { BsFillGridFill, BsList } from 'react-icons/bs';
 import CalendarGrid from '../../components/calender';
 import ModalBox from '../../components/modal';
-import ModalHeader from './ui-components/Heading/modalHeader';
 import { Box, Grid, Autocomplete } from '@mui/material';
-import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
-import { MdCancel } from 'react-icons/md';
 import Input from '../../components/inputs/basic/Input';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
-import BasicDatePicker from '../../components/inputs/Date';
-import MuiCustomTimePicker from '../../components/inputs/Date/MuiTimePicker';
 import BasicDateTimePicker from '../../components/inputs/DateTime';
 import RadioButton from '../../components/inputs/basic/Radio';
 import TextField from '@mui/material/TextField';
@@ -38,15 +28,8 @@ import { FormsHeaderText } from '../../components/texts';
 import MuiClearDatePicker from '../../components/inputs/Date/MuiClearDatePicker';
 import GroupedRadio from '../../components/inputs/basic/Radio/GroupedRadio';
 
-// eslint-disable-next-line
-const searchfacility = {};
-
 export default function CrmAppointments() {
-	const { state } = useContext(ObjectContext); //,setState
-	// eslint-disable-next-line
-	const [selectedClient, setSelectedClient] = useState();
-	const [selectedAppointment, setSelectedAppointment] = useState();
-	//const [showState,setShowState]=useState() //create|modify|detail
+	const { state } = useContext(ObjectContext);
 	const [showModal, setShowModal] = useState(false);
 
 	return (
@@ -105,19 +88,11 @@ export function AppointmentCreate({ showModal, setShowModal }) {
 	const [locationId, setLocationId] = useState();
 	const [practionerId, setPractionerId] = useState();
 	const [type, setType] = useState();
-	// eslint-disable-next-line
-	const [facility, setFacility] = useState();
 	const ClientServ = client.service('appointments');
-	//const navigate=useNavigate()
-	const { user } = useContext(UserContext); //,setUser
-	// eslint-disable-next-line
+	const { user } = useContext(UserContext);
 	const [currentUser, setCurrentUser] = useState();
-	const [selectedClient, setSelectedClient] = useState();
-	const [selectedAppointment, setSelectedAppointment] = useState();
-	// const [appointment_reason,setAppointment_reason]= useState()
 	const [appointment_status, setAppointment_status] = useState('');
 	const [appointment_type, setAppointment_type] = useState('');
-	const [billingModal, setBillingModal] = useState(false);
 
 	const [chosen, setChosen] = useState();
 	const [chosen1, setChosen1] = useState();
@@ -177,19 +152,11 @@ export function AppointmentCreate({ showModal, setShowModal }) {
 
 	useEffect(() => {
 		setCurrentUser(user);
-		//console.log(currentUser)
 		return () => {};
 	}, [user]);
 
-	//check user for facility or get list of facility
 	useEffect(() => {
-		//setFacility(user.activeClient.FacilityId)//
 		if (!user.stacker) {
-			/*    console.log(currentUser)
-        setValue("facility", user.currentEmployee.facilityDetail._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        })  */
 		}
 	}, []);
 
@@ -207,8 +174,6 @@ export function AppointmentCreate({ showModal, setShowModal }) {
 				},
 			}));
 
-		// data.createdby=user._id
-		console.log(data);
 		if (user.currentEmployee) {
 			data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
 		}
@@ -265,28 +230,8 @@ export function AppointmentCreate({ showModal, setShowModal }) {
 	useEffect(() => {
 		getSearchfacility(state.ClientModule.selectedClient);
 
-		/* appointee=state.ClientModule.selectedClient 
-        console.log(appointee.firstname) */
 		return () => {};
 	}, [state.ClientModule.selectedClient]);
-
-	/*   const showBilling = () =>{
-        setBillingModal(true)
-       //history.push('/app/finance/billservice')
-        }
-        const  handlecloseModal1 = () =>{
-            setBillingModal(false)
-            }
-
-
-            const handleRow= async(Client)=>{
-              //  await setSelectedClient(Client)
-                const    newClientModule={
-                    selectedClient:Client,
-                    show :'detail'
-                }
-               await setState((prevstate)=>({...prevstate, ClientModule:newClientModule}))
-            } */
 
 	return (
 		<>
@@ -472,18 +417,10 @@ export function AppointmentCreate({ showModal, setShowModal }) {
 }
 
 export function ClientList({ showModal, setShowModal }) {
-	// const { register, handleSubmit, watch, errors } = useForm();
-	// eslint-disable-next-line
-	const [error, setError] = useState(false);
-	// eslint-disable-next-line
-	const [success, setSuccess] = useState(false);
-	// eslint-disable-next-line
-	const [message, setMessage] = useState('');
+
 	const ClientServ = client.service('appointments');
-	//const navigate=useNavigate()
-	// const {user,setUser} = useContext(UserContext)
+	
 	const [facilities, setFacilities] = useState([]);
-	// eslint-disable-next-line
 	const [selectedClient, setSelectedClient] = useState(); //
 	// eslint-disable-next-line
 	const { state, setState } = useContext(ObjectContext);
@@ -709,9 +646,6 @@ export function ClientList({ showModal, setShowModal }) {
 		await setFacilities(findClient.data);
 	};
 
-	const handleDate = async date => {
-		setStartDate(date);
-	};
 
 	useEffect(() => {
 		if (!!startDate) {
@@ -722,9 +656,7 @@ export function ClientList({ showModal, setShowModal }) {
 
 		return () => {};
 	}, [startDate]);
-	//todo: pagination and vertical scroll bar
 
-	const onRowClicked = () => {};
 
 	const mapFacilities = () => {
 		let mapped = [];

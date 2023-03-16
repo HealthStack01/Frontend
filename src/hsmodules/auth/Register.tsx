@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import axios from 'axios';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 import AuthWrapper from '../../components/AuthWrapper';
 import Button from '../../components/buttons/Button';
 import Input from '../../components/inputs/basic/Input';
-import client from '../../feathers';
-import { toast, ToastContainer } from 'react-toastify';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { createUserSchema } from './schema';
 import PasswordInput from '../../components/inputs/basic/Password';
-import axios from 'axios';
+import client from '../../feathers';
+import { createUserSchema } from './schema';
 
 const Register = () => {
-	const ClientServ = client.service('auth-management');
 	const baseuRL = 'https://healthstack-backend.herokuapp.com';
 
 	const [loading, setLoading] = useState(false);
-	const [data, setData] = useState({ _id: '' });
 
 	const {
 		register,
