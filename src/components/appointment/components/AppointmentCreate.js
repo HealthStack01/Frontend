@@ -16,7 +16,7 @@ import CustomSelect from "../../inputs/basic/Select";
 import Textarea from "../../inputs/basic/Textarea";
 import GlobalCustomButton from "../../buttons/CustomButton";
 
-const AppointmentCreate = ({closeModal}) => {
+const AppointmentCreate = ({closeModal, showBillModal}) => {
   const appointmentsServer = client.service("appointments");
   const smsServer = client.service("sms");
   const emailServer = client.service("email");
@@ -186,10 +186,15 @@ const AppointmentCreate = ({closeModal}) => {
         toast.success(
           "Appointment created succesfully, Kindly bill patient if required"
         );
+
         await notificationsServer.create(notificationObj);
         //await smsServer.create(smsObj);
         await emailServer.create(emailObj);
         hideActionLoader();
+
+        if (showBillModal) {
+          showBillModal(true);
+        }
 
         // await axios.post(
         //   `https://portal.nigeriabulksms.com/api/?username=apmis&apmis=pass&message=${smsObj.message}&sender=${user.currentEmployee.facilityDetail.facilityName}&mobiles=${chosen.phone}`
