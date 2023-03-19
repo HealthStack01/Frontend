@@ -1,3 +1,8 @@
+Welcome to HealthStack Africa,  We create tools that enable users to access healthcare services easily and securely, as well as to find and share health information.
+
+For resources to understand the tech stack we work with, checkout:
+
+
 # Resources
 
 https://dev.to/finiam/predictable-react-authentication-with-the-context-api-g10
