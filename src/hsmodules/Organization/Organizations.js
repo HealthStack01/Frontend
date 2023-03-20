@@ -11,7 +11,6 @@ import FilterMenu from '../../components/utilities/FilterMenu';
 import {ObjectContext, UserContext} from '../../context';
 import client from '../../feathers';
 import {TableMenu} from '../../ui/styled/global';
-import AdminOrganization from '../Admin/Organization';
 import OrganizationBankAccount from './OrganizationBankAccount';
 import EditIcon from '@mui/icons-material/Edit';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
@@ -22,6 +21,7 @@ import CheckboxGroup from '../../components/inputs/basic/Checkbox/CheckBoxGroup'
 import {facilityTypes} from '../app/facility-types';
 import {Nigeria} from '../app/Nigeria';
 //import {OrganizationList} from "../ManagedCare/HIA";
+import ViewCard from '../dashBoardUiComponent/@modules/@sections/ViewCard';
 
 const OrganizationsPage = () => {
 	const [tab, setTab] = useState('list');
@@ -68,7 +68,7 @@ export const OrganizationsList = ({selectOrganization}) => {
 				},
 			})
 			.then(res => {
-				console.log(res);
+				// console.log(res);
 				setFacilities(res.data);
 				setLoading(false);
 			})
@@ -357,6 +357,7 @@ export const OrganizationDetails = ({organization, goBack}) => {
 	const [edit, setEdit] = useState(false);
 	const [logoAnchorEl, setLogoAnchorEl] = useState(null);
 	const [modulesModal, setModulesModal] = useState(false);
+	const [statsModal, setstatsModal] = useState(false);
 	const [logoUploadModal, setLogoUploadModal] = useState(false);
 	const [selectedType, setSelectedType] = useState(null);
 	const [selectedState, setSelectedState] = useState(null);
@@ -432,14 +433,12 @@ export const OrganizationDetails = ({organization, goBack}) => {
 			updatedByName: `${employee.firstname} ${employee.lastname}`,
 		};
 
-		//return console.log(newOrgDetail);
 
 		const documentId = prevOrgDetail._id;
 
 		await facilityServer
 			.patch(documentId, {...newOrgDetail})
 			.then(resp => {
-				//console.log(resp);
 				reset(resp);
 				setFacility(resp);
 				hideActionLoader();
@@ -471,6 +470,13 @@ export const OrganizationDetails = ({organization, goBack}) => {
 					<OrganizationModules closeModal={() => setModulesModal(false)} />
 				</ModalBox>
 
+				<ModalBox
+					open={statsModal}
+					onClose={() => setstatsModal(false)}
+					header={`Statistics`}>
+					<ViewCard closeModal={() => setstatsModal(false)} />
+				</ModalBox>
+
 				<Box
 					sx={{
 						display: 'flex',
@@ -485,6 +491,7 @@ export const OrganizationDetails = ({organization, goBack}) => {
 						display: 'flex',
 						gap: 2,
 					}}>
+				    <GlobalCustomButton onClick={() => setstatsModal(true)}>view Stats</GlobalCustomButton>
 					<GlobalCustomButton
 						color='secondary'
 						onClick={() => setModulesModal(true)}>
