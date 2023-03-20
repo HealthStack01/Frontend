@@ -6,7 +6,7 @@ Health Stack Africa is a health-tech platform that seeks to improve access to he
 
 - Our homepage is at (Health Stack Africa)[]
 - Join our communication channel at (communication)[]
-- Checkout our (wiki page)[] for information about GSoD
+- Checkout our [wiki page](https://github.com/HealthStack01/Frontend/wiki) for information about GSoD
 
 
 ## Quick Start to Get Health Stack's Frontend running on your localhost
