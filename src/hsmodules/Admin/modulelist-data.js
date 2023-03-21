@@ -9,7 +9,7 @@ export const actionRoles = [
   },
   {
     value: "Delete Documents",
-    label: "Delete Document",
+    label: "Delete Documents",
   },
   {
     value: "Complaints",

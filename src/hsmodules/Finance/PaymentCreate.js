@@ -8,7 +8,7 @@ import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+// import {toast} from "bulma-toast";
 import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation";
 var random = require("random-string-generator");
@@ -26,6 +26,7 @@ import ModalBox from "../../components/modal";
 import Input from "../../components/inputs/basic/Input";
 import MakeDeposit from "./Deposit";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import {toast} from "react-toastify";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -79,32 +80,32 @@ export default function PaymentCreate({closeModal}) {
   const [partTable, setPartTable] = useState([]);
   const [depositModal, setDepositModal] = useState(false);
 
-//Remita Config
-const config = {
-  key: "QzAwMDAyNzEyNTl8MTEwNjE4NjF8OWZjOWYwNmMyZDk3MDRhYWM3YThiOThlNTNjZTE3ZjYxOTY5NDdmZWE1YzU3NDc0ZjE2ZDZjNTg1YWYxNWY3NWM4ZjMzNzZhNjNhZWZlOWQwNmJhNTFkMjIxYTRiMjYzZDkzNGQ3NTUxNDIxYWNlOGY4ZWEyODY3ZjlhNGUwYTY=", // enter your key here
-  customerId: "86666",
-  firstName: "Simpa",
-  lastName: "Dania",
-  email: "simpa@healthstack.africa",
-  amount: part ? partBulk * 100 : totalamount * 100,
-  narration: "payment",
-};
+  //Remita Config
+  const config = {
+    key: "QzAwMDAyNzEyNTl8MTEwNjE4NjF8OWZjOWYwNmMyZDk3MDRhYWM3YThiOThlNTNjZTE3ZjYxOTY5NDdmZWE1YzU3NDc0ZjE2ZDZjNTg1YWYxNWY3NWM4ZjMzNzZhNjNhZWZlOWQwNmJhNTFkMjIxYTRiMjYzZDkzNGQ3NTUxNDIxYWNlOGY4ZWEyODY3ZjlhNGUwYTY=", // enter your key here
+    customerId: "86666",
+    firstName: "Simpa",
+    lastName: "Dania",
+    email: "simpa@healthstack.africa",
+    amount: part ? partBulk * 100 : totalamount * 100,
+    narration: "payment",
+  };
 
-let data = {
-  ...config,
-  onSuccess: function (response) {
-    // function callback when payment is successful
-    console.log("callback Successful Response", response);
-  },
-  onError: function (response) {
-    // function callback when payment fails
-    console.log("callback Error Response", response);
-  },
-  onClose: function () {
-    // function callback when payment modal is closed
-    console.log("closed");
-  },
-};
+  let data = {
+    ...config,
+    onSuccess: function (response) {
+      // function callback when payment is successful
+      console.log("callback Successful Response", response);
+    },
+    onError: function (response) {
+      // function callback when payment fails
+      console.log("callback Error Response", response);
+    },
+    onClose: function () {
+      // function callback when payment modal is closed
+      console.log("closed");
+    },
+  };
 
   //Paystack Config
 
@@ -542,12 +543,8 @@ let data = {
     // bill.partPay=partAmount
     //const itemList=productItem
     if (partAmount === "" || partAmount === 0) {
-      toast({
-        message: "Please enter an amount as part payment",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.warning("Please enter an amount as part payment");
+
       return;
     }
     let item = await productItem.find(el => el._id === bill._id);
@@ -562,12 +559,13 @@ let data = {
       bill.partPay === 0 ||
       bill.partPay === undefined
     ) {
-      toast({
-        message: "Please enter an amount as part payment",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.warning("Please enter an amount as part payment");
+      // toast({
+      //   message: "Please enter an amount as part payment",
+      //   type: "is-danger",
+      //   dismissible: true,
+      //   pauseOnHover: true,
+      // });
       return;
     }
     // //console.log(bill)
@@ -602,25 +600,19 @@ let data = {
   const handlePayment = async () => {
     //1. check if there is sufficient amount
     if (totalamount > balance) {
-      toast({
-        message:
-          "Total amount due greater than money received. Kindly top up account or reduce number of bills to be paid",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.warning(
+        "Total amount due greater than money received. Kindly top up account or reduce number of bills to be paid"
+      );
 
       return;
     }
 
     productItem.forEach(el => {
       if (!el.proposedpayment.amount) {
-        toast({
-          message: "one or more bills do not have a payment method selected",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.warning(
+          "one or more bills do not have a payment method selected"
+        );
+
         return;
       }
     });
@@ -1188,10 +1180,10 @@ let data = {
                 <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
                 Pay
               </GlobalCustomButton>
-              <GlobalCustomButton sx={{marginRight: "15px"}}>
+              {/* <GlobalCustomButton sx={{marginRight: "15px"}}>
                 <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
                 Pay with Wallet
-              </GlobalCustomButton>
+              </GlobalCustomButton> */}
               {/* <GlobalCustomButton
                 onClick={() => {
                   handleFlutterPayment({
@@ -1221,17 +1213,15 @@ let data = {
                 )}
               <//>
                */}
-                <RemitaPayment
+              {/* <RemitaPayment
           remitaData={data}
-          // className='btn' // class to style the button
-          // text='Pay with Remita' //text to show on button
-          // add a 'live' prop to use the live urls/keys
+        
         >
           <GlobalCustomButton sx={{marginRight: "15px"}}>
                 <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
                 Pay with Remita
               </GlobalCustomButton>
-        </RemitaPayment>
+        </RemitaPayment> */}
             </div>
           </div>
         </div>

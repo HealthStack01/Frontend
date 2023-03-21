@@ -771,7 +771,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
                         content={() => myRefs.current[i]}
                       />
                       {user?.currentEmployee?.roles?.includes(
-                        "Delete Document"
+                        "Delete Documents"
                       ) ||
                         (user?.stacker && (
                           <IconButton

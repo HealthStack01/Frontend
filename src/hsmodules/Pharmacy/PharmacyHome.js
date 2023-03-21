@@ -2,9 +2,10 @@
 import React, {useState, useEffect, useContext} from "react";
 import Pharmacy, {PharmacyList, PharmacyListStandalone} from "./Pharmacy";
 import {UserContext, ObjectContext} from "../../context";
-import {Outlet} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import ModalBox from "../../components/modal";
 import {Box} from "@mui/material";
+import {toast} from "react-toastify";
 
 export default function PharmacyHome({children}) {
   const {state, setState} = useContext(ObjectContext);
@@ -29,7 +30,17 @@ export default function PharmacyHome({children}) {
     })),
   ];
 
+  const navigate = useNavigate();
+
+  const noLocation = () => {
+    toast.error(
+      "You need to set up a Pharmacy Location to access the Pharmacy Module"
+    );
+    navigate("/app");
+  };
+
   useEffect(() => {
+    if (!selectedStore) return noLocation();
     const notSelected =
       selectedStore && Object.keys(selectedStore).length === 0;
 
