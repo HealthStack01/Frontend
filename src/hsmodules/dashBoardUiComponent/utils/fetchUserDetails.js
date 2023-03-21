@@ -3,7 +3,7 @@ export const userDetails = () => {
 
   const parse = JSON.parse(userDetails); // ok
 
-  const userFullName = `${parse.lastname} ${parse.firstname}`;
+  const userFullName = `${parse.firstname} ${parse.lastname}`;
 
   const facilityId = JSON.parse(userDetails).employeeData[0].facility;
 

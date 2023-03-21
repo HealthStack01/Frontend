@@ -142,15 +142,28 @@ const AppointmentDetail = ({closeModal}) => {
   };
 
   const hanldeAttendToClient = async () => {
-    await setState(prev => ({
-      ...prev,
-      ClientModule: {
-        ...prev.ClientModule,
-        selectedClient: appointment.client,
-      },
-    }));
+    if (appointment.client._id) {
+      await setState(prev => ({
+        ...prev,
+        ClientModule: {
+          ...prev.ClientModule,
+          selectedClient: appointment.client,
+        },
+      }));
 
-    navigate("/app/clinic/documentation");
+      navigate("/app/clinic/documentation");
+    } else {
+      const patient = await client.service("client").get(appointment.clientId);
+      await setState(prev => ({
+        ...prev,
+        ClientModule: {
+          ...prev.ClientModule,
+          selectedClient: patient,
+        },
+      }));
+
+      navigate("/app/clinic/documentation");
+    }
   };
 
   return (
