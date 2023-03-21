@@ -16,7 +16,7 @@ import client from "../../../feathers";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 
-const AppointmentDetail = ({closeModal}) => {
+const AppointmentDetail = ({closeModal, module}) => {
   const appointmentsServer = client.service("appointments");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -142,7 +142,7 @@ const AppointmentDetail = ({closeModal}) => {
   };
 
   const hanldeAttendToClient = async () => {
-    if (appointment.client._id) {
+    if (appointment.client) {
       await setState(prev => ({
         ...prev,
         ClientModule: {
@@ -239,9 +239,11 @@ const AppointmentDetail = ({closeModal}) => {
           </GlobalCustomButton>
         )}
 
-        <GlobalCustomButton color="info" onClick={hanldeAttendToClient}>
-          Attend to Client
-        </GlobalCustomButton>
+        {module === "Clinic" && (
+          <GlobalCustomButton color="info" onClick={hanldeAttendToClient}>
+            Attend to Client
+          </GlobalCustomButton>
+        )}
       </Box>
 
       <Grid container spacing={2}>

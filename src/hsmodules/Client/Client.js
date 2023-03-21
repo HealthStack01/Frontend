@@ -1043,6 +1043,13 @@ export function ClientDetail({closeDetailModal}) {
 
   const handleSchedule = () => {
     setAppointmentModal(true);
+    setState(prev => ({
+      ...prev,
+      AppointmentModule: {
+        ...prev.AppointmentModule,
+        selectedPatient: Client,
+      },
+    }));
   };
   const handleBill = () => {
     setBillModal(true);
@@ -1443,7 +1450,7 @@ export function ClientDetail({closeDetailModal}) {
                   },
                 }}
               />
-              <GlobalCustomButton
+              {/* <GlobalCustomButton
                 text="Attend to Client"
                 onClick={() => {
                   navigate("/app/general/documentation");
@@ -1452,7 +1459,7 @@ export function ClientDetail({closeDetailModal}) {
                   marginRight: "5px",
                 }}
                 color="success"
-              />
+              /> */}
             </Box>
           </Box>
         ) : (
@@ -1869,6 +1876,7 @@ export function ClientDetail({closeDetailModal}) {
         <AppointmentCreate
           closeModal={handlecloseModal2}
           showBillModal={setBillingModal}
+          // client={Client}
         />
       </ModalBox>
 

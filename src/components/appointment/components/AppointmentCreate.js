@@ -1,5 +1,12 @@
 import {useState, useContext, useEffect} from "react";
-import {Box, Grid} from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  Typography,
+} from "@mui/material";
 import {useForm} from "react-hook-form";
 import {toast} from "react-toastify";
 import dayjs from "dayjs";
@@ -29,6 +36,7 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
   const [practioner, setPractitioner] = useState(null);
   const [location, setLocation] = useState(null);
   const [paymentMode, setPaymentMode] = useState(null);
+  const [sendMail, setSendMail] = useState(false);
 
   useEffect(() => {
     setPatient(state.AppointmentModule.selectedPatient);
@@ -82,7 +90,10 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
     if (!location) return toast.warning("Please select a Location");
     if (!paymentMode)
       return toast.warning("Please select a Payment Mode for Client/Patient");
-    if (!state.CommunicationModule.defaultEmail.emailConfig?.username)
+    if (
+      !state.CommunicationModule.defaultEmail.emailConfig?.username &&
+      sendMail
+    )
       return setState(prev => ({
         ...prev,
         CommunicationModule: {
@@ -162,7 +173,7 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
       } AT ${dayjs(data.date).format("DD/MM/YYYY hh:mm")}`,
       to: patient.email,
       name: employee.facilityDetail.facilityName,
-      from: state.CommunicationModule.defaultEmail.emailConfig.username,
+      from: state?.CommunicationModule?.defaultEmail?.emailConfig?.username,
     };
 
     const smsObj = {
@@ -189,7 +200,10 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
 
         await notificationsServer.create(notificationObj);
         //await smsServer.create(smsObj);
-        await emailServer.create(emailObj);
+        if (sendMail) {
+          await emailServer.create(emailObj);
+        }
+
         hideActionLoader();
 
         if (showBillModal) {
@@ -214,7 +228,10 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
     >
       <Grid container spacing={2} mb={1}>
         <Grid item xs={12} sm={12} md={8} lg={8}>
-          <ClientSearch getSearchfacility={handleGetPatient} />
+          <ClientSearch
+            getSearchfacility={handleGetPatient}
+            id={patient?._id}
+          />
         </Grid>
 
         <Grid item xs={12} sm={12} md={4} lg={4}>
@@ -305,6 +322,27 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
           gap: 2,
         }}
       >
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                size="small"
+                checked={sendMail}
+                onChange={e => setSendMail(e.target.checked)}
+              />
+            }
+            label={
+              <Typography
+                sx={{
+                  fontSize: "0.8rem",
+                }}
+              >
+                Send Email To Client
+              </Typography>
+            }
+          />
+        </FormGroup>
+
         <GlobalCustomButton onClick={handleSubmit(handleCreateAppointment)}>
           Create Appointment
         </GlobalCustomButton>

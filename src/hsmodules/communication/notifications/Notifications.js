@@ -210,14 +210,14 @@ const NotificationsList = ({showDetail}) => {
           }}
         >
           <CustomSelect
-            label="Notification Status"
+            label="Status"
             control={control}
             options={["All", "Seen", "Unseen"]}
             name="status"
           />
 
           <CustomSelect
-            label="Notification Priority"
+            label="Priority"
             control={control}
             options={["All", "Normal", "Urgent"]}
             name="priority"
