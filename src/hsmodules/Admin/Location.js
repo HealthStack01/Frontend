@@ -299,8 +299,16 @@ export function LocationList({showCreateModal, showDetailModal}) {
     showDetailModal();
     //console.log(state)
   };
-  const handleRowClicked = row => {
+  const handleRowClicked = async (row) => {
     setSelectedLocation(row);
+    const newLocationModule = {
+      selectedLocation: row,
+      show: "detail",
+    };
+    await setState(prevstate => ({
+      ...prevstate,
+      LocationModule: newLocationModule,
+    }));
     setOpen(true);
   };
   const handleCloseModal = () => {
