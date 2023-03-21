@@ -11,6 +11,25 @@ Health Stack Africa is a health-tech platform that seeks to improve access to he
 
 ## Quick Start to Get Health Stack's Frontend running on your localhost
 
+- Go into your terminal
+```
+git clone https://github.com/HealthStack01/Frontend.git 
+
+```
+- Install npm packages
+```
+npm install --legacy-peers-deps
+```
+
+- Run the application
+```
+npm start
+```
+- Navigate to `http://localhost:3000/`
+
+Application should be up and running.
+
+<!--- Add Image of successful run here --->
 
 # Resources
 
