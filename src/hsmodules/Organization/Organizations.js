@@ -470,12 +470,6 @@ export const OrganizationDetails = ({organization, goBack}) => {
 					<OrganizationModules closeModal={() => setModulesModal(false)} />
 				</ModalBox>
 
-				<ModalBox
-					open={statsModal}
-					onClose={() => setstatsModal(false)}
-					header={`Statistics`}>
-					<ViewCard closeModal={() => setstatsModal(false)} />
-				</ModalBox>
 
 				<Box
 					sx={{

@@ -23,10 +23,10 @@ const ViewCard: React.FC<ViewCardProps> = ({ title, count = 0 }) => {
 			<Box sx={{ width: '75%' }}>
 				<Typography
 					variant='h1'
-					sx={{ fontWeight: 'bold', fontSize: '15px' }}>
+					sx={{ fontWeight: 'bold', fontSize: '19px' }}>
 					{count}
 				</Typography>
-				<Typography>{title}</Typography>
+				<Typography variant='h6' sx={{fontSize: '17px' }}>{title}</Typography>
 			</Box>
 		</Card>
 	);
