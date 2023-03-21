@@ -25,6 +25,8 @@ import GlobalCustomButton from "../../components/buttons/CustomButton";
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModalBox from "../../components/modal";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+import { sub } from "date-fns/esm/fp";
 
 // import { createClientSchema } from "./schema";
 
@@ -39,11 +41,15 @@ const LocationView = ({ open, setOpen, location }) => {
   const sublocationTypeOptions = ["Bed", "Unit"];
   const [typeLocation,setTypeLocation] = useState('')
   const [typeName, setTypeName] = useState('')
-  const [sublocationData,setLocationData] = useState([])
-  const { state, setState } = useContext(UserContext);
+  const [confirmDialog, setConfirmDialog] = useState(false);
+  const [confirmDialog2, setConfirmDialog2] = useState(false);
+  const [sublocationData,setSubLocationData] = useState([])
+  // const { state, setState } = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
   const data = JSON.parse(result);
-  // const Location = state.LocationModule.selectedLocation;
+  const locationDetails = state.LocationModule.selectedLocation;
 
+  // console.log("locationDetails", locationDetails);
   const handleCloseModal = () => {
     setOpenLoc(false);
   };
@@ -82,11 +88,40 @@ const LocationView = ({ open, setOpen, location }) => {
   //   }
   // })
 
+  const LocationDetailSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "sn",
+      sortable: true,
+      selector: (row) => row.sn,
+      inputType: "HIDDEN",
+      width: "80px",
+    },
+    {
+      name: "Type",
+      key: "type Location",
+      description: " Enter type Location",
+      selector: (row) => row.type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Name",
+      key: "key",
+      description: "Enter name ",
+      selector: (row) => row.typeName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
   useEffect(() => {
     reset({
       name: location.name,
       bandType: location.locationType,
-
       facility: data.currentEmployee.facility,
     });
   }, []);
@@ -118,17 +153,25 @@ const LocationView = ({ open, setOpen, location }) => {
 
     location.sublocations.push(data);
     reset();
-    // setShowUpdate(true);
+  
   };
 
+  const handleRowClick = (sublocation) => {
+    setSubLocationData(sublocation)
+    setOpenSubLoc(true)
+  }
 
-  const submit = async (data, e) => {
+  const submit = async (data) => {
     setLoading(true);
-    e.preventDefault();
+    // e.preventDefault();
+    data.name = data.name;
+    data.locationType = data.locationType;
+    data.sublocations = locationDetails.sublocations;
     setSuccess(false);
     console.log(data);
-    await LocationServ.patch(location._id, location)
+    await LocationServ.patch(locationDetails._id, data)
       .then((res) => {
+        console.log(res);
         toast.success(`Location successfully updated`);
         setLoading(false);
         setOpen(false);
@@ -141,64 +184,63 @@ const LocationView = ({ open, setOpen, location }) => {
     setLoading(false);
   };
 
-  const handleDelete = async () => {
-    let conf = window.confirm("Are you sure you want to delete this data?");
-
-    const dleteId = location._id;
-    if (conf) {
+  const deleteLocation = async () => {
+    const dleteId = locationDetails._id;
       LocationServ.remove(dleteId)
         .then((res) => {
           toast.success(`Location successfully deleted!`);
           setOpen(false);
+          setConfirmDialog(false)
         })
         .catch((err) => {
           toast.error(`Sorry, Unable to delete location. ${err}`);
         });
-    }
   };
 
 
-  const handleRowClick = (row) => {
-    // console.log(row);
-    setTypeLocation(row.type)
-    setTypeName(row.typeName)
+  const deleteSublocation = () => {
     setOpenSubLoc(true)
+      const prevSublocation = locationDetails.sublocations || [];
+       
+    const newSublocation = prevSublocation.filter(data => data?._id !== sublocationData._id)
+          
+    const newLocation = {
+      ...locationDetails,
+      sublocations:newSublocation
+    }
+
+    LocationServ.patch(locationDetails._id,  newLocation)
+    .then((res) => {
+      setState((prev) => ({
+        ...prev,
+        LocationModule: { ...prev.ServicesModule, selectedLocation: res },
+      }));
+      toast.success(`Sublocation successfully deleted!`)
+      setOpenSubLoc(false);
+      setConfirmDialog2(false)
+  }).catch((err) => {
+     setOpenSubLoc(false);
+      toast.error(`Sorry, Unable to delete sublocation. ${err}`)
+  })
   }
 
- 
-
-  const LocationDetailSchema = [
-    {
-      name: "S/N",
-      key: "sn",
-      description: "sn",
-      sortable: true,
-      selector: (row) => row.sn,
-      inputType: "HIDDEN",
-      width: "80px",
-    },
-    {
-      name: "Type",
-      key: "type Location",
-      description: " Enter type Location",
-      selector: (row) => row.type,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Name",
-      key: "key",
-      description: "Enter name ",
-      selector: (row) => row.typeName,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-  ];
 
   return (
     <Box>
+       <CustomConfirmationDialog
+        open={confirmDialog}
+        cancelAction={() => setConfirmDialog(false)}
+        confirmationAction={deleteLocation}
+        type="danger"
+        message="Are you sure you want to delete this data?"
+      />
+      <CustomConfirmationDialog
+        open={confirmDialog2}
+        cancelAction={() => setConfirmDialog2(false)}
+        confirmationAction={deleteSublocation}
+        type="danger"
+        message="Are you sure you want to delete this data?"
+      />
       <ModalBox
         open={openSubLoc}
         header="Sub Location Details"
@@ -207,7 +249,7 @@ const LocationView = ({ open, setOpen, location }) => {
       >
         <Box display="flex" justifyContent="flex-end" py="1rem">
         <GlobalCustomButton 
-        // onClick={() => handleDelete()} 
+        onClick={() => setConfirmDialog2(true)} 
         color="error">
           <DeleteIcon fontSize="small" />
           Delete
@@ -218,7 +260,7 @@ const LocationView = ({ open, setOpen, location }) => {
             <CustomSelect
               label="Choose Sub-location Type"
               name="typeLocation"
-              defaultValue={typeLocation}
+              defaultValue={sublocationData?.type}
               options={sublocationTypeOptions}
               // onChange={(e) => setTypeLocation(e.target.value)}
             />
@@ -228,7 +270,7 @@ const LocationView = ({ open, setOpen, location }) => {
              name='typeName'
               label="Name of sub location"
               // onChange={(e) => setTypeName(e.target.value)}
-              defaultValue={typeName}
+              defaultValue={sublocationData?.typeName}
             />
           </Grid>
         </Grid>
@@ -267,7 +309,7 @@ const LocationView = ({ open, setOpen, location }) => {
         </Grid>
       </ModalBox>
       <Box display="flex" justifyContent="flex-end" gap="1rem" my="2rem">
-        <GlobalCustomButton onClick={() => handleDelete()} color="error">
+        <GlobalCustomButton onClick={() =>  setConfirmDialog(true)} color="error">
           <DeleteIcon fontSize="small" sx={{ marginRight: "5px" }} />
           Delete
         </GlobalCustomButton>
@@ -351,9 +393,9 @@ const LocationView = ({ open, setOpen, location }) => {
             data={location.sublocations}
             pointerOnHover
             highlightOnHover
-            onRowClicked={handleRowClick}
+            onRowClicked={(row) => handleRowClick(row)}
             striped
-            progressPending={false}
+            progressPending={loading}
           />
         </Box> 
 }
