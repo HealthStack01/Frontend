@@ -6,6 +6,7 @@ import BusinessIcon from '@mui/icons-material/Business';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import PharmacyIcon from '@mui/icons-material/LocalPharmacy';
+import DateRangeIcon from '@mui/icons-material/DateRange';
 import { People } from '@mui/icons-material';
 import { Receipt } from '@mui/icons-material';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
@@ -28,7 +29,7 @@ const Statistics = ({goBack}) => {
           <BarChartIcon fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Revenue</StyledTypography>
-            <StyledNumber backgroundColor="#1abc9c">₦145,000</StyledNumber>
+            <StyledNumber backgroundColor="#1abc9c">₦140,000</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -38,7 +39,7 @@ const Statistics = ({goBack}) => {
         <StyledCardContent>
           <BusinessIcon fontSize="large" color="primary" />
           <div>
-            <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Number of Doc Created</StyledTypography>
+            <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total appointments</StyledTypography>
             <StyledNumber backgroundColor="#3498db">220</StyledNumber>
           </div>
         </StyledCardContent>
@@ -49,7 +50,7 @@ const Statistics = ({goBack}) => {
         <StyledCardContent>
           <LocalHospitalIcon fontSize="large" color="primary" />
           <div>
-            <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Diagnostics</StyledTypography>
+            <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Employees</StyledTypography>
             <StyledNumber backgroundColor="#9b59b6">19</StyledNumber>
           </div>
         </StyledCardContent>
@@ -60,7 +61,7 @@ const Statistics = ({goBack}) => {
         <StyledCardContent>
           <PharmacyIcon fontSize="large" color="primary" />
           <div>
-            <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Pharmacies</StyledTypography>
+            <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Clinical Notes </StyledTypography>
             <StyledNumber backgroundColor="#9b59b6">35</StyledNumber>
           </div>
         </StyledCardContent>
@@ -69,10 +70,10 @@ const Statistics = ({goBack}) => {
     <Grid item xs={12} md={3}>
       <StyledCard>
         <StyledCardContent>
-          <LocalHospitalIcon fontSize="large" color="primary" />
+          <DateRangeIcon fontSize="large" color="primary" />
           <div>
-            <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total HMO</StyledTypography>
-            <StyledNumber backgroundColor="#9b59b6">10</StyledNumber>
+            <StyledTypography weight="bold" size="1rem" color="#690002" textTransform="uppercase" margin="0.5rem 0">Date Of Creation</StyledTypography>
+            <StyledNumber backgroundColor="#9b59b6">21 January, 2023</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -82,8 +83,8 @@ const Statistics = ({goBack}) => {
         <StyledCardContent>
           <LocalHospitalIcon fontSize="large" color="primary" />
           <div>
-            <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total organization by (State)</StyledTypography>
-            <StyledNumber backgroundColor="#9b59b6">10</StyledNumber>
+            <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Clients</StyledTypography>
+            <StyledNumber backgroundColor="#9b59b6">31</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -94,17 +95,6 @@ const Statistics = ({goBack}) => {
           <LocalHospitalIcon fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Active/inactive</StyledTypography>
-            <StyledNumber backgroundColor="#9b59b6">10</StyledNumber>
-          </div>
-        </StyledCardContent>
-      </StyledCard>
-    </Grid>
-    <Grid item xs={12} md={3}>
-      <StyledCard>
-        <StyledCardContent>
-          <LocalHospitalIcon fontSize="large" color="primary" />
-          <div>
-            <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total check-in</StyledTypography>
             <StyledNumber backgroundColor="#9b59b6">10</StyledNumber>
           </div>
         </StyledCardContent>
