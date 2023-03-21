@@ -1,3 +1,17 @@
+## What is Health Stack Africa?
+Health Stack Africa is a health-tech platform that seeks to improve access to healthcare and health information in Africa. We create tools that enable users to access healthcare services easily and securely, as well as to find and share health information. We are engaged in creating a platform that can help bridge the gap between healthcare providers and patients in the Africa.
+
+
+### Important Links
+
+- Our homepage is at (Health Stack Africa)[]
+- Join our communication channel at (communication)[]
+- Checkout our [wiki page](https://github.com/HealthStack01/Frontend/wiki) for information about GSoD
+
+
+## Quick Start to Get Health Stack's Frontend running on your localhost
+
+
 # Resources
 
 https://dev.to/finiam/predictable-react-authentication-with-the-context-api-g10

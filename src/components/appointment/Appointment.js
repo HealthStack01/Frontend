@@ -31,7 +31,10 @@ const AppointmentComponent = ({module}) => {
         onClose={() => setDetailModal(false)}
         header={`Appointment Detail`}
       >
-        <AppointmentDetail closeModal={() => setDetailModal(false)} />
+        <AppointmentDetail
+          closeModal={() => setDetailModal(false)}
+          module={module}
+        />
       </ModalBox>
     </Box>
   );

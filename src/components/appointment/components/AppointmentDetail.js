@@ -16,7 +16,7 @@ import client from "../../../feathers";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 
-const AppointmentDetail = ({closeModal}) => {
+const AppointmentDetail = ({closeModal, module}) => {
   const appointmentsServer = client.service("appointments");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -142,15 +142,28 @@ const AppointmentDetail = ({closeModal}) => {
   };
 
   const hanldeAttendToClient = async () => {
-    await setState(prev => ({
-      ...prev,
-      ClientModule: {
-        ...prev.ClientModule,
-        selectedClient: appointment.client,
-      },
-    }));
+    if (appointment.client) {
+      await setState(prev => ({
+        ...prev,
+        ClientModule: {
+          ...prev.ClientModule,
+          selectedClient: appointment.client,
+        },
+      }));
 
-    navigate("/app/clinic/documentation");
+      navigate("/app/clinic/documentation");
+    } else {
+      const patient = await client.service("client").get(appointment.clientId);
+      await setState(prev => ({
+        ...prev,
+        ClientModule: {
+          ...prev.ClientModule,
+          selectedClient: patient,
+        },
+      }));
+
+      navigate("/app/clinic/documentation");
+    }
   };
 
   return (
@@ -226,9 +239,11 @@ const AppointmentDetail = ({closeModal}) => {
           </GlobalCustomButton>
         )}
 
-        <GlobalCustomButton color="info" onClick={hanldeAttendToClient}>
-          Attend to Client
-        </GlobalCustomButton>
+        {module === "Clinic" && (
+          <GlobalCustomButton color="info" onClick={hanldeAttendToClient}>
+            Attend to Client
+          </GlobalCustomButton>
+        )}
       </Box>
 
       <Grid container spacing={2}>

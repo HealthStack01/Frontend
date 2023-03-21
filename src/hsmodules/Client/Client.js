@@ -57,7 +57,7 @@ import CircleChart from "../dashBoardUiComponent/charts/CircleChart";
 import AreaChart from "../dashBoardUiComponent/charts/AreaChart";
 import BasicDatePicker from "../../components/inputs/Date";
 import CustomSelect from "../../components/inputs/basic/Select";
-import {AppointmentCreate} from "./Appointments";
+//import {AppointmentCreate} from "./Appointments";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
@@ -69,6 +69,7 @@ import {getBase64} from "../helpers/getBase64";
 import {FileUploader} from "react-drag-drop-files";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import axios from "axios";
+import AppointmentCreate from "../../components/appointment/components/AppointmentCreate";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -1042,6 +1043,13 @@ export function ClientDetail({closeDetailModal}) {
 
   const handleSchedule = () => {
     setAppointmentModal(true);
+    setState(prev => ({
+      ...prev,
+      AppointmentModule: {
+        ...prev.AppointmentModule,
+        selectedPatient: Client,
+      },
+    }));
   };
   const handleBill = () => {
     setBillModal(true);
@@ -1442,7 +1450,7 @@ export function ClientDetail({closeDetailModal}) {
                   },
                 }}
               />
-              <GlobalCustomButton
+              {/* <GlobalCustomButton
                 text="Attend to Client"
                 onClick={() => {
                   navigate("/app/general/documentation");
@@ -1451,7 +1459,7 @@ export function ClientDetail({closeDetailModal}) {
                   marginRight: "5px",
                 }}
                 color="success"
-              />
+              /> */}
             </Box>
           </Box>
         ) : (
@@ -1867,7 +1875,8 @@ export function ClientDetail({closeDetailModal}) {
       >
         <AppointmentCreate
           closeModal={handlecloseModal2}
-          openBill={setBillingModal}
+          showBillModal={setBillingModal}
+          // client={Client}
         />
       </ModalBox>
 
