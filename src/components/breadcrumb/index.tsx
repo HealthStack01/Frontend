@@ -1,16 +1,18 @@
-import {Breadcrumbs as MUIBreadcrumbs, Typography} from "@mui/material";
+import { Breadcrumbs as MUIBreadcrumbs, Typography } from "@mui/material";
 import React from "react";
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function Breadcrumbs() {
   const location = useLocation();
 
-  const pathnames = location.pathname.split("/").filter(x => x);
+  const pathnames = location.pathname.split("/").filter((x) => x);
+
+  console.log("loacation path ", pathnames);
 
   return (
     <MUIBreadcrumbs
       aria-label="breadcrumb"
-      sx={{display: "flex", flexWrap: "nowrap"}}
+      sx={{ display: "flex", flexWrap: "nowrap" }}
     >
       {/* {pathnames.map((name, index) => {
         const last = index === pathnames.length - 1;
