@@ -69,6 +69,7 @@ import { getBase64 } from "../helpers/getBase64";
 import { FileUploader } from "react-drag-drop-files";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import axios from "axios";
+
 import { ClientIdCard } from "./ClientIdCard";
 
 // eslint-disable-next-line

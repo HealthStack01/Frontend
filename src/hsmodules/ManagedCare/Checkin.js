@@ -33,7 +33,7 @@ export default function CheckIn() {
       <CheckInList setShowModal={() => setShowModal(1)} />
       {showModal === 1 && (
         <ModalBox open onClose={() => setShowModal(0)}>
-          <CheckOutList/>
+          <CheckOutList />
         </ModalBox>
       )}
     </section>
@@ -76,22 +76,21 @@ export function CheckInList({openCreateModal, setShowModal}) {
       $sort: {
         createdAt: -1,
       },
-    }
+    };
 
     ClientServ.find({query: query})
-    .then(res => {
-      console.log(res);
-      setFacilities(res.data);
-      setMessage(" Client  fetched successfully");
-      setSuccess(true);
-    })
-    .catch(err => {
-      console.log(err);
-      // setMessage('Error fetching Client, probable network issues ' + err);
-      setError(true);
-    });
-
-  }
+      .then(res => {
+        console.log(res);
+        setFacilities(res.data);
+        setMessage(" Client  fetched successfully");
+        setSuccess(true);
+      })
+      .catch(err => {
+        console.log(err);
+        // setMessage('Error fetching Client, probable network issues ' + err);
+        setError(true);
+      });
+  };
 
   const handleSearch = val => {
     const field = "firstname";
@@ -211,7 +210,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
   //   console.log(select, "select here");
   // }
 
-// checked out 
+  // checked out
 
   const getCheckOut = useCallback(async () => {
     if (user.currentEmployee) {
@@ -249,8 +248,6 @@ export function CheckInList({openCreateModal, setShowModal}) {
       }
     }
   }, []);
-
-
 
   const getCheckIn = useCallback(async () => {
     if (user.currentEmployee) {
@@ -298,8 +295,6 @@ export function CheckInList({openCreateModal, setShowModal}) {
     ClientServ.on("removed", obj => handleCalendarClose());
   }, [getCheckIn]);
 
- 
-
   //UPDATE COLUMNS CHANGE NAME OF EACH TO TABLE HEADER FOR CHECKIN
   const checkInColumns = [
     {
@@ -328,7 +323,6 @@ export function CheckInList({openCreateModal, setShowModal}) {
       required: true,
       inputType: "TEXT",
     },
-  
 
     {
       name: "Last Name",
@@ -394,8 +388,6 @@ export function CheckInList({openCreateModal, setShowModal}) {
       inputType: "TEXT",
     },
   ];
-  
- 
 
   //CREATE A SEPERATE COLUMN DATA FOR CHECKED OUT DATA, ONLY DIFFERENCE PROBABLY STATUS
   const checkedOutColumns = [
@@ -501,7 +493,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
   ];
 
   return (
-    <div className="level">
+    <div>
       <PageWrapper style={{flexDirection: "column", padding: "0.6rem 1rem"}}>
         <TableMenu>
           <div style={{display: "flex", alignItems: "center"}}>
@@ -511,7 +503,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
               </div>
             )}
             <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-              { !checkedin
+              {!checkedin
                 ? "List of Checked-In Patients"
                 : "List of Checked-Out Patients"}
             </h2>
@@ -520,15 +512,13 @@ export function CheckInList({openCreateModal, setShowModal}) {
           <Box>
             {/* {checkedin === false ? <GlobalCustomButton onClick={() => {setCheckedin(true)}}>Check In</GlobalCustomButton> : <GlobalCustomButton onClick={() => {setCheckedin(false)}}>Check Out</GlobalCustomButton>}
             FIRE YOUR TOGGLE FUNCTION HERE SWITCHING FROM CHECK IN TO CHECK OUT VICE VERSA */}
-            
-            { !checkedin  ? (
+
+            {!checkedin ? (
               <GlobalCustomButton
                 onClick={() => {
                   setCheckedin(true);
                   // checkedinFn();
                 }}
-              
-                
               >
                 Check Out
               </GlobalCustomButton>
@@ -626,7 +616,7 @@ export function CheckOutList({showModal, setShowModal}) {
 
   return (
     <>
-      <Grid container spacing={2} sx={{width: "60vh"}}> 
+      <Grid container spacing={2} sx={{width: "60vh"}}>
         <Grid item xs={12} sm={6}>
           <ModalHeader text={"Client Details"} />
         </Grid>
@@ -732,7 +722,7 @@ export function CheckOutList({showModal, setShowModal}) {
               marginRight: ".8rem",
             }}
           >
-           Gender:
+            Gender:
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
             {Client?.gender}
@@ -783,7 +773,7 @@ export function CheckOutList({showModal, setShowModal}) {
           </span>
           <span style={{color: " #000000", fontSize: "16px"}}>
             {Client?.start_time}
-            {format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')}
+            {format(new Date(Client.start_time), "dd/MM/yyyy HH:mm")}
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>

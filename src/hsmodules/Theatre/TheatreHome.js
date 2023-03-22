@@ -2,9 +2,10 @@
 import React, {useState, useEffect, useContext} from "react";
 import Theatre, {StoreList, StoreListStandalone} from "./Theatres";
 import {UserContext, ObjectContext} from "../../context";
-import {Outlet} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import ModalBox from "../../components/modal";
 import {Box} from "@mui/material";
+import {toast} from "react-toastify";
 
 export default function TheatreHome({children}) {
   // const [activeModal, setActiveModal]=useState("modal is-active ")
@@ -22,7 +23,17 @@ export default function TheatreHome({children}) {
 
   const [selectedStore, setSelectedStore] = useState(location);
 
+  const navigate = useNavigate();
+
+  const noLocation = () => {
+    toast.error(
+      "You need to set a Theatre Location to access the Theatre Module"
+    );
+    navigate("/app");
+  };
+
   useEffect(() => {
+    if (!selectedStore) return noLocation();
     const notSelected =
       selectedStore && Object.keys(selectedStore).length === 0;
 

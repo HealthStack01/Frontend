@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import Input from "../../components/inputs/basic/Input";
 import ViewText from "../../components/viewtext";
-import { UserContext } from "../../context";
+import { UserContext,ObjectContext } from "../../context";
 import { Box, IconButton, Grid, Typography } from "@mui/material";
 import client from "../../feathers";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -25,6 +25,8 @@ import GlobalCustomButton from "../../components/buttons/CustomButton";
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModalBox from "../../components/modal";
+import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+import { sub } from "date-fns/esm/fp";
 
 // import { createClientSchema } from "./schema";
 
@@ -35,18 +37,27 @@ const LocationView = ({ open, setOpen, location }) => {
   const [editing, setEditing] = useState(false);
   const result = localStorage.getItem("user");
   const [openLoc, setOpenLoc] = useState(false);
+  const [openSubLoc, setOpenSubLoc] = useState(false);
   const sublocationTypeOptions = ["Bed", "Unit"];
   const [typeLocation,setTypeLocation] = useState('')
   const [typeName, setTypeName] = useState('')
-  const [sublocationData,setLocationData] = useState([])
-  const { state, setState } = useContext(UserContext);
+  const [confirmDialog, setConfirmDialog] = useState(false);
+  const [confirmDialog2, setConfirmDialog2] = useState(false);
+  const [sublocationData,setSubLocationData] = useState([])
+  // const { state, setState } = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
   const data = JSON.parse(result);
-  // const Location = state.LocationModule.selectedLocation;
+  const locationDetails = state.LocationModule.selectedLocation;
 
+  // console.log("locationDetails", locationDetails);
   const handleCloseModal = () => {
     setOpenLoc(false);
   };
 
+
+  const handleClose = () => {
+    setOpenSubLoc(false);
+  };
   const {
     register,
     handleSubmit,
@@ -76,76 +87,6 @@ const LocationView = ({ open, setOpen, location }) => {
 
   //   }
   // })
-
-  useEffect(() => {
-    reset({
-      name: location.name,
-      bandType: location.locationType,
-
-      facility: data.currentEmployee.facility,
-    });
-  }, []);
-
-  const onSubmit = (e) => {
-    // e.preventDefault();
-    if (typeLocation === "" && typeName === "") {
-      alert("Kindly enter missing data ");
-    }
-   
-    if (!location.sublocations) {
-      location.sublocations = [];
-    }
-
-    let data = {
-      type: typeLocation,
-      typeName : typeName
-    }
-
-    //  console.log(data);
-  
-
-    location.sublocations.push(data);
-    reset();
-    // setShowUpdate(true);
-  };
-
-
-  const submit = async (data, e) => {
-    setLoading(true);
-    e.preventDefault();
-    setSuccess(false);
-    console.log(data);
-    await LocationServ.patch(location._id, location)
-      .then((res) => {
-        toast.success(`Location successfully updated`);
-        setLoading(false);
-        setOpen(false);
-      })
-      .catch((err) => {
-        toast.error(`Sorry, You weren't able to update a location. ${err}`);
-        setLoading(false);
-      });
-
-    setLoading(false);
-  };
-
-  const handleDelete = async () => {
-    let conf = window.confirm("Are you sure you want to delete this data?");
-
-    const dleteId = location._id;
-    if (conf) {
-      LocationServ.remove(dleteId)
-        .then((res) => {
-          toast.success(`Location successfully deleted!`);
-          setOpen(false);
-        })
-        .catch((err) => {
-          toast.error(`Sorry, Unable to delete location. ${err}`);
-        });
-    }
-  };
-
- 
 
   const LocationDetailSchema = [
     {
@@ -177,13 +118,168 @@ const LocationView = ({ open, setOpen, location }) => {
     },
   ];
 
+  useEffect(() => {
+    reset({
+      name: location.name,
+      bandType: location.locationType,
+      facility: data.currentEmployee.facility,
+    });
+  }, []);
+
+  const existingSublocation = location.sublocations.filter(items => items.typeName === typeName)
+
+  const onSubmit = (e) => {
+    // e.preventDefault();
+    if (typeLocation === "" && typeName === "") {
+      alert("Kindly enter missing data ");
+    }
+   
+    if (!location.sublocations) {
+      location.sublocations = [];
+    }
+
+    if(existingSublocation.length > 0){
+      toast.warning('Name already choosen')
+      return;
+    }
+
+    let data = {
+      type: typeLocation,
+      typeName : typeName
+    }
+
+    //  console.log(data);
+  
+
+    location.sublocations.push(data);
+    reset();
+  
+  };
+
+  const handleRowClick = (sublocation) => {
+    setSubLocationData(sublocation)
+    setOpenSubLoc(true)
+  }
+
+  const submit = async (data) => {
+    setLoading(true);
+    // e.preventDefault();
+    data.name = data.name;
+    data.locationType = data.locationType;
+    data.sublocations = locationDetails.sublocations;
+    setSuccess(false);
+    console.log(data);
+    await LocationServ.patch(locationDetails._id, data)
+      .then((res) => {
+        console.log(res);
+        toast.success(`Location successfully updated`);
+        setLoading(false);
+        setOpen(false);
+      })
+      .catch((err) => {
+        toast.error(`Sorry, You weren't able to update a location. ${err}`);
+        setLoading(false);
+      });
+
+    setLoading(false);
+  };
+
+  const deleteLocation = async () => {
+    const dleteId = locationDetails._id;
+      LocationServ.remove(dleteId)
+        .then((res) => {
+          toast.success(`Location successfully deleted!`);
+          setOpen(false);
+          setConfirmDialog(false)
+        })
+        .catch((err) => {
+          toast.error(`Sorry, Unable to delete location. ${err}`);
+        });
+  };
+
+
+  const deleteSublocation = () => {
+    setOpenSubLoc(true)
+      const prevSublocation = locationDetails.sublocations || [];
+       
+    const newSublocation = prevSublocation.filter(data => data?._id !== sublocationData._id)
+          
+    const newLocation = {
+      ...locationDetails,
+      sublocations:newSublocation
+    }
+
+    LocationServ.patch(locationDetails._id,  newLocation)
+    .then((res) => {
+      setState((prev) => ({
+        ...prev,
+        LocationModule: { ...prev.ServicesModule, selectedLocation: res },
+      }));
+      toast.success(`Sublocation successfully deleted!`)
+      setOpenSubLoc(false);
+      setConfirmDialog2(false)
+  }).catch((err) => {
+     setOpenSubLoc(false);
+      toast.error(`Sorry, Unable to delete sublocation. ${err}`)
+  })
+  }
+
+
   return (
     <Box>
+       <CustomConfirmationDialog
+        open={confirmDialog}
+        cancelAction={() => setConfirmDialog(false)}
+        confirmationAction={deleteLocation}
+        type="danger"
+        message="Are you sure you want to delete this data?"
+      />
+      <CustomConfirmationDialog
+        open={confirmDialog2}
+        cancelAction={() => setConfirmDialog2(false)}
+        confirmationAction={deleteSublocation}
+        type="danger"
+        message="Are you sure you want to delete this data?"
+      />
+      <ModalBox
+        open={openSubLoc}
+        header="Sub Location Details"
+        onClose={handleClose}
+        width="60%"
+      >
+        <Box display="flex" justifyContent="flex-end" py="1rem">
+        <GlobalCustomButton 
+        onClick={() => setConfirmDialog2(true)} 
+        color="error">
+          <DeleteIcon fontSize="small" />
+          Delete
+        </GlobalCustomButton>
+        </Box>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <CustomSelect
+              label="Choose Sub-location Type"
+              name="typeLocation"
+              defaultValue={sublocationData?.type}
+              options={sublocationTypeOptions}
+              // onChange={(e) => setTypeLocation(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Input
+             name='typeName'
+              label="Name of sub location"
+              // onChange={(e) => setTypeName(e.target.value)}
+              defaultValue={sublocationData?.typeName}
+            />
+          </Grid>
+        </Grid>
+      </ModalBox>
       <ModalBox
         open={openLoc}
         header="Add Sub Location"
         onClose={handleCloseModal}
-        width="80%"
+        width="60%"
       >
         <Box display="flex" justifyContent="flex-end" py="1rem">
           <GlobalCustomButton onClick={() => (onSubmit())}>
@@ -213,7 +309,7 @@ const LocationView = ({ open, setOpen, location }) => {
         </Grid>
       </ModalBox>
       <Box display="flex" justifyContent="flex-end" gap="1rem" my="2rem">
-        <GlobalCustomButton onClick={() => handleDelete()} color="error">
+        <GlobalCustomButton onClick={() =>  setConfirmDialog(true)} color="error">
           <DeleteIcon fontSize="small" sx={{ marginRight: "5px" }} />
           Delete
         </GlobalCustomButton>
@@ -288,7 +384,7 @@ const LocationView = ({ open, setOpen, location }) => {
               color="warning"
               onClick={() => setOpenLoc(true)}
             >
-              Add Sub Location
+              Add SubLocation
             </GlobalCustomButton>
           </Box>
           <CustomTable
@@ -297,8 +393,9 @@ const LocationView = ({ open, setOpen, location }) => {
             data={location.sublocations}
             pointerOnHover
             highlightOnHover
+            onRowClicked={(row) => handleRowClick(row)}
             striped
-            progressPending={false}
+            progressPending={loading}
           />
         </Box> 
 }

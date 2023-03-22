@@ -19,7 +19,7 @@ import GroupedRadio from "../../inputs/basic/Radio/GroupedRadio";
 import OtpInput from "react-otp-input";
 import ModalBox from "../../modal";
 
-const EditAppointment = ({closeModal}) => {
+const CheckInAppointmentDetail = ({closeModal}) => {
   const appointmentsServer = client.service("appointments");
   const clientServer = client.service("client");
   const smsServer = client.service("sms");
@@ -82,11 +82,6 @@ const EditAppointment = ({closeModal}) => {
   // Check if user has HMO
   const checkHMO = obj => obj.paymentmode === "HMO";
 
-  const handleIncorrectOtp = () => {
-    toast.error("Incorrect OTP code supplied");
-    setOtpValue(null);
-  };
-
   const handleUpdateAppointment = async data => {
     const employee = user.currentEmployee;
     const generatedOTP = generateOTP();
@@ -98,23 +93,14 @@ const EditAppointment = ({closeModal}) => {
     if (!location) return toast.warning("Please select a Location");
     if (!paymentMode)
       return toast.warning("Please select a Payment Mode for Client/Patient");
-    if (
-      appointment.appointment_status !== "Checked In" &&
-      data.appointment_status === "Checked In" &&
-      isHMO &&
-      !otpValue
-    ) {
+    if (isHMO && !otpValue) {
       return setOtpModal(true);
     }
-    if (
-      appointment.appointment_status !== "Checked In" &&
-      data.appointment_status === "Checked In" &&
-      isHMO &&
-      otpValue.toString() !== appointment?.otp
-    )
-      return handleIncorrectOtp();
+    if (isHMO && otpValue.toString() !== appointment?.otp) {
+      return toast.error("Incorrect OTP code supplied");
+    }
 
-    showActionLoader();
+    // showActionLoader();
 
     if (user.currentEmployee) {
       data.facility = employee.facilityDetail._id;
@@ -244,6 +230,7 @@ const EditAppointment = ({closeModal}) => {
       <Grid container spacing={2} mb={1}>
         <Grid item xs={12} sm={12} md={8} lg={8}>
           <ClientSearch
+            disabled={true}
             getSearchfacility={handleGetPatient}
             id={patient?._id}
           />
@@ -251,6 +238,7 @@ const EditAppointment = ({closeModal}) => {
 
         <Grid item xs={12} sm={12} md={4} lg={4}>
           <ClientPaymentTypeSelect
+            disabled={true}
             payments={patient?.paymentinfo}
             handleChange={handleGetPaymentMode}
           />
@@ -258,6 +246,7 @@ const EditAppointment = ({closeModal}) => {
 
         <Grid item xs={12} sm={12} md={6}>
           <EmployeeSearch
+            disabled={true}
             getSearchfacility={handleGetPractitioner}
             id={appointment?.practitionerId}
           />
@@ -265,6 +254,7 @@ const EditAppointment = ({closeModal}) => {
 
         <Grid item xs={12} sm={12} md={6}>
           <LocationSearch
+            disabled={true}
             getSearchfacility={handleGetLocation}
             id={appointment?.locationId}
           />
@@ -272,6 +262,7 @@ const EditAppointment = ({closeModal}) => {
 
         <Grid item xs={12} sm={12} md={12}>
           <GroupedRadio
+            disabled={true}
             control={control}
             required={true}
             name="appointmentClass"
@@ -281,6 +272,7 @@ const EditAppointment = ({closeModal}) => {
 
         <Grid item xs={12} sm={12} md={4} lg={4}>
           <MuiDateTimePicker
+            disabled
             control={control}
             name="start_time"
             label="Date and Time"
@@ -290,6 +282,7 @@ const EditAppointment = ({closeModal}) => {
         </Grid>
         <Grid item xs={12} sm={12} md={4} lg={4}>
           <CustomSelect
+            disabled
             control={control}
             name="appointment_type"
             label="Appointment Type"
@@ -311,7 +304,8 @@ const EditAppointment = ({closeModal}) => {
             important
             control={control}
             name="appointment_status"
-            label="Appointment Status "
+            label="Appointment Status"
+            disabled
             options={[
               "Scheduled",
               "Confirmed",
@@ -334,6 +328,7 @@ const EditAppointment = ({closeModal}) => {
             register={register("appointment_reason", {required: true})}
             type="text"
             placeholder="write here.."
+            disabled
           />
         </Grid>
       </Grid>
@@ -356,4 +351,4 @@ const EditAppointment = ({closeModal}) => {
   );
 };
 
-export default EditAppointment;
+export default CheckInAppointmentDetail;

@@ -2,9 +2,10 @@
 import React, {useState, useEffect, useContext} from "react";
 import Store, {StoreList, ClinicList} from "./Clinic";
 import {UserContext, ObjectContext} from "../../context";
-import {Outlet} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import ModalBox from "../../components/modal";
 import {Box} from "@mui/material";
+import {toast} from "react-toastify";
 
 export default function ClinicHome({children}) {
   // const [activeModal, setActiveModal]=useState("modal is-active ")
@@ -21,7 +22,17 @@ export default function ClinicHome({children}) {
 
   const [selectedClinic, setSelectedClinic] = useState(location);
 
+  const navigate = useNavigate();
+
+  const noLocation = () => {
+    toast.error(
+      "You need to set up a Clinic Location to access the clinic Module"
+    );
+    navigate("/app");
+  };
+
   useEffect(() => {
+    if (!selectedClinic) return noLocation();
     const notSelected =
       selectedClinic && Object.keys(selectedClinic).length === 0;
 

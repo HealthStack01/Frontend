@@ -1,43 +1,40 @@
 import {useState} from "react";
 import {Box} from "@mui/material";
 
-import AppointmentList from "./components/AppointmentList";
-import AppointmentCreate from "./components/AppointmentCreate";
-import AppointmentDetail from "./components/AppointmentDetail";
+import CheckInsList from "./components/CheckInsList";
+// import AppointmentCreate from "./components/AppointmentCreate";
+import CheckInAppointmentDetail from "./components/CheckInDetail";
 import ModalBox from "../modal";
 
-const AppointmentComponent = ({module}) => {
+const ManagedCareCheckIn = ({module}) => {
   const [createModal, setCreateModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
 
   return (
     <Box>
-      <AppointmentList
+      <CheckInsList
         showCreate={() => setCreateModal(true)}
         showDetail={() => setDetailModal(true)}
         module={module}
       />
 
-      <ModalBox
+      {/* <ModalBox
         open={createModal}
         onClose={() => setCreateModal(false)}
         header={`Create an Appointment`}
       >
         <AppointmentCreate closeModal={() => setCreateModal(false)} />
-      </ModalBox>
+      </ModalBox> */}
 
       <ModalBox
         open={detailModal}
         onClose={() => setDetailModal(false)}
         header={`Appointment Detail`}
       >
-        <AppointmentDetail
-          closeModal={() => setDetailModal(false)}
-          module={module}
-        />
+        <CheckInAppointmentDetail closeModal={() => setDetailModal(false)} />
       </ModalBox>
     </Box>
   );
 };
 
-export default AppointmentComponent;
+export default ManagedCareCheckIn;

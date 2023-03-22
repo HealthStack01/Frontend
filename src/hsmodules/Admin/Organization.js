@@ -184,7 +184,7 @@ const AdminOrganization = ({propId}) => {
         {/* {currentPage === 1 && <PolicyList standAlone={facility?._id || ""} />}
         {currentPage === 2 && <PremiumPayment />} */}
 
-        {facility?.facilityType?.toLowerCase() === "corporate" ? (
+        {facility?.facilityType?.toLowerCase() !== "corporate" ? (
           <Box sx={{display: "flex"}} gap={2}>
             <GlobalCustomButton
               color="secondary"
@@ -296,19 +296,8 @@ const AdminOrganization = ({propId}) => {
       )}
       {view === "details" && (
         <>
-          <Box
-            mb={2}
-            p={2}
-            sx={{display: "flex", justifyContent: "space-between"}}
-          >
+          <Box p={2} sx={{display: "flex", justifyContent: "space-between"}}>
             <FormsHeaderText text="Organization Details" />
-          </Box>
-          <Box
-            mb={2}
-            p={2}
-            sx={{display: "flex", justifyContent: "space-between"}}
-          >
-            {" "}
             <Box sx={{display: "flex"}} gap={2}>
               {!edit ? (
                 <>
@@ -316,20 +305,6 @@ const AdminOrganization = ({propId}) => {
                     <EditIcon fontSize="small" />
                     Edit Details
                   </GlobalCustomButton>
-                  {/* <GlobalCustomButton
-                color="secondary"
-                variant={view === "policy" ? "outlined" : "contained"}
-                onClick={() => setView("policy")}
-                text="Policy"
-                customStyles={{ margin: "0 .8rem" }}
-              />
-              <GlobalCustomButton
-                color="primary"
-                variant={view === "premium" ? "outlined" : "contained"}
-                onClick={() => setView("premium")}
-                text="Premium"
-                customStyles={{ marginRight: ".8rem" }}
-              /> */}
                 </>
               ) : (
                 <>

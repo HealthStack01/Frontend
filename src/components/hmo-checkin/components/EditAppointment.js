@@ -82,11 +82,6 @@ const EditAppointment = ({closeModal}) => {
   // Check if user has HMO
   const checkHMO = obj => obj.paymentmode === "HMO";
 
-  const handleIncorrectOtp = () => {
-    toast.error("Incorrect OTP code supplied");
-    setOtpValue(null);
-  };
-
   const handleUpdateAppointment = async data => {
     const employee = user.currentEmployee;
     const generatedOTP = generateOTP();
@@ -98,23 +93,14 @@ const EditAppointment = ({closeModal}) => {
     if (!location) return toast.warning("Please select a Location");
     if (!paymentMode)
       return toast.warning("Please select a Payment Mode for Client/Patient");
-    if (
-      appointment.appointment_status !== "Checked In" &&
-      data.appointment_status === "Checked In" &&
-      isHMO &&
-      !otpValue
-    ) {
+    if (isHMO && !otpValue) {
       return setOtpModal(true);
     }
-    if (
-      appointment.appointment_status !== "Checked In" &&
-      data.appointment_status === "Checked In" &&
-      isHMO &&
-      otpValue.toString() !== appointment?.otp
-    )
-      return handleIncorrectOtp();
+    if (isHMO && otpValue.toString() !== appointment?.otp) {
+      return toast.error("Incorrect OTP code supplied");
+    }
 
-    showActionLoader();
+    // showActionLoader();
 
     if (user.currentEmployee) {
       data.facility = employee.facilityDetail._id;
