@@ -4,12 +4,12 @@ import React, {useState, useEffect, useContext} from "react";
 import {UserContext, ObjectContext} from "../../context";
 import LocationSelect from "../../components/inputs/LocationSelect";
 import LocationModal from "../../components/inputs/LocationModal";
-import {Outlet} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import FrontDesk, {FrontDeskList} from "./FrontDesk";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import ModalBox from "../../components/modal";
-import Button from "../../components/buttons/Button";
+import {toast} from "react-toastify";
 
 export default function ClientHome({children}) {
   // const [activeModal, setActiveModal]=useState("modal is-active ")
@@ -27,7 +27,17 @@ export default function ClientHome({children}) {
 
   const [selectedClinic, setSelectedClinic] = useState(location);
 
+  const navigate = useNavigate();
+
+  const noLocation = () => {
+    toast.error(
+      "You need to set up a Client Location to access the Client Module"
+    );
+    navigate("/app");
+  };
+
   useEffect(() => {
+    if (!selectedClinic) return noLocation();
     const notSelected =
       selectedClinic && Object.keys(selectedClinic).length === 0;
 

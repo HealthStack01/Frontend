@@ -125,6 +125,7 @@ export function AccreditationList({
   const { state, setState } = useContext(ObjectContext);
   const { user } = useContext(UserContext);
   const [accreditation, setAccreditation] = useState([]);
+  const [totalScore, setTotalScore] = useState("");
   const facility = state.facilityModule.selectedFacility;
   const handleCreateNew = async () => {
     // const newfacilityModule = {
@@ -217,13 +218,68 @@ export function AccreditationList({
         },
       })
       .then((res) => {
-        console.log(res);
-        setAccreditation(res.data);
+        // console.log(res);
+        console.log("total score result", res);
+        const selectedAccreditation = !standAlone
+          ? res.data.filter(
+              (item) =>
+                item.facilityId === user.currentEmployee.facilityDetail._id
+            )
+          : res.data.filter((item) => item.organizationId === standAlone);
+
+        console.log("selectedAccreditation ", selectedAccreditation);
+
+        // setAccreditation(res.data);
+
+        const newAccre = res.data.map((data) => {
+          const result = getTotalScore(data.details[0]);
+          data.totalScore = result;
+          return data;
+        });
+        setAccreditation(newAccre);
+        getTotalScore(selectedAccreditation[0]?.details[0]);
       })
       .catch((err) => {
         setMessage("Error creating facility, probable network issues " + err);
         setError(true);
       });
+  };
+
+  const getTotalScore = (details) => {
+    if (details === null || details === undefined) {
+      return "";
+    }
+    const removeFieldFromObj = (arr, userObj) => {
+      const removeKycUrl = (propKey, { [propKey]: propValue, ...rest }) => rest;
+      var newObj = userObj;
+      arr.map((data) => {
+        newObj = removeKycUrl(data, newObj);
+        return newObj;
+      });
+
+      return newObj;
+    };
+    const arrOfObjectPropertyToRemove = [
+      "assessmentDetails",
+      "personalDetails",
+    ];
+    const result = removeFieldFromObj(arrOfObjectPropertyToRemove, details);
+    var sum = 0;
+    for (const [key, value] of Object.entries(result)) {
+      // const valueOne = value;
+      for (const [key, valuee] of Object.entries(value)) {
+        let score = valuee === null ? 0 : valuee;
+        console.log("total score", score);
+        sum += score;
+        console.log("total score sum", sum);
+      }
+      console.log(`scoe for ${value}`, sum);
+      //   return sum;
+    }
+
+    setTotalScore(sum);
+    console.log("total score result", sum);
+    return sum;
   };
 
   useEffect(() => {
@@ -271,6 +327,17 @@ export function AccreditationList({
       key: "recommendation",
       description: "recommendation",
       selector: (row) => row?.details[0].assessmentDetails.recommendation,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Total Score",
+      key: "totalScore",
+      description: "totalScore",
+      selector: (row) => row.totalScore,
+      // const result = getTotalScore(row.details[0]);
+      // return result;
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -2062,7 +2129,7 @@ export function NewOrganizationView({ showModal, setShowModal, selectedAccr }) {
       providername: assessment?.providerName,
       providerdesignation: assessment?.providerDesignation,
       providerphone: assessment?.providerPhone,
-      observationdate: assessment?.onservationDate,
+      observationdate: assessment?.observationDate,
       reviewname: assessment?.ReviewName,
       reviewofficername: assessment?.ReviewOfficer,
       reviewdate: assessment?.ReviewDate,
@@ -2645,6 +2712,12 @@ export function NewOrganizationView({ showModal, setShowModal, selectedAccr }) {
                   customStyles={{ marginRight: ".8rem" }}
                 />
                 <GlobalCustomButton
+                  text={"Edit"}
+                  onClick={() => setCurrentPage(11)}
+                  color="secondary"
+                  customStyles={{ marginRight: ".8rem" }}
+                />
+                <GlobalCustomButton
                   text={"Next"}
                   onClick={() => setCurrentPage(2)}
                   color="primary"
@@ -2712,6 +2785,7 @@ export function NewOrganizationView({ showModal, setShowModal, selectedAccr }) {
                 <Input
                   label={"NAME OF HMO OFFICER"}
                   register={register("nameofHmoOfficer")}
+                  disabled
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -2720,6 +2794,98 @@ export function NewOrganizationView({ showModal, setShowModal, selectedAccr }) {
                   register={register("hmoOfficerPhone")}
                   disabled
                 />
+              </Grid>
+            </Grid>
+          </>
+        )}
+        {currentPage === 11 && (
+          <>
+            <p style={{ fontWeight: "700" }}>
+              {facility?.facilityname?.toUpperCase()} - ASSESSMENT /
+              CREDENTIALLING FORM (NO..)
+            </p>
+            <p style={{ fontWeight: "700", marginBottom: ".5rem" }}>
+              (PRIVATE SCHEME)
+            </p>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <FormsHeaderText text={"PERSONAL DATA"} />
+              <Box display="flex" mt={1}>
+                <GlobalCustomButton
+                  text={"Back"}
+                  onClick={() => setShowModal(0)}
+                  color="warning"
+                  customStyles={{ marginRight: ".8rem" }}
+                />
+                <GlobalCustomButton
+                  text={"Cancel"}
+                  onClick={() => setCurrentPage(0)}
+                  color="secondary"
+                  customStyles={{ marginRight: ".8rem" }}
+                />
+                {/* <GlobalCustomButton
+                  text={"SAVE"}
+                  onClick={() => setCurrentPage(11)}
+                  color=""
+                  customStyles={{ marginRight: ".8rem" }}
+                /> */}
+                <GlobalCustomButton
+                  text={"Next"}
+                  onClick={() => setCurrentPage(2)}
+                  color="primary"
+                />
+              </Box>
+            </Box>
+            <Grid container spacing={2} mt={1}>
+              <Grid item xs={12} sm={6}>
+                <Input
+                  label={"ASSESSMENT NAME"}
+                  register={register("assessmentName")}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Input
+                  label={"NAME OF MEDICAL DIRECTOR (MD)"}
+                  register={register("nameofmd")}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Input label={"MCDN NO"} register={register("mcdnNo")} />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Input label={"MD PHONE NO"} register={register("mdPhone")} />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Input
+                  label={"SPECIALIZATION"}
+                  register={register("specialization")}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Input label={"MD EMAIL"} register={register("mdEmail")} />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Input
+                  label={"NAME OF CHIEF MATRON"}
+                  register={register("nameofChiefMatron")}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Input label={"TEL"} register={register("chiefMatronPhone")} />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Input
+                  label={"NAME OF HMO OFFICER"}
+                  register={register("nameofHmoOfficer")}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Input label={"TEL"} register={register("hmoOfficerPhone")} />
               </Grid>
             </Grid>
           </>
@@ -3109,13 +3275,30 @@ export function NewOrganizationView({ showModal, setShowModal, selectedAccr }) {
               <p style={{ fontWeight: "700", marginBottom: "2rem" }}>
                 (PRIVATE SCHEME)
               </p>
-              <McText
-                txt={
-                  "GENERAL OBSERVATIONS BY HMO REPRESENTATIVE / ASSESSMENT OFFICER"
-                }
-                type={"p"}
-                bold={700}
-              />
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <McText
+                  txt={
+                    "GENERAL OBSERVATIONS BY HMO REPRESENTATIVE / ASSESSMENT OFFICER"
+                  }
+                  type={"p"}
+                  bold={700}
+                />
+                <Box display="flex" mt={1}>
+                  <GlobalCustomButton
+                    text={"Edit"}
+                    onClick={() => setCurrentPage(44)}
+                    color="secondary"
+                    customStyles={{ marginRight: ".8rem" }}
+                  />
+                </Box>
+              </Box>
+
               <Grid container spacing={3} mt={1}>
                 <Grid item xs={12} sm={6} md={12}>
                   <Textarea
@@ -3284,6 +3467,208 @@ export function NewOrganizationView({ showModal, setShowModal, selectedAccr }) {
                 />
                 <label>Self</label>
               </Box> */}
+              <GlobalCustomButton
+                text={"Back"}
+                onClick={() => setCurrentPage(3)}
+                color="secondary"
+                customStyles={{ marginRight: ".8rem", marginTop: "1rem" }}
+              />
+              <GlobalCustomButton
+                text={"Close"}
+                onClick={() => setShowModal(0)}
+                color={"error"}
+                customStyles={{ marginRight: ".8rem", marginTop: "1rem" }}
+              />
+              <GlobalCustomButton
+                type={"submit"}
+                text={"Submit"}
+                onClick={handleSubmit(handleClick)}
+                color={"primary"}
+                disabled={loading}
+                customStyles={{ marginRight: ".8rem", marginTop: "1rem" }}
+              />
+            </div>
+          </>
+        )}
+        {currentPage === 44 && (
+          <>
+            <div
+              style={{
+                height: "85vh",
+                overflowY: "scroll",
+                width: "100%",
+                margin: "0 auto",
+              }}
+            >
+              <p style={{ fontWeight: "700" }}>
+                HCI HEALTHCARE LIMITED ASSESSMENT / CREDENTIALLING FORM (NO..)
+              </p>
+              <p style={{ fontWeight: "700", marginBottom: "2rem" }}>
+                (PRIVATE SCHEME)
+              </p>
+              <McText
+                txt={
+                  "GENERAL OBSERVATIONS BY HMO REPRESENTATIVE / ASSESSMENT OFFICER"
+                }
+                type={"p"}
+                bold={700}
+              />
+              <Grid container spacing={3} mt={1}>
+                <Grid item xs={12} sm={6} md={12}>
+                  <Textarea
+                    label={"Observations"}
+                    register={register("observation")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4} md={4}>
+                  <Input label={"Name"} register={register("observername")} />
+                </Grid>
+                <Grid item xs={12} sm={4} md={4}>
+                  <Input
+                    label={"Designation"}
+                    register={register("observerdesignation")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4} md={4}>
+                  <Input label={"Phone"} register={register("observerphone")} />
+                </Grid>
+                <Grid item xs={12} sm={12} md={4}>
+                  <Input
+                    label={"Provider Representative Name"}
+                    register={register("providername")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12} md={4}>
+                  <Input
+                    label={"Designation"}
+                    register={register("providerdesignation")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4} md={4}>
+                  <Input label={"Phone"} register={register("providerphone")} />
+                </Grid>
+                <Grid item xs={12} sm={4} md={6}>
+                  <MuiCustomDatePicker
+                    label="Date"
+                    name="observationdate"
+                    control={control}
+                  />
+                </Grid>
+              </Grid>
+              <Grid container spacing={3} mt={1}>
+                <Grid item xs={12} sm={4} md={12}>
+                  <McText txt={"FOR OFFICIAL USE"} type={"p"} bold={700} />
+                </Grid>
+              </Grid>
+              <Grid container spacing={3} mt={1}>
+                <Grid item xs={12} sm={4} md={12}>
+                  <Textarea
+                    label={`Med. Officer's Review of Credentials`}
+                    register={register("reviewname")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4} md={6}>
+                  <Input
+                    label={"Name of Reviewing Officer"}
+                    register={register("reviewofficername")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4} md={6}>
+                  <MuiCustomDatePicker
+                    label="Date of Review"
+                    name="reviewdate"
+                    control={control}
+                  />
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={3} mt={1}>
+                <Grid item xs={12} sm={4} md={12}>
+                  <McText
+                    txt={"RECOMMENDATION SUMMARY"}
+                    type={"p"}
+                    bold={700}
+                  />
+                </Grid>
+              </Grid>
+              <Grid container spacing={3} mt={1}>
+                {/* <Grid item xs={12} sm={4} md={6}>
+                  <Input
+                    label={"A Approve"}
+                    register={register("approve")}
+                    disabled
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4} md={6}>
+                  <Input
+                    label={"B Deny Outrightly"}
+                    register={register("deny")}
+                    disabled
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4} md={6}>
+                  <Input
+                    label={"C Give Probation For"}
+                    register={register("probation")}
+                    disabled
+                  />
+                </Grid> */}
+
+                <Grid item xs={12} sm={4} md={6}>
+                  {/* <CustomSelect
+                    label="Recommendation"
+                    name="recommendation"
+                    options={["Approved", "Deny", "Probation"]}
+                    register={register("recommendation", {
+                      required: true,
+                    })}
+                    onChange={(e) => {
+                      console.log(e.target.value);
+                      setRecommendationStatus(e.target.value);
+                    }}
+                    defaultValue={recommendationStatus}
+                  /> */}
+                  <CustomSelect
+                    label="Recommendation"
+                    name="recommendation"
+                    //   options={[
+                    //     { value: "Weeks", label: "weeks" },
+                    //     { value: "Months", label: "Months" },
+                    //     { value: "Years", label: "Years" },
+                    //   ]}
+                    options={["Approved", "Deny", "Probation"]}
+                    onChange={(e) => {
+                      setRecommendationStatus(e.target.value);
+                    }}
+                    defaultValue={recommendationStatus}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={4} md={6}>
+                  <MuiCustomDatePicker
+                    label="Date"
+                    name="summerydate"
+                    control={control}
+                    // handleChange={condata}
+                  />
+                </Grid>
+              </Grid>
+              {/* <Box style={{ marginRight: '1rem', fontSize: '.8rem' }}>
+                <input
+                  type="radio"
+                  name="completed"
+                  {...register('completed')}
+                  onChange={(e) => setCompleted(e.target.checked)}
+                  style={{ marginRight: '.5rem' }}
+                />
+                <label>Self</label>
+              </Box> */}
+              <GlobalCustomButton
+                text={"Back"}
+                onClick={() => setCurrentPage(3)}
+                color="secondary"
+                customStyles={{ marginRight: ".8rem", marginTop: "1rem" }}
+              />
               <GlobalCustomButton
                 text={"Close"}
                 onClick={() => setShowModal(0)}

@@ -179,6 +179,10 @@ const AppRoutes = () => {
             {/* ***************************** ACCOUNTS ROUTES ************************************* */}
 
             <Route path="/app/Organizations" element={<OrganizationsPage />} />
+            <Route
+              path="/app/global-dashboard"
+              element={<OrganizationsPage />}
+            />
 
             {/* ***************************** ACCOUNTS ROUTES ************************************* */}
             <Route path="/app/accounts" element={<AccountHome />}>

@@ -28,6 +28,7 @@ const SendLinkViaEmail = ({
   closeModal,
   defaultToEmail,
   disableToEmailChange,
+  orgType,
 }) => {
   const emailServer = client.service("email");
   const {user} = useContext(UserContext);
@@ -37,7 +38,9 @@ const SendLinkViaEmail = ({
   const [selectedEmail, setSelectedEmail] = useState("");
   const [destinationEmail, setDestinationEmail] = useState(defaultToEmail);
   const [emailBody, setEmailBody] = useState(
-    `<p>Please follow this <a style="color:red;" href="https://healthstack-test.netlify.app/signup/corporate">LINK</a> to create an Organization </p>`
+    `<p>Please follow this <a style="color:red;" href=${`https://healthstack-test.netlify.app/signup/${
+      orgType ? orgType : "corporate"
+    }`}>LINK</a> to create an Organization </p>`
   );
   const {
     register,

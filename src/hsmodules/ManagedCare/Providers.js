@@ -98,7 +98,13 @@ export default function Provider({ standAlone }) {
             onClose={() => setShowModal(0)}
             header="Register Provider"
           >
-            <OrganizationCreate setShowModal={() => setShowModal(0)} />
+            <Box
+              style={{
+                height: "5rem",
+              }}
+            >
+              <OrganizationCreate setShowModal={() => setShowModal(0)} />
+            </Box>
           </ModalBox>
         )}
         {showModal === 2 && <OrganizationDetail setShowModal={setShowModal} />}
@@ -627,12 +633,13 @@ export function OrganizationCreate({ showModal, setShowModal }) {
 
   return (
     <>
-      <FacilitySearch
-        getSearchfacility={getSearchfacility}
-        clear={success}
-        closeModal={setShowModal}
-      />
-      {/* <select
+      <Grid>
+        <FacilitySearch
+          getSearchfacility={getSearchfacility}
+          clear={success}
+          closeModal={setShowModal}
+        />
+        {/* <select
 				name='bandType'
 				value={band}
 				onChange={(e) => handleChangeMode(e)}
@@ -659,15 +666,16 @@ export function OrganizationCreate({ showModal, setShowModal }) {
 					</option>
 				))}
 			</select> */}
-      <Grid container pt={1}>
-        <Grid
-          style={{ width: "26px", height: "4px" }}
-          item
-          xs={12}
-          sm={12}
-          md={12}
-        >
-          <Button label="Add" type="submit" onClick={handleClick} />
+        <Grid container pt={1}>
+          <Grid
+            style={{ width: "26px", height: "4px" }}
+            item
+            xs={12}
+            sm={12}
+            md={12}
+          >
+            <Button label="Add" type="submit" onClick={handleClick} />
+          </Grid>
         </Grid>
       </Grid>
     </>
@@ -920,6 +928,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
               closeModal={() => setSendLinkModal(false)}
               defaultToEmail={""}
               disableToEmailChange={true}
+              orgType="provider"
             />
           </ModalBox>
           <div
@@ -1004,6 +1013,10 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [bandStatus, setBandStatus] = useState(null);
   const [approveBand, setApproveBand] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState(false);
+  const [statusBand, setStatusBand] = useState("");
+  const [statusBandTwo, setStatusBandTwo] = useState("");
+  const [isShowButton, setIsShowButton] = useState(true);
 
   const facility = state.facilityModule.selectedFacility;
 
@@ -1035,10 +1048,13 @@ export function OrganizationDetail({ showModal, setShowModal }) {
           shouldValidate: true,
           shouldDirty: true,
         });
-        toast.success("Premium succesfully added");
+        toast.success(`Band status has been ${status} successFully`);
+        setConfirmDialog(false);
       })
       .catch((err) => {
-        toast.error("Error adding Premium, probable network issues or " + err);
+        toast.error(
+          "Error editng band status, probable network issues or " + err
+        );
       });
   };
 
@@ -1451,6 +1467,13 @@ export function OrganizationDetail({ showModal, setShowModal }) {
           margin: "0 1rem",
         }}
       >
+        <CustomConfirmationDialog
+          open={confirmDialog}
+          cancelAction={() => setConfirmDialog(false)}
+          confirmationAction={() => onSubmitStatus(statusBand)}
+          type="danger"
+          message={`Are you sure you want to ${statusBandTwo} band`}
+        />
         <FormsHeaderText text={"Provider Details"} />
         <Box
           sx={{
@@ -1480,6 +1503,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               text="Edit"
               onClick={() => {
                 setIsEdit(true), setDisplay(1);
+                setIsShowButton(true);
               }}
               color="secondary"
               customStyles={{ marginRight: "10px" }}
@@ -1488,30 +1512,34 @@ export function OrganizationDetail({ showModal, setShowModal }) {
           )}
           <GlobalCustomButton
             text="Accreditation"
-            onClick={() => setDisplay(2)}
+            onClick={() => {
+              setDisplay(2);
+              // setIsEdit(false);
+              setIsShowButton(false);
+            }}
             color="primary"
             customStyles={{ marginRight: "10px" }}
             variant={display === 2 ? "outlined" : "contained"}
           />
           {isEdit && (
             <>
-              {facility.active === false && (
+              {/* {facility.active === false && (
                 <GlobalCustomButton
                   text="Approve"
                   onClick={() => setApprove(true)}
                   color="success"
-                  customStyles={{ marginRight: "10px" }}
+                  customStyles={{marginRight: "10px"}}
                 />
-              )}
-              {facility.active === true && (
+              )} */}
+              {/* {facility.active === true && (
                 <GlobalCustomButton
                   text="Reject"
                   onClick={() => setReject(true)}
                   color="error"
-                  customStyles={{ marginRight: "10px" }}
+                  customStyles={{marginRight: "10px"}}
                   variant="contained"
                 />
-              )}
+              )} */}
               {/* <GlobalCustomButton
                 text={isDeactivated ? 'Activate' : 'Deactivate'}
                 onClick={
@@ -1525,41 +1553,66 @@ export function OrganizationDetail({ showModal, setShowModal }) {
             </>
           )}
           <GlobalCustomButton
-            onClick={display === 1 ? () => setDisplay(3) : () => setDisplay(1)}
+            onClick={
+              display === 1
+                ? () => {
+                    setDisplay(3);
+                    setIsShowButton(false);
+                  }
+                : () => {
+                    setDisplay(1);
+                    setIsShowButton(false);
+                  }
+            }
             text={display === 1 ? "Task" : "Details"}
             variant={display === 3 ? "outlined" : "contained"}
             customStyles={{ marginRight: ".8rem" }}
           />
           <GlobalCustomButton
             text="Upload"
-            onClick={() => setDisplay(4)}
+            onClick={() => {
+              setDisplay(4);
+              setIsShowButton(false);
+            }}
             color="success"
             customStyles={{ marginRight: "10px" }}
             variant={display === 4 ? "outlined" : "contained"}
           />
           <GlobalCustomButton
-            onClick={() => setDisplay(5)}
+            onClick={() => {
+              setDisplay(5);
+              setIsShowButton(false);
+            }}
             text="Beneficiary"
             customStyles={{ marginRight: ".8rem" }}
             variant={display === 5 ? "outlined" : "contained"}
           />
           <GlobalCustomButton
             color="warning"
-            onClick={() => setDisplay(6)}
+            onClick={() => {
+              setDisplay(6);
+              setIsShowButton(false);
+            }}
             text="Claims"
             customStyles={{ marginRight: ".8rem" }}
             variant={display === 6 ? "outlined" : "contained"}
           />
           <GlobalCustomButton
             color="success"
-            onClick={() => setDisplay(8)}
+            onClick={() => {
+              setDisplay(8);
+              setIsShowButton(false);
+            }}
             text="Tariff"
             customStyles={{ marginRight: ".8rem" }}
             variant={display === 8 ? "outlined" : "contained"}
           />
           <GlobalCustomButton
             color="secondary"
-            onClick={() => setDisplay(7)}
+            onClick={() => {
+              setDisplay(7);
+              setIsShowButton(false);
+            }}
             text="Pre-Auth"
             customStyles={{ marginRight: ".8rem" }}
             variant={display === 7 ? "outlined" : "contained"}
@@ -1570,7 +1623,10 @@ export function OrganizationDetail({ showModal, setShowModal }) {
             sx={{ marginRight: "10px" }}
           >
             <GlobalCustomButton
-              onClick={() => setOpenDrawer(true)}
+              onClick={() => {
+                setOpenDrawer(true);
+                setIsShowButton(false);
+              }}
               text="Chat"
               color="primary"
             />
@@ -1585,13 +1641,15 @@ export function OrganizationDetail({ showModal, setShowModal }) {
           }}
           mb={2}
         >
-          {bandStatus === "" && (
+          {isShowButton && bandStatus === "" && (
             <>
               <GlobalCustomButton
                 text="Approve"
                 onClick={() => {
                   let status = "Approved";
-                  onSubmitStatus(status);
+                  setStatusBand(status);
+                  setStatusBandTwo("approve");
+                  setConfirmDialog(true);
                 }}
                 color="success"
                 customStyles={{ marginRight: "10px" }}
@@ -1600,20 +1658,24 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                 text="Decline"
                 onClick={() => {
                   let status = "Declined";
-                  onSubmitStatus(status);
+                  setStatusBand(status);
+                  setStatusBandTwo("decline");
+                  setConfirmDialog(true);
                 }}
                 color="warning"
                 customStyles={{ marginRight: "10px" }}
               />
             </>
           )}
-          {bandStatus === "Pending" && (
+          {isShowButton && bandStatus === "Pending" && (
             <>
               <GlobalCustomButton
                 text="Approve"
                 onClick={() => {
                   let status = "Approved";
-                  onSubmitStatus(status);
+                  setStatusBand(status);
+                  setStatusBandTwo("approve");
+                  setConfirmDialog(true);
                 }}
                 color="success"
                 customStyles={{ marginRight: "10px" }}
@@ -1622,33 +1684,39 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                 text="Decline"
                 onClick={() => {
                   let status = "Declined";
-                  onSubmitStatus(status);
+                  setStatusBand(status);
+                  setStatusBandTwo("decline");
+                  setConfirmDialog(true);
                 }}
                 color="warning"
                 customStyles={{ marginRight: "10px" }}
               />
             </>
           )}
-          {bandStatus === "Declined" && (
+          {isShowButton && bandStatus === "Declined" && (
             <>
               <GlobalCustomButton
                 text="Approve"
                 onClick={() => {
                   let status = "Approved";
-                  onSubmitStatus(status);
+                  setStatusBand(status);
+                  setStatusBandTwo("approve");
+                  setConfirmDialog(true);
                 }}
                 color="success"
                 customStyles={{ marginRight: "10px" }}
               />
             </>
           )}
-          {bandStatus === "Approved" && (
+          {isShowButton && bandStatus === "Approved" && (
             <>
               <GlobalCustomButton
                 text="Decline"
                 onClick={() => {
                   let status = "Declined";
-                  onSubmitStatus(status);
+                  setStatusBand(status);
+                  setStatusBandTwo("decline");
+                  setConfirmDialog(true);
                 }}
                 color="warning"
                 customStyles={{ marginRight: "10px" }}
