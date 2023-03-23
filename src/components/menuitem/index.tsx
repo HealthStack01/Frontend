@@ -30,7 +30,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   const isOrgAdmin = roles.includes("Admin") || [];
 
   const isCorporate =
-    user.currentEmployee.facilityDetail.facilityType === "Corporate"
+    user?.currentEmployee?.facilityDetail?.facilityType === "Corporate"
       ? true
       : false;
 

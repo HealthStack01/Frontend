@@ -942,7 +942,7 @@ export function ClientDetail({showModal, setShowModal}) {
   }, [getClient]);
 
   const handleAttend = async () => {
-    //const patient = await client.service("client").get(Client.clientId);
+    const patient = await client.service("client").get(Client.clientId);
     setSelectedClient(currentPatient);
     const newClientModule = {
       selectedClient: patient,

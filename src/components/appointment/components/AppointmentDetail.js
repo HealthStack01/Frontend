@@ -16,7 +16,7 @@ import client from "../../../feathers";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 
-const AppointmentDetail = ({closeModal}) => {
+const AppointmentDetail = ({closeModal, module}) => {
   const appointmentsServer = client.service("appointments");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -87,9 +87,15 @@ const AppointmentDetail = ({closeModal}) => {
       });
   };
 
+  const handleIncorrectOTP = () => {
+    toast.error(
+      "The OTP code you supplied is incorrect, please provide the correct code."
+    );
+    setOtpValue(null);
+  };
+
   const checkinPatientWithOTP = () => {
-    if (otpValue.toString() !== appointment.otp)
-      return toast.error("Incorrect OTP code supplied");
+    if (otpValue.toString() !== appointment.otp) return handleIncorrectOTP();
     showActionLoader();
     appointmentsServer
       .patch(appointment._id, {
@@ -99,6 +105,7 @@ const AppointmentDetail = ({closeModal}) => {
       .then(res => {
         hideActionLoader();
         toast.success("Client succesfully Checked In");
+        setOtpModal(false);
         setState(prev => ({
           ...prev,
           AppointmentModule: {
@@ -135,15 +142,28 @@ const AppointmentDetail = ({closeModal}) => {
   };
 
   const hanldeAttendToClient = async () => {
-    await setState(prev => ({
-      ...prev,
-      ClientModule: {
-        ...prev.ClientModule,
-        selectedClient: appointment.client,
-      },
-    }));
+    if (appointment.client) {
+      await setState(prev => ({
+        ...prev,
+        ClientModule: {
+          ...prev.ClientModule,
+          selectedClient: appointment.client,
+        },
+      }));
 
-    navigate("/app/clinic/documentation");
+      navigate("/app/clinic/documentation");
+    } else {
+      const patient = await client.service("client").get(appointment.clientId);
+      await setState(prev => ({
+        ...prev,
+        ClientModule: {
+          ...prev.ClientModule,
+          selectedClient: patient,
+        },
+      }));
+
+      navigate("/app/clinic/documentation");
+    }
   };
 
   return (
@@ -219,9 +239,11 @@ const AppointmentDetail = ({closeModal}) => {
           </GlobalCustomButton>
         )}
 
-        <GlobalCustomButton color="info" onClick={hanldeAttendToClient}>
-          Attend to Client
-        </GlobalCustomButton>
+        {module === "Clinic" && (
+          <GlobalCustomButton color="info" onClick={hanldeAttendToClient}>
+            Attend to Client
+          </GlobalCustomButton>
+        )}
       </Box>
 
       <Grid container spacing={2}>

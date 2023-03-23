@@ -1,10 +1,11 @@
 /* eslint-disable */
 import React, {useState, useEffect, useContext} from "react";
 import Radiology, {StoreList, StoreListStandalone} from "./Radiologys";
-import {Outlet} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import {UserContext, ObjectContext} from "../../context";
 import ModalBox from "../../components/modal";
 import {Box} from "@mui/material";
+import {toast} from "react-toastify";
 
 export default function RadiologyHome({children}) {
   const {state, setState} = useContext(ObjectContext);
@@ -21,7 +22,17 @@ export default function RadiologyHome({children}) {
 
   const [selectedStore, setSelectedStore] = useState(location);
 
+  const navigate = useNavigate();
+
+  const noLocation = () => {
+    toast.error(
+      "You need to set up a Radiology Location to access the Radiology Module"
+    );
+    navigate("/app");
+  };
+
   useEffect(() => {
+    if (!selectedStore) return noLocation();
     const notSelected =
       selectedStore && Object.keys(selectedStore).length === 0;
 

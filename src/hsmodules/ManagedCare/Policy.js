@@ -603,7 +603,6 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
   const [clientModal, setClientModal] = useState(false);
   const [dependant, setDependant] = useState(false);
   const [selectedClient, setSelectedClient] = useState();
-  cC;
   //const [productItem,setProductItem] = useState([])
   const productItem = useRef([]);
   const [showCorp, setShowCorp] = useState(false);

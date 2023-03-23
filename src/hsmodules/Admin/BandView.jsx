@@ -131,7 +131,7 @@ const BandView = ({ open, setOpen, band }) => {
 						fontSize='small'
 						sx={{ marginRight: '5px' }}
 					/>
-					Delete Band
+					Delete
 				</GlobalCustomButton>
 
 				{!editing ? (
@@ -143,7 +143,7 @@ const BandView = ({ open, setOpen, band }) => {
 							fontSize='small'
 							sx={{ marginRight: '5px' }}
 						/>
-						Edit Band
+						Edit
 					</GlobalCustomButton>
 				) : (
 					<GlobalCustomButton
