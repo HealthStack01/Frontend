@@ -36,7 +36,7 @@ const CustomLoader = () => (
 			justifyContent: 'center',
 		}}>
 		<img
-			src='/loading.gif'
+			src='/loading.gif' alt="Loading"
 			style={{width: '200px', height: 'auto', display: 'block'}}
 		/>
 		<Typography sx={{marginTop: '-2rem', fontSize: '0.85rem'}}>
