@@ -10,6 +10,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { People } from '@mui/icons-material';
 import { Receipt } from '@mui/icons-material';
+import { blue } from '@material-ui/core/colors';
 import {InputLabel, Select, MenuItem } from "@material-ui/core";
 import client from '../../feathers';
 import {
@@ -155,26 +156,39 @@ const GlobalAdminHome = () => {
      getPatients();
 	}, []);
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) {
+      return "morning";
+    } else if (hour >= 12 && hour < 18) {
+      return "afternoon";
+    } else {
+      return "evening";
+    }
+  }
+  
+
   return (
     <DashboardPageWrapper>
         <Box>
-          <Typography weight="bold" variant="h5">
-        {user.firstname} {user.lastname}
-          </Typography>
+          <Typography weight="bold" variant="h5" style={{ textShadow: "1px 1px 2px rgb(0, 45, 92)" }}>
+           {`Good ${getGreeting()} ${user.firstname} ${user.lastname}`}
+        </Typography>
         </Box>
         <Grid container spacing={3}>
         <Grid item xs={12} md={3}>
-          <StyledCard>
+          <RevenueStyledCard>
+          <BarChartIcon fontSize="inherit" style={{marginLeft:50, fontSize: 70, color: blue[500] }} />
             <StyledCardContent>
-              <BarChartIcon fontSize="large" color="primary" />
+            
               <div>
-                <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">
+                <RevenueStyledTypography weight="bold" size="1rem" color="#fff" textTransform="uppercase" margin="0.5rem 0">
                   Total Revenue
-                </StyledTypography>
-                <StyledNumber backgroundColor="#1abc9c">₦12,00000</StyledNumber>
+                </RevenueStyledTypography>
+                <RevenueStyledNumber backgroundColor="#2196f3">₦125,00000</RevenueStyledNumber>
               </div>
             </StyledCardContent>
-          </StyledCard>
+          </RevenueStyledCard>
         </Grid>
         <Grid item xs={12} md={3}>
         <StyledCard>
@@ -251,7 +265,7 @@ const GlobalAdminHome = () => {
                 <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">
                   Number of Doc Created
                 </StyledTypography>
-                <StyledNumber backgroundColor=" #0E305D">{clinicaldocument}</StyledNumber>
+                <StyledNumber backgroundColor="#0E305D">{clinicaldocument}</StyledNumber>
               </div>
             </StyledCardContent>
           </StyledCard>
@@ -419,6 +433,8 @@ const StyledFormControl = styled.div`
   }
 `;
 
+
+
 const StyledCard = styled(Card)`
   background-color: #fff;
   margin: 1rem;
@@ -431,6 +447,41 @@ const StyledCard = styled(Card)`
     box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.2);
   }
 `;
+
+const RevenueStyledCard = styled(Card)`
+  color: #fff;
+  margin: 2rem;
+  font-weight: bold;
+  background-color: #002D5C;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.2);
+  }
+`;
+
+const RevenueStyledTypography = styled.p`
+  font-weight: ${(props) => props.weight};
+  font-size: ${(props) => props.size};
+  color: ${(props) => props.color};
+  text-transform: ${(props) => props.textTransform};
+  margin: ${(props) => props.margin};
+`;
+
+const RevenueStyledNumber = styled.p`
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #fff;
+  background-color: ${(props) => props.backgroundColor};
+  border-radius: 5px;
+  padding: 0.5rem;
+  display: inline-block;
+`;
+
 
 const StyledCardContent = styled(CardContent)`
   display: flex;
@@ -449,7 +500,6 @@ margin: ${({ margin }) => margin || '0'};
 padding: ${({ padding }) => padding || '0'};
 text-transform: ${({ textTransform }) => textTransform || 'none'};
 `;
-
 
 const StyledNumber = styled(Typography)`
 font-weight: bold;
