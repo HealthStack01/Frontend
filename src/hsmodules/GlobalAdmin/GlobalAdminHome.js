@@ -178,7 +178,7 @@ const GlobalAdminHome = () => {
         <Grid container spacing={3}>
         <Grid item xs={12} md={3}>
           <RevenueStyledCard>
-          <BarChartIcon fontSize="inherit" style={{marginLeft:50, fontSize: 70, color: blue[500] }} />
+          <BarChartIcon fontSize="inherit" style={{marginLeft:60, fontSize: 50, color: blue[500] }} />
             <StyledCardContent>
             
               <div>
@@ -453,7 +453,7 @@ const RevenueStyledCard = styled(Card)`
   margin: 2rem;
   font-weight: bold;
   background-color: #002D5C;
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 10px;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease-in-out;
@@ -474,11 +474,11 @@ const RevenueStyledTypography = styled.p`
 
 const RevenueStyledNumber = styled.p`
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   color: #fff;
   background-color: ${(props) => props.backgroundColor};
   border-radius: 5px;
-  padding: 0.5rem;
+  padding: 0.2rem;
   display: inline-block;
 `;
 
@@ -507,7 +507,7 @@ font-size: 1.2rem;
 color: #fff;
 background-color: ${({ backgroundColor }) => backgroundColor};
 border-radius: 10px;
-padding: 0.5rem 1rem;
+padding: 0.6rem 1rem;
 `;
 
 export default GlobalAdminHome;
