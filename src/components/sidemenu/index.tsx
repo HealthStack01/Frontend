@@ -494,28 +494,22 @@ function SideMenu({isOpen}) {
             iconClassName="bi bi-house-door"
           />
           {finalModules.map((menuItem, index) => (
-            <>
-              <MenuItem
-                key={menuItem.name}
-                name={menuItem.name}
-                to={menuItem.to}
-                subMenus={menuItem.subMenus || []}
-                iconClassName={menuItem.iconClassName}
-                onClick={() => {
-                  // if (menuItem.action) {
-                  //   menuItem.action();
-                  //   navigate(menuItem.to);
-                  // }
-                  if (menuItem.to && !menuItem.subMenus) {
-                    navigate(menuItem.to);
-                  }
-                  if (inactive) {
-                    setInactive(false);
-                  }
-                }}
-              />
-            </>
-          ))}
+       <MenuItem
+         key={menuItem.name + index}
+            name={menuItem.name}
+            to={menuItem.to}
+            subMenus={menuItem.subMenus || []}
+            iconClassName={menuItem.iconClassName}
+            onClick={() => {
+            if (menuItem.to && !menuItem.subMenus) {
+            navigate(menuItem.to);
+             }
+             if (inactive) {
+             setInactive(false);
+           }
+        }}
+       />
+      ))}
           <MenuItem
             name="Logout"
             to="/"

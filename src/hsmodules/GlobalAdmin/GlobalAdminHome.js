@@ -1,11 +1,13 @@
 import React, {useEffect, useState, useContext} from "react";
+import {ObjectContext} from '../../context';
 import {Box, Grid, Card,CardContent,Typography} from "@mui/material";
 import styled from "styled-components";
 import BarChartIcon from '@mui/icons-material/BarChart';
 import BusinessIcon from '@mui/icons-material/Business';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-import PharmacyIcon from '@mui/icons-material/LocalPharmacy';
+import DescriptionIcon from '@mui/icons-material/Description';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { People } from '@mui/icons-material';
 import { Receipt } from '@mui/icons-material';
 import {InputLabel, Select, MenuItem } from "@material-ui/core";
@@ -15,29 +17,20 @@ import {
 } from "../dashBoardUiComponent/core-ui/styles.ts";
 import {UserContext} from "../../context";
 
-const GlobalAdminHome = () => {
-
-  // const mockData = {
-  //   hospitals: 12,
-  //   diagnostics: 6,
-  //   pharmacies: 23,
-  //   corporate: 50,
-  //   diagnosticsLab: 4,
-  //   hmo: 2
-  // };
-  
+const GlobalAdminHome = () => {  
+  const {showActionLoader, hideActionLoader} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
   const facilityServ = client.service('facility');
   const appointmentServ = client.service('appointments');
   const invoiceServ = client.service('invoice');
   const employeeServ = client.service('employee');
-  // const patientServ = client.service('client');
+   const clinicaldocumentServ = client.service('clinicaldocument');
+   const patientServe = client.service('client');
 
-  const [facilities, setFacilities] = useState([]);
    const [appointments, setAppointments] = useState([]);
    const [invoices, setInvoices] = useState([]);
    const [employees, setEmployees] = useState([]);
-  //  const [patients, setPatients] = useState([]);
+    const [clinicaldocument, setClinicaldocument] = useState([]);
    const [hospitals, setHospitals] = useState(0);
    const [school, setSchool] = useState(0);
    const [hospitality, setHospitality] = useState(0);
@@ -46,11 +39,21 @@ const GlobalAdminHome = () => {
    const [corporate, setCorporate] = useState(0);
    const [diagnosticsLab, setDiagnosticsLab] = useState(0);
    const [hmo, setHmo] = useState(0);
+   const [clinic, setClinic] = useState(0);
+   const [patients, setPatients] = useState(0);
+   const [statehmo, setStatehmo] = useState(0);
+   const [minofhealth, setMinofhealth] = useState(0);
+
+   // Organization by states
+   const [lagos, setLagos] = useState(0);
+   const [ibadan, setIbadan] = useState(0);
+   const [rivers, setRivers] = useState(0);
+     const [abuja, setAbuja] = useState(0);
 
 
 
    const [selectedType, setSelectedType] = useState("Hospital");
-  const [selectedState, setSelectedState] = useState("Edo");
+  const [selectedState, setSelectedState] = useState("Lagos");
 
   const handleTypeChange = (event) => {
     setSelectedType(event.target.value);
@@ -60,22 +63,11 @@ const GlobalAdminHome = () => {
     setSelectedState(event.target.value);
   };
 
-  // const getFacilities = () => {
-	// 	facilityServ
-	// 		.find()
-	// 		.then(res => {
-	// 			setFacilities(res.data);
-	// 		})
-	// 		.catch(err => {
-	// 			console.log(err);
-	// 		});
-	// };
-
   const getAppointments = () => {
 		appointmentServ
 			.find()
 			.then(res => {
-				setAppointments(res.data);
+				setAppointments(res.data.length);
 			})
 			.catch(err => {
 				console.log(err);
@@ -85,7 +77,7 @@ const GlobalAdminHome = () => {
 		invoiceServ
 			.find()
 			.then(res => {
-				setInvoices(res.data);
+				setInvoices(res.data.length);
 			})
 			.catch(err => {
 				console.log(err);
@@ -95,7 +87,29 @@ const GlobalAdminHome = () => {
 		employeeServ
 			.find()
 			.then(res => {
-				setEmployees(res.data);
+				setEmployees(res.data.length);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+  
+
+  const getClinicaldocument = () => {
+		clinicaldocumentServ
+			.find()
+			.then(res => {
+				setClinicaldocument(res.data.length);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+  const getPatients = () => {
+		patientServe
+			.find()
+			.then(res => {
+				setPatients(res.data.length);
 			})
 			.catch(err => {
 				console.log(err);
@@ -104,10 +118,15 @@ const GlobalAdminHome = () => {
 
 
   const getFacilities = () => {
+    showActionLoader();
     facilityServ
       .find()
       .then(res => {
-        setHospitals(res.data.filter(hospital => hospital.facilityType === "Hospital").length);
+        hideActionLoader();
+        setHospitals(res.data.filter(hospital => hospital.facilityType === "State HMO").length);
+        setMinofhealth(res.data.filter(minofhealth => minofhealth.facilityType === "MInistry of Health").length);
+        setStatehmo(res.data.filter(statehmo => statehmo.facilityType === "Hospital").length);
+        setClinic(res.data.filter(clinic => clinic.facilityType === "Clinic").length);
         setSchool(res.data.filter(school => school.facilityType === "School").length);
         setHospitality(res.data.filter(hospitality => hospitality.facilityType === "Hospitality").length);
         setLaboratory(res.data.filter(laboratory => laboratory.facilityType === "Laboratory").length);
@@ -115,9 +134,13 @@ const GlobalAdminHome = () => {
         setCorporate(res.data.filter(corporate => corporate.facilityType === "Corporate").length);
         setDiagnosticsLab(res.data.filter(diagnosticsLab => diagnosticsLab.facilityType === "Diagnostics Lab").length);
         setHmo(res.data.filter(hmo => hmo.facilityType === "HMO").length);
-         console.log("Facility Data", res.data.facilityType)
+        setLagos(res.data.filter(state => state.facilityCity === "Lagos").length);
+        setIbadan(res.data.filter(state => state.facilityCity === "Ibadan").length);
+        setAbuja(res.data.filter(state => state.facilityCity === "Abuja").length);
+        setRivers(res.data.filter(state => state.facilityCity === "Rivers State").length);
+        setRivers(res.data.filter(state => state.facilityCity === "Rivers State").length);
       })
-     
+       
       .catch(err => {
         console.log(err);
       });
@@ -128,11 +151,9 @@ const GlobalAdminHome = () => {
      getAppointments()
      getInvoices();
      getEmployees();
-      // getPatients();
-      //  setData(mockData);
+     getClinicaldocument()
+     getPatients();
 	}, []);
-
-  
 
   return (
     <DashboardPageWrapper>
@@ -165,6 +186,15 @@ const GlobalAdminHome = () => {
         {selectedType === "Hospital" && (
           <StyledNumber backgroundColor="#3498db">{hospitals}</StyledNumber>
         )}
+         {selectedType === "MInistry of Health" && (
+          <StyledNumber backgroundColor="#3498db">{minofhealth}</StyledNumber>
+        )}
+         {selectedType === "State HMO" && (
+          <StyledNumber backgroundColor="#3498db">{statehmo}</StyledNumber>
+        )}
+        {selectedType === "Clinic" && (
+          <StyledNumber backgroundColor="#3498db">{clinic}</StyledNumber>
+        )}
          {selectedType === "School" && (
           <StyledNumber backgroundColor="#3498db">{school}</StyledNumber>
         )}
@@ -196,6 +226,9 @@ const GlobalAdminHome = () => {
             }}
           >
             <MenuItem value="Hospital">Hospitals</MenuItem>
+            <MenuItem value="MInistry of Health">MInistry of Health</MenuItem>
+            <MenuItem value="State HMO">State HMO</MenuItem>
+            <MenuItem value="Clinic">Clinics</MenuItem>
             <MenuItem value="School">Schools</MenuItem>
             <MenuItem value="Hospitality">Hospitality</MenuItem>
             <MenuItem value="Laboratory">Laboratory</MenuItem>
@@ -218,7 +251,7 @@ const GlobalAdminHome = () => {
                 <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">
                   Number of Doc Created
                 </StyledTypography>
-                <StyledNumber backgroundColor="#3498db">340</StyledNumber>
+                <StyledNumber backgroundColor=" #0E305D">{clinicaldocument}</StyledNumber>
               </div>
             </StyledCardContent>
           </StyledCard>
@@ -231,7 +264,7 @@ const GlobalAdminHome = () => {
                 <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">
                   Total Appointments
                 </StyledTypography>
-                <StyledNumber backgroundColor="#e74c3c">{appointments.length}</StyledNumber>
+                <StyledNumber backgroundColor="#e74c3c">{appointments}</StyledNumber>
               </div>
             </StyledCardContent>
           </StyledCard>
@@ -239,12 +272,12 @@ const GlobalAdminHome = () => {
         <Grid item xs={12} md={3}>
           <StyledCard>
             <StyledCardContent>
-              <EventNoteIcon fontSize="large" color="primary" />
+              <People fontSize="large" color="primary" />
               <div>
                 <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">
                   Total Clients
                 </StyledTypography>
-                <StyledNumber backgroundColor="#e74c3c">{appointments.length}</StyledNumber>
+                <StyledNumber backgroundColor="#e74c3c">{patients}</StyledNumber>
               </div>
             </StyledCardContent>
           </StyledCard>
@@ -255,7 +288,7 @@ const GlobalAdminHome = () => {
           <People fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Employees</StyledTypography>
-            <StyledNumber backgroundColor="#9b59b6">{employees.length}</StyledNumber>
+            <StyledNumber backgroundColor="#9b59b6">{employees}</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -263,10 +296,10 @@ const GlobalAdminHome = () => {
     <Grid item xs={12} md={3}>
       <StyledCard>
         <StyledCardContent>
-          <LocalHospitalIcon fontSize="large" color="primary" />
+          <EventNoteIcon fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Clinical Notes</StyledTypography>
-            <StyledNumber backgroundColor="#9b59b6">3</StyledNumber>
+            <StyledNumber backgroundColor="#cc0000">{clinicaldocument}</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -277,7 +310,7 @@ const GlobalAdminHome = () => {
           <Receipt color="primaryDark"  fontSize="large" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Invoices</StyledTypography>
-            <StyledNumber backgroundColor="#9b59b6">{invoices.length}</StyledNumber>
+            <StyledNumber backgroundColor="#006666">{invoices}</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -285,10 +318,10 @@ const GlobalAdminHome = () => {
     <Grid item xs={12} md={3}>
       <StyledCard>
         <StyledCardContent>
-          <LocalHospitalIcon fontSize="large" color="primary" />
+          <DescriptionIcon fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total proposals</StyledTypography>
-            <StyledNumber backgroundColor="#9b59b6">10</StyledNumber>
+            <StyledNumber backgroundColor="#800000">10</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -299,7 +332,7 @@ const GlobalAdminHome = () => {
           <LocalHospitalIcon fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Leads</StyledTypography>
-            <StyledNumber backgroundColor="#9b59b6">10</StyledNumber>
+            <StyledNumber backgroundColor="#999966">10</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -307,41 +340,53 @@ const GlobalAdminHome = () => {
     <Grid item xs={12} md={3}>
       <StyledCard>
         <StyledCardContent>
-          <LocalHospitalIcon fontSize="large" color="primary" />
+          <CheckCircleIcon fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total check-in</StyledTypography>
-            <StyledNumber backgroundColor="#9b59b6">10</StyledNumber>
+            <StyledNumber backgroundColor="#5c5c8a">10</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
     </Grid>
         <Grid item xs={12} md={3}>
-  <StyledCard>
+        <StyledCard>
     <StyledCardContent>
       <div>
         <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">
           Total Organizations by State
         </StyledTypography>
-        <StyledNumber backgroundColor="#3498db">{facilities.length}</StyledNumber>
+        {selectedState === "Lagos" && (
+          <StyledNumber backgroundColor="#3498db">{lagos}</StyledNumber>
+        )}
+         {selectedState === "Ibadan" && (
+          <StyledNumber backgroundColor="#3498db">{ibadan}</StyledNumber>
+        )}
+          {selectedState === "Rivers State" && (
+          <StyledNumber backgroundColor="#3498db">{rivers}</StyledNumber>
+        )}
+         {selectedState === "Abuja" && (
+          <StyledNumber backgroundColor="#3498db">{abuja}</StyledNumber>
+        )}
+        
         <StyledFormControl>
-          <InputLabel htmlFor="state-dropdown">State</InputLabel>
+          <InputLabel htmlFor="type-dropdown">Type</InputLabel>
           <Select
             value={selectedState}
             onChange={handleStateChange}
             inputProps={{
-              id: "state-dropdown",
+              id: "type-dropdown",
             }}
           >
-            <MenuItem value="Edo">Edo</MenuItem>
             <MenuItem value="Lagos">Lagos</MenuItem>
-            <MenuItem value="Kaduna">Kaduna</MenuItem>
-            <MenuItem value="Kano">Kano</MenuItem>
-            <MenuItem value="Oyo">Oyo</MenuItem>
+            <MenuItem value="Ibadan">Ibadan</MenuItem>
+            <MenuItem value="Abuja">Abuja</MenuItem>
+            <MenuItem value="Rivers State">Rivers State</MenuItem>
           </Select>
         </StyledFormControl>
       </div>
     </StyledCardContent>
   </StyledCard>
+ 
 </Grid>
         </Grid>
     </DashboardPageWrapper>
@@ -373,9 +418,6 @@ const StyledFormControl = styled.div`
     }
   }
 `;
-
-
-
 
 const StyledCard = styled(Card)`
   background-color: #fff;
@@ -411,12 +453,11 @@ text-transform: ${({ textTransform }) => textTransform || 'none'};
 
 const StyledNumber = styled(Typography)`
 font-weight: bold;
-font-size: 1.5rem;
+font-size: 1.2rem;
 color: #fff;
 background-color: ${({ backgroundColor }) => backgroundColor};
 border-radius: 10px;
 padding: 0.5rem 1rem;
 `;
-
 
 export default GlobalAdminHome;

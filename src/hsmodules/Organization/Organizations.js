@@ -355,10 +355,10 @@ export const OrganizationDetails = ({organization, goBack}) => {
 		useContext(ObjectContext);
 	const [facility, setFacility] = useState({});
 	const [edit, setEdit] = useState(false);
-	const [logoAnchorEl, setLogoAnchorEl] = useState(null);
+	// const [logoAnchorEl, setLogoAnchorEl] = useState(null);
+		// const [statsModal, setstatsModal] = useState(false);
+	// const [logoUploadModal, setLogoUploadModal] = useState(false);
 	const [modulesModal, setModulesModal] = useState(false);
-	const [statsModal, setstatsModal] = useState(false);
-	const [logoUploadModal, setLogoUploadModal] = useState(false);
 	const [selectedType, setSelectedType] = useState(null);
 	const [selectedState, setSelectedState] = useState(null);
 
@@ -431,8 +431,6 @@ export const OrganizationDetails = ({organization, goBack}) => {
 		showActionLoader();
 		const employee = user.currentEmployee;
 		const prevOrgDetail = currentOrganization;
-		//console.log(prevOrgDetail);
-
 		const newOrgDetail = {
 			...prevOrgDetail,
 			...data,
