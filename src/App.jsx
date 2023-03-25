@@ -10,12 +10,12 @@ import { ToastContainer } from 'react-toastify';
 import { ThemeProvider } from 'styled-components';
 import MyUserProvider from './context';
 import { UserContext, ObjectContext } from './context';
-/* import { ObjectProvider, UserProvider } from './context/context'; */
+
 // import AppRoutes from './hsmodules/routes';
 import { GlobalStyle } from './ui/styled/global';
 import { darkTheme, lightTheme } from './ui/styled/theme';
 import ActionLoader from './components/action-loader/Action-Loader';
-import ModuleRoutes from './hsmodules/routes';
+// import ModuleRoutes from './hsmodules/routes';
 
 function App() {
 	const [state, setState] = useState({
@@ -298,10 +298,10 @@ function App() {
 							<AnimatePresence
 								initial
 								exitBeforeEnter>
-								<Router>
+								{/* <Router>
 									<ModuleRoutes />
-								</Router>
-								{/* <h1>Hello HealthStack</h1> */}
+								</Router> */}
+								<h1>Hello HealthStack</h1>
 							</AnimatePresence>
 						</MyUserProvider>
 					</ObjectContext.Provider>

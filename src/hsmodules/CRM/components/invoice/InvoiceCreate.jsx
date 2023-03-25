@@ -1,42 +1,37 @@
-import {useState, useEffect, useContext} from 'react';
-import {Button, Grid} from '@mui/material';
-import {Box} from '@mui/system';
+import { Grid } from '@mui/material';
+import { Box } from '@mui/system';
+import { useContext, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import Input from '../../../../components/inputs/basic/Input';
-import {useForm} from 'react-hook-form';
 
-import {FormsHeaderText} from '../../../../components/texts';
-import CustomSelect from '../../../../components/inputs/basic/Select';
-import GlobalCustomButton from '../../../../components/buttons/CustomButton';
-import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
-import CustomTable from '../../../../components/customtable';
-import moment from 'moment';
-import {CustomerView} from '../lead/LeadDetailView';
-import CustomerDetail, {PageCustomerDetail} from '../global/CustomerDetail';
-import MuiCustomDatePicker from '../../../../components/inputs/Date/MuiDatePicker';
-import {formatDistanceToNowStrict} from 'date-fns';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {PageCreatePlan} from '../plans/CreatePlan';
-import Plans from '../../Plans';
-import client from '../../../../feathers';
-import {ObjectContext, UserContext} from '../../../../context';
-import {toast} from 'react-toastify';
-import {v4 as uuidv4} from 'uuid';
-import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import { toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
+import GlobalCustomButton from '../../../../components/buttons/CustomButton';
+import CustomSelect from '../../../../components/inputs/basic/Select';
+import MuiCustomDatePicker from '../../../../components/inputs/Date/MuiDatePicker';
+import { FormsHeaderText } from '../../../../components/texts';
+import { ObjectContext, UserContext } from '../../../../context';
+import client from '../../../../feathers';
+import Plans from '../../Plans';
+import { PageCustomerDetail } from '../global/CustomerDetail';
+import { PageCreatePlan } from '../plans/CreatePlan';
 
 const random = require('random-string-generator');
 
-const InvoiceCreate = ({closeModal, handleGoBack}) => {
+const InvoiceCreate = ({ closeModal, handleGoBack }) => {
 	const dealServer = client.service('deal');
 	const notificationsServer = client.service('notification');
-	const {state, setState, showActionLoader, hideActionLoader} =
+	const { state, setState, showActionLoader, hideActionLoader } =
 		useContext(ObjectContext);
-	const {user} = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	const [plans, setPlans] = useState([]);
 	const [totalAmount, setTotalAmount] = useState(0);
 	const [duration, setDuration] = useState('');
 
-	const {register, control, setValue, reset, handleSubmit} = useForm();
+	const { register, control, setValue, reset, handleSubmit } = useForm();
 
 	const handleAddNewPlan = plan => {
 		setPlans(prev => [plan, ...prev]);
@@ -90,14 +85,14 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
 
 		const documentId = currentDeal._id;
 		await dealServer
-			.patch(documentId, {invoices: newInvoices})
+			.patch(documentId, { invoices: newInvoices })
 			.then(async res => {
 				await notificationsServer.create(notificationObj);
 				hideActionLoader();
 				//setContacts(res.contacts);
 				setState(prev => ({
 					...prev,
-					DealModule: {...prev.DealModule, selectedDeal: res},
+					DealModule: { ...prev.DealModule, selectedDeal: res },
 				}));
 				//closeModal();
 				reset({
@@ -187,7 +182,7 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
 						sm={12}>
 						<Box
 							mb={1}
-							sx={{display: 'flex', justifyContent: 'space-between'}}>
+							sx={{ display: 'flex', justifyContent: 'space-between' }}>
 							<FormsHeaderText text='Invoice Information' />
 						</Box>
 
@@ -296,10 +291,10 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
 
 export default InvoiceCreate;
 
-export const HealthPlanSearchSelect = ({handleChange, clearValue}) => {
+export const HealthPlanSearchSelect = ({ handleChange, clearValue }) => {
 	const HealthPlanServ = client.service('healthplan');
 	const [facilities, setFacilities] = useState([]);
-	const {user, setUser} = useContext(UserContext);
+	const { user, setUser } = useContext(UserContext);
 	const [value, setValue] = useState('');
 
 	const getFacilities = async () => {
@@ -313,7 +308,7 @@ export const HealthPlanSearchSelect = ({handleChange, clearValue}) => {
 				},
 			};
 
-			const findHealthPlan = await HealthPlanServ.find({query: stuff});
+			const findHealthPlan = await HealthPlanServ.find({ query: stuff });
 
 			await setFacilities(findHealthPlan.data);
 		} else {
@@ -376,7 +371,7 @@ export const HealthPlanSearchSelect = ({handleChange, clearValue}) => {
 	return (
 		<Autocomplete
 			id='country-select-demo'
-			sx={{width: '100%'}}
+			sx={{ width: '100%' }}
 			//value={value}
 			onChange={(event, newValue, reason) => {
 				if (reason === 'clear') {
@@ -394,7 +389,7 @@ export const HealthPlanSearchSelect = ({handleChange, clearValue}) => {
 				<Box
 					component='li'
 					{...props}
-					sx={{fontSize: '0.85rem'}}>
+					sx={{ fontSize: '0.85rem' }}>
 					{option.planType} - {option.premiumAmount}
 				</Box>
 			)}
@@ -418,7 +413,7 @@ export const HealthPlanSearchSelect = ({handleChange, clearValue}) => {
 					InputLabelProps={{
 						Autocomplete: 'new-password',
 						shrink: true,
-						style: {color: '#2d2d2d'},
+						style: { color: '#2d2d2d' },
 					}}
 				/>
 			)}

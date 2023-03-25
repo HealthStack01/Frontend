@@ -19,7 +19,7 @@ import Drawer from "@mui/material/Drawer";
 import EmailIcon from "@mui/icons-material/Email";
 import SendIcon from "@mui/icons-material/Send";
 
-import {DetailView, CustomerView, LeadView} from "../lead/LeadDetailView";
+import {DetailView, LeadView} from "../lead/LeadDetailView";
 import ChatInterface from "../../../../components/chat/ChatInterface";
 import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
 import {PageLeadDetailView} from "../global/LeadDetail";

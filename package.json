@@ -157,7 +157,7 @@
 		"eslint-plugin-prettier": "^4.2.1",
 		"prettier": "^2.5.1",
 		"typescript": "^3.3.4000",
-		"vite": "^4.2.0",
+		"vite": "3.2.3",
 		"vite-plugin-svgr": "^2.4.0",
 		"vite-tsconfig-paths": "^4.0.7"
 	},
