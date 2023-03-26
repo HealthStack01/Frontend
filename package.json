@@ -112,10 +112,10 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start --max-old-space-size=4096 start",
+    "start": "react-scripts start --max-old-space-size=16324 start",
     "start:dev": "react-scripts start",
     "start:prod": "yarn build && serve -s build",
-    "build": "CI= react-scripts --max_old_space_size=4096 build",
+    "build": "npm run build --max_old_space_size=16324",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "tsc --noEmit && eslint 'src/**/*.{js,jsx,ts,tsx}'"

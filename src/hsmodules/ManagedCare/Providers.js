@@ -98,7 +98,13 @@ export default function Provider({ standAlone }) {
             onClose={() => setShowModal(0)}
             header="Register Provider"
           >
-            <OrganizationCreate setShowModal={() => setShowModal(0)} />
+            <Box
+              style={{
+                height: "5rem",
+              }}
+            >
+              <OrganizationCreate setShowModal={() => setShowModal(0)} />
+            </Box>
           </ModalBox>
         )}
         {showModal === 2 && <OrganizationDetail setShowModal={setShowModal} />}
@@ -627,12 +633,13 @@ export function OrganizationCreate({ showModal, setShowModal }) {
 
   return (
     <>
-      <FacilitySearch
-        getSearchfacility={getSearchfacility}
-        clear={success}
-        closeModal={setShowModal}
-      />
-      {/* <select
+      <Grid>
+        <FacilitySearch
+          getSearchfacility={getSearchfacility}
+          clear={success}
+          closeModal={setShowModal}
+        />
+        {/* <select
 				name='bandType'
 				value={band}
 				onChange={(e) => handleChangeMode(e)}
@@ -659,15 +666,16 @@ export function OrganizationCreate({ showModal, setShowModal }) {
 					</option>
 				))}
 			</select> */}
-      <Grid container pt={1}>
-        <Grid
-          style={{ width: "26px", height: "4px" }}
-          item
-          xs={12}
-          sm={12}
-          md={12}
-        >
-          <Button label="Add" type="submit" onClick={handleClick} />
+        <Grid container pt={1}>
+          <Grid
+            style={{ width: "26px", height: "4px" }}
+            item
+            xs={12}
+            sm={12}
+            md={12}
+          >
+            <Button label="Add" type="submit" onClick={handleClick} />
+          </Grid>
         </Grid>
       </Grid>
     </>

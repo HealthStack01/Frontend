@@ -1,17 +1,17 @@
-import {Box, Button, IconButton, Typography} from "@mui/material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import keyBy from "lodash/keyBy";
-import React, {useEffect, useState, useContext} from "react";
-import {ObjectContext} from "../context";
+import React, { useEffect, useState, useContext } from "react";
+import { ObjectContext } from "../context";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 
-import {Models} from "../hsmodules/app/Constants";
+import { Models } from "../hsmodules/app/Constants";
 import Breadcrumbs from "./breadcrumb";
 import GlobalCustomButton from "./buttons/CustomButton";
 import useRepository from "./hooks/repository";
 import LocationModal from "./inputs/LocationModal";
 import LocationSelect from "./inputs/LocationSelect";
 import ProfileMenu from "./profilemenu";
-import {Profile, TopMenuWrapper} from "./styles";
+import { Profile, TopMenuWrapper } from "./styles";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import MenuIcon from "@mui/icons-material/Menu";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -21,105 +21,108 @@ import SelectDefaultConfigEmail from "./default-email/DefaultEmail";
 import EmailIcon from "@mui/icons-material/Email";
 //import { avatar } from '../../assets/images/img_avatar.png';
 
-const defaultList = [{code: "NG", label: "", location: ""}];
+const defaultList = [{ code: "NG", label: "", location: "" }];
 
 const TopMenu = () => {
   const [locationOptions, setLocationOptions] = useState(defaultList);
   const [locationsById, setLocationsById] = useState({});
-  const {list, setFindQuery, facility, locationType, setLocation} =
+  const { list, setFindQuery, facility, locationType, setLocation } =
     useRepository(Models.LOCATION);
   const [selectedLocation, setSelectedLocation] = useState<any>();
   const [open, setOpen] = useState<boolean>(false);
 
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const isOpen = state?.sideMenu?.open;
 
   //console.log(state);
 
   const closeSideMenu = () => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
-      sideMenu: {open: false},
+      sideMenu: { open: false },
     }));
   };
 
   const openSideMenu = () => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
-      sideMenu: {open: true},
+      sideMenu: { open: true },
     }));
   };
 
   const handleChangeLocation = (caseType: string) => {
     switch (caseType.toLowerCase()) {
       case "pharmacy":
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          StoreModule: {...prev.StoreModule, locationModal: true},
+          StoreModule: { ...prev.StoreModule, locationModal: true },
         }));
         break;
 
       case "client":
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          FrontDesk: {...prev.FrontDesk, locationModal: true},
+          FrontDesk: { ...prev.FrontDesk, locationModal: true },
         }));
         break;
 
       case "clinic":
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          ClinicModule: {...prev.ClinicModule, locationModal: true},
+          ClinicModule: { ...prev.ClinicModule, locationModal: true },
         }));
         break;
 
       case "epidemnology":
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          EpidemiologyModule: {...prev.EpidemiologyModule, locationModal: true},
+          EpidemiologyModule: {
+            ...prev.EpidemiologyModule,
+            locationModal: true,
+          },
         }));
         break;
 
       case "laboratory":
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          LaboratoryModule: {...prev.LaboratoryModule, locationModal: true},
+          LaboratoryModule: { ...prev.LaboratoryModule, locationModal: true },
         }));
         break;
 
       case "finance":
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          financeModule: {...prev.financeModule, locationModal: true},
+          financeModule: { ...prev.financeModule, locationModal: true },
         }));
         break;
 
       case "radiology":
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          RadiologyModule: {...prev.RadiologyModule, locationModal: true},
+          RadiologyModule: { ...prev.RadiologyModule, locationModal: true },
         }));
         break;
 
       case "inventory":
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          InventoryModule: {...prev.InventoryModule, locationModal: true},
+          InventoryModule: { ...prev.InventoryModule, locationModal: true },
         }));
         break;
 
       case "theatre":
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          TheatreModule: {...prev.TheatreModule, locationModal: true},
+          TheatreModule: { ...prev.TheatreModule, locationModal: true },
         }));
         break;
 
       case "ward":
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          WardModule: {...prev.WardModule, locationModal: true},
+          WardModule: { ...prev.WardModule, locationModal: true },
         }));
         break;
 
@@ -146,13 +149,13 @@ const TopMenu = () => {
       });
   }, [facility, locationType]);
 */
-  const handleSelectLocation = locationId => {
+  const handleSelectLocation = (locationId) => {
     setLocationOptions([]);
     setSelectedLocation(locationsById[locationId]);
     setLocation(locationsById[locationId]);
     setLocationOptions([
       ...locationOptions,
-      {code: "NG", label: "No Location Selected", location: ""},
+      { code: "NG", label: "No Location Selected", location: "" },
     ]);
   };
 
@@ -161,7 +164,7 @@ const TopMenu = () => {
       <ModalBox
         open={state.CommunicationModule.configEmailModal}
         onClose={() => {
-          setState(prev => ({
+          setState((prev) => ({
             ...prev,
             CommunicationModule: {
               ...prev.CommunicationModule,
@@ -176,16 +179,16 @@ const TopMenu = () => {
 
       <TopMenuWrapper>
         <div
-          style={{display: "flex", alignItems: "center", flexWrap: "nowrap"}}
+          style={{ display: "flex", alignItems: "center", flexWrap: "nowrap" }}
         >
           <Box mr={1.5} ml={-1}>
             {isOpen ? (
               <IconButton onClick={closeSideMenu}>
-                <ArrowBackIcon sx={{fill: "#2d2d2d"}} />
+                <ArrowBackIcon sx={{ fill: "#2d2d2d" }} />
               </IconButton>
             ) : (
               <IconButton onClick={openSideMenu}>
-                <MenuIcon sx={{fill: "#2d2d2d"}} />
+                <MenuIcon sx={{ fill: "#2d2d2d" }} />
               </IconButton>
             )}
           </Box>
@@ -196,10 +199,10 @@ const TopMenu = () => {
         </div>
 
         <Profile>
-          <Box sx={{display: "flex", alignItems: "center"}} mr={2}>
+          <Box sx={{ display: "flex", alignItems: "center" }} mr={2}>
             <GlobalCustomButton
               onClick={() => {
-                setState(prev => ({
+                setState((prev) => ({
                   ...prev,
                   CommunicationModule: {
                     ...prev.CommunicationModule,
@@ -218,7 +221,7 @@ const TopMenu = () => {
             </GlobalCustomButton>
           </Box>
           {state.employeeLocation.locationName && (
-            <Box sx={{display: "flex", alignItems: "center"}} mr={2}>
+            <Box sx={{ display: "flex", alignItems: "center" }} mr={2}>
               <GlobalCustomButton
                 sx={{
                   color: "#000000",
@@ -235,10 +238,13 @@ const TopMenu = () => {
                 <LocationOnIcon
                   color="primary"
                   fontSize="small"
-                  sx={{marginRight: "2px"}}
+                  sx={{ marginRight: "2px" }}
                 />
                 {`${state.employeeLocation.locationName} - (${state.employeeLocation.locationType})`}
-                <ArrowDropDownIcon fontSize="small" sx={{marginLeft: "5px"}} />
+                <ArrowDropDownIcon
+                  fontSize="small"
+                  sx={{ marginLeft: "5px" }}
+                />
               </GlobalCustomButton>
 
               {/* <Button

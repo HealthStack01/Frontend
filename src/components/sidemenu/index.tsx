@@ -6,7 +6,7 @@ import {ObjectContext, UserContext} from "../../context";
 import MenuItem from "../menuitem";
 import {Lists} from "../menuitem/style";
 import {MainMenu, Sidemenu, TopSection} from "./styles";
-import {facilityTypes} from "../../hsmodules/app/facility-types";
+// import {facilityTypes} from "../../hsmodules/app/facility-types";
 
 export const menuItems = [
   {
@@ -348,18 +348,16 @@ export const menuItems = [
     ],
   },
   {
-    name: "Organizations",
+    name: "Global Dashboard",
     exact: true,
-    to: "/app/organizations",
-    iconClassName: "bi bi-person",
-    // subMenus: [
-    //   {name: "Profile", to: "/app/patient-portal/profile"},
-    //   {name: "View", to: "/app/patient-portal/view"},
-    //   {name: "Buy", to: "/app/patient-portal/buy"},
-    //   {name: "Search", to: "/app/patient-portal/search"},
-    //   {name: "Read", to: "/app/patient-portal/read"},
-    //   {name: "Chat", to: "/app/patient-portal/chat"},
-    // ],
+    to: "/app/global-admin",
+    iconClassName: "bi bi-speedometer",
+    subMenus: [
+      {name: "Organizations", to: "/app/organizations"},
+
+      
+   
+    ],
   },
   {
     name: "Market Place",
@@ -414,11 +412,6 @@ function SideMenu({isOpen}) {
   const {user} = useContext(UserContext);
   const [currOption, setCurrOption] = useState("");
   const navigate = useNavigate();
-
-  // console.log(
-  //   "this is the user account ohhhhh",
-  //   user.currentEmployee.facilityDetail
-  // );
 
   useEffect(() => {
     if (inactive) {
@@ -482,7 +475,7 @@ function SideMenu({isOpen}) {
   const finalModules = user.stacker ? sortedMenuItems : rolesMenuList;
 
   return (
-    <Sidemenu className={`side-menu ${isOpen ? "" : "hide"}`}>
+    <Sidemenu    style={{paddingRight: "1px"}} className={`side-menu ${isOpen ? "" : "hide"}`} >
       <TopSection>
         <Avatar
           src={user?.currentEmployee?.facilityDetail?.facilitylogo}
@@ -501,28 +494,22 @@ function SideMenu({isOpen}) {
             iconClassName="bi bi-house-door"
           />
           {finalModules.map((menuItem, index) => (
-            <>
-              <MenuItem
-                key={menuItem.name}
-                name={menuItem.name}
-                to={menuItem.to}
-                subMenus={menuItem.subMenus || []}
-                iconClassName={menuItem.iconClassName}
-                onClick={() => {
-                  // if (menuItem.action) {
-                  //   menuItem.action();
-                  //   navigate(menuItem.to);
-                  // }
-                  if (menuItem.to && !menuItem.subMenus) {
-                    navigate(menuItem.to);
-                  }
-                  if (inactive) {
-                    setInactive(false);
-                  }
-                }}
-              />
-            </>
-          ))}
+       <MenuItem
+         key={menuItem.name + index}
+            name={menuItem.name}
+            to={menuItem.to}
+            subMenus={menuItem.subMenus || []}
+            iconClassName={menuItem.iconClassName}
+            onClick={() => {
+            if (menuItem.to && !menuItem.subMenus) {
+            navigate(menuItem.to);
+             }
+             if (inactive) {
+             setInactive(false);
+           }
+        }}
+       />
+      ))}
           <MenuItem
             name="Logout"
             to="/"

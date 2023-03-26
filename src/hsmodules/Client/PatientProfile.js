@@ -4,7 +4,7 @@ import "./styles/index.scss";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
-//import {useNavigate} from 'react-router-dom'
+import {useNavigate} from "react-router-dom";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "react-toastify";
 import {formatDistanceToNowStrict} from "date-fns";
@@ -96,6 +96,8 @@ export default function PatientProfile() {
     return () => {};
   }, []);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     setSelectedClient(state.ClientModule.selectedClient);
     /*  console.log(client)
@@ -129,6 +131,18 @@ export default function PatientProfile() {
   };
 
   const profileButtons = [
+    {
+      title: "Benefits",
+      action: () => navigate(`/app/clients/benefits/${client._id}`),
+    },
+    {
+      title: "Preauthorization",
+      action: () => navigate(`/app/clients/pre-authorization/${client._id}`),
+    },
+    {
+      title: "Claims",
+      action: () => navigate(`/app/clients/claims/${client._id}`),
+    },
     {
       title: "Appointment History",
       action: () => setVisitModal(true),

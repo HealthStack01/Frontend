@@ -772,15 +772,14 @@ export default function EncounterMain({nopresc, chosenClient}) {
                       />
                       {user?.currentEmployee?.roles?.includes(
                         "Delete Documents"
-                      ) ||
-                        (user?.stacker && (
-                          <IconButton
-                            color="error"
-                            onClick={() => handleConfirmDelete(Clinic)}
-                          >
-                            <DeleteOutlineIcon fontSize="small" />
-                          </IconButton>
-                        ))}
+                      ) && (
+                        <IconButton
+                          color="error"
+                          onClick={() => handleConfirmDelete(Clinic)}
+                        >
+                          <DeleteOutlineIcon fontSize="small" />
+                        </IconButton>
+                      )}
                     </Box>
                   </Box>
                 </Box>

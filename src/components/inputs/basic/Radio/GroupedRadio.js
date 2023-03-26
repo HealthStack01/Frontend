@@ -38,7 +38,7 @@ const GroupedRadio = ({
     <div>
       <FormControl>
         <FormLabel
-          sx={{color: "#000000", fontSize: "0.85rem"}}
+          sx={{color: "#000000", fontSize: "0.8rem"}}
           component="legend"
           //required={required}
         >
@@ -60,7 +60,7 @@ const GroupedRadio = ({
                 />
               }
               label={
-                <Typography sx={{fontSize: "0.8rem", marginLeft: "-5px"}}>
+                <Typography sx={{fontSize: "0.75rem", marginLeft: "-5px"}}>
                   {option}
                 </Typography>
               }
