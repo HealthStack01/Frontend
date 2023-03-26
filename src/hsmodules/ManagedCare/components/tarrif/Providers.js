@@ -236,9 +236,40 @@ export const AddNewProvider = ({closeModal}) => {
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
-  const {control, handleSubmit} = useForm();
+  const {control, handleSubmit, getValues} = useForm();
   const [tariffs, setTariffs] = useState([]);
   const [provider, setProvider] = useState(null);
+  const [existingProvider, setExistingProvider] = useState(null);
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    message: "",
+    type: "",
+    action: null,
+  });
+
+  const cancelConfirmDialog = () => {
+    setConfirmDialog({
+      open: false,
+      message: "",
+      type: "",
+      action: null,
+    });
+  };
+
+  const handleExistingProvider = () => {
+    const existingProviderTariff = tariffs.find(tariff =>
+      tariff.providers.some(item => item.dest_org === provider._id)
+    );
+
+    setConfirmDialog({
+      open: true,
+      message: `This Provider already exist's on another Tarrif, by clicking on Continue it will be deleted from the Tariff it currently exist in and added to the current Tariff`,
+      type: "warning",
+      action: () => handleChangeProviderTariff(existingProviderTariff),
+    });
+
+    //console.log(existingProviderTariff);
+  };
 
   const handleGetTarrifs = useCallback(async () => {
     showActionLoader();
@@ -274,9 +305,9 @@ export const AddNewProvider = ({closeModal}) => {
     const returnOnlyIdentities = filterOutUndefined.map(item => item.dest_org);
 
     if (returnOnlyIdentities.includes(provider._id))
-      return toast.error(
-        "You already have this Provider in one of your Tariffs"
-      );
+      return handleExistingProvider();
+
+    //toast.error("You already have this Provider in one of your Tariffs");
 
     showActionLoader();
 
@@ -313,6 +344,59 @@ export const AddNewProvider = ({closeModal}) => {
       });
   };
 
+  const handleChangeProviderTariff = tariff => {
+    showActionLoader();
+    const currentTariff = state.TarrifModule.selectedTarrif;
+    const currentTariffProviders = currentTariff.providers;
+
+    const existingTariffProviders = tariff.providers;
+
+    const newExistingProviders = existingTariffProviders.filter(
+      item => item.dest_org !== provider._id
+    );
+
+    const providerData = {
+      dest_org: provider._id,
+      dest_org_name: provider?.facilityName,
+      class: getValues("class"),
+    };
+
+    const newCurrentProviders = [providerData, ...currentTariffProviders];
+
+    return tarrifsServer
+      .patch(tariff._id, {providers: newExistingProviders})
+      .then(res => {
+        // toast.success(
+        //   `You have succesfully deleted a Provider from Tarrif ${res.band}`
+        // );
+        return tarrifsServer
+          .patch(currentTariff._id, {providers: newCurrentProviders})
+          .then(res => {
+            setState(prev => ({
+              ...prev,
+              TarrifModule: {
+                ...prev.TarrifModule,
+                selectedTarrif: res,
+              },
+            }));
+            cancelConfirmDialog();
+            hideActionLoader();
+            toast.success(
+              `You have succesfully added a new Provider to Tarrif ${res.band}`
+            );
+            closeModal();
+          });
+        // .catch(err => {
+        //   toast.error("Failed to add new Provider to Tariff " + err);
+        //   hideActionLoader();
+        // });
+      })
+      .catch(err => {
+        toast.error("Failed to delete Provider from Tariff " + err);
+        hideActionLoader();
+      });
+  };
+
   const getSearchfacility = facility => {
     setProvider(facility.organizationDetail);
   };
@@ -323,6 +407,13 @@ export const AddNewProvider = ({closeModal}) => {
         width: "450px",
       }}
     >
+      <CustomConfirmationDialog
+        open={confirmDialog.open}
+        message={confirmDialog.message}
+        type={confirmDialog.type}
+        confirmationAction={confirmDialog.action}
+        cancelAction={cancelConfirmDialog}
+      />
       <Box sx={{display: "flex", flexDirection: "column", gap: 2}}>
         <OrgFacilityProviderSearch getSearchfacility={getSearchfacility} />
 
