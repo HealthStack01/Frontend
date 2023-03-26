@@ -30,7 +30,7 @@ const PressureAreasTreatmentChart = ({onSubmit}) => {
       DocumentClassModule: newDocumentClassModule,
     }));
 
-    toggleSideMenu();
+    //toggleSideMenu();
   };
 
   useEffect(() => {

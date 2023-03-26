@@ -55,11 +55,30 @@ const TarrifServices = () => {
     }
   }, [state.TarrifModule.selectedService]);
 
+  const unSelectService = () => {
+    setState(prev => ({
+      ...prev,
+      sideMenu: {
+        ...prev.sideMenu,
+        open: true,
+      },
+    }));
+
+    setSelectedService(null);
+  };
+
   const handleServicesRowClick = service => {
     if (selectedService && service._id === selectedService._id)
-      return setSelectedService(null);
+      return unSelectService();
 
     setSelectedService(service);
+    setState(prev => ({
+      ...prev,
+      sideMenu: {
+        ...prev.sideMenu,
+        open: false,
+      },
+    }));
   };
 
   const handlePlansRowClick = plan => {
@@ -253,7 +272,7 @@ const TarrifServices = () => {
           sx={{
             height: "calc(100% - 170px)",
             transition: "width 0.5s ease-in",
-            width: selectedService ? "39%" : "100%",
+            width: selectedService ? "39.5%" : "100%",
           }}
         >
           <CustomTable
@@ -278,7 +297,7 @@ const TarrifServices = () => {
           <Box
             sx={{
               height: "calc(100% - 70px)",
-              width: "59%",
+              width: "59.5%",
             }}
           >
             <CustomTable

@@ -30,7 +30,7 @@ const DialysisLogSheet = ({onSubmit}) => {
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
-    toggleSideMenu();
+    //toggleSideMenu();
   };
 
   useEffect(() => {

@@ -352,12 +352,7 @@ export const menuItems = [
     exact: true,
     to: "/app/global-admin",
     iconClassName: "bi bi-speedometer",
-    subMenus: [
-      {name: "Organizations", to: "/app/organizations"},
-
-      
-   
-    ],
+    subMenus: [{name: "Organizations", to: "/app/organizations"}],
   },
   {
     name: "Market Place",
@@ -475,16 +470,22 @@ function SideMenu({isOpen}) {
   const finalModules = user.stacker ? sortedMenuItems : rolesMenuList;
 
   return (
-    <Sidemenu    style={{paddingRight: "1px"}} className={`side-menu ${isOpen ? "" : "hide"}`} >
-      <TopSection>
-        <Avatar
-          src={user?.currentEmployee?.facilityDetail?.facilitylogo}
-          sx={{marginRight: "15px"}}
-        >
-          L
-        </Avatar>
-        <h4>{user?.currentEmployee?.facilityDetail?.facilityName}</h4>
-      </TopSection>
+    <Sidemenu
+      style={{paddingRight: "1px"}}
+      className={`side-menu ${isOpen ? "" : "hide"}`}
+    >
+      {isOpen && (
+        <TopSection>
+          <Avatar
+            src={user?.currentEmployee?.facilityDetail?.facilitylogo}
+            sx={{marginRight: "15px"}}
+          >
+            L
+          </Avatar>
+          <h4>{user?.currentEmployee?.facilityDetail?.facilityName}</h4>
+        </TopSection>
+      )}
+
       <MainMenu className="main-menu">
         <Lists>
           <MenuItem
@@ -494,22 +495,22 @@ function SideMenu({isOpen}) {
             iconClassName="bi bi-house-door"
           />
           {finalModules.map((menuItem, index) => (
-       <MenuItem
-         key={menuItem.name + index}
-            name={menuItem.name}
-            to={menuItem.to}
-            subMenus={menuItem.subMenus || []}
-            iconClassName={menuItem.iconClassName}
-            onClick={() => {
-            if (menuItem.to && !menuItem.subMenus) {
-            navigate(menuItem.to);
-             }
-             if (inactive) {
-             setInactive(false);
-           }
-        }}
-       />
-      ))}
+            <MenuItem
+              key={menuItem.name + index}
+              name={menuItem.name}
+              to={menuItem.to}
+              subMenus={menuItem.subMenus || []}
+              iconClassName={menuItem.iconClassName}
+              onClick={() => {
+                if (menuItem.to && !menuItem.subMenus) {
+                  navigate(menuItem.to);
+                }
+                if (inactive) {
+                  setInactive(false);
+                }
+              }}
+            />
+          ))}
           <MenuItem
             name="Logout"
             to="/"
