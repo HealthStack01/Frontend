@@ -66,6 +66,17 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
     return otp.toString();
   };
 
+  const handleCloseModal = () => {
+    closeModal();
+    setState(prev => ({
+      ...prev,
+      AppointmentModule: {
+        ...prev.AppointmentModule,
+        selectedPatient: {},
+      },
+    }));
+  };
+
   // useEffect(() => {
   //   if(patient.paymentinfo.some(checkHMO)){
 
@@ -193,7 +204,7 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
       .create(data)
       .then(async res => {
         hideActionLoader();
-        closeModal();
+        handleCloseModal();
         toast.success(
           "Appointment created succesfully, Kindly bill patient if required"
         );
@@ -347,7 +358,7 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
           Create Appointment
         </GlobalCustomButton>
 
-        <GlobalCustomButton onClick={closeModal} color="error">
+        <GlobalCustomButton onClick={handleCloseModal} color="error">
           Cancel
         </GlobalCustomButton>
       </Box>
