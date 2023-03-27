@@ -3,9 +3,19 @@ import { Box, Card, CardContent, Grid, Typography} from '@mui/material';
 import EventIcon from '@mui/icons-material/Event';
 import { People } from '@mui/icons-material';
 import ReactApexChart from 'react-apexcharts';
+import {
+	TotalNumOfData,
+	TotalNewClientWithinAMonth,
+	TotalUpcomingAppointment,
+	ClientPaymentMode,
+	// TotalDischargedPatient,
+	// TotalAdmittedPatient,
+  } from "../utils/chartData/chartDataHandler";
 import client from '../../../feathers';
 
 const ClientDashboard = () => {
+const clientService = client.service("/client");
+const {totalUpcomingAppointment} = TotalUpcomingAppointment(clientService);
 const appointmentServ = client.service('appointments');
 const [appointments, setAppointments] = useState([]);
 
@@ -53,6 +63,7 @@ const getClientsByGender = () => {
         console.log(err);
       });
   };
+  
 
 useEffect(() => {
 getAppointments();
@@ -93,7 +104,7 @@ const totalClientsByGenderOptions = {
   };
   
   // Total clients by gender chart series data
-   const totalClientsByGenderSeries = [44, 55];
+   const totalClientsByGenderSeries = [35, 65];
   
 	const monthlyClientAppointmentOptions = {
 		chart: {
@@ -153,7 +164,7 @@ const totalClientsByGenderOptions = {
 			<Box sx={{ display: 'flex', alignItems: 'center' }}>
 			  <Box sx={{ flexGrow: 1 }}>
 				<Typography variant="h5" fontWeight="bold" component="div">
-				  19
+				{totalUpcomingAppointment}
 				</Typography>
 			  </Box>
 			  <Box>
