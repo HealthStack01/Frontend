@@ -19,6 +19,7 @@
     "@feathersjs/socketio-client": "^4.5.13",
     "@hookform/resolvers": "^2.8.8",
     "@material-ui/core": "^4.12.3",
+    "@mdi/react": "^1.6.1",
     "@mui/base": "5.0.0-alpha.76",
     "@mui/icons-material": "^5.2.5",
     "@mui/lab": "^5.0.0-alpha.66",

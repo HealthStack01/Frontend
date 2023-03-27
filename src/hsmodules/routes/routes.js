@@ -4,16 +4,18 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { UserContext, ObjectContext } from '../context';
 //const AboutUs = React.lazy(() => import("./About"));
 
-const AccountHome = lazy(() => import('./Accounts/AccountHome'));
-const ClinicAppointments = lazy(() =>
-  import('./Appointment/clinicAppointments')
-);
-
 import Login from './auth';
 import IndividualSignup from './auth/IndividualSignup';
 import Signup from './auth/Signup';
 import PrivateOutlet from './PrivateOutlet';
 import Overview from './app/Overview';
+
+const AccountHome = lazy(() => import('./Accounts/AccountHome'));
+const ClinicAppointments = lazy(() =>
+  import('./Appointment/clinicAppointments')
+);
+
+
 
 const PharmacyDispense = lazy(() => import('./Pharmacy/Dispensary'));
 const BillLab = lazy(() => import('./Laboratory/BillLab'));

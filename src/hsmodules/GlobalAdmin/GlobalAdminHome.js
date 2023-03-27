@@ -51,8 +51,6 @@ const GlobalAdminHome = () => {
    const [rivers, setRivers] = useState(0);
      const [abuja, setAbuja] = useState(0);
 
-
-
    const [selectedType, setSelectedType] = useState("Hospital");
   const [selectedState, setSelectedState] = useState("Lagos");
 
