@@ -50,8 +50,7 @@ const GlobalAdminHome = () => {
    const [ibadan, setIbadan] = useState(0);
    const [rivers, setRivers] = useState(0);
      const [abuja, setAbuja] = useState(0);
-
-
+     const [Yenegoa, setYenegoa] = useState(0);
 
    const [selectedType, setSelectedType] = useState("Hospital");
   const [selectedState, setSelectedState] = useState("Lagos");
@@ -139,7 +138,7 @@ const GlobalAdminHome = () => {
         setIbadan(res.data.filter(state => state.facilityCity === "Ibadan").length);
         setAbuja(res.data.filter(state => state.facilityCity === "Abuja").length);
         setRivers(res.data.filter(state => state.facilityCity === "Rivers State").length);
-        setRivers(res.data.filter(state => state.facilityCity === "Rivers State").length);
+        setYenegoa(res.data.filter(state => state.facilityCity === "Yenegoa").length);
       })
        
       .catch(err => {
@@ -175,17 +174,17 @@ const GlobalAdminHome = () => {
            {`Good ${getGreeting()} ${user.firstname} ${user.lastname}`}
         </Typography>
         </Box>
-        <Grid container spacing={3}>
+        <Grid container>
         <Grid item xs={12} md={3}>
           <RevenueStyledCard>
           <BarChartIcon fontSize="inherit" style={{marginLeft:60, fontSize: 50, color: blue[500] }} />
             <StyledCardContent>
             
               <div>
-                <RevenueStyledTypography weight="bold" size="1rem" color="#fff" textTransform="uppercase" margin="0.5rem 0">
+                <RevenueStyledTypography weight="bold" size="1rem" color="#002D5C" textTransform="uppercase" margin="0.5rem 0">
                   Total Revenue
                 </RevenueStyledTypography>
-                <RevenueStyledNumber backgroundColor="#2196f3">₦125,00000</RevenueStyledNumber>
+                <RevenueStyledNumber backgroundColor="#2196f3">None</RevenueStyledNumber>
               </div>
             </StyledCardContent>
           </RevenueStyledCard>
@@ -257,6 +256,50 @@ const GlobalAdminHome = () => {
     </StyledCardContent>
   </StyledCard>
         </Grid>
+        <Grid item xs={12} md={3}>
+        <StyledCard>
+    <StyledCardContent>
+      <div>
+        <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">
+          Total Organizations by State
+        </StyledTypography>
+        {selectedState === "Yenegoa" && (
+          <StyledNumber backgroundColor="#3498db">{Yenegoa}</StyledNumber>
+        )}
+        {selectedState === "Lagos" && (
+          <StyledNumber backgroundColor="#3498db">{lagos}</StyledNumber>
+        )}
+         {selectedState === "Ibadan" && (
+          <StyledNumber backgroundColor="#3498db">{ibadan}</StyledNumber>
+        )}
+          {selectedState === "Rivers State" && (
+          <StyledNumber backgroundColor="#3498db">{rivers}</StyledNumber>
+        )}
+         {selectedState === "Abuja" && (
+          <StyledNumber backgroundColor="#3498db">{abuja}</StyledNumber>
+        )}
+        
+        <StyledFormControl>
+          <InputLabel htmlFor="type-dropdown">Type</InputLabel>
+          <Select
+            value={selectedState}
+            onChange={handleStateChange}
+            inputProps={{
+              id: "type-dropdown",
+            }}
+          >
+            <MenuItem value="Lagos">Lagos</MenuItem>
+            <MenuItem value="Lagos">Yenegoa</MenuItem>
+            <MenuItem value="Ibadan">Ibadan</MenuItem>
+            <MenuItem value="Abuja">Abuja</MenuItem>
+            <MenuItem value="Rivers State">Rivers State</MenuItem>
+          </Select>
+        </StyledFormControl>
+      </div>
+    </StyledCardContent>
+  </StyledCard>
+ 
+</Grid>
         <Grid item xs={12} md={3}>
           <StyledCard>
             <StyledCardContent>
@@ -335,7 +378,7 @@ const GlobalAdminHome = () => {
           <DescriptionIcon fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total proposals</StyledTypography>
-            <StyledNumber backgroundColor="#800000">10</StyledNumber>
+            <StyledNumber backgroundColor="#800000">None</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -346,7 +389,7 @@ const GlobalAdminHome = () => {
           <LocalHospitalIcon fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Leads</StyledTypography>
-            <StyledNumber backgroundColor="#999966">10</StyledNumber>
+            <StyledNumber backgroundColor="#999966">None</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -357,51 +400,12 @@ const GlobalAdminHome = () => {
           <CheckCircleIcon fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total check-in</StyledTypography>
-            <StyledNumber backgroundColor="#5c5c8a">10</StyledNumber>
+            <StyledNumber backgroundColor="#5c5c8a">None</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
     </Grid>
-        <Grid item xs={12} md={3}>
-        <StyledCard>
-    <StyledCardContent>
-      <div>
-        <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">
-          Total Organizations by State
-        </StyledTypography>
-        {selectedState === "Lagos" && (
-          <StyledNumber backgroundColor="#3498db">{lagos}</StyledNumber>
-        )}
-         {selectedState === "Ibadan" && (
-          <StyledNumber backgroundColor="#3498db">{ibadan}</StyledNumber>
-        )}
-          {selectedState === "Rivers State" && (
-          <StyledNumber backgroundColor="#3498db">{rivers}</StyledNumber>
-        )}
-         {selectedState === "Abuja" && (
-          <StyledNumber backgroundColor="#3498db">{abuja}</StyledNumber>
-        )}
-        
-        <StyledFormControl>
-          <InputLabel htmlFor="type-dropdown">Type</InputLabel>
-          <Select
-            value={selectedState}
-            onChange={handleStateChange}
-            inputProps={{
-              id: "type-dropdown",
-            }}
-          >
-            <MenuItem value="Lagos">Lagos</MenuItem>
-            <MenuItem value="Ibadan">Ibadan</MenuItem>
-            <MenuItem value="Abuja">Abuja</MenuItem>
-            <MenuItem value="Rivers State">Rivers State</MenuItem>
-          </Select>
-        </StyledFormControl>
-      </div>
-    </StyledCardContent>
-  </StyledCard>
- 
-</Grid>
+       
         </Grid>
     </DashboardPageWrapper>
   );
@@ -418,7 +422,7 @@ const StyledFormControl = styled.div`
   }
 
   & > select {
-    padding: 0.5rem;
+    padding: 0.3rem;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -449,11 +453,9 @@ const StyledCard = styled(Card)`
 `;
 
 const RevenueStyledCard = styled(Card)`
-  color: #fff;
+  color: #002D5C;
   margin: 2rem;
   font-weight: bold;
-  background-color: #002D5C;
-  padding: 1rem;
   border-radius: 10px;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease-in-out;
@@ -507,7 +509,7 @@ font-size: 1.2rem;
 color: #fff;
 background-color: ${({ backgroundColor }) => backgroundColor};
 border-radius: 10px;
-padding: 0.6rem 1rem;
+padding: 0.3rem 1rem;
 `;
 
 export default GlobalAdminHome;

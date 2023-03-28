@@ -113,10 +113,10 @@ const ViewCardWithFilter: React.FC<ViewCardProps> = ({
               p: 0,
             }}
           >
-            <label>{"Today"}</label>
+            <label style={{fontSize:15, fontWeight:"bold"}}>{"Today"}</label>
             <Checkbox
               sx={{ m: 0, p: 0, ml: 2 }}
-              size="small"
+              size="medium"
               checked={daily}
               onChange={handleChangeDaily}
               name="daily"
@@ -131,10 +131,10 @@ const ViewCardWithFilter: React.FC<ViewCardProps> = ({
               p: 0,
             }}
           >
-            <label>{"This Week"}</label>
+            <label style={{fontSize:15, fontWeight:"bold"}}>{"This Week"}</label>
             <Checkbox
               sx={{ m: 0, p: 0, ml: 2 }}
-              size="small"
+              size="medium"
               checked={weekly}
               onChange={handleChangeWeekly}
               name="weekly"
@@ -150,10 +150,10 @@ const ViewCardWithFilter: React.FC<ViewCardProps> = ({
               p: 0,
             }}
           >
-            <label>{"This Month"}</label>
+            <label style={{fontSize:15, fontWeight:"bold"}}>{"This Month"}</label>
             <Checkbox
               sx={{ m: 0, p: 0, ml: 2 }}
-              size="small"
+              size="medium"
               checked={monthly}
               onChange={handleChangeMonthly}
               name="monthly"
@@ -169,10 +169,10 @@ const ViewCardWithFilter: React.FC<ViewCardProps> = ({
               p: 0,
             }}
           >
-            <label>{"This Quarter"}</label>
+            <label style={{fontSize:15, fontWeight:"bold"}}>{"This Quarter"}</label>
             <Checkbox
               sx={{ m: 0, p: 0, ml: 2 }}
-              size="small"
+              size="medium"
               checked={quarterly}
               onChange={handleChangeQuarterly}
               name="quarterly"
@@ -187,10 +187,10 @@ const ViewCardWithFilter: React.FC<ViewCardProps> = ({
               p: 0,
             }}
           >
-            <label>{"This Year"}</label>
+            <label style={{fontSize:15, fontWeight:"bold"}}>{"This Year"}</label>
             <Checkbox
               sx={{ m: 0, p: 0, ml: 2 }}
-              size="small"
+              size="medium"
               checked={annually}
               onChange={handleChangeAnnually}
               name="annually"
@@ -252,13 +252,11 @@ const ViewCardWithFilter: React.FC<ViewCardProps> = ({
         }}
       >
         <Box sx={{ width: isFilterObject().width }}>
-          <Typography
-            variant="h1"
-            sx={{ fontWeight: "bold", fontSize: "15px" }}
-          >
-            {countValue}
+        <Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>{title}</Typography>
+          <Typography variant="h5" component="div" fontWeight="bold">
+          {countValue}
           </Typography>
-          <Typography>{title}</Typography>
+         
         </Box>
         <RenderFilterGroup />
       </Card>
