@@ -1,25 +1,13 @@
-/* eslint-disable */  
+/* eslint-disable */
+
 import React, { useState, useContext, useEffect, useRef } from "react";
-
-import {UserContext, ObjectContext} from "../../context";
-import LocationSelect from "../../components/inputs/LocationSelect";
-import LocationModal from "../../components/inputs/LocationModal";
-import {Outlet, useNavigate} from "react-router-dom";
-import FrontDesk, {FrontDeskList} from "./FrontDesk";
-import Modal from "@mui/material/Modal";
-// import Box from "@mui/material/Box";
-import ModalBox from "../../components/modal";
-import {toast} from "react-toastify";
-import SearchIcon from '@mui/icons-material/Search';
-import { Warning } from '@mui/icons-material';
-import AddIcon from '@mui/icons-material/Add';
-import { IconButton } from '@mui/material';
-import EventIcon from '@mui/icons-material/Event';
-import client from '../../feathers';
-
+import { useNavigate } from "react-router-dom"; //Route, Switch,Link, NavLink,
+import client from "../../feathers";
 import api from "../../utils/api";
 import { DebounceInput } from "react-debounce-input";
 //import {useNavigate} from 'react-router-dom'
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "react-toastify";
 import { formatDistanceToNowStrict } from "date-fns";
 import ClientFinInfo from "./ClientFinInfo";
 import BillServiceCreate from "../Finance/BillServiceCreate";
@@ -56,19 +44,13 @@ import {
   Grid,
   Button as MuiButton,
   Typography,
+  IconButton,
   Avatar,
-  Paper,
-  TextField,
-  TableContainer,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Table,
   Menu,
   MenuItem,
 } from "@mui/material";
 import CustomTable from "../../components/customtable";
+import ModalBox from "../../components/modal";
 import ClientView from "./ClientView";
 import ClientForm from "./ClientForm";
 import CircleChart from "../dashBoardUiComponent/charts/CircleChart";
@@ -234,6 +216,11 @@ export function ClientCreate({ open, setOpen }) {
   useEffect(() => {
     //setFacility(user.activeClient.FacilityId)//
     if (!user.stacker) {
+      /*    console.log(currentUser)
+        setValue("facility", user.currentEmployee.facilityDetail._id,  {
+            shouldValidate: true,
+            shouldDirty: true
+        })  */
     }
   }, []);
 
@@ -439,8 +426,13 @@ export function ClientCreate({ open, setOpen }) {
       if (!dependant) {
         return;
       }
+      //alert("something"+","+ patList.length)
+      //let confirm = window.confirm("Is this person a dependant with parent phone number?")
+      // setOption(confirm)
       setPatList([]);
     }
+    // data.createdby=user._id
+    //  console.log(data);
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
@@ -602,6 +594,9 @@ export function ClientCreate({ open, setOpen }) {
           <p className="card-header-title">Create Client</p>
         </div>
         <div className="card-content vscrollable remPad1">
+          {/*  <p className=" is-small">
+                    Kindly search Client list before creating new Clients!
+                </p> */}
         </div>
       </div>
     </>
@@ -627,11 +622,8 @@ export function ClientList({ openCreateModal, openDetailModal }) {
   const { state, setState } = useContext(ObjectContext);
   const [filterEndDate, setFilterEndDate] = useState(new Date());
   const containerScrollRef = useRef(null);
-  const [noRecordsFound, setNoRecordsFound] = useState(false);
-  const clientServe = client.service('client');
-	const [clients, setClients] = useState([])
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterDate, setFilterDate] = useState('');
+  // eslint-disable-next-line
+  // const { user, setUser } = useContext(UserContext);
 
   const data = localStorage.getItem("user");
   const user = JSON.parse(data);
@@ -812,6 +804,13 @@ export function ClientList({ openCreateModal, openDetailModal }) {
       //getFacilities()
       rest();
     } else {
+      /* const localUser= localStorage.getItem("user")
+                    const user1=JSON.parse(localUser)
+                    console.log(localUser)
+                    console.log(user1)
+                    fetchUser(user1)
+                    console.log(user)
+                    getFacilities(user) */
     }
 
     ClientServ.on("created", (obj) => rest());
@@ -867,39 +866,6 @@ export function ClientList({ openCreateModal, openDetailModal }) {
     }
   };
 
-  
- const handleClientSearch = (event) => {
-  setSearchTerm(event.target.value);
-setNoRecordsFound(filteredClients.length === 0 && event.target.value !== '');
-};
-
-// const handleFilter = (event) => {
-//   setFilterDate(event.target.value);
-// };
-
-const getClients = () => {
-setLoading(true);
-clientServe
-  .find()
-  .then(res => {
-    setClients(res.data);
-    setLoading(false);
-  })
-  
-  .catch(err => {
-    console.log(err);
-  });
-  
-};
-
-useEffect(() => {
-getClients();
-}, []);
-
-const filteredClients = clients.filter((client) =>
-client.firstname.toLowerCase().includes(searchTerm.toLowerCase())
-);
-
   return (
     <>
       {user ? (
@@ -911,120 +877,107 @@ client.firstname.toLowerCase().includes(searchTerm.toLowerCase())
               setOpen={handleCloseModal}
             />
           </ModalBox>
-         
-    <Box sx={{ backgroundColor: '#f9f9f9', height: '100%', padding: '20px' }}>
-    <Typography weight="bold" variant="h5" style={{ textShadow: "1px 1px 2px rgb(0, 45, 92)" }}>
-           List of Clients
-        </Typography>
-    <Paper elevation={3} sx={{ padding: '10px', marginBottom: '20px',marginTop: '20px', display: 'flex', alignItems: 'center' }}>
-  <TextField
-    value={searchTerm}
-    onChange={handleClientSearch}
-    placeholder="Search Clients"
-    InputProps={{
-      startAdornment: <SearchIcon />,
-      style: { color: '#808080', fontSize: '18px' },
-    }}
-    sx={{ width: '300px', mr: '20px' }}
-  />
-   <Box>
-      <MuiClearDatePicker
-        // value={filterEndDate}
-        // setValue={setFilterEndDate}
-        value={filterEndDate}
-        setValue={setFilterEndDate}
-      />
-    </Box>
-    <Box sx={{ marginLeft: 'auto' }}>
-    <Button
-    onClick={handleCreateNew}
-      variant="contained"
-      startIcon={<AddIcon />}
-      sx={{ backgroundColor: '#002D5C', color: '#fff', ml: '20px' }}
-    >
-      Create New Client
-    </Button>
-  </Box>
-</Paper>
 
-		<Paper elevation={3} sx={{ padding: '20px' }}>
-		<TableContainer sx={{ maxHeight: '500px' }}>
-		{noRecordsFound ? (
-        <NoRecordsFound />
-      ) : (
-			<Table >
-			  <TableHead sx={{ backgroundColor: '#002D5C', color:'white' }}>
-				<TableRow>
-				  <TableCell sx={{ color:'white', fontSize: '1rem', fontWeight: 'bold' }}>S/N</TableCell>
-				  <TableCell sx={{ color:'white', fontSize: '1rem', fontWeight: 'bold' }}>First Name</TableCell>
-				  <TableCell sx={{ color:'white', fontSize: '1rem', fontWeight: 'bold' }}>Middle Name</TableCell>
-				  <TableCell sx={{ color:'white', fontSize: '1rem', fontWeight: 'bold' }}>Last Name</TableCell>
-				  <TableCell sx={{ color:'white', fontSize: '1rem', fontWeight: 'bold' }}>Gender</TableCell>
-				  <TableCell sx={{ color:'white', fontSize: '1rem', fontWeight: 'bold' }}>Marital Status</TableCell>
-				  <TableCell sx={{ color:'white', fontSize: '1rem', fontWeight: 'bold' }}>Phone</TableCell>
-				  <TableCell sx={{ color:'white', fontSize: '1rem', fontWeight: 'bold' }}>Email</TableCell>
-				  <TableCell sx={{ color:'white', fontSize: '1rem', fontWeight: 'bold' }}>City</TableCell>
-				  <TableCell sx={{ color:'white', fontSize: '1rem', fontWeight: 'bold' }}>Profession</TableCell>
-				  <TableCell sx={{ color:'white', fontSize: '1rem', fontWeight: 'bold' }}>Country</TableCell>
-				  <TableCell sx={{ color:'white', fontSize: '1rem', fontWeight: 'bold' }}>Image</TableCell>
-				</TableRow>
-			  </TableHead>
-			  <TableBody>
-				{filteredClients.map((client, index) => (
-				  <TableRow key={client?._id} sx={{ cursor: 'pointer' }} hover>
-					 <TableCell>{index + 1}</TableCell>
-					<TableCell>{client?.firstname}</TableCell>
-					<TableCell>{client?.middlename}</TableCell>
-					<TableCell>{client?.lastname}</TableCell>
-					<TableCell>{client?.gender}</TableCell>
-					<TableCell>{client?.maritalstatus}</TableCell>
-					<TableCell>{client?.phone}</TableCell>
-					<TableCell>{client?.email}</TableCell>
-					<TableCell>{client?.city}</TableCell>
-					<TableCell>{client?.city}</TableCell>
-					<TableCell>{client?.country}</TableCell>
-					<TableCell>
-					  <img src={client?.imageurl} alt={`${client.firstname} ${client.lastname}`} width="50" height="50" />
-					</TableCell>
-				  </TableRow>
-				))}
-			  </TableBody>
-			</Table>
-			)}
-		  </TableContainer>
-		</Paper>
-	  </Box>
+          {/* <ModalBox
+            open={dateFilterModal}
+            onClose={() => setDateFilterModal(false)}
+            header="Filter Client By End Date"
+          >
+            <ClientListDateFilter
+              startDate={filterStartDate}
+              setStartDate={setFilterStartDate}
+              endDate={filterEndDate}
+              setEndDate={setFilterEndDate}
+              filterByDate={handleFilterByDate}
+            />
+          </ModalBox> */}
+          {/* 
+          <Portal>
+            <ClientForm />
+          </Portal> */}
 
-         
+          <PageWrapper
+            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+          >
+            <TableMenu>
+              <Box style={{ display: "flex", alignItems: "center" }} gap={1}>
+                {handleSearch && (
+                  <div className="inner-table">
+                    <FilterMenu onSearch={handleSearch} />
+                  </div>
+                )}
+
+                <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                  List of Clients
+                </h2>
+
+                <Box>
+                  <MuiClearDatePicker
+                    value={filterEndDate}
+                    setValue={setFilterEndDate}
+                  />
+                  {/* {dateFilter ? (
+                    <Box sx={{dispay: "flex"}} gap={1}>
+                      <GlobalCustomButton
+                        onClick={() => setDateFilterModal(true)}
+                        sx={{marginRight: "10px"}}
+                      >
+                        {dayjs(filterStartDate).format("DD/MM/YYYY")} -{" "}
+                        {dayjs(filterEndDate).format("DD/MM/YYYY")}
+                      </GlobalCustomButton>
+
+                      <GlobalCustomButton
+                        onClick={() => setDateFilter(false)}
+                        color="error"
+                      >
+                        Clear Date Filter
+                      </GlobalCustomButton>
+                    </Box>
+                  ) : (
+                    <GlobalCustomButton
+                      onClick={() => setDateFilterModal(true)}
+                    >
+                      Filter by Date
+                    </GlobalCustomButton>
+                  )} */}
+                </Box>
+              </Box>
+              <GlobalCustomButton onClick={handleCreateNew}>
+                <PersonAddIcon fontSize="small" sx={{ marginRight: "5px" }} />
+                Create New Client
+              </GlobalCustomButton>
+            </TableMenu>
+
+            <div
+              style={{
+                width: "100%",
+                height: "calc(100vh - 160px)",
+                overflow: "auto",
+              }}
+              ref={containerScrollRef}
+              onScroll={handleOnTableScroll}
+            >
+              <CustomTable
+                title={""}
+                columns={ClientMiniSchema}
+                data={facilities}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={handleRow}
+                conditionalRowStyles={conditionalRowStyles}
+                progressPending={loading}
+                // CustomEmptyData={<Typography>No Client Found...</Typography>}
+              />
+            </div>
+          </PageWrapper>
         </>
       ) : (
-        <NoRecordsFound />
+        <div>loading</div>
       )}
     </>
   );
 }
-
-
-
-const NoRecordsFound = () => {
-	return (
-	  <Box
-		sx={{
-		  display: 'flex',
-		  flexDirection: 'column',
-		  alignItems: 'center',
-		  justifyContent: 'center',
-		  height: '100%',
-		  color: '#b7b7b7'
-		}}
-	  >
-		<Warning sx={{ fontSize: 80, color: '#b7b7b7' }} />
-		<Typography variant="h4" sx={{ color: '#b7b7b7', marginTop: 3 }}>
-		  No records found
-		</Typography>
-	  </Box>
-	);
-  };
 
 export function ClientDetail({ closeDetailModal }) {
   const navigate = useNavigate();

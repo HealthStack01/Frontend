@@ -4,25 +4,29 @@ import EventIcon from '@mui/icons-material/Event';
 import { People } from '@mui/icons-material';
 import ReactApexChart from 'react-apexcharts';
 import {
-	TotalNumOfData,
+	DashboardPageWrapper,
+  } from "../core-ui/styles";
+import {
+	// TotalNumOfData,
+	TotalNumOfMaleClient,
+	TotalNumOfFemaleClient,
 	TotalNewClientWithinAMonth,
 	TotalUpcomingAppointment,
-	ClientPaymentMode,
-	// TotalDischargedPatient,
-	// TotalAdmittedPatient,
   } from "../utils/chartData/chartDataHandler";
 import client from '../../../feathers';
 
 const ClientDashboard = () => {
 const clientService = client.service("/client");
+// const {totalValue} = TotalNumOfData(clientService);
+const {totalNewClient} = TotalNewClientWithinAMonth(clientService);
+const {totalNumMaleClient} = TotalNumOfMaleClient(clientService);
+const {totalNumFemaleClient} = TotalNumOfFemaleClient(clientService);
 const {totalUpcomingAppointment} = TotalUpcomingAppointment(clientService);
 const appointmentServ = client.service('appointments');
 const [appointments, setAppointments] = useState([]);
 
 const patientServe = client.service('client');
 const [patients, setPatients] = useState(0);
-
-const [clientsByGender, setClientsByGender] = useState([]);
 
 const getAppointments = () => {
 	appointmentServ
@@ -45,39 +49,13 @@ const getPatients = () => {
 			console.log(err);
 		});
 };
-
-const getClientsByGender = () => {
-    patientServe
-      .find({
-        query: {
-           $select: ['gender'],
-        //   $group: ['gender'],
-          $limit: false,
-        },
-      })
-      .then(res => {
-		// console.log("My Res,", res);
-        setClientsByGender(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
   
 
 useEffect(() => {
 getAppointments();
 getPatients();
-getClientsByGender();
 }, []);
 
-
-// Total clients by gender chart series data
-//    const totalClientsByGenderSeries = clientsByGender.map(patient => patient);
-
-//  console.log("Data", totalClientsByGenderSeries)
-
-// Total clients by gender chart options
 const totalClientsByGenderOptions = {
 	chart: {
 	  type: "pie",
@@ -104,15 +82,15 @@ const totalClientsByGenderOptions = {
   };
   
   // Total clients by gender chart series data
-   const totalClientsByGenderSeries = [35, 65];
+   const totalClientsByGenderSeries = [totalNumMaleClient, totalNumFemaleClient];
   
-	const monthlyClientAppointmentOptions = {
+	const monthlyNewClientOptions = {
 		chart: {
 		  height: 350,
 		  type: 'line',
 		},
 		series: [{
-		  name: 'Appointments',
+		  name: 'New Clients',
 		  data: [30, 40, 35, 50, 49, 60, 70, 91, 125, 70, 90, 110]
 		}],
 		xaxis: {
@@ -120,17 +98,18 @@ const totalClientsByGenderOptions = {
 		},
 		yaxis: {
 		  title: {
-			text: 'Appointments'
+			text: 'New Clients'
 		  }
 		}
 	  };
 	  
-	  const monthlyClientAppointmentSeries = [{  name: 'Appointments',  data: [30, 40, 35, 50, 49, 60, 70, 91, 125, 70, 90, 110]
+	  const monthlyNewClienttSeries = [{  name: 'New Clients',  data: [totalNewClient]
 	  }];
 	  
 
   return (
-	<>
+	<DashboardPageWrapper>
+		<Typography variant="h5" style={{ textShadow: "1px 1px 2px rgb(0, 45, 92)" }}>Client Dashboard</Typography>
 	<Box sx={{ backgroundColor: '#f5f5f5', pt: 6}}>
 	<Grid container spacing={3} justifyContent="center" alignItems="center">
 	  {/* Total Appointments Card */}
@@ -147,13 +126,12 @@ const totalClientsByGenderOptions = {
 				</Typography>
 			  </Box>
 			  <Box>
-				<EventIcon color="primary" sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8 }} />
+				<EventIcon sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
 			  </Box>
 			</Box>
 		  </CardContent>
 		</Card>
 	  </Grid>
-  
 	  {/* Upcoming Appointments Card */}
 	  <Grid item xs={12} sm={6} md={4}>
 		<Card sx={{ borderRadius: 2 }}>
@@ -168,13 +146,12 @@ const totalClientsByGenderOptions = {
 				</Typography>
 			  </Box>
 			  <Box>
-				<EventIcon color="primary" sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8 }} />
+				<EventIcon sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
 			  </Box>
 			</Box>
 		  </CardContent>
 		</Card>
 	  </Grid>
-  
 	  {/* Total Clients Card */}
 	  <Grid item xs={12} sm={6} md={4}>
 		<Card sx={{ borderRadius: 2 }}>
@@ -189,25 +166,24 @@ const totalClientsByGenderOptions = {
 				</Typography>
 			  </Box>
 			  <Box>
-				<People color="primary" sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8 }} />
+				<People sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
 			  </Box>
 			</Box>
 		  </CardContent>
 		</Card>
 	  </Grid>
-  
-	  {/* Monthly Client Appointments Chart */}
+	  {/* Monthly New Client Chart */}
 	  <Grid container justifyContent="space-between" spacing={2} sx={{ marginTop: 4 }}>
 	  <Grid item xs={12} md={5} sx={{marginLeft: 9}}>
 		<Card>
 		  <CardContent>
 			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
-			  Monthly Client Appointments
+			  Monthly New Clients
 			</Typography>
 			<Box sx={{ height: 300 }}>
 			  <ReactApexChart
-				options={monthlyClientAppointmentOptions}
-				series={monthlyClientAppointmentSeries}
+				options={monthlyNewClientOptions}
+				series={monthlyNewClienttSeries}
 				type="line"
 				height={300}
 			  />
@@ -215,7 +191,6 @@ const totalClientsByGenderOptions = {
 		  </CardContent>
 		</Card>
 	  </Grid>
-  
 		{/* Total Clients by Gender Chart */}
 		<Grid item xs={12} md={5} sx={{marginRight: 6}}>
 		  <Card>
@@ -237,7 +212,7 @@ const totalClientsByGenderOptions = {
 		</Grid>
 		</Grid>
 		</Box>
-		</>
+		</DashboardPageWrapper>
   )
 }
 

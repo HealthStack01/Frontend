@@ -1,6 +1,10 @@
-import {Box, Typography} from "@mui/material";
 import React, {useEffect, useState} from "react";
-
+import {Box, Typography, Card, CardContent, Grid} from "@mui/material";
+import LabIcon from '@mui/icons-material/Science';
+import PendingIcon from '@mui/icons-material/PlaylistAddCheck';
+import ReportIcon from '@mui/icons-material/Description';
+import EventIcon from '@mui/icons-material/Event';
+import BillsIcon from '@mui/icons-material/Receipt';
 import ViewCard from "./@sections/ViewCard";
 import ViewCardWithFilter from "./@sections/ViewCardWithFilter";
 // import AreaChart from "../charts/AreaChart";
@@ -48,9 +52,6 @@ const LaboratoryDashboard = () => {
 
   const {modelResult} = ModelResult(orderService);
 
-  console.log("model data ===>", {
-    modelResult: modelResult,
-  });
 
   useEffect(() => {
     const {userFullName, facilityFullName} = userDetails();
@@ -61,65 +62,98 @@ const LaboratoryDashboard = () => {
   return (
     <DashboardPageWrapper>
       <Box>
-        <Box>
-          <Typography variant="h2">
-            Hello <span>{userName}</span>👋
-          </Typography>
-          <Typography variant="body1">
-            Welcome to your Laboratory Module{" "}
-            <span>@Front Desk {facilityName}</span>
-          </Typography>
-        </Box>
-
-        <StartCardWapper>
-          <ViewCard count={40} title="Lab Order Reported" />
-          <ViewCard count={56} title="Pending Bills" />
-          <ViewCardWithFilter
-            count={0}
+      <Typography variant="h5" style={{ textShadow: "1px 1px 2px rgb(0, 45, 92)" }}>Laboratory Dashboard</Typography>
+      <Grid container spacing={3} justifyContent="space-between" alignItems="center" style={{marginTop: '20px'}}>
+        <Grid item xs={12}  md={3}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+			Lab Order Reported
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center' }}>
+			  <Box sx={{ flexGrow: 1 }}>
+				<Typography variant="h5" fontWeight="bold" component="div">
+				    None
+				</Typography>
+			  </Box>
+			  <Box>
+				<ReportIcon  sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
+			  </Box>
+			</Box>
+		  </CardContent>
+		</Card>
+	  </Grid>
+    <Grid item xs={12}  md={3}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+			Most frequent lab tests received
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center' }}>
+			  <Box sx={{ flexGrow: 1 }}>
+				<Typography variant="h5" fontWeight="bold" component="div">
+				    None
+				</Typography>
+			  </Box>
+			  <Box>
+				<LabIcon sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
+			  </Box>
+			</Box>
+		  </CardContent>
+		</Card>
+	  </Grid>
+    <Grid item xs={12}  md={3}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+			Total Pending Balance
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center' }}>
+			  <Box sx={{ flexGrow: 1 }}>
+				<Typography variant="h5" fontWeight="bold" component="div">
+        {`₦${fetchTotalBalance}`}
+				</Typography>
+			  </Box>
+			  <Box>
+				<PendingIcon  sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
+			  </Box>
+			</Box>
+		  </CardContent>
+		</Card>
+	  </Grid>
+    <Grid item xs={12}  md={3}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+			Pending Bills
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center' }}>
+			  <Box sx={{ flexGrow: 1 }}>
+				<Typography variant="h5" fontWeight="bold" component="div">
+				    None
+				</Typography>
+			  </Box>
+			  <Box>
+				<BillsIcon  sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
+			  </Box>
+			</Box>
+		  </CardContent>
+		</Card>
+	  </Grid>
+    <Grid item xs={12} sm={6} md={4}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+      <ViewCardWithFilter
+            count={fetchTotalBalance}
             title="Lab orders received"
             hasFilter={true}
             dataSource={fetchTotalMoneyCollectedPresentDataObject}
             isLoading={isLoading}
           />
-        </StartCardWapper>
-
-        <DashboardContainer>
-          <Box
-            sx={{
-              display: "grid",
-              width: "100%",
-              gridGap: "10px",
-              gridTemplateColumns: {lg: "repeat(3, 1fr)", xs: "1fr"},
-            }}
-          >
-            <Box sx={{width: "100%", p: 0, pt: 2, pb: 2}}>
-              <ViewCard
-                count={fetchTotalBalance}
-                title="Total Pending Balance"
-              />
-              {/* <AreaChart height={200} title="Trends" />
-              <AreaChart height={200} title="New Clients" /> */}
-            </Box>
-            <Box sx={{width: "100%", pt: 2, pb: 2}}>
-              <ViewCard count={56} title=" Most frequent lab tests received" />
-              {/* <BarChart title="Payment Mode" />
-              <BubbleChart /> */}
-            </Box>
-            <Box sx={{width: "100%", pt: 2, pb: 2}}>
-              {/* <Stack
-                direction='row'
-                spacing={0.4}
-                sx={{ mt: 4 }}
-                justifyContent='center'
-              >
-                <Button>Male</Button>
-                <Button>Female</Button>
-                <Button>Others</Button>
-              </Stack> */}
-              {/* <CircleChart /> */}
-            </Box>
-          </Box>
-        </DashboardContainer>
+		  </CardContent>
+		</Card>
+	  </Grid>
+    </Grid>
       </Box>
     </DashboardPageWrapper>
   );

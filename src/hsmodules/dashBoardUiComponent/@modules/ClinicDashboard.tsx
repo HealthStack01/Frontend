@@ -3,10 +3,9 @@ import React, {useEffect, useState} from "react";
 import ReactApexChart from 'react-apexcharts';
 import EventIcon from '@mui/icons-material/Event';
 import { People } from '@mui/icons-material';
-import ViewCard from "./@sections/ViewCard";
-import LineChart from "../charts/LineChart";
-import ColumnChart from "../charts/ColumnChart";
-
+import NewClientIcon from '@mui/icons-material/PersonAddAlt';
+import UpcomingAppointmentIcon from '@mui/icons-material/EventAvailable';
+import TotalClientIcon from '@mui/icons-material/PeopleAlt';
 
 import client from "../../../feathers";
 import {
@@ -23,7 +22,6 @@ import {clientLineData} from "../utils/chartData/LineData";
 import {
   DashboardContainer,
   DashboardPageWrapper,
-  StartCardWapper,
 } from "../core-ui/styles";
 import CircleChart from "../charts/CircleChart";
 import {userDetails} from "../utils/fetchUserDetails";
@@ -53,17 +51,6 @@ const ClinicDashboard = () => {
     setUserName(userFullName);
     setFacilityName(facilityFullName);
   }, []);
-
-  const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour >= 5 && hour < 12) {
-      return "morning";
-    } else if (hour >= 12 && hour < 18) {
-      return "afternoon";
-    } else {
-      return "evening";
-    }
-  }
 
 // Total clients by gender chart options
 const totalClientsByGenderOptions = {
@@ -107,10 +94,13 @@ const totalClientsByGenderOptions = {
       },
     },
     dataLabels: {
-      enabled: false,
+      enabled: true,
     },
     xaxis: {
       categories: ["Cash", "HMO", "Plan", "Family", "Comp"],
+      title: {
+        text: ".",
+      },
     },
     yaxis: {
       title: {
@@ -134,21 +124,9 @@ const totalClientsByGenderOptions = {
   return (
     <DashboardPageWrapper>
       <Box>
-        {/* <Box>
-          <Typography variant="h2">
-            Hello <span>{userName}</span>👋
-          </Typography>
-          <Typography variant="body1">
-            Welcome to your Client Module{" "}
-            <span>@Front Desk {facilityName}</span>
-          </Typography>
-        </Box> */}
-        <Typography variant="h5" style={{ textShadow: "1px 1px 2px rgb(0, 45, 92)" }}>
-  {`Good ${getGreeting()}, 
-   Welcome to your Clinic Dashboard`}</Typography>
-        <DashboardContainer>
-        {/* <StartCardWapper> */}
-    <Box sx={{ backgroundColor: '#f5f5f5', pt: 6}}>
+        <Typography variant="h5" style={{ textShadow: "1px 1px 2px rgb(0, 45, 92)" }}>Clinic Dashboard</Typography>
+  <DashboardContainer>
+  <Box sx={{ backgroundColor: '#f5f5f5', pt: 6}}>
 	<Grid container spacing={3} justifyContent="center" alignItems="center">
 	  {/* Total Appointments Card */}
 	  <Grid item xs={12}  md={3}>
@@ -164,7 +142,7 @@ const totalClientsByGenderOptions = {
 				</Typography>
 			  </Box>
 			  <Box>
-				<EventIcon color="primary" sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8 }} />
+				<NewClientIcon sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
 			  </Box>
 			</Box>
 		  </CardContent>
@@ -186,7 +164,7 @@ const totalClientsByGenderOptions = {
 				</Typography>
 			  </Box>
 			  <Box>
-				<EventIcon color="primary" sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8 }} />
+				<UpcomingAppointmentIcon sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
 			  </Box>
 			</Box>
 		  </CardContent>
@@ -207,7 +185,7 @@ const totalClientsByGenderOptions = {
 				</Typography>
 			  </Box>
 			  <Box>
-				<People color="primary" sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8 }} />
+				<TotalClientIcon sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
 			  </Box>
 			</Box>
 		  </CardContent>
@@ -252,48 +230,6 @@ const totalClientsByGenderOptions = {
 		</Grid>
     </Grid>
     </Box>
-          {/* <ViewCard count={totalValue} title="Total Clients" />
-          <ViewCard
-            count={totalUpcomingAppointment}
-            title="Upcoming Appointments"
-          />
-          <ViewCard count={totalNewClient} title="Total New Clients" /> */}
-          {/* <ViewCard count={30} title={`Doctor's on Duty`} /> */}
-        {/* </StartCardWapper> */}
-
-      
-          {/* <Box
-            sx={{
-              display: "grid",
-              width: "100%",
-              gridGap: "10px",
-              // background: "#ffcc99", // "#f9f9f9",
-
-              gridTemplateColumns: {lg: "repeat(3, 1fr)", xs: "1fr"},
-            }}
-          >
-            <Box sx={{width: "100%", p: 2}}>
-              <ColumnChart
-                title="Payment Mode"
-                series={paymentModeBarSeries}
-                xLabels={["Cash", "HMO", "Comp", "Family Plan", "All"]}
-              />
-            </Box>
-            <Box sx={{width: "100%", p: 2}}>
-              <LineChart
-                title="New Clients"
-                monthArray={monthNameForCurrentYear}
-                series={newClientLineSeriesData}
-              />
-            </Box>
-            <Box sx={{width: "100%", p: 2}}>
-              <CircleChart
-                series={circleSeriesArray}
-                labels={["Male", "Female", "Other"]}
-                title="Total Client by Gender"
-              />
-            </Box>
-          </Box> */}
         </DashboardContainer>
       </Box>
     </DashboardPageWrapper>
