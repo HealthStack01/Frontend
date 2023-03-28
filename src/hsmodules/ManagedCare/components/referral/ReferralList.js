@@ -28,8 +28,8 @@ export function ReferralList({showDetail, showCreate}) {
       showCreate()
     };
   
-    const handleRow = async (Client) => {
-      
+    const handleRow = async () => {
+      showDetail();
     };
    
   

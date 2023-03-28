@@ -55,6 +55,7 @@ import AutoCompleteBox from "../../components/inputs/AutoComplete";
 import { FacilitySearch } from "../helpers/FacilitySearch";
 import { ReferralList } from "./components/referral/ReferralList";
 import {ReferralCreate} from './components/referral/CreateReferral'
+import { ReferralDetails } from "./components/referral/ReferralDetails";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -85,6 +86,8 @@ export default function Referral() {
       )}
 
       {view === "create" && <ReferralCreate  handleGoBack={handleGoBack}/>}
+
+      {view === "detail" && <ReferralDetails  handleGoBack={handleGoBack}/>}
 
       {/* {showModal === 1 && (
         <Grid container spacing={2}>

@@ -1,6 +1,6 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import React, { useState, useContext, useEffect} from "react";
+import React, { useState, useContext, useEffect } from "react";
 import client from "../../../../feathers";
 import { useForm } from "react-hook-form";
 import { UserContext, ObjectContext } from "../../../../context";
@@ -8,299 +8,345 @@ import { toast } from "bulma-toast";
 import "react-datepicker/dist/react-datepicker.css";
 import CustomTable from "../../../../components/customtable";
 import ModalBox from "../../../../components/modal";
-import {
-  Grid,
-  Box,
-  Typography
-} from "@mui/material";
-import {ClientSearch} from "../../../helpers/ClientSearch";
+import { Grid, Box, Typography } from "@mui/material";
+import { ClientSearch } from "../../../helpers/ClientSearch";
 import Input from "../../../../components/inputs/basic/Input/index";
 import Textarea from "../../../../components/inputs/basic/Textarea";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import { FormsHeaderText } from "../../../../components/texts";
-import AutoCompleteBox from "../../../../components/inputs/AutoComplete";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 import { FacilitySearch } from "../../../helpers/FacilitySearch";
 import PatientProfile from "../../../Client/PatientProfile";
 import CustomSelect from "../../../../components/inputs/basic/Select";
+import TextAreaVoiceAndText from "../../../../components/inputs/basic/Textarea/VoiceAndText";
+import CreateComplaint from "./Complaints";
+import CreateDiagnosis from "./Diagnosis";
+import { SelectAdmission, SelectAppointment } from "../claims/ClaimsCreate";
 
-export function ReferralCreate({handleGoBack}) {
-    const { state, setState } = useContext(ObjectContext);
-    const { register, handleSubmit, setValue,control,watch } = useForm(); //, watch, errors, reset
-    const [error, setError] = useState(false);
-    const [success, setSuccess] = useState(false);
-    const [success1, setSuccess1] = useState(false);
-    const [success2, setSuccess2] = useState(false);
-    const [message, setMessage] = useState("");
-    const [clientId, setClientId] = useState();
-    const [locationId, setLocationId] = useState();
-    const [practionerId, setPractionerId] = useState();
-    const [type, setType] = useState();
-    const ClientServ = client.service("appointments");
-    
-    const { user } = useContext(UserContext); //,setUser
-   
-    const [currentUser, setCurrentUser] = useState();
-    
-    const [appointment_status, setAppointment_status] = useState("");
-    const [appointment_type, setAppointment_type] = useState("");
- 
-    const [chosen, setChosen] = useState();
-    const [chosen1, setChosen1] = useState();
-    const [chosen2, setChosen2] = useState();
-    const [openComplaint, setOpenComplaint] = useState(false);
-    const [openFindings, setOpenFindings] = useState(false);
-    const [patient, setPatient] = useState("");
-  
+export function ReferralCreate({ handleGoBack }) {
+  const { state, setState } = useContext(ObjectContext);
+  const { register, handleSubmit, setValue, control, watch } = useForm(); //, watch, errors, reset
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [success1, setSuccess1] = useState(false);
+  const [success2, setSuccess2] = useState(false);
+  const [message, setMessage] = useState("");
+  const [clientId, setClientId] = useState();
+  const [clearClientSearch, setClearClientSearch] = useState(false);
+  const [locationId, setLocationId] = useState();
+  const [practionerId, setPractionerId] = useState();
+  const [complaints, setComplaints] = useState([]);
+  const [complaintModal, setComplaintModal] = useState(false);
+  const [diagnosis, setDiagnosis] = useState([]);
+  const [diagnosisModal, setDiagnosisModal] = useState(false);
+  const ClientServ = client.service("appointments");
+  const [drugsInputType, setDrugsInputType] = useState("type");
+  const [clinicFindInputType, setClinicFindInputType] = useState("type");
+  const { user } = useContext(UserContext); //,setUser
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [appointmentModal, setAppointmentModal] = useState(false);
+  const [admissonModal, setAdmissionModal] = useState(false);
+  const [selectedAdmission, setSelectedAdmission] = useState(null);
 
-    const handleChangeType = async (e) => {
-      await setAppointment_type(e.target.value);
-    };
-  
-    const handleChangeStatus = async (e) => {
-      await setAppointment_status(e.target.value);
-    };
-  
-    const getSearchfacility = (obj) => {
-      setClientId(obj._id);
-      setChosen(obj);
-      //handleRow(obj)
-      if (!obj) {
-        //"clear stuff"
-        setClientId();
-        setChosen();
-      }
-  
-      /*  setValue("facility", obj._id,  {
+  const [currentUser, setCurrentUser] = useState();
+
+  const [appointment_status, setAppointment_status] = useState("");
+  const [appointment_type, setAppointment_type] = useState("");
+
+  const [chosen, setChosen] = useState();
+  const [chosen1, setChosen1] = useState();
+  const [chosen2, setChosen2] = useState();
+
+  const handleChangeType = async (e) => {
+    await setAppointment_type(e.target.value);
+  };
+
+  const handleChangeStatus = async (e) => {
+    await setAppointment_status(e.target.value);
+  };
+
+  const getSearchfacility = (obj) => {
+    setClientId(obj._id);
+    setChosen(obj);
+    //handleRow(obj)
+    if (!obj) {
+      //"clear stuff"
+      setClientId();
+      setChosen();
+    }
+
+    /*  setValue("facility", obj._id,  {
               shouldValidate: true,
               shouldDirty: true
           }) */
-    };
-    const getSearchfacility1 = (obj) => {
-      setLocationId(obj._id);
-      setChosen1(obj);
-  
-      if (!obj) {
-        //"clear stuff"
-        setLocationId();
-        setChosen1();
-      }
-    };
-    const getSearchfacility2 = (obj) => {
-      setPractionerId(obj._id);
-      setChosen2(obj);
-  
-      if (!obj) {
-        //"clear stuff"
-        setPractionerId();
-        setChosen2();
-      }
-    };
-  
-    useEffect(() => {
-      setCurrentUser(user);
-      //console.log(currentUser)
-      return () => {};
-    }, [user]);
-  
-    //check user for facility or get list of facility
-    useEffect(() => {
-      //setFacility(user.activeClient.FacilityId)//
-      if (!user.stacker) {
-        /*    console.log(currentUser)
+  };
+  const getSearchfacility1 = (obj) => {
+    setLocationId(obj._id);
+    setChosen1(obj);
+
+    if (!obj) {
+      //"clear stuff"
+      setLocationId();
+      setChosen1();
+    }
+  };
+  const getSearchfacility2 = (obj) => {
+    setPractionerId(obj._id);
+    setChosen2(obj);
+
+    if (!obj) {
+      //"clear stuff"
+      setPractionerId();
+      setChosen2();
+    }
+  };
+
+  useEffect(() => {
+    setCurrentUser(user);
+    //console.log(currentUser)
+    return () => {};
+  }, [user]);
+
+  //check user for facility or get list of facility
+  useEffect(() => {
+    //setFacility(user.activeClient.FacilityId)//
+    if (!user.stacker) {
+      /*    console.log(currentUser)
           setValue("facility", user.currentEmployee.facilityDetail._id,  {
               shouldValidate: true,
               shouldDirty: true
           })  */
-      }
-    });
-  
-    const onSubmit = (data, e) => {
-      e.preventDefault();
-      setMessage("");
-      setError(false);
-      setSuccess(false);
+    }
+  });
+
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
     //   setShowModal(false),
-        setState((prevstate) => ({
-          ...prevstate,
-          AppointmentModule: {
-            selectedAppointment: {},
-            show: "list",
-          },
-        }));
-  
-      // data.createdby=user._id
-      console.log(data);
-      if (user.currentEmployee) {
-        data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
-      }
-      data.locationId = locationId; //state.ClinicModule.selectedClinic._id
-      data.practitionerId = practionerId;
-      data.appointment_type = appointment_type;
-      // data.appointment_reason=appointment_reason
-      data.appointment_status = appointment_status;
-      data.clientId = clientId;
-      data.firstname = chosen.firstname;
-      data.middlename = chosen.middlename;
-      data.lastname = chosen.lastname;
-      data.dob = chosen.dob;
-      data.gender = chosen.gender;
-      data.phone = chosen.phone;
-      data.email = chosen.email;
-      data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
-      data.practitioner_profession = chosen2.profession;
-      data.practitioner_department = chosen2.department;
-      data.location_name = chosen1.name;
-      data.location_type = chosen1.locationType;
-      data.actions = [
-        {
-          action: appointment_status,
-          actor: user.currentEmployee._id,
-        },
-      ];
-      console.log(data);
-  
-      ClientServ.create(data)
-        .then((res) => {
-          //console.log(JSON.stringify(res))
-          e.target.reset();
-          setAppointment_type("");
-          setAppointment_status("");
-          setClientId("");
-          setLocationId("");
-          /*  setMessage("Created Client successfully") */
-          setSuccess(true);
-          setSuccess1(true);
-          setSuccess2(true);
-          toast({
-            message:
-              "Appointment created succesfully, Kindly bill patient if required",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-          setSuccess(false);
-          setSuccess1(false);
-          setSuccess2(false);
-          // showBilling()
-        })
-        .catch((err) => {
-          toast({
-            message: "Error creating Appointment " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+    setState((prevstate) => ({
+      ...prevstate,
+      AppointmentModule: {
+        selectedAppointment: {},
+        show: "list",
+      },
+    }));
+
+    // data.createdby=user._id
+    console.log(data);
+    if (user.currentEmployee) {
+      data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
+    }
+    data.locationId = locationId; //state.ClinicModule.selectedClinic._id
+    data.practitionerId = practionerId;
+    data.appointment_type = appointment_type;
+    // data.appointment_reason=appointment_reason
+    data.appointment_status = appointment_status;
+    data.clientId = clientId;
+    data.firstname = chosen.firstname;
+    data.middlename = chosen.middlename;
+    data.lastname = chosen.lastname;
+    data.dob = chosen.dob;
+    data.gender = chosen.gender;
+    data.phone = chosen.phone;
+    data.email = chosen.email;
+    data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
+    data.practitioner_profession = chosen2.profession;
+    data.practitioner_department = chosen2.department;
+    data.location_name = chosen1.name;
+    data.location_type = chosen1.locationType;
+    data.actions = [
+      {
+        action: appointment_status,
+        actor: user.currentEmployee._id,
+      },
+    ];
+    console.log(data);
+
+    ClientServ.create(data)
+      .then((res) => {
+        //console.log(JSON.stringify(res))
+        e.target.reset();
+        setAppointment_type("");
+        setAppointment_status("");
+        setClientId("");
+        setLocationId("");
+        /*  setMessage("Created Client successfully") */
+        setSuccess(true);
+        setSuccess1(true);
+        setSuccess2(true);
+        toast({
+          message:
+            "Appointment created succesfully, Kindly bill patient if required",
+          type: "is-success",
+          dismissible: true,
+          pauseOnHover: true,
         });
-    };
+        setSuccess(false);
+        setSuccess1(false);
+        setSuccess2(false);
+        // showBilling()
+      })
+      .catch((err) => {
+        toast({
+          message: "Error creating Appointment " + err,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      });
+  };
+
+
   
-    useEffect(() => {
-      getSearchfacility(state.ClientModule.selectedClient);
-  
-      /* appointee=state.ClientModule.selectedClient 
+
+  useEffect(() => {
+    getSearchfacility(state.ClientModule.selectedClient);
+
+    /* appointee=state.ClientModule.selectedClient 
           console.log(appointee.firstname) */
-      return () => {};
-    }, [state.ClientModule.selectedClient]);
-  
+    return () => {};
+  }, [state.ClientModule.selectedClient]);
 
-    const patientState = watch("patientstate");
+  const patientState = watch("patientstate");
 
-    useEffect(() => {
-      if (patientState === "outpatient") {
-        setAppointmentModal(true);
-      } else if (patientState === "inpatient") {
-        setAdmissionModal(true);
-      }
-    }, [patientState]);
+  useEffect(() => {
+    if (patientState === "outpatient") {
+      setAppointmentModal(true);
+    } else if (patientState === "inpatient") {
+      setAdmissionModal(true);
+    }
+  }, [patientState]);
+
   
-  
-    const dummyData = [
-      {
-        complaint: "Fever",
-        duration: "2 days",
+  const complaintSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Complaint",
+      key: "complaint",
+      description: "Complaint",
+      selector: (row) => row.complaint,
+      sortable: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Duration",
+      key: "duration",
+      description: "Duration",
+      selector: (row) => row.duration,
+      sortable: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  const diagnosisSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "50px",
+    },
+    {
+      name: "Type",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.type,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Diagnosis",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.code,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+  ];
+
+  const handleSelectClient = client => {
+    setState(prev => ({
+      ...prev,
+      ClientModule: {
+        ...prev.ClientModule,
+        selectedClient: client,
       },
-    ];
-    const complaintSchema = [
-      {
-        name: "S/N",
-        key: "sn",
-        description: "SN",
-        selector: (row) => row.sn,
-        sortable: true,
-        inputType: "HIDDEN",
-      },
-      {
-        name: "Complaint",
-        key: "complaint",
-        description: "Complaint",
-        selector: (row) => row.complaint,
-        sortable: true,
-        inputType: "TEXT",
-      },
-      {
-        name: "Duration",
-        key: "duration",
-        description: "Duration",
-        selector: (row) => row.duration,
-        sortable: true,
-        inputType: "TEXT",
-      },
-    ];
-    const dummyData2 = [
-      {
-        provisional: "Fever",
-        procedure: "Test",
-        service: "Test",
-      },
-    ];
-    const findingsSchema = [
-      {
-        name: "S/N",
-        key: "sn",
-        description: "SN",
-        selector: (row) => row.sn,
-        sortable: true,
-        inputType: "HIDDEN",
-      },
-      {
-        name: "Provisional Diagnosis",
-        key: "provisional",
-        description: "Provisional Diagnosis",
-        selector: (row) => row.provisional,
-        sortable: true,
-        inputType: "TEXT",
-      },
-      {
-        name: "Procedure",
-        key: "procedure",
-        description: "Planned Procedure",
-        selector: (row) => row.procedure,
-        sortable: true,
-        inputType: "TEXT",
-      },
-      {
-        name: "Service",
-        key: "service",
-        description: "Planned Service",
-        selector: (row) => row.service,
-        sortable: true,
-        inputType: "TEXT",
-      },
-    ];
-  
-    return (
-      <>
-        <div
-          className="card "
-          style={{
-            margin: "0 auto",
-            width: "98%",
-            height: "calc(100vh - 90px)",
-            overflow: "scroll",
-          }}
-        >
-          <form onSubmit={handleSubmit(onSubmit)}>
-          <Box
+    }));
+
+    //
+  };
+
+  const handleSelectAppointment = appointment => {
+    setSelectedAppointment(appointment);
+    setSelectedAdmission(null);
+    setAppointmentModal(false);
+  };
+
+ const handleSelectAdmission = admission => {
+    setSelectedAdmission(admission);
+    setSelectedAppointment(null);
+    setAdmissionModal(false);
+  };
+
+  return (
+    <Box
+      style={{
+        margin: "0 auto",
+        width: "98%",
+        height: "calc(100vh - 90px)",
+        overflow: "scroll",
+      }}
+    >
+      <ModalBox
+        open={complaintModal}
+        onClose={() => setComplaintModal(false)}
+        header="Add Complaints"
+      >
+        <CreateComplaint
+          closeModal={() => setComplaintModal(false)}
+          setComplaints={setComplaints}
+        />
+      </ModalBox>
+
+      <ModalBox
+        open={diagnosisModal}
+        onClose={() => setDiagnosisModal(false)}
+        header="Add Diagnosis"
+      >
+        <CreateDiagnosis
+          closeModal={() => setDiagnosisModal(false)}
+          setDiagnosis={setDiagnosis}
+        />
+      </ModalBox>
+
+      <ModalBox
+        open={appointmentModal}
+        onClose={() => setAppointmentModal(false)}
+        header={`Appointments for ${state.ClientModule.selectedClient.firstname} ${state.ClientModule.selectedClient.lastname}`}
+      >
+        <SelectAppointment selectAppointment={handleSelectAppointment} />
+      </ModalBox>
+
+      <ModalBox
+        open={admissonModal}
+        onClose={() => setAdmissionModal(false)}
+        header={`Admission Orders for ${state.ClientModule.selectedClient.firstname} ${state.ClientModule.selectedClient.lastname}`}
+      >
+        <SelectAdmission selectAdmission={handleSelectAdmission} />
+      </ModalBox>
+
+      <Box
         sx={{
           display: "flex",
           alignItems: "flex-start",
@@ -323,7 +369,7 @@ export function ReferralCreate({handleGoBack}) {
           gap={1}
         >
           <GlobalCustomButton onClick={handleGoBack}>
-            <ArrowBackIcon sx={{marginRight: "3px"}} fontSize="small" />
+            <ArrowBackIcon sx={{ marginRight: "3px" }} fontSize="small" />
             Back
           </GlobalCustomButton>
 
@@ -336,6 +382,7 @@ export function ReferralCreate({handleGoBack}) {
             Create a New Referral
           </Typography>
         </Box>
+
         <Box
           sx={{
             display: "flex",
@@ -344,13 +391,14 @@ export function ReferralCreate({handleGoBack}) {
           gap={1}
         >
           <GlobalCustomButton
-            // onClick={handleSubmit(handleCreatePreAuthorization)}
+          // onClick={handleSubmit(handleCreatePreAuthorization)}
           >
-            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+            <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
             Create Referral
           </GlobalCustomButton>
         </Box>
       </Box>
+
       <Box
         sx={{
           display: "flex",
@@ -372,27 +420,28 @@ export function ReferralCreate({handleGoBack}) {
             width: "calc(100% - 26rem)",
           }}
         >
+
           <Grid container spacing={2} mb={2}>
             <Grid item lg={6} md={5}>
               <ClientSearch
-                // clear={clearClientSearch}
-                // getSearchfacility={handleSelectClient}
+                clear={clearClientSearch}
+                getSearchfacility={handleSelectClient}
                 label="Search Beneficiary"
               />
             </Grid>
             <Grid item xs={12} sm={4}>
-                <Input
-                  name="patientName"
-                  label="Referring Facility"
-                  value={"Test Organization"}
-                />
-              </Grid>
-              <Grid item lg={6} md={5}>
-                <FacilitySearch
-                  getSearchfacility={getSearchfacility}
-                  clear={success}
-                  label="Destination Facility"
-                />
+              <Input
+                name="patientName"
+                label="Referring Facility"
+                value={"Test Organization"}
+              />
+            </Grid>
+            <Grid item lg={6} md={5}>
+              <FacilitySearch
+                getSearchfacility={getSearchfacility}
+                clear={success}
+                label="Destination Facility"
+              />
             </Grid>
 
             <Grid item lg={3} md={3.5}>
@@ -445,183 +494,108 @@ export function ReferralCreate({handleGoBack}) {
               </Grid>
             </Grid>
           )}
-          </Box>
 
           <Box mb={2}>
-          <Box
-           sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-          mb={1.5}
-          >
-             <FormsHeaderText text={"Clinical Information"} />
-              <GlobalCustomButton 
-            //   onClick={() => setComplaintModal(true)}
-              >
-                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+              mb={1.5}
+            >
+              <FormsHeaderText text="Complaints Data" />
+
+              <GlobalCustomButton onClick={() => setComplaintModal(true)}>
+                <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
                 New Complaint
               </GlobalCustomButton>
             </Box>
+
             <Box>
-            <CustomTable
-              title={""}
-              columns={complaintSchema}
-              data={dummyData}
-              pointerOnHover
-              highlightOnHover
-              striped
-            />
+              <CustomTable
+                title={""}
+                columns={complaintSchema}
+                data={complaints}
+                pointerOnHover
+                highlightOnHover
+                striped
+                progressPending={false}
+                CustomEmptyData={
+                  <Typography sx={{ fontSize: "0.8rem" }}>
+                    You've not added a Complaint yet...
+                  </Typography>
+                }
+              />
             </Box>
           </Box>
-          </Box>
-            {/* <Grid container spacing={2} mt={1}>
-              <Grid item xs={12} sm={4}>
-                <Input name="patientName" label="Search Beneficiary" />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <FacilitySearch
-                  getSearchfacility={getSearchfacility}
-                  clear={success}
-                  label="Destination Facility"
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <Input
-                  name="patientName"
-                  label="Referring Facility"
-                  value={"Test Organization"}
-                />
-              </Grid>
-              {patient === "In Patient" && (
-                <Grid item xs={12} sm={4}>
-                  <BasicDatePicker
-                    name="addmissionDate"
-                    label="Date of Admission"
-                  />
-                </Grid>
-              )}
-              {patient === "In Patient" && (
-                <Grid item xs={12} sm={4}>
-                  <BasicDatePicker
-                    name="dischargeDate"
-                    label="Date of Discharge"
-                  />
-                </Grid>
-              )}
-            </Grid>
-   */}
-         
-  
-            <Grid container spacing={2} my={2}>
-              <Grid item xs={12} sm={12}>
-                <FormsHeaderText
-                  txt={"Clinic Findings"}
-                  color={"#0064CC"}
-                  type={"p"}
-                  bold={"700"}
-                  size={"18px"}
-                />
-              </Grid>
-            </Grid>
-  
-            <Grid container spacing={2} my={2}>
-              <Grid item xs={12} sm={6}>
-                <FormsHeaderText text={"Clinical Findings"} />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-              <GlobalCustomButton 
-            //   onClick={() => setComplaintModal(true)}
-              >
-                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-                New Findings
-              </GlobalCustomButton>
-              </Grid>
-            </Grid>
-            <CustomTable
-              title={""}
-              columns={findingsSchema}
-              data={dummyData2}
-              pointerOnHover
-              highlightOnHover
-              striped
+
+          <Box mb={2}>
+            <TextAreaVoiceAndText
+              label="Clinical Findings"
+              type={clinicFindInputType}
+              changeType={setClinicFindInputType}
+              register={register("clinical_findings")}
+              voiceOnChange={(value) => setValue("clinical_findings", value)}
             />
-  
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={12}>
-                <Textarea
-                  placeholder="Type your message here"
-                  name="reason"
-                  type="text"
-                  label="Reason for Request"
-                />
-              </Grid>
-            </Grid>
-  
-            <Grid container spacing={2} my={1}>
-              <Grid item xs={12} sm={6}>
-                <Input
-                  name="physicianName"
-                  label="Physician's Name"
-                  type="text"
-                />
-              </Grid>
-            </Grid>
-          </form>
-        </div>
-        {openComplaint && (
-          <ModalBox
-            open={openComplaint}
-            onClose={() => setOpenComplaint(false)}
-            header="Add Complaint"
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={12}>
-                <Input name="complaints" label="Complaints" />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <Input name="duration" label="Duration" />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <GlobalCustomButton text={"Add"} color="success" />
-              </Grid>
-            </Grid>
-          </ModalBox>
-        )}
-        {openFindings && (
-          <ModalBox
-            open={openFindings}
-            onClose={() => setOpenFindings(false)}
-            header="Add Findings"
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={12}>
-                <AutoCompleteBox
-                  label="Provisional Diagnosis"
-                  name="provisionalDiagnosis"
-                  options={[
-                    { value: "Fever", label: "Fever" },
-                    { value: "Cough", label: "Cough" },
-                    { value: "Headache", label: "Headache" },
-                    { value: "Body Pain", label: "Body Pain" },
-                    { value: "Diarrhea", label: "Diarrhea" },
-                    { value: "Vomiting", label: "Vomiting" },
-                  ]}
-                />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <Input label="Planned Procedure" />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <Input label="Planned Service" />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <GlobalCustomButton text={"Add"} color="success" />
-              </Grid>
-            </Grid>
-          </ModalBox>
-        )}
-      </>
-    );
-  }
+          </Box>
+
+          <Box mb={2}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+              mb={1.5}
+            >
+              <FormsHeaderText text="Diagnosis Data" />
+
+              <GlobalCustomButton onClick={() => setDiagnosisModal(true)}>
+                <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
+                New Diagnosis
+              </GlobalCustomButton>
+            </Box>
+
+            <Box>
+              <CustomTable
+                title={""}
+                columns={diagnosisSchema}
+                data={diagnosis}
+                pointerOnHover
+                highlightOnHover
+                striped
+                progressPending={false}
+                CustomEmptyData={
+                  <Typography sx={{ fontSize: "0.8rem" }}>
+                    You've not added Diagnosis yet...
+                  </Typography>
+                }
+              />
+            </Box>
+          </Box>
+          <Box mb={2}>
+            <TextAreaVoiceAndText
+              label="Drugs/Treatments"
+              type={drugsInputType}
+              changeType={setDrugsInputType}
+              register={register("drugs")}
+              voiceOnChange={(value) => setValue("drugs", value)}
+            />
+          </Box>
+          <Grid item xs={6}>
+            <Textarea
+              placeholder="Type your message here"
+              name="reason"
+              type="text"
+              label="Reason for Request"
+            />
+          </Grid>
+          <Grid item xs={6} mt={2}>
+            <Input name="physicianName" label="Physician's Name" type="text" />
+          </Grid>
+        </Box>
+      </Box>
+    </Box>
+  );
+}

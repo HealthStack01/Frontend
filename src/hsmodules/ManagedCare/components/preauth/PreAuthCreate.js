@@ -220,13 +220,13 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
     }
   }, [patientState]);
 
-  const handleSelectAppointment = appointment => {
+ const handleSelectAppointment = appointment => {
     setSelectedAppointment(appointment);
     setSelectedAdmission(null);
     setAppointmentModal(false);
   };
 
-  const handleSelectAdmission = admission => {
+ const handleSelectAdmission = admission => {
     setSelectedAdmission(admission);
     setSelectedAppointment(null);
     setAdmissionModal(false);
