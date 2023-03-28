@@ -24,7 +24,7 @@ export const clientRoutes = [
     Component: Claims,
   },
   {
-    path: "/app/clients/pre-authorization/:id",
+    path: "/app/clients/pre-authorization/:client_id",
     Component: Preauthorization,
   },
   {

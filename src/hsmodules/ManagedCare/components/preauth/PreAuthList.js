@@ -22,7 +22,7 @@ import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import client from "../../../../feathers";
 import dayjs from "dayjs";
 
-const PreAuthsListComponent = ({showCreate, showDetail}) => {
+const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
   const preAuthServer = client.service("preauth");
   const [preAuths, setPreAuths] = useState([]);
   const {state, setState} = useContext(ObjectContext);
@@ -65,6 +65,18 @@ const PreAuthsListComponent = ({showCreate, showDetail}) => {
           createdAt: -1,
         },
       };
+
+      if (client_id) {
+        query = {
+          "beneficiary._id": client_id,
+          "provider._id": user.currentEmployee.facilityDetail._id,
+
+          $limit: 100,
+          $sort: {
+            createdAt: -1,
+          },
+        };
+      }
 
       const resp = await preAuthServer.find({query: query});
 

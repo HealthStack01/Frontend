@@ -31,7 +31,7 @@ import TextAreaVoiceAndText from "../../../../components/inputs/basic/Textarea/V
 
 const random = require("random-string-generator");
 
-const ClaimCreateComponent = ({handleGoBack}) => {
+const ClaimCreateComponent = ({handleGoBack, client_id}) => {
   const claimsServer = client.service("claims");
   const preAuthServer = client.service("preauth");
   const {state, setState, showActionLoader, hideActionLoader} =
@@ -90,6 +90,14 @@ const ClaimCreateComponent = ({handleGoBack}) => {
   }, [getTotalClaimsAmount]);
 
   const handleSelectClient = client => {
+    const hmos = client.paymentinfo.filter(
+      item => item.paymentmode.toLowerCase() === "hmo"
+    );
+
+    const firstHMO = hmos[0];
+
+    setPolicy(firstHMO.policy);
+
     setState(prev => ({
       ...prev,
       ClientModule: {
@@ -100,39 +108,6 @@ const ClaimCreateComponent = ({handleGoBack}) => {
 
     //
   };
-
-  const getPolicy = useCallback(() => {
-    policyServer
-      .find({
-        query: {
-          // organizationId: user.currentEmployee.facilityDetail._id,
-          $or: [
-            {
-              "principal._id": state.ClientModule.selectedClient?._id,
-            },
-            {
-              "dependents._id": state.ClientModule.selectedClient?._id,
-            },
-          ],
-          $limit: 100,
-          $sort: {
-            createdAt: -1,
-          },
-        },
-      })
-      .then(res => {
-        console.log("Policy", res);
-        setPolicy(res.data[0]);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, [state.ClientModule]);
-
-  useEffect(() => {
-    hideActionLoader();
-    getPolicy();
-  }, [getPolicy]);
 
   const complaintColumns = getComplaintColumns();
   const diagnosisColumns = getDiagnosisColumns();
@@ -391,6 +366,7 @@ const ClaimCreateComponent = ({handleGoBack}) => {
               <ClientSearch
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
+                id={client_id}
               />
             </Grid>
 

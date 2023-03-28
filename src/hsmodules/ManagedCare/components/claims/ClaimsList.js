@@ -34,7 +34,6 @@ const ClaimsListComponent = ({showCreate, showDetail, client_id}) => {
   };
 
   const handleRow = claim => {
-    console.log(claim);
     setState(prev => ({
       ...prev,
       ClaimsModule: {
