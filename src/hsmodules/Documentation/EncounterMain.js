@@ -7,6 +7,9 @@ import {DocumentClassList} from "./DocumentClass";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+import Drawer from "@mui/material/Drawer";
+
 //import {useReactToPrint} from "react-to-print";
 
 import Menu from "@mui/material/Menu";
@@ -339,7 +342,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
   };
 
   const handleConfirmDelete = doc => {
-    if (!user?.currentEmployee?.roles?.includes("Delete Document"))
+    if (!user?.currentEmployee?.roles?.includes("Delete Documents"))
       return toast.error("You don't have permission to delete Documents");
 
     setDocToDelete(doc);
@@ -772,15 +775,14 @@ export default function EncounterMain({nopresc, chosenClient}) {
                       />
                       {user?.currentEmployee?.roles?.includes(
                         "Delete Documents"
-                      ) ||
-                        (user?.stacker && (
-                          <IconButton
-                            color="error"
-                            onClick={() => handleConfirmDelete(Clinic)}
-                          >
-                            <DeleteOutlineIcon fontSize="small" />
-                          </IconButton>
-                        ))}
+                      ) && (
+                        <IconButton
+                          color="error"
+                          onClick={() => handleConfirmDelete(Clinic)}
+                        >
+                          <DeleteOutlineIcon fontSize="small" />
+                        </IconButton>
+                      )}
                     </Box>
                   </Box>
                 </Box>
@@ -895,19 +897,32 @@ export default function EncounterMain({nopresc, chosenClient}) {
           </Box>
         </Box>
 
-        <Slide
+        {/* <Slide
           mountOnEnter
           unmountOnExit
           direction="left"
           in={state.DocumentClassModule.encounter_right}
+        > */}
+        <Drawer
+          anchor={"right"}
+          open={state.DocumentClassModule.encounter_right}
+          onClose={() => {
+            setState(prev => ({
+              ...prev,
+              DocumentClassModule: {
+                ...prev.DocumentClassModule,
+                encounter_right: false,
+              },
+            }));
+          }}
         >
-          <Box item sx={{width: "450px"}}>
+          <Box item sx={{width: "650px"}}>
             <Box
               sx={{
                 width: "100%",
-                minHeight: "200px",
-                border: "1px solid rgba(235, 235, 235, 1)",
-                maxHeight: "calc(100vh - 170px)",
+
+                //border: "1px solid rgba(235, 235, 235, 1)",
+                //maxHeight: "calc(100vh - 170px)",
                 overflowY: "scroll",
                 padding: "15px",
               }}
@@ -915,7 +930,8 @@ export default function EncounterMain({nopresc, chosenClient}) {
               <EncounterRight client={chosenClient} />
             </Box>
           </Box>
-        </Slide>
+        </Drawer>
+        {/* </Slide> */}
       </Box>
 
       <>

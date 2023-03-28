@@ -2,6 +2,8 @@
 import React, {useState, useContext, useEffect, useRef} from "react";
 import {Box, Grid, Button as MuiButton} from "@mui/material";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import {useParams} from "react-router-dom";
+
 import {UserContext, ObjectContext} from "../../context";
 
 import PreAuthListComponent from "./components/preauth/PreAuthList";
@@ -11,6 +13,8 @@ import PreAuthDetailComponent from "./components/preauth/PreAuthDetail";
 export default function Preauthorization({standAlone}) {
   const {state, setState} = useContext(ObjectContext);
   const [view, setView] = useState("list");
+
+  const {client_id} = useParams();
 
   const handleGoBack = () => {
     setView("list");
@@ -30,6 +34,7 @@ export default function Preauthorization({standAlone}) {
           <PreAuthListComponent
             showCreate={() => setView("create")}
             showDetail={() => setView("detail")}
+            client_id={client_id}
           />
         </Box>
       )}
@@ -40,6 +45,7 @@ export default function Preauthorization({standAlone}) {
             handleGoBack={handleGoBack}
             showCreate={() => setView("create")}
             showDetail={() => setView("detail")}
+            client_id={client_id}
           />
         </Box>
       )}

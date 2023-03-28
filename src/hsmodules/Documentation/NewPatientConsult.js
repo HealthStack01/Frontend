@@ -520,7 +520,7 @@ export default function NewPatientConsult() {
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
-    toggleSideMenu();
+    //toggleSideMenu();
   };
 
   //console.log("Get Values", getValues("Medication_list_filled"));

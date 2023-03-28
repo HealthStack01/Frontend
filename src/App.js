@@ -18,6 +18,19 @@ import ActionLoader from "./components/action-loader/Action-Loader";
 
 function App() {
   const [state, setState] = useState({
+    ChatModule: {
+      selectedChat: {},
+      showSearch: false,
+      searchValue: "",
+    },
+    TarrifModule: {
+      selectedTarrif: {},
+      selectedBand: {},
+      selectedService: {},
+      selectedProvider: {},
+      selectedServicePlan: {},
+    },
+
     CorporateModule: {
       selectedPolicy: {},
       selectedClaim: {},
@@ -26,10 +39,12 @@ function App() {
     ClaimsModule: {
       selectedClaim: {},
       selectedService: {},
+      selectedClient: {},
     },
     PreAuthModule: {
       selectedPreAuth: {},
       selectedService: {},
+      selectedClient: {},
     },
     CommunicationModule: {
       defaultEmail: {},

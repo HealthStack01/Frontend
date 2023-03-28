@@ -22,7 +22,7 @@ import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import client from "../../../../feathers";
 import dayjs from "dayjs";
 
-const ClaimsListComponent = ({showCreate, showDetail}) => {
+const ClaimsListComponent = ({showCreate, showDetail, client_id}) => {
   const claimsServer = client.service("claims");
   const [claims, setClaims] = useState([]);
   const {state, setState} = useContext(ObjectContext);
@@ -34,7 +34,6 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
   };
 
   const handleRow = claim => {
-    console.log(claim);
     setState(prev => ({
       ...prev,
       ClaimsModule: {
@@ -65,6 +64,18 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
           createdAt: -1,
         },
       };
+
+      if (client_id) {
+        query = {
+          "beneficiary._id": client_id,
+          "provider._id": user.currentEmployee.facilityDetail._id,
+
+          $limit: 100,
+          $sort: {
+            createdAt: -1,
+          },
+        };
+      }
 
       const resp = await claimsServer.find({query: query});
 

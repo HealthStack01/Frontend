@@ -4,7 +4,7 @@ import "./styles/index.scss";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
-//import {useNavigate} from 'react-router-dom'
+import {useNavigate} from "react-router-dom";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "react-toastify";
 import {formatDistanceToNowStrict} from "date-fns";
@@ -96,6 +96,8 @@ export default function PatientProfile() {
     return () => {};
   }, []);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     setSelectedClient(state.ClientModule.selectedClient);
     /*  console.log(client)
@@ -128,35 +130,61 @@ export default function PatientProfile() {
     setAccountModal(true);
   };
 
+  const checkHMO = obj => obj.paymentmode === "HMO";
+
+  const isHMO = client._id && client.paymentinfo.some(checkHMO);
+
   const profileButtons = [
+    {
+      title: "Benefits",
+      action: () => navigate(`/app/clients/benefits/${client._id}`),
+      hide: !isHMO,
+    },
+    {
+      title: "Preauthorization",
+      action: () => navigate(`/app/clients/pre-authorization/${client._id}`),
+      hide: !isHMO,
+    },
+    {
+      title: "Claims",
+      action: () => navigate(`/app/clients/claims/${client._id}`),
+      hide: !isHMO,
+    },
     {
       title: "Appointment History",
       action: () => setVisitModal(true),
+      hide: false,
     },
     {
       title: "Drug Intolerance",
       action: () => setIntoleranceModal(true),
+      hide: false,
     },
     {
       title: "Medications",
       action: () => setMedicationModal(true),
+      hide: false,
     },
     {
       title: "History",
       action: () => setHistoryModal(true),
+      hide: false,
     },
     {
       title: "Problem List",
       action: () => setProblemModal(true),
+      hide: false,
     },
     {
       title: "Task",
       action: () => setTaskModal(true),
+      hide: false,
     },
 
     {
       title: "Diagnosis History",
       action: () => setDiagnoisHistory(true),
+      hide: false,
     },
   ];
 
@@ -240,38 +268,41 @@ export default function PatientProfile() {
                       sx={{fontSize: "0.75rem"}}
                       data-tag="allowRowEvents"
                     >
-                      {pay?.paymentmode}{" "}
-                      {pay?.paymentmode === "Cash" ? "" : ":"}{" "}
+                      {pay?.paymentmode}
+                      {pay?.paymentmode === "Cash" ? "" : ":"}
                       {pay?.organizationName}
+                      {","}&nbsp;
                     </Typography>
                   ))}
               </Box>
 
-              <div className="patient-profile-action-buttons-container">
-                <GlobalCustomButton
-                  sx={{
-                    backgroundColor: "#4F772D",
-                    color: "#ffffff",
-                    fontSize: "0.8rem",
-                    textTransform: "capitalize",
-                    width: "45%",
-                    "&:hover": {
+              {!isHMO && (
+                <div className="patient-profile-action-buttons-container">
+                  <GlobalCustomButton
+                    sx={{
                       backgroundColor: "#4F772D",
-                    },
-                  }}
-                  onClick={showBilling}
-                >
-                  Bill Client
-                </GlobalCustomButton>
+                      color: "#ffffff",
+                      fontSize: "0.8rem",
+                      textTransform: "capitalize",
+                      width: "45%",
+                      "&:hover": {
+                        backgroundColor: "#4F772D",
+                      },
+                    }}
+                    onClick={showBilling}
+                  >
+                    Bill Client
+                  </GlobalCustomButton>
 
-                <GlobalCustomButton
-                  variant="contained"
-                  sx={{width: "45%"}}
-                  onClick={handleOpenClientAccount}
-                >
-                  Account
-                </GlobalCustomButton>
-              </div>
+                  <GlobalCustomButton
+                    variant="contained"
+                    sx={{width: "45%"}}
+                    onClick={handleOpenClientAccount}
+                  >
+                    Account
+                  </GlobalCustomButton>
+                </div>
+              )}
 
               <div className="horizontal-dotted-line" />
 
@@ -304,7 +335,12 @@ export default function PatientProfile() {
           <Card>
             <div className="action-buttons-container">
               {profileButtons.map((item, i) => (
-                <div onClick={item.action}>
+                <div
+                  onClick={item.action}
+                  style={{
+                    display: item.hide ? "none" : "flex",
+                  }}
+                >
                   <span>{item.title}</span>
                 </div>
               ))}
