@@ -69,7 +69,7 @@ const CommunicationChat = () => {
           width: "calc(100% - 400px)",
           height: "calc(100vh - 60px)",
           backgroundColor: "#ffffff",
-          borderLeft: "1px solid #f0f0f0",
+          borderLeft: "1px solid #ced4da",
         }}
       >
         <ChatBoard />

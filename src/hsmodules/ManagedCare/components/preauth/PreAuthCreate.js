@@ -32,7 +32,7 @@ import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicke
 import {SelectAdmission, SelectAppointment} from "../claims/ClaimsCreate";
 import TextAreaVoiceAndText from "../../../../components/inputs/basic/Textarea/VoiceAndText";
 
-const PreAuthCreateComponent = ({handleGoBack}) => {
+const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
   const preAuthServer = client.service("preauth");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -89,6 +89,14 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
   }, [getTotalPreAuthAmount]);
 
   const handleSelectClient = client => {
+    const hmos = client.paymentinfo.filter(
+      item => item.paymentmode.toLowerCase() === "hmo"
+    );
+
+    const firstHMO = hmos[0];
+
+    setPolicy(firstHMO.policy);
+
     setState(prev => ({
       ...prev,
       ClientModule: {
@@ -99,38 +107,6 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
 
     //
   };
-
-  const getPolicy = useCallback(() => {
-    policyServer
-      .find({
-        query: {
-          // organizationId: user.currentEmployee.facilityDetail._id,
-          $or: [
-            {
-              "principal._id": state.ClientModule.selectedClient?._id,
-            },
-            {
-              "dependents._id": state.ClientModule.selectedClient?._id,
-            },
-          ],
-          $limit: 100,
-          $sort: {
-            createdAt: -1,
-          },
-        },
-      })
-      .then(res => {
-        console.log("Policy", res);
-        setPolicy(res.data[0]);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, [state.ClientModule]);
-
-  useEffect(() => {
-    getPolicy();
-  }, [getPolicy]);
 
   const complaintColumns = getComplaintColumns();
   const diagnosisColumns = getDiagnosisColumns();
@@ -368,6 +344,7 @@ const PreAuthCreateComponent = ({handleGoBack}) => {
               <ClientSearch
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
+                id={client_id}
               />
             </Grid>
 

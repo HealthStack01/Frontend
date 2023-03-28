@@ -31,7 +31,11 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
-  const {register, reset, control, handleSubmit} = useForm();
+  const {register, reset, control, handleSubmit} = useForm({
+    defaultValues: {
+      start_time: dayjs(),
+    },
+  });
   const [patient, setPatient] = useState(null);
   const [practioner, setPractitioner] = useState(null);
   const [location, setLocation] = useState(null);
@@ -319,8 +323,8 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <Textarea
             label="Reason for Appointment"
-            important
-            register={register("appointment_reason", {required: true})}
+            //important
+            register={register("appointment_reason")}
             type="text"
             placeholder="write here.."
           />
