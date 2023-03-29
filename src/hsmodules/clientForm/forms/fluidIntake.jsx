@@ -341,7 +341,7 @@ const FluidIntakeOutput = () => {
       DocumentClassModule: newDocumentClassModule,
     }));
 
-    toggleSideMenu();
+    // toggleSideMenu();
   };
 
   return (

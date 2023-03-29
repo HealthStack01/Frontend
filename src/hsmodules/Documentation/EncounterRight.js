@@ -403,7 +403,6 @@ export function VitalSignCreate() {
         encounter_right: false,
       },
     }));
-    toggleSideMenu();
   };
 
   return (

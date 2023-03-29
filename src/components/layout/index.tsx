@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import AppRoutes from '../../hsmodules/routes';
-import { LayoutWrapper } from './styles';
+import AppRoutes from "../../hsmodules/routes";
+import {LayoutWrapper} from "./styles";
 
 function Layout() {
   return (
     <LayoutWrapper>
       <div className="layout__content">
-        <div className="layout__content-main">
+        <div className="layout__content-main" style={{paddingTop: "60px"}}>
           <AppRoutes />
         </div>
       </div>

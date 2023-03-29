@@ -354,7 +354,7 @@ export default function PulmonologyIntake() {
       },
     }));
 
-    toggleSideMenu();
+    //toggleSideMenu();
   };
 
   const handleAllergy = async e => {

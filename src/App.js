@@ -18,6 +18,11 @@ import ActionLoader from "./components/action-loader/Action-Loader";
 
 function App() {
   const [state, setState] = useState({
+    ChatModule: {
+      selectedChat: {},
+      showSearch: false,
+      searchValue: "",
+    },
     TarrifModule: {
       selectedTarrif: {},
       selectedBand: {},

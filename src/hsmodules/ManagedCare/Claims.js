@@ -18,8 +18,6 @@ export default function Claims({standAlone}) {
 
   const {client_id} = useParams();
 
-  console.log(client_id);
-
   const handleGoBack = () => {
     setView("list");
     setState(prev => ({
