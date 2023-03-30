@@ -19,8 +19,9 @@ import ActionLoader from "./components/action-loader/Action-Loader";
 function App() {
   const [state, setState] = useState({
     ChatModule: {
-      selectedChat: {},
+      chatRoom: null,
       showSearch: false,
+      rightSideBar: false,
       searchValue: "",
     },
     TarrifModule: {

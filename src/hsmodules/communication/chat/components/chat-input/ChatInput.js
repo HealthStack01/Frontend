@@ -1,4 +1,4 @@
-import {Box, IconButton} from "@mui/material";
+import {Box, IconButton, Menu, MenuItem} from "@mui/material";
 import {useContext, useState, useRef} from "react";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import AddIcon from "@mui/icons-material/Add";
@@ -6,15 +6,20 @@ import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
 import Popover from "@mui/material/Popover";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 
 import "./styles.scss";
 import {ObjectContext, UserContext} from "../../../../../context";
+import dayjs from "dayjs";
 
-const GeneralChatInputBox = () => {
+const GeneralChatInputBox = ({setMessages}) => {
   const {state} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
   const [inputMessage, setInputMessage] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
+  const [fileAnchorEl, setFileAnchorEl] = useState(null);
+
+  const {selectedChat} = state.ChatModule;
 
   const inputRef = useRef(null);
 
@@ -30,8 +35,6 @@ const GeneralChatInputBox = () => {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
-  const handleSendMessage = () => {};
-
   const handleChange = e => {
     const value = e.target.value;
 
@@ -40,6 +43,39 @@ const GeneralChatInputBox = () => {
 
   const handleEmoji = emoji => {
     setInputMessage(prev => prev.concat(emoji.native));
+  };
+
+  const handleCloseOptions = () => {
+    setFileAnchorEl(null);
+  };
+
+  const handleOpenOptions = event => {
+    setFileAnchorEl(event.currentTarget);
+  };
+
+  const handleSendMessage = () => {
+    const employee = user.currentEmployee;
+
+    const message = {
+      subject: "",
+      chatroom: selectedChat,
+      chatroomId: selectedChat?._id,
+      messageType: "text",
+      message: inputMessage,
+      status: "sending",
+      createdby: employee,
+      createdbyId: employee._id,
+      geolocation: {
+        type: "Point",
+        coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+      },
+      createdAt: dayjs(),
+    };
+
+    //return console.log(message);
+
+    setMessages(prev => [...prev, message]);
+    setInputMessage("");
   };
 
   return (
@@ -67,15 +103,8 @@ const GeneralChatInputBox = () => {
             anchorEl={anchorEl}
             onClose={hideEmojis}
             sx={{
-              //top: "calc(100vh - 410px)",
-
               top: -60,
             }}
-
-            // anchorOrigin={{
-            //   vertical: "bottom",
-            //   horizontal: "left",
-            // }}
           >
             <Picker
               data={data}
@@ -90,9 +119,43 @@ const GeneralChatInputBox = () => {
           </IconButton>
         </>
 
-        <IconButton>
+        <IconButton onClick={handleOpenOptions}>
           <AddIcon />
         </IconButton>
+
+        <Menu
+          anchorEl={fileAnchorEl}
+          id="account-menu"
+          open={Boolean(fileAnchorEl)}
+          onClose={handleCloseOptions}
+          anchorOrigin={{horizontal: "right", vertical: "bottom"}}
+          // sx={{padding: 0}}
+        >
+          <MenuItem
+            sx={{fontSize: "0.8rem"}}
+            onClick={() => {
+              handleCloseOptions();
+            }}
+          >
+            Image
+          </MenuItem>
+          <MenuItem
+            sx={{fontSize: "0.8rem"}}
+            onClick={() => {
+              handleCloseOptions();
+            }}
+          >
+            Video
+          </MenuItem>{" "}
+          <MenuItem
+            sx={{fontSize: "0.8rem"}}
+            onClick={() => {
+              handleCloseOptions();
+            }}
+          >
+            Document
+          </MenuItem>
+        </Menu>
       </Box>
 
       <Box

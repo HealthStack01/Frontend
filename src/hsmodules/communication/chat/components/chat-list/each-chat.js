@@ -1,36 +1,52 @@
+import {useState, useContext, useCallback, useEffect} from "react";
 import {Avatar, Box, Typography} from "@mui/material";
 import {returnAvatarString} from "../../../../helpers/returnAvatarString";
-
-// function stringToColor(string) {
-//   let hash = 0;
-//   let i;
-
-//   /* eslint-disable no-bitwise */
-//   for (i = 0; i < string.length; i += 1) {
-//     hash = string.charCodeAt(i) + ((hash << 5) - hash);
-//   }
-
-//   let color = "#";
-
-//   for (i = 0; i < 3; i += 1) {
-//     const value = (hash >> (i * 8)) & 0xff;
-//     color += `00${value.toString(16)}`.slice(-2);
-//   }
-//   /* eslint-enable no-bitwise */
-
-//   return color;
-// }
-
-// function stringAvatar(name) {
-//   return {
-//     sx: {
-//       bgcolor: stringToColor(name),
-//     },
-//     children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
-//   };
-// }
+import {UserContext} from "../../../../../context";
+import client from "../../../../../feathers";
 
 const EachChat = ({chat}) => {
+  const chatMessagesServer = client.service("chat");
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
+  const [chatInfo, setChatInfo] = useState(null);
+
+  const getRecentChatMessage = useCallback(() => {
+    setLoading(true);
+    chatMessagesServer
+      .find({
+        query: {
+          chatroomId: chat._id,
+
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      })
+      .then(res => {
+        const data = {
+          ...chat,
+          messages: res.data,
+        };
+
+        console.log(data);
+        setChatInfo(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+        setLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    getRecentChatMessage();
+  }, [getRecentChatMessage]);
+
+  const chatPartner = chat.members.find(
+    item => item._id !== user.currentEmployee._id
+  );
+
   return (
     <Box
       sx={{
@@ -47,7 +63,7 @@ const EachChat = ({chat}) => {
       }}
     >
       <Box mr={0.6}>
-        <Avatar {...returnAvatarString(`John Doe`)} />
+        <Avatar {...returnAvatarString(`${chatPartner.name}`)} />
       </Box>
 
       <Box
@@ -66,7 +82,7 @@ const EachChat = ({chat}) => {
           <Typography
             sx={{fontSize: "0.8rem", fontWeight: "bold", color: "#1976d2"}}
           >
-            John Doe
+            {chatPartner?.name}
           </Typography>
 
           <Typography
@@ -126,3 +142,6 @@ const EachChat = ({chat}) => {
 };
 
 export default EachChat;
+
+//For Group Chat or Chat with more than 1 members
+const ChannelChat = () => {};
