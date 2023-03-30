@@ -1,25 +1,19 @@
-import {Box, Typography} from "@mui/material";
+import {Box, Typography, Card, CardContent, Grid} from "@mui/material";
 import React, {useEffect, useState} from "react";
-
-import ViewCard from "./@sections/ViewCard";
 import ViewCardWithFilter from "./@sections/ViewCardWithFilter";
-import LineChart from "../charts/LineChart";
-// import CircleChart from "../charts/CircleChart";
+import TotalStockIcon from '@mui/icons-material/Inventory';
+import TotalSalesIcon from '@mui/icons-material/ShoppingCart';
 import {PharmacyLineSeriesData} from "../utils/chartData/LineData";
-
 import client from "../../../feathers";
 
 import {
-  DashboardContainer,
   DashboardPageWrapper,
-  StartCardWapper,
 } from "../core-ui/styles";
 import {userDetails} from "../utils/fetchUserDetails";
 
 import {
   TotalModeltDataForPresent,
   FetchTotalStockQuantity,
-  FetchTotalStockValue,
 } from "../utils/chartData/queryHandler";
 
 import {
@@ -90,105 +84,86 @@ const PharmacyDashboard = () => {
   return (
     <DashboardPageWrapper>
       <Box>
-        <Box>
-          <Typography variant="h2">
-            Hello <span>{userName}</span>👋
-          </Typography>
-          <Typography variant="body1">
-            Welcome to your Pharmcy Module{" "}
-            <span>@Front Desk {facilityName}</span>
-          </Typography>
-        </Box>
-
-        <StartCardWapper>
-          <ViewCardWithFilter
+        <Typography variant="h5" style={{ textShadow: "1px 1px 2px rgb(0, 45, 92)" }}>Pharmacy Dashboard</Typography>
+        <Grid container spacing={3} justifyContent="center" alignItems="center" style={{marginTop: '20px'}}>
+        <Grid item xs={12}  md={6}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+			Total Stock
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center' }}>
+			  <Box sx={{ flexGrow: 1 }}>
+				<Typography variant="h5" fontWeight="bold" component="div">
+				{`${fetchTotalStockQuantity}K`}
+				</Typography>
+			  </Box>
+			  <Box>
+				<TotalStockIcon  sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
+			  </Box>
+			</Box>
+		  </CardContent>
+		</Card>
+	  </Grid>
+    <Grid item xs={12}  md={6}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+			Total Sales
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center' }}>
+			  <Box sx={{ flexGrow: 1 }}>
+				<Typography variant="h5" fontWeight="bold" component="div">
+				{`₦${fetchTotalSalePharmacy}K`}
+				</Typography>
+			  </Box>
+			  <Box>
+				<TotalSalesIcon  sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
+			  </Box>
+			</Box>
+		  </CardContent>
+		</Card>
+	  </Grid>
+    <Grid item xs={12} sm={6} md={4}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+      <ViewCardWithFilter
             count={0}
-            title="No Of Prescription Sent"
+            title="Total Stock Value"
+            hasFilter={true}
+            dataSource={pharmacyStockValuePresentDataObject}
+            isLoading={isSentLoading}
+          />
+		  </CardContent>
+		</Card>
+	  </Grid>
+    <Grid item xs={12} sm={6} md={4}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+      <ViewCardWithFilter
+            count={0}
+            title="No Of Prescription Dispensed"
             hasFilter={true}
             dataSource={prescriptionOrderPresentDataObject}
             isLoading={isSentLoading}
           />
-          <ViewCardWithFilter
+		  </CardContent>
+		</Card>
+	  </Grid>
+    <Grid item xs={12} sm={6} md={4}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+      <ViewCardWithFilter
             count={0}
-            title="No Of Prescription Billed"
+            title="Total Sale Value"
             hasFilter={true}
-            dataSource={prescriptionBilledPresentDataObject}
+            dataSource={pharmacySaleValuePresentDataObject}
             isLoading={isSentLoading}
           />
-          <ViewCard count={`${fetchTotalStockQuantity}K`} title="Total Stock" />
-        </StartCardWapper>
-
-        <DashboardContainer>
-          <Box
-            sx={{
-              display: "grid",
-              width: "100%",
-              gridGap: "10px",
-              gridTemplateColumns: {lg: "repeat(3, 1fr)", xs: "1fr"},
-              mb: 5,
-            }}
-          >
-            <Box sx={{width: "100%", p: 2, mb: 5}}>
-              <LineChart
-                title="Revenue"
-                monthArray={monthNameForCurrentYear}
-                series={pharmacyLineSeriesData}
-              />
-              <StartCardWapper>
-                <ViewCardWithFilter
-                  count={0}
-                  title="Total Stock Value"
-                  hasFilter={true}
-                  dataSource={pharmacyStockValuePresentDataObject}
-                  isLoading={isSentLoading}
-                />
-                {/* <ViewCard count={"80K"} title="Total Purchases" /> */}
-              </StartCardWapper>
-              <Box>
-                {/* <StartCardWapper>
-                  <ViewCardWithFilter
-                    count={0}
-                    title="No Of Prescription Dispensed"
-                    hasFilter={true}
-                    dataSource={prescriptionOrderPresentDataObject}
-                    isLoading={isSentLoading}
-                  />
-                </StartCardWapper> */}
-              </Box>
-            </Box>
-            <Box sx={{width: "100%", p: 2, mb: 5}}>
-              {/* <LineChart title="Prescription Overview" /> */}
-              <StartCardWapper>
-                <ViewCardWithFilter
-                  count={0}
-                  title="Total Sale Value"
-                  hasFilter={true}
-                  dataSource={pharmacySaleValuePresentDataObject}
-                  isLoading={isSentLoading}
-                />
-              </StartCardWapper>
-            </Box>
-            <Box sx={{width: "100%", p: 2, mb: 5}}>
-              <StartCardWapper>
-                <ViewCard
-                  count={`${fetchTotalSalePharmacy}K`}
-                  title="Total Sales"
-                />
-              </StartCardWapper>
-              <StartCardWapper>
-                <Box>
-                  <ViewCardWithFilter
-                    count={0}
-                    title="No Of Prescription Pending"
-                    hasFilter={true}
-                    dataSource={prescriptionPendingPresentDataObject}
-                    isLoading={isSentLoading}
-                  />
-                </Box>
-              </StartCardWapper>
-            </Box>
-          </Box>
-        </DashboardContainer>
+		  </CardContent>
+		</Card>
+	  </Grid>
+     </Grid>  
       </Box>
     </DashboardPageWrapper>
   );
