@@ -3,12 +3,13 @@ import {Avatar, Box, Typography} from "@mui/material";
 import {returnAvatarString} from "../../../../helpers/returnAvatarString";
 import {UserContext} from "../../../../../context";
 import client from "../../../../../feathers";
+import Skeleton from "@mui/material/Skeleton";
 
 const EachChat = ({chat}) => {
   const chatMessagesServer = client.service("chat");
   const {user} = useContext(UserContext);
   const {state, setState} = useContext(UserContext);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [chatInfo, setChatInfo] = useState(null);
 
   const getRecentChatMessage = useCallback(() => {
@@ -29,7 +30,7 @@ const EachChat = ({chat}) => {
           messages: res.data,
         };
 
-        console.log(data);
+        //console.log(data);
         setChatInfo(data);
         setLoading(false);
       })
@@ -47,6 +48,30 @@ const EachChat = ({chat}) => {
     item => item._id !== user.currentEmployee._id
   );
 
+  if (loading)
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          borderBottom: "1px solid #f0f0f0",
+        }}
+        gap={0.5}
+        p="10px"
+      >
+        <Skeleton animation="wave" variant="circular" width={30} height={30} />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 0.5,
+          }}
+        >
+          <Skeleton animation="wave" height={10} width="40%" />
+          <Skeleton animation="wave" height={10} width="80%" />
+        </Box>
+      </Box>
+    );
   return (
     <Box
       sx={{

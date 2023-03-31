@@ -14,7 +14,7 @@ const ChatEachStaff = ({staff}) => {
 
   const handleOnStaffClick = async () => {
     const employee = user.currentEmployee;
-    return console.log("hello world");
+
     showActionLoader();
 
     const newChatRoom = {

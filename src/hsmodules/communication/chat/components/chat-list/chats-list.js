@@ -48,6 +48,7 @@ const CommunicationChatsList = ({showStaffsList}) => {
   };
 
   const handleGetChatRooms = useCallback(() => {
+    setFetchingChats(true);
     chatroomServer
       .find({
         query: {
@@ -56,8 +57,10 @@ const CommunicationChatsList = ({showStaffsList}) => {
       })
       .then(res => {
         setChats(res.data);
+        setFetchingChats(false);
       })
       .catch(error => {
+        setFetchingChats(false);
         toast.error(
           `Sorry, an error ouccured fetching your chat rooms - ${error}`
         );

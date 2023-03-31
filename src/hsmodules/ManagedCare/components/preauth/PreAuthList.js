@@ -58,7 +58,7 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
     setLoading(true);
     if (user.currentEmployee) {
       let query = {
-        "provider._id": user.currentEmployee.facilityDetail._id,
+        "hmopayer._id": user.currentEmployee.facilityDetail._id,
 
         $limit: 100,
         $sort: {
@@ -69,7 +69,7 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
       if (client_id) {
         query = {
           "beneficiary._id": client_id,
-          "provider._id": user.currentEmployee.facilityDetail._id,
+          "hmopayer._id": user.currentEmployee.facilityDetail._id,
 
           $limit: 100,
           $sort: {
@@ -314,7 +314,7 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
                 </div>
               )}
               <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-                List of Preauthrozations
+                List of Preauthorizations
               </h2>
             </div>
             <Box>
