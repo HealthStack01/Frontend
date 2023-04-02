@@ -51,6 +51,7 @@ function GoogleAddressInput({label, register, getSelectedAddress}) {
         label={label}
         inputRef={addressInputRef}
         register={register}
+        placeholder=""
       />
     </div>
   );

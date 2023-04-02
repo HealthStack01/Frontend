@@ -78,7 +78,7 @@ const ClientForm = ({closeModal, setOpen}) => {
     setValue,
     watch,
   } = useForm({
-    //resolver: yupResolver(createClientSchema),
+    resolver: yupResolver(createClientSchema),
     shouldUnregister: false,
     defaultValues: {
       firstname: "",
@@ -92,7 +92,7 @@ const ClientForm = ({closeModal, setOpen}) => {
   });
 
   const submit = async (data, e) => {
-    return console.log(data);
+    //return console.log(data);
     showActionLoader();
     setLoading(true);
     e.preventDefault();
