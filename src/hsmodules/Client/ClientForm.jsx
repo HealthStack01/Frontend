@@ -30,6 +30,7 @@ import ClientGroup from "./ClientGroup";
 import {ObjectContext, UserContext} from "../../context";
 import {Nigeria} from "../app/Nigeria";
 import dayjs from "dayjs";
+import GoogleAddressInput from "../../components/google-autocomplete";
 
 const UploadComponent = ({}) => {
   return (
@@ -77,8 +78,8 @@ const ClientForm = ({closeModal, setOpen}) => {
     setValue,
     watch,
   } = useForm({
-    resolver: yupResolver(createClientSchema),
-
+    //resolver: yupResolver(createClientSchema),
+    shouldUnregister: false,
     defaultValues: {
       firstname: "",
       lastname: "",
@@ -90,22 +91,8 @@ const ClientForm = ({closeModal, setOpen}) => {
     },
   });
 
-  const [selectedState, setSelectedState] = useState(null);
-
-  const states = Nigeria.map(obj => obj.state);
-
-  //alphabetically arrange state
-  const sortedStates = states.sort((a, b) => a.localeCompare(b));
-
-  const watchedState = watch("state");
-
-  useEffect(() => {
-    setSelectedState(Nigeria.find(item => item.state === watchedState));
-    setValue("facilityCity", "");
-    setValue("facilityLGA", "");
-  }, [watchedState]);
-
   const submit = async (data, e) => {
+    return console.log(data);
     showActionLoader();
     setLoading(true);
     e.preventDefault();
@@ -161,45 +148,6 @@ const ClientForm = ({closeModal, setOpen}) => {
       query.email = data.email;
       checkQuery(query);
     }
-
-    // if (!!data.firstname && !!data.lastname && !!data.gender && !!data.dob) {
-    //   data.middlename = data.middlename || '';
-    //   (query.gender = data.gender),
-    //     (query.dob = data.dob),
-    //     (query.$or = [
-    //       {
-    //         firstname: data.firstname,
-    //         lastname: data.lastname,
-    //         middlename: data.middlename,
-    //       },
-    //       {
-    //         firstname: data.firstname,
-    //         lastname: data.middlename,
-    //         middlename: data.lastname,
-    //       },
-    //       {
-    //         firstname: data.middlename,
-    //         lastname: data.lastname,
-    //         middlename: data.firstname,
-    //       },
-    //       {
-    //         firstname: data.middlename,
-    //         lastname: data.firstname,
-    //         middlename: data.lastname,
-    //       },
-    //       {
-    //         firstname: data.lastname,
-    //         lastname: data.firstname,
-    //         middlename: data.middlename,
-    //       },
-    //       {
-    //         firstname: data.lastname,
-    //         lastname: data.middlename,
-    //         middlename: data.firstname,
-    //       },
-    //     ]);
-    //   checkQuery(query);
-    // }
   };
 
   const checkQuery = query => {
@@ -294,6 +242,14 @@ const ClientForm = ({closeModal, setOpen}) => {
     setDependant(true);
     toast.success("You're Creating a Dependent Client");
     setDuplicateModal(false);
+  };
+
+  const handleGoogleAddressSelect = obj => {
+    setValue("residentialaddress", obj.address);
+    setValue("state", obj.state);
+    setValue("town", obj.lga);
+    setValue("lga", obj.lga);
+    setValue("country", obj.country);
   };
 
   return (
@@ -436,63 +392,28 @@ const ClientForm = ({closeModal, setOpen}) => {
                       />
                     </Grid>
 
-                    <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="Country"
-                        control={control}
-                        name="country"
-                        //errorText={errors?.facilityCountry?.message}
-                        options={["Nigeria"]}
-                      />
-                    </Grid>
-
                     <Grid item lg={6} md={6} sm={12}>
-                      <Input
+                      <GoogleAddressInput
                         label="Residential Address"
                         register={register("residentialaddress")}
+                        getSelectedAddress={handleGoogleAddressSelect}
                       />
                     </Grid>
 
                     <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="State"
-                        control={control}
-                        name="state"
-                        //errorText={errors?.facilityState?.message}
-                        options={sortedStates}
-                      />
+                      <Input label="Town/City" register={register("town")} />
                     </Grid>
 
                     <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="Town/City"
-                        control={control}
-                        name="town"
-                        //errorText={errors?.facilityLGA?.message}
-                        options={
-                          selectedState
-                            ? selectedState.lgas.sort((a, b) =>
-                                a.localeCompare(b)
-                              )
-                            : []
-                        }
-                      />
+                      <Input label="LGA" register={register("lga")} />
                     </Grid>
 
                     <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="LGA"
-                        control={control}
-                        name="lga"
-                        //errorText={errors?.facilityLGA?.message}
-                        options={
-                          selectedState
-                            ? selectedState.lgas.sort((a, b) =>
-                                a.localeCompare(b)
-                              )
-                            : []
-                        }
-                      />
+                      <Input label="State" register={register("state")} />
+                    </Grid>
+
+                    <Grid item lg={3} md={4} sm={6}>
+                      <Input label="Country" register={register("country")} />
                     </Grid>
 
                     <Grid item lg={3} md={4} sm={6}>
@@ -501,6 +422,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("nextofkin")}
                       />
                     </Grid>
+
                     <Grid item lg={3} md={4} sm={6}>
                       <Input
                         label="Next of Kin Phone"
@@ -700,63 +622,28 @@ const ClientForm = ({closeModal, setOpen}) => {
                       <FormsHeaderText text="Client Address" />
                     </Grid>
 
-                    <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="Country"
-                        control={control}
-                        name="country"
-                        //errorText={errors?.facilityCountry?.message}
-                        options={["Nigeria"]}
-                      />
-                    </Grid>
-
                     <Grid item lg={6} md={6} sm={12}>
-                      <Input
+                      <GoogleAddressInput
                         label="Residential Address"
                         register={register("residentialaddress")}
+                        getSelectedAddress={handleGoogleAddressSelect}
                       />
                     </Grid>
 
                     <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="State"
-                        control={control}
-                        name="state"
-                        //errorText={errors?.facilityState?.message}
-                        options={sortedStates}
-                      />
+                      <Input label="Town/City" register={register("town")} />
                     </Grid>
 
                     <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="Town/City"
-                        control={control}
-                        name="town"
-                        //errorText={errors?.facilityLGA?.message}
-                        options={
-                          selectedState
-                            ? selectedState.lgas.sort((a, b) =>
-                                a.localeCompare(b)
-                              )
-                            : []
-                        }
-                      />
+                      <Input label="LGA" register={register("lga")} />
                     </Grid>
 
                     <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="LGA"
-                        control={control}
-                        name="lga"
-                        //errorText={errors?.facilityLGA?.message}
-                        options={
-                          selectedState
-                            ? selectedState.lgas.sort((a, b) =>
-                                a.localeCompare(b)
-                              )
-                            : []
-                        }
-                      />
+                      <Input label="State" register={register("state")} />
+                    </Grid>
+
+                    <Grid item lg={3} md={4} sm={6}>
+                      <Input label="Country" register={register("country")} />
                     </Grid>
                   </Grid>
 

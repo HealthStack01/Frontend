@@ -68,7 +68,7 @@ const ClaimsListComponent = ({showCreate, showDetail, client_id}) => {
       if (client_id) {
         query = {
           "beneficiary._id": client_id,
-          "hmopayer._id": user.currentEmployee.facilityDetail._id,
+          "provider._id": user.currentEmployee.facilityDetail._id,
 
           $limit: 100,
           $sort: {

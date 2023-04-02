@@ -90,3 +90,7 @@ html {
 .react-select__menu.react-select__menu {
   z-index: 2000;
 }
+
+.pac-container {
+  z-index: 999999 !important;
+}
