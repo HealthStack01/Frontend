@@ -127,11 +127,6 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
 
     const clinical_data = data;
 
-    //REMOVE DATA THAT'S ALREADY IN CLAIM'S OBJECT
-    // delete clinical_data.totalamount;
-    // delete clinical_data.claimtype;
-    // delete clinical_data.comments;
-    // delete clinical_data.patientstate;
     const statushx = {
       status: "Submitted",
       date: new Date(),

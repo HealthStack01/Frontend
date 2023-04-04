@@ -1,11 +1,15 @@
+import {useContext} from "react";
 import {Box, Typography} from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 
 import "./styles.scss";
+import {UserContext} from "../../../../../context";
 
 const EachChatMessage = ({message}) => {
-  const isSent = true;
+  const {user} = useContext(UserContext);
+
+  const isSent = message.createdbyId === user.currentEmployee._id;
 
   return (
     <Box
@@ -15,13 +19,13 @@ const EachChatMessage = ({message}) => {
         display: "flex",
         alignItems: "center",
         marginBottom: "12px",
-        justifyContent: message.isSent ? "flex-end" : "flex-start",
+        justifyContent: isSent ? "flex-end" : "flex-start",
         padding: "15px 6%",
       }}
     >
       <Box
         className={`each-message-container ${
-          message.isSent ? "sent-message" : "received-message"
+          isSent ? "sent-message" : "received-message"
         }`}
       >
         <div className="message">
@@ -39,7 +43,7 @@ const EachChatMessage = ({message}) => {
             }}
           >
             <span>1min</span>
-            {message.isSent && <DoneAllIcon sx={{color: "#f6fff8"}} />}
+            {isSent && <DoneAllIcon sx={{color: "#f6fff8"}} />}
           </Box>
         </div>
       </Box>

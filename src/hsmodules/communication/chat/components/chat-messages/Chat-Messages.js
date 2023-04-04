@@ -5,10 +5,12 @@ import EachChatMessage from "./Each-Message";
 import MessageSearchInput from "../search-input/Search-Input";
 import {ObjectContext} from "../../../../../context";
 
-const ChatConversationMessages = ({}) => {
+const ChatConversationMessages = ({messages}) => {
   const {state} = useContext(ObjectContext);
-  const [messages, setMessages] = useState([]);
+  //const [messages, setMessages] = useState([]);
   //const [showSearch, setShowSearch] = useState(true);
+
+  const {searchValue} = state.ChatModule;
 
   const msgs = [
     {
@@ -61,6 +63,12 @@ const ChatConversationMessages = ({}) => {
     },
   ];
 
+  const searchedMessages = messages.filter(message => {
+    if (searchValue === "") return message;
+    if (message.message?.toLowerCase().includes(searchValue.toLowerCase()))
+      return message;
+  });
+
   return (
     <>
       <Box
@@ -70,7 +78,7 @@ const ChatConversationMessages = ({}) => {
           overflowY: "scroll",
         }}
       >
-        {msgs.map((msg, i) => (
+        {searchedMessages.map((msg, i) => (
           <Box key={i}>
             <EachChatMessage message={msg} />
           </Box>

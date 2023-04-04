@@ -35,7 +35,7 @@ import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 
-const PreAuthDetailComponent = ({handleGoBack}) => {
+const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
   const preAuthServer = client.service("preauth");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -543,10 +543,15 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
             Details
           </GlobalCustomButton>
 
-          <GlobalCustomButton color="warning" onClick={() => setView("tasks")}>
-            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-            Tasks
-          </GlobalCustomButton>
+          {!client_id && (
+            <GlobalCustomButton
+              color="warning"
+              onClick={() => setView("tasks")}
+            >
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Tasks
+            </GlobalCustomButton>
+          )}
 
           <GlobalCustomButton
             onClick={() => setChat(true)}
@@ -562,13 +567,15 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
             Chat
           </GlobalCustomButton>
 
-          <GlobalCustomButton
-            color="success"
-            onClick={() => setStatusModal(true)}
-          >
-            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-            Change Status
-          </GlobalCustomButton>
+          {!client_id && (
+            <GlobalCustomButton
+              color="success"
+              onClick={() => setStatusModal(true)}
+            >
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Change Status
+            </GlobalCustomButton>
+          )}
 
           {/* <GlobalCustomButton color="info" onClick={() => setAssignModal(true)}>
             <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />

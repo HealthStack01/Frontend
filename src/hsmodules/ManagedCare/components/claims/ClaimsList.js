@@ -57,7 +57,7 @@ const ClaimsListComponent = ({showCreate, showDetail, client_id}) => {
     setLoading(true);
     if (user.currentEmployee) {
       let query = {
-        "provider._id": user.currentEmployee.facilityDetail._id,
+        "hmopayer._id": user.currentEmployee.facilityDetail._id,
 
         $limit: 100,
         $sort: {

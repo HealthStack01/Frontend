@@ -35,7 +35,7 @@ import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicke
 import UpadteService from "./UpdateService";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 
-const ClaimDetailComponent = ({handleGoBack}) => {
+const ClaimDetailComponent = ({handleGoBack, client_id}) => {
   const claimsServer = client.service("claims");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -562,10 +562,15 @@ const ClaimDetailComponent = ({handleGoBack}) => {
             Details
           </GlobalCustomButton>
 
-          <GlobalCustomButton color="warning" onClick={() => setView("tasks")}>
-            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-            Tasks
-          </GlobalCustomButton>
+          {!client_id && (
+            <GlobalCustomButton
+              color="warning"
+              onClick={() => setView("tasks")}
+            >
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Tasks
+            </GlobalCustomButton>
+          )}
 
           <GlobalCustomButton
             onClick={() => setChat(true)}
@@ -581,26 +586,29 @@ const ClaimDetailComponent = ({handleGoBack}) => {
             Chat
           </GlobalCustomButton>
 
-          <GlobalCustomButton
-            color="success"
-            onClick={() => setStatusModal(true)}
-          >
-            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-            Change Status
-          </GlobalCustomButton>
+          {!client_id && (
+            <GlobalCustomButton
+              color="success"
+              onClick={() => setStatusModal(true)}
+            >
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Change Status
+            </GlobalCustomButton>
+          )}
 
           {(user?.currentEmployee?.roles?.includes("Admin") ||
             user?.currentEmployee?.roles?.includes(
               "Managed Care Assign Claim"
-            )) && (
-            <GlobalCustomButton
-              color="info"
-              onClick={() => setAssignModal(true)}
-            >
-              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-              Assign Claim
-            </GlobalCustomButton>
-          )}
+            )) &&
+            !client_id && (
+              <GlobalCustomButton
+                color="info"
+                onClick={() => setAssignModal(true)}
+              >
+                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                Assign Claim
+              </GlobalCustomButton>
+            )}
         </Box>
       </Box>
       <Box

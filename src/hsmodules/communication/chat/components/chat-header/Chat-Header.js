@@ -1,5 +1,12 @@
-import {useContext} from "react";
-import {Avatar, Box, IconButton, Typography} from "@mui/material";
+import {useContext, useState} from "react";
+import {
+  Avatar,
+  Box,
+  IconButton,
+  Typography,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -7,7 +14,16 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {ObjectContext} from "../../../../../context";
 
 const ChatConversationHeader = () => {
+  const [anchorEl, setAnchorEl] = useState(null);
   const {state, setState} = useContext(ObjectContext);
+
+  const handleCloseOptions = () => {
+    setAnchorEl(null);
+  };
+
+  const handleOpenOptions = event => {
+    setAnchorEl(event.currentTarget);
+  };
 
   const showSearchInput = () => {
     setState(prev => ({
@@ -15,6 +31,16 @@ const ChatConversationHeader = () => {
       ChatModule: {
         ...prev.ChatModule,
         showSearch: true,
+      },
+    }));
+  };
+
+  const showRightSideBar = () => {
+    setState(prev => ({
+      ...prev,
+      ChatModule: {
+        ...prev.ChatModule,
+        rightSideBar: true,
       },
     }));
   };
@@ -66,9 +92,28 @@ const ChatConversationHeader = () => {
           <SearchIcon />
         </IconButton>
 
-        <IconButton>
-          <ExpandMoreIcon />
+        <IconButton onClick={handleOpenOptions}>
+          <MoreVertIcon />
         </IconButton>
+
+        <Menu
+          anchorEl={anchorEl}
+          id="account-menu"
+          open={Boolean(anchorEl)}
+          onClose={handleCloseOptions}
+          anchorOrigin={{horizontal: "right", vertical: "bottom"}}
+          // sx={{padding: 0}}
+        >
+          <MenuItem
+            sx={{fontSize: "0.8rem"}}
+            onClick={() => {
+              showRightSideBar();
+              handleCloseOptions();
+            }}
+          >
+            User Profile
+          </MenuItem>
+        </Menu>
       </Box>
     </Box>
   );
