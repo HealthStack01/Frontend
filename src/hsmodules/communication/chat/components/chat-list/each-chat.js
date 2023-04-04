@@ -1,14 +1,14 @@
 import {useState, useContext, useCallback, useEffect} from "react";
 import {Avatar, Box, Typography} from "@mui/material";
 import {returnAvatarString} from "../../../../helpers/returnAvatarString";
-import {UserContext} from "../../../../../context";
+import {ObjectContext, UserContext} from "../../../../../context";
 import client from "../../../../../feathers";
 import Skeleton from "@mui/material/Skeleton";
 
 const EachChat = ({chat}) => {
   const chatMessagesServer = client.service("chat");
   const {user} = useContext(UserContext);
-  const {state, setState} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
   const [loading, setLoading] = useState(true);
   const [chatInfo, setChatInfo] = useState(null);
 
@@ -48,6 +48,16 @@ const EachChat = ({chat}) => {
     item => item._id !== user.currentEmployee._id
   );
 
+  const handleSelectChatRoom = () => {
+    setState(prev => ({
+      ...prev,
+      ChatModule: {
+        ...prev.ChatModule,
+        chatRoom: chat,
+      },
+    }));
+  };
+
   if (loading)
     return (
       <Box
@@ -86,6 +96,7 @@ const EachChat = ({chat}) => {
           backgroundColor: "#f0f0f0",
         },
       }}
+      onClick={handleSelectChatRoom}
     >
       <Box mr={0.6}>
         <Avatar {...returnAvatarString(`${chatPartner.name}`)} />

@@ -56,6 +56,7 @@ const CommunicationChatsList = ({showStaffsList}) => {
         },
       })
       .then(res => {
+        //console.log(res.data);
         setChats(res.data);
         setFetchingChats(false);
       })

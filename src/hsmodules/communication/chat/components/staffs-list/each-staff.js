@@ -50,24 +50,21 @@ const ChatEachStaff = ({staff}) => {
     return chatroomServer
       .find({
         query: {
-          "members._id": newChatRoom.members,
+          members: newChatRoom.members,
         },
       })
       .then(res => {
         const data = res.data;
         if (data.length > 0) {
           const chatRoom = data[0];
-
-          setState(prev => ({
+          hideActionLoader();
+          return setState(prev => ({
             ...prev,
             ChatModule: {
               ...prev.ChatModule,
               chatRoom: chatRoom,
             },
           }));
-
-          hideActionLoader();
-          return;
         } else {
           return chatroomServer
             .create(newChatRoom)
