@@ -204,15 +204,15 @@ const ClaimsListComponent = ({showCreate, showDetail, client_id}) => {
     //   required: true,
     //   inputType: "HIDDEN",
     // },
-    // {
-    //   name: "Provider",
-    //   key: "hospital name",
-    //   description: "Enter Hospital Name",
-    //   selector: row => row?.provider?.facilityName,
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "TEXT",
-    // },
+    {
+      name: "Provider",
+      key: "hospital name",
+      description: "Enter Hospital Name",
+      selector: row => row?.provider?.facilityName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
 
     {
       name: "Status",
