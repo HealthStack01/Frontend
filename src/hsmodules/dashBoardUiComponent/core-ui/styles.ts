@@ -575,6 +575,7 @@ export const DashboardContainer = styled.div`
   display: flex;
   height: 75vh;
   overflow-y: auto;
+  background: #ebebeb;
 
   @media (max-width: 400px) {
     height: auto;
