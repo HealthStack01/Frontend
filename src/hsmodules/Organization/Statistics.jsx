@@ -14,21 +14,73 @@ import {
     DashboardPageWrapper,
   } from "../dashBoardUiComponent/core-ui/styles.ts";
   import client from '../../feathers';
-  const facilityServer = client.service('facility');
 
 const Statistics = ({goBack}) => {
+   const facilityServer = client.service('facility');
+  const clientServe = client.service('client');
+  const employeeServer = client.service('employee');
+  const appointmentServ = client.service('appointments');
   const [selectedType, setSelectedType] = useState("Hospital");
   const [facility, setFacility] = useState({});
+  const [totalAppointments, setTotalAppointments] = useState(null);
+  const [totalEmployees, setTotalEmployees] = useState(null);
+  const [totalClients, setTotalClients] = useState(null);
   const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
 
   const date = new Date(facility.createdAt);
   const options = { year: "numeric", month: "long", day: "numeric" };
   const currentOrganization = state.OrganizationModule.selectedOrganization;
 
-
   const handleTypeChange = (event) => {
     setSelectedType(event.target.value);
   };
+
+  const getTotalEmployees = useCallback(() => {
+    employeeServer.find({
+      query: {
+        organizationId: currentOrganization._id,
+        $limit: 0
+      }
+    }).then(result => {
+      setTotalEmployees(result.total);
+    }).catch(err => {
+      console.log(err);
+    });
+  }, [currentOrganization._id]);
+
+
+  const getTotalClients = useCallback(() => {
+    showActionLoader();
+    clientServe.find({
+      query: {
+        organizationId: currentOrganization._id,
+        $limit: 0
+      }
+    }).then(result => {
+      hideActionLoader();
+      setTotalClients(result.total);
+    }).catch(err => {
+      hideActionLoader();
+      console.log(err);
+    });
+  }, [currentOrganization._id]);
+
+  const getTotalAppointments = useCallback(() => {
+    showActionLoader();
+    appointmentServ.find({
+      query: {
+        organizationId: currentOrganization._id,
+        $limit: 0
+      }
+    }).then(result => {
+      hideActionLoader();
+      setTotalAppointments(result.total);
+    }).catch(err => {
+      hideActionLoader();
+      console.log(err);
+    });
+  }, [currentOrganization._id]);
+
 
   const getCurrentFacility = useCallback(async () => {
 		showActionLoader();
@@ -48,24 +100,31 @@ const Statistics = ({goBack}) => {
   
 	useEffect(() => {
 		getCurrentFacility();
-	}, [getCurrentFacility]);
+    getTotalAppointments();
+    getTotalEmployees();
+    getTotalClients();
+	}, [getTotalEmployees, getTotalAppointments,  getCurrentFacility]);
+
+  // useEffect(() => {
+	// 	getCurrentFacility();
+  //   getCurrentAppointment();
+  //   getTotalEmployees();
+	// }, [getCurrentFacility]);
 
   return (
     <DashboardPageWrapper>
         <GlobalCustomButton  onClick={goBack}>Go Back</GlobalCustomButton>
          <Box sx={{ m: 2 }}>
-          <Typography weight="bold" variant="h5">
-           Organization statistics
-          </Typography>
+          <Typography variant="h5" style={{ textShadow: "1px 1px 2px rgb(0, 45, 92)" }}> Organization statistics</Typography>
           </Box>
-     <Grid container>
+     <Grid container backgroundColor="#ebebeb">
     <Grid item xs={12} md={3}>
       <StyledCard>
         <StyledCardContent>
           <BarChartIcon fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Revenue</StyledTypography>
-            <StyledNumber backgroundColor="#1abc9c">₦140,000</StyledNumber>
+            <StyledNumber backgroundColor="#1abc9c">None</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -78,13 +137,13 @@ const Statistics = ({goBack}) => {
         Billing type 
         </StyledTypography>
         {selectedType === "Employee" && (
-          <StyledNumber backgroundColor="#3498db">Employee</StyledNumber>
+          <StyledNumber backgroundColor="#3498db">0</StyledNumber>
         )}
          {selectedType === "Yearly Subscription" && (
-          <StyledNumber backgroundColor="#3498db">Yearly Subscription</StyledNumber>
+          <StyledNumber backgroundColor="#3498db">0</StyledNumber>
         )}
-         {selectedType === "MInistry of Health" && (
-          <StyledNumber backgroundColor="#3498db">Others</StyledNumber>
+         {selectedType === "Others" && (
+          <StyledNumber backgroundColor="#3498db">0</StyledNumber>
         )}
         <StyledFormControl>
           <InputLabel htmlFor="type-dropdown">Type</InputLabel>
@@ -95,9 +154,9 @@ const Statistics = ({goBack}) => {
               id: "type-dropdown",
             }}
           >
-            <MenuItem value="Hospital">Employee</MenuItem>
-            <MenuItem value="MInistry of Health">Yearly Subscription</MenuItem>
-            <MenuItem value="MInistry of Health">Others</MenuItem>
+            <MenuItem value="Employee">Employee</MenuItem>
+            <MenuItem value="Yearly Subscription">Yearly Subscription</MenuItem>
+            <MenuItem value="Others">Others</MenuItem>
             
           </Select>
         </StyledFormControl>
@@ -111,7 +170,7 @@ const Statistics = ({goBack}) => {
           <BusinessIcon fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total appointments</StyledTypography>
-            <StyledNumber backgroundColor="#3498db">220</StyledNumber>
+            <StyledNumber backgroundColor="#3498db">{totalAppointments}</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -122,7 +181,7 @@ const Statistics = ({goBack}) => {
           <People fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Employees</StyledTypography>
-            <StyledNumber backgroundColor="#9b59b6">19</StyledNumber>
+            <StyledNumber backgroundColor="#9b59b6">{totalEmployees}</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -133,7 +192,7 @@ const Statistics = ({goBack}) => {
           <AccessTimeIcon  fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Last Login</StyledTypography>
-            <StyledNumber backgroundColor="#cc0000">2 Minutes Ago</StyledNumber>
+            <StyledNumber backgroundColor="#cc0000">None</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -144,7 +203,7 @@ const Statistics = ({goBack}) => {
           <People fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Clinical Notes </StyledTypography>
-            <StyledNumber backgroundColor="#5c5c8a">35</StyledNumber>
+            <StyledNumber backgroundColor="#5c5c8a">None</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -166,7 +225,7 @@ const Statistics = ({goBack}) => {
           <People fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Clients</StyledTypography>
-            <StyledNumber backgroundColor="#800000">31</StyledNumber>
+            <StyledNumber backgroundColor="#800000">{totalClients}</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>

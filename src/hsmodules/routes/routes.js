@@ -232,6 +232,7 @@ import LazyLoader from '../components/lazy-loader/Lazy-Loader';
 import IncomingReferral from './Referral/ReferralListIncoming';
 import OutgoingReferral from './Referral/ReferralListOutcoming';
 import ProductDetails from '../Patientportal/components/Marketplace/productDetails';
+import InwardTransferDetails from '../Pharmacy/InwardTransfer Details';
 
 const AccountDashboard = lazy(() =>
   import('./dashBoardUiComponent/@modules/AccountDashboard')
@@ -654,6 +655,10 @@ const AppRoutes = () => {
 
             <Route path="/app/pharmacy" element={<PharmacyHome />}>
               <Route index element={<PharmacyDashboard />} />
+              <Route
+                path="/app/pharmacy/transfer/inward-transfer"
+                element={<InwardTransferDetails />}
+              />
               <Route
                 path="/app/pharmacy/billclient"
                 element={<PharmacyBillService />}

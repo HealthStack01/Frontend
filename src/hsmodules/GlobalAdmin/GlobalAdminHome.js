@@ -26,12 +26,14 @@ const GlobalAdminHome = () => {
   const invoiceServ = client.service('invoice');
   const employeeServ = client.service('employee');
    const clinicaldocumentServ = client.service('clinicaldocument');
-   const patientServe = client.service('client');
+   const clientServe = client.service('client');
+   const documentServe = client.service('documentation');
 
-   const [appointments, setAppointments] = useState([]);
-   const [invoices, setInvoices] = useState([]);
-   const [employees, setEmployees] = useState([]);
-    const [clinicaldocument, setClinicaldocument] = useState([]);
+   const [totalAppointments, setTotalAppointments] = useState(0);
+   const [totalDocCreated, setTotalDocCreated] = useState(0);
+   const [totalInvoices, setTotalInvoices] = useState(0);
+   const [totalEmployees, setTotalEmployees] = useState(0);
+    const [totalClinicalDocument, setTotalClinicalDocument] = useState(0);
    const [hospitals, setHospitals] = useState(0);
    const [school, setSchool] = useState(0);
    const [hospitality, setHospitality] = useState(0);
@@ -41,19 +43,21 @@ const GlobalAdminHome = () => {
    const [diagnosticsLab, setDiagnosticsLab] = useState(0);
    const [hmo, setHmo] = useState(0);
    const [clinic, setClinic] = useState(0);
-   const [patients, setPatients] = useState(0);
+   const [totalClients, setTotalClients] = useState(0);
    const [statehmo, setStatehmo] = useState(0);
    const [minofhealth, setMinofhealth] = useState(0);
 
    // Organization by states
-   const [lagos, setLagos] = useState(0);
-   const [ibadan, setIbadan] = useState(0);
-   const [rivers, setRivers] = useState(0);
-     const [abuja, setAbuja] = useState(0);
-     const [Yenegoa, setYenegoa] = useState(0);
+   const [lagos, setLagos] = useState("");
+   const [ibadan, setIbadan] = useState("");
+   const [rivers, setRivers] = useState("");
+  const [abuja, setAbuja] = useState("");
+  const [edo, setEdo] = useState("");
+  const [ilorin, setIlorin] = useState("");
+  const [portharcourt, setportharcourt] = useState("");
 
    const [selectedType, setSelectedType] = useState("Hospital");
-  const [selectedState, setSelectedState] = useState("Lagos");
+  const [selectedState, setSelectedState] = useState("Ibadan");
 
   const handleTypeChange = (event) => {
     setSelectedType(event.target.value);
@@ -62,22 +66,35 @@ const GlobalAdminHome = () => {
   const handleStateChange = event => {
     setSelectedState(event.target.value);
   };
+  
 
-  const getAppointments = () => {
-		appointmentServ
+  const getDocmentsCreated = () => {
+		documentServe
 			.find()
 			.then(res => {
-				setAppointments(res.data.length);
+				setTotalDocCreated(res.total);
 			})
 			.catch(err => {
 				console.log(err);
 			});
 	};
+
+  const getAppointments = () => {
+		appointmentServ
+			.find()
+			.then(res => {
+				setTotalAppointments(res.total);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
   const getInvoices = () => {
 		invoiceServ
 			.find()
 			.then(res => {
-				setInvoices(res.data.length);
+        setTotalInvoices(res.total);
 			})
 			.catch(err => {
 				console.log(err);
@@ -87,7 +104,7 @@ const GlobalAdminHome = () => {
 		employeeServ
 			.find()
 			.then(res => {
-				setEmployees(res.data.length);
+				setTotalEmployees(res.total);
 			})
 			.catch(err => {
 				console.log(err);
@@ -99,17 +116,17 @@ const GlobalAdminHome = () => {
 		clinicaldocumentServ
 			.find()
 			.then(res => {
-				setClinicaldocument(res.data.length);
+				setTotalClinicalDocument(res.total);
 			})
 			.catch(err => {
 				console.log(err);
 			});
 	};
-  const getPatients = () => {
-		patientServe
+  const getClients = () => {
+		clientServe
 			.find()
 			.then(res => {
-				setPatients(res.data.length);
+				setTotalClients(res.total);
 			})
 			.catch(err => {
 				console.log(err);
@@ -138,7 +155,9 @@ const GlobalAdminHome = () => {
         setIbadan(res.data.filter(state => state.facilityCity === "Ibadan").length);
         setAbuja(res.data.filter(state => state.facilityCity === "Abuja").length);
         setRivers(res.data.filter(state => state.facilityCity === "Rivers State").length);
-        setYenegoa(res.data.filter(state => state.facilityCity === "Yenegoa").length);
+        setEdo(res.data.filter(state => state.facilityCity === "Edo" ).length);
+        setIlorin(res.data.filter(state => state.facilityCity === "ilorin" ).length);
+        setportharcourt(res.data.filter(state => state.facilityCity === "Port Harcourt" ).length);
       })
        
       .catch(err => {
@@ -152,7 +171,8 @@ const GlobalAdminHome = () => {
      getInvoices();
      getEmployees();
      getClinicaldocument()
-     getPatients();
+     getClients();
+     getDocmentsCreated();
 	}, []);
 
   const getGreeting = () => {
@@ -263,8 +283,14 @@ const GlobalAdminHome = () => {
         <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">
           Total Organizations by State
         </StyledTypography>
-        {selectedState === "Yenegoa" && (
-          <StyledNumber backgroundColor="#3498db">{Yenegoa}</StyledNumber>
+        {selectedState === "Port Harcourt" && (
+          <StyledNumber backgroundColor="#3498db">{portharcourt}</StyledNumber>
+        )}
+        {selectedState === "Ilorin" && (
+          <StyledNumber backgroundColor="#3498db">{ilorin}</StyledNumber>
+        )}
+        {selectedState === "Edo" && (
+          <StyledNumber backgroundColor="#3498db">{edo}</StyledNumber>
         )}
         {selectedState === "Lagos" && (
           <StyledNumber backgroundColor="#3498db">{lagos}</StyledNumber>
@@ -289,7 +315,9 @@ const GlobalAdminHome = () => {
             }}
           >
             <MenuItem value="Lagos">Lagos</MenuItem>
-            <MenuItem value="Lagos">Yenegoa</MenuItem>
+            <MenuItem value="Port Harcourt">Port Harcourt</MenuItem>
+            <MenuItem value="Ilorin">Ilorin</MenuItem>
+            <MenuItem value="Edo">Edo</MenuItem>
             <MenuItem value="Ibadan">Ibadan</MenuItem>
             <MenuItem value="Abuja">Abuja</MenuItem>
             <MenuItem value="Rivers State">Rivers State</MenuItem>
@@ -308,7 +336,7 @@ const GlobalAdminHome = () => {
                 <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">
                   Number of Doc Created
                 </StyledTypography>
-                <StyledNumber backgroundColor="#0E305D">{clinicaldocument}</StyledNumber>
+                <StyledNumber backgroundColor="#0E305D">{totalDocCreated}</StyledNumber>
               </div>
             </StyledCardContent>
           </StyledCard>
@@ -321,7 +349,7 @@ const GlobalAdminHome = () => {
                 <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">
                   Total Appointments
                 </StyledTypography>
-                <StyledNumber backgroundColor="#e74c3c">{appointments}</StyledNumber>
+                <StyledNumber backgroundColor="#e74c3c">{totalAppointments}</StyledNumber>
               </div>
             </StyledCardContent>
           </StyledCard>
@@ -334,7 +362,7 @@ const GlobalAdminHome = () => {
                 <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">
                   Total Clients
                 </StyledTypography>
-                <StyledNumber backgroundColor="#e74c3c">{patients}</StyledNumber>
+                <StyledNumber backgroundColor="#e74c3c">{totalClients}</StyledNumber>
               </div>
             </StyledCardContent>
           </StyledCard>
@@ -345,7 +373,7 @@ const GlobalAdminHome = () => {
           <People fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Employees</StyledTypography>
-            <StyledNumber backgroundColor="#9b59b6">{employees}</StyledNumber>
+            <StyledNumber backgroundColor="#9b59b6">{totalEmployees}</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -356,7 +384,7 @@ const GlobalAdminHome = () => {
           <EventNoteIcon fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Clinical Notes</StyledTypography>
-            <StyledNumber backgroundColor="#cc0000">{clinicaldocument}</StyledNumber>
+            <StyledNumber backgroundColor="#cc0000">{totalClinicalDocument}</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -367,7 +395,7 @@ const GlobalAdminHome = () => {
           <Receipt color="primaryDark"  fontSize="large" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Invoices</StyledTypography>
-            <StyledNumber backgroundColor="#006666">{invoices}</StyledNumber>
+            <StyledNumber backgroundColor="#006666">{totalInvoices}</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
