@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import {useContext, useState, useEffect, useCallback} from "react";
 import {Box, IconButton} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -7,12 +7,18 @@ import ChatHeader from "../chat-header/Chat-Header";
 import ChatMessages from "../chat-messages/Chat-Messages";
 import MessagesSearchInput from "../search-input/Search-Input";
 import {ObjectContext} from "../../../../../context";
+import UserProfile from "../user-profile/User-Profile";
+import client from "../../../../../feathers";
+import {toast} from "react-toastify";
 
 const ChatBoardConversation = () => {
+  const chatMessagesServer = client.service("chat");
   const {state, setState} = useContext(ObjectContext);
   const [messages, setMessages] = useState([]);
 
   const {showSearch, rightSideBar} = state.ChatModule;
+
+  const chatRoom = state.ChatModule.chatRoom;
 
   const hideSearchInput = () => {
     setState(prev => ({
@@ -33,6 +39,35 @@ const ChatBoardConversation = () => {
       },
     }));
   };
+
+  const getChatMessages = useCallback(() => {
+    chatMessagesServer
+      .find({
+        query: {
+          chatroomId: chatRoom._id,
+
+          $sort: {
+            createdAt: 1,
+          },
+        },
+      })
+      .then(res => {
+        //  console.log(res);
+        setMessages(res.data);
+      })
+      .catch(error => {
+        toast.error(`An error occured updating your Chat-Rooms ${error}`);
+      });
+  }, [chatRoom]);
+
+  useEffect(() => {
+    getChatMessages();
+    chatMessagesServer.on("created", obj => getChatMessages());
+    chatMessagesServer.on("updated", obj => getChatMessages());
+    chatMessagesServer.on("patched", obj => getChatMessages());
+    chatMessagesServer.on("removed", obj => getChatMessages());
+    return () => {};
+  }, [getChatMessages]);
 
   return (
     <Box
@@ -119,7 +154,7 @@ const ChatBoardConversation = () => {
             backgroundColor: "#f0f0f0",
           }}
         >
-          <ChatInputBox setMessages={setMessages} />
+          <ChatInputBox />
         </Box>
       </Box>
 
@@ -131,9 +166,8 @@ const ChatBoardConversation = () => {
           transition: "all 0.3s ease-in-out",
           overflowX: "hidden",
           display: "flex",
-          //flex: sideBar ? "0.5" : 0,
+          flexDirection: "column",
           backgroundColor: "#ffffff",
-          //borderLeft: "1px solid #ced4da",
           borderLeft: rightSideBar ? "1px solid #ced4da" : "none",
         }}
       >
@@ -154,6 +188,8 @@ const ChatBoardConversation = () => {
             <CloseIcon />
           </IconButton>
         </Box>
+
+        <UserProfile />
       </Box>
     </Box>
   );

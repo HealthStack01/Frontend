@@ -4,6 +4,8 @@ import {returnAvatarString} from "../../../../helpers/returnAvatarString";
 import {ObjectContext, UserContext} from "../../../../../context";
 import client from "../../../../../feathers";
 import Skeleton from "@mui/material/Skeleton";
+import dayjs from "dayjs";
+import moment from "moment";
 
 const EachChat = ({chat}) => {
   const chatMessagesServer = client.service("chat");
@@ -11,6 +13,9 @@ const EachChat = ({chat}) => {
   const {state, setState} = useContext(ObjectContext);
   const [loading, setLoading] = useState(true);
   const [chatInfo, setChatInfo] = useState(null);
+  const [unreadMsgs, setUnreadMsgs] = useState([]);
+
+  const getUnreadChatMessages = useCallback(() => {}, []);
 
   const getRecentChatMessage = useCallback(() => {
     setLoading(true);
@@ -42,6 +47,11 @@ const EachChat = ({chat}) => {
 
   useEffect(() => {
     getRecentChatMessage();
+
+    chatMessagesServer.on("created", obj => getRecentChatMessage());
+    chatMessagesServer.on("updated", obj => getRecentChatMessage());
+    chatMessagesServer.on("patched", obj => getRecentChatMessage());
+    chatMessagesServer.on("removed", obj => getRecentChatMessage());
   }, [getRecentChatMessage]);
 
   const chatPartner = chat.members.find(
@@ -99,7 +109,10 @@ const EachChat = ({chat}) => {
       onClick={handleSelectChatRoom}
     >
       <Box mr={0.6}>
-        <Avatar {...returnAvatarString(`${chatPartner.name}`)} />
+        <Avatar
+          {...returnAvatarString(`${chatPartner.name}`)}
+          src={chatPartner?.imageurl}
+        />
       </Box>
 
       <Box
@@ -127,7 +140,9 @@ const EachChat = ({chat}) => {
               color: "#006d77",
             }}
           >
-            5 seconds ago
+            {chatInfo?.messages?.length > 0
+              ? moment(chatInfo?.messages[0]?.message?.createdAt).format("LT")
+              : moment(chatInfo.createdAt).format("LT")}
           </Typography>
         </Box>
 
@@ -151,26 +166,27 @@ const EachChat = ({chat}) => {
               sx={{fontSize: "0.75rem", color: "#736f72", width: "100%"}}
               noWrap
             >
-              Lorem ipsium lorem lafele ta pisiumu constafate ta be leh
-              aporocosom
+              {chatInfo?.messages[0]?.message}
             </Typography>
           </Box>
 
-          <Box
-            sx={{
-              width: "18px",
-              height: "18px",
-              borderRadius: "50%",
-              backgroundColor: "#354f52",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Typography sx={{fontSize: "0.7rem", color: "#ffffff"}}>
-              5
-            </Typography>
-          </Box>
+          {chatInfo?.messages?.length > 0 && (
+            <Box
+              sx={{
+                width: "18px",
+                height: "18px",
+                borderRadius: "50%",
+                backgroundColor: "#354f52",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography sx={{fontSize: "0.7rem", color: "#ffffff"}}>
+                5
+              </Typography>
+            </Box>
+          )}
         </Box>
       </Box>
     </Box>

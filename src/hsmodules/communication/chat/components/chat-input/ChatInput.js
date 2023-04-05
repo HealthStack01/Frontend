@@ -11,15 +11,18 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import "./styles.scss";
 import {ObjectContext, UserContext} from "../../../../../context";
 import dayjs from "dayjs";
+import client from "../../../../../feathers";
+import {toast} from "react-toastify";
 
-const GeneralChatInputBox = ({setMessages}) => {
+const GeneralChatInputBox = () => {
+  const chatMessagesServer = client.service("chat");
   const {state} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
   const [inputMessage, setInputMessage] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [fileAnchorEl, setFileAnchorEl] = useState(null);
 
-  const {selectedChat} = state.ChatModule;
+  const selectedChat = state.ChatModule.chatRoom;
 
   const inputRef = useRef(null);
 
@@ -54,15 +57,22 @@ const GeneralChatInputBox = ({setMessages}) => {
   };
 
   const handleSendMessage = () => {
+    if (inputMessage === "")
+      return toast.warning("You can't send an empty message");
     const employee = user.currentEmployee;
 
+    //  chatroom:{ type: Schema.Types.Mixed,  },
+    // chatroomId:{ type: Schema.Types.ObjectId,},
+
+    // return toast.error("Can't send messages at the moment");
+
     const message = {
-      subject: "",
+      subject: "new-message",
       chatroom: selectedChat,
       chatroomId: selectedChat?._id,
       messageType: "text",
       message: inputMessage,
-      status: "sending",
+      status: "sent",
       createdby: employee,
       createdbyId: employee._id,
       geolocation: {
@@ -72,10 +82,17 @@ const GeneralChatInputBox = ({setMessages}) => {
       createdAt: dayjs(),
     };
 
-    //return console.log(message);
+    // return console.log(message);
 
-    setMessages(prev => [...prev, message]);
-    setInputMessage("");
+    chatMessagesServer
+      .create(message)
+      .then(res => {
+        toast.success("Message sent.");
+        setInputMessage("");
+      })
+      .catch(error => {
+        toast.error(`Message failed ${error}`);
+      });
   };
 
   return (

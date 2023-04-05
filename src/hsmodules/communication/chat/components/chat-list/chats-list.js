@@ -53,6 +53,9 @@ const CommunicationChatsList = ({showStaffsList}) => {
       .find({
         query: {
           "members._id": user.currentEmployee._id,
+          $sort: {
+            updatedAt: -1,
+          },
         },
       })
       .then(res => {
@@ -71,7 +74,7 @@ const CommunicationChatsList = ({showStaffsList}) => {
   useEffect(() => {
     handleGetChatRooms();
     chatroomServer.on("created", obj => handleGetChatRooms());
-    chatroomServer.on("updated", obj => handleGetStaffs());
+    chatroomServer.on("updated", obj => handleGetChatRooms());
     chatroomServer.on("patched", obj => handleGetChatRooms());
     chatroomServer.on("removed", obj => handleGetChatRooms());
     return () => {};

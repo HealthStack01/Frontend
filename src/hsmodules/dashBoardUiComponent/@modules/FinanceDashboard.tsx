@@ -138,17 +138,6 @@ const FinanceDashboard = () => {
 		</Card>
 	  </Grid>
     </Grid>
-     {/* Pending Balance Card */}
-	
-     {/* Money Collected Card */}
-	 
-          {/* <ViewCard count={`${fetchTotalRevenue}K`} title="Total Revenue" />
-          <ViewCard
-            count={`${fetchTotalPendingBills}K`}
-            title="Pending Bills"
-          /> */}
-        
-        {/* </StartCardWapper> */}
       </Box>
     </DashboardPageWrapper>
   );
