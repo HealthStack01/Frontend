@@ -1,36 +1,27 @@
 /* eslint-disable */
 import React, {useState, useContext, useEffect, useRef} from "react";
-import {useFlutterwave, closePaymentModal} from "flutterwave-react-v3";
-import {PaystackConsumer} from "react-paystack";
+
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {ProductCreate} from "./Products";
-import Encounter from "../Documentation/Documentation";
+
+import {toast} from "react-toastify";
+
 var random = require("random-string-generator");
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+
 import PaymentsIcon from "@mui/icons-material/Payments";
-import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
-import FilterMenu from "../../components/utilities/FilterMenu";
+
 //import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import {Box, Button, Grid, Typography} from "@mui/material";
-import ModalBox from "../../components/modal";
-import Input from "../../components/inputs/basic/Input";
-import MakeDeposit from "./Deposit";
+
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import {FlutterWaveIcon, PaystackIcon} from "./ui-components/Icons";
-import WalletIcon from "@mui/icons-material/Wallet";
-import RadioButton from "../../components/inputs/basic/Radio";
+
 // eslint-disable-next-line
-const searchfacility = {};
+
 
 export default function HMOAuthCreate({closeModal, handleGoBack}) {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
@@ -81,23 +72,12 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
   const [loading, setLoading] = useState(false);
   const [partTable, setPartTable] = useState([]);
   const [depositModal, setDepositModal] = useState(false);
+  const [fullpay, setFullpay]=useState([]);
+  const [sponsor, setSponsor]=useState();
+  const {state, setState} = useContext(ObjectContext);
+  let medication = state.financeModule.selectedFinance;
 
   //Paystack Config
-
-  const config = {
-    reference: new Date().getTime().toString(),
-    email: "simpa@healthstack.africa",
-    amount: part ? partBulk * 100 : totalamount * 100,
-    publicKey: "pk_test_f8300ac84ffd54afdf49ea31fd3daa90ebd33275",
-  };
-
-  const componentProps = {
-    ...config,
-    text: "Make a Deposit",
-    onSuccess: reference => handleSuccess(reference, amount),
-    onClose: closeModal,
-  };
-
   const handleSuccess = (amount, reference) => {
     let transactionDetails = amount;
     transactionDetails.amount = reference;
@@ -106,35 +86,11 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
     // return history("/business/payment");
   };
 
-  //FLUTTERWAVE CONFIG
-  const configfw = {
-    public_key: "FLWPUBK_TEST-2c01585fca911f2d419e051d15b76382-X",
-    tx_ref: Date.now(),
-    amount: part ? partBulk : totalamount,
-    email: "simpa@healthstack.africa",
-    currency: "NGN",
-    payment_options: "card,mobilemoney,ussd",
-    customer: {
-      email: "simpa@healthstack.africa",
-      phone_number: "070********",
-      name: "john doe",
-    },
-    customizations: {
-      title: "my Payment Title",
-      description: "Payment for items in cart",
-      logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
-    },
-  };
-
-  const handleFlutterPayment = useFlutterwave(configfw);
-
-  const {state, setState} = useContext(ObjectContext);
-
   const inputEl = useRef(0);
   let calcamount1;
   let hidestatus;
 
-  let medication = state.financeModule.selectedFinance;
+
   ////console.log(state.financeModule.state)
 
   const handlecloseModal = () => {
@@ -239,77 +195,11 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
     return () => {};
   }, [date]);
 
-  const handleAccept = async () => {
-    await setButtonState(true);
-    if (paymentmode === "" || amountPaid === 0 || amountPaid === "") {
-      toast({
-        message: "Kindly choose payment mode or enter amount",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
-      await setButtonState(false);
-      return;
-    }
-    let obj = {
-      // toWallet:{ type: Schema.Types.ObjectId, ref:'facility', }, //receiving money
-      //fromWallet:{ type: Schema.Types.ObjectId, ref:'facility', },//sending money
-      //subwallet:{ type: Schema.Types.ObjectId, ref:'subwallet', },
-      client: medication.participantInfo.client._id,
-      organization: user.employeeData[0].facilityDetail._id,
-      category: "credit", //debit/credit
-      amount: amountPaid,
-      description: description,
-
-      toName: user.employeeData[0].facilityDetail.facilityName,
-      fromName:
-        medication.participantInfo.client.firstname +
-        " " +
-        medication.participantInfo.client.lastname,
-      createdby: user._id,
-
-      // refBill:[{ type: Schema.Types.ObjectId, ref:'bills'  }], //billid to be paid : ref invoice to pay
-      // info:{ type: Schema.Types.Mixed},
-      paymentmode: paymentmode,
-
-      facility: user.employeeData[0].facilityDetail._id,
-      locationId: state.LocationModule.selectedLocation._id,
-      type: "Deposit",
-    };
-    let confirm = window.confirm(
-      `Are you sure you want to accept N ${obj.amount} from ${obj.fromName}`
-    );
-    if (confirm) {
-      await SubwalletTxServ.create(obj)
-        .then(resp => {
-          // //console.log(resp)
-
-          toast({
-            message: "Deposit accepted succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-          setAmountPaid(0);
-          setDescription("");
-        })
-        .catch(err => {
-          toast({
-            message: "Error accepting deposit " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-        });
-    }
-    await setButtonState(false);
-  };
-
   const getFacilities = async () => {
     // //console.log("here b4 server")
     const findProductEntry = await SubwalletServ.find({
       query: {
-        client: medication.participantInfo.client._id,
+        client: sponsor.organizationId,
         organization: user.employeeData[0].facilityDetail._id,
         //storeId:state.StoreModule.selectedStore._id,
         //clientId:state.ClientModule.selectedClient._id,
@@ -341,6 +231,15 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
         medication?.participantInfo?.client?.lastname
     );
     setProductItem(state.financeModule.selectedBills);
+    
+       
+ let paytype= medication.participantInfo.client.paymentinfo
+ let hmo = paytype.filter(el =>( el.paymentmode === "HMO" ||el.paymentmode === "Company Cover"));
+ setSponsor(hmo[0])
+console.log(hmo[0])
+  
+      
+  
 
     // const paymentoptions= []
     //const info = medication.participantInfo.client.paymentinfo
@@ -381,11 +280,13 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
   //initialize page
   useEffect(() => {
     // const medication =state.medicationModule.selectedMedication
+
     const today = new Date().toLocaleString();
     ////console.log(today)
     setDate(today);
     const invoiceNo = random(6, "uppernumeric");
     setDocumentNo(invoiceNo);
+
 
     getFacilities();
     SubwalletServ.on("created", obj => getFacilities());
@@ -407,177 +308,81 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
     };
   }, []);
 
-  const handleChangePart = async (bill, e) => {
-    // //console.log(bill, e.target.value)
-    if (e.target.value === "Part") {
-      bill.show = "flex";
-      setPartPay(prev => prev.concat(bill));
-      setPartTable(prev => prev.concat(bill));
-    }
-
-    if (e.target.value === "Full") {
-      bill.show = "none";
-
-      let item = await productItem.find(el => el._id === bill._id);
-      const payObj = {
-        amount: item.paymentInfo.balance,
-        mode: "Full",
-        date: new Date().toLocaleString(),
-      };
-      //item.partPay=""
-      // item.paymentInfo.paymentDetails.push(payObj)
-      item.proposedpayment = {
-        balance: Number(item.paymentInfo.balance) - Number(payObj.amount),
-        paidup: Number(item.paymentInfo.paidup) + Number(payObj.amount),
-        amount: payObj.amount,
-      };
-      // item.paymentInfo.balance=item.paymentInfo.balance - item.paymentInfo.balance
-      //  item.paymentInfo.paidup=Number(item.paymentInfo.paidup) + Number(payObj.amount)
-      getTotal();
-      setPartPay(prev => prev.concat(bill));
-      setPartTable(prev => prev.filter(i => i._id !== bill._id));
-    }
-  };
-
-  const handleChangeFull = async e => {
-    // //console.log(medication)
-    if (e.target.value === "Part") {
-      setPart(true);
-    }
-
-    if (e.target.value === "Full") {
-      setPart(false);
-
-      getTotal();
-    }
-  };
-
-  const handlePartAmount = async (bill, e) => {
-    let partAmount = e.target.value;
-    // bill.partPay=partAmount
-    //const itemList=productItem
-    if (partAmount === "" || partAmount === 0) {
-      toast({
-        message: "Please enter an amount as part payment",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
-      return;
-    }
-    let item = await productItem.find(el => el._id === bill._id);
-    item.partPay = partAmount;
-    setPartPay(prev => prev.concat(bill));
-    //setProductItem(productItem)
-  };
-
   const handleUpdate = async (bill, e) => {
-    if (
-      bill.partPay === "" ||
-      bill.partPay === 0 ||
-      bill.partPay === undefined
-    ) {
-      toast({
-        message: "Please enter an amount as part payment",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
-      return;
-    }
-    // //console.log(bill)
-    let item = await productItem.find(el => el._id === bill._id);
+    //disable approve button
+ 
+   
+   
+   // updatedbill[i].checked=false
+    
 
-    let partAmount = item.partPay;
+    // todo: update bill to fully paid
+    let item = await productItem.findIndex(el => el._id === bill._id);
+    productItem[item].checked=false
+    console.log( productItem[item])
 
-    if (bill.show === "flex") {
-      const payObj = {
-        amount: partAmount,
-        mode: "Part",
-        date: new Date().toLocaleString(),
-      };
-
-      item.proposedpayment = {
-        balance: Number(item.paymentInfo.balance) - Number(payObj.amount),
-        paidup: Number(item.paymentInfo.paidup) + Number(payObj.amount),
-        amount: payObj.amount,
-      };
-    }
-
+  
+   // bill.billing_status = "Fully Paid";
+    productItem[item].billing_status="Fully Paid"
+    setFullpay(prev=>prev.concat(productItem[item]))
     getTotal();
-    setPartPay(prev => prev.concat(bill));
-    toast({
-      message: "Part payment updated successfully",
-      type: "is-success",
-      dismissible: true,
-      pauseOnHover: true,
-    });
-  };
+    toast.success(
+      "Bill approved successfully"
+    ); 
+    console.log(fullpay)
+    console.log("medication:",medication)
+    }
 
+ 
   const handlePayment = async () => {
     //1. check if there is sufficient amount
-    if (totalamount > balance) {
-      toast({
-        message:
-          "Total amount due greater than money received. Kindly top up account or reduce number of bills to be paid",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+    //2. call single end point for billspayment?invoice
 
-      return;
-    }
+    //2.1 create subwallet transaction- debit
 
-    productItem.forEach(el => {
-      if (!el.proposedpayment.amount) {
-        toast({
-          message: "one or more bills do not have a payment method selected",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
-        return;
-      }
-    });
+    //2.2 update subwallet
+
+    //2.3 mark orders as paid
+
+    //2.4 mark bills as paid
+  
+
+   
 
     //transform
-    productItem.forEach(el => {
-      if (el.show === "flex") {
-        const payObj = {
-          amount: el.proposedpayment.amount,
-          mode: "Part",
-          date: new Date().toLocaleString(),
-        };
-        el.paymentInfo.paymentDetails.push(payObj);
-      }
+   fullpay.forEach(el => {
 
-      if (el.show === "none") {
         const payObj = {
           amount: el.proposedpayment.amount,
           mode: "Full",
           date: new Date().toLocaleString(),
         };
         el.paymentInfo.paymentDetails.push(payObj);
-      }
+      
     });
 
-    let allItems = productItem;
+    let allItems = fullpay;
+    console.log(allItems)
 
     allItems.forEach(el => {
       el.paymentInfo.balance = el.proposedpayment.balance;
       el.paymentInfo.paidup = el.proposedpayment.paidup;
       el.paymentInfo.amountpaid = el.proposedpayment.amount;
 
-      if (el.paymentInfo.balance === 0) {
+     /*  if (el.paymentInfo.balance === 0) {
         el.billing_status = "Fully Paid";
       } else {
         el.billing_status = "Part Payment";
-      }
-      el.show = "none";
+      } */
+    
       el.checked = false;
-      delete el.proposedpayment;
-      delete el.partPay;
+    
     });
+
+    // filter out apprroved from unapproved bills
+    const remain=productItem.filter(bill=>bill.checked==true)
+    console.log(remain)
+    setProductItem(remain)
 
     const obj = {
       clientId: medication.participantInfo.client._id, //sending money
@@ -593,213 +398,38 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
       facilityName: user.employeeData[0].facilityDetail.facilityName,
       subwallet: subWallet,
       amountPaid: totalamount,
+      paymentmode:sponsor.paymentmode,
+      sponsorId:sponsor.organizationId,
+      policy:sponsor.policy,
+      sponsor:sponsor
+
     };
 
-    // //console.log(obj)
+   console.log(obj)
 
     InvoiceServ.create(obj)
       .then(async resp => {
-        setProductItem([]);
-        toast({
-          message: "payment successful",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
-        const newProductEntryModule = {
-          selectedBills: [],
-          selectedFinance: {},
+       // setProductItem([]);
+       setFullpay([])
+        toast.success(
+          "Approval successful");
+          console.log(medication)
+       const newProductEntryModule = {
+          selectedBills:productItem,
+          selectedFinance: (productItem.length>0)?medication:{} ,
           show: "create",
         };
         await setState(prevstate => ({
           ...prevstate,
           finance: newProductEntryModule,
-        }));
+        })); 
+        //goback
       })
       .catch(err => {
-        toast({
-          message: "Error occurred with payment" + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
+        toast.error( "Error occurred with payment " + err)
+        
         });
-      });
-  };
-
-  const handleAuth = (bill, e) => {
-    //console.log(e.chec);
-    if (e.checked) {
-    }
-  };
-
-  const handleBulkPayment = async () => {
-    //1. check if there is sufficient amount
-
-    let fraction = 1;
-
-    if (part) {
-      // apply fraction to all bills
-      if (partBulk === "" || partBulk === 0 || partBulk === undefined) {
-        toast({
-          message: "Please enter an amount as part payment",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
-        return;
-      }
-
-      if (partBulk > balance) {
-        toast({
-          message:
-            "Amount entered greater than balance. Kindly top up account or reduce amount entered",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
-
-        return;
-      }
-
-      fraction = +(partBulk / totalamount).toFixed(2);
-      // //console.log(fraction)
-      // //console.log(partBulk)
-
-      productItem.forEach(el => {
-        // //console.log(el)
-
-        const payObj = {
-          amount: el.proposedpayment.amount * fraction,
-          mode: "Part",
-          date: new Date().toLocaleString(),
-        };
-        //  el.paymentInfo.paymentDetails.push(payObj)
-        el.proposedpayment = {
-          balance: Number(el.paymentInfo.balance) - Number(payObj.amount),
-          paidup: Number(el.paymentInfo.paidup) + Number(payObj.amount),
-          amount: payObj.amount,
-        };
-      });
-    }
-    if (!part) {
-      //check that balance can pay bills
-      if (totalamount > balance) {
-        toast({
-          message:
-            "Total amount due greater than money received. Kindly top up account or reduce number of bills to be paid",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
-
-        return;
-      }
-
-      //pay all bills in full
-      productItem.forEach(el => {
-        if (el.show === "flex") {
-          const payObj = {
-            amount: el.proposedpayment.amount,
-            mode: "Part",
-            date: new Date().toLocaleString(),
-          };
-          el.paymentInfo.paymentDetails.push(payObj);
-        }
-
-        if (el.show === "none") {
-          const payObj = {
-            amount: el.proposedpayment.amount,
-            mode: "Full",
-            date: new Date().toLocaleString(),
-          };
-          el.paymentInfo.paymentDetails.push(payObj);
-        }
-      });
-    }
-
-    let allItems = productItem;
-
-    allItems.forEach(el => {
-      el.paymentInfo.balance = el.proposedpayment.balance;
-      el.paymentInfo.paidup = el.proposedpayment.paidup;
-      el.paymentInfo.amountpaid = el.proposedpayment.amount;
-
-      if (el.paymentInfo.balance === 0) {
-        el.billing_status = "Fully Paid";
-      } else {
-        el.billing_status = "Part Payment";
-        setIsPart(true);
-      }
-      el.show = "none";
-      el.checked = false;
-      delete el.proposedpayment;
-      delete el.partPay;
-    });
-
-    //  //console.log(isPart)
-    const obj = {
-      clientId: medication.participantInfo.client._id, //sending money
-      clientName: source,
-      client: medication.participantInfo.client,
-      facilityId: user.employeeData[0].facilityDetail._id,
-      invoiceNo: documentNo,
-      totalamount: totalamount,
-      createdby: user._id,
-      status: part ? "Part Payment" : "Fully Paid", //billid to be paid : ref invoice to pay
-      bills: allItems,
-      balance: balance,
-      facilityName: user.employeeData[0].facilityDetail.facilityName,
-      subwallet: subWallet,
-      amountPaid: part ? partBulk : totalamount,
-    };
-
-    //  //console.log(obj.amountPaid)
-
-    InvoiceServ.create(obj)
-      .then(async resp => {
-        setProductItem([]);
-        toast({
-          message: "payment successful",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
-        const newProductEntryModule = {
-          selectedBills: [],
-          selectedFinance: {},
-          show: "create",
-        };
-        await setState(prevstate => ({
-          ...prevstate,
-          finance: newProductEntryModule,
-        }));
-        setPartBulk("");
-        setPart(false);
-        setIsPart(false);
-      })
-      .catch(err => {
-        toast({
-          message: "Error occurred with payment" + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
-      });
-
-    //2. call single end point for billspayment?
-
-    //2.1 create subwallet transaction- debit
-
-    //2.2 update subwallet
-
-    //2.3 mark orders as paid
-
-    //2.4 mark bills as paid
-  };
-
-  const handleBulkAmount = e => {
-    setPartBulk(e.target.value);
-  };
+      };
 
   const paymentCreateSchema = [
     {
@@ -830,68 +460,33 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
       required: true,
       inputType: "TEXT",
     },
+  
     {
+      name: "Amount",
+      width: "200px",
+      key: "sn",
+      description: "amount",
+      selector: row => (
+       
+          <div style={{display: "flex", marginBottom: "8px"}}>
+            <b style={{marginRight: "3px"}}>Amount:</b>{" "}
+            {row.paymentInfo.amountDue.toFixed(2)}
+          </div>
+       
+      ),
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+      {
       name: "Type",
       width: "200px",
       key: "sn",
       description: "Enter Type",
       selector: row => (
         <Box sx={{display: "flex", flexDirection: "column"}} gap={0.5}>
-          <label className=" is-small">
-            <input
-              type="radio"
-              name={row._id}
-              value="Capitation"
-              checked={row.show === "none"}
-              onChange={e => {
-                handleChangePart(row, e);
-              }}
-            />
-            <span> Capitation</span>
-          </label>
-
-          <label className=" is-small">
-            <input
-              type="radio"
-              name={row._id}
-              value="Fee for Service"
-              onChange={e => handleChangePart(row, e)}
-            />
-            <span> Fee for Service </span>
-          </label>
-
-          <label className=" is-small">
-            <input
-              type="radio"
-              name={row._id}
-              value="Co-Pay"
-              onChange={e => handleChangePart(row, e)}
-            />
-            <span> Co-Pay </span>
-          </label>
-
-          <label className=" is-small">
-            <input
-              type="radio"
-              name={row._id}
-              value="Not Covered"
-              onChange={e => handleChangePart(row, e)}
-            />
-            <span> Not Covered </span>
-          </label>
-
-          <label className=" is-small">
-            <input
-              type="checkbox"
-              name="Auth"
-              value="Authorization Code"
-              onChange={e => handleAuth(row, e)}
-            />
-            <span> Authorization Code </span>
-          </label>
-
           <div>
-            <div style={{marginBottom: "5px"}}>
+           {/*  <div style={{marginBottom: "5px"}}>
               <Input
                 type="text"
                 name={row._id}
@@ -899,57 +494,34 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
                 // value={partBulk}
                 onChange={e => handlePartAmount(row, e)}
               />
-            </div>
+            </div> */}
             <GlobalCustomButton
+              onClick={(e )=> handleUpdate(row, e,)}
+              disabled={!row.checked}
+              color="primary"
+            >
+              Approve
+            </GlobalCustomButton>
+
+           {/*  <GlobalCustomButton
               onClick={e => handleUpdate(row, e)}
               color="secondary"
             >
-              Update
-            </GlobalCustomButton>
+              Reject
+            </GlobalCustomButton> */}
           </div>
         </Box>
       ),
       sortable: true,
       required: true,
       inputType: "TEXT",
-    },
-    {
-      name: "Amount",
-      width: "200px",
-      key: "sn",
-      description: "Enter name of Disease",
-      selector: row => (
-        <div style={{display: "flex", flexDirection: "column"}}>
-          <div style={{display: "flex", marginBottom: "8px"}}>
-            <b style={{marginRight: "3px"}}>Balance Due:</b>{" "}
-            {row.paymentInfo.balance.toFixed(2)}
-          </div>
-          <div style={{display: "flex", marginBottom: "8px"}}>
-            <b style={{marginRight: "3px"}}>Paid up:</b>{" "}
-            {row.paymentInfo.paidup.toFixed(2)}
-          </div>
-          <div style={{display: "flex", marginBottom: "8px"}}>
-            <b style={{marginRight: "3px"}}>Amount:</b>{" "}
-            {row.paymentInfo.amountDue.toFixed(2)}
-          </div>
-        </div>
-      ),
-      sortable: true,
-      required: true,
-      inputType: "NUMBER",
-    },
+    }, 
   ];
 
   return (
     <>
       <div style={{width: "100%"}}>
-        <ModalBox
-          open={depositModal}
-          onClose={() => setDepositModal(false)}
-          header={`Make Deposit for ${source}`}
-        >
-          <MakeDeposit balance={balance} />
-        </ModalBox>
+      
 
         <Box
           sx={{
@@ -966,6 +538,31 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
             <ArrowBackIcon fontSize="small" sx={{marginRight: "5px"}} />
             Back
           </GlobalCustomButton>
+          <Box>
+          <Typography sx={{fontSize: "1.75rem", fontWeight: "600"}}>
+              Client Name: {source}
+            </Typography>
+            <Typography>
+             Client ID:{sponsor?.clientId} {" "} HMO:{sponsor?.organizationName}{" "}  Plan:{sponsor?.plan} {" "}  Principal:{sponsor?.principalName} {" "} Principal ID:{sponsor?.principalId} {" "} 
+            </Typography>
+           {/*  <Typography>
+              HMO:{sponsor?.organizationName}
+
+            </Typography>
+            <Typography>
+              Plan:{sponsor?.plan}
+            </Typography>
+            
+            <Typography>
+              Principal:{sponsor?.principalName}
+            </Typography>
+            <Typography>
+              Principal ID:{sponsor?.principalId}
+            </Typography> */}
+            {/* <Typography>
+              Principal ID:{sponsor?.principalId}
+            </Typography> */}
+          </Box>
 
           <Box>
             <Typography
@@ -974,7 +571,7 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
                 color: "2d2d2d",
               }}
             >
-              Pay Bills for{" "}
+             Aprrove Bills for{" "}
               <span
                 style={{
                   textTransform: "capitalize",
@@ -1016,12 +613,12 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
             </Box>
           </Box>
 
-          <Box>
+         {/*  <Box>
             <GlobalCustomButton onClick={() => setDepositModal(true)}>
               <LocalAtmIcon fontSize="small" sx={{marginRight: "5px"}} />
               Make Deposit
             </GlobalCustomButton>
-          </Box>
+          </Box> */}
         </Box>
 
         {productItem.length > 0 && (
@@ -1049,6 +646,7 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
                 striped
                 onRowClicked={row => row}
                 progressPending={loading}
+                
               />
             </div>
             <Box
@@ -1059,12 +657,12 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
               }}
               gap={1}
             >
-              <GlobalCustomButton onClick={handlePayment}>
+             {(productItem.length>0) && <GlobalCustomButton onClick={handlePayment} disabled={fullpay.length===0}>
                 <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
-                Pay
-              </GlobalCustomButton>
+                Save
+              </GlobalCustomButton>}
 
-              <GlobalCustomButton
+           {/*    <GlobalCustomButton
                 sx={{
                   backgroundColor: "#6c584c",
                   "&:hover": {backgroundColor: "#6c584c;"},
@@ -1072,9 +670,9 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
               >
                 <WalletIcon sx={{marginRight: "5px"}} fontSize="small" />
                 Pay with Wallet
-              </GlobalCustomButton>
+              </GlobalCustomButton> */}
 
-              <GlobalCustomButton
+             {/*  <GlobalCustomButton
                 onClick={() => {
                   handleFlutterPayment({
                     callback: response => {
@@ -1094,9 +692,9 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
               >
                 <FlutterWaveIcon />
                 Pay with Flutterwave
-              </GlobalCustomButton>
+              </GlobalCustomButton> */}
 
-              <PaystackConsumer {...componentProps}>
+            {/*   <PaystackConsumer {...componentProps}>
                 {({initializePayment}) => (
                   <GlobalCustomButton
                     onClick={() => initializePayment(handleSuccess, closeModal)}
@@ -1109,7 +707,7 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
                     Pay with PayStack
                   </GlobalCustomButton>
                 )}
-              </PaystackConsumer>
+              </PaystackConsumer> */}
             </Box>
           </Box>
         )}
