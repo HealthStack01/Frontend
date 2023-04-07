@@ -1,13 +1,23 @@
-import {useContext} from "react";
+import {useContext, useState, useEffect} from "react";
 import {Box, Typography} from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
+import dayjs from "dayjs";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 
 import "./styles.scss";
 import {UserContext} from "../../../../../context";
+import moment from "moment";
 
 const EachChatMessage = ({message}) => {
   const {user} = useContext(UserContext);
+  const [time, setTime] = useState(Date.now());
+
+  useEffect(() => {
+    const interval = setInterval(() => setTime(Date.now()), 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [time]);
 
   const isSent = message.createdbyId === user.currentEmployee._id;
 
@@ -42,7 +52,7 @@ const EachChatMessage = ({message}) => {
               gap: 0.5,
             }}
           >
-            <span>1min</span>
+            <span>{moment(message.createdAt).format("LT")}</span>
             {isSent && <DoneAllIcon sx={{color: "#f6fff8"}} />}
           </Box>
         </div>

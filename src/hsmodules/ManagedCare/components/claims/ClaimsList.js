@@ -68,7 +68,7 @@ const ClaimsListComponent = ({showCreate, showDetail, client_id}) => {
       if (client_id) {
         query = {
           "beneficiary._id": client_id,
-          "hmopayer._id": user.currentEmployee.facilityDetail._id,
+          "provider._id": user.currentEmployee.facilityDetail._id,
 
           $limit: 100,
           $sort: {
@@ -204,15 +204,15 @@ const ClaimsListComponent = ({showCreate, showDetail, client_id}) => {
     //   required: true,
     //   inputType: "HIDDEN",
     // },
-    // {
-    //   name: "Provider",
-    //   key: "hospital name",
-    //   description: "Enter Hospital Name",
-    //   selector: row => row?.provider?.facilityName,
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "TEXT",
-    // },
+    {
+      name: "Provider",
+      key: "hospital name",
+      description: "Enter Hospital Name",
+      selector: row => row?.provider?.facilityName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
 
     {
       name: "Status",

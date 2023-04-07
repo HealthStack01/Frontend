@@ -84,6 +84,8 @@ const ClaimDetailComponent = ({handleGoBack, client_id}) => {
       discharged_date: clinical_details.discharged_date || null,
       status: selectedClaim.status,
       date: selectedClaim.createdAt,
+      provider_name: selectedClaim.provider.facilityName,
+      submitted_by: `${selectedClaim.submissionby?.firstname} ${selectedClaim.submissionby?.lastname}`,
     };
     reset(resetForm);
     setServices(selectedClaim.services || []);
@@ -655,6 +657,22 @@ const ClaimDetailComponent = ({handleGoBack, client_id}) => {
                   <Input
                     label="Claim's Status"
                     register={register("status")}
+                    disabled
+                  />
+                </Grid>
+
+                <Grid item lg={6}>
+                  <Input
+                    label="Proivder's Name"
+                    register={register("provider_name")}
+                    disabled
+                  />
+                </Grid>
+
+                <Grid item lg={6}>
+                  <Input
+                    label="Submitted By"
+                    register={register("submitted_by")}
                     disabled
                   />
                 </Grid>

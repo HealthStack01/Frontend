@@ -1,5 +1,5 @@
 import {useContext} from "react";
-import {Avatar, Box, Typography} from "@mui/material";
+import {Avatar, Box, capitalize, Typography} from "@mui/material";
 import {toast} from "react-toastify";
 
 import client from "../../../../../feathers";
@@ -23,51 +23,54 @@ const ChatEachStaff = ({staff}) => {
       chatType: "personal",
       members: [
         {
-          name: `${employee.firstname} ${employee.lastname}`,
+          name: `${capitalize(
+            employee.firstname.replace(/\s/g, "")
+          )} ${capitalize(employee.lastname.replace(/\s/g, ""))}`,
           phone: employee.phone,
           email: employee.email,
           imageurl: employee.imageurl || "",
-          profession: employee.profession,
+          profession: capitalize(employee.profession),
           _id: employee._id,
           type: "staff",
           model: "employee",
+          organization: employee.facilityDetail,
         },
         {
-          name: `${staff.firstname} ${staff.lastname}`,
+          name: `${capitalize(staff.firstname.replace(/\s/g, ""))} ${capitalize(
+            staff.lastname.replace(/\s/g, "")
+          )}`,
           phone: staff.phone,
           email: staff.email,
           imageurl: staff.imageurl || "",
-          profession: staff.profession,
+          profession: capitalize(staff.profession),
           _id: staff._id,
           type: "staff",
           model: "employee",
+          organization: employee.facilityDetail,
         },
       ],
     };
 
-    // return console.log(newChatRoom);
+    //return console.log(newChatRoom);
 
     return chatroomServer
       .find({
         query: {
-          "members._id": newChatRoom.members,
+          members: newChatRoom.members,
         },
       })
       .then(res => {
         const data = res.data;
         if (data.length > 0) {
           const chatRoom = data[0];
-
-          setState(prev => ({
+          hideActionLoader();
+          return setState(prev => ({
             ...prev,
             ChatModule: {
               ...prev.ChatModule,
               chatRoom: chatRoom,
             },
           }));
-
-          hideActionLoader();
-          return;
         } else {
           return chatroomServer
             .create(newChatRoom)

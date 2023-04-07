@@ -4,24 +4,35 @@ import {Box} from "@mui/material";
 import {Nigeria} from "../../../app/Nigeria";
 import Input from "../../../../components/inputs/basic/Input";
 import CustomSelect from "../../../../components/inputs/basic/Select";
+import GoogleAddressInput from "../../../../components/google-autocomplete";
 
 const ContactForm = ({register, control, watch, errors, setValue}) => {
-  const [selectedState, setSelectedState] = useState(null);
-  const states = Nigeria.map(obj => obj.state);
+  // const [selectedState, setSelectedState] = useState(null);
+  // const states = Nigeria.map(obj => obj.state);
 
-  //alphabetically arrange state
-  const sortedStates = states.sort((a, b) => a.localeCompare(b));
+  // //alphabetically arrange state
+  // const sortedStates = states.sort((a, b) => a.localeCompare(b));
 
-  const state = watch("facilityState");
+  // const state = watch("facilityState");
 
-  useEffect(() => {
-    setSelectedState(Nigeria.find(item => item.state === state));
-    setValue("facilityCity", "");
-    setValue("facilityLGA", "");
-  }, [state]);
+  // useEffect(() => {
+  //   setSelectedState(Nigeria.find(item => item.state === state));
+  //   setValue("facilityCity", "");
+  //   setValue("facilityLGA", "");
+  // }, [state]);
 
   //const selectedState = Nigeria.find(item => item.state === state);
   //console.log(selectedState);
+
+  const handleGoogleAddressSelect = obj => {
+    //console.log(obj);
+    setValue("facilityAddress", obj.address);
+    setValue("facilityState", obj.state);
+    setValue("facilityCity", obj.lga);
+    setValue("facilityLGA", obj.lga);
+    setValue("facilityCountry", obj.country);
+  };
+
   return (
     <Box
       sx={{
@@ -31,54 +42,37 @@ const ContactForm = ({register, control, watch, errors, setValue}) => {
       }}
       gap={2}
     >
-      <CustomSelect
-        label="Country"
-        control={control}
-        name="facilityCountry"
-        errorText={errors?.facilityCountry?.message}
-        options={["Nigeria"]}
-        important
+      <GoogleAddressInput
+        label="Official Address"
+        register={register("facilityAddress")}
+        getSelectedAddress={handleGoogleAddressSelect}
+        errorText={errors?.facilityAddress?.message}
       />
 
-      <CustomSelect
-        label="State"
-        control={control}
-        name="facilityState"
-        errorText={errors?.facilityState?.message}
-        options={sortedStates}
-        important
-      />
-
-      <CustomSelect
+      <Input
         label="LGA"
-        control={control}
-        name="facilityLGA"
+        register={register("facilityLGA")}
         errorText={errors?.facilityLGA?.message}
-        options={
-          selectedState
-            ? selectedState.lgas.sort((a, b) => a.localeCompare(b))
-            : []
-        }
-        important
-      />
-
-      <CustomSelect
-        label="City"
-        control={control}
-        name="facilityCity"
-        errorText={errors?.facilityCity?.message}
-        options={
-          selectedState
-            ? selectedState.lgas.sort((a, b) => a.localeCompare(b))
-            : []
-        }
         important
       />
 
       <Input
-        label="Official Address"
-        register={register("facilityAddress")}
-        errorText={errors?.facilityAddress?.message}
+        label="City"
+        register={register("facilityCity")}
+        errorText={errors?.facilityCity?.message}
+        important
+      />
+
+      <Input
+        label="State"
+        register={register("facilityState")}
+        errorText={errors?.facilityState?.message}
+        important
+      />
+      <Input
+        label="Country"
+        register={register("facilityCountry")}
+        errorText={errors?.facilityCountry?.message}
         important
       />
 

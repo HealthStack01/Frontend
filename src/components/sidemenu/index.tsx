@@ -98,7 +98,7 @@ export const menuItems = [
       {name: "Product Entry", to: "/app/pharmacy/productentry"},
       {name: "Issue Out", to: "/app/pharmacy/issueout"},
       {name: "Requisiition", to: "/app/pharmacy/requisition"},
-      {name: "Transfer", to: "/app/pharmacy/transfer"},
+      {name: "Transfer", to: "/app/pharmacy/transfer/inward-transfer"},
       {name: "Dashboard", to: "/app/pharmacy/dashboard"},
     ],
   },

@@ -216,6 +216,25 @@ export const modulesList = [
   },
 
   {
+    value: "Communication",
+    label: "Communication",
+    // children: [
+    //   {
+    //     value: "Communication Chat",
+    //     label: "Bands",
+    //   },
+    //   {
+    //     value: "Communication SMS",
+    //     label: "SMS",
+    //   },
+    //   {
+    //     value: "Communication Location",
+    //     label: "Location",
+    //   },
+    // ],
+  },
+
+  {
     value: "Inventory",
     label: "Inventory",
     children: [

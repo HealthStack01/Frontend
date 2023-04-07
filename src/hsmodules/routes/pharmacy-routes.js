@@ -7,6 +7,7 @@ const PharmacyBillService = lazy(() => import("../Pharmacy/BillService"));
 const PharmacyBillPrescription = lazy(() =>
   import("../Pharmacy/BillPrescription")
 );
+const InwardTransfer = lazy(() => import("../Pharmacy/InwardTransfer"));
 const PharmacyTransfer = lazy(() => import("../Pharmacy/Transfer"));
 const PharmacyInventoryStore = lazy(() => import("../Pharmacy/InventoryStore"));
 const PharmacyProductEntry = lazy(() => import("../Pharmacy/ProductEntry"));
@@ -55,6 +56,10 @@ export const pharmacyRoutes = [
   {
     path: "/app/pharmacy/transfer",
     Component: PharmacyTransfer,
+  },
+  {
+    path: "/app/pharmacy/transfer/inward-transfer",
+    Component: InwardTransfer,
   },
   {
     path: "/app/pharmacy/dashboard",
