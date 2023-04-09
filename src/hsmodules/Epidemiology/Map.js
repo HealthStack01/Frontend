@@ -62,21 +62,34 @@
 //   )
 // }
 
-import React, {useEffect} from "react";
+import React, {useEffect, useState, useContext,  useRef} from "react";
 import "leaflet/dist/leaflet.css";
-import L from "leaflet";
 import "./style.css";
-import {useMap, MapContainer, TileLayer, Marker} from "react-leaflet";
-import "leaflet.markercluster";
-import icon from "leaflet/dist/images/marker-icon.png";
-import iconShadow from "leaflet/dist/images/marker-shadow.png";
-let DefaultIcon = L.icon({
+import {UserContext, ObjectContext} from "../../context";
+import client from "../../feathers";
+import {useMap, MapContainer, TileLayer, Marker,Popup } from "react-leaflet";
+
+import { Icon } from "leaflet"; 
+
+/* import L from "leaflet"; */
+
+
+/* import MarkerClusterGroup from 'react-leaflet-cluster' */
+
+/* import "leaflet.markercluster"; */
+
+/* import icon from "leaflet/dist/images/marker-icon.png"; */
+/* import iconShadow from "leaflet/dist/images/marker-shadow.png"; */
+
+
+/* let DefaultIcon = L.icon({
   iconUrl: icon,
   shadowUrl: iconShadow,
 });
-L.Marker.prototype.options.icon = DefaultIcon;
+L.Marker.prototype.options.icon = DefaultIcon; */
 
 const data = require("./nigeriahealthfacilities.json");
+const epidalerts=""
 
 function Mapper() {
   const hpdata = data.features.slice(0, 100);
@@ -104,15 +117,92 @@ function Mapper() {
 }
 
 export default function Map() {
+  const StoreServ = client.service("epidalerts");
+  const [facilities, setFacilities] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const {state, setState} = useContext(ObjectContext);
+  const {user} = useContext(UserContext); //,setUser
+  const points=useRef([])
+
+  const getFacilities = async () => {
+    setLoading(true);
+ 
+      const findStore = await StoreServ.find({
+        query: {
+          /*  $limit:20, */
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      });
+      await setFacilities(findStore.data);
+      points.current=findStore.data
+      setLoading(false);
+     
+  }
+  useEffect(() => {
+  
+      getFacilities();
+   
+    StoreServ.on("created", obj => getFacilities());
+    StoreServ.on("updated", obj => getFacilities());
+    StoreServ.on("patched", obj => getFacilities());
+    StoreServ.on("removed", obj => getFacilities());
+    return () => {
+
+    };
+  }, []);
+  const customIcon = new Icon({
+    iconUrl:require ("leaflet/dist/images/marker-icon.png"),
+    iconSize:[35,35],
+    iconAnchor:[1,4],
+    popupAnchor:[0,5]
+  })
+
+//[9.082, 8.6753]
   return (
+    <>
+    {/* {
+      points.current.map((site,i)=>(
+        <div key={1}>
+        location: [{site.geolocation.coordinates[0]},{site.geolocation.coordinates[1]}]
+        </div>
+      ))
+    } */}
     <div id="map" style={{height: "100vh"}}>
-      <MapContainer center={[9.082, 8.6753]} zoom={4} maxZoom={10}>
+      <MapContainer center={ [state.coordinates.latitude, state.coordinates.longitude] } zoom={13} >
+
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-        <Mapper />
+        {/* <Mapper /> */}
+     {/*  [mark.geolocation.coordinates] */}
+     {
+      points.current.map((site,i)=>(
+
+        site.geolocation.coordinates[0]&&     
+        <Marker  key={i}  position={[site.geolocation.coordinates[0],site.geolocation.coordinates[1]]} icon={customIcon} >
+             <Popup>
+                <div>
+                  <b>Facility Name:</b>{site.location}, {site.facility}</div>
+                  <div>  <b>Status:</b> {site.status} </div>
+                  <div> { site.match.length>0 && 
+                 <> <b>Disease:</b> 
+                  
+                  {site.match.map((diag,i)=>(
+                      <div key={i}>
+                          {diag}
+                      </div>
+                    ))
+                  } </>  }</div>
+                <div>  <b>Action:</b> {site.action}
+                </div>
+             </Popup>
+          </Marker>
+ ))}
       </MapContainer>
-    </div>
+    </div>   
+    </>    
   );
 }
