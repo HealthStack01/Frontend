@@ -11,7 +11,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { People } from '@mui/icons-material';
 import { Receipt } from '@mui/icons-material';
 import { blue } from '@material-ui/core/colors';
-import {InputLabel, Select, MenuItem } from "@material-ui/core";
+import {InputLabel, Select, MenuItem, FormControl } from "@material-ui/core";
 import client from '../../feathers';
 import {
   DashboardPageWrapper,
@@ -29,23 +29,26 @@ const GlobalAdminHome = () => {
    const clientServe = client.service('client');
    const documentServe = client.service('documentation');
 
+   const [facilities, setFacilities] = useState({
+    hospitals: 0,
+    schools: 0,
+    hospitality: 0,
+    laboratory: 0,
+    pharmacies: 0,
+    corporate: 0,
+    diagnosticsLab: 0,
+    hmo: 0,
+    clinic: 0,
+    statehmo: 0,
+    minofhealth: 0,
+  });
+
    const [totalAppointments, setTotalAppointments] = useState(0);
    const [totalDocCreated, setTotalDocCreated] = useState(0);
    const [totalInvoices, setTotalInvoices] = useState(0);
    const [totalEmployees, setTotalEmployees] = useState(0);
     const [totalClinicalDocument, setTotalClinicalDocument] = useState(0);
-   const [hospitals, setHospitals] = useState(0);
-   const [school, setSchool] = useState(0);
-   const [hospitality, setHospitality] = useState(0);
-    const [laboratory, setLaboratory] = useState(0);
-   const [pharmacies, setPharmacies] = useState(0);
-   const [corporate, setCorporate] = useState(0);
-   const [diagnosticsLab, setDiagnosticsLab] = useState(0);
-   const [hmo, setHmo] = useState(0);
-   const [clinic, setClinic] = useState(0);
-   const [totalClients, setTotalClients] = useState(0);
-   const [statehmo, setStatehmo] = useState(0);
-   const [minofhealth, setMinofhealth] = useState(0);
+    const [totalClients, setTotalClients] =useState(0);
 
    // Organization by states
    const [lagos, setLagos] = useState("");
@@ -56,8 +59,9 @@ const GlobalAdminHome = () => {
   const [ilorin, setIlorin] = useState("");
   const [portharcourt, setportharcourt] = useState("");
 
-   const [selectedType, setSelectedType] = useState("Hospital");
+  const [selectedType, setSelectedType] = useState('hmo');
   const [selectedState, setSelectedState] = useState("Ibadan");
+
 
   const handleTypeChange = (event) => {
     setSelectedType(event.target.value);
@@ -140,17 +144,24 @@ const GlobalAdminHome = () => {
       .find()
       .then(res => {
         hideActionLoader();
-        setHospitals(res.data.filter(hospital => hospital.facilityType === "State HMO").length);
-        setMinofhealth(res.data.filter(minofhealth => minofhealth.facilityType === "MInistry of Health").length);
-        setStatehmo(res.data.filter(statehmo => statehmo.facilityType === "Hospital").length);
-        setClinic(res.data.filter(clinic => clinic.facilityType === "Clinic").length);
-        setSchool(res.data.filter(school => school.facilityType === "School").length);
-        setHospitality(res.data.filter(hospitality => hospitality.facilityType === "Hospitality").length);
-        setLaboratory(res.data.filter(laboratory => laboratory.facilityType === "Laboratory").length);
-        setPharmacies(res.data.filter(pharmacy => pharmacy.facilityType === "Pharmacy").length);
-        setCorporate(res.data.filter(corporate => corporate.facilityType === "Corporate").length);
-        setDiagnosticsLab(res.data.filter(diagnosticsLab => diagnosticsLab.facilityType === "Diagnostics Lab").length);
-        setHmo(res.data.filter(hmo => hmo.facilityType === "HMO").length);
+        const facilitiesCounts = {
+          hospitals: res.data.filter(hospital => hospital.facilityType === "State HMO").length,
+          minofhealth: res.data.filter(minofhealth => minofhealth.facilityType === "MInistry of Health").length,
+          statehmo: res.data.filter(statehmo => statehmo.facilityType === "Hospital").length,
+          clinic: res.data.filter(clinic => clinic.facilityType === "Clinic").length,
+          schools: res.data.filter(school => school.facilityType === "School").length,
+          hospitality: res.data.filter(hospitality => hospitality.facilityType === "Hospitality").length,
+          laboratory: res.data.filter(laboratory => laboratory.facilityType === "Laboratory").length,
+          pharmacies: res.data.filter(pharmacy => pharmacy.facilityType === "Pharmacy").length,
+          corporate: res.data.filter(corporate => corporate.facilityType === "Corporate").length,
+          diagnosticsLab: res.data.filter(diagnosticsLab => diagnosticsLab.facilityType === "Diagnostics Lab").length,
+          hmo: res.data.filter(hmo => hmo.facilityType === "HMO").length,
+        };
+        setFacilities(prevFacilities => ({
+          ...prevFacilities,
+          ...facilitiesCounts,
+          totalClients: res.total
+        }));
         setLagos(res.data.filter(state => state.facilityCity === "Lagos").length);
         setIbadan(res.data.filter(state => state.facilityCity === "Ibadan").length);
         setAbuja(res.data.filter(state => state.facilityCity === "Abuja").length);
@@ -216,62 +227,27 @@ const GlobalAdminHome = () => {
         <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">
           Total Organizations by Type
         </StyledTypography>
-        {selectedType === "Hospital" && (
-          <StyledNumber backgroundColor="#3498db">{hospitals}</StyledNumber>
-        )}
-         {selectedType === "MInistry of Health" && (
-          <StyledNumber backgroundColor="#3498db">{minofhealth}</StyledNumber>
-        )}
-         {selectedType === "State HMO" && (
-          <StyledNumber backgroundColor="#3498db">{statehmo}</StyledNumber>
-        )}
-        {selectedType === "Clinic" && (
-          <StyledNumber backgroundColor="#3498db">{clinic}</StyledNumber>
-        )}
-         {selectedType === "School" && (
-          <StyledNumber backgroundColor="#3498db">{school}</StyledNumber>
-        )}
-           {selectedType === "Hospitality" && (
-          <StyledNumber backgroundColor="#3498db">{hospitality}</StyledNumber>
-        )}
-         {selectedType === "Laboratory" && (
-          <StyledNumber backgroundColor="#3498db">{laboratory}</StyledNumber>
-        )}
-         {selectedType === "DiagnosticLab" && (
-          <StyledNumber backgroundColor="#3498db">{diagnosticsLab}</StyledNumber>
-        )}
-        {selectedType === "Total Pharmacies" && (
-          <StyledNumber backgroundColor="#2ecc71">{pharmacies}</StyledNumber>
-        )}
-        {selectedType === "Corporate" && (
-          <StyledNumber backgroundColor="#e67e22">{corporate}</StyledNumber>
-        )}
-          {selectedType === "HMO" && (
-          <StyledNumber backgroundColor="#e67e22">{hmo}</StyledNumber>
-        )}
-        <StyledFormControl>
-          <InputLabel htmlFor="type-dropdown">Type</InputLabel>
-          <Select
-            value={selectedType}
-            onChange={handleTypeChange}
-            inputProps={{
-              id: "type-dropdown",
-            }}
-          >
-            <MenuItem value="Hospital">Hospitals</MenuItem>
-            <MenuItem value="MInistry of Health">MInistry of Health</MenuItem>
-            <MenuItem value="State HMO">State HMO</MenuItem>
-            <MenuItem value="Clinic">Clinics</MenuItem>
-            <MenuItem value="School">Schools</MenuItem>
-            <MenuItem value="Hospitality">Hospitality</MenuItem>
-            <MenuItem value="Laboratory">Laboratory</MenuItem>
-            <MenuItem value="Total Diagnostics">Diagnostics</MenuItem>
-            <MenuItem value="Total Pharmacies">Pharmacies</MenuItem>
-            <MenuItem value="Corporate">Corporate</MenuItem>
-            <MenuItem value="Total Diagnostics">Diagnostics Lab</MenuItem>
-            <MenuItem value="HMO">HMO</MenuItem>
-          </Select>
-        </StyledFormControl>
+        <StyledNumber backgroundColor="#3498db">{facilities[selectedType]}</StyledNumber>
+        {/* <Number backgroundColor="#3498db">
+        {selectedType}
+      </Number> */}
+      <FormControl>
+        <InputLabel htmlFor="type-dropdown">Type</InputLabel>
+        <Select
+           value={selectedType}
+          onChange={handleTypeChange}
+          inputProps={{
+            id: 'type-dropdown',
+          }}
+        >
+          {Object.keys(facilities).map((type) => (
+            <MenuItem key={type} value={type}>
+              {type}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl> 
+
       </div>
     </StyledCardContent>
   </StyledCard>
