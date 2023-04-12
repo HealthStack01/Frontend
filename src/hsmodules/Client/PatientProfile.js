@@ -259,21 +259,43 @@ export default function PatientProfile() {
                 sx={{display: "flex", alignItems: "center", flexWrap: "wrap"}}
                 mb={1}
               >
+                <Box>
                 <Typography sx={{fontSize: "0.75rem", fontWeight: "600"}}>
                   Payment Info:
                 </Typography>
+              
                 {paymentinfo &&
                   paymentinfo.map((pay, i) => (
+                    <>
                     <Typography
-                      sx={{fontSize: "0.75rem"}}
-                      data-tag="allowRowEvents"
+                      sx={{fontSize: "0.75rem",  fontWeight: "600"}}
+                      /* data-tag="allowRowEvents" */
                     >
                       {pay?.paymentmode}
                       {pay?.paymentmode === "Cash" ? "" : ":"}
                       {pay?.organizationName}
                       {","}&nbsp;
                     </Typography>
+                 
+                    <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
+                    {pay?.paymentmode === "HMO" && <>Plan: {pay?.organizationName} </>}
+                    </Typography>
+                    <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
+                    {pay?.paymentmode === "HMO" && <>Client ID: {pay?.clientId} </>}
+                    </Typography>
+                    <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
+                    {pay?.paymentmode === "HMO" && <>Principal: {pay?.PrincipalName} </>}
+                    </Typography>
+                    <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
+                    {pay?.paymentmode === "HMO" && <>Principal ID: {pay?.PrincipalId} </>}
+                    </Typography>
+                    <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
+                    {pay?.paymentmode === "HMO" && <>Active: {pay?.active.toString()} </>}
+                    </Typography>
+                    </>
                   ))}
+                  
+              </Box>
               </Box>
 
               {!isHMO && (

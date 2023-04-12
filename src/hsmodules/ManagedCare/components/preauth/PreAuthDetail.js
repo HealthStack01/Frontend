@@ -83,6 +83,8 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
       discharged_date: clinical_details.discharged_date || null,
       status: selectedPreAuth.status,
       date: selectedPreAuth.createdAt,
+      provider_name: selectedPreAuth.provider.facilityName,
+      submitted_by: `${selectedPreAuth.submissionby?.firstname} ${selectedPreAuth.submissionby?.lastname}`,
     };
     reset(resetForm);
     setServices(selectedPreAuth.services || []);
@@ -628,6 +630,22 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
                   <Input
                     label="Preauthorization's Status"
                     register={register("status")}
+                    disabled
+                  />
+                </Grid>
+
+                <Grid item lg={6}>
+                  <Input
+                    label="Proivder's Name"
+                    register={register("provider_name")}
+                    disabled
+                  />
+                </Grid>
+
+                <Grid item lg={6}>
+                  <Input
+                    label="Submitted By"
+                    register={register("submitted_by")}
                     disabled
                   />
                 </Grid>

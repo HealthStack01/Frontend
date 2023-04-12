@@ -23,6 +23,7 @@ import ContactCreate from "../contact/ContactCreate";
 import {ObjectContext, UserContext} from "../../../../context";
 import dayjs from "dayjs";
 import client from "../../../../feathers";
+import GoogleAddressInput from "../../../../components/google-autocomplete";
 
 const LeadsCreate = ({closeModal, handleGoBack}) => {
   const dealServer = client.service("deal");
@@ -223,6 +224,15 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
     calculateWeightForcast();
   }, [calculateWeightForcast]);
 
+  const handleGoogleAddressSelect = obj => {
+    //console.log(obj);
+    setValue("address", obj.address);
+    setValue("state", obj.state);
+    setValue("city", obj.lga);
+    setValue("lga", obj.lga);
+    setValue("country", obj.country);
+  };
+
   return (
     <>
       <Box
@@ -318,8 +328,9 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
                 </Grid>
 
                 <Grid item lg={4} md={6} sm={8}>
-                  <Input
+                  <GoogleAddressInput
                     register={register("address", {required: true})}
+                    getSelectedAddress={handleGoogleAddressSelect}
                     label={
                       customerType === "corporate"
                         ? "Organization Address"

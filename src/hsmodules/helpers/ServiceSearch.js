@@ -168,9 +168,10 @@ export default function ServiceSearch({getSearchfacility, clear, mode, label}) {
                   $regex: value,
                   $options: "i",
                 },
-                facility: mode.detail.organizationId,
+               /*  facility: mode.detail.organizationId,
                 mode: "HMOCover",
-                dest_org: user.currentEmployee.facilityDetail._id,
+                dest_org: user.currentEmployee.facilityDetail._id, */
+                facility: user.currentEmployee.facilityDetail._id,
                 $limit: 10,
                 $sort: {
                   createdAt: -1,
