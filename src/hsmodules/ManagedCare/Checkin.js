@@ -24,7 +24,7 @@ import {Box, Grid} from "@mui/material";
 import OtpInput from "react-otp-input";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 
-export default function CheckIn() {
+export default function CorporateCheckIn() {
   const {state} = useContext(ObjectContext); //,setState
   const [showModal, setShowModal] = useState(0);
 
@@ -70,7 +70,7 @@ export function CheckInList({openCreateModal, setShowModal}) {
 
   const checkedinFn = () => {
     let query = {
-      facility: user.currentEmployee.facilityDetail._id, // || "",
+      "policy.sponsor._id": user.currentEmployee.facilityDetail._id, // || "",
       $limit: 20,
       appointment_status: "Checked In",
       $sort: {
