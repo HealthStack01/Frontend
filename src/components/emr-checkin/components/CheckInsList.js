@@ -282,7 +282,7 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
               </div>
             )}
             <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-              List of {isCheckedIn ? "Chekced In" : "Checked Out"} Appointments
+              List of {isCheckedIn ? "Checked In" : "Checked Out"} Appointments
             </h2>
           </div>
 
