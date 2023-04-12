@@ -3,10 +3,11 @@ import {ObjectContext} from '../../context';
 import {Box, Grid, Card,CardContent,Typography} from "@mui/material";
 import styled from "styled-components";
 import BarChartIcon from '@mui/icons-material/BarChart';
+import FitnessCenter from '@mui/icons-material/RoomService';
 import BusinessIcon from '@mui/icons-material/Business';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-import DescriptionIcon from '@mui/icons-material/Description';
+//import DescriptionIcon from '@mui/icons-material/Description';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { People } from '@mui/icons-material';
 import { Receipt } from '@mui/icons-material';
@@ -29,7 +30,7 @@ const GlobalAdminHome = () => {
    const clientServe = client.service('client');
    const documentServe = client.service('documentation');
 
-   const [facilities, setFacilities] = useState({
+   const [totalFacilities, setTotalFacilities] = useState({
     hospitals: 0,
     schools: 0,
     hospitality: 0,
@@ -47,8 +48,9 @@ const GlobalAdminHome = () => {
    const [totalDocCreated, setTotalDocCreated] = useState(0);
    const [totalInvoices, setTotalInvoices] = useState(0);
    const [totalEmployees, setTotalEmployees] = useState(0);
-    const [totalClinicalDocument, setTotalClinicalDocument] = useState(0);
-    const [totalClients, setTotalClients] =useState(0);
+   const [totalClinicalDocument, setTotalClinicalDocument] = useState(0);
+   const [totalClients, setTotalClients] = useState(0);
+
 
    // Organization by states
    const [lagos, setLagos] = useState("");
@@ -157,10 +159,10 @@ const GlobalAdminHome = () => {
           diagnosticsLab: res.data.filter(diagnosticsLab => diagnosticsLab.facilityType === "Diagnostics Lab").length,
           hmo: res.data.filter(hmo => hmo.facilityType === "HMO").length,
         };
-        setFacilities(prevFacilities => ({
+        setTotalFacilities(prevFacilities => ({
           ...prevFacilities,
           ...facilitiesCounts,
-          totalClients: res.total
+    
         }));
         setLagos(res.data.filter(state => state.facilityCity === "Lagos").length);
         setIbadan(res.data.filter(state => state.facilityCity === "Ibadan").length);
@@ -197,7 +199,6 @@ const GlobalAdminHome = () => {
     }
   }
   
-
   return (
     <DashboardPageWrapper>
         <Box>
@@ -227,10 +228,7 @@ const GlobalAdminHome = () => {
         <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">
           Total Organizations by Type
         </StyledTypography>
-        <StyledNumber backgroundColor="#3498db">{facilities[selectedType]}</StyledNumber>
-        {/* <Number backgroundColor="#3498db">
-        {selectedType}
-      </Number> */}
+        <StyledNumber backgroundColor="#3498db">{totalFacilities[selectedType]}</StyledNumber>
       <FormControl>
         <InputLabel htmlFor="type-dropdown">Type</InputLabel>
         <Select
@@ -240,7 +238,7 @@ const GlobalAdminHome = () => {
             id: 'type-dropdown',
           }}
         >
-          {Object.keys(facilities).map((type) => (
+          {Object.keys(totalFacilities).map((type) => (
             <MenuItem key={type} value={type}>
               {type}
             </MenuItem>
@@ -379,10 +377,10 @@ const GlobalAdminHome = () => {
     <Grid item xs={12} md={3}>
       <StyledCard>
         <StyledCardContent>
-          <DescriptionIcon fontSize="large" color="primary" />
+          <FitnessCenter fontSize="large" color="primary" />
           <div>
-            <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total proposals</StyledTypography>
-            <StyledNumber backgroundColor="#800000">None</StyledNumber>
+            <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Facilities</StyledTypography>
+            {/* <StyledNumber backgroundColor="#800000">{totalFacilities}</StyledNumber> */}
           </div>
         </StyledCardContent>
       </StyledCard>

@@ -184,7 +184,7 @@ const AdminOrganization = ({propId}) => {
         {/* {currentPage === 1 && <PolicyList standAlone={facility?._id || ""} />}
         {currentPage === 2 && <PremiumPayment />} */}
 
-        {facility?.facilityType?.toLowerCase() !== "corporate" ? (
+        {/* {facility?.facilityType?.toLowerCase() !== "corporate" ? (
           <Box sx={{display: "flex"}} gap={2}>
             <GlobalCustomButton
               color="secondary"
@@ -277,7 +277,7 @@ const AdminOrganization = ({propId}) => {
               Claims
             </GlobalCustomButton>
           </Box>
-        )}
+        )} */}
       </Box>
       {view === "claims" && (
         <Box>

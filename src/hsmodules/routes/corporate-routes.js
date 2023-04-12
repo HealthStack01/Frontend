@@ -23,6 +23,7 @@ const ComplaintsInventoryReport = lazy(() =>
 const Premium = lazy(() => import("../ManagedCare/Premium"));
 const ComplaintDetails = lazy(() => import("../ManagedCare/ComplaintDetails"));
 const CheckIn = lazy(() => import("../ManagedCare/Checkin"));
+const CorporateCheckin = lazy(() => import("../Corporate/Checkin"));
 
 const CorporateBeneficiary = () => <Beneficiary standalone={true} />;
 
@@ -67,7 +68,7 @@ export const corporateRoutes = [
   },
   {
     path: "/app/corporate/checkin",
-    Component: CheckIn,
+    Component: CorporateCheckin,
   },
   {
     path: "/app/corporate/beneficiary",

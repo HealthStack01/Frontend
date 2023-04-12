@@ -333,7 +333,7 @@ const ClaimsListComponent = ({showCreate, showDetail, client_id}) => {
                 List of Claims
               </h2>
             </div>
-            <Box>
+            {/* <Box>
               {handleCreateNew && (
                 <GlobalCustomButton
                   onClick={handleCreateNew}
@@ -341,7 +341,7 @@ const ClaimsListComponent = ({showCreate, showDetail, client_id}) => {
                   text="Add Claims"
                 />
               )}
-            </Box>
+            </Box> */}
           </TableMenu>
 
           <Box
