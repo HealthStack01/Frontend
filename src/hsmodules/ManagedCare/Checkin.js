@@ -249,12 +249,12 @@ export function CheckInList({openCreateModal, setShowModal}) {
     }
   }, []);
 
-  const getCheckIn = useCallback(async () => {
-    if (user.currentEmployee) {
-      let stuff = {
-        hmo: user.currentEmployee.facilityDetail.facilityType === "HMO",
-        appointment_status: "Checked In",
-        // locationId:state.employeeLocation.locationId,
+    const getCheckIn = useCallback(async () => {
+      if (user.currentEmployee) {
+        let stuff = {
+          hmo: user.currentEmployee.facilityDetail.facilityType === "HMO",
+          appointment_status: "Checked In",
+          // locationId:state.employeeLocation.locationId,
         $limit: 100,
         $sort: {
           createdAt: -1,
