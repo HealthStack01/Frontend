@@ -6,7 +6,7 @@ import React, {
     useRef,
     useCallback,
   } from "react";
-  import {Route, useNavigate, Link, NavLink} from "react-router-dom";
+  import {useNavigate} from "react-router-dom";
   import client from "../../feathers";
   //import {useNavigate} from 'react-router-dom'
   import {UserContext, ObjectContext} from "../../context";
@@ -40,198 +40,81 @@ import React, {
     );
   }
   
-  export function CheckInList({openCreateModal, setShowModal}) {
+  export function CheckInList({ setShowModal}) {
     const ClientServ = client.service("appointments");
     const {user} = useContext(UserContext);
     const {state, setState} = useContext(ObjectContext);
     const [loading, setLoading] = useState(false);
-    const [value, setValue] = useState("list");
     const [checkedin, setCheckedin] = useState(true); //TOGGLE IF TO SHOW CHECKED IN OR CHECKED OUT
     const [facilities, setFacilities] = useState([]);
     const [selectedCheckedIn, setSelectedCheckedIn] = useState();
-    const [error, setError] = useState(false);
+  
     const [checkoutAppointment, setCheckoutAppointment] = useState([]);
-  
-    // const handleRow = obj => {};
-    //console.log(state.employeeLocation)
-  
+
+    const [checkinAppointment, setCheckinAppointment] = useState([]);
+
+
     const handleRow = async Client => {
-      setShowModal(true);
-      await setSelectedCheckedIn(Client);
-      const newClientModule = {
-        selectedCheckedIn: Client,
-        show: "detail",
-      };
-      await setState(prevstate => ({
-        ...prevstate,
-        AppointmentModule: newClientModule,
-      }));
-    };
-  
-    const checkedinFn = () => {
-      let query = {
-        facility: user.currentEmployee.facilityDetail._id, // || "",
-        $limit: 20,
-        appointment_status: "Checked In",
-        $sort: {
-          createdAt: -1,
-        },
-      };
-  
-      ClientServ.find({query: query})
-        .then(res => {
-          console.log(res);
-          setFacilities(res.data);
-          setMessage(" Client  fetched successfully");
-          setSuccess(true);
-        })
-        .catch(err => {
-          console.log(err);
-          // setMessage('Error fetching Client, probable network issues ' + err);
-          setError(true);
-        });
-    };
-  
-    const handleSearch = val => {
-      const field = "firstname";
-      //  console.log(val)
-  
-      let query = {
-        $or: [
-          {
-            firstname: {
-              $regex: val,
-              $options: "i",
+        setShowModal(true);
+        await setSelectedCheckedIn(Client);
+        const newClientModule = {
+          selectedCheckedIn: Client,
+          show: "detail",
+        };
+        await setState(prevstate => ({
+          ...prevstate,
+          AppointmentModule: newClientModule,
+        }));
+      };     
+
+
+      const getCheckIn = useCallback(async () => {
+        let sponsorId = user.currentEmployee.facilityDetail._id; // assuming you have retrieved the sponsor id
+        
+        if (user.currentEmployee) {
+          let stuff = {
+            "policy.sponsor._id": sponsorId,
+            appointment_status: "Checked Out",
+            $limit: 100,
+            $sort: {
+              createdAt: -1,
             },
-          },
-          {
-            lastname: {
-              $regex: val,
-              $options: "i",
-            },
-          },
-          {
-            middlename: {
-              $regex: val,
-              $options: "i",
-            },
-          },
-          {
-            phone: {
-              $regex: val,
-              $options: "i",
-            },
-          },
-          {
-            appointment_type: {
-              $regex: val,
-              $options: "i",
-            },
-          },
-          {
-            appointment_status: {
-              $regex: val,
-              $options: "i",
-            },
-          },
-          {
-            appointment_reason: {
-              $regex: val,
-              $options: "i",
-            },
-          },
-          {
-            location_type: {
-              $regex: val,
-              $options: "i",
-            },
-          },
-          {
-            location_name: {
-              $regex: val,
-              $options: "i",
-            },
-          },
-          {
-            practitioner_department: {
-              $regex: val,
-              $options: "i",
-            },
-          },
-          {
-            practitioner_profession: {
-              $regex: val,
-              $options: "i",
-            },
-          },
-          {
-            practitioner_name: {
-              $regex: val,
-              $options: "i",
-            },
-          },
-        ],
-        facility: user.currentEmployee.facilityDetail._id, // || "",
-        $limit: 20,
-        appointment_status: "Checked In",
-        $sort: {
-          createdAt: -1,
-        },
-      };
-      if (state.employeeLocation.locationType !== "Front Desk") {
-        query.locationId = state.employeeLocation.locationId;
-      }
-  
-      ClientServ.find({query: query})
-        .then(res => {
-          console.log(res.data, "data fetched from appointment");
-          setFacilities(res.data);
-          setMessage(" Client  fetched successfully");
-          setSuccess(true);
-        })
-        .catch(err => {
-          console.log(err);
-          // setMessage('Error fetching Client, probable network issues ' + err);
-          setError(true);
-        });
-    };
-  
-    // const checkedoutFn = async() => {
-    //   const findClient = await ClientServ.find({
-    //     query: {
-    //       $limit: 100,
-    //       appointment_status: "Checked Out",
-    //       $sort: {
-    //         createdAt: -1,
-    //       },
-    //       $select: ["appointment_status"]
-    //     },
-    //   });
-    //   console.log(select, "select here");
-    // }
-  
-    // checked out
-  
+          };
+          
+          const findAppointment = await ClientServ.find({query: stuff});
+      
+          await setCheckinAppointment(findAppointment.data);
+        } else {
+          if (user.stacker) {
+            const findAppointment = await ClientServ.find({
+              query: {
+                'policy.sponsor._id': sponsorId,
+                $limit: 100,
+                appointment_status: "Checked In",
+                $sort: {
+                  createdAt: -1,
+                },
+              },
+            });
+      
+            await setCheckinAppointment(findAppointment.data);
+          }
+        }
+      }, []);
+      
     const getCheckOut = useCallback(async () => {
       if (user.currentEmployee) {
         let stuff = {
-          // hmo: user.currentEmployee.facilityDetail.facilityType === ,
-          // facility: user.currentEmployee.facilityDetail._id,
           appointment_status: "Checked Out",
-          // locationId:state.employeeLocation.locationId,
           $limit: 100,
           $sort: {
             createdAt: -1,
           },
         };
-        // if (state.employeeLocation.locationType !== 'Front Desk') {
-        //   stuff.locationId = state.employeeLocation.locationId;
-        // }
-  
+        
         const findAppointment = await ClientServ.find({query: stuff});
   
         await setCheckoutAppointment(findAppointment.data);
-        console.log(findAppointment, "Check out");
       } else {
         if (user.stacker) {
           const findAppointment = await ClientServ.find({
@@ -248,52 +131,120 @@ import React, {
         }
       }
     }, []);
-  
-    const getCheckIn = useCallback(async () => {
-      if (user.currentEmployee) {
-        let stuff = {
-          hmo: user.currentEmployee.facilityDetail.facilityType === "HMO",
-          appointment_status: "Checked In",
-          // locationId:state.employeeLocation.locationId,
-          $limit: 100,
-          $sort: {
-            createdAt: -1,
-          },
-        };
-        // if (state.employeeLocation.locationType !== 'Front Desk') {
-        //   stuff.locationId = state.employeeLocation.locationId;
-        // }
-  
-        const findClient = await ClientServ.find({query: stuff});
-  
-        await setFacilities(findClient.data);
-        console.log(findClient, "Check In....");
-      } else {
-        if (user.stacker) {
-          const findClient = await ClientServ.find({
-            query: {
-              $limit: 100,
-              appointment_status: "Checked In",
-              $sort: {
-                createdAt: -1,
-              },
-            },
-          });
-  
-          await setFacilities(findClient.data);
-        }
-      }
-    }, [checkedin]);
+
   
     useEffect(() => {
-      getCheckIn();
       getCheckOut();
+      getCheckIn();
+  
   
       ClientServ.on("created", obj => handleCalendarClose());
       ClientServ.on("updated", obj => handleCalendarClose());
       ClientServ.on("patched", obj => handleCalendarClose());
       ClientServ.on("removed", obj => handleCalendarClose());
-    }, [getCheckIn]);
+    }, []);
+
+    const handleSearch = val => {
+        const field = "firstname";
+        let query = {
+          $or: [
+            {
+              firstname: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              lastname: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              middlename: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              phone: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              appointment_type: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              appointment_status: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              appointment_reason: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              location_type: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              location_name: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              practitioner_department: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              practitioner_profession: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              practitioner_name: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+          ],
+          facility: user.currentEmployee.facilityDetail._id, // || "",
+          $limit: 20,
+          appointment_status: "Checked In",
+          $sort: {
+            createdAt: -1,
+          },
+        };
+        if (state.employeeLocation.locationType !== "Front Desk") {
+          query.locationId = state.employeeLocation.locationId;
+        }
+    
+        ClientServ.find({query: query})
+          .then(res => {
+            console.log(res.data, "data fetched from appointment");
+            setFacilities(res.data);
+            setMessage(" Client  fetched successfully");
+            setSuccess(true);
+          })
+          .catch(err => {
+            console.log(err);
+            // setMessage('Error fetching Client, probable network issues ' + err);
+            setError(true);
+          });
+      };
   
     //UPDATE COLUMNS CHANGE NAME OF EACH TO TABLE HEADER FOR CHECKIN
     const checkInColumns = [
@@ -542,18 +493,17 @@ import React, {
               overflow: "auto",
             }}
           >
-            {!checkedin ? (
+            {checkedin ? (
               <>
                 <CustomTable
                   title={""}
                   columns={checkInColumns}
-                  data={facilities}
+                  data={checkinAppointment}
                   pointerOnHover
                   highlightOnHover
                   striped
                   onRowClicked={handleRow}
                   progressPending={loading}
-                  //conditionalRowStyles={conditionalRowStyles}
                 />
               </>
             ) : (
@@ -567,7 +517,6 @@ import React, {
                   striped
                   onRowClicked={handleRow}
                   progressPending={loading}
-                  //conditionalRowStyles={conditionalRowStyles}
                 />
               </>
             )}
@@ -596,9 +545,7 @@ import React, {
     const [otp, setOtp] = useState("");
   
     const Client = state.AppointmentModule.selectedCheckedIn;
-    console.log(state.AppointmentModule, "niccee");
-    console.log(Client, "hjh");
-    //const client=Client
+  
     const handleEdit = async () => {
       const newClientModule = {
         selectedAppointment: Client,
