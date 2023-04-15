@@ -114,10 +114,10 @@ export const getOrganisationContactSchema = (
     selector: row => row.facilityCity,
     sortable: true,
     required: true,
-    options:
+    /* options:
       (Nigeria || []).find(obj => obj.state === formData["facilityState"])
-        ?.lgas || [],
-    inputType: InputType.SELECT_LIST,
+        ?.lgas || [], */
+    inputType:InputType.TEXT //InputType.SELECT_LIST,
   },
   {
     name: "Address",
