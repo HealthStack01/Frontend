@@ -127,11 +127,6 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
 
     const clinical_data = data;
 
-    //REMOVE DATA THAT'S ALREADY IN CLAIM'S OBJECT
-    // delete clinical_data.totalamount;
-    // delete clinical_data.claimtype;
-    // delete clinical_data.comments;
-    // delete clinical_data.patientstate;
     const statushx = {
       status: "Submitted",
       date: new Date(),
@@ -196,13 +191,13 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
     }
   }, [patientState]);
 
- const handleSelectAppointment = appointment => {
+  const handleSelectAppointment = appointment => {
     setSelectedAppointment(appointment);
     setSelectedAdmission(null);
     setAppointmentModal(false);
   };
 
- const handleSelectAdmission = admission => {
+  const handleSelectAdmission = admission => {
     setSelectedAdmission(admission);
     setSelectedAppointment(null);
     setAdmissionModal(false);

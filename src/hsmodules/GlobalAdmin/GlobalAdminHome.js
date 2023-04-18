@@ -3,15 +3,16 @@ import {ObjectContext} from '../../context';
 import {Box, Grid, Card,CardContent,Typography} from "@mui/material";
 import styled from "styled-components";
 import BarChartIcon from '@mui/icons-material/BarChart';
+import FitnessCenter from '@mui/icons-material/RoomService';
 import BusinessIcon from '@mui/icons-material/Business';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-import DescriptionIcon from '@mui/icons-material/Description';
+//import DescriptionIcon from '@mui/icons-material/Description';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { People } from '@mui/icons-material';
 import { Receipt } from '@mui/icons-material';
 import { blue } from '@material-ui/core/colors';
-import {InputLabel, Select, MenuItem } from "@material-ui/core";
+import {InputLabel, Select, MenuItem, FormControl } from "@material-ui/core";
 import client from '../../feathers';
 import {
   DashboardPageWrapper,
@@ -26,34 +27,43 @@ const GlobalAdminHome = () => {
   const invoiceServ = client.service('invoice');
   const employeeServ = client.service('employee');
    const clinicaldocumentServ = client.service('clinicaldocument');
-   const patientServe = client.service('client');
+   const clientServe = client.service('client');
+   const documentServe = client.service('documentation');
 
-   const [appointments, setAppointments] = useState([]);
-   const [invoices, setInvoices] = useState([]);
-   const [employees, setEmployees] = useState([]);
-    const [clinicaldocument, setClinicaldocument] = useState([]);
-   const [hospitals, setHospitals] = useState(0);
-   const [school, setSchool] = useState(0);
-   const [hospitality, setHospitality] = useState(0);
-    const [laboratory, setLaboratory] = useState(0);
-   const [pharmacies, setPharmacies] = useState(0);
-   const [corporate, setCorporate] = useState(0);
-   const [diagnosticsLab, setDiagnosticsLab] = useState(0);
-   const [hmo, setHmo] = useState(0);
-   const [clinic, setClinic] = useState(0);
-   const [patients, setPatients] = useState(0);
-   const [statehmo, setStatehmo] = useState(0);
-   const [minofhealth, setMinofhealth] = useState(0);
+   const [totalFacilities, setTotalFacilities] = useState({
+    hospitals: 0,
+    schools: 0,
+    hospitality: 0,
+    laboratory: 0,
+    pharmacies: 0,
+    corporate: 0,
+    diagnosticsLab: 0,
+    hmo: 0,
+    clinic: 0,
+    statehmo: 0,
+    minofhealth: 0,
+  });
+
+   const [totalAppointments, setTotalAppointments] = useState(0);
+   const [totalDocCreated, setTotalDocCreated] = useState(0);
+   const [totalInvoices, setTotalInvoices] = useState(0);
+   const [totalEmployees, setTotalEmployees] = useState(0);
+   const [totalClinicalDocument, setTotalClinicalDocument] = useState(0);
+   const [totalClients, setTotalClients] = useState(0);
+
 
    // Organization by states
-   const [lagos, setLagos] = useState(0);
-   const [ibadan, setIbadan] = useState(0);
-   const [rivers, setRivers] = useState(0);
-     const [abuja, setAbuja] = useState(0);
-     const [Yenegoa, setYenegoa] = useState(0);
+   const [lagos, setLagos] = useState("");
+   const [ibadan, setIbadan] = useState("");
+   const [rivers, setRivers] = useState("");
+  const [abuja, setAbuja] = useState("");
+  const [edo, setEdo] = useState("");
+  const [ilorin, setIlorin] = useState("");
+  const [portharcourt, setportharcourt] = useState("");
 
-   const [selectedType, setSelectedType] = useState("Hospital");
-  const [selectedState, setSelectedState] = useState("Lagos");
+  const [selectedType, setSelectedType] = useState('hmo');
+  const [selectedState, setSelectedState] = useState("Ibadan");
+
 
   const handleTypeChange = (event) => {
     setSelectedType(event.target.value);
@@ -62,22 +72,35 @@ const GlobalAdminHome = () => {
   const handleStateChange = event => {
     setSelectedState(event.target.value);
   };
+  
 
-  const getAppointments = () => {
-		appointmentServ
+  const getDocmentsCreated = () => {
+		documentServe
 			.find()
 			.then(res => {
-				setAppointments(res.data.length);
+				setTotalDocCreated(res.total);
 			})
 			.catch(err => {
 				console.log(err);
 			});
 	};
+
+  const getAppointments = () => {
+		appointmentServ
+			.find()
+			.then(res => {
+				setTotalAppointments(res.total);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
   const getInvoices = () => {
 		invoiceServ
 			.find()
 			.then(res => {
-				setInvoices(res.data.length);
+        setTotalInvoices(res.total);
 			})
 			.catch(err => {
 				console.log(err);
@@ -87,7 +110,7 @@ const GlobalAdminHome = () => {
 		employeeServ
 			.find()
 			.then(res => {
-				setEmployees(res.data.length);
+				setTotalEmployees(res.total);
 			})
 			.catch(err => {
 				console.log(err);
@@ -99,17 +122,17 @@ const GlobalAdminHome = () => {
 		clinicaldocumentServ
 			.find()
 			.then(res => {
-				setClinicaldocument(res.data.length);
+				setTotalClinicalDocument(res.total);
 			})
 			.catch(err => {
 				console.log(err);
 			});
 	};
-  const getPatients = () => {
-		patientServe
+  const getClients = () => {
+		clientServe
 			.find()
 			.then(res => {
-				setPatients(res.data.length);
+				setTotalClients(res.total);
 			})
 			.catch(err => {
 				console.log(err);
@@ -123,22 +146,31 @@ const GlobalAdminHome = () => {
       .find()
       .then(res => {
         hideActionLoader();
-        setHospitals(res.data.filter(hospital => hospital.facilityType === "State HMO").length);
-        setMinofhealth(res.data.filter(minofhealth => minofhealth.facilityType === "MInistry of Health").length);
-        setStatehmo(res.data.filter(statehmo => statehmo.facilityType === "Hospital").length);
-        setClinic(res.data.filter(clinic => clinic.facilityType === "Clinic").length);
-        setSchool(res.data.filter(school => school.facilityType === "School").length);
-        setHospitality(res.data.filter(hospitality => hospitality.facilityType === "Hospitality").length);
-        setLaboratory(res.data.filter(laboratory => laboratory.facilityType === "Laboratory").length);
-        setPharmacies(res.data.filter(pharmacy => pharmacy.facilityType === "Pharmacy").length);
-        setCorporate(res.data.filter(corporate => corporate.facilityType === "Corporate").length);
-        setDiagnosticsLab(res.data.filter(diagnosticsLab => diagnosticsLab.facilityType === "Diagnostics Lab").length);
-        setHmo(res.data.filter(hmo => hmo.facilityType === "HMO").length);
+        const facilitiesCounts = {
+          hospitals: res.data.filter(hospital => hospital.facilityType === "State HMO").length,
+          minofhealth: res.data.filter(minofhealth => minofhealth.facilityType === "MInistry of Health").length,
+          statehmo: res.data.filter(statehmo => statehmo.facilityType === "Hospital").length,
+          clinic: res.data.filter(clinic => clinic.facilityType === "Clinic").length,
+          schools: res.data.filter(school => school.facilityType === "School").length,
+          hospitality: res.data.filter(hospitality => hospitality.facilityType === "Hospitality").length,
+          laboratory: res.data.filter(laboratory => laboratory.facilityType === "Laboratory").length,
+          pharmacies: res.data.filter(pharmacy => pharmacy.facilityType === "Pharmacy").length,
+          corporate: res.data.filter(corporate => corporate.facilityType === "Corporate").length,
+          diagnosticsLab: res.data.filter(diagnosticsLab => diagnosticsLab.facilityType === "Diagnostics Lab").length,
+          hmo: res.data.filter(hmo => hmo.facilityType === "HMO").length,
+        };
+        setTotalFacilities(prevFacilities => ({
+          ...prevFacilities,
+          ...facilitiesCounts,
+    
+        }));
         setLagos(res.data.filter(state => state.facilityCity === "Lagos").length);
         setIbadan(res.data.filter(state => state.facilityCity === "Ibadan").length);
         setAbuja(res.data.filter(state => state.facilityCity === "Abuja").length);
         setRivers(res.data.filter(state => state.facilityCity === "Rivers State").length);
-        setYenegoa(res.data.filter(state => state.facilityCity === "Yenegoa").length);
+        setEdo(res.data.filter(state => state.facilityCity === "Edo" ).length);
+        setIlorin(res.data.filter(state => state.facilityCity === "ilorin" ).length);
+        setportharcourt(res.data.filter(state => state.facilityCity === "Port Harcourt" ).length);
       })
        
       .catch(err => {
@@ -152,7 +184,8 @@ const GlobalAdminHome = () => {
      getInvoices();
      getEmployees();
      getClinicaldocument()
-     getPatients();
+     getClients();
+     getDocmentsCreated();
 	}, []);
 
   const getGreeting = () => {
@@ -166,7 +199,6 @@ const GlobalAdminHome = () => {
     }
   }
   
-
   return (
     <DashboardPageWrapper>
         <Box>
@@ -196,62 +228,24 @@ const GlobalAdminHome = () => {
         <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">
           Total Organizations by Type
         </StyledTypography>
-        {selectedType === "Hospital" && (
-          <StyledNumber backgroundColor="#3498db">{hospitals}</StyledNumber>
-        )}
-         {selectedType === "MInistry of Health" && (
-          <StyledNumber backgroundColor="#3498db">{minofhealth}</StyledNumber>
-        )}
-         {selectedType === "State HMO" && (
-          <StyledNumber backgroundColor="#3498db">{statehmo}</StyledNumber>
-        )}
-        {selectedType === "Clinic" && (
-          <StyledNumber backgroundColor="#3498db">{clinic}</StyledNumber>
-        )}
-         {selectedType === "School" && (
-          <StyledNumber backgroundColor="#3498db">{school}</StyledNumber>
-        )}
-           {selectedType === "Hospitality" && (
-          <StyledNumber backgroundColor="#3498db">{hospitality}</StyledNumber>
-        )}
-         {selectedType === "Laboratory" && (
-          <StyledNumber backgroundColor="#3498db">{laboratory}</StyledNumber>
-        )}
-         {selectedType === "DiagnosticLab" && (
-          <StyledNumber backgroundColor="#3498db">{diagnosticsLab}</StyledNumber>
-        )}
-        {selectedType === "Total Pharmacies" && (
-          <StyledNumber backgroundColor="#2ecc71">{pharmacies}</StyledNumber>
-        )}
-        {selectedType === "Corporate" && (
-          <StyledNumber backgroundColor="#e67e22">{corporate}</StyledNumber>
-        )}
-          {selectedType === "HMO" && (
-          <StyledNumber backgroundColor="#e67e22">{hmo}</StyledNumber>
-        )}
-        <StyledFormControl>
-          <InputLabel htmlFor="type-dropdown">Type</InputLabel>
-          <Select
-            value={selectedType}
-            onChange={handleTypeChange}
-            inputProps={{
-              id: "type-dropdown",
-            }}
-          >
-            <MenuItem value="Hospital">Hospitals</MenuItem>
-            <MenuItem value="MInistry of Health">MInistry of Health</MenuItem>
-            <MenuItem value="State HMO">State HMO</MenuItem>
-            <MenuItem value="Clinic">Clinics</MenuItem>
-            <MenuItem value="School">Schools</MenuItem>
-            <MenuItem value="Hospitality">Hospitality</MenuItem>
-            <MenuItem value="Laboratory">Laboratory</MenuItem>
-            <MenuItem value="Total Diagnostics">Diagnostics</MenuItem>
-            <MenuItem value="Total Pharmacies">Pharmacies</MenuItem>
-            <MenuItem value="Corporate">Corporate</MenuItem>
-            <MenuItem value="Total Diagnostics">Diagnostics Lab</MenuItem>
-            <MenuItem value="HMO">HMO</MenuItem>
-          </Select>
-        </StyledFormControl>
+        <StyledNumber backgroundColor="#3498db">{totalFacilities[selectedType]}</StyledNumber>
+      <FormControl>
+        <InputLabel htmlFor="type-dropdown">Type</InputLabel>
+        <Select
+           value={selectedType}
+          onChange={handleTypeChange}
+          inputProps={{
+            id: 'type-dropdown',
+          }}
+        >
+          {Object.keys(totalFacilities).map((type) => (
+            <MenuItem key={type} value={type}>
+              {type}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl> 
+
       </div>
     </StyledCardContent>
   </StyledCard>
@@ -263,8 +257,14 @@ const GlobalAdminHome = () => {
         <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">
           Total Organizations by State
         </StyledTypography>
-        {selectedState === "Yenegoa" && (
-          <StyledNumber backgroundColor="#3498db">{Yenegoa}</StyledNumber>
+        {selectedState === "Port Harcourt" && (
+          <StyledNumber backgroundColor="#3498db">{portharcourt}</StyledNumber>
+        )}
+        {selectedState === "Ilorin" && (
+          <StyledNumber backgroundColor="#3498db">{ilorin}</StyledNumber>
+        )}
+        {selectedState === "Edo" && (
+          <StyledNumber backgroundColor="#3498db">{edo}</StyledNumber>
         )}
         {selectedState === "Lagos" && (
           <StyledNumber backgroundColor="#3498db">{lagos}</StyledNumber>
@@ -289,7 +289,9 @@ const GlobalAdminHome = () => {
             }}
           >
             <MenuItem value="Lagos">Lagos</MenuItem>
-            <MenuItem value="Lagos">Yenegoa</MenuItem>
+            <MenuItem value="Port Harcourt">Port Harcourt</MenuItem>
+            <MenuItem value="Ilorin">Ilorin</MenuItem>
+            <MenuItem value="Edo">Edo</MenuItem>
             <MenuItem value="Ibadan">Ibadan</MenuItem>
             <MenuItem value="Abuja">Abuja</MenuItem>
             <MenuItem value="Rivers State">Rivers State</MenuItem>
@@ -308,7 +310,7 @@ const GlobalAdminHome = () => {
                 <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">
                   Number of Doc Created
                 </StyledTypography>
-                <StyledNumber backgroundColor="#0E305D">{clinicaldocument}</StyledNumber>
+                <StyledNumber backgroundColor="#0E305D">{totalDocCreated}</StyledNumber>
               </div>
             </StyledCardContent>
           </StyledCard>
@@ -321,7 +323,7 @@ const GlobalAdminHome = () => {
                 <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">
                   Total Appointments
                 </StyledTypography>
-                <StyledNumber backgroundColor="#e74c3c">{appointments}</StyledNumber>
+                <StyledNumber backgroundColor="#e74c3c">{totalAppointments}</StyledNumber>
               </div>
             </StyledCardContent>
           </StyledCard>
@@ -334,7 +336,7 @@ const GlobalAdminHome = () => {
                 <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">
                   Total Clients
                 </StyledTypography>
-                <StyledNumber backgroundColor="#e74c3c">{patients}</StyledNumber>
+                <StyledNumber backgroundColor="#e74c3c">{totalClients}</StyledNumber>
               </div>
             </StyledCardContent>
           </StyledCard>
@@ -345,7 +347,7 @@ const GlobalAdminHome = () => {
           <People fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Employees</StyledTypography>
-            <StyledNumber backgroundColor="#9b59b6">{employees}</StyledNumber>
+            <StyledNumber backgroundColor="#9b59b6">{totalEmployees}</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -356,7 +358,7 @@ const GlobalAdminHome = () => {
           <EventNoteIcon fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Clinical Notes</StyledTypography>
-            <StyledNumber backgroundColor="#cc0000">{clinicaldocument}</StyledNumber>
+            <StyledNumber backgroundColor="#cc0000">{totalClinicalDocument}</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -367,7 +369,7 @@ const GlobalAdminHome = () => {
           <Receipt color="primaryDark"  fontSize="large" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Invoices</StyledTypography>
-            <StyledNumber backgroundColor="#006666">{invoices}</StyledNumber>
+            <StyledNumber backgroundColor="#006666">{totalInvoices}</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
@@ -375,10 +377,10 @@ const GlobalAdminHome = () => {
     <Grid item xs={12} md={3}>
       <StyledCard>
         <StyledCardContent>
-          <DescriptionIcon fontSize="large" color="primary" />
+          <FitnessCenter fontSize="large" color="primary" />
           <div>
-            <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total proposals</StyledTypography>
-            <StyledNumber backgroundColor="#800000">None</StyledNumber>
+            <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Facilities</StyledTypography>
+            {/* <StyledNumber backgroundColor="#800000">{totalFacilities}</StyledNumber> */}
           </div>
         </StyledCardContent>
       </StyledCard>

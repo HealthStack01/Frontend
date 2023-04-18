@@ -1,7 +1,7 @@
 import React from "react";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 
-import { InputBox, InputField, InputLabel } from "./styles";
+import {InputBox, InputField, InputLabel} from "./styles";
 
 interface InputProps {
   label?: string;
@@ -62,7 +62,73 @@ const Input: React.FC<InputProps> = ({
         {...register}
         onBlur={onBlur}
         autoComplete={autoComplete}
-        sx={{ width: "16px", ...sx }}
+        sx={{width: "16px", ...sx}}
+        //className={errorText ? "has-errors" : ""}
+        error={errorText ? true : false}
+        //error={true}
+      />
+      <InputLabel
+        error={errorText ? true : false}
+        className="form__label"
+        htmlFor={name}
+      >
+        {label}
+        {important && (
+          <AcUnitIcon sx={{color: "red", width: "12px", height: "12px"}} />
+        )}
+      </InputLabel>
+    </InputBox>
+    {errorText && (
+      <label style={{color: "red", fontSize: "0.7rem", textAlign: "left"}}>
+        {errorText}
+      </label>
+    )}
+  </div>
+);
+
+export default Input;
+
+// Reset Input MUI
+
+// https://stackoverflow.com/questions/57419955/how-to-set-or-clear-value-of-material-ui-input-in-reactjs
+
+export const GoogleInput: React.FC<InputProps> = ({
+  label,
+  errorText,
+  type,
+  name,
+  defaultValue = "",
+  onChange,
+  onKeyDown,
+  placeholder,
+  // size = 'medium',
+  disabled = false,
+  register,
+  value,
+  autoComplete = true,
+  onBlur,
+  sx,
+  inputRef,
+  important,
+}) => (
+  <div>
+    <InputBox>
+      <InputField
+        onChange={onChange}
+        type={type ? type : "text"}
+        defaultValue={defaultValue}
+        onKeyDown={onKeyDown}
+        placeholder={placeholder}
+        disabled={disabled}
+        value={value}
+        {...register}
+        ref={e => {
+          register.ref(e);
+          inputRef.current = e;
+        }}
+        onBlur={onBlur}
+        autoComplete={autoComplete}
+        sx={{width: "16px", ...sx}}
         //className={errorText ? "has-errors" : ""}
         error={errorText ? true : false}
         //error={true}
@@ -76,16 +142,14 @@ const Input: React.FC<InputProps> = ({
       >
         {label}
         {important && (
-          <AcUnitIcon sx={{ color: "red", width: "12px", height: "12px" }} />
+          <AcUnitIcon sx={{color: "red", width: "12px", height: "12px"}} />
         )}
       </InputLabel>
     </InputBox>
     {errorText && (
-      <label style={{ color: "red", fontSize: "0.7rem", textAlign: "left" }}>
+      <label style={{color: "red", fontSize: "0.7rem", textAlign: "left"}}>
         {errorText}
       </label>
     )}
   </div>
 );
-
-export default Input;

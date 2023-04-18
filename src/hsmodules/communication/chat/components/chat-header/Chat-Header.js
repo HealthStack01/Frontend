@@ -1,13 +1,40 @@
-import {useContext} from "react";
-import {Avatar, Box, IconButton, Typography} from "@mui/material";
+import {useContext, useState} from "react";
+import {
+  Avatar,
+  Box,
+  IconButton,
+  Typography,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-import {ObjectContext} from "../../../../../context";
+import {ObjectContext, UserContext} from "../../../../../context";
+import client from "../../../../../feathers";
+import {toast} from "react-toastify";
+import {returnAvatarString} from "../../../../helpers/returnAvatarString";
 
 const ChatConversationHeader = () => {
   const {state, setState} = useContext(ObjectContext);
+  const {user, setUser} = useContext(UserContext);
+  const chatroomServer = client.service("chatroom");
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const chatRoom = state.ChatModule.chatRoom;
+
+  const chatPartner = chatRoom.members.find(
+    item => item._id !== user.currentEmployee._id
+  );
+
+  const handleCloseOptions = () => {
+    setAnchorEl(null);
+  };
+
+  const handleOpenOptions = event => {
+    setAnchorEl(event.currentTarget);
+  };
 
   const showSearchInput = () => {
     setState(prev => ({
@@ -18,6 +45,47 @@ const ChatConversationHeader = () => {
       },
     }));
   };
+
+  const showRightSideBar = () => {
+    setState(prev => ({
+      ...prev,
+      ChatModule: {
+        ...prev.ChatModule,
+        rightSideBar: true,
+      },
+    }));
+  };
+
+  const handleDeleteChat = () => {
+    const chat_id = state.ChatModule.chatRoom._id;
+
+    chatroomServer
+      .remove(chat_id)
+      .then(res => {
+        setState(prev => ({
+          ...prev,
+          ChatModule: {
+            ...prev.ChatModule,
+            chatRoom: null,
+          },
+        }));
+        toast.success("You have successfully deleted a chat");
+      })
+      .catch(error => {
+        toast.error(`An error occured trying to delete chat - ${error}`);
+      });
+  };
+
+  const handleCloseChat = () => {
+    setState(prev => ({
+      ...prev,
+      ChatModule: {
+        ...prev.ChatModule,
+        chatRoom: null,
+      },
+    }));
+  };
+
   return (
     <Box
       sx={{
@@ -36,7 +104,10 @@ const ChatConversationHeader = () => {
           gap: 1.5,
         }}
       >
-        <Avatar />
+        <Avatar
+          {...returnAvatarString(`${chatPartner.name}`)}
+          src={chatPartner?.imageurl}
+        />
         <Box
           sx={{
             display: "flex",
@@ -47,10 +118,10 @@ const ChatConversationHeader = () => {
           <Typography
             sx={{fontSize: "0.8rem", fontWeight: "600", color: "#2d2d2d"}}
           >
-            John Doe
+            {chatPartner.name}
           </Typography>
           <Typography sx={{fontSize: "0.7rem", color: "#6c757d"}}>
-            Doctor, Admin
+            {chatPartner.profession}
           </Typography>
         </Box>
       </Box>
@@ -66,9 +137,48 @@ const ChatConversationHeader = () => {
           <SearchIcon />
         </IconButton>
 
-        <IconButton>
-          <ExpandMoreIcon />
+        <IconButton onClick={handleOpenOptions}>
+          <MoreVertIcon />
         </IconButton>
+
+        <Menu
+          anchorEl={anchorEl}
+          id="account-menu"
+          open={Boolean(anchorEl)}
+          onClose={handleCloseOptions}
+          anchorOrigin={{horizontal: "right", vertical: "bottom"}}
+          // sx={{padding: 0}}
+        >
+          <MenuItem
+            sx={{fontSize: "0.8rem"}}
+            onClick={() => {
+              showRightSideBar();
+              handleCloseOptions();
+            }}
+          >
+            User Profile
+          </MenuItem>
+
+          <MenuItem
+            sx={{fontSize: "0.8rem"}}
+            onClick={() => {
+              handleCloseChat();
+              handleCloseOptions();
+            }}
+          >
+            Close Chat
+          </MenuItem>
+
+          <MenuItem
+            sx={{fontSize: "0.8rem", color: "red"}}
+            onClick={() => {
+              handleDeleteChat();
+              handleCloseOptions();
+            }}
+          >
+            Delete Chat
+          </MenuItem>
+        </Menu>
       </Box>
     </Box>
   );

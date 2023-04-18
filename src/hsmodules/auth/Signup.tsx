@@ -112,6 +112,7 @@ function Signup() {
           .then(res => {
             setCreatedFacility(res);
             hideActionLoader();
+            toast.success("Organization created successfully, kindly move on to next step")
             return true;
           })
           .catch(error => {
@@ -133,6 +134,7 @@ function Signup() {
       })
         .then(async res => {
           setCreatedAdminEmployee(res);
+          toast.success("You successfully created your Admin account");
           //console.log(data);
           await client
             .authenticate({
