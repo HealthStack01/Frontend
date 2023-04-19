@@ -298,6 +298,34 @@ let data = {
             &#8358;{balance.toFixed(2)}
           </Typography>
         </Box>
+        <Box
+          item
+          sx={{
+            width: "calc(100% - 200px)",
+            width: "100%",
+            height: "80px",
+            border: "1px solid #E5E5E5",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: "0 15px",
+          }}
+        >
+          <Typography sx={{display: "flex", alignItems: "center"}}>
+            <AccountBalanceIcon color="primary" sx={{marginRight: "5px"}} />{" "}
+          Wallet Balance
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: "24px",
+              fontWeight: "700",
+              color: "2d2d2d",
+            }}
+          >
+            {" "}
+            &#8358;{balance.toFixed(2)}
+          </Typography>
+        </Box>
       </Box>
 
       <Box container mb={3}>

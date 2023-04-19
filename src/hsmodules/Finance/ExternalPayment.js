@@ -39,7 +39,7 @@ import PayWithWallet from "../PouchiiWallet/payWithWallet";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function PaymentCreatePage({closeModal, handleGoBack}) {
+export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
   //const [error, setError] =useState(false)
 
