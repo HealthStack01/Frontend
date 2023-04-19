@@ -15,7 +15,7 @@ import ModalBox from "../../components/modal";
 import "react-datepicker/dist/react-datepicker.css";
 import {Box, Typography} from "@mui/material";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
-import PaymentCreatePage from "./PaymentCreatePage";
+import PaymentCreatePage from "./ExternalPayment";
 import {FormsHeaderText} from "../../components/texts";
 import {ReceiptOutlined} from "@mui/icons-material";
 import PaymentInvoice from "./PaymentInvoice";
@@ -611,7 +611,7 @@ export function BillingList({openModal, showCreateScreen}) {
     },
   ];
 
-  console.log(selectedClient)
+  // console.log(selectedClient)
   const conditionalRowStyles = [
     {
       when: row => row.client_id === selectedClient?.client_id,

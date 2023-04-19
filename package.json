@@ -64,7 +64,7 @@
     "postcss": "^8.4.5",
     "prop-types": "^15",
     "qrcode": "^1.5.1",
-    "random-string-generator": "^1.0.0",
+    "random-string-generator": "^1.0.1",
     "react": "^17.0.0",
     "react-apexcharts": "^1.4.0",
     "react-autosuggest": "^10.1.0",
