@@ -20,6 +20,7 @@ import InventoryHome from "./inventory/InventoryHome";
 import LaboratoryHome from "./Laboratory/LaboratoryHome";
 
 import Payment from "./Finance/Payment";
+import ExternalPayment from "./Finance/components/ExternalPayementPage";
 
 import PharmacyHome from "./Pharmacy/PharmacyHome";
 
@@ -164,8 +165,7 @@ const AppRoutes = () => {
 
           {/************************** Payment Integration Routes *************************************** */}
           <Route path="/verify-otp" element={<WalletOTP />} />
-          <Route path="/payment" element={<Payment />} />
-
+          <Route path="/payment/:patientId" element={<ExternalPayment/>} />
           <Route path="/wallet-pin" element={<WalletPin />} />
           <Route path="/extpayment/:hospId/:patId" element={<ExternalPayment/>} />
 

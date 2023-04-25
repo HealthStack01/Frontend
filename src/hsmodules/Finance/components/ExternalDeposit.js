@@ -5,20 +5,20 @@ import React, {useState, useContext, useEffect, useRef} from "react";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import WalletIcon from "@mui/icons-material/Wallet";
 import RemitaPayment from "react-remita";
-import client from "../../feathers";
+import client from "../../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
+import {UserContext, ObjectContext} from "../../../context";
 import {toast} from "bulma-toast";
 var random = require("random-string-generator");
 
 import {Box, Button, Grid, Typography} from "@mui/material";
-import CustomSelect from "../../components/inputs/basic/Select";
-import Input from "../../components/inputs/basic/Input";
+import CustomSelect from "../../../components/inputs/basic/Select";
+import Input from "../../../components/inputs/basic/Input";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import GlobalCustomButton from "../../components/buttons/CustomButton";
-import "./main.css";
+import GlobalCustomButton from "../../../components/buttons/CustomButton";
+// import "./main.css";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -286,6 +286,34 @@ let data = {
           <Typography sx={{display: "flex", alignItems: "center"}}>
             <AccountBalanceIcon color="primary" sx={{marginRight: "5px"}} />{" "}
             Balance
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: "24px",
+              fontWeight: "700",
+              color: "2d2d2d",
+            }}
+          >
+            {" "}
+            &#8358;{balance.toFixed(2)}
+          </Typography>
+        </Box>
+        <Box
+          item
+          sx={{
+            width: "calc(100% - 200px)",
+            width: "100%",
+            height: "80px",
+            border: "1px solid #E5E5E5",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: "0 15px",
+          }}
+        >
+          <Typography sx={{display: "flex", alignItems: "center"}}>
+            <AccountBalanceIcon color="primary" sx={{marginRight: "5px"}} />{" "}
+          Wallet Balance
           </Typography>
           <Typography
             sx={{
