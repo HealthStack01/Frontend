@@ -106,6 +106,7 @@ import CorporateModule from "./Corporate/Corporate";
 import {PolicyCreateForExternalLink} from "./ManagedCare/CreatePolicyExternalLink";
 import CreateTest from "./ManagedCare/CreateTest";
 import GlobalAdminHome from "./GlobalAdmin/GlobalAdminHome";
+import ExternalPayment from "./External/ExternalPayment";
 
 //const AdminOrganization = lazy(() => import("./Admin/Organization"));
 
@@ -166,6 +167,7 @@ const AppRoutes = () => {
           <Route path="/payment" element={<Payment />} />
 
           <Route path="/wallet-pin" element={<WalletPin />} />
+          <Route path="/extpayment/:hospId/:patId" element={<ExternalPayment/>} />
 
           {/************************** App Dashboard Routes *************************************** */}
           <Route path="/app" element={<PrivateOutlet />}>
