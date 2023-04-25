@@ -1,25 +1,25 @@
 /* eslint-disable */
 import React, {useState, useContext, useEffect, useRef} from "react";
-import client from "../../feathers";
+import client from "../../../feathers";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
+import {UserContext, ObjectContext} from "../../../context";
 import {toast} from "bulma-toast";
 import {format} from "date-fns";
-import PaymentCreate from "./PaymentCreate";
+import PaymentCreate from "../components/ExternalCreatePayment";
 import PaymentsIcon from "@mui/icons-material/Payments";
 
-import {TableMenu} from "../../ui/styled/global";
-import FilterMenu from "../../components/utilities/FilterMenu";
-import CustomTable from "../../components/customtable";
-import ModalBox from "../../components/modal";
+import {TableMenu} from "../../../ui/styled/global";
+import FilterMenu from "../../../components/utilities/FilterMenu";
+import CustomTable from "../../../components/customtable";
+import ModalBox from "../../../components/modal";
 import "react-datepicker/dist/react-datepicker.css";
 import {Box, Typography} from "@mui/material";
-import GlobalCustomButton from "../../components/buttons/CustomButton";
-import PaymentCreatePage from "./PaymentCreatePage";
-import {FormsHeaderText} from "../../components/texts";
+import GlobalCustomButton from "../../../components/buttons/CustomButton";
+import PaymentCreatePage from "../components/ExternalPaymentCreatePage";
+import {FormsHeaderText} from "../../../components/texts";
 import {ReceiptOutlined} from "@mui/icons-material";
-import PaymentInvoice from "./PaymentInvoice";
-
+import PaymentInvoice from "../PaymentInvoice";
+import {useParams} from 'react-router-dom'
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -27,6 +27,8 @@ import PaymentInvoice from "./PaymentInvoice";
 // Demo styles, see 'Styles' section below for some notes on use.
 
 //import BillPrescriptionCreate from './BillPrescriptionCreate';
+
+
 
 export default function FinancePayment() {
   //const {state}=useContext(ObjectContext) //,setState
@@ -108,8 +110,12 @@ export function BillingList({openModal, showCreateScreen}) {
   const [clientBills, setClientBills] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [invoiceModal, setInvoiceModal] = useState(false);
- 
-	
+
+  // let clientsId = "643e3bdb906b660014ad06a9"
+
+  const { patientId } = useParams();
+
+	console.log("patientId...",patientId)
 
   const handleSelectedClient = async Client => {
     const newClientModule = {
@@ -123,58 +129,58 @@ export function BillingList({openModal, showCreateScreen}) {
   };
 
   const handlePay = async (client, i) => {
-    setOldClient(client.clientname);
-    let newClient = client.clientname;
-    if (oldClient !== newClient) {
-      selectedOrders.forEach(el => (el.checked = ""));
-      setSelectedOrders([]);
-      setState(prev => ({
-        ...prev,
-        financeModule: {
-          ...prev.financeModule,
-          selectedBills: [],
-        },
-      }));
-    }
+    // setOldClient(client.clientname);
+    // let newClient = client.clientname;
+    // if (oldClient !== newClient) {
+    //   selectedOrders.forEach(el => (el.checked = ""));
+    //   setSelectedOrders([]);
+    //   setState(prev => ({
+    //     ...prev,
+    //     financeModule: {
+    //       ...prev.financeModule,
+    //       selectedBills: [],
+    //     },
+    //   }));
+    // }
 
-    // //console.log(e.target.checked)
+    // // //console.log(e.target.checked)
 
-    await handleSelectedClient(client.bills[0].order[0].participantInfo.client);
-    //handleMedicationRow(order)/
+    // await handleSelectedClient(client.bills[0].order[0].participantInfo.client);
+    // //handleMedicationRow(order)/
 
-    await client.bills.forEach(bill => {
-      // //console.log(bill)
-      bill.order.forEach(order => {
-        let medication = order;
-        medication.show = "none";
-        medication.checked = true;
-        medication.proposedpayment = {
-          balance: 0,
-          paidup:
-            medication.paymentInfo.paidup + medication.paymentInfo.balance,
-          amount: medication.paymentInfo.balance,
-        };
+    // await client.bills.forEach(bill => {
+    //   // //console.log(bill)
+    //   bill.order.forEach(order => {
+    //     let medication = order;
+    //     medication.show = "none";
+    //     medication.checked = true;
+    //     medication.proposedpayment = {
+    //       balance: 0,
+    //       paidup:
+    //         medication.paymentInfo.paidup + medication.paymentInfo.balance,
+    //       amount: medication.paymentInfo.balance,
+    //     };
 
-        setSelectedFinance(order);
+    //     setSelectedFinance(order);
 
-        const newProductEntryModule = {
-          selectedFinance: order,
-          show: "detail",
-          state: true,
-          selectedBills: [],
-        };
+    //     const newProductEntryModule = {
+    //       selectedFinance: order,
+    //       show: "detail",
+    //       state: true,
+    //       selectedBills: [],
+    //     };
 
-        setState(prevstate => ({
-          ...prevstate,
-          financeModule: {
-            ...newProductEntryModule,
-            selectedBills: prevstate.financeModule.selectedBills.concat(order),
-          },
-        }));
+    //     setState(prevstate => ({
+    //       ...prevstate,
+    //       financeModule: {
+    //         ...newProductEntryModule,
+    //         selectedBills: prevstate.financeModule.selectedBills.concat(order),
+    //       },
+    //     }));
 
-        setSelectedOrders(prevstate => prevstate.concat(order));
-      });
-    });
+    //     setSelectedOrders(prevstate => prevstate.concat(order));
+    //   });
+    // });
 
     showCreateScreen();
 
@@ -314,7 +320,7 @@ export function BillingList({openModal, showCreateScreen}) {
       });
   };
   const getFacilities = async () => {
-    // //console.log("here b4 server")
+    
     setLoading(true);
     const findProductEntry = await BillServ.find({
       query: {
@@ -326,13 +332,13 @@ export function BillingList({openModal, showCreateScreen}) {
             "participantInfo.paymentmode.type": "Family Cover",
           },
         ],
-        "participantInfo.billingFacility":
-          user.currentEmployee.facilityDetail._id,
+        "participantInfo.billingFacility": "6054aed837bc490015f56fe8",
+        // user.currentEmployee.facilityDetail._id,
         billing_status: {
           $ne: "Fully Paid",
         }, // need to set this finally
         //storeId:state.StoreModule.selectedStore._id,
-        //clientId:state.ClientModule.selectedClient._id,
+        // clientId: clientsId,
         $limit: 100,
         $sort: {
           createdAt: -1,
@@ -340,8 +346,7 @@ export function BillingList({openModal, showCreateScreen}) {
       },
     });
 
-    //console.log(findProductEntry);
-
+   
     // //console.log("updatedorder", findProductEntry.groupedOrder)
     await setFacilities(findProductEntry.groupedOrder);
     setLoading(false);
@@ -349,51 +354,57 @@ export function BillingList({openModal, showCreateScreen}) {
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
 
+
+
+  
+  // const patientBillis = facilities?.find((data) => data.client_id == patientId);
+  // console.log(patientBillis);
+
    const onRowClicked = async (client, e) => {
   //   console.log(client);
-    if (selectedClient && selectedClient.client_id === client.client_id)
-      return setSelectedClient(null);
+    // if (selectedClient && selectedClient.client_id === client.client_id)
+    //   return setSelectedClient(null);
 
-    await setSelectedClient(client);
+    // await setSelectedClient(client);
 
-    setOldClient(client.clientname);
-    let newClient = client.clientname;
+    // setOldClient(client.clientname);
+    // let newClient = client.clientname;
 
-    if (oldClient !== newClient) {
-      selectedOrders.forEach(el => (el.checked = ""));
-      setSelectedOrders([]);
-      setState(prev => ({
-        ...prev,
-        financeModule: {
-          ...prev.financeModule,
-          selectedBills: [],
-        },
-      }));
-    }
+    // if (oldClient !== newClient) {
+    //   selectedOrders.forEach(el => (el.checked = ""));
+    //   setSelectedOrders([]);
+    //   setState(prev => ({
+    //     ...prev,
+    //     financeModule: {
+    //       ...prev.financeModule,
+    //       selectedBills: [],
+    //     },
+    //   }));
+    // }
 
-    const clientOrders = client.bills.map(data => {
-      const allOrders = [];
+    // const clientOrders = client.bills.map(data => {
+    //   const allOrders = [];
 
-      data.order.map(order => {
-        const orderData = {
-          date: order.createdAt,
-          status: order.billing_status,
-          description: order.serviceInfo.name,
-          category: data.catName,
-          amount:
-            order.billing_status === "Unpaid"
-              ? order.serviceInfo.amount
-              : order.paymentInfo.balance,
-          order: order,
-        };
+    //   data.order.map(order => {
+    //     const orderData = {
+    //       date: order.createdAt,
+    //       status: order.billing_status,
+    //       description: order.serviceInfo.name,
+    //       category: data.catName,
+    //       amount:
+    //         order.billing_status === "Unpaid"
+    //           ? order.serviceInfo.amount
+    //           : order.paymentInfo.balance,
+    //       order: order,
+    //     };
 
-        allOrders.push(orderData);
-      });
-      return allOrders;
-    });
+    //     allOrders.push(orderData);
+    //   });
+    //   return allOrders;
+    // });
 
-    ////console.log(clientOrders);
-    setClientBills(clientOrders.flat(1));
+    // ////console.log(clientOrders);
+    // setClientBills(clientOrders.flat(1));
   };
   //1.consider using props for global data
   useEffect(() => {
@@ -482,7 +493,7 @@ export function BillingList({openModal, showCreateScreen}) {
       // width: "130px",
       key: "clientAmount",
       description: "Enter Grand Total",
-      selector: row => row.clientAmount.toFixed(2),
+      selector: row => row.clientAmount,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -492,27 +503,28 @@ export function BillingList({openModal, showCreateScreen}) {
       name: "Categories Total",
       key: "bills",
       description: "Enter Category Total",
-      selector: row => {
-        const bills = row.bills;
-        return (
-          <>
-            {bills.map((category, i) => (
-              <Typography
-                sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
-                data-tag="allowRowEvents"
-                key={i}
-              >
-                {category.catName} {category.catAmount.toFixed(2)}
-              </Typography>
-            ))}
-          </>
-        );
+      selector: row => row.bills,
+      // {
+      //   const bills = row.bills;
+      //   return (
+      //     <>
+      //       {bills.map((category, i) => (
+      //         <Typography
+      //           sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
+      //           data-tag="allowRowEvents"
+      //           key={i}
+      //         >
+      //           {category.catName} {category.catAmount.toFixed(2)}
+      //         </Typography>
+      //       ))}
+      //     </>
+      //   );
         //row.clientAmount.toFixed(2);
         // //console.log(bills);
         // bills.map((category, i) => {
         //   return category.catAmount.toFixed(2);
         // });
-      },
+      // },
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -537,6 +549,27 @@ export function BillingList({openModal, showCreateScreen}) {
       width: "100px",
     },
   ];
+
+  const singleData = [
+    {
+     clientId: 1,
+     clientname: "Joe Doe",
+     clientAmount: 70000,
+     bills:"Radiology"
+    }
+  ]
+
+  const singleSelectedData = [
+    {
+      id: 1,
+      date: "18-04-23",
+      category: "Radiology Order",
+      description: "Chest Xray",
+      status: "Part Payment",
+      amount: 6000,
+     
+    }
+ ]
 
   const selectedClientSchema = [
     {
@@ -628,6 +661,8 @@ export function BillingList({openModal, showCreateScreen}) {
     },
   ];
 
+  // const singlePayment = singleData.find((data) => data.clientId === patientId);
+  //        console.log(singlePayment)
   return (
     <>
       <div
@@ -719,12 +754,12 @@ export function BillingList({openModal, showCreateScreen}) {
             <CustomTable
               title={""}
               columns={financePlaymentListSchema}
-              data={facilities}
+              data={singleData}
               pointerOnHover
               highlightOnHover
               striped
               onRowClicked={row => onRowClicked(row)}
-              progressPending={loading}
+              progressPending={false}
               conditionalRowStyles={conditionalRowStyles}
             />
           </div>
@@ -741,7 +776,7 @@ export function BillingList({openModal, showCreateScreen}) {
                 <CustomTable
                   title={""}
                   columns={selectedClientSchema}
-                  data={clientBills}
+                  data={singleSelectedData}
                   pointerOnHover
                   highlightOnHover
                   striped
