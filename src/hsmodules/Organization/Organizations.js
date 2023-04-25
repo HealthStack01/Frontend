@@ -283,6 +283,30 @@ export const OrganizationsList = ({selectOrganization}) => {
 				textTransform: 'capitalize',
 			},
 		},
+		{
+			name: 'Access Modality',
+			key: 'phone',
+			description: 'Enter name of Company',
+			selector: row => row?.accessMode,
+			sortable: true,
+			required: true,
+			inputType: 'HIDDEN',
+			 style: {
+				textTransform: 'capitalize',
+			}, 
+		},
+		{
+			name: 'Balance',
+			key: 'phone',
+			description: 'Enter name of Company',
+			selector: row => row?.walletBalance,
+			sortable: true,
+			required: true,
+			inputType: 'HIDDEN',
+			/* style: {
+				textTransform: 'capitalize',
+			}, */
+		},
 	];
 
 	const handleRow = facility => {
@@ -758,7 +782,7 @@ export const OrganizationDetails = ({organization, goBack}) => {
 						control={control}
 						name='accessMode'
 						//errorText={errors?.facilityType?.message}
-						options={["Value Added Service","License","Subscription","Registered Patients","Free", "Per Employee", "Per Module"]}
+						options={["Transaction-Percentage","Transaction-Amount","License","Subscription","Registered Patients","Free", "Per Employee", "Per Module"]}
 						disabled={!edit}
 						important
 					/>

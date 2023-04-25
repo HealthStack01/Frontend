@@ -38,7 +38,9 @@ import WardDashboard from "./dashBoardUiComponent/@modules/WardDashboard";
 import PharmacyDashboard from "./dashBoardUiComponent/@modules/PharmacyDashboard";
 import InventoryDashboard from "./dashBoardUiComponent/@modules/InventoryDashboard";
 import FinanceDashboard from "./dashBoardUiComponent/@modules/FinanceDashboard";
-import GlobalAdminHome from "./GlobalAdmin/GlobalAdminHome";
+import GlobalAdminDashboard from "./GlobalAdmin/GlobalAdminDashboard";
+import FacilityTransactions from "./GlobalAdmin/FacilityTransactions";
+
 import LaboratoryDashboard from "./dashBoardUiComponent/@modules/LaboratoryDashboard";
 import ManagedCareFrontDashboard from './dashBoardUiComponent/@modules/ManagedCareFrontDashboard';
 import ManagedCareHome from "./ManagedCare/ManagedCareHome";
@@ -104,6 +106,7 @@ import NotFound from "../notFound";
 import CorporateModule from "./Corporate/Corporate";
 import {PolicyCreateForExternalLink} from "./ManagedCare/CreatePolicyExternalLink";
 import CreateTest from "./ManagedCare/CreateTest";
+import GlobalAdminHome from "./GlobalAdmin/GlobalAdminHome";
 
 //const AdminOrganization = lazy(() => import("./Admin/Organization"));
 
@@ -274,7 +277,8 @@ const AppRoutes = () => {
 
              {/**************************GLOBAL ADMIN *************************************** */}
              <Route path="/app/global-admin" element={<GlobalAdminHome />}>
-              <Route index element={<GlobalDashboard />} />
+               <Route index element={<GlobalAdminDashboard />} /> 
+            
               {globalAdminRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
