@@ -98,6 +98,7 @@ const Ledgers = lazy(() => import('./Accounts/Ledgers'));
 const Map = lazy(() => import('./Epidemiology/Map'));
 const Patients = lazy(() => import('./Client/Client'));
 const Payment = lazy(() => import('./Finance/Payment'));
+const ExternalPayment = lazy(() => import('./Finance/components/ExternalPayementPage'));
 const ClientPayment = lazy(() => import('./Client/Payment'));
 
 const PharmacyHome = lazy(() => import('./Pharmacy/PharmacyHome'));
@@ -330,8 +331,7 @@ const AppRoutes = () => {
 
           {/**************************Pouchii Wallet Routes *************************************** */}
           <Route path="/verify-otp" element={<WalletOTP />} />
-          <Route path="/payment" element={<Payment />} />
-
+          <Route path="/payment/:patientId" element={<ExternalPayment />} />
           {/**************************App Dashboard Routes*************************************** */}
           <Route path="/app" element={<PrivateOutlet />}>
             <Route index element={<Overview />} />
