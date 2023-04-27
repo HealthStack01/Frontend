@@ -30,9 +30,11 @@ export default function MakeDeposit({closeModal, balance}) {
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
   const SubwalletTxServ = client.service("subwallettransactions");
-  const SubwalletServ = client.service("subwallet");
-  const OrderServ = client.service("order");
-  const InvoiceServ = client.service("invoice");
+  const FinancialTrxServ = client.service("fintrx");
+  // const BillServ = client.service("extbills");
+  // const SubwalletServ = client.service("subwallet");
+  // const OrderServ = client.service("order");
+  // const InvoiceServ = client.service("invoice");
   //const navigate=useNavigate()
   const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
@@ -70,6 +72,12 @@ export default function MakeDeposit({closeModal, balance}) {
   const [subWallet, setSubWallet] = useState();
   const [loading, setLoading] = useState(false);
   const [partTable, setPartTable] = useState([]);
+  const {state, setState} = useContext(ObjectContext);
+ 
+
+  let medication = state.financeModule.selectedFinance;
+
+  console.log(medication)
 
 
   //Remita Config
@@ -83,11 +91,24 @@ const config = {
   narration: "payment",
 };
 
+   // if(response){
+    //   FinancialTrxServ.create({
+    //     message:{ type:Schema.Types.Mixed },
+    //     subwalletId: { type: Schema.Types.ObjectId },
+    //     clientname: { type: String },
+    //     facilityname: { type: String },
+    //     facilityId: { type: Schema.Types.ObjectId },
+    //     cllientId: { type: Schema.Types.ObjectId },
+    //     channel:{ type: String },//remita,paystack,flutterwave etc
+    //     amount:{type:Number}
+    //   })
+    // }
+
 let data = {
   ...config,
   onSuccess: function (response) {
     // function callback when payment is successful
-    console.log("callback Successful Response", response);
+    console.log("callback Successful Response", response.amount);
   },
   onError: function (response) {
     // function callback when payment fails
@@ -98,6 +119,7 @@ let data = {
     console.log("closed");
   },
 };
+
     // PAYSTACK CONFIG
 
     // const config = {
@@ -148,16 +170,7 @@ let data = {
   
     // const handleFlutterPayment = useFlutterwave(configfw);
   
-  
 
-  const {state, setState} = useContext(ObjectContext);
-
-  const inputEl = useRef(0);
-  let calcamount1;
-  let hidestatus;
-
-  let medication = state.financeModule.selectedFinance;
-  ////console.log(state.financeModule.state)
 
   const handleChangeMode = async value => {
     ////console.log(value)
