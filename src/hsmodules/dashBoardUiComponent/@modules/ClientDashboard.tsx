@@ -299,7 +299,7 @@ const totalClientsByGenderOptions = {
 	<Box sx={{ backgroundColor: '#f5f5f5', pt: 6}}>
 	
 		</Box>
-		</DashboardContainer>
+	
 		</DashboardPageWrapper>
   )
 }
