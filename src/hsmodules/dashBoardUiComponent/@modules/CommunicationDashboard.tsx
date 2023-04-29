@@ -1,6 +1,9 @@
-import {Box, Typography} from "@mui/material";
+import {Box, Typography, Card, CardContent, Grid} from "@mui/material";
 import React, {useEffect, useState} from "react";
-
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import ChatIcon from '@mui/icons-material/Chat';
+import { GroupAdd } from '@mui/icons-material';
+import SmsIcon from '@mui/icons-material/Sms';
 import ViewCard from "./@sections/ViewCard";
 import LineChart from "../charts/LineChart";
 import ColumnChart from "../charts/ColumnChart";
@@ -53,64 +56,90 @@ const CommunicationDashboard = () => {
   return (
     <DashboardPageWrapper>
       <Box>
-        <Box>
-          <Typography variant="h2">
-            Hello <span>{userName}</span>👋
-          </Typography>
-          <Typography variant="body1">
-            Welcome to your Client Module{" "}
-            <span>@Front Desk {facilityName}</span>
-          </Typography>
-        </Box>
-
-        <StartCardWapper>
-          <ViewCard count={totalValue} title="Total Clients" />
-          <ViewCard
-            count={totalUpcomingAppointment}
-            title="Upcoming Appointments"
-          />
-          <ViewCard count={totalNewClient} title="Total New Clients" />
-          {/* <ViewCard count={30} title={`Doctor's on Duty`} /> */}
-        </StartCardWapper>
-
-        <DashboardContainer>
-          <Box
-            sx={{
-              display: "grid",
-              width: "100%",
-              gridGap: "10px",
-              // background: "#ffcc99", // "#f9f9f9",
-
-              gridTemplateColumns: {lg: "repeat(3, 1fr)", xs: "1fr"},
-            }}
-          >
-            <Box sx={{width: "100%", p: 2}}>
-              <ColumnChart
-                title="Payment Mode"
-                series={paymentModeBarSeries}
-                xLabels={["Cash", "HMO", "Comp", "Family Plan", "All"]}
-              />
-            </Box>
-            <Box sx={{width: "100%", p: 2}}>
-              <LineChart
-                title="New Clients"
-                monthArray={monthNameForCurrentYear}
-                series={newClientLineSeriesData}
-              />
-            </Box>
-            <Box sx={{width: "100%", p: 2}}>
-              <CircleChart
-                series={circleSeriesArray}
-                labels={["Male", "Female", "Other"]}
-                title="Total Client by Gender"
-              />
-              {/* <Stack direction="row">
-                <ViewCard count={totalDischargedPatient} title="Out Patients" />
-                <ViewCard count={totalInPatient} title="In Patients" />
-              </Stack> */}
-            </Box>
-          </Box>
-        </DashboardContainer>
+      <Typography variant="h5" style={{ textShadow: "1px 1px 2px rgb(0, 45, 92)" }}>Communication Dashboard</Typography>
+        <Grid container spacing={3} justifyContent="space-between" alignItems="center" style={{marginTop: '20px'}}>
+        <Grid item xs={12}  md={3}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+			Total Emails Sent
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center' }}>
+			  <Box sx={{ flexGrow: 1 }}>
+				<Typography variant="h5" fontWeight="bold" component="div">
+           0
+				</Typography>
+			  </Box>
+			  <Box>
+				<EmailOutlinedIcon  sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
+			  </Box>
+			</Box>
+		  </CardContent>
+		</Card>
+	  </Grid>
+   
+  
+	  {/* Money Collected Card */}
+	  <Grid item xs={12} sm={6} md={3}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+      Total Channels Created
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center' }}>
+			  <Box sx={{ flexGrow: 1 }}>
+				<Typography variant="h5" fontWeight="bold" component="div">
+          0
+				</Typography>
+			  </Box>
+			  <Box>
+				<GroupAdd sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
+			  </Box>
+			</Box>
+		  </CardContent>
+		</Card>
+	  </Grid>
+  
+	  {/* Active Chat Card */}
+	  <Grid item xs={12} sm={6} md={3}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+			Active Chats
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center' }}>
+			  <Box sx={{ flexGrow: 1 }}>
+				<Typography variant="h5" component="div" fontWeight="bold">
+			    0
+				</Typography>
+			  </Box>
+			  <Box>
+				<ChatIcon sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
+			  </Box>
+			</Box>
+		  </CardContent>
+		</Card>
+	  </Grid>
+    <Grid item xs={12} sm={6} md={3}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+			Total SMS sent
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center' }}>
+			  <Box sx={{ flexGrow: 1 }}>
+				<Typography variant="h5" component="div" fontWeight="bold">
+			    0
+				</Typography>
+			  </Box>
+			  <Box>
+				<SmsIcon sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
+			  </Box>
+			</Box>
+		  </CardContent>
+		</Card>
+	  </Grid>
+    </Grid>
       </Box>
     </DashboardPageWrapper>
   );

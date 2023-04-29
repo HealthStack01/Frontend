@@ -1,3 +1,4 @@
+
 {
   "name": "hstack-ui",
   "version": "0.1.0",
@@ -64,7 +65,11 @@
     "postcss": "^8.4.5",
     "prop-types": "^15",
     "qrcode": "^1.5.1",
+<<<<<<< HEAD
     "random-string-generator": "^1.0.0",
+=======
+    "random-string-generator": "^1.0.1",
+>>>>>>> 5ac48cea604b0d70b1b3ec12375883e70ff95952
     "react": "^17.0.0",
     "react-apexcharts": "^1.4.0",
     "react-autosuggest": "^10.1.0",
@@ -89,6 +94,7 @@
     "react-json-editor-ajrm": "^2.5.13",
     "react-jutsu": "^3.0.3",
     "react-leaflet": "^4.1.0",
+    "react-leaflet-cluster": "^2.1.0",
     "react-loader-spinner": "^5.3.4",
     "react-otp-input": "^2.4.0",
     "react-paystack": "^4.0.1",
@@ -124,7 +130,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start --max-old-space-size=16324 start",
+    "start": "react-scripts start --max-old-space-size=16324 && serve -s",
     "start:dev": "react-scripts start",
     "start:prod": "yarn build && serve -s build",
     "build": "react-scripts --max_old_space_size=4096 build",
@@ -156,6 +162,7 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.0.3",
+    "@types/leaflet": "^1.9.3",
     "@types/node": "^16.11.15",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",

@@ -141,6 +141,16 @@ export default function BillServiceCreate() {
 
   const checkPrice = async (contracts, billMode) => {
     if (billMode.type === "HMO Cover") {
+      let contract = contracts.filter(el => el.source_org === el.dest_org);
+      if (contract.length) {
+        // console.log(contract[0].price)
+        await setSellingPrice(contract[0].price);
+      } else {
+        toast.error(
+          "Please there is no cover/price for this service. Either set service price or try another service. Setting price at zero "
+        );
+        await setSellingPrice(0);
+      }
       //paymentmode
       /*  if (billMode.detail.plan==="NHIS"){
                 //find contract for NHIS
@@ -159,7 +169,7 @@ export default function BillServiceCreate() {
              }
 
             }else{ */
-
+/* 
       let contract = contracts.filter(
         el => el.source_org === billMode.detail.organizationId
       );
@@ -171,7 +181,7 @@ export default function BillServiceCreate() {
           "Please HMO does not have cover/price for this service. Either set service price for HMO , try another drug, bill using cash or adjust amount "
         );
         await setSellingPrice(0);
-      }
+      } */
     }
     /*  } */
     if (billMode.type === "Company Cover") {

@@ -184,7 +184,7 @@ const AdminOrganization = ({propId}) => {
         {/* {currentPage === 1 && <PolicyList standAlone={facility?._id || ""} />}
         {currentPage === 2 && <PremiumPayment />} */}
 
-        {facility?.facilityType?.toLowerCase() !== "corporate" ? (
+        {/* {facility?.facilityType?.toLowerCase() !== "corporate" ? (
           <Box sx={{display: "flex"}} gap={2}>
             <GlobalCustomButton
               color="secondary"
@@ -277,7 +277,7 @@ const AdminOrganization = ({propId}) => {
               Claims
             </GlobalCustomButton>
           </Box>
-        )}
+        )} */}
       </Box>
       {view === "claims" && (
         <Box>
@@ -421,6 +421,31 @@ const AdminOrganization = ({propId}) => {
               />
             </Grid>
           </Grid>
+
+         
+          <Box p={2} > 
+    
+          <FormsHeaderText text="Access Modality" />
+          <div >
+          <Grid container spacing={2} mb={2} p={2}>
+          
+          <Grid item lg={4} md={6} sm={6} xs={12}>
+              <Input
+                register={register("accessMode")}
+                label="Payment Model"
+                disabled
+              />
+            </Grid>
+            <Grid item lg={4} md={6} sm={6} xs={12}>
+              <Input
+                register={register("accessValue")}
+                label="Value"
+                disabled
+              />
+            </Grid>
+            </Grid>
+        </div>
+        </Box>
 
           <Box p={2}>
             <BankAccount />

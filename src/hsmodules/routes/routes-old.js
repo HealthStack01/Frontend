@@ -99,6 +99,7 @@ const Map = lazy(() => import('./Epidemiology/Map'));
 const Patients = lazy(() => import('./Client/Client'));
 const Members = lazy(() => import('./Client/Members'));
 const Payment = lazy(() => import('./Finance/Payment'));
+const ExternalPayment = lazy(() => import('./Finance/components/ExternalPayementPage'));
 const ClientPayment = lazy(() => import('./Client/Payment'));
 
 const PharmacyHome = lazy(() => import('./Pharmacy/PharmacyHome'));
@@ -233,6 +234,7 @@ import LazyLoader from '../components/lazy-loader/Lazy-Loader';
 import IncomingReferral from './Referral/ReferralListIncoming';
 import OutgoingReferral from './Referral/ReferralListOutcoming';
 import ProductDetails from '../Patientportal/components/Marketplace/productDetails';
+import InwardTransferDetails from '../Pharmacy/InwardTransfer Details';
 
 const AccountDashboard = lazy(() =>
   import('./dashBoardUiComponent/@modules/AccountDashboard')
@@ -333,8 +335,7 @@ const AppRoutes = () => {
 
           {/**************************Pouchii Wallet Routes *************************************** */}
           <Route path="/verify-otp" element={<WalletOTP />} />
-          <Route path="/payment" element={<Payment />} />
-
+          <Route path="/payment/:patientId" element={<ExternalPayment />} />
           {/**************************App Dashboard Routes*************************************** */}
           <Route path="/app" element={<PrivateOutlet />}>
             <Route index element={<Overview />} />
@@ -658,6 +659,10 @@ const AppRoutes = () => {
 
             <Route path="/app/pharmacy" element={<PharmacyHome />}>
               <Route index element={<PharmacyDashboard />} />
+              <Route
+                path="/app/pharmacy/transfer/inward-transfer"
+                element={<InwardTransferDetails />}
+              />
               <Route
                 path="/app/pharmacy/billclient"
                 element={<PharmacyBillService />}
