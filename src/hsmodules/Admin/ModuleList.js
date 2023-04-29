@@ -55,6 +55,7 @@ export default function ModuleList({handlecloseModal}) {
     "Bill Client",
     "Adjust Price",
     "Delete Notes",
+    "Membership"
   ];
 
   let draftDoc = {};

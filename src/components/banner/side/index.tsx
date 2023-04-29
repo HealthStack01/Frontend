@@ -16,19 +16,17 @@ function Side() {
           initial="hidden"
           animate="visible"
         />
-        <h1> Africa's No. 1 Digital Healthcare Platform</h1>
+        <h1>Church Stack: Church Growth Platform</h1>
 
         <ul>
           <li>
-            Transform your health organisation with our simple digital health
-            solution suite.
+           Monitor Membership Attendance
           </li>
           <li>
-            Offer exceptional quality healthcare services to your clients.
+          Work Team Management.
           </li>
           <li>
-            Improve your organisation productivity, efficiency and
-            profitability.
+           Track Growth
           </li>
         </ul>
       </InnerWrapper>

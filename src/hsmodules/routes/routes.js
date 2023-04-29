@@ -97,6 +97,7 @@ const Labs = lazy(() => import('./Laboratory/Labs'));
 const Ledgers = lazy(() => import('./Accounts/Ledgers'));
 const Map = lazy(() => import('./Epidemiology/Map'));
 const Patients = lazy(() => import('./Client/Client'));
+const Members = lazy(() => import('./Client/Members'));
 const Payment = lazy(() => import('./Finance/Payment'));
 const ClientPayment = lazy(() => import('./Client/Payment'));
 
@@ -298,21 +299,23 @@ const AppRoutes = () => {
 
   const [currentModule, setCurrentModule] = useState('');
   const location = useLocation();
+
   useEffect(() => {
     const paths = location.pathname.split('/');
     const newModule = paths.length > 2 && paths[2];
     setCurrentModule(newModule);
-    if (
-      newModule !== currentModule &&
-      Object.keys(moduleLocationTypes).includes(newModule)
-    ) {
-      /* setLocationType(moduleLocationTypes[newModule]); */
-    }
-  }, [location]);
+        if (
+          newModule !== currentModule &&
+          Object.keys(moduleLocationTypes).includes(newModule)
+        ) {
+          /* setLocationType(moduleLocationTypes[newModule]); */
+        }
+      }, [location]);
 
   const { authenticatingUser } = useContext(UserContext);
 
   if (authenticatingUser) return <PageLoaderComponent />;
+
   return (
     <>
       <Suspense fallback={<PageLoaderComponent />}>
@@ -322,6 +325,7 @@ const AppRoutes = () => {
           <Route path="/signupindividual" element={<IndividualSignup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/create-password" element={<CreatePassword />} />
+          <Route path="/register" element={<Members />} />
           {/* <Route
                 path="/product/:id"
                 element={<ProductDetails />}
@@ -474,7 +478,7 @@ const AppRoutes = () => {
 
             {/* ***************************** CLIENTS ROUTES ************************************* */}
             <Route path="/app/clients/" element={<ClientHome />}>
-              <Route index element={<ClientDashboard />} />
+              <Route index element={ <Patients />} />  {/* <ClientDashboard /> */}
               <Route
                 path="/app/clients/documentation"
                 element={<Documentation />}
