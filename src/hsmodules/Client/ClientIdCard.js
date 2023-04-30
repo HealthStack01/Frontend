@@ -48,7 +48,8 @@ export const ClientIdCard = ({ data, action }) => {
   // With promises
   const getBarCodeUrl = async (data) => {
     QRCode.toDataURL(
-      `*** FullName : ${data?.firstname} ${data?.lastname} *** PolicyID: ${data?.policyNo} ***`
+      `https://healthstack-test.netlify.app/client/${data?._id}`
+     /*  `*** FullName : ${data?.firstname} ${data?.lastname} *** PolicyID: ${data?.policyNo} ***` */
     )
       .then((url) => {
         console.log("barcode", url);
