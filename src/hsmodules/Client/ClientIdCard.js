@@ -46,6 +46,7 @@ export const ClientIdCard = ({ data, action }) => {
   data.organizationName = user?.currentEmployee?.facilityDetail.facilityName;
 
   // With promises
+  //*** PolicyID: ${data?.policyNo} ***
   const getBarCodeUrl = async (data) => {
     QRCode.toDataURL(
       `https://healthstack-test.netlify.app/client/${data?._id}`
@@ -255,26 +256,29 @@ export const ClientIdCard = ({ data, action }) => {
                 NAME: <b>{`${data?.firstname} ${data?.lastname}`}</b>
               </Typography>
               <Divider />
-              <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
+             {/*  <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
                 POLICY NO: <b>{data?.policyNo}</b>
-              </Typography>
+              </Typography> */}
               <Divider />
               <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
                 SEX: <b>{data?.gender}</b>
               </Typography>
               <Divider />
               <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                DATE OF BIRTH: <b>{moment(data?.dob).format("DD/MM/YYYY")}</b>
+                PHONE: <b>{data?.phone}</b>
               </Typography>
+              {/* <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
+                DATE OF BIRTH: <b>{moment(data?.dob).format("DD/MM/YYYY")}</b>
+              </Typography> */}
               <Divider />
-              <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
+              {/* <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
                 GENOTYPE: <b>{data?.genotype}</b>
                 <Divider orientation="vertical" flexItem />
               </Typography>
               <Divider />
               <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
                 BLOOD GROUP: <b>{data?.bloodgroup}</b>
-              </Typography>
+              </Typography> */}
             </Grid>
             <Grid item xs={12} md={4} pr={2}>
               <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -309,10 +313,10 @@ export const ClientIdCard = ({ data, action }) => {
                 }}
                 mt={1}
               >
-                The bearer of this card is a subscriber to
-                {data?.organizationName} and entitled to receive appropriate
+                The bearer of this card is a member of {" "}
+                {data?.organizationName} {/* and entitled to receive appropriate
                 medical care from his primary care provider and other referral
-                centres as may be necessary.
+                centres as may be necessary. */}
               </Typography>
               <Typography
                 sx={{
@@ -322,11 +326,11 @@ export const ClientIdCard = ({ data, action }) => {
                 }}
                 mt={1}
               >
-                This card MUST be presented at the point of service and remains
-                the property of {data?.organizationName}.
+                This card MUST be presented at point of entry to events and remains
+                the property of {" "} {data?.organizationName}.
               </Typography>
               <Typography sx={{ fontSize: "0.7rem", color: "#000000" }} mt={1}>
-                In the event of an emergency, kindly contact
+                In the event of an emergency, kindly contact {" "}
                 {data?.organizationName}
               </Typography>
               <Typography sx={{ fontSize: "0.7rem", color: "#000000" }} mt={1}>
@@ -347,7 +351,7 @@ export const ClientIdCard = ({ data, action }) => {
                 spacing={2}
                 sx={{ alignItems: "center", width: "100%" }}
               >
-                <Grid item xs={6} md={6}>
+                <Grid item xs={4} md={4}>
                   <Box
                     sx={{
                       width: "100%",
@@ -364,7 +368,7 @@ export const ClientIdCard = ({ data, action }) => {
                     />
                   </Box>
                 </Grid>
-                <Grid item xs={6} md={6}>
+                <Grid item xs={4} md={4}>
                   <Box
                     sx={{
                       width: "100px",
@@ -385,7 +389,8 @@ export const ClientIdCard = ({ data, action }) => {
                     />
                     <Divider></Divider>
 
-                    <b>{userData?.profession}</b>
+                    <b>Pastor-in-Charge</b>
+                   {/*  <b>{userData?.profession}</b> */}
                   </Box>
                 </Grid>
               </Grid>

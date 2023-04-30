@@ -62,7 +62,25 @@ export const modulesList = [
       },
     ],
   },
+  {
+    value: "Membership",
+    label: "Membership",
+    children: [
+     /*  {
+        value: "Client Appointment",
+        label: "Appointment",
+      }, */
+      {
+        value: "Membership Members",
+        label: "Members",
+      },
 
+   /*    {
+        value: "Client Bill Client",
+        label: "Bill Client ",
+      }, */
+    ],
+  },
   {
     value: "Clinic",
     label: "Clinic",

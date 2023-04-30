@@ -54,10 +54,10 @@ const UploadComponent = ({}) => {
 };
 
 const ClientForm = ({closeModal, setOpen}) => {
-  const ClientServ = client.service("client");
+  const ClientServ = client.service("members");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isFullRegistration, setFullRegistration] = useState(false);
+  const [isFullRegistration, setFullRegistration] = useState(true);
   // const data = localStorage.getItem("user");
   const [patList, setPatList] = useState([]);
   const [duplicateModal, setDuplicateModal] = useState(false);
@@ -66,7 +66,7 @@ const ClientForm = ({closeModal, setOpen}) => {
   const {user} = useContext(UserContext);
   const [dependant, setDependant] = useState(false);
   // const user = JSON.parse(data);
-  const mpiServ = client.service("mpi");
+  const mpiServ = client.service("member"); //mpi
 
   const {
     register,
@@ -99,26 +99,38 @@ const ClientForm = ({closeModal, setOpen}) => {
     setSuccess(false);
     const defaultEmail = `${data.firstname}-${data.lastname}-${dayjs(
       data.dob
-    ).format("DD/MM/YYY")}@healthstack.africa`;
+    ).format("DDMMYY")}@healthstack.africa`;
 
     const clientData = {
       ...data,
       email: data.email || defaultEmail,
+      facility: user.currentEmployee.facilityDetail._id,
     };
 
     await ClientServ.create(clientData)
       .then(res => {
-        toast.success(`Client successfully created`);
+        toast.success(`Member successfully created`);
+        console.log("member",res)
+        //set the response to state context
+        const newClientModule = {
+          selectedClient: res,
+          show: "detail",
+        };
+       setState((prevstate) => ({
+          ...prevstate,
+          ClientModule: newClientModule,
+        }));
 
         setLoading(false);
         hideActionLoader();
+        closeModal()
       })
       .catch(err => {
-        toast.error(`Sorry, You weren't able to create an client. ${err}`);
+        toast.error(`Sorry, You weren't able to create a member. ${err}`);
         setLoading(false);
         hideActionLoader();
       });
-    setOpen(false);
+     /*  setOpen(false); */
     setLoading(false);
     hideActionLoader();
   };
@@ -182,7 +194,7 @@ const ClientForm = ({closeModal, setOpen}) => {
     });
 
     reset(data);
-    toast.error("Client previously registered in this facility");
+    toast.error("Member previously registered ");
     setDuplicateModal(false);
 
     setPatList([]);
@@ -192,7 +204,7 @@ const ClientForm = ({closeModal, setOpen}) => {
   const reg = async client => {
     setState(prev => ({
       ...prev,
-      actionLoader: {open: true, message: "Creating Client..."},
+      actionLoader: {open: true, message: "Creating Members..."},
     }));
     const data = getValues();
     Object.keys(data).forEach(key => {
@@ -216,7 +228,7 @@ const ClientForm = ({closeModal, setOpen}) => {
       await mpiServ
         .create(newPat)
         .then(resp => {
-          toast.success("Client created succesfully");
+          toast.success("member created succesfully");
           reset(data);
           setState(prev => ({
             ...prev,
@@ -229,7 +241,7 @@ const ClientForm = ({closeModal, setOpen}) => {
             ...prev,
             actionLoader: {open: false, message: ""},
           }));
-          toast.error("Error creating Client " + err);
+          toast.error("Error creating Member " + err);
         });
     }
     //reset form
@@ -240,7 +252,7 @@ const ClientForm = ({closeModal, setOpen}) => {
 
   const depen = client => {
     setDependant(true);
-    toast.success("You're Creating a Dependent Client");
+    toast.success("You're Creating a Dependent Member");
     setDuplicateModal(false);
   };
 
@@ -257,7 +269,7 @@ const ClientForm = ({closeModal, setOpen}) => {
       <ModalBox
         open={duplicateModal}
         onClose={() => setDuplicateModal(false)}
-        header="Client With Similar Information already Exist"
+        header="Member With Similar Information already Exist"
       >
         <ClientGroup
           list={patList}
@@ -277,11 +289,11 @@ const ClientForm = ({closeModal, setOpen}) => {
           <div>
             <HeadWrapper>
               <div>
-                <h2>{`${
+                <h2>{/* {`${
                   isFullRegistration
-                    ? "Full Client Registeration"
-                    : "Quick Client Registeration"
-                }`}</h2>
+                    ?  Full Client Registeration*/}
+                   {/*  : "Quick Client Registeration"
+                }`} */}</h2>
                 {/* <span>
                 Create a New client by filling out the form below to get
                 started.
@@ -289,13 +301,14 @@ const ClientForm = ({closeModal, setOpen}) => {
               </div>
 
               {isFullRegistration ? (
-                <GlobalCustomButton onClick={() => setFullRegistration(false)}>
+                <></>
+               /*  <GlobalCustomButton onClick={() => setFullRegistration(false)}>
                   <ElectricBoltIcon
                     fontSize="small"
                     sx={{marginRight: "5px"}}
                   />
                   Quick Registration
-                </GlobalCustomButton>
+                </GlobalCustomButton> */
               ) : (
                 <GlobalCustomButton onClick={() => setFullRegistration(true)}>
                   <OpenInFullIcon fontSize="small" sx={{marginRight: "5px"}} />
@@ -352,7 +365,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("email")}
                         type="email"
                         errorText={errors?.email?.message}
-                        onBlur={checkClient}
+                       /*  onBlur={checkClient} */
                         //important={true}
                       />
                     </Grid>
@@ -368,7 +381,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                       <CustomSelect
                         label="Gender"
                         register={register("gender", {required: true})}
-                        onBlur={checkClient}
+                       /*  onBlur={checkClient} */
                         options={[
                           {label: "Male", value: "Male"},
                           {label: "Female", value: "Female"},
@@ -431,7 +444,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                       />
                     </Grid>
 
-                    <Grid item lg={3} md={4} sm={6}>
+                   {/*  <Grid item lg={3} md={4} sm={6}>
                       <CustomSelect
                         label="Client Level"
                         important
@@ -443,7 +456,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                           {label: "Level 3", value: "3"},
                         ]}
                       />
-                    </Grid>
+                    </Grid> */}
                   </Grid>
 
                   <Box
@@ -478,7 +491,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                 <Box sx={{width: "80vw", maxHeight: "80vh"}}>
                   <Grid container spacing={1}>
                     <Grid item xs={12}>
-                      <FormsHeaderText text="Client Names" />
+                      <FormsHeaderText text="Member Names" />
                     </Grid>
                     <Grid item lg={4} md={4} sm={4}>
                       <Input
@@ -510,12 +523,12 @@ const ClientForm = ({closeModal, setOpen}) => {
 
                   <Grid container spacing={1}>
                     <Grid item xs={12}>
-                      <FormsHeaderText text="Client Biodata" />
+                      <FormsHeaderText text="Member Biodata" />
                     </Grid>
                     <Grid item lg={2} md={4} sm={6}>
                       <MuiCustomDatePicker
                         control={control}
-                        label="DOB"
+                        label="Date Of Birth"
                         name="dob"
                         important={true}
                       />
@@ -544,10 +557,28 @@ const ClientForm = ({closeModal, setOpen}) => {
                     </Grid>
                     <Grid item lg={2} md={4} sm={6}>
                       <Input
+                        label="Alternative Phone No"
+                        register={register("phone2")}
+                        errorText={errors?.phone?.message}
+                      /*   onBlur={checkClient} */
+                        /* important={true} */
+                      />
+                    </Grid>
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Whatsapp No"
+                        register={register("whatsapp")}
+                        errorText={errors?.phone?.message}
+                        /* onBlur={checkClient} */
+                      /*   important={true} */
+                      />
+                    </Grid>
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input
                         label="Email"
                         register={register("email")}
                         errorText={errors?.email?.message}
-                        onBlur={checkClient}
+                        /* onBlur={checkClient} */
                         //important={true}
                       />
                     </Grid>
@@ -557,24 +588,29 @@ const ClientForm = ({closeModal, setOpen}) => {
                         label="Marital Status"
                         register={register("maritalstatus")}
                         options={[
-                          {label: "Single", value: "Single"},
+                          {label: "Never married", value: "Never married"},
                           {label: "Married", value: "Married"},
                           {label: "Widowed", value: "Widowed"},
                           {
-                            label: "Divorced/Seperated",
-                            value: "Divorced/Seperated",
+                            label: "Divorced",
+                            value: "Divorced",
                           },
+                          {
+                            label: "Seperated",
+                            value: "Seperated",
+                          },
+                          {label: "Co-habiting", value: "Co-habiting"},
                         ]}
                       />
                     </Grid>
 
                     <Grid item lg={2} md={4} sm={6}>
                       <Input
-                        label="Medical record Number"
+                        label="Membership Number"
                         register={register("mrn")}
                       />
                     </Grid>
-
+{/* 
                     <Grid item lg={2} md={4} sm={6}>
                       <CustomSelect
                         label="Religion"
@@ -588,8 +624,9 @@ const ClientForm = ({closeModal, setOpen}) => {
                           {label: "Taoism", value: "Taoism"},
                         ]}
                       />
-                      {/* <Input label="Religion" register={register("religion")} /> */}
-                    </Grid>
+                     
+                    </Grid> */}
+                     {/* <Input label="Religion" register={register("religion")} /> */}
 
                     <Grid item lg={2} md={4} sm={6}>
                       <Input
@@ -597,12 +634,60 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("profession")}
                       />
                     </Grid>
+                    <Grid item lg={2} md={4} sm={6}>
+                      <CustomSelect
+                        label="Employement Status"
+                        register={register("employementStatus")}
+                        options={[
+                          {label: "Government Employed", value: "Government employed"},
+                          {label: "Private Sector Employed", value: "Private Sector Employed"},
+                          {label: "Self Employed", value: "Self Employed"},
+                          {
+                            label: "Businessman",
+                            value: "Businessman",
+                          },
+                          {
+                            label: "Student",
+                            value: "Student",
+                          },
+                          {
+                            label: "Applicant",
+                            value: "Applicant",
+                          },
+                          {label: "Not Employed", value: "Not Employed"},
+                        ]}
+                      />
+                    </Grid>
+                   {/*  <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Employement Status"
+                        register={register("employementStatus")}
+                      />
+                    </Grid> */}
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Language(s): Can Speak"
+                        register={register("langSpeak")}
+                      />
+                    </Grid>
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Language(s): Can Write"
+                        register={register("langWrite")}
+                      />
+                    </Grid>
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Language(s): Can Read"
+                        register={register("langRead")}
+                      />
+                    </Grid>
 
                     <Grid item lg={6} md={6} sm={12}>
                       <Input label="Tags" register={register("clientTags")} />
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                  {/*   <Grid item lg={2} md={4} sm={6}>
                       <CustomSelect
                         label="Client Level"
                         control={control}
@@ -614,61 +699,96 @@ const ClientForm = ({closeModal, setOpen}) => {
                           {label: "Level 3", value: "3"},
                         ]}
                       />
-                    </Grid>
+                    </Grid> */}
                   </Grid>
 
                   <Grid container spacing={1}>
                     <Grid item xs={12}>
-                      <FormsHeaderText text="Client Address" />
+                      <FormsHeaderText text="Member's Address" />
                     </Grid>
 
                     <Grid item lg={6} md={6} sm={12}>
-                      <GoogleAddressInput
+                      <Input
                         label="Residential Address"
                         register={register("residentialaddress")}
-                        getSelectedAddress={handleGoogleAddressSelect}
                       />
                     </Grid>
 
                     <Grid item lg={3} md={4} sm={6}>
                       <Input label="Town/City" register={register("town")} />
                     </Grid>
-
                     <Grid item lg={3} md={4} sm={6}>
-                      <Input label="LGA" register={register("lga")} />
+                      <CustomSelect
+                        label="Town/City"
+                        control={control}
+                        name="town"
+                        //errorText={errors?.facilityLGA?.message}
+                        options={
+                          selectedState
+                            ? selectedState.lgas.sort((a, b) =>
+                                a.localeCompare(b)
+                              )
+                            : []
+                        }
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={6}>
+                      <Input
+                        label="Town/City"
+                        register={register("city")}
+                      />
                     </Grid>
 
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input label="State" register={register("state")} />
-                    </Grid>
+                   {/*  <Grid item lg={3} md={4} sm={6}>
+                      <CustomSelect
+                        label="Town/City"
+                        control={control}
+                        name="town"
+                        //errorText={errors?.facilityLGA?.message}
+                        options={
+                          selectedState
+                            ? selectedState.lgas.sort((a, b) =>
+                                a.localeCompare(b)
+                              )
+                            : []
+                        }
+                      />
+                    </Grid> */}
 
-                    <Grid item lg={3} md={4} sm={6}>
-                      <Input label="Country" register={register("country")} />
+                   
+                    <Grid item lg={6} md={6} sm={12}>
+                      <Input
+                        label="Residential Address"
+                        register={register("residentialAddress")}
+                      />
                     </Grid>
                   </Grid>
 
                   <Grid container spacing={1}>
                     <Grid item xs={12}>
-                      <FormsHeaderText text="Client Medical Data" />
+                      <FormsHeaderText text="Membership Info" />
                     </Grid>
                     <Grid item lg={2} md={4} sm={6}>
                       <Input
-                        label="Blood Group"
-                        register={register("bloodgroup")}
+                        label="Department"
+                        register={register("department")}
                       />
                     </Grid>
                     <Grid item lg={2} md={4} sm={6}>
-                      <Input label="Genotype" register={register("genotype")} />
+                      <Input label="Sunday School Class You Currently Attend" register={register("currentSundaySchool")} />
+                    </Grid>
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input label="Name of your Sunday school teacher" register={register("nameSundayScholTeacher")} />
                     </Grid>
 
                     <Grid item lg={8} md={6} sm={6}>
                       <Input
-                        label="Disabilities"
-                        register={register("disabilities")}
+                        label="What you like doing for God"
+                        register={register("doingforGod")}
                       />
                     </Grid>
 
-                    <Grid item lg={6} md={6} sm={6}>
+                   {/*  <Grid item lg={6} md={6} sm={6}>
                       <Input
                         label="Allergies"
                         register={register("allergies")}
@@ -680,7 +800,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         label="Co-mobidities"
                         register={register("comorbidities")}
                       />
-                    </Grid>
+                    </Grid> */}
 
                     <Grid item lg={12} md={4} sm={6}>
                       <Input
@@ -692,39 +812,39 @@ const ClientForm = ({closeModal, setOpen}) => {
 
                   <Grid container spacing={1}>
                     <Grid item xs={12}>
-                      <FormsHeaderText text="Client Next of Kin Information" />
+                      <FormsHeaderText text="Contact in Case of Emergency" />
                     </Grid>
                     <Grid item lg={6} md={6} sm={12}>
                       <Input
                         label="Full Name"
-                        register={register("nok_name")}
+                        register={register("emergencyContactname")}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
                       <Input
                         label="Phone Number"
-                        register={register("nok_phoneno")}
+                        register={register("emergencyContactphone")}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
                       <Input
                         label=" Email"
-                        register={register("nok_email")}
+                        register={register("emergencyContactemail")}
                         type="email"
                       />
                     </Grid>
                     <Grid item lg={4} md={4} sm={6}>
                       <Input
                         label="Relationship"
-                        register={register("nok_relationship")}
+                        register={register("emergencyContactRelationship")}
                       />
                     </Grid>
-                    <Grid item lg={8} md={6} sm={12}>
+                   {/*  <Grid item lg={8} md={6} sm={12}>
                       <Input
                         label="Co-mobidities"
                         register={register("comorbidities")}
                       />
-                    </Grid>
+                    </Grid> */}
                   </Grid>
 
                   <Box
@@ -749,7 +869,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                       onClick={handleSubmit(submit)}
                     >
                       <SaveIcon fontSize="small" sx={{marginRight: "5px"}} />
-                      Register Client
+                      Register Member
                     </GlobalCustomButton>
                   </Box>
                 </Box>

@@ -77,7 +77,7 @@ import { ClientIdCard } from "./ClientIdCard";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Client() {
+export default function Member() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
@@ -153,7 +153,7 @@ export function ClientCreate({ open, setOpen }) {
   const [message, setMessage] = useState("");
   const [facility, setFacility] = useState();
   const ClientServ = client.service("members");
-  const mpiServ = client.service("members");//mpi
+  const mpiServ = client.service("mpi");
   // const { user } = useContext(UserContext);
 
   // use local storage
@@ -624,7 +624,6 @@ export function ClientList({ openCreateModal, openDetailModal }) {
   const { state, setState } = useContext(ObjectContext);
   const [filterEndDate, setFilterEndDate] = useState(new Date());
   const containerScrollRef = useRef(null);
-  const newMember =useRef(state.ClientModule.selectedClient)
   // eslint-disable-next-line
   // const { user, setUser } = useContext(UserContext);
 
@@ -637,7 +636,6 @@ export function ClientList({ openCreateModal, openDetailModal }) {
   const [total, setTotal] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
   const [open, setOpen] = useState(false);
-  const membersRef=useRef([])
 
   const handleCreateNew = async () => {
     const newClientModule = {
@@ -673,9 +671,6 @@ export function ClientList({ openCreateModal, openDetailModal }) {
 
   const handleSearch = (val) => {
     // eslint-disable-next-line
-    if (!user.register){
-
- 
     const field = "firstname";
     //console.log(val);
     ClientServ.find({
@@ -732,7 +727,7 @@ export function ClientList({ openCreateModal, openDetailModal }) {
           { gender: val },
         ],
 
-        facility: user.currentEmployee.facilityDetail._id, // || "",
+        "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
         $limit: limit,
         $sort: {
           createdAt: -1,
@@ -750,87 +745,85 @@ export function ClientList({ openCreateModal, openDetailModal }) {
         setMessage("Error fetching Members, probable network issues " + err);
         setError(true);
       });
-    }
   };
 
   const getFacilities = async () => {
     setLoading(true);
-    console.log("register",user.register)
-  /*   let member=state.ClientModule.selectedClient
-    let query={} */
-
-    if(!user.register){
-     
+    if (user.currentEmployee) {
       const findClient = await ClientServ.find({
         query: {
           facility: user.currentEmployee.facilityDetail._id,
-
-        /*   $limit: limit,
-          $skip: page * limit, */
+          $limit: limit,
+          $skip: page * limit,
           $sort: {
             createdAt: -1,
           },
         },
       });
-      await setFacilities(findClient.data);
-    }else{
-      setFacilities([])
-    }
+      if (page === 0) {
+        //console.log(findClient.data);
+        await setFacilities(findClient.data);
+        setLoading(false);
+        // setState(prev => ({
+        //   ...prev,
+        //   actionLoader: {open: false},
+        // }));
+      } else {
+        await setFacilities((prevstate) => prevstate.concat(findClient.data));
+        // setState(prev => ({
+        //   ...prev,
+        //   actionLoader: {open: false},
+        // }));
+        setLoading(false);
+      }
 
-    setLoading(false);
-  
+      await setTotal(findClient.total);
+      //console.log(user.currentEmployee.facilityDetail._id, state)
+      //console.log(facilities)
+      setPage((page) => page + 1);
+    } else {
+      if (user.stacker) {
+        const findClient = await ClientServ.find({
+          query: {
+            $limit: 20,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        });
+
+        await setFacilities(findClient.data);
+        setLoading(false);
+        // setState(prev => ({
+        //   ...prev,
+        //   actionLoader: {open: false},
+        // }));
+      }
+    }
   };
 
   useEffect(() => {
-    getFacilities()
-    ClientServ.on("created", (obj) =>{
-      if (user.register){
-       
-        let arry=[]
-        arry=arry.concat(obj)
-        console.log(arry)
-        setFacilities(arry)
-      }else{
-        getFacilities()
-      }
+    if (user) {
+      //getFacilities()
+      rest();
+    } else {
+      /* const localUser= localStorage.getItem("user")
+                    const user1=JSON.parse(localUser)
+                    console.log(localUser)
+                    console.log(user1)
+                    fetchUser(user1)
+                    console.log(user)
+                    getFacilities(user) */
+    }
 
-    } )
-    ClientServ.on("updated", (obj) =>{
-      if (user.register){
-      
-        let arry=[]
-        arry=arry.concat(obj)
-        setFacilities(arry)
-      }else{
-        getFacilities()
-      }
-
-    } );
-    ClientServ.on("patched", (obj) =>{
-      if (user.register){
-        
-        let arry=[]
-        arry=arry.concat(obj)
-        setFacilities(arry)
-      }else{
-        getFacilities()
-      }
-
-    } );
-    ClientServ.on("removed", (obj) =>{
-      if (user.register){
-        let arry=[]
-        arry=arry.concat(obj)
-        setFacilities(arry)
-      }else{
-        getFacilities()
-      }
-
-    } );
+    ClientServ.on("created", (obj) => rest());
+    ClientServ.on("updated", (obj) => rest());
+    ClientServ.on("patched", (obj) => rest());
+    ClientServ.on("removed", (obj) => rest());
 
     return () => {};
     // eslint-disable-next-line
-  }, []);
+  }, [filterEndDate]);
 
   const rest = async () => {
     // console.log("starting rest")
@@ -844,9 +837,10 @@ export function ClientList({ openCreateModal, openDetailModal }) {
     //  await setRestful(false)
   };
 
-
-
-
+  useEffect(() => {
+    //console.log(facilities)
+    return () => {};
+  }, [facilities]);
   //todo: pagination and vertical scroll bar
 
   // create user form
@@ -957,7 +951,7 @@ export function ClientList({ openCreateModal, openDetailModal }) {
               </GlobalCustomButton>
             </TableMenu>
 
-   <div
+            <div
               style={{
                 width: "100%",
                 height: "calc(100vh - 160px)",
@@ -969,7 +963,7 @@ export function ClientList({ openCreateModal, openDetailModal }) {
               <CustomTable
                 title={""}
                 columns={ClientMiniSchema}
-                data={facilities}   //{facilities}
+                data={facilities}
                 pointerOnHover
                 highlightOnHover
                 striped
@@ -978,7 +972,7 @@ export function ClientList({ openCreateModal, openDetailModal }) {
                 progressPending={loading}
                 // CustomEmptyData={<Typography>No Client Found...</Typography>}
               />
-            </div> 
+            </div>
           </PageWrapper>
         </>
       ) : (
@@ -1999,19 +1993,19 @@ export const UpdateClientPassport = ({ closeModal, selectedClient }) => {
 
   const [file, setFile] = useState(null);
 
-        const handleChange = (file) => {
-          //console.log(file);
-          //setFile(file);
+  const handleChange = (file) => {
+    //console.log(file);
+    //setFile(file);
 
-          getBase64(file)
-            .then((res) => {
-              //console.log(res);
-              setFile(res);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        };
+    getBase64(file)
+      .then((res) => {
+        //console.log(res);
+        setFile(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleUploadLogo = async () => {
     if (file === null) return toast.error("Please select an Image to upload");
@@ -2037,26 +2031,25 @@ export const UpdateClientPassport = ({ closeModal, selectedClient }) => {
         await ClientServ.patch(documentId, newClient)
           .then((res) => {
             hideActionLoader();
-            toast.success(" Member image Updated succesfully");
             closeModal();
+            toast.success("Patient Image Updated succesfully");
           })
           .catch((err) => {
             hideActionLoader();
 
             toast.error(
-              `Error Updating Member image, probable network issues or ${err}`
+              `Error Updating Patient Image, probable network issues or ${err}`
             );
           });
-       })
+      })
       .catch((error) => {
         hideActionLoader();
         toast.error(
-          `An error occured whilst updating your Member Image ${error}`
+          `An error occured whilst updating your Patient Image ${error}`
         );
         console.log(error);
       });
   };
-  
 
   return (
     <Box sx={{ width: "400px", maxHeight: "80vw" }}>
