@@ -295,11 +295,155 @@ const totalClientsByGenderOptions = {
 
   return (
 	<DashboardPageWrapper>
-		<Typography variant="h5" style={{ textShadow: "1px 1px 2px rgb(0, 45, 92)" }}>Membership Dashboard</Typography>
-	<Box sx={{ backgroundColor: '#f5f5f5', pt: 6}}>
-	
+		<DashboardContainer>
+		{/* <Typography variant="h5" style={{ textShadow: "1px 1px 2px rgb(0, 45, 92)" }}>Client Dashboard</Typography> */}
+	<Box sx={{ backgroundColor: '#ebebeb', pt: 6}}>
+	<Grid container spacing={3} justifyContent="center" alignItems="center">
+	  {/* Total Appointments Card */}
+	  <Grid item xs={12}  md={3}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+			Total Clients
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center' }}>
+			  <Box sx={{ flexGrow: 1 }}>
+				<Typography variant="h5" fontWeight="bold" component="div">
+				 {appointments}
+				</Typography>
+			  </Box>
+			  <Box>
+				<People sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
+			  </Box>
+			</Box>
+		  </CardContent>
+		</Card>
+	  </Grid>
+	 
+	  {/* Total Clients Card */}
+	  <Grid item xs={12} sm={6} md={3}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+			Payment
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center' }}>
+			  <Box sx={{ flexGrow: 1 }}>
+				<Typography variant="h5" component="div" fontWeight="bold">
+				  {patients}
+				</Typography>
+			  </Box>
+			  <Box>
+				<AttachMoneyIcon sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
+			  </Box>
+			</Box>
+		  </CardContent>
+		</Card>
+	  </Grid>
+	  {/* Upcoming Appointments Card */}
+	  <Grid item xs={12} sm={6} md={3}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+			Upcoming Appointments
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center' }}>
+			  <Box sx={{ flexGrow: 1 }}>
+				<Typography variant="h5" fontWeight="bold" component="div">
+				{totalUpcomingAppointment}
+				</Typography>
+			  </Box>
+			  <Box>
+				<EventIcon sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
+			  </Box>
+			</Box>
+		  </CardContent>
+		</Card>
+	  </Grid>
+	  {/* Upcoming Appointments Card */}
+	  <Grid item xs={12} sm={6} md={2}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+			Total New Clients
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center' }}>
+			  <Box sx={{ flexGrow: 1 }}>
+				<Typography variant="h5" fontWeight="bold" component="div">
+				{totalUpcomingAppointment}
+				</Typography>
+			  </Box>
+			  <Box>
+				<NewClientIcon sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
+			  </Box>
+			</Box>
+		  </CardContent>
+		</Card>
+	  </Grid>
+	  {/* Monthly New Client Chart */}
+	  <Grid container justifyContent="space-between" sx={{ marginTop: 6 }}>
+	  <Grid item xs={12} md={4} sx={{marginLeft:"50px"}}>
+		  <Card>
+			<CardContent>
+			  <Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+				Payment
+			  </Typography>
+			  <Box sx={{ height: 300 }}>
+        <ReactApexChart
+         options={paymentModeOption}
+         series={paymentModeBarSeries}
+         type="bar"
+         height={350}
+        />
+			  </Box>
+			</CardContent>
+		  </Card>
+		
+		  <Card  sx={{ marginTop: 2, marginBottom: 6}}>
+		  <CardContent>
+      <ViewCardWithFilter
+            count={12}
+            title="Total New Client"
+            hasFilter={true}
+            dataSource={fetchTotalMoneyCollectedPresentDataObject}
+            isLoading={isLoading}
+          />
+		  </CardContent>
+		</Card>
+		</Grid>
+	  <Grid item xs={12} md={3} sx={{marginLeft: 9}}>
+		<Card>
+		  <CardContent>
+			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+			  Monthly New Clients
+			</Typography>
+			<Box sx={{ height: 300 }}>
+			<ReactApexChart
+             options={genderOptions}
+             series={genderOptions.series}
+             type="radialBar"
+             height={350}
+    />
+			</Box>
+		  </CardContent>
+		</Card>
+	  </Grid>
+		{/* Total Clients by Gender Chart */}
+		<Grid item xs={12} md={3} sx={{marginRight: 6}}>
+		<Card>
+      <CardContent>
+        <Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+		New Clients
+        </Typography>
+        <ReactApexChart options={chartOptions} series={chartSeries} type="area" height={280} />
+      </CardContent>
+    </Card>
+		</Grid>
+		</Grid>
+		{/* </div> */}
+		</Grid>
 		</Box>
-	
+		</DashboardContainer>
 		</DashboardPageWrapper>
   )
 }

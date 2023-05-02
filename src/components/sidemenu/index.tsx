@@ -15,49 +15,12 @@ export const menuItems = [
     to: "/app/clients",
     iconClassName: "bi bi-people",
     subMenus: [
-     /*  {name: "Appointment", to: "/app/clients/appointments"}, */
-      {name: "Members", to: "/app/clients/clients"},
-   /*    {name: "Dashboard", to: "/app/clients/dashboard"}, */
-    ],
-  },
-
-  {
-    name: "Admin",
-    exact: true,
-    to: "/app/admin",
-    iconClassName: "bi bi-person",
-    subMenus: [
-    /*   {name: "Bands", to: "/app/admin/bands"}, */
-      {name: "Workers", to: "/app/admin/employees"},
-      {name: "Locations", to: "/app/admin/location"},
-      {name: "Dashboard", to: "/app/admin/dashboard"},
-      {name: "Organization", to: "/app/admin/organization"},
-      {name: "Configure Email", to: "/app/admin/email-configuration"},
+      {name: "Appointment", to: "/app/clients/appointments"},
+      {name: "Client", to: "/app/clients/clients"},
+      {name: "Dashboard", to: "/app/clients/dashboard"},
     ],
   },
   {
-    name: "Communication",
-    exact: true,
-    to: "/app/communication",
-    iconClassName: "bi bi-person",
-    subMenus: [
-      //{name: "Whatsapp", to: "/app/communication/whatsapp"},
-      {name: "SMS", to: "/app/communication/sms"},
-      // {name: "USSD", to: "/app/communication/ussd"},
-      {name: "Email", to: "/app/communication/email"},
-      // {name: "IVR", to: "/app/communication/ivr"},
-      {name: "Chats", to: "/app/communication/chats"},
-      {name: "Notifications", to: "/app/communication/notifications"},
-    ],
-  },
-  {
-    name: "Global Dashboard",
-    exact: true,
-    to: "/app/global-admin",
-    iconClassName: "bi bi-speedometer",
-    subMenus: [{name: "Organizations", to: "/app/organizations"}],
-  },
- /*  {
     name: "Clinic",
     exact: true,
     to: "/app/clinic",
@@ -67,8 +30,8 @@ export const menuItems = [
       {name: "checkin", to: "/app/clinic/checkin"},
       {name: "Dashboard", to: "/app/clinic/dashboard"},
     ],
-  }, */
-  /* 
+  },
+
   {
     name: "Appointments",
     exact: true,
@@ -86,11 +49,9 @@ export const menuItems = [
     //   {name: "Referral", to: "/app/appointments/referral"},
     //   {name: "Theatre", to: "/app/appointments/theatre"},
     // ],
-  }, */
+  },
 
-  
-
-/*   {
+  {
     name: "Appt. Workflow",
     exact: true,
     to: "/app/appointments/workflow",
@@ -107,9 +68,9 @@ export const menuItems = [
       {name: "Referral", to: "/app/appointments/workflow/referral"},
       {name: "Theatre", to: "/app/appointments/workflow/theatre"},
     ],
-  }, */
+  },
 
-/*   {
+  {
     name: "Laboratory",
     exact: true,
     to: "/app/laboratory",
@@ -121,9 +82,9 @@ export const menuItems = [
       {name: "Lab Result", to: "/app/laboratory/labresult"},
       {name: "Dashboard", to: "/app/laboratory/dashboard"},
     ],
-  }, */
+  },
 
-  /* {
+  {
     name: "Pharmacy",
     exact: true,
     to: "/app/pharmacy",
@@ -140,8 +101,8 @@ export const menuItems = [
       {name: "Transfer", to: "/app/pharmacy/transfer/inward-transfer"},
       {name: "Dashboard", to: "/app/pharmacy/dashboard"},
     ],
-  }, */
-  /* {
+  },
+  {
     name: "Finance",
     exact: true,
     to: "/app/finance",
@@ -172,7 +133,7 @@ export const menuItems = [
       // {name: "Payment", to: "/app/radiology/payment"},
       {name: "Radiology Result", to: "/app/radiology/radiology-result"},
     ],
-  }, */
+  },
   // {
   //   name: "Managed Care",
   //   exact: true,
@@ -183,8 +144,21 @@ export const menuItems = [
   //     {name: "Signals", to: "/app/epidemiology/signal"},
   //   ],
   // },
- 
- /*  {
+  {
+    name: "Admin",
+    exact: true,
+    to: "/app/admin",
+    iconClassName: "bi bi-person",
+    subMenus: [
+      {name: "Bands", to: "/app/admin/bands"},
+      {name: "Employees", to: "/app/admin/employees"},
+      {name: "Location", to: "/app/admin/location"},
+      {name: "Dashboard", to: "/app/admin/dashboard"},
+      {name: "Organization", to: "/app/admin/organization"},
+      {name: "Configure Email", to: "/app/admin/email-configuration"},
+    ],
+  },
+  {
     name: "Inventory",
     exact: true,
     to: "/app/inventory",
@@ -201,8 +175,8 @@ export const menuItems = [
       {name: "Transfer", to: "/app/inventory/transfer"},
       {name: "Dashboard", to: "/app/inventory/dashboard"},
     ],
-  }, */
- /*  {
+  },
+  {
     name: "Engagement",
     exact: true,
     to: "/app/engagment",
@@ -213,8 +187,8 @@ export const menuItems = [
       {name: "Configuration", to: "/app/communication/configuration"},
       {name: "Submissions", to: "/app/communication/submissions"},
     ],
-  }, */
-/*   {
+  },
+  {
     name: "Epidemiology",
     exact: true,
     to: "/app/epidemiology",
@@ -225,9 +199,9 @@ export const menuItems = [
       {name: "Signals", to: "/app/epidemiology/signal"},
       {name: "Map", to: "/app/epidemiology/map"},
     ],
-  }, */
+  },
 
-  /* {
+  {
     name: "Ward",
     exact: true,
     to: "/app/ward",
@@ -250,9 +224,9 @@ export const menuItems = [
       {name: "Bill Client", to: "/app/theatre/billservice"},
       {name: "Bill Order Sent", to: "/app/theatre/theatre-bill"},
     ],
-  }, */
-  /*  {
-   name: "Managed Care",
+  },
+  {
+    name: "Managed Care",
     exact: true,
     to: "/app/managed-care",
     iconClassName: "bi bi-person",
@@ -321,9 +295,9 @@ export const menuItems = [
       {name: "Check In", to: "/app/corporate/Checkin"},
       {name: "Dashboard", to: "/app/corporate/dashboard"},
     ],
-  }, */
+  },
 
- /*  {
+  {
     name: "Complaints",
     exact: true,
     to: "/app/complaints",
@@ -343,10 +317,23 @@ export const menuItems = [
       },
       {name: "Setting", to: "/app/referral/setting"},
     ],
-  }, */
-  
-  
-  /* {
+  },
+  {
+    name: "Communication",
+    exact: true,
+    to: "/app/communication",
+    iconClassName: "bi bi-person",
+    subMenus: [
+      //{name: "Whatsapp", to: "/app/communication/whatsapp"},
+      {name: "SMS", to: "/app/communication/sms"},
+      // {name: "USSD", to: "/app/communication/ussd"},
+      {name: "Email", to: "/app/communication/email"},
+      // {name: "IVR", to: "/app/communication/ivr"},
+      {name: "Chats", to: "/app/communication/chats"},
+      {name: "Notifications", to: "/app/communication/notifications"},
+    ],
+  },
+  {
     name: "Patient Portal",
     exact: true,
     to: "/app/patient-portal/profile",
@@ -414,7 +401,7 @@ export const menuItems = [
       {name: "Appointment", to: "/app/blood-bank/appointment"},
       {name: "Lab", to: "/app/blood-bank/lab"},
     ],
-  }, */
+  },
 ];
 
 function SideMenu({isOpen}) {

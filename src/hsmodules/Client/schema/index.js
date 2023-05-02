@@ -87,7 +87,7 @@ export const ClientMiniSchema = [
   //   inputType: "TEXT",
   // },
 
-/*   {
+  {
     name: "Payment Mode",
     key: "middlename",
     description: "Midlle Name",
@@ -105,7 +105,7 @@ export const ClientMiniSchema = [
     sortable: true,
     required: true,
     inputType: "TEXT",
-  }, */
+  },
 
   {
     name: "Age",
@@ -197,7 +197,7 @@ export const ClientMiniSchema = [
   //   inputType: 'TEXT',
   // },
 
- /*  {
+  {
     name: "Status",
     key: "active",
     description: "Next of Kin",
@@ -208,8 +208,8 @@ export const ClientMiniSchema = [
     omit: false,
     width: "100px",
   },
- */
- /*  {
+
+  {
     name: "Next of kin Phone",
     key: "nextofkinphone",
     description: "Next of Kin",
@@ -218,7 +218,7 @@ export const ClientMiniSchema = [
     required: true,
     inputType: "TEXT",
     omit: true,
-  }, */
+  },
 ];
 
 const nigerianPhoneRegExp = /^([0]{1})[0-9]{10}$/;
