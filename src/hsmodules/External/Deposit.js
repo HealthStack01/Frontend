@@ -199,7 +199,7 @@ let data = {
     return () => {};
   }, [user]);
 
-  const handleAccept = async () => {
+  const handleAccept = async () => {   
     await setButtonState(true);
     if (paymentmode === "" || amountPaid === 0 || amountPaid === "") {
       toast({
@@ -212,7 +212,7 @@ let data = {
       return;
     }
     let obj = {
-      client: medication.participantInfo.client._id,
+      client: medication[0].participantInfo.client._id,
       organization: user.employeeData[0].facilityDetail._id,
       category: "credit", //debit/credit
       amount: amountPaid,
@@ -297,14 +297,42 @@ let data = {
           }}
         >
           <Typography sx={{display: "flex", alignItems: "center"}}>
-            <AccountBalanceIcon color="primary" sx={{marginRight: "5px"}} />{" "}
-            Balance
+            <AccountBalanceIcon color="danger" sx={{marginRight: "5px"}} />{" "}
+            Amount Due
           </Typography>
           <Typography
             sx={{
               fontSize: "24px",
               fontWeight: "700",
-              color: "2d2d2d",
+              color: "red",
+            }}
+          >
+            {" "} 
+            &#8358;{state.xtotal.toFixed(2)}
+          </Typography>
+        </Box>
+        <Box
+          item
+          sx={{
+            width: "calc(100% - 200px)",
+            width: "100%",
+            height: "80px",
+            border: "1px solid #E5E5E5",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: "0 15px",
+          }}
+        >
+          <Typography sx={{display: "flex", alignItems: "center"}}>
+            <AccountBalanceIcon color="primary" sx={{marginRight: "5px"}} />{" "}
+            Hospital Balance
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: "24px",
+              fontWeight: "700",
+              color: "blue",
             }}
           >
             {" "}
@@ -353,7 +381,7 @@ let data = {
             />
           </Grid>
 
-          <Grid item xs={6}>
+        {/*   <Grid item xs={6}>
             <Input
               name="description"
               value={description}
@@ -361,9 +389,9 @@ let data = {
               onChange={async e => await setDescription(e.target.value)}
               label="Payment Details"
             />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={3}>
+          {/* <Grid item xs={3}>
             <CustomSelect
               options={["Cash", "Wallet", "Bank Transfer", "Card", "Cheque"]}
               placeholder="Payment Mode"
@@ -371,7 +399,7 @@ let data = {
               name="paymentmode"
               onChange={e => handleChangeMode(e.target.value)}
             />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Box>
       <Box 
@@ -381,14 +409,13 @@ let data = {
         gap: "5px",
       }}
       >
-          <GlobalCustomButton
+          {/* <GlobalCustomButton
           onClick={handleAccept}
           >
              <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" /> 
              Accept
-          </GlobalCustomButton>
-      <GlobalCustomButton
-       >
+          </GlobalCustomButton>*/}
+      <GlobalCustomButton  >
       <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />        
                Pay with Wallet
              </GlobalCustomButton>

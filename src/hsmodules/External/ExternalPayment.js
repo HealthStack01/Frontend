@@ -56,13 +56,16 @@ export default function ExternalPaymentPage({closeModal, handleGoBack}) {
   const [selectedorders, setSelectedOrders] = useState([]);
   const [selectedfinance, setSelectedFinance] = useState([]);
   const [createModal, setCreateModal] = useState(false);
-
+  const [name, setName] = useState("");
+  const [facility, setFacility] = useState("");
+  const  xbill =useRef([])
+  const  xtotal =useRef(0)
   const {state, setState} = useContext(ObjectContext);
   const {hospitalId,patientId} = useParams();
 
   let medication = state.financeModule.selectedFinance;
 
-  console.log(medication)
+ // console.log(medication)
   const handleHideCreateModal = () => {
     setCreateModal(false);
   };
@@ -257,7 +260,8 @@ export default function ExternalPaymentPage({closeModal, handleGoBack}) {
         },
       },
     });
-    console.log(findWalletBalance)
+   // console.log(findWalletBalance)
+
 
     // //console.log("balance", findProductEntry.data[0].amount)
     if (findWalletBalance.data.length > 0) {
@@ -286,8 +290,7 @@ export default function ExternalPaymentPage({closeModal, handleGoBack}) {
        billing_status: {
          $ne: "Fully Paid",
        }, // need to set this finally
-       //storeId:state.StoreModule.selectedStore._id,
-       //clientId:state.ClientModule.selectedClient._id,
+    
        $limit: 100,
        $sort: {
          createdAt: -1,
@@ -295,59 +298,71 @@ export default function ExternalPaymentPage({closeModal, handleGoBack}) {
      },
    });
 
-   console.log(findBills);
 
-   // //console.log("updatedorder", findBills.groupedOrder)
-   await setExternalPayemt(findBills.groupedOrder);
    setLoading(false);
- 
-   //handlePay(findBills.groupedOrder[0])
-   console.log("groupedorders", findBills.groupedOrder)
+
    findBills?.data?.forEach(el => {
-    el.checked === true
+    el.show = "none"
+  
   })
    const newProductEntryModule = {
     // selectedBills: [],
     selectedFinance: findBills?.data,
     show: "create",
   };
-
-
   await setState(prevstate => ({
     ...prevstate,
     financeModule: newProductEntryModule,
   }));
-  setExternalPayemt(findBills.data)
+  setExternalPayemt(findBills.data )
+  xbill.current=findBills.data
   // medication = externalPayment
-  getTotal();
+  getTotal()
+  setName(findBills.data[0].participantInfo.client.firstname +" "+ findBills.data[0].participantInfo.client.lastname)
+  setFacility(findBills.data[0].orderInfo.orderObj.destination_name)
+ 
   };
-console.log(externalPayment)
+
+
 
   const getTotal = async () => {
+  /*   console.log("xxx",state.financeModule.selectedFinance)
+    console.log("starting total", externalPayment) */
     setTotalamount(0);
-    externalPayment.forEach(el => {
+   xbill.current.forEach(el => {
+  
       if (el.show === "none") {
+      
         if (el.billing_status === "Unpaid") {
           setTotalamount(
             prevtotal => Number(prevtotal) + Number(el.serviceInfo.amount)
           );
-          console.log(el.serviceInfo.amount)
+          xtotal.current=xtotal.current+ Number(el.serviceInfo.amount)
+        /*   console.log(totalamount) */
         } else {
           setTotalamount(
             prevtotal => Number(prevtotal) + Number(el.paymentInfo.balance)
           );
+          xtotal.current=xtotal.current+ Number(el.paymentInfo.balance)
         }
-         console.log(el.paymentInfo.balance)
+      /*    console.log("payment solution", el.paymentInfo.balance) */
       }
       if (el.show === "flex") {
         setTotalamount(prevtotal => Number(prevtotal) + Number(el.partPay));
+        xtotal.current=xtotal.current+  + Number(el.partPay)
       }
-
+     
       //
     });
+    //setbalance(totalamount)
+    await setState(prevstate => ({
+      ...prevstate,
+      total: totalamount,
+      xtotal: xtotal.current
+    }));
+
   };
 
-  console.log(totalamount)
 
   //initialize page
   
@@ -357,7 +372,7 @@ console.log(externalPayment)
     const invoiceNo = short.generate();
     setDocumentNo(invoiceNo);
     getExternalPayment();
-    getTotal()
+    /* getTotal() */
     SubwalletServ.on("created", obj => getExternalPayment());
     SubwalletServ.on("updated", obj => getExternalPayment());
     SubwalletServ.on("patched", obj => getExternalPayment());
@@ -834,10 +849,10 @@ console.log(externalPayment)
           p={2}
           mb={2}
         >
-          <GlobalCustomButton onClick={handleGoBack}>
+          {/* <GlobalCustomButton onClick={handleGoBack}>
             <ArrowBackIcon fontSize="small" sx={{marginRight: "5px"}} />
             Back
-          </GlobalCustomButton>
+          </GlobalCustomButton> */}
 
           <Typography
             sx={{
@@ -845,7 +860,7 @@ console.log(externalPayment)
               color: "2d2d2d",
             }}
           >
-            Pay Bills for{" "}
+            Pay Bills for {name} at {facility}
             <span
               style={{
                 textTransform: "capitalize",
@@ -1008,8 +1023,8 @@ console.log(externalPayment)
                       color: "red",
                     }}
                   >
-                    {" "}
-                    &#8358;{totalamount.toFixed(2)}
+                    {" "}  
+                    &#8358;{state.xtotal?.toFixed(2)}
                   </Typography>
                 </Box>
 
