@@ -278,7 +278,7 @@ export default function PatientProfile() {
                     </Typography>
                  
                     <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
-                    {pay?.paymentmode === "HMO" && <>Plan: {pay?.organizationName} </>}
+                    {pay?.paymentmode === "HMO" && <>Plan: {pay?.plan} </>}
                     </Typography>
                     <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
                     {pay?.paymentmode === "HMO" && <>Client ID: {pay?.clientId} </>}
