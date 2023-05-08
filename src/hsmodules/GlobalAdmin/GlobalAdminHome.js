@@ -3,10 +3,11 @@ import {ObjectContext} from '../../context';
 import {Box, Grid, Card,CardContent,Typography} from "@mui/material";
 import styled from "styled-components";
 import BarChartIcon from '@mui/icons-material/BarChart';
+import FitnessCenter from '@mui/icons-material/RoomService';
 import BusinessIcon from '@mui/icons-material/Business';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-import DescriptionIcon from '@mui/icons-material/Description';
+//import DescriptionIcon from '@mui/icons-material/Description';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { People } from '@mui/icons-material';
 import { Receipt } from '@mui/icons-material';
@@ -32,6 +33,12 @@ const GlobalAdminHome = () => {
    const [invoices, setInvoices] = useState([]);
    const [employees, setEmployees] = useState([]);
     const [clinicaldocument, setClinicaldocument] = useState([]);
+   const [totalAppointments, setTotalAppointments] = useState(0);
+   const [totalDocCreated, setTotalDocCreated] = useState(0);
+   const [totalInvoices, setTotalInvoices] = useState(0);
+   const [totalEmployees, setTotalEmployees] = useState(0);
+   const [totalClinicalDocument, setTotalClinicalDocument] = useState(0);
+   const [totalFacilities, setTotalFacilities] = useState(0);
    const [hospitals, setHospitals] = useState(0);
    const [school, setSchool] = useState(0);
    const [hospitality, setHospitality] = useState(0);
@@ -54,6 +61,10 @@ const GlobalAdminHome = () => {
 
    const [selectedType, setSelectedType] = useState("Hospital");
   const [selectedState, setSelectedState] = useState("Lagos");
+
+  console.log("Facilities", totalFacilities)
+
+  console.log("Facilities", totalFacilities)
 
   const handleTypeChange = (event) => {
     setSelectedType(event.target.value);
@@ -123,6 +134,7 @@ const GlobalAdminHome = () => {
       .find()
       .then(res => {
         hideActionLoader();
+        setTotalFacilities(res.total)
         setHospitals(res.data.filter(hospital => hospital.facilityType === "State HMO").length);
         setMinofhealth(res.data.filter(minofhealth => minofhealth.facilityType === "MInistry of Health").length);
         setStatehmo(res.data.filter(statehmo => statehmo.facilityType === "Hospital").length);
@@ -375,10 +387,10 @@ const GlobalAdminHome = () => {
     <Grid item xs={12} md={3}>
       <StyledCard>
         <StyledCardContent>
-          <DescriptionIcon fontSize="large" color="primary" />
+          <FitnessCenter fontSize="large" color="primary" />
           <div>
-            <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total proposals</StyledTypography>
-            <StyledNumber backgroundColor="#800000">None</StyledNumber>
+            <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Facilities</StyledTypography>
+            <StyledNumber backgroundColor="#800000">{totalFacilities}</StyledNumber>
           </div>
         </StyledCardContent>
       </StyledCard>
