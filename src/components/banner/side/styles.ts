@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const SideBanner = styled.div`
   width: 35%;
   height: 100vh;
-  background: ${({theme}) => theme.primary};
+  background: ${({theme}) => theme.primary };// primary
   display: flex;
   flex-direction: column;
   align-items: center;

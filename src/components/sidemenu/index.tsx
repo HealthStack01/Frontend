@@ -129,7 +129,7 @@ export const menuItems = [
       {name: "Bill Client", to: "/app/radiology/billservice"},
       {name: "Checked-In", to: "/app/radiology/checkedin"},
       {name: "Appointment", to: "/app/radiology/appointments"},
-      {name: "Bill Lab Orders", to: "/app/radiology/radiology-bill"},
+      {name: "Bill Radiology Orders", to: "/app/radiology/radiology-bill"},
       // {name: "Payment", to: "/app/radiology/payment"},
       {name: "Radiology Result", to: "/app/radiology/radiology-result"},
     ],
@@ -165,7 +165,7 @@ export const menuItems = [
     iconClassName: "bi bi-file-medical",
     subMenus: [
       {name: "Bill Client", to: "/app/inventory/billservice"},
-      {name: "Bill Prescription Sent", to: "/app/inventory/billprescription"},
+      {name: "Bill Requisition Sent", to: "/app/inventory/billprescription"},
       // { name: 'Payment', to: '/app/inventory/payment' },
       {name: "Dispensary", to: "/app/inventory/dispensary"},
       {name: "Store Inventory", to: "/app/inventory/storeinventory"},
@@ -352,7 +352,10 @@ export const menuItems = [
     exact: true,
     to: "/app/global-admin",
     iconClassName: "bi bi-speedometer",
-    subMenus: [{name: "Organizations", to: "/app/organizations"}],
+    subMenus: [
+      {name: "Organizations", to: "/app/global-admin/organizations"},
+      {name: "Facility Transactions", to: "/app/global-admin/transactions"},
+    ],
   },
   {
     name: "Market Place",

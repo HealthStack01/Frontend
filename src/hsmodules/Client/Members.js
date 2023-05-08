@@ -21,6 +21,8 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuidv4 } from "uuid";
 import short from "short-uuid";
+import {FormsHeaderText} from "../../components/texts";
+import {Nigeria} from "../app/Nigeria";
 
 import dayjs from "dayjs";
 
@@ -29,7 +31,7 @@ import Button from "../../components/buttons/Button";
 import { PageWrapper } from "../../ui/styled/styles";
 import { TableMenu } from "../../ui/styled/global";
 import { ClientMiniSchema } from "./schema";
-import { useForm } from "react-hook-form";
+import { useForm, } from "react-hook-form";
 import {
   BottomWrapper,
   DetailsWrapper,
@@ -75,7 +77,7 @@ import { ClientIdCard } from "./ClientIdCard";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Client() {
+export default function Member() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
@@ -114,7 +116,7 @@ export default function Client() {
           <ModalBox
             open={createModal}
             onClose={() => setCreateModal(false)}
-            header="Create a New Client/Patient"
+            header="Create a New Member"
           >
             <ClientForm closeModal={() => setCreateModal(false)} />
           </ModalBox>
@@ -122,7 +124,7 @@ export default function Client() {
           <ModalBox
             open={detailModal}
             onClose={() => setDetailModal(false)}
-            header="Client Detail"
+            header="Member Detail"
           >
             <ClientDetail
               closeModal={() => setDetailModal(false)}
@@ -150,7 +152,7 @@ export function ClientCreate({ open, setOpen }) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [facility, setFacility] = useState();
-  const ClientServ = client.service("client");
+  const ClientServ = client.service("members");
   const mpiServ = client.service("mpi");
   // const { user } = useContext(UserContext);
 
@@ -173,7 +175,7 @@ export function ClientCreate({ open, setOpen }) {
     ClientServ.create(data)
       .then((res) => {
         toast({
-          message: "Client created succesfully",
+          message: "Member created succesfully",
           type: "is-success",
           dismissible: true,
           pauseOnHover: true,
@@ -185,7 +187,7 @@ export function ClientCreate({ open, setOpen }) {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
         toast({
-          message: "Error creating Client, probable network issues or " + err,
+          message: "Error creating Member, probable network issues or " + err,
           type: "is-danger",
           dismissible: true,
           pauseOnHover: true,
@@ -352,7 +354,7 @@ export function ClientCreate({ open, setOpen }) {
 
   const dupl = (client) => {
     toast({
-      message: "Client previously registered in this facility",
+      message: "Member previously registered in this church", //check if it is in this facility or another
       type: "is-danger",
       dismissible: true,
       pauseOnHover: true,
@@ -380,7 +382,7 @@ export function ClientCreate({ open, setOpen }) {
         .create(newPat)
         .then((resp) => {
           toast({
-            message: "Client created succesfully",
+            message: "Member created succesfully",
             type: "is-success",
             dismissible: true,
             pauseOnHover: true,
@@ -388,7 +390,7 @@ export function ClientCreate({ open, setOpen }) {
         })
         .catch((err) => {
           toast({
-            message: "Error creating Client " + err,
+            message: "Error creating Member " + err,
             type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
@@ -438,7 +440,7 @@ export function ClientCreate({ open, setOpen }) {
     }
 
     let confirm = window.confirm(
-      `You are about to register a new patient ${data.firstname}  ${data.middlename} ${data.lastname} ?`
+      `You are about to register a new Member ${data.firstname}  ${data.middlename} ${data.lastname} ?`
     );
     if (confirm) {
       data.dob = date;
@@ -450,7 +452,7 @@ export function ClientCreate({ open, setOpen }) {
           setSuccess(true);
           setLoading(false);
           toast({
-            message: "Client created succesfully",
+            message: "Member created succesfully",
             type: "is-success",
             dismissible: true,
             pauseOnHover: true,
@@ -462,7 +464,7 @@ export function ClientCreate({ open, setOpen }) {
         })
         .catch((err) => {
           toast({
-            message: "Error creating Client " + err,
+            message: "Error creating member " + err,
             type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
@@ -570,7 +572,7 @@ export function ClientCreate({ open, setOpen }) {
             <div className="modal-card modalbkgrnd z10">
               <header className="modal-card-head selectadd">
                 <p className="modal-card-title redu">
-                  Similar Client Already Exist?
+                  Similar Member Already Exist?
                 </p>
                 <button
                   className="delete"
@@ -580,7 +582,7 @@ export function ClientCreate({ open, setOpen }) {
               </header>
               <section className="modal-card-body">
                 <CustomTable
-                  title="Clients"
+                  title="Members"
                   columns={ClientRegisteredSchema}
                   data={users}
                 />
@@ -591,7 +593,7 @@ export function ClientCreate({ open, setOpen }) {
       </Portal>
       <div className="card ">
         <div className="card-header">
-          <p className="card-header-title">Create Client</p>
+          <p className="card-header-title">Create Member</p>
         </div>
         <div className="card-content vscrollable remPad1">
           {/*  <p className=" is-small">
@@ -611,7 +613,7 @@ export function ClientList({ openCreateModal, openDetailModal }) {
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
   const [message, setMessage] = useState("");
-  const ClientServ = client.service("client");
+  const ClientServ = client.service("members");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -634,6 +636,7 @@ export function ClientList({ openCreateModal, openDetailModal }) {
   const [total, setTotal] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
   const [open, setOpen] = useState(false);
+
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedClient: {},
@@ -734,12 +737,12 @@ export function ClientList({ openCreateModal, openDetailModal }) {
       .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(" Client  fetched successfully");
+        setMessage(" Members  fetched successfully");
         setSuccess(true);
       })
       .catch((err) => {
         console.log(err);
-        setMessage("Error fetching Client, probable network issues " + err);
+        setMessage("Error fetching Members, probable network issues " + err);
         setError(true);
       });
   };
@@ -749,7 +752,7 @@ export function ClientList({ openCreateModal, openDetailModal }) {
     if (user.currentEmployee) {
       const findClient = await ClientServ.find({
         query: {
-          "relatedfacilities.facility": user.currentEmployee.facilityDetail._id,
+          facility: user.currentEmployee.facilityDetail._id,
           $limit: limit,
           $skip: page * limit,
           $sort: {
@@ -908,7 +911,7 @@ export function ClientList({ openCreateModal, openDetailModal }) {
                 )}
 
                 <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
-                  List of Clients
+                  List of Members
                 </h2>
 
                 <Box>
@@ -944,7 +947,7 @@ export function ClientList({ openCreateModal, openDetailModal }) {
               </Box>
               <GlobalCustomButton onClick={handleCreateNew}>
                 <PersonAddIcon fontSize="small" sx={{ marginRight: "5px" }} />
-                Create New Client
+                Add New Member
               </GlobalCustomButton>
             </TableMenu>
 
@@ -999,11 +1002,11 @@ export function ClientDetail({ closeDetailModal }) {
 
   const [editClient, setEditClient] = useState(false);
 
-  const ClientServ = client.service("client");
+  const ClientServ = client.service("members");
 
   const [success, setSuccess] = useState(false);
 
-  const { register, handleSubmit, setValue, reset, control } = useForm();
+  const { register, handleSubmit, setValue, reset, control,watch } = useForm();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [imageUploadModal, setImageUploadModal] = useState(false);
@@ -1013,6 +1016,20 @@ export function ClientDetail({ closeDetailModal }) {
 
   console.log("client", Client);
 
+  const [selectedState, setSelectedState] = useState(null);
+
+  const states = Nigeria.map(obj => obj.state);
+
+  //alphabetically arrange state
+  const sortedStates = states.sort((a, b) => a.localeCompare(b));
+
+  const watchedState = watch("state");
+
+  useEffect(() => {
+    setSelectedState(Nigeria.find(item => item.state === watchedState));
+    setValue("facilityCity", "");
+    setValue("facilityLGA", "");
+  }, [watchedState]);
   // eslint-disable-next-line
 
   const handleCloseOptions = () => {
@@ -1072,6 +1089,14 @@ export function ClientDetail({ closeDetailModal }) {
       shouldValidate: true,
       shouldDirty: true,
     });
+    setValue("phone2", Client.phone2, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("whatsapp", Client.whatsapp, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
     setValue("email", Client.email, {
       shouldValidate: true,
       shouldDirty: true,
@@ -1088,7 +1113,7 @@ export function ClientDetail({ closeDetailModal }) {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("address", Client.address, {
+    setValue("residentialAddress", Client.residentialAddress, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -1104,19 +1129,19 @@ export function ClientDetail({ closeDetailModal }) {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("nok_name", Client.nok_name, {
+    setValue("emergencyContactname", Client. emergencyContactname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("nok_email", Client.nok_email, {
+    setValue("emergencyContactemail", Client. emergencyContactemail, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("nok_relationship", Client.nok_relationship, {
+    setValue("emergencyContactRelationship", Client. emergencyContactRelationship, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("nok_phoneno", Client.nok_phoneno, {
+    setValue("emergencyContactphone", Client. emergencyContactphone, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -1124,18 +1149,39 @@ export function ClientDetail({ closeDetailModal }) {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("bloodgroup", Client.bloodgroup, {
+    setValue("stateOrigin", Client.stateOrigin, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("genotype", Client.genotype, {
+    setValue("langSpeak", Client.langSpeak, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("disabilities", Client.disabilities, {
+    setValue("langWrite", Client.langWrite, {
       shouldValidate: true,
       shouldDirty: true,
     });
+    setValue("langRead", Client.langRead, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("employementStatus", Client.employementStatus, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("permanentAddress", Client.permanentAddress, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("department", Client.department, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("currentSundaySchool", Client.currentSundaySchool, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+
     setValue("specificDetails", Client.specificDetails, {
       shouldValidate: true,
       shouldDirty: true,
@@ -1156,11 +1202,11 @@ export function ClientDetail({ closeDetailModal }) {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("comorbidities", Client.comorbidities, {
+    setValue("doingforGod", Client.doingforGod, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("allergies", Client.allergies, {
+    setValue("nameSundayScholTeacher", Client.nameSundayScholTeacher, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -1307,6 +1353,7 @@ export function ClientDetail({ closeDetailModal }) {
     setUpdatingClient(true);
 
     setSuccess(false);
+    console.log(data)
 
     ClientServ.patch(Client._id, data)
       .then((res) => {
@@ -1327,6 +1374,9 @@ export function ClientDetail({ closeDetailModal }) {
   const handleGenegrateIdCard = () => {
     setGenerateIdCardModal(true);
   };
+  const checkClient = ()=>{
+
+  }
 
   return (
     <>
@@ -1374,7 +1424,8 @@ export function ClientDetail({ closeDetailModal }) {
             </ModalBox>
           </>
         )}
-        {Client.active ? (
+        
+       {/*  {!Client.active ? ( */}
           <Box
             sx={{
               width: "100%",
@@ -1419,7 +1470,7 @@ export function ClientDetail({ closeDetailModal }) {
                   color="success"
                 />
               )}
-              {(user.currentEmployee?.roles.includes("Client Bill Client") ||
+            {/*   {(user.currentEmployee?.roles.includes("Client Bill Client") ||
                 user.currentEmployee?.roles.length === 0 ||
                 user.stacker) && (
                 <GlobalCustomButton
@@ -1430,26 +1481,26 @@ export function ClientDetail({ closeDetailModal }) {
                   }}
                   color="info"
                 />
-              )}
+              )} */}
 
-              <GlobalCustomButton
+            {/*   <GlobalCustomButton
                 sx={{
                   marginRight: "5px",
                 }}
                 onClick={handleCreateWallet}
               >
                 Create Wallet
-              </GlobalCustomButton>
+              </GlobalCustomButton> */}
 
-              <GlobalCustomButton
+            {/*   <GlobalCustomButton
                 text="Payment Information"
                 onClick={handleFinancialInfo}
                 customStyles={{
                   marginRight: "5px",
                 }}
                 color="secondary"
-              />
-              <GlobalCustomButton
+              /> */}
+             {/*  <GlobalCustomButton
                 text="Schedule Appointment"
                 onClick={handleSchedule}
                 sx={{
@@ -1460,8 +1511,8 @@ export function ClientDetail({ closeDetailModal }) {
                     backgroundColor: "#ee9b00",
                   },
                 }}
-              />
-              <GlobalCustomButton
+              /> */}
+             {/*  <GlobalCustomButton
                 text="Attend to Client"
                 onClick={() => {
                   navigate("/app/general/documentation");
@@ -1470,7 +1521,7 @@ export function ClientDetail({ closeDetailModal }) {
                   marginRight: "5px",
                 }}
                 color="success"
-              />
+              /> */}
               <GlobalCustomButton
                 text="  Generate Id-Card"
                 onClick={handleGenegrateIdCard}
@@ -1481,341 +1532,342 @@ export function ClientDetail({ closeDetailModal }) {
               />
             </Box>
           </Box>
-        ) : (
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "right",
-            }}
-            mb={2}
-          >
-            <GlobalCustomButton
-              color="success"
-              onClick={() => setReactivateConfirm(true)}
-            >
-              Re-Activate Client
-            </GlobalCustomButton>
-          </Box>
-        )}
+       
 
         <Box>
           <form>
-            <Grid container spacing={1}>
-              {(Client.firstname || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
-                  <Input
-                    register={register("firstname")}
-                    label="First Name"
-                    important
-                    //defaultValue={Client.firstname}
-                    disabled={!editClient}
-                  />
-                </Grid>
-              )}
-              {(Client.middlename || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
-                  <Input
-                    register={register("middlename")}
-                    label="Middle Name"
-                    //defaultValue={Client.middlename}
-                    disabled={!editClient}
-                  />
-                </Grid>
-              )}
+          <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                      <FormsHeaderText text="Member Names" />
+                    </Grid>
+                     {(Client.firstname || editClient) && (  <Grid item lg={4} md={4} sm={4}>
+                      <Input
+                        label="First Name"
+                        register={register("firstname")}
+                        important={true}
+                      disabled={!editClient}   />
+                    </Grid>)}
+                     {(Client.middlename || editClient) && (  <Grid item lg={4} md={4} sm={4}>
+                      <Input
+                        label="Middle Name"
+                        register={register("middlename")}
+  
+                      disabled={!editClient}   />
+                    </Grid>)}
+                     {(Client.lastname || editClient) && (  <Grid item lg={4} md={4} sm={4}>
+                      <Input
+                        label="Last Name"
+                        register={register("lastname")}                    
+                        important={true}
+                      disabled={!editClient}   />
+                    </Grid>)}
+                  </Grid>
 
-              {(Client.lastname || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
-                  <Input
-                    label="Last Name"
-                    important
-                    //defaultValue={Client.lastname}
-                    register={register("lastname")}
-                    disabled={!editClient}
-                  />
-                </Grid>
-              )}
+                  {/* ////////////// */}
+                  <Grid container spacing={1}>
+                      <Grid item xs={12}>
+                      <FormsHeaderText text="Member Biodata" disabled={!editClient}   />
+                    </Grid>
+                     {(Client.dob || editClient) && (  <Grid item lg={2} md={4} sm={6}>
+                      <MuiCustomDatePicker
+                        control={control}
+                        label="Date of Birth"
+                        name="dob"
+                       /*  important={true} */
+                      disabled={!editClient}   />
+                    </Grid>)}
 
-              {(Client.dob || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
-                  <MuiCustomDatePicker
-                    control={control}
-                    label="Date of Birth"
-                    name="dob"
-                    disabled={!editClient}
-                  />
-                </Grid>
-              )}
+                     {(Client.gender || editClient) && (  <Grid item lg={2} md={4} sm={6}>
+                      { editClient?( <CustomSelect
+                        label="Gender"
+                       /*  control={control} */
+                        register={register("gender")} 
+                      /*   onBlur={checkClient} */
+                        options={[
+                          {label: "Male", value: "male"},
+                          {label: "Female", value: "female"},
+                        ]}
+                      disabled={!editClient}   />):
+                      ( <Input
+                        label="Gender"
+                        register={register("gender")}
+                      disabled={!editClient}   />)}
 
-              {(Client.gender || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
-                  <CustomSelect
-                    label="Gender"
-                    name="gender"
-                    control={control}
-                    options={[
-                      { label: "Male", value: "male" },
-                      { label: "Female", value: "female" },
-                    ]}
-                    disabled={!editClient}
-                    //errorText={errors?.gender?.message}
-                  />
-                </Grid>
-              )}
+                    </Grid>)}
 
-              {(Client.maritalstatus || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
-                  <CustomSelect
-                    label="Marital Status"
-                    name="maritalstatus"
-                    control={control}
-                    options={[
-                      { label: "Single", value: "Single" },
-                      { label: "Married", value: "Married" },
-                      { label: "Widowed", value: "Widowed" },
-                      {
-                        label: "Divorced/Seperated",
-                        value: "Divorced/Seperated",
-                      },
-                    ]}
-                    disable={!editClient}
-                    //errorText={errors?.gender?.message}
-                  />
-                </Grid>
-              )}
+                     {(Client.phone || editClient) && (  <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Phone No"
+                        register={register("phone")}
+                      disabled={!editClient}   />
+                    </Grid>)}
+                     {(Client.phone2 || editClient) && (  <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Alternative Phone No"
+                        register={register("phone2")}
+                       
+                     
+                      disabled={!editClient}   />
+                    </Grid>)}
+                     {(Client.whatsapp || editClient) && (  <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Whatsapp No"
+                        register={register("whatsapp")}
+                       
+                      
+                      disabled={!editClient}   />
+                    </Grid>)}
+                     {(Client.email || editClient) && (  <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Email"
+                        register={register("email")}
+                       /*  errorText={errors?.email?.message} */
+                       /*  onBlur={checkClient} */
+                        //important={true}
+                      disabled={!editClient}   />
+                    </Grid>)}
 
-              {(Client.mrn || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
-                  <Input
-                    label="Medical Record Number"
-                    //defaultValue={Client.mrn}
-                    register={register("mrn")}
-                    disabled={!editClient}
-                  />
-                </Grid>
-              )}
+                     {(Client.maritalstatus || editClient) && (  <Grid item lg={2} md={4} sm={6}>
+                      { editClient? (<CustomSelect
+                        label="Marital Status"
+                        /* control={control} */
+                        register={register("maritalstatus")} 
+                        options={[
+                          {label: "Never married", value: "Never married"},
+                          {label: "Married", value: "Married"},
+                          {label: "Widowed", value: "Widowed"},
+                          {
+                            label: "Divorced",
+                            value: "Divorced",
+                          },
+                          {
+                            label: "Seperated",
+                            value: "Seperated",
+                          },
+                          {label: "Co-habiting", value: "Co-habiting"},
+                        ]}
+                      disabled={!editClient}   />):
+                         (<Input
+                        label="Marital Status"
+                        register={register("maritalstatus")}
+                      disabled={!editClient}   />)}
+                    </Grid>)}
 
-              {(Client.religion || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
-                  <Input
-                    label="Religion"
-                    //defaultValue={Client.religion}
-                    register={register("religion")}
-                    disabled={!editClient}
-                  />
-                </Grid>
-              )}
+                     {(Client.mrn || editClient) && (  <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Membership Number"
+                        register={register("mrn")}
+                      disabled={!editClient}   />
+                    </Grid>)}
 
-              {(Client.profession || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
-                  <Input
-                    label="Profession"
-                    //defaultValue={Client.profession}
-                    disabled={!editClient}
-                    register={register("profession")}
-                  />
-                </Grid>
-              )}
+                
 
-              {(Client.phone || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
-                  <Input
-                    label="Phone Number"
-                    //defaultValue={Client.phone}
-                    disabled={!editClient}
-                    register={register("phone")}
-                  />
-                </Grid>
-              )}
+                     {(Client.profession || editClient) && (  <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Profession"
+                        register={register("profession")}
+                      disabled={!editClient}   />
+                    </Grid>)}
+                     {(Client.employementStatus || editClient) && (  <Grid item lg={2} md={4} sm={6}>
+                     { editClient?(  <CustomSelect
+                        label="Employement Status"
+                        /* control={control} */
+                       register={register("employementStatus")}
+                        options={[
+                          {label: "Government Employed", value: "Government employed"},
+                          {label: "Private Sector Employed", value: "Private Sector Employed"},
+                          {label: "Self Employed", value: "Self Employed"},
+                          {
+                            label: "Businessman",
+                            value: "Businessman",
+                          },
+                          {
+                            label: "Student",
+                            value: "Student",
+                          },
+                          {
+                            label: "Applicant",
+                            value: "Applicant",
+                          },
+                          {label: "Not Employed", value: "Not Employed"},
+                        ]}
+                      disabled={!editClient}   />)
+                         :(<Input
+                        label="Employment Status"
+                        register={register("employementStatus")}
+                      disabled={!editClient}   />)}
+                    </Grid>)}
+                  
+                     {(Client.langSpeak || editClient) && (  <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Language(s): Can Speak"
+                        register={register("langSpeak")}
+                      disabled={!editClient}   />
+                    </Grid>)}
+                     {(Client.langWrite || editClient) && (  <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Language(s): Can Write"
+                        register={register("langWrite")}
+                      disabled={!editClient}   />
+                    </Grid>)}
+                     {(Client.langRead || editClient) && (  <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Language(s): Can Read"
+                        register={register("langRead")}
+                      disabled={!editClient}   />
+                    </Grid>)}
 
-              {(Client.email || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
-                  <Input
-                    label="Email Address"
-                    //defaultValue={Client.email}
-                    disabled={!editClient}
-                    register={register("email")}
-                  />
-                </Grid>
-              )}
+                     {(Client.clientTags || editClient) && (  <Grid item lg={6} md={6} sm={12}>
+                      <Input label="Tags" register={register("clientTags")} disabled={!editClient}   />
+                    </Grid>)}
 
-              {(Client.address || editClient) && (
-                <Grid item lg={6} xs={8} sm={12}>
-                  <Input
-                    label="Residential Address"
-                    //defaultValue={Client.address}
-                    disabled={!editClient}
-                    register={register("address")}
-                  />
-                </Grid>
-              )}
+                 
+                  </Grid>
 
-              {(Client.city || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
-                  <Input
-                    label="Town/City"
-                    //defaultValue={Client.city}
-                    disabled={!editClient}
-                    register={register("city")}
-                  />
-                </Grid>
-              )}
+                  
+                  <Grid container spacing={1}>
+                     <Grid item xs={12}>
+                      <FormsHeaderText text="Member's Address" disabled={!editClient}   />
+                    </Grid>
 
-              {(Client.lga || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
-                  <Input
-                    label="Local Govt Area"
-                    //defaultValue={Client.lga}
-                    disabled={!editClient}
-                    register={register("lga")}
-                  />
-                </Grid>
-              )}
+                     {(Client.country || editClient) && (  <Grid item lg={3} md={4} sm={6}>
+                      <CustomSelect
+                        label="Country"
+                        control={control}
+                        name="country"
+                        //errorText={errors?.facilityCountry?.message}
+                        options={["Nigeria"]}
+                      disabled={!editClient}   />
+                    </Grid>)}
 
-              {(Client.state || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
-                  <Input
-                    label="State"
-                    //defaultValue={Client.state}
-                    disabled={!editClient}
-                    register={register("state")}
-                  />
-                </Grid>
-              )}
+                   
 
-              {(Client.country || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
-                  <Input
-                    label="Country"
-                    //defaultValue={Client.country}
-                    register={register("country")}
-                    disabled={!editClient}
-                  />
-                </Grid>
-              )}
+                     {(Client.state || editClient) && (  <Grid item lg={3} md={4} sm={6}>
+                      <CustomSelect
+                        label="State"
+                        control={control}
+                        name="state"
+                        //errorText={errors?.facilityState?.message}
+                        options={sortedStates}
+                      disabled={!editClient}   />
+                    </Grid>)}
+                     {(Client.lga || editClient) && (  <Grid item lg={3} md={4} sm={6}>
+                      <CustomSelect
+                        label="LGA"
+                        control={control}
+                        name="lga"
+                        //errorText={errors?.facilityLGA?.message}
+                        options={
+                          selectedState
+                            ? selectedState.lgas.sort((a, b) =>
+                                a.localeCompare(b)
+                              )
+                            : []
+                        }
+                      disabled={!editClient}   />
+                    </Grid>)}
 
-              {(Client.bloodgroup || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
-                  <Input
-                    label="Blood Group"
-                    //defaultValue={Client.bloodgroup}
-                    register={register("bloodgroup")}
-                    disabled={!editClient}
-                  />
-                </Grid>
-              )}
+                     {(Client.city || editClient) && (  <Grid item lg={3} md={4} sm={6}>
+                      <Input
+                        label="Town/City"
+                        register={register("city")}
+                      disabled={!editClient}   />
+                    </Grid>)}
+                    
+                  
 
-              {(Client.genotype || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
-                  <Input
-                    label="Genotype"
-                    //defaultValue={Client.genotype}
-                    register={register("genotype")}
-                    disabled={!editClient}
-                  />
-                </Grid>
-              )}
+                   
+                     {(Client.residentialAddress || editClient) && (  <Grid item lg={6} md={6} sm={12}>
+                      <Input
+                        label="Residential Address"
+                        register={register("residentialAddress")}
+                      disabled={!editClient}   />
+                    </Grid>)}
+                     {(Client.mrn || editClient) && (  <Grid item lg={6} md={6} sm={12}>
+                      <Input
+                        label="Permanent Address"
+                        register={register("permanentAddress")}
+                      disabled={!editClient}   />
+                    </Grid>)}
+                     {(Client.stateOrigin || editClient) && (  <Grid item lg={3} md={4} sm={6}>
+                      <CustomSelect
+                        label="State of Origin"
+                        control={control}
+                        name="stateOrigin"
+                        //errorText={errors?.facilityState?.message}
+                        options={sortedStates}
+                      disabled={!editClient}   />
+                    </Grid>)}
 
-              {(Client.disabilities || editClient) && (
-                <Grid item lg={4} md={6} sm={12}>
-                  <Input
-                    label="Disabilities"
-                    //defaultValue={Client.disabilities}
-                    disabled={!editClient}
-                    register={register("disabilities")}
-                  />
-                </Grid>
-              )}
+                  </Grid>
 
-              {(Client.allergies || editClient) && (
-                <Grid item lg={4} md={6} sm={12}>
-                  <Input
-                    label="Allergies"
-                    //defaultValue={Client.allergies}
-                    disabled={!editClient}
-                    register={register("allergies")}
-                  />
-                </Grid>
-              )}
+                    <Grid container spacing={1}>
+                       <Grid item xs={12}>
+                      <FormsHeaderText text="Membership Info" disabled={!editClient}   />
+                    </Grid>
+                     {(Client.department|| editClient) && (  <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Department"
+                        register={register("department")}
+                      disabled={!editClient}   />
+                    </Grid>)}
+                     {(Client.currentSundaySchool || editClient) && (  <Grid item lg={6} md={6} sm={6}>
+                      <Input label="Sunday School Class" register={register("currentSundaySchool")} disabled={!editClient}   />
+                    </Grid>)}
+                     {(Client.nameSundayScholTeacher || editClient) && (  <Grid item lg={4} md={6} sm={6}>
+                      <Input label="Sunday School Teacher" register={register("nameSundayScholTeacher")} disabled={!editClient}   />
+                    </Grid>)}
 
-              {(Client.comorbidities || editClient) && (
-                <Grid item lg={4} md={6} sm={12}>
-                  <Input
-                    label="Co-mobidities"
-                    //defaultValue={Client.comorbidities}
-                    disabled={!editClient}
-                    register={register("comorbidities")}
-                  />
-                </Grid>
-              )}
+                     {(Client.doingforGod || editClient) && (  <Grid item lg={8} md={6} sm={6}>
+                      <Input
+                        label="What you like doing for God"
+                        register={register("doingforGod")}
+                      disabled={!editClient}   />
+                    </Grid>)}
 
-              {(Client.clientTags || editClient) && (
-                <Grid item lg={4} md={6} sm={12}>
-                  <Input
-                    label="Tags"
-                    //defaultValue={Client.clientTags}
-                    disabled={!editClient}
-                    register={register("clientTags")}
-                  />
-                </Grid>
-              )}
+                  
 
-              {(Client.specificDetails || editClient) && (
-                <Grid item lg={4} md={6} sm={12}>
-                  <Input
-                    label="Specific Details about Client"
-                    //defaultValue={Client.specificDetails}
-                    disabled={!editClient}
-                    register={register("specificDetails")}
-                  />
-                </Grid>
-              )}
 
-              {(Client.nok_name || editClient) && (
-                <Grid item lg={4} md={6} sm={12}>
-                  <Input
-                    label="Next of Kin Fullname"
-                    //defaultValue={Client.nok_name}
-                    disabled={!editClient}
-                    register={register("nok_name")}
-                  />
-                </Grid>
-              )}
+                     {(Client.specificDetails || editClient) && (  <Grid item lg={12} md={4} sm={6}>
+                      <Input
+                        label="Specific Details "
+                        register={register("specificDetails")}
+                      disabled={!editClient}   />
+                    </Grid>)}
+                  </Grid>
 
-              {(Client.nok_phoneno || editClient) && (
-                <Grid item lg={4} md={6} sm={12}>
-                  <Input
-                    label="Next of Kin Phone Number"
-                    //defaultValue={Client.nok_phoneno}
-                    disabled={!editClient}
-                    register={register("nok_phoneno")}
-                  />
-                </Grid>
-              )}
-
-              {(Client.nok_relationship || editClient) && (
-                <Grid item lg={4} md={6} sm={12}>
-                  <Input
-                    label="Next of Kin Relationship"
-                    //defaultValue={Client.nok_relationship}
-                    disabled={!editClient}
-                    register={register("nok_relationship")}
-                  />
-                </Grid>
-              )}
-
-              {(Client.nok_email || editClient) && (
-                <Grid item lg={4} md={6} sm={12}>
-                  <Input
-                    label="Next of Kin Email Address"
-                    //defaultValue={Client.nok_email}
-                    disabled={!editClient}
-                    register={register("nok_email")}
-                  />
-                </Grid>
-              )}
+			<Grid container spacing={1}>
+                    <Grid item xs={12}>
+                      <FormsHeaderText text="Contact in Case of Emergency" disabled={!editClient}   />
+                    </Grid>
+                     {(Client.emergencyContactname || editClient) && (  <Grid item lg={6} md={6} sm={12}>
+                      <Input
+                        label="Full Name"
+                        register={register("emergencyContactname")}
+                      disabled={!editClient}   />
+                    </Grid>)}
+                     {(Client.emergencyContactphone || editClient) && (  <Grid item lg={3} md={4} sm={6}>
+                      <Input
+                        label="Phone Number"
+                        register={register("emergencyContactphone")}
+                      disabled={!editClient}   />
+                    </Grid>)}
+                     {(Client.emergencyContactemail || editClient) && (  <Grid item lg={3} md={4} sm={6}>
+                      <Input
+                        label=" Email"
+                        register={register("emergencyContactemail")}
+                        type="email"
+                      disabled={!editClient}   />
+                    </Grid>)}
+                     {(Client.emergencyContactRelationship || editClient) && (  <Grid item lg={4} md={4} sm={6}>
+                      <Input
+                        label="Relationship"
+                        register={register("emergencyContactRelationship")}
+                      disabled={!editClient}   />
+                    </Grid>)}
+                 
             </Grid>
+
           </form>
         </Box>
 
@@ -1830,7 +1882,7 @@ export function ClientDetail({ closeDetailModal }) {
             gap={1}
           >
             <GlobalCustomButton
-              text="Update Client"
+              text="Update Member"
               onClick={handleSubmit(onSubmit)}
               loading={updatingClient}
               customStyles={{
@@ -1839,7 +1891,7 @@ export function ClientDetail({ closeDetailModal }) {
               color="secondary"
             />
 
-            {Client.active ? (
+          {/*   {Client.active ? (
               <GlobalCustomButton
                 color="error"
                 onClick={() => setConfirmDialog(true)}
@@ -1853,7 +1905,7 @@ export function ClientDetail({ closeDetailModal }) {
               >
                 Re-Activate Client
               </GlobalCustomButton>
-            )}
+            )} */}
 
             <GlobalCustomButton
               text="Cancel"
@@ -1934,7 +1986,7 @@ const UploadComponent = ({}) => {
 };
 
 export const UpdateClientPassport = ({ closeModal, selectedClient }) => {
-  const ClientServ = client.service("client");
+  const ClientServ = client.service("members");
   const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
   const { user, setUser } = useContext(UserContext);

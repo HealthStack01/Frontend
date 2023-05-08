@@ -62,7 +62,7 @@ export const modulesList = [
       },
     ],
   },
-
+ 
   {
     value: "Clinic",
     label: "Clinic",
