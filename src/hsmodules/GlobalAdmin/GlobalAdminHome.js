@@ -50,7 +50,10 @@ const GlobalAdminHome = () => {
    const [totalEmployees, setTotalEmployees] = useState(0);
    const [totalClinicalDocument, setTotalClinicalDocument] = useState(0);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
    const [totalFacilities, setTotalFacilities] = useState(0);
    const [hospitals, setHospitals] = useState(0);
    const [school, setSchool] = useState(0);
@@ -78,6 +81,10 @@ const GlobalAdminHome = () => {
   const [selectedState, setSelectedState] = useState("Ibadan");
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+  console.log("Facilities", totalFacilities)
+>>>>>>> Stashed changes
 =======
   console.log("Facilities", totalFacilities)
 >>>>>>> Stashed changes
@@ -164,6 +171,7 @@ const GlobalAdminHome = () => {
       .then(res => {
         hideActionLoader();
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         const facilitiesCounts = {
           hospitals: res.data.filter(hospital => hospital.facilityType === "State HMO").length,
           minofhealth: res.data.filter(minofhealth => minofhealth.facilityType === "MInistry of Health").length,
@@ -183,6 +191,8 @@ const GlobalAdminHome = () => {
     
         }));
 =======
+=======
+>>>>>>> Stashed changes
         setTotalFacilities(res.total)
         setHospitals(res.data.filter(hospital => hospital.facilityType === "State HMO").length);
         setMinofhealth(res.data.filter(minofhealth => minofhealth.facilityType === "MInistry of Health").length);
@@ -413,7 +423,11 @@ const GlobalAdminHome = () => {
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Facilities</StyledTypography>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             {/* <StyledNumber backgroundColor="#800000">{totalFacilities}</StyledNumber> */}
+=======
+            <StyledNumber backgroundColor="#800000">{totalFacilities}</StyledNumber>
+>>>>>>> Stashed changes
 =======
             <StyledNumber backgroundColor="#800000">{totalFacilities}</StyledNumber>
 >>>>>>> Stashed changes
