@@ -231,7 +231,7 @@ export function OrgFacilitySearch({getSearchfacility, clear}) {
   const [selectedFacility, setSelectedFacility] = useState([]);
 
   const handleRow = async obj => {
-    await setChosen(true);
+    setChosen(true);
     // getSearchfacility(obj);
     await setSimpa(obj?.facilityName + "," + obj?.facilityCity);
     setShowPanel(false);
@@ -267,10 +267,9 @@ export function OrgFacilitySearch({getSearchfacility, clear}) {
     if (value === "") {
       setShowPanel(false);
       getSearchfacility([]);
-      await setFacilities([]);
+      setFacilities([]);
       return;
     }
-    const field = "facilityName"; //field variable
 
     if (value.length >= 3) {
       //productServ.  orgServ facility:user.currentEmployee.facilityDetail._id,
@@ -306,7 +305,7 @@ export function OrgFacilitySearch({getSearchfacility, clear}) {
       // console.log("less than 3 ")
       //console.log(val)
       setShowPanel(false);
-      await setFacilities([]);
+     setFacilities([]);
       //console.log(facilities)
     }
   };
