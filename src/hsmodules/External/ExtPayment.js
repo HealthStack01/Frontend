@@ -15,11 +15,10 @@ import ModalBox from "../../components/modal";
 import "react-datepicker/dist/react-datepicker.css";
 import {Box, Typography} from "@mui/material";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
-import PaymentCreatePage from "./PaymentCreatePage";
+import ExternalPayment from "./ExternalPayment";
 import {FormsHeaderText} from "../../components/texts";
 import {ReceiptOutlined} from "@mui/icons-material";
 import PaymentInvoice from "./PaymentInvoice";
-
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -28,7 +27,7 @@ import PaymentInvoice from "./PaymentInvoice";
 
 //import BillPrescriptionCreate from './BillPrescriptionCreate';
 
-export default function FinancePayment() {
+export default function ExtPayment() {
   //const {state}=useContext(ObjectContext) //,setState
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState();
@@ -49,7 +48,7 @@ export default function FinancePayment() {
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
   const [openModal, setOpenModal] = useState(false);
-  const [currentScreen, setCurrentScreen] = useState("lists");
+  const [currentScreen, setCurrentScreen] = useState("create");
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -61,15 +60,15 @@ export default function FinancePayment() {
 
   return (
     <section className="section remPadTop">
-      {currentScreen === "lists" && (
+    {/*   {currentScreen === "lists" && (
         <BillingList
           openModal={handleOpenModal}
           showCreateScreen={() => setCurrentScreen("create")}
         />
-      )}
+      )} */}
 
       {currentScreen === "create" && (
-        <PaymentCreatePage handleGoBack={() => setCurrentScreen("lists")} />
+        <ExternalPayment /* handleGoBack={() => setCurrentScreen("lists")} */ />
       )}
 
       <ModalBox open={openModal} onClose={handleCloseModal}>
@@ -108,8 +107,6 @@ export function BillingList({openModal, showCreateScreen}) {
   const [clientBills, setClientBills] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [invoiceModal, setInvoiceModal] = useState(false);
- 
-	
 
   const handleSelectedClient = async Client => {
     const newClientModule = {
@@ -120,7 +117,6 @@ export function BillingList({openModal, showCreateScreen}) {
       ...prevstate,
       ClientModule: newClientModule,
     }));
-    console.log(Client)
   };
 
   const handlePay = async (client, i) => {
@@ -136,7 +132,6 @@ export function BillingList({openModal, showCreateScreen}) {
           selectedBills: [],
         },
       }));
-      console.log("Paynow",client)
     }
 
     // //console.log(e.target.checked)

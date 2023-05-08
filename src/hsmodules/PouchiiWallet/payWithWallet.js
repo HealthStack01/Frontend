@@ -25,6 +25,7 @@ export default function PayWithWallet({ amount }) {
 
 	// 3679937267
 	const handlePayWithWallet = async () => {
+		updateEvent(true)
 		try {
 			let res = await api.post(`/send-money`, {
 				accountNumber: event.nubanNumber,
@@ -36,10 +37,12 @@ export default function PayWithWallet({ amount }) {
 				phoneNumber: event.phoneNumber,
 				narration: event.description,
 			});
-			console.log(res.data);
+			updateEvent(false)
+			// console.log(res.data);
 			toast.success('Payment Successful');
 		} catch (error) {
-			console.log(error);
+			// console.log(error);
+			updateEvent(false)
 			toast.error('Payment Failed');
 		}
 	};
@@ -79,7 +82,7 @@ export default function PayWithWallet({ amount }) {
 							<Input
 								value={event.nubanNumber}
 								onChange={(e) => updateEvent({ nubanNumber: e.target.value })}
-								label='To Wallet Account Number'
+								label='Receiever Wallet Account Number'
 							/>
 						</Grid>
 
@@ -105,7 +108,7 @@ export default function PayWithWallet({ amount }) {
 							item
 							xs={12}>
 							<Input
-								label='From Wallet Account Number'
+								label='Sender Wallet Account Number'
 								value={event.userAccountNumber}
 								onChange={(e) =>
 									updateEvent({ userAccountNumber: e.target.value })
@@ -137,7 +140,7 @@ export default function PayWithWallet({ amount }) {
 					sx={{
 						marginRight: '15px',
 					}}
-					// loading={loading}
+					loading={loading}
 				>
 					<PaymentsIcon
 						sx={{ marginRight: '5px' }}

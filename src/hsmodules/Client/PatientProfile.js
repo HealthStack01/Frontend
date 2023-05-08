@@ -31,6 +31,10 @@ import {Card, Button as MuiButton, Typography, Avatar} from "@mui/material";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {TransactionClientAccount} from "../Finance/ClientTransactions";
 import {returnAvatarString} from "../helpers/returnAvatarString";
+import ClientPolicy from "../ManagedCare/ClientPolicy"
+import ClientPreauthorization from "../ManagedCare/ClientPreAuth"
+import ClientClaims from "../ManagedCare/ClientClaims"
+import ClientHealthPlan from "../ManagedCare/ClientHealthPlan";
 
 export default function PatientProfile() {
   const {state, setState} = useContext(ObjectContext); //,setState
@@ -42,6 +46,10 @@ export default function PatientProfile() {
   const [visitModal, setVisitModal] = useState(false);
   const [historyModal, setHistoryModal] = useState(false);
   const [intoleranceModal, setIntoleranceModal] = useState(false);
+  const [benefitsModal, setBenefitsModal] = useState(false);
+  const [claimsModal, setClaimsModal] = useState(false);
+  const [policyModal, setPolicyModal] = useState(false);
+  const [preauthModal, setPreauthModal] = useState(false);
   const [problemModal, setProblemModal] = useState(false);
   const [taskModal, setTaskModal] = useState(false);
   const [diagnoisHistoryModal, setDiagnoisHistory] = useState(false);
@@ -134,20 +142,50 @@ export default function PatientProfile() {
 
   const isHMO = client._id && client.paymentinfo.some(checkHMO);
 
+  const openPolicy = async()=>{
+    console.log("starting plicy modal")
+    let paymentInfo = state.ClientModule.selectedClient.paymentInfo
+    let hmoinfo=paymentinfo.filter(el=>el.paymentmode==="HMO" )
+    if (hmoinfo.length >1){
+     let chosenPolicy= hmoinfo[0].policy
+     await setSelectedClient(Client);
+     const newClientModule = {
+       selectedClient: chosenPolicy,
+       show: "detail",
+     };
+     await setState(prevstate => ({
+       ...prevstate,
+       ManagedCareModule: newClientModule,
+     }));
+ 
+     setPolicyModal(true)
+    }else{
+   return  toast.error("policy does not exist")
+ 
+    }
+    
+
+  }
+
   const profileButtons = [
     {
+      title: "Policy",
+      action: ()=> openPolicy(), //navigate(`/app/clients/benefits/${client._id}`),
+      hide: !isHMO,
+    },
+    {
       title: "Benefits",
-      action: () => navigate(`/app/clients/benefits/${client._id}`),
+      action: () =>setBenefitsModal(true), //navigate(`/app/clients/benefits/${client._id}`),
       hide: !isHMO,
     },
     {
       title: "Preauthorization",
-      action: () => navigate(`/app/clients/pre-authorization/${client._id}`),
+      action: () => setPreauthModal(true),// navigate(`/app/clients/pre-authorization/${client._id}`),
       hide: !isHMO,
     },
     {
       title: "Claims",
-      action: () => navigate(`/app/clients/claims/${client._id}`),
+      action: () => setClaimsModal(true), //navigate(`/app/clients/claims/${client._id}`),
       hide: !isHMO,
     },
     {
@@ -278,7 +316,7 @@ export default function PatientProfile() {
                     </Typography>
                  
                     <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
-                    {pay?.paymentmode === "HMO" && <>Plan: {pay?.organizationName} </>}
+                    {pay?.paymentmode === "HMO" && <>Plan: {pay?.plan} </>}
                     </Typography>
                     <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
                     {pay?.paymentmode === "HMO" && <>Client ID: {pay?.clientId} </>}
@@ -370,7 +408,44 @@ export default function PatientProfile() {
           </Card>
         </div>
       )}
+        {/* ******************************************* Policy ********************************************** */}
 
+  <ModalBox
+        open={policyModal}
+        onClose={() => setPolicyModal(false)}
+        header="Policy"
+      >
+        <ClientPolicy closeModal={() => setPolicyModal(false)} />
+      </ModalBox>
+  {/* ******************************************* Benefits ********************************************** */}
+
+  <ModalBox
+        open={benefitsModal}
+        onClose={() => setBenefitsModal(false)}
+        header="Benefits"
+      >
+        <ClientHealthPlan closeModal={() => setBenefitsModal(false)} />
+      </ModalBox>
+
+        {/* ******************************************* Preauth ********************************************** */}
+
+        <ModalBox
+        open={preauthModal}
+        onClose={() => setPreauthModal(false)}
+        header="Preauthorization"
+      >
+        <ClientPreauthorization closeModal={() => setPreauthModal(false)} />
+      </ModalBox>
+
+        {/* ******************************************* Claims ********************************************** */}
+
+        <ModalBox
+        open={claimsModal}
+        onClose={() => setClaimsModal(false)}
+        header="Claims"
+      >
+        <ClientClaims closeModal={() => setClaimsModal(false)} />
+      </ModalBox>
       {/* ******************************************* BILLING ********************************************** */}
 
       <ModalBox

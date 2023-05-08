@@ -43,7 +43,7 @@ import {
   SponsorSearch,
 } from "../helpers/FacilitySearch";
 import {getBase64} from "../helpers/getBase64";
-import Claims from "./Claims";
+import Claims from "./ClientClaims";
 import PremiumPayment from "./Premium";
 import Provider, {OrganizationCreate} from "./Providers";
 import {
@@ -63,12 +63,12 @@ var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Policy({standAlone}) {
+export default function ClientPolicy({standAlone}) {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
-  const [showModal, setShowModal] = useState(0);
-  const [showModal2, setShowModal2] = useState(false);
+  const [showModal, setShowModal] = useState(2);
+  const [showModal2, setShowModal2] = useState(true);
   const [loading, setLoading] = useState(false);
   return (
     <section className="section remPadTop">
@@ -100,7 +100,7 @@ export default function Policy({standAlone}) {
         >
           <ClientCreate
             closeModal={() => {
-              //console.log("hello world");
+              console.log("hello world");
               setShowModal2(false);
               setShowModal(1);
             }}
@@ -145,12 +145,13 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       ...prevstate,
       ManagedCareModule: newClientModule,
     }));
-    ////console.log(state)
+    //console.log(state)
     setShowModal(1);
-    //console.log("test");
+    console.log("test");
   };
 
   const handleRow = async Client => {
+    console.log(Client)
     await setSelectedClient(Client);
     const newClientModule = {
       selectedClient: Client,
@@ -166,7 +167,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
   const handleSearch = val => {
     // eslint-disable-next-line
     const field = "firstname";
-    //console.log(val);
+    console.log(val);
     ClientServ.find({
       query: {
         $or: [
@@ -230,13 +231,13 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       },
     })
       .then(res => {
-        //console.log(res);
+        console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
       .catch(err => {
-        //console.log(err);
+        console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
       });
@@ -258,14 +259,14 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       /*  if (page===0){ */
       await setFacilities(findClient.data);
       setLoading(false);
-      //console.log(findClient.data, user);
+      console.log(findClient.data, user);
       /* }else{
              await setFacilities(prevstate=>prevstate.concat(findClient.data))
          } */
 
       await setTotal(findClient.total);
-      ////console.log(user.currentEmployee.facilityDetail._id, state)
-      ////console.log(facilities)
+      //console.log(user.currentEmployee.facilityDetail._id, state)
+      //console.log(facilities)
       setPage(page => page + 1);
     } else {
       if (user.stacker) {
@@ -291,10 +292,10 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
     } else {
       /* const localUser= localStorage.getItem("user")
                      const user1=JSON.parse(localUser)
-                     //console.log(localUser)
-                     //console.log(user1)
+                     console.log(localUser)
+                     console.log(user1)
                      fetchUser(user1)
-                     //console.log(user)
+                     console.log(user)
                      getFacilities(user) */
     }
     ClientServ.on("created", obj => rest());
@@ -305,7 +306,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
     // eslint-disable-next-line
   }, []);
   const rest = async () => {
-    // //console.log("starting rest")
+    // console.log("starting rest")
     // await setRestful(true)
     await setPage(0);
     //await  setLimit(2)
@@ -317,7 +318,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
   };
 
   useEffect(() => {
-    ////console.log(facilities)
+    //console.log(facilities)
     return () => {};
   }, [facilities]);
   //todo: pagination and vertical scroll bar
@@ -505,7 +506,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
   //   }
   // };
 
-  //console.log(user, "ID", standAlone);
+  console.log(user, "ID", standAlone);
   return (
     <>
       <div className="level">
@@ -662,7 +663,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
       !chosen.some(el => el._id === obj._id)
     ) {
       await setChosen([...chosen, obj]);
-     // await //console.log("OBJ", chosen);
+      await console.log("OBJ", chosen);
     }
   };
 
@@ -686,19 +687,19 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
     }
     let billm = paymentOptions.filter(el => el.name === mode);
     await setBillMode(billm[0]);
-    //console.log(billm);
+    console.log(billm);
   };
 
   const handleChangePlan = async value => {
-    //console.log(value);
+    console.log(value);
     setSelectedPlan(value);
     if (value === "") {
       setPrice("");
       return;
     }
-    //console.log(benefittingPlans1);
+    console.log(benefittingPlans1);
     let cplan = healthplan.filter(el => el.planName === value);
-    //console.log(cplan);
+    console.log(cplan);
     setChosenPlan(cplan[0]);
     let contract = cplan[0]?.premiums[0]?.familyPremium;
     cplan[0]?.premiums.map(el => {
@@ -712,11 +713,11 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
       }
     });
   };
-  //console.log("price", price);
+  console.log("price", price);
   const handleClickProd = () => {
     setState(prevstate => ({...prevstate, currBeneficiary: "principal"}));
     setDependant("principal");
-    //console.log(state.Beneficiary);
+    console.log(state.Beneficiary);
     //setClientModal(true);
     setOpenCreate(true);
   };
@@ -741,11 +742,11 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
 
   const handlecloseModal4 = () => {
     setClientModal(false);
-    //console.log(state.Beneficiary);
+    console.log(state.Beneficiary);
   };
 
   const onSubmit = async (data, doc) => {
-    //return //console.log
+    //return console.log
     // e.preventDefault();
     if (!state.Beneficiary.principal._id) {
       toast.warning("Please add principal! ");
@@ -766,7 +767,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
         ? "-1"
         : state.Beneficiary.dependent.length + 1;
     const policyNo = `${year}${planType1}${orgType}${orgId}${familyCode}`;
-    //console.log(policyNo);
+    console.log(policyNo);
 
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
@@ -775,7 +776,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
     let confirm = window.confirm(
       `You are about to register a new policy ${policyNo} ?`
     );
-    //console.log(user);
+    console.log(user);
     if (confirm) {
       let policy = {
         policyNo: policyNo,
@@ -816,17 +817,17 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
           },
         ],
       };
-      //console.log("POLICY", policy);
+      console.log("POLICY", policy);
       await policyServ
         .create(policy)
         .then(res => {
           hideActionLoader();
-          //console.log(
-           /*  "facilityId",
+          console.log(
+            "facilityId",
             user.currentEmployee.facilityDetail._id,
             "response",
             res
-          ); */
+          );
           setSuccess(true);
           toast.success("Client created succesfully");
           setSuccess(false);
@@ -862,13 +863,13 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
           },
         },
       });
-      ////console.log(findServices.data);
+      console.log(findServices.data);
       const data = findServices.data;
       if (data.length > 0) {
         setHealthplan(data);
         // map the array for all the planName
         const planName = data.map(plan => plan.planName);
-        //console.log("test", planName);
+        console.log("test", planName);
         setBenefittingPlans1(planName);
       }
     } else if (hmo) {
@@ -880,7 +881,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
           },
         },
       });
-      //console.log(findServices.data);
+      console.log(findServices.data);
       const data = findServices.data;
       if (findServices.length > 0) {
         // map the array for all the planName
@@ -908,7 +909,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
               paymentoptions.push(obj);
               setPaymentMode("Cash");
               billme = obj;
-              //console.log("billme", billme);
+              console.log("billme", billme);
               break;
             case "Family":
               // code block
@@ -921,7 +922,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
               paymentoptions.push(obj);
               setPaymentMode("Family Cover");
               billme = obj;
-              // //console.log("billme",billme)
+              // console.log("billme",billme)
               break;
             case "Company":
               // code block
@@ -934,11 +935,11 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
                 "Company: " + pay.organizationName + "(" + pay.plan + ")"
               );
               billme = obj;
-              // //console.log("billme",billme)
+              // console.log("billme",billme)
               break;
             case "HMO":
               // code block
-              //console.log(pay);
+              console.log(pay);
               let sname = "HMO: " + pay.organizationName + "(" + pay.plan + ")";
 
               obj = createObj(pay, sname, "HMOCover", "HMO Cover");
@@ -947,7 +948,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
                 "HMO: " + pay.organizationName + "(" + pay.plan + ")"
               );
               billme = obj;
-              //  //console.log("billme",billme)
+              //  console.log("billme",billme)
 
               break;
             default:
@@ -988,7 +989,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
         billMode: billMode, // state.Beneficiary.principal.paymentinfo[0]
       },
     ];
-    //console.log(chosenPlan.name);
+    console.log(chosenPlan.name);
   };
 
   const createProductEntry = () => {
@@ -1122,14 +1123,14 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
     },
   ];
 
-  //console.log("==================", benefittingPlans1);
+  console.log("==================", benefittingPlans1);
 
   useEffect(() => {
     hideActionLoader();
   }, []);
 
   const handleFamilyCreate = async data => {
-    //return //console.log(providers);
+    //return console.log(providers);
 
     if (!state.Beneficiary.principal._id)
       return toast.warning("Please add principal! ");
@@ -1149,7 +1150,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
         ? "-1"
         : state.Beneficiary.dependent.length + 1;
     const policyNo = `${year}${planType1}${orgType}${orgId}`;
-    //console.log(policyNo);
+    console.log(policyNo);
 
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
@@ -1158,7 +1159,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
     let confirm = window.confirm(
       `You are about to register a new policy ${policyNo} ?`
     );
-    //console.log(user);
+    console.log(user);
     if (confirm) {
       let policy = {
         policyNo: policyNo,
@@ -1204,9 +1205,9 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
           },
         ],
       };
-      // //console.log("POLICY", policy);
+      // console.log("POLICY", policy);
 
-      //return //console.log(policy);
+      //return console.log(policy);
 
       setState(prev => ({
         ...prev,
@@ -1227,7 +1228,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
   };
 
   const handleAddIndividualPolicy = async data => {
-    //return //console.log(providers);
+    //return console.log(providers);
 
     if (!state.Beneficiary.principal._id)
       return toast.warning("Please add principal! ");
@@ -1247,7 +1248,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
         ? "-1"
         : state.Beneficiary.dependent.length + 1;
     const policyNo = `${year}${planType1}${orgType}${orgId}`;
-    //console.log(policyNo);
+    console.log(policyNo);
 
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
@@ -1256,7 +1257,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
     let confirm = window.confirm(
       `You are about to register a new policy ${policyNo} ?`
     );
-    //console.log(user);
+    console.log(user);
     if (confirm) {
       let policy = {
         policyNo: policyNo,
@@ -1302,9 +1303,9 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
           },
         ],
       };
-      // //console.log("POLICY", policy);
+      // console.log("POLICY", policy);
 
-      //return //console.log(policy);
+      //return console.log(policy);
 
       setState(prev => ({
         ...prev,
@@ -1324,7 +1325,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
     }
   };
 
-  // //console.log(
+  // console.log(
   //   "hello world from the other side",
   //   state.Beneficiary.familyPolicies
   // );
@@ -2055,7 +2056,7 @@ export function ClientCreate({closeModal}) {
     }
 
     if (!!data.firstname && !!data.lastname && !!data.gender && !!data.dob) {
-      // //console.log("simpa")
+      // console.log("simpa")
       data.middlename = data.middlename || "";
       query.gender = data.gender;
       query.dob = data.dob;
@@ -2107,7 +2108,7 @@ export function ClientCreate({closeModal}) {
     ) {
       ClientServ.find({query: query})
         .then(res => {
-          //console.log(res);
+          console.log(res);
           if (res.total > 0) {
             // alert(res.total)
             setPatList(res.data);
@@ -2116,7 +2117,7 @@ export function ClientCreate({closeModal}) {
           }
         })
         .catch(err => {
-          //console.log(err);
+          console.log(err);
         });
     }
   };
@@ -2145,7 +2146,7 @@ export function ClientCreate({closeModal}) {
         clientTags: client.clientTags,
         relfacilities: client.relatedfacilities,
       };
-      ////console.log(newPat)
+      //console.log(newPat)
       await mpiServ
         .create(newPat)
         .then(resp => {
@@ -2175,14 +2176,14 @@ export function ClientCreate({closeModal}) {
   };
 
   const handleChange = file => {
-    ////console.log(file);
+    //console.log(file);
     getBase64(file)
       .then(res => {
-        ////console.log(res);
+        //console.log(res);
         setFile(res);
       })
       .catch(err => {
-        //console.log(err);
+        console.log(err);
       });
   };
 
@@ -2959,6 +2960,7 @@ export function ClientCreate({closeModal}) {
 export function PolicyDetail({showModal, setShowModal}) {
   const {register, reset, control, handleSubmit} = useForm();
   const policyServ = client.service("policy");
+  const ClientServ = client.service("policy");
   const ServicesServ = client.service("healthplan");
   const [error, setError] = useState(false); //,
   const [finacialInfoModal, setFinacialInfoModal] = useState(false);
@@ -2980,6 +2982,8 @@ export function PolicyDetail({showModal, setShowModal}) {
   const [individualPrice, setIndividualPrice] = useState("");
   const [healthplan, setHealthplan] = useState([]);
   let Client = state.ManagedCareModule.selectedClient;
+  console.log(Client)
+
   useEffect(() => {
     let Client = state.ManagedCareModule.selectedClient;
     setFacility(Client);
@@ -3004,7 +3008,7 @@ export function PolicyDetail({showModal, setShowModal}) {
     };
     reset(initFormValue);
   }, [state.ManagedCareModule.selectedClient]);
-  //console.log(Client);
+  console.log(Client);
 
   const handleFinancialInfo = () => {
     setFinacialInfoModal(true);
@@ -3039,7 +3043,7 @@ export function PolicyDetail({showModal, setShowModal}) {
     const docId = state.ManagedCareModule.selectedClient._id;
     let Client = state.ManagedCareModule.selectedClient;
     const employee = user.currentEmployee;
-    //console.log(data, docId);
+    console.log(data, docId);
     const policyDetails = {
       policyNo: data.policyNo,
       phone: data.phone,
@@ -3102,7 +3106,7 @@ export function PolicyDetail({showModal, setShowModal}) {
         },
       ],
     };
-    //console.log(policyDetails);
+    console.log(policyDetails);
     await policyServ
       .patch(docId, policyDetails)
       .then(res => {
@@ -3114,7 +3118,7 @@ export function PolicyDetail({showModal, setShowModal}) {
         setEditPolicy(false);
       })
       .catch(err => {
-        //console.log(err);
+        console.log(err);
         toast.error("Error Approving Policy" + err);
         setEditPolicy(false);
       });
@@ -3130,31 +3134,77 @@ export function PolicyDetail({showModal, setShowModal}) {
           },
         },
       });
-      //console.log(findServices.data);
+      console.log(findServices.data);
       const data = findServices.data;
       if (data.length > 0) {
         setHealthplan(data);
         const planName = data.map(plan => plan.planName);
-        //console.log("test", planName);
+        console.log("test", planName);
         setBenefittingPlans1(planName);
       }
     }
   };
   const handleChangePlan = async value => {
-    //console.log(value);
+    console.log(value);
     if (value === "") {
       setFamilyPrice("");
       setIndividualPrice("");
       return;
     }
-    //console.log(benefittingPlans1);
+    console.log(benefittingPlans1);
     let cplan = healthplan.filter(el => el.planName === value);
-    //console.log(cplan);
+    console.log(cplan);
     setSelectedPlan(cplan[0]);
     setFamilyPrice(cplan[0]?.premiums[0]?.familyPremium);
     setIndividualPrice(cplan[0]?.premiums[0]?.individualPremium);
   };
-  useEffect(() => {
+  const getFacilities = async () => {
+    setLoading(true);
+    if (user.currentEmployee) {
+      // const findClient= await ClientServ.find()
+      const findClient = await ClientServ.find({
+        query: {
+        
+          active:true,
+          // organization: user.currentEmployee.facilityDetail,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      });
+      /*  if (page===0){ */
+      await setFacilities(findClient.data);
+      setLoading(false);
+      console.log(findClient.data, user);
+      /* }else{
+             await setFacilities(prevstate=>prevstate.concat(findClient.data))
+         } */
+
+      await setTotal(findClient.total);
+      //console.log(user.currentEmployee.facilityDetail._id, state)
+      //console.log(facilities)
+      setPage(page => page + 1);
+    } else {
+      if (user.stacker) {
+        const findClient = await ClientServ.find({
+          query: {
+            $limit: 20,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        });
+
+        await setFacilities(findClient.data);
+        setLoading(false);
+      }
+    }
+  };
+  useEffect(async () => {
+   // getFacilities()
+  
+
+
     getBenfittingPlans();
   }, []);
 
@@ -3546,7 +3596,7 @@ export const AddFamilyToPolicy = ({
   const [success, setSuccess] = useState(false);
 
   const handleAddProviders = async obj => {
-    // //console.log(obj);
+    // console.log(obj);
     if (
       // check if obj is an object
       obj && // check if obj is not null
@@ -3558,7 +3608,7 @@ export const AddFamilyToPolicy = ({
       await setProviders([...providers, obj]);
       setSuccess(true);
       setSuccess(false);
-      //await //console.log("OBJ", chosen);
+      //await console.log("OBJ", chosen);
     }
   };
 
@@ -3702,7 +3752,7 @@ export const AddMulipleIndividualPolicy = ({
   const [success, setSuccess] = useState(false);
 
   const handleAddProviders = async obj => {
-    // //console.log(obj);
+    // console.log(obj);
     if (
       // check if obj is an object
       obj && // check if obj is not null
@@ -3714,7 +3764,7 @@ export const AddMulipleIndividualPolicy = ({
       await setProviders([...providers, obj]);
       setSuccess(true);
       setSuccess(false);
-      //await //console.log("OBJ", chosen);
+      //await console.log("OBJ", chosen);
     }
   };
 

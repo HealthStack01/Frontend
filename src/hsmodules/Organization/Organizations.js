@@ -12,6 +12,7 @@ import {ObjectContext, UserContext} from '../../context';
 import client from '../../feathers';
 import {TableMenu} from '../../ui/styled/global';
 import OrganizationBankAccount from './OrganizationBankAccount';
+import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 import EditIcon from '@mui/icons-material/Edit';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
@@ -282,6 +283,30 @@ export const OrganizationsList = ({selectOrganization}) => {
 				textTransform: 'capitalize',
 			},
 		},
+		{
+			name: 'Access Modality',
+			key: 'phone',
+			description: 'Enter name of Company',
+			selector: row => row?.accessMode,
+			sortable: true,
+			required: true,
+			inputType: 'HIDDEN',
+			 style: {
+				textTransform: 'capitalize',
+			}, 
+		},
+		{
+			name: 'Balance',
+			key: 'phone',
+			description: 'Enter name of Company',
+			selector: row => row?.walletBalance,
+			sortable: true,
+			required: true,
+			inputType: 'HIDDEN',
+			/* style: {
+				textTransform: 'capitalize',
+			}, */
+		},
 	];
 
 	const handleRow = facility => {
@@ -478,7 +503,6 @@ export const OrganizationDetails = ({organization, goBack}) => {
 				<OrganizationModules closeModal={() => setModulesModal(false)} />
 			</ModalBox>
 
-
 			<Box
 				sx={{
 					display: 'flex',
@@ -493,7 +517,7 @@ export const OrganizationDetails = ({organization, goBack}) => {
 					display: 'flex',
 					gap: 2,
 				}}>
-				<GlobalCustomButton onClick={handleShowStats}>view Stats</GlobalCustomButton>
+				<GlobalCustomButton onClick={handleShowStats}>View Stats</GlobalCustomButton>
 				<GlobalCustomButton
 					color='secondary'
 					onClick={() => setModulesModal(true)}>
@@ -745,6 +769,64 @@ export const OrganizationDetails = ({organization, goBack}) => {
 				</Grid>
 			</Grid>
 		</Box>
+		<Box p={2} > 
+    
+				<FormsHeaderText text="Access Modality" />
+				<div >
+				<Grid container spacing={2} mb={2} >
+				
+				<Grid item lg={4} md={6} sm={6} xs={12}>
+					
+					<CustomSelect
+						label='Payment Model'
+						control={control}
+						name='accessMode'
+						//errorText={errors?.facilityType?.message}
+						options={["Transaction-Percentage","Transaction-Amount","License","Subscription","Registered Patients","Free", "Per Employee", "Per Module"]}
+						disabled={!edit}
+						important
+					/>
+				</Grid>
+				
+				<Grid item lg={4} md={6} sm={6} xs={12}>
+					<Input
+					register={register("accessValue")}
+					label="Value"
+					disabled={!edit}
+					/>
+				</Grid>
+				<Grid item lg={4} md={6} sm={6} xs={12}>
+					
+					<CustomSelect
+						label='Duration'
+						control={control}
+						name='accessDuration'
+						//errorText={errors?.facilityType?.message}
+						options={["Annual","Quarterly","Monthly"]}
+						disabled={!edit}
+						/* important */
+					/>
+				</Grid>
+				<Grid item lg={3} md={4} sm={6}>
+                      <MuiCustomDatePicker
+                        control={control}
+                        label="Start Date"
+                        name="accessStartDate"
+                        important={true}
+                      />
+                    </Grid>
+
+					<Grid item lg={4} md={6} sm={6} xs={12}>
+					<Input
+					register={register("accessComments")}
+					label="Comments"
+					disabled={!edit}
+					/>
+				</Grid>
+				</Grid>
+			</div>
+			</Box>
+		
 
 		<Box p={2}>
 			<OrganizationBankAccount />

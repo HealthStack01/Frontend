@@ -55,7 +55,6 @@ import PharmacyBillService from "../Finance/BillService";
 import Claims from "./Claims";
 import GeneralAppointments from "./Referral";
 import HealthPlan from "./HealthPlan";
-import TestPlanDetails from "./TestPlanDetails";
 var random = require("random-string-generator");
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createClientSchema } from "../Client/schema";
@@ -1287,7 +1286,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
   };
 
   const handleRow = async (Client) => {
-     setSelectedClient(Client);
+    await setSelectedClient(Client);
     const newClientModule = {
       selectedClient: Client,
       show: "detail",
@@ -1390,7 +1389,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
         },
       });
       /*  if (page===0){ */
-     setPolicyFacilities(findClient.data);
+      await setPolicyFacilities(findClient.data);
       console.log(findClient.data, user);
       /* }else{
              await setFacilities(prevstate=>prevstate.concat(findClient.data))
@@ -1411,7 +1410,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
           },
         });
 
-       setPolicyFacilities(findClient.data);
+        await setPolicyFacilities(findClient.data);
       }
     }
   };
@@ -1429,6 +1428,14 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       });
 
       let data = findClient.data;
+
+      console.log(data);
+      // let list = data.map((item) => {
+      // 	return {
+      // 		...item.principal,
+      // 		// ...item.plan,
+      // 	};
+      // });
 
       let list = [];
       data.map((item) => {
@@ -1471,9 +1478,10 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
         });
       });
 
-      setFacilities(list);
+      await console.log("list", list);
+      await setFacilities(list);
 
-     setTotal(findClient.total);
+      await setTotal(findClient.total);
 
       setPage((page) => page + 1);
     } else {
@@ -1487,7 +1495,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
           },
         });
 
-       setFacilities(findClient.data);
+        await setFacilities(findClient.data);
       }
     }
   };
@@ -1520,6 +1528,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
   };
 
   useEffect(() => {
+    //console.log(facilities)
     return () => {};
   }, [facilities]);
   //todo: pagination and vertical scroll bar
@@ -1640,9 +1649,8 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       inputType: "TEXT",
     },
   ];
-
-  console.log("Facilities", facilities)
-
+  console.log(facilities, user);
+  // const filteredFacilities = facilities.filter((facility) => {
   return (
     <>
       <div
@@ -1693,8 +1701,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
   );
 }
 
-
-export function ClientDetail({ showModal, setShowModal, selectedPlan}) {
+export function ClientDetail({ showModal, setShowModal }) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
 
   const [error, setError] = useState(false); //,
@@ -1703,7 +1710,6 @@ export function ClientDetail({ showModal, setShowModal, selectedPlan}) {
   const [billModal, setBillModal] = useState(false);
   const [appointmentModal, setAppointmentModal] = useState(false);
   const [generateIdCardModal, setGenerateIdCardModal] = useState(false);
-  const [benefitState, setBenefitState] = useState(selectedPlan);
   const [display, setDisplay] = useState(1);
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
@@ -1728,6 +1734,7 @@ export function ClientDetail({ showModal, setShowModal, selectedPlan}) {
 
   let Client = state.ClientModule.selectedClient;
 
+  console.log("Client", Client);
   // console.log('User', user);
 
   // eslint-disable-next-line
@@ -1940,7 +1947,7 @@ export function ClientDetail({ showModal, setShowModal, selectedPlan}) {
       inputType: "TEXT",
     },
   ];
-
+  console.log("client", Client);
   return (
     <>
       <div
@@ -2033,7 +2040,7 @@ export function ClientDetail({ showModal, setShowModal, selectedPlan}) {
               >
                 Benefits
               </Button>
-              {/* <Button
+              <Button
                 onClick={handleSchedule}
                 variant={appointmentModal ? "outlined" : "contained"}
                 size="small"
@@ -2041,7 +2048,7 @@ export function ClientDetail({ showModal, setShowModal, selectedPlan}) {
                 color="success"
               >
                 Schedule Appointment
-              </Button> */}
+              </Button>
             </Box>
           </Box>
           {/* <Box
@@ -2228,16 +2235,14 @@ export function ClientDetail({ showModal, setShowModal, selectedPlan}) {
               <FormsHeaderText
                 text={`${Client?.detail?.plan?.planName} Benefits`}
               />
-            <TestPlanDetails />
-              {/* <CustomTable
+              <CustomTable
                 tableData={""}
                 columns={productItemSchema}
-                 data={Client?.detail?.plan?.contracts}
-                 data={benefitState}
+                data={Client?.detail?.plan?.contracts}
                 pointerOnHover
                 highlightOnHover
                 striped
-              /> */}
+              />
             </div>
           </>
         )}
@@ -2701,11 +2706,11 @@ export function InputSearch({ getSearchfacility, clear }) {
   const inputEl = useRef(null);
 
   const handleRow = async (obj) => {
-     setChosen(true);
+    await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
 
-     setSimpa(obj.facilityName);
+    await setSimpa(obj.facilityName);
 
     // setSelectedFacility(obj)
     setShowPanel(false);
@@ -2769,7 +2774,7 @@ export function InputSearch({ getSearchfacility, clear }) {
       console.log("less than 3 ");
       console.log(val);
       setShowPanel(false);
-     setFacilities([]);
+      await setFacilities([]);
       console.log(facilities);
     }
   };
@@ -2859,12 +2864,12 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
   };
 
   const handleRow = async (Client) => {
-    setSelectedClient(Client);
+    await setSelectedClient(Client);
     const newClientModule = {
       selectedClient: Client,
       show: "detail",
     };
-     setState((prevstate) => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ManagedCareModule: newClientModule,
     }));

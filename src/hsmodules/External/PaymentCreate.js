@@ -2,18 +2,16 @@
 import React, {useState, useContext, useEffect, useRef} from "react";
 // import {useFlutterwave, closePaymentModal} from "flutterwave-react-v3";
 // import {PaystackConsumer} from "react-paystack";
-import "./main.css";/* 
-import RemitaPayment from "react-remita"; */
+import RemitaPayment from "react-remita";
 import client from "../../feathers";
 /* import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form"; */
-//import {useNavigate} from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "react-toastify";
+// import {toast} from "bulma-toast";
 /* import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation"; */
-// var random = require("random-string-generator");
-import short from 'short-uuid'
+var random = require("random-string-generator");
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
@@ -23,23 +21,16 @@ import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 //import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import {Box, Button, Grid, Typography} from "@mui/material";
+import {Box, Button, Typography} from "@mui/material";
 import ModalBox from "../../components/modal";
 import Input from "../../components/inputs/basic/Input";
 import MakeDeposit from "./Deposit";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import {FlutterWaveIcon, PaystackIcon} from "./ui-components/Icons";
-import WalletIcon from "@mui/icons-material/Wallet";
-import RadioButton from "../../components/inputs/basic/Radio";
-// import api from '../../utils/api';
-import {v4 as uuidv4} from "uuid";
-import PayWithWallet from "../PouchiiWallet/payWithWallet";
-
+import {toast} from "react-toastify";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function PaymentCreatePage({closeModal, handleGoBack}) {
+export default function PaymentCreate({closeModal}) {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
   //const [error, setError] =useState(false)
 
@@ -50,6 +41,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
   const SubwalletServ = client.service("subwallet");
   const OrderServ = client.service("order");
   const InvoiceServ = client.service("invoice");
+  const BillServ = client.service("bills");
   //const navigate=useNavigate()
   const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
@@ -88,24 +80,15 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
   const [loading, setLoading] = useState(false);
   const [partTable, setPartTable] = useState([]);
   const [depositModal, setDepositModal] = useState(false);
-  const [walletProfile, setWalletProfile] = useState([]);
-  const [createModal, setCreateModal] = useState(false);
-  const handleCreateModal = () => {
-    setCreateModal(true);
-  };
-
-  const handleHideCreateModal = () => {
-    setCreateModal(false);
-  };
 
   //Remita Config
   const config = {
-    key: "QzAwMDA1NDIwMjB8MTEwMDUzNTMwNjc5fGNlZTQ2YWIyZTdhOTg0M2EwODNlNjQyOTllNjg1ZTY4NWU5MWFlNjVkMjVlMzdkM2Q5YjEzOWFlYjg2NWEwNzdiYzdiYzcxNzZiNTM5MWZjYzY3YzUwOTNlNTUyNDFlNjhlOGEyODJmNDVkMzBmNGUwYTM5YjhlMzZmOTkyN2E4", // enter your key here
-    customerId: uuidv4(),
-    firstName: source,
-    lastName: "",
-    email: "",
-    amount: part ? partBulk : totalamount,
+    key: "QzAwMDAyNzEyNTl8MTEwNjE4NjF8OWZjOWYwNmMyZDk3MDRhYWM3YThiOThlNTNjZTE3ZjYxOTY5NDdmZWE1YzU3NDc0ZjE2ZDZjNTg1YWYxNWY3NWM4ZjMzNzZhNjNhZWZlOWQwNmJhNTFkMjIxYTRiMjYzZDkzNGQ3NTUxNDIxYWNlOGY4ZWEyODY3ZjlhNGUwYTY=", // enter your key here
+    customerId: "86666",
+    firstName: "Simpa",
+    lastName: "Dania",
+    email: "simpa@healthstack.africa",
+    amount: part ? partBulk * 100 : totalamount * 100,
     narration: "payment",
   };
 
@@ -113,15 +96,18 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     ...config,
     onSuccess: function (response) {
       // function callback when payment is successful
-      // console.log(response);
-      toast.success("Payment Successful");
+      console.log("callback Successful Response", response);
     },
     onError: function (response) {
       // function callback when payment fails
-      // console.log(response);
-      toast.error("Payment Failed");
+      console.log("callback Error Response", response);
+    },
+    onClose: function () {
+      // function callback when payment modal is closed
+      console.log("closed");
     },
   };
+
   //Paystack Config
 
   // const config = {
@@ -175,8 +161,68 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
   let hidestatus;
 
   let medication = state.financeModule.selectedFinance;
-  ////console.log(state.financeModule.state)
+  console.log(state.financeModule.state)
 
+
+  const handlePay = async (client, i) => {
+    setOldClient(client.clientname);
+    let newClient = client.clientname;
+    if (oldClient !== newClient) {
+      selectedOrders.forEach(el => (el.checked = ""));
+      setSelectedOrders([]);
+      setState(prev => ({
+        ...prev,
+        financeModule: {
+          ...prev.financeModule,
+          selectedBills: [],
+        },
+      }));
+      console.log("Paynow",client)
+    }
+
+    // //console.log(e.target.checked)
+
+    await handleSelectedClient(client.bills[0].order[0].participantInfo.client);
+    //handleMedicationRow(order)/
+
+    await client.bills.forEach(bill => {
+      // //console.log(bill)
+      bill.order.forEach(order => {
+        let medication = order;
+        medication.show = "none";
+        medication.checked = true;
+        medication.proposedpayment = {
+          balance: 0,
+          paidup:
+            medication.paymentInfo.paidup + medication.paymentInfo.balance,
+          amount: medication.paymentInfo.balance,
+        };
+
+        setSelectedFinance(order);
+
+        const newProductEntryModule = {
+          selectedFinance: order,
+          show: "detail",
+          state: true,
+          selectedBills: [],
+        };
+
+        setState(prevstate => ({
+          ...prevstate,
+          financeModule: {
+            ...newProductEntryModule,
+            selectedBills: prevstate.financeModule.selectedBills.concat(order),
+          },
+        }));
+
+        setSelectedOrders(prevstate => prevstate.concat(order));
+      });
+    });
+
+   // showCreateScreen();
+
+    //openModal();
+  };
   const handlecloseModal = () => {
     setProductModal(false);
     // handleSearch(val)
@@ -185,6 +231,19 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
   const handleChangeMode = async value => {
     ////console.log(value)
     await setPaymentMode(value);
+    /*   //console.log(paymentOptions)
+       let billm= paymentOptions.filter(el=>el.name===value)
+       await setBillMode(billm)
+        //console.log(billm) */
+    // at startup
+    // check payment mode options from patient financial info
+    // load that to select options
+    // default to HMO-->company-->family-->cash
+    //when chosen
+    //append payment mode to order
+    //check service contract for pricing info
+    // calculate pricing
+    // pricing
   };
 
   const [productEntry, setProductEntry] = useState({
@@ -279,12 +338,80 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     return () => {};
   }, [date]);
 
+  const handleAccept = async () => {
+    await setButtonState(true);
+    if (paymentmode === "" || amountPaid === 0 || amountPaid === "") {
+      toast({
+        message: "Kindly choose payment mode or enter amount",
+        type: "is-danger",
+        dismissible: true,
+        pauseOnHover: true,
+      });
+      await setButtonState(false);
+      return;
+    }
+    let obj = {
+      // toWallet:{ type: Schema.Types.ObjectId, ref:'facility', }, //receiving money
+      //fromWallet:{ type: Schema.Types.ObjectId, ref:'facility', },//sending money
+      //subwallet:{ type: Schema.Types.ObjectId, ref:'subwallet', },
+      client: medication.participantInfo.client._id,
+      organization: user.employeeData[0].facilityDetail._id,
+      category: "credit", //debit/credit
+      amount: amountPaid,
+      description: description,
+
+      toName: user.employeeData[0].facilityDetail.facilityName,
+      fromName:
+        medication.participantInfo.client.firstname +
+        " " +
+        medication.participantInfo.client.lastname,
+      createdby: user._id,
+
+      // refBill:[{ type: Schema.Types.ObjectId, ref:'bills'  }], //billid to be paid : ref invoice to pay
+      // info:{ type: Schema.Types.Mixed},
+      paymentmode: paymentmode,
+
+      facility: user.employeeData[0].facilityDetail._id,
+      locationId: state.LocationModule.selectedLocation._id,
+      type: "Deposit",
+    };
+    let confirm = window.confirm(
+      `Are you sure you want to accept N ${obj.amount} from ${obj.fromName}`
+    );
+    if (confirm) {
+      await SubwalletTxServ.create(obj)
+        .then(resp => {
+          // //console.log(resp)
+
+          toast({
+            message: "Deposit accepted succesfully",
+            type: "is-success",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+          setAmountPaid(0);
+          setDescription("");
+        })
+        .catch(err => {
+          toast({
+            message: "Error accepting deposit " + err,
+            type: "is-danger",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        });
+    }
+    await setButtonState(false);
+  };
+
   const getFacilities = async () => {
-    // //console.log("here b4 server")
-    const findProductEntry = await SubwalletServ.find({
+
+    const {hospId, patId}=useParam()
+    // find wallet balance
+    const findWalletBalance = await SubwalletServ.find({
       query: {
-        client: medication?.participantInfo?.client._id,
-        organization: user.employeeData[0].facilityDetail._id,
+        client:patId, //medication.participantInfo.client._id,
+        organization:hospId, //user.employeeData[0].facilityDetail._id,
         //storeId:state.StoreModule.selectedStore._id,
         //clientId:state.ClientModule.selectedClient._id,
         //$limit:100,
@@ -293,15 +420,54 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
         },
       },
     });
-    //    //console.log(findProductEntry)
+    console.log(findWalletBalance)
 
     // //console.log("balance", findProductEntry.data[0].amount)
-    if (findProductEntry.data.length > 0) {
-      setSubWallet(findProductEntry.data[0]);
-      await setBalance(findProductEntry.data[0].amount);
+    if (findWalletBalance.data.length > 0) {
+      setSubWallet(findWalletBalance.data[0]);
+      await setBalance(findWalletBalance.data[0].amount);
     } else {
       await setBalance(0);
     }
+
+    //find unpaid bills
+
+ setLoading(true);
+    const findProductEntry = await BillServ.find({
+      query: {
+        $or: [
+          {
+            "participantInfo.paymentmode.type": "Cash",
+          },
+          {
+            "participantInfo.paymentmode.type": "Family Cover",
+          },
+        ],
+        "participantInfo.billingFacility":
+          hospId,
+          "participantInfo.clientId":
+          patId,
+        
+        billing_status: {
+          $ne: "Fully Paid",
+        }, // need to set this finally
+        //storeId:state.StoreModule.selectedStore._id,
+        //clientId:state.ClientModule.selectedClient._id,
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    });
+
+    //console.log(findProductEntry);
+
+    // //console.log("updatedorder", findProductEntry.groupedOrder)
+    await setFacilities(findProductEntry.groupedOrder);
+    setLoading(false);
+    setProductItem(state.financeModule.selectedBills);
+    handlePay(findProductEntry.groupedOrder[0])
+    console.log("groupedorders", findProductEntry.groupedOrder)
 
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
@@ -309,6 +475,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
   ////console.log(state.financeModule);
 
   useEffect(() => {
+   
     setSource(
       medication?.participantInfo?.client?.firstname +
         " " +
@@ -352,16 +519,15 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     return () => {};
   }, [productItem]);
 
-
   //initialize page
-  
   useEffect(() => {
     // const medication =state.medicationModule.selectedMedication
     const today = new Date().toLocaleString();
     ////console.log(today)
     setDate(today);
-    const invoiceNo = short.generate();
+    const invoiceNo = random(6, "uppernumeric");
     setDocumentNo(invoiceNo);
+
     getFacilities();
     SubwalletServ.on("created", obj => getFacilities());
     SubwalletServ.on("updated", obj => getFacilities());
@@ -381,6 +547,16 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
       await setPartPay([]);
     };
   }, []);
+
+  /*   useEffect(() => {
+        calcamount1=quantity*sellingprice
+         setCalcAmount(calcamount1)
+         //console.log(calcamount)
+         setChangeAmount(true)
+        return () => {
+            
+        }
+    }, [quantity]) */
 
   const handleChangePart = async (bill, e) => {
     // //console.log(bill, e.target.value)
@@ -432,7 +608,8 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     // bill.partPay=partAmount
     //const itemList=productItem
     if (partAmount === "" || partAmount === 0) {
-      toast.error("Please enter an amount as part payment");
+      toast.warning("Please enter an amount as part payment");
+
       return;
     }
     let item = await productItem.find(el => el._id === bill._id);
@@ -447,7 +624,13 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
       bill.partPay === 0 ||
       bill.partPay === undefined
     ) {
-      toast.error("Please enter an amount as part payment");
+      toast.warning("Please enter an amount as part payment");
+      // toast({
+      //   message: "Please enter an amount as part payment",
+      //   type: "is-danger",
+      //   dismissible: true,
+      //   pauseOnHover: true,
+      // });
       return;
     }
     // //console.log(bill)
@@ -471,13 +654,18 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
 
     getTotal();
     setPartPay(prev => prev.concat(bill));
-    toast.success("Part payment updated successfully");
+    toast({
+      message: "Part payment updated successfully",
+      type: "is-success",
+      dismissible: true,
+      pauseOnHover: true,
+    });
   };
 
   const handlePayment = async () => {
     //1. check if there is sufficient amount
     if (totalamount > balance) {
-      toast.error(
+      toast.warning(
         "Total amount due greater than money received. Kindly top up account or reduce number of bills to be paid"
       );
 
@@ -486,7 +674,10 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
 
     productItem.forEach(el => {
       if (!el.proposedpayment.amount) {
-        toast.error("one or more bills do not have a payment method selected");
+        toast.warning(
+          "one or more bills do not have a payment method selected"
+        );
+
         return;
       }
     });
@@ -546,12 +737,17 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
       amountPaid: totalamount,
     };
 
-    //console.log(obj)
+    // //console.log(obj)
 
     InvoiceServ.create(obj)
       .then(async resp => {
         setProductItem([]);
-        toast.success("payment successful");
+        toast({
+          message: "payment successful",
+          type: "is-success",
+          dismissible: true,
+          pauseOnHover: true,
+        });
         const newProductEntryModule = {
           selectedBills: [],
           selectedFinance: {},
@@ -563,8 +759,23 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
         }));
       })
       .catch(err => {
-        toast.error("Error occurred with payment" + err);
+        toast({
+          message: "Error occurred with payment" + err,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
       });
+
+    //2. call single end point for billspayment?
+
+    //2.1 create subwallet transaction- debit
+
+    //2.2 update subwallet
+
+    //2.3 mark orders as paid
+
+    //2.4 mark bills as paid
   };
 
   const handleBulkPayment = async () => {
@@ -575,14 +786,23 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     if (part) {
       // apply fraction to all bills
       if (partBulk === "" || partBulk === 0 || partBulk === undefined) {
-        toast.error("Please enter an amount as part payment");
+        toast({
+          message: "Please enter an amount as part payment",
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
         return;
       }
 
       if (partBulk > balance) {
-        toast.error(
-          "Amount entered greater than balance. Kindly top up account or reduce amount entered"
-        );
+        toast({
+          message:
+            "Amount entered greater than balance. Kindly top up account or reduce amount entered",
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
 
         return;
       }
@@ -610,9 +830,13 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     if (!part) {
       //check that balance can pay bills
       if (totalamount > balance) {
-        toast.error(
-          "Total amount due greater than money received. Kindly top up account or reduce number of bills to be paid"
-        );
+        toast({
+          message:
+            "Total amount due greater than money received. Kindly top up account or reduce number of bills to be paid",
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
 
         return;
       }
@@ -680,7 +904,12 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     InvoiceServ.create(obj)
       .then(async resp => {
         setProductItem([]);
-        toast.success("payment successful");
+        toast({
+          message: "payment successful",
+          type: "is-success",
+          dismissible: true,
+          pauseOnHover: true,
+        });
         const newProductEntryModule = {
           selectedBills: [],
           selectedFinance: {},
@@ -695,7 +924,12 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
         setIsPart(false);
       })
       .catch(err => {
-        toast.error("Error occurred with payment" + err);
+        toast({
+          message: "Error occurred with payment" + err,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
       });
 
     //2. call single end point for billspayment?
@@ -716,7 +950,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
   const paymentCreateSchema = [
     {
       name: "S/NO",
-      width: "60px",
+      width: "75px",
       key: "sn",
       description: "Enter name of Disease",
       selector: row => row.sn,
@@ -745,19 +979,33 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     {
       name: "Type",
       width: "200px",
-      center: true,
       key: "sn",
       description: "Enter Type",
-      selector: "row",
-      cell: row => (
-        <Box>
-          <RadioButton
-            onChange={e => {
-              handleChangePart(row, e);
-            }}
-            options={["Full", "Part"]}
-            name={row._id}
-          />
+      selector: row => (
+        <div style={{display: "flex", flexDirection: "column"}}>
+          <label style={{marginBottom: "5px"}}>
+            <input
+              type="radio"
+              name={row._id}
+              value="Full"
+              checked={!partTable.find(i => i._id === row._id)}
+              onChange={e => {
+                handleChangePart(row, e);
+              }}
+            />
+            <span> Full </span>
+          </label>
+
+          <label style={{marginBottom: "5px"}}>
+            <input
+              type="radio"
+              name={row._id}
+              value="Part"
+              checked={partTable.find(i => i._id === row._id)}
+              onChange={e => handleChangePart(row, e)}
+            />
+            <span> Part </span>
+          </label>
 
           {partTable.find(i => i._id === row._id) && (
             <div>
@@ -767,7 +1015,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
                   name={row._id}
                   placeholder="Amount"
                   value={partBulk}
-                  onChange={e => handlePartAmount(row, e)}
+                  onChange={e => handlePartAmount(e)}
                 />
               </div>
               <GlobalCustomButton
@@ -778,7 +1026,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
               </GlobalCustomButton>
             </div>
           )}
-        </Box>
+        </div>
       ),
       sortable: true,
       required: true,
@@ -813,13 +1061,6 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
 
   return (
     <>
-      <ModalBox
-        open={createModal}
-        onClose={handleHideCreateModal}
-        header="Pay With Wallet"
-      >
-        <PayWithWallet amount={part ? partBulk : totalamount} />
-      </ModalBox>
       <div style={{width: "100%"}}>
         <ModalBox
           open={depositModal}
@@ -834,61 +1075,145 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            borderBottom: "1px solid #f8f8f8",
-            backgroundColor: "#f8f8f8",
           }}
-          p={2}
           mb={2}
         >
-          <GlobalCustomButton onClick={handleGoBack}>
-            <ArrowBackIcon fontSize="small" sx={{marginRight: "5px"}} />
-            Back
-          </GlobalCustomButton>
-
           <Typography
             sx={{
-              fontSize: "0.95rem",
+              fontSize: "0.8rem",
               color: "2d2d2d",
             }}
           >
-            Pay Bills for{" "}
-            <span
-              style={{
-                textTransform: "capitalize",
-                fontWeight: "600",
-                color: "#023e8a",
-              }}
-            >
-              {source}
-            </span>{" "}
-            #{documentNo}
+            Pay Bills for {source} #{documentNo}
           </Typography>
 
-          <Box>
-            <GlobalCustomButton onClick={() => setDepositModal(true)}>
-              <LocalAtmIcon fontSize="small" sx={{marginRight: "5px"}} />
-              Make Deposit
-            </GlobalCustomButton>
+          <GlobalCustomButton onClick={() => setDepositModal(true)}>
+            <LocalAtmIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Make Deposit
+          </GlobalCustomButton>
+        </Box>
+
+        <Box
+          container
+          sx={{width: "100%", display: "flex", flexDirection: "column"}}
+          mb={2}
+        >
+          <Box
+            container
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box
+              item
+              sx={{
+                width: "49%",
+                height: "80px",
+                border: "1px solid #E5E5E5",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                padding: "0 15px",
+              }}
+            >
+              <Typography sx={{display: "flex", alignItems: "center"}}>
+                <AccountBalanceWalletIcon color="primary" /> Total Amount Due
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "24px",
+                  fontWeight: "700",
+                  color: "red",
+                }}
+              >
+                {" "}
+                &#8358;{totalamount.toFixed(2)}
+              </Typography>
+            </Box>
+
+            <Box
+              item
+              sx={{
+                width: "49%",
+                height: "80px",
+                border: "1px solid #E5E5E5",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                padding: "0 15px",
+              }}
+            >
+              <Typography sx={{display: "flex", alignItems: "center"}}>
+                <AccountBalanceIcon color="primary" /> Current Balance
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "24px",
+                  fontWeight: "700",
+                  color: "2d2d2d",
+                }}
+              >
+                &#8358;{balance.toFixed(2)}
+              </Typography>
+            </Box>
           </Box>
         </Box>
 
-        <Box pl={2} pr={2} mb={2}>
-          <Grid container spacing={1}>
-            <Grid item xs={12} sm={12} md={7} lg={7}>
-              <Box sx={{display: "flex"}} gap={1} mb={1}>
-                <Box>
-                  <RadioButton
-                    name="fullPay"
-                    options={["Full", "Part"]}
-                    onChange={e => {
-                      handleChangeFull(e);
-                    }}
-                    value={part ? "Part" : "Full"}
-                  />
-                </Box>
+        <div
+          style={{
+            backgroundColor: "#F8F8F8",
+            padding: "7px",
+            marginBottom: "15px",
+            boxShadow: "0 3px 3px 0 rgb(3 4 94 / 20%)",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              gap: "2rem",
+              justifyContent: "space-between",
+            }}
+          >
+            <div style={{display: "flex", alignItems: "center"}}>
+              <label className=" is-small">
+                <input
+                  type="radio"
+                  name="fullPay"
+                  value="Full"
+                  checked={!part}
+                  onChange={e => {
+                    handleChangeFull(e);
+                  }}
+                />
+                <span> Full </span>
+              </label>
 
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  marginLeft: "15px",
+                }}
+              >
+                <div>
+                  <label className=" is-small">
+                    <input
+                      type="radio"
+                      name="fullPay"
+                      value="Part"
+                      onChange={e => handleChangeFull(e)}
+                    />
+                    <span> Part </span>
+                  </label>
+                </div>
                 {part && (
-                  <Box style={{marginLeft: "15px", width: "200px"}}>
+                  <div style={{marginLeft: "15px", width: "200px"}}>
                     <Input
                       label="Amount"
                       type="text"
@@ -897,228 +1222,33 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
                       value={partBulk}
                       onChange={e => handleBulkAmount(e)}
                     />
-                  </Box>
+                  </div>
                 )}
-              </Box>
-
-              <Box
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                }}
-                gap={1}
-              >
-                <GlobalCustomButton onClick={handleBulkPayment}>
-                  <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
-                  Pay
-                </GlobalCustomButton>
-
-                {/* <GlobalCustomButton
-									sx={{
-										backgroundColor: '#6c584c',
-										'&:hover': { backgroundColor: '#6c584c;' },
-									}}>
-									<WalletIcon
-										sx={{ marginRight: '5px' }}
-										fontSize='small'
-									/>
-									Pay with Wallet
-								</GlobalCustomButton> */}
-                {/* 
-								<GlobalCustomButton
-									sx={{
-										backgroundColor: '#023e8a',
-										'&:hover': { backgroundColor: '#023e8a' },
-									}}>
-									<WalletIcon
-										sx={{ marginRight: '5px' }}
-										fontSize='small'
-									/>
-									<RemitaPayment
-										remitaData={data}
-										className='btn'
-										text='Pay with Remita'
-									/>
-								</GlobalCustomButton> */}
-                {/* <GlobalCustomButton
-                  onClick={() => {
-                    handleFlutterPayment({
-                      callback: response => {
-                        console.log(response);
-                        closePaymentModal();
-                      },
-                      onClose: () => {
-                        closeModal;
-                      },
-                    });
-                  }}
-                  sx={{
-                    backgroundColor: "#2d3142",
-                    color: "#ffffff",
-                    "&:hover": {backgroundColor: "#2d3142"},
-                  }}
-                >
-                  <FlutterWaveIcon />
-                  Pay with Flutterwave
-                </GlobalCustomButton>
-
-                <PaystackConsumer {...componentProps}>
-                  {({initializePayment}) => (
-                    <GlobalCustomButton
-                      onClick={() =>
-                        initializePayment(handleSuccess, closeModal)
-                      }
-                      sx={{
-                        backgroundColor: "#023e8a",
-                        "&:hover": {backgroundColor: "#023e8a"},
-                      }}
-                    >
-                      <PaystackIcon />
-                      Pay with PayStack
-                    </GlobalCustomButton>
-                  )}
-                </PaystackConsumer> */}
-              </Box>
-            </Grid>
-
-            <Grid item xs={12} sm={12} md={5} lg={5}>
-              <Box
-                container
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "flex-end",
-                }}
-                gap={1}
-              >
-                <Box
-                  item
-                  sx={{
-                    minWidth: "200px",
-                    height: "80px",
-                    border: "1px solid #E5E5E5",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    padding: "0 15px",
-                  }}
-                >
-                  <Typography sx={{display: "flex", alignItems: "center"}}>
-                    <AccountBalanceWalletIcon color="primary" /> Total Amount
-                    Due
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "24px",
-                      fontWeight: "700",
-                      color: "red",
-                    }}
-                  >
-                    {" "}
-                    &#8358;{totalamount.toFixed(2)}
-                  </Typography>
-                </Box>
-
-                <Box
-                  item
-                  sx={{
-                    minWidth: "100px",
-                    height: "80px",
-                    border: "1px solid #E5E5E5",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    padding: "0 15px",
-                  }}
-                >
-                  <Typography sx={{display: "flex", alignItems: "center"}}>
-                    <AccountBalanceIcon color="primary" /> Current Balance
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "24px",
-                      fontWeight: "700",
-                      color: "#85BB65",
-                    }}
-                  >
-                    &#8358;{balance.toFixed(2)}
-                  </Typography>
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
-
-        {productItem.length > 0 && (
-          <Box
-            pr={2}
-            pl={2}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-            gap={2}
-          >
-            <div
-              style={{
-                height: "calc(100% - 300px)",
-                width: "100%",
-              }}
-            >
-              <CustomTable
-                title={""}
-                columns={paymentCreateSchema}
-                data={productItem}
-                pointerOnHover
-                highlightOnHover
-                striped
-                onRowClicked={row => row}
-                progressPending={loading}
-              />
-              {/* 
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  marginTop: "10px",
-                }}
-              >
-                <GlobalCustomButton
-                  disabled={!productItem.length > 0}
-                  onClick={handlePayment}
-                  sx={{marginRight: "15px"}}
-                >
-                  <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
-                  Pay
-                </GlobalCustomButton>
-              </div> */}
+              </div>
             </div>
-            <Box
+
+            <div
+              className="control"
               style={{
                 display: "flex",
+                alignItems: "flex-start",
                 flexDirection: "row",
-                justifyContent: "flex-start",
+                justifyContent: "space-between",
+                gap: "14px",
               }}
-              gap={1}
             >
-              <GlobalCustomButton onClick={handlePayment} color="success">
+              <GlobalCustomButton
+                /* disabled={!productItem.length > 0} */
+                onClick={handlePayment}
+                sx={{marginRight: "15px"}}
+              >
                 <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
-                Make Full Payment
+                Pay
               </GlobalCustomButton>
-
-              {/* <GlobalCustomButton
-								sx={{
-									backgroundColor: '#6c584c',
-									'&:hover': { backgroundColor: '#6c584c;' },
-								}}
-								onClick={handleCreateModal}>
-								<WalletIcon
-									sx={{ marginRight: '5px' }}
-									fontSize='small'
-								/>
-								Pay with Wallet
-							</GlobalCustomButton> */}
-
+              {/* <GlobalCustomButton sx={{marginRight: "15px"}}>
+                <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+                Pay with Wallet
+              </GlobalCustomButton> */}
               {/* <GlobalCustomButton
                 onClick={() => {
                   handleFlutterPayment({
@@ -1131,48 +1261,84 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
                     },
                   });
                 }}
-                sx={{
-                  backgroundColor: "#2d3142",
-                  color: "#ffffff",
-                  "&:hover": {backgroundColor: "#2d3142"},
-                }}
+                sx={{marginRight: "15px"}}
               >
-                <FlutterWaveIcon />
+                <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
                 Pay with Flutterwave
               </GlobalCustomButton>
-
               <PaystackConsumer {...componentProps}>
                 {({initializePayment}) => (
                   <GlobalCustomButton
                     onClick={() => initializePayment(handleSuccess, closeModal)}
-                    sx={{
-                      backgroundColor: "#023e8a",
-                      "&:hover": {backgroundColor: "#023e8a"},
-                    }}
+                    sx={{marginRight: "15px"}}
                   >
-                    <PaystackIcon />
+                    <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
                     Pay with PayStack
                   </GlobalCustomButton>
                 )}
-             </PaystackConsumer> */}
-              {/* <GlobalCustomButton
-								sx={{
-									backgroundColor: '#023e8a',
-									'&:hover': { backgroundColor: '#023e8a' },
-								}}>
-								<WalletIcon
-									sx={{ marginRight: '5px' }}
-									fontSize='small'
-								/>
-								<RemitaPayment
-									remitaData={data}
-									className='btn'
-									text='Pay with Remita'
-								/>
-							</GlobalCustomButton> */}
-            </Box>
-          </Box>
-        )}
+              <//>
+               */}
+              {/* <RemitaPayment
+          remitaData={data}
+        
+        >
+          <GlobalCustomButton sx={{marginRight: "15px"}}>
+                <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+                Pay with Remita
+              </GlobalCustomButton>
+        </RemitaPayment> */}
+            </div>
+          </div>
+        </div>
+
+        <div className="card-content px-1 ">
+          {!!productItem && (
+            <>
+              <div
+                style={{
+                  height: "calc(100% - 70px)",
+                  width: "100%",
+                  transition: "width 0.5s ease-in",
+                }}
+              >
+                <CustomTable
+                  title={""}
+                  columns={paymentCreateSchema}
+                  data={productItem}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={row => row}
+                  progressPending={loading}
+                />
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    marginTop: "10px",
+                  }}
+                >
+                  <GlobalCustomButton
+                    /* disabled={!productItem.length > 0} */
+                    onClick={handlePayment}
+                    sx={{marginRight: "15px"}}
+                  >
+                    <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+                    Pay
+                  </GlobalCustomButton>
+                  <GlobalCustomButton
+                    color="error"
+                    variant="outlined"
+                  /*   disabled={!productItem.length > 0} */
+                    onClick={closeModal}
+                  >
+                    Cancel
+                  </GlobalCustomButton>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </>
   );

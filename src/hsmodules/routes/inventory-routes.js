@@ -19,6 +19,7 @@ const InventoryProducts = lazy(() => import("../inventory/Products"));
 const Store = lazy(() => import("../inventory/Store"));
 const InventoryTransfer = lazy(() => import("../inventory/InventoryTransfer"));
 
+
 export const inventoryRoutes = [
   {
     path: "/app/inventory/billservice",
