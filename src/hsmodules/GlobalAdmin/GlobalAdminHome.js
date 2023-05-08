@@ -49,6 +49,19 @@ const GlobalAdminHome = () => {
    const [totalInvoices, setTotalInvoices] = useState(0);
    const [totalEmployees, setTotalEmployees] = useState(0);
    const [totalClinicalDocument, setTotalClinicalDocument] = useState(0);
+<<<<<<< Updated upstream
+=======
+   const [totalFacilities, setTotalFacilities] = useState(0);
+   const [hospitals, setHospitals] = useState(0);
+   const [school, setSchool] = useState(0);
+   const [hospitality, setHospitality] = useState(0);
+    const [laboratory, setLaboratory] = useState(0);
+   const [pharmacies, setPharmacies] = useState(0);
+   const [corporate, setCorporate] = useState(0);
+   const [diagnosticsLab, setDiagnosticsLab] = useState(0);
+   const [hmo, setHmo] = useState(0);
+   const [clinic, setClinic] = useState(0);
+>>>>>>> Stashed changes
    const [totalClients, setTotalClients] = useState(0);
 
 
@@ -64,6 +77,10 @@ const GlobalAdminHome = () => {
   const [selectedType, setSelectedType] = useState('hmo');
   const [selectedState, setSelectedState] = useState("Ibadan");
 
+<<<<<<< Updated upstream
+=======
+  console.log("Facilities", totalFacilities)
+>>>>>>> Stashed changes
 
   const handleTypeChange = (event) => {
     setSelectedType(event.target.value);
@@ -146,6 +163,7 @@ const GlobalAdminHome = () => {
       .find()
       .then(res => {
         hideActionLoader();
+<<<<<<< Updated upstream
         const facilitiesCounts = {
           hospitals: res.data.filter(hospital => hospital.facilityType === "State HMO").length,
           minofhealth: res.data.filter(minofhealth => minofhealth.facilityType === "MInistry of Health").length,
@@ -164,6 +182,20 @@ const GlobalAdminHome = () => {
           ...facilitiesCounts,
     
         }));
+=======
+        setTotalFacilities(res.total)
+        setHospitals(res.data.filter(hospital => hospital.facilityType === "State HMO").length);
+        setMinofhealth(res.data.filter(minofhealth => minofhealth.facilityType === "MInistry of Health").length);
+        setStatehmo(res.data.filter(statehmo => statehmo.facilityType === "Hospital").length);
+        setClinic(res.data.filter(clinic => clinic.facilityType === "Clinic").length);
+        setSchool(res.data.filter(school => school.facilityType === "School").length);
+        setHospitality(res.data.filter(hospitality => hospitality.facilityType === "Hospitality").length);
+        setLaboratory(res.data.filter(laboratory => laboratory.facilityType === "Laboratory").length);
+        setPharmacies(res.data.filter(pharmacy => pharmacy.facilityType === "Pharmacy").length);
+        setCorporate(res.data.filter(corporate => corporate.facilityType === "Corporate").length);
+        setDiagnosticsLab(res.data.filter(diagnosticsLab => diagnosticsLab.facilityType === "Diagnostics Lab").length);
+        setHmo(res.data.filter(hmo => hmo.facilityType === "HMO").length);
+>>>>>>> Stashed changes
         setLagos(res.data.filter(state => state.facilityCity === "Lagos").length);
         setIbadan(res.data.filter(state => state.facilityCity === "Ibadan").length);
         setAbuja(res.data.filter(state => state.facilityCity === "Abuja").length);
@@ -380,7 +412,11 @@ const GlobalAdminHome = () => {
           <FitnessCenter fontSize="large" color="primary" />
           <div>
             <StyledTypography weight="bold" size="1rem" color="#333" textTransform="uppercase" margin="0.5rem 0">Total Facilities</StyledTypography>
+<<<<<<< Updated upstream
             {/* <StyledNumber backgroundColor="#800000">{totalFacilities}</StyledNumber> */}
+=======
+            <StyledNumber backgroundColor="#800000">{totalFacilities}</StyledNumber>
+>>>>>>> Stashed changes
           </div>
         </StyledCardContent>
       </StyledCard>
