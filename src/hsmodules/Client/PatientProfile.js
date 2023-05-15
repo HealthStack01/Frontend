@@ -144,11 +144,12 @@ export default function PatientProfile() {
 
   const openPolicy = async()=>{
     console.log("starting plicy modal")
-    let paymentInfo = state.ClientModule.selectedClient.paymentInfo
-    let hmoinfo=paymentinfo.filter(el=>el.paymentmode==="HMO" )
-    if (hmoinfo.length >1){
+    let paymentInfo = state.ClientModule.selectedClient.paymentinfo
+    let hmoinfo=paymentInfo.filter(el=>el.paymentmode==="HMO" )
+    console.log(hmoinfo)
+    if (hmoinfo.length>0){
      let chosenPolicy= hmoinfo[0].policy
-     await setSelectedClient(Client);
+     //await setSelectedClient(Client);
      const newClientModule = {
        selectedClient: chosenPolicy,
        show: "detail",
@@ -316,16 +317,16 @@ export default function PatientProfile() {
                     </Typography>
                  
                     <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
-                    {pay?.paymentmode === "HMO" && <>Plan: {pay?.plan} </>}
+                    {pay?.paymentmode === "HMO" && <>Plan: {pay?.plan?pay?.plan:pay?.policy.plan.planName} </>}
                     </Typography>
                     <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
-                    {pay?.paymentmode === "HMO" && <>Client ID: {pay?.clientId} </>}
+                    {pay?.paymentmode === "HMO" && <>Client ID: {pay?.clientId?pay?.clientId:pay?.policy.policyNo} </>}
                     </Typography>
                     <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
-                    {pay?.paymentmode === "HMO" && <>Principal: {pay?.PrincipalName} </>}
+                    {pay?.paymentmode === "HMO" && <>Principal: {pay?.PrincipalName?pay?.PrincipalName:`${pay.policy.principal.firstname}  ${pay?.policy.principal.lastname}`}</>}
                     </Typography>
                     <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
-                    {pay?.paymentmode === "HMO" && <>Principal ID: {pay?.PrincipalId} </>}
+                    {pay?.paymentmode === "HMO" && <>Principal ID: {pay?.PrincipalId?pay?.PrincipalId:pay?.policy.policyNo} </>}
                     </Typography>
                     <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
                     {pay?.paymentmode === "HMO" && <>Active: {pay?.active.toString()} </>}
