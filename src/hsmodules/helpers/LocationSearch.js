@@ -66,7 +66,7 @@ export default function LocationSearch({
 
     // setSelectedFacility(obj)
     setShowPanel(false);
-    await setCount(2);
+    setCount(2);
     /* const    newfacilityModule={
             selectedFacility:facility,
             show :'detail'
@@ -75,23 +75,7 @@ export default function LocationSearch({
     //console.log(state)
   };
 
-  const handleBlur = async e => {
-    /*   if (count===2){
-             console.log("stuff was chosen")
-         } */
-    /*  console.log("blur")
-         setShowPanel(false)
-        console.log(JSON.stringify(simpa))
-        if (simpa===""){
-            console.log(facilities.length)
-            setSimpa("abc")
-            setSimpa("")
-            setFacilities([])
-            inputEl.current.setValue=""
-        }
-        console.log(facilities.length)
-        console.log(inputEl.current) */
-  };
+ 
   const handleSearch = async val => {
     setVal(val);
     if (val === "") {
@@ -99,9 +83,6 @@ export default function LocationSearch({
       getSearchfacility(false);
       return;
     }
-    const field = "name"; //field variable
-    /* name: { type: String, required: true },
-        locationType: { type: String }, */
 
     if (val.length >= 3) {
       ClientServ.find({
@@ -119,26 +100,7 @@ export default function LocationSearch({
                 $options: "i",
               },
             },
-            /*    { middlename: {
-                        $regex:val,
-                        $options:'i' 
-                    }},
-                    { phone: {
-                        $regex:val,
-                        $options:'i' 
-                    }},
-                    { clientTags: {
-                        $regex:val,
-                        $options:'i' 
-                    }},
-                    { mrn: {
-                        $regex:val,
-                        $options:'i' 
-                    }},
-                    { specificDetails: {
-                        $regex:val,
-                        $options:'i' 
-                    }}, */
+           
           ],
 
           facility: user.currentEmployee.facilityDetail._id,
