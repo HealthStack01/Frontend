@@ -55,7 +55,6 @@ import PharmacyBillService from "../Finance/BillService";
 import Claims from "./Claims";
 import GeneralAppointments from "./Referral";
 import HealthPlan from "./HealthPlan";
-import TestPlanDetails from "./TestPlanDetails";
 var random = require("random-string-generator");
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createClientSchema } from "../Client/schema";
@@ -2228,7 +2227,6 @@ export function ClientDetail({ showModal, setShowModal, selectedPlan}) {
               <FormsHeaderText
                 text={`${Client?.detail?.plan?.planName} Benefits`}
               />
-            <TestPlanDetails />
               {/* <CustomTable
                 tableData={""}
                 columns={productItemSchema}
