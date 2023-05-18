@@ -46,7 +46,7 @@ import {usePosition} from "../../components/hooks/getUserLocation";
 import Textarea from "../../components/inputs/basic/Textarea";
 import {Box, getValue} from "@mui/system";
 import RadioButton from "../../components/inputs/basic/Radio";
-import {Button, Grid, IconButton} from "@mui/material";
+import {Button, Grid, IconButton, Typography, FormGroup} from "@mui/material";
 import Input from "../../components/inputs/basic/Input";
 import {FormsHeaderText} from "../../components/texts";
 import CloseIcon from "@mui/icons-material/Close";
@@ -56,6 +56,8 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 import VoiceTextArea from "../../components/inputs/basic/Textarea/VoiceInput";
+import GlobalTable from "../../components/customtable/GlobalTable"
+import  GlobalCheckbox  from "../../components/global-checkbox/GlobalCheckbox";
 
 export default function EncounterRight() {
   const {state, setState} = useContext(ObjectContext);
@@ -204,6 +206,8 @@ export default function EncounterRight() {
         "Continuation Sheet" && <ContinuationSheet onSubmit={submitDocument} />}
       {state.DocumentClassModule.selectedDocumentClass.name ===
         "Vital Signs Chart" && <VitalSignsChart onSubmit={submitDocument} />}
+        {state.DocumentClassModule.selectedDocumentClass.name ===
+        "Eye examination" && <EyeExamination onSubmit={submitDocument} />}
     </div>
   );
 }
@@ -326,8 +330,6 @@ export function VitalSignCreate() {
       coordinates: [state.coordinates.latitude, state.coordinates.longitude],
     };
 
-    //const coordPass = checkGeolocation(document.geolocation.coordinates);
-
     if (
       document.location === undefined ||
       !document.createdByname ||
@@ -340,8 +342,6 @@ export function VitalSignCreate() {
     }
 
     if (!!draftDoc && draftDoc.status === "Draft") {
-      //console.log(document);
-
       ClientServ.patch(draftDoc._id, document)
         .then(res => {
           //Convert Hook forms data into empty string to reset form
@@ -829,8 +829,6 @@ export function LabNoteCreate() {
           shouldDirty: true,
         })
       );
-      // setSymptoms(draftDoc.documentdetail.Presenting_Complaints)
-      // setAllergies(draftDoc.documentdetail.Allergy_Skin_Test)
     }
     return () => {
       draftDoc = {};
@@ -1056,6 +1054,278 @@ export function LabNoteCreate() {
               {/* <Button variant="outlined" type="button">
                 Cancel
               </Button> */}
+            </Box>
+          </form>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// Eye Examination
+export function EyeExamination() {
+  const {register, handleSubmit, setValue, reset, getValues} = useForm(); //, watch, errors, reset
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState("");
+  // eslint-disable-next-line
+  const [facility, setFacility] = useState();
+  const ClientServ = client.service("clinicaldocument");
+  //const navigate=useNavigate()
+  const {user} = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [currentUser, setCurrentUser] = useState();
+  const {state, setState} = useContext(ObjectContext);
+  const [confirmDialog, setConfirmDialog] = useState(false);
+  const [docStatus, setDocStatus] = useState("Draft");
+
+  let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
+
+  useEffect(() => {
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+        setValue(keys, value, {
+          shouldValidate: true,
+          shouldDirty: true,
+        })
+      );
+  
+    }
+    return () => {
+      draftDoc = {};
+    };
+  }, [draftDoc]);
+
+
+  useEffect(() => {
+    setCurrentUser(user);
+    return () => {};
+  }, [user]);
+
+  //check user for facility or get list of facility
+  useEffect(() => {
+    //setFacility(user.activeClient.FacilityId)//
+    if (!user.stacker) {
+   
+    }
+  });
+
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+    let document = {};
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+    }
+    document.documentdetail = data;
+    document.documentname = "Eye examination"; //"Eye examination"
+    document.documentType = "Eye examination";
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = docStatus === "Draft" ? "Draft" : "completed";
+
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+    if (
+      document.location === undefined ||
+      !document.createdByname ||
+      !document.facilityname
+    ) {
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
+      return;
+    }
+ 
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then(res => {
+          Object.keys(data).forEach(key => {
+            data[key] = "";
+          });
+
+          setDocStatus("Draft");
+          setSuccess(true);
+          toast.success("Documentation updated succesfully");
+          setSuccess(false);
+          setConfirmDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error updating Documentation " + err);
+          reset(data);
+          setConfirmDialog(false);
+        });
+    } else {
+      ClientServ.create(document)
+        .then(res => {
+          Object.keys(data).forEach(key => {
+            data[key] = "";
+          });
+
+          setSuccess(true);
+          toast.success("Eye Examination created succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error creating Eye examination " + err);
+          setConfirmDialog(false);
+        });
+    }
+  };
+
+  const closeEncounterRight = async () => {
+    setState(prevstate => ({
+      ...prevstate,
+      DocumentClassModule: {
+        ...prevstate.DocumentClassModule,
+        encounter_right: false,
+      },
+    }));
+  };
+
+  return (
+    <>
+      <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmDialog}
+          cancelAction={() => setConfirmDialog(false)}
+          confirmationAction={handleSubmit(onSubmit)}
+          type="create"
+          message={`You are about to save this document ${getValues("eye" )} Examination?`}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText text={"EYE EXAMINATION REPORT"} />
+
+          <IconButton onClick={closeEncounterRight}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Box>
+        <div className="card-content vscrollable remPad1">
+          <form>
+          <Typography color="primary" variant="body1">
+              Age of Onset
+            </Typography>
+            <Box mb={1}>
+              <Input
+                register={register("Age of Onset")}
+                name="text"
+                type="text"
+                placeholder="Enter age of Onset"
+              />
+            </Box>
+            <Typography color="primary" variant="body1">
+             History
+            </Typography>
+            <Box style={{ marginTop: '10px', marginBottom: '30px' }}>
+              <Textarea
+              color="primary"
+                register={register("history")}
+                name="findings"
+                type="text"
+                placeholder="Type here...."
+              />
+            </Box>
+
+            <GlobalTable />
+            <Typography variant="body1">
+               If acuity cannot be measured, enter check to select the most appropriate selection
+            </Typography>
+            <FormGroup>
+           <GlobalCheckbox label="Legally blind 20/200" />
+           <GlobalCheckbox label="Between 20/70 and 20/199" />
+           <GlobalCheckbox label="Better than 20/70" />
+           <GlobalCheckbox label="Functions at the definition of blindness (E.g. CVI)" />
+           </FormGroup>
+
+           <Typography variant="body1">
+               Muscle function:
+            </Typography>
+            <GlobalCheckbox label="Normal" />
+           <GlobalCheckbox label="Abnormal" />
+
+           <Box>
+              <Textarea
+                register={register("describe")}
+                name="findings"
+                type="text"
+                label="Describe"
+                placeholder="Type here..."
+              />
+            </Box>
+            <Typography style={{ marginTop: '20px', marginBottom: '20px' }} fontWeight="bold"  color="primary" variant="subtitle2">
+               Visual field test
+            </Typography>
+            <Typography color="primary" variant="body2">
+               Type of test (Confrontation not acceptable)
+            </Typography>
+            <Box mb={1}>
+              <Input
+                register={register("Age of Onset")}
+                name="text"
+                type="text"
+                placeholder="Enter test type"
+              />
+            </Box>
+            <GlobalCheckbox label="Theres no apparent visual field restrictions" />
+           <GlobalCheckbox label="There is a field restriction" />
+           <Box>
+              <Textarea
+                 color="primary"
+                register={register("describe")}
+                name="findings"
+                type="text"
+                label="Description"
+                placeholder="Type here..."
+              />
+            </Box>
+            <Typography variant="body2">
+               The field if restricted to:
+            </Typography>
+            <GlobalCheckbox label="21 to  30 (Degree)" />
+            <GlobalCheckbox label="20 (Degrees) or  less" />
+            <Typography variant="body2">
+               Color Vision
+            </Typography>
+            <GlobalCheckbox label="Normal" />
+           <GlobalCheckbox label="Abnormal" />
+            <Box
+             p={4}
+              sx={{
+                display: "flex",
+                gap: "1rem",
+              }}
+            >
+              <Button onClick={closeEncounterRight} style={{ paddingLeft: '30px', paddingRight: '30px' }} variant="outlined" type="button">
+                Cancel
+              </Button>
+              <GlobalCustomButton
+              style={{ paddingLeft: '30px', paddingRight: '30px' }}
+                color="primary"
+                type="submit"
+                onClick={() => setConfirmDialog(true)}
+              >
+                Confirm
+              </GlobalCustomButton>
             </Box>
           </form>
         </div>
