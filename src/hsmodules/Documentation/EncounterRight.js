@@ -564,36 +564,19 @@ export function ClinicalNoteCreate() {
           shouldDirty: true,
         })
       );
-      // setSymptoms(draftDoc.documentdetail.Presenting_Complaints)
-      // setAllergies(draftDoc.documentdetail.Allergy_Skin_Test)
     }
     return () => {
       draftDoc = {};
     };
   }, [draftDoc]);
 
-  const getSearchfacility = obj => {
-    setValue("facility", obj._id, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  };
-
   useEffect(() => {
     setCurrentUser(user);
-    //console.log(currentUser)
+  
     return () => {};
   }, [user]);
-
-  //check user for facility or get list of facility
   useEffect(() => {
-    //setFacility(user.activeClient.FacilityId)//
     if (!user.stacker) {
-      /*    console.log(currentUser)
-        setValue("facility", user.currentEmployee.facilityDetail._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        })  */
     }
   });
 
@@ -605,8 +588,6 @@ export function ClinicalNoteCreate() {
     setError(false);
     setSuccess(false);
     let document = {};
-    // data.createdby=user._id
-    //console.log(data);
     if (user.currentEmployee) {
       document.facility = user.currentEmployee.facilityDetail._id;
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
@@ -642,31 +623,19 @@ export function ClinicalNoteCreate() {
       return;
     }
 
-    // return console.log(document);
-
     if (!!draftDoc && draftDoc.status === "Draft") {
       ClientServ.patch(draftDoc._id, document)
         .then(res => {
           Object.keys(data).forEach(key => {
             data[key] = "";
           });
-          //console.log(JSON.stringify(res))
 
           setDocStatus("Draft");
-          // setAllergies([])
-          /*  setMessage("Created Client successfully") */
           setSuccess(true);
           toast.success("Documentation updated succesfully");
           setSuccess(false);
           reset(data);
           setConfirmationDialog(false);
-
-          /*  toast({
-                        message:message ,
-                        type: 'is-success',
-                        dismissible: true,
-                        pauseOnHover: true,
-                      }) */
         })
         .catch(err => {
           toast.error("Error updating Documentation " + err);
@@ -674,12 +643,10 @@ export function ClinicalNoteCreate() {
     } else {
       ClientServ.create(document)
         .then(res => {
+          // console.log("Clinincal note data", res)
           Object.keys(data).forEach(key => {
             data[key] = "";
           });
-          //console.log(JSON.stringify(res))
-
-          /*  setMessage("Created Client successfully") */
           setSuccess(true);
           toast.success("Documentation created succesfully");
           setSuccess(false);
@@ -692,11 +659,7 @@ export function ClinicalNoteCreate() {
     }
   };
   const handleChangeStatus = async e => {
-    // await setAppointment_type(e.target.value)
-
     setDocStatus(e.target.value);
-
-    //console.log(e.target.value)
   };
 
   const closeEncounterRight = async () => {
@@ -1069,16 +1032,26 @@ export function EyeExamination() {
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
   // eslint-disable-next-line
-  const [facility, setFacility] = useState();
   const ClientServ = client.service("clinicaldocument");
-  //const navigate=useNavigate()
   const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const {state, setState} = useContext(ObjectContext);
   const [confirmDialog, setConfirmDialog] = useState(false);
   const [docStatus, setDocStatus] = useState("Draft");
-
+  const [acuity1, setAcuity1] = useState("");
+  const [acuity2, setAcuity2] = useState("");
+  const [acuity3, setAcuity3] = useState("");
+  const [acuity4, setAcuity4] = useState("");
+  const [normal, setNormal] = useState("");
+  const [abnormal, setAbnormal] = useState("");
+  const [field1, setField1] = useState("");
+  const [field2, setField2] = useState("");
+  const [colorVision1, setColorVision1] = useState("");
+  const [colorVision2, setColorVision2] = useState("");
+  const [fieldRestriction1, setFieldRestriction1] = useState("");
+  const [fieldRestriction2, setFieldRestriction2] = useState("");
+    
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
 
   useEffect(() => {
@@ -1102,26 +1075,92 @@ export function EyeExamination() {
     return () => {};
   }, [user]);
 
-  //check user for facility or get list of facility
   useEffect(() => {
-    //setFacility(user.activeClient.FacilityId)//
     if (!user.stacker) {
    
     }
   });
 
+  const handleAcuity1Change = (checked) => {
+    setAcuity1(checked ? "Legally blind 20/200" : "");
+  };  
+  
+  const handleAcuity2Change = (checked) => {
+    setAcuity2(checked ? "Between 20/70 and 20/199" : "");
+  }; 
+
+  const handleAcuity3Change = (checked) => {
+    setAcuity3(checked ? "Better than 20/70" : "");
+  }; 
+
+  const handleAcuity4Change = (checked) => {
+    setAcuity4(checked ? "Functions at the definition of blindness (E.g. CVI)" : "");
+  }; 
+
+  const handleNormalChange = (checked) => {
+    setNormal(checked ? "Normal" : "");
+  }; 
+
+  const handleAbnormalChange = (checked) => {
+    setAbnormal(checked ? "Abnormal" : "");
+  }; 
+  
+  const handleField1Change = (checked) => {
+    setField1(checked ? "21 to 30 (Degree)" : "");
+  }; 
+
+  const handleField2Change = (checked) => {
+    setField2(checked ? "20 (Degrees) or less" : "");
+  }; 
+
+  
+  const handleColorVision1Change = (checked) => {
+    setColorVision1(checked ? "Normal" : "");
+  };
+
+  const handleColorVision2Change = (checked) => {
+    setColorVision2(checked ? "Abnormal" : "");
+  };
+  
+  const handleFieldRestriction1Change = (checked) => {
+    setFieldRestriction1(checked ? "Theres no apparent visual field restrictions" : "");
+  };
+  const handleFieldRestriction2Change = (checked) => {
+    setFieldRestriction2(checked ? "There is a field restriction" : "");
+  };
+  
   const onSubmit = (data, e) => {
     e.preventDefault();
     setMessage("");
     setError(false);
     setSuccess(false);
+  
     let document = {};
+  
     if (user.currentEmployee) {
       document.facility = user.currentEmployee.facilityDetail._id;
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
-    document.documentdetail = data;
-    document.documentname = "Eye examination"; //"Eye examination"
+   
+    document.documentdetail = {
+      acuity1,
+      acuity2,
+      acuity3,
+      acuity4,
+      field1,
+      field2,
+      normal,
+      abnormal,
+      colorVision1,
+      colorVision2,
+      fieldRestriction1,
+      fieldRestriction2,
+      ageOfOnset: data.ageOfOnset,
+      history: data.history,
+      describe: data.describe,
+      visualFieldTest: data.visualFieldTest,
+    };
+    document.documentname = "Eye examination";
     document.documentType = "Eye examination";
     document.location =
       state.employeeLocation.locationName +
@@ -1132,37 +1171,37 @@ export function EyeExamination() {
     document.createdBy = user._id;
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = docStatus === "Draft" ? "Draft" : "completed";
-
+  
     document.geolocation = {
       type: "Point",
       coordinates: [state.coordinates.latitude, state.coordinates.longitude],
     };
+ 
+  
     if (
       document.location === undefined ||
       !document.createdByname ||
       !document.facilityname
     ) {
-      toast.error(
-        "Documentation data missing, requires location and facility details"
-      );
+      toast.error("Documentation data missing, requires location and facility details");
       return;
     }
- 
+  
     if (!!draftDoc && draftDoc.status === "Draft") {
       ClientServ.patch(draftDoc._id, document)
         .then(res => {
           Object.keys(data).forEach(key => {
             data[key] = "";
           });
-
+  
           setDocStatus("Draft");
           setSuccess(true);
-          toast.success("Documentation updated succesfully");
+          toast.success("Documentation updated successfully");
           setSuccess(false);
           setConfirmDialog(false);
         })
         .catch(err => {
-          toast.error("Error updating Documentation " + err);
+          toast.error("Error updating Documentation: " + err);
           reset(data);
           setConfirmDialog(false);
         });
@@ -1172,20 +1211,19 @@ export function EyeExamination() {
           Object.keys(data).forEach(key => {
             data[key] = "";
           });
-
+  
           setSuccess(true);
-          toast.success("Eye Examination created succesfully");
+          toast.success("Eye Examination created successfully");
           setSuccess(false);
           reset(data);
           setConfirmDialog(false);
         })
         .catch(err => {
-          toast.error("Error creating Eye examination " + err);
+          toast.error("Error creating Eye examination: " + err);
           setConfirmDialog(false);
         });
     }
   };
-
   const closeEncounterRight = async () => {
     setState(prevstate => ({
       ...prevstate,
@@ -1227,7 +1265,7 @@ export function EyeExamination() {
             </Typography>
             <Box mb={1}>
               <Input
-                register={register("Age of Onset")}
+                register={register("ageOfOnset")}
                 name="text"
                 type="text"
                 placeholder="Enter age of Onset"
@@ -1251,17 +1289,39 @@ export function EyeExamination() {
                If acuity cannot be measured, enter check to select the most appropriate selection
             </Typography>
             <FormGroup>
-           <GlobalCheckbox label="Legally blind 20/200" />
-           <GlobalCheckbox label="Between 20/70 and 20/199" />
-           <GlobalCheckbox label="Better than 20/70" />
-           <GlobalCheckbox label="Functions at the definition of blindness (E.g. CVI)" />
+            <GlobalCheckbox name="legallyBlind"
+             label="Legally blind 20/200"
+            checked={acuity1 === "Legally blind 20/200"}
+              onChange={handleAcuity1Change}
+             />
+           <GlobalCheckbox 
+           label="Between 20/70 and 20/199" 
+           checked={acuity2 === "Between 20/70 and 20/199"}
+           onChange={handleAcuity2Change}
+           />
+           <GlobalCheckbox 
+           label="Better than 20/70"
+           checked={acuity3 === "Better than 20/70"}
+           onChange={handleAcuity3Change}
+           />
+           <GlobalCheckbox 
+           label="Functions at the definition of blindness (E.g. CVI)"
+           checked={acuity4 === "Functions at the definition of blindness (E.g. CVI)"}
+           onChange={handleAcuity4Change}
+           />
            </FormGroup>
 
            <Typography variant="body1">
                Muscle function:
             </Typography>
-            <GlobalCheckbox label="Normal" />
-           <GlobalCheckbox label="Abnormal" />
+            <GlobalCheckbox label="Normal"
+            checked={normal === "Normal"}
+            onChange={handleNormalChange}
+            />
+           <GlobalCheckbox label="Abnormal"
+             checked={abnormal === "Abnormal"}
+             onChange={handleAbnormalChange}
+           />
 
            <Box>
               <Textarea
@@ -1280,14 +1340,22 @@ export function EyeExamination() {
             </Typography>
             <Box mb={1}>
               <Input
-                register={register("Age of Onset")}
+                register={register("visualFieldTest")}
                 name="text"
                 type="text"
                 placeholder="Enter test type"
               />
             </Box>
-            <GlobalCheckbox label="Theres no apparent visual field restrictions" />
-           <GlobalCheckbox label="There is a field restriction" />
+            <GlobalCheckbox 
+            label="Theres no apparent visual field restrictions"
+            checked={fieldRestriction1 === "Theres no apparent visual field restrictions"}
+            onChange={handleFieldRestriction1Change}
+            />
+           <GlobalCheckbox 
+           label="There is a field restriction" 
+           checked={fieldRestriction2 === "There is a field restriction"}
+           onChange={handleFieldRestriction2Change}
+           />
            <Box>
               <Textarea
                  color="primary"
@@ -1301,13 +1369,28 @@ export function EyeExamination() {
             <Typography variant="body2">
                The field if restricted to:
             </Typography>
-            <GlobalCheckbox label="21 to  30 (Degree)" />
-            <GlobalCheckbox label="20 (Degrees) or  less" />
+            <GlobalCheckbox 
+            label="21 to 30 (Degree)"
+            checked={field1 === "21 to 30 (Degree)"}
+            onChange={handleField1Change}
+            />
+            <GlobalCheckbox 
+              label="20 (Degrees) or less"
+              checked={field2 === "20 (Degrees) or less"}
+              onChange={handleField2Change}
+            />
             <Typography variant="body2">
                Color Vision
             </Typography>
-            <GlobalCheckbox label="Normal" />
-           <GlobalCheckbox label="Abnormal" />
+            <GlobalCheckbox 
+            label="Normal"
+            checked={colorVision1 === "Normal"}
+            onChange={handleColorVision1Change}
+            />
+           <GlobalCheckbox label="Abnormal"
+             checked={colorVision2 === "Abnormal"}
+             onChange={handleColorVision2Change}
+           />
             <Box
              p={4}
               sx={{

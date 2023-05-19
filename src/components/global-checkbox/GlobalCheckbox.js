@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Checkbox, FormControlLabel } from '@mui/material';
 
-const GlobalCheckbox = ({ label }) => {
-  const [checked, setChecked] = useState(false);
-
-  const handleChange = () => {
-    setChecked(!checked);
+const GlobalCheckbox = ({ label, checked, onChange, name }) => {
+  const handleChange = (event) => {
+    onChange(event.target.checked);
   };
 
   return (
     <div>
       <FormControlLabel
-      control={<Checkbox checked={checked} onChange={handleChange} />}
-      label={label}
-    />
+        control={
+          <Checkbox
+            checked={checked}
+            onChange={handleChange}
+            name={name}
+          />
+        }
+        label={label}
+      />
     </div>
   );
 };
