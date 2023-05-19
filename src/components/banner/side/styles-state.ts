@@ -3,14 +3,14 @@ import styled from "styled-components";
 export const SideBanner = styled.div`
   width: 35%;
   height: 100vh;
-  background:  ${({theme}) => theme.primary } ;
+  background: #1a7431; 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow-y: hidden;
   position: relative;
-  padding-top: 20rem;
+  padding-top: 3rem;
 
   & .fixed {
     width: 100%;
@@ -23,7 +23,7 @@ export const SideBanner = styled.div`
   & h1 {
     color: ${({theme}) => theme.btnText};
     width: 20rem;
-    font-size: 2.56rem;
+    font-size: 2rem;
     margin-top: 2.19rem;
     margin-bottom: 1.39rem;
   }

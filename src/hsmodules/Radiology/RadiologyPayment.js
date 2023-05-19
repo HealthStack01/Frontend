@@ -202,7 +202,9 @@ export function LabBillingList() {
         "orderInfo.orderObj.order_category": "Lab Order",
         "participantInfo.billingFacility":
           user.currentEmployee.facilityDetail._id,
-        billing_status: "Unpaid", // need to set this finally
+          billing_status: {
+            $ne: "Fully Paid",
+          }, // need to set this finally
         // storeId:state.StoreModule.selectedStore._id,
         //facility:user.currentEmployee.facilityDetail._id || "",
         $limit: 10,
@@ -240,7 +242,9 @@ export function LabBillingList() {
         "participantInfo.billingFacility":
           user.currentEmployee.facilityDetail._id,
         "orderInfo.orderObj.order_category": "Lab Order",
-        billing_status: "Unpaid", // need to set this finally
+        billing_status: {
+          $ne: "Fully Paid",
+        }, // need to set this finally
         //storeId:state.StoreModule.selectedStore._id,
         //clientId:state.ClientModule.selectedClient._id,
         $limit: 100,

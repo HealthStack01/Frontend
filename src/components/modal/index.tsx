@@ -59,7 +59,7 @@ const ModalBox: React.FC<ModalProps> = ({
             <div
               style={{
                 height: "100%",
-                overflowY: "hidden",
+                overflowY: "auto", //"hidden"
               }}
             >
               {header && (

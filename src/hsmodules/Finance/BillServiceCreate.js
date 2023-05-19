@@ -480,7 +480,7 @@ export default function BillServiceCreate() {
           paymentmode: element.billMode,
         },
         createdBy: user._id,
-        billing_status: "Unpaid",
+        billing_status: "Unpaid", //mark as paid if non billing
       };
       let items = {
         orderinfo,

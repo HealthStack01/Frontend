@@ -1500,11 +1500,11 @@ export function ClientDetail({ closeDetailModal }) {
           </Box>
         )}
 
-        <Box>
+        <Box  sx={{/* width: "85vw", maxHeight: "80vh", */ display:"flex", flexWrap:"wrap" , flexDirection:"row", overflow:"auto"}}>
           <form>
             <Grid container spacing={1}>
               {(Client.firstname || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={3} md={4} sm={6} xs={12}>
                   <Input
                     register={register("firstname")}
                     label="First Name"
@@ -1515,7 +1515,7 @@ export function ClientDetail({ closeDetailModal }) {
                 </Grid>
               )}
               {(Client.middlename || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={3} md={4} sm={6} xs={12}>
                   <Input
                     register={register("middlename")}
                     label="Middle Name"
@@ -1526,7 +1526,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.lastname || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={3} md={4} sm={6} xs={12}>
                   <Input
                     label="Last Name"
                     important
@@ -1538,7 +1538,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.dob || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={3} md={4} sm={6} xs={12}>
                   <MuiCustomDatePicker
                     control={control}
                     label="Date of Birth"
@@ -1549,7 +1549,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.gender || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={3} md={4} sm={6} xs={12}>
                   <CustomSelect
                     label="Gender"
                     name="gender"
@@ -1565,7 +1565,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.maritalstatus || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={3} md={4} sm={6} xs={12}>
                   <CustomSelect
                     label="Marital Status"
                     name="maritalstatus"
@@ -1586,7 +1586,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.mrn || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={3} md={4} sm={6} xs={12}>
                   <Input
                     label="Medical Record Number"
                     //defaultValue={Client.mrn}
@@ -1597,7 +1597,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.religion || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={3} md={4} sm={6} xs={12}>
                   <Input
                     label="Religion"
                     //defaultValue={Client.religion}
@@ -1608,7 +1608,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.profession || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={3} md={4} sm={6} xs={12}>
                   <Input
                     label="Profession"
                     //defaultValue={Client.profession}
@@ -1619,7 +1619,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.phone || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={3} md={4} sm={6} xs={12}>
                   <Input
                     label="Phone Number"
                     //defaultValue={Client.phone}
@@ -1630,7 +1630,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.email || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={3} md={4} sm={6} xs={12}>
                   <Input
                     label="Email Address"
                     //defaultValue={Client.email}
@@ -1652,7 +1652,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.city || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={3} md={4} sm={6} xs={12}>
                   <Input
                     label="Town/City"
                     //defaultValue={Client.city}
@@ -1663,7 +1663,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.lga || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={3} md={4} sm={6} xs={12}>
                   <Input
                     label="Local Govt Area"
                     //defaultValue={Client.lga}
@@ -1674,7 +1674,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.state || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={3} md={4} sm={6} xs={12}>
                   <Input
                     label="State"
                     //defaultValue={Client.state}
@@ -1685,7 +1685,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.country || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={3} md={4} sm={6} xs={12}>
                   <Input
                     label="Country"
                     //defaultValue={Client.country}
@@ -1696,7 +1696,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.bloodgroup || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={3} md={4} sm={6} xs={12}>
                   <Input
                     label="Blood Group"
                     //defaultValue={Client.bloodgroup}
@@ -1707,7 +1707,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.genotype || editClient) && (
-                <Grid item lg={3} md={4} sm={6}>
+                <Grid item lg={3} md={4} sm={6} xs={12}>
                   <Input
                     label="Genotype"
                     //defaultValue={Client.genotype}

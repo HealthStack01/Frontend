@@ -72,7 +72,7 @@ export default function ClientPolicy({standAlone}) {
   const [loading, setLoading] = useState(false);
   return (
     <section className="section remPadTop">
-      {standAlone
+     {/*  {standAlone
         ? showModal === 0 && (
             <PolicyList
               showModal={showModal}
@@ -107,7 +107,8 @@ export default function ClientPolicy({standAlone}) {
           />
         </ModalBox>
       )}
-      {showModal === 2 && <PolicyDetail setShowModal={setShowModal} />}
+      {showModal === 2 && <PolicyDetail setShowModal={setShowModal} />} */}
+      <PolicyDetail setShowModal={setShowModal} />
     </section>
   );
 }

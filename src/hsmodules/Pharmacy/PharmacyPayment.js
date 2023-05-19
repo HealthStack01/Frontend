@@ -297,7 +297,9 @@ export function PharmacyBillingList({openModal}) {
         "orderInfo.orderObj.order_category": "Prescription",
         "participantInfo.billingFacility":
           user.currentEmployee.facilityDetail._id,
-        billing_status: "Unpaid", // need to set this finally
+          billing_status: {
+            $ne: "Fully Paid",
+          }, // need to set this finally
         // storeId:state.StoreModule.selectedStore._id,
         //facility:user.currentEmployee.facilityDetail._id || "",
         $limit: 10,
@@ -335,7 +337,9 @@ export function PharmacyBillingList({openModal}) {
         "participantInfo.billingFacility":
           user.currentEmployee.facilityDetail._id,
         "orderInfo.orderObj.order_category": "Prescription",
-        billing_status: "Unpaid", // need to set this finally
+        billing_status: {
+          $ne: "Fully Paid",
+        }, // need to set this finally
         //storeId:state.StoreModule.selectedStore._id,
         //clientId:state.ClientModule.selectedClient._id,
         $limit: 100,
