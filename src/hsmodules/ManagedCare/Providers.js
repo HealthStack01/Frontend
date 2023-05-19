@@ -1142,7 +1142,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
       .then((res) => {
         console.log(res);
         res.data.forEach((el=>{
-          setFacilityBand(prev=>[...prev, el.])
+          setFacilityBand(prev=>[...prev, el])
         }))
 
         setBand(res.data);
