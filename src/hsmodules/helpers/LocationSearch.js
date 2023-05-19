@@ -58,7 +58,7 @@ export default function LocationSearch({
   }, []);
 
   const handleRow = async obj => {
-    await setChosen(true);
+   setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
 
@@ -122,11 +122,11 @@ export default function LocationSearch({
           toast.error("Error fetching Location " + err);
         });
     } else {
-      console.log("less than 3 ");
-      console.log(val);
+      // console.log("less than 3 ");
+      // console.log(val);
       setShowPanel(false);
-      await setFacilities([]);
-      console.log(facilities);
+       setFacilities([]);
+      // console.log(facilities);
     }
   };
 
