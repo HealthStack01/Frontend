@@ -1500,7 +1500,7 @@ export function ClientDetail({ closeDetailModal }) {
           </Box>
         )}
 
-        <Box  sx={{/* width: "85vw", maxHeight: "80vh", */ display:"flex", flexWrap:"wrap" , flexDirection:"row", overflow:"auto"}}>
+        <Box  sx={{ p:1, flexWrap:"wrap" , flexDirection:"row", overflow:"auto"}}>
           <form>
             <Grid container spacing={1}>
               {(Client.firstname || editClient) && (
@@ -1641,7 +1641,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.address || editClient) && (
-                <Grid item lg={6} xs={8} sm={12}>
+                <Grid item lg={6} xs={8} sm={12}  xs={12}>
                   <Input
                     label="Residential Address"
                     //defaultValue={Client.address}
@@ -1718,7 +1718,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.disabilities || editClient) && (
-                <Grid item lg={4} md={6} sm={12}>
+                <Grid item lg={4} md={6} sm={12}  xs={12}>
                   <Input
                     label="Disabilities"
                     //defaultValue={Client.disabilities}
@@ -1729,7 +1729,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.allergies || editClient) && (
-                <Grid item lg={4} md={6} sm={12}>
+                <Grid item lg={4} md={6} sm={12}  xs={12}>
                   <Input
                     label="Allergies"
                     //defaultValue={Client.allergies}
@@ -1740,7 +1740,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.comorbidities || editClient) && (
-                <Grid item lg={4} md={6} sm={12}>
+                <Grid item lg={4} md={6} sm={12}  xs={12}>
                   <Input
                     label="Co-mobidities"
                     //defaultValue={Client.comorbidities}
@@ -1751,7 +1751,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.clientTags || editClient) && (
-                <Grid item lg={4} md={6} sm={12}>
+                <Grid item lg={4} md={6} sm={12}  xs={12}>
                   <Input
                     label="Tags"
                     //defaultValue={Client.clientTags}
@@ -1762,7 +1762,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.specificDetails || editClient) && (
-                <Grid item lg={4} md={6} sm={12}>
+                <Grid item lg={4} md={6} sm={12}  xs={12}>
                   <Input
                     label="Specific Details about Client"
                     //defaultValue={Client.specificDetails}
@@ -1773,7 +1773,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.nok_name || editClient) && (
-                <Grid item lg={4} md={6} sm={12}>
+                <Grid item lg={4} md={6} sm={12}  xs={12}>
                   <Input
                     label="Next of Kin Fullname"
                     //defaultValue={Client.nok_name}
@@ -1784,7 +1784,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.nok_phoneno || editClient) && (
-                <Grid item lg={4} md={6} sm={12}>
+                <Grid item lg={4} md={6} sm={12}  xs={12}>
                   <Input
                     label="Next of Kin Phone Number"
                     //defaultValue={Client.nok_phoneno}
@@ -1795,7 +1795,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.nok_relationship || editClient) && (
-                <Grid item lg={4} md={6} sm={12}>
+                <Grid item lg={4} md={6} sm={12}  xs={12}>
                   <Input
                     label="Next of Kin Relationship"
                     //defaultValue={Client.nok_relationship}
@@ -1806,7 +1806,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.nok_email || editClient) && (
-                <Grid item lg={4} md={6} sm={12}>
+                <Grid item lg={4} md={6} sm={12}  xs={12}>
                   <Input
                     label="Next of Kin Email Address"
                     //defaultValue={Client.nok_email}

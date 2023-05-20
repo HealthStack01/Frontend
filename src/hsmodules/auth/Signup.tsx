@@ -223,7 +223,7 @@ function Signup() {
           </Step>
         ))}
       </Stepper>
-
+      <Box sx={{ p:1, flexWrap:"wrap" , flexDirection:"row", overflow:"auto"}}>
       <form onSubmit={handleSubmit(handleNext)}>
         {activeStep === STEP_ORGANISATION && (
           <CreateOrganization
@@ -280,6 +280,7 @@ function Signup() {
           )}
         </Box>
       </form>
+      </Box>
 
       <Box
         sx={{
