@@ -46,7 +46,7 @@ import {usePosition} from "../../components/hooks/getUserLocation";
 import Textarea from "../../components/inputs/basic/Textarea";
 import {Box, getValue} from "@mui/system";
 import RadioButton from "../../components/inputs/basic/Radio";
-import {Button, Grid, IconButton} from "@mui/material";
+import {Button, Grid, IconButton, Typography, FormGroup} from "@mui/material";
 import Input from "../../components/inputs/basic/Input";
 import {FormsHeaderText} from "../../components/texts";
 import CloseIcon from "@mui/icons-material/Close";
@@ -56,6 +56,8 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 import VoiceTextArea from "../../components/inputs/basic/Textarea/VoiceInput";
+import GlobalTable from "../../components/customtable/GlobalTable"
+import  GlobalCheckbox  from "../../components/global-checkbox/GlobalCheckbox";
 
 export default function EncounterRight() {
   const {state, setState} = useContext(ObjectContext);
@@ -204,6 +206,8 @@ export default function EncounterRight() {
         "Continuation Sheet" && <ContinuationSheet onSubmit={submitDocument} />}
       {state.DocumentClassModule.selectedDocumentClass.name ===
         "Vital Signs Chart" && <VitalSignsChart onSubmit={submitDocument} />}
+        {state.DocumentClassModule.selectedDocumentClass.name ===
+        "Eye examination" && <EyeExamination onSubmit={submitDocument} />}
     </div>
   );
 }
@@ -326,8 +330,6 @@ export function VitalSignCreate() {
       coordinates: [state.coordinates.latitude, state.coordinates.longitude],
     };
 
-    //const coordPass = checkGeolocation(document.geolocation.coordinates);
-
     if (
       document.location === undefined ||
       !document.createdByname ||
@@ -340,8 +342,6 @@ export function VitalSignCreate() {
     }
 
     if (!!draftDoc && draftDoc.status === "Draft") {
-      //console.log(document);
-
       ClientServ.patch(draftDoc._id, document)
         .then(res => {
           //Convert Hook forms data into empty string to reset form
@@ -564,36 +564,19 @@ export function ClinicalNoteCreate() {
           shouldDirty: true,
         })
       );
-      // setSymptoms(draftDoc.documentdetail.Presenting_Complaints)
-      // setAllergies(draftDoc.documentdetail.Allergy_Skin_Test)
     }
     return () => {
       draftDoc = {};
     };
   }, [draftDoc]);
 
-  const getSearchfacility = obj => {
-    setValue("facility", obj._id, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  };
-
   useEffect(() => {
     setCurrentUser(user);
-    //console.log(currentUser)
+  
     return () => {};
   }, [user]);
-
-  //check user for facility or get list of facility
   useEffect(() => {
-    //setFacility(user.activeClient.FacilityId)//
     if (!user.stacker) {
-      /*    console.log(currentUser)
-        setValue("facility", user.currentEmployee.facilityDetail._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        })  */
     }
   });
 
@@ -605,8 +588,6 @@ export function ClinicalNoteCreate() {
     setError(false);
     setSuccess(false);
     let document = {};
-    // data.createdby=user._id
-    //console.log(data);
     if (user.currentEmployee) {
       document.facility = user.currentEmployee.facilityDetail._id;
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
@@ -642,31 +623,19 @@ export function ClinicalNoteCreate() {
       return;
     }
 
-    // return console.log(document);
-
     if (!!draftDoc && draftDoc.status === "Draft") {
       ClientServ.patch(draftDoc._id, document)
         .then(res => {
           Object.keys(data).forEach(key => {
             data[key] = "";
           });
-          //console.log(JSON.stringify(res))
 
           setDocStatus("Draft");
-          // setAllergies([])
-          /*  setMessage("Created Client successfully") */
           setSuccess(true);
           toast.success("Documentation updated succesfully");
           setSuccess(false);
           reset(data);
           setConfirmationDialog(false);
-
-          /*  toast({
-                        message:message ,
-                        type: 'is-success',
-                        dismissible: true,
-                        pauseOnHover: true,
-                      }) */
         })
         .catch(err => {
           toast.error("Error updating Documentation " + err);
@@ -674,12 +643,10 @@ export function ClinicalNoteCreate() {
     } else {
       ClientServ.create(document)
         .then(res => {
+          // console.log("Clinincal note data", res)
           Object.keys(data).forEach(key => {
             data[key] = "";
           });
-          //console.log(JSON.stringify(res))
-
-          /*  setMessage("Created Client successfully") */
           setSuccess(true);
           toast.success("Documentation created succesfully");
           setSuccess(false);
@@ -692,11 +659,7 @@ export function ClinicalNoteCreate() {
     }
   };
   const handleChangeStatus = async e => {
-    // await setAppointment_type(e.target.value)
-
     setDocStatus(e.target.value);
-
-    //console.log(e.target.value)
   };
 
   const closeEncounterRight = async () => {
@@ -829,8 +792,6 @@ export function LabNoteCreate() {
           shouldDirty: true,
         })
       );
-      // setSymptoms(draftDoc.documentdetail.Presenting_Complaints)
-      // setAllergies(draftDoc.documentdetail.Allergy_Skin_Test)
     }
     return () => {
       draftDoc = {};
@@ -1056,6 +1017,398 @@ export function LabNoteCreate() {
               {/* <Button variant="outlined" type="button">
                 Cancel
               </Button> */}
+            </Box>
+          </form>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// Eye Examination
+export function EyeExamination() {
+  const {register, handleSubmit, setValue, reset, getValues} = useForm(); //, watch, errors, reset
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState("");
+  // eslint-disable-next-line
+  const ClientServ = client.service("clinicaldocument");
+  const {user} = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [currentUser, setCurrentUser] = useState();
+  const {state, setState} = useContext(ObjectContext);
+  const [confirmDialog, setConfirmDialog] = useState(false);
+  const [docStatus, setDocStatus] = useState("Draft");
+  const [acuity1, setAcuity1] = useState("");
+  const [acuity2, setAcuity2] = useState("");
+  const [acuity3, setAcuity3] = useState("");
+  const [acuity4, setAcuity4] = useState("");
+  const [normal, setNormal] = useState("");
+  const [abnormal, setAbnormal] = useState("");
+  const [field1, setField1] = useState("");
+  const [field2, setField2] = useState("");
+  const [colorVision1, setColorVision1] = useState("");
+  const [colorVision2, setColorVision2] = useState("");
+  const [fieldRestriction1, setFieldRestriction1] = useState("");
+  const [fieldRestriction2, setFieldRestriction2] = useState("");
+    
+  let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
+
+  useEffect(() => {
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+        setValue(keys, value, {
+          shouldValidate: true,
+          shouldDirty: true,
+        })
+      );
+  
+    }
+    return () => {
+      draftDoc = {};
+    };
+  }, [draftDoc]);
+
+
+  useEffect(() => {
+    setCurrentUser(user);
+    return () => {};
+  }, [user]);
+
+  useEffect(() => {
+    if (!user.stacker) {
+   
+    }
+  });
+
+  const handleAcuity1Change = (checked) => {
+    setAcuity1(checked ? "Legally blind 20/200" : "");
+  };  
+  
+  const handleAcuity2Change = (checked) => {
+    setAcuity2(checked ? "Between 20/70 and 20/199" : "");
+  }; 
+
+  const handleAcuity3Change = (checked) => {
+    setAcuity3(checked ? "Better than 20/70" : "");
+  }; 
+
+  const handleAcuity4Change = (checked) => {
+    setAcuity4(checked ? "Functions at the definition of blindness (E.g. CVI)" : "");
+  }; 
+
+  const handleNormalChange = (checked) => {
+    setNormal(checked ? "Normal" : "");
+  }; 
+
+  const handleAbnormalChange = (checked) => {
+    setAbnormal(checked ? "Abnormal" : "");
+  }; 
+  
+  const handleField1Change = (checked) => {
+    setField1(checked ? "21 to 30 (Degree)" : "");
+  }; 
+
+  const handleField2Change = (checked) => {
+    setField2(checked ? "20 (Degrees) or less" : "");
+  }; 
+
+  
+  const handleColorVision1Change = (checked) => {
+    setColorVision1(checked ? "Normal" : "");
+  };
+
+  const handleColorVision2Change = (checked) => {
+    setColorVision2(checked ? "Abnormal" : "");
+  };
+  
+  const handleFieldRestriction1Change = (checked) => {
+    setFieldRestriction1(checked ? "Theres no apparent visual field restrictions" : "");
+  };
+  const handleFieldRestriction2Change = (checked) => {
+    setFieldRestriction2(checked ? "There is a field restriction" : "");
+  };
+  
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+  
+    let document = {};
+  
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+    }
+   
+    document.documentdetail = {
+      acuity1,
+      acuity2,
+      acuity3,
+      acuity4,
+      field1,
+      field2,
+      normal,
+      abnormal,
+      colorVision1,
+      colorVision2,
+      fieldRestriction1,
+      fieldRestriction2,
+      ageOfOnset: data.ageOfOnset,
+      history: data.history,
+      describe: data.describe,
+      visualFieldTest: data.visualFieldTest,
+    };
+    document.documentname = "Eye examination";
+    document.documentType = "Eye examination";
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = docStatus === "Draft" ? "Draft" : "completed";
+  
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+ 
+  
+    if (
+      document.location === undefined ||
+      !document.createdByname ||
+      !document.facilityname
+    ) {
+      toast.error("Documentation data missing, requires location and facility details");
+      return;
+    }
+  
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then(res => {
+          Object.keys(data).forEach(key => {
+            data[key] = "";
+          });
+  
+          setDocStatus("Draft");
+          setSuccess(true);
+          toast.success("Documentation updated successfully");
+          setSuccess(false);
+          setConfirmDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error updating Documentation: " + err);
+          reset(data);
+          setConfirmDialog(false);
+        });
+    } else {
+      ClientServ.create(document)
+        .then(res => {
+          Object.keys(data).forEach(key => {
+            data[key] = "";
+          });
+  
+          setSuccess(true);
+          toast.success("Eye Examination created successfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error creating Eye examination: " + err);
+          setConfirmDialog(false);
+        });
+    }
+  };
+  const closeEncounterRight = async () => {
+    setState(prevstate => ({
+      ...prevstate,
+      DocumentClassModule: {
+        ...prevstate.DocumentClassModule,
+        encounter_right: false,
+      },
+    }));
+  };
+
+  return (
+    <>
+      <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmDialog}
+          cancelAction={() => setConfirmDialog(false)}
+          confirmationAction={handleSubmit(onSubmit)}
+          type="create"
+          message={`You are about to save this document ${getValues("eye" )} Examination?`}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText text={"EYE EXAMINATION REPORT"} />
+
+          <IconButton onClick={closeEncounterRight}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Box>
+        <div className="card-content vscrollable remPad1">
+          <form>
+          <Typography color="primary" variant="body1">
+              Age of Onset
+            </Typography>
+            <Box mb={1}>
+              <Input
+                register={register("ageOfOnset")}
+                name="text"
+                type="text"
+                placeholder="Enter age of Onset"
+              />
+            </Box>
+            <Typography color="primary" variant="body1">
+             History
+            </Typography>
+            <Box style={{ marginTop: '10px', marginBottom: '30px' }}>
+              <Textarea
+              color="primary"
+                register={register("history")}
+                name="findings"
+                type="text"
+                placeholder="Type here...."
+              />
+            </Box>
+
+            <GlobalTable />
+            <Typography variant="body1">
+               If acuity cannot be measured, enter check to select the most appropriate selection
+            </Typography>
+            <FormGroup>
+            <GlobalCheckbox name="legallyBlind"
+             label="Legally blind 20/200"
+            checked={acuity1 === "Legally blind 20/200"}
+              onChange={handleAcuity1Change}
+             />
+           <GlobalCheckbox 
+           label="Between 20/70 and 20/199" 
+           checked={acuity2 === "Between 20/70 and 20/199"}
+           onChange={handleAcuity2Change}
+           />
+           <GlobalCheckbox 
+           label="Better than 20/70"
+           checked={acuity3 === "Better than 20/70"}
+           onChange={handleAcuity3Change}
+           />
+           <GlobalCheckbox 
+           label="Functions at the definition of blindness (E.g. CVI)"
+           checked={acuity4 === "Functions at the definition of blindness (E.g. CVI)"}
+           onChange={handleAcuity4Change}
+           />
+           </FormGroup>
+
+           <Typography variant="body1">
+               Muscle function:
+            </Typography>
+            <GlobalCheckbox label="Normal"
+            checked={normal === "Normal"}
+            onChange={handleNormalChange}
+            />
+           <GlobalCheckbox label="Abnormal"
+             checked={abnormal === "Abnormal"}
+             onChange={handleAbnormalChange}
+           />
+
+           <Box>
+              <Textarea
+                register={register("describe")}
+                name="findings"
+                type="text"
+                label="Describe"
+                placeholder="Type here..."
+              />
+            </Box>
+            <Typography style={{ marginTop: '20px', marginBottom: '20px' }} fontWeight="bold"  color="primary" variant="subtitle2">
+               Visual field test
+            </Typography>
+            <Typography color="primary" variant="body2">
+               Type of test (Confrontation not acceptable)
+            </Typography>
+            <Box mb={1}>
+              <Input
+                register={register("visualFieldTest")}
+                name="text"
+                type="text"
+                placeholder="Enter test type"
+              />
+            </Box>
+            <GlobalCheckbox 
+            label="Theres no apparent visual field restrictions"
+            checked={fieldRestriction1 === "Theres no apparent visual field restrictions"}
+            onChange={handleFieldRestriction1Change}
+            />
+           <GlobalCheckbox 
+           label="There is a field restriction" 
+           checked={fieldRestriction2 === "There is a field restriction"}
+           onChange={handleFieldRestriction2Change}
+           />
+           <Box>
+              <Textarea
+                 color="primary"
+                register={register("describe")}
+                name="findings"
+                type="text"
+                label="Description"
+                placeholder="Type here..."
+              />
+            </Box>
+            <Typography variant="body2">
+               The field if restricted to:
+            </Typography>
+            <GlobalCheckbox 
+            label="21 to 30 (Degree)"
+            checked={field1 === "21 to 30 (Degree)"}
+            onChange={handleField1Change}
+            />
+            <GlobalCheckbox 
+              label="20 (Degrees) or less"
+              checked={field2 === "20 (Degrees) or less"}
+              onChange={handleField2Change}
+            />
+            <Typography variant="body2">
+               Color Vision
+            </Typography>
+            <GlobalCheckbox 
+            label="Normal"
+            checked={colorVision1 === "Normal"}
+            onChange={handleColorVision1Change}
+            />
+           <GlobalCheckbox label="Abnormal"
+             checked={colorVision2 === "Abnormal"}
+             onChange={handleColorVision2Change}
+           />
+            <Box
+             p={4}
+              sx={{
+                display: "flex",
+                gap: "1rem",
+              }}
+            >
+              <Button onClick={closeEncounterRight} style={{ paddingLeft: '30px', paddingRight: '30px' }} variant="outlined" type="button">
+                Cancel
+              </Button>
+              <GlobalCustomButton
+              style={{ paddingLeft: '30px', paddingRight: '30px' }}
+                color="primary"
+                type="submit"
+                onClick={() => setConfirmDialog(true)}
+              >
+                Confirm
+              </GlobalCustomButton>
             </Box>
           </form>
         </div>
