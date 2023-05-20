@@ -113,7 +113,7 @@ export default function ProductEntry() {
 }
 
 export function ProductEntryCreate({closeModal}) {
-  const notificationsServer = client.service("notification");
+  //const notificationsServer = client.service("notification");
   const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
 
   const [error, setError] = useState(false);
@@ -145,10 +145,11 @@ export function ProductEntryCreate({closeModal}) {
   const [sellingprice, setSellingprice] = useState("");
   const [dest_quantity, setDest_quantity] = useState("");
    const [amount, setAmount] = useState("");
-   const [chosen1, setChosen1] = useState();
+   const [chosen1, setChosen1] = useState("");
    const [success1, setSuccess1] = useState(false);
   const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
   const [confirmDialog, setConfirmDialog] = useState(false);
+  const [transfers, setTransfers] =useState([]);
 
   const productItemI = {
     type,
@@ -178,9 +179,8 @@ export function ProductEntryCreate({closeModal}) {
   const SearchOrgFacility = (obj) => {
     setOrg_facilityId(obj?._id);
     setChosen1(obj);
-
     if (!obj) {
-      setDest_facilityId(obj?._id);
+      setOrg_facilityId(obj?._id);
       org_facilityId(obj?._id);
       setChosen1();
     }
@@ -233,6 +233,8 @@ export function ProductEntryCreate({closeModal}) {
     setProductItem([]);
   };
 
+  console.log("Transfer", transfers)
+
   const onSubmit = async e => {
     e.preventDefault();
     showActionLoader();
@@ -270,7 +272,7 @@ export function ProductEntryCreate({closeModal}) {
     }
     TransferEntryServ.create(transferEntry)
       .then(async res => {
-        console.log("Successfully added", res.data)
+        setTransfers(res.data);
         hideActionLoader();
         resetform();
         setSuccess(true);
@@ -363,7 +365,7 @@ export function ProductEntryCreate({closeModal}) {
         cancelAction={() => setConfirmDialog(false)}
         type="create"
         confirmationAction={onSubmit}
-        message="Are you sure you want to save this transfer ?"
+        // message="Are you sure you want to save this transfer ?"
       />
       <Grid container spacing={1}>
         <Grid item lg={12} md={12} sm={12}>
@@ -568,6 +570,8 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
   const [next, setNext] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState(false);
   const [docToDel, setDocToDel] = useState({});
+
+  // console.log("Transfer data", transfers)
 
   const handleCreateNew = async () => {
     const newProductEntryModule = {

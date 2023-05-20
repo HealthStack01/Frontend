@@ -25,7 +25,7 @@ const filter = createFilterOptions();
 // eslint-disable-next-line
 
 export function FacilitySearch({getSearchfacility, clear, label, closeModal}) {
-  const productServ = client.service("facility");
+  const facilityServ = client.service("facility");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
@@ -44,15 +44,15 @@ export function FacilitySearch({getSearchfacility, clear, label, closeModal}) {
   const [productModal, setProductModal] = useState(false);
 
   const handleRow = async obj => {
-    await setChosen(true);
+    setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
 
-    await setSimpa(obj.facilityName);
+    setSimpa(obj.facilityName);
 
     // setSelectedFacility(obj)
     setShowPanel(false);
-    await setCount(2);
+     setCount(2);
   };
 
   const handleSearch = async value => {
@@ -60,16 +60,15 @@ export function FacilitySearch({getSearchfacility, clear, label, closeModal}) {
     if (value === "") {
       setShowPanel(false);
       getSearchfacility(false);
-      await setFacilities([]);
+    //  setFacilities([]);
       return;
     }
     const field = "facilityName"; //field variable
 
     if (value.length >= 3) {
-      productServ
+      facilityServ
         .find({
           query: {
-            //service
             [field]: {
               $regex: value,
               $options: "i",
@@ -81,8 +80,6 @@ export function FacilitySearch({getSearchfacility, clear, label, closeModal}) {
           },
         })
         .then(res => {
-          // console.log("product  fetched successfully")
-          //console.log(res.data)
           setFacilities(res.data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
@@ -91,11 +88,8 @@ export function FacilitySearch({getSearchfacility, clear, label, closeModal}) {
           toast.error(`Error Creating Service due to ${err}`);
         });
     } else {
-      // console.log("less than 3 ")
-      //console.log(val)
       setShowPanel(false);
-      await setFacilities([]);
-      //console.log(facilities)
+      setFacilities([]);
     }
   };
 
@@ -108,9 +102,7 @@ export function FacilitySearch({getSearchfacility, clear, label, closeModal}) {
   };
   useEffect(() => {
     if (clear) {
-      // console.log("success has changed",clear)
       setSimpa("");
-      // clear=!clear
     }
     return () => {};
   }, [clear]);
@@ -151,7 +143,6 @@ export function FacilitySearch({getSearchfacility, clear, label, closeModal}) {
         id="free-solo-dialog-demo"
         options={facilities}
         getOptionLabel={option => {
-          // e.g value selected with enter, right from the input
           if (typeof option === "string") {
             return option;
           }
@@ -337,17 +328,13 @@ export function OrgFacilitySearch({getSearchfacility, clear}) {
         getOptionLabel={option =>
           `${option?.organizationDetail?.facilityName} , ${option?.organizationDetail?.facilityCity}`
         }
-        // onChange={(event, newValue) => {
-        //   console.log("newValue", newValue);
-        //   handleRow(newValue);
-        // }}
+    
         onChange={(event, newValue, reason) => {
           if (reason === "clear") {
             setSimpa("");
             setVal("");
           } else {
             if (typeof newValue === "string") {
-              // timeout to avoid instant validation of the dialog's form.
               setTimeout(() => {
                 handleAddproduct();
               });
@@ -418,15 +405,15 @@ export function OrgFacilityProviderSearch({
   const [productModal, setProductModal] = useState(false);
 
   const handleRow = async obj => {
-    await setChosen(true);
+     setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
 
-    await setSimpa(obj.organizationDetail.facilityName);
+     setSimpa(obj.organizationDetail.facilityName);
 
     // setSelectedFacility(obj)
     setShowPanel(false);
-    await setCount(2);
+     setCount(2);
   };
 
   const handleSearch = async value => {
@@ -434,7 +421,7 @@ export function OrgFacilityProviderSearch({
     if (value === "") {
       setShowPanel(false);
       getSearchfacility(false);
-      await setFacilities([]);
+      setFacilities([]);
       return;
     }
     const field = "facilityName"; //field variable
@@ -607,12 +594,12 @@ export function BandSearch({getBandfacility, clear, newValue}) {
   // const [bandItems, setBandItems] = useState([])
 
   const handleRow = async obj => {
-    await setChosen(true);
+    setChosen(true);
     // getSearchfacility(obj);
     getBandfacility(obj);
-    await setSimpa(obj?.facilityName + "," + obj?.facilityCity);
+     setSimpa(obj?.facilityName + "," + obj?.facilityCity);
     setShowPanel(false);
-    await setCount(2);
+     setCount(2);
     // check if the facility is already selected, if not add it to the list
     const found = selectedFacility.some(el => el?._id === obj?._id);
     if (!found) {
@@ -1071,11 +1058,10 @@ export function HmoFacilitySearchExternal({getSearchfacility, clear}) {
   const [selectedFacility, setSelectedFacility] = useState([]);
 
   const handleRow = async obj => {
-    await setChosen(true);
-    // getSearchfacility(obj);
-    await setSimpa(obj?.facilityName + "," + obj?.facilityCity);
+     setChosen(true);
+     setSimpa(obj?.facilityName + "," + obj?.facilityCity);
     setShowPanel(false);
-    await setCount(2);
+     setCount(2);
     // check if the facility is already selected, if not add it to the list
     const found = selectedFacility.some(el => el?._id === obj?._id);
     if (!found) {
@@ -1107,7 +1093,7 @@ export function HmoFacilitySearchExternal({getSearchfacility, clear}) {
     if (value === "") {
       setShowPanel(false);
       getSearchfacility([]);
-      await setFacilities([]);
+       setFacilities([]);
       return;
     }
     const field = "facilityName"; //field variable
