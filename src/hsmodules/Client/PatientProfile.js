@@ -88,6 +88,7 @@ export default function PatientProfile() {
     paymentinfo,
     imageurl,
   } = state.ClientModule.selectedClient;
+ 
 
   /*   const {
         cash,
@@ -317,17 +318,17 @@ export default function PatientProfile() {
                     </Typography>
                  
                     <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
-                    {pay?.paymentmode === "HMO" && <>Plan: {pay?.plan?pay?.plan:pay?.policy.plan.planName} </>}
+                    {pay?.paymentmode === "HMO" && <>Plan: {pay?.plan?pay?.plan:pay?.policy?.plan?.planName} </>}
                     </Typography>
                     <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
-                    {pay?.paymentmode === "HMO" && <>Client ID: {pay?.clientId?pay?.clientId:pay?.policy.policyNo} </>}
+                    {pay?.paymentmode === "HMO" && <>Client ID: {pay?.clientId?pay?.clientId:pay?.policy?.policyNo} </>}
                     </Typography>
                     <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
-                    {pay?.paymentmode === "HMO" && <>Principal: {pay?.PrincipalName?pay?.PrincipalName:`${pay.policy.principal.firstname}  ${pay?.policy.principal.lastname}`}</>}
+                    {pay?.paymentmode === "HMO" && <>Principal: {pay?.PrincipalName? pay?.PrincipalName:`${pay.policy?.principal?.firstname}  ${pay?.policy?.principal?.lastname}`}</>}
                     </Typography>
-                    <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
-                    {pay?.paymentmode === "HMO" && <>Principal ID: {pay?.PrincipalId?pay?.PrincipalId:pay?.policy.policyNo} </>}
-                    </Typography>
+                   <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
+                    {pay?.paymentmode === "HMO" && <>Principal ID: {pay?.PrincipalId?pay?.PrincipalId:pay?.policy?.policyNo} </>}
+                    </Typography> 
                     <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
                     {pay?.paymentmode === "HMO" && <>Active: {pay?.active.toString()} </>}
                     </Typography>

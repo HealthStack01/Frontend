@@ -704,6 +704,8 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
   const [sendLinkModal, setSendLinkModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  console.log("this place")
+
   const handleCreateNew = async () => {
     const newfacilityModule = {
       selectedFacility: {},
@@ -758,7 +760,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
                    
                 }, */
             facility: user.currentEmployee.facilityDetail._id,
-            relationshiptype:"managedcare",
+            //relationshiptype:"managedcare",
             $search: val,
             $limit: 10,
             $sort: {
@@ -791,12 +793,13 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
      */
   const getFacilities = () => {
     setLoading(true);
+    console.log("starting issues")
     orgServ
       .find({
         query: {
           facility: user.currentEmployee.facilityDetail._id,
           
-          relationshiptype:"managedcare",
+          //relationshiptype:"managedcare",
           //$limit: 100,
           $sort: {
             createdAt: -1,
@@ -807,18 +810,19 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
         console.log(res);
         setFacilities(res.data);
         setTotal(res.total)
-        setMessage(" Organization  fetched successfully");
+       console.log(" Organization  fetched successfully");
         setSuccess(true);
         setLoading(false);
       })
       .catch((err) => {
-        setMessage("Error creating facility, probable network issues " + err);
+        console.log("Error creating facility, probable network issues " + err);
         setError(true);
         setLoading(false);
       });
   };
 
   useEffect(() => {
+    console.log("at the beginning")
     getFacilities();
 
     orgServ.on("created", (obj) => getFacilities());
@@ -1057,6 +1061,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   const [statusBand, setStatusBand] = useState("");
   const [statusBandTwo, setStatusBandTwo] = useState("");
   const [isShowButton, setIsShowButton] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const facility = state.facilityModule.selectedFacility;
 
@@ -1126,8 +1131,8 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   };
 
   const getFacilities = () => {
-    setLoading(true);
-    orgServ
+   setLoading(true);
+   ServicesServ
       .find({
         query: {
           facility: user.currentEmployee.facilityDetail._id,
@@ -1869,11 +1874,19 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                       />
                     </Grid>
                     <Grid item xs={6}>
+                     {(facilityband.length>0)? facilityband.map((el,i) => {                    
                       <Input
-                        register={register("bandName")}
+                        //register={register("bandName")}
                         label="Band"
                         disabled
+                        value={el}
                       />
+                    }): <Input
+                    //register={register("bandName")}
+                    label="Band"
+                    disabled
+                    value="Not Yet Set"
+                  />}
                     </Grid>
                   </Grid>
                   <Grid item xs={12}>

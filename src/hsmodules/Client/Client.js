@@ -1641,7 +1641,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.address || editClient) && (
-                <Grid item lg={6} xs={8} sm={12}  xs={12}>
+                <Grid item lg={6} md={6} sm={12}  xs={12}>
                   <Input
                     label="Residential Address"
                     //defaultValue={Client.address}

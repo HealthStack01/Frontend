@@ -182,6 +182,25 @@ export const OrganizationsList = ({selectOrganization}) => {
 			},
 		},
 		{
+			name: 'City',
+			key: 'sn',
+			description: 'City',
+			selector: row => (
+				<Typography
+					sx={{fontSize: '0.8rem', whiteSpace: 'normal'}}
+					data-tag='allowRowEvents'>
+					{row?.facilityCity}
+				</Typography>
+			),
+			sortable: true,
+			required: true,
+			inputType: 'HIDDEN',
+			style: {
+				color: '#1976d2',
+				textTransform: 'capitalize',
+			},
+		},
+		{
 			name: 'Organization Owner',
 			key: 'sn',
 			description: 'Enter name of Company',

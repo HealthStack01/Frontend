@@ -29,6 +29,7 @@ const SendLinkViaEmail = ({
   defaultToEmail,
   disableToEmailChange,
   orgType,
+  id
 }) => {
   const emailServer = client.service("email");
   const {user} = useContext(UserContext);
@@ -40,7 +41,12 @@ const SendLinkViaEmail = ({
   const [emailBody, setEmailBody] = useState(
     `<p>Please follow this <a style="color:red;" href=${`https://healthstack-test.netlify.app/signup/${
       orgType ? orgType : "corporate"
-    }`}>LINK</a> to create an Organization </p>`
+    }/${id}`}>LINK</a> to create an Organization </p>`
+  );
+  const [indvemailBody, setIndvEmailBody] = useState(
+    `<p>Please follow this <a style="color:red;" href=${`https://citizen-healthstack.netlify.app/signup/${
+      orgType ? orgType : "individual"
+    }/${id}`}>LINK</a> to create an Organization </p>`
   );
   const {
     register,
@@ -52,6 +58,7 @@ const SendLinkViaEmail = ({
 
   useEffect(() => {
     //const deal = state.DealModule.selectedDeal;
+
     reset({
       to: destinationEmail,
       name: user.currentEmployee.facilityDetail.facilityName,
@@ -71,12 +78,13 @@ const SendLinkViaEmail = ({
   };
 
   const handleSendEmail = async data => {
+    
     if (emailBody === "")
       return toast.error("Please, You cannot send an empty Email");
     const facility = user.currentEmployee.facilityDetail;
     showActionLoader();
-
-    const document = {
+if (orgType!=="individual"){
+   const document = {
       organizationId: facility._id,
       organizationName: facility.facilityName,
       html: emailBody,
@@ -84,6 +92,17 @@ const SendLinkViaEmail = ({
       status: "pending",
       ...data,
     };
+  }else{
+    const document = {
+      organizationId: facility._id,
+      organizationName: facility.facilityName,
+      html: indvemailBody,
+      text: "",
+      status: "pending",
+      ...data,
+    };
+
+  }
 
     await emailServer
       .create(document)
@@ -191,6 +210,7 @@ const SendLinkViaEmail = ({
         </Grid>
 
         <Grid item xs={12}>
+          {orgType!=="individual"?
           <Box
             sx={{
               ".ck-editor__editable_inline": {
@@ -208,7 +228,26 @@ const SendLinkViaEmail = ({
                 setEmailBody(data);
               }}
             />
+          </Box>:
+            <Box
+            sx={{
+              ".ck-editor__editable_inline": {
+                minHeight: "15vh",
+                maxHeight: "30vh",
+              },
+            }}
+          >
+            {inputGlobalStyles}
+            <CKEditor
+              editor={ClassicEditor}
+              data={indvemailBody}
+              onChange={(event, editor) => {
+                const data = editor.getData();
+                setEmailBody(data);
+              }}
+            />
           </Box>
+          }
         </Grid>
       </Grid>
 

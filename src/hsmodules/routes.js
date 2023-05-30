@@ -147,7 +147,7 @@ const AppRoutes = () => {
           <>
             {authRoutes.map(route => {
               const {path, Component} = route;
-              return <Route key={path} path={path} element={<Component />} />;
+              return <Route key={path} path={path} exact element={<Component />} />;
             })}
           </>
           {/************************** Page not found *************************************** */}
