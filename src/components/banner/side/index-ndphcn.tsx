@@ -3,7 +3,7 @@ import React from "react";
 
 import {backgroundVariants} from "../../../ui/animations/utils";
 import {InnerWrapper, SideBanner} from "./styles";
-import coat_of_arms from "./coat_of_arms.png";
+import coat_of_arms from "./ndphcn_logo.jpg";
 
 
 function Side() {
@@ -18,13 +18,13 @@ function Side() {
           initial="hidden"
           animate="visible"
         /> 
-        <h1> Presidential Wing State House Medical Center (PWSHMC)</h1> 
+        <h1> Nigerian Digital Primary Healthcare Network (NDPHCN)</h1> 
 
         <ul>
-         {/*  <li>
-            Transform your health organisation  with our simple digital health
+          <li>
+            Transform your primary healthcare organisation  using a simple digital health
             solution suite. 
-          </li> */}
+          </li> 
           <li>
             Offer exceptional quality healthcare services to your clients.
           </li>
@@ -40,8 +40,8 @@ function Side() {
         className="fixed"
         aria-hidden="true"
         style={{
-          width: "70%",
-          height: "auto",
+          width: "40%",
+          height: "30vh",
         }}
       />
     </SideBanner>
