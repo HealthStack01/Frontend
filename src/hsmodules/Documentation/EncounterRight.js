@@ -46,7 +46,7 @@ import {usePosition} from "../../components/hooks/getUserLocation";
 import Textarea from "../../components/inputs/basic/Textarea";
 import {Box, getValue} from "@mui/system";
 import RadioButton from "../../components/inputs/basic/Radio";
-import {Button, Grid, IconButton, Typography, FormGroup} from "@mui/material";
+import {Button, Grid, IconButton, Typography, FormGroup, RadioGroup, Radio, FormControlLabel} from "@mui/material";
 import Input from "../../components/inputs/basic/Input";
 import {FormsHeaderText} from "../../components/texts";
 import CloseIcon from "@mui/icons-material/Close";
@@ -1037,20 +1037,19 @@ export function EyeExamination() {
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const {state, setState} = useContext(ObjectContext);
-  const [confirmDialog, setConfirmDialog] = useState(false);
+  // const [confirmDialog, setConfirmDialog] = useState(false);
   const [docStatus, setDocStatus] = useState("Draft");
-  const [acuity1, setAcuity1] = useState("");
-  const [acuity2, setAcuity2] = useState("");
-  const [acuity3, setAcuity3] = useState("");
-  const [acuity4, setAcuity4] = useState("");
-  const [normal, setNormal] = useState("");
-  const [abnormal, setAbnormal] = useState("");
-  const [field1, setField1] = useState("");
-  const [field2, setField2] = useState("");
-  const [colorVision1, setColorVision1] = useState("");
-  const [colorVision2, setColorVision2] = useState("");
-  const [fieldRestriction1, setFieldRestriction1] = useState("");
-  const [fieldRestriction2, setFieldRestriction2] = useState("");
+  const [confirmationDiaglog, setConfirmationDialog] = useState(false);
+
+  const [formData, setFormData] = useState({
+    acuity: "",
+    muscles: "",
+    degree: "",
+    colorVision: "",
+    fieldRestriction: "",
+  });
+  
+  
     
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
 
@@ -1081,52 +1080,41 @@ export function EyeExamination() {
     }
   });
 
-  const handleAcuity1Change = (checked) => {
-    setAcuity1(checked ? "Legally blind 20/200" : "");
-  };  
   
-  const handleAcuity2Change = (checked) => {
-    setAcuity2(checked ? "Between 20/70 and 20/199" : "");
-  }; 
 
-  const handleAcuity3Change = (checked) => {
-    setAcuity3(checked ? "Better than 20/70" : "");
-  }; 
-
-  const handleAcuity4Change = (checked) => {
-    setAcuity4(checked ? "Functions at the definition of blindness (E.g. CVI)" : "");
-  }; 
-
-  const handleNormalChange = (checked) => {
-    setNormal(checked ? "Normal" : "");
-  }; 
-
-  const handleAbnormalChange = (checked) => {
-    setAbnormal(checked ? "Abnormal" : "");
-  }; 
-  
-  const handleField1Change = (checked) => {
-    setField1(checked ? "21 to 30 (Degree)" : "");
-  }; 
-
-  const handleField2Change = (checked) => {
-    setField2(checked ? "20 (Degrees) or less" : "");
-  }; 
-
-  
-  const handleColorVision1Change = (checked) => {
-    setColorVision1(checked ? "Normal" : "");
-  };
-
-  const handleColorVision2Change = (checked) => {
-    setColorVision2(checked ? "Abnormal" : "");
+  const handleAcuityChange = (event) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      acuity: event.target.value,
+    }));
   };
   
-  const handleFieldRestriction1Change = (checked) => {
-    setFieldRestriction1(checked ? "Theres no apparent visual field restrictions" : "");
+  const handleMuscleFunctionChange = (event) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      muscles: event.target.value,
+    }));
   };
-  const handleFieldRestriction2Change = (checked) => {
-    setFieldRestriction2(checked ? "There is a field restriction" : "");
+  
+  const handleFieldChange = (event) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      degree: event.target.value,
+    }));
+  };
+  
+  const handleColorVisionChange = (event) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      colorVision: event.target.value,
+    }));
+  };
+  
+  const handleFieldRestrictionChange = (event) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      fieldRestriction: event.target.value,
+    }));
   };
   
   const onSubmit = (data, e) => {
@@ -1143,19 +1131,18 @@ export function EyeExamination() {
     }
    
     document.documentdetail = {
-      acuity1,
-      acuity2,
-      acuity3,
-      acuity4,
-      field1,
-      field2,
-      normal,
-      abnormal,
-      colorVision1,
-      colorVision2,
-      fieldRestriction1,
-      fieldRestriction2,
+      acuity: formData.acuity,
+      degree: formData.degree,
+      muscles: formData.muscles,
+      colorVision: formData.colorVision,
+      fieldRestriction: formData.fieldRestriction,
       ageOfOnset: data.ageOfOnset,
+      aided1:data.aided1,
+      aided2:data.aided2,
+      aided3:data.aided3,
+      unaided1:data.unaided1,
+      unaided2:data.unaided2,
+      unaided3:data.unaided3,
       history: data.history,
       describe: data.describe,
       visualFieldTest: data.visualFieldTest,
@@ -1198,16 +1185,17 @@ export function EyeExamination() {
           setSuccess(true);
           toast.success("Documentation updated successfully");
           setSuccess(false);
-          setConfirmDialog(false);
+          setConfirmationDialog(false);
         })
         .catch(err => {
           toast.error("Error updating Documentation: " + err);
           reset(data);
-          setConfirmDialog(false);
+          setConfirmationDialog(false);
         });
     } else {
       ClientServ.create(document)
         .then(res => {
+          // console.log("Data", res)
           Object.keys(data).forEach(key => {
             data[key] = "";
           });
@@ -1216,11 +1204,11 @@ export function EyeExamination() {
           toast.success("Eye Examination created successfully");
           setSuccess(false);
           reset(data);
-          setConfirmDialog(false);
+          setConfirmationDialog(false);
         })
         .catch(err => {
           toast.error("Error creating Eye examination: " + err);
-          setConfirmDialog(false);
+          setConfirmationDialog(false);
         });
     }
   };
@@ -1234,12 +1222,16 @@ export function EyeExamination() {
     }));
   };
 
+  const handleChangeStatus = async e => {
+    setDocStatus(e.target.value);
+  };
+
   return (
     <>
       <div className="card ">
         <CustomConfirmationDialog
-          open={confirmDialog}
-          cancelAction={() => setConfirmDialog(false)}
+          open={confirmationDiaglog}
+          cancelAction={() => setConfirmationDialog(false)}
           confirmationAction={handleSubmit(onSubmit)}
           type="create"
           message={`You are about to save this document ${getValues("eye" )} Examination?`}
@@ -1283,45 +1275,201 @@ export function EyeExamination() {
                 placeholder="Type here...."
               />
             </Box>
+           
+ <Typography color="primary" variant="body1" sx={{ width: '30%', marginBottom: '30px' }}>
+      Unaided
+    </Typography>
+<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+  <Box sx={{ width: '30%', marginBottom: '30px' }}>
+    <Typography variant="body1">
+      RVA
+    </Typography>
+    <Box sx={{ marginTop: '10px' }}>
+      <Input
+        register={register("unaided1")}
+        name="text"
+        type="text"
+        placeholder="Enter RVA..."
+        fullWidth
+      />
+    </Box>
+  </Box>
+  
+  <Box sx={{ width: '30%', marginBottom: '30px' }}>
+    <Typography variant="body1">
+      LVA
+    </Typography>
+    <Box sx={{ marginTop: '10px' }}>
+      <Input
+        register={register("unaided2")}
+        name="text"
+        type="text"
+        placeholder="Enter LVA..."
+        fullWidth
+      />
+    </Box>
+  </Box>
+  <Box sx={{ width: '30%', marginBottom: '30px' }}>
+    <Typography variant="body1">
+      NV
+    </Typography>
+    <Box sx={{ marginTop: '10px' }}>
+      <Input
+        register={register("unaided3")}
+        name="text"
+        type="text"
+        placeholder="Enter NV..."
+        fullWidth
+      />
+    </Box>
+  </Box>
+</Box>
 
-            <GlobalTable />
-            <Typography variant="body1">
-               If acuity cannot be measured, enter check to select the most appropriate selection
-            </Typography>
-            <FormGroup>
-            <GlobalCheckbox name="legallyBlind"
-             label="Legally blind 20/200"
-            checked={acuity1 === "Legally blind 20/200"}
-              onChange={handleAcuity1Change}
-             />
-           <GlobalCheckbox 
-           label="Between 20/70 and 20/199" 
-           checked={acuity2 === "Between 20/70 and 20/199"}
-           onChange={handleAcuity2Change}
-           />
-           <GlobalCheckbox 
-           label="Better than 20/70"
-           checked={acuity3 === "Better than 20/70"}
-           onChange={handleAcuity3Change}
-           />
-           <GlobalCheckbox 
-           label="Functions at the definition of blindness (E.g. CVI)"
-           checked={acuity4 === "Functions at the definition of blindness (E.g. CVI)"}
-           onChange={handleAcuity4Change}
-           />
-           </FormGroup>
+<Typography color="primary" variant="body1" sx={{ width: '30%', marginBottom: '30px' }}>
+    Aided
+    </Typography>
+<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+  <Box sx={{ width: '30%', marginBottom: '10px' }}>
+    <Typography variant="body1">
+      RVA
+    </Typography>
+    <Box sx={{ marginTop: '10px' }}>
+      <Input
+        register={register("aided1")}
+        name="text"
+        type="text"
+        placeholder="Enter RVA..."
+        fullWidth
+      />
+    </Box>
+  </Box>
+  
+  <Box sx={{ width: '30%', marginBottom: '10px' }}>
+    <Typography variant="body1">
+      LVA
+    </Typography>
+    <Box sx={{ marginTop: '10px' }}>
+      <Input
+        register={register("aided12")}
+        name="text"
+        type="text"
+        placeholder="Enter LVA..."
+        fullWidth
+      />
+    </Box>
+  </Box>
+  <Box sx={{ width: '30%', marginBottom: '10px' }}>
+    <Typography variant="body1">
+      NV
+    </Typography>
+    <Box sx={{ marginTop: '10px' }}>
+      <Input
+        register={register("aided3")}
+        name="text"
+        type="text"
+        placeholder="Enter NV..."
+        fullWidth
+      />
+    </Box>
+  </Box>
+</Box>
 
-           <Typography variant="body1">
-               Muscle function:
-            </Typography>
-            <GlobalCheckbox label="Normal"
-            checked={normal === "Normal"}
-            onChange={handleNormalChange}
-            />
-           <GlobalCheckbox label="Abnormal"
-             checked={abnormal === "Abnormal"}
-             onChange={handleAbnormalChange}
-           />
+
+<Box sx={{ marginBottom: '30px' }}>
+  <Typography variant="body1">
+    If acuity cannot be measured, enter check to select the most appropriate selection
+  </Typography>
+</Box>
+
+<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+  <Box sx={{ width: '25%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="acuity"
+      value={formData.acuity}
+      onChange={handleAcuityChange}
+    >
+      <FormControlLabel
+        value="Legally blind 20/200"
+        control={<Radio />}
+        label="Legally blind 20/200"
+      />
+    </RadioGroup>
+  </Box>
+  <Box sx={{ width: '25%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="acuity"
+      value={formData.acuity}
+      onChange={handleAcuityChange}
+    >
+      <FormControlLabel
+        value="Between 20/70 and 20/199"
+        control={<Radio />}
+        label="Between 20/70 and 20/199"
+      />
+    </RadioGroup>
+  </Box>
+  <Box sx={{ width: '25%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="acuity"
+      value={formData.acuity}
+      onChange={handleAcuityChange}
+    >
+      <FormControlLabel
+        value="Better than 20/70"
+        control={<Radio />}
+        label="Better than 20/70"
+      />
+    </RadioGroup>
+  </Box>
+  <Box sx={{ width: '25%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="acuity"
+      value={formData.acuity}
+      onChange={handleAcuityChange}
+    >
+      <FormControlLabel
+        value="Functions at the definition of blindness (E.g. CVI)"
+        control={<Radio />}
+        label="Blindness (E.g. CVI)"
+      />
+    </RadioGroup>
+  </Box>
+</Box>
+
+<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+  <Box sx={{ width: '50%', marginBottom: '20px' }}>
+    <Typography variant="body1">
+      Muscle function:
+    </Typography>
+  </Box>
+  <Box sx={{ width: '45%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="muscles"
+      value={formData.muscles}
+      onChange={handleMuscleFunctionChange}
+    >
+      <FormControlLabel
+        value="Normal"
+        control={<Radio />}
+        label="Normal"
+      />
+    </RadioGroup>
+  </Box>
+  <Box sx={{ width: '45%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="muscles"
+      value={formData.muscles}
+      onChange={handleMuscleFunctionChange}
+    >
+      <FormControlLabel
+        value="Abnormal"
+        control={<Radio />}
+        label="Abnormal"
+      />
+    </RadioGroup>
+  </Box>
+</Box>
+
 
            <Box>
               <Textarea
@@ -1346,16 +1494,35 @@ export function EyeExamination() {
                 placeholder="Enter test type"
               />
             </Box>
-            <GlobalCheckbox 
-            label="Theres no apparent visual field restrictions"
-            checked={fieldRestriction1 === "Theres no apparent visual field restrictions"}
-            onChange={handleFieldRestriction1Change}
-            />
-           <GlobalCheckbox 
-           label="There is a field restriction" 
-           checked={fieldRestriction2 === "There is a field restriction"}
-           onChange={handleFieldRestriction2Change}
-           />
+
+      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+      <Box sx={{ width: '40%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="fieldRestriction"
+      value={formData.fieldRestriction}
+      onChange={handleFieldRestrictionChange}
+    >
+      <FormControlLabel
+        value="Theres no apparent visual field restrictions"
+        control={<Radio />}
+        label="Theres no apparent visual field restrictions"
+      />
+    </RadioGroup>
+  </Box>
+  <Box sx={{ width: '40%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="fieldRestriction"
+      value={formData.fieldRestriction}
+      onChange={handleFieldRestrictionChange}
+    >
+      <FormControlLabel
+        value="There is a field restriction"
+        control={<Radio />}
+        label="There is a field restriction"
+      />
+    </RadioGroup>
+  </Box>
+            </Box>
            <Box>
               <Textarea
                  color="primary"
@@ -1366,48 +1533,92 @@ export function EyeExamination() {
                 placeholder="Type here..."
               />
             </Box>
-            <Typography variant="body2">
+            <Typography variant="body1">
                The field if restricted to:
             </Typography>
-            <GlobalCheckbox 
-            label="21 to 30 (Degree)"
-            checked={field1 === "21 to 30 (Degree)"}
-            onChange={handleField1Change}
-            />
-            <GlobalCheckbox 
-              label="20 (Degrees) or less"
-              checked={field2 === "20 (Degrees) or less"}
-              onChange={handleField2Change}
-            />
+      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+      <Box sx={{ width: '40%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="degree"
+      value={formData.degree}
+      onChange={handleFieldChange}
+    >
+      <FormControlLabel
+        value="21 to 30 (Degree)"
+        control={<Radio />}
+        label="21 to 30 (Degree)"
+      />
+    </RadioGroup>
+  </Box>
+  <Box sx={{ width: '40%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="degree"
+      value={formData.degree}
+      onChange={handleFieldChange}
+    >
+      <FormControlLabel
+        value="20 (Degrees) or less"
+        control={<Radio />}
+        label="20 (Degrees) or less"
+      />
+    </RadioGroup>
+  </Box>
+  </Box>
+
             <Typography variant="body2">
                Color Vision
             </Typography>
-            <GlobalCheckbox 
-            label="Normal"
-            checked={colorVision1 === "Normal"}
-            onChange={handleColorVision1Change}
-            />
-           <GlobalCheckbox label="Abnormal"
-             checked={colorVision2 === "Abnormal"}
-             onChange={handleColorVision2Change}
-           />
+            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+      <Box sx={{ width: '40%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="colorVision"
+      value={formData.colorVision}
+      onChange={handleColorVisionChange}
+    >
+      <FormControlLabel
+        value="Normal"
+        control={<Radio />}
+        label="Normal"
+      />
+    </RadioGroup>
+  </Box>
+  <Box sx={{ width: '40%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="colorVision"
+      value={formData.colorVision}
+      onChange={handleColorVisionChange}
+    >
+      <FormControlLabel
+        value="Abnormal"
+        control={<Radio />}
+        label="Abnormal"
+      />
+    </RadioGroup>
+  </Box>
+  </Box>
+             <Box  sx={{
+                gap: "1rem",
+              }}> 
+              <RadioButton
+                onChange={handleChangeStatus}
+                name="status"
+                options={["Draft", "Final"]}
+                value={docStatus}
+              />
+            </Box>
             <Box
-             p={4}
+              spacing={3}
               sx={{
                 display: "flex",
-                gap: "1rem",
+                gap: "3rem",
               }}
             >
-              <Button onClick={closeEncounterRight} style={{ paddingLeft: '30px', paddingRight: '30px' }} variant="outlined" type="button">
-                Cancel
-              </Button>
               <GlobalCustomButton
-              style={{ paddingLeft: '30px', paddingRight: '30px' }}
-                color="primary"
+                color="secondary"
                 type="submit"
-                onClick={() => setConfirmDialog(true)}
+                onClick={() => setConfirmationDialog(true)}
               >
-                Confirm
+                Submit Eye Examination
               </GlobalCustomButton>
             </Box>
           </form>
@@ -1571,9 +1782,7 @@ export function NursingNoteCreate() {
 
     //console.log(e.target.value)
   };
-  const handleChangePart = e => {
-    console.log(e);
-  };
+
 
   const closeEncounterRight = async () => {
     setState(prevstate => ({
