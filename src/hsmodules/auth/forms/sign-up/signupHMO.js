@@ -192,6 +192,7 @@ const OrganizationSignupHMO = () => {
             toast.success("You have successfully been logged in");
             setSigningIn(false);
             navigate("/app");
+            
           });
       })
       .catch(err => {
