@@ -1137,12 +1137,12 @@ export function EyeExamination() {
       colorVision: formData.colorVision,
       fieldRestriction: formData.fieldRestriction,
       ageOfOnset: data.ageOfOnset,
-      aided1:data.aided1,
-      aided2:data.aided2,
-      aided3:data.aided3,
-      unaided1:data.unaided1,
-      unaided2:data.unaided2,
-      unaided3:data.unaided3,
+      aidedRVA:data.aidedRVA,
+      aidedLVA:data.aidedLVA,
+      aidedNV:data.aidedNV,
+      unaidedRVA:data.unaidedRVA,
+      unaidedLVA:data.unaidedLVA,
+      unaidedNV:data.unaidedNV,
       history: data.history,
       describe: data.describe,
       visualFieldTest: data.visualFieldTest,
@@ -1252,7 +1252,7 @@ export function EyeExamination() {
         </Box>
         <div className="card-content vscrollable remPad1">
           <form>
-          <Typography color="primary" variant="body1">
+          <Typography color="primary" fontWeight="bold" variant="body1">
               Age of Onset
             </Typography>
             <Box mb={1}>
@@ -1263,7 +1263,7 @@ export function EyeExamination() {
                 placeholder="Enter age of Onset"
               />
             </Box>
-            <Typography color="primary" variant="body1">
+            <Typography fontWeight="bold" color="primary" variant="body1">
              History
             </Typography>
             <Box style={{ marginTop: '10px', marginBottom: '30px' }}>
@@ -1276,7 +1276,7 @@ export function EyeExamination() {
               />
             </Box>
            
- <Typography color="primary" variant="body1" sx={{ width: '30%', marginBottom: '30px' }}>
+ <Typography color="primary" fontWeight="bold" variant="body1" sx={{ width: '30%', marginBottom: '30px' }}>
       Unaided
     </Typography>
 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -1286,7 +1286,7 @@ export function EyeExamination() {
     </Typography>
     <Box sx={{ marginTop: '10px' }}>
       <Input
-        register={register("unaided1")}
+        register={register("unaidedRVA")}
         name="text"
         type="text"
         placeholder="Enter RVA..."
@@ -1301,7 +1301,7 @@ export function EyeExamination() {
     </Typography>
     <Box sx={{ marginTop: '10px' }}>
       <Input
-        register={register("unaided2")}
+        register={register("unaidedLVA")}
         name="text"
         type="text"
         placeholder="Enter LVA..."
@@ -1315,7 +1315,7 @@ export function EyeExamination() {
     </Typography>
     <Box sx={{ marginTop: '10px' }}>
       <Input
-        register={register("unaided3")}
+        register={register("unaidedNV")}
         name="text"
         type="text"
         placeholder="Enter NV..."
@@ -1325,7 +1325,7 @@ export function EyeExamination() {
   </Box>
 </Box>
 
-<Typography color="primary" variant="body1" sx={{ width: '30%', marginBottom: '30px' }}>
+<Typography color="primary" fontWeight="bold" variant="body1" sx={{ width: '30%', marginBottom: '30px' }}>
     Aided
     </Typography>
 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -1335,7 +1335,7 @@ export function EyeExamination() {
     </Typography>
     <Box sx={{ marginTop: '10px' }}>
       <Input
-        register={register("aided1")}
+        register={register("aidedRVA")}
         name="text"
         type="text"
         placeholder="Enter RVA..."
@@ -1350,7 +1350,7 @@ export function EyeExamination() {
     </Typography>
     <Box sx={{ marginTop: '10px' }}>
       <Input
-        register={register("aided12")}
+        register={register("aided1LVA")}
         name="text"
         type="text"
         placeholder="Enter LVA..."
@@ -1364,7 +1364,7 @@ export function EyeExamination() {
     </Typography>
     <Box sx={{ marginTop: '10px' }}>
       <Input
-        register={register("aided3")}
+        register={register("aidedNV")}
         name="text"
         type="text"
         placeholder="Enter NV..."
@@ -1438,9 +1438,10 @@ export function EyeExamination() {
 
 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
   <Box sx={{ width: '50%', marginBottom: '20px' }}>
-    <Typography variant="body1">
-      Muscle function:
-    </Typography>
+  <Typography color="primary" variant="body1" fontWeight="bold" style={{ marginTop: '10px' }}>
+  Muscle function:
+</Typography>
+
   </Box>
   <Box sx={{ width: '45%', marginBottom: '20px' }}>
     <RadioGroup
@@ -1469,18 +1470,16 @@ export function EyeExamination() {
     </RadioGroup>
   </Box>
 </Box>
-
-
-           <Box>
-              <Textarea
-                register={register("describe")}
-                name="findings"
-                type="text"
-                label="Describe"
-                placeholder="Type here..."
-              />
-            </Box>
-            <Typography style={{ marginTop: '20px', marginBottom: '20px' }} fontWeight="bold"  color="primary" variant="subtitle2">
+    <Box>
+      <Textarea
+        register={register("describe")}
+        name="findings"
+        type="text"
+        label="Describe"
+        placeholder="Type here..."
+      />
+    </Box>
+            <Typography style={{ marginTop: '20px', marginBottom: '20px' }} fontWeight="bold"  color="primary" variant="body1">
                Visual field test
             </Typography>
             <Typography color="primary" variant="body2">
@@ -1533,7 +1532,7 @@ export function EyeExamination() {
                 placeholder="Type here..."
               />
             </Box>
-            <Typography variant="body1">
+            <Typography color="primary" variant="body1" fontWeight="bold" style={{ marginTop: '20px' }}>
                The field if restricted to:
             </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -1565,11 +1564,11 @@ export function EyeExamination() {
   </Box>
   </Box>
 
-            <Typography variant="body2">
-               Color Vision
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-      <Box sx={{ width: '40%', marginBottom: '20px' }}>
+      <Typography color="primary" variant="body1" fontWeight="bold" >
+         Color Vision
+      </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+    <Box sx={{ width: '40%', marginBottom: '20px' }}>
     <RadioGroup
       name="colorVision"
       value={formData.colorVision}
