@@ -55,6 +55,7 @@ const initState = {
 const OrganizationSignupHMO = () => {
   const FacilityServ = client.service("facility");
   const DealServ = client.service("deal");
+  const InvServ = client.service("corpinvoice");
   //const [state, dispatch] = useReducer(reducer, initState);
   // const [data, setData] = useState({});
   const [activeStep, setActiveStep] = useState(0);
@@ -64,12 +65,14 @@ const OrganizationSignupHMO = () => {
   const [creatingAdmin, setcreatingAdmin] = useState(false);
   const [signingIn, setSigningIn] = useState(false);
   const {user, setUser} = useContext(UserContext);
+  const [dealinvoice, setDealInvoice]=useState()
 
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   const navigate = useNavigate();
 
   const {type,id} = useParams();
+ 
 
   //HOOK FORM FOR ORGANIZATION STEP
   const {
@@ -142,6 +145,16 @@ const OrganizationSignupHMO = () => {
     setActiveStep(prev => prev - 1);
   };
 
+  const createinvoice=async(res,deal) => {
+    //find the invoice from deal
+
+    //create it in corpinvoice
+    deal.invoices.map(async(inv,i) => {
+      inv.customerId=res._id
+      inv.customer=res
+      await InvServ.create(inv)
+    })
+  }
   const handleCompleteRegistration = async data => {
     if (!agreedToTerms)
       return toast.error("Please agree to our Terms and Conditions");
@@ -151,6 +164,7 @@ const OrganizationSignupHMO = () => {
       item => item.name === facilityData.facilityType
     );
       const deal = await DealServ.get(id)
+      setDealInvoice(deal)
       console.log("deal",deal)
       let dealdata=[]
       let dealobj={
@@ -175,7 +189,7 @@ const OrganizationSignupHMO = () => {
         setCreatingOrganization(false);
         setSigningIn(true);
         //console.log(res);
-
+        createinvoice(res,deal)
         await client
           .authenticate({
             strategy: "local",
@@ -191,8 +205,10 @@ const OrganizationSignupHMO = () => {
             setUser(user);
             toast.success("You have successfully been logged in");
             setSigningIn(false);
+            //create invoice
+              
             navigate("/app");
-            
+            //
           });
       })
       .catch(err => {

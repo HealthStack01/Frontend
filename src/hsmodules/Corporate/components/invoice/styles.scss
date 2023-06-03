@@ -1,0 +1,54 @@
+.ck-editor__editable_inline {
+  min-height: inherit;
+}
+
+// .chat-input-box {
+//   float: left;
+//   height: 40px;
+//   border: none;
+//   padding: 0.5rem 1rem;
+//   border-radius: 40px;
+//   margin: 0 0.5rem 0 0;
+//   width: 100%;
+//   background-color: #dedfed;
+//   box-shadow: inset 0 0 0 2px #dedfed;
+//   font-size: 14px;
+//   font-family: "Quicksand", sans-serif;
+//   font-weight: bold;
+//   transition: 0.15s all ease-in-out;
+//   box-sizing: border-box;
+// }
+
+// .chat-input-box::placeholder {
+//   /* Chrome, Firefox, Opera, Safari 10.1+ */
+//   color: #b1b1b1;
+//   opacity: 1;
+// }
+// .chat-input-box:-ms-input-placeholder {
+//   /* Internet Explorer 10-11 */
+//   color: #b1b1b1;
+// }
+// .chat-input-box::-ms-input-placeholder {
+//   /* Microsoft Edge */
+//   color: #b1b1b1;
+// }
+// .chat-input-box:focus,
+// .chatApp__convInput:active {
+//   box-shadow: inset 0 0 0 2px #7690d6;
+// }
+// .chat-input-box:focus {
+//   outline: none;
+// }
+
+// @keyframes loadSendMessage {
+//   0% {
+//     opacity: 1;
+//     width: 4px;
+//     height: 4px;
+//   }
+//   100% {
+//     opacity: 0;
+//     width: 100%;
+//     height: 100%;
+//   }
+// }

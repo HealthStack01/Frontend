@@ -11,6 +11,7 @@ const HiaOrganizationClient = lazy(() => import("../ManagedCare/HIA"));
 const CorporateClient = lazy(() => import("../ManagedCare/Corporate"));
 const Claims = lazy(() => import("../ManagedCare/Claims"));
 const FundsManagement = lazy(() => import("../ManagedCare/FundsManagement"));
+const Invoice = lazy(() => import("../Corporate/Invoice"));
 const ManagedCareFrontDashboard = lazy(() =>
   import("../dashBoardUiComponent/@modules/ManagedCareFrontDashboard")
 );
@@ -86,6 +87,10 @@ export const corporateRoutes = [
   {
     path: "/app/corporate/complaintDetails",
     Component: ComplaintDetails,
+  },
+  {
+    path: "/app/corporate/invoice",
+    Component: Invoice,
   },
   {
     path: "/app/corporate/tariff",
