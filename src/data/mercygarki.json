@@ -1,0 +1,4876 @@
+{
+    "MERCY HEALTHCARE HOSPITAL": [
+      {
+        "Name": "Thiamine (Vit B1)",
+        "Price": 2.5
+      },
+      {
+        "Name": "Calcium Gluconate Tabs 600Mg (Per Tab)",
+        "Price": 3.75
+      },
+      {
+        "Name": "Cyanocobalamin (B12) Tabs (Per Tab)",
+        "Price": 3.75
+      },
+      {
+        "Name": "Yeast Bpc Tabs 300Mg (Per Tab)",
+        "Price": 3.75
+      },
+      {
+        "Name": "Aspirin 75Mg (Per Tab)",
+        "Price": 6.25
+      },
+      {
+        "Name": "Banocide 50Mg (Per Tab)",
+        "Price": 6.25
+      },
+      {
+        "Name": "Bisacodyl 5Mg (Per Tab)",
+        "Price": 6.25
+      },
+      {
+        "Name": "Calcium Lactate 300Mg (Per Tab)",
+        "Price": 6.25
+      },
+      {
+        "Name": "Chlorpheniramine 4Mg (Per Tab)",
+        "Price": 6.25
+      },
+      {
+        "Name": "Indomehacine (Per Tab)",
+        "Price": 6.25
+      },
+      {
+        "Name": "Phenobarbitone 30Mg (Per Tab)",
+        "Price": 6.25
+      },
+      {
+        "Name": "Piriton (Per Tab)",
+        "Price": 6.25
+      },
+      {
+        "Name": "Promethazine 25Mg (Per Tab)",
+        "Price": 6.25
+      },
+      {
+        "Name": "Riboflavine (Vit B2) Tabs 5Mg (Per Tab)",
+        "Price": 6.25
+      },
+      {
+        "Name": "Vasoprin 75Mg Tab",
+        "Price": 6.25
+      },
+      {
+        "Name": "Chloramphenicol 250Mg (Per Tab)",
+        "Price": 7.5
+      },
+      {
+        "Name": "Stilboesterol Tabs (Per Tab)",
+        "Price": 7.5
+      },
+      {
+        "Name": "Aminophylline Tabs (Per Tab)",
+        "Price": 8.75
+      },
+      {
+        "Name": "Ferrous Sulhate 20Mg (Per Tab)",
+        "Price": 10
+      },
+      {
+        "Name": "Vit C 100Mg (Per Tab)",
+        "Price": 10
+      },
+      {
+        "Name": "Falvitone (Per Cap)",
+        "Price": 11.25
+      },
+      {
+        "Name": "Paracetamol (Per Tab)",
+        "Price": 12
+      },
+      {
+        "Name": "Antasil (Per Tab)",
+        "Price": 12.5
+      },
+      {
+        "Name": "Artane 5Mg (Per Tab)",
+        "Price": 12.5
+      },
+      {
+        "Name": "Avomine 25Mg (Per Tab)",
+        "Price": 12.5
+      },
+      {
+        "Name": "Dequadin Lozenges (Per Tab)",
+        "Price": 12.5
+      },
+      {
+        "Name": "Diazepam 5Mg (Per Tab)",
+        "Price": 12.5
+      },
+      {
+        "Name": "Digoxin 0.25Mg (Per Tab)",
+        "Price": 12.5
+      },
+      {
+        "Name": "Griseofulvin 125Mg (Per Tab)",
+        "Price": 12.5
+      },
+      {
+        "Name": "Haloperidol 5Mg (Per Tab)",
+        "Price": 12.5
+      },
+      {
+        "Name": "Insulin Syringe 40 Iu (Per Piece)",
+        "Price": 12.5
+      },
+      {
+        "Name": "Lomotil (Per Tab)",
+        "Price": 12.5
+      },
+      {
+        "Name": "Metaprim 25Mg (Per Tab)",
+        "Price": 12.5
+      },
+      {
+        "Name": "Piroxicam 20Mg (Per Cap)",
+        "Price": 12.5
+      },
+      {
+        "Name": "Pyridoxine 50Mg (Per Tab)",
+        "Price": 12.5
+      },
+      {
+        "Name": "Stemetil 5Mg (Per Tab)",
+        "Price": 12.5
+      },
+      {
+        "Name": "Tab Gentamycin",
+        "Price": 12.5
+      },
+      {
+        "Name": "Trifluoperazine 5Mg (Per Tab)",
+        "Price": 12.5
+      },
+      {
+        "Name": "Vit A Tab",
+        "Price": 13.75
+      },
+      {
+        "Name": "Salbutamol 4Mg (Per Tab)",
+        "Price": 15
+      },
+      {
+        "Name": "Isosorbide 5Mg (Per Tab)",
+        "Price": 16.25
+      },
+      {
+        "Name": "Acetazolamide 250Mg (Per Tab)",
+        "Price": 18.75
+      },
+      {
+        "Name": "Captopril 12.5Mg (Per Tab)",
+        "Price": 18.75
+      },
+      {
+        "Name": "Captopril 25Mg (Per Tab)",
+        "Price": 18.75
+      },
+      {
+        "Name": "Captopril 50Mg (Per Tab)",
+        "Price": 18.75
+      },
+      {
+        "Name": "Chloroquine 150Mg (Per Tab)",
+        "Price": 18.75
+      },
+      {
+        "Name": "Chlorpromazine 100Mg (Per Tab)",
+        "Price": 18.75
+      },
+      {
+        "Name": "Cimetidine 200Mg (Per Tab)",
+        "Price": 18.75
+      },
+      {
+        "Name": "Colipan 10Mg (Per Tab)",
+        "Price": 18.75
+      },
+      {
+        "Name": "Diabetin 450Mg (Per Tab)",
+        "Price": 18.75
+      },
+      {
+        "Name": "Diamox 250Mg (Per Tab)",
+        "Price": 18.75
+      },
+      {
+        "Name": "Doxycycline (Per Cap)",
+        "Price": 18.75
+      },
+      {
+        "Name": "Hydrochlortiazide 50Mg/Amiloride 5Mg(Per Tab",
+        "Price": 18.75
+      },
+      {
+        "Name": "Hydrocortisone Tabs 10Mg",
+        "Price": 18.75
+      },
+      {
+        "Name": "Ibuprofen 200Mg (Per Tab)",
+        "Price": 18.75
+      },
+      {
+        "Name": "Mefenamic Acid 250Mg (Per Tab)",
+        "Price": 18.75
+      },
+      {
+        "Name": "Moduretic (Per Tab)",
+        "Price": 18.75
+      },
+      {
+        "Name": "Nicotinic Acid (Per Tab)",
+        "Price": 18.75
+      },
+      {
+        "Name": "Pyrazinamide 500Mg (Per Tab)",
+        "Price": 18.75
+      },
+      {
+        "Name": "Ranferon-12 (Per Tab)",
+        "Price": 18.75
+      },
+      {
+        "Name": "Retinol (Vit A) Caps (Per Cap)",
+        "Price": 18.75
+      },
+      {
+        "Name": "Flagyl 400Mg (Per Tab)",
+        "Price": 20
+      },
+      {
+        "Name": "Prednisolone 5Mg (Per Tab)",
+        "Price": 20
+      },
+      {
+        "Name": "Liv 52 (Per Tab)",
+        "Price": 21.25
+      },
+      {
+        "Name": "Zinc 30Mg Tab",
+        "Price": 22.5
+      },
+      {
+        "Name": "Amlova 10Mg (Per Tab)",
+        "Price": 23.75
+      },
+      {
+        "Name": "Allopurinol 100Mg Tab",
+        "Price": 25
+      },
+      {
+        "Name": "Amitriptyline 25Mg (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Aspirin 300Mg (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Atenolol 50Mg (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Ativan 2Mg (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Bendrofluazide (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Canderil Sweetner (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Chemiron (Per Cap)",
+        "Price": 25
+      },
+      {
+        "Name": "Cimetidine 400Mg (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Cloxacillin 250Mg (Per Cap)",
+        "Price": 25
+      },
+      {
+        "Name": "Diclofenac R 75Mg Tab",
+        "Price": 25
+      },
+      {
+        "Name": "Ethambutol 400Mg (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Franol (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Glibenclamide 5Mg (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Glucose (Per Sachet)",
+        "Price": 25
+      },
+      {
+        "Name": "Hyoscine N Butyl Bromide (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Inderal 40Mg (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Loratyn 10Mg (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Novalgin 500Mg (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Propanolol 40Mg (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Rovigon (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Spironolactone 25Mg (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Tabalon 400Mg (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Thalazole 500Mg (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Ventolin 2Mg (Per Tab)",
+        "Price": 25
+      },
+      {
+        "Name": "Enalapril 5Mg Tab",
+        "Price": 26.25
+      },
+      {
+        "Name": "Amoxycillin 250Mg (Per Cap)",
+        "Price": 30
+      },
+      {
+        "Name": "Amoxycillin 500Mg (Per Cap)",
+        "Price": 30
+      },
+      {
+        "Name": "Ampicillin 250Mg (Per Tab)",
+        "Price": 30
+      },
+      {
+        "Name": "Diclofenac 50Mg (Per Tab)",
+        "Price": 30
+      },
+      {
+        "Name": "Folic Acid 5Mg (Per Tab)",
+        "Price": 30
+      },
+      {
+        "Name": "Haemoron (Per Tab)",
+        "Price": 30
+      },
+      {
+        "Name": "Metoclopramide 10Mg (Per Tab)",
+        "Price": 30
+      },
+      {
+        "Name": "Needle (Per Unit)",
+        "Price": 30
+      },
+      {
+        "Name": "Actifed (Per Tab)",
+        "Price": 31.25
+      },
+      {
+        "Name": "Apresoline 25Mg (Per Tab)",
+        "Price": 31.25
+      },
+      {
+        "Name": "Carvedilol 6.25Mg (Per Tab)",
+        "Price": 31.25
+      },
+      {
+        "Name": "Esidrex 25Mg (Per Tab)",
+        "Price": 31.25
+      },
+      {
+        "Name": "Etovit Capgel 200Mg (Per Cap)",
+        "Price": 31.25
+      },
+      {
+        "Name": "Evitol 100Mg (Per Tab)",
+        "Price": 31.25
+      },
+      {
+        "Name": "Isordil 5Mg (Per Tab)",
+        "Price": 31.25
+      },
+      {
+        "Name": "Phenytoin 100Mg (Per Cap)",
+        "Price": 31.25
+      },
+      {
+        "Name": "Chlorpheniramine Inj (Per Amp)",
+        "Price": 32.5
+      },
+      {
+        "Name": "Gestid (Per Tab)",
+        "Price": 35
+      },
+      {
+        "Name": "Nifedipine 20Mg (Per Tab)",
+        "Price": 35
+      },
+      {
+        "Name": "Abitren 100Mg (Per Tab)",
+        "Price": 37.5
+      },
+      {
+        "Name": "Aldactone",
+        "Price": 37.5
+      },
+      {
+        "Name": "Anorol (Per Tab)",
+        "Price": 37.5
+      },
+      {
+        "Name": "Artemef (Per Tablet)",
+        "Price": 37.5
+      },
+      {
+        "Name": "Beclox 500Mg (Per Cap)",
+        "Price": 37.5
+      },
+      {
+        "Name": "Carbamazepine 200Mg (Per Tab)",
+        "Price": 37.5
+      },
+      {
+        "Name": "Chymoral (Per Tab)",
+        "Price": 37.5
+      },
+      {
+        "Name": "Dihydrocodeine 30Mg (Per Tab)",
+        "Price": 37.5
+      },
+      {
+        "Name": "Ergocalciferol (Vit D) Tabs (Per Tab)",
+        "Price": 37.5
+      },
+      {
+        "Name": "Evenng Prime Rose (Per Cap)",
+        "Price": 37.5
+      },
+      {
+        "Name": "Fefol (Per Cap)",
+        "Price": 37.5
+      },
+      {
+        "Name": "Insulin Syringe 100 Iu (Per Piece)",
+        "Price": 37.5
+      },
+      {
+        "Name": "Isordil 10Mg (Per Tab)",
+        "Price": 37.5
+      },
+      {
+        "Name": "Kotase (Per Tab)",
+        "Price": 37.5
+      },
+      {
+        "Name": "Lexothan 1.5Mg (Per Tab)",
+        "Price": 37.5
+      },
+      {
+        "Name": "Lincomycin 500Mg (Per Cap)",
+        "Price": 37.5
+      },
+      {
+        "Name": "Maxolon (Per Tab)",
+        "Price": 37.5
+      },
+      {
+        "Name": "Nivaquine Forte Cap (Per Cap)",
+        "Price": 37.5
+      },
+      {
+        "Name": "Warfrin Sodium 5Mg (Per Tab)",
+        "Price": 37.5
+      },
+      {
+        "Name": "Atenolol 100Mg (Per Tab)",
+        "Price": 38.75
+      },
+      {
+        "Name": "Ampiclox 500Mg Cap (Per Cap)",
+        "Price": 40
+      },
+      {
+        "Name": "Erythromycin 250Mg (Per Tab)",
+        "Price": 40
+      },
+      {
+        "Name": "Ibufropen 400Mg (Per Tab)",
+        "Price": 40
+      },
+      {
+        "Name": "Metronidazole 200Mg (Per Tab)",
+        "Price": 40
+      },
+      {
+        "Name": "Nitrofurantoin 100Mg (Per Tab)",
+        "Price": 40
+      },
+      {
+        "Name": "Normoretic (Per Tab)",
+        "Price": 40
+      },
+      {
+        "Name": "Tetracycline 250Mg (Per Cap)",
+        "Price": 40
+      },
+      {
+        "Name": "Vit B Complex (Per Tab)",
+        "Price": 40
+      },
+      {
+        "Name": "Simvastatin 20Mg Tab",
+        "Price": 41.25
+      },
+      {
+        "Name": "Cotenidone Tabs (Per Tab)",
+        "Price": 42.5
+      },
+      {
+        "Name": "Allopurinol 200Mg Tab",
+        "Price": 43.75
+      },
+      {
+        "Name": "Bisoprolol 2.5Mg",
+        "Price": 43.75
+      },
+      {
+        "Name": "Chymoral",
+        "Price": 43.75
+      },
+      {
+        "Name": "Co-Proxamol (Per Tab)",
+        "Price": 43.75
+      },
+      {
+        "Name": "Encephabol (Per Tab)",
+        "Price": 43.75
+      },
+      {
+        "Name": "Neomercazole 5Mg (Per Tab)",
+        "Price": 43.75
+      },
+      {
+        "Name": "Nystatin Pessaries (Per Tab)",
+        "Price": 43.75
+      },
+      {
+        "Name": "Strepsil Lozenges (Per Tab)",
+        "Price": 43.75
+      },
+      {
+        "Name": "Lonart Tab (Per Tab)",
+        "Price": 47.5
+      },
+      {
+        "Name": "Cephalexin (Per Cap)",
+        "Price": 48.75
+      },
+      {
+        "Name": "Crystalline Penicillin (Per Ampoule)",
+        "Price": 48.75
+      },
+      {
+        "Name": "Piriton Injection 10Mg/Ml",
+        "Price": 48.75
+      },
+      {
+        "Name": "Promethazine Inj 25Mg/Amp",
+        "Price": 48.75
+      },
+      {
+        "Name": "Xtapen (Per Amp)",
+        "Price": 48.75
+      },
+      {
+        "Name": "Amlodipine 5Mg (Per Tab)",
+        "Price": 50
+      },
+      {
+        "Name": "Brinerdine (Per Tab)",
+        "Price": 50
+      },
+      {
+        "Name": "Bromhexine 8Mg (Per Tab)",
+        "Price": 50
+      },
+      {
+        "Name": "Centrum M/Vit (Per Tab)",
+        "Price": 50
+      },
+      {
+        "Name": "Chlorpromazine 50Mg Inj (Per Amp)",
+        "Price": 50
+      },
+      {
+        "Name": "Chlorpropamide 250Mg (Per Tab)",
+        "Price": 50
+      },
+      {
+        "Name": "Co-Trimazole 480Mg (Per Tab)",
+        "Price": 50
+      },
+      {
+        "Name": "Frusemide 40Mg (Per Tab)",
+        "Price": 50
+      },
+      {
+        "Name": "Ketoconazole 200Mg (Per Tab)",
+        "Price": 50
+      },
+      {
+        "Name": "Lexotab Tabs",
+        "Price": 50
+      },
+      {
+        "Name": "Lexothan 3Mg (Per Tab)",
+        "Price": 50
+      },
+      {
+        "Name": "Methyl Dopa 250Mg(Aldomet) (Per Tab)",
+        "Price": 50
+      },
+      {
+        "Name": "Methyl Dopa 500Mg(Aldomet) (Per Tab)",
+        "Price": 50
+      },
+      {
+        "Name": "Metronidazole 400Mg (Per Tab)",
+        "Price": 50
+      },
+      {
+        "Name": "Motilium 10Mg (Per Tab)",
+        "Price": 50
+      },
+      {
+        "Name": "Nifegem Retard 20Mg (Per Tab)",
+        "Price": 50
+      },
+      {
+        "Name": "Nitrazepam 5Mg (Per Tab)",
+        "Price": 50
+      },
+      {
+        "Name": "Obron 6 Cap (Per Cap)",
+        "Price": 50
+      },
+      {
+        "Name": "Scalp Vein Needle (Per Unit)",
+        "Price": 50
+      },
+      {
+        "Name": "Syringe & Needle 10Ml (Per Unit)",
+        "Price": 50
+      },
+      {
+        "Name": "Syringe & Needle 20Ml (Per Unit)",
+        "Price": 50
+      },
+      {
+        "Name": "Syringe & Needle 2Ml (Per Unit)",
+        "Price": 50
+      },
+      {
+        "Name": "Syringe & Needle 5Ml (Per Unit)",
+        "Price": 50
+      },
+      {
+        "Name": "Vit C Inj (Per Amp)",
+        "Price": 50
+      },
+      {
+        "Name": "Zyloric 100Mg (Per Tab)",
+        "Price": 50
+      },
+      {
+        "Name": "Atovastatin 10Mg (Per Tab)",
+        "Price": 52.5
+      },
+      {
+        "Name": "Quinine 300Mg (Per Tab)",
+        "Price": 53
+      },
+      {
+        "Name": "Ketrax (Per Tab).",
+        "Price": 53.75
+      },
+      {
+        "Name": "Mesterolone Tabs 25Mg (Per Tab)",
+        "Price": 56.25
+      },
+      {
+        "Name": "Astymin (Per Tab).",
+        "Price": 57.5
+      },
+      {
+        "Name": "Eye Antioxidant (Per Tab)",
+        "Price": 58.75
+      },
+      {
+        "Name": "Dyridamole 100Mg Tab",
+        "Price": 62.5
+      },
+      {
+        "Name": "Activated Charcoal (Per Cap)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Aminophylline Inj 25Mg/Ml (Per Amp",
+        "Price": 62.5
+      },
+      {
+        "Name": "Amlodipine 10Mg (Per Tab)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Benzhexol 5Mg (Per Tab)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Carvedilol 25Mg(Per Tab)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Centrum Silver (Per Tab)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Chloroquine 200Mg (Per Amp)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Coartem (Per Tab)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Co-Codamol 500Mg",
+        "Price": 62.5
+      },
+      {
+        "Name": "Cordarone 200Mg (Per Tab)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Ditropan 5Mg (Per Tab)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Ergocalciferol (Vit D) Solution (Per Amp)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Ergometrine 0.5Mg (Per Tab)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Ferrobin",
+        "Price": 62.5
+      },
+      {
+        "Name": "Griseofulvin 500Mg (Per Tab)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Hyoscine N Butyl Bromide 20Mg (Per Amp)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Inj Piroxicam",
+        "Price": 62.5
+      },
+      {
+        "Name": "Isosorbide 10Mg (Per Tab)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Manix (Per Tab)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Mosegor 0.5Mg (Per Tab)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Norflex Tabs (Per Tab)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Norgesic Tab",
+        "Price": 62.5
+      },
+      {
+        "Name": "Omega H3 (Per Cap)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Stugeron 25Mg (Per Tab)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Testosterone Inj 200Mg/Ml (Per Amp)",
+        "Price": 62.5
+      },
+      {
+        "Name": "Alaxin- P (Per Tab)",
+        "Price": 65
+      },
+      {
+        "Name": "Livolin Forte Tabs (Per Tab)",
+        "Price": 67.5
+      },
+      {
+        "Name": "Persantin (Per Tab)",
+        "Price": 67.5
+      },
+      {
+        "Name": "Lisinopril 10Mg (Per Tab)",
+        "Price": 70
+      },
+      {
+        "Name": "Lisinopril 5Mg (Per Tab)",
+        "Price": 70
+      },
+      {
+        "Name": "Naproxen 500Mg (Per Tab)",
+        "Price": 70
+      },
+      {
+        "Name": "Omeprazole 20Mg (Per Tab).",
+        "Price": 70
+      },
+      {
+        "Name": "Aciclovir 200Mg (Per Tab)",
+        "Price": 75
+      },
+      {
+        "Name": "Bisoprolol 5Mg",
+        "Price": 75
+      },
+      {
+        "Name": "Combantrin 125Mg (Per Tab)",
+        "Price": 75
+      },
+      {
+        "Name": "Dipyridamole (Per Tab)",
+        "Price": 75
+      },
+      {
+        "Name": "Evitol100Mg Capgel (Per Cap)",
+        "Price": 75
+      },
+      {
+        "Name": "Histac 150Mg (Per Tab)",
+        "Price": 75
+      },
+      {
+        "Name": "Homtamin Ginseng (Per Tab)",
+        "Price": 75
+      },
+      {
+        "Name": "Hypovase 1Mg (Per Tab)",
+        "Price": 75
+      },
+      {
+        "Name": "Lexotan Inj",
+        "Price": 75
+      },
+      {
+        "Name": "Ocuvite (Per Tab)",
+        "Price": 75
+      },
+      {
+        "Name": "Pefloxacin 400Mg (Per Tab)",
+        "Price": 75
+      },
+      {
+        "Name": "Pregnacare (Per Cap)",
+        "Price": 75
+      },
+      {
+        "Name": "Promethazine 50Mg Inj (Per Amp)",
+        "Price": 75
+      },
+      {
+        "Name": "Proviron 25 Mg (Per Tab)",
+        "Price": 75
+      },
+      {
+        "Name": "Regroton (Per Tab)",
+        "Price": 75
+      },
+      {
+        "Name": "Sanatogen M/Vit Gold (Per Tab)",
+        "Price": 75
+      },
+      {
+        "Name": "Tavegyl 1Mg (Per Tab)",
+        "Price": 75
+      },
+      {
+        "Name": "Vit E 1000 Iu Nature Made (Per Tab)",
+        "Price": 75
+      },
+      {
+        "Name": "Arthrotec (Per Tab)",
+        "Price": 77.5
+      },
+      {
+        "Name": "Betaloc (Per Tab)",
+        "Price": 78.75
+      },
+      {
+        "Name": "Artesunate (Per Tab)",
+        "Price": 81.25
+      },
+      {
+        "Name": "Camoquine 200Mg (Per Tab)",
+        "Price": 81.25
+      },
+      {
+        "Name": "Coartem Dispersible (Per Tab)",
+        "Price": 81.25
+      },
+      {
+        "Name": "Dicynone 250Mg (Per Tab)",
+        "Price": 81.25
+      },
+      {
+        "Name": "Fasigyn 500Mg (Per Tab)",
+        "Price": 81.25
+      },
+      {
+        "Name": "Immunace (Per Tab)",
+        "Price": 81.25
+      },
+      {
+        "Name": "Lo-Feminal (Per Sach)",
+        "Price": 81.25
+      },
+      {
+        "Name": "Roxid Tabs (Per Tab)",
+        "Price": 81.25
+      },
+      {
+        "Name": "Roxithromycin Tabs (Per Tab)",
+        "Price": 81.25
+      },
+      {
+        "Name": "Sulphadeine Plus Soluble (Per Tab)",
+        "Price": 81.25
+      },
+      {
+        "Name": "Wellman M/Vit (Per Cap)",
+        "Price": 81.25
+      },
+      {
+        "Name": "Gsunate 100Mg (Per Tab)",
+        "Price": 87.5
+      },
+      {
+        "Name": "Ceecal (Per Tab)",
+        "Price": 87.5
+      },
+      {
+        "Name": "Cyanocobalamin (B12) Inj (Per Amp)",
+        "Price": 87.5
+      },
+      {
+        "Name": "Floxapen 125Mg/5Ml (Per Cap)",
+        "Price": 87.5
+      },
+      {
+        "Name": "Infusion Set (Per Unit)",
+        "Price": 87.5
+      },
+      {
+        "Name": "Osteocare (Per Tab)",
+        "Price": 87.5
+      },
+      {
+        "Name": "Urine Bag",
+        "Price": 87.5
+      },
+      {
+        "Name": "Vitamin B Complex Inj (Per Vial)",
+        "Price": 87.5
+      },
+      {
+        "Name": "Glicazide 80Mg (Per Tab)",
+        "Price": 90
+      },
+      {
+        "Name": "Bisoprolol 10Mg",
+        "Price": 93.75
+      },
+      {
+        "Name": "Dolonuerobion (Per Tab)",
+        "Price": 93.75
+      },
+      {
+        "Name": "Neurobion (Per Tab)",
+        "Price": 93.75
+      },
+      {
+        "Name": "Chloramphenicol 500Mg Inj/Amp",
+        "Price": 97.5
+      },
+      {
+        "Name": "Acarbose 50Mg (Per Tab)",
+        "Price": 100
+      },
+      {
+        "Name": "Adalat Retard 20Mg (Per Tab)",
+        "Price": 100
+      },
+      {
+        "Name": "Aminophylline Inj 25Mg/Ml (Per Amp)",
+        "Price": 100
+      },
+      {
+        "Name": "Arthocare Cap (Per Tab)",
+        "Price": 100
+      },
+      {
+        "Name": "Cac 1000 (Per Tab)",
+        "Price": 100
+      },
+      {
+        "Name": "Cadioace (Per Cap)",
+        "Price": 100
+      },
+      {
+        "Name": "Cataflam 50Mg (Per Tab)",
+        "Price": 100
+      },
+      {
+        "Name": "Clonidine 100Mcg (Per Tab)",
+        "Price": 100
+      },
+      {
+        "Name": "Gentamycin 80Mg (Per Amp)",
+        "Price": 100
+      },
+      {
+        "Name": "Geriatic Pharmaton (Per Cap)",
+        "Price": 100
+      },
+      {
+        "Name": "Hydrocortisone 100Mg Inj (Per Amp)",
+        "Price": 100
+      },
+      {
+        "Name": "Iron Dextran Inj 50Mg/2Ml (Per Amp)",
+        "Price": 100
+      },
+      {
+        "Name": "Natrilix (Per Tab)",
+        "Price": 100
+      },
+      {
+        "Name": "Ofloxacin Caps 200Mg (Per Cap)",
+        "Price": 100
+      },
+      {
+        "Name": "Paludrine 100Mg Tab (Per Tab)",
+        "Price": 100
+      },
+      {
+        "Name": "Paracetamol 125Mg Suppository",
+        "Price": 100
+      },
+      {
+        "Name": "Praziquantel 600Mg (Per Tab)",
+        "Price": 100
+      },
+      {
+        "Name": "Primolut N 5Mg (Per Tab)",
+        "Price": 100
+      },
+      {
+        "Name": "Thyroxine 0.5Mg (Per Tab)",
+        "Price": 100
+      },
+      {
+        "Name": "Zantac 300Mg (Per Tab)",
+        "Price": 100
+      },
+      {
+        "Name": "Secwid 400Mg (Per Tab)",
+        "Price": 101.25
+      },
+      {
+        "Name": "Quinine Inj 300Mg",
+        "Price": 102
+      },
+      {
+        "Name": "Glipizide 5Mg (Per Tab)",
+        "Price": 105
+      },
+      {
+        "Name": "Maxivision (Per Cap)",
+        "Price": 106.25
+      },
+      {
+        "Name": "Zaditen 1Mg (Per Tab)",
+        "Price": 106.25
+      },
+      {
+        "Name": "Arsumax 50Mg (Per Tab)",
+        "Price": 112.5
+      },
+      {
+        "Name": "Calcium Gluconate Inj (Per Amp)",
+        "Price": 112.5
+      },
+      {
+        "Name": "Clopidogrel(Per Tab)",
+        "Price": 112.5
+      },
+      {
+        "Name": "Losartan 60Mg Per Tab",
+        "Price": 112.5
+      },
+      {
+        "Name": "Minizide (Per Tab)",
+        "Price": 112.5
+      },
+      {
+        "Name": "Cimetidine Inj Per Amp",
+        "Price": 113.75
+      },
+      {
+        "Name": "Gabapentrin(Per Tab)",
+        "Price": 113.75
+      },
+      {
+        "Name": "Suffratule(Per Piece)",
+        "Price": 113.75
+      },
+      {
+        "Name": "Camosunate 600/200 (Per Tab)",
+        "Price": 120
+      },
+      {
+        "Name": "Secnidazole 500Mg(Per Tab)",
+        "Price": 122.5
+      },
+      {
+        "Name": "Dynamogen Liquid 10Mls (Per Bot)",
+        "Price": 125
+      },
+      {
+        "Name": "Alphabethic Caplet (Per Tab)",
+        "Price": 125
+      },
+      {
+        "Name": "Avolam 150Mg (Per Tab)",
+        "Price": 125
+      },
+      {
+        "Name": "Daflon (Per Tab)",
+        "Price": 125
+      },
+      {
+        "Name": "Dexamethasone 8Mg (Per Vial)",
+        "Price": 125
+      },
+      {
+        "Name": "Digoxin 0.025Mg Inl (Per Amp)",
+        "Price": 125
+      },
+      {
+        "Name": "Eucadic 3.125Mg (Per Tab)",
+        "Price": 125
+      },
+      {
+        "Name": "Evadine 200Mg (Per Tab)",
+        "Price": 125
+      },
+      {
+        "Name": "Fansidar 525Mg (Per Tab)",
+        "Price": 125
+      },
+      {
+        "Name": "Flucamed 50Mg (Per Cap)",
+        "Price": 125
+      },
+      {
+        "Name": "Histac 300Mg (Per Tab)",
+        "Price": 125
+      },
+      {
+        "Name": "Imodium 4Mg (Per Tab)",
+        "Price": 125
+      },
+      {
+        "Name": "Iv Cannula (Per Unit)",
+        "Price": 125
+      },
+      {
+        "Name": "Meloxicam (Per Tab)",
+        "Price": 125
+      },
+      {
+        "Name": "Meprasil 20Mg (Per Cap)",
+        "Price": 125
+      },
+      {
+        "Name": "Nospa Tabs 40Mg (Per Tab)",
+        "Price": 125
+      },
+      {
+        "Name": "Oruvail 200Mg (Per Cap)",
+        "Price": 125
+      },
+      {
+        "Name": "Tamsulosin(Per Tab)",
+        "Price": 125
+      },
+      {
+        "Name": "Tegretol 200Mg (Per Tab)",
+        "Price": 125
+      },
+      {
+        "Name": "Throxine 100Mcg (Per Tab)",
+        "Price": 125
+      },
+      {
+        "Name": "Zantac 150Mg (Per Tab)",
+        "Price": 125
+      },
+      {
+        "Name": "Zestril 5Mg (Per Tab)",
+        "Price": 125
+      },
+      {
+        "Name": "Ciprofloxacin 500Mg (Per Tab)",
+        "Price": 130
+      },
+      {
+        "Name": "Ciprotab 500Mg (Per Tab)",
+        "Price": 130
+      },
+      {
+        "Name": "Nizoral 200Mg (Per Tab)",
+        "Price": 131.25
+      },
+      {
+        "Name": "Sparfloxacin 200Mg (Per Tab)",
+        "Price": 131.25
+      },
+      {
+        "Name": "Voltaren Retard 100Mg (Per Tab)",
+        "Price": 131.25
+      },
+      {
+        "Name": "Amovin Tab",
+        "Price": 137.5
+      },
+      {
+        "Name": "Chloroquine 50Mg/5Ml (Per Bot)",
+        "Price": 137.5
+      },
+      {
+        "Name": "Enhancin 375Mg (Per Tab)",
+        "Price": 137.5
+      },
+      {
+        "Name": "Diazepam 10Mg (Per Amp)",
+        "Price": 140
+      },
+      {
+        "Name": "Fluconazole 50Mg (Per Tab)",
+        "Price": 140
+      },
+      {
+        "Name": "Levofloxacin Tab 500Mg",
+        "Price": 140
+      },
+      {
+        "Name": "Arved 450Mg (Per Tab)",
+        "Price": 150
+      },
+      {
+        "Name": "Clinitest Tab (Per Tab)",
+        "Price": 150
+      },
+      {
+        "Name": "Dextromethorphan Hydrobromide Syrup (Per Bot.",
+        "Price": 150
+      },
+      {
+        "Name": "Diclofenac Supp 100Mg (Per Supp)",
+        "Price": 150
+      },
+      {
+        "Name": "Levetiractam 250Mg(Keppra)",
+        "Price": 150
+      },
+      {
+        "Name": "Metformin 1G (Per Tab)",
+        "Price": 150
+      },
+      {
+        "Name": "Metformin 500Mg (Per Tab)",
+        "Price": 150
+      },
+      {
+        "Name": "Minipress 1Mg (Per Tab)",
+        "Price": 150
+      },
+      {
+        "Name": "Nasogastric (Ng) Tube",
+        "Price": 150
+      },
+      {
+        "Name": "Neuracalm",
+        "Price": 150
+      },
+      {
+        "Name": "Rohypnol 1Mg (Per Tab)",
+        "Price": 150
+      },
+      {
+        "Name": "Rosuvastatin 5Mg",
+        "Price": 150
+      },
+      {
+        "Name": "Vitamin A Drops",
+        "Price": 150
+      },
+      {
+        "Name": "Artemeter 100Mg Tab",
+        "Price": 152.5
+      },
+      {
+        "Name": "Cefuroxime 250Mg Tab",
+        "Price": 155
+      },
+      {
+        "Name": "Proguanil 100Mg (Per Tab)",
+        "Price": 156.25
+      },
+      {
+        "Name": "Diclofenac Supp 12.5Mg (Per Supp)",
+        "Price": 160
+      },
+      {
+        "Name": "Oral Rehydration Salt",
+        "Price": 160
+      },
+      {
+        "Name": "Paracetamol Inj (Per Amp)",
+        "Price": 160
+      },
+      {
+        "Name": "Alfa D O.5Cg (Per Tab)",
+        "Price": 162.5
+      },
+      {
+        "Name": "Ampiclox I 500Mg Inj (Per Vial)",
+        "Price": 162.5
+      },
+      {
+        "Name": "Bromocriptine 2.5Mg (Per Tab)",
+        "Price": 162.5
+      },
+      {
+        "Name": "Chloramphenicol Eye Oint. (Per Tube)",
+        "Price": 162.5
+      },
+      {
+        "Name": "Cytotec (Misoprostol) 200Mcg (Per Tab)",
+        "Price": 162.5
+      },
+      {
+        "Name": "Enhancin 625Mg (Per Tab)",
+        "Price": 162.5
+      },
+      {
+        "Name": "Ergometrine Inj 1.5Mg",
+        "Price": 162.5
+      },
+      {
+        "Name": "Inferon (Per Amp)",
+        "Price": 162.5
+      },
+      {
+        "Name": "Metakelfin (Per Tab)",
+        "Price": 162.5
+      },
+      {
+        "Name": "Pariet 20Mg (Per Tab)",
+        "Price": 162.5
+      },
+      {
+        "Name": "Sodium Vaporate (Epilium 200Mg)",
+        "Price": 162.5
+      },
+      {
+        "Name": "Streptomycin 5Mg Inj (Per Vial)",
+        "Price": 162.5
+      },
+      {
+        "Name": "Vit K Inj (Per Amp)",
+        "Price": 162.5
+      },
+      {
+        "Name": "Zaditen 2Mg (Per Tab)",
+        "Price": 162.5
+      },
+      {
+        "Name": "Zentel (Per Tab)",
+        "Price": 162.5
+      },
+      {
+        "Name": "Metoclopramide 5Mg Inj (Per Amp)",
+        "Price": 170
+      },
+      {
+        "Name": "Essential Forte Cap (Per Cap)",
+        "Price": 175
+      },
+      {
+        "Name": "Pregabalim 75Mg",
+        "Price": 175
+      },
+      {
+        "Name": "Blood Giving Set (Per Unit)",
+        "Price": 180
+      },
+      {
+        "Name": "Feldene 20Mg (Per Cap)",
+        "Price": 181.25
+      },
+      {
+        "Name": "Avocomb 450Mg (Per Tab)",
+        "Price": 187.5
+      },
+      {
+        "Name": "Carfergot 50Mg (Per Tab)",
+        "Price": 187.5
+      },
+      {
+        "Name": "Clomid 50Mg (Per Tab)",
+        "Price": 187.5
+      },
+      {
+        "Name": "Co-Amoxiclav 625Mg Tab (Per Tab)",
+        "Price": 187.5
+      },
+      {
+        "Name": "Duphason 10Mg (Per Tab)",
+        "Price": 187.5
+      },
+      {
+        "Name": "Eucardic 25Mg (Per Tab)",
+        "Price": 187.5
+      },
+      {
+        "Name": "Labetalol 100Mg",
+        "Price": 187.5
+      },
+      {
+        "Name": "Tramadol 50Mg (Per Cap)",
+        "Price": 187.5
+      },
+      {
+        "Name": "Clindamycin Hcl 300Mg Cap (Per Cap)",
+        "Price": 192.5
+      },
+      {
+        "Name": "Amovin 500Mg Inj (Per Amp)",
+        "Price": 195
+      },
+      {
+        "Name": "Amoksiclav 625Mg (Per Tab)",
+        "Price": 200
+      },
+      {
+        "Name": "Amoksiclav Tab 625Mg",
+        "Price": 200
+      },
+      {
+        "Name": "Cadura 4Mg Per Tab",
+        "Price": 200
+      },
+      {
+        "Name": "Calamine Lotion 100Mls (Per Bot)",
+        "Price": 200
+      },
+      {
+        "Name": "Diclofenac Inj 75Mg (Per Amp)",
+        "Price": 200
+      },
+      {
+        "Name": "Frusemide Inj 20Mg (Per Amp)",
+        "Price": 200
+      },
+      {
+        "Name": "Oxytocin 10Mg Inj Per Amp",
+        "Price": 200
+      },
+      {
+        "Name": "Pentazocine 30Mg Inj (Per Amp)",
+        "Price": 200
+      },
+      {
+        "Name": "Rosuvastatin 10Mg",
+        "Price": 200
+      },
+      {
+        "Name": "Unasyn (Per Tab)",
+        "Price": 200
+      },
+      {
+        "Name": "Tramadol 50Mg Inj. (Per Vial)",
+        "Price": 211.25
+      },
+      {
+        "Name": "Chloramphenicol Ear Drop (Per Bot)",
+        "Price": 212.5
+      },
+      {
+        "Name": "Co-Aprovel 150Mg (1Tab)",
+        "Price": 212.5
+      },
+      {
+        "Name": "Co-Micardil (Per Tab)",
+        "Price": 218.75
+      },
+      {
+        "Name": "Mist Kaolin (Per Bot)",
+        "Price": 225
+      },
+      {
+        "Name": "Paroxetin 100Mg(Per Tab)",
+        "Price": 225
+      },
+      {
+        "Name": "Tarivid 200Mg (Per Tab)",
+        "Price": 225
+      },
+      {
+        "Name": "Cefuroxime 500Mg Tab",
+        "Price": 227.5
+      },
+      {
+        "Name": "Co-Trimazole 240Mg/5Ml (Per Bot)",
+        "Price": 231.25
+      },
+      {
+        "Name": "Atropine 6Oomg Inj (Per Amp)",
+        "Price": 237.5
+      },
+      {
+        "Name": "Co-Diovan (Per Tab)",
+        "Price": 237.5
+      },
+      {
+        "Name": "Colipan Alixir 5Mg/5Ml-100Ml (Per Bot)",
+        "Price": 237.5
+      },
+      {
+        "Name": "Diovan 80Mg (Per Cap)",
+        "Price": 237.5
+      },
+      {
+        "Name": "Itranox 100Mg (Per Tab)",
+        "Price": 237.5
+      },
+      {
+        "Name": "Peflacine 400Mg (Per Tab)",
+        "Price": 237.5
+      },
+      {
+        "Name": "Zestril 10Mg (Per Tab)",
+        "Price": 237.5
+      },
+      {
+        "Name": "Chloramphenicol Syrup",
+        "Price": 242.5
+      },
+      {
+        "Name": "Chloramphenicol Eye Drop (Per Bot)",
+        "Price": 243.75
+      },
+      {
+        "Name": "Chlorpheniramine 2Mg/5Ml (Per Bot)",
+        "Price": 243.75
+      },
+      {
+        "Name": "Gentamycin Eye/Ear Drop (Per Bot)",
+        "Price": 243.75
+      },
+      {
+        "Name": "Hydroxypregesterone (Per Tab)",
+        "Price": 243.75
+      },
+      {
+        "Name": "Lescol 20Mg (Per Cap)",
+        "Price": 243.75
+      },
+      {
+        "Name": "Tenoretic (Per Tab)",
+        "Price": 243.75
+      },
+      {
+        "Name": "Valium 10Mg (Per Amp)",
+        "Price": 243.75
+      },
+      {
+        "Name": "Whitfield Ointment 20G (Per Tube)",
+        "Price": 243.75
+      },
+      {
+        "Name": "Zolat Syrup",
+        "Price": 243.75
+      },
+      {
+        "Name": "Co-Aprovel 300Mg (1Tab)",
+        "Price": 250
+      },
+      {
+        "Name": "Detrusitol 2Mg (Per Tab)",
+        "Price": 250
+      },
+      {
+        "Name": "Diamicron 60Mg (Per Tab)",
+        "Price": 250
+      },
+      {
+        "Name": "Dulcolax Supp (Per Supp)",
+        "Price": 250
+      },
+      {
+        "Name": "Fortwin 30Mg (Per Amp)",
+        "Price": 250
+      },
+      {
+        "Name": "Glyceryltrinitrate (Per Tab)",
+        "Price": 250
+      },
+      {
+        "Name": "Gram Staining",
+        "Price": 250
+      },
+      {
+        "Name": "Gynodaktarin 200Mg (Per Ovule)",
+        "Price": 250
+      },
+      {
+        "Name": "Labetalol 400Mg",
+        "Price": 250
+      },
+      {
+        "Name": "Metronidazole Infusion (Per Inf)",
+        "Price": 250
+      },
+      {
+        "Name": "Penicillin Ointment (Per Tube)",
+        "Price": 250
+      },
+      {
+        "Name": "Slow-K 600Mg (Per Tab)",
+        "Price": 250
+      },
+      {
+        "Name": "Tegretol Cr 400Mg (Per Tab)",
+        "Price": 250
+      },
+      {
+        "Name": "Mectizan (Ivermectin) 3Mg (Per Tab)",
+        "Price": 262.5
+      },
+      {
+        "Name": "Clarithromycin 500Mg (Per Cap)",
+        "Price": 275
+      },
+      {
+        "Name": "Cofex Syrup (Per Bot)",
+        "Price": 276.25
+      },
+      {
+        "Name": "Candesartan 80Mg Per Tab",
+        "Price": 287.5
+      },
+      {
+        "Name": "Simvor 20Mg (Per Tab)",
+        "Price": 287.5
+      },
+      {
+        "Name": "Abaktal 400Mg (Per Amp)",
+        "Price": 287.5
+      },
+      {
+        "Name": "Afrabvite Drops (Per Bot)",
+        "Price": 292.5
+      },
+      {
+        "Name": "Nospamin Drops",
+        "Price": 292.5
+      },
+      {
+        "Name": "Lipitor 10Mg (Per Tab)",
+        "Price": 293.75
+      },
+      {
+        "Name": "Mycoten Cream 20G (Per Tube)",
+        "Price": 293.75
+      },
+      {
+        "Name": "Zestoretic (Per Tab)",
+        "Price": 293.75
+      },
+      {
+        "Name": "Zestril 20Mg (Per Tab)",
+        "Price": 293.75
+      },
+      {
+        "Name": "Ascorbic Acid (Vit C) Syrup (Per Bot.)",
+        "Price": 300
+      },
+      {
+        "Name": "Avanda 4Mg (Per Tab)",
+        "Price": 300
+      },
+      {
+        "Name": "Benylin Expectorant 100Mls (Per Bot)",
+        "Price": 300
+      },
+      {
+        "Name": "Celebrex 200Mg (Per Cap)",
+        "Price": 300
+      },
+      {
+        "Name": "Hydrocortisone 15Mg (Per Tube)",
+        "Price": 300
+      },
+      {
+        "Name": "Ventolin Nebules 2.5Mg (Per Neb)",
+        "Price": 300
+      },
+      {
+        "Name": "Zinnat 250Mg (Per Tab)",
+        "Price": 306.25
+      },
+      {
+        "Name": "Annusol Suppositories (Per Supp)",
+        "Price": 312.5
+      },
+      {
+        "Name": "Augmentine 1G (Per Tab)",
+        "Price": 312.5
+      },
+      {
+        "Name": "Bonjela Gel 10G (Per Tube)",
+        "Price": 312.5
+      },
+      {
+        "Name": "Danazole Caps 200Mg (Per Cap)",
+        "Price": 312.5
+      },
+      {
+        "Name": "Galvus 50Mg",
+        "Price": 312.5
+      },
+      {
+        "Name": "Gentamycin Cream 15G (Per Tube)",
+        "Price": 312.5
+      },
+      {
+        "Name": "Promethazine 5Mg/5Mg Elixir (Per Bot)",
+        "Price": 312.5
+      },
+      {
+        "Name": "Rosuvastatin 20Mg",
+        "Price": 312.5
+      },
+      {
+        "Name": "Tetanus Toxoid (Per Dose)",
+        "Price": 312.5
+      },
+      {
+        "Name": "Zoloft 50Mg (Per Cap)",
+        "Price": 312.5
+      },
+      {
+        "Name": "Bromhexine",
+        "Price": 325
+      },
+      {
+        "Name": "Bromhexine Syrup",
+        "Price": 325
+      },
+      {
+        "Name": "Cicatrin Powder (Per Bot)",
+        "Price": 325
+      },
+      {
+        "Name": "Lincomycin Inj 300Mg (Per Amp)",
+        "Price": 325
+      },
+      {
+        "Name": "Piriton Expectorant 100Mls (Per Bot)",
+        "Price": 325
+      },
+      {
+        "Name": "Zentel Susp 400Mg/20Ml (Per Bot)",
+        "Price": 325
+      },
+      {
+        "Name": "Amias 4Mg (Per Tab)",
+        "Price": 337.5
+      },
+      {
+        "Name": "Halothane Injection",
+        "Price": 337.5
+      },
+      {
+        "Name": "Ketamin Inj (Per Vial)",
+        "Price": 337.5
+      },
+      {
+        "Name": "Thiopentone Sodium",
+        "Price": 337.5
+      },
+      {
+        "Name": "Augmentine 625Mg (Per Tab)",
+        "Price": 350
+      },
+      {
+        "Name": "Halfan 250Mg (Per Tab)",
+        "Price": 356.25
+      },
+      {
+        "Name": "Amoxyl 500Mg Inj/Amp",
+        "Price": 357.5
+      },
+      {
+        "Name": "Nospa Inj (Per Amp)",
+        "Price": 357.5
+      },
+      {
+        "Name": "Terbinafine Tabs 250Mg (Per Tab)",
+        "Price": 362.5
+      },
+      {
+        "Name": "Potassium Chloride 3Mg Inj (Amp)",
+        "Price": 373.75
+      },
+      {
+        "Name": "Amias 8Mg (Per Tab)",
+        "Price": 375
+      },
+      {
+        "Name": "Apresoline 20Mg Inj (Per Amp)",
+        "Price": 375
+      },
+      {
+        "Name": "Broncholyte 4Mg/5Ml Elixir (Per Bot)",
+        "Price": 375
+      },
+      {
+        "Name": "Candesartan 160Mg Per Tab",
+        "Price": 375
+      },
+      {
+        "Name": "Esr Westergren",
+        "Price": 375
+      },
+      {
+        "Name": "Eucadic 12.5Mg (Per Tab)",
+        "Price": 375
+      },
+      {
+        "Name": "Larither 80Mg Inj (Per Amp)",
+        "Price": 375
+      },
+      {
+        "Name": "Routine Intravenous Infusion/500 Mls + Materials",
+        "Price": 375
+      },
+      {
+        "Name": "Proscar 5Mg (Per Tab)",
+        "Price": 387.5
+      },
+      {
+        "Name": "Ampiclox 250Mg/5Ml-100Ml (Per Bot)",
+        "Price": 400
+      },
+      {
+        "Name": "Foley'S Catheter (Per Piece)",
+        "Price": 400
+      },
+      {
+        "Name": "Folic Acid Syrup",
+        "Price": 400
+      },
+      {
+        "Name": "Hb Genotype",
+        "Price": 400
+      },
+      {
+        "Name": "Skin Snip For Microfilaria",
+        "Price": 400
+      },
+      {
+        "Name": "Vit C Syrup (Per Bot)",
+        "Price": 400
+      },
+      {
+        "Name": "Funbact Cream",
+        "Price": 406.25
+      },
+      {
+        "Name": "Mist Potassium Citrate (Per Bot)",
+        "Price": 406.25
+      },
+      {
+        "Name": "Modecate 25Mg Inj (Per Amp)",
+        "Price": 406.25
+      },
+      {
+        "Name": "Nystatin (Per Tab)",
+        "Price": 406.25
+      },
+      {
+        "Name": "Paraldehyde Inj",
+        "Price": 406.25
+      },
+      {
+        "Name": "Ranferon Blood Tonic 200Mls (Per Bot)",
+        "Price": 406.25
+      },
+      {
+        "Name": "Sabresten Cream Dermal (Per Tube)",
+        "Price": 406.25
+      },
+      {
+        "Name": "Sinufed Syrup (Per Bot)",
+        "Price": 406.25
+      },
+      {
+        "Name": "Sodium Bicarbonate 8.4% Inj (Per Amp)",
+        "Price": 406.25
+      },
+      {
+        "Name": "Olanzapine 5Mg (Per Tab)",
+        "Price": 425
+      },
+      {
+        "Name": "Bleeding/Clotting Time Each",
+        "Price": 437.5
+      },
+      {
+        "Name": "Ciprotab Inj (Per Vial)",
+        "Price": 437.5
+      },
+      {
+        "Name": "Mcv/Mch/Mchc Each",
+        "Price": 437.5
+      },
+      {
+        "Name": "Norvasc 5Mg (Per Tab)",
+        "Price": 450
+      },
+      {
+        "Name": "Benzyl Peroxide 10 Lotion (Per Tube)",
+        "Price": 462.5
+      },
+      {
+        "Name": "Biocoten Cream 20G (Per Tube)",
+        "Price": 462.5
+      },
+      {
+        "Name": "Neurogesic Gel (Per Tube)",
+        "Price": 462.5
+      },
+      {
+        "Name": "Diloxanide Furoate 500Mg (Per Tab)",
+        "Price": 475
+      },
+      {
+        "Name": "Xylocaine Inj",
+        "Price": 481.25
+      },
+      {
+        "Name": "Accolate 20Mg (Per Tab)",
+        "Price": 487.5
+      },
+      {
+        "Name": "Artesunate (Per Pack)",
+        "Price": 487.5
+      },
+      {
+        "Name": "Betnesol Eye Ointment",
+        "Price": 487.5
+      },
+      {
+        "Name": "Betrosil Cream (Per Tube)",
+        "Price": 487.5
+      },
+      {
+        "Name": "Candibiotic Ear Drops",
+        "Price": 487.5
+      },
+      {
+        "Name": "Combantrin 250Mg/5Ml (Per Bot)",
+        "Price": 487.5
+      },
+      {
+        "Name": "Cyclogest 400Mg Pessary (Per Pess)",
+        "Price": 487.5
+      },
+      {
+        "Name": "Fansidar Susp 525Mg/5Ml (Per Bot)",
+        "Price": 487.5
+      },
+      {
+        "Name": "Fungisol Powder 20Mg (Per Bot)",
+        "Price": 487.5
+      },
+      {
+        "Name": "Lipitor 20Mg (Per Tab)",
+        "Price": 487.5
+      },
+      {
+        "Name": "Otomed Ear Drop (Per Bot)",
+        "Price": 487.5
+      },
+      {
+        "Name": "Paluther 80Mg Inj (Per Amp)",
+        "Price": 487.5
+      },
+      {
+        "Name": "Tetanus Toxoid/Ats Each",
+        "Price": 500
+      },
+      {
+        "Name": "Amoxycillin 125Mg/5Ml-100Mls (Per Bot)",
+        "Price": 500
+      },
+      {
+        "Name": "Artemeter 80Mg Inj (Per Amp)",
+        "Price": 500
+      },
+      {
+        "Name": "Benzyl Benzoate Ointment (Per Bot)",
+        "Price": 500
+      },
+      {
+        "Name": "Beoptic Ear Drop (Per Bot)",
+        "Price": 500
+      },
+      {
+        "Name": "Calcium/Uric Acid/Phosphorus Each",
+        "Price": 500
+      },
+      {
+        "Name": "Fasting Blood Sugar/Random Blood Sugar Each",
+        "Price": 500
+      },
+      {
+        "Name": "Gynodaktarin 400Mg (Per Ovule)",
+        "Price": 500
+      },
+      {
+        "Name": "Ibuprofen 100Mg/5Ml (Per Bot)",
+        "Price": 500
+      },
+      {
+        "Name": "Mantoux Test",
+        "Price": 500
+      },
+      {
+        "Name": "Metronidazole 200Mg/5Ml (Per Bot)",
+        "Price": 500
+      },
+      {
+        "Name": "Microscopy Stool/Urine Each",
+        "Price": 500
+      },
+      {
+        "Name": "Norvasc 10Mg (Per Tab)",
+        "Price": 500
+      },
+      {
+        "Name": "Paracetamol Syrup 125Mg/5Mls (Per Bot)",
+        "Price": 500
+      },
+      {
+        "Name": "Pcv/Haemoglobin",
+        "Price": 500
+      },
+      {
+        "Name": "Peripheral Blood Film",
+        "Price": 500
+      },
+      {
+        "Name": "Platelet Count",
+        "Price": 500
+      },
+      {
+        "Name": "Prednisolone Eye Drop (Per Bot).",
+        "Price": 500
+      },
+      {
+        "Name": "Quinine Syrup 200Mls (Per Bot)",
+        "Price": 500
+      },
+      {
+        "Name": "Red Cell Count",
+        "Price": 500
+      },
+      {
+        "Name": "Reticulocyte Count",
+        "Price": 500
+      },
+      {
+        "Name": "Semen Analysis",
+        "Price": 500
+      },
+      {
+        "Name": "Sodium/Chloride/Potassium/Bicarbonate Each",
+        "Price": 500
+      },
+      {
+        "Name": "Stool Ocult Blood",
+        "Price": 500
+      },
+      {
+        "Name": "Total /Direct Bilirubin Each",
+        "Price": 500
+      },
+      {
+        "Name": "Tranexamic Acid 500Mg (Per Tab)",
+        "Price": 500
+      },
+      {
+        "Name": "Urea/Creatinine Each",
+        "Price": 500
+      },
+      {
+        "Name": "Urinalysis",
+        "Price": 500
+      },
+      {
+        "Name": "Urine Pregnancy Test",
+        "Price": 500
+      },
+      {
+        "Name": "Vdrl",
+        "Price": 500
+      },
+      {
+        "Name": "Ventolin Nebules 5Mg (Per Neb)",
+        "Price": 500
+      },
+      {
+        "Name": "Wbc (Differential)",
+        "Price": 500
+      },
+      {
+        "Name": "Vit B Complex Syrup (Per Bot)",
+        "Price": 507
+      },
+      {
+        "Name": "Nexium Tabs (Per Tab)",
+        "Price": 550
+      },
+      {
+        "Name": "Lantanoprost",
+        "Price": 562.5
+      },
+      {
+        "Name": "Metronidazole Inj (Per Amp)",
+        "Price": 562.5
+      },
+      {
+        "Name": "Retinol (Vit A) Syrup (Per 200Mls Bot)",
+        "Price": 562.5
+      },
+      {
+        "Name": "Feldene Inj 20Mg (Per Amp)",
+        "Price": 568.75
+      },
+      {
+        "Name": "Parafin Liquid (Per Bot)",
+        "Price": 568.75
+      },
+      {
+        "Name": "Gestid 100Ml (Per Bot)",
+        "Price": 600
+      },
+      {
+        "Name": "Ringers Lactate Inj",
+        "Price": 600
+      },
+      {
+        "Name": "Cross Matching",
+        "Price": 625
+      },
+      {
+        "Name": "Npi Immunisation - Each (Unregistered Enrollees)",
+        "Price": 625
+      },
+      {
+        "Name": "Adrenalin Inj 1Mg (Per Amp)",
+        "Price": 625
+      },
+      {
+        "Name": "Artemether Susupension (Per Bot)",
+        "Price": 625
+      },
+      {
+        "Name": "Bence Jones Protein",
+        "Price": 625
+      },
+      {
+        "Name": "C- Reactive Protein",
+        "Price": 625
+      },
+      {
+        "Name": "Orofer Syrup",
+        "Price": 625
+      },
+      {
+        "Name": "Phenobarbitone Syrup (Per Bot)",
+        "Price": 625
+      },
+      {
+        "Name": "Polycrol Forte Gel 100Mls (Per Bot)",
+        "Price": 625
+      },
+      {
+        "Name": "Potassium Permanganate",
+        "Price": 625
+      },
+      {
+        "Name": "Skin Scraping For Fungal Studies",
+        "Price": 625
+      },
+      {
+        "Name": "Vicryl(Per Stool)",
+        "Price": 625
+      },
+      {
+        "Name": "Benylin With Codeine (Per Bot)",
+        "Price": 650
+      },
+      {
+        "Name": "Camosunate Susp",
+        "Price": 650
+      },
+      {
+        "Name": "Cephalexin 125Mg Syr",
+        "Price": 650
+      },
+      {
+        "Name": "Hypomellose Eye Drop (Per Bot)",
+        "Price": 650
+      },
+      {
+        "Name": "Lamisil 250Mg (Per Tab)",
+        "Price": 650
+      },
+      {
+        "Name": "Mycoten Ovule 100Mg (Per Ovule)",
+        "Price": 650
+      },
+      {
+        "Name": "Pyrazinamide Syrup (Per Bot)",
+        "Price": 650
+      },
+      {
+        "Name": "Sabresten Vag Cream (Per Tube)",
+        "Price": 650
+      },
+      {
+        "Name": "Syntocinon Inj (Per Amp)",
+        "Price": 650
+      },
+      {
+        "Name": "Tranxemic Acid 100Mg Inj (Per Amp)",
+        "Price": 650
+      },
+      {
+        "Name": "Artesunate Syr (Per Bot)",
+        "Price": 662.5
+      },
+      {
+        "Name": "Dicynone 250Mg (Per Amp)",
+        "Price": 687.5
+      },
+      {
+        "Name": "Malaria Parasite",
+        "Price": 700
+      },
+      {
+        "Name": "Zeffix 100Mg (Per Tab)",
+        "Price": 700
+      },
+      {
+        "Name": "Castor Oil (Per Bot)",
+        "Price": 731.25
+      },
+      {
+        "Name": "Menthodex (Per Bot)",
+        "Price": 731.25
+      },
+      {
+        "Name": "Nystatin Cream (Per Tube)",
+        "Price": 731.25
+      },
+      {
+        "Name": "Salbutamol Syrup (Per Bot)",
+        "Price": 731.25
+      },
+      {
+        "Name": "Camosunate Tab (Per Pack)",
+        "Price": 747.5
+      },
+      {
+        "Name": "Afb For Tb (Zn Staining) Each",
+        "Price": 750
+      },
+      {
+        "Name": "Alkaline Prosphatase",
+        "Price": 750
+      },
+      {
+        "Name": "Amylase",
+        "Price": 750
+      },
+      {
+        "Name": "Cholesterol",
+        "Price": 750
+      },
+      {
+        "Name": "Cpk",
+        "Price": 750
+      },
+      {
+        "Name": "Creatine Kinase",
+        "Price": 750
+      },
+      {
+        "Name": "Csf Chloride",
+        "Price": 750
+      },
+      {
+        "Name": "Csf Glucose",
+        "Price": 750
+      },
+      {
+        "Name": "Csf M/C/S",
+        "Price": 750
+      },
+      {
+        "Name": "Csf Protein",
+        "Price": 750
+      },
+      {
+        "Name": "Culture (Fungal)",
+        "Price": 750
+      },
+      {
+        "Name": "Ear/Nose/Throat Swab M/C/S Each",
+        "Price": 750
+      },
+      {
+        "Name": "Gamma Glutamyl Transferace",
+        "Price": 750
+      },
+      {
+        "Name": "Ivyzinc",
+        "Price": 750
+      },
+      {
+        "Name": "Ldh",
+        "Price": 750
+      },
+      {
+        "Name": "Mist Mag. (Per Bot).",
+        "Price": 750
+      },
+      {
+        "Name": "Semen M/C/S",
+        "Price": 750
+      },
+      {
+        "Name": "Sgot/Sgpt Each",
+        "Price": 750
+      },
+      {
+        "Name": "Total Acid Phosphatase/Prostatic Each",
+        "Price": 750
+      },
+      {
+        "Name": "Total Protein/Albumin Each",
+        "Price": 750
+      },
+      {
+        "Name": "Tryglyceride",
+        "Price": 750
+      },
+      {
+        "Name": "Amikacin Inj",
+        "Price": 780
+      },
+      {
+        "Name": "Kenacomb Cream (Per Tube)",
+        "Price": 780
+      },
+      {
+        "Name": "Salicylic Acid Oint 20% (Per Bot)",
+        "Price": 781.25
+      },
+      {
+        "Name": "Alaxin Susp 10Mg/5Ml-80Ml (Per Bot)",
+        "Price": 812.5
+      },
+      {
+        "Name": "Cerumol Ear Drop (Per Bot)",
+        "Price": 812.5
+      },
+      {
+        "Name": "Eucalyptus Oil (Per Bot)",
+        "Price": 812.5
+      },
+      {
+        "Name": "Ondansetrone Inj (Per Amp)",
+        "Price": 812.5
+      },
+      {
+        "Name": "Skinheal Cream (Per Tube)",
+        "Price": 812.5
+      },
+      {
+        "Name": "Unasyn Injection (Per Amp)",
+        "Price": 812.5
+      },
+      {
+        "Name": "Ventolin Syrup 5Mg/Vial (Per Bot)",
+        "Price": 812.5
+      },
+      {
+        "Name": "Ranithidine Inj 50Mg (Per Amp)",
+        "Price": 837.5
+      },
+      {
+        "Name": "Mixtard Insulin Per 40 I.U/Ml",
+        "Price": 845
+      },
+      {
+        "Name": "Darrows Solution 1/2 Strength (Per Inf) + Giving Set+Cannula",
+        "Price": 850
+      },
+      {
+        "Name": "Darrows Solution Full Strength (Per Inf) + Giving Set+Cannula",
+        "Price": 850
+      },
+      {
+        "Name": "Mannitol Infusion 10% +Giving Set+Canula",
+        "Price": 850
+      },
+      {
+        "Name": "Depo Provera Inj (Per Vial)",
+        "Price": 875
+      },
+      {
+        "Name": "Optodexin",
+        "Price": 875
+      },
+      {
+        "Name": "Fansidar Inj 525Mg (Per Amp)",
+        "Price": 881.25
+      },
+      {
+        "Name": "Azithromycin 250Mg (Per Cap)",
+        "Price": 887.5
+      },
+      {
+        "Name": "Appatim Eye Drop",
+        "Price": 893.75
+      },
+      {
+        "Name": "Cephalexin 250Mg Syr",
+        "Price": 893.75
+      },
+      {
+        "Name": "Interflox 500Mg (Per Cap)",
+        "Price": 893.75
+      },
+      {
+        "Name": "Spersallerge Eye Drop (Per Bot)",
+        "Price": 893.75
+      },
+      {
+        "Name": "Timolol Eye Drop 0.5% (Per Bot)",
+        "Price": 893.75
+      },
+      {
+        "Name": "Zithromax 250Mg (Per Cap)",
+        "Price": 893.75
+      },
+      {
+        "Name": "Gestid 200Ml (Per Bot)",
+        "Price": 900
+      },
+      {
+        "Name": "Artemef Tab (Per Pack)",
+        "Price": 910
+      },
+      {
+        "Name": "Canderil Sweetner Powder (Per Tab)",
+        "Price": 937.5
+      },
+      {
+        "Name": "Bronchicum (Per Bot)",
+        "Price": 975
+      },
+      {
+        "Name": "Camoquine 50Mg/5Ml-60Ml (Per Bot)",
+        "Price": 975
+      },
+      {
+        "Name": "Ciprofloxacin Eye Drop",
+        "Price": 975
+      },
+      {
+        "Name": "Daktacort Pessaries",
+        "Price": 975
+      },
+      {
+        "Name": "Hycomycin Eyedrop (Per Bot)",
+        "Price": 975
+      },
+      {
+        "Name": "Ivydexgent (Per Bot)",
+        "Price": 975
+      },
+      {
+        "Name": "Ivymorcell Eye Drop",
+        "Price": 975
+      },
+      {
+        "Name": "Lokmal (Per Pack",
+        "Price": 975
+      },
+      {
+        "Name": "Loratide Syrup",
+        "Price": 975
+      },
+      {
+        "Name": "Melrosum With Codein 100Ml (Per Bot)",
+        "Price": 975
+      },
+      {
+        "Name": "Milk Of Magnesia(100Mls)",
+        "Price": 975
+      },
+      {
+        "Name": "Nystatin Oral Drops 30Mls (Per Bot)",
+        "Price": 975
+      },
+      {
+        "Name": "Olfen Gel (Per Tube)",
+        "Price": 975
+      },
+      {
+        "Name": "Phenegan Cream 2% 30G (Per Tube)",
+        "Price": 975
+      },
+      {
+        "Name": "Pilocarpine Eye Drop 2% (Per Bot)",
+        "Price": 975
+      },
+      {
+        "Name": "Pioglitazone Hcl 30Mg (Per Tab).",
+        "Price": 975
+      },
+      {
+        "Name": "Sodium Chromoglycate Eye Drop (Per Bot)",
+        "Price": 975
+      },
+      {
+        "Name": "Blood Grouping",
+        "Price": 1000
+      },
+      {
+        "Name": "Creatine Clearance",
+        "Price": 1000
+      },
+      {
+        "Name": "Direct/Indirect Coombs Test Each",
+        "Price": 1000
+      },
+      {
+        "Name": "Erythromycin 125Mg/5Ml (Per Bot)",
+        "Price": 1000
+      },
+      {
+        "Name": "Hdl",
+        "Price": 1000
+      },
+      {
+        "Name": "Hepatitis B Surface Antigen Screening (Hbsag)",
+        "Price": 1000
+      },
+      {
+        "Name": "Ldl",
+        "Price": 1000
+      },
+      {
+        "Name": "Minor Wound Dressing/Day (Out Of Station Emergencies)",
+        "Price": 1000
+      },
+      {
+        "Name": "Otrivin Nasal Drops 0.05% 10Mls (Per Bot)",
+        "Price": 1000
+      },
+      {
+        "Name": "Paracetamol Infusion",
+        "Price": 1000
+      },
+      {
+        "Name": "Pregnancy Test - Hcg (Blood)",
+        "Price": 1000
+      },
+      {
+        "Name": "Urea Clearance",
+        "Price": 1000
+      },
+      {
+        "Name": "Wbc (Total)",
+        "Price": 1000
+      },
+      {
+        "Name": "Widal",
+        "Price": 1000
+      },
+      {
+        "Name": "Antisin-Privin Eye Drop-10Ml (Per Bot)",
+        "Price": 1056.25
+      },
+      {
+        "Name": "Cefuroxime 750Mg Inj",
+        "Price": 1056.25
+      },
+      {
+        "Name": "Diflucan Per Tab",
+        "Price": 1056.25
+      },
+      {
+        "Name": "Gynotrosid 100Mg (Per Ovule)",
+        "Price": 1056.25
+      },
+      {
+        "Name": "Levofloxacin Inf 100Ml",
+        "Price": 1056.25
+      },
+      {
+        "Name": "Lonart Suspension",
+        "Price": 1056.25
+      },
+      {
+        "Name": "Nizoral Cream 15Mg (Per Tube)",
+        "Price": 1056.25
+      },
+      {
+        "Name": "Pilocarpine Eye Drop 4% (Per Bot)",
+        "Price": 1056.25
+      },
+      {
+        "Name": "Visine Eye Drop (Per Bot)",
+        "Price": 1056.25
+      },
+      {
+        "Name": "Zinacef 750Mg Inj (Per Vial)",
+        "Price": 1056.25
+      },
+      {
+        "Name": "Amias 16Mg (Per Tab)",
+        "Price": 1062.5
+      },
+      {
+        "Name": "Benzyl Peroxide 5 Lotion (Per Tube)",
+        "Price": 1062.5
+      },
+      {
+        "Name": "Floxapen 125Mg/5Ml (Per Bot)",
+        "Price": 1062.5
+      },
+      {
+        "Name": "Otrivin Nasal Drop 0.1% 10Mls (Per Bot)",
+        "Price": 1062.5
+      },
+      {
+        "Name": "Triamcinolone Inj (Per Amp)",
+        "Price": 1062.5
+      },
+      {
+        "Name": "Beoptic Eye (Per Bot)",
+        "Price": 1125
+      },
+      {
+        "Name": "Feldene Gel (Per Tube)",
+        "Price": 1125
+      },
+      {
+        "Name": "Gestone 50Mg (Per Amp)",
+        "Price": 1125
+      },
+      {
+        "Name": "Lonart (Per Pack)",
+        "Price": 1125
+      },
+      {
+        "Name": "Salbutamol Aerosol (Per Spray Can)",
+        "Price": 1125
+      },
+      {
+        "Name": "Cromax 4 Eye Drop",
+        "Price": 1137.5
+      },
+      {
+        "Name": "Saline Nasal Drop (Per Tab)",
+        "Price": 1137.5
+      },
+      {
+        "Name": "Starxon (Per Vial)",
+        "Price": 1137.5
+      },
+      {
+        "Name": "Suffratule(Per Pack)",
+        "Price": 1137.5
+      },
+      {
+        "Name": "Cefixime Syr (Per Bot)",
+        "Price": 1187.5
+      },
+      {
+        "Name": "Follow Up Gp",
+        "Price": 1200
+      },
+      {
+        "Name": "Omeprazole 40Mg Inj (Per Amp)",
+        "Price": 1200
+      },
+      {
+        "Name": "Depomedrol 40Mg (Per Vial)",
+        "Price": 1218.75
+      },
+      {
+        "Name": "E-45 Cream (Per Tube)",
+        "Price": 1218.75
+      },
+      {
+        "Name": "Actified Syrup",
+        "Price": 1250
+      },
+      {
+        "Name": "Bivacyn Spray (Per Pack)",
+        "Price": 1250
+      },
+      {
+        "Name": "Dedeon Hb 280Ml (Per Bot)",
+        "Price": 1250
+      },
+      {
+        "Name": "Detrusitol Xl 4Mg (Per Cap)",
+        "Price": 1250
+      },
+      {
+        "Name": "Encephabol Syr 100Mls (Per Bot)",
+        "Price": 1250
+      },
+      {
+        "Name": "Fluocinolone",
+        "Price": 1250
+      },
+      {
+        "Name": "Ivycrom Eye Drop",
+        "Price": 1250
+      },
+      {
+        "Name": "Ivyflur",
+        "Price": 1250
+      },
+      {
+        "Name": "Ketolac Inj",
+        "Price": 1250
+      },
+      {
+        "Name": "Prothrombin/Thromboplastin Time Each",
+        "Price": 1250
+      },
+      {
+        "Name": "Amovin Suspension",
+        "Price": 1300
+      },
+      {
+        "Name": "Artemeter 100Mg Tab (Per Pack)",
+        "Price": 1300
+      },
+      {
+        "Name": "Bunetrol (Per Inf)",
+        "Price": 1300
+      },
+      {
+        "Name": "Cetrixine",
+        "Price": 1300
+      },
+      {
+        "Name": "Cetrizine Syrup",
+        "Price": 1300
+      },
+      {
+        "Name": "Ciklavit 200Mls (Per Bot)",
+        "Price": 1300
+      },
+      {
+        "Name": "E-Mal Inj (Per Amp)",
+        "Price": 1300
+      },
+      {
+        "Name": "Feroglobin 200Ml (Per Bot)",
+        "Price": 1300
+      },
+      {
+        "Name": "Maxidex Eye Drop (Per Bot)",
+        "Price": 1300
+      },
+      {
+        "Name": "Mydriacyl Eye Drop (Per Bot)",
+        "Price": 1300
+      },
+      {
+        "Name": "Soluset (Per Piece)",
+        "Price": 1300
+      },
+      {
+        "Name": "Ventolin Inhaler (Per Pack)",
+        "Price": 1300
+      },
+      {
+        "Name": "Clavam 228Mg/5Ml-100Mls (Per Bot)",
+        "Price": 1375
+      },
+      {
+        "Name": "Clobetasol 45G Cream (Per Tube)",
+        "Price": 1375
+      },
+      {
+        "Name": "Ehancin 312Mg/5Ml Susp (Per Bot)",
+        "Price": 1375
+      },
+      {
+        "Name": "Gestone 100Mg (Per Amp)",
+        "Price": 1375
+      },
+      {
+        "Name": "Nepaflam Eye Drop",
+        "Price": 1375
+      },
+      {
+        "Name": "Betamethasone Sodium Eye Drop",
+        "Price": 1381.25
+      },
+      {
+        "Name": "Dermovate Cream 25G (Per Tube)",
+        "Price": 1381.25
+      },
+      {
+        "Name": "Rhinathiol Syrup (Per 100Ml Bot)",
+        "Price": 1381.25
+      },
+      {
+        "Name": "Syrup Flucamed",
+        "Price": 1397.5
+      },
+      {
+        "Name": "Dextrose 10% Infusion + Giving Set+Cannula",
+        "Price": 1400
+      },
+      {
+        "Name": "Dextrose 4.3%/Normal Saline (Per Inf)",
+        "Price": 1400
+      },
+      {
+        "Name": "Dextrose 5% (Per Inf) + Giving Set+Cannula",
+        "Price": 1400
+      },
+      {
+        "Name": "Dextrose 50% (Per Inf) + Giving Set+Cannula",
+        "Price": 1400
+      },
+      {
+        "Name": "Dextrose Saline 5% + Giving Set+Cannula",
+        "Price": 1400
+      },
+      {
+        "Name": "Ampiclox Drops",
+        "Price": 1462.5
+      },
+      {
+        "Name": "Anthisan Cream 25Mg (Per Tube)",
+        "Price": 1462.5
+      },
+      {
+        "Name": "Daktacort Cream (Per Tube)",
+        "Price": 1462.5
+      },
+      {
+        "Name": "Nyolol 0.5 Eye Drop (Per Bot)",
+        "Price": 1462.5
+      },
+      {
+        "Name": "Primolut Depot 250Mg (Per Vial)",
+        "Price": 1462.5
+      },
+      {
+        "Name": "Tear Naturale Eye Drop (Per Bot)",
+        "Price": 1462.5
+      },
+      {
+        "Name": "Betnesol Eye/Ear/Nose Drop (Per Bot)",
+        "Price": 1500
+      },
+      {
+        "Name": "Ceftriaxone 1G Inj /Amp",
+        "Price": 1500
+      },
+      {
+        "Name": "Ciprofloxacin 200Mg Infusion (Per Bot)",
+        "Price": 1500
+      },
+      {
+        "Name": "Co Amoxiclav 312.5Mg Susp (Per Bot).",
+        "Price": 1500
+      },
+      {
+        "Name": "Co-Amoxiclav 1.2G (Per Amp)",
+        "Price": 1500
+      },
+      {
+        "Name": "Coartem (Per Pack)",
+        "Price": 1500
+      },
+      {
+        "Name": "Dermazine Cream 50Mg (Per Tube)",
+        "Price": 1500
+      },
+      {
+        "Name": "Eurax Cream (Per Tube)",
+        "Price": 1500
+      },
+      {
+        "Name": "Gate Dpx Eye Drop",
+        "Price": 1500
+      },
+      {
+        "Name": "Gynotrosid 300Mg (Per Ovule)",
+        "Price": 1500
+      },
+      {
+        "Name": "Normal Saline +Giving Set+Cannula",
+        "Price": 1500
+      },
+      {
+        "Name": "Nursing Care Per Diem",
+        "Price": 1500
+      },
+      {
+        "Name": "Protein Electrophoresis",
+        "Price": 1500
+      },
+      {
+        "Name": "Salbutamol 100Mcg Inhaler (Per Piece)",
+        "Price": 1500
+      },
+      {
+        "Name": "Abidec Drop",
+        "Price": 1543.75
+      },
+      {
+        "Name": "Depixol 20Mg (Per Amp)",
+        "Price": 1543.75
+      },
+      {
+        "Name": "Halfan 100Mg/5Ml (Per Bot)",
+        "Price": 1543.75
+      },
+      {
+        "Name": "Locasalene Cream 30Mg (Per Tube)",
+        "Price": 1543.75
+      },
+      {
+        "Name": "Maxitrol Eye Drop (Per Bot)",
+        "Price": 1543.75
+      },
+      {
+        "Name": "Nyolol Opthalmic Gel 0.1% 5G (Per Bot)",
+        "Price": 1543.75
+      },
+      {
+        "Name": "Tobramycin Ointment",
+        "Price": 1543.75
+      },
+      {
+        "Name": "Tobrex Eye Drop",
+        "Price": 1543.75
+      },
+      {
+        "Name": "Travocort Cream (Per Tab)",
+        "Price": 1543.75
+      },
+      {
+        "Name": "Glucose Tolerance Test",
+        "Price": 1562.5
+      },
+      {
+        "Name": "Glycosylated Haemoglobin",
+        "Price": 1562.5
+      },
+      {
+        "Name": "Calpol (Per Bot)",
+        "Price": 1600
+      },
+      {
+        "Name": "Ceftazidine 1G Ing",
+        "Price": 1600
+      },
+      {
+        "Name": "Aciclovir Cream 10Mg (Per Tube)",
+        "Price": 1625
+      },
+      {
+        "Name": "Artequine 600Mg/700Mg (Per Pack)",
+        "Price": 1625
+      },
+      {
+        "Name": "Astymine (Per Bot)",
+        "Price": 1625
+      },
+      {
+        "Name": "Okacin Eye Drop (Per Bot)",
+        "Price": 1625
+      },
+      {
+        "Name": "Alomide Eyedrop 10Mls (Per Bot)",
+        "Price": 1787.5
+      },
+      {
+        "Name": "Cefuroxime Syr",
+        "Price": 1787.5
+      },
+      {
+        "Name": "Ciloxan Eye Drop (Per Bot)",
+        "Price": 1787.5
+      },
+      {
+        "Name": "Hypotears Gel",
+        "Price": 1787.5
+      },
+      {
+        "Name": "Ikaclomin 50Mg (Per Tab)",
+        "Price": 1787.5
+      },
+      {
+        "Name": "Kenalog 40Mg (Per Amp)",
+        "Price": 1787.5
+      },
+      {
+        "Name": "Trosyd Cream (Per Tube)",
+        "Price": 1787.5
+      },
+      {
+        "Name": "Aso Titre",
+        "Price": 1875
+      },
+      {
+        "Name": "Beclomethasone Aerosol Inhalation (Per Can)",
+        "Price": 1875
+      },
+      {
+        "Name": "Chorionic Gonadotrophin Inj (Per Amp)",
+        "Price": 1875
+      },
+      {
+        "Name": "Feeding Per Diem (General Ward)",
+        "Price": 1875
+      },
+      {
+        "Name": "Feeding Per Diem (Private Ward)",
+        "Price": 1875
+      },
+      {
+        "Name": "Feeding Per Diem (Semi-Private Ward)",
+        "Price": 1875
+      },
+      {
+        "Name": "G-6 Phosphate Dehydrogenase",
+        "Price": 1875
+      },
+      {
+        "Name": "Hepatitis B Vaccine/Dose",
+        "Price": 1875
+      },
+      {
+        "Name": "Neck Collar (Soft)",
+        "Price": 1875
+      },
+      {
+        "Name": "Rheumatoid Factor",
+        "Price": 1875
+      },
+      {
+        "Name": "Tongue Tie Release",
+        "Price": 1875
+      },
+      {
+        "Name": "Advantan Ointment (Per Tube)",
+        "Price": 1950
+      },
+      {
+        "Name": "Augmentine 1.2G (Per Vial)",
+        "Price": 1950
+      },
+      {
+        "Name": "Milk Of Magnesia Philip 200Mls (Per Bot)",
+        "Price": 1950
+      },
+      {
+        "Name": "Nizoral Shampoo (Per Bot)",
+        "Price": 1950
+      },
+      {
+        "Name": "Amoksiklav 156.25Mg/5Mls-100Mls (Per Bot)",
+        "Price": 2000
+      },
+      {
+        "Name": "Annual Physical Examination With Report (No Lab Tests)",
+        "Price": 2000
+      },
+      {
+        "Name": "Blood Culture & Sensitivity",
+        "Price": 2000
+      },
+      {
+        "Name": "Ear Piercing For Female Baby",
+        "Price": 2000
+      },
+      {
+        "Name": "Hvs/Urethral Swab M/C/S Each",
+        "Price": 2000
+      },
+      {
+        "Name": "Major Wound Dressing/Day",
+        "Price": 2000
+      },
+      {
+        "Name": "Screening For Hiv 1 & 2",
+        "Price": 2000
+      },
+      {
+        "Name": "Sputum M/C/S",
+        "Price": 2000
+      },
+      {
+        "Name": "Stool M/C/S",
+        "Price": 2000
+      },
+      {
+        "Name": "Urine M/C/S",
+        "Price": 2000
+      },
+      {
+        "Name": "Wound/Pus/Aspirate M/C/S Each",
+        "Price": 2000
+      },
+      {
+        "Name": "Insulin Lentel 40 Iu (Per Vial)",
+        "Price": 2018.75
+      },
+      {
+        "Name": "Flixonase Nasal Spray",
+        "Price": 2193.75
+      },
+      {
+        "Name": "Lamisil Cream 15G (Per Tube)",
+        "Price": 2193.75
+      },
+      {
+        "Name": "Voltaren Eye Drop",
+        "Price": 2193.75
+      },
+      {
+        "Name": "Duvadilan",
+        "Price": 2250
+      },
+      {
+        "Name": "Deprosalic Acid Ointment (Per Tube)",
+        "Price": 2275
+      },
+      {
+        "Name": "Beconasenasal Drop (Per Pack)",
+        "Price": 2375
+      },
+      {
+        "Name": "Augmentine 228Mg/5Ml (Per Bot)",
+        "Price": 2437.5
+      },
+      {
+        "Name": "Canesten Pessaries X 6",
+        "Price": 2437.5
+      },
+      {
+        "Name": "Retin A Cream (Per Tube)",
+        "Price": 2437.5
+      },
+      {
+        "Name": "Abdomen",
+        "Price": 2500
+      },
+      {
+        "Name": "Apical/Lordotic",
+        "Price": 2500
+      },
+      {
+        "Name": "Chest (Pa/Ap)",
+        "Price": 2500
+      },
+      {
+        "Name": "Encephabol Syr 120Mls (Per Bot)",
+        "Price": 2500
+      },
+      {
+        "Name": "General Consultation (Out Of Station Emergencies)",
+        "Price": 2500
+      },
+      {
+        "Name": "Nebulisation (Subsequent)",
+        "Price": 2500
+      },
+      {
+        "Name": "Obstetric",
+        "Price": 2500
+      },
+      {
+        "Name": "Pelvic",
+        "Price": 2500
+      },
+      {
+        "Name": "Physiotherapy Service/Session (Maximum X6 Sessions)",
+        "Price": 2500
+      },
+      {
+        "Name": "Sternum",
+        "Price": 2500
+      },
+      {
+        "Name": "Zaditen Eye Drops (Per Bot)",
+        "Price": 2500
+      },
+      {
+        "Name": "Mosegor 100Mls (Per Bot)",
+        "Price": 2550
+      },
+      {
+        "Name": "Bactrobam Cream 15G (Per Tube)",
+        "Price": 2600
+      },
+      {
+        "Name": "Zinnat 125Mg/5Ml- 200Mls (Per Bot)",
+        "Price": 2600
+      },
+      {
+        "Name": "Ceclor (Per Bot)",
+        "Price": 2625
+      },
+      {
+        "Name": "Erythromycin Cream 4% 30Mg (Per Tube)",
+        "Price": 2875
+      },
+      {
+        "Name": "Isoplasma",
+        "Price": 2875
+      },
+      {
+        "Name": "Zithromax 200Mg/5Ml (Per Bot)",
+        "Price": 2925
+      },
+      {
+        "Name": "Abdomen (Erect/Supine)",
+        "Price": 3000
+      },
+      {
+        "Name": "Abdomen (Plain)",
+        "Price": 3000
+      },
+      {
+        "Name": "Ankle",
+        "Price": 3000
+      },
+      {
+        "Name": "Clavicle",
+        "Price": 3000
+      },
+      {
+        "Name": "Elbow",
+        "Price": 3000
+      },
+      {
+        "Name": "Encephabol Syr 200Mls (Per Bot)",
+        "Price": 3000
+      },
+      {
+        "Name": "Foot/Toe",
+        "Price": 3000
+      },
+      {
+        "Name": "Forearm",
+        "Price": 3000
+      },
+      {
+        "Name": "Hand",
+        "Price": 3000
+      },
+      {
+        "Name": "Hip Joint",
+        "Price": 3000
+      },
+      {
+        "Name": "Humerus",
+        "Price": 3000
+      },
+      {
+        "Name": "Incubator Care Per Diem",
+        "Price": 3000
+      },
+      {
+        "Name": "Knee",
+        "Price": 3000
+      },
+      {
+        "Name": "Leg (Tibia/Fibula)",
+        "Price": 3000
+      },
+      {
+        "Name": "Phototherapy Per Diem",
+        "Price": 3000
+      },
+      {
+        "Name": "Shoulder",
+        "Price": 3000
+      },
+      {
+        "Name": "Suturing Of Simple Laceration (Out Of Station Emergencies)",
+        "Price": 3000
+      },
+      {
+        "Name": "Thigh (Femur)",
+        "Price": 3000
+      },
+      {
+        "Name": "Wrist",
+        "Price": 3000
+      },
+      {
+        "Name": "Patanol (Olopatadine) Eye Drop",
+        "Price": 3087.5
+      },
+      {
+        "Name": "Aspirations & Paracentesis",
+        "Price": 3125
+      },
+      {
+        "Name": "Clexane Inj",
+        "Price": 3125
+      },
+      {
+        "Name": "Oxygen Therapy Per Diem",
+        "Price": 3125
+      },
+      {
+        "Name": "Fortum Ig Inj (Per Amp)",
+        "Price": 3250
+      },
+      {
+        "Name": "Sustanon 250Mg (Per Amp)",
+        "Price": 3250
+      },
+      {
+        "Name": "Depomedrol 80Mg (Per Vial)",
+        "Price": 3412.5
+      },
+      {
+        "Name": "Vancomycin 1G Inj (Per Amp)",
+        "Price": 3412.5
+      },
+      {
+        "Name": "Abdominopelvic",
+        "Price": 3500
+      },
+      {
+        "Name": "Full Blood Count",
+        "Price": 3500
+      },
+      {
+        "Name": "Chotigon 5000Iu (Per Amp)",
+        "Price": 3575
+      },
+      {
+        "Name": "Pregynl 5000 Iu (Per Pack)",
+        "Price": 3575
+      },
+      {
+        "Name": "Cd4 Count",
+        "Price": 3750
+      },
+      {
+        "Name": "Cytology (Pap Smear, Fnac)",
+        "Price": 3750
+      },
+      {
+        "Name": "Fsh",
+        "Price": 3750
+      },
+      {
+        "Name": "Haemaccel Infusion. (Per Pint)",
+        "Price": 3750
+      },
+      {
+        "Name": "Haemophilus Influenzae Type B (Hib) Vaccine",
+        "Price": 3750
+      },
+      {
+        "Name": "Lacrimal Syringing",
+        "Price": 3750
+      },
+      {
+        "Name": "Lh",
+        "Price": 3750
+      },
+      {
+        "Name": "Neck Collar (Hard)",
+        "Price": 3750
+      },
+      {
+        "Name": "Prolactin",
+        "Price": 3750
+      },
+      {
+        "Name": "Testosterone",
+        "Price": 3750
+      },
+      {
+        "Name": "Bladder",
+        "Price": 4000
+      },
+      {
+        "Name": "Breast",
+        "Price": 4000
+      },
+      {
+        "Name": "Cervical Spine",
+        "Price": 4000
+      },
+      {
+        "Name": "Cervical Spine (Obliques)",
+        "Price": 4000
+      },
+      {
+        "Name": "Chest (Pa & Lateral)",
+        "Price": 4000
+      },
+      {
+        "Name": "Chest For Ribs (Obliques)",
+        "Price": 4000
+      },
+      {
+        "Name": "Electrocardiogram (E C G)",
+        "Price": 4000
+      },
+      {
+        "Name": "Gastric Lavage",
+        "Price": 4000
+      },
+      {
+        "Name": "Hiv Confirmatory",
+        "Price": 4000
+      },
+      {
+        "Name": "Internal Auditory Meatus",
+        "Price": 4000
+      },
+      {
+        "Name": "Lateral Neck (Soft Tissue)",
+        "Price": 4000
+      },
+      {
+        "Name": "Lumbar Spine",
+        "Price": 4000
+      },
+      {
+        "Name": "Lumbo Sacral Spine",
+        "Price": 4000
+      },
+      {
+        "Name": "Mandibles (Jaws)",
+        "Price": 4000
+      },
+      {
+        "Name": "Mastoids",
+        "Price": 4000
+      },
+      {
+        "Name": "Nebulisation (Initial)",
+        "Price": 4000
+      },
+      {
+        "Name": "Occipito-Mental (Om)",
+        "Price": 4000
+      },
+      {
+        "Name": "Ovulometry/Tv Scan",
+        "Price": 4000
+      },
+      {
+        "Name": "Paranasal Sinuses",
+        "Price": 4000
+      },
+      {
+        "Name": "Pelvic (Ap)",
+        "Price": 4000
+      },
+      {
+        "Name": "Post Nasal Space",
+        "Price": 4000
+      },
+      {
+        "Name": "Prospenem(Per Vial)",
+        "Price": 4000
+      },
+      {
+        "Name": "Prostate",
+        "Price": 4000
+      },
+      {
+        "Name": "Sacro Iliac Joint (S.I.J.)",
+        "Price": 4000
+      },
+      {
+        "Name": "Sacro-Coccxy",
+        "Price": 4000
+      },
+      {
+        "Name": "Sacrum",
+        "Price": 4000
+      },
+      {
+        "Name": "Scrotal",
+        "Price": 4000
+      },
+      {
+        "Name": "Sella Turcica",
+        "Price": 4000
+      },
+      {
+        "Name": "Skull (Ap & Lat)",
+        "Price": 4000
+      },
+      {
+        "Name": "Skull (Pa/Lat/Townes)",
+        "Price": 4000
+      },
+      {
+        "Name": "Tagential",
+        "Price": 4000
+      },
+      {
+        "Name": "Temporo-Mandibular Joints (Tmj)",
+        "Price": 4000
+      },
+      {
+        "Name": "Thoracic Inlet",
+        "Price": 4000
+      },
+      {
+        "Name": "Thoracic Spine",
+        "Price": 4000
+      },
+      {
+        "Name": "Thoraco Lumbar Spine",
+        "Price": 4000
+      },
+      {
+        "Name": "Thyroid",
+        "Price": 4000
+      },
+      {
+        "Name": "Transfontanellar",
+        "Price": 4000
+      },
+      {
+        "Name": "Cialis 20Mg (Per Tab)",
+        "Price": 4312.5
+      },
+      {
+        "Name": "Measles, Mumps & Rubella (Mmr) Vaccine",
+        "Price": 4375
+      },
+      {
+        "Name": "Meningitis Vaccine",
+        "Price": 4375
+      },
+      {
+        "Name": "Typhoid Vaccine",
+        "Price": 4375
+      },
+      {
+        "Name": "Anti Rabies Vaccine",
+        "Price": 4375
+      },
+      {
+        "Name": "Flixotide Accuhaler (Per Accu)",
+        "Price": 4375
+      },
+      {
+        "Name": "General Ward Per Diem",
+        "Price": 4500
+      },
+      {
+        "Name": "Monotard Insulin Hm 100 Iu/Ml (Per Vial)",
+        "Price": 4550
+      },
+      {
+        "Name": "Azopt Eye Drop (Per Bot)",
+        "Price": 4875
+      },
+      {
+        "Name": "Birth Before Arrival (Bba) Care",
+        "Price": 5000
+      },
+      {
+        "Name": "Abdomen (Erect & Supine)",
+        "Price": 5000
+      },
+      {
+        "Name": "Catheterisation Of Urinary Bladder + Urine Bag",
+        "Price": 5000
+      },
+      {
+        "Name": "Circumcision Of Male Baby",
+        "Price": 5000
+      },
+      {
+        "Name": "Incision & Drainage (Out Of Station Emergencies)",
+        "Price": 5000
+      },
+      {
+        "Name": "Lipid Profile",
+        "Price": 5000
+      },
+      {
+        "Name": "Liver Function Test",
+        "Price": 5000
+      },
+      {
+        "Name": "Pelvic & Hip",
+        "Price": 5000
+      },
+      {
+        "Name": "Pelvimetry",
+        "Price": 5000
+      },
+      {
+        "Name": "Serum Electrolytes/Urea/Creatinine",
+        "Price": 5000
+      },
+      {
+        "Name": "Specialist Cons Follow Up (O&G, Pead)",
+        "Price": 5000
+      },
+      {
+        "Name": "Viral Load",
+        "Price": 5000
+      },
+      {
+        "Name": "Semi-Private Ward Per Diem",
+        "Price": 5500
+      },
+      {
+        "Name": "Actrapid Insulin 10Mls (Per Vial)",
+        "Price": 5625
+      },
+      {
+        "Name": "Cefpodoxime(Orelox) Susp.",
+        "Price": 5625
+      },
+      {
+        "Name": "Mixtard Insulin 3Ml (Per Catridge)",
+        "Price": 5625
+      },
+      {
+        "Name": "Anaesthetic Agent & Fee-Local",
+        "Price": 6000
+      },
+      {
+        "Name": "Suturing Of Complicated Laceration",
+        "Price": 6000
+      },
+      {
+        "Name": "T3",
+        "Price": 6000
+      },
+      {
+        "Name": "T4",
+        "Price": 6000
+      },
+      {
+        "Name": "Tsh",
+        "Price": 6000
+      },
+      {
+        "Name": "Menogon 75 Iu (Per Pack)",
+        "Price": 6175
+      },
+      {
+        "Name": "Cosopt Eye Drop",
+        "Price": 6250
+      },
+      {
+        "Name": "Rotavirus Vaccine",
+        "Price": 6250
+      },
+      {
+        "Name": "Tissue Histopathology (Breast, Nodes, Etc)",
+        "Price": 6250
+      },
+      {
+        "Name": "Ceftriazone Inj 1G(Rocephin)",
+        "Price": 6875
+      },
+      {
+        "Name": "Chicken Pox Vaccine",
+        "Price": 6875
+      },
+      {
+        "Name": "Xalatan Eye Drop (Per Bot)",
+        "Price": 7475
+      },
+      {
+        "Name": "Cervical Cautery",
+        "Price": 7500
+      },
+      {
+        "Name": "Colposcopy",
+        "Price": 7500
+      },
+      {
+        "Name": "Follow Up On Specialist Rare",
+        "Price": 7500
+      },
+      {
+        "Name": "Iucd Insertion/Removal",
+        "Price": 7500
+      },
+      {
+        "Name": "Hand Cast",
+        "Price": 8000
+      },
+      {
+        "Name": "Private Ward Per Diem",
+        "Price": 8000
+      },
+      {
+        "Name": "Seretide Diskus - Children (Per Pack)",
+        "Price": 8125
+      },
+      {
+        "Name": "Travantan Eye Drop (Per Bot)",
+        "Price": 8612.5
+      },
+      {
+        "Name": "Diavista (Per Pack)",
+        "Price": 9375
+      },
+      {
+        "Name": "Removal Of Foreign Bodies From Conjunctiva And Cornea",
+        "Price": 9375
+      },
+      {
+        "Name": "Theatre Use-Minor",
+        "Price": 9375
+      },
+      {
+        "Name": "Antral Lavage",
+        "Price": 10000
+      },
+      {
+        "Name": "Aural And Nasal Suction/Clearance",
+        "Price": 10000
+      },
+      {
+        "Name": "Cervical Cone/Punch Biopsy",
+        "Price": 10000
+      },
+      {
+        "Name": "Cervical Laceration Repair",
+        "Price": 10000
+      },
+      {
+        "Name": "Debridement And Toilet Of Wounds",
+        "Price": 10000
+      },
+      {
+        "Name": "Electrocautery Of Nose",
+        "Price": 10000
+      },
+      {
+        "Name": "Foot/Ankle Cast",
+        "Price": 10000
+      },
+      {
+        "Name": "Foreign Body Removal From The Ear, Nose And Throat",
+        "Price": 10000
+      },
+      {
+        "Name": "Incision And Drainage Of Abscess",
+        "Price": 10000
+      },
+      {
+        "Name": "Indirect Laryngoscopy",
+        "Price": 10000
+      },
+      {
+        "Name": "Manipulation Of Nose",
+        "Price": 10000
+      },
+      {
+        "Name": "Nasal Packing",
+        "Price": 10000
+      },
+      {
+        "Name": "Specialist Consultation(O&G, Pead)",
+        "Price": 10000
+      },
+      {
+        "Name": "Suturing Of Lacerrations",
+        "Price": 10000
+      },
+      {
+        "Name": "Seretide Diskus- Adult (Per Pack)",
+        "Price": 10400
+      },
+      {
+        "Name": "Erythrpoetin 2000Iu (Per Amp)",
+        "Price": 10562.5
+      },
+      {
+        "Name": "Meropenem 500Mg Inj (Per Amp)",
+        "Price": 10725
+      },
+      {
+        "Name": "Barium Meal",
+        "Price": 12000
+      },
+      {
+        "Name": "Barium Swallow",
+        "Price": 12000
+      },
+      {
+        "Name": "Fore Arm Cast",
+        "Price": 12000
+      },
+      {
+        "Name": "Upper Arm Cast",
+        "Price": 12000
+      },
+      {
+        "Name": "Suprefact Inj (Per Vial)",
+        "Price": 12187.5
+      },
+      {
+        "Name": "Chalazion Excision",
+        "Price": 12500
+      },
+      {
+        "Name": "Entropion And Ectropion Repairs",
+        "Price": 12500
+      },
+      {
+        "Name": "Granuloma Excision",
+        "Price": 12500
+      },
+      {
+        "Name": "Theatre Use-Intermediate",
+        "Price": 12500
+      },
+      {
+        "Name": "Traumatic Lid Laceration Repair",
+        "Price": 12500
+      },
+      {
+        "Name": "Tumour Excision From Lid",
+        "Price": 12500
+      },
+      {
+        "Name": "Specialist Consultation Rare(Ent, Urology, Ortho)",
+        "Price": 14000
+      },
+      {
+        "Name": "Barium Enema",
+        "Price": 15000
+      },
+      {
+        "Name": "Barium Meal & Follow Through",
+        "Price": 15000
+      },
+      {
+        "Name": "Biopsy Of Oesophageal Mass",
+        "Price": 15000
+      },
+      {
+        "Name": "Breast Lump Excision",
+        "Price": 15000
+      },
+      {
+        "Name": "Ct Pelvimetry",
+        "Price": 15000
+      },
+      {
+        "Name": "Cyclocryoablation",
+        "Price": 15000
+      },
+      {
+        "Name": "Cysto-Urethrogram (Micturating/Retrograde)",
+        "Price": 15000
+      },
+      {
+        "Name": "Dissection Of Inguinal Nodes",
+        "Price": 15000
+      },
+      {
+        "Name": "Electroencephalogram (E E G)",
+        "Price": 15000
+      },
+      {
+        "Name": "Electrofulguration Of Condylomata Acuminata",
+        "Price": 15000
+      },
+      {
+        "Name": "Excision Of Tophi",
+        "Price": 15000
+      },
+      {
+        "Name": "Fistulogram/Sinogram Each",
+        "Price": 15000
+      },
+      {
+        "Name": "Hysterosalphingogram (Hsg)",
+        "Price": 15000
+      },
+      {
+        "Name": "Ingrowing Toe Nail (Excision)",
+        "Price": 15000
+      },
+      {
+        "Name": "Injection Sclerotherapy Of Varicose Veins",
+        "Price": 15000
+      },
+      {
+        "Name": "Intercostal Drainage Insertion",
+        "Price": 15000
+      },
+      {
+        "Name": "Intravenous Urography (Ivu)",
+        "Price": 15000
+      },
+      {
+        "Name": "Keloid Excision",
+        "Price": 15000
+      },
+      {
+        "Name": "Liver/Kidney/Bone Marrow Biopsy",
+        "Price": 15000
+      },
+      {
+        "Name": "Mammogram",
+        "Price": 15000
+      },
+      {
+        "Name": "Minor Debridement Of Burns",
+        "Price": 15000
+      },
+      {
+        "Name": "Myelogram",
+        "Price": 15000
+      },
+      {
+        "Name": "Pollicisation Of The Index Finger",
+        "Price": 15000
+      },
+      {
+        "Name": "Polypectomy",
+        "Price": 15000
+      },
+      {
+        "Name": "Release Of Chordae",
+        "Price": 15000
+      },
+      {
+        "Name": "Repair Of Minor Laceration",
+        "Price": 15000
+      },
+      {
+        "Name": "Small Cyst Excision",
+        "Price": 15000
+      },
+      {
+        "Name": "Suprapubic Cystostomy",
+        "Price": 15000
+      },
+      {
+        "Name": "Surgical Drainage In Haematoma Of Rectus Abdominis",
+        "Price": 15000
+      },
+      {
+        "Name": "Surgical Drainage Of Galactocoele",
+        "Price": 15000
+      },
+      {
+        "Name": "Surgical Release In Stenosing Tenosynovitis",
+        "Price": 15000
+      },
+      {
+        "Name": "Syndactlysis",
+        "Price": 15000
+      },
+      {
+        "Name": "Synovectomy",
+        "Price": 15000
+      },
+      {
+        "Name": "Tracheostomy",
+        "Price": 15000
+      },
+      {
+        "Name": "Meropenem 1G Inj (Per Amp)",
+        "Price": 16250
+      },
+      {
+        "Name": "Full Arm Cast",
+        "Price": 18000
+      },
+      {
+        "Name": "Knee Cast",
+        "Price": 18000
+      },
+      {
+        "Name": "Leg Cast",
+        "Price": 18000
+      },
+      {
+        "Name": "Rhogam Injection",
+        "Price": 18750
+      },
+      {
+        "Name": "Pterygium Excision.",
+        "Price": 18750
+      },
+      {
+        "Name": "Theatre Use-Major",
+        "Price": 18750
+      },
+      {
+        "Name": "Dilatation And Curetage",
+        "Price": 20000
+      },
+      {
+        "Name": "Dye Test",
+        "Price": 20000
+      },
+      {
+        "Name": "Evacuation Of Retained Products Of Conception",
+        "Price": 20000
+      },
+      {
+        "Name": "Examination Under Anaesthesia (Eua)",
+        "Price": 20000
+      },
+      {
+        "Name": "Excision Of Vaginal Septum",
+        "Price": 20000
+      },
+      {
+        "Name": "Excision/Diathermy Of Warts",
+        "Price": 20000
+      },
+      {
+        "Name": "Hysteroscopy",
+        "Price": 20000
+      },
+      {
+        "Name": "Removal Of Iucd Under General Anaesthesia",
+        "Price": 20000
+      },
+      {
+        "Name": "Transfussion Of Screened Blood (Rh +Ve)",
+        "Price": 20000
+      },
+      {
+        "Name": "Anaesthetic Agent & Fee-Intermediate",
+        "Price": 25000
+      },
+      {
+        "Name": "Biopsy Of Tumour Of Abdominal Wall",
+        "Price": 25000
+      },
+      {
+        "Name": "Drainage Of Septic Arthritis",
+        "Price": 25000
+      },
+      {
+        "Name": "Excisional Biopsy",
+        "Price": 25000
+      },
+      {
+        "Name": "Exostectomy",
+        "Price": 25000
+      },
+      {
+        "Name": "Full Leg Cast",
+        "Price": 25000
+      },
+      {
+        "Name": "Ganglion Excision",
+        "Price": 25000
+      },
+      {
+        "Name": "Hip Spica",
+        "Price": 25000
+      },
+      {
+        "Name": "Lumps Excision",
+        "Price": 25000
+      },
+      {
+        "Name": "Marsupialisation",
+        "Price": 25000
+      },
+      {
+        "Name": "Repair Of Third Degree Tear",
+        "Price": 25000
+      },
+      {
+        "Name": "Simple Congenital Talipes Repair",
+        "Price": 25000
+      },
+      {
+        "Name": "Skin Traction",
+        "Price": 25000
+      },
+      {
+        "Name": "Transfussion Of Screened Blood (Rh -Ve)",
+        "Price": 25000
+      },
+      {
+        "Name": "Antenatal Care With Gen. Practitioner Antenatal Care (Including Tests And Scan X2)",
+        "Price": 30000
+      },
+      {
+        "Name": "Cervical Circlage/Shirodkar Suture",
+        "Price": 30000
+      },
+      {
+        "Name": "Exchange Blood Transfussion (Rh +Ve, Inclusive Of Materials)",
+        "Price": 30000
+      },
+      {
+        "Name": "Normal Delivery (With Or Without Episiotomy)",
+        "Price": 30000
+      },
+      {
+        "Name": "Assisted Delivery (Vacuum, Instrumental)",
+        "Price": 31250
+      },
+      {
+        "Name": "Laryngeal Surgery",
+        "Price": 31250
+      },
+      {
+        "Name": "Mastoid Surgery",
+        "Price": 31250
+      },
+      {
+        "Name": "Nasal Sinus Surgery E.G Caldwell Luc",
+        "Price": 31250
+      },
+      {
+        "Name": "Submandibular Glad Excision",
+        "Price": 31250
+      },
+      {
+        "Name": "Tympanoplasty",
+        "Price": 31250
+      },
+      {
+        "Name": "Anaesthetic Agent & Fee-Major",
+        "Price": 35000
+      },
+      {
+        "Name": "Bilateral Tubal Ligation",
+        "Price": 35000
+      },
+      {
+        "Name": "Destructive Delivery (Craniotomy-Embryotomy)",
+        "Price": 35000
+      },
+      {
+        "Name": "Diagnostic Laparoscopy",
+        "Price": 35000
+      },
+      {
+        "Name": "Echocardiogram",
+        "Price": 35000
+      },
+      {
+        "Name": "Laparoscopy & Dye Test",
+        "Price": 35000
+      },
+      {
+        "Name": "Mini Laparotomy",
+        "Price": 35000
+      },
+      {
+        "Name": "Paracentesis (A/C Washout)",
+        "Price": 37500
+      },
+      {
+        "Name": "Scleral Buckling Procedures",
+        "Price": 37500
+      },
+      {
+        "Name": "Traumatic Cannalicular Repair",
+        "Price": 37500
+      },
+      {
+        "Name": "Anti-D Inj (Per Amp)",
+        "Price": 40000
+      },
+      {
+        "Name": "Chondromectomy",
+        "Price": 40000
+      },
+      {
+        "Name": "Endoscopy",
+        "Price": 40000
+      },
+      {
+        "Name": "Exchange Blood Transfussion (Rh -Ve, Inclusive Of Materials)",
+        "Price": 40000
+      },
+      {
+        "Name": "Multiple Delivery",
+        "Price": 40000
+      },
+      {
+        "Name": "Saucerisation Of Chronically Infected Bone",
+        "Price": 40000
+      },
+      {
+        "Name": "Sequestrectomy",
+        "Price": 40000
+      },
+      {
+        "Name": "Subperiosteal Drainage Of Acute Osteomyelitis",
+        "Price": 40000
+      },
+      {
+        "Name": "Abdominal Rectopexy",
+        "Price": 45000
+      },
+      {
+        "Name": "Anal Fistulectomy Repair",
+        "Price": 45000
+      },
+      {
+        "Name": "Anal Spincteroplasty",
+        "Price": 45000
+      },
+      {
+        "Name": "Antenatal Care With Obstetrician Antenatal Care (Including Tests And Scan X2)",
+        "Price": 45000
+      },
+      {
+        "Name": "Ct-Scan - Brain, Sinuses, Orbits, Neck",
+        "Price": 45000
+      },
+      {
+        "Name": "Cystic Hygroma Excision",
+        "Price": 45000
+      },
+      {
+        "Name": "Cystourethroscopy",
+        "Price": 45000
+      },
+      {
+        "Name": "Dissection Of Femoral Triangle",
+        "Price": 45000
+      },
+      {
+        "Name": "Excision Of Intrascrotal Mass",
+        "Price": 45000
+      },
+      {
+        "Name": "Haemorrhoidectomy",
+        "Price": 45000
+      },
+      {
+        "Name": "Multiple Ligation Of Veins",
+        "Price": 45000
+      },
+      {
+        "Name": "Orchidectomy/Orchidopexy",
+        "Price": 45000
+      },
+      {
+        "Name": "Pericardiocentesis",
+        "Price": 45000
+      },
+      {
+        "Name": "Skin Grafting",
+        "Price": 45000
+      },
+      {
+        "Name": "Surgery Of Torsion Of Spermatic Cord",
+        "Price": 45000
+      },
+      {
+        "Name": "Surgical Correction Of Dupuytren’S Contracture",
+        "Price": 45000
+      },
+      {
+        "Name": "Surgical Drainage Of Anal Abscess",
+        "Price": 45000
+      },
+      {
+        "Name": "Thoracotomy",
+        "Price": 45000
+      },
+      {
+        "Name": "Varicocoelectomy",
+        "Price": 45000
+      },
+      {
+        "Name": "Vasectomy",
+        "Price": 45000
+      },
+      {
+        "Name": "Amputation And Disarticulation Of Joints.",
+        "Price": 50000
+      },
+      {
+        "Name": "Arthrodesis",
+        "Price": 50000
+      },
+      {
+        "Name": "Arthroplasty",
+        "Price": 50000
+      },
+      {
+        "Name": "Bone Grafting",
+        "Price": 50000
+      },
+      {
+        "Name": "Ct Myelogram",
+        "Price": 50000
+      },
+      {
+        "Name": "Ct Scan - Chest, Abdomen, Pelvis",
+        "Price": 50000
+      },
+      {
+        "Name": "Equanovarus/Valgus",
+        "Price": 50000
+      },
+      {
+        "Name": "Evisceration/Enucleation/Extenteration",
+        "Price": 50000
+      },
+      {
+        "Name": "Open Reduction And Internal Fixation Of Fractures",
+        "Price": 50000
+      },
+      {
+        "Name": "Osteoclasis, Internal Fixation Of Malunion",
+        "Price": 50000
+      },
+      {
+        "Name": "Ptosis Repair",
+        "Price": 50000
+      },
+      {
+        "Name": "Squint Surgery",
+        "Price": 50000
+      },
+      {
+        "Name": "Surgical Repair Of Congenital Talipes",
+        "Price": 50000
+      },
+      {
+        "Name": "Tendon Transplant",
+        "Price": 50000
+      },
+      {
+        "Name": "Tenoplasty",
+        "Price": 50000
+      },
+      {
+        "Name": "Anal Pull Through",
+        "Price": 55000
+      },
+      {
+        "Name": "Cavernospongiosum Shunt",
+        "Price": 55000
+      },
+      {
+        "Name": "Colostomy Construction/Closure",
+        "Price": 55000
+      },
+      {
+        "Name": "Corporosavenous Shunt",
+        "Price": 55000
+      },
+      {
+        "Name": "Diverticulectomy",
+        "Price": 55000
+      },
+      {
+        "Name": "Drainage Of Hepatic Abscess",
+        "Price": 55000
+      },
+      {
+        "Name": "Enterostomy",
+        "Price": 55000
+      },
+      {
+        "Name": "Hiatus Herniorrphaphy",
+        "Price": 55000
+      },
+      {
+        "Name": "Oesophagostomy",
+        "Price": 55000
+      },
+      {
+        "Name": "Oophorectomy",
+        "Price": 55000
+      },
+      {
+        "Name": "Repair Of Splenic Laceration",
+        "Price": 55000
+      },
+      {
+        "Name": "Resection Of Median Bar Obstruction",
+        "Price": 55000
+      },
+      {
+        "Name": "Retroperitoneal Drainage Of Perinephric Abscess",
+        "Price": 55000
+      },
+      {
+        "Name": "Stripping And Ligation Of Veins",
+        "Price": 55000
+      },
+      {
+        "Name": "Surgery Of Uncomplicated Intestinal Obstruction Without Resection",
+        "Price": 55000
+      },
+      {
+        "Name": "Surgical Exploration For Anorchism",
+        "Price": 55000
+      },
+      {
+        "Name": "Tendon Grafting",
+        "Price": 55000
+      },
+      {
+        "Name": "Thrombectomy By Forarty’S Catheterisation",
+        "Price": 55000
+      },
+      {
+        "Name": "Trans-Perineal/Transrectal Biopsy Of Prostate",
+        "Price": 55000
+      },
+      {
+        "Name": "Transurethral Dessication Of Congenital Meatal Stenosis",
+        "Price": 55000
+      },
+      {
+        "Name": "Uretherectomy",
+        "Price": 55000
+      },
+      {
+        "Name": "Cleft Lip And Palate Repairs.",
+        "Price": 56250
+      },
+      {
+        "Name": "Cystic/Fibrous Dysplasia/Cancer Surgery",
+        "Price": 56250
+      },
+      {
+        "Name": "Odontogenic Tumours.",
+        "Price": 56250
+      },
+      {
+        "Name": "Submandibular Gland Excision",
+        "Price": 56250
+      },
+      {
+        "Name": "Amputation Of Cervix",
+        "Price": 60000
+      },
+      {
+        "Name": "Broad Ligament Haematoma",
+        "Price": 60000
+      },
+      {
+        "Name": "Colporrhaphy/Colpoperineorrhaphy",
+        "Price": 60000
+      },
+      {
+        "Name": "Hysterectomy",
+        "Price": 60000
+      },
+      {
+        "Name": "Hysterectomy And Bilateral Salpingo-Oophorectomy",
+        "Price": 60000
+      },
+      {
+        "Name": "Laparotomy Diagnostic/Therapeutic, Inter-Sex",
+        "Price": 60000
+      },
+      {
+        "Name": "Ovarian Biopsy",
+        "Price": 60000
+      },
+      {
+        "Name": "Ovarian Cysts",
+        "Price": 60000
+      },
+      {
+        "Name": "Ovariectomy",
+        "Price": 60000
+      },
+      {
+        "Name": "Pelvic Haematocoele",
+        "Price": 60000
+      },
+      {
+        "Name": "Pelvic/Abdominal Abscess Drainage",
+        "Price": 60000
+      },
+      {
+        "Name": "Reconstruction Of Vagina",
+        "Price": 60000
+      },
+      {
+        "Name": "Reconstruction Surgery E.G Straussman Operation",
+        "Price": 60000
+      },
+      {
+        "Name": "Rectovaginal Fistula Repair",
+        "Price": 60000
+      },
+      {
+        "Name": "Repair Of Inverted Uterus",
+        "Price": 60000
+      },
+      {
+        "Name": "Repair Of Perforated/Ruptured Uterus",
+        "Price": 60000
+      },
+      {
+        "Name": "Salpingo-Oophoreictomy",
+        "Price": 60000
+      },
+      {
+        "Name": "Tubal Reconstruction",
+        "Price": 60000
+      },
+      {
+        "Name": "Vaginal Hysterectomy/Manchester Repair",
+        "Price": 60000
+      },
+      {
+        "Name": "Vaginoclesis",
+        "Price": 60000
+      },
+      {
+        "Name": "Ventrosuspension Of The Bladder",
+        "Price": 60000
+      },
+      {
+        "Name": "Ventrosuspension Procedures Of Correction Of Uterine",
+        "Price": 60000
+      },
+      {
+        "Name": "Vesicovaginal Fistula Repair",
+        "Price": 60000
+      },
+      {
+        "Name": "Vulvectomy",
+        "Price": 60000
+      },
+      {
+        "Name": "Wedge Resection Of The Ovary",
+        "Price": 60000
+      },
+      {
+        "Name": "Trabeculectomy With Antimet Abolites",
+        "Price": 62500
+      },
+      {
+        "Name": "Combined Cataract Extraction With Trabeculectomy",
+        "Price": 75000
+      },
+      {
+        "Name": "Extracapsular Cataract Extraction With Intraocular Lens Implantation",
+        "Price": 75000
+      },
+      {
+        "Name": "Intracapsular Cataract Extraction With Intraocular Lens Implantation",
+        "Price": 75000
+      },
+      {
+        "Name": "Axillary Dissection Of Breast",
+        "Price": 80000
+      },
+      {
+        "Name": "Choledochal Cystojejunostomy",
+        "Price": 80000
+      },
+      {
+        "Name": "Choledochojejunostomy",
+        "Price": 80000
+      },
+      {
+        "Name": "Choledochostomy",
+        "Price": 80000
+      },
+      {
+        "Name": "Craniotomy",
+        "Price": 80000
+      },
+      {
+        "Name": "Cystectomy Partial/Total",
+        "Price": 80000
+      },
+      {
+        "Name": "Diaphragmatic Hernia Repair",
+        "Price": 80000
+      },
+      {
+        "Name": "Excision Of Lymphoedematous Lymph Tissues",
+        "Price": 80000
+      },
+      {
+        "Name": "Extensive (Small And Large) Bowel Resection And Anastomoses",
+        "Price": 80000
+      },
+      {
+        "Name": "Fistula In-Ano Repair",
+        "Price": 80000
+      },
+      {
+        "Name": "Gastroenterostomy",
+        "Price": 80000
+      },
+      {
+        "Name": "Hepatic Segmentectomy",
+        "Price": 80000
+      },
+      {
+        "Name": "Hydrocoelectomy (All Inclusive)",
+        "Price": 80000
+      },
+      {
+        "Name": "Hypospadia Repair",
+        "Price": 80000
+      },
+      {
+        "Name": "Intussusception Operation",
+        "Price": 80000
+      },
+      {
+        "Name": "Meckel’S Diverticulectomy",
+        "Price": 80000
+      },
+      {
+        "Name": "Oddis Sphincteroplasty",
+        "Price": 80000
+      },
+      {
+        "Name": "Oesophageal Atresia And Tracheo-Oesophageal Fistula Repair",
+        "Price": 80000
+      },
+      {
+        "Name": "Penectomy",
+        "Price": 80000
+      },
+      {
+        "Name": "Penoplasty",
+        "Price": 80000
+      },
+      {
+        "Name": "Pyeloroplasty",
+        "Price": 80000
+      },
+      {
+        "Name": "Pyelotomy",
+        "Price": 80000
+      },
+      {
+        "Name": "Pyloromyotomy",
+        "Price": 80000
+      },
+      {
+        "Name": "Renal Cystectomy",
+        "Price": 80000
+      },
+      {
+        "Name": "Repair Of Bochidalek Diaphragmatic Congenital Defect",
+        "Price": 80000
+      },
+      {
+        "Name": "Repair Of Gastric Lacerations",
+        "Price": 80000
+      },
+      {
+        "Name": "Repair Of Oesophageal Lacerations",
+        "Price": 80000
+      },
+      {
+        "Name": "Repair Of Small Bowel Perforations",
+        "Price": 80000
+      },
+      {
+        "Name": "Resection And Anstomoses (Small/Large Intestines)",
+        "Price": 80000
+      },
+      {
+        "Name": "Roux-En-Y Pancreaticojejunostomy",
+        "Price": 80000
+      },
+      {
+        "Name": "Splenectomy/Splenorrhaphy",
+        "Price": 80000
+      },
+      {
+        "Name": "Surgery Of Acute Intra Abdominal Vascular Disease",
+        "Price": 80000
+      },
+      {
+        "Name": "Surgery Of Hepatic Trauma",
+        "Price": 80000
+      },
+      {
+        "Name": "Surgery Of Large Bowel Perforations",
+        "Price": 80000
+      },
+      {
+        "Name": "Transduodenal Choledochal Cystectomy",
+        "Price": 80000
+      },
+      {
+        "Name": "Vesical Diverticulectomy",
+        "Price": 80000
+      },
+      {
+        "Name": "Magnetic Resonance Imaging (Mri)",
+        "Price": 90000
+      },
+      {
+        "Name": "Herniorraphy - Inguinal/Others",
+        "Price": 100000
+      },
+      {
+        "Name": "Epigastric Herniorrhaphy9All Inclussive)",
+        "Price": 150000
+      },
+      {
+        "Name": "Ectopic Pregnancy",
+        "Price": 187500
+      },
+      {
+        "Name": "Exploratory Laparotomy/Lysis Of Adhensions",
+        "Price": 200000
+      },
+      {
+        "Name": "Mastectomy",
+        "Price": 200000
+      },
+      {
+        "Name": "Uncomplicated Appendicectomy (All Inclussive)",
+        "Price": 200000
+      },
+      {
+        "Name": "Ceasarean Section (All Inclussive)",
+        "Price": 225000
+      },
+      {
+        "Name": "Adenoidectomy &Tonsilectomy (All Inclussive)",
+        "Price": 250000
+      },
+      {
+        "Name": "Myomectomy (All Inclussive)",
+        "Price": 250000
+      },
+      {
+        "Name": "Tonsilectomy & Adenoidectomy (Inclussive)",
+        "Price": 250000
+      }
+    ]
+  }

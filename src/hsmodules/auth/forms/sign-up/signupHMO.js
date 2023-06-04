@@ -55,7 +55,7 @@ const initState = {
 const OrganizationSignupHMO = () => {
   const FacilityServ = client.service("facility");
   const DealServ = client.service("deal");
-  const InvServ = client.service("corpinvoice");
+  const InvServ = client.service("corpinvoices");
   //const [state, dispatch] = useReducer(reducer, initState);
   // const [data, setData] = useState({});
   const [activeStep, setActiveStep] = useState(0);
@@ -145,14 +145,17 @@ const OrganizationSignupHMO = () => {
     setActiveStep(prev => prev - 1);
   };
 
+
   const createinvoice=async(res,deal) => {
     //find the invoice from deal
-
+console.log(res,deal)
     //create it in corpinvoice
     deal.invoices.map(async(inv,i) => {
       inv.customerId=res._id
       inv.customer=res
-      await InvServ.create(inv)
+      delete inv._id
+       let abj=  await InvServ.create(inv)
+    //  console.log('abj',abj)
     })
   }
   const handleCompleteRegistration = async data => {
@@ -165,7 +168,7 @@ const OrganizationSignupHMO = () => {
     );
       const deal = await DealServ.get(id)
       setDealInvoice(deal)
-      console.log("deal",deal)
+     // console.log("deal",deal)
       let dealdata=[]
       let dealobj={
         deal:deal,
@@ -184,19 +187,19 @@ const OrganizationSignupHMO = () => {
     };
 
     await FacilityServ.create(facilityDocument)
-      .then(async res => {
+      .then(async pres => {
         toast.success("Organization Account successfully Created");
         setCreatingOrganization(false);
         setSigningIn(true);
         //console.log(res);
-        createinvoice(res,deal)
+       
         await client
           .authenticate({
             strategy: "local",
             email: data.email,
             password: data.password,
           })
-          .then(res => {
+          .then(async res => {
             const user = {
               ...res.user,
               currentEmployee: {...res.user.employeeData[0]},
@@ -206,7 +209,7 @@ const OrganizationSignupHMO = () => {
             toast.success("You have successfully been logged in");
             setSigningIn(false);
             //create invoice
-              
+            await createinvoice(pres,deal) 
             navigate("/app");
             //
           });

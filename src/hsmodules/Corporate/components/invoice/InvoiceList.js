@@ -15,7 +15,7 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 	// const { register, handleSubmit, watch, errors } = useForm();
 	// eslint-disable-next-line
 	// eslint-disable-next-line
-	const dealServer = client.service('deal');
+	const dealServer = client.service('corpinvoices');
 	const {state, setState, showActionLoader, hideActionLoader} =
 		useContext(ObjectContext);
 	// eslint-disable-next-line
@@ -31,17 +31,17 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 
 		const res = await dealServer.find({
 			query: {
-				facilityId: facId,
+				customerId: facId,
 			},
 		});
 
 		const deals = res.data;
 
-		const promises = deals.map(async deal => deal.invoices || []);
+		/* const promises = deals.map(async deal => deal.invoices || []);
 
-		const invoices = await Promise.all(promises);
+		const invoices = await Promise.all(promises); */
 
-		await setInvoices(invoices.flat(1));
+		await setInvoices(res.data);
 
 		setLoading(false);
 	}, []);
@@ -56,13 +56,13 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 	}, [state.DealModule, getInvoicesForPage, isTab]);
 
 	const handleRow = async data => {
-		if (isTab) {
+		/* if (isTab) { */
 			setState(prev => ({
 				...prev,
 				InvoiceModule: {...prev.InvoiceModule, selectedInvoice: data},
 			}));
 			showDetailView();
-		} else {
+		/* } else {
 			const id = data.dealId;
 			await dealServer
 				.get(id)
@@ -77,9 +77,9 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 				.catch(err => {
 					toast.error('An error occured trying to view details of invoice');
 					console.log(err);
-				});
+				}); */
 			//console.log("is page");
-		}
+		//}
 	};
 
 	const handleSearch = () => {};

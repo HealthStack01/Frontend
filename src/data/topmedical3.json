@@ -1,0 +1,5239 @@
+{
+    "Top_Medical": [
+      {
+        "Name": "ANTASIL",
+        "Amount": "10",
+        "Field3": "10"
+      },
+      {
+        "Name": "ASPIRIN 75MG",
+        "Amount": "10",
+        "Field3": "10"
+      },
+      {
+        "Name": "BISACODYL (DULCOLAX) 5MG",
+        "Amount": "10",
+        "Field3": "10"
+      },
+      {
+        "Name": "COLIPAN 10MG TAB",
+        "Amount": "10",
+        "Field3": "10"
+      },
+      {
+        "Name": "CO-TRIMOXAZOLE (SEPTRIN) 480MG",
+        "Amount": "10",
+        "Field3": "10"
+      },
+      {
+        "Name": "DIATEBIN 450MG TAB",
+        "Amount": "10",
+        "Field3": "10"
+      },
+      {
+        "Name": "EYE PAD",
+        "Amount": "10",
+        "Field3": "10"
+      },
+      {
+        "Name": "FOLIC ACID 5MG",
+        "Amount": "10",
+        "Field3": "10"
+      },
+      {
+        "Name": "MEBENDAZOLE 100MG TAB",
+        "Amount": "10",
+        "Field3": "10"
+      },
+      {
+        "Name": "METAPRIM 25MG",
+        "Amount": "10",
+        "Field3": "10"
+      },
+      {
+        "Name": "PARACETAMOL 500MG",
+        "Amount": "10",
+        "Field3": "10"
+      },
+      {
+        "Name": "PIRITON",
+        "Amount": "10",
+        "Field3": "10"
+      },
+      {
+        "Name": "PREDNISOLONE 5MG",
+        "Amount": "10",
+        "Field3": "10"
+      },
+      {
+        "Name": "PROMETHAZINE 25MG",
+        "Amount": "10",
+        "Field3": "10"
+      },
+      {
+        "Name": "PYRIDOXINE(VITAMIN B6) 50MG TAB",
+        "Amount": "10",
+        "Field3": "10"
+      },
+      {
+        "Name": "SALBUTAMOL 4MG",
+        "Amount": "10",
+        "Field3": "10"
+      },
+      {
+        "Name": "TETRACYCLINE 250MG",
+        "Amount": "10",
+        "Field3": "10"
+      },
+      {
+        "Name": "YEAST TAB",
+        "Amount": "10",
+        "Field3": "10"
+      },
+      {
+        "Name": "ALPHABETHIC CAPLET",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "ANUSOL SUPPOSITORIES",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "CAPTOPRIL 12.5MG",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "CAPTOPRIL 50MG TAB",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "CHLOROQUINE 200MG",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "DIAMICRON",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "FLOXAPEN 250MG CAP",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "HISTAC TAB 150MG",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "INDAPAMIDE 1.5MG",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "KETOTIFEN (ZADITEN) 1MG TAB",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "LEVOFLOXACIN 500MG TAB",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "LEVOTHYROXINE 100MCG TAB",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "LOMIR 2.5MG TAB",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "MANIX",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "MINIZIDE",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "MOSEGOR 0.5MG",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "NIZORAL 200MG",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "PEFLOXACIN 400MG",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "PLENDIL 10MG TAB",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "POSTINOR TAB",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "POTASSIUM CITRATE MIXTURE BP",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "PRIMOLUT N 5MG",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "PROVIRON 25MG TAB",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "ROHYPNOL TAB 1MG",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "SULPHADEINE PLUS SOLUBLE TAB",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "SULPHADOXINE-PYRIMETHAMINE (FANSIDAR) 525MG",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "TEGRETOL CR 200MG",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "TRIVIA 100MG",
+        "Amount": "100",
+        "Field3": "100"
+      },
+      {
+        "Name": "Major Wound Dressing",
+        "Amount": "1000",
+        "Field3": "1000"
+      },
+      {
+        "Name": "Routine Immunization (NPI) each",
+        "Amount": "1000",
+        "Field3": "1000"
+      },
+      {
+        "Name": "Full Blood Count",
+        "Amount": "1000",
+        "Field3": "1000"
+      },
+      {
+        "Name": "Prothrombin Time (PT)",
+        "Amount": "1000",
+        "Field3": "1000"
+      },
+      {
+        "Name": "Urine M/C/S",
+        "Amount": "1000",
+        "Field3": "1000"
+      },
+      {
+        "Name": "ACICLOVIR CREAM 10MG",
+        "Amount": "1000",
+        "Field3": "1000"
+      },
+      {
+        "Name": "AMOKSIKLAV 156.25MG/5MLS-100MLS",
+        "Amount": "1000",
+        "Field3": "1000"
+      },
+      {
+        "Name": "BENZYL PEROXIDE 5% LOTION",
+        "Amount": "1000",
+        "Field3": "1000"
+      },
+      {
+        "Name": "BEOPTIC EAR DROP",
+        "Amount": "1000",
+        "Field3": "1000"
+      },
+      {
+        "Name": "BEOPTIC EYE DROP",
+        "Amount": "1000",
+        "Field3": "1000"
+      },
+      {
+        "Name": "COLOSTOMY BAG SIZE 50",
+        "Amount": "1000",
+        "Field3": "1000"
+      },
+      {
+        "Name": "COLOSTOMY BAG SIZE 55",
+        "Amount": "1000",
+        "Field3": "1000"
+      },
+      {
+        "Name": "DERMOVATE CREAM 25G",
+        "Amount": "1000",
+        "Field3": "1000"
+      },
+      {
+        "Name": "FLOXAPEN 125MG/5ML",
+        "Amount": "1000",
+        "Field3": "1000"
+      },
+      {
+        "Name": "GESTID 200ML",
+        "Amount": "1000",
+        "Field3": "1000"
+      },
+      {
+        "Name": "GESTID PLUS SUSP 100ML",
+        "Amount": "1000",
+        "Field3": "1000"
+      },
+      {
+        "Name": "VENTOLIN INHALER",
+        "Amount": "1000",
+        "Field3": "1000"
+      },
+      {
+        "Name": "Foreign Body Removal ENT",
+        "Amount": "10000",
+        "Field3": "10000"
+      },
+      {
+        "Name": "Electrocautery Of Nose",
+        "Amount": "10000",
+        "Field3": "10000"
+      },
+      {
+        "Name": "Nasal Packing",
+        "Amount": "10000",
+        "Field3": "10000"
+      },
+      {
+        "Name": "Aural And Nasal Suction/Clearance",
+        "Amount": "10000",
+        "Field3": "10000"
+      },
+      {
+        "Name": "Incision And Drainage Of Abscess",
+        "Amount": "10000",
+        "Field3": "10000"
+      },
+      {
+        "Name": "Debridement And Toilet Of Wounds",
+        "Amount": "10000",
+        "Field3": "10000"
+      },
+      {
+        "Name": "Suturing Of Lacerations",
+        "Amount": "10000",
+        "Field3": "10000"
+      },
+      {
+        "Name": "Cytology",
+        "Amount": "10000",
+        "Field3": "10000"
+      },
+      {
+        "Name": "Fistulogram/Sinogram",
+        "Amount": "10000",
+        "Field3": "10000"
+      },
+      {
+        "Name": "SORBOSAN SACHET",
+        "Amount": "105",
+        "Field3": "105"
+      },
+      {
+        "Name": "OLFEN GEL",
+        "Amount": "1050",
+        "Field3": "1050"
+      },
+      {
+        "Name": "IVYZOXAN EYE/EAR DROP 5ML",
+        "Amount": "1080",
+        "Field3": "1080"
+      },
+      {
+        "Name": "BIOPETIN",
+        "Amount": "110",
+        "Field3": "110"
+      },
+      {
+        "Name": "BROMOCRIPTINE 2.5MG",
+        "Amount": "110",
+        "Field3": "110"
+      },
+      {
+        "Name": "CAFERGOT",
+        "Amount": "110",
+        "Field3": "110"
+      },
+      {
+        "Name": "MYCOTEN OVULE 100MG",
+        "Amount": "110",
+        "Field3": "110"
+      },
+      {
+        "Name": "OFLOXACIN 200MG",
+        "Amount": "110",
+        "Field3": "110"
+      },
+      {
+        "Name": "STUGERON 25MG",
+        "Amount": "110",
+        "Field3": "110"
+      },
+      {
+        "Name": "TEGRETOL CR 400MG",
+        "Amount": "110",
+        "Field3": "110"
+      },
+      {
+        "Name": "BIVACYN SPRAY",
+        "Amount": "1100",
+        "Field3": "1100"
+      },
+      {
+        "Name": "LOCASALENE CREAM 30GRAM",
+        "Amount": "1100",
+        "Field3": "1100"
+      },
+      {
+        "Name": "MAXITROL EYE DROP",
+        "Amount": "1100",
+        "Field3": "1100"
+      },
+      {
+        "Name": "MYDRIACYL EYE DROP",
+        "Amount": "1100",
+        "Field3": "1100"
+      },
+      {
+        "Name": "PALUTHER 80MG INJ",
+        "Amount": "1100",
+        "Field3": "1100"
+      },
+      {
+        "Name": "XYLOCAINE 1% INJ",
+        "Amount": "1100",
+        "Field3": "1100"
+      },
+      {
+        "Name": "ZEFFIX 100MG",
+        "Amount": "1100",
+        "Field3": "1100"
+      },
+      {
+        "Name": "ZINACEF 750MG INJ",
+        "Amount": "1100",
+        "Field3": "1100"
+      },
+      {
+        "Name": "Epigastric Herniorrhaphy",
+        "Amount": "110000",
+        "Field3": "110000"
+      },
+      {
+        "Name": "Hydrocoelectomy",
+        "Amount": "110000",
+        "Field3": "110000"
+      },
+      {
+        "Name": "APOBACYN POWDER",
+        "Amount": "1150",
+        "Field3": "1150"
+      },
+      {
+        "Name": "ZENTEL 200MG TAB",
+        "Amount": "117",
+        "Field3": "117"
+      },
+      {
+        "Name": "BETOPTIC EYE DROP",
+        "Amount": "1170",
+        "Field3": "1170"
+      },
+      {
+        "Name": "ADALAT RETARD 20MG",
+        "Amount": "120",
+        "Field3": "120"
+      },
+      {
+        "Name": "HISTAC 300MG TAB",
+        "Amount": "120",
+        "Field3": "120"
+      },
+      {
+        "Name": "INTERFLOX CAP 500MG",
+        "Amount": "120",
+        "Field3": "120"
+      },
+      {
+        "Name": "QUININE 300MG/ML INJ",
+        "Amount": "120",
+        "Field3": "120"
+      },
+      {
+        "Name": "RAMIPRIL 2.5MG",
+        "Amount": "120",
+        "Field3": "120"
+      },
+      {
+        "Name": "VILLICIN BALM 25G",
+        "Amount": "120",
+        "Field3": "120"
+      },
+      {
+        "Name": "WELLMAN M/V CAPSULE",
+        "Amount": "120",
+        "Field3": "120"
+      },
+      {
+        "Name": "Creatinine Clearance",
+        "Amount": "1200",
+        "Field3": "1200"
+      },
+      {
+        "Name": "Protein Electrophoresis + Report",
+        "Amount": "1200",
+        "Field3": "1200"
+      },
+      {
+        "Name": "Aspirate Pus M/C/S",
+        "Amount": "1200",
+        "Field3": "1200"
+      },
+      {
+        "Name": "CSF M/C/S",
+        "Amount": "1200",
+        "Field3": "1200"
+      },
+      {
+        "Name": "HVS M/C/S",
+        "Amount": "1200",
+        "Field3": "1200"
+      },
+      {
+        "Name": "Semen Culture And Sensitivity",
+        "Amount": "1200",
+        "Field3": "1200"
+      },
+      {
+        "Name": "Sputum M/C/S",
+        "Amount": "1200",
+        "Field3": "1200"
+      },
+      {
+        "Name": "Stool M/C/S",
+        "Amount": "1200",
+        "Field3": "1200"
+      },
+      {
+        "Name": "Urethral And Wound M/C/S",
+        "Amount": "1200",
+        "Field3": "1200"
+      },
+      {
+        "Name": "HBsAg",
+        "Amount": "1200",
+        "Field3": "1200"
+      },
+      {
+        "Name": "BLOOD GIVING SET",
+        "Amount": "1200",
+        "Field3": "1200"
+      },
+      {
+        "Name": "CEFTAZIDIME 1G INJ",
+        "Amount": "1200",
+        "Field3": "1200"
+      },
+      {
+        "Name": "COARTEM",
+        "Amount": "1200",
+        "Field3": "1200"
+      },
+      {
+        "Name": "COLLOMACK SOLUTION-10ML",
+        "Amount": "1200",
+        "Field3": "1200"
+      },
+      {
+        "Name": "DEPO PROVERA INJ",
+        "Amount": "1200",
+        "Field3": "1200"
+      },
+      {
+        "Name": "FELDENE GEL",
+        "Amount": "1200",
+        "Field3": "1200"
+      },
+      {
+        "Name": "VOLTAREN EYE DROPS",
+        "Amount": "1200",
+        "Field3": "1200"
+      },
+      {
+        "Name": "Anal Spincteroplasty",
+        "Amount": "120000",
+        "Field3": "120000"
+      },
+      {
+        "Name": "Correction of Torsion Of Spermatic Cord",
+        "Amount": "120000",
+        "Field3": "120000"
+      },
+      {
+        "Name": "Dissection Of Femoral Triangle",
+        "Amount": "120000",
+        "Field3": "120000"
+      },
+      {
+        "Name": "Excision Of Intrascrotal Mass",
+        "Amount": "120000",
+        "Field3": "120000"
+      },
+      {
+        "Name": "Fistula In-Ano Repair",
+        "Amount": "120000",
+        "Field3": "120000"
+      },
+      {
+        "Name": "Haemorrhoidectomy",
+        "Amount": "120000",
+        "Field3": "120000"
+      },
+      {
+        "Name": "Orchidectomy/Orchidopexy",
+        "Amount": "120000",
+        "Field3": "120000"
+      },
+      {
+        "Name": "Pericardiocentesis",
+        "Amount": "120000",
+        "Field3": "120000"
+      },
+      {
+        "Name": "Surgical Correction Of Dupuytren’s Contracture",
+        "Amount": "120000",
+        "Field3": "120000"
+      },
+      {
+        "Name": "Thoracotomy",
+        "Amount": "120000",
+        "Field3": "120000"
+      },
+      {
+        "Name": "Varicocoelectomy",
+        "Amount": "120000",
+        "Field3": "120000"
+      },
+      {
+        "Name": "Vasectomy",
+        "Amount": "120000",
+        "Field3": "120000"
+      },
+      {
+        "Name": "DETRUSITOL XL 4MG",
+        "Amount": "1250",
+        "Field3": "1250"
+      },
+      {
+        "Name": "Tissue Histology",
+        "Amount": "12500",
+        "Field3": "12500"
+      },
+      {
+        "Name": "HALFAN 100MG/5ML SUSP.",
+        "Amount": "1260",
+        "Field3": "1260"
+      },
+      {
+        "Name": "TROSYD CREAM",
+        "Amount": "1260",
+        "Field3": "1260"
+      },
+      {
+        "Name": "ESSENTIAL FORTE CAP",
+        "Amount": "130",
+        "Field3": "130"
+      },
+      {
+        "Name": "MINIPRESS 1MG",
+        "Amount": "130",
+        "Field3": "130"
+      },
+      {
+        "Name": "MVS-PRENAL",
+        "Amount": "130",
+        "Field3": "130"
+      },
+      {
+        "Name": "VIT E 1000 IU H/CRAFT",
+        "Amount": "130",
+        "Field3": "130"
+      },
+      {
+        "Name": "VOLTAREN RETARD 100MG",
+        "Amount": "130",
+        "Field3": "130"
+      },
+      {
+        "Name": "BENZYL PEROXIDE 10% LOTION",
+        "Amount": "1300",
+        "Field3": "1300"
+      },
+      {
+        "Name": "MYCOTA POWDER",
+        "Amount": "1300",
+        "Field3": "1300"
+      },
+      {
+        "Name": "TEARS NATURALE EYE DROP",
+        "Amount": "1300",
+        "Field3": "1300"
+      },
+      {
+        "Name": "VISINE EYE DROP",
+        "Amount": "1300",
+        "Field3": "1300"
+      },
+      {
+        "Name": "Appendicectomy",
+        "Amount": "130000",
+        "Field3": "130000"
+      },
+      {
+        "Name": "Herniorraphy-Inguinal/Others",
+        "Amount": "130000",
+        "Field3": "130000"
+      },
+      {
+        "Name": "ARVED 450MG TAB",
+        "Amount": "135",
+        "Field3": "135"
+      },
+      {
+        "Name": "CAC 1000",
+        "Amount": "135",
+        "Field3": "135"
+      },
+      {
+        "Name": "CLAVAM 228MG/5ML-100MLS",
+        "Amount": "1350",
+        "Field3": "1350"
+      },
+      {
+        "Name": "VIT D SYRUP",
+        "Amount": "1350",
+        "Field3": "1350"
+      },
+      {
+        "Name": "SULPHUR OINTMENT 25G",
+        "Amount": "137",
+        "Field3": "137"
+      },
+      {
+        "Name": "BENZHEXOL HYDROCHLORIDE(TRIHEXYPHENIDYL) 5MG TAB",
+        "Amount": "140",
+        "Field3": "140"
+      },
+      {
+        "Name": "CAL GLUCONATE INJ",
+        "Amount": "140",
+        "Field3": "140"
+      },
+      {
+        "Name": "CLINITEST TAB",
+        "Amount": "140",
+        "Field3": "140"
+      },
+      {
+        "Name": "KETOTIFEN (ZADITEN) 2MG TAB",
+        "Amount": "140",
+        "Field3": "140"
+      },
+      {
+        "Name": "MEPRASIL 20MG",
+        "Amount": "140",
+        "Field3": "140"
+      },
+      {
+        "Name": "NAXEN 250MG",
+        "Amount": "140",
+        "Field3": "140"
+      },
+      {
+        "Name": "RAPICLAV 625MG TABLET",
+        "Amount": "140",
+        "Field3": "140"
+      },
+      {
+        "Name": "ZESTRIL 5MG",
+        "Amount": "140",
+        "Field3": "140"
+      },
+      {
+        "Name": "GAUZE(ABSORBENT)",
+        "Amount": "1440",
+        "Field3": "1440"
+      },
+      {
+        "Name": "ISOPTOCARPINE 4% EYE DROP",
+        "Amount": "1440",
+        "Field3": "1440"
+      },
+      {
+        "Name": "TRAVOCORT CREAM",
+        "Amount": "1440",
+        "Field3": "1440"
+      },
+      {
+        "Name": "REGROTON",
+        "Amount": "145",
+        "Field3": "145"
+      },
+      {
+        "Name": "DEPOMEDROL 80MG",
+        "Amount": "1450",
+        "Field3": "1450"
+      },
+      {
+        "Name": "MAXIVISION W/B TABS",
+        "Amount": "146",
+        "Field3": "146"
+      },
+      {
+        "Name": "ACETAZOLAMIDE 250MG",
+        "Amount": "15",
+        "Field3": "15"
+      },
+      {
+        "Name": "AMODIAQUINE + ARTESUNATE",
+        "Amount": "15",
+        "Field3": "15"
+      },
+      {
+        "Name": "AMODIAQUINE 200MG TAB",
+        "Amount": "15",
+        "Field3": "15"
+      },
+      {
+        "Name": "ASPIRIN 300MG",
+        "Amount": "15",
+        "Field3": "15"
+      },
+      {
+        "Name": "AVOMINE 25MG",
+        "Amount": "15",
+        "Field3": "15"
+      },
+      {
+        "Name": "BANOCIDE 50MG TAB",
+        "Amount": "15",
+        "Field3": "15"
+      },
+      {
+        "Name": "BENDROFLUAZIDE",
+        "Amount": "15",
+        "Field3": "15"
+      },
+      {
+        "Name": "COD LIVER OIL CAP",
+        "Amount": "15",
+        "Field3": "15"
+      },
+      {
+        "Name": "FRUSEMIDE 40MG",
+        "Amount": "15",
+        "Field3": "15"
+      },
+      {
+        "Name": "GRISEOFULVIN 125MG",
+        "Amount": "15",
+        "Field3": "15"
+      },
+      {
+        "Name": "LOMOTIL",
+        "Amount": "15",
+        "Field3": "15"
+      },
+      {
+        "Name": "LORATIDINE",
+        "Amount": "15",
+        "Field3": "15"
+      },
+      {
+        "Name": "METHYL DOPA 250MG",
+        "Amount": "15",
+        "Field3": "15"
+      },
+      {
+        "Name": "NITROFURANTOIN 100MG",
+        "Amount": "15",
+        "Field3": "15"
+      },
+      {
+        "Name": "PHENOBARBITONE 30MG",
+        "Amount": "15",
+        "Field3": "15"
+      },
+      {
+        "Name": "STEMETIL 5MG",
+        "Amount": "15",
+        "Field3": "15"
+      },
+      {
+        "Name": "TRIFLUOPERAZINE 5MG",
+        "Amount": "15",
+        "Field3": "15"
+      },
+      {
+        "Name": "ADRENALIN INJ 1MG",
+        "Amount": "150",
+        "Field3": "150"
+      },
+      {
+        "Name": "AMINOPHYLLINE INJ 250MG",
+        "Amount": "150",
+        "Field3": "150"
+      },
+      {
+        "Name": "ARTHOCARE CAP",
+        "Amount": "150",
+        "Field3": "150"
+      },
+      {
+        "Name": "CIPROFLOXACIN (CIPROTAB) 500MG",
+        "Amount": "150",
+        "Field3": "150"
+      },
+      {
+        "Name": "DEXAMETHASONE 10MG",
+        "Amount": "150",
+        "Field3": "150"
+      },
+      {
+        "Name": "HYOSCINE BUTYLBROMIDE (BUSCOPAN)",
+        "Amount": "150",
+        "Field3": "150"
+      },
+      {
+        "Name": "KETAMINE 10MG/ML INJ",
+        "Amount": "150",
+        "Field3": "150"
+      },
+      {
+        "Name": "LABETALOL 200MG",
+        "Amount": "150",
+        "Field3": "150"
+      },
+      {
+        "Name": "MAXIVISION",
+        "Amount": "150",
+        "Field3": "150"
+      },
+      {
+        "Name": "MELOXICAN 15MG",
+        "Amount": "150",
+        "Field3": "150"
+      },
+      {
+        "Name": "METAKELFIN",
+        "Amount": "150",
+        "Field3": "150"
+      },
+      {
+        "Name": "NORADRENALINE/NOREPINEPHRINE 1MG/ML",
+        "Amount": "150",
+        "Field3": "150"
+      },
+      {
+        "Name": "NORVASC 5MG",
+        "Amount": "150",
+        "Field3": "150"
+      },
+      {
+        "Name": "NOSPA INJ 40MG",
+        "Amount": "150",
+        "Field3": "150"
+      },
+      {
+        "Name": "PALUDRINE 100MG TAB",
+        "Amount": "150",
+        "Field3": "150"
+      },
+      {
+        "Name": "PHENOBARBITONE 200MG/ML INJ",
+        "Amount": "150",
+        "Field3": "150"
+      },
+      {
+        "Name": "PROMETHAZINE 50MG INJ",
+        "Amount": "150",
+        "Field3": "150"
+      },
+      {
+        "Name": "ROVAMYCIN 3MU TAB",
+        "Amount": "150",
+        "Field3": "150"
+      },
+      {
+        "Name": "STREPTOMYCIN 5MG INJ",
+        "Amount": "150",
+        "Field3": "150"
+      },
+      {
+        "Name": "Review Consultation",
+        "Amount": "1500",
+        "Field3": "1500"
+      },
+      {
+        "Name": "Physiotherapy",
+        "Amount": "1500",
+        "Field3": "1500"
+      },
+      {
+        "Name": "Subdural Tap",
+        "Amount": "1500",
+        "Field3": "1500"
+      },
+      {
+        "Name": "Evacuation Of Impacted Feaces",
+        "Amount": "1500",
+        "Field3": "1500"
+      },
+      {
+        "Name": "Partial Thromboplastin Time (PTT)",
+        "Amount": "1500",
+        "Field3": "1500"
+      },
+      {
+        "Name": "Blood Culture",
+        "Amount": "1500",
+        "Field3": "1500"
+      },
+      {
+        "Name": "Sputum AFB For Tuberculosis X3",
+        "Amount": "1500",
+        "Field3": "1500"
+      },
+      {
+        "Name": "BCG VACCINE",
+        "Amount": "1500",
+        "Field3": "1500"
+      },
+      {
+        "Name": "CEFIXIME 200MG/5ML SUSP.",
+        "Amount": "1500",
+        "Field3": "1500"
+      },
+      {
+        "Name": "DEPIXOL 20MG",
+        "Amount": "1500",
+        "Field3": "1500"
+      },
+      {
+        "Name": "KENALOG 40MG",
+        "Amount": "1500",
+        "Field3": "1500"
+      },
+      {
+        "Name": "PRIMOLUT DEPOT 250MG",
+        "Amount": "1500",
+        "Field3": "1500"
+      },
+      {
+        "Name": "Pint Of Screened Blood (Rh +Ve)",
+        "Amount": "15000",
+        "Field3": "15000"
+      },
+      {
+        "Name": "Keloid Excision (Minor)",
+        "Amount": "15000",
+        "Field3": "15000"
+      },
+      {
+        "Name": "Injection Sclerotherapy Of Varicose Veins",
+        "Amount": "15000",
+        "Field3": "15000"
+      },
+      {
+        "Name": "Surgical Release In Stenosing Tenosynovitis",
+        "Amount": "15000",
+        "Field3": "15000"
+      },
+      {
+        "Name": "Cervical Cone/Punch Biopsy",
+        "Amount": "15000",
+        "Field3": "15000"
+      },
+      {
+        "Name": "Drainage Of Septic Arthritis",
+        "Amount": "15000",
+        "Field3": "15000"
+      },
+      {
+        "Name": "Skin Traction(Procedure+Material)",
+        "Amount": "15000",
+        "Field3": "15000"
+      },
+      {
+        "Name": "Simple Congenital Talipes Repair",
+        "Amount": "15000",
+        "Field3": "15000"
+      },
+      {
+        "Name": "Barium Meal",
+        "Amount": "15000",
+        "Field3": "15000"
+      },
+      {
+        "Name": "Barium Swallow",
+        "Amount": "15000",
+        "Field3": "15000"
+      },
+      {
+        "Name": "HSG",
+        "Amount": "15000",
+        "Field3": "15000"
+      },
+      {
+        "Name": "Oral Cholecystogram",
+        "Amount": "15000",
+        "Field3": "15000"
+      },
+      {
+        "Name": "EXCHANGE BLOOD TRANSFUSION SET",
+        "Amount": "15000",
+        "Field3": "15000"
+      },
+      {
+        "Name": "Skin Grafting",
+        "Amount": "150000",
+        "Field3": "150000"
+      },
+      {
+        "Name": "Colporrhaphy/colpoperineorrhaphy",
+        "Amount": "150000",
+        "Field3": "150000"
+      },
+      {
+        "Name": "Amputation And Disarticulation Of Joints.",
+        "Amount": "150000",
+        "Field3": "150000"
+      },
+      {
+        "Name": "Amputation And Limb Substitution",
+        "Amount": "150000",
+        "Field3": "150000"
+      },
+      {
+        "Name": "Arthroplasty/Arthrodesis",
+        "Amount": "150000",
+        "Field3": "150000"
+      },
+      {
+        "Name": "Bone Grafting",
+        "Amount": "150000",
+        "Field3": "150000"
+      },
+      {
+        "Name": "Chondromectomy",
+        "Amount": "150000",
+        "Field3": "150000"
+      },
+      {
+        "Name": "Surgical repair of Congenital Talipes Equanovarus/Valgus",
+        "Amount": "150000",
+        "Field3": "150000"
+      },
+      {
+        "Name": "TRADYL 50MG CAPS",
+        "Amount": "154",
+        "Field3": "154"
+      },
+      {
+        "Name": "ENCEPHABOL SYR 100MLS",
+        "Amount": "1550",
+        "Field3": "1550"
+      },
+      {
+        "Name": "AVOLAM 150MG TAB",
+        "Amount": "160",
+        "Field3": "160"
+      },
+      {
+        "Name": "CORDARONE 200MG TAB",
+        "Amount": "160",
+        "Field3": "160"
+      },
+      {
+        "Name": "TENORETIC",
+        "Amount": "160",
+        "Field3": "160"
+      },
+      {
+        "Name": "AMOXICILLIN + CLAVULANIC ACID (AUGMENTIN) 1.2G",
+        "Amount": "1600",
+        "Field3": "1600"
+      },
+      {
+        "Name": "AMOXICILLIN + CLAVULANIC ACID (AUGMENTIN) 228MG/5ML",
+        "Amount": "1600",
+        "Field3": "1600"
+      },
+      {
+        "Name": "ANTI-D IMMUNOGLOBULIN (RHOGAM) INJ",
+        "Amount": "16000",
+        "Field3": "16000"
+      },
+      {
+        "Name": "THYROXINE 25MCG",
+        "Amount": "161",
+        "Field3": "161"
+      },
+      {
+        "Name": "CERVICAL COLLAR SOFT SMALL",
+        "Amount": "1620",
+        "Field3": "1620"
+      },
+      {
+        "Name": "VOLUMATIC SPACER",
+        "Amount": "1620",
+        "Field3": "1620"
+      },
+      {
+        "Name": "SPARFLOXACIN 200MG",
+        "Amount": "165",
+        "Field3": "165"
+      },
+      {
+        "Name": "RAMIPRIL 5MG",
+        "Amount": "170",
+        "Field3": "170"
+      },
+      {
+        "Name": "TENORMIN 50MG",
+        "Amount": "170",
+        "Field3": "170"
+      },
+      {
+        "Name": "TRADYL 100MG INJ",
+        "Amount": "170",
+        "Field3": "170"
+      },
+      {
+        "Name": "WHITFIELD OINTMENT 20G",
+        "Amount": "170",
+        "Field3": "170"
+      },
+      {
+        "Name": "ZANTAC 150MG",
+        "Amount": "170",
+        "Field3": "170"
+      },
+      {
+        "Name": "PILOCARPINE EYE DROP 4%",
+        "Amount": "1700",
+        "Field3": "1700"
+      },
+      {
+        "Name": "PRAZIQUANTEL 600MG",
+        "Amount": "175",
+        "Field3": "175"
+      },
+      {
+        "Name": "PROMETHAZINE 5MG/5MG ELIXIR",
+        "Amount": "175",
+        "Field3": "175"
+      },
+      {
+        "Name": "TENORMIN 100MG",
+        "Amount": "175",
+        "Field3": "175"
+      },
+      {
+        "Name": "MIXTARD INSULIN 3ML",
+        "Amount": "1750",
+        "Field3": "1750"
+      },
+      {
+        "Name": "Colposcopy",
+        "Amount": "17500",
+        "Field3": "17500"
+      },
+      {
+        "Name": "ARSUMAX TAB 50MG",
+        "Amount": "180",
+        "Field3": "180"
+      },
+      {
+        "Name": "GYNO-TROSYD 300MG OVULE",
+        "Amount": "1800",
+        "Field3": "1800"
+      },
+      {
+        "Name": "Pint Of Screened Blood (Rh-Ve)",
+        "Amount": "18000",
+        "Field3": "18000"
+      },
+      {
+        "Name": "Ingrowing Nail (Excision)",
+        "Amount": "18000",
+        "Field3": "18000"
+      },
+      {
+        "Name": "Barium Meal & Follow-Through",
+        "Amount": "18000",
+        "Field3": "18000"
+      },
+      {
+        "Name": "Barium Enema",
+        "Amount": "18000",
+        "Field3": "18000"
+      },
+      {
+        "Name": "Cyst-Urethrogram",
+        "Amount": "18000",
+        "Field3": "18000"
+      },
+      {
+        "Name": "CILOXAN EYE DROP",
+        "Amount": "1850",
+        "Field3": "1850"
+      },
+      {
+        "Name": "NYOLOL 0.5 EYE DROP",
+        "Amount": "1900",
+        "Field3": "1900"
+      },
+      {
+        "Name": "ROCEPHIN INJ 500MG",
+        "Amount": "1900",
+        "Field3": "1900"
+      },
+      {
+        "Name": "TIMOLOL EYE DROP (MARTINDALE)",
+        "Amount": "1900",
+        "Field3": "1900"
+      },
+      {
+        "Name": "MAXIVISION OCULAR TABS",
+        "Amount": "193",
+        "Field3": "193"
+      },
+      {
+        "Name": "GLUCOSAMINE SULPHATE CAP",
+        "Amount": "195",
+        "Field3": "195"
+      },
+      {
+        "Name": "KNEE SLEEVE",
+        "Amount": "195",
+        "Field3": "195"
+      },
+      {
+        "Name": "NO-SPA INJ 40MG/AMP",
+        "Amount": "195",
+        "Field3": "195"
+      },
+      {
+        "Name": "RANFERON BLOOD TONIC 100ML",
+        "Amount": "195",
+        "Field3": "195"
+      },
+      {
+        "Name": "STREPTOMYCIN INJ 5G",
+        "Amount": "195",
+        "Field3": "195"
+      },
+      {
+        "Name": "TRIANGULAR BANDAGE",
+        "Amount": "195",
+        "Field3": "195"
+      },
+      {
+        "Name": "AMOXYCILLIN 250MG",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "AMPICLOX 500MG CAP",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "ARTANE 5MG",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "ATENOLOL 50MG",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "CALCIUM LACTATE 300MG",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "CHLOROQUINE 150MG",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "CHLORPHENIRAMINE 4MG",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "CLOXACILLIN 250MG CAP",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "DEQUADIN LOZENGES",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "DIAZEPAM 5MG",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "DIGOXIN 0.25MG",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "DOLONEUROBION TAB",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "ETHAMBUTOL 400MG",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "FERROUS SULPHATE 20MG",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "INDOMETHACINE CAP",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "ISONIAZID 300MG TAB",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "ISORDIL 5MG",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "METOCLOPRAMIDE (MAXALON) 10MG",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "MULTIVITE",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "NICOTINIC ACID",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "NOVALGIN 500MG",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "ORVET TAB",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "PLASTER STRIP",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "PROPANOLOL 40MG",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "RANFERON-12 CAPSULE",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "VIT B COMPLEX",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "VIT C 100MG",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "WATER FOR INJ",
+        "Amount": "20",
+        "Field3": "20"
+      },
+      {
+        "Name": "ATROPINE 6OOMG INJ",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "BENZYL BENZOATE LINIMENT",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "BENZYLPENICILLIN(PENICILLIN G)600MG INJ",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "BRONCHOLYTE 4MG/5ML ELIXIR",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "CANESTEN VAGINAL PESSARIES",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "CHLORPHENIRAMINE (PIRITON) 2MG/5ML",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "CLOMIPHENE 50MG",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "CREPE BANDAGE 3.5",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "DEXAMETHASONE 500MCG",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "DIAZEPAM 5MG/ML INJ",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "DYNAMOGEN LIQUID 10MLS",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "FELDENE 20MG",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "FLUCONAZOLE (FLUCAMED) 50MG",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "HEALER SUPPOSITORY",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "KETOCONAZOLE SHAMPOO 2%*60ML",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "LIGNOCAINE ADRENALINE INJ",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "MIST KAOLIN",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "NATRILIX 1.5MG",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "NEVIRAPINE 200MG",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "PARACETAMOL SYRUP 125MG/5MLS",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "PEFLACINE 400MG",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "PENTAZOCINE (FORTWIN) 30MG",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "PERGONAL 100MLS",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "PIRITON EXPECTORANT 100MLS",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "REDOXON 1G TAB",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "TETANUS TOXOID",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "TRIVIAMET 50/500MG",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "UNABEN TAB 400MG",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "VIT B COMPLEX INJ",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "VIT C INJ",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "ZESTRIL 10MG",
+        "Amount": "200",
+        "Field3": "200"
+      },
+      {
+        "Name": "Registration",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "Ultrasound Scan (Obstetric)",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "IUCD Removal",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "Ear Piercing",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "Electrolyte And Urea",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "Glucose Tolerance Test",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "Liver Function Test (LFT)",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "Oral Glucose Tolerance Test(OGTT)",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "H. Pylori",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "Screening For HIV I & II",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "Chest (AP)",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "Sternum",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "Hand/Finger",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "Wrist",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "Forearm (Radius And Ulna)",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "Elbow",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "Knee",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "Plain",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "Obstetric Scan",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "ALOMIDE EYEDROP 10MLS",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "AZITHROMYCIN 200MG/5ML SUSP",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "BACTROBAN CREAM 15G",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "CEFUROXIME 125MG/5ML SUSP",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "MOSEGOR 100MLS",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "ZINNAT 125MG/5ML-200MLS",
+        "Amount": "2000",
+        "Field3": "2000"
+      },
+      {
+        "Name": "Intercostal Drainage Insertion(Thoracostomy)",
+        "Amount": "20000",
+        "Field3": "20000"
+      },
+      {
+        "Name": "Keloid Excision (Major)",
+        "Amount": "20000",
+        "Field3": "20000"
+      },
+      {
+        "Name": "Suture Repair Of Major Wounds",
+        "Amount": "20000",
+        "Field3": "20000"
+      },
+      {
+        "Name": "Major",
+        "Amount": "20000",
+        "Field3": "20000"
+      },
+      {
+        "Name": "Intravenous Cholangiogram",
+        "Amount": "20000",
+        "Field3": "20000"
+      },
+      {
+        "Name": "Pyeloroplasty",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Pyelotomy",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Renal Cystectomy",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Repair Of Gastric Lacerations",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Repair of Intestinal Perforation",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Repair Of Oesophageal Lacerations",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Retroperitoneal Drainage Of Perinephric Abscess",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Splenectomy",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Transrectal Biopsy Of Prostate/Prostatectomy",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Uretherectomy",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Caesarean section",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Ectopic pregnancy",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Hysterectomy",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Myomectomy",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Salpingo-oophorectomy",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Ovarectomy/ovarian cysts",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Vesicovaginal/Rectovaginal fistula repair",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Removal of Implant",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Sequestrectomy",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Subperiosteal Drainage Of Acute Osteomyelitis",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "Tendon Transplant/Tenoplasty",
+        "Amount": "200000",
+        "Field3": "200000"
+      },
+      {
+        "Name": "ACCOLATE 20MG TAB",
+        "Amount": "208",
+        "Field3": "208"
+      },
+      {
+        "Name": "ADVANTAN OINTMENT",
+        "Amount": "2100",
+        "Field3": "2100"
+      },
+      {
+        "Name": "TRITACE 2.5MG",
+        "Amount": "213",
+        "Field3": "213"
+      },
+      {
+        "Name": "GALVUSMET 50/850MG",
+        "Amount": "220",
+        "Field3": "220"
+      },
+      {
+        "Name": "OLANZAPINE 10MG",
+        "Amount": "2200",
+        "Field3": "2200"
+      },
+      {
+        "Name": "ZITHROMAX 200MG/5ML",
+        "Amount": "2200",
+        "Field3": "2200"
+      },
+      {
+        "Name": "Repair of ruptured uterus",
+        "Amount": "220000",
+        "Field3": "220000"
+      },
+      {
+        "Name": "Hysterectomy and bilateral salpingooophorectomy",
+        "Amount": "220000",
+        "Field3": "220000"
+      },
+      {
+        "Name": "NIZORAL SHAMPOO",
+        "Amount": "2250",
+        "Field3": "2250"
+      },
+      {
+        "Name": "COLIPAN ELIXIR 5MG/5ML-100ML",
+        "Amount": "230",
+        "Field3": "230"
+      },
+      {
+        "Name": "IKACLOMIN 50MG",
+        "Amount": "230",
+        "Field3": "230"
+      },
+      {
+        "Name": "NORVASC 10MG",
+        "Amount": "230",
+        "Field3": "230"
+      },
+      {
+        "Name": "TRITACE 5MG TAB",
+        "Amount": "230",
+        "Field3": "230"
+      },
+      {
+        "Name": "LAMISIL CREAM 15G",
+        "Amount": "2300",
+        "Field3": "2300"
+      },
+      {
+        "Name": "SOFTRATULLE",
+        "Amount": "234",
+        "Field3": "234"
+      },
+      {
+        "Name": "OTOMED EAR DROP",
+        "Amount": "240",
+        "Field3": "240"
+      },
+      {
+        "Name": "PLASMOTRIM RECTOCAP 50MG",
+        "Amount": "240",
+        "Field3": "240"
+      },
+      {
+        "Name": "HEPATITIS VACCINE",
+        "Amount": "2400",
+        "Field3": "2400"
+      },
+      {
+        "Name": "NYOLOL OPTHALMIC GEL 0.1% 5G",
+        "Amount": "2400",
+        "Field3": "2400"
+      },
+      {
+        "Name": "Acute Intra Abdominal Vascular Disease Surgery",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Axillary Dissection Of Breast",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Bowel Resection And Anastomosis",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Cholecystectomy",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Choledochojejunostomy",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Colostomy Construction/Closure",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Correction Of Uncomplicated Intestinal Obstruction",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Craniotomy",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Cystectomy Partial/Total",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Diaphragmatic Hernia Repair",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Diverticulectomy",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Excision Of Lymphoedematous Lymph Tissues",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Exploratory Laparotomy/Lysis Of Adhesions",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Gastroenterostomy",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Hepatic Trauma Repair",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Hiatus Herniorrphaphy",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Intestinal Resection And Anastomosis (Small/Large )",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Intussusception Correction",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Laparotomy",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Local Resection Of Pelvic Tumor",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Meckel’s Diverticulectomy",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Oesophagostomy",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "Oophorectomy",
+        "Amount": "240000",
+        "Field3": "240000"
+      },
+      {
+        "Name": "ALBENDAZOLE 400MG TAB",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "ALDOMET 250MG",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "ATENOLOL 100MG",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "CHLORPROMAZINE (LARGACTIL) 100MG",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "CHLORPROPAMIDE 250MG",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "CIMETIDINE 200MG",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "DOXYCYCLINE 100MG CAP",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "HALOPERIDOL 5MG",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "HYDROCHLORTIAZIDE/ AMILORIDE",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "IBUFROPEN 400MG",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "MAXOLONE TAB",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "PHENYTOIN 100MG",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "PIROXICAM 20MG",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "PRIMALAR",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "PYRAZINAMIDE 500MG",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "QUININE 300MG",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "SALINE NASAL DROP",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "SYRINGE & NEEDLE 2ML",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "SYRINGE & NEEDLE 5ML",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "VASOPRIN 75MG",
+        "Amount": "25",
+        "Field3": "25"
+      },
+      {
+        "Name": "WBC Differential Count",
+        "Amount": "250",
+        "Field3": "250"
+      },
+      {
+        "Name": "Urine Microscopy",
+        "Amount": "250",
+        "Field3": "250"
+      },
+      {
+        "Name": "AMOXICILLIN + CLAVULANIC ACID (AUGMENTIN) 625MG",
+        "Amount": "250",
+        "Field3": "250"
+      },
+      {
+        "Name": "CHLORAMPHENICOL EYE DROP",
+        "Amount": "250",
+        "Field3": "250"
+      },
+      {
+        "Name": "CHLOROQUINE 50MG/5ML",
+        "Amount": "250",
+        "Field3": "250"
+      },
+      {
+        "Name": "CHLORPROMAZINE (LARGACTIL) 50MG INJ",
+        "Amount": "250",
+        "Field3": "250"
+      },
+      {
+        "Name": "CLARITHROMYCIN 500MG",
+        "Amount": "250",
+        "Field3": "250"
+      },
+      {
+        "Name": "CO-TRIMOXAZOLE (SEPTRIN) 240MG/5ML",
+        "Amount": "250",
+        "Field3": "250"
+      },
+      {
+        "Name": "DIOVAN 80MG",
+        "Amount": "250",
+        "Field3": "250"
+      },
+      {
+        "Name": "LEVOFLOXACIN 5MG/ML INFUSION",
+        "Amount": "250",
+        "Field3": "250"
+      },
+      {
+        "Name": "LIPITOR 10MG",
+        "Amount": "250",
+        "Field3": "250"
+      },
+      {
+        "Name": "MYCOTEN CREAM 20G",
+        "Amount": "250",
+        "Field3": "250"
+      },
+      {
+        "Name": "PLASMOTRIM TAB 200MG",
+        "Amount": "250",
+        "Field3": "250"
+      },
+      {
+        "Name": "Specialist Review Consultation",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "General Ward",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Consultation",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Aspirations/Paracentesis",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Oxygen Therapy",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Gastric Lavage",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Knee Effusion Taps",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Lumbar Puncture",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Minor Debridement Of Burns",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Oxygen Therapy per diem",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Phototherapy",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Chest (Oblique)",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Thoracic Inlet",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Humerus",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Clavicle",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Foot/Toe",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Ankle",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Leg (Tibia/Fibula)",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Hip",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Pelvis(AP)",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Pelvimetry",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Bladder Scan",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Pelvic Scan",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "SOLUCET",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "STARXON",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "SUSTANON 250MG",
+        "Amount": "2500",
+        "Field3": "2500"
+      },
+      {
+        "Name": "Antenatal Care",
+        "Amount": "25000",
+        "Field3": "25000"
+      },
+      {
+        "Name": "Breast Lump Excision",
+        "Amount": "25000",
+        "Field3": "25000"
+      },
+      {
+        "Name": "Oesophagoscopy",
+        "Amount": "25000",
+        "Field3": "25000"
+      },
+      {
+        "Name": "Proctoscopy",
+        "Amount": "25000",
+        "Field3": "25000"
+      },
+      {
+        "Name": "Sigmoidoscopy",
+        "Amount": "25000",
+        "Field3": "25000"
+      },
+      {
+        "Name": "Suprapubic Cystostomy",
+        "Amount": "25000",
+        "Field3": "25000"
+      },
+      {
+        "Name": "Tracheostomy",
+        "Amount": "25000",
+        "Field3": "25000"
+      },
+      {
+        "Name": "Examination Under Anaesthesia (EUA)",
+        "Amount": "25000",
+        "Field3": "25000"
+      },
+      {
+        "Name": "Excision Of Vaginal Septum",
+        "Amount": "25000",
+        "Field3": "25000"
+      },
+      {
+        "Name": "Repair Of Third Degree Tear",
+        "Amount": "25000",
+        "Field3": "25000"
+      },
+      {
+        "Name": "IVU",
+        "Amount": "25000",
+        "Field3": "25000"
+      },
+      {
+        "Name": "Radical Mastectomy",
+        "Amount": "250000",
+        "Field3": "250000"
+      },
+      {
+        "Name": "Submandibular Sialoadenectomy",
+        "Amount": "250000",
+        "Field3": "250000"
+      },
+      {
+        "Name": "Thoracectomy/Thoracoplasty",
+        "Amount": "250000",
+        "Field3": "250000"
+      },
+      {
+        "Name": "Thyroglossal Cysts And Fistula Excision",
+        "Amount": "250000",
+        "Field3": "250000"
+      },
+      {
+        "Name": "Thyroidectomy",
+        "Amount": "250000",
+        "Field3": "250000"
+      },
+      {
+        "Name": "Vagotomy/Pyloroplasty",
+        "Amount": "250000",
+        "Field3": "250000"
+      },
+      {
+        "Name": "AVOCOMB 450MG TAB",
+        "Amount": "252",
+        "Field3": "252"
+      },
+      {
+        "Name": "METHYLATED SPIRIT 200MLS",
+        "Amount": "252",
+        "Field3": "252"
+      },
+      {
+        "Name": "LESCOL 20MG CAP",
+        "Amount": "260",
+        "Field3": "260"
+      },
+      {
+        "Name": "ZANTAC 300MG",
+        "Amount": "260",
+        "Field3": "260"
+      },
+      {
+        "Name": "PARVOLEX INJ 10MLS",
+        "Amount": "2600",
+        "Field3": "2600"
+      },
+      {
+        "Name": "ZINNAT 250MG",
+        "Amount": "265",
+        "Field3": "265"
+      },
+      {
+        "Name": "AVANDIA TAB 4MG",
+        "Amount": "270",
+        "Field3": "270"
+      },
+      {
+        "Name": "BECONASE NASAL DROP",
+        "Amount": "270",
+        "Field3": "270"
+      },
+      {
+        "Name": "GYNODAKTARIN 200MG",
+        "Amount": "270",
+        "Field3": "270"
+      },
+      {
+        "Name": "NIMICA SUSP-60MLS",
+        "Amount": "270",
+        "Field3": "270"
+      },
+      {
+        "Name": "RANFERON BLOOD TONIC 200ML",
+        "Amount": "270",
+        "Field3": "270"
+      },
+      {
+        "Name": "EURAX CREAM",
+        "Amount": "2700",
+        "Field3": "2700"
+      },
+      {
+        "Name": "KETOTIFEN (ZADITEN) SYRUP 100ML",
+        "Amount": "2700",
+        "Field3": "2700"
+      },
+      {
+        "Name": "VIAREX INHALER",
+        "Amount": "2700",
+        "Field3": "2700"
+      },
+      {
+        "Name": "ZOLOFT 50MG",
+        "Amount": "280",
+        "Field3": "280"
+      },
+      {
+        "Name": "ROCEPHIN IJ 1G",
+        "Amount": "2800",
+        "Field3": "2800"
+      },
+      {
+        "Name": "Ganglion Excision",
+        "Amount": "28000",
+        "Field3": "28000"
+      },
+      {
+        "Name": "XYLOCAINE SPRAY",
+        "Amount": "2900",
+        "Field3": "2900"
+      },
+      {
+        "Name": "AMITRIPTYLINE 25MG",
+        "Amount": "30",
+        "Field3": "30"
+      },
+      {
+        "Name": "AMOXYCILLIN 500MG",
+        "Amount": "30",
+        "Field3": "30"
+      },
+      {
+        "Name": "ARTESUNATE 100MG TAB",
+        "Amount": "30",
+        "Field3": "30"
+      },
+      {
+        "Name": "ATIVAN 2MG TAB",
+        "Amount": "30",
+        "Field3": "30"
+      },
+      {
+        "Name": "BCG SYRINGE & NEEDLE",
+        "Amount": "30",
+        "Field3": "30"
+      },
+      {
+        "Name": "CARBAMAZEPINE 200MG",
+        "Amount": "30",
+        "Field3": "30"
+      },
+      {
+        "Name": "ERYTHROMYCIN 250MG",
+        "Amount": "30",
+        "Field3": "30"
+      },
+      {
+        "Name": "MEFENAMIC ACID 250MG",
+        "Amount": "30",
+        "Field3": "30"
+      },
+      {
+        "Name": "METRONIDAZOLE (FLAGYL) 200MG",
+        "Amount": "30",
+        "Field3": "30"
+      },
+      {
+        "Name": "MODURETIC",
+        "Amount": "30",
+        "Field3": "30"
+      },
+      {
+        "Name": "NITRAZEPAM 5MG",
+        "Amount": "30",
+        "Field3": "30"
+      },
+      {
+        "Name": "NORMORETIC",
+        "Amount": "30",
+        "Field3": "30"
+      },
+      {
+        "Name": "RIFAMPICIN 300MG CAP",
+        "Amount": "30",
+        "Field3": "30"
+      },
+      {
+        "Name": "SINUFED TAB",
+        "Amount": "30",
+        "Field3": "30"
+      },
+      {
+        "Name": "SLOW-K 600MG",
+        "Amount": "30",
+        "Field3": "30"
+      },
+      {
+        "Name": "TABALON 400MG TAB",
+        "Amount": "30",
+        "Field3": "30"
+      },
+      {
+        "Name": "VENTOLIN 2MG",
+        "Amount": "30",
+        "Field3": "30"
+      },
+      {
+        "Name": "CSF Glucose",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "AMOXICILLIN + CLAVULANIC ACID (AUGMENTIN) 1000MG",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "AMOXYCILLIN 125MG/5ML-100MLS",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "AMPICLOX 250MG/5ML-100ML",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "ARTEMETER 80MG INJ",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "BETAMETHASONE-N EYE OINTMENT",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "CALAMINE LOTION 100MLS",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "CALCIUM GLUCONATE INJ",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "CATHETER SIZE 14",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "CATHETER SIZE 16",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "CATHETER SIZE 18",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "CATHETER SIZE 20",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "CELEBREX 200MG",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "CHLORAMPHENICOL EAR DROP",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "CHLORAMPHENICOL EYE OINT.",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "CICATRIN POWDER",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "CIMETIDINE INJ",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "COUGH EXPECTORANT (BENYLIN) 100MLS",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "DARROWS SOLUTION 1/2 STRENGHT 500 ML",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "DICLOFENAC INJ 75MG",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "DICLOFENAC SODIUM 0.1% EYE DROPS",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "DICYNONE 250MG",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "DUPHASON 10MG",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "FRUSEMIDE INJ 20MG",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "GENTAMYCIN 280MG/AMP INJ",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "GENTAMYCIN 80MG",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "GENTAMYCIN CREAM 15G",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "GENTAMYCIN EYE/EAR DROP",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "HYDROCORTISONE 100MG INJ",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "LIQUID PARAFFIN",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "MAGNESIUM TRISILICATE MIXTURE BP*100ML",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "METRONIDAZOLE (FLAGYL) 200MG/5ML",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "METRONIDAZOLE (FLAGYL) INFUSION",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "MIST POTASSIUM CITRATE",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "ORAL REHYDRATION SALTS(ORS)WHO FORMULATION",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "POTASSIUM PERMANGANATE CRYSTAL",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "PYRANTEL PAMOATE 250MG/5ML SYRUP",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "SIMVASTATINE (SIMVOR) 20MG",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "SINUFED SYRUP",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "TRIMOVAX(MMR) VACCINE",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "URINE BAG",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "ZENTEL SUSP 400MG/20ML",
+        "Amount": "300",
+        "Field3": "300"
+      },
+      {
+        "Name": "Private Ward",
+        "Amount": "3000",
+        "Field3": "3000"
+      },
+      {
+        "Name": "Cauterization",
+        "Amount": "3000",
+        "Field3": "3000"
+      },
+      {
+        "Name": "Pap Smear (Procedure Only)",
+        "Amount": "3000",
+        "Field3": "3000"
+      },
+      {
+        "Name": "Incubator Care per diem",
+        "Amount": "3000",
+        "Field3": "3000"
+      },
+      {
+        "Name": "AP/Lateral",
+        "Amount": "3000",
+        "Field3": "3000"
+      },
+      {
+        "Name": "Chest (AP/Lateral)",
+        "Amount": "3000",
+        "Field3": "3000"
+      },
+      {
+        "Name": "Chest (Apical View)",
+        "Amount": "3000",
+        "Field3": "3000"
+      },
+      {
+        "Name": "Shoulder",
+        "Amount": "3000",
+        "Field3": "3000"
+      },
+      {
+        "Name": "Pelvis & Hip",
+        "Amount": "3000",
+        "Field3": "3000"
+      },
+      {
+        "Name": "Erect/Supine",
+        "Amount": "3000",
+        "Field3": "3000"
+      },
+      {
+        "Name": "Cervical Spine",
+        "Amount": "3000",
+        "Field3": "3000"
+      },
+      {
+        "Name": "Neck-Lateral View (Soft Tissue)",
+        "Amount": "3000",
+        "Field3": "3000"
+      },
+      {
+        "Name": "Sacrum",
+        "Amount": "3000",
+        "Field3": "3000"
+      },
+      {
+        "Name": "Coccyx",
+        "Amount": "3000",
+        "Field3": "3000"
+      },
+      {
+        "Name": "Abdominal",
+        "Amount": "3000",
+        "Field3": "3000"
+      },
+      {
+        "Name": "YELLOW FEVER VACCINE-SINGLE",
+        "Amount": "3000",
+        "Field3": "3000"
+      },
+      {
+        "Name": "Excisional Biopsy(Excluding Histology)",
+        "Amount": "30000",
+        "Field3": "30000"
+      },
+      {
+        "Name": "Lumps Excision(Lumpectomy)",
+        "Amount": "30000",
+        "Field3": "30000"
+      },
+      {
+        "Name": "MVA/ERCP/Evacuation",
+        "Amount": "30000",
+        "Field3": "30000"
+      },
+      {
+        "Name": "Abdomino-Perineal Resection",
+        "Amount": "300000",
+        "Field3": "300000"
+      },
+      {
+        "Name": "Adrenalectomy",
+        "Amount": "300000",
+        "Field3": "300000"
+      },
+      {
+        "Name": "Decortication",
+        "Amount": "300000",
+        "Field3": "300000"
+      },
+      {
+        "Name": "Encephalocoele Excision",
+        "Amount": "300000",
+        "Field3": "300000"
+      },
+      {
+        "Name": "Extended Radical Mastectomy",
+        "Amount": "300000",
+        "Field3": "300000"
+      },
+      {
+        "Name": "Gastrectomy/Colectomy-Partial Or Total",
+        "Amount": "300000",
+        "Field3": "300000"
+      },
+      {
+        "Name": "Mammoplasty",
+        "Amount": "300000",
+        "Field3": "300000"
+      },
+      {
+        "Name": "Nephrectomy",
+        "Amount": "300000",
+        "Field3": "300000"
+      },
+      {
+        "Name": "Nephrolithotomy/Urethrotomy/Urethroplasty",
+        "Amount": "300000",
+        "Field3": "300000"
+      },
+      {
+        "Name": "Oesophagectomy",
+        "Amount": "300000",
+        "Field3": "300000"
+      },
+      {
+        "Name": "Pancreatectomy",
+        "Amount": "300000",
+        "Field3": "300000"
+      },
+      {
+        "Name": "Pelvic Evisceration",
+        "Amount": "300000",
+        "Field3": "300000"
+      },
+      {
+        "Name": "Pericardiectomy",
+        "Amount": "300000",
+        "Field3": "300000"
+      },
+      {
+        "Name": "Pleurectomy",
+        "Amount": "300000",
+        "Field3": "300000"
+      },
+      {
+        "Name": "Pneumonectomy",
+        "Amount": "300000",
+        "Field3": "300000"
+      },
+      {
+        "Name": "Prostatectomy, Retropubic/Transvesical",
+        "Amount": "300000",
+        "Field3": "300000"
+      },
+      {
+        "Name": "ORIF with Implant (with hospitalization)",
+        "Amount": "300000",
+        "Field3": "300000"
+      },
+      {
+        "Name": "ENGERIX-B VACCINE",
+        "Amount": "3060",
+        "Field3": "3060"
+      },
+      {
+        "Name": "TRITACE 10MG TAB",
+        "Amount": "310",
+        "Field3": "310"
+      },
+      {
+        "Name": "ZESTORETIC",
+        "Amount": "310",
+        "Field3": "310"
+      },
+      {
+        "Name": "CSM (MENIGICOCCAL) VACCINE",
+        "Amount": "3150",
+        "Field3": "3150"
+      },
+      {
+        "Name": "DALACIN T 1% SOLUTION",
+        "Amount": "3400",
+        "Field3": "3400"
+      },
+      {
+        "Name": "CERVICAL COLLAR SOFT MEDIUM",
+        "Amount": "3450",
+        "Field3": "3450"
+      },
+      {
+        "Name": "ABITREN 100MG TAB",
+        "Amount": "35",
+        "Field3": "35"
+      },
+      {
+        "Name": "CO-PROXAMOL",
+        "Amount": "35",
+        "Field3": "35"
+      },
+      {
+        "Name": "FRANOL AB",
+        "Amount": "35",
+        "Field3": "35"
+      },
+      {
+        "Name": "METFORMIN (GLUCOPHAGE) 500MG",
+        "Amount": "35",
+        "Field3": "35"
+      },
+      {
+        "Name": "Reticulocytes",
+        "Amount": "350",
+        "Field3": "350"
+      },
+      {
+        "Name": "Creatinine",
+        "Amount": "350",
+        "Field3": "350"
+      },
+      {
+        "Name": "BIOCOTEN CREAM 20G",
+        "Amount": "350",
+        "Field3": "350"
+      },
+      {
+        "Name": "DARROWS SOLUTION FULL STRENGHT 500 ML",
+        "Amount": "350",
+        "Field3": "350"
+      },
+      {
+        "Name": "HYDROCORTISONE CREAM 15MG",
+        "Amount": "350",
+        "Field3": "350"
+      },
+      {
+        "Name": "LIPITOR 20MG",
+        "Amount": "350",
+        "Field3": "350"
+      },
+      {
+        "Name": "MULTIVITE SYRUP",
+        "Amount": "350",
+        "Field3": "350"
+      },
+      {
+        "Name": "NORMAL SALINE 500ML",
+        "Amount": "350",
+        "Field3": "350"
+      },
+      {
+        "Name": "SABRESTEN CREAM DERMAL",
+        "Amount": "350",
+        "Field3": "350"
+      },
+      {
+        "Name": "SODIUM BICARBONATE 8.4% INJ",
+        "Amount": "350",
+        "Field3": "350"
+      },
+      {
+        "Name": "SULPHADOXINE-PYRIMETHAMINE (FANSIDAR) INJ 525MG",
+        "Amount": "350",
+        "Field3": "350"
+      },
+      {
+        "Name": "SULPHADOXINE-PYRIMETHAMINE (FANSIDAR)SUSP. 525MG/5ML",
+        "Amount": "350",
+        "Field3": "350"
+      },
+      {
+        "Name": "VIT B COMPLEX SYRUP",
+        "Amount": "350",
+        "Field3": "350"
+      },
+      {
+        "Name": "VIT C SYRUP",
+        "Amount": "350",
+        "Field3": "350"
+      },
+      {
+        "Name": "VIT K INJ (PHYTOMENADIONE)",
+        "Amount": "350",
+        "Field3": "350"
+      },
+      {
+        "Name": "Nebulization",
+        "Amount": "3500",
+        "Field3": "3500"
+      },
+      {
+        "Name": "Mastoids",
+        "Amount": "3500",
+        "Field3": "3500"
+      },
+      {
+        "Name": "Mandibles (Jaw)",
+        "Amount": "3500",
+        "Field3": "3500"
+      },
+      {
+        "Name": "Temperomandibular Joint (TMJ)",
+        "Amount": "3500",
+        "Field3": "3500"
+      },
+      {
+        "Name": "Thigh(Femur)",
+        "Amount": "3500",
+        "Field3": "3500"
+      },
+      {
+        "Name": "Thoracic Spine",
+        "Amount": "3500",
+        "Field3": "3500"
+      },
+      {
+        "Name": "Thoraco-Lumbar Spine",
+        "Amount": "3500",
+        "Field3": "3500"
+      },
+      {
+        "Name": "Lumbar Spine",
+        "Amount": "3500",
+        "Field3": "3500"
+      },
+      {
+        "Name": "Sacro-Iliac Joint (SIJ)",
+        "Amount": "3500",
+        "Field3": "3500"
+      },
+      {
+        "Name": "Ovulometry/TV Scan",
+        "Amount": "3500",
+        "Field3": "3500"
+      },
+      {
+        "Name": "VICTOZA INSULIN",
+        "Amount": "3500",
+        "Field3": "3500"
+      },
+      {
+        "Name": "RhoGAM (anti-D) Pre and Post partum",
+        "Amount": "35000",
+        "Field3": "35000"
+      },
+      {
+        "Name": "Bone Marrow Biopsy",
+        "Amount": "35000",
+        "Field3": "35000"
+      },
+      {
+        "Name": "Major Surgical Incision And Drainage",
+        "Amount": "35000",
+        "Field3": "35000"
+      },
+      {
+        "Name": "Bilateral Tubal Ligation",
+        "Amount": "35000",
+        "Field3": "35000"
+      },
+      {
+        "Name": "Hydrotubation",
+        "Amount": "35000",
+        "Field3": "35000"
+      },
+      {
+        "Name": "Marsupialisation",
+        "Amount": "35000",
+        "Field3": "35000"
+      },
+      {
+        "Name": "Removal Of IUCD Under General Anaesthesia",
+        "Amount": "35000",
+        "Field3": "35000"
+      },
+      {
+        "Name": "Minor Surgery",
+        "Amount": "35000",
+        "Field3": "35000"
+      },
+      {
+        "Name": "BETROSIL CREAM 20G",
+        "Amount": "360",
+        "Field3": "360"
+      },
+      {
+        "Name": "COPPER T (IUCD)",
+        "Amount": "360",
+        "Field3": "360"
+      },
+      {
+        "Name": "DILOXANIDE FUROATE 500MG TAB",
+        "Amount": "360",
+        "Field3": "360"
+      },
+      {
+        "Name": "FLAGENTYL (SECNIDAZOLE) 500MG TAB",
+        "Amount": "360",
+        "Field3": "360"
+      },
+      {
+        "Name": "FLUOROURACIL INJ 250MG-INDIA",
+        "Amount": "360",
+        "Field3": "360"
+      },
+      {
+        "Name": "FUNGISOL LOTION 50MLS",
+        "Amount": "360",
+        "Field3": "360"
+      },
+      {
+        "Name": "GENTIAN VIOLET LOTION-2L",
+        "Amount": "360",
+        "Field3": "360"
+      },
+      {
+        "Name": "GYPSONA POP 4\"\"",
+        "Amount": "360",
+        "Field3": "360"
+      },
+      {
+        "Name": "GYPSONA POP 6\"\"",
+        "Amount": "360",
+        "Field3": "360"
+      },
+      {
+        "Name": "HALFAN 250MG TAB",
+        "Amount": "360",
+        "Field3": "360"
+      },
+      {
+        "Name": "HEXEDINE MOUTHWASH",
+        "Amount": "360",
+        "Field3": "360"
+      },
+      {
+        "Name": "SALICYLIC ACID OINT 20%-SMALL",
+        "Amount": "360",
+        "Field3": "360"
+      },
+      {
+        "Name": "SOFTBAN",
+        "Amount": "360",
+        "Field3": "360"
+      },
+      {
+        "Name": "TARIVID 200MG",
+        "Amount": "360",
+        "Field3": "360"
+      },
+      {
+        "Name": "HIBERIX VACCINE",
+        "Amount": "3600",
+        "Field3": "3600"
+      },
+      {
+        "Name": "LANOXIN-PG 50MCG/ML ELIXIR-60M",
+        "Amount": "3600",
+        "Field3": "3600"
+      },
+      {
+        "Name": "TETRACT-HIB VACCINE",
+        "Amount": "3600",
+        "Field3": "3600"
+      },
+      {
+        "Name": "TYPHOID VACCINE (TYPHI IV)",
+        "Amount": "3600",
+        "Field3": "3600"
+      },
+      {
+        "Name": "ENCEPHABOL SYR 200MLS",
+        "Amount": "3650",
+        "Field3": "3650"
+      },
+      {
+        "Name": "NEUROGESIC GEL",
+        "Amount": "370",
+        "Field3": "370"
+      },
+      {
+        "Name": "VENTOLIN NEBULES 2.5MG",
+        "Amount": "370",
+        "Field3": "370"
+      },
+      {
+        "Name": "VENTOLIN NEBULES 5MG",
+        "Amount": "370",
+        "Field3": "370"
+      },
+      {
+        "Name": "GLUCOSE POWDER-SMALL",
+        "Amount": "375",
+        "Field3": "375"
+      },
+      {
+        "Name": "PERGONAL 75 INJ",
+        "Amount": "3750",
+        "Field3": "3750"
+      },
+      {
+        "Name": "ZIDOVUDINE SYR 50MG/5ML 200ML",
+        "Amount": "3750",
+        "Field3": "3750"
+      },
+      {
+        "Name": "COUGH EXPECTORANT WITH CODEINE (BENYLIN)",
+        "Amount": "380",
+        "Field3": "380"
+      },
+      {
+        "Name": "CYCLOGEST 400MG PESSARY",
+        "Amount": "380",
+        "Field3": "380"
+      },
+      {
+        "Name": "VALIUM 10MG",
+        "Amount": "380",
+        "Field3": "380"
+      },
+      {
+        "Name": "LO-FEMINAL TAB",
+        "Amount": "39",
+        "Field3": "39"
+      },
+      {
+        "Name": "ANOROL",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "BECLOX 500MG",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "CAMOQUINE 200MG",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "CHYMORAL",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "CIMETIDINE 400MG",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "DIAZEPAM 10MG",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "DICLOFENAC SODIUM TAB 100MG",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "INDERAL 40MG",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "NEOMERCAZOLE 5MG TAB",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "NEUROBION",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "NIMICA 100MG TAB",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "NIVAQUINE FORTE CAP",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "PROGUANIL 100MG",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "PYRANTEL PAMOATE 125MG TAB",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "ROVIGON TABLET",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "SPATULA-WOODEN",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "SPIRONOLACTONE 25MG",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "SURGICAL BLADE 10",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "SURGICAL BLADE 15",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "SURGICAL BLADE 20",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "SYRINGE & NEEDLE 10ML",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "THALAZOLE 500MG",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "ZINC TABLET (CHILDREN)",
+        "Amount": "40",
+        "Field3": "40"
+      },
+      {
+        "Name": "CSF Chloride",
+        "Amount": "400",
+        "Field3": "400"
+      },
+      {
+        "Name": "Microfilaria",
+        "Amount": "400",
+        "Field3": "400"
+      },
+      {
+        "Name": "Urine Pregnancy Test",
+        "Amount": "400",
+        "Field3": "400"
+      },
+      {
+        "Name": "AMPICLOX 500MG INJ",
+        "Amount": "400",
+        "Field3": "400"
+      },
+      {
+        "Name": "COMBANTRIN 250MG/5ML",
+        "Amount": "400",
+        "Field3": "400"
+      },
+      {
+        "Name": "DERMAZINE CREAM 25MG",
+        "Amount": "400",
+        "Field3": "400"
+      },
+      {
+        "Name": "DIHYDROARTEMISININ 160MG/80ML SUSP",
+        "Amount": "400",
+        "Field3": "400"
+      },
+      {
+        "Name": "ERYTHROMYCIN 125MG/5ML",
+        "Amount": "400",
+        "Field3": "400"
+      },
+      {
+        "Name": "FASIGYN 500MG",
+        "Amount": "400",
+        "Field3": "400"
+      },
+      {
+        "Name": "FUNGISOL POWDER 20MG",
+        "Amount": "400",
+        "Field3": "400"
+      },
+      {
+        "Name": "GLYCERIN BORAX",
+        "Amount": "400",
+        "Field3": "400"
+      },
+      {
+        "Name": "LARITHER 40MG INJ",
+        "Amount": "400",
+        "Field3": "400"
+      },
+      {
+        "Name": "MODECATE 25MG INJ",
+        "Amount": "400",
+        "Field3": "400"
+      },
+      {
+        "Name": "NEXIUM 20MG",
+        "Amount": "400",
+        "Field3": "400"
+      },
+      {
+        "Name": "POLYCROL FORTE GEL 100MLS",
+        "Amount": "400",
+        "Field3": "400"
+      },
+      {
+        "Name": "ZESTRIL 20MG",
+        "Amount": "400",
+        "Field3": "400"
+      },
+      {
+        "Name": "Repair Of Minor Laceration",
+        "Amount": "4000",
+        "Field3": "4000"
+      },
+      {
+        "Name": "Confirmatory Test For HIV I & II",
+        "Amount": "4000",
+        "Field3": "4000"
+      },
+      {
+        "Name": "Sinuses",
+        "Amount": "4000",
+        "Field3": "4000"
+      },
+      {
+        "Name": "Lumbo-Sacral Spine",
+        "Amount": "4000",
+        "Field3": "4000"
+      },
+      {
+        "Name": "Cervical Spine (Oblique)",
+        "Amount": "4000",
+        "Field3": "4000"
+      },
+      {
+        "Name": "Breast Scan",
+        "Amount": "4000",
+        "Field3": "4000"
+      },
+      {
+        "Name": "Transvaginal/Folliculometry Scan",
+        "Amount": "4000",
+        "Field3": "4000"
+      },
+      {
+        "Name": "CHORIONIC GONADOTROPHIN (PREGNYL) 5000IU INJ",
+        "Amount": "4000",
+        "Field3": "4000"
+      },
+      {
+        "Name": "NEVIRAPINE SUSP 50MG/5ML-240ML",
+        "Amount": "4000",
+        "Field3": "4000"
+      },
+      {
+        "Name": "SPIRONOLACTONE 100MG",
+        "Amount": "4000",
+        "Field3": "4000"
+      },
+      {
+        "Name": "Normal Delivery",
+        "Amount": "40000",
+        "Field3": "40000"
+      },
+      {
+        "Name": "Bronchoscopy",
+        "Amount": "40000",
+        "Field3": "40000"
+      },
+      {
+        "Name": "Endoscopy Of The GIT",
+        "Amount": "40000",
+        "Field3": "40000"
+      },
+      {
+        "Name": "Pelvic/abdominal abscess drainage",
+        "Amount": "40000",
+        "Field3": "40000"
+      },
+      {
+        "Name": "Exchange Blood Transfusion (Rh +Ve Blood With Set)",
+        "Amount": "40000",
+        "Field3": "40000"
+      },
+      {
+        "Name": "CERVICAL COLLAR HARD LARGE",
+        "Amount": "4200",
+        "Field3": "4200"
+      },
+      {
+        "Name": "CERVICAL COLLAR SOFT LARGE",
+        "Amount": "4200",
+        "Field3": "4200"
+      },
+      {
+        "Name": "MONOTARD INSULIN HM 100 IU/ML",
+        "Amount": "4300",
+        "Field3": "4300"
+      },
+      {
+        "Name": "BROMHEXINE 8MG",
+        "Amount": "45",
+        "Field3": "45"
+      },
+      {
+        "Name": "DIHYDROCODEINE 30MG",
+        "Amount": "45",
+        "Field3": "45"
+      },
+      {
+        "Name": "5-FLUOROURACIL INJ 500MG",
+        "Amount": "450",
+        "Field3": "450"
+      },
+      {
+        "Name": "ANTHISAN CREAM 25MG",
+        "Amount": "450",
+        "Field3": "450"
+      },
+      {
+        "Name": "BETAMETHSONE-N 0.1%, 0.5% DROPS",
+        "Amount": "450",
+        "Field3": "450"
+      },
+      {
+        "Name": "CHROMIC SIZE 0 CATGUT",
+        "Amount": "450",
+        "Field3": "450"
+      },
+      {
+        "Name": "CHROMIC SIZE 2/0 CATGUT",
+        "Amount": "450",
+        "Field3": "450"
+      },
+      {
+        "Name": "GYNO-TROSYD OVULE 100MG",
+        "Amount": "450",
+        "Field3": "450"
+      },
+      {
+        "Name": "LANSOPRAZOLE 15MG CAPSULES",
+        "Amount": "450",
+        "Field3": "450"
+      },
+      {
+        "Name": "METOCLOPRAMIDE (MAXALON) 5MG INJ",
+        "Amount": "450",
+        "Field3": "450"
+      },
+      {
+        "Name": "PROSCAR 5MG",
+        "Amount": "450",
+        "Field3": "450"
+      },
+      {
+        "Name": "RIFAMPICIN SUSP 100MLS",
+        "Amount": "450",
+        "Field3": "450"
+      },
+      {
+        "Name": "SYNTOCINON INJ",
+        "Amount": "450",
+        "Field3": "450"
+      },
+      {
+        "Name": "VENTOLIN SYRUP 5MG",
+        "Amount": "450",
+        "Field3": "450"
+      },
+      {
+        "Name": "Perineal Warts (Podophyllin Paint X 6 Courses)",
+        "Amount": "4500",
+        "Field3": "4500"
+      },
+      {
+        "Name": "Prostate Scan",
+        "Amount": "4500",
+        "Field3": "4500"
+      },
+      {
+        "Name": "Testes Scan",
+        "Amount": "4500",
+        "Field3": "4500"
+      },
+      {
+        "Name": "Thyroid Scan",
+        "Amount": "4500",
+        "Field3": "4500"
+      },
+      {
+        "Name": "FORTUM IG INJ",
+        "Amount": "4500",
+        "Field3": "4500"
+      },
+      {
+        "Name": "SODIUM VALPROATE SYR 200MG/5ML",
+        "Amount": "4500",
+        "Field3": "4500"
+      },
+      {
+        "Name": "Exchange Blood Transfusion (Rh-Ve Blood With Set)",
+        "Amount": "45000",
+        "Field3": "45000"
+      },
+      {
+        "Name": "Closed Reduction & Cast Application of Fracture",
+        "Amount": "45000",
+        "Field3": "45000"
+      },
+      {
+        "Name": "DUOVIR 650MG TAB",
+        "Amount": "480",
+        "Field3": "480"
+      },
+      {
+        "Name": "Assisted Delivery (Vacuum, Forceps)",
+        "Amount": "48500",
+        "Field3": "48500"
+      },
+      {
+        "Name": "APRESOLINE 25MG",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "CEPHALEXIN 500MG CAP",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "CHLORPHENIRAMINE INJ",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "DEXAMETHASONE 4MG/ML INJ",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "DICLOFENAC 50MG",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "ERGOTAMINE/CAFFIENE",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "ESIDREX 25MG",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "GESTID",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "GLIBENCLAMIDE (DAONIL) 5MG",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "GLIBENCLAMIDE 5MG TAB",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "GLICLAZIDE 80MG",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "GRISEOFULVIN 500MG",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "HYOSCINE BRUTYLBROMIDE (BUSCOPAN)10MG TAB",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "INSULIN SYRINGE 40 IU",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "KOTASE",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "LEXOTAN 1.5MG",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "LISINOPRIL 5MG",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "LORATIDINE 10MG",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "NIFEDIPINE 20MG",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "NILIDE 100MG",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "NORFLEX",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "OBRON-6 CAP",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "OMEGA H3 CAP",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "OMEPRAZOLE (LOSEC) 20MG",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "PHENOXYMETHYLPENICILLIN(PENICILLIN V) 250MG TAB",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "STREPSIL LOZENGES",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "TAMOXIFEN TAB 20MG",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "TRAMADOL (TRAMAL) 50MG",
+        "Amount": "50",
+        "Field3": "50"
+      },
+      {
+        "Name": "Minor Wound Dressing",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Bleeding Time",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Blood Group",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Clotting Time",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Haemoglobin",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Malaria Parasite",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "MCH",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "MCHC",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "MCV",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Packed Cell Volume (PCV)",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Platelets",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "RBC Count",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "WBC Count",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Albumin",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Alkaline Phosphates",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Calcium",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Chloride Bicarbonate",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "CSF Protein",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Fasting Blood Sugar",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Phosphorus",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Potassium",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Random Blood Sugar",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Sgot and sgpt (Each)",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Sodium",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Total Protein",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Skin Scraping For Fungal Elements",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Skin Snip",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Urinalysis",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "R.f. Coomb’s",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Rheumatoid Factor",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "AMODIAQUINE 50MG/5ML SYRUP",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "APRESOLINE 20MG INJ",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "AZITHROMYCIN 250MG",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "CANESTEN CREAM",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "FELDENE INJ 20MG",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "FOLEY'S CATHETER",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "HYDROCORTISONE 1%, NEOMYCIN, POLYMYCIN B DROPS(OTO-MED)",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "NAPROXEN WITH MISOPROSTOL 500MG TAB",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "PEFLOXACIN INFUSION",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "POLYMYCIN B EYE DROP.",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "POLYMYCIN B EYE OINT.",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "PSEUDOEPHEDRINE/TRIPROLIDINE (ACTIFED)",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "PYRAZINAMIDE SYRUP",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "TIOCONAZOLE CREAM",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "TYZINE NASAL DROP 0.1%",
+        "Amount": "500",
+        "Field3": "500"
+      },
+      {
+        "Name": "Specialist Consultation (Med, Gen.Surg, O&G, Paed)",
+        "Amount": "5000",
+        "Field3": "5000"
+      },
+      {
+        "Name": "Rare Specialist Review Consultation",
+        "Amount": "5000",
+        "Field3": "5000"
+      },
+      {
+        "Name": "Vip Ward",
+        "Amount": "5000",
+        "Field3": "5000"
+      },
+      {
+        "Name": "Critical Care (In ICU)",
+        "Amount": "5000",
+        "Field3": "5000"
+      },
+      {
+        "Name": "Echocardiography (ECG)",
+        "Amount": "5000",
+        "Field3": "5000"
+      },
+      {
+        "Name": "Release Of Chordate",
+        "Amount": "5000",
+        "Field3": "5000"
+      },
+      {
+        "Name": "Small Cyst Excision",
+        "Amount": "5000",
+        "Field3": "5000"
+      },
+      {
+        "Name": "Incision & Drainage (I & D)",
+        "Amount": "5000",
+        "Field3": "5000"
+      },
+      {
+        "Name": "IUCD Insertion",
+        "Amount": "5000",
+        "Field3": "5000"
+      },
+      {
+        "Name": "Excision/Diathermy Of Warts",
+        "Amount": "5000",
+        "Field3": "5000"
+      },
+      {
+        "Name": "Cervical Laceration Repair",
+        "Amount": "5000",
+        "Field3": "5000"
+      },
+      {
+        "Name": "Circumcision",
+        "Amount": "5000",
+        "Field3": "5000"
+      },
+      {
+        "Name": "Minor",
+        "Amount": "5000",
+        "Field3": "5000"
+      },
+      {
+        "Name": "Dental-Intra-Oral Periapical",
+        "Amount": "5000",
+        "Field3": "5000"
+      },
+      {
+        "Name": "FLIXOTIDE ACCUHALER",
+        "Amount": "5000",
+        "Field3": "5000"
+      },
+      {
+        "Name": "LASIX PEDIATRIC LIQUID 150ML",
+        "Amount": "5000",
+        "Field3": "5000"
+      },
+      {
+        "Name": "Twin Delivery",
+        "Amount": "50000",
+        "Field3": "50000"
+      },
+      {
+        "Name": "Destructive Delivery (Craniotomy-Embryotomy)",
+        "Amount": "50000",
+        "Field3": "50000"
+      },
+      {
+        "Name": "Diagnostic Laparoscopy",
+        "Amount": "50000",
+        "Field3": "50000"
+      },
+      {
+        "Name": "CT Scan",
+        "Amount": "50000",
+        "Field3": "50000"
+      },
+      {
+        "Name": "DETRUSITOL 2MG",
+        "Amount": "520",
+        "Field3": "520"
+      },
+      {
+        "Name": "XALATAN EYE DROP",
+        "Amount": "5200",
+        "Field3": "5200"
+      },
+      {
+        "Name": "INSULIN LENTE 40 IU",
+        "Amount": "5300",
+        "Field3": "5300"
+      },
+      {
+        "Name": "GLYCERYL TRINIRATE 5MG TAB",
+        "Amount": "540",
+        "Field3": "540"
+      },
+      {
+        "Name": "GYNODAKTARIN 400MG",
+        "Amount": "540",
+        "Field3": "540"
+      },
+      {
+        "Name": "HYPROMELLOSE 0.3% EYE DROP",
+        "Amount": "540",
+        "Field3": "540"
+      },
+      {
+        "Name": "ISONIAZID SYRUP 120MLS",
+        "Amount": "540",
+        "Field3": "540"
+      },
+      {
+        "Name": "MAGNESIUM SULPHATE PASTE-50G",
+        "Amount": "540",
+        "Field3": "540"
+      },
+      {
+        "Name": "PODOPHYLLIN PAINT-100ML",
+        "Amount": "540",
+        "Field3": "540"
+      },
+      {
+        "Name": "INSULIN SYRINGE 100 IU",
+        "Amount": "55",
+        "Field3": "55"
+      },
+      {
+        "Name": "THYROXINE 0.5MG",
+        "Amount": "55",
+        "Field3": "55"
+      },
+      {
+        "Name": "VIT E 1000 IU NATURE MADE",
+        "Amount": "55",
+        "Field3": "55"
+      },
+      {
+        "Name": "Gamma GT",
+        "Amount": "550",
+        "Field3": "550"
+      },
+      {
+        "Name": "ASO Heaf Test",
+        "Amount": "550",
+        "Field3": "550"
+      },
+      {
+        "Name": "ASO Titre",
+        "Amount": "550",
+        "Field3": "550"
+      },
+      {
+        "Name": "CAMOQUINE 50MG/5ML-60ML",
+        "Amount": "550",
+        "Field3": "550"
+      },
+      {
+        "Name": "QUININE SYRUP 200MLS",
+        "Amount": "550",
+        "Field3": "550"
+      },
+      {
+        "Name": "TIMOLOL EYE DROP 0.5%",
+        "Amount": "550",
+        "Field3": "550"
+      },
+      {
+        "Name": "XYLOCAINE 2% INJ",
+        "Amount": "550",
+        "Field3": "550"
+      },
+      {
+        "Name": "ANTI RABIES VACCINE",
+        "Amount": "5500",
+        "Field3": "5500"
+      },
+      {
+        "Name": "ALLOPURINOL TAB",
+        "Amount": "60",
+        "Field3": "60"
+      },
+      {
+        "Name": "AMLODIPINE 10MG",
+        "Amount": "60",
+        "Field3": "60"
+      },
+      {
+        "Name": "BRINERDIN TAB",
+        "Amount": "60",
+        "Field3": "60"
+      },
+      {
+        "Name": "COCODAMOL",
+        "Amount": "60",
+        "Field3": "60"
+      },
+      {
+        "Name": "FEFOL CAPSULES",
+        "Amount": "60",
+        "Field3": "60"
+      },
+      {
+        "Name": "GLUCOPHAGE 500MG",
+        "Amount": "60",
+        "Field3": "60"
+      },
+      {
+        "Name": "ISORDIL 10MG",
+        "Amount": "60",
+        "Field3": "60"
+      },
+      {
+        "Name": "IV GIVING SET",
+        "Amount": "60",
+        "Field3": "60"
+      },
+      {
+        "Name": "LEXOTAN 3MG",
+        "Amount": "60",
+        "Field3": "60"
+      },
+      {
+        "Name": "MECTIZAN (IVERMECTIN) 3MG TAB",
+        "Amount": "60",
+        "Field3": "60"
+      },
+      {
+        "Name": "NIFEGEM RETARD 20MG",
+        "Amount": "60",
+        "Field3": "60"
+      },
+      {
+        "Name": "NIMESULIDE 100MG TAB",
+        "Amount": "60",
+        "Field3": "60"
+      },
+      {
+        "Name": "POLYAMIN CAPSULES",
+        "Amount": "60",
+        "Field3": "60"
+      },
+      {
+        "Name": "SANATOGEN TAB FOR KIDS",
+        "Amount": "60",
+        "Field3": "60"
+      },
+      {
+        "Name": "SODIUM VALPROATE 200MG TAB",
+        "Amount": "60",
+        "Field3": "60"
+      },
+      {
+        "Name": "SYRINGE & NEEDLE 20ML",
+        "Amount": "60",
+        "Field3": "60"
+      },
+      {
+        "Name": "THROXINE 100MCG",
+        "Amount": "60",
+        "Field3": "60"
+      },
+      {
+        "Name": "ZYLORIC 100MG",
+        "Amount": "60",
+        "Field3": "60"
+      },
+      {
+        "Name": "Direct Coomb’s Test",
+        "Amount": "600",
+        "Field3": "600"
+      },
+      {
+        "Name": "ESR Westerngreen",
+        "Amount": "600",
+        "Field3": "600"
+      },
+      {
+        "Name": "Genotype",
+        "Amount": "600",
+        "Field3": "600"
+      },
+      {
+        "Name": "Indirect Coomb’s Test",
+        "Amount": "600",
+        "Field3": "600"
+      },
+      {
+        "Name": "Urea",
+        "Amount": "600",
+        "Field3": "600"
+      },
+      {
+        "Name": "Uric Acid",
+        "Amount": "600",
+        "Field3": "600"
+      },
+      {
+        "Name": "Australian Antigen",
+        "Amount": "600",
+        "Field3": "600"
+      },
+      {
+        "Name": "Widal Test",
+        "Amount": "600",
+        "Field3": "600"
+      },
+      {
+        "Name": "ASTYMINE",
+        "Amount": "600",
+        "Field3": "600"
+      },
+      {
+        "Name": "COLOSTOMY BAG SZ5600",
+        "Amount": "600",
+        "Field3": "600"
+      },
+      {
+        "Name": "COLOSTOMY BAG SZ5900",
+        "Amount": "600",
+        "Field3": "600"
+      },
+      {
+        "Name": "DERMAZINE CREAM 50MG",
+        "Amount": "600",
+        "Field3": "600"
+      },
+      {
+        "Name": "LARITHER 80MG INJ",
+        "Amount": "600",
+        "Field3": "600"
+      },
+      {
+        "Name": "MANITOL INFUSION",
+        "Amount": "600",
+        "Field3": "600"
+      },
+      {
+        "Name": "SABRESTEN VAG CREAM",
+        "Amount": "600",
+        "Field3": "600"
+      },
+      {
+        "Name": "Electroencephalography (EEG)",
+        "Amount": "6000",
+        "Field3": "6000"
+      },
+      {
+        "Name": "AZOPT EYE DROP",
+        "Amount": "6000",
+        "Field3": "6000"
+      },
+      {
+        "Name": "ERYTHRPOETIN 2000IU",
+        "Amount": "6000",
+        "Field3": "6000"
+      },
+      {
+        "Name": "KNEE SUPPORT (LARGE)",
+        "Amount": "6000",
+        "Field3": "6000"
+      },
+      {
+        "Name": "MENOGON 75 IU",
+        "Amount": "6000",
+        "Field3": "6000"
+      },
+      {
+        "Name": "Hysteroscopy",
+        "Amount": "60000",
+        "Field3": "60000"
+      },
+      {
+        "Name": "Mastectomy",
+        "Amount": "60000",
+        "Field3": "60000"
+      },
+      {
+        "Name": "Post Mortem examination",
+        "Amount": "60000",
+        "Field3": "60000"
+      },
+      {
+        "Name": "BETNOVATE-N CEAM",
+        "Amount": "630",
+        "Field3": "630"
+      },
+      {
+        "Name": "POWERCEF INJ 250MG",
+        "Amount": "630",
+        "Field3": "630"
+      },
+      {
+        "Name": "DAFLON TAB",
+        "Amount": "65",
+        "Field3": "65"
+      },
+      {
+        "Name": "SCALP VEIN NEEDLE 21G-GREEN",
+        "Amount": "65",
+        "Field3": "65"
+      },
+      {
+        "Name": "SCALP VEIN NEEDLE 23G-BLUE",
+        "Amount": "65",
+        "Field3": "65"
+      },
+      {
+        "Name": "Pregnancy Test HCG (Blood)",
+        "Amount": "650",
+        "Field3": "650"
+      },
+      {
+        "Name": "ARTESUNATE",
+        "Amount": "650",
+        "Field3": "650"
+      },
+      {
+        "Name": "LAMISIL 250MG",
+        "Amount": "650",
+        "Field3": "650"
+      },
+      {
+        "Name": "MYCOTEN 2% SOLN 25ML",
+        "Amount": "650",
+        "Field3": "650"
+      },
+      {
+        "Name": "LEVOTHYROXINE 50MCG TAB",
+        "Amount": "70",
+        "Field3": "70"
+      },
+      {
+        "Name": "TAVEGYL 1MG",
+        "Amount": "70",
+        "Field3": "70"
+      },
+      {
+        "Name": "Amylase",
+        "Amount": "700",
+        "Field3": "700"
+      },
+      {
+        "Name": "CK Amylase",
+        "Amount": "700",
+        "Field3": "700"
+      },
+      {
+        "Name": "Prostatic Acid Phosphates",
+        "Amount": "700",
+        "Field3": "700"
+      },
+      {
+        "Name": "Occult Blood",
+        "Amount": "700",
+        "Field3": "700"
+      },
+      {
+        "Name": "Semen Analysis",
+        "Amount": "700",
+        "Field3": "700"
+      },
+      {
+        "Name": "Stool Analysis",
+        "Amount": "700",
+        "Field3": "700"
+      },
+      {
+        "Name": "ACTIVATED CHARCOAL",
+        "Amount": "700",
+        "Field3": "700"
+      },
+      {
+        "Name": "DEPOMEDROL 40MG",
+        "Amount": "700",
+        "Field3": "700"
+      },
+      {
+        "Name": "PHENEGAN CREAM 2% 30G",
+        "Amount": "700",
+        "Field3": "700"
+      },
+      {
+        "Name": "PHENOBARBITONE 15MG/5ML (PITROFIN)",
+        "Amount": "700",
+        "Field3": "700"
+      },
+      {
+        "Name": "SALBUTAMOL 100MCG INHALER",
+        "Amount": "700",
+        "Field3": "700"
+      },
+      {
+        "Name": "TIMOLOL EYE DROP 0.25% (FIDSON)",
+        "Amount": "700",
+        "Field3": "700"
+      },
+      {
+        "Name": "TINIDAZOLE 500MG SUSP 30ML",
+        "Amount": "700",
+        "Field3": "700"
+      },
+      {
+        "Name": "Cervical Cerclage/Shirodkar Suture",
+        "Amount": "70000",
+        "Field3": "70000"
+      },
+      {
+        "Name": "Intermediate Surgery",
+        "Amount": "70000",
+        "Field3": "70000"
+      },
+      {
+        "Name": "CARBAMAZEPINE 400MG (CARBAMAL) CR TABS",
+        "Amount": "71",
+        "Field3": "71"
+      },
+      {
+        "Name": "EUCALYPTUS OIL",
+        "Amount": "720",
+        "Field3": "720"
+      },
+      {
+        "Name": "EUSOL LOTION 2L",
+        "Amount": "720",
+        "Field3": "720"
+      },
+      {
+        "Name": "FLUOCINONIDE CREAM 35G",
+        "Amount": "720",
+        "Field3": "720"
+      },
+      {
+        "Name": "HYCOMYCIN EYE DROP",
+        "Amount": "720",
+        "Field3": "720"
+      },
+      {
+        "Name": "K-Y GELLY 42G",
+        "Amount": "720",
+        "Field3": "720"
+      },
+      {
+        "Name": "MENTHODEX COUGH SYRUP",
+        "Amount": "720",
+        "Field3": "720"
+      },
+      {
+        "Name": "NEOPRESOL LOTION",
+        "Amount": "720",
+        "Field3": "720"
+      },
+      {
+        "Name": "CLOPIDOGREL 75MG",
+        "Amount": "75",
+        "Field3": "75"
+      },
+      {
+        "Name": "DIAMOX 250MG",
+        "Amount": "75",
+        "Field3": "75"
+      },
+      {
+        "Name": "CEPHALEXIN 125MG/5ML SUSP.",
+        "Amount": "750",
+        "Field3": "750"
+      },
+      {
+        "Name": "PILOCARPINE EYE DROP 2%",
+        "Amount": "750",
+        "Field3": "750"
+      },
+      {
+        "Name": "ZITHROMAX 250MG",
+        "Amount": "750",
+        "Field3": "750"
+      },
+      {
+        "Name": "Congenital Polydactyly",
+        "Amount": "7500",
+        "Field3": "7500"
+      },
+      {
+        "Name": "Cervical Cautery",
+        "Amount": "7500",
+        "Field3": "7500"
+      },
+      {
+        "Name": "Intermediate",
+        "Amount": "7500",
+        "Field3": "7500"
+      },
+      {
+        "Name": "Laparoscopy & Dye Test",
+        "Amount": "75000",
+        "Field3": "75000"
+      },
+      {
+        "Name": "DICLOFENAC SODIUM GEL",
+        "Amount": "780",
+        "Field3": "780"
+      },
+      {
+        "Name": "ACICLOVIR 200MG",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "CAPTOPRIL 25MG TAB",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "CEFIXIME 200MG TAB",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "CEFUROXIME 250MG TAB",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "ENCEPHABOL",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "EUSOL LOTION 100ML",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "HOMTAMIN GINSENG",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "HYPOVASE 1MG TAB",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "LEVAMISOLE 40MG TAB (KETRAX/LEVAX)",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "LISINOPRIL 10MG",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "LOPERAMIDE (IMODIUM) 4MG",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "MAXOLONE 10MG INJ",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "METHYL PREDNISOLONE INJ 125MCG",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "MOTILIUM 10MG",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "NIMULID TAB 100MG",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "ORUVAIL 200MG CAP",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "OSTEOCARE TAB",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "PARACETAMOL 300MG/2ML INJ",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "PLENDIL 5MG TAB",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "PYRIMETHAMINE 25MG TAB",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "SUPRADYN CAP",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "WARFRIN SODIUM 5MG",
+        "Amount": "80",
+        "Field3": "80"
+      },
+      {
+        "Name": "Cholesterol",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "Direct Bilirubim",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "HDL/LDL Cholesterol",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "Total Acid Phosphates",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "Total Bilirubim",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "Triglyceride",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "Mantoux/Heaf Test",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "ARTEMETER 180MG + LUMEFANTRINE 1080MG SUSP",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "CEFTRIAZONE (ROCEPHINE) 1G INJ",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "CEFUROXIME 750MG INJ",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "CEPHALEXIN 250MG/5ML SUSP.",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "CERUMOL EAR DROP",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "DEXTROSE 4.3%/NORMAL SALINE",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "DEXTROSE 5% 500ML",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "DEXTROSE 50% INFUSION",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "GESTID 100ML",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "IBUPROFEN 100MG/5ML",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "KETOCONAZOLE 2% CREAM*15G",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "LEVOTHYROXINE 25MCG TAB",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "MYCOTA CREAM 25G",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "NYSTATIN ORAL DROPS 30MLS",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "OTRIVIN NASAL DROP 0.1% 10MLS",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "OTRIVIN NASAL DROPS 0.05% 10MLS",
+        "Amount": "800",
+        "Field3": "800"
+      },
+      {
+        "Name": "Rare Specialist Consultation (ENT, Ortho, Neuro, Psychiatry)",
+        "Amount": "8000",
+        "Field3": "8000"
+      },
+      {
+        "Name": "ANTAZOLINE+ TETRAHYDROZOLINE(SPERSALLERG) EYE DROPS",
+        "Amount": "820",
+        "Field3": "820"
+      },
+      {
+        "Name": "SODIUM CHROMOGLYCATE EYE DROP",
+        "Amount": "820",
+        "Field3": "820"
+      },
+      {
+        "Name": "CATAFLAM 50MG",
+        "Amount": "85",
+        "Field3": "85"
+      },
+      {
+        "Name": "GSUNATE 100MG",
+        "Amount": "85",
+        "Field3": "85"
+      },
+      {
+        "Name": "VDRL",
+        "Amount": "850",
+        "Field3": "850"
+      },
+      {
+        "Name": "ALAXIN SUSP 10MG/5ML-80ML",
+        "Amount": "850",
+        "Field3": "850"
+      },
+      {
+        "Name": "ITRANOX 100MG",
+        "Amount": "850",
+        "Field3": "850"
+      },
+      {
+        "Name": "PRIMOGYN DEPOT INJ 10MG",
+        "Amount": "850",
+        "Field3": "850"
+      },
+      {
+        "Name": "CARFERGOT 50MG",
+        "Amount": "90",
+        "Field3": "90"
+      },
+      {
+        "Name": "COMBANTRIN 125MG",
+        "Amount": "90",
+        "Field3": "90"
+      },
+      {
+        "Name": "KETOCONAZOLE 200MG",
+        "Amount": "90",
+        "Field3": "90"
+      },
+      {
+        "Name": "TEGRETOL 200MG",
+        "Amount": "90",
+        "Field3": "90"
+      },
+      {
+        "Name": "ANTISIN-PRIVIN EYE DROP-10ML",
+        "Amount": "900",
+        "Field3": "900"
+      },
+      {
+        "Name": "CIPROFLOXACIN (CIPROTAB) 200MG INFUSION",
+        "Amount": "900",
+        "Field3": "900"
+      },
+      {
+        "Name": "DPT VACCINE",
+        "Amount": "900",
+        "Field3": "900"
+      },
+      {
+        "Name": "ERYTHROMYCIN 250MG SUSP",
+        "Amount": "900",
+        "Field3": "900"
+      },
+      {
+        "Name": "HEMPLAST 6\"\"",
+        "Amount": "900",
+        "Field3": "900"
+      },
+      {
+        "Name": "LONART",
+        "Amount": "900",
+        "Field3": "900"
+      },
+      {
+        "Name": "MAXIDEX EYE DROP",
+        "Amount": "900",
+        "Field3": "900"
+      },
+      {
+        "Name": "NIMULID SUSP 30MLS",
+        "Amount": "900",
+        "Field3": "900"
+      },
+      {
+        "Name": "NIZORAL CREAM 15MG",
+        "Amount": "900",
+        "Field3": "900"
+      },
+      {
+        "Name": "OLANZAPINE 5MG",
+        "Amount": "900",
+        "Field3": "900"
+      },
+      {
+        "Name": "ORAL POLIO VACCINE 20DOSE",
+        "Amount": "900",
+        "Field3": "900"
+      },
+      {
+        "Name": "SPORANOX CAP",
+        "Amount": "900",
+        "Field3": "900"
+      },
+      {
+        "Name": "XYLOCAINE & ADRENALIN INJ",
+        "Amount": "900",
+        "Field3": "900"
+      },
+      {
+        "Name": "XYLOCAINE GEL",
+        "Amount": "900",
+        "Field3": "900"
+      },
+      {
+        "Name": "Surgical Drainage Of Anal Abscess",
+        "Amount": "90000",
+        "Field3": "90000"
+      },
+      {
+        "Name": "Major Surgery",
+        "Amount": "90000",
+        "Field3": "90000"
+      },
+      {
+        "Name": "LINCOMYCIN 500MG",
+        "Amount": "95",
+        "Field3": "95"
+      },
+      {
+        "Name": "IBUPROFEN 200MG",
+        "Amount": "950",
+        "Field3": "950"
+      },
+      {
+        "Name": "MRI",
+        "Amount": "95000",
+        "Field3": "95000"
+      },
+      {
+        "Name": "RISPERDAL 3MG",
+        "Amount": "960",
+        "Field3": "960"
+      },
+      {
+        "Name": "BETNESOL-N EYE DROP",
+        "Amount": "990",
+        "Field3": "990"
+      }
+    ]
+  }

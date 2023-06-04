@@ -1,0 +1,4407 @@
+{
+    "Birdge": [
+      {
+        "NAMES OF DRUGS": "ABAKTAL 400MG (per amp)",
+        "PRICE": 264.5
+      },
+      {
+        "NAMES OF DRUGS": "ABIDEC DROP",
+        "PRICE": 1420.25
+      },
+      {
+        "NAMES OF DRUGS": "ABITREN 100MG (per tab)",
+        "PRICE": 34.5
+      },
+      {
+        "NAMES OF DRUGS": "ACARBOSE 50MG (PER TAB)",
+        "PRICE": 92
+      },
+      {
+        "NAMES OF DRUGS": "ACCOLATE 20MG (per tab)",
+        "PRICE": 448.5
+      },
+      {
+        "NAMES OF DRUGS": "ACETAZOLAMIDE 250MG (per tab)",
+        "PRICE": 17.25
+      },
+      {
+        "NAMES OF DRUGS": "ACICLOVIR 200MG (per tab) :: A",
+        "PRICE": 250
+      },
+      {
+        "NAMES OF DRUGS": "ACICLOVIR CREAM 10MG (per tube)",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "ACTIFED (per tab)",
+        "PRICE": 28.75
+      },
+      {
+        "NAMES OF DRUGS": "ACTIFIED SYRUP",
+        "PRICE": 1150
+      },
+      {
+        "NAMES OF DRUGS": "ACTIVATED CHARCOAL (per cap)",
+        "PRICE": 57.5
+      },
+      {
+        "NAMES OF DRUGS": "ACTRAPID INSULIN 10MLS (per vial)",
+        "PRICE": 12000
+      },
+      {
+        "NAMES OF DRUGS": "ADALAT RETARD 20MG (per tab)",
+        "PRICE": 92
+      },
+      {
+        "NAMES OF DRUGS": "ADRENALIN INJ 1MG (per amp)",
+        "PRICE": 300
+      },
+      {
+        "NAMES OF DRUGS": "ADVANTAN OINTMENT (per tube)",
+        "PRICE": 1794
+      },
+      {
+        "NAMES OF DRUGS": "AFRABVITE DROPS (PER BOT)",
+        "PRICE": 350
+      },
+      {
+        "NAMES OF DRUGS": "ALAXIN- P (PER TAB)",
+        "PRICE": 70
+      },
+      {
+        "NAMES OF DRUGS": "ALAXIN SUSP 10MG/5ML-80ML (per bot)",
+        "PRICE": 1100
+      },
+      {
+        "NAMES OF DRUGS": "ALDOMET 250MG (per tab)",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "ALFA D O.5CG (per tab)",
+        "PRICE": 149.5
+      },
+      {
+        "NAMES OF DRUGS": "ALLOPURINOL 100MG TAB",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "ALLOPURINOL 200MG TAB",
+        "PRICE": 40.25
+      },
+      {
+        "NAMES OF DRUGS": "ALOMIDE EYEDROP 10MLS (per bot)",
+        "PRICE": 1644.5
+      },
+      {
+        "NAMES OF DRUGS": "ALPHABETHIC CAPLET (per tab)",
+        "PRICE": 200
+      },
+      {
+        "NAMES OF DRUGS": "AMIKACIN INJ",
+        "PRICE": 717.6
+      },
+      {
+        "NAMES OF DRUGS": "AMINOPHYLLINE INJ 25MG/ML (PER AMP)",
+        "PRICE": 200
+      },
+      {
+        "NAMES OF DRUGS": "AMINOPHYLLINE TABS (per tab)",
+        "PRICE": 8.05
+      },
+      {
+        "NAMES OF DRUGS": "AMITRIPTYLINE 25MG (per tab)",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "AMLODIPINE 5MG (PER TAB)",
+        "PRICE": 100
+      },
+      {
+        "NAMES OF DRUGS": "AMLOVA 10MG (PER TAB)",
+        "PRICE": 30
+      },
+      {
+        "NAMES OF DRUGS": "AMOKSIKLAV 156.25MG/5MLS-100MLS (per bot)",
+        "PRICE": 1196
+      },
+      {
+        "NAMES OF DRUGS": "AMOXYCILLIN 250MG (per cap)",
+        "PRICE": 40
+      },
+      {
+        "NAMES OF DRUGS": "AMOXYL 500MG INJ/AMP",
+        "PRICE": 350
+      },
+      {
+        "NAMES OF DRUGS": "AMPICILLIN 250MG (PER TAB)",
+        "PRICE": 13.8
+      },
+      {
+        "NAMES OF DRUGS": "AMPICLOX 250MG/5ML-100ML (per bot)",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "AMPICLOX 500MG CAP (per cap)",
+        "PRICE": 80
+      },
+      {
+        "NAMES OF DRUGS": "AMPICLOX DROPS",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "AMPICLOX I 500MG INJ (per vial)",
+        "PRICE": 149.5
+      },
+      {
+        "NAMES OF DRUGS": "ANNUSOL SUPPOSITORIES (per supp)",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "ANOROL (per tab)",
+        "PRICE": 17.25
+      },
+      {
+        "NAMES OF DRUGS": "ANTASIL (per tab)",
+        "PRICE": 11.5
+      },
+      {
+        "NAMES OF DRUGS": "ANTHISAN CREAM 25MG (per tube)",
+        "PRICE": 1345.5
+      },
+      {
+        "NAMES OF DRUGS": "ANTI RABIES VACCINE (per vial)",
+        "PRICE": 4000
+      },
+      {
+        "NAMES OF DRUGS": "ANTI-D INJ (per amp)",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "ANTISIN-PRIVIN EYE DROP-10ML (per bot)",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "APPATIM EYE DROP",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "APRESOLINE  20MG INJ (per amp)",
+        "PRICE": 380
+      },
+      {
+        "NAMES OF DRUGS": "APRESOLINE  25MG (per tab)",
+        "PRICE": 35
+      },
+      {
+        "NAMES OF DRUGS": "ARTANE 5MG (per tab)",
+        "PRICE": 20
+      },
+      {
+        "NAMES OF DRUGS": "ARTEMEF (PER TABLET)",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "ARTEMEF TAB (PER PACK)",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "ARTEMETER 100MG TAB",
+        "PRICE": 160
+      },
+      {
+        "NAMES OF DRUGS": "ARTEMETER 80MG INJ (PER AMP) :: A",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "ARTEMETHER SUSUPENSION (PER BOT)",
+        "PRICE": 700
+      },
+      {
+        "NAMES OF DRUGS": "ARTESUNATE (PER TAB)",
+        "PRICE": 80
+      },
+      {
+        "NAMES OF DRUGS": "ARTESUNATE SYR (PER BOT)",
+        "PRICE": 700
+      },
+      {
+        "NAMES OF DRUGS": "ARTHOCARE CAP (per tab)",
+        "PRICE": 250
+      },
+      {
+        "NAMES OF DRUGS": "ARTHROTEC (PER TAB)",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "ARVED  450MG (per tab)",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "ASPIRIN 75MG (per tab)",
+        "PRICE": 30
+      },
+      {
+        "NAMES OF DRUGS": "ASTYMIN (PER TAB).",
+        "PRICE": 90
+      },
+      {
+        "NAMES OF DRUGS": "ASTYMINE (per bot)",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "ATENOLOL 50MG (per tab)",
+        "PRICE": 100
+      },
+      {
+        "NAMES OF DRUGS": "ATIVAN  2MG (per tab)",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "ATOVASTATIN 10MG (PER TAB)",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "ATROPINE 6OOMG INJ (per amp)",
+        "PRICE": 400
+      },
+      {
+        "NAMES OF DRUGS": "AVANDA 4MG (per tab)",
+        "PRICE": 320
+      },
+      {
+        "NAMES OF DRUGS": "AVOCOMB 450MG (per tab)",
+        "PRICE": 200
+      },
+      {
+        "NAMES OF DRUGS": "AVOLAM 150MG (per tab)",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "AVOMINE 25MG (per tab)",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "Azithromycin 200mg/5ml susp (unbranded)",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "AZITHROMYCIN (per cap)",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "AZOPT EYE DROP (per bot)",
+        "PRICE": 5500
+      },
+      {
+        "NAMES OF DRUGS": "BANOCIDE 50MG (per tab)",
+        "PRICE": 30
+      },
+      {
+        "NAMES OF DRUGS": "BECLOX 500MG (per cap)",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "BECONASENASAL DROP (per pack)",
+        "PRICE": 2200
+      },
+      {
+        "NAMES OF DRUGS": "BENDROFLUAZIDE (per tab)",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "BENYLIN EXPECTORANT 100MLS (per bot)",
+        "PRICE": 350
+      },
+      {
+        "NAMES OF DRUGS": "BENYLIN WITH CODEINE (per bot)",
+        "PRICE": 620
+      },
+      {
+        "NAMES OF DRUGS": "BENZHEXOL 5MG (per tab)",
+        "PRICE": 80
+      },
+      {
+        "NAMES OF DRUGS": "BENZYL BENZOATE OINTMENT (per bot)",
+        "PRICE": 600
+      },
+      {
+        "NAMES OF DRUGS": "BENZYL PEROXIDE 5 LOTION (per tube)",
+        "PRICE": 1200
+      },
+      {
+        "NAMES OF DRUGS": "BENZYL PEROXIDE 10 LOTION (per tube)",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "BEOPTIC EAR DROP (per bot)",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "BEOPTIC EYE (per bot)",
+        "PRICE": 1200
+      },
+      {
+        "NAMES OF DRUGS": "BETALOC (PER TAB)",
+        "PRICE": 85
+      },
+      {
+        "NAMES OF DRUGS": "BETAMETHASONE SODIUM EYE DROP",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "BETNESOL EYE OINTMENT",
+        "PRICE": 600
+      },
+      {
+        "NAMES OF DRUGS": "BETNESOL EYE/EAR/NOSE DROP (per bot)",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "BETROSIL CREAM (per tube)",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "BIOCOTEN CREAM 20G (per tube)",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "BISACODYL 5MG (per tab)",
+        "PRICE": 30
+      },
+      {
+        "NAMES OF DRUGS": "BIVACYN SPRAY (per pack)",
+        "PRICE": 1400
+      },
+      {
+        "NAMES OF DRUGS": "BONJELA GEL 10G (per tube)",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "BRINERDINE (per tab)",
+        "PRICE": 70
+      },
+      {
+        "NAMES OF DRUGS": "BROMHEXINE 8MG (per tab)",
+        "PRICE": 70
+      },
+      {
+        "NAMES OF DRUGS": "BROMHEXINE SYRUP",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "BROMOCRIPTINE 2.5MG (per tab)",
+        "PRICE": 350
+      },
+      {
+        "NAMES OF DRUGS": "BRONCHICUM (per bot)",
+        "PRICE": 1200
+      },
+      {
+        "NAMES OF DRUGS": "BRONCHOLYTE 4MG/5ML ELIXIR (per bot)",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "BUNETROL (PER INF)",
+        "PRICE": 1300
+      },
+      {
+        "NAMES OF DRUGS": "CAC 1000 (per tab)",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "CADIOACE (per cap)",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "CADURA 4MG PER TAB",
+        "PRICE": 200
+      },
+      {
+        "NAMES OF DRUGS": "CALAMINE LOTION 100MLS (per bot)",
+        "PRICE": 800
+      },
+      {
+        "NAMES OF DRUGS": "CALCIUM GLUCONATE INJ (per amp)",
+        "PRICE": 90
+      },
+      {
+        "NAMES OF DRUGS": "CALCIUM LACTATE 300MG (per tab)",
+        "PRICE": 30
+      },
+      {
+        "NAMES OF DRUGS": "CALPOL (per bot)",
+        "PRICE": 1600
+      },
+      {
+        "NAMES OF DRUGS": "CAMOQUINE 200MG (per tab)",
+        "PRICE": 110
+      },
+      {
+        "NAMES OF DRUGS": "CAMOQUINE 50MG/5ML-60ML (per bot)",
+        "PRICE": 1100
+      },
+      {
+        "NAMES OF DRUGS": "CAMOSUNATE 600/200 (PER TAB)",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "CAMOSUNATE SUSP",
+        "PRICE": 650
+      },
+      {
+        "NAMES OF DRUGS": "CAMOSUNATE TAB (PER PACK)",
+        "PRICE": 900
+      },
+      {
+        "NAMES OF DRUGS": "CANDERIL SWEETNER (per tab)",
+        "PRICE": 60
+      },
+      {
+        "NAMES OF DRUGS": "CANDERIL SWEETNER POWDER (per tab)",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "CANDESARTAN 160MG PER TAB",
+        "PRICE": 450
+      },
+      {
+        "NAMES OF DRUGS": "CANDESARTAN 80MG PER TAB",
+        "PRICE": 350
+      },
+      {
+        "NAMES OF DRUGS": "CANDIBIOTIC EAR DROPS",
+        "PRICE": 550
+      },
+      {
+        "NAMES OF DRUGS": "CANESTEN PESSARIES X 6",
+        "PRICE": 2800
+      },
+      {
+        "NAMES OF DRUGS": "CAPTOPRIL 12.5MG (per tab)",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "CAPTOPRIL 25MG (per tab)",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "CAPTOPRIL 50MG (per tab)",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "CARBAMAZEPINE 200MG (per tab)",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "CARFERGOT 50MG (per tab)",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "CARVEDILOL 25mg(PER TAB)",
+        "PRICE": 250
+      },
+      {
+        "NAMES OF DRUGS": "CARVEDILOL 6.25mg (PER TAB)",
+        "PRICE": 60
+      },
+      {
+        "NAMES OF DRUGS": "CASTOR OIL (PER BOT)",
+        "PRICE": 800
+      },
+      {
+        "NAMES OF DRUGS": "CATAFLAM 50MG (per tab)",
+        "PRICE": 100
+      },
+      {
+        "NAMES OF DRUGS": "CECLOR (per bot)",
+        "PRICE": 2600
+      },
+      {
+        "NAMES OF DRUGS": "CEECAL (per tab)",
+        "PRICE": 100
+      },
+      {
+        "NAMES OF DRUGS": "CEFIXIME SYR (PER BOT)",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "CEFPODOXIME(ORELOX) Susp.",
+        "PRICE": 5500
+      },
+      {
+        "NAMES OF DRUGS": "CEFTAZIDINE 1G ING",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "CEFTRIAXONE 1G INJ /AMP",
+        "PRICE": 2300
+      },
+      {
+        "NAMES OF DRUGS": "CEFTRIAZONE INJ 500MG",
+        "PRICE": 1100
+      },
+      {
+        "NAMES OF DRUGS": "CEFUROXIME 250MG TAB",
+        "PRICE": 180
+      },
+      {
+        "NAMES OF DRUGS": "CEFUROXIME 500MG TAB",
+        "PRICE": 300
+      },
+      {
+        "NAMES OF DRUGS": "CEFUROXIME 750MG INJ",
+        "PRICE": 1800
+      },
+      {
+        "NAMES OF DRUGS": "CEFUROXIME SYR",
+        "PRICE": 2500
+      },
+      {
+        "NAMES OF DRUGS": "CELEBREX 200MG (per cap)",
+        "PRICE": 350
+      },
+      {
+        "NAMES OF DRUGS": "CENTRUM M/VIT (per tab)",
+        "PRICE": 90
+      },
+      {
+        "NAMES OF DRUGS": "CENTRUM SILVER (per tab)",
+        "PRICE": 80
+      },
+      {
+        "NAMES OF DRUGS": "CEPHALEXIN ( PER CAP)"
+      },
+      {
+        "NAMES OF DRUGS": "CEPHALEXIN 125MG SYR",
+        "PRICE": 598
+      },
+      {
+        "NAMES OF DRUGS": "CEPHALEXIN 250MG SYR",
+        "PRICE": 822.25
+      },
+      {
+        "NAMES OF DRUGS": "CERUMOL EAR DROP (per bot)",
+        "PRICE": 2500
+      },
+      {
+        "NAMES OF DRUGS": "CETRIXINE",
+        "PRICE": 1196
+      },
+      {
+        "NAMES OF DRUGS": "CETRIZINE SYRUP",
+        "PRICE": 1196
+      },
+      {
+        "NAMES OF DRUGS": "CHEMIRON (PER CAP)",
+        "PRICE": 23
+      },
+      {
+        "NAMES OF DRUGS": "CHLORAMPHENICOL 250MG (PER TAB) :: A",
+        "PRICE": 6.9
+      },
+      {
+        "NAMES OF DRUGS": "CHLORAMPHENICOL 500MG INJ/AMP :: A",
+        "PRICE": 89.7
+      },
+      {
+        "NAMES OF DRUGS": "CHLORAMPHENICOL EAR DROP (per bot)",
+        "PRICE": 400
+      },
+      {
+        "NAMES OF DRUGS": "CHLORAMPHENICOL EYE OINT. (per tube)",
+        "PRICE": 400
+      },
+      {
+        "NAMES OF DRUGS": "CHLORAMPHENICOL SYRUP",
+        "PRICE": 223.1
+      },
+      {
+        "NAMES OF DRUGS": "CHLORPROMAZINE 100MG (per tab)",
+        "PRICE": 17.25
+      },
+      {
+        "NAMES OF DRUGS": "CHLORPROMAZINE 50MG INJ (per amp)",
+        "PRICE": 46
+      },
+      {
+        "NAMES OF DRUGS": "CHLORPROPAMIDE 250MG (per tab)",
+        "PRICE": 46
+      },
+      {
+        "NAMES OF DRUGS": "CHOTIGON 5000IU (per amp)",
+        "PRICE": 3289
+      },
+      {
+        "NAMES OF DRUGS": "CHYMORAL (per tab)",
+        "PRICE": 34.5
+      },
+      {
+        "NAMES OF DRUGS": "CIALIS  20MG (per tab)",
+        "PRICE": 3967.5
+      },
+      {
+        "NAMES OF DRUGS": "CICATRIN POWDER (per bot)",
+        "PRICE": 299
+      },
+      {
+        "NAMES OF DRUGS": "CIKLAVIT 200MLS (per bot)",
+        "PRICE": 1196
+      },
+      {
+        "NAMES OF DRUGS": "CILOXAN EYE DROP (per bot)",
+        "PRICE": 1644.5
+      },
+      {
+        "NAMES OF DRUGS": "CIMETIDINE 400MG (per tab)",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "CIMETIDINE INJ PER AMP",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "CIPROFLOXACIN 200MG INFUSION (per bot)",
+        "PRICE": 900
+      },
+      {
+        "NAMES OF DRUGS": "CIPROFLOXACIN EYE DROP",
+        "PRICE": 897
+      },
+      {
+        "NAMES OF DRUGS": "CIPROTAB 500MG (per tab)",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "CLARITHROMYCIN 500MG (per cap)",
+        "PRICE": 253
+      },
+      {
+        "NAMES OF DRUGS": "CLAVAM 228MG/5ML-100MLS (per bot)",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "CLEXANE INJ",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "CLINDAMYCIN HCL 300MG CAP (per cap)",
+        "PRICE": 250
+      },
+      {
+        "NAMES OF DRUGS": "CLINITEST TAB (per tab)",
+        "PRICE": 138
+      },
+      {
+        "NAMES OF DRUGS": "CLOBETASOL 45G CREAM (per tube)",
+        "PRICE": 1265
+      },
+      {
+        "NAMES OF DRUGS": "CLOMID 50MG (per tab)",
+        "PRICE": 400
+      },
+      {
+        "NAMES OF DRUGS": "CLONIDINE 100MCG (per tab)",
+        "PRICE": 92
+      },
+      {
+        "NAMES OF DRUGS": "CLOPIDOGREL(PER TAB)",
+        "PRICE": 120
+      },
+      {
+        "NAMES OF DRUGS": "CLOXACILLIN 250MG (per cap)",
+        "PRICE": 23
+      },
+      {
+        "NAMES OF DRUGS": "CO AMOXICLAV 312.5MG SUSP (PER BOT).",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "CO-AMOXICLAV 1.2G (PER AMP)",
+        "PRICE": 956.8
+      },
+      {
+        "NAMES OF DRUGS": "CO-AMOXICLAV 625MG TAB (PER TAB)",
+        "PRICE": 250
+      },
+      {
+        "NAMES OF DRUGS": "COARTEM (per pack)",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "COARTEM (PER TAB)",
+        "PRICE": 230
+      },
+      {
+        "NAMES OF DRUGS": "COARTEM DISPERSIBLE (PER TAB)",
+        "PRICE": 74.75
+      },
+      {
+        "NAMES OF DRUGS": "CO-CODAMOL(PER TAB)",
+        "PRICE": 300
+      },
+      {
+        "NAMES OF DRUGS": "CO-DIOVAN (per tab)",
+        "PRICE": 350
+      },
+      {
+        "NAMES OF DRUGS": "COFEX SYRUP (PER BOT)",
+        "PRICE": 254.15
+      },
+      {
+        "NAMES OF DRUGS": "COLIPAN 10MG (per tab)",
+        "PRICE": 30
+      },
+      {
+        "NAMES OF DRUGS": "COLIPAN ALIXIR 5MG/5ML-100ML (per bot)",
+        "PRICE": 300
+      },
+      {
+        "NAMES OF DRUGS": "COMBANTRIN 125MG (per tab)",
+        "PRICE": 69
+      },
+      {
+        "NAMES OF DRUGS": "COMBANTRIN 250MG/5ML (per bot)",
+        "PRICE": 448.5
+      },
+      {
+        "NAMES OF DRUGS": "CO-MICARDIL (PER TAB)",
+        "PRICE": 201.25
+      },
+      {
+        "NAMES OF DRUGS": "CO-PROXAMOL (per tab)",
+        "PRICE": 40.25
+      },
+      {
+        "NAMES OF DRUGS": "CORDARONE 200MG (per tab)",
+        "PRICE": 57.5
+      },
+      {
+        "NAMES OF DRUGS": "COSOPT EYE DROP",
+        "PRICE": 5750
+      },
+      {
+        "NAMES OF DRUGS": "COTENIDONE TABS (per tab)",
+        "PRICE": 39.1
+      },
+      {
+        "NAMES OF DRUGS": "CO-TRIMAZOLE 240MG/5ML (per bot)",
+        "PRICE": 212.75
+      },
+      {
+        "NAMES OF DRUGS": "CO-TRIMAZOLE 480MG (per tab)",
+        "PRICE": 34.5
+      },
+      {
+        "NAMES OF DRUGS": "CROMAX 4 EYE DROP",
+        "PRICE": 1046.5
+      },
+      {
+        "NAMES OF DRUGS": "CRYSTALLINE PENICILLIN (PER AMPOULE)",
+        "PRICE": 100
+      },
+      {
+        "NAMES OF DRUGS": "CYCLOGEST 400MG PESSARY (per pess)",
+        "PRICE": 448.5
+      },
+      {
+        "NAMES OF DRUGS": "CYTOTEC (MISOPROSTOL) 200MCG (PER TAB)",
+        "PRICE": 300
+      },
+      {
+        "NAMES OF DRUGS": "DAFLON (per tab)",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "DAKTACORT CREAM (PER TUBE)",
+        "PRICE": 1345.5
+      },
+      {
+        "NAMES OF DRUGS": "DAKTACORT PESSARIES",
+        "PRICE": 897
+      },
+      {
+        "NAMES OF DRUGS": "DARROWS SOLUTION 1/2 strength (per inf)",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "DARROWS SOLUTION FULL strength (per inf)",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "DEDEON HB 280ML (per bot)",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "DEPIXOL 20MG (per amp)",
+        "PRICE": 1420.25
+      },
+      {
+        "NAMES OF DRUGS": "DEPO PROVERA INJ (per vial)",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "DEPOMEDROL 40MG (per vial)",
+        "PRICE": 1121.25
+      },
+      {
+        "NAMES OF DRUGS": "DEPOMEDROL 80MG (per vial)",
+        "PRICE": 3139.5
+      },
+      {
+        "NAMES OF DRUGS": "DEPROSALIC ACID OINTMENT (PER TUBE)",
+        "PRICE": 2093
+      },
+      {
+        "NAMES OF DRUGS": "DEQUADIN LOZENGES (per tab)",
+        "PRICE": 11.5
+      },
+      {
+        "NAMES OF DRUGS": "DERMAZINE CREAM 25MG (per tube)",
+        "PRICE": 800
+      },
+      {
+        "NAMES OF DRUGS": "DERMAZINE CREAM 50MG (per tube)",
+        "PRICE": 100
+      },
+      {
+        "NAMES OF DRUGS": "DERMOVATE CREAM 25G (per tube)",
+        "PRICE": 1270.75
+      },
+      {
+        "NAMES OF DRUGS": "DETRUSITOL 2MG (per tab)",
+        "PRICE": 230
+      },
+      {
+        "NAMES OF DRUGS": "DETRUSITOL XL 4MG (per cap)",
+        "PRICE": 1150
+      },
+      {
+        "NAMES OF DRUGS": "DEXAMETHASONE 8MG (per vial)",
+        "PRICE": 115
+      },
+      {
+        "NAMES OF DRUGS": "DEXTROSE 10% INFUSION",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "DEXTROSE 4.3% /NORMAL SALINE (per inf)",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "DEXTROSE 5% (per inf)",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "DEXTROSE 50% (per inf)",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "DEXTROSE SALINE 5%",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "DIABETIN 450MG (per tab)",
+        "PRICE": 17.25
+      },
+      {
+        "NAMES OF DRUGS": "DIAMICRON (per tab)",
+        "PRICE": 350
+      },
+      {
+        "NAMES OF DRUGS": "DIAMOX 250MG (per tab)",
+        "PRICE": 17.25
+      },
+      {
+        "NAMES OF DRUGS": "DIAVISTA (per pack)",
+        "PRICE": 8625
+      },
+      {
+        "NAMES OF DRUGS": "DIAZEPAM 10MG (per amp)",
+        "PRICE": 250
+      },
+      {
+        "NAMES OF DRUGS": "DIAZEPAM 5MG (per tab)",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "DICLOFENAC 50MG (per tab)",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "DICLOFENAC SUPP 100MG (PER SUPP)",
+        "PRICE": 700
+      },
+      {
+        "NAMES OF DRUGS": "DICYNONE 250MG (per amp)",
+        "PRICE": 632.5
+      },
+      {
+        "NAMES OF DRUGS": "DICYNONE 250MG (per tab)",
+        "PRICE": 74.75
+      },
+      {
+        "NAMES OF DRUGS": "DIFLUCAN PER TAB",
+        "PRICE": 971.75
+      },
+      {
+        "NAMES OF DRUGS": "DIGOXIN 0.025MG INL (PER AMP)",
+        "PRICE": 115
+      },
+      {
+        "NAMES OF DRUGS": "DIGOXIN 0.25MG (per tab)",
+        "PRICE": 11.5
+      },
+      {
+        "NAMES OF DRUGS": "DIHYDROCODEINE 30MG (per tab)",
+        "PRICE": 350
+      },
+      {
+        "NAMES OF DRUGS": "DILOXANIDE FUROATE 500MG (per tab)",
+        "PRICE": 437
+      },
+      {
+        "NAMES OF DRUGS": "DIOSCOVITE",
+        "PRICE": 5750
+      },
+      {
+        "NAMES OF DRUGS": "DIOVAN 80MG (per cap)",
+        "PRICE": 300
+      },
+      {
+        "NAMES OF DRUGS": "DIPYRIDAMOLE (PER TAB)",
+        "PRICE": 35.65
+      },
+      {
+        "NAMES OF DRUGS": "DITROPAN 5MG (per tab)",
+        "PRICE": 57.5
+      },
+      {
+        "NAMES OF DRUGS": "DOLONUEROBION (per tab)",
+        "PRICE": 86.25
+      },
+      {
+        "NAMES OF DRUGS": "DOXYCYCLINE (per cap)",
+        "PRICE": 100
+      },
+      {
+        "NAMES OF DRUGS": "DULCOLAX SUPP (PER SUPP)",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "DUPHASON 10MG (per tab)",
+        "PRICE": 400
+      },
+      {
+        "NAMES OF DRUGS": "DUVADILAN",
+        "PRICE": 2070
+      },
+      {
+        "NAMES OF DRUGS": "DYNAMOGEN LIQUID 10MLS (per bot)",
+        "PRICE": 115
+      },
+      {
+        "NAMES OF DRUGS": "DYRIDAMOLE 100MG TAB",
+        "PRICE": 35.65
+      },
+      {
+        "NAMES OF DRUGS": "E-45 CREAM (per tube)",
+        "PRICE": 1121.25
+      },
+      {
+        "NAMES OF DRUGS": "ENALAPRIL 5MG TAB",
+        "PRICE": 24.15
+      },
+      {
+        "NAMES OF DRUGS": "ENCEPHABOL SYR 120MLS (per bot)",
+        "PRICE": 2300
+      },
+      {
+        "NAMES OF DRUGS": "ENCEPHABOL (per tab)",
+        "PRICE": 40.25
+      },
+      {
+        "NAMES OF DRUGS": "ENCEPHABOL SYR 100MLS (per bot)",
+        "PRICE": 1150
+      },
+      {
+        "NAMES OF DRUGS": "ERGOMETRINE 0.5MG (PER TAB)",
+        "PRICE": 57.5
+      },
+      {
+        "NAMES OF DRUGS": "ERGOMETRINE INJ 1.5MG",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "ERYTHROMYCIN 125MG/5ML (per bot)",
+        "PRICE": 800
+      },
+      {
+        "NAMES OF DRUGS": "ERYTHROMYCIN 250MG (per tab)",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "ERYTHROMYCIN CREAM 4% 30MG (per tube)",
+        "PRICE": 2645
+      },
+      {
+        "NAMES OF DRUGS": "ERYTHRPOETIN 2000IU (per amp)",
+        "PRICE": 9717.5
+      },
+      {
+        "NAMES OF DRUGS": "ESIDREX 25MG (per tab)",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "ESSENTIAL FORTE CAP (per cap)",
+        "PRICE": 161
+      },
+      {
+        "NAMES OF DRUGS": "ETHAMBUTOL 400MG (per tab)",
+        "PRICE": 23
+      },
+      {
+        "NAMES OF DRUGS": "ETOVIT CAPGEL 200MG (per cap)",
+        "PRICE": 28.75
+      },
+      {
+        "NAMES OF DRUGS": "EUCADIC 12.5MG (per tab)",
+        "PRICE": 345
+      },
+      {
+        "NAMES OF DRUGS": "EUCADIC 3.125MG (per tab)",
+        "PRICE": 115
+      },
+      {
+        "NAMES OF DRUGS": "EUCALYPTUS OIL (per bot)",
+        "PRICE": 747.5
+      },
+      {
+        "NAMES OF DRUGS": "EUCARDIC 25MG (per tab)",
+        "PRICE": 172.5
+      },
+      {
+        "NAMES OF DRUGS": "EURAX CREAM (per tube)",
+        "PRICE": 1380
+      },
+      {
+        "NAMES OF DRUGS": "EVADINE 200MG (per tab)",
+        "PRICE": 115
+      },
+      {
+        "NAMES OF DRUGS": "EVENNG PRIME ROSE (per cap)",
+        "PRICE": 100
+      },
+      {
+        "NAMES OF DRUGS": "EVITOL 100MG (per tab)",
+        "PRICE": 28.75
+      },
+      {
+        "NAMES OF DRUGS": "EVITOL100MG CAPGEL (per cap)",
+        "PRICE": 69
+      },
+      {
+        "NAMES OF DRUGS": "EYE ANTIOXIDANT (per tab)",
+        "PRICE": 54.05
+      },
+      {
+        "NAMES OF DRUGS": "FALVITONE (PER CAP)",
+        "PRICE": 10.35
+      },
+      {
+        "NAMES OF DRUGS": "FANSIDAR 525MG (per tab)",
+        "PRICE": 200
+      },
+      {
+        "NAMES OF DRUGS": "FASIGYN 500MG (per tab)",
+        "PRICE": 74.75
+      },
+      {
+        "NAMES OF DRUGS": "FEFOL (per cap)",
+        "PRICE": 34.5
+      },
+      {
+        "NAMES OF DRUGS": "FELDENE 20MG (per cap)",
+        "PRICE": 166.75
+      },
+      {
+        "NAMES OF DRUGS": "FELDENE GEL (per tube)",
+        "PRICE": 1035
+      },
+      {
+        "NAMES OF DRUGS": "FELDENE INJ 20MG (per amp)",
+        "PRICE": 523.25
+      },
+      {
+        "NAMES OF DRUGS": "FEROGLOBIN 200ML (per bot)",
+        "PRICE": 1196
+      },
+      {
+        "NAMES OF DRUGS": "FERROBIN",
+        "PRICE": 57.5
+      },
+      {
+        "NAMES OF DRUGS": "FERROUS SULHATE 20MG (per tab)",
+        "PRICE": 10
+      },
+      {
+        "NAMES OF DRUGS": "FLAGYL 400MG (per tab)",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "FLIXONASE NASAL SPRAY",
+        "PRICE": 2018.25
+      },
+      {
+        "NAMES OF DRUGS": "FLIXOTIDE ACCUHALER (per accu)",
+        "PRICE": 4025
+      },
+      {
+        "NAMES OF DRUGS": "FLOXAPEN 125MG/5ML (per bot)",
+        "PRICE": 977.5
+      },
+      {
+        "NAMES OF DRUGS": "FLOXAPEN 125MG/5ML (per cap)",
+        "PRICE": 80.5
+      },
+      {
+        "NAMES OF DRUGS": "FLUCAMED 50MG (per cap)",
+        "PRICE": 115
+      },
+      {
+        "NAMES OF DRUGS": "FLUCONAZOLE 50MG (PER TAB)",
+        "PRICE": 112.7
+      },
+      {
+        "NAMES OF DRUGS": "FOLEY'S CATHETER (per piece)",
+        "PRICE": 250
+      },
+      {
+        "NAMES OF DRUGS": "FOLIC ACID 5MG (per tab)",
+        "PRICE": 17.25
+      },
+      {
+        "NAMES OF DRUGS": "FOLIC ACID SYRUP",
+        "PRICE": 300
+      },
+      {
+        "NAMES OF DRUGS": "FORTUM IG INJ (per amp)",
+        "PRICE": 2990
+      },
+      {
+        "NAMES OF DRUGS": "FRANOL (per tab)",
+        "PRICE": 23
+      },
+      {
+        "NAMES OF DRUGS": "FRUSEMIDE 40MG (per tab)",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "FRUSEMIDE INJ 20MG (per amp)",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "FUNBACT CREAM",
+        "PRICE": 400
+      },
+      {
+        "NAMES OF DRUGS": "FUNGISOL POWDER 20MG (per bot)",
+        "PRICE": 448.5
+      },
+      {
+        "NAMES OF DRUGS": "GABAPENTRIN(PER TAB)",
+        "PRICE": 104.65
+      },
+      {
+        "NAMES OF DRUGS": "GATE DPX EYE DROP",
+        "PRICE": 1380
+      },
+      {
+        "NAMES OF DRUGS": "GENTAMYCIN 80MG (per amp)",
+        "PRICE": 34.5
+      },
+      {
+        "NAMES OF DRUGS": "GENTAMYCIN CREAM 15G (per tube)",
+        "PRICE": 287.5
+      },
+      {
+        "NAMES OF DRUGS": "GENTAMYCIN EYE/EAR DROP (per bot)",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "GERIATIC PHARMATON (per cap)",
+        "PRICE": 92
+      },
+      {
+        "NAMES OF DRUGS": "GESTID (per tab)",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "GESTID 200ML (per bot)",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "GESTONE 100MG (per amp)",
+        "PRICE": 1265
+      },
+      {
+        "NAMES OF DRUGS": "GESTONE 50MG (per amp)",
+        "PRICE": 1035
+      },
+      {
+        "NAMES OF DRUGS": "GLIBENCLAMIDE 5MG (per tab)",
+        "PRICE": 40
+      },
+      {
+        "NAMES OF DRUGS": "GLICAZIDE 80MG (PER TAB)",
+        "PRICE": 82.8
+      },
+      {
+        "NAMES OF DRUGS": "GLIPIZIDE 5MG (PER TAB)",
+        "PRICE": 96.6
+      },
+      {
+        "NAMES OF DRUGS": "GLUCOPHAGE 500MG (per tab)",
+        "PRICE": 200
+      },
+      {
+        "NAMES OF DRUGS": "GLUCOSE (PER SACHET)",
+        "PRICE": 23
+      },
+      {
+        "NAMES OF DRUGS": "GLYCERYLTRINITRATE (PER TAB)",
+        "PRICE": 230
+      },
+      {
+        "NAMES OF DRUGS": "GRISEOFULVIN 125MG (per tab)",
+        "PRICE": 11.5
+      },
+      {
+        "NAMES OF DRUGS": "GRISEOFULVIN 500MG (per tab)",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "GSUNATE 100MG (per tab)",
+        "PRICE": 80.5
+      },
+      {
+        "NAMES OF DRUGS": "GYNODAKTARIN 200MG (per ovule)",
+        "PRICE": 230
+      },
+      {
+        "NAMES OF DRUGS": "GYNODAKTARIN 400MG (per ovule)",
+        "PRICE": 460
+      },
+      {
+        "NAMES OF DRUGS": "GYNOTROSID 100MG (per ovule)",
+        "PRICE": 971.75
+      },
+      {
+        "NAMES OF DRUGS": "GYNOTROSID 300MG (per ovule)",
+        "PRICE": 1380
+      },
+      {
+        "NAMES OF DRUGS": "HAEMACCEL INFUSION. (per pint)",
+        "PRICE": 3450
+      },
+      {
+        "NAMES OF DRUGS": "HAEMORON (PER TAB)",
+        "PRICE": 27.6
+      },
+      {
+        "NAMES OF DRUGS": "HALOPERIDOL 5MG (per tab)",
+        "PRICE": 11.5
+      },
+      {
+        "NAMES OF DRUGS": "HISTAC 150MG (per tab)",
+        "PRICE": 69
+      },
+      {
+        "NAMES OF DRUGS": "HISTAC 300MG (per tab)",
+        "PRICE": 115
+      },
+      {
+        "NAMES OF DRUGS": "HOMTAMIN GINSENG (per tab)",
+        "PRICE": 69
+      },
+      {
+        "NAMES OF DRUGS": "HYCOMYCIN EYEDROP (per bot)",
+        "PRICE": 897
+      },
+      {
+        "NAMES OF DRUGS": "HYDROCHLORTIAZIDE 50MG/AMILORIDE 5MG(per tab",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "HYDROCORTISONE 100MG INJ (per amp)",
+        "PRICE": 350
+      },
+      {
+        "NAMES OF DRUGS": "HYDROCORTISONE 15MG (per tube)",
+        "PRICE": 800
+      },
+      {
+        "NAMES OF DRUGS": "HYDROCORTISONE TABS 10MG",
+        "PRICE": 17.25
+      },
+      {
+        "NAMES OF DRUGS": "HYDROXYPREGESTERONE (PER TAB)",
+        "PRICE": 224.25
+      },
+      {
+        "NAMES OF DRUGS": "HYOSCINE N BUTYL BROMIDE (per tab)",
+        "PRICE": 40
+      },
+      {
+        "NAMES OF DRUGS": "HYOSCINE N BUTYL BROMIDE 20MG (per amp)",
+        "PRICE": 300
+      },
+      {
+        "NAMES OF DRUGS": "HYPOMELLOSE EYE DROP (per bot)",
+        "PRICE": 598
+      },
+      {
+        "NAMES OF DRUGS": "HYPOTEARS GEL",
+        "PRICE": 1644.5
+      },
+      {
+        "NAMES OF DRUGS": "HYPOVASE 1MG (per tab)",
+        "PRICE": 69
+      },
+      {
+        "NAMES OF DRUGS": "IBUFROPEN 400MG (per tab)",
+        "PRICE": 40
+      },
+      {
+        "NAMES OF DRUGS": "IBUPROFEN 100MG/5ML (per bot)",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "IBUPROFEN 200MG (per tab)",
+        "PRICE": 30
+      },
+      {
+        "NAMES OF DRUGS": "IKACLOMIN 50MG (per tab)",
+        "PRICE": 1644.5
+      },
+      {
+        "NAMES OF DRUGS": "IMMUNACE (per tab)",
+        "PRICE": 74.75
+      },
+      {
+        "NAMES OF DRUGS": "INDERAL 40MG (per tab)",
+        "PRICE": 23
+      },
+      {
+        "NAMES OF DRUGS": "INDOMEHACINE (per tab)",
+        "PRICE": 5.75
+      },
+      {
+        "NAMES OF DRUGS": "INFERON (PER AMP)",
+        "PRICE": 149.5
+      },
+      {
+        "NAMES OF DRUGS": "INSULIN LENTEL 40 IU (per vial)",
+        "PRICE": 1857.25
+      },
+      {
+        "NAMES OF DRUGS": "INSULIN SYRINGE 100 IU (per piece)",
+        "PRICE": 100
+      },
+      {
+        "NAMES OF DRUGS": "INSULIN SYRINGE 40 IU (per piece)",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "INTERFLOX 500MG (per cap)",
+        "PRICE": 822.25
+      },
+      {
+        "NAMES OF DRUGS": "ISOPLASMA",
+        "PRICE": 2645
+      },
+      {
+        "NAMES OF DRUGS": "ISORDIL 10MG (per tab)",
+        "PRICE": 34.5
+      },
+      {
+        "NAMES OF DRUGS": "ISORDIL 5MG (per tab)",
+        "PRICE": 28.75
+      },
+      {
+        "NAMES OF DRUGS": "ISOSORBIDE 10MG (PER TAB)",
+        "PRICE": 18.4
+      },
+      {
+        "NAMES OF DRUGS": "ISOSORBIDE 5MG (PER TAB)",
+        "PRICE": 14.95
+      },
+      {
+        "NAMES OF DRUGS": "ITRANOX (per cap)",
+        "PRICE": 218.5
+      },
+      {
+        "NAMES OF DRUGS": "ITRANOX 100MG (per tab)",
+        "PRICE": 218.5
+      },
+      {
+        "NAMES OF DRUGS": "IVYCROM EYE DROP",
+        "PRICE": 837.2
+      },
+      {
+        "NAMES OF DRUGS": "IVYDEXGENT (PER BOT)",
+        "PRICE": 897
+      },
+      {
+        "NAMES OF DRUGS": "IVYMORCELL EYE DROP",
+        "PRICE": 897
+      },
+      {
+        "NAMES OF DRUGS": "IVYZINC",
+        "PRICE": 690
+      },
+      {
+        "NAMES OF DRUGS": "KENACOMB CREAM (per tube)",
+        "PRICE": 717.6
+      },
+      {
+        "NAMES OF DRUGS": "KENALOG 40MG (per amp)",
+        "PRICE": 1644.5
+      },
+      {
+        "NAMES OF DRUGS": "KETOCONAZOLE 200MG (per tab)",
+        "PRICE": 70
+      },
+      {
+        "NAMES OF DRUGS": "KETOLAC INJ :: A",
+        "PRICE": 1150
+      },
+      {
+        "NAMES OF DRUGS": "KETRAX (PER TAB).",
+        "PRICE": 49.45
+      },
+      {
+        "NAMES OF DRUGS": "KOTASE (per tab)",
+        "PRICE": 70
+      },
+      {
+        "NAMES OF DRUGS": "LAMISIL 250MG (per tab)",
+        "PRICE": 598
+      },
+      {
+        "NAMES OF DRUGS": "LAMISIL CREAM 15G (per tube)",
+        "PRICE": 2018.25
+      },
+      {
+        "NAMES OF DRUGS": "LESCOL 20MG (per cap)",
+        "PRICE": 224.25
+      },
+      {
+        "NAMES OF DRUGS": "LEVAX 40MG (per tab)",
+        "PRICE": 0
+      },
+      {
+        "NAMES OF DRUGS": "LEVOFLOXACIN INF 100ML",
+        "PRICE": 971.75
+      },
+      {
+        "NAMES OF DRUGS": "LEVOFLOXACIN TAB 500MG",
+        "PRICE": 200
+      },
+      {
+        "NAMES OF DRUGS": "LEXOTHAN 1.5MG (per tab)",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "LEXOTHAN 3MG (per tab)",
+        "PRICE": 80
+      },
+      {
+        "NAMES OF DRUGS": "LINCOMYCIN 500MG (per cap)",
+        "PRICE": 34.5
+      },
+      {
+        "NAMES OF DRUGS": "LINCOMYCIN INJ 300MG (PER AMP)",
+        "PRICE": 299
+      },
+      {
+        "NAMES OF DRUGS": "LISINOPRIL 10MG (per tab)",
+        "PRICE": 46
+      },
+      {
+        "NAMES OF DRUGS": "LISINOPRIL 5MG (per tab)",
+        "PRICE": 34.5
+      },
+      {
+        "NAMES OF DRUGS": "LIV 52 (PER TAB)",
+        "PRICE": 19.55
+      },
+      {
+        "NAMES OF DRUGS": "LIVOLIN FORTE TABS (per tab)",
+        "PRICE": 62.1
+      },
+      {
+        "NAMES OF DRUGS": "LOCASALENE CREAM 30MG (per tube)",
+        "PRICE": 1420.25
+      },
+      {
+        "NAMES OF DRUGS": "LO-FEMINAL (per sach)",
+        "PRICE": 74.75
+      },
+      {
+        "NAMES OF DRUGS": "LOKMAL (per pack",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "LOMOTIL (per tab)",
+        "PRICE": 100
+      },
+      {
+        "NAMES OF DRUGS": "LORATIDE SYRUP",
+        "PRICE": 897
+      },
+      {
+        "NAMES OF DRUGS": "LORATYN 10MG (per tab)",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "LOSARTAN 60MG PER TAB",
+        "PRICE": 103.5
+      },
+      {
+        "NAMES OF DRUGS": "MANIX (per tab)",
+        "PRICE": 57.5
+      },
+      {
+        "NAMES OF DRUGS": "MANNITOL INFUSION 10%",
+        "PRICE": 568.1
+      },
+      {
+        "NAMES OF DRUGS": "MAXIDEX EYE DROP (per bot)",
+        "PRICE": 1196
+      },
+      {
+        "NAMES OF DRUGS": "MAXITROL EYE DROP (per bot)",
+        "PRICE": 1420.25
+      },
+      {
+        "NAMES OF DRUGS": "MAXIVISION (per cap)",
+        "PRICE": 97.75
+      },
+      {
+        "NAMES OF DRUGS": "MAXOLON (PER TAB)",
+        "PRICE": 34.5
+      },
+      {
+        "NAMES OF DRUGS": "MECTIZAN (IVERMECTIN) 3MG (per tab)",
+        "PRICE": 241.5
+      },
+      {
+        "NAMES OF DRUGS": "MEFENAMIC ACID 250MG (per tab)",
+        "PRICE": 25
+      },
+      {
+        "NAMES OF DRUGS": "MELOXICAM (per tab)",
+        "PRICE": 115
+      },
+      {
+        "NAMES OF DRUGS": "MELROSUM WITH CODEIN 100ML (per bot)",
+        "PRICE": 897
+      },
+      {
+        "NAMES OF DRUGS": "MENOGON 75 IU (per pack)",
+        "PRICE": 5681
+      },
+      {
+        "NAMES OF DRUGS": "MENTHODEX (per bot)",
+        "PRICE": 672.75
+      },
+      {
+        "NAMES OF DRUGS": "MEROPENEM 1G INJ (PER AMP)",
+        "PRICE": 14950
+      },
+      {
+        "NAMES OF DRUGS": "MEROPENEM 500MG INJ (PER AMP)",
+        "PRICE": 9867
+      },
+      {
+        "NAMES OF DRUGS": "METAKELFIN (per tab)",
+        "PRICE": 149.5
+      },
+      {
+        "NAMES OF DRUGS": "METAPRIM 25MG (per tab)",
+        "PRICE": 11.5
+      },
+      {
+        "NAMES OF DRUGS": "METFORMIN 500MG (per tab)",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "METRONIDAZOLE 200MG (per tab)",
+        "PRICE": 20
+      },
+      {
+        "NAMES OF DRUGS": "METRONIDAZOLE 200MG/5ML (per bot)",
+        "PRICE": 400
+      },
+      {
+        "NAMES OF DRUGS": "METRONIDAZOLE 400MG (per tab)",
+        "PRICE": 30
+      },
+      {
+        "NAMES OF DRUGS": "METRONIDAZOLE INFUSION (per inf)",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "MILK OF MAGNESIA PHILIP 200MLS (per bot)",
+        "PRICE": 1794
+      },
+      {
+        "NAMES OF DRUGS": "MILK OF MAGNESIA(100MLS)",
+        "PRICE": 897
+      },
+      {
+        "NAMES OF DRUGS": "MINIPRESS 1MG (per tab)",
+        "PRICE": 103.5
+      },
+      {
+        "NAMES OF DRUGS": "MINIZIDE (per tab)",
+        "PRICE": 103.5
+      },
+      {
+        "NAMES OF DRUGS": "MIST KAOLIN (per bot)",
+        "PRICE": 207
+      },
+      {
+        "NAMES OF DRUGS": "MIST MAG. (PER BOT).",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "MIST POTASSIUM CITRATE (per bot)",
+        "PRICE": 373.75
+      },
+      {
+        "NAMES OF DRUGS": "MIXTARD INSULIN 3ML (per catridge)",
+        "PRICE": 1943.5
+      },
+      {
+        "NAMES OF DRUGS": "MIXTARD INSULIN PER 40 I.U/ML",
+        "PRICE": 777.4
+      },
+      {
+        "NAMES OF DRUGS": "MODECATE 25MG INJ (per amp)",
+        "PRICE": 373.75
+      },
+      {
+        "NAMES OF DRUGS": "MODURETIC (per tab)",
+        "PRICE": 17.25
+      },
+      {
+        "NAMES OF DRUGS": "MONOTARD INSULIN HM 100 IU/ML (per vial)",
+        "PRICE": 4186
+      },
+      {
+        "NAMES OF DRUGS": "MOSEGOR 0.5MG (per tab)",
+        "PRICE": 57.5
+      },
+      {
+        "NAMES OF DRUGS": "MOSEGOR 100MLS (per bot)",
+        "PRICE": 2346
+      },
+      {
+        "NAMES OF DRUGS": "MOTILIUM 10MG (per tab)",
+        "PRICE": 40.25
+      },
+      {
+        "NAMES OF DRUGS": "MULTIVITE SYRUP (per bot)",
+        "PRICE": 300
+      },
+      {
+        "NAMES OF DRUGS": "MULTIVITE TABLET (per tab)",
+        "PRICE": 10
+      },
+      {
+        "NAMES OF DRUGS": "MYCOTEN CREAM 20G (per tube)",
+        "PRICE": 300
+      },
+      {
+        "NAMES OF DRUGS": "MYCOTEN OVULE 100MG (per ovule)",
+        "PRICE": 600
+      },
+      {
+        "NAMES OF DRUGS": "MYDRIACYL EYE DROP (per bot)",
+        "PRICE": 1196
+      },
+      {
+        "NAMES OF DRUGS": "NAPROXEN 500MG (PER TAB)",
+        "PRICE": 64.4
+      },
+      {
+        "NAMES OF DRUGS": "NATRILIX (PER TAB) :: A",
+        "PRICE": 300
+      },
+      {
+        "NAMES OF DRUGS": "NEOMERCAZOLE 5MG (per tab)",
+        "PRICE": 40.25
+      },
+      {
+        "NAMES OF DRUGS": "NEPAFLAM EYE DROP",
+        "PRICE": 1265
+      },
+      {
+        "NAMES OF DRUGS": "NEUROBION (per tab)",
+        "PRICE": 86.25
+      },
+      {
+        "NAMES OF DRUGS": "NEUROGESIC GEL (per tube)",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "NEXIUM TABS (per tab)",
+        "PRICE": 506
+      },
+      {
+        "NAMES OF DRUGS": "NICOTINIC ACID (per tab)",
+        "PRICE": 17.25
+      },
+      {
+        "NAMES OF DRUGS": "NIFEDIPINE 20MG (per tab)",
+        "PRICE": 100
+      },
+      {
+        "NAMES OF DRUGS": "NIFEGEM RETARD 20MG (per tab)",
+        "PRICE": 34.5
+      },
+      {
+        "NAMES OF DRUGS": "NITRAZEPAM 5MG (per tab)",
+        "PRICE": 46
+      },
+      {
+        "NAMES OF DRUGS": "NITROFURANTOIN 100MG (per tab)",
+        "PRICE": 11.5
+      },
+      {
+        "NAMES OF DRUGS": "NIVAQUINE FORTE CAP (per cap)",
+        "PRICE": 34.5
+      },
+      {
+        "NAMES OF DRUGS": "NIZORAL 200MG (per tab)",
+        "PRICE": 120.75
+      },
+      {
+        "NAMES OF DRUGS": "NIZORAL CREAM 15MG (per tube)",
+        "PRICE": 971.75
+      },
+      {
+        "NAMES OF DRUGS": "NIZORAL SHAMPOO (per bot)",
+        "PRICE": 1794
+      },
+      {
+        "NAMES OF DRUGS": "NORFLEX TABS (per tab)",
+        "PRICE": 18.4
+      },
+      {
+        "NAMES OF DRUGS": "NORGESIC TAB",
+        "PRICE": 12.65
+      },
+      {
+        "NAMES OF DRUGS": "NORMAL SALINE",
+        "PRICE": 800
+      },
+      {
+        "NAMES OF DRUGS": "NORMORETIC (per tab)",
+        "PRICE": 70
+      },
+      {
+        "NAMES OF DRUGS": "NORVASC 10MG (per tab)",
+        "PRICE": 264.5
+      },
+      {
+        "NAMES OF DRUGS": "NORVASC 5MG (per tab)",
+        "PRICE": 143.75
+      },
+      {
+        "NAMES OF DRUGS": "NOSPA INJ (PER AMP)",
+        "PRICE": 328.9
+      },
+      {
+        "NAMES OF DRUGS": "NOSPA TABS 40MG (per tab)",
+        "PRICE": 115
+      },
+      {
+        "NAMES OF DRUGS": "NOSPAMIN DROPS",
+        "PRICE": 269.1
+      },
+      {
+        "NAMES OF DRUGS": "NOVALGIN 500MG (per tab)",
+        "PRICE": 23
+      },
+      {
+        "NAMES OF DRUGS": "NYOLOL 0.5 EYE DROP (per bot)",
+        "PRICE": 1345.5
+      },
+      {
+        "NAMES OF DRUGS": "NYOLOL OPTHALMIC GEL 0.1% 5G (per bot)",
+        "PRICE": 1420.25
+      },
+      {
+        "NAMES OF DRUGS": "NYSTATIN (PER TAB)",
+        "PRICE": 373.75
+      },
+      {
+        "NAMES OF DRUGS": "NYSTATIN CREAM (PER TUBE)",
+        "PRICE": 672.75
+      },
+      {
+        "NAMES OF DRUGS": "NYSTATIN ORAL DROPS 30MLS (per bot)",
+        "PRICE": 897
+      },
+      {
+        "NAMES OF DRUGS": "NYSTATIN PESSARIES (PER TAB)",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "OBRON 6 CAP (per cap)",
+        "PRICE": 46
+      },
+      {
+        "NAMES OF DRUGS": "OCUVITE (per tab)",
+        "PRICE": 69
+      },
+      {
+        "NAMES OF DRUGS": "OFLOXACIN 200MG (per tab)",
+        "PRICE": 100
+      },
+      {
+        "NAMES OF DRUGS": "OKACIN EYE DROP (per bot)",
+        "PRICE": 1495
+      },
+      {
+        "NAMES OF DRUGS": "OLANZAPINE 5MG (per tab)",
+        "PRICE": 391
+      },
+      {
+        "NAMES OF DRUGS": "OMEGA H3 (per cap)",
+        "PRICE": 57.5
+      },
+      {
+        "NAMES OF DRUGS": "OMEPRAZOLE 40MG INJ (PER AMP)",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "OMEPRAZOLE 20MG (PER TAB).",
+        "PRICE": 46
+      },
+      {
+        "NAMES OF DRUGS": "ONDANSETRONE INJ (PER AMP)",
+        "PRICE": 747.5
+      },
+      {
+        "NAMES OF DRUGS": "Optodexin",
+        "PRICE": 805
+      },
+      {
+        "NAMES OF DRUGS": "ORAL REHYDRATION SALT",
+        "PRICE": 130
+      },
+      {
+        "NAMES OF DRUGS": "OROFER SYRUP",
+        "PRICE": 575
+      },
+      {
+        "NAMES OF DRUGS": "ORUVAIL 200MG (per cap)",
+        "PRICE": 115
+      },
+      {
+        "NAMES OF DRUGS": "OSTEOCARE (per tab)",
+        "PRICE": 80.5
+      },
+      {
+        "NAMES OF DRUGS": "OTOMED EAR DROP (per bot)",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "OTRIVIN NASAL DROP 0.1% 10MLS (per bot)",
+        "PRICE": 2500
+      },
+      {
+        "NAMES OF DRUGS": "OTRIVIN NASAL DROPS 0.05% 10MLS (per bot)",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "OXYTOCIN 10MG INJ PER AMP",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "PARACETAMOL 125MG SUPPOSITORY",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "PARACETAMOL SYRUP 125MG/5MLS (per bot)",
+        "PRICE": 400
+      },
+      {
+        "NAMES OF DRUGS": "PARAFIN LIQUID (per bot)",
+        "PRICE": 600
+      },
+      {
+        "NAMES OF DRUGS": "PARALDEHYDE INJ",
+        "PRICE": 373.75
+      },
+      {
+        "NAMES OF DRUGS": "PARIET 20MG (per tab)",
+        "PRICE": 149.5
+      },
+      {
+        "NAMES OF DRUGS": "PAROXETIN 100MG(PER TAB)",
+        "PRICE": 207
+      },
+      {
+        "NAMES OF DRUGS": "PATANOL (OLOPATADINE) EYE DROP",
+        "PRICE": 2840.5
+      },
+      {
+        "NAMES OF DRUGS": "PEFLACINE 400MG (per tab)",
+        "PRICE": 218.5
+      },
+      {
+        "NAMES OF DRUGS": "PEFLOXACIN 400MG (per tab)",
+        "PRICE": 100
+      },
+      {
+        "NAMES OF DRUGS": "PENICILLIN OINTMENT (PER TUBE)",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "PENTAZOCINE 30MG INJ (per amp)",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "PERSANTIN (PER TAB)",
+        "PRICE": 62.1
+      },
+      {
+        "NAMES OF DRUGS": "PHENEGAN CREAM 2% 30G (per tube)",
+        "PRICE": 897
+      },
+      {
+        "NAMES OF DRUGS": "PHENOBARBITONE 30MG (per tab)",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "PHENOBARBITONE SYRUP (PER BOT)",
+        "PRICE": 373.75
+      },
+      {
+        "NAMES OF DRUGS": "PHENYTOIN 100MG (per cap)",
+        "PRICE": 28.75
+      },
+      {
+        "NAMES OF DRUGS": "PILOCARPINE EYE DROP 2% (per bot)",
+        "PRICE": 897
+      },
+      {
+        "NAMES OF DRUGS": "PILOCARPINE EYE DROP 4% (per bot)",
+        "PRICE": 971.75
+      },
+      {
+        "NAMES OF DRUGS": "PIOGLITAZONE HCL 30MG (PER TAB).",
+        "PRICE": 897
+      },
+      {
+        "NAMES OF DRUGS": "PIRITON (per tab)",
+        "PRICE": 15
+      },
+      {
+        "NAMES OF DRUGS": "PIRITON EXPECTORANT 100MLS (per bot)",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "PIRITON INJECTION 10MG/ML",
+        "PRICE": 44.85
+      },
+      {
+        "NAMES OF DRUGS": "PIROXICAM 20MG (per cap)",
+        "PRICE": 11.5
+      },
+      {
+        "NAMES OF DRUGS": "POLYCROL FORTE GEL 100MLS (per bot)",
+        "PRICE": 575
+      },
+      {
+        "NAMES OF DRUGS": "POTASSIUM CHLORIDE 3MG INJ (AMP)",
+        "PRICE": 343.85
+      },
+      {
+        "NAMES OF DRUGS": "POTASSIUM PERMANGANATE",
+        "PRICE": 575
+      },
+      {
+        "NAMES OF DRUGS": "PRAZIQUANTEL 600MG (per tab)",
+        "PRICE": 110
+      },
+      {
+        "NAMES OF DRUGS": "PREDNISOLONE 5MG (per tab)",
+        "PRICE": 20
+      },
+      {
+        "NAMES OF DRUGS": "PREDNISOLONE EYE DROP (PER BOT).",
+        "PRICE": 460
+      },
+      {
+        "NAMES OF DRUGS": "PREGNACARE (per cap)",
+        "PRICE": 69
+      },
+      {
+        "NAMES OF DRUGS": "PREGYNL 5000 IU (per pack)",
+        "PRICE": 3289
+      },
+      {
+        "NAMES OF DRUGS": "PRIMOLUT DEPOT 250MG (per vial)",
+        "PRICE": 2500
+      },
+      {
+        "NAMES OF DRUGS": "PRIMOLUT N 5MG (per tab)",
+        "PRICE": 100
+      },
+      {
+        "NAMES OF DRUGS": "PROGUANIL 100MG (per tab)",
+        "PRICE": 143.75
+      },
+      {
+        "NAMES OF DRUGS": "PROMETHAZINE 25MG (per tab)",
+        "PRICE": 10
+      },
+      {
+        "NAMES OF DRUGS": "PROMETHAZINE 50MG INJ (per amp)",
+        "PRICE": 70
+      },
+      {
+        "NAMES OF DRUGS": "PROMETHAZINE 5MG/5MG ELIXIR (per bot)",
+        "PRICE": 250
+      },
+      {
+        "NAMES OF DRUGS": "PROPANOLOL 40MG (per tab)",
+        "PRICE": 30
+      },
+      {
+        "NAMES OF DRUGS": "PROSCAR 5MG (per tab)",
+        "PRICE": 356.5
+      },
+      {
+        "NAMES OF DRUGS": "PROSPENEM(PER VIAL)",
+        "PRICE": 3680
+      },
+      {
+        "NAMES OF DRUGS": "PROVIRON 25 MG (per tab)",
+        "PRICE": 69
+      },
+      {
+        "NAMES OF DRUGS": "PYRAZINAMIDE 500MG (per tab)",
+        "PRICE": 17.25
+      },
+      {
+        "NAMES OF DRUGS": "PYRAZINAMIDE SYRUP (per bot)",
+        "PRICE": 598
+      },
+      {
+        "NAMES OF DRUGS": "PYRIDOXINE 50MG (per tab)",
+        "PRICE": 11.5
+      },
+      {
+        "NAMES OF DRUGS": "QUININE 300MG (per tab)",
+        "PRICE": 28.75
+      },
+      {
+        "NAMES OF DRUGS": "QUININE INJ 300MG",
+        "PRICE": 74.75
+      },
+      {
+        "NAMES OF DRUGS": "QUININE SYRUP 200MLS (per bot)",
+        "PRICE": 448.5
+      },
+      {
+        "NAMES OF DRUGS": "RANFERON BLOOD TONIC 200MLS (per bot)",
+        "PRICE": 373.75
+      },
+      {
+        "NAMES OF DRUGS": "RANFERON-12 (per tab)",
+        "PRICE": 17.25
+      },
+      {
+        "NAMES OF DRUGS": "RANITHIDINE INJ 50MG (PER AMP)",
+        "PRICE": 770.5
+      },
+      {
+        "NAMES OF DRUGS": "REGROTON (per tab)",
+        "PRICE": 69
+      },
+      {
+        "NAMES OF DRUGS": "RETIN A CREAM (per tube)",
+        "PRICE": 2242.5
+      },
+      {
+        "NAMES OF DRUGS": "RHINATHIOL SYRUP (per 100ml bot)",
+        "PRICE": 1270.75
+      },
+      {
+        "NAMES OF DRUGS": "RINGERS LACTATE INJ",
+        "PRICE": 700
+      },
+      {
+        "NAMES OF DRUGS": "ROCEPHIN IJ 1G (per vial)",
+        "PRICE": 8500
+      },
+      {
+        "NAMES OF DRUGS": "ROHYPNOL 1MG (per tab)",
+        "PRICE": 138
+      },
+      {
+        "NAMES OF DRUGS": "ROVIGON (per tab)",
+        "PRICE": 23
+      },
+      {
+        "NAMES OF DRUGS": "ROXID TABS (per tab)",
+        "PRICE": 74.75
+      },
+      {
+        "NAMES OF DRUGS": "ROXITHROMYCIN TABS (per tab)",
+        "PRICE": 74.75
+      },
+      {
+        "NAMES OF DRUGS": "SABRESTEN CREAM DERMAL (per tube)",
+        "PRICE": 373.75
+      },
+      {
+        "NAMES OF DRUGS": "SABRESTEN VAG CREAM (per tube)",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "SALBUTAMOL 100MCG INHALER (per piece)",
+        "PRICE": 718.75
+      },
+      {
+        "NAMES OF DRUGS": "SALBUTAMOL 4MG (per tab)",
+        "PRICE": 10
+      },
+      {
+        "NAMES OF DRUGS": "SALBUTAMOL SYRUP (PER BOT)",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "SALICYLIC ACID OINT 20% (per bot)",
+        "PRICE": 718.75
+      },
+      {
+        "NAMES OF DRUGS": "SALINE NASAL DROP (per tab)",
+        "PRICE": 1046.5
+      },
+      {
+        "NAMES OF DRUGS": "SANATOGEN M/VIT GOLD (per tab)",
+        "PRICE": 69
+      },
+      {
+        "NAMES OF DRUGS": "SECNIDAZOLE 500MG(PER TAB)",
+        "PRICE": 112.7
+      },
+      {
+        "NAMES OF DRUGS": "SECWID 400MG (PER TAB)",
+        "PRICE": 100
+      },
+      {
+        "NAMES OF DRUGS": "SERETIDE DISKUS - CHILDREN (per pack)",
+        "PRICE": 7475
+      },
+      {
+        "NAMES OF DRUGS": "SERETIDE DISKUS- ADULT (per pack)",
+        "PRICE": 9568
+      },
+      {
+        "NAMES OF DRUGS": "SIMVASTATIN 20MG TAB",
+        "PRICE": 40
+      },
+      {
+        "NAMES OF DRUGS": "SIMVOR 20MG (per tab)",
+        "PRICE": 264.5
+      },
+      {
+        "NAMES OF DRUGS": "SINUFED SYRUP (per bot)",
+        "PRICE": 373.75
+      },
+      {
+        "NAMES OF DRUGS": "SKINHEAL CREAM (PER TUBE)",
+        "PRICE": 747.5
+      },
+      {
+        "NAMES OF DRUGS": "SLOW-K 600MG (per tab)",
+        "PRICE": 17.25
+      },
+      {
+        "NAMES OF DRUGS": "SODIUM BICARBONATE 8.4% INJ (per amp)",
+        "PRICE": 373.75
+      },
+      {
+        "NAMES OF DRUGS": "SODIUM CHROMOGLYCATE EYE DROP (per bot)",
+        "PRICE": 897
+      },
+      {
+        "NAMES OF DRUGS": "SOLUSET (per piece)",
+        "PRICE": 1196
+      },
+      {
+        "NAMES OF DRUGS": "SPARFLOXACIN 200MG (per tab)",
+        "PRICE": 130
+      },
+      {
+        "NAMES OF DRUGS": "SPERSALLERGE EYE DROP (per bot)",
+        "PRICE": 822.25
+      },
+      {
+        "NAMES OF DRUGS": "SPIRONOLACTONE 25MG (per tab)",
+        "PRICE": 30
+      },
+      {
+        "NAMES OF DRUGS": "STARXON (per vial)",
+        "PRICE": 1046.5
+      },
+      {
+        "NAMES OF DRUGS": "STEMETIL 5MG (per tab)",
+        "PRICE": 11.5
+      },
+      {
+        "NAMES OF DRUGS": "STREPTOMYCIN 5MG INJ (per vial)",
+        "PRICE": 200
+      },
+      {
+        "NAMES OF DRUGS": "STUGERON 25MG (per tab)",
+        "PRICE": 100
+      },
+      {
+        "NAMES OF DRUGS": "SUFRATULE (PER PIECE)",
+        "PRICE": 74.75
+      },
+      {
+        "NAMES OF DRUGS": "SULPHADEINE PLUS SOLUBLE (per tab)",
+        "PRICE": 74.75
+      },
+      {
+        "NAMES OF DRUGS": "SUPREFACT INJ (per vial)",
+        "PRICE": 11212.5
+      },
+      {
+        "NAMES OF DRUGS": "SUSTANON 250MG (per amp)",
+        "PRICE": 2990
+      },
+      {
+        "NAMES OF DRUGS": "SYNTOCINON INJ (per amp)",
+        "PRICE": 598
+      },
+      {
+        "NAMES OF DRUGS": "SYRINGE AND NEEDLE (5ML)",
+        "PRICE": 30
+      },
+      {
+        "NAMES OF DRUGS": "SYRUP FLUCAMED",
+        "PRICE": 1285.7
+      },
+      {
+        "NAMES OF DRUGS": "TABALON 400MG (per tab)",
+        "PRICE": 23
+      },
+      {
+        "NAMES OF DRUGS": "TAMSULOSIN(PER TAB)",
+        "PRICE": 115
+      },
+      {
+        "NAMES OF DRUGS": "TARIVID 200MG (per tab)",
+        "PRICE": 210
+      },
+      {
+        "NAMES OF DRUGS": "TAVEGYL 1MG (per tab)",
+        "PRICE": 69
+      },
+      {
+        "NAMES OF DRUGS": "TEAR NATURALE EYE DROP (per bot)",
+        "PRICE": 1345.5
+      },
+      {
+        "NAMES OF DRUGS": "TEGRETOL 200MG (per tab)",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "TEGRETOL CR 400MG (per tab)",
+        "PRICE": 200
+      },
+      {
+        "NAMES OF DRUGS": "TENORETIC (per tab)",
+        "PRICE": 224.25
+      },
+      {
+        "NAMES OF DRUGS": "TETANUS TOXOID (per dose)",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "TETRACYCLINE 250MG (per cap)",
+        "PRICE": 11.5
+      },
+      {
+        "NAMES OF DRUGS": "THALAZOLE 500MG (per tab)",
+        "PRICE": 24
+      },
+      {
+        "NAMES OF DRUGS": "THROXINE 100MCG (per tab)",
+        "PRICE": 34.5
+      },
+      {
+        "NAMES OF DRUGS": "THYROXINE 0.5MG (per tab)",
+        "PRICE": 34.5
+      },
+      {
+        "NAMES OF DRUGS": "TIMOLOL EYE DROP 0.5% (per bot)",
+        "PRICE": 822.25
+      },
+      {
+        "NAMES OF DRUGS": "TOBRAMYCIN OINTMENT",
+        "PRICE": 1420.25
+      },
+      {
+        "NAMES OF DRUGS": "TOBREX EYE DROP :: A",
+        "PRICE": 1420.25
+      },
+      {
+        "NAMES OF DRUGS": "TRADYL 100MG INJ (per amp)",
+        "PRICE": 184
+      },
+      {
+        "NAMES OF DRUGS": "TRAMADOL 50MG INJ. (per vial)",
+        "PRICE": 194.35
+      },
+      {
+        "NAMES OF DRUGS": "TRAMAL 50MG (per cap)",
+        "PRICE": 172.5
+      },
+      {
+        "NAMES OF DRUGS": "TRANXEMIC ACID 5MG INJ (PER AMP)",
+        "PRICE": 650
+      },
+      {
+        "NAMES OF DRUGS": "TRAVANTAN EYE DROP (per bot)",
+        "PRICE": 7923.5
+      },
+      {
+        "NAMES OF DRUGS": "TRAVOCORT CREAM (per tab)",
+        "PRICE": 1420.25
+      },
+      {
+        "NAMES OF DRUGS": "TRAXENAMIC ACID TAB",
+        "PRICE": 250
+      },
+      {
+        "NAMES OF DRUGS": "TRIFLUOPERAZINE 5MG (per tab)",
+        "PRICE": 11.5
+      },
+      {
+        "NAMES OF DRUGS": "TROSYD CREAM (per tube)",
+        "PRICE": 1644.5
+      },
+      {
+        "NAMES OF DRUGS": "UNASYN (PER TAB)",
+        "PRICE": 184
+      },
+      {
+        "NAMES OF DRUGS": "UNASYN INJECTION (PER AMP)",
+        "PRICE": 747.5
+      },
+      {
+        "NAMES OF DRUGS": "URINE BAG",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "VALIUM 10MG (per amp)",
+        "PRICE": 224.25
+      },
+      {
+        "NAMES OF DRUGS": "VANCOMYCIN 1G INJ (PER AMP)",
+        "PRICE": 340
+      },
+      {
+        "NAMES OF DRUGS": "VENTOLIN INHALER (per pack)",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "VENTOLIN NEBULES 2.5MG (per neb)",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "VENTOLIN NEBULES 5MG (per neb)",
+        "PRICE": 800
+      },
+      {
+        "NAMES OF DRUGS": "VENTOLIN SYRUP 5MG/VIAL (per bot)",
+        "PRICE": 747.5
+      },
+      {
+        "NAMES OF DRUGS": "VICRYL(PER STOOL)",
+        "PRICE": 575
+      },
+      {
+        "NAMES OF DRUGS": "VISINE EYE DROP (per bot)",
+        "PRICE": 971.75
+      },
+      {
+        "NAMES OF DRUGS": "VIT A TAB",
+        "PRICE": 12.65
+      },
+      {
+        "NAMES OF DRUGS": "VIT B COMPLEX (per tab)",
+        "PRICE": 11.5
+      },
+      {
+        "NAMES OF DRUGS": "VIT B COMPLEX INJ (per vial)",
+        "PRICE": 400
+      },
+      {
+        "NAMES OF DRUGS": "VIT B COMPLEX SYRUP (per bot)",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "VIT C 100MG (per tab)",
+        "PRICE": 10
+      },
+      {
+        "NAMES OF DRUGS": "VIT C INJ (per amp)",
+        "PRICE": 46
+      },
+      {
+        "NAMES OF DRUGS": "VIT C SYRUP (per bot)",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "VIT E 1000 IU NATURE MADE (per tab)",
+        "PRICE": 69
+      },
+      {
+        "NAMES OF DRUGS": "VIT K INJ (per amp)",
+        "PRICE": 149.5
+      },
+      {
+        "NAMES OF DRUGS": "VITAMIN A DROPS",
+        "PRICE": 138
+      },
+      {
+        "NAMES OF DRUGS": "VOLTAREN EYE DROP",
+        "PRICE": 2018.25
+      },
+      {
+        "NAMES OF DRUGS": "VOLTAREN RETARD 100MG (per tab)",
+        "PRICE": 120.75
+      },
+      {
+        "NAMES OF DRUGS": "WARFRIN SODIUM 5MG (per tab)",
+        "PRICE": 34.5
+      },
+      {
+        "NAMES OF DRUGS": "WHITFIELD OINTMENT 20G (per tube)",
+        "PRICE": 224.25
+      },
+      {
+        "NAMES OF DRUGS": "XALATAN EYE DROP (per bot)",
+        "PRICE": 6877
+      },
+      {
+        "NAMES OF DRUGS": "XTAPEN (PER AMP)",
+        "PRICE": 44.85
+      },
+      {
+        "NAMES OF DRUGS": "ZADITEN 1MG (per tab)",
+        "PRICE": 97.75
+      },
+      {
+        "NAMES OF DRUGS": "ZADITEN 2MG (per tab)",
+        "PRICE": 149.5
+      },
+      {
+        "NAMES OF DRUGS": "ZADITEN EYE DROPS (per bot)",
+        "PRICE": 2300
+      },
+      {
+        "NAMES OF DRUGS": "ZANTAC 150MG (per tab)",
+        "PRICE": 115
+      },
+      {
+        "NAMES OF DRUGS": "ZANTAC 300MG (per tab)",
+        "PRICE": 92
+      },
+      {
+        "NAMES OF DRUGS": "ZEFFIX 100MG (per tab)",
+        "PRICE": 644
+      },
+      {
+        "NAMES OF DRUGS": "ZENTEL (PER TAB)",
+        "PRICE": 149.5
+      },
+      {
+        "NAMES OF DRUGS": "ZENTEL SUSP 400MG/20ML (per bot)",
+        "PRICE": 299
+      },
+      {
+        "NAMES OF DRUGS": "ZESTORETIC (per tab)",
+        "PRICE": 270.25
+      },
+      {
+        "NAMES OF DRUGS": "ZINACEF 750MG INJ (per vial)",
+        "PRICE": 971.75
+      },
+      {
+        "NAMES OF DRUGS": "ZINC 30MG TAB",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "ZINNAT 125MG/5ML- 200MLS (per bot)",
+        "PRICE": 2392
+      },
+      {
+        "NAMES OF DRUGS": "ZINNAT 250MG (per tab)",
+        "PRICE": 281.75
+      },
+      {
+        "NAMES OF DRUGS": "ZITHROMAX 200MG/5ML (per bot)",
+        "PRICE": 2691
+      },
+      {
+        "NAMES OF DRUGS": "ZOLAT SYRUP",
+        "PRICE": 224.25
+      },
+      {
+        "NAMES OF DRUGS": "ZOLOFT 50MG (per cap)",
+        "PRICE": 287.5
+      },
+      {
+        "NAMES OF DRUGS": "ZYLORIC 100MG (per tab)",
+        "PRICE": 46
+      },
+      {
+        "NAMES OF DRUGS": "ROSUVASTATIN 20MG",
+        "PRICE": 350
+      },
+      {
+        "NAMES OF DRUGS": "ROSUVASTATIN 10MG",
+        "PRICE": 250
+      },
+      {
+        "NAMES OF DRUGS": "BETROSIL CREAM",
+        "PRICE": 800
+      },
+      {
+        "NAMES OF DRUGS": "GALVUS-MET  50/100",
+        "PRICE": 400
+      },
+      {
+        "NAMES OF DRUGS": "HYDRALAZIN 75mg",
+        "PRICE": 90
+      },
+      {
+        "NAMES OF DRUGS": "METHROCABANAMOL (ROBINAX) 500MG",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "Bisoprolol 5mg",
+        "PRICE": 80
+      },
+      {
+        "NAMES OF DRUGS": "Ex-forge tab 10mg/160mg",
+        "PRICE": 400
+      },
+      {
+        "NAMES OF DRUGS": "Glimepiride 2mg tab (amaryl)",
+        "PRICE": 160
+      },
+      {
+        "NAMES OF DRUGS": "LORATADINE SYRUP",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "CEFIXIME TAB 200MG",
+        "PRICE": 250
+      },
+      {
+        "NAMES OF DRUGS": "CEFIXIME TAB 400MG",
+        "PRICE": 350
+      },
+      {
+        "NAMES OF DRUGS": "LANTUS INSULIN",
+        "PRICE": 9500
+      },
+      {
+        "NAMES OF DRUGS": "AVAMYS NASAL SPRAY",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "MONTRAL 5/10MG",
+        "PRICE": 300
+      },
+      {
+        "NAMES OF DRUGS": "MONTIGET 10MG",
+        "PRICE": 250
+      },
+      {
+        "NAMES OF DRUGS": "CO-AMOXICLAV 228MG",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "CO-AMOXICLAV 457MG",
+        "PRICE": 2500
+      },
+      {
+        "NAMES OF DRUGS": "LIQUID PARAFFIN",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "FLUCAMED EYE DROP",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "ASCOREX SYRUP",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "LOFNAC GEL",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "PREGABALIN 75MG",
+        "PRICE": 350
+      },
+      {
+        "NAMES OF DRUGS": "PARACETAMOL TAB",
+        "PRICE": 10
+      },
+      {
+        "NAMES OF DRUGS": "ANUSOL SUPP",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "KETOCONAZOLE CREAM",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "ARTEETHER 150MG INJ",
+        "PRICE": 1350
+      },
+      {
+        "NAMES OF DRUGS": "ARTESUNATE 60MG",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "ARTESUNATE 120MG",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "DICLOFENAC 75MG INJ",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "PLASIL TAB 10MG",
+        "PRICE": 50
+      },
+      {
+        "NAMES OF DRUGS": "PLASIL INJECTION 10MG",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "GENTAMYCIN CREAM",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "NIFECARD 30MG",
+        "PRICE": 250
+      },
+      {
+        "NAMES OF DRUGS": "LEXOTAN 3MG",
+        "PRICE": 150
+      },
+      {
+        "NAMES OF DRUGS": "LABETALOL 200MG",
+        "PRICE": 350
+      },
+      {
+        "NAMES OF DRUGS": "SPIRINOLACTONE 25MG",
+        "PRICE": 250
+      },
+      {
+        "NAMES OF DRUGS": "QUININE 600MG INJ",
+        "PRICE": 500
+      },
+      {
+        "NAMES OF DRUGS": "Tetanus Toxoid /ATS Each",
+        "PRICE": 700
+      },
+      {
+        "NAMES OF DRUGS": "Registration (Out Of Station Emergencies)",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "General Consultation -Follow Up (Out patient)",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "Nursing Care Per Diem",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "Intensive care- Adult",
+        "PRICE": 1000
+      },
+      {
+        "NAMES OF DRUGS": "Sodium/Chloride/Potassium/Bicarbonate Each",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "Urea/Creatinine Each",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "Urinalysis",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "Urine Pregnancy Test",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "Malaria Parasite",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "Skin Snip For Microfilaria",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "Skin Scraping For Fungal Studies",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "Gram Staining",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "Pregnancy Test - HCG (Blood)",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "Hepatitis A",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "WBC (Total)",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "WBC ( Differential)",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "Peripheral Blood Film",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "Hb Genotype",
+        "PRICE": 1500
+      },
+      {
+        "NAMES OF DRUGS": "HCV",
+        "PRICE": 1800
+      },
+      {
+        "NAMES OF DRUGS": "General Consultation (Out Of Station Emergencies)",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "Annual Physical Examination With Report (No Lab Tests)",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "Minor Wound Dressing  /Day",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "Total Acid Phosphatase /Prostatic Each",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "LDL",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "HDL",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "Microscopy Stool/Urine Each",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "Semen Analysis",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "Widal",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "VDRL",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "Rheumatoid Factor",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "Ear Swap M/C/S",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "PCV /Haemoglobin",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "Red Cell Count",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "Full Blood Count",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "ESR Westergren",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "Platelet Count",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "Reticulocyte Count",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "MCV/MCH/MCHC Each",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "Bleeding/Clotting Time Each",
+        "PRICE": 2000
+      },
+      {
+        "NAMES OF DRUGS": "Hepatitis B Vaccine/Dose",
+        "PRICE": 2500
+      },
+      {
+        "NAMES OF DRUGS": "Fasting Blood Sugar/Random Blood Sugar Each",
+        "PRICE": 2500
+      },
+      {
+        "NAMES OF DRUGS": "SGOT/SGPT Each",
+        "PRICE": 2500
+      },
+      {
+        "NAMES OF DRUGS": "Alkaline Prosphatase",
+        "PRICE": 2500
+      },
+      {
+        "NAMES OF DRUGS": "Tryglyceride",
+        "PRICE": 2500
+      },
+      {
+        "NAMES OF DRUGS": "Stool Ocult Blood",
+        "PRICE": 2500
+      },
+      {
+        "NAMES OF DRUGS": "Ear/Nose/Throat Swab M/C/S Each",
+        "PRICE": 2500
+      },
+      {
+        "NAMES OF DRUGS": "AFB For TB (ZN Staining) Each",
+        "PRICE": 2500
+      },
+      {
+        "NAMES OF DRUGS": "ASO Titre",
+        "PRICE": 2500
+      },
+      {
+        "NAMES OF DRUGS": "Blood Grouping",
+        "PRICE": 2500
+      },
+      {
+        "NAMES OF DRUGS": "Suturing Of Simple Laceration <5cm (minor)",
+        "PRICE": 3000
+      },
+      {
+        "NAMES OF DRUGS": "Gamma Glutamyl Transferace",
+        "PRICE": 3000
+      },
+      {
+        "NAMES OF DRUGS": "Total Protein/Albumin Each",
+        "PRICE": 3000
+      },
+      {
+        "NAMES OF DRUGS": "Bence Jones Protein",
+        "PRICE": 3000
+      },
+      {
+        "NAMES OF DRUGS": "CSF Glucose",
+        "PRICE": 3000
+      },
+      {
+        "NAMES OF DRUGS": "Urine M/C/S",
+        "PRICE": 3000
+      },
+      {
+        "NAMES OF DRUGS": "Stool M/C/S",
+        "PRICE": 3000
+      },
+      {
+        "NAMES OF DRUGS": "HVS /Urethral Swab M/C/S Each",
+        "PRICE": 3000
+      },
+      {
+        "NAMES OF DRUGS": "Sputum M/C/S",
+        "PRICE": 3000
+      },
+      {
+        "NAMES OF DRUGS": "CSF M/C/S",
+        "PRICE": 3000
+      },
+      {
+        "NAMES OF DRUGS": "Wound/Pus/Aspirate M/C/S Each",
+        "PRICE": 3000
+      },
+      {
+        "NAMES OF DRUGS": "Culture (Fungal)",
+        "PRICE": 3000
+      },
+      {
+        "NAMES OF DRUGS": "Direct/Indirect Coombs Test Each",
+        "PRICE": 3000
+      },
+      {
+        "NAMES OF DRUGS": "TB Serology",
+        "PRICE": 3000
+      },
+      {
+        "NAMES OF DRUGS": "Prothrombin/Thromboplastin Time Each",
+        "PRICE": 3000
+      },
+      {
+        "NAMES OF DRUGS": "Tongue Tie Release",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "Calcium/Uric Acid/Phosphorus Each",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "LDH",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "Cholesterol",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "Protein Electrophoresis",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "C- Reactive Protein",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "CSF Chloride",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "Hepatitis C screening",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "Hand",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "Wrist",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "Forearm",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "Elbow",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "Humerus",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "Clavicle",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "Finger AP/LAT",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "Foot/Toe",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "Leg (Tibia/Fibula)",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "Knee",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "Hip Joint",
+        "PRICE": 3500
+      },
+      {
+        "NAMES OF DRUGS": "Gastric Lavage",
+        "PRICE": 3600
+      },
+      {
+        "NAMES OF DRUGS": "Amylase",
+        "PRICE": 3800
+      },
+      {
+        "NAMES OF DRUGS": "Haemophilus Influenzae Type B (HiB) Vaccine",
+        "PRICE": 4000
+      },
+      {
+        "NAMES OF DRUGS": "Major Wound Dressing /Day",
+        "PRICE": 4000
+      },
+      {
+        "NAMES OF DRUGS": "Total /Direct Bilirubin  Each",
+        "PRICE": 4000
+      },
+      {
+        "NAMES OF DRUGS": "CPK",
+        "PRICE": 4000
+      },
+      {
+        "NAMES OF DRUGS": "CSF Protein",
+        "PRICE": 4000
+      },
+      {
+        "NAMES OF DRUGS": "Mantoux Test",
+        "PRICE": 4000
+      },
+      {
+        "NAMES OF DRUGS": "Semen M/C/S",
+        "PRICE": 4000
+      },
+      {
+        "NAMES OF DRUGS": "Cross Matching",
+        "PRICE": 4000
+      },
+      {
+        "NAMES OF DRUGS": "Feeding Per Diem (Private Ward)",
+        "PRICE": 4500
+      },
+      {
+        "NAMES OF DRUGS": "Feeding Per Diem (Semi-Private Ward)",
+        "PRICE": 4500
+      },
+      {
+        "NAMES OF DRUGS": "Feeding Per Diem (General Ward)",
+        "PRICE": 4500
+      },
+      {
+        "NAMES OF DRUGS": "Creatine Clearance",
+        "PRICE": 4500
+      },
+      {
+        "NAMES OF DRUGS": "Pelvic (AP)",
+        "PRICE": 4500
+      },
+      {
+        "NAMES OF DRUGS": "General Ward Per Diem",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Typhoid Vaccine",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Suturing Of Simple Laceration> 5cm-10cm(intermediate)",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Nebulisation (Subsequent)",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Incubator Care Per Diem",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Phototherapy Per Diem",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Oxygen Therapy Per Diem",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Glucose Tolerance Test",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "G-6 Phosphate Dehydrogenase",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Creatine Kinase",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Urea Clearance",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Glycosylated Haemoglobin",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "TSH/T3/T4 Each",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Prolactin/Testoterone/FSH/LH (Each)",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "H.PYLORY",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Hepatitis B  DNA Viral load",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Hepatitis B Surface Antigen Screening (HbsAg)",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Screening For HIV 1 & 2",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "HIV Confirmatory",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "CD4 Count",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Shoulder",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Chest (PA/AP)",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Chest For Ribs (Obliques)",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Apical/Lordotic",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Sternum",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Thoracic Inlet",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Abdomen (Plain)",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Abdomen (Erect  /Supine)",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Abdomen",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Pelvic",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Obstetric",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Abdominopelvic",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Local",
+        "PRICE": 5000
+      },
+      {
+        "NAMES OF DRUGS": "Meningitis Vaccine",
+        "PRICE": 6000
+      },
+      {
+        "NAMES OF DRUGS": "Measles, Mumps & Rubella (MMR) Vaccine",
+        "PRICE": 6000
+      },
+      {
+        "NAMES OF DRUGS": "Suturing Of Simple Laceration> 10cm (major)",
+        "PRICE": 6000
+      },
+      {
+        "NAMES OF DRUGS": "Ankle",
+        "PRICE": 6000
+      },
+      {
+        "NAMES OF DRUGS": "Thigh (Femur)",
+        "PRICE": 6000
+      },
+      {
+        "NAMES OF DRUGS": "Nebulisation (Initial)",
+        "PRICE": 6500
+      },
+      {
+        "NAMES OF DRUGS": "Serum Electrolytes/Urea/Creatinine",
+        "PRICE": 6500
+      },
+      {
+        "NAMES OF DRUGS": "Pelvic & Hip",
+        "PRICE": 6500
+      },
+      {
+        "NAMES OF DRUGS": "Intensive care- Adult with ventllator(PER DAY,ALL INCLUSIVE)",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Rotavirus Vaccine",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Viral Load",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Pelvimetry",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Cervical Spine",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Cervical Spine (Obliques)",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Lateral Neck (Soft Tissue)",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Thoracic Spine",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Thoraco Lumbar Spine",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Lumbar Spine",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Lumbo Sacral Spine",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Sacrum",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Sacro Iliac Joint (S.I.J.)",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Sacro-Coccxy",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Skull (AP & Lat)",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Skull (PA /Lat /Townes)",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Mastoids",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Paranasal Sinuses",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Paranasal Sinuses waterview",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "patella",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Mandibles (Jaws)",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Temporo-Mandibular Joints (TMJ)",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Sella Turcica",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Tagential",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Occipito-Mental (Om)",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Post Nasal Space",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Internal Auditory Meatus",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Thyroid",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Scrotal",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Breast",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Prostate",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Bladder",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Transfontanellar",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Abdomen with Doppler Flow",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Adrenal scan",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "gallbladder",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Renal",
+        "PRICE": 7000
+      },
+      {
+        "NAMES OF DRUGS": "Specialist Review (Inpatient)",
+        "PRICE": 7500
+      },
+      {
+        "NAMES OF DRUGS": "Chicken Pox Vaccine",
+        "PRICE": 7500
+      },
+      {
+        "NAMES OF DRUGS": "Aspirations & Paracentesis",
+        "PRICE": 7500
+      },
+      {
+        "NAMES OF DRUGS": "Liver Function Test",
+        "PRICE": 7500
+      },
+      {
+        "NAMES OF DRUGS": "Lipid Profile",
+        "PRICE": 7500
+      },
+      {
+        "NAMES OF DRUGS": "Semi-Private Ward Per Diem",
+        "PRICE": 8000
+      },
+      {
+        "NAMES OF DRUGS": "Intensive care- Children(PER DAY,ALL INCLUSIVE)",
+        "PRICE": 8000
+      },
+      {
+        "NAMES OF DRUGS": "Catheterisation Of Urinary Bladder + Urine Bag",
+        "PRICE": 8000
+      },
+      {
+        "NAMES OF DRUGS": "Blood Culture & Sensitivity",
+        "PRICE": 8000
+      },
+      {
+        "NAMES OF DRUGS": "H-Pylori Rapid Test",
+        "PRICE": 8000
+      },
+      {
+        "NAMES OF DRUGS": "H-pylori  Antigen In Stool",
+        "PRICE": 8000
+      },
+      {
+        "NAMES OF DRUGS": "Ovulometry /TV Scan",
+        "PRICE": 8000
+      },
+      {
+        "NAMES OF DRUGS": "maxillary",
+        "PRICE": 8000
+      },
+      {
+        "NAMES OF DRUGS": "transvaginal",
+        "PRICE": 8000
+      },
+      {
+        "NAMES OF DRUGS": "Specialist Consultation - Follow Up (Out patient)",
+        "PRICE": 10000
+      },
+      {
+        "NAMES OF DRUGS": "ENT -Follow Up",
+        "PRICE": 10000
+      },
+      {
+        "NAMES OF DRUGS": "Surgeons-Follow Up",
+        "PRICE": 10000
+      },
+      {
+        "NAMES OF DRUGS": "Private Ward Per Diem",
+        "PRICE": 10000
+      },
+      {
+        "NAMES OF DRUGS": "Anti Rabies Vaccine",
+        "PRICE": 10000
+      },
+      {
+        "NAMES OF DRUGS": "Incision & Drainage <=5cm",
+        "PRICE": 10000
+      },
+      {
+        "NAMES OF DRUGS": "Birth Before Arrival (Bba) Care",
+        "PRICE": 10000
+      },
+      {
+        "NAMES OF DRUGS": "PSA (Quantitative)",
+        "PRICE": 10000
+      },
+      {
+        "NAMES OF DRUGS": "PSA (Qualitative)",
+        "PRICE": 10000
+      },
+      {
+        "NAMES OF DRUGS": "Fistulogram",
+        "PRICE": 10000
+      },
+      {
+        "NAMES OF DRUGS": "Chest (PA & Lateral)",
+        "PRICE": 10000
+      },
+      {
+        "NAMES OF DRUGS": "Abdomen (Erect & Supine)",
+        "PRICE": 10000
+      },
+      {
+        "NAMES OF DRUGS": "Chest",
+        "PRICE": 10000
+      },
+      {
+        "NAMES OF DRUGS": "biophy profile",
+        "PRICE": 10000
+      },
+      {
+        "NAMES OF DRUGS": "Electrocardiogram (E C G)",
+        "PRICE": 10000
+      },
+      {
+        "NAMES OF DRUGS": "Minor",
+        "PRICE": 10000
+      },
+      {
+        "NAMES OF DRUGS": "Evacuation of Impacted Faeces",
+        "PRICE": 11000
+      },
+      {
+        "NAMES OF DRUGS": "Cytology (Pap Smear, FNAC)",
+        "PRICE": 14000
+      },
+      {
+        "NAMES OF DRUGS": "Specialist Consultation - 1st Visit",
+        "PRICE": 15000
+      },
+      {
+        "NAMES OF DRUGS": "Sub specialty Consult-Cardiologist",
+        "PRICE": 15000
+      },
+      {
+        "NAMES OF DRUGS": "Sub specialty Consult-Neurologist, Rheumatologist, urologist",
+        "PRICE": 15000
+      },
+      {
+        "NAMES OF DRUGS": "Sub specialty Consult-ENT, haematologist",
+        "PRICE": 15000
+      },
+      {
+        "NAMES OF DRUGS": "Sub specialty Consult-Surgeons",
+        "PRICE": 15000
+      },
+      {
+        "NAMES OF DRUGS": "Incision & Drainage >=5cm",
+        "PRICE": 15000
+      },
+      {
+        "NAMES OF DRUGS": "Debridgement of wounds-Minor",
+        "PRICE": 15000
+      },
+      {
+        "NAMES OF DRUGS": "Intermediate",
+        "PRICE": 15000
+      },
+      {
+        "NAMES OF DRUGS": "Foreign Body Removal From The Ear, Nose And Throat",
+        "PRICE": 15000
+      },
+      {
+        "NAMES OF DRUGS": "Foreign Body Removal From Throat",
+        "PRICE": 15000
+      },
+      {
+        "NAMES OF DRUGS": "Nasal Packing",
+        "PRICE": 15000
+      },
+      {
+        "NAMES OF DRUGS": "Ear Syringing",
+        "PRICE": 15000
+      },
+      {
+        "NAMES OF DRUGS": "Ear Dressing",
+        "PRICE": 15000
+      },
+      {
+        "NAMES OF DRUGS": "IUCD  Removal",
+        "PRICE": 15000
+      },
+      {
+        "NAMES OF DRUGS": "jadelle-insertion",
+        "PRICE": 15000
+      },
+      {
+        "NAMES OF DRUGS": "jadelle-removal",
+        "PRICE": 15000
+      },
+      {
+        "NAMES OF DRUGS": "Depoprovera injection",
+        "PRICE": 15000
+      },
+      {
+        "NAMES OF DRUGS": "d-dimer",
+        "PRICE": 17000
+      },
+      {
+        "NAMES OF DRUGS": "Perineal Tear-1st Degree",
+        "PRICE": 18000
+      },
+      {
+        "NAMES OF DRUGS": "Perineal Tear-2nd  Degree",
+        "PRICE": 18000
+      },
+      {
+        "NAMES OF DRUGS": "Electrocautery Of Nose",
+        "PRICE": 18000
+      },
+      {
+        "NAMES OF DRUGS": "Transfussion Of Screened Blood (Rh +Ve)",
+        "PRICE": 20000
+      },
+      {
+        "NAMES OF DRUGS": "Removal-cervical cathetherization",
+        "PRICE": 20000
+      },
+      {
+        "NAMES OF DRUGS": "Circumcision Of Male Baby",
+        "PRICE": 20000
+      },
+      {
+        "NAMES OF DRUGS": "Debridgement of wounds-Major",
+        "PRICE": 20000
+      },
+      {
+        "NAMES OF DRUGS": "Repair Of Minor Laceration",
+        "PRICE": 20000
+      },
+      {
+        "NAMES OF DRUGS": "Aural And Nasal Suction/Clearance",
+        "PRICE": 20000
+      },
+      {
+        "NAMES OF DRUGS": "Incision And Drainage Of Abscess",
+        "PRICE": 20000
+      },
+      {
+        "NAMES OF DRUGS": "Debridement And Toilet Of Wounds",
+        "PRICE": 20000
+      },
+      {
+        "NAMES OF DRUGS": "IUCD Insertion",
+        "PRICE": 20000
+      },
+      {
+        "NAMES OF DRUGS": "Cervical Cautery",
+        "PRICE": 20000
+      },
+      {
+        "NAMES OF DRUGS": "Cervical Laceration Repair",
+        "PRICE": 20000
+      },
+      {
+        "NAMES OF DRUGS": "Minor Vaginal Laceration",
+        "PRICE": 20000
+      },
+      {
+        "NAMES OF DRUGS": "Perineal Tear-3rd  Degree",
+        "PRICE": 25000
+      },
+      {
+        "NAMES OF DRUGS": "Barium Swallow",
+        "PRICE": 25000
+      },
+      {
+        "NAMES OF DRUGS": "Barium Meal",
+        "PRICE": 25000
+      },
+      {
+        "NAMES OF DRUGS": "Hysterosalphingogram (HSG)",
+        "PRICE": 25000
+      },
+      {
+        "NAMES OF DRUGS": "Electrocardiogram (E C G) Stress Test",
+        "PRICE": 25000
+      },
+      {
+        "NAMES OF DRUGS": "Major",
+        "PRICE": 25000
+      },
+      {
+        "NAMES OF DRUGS": "Minor Vaginal Laceration-2nd degree",
+        "PRICE": 25000
+      },
+      {
+        "NAMES OF DRUGS": "Transfussion Of Screened Blood (Rh -Ve)",
+        "PRICE": 28000
+      },
+      {
+        "NAMES OF DRUGS": "Manual Placenta Removal",
+        "PRICE": 30000
+      },
+      {
+        "NAMES OF DRUGS": "Barium Meal & Follow Through",
+        "PRICE": 30000
+      },
+      {
+        "NAMES OF DRUGS": "Barium Enema",
+        "PRICE": 30000
+      },
+      {
+        "NAMES OF DRUGS": "Minor Debridement Of Burns",
+        "PRICE": 30000
+      },
+      {
+        "NAMES OF DRUGS": "comdone excision",
+        "PRICE": 30000
+      },
+      {
+        "NAMES OF DRUGS": "Drainage Of Septic Arthritis",
+        "PRICE": 30000
+      },
+      {
+        "NAMES OF DRUGS": "Suturing Of Lacerrations",
+        "PRICE": 30000
+      },
+      {
+        "NAMES OF DRUGS": "Manipulation Of Nose",
+        "PRICE": 30000
+      },
+      {
+        "NAMES OF DRUGS": "Indirect Laryngoscopy",
+        "PRICE": 30000
+      },
+      {
+        "NAMES OF DRUGS": "Direct Laryngoscopy & Biopsy",
+        "PRICE": 30000
+      },
+      {
+        "NAMES OF DRUGS": "Antral Lavage",
+        "PRICE": 30000
+      },
+      {
+        "NAMES OF DRUGS": "Diagnostic nasendoscopy",
+        "PRICE": 30000
+      },
+      {
+        "NAMES OF DRUGS": "Mastoidectomy",
+        "PRICE": 30000
+      },
+      {
+        "NAMES OF DRUGS": "Endoscopic Nasopharyngeal Surgery",
+        "PRICE": 30000
+      },
+      {
+        "NAMES OF DRUGS": "Suction toiletting/ear or nose",
+        "PRICE": 30000
+      },
+      {
+        "NAMES OF DRUGS": "cryocautery, cauterization",
+        "PRICE": 30000
+      },
+      {
+        "NAMES OF DRUGS": "Minor Vaginal Laceration-3rd degree",
+        "PRICE": 30000
+      },
+      {
+        "NAMES OF DRUGS": "Exchange Blood Transfussion (Rh +Ve, Inclusive Of Materials)",
+        "PRICE": 35000
+      },
+      {
+        "NAMES OF DRUGS": "Intravenous Urography (IVU)",
+        "PRICE": 35000
+      },
+      {
+        "NAMES OF DRUGS": "Cysto-Urethrogram (Micturating /Retrograde)",
+        "PRICE": 35000
+      },
+      {
+        "NAMES OF DRUGS": "Cervical Cone /Punch Biopsy",
+        "PRICE": 35000
+      },
+      {
+        "NAMES OF DRUGS": "Dye Test",
+        "PRICE": 35000
+      },
+      {
+        "NAMES OF DRUGS": "Examination Under Anaesthesia   (EUA)",
+        "PRICE": 35000
+      },
+      {
+        "NAMES OF DRUGS": "Removal Of IUCD Under General Anaesthesia",
+        "PRICE": 35000
+      },
+      {
+        "NAMES OF DRUGS": "Dilatation And Curetage",
+        "PRICE": 35000
+      },
+      {
+        "NAMES OF DRUGS": "Evacuation Of Retained Products Of Conception",
+        "PRICE": 35000
+      },
+      {
+        "NAMES OF DRUGS": "Excision/Diathermy Of Warts",
+        "PRICE": 35000
+      },
+      {
+        "NAMES OF DRUGS": "Excision Of Vaginal Septum",
+        "PRICE": 35000
+      },
+      {
+        "NAMES OF DRUGS": "Cervical Circlage /Shirodkar removal",
+        "PRICE": 35000
+      },
+      {
+        "NAMES OF DRUGS": "Speculum Exam",
+        "PRICE": 35000
+      },
+      {
+        "NAMES OF DRUGS": "Exchange Blood Transfussion (Rh -Ve, Inclusive Of Materials)",
+        "PRICE": 40000
+      },
+      {
+        "NAMES OF DRUGS": "Fistulogram /Sinogram Each",
+        "PRICE": 40000
+      },
+      {
+        "NAMES OF DRUGS": "Intercostal Drainage Insertion",
+        "PRICE": 40000
+      },
+      {
+        "NAMES OF DRUGS": "Ingrowing Toe Nail   (Excision)",
+        "PRICE": 40000
+      },
+      {
+        "NAMES OF DRUGS": "Dissection Of Inguinal Nodes",
+        "PRICE": 40000
+      },
+      {
+        "NAMES OF DRUGS": "Surgical Drainage Of Galactocoele",
+        "PRICE": 40000
+      },
+      {
+        "NAMES OF DRUGS": "Cystic Hygroma Excision",
+        "PRICE": 45000
+      },
+      {
+        "NAMES OF DRUGS": "Skin Grafting >9% surgace area",
+        "PRICE": 45000
+      },
+      {
+        "NAMES OF DRUGS": "Skin Grafting <9% surgace area",
+        "PRICE": 45000
+      },
+      {
+        "NAMES OF DRUGS": "Surgical Drainage Of Anal Abscess",
+        "PRICE": 45000
+      },
+      {
+        "NAMES OF DRUGS": "Rhogam Injection",
+        "PRICE": 50000
+      },
+      {
+        "NAMES OF DRUGS": "Ganglion Excision",
+        "PRICE": 50000
+      },
+      {
+        "NAMES OF DRUGS": "Small Cyst Excision",
+        "PRICE": 50000
+      },
+      {
+        "NAMES OF DRUGS": "Biopsy Of Tumour Of Abdominal Wall",
+        "PRICE": 50000
+      },
+      {
+        "NAMES OF DRUGS": "Lumps Excision",
+        "PRICE": 50000
+      },
+      {
+        "NAMES OF DRUGS": "Pollicisation Of The Index Finger",
+        "PRICE": 50000
+      },
+      {
+        "NAMES OF DRUGS": "Release Of Chordae",
+        "PRICE": 50000
+      },
+      {
+        "NAMES OF DRUGS": "Exostectomy",
+        "PRICE": 50000
+      },
+      {
+        "NAMES OF DRUGS": "Skin Traction",
+        "PRICE": 50000
+      },
+      {
+        "NAMES OF DRUGS": "Simple Congenital Talipes Repair",
+        "PRICE": 50000
+      },
+      {
+        "NAMES OF DRUGS": "Electrocautery- warts",
+        "PRICE": 50000
+      },
+      {
+        "NAMES OF DRUGS": "Repair Of Third Degree Tear",
+        "PRICE": 50000
+      },
+      {
+        "NAMES OF DRUGS": "Marsupialisation",
+        "PRICE": 50000
+      },
+      {
+        "NAMES OF DRUGS": "Antenatal Care With Gen. Practitioner",
+        "PRICE": 60000
+      },
+      {
+        "NAMES OF DRUGS": "Antenatal Care With Obstetrician (Subject To Pre-Authorisation)",
+        "PRICE": 60000
+      },
+      {
+        "NAMES OF DRUGS": "Keloid Excision",
+        "PRICE": 60000
+      },
+      {
+        "NAMES OF DRUGS": "Excision Biopsy(block fee)",
+        "PRICE": 60000
+      },
+      {
+        "NAMES OF DRUGS": "Normal Delivery (With Or Without Episiotomy)",
+        "PRICE": 65000
+      },
+      {
+        "NAMES OF DRUGS": "Assisted Delivery ( Vacuum, Instrumental)",
+        "PRICE": 65000
+      },
+      {
+        "NAMES OF DRUGS": "Surgical Drainage In Haematoma Of Rectus Abdominis",
+        "PRICE": 65000
+      },
+      {
+        "NAMES OF DRUGS": "Polypectomy",
+        "PRICE": 65000
+      },
+      {
+        "NAMES OF DRUGS": "Multiple Delivery",
+        "PRICE": 70000
+      },
+      {
+        "NAMES OF DRUGS": "Breast Lump Excision",
+        "PRICE": 70000
+      },
+      {
+        "NAMES OF DRUGS": "Diagnostic Laparoscopy",
+        "PRICE": 70000
+      },
+      {
+        "NAMES OF DRUGS": "Laparoscopy & Dye Test",
+        "PRICE": 70000
+      },
+      {
+        "NAMES OF DRUGS": "Destructive Delivery (Craniotomy-Embryotomy)",
+        "PRICE": 70000
+      },
+      {
+        "NAMES OF DRUGS": "Excision Of Tophi",
+        "PRICE": 80000
+      },
+      {
+        "NAMES OF DRUGS": "Lipoma Excision(block fee)",
+        "PRICE": 80000
+      },
+      {
+        "NAMES OF DRUGS": "Cervical Circlage /Shirodkar Suture",
+        "PRICE": 80000
+      },
+      {
+        "NAMES OF DRUGS": "Cervical cerclage",
+        "PRICE": 100000
+      },
+      {
+        "NAMES OF DRUGS": "Vulvectomy",
+        "PRICE": 110000
+      },
+      {
+        "NAMES OF DRUGS": "Lumpectomy-Minor",
+        "PRICE": 120000
+      },
+      {
+        "NAMES OF DRUGS": "Excisional Biopsy",
+        "PRICE": 120000
+      },
+      {
+        "NAMES OF DRUGS": "Bilateral Tubal Ligation",
+        "PRICE": 120000
+      },
+      {
+        "NAMES OF DRUGS": "Mini Laparotomy",
+        "PRICE": 120000
+      },
+      {
+        "NAMES OF DRUGS": "Wedge Resection Of The Ovary",
+        "PRICE": 120000
+      },
+      {
+        "NAMES OF DRUGS": "Amputation Of Cervix",
+        "PRICE": 120000
+      },
+      {
+        "NAMES OF DRUGS": "Reconstruction Of Vagina",
+        "PRICE": 120000
+      },
+      {
+        "NAMES OF DRUGS": "Lumpectomy-Major",
+        "PRICE": 150000
+      },
+      {
+        "NAMES OF DRUGS": "Biopsy of bone tumor",
+        "PRICE": 150000
+      },
+      {
+        "NAMES OF DRUGS": "vasoplasty",
+        "PRICE": 150000
+      },
+      {
+        "NAMES OF DRUGS": "pyeloplasty",
+        "PRICE": 150000
+      },
+      {
+        "NAMES OF DRUGS": "shave biopsy",
+        "PRICE": 150000
+      },
+      {
+        "NAMES OF DRUGS": "skin biopsy",
+        "PRICE": 150000
+      },
+      {
+        "NAMES OF DRUGS": "Tendon Grafting",
+        "PRICE": 150000
+      },
+      {
+        "NAMES OF DRUGS": "Tendon repair",
+        "PRICE": 150000
+      },
+      {
+        "NAMES OF DRUGS": "Umbilical hiernia without mesh",
+        "PRICE": 150000
+      },
+      {
+        "NAMES OF DRUGS": "Ovarian Biopsy",
+        "PRICE": 150000
+      },
+      {
+        "NAMES OF DRUGS": "Pelvic/Abdominal Abscess Drainage",
+        "PRICE": 150000
+      },
+      {
+        "NAMES OF DRUGS": "Pelvic Haematocoele",
+        "PRICE": 150000
+      },
+      {
+        "NAMES OF DRUGS": "Umbilical hiernia with mesh",
+        "PRICE": 170000
+      },
+      {
+        "NAMES OF DRUGS": "Orchidectomy /Orchidopexy",
+        "PRICE": 180000
+      },
+      {
+        "NAMES OF DRUGS": "Oesophagostomy",
+        "PRICE": 180000
+      },
+      {
+        "NAMES OF DRUGS": "Laparotomy Diagnostic/Therapeutic, Inter-Sex",
+        "PRICE": 180000
+      },
+      {
+        "NAMES OF DRUGS": "Exploratory Laparotomy/Lysis Of Adhensions",
+        "PRICE": 200000
+      },
+      {
+        "NAMES OF DRUGS": "Intussusception Operation",
+        "PRICE": 200000
+      },
+      {
+        "NAMES OF DRUGS": "Pyloromyotomy",
+        "PRICE": 200000
+      },
+      {
+        "NAMES OF DRUGS": "Splenectomy /Splenorrhaphy",
+        "PRICE": 200000
+      },
+      {
+        "NAMES OF DRUGS": "Cystectomy Partial/Total",
+        "PRICE": 200000
+      },
+      {
+        "NAMES OF DRUGS": "Extensive (Small And Large) Bowel Resection And Anastomoses",
+        "PRICE": 200000
+      },
+      {
+        "NAMES OF DRUGS": "Surgery Of Acute Intra Abdominal Vascular Disease",
+        "PRICE": 200000
+      },
+      {
+        "NAMES OF DRUGS": "Repair Of Small Bowel Perforations",
+        "PRICE": 200000
+      },
+      {
+        "NAMES OF DRUGS": "Surgery Of Large Bowel Perforations",
+        "PRICE": 200000
+      },
+      {
+        "NAMES OF DRUGS": "Hepatic Segmentectomy",
+        "PRICE": 200000
+      },
+      {
+        "NAMES OF DRUGS": "Oddis Sphincteroplasty",
+        "PRICE": 200000
+      },
+      {
+        "NAMES OF DRUGS": "Choledochojejunostomy",
+        "PRICE": 200000
+      },
+      {
+        "NAMES OF DRUGS": "Transduodenal Choledochal Cystectomy",
+        "PRICE": 200000
+      },
+      {
+        "NAMES OF DRUGS": "Excision Of Lymphoedematous Lymph Tissues",
+        "PRICE": 200000
+      },
+      {
+        "NAMES OF DRUGS": "Roux-En-Y Pancreaticojejunostomy",
+        "PRICE": 200000
+      },
+      {
+        "NAMES OF DRUGS": "Pancreatic cystectomy",
+        "PRICE": 200000
+      },
+      {
+        "NAMES OF DRUGS": "Biopsy of Thyroid Gland",
+        "PRICE": 200000
+      },
+      {
+        "NAMES OF DRUGS": "Hysteroscopy",
+        "PRICE": 200000
+      },
+      {
+        "NAMES OF DRUGS": "Ectopic Pregnancy",
+        "PRICE": 230000
+      },
+      {
+        "NAMES OF DRUGS": "Herniorraphy - Inguinal /Others",
+        "PRICE": 250000
+      },
+      {
+        "NAMES OF DRUGS": "Vasectomy",
+        "PRICE": 250000
+      },
+      {
+        "NAMES OF DRUGS": "Haemorrhoidectomy",
+        "PRICE": 250000
+      },
+      {
+        "NAMES OF DRUGS": "Fistula In-Ano Repair",
+        "PRICE": 250000
+      },
+      {
+        "NAMES OF DRUGS": "Enterocutaneous fistulectomy",
+        "PRICE": 250000
+      },
+      {
+        "NAMES OF DRUGS": "Lumpectomy-Intermediate",
+        "PRICE": 250000
+      },
+      {
+        "NAMES OF DRUGS": "Adenotonsilectomy",
+        "PRICE": 250000
+      },
+      {
+        "NAMES OF DRUGS": "Nasal Sinus Surgery E.G Caldwell Luc",
+        "PRICE": 250000
+      },
+      {
+        "NAMES OF DRUGS": "Tympanoplasty",
+        "PRICE": 250000
+      },
+      {
+        "NAMES OF DRUGS": "Mastoid Surgery",
+        "PRICE": 250000
+      },
+      {
+        "NAMES OF DRUGS": "Parotidectomy",
+        "PRICE": 250000
+      },
+      {
+        "NAMES OF DRUGS": "Submandibular Glad Excision",
+        "PRICE": 250000
+      },
+      {
+        "NAMES OF DRUGS": "Laryngeal Surgery",
+        "PRICE": 250000
+      },
+      {
+        "NAMES OF DRUGS": "Salpingo-Oophoreictomy",
+        "PRICE": 250000
+      },
+      {
+        "NAMES OF DRUGS": "Ovarian Cysts",
+        "PRICE": 250000
+      },
+      {
+        "NAMES OF DRUGS": "Broad Ligament Haematoma",
+        "PRICE": 250000
+      },
+      {
+        "NAMES OF DRUGS": "Anal haematoma- Evacuation",
+        "PRICE": 250000
+      },
+      {
+        "NAMES OF DRUGS": "Colporrhaphy/Colpoperineorrhaphy",
+        "PRICE": 250000
+      },
+      {
+        "NAMES OF DRUGS": "Audiometry",
+        "PRICE": 250000
+      },
+      {
+        "NAMES OF DRUGS": "Ceasarean Section",
+        "PRICE": 280000
+      },
+      {
+        "NAMES OF DRUGS": "Appendicectomy",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Herniorraphy - femoral (block fee)",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "herniotomy (bloc fee)",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Trans-Perineal /Transrectal Biopsy Of Prostate",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Resection Of Median Bar Obstruction",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Corporosavenous Shunt",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Cavernospongiosum Shunt",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Transurethral Dessication Of Congenital Meatal Stenosis",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Uretherectomy",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Surgical Exploration For Anorchism",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Surgery Of Uncomplicated Intestinal Obstruction Without Resection",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Surgery Of Intestinal Obstruction With Resection",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Hiatus Herniorrphaphy",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Diaphragmatic Hernia Repair",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Paraunmilical Hernia",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Ceasarean Section-twins",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Hysterectomy",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Hysterectomy And Bilateral Salpingo-Oophorectomy",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Myomectomy >20wks",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Myomectomy <20wks",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Myomectomy repeat",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Myomectomy + salpingectomy",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Repair Of Inverted Uterus",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Repair Of Perforated /Ruptured Uterus",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Tubal Reconstruction",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Hydrocelectomy (block fee)",
+        "PRICE": 300000
+      },
+      {
+        "NAMES OF DRUGS": "Hydrocoelectomy",
+        "PRICE": 350000
+      },
+      {
+        "NAMES OF DRUGS": "Epigastric Herniorrhaphy",
+        "PRICE": 350000
+      },
+      {
+        "NAMES OF DRUGS": "Mastectomy",
+        "PRICE": 350000
+      },
+      {
+        "NAMES OF DRUGS": "Mastectomy extended",
+        "PRICE": 350000
+      },
+      {
+        "NAMES OF DRUGS": "Tonsilectomy",
+        "PRICE": 400000
+      },
+      {
+        "NAMES OF DRUGS": "Adenoidectomy",
+        "PRICE": 400000
+      },
+      {
+        "NAMES OF DRUGS": "Multiple Nasal Polypectomy",
+        "PRICE": 400000
+      },
+      {
+        "NAMES OF DRUGS": "parathyroidectomy",
+        "PRICE": 400000
+      },
+      {
+        "NAMES OF DRUGS": "Vagotomy",
+        "PRICE": 400000
+      }
+    ]
+  }

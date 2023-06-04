@@ -1,0 +1,1104 @@
+{
+    "Table 1": [
+      {
+        "Name": "ALK PHOS",
+        "Amount": 2000
+      },
+      {
+        "Name": "Clotting Time",
+        "Amount": 2000
+      },
+      {
+        "Name": "FBS/RBS",
+        "Amount": 2000
+      },
+      {
+        "Name": "PCV/HB",
+        "Amount": 2000
+      },
+      {
+        "Name": "Platelet",
+        "Amount": 2000
+      },
+      {
+        "Name": "SGOT",
+        "Amount": 2000
+      },
+      {
+        "Name": "SGPT",
+        "Amount": 2000
+      },
+      {
+        "Name": "Stool Microscopy",
+        "Amount": 2000
+      },
+      {
+        "Name": "Tb Antibody Screening",
+        "Amount": 2000
+      },
+      {
+        "Name": "Triglyceride",
+        "Amount": 2000
+      },
+      {
+        "Name": "Urine Microscopy",
+        "Amount": 2000
+      },
+      {
+        "Name": "LDL",
+        "Amount": 2500
+      },
+      {
+        "Name": "Malaria Antibody,IgG-Blood",
+        "Amount": 2500
+      },
+      {
+        "Name": "Pregnancy Test - (Serum)",
+        "Amount": 2500
+      },
+      {
+        "Name": "Serum Bilirubin (Direct and Total)",
+        "Amount": 2500
+      },
+      {
+        "Name": "Total/Direct Bil",
+        "Amount": 2800
+      },
+      {
+        "Name": "Iron - (Serum)",
+        "Amount": 2900
+      },
+      {
+        "Name": "Bicarbonate",
+        "Amount": 3000
+      },
+      {
+        "Name": "Blood group",
+        "Amount": 3000
+      },
+      {
+        "Name": "Blood Microscopy",
+        "Amount": 3000
+      },
+      {
+        "Name": "Calcuim",
+        "Amount": 3000
+      },
+      {
+        "Name": "Cholesterol (Total)",
+        "Amount": 3000
+      },
+      {
+        "Name": "CSF Microscopy (Cell Count)",
+        "Amount": 3000
+      },
+      {
+        "Name": "ESR",
+        "Amount": 3000
+      },
+      {
+        "Name": "HIV 1&2 Antibody Screen .",
+        "Amount": 3000
+      },
+      {
+        "Name": "Leucocyte (Wbc): Total and Diff.Counts-Blood",
+        "Amount": 3000
+      },
+      {
+        "Name": "Malaria Parasite Thick And Thin Films-Blood",
+        "Amount": 3000
+      },
+      {
+        "Name": "MCH-Mean Corpuscular Haemoglobin",
+        "Amount": 3000
+      },
+      {
+        "Name": "MCV- Mean Corpuscular Volume",
+        "Amount": 3000
+      },
+      {
+        "Name": "Potassium",
+        "Amount": 3000
+      },
+      {
+        "Name": "Reticulocyte Count",
+        "Amount": 3000
+      },
+      {
+        "Name": "Reticulocyte Count, Automated",
+        "Amount": 3000
+      },
+      {
+        "Name": "Sodium",
+        "Amount": 3000
+      },
+      {
+        "Name": "Uric Acid",
+        "Amount": 3000
+      },
+      {
+        "Name": "Urinalysis",
+        "Amount": 3000
+      },
+      {
+        "Name": "VDRL",
+        "Amount": 3000
+      },
+      {
+        "Name": "Wbc; Total And Differential Counts",
+        "Amount": 3000
+      },
+      {
+        "Name": "Widal",
+        "Amount": 3000
+      },
+      {
+        "Name": "Filaria Antigen",
+        "Amount": 3400
+      },
+      {
+        "Name": "Malaria Antigen",
+        "Amount": 3500
+      },
+      {
+        "Name": "T3",
+        "Amount": 3500
+      },
+      {
+        "Name": "T4",
+        "Amount": 3500
+      },
+      {
+        "Name": "HDL",
+        "Amount": 3700
+      },
+      {
+        "Name": "Csf Chemistry (Glucose And Protein)",
+        "Amount": 3800
+      },
+      {
+        "Name": "Abumin",
+        "Amount": 4000
+      },
+      {
+        "Name": "Chloride",
+        "Amount": 4000
+      },
+      {
+        "Name": "Coombs Test (Indirect) Antiglobulin Test",
+        "Amount": 4000
+      },
+      {
+        "Name": "Creatinine",
+        "Amount": 4000
+      },
+      {
+        "Name": "Electrolyte (Na, K, Cl, CO2)",
+        "Amount": 4000
+      },
+      {
+        "Name": "Genotype",
+        "Amount": 4000
+      },
+      {
+        "Name": "Ggt - Serum",
+        "Amount": 4000
+      },
+      {
+        "Name": "Hepatitis B Virus",
+        "Amount": 4000
+      },
+      {
+        "Name": "Hepatitis C Virus",
+        "Amount": 4000
+      },
+      {
+        "Name": "Phosporus",
+        "Amount": 4000
+      },
+      {
+        "Name": "Protein+albumin",
+        "Amount": 4000
+      },
+      {
+        "Name": "Quantitative Blood Sugar",
+        "Amount": 4000
+      },
+      {
+        "Name": "Total Protein",
+        "Amount": 4000
+      },
+      {
+        "Name": "Urea",
+        "Amount": 4000
+      },
+      {
+        "Name": "Cpk - Serum",
+        "Amount": 4100
+      },
+      {
+        "Name": "PTT",
+        "Amount": 4100
+      },
+      {
+        "Name": "LDH- Lactate Dehydrogenase - (Serum)",
+        "Amount": 4200
+      },
+      {
+        "Name": "TSH",
+        "Amount": 4500
+      },
+      {
+        "Name": "Alcohol Test",
+        "Amount": 5000
+      },
+      {
+        "Name": "Amylase",
+        "Amount": 5000
+      },
+      {
+        "Name": "Faecal Occult Blood",
+        "Amount": 5000
+      },
+      {
+        "Name": "FBC",
+        "Amount": 5000
+      },
+      {
+        "Name": "FT3",
+        "Amount": 5000
+      },
+      {
+        "Name": "FT4",
+        "Amount": 5000
+      },
+      {
+        "Name": "Hepatitis A virus (HAV)",
+        "Amount": 5000
+      },
+      {
+        "Name": "Magnessium",
+        "Amount": 5000
+      },
+      {
+        "Name": "Mantoux Test (Tuberculin Skin Test)",
+        "Amount": 5000
+      },
+      {
+        "Name": "Ra- Rheumatoid Arthritis (Qualitative)",
+        "Amount": 5000
+      },
+      {
+        "Name": "Semen Analysis",
+        "Amount": 5000
+      },
+      {
+        "Name": "Temporo-Mandibular Joint X-Ray",
+        "Amount": 5000
+      },
+      {
+        "Name": "Ace- Angiotensin Converting Enzyme",
+        "Amount": 5200
+      },
+      {
+        "Name": "Cholinesterase",
+        "Amount": 5400
+      },
+      {
+        "Name": "PT/INR",
+        "Amount": 5800
+      },
+      {
+        "Name": "CBC+ ESR Complete Blood Count + Erythrocyte Sedimentation Rate",
+        "Amount": 6000
+      },
+      {
+        "Name": "CKMB",
+        "Amount": 6000
+      },
+      {
+        "Name": "Direct Coombs Test",
+        "Amount": 6000
+      },
+      {
+        "Name": "Eye Swab, Culture, Identification and Sensitivity",
+        "Amount": 6000
+      },
+      {
+        "Name": "FSH",
+        "Amount": 6000
+      },
+      {
+        "Name": "Helico Bacter Pylori (Blood)",
+        "Amount": 6000
+      },
+      {
+        "Name": "Myoglobin",
+        "Amount": 6000
+      },
+      {
+        "Name": "OGTT",
+        "Amount": 6000
+      },
+      {
+        "Name": "Progesterone",
+        "Amount": 6000
+      },
+      {
+        "Name": "Swab, Culture, Identificaton and Sensitivity",
+        "Amount": 6000
+      },
+      {
+        "Name": "Throat Swab Culture, Identificaton and Sensitivity",
+        "Amount": 6000
+      },
+      {
+        "Name": "Troponin I",
+        "Amount": 6000
+      },
+      {
+        "Name": "Urine Microscopy Culture and Sensitivity",
+        "Amount": 6000
+      },
+      {
+        "Name": "Vaginal Swab, Microscopy, Culture, Identificaton and Sensitivity",
+        "Amount": 6000
+      },
+      {
+        "Name": "Wound Swab, Culture, Identificaton and Sensitivity",
+        "Amount": 6000
+      },
+      {
+        "Name": "Ferritin",
+        "Amount": 6500
+      },
+      {
+        "Name": "Rheumatoid Factor (RF)- Quantitative - ( Serum)",
+        "Amount": 6500
+      },
+      {
+        "Name": "G6pd Quantitative",
+        "Amount": 6800
+      },
+      {
+        "Name": "Transferrin( Serum)",
+        "Amount": 6900
+      },
+      {
+        "Name": "Pre-Employment Screening (Mini); Blood Group, ESR, Urinalysis, Blood Sugar, mantoux,\r\nStool Microscopy,",
+        "Amount": 7000
+      },
+      {
+        "Name": "Beta HCG (Quantitative)",
+        "Amount": 7000
+      },
+      {
+        "Name": "Measles (Rubeola) IgG Antibodies",
+        "Amount": 7000
+      },
+      {
+        "Name": "Measles (Rubeola) IgM Antibodies",
+        "Amount": 7000
+      },
+      {
+        "Name": "Obsterics 1-3mnths 2D scan",
+        "Amount": 7000
+      },
+      {
+        "Name": "Pregnancy 2D Scan",
+        "Amount": 7000
+      },
+      {
+        "Name": "Urea & Creatinine",
+        "Amount": 7000
+      },
+      {
+        "Name": "D-Dimer",
+        "Amount": 7200
+      },
+      {
+        "Name": "Cervical Spine Obliques X-Ray",
+        "Amount": 7500
+      },
+      {
+        "Name": "Chest PA X-Ray",
+        "Amount": 7500
+      },
+      {
+        "Name": "Femur AP X-Ray",
+        "Amount": 7500
+      },
+      {
+        "Name": "Foot X-Ray",
+        "Amount": 7500
+      },
+      {
+        "Name": "Forearm X-Ray",
+        "Amount": 7500
+      },
+      {
+        "Name": "Humerus AP X-Ray",
+        "Amount": 7500
+      },
+      {
+        "Name": "Knee Joint X-Ray",
+        "Amount": 7500
+      },
+      {
+        "Name": "Lumbo Sacral Spine AP X-Ray",
+        "Amount": 7500
+      },
+      {
+        "Name": "Gall-Bladder Study",
+        "Amount": 7700
+      },
+      {
+        "Name": "CEA",
+        "Amount": 7800
+      },
+      {
+        "Name": "Protein Electrophoresis/Serum Electrophoresis ( Serum)",
+        "Amount": 7900
+      },
+      {
+        "Name": "Rubella (German Measles)-IgG Antibodies (Serum)",
+        "Amount": 7900
+      },
+      {
+        "Name": "Crp - C- Reactive Protein - Serum",
+        "Amount": 8000
+      },
+      {
+        "Name": "Haemogram (CBC/FBC) + Blood Film",
+        "Amount": 8000
+      },
+      {
+        "Name": "HBA1c",
+        "Amount": 8000
+      },
+      {
+        "Name": "Opiates Urine/Blood",
+        "Amount": 8000
+      },
+      {
+        "Name": "Semen Culture Identification and Sensitivity",
+        "Amount": 8000
+      },
+      {
+        "Name": "Sono Eye",
+        "Amount": 8000
+      },
+      {
+        "Name": "USS Trans Rectal Prostate",
+        "Amount": 8000
+      },
+      {
+        "Name": "Rubella (German Measles)-IgM Antibodies (Serum)",
+        "Amount": 8300
+      },
+      {
+        "Name": "Thyroid Profile, Total: T3 Total, T4 Total, TSH",
+        "Amount": 8700
+      },
+      {
+        "Name": "Indirect Coombs Test",
+        "Amount": 9000
+      },
+      {
+        "Name": "Pelvic Scan",
+        "Amount": 9000
+      },
+      {
+        "Name": "PSA",
+        "Amount": 9000
+      },
+      {
+        "Name": "Sono Abdomen",
+        "Amount": 9000
+      },
+      {
+        "Name": "Insulin (Fasting)",
+        "Amount": 9600
+      },
+      {
+        "Name": "Renal Function Test (Mini) :",
+        "Amount": 10000
+      },
+      {
+        "Name": "Abdomen (KUB) X-Ray",
+        "Amount": 10000
+      },
+      {
+        "Name": "Aspirate Analysis, Culture, Identification and Sensitivity",
+        "Amount": 10000
+      },
+      {
+        "Name": "Barbiturates",
+        "Amount": 10000
+      },
+      {
+        "Name": "Benzodiazepine",
+        "Amount": 10000
+      },
+      {
+        "Name": "Ca-19.9 (Pancreas)",
+        "Amount": 10000
+      },
+      {
+        "Name": "Cannabis",
+        "Amount": 10000
+      },
+      {
+        "Name": "Coagulation Profile 1; CBC,BT,CT,Prothrombin Time,&INR, APTT,Thrombin Time.",
+        "Amount": 10000
+      },
+      {
+        "Name": "CSF Culture, Identification and Sensitivity",
+        "Amount": 10000
+      },
+      {
+        "Name": "EUCr",
+        "Amount": 10000
+      },
+      {
+        "Name": "Follicular Study per day",
+        "Amount": 10000
+      },
+      {
+        "Name": "Gamma Interferon For TB (Quantification TB Gold)- Blood",
+        "Amount": 10000
+      },
+      {
+        "Name": "Helico Bacter Pylori (Faecal)",
+        "Amount": 10000
+      },
+      {
+        "Name": "Hip Joint X-Ray AP",
+        "Amount": 10000
+      },
+      {
+        "Name": "LFT",
+        "Amount": 10000
+      },
+      {
+        "Name": "Lipid Profile",
+        "Amount": 10000
+      },
+      {
+        "Name": "Lipid Profile :",
+        "Amount": 10000
+      },
+      {
+        "Name": "Liver Function Test (Mini):",
+        "Amount": 10000
+      },
+      {
+        "Name": "Mastoids/IAM X-Ray",
+        "Amount": 10000
+      },
+      {
+        "Name": "Nicotine",
+        "Amount": 10000
+      },
+      {
+        "Name": "Other Soft Tissues",
+        "Amount": 10000
+      },
+      {
+        "Name": "Physical Examination",
+        "Amount": 10000
+      },
+      {
+        "Name": "Pre Exercise ECG",
+        "Amount": 10000
+      },
+      {
+        "Name": "Prolactin",
+        "Amount": 10000
+      },
+      {
+        "Name": "Renal Function Test (Maxi): Electrolyte, Urea, Creatinine, Calcium, Magnesium, Uric Acid,\r\nInorganic Phosphate.",
+        "Amount": 10000
+      },
+      {
+        "Name": "Semen Analysis and Culture",
+        "Amount": 10000
+      },
+      {
+        "Name": "Skull AP X-Ray",
+        "Amount": 10000
+      },
+      {
+        "Name": "Small Parts Scan",
+        "Amount": 10000
+      },
+      {
+        "Name": "Testosterone",
+        "Amount": 10000
+      },
+      {
+        "Name": "USS Breast (Bilateral) 2 Parts",
+        "Amount": 10000
+      },
+      {
+        "Name": "USS Scrotum",
+        "Amount": 10000
+      },
+      {
+        "Name": "USS Skull",
+        "Amount": 10000
+      },
+      {
+        "Name": "USS Testis",
+        "Amount": 10000
+      },
+      {
+        "Name": "USS Thyroid",
+        "Amount": 10000
+      },
+      {
+        "Name": "USS Transvaginal",
+        "Amount": 10000
+      },
+      {
+        "Name": "Thyroid Profile (T3, T4, TSH)",
+        "Amount": 11000
+      },
+      {
+        "Name": "Folate",
+        "Amount": 11500
+      },
+      {
+        "Name": "Abdominopelvic Scan",
+        "Amount": 12000
+      },
+      {
+        "Name": "Cervical Pap Smear",
+        "Amount": 12000
+      },
+      {
+        "Name": "CSF Chemistry, Microscopy Culture Identification and Sensitivity",
+        "Amount": 12000
+      },
+      {
+        "Name": "Maternal Serum Screen;:AFP,BHCG, Free Estradiol,Risk Evaluation.",
+        "Amount": 12000
+      },
+      {
+        "Name": "P/N & OM View X-Ray",
+        "Amount": 12000
+      },
+      {
+        "Name": "Paediatric ECG",
+        "Amount": 12000
+      },
+      {
+        "Name": "Para Nasal Sinuses X-Ray",
+        "Amount": 12000
+      },
+      {
+        "Name": "Post Nasal Sinuses(PNS) X-Ray",
+        "Amount": 12000
+      },
+      {
+        "Name": "Obsterics With Biophysical PR",
+        "Amount": 12700
+      },
+      {
+        "Name": "Lead, Blood",
+        "Amount": 13000
+      },
+      {
+        "Name": "Mandrax",
+        "Amount": 13000
+      },
+      {
+        "Name": "Morphine",
+        "Amount": 13000
+      },
+      {
+        "Name": "Coagulation Profile 2 : Coagulation Profile 1, Factor Viii Functional.",
+        "Amount": 14000
+      },
+      {
+        "Name": "Pre-Employment Screening (Maxi); Urinalysis, Blood Sugar, Mantoux, Stool\r\nMicroscopy,FBC, HIV 1&11, HBsAg, Chest X-Ray, Pregnancy Test",
+        "Amount": 14000
+      },
+      {
+        "Name": "Small Biopsies (histology)",
+        "Amount": 14000
+      },
+      {
+        "Name": "Andrology Panel: FSH, LH, Testosterone (Total And Free)",
+        "Amount": 15000
+      },
+      {
+        "Name": "Ankle X-Ray",
+        "Amount": 15000
+      },
+      {
+        "Name": "Anomaly Sono",
+        "Amount": 15000
+      },
+      {
+        "Name": "Antenatal Panel 2; Full Blood Count,Blood Group, Urine R/E, HIV 1&11, HBsAg, VDRL,\r\nGlucose F&2hpp Or, Genotype, ESR, HCV.",
+        "Amount": 15000
+      },
+      {
+        "Name": "Audiometry (Adult/Children)",
+        "Amount": 15000
+      },
+      {
+        "Name": "Audiometry (Infant)",
+        "Amount": 15000
+      },
+      {
+        "Name": "Blood Culture Identification and Sensitivity",
+        "Amount": 15000
+      },
+      {
+        "Name": "Both Elbow X-Ray",
+        "Amount": 15000
+      },
+      {
+        "Name": "Both Feet X-Ray",
+        "Amount": 15000
+      },
+      {
+        "Name": "Both Knees Joints X-Ray",
+        "Amount": 15000
+      },
+      {
+        "Name": "Both Shoulders X-Ray",
+        "Amount": 15000
+      },
+      {
+        "Name": "Cervical Spine AP/Lateral X-Ray",
+        "Amount": 15000
+      },
+      {
+        "Name": "Chest P.A. & LAT X-Ray",
+        "Amount": 15000
+      },
+      {
+        "Name": "Femur AP/LAT X-Ray",
+        "Amount": 15000
+      },
+      {
+        "Name": "Hand AP & LAT X-Ray",
+        "Amount": 15000
+      },
+      {
+        "Name": "Hepatitis B Panel (5 Panel)",
+        "Amount": 15000
+      },
+      {
+        "Name": "HSV 1 IgG Antibodies To Herpes Simplex Virus",
+        "Amount": 15000
+      },
+      {
+        "Name": "Hsv 1 Igm Antibodies To Herpes Simplex Virus",
+        "Amount": 15000
+      },
+      {
+        "Name": "Humerus AP & LAT X-Ray",
+        "Amount": 15000
+      },
+      {
+        "Name": "Insulin Resistance",
+        "Amount": 15000
+      },
+      {
+        "Name": "Lithium",
+        "Amount": 15000
+      },
+      {
+        "Name": "Liver Function Test (Maxi):",
+        "Amount": 15000
+      },
+      {
+        "Name": "Lumbo Sacral Spine AP/LAT X-Ray",
+        "Amount": 15000
+      },
+      {
+        "Name": "Mandible/Maxilla X-Ray",
+        "Amount": 15000
+      },
+      {
+        "Name": "Pregnancy (4D Scan)",
+        "Amount": 15000
+      },
+      {
+        "Name": "Thoracic Spine AP/LAT X-Ray",
+        "Amount": 15000
+      },
+      {
+        "Name": "Wrist Joint X-Ray",
+        "Amount": 15000
+      },
+      {
+        "Name": "Varicella Zoster Antibodies",
+        "Amount": 15200
+      },
+      {
+        "Name": "USS Head (Transfrontanelle)",
+        "Amount": 15700
+      },
+      {
+        "Name": "Ca 12-5 (Breast)",
+        "Amount": 16000
+      },
+      {
+        "Name": "Ca 15-3 (Ovary)",
+        "Amount": 16000
+      },
+      {
+        "Name": "Amenorrhoea/ Andrology Screen: FSH, LH, Prolactin.",
+        "Amount": 17000
+      },
+      {
+        "Name": "Cardiac Markers (CKMB, Tn I, Myoglobin)",
+        "Amount": 17000
+      },
+      {
+        "Name": "DHEAS- Dihydroepiandrostenedione Sulphate",
+        "Amount": 17000
+      },
+      {
+        "Name": "Acid Phosphatase -Serum",
+        "Amount": 17100
+      },
+      {
+        "Name": "Iron Studies ( Serum Iron, Ferritin, Transferin Saturation) ( Serum)",
+        "Amount": 17500
+      },
+      {
+        "Name": "Musculoskeletal",
+        "Amount": 17700
+      },
+      {
+        "Name": "Phenobarbitone Sereum",
+        "Amount": 18000
+      },
+      {
+        "Name": "Phenyton- Serum",
+        "Amount": 18000
+      },
+      {
+        "Name": "Post Exercise ECG",
+        "Amount": 18000
+      },
+      {
+        "Name": "Salicylate",
+        "Amount": 18000
+      },
+      {
+        "Name": "Thyroid Profile Free: Free T3, Free T4, TSH, Ultrasensitive",
+        "Amount": 18000
+      },
+      {
+        "Name": "Abdomen Erect and Supine X-Ray",
+        "Amount": 20000
+      },
+      {
+        "Name": "Both Hips X-Ray",
+        "Amount": 20000
+      },
+      {
+        "Name": "Both Tib & Fib (Both Legs) X-Ray",
+        "Amount": 20000
+      },
+      {
+        "Name": "CD4 Count % And Absolute Counts",
+        "Amount": 20000
+      },
+      {
+        "Name": "CMV-IgG Antibodies To Cytomegalo Virus (Serum)",
+        "Amount": 20000
+      },
+      {
+        "Name": "Elbow Joint (AP/LAT) X-Ray",
+        "Amount": 20000
+      },
+      {
+        "Name": "Ethanol",
+        "Amount": 20000
+      },
+      {
+        "Name": "Female Hormonal Profile; FSH, LH, Prolactin, Progesterone (Mini)",
+        "Amount": 20000
+      },
+      {
+        "Name": "Large Biopsies (histology)",
+        "Amount": 20000
+      },
+      {
+        "Name": "Pelvis AP & LAT X-Ray",
+        "Amount": 20000
+      },
+      {
+        "Name": "Skull AP/Lat X-Ray",
+        "Amount": 20000
+      },
+      {
+        "Name": "Sodium Valproate",
+        "Amount": 20000
+      },
+      {
+        "Name": "K.U.B. and Prostate",
+        "Amount": 20300
+      },
+      {
+        "Name": "Hepatitis B Profile",
+        "Amount": 21000
+      },
+      {
+        "Name": "Homocysteine",
+        "Amount": 21400
+      },
+      {
+        "Name": "Infertility Pannel, Males: FSH, LH, Testosterone (Total), TSH Ultrasensitive.",
+        "Amount": 22000
+      },
+      {
+        "Name": "Amenorrhoea Profile: Estradiol, FSH, LH, Prolactin, Progesterone,TSH.",
+        "Amount": 23000
+      },
+      {
+        "Name": "Anaemia Panel- FBC, Peripheral Blood Film, Serum Iron Studies, CRP.",
+        "Amount": 25000
+      },
+      {
+        "Name": "Color Doppler",
+        "Amount": 25000
+      },
+      {
+        "Name": "Diabetes Profile (Mini) Fasting Blood Sugar, Hba1c, Lipid Profile (Mini), BMI, Renal Profile,\r\n(Mini), Full Blood Count, ESR, Urinalysis, Bp.",
+        "Amount": 25000
+      },
+      {
+        "Name": "Digoxin",
+        "Amount": 25000
+      },
+      {
+        "Name": "Female Cancer Screen (Mini) Ca 15-3, Ca 91-9, Ca 125, FBC, Cervical Pap Smear, Breast\r\nExamination",
+        "Amount": 25000
+      },
+      {
+        "Name": "Hepatitis B Chronic Panel: HBsAg, HBeAg, Anti HBe",
+        "Amount": 25000
+      },
+      {
+        "Name": "Human Papiloma Virus (HPV) Vaginal Swab",
+        "Amount": 25000
+      },
+      {
+        "Name": "Paracetamol- Serum",
+        "Amount": 25000
+      },
+      {
+        "Name": "Herpes Simplex",
+        "Amount": 25100
+      },
+      {
+        "Name": "Cyclosporin A Peak Level C2",
+        "Amount": 28000
+      },
+      {
+        "Name": "Acth- Adenocorticotropic Hormone",
+        "Amount": 30000
+      },
+      {
+        "Name": "Barium Enema X-Ray",
+        "Amount": 30000
+      },
+      {
+        "Name": "Barium Meal",
+        "Amount": 30000
+      },
+      {
+        "Name": "Infertility Male Panel: FSH, LH, Testosterone, Prolactin, SFA + M/C/S",
+        "Amount": 30000
+      },
+      {
+        "Name": "Intravenous Urography (IVU) X-Ray",
+        "Amount": 30000
+      },
+      {
+        "Name": "Male Cancer Screen; PSA, CEA, AFB, Amylase, Prostrate Ultrasound Scan.",
+        "Amount": 30000
+      },
+      {
+        "Name": "Micturating Cisto-Urethrogram (MCU) X-Ray",
+        "Amount": 30000
+      },
+      {
+        "Name": "Retrograde Urethrogram (RUG) X-Ray",
+        "Amount": 30000
+      },
+      {
+        "Name": "Spirometry",
+        "Amount": 30000
+      },
+      {
+        "Name": "Food Alergies",
+        "Amount": 33100
+      },
+      {
+        "Name": "Diabetes Profile; Fasting Blood Sugar,2hrs Post Prandial,Hba1c, Lipid Profile (Max), Full\r\nBlood Count, Fasting Insulin, ESR, Urinalysis, Bp. BMI.",
+        "Amount": 35000
+      },
+      {
+        "Name": "Female Hormonal Profile; FSH,LH, Prolactin, Progesterone, Testosterone, Estradiol, (Maxi)",
+        "Amount": 35000
+      },
+      {
+        "Name": "Male Hormonal Profile (Mini): FSH, LH, Prolactin, Testosterone,",
+        "Amount": 35000
+      },
+      {
+        "Name": "Vit B12",
+        "Amount": 35000
+      },
+      {
+        "Name": "25 Hydroxy Cholecalciferol (Vitamin D3)",
+        "Amount": 40000
+      },
+      {
+        "Name": "Cardiac Profile; C-Reactive Protein,Troponin I&T, LDH, CK, CK-MB, SGOT Echocardiogram\r\n&ECG,BMI, Other Vitals, Diabetes Profile",
+        "Amount": 40000
+      },
+      {
+        "Name": "Drug Of Abuse Panel (5 Drug Panel): Opiate,Cannabis, Ethanol, Barbaturate, Cocaine",
+        "Amount": 40000
+      },
+      {
+        "Name": "Female Cancer Screen (maxi); Ca-15-3, Ca91-9, Ca 125, AFB, FBC, Cervical Pap Smear,\r\nBreast Examination, Breast USS",
+        "Amount": 40000
+      },
+      {
+        "Name": "HYSTEROSALPINGOGRAM (HSG) X-Ray",
+        "Amount": 40000
+      },
+      {
+        "Name": "Coagulation Screen; Platelet Count, Prothrombin Time &INR, APTT.",
+        "Amount": 45000
+      },
+      {
+        "Name": "TORCH Screen",
+        "Amount": 49500
+      },
+      {
+        "Name": "Hepatitis B Profile: HBsAg, Anti-HBe, HBeAg, Anti-HBc, IgM, Anti-HBc Total",
+        "Amount": 50000
+      },
+      {
+        "Name": "ECHO",
+        "Amount": 55000
+      },
+      {
+        "Name": "Achilles Tendon",
+        "Amount": 75900
+      }
+    ]
+  }

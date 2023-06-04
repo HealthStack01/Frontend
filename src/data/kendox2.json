@@ -1,0 +1,4782 @@
+{
+    "Kendox": [
+      {
+        "ITEM": "Registration (Out Of Station Emergencies)",
+        "PRICE": 1000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "General Consultation (Out Of Station Emergencies)",
+        "PRICE": 3000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Specialist Consultation - 1st Visit",
+        "PRICE": 13000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Specialist Consultation - Follow Up (Out patient)",
+        "PRICE": 9000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Specialist Review (Inpatient)",
+        "PRICE": 7000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Annual Physical Examination With Report (No Lab Tests)",
+        "PRICE": 5000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Private Ward Per Diem",
+        "PRICE": 5500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Feeding Per Diem (Private Ward)",
+        "PRICE": 1875,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Semi-Private Ward Per Diem",
+        "PRICE": 3000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Feeding Per Diem (Semi-Private Ward)",
+        "PRICE": 1875,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "General Ward Per Diem",
+        "PRICE": 2500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Feeding Per Diem (General Ward)",
+        "PRICE": 1875,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Nursing Care Per Diem",
+        "PRICE": 625,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "NPI Immunisation - Each (Unregistered Enrollees)",
+        "PRICE": 1000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Tetanus Toxoid / ATS Each",
+        "PRICE": 1000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Anti Rabies Vaccine",
+        "PRICE": 13000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Rotavirus Vaccine",
+        "PRICE": 12000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Chicken Pox Vaccine",
+        "PRICE": 13000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Haemophilus Influenzae Type B (HiB) Vaccine",
+        "PRICE": 3750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Typhoid Vaccine",
+        "PRICE": 9000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Meningitis Vaccine",
+        "PRICE": 4375,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Measles, Mumps & Rubella (MMR) Vaccine",
+        "PRICE": 9000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Hepatitis B Vaccine/Dose",
+        "PRICE": 2000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Suturing Of Simple Laceration (Out Of Station Emergencies)",
+        "PRICE": 3000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Suturing Of Major Wounds",
+        "PRICE": 6000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Incision & Drainage (Out Of Station Emergencies)",
+        "PRICE": 13000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Minor Wound Dressing  / Day (Out Of Station Emergencies)",
+        "PRICE": 500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Major Wound Dressing / Day",
+        "PRICE": 2500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Transfussion Of Screened Blood (Rh +Ve)",
+        "PRICE": 23000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Transfussion Of Screened Blood (Rh -Ve)",
+        "PRICE": 28000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Exchange Blood Transfussion (Rh +Ve, Inclusive Of Materials)",
+        "PRICE": 43000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Exchange Blood Transfussion (Rh -Ve, Inclusive Of Materials)",
+        "PRICE": 48000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Routine Intravenous Infusion/500 mls + Materials",
+        "PRICE": 1000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Catheterisation Of Urinary Bladder + Urine Bag",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Gastric Lavage",
+        "PRICE": 3750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Nebulisation (Initial)",
+        "PRICE": 6000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Nebulisation (Subsequent)",
+        "PRICE": 2000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Incubator Care Per Diem",
+        "PRICE": 4000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Phototherapy Per Diem",
+        "PRICE": 1500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Oxygen Therapy Per Diem",
+        "PRICE": 3125,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Circumcision Of Male Baby",
+        "PRICE": 6000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Ear Piercing For Female Baby",
+        "PRICE": 2000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Tongue Tie Release",
+        "PRICE": 1875,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Aspirations & Paracentesis",
+        "PRICE": 3125,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Hand Cast",
+        "PRICE": 8000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Fore Arm Cast",
+        "PRICE": 12000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Upper Arm Cast",
+        "PRICE": 12000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Full Arm Cast",
+        "PRICE": 18000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Foot/Ankle Cast",
+        "PRICE": 10000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Leg Cast",
+        "PRICE": 18000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Knee Cast",
+        "PRICE": 18000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Full Leg Cast",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Hip Spica",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Physiotherapy Service/Session (Maximum X6 Sessions)",
+        "PRICE": 3000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Neck Collar (Hard)",
+        "PRICE": 6000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Neck Collar (Soft)",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Antenatal Care With Gen. Practitioner",
+        "PRICE": 28000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Antenatal Care With Obstetrician (Subject To Pre-Authorisation)",
+        "PRICE": 30000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Normal Delivery (With Or Without Episiotomy)",
+        "PRICE": 50000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Assisted Delivery ( Vacuum, Instrumental)",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Multiple Delivery",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Birth Before Arrival (Bba) Care",
+        "PRICE": 5000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Rhogam Injection",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Serum Electrolytes/Urea/Creatinine",
+        "PRICE": 3000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Sodium/Chloride/Potassium/Bicarbonate Each",
+        "PRICE": 500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Urea/Creatinine Each",
+        "PRICE": 900,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Calcium/Uric Acid/Phosphorus Each",
+        "PRICE": 1500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Fasting Blood Sugar/Random Blood Sugar Each",
+        "PRICE": 500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Urinalysis",
+        "PRICE": 600,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Urine Pregnancy Test",
+        "PRICE": 600,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Glucose Tolerance Test",
+        "PRICE": 2500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Total/Direct Bilirubin  Each",
+        "PRICE": 1500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "SGOT/SGPT Each",
+        "PRICE": 1500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Alkaline Prosphatase",
+        "PRICE": 1500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Total Acid Phosphatase / Prostatic Each",
+        "PRICE": 1500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Gamma Glutamyl Transferace",
+        "PRICE": 750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "CPK",
+        "PRICE": 750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "LDH",
+        "PRICE": 750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Amylase",
+        "PRICE": 750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Liver Function Test",
+        "PRICE": 9000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Total Protein/Albumin Each",
+        "PRICE": 750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "G-6 Phosphate Dehydrogenase",
+        "PRICE": 2250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Creatine Kinase",
+        "PRICE": 1500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Creatine Clearance",
+        "PRICE": 1500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Urea Clearance",
+        "PRICE": 1500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Cholesterol",
+        "PRICE": 1875,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Tryglyceride",
+        "PRICE": 2175,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "LDL",
+        "PRICE": 2500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "HDL",
+        "PRICE": 2500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Lipid Profile",
+        "PRICE": 6000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Bence Jones Protein",
+        "PRICE": 1200,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Protein Electrophoresis",
+        "PRICE": 1875,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "C- Reactive Protein",
+        "PRICE": 625,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Glycosylated Haemoglobin",
+        "PRICE": 8000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "CSF Protein",
+        "PRICE": 750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "CSF Glucose",
+        "PRICE": 750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "CSF Chloride",
+        "PRICE": 750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "PSA (Quantitative)",
+        "PRICE": 0,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "PSA (Qualitative)",
+        "PRICE": 0,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "TSH/ T3/ T4 Each",
+        "PRICE": 4000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Prolactin/ Testoterone/ FSH/ LH (Each)",
+        "PRICE": 3750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Urine M/C/S",
+        "PRICE": 1500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Microscopy Stool/Urine Each",
+        "PRICE": 2300,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Stool Ocult Blood",
+        "PRICE": 750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Stool M/C/S",
+        "PRICE": 2000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "HVS/Urethral Swab M/C/S Each",
+        "PRICE": 2000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Ear/Nose/Throat Swab M/C/S Each",
+        "PRICE": 2000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Sputum M/C/S",
+        "PRICE": 2000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "CSF M/C/S",
+        "PRICE": 2000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Wound/Pus/Aspirate M/C/S Each",
+        "PRICE": 2000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Blood Culture & Sensitivity",
+        "PRICE": 3000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Malaria Parasite",
+        "PRICE": 600,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Skin Snip For Microfilaria",
+        "PRICE": 750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "AFB For TB (ZN Staining) Each",
+        "PRICE": 2500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Skin Scraping For Fungal Studies",
+        "PRICE": 625,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Gram Staining",
+        "PRICE": 250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Culture (Fungal)",
+        "PRICE": 750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Mantoux Test",
+        "PRICE": 2500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Semen M/C/S",
+        "PRICE": 2000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Semen Analysis",
+        "PRICE": 2000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Widal",
+        "PRICE": 1500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "VDRL",
+        "PRICE": 1500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "ASO Titre",
+        "PRICE": 2250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Rheumatoid Factor",
+        "PRICE": 2625,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Pregnancy Test - HCG (Blood)",
+        "PRICE": 750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Blood Grouping",
+        "PRICE": 750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Direct/Indirect Coombs Test Each",
+        "PRICE": 1500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Hepatitis B Surface Antigen Screening (HbsAg)",
+        "PRICE": 1500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Screening For HIV 1 & 2",
+        "PRICE": 2250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "PCV/Haemoglobin",
+        "PRICE": 375,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "WBC (Total)",
+        "PRICE": 525,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "WBC ( Differential)",
+        "PRICE": 1125,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Red Cell Count",
+        "PRICE": 1125,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Full Blood Count",
+        "PRICE": 1500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "ESR Westergren",
+        "PRICE": 525,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Platelet Count",
+        "PRICE": 750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Reticulocyte Count",
+        "PRICE": 750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Peripheral Blood Film",
+        "PRICE": 750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "MCV/MCH/MCHC Each",
+        "PRICE": 437.5,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Hb Genotype",
+        "PRICE": 2250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Bleeding/Clotting Time Each",
+        "PRICE": 437.5,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Prothrombin/Thromboplastin Time Each",
+        "PRICE": 1250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Cross Matching",
+        "PRICE": 1500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "HIV Confirmatory",
+        "PRICE": 4000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Viral Load",
+        "PRICE": 5000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "CD4 Count",
+        "PRICE": 3750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Cytology (Pap Smear, FNAC)",
+        "PRICE": 4000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Tissue Histopathology (Breast, Nodes, Etc)",
+        "PRICE": 7000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Hand",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Wrist",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Forearm",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Elbow",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Humerus",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Shoulder",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Clavicle",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Foot/Toe",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Ankle",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Leg (Tibia/Fibula)",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Knee",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Thigh (Femur)",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Hip Joint",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Pelvic (AP)",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Pelvic & Hip",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Pelvimetry",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Chest (PA/AP)",
+        "PRICE": 3375,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Chest (PA & Lateral)",
+        "PRICE": 3750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Chest For Ribs (Obliques)",
+        "PRICE": 5250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Apical/Lordotic",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Sternum",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Thoracic Inlet",
+        "PRICE": 4500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Cervical Spine",
+        "PRICE": 5250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Cervical Spine (Obliques)",
+        "PRICE": 5250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Lateral Neck (Soft Tissue)",
+        "PRICE": 5250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Thoracic Spine",
+        "PRICE": 5250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Thoraco Lumbar Spine",
+        "PRICE": 5250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": " Lumbar Spine",
+        "PRICE": 5250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": " Lumbo Sacral Spine",
+        "PRICE": 5250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Sacrum",
+        "PRICE": 5250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Sacro Iliac Joint (S.I.J.)",
+        "PRICE": 5250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Sacro-Coccxy",
+        "PRICE": 5250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Abdomen (Plain)",
+        "PRICE": 5250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Abdomen (Erect/Supine)",
+        "PRICE": 5250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Abdomen (Erect & Supine)",
+        "PRICE": 5250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Skull (AP & Lat)",
+        "PRICE": 5625,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Skull (PA/Lat/Townes)",
+        "PRICE": 5625,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Mastoids",
+        "PRICE": 5625,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "f assisted",
+        "PRICE": 5625,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": " Mandibles (Jaws)",
+        "PRICE": 56250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Temporo-Mandibular Joints (TMJ)",
+        "PRICE": 56250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Sella Turcica",
+        "PRICE": 5625,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Tagential",
+        "PRICE": 5625,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Occipito-Mental (Om)",
+        "PRICE": 5625,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": " Post Nasal Space",
+        "PRICE": 56250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": " Internal Auditory Meatus",
+        "PRICE": 5625,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Abdomen",
+        "PRICE": 3000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Pelvic",
+        "PRICE": 3000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Obstetric",
+        "PRICE": 3000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Abdominopelvic",
+        "PRICE": 3750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Thyroid",
+        "PRICE": 3000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Scrotal",
+        "PRICE": 3000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Breast",
+        "PRICE": 3750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Prostate",
+        "PRICE": 3750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Bladder",
+        "PRICE": 3750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Transfontanellar",
+        "PRICE": 375,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Ovulometry/TV Scan",
+        "PRICE": 3750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Barium Swallow",
+        "PRICE": 10000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Barium Meal",
+        "PRICE": 10000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Barium Meal & Follow Through",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Barium Enema",
+        "PRICE": 10000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Intravenous Urography (IVU)",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Cysto-Urethrogram (Micturating / Retrograde)",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Fistulogram/Sinogram Each",
+        "PRICE": 10000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Hysterosalphingogram (HSG)",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Mammogram",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Myelogram",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Electrocardiogram (E C G) with interpretation",
+        "PRICE": 3750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "CT-Scan - Brain, Sinuses, Orbits, Neck",
+        "PRICE": 43750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "CT Scan - Chest, Abdomen, Pelvis",
+        "PRICE": 50000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "CT Myelogram",
+        "PRICE": 50000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "CT Pelvimetry",
+        "PRICE": 9375,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Electroencephalogram (E E G)",
+        "PRICE": 10000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Echocardiogram",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Endoscopy",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Magnetic Resonance Imaging (MRI)",
+        "PRICE": 90000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Local",
+        "PRICE": 7500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "General",
+        "PRICE": 26250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "General Major",
+        "PRICE": 41250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Minor",
+        "PRICE": 7500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Intermediate",
+        "PRICE": 150000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Major",
+        "PRICE": 7500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Ganglion Excision",
+        "PRICE": 10000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Small Cyst Excision",
+        "PRICE": 10000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Biopsy Of Tumour Of Abdominal Wall",
+        "PRICE": 10000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Lumps Excision",
+        "PRICE": 10000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Minor Debridement Of Burns",
+        "PRICE": 10000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Electrofulguration Of Condylomata Acuminata",
+        "PRICE": 10000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Injection Sclerotherapy Of Varicose Veins",
+        "PRICE": 10000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Excision Of Tophi",
+        "PRICE": 10000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Pollicisation Of The Index Finger",
+        "PRICE": 10000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Release Of Chordae",
+        "PRICE": 10000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Repair Of Minor Laceration",
+        "PRICE": 10000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Surgical Drainage In Haematoma Of Rectus Abdominis",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Polypectomy",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Intercostal Drainage Insertion",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Suprapubic Cystostomy",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Tracheostomy",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Surgical Release In Stenosing Tenosynovitis",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Syndactlysis",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Liver/Kidney/Bone Marrow Biopsy",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Ingrowing Toe Nail   (Excision)",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Keloid Excision",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Biopsy Of Oesophageal Mass",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Dissection Of Inguinal Nodes",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Surgical Drainage Of Galactocoele",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Breast Lump Excision",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Synovectomy",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Cystic Hygroma Excision",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Skin Grafting",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Orchidectomy/Orchidopexy",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Abdominal Rectopexy",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Anal Spincteroplasty",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Surgical Drainage Of Anal Abscess",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Anal Fistulectomy Repair",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Cystourethroscopy",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Pericardiocentesis",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Hydrocoelectomy",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Epigastric Herniorrhaphy",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Excision Of Intrascrotal Mass",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Surgery Of Torsion Of Spermatic Cord",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Varicocoelectomy",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Dissection Of Femoral Triangle",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Multiple Ligation Of Veins",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Surgical Correction Of Dupuytren’s Contracture",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Herniorraphy - Inguinal/Others",
+        "PRICE": 150000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Thoracotomy",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Vasectomy",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Haemorrhoidectomy",
+        "PRICE": 200000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Fistula In-Ano Repair",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Tendon Grafting",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Oesophagostomy",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Anal Pull Through",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Oophorectomy",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Diverticulectomy",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Drainage Of Hepatic Abscess",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Repair Of Splenic Laceration",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Retroperitoneal Drainage Of Perinephric Abscess",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Trans-Perineal/Transrectal Biopsy Of Prostate",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Resection Of Median Bar Obstruction",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Corporosavenous Shunt",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Cavernospongiosum Shunt",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Transurethral Dessication Of Congenital Meatal Stenosis",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Uretherectomy",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Surgical Exploration For Anorchism",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Stripping And Ligation Of Veins",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Thrombectomy By Forarty’s Catheterisation",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Colostomy Construction/Closure",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Enterostomy",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Surgery Of Uncomplicated Intestinal Obstruction Without Resection",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Hiatus Herniorrphaphy",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Oesophageal Atresia And Tracheo-Oesophageal Fistula Repair",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Hypospadia Repair",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Pyelotomy",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Craniotomy",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Pyeloroplasty",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Repair Of Oesophageal Lacerations",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Choledochostomy",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Repair Of Bochidalek Diaphragmatic Congenital Defect",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Meckel’s Diverticulectomy",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Renal Cystectomy",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Vesical Diverticulectomy",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Penoplasty",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Penectomy",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Mastectomy",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Diaphragmatic Hernia Repair",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Exploratory Laparotomy/Lysis Of Adhensions",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Gastroenterostomy",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Intussusception Operation",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Pyloromyotomy",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Resection And Anstomoses (Small/Large Intestines)",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Splenectomy/Splenorrhaphy",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Cystectomy Partial/Total",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Axillary Dissection Of Breast",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Extensive (Small And Large) Bowel Resection And Anastomoses",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Surgery Of Acute Intra Abdominal Vascular Disease",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Repair Of Gastric Lacerations",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Repair Of Small Bowel Perforations",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Surgery Of Large Bowel Perforations",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Surgery Of Hepatic Trauma",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Hepatic Segmentectomy",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Oddis Sphincteroplasty",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Choledochojejunostomy",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Transduodenal Choledochal Cystectomy",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Choledochal Cystojejunostomy",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Excision Of Lymphoedematous Lymph Tissues",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Roux-En-Y Pancreaticojejunostomy",
+        "PRICE": 60000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Drainage Of Septic Arthritis",
+        "PRICE": 18750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Exostectomy",
+        "PRICE": 18750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Excisional Biopsy",
+        "PRICE": 18750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Skin Traction",
+        "PRICE": 18750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Simple Congenital Talipes Repair",
+        "PRICE": 18750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Subperiosteal Drainage Of Acute Osteomyelitis",
+        "PRICE": 37500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Chondromectomy",
+        "PRICE": 37500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Sequestrectomy",
+        "PRICE": 37500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Saucerisation Of Chronically Infected Bone",
+        "PRICE": 37500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Amputation And Disarticulation Of Joints.",
+        "PRICE": 50000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Surgical Repair Of Congenital Talipes",
+        "PRICE": 50000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Equanovarus / Valgus",
+        "PRICE": 50000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Tendon Transplant",
+        "PRICE": 50000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Tenoplasty",
+        "PRICE": 50000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Arthroplasty",
+        "PRICE": 50000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Arthrodesis",
+        "PRICE": 50000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Open Reduction And Internal Fixation Of Fractures",
+        "PRICE": 50000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Osteoclasis, Internal Fixation Of Malunion",
+        "PRICE": 50000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Bone Grafting",
+        "PRICE": 50000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Cystic/Fibrous Dysplasia/ Cancer Surgery",
+        "PRICE": 56250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Odontogenic Tumours.",
+        "PRICE": 56250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Cleft Lip And Palate Repairs.",
+        "PRICE": 56250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Parotidectomy",
+        "PRICE": 56250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Submandibular Gland Excision",
+        "PRICE": 56250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Foreign Body Removal From The Ear, Nose And Throat",
+        "PRICE": 7500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Electrocautery Of Nose",
+        "PRICE": 7500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Nasal Packing",
+        "PRICE": 7500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Aural And Nasal Suction/Clearance",
+        "PRICE": 7500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Incision And Drainage Of Abscess",
+        "PRICE": 7500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Debridement And Toilet Of Wounds",
+        "PRICE": 7500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Suturing Of Lacerrations",
+        "PRICE": 7500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Manipulation Of Nose",
+        "PRICE": 7500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Indirect Laryngoscopy",
+        "PRICE": 7500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Antral Lavage",
+        "PRICE": 7500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Tonsilectomy",
+        "PRICE": 90000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Adenoidectomy",
+        "PRICE": 150000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Multiple Nasal Polypectomy",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Nasal Sinus Surgery E.G Caldwell Luc",
+        "PRICE": 31250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Tympanoplasty",
+        "PRICE": 31250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Mastoid Surgery",
+        "PRICE": 31250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Submandibular Glad Excision",
+        "PRICE": 31250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Laryngeal Surgery",
+        "PRICE": 31250,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Cyclocryoablation",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Traumatic Lid Laceration Repair",
+        "PRICE": 12500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Removal Of Foreign Bodies From Conjunctiva And Cornea",
+        "PRICE": 15000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Chalazion Excision",
+        "PRICE": 12500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Granuloma Excision",
+        "PRICE": 12500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Lacrimal Syringing",
+        "PRICE": 3750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Tumour Excision From Lid",
+        "PRICE": 12500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Entropion And Ectropion Repairs",
+        "PRICE": 12500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Pterygium Excision.",
+        "PRICE": 18750,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Traumatic Cannalicular Repair",
+        "PRICE": 37500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Paracentesis (A/C Washout)",
+        "PRICE": 37500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Squint Surgery",
+        "PRICE": 50000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Ptosis Repair",
+        "PRICE": 50000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Extracapsular Cataract Extraction With Intraocular Lens Implantation",
+        "PRICE": 75000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Intracapsular Cataract Extraction With Intraocular Lens Implantation",
+        "PRICE": 75000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Combined Cataract Extraction With Trabeculectomy",
+        "PRICE": 75000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Trabeculectomy With Antimet Abolites",
+        "PRICE": 62500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Scleral Buckling Procedures",
+        "PRICE": 37500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Evisceration/Enucleation/Extenteration",
+        "PRICE": 50000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "IUCD Insertion/Removal",
+        "PRICE": 7500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Cervical Cautery",
+        "PRICE": 7500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Cervical Cone/Punch Biopsy",
+        "PRICE": 10000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Cervical Laceration Repair",
+        "PRICE": 30000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Colposcopy",
+        "PRICE": 7500,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Hysteroscopy",
+        "PRICE": 20000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Dye Test",
+        "PRICE": 20000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Examination Under Anaesthesia (EUA)",
+        "PRICE": 20000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Removal Of IUCD Under General Anaesthesia",
+        "PRICE": 20000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Dilatation And Curetage",
+        "PRICE": 20000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Evacuation Of Retained Products Of Conception",
+        "PRICE": 35000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Excision/Diathermy Of Warts",
+        "PRICE": 20000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Excision Of Vaginal Septum",
+        "PRICE": 20000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Repair Of Third Degree Tear",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Marsupialisation",
+        "PRICE": 20000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Cervical Circlage/Shirodkar Suture",
+        "PRICE": 70000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Bilateral Tubal Ligation",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Mini Laparotomy",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Diagnostic Laparoscopy",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Laparoscopy & Dye Test",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Destructive Delivery (Craniotomy-Embryotomy)",
+        "PRICE": 25000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Vulvectomy",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Wedge Resection Of The Ovary",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Amputation Of Cervix",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Reconstruction Of Vagina",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Ectopic Pregnancy",
+        "PRICE": 350000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Ovariectomy",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Vaginoclesis",
+        "PRICE": 400000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Salpingo-Oophoreictomy",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Ovarian Biopsy",
+        "PRICE": 150000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Laparotomy Diagnostic/Therapeutic, Inter-Sex",
+        "PRICE": 350000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Ovarian Cysts",
+        "PRICE": 160000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Broad Ligament Haematoma",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Colporrhaphy/Colpoperineorrhaphy",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Vaginal Hysterectomy/Manchester Repair",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Ventrosuspension Of The Bladder",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Hysterectomy",
+        "PRICE": 400000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Hysterectomy And Bilateral Salpingo-Oophorectomy",
+        "PRICE": 400000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Reconstruction Surgery E.g Straussman Operation",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Ventrosuspension Procedures Of Correction Of Uterine",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Myomectomy",
+        "PRICE": 350000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Repair Of Inverted Uterus",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Repair Of Perforated / Ruptured Uterus",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Tubal Reconstruction",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Pelvic/Abdominal Abscess Drainage",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Pelvic Haematocoele",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Rectovaginal Fistula Repair",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "Vesicovaginal Fistula Repair",
+        "PRICE": 40000,
+        "Group": "SERVICES"
+      },
+      {
+        "ITEM": "ABAKTAL 400MG 1 AMP",
+        "PRICE": 230,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ABITREN 100MG 1 TAB",
+        "PRICE": 30,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ACCOLATE 20MG 1 TAB",
+        "PRICE": 390,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ACICLOVIR 200MG 1 TAB",
+        "PRICE": 200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ACICLOVIR CREAM 10MG 1 TUBE",
+        "PRICE": 1500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ACTIFED  1 TAB",
+        "PRICE": 31.25,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ACETAZOLAMIDE 250MG 1 TAB",
+        "PRICE": 15,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ADALAT RETARD 20MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ARTESUNATE 1 PACK",
+        "PRICE": 600,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ADRENALIN INJ 1MG 1 AMP",
+        "PRICE": 180,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ADVANTAN OINTMENT 1 TUBE",
+        "PRICE": 1560,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ACTRAPID INSULIN 10MLS 1 VIAL",
+        "PRICE": 5625,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ALAXIN SUSP 10MG/5ML-80ML 1 BOT",
+        "PRICE": 812.5,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ALPHABETHIC CAPLET 1 TAB",
+        "PRICE": 125,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ALDOMET 250MG 1 TAB",
+        "PRICE": 30,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ALFA D O.5CG 1 TAB",
+        "PRICE": 130,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ALOMIDE EYEDROP 10MLS 1 BOT",
+        "PRICE": 1430,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AMIAS 4MG  1 TAB",
+        "PRICE": 270,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AMIAS 8MG 1 TAB",
+        "PRICE": 300,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AMIAS 16MG 1 TAB",
+        "PRICE": 850,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AMITRIPTYLINE 25MG 1 TAB",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AMLODIPINE 10MG 1 TAB",
+        "PRICE": 40,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AMINOPHYLINE INJ 250MG 1 AMP",
+        "PRICE": 300,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AMOKSIKLAV   156.25MG/5MLS-100MLS 1 BOT",
+        "PRICE": 2300,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AMOXYCILLIN  125MG/5ML-100MLS 1 BOT",
+        "PRICE": 600,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AMOXYCILLIN  250MG 1 CAP",
+        "PRICE": 30,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AMOXYCILLIN  500MG 1 CAP",
+        "PRICE": 40,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AMPICLOX  250MG/5ML-100ML 1 BOT",
+        "PRICE": 235,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AMPICLOX I  500MG INJ 1 VIAL",
+        "PRICE": 130,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ANTI-D INJ 1 AMP",
+        "PRICE": 45000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ANNUSOL SUPPOSITORIES 1 SUPP",
+        "PRICE": 500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "Anorol 1 TAB",
+        "PRICE": 15,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ANTASIL 1 TAB",
+        "PRICE": 10,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ANTHISAN CREAM 25MG 1 TUBE",
+        "PRICE": 1170,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "APRESOLINE 20MG INJ 1 AMP",
+        "PRICE": 500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "APRESOLINE 25MG  1 TAB",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ANTI RABIES VACCINE  1 VIAL",
+        "PRICE": 9000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ANTISIN-PRIVIN EYE DROP-10ML 1 BOT",
+        "PRICE": 845,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ARSUMAX  50MG 1 TAB",
+        "PRICE": 90,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ARTANE 5MG 1 TAB",
+        "PRICE": 10,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ARTHOCARE CAP 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ARTEQUINE 600MG/700MG 1 PACK",
+        "PRICE": 1500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ARVED  450MG 1 TAB",
+        "PRICE": 120,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ASPIRIN  75MG  1 TAB",
+        "PRICE": 25,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ASPIRIN 300MG 1 TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ASTYMINE 1 BOT",
+        "PRICE": 1200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ATENOLOL  50MG 1 TAB",
+        "PRICE": 25,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ATENOLOL 100MG 1 TAB",
+        "PRICE": 38.75,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ATIVAN   2MG 1 TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ATROPINE 6OOMG INJ 1 AMP",
+        "PRICE": 237.5,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AUGMENTINE 228MG/5ML 1 BOT",
+        "PRICE": 5000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AUGMENTINE 625MG 1 TAB",
+        "PRICE": 300,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AUGMENTINE 1000MG 1 TAB",
+        "PRICE": 300,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AUGMENTINE 1.2G 1 VIAL",
+        "PRICE": 1040,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AVANDA  4MG 1 TAB",
+        "PRICE": 240,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ACTIVATED CHARCOAL 1 CAP",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AVOMINE  25MG 1 TAB",
+        "PRICE": 30,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AVOLAM  150MG  1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AVOCOMB  450MG 1 TAB",
+        "PRICE": 150,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AZITHROMYCIN  1 CAP",
+        "PRICE": 710,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "AZOPT EYE DROP 1 BOT",
+        "PRICE": 3900,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BACTROBAM CREAM 15G 1 TUBE",
+        "PRICE": 4000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BANOCIDE  50MG",
+        "PRICE": 5,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BENZYL BENZOATE LINIMENT 1 BOT",
+        "PRICE": 600,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BECLOX 500MG 1 CAP",
+        "PRICE": 30,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BECONASENASAL DROP 1 PACK",
+        "PRICE": 1900,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BENDROFLUAZIDE 1 TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BEOPTIC EAR DROP 1 BOT",
+        "PRICE": 400,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BEOPTIC EYE 1 BOT",
+        "PRICE": 900,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BETROSIL CREAM 1 TUBE",
+        "PRICE": 390,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BENYLIN EXPECTORANT 100MLS 1 BOT",
+        "PRICE": 700,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BIOCOTEN CREAM 20G 1 TUBE",
+        "PRICE": 700,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BISACODYL  5MG 1 TAB",
+        "PRICE": 15,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BIVACYN  SPRAY 1 PACK",
+        "PRICE": 1000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BONJELA GEL 10G 1 TUBE",
+        "PRICE": 1000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BENZYL PEROXIDE  5 LOTION 1 TUBE",
+        "PRICE": 850,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BENZYL PEROXIDE 10 LOTION 1 TUBE",
+        "PRICE": 370,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BRINERDINE 1 TAB",
+        "PRICE": 40,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BROMOCRIPTINE 2.5MG 1 TAB",
+        "PRICE": 800,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BRONCHOLYTE 4MG/5ML ELIXIR 1 BOT",
+        "PRICE": 900,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BROMHEXINE 8MG 1 TAB",
+        "PRICE": 40,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BRONCHICUM 1 BOT",
+        "PRICE": 780,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BENYLIN WITH CODEINE 1 BOT",
+        "PRICE": 520,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BENZHEXOL 5MG 1 TAB",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CAC 1000 1 TAB",
+        "PRICE": 200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CADIOACE 1 CAP",
+        "PRICE": 80,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CALPOL 1 BOT",
+        "PRICE": 1280,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CALCIUM LACTATE 300MG 1 TAB",
+        "PRICE": 10,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CALCIUM GLUCONATE INJ 1 AMP",
+        "PRICE": 112.5,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CALAMINE LOTION  100MLS 1 BOT",
+        "PRICE": 600,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CAMOQUINE 50MG/5ML-60ML 1 BOT",
+        "PRICE": 780,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CAMOQUINE 200MG 1 TAB",
+        "PRICE": 65,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CAPTOPRIL 25MG 1 TAB",
+        "PRICE": 15,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CAPTOPRIL 50MG 1 TAB",
+        "PRICE": 15,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CAPTOPRIL 12.5MG",
+        "PRICE": 15,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CARBAMAZEPINE  200MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CARFERGOT  50MG 1 TAB",
+        "PRICE": 60,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CANDERIL SWEETNER 1 TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CANDERIL SWEETNER POWDER 1 TAB",
+        "PRICE": 750,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CATAFLAM  50MG 1 TAB",
+        "PRICE": 60,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CEECAL 1 TAB",
+        "PRICE": 70,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CELEBREX  200MG 1 CAP",
+        "PRICE": 300,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CECLOR 1 BOT",
+        "PRICE": 2100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CENTRUM M/VIT 1 TAB",
+        "PRICE": 40,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CENTRUM SILVER 1 TAB",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CERUMOL EAR DROP 1 BOT",
+        "PRICE": 3000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CHLORAMPHENICOL EAR DROP 1  BOT",
+        "PRICE": 212.5,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CHLORAMPHENICOL EYE DROP 1 BOT",
+        "PRICE": 400,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CHLORAMPHENICOL EYE OINT. 1 TUBE",
+        "PRICE": 400,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CHOTIGON 5000IU 1 AMP",
+        "PRICE": 2860,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CHLORPHENIRAMINE 2MG/5ML 1 BOT",
+        "PRICE": 400,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CHLORPHENIRAMINE 4MG 1TAB",
+        "PRICE": 10,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CHLOROQUINE 50MG/5ML 1 BOT",
+        "PRICE": 110,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CHLOROQUINE 150MG 1 TAB",
+        "PRICE": 15,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CHLOROQUINE 200MG 1 AMP",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CHYMORAL 1 TAB",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CIALIS  20MG 1 TAB",
+        "PRICE": 3450,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CICATRIN POWDER 1 BOT",
+        "PRICE": 260,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CIKLAVIT 200MLS 1 BOT",
+        "PRICE": 3000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CILOXAN EYE DROP 1 BOT",
+        "PRICE": 1430,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CIMETIDINE 200MG 1 TAB",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CIMETIDINE 400MG 1 TAB",
+        "PRICE": 70,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CIPROTAB 200MG INFUSION 1 BOT",
+        "PRICE": 2000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CEFTRIAZONE 1 TAB",
+        "PRICE": 2500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CIPROTAB  1 TAB",
+        "PRICE": 190,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CLAVAM 228MG/5ML-100MLS 1 BOT",
+        "PRICE": 2000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CLARITHROMYCIN 500MG 1 CAP",
+        "PRICE": 150,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CLINITEST TAB 1 TAB",
+        "PRICE": 120,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CLOMID 50MG 1 TAB",
+        "PRICE": 1000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CLONIDINE 100MCG 1 TAB",
+        "PRICE": 80,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CLOXACILLIN 250MG 1 CAP",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CLOBETASOL 45G CREAM 1 TUBE",
+        "PRICE": 1100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "COARTEM  1 PACK",
+        "PRICE": 1400,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CO-DIOVAN 1 TAB",
+        "PRICE": 500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "COLIPAN ALIXIR 5MG/5ML-100ML 1 BOT",
+        "PRICE": 190,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "COLIPAN  10MG 1 TAB",
+        "PRICE": 15,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "COMBANTRIN 125MG 1 TAB",
+        "PRICE": 60,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "COMBANTRIN 250MG/5ML 1 BOT",
+        "PRICE": 390,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CORDARONE 200MG 1TAB",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CO-TRIMAZOLE 240MG/5ML 1 BOT",
+        "PRICE": 500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CO-TRIMAZOLE 480MG 1 TAB",
+        "PRICE": 30,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CHLORPROPAMIDE 250MG 1 TAB",
+        "PRICE": 60,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CO-PROXAMOL 1 TAB",
+        "PRICE": 35,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CHLORPROMAZINE 50MG INJ 1 AMP",
+        "PRICE": 200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CHLORPROMAZINE 100MG 1 TAB",
+        "PRICE": 500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CYCLOGEST 400MG PESSARY 1 PESS",
+        "PRICE": 390,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DAFLON 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DARROWS SOLUTION 1/2 strength 1 INF",
+        "PRICE": 1000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DARROWS SOLUTION FULL strength 1 INF",
+        "PRICE": 1000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DICLOFENAC INJ 75MG 1 AMP",
+        "PRICE": 500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DEDEON HB 280ML 1 BOT",
+        "PRICE": 1000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DEPIXOL 20MG 1 AMP",
+        "PRICE": 1235,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DEQUADIN LOZENGES 1 TAB",
+        "PRICE": 10,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DERMOVATE CREAM 25G 1 TUBE",
+        "PRICE": 1105,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DETRUSITOL 2MG 1 TAB",
+        "PRICE": 200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DETRUSITOL XL 4MG 1 CAP",
+        "PRICE": 1000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DEXTROSE 5% 1 INF",
+        "PRICE": 1500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DEXTROSE 50% 1 INF",
+        "PRICE": 1000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DEXTROSE 4.3% / NORMAL SALINE 1 INF",
+        "PRICE": 1500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DEXAMETHASONE 8MG  1 VIAL",
+        "PRICE": 400,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DIHYDROCODEINE 30MG 1 TAB",
+        "PRICE": 30,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DIAZEPAM 5MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DIAZEPAM 10MG 1 AMP",
+        "PRICE": 200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DIAMICRON 1 TAB",
+        "PRICE": 300,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DIABETIN 450MG 1 TAB",
+        "PRICE": 15,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DICYNONE 250MG 1 TAB",
+        "PRICE": 200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DICYNONE 250MG 1 AMP",
+        "PRICE": 200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DIGOXIN 0.25MG 1 TAB",
+        "PRICE": 10,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DIOVAN 80MG 1 CAP",
+        "PRICE": 400,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DICLOFENAC 50MG 1 TAB",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DITROPAN 5MG 1 TAB",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DILOXANIDE FUROATE 500MG 1 TAB",
+        "PRICE": 380,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DEPOMEDROL 40MG 1 VIAL",
+        "PRICE": 975,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DEPOMEDROL 80MG 1 VIAL",
+        "PRICE": 2730,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DIAMOX 250MG 1 TAB",
+        "PRICE": 15,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DERMAZINE CREAM  25MG 1 TUBE",
+        "PRICE": 1700,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DERMAZINE CREAM  50MG 1 TUBE",
+        "PRICE": 2000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DOLONUEOBION 1 TAB",
+        "PRICE": 75,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DOXYCYCLINE 1 CAP",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DEPO PROVERA INJ 1 VIAL",
+        "PRICE": 2000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DUPHASON 10MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "DYNAMOGEN LIQUID 10MLS 1 BOT",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "E-45 CREAM 1 TUBE",
+        "PRICE": 975,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ENCEPHABOL 1 TAB",
+        "PRICE": 200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ENCEPHABOL SYR 100MLS 1 BOT",
+        "PRICE": 1000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ENCEPHABOL  SYR 120MLS 1 BOT",
+        "PRICE": 2000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ENCEPHABOL SYR  200MLS 1 BOT",
+        "PRICE": 2400,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "EHANCIN 312MG/5ML SUSP 1 BOT",
+        "PRICE": 1700,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ENHANCIN 375MG 1 TAB",
+        "PRICE": 110,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ENHANCIN 625MG 1 TAB",
+        "PRICE": 130,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ERYTHROMYCIN 125MG/5ML 1 BOT",
+        "PRICE": 700,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ERYTHROMYCIN 250MG TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ERYTHROMYCIN CREAM 4% 30MG 1TUBE",
+        "PRICE": 2300,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ERYTHRPOETIN  2000IU 1 AMP",
+        "PRICE": 8450,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ESIDREX 25MG 1 TAB",
+        "PRICE": 150,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ESSENTIAL FORTE CAP 1 CAP",
+        "PRICE": 200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ETHAMBUTOL 400MG 1 TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ETOVIT CAPGEL 200MG 1 CAP",
+        "PRICE": 25,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "EUCARDIC 25MG 1 TAB",
+        "PRICE": 150,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "EUCADIC 12.5MG  1 TAB",
+        "PRICE": 300,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "EUCADIC 3.125MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "EUCALYPTUS OIL 1 BOT",
+        "PRICE": 650,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "EURAX CREAM 1 TUBE",
+        "PRICE": 1200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "EVADINE  200MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "EVENNG PRIME ROSE 1 CAP",
+        "PRICE": 30,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "EVITOL 100MG 1 TAB",
+        "PRICE": 25,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "EVITOL100MG CAPGEL 1 CAP",
+        "PRICE": 60,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FOLIC ACID 5MG 1 TAB",
+        "PRICE": 15,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FANSIDAR 525MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FANSIDAR SUSP 525MG/5ML 1 BOT",
+        "PRICE": 390,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FANSIDAR INJ 525MG 1 AMP",
+        "PRICE": 705,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FASIGYN 500MG 1 TAB",
+        "PRICE": 65,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FEFOL  1 CAP",
+        "PRICE": 30,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FEROGLOBIN 200ML 1 BOT",
+        "PRICE": 1040,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FELDENE 20MG 1 CAP",
+        "PRICE": 145,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FELDENE INJ 20MG 1 AMP",
+        "PRICE": 455,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FELDENE GEL 1 TUBE",
+        "PRICE": 900,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FERROUS SULHATE 20MG 1 TAB",
+        "PRICE": 10,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FLAGYL 400MG 1 TAB",
+        "PRICE": 15,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FOLEY'S CATHETER 1 PIECE",
+        "PRICE": 160,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FLIXOTIDE ACCUHALER 1 ACCU",
+        "PRICE": 3500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FLUCAMED 50MG 1 CAP",
+        "PRICE": 150,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FLOXAPEN 125MG/5ML 1 BOT",
+        "PRICE": 850,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FLOXAPEN 125MG/5ML 1 CAP",
+        "PRICE": 70,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FORTUM IG INJ 1 AMP",
+        "PRICE": 7500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FRANOL 1 TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FRUSEMIDE INJ 20MG 1 AMP",
+        "PRICE": 250,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FRUSEMIDE 40MG 1 TAB",
+        "PRICE": 30,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FORTWIN 30MG 1 AMP",
+        "PRICE": 1000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FUNGISOL POWDER 20MG 1 BOT",
+        "PRICE": 390,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GENTAMYCIN 80MG 1 AMP",
+        "PRICE": 400,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GENTAMYCIN 280MG 1 AMP",
+        "PRICE": 40,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GENTAMYCIN CREAM 15G 1 TUBE",
+        "PRICE": 250,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GENTAMYCIN EYE/EAR DROP 1 BOT",
+        "PRICE": 250,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GESTONE 50MG 1 AMP",
+        "PRICE": 900,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GESTONE 100MG 1 AMP",
+        "PRICE": 1100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GESTID 100ML 1 BOT",
+        "PRICE": 600,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GESTID 200ML 1 BOT",
+        "PRICE": 1000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GESTID 1 TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GLYBENCLAMIDE 5MG 1 TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GLUCOPHAGE 500MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GERIATIC PHARMATON 1 CAP",
+        "PRICE": 80,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GRISEOFULVIN 125MG 1 TAB",
+        "PRICE": 10,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GRISEOFULVIN 500MG 1 TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GSUNATE 100MG 1 TAB",
+        "PRICE": 70,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GYNODAKTARIN 200MG 1 OVULE",
+        "PRICE": 200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GYNODAKTARIN 400MG 1 OVULE",
+        "PRICE": 400,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GYNOTROSID 100MG 1 OVULE",
+        "PRICE": 845,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GYNOTROSID 300MG 1 OVULE",
+        "PRICE": 1200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "HALOPERIDOL 5MG 1 TAB",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "HALFAN 100MG/5ML 1 BOT",
+        "PRICE": 1235,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "HALFAN 250MG 1 TAB",
+        "PRICE": 285,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "HYDROCHLORTIAZIDE/ AMILORIDE 1 TAB",
+        "PRICE": 15,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "HISTAC  150MG 1 TAB",
+        "PRICE": 60,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "HISTAC 300MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "HOMTAMIN GINSENG 1 TAB",
+        "PRICE": 60,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "HYCOMYCIN EYEDROP 1 BOT",
+        "PRICE": 780,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "HYDROCORTISONE 15MG 1 TUBE",
+        "PRICE": 400,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "HYDROCORTISONE 100MG INJ 1 AMP",
+        "PRICE": 500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "HYOSCINE N BUTYL BROMIDE 1 AMP",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "HYOSCINE N BUTYL BROMIDE 1TAB",
+        "PRICE": 30,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "HYPOVASE 1MG 1 TAB",
+        "PRICE": 60,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "HYPOMELLOSE EYE DROP 1 BOT",
+        "PRICE": 520,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "IBUPROFEN 100MG/5ML 1 BOT",
+        "PRICE": 325,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "IBUPROFEN 200MG 1 TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "IBUFROPEN 400MG 1 TAB",
+        "PRICE": 39,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "INTERFLOX 500MG 1 CAP",
+        "PRICE": 715,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "IKACLOMIN 50MG 1 TAB",
+        "PRICE": 1430,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "IMMUNACE  1 TAB",
+        "PRICE": 65,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "IMODIUM 4MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "INDOMEHACINE 1 TAB",
+        "PRICE": 5,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "INDERAL 40MG 1 TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "INSULIN LENTEL 40 IU 1 VIAL",
+        "PRICE": 1615,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ISORDIL 5MG 1 TAB",
+        "PRICE": 25,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ISORDIL 10MG 1 TAB",
+        "PRICE": 30,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "INSULIN SYRINGE 40 IU 1 PIECE",
+        "PRICE": 10,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "INSULIN SYRINGE 100 IU 1 PIECE",
+        "PRICE": 200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ITRANOX 100MG 1 TAB",
+        "PRICE": 190,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "KENALOG 40MG 1 AMP",
+        "PRICE": 1787,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "KETOCONAZOLE 200MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "KOTASE 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LAMISIL 250MG 1 TAB",
+        "PRICE": 520,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LAMISIL CREAM 15G 1 TUBE",
+        "PRICE": 1755,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LARITHER 80MG INJ 1 AMP",
+        "PRICE": 500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LESCOL 20MG 1 CAP",
+        "PRICE": 195,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LEVAX 40MG 1 TAB",
+        "PRICE": 0,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LEXOTAN 1.5MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LEXOTAN 3MG  1 TAB",
+        "PRICE": 150,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LINCOMYCIN 500MG 1 CAP",
+        "PRICE": 30,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LIPITOR 10MG 1 TAB",
+        "PRICE": 400,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LIPITOR 20MG 1 TAB",
+        "PRICE": 450,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LISINOPRIL 5MG 1 TAB",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LISIOPRIL 10MG 1 TAB",
+        "PRICE": 55,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LOCASALENE CREAM 30MG 1 TUBE",
+        "PRICE": 1235,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LO-FEMINAL 1 SACH",
+        "PRICE": 65,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LONART 1 PACK",
+        "PRICE": 2600,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LOMOTIL 1 TAB",
+        "PRICE": 30,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LORATYN 10MG 1 TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MANIX  1 TAB",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MAXIVISION  1 CAP",
+        "PRICE": 85,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MAXITROL EYE DROP 1 BOT",
+        "PRICE": 1235,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MAXIDEX EYE DROP 1 BOT",
+        "PRICE": 1040,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MECTIZAN (IVERMECTIN) 3MG 1 TAB",
+        "PRICE": 210,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MEFENAMIC ACID 250MG 1 TAB",
+        "PRICE": 15,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MENOGON 75 IU 1 PACK",
+        "PRICE": 4940,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MENTHODEX  1 BOT",
+        "PRICE": 731.25,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MEPRASIL 20MG 1 CAP",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "METOCLOPRAMIDE 5MG INJ 1 AMP",
+        "PRICE": 500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "METOCLOPRAMIDE 10MG 1 TAB",
+        "PRICE": 500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "METAPRIM 25MG 1 TAB",
+        "PRICE": 10,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "METRONIDAZOLE 200MG  1 TAB",
+        "PRICE": 30,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "METRONIDAZOLE 400MG 1TAB",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "METRONIDAZOLE 200MG/5ML  1 BOT",
+        "PRICE": 500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "METRONIDAZOLE INFUSION 1 INF",
+        "PRICE": 1000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "METFORMIN 500MG 1 TAB",
+        "PRICE": 90,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MIXTARD INSULIN 3ML 1 CATR",
+        "PRICE": 5625,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MINIPRESS 1MG 1 TAB",
+        "PRICE": 90,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MONOTARD INSULIN HM 100 IU/ML 1 VIAL",
+        "PRICE": 3640,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MINIZIDE 1 TAB",
+        "PRICE": 90,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MIST KAOLIN 1 BOT",
+        "PRICE": 180,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MILK OF MAGNESIA  PHILIP 200MLS 1 BOT",
+        "PRICE": 4500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MODECATE 25MG INJ 1 AMP",
+        "PRICE": 325,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MOSEGOR 0.5MG 1 TAB",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MOSEGOR 100MLS 1 BOT",
+        "PRICE": 2040,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MOTILIUM 10MG(don peridon) 1 TAB",
+        "PRICE": 35,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MIST POTASSIUM CITRATE 1 BOT",
+        "PRICE": 600,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "METAKELFIN 1 TAB",
+        "PRICE": 130,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MULTIVITE SYRUP 1 BOT",
+        "PRICE": 500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "MULTIVITE Tab 1 TAB",
+        "PRICE": 10,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "METHYL DOPA 250MG 1 TAB",
+        "PRICE": 60,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "NEOMERCAZOLE 5MG 1 TAB",
+        "PRICE": 35,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "NEUROBION 1 TAB",
+        "PRICE": 93.75,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "NEUROGESIC GEL 1 TUBE",
+        "PRICE": 1000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "NICOTINIC ACID 1 TAB",
+        "PRICE": 15,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "NIFEDIPINE 20MG 1 TAB",
+        "PRICE": 40,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "NIFEGEM RETARD 20MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "nitrzepam 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "NITROFURANTOIN 100MG 1 TAB",
+        "PRICE": 40,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "NIVAQUINE FORTE CAP 1 CAP",
+        "PRICE": 30,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "NIZORAL 200MG 1 TAB",
+        "PRICE": 131.25,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "NIZORAL CREAM 15MG 1 TUBE",
+        "PRICE": 4000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "NORMORETIC 1 TAB",
+        "PRICE": 40,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "NOSPA INJ 40MG 1 TAB",
+        "PRICE": 700,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "NORVASC 10MG 1 TAB",
+        "PRICE": 350,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "NORVASC 5mg 1 TAB",
+        "PRICE": 280,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "NOVALGIN 500MG 1 TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "NIZORAL SHAMPOO 1 BOT",
+        "PRICE": 1560,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "NYOLOL OPTHALMIC GEL 0.1% 5G 1 BOT",
+        "PRICE": 1235,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "NYOLOL 0.5 EYE DROP 1 BOT",
+        "PRICE": 1170,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "NYSTATIN ORAL DROPS 30MLS 1 BOT",
+        "PRICE": 2500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "OBRON 6 CAP 1 CAP",
+        "PRICE": 40,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "OFLOXACIN 200MG 1 TAB",
+        "PRICE": 200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "OLANZAPINE 5MG 1 TAB",
+        "PRICE": 340,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "OLFEN GEL 1 TUBE",
+        "PRICE": 975,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "OMEGA H3  1 CAP",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ORUVAIL 200MG 1 CAP",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "OSTEOCARE 1 TAB",
+        "PRICE": 70,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "OTOMED EAR DROP 1 BOT",
+        "PRICE": 900,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "OTRIVIN NASAL DROP 0.1% 10MLS 1 BOT",
+        "PRICE": 3000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "OTRIVIN NASAL DROPS 0.05% 10MLS 1 BOT",
+        "PRICE": 2500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PARAFIN LIQUID 1 BOT",
+        "PRICE": 1000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PALUTHER 80MG INJ 1 AMP",
+        "PRICE": 500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PALUDRINE 100MG TAB 1 TAB",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PARIET 20MG 1 TAB",
+        "PRICE": 130,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PARACETAMOL SYRUP 125MG/5MLS 1 BOT",
+        "PRICE": 312.5,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PARACETAMOL  1 TAB",
+        "PRICE": 6.25,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PARACETAMOL INJ 1 AMP",
+        "PRICE": 300,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PEFLACINE 400MG 1 TAB",
+        "PRICE": 190,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PEFLOXACIN 400MG 1 TAB",
+        "PRICE": 200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PIRITON EXPECTORANT 100MLS 1 BOT",
+        "PRICE": 325,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PHENOBARBITONE 30MG 1 TAB",
+        "PRICE": 5,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PHENYTOIN 100MG 1` CAP",
+        "PRICE": 25,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PILOCARPINE EYE DROP 2% 1 BOT",
+        "PRICE": 780,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PILOCARPINE EYE DROP 4% 1 BOT",
+        "PRICE": 845,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PIRITON  1 TAB",
+        "PRICE": 5,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PIROXICAM 20MG 1 CAP",
+        "PRICE": 10,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PHENEGAN CREAM 2% 30G 1 TUBE",
+        "PRICE": 780,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PROMETHAZINE 5MG/5MG ELIXIR 1 BOT",
+        "PRICE": 6.25,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PROMETHAZINE 25MG 1 TAB",
+        "PRICE": 5,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PROMETHAZINE 50MG INJ 1 AMP",
+        "PRICE": 312.5,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "POLYCROL FORTE GEL 100MLS 1 BOT",
+        "PRICE": 625,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PRAZIQUANTEL 600MG 1 TAB",
+        "PRICE": 80,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PREDNISOLONE 5MG 1 TAB",
+        "PRICE": 10,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PRENACARE 1 CAP",
+        "PRICE": 60,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PREGYNL 5000 IU 1 PACK",
+        "PRICE": 2860,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PRIMOLUT N 5MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PRIMOLUT DEPOT 250MG 1 TAB",
+        "PRICE": 4000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PROSCAR 5MG 1 TAB",
+        "PRICE": 310,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PROVIRON 25 MG 1 TAB",
+        "PRICE": 60,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PROPANOLOL 40MG 1 TAB",
+        "PRICE": 25,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PROGUANIL 100MG 1 TAB",
+        "PRICE": 125,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PYRIDOXINE 50MG 1 TAB",
+        "PRICE": 10,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PYRAZINAMIDE SYRUP 1 BOT",
+        "PRICE": 520,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "PYRAZINAMIDE 500MG 1 TAB",
+        "PRICE": 15,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "QUININE 300MG 1 TAB",
+        "PRICE": 25,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "QUININE SYRUP 200MLS 1 BOT",
+        "PRICE": 390,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "RAMIPRIL 2.5MG TAB 1 TAB",
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "RAMIPRIL 5MG TAB",
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ROCEPHIN IJ 1G 1 VIAL",
+        "PRICE": 6500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ROHYPNOL 1MG 1 TAB",
+        "PRICE": 120,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ROVIGON 1 TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "RANFERON-12  1 TAB",
+        "PRICE": 40,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "RANFERON BLOOD TONIC 200MLS 1 BOT",
+        "PRICE": 900,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "REGROTON 1 TAB",
+        "PRICE": 60,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SABRESTEN VAG CREAM 1 TUBE",
+        "PRICE": 1800,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SABRESTEN CREAM DERMAL 1 TUBE",
+        "PRICE": 2000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SALBUTAMOL 4MG 1 TAB",
+        "PRICE": 17,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SALBUTAMOL 100MCG INHALER 1 PIECE",
+        "PRICE": 2000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SALICYLIC ACID OINT 20% 1 BOT",
+        "PRICE": 1200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SANATOGEN M/VIT GOLD 1 TAB",
+        "PRICE": 60,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "THYROXINE 0.5MG 1 TAB",
+        "PRICE": 30,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "THROXINE 100MCG 1 TAB",
+        "PRICE": 30,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SODIUM BICARBONATE 8.4% INJ 1 AMP",
+        "PRICE": 2000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SODIUM CHROMOGLYCATE EYE DROP 1 BOT",
+        "PRICE": 3000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SERETIDE DISKUS - CHILDREN 1 PACK",
+        "PRICE": 7300,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SERETIDE DISKUS- ADULT 1 PACK",
+        "PRICE": 8320,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SIMVOR 20MG 1 TAB",
+        "PRICE": 230,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SINUFED SYRUP 1 BOT",
+        "PRICE": 700,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SLOW-K 600MG 1 TAB",
+        "PRICE": 250,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SALINE NASAL DROP 1 TAB",
+        "PRICE": 910,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SOLUCET 1 PIECE",
+        "PRICE": 2000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SPARFLOXACIN 200MG 1 TAB",
+        "PRICE": 105,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SULPHADEINE PLUS SOLUBLE 1 TAB",
+        "PRICE": 65,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SPERSALLERGE EYE DROP 1 BOT",
+        "PRICE": 1200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SUPREFACT INJ 1 VIAL",
+        "PRICE": 9750,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SPIRONOLACTONE 25MG 1 TAB",
+        "PRICE": 40,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ITRANOX 1 CAP",
+        "PRICE": 190,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "STARXON 1 VIAL",
+        "PRICE": 1137.5,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "STEMETIL 5MG 1 TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "STREPSIL LOZENGES 1 TAB",
+        "PRICE": 50,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "STREPTOMYCIN 5MG INJ 1 VIAL",
+        "PRICE": 500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "STUGERON  25MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SUSTANON 250MG 1 AMP",
+        "PRICE": 2600,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SYNTOCINON INJ 1 AMP",
+        "PRICE": 1000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TABALON 400MG 1 TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TARIVID 200MG 1 TAB",
+        "PRICE": 180,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TETRACYCLINE 250MG 1  CAP",
+        "PRICE": 10,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TEGRETOL  CR 200MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TEGRETOL 200MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TEGRETOL CR 400MG 1 TAB",
+        "PRICE": 140,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TETANUS TOXOID  1 DOSE",
+        "PRICE": 500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TRIFLUOPERAZINE 5MG 1 TAB",
+        "PRICE": 10,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "THALAZOLE 500MG 1 TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TIMOLOL EYE DROP 0.5% 1 BOT",
+        "PRICE": 715,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TEAR NATURALE EYE DROP 1 BOT",
+        "PRICE": 1170,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TENORETIC  1 TAB",
+        "PRICE": 243.75,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TOBREX  EYE DROP 1 TAB",
+        "PRICE": 1235,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TAVEGYL 1MG 1 TAB",
+        "PRICE": 60,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TRAMAL 50MG 1 CAP",
+        "PRICE": 200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TRAVANTAN EYE DROP 1 BOT",
+        "PRICE": 6890,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TRADYL 100MG INJ 1 AMP",
+        "PRICE": 160,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TRAVOCORT CREAM 1 TAB",
+        "PRICE": 1235,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TROSYD CREAM 1 TUBE",
+        "PRICE": 1430,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "VALIUM 10MG 1 AMP",
+        "PRICE": 500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "VENTOLIN 2MG 1 TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "VENTOLIN INHALER 1 PACK",
+        "PRICE": 2500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "VENTOLIN SYRUP 5MG/VIAL 1 BOT",
+        "PRICE": 1500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "VENTOLIN NEBULES 2.5MG 1 VIAL",
+        "PRICE": 300,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "VENTOLIN NEBULES 5MG 1,NEB",
+        "PRICE": 600,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "VOLTAREN RETARD 100MG 1 TAB",
+        "PRICE": 2193.75,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "VISINE EYE DROP 1 BOT",
+        "PRICE": 131.25,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "VIT B COMPLEX SYRUP 1 BOT",
+        "PRICE": 500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "VIT B COMPLEX  1 TAB",
+        "PRICE": 12.5,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "VIT B COMPLEX INJ 1 VIAL",
+        "PRICE": 300,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "VIT C 100MG 1 TAB",
+        "PRICE": 20,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "VIT C SYRUP 1 BOT",
+        "PRICE": 500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "VIT C INJ 1 AMP",
+        "PRICE": 400,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "VIT E 1000 IU NATURE MADE 1 TAB",
+        "PRICE": 75,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "VIT K INJ 1 AMP",
+        "PRICE": 300,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "WARFRIN SODIUM 5MG 1 TAB",
+        "PRICE": 30,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "WHITE FIELD OINTMENT 20G 1 TUBE",
+        "PRICE": 195,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "WELLMAN M/VIT 1 CAP",
+        "PRICE": 65,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "XALATAN EYE DROP 1 BOT",
+        "PRICE": 5980,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ZADITEN 1MG 1 TAB",
+        "PRICE": 106.25,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ZADITEN 2MG 1 TAB",
+        "PRICE": 162.5,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ZANTAC 150MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ZANTAC 300MG 1 TAB",
+        "PRICE": 80,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ZINNAT 250MG 1 TAB",
+        "PRICE": 300,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ZINNAT 125MG/5ML- 200MLS 1 BOT",
+        "PRICE": 2080,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ZINACEF 750MG INJ 1 VIAL",
+        "PRICE": 900,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ZEFFIX 100MG 1 TAB",
+        "PRICE": 560,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ZENTEL SUSP 400MG/20ML 1 BOT",
+        "PRICE": 260,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ZESTRIL 5MG 1 TAB",
+        "PRICE": 150,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ZESTRIL 10MG 1 TAB",
+        "PRICE": 200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ZESTRIL 20MG 1 TAB",
+        "PRICE": 250,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ZESTORETIC 1 TAB",
+        "PRICE": 235,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ZITHROMAX 200MG/5ML 1 BOT",
+        "PRICE": 6300,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ZITHROMAX 250MG 1 CAP",
+        "PRICE": 715,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ZOLOFT 50MG 1 CAP",
+        "PRICE": 300,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ZYLORIC 100MG 1 TAB",
+        "PRICE": 40,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CEFURIXIME SUSPENSON 1 BOT",
+        "PRICE": 2800,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "SIMIVOR 10MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ATOVASTATIN 20MG 1 TAB",
+        "PRICE": 150,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ATOVASTATIN 10MG 1 TAB",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LOSARTAN 50MG 1 TAB",
+        "PRICE": 150,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "FLEMING SUSPENSION 457 MG 1 BOT",
+        "PRICE": 3000,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CEFUROXIME 500MG  1 TAB",
+        "PRICE": 260,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CEFUROXIME 250MG 1 TAB",
+        "PRICE": 200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "ZINC TAB 20MG 1 TAB",
+        "PRICE": 22.5,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "CLOPIDOGREL 75MG 1 TAB",
+        "PRICE": 150,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "INDAPAMIDE I.5 MG 1 TAB",
+        "PRICE": 285,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GALVUS 50MG Tab",
+        "PRICE": 500,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "GALVUSMET 50/100MG Tab",
+        "PRICE": 300,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TELSART/HCT 80/12.5MG Tab",
+        "PRICE": 200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "TELSART/HCT 40/12.5MG Tab",
+        "PRICE": 200,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LOSARTAN 100MG Tab",
+        "PRICE": 100,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "BISOPROLOL 5MG Tab",
+        "PRICE": 140,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "LABETALOL 200MG Tab",
+        "PRICE": 330,
+        "Group": "DRUGS"
+      },
+      {
+        "ITEM": "Appendicectomy",
+        "PRICE": 55000,
+        "Group": "PROCEDURES"
+      },
+      {
+        "ITEM": "LIPOMA",
+        "PRICE": 90000,
+        "Group": "PROCEDURES"
+      },
+      {
+        "ITEM": "Ceasarean Section",
+        "PRICE": 260000,
+        "Group": "PROCEDURES"
+      },
+      {
+        "ITEM": "PROSTATECTOMY",
+        "PRICE": 400000,
+        "Group": "PROCEDURES"
+      }
+    ]
+  }

@@ -363,7 +363,7 @@ const InvoiceDetail = ({handleGoBack}) => {
             }}
             gap={1}
           >
-            <Badge
+           {/*  <Badge
               badgeContent={unreadMsgs.length}
               color="secondary"
               sx={{marginRight: "10px"}}
@@ -372,9 +372,9 @@ const InvoiceDetail = ({handleGoBack}) => {
                 <ChatIcon fontSize="small" sx={{marginRight: "5px"}} />
                 Chat
               </GlobalCustomButton>
-            </Badge>
+            </Badge> */}
 
-            {(user?.currentEmployee?.roles?.includes("Admin") ||
+         {/*    {(user?.currentEmployee?.roles?.includes("Admin") ||
               user?.currentEmployee?.roles?.includes("CRM Authorization")) && (
               <>
                 {invoiceStatus.toLowerCase() === "declined" ||
@@ -403,17 +403,17 @@ const InvoiceDetail = ({handleGoBack}) => {
                       />
                       Approve
                     </GlobalCustomButton>
-                  )}
+                  )} 
               </>
-            )}
+            )}*/}
 
-            <GlobalCustomButton
+          {/*   <GlobalCustomButton
               color="secondary"
               onClick={() => setViewInvoice(true)}
             >
               <ReceiptIcon fontSize="small" sx={{marginRight: "5px"}} />
               View Invoice
-            </GlobalCustomButton>
+            </GlobalCustomButton> */}
 
             {/* <ReactToPrint
               trigger={() => (
@@ -428,22 +428,22 @@ const InvoiceDetail = ({handleGoBack}) => {
         </Box>
 
         <Grid container spacing={2} p={2}>
-          <Grid item lg={12} md={12} sm={12}>
+         {/*  <Grid item lg={12} md={12} sm={12}>
             <PageCustomerDetail />
-          </Grid>
+          </Grid> */}
 
           <Grid item lg={12} md={12} sm={12}>
             <Box mb={2} sx={{display: "flex", justifyContent: "space-between"}}>
               <FormsHeaderText text="Invoice Information" />
 
-              <Box sx={{display: "flex"}} gap={2}>
+            {/*   <Box sx={{display: "flex"}} gap={2}>
                 {edit ? (
                   <>
                     <GlobalCustomButton
                       onClick={() => setEdit(false)}
                       color="warning"
                     >
-                      {/* <EditIcon fontSize="small" sx={{marginRight: "3px"}} /> */}
+                       <EditIcon fontSize="small" sx={{marginRight: "3px"}} /> 
                       Cancel
                     </GlobalCustomButton>
 
@@ -463,7 +463,7 @@ const InvoiceDetail = ({handleGoBack}) => {
                     <EditIcon fontSize="small" sx={{marginRight: "3px"}} /> Edit
                   </GlobalCustomButton>
                 )}
-              </Box>
+              </Box> */}
             </Box>
 
             <Grid container spacing={1} mb={1.5}>
@@ -527,10 +527,10 @@ const InvoiceDetail = ({handleGoBack}) => {
             <Box sx={{display: "flex", justifyContent: "space-between"}}>
               <FormsHeaderText text="Invoice Plans List" />
 
-              <GlobalCustomButton onClick={() => setPlanCreateModal(true)}>
+             {/*  <GlobalCustomButton onClick={() => setPlanCreateModal(true)}>
                 <AddCircleOutline fontSize="small" sx={{marginRight: "3px"}} />
                 Add New Plan
-              </GlobalCustomButton>
+              </GlobalCustomButton> */}
             </Box>
             <Plans plans={plans} addNewPlan={handleAddNewPlan} omitCreate />
           </Grid>

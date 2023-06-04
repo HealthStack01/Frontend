@@ -1,0 +1,1760 @@
+{
+    "Life_Medical": [
+      {
+        "GENERAL DESCRIPTION": "Tetanus Toxoid/ATS Each",
+        "FLORIDA 2": 375
+      },
+      {
+        "GENERAL DESCRIPTION": "Minor Wound Dressing/Day (Out Of Station Emergencies)",
+        "FLORIDA 2": 468.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Urinalysis",
+        "FLORIDA 2": 468.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Routine Intravenous Infusion/500 mls + Materials",
+        "FLORIDA 2": 562.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Urine Pregnancy Test",
+        "FLORIDA 2": 675
+      },
+      {
+        "GENERAL DESCRIPTION": "Sodium/Chloride/Potassium/Bicarbonate Each",
+        "FLORIDA 2": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Urea/Creatinine Each",
+        "FLORIDA 2": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Calcium/Uric Acid/Phosphorus Each",
+        "FLORIDA 2": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Fasting Blood Sugar/Random Blood Sugar Each",
+        "FLORIDA 2": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Total/Direct Bilirubin Each",
+        "FLORIDA 2": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Nursing Care Per Diem",
+        "FLORIDA 2": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "NPI Immunisation-Each (Unregistered Enrollees)",
+        "FLORIDA 2": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Major Wound Dressing/Day",
+        "FLORIDA 2": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Bence Jones Protein",
+        "FLORIDA 2": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "C- Reactive Protein",
+        "FLORIDA 2": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "SGOT/SGPT Each",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "Alkaline Prosphatase",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "Total Acid Phosphatase/Prostatic Each",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "Gamma Glutamyl Transferace",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "CPK",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "LDH",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "Amylase",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "Total Protein/Albumin Each",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "Creatine Kinase",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "Cholesterol",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "Tryglyceride",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "CSF Protein",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "CSF Glucose",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "CSF Chloride",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "Registration (Out Of Station Emergencies)",
+        "FLORIDA 2": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Creatine Clearance",
+        "FLORIDA 2": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Urea Clearance",
+        "FLORIDA 2": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "LDL",
+        "FLORIDA 2": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "HDL",
+        "FLORIDA 2": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "General Consultation (Out Of Station Emergencies)",
+        "FLORIDA 2": 1875
+      },
+      {
+        "GENERAL DESCRIPTION": "Annual Physical Examination With Report (No Lab Tests)",
+        "FLORIDA 2": 1875
+      },
+      {
+        "GENERAL DESCRIPTION": "Suturing Of Simple Laceration (Out Of Station Emergencies)",
+        "FLORIDA 2": 1875
+      },
+      {
+        "GENERAL DESCRIPTION": "Phototherapy Per Diem",
+        "FLORIDA 2": 2250
+      },
+      {
+        "GENERAL DESCRIPTION": "Protein Electrophoresis",
+        "FLORIDA 2": 2250
+      },
+      {
+        "GENERAL DESCRIPTION": "Glucose Tolerance Test",
+        "FLORIDA 2": 2343.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Glycosylated Haemoglobin",
+        "FLORIDA 2": 2343.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Feeding Per Diem (Private Ward)",
+        "FLORIDA 2": 2812.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Feeding Per Diem (Semi-Private Ward)",
+        "FLORIDA 2": 2812.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Feeding Per Diem (General Ward)",
+        "FLORIDA 2": 2812.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Hepatitis B Vaccine/Dose",
+        "FLORIDA 2": 2812.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Tongue Tie Release",
+        "FLORIDA 2": 2812.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Neck Collar (Soft)",
+        "FLORIDA 2": 2812.5
+      },
+      {
+        "GENERAL DESCRIPTION": "G-6 Phosphate Dehydrogenase",
+        "FLORIDA 2": 2812.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Specialist Review (Inpatient)",
+        "FLORIDA 2": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "General Ward Per Diem",
+        "FLORIDA 2": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Nebulisation (Subsequent)",
+        "FLORIDA 2": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Incubator Care Per Diem",
+        "FLORIDA 2": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ear Piercing For Female Baby",
+        "FLORIDA 2": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Physiotherapy Service/Session (Maximum X6 Sessions)",
+        "FLORIDA 2": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Specialist Consultation-Follow Up (Out patient)",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Semi-Private Ward Per Diem",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Incision & Drainage (Out Of Station Emergencies)",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Nebulisation (Initial)",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Serum Electrolytes/Urea/Creatinine",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Liver Function Test",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Lipid Profile",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Catheterisation Of Urinary Bladder + Urine Bag",
+        "FLORIDA 2": 4687.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Oxygen Therapy Per Diem",
+        "FLORIDA 2": 4687.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Aspirations & Paracentesis",
+        "FLORIDA 2": 4687.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Haemophilus Influenzae Type B (HiB) Vaccine",
+        "FLORIDA 2": 5625
+      },
+      {
+        "GENERAL DESCRIPTION": "Gastric Lavage",
+        "FLORIDA 2": 5625
+      },
+      {
+        "GENERAL DESCRIPTION": "Neck Collar (Hard)",
+        "FLORIDA 2": 5625
+      },
+      {
+        "GENERAL DESCRIPTION": "Private Ward Per Diem",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Anti Rabies Vaccine",
+        "FLORIDA 2": 6562.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Typhoid Vaccine",
+        "FLORIDA 2": 6562.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Meningitis Vaccine",
+        "FLORIDA 2": 6562.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Measles, Mumps & Rubella (MMR) Vaccine",
+        "FLORIDA 2": 6562.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Circumcision Of Male Baby",
+        "FLORIDA 2": 7500
+      },
+      {
+        "GENERAL DESCRIPTION": "Birth Before Arrival (Bba) Care",
+        "FLORIDA 2": 7500
+      },
+      {
+        "GENERAL DESCRIPTION": "Rotavirus Vaccine",
+        "FLORIDA 2": 9375
+      },
+      {
+        "GENERAL DESCRIPTION": "Specialist Consultation-1st Visit",
+        "FLORIDA 2": 10125
+      },
+      {
+        "GENERAL DESCRIPTION": "Chicken Pox Vaccine",
+        "FLORIDA 2": 10312.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Hand Cast",
+        "FLORIDA 2": 12000
+      },
+      {
+        "GENERAL DESCRIPTION": "Foot/Ankle Cast",
+        "FLORIDA 2": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Fore Arm Cast",
+        "FLORIDA 2": 18000
+      },
+      {
+        "GENERAL DESCRIPTION": "Upper Arm Cast",
+        "FLORIDA 2": 18000
+      },
+      {
+        "GENERAL DESCRIPTION": "Transfussion Of Screened Blood (Rh +Ve)",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Full Arm Cast",
+        "FLORIDA 2": 27000
+      },
+      {
+        "GENERAL DESCRIPTION": "Leg Cast",
+        "FLORIDA 2": 27000
+      },
+      {
+        "GENERAL DESCRIPTION": "Knee Cast",
+        "FLORIDA 2": 27000
+      },
+      {
+        "GENERAL DESCRIPTION": "Rhogam Injection",
+        "FLORIDA 2": 28125
+      },
+      {
+        "GENERAL DESCRIPTION": "Transfussion Of Screened Blood (Rh -Ve)",
+        "FLORIDA 2": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Antenatal Care With Gen. Practitioner",
+        "FLORIDA 2": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Normal Delivery (With Or Without Episiotomy)",
+        "FLORIDA 2": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Full Leg Cast",
+        "FLORIDA 2": 37500
+      },
+      {
+        "GENERAL DESCRIPTION": "Hip Spica",
+        "FLORIDA 2": 37500
+      },
+      {
+        "GENERAL DESCRIPTION": "Antenatal Care With Obstetrician (Subject To Pre-Authorisation)",
+        "FLORIDA 2": 37500
+      },
+      {
+        "GENERAL DESCRIPTION": "Assisted Delivery ( Vacuum, Instrumental)",
+        "FLORIDA 2": 37500
+      },
+      {
+        "GENERAL DESCRIPTION": "Exchange Blood Transfussion (Rh +Ve, Inclusive Of Materials)",
+        "FLORIDA 2": 45000
+      },
+      {
+        "GENERAL DESCRIPTION": "Multiple Delivery",
+        "FLORIDA 2": 45000
+      },
+      {
+        "GENERAL DESCRIPTION": "Exchange Blood Transfussion (Rh -Ve, Inclusive Of Materials)",
+        "FLORIDA 2": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "TSH/T3/T4 Each",
+        "FLORIDA 2": 5625
+      },
+      {
+        "GENERAL DESCRIPTION": "Prolactin/Testoterone/FSH/LH (Each)",
+        "FLORIDA 2": 5625
+      },
+      {
+        "GENERAL DESCRIPTION": "Urine M/C/S",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "Microscopy Stool/Urine Each",
+        "FLORIDA 2": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Stool Ocult Blood",
+        "FLORIDA 2": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Stool M/C/S",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "HVS/Urethral Swab M/C/S Each",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "Ear/Nose/Throat Swab M/C/S Each",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "Sputum M/C/S",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "CSF M/C/S",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "Wound/Pus/Aspirate M/C/S Each",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "Blood Culture & Sensitivity",
+        "FLORIDA 2": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Malaria Parasite",
+        "FLORIDA 2": 600
+      },
+      {
+        "GENERAL DESCRIPTION": "Skin Snip For Microfilaria",
+        "FLORIDA 2": 600
+      },
+      {
+        "GENERAL DESCRIPTION": "AFB For TB (ZN Staining) Each",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "Skin Scraping For Fungal Studies",
+        "FLORIDA 2": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Gram Staining",
+        "FLORIDA 2": 375
+      },
+      {
+        "GENERAL DESCRIPTION": "Culture (Fungal)",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "Mantoux Test",
+        "FLORIDA 2": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Semen M/C/S",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "Semen Analysis",
+        "FLORIDA 2": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Widal",
+        "FLORIDA 2": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "VDRL",
+        "FLORIDA 2": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "ASO Titre",
+        "FLORIDA 2": 2812.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Rheumatoid Factor",
+        "FLORIDA 2": 2812.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Pregnancy Test-HCG (Blood)",
+        "FLORIDA 2": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "Blood Grouping",
+        "FLORIDA 2": 562.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Direct/Indirect Coombs Test Each",
+        "FLORIDA 2": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Hepatitis B Surface Antigen Screening (HbsAg)",
+        "FLORIDA 2": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Screening For HIV 1 & 2",
+        "FLORIDA 2": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "PCV/Haemoglobin",
+        "FLORIDA 2": 525
+      },
+      {
+        "GENERAL DESCRIPTION": "WBC (Total)",
+        "FLORIDA 2": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "WBC ( Differential)",
+        "FLORIDA 2": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Red Cell Count",
+        "FLORIDA 2": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Full Blood Count",
+        "FLORIDA 2": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "ESR Westergren",
+        "FLORIDA 2": 562.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Platelet Count",
+        "FLORIDA 2": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Reticulocyte Count",
+        "FLORIDA 2": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Peripheral Blood Film",
+        "FLORIDA 2": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "MCV/MCH/MCHC Each",
+        "FLORIDA 2": 656.25
+      },
+      {
+        "GENERAL DESCRIPTION": "Hb Genotype",
+        "FLORIDA 2": 600
+      },
+      {
+        "GENERAL DESCRIPTION": "Bleeding/Clotting Time Each",
+        "FLORIDA 2": 656.25
+      },
+      {
+        "GENERAL DESCRIPTION": "Prothrombin/Thromboplastin Time Each",
+        "FLORIDA 2": 1875
+      },
+      {
+        "GENERAL DESCRIPTION": "Cross Matching",
+        "FLORIDA 2": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "HIV Confirmatory",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Viral Load",
+        "FLORIDA 2": 7500
+      },
+      {
+        "GENERAL DESCRIPTION": "CD4 Count",
+        "FLORIDA 2": 5625
+      },
+      {
+        "GENERAL DESCRIPTION": "Cytology (Pap Smear, FNAC)",
+        "FLORIDA 2": 5625
+      },
+      {
+        "GENERAL DESCRIPTION": "Tissue Histopathology (Breast, Nodes, Etc)",
+        "FLORIDA 2": 9375
+      },
+      {
+        "GENERAL DESCRIPTION": "Hand",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Wrist",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Forearm",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Elbow",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Humerus",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Shoulder",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Clavicle",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Foot/Toe",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Ankle",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Leg (Tibia/Fibula)",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Knee",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Thigh (Femur)",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Hip Joint",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Pelvic (AP)",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pelvic & Hip",
+        "FLORIDA 2": 7500
+      },
+      {
+        "GENERAL DESCRIPTION": "Pelvimetry",
+        "FLORIDA 2": 7500
+      },
+      {
+        "GENERAL DESCRIPTION": "Chest (PA/AP)",
+        "FLORIDA 2": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Chest (PA & Lateral)",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Chest For Ribs (Obliques)",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Apical/Lordotic",
+        "FLORIDA 2": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Sternum",
+        "FLORIDA 2": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Thoracic Inlet",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cervical Spine",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cervical Spine (Obliques)",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Lateral Neck (Soft Tissue)",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Thoracic Spine",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Thoraco Lumbar Spine",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Lumbar Spine",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Lumbo Sacral Spine",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sacrum",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sacro Iliac Joint (S.I.J.)",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sacro-Coccxy",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Abdomen (Plain)",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Abdomen (Erect/Supine)",
+        "FLORIDA 2": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Abdomen (Erect & Supine)",
+        "FLORIDA 2": 7500
+      },
+      {
+        "GENERAL DESCRIPTION": "Skull (AP & Lat)",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Skull (PA/Lat/Townes)",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Mastoids",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Paranasal Sinuses",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Mandibles (Jaws)",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Temporo-Mandibular Joints (TMJ)",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sella Turcica",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tagential",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Occipito-Mental (Om)",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Post Nasal Space",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Internal Auditory Meatus",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Abdomen",
+        "FLORIDA 2": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Pelvic",
+        "FLORIDA 2": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Obstetric",
+        "FLORIDA 2": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Abdominopelvic",
+        "FLORIDA 2": 5250
+      },
+      {
+        "GENERAL DESCRIPTION": "Thyroid",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Scrotal",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Breast",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Prostate",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Bladder",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Transfontanellar",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ovulometry/TV Scan",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Barium Swallow",
+        "FLORIDA 2": 18000
+      },
+      {
+        "GENERAL DESCRIPTION": "Barium Meal",
+        "FLORIDA 2": 18000
+      },
+      {
+        "GENERAL DESCRIPTION": "Barium Meal & Follow Through",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Barium Enema",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Intravenous Urography (IVU)",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Cysto-Urethrogram (Micturating/Retrograde)",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Fistulogram/Sinogram Each",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Hysterosalphingogram (HSG)",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Mammogram",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Myelogram",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Electrocardiogram (E C G)",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "CT-Scan-Brain, Sinuses, Orbits, Neck",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "CT Scan-Chest, Abdomen, Pelvis",
+        "FLORIDA 2": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "CT Myelogram",
+        "FLORIDA 2": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "CT Pelvimetry",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Electroencephalogram (E E G)",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Echocardiogram",
+        "FLORIDA 2": 52500
+      },
+      {
+        "GENERAL DESCRIPTION": "Endoscopy",
+        "FLORIDA 2": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "Magnetic Resonance Imaging (MRI)",
+        "FLORIDA 2": 135000
+      },
+      {
+        "GENERAL DESCRIPTION": "Local",
+        "FLORIDA 2": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Intermediate",
+        "FLORIDA 2": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Major",
+        "FLORIDA 2": 37500
+      },
+      {
+        "GENERAL DESCRIPTION": "Minor",
+        "FLORIDA 2": 11250
+      },
+      {
+        "GENERAL DESCRIPTION": "Ganglion Excision",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Small Cyst Excision",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Biopsy Of Tumour Of Abdominal Wall",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Lumps Excision",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Minor Debridement Of Burns",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Electrofulguration Of Condylomata Acuminata",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Injection Sclerotherapy Of Varicose Veins",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision Of Tophi",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Pollicisation Of The Index Finger",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Release Of Chordae",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Minor Laceration",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Drainage In Haematoma Of Rectus Abdominis",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Polypectomy",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Intercostal Drainage Insertion",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Suprapubic Cystostomy",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Tracheostomy",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Release In Stenosing Tenosynovitis",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Syndactlysis",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Liver/Kidney/Bone Marrow Biopsy",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Ingrowing Toe Nail(Excision)",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Keloid Excision",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Biopsy Of Oesophageal Mass",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Dissection Of Inguinal Nodes",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Drainage Of Galactocoele",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Breast Lump Excision",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Synovectomy",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Cystic Hygroma Excision",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Skin Grafting",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Orchidectomy/Orchidopexy",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Abdominal Rectopexy",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Anal Spincteroplasty",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Drainage Of Anal Abscess",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Anal Fistulectomy Repair",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Cystourethroscopy",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Pericardiocentesis",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Hydrocoelectomy (All Inclusive)",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Epigastric Herniorrhaphy(All inclussive)",
+        "FLORIDA 2": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision Of Intrascrotal Mass",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgery Of Torsion Of Spermatic Cord",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Varicocoelectomy",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Dissection Of Femoral Triangle",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Multiple Ligation Of Veins",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Correction Of Dupuytren’s Contracture",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Herniorraphy-Inguinal/Others",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Thoracotomy",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Vasectomy",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Haemorrhoidectomy",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Fistula In-Ano Repair",
+        "FLORIDA 2": 67500
+      },
+      {
+        "GENERAL DESCRIPTION": "Tendon Grafting",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Oesophagostomy",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Anal Pull Through",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Oophorectomy",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Diverticulectomy",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Drainage Of Hepatic Abscess",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Splenic Laceration",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Retroperitoneal Drainage Of Perinephric Abscess",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Trans-Perineal/Transrectal Biopsy Of Prostate",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Resection Of Median Bar Obstruction",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Corporosavenous Shunt",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Cavernospongiosum Shunt",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Transurethral Dessication Of Congenital Meatal Stenosis",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Uretherectomy",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Exploration For Anorchism",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Stripping And Ligation Of Veins",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Thrombectomy By Forarty’s Catheterisation",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Colostomy Construction/Closure",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Enterostomy",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgery Of Uncomplicated Intestinal Obstruction Without Resection",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Hiatus Herniorrphaphy",
+        "FLORIDA 2": 82500
+      },
+      {
+        "GENERAL DESCRIPTION": "Oesophageal Atresia And Tracheo-Oesophageal Fistula Repair",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hypospadia Repair",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pyelotomy",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Craniotomy",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pyeloroplasty",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Oesophageal Lacerations",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Choledochostomy",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Bochidalek Diaphragmatic Congenital Defect",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Meckel’s Diverticulectomy",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Renal Cystectomy",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vesical Diverticulectomy",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Penoplasty",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Penectomy",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Mastectomy",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Diaphragmatic Hernia Repair",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Exploratory Laparotomy/Lysis Of Adhensions",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Gastroenterostomy",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Intussusception Operation",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pyloromyotomy",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Resection And Anstomoses (Small/Large Intestines)",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Splenectomy/Splenorrhaphy",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cystectomy Partial/Total",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Axillary Dissection Of Breast",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Extensive (Small And Large) Bowel Resection And Anastomoses",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgery Of Acute Intra Abdominal Vascular Disease",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Gastric Lacerations",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Small Bowel Perforations",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgery Of Large Bowel Perforations",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgery Of Hepatic Trauma",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hepatic Segmentectomy",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Oddis Sphincteroplasty",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Choledochojejunostomy",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Transduodenal Choledochal Cystectomy",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Choledochal Cystojejunostomy",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision Of Lymphoedematous Lymph Tissues",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Roux-En-Y Pancreaticojejunostomy",
+        "FLORIDA 2": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Drainage Of Septic Arthritis",
+        "FLORIDA 2": 37500
+      },
+      {
+        "GENERAL DESCRIPTION": "Exostectomy",
+        "FLORIDA 2": 37500
+      },
+      {
+        "GENERAL DESCRIPTION": "Excisional Biopsy",
+        "FLORIDA 2": 37500
+      },
+      {
+        "GENERAL DESCRIPTION": "Skin Traction",
+        "FLORIDA 2": 37500
+      },
+      {
+        "GENERAL DESCRIPTION": "Simple Congenital Talipes Repair",
+        "FLORIDA 2": 37500
+      },
+      {
+        "GENERAL DESCRIPTION": "Subperiosteal Drainage Of Acute Osteomyelitis",
+        "FLORIDA 2": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "Chondromectomy",
+        "FLORIDA 2": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sequestrectomy",
+        "FLORIDA 2": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "Saucerisation Of Chronically Infected Bone",
+        "FLORIDA 2": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "Amputation And Disarticulation Of Joints.",
+        "FLORIDA 2": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Repair Of Congenital Talipes",
+        "FLORIDA 2": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Equanovarus/Valgus",
+        "FLORIDA 2": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tendon Transplant",
+        "FLORIDA 2": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tenoplasty",
+        "FLORIDA 2": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Arthroplasty",
+        "FLORIDA 2": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Arthrodesis",
+        "FLORIDA 2": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Open Reduction And Internal Fixation Of Fractures",
+        "FLORIDA 2": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Osteoclasis, Internal Fixation Of Malunion",
+        "FLORIDA 2": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Bone Grafting",
+        "FLORIDA 2": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cystic/Fibrous Dysplasia/Cancer Surgery",
+        "FLORIDA 2": 84375
+      },
+      {
+        "GENERAL DESCRIPTION": "Odontogenic Tumours.",
+        "FLORIDA 2": 84375
+      },
+      {
+        "GENERAL DESCRIPTION": "Cleft Lip And Palate Repairs.",
+        "FLORIDA 2": 84375
+      },
+      {
+        "GENERAL DESCRIPTION": "Submandibular Gland Excision",
+        "FLORIDA 2": 84375
+      },
+      {
+        "GENERAL DESCRIPTION": "Foreign Body Removal From The Ear, Nose And Throat",
+        "FLORIDA 2": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Electrocautery Of Nose",
+        "FLORIDA 2": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Nasal Packing",
+        "FLORIDA 2": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Aural And Nasal Suction/Clearance",
+        "FLORIDA 2": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Incision And Drainage Of Abscess",
+        "FLORIDA 2": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Debridement And Toilet Of Wounds",
+        "FLORIDA 2": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Suturing Of Lacerrations",
+        "FLORIDA 2": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Manipulation Of Nose",
+        "FLORIDA 2": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Indirect Laryngoscopy",
+        "FLORIDA 2": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Antral Lavage",
+        "FLORIDA 2": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tonsilectomy& Adenoidectomy ( inclussive)",
+        "FLORIDA 2": 225000
+      },
+      {
+        "GENERAL DESCRIPTION": "Adenoidectomy &Tonsilectomy (All inclussive)",
+        "FLORIDA 2": 225000
+      },
+      {
+        "GENERAL DESCRIPTION": "Nasal Sinus Surgery E.G Caldwell Luc",
+        "FLORIDA 2": 46875
+      },
+      {
+        "GENERAL DESCRIPTION": "Tympanoplasty",
+        "FLORIDA 2": 46875
+      },
+      {
+        "GENERAL DESCRIPTION": "Mastoid Surgery",
+        "FLORIDA 2": 46875
+      },
+      {
+        "GENERAL DESCRIPTION": "Parotidectomy",
+        "FLORIDA 2": 46875
+      },
+      {
+        "GENERAL DESCRIPTION": "Submandibular Glad Excision",
+        "FLORIDA 2": 46875
+      },
+      {
+        "GENERAL DESCRIPTION": "Laryngeal Surgery",
+        "FLORIDA 2": 46875
+      },
+      {
+        "GENERAL DESCRIPTION": "Cyclocryoablation",
+        "FLORIDA 2": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Traumatic Lid Laceration Repair",
+        "FLORIDA 2": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Removal Of Foreign Bodies From Conjunctiva And Cornea",
+        "FLORIDA 2": 14062.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Chalazion Excision",
+        "FLORIDA 2": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Granuloma Excision",
+        "FLORIDA 2": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Lacrimal Syringing",
+        "FLORIDA 2": 5625
+      },
+      {
+        "GENERAL DESCRIPTION": "Tumour Excision From Lid",
+        "FLORIDA 2": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Entropion And Ectropion Repairs",
+        "FLORIDA 2": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Pterygium Excision.",
+        "FLORIDA 2": 28125
+      },
+      {
+        "GENERAL DESCRIPTION": "Traumatic Cannalicular Repair",
+        "FLORIDA 2": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Paracentesis(A/C Washout)",
+        "FLORIDA 2": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Squint Surgery",
+        "FLORIDA 2": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ptosis Repair",
+        "FLORIDA 2": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Extracapsular Cataract Extraction With Intraocular Lens Implantation",
+        "FLORIDA 2": 112500
+      },
+      {
+        "GENERAL DESCRIPTION": "Intracapsular Cataract Extraction With Intraocular Lens Implantation",
+        "FLORIDA 2": 112500
+      },
+      {
+        "GENERAL DESCRIPTION": "Combined Cataract Extraction With Trabeculectomy",
+        "FLORIDA 2": 112500
+      },
+      {
+        "GENERAL DESCRIPTION": "Trabeculectomy With Antimet Abolites",
+        "FLORIDA 2": 93750
+      },
+      {
+        "GENERAL DESCRIPTION": "Scleral Buckling Procedures",
+        "FLORIDA 2": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Evisceration/Enucleation/Extenteration",
+        "FLORIDA 2": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "IUCD Insertion/Removal",
+        "FLORIDA 2": 11250
+      },
+      {
+        "GENERAL DESCRIPTION": "Cervical Cautery",
+        "FLORIDA 2": 11250
+      },
+      {
+        "GENERAL DESCRIPTION": "Cervical Cone/Punch Biopsy",
+        "FLORIDA 2": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cervical Laceration Repair",
+        "FLORIDA 2": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Colposcopy",
+        "FLORIDA 2": 11250
+      },
+      {
+        "GENERAL DESCRIPTION": "Hysteroscopy",
+        "FLORIDA 2": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Dye Test",
+        "FLORIDA 2": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Examination Under Anaesthesia(EUA)",
+        "FLORIDA 2": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Removal Of IUCD Under General Anaesthesia",
+        "FLORIDA 2": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Dilatation And Curetage",
+        "FLORIDA 2": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Evacuation Of Retained Products Of Conception",
+        "FLORIDA 2": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision/Diathermy Of Warts",
+        "FLORIDA 2": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision Of Vaginal Septum",
+        "FLORIDA 2": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Third Degree Tear",
+        "FLORIDA 2": 37500
+      },
+      {
+        "GENERAL DESCRIPTION": "Marsupialisation",
+        "FLORIDA 2": 37500
+      },
+      {
+        "GENERAL DESCRIPTION": "Cervical Circlage/Shirodkar Suture",
+        "FLORIDA 2": 37500
+      },
+      {
+        "GENERAL DESCRIPTION": "Bilateral Tubal Ligation",
+        "FLORIDA 2": 52500
+      },
+      {
+        "GENERAL DESCRIPTION": "Mini Laparotomy",
+        "FLORIDA 2": 52500
+      },
+      {
+        "GENERAL DESCRIPTION": "Diagnostic Laparoscopy",
+        "FLORIDA 2": 52500
+      },
+      {
+        "GENERAL DESCRIPTION": "Laparoscopy & Dye Test",
+        "FLORIDA 2": 52500
+      },
+      {
+        "GENERAL DESCRIPTION": "Destructive Delivery (Craniotomy-Embryotomy)",
+        "FLORIDA 2": 52500
+      },
+      {
+        "GENERAL DESCRIPTION": "Ceasarean Section (All inclussive)",
+        "FLORIDA 2": 225000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vulvectomy",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Wedge Resection Of The Ovary",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Amputation Of Cervix",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Reconstruction Of Vagina",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ectopic Pregnancy",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ovariectomy",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vaginoclesis",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Salpingo-Oophoreictomy",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ovarian Biopsy",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Laparotomy Diagnostic/Therapeutic, Inter-Sex",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ovarian Cysts",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Broad Ligament Haematoma",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Colporrhaphy/Colpoperineorrhaphy",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vaginal Hysterectomy/Manchester Repair",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ventrosuspension Of The Bladder",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hysterectomy",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hysterectomy And Bilateral Salpingo-Oophorectomy",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Reconstruction Surgery E.g Straussman Operation",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ventrosuspension Procedures Of Correction Of Uterine",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Myomectomy (All inclussive)",
+        "FLORIDA 2": 270000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Inverted Uterus",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Perforated/Ruptured Uterus",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tubal Reconstruction",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pelvic/Abdominal Abscess Drainage",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pelvic Haematocoele",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Rectovaginal Fistula Repair",
+        "FLORIDA 2": 90000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vesicovaginal Fistula Repair",
+        "FLORIDA 2": 90000
+      }
+    ]
+  }
