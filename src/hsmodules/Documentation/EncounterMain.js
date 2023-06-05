@@ -848,58 +848,39 @@ export default function EncounterMain({nopresc, chosenClient}) {
                           )
                         ) : (
                           <div className="field">
-                            {Object.entries(Clinic.documentdetail).map(
-                              ([keys, value], i) => (
-                                <Box
-                                  sx={{height: "auto", width: "100%"}}
-                                  key={i}
-                                >
-                                  <Grid container spacing={2}>
-                                    <Grid item xs={12}>
-                                      <Box sx={{display: "flex"}}>
-                                        <Typography
-                                          sx={{
-                                            fontSize: "0.75rem",
-                                            fontWeight: "600",
-                                            color: "#03045e",
-                                            marginRight: "5px",
-                                          }}
-                                        >
-                                          {keys}:
-                                        </Typography>
+  <table style={{ width: "100%", borderCollapse: "collapse" }}>
+    <thead>
+      <tr>
+        <th style={{ backgroundColor: "#0E305D", color: "#ffffff", padding: "10px", textAlign: "left", fontSize: 14 }}>
+        Document Field
+        </th>
+        <th style={{ backgroundColor: " #0E305D", color: "#ffffff", padding: "10px", textAlign: "left", fontSize: 14 }}>
+        Field Values
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {Object.entries(Clinic.documentdetail).map(([keys, value], i) => (
+        <tr key={i}>
+          <td style={{ border: "1px solid #e0e0e0", padding: "10px", fontSize: 14 }}>
+            {keys}
+          </td>
+          <td style={{ border: "1px solid #e0e0e0", padding: "10px", fontSize: 13 }}>{value}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+    )}
+  </div>
+)}
 
-                                        <Typography
-                                          sx={{
-                                            fontSize: "0.75rem",
-                                            color: "#000000",
-                                          }}
-                                        >
-                                          {value}
-                                        </Typography>
-                                      </Box>
-                                    </Grid>
-                                  </Grid>
-                                </Box>
-                              )
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                  <DocumentToRender Clinic={Clinic} index={i} />
-                </Collapse>
-              </>
-            ))}
-          </Box>
-        </Box>
-
-        {/* <Slide
-          mountOnEnter
-          unmountOnExit
-          direction="left"
-          in={state.DocumentClassModule.encounter_right}
-        > */}
+<DocumentToRender Clinic={Clinic} index={i} />
+</Collapse>
+</>
+))}
+</Box>
+</Box>
         <Drawer
           anchor={"right"}
           open={state.DocumentClassModule.encounter_right}
