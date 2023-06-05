@@ -1,0 +1,2888 @@
+{
+    "E-CLINIC DIAGNOSTIC": [
+      {
+        "TEST NAME": "Cystic Fibrosis Pcr Full Gene (Screen For 36 Mutations)",
+        "PRICE": 1350000
+      },
+      {
+        "TEST NAME": " Prostaglandin",
+        "PRICE": 850000
+      },
+      {
+        "TEST NAME": "Hiv Resistance Testing & Viral Load",
+        "PRICE": 505000
+      },
+      {
+        "TEST NAME": "Cystic Fibrosis Pcr (Df508)",
+        "PRICE": 460000
+      },
+      {
+        "TEST NAME": "Cdii7/C-Kit Assay",
+        "PRICE": 450000
+      },
+      {
+        "TEST NAME": "Hirsutism Screen (Full)",
+        "PRICE": 435000
+      },
+      {
+        "TEST NAME": "Thrombophilia Screening Panel",
+        "PRICE": 380000
+      },
+      {
+        "TEST NAME": "Muscle Specific Kinase Antibody",
+        "PRICE": 350000
+      },
+      {
+        "TEST NAME": "Platelet Concentrate",
+        "PRICE": 350000
+      },
+      {
+        "TEST NAME": "Platelet Concentrate + Plasma",
+        "PRICE": 350000
+      },
+      {
+        "TEST NAME": "Platelet Plasma",
+        "PRICE": 350000
+      },
+      {
+        "TEST NAME": "Dna Paternity Testing X4",
+        "PRICE": 290000
+      },
+      {
+        "TEST NAME": "Toxocology Screen",
+        "PRICE": 235000
+      },
+      {
+        "TEST NAME": "Dna Paternity Testing X3",
+        "PRICE": 230000
+      },
+      {
+        "TEST NAME": "Catecholamines(Plasma) Edta",
+        "PRICE": 212000
+      },
+      {
+        "TEST NAME": "Second Line Tb Sensisitivity",
+        "PRICE": 205000
+      },
+      {
+        "TEST NAME": "Catecholamines (Urine)",
+        "PRICE": 195000
+      },
+      {
+        "TEST NAME": "Protein Electrophoresis + Immunofixction",
+        "PRICE": 195000
+      },
+      {
+        "TEST NAME": "Cytomegalovirus Quantification Pcr",
+        "PRICE": 190000
+      },
+      {
+        "TEST NAME": "G6Pd Gene Mutation Detection By Pcr",
+        "PRICE": 190000
+      },
+      {
+        "TEST NAME": "Prostatic Biospy",
+        "PRICE": 185000
+      },
+      {
+        "TEST NAME": "Acid Fast Bacilli (Afb) Sensitivity 10 Drug Panel",
+        "PRICE": 180000
+      },
+      {
+        "TEST NAME": "Cytomegalovirus (Cmv) Pcr",
+        "PRICE": 170000
+      },
+      {
+        "TEST NAME": "Cytomegalovirus Detection Pcr",
+        "PRICE": 170000
+      },
+      {
+        "TEST NAME": "Dna Paternity Testing X2",
+        "PRICE": 170000
+      },
+      {
+        "TEST NAME": "Ca 27-29 + Ca 15-3(Breast Cancer Markers Panel)",
+        "PRICE": 165000
+      },
+      {
+        "TEST NAME": "Full Mouth Denture",
+        "PRICE": 160000
+      },
+      {
+        "TEST NAME": "Oligoclonal Bands (Csf Blood)",
+        "PRICE": 160000
+      },
+      {
+        "TEST NAME": "Ultrasound Guided Biopsy And Histology/Cytology",
+        "PRICE": 160000
+      },
+      {
+        "TEST NAME": "Monospot Paul Bunnel",
+        "PRICE": 155000
+      },
+      {
+        "TEST NAME": "Dopamin (24Hrs Urine)",
+        "PRICE": 151000
+      },
+      {
+        "TEST NAME": "Bone Profile",
+        "PRICE": 150000
+      },
+      {
+        "TEST NAME": "Mri Both Feet",
+        "PRICE": 144000
+      },
+      {
+        "TEST NAME": "Protein C (Activity&Ag)",
+        "PRICE": 140000
+      },
+      {
+        "TEST NAME": "Protein S (Activity & Ag)",
+        "PRICE": 140000
+      },
+      {
+        "TEST NAME": "Tissue Ab ( Mitoch, Parietal, Sm.Muscle)",
+        "PRICE": 140000
+      },
+      {
+        "TEST NAME": "Von Willerbrand (Multimere Analysis)",
+        "PRICE": 140000
+      },
+      {
+        "TEST NAME": "Tacrolimus",
+        "PRICE": 132000
+      },
+      {
+        "TEST NAME": "Multi Drug Resistant Tb 1St Line",
+        "PRICE": 130000
+      },
+      {
+        "TEST NAME": "Ct Angiogram (Chest/Abdomen)",
+        "PRICE": 128000
+      },
+      {
+        "TEST NAME": "Herpes Simplex I & Ii (Pcr)",
+        "PRICE": 120600
+      },
+      {
+        "TEST NAME": "Herpes Simplex Virus Dna Detector 1&2",
+        "PRICE": 120600
+      },
+      {
+        "TEST NAME": "Allergy Screening (Profile)",
+        "PRICE": 120000
+      },
+      {
+        "TEST NAME": "Ct Angiogram (Head And Neck)",
+        "PRICE": 120000
+      },
+      {
+        "TEST NAME": "Ct Angiogram (Lower Limbs)",
+        "PRICE": 120000
+      },
+      {
+        "TEST NAME": "Ct Angiogram (Upper Limb)",
+        "PRICE": 120000
+      },
+      {
+        "TEST NAME": "Ct Entire Spine",
+        "PRICE": 120000
+      },
+      {
+        "TEST NAME": "Ceramic Inlays/Onlays",
+        "PRICE": 96000
+      },
+      {
+        "TEST NAME": "Ct Guided Biopsy And Histology",
+        "PRICE": 96000
+      },
+      {
+        "TEST NAME": "Ct Virtual Colonoscopy",
+        "PRICE": 96000
+      },
+      {
+        "TEST NAME": "Surgical Exposure Of Impacted Tooth",
+        "PRICE": 96000
+      },
+      {
+        "TEST NAME": "Porphyria Screen",
+        "PRICE": 90000
+      },
+      {
+        "TEST NAME": "Ct Chest & Abdomen/Abdominopelvic",
+        "PRICE": 88000
+      },
+      {
+        "TEST NAME": "Cyclosporine Drug Test",
+        "PRICE": 87200
+      },
+      {
+        "TEST NAME": "Vancomycin Post",
+        "PRICE": 87200
+      },
+      {
+        "TEST NAME": "Scleroderma Antibodies",
+        "PRICE": 87000
+      },
+      {
+        "TEST NAME": "Anti Jo - 1",
+        "PRICE": 85000
+      },
+      {
+        "TEST NAME": "Dopamin (Blood)",
+        "PRICE": 85000
+      },
+      {
+        "TEST NAME": "Factor Ii",
+        "PRICE": 81600
+      },
+      {
+        "TEST NAME": "Von Willerbrand (Antigen)",
+        "PRICE": 81000
+      },
+      {
+        "TEST NAME": " Histamin",
+        "PRICE": 80000
+      },
+      {
+        "TEST NAME": "Cd 68",
+        "PRICE": 80000
+      },
+      {
+        "TEST NAME": "Ct Abdominal/Abdominopelvic (Triphasic)",
+        "PRICE": 80000
+      },
+      {
+        "TEST NAME": "Ct Angiogram",
+        "PRICE": 80000
+      },
+      {
+        "TEST NAME": "Ct Angiogram (Cerebral)",
+        "PRICE": 80000
+      },
+      {
+        "TEST NAME": "Ct Angiogram (Pulmonary)",
+        "PRICE": 80000
+      },
+      {
+        "TEST NAME": "Ebv Serology (Ebv Igg, Igm, Nuclear Ab & Antigen)",
+        "PRICE": 80000
+      },
+      {
+        "TEST NAME": "Mesiobuccal Impaction Or Any Other Variation",
+        "PRICE": 80000
+      },
+      {
+        "TEST NAME": "Surgical Extraction Of Lower 3Rd Molar",
+        "PRICE": 80000
+      },
+      {
+        "TEST NAME": "Ultrasound Guided Biopsy",
+        "PRICE": 80000
+      },
+      {
+        "TEST NAME": "Acid Fast Bacilli (Afb) Sensitivity 5 Drug Panel",
+        "PRICE": 78400
+      },
+      {
+        "TEST NAME": "Cyclosporin",
+        "PRICE": 78400
+      },
+      {
+        "TEST NAME": "Pitiutary Screen",
+        "PRICE": 78400
+      },
+      {
+        "TEST NAME": "Pre Vancomycin",
+        "PRICE": 78400
+      },
+      {
+        "TEST NAME": "Tombramycin Post",
+        "PRICE": 78400
+      },
+      {
+        "TEST NAME": "Vitamin K ( Menaquinone)",
+        "PRICE": 76500
+      },
+      {
+        "TEST NAME": "Somatomedin-C (Insulin Growth Factor -1)",
+        "PRICE": 76480
+      },
+      {
+        "TEST NAME": "Hcv Viral Load + Hcv Genotype Test",
+        "PRICE": 76000
+      },
+      {
+        "TEST NAME": "Lupus Anticoagulant",
+        "PRICE": 75120
+      },
+      {
+        "TEST NAME": "Pre Amikacin",
+        "PRICE": 74400
+      },
+      {
+        "TEST NAME": "Pre Tobramycin",
+        "PRICE": 74400
+      },
+      {
+        "TEST NAME": "Theophylin",
+        "PRICE": 74400
+      },
+      {
+        "TEST NAME": "Cd 14",
+        "PRICE": 73800
+      },
+      {
+        "TEST NAME": " Epinephrine(Urine)",
+        "PRICE": 72160
+      },
+      {
+        "TEST NAME": "Ct Guided Biopsy (W/O Biopsy Pack)",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Ct Renal Angiogram",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Mra (Tof)",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Mra + Mrv",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Mri Abdomen",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Mri Brain",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Mri Cervical Spine",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Mri Chest",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Mri Foot (Single)",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Mri Iac",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Mri Larynx/Pharynx",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Mri Lumbosacral",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Mri Mandible/Jaw",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Mri Mastoids/Temporal Bones",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Mri Maxilla/Zygomatic",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Mri Neck",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Mri Orbit",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Mri Pelvis",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Mri Thoracic Spines",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Mri Tmj",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Mrv",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Renin/Aldosterone Active",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Von Wiilerbrand (Activity)",
+        "PRICE": 72000
+      },
+      {
+        "TEST NAME": "Vitamin B 3 (Niacin)",
+        "PRICE": 71200
+      },
+      {
+        "TEST NAME": " Epinephrine(Blood)",
+        "PRICE": 68000
+      },
+      {
+        "TEST NAME": "Brucella Igg & Igm",
+        "PRICE": 68000
+      },
+      {
+        "TEST NAME": "Metanephrines 24Hr Urine (Pheo)",
+        "PRICE": 68000
+      },
+      {
+        "TEST NAME": "Protein C( Activity)",
+        "PRICE": 64800
+      },
+      {
+        "TEST NAME": "Protein S(Activity)",
+        "PRICE": 64800
+      },
+      {
+        "TEST NAME": " Tissue Antibodies Panel",
+        "PRICE": 64350
+      },
+      {
+        "TEST NAME": "Ct Abdomen/Abdominopelvic",
+        "PRICE": 64000
+      },
+      {
+        "TEST NAME": "Ct Ankles (Both)",
+        "PRICE": 64000
+      },
+      {
+        "TEST NAME": "Ct Calcaneum (Both)",
+        "PRICE": 64000
+      },
+      {
+        "TEST NAME": "Ct Cervico-Thoracic Spine",
+        "PRICE": 64000
+      },
+      {
+        "TEST NAME": "Ct Feet (Both)",
+        "PRICE": 64000
+      },
+      {
+        "TEST NAME": "Ct Femur (Both)",
+        "PRICE": 64000
+      },
+      {
+        "TEST NAME": "Ct Head And Neck",
+        "PRICE": 64000
+      },
+      {
+        "TEST NAME": "Ct Knees (Both)",
+        "PRICE": 64000
+      },
+      {
+        "TEST NAME": "Ct Shoulders (Both)",
+        "PRICE": 64000
+      },
+      {
+        "TEST NAME": "Ct Thoraco-Lumbar Spine",
+        "PRICE": 64000
+      },
+      {
+        "TEST NAME": "Ct Tibia/Fibula (Legs) (Both)",
+        "PRICE": 64000
+      },
+      {
+        "TEST NAME": "Ct Upper Limbs (Both)",
+        "PRICE": 64000
+      },
+      {
+        "TEST NAME": "Vitamin E (Tocopherol)",
+        "PRICE": 63600
+      },
+      {
+        "TEST NAME": "Vitamin A(Serum)",
+        "PRICE": 63360
+      },
+      {
+        "TEST NAME": "Vitamin B 5 (Pantothenic Acid)",
+        "PRICE": 63280
+      },
+      {
+        "TEST NAME": "Dehydroepiandrosterone(Dhea)",
+        "PRICE": 61200
+      },
+      {
+        "TEST NAME": "Antenatal Screen",
+        "PRICE": 60800
+      },
+      {
+        "TEST NAME": "Factor V Leyden",
+        "PRICE": 60000
+      },
+      {
+        "TEST NAME": "Immunohistochemistry (Breast Tissue)",
+        "PRICE": 60000
+      },
+      {
+        "TEST NAME": "Pro Bnp",
+        "PRICE": 60000
+      },
+      {
+        "TEST NAME": "Sodium Valporate",
+        "PRICE": 60000
+      },
+      {
+        "TEST NAME": "Ssa (Ro Antibodies)",
+        "PRICE": 60000
+      },
+      {
+        "TEST NAME": "Ssb (La Antibodies)",
+        "PRICE": 60000
+      },
+      {
+        "TEST NAME": "Torch Screen (Cmv, Rubell, Toxo, Herpes Types I & Ii)",
+        "PRICE": 60000
+      },
+      {
+        "TEST NAME": "Factor X",
+        "PRICE": 59200
+      },
+      {
+        "TEST NAME": "Factor Viii Quantitative",
+        "PRICE": 57600
+      },
+      {
+        "TEST NAME": "Asot Anti-Dnase B",
+        "PRICE": 56000
+      },
+      {
+        "TEST NAME": "Catheterization For Hsg",
+        "PRICE": 56000
+      },
+      {
+        "TEST NAME": "Ct Guided Biopsy",
+        "PRICE": 56000
+      },
+      {
+        "TEST NAME": "Ct Pelvic (Contrast)",
+        "PRICE": 56000
+      },
+      {
+        "TEST NAME": "Ct Urography (Ivu)",
+        "PRICE": 56000
+      },
+      {
+        "TEST NAME": "Horizontal Impaction",
+        "PRICE": 56000
+      },
+      {
+        "TEST NAME": "Carbamazephin",
+        "PRICE": 54400
+      },
+      {
+        "TEST NAME": "Phenobarbitone",
+        "PRICE": 54400
+      },
+      {
+        "TEST NAME": "Phenytoin",
+        "PRICE": 54400
+      },
+      {
+        "TEST NAME": "Intrinsic Factor",
+        "PRICE": 54000
+      },
+      {
+        "TEST NAME": " First Trimester Screen",
+        "PRICE": 53600
+      },
+      {
+        "TEST NAME": "B2 - Microglobulin",
+        "PRICE": 53600
+      },
+      {
+        "TEST NAME": " Trypsin (Serum)",
+        "PRICE": 52400
+      },
+      {
+        "TEST NAME": "17 - Oh Progesterone",
+        "PRICE": 52400
+      },
+      {
+        "TEST NAME": " Total, Free Testosterone & Shbg",
+        "PRICE": 52000
+      },
+      {
+        "TEST NAME": "Csf Pcr (Toxoplasma)",
+        "PRICE": 52000
+      },
+      {
+        "TEST NAME": "Digoxin",
+        "PRICE": 52000
+      },
+      {
+        "TEST NAME": "Hcv Genotype[Detection For Genotype]",
+        "PRICE": 52000
+      },
+      {
+        "TEST NAME": "Myoglobin Serum",
+        "PRICE": 52000
+      },
+      {
+        "TEST NAME": "Porcelain Fused To Metal Crown",
+        "PRICE": 52000
+      },
+      {
+        "TEST NAME": "Tb Culture",
+        "PRICE": 52000
+      },
+      {
+        "TEST NAME": "Trypsin (Serum)",
+        "PRICE": 52000
+      },
+      {
+        "TEST NAME": "Varilly Mandelic Acid (Vma) Urine",
+        "PRICE": 51600
+      },
+      {
+        "TEST NAME": "Tb Pcr",
+        "PRICE": 50400
+      },
+      {
+        "TEST NAME": "Vitamin B1 (Thiamine)",
+        "PRICE": 50000
+      },
+      {
+        "TEST NAME": "Anti-Sperm Antibody",
+        "PRICE": 49600
+      },
+      {
+        "TEST NAME": "Haptoglobin",
+        "PRICE": 49600
+      },
+      {
+        "TEST NAME": "Vitamin B6 (Pyridoxine)",
+        "PRICE": 49200
+      },
+      {
+        "TEST NAME": "Antigliadin Peptide Iga",
+        "PRICE": 48800
+      },
+      {
+        "TEST NAME": "Anti-Cyclic Citrullinated Peptide (Anti-Ccp)",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Anti-Gad Antibody Test",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Ankle",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Brain",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Calcaneum",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Cervical Spine",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Chest",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Cranio-Cervical",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Cranio-Facial",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Elbow",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Femur",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Foot",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Hand",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Humerus",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Knee",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Larynx/Pharynx",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Lumbosacral Spine",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Mandible",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Maxilla/Zygomatic",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Nasopharynx",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Neck",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Paranasal Sinuses",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Parotid Gland",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Pelvic (Plain)",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Radius/Ulna (Forearm)",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Shoulder",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Temperomastoids",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Thoracic Spine",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Tibia/Fibula (Leg)",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Urography (Ivu) (Paed.)",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Ct Wrist",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Erythropoetin (Epo)",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Factor Xii",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Procalcitonin (Quantitative)",
+        "PRICE": 48000
+      },
+      {
+        "TEST NAME": "Thyroid Antibodies",
+        "PRICE": 47840
+      },
+      {
+        "TEST NAME": "Chlamydia Pcr (Urine)",
+        "PRICE": 47200
+      },
+      {
+        "TEST NAME": "Stbgold Tb Quantiferon",
+        "PRICE": 46800
+      },
+      {
+        "TEST NAME": "Vitamin H (Biotin)",
+        "PRICE": 46800
+      },
+      {
+        "TEST NAME": "Growth Hormone (Gh)",
+        "PRICE": 45600
+      },
+      {
+        "TEST NAME": "Antimitochondrial Antibodies",
+        "PRICE": 44800
+      },
+      {
+        "TEST NAME": "Factor Vii",
+        "PRICE": 44800
+      },
+      {
+        "TEST NAME": "1,25 Dihydroxy Vitamin D (Calcitriol)",
+        "PRICE": 44000
+      },
+      {
+        "TEST NAME": "Bence-Jones Prot (Urine)",
+        "PRICE": 44000
+      },
+      {
+        "TEST NAME": "Ct Abdominal/Abdominopelvic (Plain) (Ewh)",
+        "PRICE": 44000
+      },
+      {
+        "TEST NAME": "Ct Brain (Fcta)",
+        "PRICE": 44000
+      },
+      {
+        "TEST NAME": "Gonorrhea Neisseria Quantitative Pcr(Swab/Serum)",
+        "PRICE": 44000
+      },
+      {
+        "TEST NAME": "Hepatitis B Virus Dna Genotype(Plasma)",
+        "PRICE": 44000
+      },
+      {
+        "TEST NAME": "Tb Culture With Sensitivity",
+        "PRICE": 44000
+      },
+      {
+        "TEST NAME": "Active Vitamin B12 (Serum)",
+        "PRICE": 42720
+      },
+      {
+        "TEST NAME": "Sodium Valproate(Epilum)",
+        "PRICE": 42720
+      },
+      {
+        "TEST NAME": " Cystatin C & Egfr (Serum)",
+        "PRICE": 42000
+      },
+      {
+        "TEST NAME": "Infertility Profile (Female)",
+        "PRICE": 41600
+      },
+      {
+        "TEST NAME": "Renin (Direct)",
+        "PRICE": 41600
+      },
+      {
+        "TEST NAME": "Vitamin C",
+        "PRICE": 40480
+      },
+      {
+        "TEST NAME": "Asot Anti-Streptolysin 0 (Neph)",
+        "PRICE": 40000
+      },
+      {
+        "TEST NAME": "Chronic Hepatitis(Hep B Sag, Hep B Cab, Hepb Sab, Hcv Ab)",
+        "PRICE": 40000
+      },
+      {
+        "TEST NAME": "Doppler (Bilateral)",
+        "PRICE": 40000
+      },
+      {
+        "TEST NAME": "Frenectomy",
+        "PRICE": 40000
+      },
+      {
+        "TEST NAME": "Full Metal Crown",
+        "PRICE": 40000
+      },
+      {
+        "TEST NAME": "Haemolytic Screen",
+        "PRICE": 40000
+      },
+      {
+        "TEST NAME": "Serial Extraction Procedure",
+        "PRICE": 40000
+      },
+      {
+        "TEST NAME": "Factor Viii",
+        "PRICE": 39600
+      },
+      {
+        "TEST NAME": "Yersina",
+        "PRICE": 38480
+      },
+      {
+        "TEST NAME": "Serum Cholinesterase",
+        "PRICE": 38400
+      },
+      {
+        "TEST NAME": "Angiotensin Converting Enzyme (Ace)",
+        "PRICE": 37800
+      },
+      {
+        "TEST NAME": "Factor V",
+        "PRICE": 37600
+      },
+      {
+        "TEST NAME": "Le Cells",
+        "PRICE": 37600
+      },
+      {
+        "TEST NAME": "Glucose-6-Phosphate Dehydrogenase(G6Pd)",
+        "PRICE": 37200
+      },
+      {
+        "TEST NAME": "Acetylcholine Receptor Binding Antibody",
+        "PRICE": 36720
+      },
+      {
+        "TEST NAME": "Synovial Fluid Cytology",
+        "PRICE": 36400
+      },
+      {
+        "TEST NAME": " Acid Phosphatase (Total)",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": " Thyroglobin Assay",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Acute Hepatitis(Hep A Igm + Hep B Sag + Hep Bc Igm)",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Adreno-Cortico-Tropic Hormone (Acth)",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Anf Anti-Dna",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Cardiolipin",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Chlamydia Dna Detector(Pcr)",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Compliment C3/C4",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Ct Chest (Plain) (Ewh)",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Epstein Bar",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Gentamacin Post",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Gonorrhea Neisseria Detection Pcr(Swab/Serum)",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Igg, Iga, Igm",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Paracetamol (Blood)",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Pre Gentamacin",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Salicylate (Blood)",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Semen Fructose",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Stone Analysis",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Tb Culture Only",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Tracrolumus",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Vitamin B 2 (Riboflavin)",
+        "PRICE": 36000
+      },
+      {
+        "TEST NAME": "Factor Ix",
+        "PRICE": 33600
+      },
+      {
+        "TEST NAME": "Toxoplasma Igm",
+        "PRICE": 33600
+      },
+      {
+        "TEST NAME": "Carbamazepine Tegretol (Cbz)",
+        "PRICE": 32000
+      },
+      {
+        "TEST NAME": "Chlamydia Trachomatis Dna Detection(Swab/Serum)",
+        "PRICE": 32000
+      },
+      {
+        "TEST NAME": "Ct Brain (Paed.)",
+        "PRICE": 32000
+      },
+      {
+        "TEST NAME": "Holter Ecg",
+        "PRICE": 32000
+      },
+      {
+        "TEST NAME": "Infertilty Profile (Male)",
+        "PRICE": 32000
+      },
+      {
+        "TEST NAME": "Veritical Impaction",
+        "PRICE": 32000
+      },
+      {
+        "TEST NAME": "Tsh Receptor Antibodies",
+        "PRICE": 30800
+      },
+      {
+        "TEST NAME": " Papp-A",
+        "PRICE": 30400
+      },
+      {
+        "TEST NAME": "Aldosterone",
+        "PRICE": 30400
+      },
+      {
+        "TEST NAME": "Parathyroid Hormone(Pth)",
+        "PRICE": 30400
+      },
+      {
+        "TEST NAME": "Thyroid Stimulating Immuno Globulin (Tsi)",
+        "PRICE": 30000
+      },
+      {
+        "TEST NAME": "Hormonal Profile",
+        "PRICE": 28400
+      },
+      {
+        "TEST NAME": "Copper Serum",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": " Lipoprotein Associated Phospholipid",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": "3 – Hydroxy Butyrate",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": "Barium Enema",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": "Bumand Mandrax ( Urine)",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": "Carotid Doppler",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": "Compliment C2",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": "Endoscopy Biopsy",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": "Fistulography",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": "Hepatitis C Rna Viral Load (Pcr)",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": "Hiv Viral Load Pcr",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": "Iron Studies + Ferritin",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": "Ivu",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": "Mumps Igg & Igm",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": "Pleural Aspirate Cytology",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": "Rug & Mcug",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": "Sex Hormone Binding Globulin",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": "Skeletal Survey",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": "Sono Hsg",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": "Toxoplasma",
+        "PRICE": 28000
+      },
+      {
+        "TEST NAME": "Zinc (Serum)",
+        "PRICE": 27600
+      },
+      {
+        "TEST NAME": "Menstrual Irregularity(Lh, Fsh,E2, Prolactin, Tsh)",
+        "PRICE": 27200
+      },
+      {
+        "TEST NAME": " Estriol(E3)",
+        "PRICE": 26160
+      },
+      {
+        "TEST NAME": "Rhesus Antibody Titre",
+        "PRICE": 25600
+      },
+      {
+        "TEST NAME": "Rubella Immunity(Igg Only)",
+        "PRICE": 24400
+      },
+      {
+        "TEST NAME": " Acid Phosphatase (Prostatic)",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": " Free Bhcg",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": " Insulin Resistance",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "25-Hydroxyl Vitamin D3",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Acrylic Jacket Corwns",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Anti Double Stranded Dna Antibodies,Ds-Dna",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Antimullerian Hormone (Amh)",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Antithroglobulin Antibody",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Apixectomy",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Barium Meal &Ft",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "C-Peptide",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Ct Plain -Limi",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Ecg (Home Service)",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Echocardiography",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Eeg",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Endometrial Biopsy",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Folate (Serum/Rbc)",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Free Androgen Index",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Free Testosterone",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Hepatitis B Dna Viral Load (Pcr)",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Herpes Simplex I & Ii (Igg & Igm)",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Hiv 1 Quantitative (Ultra)",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Homocystine Serum",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Hsg",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Insulin Resistance",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Ketamine",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Mcug",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Methylene Dioxymethamphetamine",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Rubella Igm",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Rug & Mcug (Paed.)",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Spermiogram",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Tetracyclic Antidespressant",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Thyroglobin Antibodies",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Thyroxine Binding Globulin",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Toxoplasma Igg Antibodies",
+        "PRICE": 24000
+      },
+      {
+        "TEST NAME": "Cortisol (24 Urine)",
+        "PRICE": 22560
+      },
+      {
+        "TEST NAME": "Free, Total Psa, + Ratio",
+        "PRICE": 22400
+      },
+      {
+        "TEST NAME": "Thyroid Peroxidase (Tpo)",
+        "PRICE": 22000
+      },
+      {
+        "TEST NAME": "Thyroid Peroxidase Antibodies",
+        "PRICE": 22000
+      },
+      {
+        "TEST NAME": "High Sensitive C-Reactive Protein (Hs Crp)",
+        "PRICE": 20400
+      },
+      {
+        "TEST NAME": "Histology- Fine Needle Aspiration Cytology (Fnac)",
+        "PRICE": 20400
+      },
+      {
+        "TEST NAME": "Tissue Tranglutaminese",
+        "PRICE": 20400
+      },
+      {
+        "TEST NAME": "Lithium",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Protein Electrophoresis(Myeloma)",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Alcohol",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Antinuclear Antibody (Ana)",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Barium Meal",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Cardiac Markers(Tn I, Tn T)",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Chlamydia Antibodies (Igb, Igm)",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Dehydroepiandrosterone-Sulfate (Dheas-S)",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Difficult Extraction",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Doppler",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Ethanol (Blood)",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Ethanol(Serum)",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Excision Biopsy",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Extraction Of Retained Root",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Extraction Of Upper Last Molars",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Folic Acid",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Fungal Culture",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Fungal Scrapping For Culture",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Genexpert (Tb)",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Hepatic/Abdominal Doppler",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Homocystine Plasma",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Immunohistochemistry (Myeloma Per Panel)",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Lactate Dehydrogenase (Ldh)",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Mumps",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Operculectomy",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Pelvimetry",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Removavle Partial Denture(Initial Units)",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Renal Doppler",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Rota Virus",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Rubella Igg",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Rug",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Scrotal Doppler",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Sialography",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Stool Reducing Substances",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "T.Pallidum Elisa",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Tetrahydro Cannabinol",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Transferrin (Serum)",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Treponema Pallidium Elisa",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Ultrasound Guilded Biopsy (With Needle)",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Ultrasound Guilded Biopsy (Without Needle)",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Uterine Doppler",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Vitamin B12 (Serum)",
+        "PRICE": 20000
+      },
+      {
+        "TEST NAME": "Anti Phospholipid Igg",
+        "PRICE": 18800
+      },
+      {
+        "TEST NAME": "Acid Phosphates(Total)",
+        "PRICE": 18000
+      },
+      {
+        "TEST NAME": "Anti Phospholipid Igm",
+        "PRICE": 18000
+      },
+      {
+        "TEST NAME": "Blood Tpha",
+        "PRICE": 18000
+      },
+      {
+        "TEST NAME": "Blood Transfusion 1 Pint Of Rh - Ve",
+        "PRICE": 18000
+      },
+      {
+        "TEST NAME": "Caeruloplasmin(Serum)",
+        "PRICE": 18000
+      },
+      {
+        "TEST NAME": "Compliment C3",
+        "PRICE": 18000
+      },
+      {
+        "TEST NAME": "Compliment C4",
+        "PRICE": 18000
+      },
+      {
+        "TEST NAME": "Fibrinogen",
+        "PRICE": 18000
+      },
+      {
+        "TEST NAME": "Insulin Plasma (Fasting)",
+        "PRICE": 18000
+      },
+      {
+        "TEST NAME": "Ldh (Other Fluid)",
+        "PRICE": 18000
+      },
+      {
+        "TEST NAME": "Serum Insulin",
+        "PRICE": 18000
+      },
+      {
+        "TEST NAME": "Menopausal Screen(Lh, Fsh,Estradiol)",
+        "PRICE": 17600
+      },
+      {
+        "TEST NAME": "Hb Electrophoresis (Quantitative)",
+        "PRICE": 16200
+      },
+      {
+        "TEST NAME": "Anti-Streptolysin O (Aso) Titre",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": " Albumin(24Hrs) Urine",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Antibody Screen",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Barium Swallow",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Cholinsterase (Pseudo)",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Ct Scanogram",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Folate (Serum",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "H. Pylori (Elisa)",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Hb Electrophoresis(Sickling)",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Hbs – Ab Titre",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Hep B Immunity (Hb)",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Hepatitis B Surface Ag Quantification",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Histology",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Hiv 1 + 2 Ab P 24 Ag",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Ige (Total)",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Lipase",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Mcug (Paed.)",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Micro Albumin (Urine/Quantitative)",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Microalbumin",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Mumps Igm",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Post And Core",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Roor Canal (Initial Visit)",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Root Canal Treatment",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Total Ion Binding Capacity (Tibc)",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Urine Albumin/Creatinine Ratio",
+        "PRICE": 16000
+      },
+      {
+        "TEST NAME": "Blood Transfusion 1 Pint Of Rh + Ve",
+        "PRICE": 14400
+      },
+      {
+        "TEST NAME": "Ca 19-9 (G.I.T, Pancrese)",
+        "PRICE": 14400
+      },
+      {
+        "TEST NAME": "Hb Electrophoresis",
+        "PRICE": 14400
+      },
+      {
+        "TEST NAME": "Hep Bsag(Elisa)",
+        "PRICE": 14400
+      },
+      {
+        "TEST NAME": "Follicullar Tracking -2 Or More",
+        "PRICE": 13600
+      },
+      {
+        "TEST NAME": "Knee Scan",
+        "PRICE": 13600
+      },
+      {
+        "TEST NAME": "Scrotal Scan",
+        "PRICE": 13600
+      },
+      {
+        "TEST NAME": "Total Iga",
+        "PRICE": 13600
+      },
+      {
+        "TEST NAME": "Blood Culture (Aerobic & Anaerobic)",
+        "PRICE": 12800
+      },
+      {
+        "TEST NAME": "Thyroid Functions (Tsh /T4/T3)",
+        "PRICE": 12800
+      },
+      {
+        "TEST NAME": "Afp (Aminotic Fluid)",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Amphetamin (Urine)",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Barbiturates(Urine)",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Benzodia Zepine ( Urine)",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Benzodiaze Primes",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Ca 125 (Ovary)",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Ca 15-3(Breast)",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Cannabis(Urine)",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Cd 4 Count",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Cervical Smear (Lbc)",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Ck - Mb Mass",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Cocaine(Urine)",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Composite",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Crown Cementation",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Ct Reporting",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Denture Repair",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Hep B Eab",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Hep B Eag",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Hep C (Elisa)",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Hepatitis B Profile",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Knee Joints (Standing/Weight Bearing) (Both)",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Lingual Retainer/Habit Breakers",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Lumbosacral Dynamic (Extension & Flexion)",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Mammogram",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Management Of Dry Socket",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Met Amphetamin (Urine)",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Morphine",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Nicotine",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Opiates( Urine)",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Pulp Capping",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Relining/Rebasing Denture",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Rh & Antibodies",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Scaling And Polishing (Poor Oral Hygiene)",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Simple Extraction",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Spines (Bass- Special)",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Stimulant",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Thc",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Thoracic Spine Dynamic",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Tramadol",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Troponin T",
+        "PRICE": 12000
+      },
+      {
+        "TEST NAME": "Musculoskeletal Scan",
+        "PRICE": 11200
+      },
+      {
+        "TEST NAME": "Cervico-Thoracic Spine",
+        "PRICE": 10400
+      },
+      {
+        "TEST NAME": "Thoraco-Lumbar Spine",
+        "PRICE": 10400
+      },
+      {
+        "TEST NAME": "Cea (G.I.T., Lung, Breast)",
+        "PRICE": 10000
+      },
+      {
+        "TEST NAME": "4D Ultrasound",
+        "PRICE": 9600
+      },
+      {
+        "TEST NAME": "Anomaly Scan",
+        "PRICE": 9600
+      },
+      {
+        "TEST NAME": "Breast Scan",
+        "PRICE": 9600
+      },
+      {
+        "TEST NAME": "Carcinoembryonic Antigen (Cea) Serum",
+        "PRICE": 9600
+      },
+      {
+        "TEST NAME": "Cardiac D-Dimer",
+        "PRICE": 9600
+      },
+      {
+        "TEST NAME": "Cervical Smear",
+        "PRICE": 9600
+      },
+      {
+        "TEST NAME": "C-Reactive Protein (Quantitative)",
+        "PRICE": 9600
+      },
+      {
+        "TEST NAME": "C-Reactive Protein(Quantitative)",
+        "PRICE": 9600
+      },
+      {
+        "TEST NAME": "Femora (Both)",
+        "PRICE": 9600
+      },
+      {
+        "TEST NAME": "Ferritin",
+        "PRICE": 9600
+      },
+      {
+        "TEST NAME": "Focused Assessment With Sonography For Trauma(Fast)",
+        "PRICE": 9600
+      },
+      {
+        "TEST NAME": "Follicular Tracking -1",
+        "PRICE": 9600
+      },
+      {
+        "TEST NAME": "Testicular Scan",
+        "PRICE": 9600
+      },
+      {
+        "TEST NAME": "Transrectal Scan (Trus)",
+        "PRICE": 9600
+      },
+      {
+        "TEST NAME": "Transvaginal Scan",
+        "PRICE": 9600
+      },
+      {
+        "TEST NAME": "Troponin I",
+        "PRICE": 9600
+      },
+      {
+        "TEST NAME": "Afp (Alpha Feto Protein)",
+        "PRICE": 8400
+      },
+      {
+        "TEST NAME": "Bile Salts, Urine",
+        "PRICE": 8400
+      },
+      {
+        "TEST NAME": "Cortisol (Serum)",
+        "PRICE": 8400
+      },
+      {
+        "TEST NAME": "Malaria (Qbc)",
+        "PRICE": 8400
+      },
+      {
+        "TEST NAME": "Abdomen Erect & Supine",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Abdominal/Abdominopelvic Scan",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Cervical Spine (Obliques)",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Cervical Spine Dynamic",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Chlamydia (Swab/Urine)",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Chlamydia Test",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Creatine Kinase(Ck)",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Cross Matching Test",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Deep Curettage/Root Planning(Per Quadrant)",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Elbows (Both)",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Extraction Of Primary Tooth",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Feet (Both)",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Fissure Sealants Per Tooth",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Glass Ionomer Cement",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Hands (Both)",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Hep A",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Hep Bc Igm",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Hip Joints (Both)",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Hpylori (Stool Antigen)",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Human Chorionic Gonadotropin B-Hcg (Quantitative)",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Humerus (Both)",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Iron(Serum)",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Knee Joints Xray (Both)",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Legs (Tibia&Fibula) (Both)",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Neck Scan",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Pulpectomy",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Pulpotomy",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Scaling And Polishing (Fair Hygiene)",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Scaling And Polishing With Flouride Therapy",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Shoulder Joints (Both)",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Soft Tissue Scan",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Temporary Filling",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Temporo-Mandibula Joint",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Urologic Scan",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Wrist Joints Xray (Both)",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "X-Matching Procedure",
+        "PRICE": 8000
+      },
+      {
+        "TEST NAME": "Amylase",
+        "PRICE": 7800
+      },
+      {
+        "TEST NAME": "Amylase(Urine Random)",
+        "PRICE": 7800
+      },
+      {
+        "TEST NAME": "Blood Microscopy(Pites)",
+        "PRICE": 7600
+      },
+      {
+        "TEST NAME": "1/2 Blood Culture (Aerobic)",
+        "PRICE": 7200
+      },
+      {
+        "TEST NAME": "Ankles (Both)",
+        "PRICE": 7200
+      },
+      {
+        "TEST NAME": "Babygram",
+        "PRICE": 7200
+      },
+      {
+        "TEST NAME": "Cervical Spine",
+        "PRICE": 7200
+      },
+      {
+        "TEST NAME": "Chest Pa & Lat",
+        "PRICE": 7200
+      },
+      {
+        "TEST NAME": "D-Dimer",
+        "PRICE": 7200
+      },
+      {
+        "TEST NAME": "Ldh",
+        "PRICE": 7200
+      },
+      {
+        "TEST NAME": "Lumbosacral Spine",
+        "PRICE": 7200
+      },
+      {
+        "TEST NAME": "Neck",
+        "PRICE": 7200
+      },
+      {
+        "TEST NAME": "Prostate Specific Antigen (Quantitative)Psa",
+        "PRICE": 7200
+      },
+      {
+        "TEST NAME": "Rheumatoid Factor",
+        "PRICE": 7200
+      },
+      {
+        "TEST NAME": "Soft Tissue Neck",
+        "PRICE": 7200
+      },
+      {
+        "TEST NAME": "Testosterone(Total)",
+        "PRICE": 7200
+      },
+      {
+        "TEST NAME": "Thoracic Inlet",
+        "PRICE": 7200
+      },
+      {
+        "TEST NAME": "Thoracic Spine",
+        "PRICE": 7200
+      },
+      {
+        "TEST NAME": "Clavicle (Collar Bone)",
+        "PRICE": 6400
+      },
+      {
+        "TEST NAME": "Estradiol (E2)",
+        "PRICE": 6400
+      },
+      {
+        "TEST NAME": "Femur",
+        "PRICE": 6400
+      },
+      {
+        "TEST NAME": "Hip Joint",
+        "PRICE": 6400
+      },
+      {
+        "TEST NAME": "Mandible/Maxilla",
+        "PRICE": 6400
+      },
+      {
+        "TEST NAME": "Paranasal Sinuses(Of, Om & Lat)",
+        "PRICE": 6400
+      },
+      {
+        "TEST NAME": "Progesterone (Ovulation Day 21)",
+        "PRICE": 6400
+      },
+      {
+        "TEST NAME": "Scaling And Polishing (Children 12Yrs And Below)",
+        "PRICE": 6400
+      },
+      {
+        "TEST NAME": "Coombs ( Indirect)",
+        "PRICE": 6000
+      },
+      {
+        "TEST NAME": "Electrolytes (Urine)",
+        "PRICE": 6000
+      },
+      {
+        "TEST NAME": "Glucose Tolerance Pregnancy",
+        "PRICE": 6000
+      },
+      {
+        "TEST NAME": "Glucose Tolerance Test (Ogtt)",
+        "PRICE": 6000
+      },
+      {
+        "TEST NAME": "Hba1C",
+        "PRICE": 6000
+      },
+      {
+        "TEST NAME": "Magnesium (Serum)",
+        "PRICE": 6000
+      },
+      {
+        "TEST NAME": "Magnesium (Urine)",
+        "PRICE": 6000
+      },
+      {
+        "TEST NAME": "Abdomen (Kub)",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Abdominal Scan",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Ankle",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Calcaneum (Heel)",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Chest",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Coccyx",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Elbow Joint",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Follicle Stimulating Hormone (Fsh)",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Foot",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Foot (Lat)",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Forearm (Radius/Ulna)",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Hand",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Hiv Ab 1 + 2 Antibodies",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Humerus",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Image Reporting (Fluoroscopy)",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Knee (Ap Standing)",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Knee Joint",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Leg (Tibia&Fibula)",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Luteinizing Hormone (Lh)",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Mastoids/Iam",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Obstetric Scan",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Obstetrics(Biophysical Profile)",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Pelvic Scan",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Pelvis",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Pituitary Fossa",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Prolactin ( Rest 15Minutes)",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Prostate Scan",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Rest Ecg",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Reticulocytes Count",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Sacro-Iliac Joint",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Scapula",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Shoulder Joints",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Skull",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Sternoclavicular Joints (Both)",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Transfontanelle Scan",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Wrist Joint",
+        "PRICE": 5600
+      },
+      {
+        "TEST NAME": "Creatinine Clearance",
+        "PRICE": 5400
+      },
+      {
+        "TEST NAME": "Liver Function Test (Lft + Proteins)",
+        "PRICE": 5200
+      },
+      {
+        "TEST NAME": "Adenoid (Post Nasal Space)",
+        "PRICE": 4800
+      },
+      {
+        "TEST NAME": "Csf Cellcount + Microscopy",
+        "PRICE": 4800
+      },
+      {
+        "TEST NAME": "Electrolytes,Urea& Creatinine",
+        "PRICE": 4800
+      },
+      {
+        "TEST NAME": "Lipogram",
+        "PRICE": 4800
+      },
+      {
+        "TEST NAME": "Stool Mcs",
+        "PRICE": 4800
+      },
+      {
+        "TEST NAME": "Tsh ( Neonatal)",
+        "PRICE": 4800
+      },
+      {
+        "TEST NAME": "Coombs Test (Direct)",
+        "PRICE": 4400
+      },
+      {
+        "TEST NAME": "Free Thyroxine (Ft4)",
+        "PRICE": 4400
+      },
+      {
+        "TEST NAME": "Free Triodothyronine (Ft3)",
+        "PRICE": 4400
+      },
+      {
+        "TEST NAME": "Sputum Mcs",
+        "PRICE": 4400
+      },
+      {
+        "TEST NAME": "Aspirates Mc&S",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Bleeding Time",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Consultation",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Csf Mc&S",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Endo-Cervical Swab -Ecs (Mcs)",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Flouride Therapy Only",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "H. Pylori (Serum)",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "High Vaginal Swab -Hvs(Mcs)",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Image Reporting (X-Rays)",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Impression For Study Model",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Inr + Prothrombin Time",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Knee (Rosenburg View)",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Knee (Skyline View)",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Micro Filaria",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Micro Filaria (Blood)",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Peri-Apical X-Ray",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Semen Analysis",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Semen Mcs",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Skin Scrappings For Fungal Elements",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Skin Snips For Microfilia",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Sputum Mc&S",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Synovial Fluid Mcs",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Thyroid Stimulating Hormone (Tsh)",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Total T3",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Total T4",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Urethral Swab",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Urine Mcs",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "Wound Swab Mc&S",
+        "PRICE": 4000
+      },
+      {
+        "TEST NAME": "24Hrs Creatinine",
+        "PRICE": 3600
+      },
+      {
+        "TEST NAME": "Chloride (Urine)",
+        "PRICE": 3600
+      },
+      {
+        "TEST NAME": "Ear Swab",
+        "PRICE": 3600
+      },
+      {
+        "TEST NAME": "Egfr",
+        "PRICE": 3600
+      },
+      {
+        "TEST NAME": "Eye Swab Mcs",
+        "PRICE": 3600
+      },
+      {
+        "TEST NAME": "Phosphate (24Hr Urine)",
+        "PRICE": 3600
+      },
+      {
+        "TEST NAME": "Ptt",
+        "PRICE": 3600
+      },
+      {
+        "TEST NAME": "Throat Swab Mcs",
+        "PRICE": 3600
+      },
+      {
+        "TEST NAME": "Urea(24Hrs) Urine",
+        "PRICE": 3600
+      },
+      {
+        "TEST NAME": "Csf-Protein",
+        "PRICE": 3200
+      },
+      {
+        "TEST NAME": "Full Blood Count With Platelets",
+        "PRICE": 3200
+      },
+      {
+        "TEST NAME": "Protein (24Hr Urine)",
+        "PRICE": 3000
+      },
+      {
+        "TEST NAME": "Urine Calcium",
+        "PRICE": 3000
+      },
+      {
+        "TEST NAME": "Sputum Microscopy",
+        "PRICE": 2800
+      },
+      {
+        "TEST NAME": "Bilirubin(Total, Conj)",
+        "PRICE": 2400
+      },
+      {
+        "TEST NAME": "Calcium (Corrected)",
+        "PRICE": 2400
+      },
+      {
+        "TEST NAME": "Clotting Time (Lee-White Method)",
+        "PRICE": 2400
+      },
+      {
+        "TEST NAME": "Csf-Chloride",
+        "PRICE": 2400
+      },
+      {
+        "TEST NAME": "Csf-Sugar",
+        "PRICE": 2400
+      },
+      {
+        "TEST NAME": "Electrolytes (Serum)",
+        "PRICE": 2400
+      },
+      {
+        "TEST NAME": "Hcv",
+        "PRICE": 2400
+      },
+      {
+        "TEST NAME": "Mantoux",
+        "PRICE": 2400
+      },
+      {
+        "TEST NAME": "Occult Blood (Faeces)",
+        "PRICE": 2400
+      },
+      {
+        "TEST NAME": "Peripheral Blood Film",
+        "PRICE": 2400
+      },
+      {
+        "TEST NAME": "Phosphorus (Urine)",
+        "PRICE": 2400
+      },
+      {
+        "TEST NAME": "Protein Total / Albumin",
+        "PRICE": 2400
+      },
+      {
+        "TEST NAME": "Pulp Vitality Test",
+        "PRICE": 2400
+      },
+      {
+        "TEST NAME": "Tb Serology",
+        "PRICE": 2400
+      },
+      {
+        "TEST NAME": "Urine Albumin",
+        "PRICE": 2400
+      },
+      {
+        "TEST NAME": "Urine Schistosomes",
+        "PRICE": 2400
+      },
+      {
+        "TEST NAME": "Zn Smear(Acid Fast Bacilli)",
+        "PRICE": 2400
+      },
+      {
+        "TEST NAME": "Hdl Cholesterol",
+        "PRICE": 2000
+      },
+      {
+        "TEST NAME": "Hep B Sag",
+        "PRICE": 2000
+      },
+      {
+        "TEST NAME": "Hiv 1/2 Test",
+        "PRICE": 2000
+      },
+      {
+        "TEST NAME": "Phosphate (Serum)",
+        "PRICE": 2000
+      },
+      {
+        "TEST NAME": "Uric Acid(24Hr Urine)",
+        "PRICE": 2000
+      },
+      {
+        "TEST NAME": "Calcium (Serum) Total",
+        "PRICE": 1800
+      },
+      {
+        "TEST NAME": "Ionized Calcium",
+        "PRICE": 1800
+      },
+      {
+        "TEST NAME": "Uric Acid(Serum)",
+        "PRICE": 1800
+      },
+      {
+        "TEST NAME": "Abo Rh (Blood Grouping)",
+        "PRICE": 1600
+      },
+      {
+        "TEST NAME": "Differential",
+        "PRICE": 1600
+      },
+      {
+        "TEST NAME": "Fungal Microscopy",
+        "PRICE": 1600
+      },
+      {
+        "TEST NAME": "Genotype",
+        "PRICE": 1600
+      },
+      {
+        "TEST NAME": "Glucose 2Hr Post Prandial",
+        "PRICE": 1600
+      },
+      {
+        "TEST NAME": "Haemoglobin (Hb)",
+        "PRICE": 1600
+      },
+      {
+        "TEST NAME": "Platelet Count",
+        "PRICE": 1600
+      },
+      {
+        "TEST NAME": "Pregnancy Test",
+        "PRICE": 1600
+      },
+      {
+        "TEST NAME": "Rbc",
+        "PRICE": 1600
+      },
+      {
+        "TEST NAME": "Rpr / Vdrl",
+        "PRICE": 1600
+      },
+      {
+        "TEST NAME": "Serum Protein",
+        "PRICE": 1600
+      },
+      {
+        "TEST NAME": "Stool Microscopy",
+        "PRICE": 1600
+      },
+      {
+        "TEST NAME": "Swab Microscopy",
+        "PRICE": 1600
+      },
+      {
+        "TEST NAME": "Total Protein",
+        "PRICE": 1600
+      },
+      {
+        "TEST NAME": "Triglycerides (Fasting)",
+        "PRICE": 1600
+      },
+      {
+        "TEST NAME": "Wbc",
+        "PRICE": 1600
+      },
+      {
+        "TEST NAME": "Wbc + Diff Count",
+        "PRICE": 1600
+      },
+      {
+        "TEST NAME": "Widal",
+        "PRICE": 1600
+      },
+      {
+        "TEST NAME": "Cholesterol",
+        "PRICE": 1400
+      },
+      {
+        "TEST NAME": "Ldl Cholesterol",
+        "PRICE": 1400
+      },
+      {
+        "TEST NAME": "Alkaline Phosphate (Alp)",
+        "PRICE": 1200
+      },
+      {
+        "TEST NAME": "Biliruben (Direct)",
+        "PRICE": 1200
+      },
+      {
+        "TEST NAME": "Creatinine (Serum)",
+        "PRICE": 1200
+      },
+      {
+        "TEST NAME": "Esr",
+        "PRICE": 1200
+      },
+      {
+        "TEST NAME": "Gamma Glutamyltransferase (Ggt)",
+        "PRICE": 1200
+      },
+      {
+        "TEST NAME": "Glucose Fasting",
+        "PRICE": 1200
+      },
+      {
+        "TEST NAME": "Glucose Random",
+        "PRICE": 1200
+      },
+      {
+        "TEST NAME": "Gram Stam Only",
+        "PRICE": 1200
+      },
+      {
+        "TEST NAME": "Mp",
+        "PRICE": 1200
+      },
+      {
+        "TEST NAME": "Pcv",
+        "PRICE": 1200
+      },
+      {
+        "TEST NAME": "Sugar-Rbs",
+        "PRICE": 1200
+      },
+      {
+        "TEST NAME": "Urea (Serum)",
+        "PRICE": 1200
+      },
+      {
+        "TEST NAME": "Urinalysis",
+        "PRICE": 1200
+      },
+      {
+        "TEST NAME": "Urine Sugar",
+        "PRICE": 1200
+      },
+      {
+        "TEST NAME": "Alt",
+        "PRICE": 1000
+      },
+      {
+        "TEST NAME": "Ast",
+        "PRICE": 1000
+      },
+      {
+        "TEST NAME": "Mp (Ict)",
+        "PRICE": 960
+      },
+      {
+        "TEST NAME": "Glucometer Check",
+        "PRICE": 800
+      },
+      {
+        "TEST NAME": "Potassium (Serum)",
+        "PRICE": 800
+      },
+      {
+        "TEST NAME": "Sodium (Serum)",
+        "PRICE": 800
+      },
+      {
+        "TEST NAME": "Urine Microscopy",
+        "PRICE": 800
+      }
+    ]
+  }

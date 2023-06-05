@@ -863,7 +863,7 @@ const LeadDetail = ({handleGoBack}) => {
     setDealStatus(deal.currStatus);
   }, [state.DealModule]);
 
-  //console.log(unreadMsgs);
+  console.log("invoices",state.DealModule.selectedDeal);
 
   return (
     <Box

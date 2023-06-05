@@ -1,0 +1,7372 @@
+{
+    "Raziela2": [
+      {
+        "Description": "BANOCIDE 50MG",
+        "Price": 5
+      },
+      {
+        "Description": "CALCIUM LACTATE 300MG",
+        "Price": 5
+      },
+      {
+        "Description": "CHLORPHENIRAMINE 4MG",
+        "Price": 5
+      },
+      {
+        "Description": "FERROUS SULHATE 20MG",
+        "Price": 5
+      },
+      {
+        "Description": "INDOMEHACINE",
+        "Price": 5
+      },
+      {
+        "Description": "MULTIVITE Tab",
+        "Price": 5
+      },
+      {
+        "Description": "PARACETAMOL",
+        "Price": 5
+      },
+      {
+        "Description": "PHENOBARBITONE 30MG",
+        "Price": 5
+      },
+      {
+        "Description": "PIRITON",
+        "Price": 5
+      },
+      {
+        "Description": "PROMETHAZINE 25MG",
+        "Price": 5
+      },
+      {
+        "Description": "SALBUTAMOL 4MG",
+        "Price": 5
+      },
+      {
+        "Description": "ASPIRIN 75MG  (per tab)",
+        "Price": 5.75
+      },
+      {
+        "Description": "BANOCIDE 50MG (per tab)",
+        "Price": 5.75
+      },
+      {
+        "Description": "BISACODYL 5MG (per tab)",
+        "Price": 5.75
+      },
+      {
+        "Description": "CALCIUM LACTATE 300MG (per tab)",
+        "Price": 5.75
+      },
+      {
+        "Description": "FERROUS SULHATE 20MG (per tab)",
+        "Price": 5.75
+      },
+      {
+        "Description": "INDOMEHACINE (per tab)",
+        "Price": 5.75
+      },
+      {
+        "Description": "MULTIVITE TABLET (per tab)",
+        "Price": 5.75
+      },
+      {
+        "Description": "PHENOBARBITONE 30MG (per tab)",
+        "Price": 5.75
+      },
+      {
+        "Description": "PIRITON  (per tab)",
+        "Price": 5.75
+      },
+      {
+        "Description": "PROMETHAZINE 25MG (per tab)",
+        "Price": 5.75
+      },
+      {
+        "Description": "SALBUTAMOL 4MG (per tab)",
+        "Price": 5.75
+      },
+      {
+        "Description": "VIT C 100MG (per tab)",
+        "Price": 5.75
+      },
+      {
+        "Description": "CHLORAMPHENICOL 250MG (PER TAB)  ",
+        "Price": 6.9
+      },
+      {
+        "Description": "AMINOPHYLLINE TABS (per tab)",
+        "Price": 8.05
+      },
+      {
+        "Description": "ANTASIL",
+        "Price": 10
+      },
+      {
+        "Description": "ARTANE 5MG",
+        "Price": 10
+      },
+      {
+        "Description": "ASPIRIN 75MG",
+        "Price": 10
+      },
+      {
+        "Description": "AVOMINE 25MG",
+        "Price": 10
+      },
+      {
+        "Description": "BISACODYL 5MG",
+        "Price": 10
+      },
+      {
+        "Description": "DEQUADIN LOZENGES",
+        "Price": 10
+      },
+      {
+        "Description": "DIAZEPAM 5MG",
+        "Price": 10
+      },
+      {
+        "Description": "Paracetamol per tab",
+        "Price": 10
+      },
+      {
+        "Description": "FLAGYL 400MG",
+        "Price": 10
+      },
+      {
+        "Description": "GRISEOFULVIN 125MG",
+        "Price": 10
+      },
+      {
+        "Description": "HALOPERIDOL 5MG",
+        "Price": 10
+      },
+      {
+        "Description": "LOMOTIL",
+        "Price": 10
+      },
+      {
+        "Description": "METAPRIM 25MG",
+        "Price": 10
+      },
+      {
+        "Description": "METOCLOPRAMIDE 10MG",
+        "Price": 10
+      },
+      {
+        "Description": "METRONIDAZOLE 200MG",
+        "Price": 10
+      },
+      {
+        "Description": "NITROFURANTOIN 100MG",
+        "Price": 10
+      },
+      {
+        "Description": "PIROXICAM 20MG",
+        "Price": 10
+      },
+      {
+        "Description": "PREDNISOLONE 5MG",
+        "Price": 10
+      },
+      {
+        "Description": "PYRIDOXINE 50MG",
+        "Price": 10
+      },
+      {
+        "Description": "STEMETIL 5MG",
+        "Price": 10
+      },
+      {
+        "Description": "TRIFLUOPERAZINE 5MG",
+        "Price": 10
+      },
+      {
+        "Description": "FALVITONE (PER CAP)",
+        "Price": 10.35
+      },
+      {
+        "Description": "AMOXYCILLIN  250MG (per cap)",
+        "Price": 11.5
+      },
+      {
+        "Description": "ANTASIL (per tab)",
+        "Price": 11.5
+      },
+      {
+        "Description": "ARTANE 5MG (per tab)",
+        "Price": 11.5
+      },
+      {
+        "Description": "AVOMINE 25MG (per tab)",
+        "Price": 11.5
+      },
+      {
+        "Description": "DEQUADIN LOZENGES (per tab)",
+        "Price": 11.5
+      },
+      {
+        "Description": "DIAZEPAM 5MG (per tab)",
+        "Price": 11.5
+      },
+      {
+        "Description": "DIGOXIN 0.25MG (per tab)",
+        "Price": 11.5
+      },
+      {
+        "Description": "FLAGYL 400MG (per tab)",
+        "Price": 11.5
+      },
+      {
+        "Description": "GRISEOFULVIN 125MG (per tab)",
+        "Price": 11.5
+      },
+      {
+        "Description": "HALOPERIDOL 5MG (per tab)",
+        "Price": 11.5
+      },
+      {
+        "Description": "INSULIN SYRINGE 40 IU (per piece)",
+        "Price": 11.5
+      },
+      {
+        "Description": "LOMOTIL (per tab)",
+        "Price": 11.5
+      },
+      {
+        "Description": "METAPRIM 25MG (per tab)",
+        "Price": 11.5
+      },
+      {
+        "Description": "METRONIDAZOLE 200MG  (per tab)",
+        "Price": 11.5
+      },
+      {
+        "Description": "NITROFURANTOIN 100MG (per tab)",
+        "Price": 11.5
+      },
+      {
+        "Description": "PIROXICAM 20MG (per cap)",
+        "Price": 11.5
+      },
+      {
+        "Description": "PREDNISOLONE 5MG (per tab)",
+        "Price": 11.5
+      },
+      {
+        "Description": "PYRIDOXINE 50MG (per tab)",
+        "Price": 11.5
+      },
+      {
+        "Description": "STEMETIL 5MG (per tab)",
+        "Price": 11.5
+      },
+      {
+        "Description": "TETRACYCLINE 250MG (per cap)",
+        "Price": 11.5
+      },
+      {
+        "Description": "TRIFLUOPERAZINE 5MG (per tab)",
+        "Price": 11.5
+      },
+      {
+        "Description": "VIT B COMPLEX  (per tab)",
+        "Price": 11.5
+      },
+      {
+        "Description": "VIT BCO PER TAB",
+        "Price": 11.5
+      },
+      {
+        "Description": "NORGESIC TAB",
+        "Price": 12.65
+      },
+      {
+        "Description": "VIT A TAB",
+        "Price": 12.65
+      },
+      {
+        "Description": "AMPICILLIN 250MG (PER TAB)",
+        "Price": 13.8
+      },
+      {
+        "Description": "ISOSORBIDE 5MG (PER TAB)",
+        "Price": 14.95
+      },
+      {
+        "Description": "ACETAZOLAMIDE 250MG",
+        "Price": 15
+      },
+      {
+        "Description": "Anorol",
+        "Price": 15
+      },
+      {
+        "Description": "ATENOLOL 100MG",
+        "Price": 15
+      },
+      {
+        "Description": "ATENOLOL 50MG",
+        "Price": 15
+      },
+      {
+        "Description": "CAPTOPRIL 12.5MG",
+        "Price": 15
+      },
+      {
+        "Description": "CAPTOPRIL 25MG",
+        "Price": 15
+      },
+      {
+        "Description": "CAPTOPRIL 50MG",
+        "Price": 15
+      },
+      {
+        "Description": "CARBAMAZEPINE  200MG",
+        "Price": 15
+      },
+      {
+        "Description": "CARBAMAZEPINE 200MG",
+        "Price": 15
+      },
+      {
+        "Description": "CHLOROQUINE 150MG",
+        "Price": 15
+      },
+      {
+        "Description": "CHLORPROMAZINE 100MG",
+        "Price": 15
+      },
+      {
+        "Description": "CIMETIDINE 200MG",
+        "Price": 15
+      },
+      {
+        "Description": "COLIPAN  10MG",
+        "Price": 15
+      },
+      {
+        "Description": "COLIPAN 10MG",
+        "Price": 15
+      },
+      {
+        "Description": "DIABETIN 450MG",
+        "Price": 15
+      },
+      {
+        "Description": "DIAMOX 250MG",
+        "Price": 15
+      },
+      {
+        "Description": "DICLOFENAC 50MG",
+        "Price": 15
+      },
+      {
+        "Description": "FOLIC ACID 5MG",
+        "Price": 15
+      },
+      {
+        "Description": "IBUPROFEN 200MG",
+        "Price": 15
+      },
+      {
+        "Description": "MEFENAMIC ACID 250MG",
+        "Price": 15
+      },
+      {
+        "Description": "METHYL DOPA 250MG",
+        "Price": 15
+      },
+      {
+        "Description": "METRONIDAZOLE 400MG",
+        "Price": 15
+      },
+      {
+        "Description": "MODURETIC",
+        "Price": 15
+      },
+      {
+        "Description": "NICOTINIC ACID",
+        "Price": 15
+      },
+      {
+        "Description": "NORMORETIC",
+        "Price": 15
+      },
+      {
+        "Description": "PYRAZINAMIDE 500MG",
+        "Price": 15
+      },
+      {
+        "Description": "RANFERON-12",
+        "Price": 15
+      },
+      {
+        "Description": "ACETAZOLAMIDE 250MG (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "ALDOMET 250MG (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "ANOROL  (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "ATENOLOL 50MG (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "CAPTOPRIL 12.5MG (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "CAPTOPRIL 25MG (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "CAPTOPRIL 50MG (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "CARBAMAZEPINE  200MG (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "CHLORPROMAZINE 100MG (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "COLIPAN  10MG (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "DIABETIN 450MG (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "DIAMOX 250MG (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "DICLOFENAC 50MG (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "DOXYCYCLINE (per cap)",
+        "Price": 17.25
+      },
+      {
+        "Description": "FOLIC ACID 5MG (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "HYDROCHLORTIAZIDE 50MG/AMILORIDE 5MG(per tab",
+        "Price": 17.25
+      },
+      {
+        "Description": "HYDROCORTISONE TABS 10MG",
+        "Price": 17.25
+      },
+      {
+        "Description": "IBUPROFEN 200MG (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "MEFENAMIC ACID 250MG (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "METRONIDAZOLE 400MG (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "MODURETIC (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "NICOTINIC ACID (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "NORMORETIC (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "PYRAZINAMIDE 500MG (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "RANFERON-12  (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "SLOW-K 600MG (per tab)",
+        "Price": 17.25
+      },
+      {
+        "Description": "AMPICLOX 500MG CAP (per cap)",
+        "Price": 18.4
+      },
+      {
+        "Description": "ISOSORBIDE 10MG (PER TAB)",
+        "Price": 18.4
+      },
+      {
+        "Description": "NORFLEX TABS (per tab)",
+        "Price": 18.4
+      },
+      {
+        "Description": "LIV 52 (PER TAB)",
+        "Price": 19.55
+      },
+      {
+        "Description": "AMOXYCILLIN  250MG",
+        "Price": 20
+      },
+      {
+        "Description": "AMOXYCILLIN  500MG",
+        "Price": 20
+      },
+      {
+        "Description": "AMOXYCILLIN 250MG",
+        "Price": 20
+      },
+      {
+        "Description": "AMOXYCILLIN 500MG",
+        "Price": 20
+      },
+      {
+        "Description": "ASPIRIN 300MG",
+        "Price": 20
+      },
+      {
+        "Description": "ATIVAN 2MG",
+        "Price": 20
+      },
+      {
+        "Description": "BENDROFLUAZIDE",
+        "Price": 20
+      },
+      {
+        "Description": "CANDERIL SWEETNER",
+        "Price": 20
+      },
+      {
+        "Description": "CIMETIDINE  400MG",
+        "Price": 20
+      },
+      {
+        "Description": "CIMETIDINE 400MG",
+        "Price": 20
+      },
+      {
+        "Description": "CLOXACILLIN 250MG",
+        "Price": 20
+      },
+      {
+        "Description": "DIGOXIN 0.25MG",
+        "Price": 20
+      },
+      {
+        "Description": "DOXYCYCLINE",
+        "Price": 20
+      },
+      {
+        "Description": "ETHAMBUTOL 400MG",
+        "Price": 20
+      },
+      {
+        "Description": "FRANOL",
+        "Price": 20
+      },
+      {
+        "Description": "FRUSEMIDE 40MG",
+        "Price": 20
+      },
+      {
+        "Description": "GESTID",
+        "Price": 20
+      },
+      {
+        "Description": "GLYBENCLAMIDE 5MG",
+        "Price": 20
+      },
+      {
+        "Description": "GRISEOFULVIN 500MG",
+        "Price": 20
+      },
+      {
+        "Description": "HYDROCHLORTIAZIDE/ AMILORIDE",
+        "Price": 20
+      },
+      {
+        "Description": "HYOSCINE N BUTYL BROMIDE",
+        "Price": 20
+      },
+      {
+        "Description": "IBUFROPEN 400MG",
+        "Price": 20
+      },
+      {
+        "Description": "INDERAL 40MG",
+        "Price": 20
+      },
+      {
+        "Description": "LORATYN 10MG",
+        "Price": 20
+      },
+      {
+        "Description": "NIFEDIPINE 20MG",
+        "Price": 20
+      },
+      {
+        "Description": "NOVALGIN 500MG",
+        "Price": 20
+      },
+      {
+        "Description": "ROVIGON",
+        "Price": 20
+      },
+      {
+        "Description": "SLOW-K 600MG",
+        "Price": 20
+      },
+      {
+        "Description": "SPIRONOLACTONE 25MG",
+        "Price": 20
+      },
+      {
+        "Description": "TABALON 400MG",
+        "Price": 20
+      },
+      {
+        "Description": "TETRACYCLINE 250MG",
+        "Price": 20
+      },
+      {
+        "Description": "THALAZOLE 500MG",
+        "Price": 20
+      },
+      {
+        "Description": "VENTOLIN 2MG",
+        "Price": 20
+      },
+      {
+        "Description": "AMLOVA 10MG (PER TAB)",
+        "Price": 21.85
+      },
+      {
+        "Description": "ZINC 30MG TAB",
+        "Price": 22.5
+      },
+      {
+        "Description": "ALLOPURINOL 100MG TAB",
+        "Price": 23
+      },
+      {
+        "Description": "AMITRIPTYLINE 25MG (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "ATIVAN 2MG (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "BENDROFLUAZIDE (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "CANDERIL SWEETNER (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "CHEMIRON (PER CAP)",
+        "Price": 23
+      },
+      {
+        "Description": "CIMETIDINE  400MG (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "CLOXACILLIN 250MG (per cap)",
+        "Price": 23
+      },
+      {
+        "Description": "ERYTHROMYCIN 250MG (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "ETHAMBUTOL 400MG (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "FRANOL (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "FRUSEMIDE 40MG (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "GESTID (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "GLIBENCLAMIDE 5MG (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "GLUCOSE (PER SACHET)",
+        "Price": 23
+      },
+      {
+        "Description": "GRISEOFULVIN 500MG (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "HYOSCINE N BUTYL BROMIDE (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "IBUFROPEN 400MG (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "INDERAL 40MG (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "LORATYN 10MG (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "NIFEDIPINE 20MG (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "NOVALGIN 500MG (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "PROPANOLOL 40MG (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "ROVIGON (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "SPIRONOLACTONE 25MG (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "SYRINGE AND NEEDLE (5ML)",
+        "Price": 23
+      },
+      {
+        "Description": "TABALON 400MG (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "THALAZOLE 500MG (per tab)",
+        "Price": 23
+      },
+      {
+        "Description": "ENALAPRIL 5MG TAB",
+        "Price": 24.15
+      },
+      {
+        "Description": "ACTIFED",
+        "Price": 25
+      },
+      {
+        "Description": "APRESOLINE     25MG",
+        "Price": 25
+      },
+      {
+        "Description": "APRESOLINE 25MG",
+        "Price": 25
+      },
+      {
+        "Description": "ESIDREX 25MG",
+        "Price": 25
+      },
+      {
+        "Description": "ETOVIT CAPGEL 200MG",
+        "Price": 25
+      },
+      {
+        "Description": "EVITOL 100MG",
+        "Price": 25
+      },
+      {
+        "Description": "ISORDIL 5MG",
+        "Price": 25
+      },
+      {
+        "Description": "PHENYTOIN 100MG",
+        "Price": 25
+      },
+      {
+        "Description": "QUININE 300MG",
+        "Price": 25
+      },
+      {
+        "Description": "HAEMORON (PER TAB)",
+        "Price": 27.6
+      },
+      {
+        "Description": "ACTIFED  (per tab)",
+        "Price": 28.75
+      },
+      {
+        "Description": "APRESOLINE 25MG  (per tab)",
+        "Price": 28.75
+      },
+      {
+        "Description": "CARVEDILOL 6.25mg (PER TAB)",
+        "Price": 28.75
+      },
+      {
+        "Description": "ESIDREX 25MG (per tab)",
+        "Price": 28.75
+      },
+      {
+        "Description": "ETOVIT CAPGEL 200MG (per cap)",
+        "Price": 28.75
+      },
+      {
+        "Description": "EVITOL 100MG (per tab)",
+        "Price": 28.75
+      },
+      {
+        "Description": "GLUCOPHAGE 500MG (per tab)",
+        "Price": 28.75
+      },
+      {
+        "Description": "ISORDIL 5MG (per tab)",
+        "Price": 28.75
+      },
+      {
+        "Description": "PHENYTOIN 100MG (per cap)",
+        "Price": 28.75
+      },
+      {
+        "Description": "QUININE 300MG (per tab)",
+        "Price": 28.75
+      },
+      {
+        "Description": "ALDOMET 250MG",
+        "Price": 30
+      },
+      {
+        "Description": "AMITRIPTYLINE 25MG",
+        "Price": 30
+      },
+      {
+        "Description": "BECLOX  500MG",
+        "Price": 30
+      },
+      {
+        "Description": "BECLOX 500MG",
+        "Price": 30
+      },
+      {
+        "Description": "CARBIMAZOLE",
+        "Price": 30
+      },
+      {
+        "Description": "CHYMORAL",
+        "Price": 30
+      },
+      {
+        "Description": "CO-TRIMAZOLE 480MG",
+        "Price": 30
+      },
+      {
+        "Description": "DIHYDROPriceINE 30MG",
+        "Price": 30
+      },
+      {
+        "Description": "ERYTHROMYCIN 250MG",
+        "Price": 30
+      },
+      {
+        "Description": "EVENNG PRIME ROSE",
+        "Price": 30
+      },
+      {
+        "Description": "FEFOL",
+        "Price": 30
+      },
+      {
+        "Description": "GLUCOPHAGE 500MG",
+        "Price": 30
+      },
+      {
+        "Description": "ISORDIL 10MG",
+        "Price": 30
+      },
+      {
+        "Description": "KOTASE",
+        "Price": 30
+      },
+      {
+        "Description": "LEXOTAN 1.5MG",
+        "Price": 30
+      },
+      {
+        "Description": "LINCOMYCIN 500MG",
+        "Price": 30
+      },
+      {
+        "Description": "LISINOPRIL 5MG",
+        "Price": 30
+      },
+      {
+        "Description": "NIFEGEM RETARD 20MG",
+        "Price": 30
+      },
+      {
+        "Description": "NIVAQUINE FORTE CAP",
+        "Price": 30
+      },
+      {
+        "Description": "THROXINE 100MCG",
+        "Price": 30
+      },
+      {
+        "Description": "THYROXINE 0.5MG",
+        "Price": 30
+      },
+      {
+        "Description": "WARFRIN SODIUM 5MG",
+        "Price": 30
+      },
+      {
+        "Description": "ABITREN 100MG (per tab)",
+        "Price": 34.5
+      },
+      {
+        "Description": "ARTEMEF (PER TABLET)",
+        "Price": 34.5
+      },
+      {
+        "Description": "BECLOX  500MG (per cap)",
+        "Price": 34.5
+      },
+      {
+        "Description": "CHYMORAL (per tab)",
+        "Price": 34.5
+      },
+      {
+        "Description": "CO-CODAMOL(PER TAB)",
+        "Price": 34.5
+      },
+      {
+        "Description": "CO-TRIMAZOLE 480MG (per tab)",
+        "Price": 34.5
+      },
+      {
+        "Description": "DIHYDROPriceINE 30MG (per tab)",
+        "Price": 34.5
+      },
+      {
+        "Description": "EVENNG PRIME ROSE (per cap)",
+        "Price": 34.5
+      },
+      {
+        "Description": "FEFOL  (per cap)",
+        "Price": 34.5
+      },
+      {
+        "Description": "GENTAMYCIN 80MG (per amp)",
+        "Price": 34.5
+      },
+      {
+        "Description": "INSULIN SYRINGE 100 IU (per piece)",
+        "Price": 34.5
+      },
+      {
+        "Description": "ISORDIL 10MG (per tab)",
+        "Price": 34.5
+      },
+      {
+        "Description": "KOTASE (per tab)",
+        "Price": 34.5
+      },
+      {
+        "Description": "LEXOTHAN 1.5MG (per tab)",
+        "Price": 34.5
+      },
+      {
+        "Description": "LINCOMYCIN 500MG (per cap)",
+        "Price": 34.5
+      },
+      {
+        "Description": "LISINOPRIL 5MG (per tab)",
+        "Price": 34.5
+      },
+      {
+        "Description": "MAXOLON (PER TAB)",
+        "Price": 34.5
+      },
+      {
+        "Description": "NIFEGEM RETARD 20MG (per tab)",
+        "Price": 34.5
+      },
+      {
+        "Description": "NIVAQUINE FORTE CAP (per cap)",
+        "Price": 34.5
+      },
+      {
+        "Description": "THROXINE 100MCG (per tab)",
+        "Price": 34.5
+      },
+      {
+        "Description": "THYROXINE 0.5MG (per tab)",
+        "Price": 34.5
+      },
+      {
+        "Description": "WARFRIN SODIUM 5MG (per tab)",
+        "Price": 34.5
+      },
+      {
+        "Description": "Amlodipine 5mg",
+        "Price": 35
+      },
+      {
+        "Description": "CO-PROXAMOL",
+        "Price": 35
+      },
+      {
+        "Description": "ENCEPHABOL",
+        "Price": 35
+      },
+      {
+        "Description": "MOTILIUM 10MG(don peridon)",
+        "Price": 35
+      },
+      {
+        "Description": "NEOMERCAZOLE 5MG",
+        "Price": 35
+      },
+      {
+        "Description": "STREPSIL LOZENGES",
+        "Price": 35
+      },
+      {
+        "Description": "DIPYRIDAMOLE (PER TAB)",
+        "Price": 35.65
+      },
+      {
+        "Description": "DYRIDAMOLE 100MG TAB",
+        "Price": 35.65
+      },
+      {
+        "Description": "SIMVASTATIN 20MG TAB",
+        "Price": 37.95
+      },
+      {
+        "Description": "COTENIDONE TABS (per tab)",
+        "Price": 39.1
+      },
+      {
+        "Description": "BRINERDINE",
+        "Price": 40
+      },
+      {
+        "Description": "BROMHEXINE 8MG",
+        "Price": 40
+      },
+      {
+        "Description": "CENTRUM M/VIT",
+        "Price": 40
+      },
+      {
+        "Description": "CHLORPROMAZINE 50MG INJ",
+        "Price": 40
+      },
+      {
+        "Description": "CHLORPROPAMIDE 250MG",
+        "Price": 40
+      },
+      {
+        "Description": "TEGRETOL  CR 200MG",
+        "Price": 40
+      },
+      {
+        "Description": "TEGRETOL CR 200MG",
+        "Price": 40
+      },
+      {
+        "Description": "ZYLORIC 100MG",
+        "Price": 40
+      },
+      {
+        "Description": "KETOCONAZOLE 200MG",
+        "Price": 40
+      },
+      {
+        "Description": "LEXOTAN 3MG",
+        "Price": 40
+      },
+      {
+        "Description": "LISIOPRIL 10MG",
+        "Price": 40
+      },
+      {
+        "Description": "nitrzepam",
+        "Price": 40
+      },
+      {
+        "Description": "OBRON 6 CAP",
+        "Price": 40
+      },
+      {
+        "Description": "ORPHENADRINE/PARACETAMOL",
+        "Price": 40
+      },
+      {
+        "Description": "TEGRETOL 200MG",
+        "Price": 40
+      },
+      {
+        "Description": "ALLOPURINOL 200MG TAB",
+        "Price": 40.25
+      },
+      {
+        "Description": "CO-PROXAMOL (per tab)",
+        "Price": 40.25
+      },
+      {
+        "Description": "ENCEPHABOL (per tab)",
+        "Price": 40.25
+      },
+      {
+        "Description": "MOTILIUM 10MG (per tab)",
+        "Price": 40.25
+      },
+      {
+        "Description": "NEOMERCAZOLE 5MG (per tab)",
+        "Price": 40.25
+      },
+      {
+        "Description": "NYSTATIN PESSARIES (PER TAB)",
+        "Price": 40.25
+      },
+      {
+        "Description": "CEPHALEXIN ( PER CAP)",
+        "Price": 44.85
+      },
+      {
+        "Description": "CRYSTALLINE PENICILLIN (PER AMPOULE)",
+        "Price": 44.85
+      },
+      {
+        "Description": "PIRITON INJECTION 10MG/ML",
+        "Price": 44.85
+      },
+      {
+        "Description": "XTAPEN (PER AMP)",
+        "Price": 44.85
+      },
+      {
+        "Description": "AMLODIPINE 10MG (per tab)",
+        "Price": 46
+      },
+      {
+        "Description": "AMLODIPINE 5MG (PER TAB)",
+        "Price": 46
+      },
+      {
+        "Description": "BRINERDINE (per tab)",
+        "Price": 46
+      },
+      {
+        "Description": "BROMHEXINE 8MG (per tab)",
+        "Price": 46
+      },
+      {
+        "Description": "CENTRUM M/VIT (per tab)",
+        "Price": 46
+      },
+      {
+        "Description": "CHLORPROMAZINE 50MG INJ (per amp)",
+        "Price": 46
+      },
+      {
+        "Description": "CHLORPROPAMIDE 250MG (per tab)",
+        "Price": 46
+      },
+      {
+        "Description": "KETOCONAZOLE 200MG (per tab)",
+        "Price": 46
+      },
+      {
+        "Description": "LEXOTHAN 3MG  (per tab)",
+        "Price": 46
+      },
+      {
+        "Description": "LISINOPRIL 10MG (per tab)",
+        "Price": 46
+      },
+      {
+        "Description": "NITRAZEPAM 5MG (per tab)",
+        "Price": 46
+      },
+      {
+        "Description": "OBRON 6 CAP (per cap)",
+        "Price": 46
+      },
+      {
+        "Description": "OMEPRAZOLE 20MG (PER TAB).",
+        "Price": 46
+      },
+      {
+        "Description": "TEGRETOL 200MG (per tab)",
+        "Price": 46
+      },
+      {
+        "Description": "VIT C INJ (per amp)",
+        "Price": 46
+      },
+      {
+        "Description": "ZYLORIC 100MG (per tab)",
+        "Price": 46
+      },
+      {
+        "Description": "ATOVASTATIN 10MG (PER TAB)",
+        "Price": 48.3
+      },
+      {
+        "Description": "KETRAX (PER TAB).",
+        "Price": 49.45
+      },
+      {
+        "Description": "ABITREN 100MG",
+        "Price": 50
+      },
+      {
+        "Description": "ACTIVATED CHARCOAL",
+        "Price": 50
+      },
+      {
+        "Description": "APRESOLINE 20MG INJ",
+        "Price": 50
+      },
+      {
+        "Description": "BENZHEXOL 5MG",
+        "Price": 50
+      },
+      {
+        "Description": "Bisoprolol 5mg",
+        "Price": 50
+      },
+      {
+        "Description": "CENTRUM SILVER",
+        "Price": 50
+      },
+      {
+        "Description": "CHLOROQUINE 200MG",
+        "Price": 50
+      },
+      {
+        "Description": "CORDARONE 200MG",
+        "Price": 50
+      },
+      {
+        "Description": "DITROPAN 5MG",
+        "Price": 50
+      },
+      {
+        "Description": "Omeprazole 20mg",
+        "Price": 50
+      },
+      {
+        "Description": "STUGERON  25MG",
+        "Price": 50
+      },
+      {
+        "Description": "STUGERON 25MG",
+        "Price": 50
+      },
+      {
+        "Description": "GASTRO PROTECTIVE ASPIRIN",
+        "Price": 50
+      },
+      {
+        "Description": "GENTAMYCIN 80MG",
+        "Price": 50
+      },
+      {
+        "Description": "INSULIN SYRINGE 100 IU",
+        "Price": 50
+      },
+      {
+        "Description": "INSULIN SYRINGE 40 IU",
+        "Price": 50
+      },
+      {
+        "Description": "MANIX",
+        "Price": 50
+      },
+      {
+        "Description": "MOSEGOR 0.5MG",
+        "Price": 50
+      },
+      {
+        "Description": "OMEGA H3",
+        "Price": 50
+      },
+      {
+        "Description": "PALUDRINE 100MG TAB",
+        "Price": 50
+      },
+      {
+        "Description": "PRIMOLUT N 5MG",
+        "Price": 50
+      },
+      {
+        "Description": "PROPANOLOL 40MG",
+        "Price": 50
+      },
+      {
+        "Description": "AMLODIPINE 10MG",
+        "Price": 50
+      },
+      {
+        "Description": "ASTYMIN (PER TAB).",
+        "Price": 52.9
+      },
+      {
+        "Description": "EYE ANTIOXIDANT (per tab)",
+        "Price": 54.05
+      },
+      {
+        "Description": "ACTIVATED CHARCOAL (per cap)",
+        "Price": 57.5
+      },
+      {
+        "Description": "BENZHEXOL 5MG (per tab)",
+        "Price": 57.5
+      },
+      {
+        "Description": "CARVEDILOL 25mg(PER TAB)",
+        "Price": 57.5
+      },
+      {
+        "Description": "CENTRUM SILVER (per tab)",
+        "Price": 57.5
+      },
+      {
+        "Description": "COARTEM (PER TAB)",
+        "Price": 57.5
+      },
+      {
+        "Description": "CORDARONE 200MG (per tab)",
+        "Price": 57.5
+      },
+      {
+        "Description": "DITROPAN 5MG (per tab)",
+        "Price": 57.5
+      },
+      {
+        "Description": "ERGOMETRINE 0.5MG (PER TAB)",
+        "Price": 57.5
+      },
+      {
+        "Description": "FERROBIN",
+        "Price": 57.5
+      },
+      {
+        "Description": "HYOSCINE N BUTYL BROMIDE 20MG (per amp)",
+        "Price": 57.5
+      },
+      {
+        "Description": "MANIX  (per tab)",
+        "Price": 57.5
+      },
+      {
+        "Description": "MOSEGOR 0.5MG (per tab)",
+        "Price": 57.5
+      },
+      {
+        "Description": "OMEGA H3  (per cap)",
+        "Price": 57.5
+      },
+      {
+        "Description": "PRIMOLUT N 5MG (per tab)",
+        "Price": 57.5
+      },
+      {
+        "Description": "STUGERON  25MG (per tab)",
+        "Price": 57.5
+      },
+      {
+        "Description": "ALAXIN- P (PER TAB)",
+        "Price": 59.8
+      },
+      {
+        "Description": "PARACETAMOL 125MG  SUPPOSITORY",
+        "Price": 59.8
+      },
+      {
+        "Description": "CALCIUM GLUCONATE INJ",
+        "Price": 60
+      },
+      {
+        "Description": "CARFERGOT  50MG",
+        "Price": 60
+      },
+      {
+        "Description": "CARFERGOT 50MG",
+        "Price": 60
+      },
+      {
+        "Description": "CATAFLAM  50MG",
+        "Price": 60
+      },
+      {
+        "Description": "CATAFLAM 50MG",
+        "Price": 60
+      },
+      {
+        "Description": "COMBANTRIN 125MG",
+        "Price": 60
+      },
+      {
+        "Description": "EVITOL100MG CAPGEL",
+        "Price": 60
+      },
+      {
+        "Description": "HISTAC  150MG",
+        "Price": 60
+      },
+      {
+        "Description": "HISTAC 150MG",
+        "Price": 60
+      },
+      {
+        "Description": "HOMTAMIN GINSENG",
+        "Price": 60
+      },
+      {
+        "Description": "HYPOVASE 1MG",
+        "Price": 60
+      },
+      {
+        "Description": "OFLOXACIN 200MG",
+        "Price": 60
+      },
+      {
+        "Description": "PEFLOXACIN 400MG",
+        "Price": 60
+      },
+      {
+        "Description": "PRENACARE",
+        "Price": 60
+      },
+      {
+        "Description": "PROMETHAZINE 50MG INJ",
+        "Price": 60
+      },
+      {
+        "Description": "PROVIRON 25 MG",
+        "Price": 60
+      },
+      {
+        "Description": "REGROTON",
+        "Price": 60
+      },
+      {
+        "Description": "SANATOGEN M/VIT GOLD",
+        "Price": 60
+      },
+      {
+        "Description": "TAVEGYL 1MG",
+        "Price": 60
+      },
+      {
+        "Description": "LIVOLIN FORTE TABS (per tab)",
+        "Price": 62.1
+      },
+      {
+        "Description": "PERSANTIN (PER TAB)",
+        "Price": 62.1
+      },
+      {
+        "Description": "NAPROXEN 500MG (PER TAB)",
+        "Price": 64.4
+      },
+      {
+        "Description": "CAMOQUINE 200MG",
+        "Price": 65
+      },
+      {
+        "Description": "FASIGYN 500MG",
+        "Price": 65
+      },
+      {
+        "Description": "IMMUNACE",
+        "Price": 65
+      },
+      {
+        "Description": "LO-FEMINAL",
+        "Price": 65
+      },
+      {
+        "Description": "SULPHADEINE PLUS SOLUBLE",
+        "Price": 65
+      },
+      {
+        "Description": "WELLMAN M/VIT",
+        "Price": 65
+      },
+      {
+        "Description": "ACICLOVIR 200MG (per tab)  ",
+        "Price": 69
+      },
+      {
+        "Description": "CALCIUM GLUCONATE INJ (per amp)",
+        "Price": 69
+      },
+      {
+        "Description": "CARFERGOT  50MG (per tab)",
+        "Price": 69
+      },
+      {
+        "Description": "CATAFLAM  50MG (per tab)",
+        "Price": 69
+      },
+      {
+        "Description": "COMBANTRIN 125MG (per tab)",
+        "Price": 69
+      },
+      {
+        "Description": "EVITOL100MG CAPGEL (per cap)",
+        "Price": 69
+      },
+      {
+        "Description": "HISTAC  150MG (per tab)",
+        "Price": 69
+      },
+      {
+        "Description": "HOMTAMIN GINSENG (per tab)",
+        "Price": 69
+      },
+      {
+        "Description": "HYPOVASE 1MG (per tab)",
+        "Price": 69
+      },
+      {
+        "Description": "OCUVITE (per tab)",
+        "Price": 69
+      },
+      {
+        "Description": "OFLOXACIN 200MG (per tab)",
+        "Price": 69
+      },
+      {
+        "Description": "PEFLOXACIN 400MG (per tab)",
+        "Price": 69
+      },
+      {
+        "Description": "PREGNACARE (per cap)",
+        "Price": 69
+      },
+      {
+        "Description": "PROMETHAZINE 50MG INJ (per amp)",
+        "Price": 69
+      },
+      {
+        "Description": "PROVIRON 25 MG (per tab)",
+        "Price": 69
+      },
+      {
+        "Description": "REGROTON (per tab)",
+        "Price": 69
+      },
+      {
+        "Description": "SANATOGEN M/VIT GOLD (per tab)",
+        "Price": 69
+      },
+      {
+        "Description": "TAVEGYL 1MG (per tab)",
+        "Price": 69
+      },
+      {
+        "Description": "VIT B COMPLEX INJ (per vial)",
+        "Price": 69
+      },
+      {
+        "Description": "VIT BCO PER VIAL",
+        "Price": 69
+      },
+      {
+        "Description": "VIT E 1000 IU NATURE MADE (per tab)",
+        "Price": 69
+      },
+      {
+        "Description": "CEECAL",
+        "Price": 70
+      },
+      {
+        "Description": "DOPATAB",
+        "Price": 70
+      },
+      {
+        "Description": "HYDRALAZIN 75mg",
+        "Price": 70
+      },
+      {
+        "Description": "FLOXAPEN 125MG/5ML",
+        "Price": 70
+      },
+      {
+        "Description": "GENTAMYCIN 280MG",
+        "Price": 70
+      },
+      {
+        "Description": "GSUNATE 100MG",
+        "Price": 70
+      },
+      {
+        "Description": "OSTEOCARE",
+        "Price": 70
+      },
+      {
+        "Description": "ARTHROTEC (PER TAB)",
+        "Price": 71.3
+      },
+      {
+        "Description": "BETALOC (PER TAB)",
+        "Price": 72.45
+      },
+      {
+        "Description": "ARTESUNATE (PER TAB)",
+        "Price": 74.75
+      },
+      {
+        "Description": "CAMOQUINE 200MG (per tab)",
+        "Price": 74.75
+      },
+      {
+        "Description": "COARTEM DISPERSIBLE (PER TAB)",
+        "Price": 74.75
+      },
+      {
+        "Description": "DICYNONE 250MG (per tab)",
+        "Price": 74.75
+      },
+      {
+        "Description": "FASIGYN 500MG (per tab)",
+        "Price": 74.75
+      },
+      {
+        "Description": "IMMUNACE  (per tab)",
+        "Price": 74.75
+      },
+      {
+        "Description": "LO-FEMINAL (per sach)",
+        "Price": 74.75
+      },
+      {
+        "Description": "QUININE INJ 300MG",
+        "Price": 74.75
+      },
+      {
+        "Description": "ROXID TABS (per tab)",
+        "Price": 74.75
+      },
+      {
+        "Description": "ROXITHROMYCIN TABS (per tab)",
+        "Price": 74.75
+      },
+      {
+        "Description": "SUFRATULE (PER PIECE)",
+        "Price": 74.75
+      },
+      {
+        "Description": "SULPHADEINE PLUS SOLUBLE (per tab)",
+        "Price": 74.75
+      },
+      {
+        "Description": "DOLONUEOBION",
+        "Price": 75
+      },
+      {
+        "Description": "METFORMIN 500MG",
+        "Price": 75
+      },
+      {
+        "Description": "NEUROBION",
+        "Price": 75
+      },
+      {
+        "Description": "ACICLOVIR 200MG",
+        "Price": 80
+      },
+      {
+        "Description": "ARTHOCARE CAP",
+        "Price": 80
+      },
+      {
+        "Description": "CAC 1000",
+        "Price": 80
+      },
+      {
+        "Description": "CADIOACE",
+        "Price": 80
+      },
+      {
+        "Description": "CEFTRIAZONE",
+        "Price": 80
+      },
+      {
+        "Description": "CIPROTAB",
+        "Price": 80
+      },
+      {
+        "Description": "CLONIDINE 100MCG",
+        "Price": 80
+      },
+      {
+        "Description": "GERIATIC PHARMATON",
+        "Price": 80
+      },
+      {
+        "Description": "PRAZIQUANTEL 600MG",
+        "Price": 80
+      },
+      {
+        "Description": "TEGRETOL CR 400MG",
+        "Price": 80
+      },
+      {
+        "Description": "TORSEMIDE TAB",
+        "Price": 80
+      },
+      {
+        "Description": "ZANTAC 300MG",
+        "Price": 80
+      },
+      {
+        "Description": "CEECAL (per tab)",
+        "Price": 80.5
+      },
+      {
+        "Description": "FLOXAPEN 125MG/5ML (per cap)",
+        "Price": 80.5
+      },
+      {
+        "Description": "GSUNATE 100MG (per tab)",
+        "Price": 80.5
+      },
+      {
+        "Description": "OSTEOCARE (per tab)",
+        "Price": 80.5
+      },
+      {
+        "Description": "URINE BAG",
+        "Price": 80.5
+      },
+      {
+        "Description": "DICLOFENAC SUPP 100MG (PER SUPP)",
+        "Price": 82.8
+      },
+      {
+        "Description": "GLICAZIDE 80MG (PER TAB)",
+        "Price": 82.8
+      },
+      {
+        "Description": "DIAMICRON",
+        "Price": 85
+      },
+      {
+        "Description": "MAXIVISION",
+        "Price": 85
+      },
+      {
+        "Description": "ZADITEN 1MG",
+        "Price": 85
+      },
+      {
+        "Description": "DOLONUEROBION (per tab)",
+        "Price": 86.25
+      },
+      {
+        "Description": "METFORMIN 500MG (per tab)",
+        "Price": 86.25
+      },
+      {
+        "Description": "NEUROBION (per tab)",
+        "Price": 86.25
+      },
+      {
+        "Description": "TRAXENAMIC ACID TAB",
+        "Price": 87.4
+      },
+      {
+        "Description": "CHLORAMPHENICOL 500MG INJ/ AMP  ",
+        "Price": 89.7
+      },
+      {
+        "Description": "ADALAT RETARD 20MG",
+        "Price": 90
+      },
+      {
+        "Description": "ARSUMAX            50MG",
+        "Price": 90
+      },
+      {
+        "Description": "ARSUMAX 50MG",
+        "Price": 90
+      },
+      {
+        "Description": "DIAZEPAM 10MG",
+        "Price": 90
+      },
+      {
+        "Description": "MINIPRESS 1MG",
+        "Price": 90
+      },
+      {
+        "Description": "MINIZIDE",
+        "Price": 90
+      },
+      {
+        "Description": "ACARBOSE 50MG (PER TAB)",
+        "Price": 92
+      },
+      {
+        "Description": "ADALAT RETARD 20MG (per tab)",
+        "Price": 92
+      },
+      {
+        "Description": "AMINOPHYLLINE INJ 25MG/ML (PER AMP)",
+        "Price": 92
+      },
+      {
+        "Description": "ARTHOCARE CAP (per tab)",
+        "Price": 92
+      },
+      {
+        "Description": "CAC 1000 (per tab)",
+        "Price": 92
+      },
+      {
+        "Description": "CADIOACE (per cap)",
+        "Price": 92
+      },
+      {
+        "Description": "CIPROTAB 500MG (per tab)",
+        "Price": 92
+      },
+      {
+        "Description": "CLONIDINE 100MCG (per tab)",
+        "Price": 92
+      },
+      {
+        "Description": "GERIATIC PHARMATON (per cap)",
+        "Price": 92
+      },
+      {
+        "Description": "HYDROCORTISONE 100MG INJ (per amp)",
+        "Price": 92
+      },
+      {
+        "Description": "NATRILIX (PER TAB)  ",
+        "Price": 92
+      },
+      {
+        "Description": "PRAZIQUANTEL 600MG (per tab)",
+        "Price": 92
+      },
+      {
+        "Description": "TEGRETOL CR 400MG (per tab)",
+        "Price": 92
+      },
+      {
+        "Description": "TETANUS TOXOID  (per dose)",
+        "Price": 92
+      },
+      {
+        "Description": "ZANTAC 300MG (per tab)",
+        "Price": 92
+      },
+      {
+        "Description": "SECWID 400MG (PER TAB)",
+        "Price": 93.15
+      },
+      {
+        "Description": "GLIPIZIDE 5MG (PER TAB)",
+        "Price": 96.6
+      },
+      {
+        "Description": "DIAMICRON (per tab)",
+        "Price": 97.75
+      },
+      {
+        "Description": "MAXIVISION  (per cap)",
+        "Price": 97.75
+      },
+      {
+        "Description": "ZADITEN 1MG (per tab)",
+        "Price": 97.75
+      },
+      {
+        "Description": "ALPHABETHIC CAPLET",
+        "Price": 100
+      },
+      {
+        "Description": "AMINOPHYLINE INJ 250MG",
+        "Price": 100
+      },
+      {
+        "Description": "ANNUSOL SUPPOSITORIES",
+        "Price": 100
+      },
+      {
+        "Description": "AVOLAM               150MG",
+        "Price": 100
+      },
+      {
+        "Description": "AVOLAM 150MG",
+        "Price": 100
+      },
+      {
+        "Description": "Ciprotab 500mg",
+        "Price": 100
+      },
+      {
+        "Description": "DAFLON",
+        "Price": 100
+      },
+      {
+        "Description": "DEXAMETHASONE 8MG",
+        "Price": 100
+      },
+      {
+        "Description": "Diclofenac SR  100mg tab",
+        "Price": 100
+      },
+      {
+        "Description": "DUPHASON 10MG",
+        "Price": 100
+      },
+      {
+        "Description": "DYNAMOGEN LIQUID 10MLS",
+        "Price": 100
+      },
+      {
+        "Description": "Erythromycin 250mg per tab",
+        "Price": 100
+      },
+      {
+        "Description": "EUCADIC 3.125MG",
+        "Price": 100
+      },
+      {
+        "Description": "EVADINE  200MG",
+        "Price": 100
+      },
+      {
+        "Description": "EVADINE 200MG",
+        "Price": 100
+      },
+      {
+        "Description": "FANSIDAR 525MG",
+        "Price": 100
+      },
+      {
+        "Description": "FLUCAMED 50MG",
+        "Price": 100
+      },
+      {
+        "Description": "HISTAC 300MG",
+        "Price": 100
+      },
+      {
+        "Description": "HYDROCORTISONE 100MG INJ",
+        "Price": 100
+      },
+      {
+        "Description": "IMODIUM 4MG",
+        "Price": 100
+      },
+      {
+        "Description": "LABETALOL",
+        "Price": 100
+      },
+      {
+        "Description": "LOSARTAN",
+        "Price": 100
+      },
+      {
+        "Description": "MEPRASIL 20MG",
+        "Price": 100
+      },
+      {
+        "Description": "METOCLOPRAMIDE 5MG INJ",
+        "Price": 100
+      },
+      {
+        "Description": "NEUROVITE FORTE",
+        "Price": 100
+      },
+      {
+        "Description": "NIFEGEM",
+        "Price": 100
+      },
+      {
+        "Description": "NOSPA INJ 40MG",
+        "Price": 100
+      },
+      {
+        "Description": "ORUVAIL 200MG",
+        "Price": 100
+      },
+      {
+        "Description": "TETANUS TOXOID",
+        "Price": 100
+      },
+      {
+        "Description": "THIAMINE TAB",
+        "Price": 100
+      },
+      {
+        "Description": "ZANTAC 150MG",
+        "Price": 100
+      },
+      {
+        "Description": "ZESTRIL 5MG",
+        "Price": 100
+      },
+      {
+        "Description": "CO-AMOXICLAV 625MG TAB (PER TAB)",
+        "Price": 101.2
+      },
+      {
+        "Description": "CLOPIDOGREL(PER TAB)",
+        "Price": 103.5
+      },
+      {
+        "Description": "DIAZEPAM 10MG (per amp)",
+        "Price": 103.5
+      },
+      {
+        "Description": "LOSARTAN 60MG PER TAB",
+        "Price": 103.5
+      },
+      {
+        "Description": "MINIPRESS 1MG (per tab)",
+        "Price": 103.5
+      },
+      {
+        "Description": "MINIZIDE (per tab)",
+        "Price": 103.5
+      },
+      {
+        "Description": "CIMETIDINE INJ PER AMP",
+        "Price": 104.65
+      },
+      {
+        "Description": "GABAPENTRIN(PER TAB)",
+        "Price": 104.65
+      },
+      {
+        "Description": "LEVOFLOXACIN TAB 500MG",
+        "Price": 104.65
+      },
+      {
+        "Description": "NIZORAL 200MG",
+        "Price": 105
+      },
+      {
+        "Description": "SPARFLOXACIN 200MG",
+        "Price": 105
+      },
+      {
+        "Description": "CHLOROQUINE 50MG/5ML",
+        "Price": 110
+      },
+      {
+        "Description": "ENHANCIN 375MG",
+        "Price": 110
+      },
+      {
+        "Description": "METHROCABANAMOL (ROBINAX) 500MG",
+        "Price": 110
+      },
+      {
+        "Description": "VENTOLIN NEBULES 2.5MG",
+        "Price": 110
+      },
+      {
+        "Description": "CAMOSUNATE 600/200 (PER TAB)",
+        "Price": 110.4
+      },
+      {
+        "Description": "FLUCONAZOLE 50MG (PER TAB)",
+        "Price": 112.7
+      },
+      {
+        "Description": "SECNIDAZOLE 500MG(PER TAB)",
+        "Price": 112.7
+      },
+      {
+        "Description": "ALPHABETHIC CAPLET (per tab)",
+        "Price": 115
+      },
+      {
+        "Description": "ANNUSOL SUPPOSITORIES (per supp)",
+        "Price": 115
+      },
+      {
+        "Description": "AVOLAM  150MG  (per tab)",
+        "Price": 115
+      },
+      {
+        "Description": "DAFLON (per tab)",
+        "Price": 115
+      },
+      {
+        "Description": "DEXAMETHASONE 8MG  (per vial)",
+        "Price": 115
+      },
+      {
+        "Description": "DIGOXIN 0.025MG INL (PER AMP)",
+        "Price": 115
+      },
+      {
+        "Description": "DUPHASON 10MG (per tab)",
+        "Price": 115
+      },
+      {
+        "Description": "DYNAMOGEN LIQUID 10MLS (per bot)",
+        "Price": 115
+      },
+      {
+        "Description": "EUCADIC 3.125MG (per tab)",
+        "Price": 115
+      },
+      {
+        "Description": "EVADINE  200MG (per tab)",
+        "Price": 115
+      },
+      {
+        "Description": "FANSIDAR 525MG (per tab)",
+        "Price": 115
+      },
+      {
+        "Description": "FLUCAMED 50MG (per cap)",
+        "Price": 115
+      },
+      {
+        "Description": "HISTAC 300MG (per tab)",
+        "Price": 115
+      },
+      {
+        "Description": "MELOXICAM (per tab)",
+        "Price": 115
+      },
+      {
+        "Description": "NOSPA TABS 40MG (per tab)",
+        "Price": 115
+      },
+      {
+        "Description": "ORUVAIL 200MG (per cap)",
+        "Price": 115
+      },
+      {
+        "Description": "PARACETAMOL SYRUP 125MG/5MLS (per bot)",
+        "Price": 115
+      },
+      {
+        "Description": "TAMSULOSIN(PER TAB)",
+        "Price": 115
+      },
+      {
+        "Description": "ZANTAC 150MG (per tab)",
+        "Price": 115
+      },
+      {
+        "Description": "ARTHOCARE",
+        "Price": 120
+      },
+      {
+        "Description": "ARVED 450MG",
+        "Price": 120
+      },
+      {
+        "Description": "CLINITEST TAB",
+        "Price": 120
+      },
+      {
+        "Description": "Glimepiride 2mg tab (amaryl)",
+        "Price": 120
+      },
+      {
+        "Description": "FRUSEMIDE INJ 20MG",
+        "Price": 120
+      },
+      {
+        "Description": "ROHYPNOL 1MG",
+        "Price": 120
+      },
+      {
+        "Description": "NIZORAL 200MG (per tab)",
+        "Price": 120.75
+      },
+      {
+        "Description": "SPARFLOXACIN 200MG (per tab)",
+        "Price": 120.75
+      },
+      {
+        "Description": "VOLTAREN RETARD 100MG (per tab)",
+        "Price": 120.75
+      },
+      {
+        "Description": "NORVASC 5mg",
+        "Price": 125
+      },
+      {
+        "Description": "ORAL REHYDRATION SALT",
+        "Price": 125
+      },
+      {
+        "Description": "PROGUANIL 100MG",
+        "Price": 125
+      },
+      {
+        "Description": "VENTOLIN NEBULES 2.5MG (per neb)",
+        "Price": 126.5
+      },
+      {
+        "Description": "ALFA D O.5CG",
+        "Price": 130
+      },
+      {
+        "Description": "BROMOCRIPTINE 2.5MG",
+        "Price": 130
+      },
+      {
+        "Description": "DICLOFENAC INJ  75MG",
+        "Price": 130
+      },
+      {
+        "Description": "DICLOFENAC INJ 75MG",
+        "Price": 130
+      },
+      {
+        "Description": "ENHANCIN 625MG",
+        "Price": 130
+      },
+      {
+        "Description": "METAKELFIN",
+        "Price": 130
+      },
+      {
+        "Description": "PARIET 20MG",
+        "Price": 130
+      },
+      {
+        "Description": "STREPTOMYCIN 5MG INJ",
+        "Price": 130
+      },
+      {
+        "Description": "ZADITEN 2MG",
+        "Price": 130
+      },
+      {
+        "Description": "ARVED 450MG (per tab)",
+        "Price": 138
+      },
+      {
+        "Description": "CLINITEST TAB (per tab)",
+        "Price": 138
+      },
+      {
+        "Description": "FRUSEMIDE INJ 20MG (per amp)",
+        "Price": 138
+      },
+      {
+        "Description": "ROHYPNOL 1MG (per tab)",
+        "Price": 138
+      },
+      {
+        "Description": "VITAMIN A DROPS",
+        "Price": 138
+      },
+      {
+        "Description": "ESSENTIAL FORTE CAP",
+        "Price": 140
+      },
+      {
+        "Description": "ARTEMETER 100MG TAB",
+        "Price": 140.3
+      },
+      {
+        "Description": "CEFUROXIME 250MG TAB",
+        "Price": 142.6
+      },
+      {
+        "Description": "NORVASC 5MG (per tab)",
+        "Price": 143.75
+      },
+      {
+        "Description": "PROGUANIL 100MG (per tab)",
+        "Price": 143.75
+      },
+      {
+        "Description": "FELDENE 20MG",
+        "Price": 145
+      },
+      {
+        "Description": "ALFA D O.5CG (per tab)",
+        "Price": 149.5
+      },
+      {
+        "Description": "AMPICLOX I 500MG INJ (per vial)",
+        "Price": 149.5
+      },
+      {
+        "Description": "BROMOCRIPTINE 2.5MG (per tab)",
+        "Price": 149.5
+      },
+      {
+        "Description": "CHLORAMPHENICOL EYE OINT. (per tube)",
+        "Price": 149.5
+      },
+      {
+        "Description": "CYTOTEC (MISOPROSTOL) 200MCG (PER TAB)",
+        "Price": 149.5
+      },
+      {
+        "Description": "ERGOMETRINE INJ 1.5MG",
+        "Price": 149.5
+      },
+      {
+        "Description": "INFERON (PER AMP)",
+        "Price": 149.5
+      },
+      {
+        "Description": "METAKELFIN (per tab)",
+        "Price": 149.5
+      },
+      {
+        "Description": "OXYTOCIN 10MG INJ PER AMP",
+        "Price": 149.5
+      },
+      {
+        "Description": "PARIET 20MG (per tab)",
+        "Price": 149.5
+      },
+      {
+        "Description": "STREPTOMYCIN 5MG INJ (per vial)",
+        "Price": 149.5
+      },
+      {
+        "Description": "VIT B COMPLEX SYRUP (per bot)",
+        "Price": 149.5
+      },
+      {
+        "Description": "VIT BCO PER BOTTLE",
+        "Price": 149.5
+      },
+      {
+        "Description": "VIT K INJ (per amp)",
+        "Price": 149.5
+      },
+      {
+        "Description": "ZADITEN 2MG (per tab)",
+        "Price": 149.5
+      },
+      {
+        "Description": "ZENTEL (PER TAB)",
+        "Price": 149.5
+      },
+      {
+        "Description": "ALLOPURINOL TAB",
+        "Price": 150
+      },
+      {
+        "Description": "ALPHABETIC",
+        "Price": 150
+      },
+      {
+        "Description": "AMPICLOX I 500MG INJ",
+        "Price": 150
+      },
+      {
+        "Description": "AVOCOMB 450MG",
+        "Price": 150
+      },
+      {
+        "Description": "BISOPROLOL 10MG",
+        "Price": 150
+      },
+      {
+        "Description": "CEFIXIME",
+        "Price": 150
+      },
+      {
+        "Description": "CLOMID 50MG",
+        "Price": 150
+      },
+      {
+        "Description": "EUCARDIC 25MG",
+        "Price": 150
+      },
+      {
+        "Description": "Telmisartan 40mg per tab",
+        "Price": 150
+      },
+      {
+        "Description": "Tinidazole per tab",
+        "Price": 150
+      },
+      {
+        "Description": "FEROGLOBIN CAP",
+        "Price": 150
+      },
+      {
+        "Description": "PARACETAMOL SYRUP 125MG/5MLS",
+        "Price": 150
+      },
+      {
+        "Description": "TRAMAL 50MG",
+        "Price": 150
+      },
+      {
+        "Description": "VALSARTAN 80MG",
+        "Price": 150
+      },
+      {
+        "Description": "BENZYL BENZOATE LINIMENT",
+        "Price": 160
+      },
+      {
+        "Description": "CALAMINE LOTION  100MLS",
+        "Price": 160
+      },
+      {
+        "Description": "CALAMINE LOTION 100MLS",
+        "Price": 160
+      },
+      {
+        "Description": "FOLEY'S CATHETER",
+        "Price": 160
+      },
+      {
+        "Description": "TRADYL 100MG INJ",
+        "Price": 160
+      },
+      {
+        "Description": "ESSENTIAL FORTE CAP (per cap)",
+        "Price": 161
+      },
+      {
+        "Description": "DULCOLAX SUPP (PER SUPP)",
+        "Price": 164.45
+      },
+      {
+        "Description": "FELDENE 20MG (per cap)",
+        "Price": 166.75
+      },
+      {
+        "Description": "AVOCOMB 450MG (per tab)",
+        "Price": 172.5
+      },
+      {
+        "Description": "CLOMID 50MG (per tab)",
+        "Price": 172.5
+      },
+      {
+        "Description": "EUCARDIC 25MG (per tab)",
+        "Price": 172.5
+      },
+      {
+        "Description": "TRAMAL 50MG (per cap)",
+        "Price": 172.5
+      },
+      {
+        "Description": "CLINDAMYCIN HCL 300MG CAP (per cap)",
+        "Price": 177.1
+      },
+      {
+        "Description": "FANSIDAR  PER TAB",
+        "Price": 180
+      },
+      {
+        "Description": "FANSIDAR PER TAB",
+        "Price": 180
+      },
+      {
+        "Description": "GLICLAZIDE",
+        "Price": 180
+      },
+      {
+        "Description": "INDAPAMIDE",
+        "Price": 180
+      },
+      {
+        "Description": "METOPROLOL (BETALOC)",
+        "Price": 180
+      },
+      {
+        "Description": "MIST KAOLIN",
+        "Price": 180
+      },
+      {
+        "Description": "BENZYL BENZOATE OINTMENT (per bot)",
+        "Price": 184
+      },
+      {
+        "Description": "CADURA 4MG PER TAB",
+        "Price": 184
+      },
+      {
+        "Description": "CALAMINE LOTION  100MLS (per bot)",
+        "Price": 184
+      },
+      {
+        "Description": "FOLEY'S CATHETER (per piece)",
+        "Price": 184
+      },
+      {
+        "Description": "PENTAZOCINE 30MG INJ (per amp)",
+        "Price": 184
+      },
+      {
+        "Description": "TRADYL 100MG INJ (per amp)",
+        "Price": 184
+      },
+      {
+        "Description": "UNASYN (PER TAB)",
+        "Price": 184
+      },
+      {
+        "Description": "VIT C SYRUP (per bot)",
+        "Price": 184
+      },
+      {
+        "Description": "ATROPINE 6OOMG INJ",
+        "Price": 190
+      },
+      {
+        "Description": "BRONCHOLYTE 4MG/5ML ELIXIR",
+        "Price": 190
+      },
+      {
+        "Description": "CO-DIOVAN",
+        "Price": 190
+      },
+      {
+        "Description": "COLIPAN ALIXIR 5MG/5ML-100ML",
+        "Price": 190
+      },
+      {
+        "Description": "CO-TRIMAZOLE 240MG/5ML",
+        "Price": 190
+      },
+      {
+        "Description": "DIOVAN 80MG",
+        "Price": 190
+      },
+      {
+        "Description": "ITRANOX",
+        "Price": 190
+      },
+      {
+        "Description": "ITRANOX 100MG",
+        "Price": 190
+      },
+      {
+        "Description": "PEFLACINE 400MG",
+        "Price": 190
+      },
+      {
+        "Description": "ZESTRIL 10MG",
+        "Price": 190
+      },
+      {
+        "Description": "TRAMADOL 50MG INJ. (per vial)",
+        "Price": 194.35
+      },
+      {
+        "Description": "CHLORPHENIRAMINE 2MG/5ML",
+        "Price": 195
+      },
+      {
+        "Description": "DEXTROSE 50%",
+        "Price": 195
+      },
+      {
+        "Description": "LESCOL 20MG",
+        "Price": 195
+      },
+      {
+        "Description": "TENORETIC",
+        "Price": 195
+      },
+      {
+        "Description": "VALIUM 10MG",
+        "Price": 195
+      },
+      {
+        "Description": "VENTOLIN NEBULES 5MG",
+        "Price": 195
+      },
+      {
+        "Description": "CHLORAMPHENICOL EAR DROP (per bot)",
+        "Price": 195.5
+      },
+      {
+        "Description": "ADRENALIN INJ 1MG",
+        "Price": 200
+      },
+      {
+        "Description": "AMIODARONE",
+        "Price": 200
+      },
+      {
+        "Description": "ATORVASTATIN 20MG",
+        "Price": 200
+      },
+      {
+        "Description": "CHLORAMPHENICOL EAR DROP",
+        "Price": 200
+      },
+      {
+        "Description": "DETRUSITOL 2MG",
+        "Price": 200
+      },
+      {
+        "Description": "Flagyl 200mg",
+        "Price": 200
+      },
+      {
+        "Description": "ROSUVASTATIN",
+        "Price": 200
+      },
+      {
+        "Description": "Telmisatan 80mg",
+        "Price": 200
+      },
+      {
+        "Description": "Tinindazole per tab",
+        "Price": 200
+      },
+      {
+        "Description": "FORTWIN 30MG",
+        "Price": 200
+      },
+      {
+        "Description": "GENTAMYCIN EYE/EAR DROP",
+        "Price": 200
+      },
+      {
+        "Description": "GLIMEPERIDE",
+        "Price": 200
+      },
+      {
+        "Description": "GYNODAKTARIN 200MG",
+        "Price": 200
+      },
+      {
+        "Description": "LEVOFLOXACINE",
+        "Price": 200
+      },
+      {
+        "Description": "METRONIDAZOLE INFUSION",
+        "Price": 200
+      },
+      {
+        "Description": "OFLOXACINE",
+        "Price": 200
+      },
+      {
+        "Description": "PROMETHAZINE 5MG/5MG ELIXIR",
+        "Price": 200
+      },
+      {
+        "Description": "ROSUVASTATIN 10MG",
+        "Price": 200
+      },
+      {
+        "Description": "VALSARTAN 160MG",
+        "Price": 200
+      },
+      {
+        "Description": "WHITE FIELD OINTMENT 20G",
+        "Price": 200
+      },
+      {
+        "Description": "CO-MICARDIL (PER TAB)",
+        "Price": 201.25
+      },
+      {
+        "Description": "ADRENALIN INJ 1MG (per amp)",
+        "Price": 207
+      },
+      {
+        "Description": "MIST KAOLIN (per bot)",
+        "Price": 207
+      },
+      {
+        "Description": "PAROXETIN 100MG(PER TAB)",
+        "Price": 207
+      },
+      {
+        "Description": "TARIVID 200MG (per tab)",
+        "Price": 207
+      },
+      {
+        "Description": "CEFUROXIME 500MG TAB",
+        "Price": 209.3
+      },
+      {
+        "Description": "MIST MAG. (PER BOT).",
+        "Price": 209.3
+      },
+      {
+        "Description": "MECTIZAN (IVERMECTIN) 3MG",
+        "Price": 210
+      },
+      {
+        "Description": "CO-TRIMAZOLE 240MG/5ML (per bot)",
+        "Price": 212.75
+      },
+      {
+        "Description": "ATROPINE 6OOMG INJ (per amp)",
+        "Price": 218.5
+      },
+      {
+        "Description": "BRONCHOLYTE  4MG/5ML ELIXIR (per bot)",
+        "Price": 218.5
+      },
+      {
+        "Description": "CO-DIOVAN (per tab)",
+        "Price": 218.5
+      },
+      {
+        "Description": "COLIPAN ALIXIR 5MG/5ML-100ML (per bot)",
+        "Price": 218.5
+      },
+      {
+        "Description": "DIOVAN 80MG (per cap)",
+        "Price": 218.5
+      },
+      {
+        "Description": "ITRANOX (per cap)",
+        "Price": 218.5
+      },
+      {
+        "Description": "ITRANOX 100MG (per tab)",
+        "Price": 218.5
+      },
+      {
+        "Description": "PEFLACINE 400MG (per tab)",
+        "Price": 218.5
+      },
+      {
+        "Description": "PROMETHAZINE 5MG/5MG ELIXIR (per bot)",
+        "Price": 218.5
+      },
+      {
+        "Description": "CAC-1000",
+        "Price": 220
+      },
+      {
+        "Description": "CLARITHROMYCIN 500MG",
+        "Price": 220
+      },
+      {
+        "Description": "CHLORAMPHENICOL SYRUP",
+        "Price": 223.1
+      },
+      {
+        "Description": "ARTEMETER 80MG INJ (PER AMP)  ",
+        "Price": 224.25
+      },
+      {
+        "Description": "GENTAMYCIN EYE/EAR DROP (per bot)",
+        "Price": 224.25
+      },
+      {
+        "Description": "HYDROXYPREGESTERONE (PER TAB)",
+        "Price": 224.25
+      },
+      {
+        "Description": "LESCOL 20MG (per cap)",
+        "Price": 224.25
+      },
+      {
+        "Description": "TENORETIC  (per tab)",
+        "Price": 224.25
+      },
+      {
+        "Description": "VALIUM 10MG (per amp)",
+        "Price": 224.25
+      },
+      {
+        "Description": "VENTOLIN NEBULES 5MG (per neb)",
+        "Price": 224.25
+      },
+      {
+        "Description": "WHITFIELD OINTMENT 20G (per tube)",
+        "Price": 224.25
+      },
+      {
+        "Description": "ZOLAT SYRUP",
+        "Price": 224.25
+      },
+      {
+        "Description": "AUGMENTINE    625MG",
+        "Price": 230
+      },
+      {
+        "Description": "AUGMENTINE 625MG",
+        "Price": 230
+      },
+      {
+        "Description": "DETRUSITOL 2MG (per tab)",
+        "Price": 230
+      },
+      {
+        "Description": "FOLIC ACID SYRUP",
+        "Price": 230
+      },
+      {
+        "Description": "GLYCERYLTRINITRATE (PER TAB)",
+        "Price": 230
+      },
+      {
+        "Description": "GYNODAKTARIN 200MG (per ovule)",
+        "Price": 230
+      },
+      {
+        "Description": "METRONIDAZOLE INFUSION (per inf)",
+        "Price": 230
+      },
+      {
+        "Description": "PENICILLIN OINTMENT (PER TUBE)",
+        "Price": 230
+      },
+      {
+        "Description": "NORVASC 10MG",
+        "Price": 230
+      },
+      {
+        "Description": "SIMVOR 20MG",
+        "Price": 230
+      },
+      {
+        "Description": "MULTIVITE SYRUP",
+        "Price": 234
+      },
+      {
+        "Description": "LIPITOR 10MG",
+        "Price": 235
+      },
+      {
+        "Description": "MYCOTEN CREAM 20G",
+        "Price": 235
+      },
+      {
+        "Description": "ZESTORETIC",
+        "Price": 235
+      },
+      {
+        "Description": "ZESTRIL 20MG",
+        "Price": 235
+      },
+      {
+        "Description": "AVANDA               4MG",
+        "Price": 240
+      },
+      {
+        "Description": "AVANDA 4MG",
+        "Price": 240
+      },
+      {
+        "Description": "BENYLIN EXPECTORANT 100MLS",
+        "Price": 240
+      },
+      {
+        "Description": "CELEBREX  200MG",
+        "Price": 240
+      },
+      {
+        "Description": "CELEBREX 200MG",
+        "Price": 240
+      },
+      {
+        "Description": "HYDROCORTISONE 15MG",
+        "Price": 240
+      },
+      {
+        "Description": "MECTIZAN (IVERMECTIN) 3MG (per tab)",
+        "Price": 241.5
+      },
+      {
+        "Description": "ZINNAT 250MG",
+        "Price": 245
+      },
+      {
+        "Description": "Artemether injection 80mg",
+        "Price": 250
+      },
+      {
+        "Description": "AUGMENTINE    1000MG",
+        "Price": 250
+      },
+      {
+        "Description": "AUGMENTINE 1000MG",
+        "Price": 250
+      },
+      {
+        "Description": "BONJELA GEL 10G",
+        "Price": 250
+      },
+      {
+        "Description": "CANDESARTAN /HCT 16/12.5MG",
+        "Price": 250
+      },
+      {
+        "Description": "Co-Amoxiclav 1g",
+        "Price": 250
+      },
+      {
+        "Description": "Montelukast 10mg per tab",
+        "Price": 250
+      },
+      {
+        "Description": "Vasterel tab",
+        "Price": 250
+      },
+      {
+        "Description": "GALVUS 50MG",
+        "Price": 250
+      },
+      {
+        "Description": "GENTAMYCIN CREAM 15G",
+        "Price": 250
+      },
+      {
+        "Description": "METOLAZONE",
+        "Price": 250
+      },
+      {
+        "Description": "ROSUVASTATIN 20MG",
+        "Price": 250
+      },
+      {
+        "Description": "TARIVID 200MG",
+        "Price": 250
+      },
+      {
+        "Description": "ZOLOFT 50MG",
+        "Price": 250
+      },
+      {
+        "Description": "CLARITHROMYCIN 500MG (per cap)",
+        "Price": 253
+      },
+      {
+        "Description": "COFEX SYRUP (PER BOT)",
+        "Price": 254.15
+      },
+      {
+        "Description": "CICATRIN POWDER",
+        "Price": 260
+      },
+      {
+        "Description": "DARROWS SOLUTION FULL strength",
+        "Price": 260
+      },
+      {
+        "Description": "DEXTROSE 4.3% / NORMAL SALINE",
+        "Price": 260
+      },
+      {
+        "Description": "DEXTROSE 5%",
+        "Price": 260
+      },
+      {
+        "Description": "ERYTHROMYCIN 125MG/5ML",
+        "Price": 260
+      },
+      {
+        "Description": "IBUPROFEN 100MG/5ML",
+        "Price": 260
+      },
+      {
+        "Description": "PIRITON EXPECTORANT 100MLS",
+        "Price": 260
+      },
+      {
+        "Description": "ZENTEL SUSP 400MG/20ML",
+        "Price": 260
+      },
+      {
+        "Description": "ABAKTAL 400MG (per amp)",
+        "Price": 264.5
+      },
+      {
+        "Description": "CANDESARTAN 80MG PER TAB",
+        "Price": 264.5
+      },
+      {
+        "Description": "NORVASC 10MG (per tab)",
+        "Price": 264.5
+      },
+      {
+        "Description": "SIMVOR 20MG (per tab)",
+        "Price": 264.5
+      },
+      {
+        "Description": "AFRABVITE DROPS (PER BOT)",
+        "Price": 269.1
+      },
+      {
+        "Description": "MULTIVITE SYRUP (per bot)",
+        "Price": 269.1
+      },
+      {
+        "Description": "NOSPAMIN DROPS",
+        "Price": 269.1
+      },
+      {
+        "Description": "AMIAS 4MG",
+        "Price": 270
+      },
+      {
+        "Description": "AMPICLOX  250MG/5ML-100ML (per bot)",
+        "Price": 270.25
+      },
+      {
+        "Description": "MYCOTEN CREAM 20G (per tube)",
+        "Price": 270.25
+      },
+      {
+        "Description": "ZESTORETIC (per tab)",
+        "Price": 270.25
+      },
+      {
+        "Description": "AVANDA  4MG (per tab)",
+        "Price": 276
+      },
+      {
+        "Description": "BENYLIN EXPECTORANT 100MLS (per bot)",
+        "Price": 276
+      },
+      {
+        "Description": "CELEBREX  200MG (per cap)",
+        "Price": 276
+      },
+      {
+        "Description": "HYDROCORTISONE 15MG (per tube)",
+        "Price": 276
+      },
+      {
+        "Description": "ZINNAT 250MG (per tab)",
+        "Price": 281.75
+      },
+      {
+        "Description": "HALFAN 250MG",
+        "Price": 285
+      },
+      {
+        "Description": "PREGABALIN 75MG",
+        "Price": 285
+      },
+      {
+        "Description": "BONJELA GEL 10G (per tube)",
+        "Price": 287.5
+      },
+      {
+        "Description": "GENTAMYCIN CREAM 15G (per tube)",
+        "Price": 287.5
+      },
+      {
+        "Description": "ZOLOFT 50MG (per cap)",
+        "Price": 287.5
+      },
+      {
+        "Description": "METRONIDAZOLE 200MG/5ML",
+        "Price": 290
+      },
+      {
+        "Description": "BROMHEXINE SYRUP",
+        "Price": 299
+      },
+      {
+        "Description": "CICATRIN POWDER (per bot)",
+        "Price": 299
+      },
+      {
+        "Description": "DARROWS SOLUTION 1/2 strength (per inf)",
+        "Price": 299
+      },
+      {
+        "Description": "DARROWS SOLUTION FULL strength (per inf)",
+        "Price": 299
+      },
+      {
+        "Description": "ERYTHROMYCIN 125MG/5ML (per bot)",
+        "Price": 299
+      },
+      {
+        "Description": "IBUPROFEN 100MG/5ML (per bot)",
+        "Price": 299
+      },
+      {
+        "Description": "LINCOMYCIN INJ 300MG (PER AMP)",
+        "Price": 299
+      },
+      {
+        "Description": "PIRITON EXPECTORANT 100MLS (per bot)",
+        "Price": 299
+      },
+      {
+        "Description": "ZENTEL SUSP 400MG/20ML (per bot)",
+        "Price": 299
+      },
+      {
+        "Description": "ABAKTAL 400MG",
+        "Price": 300
+      },
+      {
+        "Description": "AMIAS 8MG",
+        "Price": 300
+      },
+      {
+        "Description": "APROVAX 300/10MG",
+        "Price": 300
+      },
+      {
+        "Description": "APROVEL 300MG",
+        "Price": 300
+      },
+      {
+        "Description": "ATORVASTATIN 40MG",
+        "Price": 300
+      },
+      {
+        "Description": "CANDESARTAN 16MG",
+        "Price": 300
+      },
+      {
+        "Description": "CANDESARTAN 8MG",
+        "Price": 300
+      },
+      {
+        "Description": "CO-APROVEL 150/12.5MG",
+        "Price": 300
+      },
+      {
+        "Description": "DICLOFENAC SUPP",
+        "Price": 300
+      },
+      {
+        "Description": "EUCADIC 12.5MG",
+        "Price": 300
+      },
+      {
+        "Description": "Ex-forge tab 10mg/160mg",
+        "Price": 300
+      },
+      {
+        "Description": "GALVUS MET",
+        "Price": 300
+      },
+      {
+        "Description": "LARITHER 80MG INJ",
+        "Price": 300
+      },
+      {
+        "Description": "TELMISARTAN/ AMLODIPINE 80/10MG",
+        "Price": 300
+      },
+      {
+        "Description": "TELMISARTAN/ AMLODIPINE 80/5MG",
+        "Price": 300
+      },
+      {
+        "Description": "PROSCAR 5MG",
+        "Price": 310
+      },
+      {
+        "Description": "CO-APROVEL 300/12.5MG",
+        "Price": 320
+      },
+      {
+        "Description": "CO-APROVEL 300/25 MG",
+        "Price": 320
+      },
+      {
+        "Description": "MIST POTASSIUM CITRATE",
+        "Price": 325
+      },
+      {
+        "Description": "MODECATE 25MG INJ",
+        "Price": 325
+      },
+      {
+        "Description": "RANFERON BLOOD TONIC 200MLS",
+        "Price": 325
+      },
+      {
+        "Description": "SABRESTEN CREAM DERMAL",
+        "Price": 325
+      },
+      {
+        "Description": "SODIUM BICARBONATE 8.4% INJ",
+        "Price": 325
+      },
+      {
+        "Description": "AMOXYL 500MG INJ/ AMP",
+        "Price": 328.9
+      },
+      {
+        "Description": "NOSPA INJ (PER AMP)",
+        "Price": 328.9
+      },
+      {
+        "Description": "METRONIDAZOLE 200MG/5ML  (per bot)",
+        "Price": 333.5
+      },
+      {
+        "Description": "OLANZAPINE 5MG",
+        "Price": 340
+      },
+      {
+        "Description": "POTASSIUM CHLORIDE 3MG INJ (AMP)",
+        "Price": 343.85
+      },
+      {
+        "Description": "APRESOLINE 20MG INJ (per amp)",
+        "Price": 345
+      },
+      {
+        "Description": "CANDESARTAN 160MG PER TAB",
+        "Price": 345
+      },
+      {
+        "Description": "EUCADIC 12.5MG  (per tab)",
+        "Price": 345
+      },
+      {
+        "Description": "Cocodamol  per tab",
+        "Price": 350
+      },
+      {
+        "Description": "GALVUS-MET  50/100",
+        "Price": 350
+      },
+      {
+        "Description": "TELMISARTAN  40MG",
+        "Price": 350
+      },
+      {
+        "Description": "TELMISARTAN  80MG",
+        "Price": 350
+      },
+      {
+        "Description": "TELMISARTAN 40MG",
+        "Price": 350
+      },
+      {
+        "Description": "TELMISARTAN 80MG",
+        "Price": 350
+      },
+      {
+        "Description": "ROLITEN PER TAB",
+        "Price": 350
+      },
+      {
+        "Description": "SINUFED SYRUP",
+        "Price": 350
+      },
+      {
+        "Description": "TAMSULOSIN PER TAB",
+        "Price": 350
+      },
+      {
+        "Description": "PROSCAR 5MG (per tab)",
+        "Price": 356.5
+      },
+      {
+        "Description": "BENZYL PEROXIDE 10 LOTION",
+        "Price": 370
+      },
+      {
+        "Description": "BIOCOTEN CREAM 20G",
+        "Price": 370
+      },
+      {
+        "Description": "DERMAZINE CREAM  25MG",
+        "Price": 370
+      },
+      {
+        "Description": "DERMAZINE CREAM 25MG",
+        "Price": 370
+      },
+      {
+        "Description": "NEUROGESIC GEL",
+        "Price": 370
+      },
+      {
+        "Description": "FUNBACT CREAM",
+        "Price": 373.75
+      },
+      {
+        "Description": "MIST POTASSIUM CITRATE (per bot)",
+        "Price": 373.75
+      },
+      {
+        "Description": "MODECATE 25MG INJ (per amp)",
+        "Price": 373.75
+      },
+      {
+        "Description": "NYSTATIN (PER TAB)",
+        "Price": 373.75
+      },
+      {
+        "Description": "PARALDEHYDE INJ",
+        "Price": 373.75
+      },
+      {
+        "Description": "PHENOBARBITONE SYRUP (PER BOT)",
+        "Price": 373.75
+      },
+      {
+        "Description": "RANFERON BLOOD TONIC 200MLS (per bot)",
+        "Price": 373.75
+      },
+      {
+        "Description": "SABRESTEN CREAM DERMAL (per tube)",
+        "Price": 373.75
+      },
+      {
+        "Description": "SINUFED SYRUP (per bot)",
+        "Price": 373.75
+      },
+      {
+        "Description": "SODIUM BICARBONATE 8.4% INJ (per amp)",
+        "Price": 373.75
+      },
+      {
+        "Description": "Routine Intravenous Infusion / 500 mls + Materials",
+        "Price": 375
+      },
+      {
+        "Description": "DILOXANIDE FUROATE 500MG",
+        "Price": 380
+      },
+      {
+        "Description": "VALSARTAN/AMLODIPINE / HCT(EXFORGE/HCT)",
+        "Price": 380
+      },
+      {
+        "Description": "ACCOLATE 20MG",
+        "Price": 390
+      },
+      {
+        "Description": "COMBANTRIN 250MG/5ML",
+        "Price": 390
+      },
+      {
+        "Description": "FANSIDAR SUSP 525MG/5ML",
+        "Price": 390
+      },
+      {
+        "Description": "FUNGISOL POWDER 20MG",
+        "Price": 390
+      },
+      {
+        "Description": "GESTID 100ML",
+        "Price": 390
+      },
+      {
+        "Description": "LIPITOR 20MG",
+        "Price": 390
+      },
+      {
+        "Description": "OTOMED EAR DROP",
+        "Price": 390
+      },
+      {
+        "Description": "PALUTHER 80MG INJ",
+        "Price": 390
+      },
+      {
+        "Description": "QUININE SYRUP 200MLS",
+        "Price": 390
+      },
+      {
+        "Description": "OLANZAPINE 5MG (per tab)",
+        "Price": 391
+      },
+      {
+        "Description": "AMOXYCILLIN  125MG/5ML-100MLS",
+        "Price": 400
+      },
+      {
+        "Description": "AMOXYCILLIN 125MG/5ML-100MLS",
+        "Price": 400
+      },
+      {
+        "Description": "AMPICLOX  250MG/5ML-100ML",
+        "Price": 400
+      },
+      {
+        "Description": "AMPICLOX 250MG/5ML-100ML",
+        "Price": 400
+      },
+      {
+        "Description": "BEOPTIC EAR DROP",
+        "Price": 400
+      },
+      {
+        "Description": "CYCLOGEST 400MG PESSARY",
+        "Price": 400
+      },
+      {
+        "Description": "Sirdalud 4mg  per tab",
+        "Price": 400
+      },
+      {
+        "Description": "TELMISARTAN/HCT80/12.5MG",
+        "Price": 400
+      },
+      {
+        "Description": "TELMISARTAN/HCT   80/25MG",
+        "Price": 400
+      },
+      {
+        "Description": "TELMISARTAN/HCT 80/25MG",
+        "Price": 400
+      },
+      {
+        "Description": "GYNODAKTARIN 400MG",
+        "Price": 400
+      },
+      {
+        "Description": "PENICILLIN OINTMENT",
+        "Price": 400
+      },
+      {
+        "Description": "BENZYL PEROXIDE 10 LOTION (per tube)",
+        "Price": 425.5
+      },
+      {
+        "Description": "BIOCOTEN CREAM 20G (per tube)",
+        "Price": 425.5
+      },
+      {
+        "Description": "DERMAZINE CREAM  25MG (per tube)",
+        "Price": 425.5
+      },
+      {
+        "Description": "NEUROGESIC GEL (per tube)",
+        "Price": 425.5
+      },
+      {
+        "Description": "DILOXANIDE FUROATE 500MG (per tab)",
+        "Price": 437
+      },
+      {
+        "Description": "ACCOLATE 20MG (per tab)",
+        "Price": 448.5
+      },
+      {
+        "Description": "BETNESOL EYE OINTMENT",
+        "Price": 448.5
+      },
+      {
+        "Description": "BETROSIL CREAM (per tube)",
+        "Price": 448.5
+      },
+      {
+        "Description": "CANDIBIOTIC EAR DROPS",
+        "Price": 448.5
+      },
+      {
+        "Description": "COMBANTRIN 250MG/5ML (per bot)",
+        "Price": 448.5
+      },
+      {
+        "Description": "CYCLOGEST 400MG PESSARY (per pess)",
+        "Price": 448.5
+      },
+      {
+        "Description": "FUNGISOL POWDER 20MG (per bot)",
+        "Price": 448.5
+      },
+      {
+        "Description": "OTOMED EAR DROP (per bot)",
+        "Price": 448.5
+      },
+      {
+        "Description": "QUININE SYRUP 200MLS (per bot)",
+        "Price": 448.5
+      },
+      {
+        "Description": "ESOMEPRAZOLE  20MG  (NEXIUM)",
+        "Price": 450
+      },
+      {
+        "Description": "ESOMEPRAZOLE 20MG (NEXIUM)",
+        "Price": 450
+      },
+      {
+        "Description": "FELDENE INJ 20MG",
+        "Price": 455
+      },
+      {
+        "Description": "BEOPTIC EAR DROP (per bot)",
+        "Price": 460
+      },
+      {
+        "Description": "GYNODAKTARIN 400MG (per ovule)",
+        "Price": 460
+      },
+      {
+        "Description": "PREDNISOLONE EYE DROP (PER BOT).",
+        "Price": 460
+      },
+      {
+        "Description": "ANTHISAN CREAM 25MG",
+        "Price": 500
+      },
+      {
+        "Description": "Blood Grouping",
+        "Price": 500
+      },
+      {
+        "Description": "CALAMINE LOTION",
+        "Price": 500
+      },
+      {
+        "Description": "ESOMEPRAZOLE  40MG  (NEXIUM)",
+        "Price": 500
+      },
+      {
+        "Description": "ESOMEPRAZOLE 40MG (NEXIUM)",
+        "Price": 500
+      },
+      {
+        "Description": "Infusion",
+        "Price": 500
+      },
+      {
+        "Description": "Minor Wound Dressing /Day (Out Of Station Emergencies)",
+        "Price": 500
+      },
+      {
+        "Description": "Minor Wound Dressing/Day (Out Of Station Emergencies)",
+        "Price": 500
+      },
+      {
+        "Description": "Widal- Serology",
+        "Price": 500
+      },
+      {
+        "Description": "LORATIDINE SYR",
+        "Price": 500
+      },
+      {
+        "Description": "PARACETAMOL INJ",
+        "Price": 500
+      },
+      {
+        "Description": "PARAFIN LIQUID",
+        "Price": 500
+      },
+      {
+        "Description": "PLAVIX",
+        "Price": 500
+      },
+      {
+        "Description": "POLYCROL FORTE GEL 100MLS",
+        "Price": 500
+      },
+      {
+        "Description": "PCV/Haemoglobin",
+        "Price": 500
+      },
+      {
+        "Description": "NEXIUM TABS (per tab)",
+        "Price": 506
+      },
+      {
+        "Description": "BENYLIN WITH PriceINE",
+        "Price": 520
+      },
+      {
+        "Description": "DERMAZINE CREAM  50MG",
+        "Price": 520
+      },
+      {
+        "Description": "DERMAZINE CREAM 50MG",
+        "Price": 520
+      },
+      {
+        "Description": "GESTID 200ML",
+        "Price": 520
+      },
+      {
+        "Description": "HYPOMELLOSE EYE DROP",
+        "Price": 520
+      },
+      {
+        "Description": "MYCOTEN OVULE 100MG",
+        "Price": 520
+      },
+      {
+        "Description": "PYRAZINAMIDE SYRUP",
+        "Price": 520
+      },
+      {
+        "Description": "SABRESTEN VAG CREAM",
+        "Price": 520
+      },
+      {
+        "Description": "SYNTOCINON INJ",
+        "Price": 520
+      },
+      {
+        "Description": "FELDENE INJ 20MG (per amp)",
+        "Price": 523.25
+      },
+      {
+        "Description": "PARAFIN LIQUID (per bot)",
+        "Price": 523.25
+      },
+      {
+        "Description": "DICYNONE 250MG",
+        "Price": 550
+      },
+      {
+        "Description": "ZEFFIX 100MG",
+        "Price": 560
+      },
+      {
+        "Description": "MANNITOL INFUSION 10%",
+        "Price": 568.1
+      },
+      {
+        "Description": "ARTEMETHER SUSUPENSION (PER BOT)",
+        "Price": 575
+      },
+      {
+        "Description": "OROFER SYRUP",
+        "Price": 575
+      },
+      {
+        "Description": "POLYCROL FORTE GEL 100MLS (per bot)",
+        "Price": 575
+      },
+      {
+        "Description": "POTASSIUM PERMANGANATE",
+        "Price": 575
+      },
+      {
+        "Description": "VICRYL(PER STOOL)",
+        "Price": 575
+      },
+      {
+        "Description": "MENTHODEX",
+        "Price": 585
+      },
+      {
+        "Description": "OTRIVIN NASAL DROPS 0.05% 10MLS",
+        "Price": 590
+      },
+      {
+        "Description": "BENYLIN WITH PriceINE (per bot)",
+        "Price": 598
+      },
+      {
+        "Description": "CAMOSUNATE SUSP",
+        "Price": 598
+      },
+      {
+        "Description": "CEPHALEXIN 125MG SYR",
+        "Price": 598
+      },
+      {
+        "Description": "DERMAZINE CREAM  50MG (per tube)",
+        "Price": 598
+      },
+      {
+        "Description": "GESTID 200ML (per bot)",
+        "Price": 598
+      },
+      {
+        "Description": "HYPOMELLOSE EYE DROP (per bot)",
+        "Price": 598
+      },
+      {
+        "Description": "LAMISIL 250MG (per tab)",
+        "Price": 598
+      },
+      {
+        "Description": "MYCOTEN OVULE 100MG (per ovule)",
+        "Price": 598
+      },
+      {
+        "Description": "PYRAZINAMIDE SYRUP (per bot)",
+        "Price": 598
+      },
+      {
+        "Description": "SABRESTEN VAG CREAM (per tube)",
+        "Price": 598
+      },
+      {
+        "Description": "SYNTOCINON INJ (per amp)",
+        "Price": 598
+      },
+      {
+        "Description": "TRANXEMIC ACID 5MG INJ (PER AMP)",
+        "Price": 598
+      },
+      {
+        "Description": "OMEPRAZOLE INJ",
+        "Price": 600
+      },
+      {
+        "Description": "ARTESUNATE SYR (PER BOT)",
+        "Price": 609.5
+      },
+      {
+        "Description": "NPI Immunisation - Each (Unregistered Enrollees)",
+        "Price": 625
+      },
+      {
+        "Description": "SALBUTAMOL 100MCG INHALER",
+        "Price": 625
+      },
+      {
+        "Description": "SALICYLIC ACID OINT 20%",
+        "Price": 625
+      },
+      {
+        "Description": "OTRIVIN NASAL DROP 0.1% 10MLS",
+        "Price": 630
+      },
+      {
+        "Description": "DICYNONE 250MG (per amp)",
+        "Price": 632.5
+      },
+      {
+        "Description": "ZEFFIX 100MG (per tab)",
+        "Price": 644
+      },
+      {
+        "Description": "EUCALYPTUS OIL",
+        "Price": 650
+      },
+      {
+        "Description": "VENTOLIN SYRUP 5MG/VIAL",
+        "Price": 650
+      },
+      {
+        "Description": "CASTOR OIL (PER BOT)",
+        "Price": 672.75
+      },
+      {
+        "Description": "MENTHODEX  (per bot)",
+        "Price": 672.75
+      },
+      {
+        "Description": "NYSTATIN CREAM (PER TUBE)",
+        "Price": 672.75
+      },
+      {
+        "Description": "SALBUTAMOL SYRUP (PER BOT)",
+        "Price": 672.75
+      },
+      {
+        "Description": "OTRIVIN NASAL DROPS 0.05% 10MLS (per bot)",
+        "Price": 678.5
+      },
+      {
+        "Description": "CAMOSUNATE TAB (PER PACK)",
+        "Price": 687.7
+      },
+      {
+        "Description": "IVYZINC",
+        "Price": 690
+      },
+      {
+        "Description": "ALAXIN SUSP 10MG/5ML-80ML",
+        "Price": 700
+      },
+      {
+        "Description": "ARTESUNATE",
+        "Price": 700
+      },
+      {
+        "Description": "CERUMOL EAR DROP",
+        "Price": 700
+      },
+      {
+        "Description": "Cross Matching",
+        "Price": 700
+      },
+      {
+        "Description": "DEPO PROVERA INJ",
+        "Price": 700
+      },
+      {
+        "Description": "DEXTROSE 10% INFUSION",
+        "Price": 700
+      },
+      {
+        "Description": "DEXTROSE 4.3% / NORMAL SALINE (per inf)",
+        "Price": 700
+      },
+      {
+        "Description": "DEXTROSE 5% (per inf)",
+        "Price": 700
+      },
+      {
+        "Description": "DEXTROSE 50% (per inf)",
+        "Price": 700
+      },
+      {
+        "Description": "DEXTROSE SALINE 5%",
+        "Price": 700
+      },
+      {
+        "Description": "NORMAL SALINE",
+        "Price": 700
+      },
+      {
+        "Description": "RINGERS LACTATE INJ",
+        "Price": 700
+      },
+      {
+        "Description": "Hb Genotype",
+        "Price": 700
+      },
+      {
+        "Description": "Skin Snip For Microfilaria",
+        "Price": 700
+      },
+      {
+        "Description": "Tetanus Toxoid / ATS Each",
+        "Price": 700
+      },
+      {
+        "Description": "FANSIDAR INJ 525MG",
+        "Price": 705
+      },
+      {
+        "Description": "AZITHROMYCIN",
+        "Price": 710
+      },
+      {
+        "Description": "INTERFLOX 500MG",
+        "Price": 715
+      },
+      {
+        "Description": "SPERSALLERGE EYE DROP",
+        "Price": 715
+      },
+      {
+        "Description": "TIMOLOL EYE DROP 0.5%",
+        "Price": 715
+      },
+      {
+        "Description": "ZITHROMAX 250MG",
+        "Price": 715
+      },
+      {
+        "Description": "AMIKACIN INJ",
+        "Price": 717.6
+      },
+      {
+        "Description": "KENACOMB CREAM (per tube)",
+        "Price": 717.6
+      },
+      {
+        "Description": "SALBUTAMOL 100MCG INHALER (per piece)",
+        "Price": 718.75
+      },
+      {
+        "Description": "SALICYLIC ACID OINT 20% (per bot)",
+        "Price": 718.75
+      },
+      {
+        "Description": "OTRIVIN NASAL DROP 0.1% 10MLS (per bot)",
+        "Price": 724.5
+      },
+      {
+        "Description": "ALAXIN SUSP 10MG/5ML-80ML (per bot)",
+        "Price": 747.5
+      },
+      {
+        "Description": "CERUMOL EAR DROP (per bot)",
+        "Price": 747.5
+      },
+      {
+        "Description": "EUCALYPTUS OIL (per bot)",
+        "Price": 747.5
+      },
+      {
+        "Description": "ONDANSETRONE INJ (PER AMP)",
+        "Price": 747.5
+      },
+      {
+        "Description": "SKINHEAL CREAM (PER TUBE)",
+        "Price": 747.5
+      },
+      {
+        "Description": "UNASYN INJECTION (PER AMP)",
+        "Price": 747.5
+      },
+      {
+        "Description": "VENTOLIN SYRUP 5MG/VIAL (per bot)",
+        "Price": 747.5
+      },
+      {
+        "Description": "Alkaline Prosphatase",
+        "Price": 750
+      },
+      {
+        "Description": "CANDERIL SWEETNER POWDER",
+        "Price": 750
+      },
+      {
+        "Description": "CIPROTAB 200MG INFUSION",
+        "Price": 750
+      },
+      {
+        "Description": "RANITHIDINE INJ 50MG (PER AMP)",
+        "Price": 770.5
+      },
+      {
+        "Description": "MIXTARD INSULIN PER  40 I.U/ ML",
+        "Price": 777.4
+      },
+      {
+        "Description": "ASTYMINE",
+        "Price": 780
+      },
+      {
+        "Description": "BRONCHICUM",
+        "Price": 780
+      },
+      {
+        "Description": "CAMOQUINE 50MG/5ML-60ML",
+        "Price": 780
+      },
+      {
+        "Description": "HYCOMYCIN EYEDROP",
+        "Price": 780
+      },
+      {
+        "Description": "MELROSUM WITH PriceIN 100ML",
+        "Price": 780
+      },
+      {
+        "Description": "NYSTATIN ORAL DROPS 30MLS",
+        "Price": 780
+      },
+      {
+        "Description": "PHENEGAN CREAM 2% 30G",
+        "Price": 780
+      },
+      {
+        "Description": "PILOCARPINE EYE DROP 2%",
+        "Price": 780
+      },
+      {
+        "Description": "SODIUM CHROMOGLYCATE EYE DROP",
+        "Price": 780
+      },
+      {
+        "Description": "ACICLOVIR CREAM 10MG",
+        "Price": 800
+      },
+      {
+        "Description": "BETROSIL CREAM",
+        "Price": 800
+      },
+      {
+        "Description": "ESR Westergren",
+        "Price": 800
+      },
+      {
+        "Description": "Susp Gestid 200mls",
+        "Price": 800
+      },
+      {
+        "Description": "Fasting Blood Sugar/Random Blood Sugar Each",
+        "Price": 800
+      },
+      {
+        "Description": "Malaria Parasite",
+        "Price": 800
+      },
+      {
+        "Description": "Microscopy Stool/Urine Each",
+        "Price": 800
+      },
+      {
+        "Description": "Nursing Care Per Diem",
+        "Price": 800
+      },
+      {
+        "Description": "Sodium/Chloride/Potassium/Bicarbonate Each",
+        "Price": 800
+      },
+      {
+        "Description": "Stool Ocult Blood",
+        "Price": 800
+      },
+      {
+        "Description": "Urinalysis",
+        "Price": 800
+      },
+      {
+        "Description": "Urine Pregnancy Test",
+        "Price": 800
+      },
+      {
+        "Description": "VENTOLIN SYR",
+        "Price": 800
+      },
+      {
+        "Description": "DEPO PROVERA INJ (per vial)",
+        "Price": 805
+      },
+      {
+        "Description": "Optodexin",
+        "Price": 805
+      },
+      {
+        "Description": "AZITHROMYCIN  (per cap)",
+        "Price": 816.5
+      },
+      {
+        "Description": "ACICLOVIR CREAM 10MG (per tube)",
+        "Price": 822.25
+      },
+      {
+        "Description": "APPATIM EYE DROP",
+        "Price": 822.25
+      },
+      {
+        "Description": "CEPHALEXIN 250MG SYR",
+        "Price": 822.25
+      },
+      {
+        "Description": "INTERFLOX 500MG (per cap)",
+        "Price": 822.25
+      },
+      {
+        "Description": "OMEPRAZOLE  40MG INJ (PER AMP)",
+        "Price": 822.25
+      },
+      {
+        "Description": "SPERSALLERGE EYE DROP (per bot)",
+        "Price": 822.25
+      },
+      {
+        "Description": "TIMOLOL EYE DROP 0.5% (per bot)",
+        "Price": 822.25
+      },
+      {
+        "Description": "ARTEMEF TAB (PER PACK)",
+        "Price": 837.2
+      },
+      {
+        "Description": "IVYCROM EYE DROP",
+        "Price": 837.2
+      },
+      {
+        "Description": "ANTISIN-PRIVIN EYE DROP-10ML",
+        "Price": 845
+      },
+      {
+        "Description": "GYNOTROSID 100MG",
+        "Price": 845
+      },
+      {
+        "Description": "NIZORAL CREAM 15MG",
+        "Price": 845
+      },
+      {
+        "Description": "PILOCARPINE EYE DROP 4%",
+        "Price": 845
+      },
+      {
+        "Description": "AMIAS 16MG",
+        "Price": 850
+      },
+      {
+        "Description": "BENZYL PEROXIDE  5 LOTION",
+        "Price": 850
+      },
+      {
+        "Description": "BENZYL PEROXIDE 5 LOTION",
+        "Price": 850
+      },
+      {
+        "Description": "ZINACEF 750MG INJ",
+        "Price": 850
+      },
+      {
+        "Description": "CANDERIL SWEETNER POWDER (per tab)",
+        "Price": 862.5
+      },
+      {
+        "Description": "CIPROFLOXACIN 200MG INFUSION (per bot)",
+        "Price": 862.5
+      },
+      {
+        "Description": "ASTYMINE       (per bot)",
+        "Price": 897
+      },
+      {
+        "Description": "BRONCHICUM (per bot)",
+        "Price": 897
+      },
+      {
+        "Description": "CAMOQUINE 50MG/5ML-60ML (per bot)",
+        "Price": 897
+      },
+      {
+        "Description": "CIPROFLOXACIN EYE DROP",
+        "Price": 897
+      },
+      {
+        "Description": "DAKTACORT PESSARIES",
+        "Price": 897
+      },
+      {
+        "Description": "HYCOMYCIN EYEDROP (per bot)",
+        "Price": 897
+      },
+      {
+        "Description": "IVYDEXGENT (PER BOT)",
+        "Price": 897
+      },
+      {
+        "Description": "IVYMORCELL EYE DROP",
+        "Price": 897
+      },
+      {
+        "Description": "LOKMAL (per pack",
+        "Price": 897
+      },
+      {
+        "Description": "LORATIDE SYRUP",
+        "Price": 897
+      },
+      {
+        "Description": "MELROSUM WITH PriceIN 100ML (per bot)",
+        "Price": 897
+      },
+      {
+        "Description": "MILK OF MAGNESIA(100MLS)",
+        "Price": 897
+      },
+      {
+        "Description": "NYSTATIN ORAL DROPS 30MLS (per bot)",
+        "Price": 897
+      },
+      {
+        "Description": "PHENEGAN CREAM 2% 30G (per tube)",
+        "Price": 897
+      },
+      {
+        "Description": "PILOCARPINE EYE DROP 2% (per bot)",
+        "Price": 897
+      },
+      {
+        "Description": "PIOGLITAZONE HCL 30MG (PER TAB).",
+        "Price": 897
+      },
+      {
+        "Description": "SODIUM CHROMOGLYCATE EYE DROP (per bot)",
+        "Price": 897
+      },
+      {
+        "Description": "Bence Jones Protein",
+        "Price": 900
+      },
+      {
+        "Description": "BEOPTIC EYE",
+        "Price": 900
+      },
+      {
+        "Description": "CEFTRIAZONE INJ 500MG",
+        "Price": 900
+      },
+      {
+        "Description": "FELDENE GEL",
+        "Price": 900
+      },
+      {
+        "Description": "GESTONE 50MG",
+        "Price": 900
+      },
+      {
+        "Description": "LONART",
+        "Price": 900
+      },
+      {
+        "Description": "SALINE NASAL DROP",
+        "Price": 910
+      },
+      {
+        "Description": "STARXON",
+        "Price": 910
+      },
+      {
+        "Description": "CO-AMOXICLAV 1.2G (PER AMP)",
+        "Price": 956.8
+      },
+      {
+        "Description": "ANTISIN-PRIVIN EYE DROP-10ML (per bot)",
+        "Price": 971.75
+      },
+      {
+        "Description": "CEFUROXIME 750MG INJ",
+        "Price": 971.75
+      },
+      {
+        "Description": "DIFLUCAN PER TAB",
+        "Price": 971.75
+      },
+      {
+        "Description": "GYNOTROSID 100MG (per ovule)",
+        "Price": 971.75
+      },
+      {
+        "Description": "LEVOFLOXACIN INF 100ML",
+        "Price": 971.75
+      },
+      {
+        "Description": "NIZORAL CREAM 15MG (per tube)",
+        "Price": 971.75
+      },
+      {
+        "Description": "PILOCARPINE EYE DROP 4% (per bot)",
+        "Price": 971.75
+      },
+      {
+        "Description": "VISINE EYE DROP (per bot)",
+        "Price": 971.75
+      },
+      {
+        "Description": "ZINACEF 750MG INJ (per vial)",
+        "Price": 971.75
+      },
+      {
+        "Description": "DEPOMEDROL 40MG",
+        "Price": 975
+      },
+      {
+        "Description": "E-45 CREAM",
+        "Price": 975
+      },
+      {
+        "Description": "BENZYL PEROXIDE  5 LOTION (per tube)",
+        "Price": 977.5
+      },
+      {
+        "Description": "FLOXAPEN 125MG/5ML (per bot)",
+        "Price": 977.5
+      },
+      {
+        "Description": "BIVACYN  SPRAY",
+        "Price": 1000
+      },
+      {
+        "Description": "BIVACYN SPRAY",
+        "Price": 1000
+      },
+      {
+        "Description": "Bleeding/Clotting Time Each",
+        "Price": 1000
+      },
+      {
+        "Description": "Calcium/Uric Acid/Phosphorus Each",
+        "Price": 1000
+      },
+      {
+        "Description": "Cholesterol",
+        "Price": 1000
+      },
+      {
+        "Description": "CSF Glucose",
+        "Price": 1000
+      },
+      {
+        "Description": "DEDEON HB 280ML",
+        "Price": 1000
+      },
+      {
+        "Description": "DETRUSITOL XL 4MG",
+        "Price": 1000
+      },
+      {
+        "Description": "Direct/Indirect Coombs Test Each",
+        "Price": 1000
+      },
+      {
+        "Description": "ENCEPHABOL SYR 100MLS",
+        "Price": 1000
+      },
+      {
+        "Description": "General Consultation -Follow Up (Out patient)",
+        "Price": 1000
+      },
+      {
+        "Description": "Intensive care- Adult",
+        "Price": 1000
+      },
+      {
+        "Description": "Minor Wound Dressing  / Day",
+        "Price": 1000
+      },
+      {
+        "Description": "Mycoten Vaginal cream",
+        "Price": 1000
+      },
+      {
+        "Description": "Gram Staining",
+        "Price": 1000
+      },
+      {
+        "Description": "Peripheral Blood Film",
+        "Price": 1000
+      },
+      {
+        "Description": "Olfen Gel",
+        "Price": 1000
+      },
+      {
+        "Description": "Platelet Count",
+        "Price": 1000
+      },
+      {
+        "Description": "Pregnancy Test - HCG (Blood)",
+        "Price": 1000
+      },
+      {
+        "Description": "Registration (Out Of Station Emergencies)",
+        "Price": 1000
+      },
+      {
+        "Description": "Reticulocyte Count",
+        "Price": 1000
+      },
+      {
+        "Description": "SGOT/SGPT Each",
+        "Price": 1000
+      },
+      {
+        "Description": "Total Acid Phosphatase/Prostatic Each",
+        "Price": 1000
+      },
+      {
+        "Description": "Total Protein/Albumin Each",
+        "Price": 1000
+      },
+      {
+        "Description": "Urea/Creatinine Each",
+        "Price": 1000
+      },
+      {
+        "Description": "WBC ( Differential)",
+        "Price": 1000
+      },
+      {
+        "Description": "WBC (Total)",
+        "Price": 1000
+      },
+      {
+        "Description": "Widal",
+        "Price": 1000
+      },
+      {
+        "Description": "MCV/MCH/MCHC Each",
+        "Price": 1000
+      },
+      {
+        "Description": "Red Cell Count",
+        "Price": 1000
+      },
+      {
+        "Description": "BEOPTIC EYE (per bot)",
+        "Price": 1035
+      },
+      {
+        "Description": "FELDENE GEL (per tube)",
+        "Price": 1035
+      },
+      {
+        "Description": "GESTONE 50MG (per amp)",
+        "Price": 1035
+      },
+      {
+        "Description": "CIKLAVIT 200MLS",
+        "Price": 1040
+      },
+      {
+        "Description": "FEROGLOBIN 200ML",
+        "Price": 1040
+      },
+      {
+        "Description": "MAXIDEX EYE DROP",
+        "Price": 1040
+      },
+      {
+        "Description": "MYDRIACYL EYE DROP",
+        "Price": 1040
+      },
+      {
+        "Description": "SOLUCET",
+        "Price": 1040
+      },
+      {
+        "Description": "CROMAX 4 EYE DROP",
+        "Price": 1046.5
+      },
+      {
+        "Description": "SALINE NASAL DROP (per tab)",
+        "Price": 1046.5
+      },
+      {
+        "Description": "STARXON (per vial)",
+        "Price": 1046.5
+      },
+      {
+        "Description": "CEFIXIME SYR (PER BOT)",
+        "Price": 1092.5
+      },
+      {
+        "Description": "CLAVAM 228MG/5ML-100MLS",
+        "Price": 1100
+      },
+      {
+        "Description": "CLOBETASOL 45G CREAM",
+        "Price": 1100
+      },
+      {
+        "Description": "EHANCIN 312MG/5ML SUSP",
+        "Price": 1100
+      },
+      {
+        "Description": "GESTONE 100MG",
+        "Price": 1100
+      },
+      {
+        "Description": "DERMOVATE CREAM 25G",
+        "Price": 1105
+      },
+      {
+        "Description": "CO AMOXICLAV 312.5MG SUSP (PER BOT).",
+        "Price": 1121.25
+      },
+      {
+        "Description": "DEPOMEDROL 40MG (per vial)",
+        "Price": 1121.25
+      },
+      {
+        "Description": "E-45 CREAM (per tube)",
+        "Price": 1121.25
+      },
+      {
+        "Description": "ACTIFIED SYRUP",
+        "Price": 1150
+      },
+      {
+        "Description": "BIVACYN  SPRAY (per pack)",
+        "Price": 1150
+      },
+      {
+        "Description": "DEDEON HB 280ML (per bot)",
+        "Price": 1150
+      },
+      {
+        "Description": "DETRUSITOL XL 4MG (per cap)",
+        "Price": 1150
+      },
+      {
+        "Description": "ENCEPHABOL SYR 100MLS (per bot)",
+        "Price": 1150
+      },
+      {
+        "Description": "KETOLAC INJ  ",
+        "Price": 1150
+      },
+      {
+        "Description": "NYOLOL 0.5 EYE DROP",
+        "Price": 1170
+      },
+      {
+        "Description": "PRIMOLUT DEPOT 250MG",
+        "Price": 1170
+      },
+      {
+        "Description": "TEAR NATURALE EYE DROP",
+        "Price": 1170
+      },
+      {
+        "Description": "AMOKSIKLAV   156.25MG/5MLS-100MLS (per bot)",
+        "Price": 1196
+      },
+      {
+        "Description": "BUNETROL (PER INF)",
+        "Price": 1196
+      },
+      {
+        "Description": "CETRIXINE",
+        "Price": 1196
+      },
+      {
+        "Description": "CETRIZINE SYRUP",
+        "Price": 1196
+      },
+      {
+        "Description": "CIKLAVIT 200MLS (per bot)",
+        "Price": 1196
+      },
+      {
+        "Description": "FEROGLOBIN 200ML (per bot)",
+        "Price": 1196
+      },
+      {
+        "Description": "MAXIDEX EYE DROP (per bot)",
+        "Price": 1196
+      },
+      {
+        "Description": "MYDRIACYL EYE DROP (per bot)",
+        "Price": 1196
+      },
+      {
+        "Description": "SOLUSET (per piece)",
+        "Price": 1196
+      },
+      {
+        "Description": "VENTOLIN INHALER (per pack)",
+        "Price": 1196
+      },
+      {
+        "Description": "AMOKSIKLAV   156.25MG/5MLS-100MLS",
+        "Price": 1200
+      },
+      {
+        "Description": "AMOKSIKLAV 156.25MG/5MLS-100MLS",
+        "Price": 1200
+      },
+      {
+        "Description": "COARTEM",
+        "Price": 1200
+      },
+      {
+        "Description": "CSF M/C/S",
+        "Price": 1200
+      },
+      {
+        "Description": "Culture (Fungal)",
+        "Price": 1200
+      },
+      {
+        "Description": "Ear Swap M/C/S",
+        "Price": 1200
+      },
+      {
+        "Description": "Ear/Nose/Throat Swab M/C/S Each",
+        "Price": 1200
+      },
+      {
+        "Description": "EURAX CREAM",
+        "Price": 1200
+      },
+      {
+        "Description": "HBSAG",
+        "Price": 1200
+      },
+      {
+        "Description": "Hepatitis A",
+        "Price": 1200
+      },
+      {
+        "Description": "Hepatitis C screening",
+        "Price": 1200
+      },
+      {
+        "Description": "TINIDAZOLE",
+        "Price": 1200
+      },
+      {
+        "Description": "GYNOTROSID 300MG",
+        "Price": 1200
+      },
+      {
+        "Description": "Hepatitis B Surface Antigen Screening (HbsAg)",
+        "Price": 1200
+      },
+      {
+        "Description": "HDL",
+        "Price": 1200
+      },
+      {
+        "Description": "HVS / Urethral Swab M/C/S Each",
+        "Price": 1200
+      },
+      {
+        "Description": "LDL",
+        "Price": 1200
+      },
+      {
+        "Description": "Semen Analysis",
+        "Price": 1200
+      },
+      {
+        "Description": "Semen M/C/S",
+        "Price": 1200
+      },
+      {
+        "Description": "Sputum M/C/S",
+        "Price": 1200
+      },
+      {
+        "Description": "Stool M/C/S",
+        "Price": 1200
+      },
+      {
+        "Description": "Tryglyceride",
+        "Price": 1200
+      },
+      {
+        "Description": "Urine M/C/S",
+        "Price": 1200
+      },
+      {
+        "Description": "Wound/Pus/Aspirate M/C/S Each",
+        "Price": 1200
+      },
+      {
+        "Description": "DEPIXOL 20MG",
+        "Price": 1235
+      },
+      {
+        "Description": "TOBREX  EYE DROP",
+        "Price": 1235
+      },
+      {
+        "Description": "TOBREX EYE DROP",
+        "Price": 1235
+      },
+      {
+        "Description": "HALFAN 100MG/5ML",
+        "Price": 1235
+      },
+      {
+        "Description": "LOCASALENE CREAM 30MG",
+        "Price": 1235
+      },
+      {
+        "Description": "MAXITROL EYE DROP",
+        "Price": 1235
+      },
+      {
+        "Description": "NYOLOL OPTHALMIC GEL 0.1% 5G",
+        "Price": 1235
+      },
+      {
+        "Description": "TRAVOCORT CREAM",
+        "Price": 1235
+      },
+      {
+        "Description": "Prothrombin/Thromboplastin Time Each",
+        "Price": 1250
+      },
+      {
+        "Description": "CLAVAM 228MG/5ML-100MLS (per bot)",
+        "Price": 1265
+      },
+      {
+        "Description": "CLOBETASOL 45G CREAM (per tube)",
+        "Price": 1265
+      },
+      {
+        "Description": "GESTONE 100MG (per amp)",
+        "Price": 1265
+      },
+      {
+        "Description": "NEPAFLAM EYE DROP",
+        "Price": 1265
+      },
+      {
+        "Description": "BETAMETHASONE SODIUM EYE DROP",
+        "Price": 1270.75
+      },
+      {
+        "Description": "DERMOVATE CREAM 25G (per tube)",
+        "Price": 1270.75
+      },
+      {
+        "Description": "RHINATHIOL SYRUP (per 100ml bot)",
+        "Price": 1270.75
+      },
+      {
+        "Description": "CALPOL",
+        "Price": 1280
+      },
+      {
+        "Description": "SYRUP FLUCAMED",
+        "Price": 1285.7
+      },
+      {
+        "Description": "ARTEQUINE        600MG/700MG",
+        "Price": 1300
+      },
+      {
+        "Description": "ARTEQUINE 600MG/700MG",
+        "Price": 1300
+      },
+      {
+        "Description": "AMPICLOX DROPS",
+        "Price": 1345.5
+      },
+      {
+        "Description": "ANTHISAN        CREAM 25MG (per tube)",
+        "Price": 1345.5
+      },
+      {
+        "Description": "CEFTAZIDINE 1G ING",
+        "Price": 1345.5
+      },
+      {
+        "Description": "DAKTACORT CREAM (PER TUBE)",
+        "Price": 1345.5
+      },
+      {
+        "Description": "NYOLOL 0.5 EYE DROP (per bot)",
+        "Price": 1345.5
+      },
+      {
+        "Description": "TEAR NATURALE EYE DROP (per bot)",
+        "Price": 1345.5
+      },
+      {
+        "Description": "BETNESOL EYE/EAR/NOSE DROP (per bot)",
+        "Price": 1380
+      },
+      {
+        "Description": "COARTEM  (per pack)",
+        "Price": 1380
+      },
+      {
+        "Description": "EURAX CREAM (per tube)",
+        "Price": 1380
+      },
+      {
+        "Description": "GATE DPX EYE DROP",
+        "Price": 1380
+      },
+      {
+        "Description": "GYNOTROSID 300MG (per ovule)",
+        "Price": 1380
+      },
+      {
+        "Description": "Total/Direct Bilirubin  Each",
+        "Price": 1400
+      },
+      {
+        "Description": "ABIDEC DROP",
+        "Price": 1420.25
+      },
+      {
+        "Description": "DEPIXOL 20MG (per amp)",
+        "Price": 1420.25
+      },
+      {
+        "Description": "LOCASALENE CREAM 30MG (per tube)",
+        "Price": 1420.25
+      },
+      {
+        "Description": "MAXITROL EYE DROP (per bot)",
+        "Price": 1420.25
+      },
+      {
+        "Description": "NYOLOL OPTHALMIC GEL 0.1% 5G (per bot)",
+        "Price": 1420.25
+      },
+      {
+        "Description": "TOBRAMYCIN OINTMENT",
+        "Price": 1420.25
+      },
+      {
+        "Description": "TOBREX  EYE DROP  ",
+        "Price": 1420.25
+      },
+      {
+        "Description": "TRAVOCORT CREAM (per tab)",
+        "Price": 1420.25
+      },
+      {
+        "Description": "ALOMIDE EYEDROP 10MLS",
+        "Price": 1430
+      },
+      {
+        "Description": "CILOXAN EYE DROP",
+        "Price": 1430
+      },
+      {
+        "Description": "IKACLOMIN 50MG",
+        "Price": 1430
+      },
+      {
+        "Description": "KENALOG 40MG",
+        "Price": 1430
+      },
+      {
+        "Description": "TROSYD CREAM",
+        "Price": 1430
+      },
+      {
+        "Description": "CALPOL (per bot)",
+        "Price": 1472
+      },
+      {
+        "Description": "OKACIN EYE DROP (per bot)",
+        "Price": 1495
+      },
+      {
+        "Description": "Amylase",
+        "Price": 1500
+      },
+      {
+        "Description": "C- Reactive Protein",
+        "Price": 1500
+      },
+      {
+        "Description": "CPK",
+        "Price": 1500
+      },
+      {
+        "Description": "Creatine Clearance",
+        "Price": 1500
+      },
+      {
+        "Description": "Creatine Kinase",
+        "Price": 1500
+      },
+      {
+        "Description": "CSF Chloride",
+        "Price": 1500
+      },
+      {
+        "Description": "Gamma Glutamyl Transferace",
+        "Price": 1500
+      },
+      {
+        "Description": "HCV",
+        "Price": 1500
+      },
+      {
+        "Description": "LDH",
+        "Price": 1500
+      },
+      {
+        "Description": "Mantoux Test",
+        "Price": 1500
+      },
+      {
+        "Description": "General Consultation (Out Of Station Emergencies)",
+        "Price": 1500
+      },
+      {
+        "Description": "Suturing Of Simple Laceration (Out Of Station Emergencies)",
+        "Price": 1500
+      },
+      {
+        "Description": "Urea Clearance",
+        "Price": 1500
+      },
+      {
+        "Description": "VDRL",
+        "Price": 1500
+      },
+      {
+        "Description": "ADVANTAN OINTMENT",
+        "Price": 1560
+      },
+      {
+        "Description": "AUGMENTINE    1.2G",
+        "Price": 1560
+      },
+      {
+        "Description": "AUGMENTINE 1.2G",
+        "Price": 1560
+      },
+      {
+        "Description": "MILK OF MAGNESIA  PHILIP 200MLS",
+        "Price": 1560
+      },
+      {
+        "Description": "MILK OF MAGNESIA PHILIP 200MLS",
+        "Price": 1560
+      },
+      {
+        "Description": "NIZORAL SHAMPOO",
+        "Price": 1560
+      },
+      {
+        "Description": "INSULIN LENTEL 40 IU",
+        "Price": 1615
+      },
+      {
+        "Description": "ALOMIDE EYEDROP 10MLS (per bot)",
+        "Price": 1644.5
+      },
+      {
+        "Description": "CEFUROXIME SYR",
+        "Price": 1644.5
+      },
+      {
+        "Description": "CILOXAN EYE DROP (per bot)",
+        "Price": 1644.5
+      },
+      {
+        "Description": "HYPOTEARS GEL",
+        "Price": 1644.5
+      },
+      {
+        "Description": "IKACLOMIN 50MG (per tab)",
+        "Price": 1644.5
+      },
+      {
+        "Description": "KENALOG 40MG (per amp)",
+        "Price": 1644.5
+      },
+      {
+        "Description": "TROSYD CREAM (per tube)",
+        "Price": 1644.5
+      },
+      {
+        "Description": "Debridgement of wounds-Minor",
+        "Price": 1700
+      },
+      {
+        "Description": "MIXTARD INSULIN 3ML",
+        "Price": 1700
+      },
+      {
+        "Description": "Full Blood Count",
+        "Price": 1700
+      },
+      {
+        "Description": "LAMISIL 250MG",
+        "Price": 1755
+      },
+      {
+        "Description": "LAMISIL CREAM 15G",
+        "Price": 1755
+      },
+      {
+        "Description": "ADVANTAN OINTMENT (per tube)",
+        "Price": 1794
+      },
+      {
+        "Description": "MILK OF MAGNESIA  PHILIP 200MLS (per bot)",
+        "Price": 1794
+      },
+      {
+        "Description": "NIZORAL SHAMPOO (per bot)",
+        "Price": 1794
+      },
+      {
+        "Description": "Azithromycin 200mg/5ml susp (unbranded)",
+        "Price": 1800
+      },
+      {
+        "Description": "CEFTRIAXONE 1G INJ/AMP",
+        "Price": 1800
+      },
+      {
+        "Description": "DICLOFENAC GEL",
+        "Price": 1800
+      },
+      {
+        "Description": "GAVISCON SUSP",
+        "Price": 1800
+      },
+      {
+        "Description": "Protein Electrophoresis",
+        "Price": 1800
+      },
+      {
+        "Description": "INSULIN LENTEL 40 IU (per vial)",
+        "Price": 1857.25
+      },
+      {
+        "Description": "ASO Titre",
+        "Price": 1875
+      },
+      {
+        "Description": "Elbow- Radiological Investigations",
+        "Price": 1875
+      },
+      {
+        "Description": "Forearm- Radiological Investigations",
+        "Price": 1875
+      },
+      {
+        "Description": "Hand- Radiological Investigations",
+        "Price": 1875
+      },
+      {
+        "Description": "Shoulder- Radiological Investigations",
+        "Price": 1875
+      },
+      {
+        "Description": "Neck Collar (Soft)",
+        "Price": 1875
+      },
+      {
+        "Description": "Hepatitis B Vaccine/ Dose",
+        "Price": 1875
+      },
+      {
+        "Description": "BECONASENASAL DROP",
+        "Price": 1900
+      },
+      {
+        "Description": "MIXTARD INSULIN 3ML (per catridge)",
+        "Price": 1943.5
+      },
+      {
+        "Description": "AUGMENTINE    228MG/5ML",
+        "Price": 1950
+      },
+      {
+        "Description": "AUGMENTINE 228MG/5ML",
+        "Price": 1950
+      },
+      {
+        "Description": "Annual Physical Examination With Report (No Lab Tests)",
+        "Price": 2000
+      },
+      {
+        "Description": "CSF Protein",
+        "Price": 2000
+      },
+      {
+        "Description": "Ear Piercing For Female Baby",
+        "Price": 2000
+      },
+      {
+        "Description": "ENCEPHABOL  SYR 120MLS",
+        "Price": 2000
+      },
+      {
+        "Description": "ENCEPHABOL SYR 120MLS",
+        "Price": 2000
+      },
+      {
+        "Description": "FBC      ",
+        "Price": 2000
+      },
+      {
+        "Description": "Hepatitis B  DNA Viral load",
+        "Price": 2000
+      },
+      {
+        "Description": "HIV 1/2",
+        "Price": 2000
+      },
+      {
+        "Description": "RVS",
+        "Price": 2000
+      },
+      {
+        "Description": "Suturing Of Simple Laceration <5cm (minor)",
+        "Price": 2000
+      },
+      {
+        "Description": "TB Serology",
+        "Price": 2000
+      },
+      {
+        "Description": "FEROGLOBIN SYR",
+        "Price": 2000
+      },
+      {
+        "Description": "G-6 Phosphate Dehydrogenase",
+        "Price": 2000
+      },
+      {
+        "Description": "INJ",
+        "Price": 2000
+      },
+      {
+        "Description": "IRON SUCROSE",
+        "Price": 2000
+      },
+      {
+        "Description": "Feeding Per Diem (General Ward)",
+        "Price": 2000
+      },
+      {
+        "Description": "Feeding Per Diem (Private Ward)",
+        "Price": 2000
+      },
+      {
+        "Description": "Feeding Per Diem (Semi-Private Ward)",
+        "Price": 2000
+      },
+      {
+        "Description": "Major Wound Dressing/Day",
+        "Price": 2000
+      },
+      {
+        "Description": "Phototherapy Per Diem",
+        "Price": 2000
+      },
+      {
+        "Description": "Rheumatoid Factor",
+        "Price": 2000
+      },
+      {
+        "Description": "RIVAROXIBAN (XARELTO) 20MG",
+        "Price": 2000
+      },
+      {
+        "Description": "Screening For HIV 1 & 2",
+        "Price": 2000
+      },
+      {
+        "Description": "VENTOLIN INHALER",
+        "Price": 2000
+      },
+      {
+        "Description": "FLIXONASE NASAL SPRAY",
+        "Price": 2018.25
+      },
+      {
+        "Description": "LAMISIL CREAM 15G (per tube)",
+        "Price": 2018.25
+      },
+      {
+        "Description": "VOLTAREN EYE DROP",
+        "Price": 2018.25
+      },
+      {
+        "Description": "MOSEGOR 100MLS",
+        "Price": 2040
+      },
+      {
+        "Description": "DUVADILAN",
+        "Price": 2070
+      },
+      {
+        "Description": "BACTROBAM CREAM 15G",
+        "Price": 2080
+      },
+      {
+        "Description": "ZINNAT 125MG/5ML- 200MLS",
+        "Price": 2080
+      },
+      {
+        "Description": "DEPROSALIC ACID OINTMENT (PER TUBE)",
+        "Price": 2093
+      },
+      {
+        "Description": "CECLOR",
+        "Price": 2100
+      },
+      {
+        "Description": "BECONASENASAL DROP (per pack)",
+        "Price": 2185
+      },
+      {
+        "Description": "Glycosylated Haemoglobin",
+        "Price": 2200
+      },
+      {
+        "Description": "CANESTEN PESSARIES X 6",
+        "Price": 2242.5
+      },
+      {
+        "Description": "PRIMOLUT DEPOT 250MG (per vial)",
+        "Price": 2242.5
+      },
+      {
+        "Description": "RETIN A CREAM (per tube)",
+        "Price": 2242.5
+      },
+      {
+        "Description": "ENCEPHABOL  SYR 120MLS (per bot)",
+        "Price": 2300
+      },
+      {
+        "Description": "ERYTHROMYCIN CREAM 4% 30MG",
+        "Price": 2300
+      },
+      {
+        "Description": "ZADITEN EYE DROPS (per bot)",
+        "Price": 2300
+      },
+      {
+        "Description": "ZITHROMAX 200MG/5ML",
+        "Price": 2340
+      },
+      {
+        "Description": "MOSEGOR 100MLS (per bot)",
+        "Price": 2346
+      },
+      {
+        "Description": "BACTROBAM CREAM 15G (per tube)",
+        "Price": 2392
+      },
+      {
+        "Description": "CLEXANE INJ",
+        "Price": 2392
+      },
+      {
+        "Description": "ZINNAT 125MG/5ML- 200MLS (per bot)",
+        "Price": 2392
+      },
+      {
+        "Description": "ENCEPHABOL SYR  200MLS",
+        "Price": 2400
+      },
+      {
+        "Description": "ENCEPHABOL SYR 200MLS",
+        "Price": 2400
+      },
+      {
+        "Description": "CECLOR (per bot)",
+        "Price": 2415
+      },
+      {
+        "Description": "Abdomen",
+        "Price": 2500
+      },
+      {
+        "Description": "General Ward Per Diem",
+        "Price": 2500
+      },
+      {
+        "Description": "Obstetric",
+        "Price": 2500
+      },
+      {
+        "Description": "Pelvic",
+        "Price": 2500
+      },
+      {
+        "Description": "FORTUM IG INJ",
+        "Price": 2600
+      },
+      {
+        "Description": "SUSTANON 250MG",
+        "Price": 2600
+      },
+      {
+        "Description": "ERYTHROMYCIN CREAM 4% 30MG (per tube)",
+        "Price": 2645
+      },
+      {
+        "Description": "ISOPLASMA",
+        "Price": 2645
+      },
+      {
+        "Description": "ZITHROMAX 200MG/5ML (per bot)",
+        "Price": 2691
+      },
+      {
+        "Description": "DEPOMEDROL 80MG",
+        "Price": 2730
+      },
+      {
+        "Description": "AFB For TB (ZN Staining) Each",
+        "Price": 2750
+      },
+      {
+        "Description": "PATANOL (OLOPATADINE) EYE DROP",
+        "Price": 2840.5
+      },
+      {
+        "Description": "CHLORAMPHENICOL EYE OINT.",
+        "Price": 2860
+      },
+      {
+        "Description": "CHOTIGON 5000IU",
+        "Price": 2860
+      },
+      {
+        "Description": "PREGYNL 5000 IU",
+        "Price": 2860
+      },
+      {
+        "Description": "FORTUM IG INJ (per amp)",
+        "Price": 2990
+      },
+      {
+        "Description": "SUSTANON 250MG (per amp)",
+        "Price": 2990
+      },
+      {
+        "Description": "Apical/Lordotic",
+        "Price": 3000
+      },
+      {
+        "Description": "Blood Culture & Sensitivity",
+        "Price": 3000
+      },
+      {
+        "Description": "Chest (PA/AP)",
+        "Price": 3000
+      },
+      {
+        "Description": "Chest For Ribs (Obliques)",
+        "Price": 3000
+      },
+      {
+        "Description": "FOB",
+        "Price": 3000
+      },
+      {
+        "Description": "H.PYLORY",
+        "Price": 3000
+      },
+      {
+        "Description": "HBAIC",
+        "Price": 3000
+      },
+      {
+        "Description": "H-pylori  Antigen In Stool",
+        "Price": 3000
+      },
+      {
+        "Description": "H-Pylori Rapid Test",
+        "Price": 3000
+      },
+      {
+        "Description": "Suturing Of Simple Laceration> 5cm-10cm(intermediate)",
+        "Price": 3000
+      },
+      {
+        "Description": "Nebulisation (Subsequent)",
+        "Price": 3000
+      },
+      {
+        "Description": "Physiotherapy Service / Session (Maximum X6 Sessions)",
+        "Price": 3000
+      },
+      {
+        "Description": "Sternum",
+        "Price": 3000
+      },
+      {
+        "Description": "ANTI RABIES VACCINE  (per vial)",
+        "Price": 3139.5
+      },
+      {
+        "Description": "DEPOMEDROL 80MG (per vial)",
+        "Price": 3139.5
+      },
+      {
+        "Description": "VANCOMYCIN 1G INJ (PER AMP)",
+        "Price": 3139.5
+      },
+      {
+        "Description": "CHOTIGON 5000IU (per amp)",
+        "Price": 3289
+      },
+      {
+        "Description": "PREGYNL 5000 IU (per pack)",
+        "Price": 3289
+      },
+      {
+        "Description": "CIALIS 20MG",
+        "Price": 3450
+      },
+      {
+        "Description": "HAEMACCEL INFUSION. (per pint)",
+        "Price": 3450
+      },
+      {
+        "Description": "Abdominopelvic",
+        "Price": 3500
+      },
+      {
+        "Description": "Ankle",
+        "Price": 3500
+      },
+      {
+        "Description": "Catheterisation Of Urinary Bladder + Urine Bag",
+        "Price": 3500
+      },
+      {
+        "Description": "Clavicle",
+        "Price": 3500
+      },
+      {
+        "Description": "Elbow",
+        "Price": 3500
+      },
+      {
+        "Description": "Finger AP/LAT",
+        "Price": 3500
+      },
+      {
+        "Description": "Tongue Tie Release",
+        "Price": 3500
+      },
+      {
+        "Description": "FLIXOTIDE ACCUHALER",
+        "Price": 3500
+      },
+      {
+        "Description": "Forearm",
+        "Price": 3500
+      },
+      {
+        "Description": "Hand",
+        "Price": 3500
+      },
+      {
+        "Description": "Foot/Toe",
+        "Price": 3500
+      },
+      {
+        "Description": "Hip Joint",
+        "Price": 3500
+      },
+      {
+        "Description": "Humerus",
+        "Price": 3500
+      },
+      {
+        "Description": "Incubator Care Per Diem",
+        "Price": 3500
+      },
+      {
+        "Description": "Knee",
+        "Price": 3500
+      },
+      {
+        "Description": "Leg (Tibia/Fibula)",
+        "Price": 3500
+      },
+      {
+        "Description": "Nebulisation (Initial)",
+        "Price": 3500
+      },
+      {
+        "Description": "Serum Electrolytes/Urea/Creatinine",
+        "Price": 3500
+      },
+      {
+        "Description": "Wrist",
+        "Price": 3500
+      },
+      {
+        "Description": "Skin Scraping For Fungal Studies",
+        "Price": 3625
+      },
+      {
+        "Description": "MONOTARD INSULIN HM 100 IU/ML",
+        "Price": 3640
+      },
+      {
+        "Description": "PROSPENEM(PER VIAL)",
+        "Price": 3680
+      },
+      {
+        "Description": "f assisted",
+        "Price": 3750
+      },
+      {
+        "Description": "Neck Collar (Hard)",
+        "Price": 3750
+      },
+      {
+        "Description": "Haemophilus Influenzae Type B (HiB) Vaccine",
+        "Price": 3750
+      },
+      {
+        "Description": "Skull (PA/Lat/Townes)",
+        "Price": 3750
+      },
+      {
+        "Description": "ACTRAPID INSULIN 10MLS",
+        "Price": 3800
+      },
+      {
+        "Description": "AZOPT EYE DROP",
+        "Price": 3900
+      },
+      {
+        "Description": "ROCEPHIN IJ 1G",
+        "Price": 3900
+      },
+      {
+        "Description": "CIALIS                 20MG (per tab)",
+        "Price": 3967.5
+      },
+      {
+        "Description": "Abdomen (Erect  / Supine)",
+        "Price": 4000
+      },
+      {
+        "Description": "Abdomen (Erect & Supine)",
+        "Price": 4000
+      },
+      {
+        "Description": "Abdomen (Plain)",
+        "Price": 4000
+      },
+      {
+        "Description": "Cervical Spine",
+        "Price": 4000
+      },
+      {
+        "Description": "Cervical Spine (Obliques)",
+        "Price": 4000
+      },
+      {
+        "Description": "Evacuation of Impacted Faeces",
+        "Price": 4000
+      },
+      {
+        "Description": "Local ANAESTHETIC AGENT & FEE",
+        "Price": 4000
+      },
+      {
+        "Description": "Local-ANAESTHETIC AGENT & FEE",
+        "Price": 4000
+      },
+      {
+        "Description": "Paranasal Sinuses",
+        "Price": 4000
+      },
+      {
+        "Description": "Paranasal Sinuses waterview",
+        "Price": 4000
+      },
+      {
+        "Description": "patella",
+        "Price": 4000
+      },
+      {
+        "Description": "Skull (PA/Lat /Townes)",
+        "Price": 4000
+      },
+      {
+        "Description": "Suturing Of Simple Laceration> 10cm (major)",
+        "Price": 4000
+      },
+      {
+        "Description": "HIV Confirmatory",
+        "Price": 4000
+      },
+      {
+        "Description": "Incision & Drainage (Out Of Station Emergencies)",
+        "Price": 4000
+      },
+      {
+        "Description": "Gastric Lavage",
+        "Price": 4000
+      },
+      {
+        "Description": "Glucose Tolerance Test",
+        "Price": 4000
+      },
+      {
+        "Description": "Internal Auditory Meatus",
+        "Price": 4000
+      },
+      {
+        "Description": "Lateral Neck (Soft Tissue)",
+        "Price": 4000
+      },
+      {
+        "Description": "Lipid Profile",
+        "Price": 4000
+      },
+      {
+        "Description": "Liver Function Test",
+        "Price": 4000
+      },
+      {
+        "Description": "Lumbar Spine",
+        "Price": 4000
+      },
+      {
+        "Description": "Lumbo Sacral Spine",
+        "Price": 4000
+      },
+      {
+        "Description": "Mandibles (Jaws)",
+        "Price": 4000
+      },
+      {
+        "Description": "Mastoids",
+        "Price": 4000
+      },
+      {
+        "Description": "Occipito-Mental (Om)",
+        "Price": 4000
+      },
+      {
+        "Description": "Post Nasal Space",
+        "Price": 4000
+      },
+      {
+        "Description": "Prolactin/Testoterone/FSH/LH (Each)",
+        "Price": 4000
+      },
+      {
+        "Description": "Sacro Iliac Joint (S.I.J.)",
+        "Price": 4000
+      },
+      {
+        "Description": "Sacro-Coccxy",
+        "Price": 4000
+      },
+      {
+        "Description": "Sacrum",
+        "Price": 4000
+      },
+      {
+        "Description": "Sella Turcica",
+        "Price": 4000
+      },
+      {
+        "Description": "Semi-Private Ward Per Diem",
+        "Price": 4000
+      },
+      {
+        "Description": "Shoulder",
+        "Price": 4000
+      },
+      {
+        "Description": "Skull (AP & Lat)",
+        "Price": 4000
+      },
+      {
+        "Description": "Tagential",
+        "Price": 4000
+      },
+      {
+        "Description": "Temporo-Mandibular Joints (TMJ)",
+        "Price": 4000
+      },
+      {
+        "Description": "Thoracic Inlet",
+        "Price": 4000
+      },
+      {
+        "Description": "Thoracic Spine",
+        "Price": 4000
+      },
+      {
+        "Description": "Thoraco Lumbar Spine",
+        "Price": 4000
+      },
+      {
+        "Description": "TSH/T3/T4 Each",
+        "Price": 4000
+      },
+      {
+        "Description": "FLIXOTIDE ACCUHALER (per accu)",
+        "Price": 4025
+      },
+      {
+        "Description": "ACTRAPID INSULIN 10MLS (per vial)",
+        "Price": 4186
+      },
+      {
+        "Description": "MONOTARD INSULIN HM 100 IU/ML (per vial)",
+        "Price": 4186
+      },
+      {
+        "Description": "Debridgement of wounds-Major",
+        "Price": 4250
+      },
+      {
+        "Description": "Typhoid Vaccine",
+        "Price": 4375
+      },
+      {
+        "Description": "AZOPT EYE DROP (per bot)",
+        "Price": 4485
+      },
+      {
+        "Description": "ROCEPHIN IJ 1G (per vial)",
+        "Price": 4485
+      },
+      {
+        "Description": "Abdomen with Doppler Flow",
+        "Price": 4500
+      },
+      {
+        "Description": "Adrenal scan",
+        "Price": 4500
+      },
+      {
+        "Description": "biophy profile",
+        "Price": 4500
+      },
+      {
+        "Description": "Bladder",
+        "Price": 4500
+      },
+      {
+        "Description": "Breast",
+        "Price": 4500
+      },
+      {
+        "Description": "BREAST SCAN",
+        "Price": 4500
+      },
+      {
+        "Description": "CD4 Count",
+        "Price": 4500
+      },
+      {
+        "Description": "Chest",
+        "Price": 4500
+      },
+      {
+        "Description": "CLEXANE 40MG",
+        "Price": 4500
+      },
+      {
+        "Description": "ESOMEPRAZOLE INJ (NEXIUM)",
+        "Price": 4500
+      },
+      {
+        "Description": "follicular abdomen",
+        "Price": 4500
+      },
+      {
+        "Description": "gallbladder",
+        "Price": 4500
+      },
+      {
+        "Description": "H.pylori",
+        "Price": 4500
+      },
+      {
+        "Description": "maxillary",
+        "Price": 4500
+      },
+      {
+        "Description": "Renal",
+        "Price": 4500
+      },
+      {
+        "Description": "Scrotal",
+        "Price": 4500
+      },
+      {
+        "Description": "transvaginal",
+        "Price": 4500
+      },
+      {
+        "Description": "FORTUM INJ",
+        "Price": 4500
+      },
+      {
+        "Description": "Ovulometry/TV Scan",
+        "Price": 4500
+      },
+      {
+        "Description": "Pelvic (AP)",
+        "Price": 4500
+      },
+      {
+        "Description": "Prostate",
+        "Price": 4500
+      },
+      {
+        "Description": "Thyroid",
+        "Price": 4500
+      },
+      {
+        "Description": "Transfontanellar",
+        "Price": 4500
+      },
+      {
+        "Description": "MIXTARD INSULINE",
+        "Price": 4800
+      },
+      {
+        "Description": "MENOGON 75 IU",
+        "Price": 4940
+      },
+      {
+        "Description": "Anti Rabies Vaccine",
+        "Price": 5000
+      },
+      {
+        "Description": "Birth Before Arrival (Bba) Care",
+        "Price": 5000
+      },
+      {
+        "Description": "ECG",
+        "Price": 5000
+      },
+      {
+        "Description": "Electrocardiogram (E C G)",
+        "Price": 5000
+      },
+      {
+        "Description": "Electrocardiogram (E C G) Stress Test",
+        "Price": 5000
+      },
+      {
+        "Description": "ENT -Follow Up",
+        "Price": 5000
+      },
+      {
+        "Description": "Neurologist, Rheumatologist, urologist-Follow Up",
+        "Price": 5000
+      },
+      {
+        "Description": "Troponin test",
+        "Price": 5000
+      },
+      {
+        "Description": "Measles, Mumps & Rubella (MMR) Vaccine",
+        "Price": 5000
+      },
+      {
+        "Description": "Meningitis Vaccine",
+        "Price": 5000
+      },
+      {
+        "Description": "Oxygen Therapy Per Diem",
+        "Price": 5000
+      },
+      {
+        "Description": "Pelvic & Hip",
+        "Price": 5000
+      },
+      {
+        "Description": "Private Ward Per Diem",
+        "Price": 5000
+      },
+      {
+        "Description": "SERETIDE INHALER",
+        "Price": 5000
+      },
+      {
+        "Description": "Specialist Consultation - Follow Up (Out patient)",
+        "Price": 5000
+      },
+      {
+        "Description": "Specialist Review (Inpatient)",
+        "Price": 5000
+      },
+      {
+        "Description": "Viral Load",
+        "Price": 5000
+      },
+      {
+        "Description": "CEFPODOXIME(ORELOX) Susp.",
+        "Price": 5175
+      },
+      {
+        "Description": "Circumcision Of Male Baby",
+        "Price": 5500
+      },
+      {
+        "Description": "MENOGON 75 IU (per pack)",
+        "Price": 5681
+      },
+      {
+        "Description": "COSOPT EYE DROP",
+        "Price": 5750
+      },
+      {
+        "Description": "DIOSCOVITE",
+        "Price": 5750
+      },
+      {
+        "Description": "XALATAN EYE DROP",
+        "Price": 5980
+      },
+      {
+        "Description": "ACTRAPID",
+        "Price": 6000
+      },
+      {
+        "Description": "LANTUS INSULINE",
+        "Price": 6000
+      },
+      {
+        "Description": "NOVO MIX 30/70 INSULINE",
+        "Price": 6000
+      },
+      {
+        "Description": "PSA (Qualitative)",
+        "Price": 6000
+      },
+      {
+        "Description": "PSA (Quantitative)",
+        "Price": 6000
+      },
+      {
+        "Description": "Specialist Consultation - cardiologist",
+        "Price": 6000
+      },
+      {
+        "Description": "specialist Consultation -first visit",
+        "Price": 6000
+      },
+      {
+        "Description": "Suturing Of Major Wounds",
+        "Price": 6000
+      },
+      {
+        "Description": "Rotavirus Vaccine",
+        "Price": 6250
+      },
+      {
+        "Description": "Chest (PA & Lateral)",
+        "Price": 6500
+      },
+      {
+        "Description": "SERETIDE DISKUS - CHILDREN",
+        "Price": 6500
+      },
+      {
+        "Description": "Annual Medical (Rivotel)",
+        "Price": 6700
+      },
+      {
+        "Description": "Chicken Pox Vaccine",
+        "Price": 6875
+      },
+      {
+        "Description": "XALATAN EYE DROP (per bot)",
+        "Price": 6877
+      },
+      {
+        "Description": "TRAVANTAN EYE DROP",
+        "Price": 6890
+      },
+      {
+        "Description": "Intensive care- Adult with ventllator(PER DAY,ALL INCLUSIVE)",
+        "Price": 7000
+      },
+      {
+        "Description": "Pelvimetry",
+        "Price": 7000
+      },
+      {
+        "Description": "Tissue Histopathology (Breast, Nodes, Etc)",
+        "Price": 7000
+      },
+      {
+        "Description": "SERETIDE DISKUS - CHILDREN (per pack)",
+        "Price": 7475
+      },
+      {
+        "Description": "Aspirations & Paracentesis",
+        "Price": 7500
+      },
+      {
+        "Description": "Group 1",
+        "Price": 7500
+      },
+      {
+        "Description": "Minor THEATRE USE",
+        "Price": 7500
+      },
+      {
+        "Description": "Minor-THEATRE USE",
+        "Price": 7500
+      },
+      {
+        "Description": "Specialist Consultation - 1st Visit",
+        "Price": 7500
+      },
+      {
+        "Description": "Sub specialty Consult-Cardiologist",
+        "Price": 7500
+      },
+      {
+        "Description": "Sub specialty Consult-Surgeons",
+        "Price": 7500
+      },
+      {
+        "Description": "IUCD Insertion/Removal",
+        "Price": 7500
+      },
+      {
+        "Description": "TRAVANTAN EYE DROP (per bot)",
+        "Price": 7923.5
+      },
+      {
+        "Description": "Hand Cast- POP Application",
+        "Price": 8000
+      },
+      {
+        "Description": "Intensive care- Children(PER DAY,ALL INCLUSIVE)",
+        "Price": 8000
+      },
+      {
+        "Description": "SERETIDE DISKUS- ADULT",
+        "Price": 8320
+      },
+      {
+        "Description": "ERYTHRPOETIN  2000IU",
+        "Price": 8450
+      },
+      {
+        "Description": "ERYTHRPOETIN 2000IU",
+        "Price": 8450
+      },
+      {
+        "Description": "Sub specialty Consult-ENT, haematologist",
+        "Price": 8500
+      },
+      {
+        "Description": "Sub specialty Consult-Neurologist, Rheumatologist, urologist",
+        "Price": 8500
+      },
+      {
+        "Description": "DIAVISTA (per pack)",
+        "Price": 8625
+      },
+      {
+        "Description": "Depoprovera injection",
+        "Price": 9000
+      },
+      {
+        "Description": "Incision & Drainage <=5cm",
+        "Price": 9000
+      },
+      {
+        "Description": "IUCD  Removal",
+        "Price": 9000
+      },
+      {
+        "Description": "IUCD Insertion",
+        "Price": 9000
+      },
+      {
+        "Description": "jadelle-insertion",
+        "Price": 9000
+      },
+      {
+        "Description": "jadelle-removal",
+        "Price": 9000
+      },
+      {
+        "Description": "SERETIDE DISKUS- ADULT (per pack)",
+        "Price": 9568
+      },
+      {
+        "Description": "ERYTHRPOETIN  2000IU (per amp)",
+        "Price": 9717.5
+      },
+      {
+        "Description": "SUPREFACT INJ",
+        "Price": 9750
+      },
+      {
+        "Description": "MEROPENEM 500MG INJ (PER AMP)",
+        "Price": 9867
+      },
+      {
+        "Description": "Antral Lavage",
+        "Price": 10000
+      },
+      {
+        "Description": "Aural And Nasal Suction/Clearance",
+        "Price": 10000
+      },
+      {
+        "Description": "Cervical Cautery",
+        "Price": 10000
+      },
+      {
+        "Description": "Cervical Laceration Repair",
+        "Price": 10000
+      },
+      {
+        "Description": "cryocautery, cauterization",
+        "Price": 10000
+      },
+      {
+        "Description": "Cytology (Pap Smear, FNAC)",
+        "Price": 10000
+      },
+      {
+        "Description": "Debridement And Toilet Of Wounds",
+        "Price": 10000
+      },
+      {
+        "Description": "Diagnostic nasendoscopy",
+        "Price": 10000
+      },
+      {
+        "Description": "Direct Laryngoscopy & Biopsy",
+        "Price": 10000
+      },
+      {
+        "Description": "Ear Dressing",
+        "Price": 10000
+      },
+      {
+        "Description": "Ear Syringing",
+        "Price": 10000
+      },
+      {
+        "Description": "Electrocautery Of Nose",
+        "Price": 10000
+      },
+      {
+        "Description": "Electrocautery- warts",
+        "Price": 10000
+      },
+      {
+        "Description": "Electrofulguration Of Condylomata Acuminata",
+        "Price": 10000
+      },
+      {
+        "Description": "Endoscopic Nasopharyngeal Surgery",
+        "Price": 10000
+      },
+      {
+        "Description": "Fistulogram",
+        "Price": 10000
+      },
+      {
+        "Description": "Foreign Body Removal From Throat",
+        "Price": 10000
+      },
+      {
+        "Description": "Intermediate-THEATRE USE",
+        "Price": 10000
+      },
+      {
+        "Description": "Mastoidectomy",
+        "Price": 10000
+      },
+      {
+        "Description": "Specialist consultation",
+        "Price": 10000
+      },
+      {
+        "Description": "SPECIALIST CONSULTATION(FOLLOW UP)",
+        "Price": 10000
+      },
+      {
+        "Description": "SPECIALST CONSULTATION",
+        "Price": 10000
+      },
+      {
+        "Description": "Suction toiletting/ear or nose",
+        "Price": 10000
+      },
+      {
+        "Description": "Hand Cast",
+        "Price": 10000
+      },
+      {
+        "Description": "Foreign Body Removal From The Ear, Nose And Throat",
+        "Price": 10000
+      },
+      {
+        "Description": "Incision And Drainage Of Abscess",
+        "Price": 10000
+      },
+      {
+        "Description": "Indirect Laryngoscopy",
+        "Price": 10000
+      },
+      {
+        "Description": "Manipulation Of Nose",
+        "Price": 10000
+      },
+      {
+        "Description": "Nasal Packing",
+        "Price": 10000
+      },
+      {
+        "Description": "Suturing Of Lacerrations",
+        "Price": 10000
+      },
+      {
+        "Description": "SUPREFACT INJ (per vial)",
+        "Price": 11212.5
+      },
+      {
+        "Description": "Fore Arm Cast- POP Application",
+        "Price": 12000
+      },
+      {
+        "Description": "Upper Arm Cast- POP Application",
+        "Price": 12000
+      },
+      {
+        "Description": "Group 2 (A)",
+        "Price": 12500
+      },
+      {
+        "Description": "ANTI-D INJ (per amp)",
+        "Price": 14375
+      },
+      {
+        "Description": "MEROPENEM 1G INJ (PER AMP)",
+        "Price": 14950
+      },
+      {
+        "Description": "Audiometry",
+        "Price": 15000
+      },
+      {
+        "Description": "Barium Meal",
+        "Price": 15000
+      },
+      {
+        "Description": "Barium Swallow",
+        "Price": 15000
+      },
+      {
+        "Description": "Cervical Cone/Punch Biopsy",
+        "Price": 15000
+      },
+      {
+        "Description": "Chalazion Excision",
+        "Price": 15000
+      },
+      {
+        "Description": "Cyclocryoablation",
+        "Price": 15000
+      },
+      {
+        "Description": "Entropion And Ectropion Repairs",
+        "Price": 15000
+      },
+      {
+        "Description": "Incision & Drainage >=5cm",
+        "Price": 15000
+      },
+      {
+        "Description": "Intermediate THEATRE USE",
+        "Price": 15000
+      },
+      {
+        "Description": "Major-THEATRE USE",
+        "Price": 15000
+      },
+      {
+        "Description": "Repair Of Minor Laceration",
+        "Price": 15000
+      },
+      {
+        "Description": "Tumour Excision Parotid",
+        "Price": 15000
+      },
+      {
+        "Description": "Foot/Ankle Cast",
+        "Price": 15000
+      },
+      {
+        "Description": "Fore Arm Cast",
+        "Price": 15000
+      },
+      {
+        "Description": "Granuloma Excision",
+        "Price": 15000
+      },
+      {
+        "Description": "Lacrimal Syringing",
+        "Price": 15000
+      },
+      {
+        "Description": "Minor Debridement Of Burns",
+        "Price": 15000
+      },
+      {
+        "Description": "Removal Of Foreign Bodies From Conjunctiva And Cornea",
+        "Price": 15000
+      },
+      {
+        "Description": "Transfussion Of Screened Blood (Rh +Ve)",
+        "Price": 15000
+      },
+      {
+        "Description": "Traumatic Lid Laceration Repair",
+        "Price": 15000
+      },
+      {
+        "Description": "Tumour Excision From Lid",
+        "Price": 15000
+      },
+      {
+        "Description": "Upper Arm Cast",
+        "Price": 15000
+      },
+      {
+        "Description": "Colposcopy",
+        "Price": 18000
+      },
+      {
+        "Description": "Perineal Tear-1st Degree",
+        "Price": 18000
+      },
+      {
+        "Description": "Perineal Tear-2nd  Degree",
+        "Price": 18000
+      },
+      {
+        "Description": "Drainage Of Septic Arthritis",
+        "Price": 18750
+      },
+      {
+        "Description": "Group 1 (A)",
+        "Price": 18750
+      },
+      {
+        "Description": "Exostectomy",
+        "Price": 18750
+      },
+      {
+        "Description": "Simple Congenital Talipes Repair",
+        "Price": 18750
+      },
+      {
+        "Description": "Skin Traction",
+        "Price": 18750
+      },
+      {
+        "Description": "Antenatal Care With Gen. Practitioner",
+        "Price": 20000
+      },
+      {
+        "Description": "Barium Enema",
+        "Price": 20000
+      },
+      {
+        "Description": "Barium Meal & Follow Through",
+        "Price": 20000
+      },
+      {
+        "Description": "CT Pelvimetry",
+        "Price": 20000
+      },
+      {
+        "Description": "Cysto-Urethrogram (Micturating/Retrograde)",
+        "Price": 20000
+      },
+      {
+        "Description": "Electroencephalogram (E E G)",
+        "Price": 20000
+      },
+      {
+        "Description": "General-ANAESTHETIC AGENT & FEE",
+        "Price": 20000
+      },
+      {
+        "Description": "Minor Vaginal Laceration",
+        "Price": 20000
+      },
+      {
+        "Description": "Minor Vaginal Laceration-2nd degree",
+        "Price": 20000
+      },
+      {
+        "Description": "Minor Vaginal Laceration-3rd degree",
+        "Price": 20000
+      },
+      {
+        "Description": "Perineal Tear-3rd  Degree",
+        "Price": 20000
+      },
+      {
+        "Description": "Pollicisation Of The Index Finger",
+        "Price": 20000
+      },
+      {
+        "Description": "Surgical Drainage In Haematoma Of Rectus Abdominis",
+        "Price": 20000
+      },
+      {
+        "Description": "Fistulogram/Sinogram Each",
+        "Price": 20000
+      },
+      {
+        "Description": "Hysterosalphingogram (HSG)",
+        "Price": 20000
+      },
+      {
+        "Description": "Intravenous Urography (IVU)",
+        "Price": 20000
+      },
+      {
+        "Description": "Myelogram",
+        "Price": 20000
+      },
+      {
+        "Description": "Mammogram",
+        "Price": 20000
+      },
+      {
+        "Description": "Transfussion Of Screened Blood (Rh -Ve)",
+        "Price": 20000
+      },
+      {
+        "Description": "Antenatal Care (Including Tests And Scan X2)",
+        "Price": 25000
+      },
+      {
+        "Description": "General Major-ANAESTHETIC AGENT & FEE",
+        "Price": 25000
+      },
+      {
+        "Description": "Intermediate ANAESTHETIC AGENT & FEE",
+        "Price": 25000
+      },
+      {
+        "Description": "Major THEATRE USE",
+        "Price": 25000
+      },
+      {
+        "Description": "Full Arm Cast",
+        "Price": 25000
+      },
+      {
+        "Description": "Surgical Release In Stenosing Tenosynovitis",
+        "Price": 25000
+      },
+      {
+        "Description": "Knee Cast",
+        "Price": 27000
+      },
+      {
+        "Description": "Antenatal Care With Obstetrician (Subject To Pre-Authorisation)",
+        "Price": 30000
+      },
+      {
+        "Description": "ANTI-D INJ",
+        "Price": 30000
+      },
+      {
+        "Description": "comdone excision",
+        "Price": 30000
+      },
+      {
+        "Description": "Excision Of Tophi",
+        "Price": 30000
+      },
+      {
+        "Description": "Injection Sclerotherapy Of Varicose Veins",
+        "Price": 30000
+      },
+      {
+        "Description": "Major ANAESTHETIC AGENT & FEE",
+        "Price": 30000
+      },
+      {
+        "Description": "Manual Placenta Removal",
+        "Price": 30000
+      },
+      {
+        "Description": "Intercostal Drainage Insertion",
+        "Price": 30000
+      },
+      {
+        "Description": "Polypectomy",
+        "Price": 30000
+      },
+      {
+        "Description": "Bilateral Tubal Ligation",
+        "Price": 35000
+      },
+      {
+        "Description": "Cervical Circlage/Shirodkar removal",
+        "Price": 35000
+      },
+      {
+        "Description": "Destructive Delivery (Craniotomy-Embryotomy)",
+        "Price": 35000
+      },
+      {
+        "Description": "Diagnostic Laparoscopy",
+        "Price": 35000
+      },
+      {
+        "Description": "Dilatation And Curetage",
+        "Price": 35000
+      },
+      {
+        "Description": "Dye Test",
+        "Price": 35000
+      },
+      {
+        "Description": "Evacuation Of Retained Products Of Conception",
+        "Price": 35000
+      },
+      {
+        "Description": "Examination Under Anaesthesia (EUA)",
+        "Price": 35000
+      },
+      {
+        "Description": "Exchange Blood Transfussion (Rh +Ve, Inclusive Of Materials)",
+        "Price": 35000
+      },
+      {
+        "Description": "Excision Of Vaginal Septum",
+        "Price": 35000
+      },
+      {
+        "Description": "Laparoscopy & Dye Test",
+        "Price": 35000
+      },
+      {
+        "Description": "Speculum Exam",
+        "Price": 35000
+      },
+      {
+        "Description": "Excision/Diathermy Of Warts",
+        "Price": 35000
+      },
+      {
+        "Description": "Full Leg Cast",
+        "Price": 35000
+      },
+      {
+        "Description": "Leg Cast",
+        "Price": 35000
+      },
+      {
+        "Description": "Hysteroscopy",
+        "Price": 35000
+      },
+      {
+        "Description": "Marsupialisation",
+        "Price": 35000
+      },
+      {
+        "Description": "Removal Of IUCD Under General Anaesthesia",
+        "Price": 35000
+      },
+      {
+        "Description": "Repair Of Third Degree Tear",
+        "Price": 35000
+      },
+      {
+        "Description": "Rhogam Injection",
+        "Price": 35000
+      },
+      {
+        "Description": "Chondromectomy",
+        "Price": 37500
+      },
+      {
+        "Description": "Group 2 (C)",
+        "Price": 37500
+      },
+      {
+        "Description": "Saucerisation Of Chronically Infected Bone",
+        "Price": 37500
+      },
+      {
+        "Description": "Sequestrectomy",
+        "Price": 37500
+      },
+      {
+        "Description": "Subperiosteal Drainage Of Acute Osteomyelitis",
+        "Price": 37500
+      },
+      {
+        "Description": "Assisted Delivery (Vacuum, Instrumental)",
+        "Price": 40000
+      },
+      {
+        "Description": "Biopsy Of Oesophageal Mass",
+        "Price": 40000
+      },
+      {
+        "Description": "Dissection Of Inguinal Nodes",
+        "Price": 40000
+      },
+      {
+        "Description": "Exchange Blood Transfussion (Rh -Ve, Inclusive Of Materials)",
+        "Price": 40000
+      },
+      {
+        "Description": "Ingrowing Toe Nail (Excision)",
+        "Price": 40000
+      },
+      {
+        "Description": "Multiple Delivery",
+        "Price": 40000
+      },
+      {
+        "Description": "Paracentesis (A/C Washout)",
+        "Price": 40000
+      },
+      {
+        "Description": "Keloid Excision",
+        "Price": 40000
+      },
+      {
+        "Description": "Normal Delivery (With Or Without Episiotomy)",
+        "Price": 40000
+      },
+      {
+        "Description": "RHOGAM INJ",
+        "Price": 40000
+      },
+      {
+        "Description": "Surgical Drainage Of Galactocoele",
+        "Price": 40000
+      },
+      {
+        "Description": "Traumatic Cannalicular Repair",
+        "Price": 40000
+      },
+      {
+        "Description": "Echocardiogram",
+        "Price": 43750
+      },
+      {
+        "Description": "Cystic Hygroma Excision",
+        "Price": 45000
+      },
+      {
+        "Description": "Lipoma Excision(block fee)",
+        "Price": 45000
+      },
+      {
+        "Description": "Skin Grafting <9% surgace area",
+        "Price": 45000
+      },
+      {
+        "Description": "Skin Grafting >9% surgace area",
+        "Price": 45000
+      },
+      {
+        "Description": "Hip Spica",
+        "Price": 45000
+      },
+      {
+        "Description": "Surgical Drainage Of Anal Abscess",
+        "Price": 45000
+      },
+      {
+        "Description": "Amputation And Disarticulation Of Joints.",
+        "Price": 50000
+      },
+      {
+        "Description": "Amputation Of Cervix",
+        "Price": 50000
+      },
+      {
+        "Description": "Anal haematoma- Evacuation",
+        "Price": 50000
+      },
+      {
+        "Description": "Arthrodesis",
+        "Price": 50000
+      },
+      {
+        "Description": "Arthroplasty",
+        "Price": 50000
+      },
+      {
+        "Description": "Biopsy of bone tumor",
+        "Price": 50000
+      },
+      {
+        "Description": "Biopsy of Thyroid Gland",
+        "Price": 50000
+      },
+      {
+        "Description": "Biopsy Of Tumour Of Abdominal Wall",
+        "Price": 50000
+      },
+      {
+        "Description": "Breast Lump Excision",
+        "Price": 50000
+      },
+      {
+        "Description": "Broad Ligament Haematoma",
+        "Price": 50000
+      },
+      {
+        "Description": "CT Myelogram",
+        "Price": 50000
+      },
+      {
+        "Description": "CT Scan - Chest, Abdomen, Pelvis",
+        "Price": 50000
+      },
+      {
+        "Description": "CT-Scan - Brain, Sinuses, Orbits, Neck",
+        "Price": 50000
+      },
+      {
+        "Description": "Endoscopy",
+        "Price": 50000
+      },
+      {
+        "Description": "Equanovarus/Valgus",
+        "Price": 50000
+      },
+      {
+        "Description": "Group 3 (D)",
+        "Price": 50000
+      },
+      {
+        "Description": "Lumpectomy-Intermediate",
+        "Price": 50000
+      },
+      {
+        "Description": "Lumpectomy-Major",
+        "Price": 50000
+      },
+      {
+        "Description": "Lumpectomy-Minor",
+        "Price": 50000
+      },
+      {
+        "Description": "Neurosurgical Operation",
+        "Price": 50000
+      },
+      {
+        "Description": "Ovarian Biopsy",
+        "Price": 50000
+      },
+      {
+        "Description": "pyeloplasty",
+        "Price": 50000
+      },
+      {
+        "Description": "Reconstruction Of Vagina",
+        "Price": 50000
+      },
+      {
+        "Description": "shave biopsy",
+        "Price": 50000
+      },
+      {
+        "Description": "skin biopsy",
+        "Price": 50000
+      },
+      {
+        "Description": "vasoplasty",
+        "Price": 50000
+      },
+      {
+        "Description": "Wedge Resection Of The Ovary",
+        "Price": 50000
+      },
+      {
+        "Description": "Open Reduction And Internal Fixation Of Fractures",
+        "Price": 50000
+      },
+      {
+        "Description": "Osteoclasis, Internal Fixation Of Malunion",
+        "Price": 50000
+      },
+      {
+        "Description": "Excisional Biopsy",
+        "Price": 50000
+      },
+      {
+        "Description": "Ganglion Excision",
+        "Price": 50000
+      },
+      {
+        "Description": "Lumps Excision",
+        "Price": 50000
+      },
+      {
+        "Description": "Pterygium Excision.",
+        "Price": 50000
+      },
+      {
+        "Description": "Ptosis Repair",
+        "Price": 50000
+      },
+      {
+        "Description": "Release Of Chordae",
+        "Price": 50000
+      },
+      {
+        "Description": "Small Cyst Excision",
+        "Price": 50000
+      },
+      {
+        "Description": "Squint Surgery",
+        "Price": 50000
+      },
+      {
+        "Description": "Surgical Repair Of Congenital Talipes",
+        "Price": 50000
+      },
+      {
+        "Description": "Tendon Transplant",
+        "Price": 50000
+      },
+      {
+        "Description": "Tenoplasty",
+        "Price": 50000
+      },
+      {
+        "Description": "Cleft Lip And Palate Repairs.",
+        "Price": 56250
+      },
+      {
+        "Description": "Cystic/Fibrous Dysplasia/ Cancer Surgery",
+        "Price": 56250
+      },
+      {
+        "Description": "Group (D)",
+        "Price": 56250
+      },
+      {
+        "Description": "Odontogenic Tumours.",
+        "Price": 56250
+      },
+      {
+        "Description": "Submandibular Gland Excision",
+        "Price": 56250
+      },
+      {
+        "Description": "Excision Biopsy(block fee)",
+        "Price": 60000
+      },
+      {
+        "Description": "Suprapubic Cystostomy",
+        "Price": 60000
+      },
+      {
+        "Description": "Cavernospongiosum Shunt",
+        "Price": 80000
+      },
+      {
+        "Description": "Cervical cerclage",
+        "Price": 80000
+      },
+      {
+        "Description": "Cervical Circlage/Shirodkar Suture",
+        "Price": 80000
+      },
+      {
+        "Description": "Combined Cataract Extraction With Trabeculectomy",
+        "Price": 80000
+      },
+      {
+        "Description": "Corporosavenous Shunt",
+        "Price": 80000
+      },
+      {
+        "Description": "Enterocutaneous fistulectomy",
+        "Price": 80000
+      },
+      {
+        "Description": "Evisceration/Enucleation/Extenteration",
+        "Price": 80000
+      },
+      {
+        "Description": "Surgical Exploration For Anorchism",
+        "Price": 80000
+      },
+      {
+        "Description": "Tendon Grafting",
+        "Price": 80000
+      },
+      {
+        "Description": "Tendon repair",
+        "Price": 80000
+      },
+      {
+        "Description": "Transurethral Dessication Of Congenital Meatal Stenosis",
+        "Price": 80000
+      },
+      {
+        "Description": "Scleral Buckling Procedures",
+        "Price": 80000
+      },
+      {
+        "Description": "Trabeculectomy With Antimet Abolites",
+        "Price": 80000
+      },
+      {
+        "Description": "Magnetic Resonance Imaging (MRI)",
+        "Price": 90000
+      },
+      {
+        "Description": "Bone Grafting",
+        "Price": 100000
+      },
+      {
+        "Description": "Pelvic Haematocoele",
+        "Price": 100000
+      },
+      {
+        "Description": "Rectovaginal Fistula Repair",
+        "Price": 100000
+      },
+      {
+        "Description": "Stripping And Ligation Of Veins",
+        "Price": 100000
+      },
+      {
+        "Description": "Synovectomy",
+        "Price": 100000
+      },
+      {
+        "Description": "Ventrosuspension Of The Bladder",
+        "Price": 100000
+      },
+      {
+        "Description": "Vesicovaginal Fistula Repair",
+        "Price": 100000
+      },
+      {
+        "Description": "Vulvectomy",
+        "Price": 100000
+      },
+      {
+        "Description": "Thoracotomy",
+        "Price": 110000
+      },
+      {
+        "Description": "Anal Fistulectomy Repair",
+        "Price": 120000
+      },
+      {
+        "Description": "Anal Spincteroplasty",
+        "Price": 120000
+      },
+      {
+        "Description": "Colostomy Construction/Closure",
+        "Price": 120000
+      },
+      {
+        "Description": "Diverticulectomy",
+        "Price": 120000
+      },
+      {
+        "Description": "Drainage Of Hepatic Abscess",
+        "Price": 120000
+      },
+      {
+        "Description": "Mini Laparotomy",
+        "Price": 120000
+      },
+      {
+        "Description": "Oesophagostomy",
+        "Price": 120000
+      },
+      {
+        "Description": "Oophorectomy",
+        "Price": 120000
+      },
+      {
+        "Description": "Repair Of Splenic Laceration",
+        "Price": 120000
+      },
+      {
+        "Description": "Resection Of Median Bar Obstruction",
+        "Price": 120000
+      },
+      {
+        "Description": "Retroperitoneal Drainage Of Perinephric Abscess",
+        "Price": 120000
+      },
+      {
+        "Description": "Trans-Perineal/Transrectal Biopsy Of Prostate",
+        "Price": 120000
+      },
+      {
+        "Description": "Uretherectomy",
+        "Price": 120000
+      },
+      {
+        "Description": "Adenoidectomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Anal Pull Through",
+        "Price": 150000
+      },
+      {
+        "Description": "Appendicectomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Axillary Dissection Of Breast",
+        "Price": 150000
+      },
+      {
+        "Description": "Choledochal Cystojejunostomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Choledochojejunostomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Choledochostomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Cystectomy Partial/Total",
+        "Price": 150000
+      },
+      {
+        "Description": "Diaphragmatic Hernia Repair",
+        "Price": 150000
+      },
+      {
+        "Description": "Dissection Of Femoral Triangle",
+        "Price": 150000
+      },
+      {
+        "Description": "Enterostomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Epigastric Herniorrhaphy",
+        "Price": 150000
+      },
+      {
+        "Description": "Excision Of Intrascrotal Mass",
+        "Price": 150000
+      },
+      {
+        "Description": "Excision Of Lymphoedematous Lymph Tissues",
+        "Price": 150000
+      },
+      {
+        "Description": "Herniorraphy - femoral (block fee)",
+        "Price": 150000
+      },
+      {
+        "Description": "herniotomy (bloc fee)",
+        "Price": 150000
+      },
+      {
+        "Description": "Hydrocelectomy (block fee)",
+        "Price": 150000
+      },
+      {
+        "Description": "Laryngeal Surgery",
+        "Price": 150000
+      },
+      {
+        "Description": "Mastoid Surgery",
+        "Price": 150000
+      },
+      {
+        "Description": "Multiple Ligation Of Veins",
+        "Price": 150000
+      },
+      {
+        "Description": "Multiple Nasal Polypectomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Nasal Sinus Surgery E.G Caldwell Luc",
+        "Price": 150000
+      },
+      {
+        "Description": "parathyroidectomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Paraunmilical Hernia",
+        "Price": 150000
+      },
+      {
+        "Description": "Repair Of Perforated/Ruptured Uterus",
+        "Price": 150000
+      },
+      {
+        "Description": "Thoracotomy/thorasectomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Tympanoplasty",
+        "Price": 150000
+      },
+      {
+        "Description": "Umbilical hiernia without mesh",
+        "Price": 150000
+      },
+      {
+        "Description": "Vagotomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Extensive (Small And Large) Bowel Resection And Anastomoses",
+        "Price": 150000
+      },
+      {
+        "Description": "Fistula In-Ano Repair",
+        "Price": 150000
+      },
+      {
+        "Description": "Gastroenterostomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Haemorrhoidectomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Herniorraphy - Inguinal/Others",
+        "Price": 150000
+      },
+      {
+        "Description": "Hiatus Herniorrphaphy",
+        "Price": 150000
+      },
+      {
+        "Description": "Meckel’s Diverticulectomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Ovariectomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Parotidectomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Pelvic/Abdominal Abscess Drainage",
+        "Price": 150000
+      },
+      {
+        "Description": "Pyloromyotomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Renal Cystectomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Repair Of Bochidalek Diaphragmatic Congenital Defect",
+        "Price": 150000
+      },
+      {
+        "Description": "Repair Of Gastric Lacerations",
+        "Price": 150000
+      },
+      {
+        "Description": "Repair Of Oesophageal Lacerations",
+        "Price": 150000
+      },
+      {
+        "Description": "Repair Of Small Bowel Perforations",
+        "Price": 150000
+      },
+      {
+        "Description": "Resection And Anstomoses (Small/Large Intestines)",
+        "Price": 150000
+      },
+      {
+        "Description": "Submandibular Glad Excision",
+        "Price": 150000
+      },
+      {
+        "Description": "Surgery Of Hepatic Trauma",
+        "Price": 150000
+      },
+      {
+        "Description": "Surgery Of Large Bowel Perforations",
+        "Price": 150000
+      },
+      {
+        "Description": "Surgery Of Torsion Of Spermatic Cord",
+        "Price": 150000
+      },
+      {
+        "Description": "Surgery Of Uncomplicated Intestinal Obstruction Without Resection",
+        "Price": 150000
+      },
+      {
+        "Description": "Surgical Correction Of Dupuytren’s Contracture",
+        "Price": 150000
+      },
+      {
+        "Description": "Tonsilectomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Tracheostomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Varicocoelectomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Vasectomy",
+        "Price": 150000
+      },
+      {
+        "Description": "Umbilical hiernia with mesh",
+        "Price": 170000
+      },
+      {
+        "Description": "Adenotonsilectomy",
+        "Price": 180000
+      },
+      {
+        "Description": "Colporrhaphy/Colpoperineorrhaphy",
+        "Price": 180000
+      },
+      {
+        "Description": "Orchidectomy/Orchidopexy",
+        "Price": 180000
+      },
+      {
+        "Description": "Surgery Of Intestinal Obstruction With Resection",
+        "Price": 180000
+      },
+      {
+        "Description": "Extracapsular Cataract Extraction With Intraocular Lens Implantation",
+        "Price": 180000
+      },
+      {
+        "Description": "Hydrocoelectomy",
+        "Price": 180000
+      },
+      {
+        "Description": "Intracapsular Cataract Extraction With Intraocular Lens Implantation",
+        "Price": 180000
+      },
+      {
+        "Description": "Laparotomy Diagnostic/Therapeutic, Inter-Sex",
+        "Price": 180000
+      },
+      {
+        "Description": "Ovarian Cysts",
+        "Price": 180000
+      },
+      {
+        "Description": "Salpingo-Oophoreictomy",
+        "Price": 180000
+      },
+      {
+        "Description": "Ceasarean Section",
+        "Price": 200000
+      },
+      {
+        "Description": "Ceasarean Section-twins",
+        "Price": 200000
+      },
+      {
+        "Description": "Myomectomy",
+        "Price": 200000
+      },
+      {
+        "Description": "Exploratory Laparotomy/Lysis Of Adhensions",
+        "Price": 200000
+      },
+      {
+        "Description": "Oesophageal Atresia And Tracheo-Oesophageal Fistula Repair",
+        "Price": 200000
+      },
+      {
+        "Description": "Pyeloroplasty",
+        "Price": 200000
+      },
+      {
+        "Description": "Vaginal Hysterectomy/Manchester Repair",
+        "Price": 200000
+      },
+      {
+        "Description": "Ectopic Pregnancy",
+        "Price": 230000
+      },
+      {
+        "Description": "Hypospadia Repair",
+        "Price": 250000
+      },
+      {
+        "Description": "Mastectomy extended",
+        "Price": 280000
+      },
+      {
+        "Description": "Mastectomy",
+        "Price": 280000
+      },
+      {
+        "Description": "Myomectomy + salpingectomy",
+        "Price": 300000
+      },
+      {
+        "Description": "Myomectomy <20wks",
+        "Price": 300000
+      },
+      {
+        "Description": "Myomectomy >20wks",
+        "Price": 300000
+      },
+      {
+        "Description": "Myomectomy repeat",
+        "Price": 300000
+      },
+      {
+        "Description": "Prostatectomy radical",
+        "Price": 300000
+      },
+      {
+        "Description": "Prostatectomy-simple",
+        "Price": 300000
+      },
+      {
+        "Description": "Hysterectomy",
+        "Price": 300000
+      },
+      {
+        "Description": "Hysterectomy And Bilateral Salpingo-Oophorectomy",
+        "Price": 300000
+      },
+      {
+        "Description": "Intussusception Operation",
+        "Price": 300000
+      },
+      {
+        "Description": "Repair Of Inverted Uterus",
+        "Price": 300000
+      },
+      {
+        "Description": "Repair Of Perforated / Ruptured Uterus",
+        "Price": 300000
+      },
+      {
+        "Description": "Tubal Reconstruction",
+        "Price": 300000
+      }
+    ]
+  }
