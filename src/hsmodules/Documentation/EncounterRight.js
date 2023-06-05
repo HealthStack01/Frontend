@@ -1133,21 +1133,21 @@ export function EyeExamination() {
     }
    
     document.documentdetail = {
-      acuity: formData.acuity,
-      degree: formData.degree,
-      muscles: formData.muscles,
-      colorVision: formData.colorVision,
-      fieldRestriction: formData.fieldRestriction,
-      ageOfOnset: data.ageOfOnset,
-      aidedRVA:data.aidedRVA,
-      aidedLVA:data.aidedLVA,
-      aidedNV:data.aidedNV,
-      unaidedRVA:data.unaidedRVA,
-      unaidedLVA:data.unaidedLVA,
-      unaidedNV:data.unaidedNV,
-      history: data.history,
-      describe: data.describe,
-      visualFieldTest: data.visualFieldTest,
+      AgeOfOnset: data.ageOfOnset,
+      History: data.history,
+      UnaidedRVA:data.unaidedRVA,
+      UnaidedLVA:data.unaidedLVA,
+      UnaidedNV:data.unaidedNV,
+      AidedRVA:data.aidedRVA,
+      AidedLVA:data.aidedLVA,
+      AidedNV:data.aidedNV,
+      Acuity: formData.acuity,   
+      MuscleFunction: formData.muscles,
+      VisualFieldTest: data.visualFieldTest,
+      Describe: data.describe,
+      Degree: formData.degree,
+      FieldRestriction: formData.fieldRestriction,
+      ColorVision: formData.colorVision,
     };
     document.documentname = "Eye examination";
     document.documentType = "Eye examination";
@@ -1690,12 +1690,16 @@ export function DentalClinic() {
     }
    
     document.documentdetail = {
-      examination: data.examination,
-      presorting: data.presorting,
-      investigation: data.investigation,
-      diagnosis: data.diagnosis,
-      managementPlan: data.managementPlan,
-      treatment: data.treatment,
+      RFA: data.rfa,
+      HPC: data.hpc,
+      PDH: data.pdh,
+      PHM: data.phm,
+      IntraOral: data.intraoral,
+      ExtraOral: data.extraoral,
+      Investigation: data.investigation,
+      Diagnosis: data.diagnosis,
+      ManagementPlan: data.managementPlan,
+      Treatment: data.treatment,
       
     };
     document.documentname = "Dental Clinic";
@@ -1814,7 +1818,7 @@ export function DentalClinic() {
     </Typography>
     <Box mb={1}>
       <Input
-        register={register("presorting")}
+        register={register("rfa")}
         name="text"
         type="text"
         placeholder="Enter rfa"
@@ -1825,7 +1829,7 @@ export function DentalClinic() {
     </Typography>
     <Box mb={1}>
       <Input
-        register={register("presorting")}
+        register={register("hpc")}
         name="text"
         type="text"
         placeholder="Enter hpc"
@@ -1838,7 +1842,7 @@ export function DentalClinic() {
     </Typography>
     <Box mb={1}>
       <Input
-        register={register("presorting")}
+        register={register("pdh")}
         name="text"
         type="text"
         placeholder="Enter pdh"
@@ -1849,7 +1853,7 @@ export function DentalClinic() {
     </Typography>
     <Box mb={1}>
       <Input
-        register={register("presorting")}
+        register={register("phm")}
         name="text"
         type="text"
         placeholder="Enter pmh"
@@ -1868,7 +1872,7 @@ export function DentalClinic() {
     </Typography>
     <Box mb={1}>
       <Input
-        register={register("examination")}
+        register={register("intraoral")}
         name="text"
         type="text"
         placeholder="Type here..."
@@ -1881,7 +1885,7 @@ export function DentalClinic() {
     </Typography>
     <Box mb={1}>
       <Input
-        register={register("examination")}
+        register={register("extraoral")}
         name="text"
         type="text"
         placeholder="Type here..."
