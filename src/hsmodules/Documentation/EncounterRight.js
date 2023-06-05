@@ -1642,7 +1642,12 @@ export function DentalClinic() {
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const {state, setState} = useContext(ObjectContext);
-  // const [confirmDialog, setConfirmDialog] = useState(false);
+
+  const [formData, setFormData] = useState({
+    dentalLaboratory: "",
+    dentalTherapist: "",
+    orthodontist: "",
+  });
   const [docStatus, setDocStatus] = useState("Draft");
   const [confirmationDiaglog, setConfirmationDialog] = useState(false);  
     
@@ -1700,6 +1705,7 @@ export function DentalClinic() {
       Diagnosis: data.diagnosis,
       ManagementPlan: data.managementPlan,
       Treatment: data.treatment,
+      SendTo: formData.dentalLaboratory,
       
     };
     document.documentname = "Dental Clinic";
@@ -1774,6 +1780,13 @@ export function DentalClinic() {
         ...prevstate.DocumentClassModule,
         encounter_right: false,
       },
+    }));
+  };
+
+  const handleSendTo = (event) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      dentalLaboratory: event.target.value,
     }));
   };
 
@@ -1943,6 +1956,55 @@ export function DentalClinic() {
                 placeholder="Type here...."
               />
             </Box>
+
+            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+  <Box sx={{ width: '50%', marginBottom: '20px' }}>
+  <Typography color="primary" variant="body1" fontWeight="bold" style={{ marginTop: '10px' }}>
+  Send To:
+</Typography>
+
+  </Box>
+  <Box sx={{ width: '40%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="dentalLaboratory"
+      value={formData.dentalLaboratory}
+      onChange={handleSendTo}
+    >
+      <FormControlLabel
+        value="Dental Laboratory"
+        control={<Radio />}
+        label="Dental Laboratory"
+      />
+    </RadioGroup>
+  </Box>
+  <Box sx={{ width: '40%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="dentallaboratory"
+      value={formData.dentalLaboratory}
+      onChange={handleSendTo}
+    >
+      <FormControlLabel
+        value="Dental Therapist"
+        control={<Radio />}
+        label="Dental Therapist"
+      />
+    </RadioGroup>
+  </Box>
+  <Box sx={{ width: '40%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="dentallaboratory"
+      value={formData.dentalLaboratory}
+      onChange={handleSendTo}
+    >
+      <FormControlLabel
+        value="Orthodontist"
+        control={<Radio />}
+        label="Orthodontist"
+      />
+    </RadioGroup>
+  </Box>
+</Box>
+
     
              <Box  sx={{
                 gap: "1rem",
