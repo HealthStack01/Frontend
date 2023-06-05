@@ -1804,7 +1804,7 @@ export function DentalClinic() {
         <div className="card-content vscrollable remPad1">
           <form>
           <Typography style={{ marginTop: '20px', marginBottom: '20px' }} fontWeight="bold"  color="primary" variant="body1">
-               Presorting Complains
+               Presenting Complains
             </Typography>
 
 <Grid container spacing={2}>
@@ -1821,14 +1821,14 @@ export function DentalClinic() {
       />
     </Box>
     <Typography color="primary" variant="body2">
-      PHC
+      HPC
     </Typography>
     <Box mb={1}>
       <Input
         register={register("presorting")}
         name="text"
         type="text"
-        placeholder="Enter phc"
+        placeholder="Enter hpc"
       />
     </Box>
   </Grid>
@@ -1845,14 +1845,14 @@ export function DentalClinic() {
       />
     </Box>
     <Typography color="primary" variant="body2">
-      PNCH
+      PMH
     </Typography>
     <Box mb={1}>
       <Input
         register={register("presorting")}
         name="text"
         type="text"
-        placeholder="Enter pnch"
+        placeholder="Enter pmh"
       />
     </Box>
   </Grid>
@@ -1864,7 +1864,7 @@ export function DentalClinic() {
 <Grid container spacing={2}>
   <Grid item xs={6}>
     <Typography color="primary" variant="body2">
-      Internal
+      Intra-Oral
     </Typography>
     <Box mb={1}>
       <Input
@@ -1877,7 +1877,7 @@ export function DentalClinic() {
   </Grid>
   <Grid item xs={6}>
     <Typography color="primary" variant="body2">
-      External
+      Extra-Oral
     </Typography>
     <Box mb={1}>
       <Input
