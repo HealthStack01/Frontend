@@ -33,6 +33,9 @@ const SendLinkViaEmail = ({
 }) => {
   const emailServer = client.service("email");
   const {user} = useContext(UserContext);
+  const [files, setFiles] = useState([]);
+  const facilityServ = client.service("facility");
+  const orgServ = client.service("organizationclient");
   const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
   const [emailsModal, setEmailModals] = useState(true);
   const [toEmailModal, setToEmailModal] = useState(false);
@@ -122,6 +125,183 @@ if (orgType!=="individual"){
         toast.error(`Sorry, Failed to send Email ${err}`);
       });
   };
+
+  const readFileContent = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result);
+      reader.onerror = (e) => reject(e);
+      reader.readAsText(file);
+    });
+  };
+
+  const handleFileUpload =  async(event) => {
+    const fileList = event.target.files;
+
+    const fileArray = Array.from(fileList).map(async(file) => {
+      const fileNameWithoutExtension = file.name.replace(/\.[^/.]+$/, ''); // Remove file extension
+      let filename=  fileNameWithoutExtension.toUpperCase();
+     let parsedData =""
+
+      const content = await readFileContent(file);
+      console.log("filename:",filename)
+      try {
+        parsedData = JSON.parse(content);
+       // parsedDataArray.push(parsedData);
+      } catch (error) {
+        console.error('Error parsing JSON file:'+ file.name, error);
+      }
+    //read file
+    //create facility (admin) + fail gracefully
+    //add facility to organization client
+    //email login details 
+
+    parsedData.map(async(faci,i)=>{
+      let facilitydata={
+        facilityCAC:"",
+    facilityName:faci.Name,
+    facilityOwner: "",
+    facilityType: "Hospital",
+    facilityCategory:"secondary",
+    facilityCountry: "Nigeria",
+    facilityState: faci.State,
+    facilityLGA:faci.LGA,
+    facilityCity:"", 
+    facilityAddress: faci.Address,
+    facilityContactPhone:faci["Phone Number"],
+    facilityEmail:faci.Email,
+    facilityModules: ['Admin',
+    'Client',
+    'Clinic',
+    'Appointment',
+    'Check-In',
+    'Ward',
+    'Laboratory',
+    'Radiology',
+    'Pharmacy',
+    'Theatre',
+    'Blood Bank',
+    'Inventory',
+    'Communication',
+    'Immunization',
+    'Finance',
+    'Accounting',
+    'Complaints',
+    'Referral',
+    'Epidemiology',
+    'Engagement',],
+
+      }
+      let admindata={
+        firstname:"Admin",
+      
+        lastname: "Admin",
+        profession: "Admin",
+        position: "Admin",
+        phone: faci["Phone Number"],
+        email: faci.Email,
+        department: "Admin",
+        deptunit: "Admin",
+        password: "Administrator",
+       roles:['Admin',
+       'Client',
+       'Clinic',
+       'Appointment',
+       'Check-In',
+       'Ward',
+       'Laboratory',
+       'Radiology',
+       'Pharmacy',
+       'Theatre',
+       'Blood Bank',
+       'Inventory',
+       'Communication',
+       'Immunization',
+       'Finance',
+       'Accounting',
+       'Complaints',
+       'Referral',
+       'Epidemiology',
+       'Engagement',]
+
+      }
+   /*   let  facilityModules= ['Admin',
+      'Client',
+      'Clinic',
+      'Appointment',
+      'Check-In',
+      'Ward',
+      'Laboratory',
+      'Radiology',
+      'Pharmacy',
+      'Theatre',
+      'Blood Bank',
+      'Inventory',
+      'Communication',
+      'Immunization',
+      'Finance',
+      'Accounting',
+      'Complaints',
+      'Referral',
+      'Epidemiology',
+      'Engagement',] */
+
+
+      const facilityDocument = {
+        ...facilitydata,
+        hasEmployee: true,
+        employeeData:admindata
+      }
+
+     await  facilityServ.create(facilityDocument)
+      .then(async(resp)=>{
+        //create relationship
+        console.log("facility created",resp)
+        let obj = {
+          facility: user.currentEmployee.facilityDetail._id,
+          organization: resp._id,
+          relationshiptype: "managedcare",
+          status: "Pending",
+          code:faci.Code
+        };
+    
+       // console.log("query", query);
+    
+        await orgServ
+          .create(obj)
+          .then((res) => {
+            console.log("res", res);
+          
+           console.log("Organization added succesfully");
+            
+            
+          })
+          .catch((err) => {
+            console.log("Error adding organization " + err);
+          });
+      })
+      .catch((err)=>{
+        console.log("facility not created :" + err)
+      })
+
+    })
+
+     return fileNameWithoutExtension
+    });
+    setFiles(fileArray);
+
+//1. create bands from list of files
+// model:facility: { type: Schema.Types.ObjectId,  },
+ //   name: { type: String, required: true },
+   // description: { type: String},
+    // bandType: { type: String}
+//2. create tariff from files 
+
+  };
+
+
+
+
 
   return (
     <Box
@@ -257,6 +437,14 @@ if (orgType!=="individual"){
           <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
         </GlobalCustomButton>
       </Box>
+     {/*  <Box>
+      <input type="file" multiple onChange={handleFileUpload} />
+        <ul>
+        {files.map((file, index) => (
+          <li key={index}>{file}</li>
+        ))}
+      </ul> 
+      </Box>*/}
     </Box>
   );
 };

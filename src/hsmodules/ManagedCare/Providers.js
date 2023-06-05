@@ -799,7 +799,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
         query: {
           facility: user.currentEmployee.facilityDetail._id,
           
-          //relationshiptype:"managedcare",
+          relationshiptype:"managedcare",
           //$limit: 100,
           $sort: {
             createdAt: -1,
@@ -807,7 +807,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
         },
       })
       .then((res) => {
-        console.log(res);
+      //  console.log(res);
         setFacilities(res.data);
         setTotal(res.total)
        console.log(" Organization  fetched successfully");
@@ -956,7 +956,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
       inputType: "BUTTON",
     },
   ];
-  console.log("Facilities", facilities);
+  //console.log("Facilities", facilities);
   return (
     <>
       {user ? (
@@ -990,6 +990,9 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
+                  <div>
+                    Total Number of Facilities ({total})
+                  </div>
                 </div>
 
                 <Box sx={{ display: "flex", overflow:"auto" }} gap={2}>

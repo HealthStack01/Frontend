@@ -2765,9 +2765,7 @@
         "FFg": "Specialist Consultation(External)",
         "GG": "10000 ",
         "__EMPTY": 10000
-      }
-    ],
-    "DRUGS": [
+      },
       {
         "DRUGS": "ALBENDAZOLE 200MG TABLET",
         "COST": 300
@@ -3795,6 +3793,6 @@
       {
         "DRUGS": "Rocephin INJ",
         "COST": 7000
-      }
-    ]
+      }]
+  
   }

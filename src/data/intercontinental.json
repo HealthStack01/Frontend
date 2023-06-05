@@ -233,7 +233,7 @@
         "Amount": 4500
       },
       {
-        "LABORATORY SERVICES": "I.V. CONTRAST – 50ML",
+        "LABORATORY SERVICES": "I.V. CONTRAST  50ML",
         "Amount": 4500
       },
       {
@@ -245,7 +245,7 @@
         "Amount": 4500
       },
       {
-        "LABORATORY SERVICES": "I.V. CONTRAST – 10ML",
+        "LABORATORY SERVICES": "I.V. CONTRAST 10ML",
         "Amount": 4500
       },
       {
@@ -746,22 +746,13 @@
         "Amount": 5400,
         "__EMPTY": 1200
       },
-      {
-        "LABORATORY SERVICES": ""
-      },
-      {
-        "LABORATORY SERVICES": "TESTOSTERONE PROFILE (TESTOSTERONE+STEROID"
-      },
+     
+    
       {
         "LABORATORY SERVICES": "HORMONE BINDING GLOBULIN (SHBG)+FREE TEST INDEX)",
         "Amount": 27000
       },
-      {
-        "LABORATORY SERVICES": ""
-      },
-      {
-        "LABORATORY SERVICES": ""
-      },
+     
       {
         "LABORATORY SERVICES": "IDC0227 THYROGLOBIN[TG]",
         "Amount": 18000

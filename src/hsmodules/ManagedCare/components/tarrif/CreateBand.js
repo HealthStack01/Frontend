@@ -11,10 +11,12 @@ import client from "../../../../feathers";
 
 const CreateBand = ({closeModal}) => {
   const bandServer = client.service("bands");
+  const tariffsServer = client.service("tariff");
   const {register, handleSubmit, control} = useForm();
   const [prevBands, setPrevBands] = useState([]);
   const {user} = useContext(UserContext);
   const {showActionLoader, hideActionLoader} = useContext(ObjectContext);
+  const [files, setFiles] = useState([]);
 
   const getPreviousBands = useCallback(async () => {
     showActionLoader();
@@ -67,6 +69,9 @@ const CreateBand = ({closeModal}) => {
       });
   };
 
+
+ 
+
   return (
     <Box
       sx={{
@@ -74,7 +79,7 @@ const CreateBand = ({closeModal}) => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item lg={12}>
+        <Grid item lg={4} md={6} sm={6} xs={12} >
           <Input
             important
             register={register("name", {required: true})}
@@ -82,7 +87,7 @@ const CreateBand = ({closeModal}) => {
           />
         </Grid>
 
-        <Grid item lg={12}>
+        <Grid item lg={4} md={6} sm={6} xs={12}>
           <CustomSelect
             name="bandType"
             control={control}
@@ -92,8 +97,10 @@ const CreateBand = ({closeModal}) => {
             options={["Provider"]}
           />
         </Grid>
+        </Grid>
+        <Grid container spacing={2}>
 
-        <Grid item lg={12}>
+        <Grid item lg={4} md={6} sm={6} xs={12}>
           <Textarea register={register("description")} label="Description" />
         </Grid>
       </Grid>
@@ -106,6 +113,10 @@ const CreateBand = ({closeModal}) => {
         <GlobalCustomButton color="error" onClick={closeModal}>
           Cancel
         </GlobalCustomButton>
+
+
+      
+
       </Box>
     </Box>
   );

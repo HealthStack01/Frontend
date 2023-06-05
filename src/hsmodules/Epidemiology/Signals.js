@@ -48,7 +48,7 @@ import dayjs from "dayjs";
 //     iconUrl: icon,
 //     shadowUrl: iconShadow
 // });
-const data = require("../../data/nigeriahealthfacilities.json");
+const data = require("../../data/hci/nigeriahealthfacilities.json");
 // L.Marker.prototype.options.icon =DefaultIcon;
 
 const searchfacility = {};

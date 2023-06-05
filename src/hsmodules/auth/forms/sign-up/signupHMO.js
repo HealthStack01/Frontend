@@ -175,6 +175,7 @@ console.log(res,deal)
         dealId:id
       }
       dealdata=[...dealdata, dealobj]
+      
     const facilityDocument = {
       ...facilityData,
       facilityModules: selectedType ? selectedType.modules : ["Admin"],

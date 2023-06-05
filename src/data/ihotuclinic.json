@@ -1,8 +1,6 @@
 {
     "Service Tariff": [
-      {
-        "ITEM": "GENERAL DESCRIPTION"
-      },
+   
       {
         "ITEM": "Registration (Out Of Station Emergencies)",
         "TARIFF": 500
@@ -27,9 +25,7 @@
         "ITEM": "Annual Physical Examination With Report (No Lab Tests)",
         "TARIFF": 700
       },
-      {
-        "ITEM": "HOSPITALISATION (ACCOMMODATION & FEEDING) After 48hrs on admission"
-      },
+    
       {
         "ITEM": "Private Ward Per Diem ",
         "TARIFF": 2000
@@ -58,9 +54,7 @@
         "ITEM": "Nursing Care Per Diem",
         "TARIFF": 500
       },
-      {
-        "ITEM": "IMMUNISATION"
-      },
+    
       {
         "ITEM": "NPI Immunisation - Each (Unregistered Enrollees)",
         "TARIFF": 625
@@ -73,9 +67,7 @@
         "ITEM": "Anti Rabies Vaccine",
         "TARIFF": 4375
       },
-      {
-        "ITEM": "Non- NPI Immunisation for < 5yrs"
-      },
+   
       {
         "ITEM": "Rotavirus Vaccine",
         "TARIFF": 6250
@@ -191,9 +183,7 @@
         "ITEM": "Aspirations & Paracentesis",
         "TARIFF": 3000
       },
-      {
-        "ITEM": "MUA & POP APPLICATION"
-      },
+     
       {
         "ITEM": "Hand Cast",
         "TARIFF": 5000
@@ -230,12 +220,7 @@
         "ITEM": "Hip Spica",
         "TARIFF": 20000
       },
-      {
-        "ITEM": ""
-      },
-      {
-        "ITEM": "PHYSIOTHERAPY"
-      },
+    
       {
         "ITEM": "Physiotherapy Service / Session (Maximum X6 Sessions)",
         "TARIFF": 1500
@@ -248,15 +233,8 @@
         "ITEM": "Neck Collar (Soft)",
         "TARIFF": 1875
       },
-      {
-        "ITEM": ""
-      },
-      {
-        "ITEM": " MATERNITY (EXCLUDING HOSPITALISATION)"
-      },
-      {
-        "ITEM": "Antenatal Care (Including Tests And Scan X3)"
-      },
+  
+    
       {
         "ITEM": "Antenatal Care With Gen. Practitioner",
         "TARIFF": 10000
@@ -285,9 +263,7 @@
         "ITEM": "Rhogam Injection",
         "TARIFF": 15000
       },
-      {
-        "ITEM": "CLINICAL CHEMISTRY"
-      },
+    
       {
         "ITEM": "Serum Electrolytes/Urea/Creatinine",
         "TARIFF": 3000
@@ -519,9 +495,7 @@
         "ITEM": "Semen Analysis",
         "TARIFF": 500
       },
-      {
-        "ITEM": "SEROLOGY"
-      },
+    
       {
         "ITEM": "Widal ",
         "TARIFF": 400
@@ -558,12 +532,7 @@
         "ITEM": "Screening For HIV 1 & 2 ",
         "TARIFF": 2000
       },
-      {
-        "ITEM": "TB Serology"
-      },
-      {
-        "ITEM": "HAEMATOLOGY"
-      },
+     
       {
         "ITEM": "PCV / Haemoglobin",
         "TARIFF": 350
@@ -800,12 +769,7 @@
         "ITEM": "Sacro-Coccxy",
         "TARIFF": 2500
       },
-      {
-        "ITEM": ""
-      },
-      {
-        "ITEM": " ABDOMEN"
-      },
+  
       {
         "ITEM": "Abdomen (Plain)",
         "TARIFF": 1500
@@ -818,12 +782,7 @@
         "ITEM": "Abdomen (Erect & Supine)",
         "TARIFF": 1875
       },
-      {
-        "ITEM": ""
-      },
-      {
-        "ITEM": "SKULL SERIES"
-      },
+  
       {
         "ITEM": "Skull (AP & Lat)",
         "TARIFF": 3000
@@ -1000,12 +959,7 @@
         "ITEM": "Magnetic Resonance Imaging (MRI)",
         "TARIFF": 90000
       },
-      {
-        "ITEM": "SURGERIES"
-      },
-      {
-        "ITEM": "ANAESTHETIC AGENT & FEE"
-      },
+     
       {
         "ITEM": "Local",
         "TARIFF": 3000
@@ -1337,12 +1291,7 @@
         "ITEM": "Hiatus Herniorrphaphy",
         "TARIFF": 30000
       },
-      {
-        "ITEM": ""
-      },
-      {
-        "ITEM": "Group 5 (D)"
-      },
+   
       {
         "ITEM": "Oesophageal Atresia And Tracheo-Oesophageal Fistula Repair ",
         "TARIFF": 45000
@@ -1662,12 +1611,7 @@
         "ITEM": "Antral Lavage",
         "TARIFF": 5500
       },
-      {
-        "ITEM": ""
-      },
-      {
-        "ITEM": "Group 2"
-      },
+  
       {
         "ITEM": "Tonsilectomy",
         "TARIFF": 15000
@@ -7041,7 +6985,7 @@
         "TARIFF": 2850
       },
       {
-        "ITEM": "Mason natural Mega Biotin 10,000mcg x50gels",
+        "ITEM": "Mason natural Mega Biotin 10000mcg x50gels",
         "TARIFF": 3900
       },
       {
@@ -7057,7 +7001,7 @@
         "TARIFF": 1800
       },
       {
-        "ITEM": "Mason vitamin A 10,000IU",
+        "ITEM": "Mason vitamin A 10000IU",
         "TARIFF": 1150
       },
       {
@@ -7485,7 +7429,7 @@
         "TARIFF": 1250
       },
       {
-        "ITEM": "Mycostatine 100,000ui/ml suspension",
+        "ITEM": "Mycostatine 100000ui/ml suspension",
         "TARIFF": 1350
       },
       {
@@ -7773,7 +7717,7 @@
         "TARIFF": 2100
       },
       {
-        "ITEM": "Nilstat oral Drop 100,000 units/ml 30ml",
+        "ITEM": "Nilstat oral Drop 100000 units/ml 30ml",
         "TARIFF": 300
       },
       {
@@ -7933,7 +7877,7 @@
         "TARIFF": 450
       },
       {
-        "ITEM": "Nystatin 500,000iu x16 tablets",
+        "ITEM": "Nystatin 500000iu x16 tablets",
         "TARIFF": 350
       },
       {
@@ -8585,7 +8529,7 @@
         "TARIFF": 180
       },
       {
-        "ITEM": "Penicillin Skin Ointment 10,000iu x20g",
+        "ITEM": "Penicillin Skin Ointment 10000iu x20g",
         "TARIFF": 150
       },
       {
@@ -11917,11 +11861,11 @@
         "TARIFF": 3750
       },
       {
-        "ITEM": "Creon  25,000 Caps 300mg (5E)",
+        "ITEM": "Creon  25000 Caps 300mg (5E)",
         "TARIFF": 19900
       },
       {
-        "ITEM": "Creon capsules 10,000 (150mg) (5E)",
+        "ITEM": "Creon capsules 10000 (150mg) (5E)",
         "TARIFF": 9100
       },
       {
@@ -12697,11 +12641,11 @@
         "TARIFF": 11750
       },
       {
-        "ITEM": "Health Aid Vit D3 50,000IU",
+        "ITEM": "Health Aid Vit D3 50000IU",
         "TARIFF": 12600
       },
       {
-        "ITEM": "Health Aid Vit D3 20,000  iu",
+        "ITEM": "Health Aid Vit D3 20000  iu",
         "TARIFF": 6300
       },
       {
@@ -13113,7 +13057,7 @@
         "TARIFF": 1500
       },
       {
-        "ITEM": "Vistamina 25,000 I.U",
+        "ITEM": "Vistamina 25000 I.U",
         "TARIFF": 190
       },
       {
@@ -13684,12 +13628,10 @@
         "ITEM": "Tivicay Tabs 50mg (Viiv healthcare)",
         "TARIFF": 15400
       },
-      {
-        "ITEM": ""
-      },
+    
       {
         "ITEM": "Osteo B1-Flex Joint Health With Vit D x80Cap",
-        "TARIFF": "80 per cap"
+        "TARIFF": 80
       },
       {
         "ITEM": "Antacid Regular Strength GoodSense  355ml",
@@ -14379,13 +14321,7 @@
         "ITEM": "Water for injection 10ml,per amp/vial",
         "TARIFF": 50
       },
-      {
-        "ITEM": "INTRAVENOUS DRUGS",
-        "TARIFF": "UNIT PRICE/VIAL/ AMPOULE/BAG"
-      },
-      {
-        "ITEM": "ANALGESICS/ANTI INFLAMMATORY/ STEROIDS"
-      },
+     
       {
         "ITEM": "IM Paracetamol 300mg",
         "TARIFF": 200
@@ -14762,11 +14698,11 @@
       },
       {
         "ITEM": "Ventolin nebules 2.5mg",
-        "TARIFF": "400/ 1"
+        "TARIFF": 400
       },
       {
         "ITEM": "Ventolin nebules 5mg",
-        "TARIFF": "500/1"
+        "TARIFF": 500
       },
       {
         "ITEM": "Flemming 1.2g (Amoxil+Clavulanic Acid)",
@@ -14838,7 +14774,7 @@
       },
       {
         "ITEM": "Ipratropium Bromide Nebules ",
-        "TARIFF": "500/"
+        "TARIFF": "500"
       },
       {
         "ITEM": "INFUSIONS "
