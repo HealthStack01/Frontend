@@ -55,7 +55,7 @@ Commit the changes once you are happy with them.:zap:.
 
 ### Pull Request
 
-When you're finished with the changes, create a pull request, also known as a PR.
+When you're finished with the changes, create a pull request, also known as a PR. Send a Pull request to the `development` branch.
 
 ### Your PR is merged!
 
