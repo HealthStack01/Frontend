@@ -447,14 +447,14 @@ if (orgType!=="individual"){
           <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
         </GlobalCustomButton>
       </Box>
-     {/*   <Box>
+     {/*    <Box>
       <input type="file" multiple onChange={handleFileUpload} />
         <ul>
         {files.map((file, index) => (
           <li key={index}>{file}</li>
         ))}
       </ul> 
-      </Box> */}
+      </Box>  */}
     </Box>
   );
 };
