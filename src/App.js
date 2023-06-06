@@ -346,7 +346,6 @@ function App() {
             }}
           >
             <MyUserProvider>
-              <GlobalStyle />
               <ActionLoader />
               <AnimatePresence initial exitBeforeEnter>
                 <Router>

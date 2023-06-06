@@ -78,7 +78,7 @@ const CommunicationChatsList = ({showStaffsList}) => {
     chatroomServer.on("patched", obj => handleGetChatRooms());
     chatroomServer.on("removed", obj => handleGetChatRooms());
     return () => {};
-  }, []);
+  }, [handleGetChatRooms]);
 
   return (
     <Box sx={{width: "100%", height: "100%"}}>

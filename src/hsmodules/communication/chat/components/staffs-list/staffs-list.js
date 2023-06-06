@@ -7,6 +7,8 @@ import ExpandableSearchInput from "../../../../../components/inputs/Search/Expan
 import client from "../../../../../feathers";
 import {UserContext} from "../../../../../context";
 import ChatEachStaff from "./each-staff";
+import {useForm} from "react-hook-form";
+import ReactCustomSelectComponent from "../../../../../components/react-custom-select";
 
 const CustomLoader = () => (
   <div
@@ -30,11 +32,15 @@ const CustomLoader = () => (
 
 const CommunicationChatStaffsList = ({closeStaffsList}) => {
   const EmployeeServ = client.service("employee");
+  const facilityServ = client.service("facility");
   const {user} = useContext(UserContext);
   const [staffs, setStaffs] = useState([]);
   const [filteredStaffs, setFilteredStaffs] = useState([]);
   const [fetchingStaffs, setFetchingStaffs] = useState(false);
+  const [fetchingFacilities, setFetchingFacilities] = useState(false);
+  const [facilities, setFacilities] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  const {control, watch} = useForm();
 
   const handleSearchChange = e => {
     const inputValue = e.target.value;
@@ -55,12 +61,39 @@ const CommunicationChatStaffsList = ({closeStaffsList}) => {
     setFilteredStaffs(filterdStaffs);
   };
 
+  const selectedOrg = watch("organization");
+
+  const getFacilities = () => {
+    setFetchingFacilities(true);
+    facilityServ
+      .find({
+        query: {
+          $limit: 200,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      })
+      .then(res => {
+        //console.log(res.data[0]);
+        setFacilities(res.data);
+        setFetchingFacilities(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setFetchingFacilities(false);
+      });
+  };
+
   const handleGetStaffs = useCallback(async () => {
+    //console.log(selectedOrg);
     setFetchingStaffs(true);
     if (user.currentEmployee) {
       const findEmployee = await EmployeeServ.find({
         query: {
-          facility: user.currentEmployee.facilityDetail._id,
+          facility: !selectedOrg
+            ? user.currentEmployee.facilityDetail._id
+            : selectedOrg.value,
           _id: {$ne: user.currentEmployee._id},
           $limit: 200,
           $sort: {
@@ -75,7 +108,7 @@ const CommunicationChatStaffsList = ({closeStaffsList}) => {
       if (user.stacker) {
         const findEmployee = await EmployeeServ.find({
           query: {
-            $limit: 100,
+            $limit: 200,
             $sort: {
               facility: -1,
             },
@@ -86,6 +119,10 @@ const CommunicationChatStaffsList = ({closeStaffsList}) => {
         setFetchingStaffs(false);
       }
     }
+  }, [selectedOrg]);
+
+  useEffect(() => {
+    getFacilities();
   }, []);
 
   useEffect(() => {
@@ -101,7 +138,7 @@ const CommunicationChatStaffsList = ({closeStaffsList}) => {
     });
     EmployeeServ.on("removed", obj => handleGetStaffs());
     return () => {};
-  }, []);
+  }, [handleGetStaffs]);
 
   return (
     <Box sx={{width: "100%", height: "100%"}}>
@@ -127,24 +164,73 @@ const CommunicationChatStaffsList = ({closeStaffsList}) => {
         </IconButton>
       </Box>
 
+      <Box
+        sx={{
+          height: "54px",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          backgroundColor: "#f0f0f0",
+          padding: "0 15px",
+        }}
+      >
+        <ReactCustomSelectComponent
+          control={control}
+          name="organization"
+          placeholder="Select organization"
+          options={facilities.map(item => {
+            return {
+              label: item.facilityName,
+              value: item._id,
+            };
+          })}
+        />
+      </Box>
+
       {fetchingStaffs ? (
         <Box
           sx={{
             width: "100%",
-            height: "calc(100% - 50px)",
+            height: "calc(100% - 104px)",
             alignItems: "center",
             justifyContent: "center",
           }}
         >
           <CustomLoader />
         </Box>
-      ) : (
+      ) : staffs.length > 0 ? (
         <Box
           sx={{width: "100%", height: "calc(100% - 50px)", overflowY: "auto"}}
         >
           {staffs.map(staff => {
             return <ChatEachStaff key={staff._id} staff={staff} />;
           })}
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            width: "100%",
+            minHeight: "calc(100vh - 110px)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          gap={2}
+        >
+          <img
+            src="https://cdn.dribbble.com/users/37530/screenshots/2937858/drib_blink_bot.gif"
+            alt=""
+            style={{height: "150px", width: "auto", display: "block"}}
+          />
+          <Typography sx={{fontSize: "0.8rem"}}>
+            Selected Oraganization has no staff(s) yet
+          </Typography>
+          {/* <GlobalCustomButton onClick={() => showStaffsList()}>
+            <ChatIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Start New Chat
+          </GlobalCustomButton> */}
         </Box>
       )}
     </Box>
