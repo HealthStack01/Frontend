@@ -1,0 +1,5224 @@
+{
+    "Sheet2": [
+      {
+        "GENERAL DESCRIPTION": "Registration",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Intensive Care Unit per diem (Adult)",
+        "Amount": 10000
+      },
+      {
+        "GENERAL DESCRIPTION": "Intensive Care Unit per diem (Child)",
+        "Amount": 10000
+      },
+      {
+        "GENERAL DESCRIPTION": "Incubator care per diem",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hospital Accomodation - General Ward",
+        "Amount": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "Hospital Accomodation - Semi Private Room",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "Hospital Accomodation - Private Room",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Feeding (In-patient only)",
+        "Amount": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "General Practitioner Consultation",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "General Practitioner Review (once within a month)",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Specialist Initial Consultation (O&G, Physician, General Surgeon, Paediatrician)",
+        "Amount": 7500
+      },
+      {
+        "GENERAL DESCRIPTION": "Sub-specialist Initial Consultation (ENT, Orthopedic, Endocrinologist ",
+        "Amount": 10000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sub-specialist Review  (ENT, Orthopedic, Endocrinologist, Nephrologist",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Super-specialist Initial Consultation (Neurologist, Neurosurgeon",
+        "Amount": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Specialist Initial Review  (O&G, Physician, General Surgeon, Paediatrician)",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "Specialist Subsequent Review  (O&G, Physician, General Surgeon, Paediatrician)",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Super-specialist Review (Neurologist, Neurosurgeon, Cardiovascular Surgeon",
+        "Amount": 10000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ante Natal Care - Routine Visits + Routine Drugs + Routine Investigations + 2 Scans",
+        "Amount": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Phototherapy per day",
+        "Amount": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "Exchange Blood Transfusion (Rhesus +ve blood)",
+        "Amount": 27000
+      },
+      {
+        "GENERAL DESCRIPTION": "Exchange Blood Transfusion (Rhesus -ve blood)",
+        "Amount": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Physiotherapy per session",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Aspirations/Paracentesis",
+        "Amount": 10000
+      },
+      {
+        "GENERAL DESCRIPTION": "Gastric Lavage",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Lumbar Puncture",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Lung Function Test",
+        "Amount": 10000
+      },
+      {
+        "GENERAL DESCRIPTION": "Nebulisation",
+        "Amount": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "Oxygen Therapy (per day)",
+        "Amount": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Circumcision (Newborn)",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ear piercing (Procedure only)",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Suturing (by GP)",
+        "Amount": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "Minor Burns/Wound Dressing",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Major Burns/Wound Dressing",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Catheterization + catheter + urine bag",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Unit Of Screened Rhesus Positive Blood",
+        "Amount": 20000
+      },
+      {
+        "GENERAL DESCRIPTION": "Unit Of Screened Rhesus Negative Blood",
+        "Amount": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "Registration (Dental, Optical)",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Consultation (Dental, Optical)",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Follow up Consultation (Dental, Optical)",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Scaling and Polishing (once a year)",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Simple Extraction",
+        "Amount": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Amalgam Filling/Restoration",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Composite Filling/Restoration",
+        "Amount": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pulpotomy/Pulpectomy Treatment For Children",
+        "Amount": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Root Canal Treatment",
+        "Amount": 35000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Extraction",
+        "Amount": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Periodontal Gum Treatment",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Fissure Sealant",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Adenoidectomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Antrostomy - Nasal Sinus Surgery (e.g. middle/inferior meatal/Caldwell Luc)",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Aural Polypectomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cleft Lip Repairs.",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cortical mastoidectomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cryosurgery",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Direct Laryngoscopy (Under GA)",
+        "Amount": 65000
+      },
+      {
+        "GENERAL DESCRIPTION": "EUA Nasopharynx + biopsy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision of Nasomaxillary mass",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Lateral rhinotomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Meatoplasty (for Traumatic Meatus Atresia)",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Nasal Polypectomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Oesophagoscopy",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Partial Amputation of the pinna",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Septoplasty",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Submandibular gland excision",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Superficial parotidectomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Thyroglossal cyst/fistula excision",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tonsillectomy/Adenotonsilectomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tracheostomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Turbinectomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Young's Operation",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ant Ethmoidal Artery ligation",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Aryteniodectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Autogenous Bone Graft To Mastoid Cavity",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cleft Palate Repairs.",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Dacrocystorhinostomy (DCR)",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ethmoidectomy; Fronto, External",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Fenestration",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Fracture Reduction of the Nose",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Internal Auditory Meatus Surgery",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Intranasal ethmoidectomy",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Labyrinthotomy",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Laryngeal Stenosis, Laryngocele, Abductor Paralysis, Laryngo-Fissure",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Laryngectomy (All types)",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Laryngoplasty",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Mastoid  Surgery/Mastoidectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Maxilectomy",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Muscle Grafting To Mastoid Cavity",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Neck exploration for penetrating neck Injury",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Parapharyngeal Excission/I&D/Tumour excission",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pharyngoplasty",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Posterior Canal Reconstruction After Radical Mastoidectomy",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Reduction and fixation of Jaw fractures",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Reduction and fixation of maxillary fractures",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Rhinoplasty",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sequestrectomy",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Stapedial Surgery For Otosclerosis/Stapedectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Styloidectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Total parotidectomy",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tympanoplasty",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vidian Neurectomy",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Antral Washout - Unilateral",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Antral Washout - Bilateral",
+        "Amount": 10000
+      },
+      {
+        "GENERAL DESCRIPTION": "Aural Toileting",
+        "Amount": 10000
+      },
+      {
+        "GENERAL DESCRIPTION": "Aural Dressing",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "Aseptic Destruction of Labyrinth For Meniere's Disease",
+        "Amount": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pure Tone Audiometry (PTA)",
+        "Amount": 10000
+      },
+      {
+        "GENERAL DESCRIPTION": "Electrocautery of Nose",
+        "Amount": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Foreign Body Removal From Ear (by ENT)",
+        "Amount": 7000
+      },
+      {
+        "GENERAL DESCRIPTION": "Foreign Body Removal From Ear (by GP)",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "Foreign Body Removal From Nose (by ENT)",
+        "Amount": 7000
+      },
+      {
+        "GENERAL DESCRIPTION": "Foreign Body Removal From Nose (by GP)",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "Foreign Body Removal From Throat",
+        "Amount": 7000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ear Syringing",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "I&D of quinsy/retropharyngeal abscess/ludwig angina",
+        "Amount": 20000
+      },
+      {
+        "GENERAL DESCRIPTION": "Indirect Laryngoscopy",
+        "Amount": 20000
+      },
+      {
+        "GENERAL DESCRIPTION": "Myringoplasty",
+        "Amount": 20000
+      },
+      {
+        "GENERAL DESCRIPTION": "Myringostomy; bilat, unilat, with grommet",
+        "Amount": 20000
+      },
+      {
+        "GENERAL DESCRIPTION": "Preauricular Sinus",
+        "Amount": 20000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tongue Tie Release (by ENT)",
+        "Amount": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sinus Antroscopy",
+        "Amount": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "Staples Mobilisation",
+        "Amount": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tympanometry",
+        "Amount": 10000
+      },
+      {
+        "GENERAL DESCRIPTION": "Adenoidectomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Anal Fistulectomy Repair",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Anal Sphincteroplasty",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Anorectoplasty",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Appendicectomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Bilateral Cutaneous Ureterostomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Bilateral Ureteoenterostomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Bronchial Cyst",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Bronchoscopy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cystic Hygroma Excision",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cystourethroscopy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Dissection Of Femoral Triangle",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Drainage of Ischio Rectal Abscess",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Drainage of Psoas Abscess",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Enterocele Or Vault Prolapse Repair",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Epidedectomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Evacuation of Scrotal Hematoma",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision Bronchial Sinus",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision Mammary Fistula",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision of Urethral Carbuncle",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision Pilonidal Sinus",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excission of Haemangiomas",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Fascial Decompression",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Fibroadenoma - Bilateral",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Fibroma - Excision",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Fissurectomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Fistula In - Ano Repair",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Fistula Repair",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Fistulectomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Fulguration",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Haemangioma - Excision",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Haemorhoidectomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Herniorhaphy",
+        "Amount": 130000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hiatus Herniorhaphy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hydrocoelectomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Inguinal Node (bulk dissection) axial",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Low Fistulectomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Macindoe Procedure",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Oesophagoscopy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Orchidectomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Orchidopexy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Papilloma Rectum - Excision",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Polypectomy (Cervical )",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Rectal polyp",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Scrotal Swelling (Multiple) - Excision",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Skin Grafting",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Submandibular Lymphs - Excision",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Suprapubic Cystostomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgery Of Torsion Of Spermatic Cord",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical corrections of Duputytren's contracture",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Umbilical Sinus - Excision",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vasectomy",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Abdominal Rectopexy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Abdomino Perineal Resection",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Abdominoperineal Rectum Resection",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Abdomino-Perineal Resection",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Adrenalectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Anal Pull Through",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Axillary Dissection Of Breast",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Biopsy Of Retroperitoneal Tumor",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Broad Ligament Haematoma",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Burst Abdomen",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Caecopexy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cavernospongiosum Shunt",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cholecystectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cholecystectomy & exploration",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Choledochal Cystojejunostomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Choledocho Jejunostomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Choledochostomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Closure of Hollow Viscus Perforation",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Colectomy-Partial Or Total",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Colon Reconstruction After Hartmann's Procedure",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Colostomy Construction/Closure",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Commando Operation",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Condilectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Continent Ileostomy Pouch",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Corporosavenous Shunt",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Craniotomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cricopharyngeal Myotomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cystectomy Partial/Total",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cystic/Fibrous Dysplasia",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cystolithotomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Decortication",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Diaphragmatic Hernia Repair",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Dissection of The Mediastinium",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Diverticulectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Drainage of Gastric Abscess",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Drainage Of Hepatic Abscess",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Drainage of Subdiaphramatic Abscess",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Drainage pericardial effusion",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Duodenal Diverticulum",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "DuodenalJejunostomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Duodenectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ectopic Parathyroidectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Encephalocoele Excision",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Enterostomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision Meckel’s Diverticulum",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision of liver Abscess",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision Of Lymphoedematous Lymph Tissues",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision Of Pelvi-Rectal Fistula",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Exploratory Laparatomy/Lysis Of Adhesions",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Extensive (Small and Large) Bowel Resection and Anastomoses",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Fissurectomy and Haemorrhoidectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Fissurectomy with Eversion of Sac -",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Foreign Body Removal in Deep Region",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Fundoplication",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Gastrectomy- Partial/Total",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Gastroenterostomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Gastrojejunostomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Gastrotomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Glossectomy-Partial/Total",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Grahams Operation",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Haemorrage of Small Intestine",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Haemorroidectomy+ Fistulectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Heler's Procedure",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hemi Glossectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hemi Mandibulectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hemicolectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Heminephrectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hemithyroplasty",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hepatic Resection (lobectomy)",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hepatic Segmentectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Herniorraphy and Hydrocelectomy Sac Excision",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hydatid Cyst of Liver",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hydrocelectomy + Orchidectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hydrocelectomy+Hernioplasty - Excision",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hypospadiacs Repair",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ileostomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ileostomy Pouch Revison",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ileo-Sigmoidostomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Instestinal perforation",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Intestinal Obstruction",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Intestinal Perforation (Resection Anastomosis)",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Intussusception Operation",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Jejunostomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Laparascopic  Cholecystectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Laparotomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Laryngectomy & Pharyngeal Diverticulum (Throat)",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Laryngectomy with Block Dissection (Throat)",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Laryngo Fissure (Throat)",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Laryngopharyngectomy (Throat)",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ligation Of Hepatic/Left Gastric Splenic Artery",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Local Resection Of Pelvic Tumour",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Longitudinal Pancreaticojejunostomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Lymphatic Channel Transplantation",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Mastectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Meckel's Diverticulectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Mesenteric Caval Anastomosis",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Mesenteric Cyst - Excision",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Microlaryngoscopic Surgery (microlaryngoscopy)",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Nephrectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Nephrolithotomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Oddis Sphincteroplasty",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Oesophageal , 2 & 3 Stage, Thoraco-Abdominal, Fistula Repair",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Oesophageal Atresia And Tracheo-Oesophageal Fistula Repair",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Oesophageal Substitution, Diverticulum Excision",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Oesophageal Transection",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Oesophagectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Oesophagogastrectomy With Interposition Of Colonic/Jejunal",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Oesophagostomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Oophorectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Orchidectomy + Herniorraphy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Orchidopexy, with Circumsion, With Eversion of Sac, with Herniotomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pancreatic Cystectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pancreaticoduodenectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pancreaticojejunostomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Parathyroidectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Parodectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Partial Pancreatectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pelvic Abscess - Open Drainage",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pelvic Evisceration",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Penectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Penoplasty",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pericardiectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pharyngectomy & Reconstruction - Total",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Phytomatous Growth in the Scalp - Excision",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Plastic Repair Of Bladder Neck",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pleurectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pleuropneumonectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pneumonectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Portocaval Shunt/Anastomosis",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Proctocolectomy , Ileostomy & Ileostomy Pouch",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Prolapsed Rectum Repair",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Prostatectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pulmonary Embolectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pulmonary Resection",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pyelolithotomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pyeloromyotomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pyeloroplasty",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pyelotomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pyloroplasty",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Radical Cystectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Radical Mastectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Radical Neck Dissection - Excision",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Radical Pancreatectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Radical Prostatectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Reconstruction Of The Ureter",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Rectopexy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Recto-Urethral Fistula Closure",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Rectovesical Fistula Closure",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Renal Aneurysmectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Renal Cystectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Renal Decapsulation",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Renopelvic Lymphatectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Bochidalek Diaphragmatic Congenital Defect",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Bowel Perforations",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair of Common Bile Duct",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Gastric Lacerations",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Oesophageal Lacerations",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Splenic Laceration",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Resection Anastomosis (Large Intestine)",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Resection Anastomosis (Small Intestine)",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Resection Of Median Bar Obstruction",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Retroperitoneal Drainage Of Perinephric Abscess",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Retroperitoneal Tumor - Excision",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Roux-En-Y Pancreatic Jejunostomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Salivary Gland - Excision",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Segmental Resection Of Bladder Lesion",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Selective Vagotomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sigmoid Diverticulum",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Simple closure - Peptic perforation",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Splenectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Splenic Artery Aneurysmectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Splenorhaphy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Stripping And Ligation Of Veins",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Subcutaneous Venous Omphalo Saphenous Shunt",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Submandibular Mass Excision + Reconstruction",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Submandibular Sialoadenectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Subtotal Thyroidectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Super Selective Vagotomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgery Of Acute Intra Abdominal Vascular Disease",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgery Of Complications Of Diverticular Disease",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgery Of Complications Of Pancreatitis",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgery Of Hepatic Trauma",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgery Of Intestinal Obstruction",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgery Of Seminal Vessicle",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgery Of Complications Of Appendicitis",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Exploration For Anorchism",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sympathectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Thoracectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Thoracoplasty",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Thoracotomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Thrombectomy By Forarty's Catheterisation",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Thyroglossal Cysts And Fistula Excision",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Thyroid Lobectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Thyroidectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Thyroplasty",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Total Pancreatectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Total Proctocolectomy & Ileostomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tracheal Resection",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tracheal Stenosis (End to end Anastamosis) (Throat)",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tracheoplasty (Throat)",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Transcystotomy Excision",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Transcystotomy Fulgaration",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Transcystotomy Lithotomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Transduodenal Choledochal Cystectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Transduodenal Sphincteroplasty",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Transoesophageal Variceligation",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Transurethral Dessication Of Congenital Meatal Stenoses",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Transurethral Excision Of Bladder Lesion",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Transurethral Fulguration Of Bladder Lesion",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Urerthra-Reconstruction/ Repair Of Prostatic/Membraneous Urethra",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ureteral Reinplantation Into The Bladder",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ureterolithotomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ureterosigmoidostomy With Rectal Bladder/Colostomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Uretherectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Urethroplasty",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Urethrotomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Urethro-Vesicopexy, Combined Abdominal And Vaginal Approach",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Uretro Vaginal Fistula Repair",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Uretro Vesical Fistula Repair",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vagoplasty",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vagotomy/Pyloroplasty",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vasoplasty",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vein Patch Angioplasty",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vesical Diverticulectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vesicovaginal Fistula Repair",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Volvolus of Large Bowel",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vulvectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Warrens Shunt",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Wound Debridement ( Under GA )",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Adventious Burse - Excision",
+        "Amount": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Bakers Cyst - Excision",
+        "Amount": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Biopsy Of Oesophageal Mass",
+        "Amount": 70000
+      },
+      {
+        "GENERAL DESCRIPTION": "Biopsy of Prostate",
+        "Amount": 70000
+      },
+      {
+        "GENERAL DESCRIPTION": "Biopsy Of Tumour  Of Abdominal Wall",
+        "Amount": 70000
+      },
+      {
+        "GENERAL DESCRIPTION": "Bursa - Excision",
+        "Amount": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cervial Lymphnodes - Excision",
+        "Amount": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Circumcision of the Grown Up",
+        "Amount": 35000
+      },
+      {
+        "GENERAL DESCRIPTION": "Debridement And Toilet of Wounds (by General Surgeon)",
+        "Amount": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "Dermoid Cyst Excision",
+        "Amount": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Dissection Of Inguinal Nodes",
+        "Amount": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Dorsal Slit and Reduction of Paraphimosis",
+        "Amount": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Electrofulgaration of Condylomata Acuminata",
+        "Amount": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision Of Breast Lump",
+        "Amount": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision Of Intrascrostal Mass",
+        "Amount": 70000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision of Neurofibroma",
+        "Amount": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision Of Tophi",
+        "Amount": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Fibrodenoma - Unilateral",
+        "Amount": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ganglion - Excision",
+        "Amount": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ganglionectectomy",
+        "Amount": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Gastroduodenoscopy/ Endoscopies",
+        "Amount": 35000
+      },
+      {
+        "GENERAL DESCRIPTION": "Granuloma Excision",
+        "Amount": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Herniotomy",
+        "Amount": 110000
+      },
+      {
+        "GENERAL DESCRIPTION": "Incision And Drainage Of Abscess",
+        "Amount": 35000
+      },
+      {
+        "GENERAL DESCRIPTION": "Infected Bunion Foot - Excision",
+        "Amount": 35000
+      },
+      {
+        "GENERAL DESCRIPTION": "In-growing Toe Nail ( Excision )",
+        "Amount": 35000
+      },
+      {
+        "GENERAL DESCRIPTION": "Intercostals Drainage Insertion",
+        "Amount": 35000
+      },
+      {
+        "GENERAL DESCRIPTION": "Injection Sclerotherapy Of Varicose Veins",
+        "Amount": 35000
+      },
+      {
+        "GENERAL DESCRIPTION": "Lipectomy",
+        "Amount": 35000
+      },
+      {
+        "GENERAL DESCRIPTION": "Liver/ Kidney/ Bone Marrow Biopsy",
+        "Amount": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "Lords Procedure (haemorrhoids)",
+        "Amount": 70000
+      },
+      {
+        "GENERAL DESCRIPTION": "Lumpectomy - Excision",
+        "Amount": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "Oeshophagoscopy for foreign body removal",
+        "Amount": 55000
+      },
+      {
+        "GENERAL DESCRIPTION": "Paracentesis ( A/C Wash Out )",
+        "Amount": 40000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pericardiocentesis",
+        "Amount": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pollicisation of Index Finger",
+        "Amount": 45000
+      },
+      {
+        "GENERAL DESCRIPTION": "Priapism, Shunt Procedure All Types",
+        "Amount": 45000
+      },
+      {
+        "GENERAL DESCRIPTION": "Proctoscopy",
+        "Amount": 35000
+      },
+      {
+        "GENERAL DESCRIPTION": "Punch Biopsy",
+        "Amount": 35000
+      },
+      {
+        "GENERAL DESCRIPTION": "Rectal Dilation",
+        "Amount": 35000
+      },
+      {
+        "GENERAL DESCRIPTION": "Release of Chordae",
+        "Amount": 35000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sebaceous Cyst - Excision",
+        "Amount": 35000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sigmoidoscopy",
+        "Amount": 35000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sinus - Excision",
+        "Amount": 45000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Drainage In Haematoma Of Rectus Abdominis",
+        "Amount": 45000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Drainage of Anal Abscess",
+        "Amount": 45000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Drainage Of Galactocoele",
+        "Amount": 45000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical release of Stenosing tenosinovitis",
+        "Amount": 45000
+      },
+      {
+        "GENERAL DESCRIPTION": "Suturing of Major Wounds (by General Surgeon)",
+        "Amount": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "Syndactysis",
+        "Amount": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Synovectomy",
+        "Amount": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Testicular Biopsy",
+        "Amount": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Varicocoelectomy",
+        "Amount": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cervical Circlage/Shirodkar Suture",
+        "Amount": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Colporrhaphy - Vaginal wall repair/Colpoperineorrhaphy",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Diagnostic Laparoscopy",
+        "Amount": 65000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hydrotubation",
+        "Amount": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hymenectomy and repair of Hymen",
+        "Amount": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Instrumental Delivery (Forceps, Vacuum Extraction)",
+        "Amount": 45000
+      },
+      {
+        "GENERAL DESCRIPTION": "Mini Laparotomy",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Third Degree Tear",
+        "Amount": 35000
+      },
+      {
+        "GENERAL DESCRIPTION": "Amputation of the Cervix",
+        "Amount": 180000
+      },
+      {
+        "GENERAL DESCRIPTION": "Bilateral Tubal Ligation",
+        "Amount": 110000
+      },
+      {
+        "GENERAL DESCRIPTION": "Broad ligament Haematoma",
+        "Amount": 180000
+      },
+      {
+        "GENERAL DESCRIPTION": "Caesarean Section, elective, emergency, single live born, twin etc",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Caesarean Section + Bilateral Tubal Ligation",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cervical Cautery",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Edge Resection Of The Ovary",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Examination Under Anaesthesia",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hysterectomy And Bilateral Salpingo-Oophorectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hysterectomy/Manchester Repair (all types)",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Laparotomy Diagnostic / Therapeutic , Inter- Sex",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Myomectomy (20weeks and below)",
+        "Amount": 220000
+      },
+      {
+        "GENERAL DESCRIPTION": "Myomectomy (above 20weeks)",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ovarian  Biopsy",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ovarectomy/Oophrectomy",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pelvic Haematocoele",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pelvic/Abdominal Abscess Drainage",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Reconstruction Of Vagina (e.g. Secondary to vaginal Atresia)",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Reconstruction Surgery (e.g Straussman Operation)",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Rectovaginal Fistula Repair",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Removal of Ovaries (Oophorectomy)",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Inverted Uterus",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Perforated Uterus",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Ruptured Uterus",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Salpingectomy (e.g for Ectopic Pregnancy)",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Salpingo-Oophoreictomy",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tubal Reconstruction",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ureterovaginal Fistula Repair",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Uterovesical Fistula Repair",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vaginoclesis",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ventrosuspension Of The Bladder",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ventrosuspension Procedures Of Correction Of Uterine Prolapse",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vesicovaginal Fistula Repair",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vulvectomy",
+        "Amount": 200000
+      },
+      {
+        "GENERAL DESCRIPTION": "Normal Delivery +/- EPI +/-Induction +/- repair of cervical laceration (all inclusive)",
+        "Amount": 40000
+      },
+      {
+        "GENERAL DESCRIPTION": "Delivery of Multiple Pregnancy (all inclusive)",
+        "Amount": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cervical  Polypectomy",
+        "Amount": 40000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cervical Cone Biopsy",
+        "Amount": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Colposcopy",
+        "Amount": 35000
+      },
+      {
+        "GENERAL DESCRIPTION": "D&C/Evacuation Of Retained Products Of Conception",
+        "Amount": 20000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision/Diathermy Of Warts",
+        "Amount": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision Of Vaginal Septum",
+        "Amount": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hysteroscopy",
+        "Amount": 35000
+      },
+      {
+        "GENERAL DESCRIPTION": "Labial Cyst",
+        "Amount": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Laparascopy + Dye Test",
+        "Amount": 45000
+      },
+      {
+        "GENERAL DESCRIPTION": "Marsupialisation (Bartholin's Cyst)",
+        "Amount": 45000
+      },
+      {
+        "GENERAL DESCRIPTION": "Perineal Warts",
+        "Amount": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair of Episiotomy",
+        "Amount": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Uterine Evacuation",
+        "Amount": 20000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vaginal Cyst Enucleation",
+        "Amount": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Abscess Drainage of Lid",
+        "Amount": 45000
+      },
+      {
+        "GENERAL DESCRIPTION": "Bowman's Cautery",
+        "Amount": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cataract + Pterygium",
+        "Amount": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cataract Removal - Bilateral",
+        "Amount": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cataract Removal - Unilateral",
+        "Amount": 40000
+      },
+      {
+        "GENERAL DESCRIPTION": "Chalazion Excision",
+        "Amount": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Combined Cataract Extraction with Trabeculectomy",
+        "Amount": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "Conjuctival Laceration Repair",
+        "Amount": 20000
+      },
+      {
+        "GENERAL DESCRIPTION": "Entropion And Ectropion Repairs",
+        "Amount": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "Extracapsular Cataract Extraction",
+        "Amount": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "Granuloma Excision (the eye)",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Intraocular Foreign Body Removal",
+        "Amount": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "Iridectomy",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "IRIS Prolapse - Repair",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Keratoplasty",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Lacrimal probing and Syringing",
+        "Amount": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "Lensectomy",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pterygium Excision",
+        "Amount": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ptosis Repair",
+        "Amount": 120000
+      },
+      {
+        "GENERAL DESCRIPTION": "Removal Of Foreign Bodies From Conjuctiva And Cornea",
+        "Amount": 60000
+      },
+      {
+        "GENERAL DESCRIPTION": "Retinal Detachment Surgery",
+        "Amount": 150000
+      },
+      {
+        "GENERAL DESCRIPTION": "Traumatic Corneal And/Or Scleral Laceration Repair",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Traumatic Lid Laceration Repair",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tumor Excision From Lid",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Refraction",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tonometry",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pupillary Dilation",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Direct Ophthalmoscopy",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Indirect Ophthalmoscopy",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Visual Field Assessment",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Slit Lamp",
+        "Amount": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "Closed Reduction Of Fracture",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Drainage Of Septic Arthritis",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Exostectomy",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Saucerisation Of Chronically Infected Bone",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sequestrectomy",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Simple Congenital Talipes Repair",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Skin Traction",
+        "Amount": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Subperiosteal Drainage Of Acute Osteomyelitis",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Correction Of Dupuytren's Contracture",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Syndactlysis",
+        "Amount": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Amputation and Disarticulation Of Joints",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Amputation and Limb Substitution",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Anterior and posterior spine fixation",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Arthrodesis",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Arthroplasty",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Arthorotomy (+synevectomy)",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Bone Grafting",
+        "Amount": 250000
+      },
+      {
+        "GENERAL DESCRIPTION": "Open Reduction And Internal Fixation Of Fractures Of Foot",
+        "Amount": 300000
+      },
+      {
+        "GENERAL DESCRIPTION": "Open Reduction And Internal Fixation Of Fractures Of Fore-Arm",
+        "Amount": 300000
+      },
+      {
+        "GENERAL DESCRIPTION": "Open Reduction And Internal Fixation Of Fractures Of Hand",
+        "Amount": 300000
+      },
+      {
+        "GENERAL DESCRIPTION": "Open Reduction And Internal Fixation Of Fractures Of Leg",
+        "Amount": 300000
+      },
+      {
+        "GENERAL DESCRIPTION": "Open Reduction And Internal Fixation Of Fractures Of Pectoral Girdle",
+        "Amount": 300000
+      },
+      {
+        "GENERAL DESCRIPTION": "Open Reduction And Internal Fixation Of Fractures Of Pelvic Girdle",
+        "Amount": 300000
+      },
+      {
+        "GENERAL DESCRIPTION": "Open Reduction And Internal Fixation Of Fractures Of Ribs",
+        "Amount": 300000
+      },
+      {
+        "GENERAL DESCRIPTION": "Open Reduction And Internal Fixation Of Fractures Of Thigh",
+        "Amount": 300000
+      },
+      {
+        "GENERAL DESCRIPTION": "Open Reduction And Internal Fixation Of Fractures Of Upper Arm",
+        "Amount": 300000
+      },
+      {
+        "GENERAL DESCRIPTION": "Open Reduction And Internal Fixation Of Fractures Of Spinal Column",
+        "Amount": 300000
+      },
+      {
+        "GENERAL DESCRIPTION": "Osteoclasis, Internal Fixation Of Mal-union",
+        "Amount": 300000
+      },
+      {
+        "GENERAL DESCRIPTION": "Reconstruction Surgeries: Acromium, head of femur",
+        "Amount": 300000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Repair Of Congenital Talipes Equanovarus/ Valgus",
+        "Amount": 300000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tendon Grafting",
+        "Amount": 300000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tendon Transplant",
+        "Amount": 300000
+      },
+      {
+        "GENERAL DESCRIPTION": "Decompression of carpal tunnel syndrome",
+        "Amount": 300000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tenoplasty",
+        "Amount": 300000
+      },
+      {
+        "GENERAL DESCRIPTION": "Amputation - Fingers",
+        "Amount": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Amputation - Toes",
+        "Amount": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Chondromectomy",
+        "Amount": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision Biopsy",
+        "Amount": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Knee Effusion Tap",
+        "Amount": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pollicisation Of The Index Finger",
+        "Amount": 40000
+      },
+      {
+        "GENERAL DESCRIPTION": "Release Of Chordae",
+        "Amount": 35000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Release In Stenosing Tenosynovitis",
+        "Amount": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Synovectomy",
+        "Amount": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Above Knee Pop Cast",
+        "Amount": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cylinder Pop Cast",
+        "Amount": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Below Knee Pop Cast",
+        "Amount": 20000
+      },
+      {
+        "GENERAL DESCRIPTION": "Boot Pop Cast",
+        "Amount": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Above Knee Back Slab",
+        "Amount": 20000
+      },
+      {
+        "GENERAL DESCRIPTION": "Below Knee Back Slab",
+        "Amount": 20000
+      },
+      {
+        "GENERAL DESCRIPTION": "Above Elbow Pop Cast",
+        "Amount": 20000
+      },
+      {
+        "GENERAL DESCRIPTION": "Below Elbow Pop Cast",
+        "Amount": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "U- Shaped Pop Cast",
+        "Amount": 20000
+      },
+      {
+        "GENERAL DESCRIPTION": "U- Shaped Pop Back Slap",
+        "Amount": 20000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hanging Cast",
+        "Amount": 20000
+      },
+      {
+        "GENERAL DESCRIPTION": "Full Arm Casts",
+        "Amount": 20000
+      },
+      {
+        "GENERAL DESCRIPTION": "Full Leg Casts",
+        "Amount": 30000
+      },
+      {
+        "GENERAL DESCRIPTION": "Crutches",
+        "Amount": 8000
+      },
+      {
+        "GENERAL DESCRIPTION": "Knee Brace (Adjustable)",
+        "Amount": 7000
+      },
+      {
+        "GENERAL DESCRIPTION": "Elbow Brace",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Neck Collar (Soft)",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Neck Collar (Hard and Adjustable)",
+        "Amount": 8000
+      },
+      {
+        "GENERAL DESCRIPTION": "Lumbar Corset",
+        "Amount": 7000
+      },
+      {
+        "GENERAL DESCRIPTION": "Abdominal Pelvic Scan",
+        "Amount": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Abdominal Scan",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Anomaly Scan",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Bladder Scan",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Breast Scan",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "Doppler Scan",
+        "Amount": 12000
+      },
+      {
+        "GENERAL DESCRIPTION": "Follicle Monitoring Scan (1 day)",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Follicle Monitoring Scan (3 days)",
+        "Amount": 5500
+      },
+      {
+        "GENERAL DESCRIPTION": "Follicle Monitoring Scan (5 days)",
+        "Amount": 8000
+      },
+      {
+        "GENERAL DESCRIPTION": "Obstetric Scan",
+        "Amount": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "Ocular Scan",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ovulometry/Transvaginal (TV) Scan",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pelvic Scan",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Prostate Scan",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Testes/Scrotal Scan",
+        "Amount": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Thyroid Scan",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Trans-Fontanellar Scan (Children)",
+        "Amount": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Transrectal Scan",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Barium Enema",
+        "Amount": 10000
+      },
+      {
+        "GENERAL DESCRIPTION": "Barium Meal",
+        "Amount": 10000
+      },
+      {
+        "GENERAL DESCRIPTION": "Barium Meal and Follow Through",
+        "Amount": 13000
+      },
+      {
+        "GENERAL DESCRIPTION": "Barium Swallow",
+        "Amount": 10000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cysto-Urethrogram",
+        "Amount": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Fistulogram",
+        "Amount": 12000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hysterosalpingogram  (HSG)",
+        "Amount": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Intravenous Urography (IVU)/Intravenous Pyelogram (IVP)",
+        "Amount": 12000
+      },
+      {
+        "GENERAL DESCRIPTION": "Mammography",
+        "Amount": 10000
+      },
+      {
+        "GENERAL DESCRIPTION": "Micturating Cysto-Urethrogram",
+        "Amount": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Skeletal Survey",
+        "Amount": 12500
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Abdomen (Erect/Supine)",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Abdomen (Plain)",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Ankle",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Cervical Spine  (AP/Lateral)",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Cervical Spine  (AP/Lateral/Oblique)",
+        "Amount": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Cervical Spine  (Oblique)",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Chest (AP)",
+        "Amount": 2700
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Chest (AP/Lateral)",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Chest (PA)",
+        "Amount": 2700
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Chest (PA/Lateral)",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Chest For Ribs (Oblique)",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Clavicle",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Elbow",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Femur Or Thigh",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Foot/Toe",
+        "Amount": 2700
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Forearm",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Hand/Finger",
+        "Amount": 2700
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Hip",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Humerus",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Knee",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Lateral Neck (Soft Tissue)",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Leg (Tibia/Fibula)",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Lumbar Spine",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Lumbo-Sacral Spine (AP/Lateral)",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Lumbo-Sacral Spine (AP/Lateral/Oblique)",
+        "Amount": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Mandibles (Jaw)",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Mastoids",
+        "Amount": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Paranasal Sinuses",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Pelvic",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Pelvic (AP/Oblique)",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Post Nasal Space (PNS)",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Sacro-Coccxy",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Sacro-Illiac Joint (S.I.J.)",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Sacrum",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Shoulder",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Sinuses",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Skull (AP/Lat)",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Sternum",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Temporo-Mandibular Joints  (TMJ)",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Thoracic Inlet",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Thoracic Spine (AP/Lateral)",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Thoracic Spine (AP/Lateral/Oblique)",
+        "Amount": 5500
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Thoraco-Lumbar Spine (AP/Lateral)",
+        "Amount": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "X-Ray of Wrist",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "Bitewings X-Ray",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Panoramic X-Ray",
+        "Amount": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "Periapical X-Ray",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Electrocardiography (ECG)",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Echocardiography",
+        "Amount": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "Electroencephalography (EEG)",
+        "Amount": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "2-Hr Post Prandial Blood Sugar",
+        "Amount": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Acid Phosphatase - Prostatic",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Acid Phosphatase - Total",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Alanine Aminotransferase (SGPT)",
+        "Amount": 900
+      },
+      {
+        "GENERAL DESCRIPTION": "Albumin",
+        "Amount": 900
+      },
+      {
+        "GENERAL DESCRIPTION": "Alkaline Phosphatase",
+        "Amount": 900
+      },
+      {
+        "GENERAL DESCRIPTION": "Amylase",
+        "Amount": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "Aspartate Aminotransferase (SGOT)",
+        "Amount": 900
+      },
+      {
+        "GENERAL DESCRIPTION": "Bicarbonate",
+        "Amount": 800
+      },
+      {
+        "GENERAL DESCRIPTION": "Bilirubin (Direct)",
+        "Amount": 800
+      },
+      {
+        "GENERAL DESCRIPTION": "Bilirubin (Indirect)",
+        "Amount": 800
+      },
+      {
+        "GENERAL DESCRIPTION": "Bilirubin (Total)",
+        "Amount": 800
+      },
+      {
+        "GENERAL DESCRIPTION": "Bilirubin Conjugated",
+        "Amount": 900
+      },
+      {
+        "GENERAL DESCRIPTION": "Calcium",
+        "Amount": 900
+      },
+      {
+        "GENERAL DESCRIPTION": "Chlorides",
+        "Amount": 800
+      },
+      {
+        "GENERAL DESCRIPTION": "Cholesterol",
+        "Amount": 1200
+      },
+      {
+        "GENERAL DESCRIPTION": "CPK - Creatine Phosphokinase (Total)",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Creatinine",
+        "Amount": 900
+      },
+      {
+        "GENERAL DESCRIPTION": "Creatinine Clearance",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "CSF: Chloride",
+        "Amount": 800
+      },
+      {
+        "GENERAL DESCRIPTION": "CSF: Glucose",
+        "Amount": 700
+      },
+      {
+        "GENERAL DESCRIPTION": "CSF: Protein (Total)",
+        "Amount": 900
+      },
+      {
+        "GENERAL DESCRIPTION": "Electrolytes",
+        "Amount": 2800
+      },
+      {
+        "GENERAL DESCRIPTION": "Electrolytes/Urea/Creatinine",
+        "Amount": 4200
+      },
+      {
+        "GENERAL DESCRIPTION": "Fasting Blood Sugar",
+        "Amount": 700
+      },
+      {
+        "GENERAL DESCRIPTION": "Female Hormonal Profile (FSH + LH + Prolactin + Progesterone)",
+        "Amount": 14500
+      },
+      {
+        "GENERAL DESCRIPTION": "Follicle Stimulating Hormone ( FSH)",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "Gamma-Glutamyl Transferase (GGT)",
+        "Amount": 800
+      },
+      {
+        "GENERAL DESCRIPTION": "Globulin",
+        "Amount": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Glycosylated Heamoglobin (HbA1c)",
+        "Amount": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "High Density Lipoprotein (HDL Cholesterol)",
+        "Amount": 1300
+      },
+      {
+        "GENERAL DESCRIPTION": "Inorganic Phosphorus",
+        "Amount": 800
+      },
+      {
+        "GENERAL DESCRIPTION": "Iron (Ferritin)",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Lactate Dehydrogenase (LDH)",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Lipid Profile",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Liver Function Tests (Bilirubin, SGOT,SGPT, Serum proteins, Alkaline phosphatase)",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Low Density Lipoprotein (LDL Cholesterol)",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Luteinizing Hormone (LH)",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "Magnesium",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Male Hormonal Profile (FSH + LH + Prolactin + Testosterone)",
+        "Amount": 14500
+      },
+      {
+        "GENERAL DESCRIPTION": "Oestradiol (E2)",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "Oral Glucose Tolerance Test ( GTT)",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Phosphate",
+        "Amount": 800
+      },
+      {
+        "GENERAL DESCRIPTION": "Potassium",
+        "Amount": 800
+      },
+      {
+        "GENERAL DESCRIPTION": "Pregnancy Test - Blood",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pregnancy Test - Urine",
+        "Amount": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Progesterone",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "Prolactin",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "Prostatic Specific Antigen (PSA)",
+        "Amount": 7500
+      },
+      {
+        "GENERAL DESCRIPTION": "Random Blood Sugar",
+        "Amount": 700
+      },
+      {
+        "GENERAL DESCRIPTION": "Sodium",
+        "Amount": 800
+      },
+      {
+        "GENERAL DESCRIPTION": "Testosterone",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "Thyroid Function Test",
+        "Amount": 9000
+      },
+      {
+        "GENERAL DESCRIPTION": "Thyroid Stimulating Hormones(TSH)",
+        "Amount": 3400
+      },
+      {
+        "GENERAL DESCRIPTION": "Thyroxine (T4)",
+        "Amount": 3400
+      },
+      {
+        "GENERAL DESCRIPTION": "Total Protein",
+        "Amount": 900
+      },
+      {
+        "GENERAL DESCRIPTION": "Triglyceride",
+        "Amount": 1200
+      },
+      {
+        "GENERAL DESCRIPTION": "Triiodothyronine (T3)",
+        "Amount": 3400
+      },
+      {
+        "GENERAL DESCRIPTION": "Urea (Blood Urea Nitrogen - BUN)",
+        "Amount": 800
+      },
+      {
+        "GENERAL DESCRIPTION": "Urea Clearance",
+        "Amount": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "Uric Acid",
+        "Amount": 900
+      },
+      {
+        "GENERAL DESCRIPTION": "Urine Microscopy",
+        "Amount": 600
+      },
+      {
+        "GENERAL DESCRIPTION": "Bleeding Time",
+        "Amount": 900
+      },
+      {
+        "GENERAL DESCRIPTION": "Blood Grouping (ABO & RH)",
+        "Amount": 700
+      },
+      {
+        "GENERAL DESCRIPTION": "Clotting Time",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Differential White Cell Count (WBC-DIFF)",
+        "Amount": 600
+      },
+      {
+        "GENERAL DESCRIPTION": "Direct Coomb’s Test",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Erythrocyte Sedimentation Rate (ESR)",
+        "Amount": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Full Blood Count",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "G-6-PD Screening",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Group & Cross Match",
+        "Amount": 900
+      },
+      {
+        "GENERAL DESCRIPTION": "Haemoglobin (HB)",
+        "Amount": 650
+      },
+      {
+        "GENERAL DESCRIPTION": "HB Genotype",
+        "Amount": 700
+      },
+      {
+        "GENERAL DESCRIPTION": "Indirect Coomb’s Test",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Osmotic Fragility",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Packed Cell Volume (PCV)",
+        "Amount": 650
+      },
+      {
+        "GENERAL DESCRIPTION": "Partial Prothrombin Time (PTT)",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Platelets Count",
+        "Amount": 600
+      },
+      {
+        "GENERAL DESCRIPTION": "Prothrombin Time (PT)",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Red Cell Count (RBC)",
+        "Amount": 600
+      },
+      {
+        "GENERAL DESCRIPTION": "Reticulocyte Count",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Sickling Test",
+        "Amount": 900
+      },
+      {
+        "GENERAL DESCRIPTION": "Total White Cell Count (WBC - Total)",
+        "Amount": 600
+      },
+      {
+        "GENERAL DESCRIPTION": "Cytology",
+        "Amount": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "Histology",
+        "Amount": 10000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pap Smear (with procedure)",
+        "Amount": 8500
+      },
+      {
+        "GENERAL DESCRIPTION": "Blood Culture & Sensitivity",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "CSF Count",
+        "Amount": 700
+      },
+      {
+        "GENERAL DESCRIPTION": "CSF Gram Stain",
+        "Amount": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "CSF Microscopy, Culture & Sensitivity",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Heaf’s/ Mantoux test",
+        "Amount": 800
+      },
+      {
+        "GENERAL DESCRIPTION": "Malaria Parasites",
+        "Amount": 700
+      },
+      {
+        "GENERAL DESCRIPTION": "Microfilaria",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Seminal Fluid Analysis",
+        "Amount": 850
+      },
+      {
+        "GENERAL DESCRIPTION": "Seminal Fluid Microscopy, Culture & Sensitivity",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Skin Snip (microfilaria)",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sputum for Z.N stain for AFB",
+        "Amount": 850
+      },
+      {
+        "GENERAL DESCRIPTION": "Sputum Gram Stain",
+        "Amount": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Sputum Microscopy, Culture & Sensitivity",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Stool for Occult Blood - Fecal",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Stool Microscopy",
+        "Amount": 600
+      },
+      {
+        "GENERAL DESCRIPTION": "Stool Microscopy, Culture & Sensitivity",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "SWABS (HVS, ECS, Wound, pus etc) - Gram stain ",
+        "Amount": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "SWABS (HVS, ECS, Wound, pus etc) - Microscopy, Culture & Sensitivity",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Urinalysis",
+        "Amount": 600
+      },
+      {
+        "GENERAL DESCRIPTION": "Urine Microscopy, Culture & Sensitivity",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Alpha-Feto Protein (AFP)",
+        "Amount": 7000
+      },
+      {
+        "GENERAL DESCRIPTION": "Anti-Streptolysin O Titre (ASO Titre)",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Helicobacter Pylori (H.pylori)",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hepatitis B Surface Antigen (HbsAg)",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Hepatitis C Antigen (HCV)",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "HIV Screening",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Rhesus Factor Determination",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Rheumatiod Factor",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "VDRL",
+        "Amount": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Widal Test",
+        "Amount": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "5 Fluorouracil (5FU) Injection 500mg",
+        "Amount": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "a-B-Artemether Injection Injection 150mg/2ml",
+        "Amount": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Acetazolamide Tablet 250mg",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Acetylsalicylic Acid Tablet 75 mg",
+        "Amount": 7.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Acetylsalicylic Acid Tablet/Capsule 300mg",
+        "Amount": 7.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Aciclovir Cream 0.05",
+        "Amount": 700
+      },
+      {
+        "GENERAL DESCRIPTION": "Aciclovir Tablet 200mg",
+        "Amount": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "Aciclovir Tablet 400 mg",
+        "Amount": 80
+      },
+      {
+        "GENERAL DESCRIPTION": "Activated charcoal Tablet Tablet",
+        "Amount": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "Acyclovir Eye Ointment 0.03",
+        "Amount": 700
+      },
+      {
+        "GENERAL DESCRIPTION": "Albendazole Suspension Oral 100mg/5ml",
+        "Amount": 275
+      },
+      {
+        "GENERAL DESCRIPTION": "Albendazole Tablet 200mg",
+        "Amount": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "Allopurinol Tablet 100mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Alpha tocopheryl acetate(Vitamin E) Capsule 100mg",
+        "Amount": 35
+      },
+      {
+        "GENERAL DESCRIPTION": "Alpha tocopheryl acetate(Vitamin E) Capsule 1000 I.U",
+        "Amount": 35
+      },
+      {
+        "GENERAL DESCRIPTION": "Aluminium hydroxide Suspension 320mg/5ml",
+        "Amount": 500
+      },
+      {
+        "GENERAL DESCRIPTION": "Aluminium hydroxide Tablet 500mg",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Aluminium hydroxide +Magnesium Hydroxide +Simethicone Mixture 6gm+80mg+100mg",
+        "Amount": 700
+      },
+      {
+        "GENERAL DESCRIPTION": "Aluminium hydroxide +Magnesium Hydroxide +Simethicone Tablet 200mg+200mg +30mg",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Aluminium hydroxide +Magnesium trisilicate Mixture ",
+        "Amount": 700
+      },
+      {
+        "GENERAL DESCRIPTION": "Aluminium hydroxide +Magnesium trisilicate Tablet 120 mg + 250 mg",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Amiloride Tablet 5mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Amiloride+Hydrochlorothiazide Tablet 5mg+ 50mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Aminophylline Injection 25mg/ml  in 10ml  Ampoule",
+        "Amount": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "Amiodarone Tablet 100mg",
+        "Amount": 60
+      },
+      {
+        "GENERAL DESCRIPTION": "Amiodarone Tablet 200mg",
+        "Amount": 90
+      },
+      {
+        "GENERAL DESCRIPTION": "Amitriptyline Tablet 50mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Amitriptyline Tablet 25mg",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Amlodipine Tablet 5mg",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Amlodipine Tablet 10mg",
+        "Amount": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "Amlodipine + Valsartan Tablet 5mg + 160mg",
+        "Amount": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "Amlodipine + Valsartan Tablet 10mg + 160mg",
+        "Amount": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "Amlodipine + Valsartan + Hydrochlorothiazide Tablet 5mg + 160mg + 12.5mg",
+        "Amount": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "Amoxicillin Capsule 250mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Amoxicillin Capsule 500 mg",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Amoxicillin Injection 500mg in vials",
+        "Amount": 225
+      },
+      {
+        "GENERAL DESCRIPTION": "Amoxicillin Powder for oral  suspension 125mg/5ml",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Amoxicillin plus Clavulanic Acid Injection 500 mg Amoxycillin (Sodium salt) + 100 mg",
+        "Amount": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Amoxicillin plus Clavulanic Acid Injection 1g Amoxycillin (Sodium salt) + 200 mg",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Amoxicillin plus Clavulanic Acid Powder for oral suspension 400 mg Amoxycillin (trihydrate) + 57 mg",
+        "Amount": 1600
+      },
+      {
+        "GENERAL DESCRIPTION": "Amoxicillin plus Clavulanic Acid Powder for oral suspension 200 mg Amoxycillin (trihydrate) + 28 mg",
+        "Amount": 1600
+      },
+      {
+        "GENERAL DESCRIPTION": "Amoxicillin plus Clavulanic Acid Tablet 250 mg amoxycillin (Trihydrate) +125 mg clavulanic Acid (Potassium Salt)",
+        "Amount": 110
+      },
+      {
+        "GENERAL DESCRIPTION": "Amoxicillin plus Clavulanic Acid Tablet 500mg amoxycillin (Trihydrate) + 125mg clvulanic acid(potassium salt)",
+        "Amount": 140
+      },
+      {
+        "GENERAL DESCRIPTION": "Ampicillin + Cloxacillin Capsule 250mg of each constituent",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Ampicillin + Cloxacillin Drops (Neonatal) Ampicillin  60mg + Cloxacillin 30mg/0.6mls",
+        "Amount": 350
+      },
+      {
+        "GENERAL DESCRIPTION": "Ampicillin + Cloxacillin Injection Ampicillin 250mg+Cloxacillin 250mg per vial (sodium salt of each)",
+        "Amount": 225
+      },
+      {
+        "GENERAL DESCRIPTION": "Ampicillin + Cloxacillin Powder for oral suspension 125mg of each/5ml",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Antazoline + Nephazoline Nasal drops 0.5% + 0.025%",
+        "Amount": 1200
+      },
+      {
+        "GENERAL DESCRIPTION": "Antazoline HCL, Tetrazoline HCL, Methylhydroxy Propyl cellulose. Eye Drops ",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Anusol Suppository ",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Artemeter Injection 40mg/ml in 1ml Ampoule",
+        "Amount": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "Artemeter Injection 80mg/ml",
+        "Amount": 350
+      },
+      {
+        "GENERAL DESCRIPTION": "Artemether + Lumefantrine Paediatric Dispersible Tabet 10mg/60mg",
+        "Amount": 80
+      },
+      {
+        "GENERAL DESCRIPTION": "Artemether + Lumefantrine Suppository 20mg/120mg",
+        "Amount": 120
+      },
+      {
+        "GENERAL DESCRIPTION": "Artemether + Lumefantrine Suspension 180mg/1080mg",
+        "Amount": 900
+      },
+      {
+        "GENERAL DESCRIPTION": "Artemether + Lumefantrine Tablet 80mg/480mg",
+        "Amount": 180
+      },
+      {
+        "GENERAL DESCRIPTION": "Artemether + Lumefantrine (Adult) Tablet 40mg/240mg",
+        "Amount": 45
+      },
+      {
+        "GENERAL DESCRIPTION": "Artemether + Lumefantrine (Paediatric) Tablet 20mg/120mg",
+        "Amount": 45
+      },
+      {
+        "GENERAL DESCRIPTION": "Artesunate Injection 60mg/ml",
+        "Amount": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Artesunate Injection 120mg/ml",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Artesunate Syrup 80mg/5ml",
+        "Amount": 700
+      },
+      {
+        "GENERAL DESCRIPTION": "Artesunate Tablet 50mg/tab",
+        "Amount": 60
+      },
+      {
+        "GENERAL DESCRIPTION": "Artesunate  + Sulfadoxine+ Pyrimethamine (Adult) Tablet 200mg/500mg/25mg",
+        "Amount": 180
+      },
+      {
+        "GENERAL DESCRIPTION": "Artesunate  + Sulfadoxine+ Pyrimethamine (Paediatric) Tablet 100mg/250mg/12.5mg",
+        "Amount": 140
+      },
+      {
+        "GENERAL DESCRIPTION": "Atenolol Tablet 25mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Atenolol Tablet 50mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Atenolol Tablet 100mg",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Atenolol + Chlorthalidone Tablet 50mg",
+        "Amount": 45
+      },
+      {
+        "GENERAL DESCRIPTION": "Atenolol + Chlorthalidone Tablet 100mg",
+        "Amount": 55
+      },
+      {
+        "GENERAL DESCRIPTION": "Atorvastatin Tablet 10mg",
+        "Amount": 60
+      },
+      {
+        "GENERAL DESCRIPTION": "Atorvastatin Tablet 20mg",
+        "Amount": 90
+      },
+      {
+        "GENERAL DESCRIPTION": "Atropine Eye Drops 0.5%, 1%  (Sulphate)",
+        "Amount": 1200
+      },
+      {
+        "GENERAL DESCRIPTION": "Atropine Injection 1.0mg (Sulphate) in 1ml Ampoule",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Azithromycin Capsule 250mg",
+        "Amount": 110
+      },
+      {
+        "GENERAL DESCRIPTION": "Azithromycin Capsule 500mg",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Azithromycin Suspension 200mg/ 5ml",
+        "Amount": 800
+      },
+      {
+        "GENERAL DESCRIPTION": "BCG Vaccine Injection Powder for reconstitution in multidose amp 1ml, 5 ml",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Beclomethasone Dipropionate Nasal Spray (Aerosol)  0.05mg / metered spray",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Bendrofluazide Tablet 2.5mg",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Bendrofluazide Tablet 5mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Benzhexol (Artane) Tablet 2mg/5mg (as HCl)",
+        "Amount": 45
+      },
+      {
+        "GENERAL DESCRIPTION": "Benzoyl Peroxide Cream 10%, 5%, 2.5%",
+        "Amount": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "Benzyl Benzoate Emulsion and lotion 0.25",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Biphasic Isophane Insulin injection Human Soluble Insulin 30%+isophane Insulin 70%",
+        "Amount": 6500
+      },
+      {
+        "GENERAL DESCRIPTION": "Bisacodyl Suppository 5 & 10mg",
+        "Amount": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Bisacodyl Tablet 5mg",
+        "Amount": 10
+      },
+      {
+        "GENERAL DESCRIPTION": "Blood giving set Unit Unit",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Brinzolamide Eye Drops 10mg/ml",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Bromazepam Tablet 1.5mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Bromazepam Tablet 3mg",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Bromhexine Elixir/Syrup 4mg/5ml",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Bromhexine Tablet 8mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Bromocriptine Tablet 1mg, 2.5mg (Mesylate)",
+        "Amount": 80
+      },
+      {
+        "GENERAL DESCRIPTION": "Calamine Lotion Lotion ",
+        "Amount": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "Calcitriol Tablet 0.25mcg",
+        "Amount": 120
+      },
+      {
+        "GENERAL DESCRIPTION": "Calcium Gluconate Tablet 600mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Calcium Lactate Tablet 300mg",
+        "Amount": 10
+      },
+      {
+        "GENERAL DESCRIPTION": "Candesartan cilexetil Tablet 8mg",
+        "Amount": 140
+      },
+      {
+        "GENERAL DESCRIPTION": "Candesartan cilexetil Tablet 16mg",
+        "Amount": 180
+      },
+      {
+        "GENERAL DESCRIPTION": "Captopril Tablet 25 mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Captopril Tablet 50mg",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Carbamazepine Syrup 100mg/5ml",
+        "Amount": 1600
+      },
+      {
+        "GENERAL DESCRIPTION": "Carbamazepine Tablet 200mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Carbamazepine Tablet 400mg SR",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Carbimazole Tablet 5mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Carvidelol Tablet 6.25mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Carvidelol Tablet 25mg",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Carvidelol Tablet 12.5mg",
+        "Amount": 35
+      },
+      {
+        "GENERAL DESCRIPTION": "Cefixime Suspension 100mg/5ml",
+        "Amount": 1200
+      },
+      {
+        "GENERAL DESCRIPTION": "Cefixime Tablet 200mg",
+        "Amount": 120
+      },
+      {
+        "GENERAL DESCRIPTION": "Cefixime Tablet 400mg",
+        "Amount": 180
+      },
+      {
+        "GENERAL DESCRIPTION": "Cefotaxime Injection 500mg",
+        "Amount": 500
+      },
+      {
+        "GENERAL DESCRIPTION": "Ceftazidime Injection 1gm",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Ceftriaxone Injection 250mg,",
+        "Amount": 700
+      },
+      {
+        "GENERAL DESCRIPTION": "Ceftriaxone Injection 500mg I.M.",
+        "Amount": 900
+      },
+      {
+        "GENERAL DESCRIPTION": "Ceftriaxone Injection 1g IV",
+        "Amount": 1200
+      },
+      {
+        "GENERAL DESCRIPTION": "Cefuroxime Injection 250 mg",
+        "Amount": 600
+      },
+      {
+        "GENERAL DESCRIPTION": "Cefuroxime Injection 750mg",
+        "Amount": 1100
+      },
+      {
+        "GENERAL DESCRIPTION": "Cefuroxime Suspension (axetil) 125mg/5ml",
+        "Amount": 1600
+      },
+      {
+        "GENERAL DESCRIPTION": "Cefuroxime Tablet 250mg,",
+        "Amount": 140
+      },
+      {
+        "GENERAL DESCRIPTION": "Cefuroxime Tablet 500 mg",
+        "Amount": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "Celecoxib Capsule 200mg",
+        "Amount": 180
+      },
+      {
+        "GENERAL DESCRIPTION": "Cephalexin Tablet 500mg",
+        "Amount": 70
+      },
+      {
+        "GENERAL DESCRIPTION": "Cephalexin Suspension 125mg/5ml",
+        "Amount": 500
+      },
+      {
+        "GENERAL DESCRIPTION": "Cephalexin Suspension 250mg/5ml",
+        "Amount": 800
+      },
+      {
+        "GENERAL DESCRIPTION": "Cerumol Ear Drops ",
+        "Amount": 600
+      },
+      {
+        "GENERAL DESCRIPTION": "Cetrizine Syrup 1mg/5ml",
+        "Amount": 600
+      },
+      {
+        "GENERAL DESCRIPTION": "Cetrizine Tablet 10mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Chicken Pox (Varicella) Vaccine Injection ",
+        "Amount": 7500
+      },
+      {
+        "GENERAL DESCRIPTION": "Chloramphenicol Capsule 250mg",
+        "Amount": 10
+      },
+      {
+        "GENERAL DESCRIPTION": "Chloramphenicol Ear Drops 0.05",
+        "Amount": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "Chloramphenicol Eye Drops 0.005",
+        "Amount": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "Chloramphenicol Eye Ointment 0.01",
+        "Amount": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "Chloramphenicol Injection 1g (sodium succinate) in vial",
+        "Amount": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Chloramphenicol Suspension Oral 125mg/5ml (Palmitate)",
+        "Amount": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "Chloroquine Injection 200mg/5ml,",
+        "Amount": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Chloroquine Syrup 75mg/5ml,",
+        "Amount": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "Chloroquine Tablet/Capsule 300 mg,",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Chlorpheniramine Injection 10mg (Maleate) in 1ml Ampoule",
+        "Amount": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Chlorpheniramine Syrup 2mg/5ml",
+        "Amount": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "Chlorpheniramine Tablet 4mg (Maleate)",
+        "Amount": 10
+      },
+      {
+        "GENERAL DESCRIPTION": "Chlorpromazine Injection 25mg/ml (HCL) in 2ml Ampoule",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Chlorpromazine Tablet 50mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Chlorpromazine Tablet 100mg  (HCL)",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Chlorpromazine Tablet 25mg",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Chlorpropamide Tablet 250mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Chondriotin sulphate+ Glucoseamine Capsule 200mg+250mg",
+        "Amount": 80
+      },
+      {
+        "GENERAL DESCRIPTION": "Cimetidine Injection 100mg/ml in 2 ml Ampoules",
+        "Amount": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "Cimetidine Tablet 200mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Cimetidine Tablet 400mg",
+        "Amount": 35
+      },
+      {
+        "GENERAL DESCRIPTION": "Cinnarizine Tablet 25mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Cinnarizine Tablet 50mg",
+        "Amount": 35
+      },
+      {
+        "GENERAL DESCRIPTION": "Ciprofloxacin Eye/Ear Drops 0.003",
+        "Amount": 350
+      },
+      {
+        "GENERAL DESCRIPTION": "Ciprofloxacin Injection I.V. 2mg/ml (lactate) in 50 and 100ml vials",
+        "Amount": 350
+      },
+      {
+        "GENERAL DESCRIPTION": "Ciprofloxacin Tablet 250mg",
+        "Amount": 60
+      },
+      {
+        "GENERAL DESCRIPTION": "Ciprofloxacin Tablet 500 mg",
+        "Amount": 80
+      },
+      {
+        "GENERAL DESCRIPTION": "Clarithromycin Tablet 500mg",
+        "Amount": 145
+      },
+      {
+        "GENERAL DESCRIPTION": "Clindamycin Capsule HCL 150mg",
+        "Amount": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Clomiphene Tablet 50mg (Citrate)",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Clopidogrel Tablet 75mg",
+        "Amount": 60
+      },
+      {
+        "GENERAL DESCRIPTION": "Clotrimazole Cream 0.01",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Clotrimazole Pesssary ",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Clotrimazole Vaginal Cream 0.01",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Co-trimoxazole Suspension Sulphamethoxazole 200 mg +40mg Trimethoprim /5ml.",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Co-trimoxazole Tablet 400mg Sulphamethoxazole  +80mg  Trimethoprim",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Co-trimoxazole Tablet DS 800mg Sulphamethoxazole  +160mg Trimethoprim",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Cough Mixtures Syrup ",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Daflon Tablet 500mg",
+        "Amount": 65
+      },
+      {
+        "GENERAL DESCRIPTION": "Darrow’s Solution Infusion ½ & full strength",
+        "Amount": 350
+      },
+      {
+        "GENERAL DESCRIPTION": "Depomedrol Injection 40mg",
+        "Amount": 700
+      },
+      {
+        "GENERAL DESCRIPTION": "Depomedrol Injection 80mg",
+        "Amount": 1100
+      },
+      {
+        "GENERAL DESCRIPTION": "Dequalinium Lozenges 250mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Dexamethasone Eye Drops 0.001",
+        "Amount": 350
+      },
+      {
+        "GENERAL DESCRIPTION": "Dexamethasone Injection 4mg/1ml",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Dexamethasone Tablet 0.5 mg, 4 mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Dexamethasone + Chloramphenicol + Tetrahydrozolina Eye Drops ",
+        "Amount": 450
+      },
+      {
+        "GENERAL DESCRIPTION": "Dexamethasone + Neomycin Ear drops 0.1% + 3200 unit/ml",
+        "Amount": 400
+      },
+      {
+        "GENERAL DESCRIPTION": "Dextrose + Sodium Chloride Infusion 5% + 0.9%",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Dextrose + Sodium Chloride (Paediatric) Infusion 4.3% + 0.18%",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Dextrose in Water Infusion 5% & 10%",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Diazepam Injection 5mg/ml in 2ml",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Diazepam Tablet 5mg, 2mg, 10mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Diclofenac (sodium or potassium salt) Injection 25mg/ml Ampoule",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Diclofenac (sodium or potassium salt) Suppository ",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Diclofenac (sodium or potassium salt) Tablet 50mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Diclofenac (sodium or potassium salt) Tablet 100mg,",
+        "Amount": 40
+      },
+      {
+        "GENERAL DESCRIPTION": "Diclofenac sodium Gel 0.01",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Diclofenac sodium + misoprostol Tablet 50mg/200mcg",
+        "Amount": 60
+      },
+      {
+        "GENERAL DESCRIPTION": "Diclofenac sodium + misoprostol Tablet 75mg/200mcg",
+        "Amount": 80
+      },
+      {
+        "GENERAL DESCRIPTION": "Diclofenac sodium + Paracetamol Tablet 50mg/500mg",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Diclofenac sodium+Methylsalicylate Ointment ",
+        "Amount": 350
+      },
+      {
+        "GENERAL DESCRIPTION": "Digoxin Injection 0.25mg/ml in 2ml Ampoule, and 0.1mg/ml in 1ml Ampoule",
+        "Amount": 350
+      },
+      {
+        "GENERAL DESCRIPTION": "Digoxin Tablet 0.0625mg, 0.125mg, 0.25mg",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Dihydroartemisinin Suppository ",
+        "Amount": 165
+      },
+      {
+        "GENERAL DESCRIPTION": "Dihydroartemisinin Suspension 160mg/80mls",
+        "Amount": 600
+      },
+      {
+        "GENERAL DESCRIPTION": "Dihydroartemisinin Tablet 60mg/Tablet",
+        "Amount": 85
+      },
+      {
+        "GENERAL DESCRIPTION": "Dihydroartemisinin  + Piperaquine phosphate Suspension 80/640mg",
+        "Amount": 600
+      },
+      {
+        "GENERAL DESCRIPTION": "Dihydroartemisinin  + Piperaquine phosphate Tablet 40mg/320mg",
+        "Amount": 110
+      },
+      {
+        "GENERAL DESCRIPTION": "Dihydroartemisinin  + Piperaquine phosphate Tablet 30mg/225mg",
+        "Amount": 110
+      },
+      {
+        "GENERAL DESCRIPTION": "Dihydroartemisinin  + Piperaquine phosphate Tablet DS 62.5mg/375mg",
+        "Amount": 120
+      },
+      {
+        "GENERAL DESCRIPTION": "Diphenoxylate hydrochloride + Atropine sulphate (Lomotil) Tablet 2.5mg + 0.025mg",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Diptheria, Tetanus and Pertussis Vaccine Injection 0.5ml, 5ml",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Dorzolamide Eye Drops 0.02",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Dorzolamide Hcl + Timolol Eye Drops 2% + 0.5%",
+        "Amount": 2300
+      },
+      {
+        "GENERAL DESCRIPTION": "Doxycycline Capsule 100mg",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Dutasteride Tablet 0.5mg",
+        "Amount": 110
+      },
+      {
+        "GENERAL DESCRIPTION": "Dydrogesterone (Duphaston) Tablet 10mg",
+        "Amount": 120
+      },
+      {
+        "GENERAL DESCRIPTION": "Enalapril Tablet 5mg",
+        "Amount": 35
+      },
+      {
+        "GENERAL DESCRIPTION": "Enalapril Tablet 10mg",
+        "Amount": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "Enoxaparin Injection 100 mg/ml in 0.4ml (40mg)",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Enoxaparin (clexane) Injection 100 mg/ml in 0.2ml (20mg)",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ephedrine + Theophyline (Franol) Tablet 11mg + 20 mg",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Epinephrine (Adrenaline) Injection 1mg/ml  (1 in 1000) in 1ml Ampoule",
+        "Amount": 180
+      },
+      {
+        "GENERAL DESCRIPTION": "Ergometrine Injection 0.5mg/ml  (Maleate)",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Erythromycin Suspension Oral 125mg/250mg (stearate or Ethylsuccinate)",
+        "Amount": 550
+      },
+      {
+        "GENERAL DESCRIPTION": "Erythromycin Tablet/Capsule (Enteric, film coated) 250mg stearate or ethylsuccinate)",
+        "Amount": 35
+      },
+      {
+        "GENERAL DESCRIPTION": "Erythromycin Tablet/Capsule (Enteric, film coated) 500mg (stearate or ethylsuccinate)",
+        "Amount": 55
+      },
+      {
+        "GENERAL DESCRIPTION": "Esomeprazole Tablet 20mg",
+        "Amount": 60
+      },
+      {
+        "GENERAL DESCRIPTION": "Ferrous Sulphate Tablet/Capsule 200 mg equivalent to 60mg of Iron",
+        "Amount": 5
+      },
+      {
+        "GENERAL DESCRIPTION": "Finasteride Tablet 5mg",
+        "Amount": 120
+      },
+      {
+        "GENERAL DESCRIPTION": "Fluconazole Capsule 50 mg",
+        "Amount": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Fluconazole Capsule 150 mg",
+        "Amount": 120
+      },
+      {
+        "GENERAL DESCRIPTION": "Fluconazole Injection I.V. 2 mg/ml in 0.9 % sodium chloride",
+        "Amount": 450
+      },
+      {
+        "GENERAL DESCRIPTION": "Fluconazole Suspension 50mg/5ml",
+        "Amount": 500
+      },
+      {
+        "GENERAL DESCRIPTION": "Fluoxethine Capsule 20mg",
+        "Amount": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "Folic Acid Tablet 5mg",
+        "Amount": 5
+      },
+      {
+        "GENERAL DESCRIPTION": "Furosemide Injection 10mg/ml in 2ml ampoule",
+        "Amount": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Furosemide Tablet 40mg",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Gentamicin Ear Drops 0.3%  (Sulphate)",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Gentamicin Eye Drops 0.3%  (Sulphate)",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Gentamicin Ointment 0.003",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Gentamycin Injection 80mg/mls, 40 mg/2mls (Sulphate)",
+        "Amount": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Glibenclamide Tablet 5mg",
+        "Amount": 40
+      },
+      {
+        "GENERAL DESCRIPTION": "Gliclazide Tablet 30mg",
+        "Amount": 40
+      },
+      {
+        "GENERAL DESCRIPTION": "Gliclazide Tablet 80mg",
+        "Amount": 60
+      },
+      {
+        "GENERAL DESCRIPTION": "Glimepiride Tablet 1mg",
+        "Amount": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "Glimepiride Tablet 2mg",
+        "Amount": 60
+      },
+      {
+        "GENERAL DESCRIPTION": "Glimepiride Tablet 4mg",
+        "Amount": 80
+      },
+      {
+        "GENERAL DESCRIPTION": "Glucose (Dextrose) Infusion 50% in water",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Glyceryl Trinitrate Tablet Sublingual, 0.5mg",
+        "Amount": 35
+      },
+      {
+        "GENERAL DESCRIPTION": "Griseofulvin Suspension 125mg/ 5ml",
+        "Amount": 350
+      },
+      {
+        "GENERAL DESCRIPTION": "Griseofulvin Tablet 500mg",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Haemophilus Influenzae (HiB) Vaccine Injection ",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Haloperidol Tablet 2mg, 5mg.10mg",
+        "Amount": 35
+      },
+      {
+        "GENERAL DESCRIPTION": "Heparin Sodium Injection 5000 units/ml in Ampoule",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Heparin Sodium Injection 25,000 units/ml in Ampoule",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hepatitis B Vaccine Injection 0.02 mg/ml in 0.5 ml, 1 ml vial",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "HPV Vaccine (Quadrivalent) Injection 0.5mls single dose vial or prefilled inj",
+        "Amount": 8000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hydralazine Injection powder 20mg in 1ml Ampoule",
+        "Amount": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "Hydralazine Tablet 25mg/50mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Hydrochlorothiazide Tablet 25mg",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Hydrochlorothiazide Tablet 50mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Hydrocortisone Cream 0.01",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Hydrocortisone Injection powder 100mg/vial",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Hyoscine N-butylbromide Injection 20mg/ml in 1ml Ampoule",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Hyoscine N-butylbromide Syrup 1mg/ml",
+        "Amount": 350
+      },
+      {
+        "GENERAL DESCRIPTION": "Hyoscine N-butylbromide Tablet 10mg",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Ibuprofen Suspension 100mg/5ml",
+        "Amount": 360
+      },
+      {
+        "GENERAL DESCRIPTION": "Ibuprofen Tablet 400mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Ibuprofen Tablet/Capsule 200mg,",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Imipramine Tablet 25mg",
+        "Amount": 35
+      },
+      {
+        "GENERAL DESCRIPTION": "Infusion set Unit Unit",
+        "Amount": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Insulin Soluble Injection 40 units/ml",
+        "Amount": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "Insulin Soluble Injection 100 units/ml",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Insulin Zinc Suspension  (I.Z.S) Injection 40 units/ml",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Insulin Zinc Suspension  (I.Z.S) Injection 100 units/ml",
+        "Amount": 5500
+      },
+      {
+        "GENERAL DESCRIPTION": "IPV (Injectable Polio Vaccine) Injection ",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Isophane Insulin Injection 100 units/ml",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Isosorbide dinitrate Tablet 5 mg",
+        "Amount": 35
+      },
+      {
+        "GENERAL DESCRIPTION": "Isosorbide dinitrate Tablet 10mg",
+        "Amount": 55
+      },
+      {
+        "GENERAL DESCRIPTION": "Itraconazole Capsule 100mg",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "IV Cannula Unit 14G,16G,18G,20G-23G,25G",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Ivermectin Tablet 3mg",
+        "Amount": 70
+      },
+      {
+        "GENERAL DESCRIPTION": "Ketoconazole Cream 0.02",
+        "Amount": 600
+      },
+      {
+        "GENERAL DESCRIPTION": "Ketoconazole Tablet 200mg",
+        "Amount": 40
+      },
+      {
+        "GENERAL DESCRIPTION": "Ketoprofen Capsule 150mg or 200mg",
+        "Amount": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "Ketotifen Eye Drops 250mcg/ml",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Labetalol Tablet 100mg, 200mg",
+        "Amount": 90
+      },
+      {
+        "GENERAL DESCRIPTION": "Latanoprost Eye Drops 500mcg",
+        "Amount": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Latanoprost + Timolol Eye Drops 500mcg",
+        "Amount": 5200
+      },
+      {
+        "GENERAL DESCRIPTION": "Levamisole Suspension 40mg/5ml",
+        "Amount": 280
+      },
+      {
+        "GENERAL DESCRIPTION": "Levodopa + Carbidopa (Sinemet) Tablet Levodopa250mg + Carbidopa 25mg",
+        "Amount": 120
+      },
+      {
+        "GENERAL DESCRIPTION": "Levodopa + Carbidopa (Sinemet) Plus Tablet Levodopa100 mg + Carbidopa 10 mg",
+        "Amount": 70
+      },
+      {
+        "GENERAL DESCRIPTION": "Levofloxacin Injection 500mg/100mls Infusion",
+        "Amount": 650
+      },
+      {
+        "GENERAL DESCRIPTION": "Levofloxacin Tablet 500mg",
+        "Amount": 110
+      },
+      {
+        "GENERAL DESCRIPTION": "Levothyroxine Tablet 0.05 mg (sodium salt)",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Levothyroxine Tablet 0.1mg (sodium salt)",
+        "Amount": 35
+      },
+      {
+        "GENERAL DESCRIPTION": "Linagliptin Tablet 5mg",
+        "Amount": 220
+      },
+      {
+        "GENERAL DESCRIPTION": "Lincomycin Capsule 500 mg",
+        "Amount": 65
+      },
+      {
+        "GENERAL DESCRIPTION": "Lincomycin Suspension 250mg/5ml",
+        "Amount": 1200
+      },
+      {
+        "GENERAL DESCRIPTION": "Liquid Paraffin Emulsion, oral 5mg/10ml of emulsion",
+        "Amount": 450
+      },
+      {
+        "GENERAL DESCRIPTION": "Lisinopril Tablet 5mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Lisinopril Tablet 10mg",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Lisinopril + hydrochlorothiazide Tablet 20mg/12.5mg",
+        "Amount": 35
+      },
+      {
+        "GENERAL DESCRIPTION": "Loperamide Tablet 2mg",
+        "Amount": 70
+      },
+      {
+        "GENERAL DESCRIPTION": "Loratidine Syrup 5mg/5ml",
+        "Amount": 350
+      },
+      {
+        "GENERAL DESCRIPTION": "Loratidine Tablet 10mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Losartan Tablet 25mg",
+        "Amount": 45
+      },
+      {
+        "GENERAL DESCRIPTION": "Losartan Tablet 50mg",
+        "Amount": 65
+      },
+      {
+        "GENERAL DESCRIPTION": "Magnesium Trisilicate Mixture 250mg/ml",
+        "Amount": 600
+      },
+      {
+        "GENERAL DESCRIPTION": "Magnesium Trisilicate Tablet 500mg",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Mannitol Infusion 0.1",
+        "Amount": 450
+      },
+      {
+        "GENERAL DESCRIPTION": "Mannitol Infusion 0.2",
+        "Amount": 450
+      },
+      {
+        "GENERAL DESCRIPTION": "Measeles, Mumps & Rubella vaccine Injection 0.5 ml",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "Measles vaccine Injection 0.5ml",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Mebendazole Suspension 100mg/5ml",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Mebendazole Tablet 100mg,",
+        "Amount": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Mebendazole Tablet 500 mg",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Mefenamic Acid Tablet/Capsule 250mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Mefenamic Acid Tablet/Capsule 500mg",
+        "Amount": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "Meningococcal vaccine Injection Powder for reconstitution in multidose vial of 0.5mg, 2.5mg",
+        "Amount": 8000
+      },
+      {
+        "GENERAL DESCRIPTION": "Metformin Tablet 500mg (HCL)",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Metformin Tablet 850mg",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Metformin Tablet 1000mg",
+        "Amount": 45
+      },
+      {
+        "GENERAL DESCRIPTION": "Metformin + Glabenclamide Tablet 500mg (HCL) +2.5mg",
+        "Amount": 40
+      },
+      {
+        "GENERAL DESCRIPTION": "Methyl Salicylate Ointment 4 - 20% methyl salicylate)",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Methylcellulose Eye Drops 1%, 2%",
+        "Amount": 1200
+      },
+      {
+        "GENERAL DESCRIPTION": "Methyldopa Tablet 250mg",
+        "Amount": 40
+      },
+      {
+        "GENERAL DESCRIPTION": "Methyldopa Tablet 500mg",
+        "Amount": 60
+      },
+      {
+        "GENERAL DESCRIPTION": "Metoclopramide Injection 5mg/ml  (HCL)",
+        "Amount": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "Metoclopramide Tablet 10mg  (HCL)",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Metronidazole Infusion 500mg in 100ml bottle",
+        "Amount": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "Metronidazole Suppository 500mg",
+        "Amount": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "Metronidazole Suspension 200mg/5ml",
+        "Amount": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "Metronidazole Tablet 200mg",
+        "Amount": 10
+      },
+      {
+        "GENERAL DESCRIPTION": "Metronidazole Tablet 400mg",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Miconazole Cream 0.02",
+        "Amount": 350
+      },
+      {
+        "GENERAL DESCRIPTION": "Miconazole Ovule ",
+        "Amount": 180
+      },
+      {
+        "GENERAL DESCRIPTION": "Miconazole Pessary ",
+        "Amount": 180
+      },
+      {
+        "GENERAL DESCRIPTION": "Misoprostol Tablet ",
+        "Amount": 180
+      },
+      {
+        "GENERAL DESCRIPTION": "Mist Kaolin Suspension ",
+        "Amount": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "Mist Potassium Citrate Suspension ",
+        "Amount": 400
+      },
+      {
+        "GENERAL DESCRIPTION": "Multivitamin Drops ",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Multivitamin Syrup ",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Multivitamin Tablet ",
+        "Amount": 7.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Mupiricon Ointment 2% w/w",
+        "Amount": 900
+      },
+      {
+        "GENERAL DESCRIPTION": "Naproxen Tablet 250mg",
+        "Amount": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "Naproxen Tablet 500mg",
+        "Amount": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "Neurobion Tablet ",
+        "Amount": 70
+      },
+      {
+        "GENERAL DESCRIPTION": "Nifedipine Slow release 30mg",
+        "Amount": 35
+      },
+      {
+        "GENERAL DESCRIPTION": "Nifedipine Tablet 20mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Nitrazepam Tablet 5mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Nitrofurantoin Tablet 50mg",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Nitrofurantoin Tablet 100mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Nystatin Pessary 100,000 units",
+        "Amount": 160
+      },
+      {
+        "GENERAL DESCRIPTION": "Nystatin Suspension 100,000 units/ml",
+        "Amount": 700
+      },
+      {
+        "GENERAL DESCRIPTION": "Nystatin Tablet 500,000 units,",
+        "Amount": 40
+      },
+      {
+        "GENERAL DESCRIPTION": "Ofloxacin Drops 0",
+        "Amount": 350
+      },
+      {
+        "GENERAL DESCRIPTION": "Ofloxacin Injection 200mg/100ml Infusion",
+        "Amount": 350
+      },
+      {
+        "GENERAL DESCRIPTION": "Ofloxacin Tablet 200mg",
+        "Amount": 90
+      },
+      {
+        "GENERAL DESCRIPTION": "Ofloxacin Tablet 400mg",
+        "Amount": 110
+      },
+      {
+        "GENERAL DESCRIPTION": "Olanzepine Tablet 2.5mg",
+        "Amount": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "Olanzepine Tablet 5mg",
+        "Amount": 60
+      },
+      {
+        "GENERAL DESCRIPTION": "Olanzepine Tablet 10mg",
+        "Amount": 80
+      },
+      {
+        "GENERAL DESCRIPTION": "Omeprazole Injection 40mg/ml",
+        "Amount": 400
+      },
+      {
+        "GENERAL DESCRIPTION": "Omeprazole Tablet 20mg/40mg",
+        "Amount": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "Ophenadrine (Norflex) Tablet 100mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Oral Rehydration Salt Salts Glucose 13.5 g, Potassium Cl. 1.5g, Sodium bicarbonate 2.5%,",
+        "Amount": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Oral Zinc (Zinc Sulphate) Tablet 10mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Orphenadrine + Paracetamol Tablet 35mg+ 450mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Otomed Ear Drops Ear drops ",
+        "Amount": 700
+      },
+      {
+        "GENERAL DESCRIPTION": "Otrivin Nasal Drops (Adult) Nasal drops ",
+        "Amount": 1200
+      },
+      {
+        "GENERAL DESCRIPTION": "Otrivin Nasal Drops (Child) Nasal drops ",
+        "Amount": 1200
+      },
+      {
+        "GENERAL DESCRIPTION": "Oxytocin Injection 10 units/ml, 5 units/ml in Ampoules",
+        "Amount": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Paracetamol Drops 125mg/5ml",
+        "Amount": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "Paracetamol Infusion 50mls",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Paracetamol Injection 150mg/ml",
+        "Amount": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Paracetamol Suppository 100 mg",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Paracetamol Syrup/Suspension 125mg/5ml",
+        "Amount": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "Paracetamol Tablet 500mg",
+        "Amount": 5
+      },
+      {
+        "GENERAL DESCRIPTION": "Paraldehyde Injection 10ml, 5 mls",
+        "Amount": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "Pefloxacin Tablet 400mg",
+        "Amount": 120
+      },
+      {
+        "GENERAL DESCRIPTION": "Pentavelent Vaccine Injection ",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pentazocine Injection 30mg/ml",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Phenobarbital Elixir/Syrup 15mg/5ml",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Phenobarbital Injection 200mg/ml",
+        "Amount": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "Phenobarbital Tablet 15mg,",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Phenobarbital Tablet 30mg,  60mg",
+        "Amount": 35
+      },
+      {
+        "GENERAL DESCRIPTION": "Phenytoin Sodium Capsule 100mg, 50mg, 25mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Phytomenadione (Vitamin K1) Injection 10mg/ml in 1ml",
+        "Amount": 180
+      },
+      {
+        "GENERAL DESCRIPTION": "Pilocarpine Eye Drops 2% & 4% (HCL)",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Pioglitazone Hydrochloride Tablet 15mg",
+        "Amount": 90
+      },
+      {
+        "GENERAL DESCRIPTION": "Pioglitazone Hydrochloride Tablet 30mg",
+        "Amount": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Piroxicam Capsule 20mg",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Pneumococcal Vaccine Injection 55mcg/0.5ml",
+        "Amount": 3500
+      },
+      {
+        "GENERAL DESCRIPTION": "Poliomyelitis vaccine Oral suspension ",
+        "Amount": 500
+      },
+      {
+        "GENERAL DESCRIPTION": "Potassium Chloride Injection 15% in 10ml Ampoule",
+        "Amount": 600
+      },
+      {
+        "GENERAL DESCRIPTION": "Potassium Chloride (slow release) Tablet 600mg",
+        "Amount": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "Praziquantel Tablet 600mg",
+        "Amount": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Prednisolone Eye Drops 1% (Acetate) 5% (Sodium phosphate)",
+        "Amount": 500
+      },
+      {
+        "GENERAL DESCRIPTION": "Prednisolone Tablet 5 mg",
+        "Amount": 10
+      },
+      {
+        "GENERAL DESCRIPTION": "Pregabalin Tablet 75mg",
+        "Amount": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Pregabalin Tablet 150mg",
+        "Amount": 130
+      },
+      {
+        "GENERAL DESCRIPTION": "Primolut Depot Injection ",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Primolut N Tablet 5mg",
+        "Amount": 60
+      },
+      {
+        "GENERAL DESCRIPTION": "Proguanil Tablet 100mg (HC1)",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Promethazine Injection 25mg/ml (HCl)",
+        "Amount": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Promethazine Syrup 6.25mg/5ml ",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Promethazine Tablet 25mg",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Propranolol Tablet 40 mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Protamine Zinc Insulin Injection 100 units/ml",
+        "Amount": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pyrantel Pamoate Syrup 125mg/5ml",
+        "Amount": 450
+      },
+      {
+        "GENERAL DESCRIPTION": "Pyridoxine (Vitamin B6) Tablet 10,20,50, mg  (HCL)",
+        "Amount": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "Pyrimethamine + Sulphadoxine Syrup ",
+        "Amount": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "Pyrimethamine + Sulphadoxine Tablet 25mg  Pyrimethamine +500mg Sulphadoxine",
+        "Amount": 90
+      },
+      {
+        "GENERAL DESCRIPTION": "Quinine Injection 300mg (dihydrochloride)/ml in 2ml amp",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Quinine Syrup ",
+        "Amount": 550
+      },
+      {
+        "GENERAL DESCRIPTION": "Quinine Tablet 300mg",
+        "Amount": 40
+      },
+      {
+        "GENERAL DESCRIPTION": "Ramipril Tablet 1.25mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Ramipril Tablet 2.5mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Ramipril Tablet 5mg",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Ramipril Tablet 10mg",
+        "Amount": 40
+      },
+      {
+        "GENERAL DESCRIPTION": "Ranitidine Injection 25mg/ml in 2 ml Ampoules",
+        "Amount": 550
+      },
+      {
+        "GENERAL DESCRIPTION": "Ranitidine Tablet 150mg",
+        "Amount": 110
+      },
+      {
+        "GENERAL DESCRIPTION": "Ranitidine Tablet 300 mg  (HCL)",
+        "Amount": 120
+      },
+      {
+        "GENERAL DESCRIPTION": "Retinol (Vitamin A) Tablet/Capsule 1.5mg, 7.5mg , 15mg (5 000,25 000, 50 000 units)",
+        "Amount": 500
+      },
+      {
+        "GENERAL DESCRIPTION": "Rifampicin Capsule 300 mg",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Ringer’s Lactate Infusion ",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Rosuvastatin Tablet 5mg",
+        "Amount": 90
+      },
+      {
+        "GENERAL DESCRIPTION": "Rosuvastatin Tablet 10mg",
+        "Amount": 110
+      },
+      {
+        "GENERAL DESCRIPTION": "Rosuvastatin Tablet 20mg",
+        "Amount": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "Rotavirus Vaccine Injection ",
+        "Amount": 6500
+      },
+      {
+        "GENERAL DESCRIPTION": "Salbutamol Aerosol 0.1mg/metered dose",
+        "Amount": 1200
+      },
+      {
+        "GENERAL DESCRIPTION": "Salbutamol Nebules 2.5mg",
+        "Amount": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Salbutamol Nebules 5mg",
+        "Amount": 130
+      },
+      {
+        "GENERAL DESCRIPTION": "Salbutamol Syrup 2mg/5ml  (Sulphate)",
+        "Amount": 400
+      },
+      {
+        "GENERAL DESCRIPTION": "Salbutamol Tablet 2mg, 4mg (Sulphate)",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Salicylic acid Ointment 2-5%",
+        "Amount": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "Salicylic acid Topical solution, 12% in flexible collodion",
+        "Amount": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "Salmeterol + Fluticasone (Seretide Evohaler)  Aerosol 25/50mcg",
+        "Amount": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "Salmeterol + Fluticasone (Seretide Evohaler)  Aerosol 25/125mcg",
+        "Amount": 2000
+      },
+      {
+        "GENERAL DESCRIPTION": "Salmeterol + Fluticasone Adult (Seretide) Aerosol 250/50mcg",
+        "Amount": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Salmeterol + Fluticasone Child (Seretide) Aerosol 50/100mcg",
+        "Amount": 3600
+      },
+      {
+        "GENERAL DESCRIPTION": "Secnidazole Tablet 500mg",
+        "Amount": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "Sertraline Capsule 50mg",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Silver Sulphadiazine Cream 0.01",
+        "Amount": 900
+      },
+      {
+        "GENERAL DESCRIPTION": "Simvastatin Tablet 10mg",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Simvastatin Tablet 20mg",
+        "Amount": 35
+      },
+      {
+        "GENERAL DESCRIPTION": "Sodium Bicarbonate Injection 8.4% in 10ml (isotonic)",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Sodium Chloride Infusion 0.9%, 0.45%",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Sodium valproate Elixir/Syrup 200mg/5ml",
+        "Amount": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sodium valproate Tablet 200mg",
+        "Amount": 70
+      },
+      {
+        "GENERAL DESCRIPTION": "Sodium valproate Tablet 500mg SR",
+        "Amount": 180
+      },
+      {
+        "GENERAL DESCRIPTION": "Sparfloxacin Tablet 200mg",
+        "Amount": 120
+      },
+      {
+        "GENERAL DESCRIPTION": "Spironolactone Tablet 25mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Spironolactone Tablet 50mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Spironolactone Tablet 100mg",
+        "Amount": 35
+      },
+      {
+        "GENERAL DESCRIPTION": "Streptomycin Injection ",
+        "Amount": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "Sulphur + Mesulphen Ointment Sulphur 10-20% + Mesulphen 64%",
+        "Amount": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Tamoxifen Tablet 20mg",
+        "Amount": 60
+      },
+      {
+        "GENERAL DESCRIPTION": "Tamsulosin Tablet 400mcg",
+        "Amount": 90
+      },
+      {
+        "GENERAL DESCRIPTION": "Telmisartan Tablet Telmisartan 40mg",
+        "Amount": 60
+      },
+      {
+        "GENERAL DESCRIPTION": "Telmisartan Tablet Telmisartan 80mg",
+        "Amount": 80
+      },
+      {
+        "GENERAL DESCRIPTION": "Telmisartan + Hydrochlorthiazide Tablet Telmisartan 40mg/HCTZ 12.5mg",
+        "Amount": 80
+      },
+      {
+        "GENERAL DESCRIPTION": "Telmisartan + Hydrochlorthiazide Tablet Telmisartan 80mg/HCTZ 12.5mg",
+        "Amount": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Terbinafine Cream 1% Hydrochloride",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Terbinafine Tablet 250mg",
+        "Amount": 120
+      },
+      {
+        "GENERAL DESCRIPTION": "Tetanus vaccine Injection Formoltoxoid, 0.5 ml, 5 ml vial",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Tetracycline Capsule 250mg (Hydrochloride)",
+        "Amount": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Tetrahydrozoline(HCl) Eye Drops 0.0005",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Thalazole Tablet 500mg",
+        "Amount": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "Theophylline Tablet 125mg",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Theophylline Tablet 250mg (SR)",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Timolol Eye Drops 0.25, 0.5% (Maleate)",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tinidazole Tablet 500mg",
+        "Amount": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "Tioconazole Cream 0.01",
+        "Amount": 1200
+      },
+      {
+        "GENERAL DESCRIPTION": "Tizanidine (Sirdalud) Tablet 2mg",
+        "Amount": 70
+      },
+      {
+        "GENERAL DESCRIPTION": "Tizanidine (Sirdalud) Tablet 4mg",
+        "Amount": 120
+      },
+      {
+        "GENERAL DESCRIPTION": "Tramadol Injection 50mg/ml ampoule",
+        "Amount": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Tramadol Tablet 50mg",
+        "Amount": 60
+      },
+      {
+        "GENERAL DESCRIPTION": "Tramadol Tablet 100mg",
+        "Amount": 80
+      },
+      {
+        "GENERAL DESCRIPTION": "Tranexamic Acid Tablet 500mg",
+        "Amount": 140
+      },
+      {
+        "GENERAL DESCRIPTION": "Travoprost Eye Drops 40mcg/ml",
+        "Amount": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "Travoprost + Timolol Eye Drops ",
+        "Amount": 5200
+      },
+      {
+        "GENERAL DESCRIPTION": "Triamcinolone Injection 10mg/40mg/ml",
+        "Amount": 1350
+      },
+      {
+        "GENERAL DESCRIPTION": "Triamcinolone Paste (accetonide) 0.001",
+        "Amount": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tripolidine (HCL)  + Pseudoephedrine (HCL) Syrup 30mg  +  1.2mg",
+        "Amount": 950
+      },
+      {
+        "GENERAL DESCRIPTION": "Tripolidine (HCL)  + Pseudoephedrine (HCL) Tablet 60mg + 2.5mg",
+        "Amount": 65
+      },
+      {
+        "GENERAL DESCRIPTION": "Trypsin + Chymotrypsin Tablet Trypsin 50,000 Armour units + Chymotrypsin 50000 Armour units",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Typhoid Vaccine Injection 1.5ml/vial",
+        "Amount": 7500
+      },
+      {
+        "GENERAL DESCRIPTION": "Valproic acid (sodium valproate) Tablet (enteric-coated) 200mg",
+        "Amount": 70
+      },
+      {
+        "GENERAL DESCRIPTION": "Valproic acid (sodium valproate) Tablet (enteric-coated) 500mg",
+        "Amount": 180
+      },
+      {
+        "GENERAL DESCRIPTION": "Valsartan Tablet 80mg",
+        "Amount": 165
+      },
+      {
+        "GENERAL DESCRIPTION": "Valsatan Tablet 160mg",
+        "Amount": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "Valsatan /Hydrochlothiazide Tablet 80mg/12.5mg",
+        "Amount": 180
+      },
+      {
+        "GENERAL DESCRIPTION": "Valsatan /Hydrochlothiazide Tablet 160/12.5mg",
+        "Amount": 220
+      },
+      {
+        "GENERAL DESCRIPTION": "Valsatan /Hydrochlothiazide Tablet 160/25mg",
+        "Amount": 220
+      },
+      {
+        "GENERAL DESCRIPTION": "Vidagliptin + Metformin Tablet 50mg/500mg",
+        "Amount": 235
+      },
+      {
+        "GENERAL DESCRIPTION": "Vidagliptin + Metformin Tablet 50mg/1000mg",
+        "Amount": 235
+      },
+      {
+        "GENERAL DESCRIPTION": "Vildagliptin Tablet 50mg",
+        "Amount": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "Vitamin  B Complex Syrup ",
+        "Amount": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "Vitamin A Oral suspension ",
+        "Amount": 500
+      },
+      {
+        "GENERAL DESCRIPTION": "Vitamin B Complex Injection ",
+        "Amount": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "Vitamin B Complex Tablet/Capsule ",
+        "Amount": 5
+      },
+      {
+        "GENERAL DESCRIPTION": "Vitamin C (Ascorbic Acid) Syrup 100mg/5ml, 200mg/5ml, 500mg/5ml",
+        "Amount": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "Vitamin C (Ascorbic Acid) Tablet 100mg",
+        "Amount": 5
+      },
+      {
+        "GENERAL DESCRIPTION": "Warfarin Sodium Tablet 3mg,",
+        "Amount": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Warfarin Sodium Tablet 5mg",
+        "Amount": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "Xylomethazoline Nasal drops 0.0025",
+        "Amount": 1200
+      },
+      {
+        "GENERAL DESCRIPTION": "Xylomethazoline Nasal drops 0.005",
+        "Amount": 1200
+      },
+      {
+        "GENERAL DESCRIPTION": "Xylomethazoline + Antazoline Nasal drops 0.25% + 0.5%  (paed)",
+        "Amount": 1200
+      },
+      {
+        "GENERAL DESCRIPTION": "Xylomethazoline + Antazoline Nasal drops Adult",
+        "Amount": 1200
+      },
+      {
+        "GENERAL DESCRIPTION": "Yellow fever vaccine Injection Powder for reconstitution 1,5 and 10 dose vial",
+        "Amount": 1500
+      }
+    ]
+  }

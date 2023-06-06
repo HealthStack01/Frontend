@@ -239,6 +239,7 @@ export const menuItems = [
       {name: "Complaints", to: "/app/managed-care/complaints"},
       {name: "HIA", to: "/app/managed-care/HIA"},
       {name: "Premiums", to: "/app/managed-care/premiums"},
+      {name: "Invoice", to: "/app/managed-care/invoice"},
       // {
       //   name: "Organisation",
       //   to: "/app/managed-care/organisation",
@@ -294,6 +295,7 @@ export const menuItems = [
       // {name: "Health Plan", to: "/app/corporate/healthplan"},
       {name: "Check In", to: "/app/corporate/Checkin"},
       {name: "Dashboard", to: "/app/corporate/dashboard"},
+      {name: "Invoice", to: "/app/corporate/invoice"},
     ],
   },
 

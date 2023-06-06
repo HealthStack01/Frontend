@@ -55,6 +55,7 @@ export const OrganizationsList = ({selectOrganization}) => {
 	const facilityServ = client.service('facility');
 	const [facilities, setFacilities] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [total, setTotal] = useState(0);
 	const {state, setState} = useContext(ObjectContext);
 
 	const getFacilities = () => {
@@ -71,6 +72,7 @@ export const OrganizationsList = ({selectOrganization}) => {
 			.then(res => {
 				// console.log(res);
 				setFacilities(res.data);
+				setTotal(res.total)
 				setLoading(false);
 			})
 			.catch(err => {
@@ -169,6 +171,25 @@ export const OrganizationsList = ({selectOrganization}) => {
 					sx={{fontSize: '0.8rem', whiteSpace: 'normal'}}
 					data-tag='allowRowEvents'>
 					{row?.facilityName}
+				</Typography>
+			),
+			sortable: true,
+			required: true,
+			inputType: 'HIDDEN',
+			style: {
+				color: '#1976d2',
+				textTransform: 'capitalize',
+			},
+		},
+		{
+			name: 'City',
+			key: 'sn',
+			description: 'City',
+			selector: row => (
+				<Typography
+					sx={{fontSize: '0.8rem', whiteSpace: 'normal'}}
+					data-tag='allowRowEvents'>
+					{row?.facilityCity}
 				</Typography>
 			),
 			sortable: true,
@@ -345,7 +366,7 @@ export const OrganizationsList = ({selectOrganization}) => {
 						</div>
 					)}
 					<h2 style={{marginLeft: '10px', fontSize: '0.95rem'}}>
-						List of Organizations on Healthstack
+						List of Organizations on Healthstack ({total})
 					</h2>
 				</div>
 			</TableMenu>
@@ -747,13 +768,13 @@ export const OrganizationDetails = ({organization, goBack}) => {
 					md={6}
 					sm={6}
 					xs={12}>
-					{/* <Input
+					<Input
 		  register={register("facilityCity")}
 		  label="City"
 		  disabled={!edit}
-		/> */}
+		/>
 
-					<CustomSelect
+					{/* <CustomSelect
 						label='City'
 						control={control}
 						name='facilityCity'
@@ -765,7 +786,7 @@ export const OrganizationDetails = ({organization, goBack}) => {
 						}
 						important
 						disabled={!edit}
-					/>
+					/> */}
 				</Grid>
 			</Grid>
 		</Box>
@@ -821,6 +842,18 @@ export const OrganizationDetails = ({organization, goBack}) => {
 					register={register("accessComments")}
 					label="Comments"
 					disabled={!edit}
+					/>
+				</Grid>
+				<Grid item lg={4} md={6} sm={6} xs={12}>
+					
+					<CustomSelect
+						label='Billing Mode'
+						control={control}
+						name='billingMode'
+						//errorText={errors?.facilityType?.message}
+						options={["Billing","Non-Billing"]}
+						disabled={!edit}
+						important
 					/>
 				</Grid>
 				</Grid>

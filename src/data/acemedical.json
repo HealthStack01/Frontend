@@ -1,0 +1,1228 @@
+{
+    "SERVICES": [
+      {
+        "Name": "Multiple Caesarean section+Hysterectomy",
+        "MEDICARE": 440000
+      },
+      {
+        "Name": "Caesarean section/Hysterectomy",
+        "MEDICARE": 400000
+      },
+      {
+        "Name": "Hysterectomy",
+        "MEDICARE": 400000
+      },
+      {
+        "Name": "Hysterectomy and bilateral salpingooophorectomy",
+        "MEDICARE": 400000
+      },
+      {
+        "Name": "Myomectomy depending on size >12weeks",
+        "MEDICARE": 400000
+      },
+      {
+        "Name": "Myomectomy depending on size <12 wks and less ",
+        "MEDICARE": 380000
+      },
+      {
+        "Name": "Multiple Caesarean section",
+        "MEDICARE": 350000
+      },
+      {
+        "Name": "Caesarean Section with BTL",
+        "MEDICARE": 340000
+      },
+      {
+        "Name": "Repair of ruptured uterus",
+        "MEDICARE": 300000
+      },
+      {
+        "Name": "SALPINGECTOMY (UNRUPTURED ECTOPIC)",
+        "MEDICARE": 300000
+      },
+      {
+        "Name": "Caesarean section",
+        "MEDICARE": 290000
+      },
+      {
+        "Name": "Salpingo oophorectomy",
+        "MEDICARE": 280000
+      },
+      {
+        "Name": "Ovarectomy/ovarian cysts",
+        "MEDICARE": 280000
+      },
+      {
+        "Name": "Herniorraphy Umbilical",
+        "MEDICARE": 260000
+      },
+      {
+        "Name": "Appendectomy (Uncomplicated)",
+        "MEDICARE": 210000
+      },
+      {
+        "Name": "Herniorraphy Inguinal/Others",
+        "MEDICARE": 185000
+      },
+      {
+        "Name": "Cervical Cerclage/Shirodkar Suture",
+        "MEDICARE": 150000
+      },
+      {
+        "Name": "Breast Lump Excision bilateral (Excluding Histology)",
+        "MEDICARE": 120000
+      },
+      {
+        "Name": "Breast Lump Excision Unilateral (Excluding Histology)",
+        "MEDICARE": 90000
+      },
+      {
+        "Name": "Bilateral Tubal Ligation",
+        "MEDICARE": 90000
+      },
+      {
+        "Name": "Destructive Delivery (Craniotomy Embryotomy)",
+        "MEDICARE": 90000
+      },
+      {
+        "Name": "Hydrotubation",
+        "MEDICARE": 75000
+      },
+      {
+        "Name": "Assisted Breech Delivery{EXCLUDING ACCOMODATION}",
+        "MEDICARE": 75000
+      },
+      {
+        "Name": "Suprapubic Cystostomy",
+        "MEDICARE": 70000
+      },
+      {
+        "Name": "Adhesiolysis with insertion of foley catheter/IUCD",
+        "MEDICARE": 70000
+      },
+      {
+        "Name": "Assisted Delivery(Forceps Vacuum Etc.) {EXCLUDING ACCOMODATION}",
+        "MEDICARE": 70000
+      },
+      {
+        "Name": "Marsupialisation",
+        "MEDICARE": 65000
+      },
+      {
+        "Name": "Multiple Delivery{EXCLUDING ACCOMODATION}",
+        "MEDICARE": 65000
+      },
+      {
+        "Name": "Excisional Biopsy(Excluding Histology)",
+        "MEDICARE": 60000
+      },
+      {
+        "Name": "Keloid Excision (Major)",
+        "MEDICARE": 60000
+      },
+      {
+        "Name": "Ambulance service inter-state",
+        "MEDICARE": 55000
+      },
+      {
+        "Name": "Ganglion Excision",
+        "MEDICARE": 55000
+      },
+      {
+        "Name": "Exchange Blood Transfusion (Rh negative Blood With Set)",
+        "MEDICARE": 50000
+      },
+      {
+        "Name": "Normal Delivery {EXCLUDING ACCOMODATION}",
+        "MEDICARE": 50000
+      },
+      {
+        "Name": "Ante natal care (ANC)",
+        "MEDICARE": 47500
+      },
+      {
+        "Name": "Ambulance service Intra- state",
+        "MEDICARE": 45000
+      },
+      {
+        "Name": "Exchange Blood Transfusion (Rh positive Blood With Set)",
+        "MEDICARE": 45000
+      },
+      {
+        "Name": "Epidural/spinal",
+        "MEDICARE": 45000
+      },
+      {
+        "Name": "Major (Ectopic, C/S Etc.)",
+        "MEDICARE": 45000
+      },
+      {
+        "Name": "Examination Under Anaesthesia (EUA)",
+        "MEDICARE": 40000
+      },
+      {
+        "Name": "Medium (Hernia, Appendix, Etc.)",
+        "MEDICARE": 40000
+      },
+      {
+        "Name": "Neurosurgeon Initial",
+        "MEDICARE": 35000
+      },
+      {
+        "Name": "In growing Nail (Excision)",
+        "MEDICARE": 35000
+      },
+      {
+        "Name": "Major Major",
+        "MEDICARE": 35000
+      },
+      {
+        "Name": "Major (Ectopic, C/S Etc.)",
+        "MEDICARE": 35000
+      },
+      {
+        "Name": "Echocardiogarm",
+        "MEDICARE": 30000
+      },
+      {
+        "Name": "Major Debridement Of Burns/Wound",
+        "MEDICARE": 30000
+      },
+      {
+        "Name": "Close Reduction Of Fracture And Application Cast",
+        "MEDICARE": 30000
+      },
+      {
+        "Name": "MVA/ERCP/Evacuation",
+        "MEDICARE": 30000
+      },
+      {
+        "Name": "Cervical Laceration Repair",
+        "MEDICARE": 30000
+      },
+      {
+        "Name": "Pelvic/abdominal abscess drainage",
+        "MEDICARE": 30000
+      },
+      {
+        "Name": "Medium (Hernia, Appendix, Etc.)",
+        "MEDICARE": 30000
+      },
+      {
+        "Name": "Skin Traction(ProcedureplusMaterial)",
+        "MEDICARE": 28000
+      },
+      {
+        "Name": "Barium Enema",
+        "MEDICARE": 28000
+      },
+      {
+        "Name": "Barium Meal Follow_Through",
+        "MEDICARE": 28000
+      },
+      {
+        "Name": "Hematologist, Oncologist Initial",
+        "MEDICARE": 25000
+      },
+      {
+        "Name": "Neurosurgeon Review",
+        "MEDICARE": 25000
+      },
+      {
+        "Name": "Pint Of Screened Blood (Rh negative)",
+        "MEDICARE": 25000
+      },
+      {
+        "Name": "Incision and Drainage (I and D) Major(Procedure Only)",
+        "MEDICARE": 25000
+      },
+      {
+        "Name": "Removal Of IUCD Under General Anaesthesia",
+        "MEDICARE": 25000
+      },
+      {
+        "Name": "Repair Of Third Degree Tear",
+        "MEDICARE": 25000
+      },
+      {
+        "Name": "Excision Of Vaginal Septum",
+        "MEDICARE": 25000
+      },
+      {
+        "Name": "Major",
+        "MEDICARE": 25000
+      },
+      {
+        "Name": "Close Reduction Of Fracture And Application Cast",
+        "MEDICARE": 25000
+      },
+      {
+        "Name": "Barium Meal",
+        "MEDICARE": 25000
+      },
+      {
+        "Name": "Barium Swallow",
+        "MEDICARE": 25000
+      },
+      {
+        "Name": "Cyst_Urethrogram",
+        "MEDICARE": 25000
+      },
+      {
+        "Name": "IVU",
+        "MEDICARE": 25000
+      },
+      {
+        "Name": "Oral Cholecystogram",
+        "MEDICARE": 25000
+      },
+      {
+        "Name": "Pint Of Screened Blood (Rh positive)",
+        "MEDICARE": 23000
+      },
+      {
+        "Name": "Birth before arrival care",
+        "MEDICARE": 22000
+      },
+      {
+        "Name": "RARE SPECIALIST{ Plastic surgeon, ENT, Paediatric Surgeon, Urologist, Neurologist",
+        "MEDICARE": 20000
+      },
+      {
+        "Name": "Hematologist, Oncologist Review",
+        "MEDICARE": 20000
+      },
+      {
+        "Name": "Oxygen Therapy continuous per day",
+        "MEDICARE": 20000
+      },
+      {
+        "Name": "Suturing of Major Laceration",
+        "MEDICARE": 20000
+      },
+      {
+        "Name": "Minor",
+        "MEDICARE": 20000
+      },
+      {
+        "Name": "Minor",
+        "MEDICARE": 20000
+      },
+      {
+        "Name": "Drainage Of Septic Arthritis",
+        "MEDICARE": 20000
+      },
+      {
+        "Name": "Simple Congenital Talipes Repair",
+        "MEDICARE": 20000
+      },
+      {
+        "Name": "Hsg",
+        "MEDICARE": 20000
+      },
+      {
+        "Name": "Perineal Warts (Podophyllin Painting X 3 Courses)",
+        "MEDICARE": 18000
+      },
+      {
+        "Name": "Incision and Drainage (I and D) Intermediate",
+        "MEDICARE": 18000
+      },
+      {
+        "Name": "Implanon ",
+        "MEDICARE": 18000
+      },
+      {
+        "Name": "Suture Of Major Wounds (Surgical Fees Only)",
+        "MEDICARE": 18000
+      },
+      {
+        "Name": " Cardiologist, Orthopaedic,  Nephrologist,  Endocrinologist, Psychiatrist Initial",
+        "MEDICARE": 15000
+      },
+      {
+        "Name": "RARE SPECIALIST{ Plastic surgeon, ENT, Paediatric Surgeon, Urologist, Nerologist} Review ",
+        "MEDICARE": 15000
+      },
+      {
+        "Name": "Aspirations/Paracentesis",
+        "MEDICARE": 15000
+      },
+      {
+        "Name": "Pap Smear with cytology",
+        "MEDICARE": 15000
+      },
+      {
+        "Name": "Injection Sclerotherapy Of Varicose Veins",
+        "MEDICARE": 15000
+      },
+      {
+        "Name": "Medium/Intermediate",
+        "MEDICARE": 15000
+      },
+      {
+        "Name": "removal of foreign body nose bilateral",
+        "MEDICARE": 15000
+      },
+      {
+        "Name": "Tissue Histology",
+        "MEDICARE": 15000
+      },
+      {
+        "Name": "Mammogram",
+        "MEDICARE": 15000
+      },
+      {
+        "Name": "Repair of vagina laceration(Second degree)",
+        "MEDICARE": 13000
+      },
+      {
+        "Name": "Thyroid function test",
+        "MEDICARE": 13000
+      },
+      {
+        "Name": "Paediatrician,Ophthalmologist Initial",
+        "MEDICARE": 12000
+      },
+      {
+        "Name": "Minor Debridement Of Burns/Wound",
+        "MEDICARE": 12000
+      },
+      {
+        "Name": "Manual removal of placenta",
+        "MEDICARE": 12000
+      },
+      {
+        "Name": "Foreign Body Removal From The Ear-Bilateral",
+        "MEDICARE": 11000
+      },
+      {
+        "Name": "Gynaecologist  Consultation Initial (IN-HOUSE)",
+        "MEDICARE": 10000
+      },
+      {
+        "Name": " Family physician Initial (IN-HOUSE)",
+        "MEDICARE": 10000
+      },
+      {
+        "Name": " Cardiologist, Orthopaedic,  Nephrologist, Endocrinologist, Psychiatrist Review",
+        "MEDICARE": 10000
+      },
+      {
+        "Name": "Oxygen therapy intermittent",
+        "MEDICARE": 10000
+      },
+      {
+        "Name": "Circumcision babies only",
+        "MEDICARE": 10000
+      },
+      {
+        "Name": "Crutches",
+        "MEDICARE": 10000
+      },
+      {
+        "Name": "Incision and Drainage (I and D) Minor",
+        "MEDICARE": 10000
+      },
+      {
+        "Name": "IUCD Insertion",
+        "MEDICARE": 10000
+      },
+      {
+        "Name": "Colposcopy",
+        "MEDICARE": 10000
+      },
+      {
+        "Name": "CTG",
+        "MEDICARE": 10000
+      },
+      {
+        "Name": "Incision And Drainage Of Abscess",
+        "MEDICARE": 10000
+      },
+      {
+        "Name": "Debridement And Toilet Of Minor Wounds",
+        "MEDICARE": 10000
+      },
+      {
+        "Name": "Rheumatoid Factor",
+        "MEDICARE": 10000
+      },
+      {
+        "Name": "(PRIVATE)",
+        "MEDICARE": 9000
+      },
+      {
+        "Name": "Blood Culture",
+        "MEDICARE": 9000
+      },
+      {
+        "Name": "AP Lateral",
+        "MEDICARE": 8100
+      },
+      {
+        "Name": "Paediatrician,Ophthalmologist Review",
+        "MEDICARE": 8000
+      },
+      {
+        "Name": "Burn Major Dressing",
+        "MEDICARE": 8000
+      },
+      {
+        "Name": "Suturing Of Minor Laceration/1 SITE",
+        "MEDICARE": 8000
+      },
+      {
+        "Name": "removal of foreign body nose unilateral",
+        "MEDICARE": 8000
+      },
+      {
+        "Name": "Pro Calcitonin",
+        "MEDICARE": 8000
+      },
+      {
+        "Name": "Prostate Specific antigen",
+        "MEDICARE": 8000
+      },
+      {
+        "Name": "Gynaecologist  Consultation Review",
+        "MEDICARE": 7500
+      },
+      {
+        "Name": "Family physician Review",
+        "MEDICARE": 7500
+      },
+      {
+        "Name": "Electrocardiography (ECG)",
+        "MEDICARE": 7500
+      },
+      {
+        "Name": "Minor",
+        "MEDICARE": 7500
+      },
+      {
+        "Name": "TLP",
+        "MEDICARE": 7200
+      },
+      {
+        "Name": "Abdominal",
+        "MEDICARE": 7200
+      },
+      {
+        "Name": "Abdomino-pelvic scan",
+        "MEDICARE": 7200
+      },
+      {
+        "Name": "Incubator Care",
+        "MEDICARE": 7000
+      },
+      {
+        "Name": "Syringing for both ear",
+        "MEDICARE": 7000
+      },
+      {
+        "Name": "Nasal Packing",
+        "MEDICARE": 7000
+      },
+      {
+        "Name": "fasting lipid profile",
+        "MEDICARE": 7000
+      },
+      {
+        "Name": "HBA1C",
+        "MEDICARE": 7000
+      },
+      {
+        "Name": "Endocervical M C S",
+        "MEDICARE": 7000
+      },
+      {
+        "Name": "EXTREMITIES",
+        "MEDICARE": 7000
+      },
+      {
+        "Name": "Breast Scan",
+        "MEDICARE": 6750
+      },
+      {
+        "Name": "Aural And Nasal Suction/Clearance",
+        "MEDICARE": 6500
+      },
+      {
+        "Name": "Liver Function Test LFT",
+        "MEDICARE": 6500
+      },
+      {
+        "Name": "Helicobacter pylori",
+        "MEDICARE": 6300
+      },
+      {
+        "Name": "Lumbar Spine",
+        "MEDICARE": 6300
+      },
+      {
+        "Name": "Lumbo_ Sacral Spine",
+        "MEDICARE": 6300
+      },
+      {
+        "Name": "Pelvis Hip",
+        "MEDICARE": 6300
+      },
+      {
+        "Name": "Thoracic Inlet",
+        "MEDICARE": 6300
+      },
+      {
+        "Name": "Thoracic Spine",
+        "MEDICARE": 6300
+      },
+      {
+        "Name": "Thoraco_ Lumbar Spine",
+        "MEDICARE": 6300
+      },
+      {
+        "Name": "Plain",
+        "MEDICARE": 6300
+      },
+      {
+        "Name": "Pelvimetry",
+        "MEDICARE": 6300
+      },
+      {
+        "Name": "Mastoids",
+        "MEDICARE": 6300
+      },
+      {
+        "Name": "Pelvis AP",
+        "MEDICARE": 6300
+      },
+      {
+        "Name": "Sinuses",
+        "MEDICARE": 6300
+      },
+      {
+        "Name": "Temperomandibular Joint TMJ",
+        "MEDICARE": 6300
+      },
+      {
+        "Name": "Gastric Lavage",
+        "MEDICARE": 6000
+      },
+      {
+        "Name": "Lumbar Puncture {Procedure Only}",
+        "MEDICARE": 6000
+      },
+      {
+        "Name": "Implanon removal",
+        "MEDICARE": 6000
+      },
+      {
+        "Name": "Foreign Body Removal From The Ear-Unilateral",
+        "MEDICARE": 6000
+      },
+      {
+        "Name": "Electrolyte Urea and creatinine",
+        "MEDICARE": 6000
+      },
+      {
+        "Name": "Mandibles Jaw",
+        "MEDICARE": 6000
+      },
+      {
+        "Name": "Obstetric Scan",
+        "MEDICARE": 6000
+      },
+      {
+        "Name": "Pelvic scan",
+        "MEDICARE": 6000
+      },
+      {
+        "Name": "Post nasal space",
+        "MEDICARE": 6000
+      },
+      {
+        "Name": "Ultrasound Scan (Obstetric)",
+        "MEDICARE": 5500
+      },
+      {
+        "Name": "Cervical Spine",
+        "MEDICARE": 5400
+      },
+      {
+        "Name": "Cervical Spine Oblique",
+        "MEDICARE": 5400
+      },
+      {
+        "Name": "Chest PA AP",
+        "MEDICARE": 5400
+      },
+      {
+        "Name": "Chest PA Lateral",
+        "MEDICARE": 5400
+      },
+      {
+        "Name": "Sacrum",
+        "MEDICARE": 5400
+      },
+      {
+        "Name": "Erect Supine",
+        "MEDICARE": 5400
+      },
+      {
+        "Name": "(SEMI PRIVATE)",
+        "MEDICARE": 5000
+      },
+      {
+        "Name": "Catheterization Male",
+        "MEDICARE": 5000
+      },
+      {
+        "Name": "Catheterization Female",
+        "MEDICARE": 5000
+      },
+      {
+        "Name": "Knee Effusion Taps",
+        "MEDICARE": 5000
+      },
+      {
+        "Name": "Burn Moderate Dressing",
+        "MEDICARE": 5000
+      },
+      {
+        "Name": "Excision/Diathermy Of Warts",
+        "MEDICARE": 5000
+      },
+      {
+        "Name": "Confirmatory Test For HIV 1 2",
+        "MEDICARE": 5000
+      },
+      {
+        "Name": "Oral Glucose Tolerance Test OGTT",
+        "MEDICARE": 5000
+      },
+      {
+        "Name": "XRAY OF THE RL THIGH AP AND LAT",
+        "MEDICARE": 5000
+      },
+      {
+        "Name": "Prostate Scan",
+        "MEDICARE": 5000
+      },
+      {
+        "Name": "Testes Scan",
+        "MEDICARE": 5000
+      },
+      {
+        "Name": "Thyroid Scan",
+        "MEDICARE": 5000
+      },
+      {
+        "Name": "C Reactive Protein {CRP}",
+        "MEDICARE": 4800
+      },
+      {
+        "Name": "Nebulisation per session",
+        "MEDICARE": 4500
+      },
+      {
+        "Name": "Phototherapy",
+        "MEDICARE": 4500
+      },
+      {
+        "Name": "Subdural Tap",
+        "MEDICARE": 4500
+      },
+      {
+        "Name": "Prothrombin Time PT",
+        "MEDICARE": 4500
+      },
+      {
+        "Name": "Bladder Scan",
+        "MEDICARE": 4500
+      },
+      {
+        "Name": "Leg Tibia Fibula",
+        "MEDICARE": 4500
+      },
+      {
+        "Name": "Thigh Femur",
+        "MEDICARE": 4500
+      },
+      {
+        "Name": "Physiotherapy/Session",
+        "MEDICARE": 4000
+      },
+      {
+        "Name": "Evacuation Of Impacted Faeces",
+        "MEDICARE": 4000
+      },
+      {
+        "Name": "Tongue Tie Release",
+        "MEDICARE": 4000
+      },
+      {
+        "Name": "Syringing for one ear",
+        "MEDICARE": 4000
+      },
+      {
+        "Name": "Electrocautery Of Nose",
+        "MEDICARE": 4000
+      },
+      {
+        "Name": "Seminal Fluid Analysis {SFA}",
+        "MEDICARE": 4000
+      },
+      {
+        "Name": "Chest For Ribs Oblique",
+        "MEDICARE": 4000
+      },
+      {
+        "Name": "Forearm Radius And Ulna",
+        "MEDICARE": 4000
+      },
+      {
+        "Name": "Hip",
+        "MEDICARE": 4000
+      },
+      {
+        "Name": "Lateral Neck Soft Tissue",
+        "MEDICARE": 4000
+      },
+      {
+        "Name": "Ankle",
+        "MEDICARE": 4000
+      },
+      {
+        "Name": "Clavicle",
+        "MEDICARE": 4000
+      },
+      {
+        "Name": "Dental_Intra_Oral Periapical",
+        "MEDICARE": 4000
+      },
+      {
+        "Name": "Elbow",
+        "MEDICARE": 4000
+      },
+      {
+        "Name": "Foot Toe",
+        "MEDICARE": 4000
+      },
+      {
+        "Name": "Hand Finger",
+        "MEDICARE": 4000
+      },
+      {
+        "Name": "Humerus",
+        "MEDICARE": 4000
+      },
+      {
+        "Name": "Knee",
+        "MEDICARE": 4000
+      },
+      {
+        "Name": "Shoulder",
+        "MEDICARE": 4000
+      },
+      {
+        "Name": "CSF M C S",
+        "MEDICARE": 3500
+      },
+      {
+        "Name": "HVS M C S",
+        "MEDICARE": 3500
+      },
+      {
+        "Name": "Protein Electrophoresis + Report",
+        "MEDICARE": 3500
+      },
+      {
+        "Name": "Serum TB",
+        "MEDICARE": 3500
+      },
+      {
+        "Name": "Semen Culture And Sensitivity",
+        "MEDICARE": 3500
+      },
+      {
+        "Name": "Coccyx",
+        "MEDICARE": 3500
+      },
+      {
+        "Name": "Sacro_ Iliac Joint SIJ",
+        "MEDICARE": 3500
+      },
+      {
+        "Name": "Wrist",
+        "MEDICARE": 3500
+      },
+      {
+        "Name": "Sputum AFB For Tuberculosis X3",
+        "MEDICARE": 3300
+      },
+      {
+        "Name": "Glucose Tolerance Test",
+        "MEDICARE": 3200
+      },
+      {
+        "Name": "Feeding per diem",
+        "MEDICARE": 3000
+      },
+      {
+        "Name": "Ear Piercing",
+        "MEDICARE": 3000
+      },
+      {
+        "Name": "ASO Titre",
+        "MEDICARE": 3000
+      },
+      {
+        "Name": "Aspirate Pus M C S",
+        "MEDICARE": 3000
+      },
+      {
+        "Name": "Serum Bilirubin Total and direct",
+        "MEDICARE": 3000
+      },
+      {
+        "Name": "Sputum M C S",
+        "MEDICARE": 3000
+      },
+      {
+        "Name": "Stool M C S",
+        "MEDICARE": 3000
+      },
+      {
+        "Name": "SWAB M/C/S",
+        "MEDICARE": 3000
+      },
+      {
+        "Name": "Total Acid Phosphates",
+        "MEDICARE": 3000
+      },
+      {
+        "Name": "Urethral And Wound M C S",
+        "MEDICARE": 3000
+      },
+      {
+        "Name": "URINE M/C/S",
+        "MEDICARE": 3000
+      },
+      {
+        "Name": "CSF Protein",
+        "MEDICARE": 2800
+      },
+      {
+        "Name": "Screening For HIV 1 2",
+        "MEDICARE": 2700
+      },
+      {
+        "Name": "Registration/General Consultation",
+        "MEDICARE": 2500
+      },
+      {
+        "Name": "Major Wound Dressing",
+        "MEDICARE": 2500
+      },
+      {
+        "Name": "Cholesterol",
+        "MEDICARE": 2500
+      },
+      {
+        "Name": "HDL",
+        "MEDICARE": 2500
+      },
+      {
+        "Name": "LDL",
+        "MEDICARE": 2500
+      },
+      {
+        "Name": "Creatinine Clearance",
+        "MEDICARE": 2500
+      },
+      {
+        "Name": "CROSS MATCHING AND GROUPING",
+        "MEDICARE": 2500
+      },
+      {
+        "Name": "CSF ALBUMIN",
+        "MEDICARE": 2500
+      },
+      {
+        "Name": "Direct Coombs Test",
+        "MEDICARE": 2500
+      },
+      {
+        "Name": "Full Blood Count",
+        "MEDICARE": 2500
+      },
+      {
+        "Name": "Direct Coombs Test",
+        "MEDICARE": 2500
+      },
+      {
+        "Name": "Indirect Coombs Test",
+        "MEDICARE": 2500
+      },
+      {
+        "Name": "Partial Thromboplastin Time PTT",
+        "MEDICARE": 2500
+      },
+      {
+        "Name": "Uric Acid",
+        "MEDICARE": 2500
+      },
+      {
+        "Name": "Apical Lordotic",
+        "MEDICARE": 2500
+      },
+      {
+        "Name": "Sternum",
+        "MEDICARE": 2500
+      },
+      {
+        "Name": "GP Consult Initial",
+        "MEDICARE": 2000
+      },
+      {
+        "Name": "Amylase",
+        "MEDICARE": 2000
+      },
+      {
+        "Name": "Australian Antigen",
+        "MEDICARE": 2000
+      },
+      {
+        "Name": "Bleeding Time",
+        "MEDICARE": 2000
+      },
+      {
+        "Name": "Calcium",
+        "MEDICARE": 2000
+      },
+      {
+        "Name": "Clotting Time",
+        "MEDICARE": 2000
+      },
+      {
+        "Name": "Creatinine",
+        "MEDICARE": 2000
+      },
+      {
+        "Name": "Gamma Glutaryl Transferase",
+        "MEDICARE": 2000
+      },
+      {
+        "Name": "HbsAg {Hepatitis B}",
+        "MEDICARE": 2000
+      },
+      {
+        "Name": "HCV {Hepatitis C}",
+        "MEDICARE": 2000
+      },
+      {
+        "Name": "Microfilaria",
+        "MEDICARE": 2000
+      },
+      {
+        "Name": "Occult Blood {STOOL}",
+        "MEDICARE": 2000
+      },
+      {
+        "Name": "Platelets",
+        "MEDICARE": 2000
+      },
+      {
+        "Name": "Acid Phosphatase",
+        "MEDICARE": 2000
+      },
+      {
+        "Name": "Skin Scraping For Fungal Elements",
+        "MEDICARE": 2000
+      },
+      {
+        "Name": "Skin Snip",
+        "MEDICARE": 2000
+      },
+      {
+        "Name": "Total Protein",
+        "MEDICARE": 2000
+      },
+      {
+        "Name": "Urea",
+        "MEDICARE": 2000
+      },
+      {
+        "Name": "VDRL",
+        "MEDICARE": 2000
+      },
+      {
+        "Name": "GP Consult Review",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "Followup Consultation",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "Albumin",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "Alkaline Phosphatase",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "ASO Heaf Test",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "Chloride",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": " Bicarbonate",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "CSF Chloride",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "Direct Bilirubin",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "Total Bilrubin",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "ESR ",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "Genotype",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "Mantoux Heaf Test",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "Phosphorus",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "Potassium",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "Pregnancy Test HCG Blood",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "SGOT",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "SGPT",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "Total Bilirubin",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "Triglyceride",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "White Cell Count+ Differential",
+        "MEDICARE": 1500
+      },
+      {
+        "Name": "Random Blood Sugar",
+        "MEDICARE": 1400
+      },
+      {
+        "Name": "Oxygen per hour",
+        "MEDICARE": 1200
+      },
+      {
+        "Name": "Minor Wound Dressing",
+        "MEDICARE": 1200
+      },
+      {
+        "Name": "Widal",
+        "MEDICARE": 1100
+      },
+      {
+        "Name": "Blood Group",
+        "MEDICARE": 1000
+      },
+      {
+        "Name": "CSF Glucose",
+        "MEDICARE": 1000
+      },
+      {
+        "Name": "Differential Count only",
+        "MEDICARE": 1000
+      },
+      {
+        "Name": "Fasting Blood Sugar",
+        "MEDICARE": 1000
+      },
+      {
+        "Name": "Malaria Parasite",
+        "MEDICARE": 1000
+      },
+      {
+        "Name": "Mch",
+        "MEDICARE": 1000
+      },
+      {
+        "Name": "Mchc",
+        "MEDICARE": 1000
+      },
+      {
+        "Name": "Mcv",
+        "MEDICARE": 1000
+      },
+      {
+        "Name": "Red Cell Count",
+        "MEDICARE": 1000
+      },
+      {
+        "Name": "Stool Analysis",
+        "MEDICARE": 1000
+      },
+      {
+        "Name": "Urine Microscopy",
+        "MEDICARE": 1000
+      },
+      {
+        "Name": "24hr Post Prandial",
+        "MEDICARE": 800
+      },
+      {
+        "Name": "Haemoglobin",
+        "MEDICARE": 800
+      },
+      {
+        "Name": "Packed Cell Volume",
+        "MEDICARE": 800
+      },
+      {
+        "Name": "Urinalysis",
+        "MEDICARE": 750
+      },
+      {
+        "Name": "Sodium",
+        "MEDICARE": 700
+      },
+      {
+        "Name": "Urine Pregnancy Test",
+        "MEDICARE": 700
+      }
+    ]
+  }

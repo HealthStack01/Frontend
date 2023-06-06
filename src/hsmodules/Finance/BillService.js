@@ -5,7 +5,8 @@ import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+//import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {format, formatDistanceToNowStrict} from "date-fns";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
@@ -78,6 +79,7 @@ export function BillsList({openCreateModal}) {
   // eslint-disable-next-line
   const [message, setMessage] = useState("");
   const BillServ = client.service("bills");
+  const smsServ = client.service("sendsms");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -172,8 +174,8 @@ export function BillsList({openCreateModal}) {
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
-
     await openCreateModal(true);
+    
   };
 
   const handleSearch = val => {
@@ -197,7 +199,10 @@ export function BillsList({openCreateModal}) {
 
         "participantInfo.billingFacility":
           user.currentEmployee.facilityDetail._id,
-        billing_status: "Unpaid", // need to set this finally
+          billing_status: {
+            $ne: "Fully Paid",
+          },
+       // billing_status: "Unpaid", // need to set this finally
         //order_category:"Prescription",
         // storeId:state.StoreModule.selectedStore._id,
         //facility:user.currentEmployee.facilityDetail._id || "",
@@ -236,7 +241,10 @@ export function BillsList({openCreateModal}) {
 
         "participantInfo.billingFacility":
           user.currentEmployee.facilityDetail._id,
-        billing_status: "Unpaid", // need to set this finally
+          billing_status: {
+            $ne: "Fully Paid",
+          },
+       // billing_status: "Unpaid", // need to set this finally
         //storeId:state.StoreModule.selectedStore._id,
         //clientId:state.ClientModule.selectedClient._id,
         $limit: 100,

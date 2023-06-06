@@ -1,0 +1,756 @@
+{
+    "Maxoficial": [
+      {
+        "Service Description": "PREDICURE 5MG TAB (PREDNISOLONE) x 10",
+        "HCI PRICE": 40
+      },
+      {
+        "Service Description": "EMZOR PIRITON X 10",
+        "HCI PRICE": 40
+      },
+      {
+        "Service Description": "EMCAP PCM CAPLET 500MG X10",
+        "HCI PRICE": 50
+      },
+      {
+        "Service Description": "MIXANAL CAPS x10",
+        "HCI PRICE": 75
+      },
+      {
+        "Service Description": "PIRITON 4MG X 10",
+        "HCI PRICE": 80
+      },
+      {
+        "Service Description": "HISTACET 10MG X 10",
+        "HCI PRICE": 140
+      },
+      {
+        "Service Description": "LORATADINE TABS X10",
+        "HCI PRICE": 145
+      },
+      {
+        "Service Description": "LORAX TAB X10",
+        "HCI PRICE": 145
+      },
+      {
+        "Service Description": "MOPSON CHLORPHENIRAMINE 60ML X 1",
+        "HCI PRICE": 195
+      },
+      {
+        "Service Description": "ALLERGIN SYRUP X 60MLS X1",
+        "HCI PRICE": 210
+      },
+      {
+        "Service Description": "ANOROL TAB x10",
+        "HCI PRICE": 220
+      },
+      {
+        "Service Description": "BONABABE VITAMINE C SYRUP",
+        "HCI PRICE": 230
+      },
+      {
+        "Service Description": "EM-VIT-C SYRUP 100ML",
+        "HCI PRICE": 230
+      },
+      {
+        "Service Description": "EMZOCLOX X 10 CAPSULES",
+        "HCI PRICE": 235
+      },
+      {
+        "Service Description": "EMTRIM 240MG/5ML SUSPENSION",
+        "HCI PRICE": 235
+      },
+      {
+        "Service Description": "FAPOGYL 200MG X 10",
+        "HCI PRICE": 235
+      },
+      {
+        "Service Description": "NOCOF DROPS 15ML x1",
+        "HCI PRICE": 235
+      },
+      {
+        "Service Description": "EMGYL SUSPENSION 200MG",
+        "HCI PRICE": 240
+      },
+      {
+        "Service Description": "EMCAP SYRUP x1",
+        "HCI PRICE": 250
+      },
+      {
+        "Service Description": "CAPOL SUSPENSION 60ML (GSK) x1",
+        "HCI PRICE": 250
+      },
+      {
+        "Service Description": "AMOXIL 250MG X10 TABLETS",
+        "HCI PRICE": 270
+      },
+      {
+        "Service Description": "LOXAGYL 60ML",
+        "HCI PRICE": 270
+      },
+      {
+        "Service Description": "LORATYN-10 TAB X10",
+        "HCI PRICE": 270
+      },
+      {
+        "Service Description": "CITRAMIN SYRUP",
+        "HCI PRICE": 270
+      },
+      {
+        "Service Description": "CITRAMIN VITAMINE C DROPS",
+        "HCI PRICE": 270
+      },
+      {
+        "Service Description": "CETIDYN-L SYRUP X 1",
+        "HCI PRICE": 280
+      },
+      {
+        "Service Description": "CO-CODAMOL TABS X 10",
+        "HCI PRICE": 300
+      },
+      {
+        "Service Description": "CIPROBON 500MG X 10 CAPLETS",
+        "HCI PRICE": 310
+      },
+      {
+        "Service Description": "FAPTRIMOX SUSPENSION 240MG",
+        "HCI PRICE": 310
+      },
+      {
+        "Service Description": "RANCOTRIM PAEDI SUSP",
+        "HCI PRICE": 310
+      },
+      {
+        "Service Description": "EROCETH 250 X 10 TABLETS",
+        "HCI PRICE": 310
+      },
+      {
+        "Service Description": "HOSPIMOX SUSPENSION",
+        "HCI PRICE": 320
+      },
+      {
+        "Service Description": "EMCILLIN SUSPENSION 100ML",
+        "HCI PRICE": 320
+      },
+      {
+        "Service Description": "REICHLOX 500MG X 10 CAPSULES",
+        "HCI PRICE": 340
+      },
+      {
+        "Service Description": "ACIMOX SUSPENSION 60ML",
+        "HCI PRICE": 350
+      },
+      {
+        "Service Description": "EMMOX 100ML",
+        "HCI PRICE": 350
+      },
+      {
+        "Service Description": "PRIMPEX SUSPENSION",
+        "HCI PRICE": 350
+      },
+      {
+        "Service Description": "PARACETAMOL INJ X 1 (DRUGAMOL)",
+        "HCI PRICE": 350
+      },
+      {
+        "Service Description": "JAWAMOX SUSPENSION 125MG",
+        "HCI PRICE": 385
+      },
+      {
+        "Service Description": "EMZOCLOX NEONATAL ORAL DROPS 12ML",
+        "HCI PRICE": 385
+      },
+      {
+        "Service Description": "EMZOCLOX SUSPENSION 100ML",
+        "HCI PRICE": 385
+      },
+      {
+        "Service Description": "CIPLAIN 500MG X 10 TABLETS",
+        "HCI PRICE": 385
+      },
+      {
+        "Service Description": "TREXIP 500MG X 10 TABLETS",
+        "HCI PRICE": 385
+      },
+      {
+        "Service Description": "ERYTHR 500 X 10 TABLETS",
+        "HCI PRICE": 385
+      },
+      {
+        "Service Description": "ERYTHROMYCIN 125 SUSPENSION",
+        "HCI PRICE": 385
+      },
+      {
+        "Service Description": "KOYOCIN 500 X 10 TABLETS",
+        "HCI PRICE": 385
+      },
+      {
+        "Service Description": "THROTAL SUSPENSION",
+        "HCI PRICE": 385
+      },
+      {
+        "Service Description": "SIVORYK 500MG X 10 TABLETS",
+        "HCI PRICE": 390
+      },
+      {
+        "Service Description": "CHLORPHENIRAMINE SYRUP X 60MLS X1",
+        "HCI PRICE": 400
+      },
+      {
+        "Service Description": "JAWACLOX NEONATAL ORAL DROPS 8ML",
+        "HCI PRICE": 425
+      },
+      {
+        "Service Description": "ZYNCET (CETRIZINE) 10MG X10",
+        "HCI PRICE": 425
+      },
+      {
+        "Service Description": "AMOXICILLIN INJ",
+        "HCI PRICE": 450
+      },
+      {
+        "Service Description": "JAWACLOX SUSPENSION 250MG",
+        "HCI PRICE": 465
+      },
+      {
+        "Service Description": "GPL CIPROFLOXACIN & TINIDAZOLE X 10 TABLETS",
+        "HCI PRICE": 465
+      },
+      {
+        "Service Description": "CETRIZINE 10MG TAB X 10",
+        "HCI PRICE": 465
+      },
+      {
+        "Service Description": "ST RACHAEL'S 500MG X 10 CAPSULES",
+        "HCI PRICE": 470
+      },
+      {
+        "Service Description": "M&B CIPRO 500 X 10 CAPLETS",
+        "HCI PRICE": 470
+      },
+      {
+        "Service Description": "UNICURE 500MG X 14 TABLETS",
+        "HCI PRICE": 470
+      },
+      {
+        "Service Description": "CIFLOMAX PLUS X 10 TABLETS",
+        "HCI PRICE": 475
+      },
+      {
+        "Service Description": "CIPRONOW X 10 TABLETS",
+        "HCI PRICE": 475
+      },
+      {
+        "Service Description": "ELCIP 500 X 14 TABLETS",
+        "HCI PRICE": 475
+      },
+      {
+        "Service Description": "CETIDYN-L 5MG CAP X 10",
+        "HCI PRICE": 500
+      },
+      {
+        "Service Description": "GETZ MONTIGET 4MG(MONTELUKAST SODIUM) x 7",
+        "HCI PRICE": 500
+      },
+      {
+        "Service Description": "XYZAL TAB X10",
+        "HCI PRICE": 500
+      },
+      {
+        "Service Description": "LEBAL 500 X 10 TABLETS",
+        "HCI PRICE": 540
+      },
+      {
+        "Service Description": "CYPLOX X 10 TABLETS",
+        "HCI PRICE": 550
+      },
+      {
+        "Service Description": "FLAGYL SUSPENSION",
+        "HCI PRICE": 550
+      },
+      {
+        "Service Description": "ERYTHR SUSPENSION 100ML",
+        "HCI PRICE": 580
+      },
+      {
+        "Service Description": "GETZ MONTIGET 5MG(MONTELUKAST SODIUM) x 7",
+        "HCI PRICE": 580
+      },
+      {
+        "Service Description": "ZYNCET (CETRIZINE) SYRUP 5MG/5ml X1",
+        "HCI PRICE": 580
+      },
+      {
+        "Service Description": "CIPOTEEN X 14 TABLETS",
+        "HCI PRICE": 620
+      },
+      {
+        "Service Description": "LEVOSTAT X 10 CAPLETS",
+        "HCI PRICE": 620
+      },
+      {
+        "Service Description": "LEVOTIL 500 X 10 CAPLETS",
+        "HCI PRICE": 620
+      },
+      {
+        "Service Description": "LORATIDINE SYR X1",
+        "HCI PRICE": 650
+      },
+      {
+        "Service Description": "RYCIN X 10 TABLETS",
+        "HCI PRICE": 655
+      },
+      {
+        "Service Description": "GREMAX SUSPENSION",
+        "HCI PRICE": 660
+      },
+      {
+        "Service Description": "ATADYN SYRUP 100ML X1",
+        "HCI PRICE": 660
+      },
+      {
+        "Service Description": "ATRIBEX ( CETRIZINE) 5MG/5ML SYRUP X1",
+        "HCI PRICE": 715
+      },
+      {
+        "Service Description": "ATRIBEX (CETRIZINE) DROPS 2.5MG/ML",
+        "HCI PRICE": 715
+      },
+      {
+        "Service Description": "AZITHROPHIN SUSPENSION",
+        "HCI PRICE": 720
+      },
+      {
+        "Service Description": "SIVOCLARITHROMYCIN X 10 TABLETS",
+        "HCI PRICE": 735
+      },
+      {
+        "Service Description": "LOXAPRIM SUSPENSION 240MG",
+        "HCI PRICE": 735
+      },
+      {
+        "Service Description": "AZITHROMYCIN SUSPENSION 30ML",
+        "HCI PRICE": 750
+      },
+      {
+        "Service Description": "GALCIPRO TN X 10 CAPLETS",
+        "HCI PRICE": 750
+      },
+      {
+        "Service Description": "UTILEV 60ML",
+        "HCI PRICE": 750
+      },
+      {
+        "Service Description": "AMOXIL SUSPENSION",
+        "HCI PRICE": 770
+      },
+      {
+        "Service Description": "AZITHRIN SYRUP 15ML",
+        "HCI PRICE": 770
+      },
+      {
+        "Service Description": "ATADYN 10MG TAB X 10",
+        "HCI PRICE": 770
+      },
+      {
+        "Service Description": "CETRIZINE 5MG SYRUP X 60MLS X1",
+        "HCI PRICE": 770
+      },
+      {
+        "Service Description": "CLARION VITAMIN A",
+        "HCI PRICE": 770
+      },
+      {
+        "Service Description": "CLAVULIN SUSPENSION 70ML",
+        "HCI PRICE": 800
+      },
+      {
+        "Service Description": "FLEMING 228.5MG SUSPENSION",
+        "HCI PRICE": 850
+      },
+      {
+        "Service Description": "AMOVIN SUSPENSION 228.5MG",
+        "HCI PRICE": 850
+      },
+      {
+        "Service Description": "CHEMOCLAV 375MG X 14 TABLETS",
+        "HCI PRICE": 850
+      },
+      {
+        "Service Description": "MEDICLAV 100ML",
+        "HCI PRICE": 850
+      },
+      {
+        "Service Description": "TREXIP TZ X 10 TABLETS",
+        "HCI PRICE": 850
+      },
+      {
+        "Service Description": "GETZLOX 500MG X 10 TABLETS",
+        "HCI PRICE": 850
+      },
+      {
+        "Service Description": "L-FLOX 750 X 10 TABLETS",
+        "HCI PRICE": 925
+      },
+      {
+        "Service Description": "Dental Consultation",
+        "HCI PRICE": 1000
+      },
+      {
+        "Service Description": "CIPROTAB 500 X 10 SOFTLETS",
+        "HCI PRICE": 1000
+      },
+      {
+        "Service Description": "GETZLOX 750MG X 10 TABLETS",
+        "HCI PRICE": 1000
+      },
+      {
+        "Service Description": "CLARTHRIME X 14 TABLETS",
+        "HCI PRICE": 1080
+      },
+      {
+        "Service Description": "FLEMING 4 57 MG/5ML",
+        "HCI PRICE": 1100
+      },
+      {
+        "Service Description": "CEEMACIN X 10 TABLETS",
+        "HCI PRICE": 1120
+      },
+      {
+        "Service Description": "ZIMILAT 625MG X 14 TABLETS",
+        "HCI PRICE": 1155
+      },
+      {
+        "Service Description": "AQUACLAV 625MG X 14 TABLETS",
+        "HCI PRICE": 1160
+      },
+      {
+        "Service Description": "CHLODI 625 X 14 TABLETS",
+        "HCI PRICE": 1160
+      },
+      {
+        "Service Description": "CLAMOXIN 625MG X 14 TABLETS",
+        "HCI PRICE": 1160
+      },
+      {
+        "Service Description": "CO AMOXICLAV 625 X 14 TABLETS",
+        "HCI PRICE": 1160
+      },
+      {
+        "Service Description": "MOCLAV 625 X 14 TABLETS",
+        "HCI PRICE": 1160
+      },
+      {
+        "Service Description": "CLAVULIN 625MG X 14 TABLETS",
+        "HCI PRICE": 1170
+      },
+      {
+        "Service Description": "NEOCLAV 625MG X 14TABLETS",
+        "HCI PRICE": 1235
+      },
+      {
+        "Service Description": "NOVAMENTINE 625 X 14 TABLETS",
+        "HCI PRICE": 1235
+      },
+      {
+        "Service Description": "MONTRAL 10MG TABS x 10",
+        "HCI PRICE": 1235
+      },
+      {
+        "Service Description": "ZEROCLAV - 457",
+        "HCI PRICE": 1240
+      },
+      {
+        "Service Description": "EMMOX 250MG X 100 TABLETS",
+        "HCI PRICE": 1250
+      },
+      {
+        "Service Description": "AMOKSIKLAV 156.25MG SUSPENSION",
+        "HCI PRICE": 1250
+      },
+      {
+        "Service Description": "KLATRIL X 14 TABLETS",
+        "HCI PRICE": 1310
+      },
+      {
+        "Service Description": "AZITROMA X 10 CAPSULES",
+        "HCI PRICE": 1330
+      },
+      {
+        "Service Description": "FLEMING 625 MG X 14 TABLETS",
+        "HCI PRICE": 1350
+      },
+      {
+        "Service Description": "AUGLOCEF 625MG X 14 TABLETS",
+        "HCI PRICE": 1385
+      },
+      {
+        "Service Description": "FLEMING 1000MG X 14 TABLETS",
+        "HCI PRICE": 1465
+      },
+      {
+        "Service Description": "CIPROTAB 500 X 14 SOFTLETS",
+        "HCI PRICE": 1475
+      },
+      {
+        "Service Description": "Pulp Capping",
+        "HCI PRICE": 1500
+      },
+      {
+        "Service Description": "Dental Dressing without local anaesthesia",
+        "HCI PRICE": 1500
+      },
+      {
+        "Service Description": "Temporary Filling",
+        "HCI PRICE": 1500
+      },
+      {
+        "Service Description": "IMMUNOBOOST VIT C 1000MG X 20",
+        "HCI PRICE": 1500
+      },
+      {
+        "Service Description": "NEOCLAV 375MG X 20 TABLETS",
+        "HCI PRICE": 1540
+      },
+      {
+        "Service Description": "SUITROX SUSPENSION 20ML",
+        "HCI PRICE": 1540
+      },
+      {
+        "Service Description": "MONTIGET 10MG X14",
+        "HCI PRICE": 1540
+      },
+      {
+        "Service Description": "AMOKSIKLAV ORAL312.5MG SUSPENSION",
+        "HCI PRICE": 1550
+      },
+      {
+        "Service Description": "AMOKSIKLAV 375MG X 10 TABLETS",
+        "HCI PRICE": 1550
+      },
+      {
+        "Service Description": "AMOKSIKLAV 457MG SUSPENSION",
+        "HCI PRICE": 1550
+      },
+      {
+        "Service Description": "AMOKSIKLAV 625MG X 15 TABLETS",
+        "HCI PRICE": 1550
+      },
+      {
+        "Service Description": "PERILON X 100 TABLETS",
+        "HCI PRICE": 1620
+      },
+      {
+        "Service Description": "NEOCLAV 625MG X 20 TABLETS",
+        "HCI PRICE": 1650
+      },
+      {
+        "Service Description": "CALGOVITE VIT C 1000MG X 20",
+        "HCI PRICE": 1650
+      },
+      {
+        "Service Description": "AMOKSIKLAV 1000MG X 10 TABLETS",
+        "HCI PRICE": 1700
+      },
+      {
+        "Service Description": "AUGLOCEF 1000MG X 14 TABLETS",
+        "HCI PRICE": 1770
+      },
+      {
+        "Service Description": "AUGMENTIN SUSPENSION 228.5MG",
+        "HCI PRICE": 1770
+      },
+      {
+        "Service Description": "CAPOL SUSPENSION 200ML (MCNEIL)",
+        "HCI PRICE": 1900
+      },
+      {
+        "Service Description": "MOXIGET 400 X 5",
+        "HCI PRICE": 1925
+      },
+      {
+        "Service Description": "Bite Wing Radiograph",
+        "HCI PRICE": 2000
+      },
+      {
+        "Service Description": "Occlusal Radiograph",
+        "HCI PRICE": 2000
+      },
+      {
+        "Service Description": "Periapical Radiograph",
+        "HCI PRICE": 2000
+      },
+      {
+        "Service Description": "Dental Dressing with local anaesthesia",
+        "HCI PRICE": 2000
+      },
+      {
+        "Service Description": "ZITHROMAX SUSPENSION 15ML",
+        "HCI PRICE": 2000
+      },
+      {
+        "Service Description": "MICROMOX 400 X 10 TABLETS",
+        "HCI PRICE": 2200
+      },
+      {
+        "Service Description": "AUGMENTIN 375MG X 20 TABLETS",
+        "HCI PRICE": 2385
+      },
+      {
+        "Service Description": "AUGMENTIN 457MG/70ML SUSPENSION",
+        "HCI PRICE": 2470
+      },
+      {
+        "Service Description": "Apical Curettage",
+        "HCI PRICE": 2500
+      },
+      {
+        "Service Description": "REICHAMOX 500MG X 100 CAPSULES",
+        "HCI PRICE": 2600
+      },
+      {
+        "Service Description": "FEXOFENADINE 180MG TAB X 30",
+        "HCI PRICE": 2700
+      },
+      {
+        "Service Description": "AUGMENTIN ES 100ML",
+        "HCI PRICE": 2770
+      },
+      {
+        "Service Description": "FEXOFINADINE 120MG X30",
+        "HCI PRICE": 2850
+      },
+      {
+        "Service Description": "Pin-retained Amalgam Filling (per pin)",
+        "HCI PRICE": 3000
+      },
+      {
+        "Service Description": "Simple Extraction",
+        "HCI PRICE": 3000
+      },
+      {
+        "Service Description": "Anterior/Deciduous Extraction",
+        "HCI PRICE": 3000
+      },
+      {
+        "Service Description": "AUGMENTIN 625MG X 14 TABLETS",
+        "HCI PRICE": 3100
+      },
+      {
+        "Service Description": "AUGMENTIN 1G X 14 TABLETS",
+        "HCI PRICE": 3250
+      },
+      {
+        "Service Description": "ZITHROMAX X 6 CAPSULES",
+        "HCI PRICE": 4050
+      },
+      {
+        "Service Description": "AVELOX 400MG X 5 TABLETS",
+        "HCI PRICE": 4080
+      },
+      {
+        "Service Description": "TAVANIC X 5 TABLETS",
+        "HCI PRICE": 4385
+      },
+      {
+        "Service Description": "Scaling & Polishing",
+        "HCI PRICE": 5000
+      },
+      {
+        "Service Description": "PERIODONTAL GUM TREATMENT",
+        "HCI PRICE": 5000
+      },
+      {
+        "Service Description": "Sub Gingival Curettage (per quadrant)",
+        "HCI PRICE": 5500
+      },
+      {
+        "Service Description": "Oral Incision & Drainage",
+        "HCI PRICE": 6000
+      },
+      {
+        "Service Description": "Dental Biopsy",
+        "HCI PRICE": 7000
+      },
+      {
+        "Service Description": "Amalgam (Class 2)",
+        "HCI PRICE": 7500
+      },
+      {
+        "Service Description": "Amalgam (Class 1)",
+        "HCI PRICE": 8000
+      },
+      {
+        "Service Description": "Composite Filling",
+        "HCI PRICE": 8000
+      },
+      {
+        "Service Description": "Molar/Premolar Extraction",
+        "HCI PRICE": 9000
+      },
+      {
+        "Service Description": "Light Cure Composite",
+        "HCI PRICE": 9000
+      },
+      {
+        "Service Description": "Panoramic View Radiograph",
+        "HCI PRICE": 10000
+      },
+      {
+        "Service Description": "Gingivectomy",
+        "HCI PRICE": 10000
+      },
+      {
+        "Service Description": "Operculectomy",
+        "HCI PRICE": 10000
+      },
+      {
+        "Service Description": "Chemical Cure Composite",
+        "HCI PRICE": 10000
+      },
+      {
+        "Service Description": "Glass Ionomer Cement (GIC)",
+        "HCI PRICE": 10000
+      },
+      {
+        "Service Description": "Topical Fluoride Application",
+        "HCI PRICE": 15000
+      },
+      {
+        "Service Description": "Fissure Sealants (per tooth)",
+        "HCI PRICE": 15000
+      },
+      {
+        "Service Description": "2 Roots",
+        "HCI PRICE": 15000
+      },
+      {
+        "Service Description": "3 Roots",
+        "HCI PRICE": 15000
+      },
+      {
+        "Service Description": "Pulpotomy",
+        "HCI PRICE": 20000
+      },
+      {
+        "Service Description": "Pulpectomy",
+        "HCI PRICE": 20000
+      },
+      {
+        "Service Description": "Surgical Extraction",
+        "HCI PRICE": 20000
+      },
+      {
+        "Service Description": "Root Canal Treatment",
+        "HCI PRICE": 25000
+      },
+      {
+        "Service Description": "Dental Crown",
+        "HCI PRICE": 40000
+      },
+      {
+        "Service Description": "Cryotherapy",
+        "HCI PRICE": 60000
+      }
+    ]
+  }

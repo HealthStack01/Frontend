@@ -1,0 +1,3348 @@
+{
+    "ANCILLA": [
+      {
+        "Service": "B/COMPLEX TAB",
+        "Amount": 10.8
+      },
+      {
+        "Service": "FERROUS SULPHATE TAB 200mg (fesolate)",
+        "Amount": 10.8
+      },
+      {
+        "Service": "FOLIC ACID TAB",
+        "Amount": 10.8
+      },
+      {
+        "Service": "PIRITON 4mg TABS",
+        "Amount": 10.8
+      },
+      {
+        "Service": "VITAMIN B Complex TAB",
+        "Amount": 10.8
+      },
+      {
+        "Service": "VITAMIN C TAB",
+        "Amount": 10.8
+      },
+      {
+        "Service": "CALCIUM 20MG TAB",
+        "Amount": 13.5
+      },
+      {
+        "Service": "CHLORPHENERAMINE( PIRITON) TAB",
+        "Amount": 13.5
+      },
+      {
+        "Service": "MULTIVITE TAB",
+        "Amount": 13.5
+      },
+      {
+        "Service": "PARACETAMOL 500mg TAB",
+        "Amount": 13.5
+      },
+      {
+        "Service": "VASOPRIN 75MG TAB",
+        "Amount": 13.5
+      },
+      {
+        "Service": "PRDNISOLONE 5MG TAB",
+        "Amount": 18
+      },
+      {
+        "Service": "BUSCOPAN 10MG TAB",
+        "Amount": 27
+      },
+      {
+        "Service": "DAONIL TABS 5MG",
+        "Amount": 27
+      },
+      {
+        "Service": "DANACID (gelucil) TABS",
+        "Amount": 27
+      },
+      {
+        "Service": "DEXAMETHASONE 10MG TAB",
+        "Amount": 27
+      },
+      {
+        "Service": "GELUCIL TAB",
+        "Amount": 27
+      },
+      {
+        "Service": "METFORMIN 500MG TAB",
+        "Amount": 27
+      },
+      {
+        "Service": "MODURECTIC TAB",
+        "Amount": 27
+      },
+      {
+        "Service": "NITROFURANTIN TABS 100MG",
+        "Amount": 27
+      },
+      {
+        "Service": "SALBUTAMOL 4MG TAB",
+        "Amount": 27
+      },
+      {
+        "Service": "VENTOLIN 4MG TAB",
+        "Amount": 27
+      },
+      {
+        "Service": "ZINC SULPHATE 20MG TAB",
+        "Amount": 27
+      },
+      {
+        "Service": "DICLOFENAC 50MG TAB",
+        "Amount": 31.5
+      },
+      {
+        "Service": "GLIBENCLAMIDE 5MG( DAONIL) TAB",
+        "Amount": 31.5
+      },
+      {
+        "Service": "LOPERAMIDE TAB",
+        "Amount": 31.5
+      },
+      {
+        "Service": "METRONIDAZOLE 400mg TAB",
+        "Amount": 36
+      },
+      {
+        "Service": "AMITRYPTYLINE 50MG TAB",
+        "Amount": 40.5
+      },
+      {
+        "Service": "AMOXYCILLIN 250mg TAB",
+        "Amount": 40.5
+      },
+      {
+        "Service": "CETIRIZINE TAB 10mg",
+        "Amount": 40.5
+      },
+      {
+        "Service": "DIAZEPAM 5MG TAB",
+        "Amount": 40.5
+      },
+      {
+        "Service": "DOLO META B TAB",
+        "Amount": 40.5
+      },
+      {
+        "Service": "IBUPROFEN 200mg TAB",
+        "Amount": 40.5
+      },
+      {
+        "Service": "LORATIDINE 10MG TAB",
+        "Amount": 40.5
+      },
+      {
+        "Service": "NIFEDIPINE 20MG TAB",
+        "Amount": 40.5
+      },
+      {
+        "Service": "PALUDRIN TAB",
+        "Amount": 40.5
+      },
+      {
+        "Service": "CIMETIDINE 400MG TAB",
+        "Amount": 45
+      },
+      {
+        "Service": "AMLODIPINE 5MG TAB",
+        "Amount": 49.5
+      },
+      {
+        "Service": "LISINOPRIL 5MG TAB",
+        "Amount": 54
+      },
+      {
+        "Service": "PROPRANOLOL 40MG TAB",
+        "Amount": 54
+      },
+      {
+        "Service": "COTRIMOXAZOLE( SEPTRIN) TAB 960MG",
+        "Amount": 63
+      },
+      {
+        "Service": "DICLOFENAC 100MG TABS",
+        "Amount": 63
+      },
+      {
+        "Service": "ACETOZOLAMIDE 250MG( DIAMOX) TAB",
+        "Amount": 67.5
+      },
+      {
+        "Service": "SINUFED TABS 10mg",
+        "Amount": 67.5
+      },
+      {
+        "Service": "AMLODIPINE 10MG TAB",
+        "Amount": 67.5
+      },
+      {
+        "Service": "AMOXYCILIN 500mg TAB",
+        "Amount": 67.5
+      },
+      {
+        "Service": "AMPICLOX 500MG TAB",
+        "Amount": 67.5
+      },
+      {
+        "Service": "ATENOL 100MG TAB",
+        "Amount": 67.5
+      },
+      {
+        "Service": "BISACODYL TABS 5mg",
+        "Amount": 67.5
+      },
+      {
+        "Service": "DIAMOX 250mg TAB",
+        "Amount": 67.5
+      },
+      {
+        "Service": "DOXCYCYLINE 100MG CAP",
+        "Amount": 67.5
+      },
+      {
+        "Service": "HAEPLER CAPS",
+        "Amount": 67.5
+      },
+      {
+        "Service": "LISINOPRIL 10MG TAB",
+        "Amount": 67.5
+      },
+      {
+        "Service": "METHYLDOPA 250MG TAB",
+        "Amount": 67.5
+      },
+      {
+        "Service": "SINUFED TABS",
+        "Amount": 67.5
+      },
+      {
+        "Service": "ASPRIN TABS 300mg TAB",
+        "Amount": 72
+      },
+      {
+        "Service": "ORPHENADRINE TAB",
+        "Amount": 72
+      },
+      {
+        "Service": "PROMETHAZINE TAB",
+        "Amount": 72
+      },
+      {
+        "Service": "BROMAZEPAM 1.5MG TAB",
+        "Amount": 76.5
+      },
+      {
+        "Service": "CHYMORAL TAB/chymotyrpsin",
+        "Amount": 76.5
+      },
+      {
+        "Service": "DIGOXIN 0.25mg TAB",
+        "Amount": 76.5
+      },
+      {
+        "Service": "IBUPROFEN 400MG TAB",
+        "Amount": 76.5
+      },
+      {
+        "Service": "KVITE TAB",
+        "Amount": 76.5
+      },
+      {
+        "Service": "LEXOTAN 1.5mg TAB",
+        "Amount": 76.5
+      },
+      {
+        "Service": "OMEPRAZOLE 20MG TAB",
+        "Amount": 76.5
+      },
+      {
+        "Service": "SPIRONOLACTONE TAB 25mg",
+        "Amount": 76.5
+      },
+      {
+        "Service": "LISINOPRIL 20MG TABS",
+        "Amount": 81
+      },
+      {
+        "Service": "PIROXICAM TABS",
+        "Amount": 90
+      },
+      {
+        "Service": "S. AMLODIPINE TAB 2.5MG",
+        "Amount": 90
+      },
+      {
+        "Service": "SEPTRIN TABS",
+        "Amount": 90
+      },
+      {
+        "Service": "ACECLOFENAC TAB 100mg",
+        "Amount": 94.5
+      },
+      {
+        "Service": "CARBAMAZEPINE 200MG TAB",
+        "Amount": 94.5
+      },
+      {
+        "Service": "FUROSEMIDE 40MG TAB",
+        "Amount": 99
+      },
+      {
+        "Service": "2ML NEEDLE AND SYRINGE",
+        "Amount": 103.5
+      },
+      {
+        "Service": "5ML NEEDLE AND SYRINGE",
+        "Amount": 103.5
+      },
+      {
+        "Service": "ATROVASTITIN 10MG TAB",
+        "Amount": 103.5
+      },
+      {
+        "Service": "TRAMADOL TAB",
+        "Amount": 103.5
+      },
+      {
+        "Service": "SURGICAL BLADE",
+        "Amount": 108
+      },
+      {
+        "Service": "VITAMIN A TAB",
+        "Amount": 108
+      },
+      {
+        "Service": "ASTYFER CAPS",
+        "Amount": 117
+      },
+      {
+        "Service": "GLIMEPEIDE 2MG TAB",
+        "Amount": 117
+      },
+      {
+        "Service": "AMLODIPINE + RAMIPRIL 5/2.5MG TAB",
+        "Amount": 126
+      },
+      {
+        "Service": "ALBENDAZOLE 400MG TAB",
+        "Amount": 130.5
+      },
+      {
+        "Service": "ALDOMET (METHYLDOPA) 250MG TAB",
+        "Amount": 130.5
+      },
+      {
+        "Service": "ATOVASTATIN 20MG TAB",
+        "Amount": 130.5
+      },
+      {
+        "Service": "BROMAZEPAM 3MG TAB",
+        "Amount": 130.5
+      },
+      {
+        "Service": "CIPROFLOXACIN 500mg TAB",
+        "Amount": 130.5
+      },
+      {
+        "Service": "DOPATAB 250MG TAB (aldomet)",
+        "Amount": 130.5
+      },
+      {
+        "Service": "FLUCONAZOLE 200MG CAP",
+        "Amount": 130.5
+      },
+      {
+        "Service": "GLUCOPHAGE 500mg",
+        "Amount": 130.5
+      },
+      {
+        "Service": "HEAMVITE CAPS",
+        "Amount": 130.5
+      },
+      {
+        "Service": "INSULINE SYRINGE 100 IU",
+        "Amount": 130.5
+      },
+      {
+        "Service": "INSULINE SYRINGE 40 IU",
+        "Amount": 130.5
+      },
+      {
+        "Service": "KETOCONAZOLE 200MG TAB",
+        "Amount": 130.5
+      },
+      {
+        "Service": "LEXOTAN 3mg TAB",
+        "Amount": 130.5
+      },
+      {
+        "Service": "LOSARTAN 50MG TAB",
+        "Amount": 130.5
+      },
+      {
+        "Service": "LOZENGES",
+        "Amount": 130.5
+      },
+      {
+        "Service": "METFORMIN 1000MG",
+        "Amount": 130.5
+      },
+      {
+        "Service": "METHOCARBAMOL TAB",
+        "Amount": 130.5
+      },
+      {
+        "Service": "NEUROTEX FORTE TAB",
+        "Amount": 130.5
+      },
+      {
+        "Service": "SCENIDAZOLE 400MG TAB",
+        "Amount": 130.5
+      },
+      {
+        "Service": "STERILE WATER FOR INJ.",
+        "Amount": 130.5
+      },
+      {
+        "Service": "STUGERON TAB 25mg",
+        "Amount": 130.5
+      },
+      {
+        "Service": "SUBLINGUAL NIFEDIPINE 20mg",
+        "Amount": 130.5
+      },
+      {
+        "Service": "WATER FOR INJECTION",
+        "Amount": 130.5
+      },
+      {
+        "Service": "AMINOPHYLLINE TAB",
+        "Amount": 135
+      },
+      {
+        "Service": "AMLODIPINE + RAMIPRIL 10/5MG TAB",
+        "Amount": 135
+      },
+      {
+        "Service": "TETRACYCLINE CAPS",
+        "Amount": 135
+      },
+      {
+        "Service": "ASOMEX (S amlodipine) 2.5mg",
+        "Amount": 144
+      },
+      {
+        "Service": "BISOPROLOL 2.5mg TABS",
+        "Amount": 144
+      },
+      {
+        "Service": "CLOPIDROGEL 75mg TAB",
+        "Amount": 144
+      },
+      {
+        "Service": "EVENING PRIMROSE",
+        "Amount": 148.5
+      },
+      {
+        "Service": "10ML NEEDLE AND SYRINGE",
+        "Amount": 153
+      },
+      {
+        "Service": "DARAVIT FORTE (SOFT GEL)",
+        "Amount": 157.5
+      },
+      {
+        "Service": "DF - 118 30mg (dihydro codine)",
+        "Amount": 157.5
+      },
+      {
+        "Service": "DUCOLAX TABS",
+        "Amount": 157.5
+      },
+      {
+        "Service": "ERYTHROMICIN 500mg TAB",
+        "Amount": 157.5
+      },
+      {
+        "Service": "LEVOFLOXACIN 500mg TAB (levoquin)",
+        "Amount": 157.5
+      },
+      {
+        "Service": "LIVOMYN TABS",
+        "Amount": 157.5
+      },
+      {
+        "Service": "LOZENGES SUGAR FREE",
+        "Amount": 157.5
+      },
+      {
+        "Service": "MELOXICAM 7.5MG TAB",
+        "Amount": 157.5
+      },
+      {
+        "Service": "NEBUSTAT TAB 40MG",
+        "Amount": 157.5
+      },
+      {
+        "Service": "PREGMUM TABS",
+        "Amount": 157.5
+      },
+      {
+        "Service": "PRMOLUT-N 5MG TAB",
+        "Amount": 157.5
+      },
+      {
+        "Service": "ROSUVASTATIN 10MG TAB",
+        "Amount": 157.5
+      },
+      {
+        "Service": "TELMISARTAN 40 MG TAB",
+        "Amount": 157.5
+      },
+      {
+        "Service": "ASTYMIN CAPS",
+        "Amount": 162
+      },
+      {
+        "Service": "LIVOLIN FORTE",
+        "Amount": 162
+      },
+      {
+        "Service": "EYE ANTIOXIDANT TAB",
+        "Amount": 166.5
+      },
+      {
+        "Service": "NIFEDIPINE 30MG TAB XL",
+        "Amount": 171
+      },
+      {
+        "Service": "TORSEMIDE 20MG TAB",
+        "Amount": 171
+      },
+      {
+        "Service": "AMOXICILLIN 250MG (Beecham) Tabs",
+        "Amount": 180
+      },
+      {
+        "Service": "BIOPENTIN 300/500mg",
+        "Amount": 180
+      },
+      {
+        "Service": "SILYBON TABS 140mg",
+        "Amount": 184.5
+      },
+      {
+        "Service": "TELMISARTAN 80MG TAB",
+        "Amount": 184.5
+      },
+      {
+        "Service": "VITAMIN E 400iu CAP",
+        "Amount": 184.5
+      },
+      {
+        "Service": "ACT TABS 20/120 TAB CHILD",
+        "Amount": 193.5
+      },
+      {
+        "Service": "BISOPROLOL 5MG TAB",
+        "Amount": 193.5
+      },
+      {
+        "Service": "COARTEM TAB (20/120)",
+        "Amount": 193.5
+      },
+      {
+        "Service": "GAUZE",
+        "Amount": 193.5
+      },
+      {
+        "Service": "GLUCOPHAGE 850MG) TAB",
+        "Amount": 193.5
+      },
+      {
+        "Service": "INDAPAMIDE 1.5MG TAB",
+        "Amount": 193.5
+      },
+      {
+        "Service": "MA - ATTIX TAB",
+        "Amount": 193.5
+      },
+      {
+        "Service": "MELOXICAM 15MG TAB",
+        "Amount": 193.5
+      },
+      {
+        "Service": "OSTEOCARE ORIGINAL TABS",
+        "Amount": 193.5
+      },
+      {
+        "Service": "SIRDALUD 2MG TAB (tizanidine)",
+        "Amount": 193.5
+      },
+      {
+        "Service": "VIT E 1000iu synthetic",
+        "Amount": 193.5
+      },
+      {
+        "Service": "20ML NEEDLE AND SYRINGE",
+        "Amount": 198
+      },
+      {
+        "Service": "ARTROTHEC 75MG TAB",
+        "Amount": 198
+      },
+      {
+        "Service": "CIPROTAB 500mg TAB",
+        "Amount": 198
+      },
+      {
+        "Service": "ORS SACHET",
+        "Amount": 198
+      },
+      {
+        "Service": "CEFEXIME100mg TAB",
+        "Amount": 207
+      },
+      {
+        "Service": "GLIMEPERIDE 4MG TAB",
+        "Amount": 207
+      },
+      {
+        "Service": "TELMISARTAN/AMLODIPIN 40/5MG TAB evans",
+        "Amount": 207
+      },
+      {
+        "Service": "TELMISARTAN/HCT 40/12.5MG EVANS",
+        "Amount": 207
+      },
+      {
+        "Service": "TELMISARTAN/HCT 80/12.5MG EVANS",
+        "Amount": 207
+      },
+      {
+        "Service": "BRIMOCRIPTINE 0.25MG TAB",
+        "Amount": 216
+      },
+      {
+        "Service": "FANSIDER TAB",
+        "Amount": 216
+      },
+      {
+        "Service": "NEBILONG 5MG TAB",
+        "Amount": 216
+      },
+      {
+        "Service": "CALCIUM GLUCONATE TABS 600MG",
+        "Amount": 220.5
+      },
+      {
+        "Service": "CIPRO TN 500mg (CIPRO/TINIDAZOLE) TABS",
+        "Amount": 220.5
+      },
+      {
+        "Service": "AMOXICLAV (AUGUMETIN)375mg TAB",
+        "Amount": 225
+      },
+      {
+        "Service": "AMOXICILLIN 500MG (Beecham) Tabs",
+        "Amount": 225
+      },
+      {
+        "Service": "GLOVES",
+        "Amount": 225
+      },
+      {
+        "Service": "MANIX CAPS",
+        "Amount": 229.5
+      },
+      {
+        "Service": "ACT TABS 80/480 TAB ADULT",
+        "Amount": 234
+      },
+      {
+        "Service": "GLUCOVANCE 500MG/2.5MG TAB",
+        "Amount": 234
+      },
+      {
+        "Service": "NORVASC 5MG",
+        "Amount": 234
+      },
+      {
+        "Service": "PROGESTERON 5MG (PROVERA TAB)",
+        "Amount": 234
+      },
+      {
+        "Service": "TELMISARTAN/AMLODIPIN 80/5MG TAB evans",
+        "Amount": 234
+      },
+      {
+        "Service": "TREVIAMET 50/1000mg sitagliptin/metformin",
+        "Amount": 234
+      },
+      {
+        "Service": "CALCITRIOLE TABS 0.25MG",
+        "Amount": 247.5
+      },
+      {
+        "Service": "ARTEMETHER+LUMEFANTRIN 40/240 TAB",
+        "Amount": 252
+      },
+      {
+        "Service": "ARTEMETHER+LUMEFANTRIN 60/360 TAB",
+        "Amount": 252
+      },
+      {
+        "Service": "CEFEXIME 200mg TAB",
+        "Amount": 261
+      },
+      {
+        "Service": "COD LIVER OIL CAP 30iu",
+        "Amount": 261
+      },
+      {
+        "Service": "COD LIVER OIL 1000iu",
+        "Amount": 261
+      },
+      {
+        "Service": "FLOTAC TAB",
+        "Amount": 261
+      },
+      {
+        "Service": "ITRACONAZOLE CAP",
+        "Amount": 261
+      },
+      {
+        "Service": "P-ALAXIN TAB",
+        "Amount": 261
+      },
+      {
+        "Service": "TRANEXAMIC ACID 500MG TAB",
+        "Amount": 261
+      },
+      {
+        "Service": "BISOPROLOL 10MG (CONCOR) TAB",
+        "Amount": 270
+      },
+      {
+        "Service": "CEFUROZIME 250mg TAB",
+        "Amount": 270
+      },
+      {
+        "Service": "CELECOXIB TAB 200MG",
+        "Amount": 270
+      },
+      {
+        "Service": "IV CARNULAR ASH",
+        "Amount": 270
+      },
+      {
+        "Service": "IV CARNULAR BLUE",
+        "Amount": 270
+      },
+      {
+        "Service": "IV CARNULAR GREEN",
+        "Amount": 270
+      },
+      {
+        "Service": "IV CARNULAR PINK",
+        "Amount": 270
+      },
+      {
+        "Service": "IV CARNULAR YELLOW",
+        "Amount": 270
+      },
+      {
+        "Service": "NATRILIX TAB 1.5mg",
+        "Amount": 270
+      },
+      {
+        "Service": "OFLOXACIN 400MG TAB",
+        "Amount": 270
+      },
+      {
+        "Service": "SLOW K 600MG TAB",
+        "Amount": 270
+      },
+      {
+        "Service": "SUBLINGUAL NIFEDIPINE 30mg",
+        "Amount": 270
+      },
+      {
+        "Service": "SURGICAL GLOVE",
+        "Amount": 270
+      },
+      {
+        "Service": "TELSARTAN/AMLODIPIN/HCT 40/5/12.5MG evans",
+        "Amount": 283.5
+      },
+      {
+        "Service": "DIAMICRON 60MG TAB",
+        "Amount": 288
+      },
+      {
+        "Service": "FLUCONAZOLE 50MG CAP",
+        "Amount": 288
+      },
+      {
+        "Service": "NATRIXIAM 1.5/5MG TAB",
+        "Amount": 292.5
+      },
+      {
+        "Service": "DAFLON 500mg TAB",
+        "Amount": 297
+      },
+      {
+        "Service": "ARTEMETHER+LUMENFANTRIN 80/480",
+        "Amount": 315
+      },
+      {
+        "Service": "MARINA E 1,000.00 TAB",
+        "Amount": 315
+      },
+      {
+        "Service": "AMIODERONE 200mg TAB",
+        "Amount": 324
+      },
+      {
+        "Service": "CEFUROZIME 500mg TAB",
+        "Amount": 324
+      },
+      {
+        "Service": "CLARITHROMYCIN 500mg TAB",
+        "Amount": 324
+      },
+      {
+        "Service": "CLOTRIMAZOLE PESSARY( MYCOTEN",
+        "Amount": 324
+      },
+      {
+        "Service": "DUPHASTONE TAB",
+        "Amount": 324
+      },
+      {
+        "Service": "GLUCOVANCE 1000MG/5MG TAB",
+        "Amount": 324
+      },
+      {
+        "Service": "INJ ARTEMETER 40MG",
+        "Amount": 324
+      },
+      {
+        "Service": "IV GIVING SET",
+        "Amount": 324
+      },
+      {
+        "Service": "LABETALOL 200MG TAB",
+        "Amount": 324
+      },
+      {
+        "Service": "MONTELUKAST 5MG TAB",
+        "Amount": 324
+      },
+      {
+        "Service": "NATRIXIAM 1.5/10MG TAB",
+        "Amount": 324
+      },
+      {
+        "Service": "PARACETAMOL SUPP",
+        "Amount": 324
+      },
+      {
+        "Service": "MONTELUKAST 10MG TAB",
+        "Amount": 360
+      },
+      {
+        "Service": "NORVASC 10MG",
+        "Amount": 360
+      },
+      {
+        "Service": "MYCOTEN PESSERY",
+        "Amount": 369
+      },
+      {
+        "Service": "ADDYZOA TAB",
+        "Amount": 391.5
+      },
+      {
+        "Service": "ARTHOCARE FORTE TAB",
+        "Amount": 391.5
+      },
+      {
+        "Service": "AZITHROMYCIN 500mg TAB",
+        "Amount": 391.5
+      },
+      {
+        "Service": "CEFPODOXIME 200mg TAB",
+        "Amount": 391.5
+      },
+      {
+        "Service": "CHLORAMPHENICOL GUTT",
+        "Amount": 391.5
+      },
+      {
+        "Service": "MISOPROSTOL 200",
+        "Amount": 391.5
+      },
+      {
+        "Service": "NATO ENZYME TABS",
+        "Amount": 391.5
+      },
+      {
+        "Service": "HYDROCORTISONE INJ",
+        "Amount": 396
+      },
+      {
+        "Service": "AMATEM TABS 80/480 TAB (child)",
+        "Amount": 409.5
+      },
+      {
+        "Service": "NEUROZAN TABS",
+        "Amount": 450
+      },
+      {
+        "Service": "TOT HEMA (Mn Cvu drink)",
+        "Amount": 450
+      },
+      {
+        "Service": "URETHRAL CATHETER",
+        "Amount": 450
+      },
+      {
+        "Service": "URINE BAG",
+        "Amount": 450
+      },
+      {
+        "Service": "ACYCLOVIR TABS 400MG",
+        "Amount": 454.5
+      },
+      {
+        "Service": "CHLORAMPHENICOL OC (skin)",
+        "Amount": 454.5
+      },
+      {
+        "Service": "LONART DS 80/480MG TAB",
+        "Amount": 454.5
+      },
+      {
+        "Service": "TWYNSTA 80/10MG TABS",
+        "Amount": 472.5
+      },
+      {
+        "Service": "TWNYSTA 40/5MG TAB",
+        "Amount": 477
+      },
+      {
+        "Service": "PROMETHAZINE SYR",
+        "Amount": 486
+      },
+      {
+        "Service": "MUCOUS EXTRACTOR",
+        "Amount": 495
+      },
+      {
+        "Service": "ADRENALINE 1MG INJ",
+        "Amount": 517.5
+      },
+      {
+        "Service": "ARTEMETER 80mg INJ",
+        "Amount": 517.5
+      },
+      {
+        "Service": "ATROPINE 10MG/1ML INJ",
+        "Amount": 517.5
+      },
+      {
+        "Service": "CALCIUM GLUCONATE INJ",
+        "Amount": 517.5
+      },
+      {
+        "Service": "CORD CLAMP",
+        "Amount": 517.5
+      },
+      {
+        "Service": "DEXAMETHASONE 4MG/1ML INJ",
+        "Amount": 517.5
+      },
+      {
+        "Service": "DIAZEPAM 2MG INJ",
+        "Amount": 517.5
+      },
+      {
+        "Service": "DICLOFENAC INJ",
+        "Amount": 517.5
+      },
+      {
+        "Service": "DOFF 1 Child cough syr",
+        "Amount": 517.5
+      },
+      {
+        "Service": "GENTAMYCIN 80MG INJ",
+        "Amount": 517.5
+      },
+      {
+        "Service": "INJ. ARTEMETHER 80MG INJ",
+        "Amount": 517.5
+      },
+      {
+        "Service": "PLASIL INJ metochlopramide",
+        "Amount": 517.5
+      },
+      {
+        "Service": "TWNYSTA 80/5MG TAB",
+        "Amount": 517.5
+      },
+      {
+        "Service": "TWYNSTA 40/10MG TABS",
+        "Amount": 517.5
+      },
+      {
+        "Service": "ALBENDAZOLE Syr",
+        "Amount": 522
+      },
+      {
+        "Service": "AMINOPHYLLINE INJ 250mg",
+        "Amount": 522
+      },
+      {
+        "Service": "BUSCOPAN 10MG/1ML INJ Hyoscine bromide",
+        "Amount": 522
+      },
+      {
+        "Service": "CHLOPROMAZINE INJ",
+        "Amount": 522
+      },
+      {
+        "Service": "CHLORORAMPHENICAL Oc (eye)",
+        "Amount": 522
+      },
+      {
+        "Service": "CIMETIDINE INJ",
+        "Amount": 522
+      },
+      {
+        "Service": "FLUCAMED 200MG CAP",
+        "Amount": 522
+      },
+      {
+        "Service": "PARACETAMOL DROP",
+        "Amount": 522
+      },
+      {
+        "Service": "PARACETAMOL INJ 300mg",
+        "Amount": 522
+      },
+      {
+        "Service": "PENICLIIN OC SKIN",
+        "Amount": 522
+      },
+      {
+        "Service": "PROMETHAZINE INJ",
+        "Amount": 522
+      },
+      {
+        "Service": "KLOVINAL PESSERY",
+        "Amount": 540
+      },
+      {
+        "Service": "AMATEM SOFT GEL 80/480 TAB",
+        "Amount": 544.5
+      },
+      {
+        "Service": "B COMPLEX syr",
+        "Amount": 544.5
+      },
+      {
+        "Service": "AUGMENTIN (AMOXICLAV) TABS 625mg",
+        "Amount": 553.5
+      },
+      {
+        "Service": "RETROVIRAL SCREEN RVS",
+        "Amount": 585
+      },
+      {
+        "Service": "GENTAMYCIN GUTT",
+        "Amount": 585
+      },
+      {
+        "Service": "PARACETAMOL SYR",
+        "Amount": 585
+      },
+      {
+        "Service": "UNDER PAD",
+        "Amount": 585
+      },
+      {
+        "Service": "VIT B CO SYR emzor",
+        "Amount": 585
+      },
+      {
+        "Service": "50ML NEEDLE AND SYRINGE",
+        "Amount": 648
+      },
+      {
+        "Service": "AMOXICILLIN 500MG INJ",
+        "Amount": 648
+      },
+      {
+        "Service": "ANUSOL SUPP",
+        "Amount": 648
+      },
+      {
+        "Service": "AUGMENTINE 1G TAB",
+        "Amount": 648
+      },
+      {
+        "Service": "BIOFLOR 100mg",
+        "Amount": 648
+      },
+      {
+        "Service": "CALAMINE LOTION CREAM",
+        "Amount": 648
+      },
+      {
+        "Service": "CEFEXIME 400mg TAB (ocefix)",
+        "Amount": 648
+      },
+      {
+        "Service": "DICLOFENAC 12.5mg SUPP",
+        "Amount": 648
+      },
+      {
+        "Service": "DOFF 2 Adult cough syr",
+        "Amount": 648
+      },
+      {
+        "Service": "HYDRALAZINE 10MG INJ",
+        "Amount": 648
+      },
+      {
+        "Service": "IBUPROFEN SUSP",
+        "Amount": 648
+      },
+      {
+        "Service": "IV BLOOD GIVING SET",
+        "Amount": 648
+      },
+      {
+        "Service": "MICONAZOLE PESSERY",
+        "Amount": 648
+      },
+      {
+        "Service": "MISOPROSTOL 200 INDUCTION/INSERTION",
+        "Amount": 648
+      },
+      {
+        "Service": "MOXIFLOXACIN TAB 400mg",
+        "Amount": 648
+      },
+      {
+        "Service": "MULTIVITE 200ML Syr",
+        "Amount": 648
+      },
+      {
+        "Service": "NG TUBE SIZE 10",
+        "Amount": 648
+      },
+      {
+        "Service": "NG TUBE SIZE 12",
+        "Amount": 648
+      },
+      {
+        "Service": "NG TUBE SIZE 16",
+        "Amount": 648
+      },
+      {
+        "Service": "NG TUBE SIZE 18",
+        "Amount": 648
+      },
+      {
+        "Service": "NG TUBE SIZE 20",
+        "Amount": 648
+      },
+      {
+        "Service": "NG TUBE SIZE 5",
+        "Amount": 648
+      },
+      {
+        "Service": "NG TUBE SIZE 6",
+        "Amount": 648
+      },
+      {
+        "Service": "NG TUBE SIZE 8",
+        "Amount": 648
+      },
+      {
+        "Service": "NG UBE SIZE 14",
+        "Amount": 648
+      },
+      {
+        "Service": "OCEFIX 400mg CEFIXIME",
+        "Amount": 648
+      },
+      {
+        "Service": "OXYTOCIN INJ",
+        "Amount": 648
+      },
+      {
+        "Service": "PENTAZOCINE 30MG/1ML INJ",
+        "Amount": 648
+      },
+      {
+        "Service": "TETANUS TOXOID (TT) INJ ZOLON",
+        "Amount": 648
+      },
+      {
+        "Service": "TRAMADOL INJ",
+        "Amount": 648
+      },
+      {
+        "Service": "VENTOLIN NEBULES 2.5MG",
+        "Amount": 648
+      },
+      {
+        "Service": "VITAMIN B COMPLEX INJ",
+        "Amount": 648
+      },
+      {
+        "Service": "VITAMIN C Syr",
+        "Amount": 648
+      },
+      {
+        "Service": "VITAMIN K3 2ML INJ",
+        "Amount": 648
+      },
+      {
+        "Service": "VISUAL ACUITY",
+        "Amount": 700
+      },
+      {
+        "Service": "CLOMIPHENE 50MG TAB",
+        "Amount": 715.5
+      },
+      {
+        "Service": "DICLOFENAC 50MG SUPP",
+        "Amount": 778.5
+      },
+      {
+        "Service": "DUCOLAX SUPPOSITORY",
+        "Amount": 778.5
+      },
+      {
+        "Service": "PIRITON Syr",
+        "Amount": 778.5
+      },
+      {
+        "Service": "Pentavalent, OPV, PCV, IPV",
+        "Amount": 780
+      },
+      {
+        "Service": "Vitamin A",
+        "Amount": 780
+      },
+      {
+        "Service": "Measles",
+        "Amount": 780
+      },
+      {
+        "Service": "CANDESARTAN 8MG TAB",
+        "Amount": 810
+      },
+      {
+        "Service": "CANDESARTAN 16MG TAB",
+        "Amount": 900
+      },
+      {
+        "Service": "BENZATHINE PENICILLIN 2.4miu inj",
+        "Amount": 909
+      },
+      {
+        "Service": "CHLORPHENERAMINE( PIRITON) Syr",
+        "Amount": 909
+      },
+      {
+        "Service": "IBUPROFEN SYR",
+        "Amount": 909
+      },
+      {
+        "Service": "VETOLIN NEBULES 5MG 1",
+        "Amount": 909
+      },
+      {
+        "Service": "CATHETER 10",
+        "Amount": 972
+      },
+      {
+        "Service": "CATHETER 16",
+        "Amount": 972
+      },
+      {
+        "Service": "CATHETER 18",
+        "Amount": 972
+      },
+      {
+        "Service": "CATHETER 8",
+        "Amount": 972
+      },
+      {
+        "Service": "CATHETER SIZE 6",
+        "Amount": 972
+      },
+      {
+        "Service": "CIPROFLOXACIN IVF SUITLIFE",
+        "Amount": 972
+      },
+      {
+        "Service": "FUROSEMIDE 20MG/2ML INJ",
+        "Amount": 972
+      },
+      {
+        "Service": "NYSTATIN SYR",
+        "Amount": 972
+      },
+      {
+        "Service": "WOSAN CREAM",
+        "Amount": 972
+      },
+      {
+        "Service": "ZINNAT 500mg TABS",
+        "Amount": 972
+      },
+      {
+        "Service": "ZITHROMAX 250mg",
+        "Amount": 972
+      },
+      {
+        "Service": "INPATIENT NURSING CARE PER DAY",
+        "Amount": 1000
+      },
+      {
+        "Service": "APPLANATION",
+        "Amount": 1000
+      },
+      {
+        "Service": "SUCTIONING per day",
+        "Amount": 1000
+      },
+      {
+        "Service": "NASAL OXYGEN PRONG (ADULT)",
+        "Amount": 1035
+      },
+      {
+        "Service": "NASAL OXYGEN PRONG (CHILD)",
+        "Amount": 1035
+      },
+      {
+        "Service": "NASAL OXYGEN PRONG (NEONATE)",
+        "Amount": 1035
+      },
+      {
+        "Service": "BRONCHOLYTE SYR",
+        "Amount": 1039.5
+      },
+      {
+        "Service": "CREPE BANDAGE 4\"",
+        "Amount": 1039.5
+      },
+      {
+        "Service": "PLASTER SMALL 4",
+        "Amount": 1039.5
+      },
+      {
+        "Service": "WHITFIELD CREAM",
+        "Amount": 1039.5
+      },
+      {
+        "Service": "TUSSIL D CHILD COUGH SYR FIDSON",
+        "Amount": 1044
+      },
+      {
+        "Service": "TUSSIL N CHILD COUGH SYR FIDSON",
+        "Amount": 1044
+      },
+      {
+        "Service": "AMOXICILLIN 125MG/5ML SYR",
+        "Amount": 1170
+      },
+      {
+        "Service": "OXYGEN THERAPY (per hour)",
+        "Amount": 1200
+      },
+      {
+        "Service": "OXYGEN THERAPY PER HOUR",
+        "Amount": 1200
+      },
+      {
+        "Service": "TUSSIL D ADULT COUGH SYR FIDSON",
+        "Amount": 1233
+      },
+      {
+        "Service": "TUSSIL N ADULT COUGH SYR FIDSON",
+        "Amount": 1233
+      },
+      {
+        "Service": "ACT CHILD SUSP",
+        "Amount": 1296
+      },
+      {
+        "Service": "AGERON 100ML Syr",
+        "Amount": 1296
+      },
+      {
+        "Service": "ARTEMETHER+LUMEFANTRIN SYR ACT",
+        "Amount": 1296
+      },
+      {
+        "Service": "CEFTRIAZONE INJ 500MG",
+        "Amount": 1296
+      },
+      {
+        "Service": "CIPROFLOXACIN IVF",
+        "Amount": 1296
+      },
+      {
+        "Service": "CREPE BANDAGE 6\"",
+        "Amount": 1296
+      },
+      {
+        "Service": "D - KOFF SYR",
+        "Amount": 1296
+      },
+      {
+        "Service": "DICLOFENAC 100MG/SUPP",
+        "Amount": 1296
+      },
+      {
+        "Service": "EMAL (ARBITER ) INJ 150MG (ARTEMETER)",
+        "Amount": 1296
+      },
+      {
+        "Service": "EMAL (ARBITER ) INJ 75MG (ARTEMETER)",
+        "Amount": 1296
+      },
+      {
+        "Service": "ERGOMETRINE INJ",
+        "Amount": 1296
+      },
+      {
+        "Service": "INJ. ARTEMETHER 150MG INJ EMAL",
+        "Amount": 1296
+      },
+      {
+        "Service": "INJ. ARTEMETHER 75MG INJ EMAL",
+        "Amount": 1296
+      },
+      {
+        "Service": "JAWARON Syr",
+        "Amount": 1296
+      },
+      {
+        "Service": "3K CREAM CREAM",
+        "Amount": 1296
+      },
+      {
+        "Service": "LEVOFLOXACIN INJ IV (levoquin)",
+        "Amount": 1296
+      },
+      {
+        "Service": "LIQUID PARAFFIN",
+        "Amount": 1296
+      },
+      {
+        "Service": "LORATIDINE Syr AFRABCHEM",
+        "Amount": 1296
+      },
+      {
+        "Service": "MAGNESIUM SULPHATE 50%/10ML INJ",
+        "Amount": 1296
+      },
+      {
+        "Service": "MYCOTEN SKIN CREAM",
+        "Amount": 1296
+      },
+      {
+        "Service": "OMEPRAZOLE 40MG INJ",
+        "Amount": 1296
+      },
+      {
+        "Service": "ONDANSETRON 8mg INJ",
+        "Amount": 1296
+      },
+      {
+        "Service": "ORTHOBAND",
+        "Amount": 1296
+      },
+      {
+        "Service": "PENICILLIN INJ",
+        "Amount": 1296
+      },
+      {
+        "Service": "PHENOBARBITONE Syr",
+        "Amount": 1296
+      },
+      {
+        "Service": "PLASTER BIG 6’’",
+        "Amount": 1296
+      },
+      {
+        "Service": "POTASSIUM CHLORIDE INJ",
+        "Amount": 1296
+      },
+      {
+        "Service": "PRIMOLUT-N 250mg INJ",
+        "Amount": 1296
+      },
+      {
+        "Service": "SALBUTAMOL Syr",
+        "Amount": 1296
+      },
+      {
+        "Service": "SKINEAL CREAM",
+        "Amount": 1296
+      },
+      {
+        "Service": "TAGAMET INJ",
+        "Amount": 1296
+      },
+      {
+        "Service": "TIMOLOL GUTT OPTIVISION",
+        "Amount": 1296
+      },
+      {
+        "Service": "TRIBOTAN CREAM Adult",
+        "Amount": 1296
+      },
+      {
+        "Service": "FUNBACT A",
+        "Amount": 1350
+      },
+      {
+        "Service": "GESTID SUSP/SUSP",
+        "Amount": 1350
+      },
+      {
+        "Service": "IBUPROFEN (ORANGE FLAVOURED) SYR",
+        "Amount": 1350
+      },
+      {
+        "Service": "SEPTRIN SYR",
+        "Amount": 1350
+      },
+      {
+        "Service": "TRIGESIC CREAM (tripple action)",
+        "Amount": 1350
+      },
+      {
+        "Service": "VITAMIN A DROPS",
+        "Amount": 1350
+      },
+      {
+        "Service": "SINUFED SYR",
+        "Amount": 1426.5
+      },
+      {
+        "Service": "IVYTIMOL",
+        "Amount": 1426.5
+      },
+      {
+        "Service": "GENERAL CONSULTATION REVIEW",
+        "Amount": 1500
+      },
+      {
+        "Service": "INPATIENT REVIEW",
+        "Amount": 1500
+      },
+      {
+        "Service": "DILATION",
+        "Amount": 1500
+      },
+      {
+        "Service": "SLIT LAMP EXAMINATION",
+        "Amount": 1500
+      },
+      {
+        "Service": "TONOMETRY NCT",
+        "Amount": 1500
+      },
+      {
+        "Service": "EYE TOILETING",
+        "Amount": 1500
+      },
+      {
+        "Service": "SUBSEQUENT WOUND DRESSING (MINOR)",
+        "Amount": 1500
+      },
+      {
+        "Service": "SUCTIONING",
+        "Amount": 1500
+      },
+      {
+        "Service": "ALBUMIN",
+        "Amount": 1521
+      },
+      {
+        "Service": "BLEEDING TIME",
+        "Amount": 1521
+      },
+      {
+        "Service": "CROSS MATCHING",
+        "Amount": 1521
+      },
+      {
+        "Service": "DIFFERENTIAL",
+        "Amount": 1521
+      },
+      {
+        "Service": "ESR",
+        "Amount": 1521
+      },
+      {
+        "Service": "FASTING BLOOD SUGAR",
+        "Amount": 1521
+      },
+      {
+        "Service": "HCV",
+        "Amount": 1521
+      },
+      {
+        "Service": "2 HOURS POST PRANDIAL",
+        "Amount": 1521
+      },
+      {
+        "Service": "MALARIA PARASITE",
+        "Amount": 1521
+      },
+      {
+        "Service": "MANTOUX",
+        "Amount": 1521
+      },
+      {
+        "Service": "MICROFILARIA",
+        "Amount": 1521
+      },
+      {
+        "Service": "PCV/HB",
+        "Amount": 1521
+      },
+      {
+        "Service": "PERIPHERAL BLOOD FILM READING",
+        "Amount": 1521
+      },
+      {
+        "Service": "PLATELETS",
+        "Amount": 1521
+      },
+      {
+        "Service": "RANDOM BLOOD SUGAR",
+        "Amount": 1521
+      },
+      {
+        "Service": "SERUM PREGNANCY TEST",
+        "Amount": 1521
+      },
+      {
+        "Service": "SKIN SNIP",
+        "Amount": 1521
+      },
+      {
+        "Service": "TOTAL PROTEIN",
+        "Amount": 1521
+      },
+      {
+        "Service": "URINALYSIS",
+        "Amount": 1521
+      },
+      {
+        "Service": "URINE MICROSCOPY",
+        "Amount": 1521
+      },
+      {
+        "Service": "URINE PREGNANCY TEST",
+        "Amount": 1521
+      },
+      {
+        "Service": "WBC TOTAL",
+        "Amount": 1521
+      },
+      {
+        "Service": "WIDAL TEST",
+        "Amount": 1521
+      },
+      {
+        "Service": "ARTESUNATE 30MG",
+        "Amount": 1557
+      },
+      {
+        "Service": "BABY TRIBOTAN CREAM",
+        "Amount": 1557
+      },
+      {
+        "Service": "CIPROFLOXACIN GUTT",
+        "Amount": 1557
+      },
+      {
+        "Service": "CLOTRIMAZOLE CREAM (MYCOTEN)",
+        "Amount": 1557
+      },
+      {
+        "Service": "HYDROCORTISONE CREAM",
+        "Amount": 1557
+      },
+      {
+        "Service": "INFUSION 10% D/W",
+        "Amount": 1557
+      },
+      {
+        "Service": "INFUSSION 50% D/W",
+        "Amount": 1557
+      },
+      {
+        "Service": "INFUSSION DARROWS FULL STRENGHT",
+        "Amount": 1557
+      },
+      {
+        "Service": "INFUSSION DARROWS HALF STRENGHT",
+        "Amount": 1557
+      },
+      {
+        "Service": "INFUSSION 0.9% N/SALINE",
+        "Amount": 1557
+      },
+      {
+        "Service": "INFUSSION 4.3% D/SALINE",
+        "Amount": 1557
+      },
+      {
+        "Service": "INFUSSION 5% D/S",
+        "Amount": 1557
+      },
+      {
+        "Service": "INFUSSION 5%D/W",
+        "Amount": 1557
+      },
+      {
+        "Service": "INJ. ARTESUNATE 30MG IV",
+        "Amount": 1557
+      },
+      {
+        "Service": "JAWASIL SUSP",
+        "Amount": 1557
+      },
+      {
+        "Service": "KETOCONAZOLE CREAM",
+        "Amount": 1557
+      },
+      {
+        "Service": "LYSOCYL COUGH SYR",
+        "Amount": 1557
+      },
+      {
+        "Service": "PHENOBARBITONE INJ",
+        "Amount": 1557
+      },
+      {
+        "Service": "Measles, Yellow Fever, Meningitis",
+        "Amount": 1560
+      },
+      {
+        "Service": "AMOXYICILLIN SUSP",
+        "Amount": 1620
+      },
+      {
+        "Service": "CETIRIZINE Syr",
+        "Amount": 1620
+      },
+      {
+        "Service": "GASCOL SUSP",
+        "Amount": 1620
+      },
+      {
+        "Service": "METRONIDAZOLE IVF 200mg",
+        "Amount": 1620
+      },
+      {
+        "Service": "METRONIDAZOLE SYR",
+        "Amount": 1620
+      },
+      {
+        "Service": "DICLOFENAC GUTT",
+        "Amount": 1687.5
+      },
+      {
+        "Service": "ERYTHROMYCIN 250MG SYR",
+        "Amount": 1687.5
+      },
+      {
+        "Service": "KY JELLY CREAM",
+        "Amount": 1687.5
+      },
+      {
+        "Service": "NEUROGESIC CREAM",
+        "Amount": 1687.5
+      },
+      {
+        "Service": "REUMEX CREAM/lotion",
+        "Amount": 1687.5
+      },
+      {
+        "Service": "PREDNISOLONE GUTT (ivysolone)",
+        "Amount": 1750.5
+      },
+      {
+        "Service": "BLOOD GROUP",
+        "Amount": 1755
+      },
+      {
+        "Service": "GRAM STAIN",
+        "Amount": 1755
+      },
+      {
+        "Service": "SGPT",
+        "Amount": 1755
+      },
+      {
+        "Service": "SKIN SCRAPING FOR FUNGI",
+        "Amount": 1755
+      },
+      {
+        "Service": "METHYLCELLULOSE GUTT",
+        "Amount": 1818
+      },
+      {
+        "Service": "ARTESUNATE 60MG INJ",
+        "Amount": 1944
+      },
+      {
+        "Service": "ATROPINE GUTT",
+        "Amount": 1944
+      },
+      {
+        "Service": "AZITHROMYCIN 250mg TAB (PACK)",
+        "Amount": 1944
+      },
+      {
+        "Service": "CIVODEX (cipro + dexa) GUTT",
+        "Amount": 1944
+      },
+      {
+        "Service": "DEXAMETHASONE GUTT",
+        "Amount": 1944
+      },
+      {
+        "Service": "INFUSSION RINGERS LACTATE",
+        "Amount": 1944
+      },
+      {
+        "Service": "INJ. ARTESUNATE 60MG IV",
+        "Amount": 1944
+      },
+      {
+        "Service": "IVYCHROM GUTT",
+        "Amount": 1944
+      },
+      {
+        "Service": "NEUROGESIC EXTRA CREAM",
+        "Amount": 1944
+      },
+      {
+        "Service": "SPINAL NEEDLE",
+        "Amount": 1944
+      },
+      {
+        "Service": "SPECIAL NURSING CARE PER DAY",
+        "Amount": 2000
+      },
+      {
+        "Service": "REFRACTION",
+        "Amount": 2000
+      },
+      {
+        "Service": "DOCTORS WARD REVIEW (In Patient)PER DAY",
+        "Amount": 2000
+      },
+      {
+        "Service": "IN PATIENT NURSING CARE",
+        "Amount": 2000
+      },
+      {
+        "Service": "SUBSEQUENT WOUND DRESSING (MAJOR)",
+        "Amount": 2000
+      },
+      {
+        "Service": "DENTAL CONSULTATION RETURNING PATIENT",
+        "Amount": 2000
+      },
+      {
+        "Service": "DENTAL X- RAY",
+        "Amount": 2000
+      },
+      {
+        "Service": "MYCOTEN VAGINA CREAM",
+        "Amount": 2070
+      },
+      {
+        "Service": "TRIAMSINOLONE 40mg INJ",
+        "Amount": 2070
+      },
+      {
+        "Service": "AZITHROMYCIN 200MG SYR",
+        "Amount": 2074.5
+      },
+      {
+        "Service": "BICARBONATE",
+        "Amount": 2106
+      },
+      {
+        "Service": "CALCIUM",
+        "Amount": 2106
+      },
+      {
+        "Service": "CHLORIDE",
+        "Amount": 2106
+      },
+      {
+        "Service": "CSF CHLORIDE",
+        "Amount": 2106
+      },
+      {
+        "Service": "CSF GLUCOSE",
+        "Amount": 2106
+      },
+      {
+        "Service": "CSF PROTEIN",
+        "Amount": 2106
+      },
+      {
+        "Service": "DIRECT BILIRUBIN",
+        "Amount": 2106
+      },
+      {
+        "Service": "GENOTYPE",
+        "Amount": 2106
+      },
+      {
+        "Service": "HDL",
+        "Amount": 2106
+      },
+      {
+        "Service": "HEPATITIS B SURFACE ANTIGEN",
+        "Amount": 2106
+      },
+      {
+        "Service": "LDL",
+        "Amount": 2106
+      },
+      {
+        "Service": "PHOSPHORUS",
+        "Amount": 2106
+      },
+      {
+        "Service": "PSA Qualitative",
+        "Amount": 2106
+      },
+      {
+        "Service": "RHEUMATOID FACTOR",
+        "Amount": 2106
+      },
+      {
+        "Service": "SGOT",
+        "Amount": 2106
+      },
+      {
+        "Service": "SODIUM",
+        "Amount": 2106
+      },
+      {
+        "Service": "STOOL ANALYSIS/MOCROSCOPY",
+        "Amount": 2106
+      },
+      {
+        "Service": "TOTAL BILIRUBIN",
+        "Amount": 2106
+      },
+      {
+        "Service": "TRIGLYCERIDE",
+        "Amount": 2106
+      },
+      {
+        "Service": "UREA",
+        "Amount": 2106
+      },
+      {
+        "Service": "VDRL",
+        "Amount": 2106
+      },
+      {
+        "Service": "OCCULLERG GUTT OCULUS",
+        "Amount": 2137.5
+      },
+      {
+        "Service": "IVYMOICEL GUTT",
+        "Amount": 2205
+      },
+      {
+        "Service": "SODIUM CROMOGYLGATE",
+        "Amount": 2205
+      },
+      {
+        "Service": "SOFRATULE GAUZE",
+        "Amount": 2205
+      },
+      {
+        "Service": "ALOMIDE GUTT",
+        "Amount": 2250
+      },
+      {
+        "Service": "AMOXICLAV 228.5MG SYR",
+        "Amount": 2250
+      },
+      {
+        "Service": "SUPERMAG/ZIBAMAG SUSP",
+        "Amount": 2250
+      },
+      {
+        "Service": "ALKALINE PHOSPHATASE",
+        "Amount": 2340
+      },
+      {
+        "Service": "SKIN SCRAPING FOR CULTURE",
+        "Amount": 2340
+      },
+      {
+        "Service": "CEFTAZIDINE INJ",
+        "Amount": 2340
+      },
+      {
+        "Service": "CEFUROXIME 750MG INJ",
+        "Amount": 2340
+      },
+      {
+        "Service": "CLOTRIMAZOLE VAGINAL CREAM( MYCOTEN)",
+        "Amount": 2340
+      },
+      {
+        "Service": "OPV, BCG, Hepatitis B",
+        "Amount": 2340
+      },
+      {
+        "Service": "FLUCAMED SYR",
+        "Amount": 2398.5
+      },
+      {
+        "Service": "POLYDEX N OC",
+        "Amount": 2461.5
+      },
+      {
+        "Service": "GENERAL CONSULTATION",
+        "Amount": 2500
+      },
+      {
+        "Service": "OPHATHAMOLOGIST CONSULTATION( RETURNING PATIENT)",
+        "Amount": 2500
+      },
+      {
+        "Service": "EPILATION",
+        "Amount": 2500
+      },
+      {
+        "Service": "SPECIAL NURSING CARE PER DAY( special Neonatal care)",
+        "Amount": 2500
+      },
+      {
+        "Service": "RHINETHIOL COUGH SYR CHILD",
+        "Amount": 2520
+      },
+      {
+        "Service": "ALLEREX/SPESALLERG GUTT",
+        "Amount": 2592
+      },
+      {
+        "Service": "AMOXICLAV 1.2G INJ",
+        "Amount": 2592
+      },
+      {
+        "Service": "ALLEREX/SPESALLERG GUTT ashfordlab",
+        "Amount": 2592
+      },
+      {
+        "Service": "CALCIUM+VIT C",
+        "Amount": 2592
+      },
+      {
+        "Service": "CEFIXIME 500MG SYR",
+        "Amount": 2592
+      },
+      {
+        "Service": "FLUBIPROFEN GUTT",
+        "Amount": 2592
+      },
+      {
+        "Service": "FLUCAMED GUTT",
+        "Amount": 2592
+      },
+      {
+        "Service": "INJ. ARTESUNATE 120MG IV",
+        "Amount": 2592
+      },
+      {
+        "Service": "IVYFLUR GUTT",
+        "Amount": 2592
+      },
+      {
+        "Service": "LIDOCAINE INJ",
+        "Amount": 2592
+      },
+      {
+        "Service": "OLOPATADINE GUTT",
+        "Amount": 2592
+      },
+      {
+        "Service": "TETRACYCLINE EYE OC",
+        "Amount": 2592
+      },
+      {
+        "Service": "TRANEXAMIC ACID 500mg INJ.",
+        "Amount": 2592
+      },
+      {
+        "Service": "LABETALOL 10MG INJ",
+        "Amount": 2700
+      },
+      {
+        "Service": "ARTESUNATE 120MG INJ",
+        "Amount": 2853
+      },
+      {
+        "Service": "INFUSION 20% MANITOL",
+        "Amount": 2853
+      },
+      {
+        "Service": "KETOTIFEN GUTT",
+        "Amount": 2853
+      },
+      {
+        "Service": "NUGEL SUSP",
+        "Amount": 2853
+      },
+      {
+        "Service": "POLYDEX GUTT",
+        "Amount": 2853
+      },
+      {
+        "Service": "RHINETHIOL COUGH SYR ADULT",
+        "Amount": 2853
+      },
+      {
+        "Service": "TOBRAMYCIN GUTT",
+        "Amount": 2853
+      },
+      {
+        "Service": "WOUND M/C/S",
+        "Amount": 2925
+      },
+      {
+        "Service": "ASPIRATE for M/C/S",
+        "Amount": 2925
+      },
+      {
+        "Service": "CHOLESTEROL",
+        "Amount": 2925
+      },
+      {
+        "Service": "CREATININE",
+        "Amount": 2925
+      },
+      {
+        "Service": "CSF M/C/S",
+        "Amount": 2925
+      },
+      {
+        "Service": "EAR, NOSE,THROAT SWAB M/C/S",
+        "Amount": 2925
+      },
+      {
+        "Service": "ECS M/C/S",
+        "Amount": 2925
+      },
+      {
+        "Service": "H. Pylori",
+        "Amount": 2925
+      },
+      {
+        "Service": "HVS M/C/S",
+        "Amount": 2925
+      },
+      {
+        "Service": "OCCULT FECAL BLOOD (FOB)",
+        "Amount": 2925
+      },
+      {
+        "Service": "POTASSIUM",
+        "Amount": 2925
+      },
+      {
+        "Service": "SEMEN ANALYSIS",
+        "Amount": 2925
+      },
+      {
+        "Service": "SPUTUM M/C/S",
+        "Amount": 2925
+      },
+      {
+        "Service": "STOOL M/C/S",
+        "Amount": 2925
+      },
+      {
+        "Service": "URETHRAL SWAB M/C/S",
+        "Amount": 2925
+      },
+      {
+        "Service": "URIC ACID",
+        "Amount": 2925
+      },
+      {
+        "Service": "URINE M/C/S",
+        "Amount": 2925
+      },
+      {
+        "Service": "AFM-T Gutt",
+        "Amount": 2983.5
+      },
+      {
+        "Service": "ASTFER Syr",
+        "Amount": 2983.5
+      },
+      {
+        "Service": "CEFTRIAZONE IV (evans) CEFZONE 1G????",
+        "Amount": 2983.5
+      },
+      {
+        "Service": "CEFUROXIME 250MG SYR",
+        "Amount": 2983.5
+      },
+      {
+        "Service": "MAXITEARS GUTT",
+        "Amount": 2983.5
+      },
+      {
+        "Service": "OBSERVATION",
+        "Amount": 3000
+      },
+      {
+        "Service": "GONIOSCOPY",
+        "Amount": 3000
+      },
+      {
+        "Service": "BILATRAL INDIRECT OPHTHALMOSCOPY (BIO)",
+        "Amount": 3000
+      },
+      {
+        "Service": "EYE PADDING",
+        "Amount": 3000
+      },
+      {
+        "Service": "EAR PIERCING",
+        "Amount": 3000
+      },
+      {
+        "Service": "HYPOMER GEL/carbomer gel",
+        "Amount": 3114
+      },
+      {
+        "Service": "MOXIFLOXACIN GUTT",
+        "Amount": 3150
+      },
+      {
+        "Service": "PROHEM SYR",
+        "Amount": 3150
+      },
+      {
+        "Service": "AMPIFLUX SUSP",
+        "Amount": 3240
+      },
+      {
+        "Service": "ASTYMIN 200ml Syr",
+        "Amount": 3240
+      },
+      {
+        "Service": "CERUMOL EAR DROP",
+        "Amount": 3240
+      },
+      {
+        "Service": "EXACEF (CEFTRIAXONE + TAZOBACTAM INJ)",
+        "Amount": 3240
+      },
+      {
+        "Service": "FLUCLOXACILLIN INJ",
+        "Amount": 3240
+      },
+      {
+        "Service": "KETOMOX GUTT",
+        "Amount": 3240
+      },
+      {
+        "Service": "MAXITROL GUTT",
+        "Amount": 3240
+      },
+      {
+        "Service": "MOFLOXADEX GUTT",
+        "Amount": 3240
+      },
+      {
+        "Service": "NATAMYCIN GUTT",
+        "Amount": 3240
+      },
+      {
+        "Service": "NEPAFENAC GUTT",
+        "Amount": 3240
+      },
+      {
+        "Service": "NUGEL O SUSP",
+        "Amount": 3240
+      },
+      {
+        "Service": "TROPHEN GUTT",
+        "Amount": 3240
+      },
+      {
+        "Service": "SODIUM CHLORIDE GUTT 0.9% NASAL DROPS",
+        "Amount": 3240
+      },
+      {
+        "Service": "SODIUM CHLORIDE GUTT 0.9% EYE DROP",
+        "Amount": 3240
+      },
+      {
+        "Service": "SOLUSET",
+        "Amount": 3240
+      },
+      {
+        "Service": "TETRACAINE GUTT",
+        "Amount": 3240
+      },
+      {
+        "Service": "VENTOLIN INHALER",
+        "Amount": 3240
+      },
+      {
+        "Service": "ZINNAT INJ 750mg",
+        "Amount": 3240
+      },
+      {
+        "Service": "DENTAL FLOSSING",
+        "Amount": 3250
+      },
+      {
+        "Service": "DORZOLAMIDE GUTT",
+        "Amount": 3375
+      },
+      {
+        "Service": "LABETALOL 50MG INJ",
+        "Amount": 3420
+      },
+      {
+        "Service": "OPHATHAMOLOGIST CONSULTATION (CONSULTANT)",
+        "Amount": 3500
+      },
+      {
+        "Service": "AUTOREFRACTION",
+        "Amount": 3500
+      },
+      {
+        "Service": "INSERTION OF URINARY CATHETER procedure only",
+        "Amount": 3500
+      },
+      {
+        "Service": "INTUBATION",
+        "Amount": 3500
+      },
+      {
+        "Service": "PHOTOTHERAPY PER DAY",
+        "Amount": 3500
+      },
+      {
+        "Service": "DENTAL CONSULTATION NEW PATIENT",
+        "Amount": 3500
+      },
+      {
+        "Service": "CEFPODOXIME SYR",
+        "Amount": 3501
+      },
+      {
+        "Service": "MAXITROL OC",
+        "Amount": 3501
+      },
+      {
+        "Service": "TOBRAMICIN EYE OC",
+        "Amount": 3501
+      },
+      {
+        "Service": "XYLOACINO NASAL DROP( CHILD)",
+        "Amount": 3501
+      },
+      {
+        "Service": "COOMBS TEST (Direct )",
+        "Amount": 3510
+      },
+      {
+        "Service": "COOMBS TEST (Indirect)",
+        "Amount": 3510
+      },
+      {
+        "Service": "CSF GRAM STAINING & M/C/S",
+        "Amount": 3510
+      },
+      {
+        "Service": "TROFEN GUTT (tropicamide)",
+        "Amount": 3631.5
+      },
+      {
+        "Service": "PACHYMETRY",
+        "Amount": 3750
+      },
+      {
+        "Service": "ACYCLOVIR EYE OC",
+        "Amount": 3888
+      },
+      {
+        "Service": "AVAMYS NASAL SPRAY",
+        "Amount": 3888
+      },
+      {
+        "Service": "MYDRIACYL GUTT",
+        "Amount": 3888
+      },
+      {
+        "Service": "OLFEN GEL",
+        "Amount": 3888
+      },
+      {
+        "Service": "XYLOACINO NASAL DROP (ADULT)",
+        "Amount": 3888
+      },
+      {
+        "Service": "OCCULAR B SCAN",
+        "Amount": 4000
+      },
+      {
+        "Service": "FOREIGN BODY REMOVAL (IN CLINIC)",
+        "Amount": 4000
+      },
+      {
+        "Service": "SUB. CONJ INJECTION (dexamethazone, gentamicin) per dose",
+        "Amount": 4000
+      },
+      {
+        "Service": "WOUND DEBRIDEMENT AND DRESSING (INITIAL)",
+        "Amount": 4000
+      },
+      {
+        "Service": "CATHETERISATION (urinary tract)",
+        "Amount": 4000
+      },
+      {
+        "Service": "NEBULIZATION PER DAY",
+        "Amount": 4000
+      },
+      {
+        "Service": "FULL BLOOD COUNT",
+        "Amount": 4095
+      },
+      {
+        "Service": "ORAL GLUCOSE TOLERANCE TEST",
+        "Amount": 4095
+      },
+      {
+        "Service": "AMETHOCAIN GUTT",
+        "Amount": 4149
+      },
+      {
+        "Service": "EVOLVE GUTT",
+        "Amount": 4149
+      },
+      {
+        "Service": "KOTOZAL KIT TABS",
+        "Amount": 4149
+      },
+      {
+        "Service": "WOUND SUTURING (MINOR)",
+        "Amount": 4500
+      },
+      {
+        "Service": "MANAGEMENT OF DRY SOCKET",
+        "Amount": 4500
+      },
+      {
+        "Service": "DENTURE RELINING",
+        "Amount": 4500
+      },
+      {
+        "Service": "BRIMONIDINE GUTT",
+        "Amount": 4536
+      },
+      {
+        "Service": "BRIMOPRESS GUTT",
+        "Amount": 4536
+      },
+      {
+        "Service": "GAVISCON SUSP",
+        "Amount": 4666.5
+      },
+      {
+        "Service": "HBSAg, HBeAg, HBcAg (Panel)",
+        "Amount": 4680
+      },
+      {
+        "Service": "INFACOL SUSP",
+        "Amount": 4797
+      },
+      {
+        "Service": "DORZOLAMIDE/TIMOLOL GUTT MISOPT",
+        "Amount": 4927.5
+      },
+      {
+        "Service": "TONOMETRY (PULSAIR)",
+        "Amount": 5000
+      },
+      {
+        "Service": "BIOMETRY",
+        "Amount": 5000
+      },
+      {
+        "Service": "SUB. CONJ INJECTION (zinacef, rocephin, fortum) per dose",
+        "Amount": 5000
+      },
+      {
+        "Service": "NG TUBE INTUBATION PROCEDURE",
+        "Amount": 5000
+      },
+      {
+        "Service": "NEBULISATION",
+        "Amount": 5000
+      },
+      {
+        "Service": "ASPIRATION/PARACENTESIS",
+        "Amount": 5000
+      },
+      {
+        "Service": "RELEASE OF TONGUE TIE",
+        "Amount": 5000
+      },
+      {
+        "Service": "CLEXANE (HEPARIN) 40mg INJ",
+        "Amount": 5184
+      },
+      {
+        "Service": "HEPARIN 40mg INJ",
+        "Amount": 5184
+      },
+      {
+        "Service": "LATANOPROST GUTT CORLYNS",
+        "Amount": 5184
+      },
+      {
+        "Service": "SEMEN ANALYSIS & M/C/S",
+        "Amount": 5265
+      },
+      {
+        "Service": "Hepatitis B (Single dose)",
+        "Amount": 5460
+      },
+      {
+        "Service": "ELECTROLYTE",
+        "Amount": 5499
+      },
+      {
+        "Service": "CENTRAL VISUAL FIELD TEST",
+        "Amount": 5500
+      },
+      {
+        "Service": "KERATOMETRY",
+        "Amount": 5500
+      },
+      {
+        "Service": "LATANOPROST/TIMOLOL GUTT",
+        "Amount": 5832
+      },
+      {
+        "Service": "MISOPT GUTT",
+        "Amount": 5832
+      },
+      {
+        "Service": "PILOCARPINE 2% GUTT",
+        "Amount": 5832
+      },
+      {
+        "Service": "BLOOD CULTURE",
+        "Amount": 5850
+      },
+      {
+        "Service": "ELECTROLYTE & UREA",
+        "Amount": 5850
+      },
+      {
+        "Service": "CEMENTATION OF CROWN",
+        "Amount": 6000
+      },
+      {
+        "Service": "HBAIC",
+        "Amount": 6435
+      },
+      {
+        "Service": "LFT",
+        "Amount": 6435
+      },
+      {
+        "Service": "LIPID PROFILE",
+        "Amount": 6435
+      },
+      {
+        "Service": "SCREENING OF BLOOD DONOR",
+        "Amount": 6435
+      },
+      {
+        "Service": "ASTYMIN IV",
+        "Amount": 6480
+      },
+      {
+        "Service": "INSULIN SOLUBLE INJ ACTRAPID",
+        "Amount": 6480
+      },
+      {
+        "Service": "ORELOX Syr",
+        "Amount": 6480
+      },
+      {
+        "Service": "PETHIDINE INJ",
+        "Amount": 6480
+      },
+      {
+        "Service": "RELOAD FOR KIDS 237MG Syr",
+        "Amount": 6480
+      },
+      {
+        "Service": "WOUND SUTUTING (MAJOR)",
+        "Amount": 7000
+      },
+      {
+        "Service": "SIMPLE EXTRACTION",
+        "Amount": 7000
+      },
+      {
+        "Service": "FLUORIDE THERAPY (TOPICAL)",
+        "Amount": 7000
+      },
+      {
+        "Service": "E/U/Cr",
+        "Amount": 7020
+      },
+      {
+        "Service": "ESTRODIOL",
+        "Amount": 7020
+      },
+      {
+        "Service": "FSH",
+        "Amount": 7020
+      },
+      {
+        "Service": "GLYCATED HB",
+        "Amount": 7020
+      },
+      {
+        "Service": "LH",
+        "Amount": 7020
+      },
+      {
+        "Service": "PROLACTIN",
+        "Amount": 7020
+      },
+      {
+        "Service": "SPUTUM AFB",
+        "Amount": 7020
+      },
+      {
+        "Service": "T3",
+        "Amount": 7020
+      },
+      {
+        "Service": "T4",
+        "Amount": 7020
+      },
+      {
+        "Service": "TSH",
+        "Amount": 7020
+      },
+      {
+        "Service": "BRINZOLAMIDE (AZOPT) GUTT",
+        "Amount": 7128
+      },
+      {
+        "Service": "ROCEPHINE 1G INJ (Rhoche)",
+        "Amount": 7128
+      },
+      {
+        "Service": "INSULIN 70/30 INJ ACTRAPID (MIXTARD)",
+        "Amount": 7560
+      },
+      {
+        "Service": "PROGESTERONE",
+        "Amount": 7605
+      },
+      {
+        "Service": "TESTOSTERONE",
+        "Amount": 7605
+      },
+      {
+        "Service": "INSULIN MIXTARD FLEX PEN",
+        "Amount": 7776
+      },
+      {
+        "Service": "T BET GUTT",
+        "Amount": 7776
+      },
+      {
+        "Service": "OPERCULECTOMY",
+        "Amount": 7800
+      },
+      {
+        "Service": "GLASS IONOMER FILLING",
+        "Amount": 7800
+      },
+      {
+        "Service": "COMPOSITE FILLING",
+        "Amount": 7800
+      },
+      {
+        "Service": "SCALING AND POLISHING",
+        "Amount": 7800
+      },
+      {
+        "Service": "SEMI PRIVATE WARD PER DAY",
+        "Amount": 8000
+      },
+      {
+        "Service": "CIRCUMCISSION",
+        "Amount": 8000
+      },
+      {
+        "Service": "TRAVOPROST/TIMOLOL( T. BET)",
+        "Amount": 8037
+      },
+      {
+        "Service": "PSA (Qantitative)",
+        "Amount": 8190
+      },
+      {
+        "Service": "MIXTARD FLEX PEN",
+        "Amount": 8424
+      },
+      {
+        "Service": "CURETTAGE (PER QUADRANT)",
+        "Amount": 8500
+      },
+      {
+        "Service": "FUJI IX",
+        "Amount": 9000
+      },
+      {
+        "Service": "SPLINTING",
+        "Amount": 9500
+      },
+      {
+        "Service": "CARDIOLOGY INPATIENT REVIEW",
+        "Amount": 10000
+      },
+      {
+        "Service": "OBS REVIEW/RETURNING PT",
+        "Amount": 10000
+      },
+      {
+        "Service": "INDUCTION/AUGMENTATION OF LABOUR Packaged",
+        "Amount": 10000
+      },
+      {
+        "Service": "REPAIR OF PERENEAL TEAR (1ST DEGREE) day case",
+        "Amount": 10000
+      },
+      {
+        "Service": "EAR SYRINGING PER EAR- Day Case",
+        "Amount": 10000
+      },
+      {
+        "Service": "ROOT EXTRACTION",
+        "Amount": 11000
+      },
+      {
+        "Service": "TEMPORARY FILLING",
+        "Amount": 11500
+      },
+      {
+        "Service": "PULPECTOMY (PER TOOTH)",
+        "Amount": 11700
+      },
+      {
+        "Service": "CARDIOLOGY REVIEW/RETURNING PT",
+        "Amount": 12000
+      },
+      {
+        "Service": "OBS CONSULTATION (NEW PT )",
+        "Amount": 12000
+      },
+      {
+        "Service": "OBS INPATIENT REVIEW",
+        "Amount": 12000
+      },
+      {
+        "Service": "GYN INPATIENT REVIEW",
+        "Amount": 12000
+      },
+      {
+        "Service": "PRIVATE WARD PER DAY",
+        "Amount": 12000
+      },
+      {
+        "Service": "ASPIRATION/PARACENTESIS",
+        "Amount": 12000
+      },
+      {
+        "Service": "LUMBAR PUNCTURE",
+        "Amount": 12000
+      },
+      {
+        "Service": "Measles, Mumps, Rubella (MMR) (15 months)",
+        "Amount": 12480
+      },
+      {
+        "Service": "1 PINT OF BLOOD (Rh Positive)",
+        "Amount": 12600
+      },
+      {
+        "Service": "GYN REVIEW/RETURNING PT",
+        "Amount": 13000
+      },
+      {
+        "Service": "THIRD MOLAR EXTRACTION UNIMPACTED",
+        "Amount": 13000
+      },
+      {
+        "Service": "ACRYLIC BASE DENTURE/TOOTH",
+        "Amount": 13000
+      },
+      {
+        "Service": "ADDITIONAL TOOTH",
+        "Amount": 13000
+      },
+      {
+        "Service": "IMMEDIATE DENTURE/TOOTH",
+        "Amount": 13000
+      },
+      {
+        "Service": "DENTURE REPAIR ACRYLIC BASE",
+        "Amount": 13000
+      },
+      {
+        "Service": "1 PINT OF BLOOD (Rh Negative)",
+        "Amount": 14400
+      },
+      {
+        "Service": "BANDAGE CONTACT LENS + INSERTION",
+        "Amount": 15000
+      },
+      {
+        "Service": "EPISIOTOMY AND REPAIR Packaged with consumables",
+        "Amount": 15000
+      },
+      {
+        "Service": "REPAIR IF PERENEAL TEAR (2ND DEGREE) day case",
+        "Amount": 15000
+      },
+      {
+        "Service": "MANUAL EVACUATION OF RETAINED PLACENTA (IN LABOUR WARD)",
+        "Amount": 15000
+      },
+      {
+        "Service": "FOREIGN BODY REMOVAL FROM EAR- Day Case",
+        "Amount": 15000
+      },
+      {
+        "Service": "FOREIGN BODY REMOVAL FROM NOSE- Day Case",
+        "Amount": 15000
+      },
+      {
+        "Service": "Typhoid (24 Months)",
+        "Amount": 15600
+      },
+      {
+        "Service": "CARDIOLOGY CONSULTATION (NEW PT)",
+        "Amount": 17000
+      },
+      {
+        "Service": "GYN CONSULTATION (NEW PT)",
+        "Amount": 17000
+      },
+      {
+        "Service": "Rotavirus",
+        "Amount": 18720
+      },
+      {
+        "Service": "Chicken Pox (15 Months)",
+        "Amount": 18720
+      },
+      {
+        "Service": "Hepatitis A (18 months)",
+        "Amount": 18720
+      },
+      {
+        "Service": "INCISION AND DRAINAGE",
+        "Amount": 19000
+      },
+      {
+        "Service": "ENDODONTICS: RCT POSTERIOR TEETH",
+        "Amount": 19000
+      },
+      {
+        "Service": "ANTI-RABIES INJ",
+        "Amount": 19440
+      },
+      {
+        "Service": "Pentavalent, OPV, PCV, Rotavirus",
+        "Amount": 19500
+      },
+      {
+        "Service": "ARTIFICIAL EYE + INSERTION",
+        "Amount": 20000
+      },
+      {
+        "Service": "GASTRIC LAVAGE",
+        "Amount": 20000
+      },
+      {
+        "Service": "ENDODONTICS: RCT ANTERIOR TEETH",
+        "Amount": 20000
+      },
+      {
+        "Service": "MEROPENEM INJ ?????MG",
+        "Amount": 22050
+      },
+      {
+        "Service": "INDIRECT LARYNSCOPY- Day Case",
+        "Amount": 25000
+      },
+      {
+        "Service": "CROWN (ANTERIOR JACKET-ACRYLIC0",
+        "Amount": 28000
+      },
+      {
+        "Service": "USE OF THEATER: OPTICAL CASES",
+        "Amount": 30000
+      },
+      {
+        "Service": "USE OF THEATER(Day Cases)",
+        "Amount": 30000
+      },
+      {
+        "Service": "I&D OF QUINSY/RETROPHARYNGEAL ABSCESS/LUDWIG ANGINA",
+        "Amount": 30000
+      },
+      {
+        "Service": "THIRD MOLAR SURGERY",
+        "Amount": 30000
+      },
+      {
+        "Service": "USE OF THEATER (ENT INTERMEDIATE/MAJOR PROCEDURES/SURGERIES)",
+        "Amount": 33250
+      },
+      {
+        "Service": "OCCULAR COMPUTER TOMOGRAPHY (OCT)",
+        "Amount": 35000
+      },
+      {
+        "Service": "FOREIGN BODY REMOVAL(Optical)",
+        "Amount": 35000
+      },
+      {
+        "Service": "MINOR CERVICAL LACERATION REPAIR day case",
+        "Amount": 35000
+      },
+      {
+        "Service": "MYRINGOSTOMY (L.A)- Day Case",
+        "Amount": 35000
+      },
+      {
+        "Service": "USE OF THEATER (E.N.T MINOR/INTERMEDIATE SURGERIES)",
+        "Amount": 35000
+      },
+      {
+        "Service": "ANTIBIOTICS/ANTIFUNGAL (Optical theatre Procedures)",
+        "Amount": 40000
+      },
+      {
+        "Service": "CHALAZION SURGERY -SURGERIES -DAY CASES + USE OF THEATER",
+        "Amount": 40000
+      },
+      {
+        "Service": "NORMAL DELIVERY Packaged with consumables",
+        "Amount": 45000
+      },
+      {
+        "Service": "AVASTIN( Optical theatre Procedures)",
+        "Amount": 50000
+      },
+      {
+        "Service": "BRIDGE WORK (PER UNIT)",
+        "Amount": 50000
+      },
+      {
+        "Service": "EXCHANGE BLOOD TRANSFUSION",
+        "Amount": 55000
+      },
+      {
+        "Service": "RHOCLONE (ANTI D) INJ",
+        "Amount": 55080
+      },
+      {
+        "Service": "EVISERATION (Surgery+Ward Admission(2-3 days)",
+        "Amount": 57000
+      },
+      {
+        "Service": "GENERAL ANESTHESIA FEE (MINOR PROCEDURES/SURGERIES)",
+        "Amount": 57000
+      },
+      {
+        "Service": "MULTIPLE CHALAZION SURGERY-SURGERIES -DAY CASES",
+        "Amount": 60000
+      },
+      {
+        "Service": "LID REPAIR SURGERY(Optical) (SMALL)-SURGERIES -DAY CASES",
+        "Amount": 60000
+      },
+      {
+        "Service": "NORMAL DELIVERY UNBOOKED Packaged with consumables",
+        "Amount": 60000
+      },
+      {
+        "Service": "MULTIPLE DELIVERY (TWINS)Packaged with consumables",
+        "Amount": 60000
+      },
+      {
+        "Service": "ANESTHETIC FEE(Day Cases)",
+        "Amount": 60000
+      },
+      {
+        "Service": "GENERAL ANESTHESIA FEE (E.N.T MINOR/INTERMEDIATE SURGERIES)",
+        "Amount": 60000
+      },
+      {
+        "Service": "CROWN (ANTERIOR JACKET PORCELAIN BONDED METAL)",
+        "Amount": 60000
+      },
+      {
+        "Service": "CROWN (ANTERIOR JACKET-ACRYLIC BONDED METAL)",
+        "Amount": 62000
+      },
+      {
+        "Service": "IMMOBILISATION AND FIXATION",
+        "Amount": 62000
+      },
+      {
+        "Service": "ANESTHETIC FEE: OPTICAL CASES",
+        "Amount": 66500
+      },
+      {
+        "Service": "ANTENATAL (from 16 - 40 weeks) per Package inc of ANC Visit",
+        "Amount": 70000
+      },
+      {
+        "Service": "ASSISTED BREECH DELIVERY Packaged",
+        "Amount": 70000
+      },
+      {
+        "Service": "INSTRUMENTAL DELIVERY( VACUUM EXTRACTION)",
+        "Amount": 70000
+      },
+      {
+        "Service": "ANTI SNAKE VENOM polyvalent",
+        "Amount": 71100
+      },
+      {
+        "Service": "MULTIPLE DELIVERY (TWINS) UNBOOKED Packaged with consumables",
+        "Amount": 75000
+      },
+      {
+        "Service": "CORNEAL LACERATION REPAIR (SMALL)",
+        "Amount": 76000
+      },
+      {
+        "Service": "FOREIGN BODY REMOVAL IN THEATER(Pead) Surgeries",
+        "Amount": 85000
+      },
+      {
+        "Service": "CHALAZION SURGERY(Pead) Surgeries day case +Use of theatre",
+        "Amount": 90000
+      },
+      {
+        "Service": "CORNEAL LACERATION REPAIR (EXTENSIVE)",
+        "Amount": 95000
+      },
+      {
+        "Service": "CORNEOSCLERAL LACERATION REPAIR SURGERY",
+        "Amount": 95000
+      },
+      {
+        "Service": "CERVICAL CERCLAGE day case",
+        "Amount": 100000
+      },
+      {
+        "Service": "PTERYGIUM EXCISION SURGERY + AUTOGRAFT",
+        "Amount": 104500
+      },
+      {
+        "Service": "EVISERATION (Pead) Surgery+Ward Admission(2-3days)",
+        "Amount": 104500
+      },
+      {
+        "Service": "MULTIPLE CHALAZION SURGERY(Pead) Surgeries day case +Use",
+        "Amount": 110000
+      },
+      {
+        "Service": "LID REPAIR SURGERY (SMALL) (Pead) Surgeries day case +Use",
+        "Amount": 110000
+      },
+      {
+        "Service": "EXCISION/DIATHERMY OF WARTS/PODOPHLLIN day case",
+        "Amount": 110000
+      },
+      {
+        "Service": "EVISERATION WITH IMPLANT (Surgery+Ward Admission",
+        "Amount": 114000
+      },
+      {
+        "Service": "EVACUATION OF RPOC-(Includes 1-2 day adm, Surg. Fee. LA,",
+        "Amount": 114000
+      },
+      {
+        "Service": "MYRINGOSTOMY",
+        "Amount": 114000
+      },
+      {
+        "Service": "UTERINE ADHESIOLYSIS day case",
+        "Amount": 120000
+      },
+      {
+        "Service": "CORNEAL LACERATION REPAIR (SMALL) (Pead) Surgery+",
+        "Amount": 123500
+      },
+      {
+        "Service": "PREAURICULAR SINUS",
+        "Amount": 123500
+      },
+      {
+        "Service": "BARTHOLIN'S CYST DRAINAGE AND MARSUPIALIZATION",
+        "Amount": 130000
+      },
+      {
+        "Service": "REPAIR OF CERVICAL LACERATION",
+        "Amount": 133000
+      },
+      {
+        "Service": "TONSILLECTOMY/ADENOIDECTOMY- Day Case",
+        "Amount": 140000
+      },
+      {
+        "Service": "CORNEAL LACERATION REPAIR (EXTENSIVE) (Pead) Surgery+Ward",
+        "Amount": 142500
+      },
+      {
+        "Service": "CORNEOSCLERAL LACERATION REPAIR SURGERY (Pead)",
+        "Amount": 142500
+      },
+      {
+        "Service": "REMOVAL OF PLACENTA (IN THEATER)",
+        "Amount": 142500
+      },
+      {
+        "Service": "TONSILECTOMY/ADENOTONSILECTOMY/ADEMOIDECTOMY",
+        "Amount": 142500
+      },
+      {
+        "Service": "CATARACT SURGERY (SICS ONLY)/THERAPEUTIC(",
+        "Amount": 152000
+      },
+      {
+        "Service": "CATARACT SURGERY (SICS+PC IOL) (Surgery+Ward Admission",
+        "Amount": 152000
+      },
+      {
+        "Service": "TRABECULECTOMY (Surgery+Ward Admission(2-3 days)",
+        "Amount": 152000
+      },
+      {
+        "Service": "PTERYGIUM EXCISION SURGERY + AUTOGRAFT (Pead)",
+        "Amount": 152000
+      },
+      {
+        "Service": "TURBINECTOMY",
+        "Amount": 152000
+      },
+      {
+        "Service": "EVISERATION WITH IMPLANT (Pead) Surgery+Ward Admission",
+        "Amount": 161500
+      },
+      {
+        "Service": "CATARACT SURGERY (SICS+ Foldable IOL)",
+        "Amount": 171000
+      },
+      {
+        "Service": "EVACUATION OF MOLAR PREGNANCY",
+        "Amount": 190000
+      },
+      {
+        "Service": "EXCISION OF IMPERFORATE HYMEN (Includes 1-2 day adm, Surg.",
+        "Amount": 190000
+      },
+      {
+        "Service": "SICS/PTERYGIUM (Surgery+Ward Admission(2-3 days)",
+        "Amount": 199500
+      },
+      {
+        "Service": "CATARACT SURGERY (SICS ONLY)/THERAPEUTIC (Pead)",
+        "Amount": 199500
+      },
+      {
+        "Service": "CATARACT SURGERY (SICS+PC IOL) (Pead) Surgery+Ward",
+        "Amount": 199500
+      },
+      {
+        "Service": "TRABECULECTOMY (Pead) Surgery+Ward Admission(2-3days)",
+        "Amount": 199500
+      },
+      {
+        "Service": "LUCENTIS INJECTION (Optical theatre Procedures)",
+        "Amount": 200000
+      },
+      {
+        "Service": "SICS/TRAB (Surgery+Ward Admission(2-3 days)",
+        "Amount": 209000
+      },
+      {
+        "Service": "CATARACT SURGERY (SICS+ Foldable IOL) (Pead) Surgery+Ward",
+        "Amount": 218500
+      },
+      {
+        "Service": "REPAIR OF PERINIAL TEAR (3RD DEGREE)- Inc of 3-5 days adm",
+        "Amount": 237500
+      },
+      {
+        "Service": "SICS/PTERYGIUM (Pead) Surgery+Ward Admission(2-3days)",
+        "Amount": 247000
+      },
+      {
+        "Service": "SICS/TRAB (Pead) Surgery+Ward Admission(2-3days)",
+        "Amount": 256500
+      },
+      {
+        "Service": "EUA, STAGING & BIOPSY (Inter. Surg inc. of 1-2 day",
+        "Amount": 285000
+      },
+      {
+        "Service": "EYELEA (Optical theatre Procedures)",
+        "Amount": 300000
+      },
+      {
+        "Service": "CAESEREAN SECTION (Inter. Surg inc. of 1-2 day,surgery fee, LA,",
+        "Amount": 313500
+      },
+      {
+        "Service": "VAGINAL POLYPECTOMY (Inter. Surg inc. of 1-2 day",
+        "Amount": 313500
+      },
+      {
+        "Service": "LID REPAIR SURGERY (extensive/cosmetic +/- skin graft)",
+        "Amount": 332500
+      },
+      {
+        "Service": "CAESEREAN SECTION (Pre. scar) (Inter. Surg inc.",
+        "Amount": 361000
+      },
+      {
+        "Service": "PHACOEMULSIFICATION SURGERY/LASER",
+        "Amount": 380000
+      },
+      {
+        "Service": "LID REPAIR SURGERY (extensive/cosmetic +/- skin graft)(Pead)",
+        "Amount": 380000
+      },
+      {
+        "Service": "TRACHEOSTOMY",
+        "Amount": 380000
+      },
+      {
+        "Service": "PHACO/PTERYGIUM (Surgery+Ward Admission(2-3 days)",
+        "Amount": 427500
+      },
+      {
+        "Service": "SQUINT SURGERY (Surgery+Ward Admission(2-3 days)",
+        "Amount": 427500
+      },
+      {
+        "Service": "PHACOEMULSIFICATION SURGERY/LASER (Pead) Surgery+Ward",
+        "Amount": 427500
+      },
+      {
+        "Service": "PHACO/TRAB SURGERY (Surgery+Ward Admission(2-3 days)",
+        "Amount": 446500
+      },
+      {
+        "Service": "MYOMECTOMY (SIZE SMALLER THAN 20wks) Inc of 3-5",
+        "Amount": 446500
+      },
+      {
+        "Service": "CAESEREAN MYOMECTOMY Inc of 3-5 days adm, Surgery,",
+        "Amount": 446500
+      },
+      {
+        "Service": "PHACO/PTERYGIUM (Pead) Surgery+Ward Admission(2-3days)",
+        "Amount": 475000
+      },
+      {
+        "Service": "SQUINT SURGERY (Pead) Surgery+Ward Admission(2-3days)",
+        "Amount": 475000
+      },
+      {
+        "Service": "PHACO/TRAB SURGERY (Pead) Surgery+Ward Admission",
+        "Amount": 494000
+      },
+      {
+        "Service": "MYOMECTOMY (SIZE BIGGER 20 WEEKS) Inc of 3-5 days adm,",
+        "Amount": 494000
+      },
+      {
+        "Service": "EXPLORATORY LAPAROTOMY/ECTOPIC PREGNANCY",
+        "Amount": 494000
+      },
+      {
+        "Service": "TOTAL ABDOMINAL HYSTERECTOMY- Inc of 3-5 days adm,",
+        "Amount": 494000
+      },
+      {
+        "Service": "OVARIAN CYSTECTOMYT- Inc of 3-5 days adm, Surgery,",
+        "Amount": 494000
+      },
+      {
+        "Service": "VAGINAL HYSTERECTOMY- Inc of 3-5 days adm, Surgery,",
+        "Amount": 589000
+      },
+      {
+        "Service": "CORNEAL TRANSPLANT (Surgery+Ward Admission(2-3 days)",
+        "Amount": 2185000
+      },
+      {
+        "Service": "CORNEAL TRANSPLANT (Pead) Surgery+Ward Admission",
+        "Amount": 2232500
+      }
+    ]
+  }

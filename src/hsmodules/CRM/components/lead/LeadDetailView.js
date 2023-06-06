@@ -863,7 +863,7 @@ const LeadDetail = ({handleGoBack}) => {
     setDealStatus(deal.currStatus);
   }, [state.DealModule]);
 
-  //console.log(unreadMsgs);
+  console.log("invoices",state.DealModule.selectedDeal);
 
   return (
     <Box
@@ -1140,6 +1140,8 @@ const LeadDetail = ({handleGoBack}) => {
         <SendLinkViaEmail
           closeModal={() => setSendLinkModal(false)}
           defaultToEmail={state.DealModule.selectedDeal.email}
+          orgType={state.DealModule.selectedDeal.type.toLowerCase()}
+          id={state.DealModule.selectedDeal._id}
         />
       </ModalBox>
 

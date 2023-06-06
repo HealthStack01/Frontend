@@ -256,13 +256,14 @@ const OrganizationSignup = () => {
 
       <Box
         sx={{
-          width: "65%",
+          
           height: "100vh",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          // backgroundColor: "#f8f8f8",
+          margin:"auto"
+          // backgroundColor: "#f8f8f8", // width: "65%",
         }}
       >
         <Box mb={4}>

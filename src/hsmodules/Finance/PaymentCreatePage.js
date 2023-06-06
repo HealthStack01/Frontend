@@ -2,16 +2,16 @@
 import React, {useState, useContext, useEffect, useRef} from "react";
 // import {useFlutterwave, closePaymentModal} from "flutterwave-react-v3";
 // import {PaystackConsumer} from "react-paystack";
-import "./main.css";
-import RemitaPayment from "react-remita";
+import "./main.css";/* 
+import RemitaPayment from "react-remita"; */
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+/* import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form"; */
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "react-toastify";
-import {ProductCreate} from "./Products";
-import Encounter from "../Documentation/Documentation";
+/* import {ProductCreate} from "./Products";
+import Encounter from "../Documentation/Documentation"; */
 // var random = require("random-string-generator");
 import short from 'short-uuid'
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";

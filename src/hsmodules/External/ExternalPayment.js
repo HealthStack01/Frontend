@@ -1,27 +1,19 @@
 /* eslint-disable */
 import React, {useState, useContext, useEffect, useRef} from "react";
-// import {useFlutterwave, closePaymentModal} from "flutterwave-react-v3";
-// import {PaystackConsumer} from "react-paystack";
 import "./main.css";
 import RemitaPayment from "react-remita";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
-//import {useNavigate} from 'react-router-dom'
+import {useNavigate,useParams} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "react-toastify";
-import {ProductCreate} from "./Products";
-import Encounter from "../Documentation/Documentation";
-// var random = require("random-string-generator");
 import short from 'short-uuid'
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
-import FilterMenu from "../../components/utilities/FilterMenu";
-//import Button from "../../components/buttons/Button";
+
 import CustomTable from "../../components/customtable";
 import {Box, Button, Grid, Typography} from "@mui/material";
 import ModalBox from "../../components/modal";
@@ -29,57 +21,29 @@ import Input from "../../components/inputs/basic/Input";
 import MakeDeposit from "./Deposit";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import {FlutterWaveIcon, PaystackIcon} from "./ui-components/Icons";
-import WalletIcon from "@mui/icons-material/Wallet";
+// import {FlutterWaveIcon, PaystackIcon} from "./ui-components/Icons";
+// import WalletIcon from "@mui/icons-material/Wallet";
 import RadioButton from "../../components/inputs/basic/Radio";
-// import api from '../../utils/api';
 import {v4 as uuidv4} from "uuid";
 import PayWithWallet from "../PouchiiWallet/payWithWallet";
 
-// eslint-disable-next-line
-const searchfacility = {};
 
-export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
-  // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
-  //const [error, setError] =useState(false)
-
-  const [message, setMessage] = useState("");
-  // eslint-disable-next-line
-  const [facility, setFacility] = useState();
-  const SubwalletTxServ = client.service("subwallettransactions");
-  const SubwalletServ = client.service("subwallet");
-  const OrderServ = client.service("order");
+export default function ExternalPaymentPage({closeModal, handleGoBack}) {
+  const SubwalletServ = client.service("extsubwallet");
   const InvoiceServ = client.service("invoice");
-  //const navigate=useNavigate()
+  const BillServ = client.service("extbills");
   const {user} = useContext(UserContext); //,setUser
-  // eslint-disable-next-line
-  const [currentUser, setCurrentUser] = useState();
   const [type, setType] = useState("Bill");
   const [documentNo, setDocumentNo] = useState("");
   const [totalamount, setTotalamount] = useState(0);
-  const [description, setDescription] = useState("");
-  const [productId, setProductId] = useState("");
   const [source, setSource] = useState("");
   const [date, setDate] = useState("");
-  const [name, setName] = useState("");
-  const [inventoryId, setInventoryId] = useState("");
-  const [baseunit, setBaseunit] = useState("");
   const [quantity, setQuantity] = useState("");
   const [sellingprice, setSellingPrice] = useState("");
-  const [costprice, setCostprice] = useState(0);
-  const [invquantity, setInvQuantity] = useState("");
   const [calcamount, setCalcAmount] = useState(0);
-  const [productItem, setProductItem] = useState([]);
-  const [billingId, setBilllingId] = useState("");
-  const [changeAmount, setChangeAmount] = useState(true);
+  const [externalPayment, setExternalPayemt] = useState([]);
   const [paymentmode, setPaymentMode] = useState("Cash");
-  const [paymentOptions, setPaymentOptions] = useState([]);
-  const [billMode, setBillMode] = useState("");
-  const [productModal, setProductModal] = useState(false);
-  const [obj, setObj] = useState("");
-  const [amountPaid, setAmountPaid] = useState(0);
   const [balance, setBalance] = useState(0);
-  const [buttonState, setButtonState] = useState(false);
   const [partPay, setPartPay] = useState([]);
   const [part, setPart] = useState(false);
   const [partBulk, setPartBulk] = useState("");
@@ -88,12 +52,20 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
   const [loading, setLoading] = useState(false);
   const [partTable, setPartTable] = useState([]);
   const [depositModal, setDepositModal] = useState(false);
-  const [walletProfile, setWalletProfile] = useState([]);
+  const [facilities, setFacilities] = useState([]);
+  const [selectedorders, setSelectedOrders] = useState([]);
+  const [selectedfinance, setSelectedFinance] = useState([]);
   const [createModal, setCreateModal] = useState(false);
-  const handleCreateModal = () => {
-    setCreateModal(true);
-  };
+  const [name, setName] = useState("");
+  const [facility, setFacility] = useState("");
+  const  xbill =useRef([])
+  const  xtotal =useRef(0)
+  const {state, setState} = useContext(ObjectContext);
+  const {hospitalId,patientId} = useParams();
 
+  let medication = state.financeModule.selectedFinance;
+
+ // console.log(medication)
   const handleHideCreateModal = () => {
     setCreateModal(false);
   };
@@ -113,15 +85,16 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
     ...config,
     onSuccess: function (response) {
       // function callback when payment is successful
-      // console.log(response);
+      console.log(response);
       toast.success("Payment Successful");
     },
     onError: function (response) {
       // function callback when payment fails
-      // console.log(response);
+      console.log(response);
       toast.error("Payment Failed");
     },
   };
+
   //Paystack Config
 
   // const config = {
@@ -168,217 +141,254 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
 
   // const handleFlutterPayment = useFlutterwave(configfw);
 
-  const {state, setState} = useContext(ObjectContext);
 
-  const inputEl = useRef(0);
-  let calcamount1;
-  let hidestatus;
-
-  let medication = state.financeModule.selectedFinance;
   ////console.log(state.financeModule.state)
 
-  const handlecloseModal = () => {
-    setProductModal(false);
-    // handleSearch(val)
-  };
 
   const handleChangeMode = async value => {
     ////console.log(value)
     await setPaymentMode(value);
   };
 
-  const [productEntry, setProductEntry] = useState({
-    productitems: [],
-    date,
-    documentNo,
-    type,
-    totalamount,
-    source,
-  });
+  // const [productEntry, setProductEntry] = useState({
+  //   externalPayments: [],
+  //   date,
+  //   documentNo,
+  //   type,
+  //   totalamount,
+  //   source,
+  // });
 
-  const productItemI = {
-    productId,
-    name,
-    quantity,
-    sellingprice,
-    amount: calcamount, //||qamount
-    baseunit,
-    costprice,
-    billingId,
-  };
-  // consider batchformat{batchno,expirydate,qtty,baseunit}
-  //consider baseunoit conversions
-  const getSearchfacility = async obj => {
-    await setObj(obj);
-    if (!obj) {
-      //"clear stuff"
-      setProductId("");
-      setName("");
-      setBaseunit("");
-      setInventoryId("");
-      setSellingPrice("");
-      setInvQuantity("");
-      setDescription("");
-      setCostprice("");
-      // setCalcAmount(null)
-      return;
-    }
 
-    setProductId(obj.productId);
-    setName(obj.name);
-    setBaseunit(obj.baseunit);
-    setInventoryId(obj.inventoryId);
-    setSellingPrice(obj.sellingprice); //modify this based on billing mode
-    setInvQuantity(obj.quantity);
-    setCostprice(obj.costprice);
-    setBilllingId(obj.billingId);
+  // useEffect(() => {
+  //   setCurrentUser(user);
+  //   ////console.log(currentUser)
+  //   return () => {};
+  // }, [user]);
 
-    const contracts = obj.billingDetails.contracts;
-    //const billingserv=client.service('billing')
-    if (billMode.type === "HMO Cover") {
-      //paymentmode
-      let contract = contracts.filter(
-        el => el.source_org === billMode.detail.hmo
-      );
-      //  //console.log(contract[0].price)
-      setSellingPrice(contract[0].price);
-      //  //console.log(sellingprice)
-    }
-    if (billMode.type === "Company Cover") {
-      //paymentmode
-      let contract = contracts.filter(
-        el => el.source_org === billMode.detail.company
-      );
-      //   //console.log(contract[0].price)
-      setSellingPrice(contract[0].price);
-      //   //console.log(sellingprice)
-    }
+  // useEffect(() => {
+  //   setProductEntry({
+  //     date,
+  //     documentNo,
+  //     type,
+  //     totalamount,
+  //     source,
+  //   });
 
-    /*  setValue("facility", obj._id,  {
-             shouldValidate: true,
-             shouldDirty: true
-         }) */
+  //   setCalcAmount(quantity * sellingprice);
+  //   return () => {};
+  // }, [date]);
+
+  const handleSelectedClient = async Client => {
+    const newClientModule = {
+      selectedClient: Client,
+      show: "detail",
+    };
+    await setState(prevstate => ({
+      ...prevstate,
+      ClientModule: newClientModule,
+    }));
+    console.log(Client)
   };
 
-  useEffect(() => {
-    setCurrentUser(user);
-    ////console.log(currentUser)
-    return () => {};
-  }, [user]);
+  const handlePay = async (client, i) => {
+   
+     
+     await setSelectedOrders([]);
+     await setState(prev => ({
+        ...prev,
+        financeModule: {
+          ...prev.financeModule,
+          selectedBills: [],
+        },
+      }));
+      console.log("Paynow",client)
+  
 
-  useEffect(() => {
-    setProductEntry({
-      date,
-      documentNo,
-      type,
-      totalamount,
-      source,
+    // //console.log(e.target.checked)
+
+    await handleSelectedClient(client.bills[0].order[0].participantInfo.client);
+    //handleMedicationRow(order)/
+
+    await client.bills.forEach(bill => {
+      // //console.log(bill)
+      bill.order.forEach(order => {
+        let medication = order;
+        medication.show = "none";
+        medication.checked = true;
+        medication.proposedpayment = {
+          balance: 0,
+          paidup:
+            medication.paymentInfo.paidup + medication.paymentInfo.balance,
+          amount: medication.paymentInfo.balance,
+        };
+
+        setSelectedFinance(order);
+
+        const newProductEntryModule = {
+          selectedFinance: order,
+          show: "detail",
+          state: true,
+          selectedBills: [],
+        };
+
+        setState(prevstate => ({
+          ...prevstate,
+          financeModule: {
+            ...newProductEntryModule,
+            selectedBills: prevstate.financeModule.selectedBills.concat(order),
+          },
+        }));
+
+        setSelectedOrders(prevstate => prevstate.concat(order));
+      });
     });
 
-    setCalcAmount(quantity * sellingprice);
-    return () => {};
-  }, [date]);
+    setExternalPayemt(state.financeModule.selectedBills);
+   // showCreateScreen();
 
-  const getFacilities = async () => {
-    // //console.log("here b4 server")
-    const findProductEntry = await SubwalletServ.find({
+    //openModal();
+  };
+
+  const getExternalPayment = async () => {
+    let findWalletBalance = await SubwalletServ.find({
       query: {
-        client: medication?.participantInfo?.client._id,
-        organization: user.employeeData[0].facilityDetail._id,
-        //storeId:state.StoreModule.selectedStore._id,
-        //clientId:state.ClientModule.selectedClient._id,
-        //$limit:100,
+        client:patientId, //medication.participantInfo.client._id,
+        organization:hospitalId, //user.employeeData[0].facilityDetail._id,
         $sort: {
           createdAt: -1,
         },
       },
     });
-    //    //console.log(findProductEntry)
+   // console.log(findWalletBalance)
+
 
     // //console.log("balance", findProductEntry.data[0].amount)
-    if (findProductEntry.data.length > 0) {
-      setSubWallet(findProductEntry.data[0]);
-      await setBalance(findProductEntry.data[0].amount);
+    if (findWalletBalance.data.length > 0) {
+      setSubWallet(findWalletBalance.data[0]);
+      await setBalance(findWalletBalance.data[0].amount);
     } else {
       await setBalance(0);
     }
+    
+   //find unpaid bills
 
-    //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
+   setLoading(true);
+   const findBills = await BillServ.find({
+     query: {
+       $or: [
+         {
+           "participantInfo.paymentmode.type": "Cash",
+         },
+         {
+           "participantInfo.paymentmode.type": "Family Cover",
+         },
+       ],
+       "participantInfo.billingFacility":hospitalId,
+         "participantInfo.clientId": patientId,
+       
+       billing_status: {
+         $ne: "Fully Paid",
+       }, // need to set this finally
+    
+       $limit: 100,
+       $sort: {
+         createdAt: -1,
+       },
+     },
+   });
+
+
+   setLoading(false);
+
+   findBills?.data?.forEach(el => {
+    el.show = "none"
+  
+  })
+   const newProductEntryModule = {
+    // selectedBills: [],
+    selectedFinance: findBills?.data,
+    show: "create",
+  };
+  await setState(prevstate => ({
+    ...prevstate,
+    financeModule: newProductEntryModule,
+  }));
+  setExternalPayemt(findBills.data )
+  xbill.current=findBills.data
+  // medication = externalPayment
+  getTotal()
+  setName(findBills.data[0].participantInfo.client.firstname +" "+ findBills.data[0].participantInfo.client.lastname)
+  setFacility(findBills.data[0].orderInfo.orderObj.destination_name)
+ 
   };
 
-  ////console.log(state.financeModule);
 
-  useEffect(() => {
-    setSource(
-      medication?.participantInfo?.client?.firstname +
-        " " +
-        medication?.participantInfo?.client?.lastname
-    );
-    setProductItem(state.financeModule.selectedBills);
-
-    // const paymentoptions= []
-    //const info = medication.participantInfo.client.paymentinfo
-    //let billme={}
-    getFacilities();
-
-    return () => {};
-  }, [state.financeModule]);
 
   const getTotal = async () => {
+  /*   console.log("xxx",state.financeModule.selectedFinance)
+    console.log("starting total", externalPayment) */
     setTotalamount(0);
-    productItem.forEach(el => {
+   xbill.current.forEach(el => {
+  
       if (el.show === "none") {
+      
         if (el.billing_status === "Unpaid") {
           setTotalamount(
             prevtotal => Number(prevtotal) + Number(el.serviceInfo.amount)
           );
+          xtotal.current=xtotal.current+ Number(el.serviceInfo.amount)
+        /*   console.log(totalamount) */
         } else {
           setTotalamount(
             prevtotal => Number(prevtotal) + Number(el.paymentInfo.balance)
           );
+          xtotal.current=xtotal.current+ Number(el.paymentInfo.balance)
         }
+      /*    console.log("payment solution", el.paymentInfo.balance) */
       }
       if (el.show === "flex") {
         setTotalamount(prevtotal => Number(prevtotal) + Number(el.partPay));
+        xtotal.current=xtotal.current+  + Number(el.partPay)
       }
-
+     
       //
     });
-  };
+    //setbalance(totalamount)
+    await setState(prevstate => ({
+      ...prevstate,
+      total: totalamount,
+      xtotal: xtotal.current
+    }));
 
-  useEffect(() => {
-    //   //console.log(productItem)
-    getTotal();
-    return () => {};
-  }, [productItem]);
+  };
 
 
   //initialize page
   
   useEffect(() => {
-    // const medication =state.medicationModule.selectedMedication
     const today = new Date().toLocaleString();
-    ////console.log(today)
     setDate(today);
     const invoiceNo = short.generate();
     setDocumentNo(invoiceNo);
-    getFacilities();
-    SubwalletServ.on("created", obj => getFacilities());
-    SubwalletServ.on("updated", obj => getFacilities());
-    SubwalletServ.on("patched", obj => getFacilities());
-    SubwalletServ.on("removed", obj => getFacilities());
+    getExternalPayment();
+    /* getTotal() */
+    SubwalletServ.on("created", obj => getExternalPayment());
+    SubwalletServ.on("updated", obj => getExternalPayment());
+    SubwalletServ.on("patched", obj => getExternalPayment());
+    SubwalletServ.on("removed", obj => getExternalPayment());
 
     return async () => {
-      const newProductEntryModule = {
-        selectedBills: [],
-        selectedFinance: {},
-        show: "create",
-      };
-      await setState(prevstate => ({
-        ...prevstate,
-        financeModule: newProductEntryModule,
-      }));
-      await setPartPay([]);
+      // const newProductEntryModule = {
+      //   selectedBills: [],
+      //   selectedFinance: {},
+      //   show: "create",
+      // };
+      // await setState(prevstate => ({
+      //   ...prevstate,
+      //   financeModule: newProductEntryModule,
+      // }));
+      // await setPartPay([]);
     };
   }, []);
 
@@ -393,7 +403,7 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
     if (e.target.value === "Full") {
       bill.show = "none";
 
-      let item = await productItem.find(el => el._id === bill._id);
+      let item = await externalPayment.find(el => el._id === bill._id);
       const payObj = {
         amount: item.paymentInfo.balance,
         mode: "Full",
@@ -430,15 +440,14 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
   const handlePartAmount = async (bill, e) => {
     let partAmount = e.target.value;
     // bill.partPay=partAmount
-    //const itemList=productItem
+    //const itemList=externalPayment
     if (partAmount === "" || partAmount === 0) {
       toast.error("Please enter an amount as part payment");
       return;
     }
-    let item = await productItem.find(el => el._id === bill._id);
+    let item = await externalPayment.find(el => el._id === bill._id);
     item.partPay = partAmount;
     setPartPay(prev => prev.concat(bill));
-    //setProductItem(productItem)
   };
 
   const handleUpdate = async (bill, e) => {
@@ -451,7 +460,7 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
       return;
     }
     // //console.log(bill)
-    let item = await productItem.find(el => el._id === bill._id);
+    let item = await externalPayment.find(el => el._id === bill._id);
 
     let partAmount = item.partPay;
 
@@ -484,7 +493,7 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
       return;
     }
 
-    productItem.forEach(el => {
+    externalPayment.forEach(el => {
       if (!el.proposedpayment.amount) {
         toast.error("one or more bills do not have a payment method selected");
         return;
@@ -492,7 +501,7 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
     });
 
     //transform
-    productItem.forEach(el => {
+    externalPayment.forEach(el => {
       if (el.show === "flex") {
         const payObj = {
           amount: el.proposedpayment.amount,
@@ -512,7 +521,7 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
       }
     });
 
-    let allItems = productItem;
+    let allItems = externalPayment;
 
     allItems.forEach(el => {
       el.paymentInfo.balance = el.proposedpayment.balance;
@@ -550,7 +559,7 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
 
     InvoiceServ.create(obj)
       .then(async resp => {
-        setProductItem([]);
+        setExternalPayemt([]);
         toast.success("payment successful");
         const newProductEntryModule = {
           selectedBills: [],
@@ -591,7 +600,7 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
       // //console.log(fraction)
       // //console.log(partBulk)
 
-      productItem.forEach(el => {
+      externalPayment.forEach(el => {
         // //console.log(el)
 
         const payObj = {
@@ -618,7 +627,7 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
       }
 
       //pay all bills in full
-      productItem.forEach(el => {
+      externalPayment.forEach(el => {
         if (el.show === "flex") {
           const payObj = {
             amount: el.proposedpayment.amount,
@@ -639,7 +648,7 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
       });
     }
 
-    let allItems = productItem;
+    let allItems = externalPayment;
 
     allItems.forEach(el => {
       el.paymentInfo.balance = el.proposedpayment.balance;
@@ -679,7 +688,7 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
 
     InvoiceServ.create(obj)
       .then(async resp => {
-        setProductItem([]);
+        setExternalPayemt([]);
         toast.success("payment successful");
         const newProductEntryModule = {
           selectedBills: [],
@@ -840,10 +849,10 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
           p={2}
           mb={2}
         >
-          <GlobalCustomButton onClick={handleGoBack}>
+          {/* <GlobalCustomButton onClick={handleGoBack}>
             <ArrowBackIcon fontSize="small" sx={{marginRight: "5px"}} />
             Back
-          </GlobalCustomButton>
+          </GlobalCustomButton> */}
 
           <Typography
             sx={{
@@ -851,7 +860,7 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
               color: "2d2d2d",
             }}
           >
-            Pay Bills for{" "}
+            Pay Bills for {name} at {facility}
             <span
               style={{
                 textTransform: "capitalize",
@@ -1014,8 +1023,8 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
                       color: "red",
                     }}
                   >
-                    {" "}
-                    &#8358;{totalamount.toFixed(2)}
+                    {" "}  
+                    &#8358;{state.xtotal?.toFixed(2)}
                   </Typography>
                 </Box>
 
@@ -1049,7 +1058,7 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
           </Grid>
         </Box>
 
-        {productItem.length > 0 && (
+        {!!externalPayment && (
           <Box
             pr={2}
             pl={2}
@@ -1068,7 +1077,7 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
               <CustomTable
                 title={""}
                 columns={paymentCreateSchema}
-                data={productItem}
+                data={externalPayment}
                 pointerOnHover
                 highlightOnHover
                 striped
@@ -1084,7 +1093,7 @@ export default function ExternalPaymentCreatePage({closeModal, handleGoBack}) {
                 }}
               >
                 <GlobalCustomButton
-                  disabled={!productItem.length > 0}
+                  disabled={!externalPayment.length > 0}
                   onClick={handlePayment}
                   sx={{marginRight: "15px"}}
                 >

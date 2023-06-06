@@ -29,6 +29,7 @@ const ComplaintsInventoryReport = lazy(() =>
 const PreAuth = lazy(() => import("../ManagedCare/PreAuth"));
 
 const Premium = lazy(() => import("../ManagedCare/Premium"));
+const Invoice = lazy(() => import("../ManagedCare/Invoice"));
 
 const OrganizationClient = lazy(() =>
   import("../ManagedCare/OrganizationClient")
@@ -90,6 +91,10 @@ export const managedCareRoutes = [
   {
     path: "/app/managed-care/corporate",
     Component: CorporateClient,
+  },
+  {
+    path: "/app/managed-care/invoice",
+    Component: Invoice,
   },
   {
     path: "/app/managed-care/provider",

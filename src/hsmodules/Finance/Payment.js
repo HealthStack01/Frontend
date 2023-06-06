@@ -15,10 +15,11 @@ import ModalBox from "../../components/modal";
 import "react-datepicker/dist/react-datepicker.css";
 import {Box, Typography} from "@mui/material";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
-import PaymentCreatePage from "./ExternalPayment";
+import PaymentCreatePage from "./PaymentCreatePage";
 import {FormsHeaderText} from "../../components/texts";
 import {ReceiptOutlined} from "@mui/icons-material";
 import PaymentInvoice from "./PaymentInvoice";
+
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -107,6 +108,8 @@ export function BillingList({openModal, showCreateScreen}) {
   const [clientBills, setClientBills] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [invoiceModal, setInvoiceModal] = useState(false);
+ 
+	
 
   const handleSelectedClient = async Client => {
     const newClientModule = {
@@ -117,6 +120,7 @@ export function BillingList({openModal, showCreateScreen}) {
       ...prevstate,
       ClientModule: newClientModule,
     }));
+    console.log(Client)
   };
 
   const handlePay = async (client, i) => {
@@ -132,6 +136,7 @@ export function BillingList({openModal, showCreateScreen}) {
           selectedBills: [],
         },
       }));
+      console.log("Paynow",client)
     }
 
     // //console.log(e.target.checked)

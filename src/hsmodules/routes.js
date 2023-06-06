@@ -19,8 +19,6 @@ import WardHome from "./Ward/WardHome";
 import InventoryHome from "./inventory/InventoryHome";
 import LaboratoryHome from "./Laboratory/LaboratoryHome";
 
-import Payment from "./Finance/Payment";
-
 import PharmacyHome from "./Pharmacy/PharmacyHome";
 
 import RadiologyHome from "./Radiology/RadiologyHome";
@@ -106,6 +104,7 @@ import CorporateModule from "./Corporate/Corporate";
 import {PolicyCreateForExternalLink} from "./ManagedCare/CreatePolicyExternalLink";
 import CreateTest from "./ManagedCare/CreateTest";
 import GlobalAdminHome from "./GlobalAdmin/GlobalAdminHome";
+import ExternalPaymentPage from "./External/ExternalPayment";
 
 //const AdminOrganization = lazy(() => import("./Admin/Organization"));
 
@@ -148,7 +147,7 @@ const AppRoutes = () => {
           <>
             {authRoutes.map(route => {
               const {path, Component} = route;
-              return <Route key={path} path={path} element={<Component />} />;
+              return <Route key={path} path={path} exact element={<Component />} />;
             })}
           </>
           {/************************** Page not found *************************************** */}
@@ -163,9 +162,9 @@ const AppRoutes = () => {
 
           {/************************** Payment Integration Routes *************************************** */}
           <Route path="/verify-otp" element={<WalletOTP />} />
-          <Route path="/payment" element={<Payment />} />
-
+          <Route path="/external-payment/:hospitalId/:patientId" element={<ExternalPaymentPage/>} />
           <Route path="/wallet-pin" element={<WalletPin />} />
+          {/* <Route path="/extpayment/:hospitalId/:patientId" element={<ExternalPayments/>} /> */}
 
           {/************************** App Dashboard Routes *************************************** */}
           <Route path="/app" element={<PrivateOutlet />}>

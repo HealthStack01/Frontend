@@ -266,6 +266,7 @@ const TarrifServices = () => {
           display: "flex",
           width: "100%",
           justifyContent: "space-between",
+          overflow:"auto"
         }}
       >
         <Box

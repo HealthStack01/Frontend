@@ -159,7 +159,7 @@ const TarrifListComponent = ({showDetail, createBand, createTarrif}) => {
   ];
 
   return (
-    <Box sx={{display: "flex", flexDirection: "column"}} gap={2} p={2}>
+    <Box sx={{display: "flex", flexDirection: "column", overflow:"auto"}} gap={2} p={2}>
       <CustomConfirmationDialog
         open={confirmDialog.open}
         message={confirmDialog.message}
