@@ -36,6 +36,7 @@ const SendLinkViaEmail = ({
   const [files, setFiles] = useState([]);
   const facilityServ = client.service("facility");
   const orgServ = client.service("organizationclient");
+  const InvoiceServ = client.service('corpinvoices');
   const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
   const [emailsModal, setEmailModals] = useState(true);
   const [toEmailModal, setToEmailModal] = useState(false);
@@ -155,74 +156,37 @@ if (orgType!=="individual"){
     //create facility (admin) + fail gracefully
     //add facility to organization client
     //email login details 
-
+      let n=0
     parsedData.map(async(faci,i)=>{
+      n=n+1
       let facilitydata={
         facilityCAC:"",
     facilityName:faci.Name,
-    facilityOwner: "",
-    facilityType: "Hospital",
-    facilityCategory:"secondary",
+    facilityOwner:faci.ceo,
+    facilityType: "Corporate",
+    facilityCategory:"National",
     facilityCountry: "Nigeria",
-    facilityState: faci.State,
-    facilityLGA:faci.LGA,
+    facilityState: "",
+    facilityLGA:"",
     facilityCity:"", 
     facilityAddress: faci.Address,
-    facilityContactPhone:faci["Phone Number"],
-    facilityEmail:faci.Email,
-    facilityModules: ['Admin',
-    'Client',
-    'Clinic',
-    'Appointment',
-    'Check-In',
-    'Ward',
-    'Laboratory',
-    'Radiology',
-    'Pharmacy',
-    'Theatre',
-    'Blood Bank',
-    'Inventory',
-    'Communication',
-    'Immunization',
-    'Finance',
-    'Accounting',
-    'Complaints',
-    'Referral',
-    'Epidemiology',
-    'Engagement',],
+    facilityContactPhone:faci.Adminphone,
+    facilityEmail:faci.Adminemail,
+    facilityModules: ['Admin', 'Complaint', 'Corporate', 'Communication']
 
       }
       let admindata={
-        firstname:"Admin",
+        firstname:faci.Admin,
       
         lastname: "Admin",
         profession: "Admin",
         position: "Admin",
-        phone: faci["Phone Number"],
-        email: faci.Email,
+        phone: faci.Adminphone,
+        email: faci.Adminemail,
         department: "Admin",
         deptunit: "Admin",
         password: "Administrator",
-       roles:['Admin',
-       'Client',
-       'Clinic',
-       'Appointment',
-       'Check-In',
-       'Ward',
-       'Laboratory',
-       'Radiology',
-       'Pharmacy',
-       'Theatre',
-       'Blood Bank',
-       'Inventory',
-       'Communication',
-       'Immunization',
-       'Finance',
-       'Accounting',
-       'Complaints',
-       'Referral',
-       'Epidemiology',
-       'Engagement',]
+       roles:['Admin', 'Complaint', 'Corporate', 'Communication']
 
       }
    /*   let  facilityModules= ['Admin',
@@ -256,17 +220,17 @@ if (orgType!=="individual"){
      await  facilityServ.create(facilityDocument)
       .then(async(resp)=>{
         //create relationship
-        console.log("facility created",resp)
+        console.log("facility created #"+n ,resp)
         let obj = {
           facility: user.currentEmployee.facilityDetail._id,
           organization: resp._id,
-          relationshiptype: "managedcare",
+          relationshiptype: "sponsor",
           status: "Pending",
-          code:faci.Code
+          
         };
     
        // console.log("query", query);
-    
+    //create organizatuonal relationship
         await orgServ
           .create(obj)
           .then((res) => {
@@ -279,6 +243,52 @@ if (orgType!=="individual"){
           .catch((err) => {
             console.log("Error adding organization " + err);
           });
+
+          //create invoice
+          let invoice={
+            customerId:resp._id,//sending money
+    customer:resp,
+    customerName:faci.Name,
+    customerAddress:faci.Address,
+    customerCity:"",
+    customerCountry:"Nigeria",
+    customerLGA:"",
+    customerState:"",
+    customerPhone:faci.Adminphone,
+    customerEmail:faci.Email,
+    customerType:"Corporate",
+    date:new Date(),
+    facilityId:user.currentEmployee.facilityDetail._id, //hmo insuing invoice
+    facility:user.currentEmployee.facilityDetail,
+    invoice_number:"",
+    total_amount:faci.amount,
+  
+    payment_option:{ type: String, },
+    subscription_category:"Annual",
+   
+    status:"Unpaid", //unpaid, fullypaid
+  
+    balance:faci.amount,
+    duedate:faci.renewValue,
+    startdate:faci.start,
+    enddate:faci.end
+
+          }
+
+
+          await InvoiceServ
+          .create(invoice)
+          .then((res) => {
+            console.log("res", res);
+          
+           console.log("Invoice created succesfully #"+n);
+            
+            
+          })
+          .catch((err) => {
+            console.log("Error cereating invoice " + err);
+          });
+
       })
       .catch((err)=>{
         console.log("facility not created :" + err)
@@ -437,14 +447,14 @@ if (orgType!=="individual"){
           <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
         </GlobalCustomButton>
       </Box>
-     {/*  <Box>
+     {/*   <Box>
       <input type="file" multiple onChange={handleFileUpload} />
         <ul>
         {files.map((file, index) => (
           <li key={index}>{file}</li>
         ))}
       </ul> 
-      </Box>*/}
+      </Box> */}
     </Box>
   );
 };

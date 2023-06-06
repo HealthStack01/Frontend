@@ -284,6 +284,7 @@ export function OrganizationList({showModal, setShowModal}) {
   const {state, setState} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
+  const [total, setTotal] = useState(0);
 
   const handleCreateNew = async () => {
     const newfacilityModule = {
@@ -366,15 +367,16 @@ export function OrganizationList({showModal, setShowModal}) {
         query: {
           facility: user.currentEmployee.facilityDetail._id,
           relationshiptype: "sponsor",
-          $limit: 100,
+         // $limit: 100,
           $sort: {
             createdAt: -1,
           },
         },
       })
       .then(res => {
-        console.log(res);
+       // console.log(res);
         setFacilities(res.data);
+        setTotal(res.total);
         setMessage(" Organization  fetched successfully");
         setSuccess(true);
       })
@@ -487,8 +489,8 @@ export function OrganizationList({showModal, setShowModal}) {
     <>
       {" "}
       {/* <OrganizationCreate /> */}
-      <div className="level" style={{padding: "1rem"}}>
-        <PageWrapper style={{flexDirection: "column", padding: "0.6rem,1rem"}}>
+      <div className="level" style={{padding: "1rem", }}>
+        <PageWrapper style={{flexDirection: "column", padding: "0.6rem,1rem" }}>
           <TableMenu>
             <div style={{display: "flex", alignItems: "center"}}>
               {handleSearch && (
@@ -497,14 +499,20 @@ export function OrganizationList({showModal, setShowModal}) {
                 </div>
               )}
               <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-                List of Corporates
+                List of Corporates ({total})
               </h2>
             </div>
             {handleCreateNew && (
               <GlobalCustomButton onClick={handleCreateNew} text="Add New" />
             )}
           </TableMenu>
-
+          <div
+              style={{
+                width: "100%",
+                height: "calc(100vh - 170px)",
+                overflow: "auto",
+              }}
+            >
           <CustomTable
             title={""}
             columns={OrganizationClientSchema}
@@ -515,6 +523,7 @@ export function OrganizationList({showModal, setShowModal}) {
             onRowClicked={handleRow}
             progressPending={loading}
           />
+          </div>
         </PageWrapper>
       </div>
     </>
