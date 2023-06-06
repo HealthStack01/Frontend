@@ -1,6 +1,7 @@
-import {useState, useEffect, useCallback, useContext} from "react";
+import {useState, useEffect, useCallback, useContext, useRef} from "react";
 import {Box, Typography} from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
+import SmsIcon from "@mui/icons-material/Sms";
 import client from "../../../feathers";
 
 import {ObjectContext, UserContext} from "../../../context";
@@ -20,7 +21,7 @@ const CommunicationSMS = () => {
       <ModalBox
         open={createModal}
         onClose={() => setCreateModal(false)}
-        header="Send Email"
+        header="Send New SMS"
       >
         <CommunicationSMSCreate closeModal={() => setCreateModal(false)} />
       </ModalBox>
@@ -37,26 +38,26 @@ export const CommunicationSMSList = ({showCreate}) => {
   const smsServer = client.service("sms");
   const {state, setState} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
-  const [emails, setEmails] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const getSMS = useCallback(async () => {
     // axios.get("https://healthstack-backend.herokuapp.com/sms").then(res => {
     //   console.log(res);
     // });
-    // setLoading(true);
-    // const facId = user.currentEmployee.facilityDetail._id;
-    // const resp = await smsServer.find({
-    //   query: {
-    //     //organizationId: facId,
-    //     $sort: {
-    //       createdAt: -1,
-    //     },
-    //   },
-    // });
-    // console.log(resp.data);
-    // //setEmails(resp.data);
-    // setLoading(false);
+    setLoading(true);
+    const facId = user.currentEmployee.facilityDetail._id;
+    const resp = await smsServer.find({
+      query: {
+        //organizationId: facId,
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    });
+    console.log(resp.data);
+    //setEmails(resp.data);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -97,7 +98,7 @@ export const CommunicationSMSList = ({showCreate}) => {
     }
   };
 
-  const emailColumns = [
+  const messagesColumn = [
     {
       name: "S/N",
       key: "sn",
@@ -234,15 +235,15 @@ export const CommunicationSMSList = ({showCreate}) => {
         </div>
 
         <GlobalCustomButton onClick={handleCreateNew}>
-          <EmailIcon fontSize="small" sx={{marginRight: "5px"}} />
+          <SmsIcon fontSize="small" sx={{marginRight: "5px"}} />
           Send New SMS
         </GlobalCustomButton>
       </TableMenu>
       <Box>
         <CustomTable
           title={""}
-          columns={emailColumns}
-          data={emails}
+          columns={messagesColumn}
+          data={messages}
           pointerOnHover
           highlightOnHover
           striped

@@ -41,7 +41,7 @@ const CommunicationSMSCreate = ({closeModal}) => {
     formState: {errors},
   } = useForm();
 
-  const handleSendEmail = async data => {
+  const handleSendSMS = async data => {
     const facility = user.currentEmployee.facilityDetail;
     showActionLoader();
 
@@ -59,6 +59,7 @@ const CommunicationSMSCreate = ({closeModal}) => {
         `https://portal.nigeriabulksms.com/api/?username=apmis&apmis=pass&message=${data.message}&sender=${user.currentEmployee.facilityDetail.facilityName}&mobiles=${data.phone_number}`
       )
       .then(res => {
+        console.log(res);
         hideActionLoader();
         closeModal();
         toast.success(`SMS was sent successfully`);
@@ -66,7 +67,7 @@ const CommunicationSMSCreate = ({closeModal}) => {
       .catch(err => {
         hideActionLoader();
         console.log(err);
-        //toast.error(`Sorry, Failed to send SMS ${err}`);
+        toast.error(`Sorry, Failed to send SMS ${err}`);
       });
 
     //axios.get("https://healthstack-backend.herokuapp.com/sms");
@@ -103,7 +104,7 @@ const CommunicationSMSCreate = ({closeModal}) => {
       </Grid>
 
       <Box>
-        <GlobalCustomButton onClick={handleSubmit(handleSendEmail)}>
+        <GlobalCustomButton onClick={handleSubmit(handleSendSMS)}>
           Send SMS
           <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
         </GlobalCustomButton>

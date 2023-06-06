@@ -24,7 +24,7 @@ const ChatConversationMessages = ({messages}) => {
         sx={{
           width: "100%",
           height: "100%",
-          overflowY: "scroll",
+          //overflowY: "scroll",
         }}
       >
         {searchedMessages.map((msg, i) => (

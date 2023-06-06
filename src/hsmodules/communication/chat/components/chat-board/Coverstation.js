@@ -1,6 +1,9 @@
-import {useContext, useState, useEffect, useCallback} from "react";
+import {useContext, useState, useEffect, useCallback, useRef} from "react";
+import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
+import Zoom from "@mui/material/Zoom";
 import {Box, IconButton} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import LinearProgress from "@mui/material/LinearProgress";
 
 import ChatInputBox from "../chat-input/ChatInput";
 import ChatHeader from "../chat-header/Chat-Header";
@@ -12,6 +15,8 @@ import client from "../../../../../feathers";
 import {toast} from "react-toastify";
 
 const ChatBoardConversation = () => {
+  const [fetchingMsgs, setFetchingMsgs] = useState(false);
+  const [goDownIcon, setGoDownIcon] = useState(false);
   const chatMessagesServer = client.service("chat");
   const {state, setState} = useContext(ObjectContext);
   const [messages, setMessages] = useState([]);
@@ -19,6 +24,38 @@ const ChatBoardConversation = () => {
   const {showSearch, rightSideBar} = state.ChatModule;
 
   const chatRoom = state.ChatModule.chatRoom;
+
+  const msgsContainerRef = useRef();
+
+  const handleOnScroll = event => {
+    //console.log(event);
+    const target = event.target;
+    const {scrollHeight, scrollTop, clientHeight} = target;
+    const scrollPosition = scrollHeight - scrollTop - clientHeight;
+
+    if (scrollPosition > 200) {
+      setGoDownIcon(true);
+    } else if (scrollPosition <= 0) {
+      setGoDownIcon(false);
+    }
+  };
+
+  const scrollToBottom = useCallback(() => {
+    if (!msgsContainerRef.current) return;
+
+    const scroll =
+      msgsContainerRef.current.scrollHeight -
+      msgsContainerRef.current.clientHeight;
+
+    msgsContainerRef.current.scrollTo({
+      top: scroll,
+      behavior: "smooth",
+    });
+  }, [msgsContainerRef]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [fetchingMsgs]);
 
   const hideSearchInput = () => {
     setState(prev => ({
@@ -41,6 +78,7 @@ const ChatBoardConversation = () => {
   };
 
   const getChatMessages = useCallback(() => {
+    setFetchingMsgs(true);
     chatMessagesServer
       .find({
         query: {
@@ -52,7 +90,28 @@ const ChatBoardConversation = () => {
         },
       })
       .then(res => {
+        setFetchingMsgs(false);
         //  console.log(res);
+        setMessages(res.data);
+      })
+      .catch(error => {
+        setFetchingMsgs(false);
+        toast.error(`An error occured updating your Chat-Rooms ${error}`);
+      });
+  }, [chatRoom]);
+
+  const updateChatMessages = useCallback(() => {
+    chatMessagesServer
+      .find({
+        query: {
+          chatroomId: chatRoom._id,
+
+          $sort: {
+            createdAt: 1,
+          },
+        },
+      })
+      .then(res => {
         setMessages(res.data);
       })
       .catch(error => {
@@ -62,13 +121,22 @@ const ChatBoardConversation = () => {
 
   useEffect(() => {
     getChatMessages();
-    chatMessagesServer.on("created", obj => getChatMessages());
-    chatMessagesServer.on("updated", obj => getChatMessages());
-    chatMessagesServer.on("patched", obj => getChatMessages());
-    chatMessagesServer.on("removed", obj => getChatMessages());
-    return () => {};
   }, [getChatMessages]);
 
+  useEffect(() => {
+    chatMessagesServer.on("created", obj => updateChatMessages());
+    chatMessagesServer.on("updated", obj => updateChatMessages());
+    chatMessagesServer.on("patched", obj => updateChatMessages());
+    chatMessagesServer.on("removed", obj => updateChatMessages());
+    return () => {};
+  }, [updateChatMessages]);
+
+  if (fetchingMsgs)
+    return (
+      <Box sx={{width: "100%", padding: "20px"}}>
+        <LinearProgress />
+      </Box>
+    );
   return (
     <Box
       sx={{
@@ -91,6 +159,26 @@ const ChatBoardConversation = () => {
           transition: "all 0.5s ease;",
         }}
       >
+        <Zoom in={goDownIcon}>
+          <IconButton
+            size="small"
+            sx={{
+              position: "absolute",
+              right: "5%",
+              bottom: "20%",
+              zIndex: 9999,
+              backgroundColor: "#0065B5",
+              "&:hover": {
+                backgroundColor: "#0065B5",
+              },
+              color: "#ffffff",
+            }}
+            onClick={scrollToBottom}
+          >
+            <ArrowCircleDownIcon fontSize="small" />
+          </IconButton>
+        </Zoom>
+
         <Box
           sx={{
             position: "absolute",
@@ -139,7 +227,10 @@ const ChatBoardConversation = () => {
             width: "100%",
             height: "calc(100% - 120px)",
             position: "relative",
+            overflowY: "scroll",
           }}
+          ref={msgsContainerRef}
+          onScroll={handleOnScroll}
         >
           <ChatMessages messages={messages} />
         </Box>

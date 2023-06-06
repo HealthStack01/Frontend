@@ -11,7 +11,7 @@ const EachChat = ({chat}) => {
   const chatMessagesServer = client.service("chat");
   const {user} = useContext(UserContext);
   const {state, setState} = useContext(ObjectContext);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [chatInfo, setChatInfo] = useState(null);
   const [unreadMsgs, setUnreadMsgs] = useState([]);
 
@@ -45,14 +45,14 @@ const EachChat = ({chat}) => {
       });
   }, []);
 
-  useEffect(() => {
-    getRecentChatMessage();
+  // useEffect(() => {
+  //   getRecentChatMessage();
 
-    chatMessagesServer.on("created", obj => getRecentChatMessage());
-    chatMessagesServer.on("updated", obj => getRecentChatMessage());
-    chatMessagesServer.on("patched", obj => getRecentChatMessage());
-    chatMessagesServer.on("removed", obj => getRecentChatMessage());
-  }, [getRecentChatMessage]);
+  //   chatMessagesServer.on("created", obj => getRecentChatMessage());
+  //   chatMessagesServer.on("updated", obj => getRecentChatMessage());
+  //   chatMessagesServer.on("patched", obj => getRecentChatMessage());
+  //   chatMessagesServer.on("removed", obj => getRecentChatMessage());
+  // }, [getRecentChatMessage]);
 
   const chatPartner = chat.members.find(
     item => item._id !== user.currentEmployee._id
@@ -140,9 +140,9 @@ const EachChat = ({chat}) => {
               color: "#006d77",
             }}
           >
-            {chatInfo?.messages?.length > 0
+            {/* {chatInfo?.messages?.length > 0
               ? moment(chatInfo?.messages[0]?.message?.createdAt).format("LT")
-              : moment(chatInfo.createdAt).format("LT")}
+              : moment(chatInfo.createdAt).format("LT")} */}
           </Typography>
         </Box>
 
@@ -166,11 +166,11 @@ const EachChat = ({chat}) => {
               sx={{fontSize: "0.75rem", color: "#736f72", width: "100%"}}
               noWrap
             >
-              {chatInfo?.messages[0]?.message}
+              {/* {chatInfo?.messages[0]?.message} */}
             </Typography>
           </Box>
 
-          {chatInfo?.messages?.length > 0 && (
+          {/* {chatInfo?.messages?.length > 0 && (
             <Box
               sx={{
                 width: "18px",
@@ -186,7 +186,7 @@ const EachChat = ({chat}) => {
                 5
               </Typography>
             </Box>
-          )}
+          )} */}
         </Box>
       </Box>
     </Box>
