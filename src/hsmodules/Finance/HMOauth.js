@@ -441,7 +441,7 @@ export function BillingList({showCreate}) {
         return (
           <>
             {bills.map((category, i) => (
-              <Typography sx={{fontSize: "0.75rem"}} data-tag="allowRowEvents">
+              <Typography sx={{fontSize: "0.75rem"}} /* data-tag="allowRowEvents" */>
                 {category.catName} {category.catAmount.toFixed(2)}
               </Typography>
             ))}

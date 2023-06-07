@@ -1,5 +1,6 @@
 {
-    "nuxt.isNuxtApp": false
+  "nuxt.isNuxtApp": false,
+  "files.autoSave": "onFocusChange"
 } // {
 //     "editor.formatOnSave": true,
 //     "prettier.bracketSameLine": true,

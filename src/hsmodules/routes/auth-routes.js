@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom';
 import Login from '../auth';
 import OrganizationSignup from '../auth/forms/sign-up/sign-up';
 import OrganizationSignupWithType from '../auth/forms/sign-up/sign-up-with-type';
+import OrganizationSignupHMO from '../auth/forms/sign-up/signupHMO';
 import IndividualSignup from '../auth/IndividualSignup';
 import Signup from '../auth/Signup';
 
@@ -30,14 +31,30 @@ export const authRoutes = [
 		path: '/signup',
 		Component: OrganizationSignup,
 	},
+	/* {
+		path: '/signup/corporate',
+		Component: OrganizationSignupWithType,
+	},
+	{
+		path: '/signup/corporate/:id',
+		Component: OrganizationSignupWithType,
+	},*/
+	{
+		path: '/signup/:type/:id',
+		Component: OrganizationSignupHMO,
+	}, 
 	{
 		path: '/signup/:type',
 		Component: OrganizationSignupWithType,
 	},
-	{
-		path: '/signupindividual',
+	/* {
+		path: '/signup/Individual',
 		Component: IndividualSignup,
 	},
+	{
+		path: '/signup/Individual/:id',
+		Component: IndividualSignup,
+	}, */
 	{
 		path: '/forgot-password',
 		Component: ForgotPassword,

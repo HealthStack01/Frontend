@@ -695,6 +695,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
   //const history = useHistory()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
+  const [total, setTotal] = useState(0);
   // eslint-disable-next-line
   const [selectedFacility, setSelectedFacility] = useState(); //
   // eslint-disable-next-line
@@ -702,6 +703,8 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
   const { user } = useContext(UserContext);
   const [sendLinkModal, setSendLinkModal] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  console.log("this place")
 
   const handleCreateNew = async () => {
     const newfacilityModule = {
@@ -727,6 +730,23 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
     setShowModal(2);
   };
 
+  const handleBatchdel = (row,i)=>{
+    let confirm = window.confirm("Are you sure you want to remove this facility from the band ?");
+    if (confirm) {
+      // setProductItem(prev=>prev.filter((obj,index)=>index!==i ))
+     // setProductItem(obj => obj.filter((el, index) => index !== i));
+      orgServ.remove(row._id)
+      .then(()=>{
+        toast.success("organization succesfully removed");
+      })
+      .catch((err)=>{
+        toast.error("Error deleting organization" + err);
+
+      })
+    }
+
+  }
+
   const handleSearch = (val) => {
     const field = "facilityName";
     console.log(val);
@@ -740,6 +760,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
                    
                 }, */
             facility: user.currentEmployee.facilityDetail._id,
+            //relationshiptype:"managedcare",
             $search: val,
             $limit: 10,
             $sort: {
@@ -772,31 +793,36 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
      */
   const getFacilities = () => {
     setLoading(true);
+    console.log("starting issues")
     orgServ
       .find({
         query: {
           facility: user.currentEmployee.facilityDetail._id,
-          $limit: 100,
+          
+          relationshiptype:"managedcare",
+          //$limit: 100,
           $sort: {
             createdAt: -1,
           },
         },
       })
       .then((res) => {
-        console.log(res);
+      //  console.log(res);
         setFacilities(res.data);
-        setMessage(" Organization  fetched successfully");
+        setTotal(res.total)
+       console.log(" Organization  fetched successfully");
         setSuccess(true);
         setLoading(false);
       })
       .catch((err) => {
-        setMessage("Error creating facility, probable network issues " + err);
+        console.log("Error creating facility, probable network issues " + err);
         setError(true);
         setLoading(false);
       });
   };
 
   useEffect(() => {
+    console.log("at the beginning")
     getFacilities();
 
     orgServ.on("created", (obj) => getFacilities());
@@ -913,8 +939,24 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
       required: true,
       inputType: "TEXT",
     },
+    {
+      name: "Actions",
+      key: "category",
+      description: "Enter Category",
+      selector: (row, i) => (
+        <span
+          style={{color: "red", fontSize: "inherit"}}
+          onClick={() => handleBatchdel(row, i)}
+        >
+          DELETE
+        </span>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "BUTTON",
+    },
   ];
-  console.log("Facilities", facilities);
+  //console.log("Facilities", facilities);
   return (
     <>
       {user ? (
@@ -948,9 +990,12 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
+                  <div>
+                    Total Number of Facilities ({total})
+                  </div>
                 </div>
 
-                <Box sx={{ display: "flex" }} gap={2}>
+                <Box sx={{ display: "flex", overflow:"auto" }} gap={2}>
                   <GlobalCustomButton onClick={() => setSendLinkModal(true)}>
                     <EmailIcon sx={{ marginRight: "5px" }} fontSize="small" />
                     Invite Provider Via Email
@@ -1005,6 +1050,8 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   const [confirmDeactivate, setConfirmDeactivate] = useState(false);
   const [confirmActivate, setConfirmActivate] = useState(false);
   const [display, setDisplay] = useState(1);
+  const [band, setBand] = useState();
+  const [facilityband, setFacilityBand] = useState([]);
   const [addBank, setAddBank] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [newFacility, setFacility] = useState([]);
@@ -1017,6 +1064,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   const [statusBand, setStatusBand] = useState("");
   const [statusBandTwo, setStatusBandTwo] = useState("");
   const [isShowButton, setIsShowButton] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const facility = state.facilityModule.selectedFacility;
 
@@ -1085,6 +1133,39 @@ export function OrganizationDetail({ showModal, setShowModal }) {
     }
   };
 
+  const getFacilities = () => {
+   setLoading(true);
+   ServicesServ
+      .find({
+        query: {
+          facility: user.currentEmployee.facilityDetail._id,
+          organization:facility.organization,
+          relationshiptype:"managedcare",
+          //$limit: 100,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        res.data.forEach((el=>{
+          setFacilityBand(prev=>[...prev, el.band])
+        }))
+
+        setBand(res.data);
+        setTotal(res.total)
+        setMessage(" Organization  fetched successfully");
+        setSuccess(true);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setMessage("Error creating facility, probable network issues " + err);
+        setError(true);
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     let facility = state.facilityModule.selectedFacility;
     setFacility(facility);
@@ -1092,6 +1173,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
     // var result =
 
     getTariffServices(facility);
+    getFacilities()
 
     // console.log("selected facility", result);
 
@@ -1795,11 +1877,19 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                       />
                     </Grid>
                     <Grid item xs={6}>
+                     {(facilityband.length>0)? facilityband.map((el,i) => {                    
                       <Input
-                        register={register("bandName")}
+                        //register={register("bandName")}
                         label="Band"
                         disabled
+                        value={el}
                       />
+                    }): <Input
+                    //register={register("bandName")}
+                    label="Band"
+                    disabled
+                    value="Not Yet Set"
+                  />}
                     </Grid>
                   </Grid>
                   <Grid item xs={12}>

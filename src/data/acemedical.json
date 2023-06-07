@@ -1,0 +1,1228 @@
+{
+    "SERVICES": [
+      {
+        "serviceName": "Multiple Caesarean section+Hysterectomy",
+        "price": 440000
+      },
+      {
+        "serviceName": "Caesarean section/Hysterectomy",
+        "price": 400000
+      },
+      {
+        "serviceName": "Hysterectomy",
+        "price": 400000
+      },
+      {
+        "serviceName": "Hysterectomy and bilateral salpingooophorectomy",
+        "price": 400000
+      },
+      {
+        "serviceName": "Myomectomy depending on size >12weeks",
+        "price": 400000
+      },
+      {
+        "serviceName": "Myomectomy depending on size <12 wks and less ",
+        "price": 380000
+      },
+      {
+        "serviceName": "Multiple Caesarean section",
+        "price": 350000
+      },
+      {
+        "serviceName": "Caesarean Section with BTL",
+        "price": 340000
+      },
+      {
+        "serviceName": "Repair of ruptured uterus",
+        "price": 300000
+      },
+      {
+        "serviceName": "SALPINGECTOMY (UNRUPTURED ECTOPIC)",
+        "price": 300000
+      },
+      {
+        "serviceName": "Caesarean section",
+        "price": 290000
+      },
+      {
+        "serviceName": "Salpingo oophorectomy",
+        "price": 280000
+      },
+      {
+        "serviceName": "Ovarectomy/ovarian cysts",
+        "price": 280000
+      },
+      {
+        "serviceName": "Herniorraphy Umbilical",
+        "price": 260000
+      },
+      {
+        "serviceName": "Appendectomy (Uncomplicated)",
+        "price": 210000
+      },
+      {
+        "serviceName": "Herniorraphy Inguinal/Others",
+        "price": 185000
+      },
+      {
+        "serviceName": "Cervical Cerclage/Shirodkar Suture",
+        "price": 150000
+      },
+      {
+        "serviceName": "Breast Lump Excision bilateral (Excluding Histology)",
+        "price": 120000
+      },
+      {
+        "serviceName": "Breast Lump Excision Unilateral (Excluding Histology)",
+        "price": 90000
+      },
+      {
+        "serviceName": "Bilateral Tubal Ligation",
+        "price": 90000
+      },
+      {
+        "serviceName": "Destructive Delivery (Craniotomy Embryotomy)",
+        "price": 90000
+      },
+      {
+        "serviceName": "Hydrotubation",
+        "price": 75000
+      },
+      {
+        "serviceName": "Assisted Breech Delivery{EXCLUDING ACCOMODATION}",
+        "price": 75000
+      },
+      {
+        "serviceName": "Suprapubic Cystostomy",
+        "price": 70000
+      },
+      {
+        "serviceName": "Adhesiolysis with insertion of foley catheter/IUCD",
+        "price": 70000
+      },
+      {
+        "serviceName": "Assisted Delivery(Forceps Vacuum Etc.) {EXCLUDING ACCOMODATION}",
+        "price": 70000
+      },
+      {
+        "serviceName": "Marsupialisation",
+        "price": 65000
+      },
+      {
+        "serviceName": "Multiple Delivery{EXCLUDING ACCOMODATION}",
+        "price": 65000
+      },
+      {
+        "serviceName": "Excisional Biopsy(Excluding Histology)",
+        "price": 60000
+      },
+      {
+        "serviceName": "Keloid Excision (Major)",
+        "price": 60000
+      },
+      {
+        "serviceName": "Ambulance service inter-state",
+        "price": 55000
+      },
+      {
+        "serviceName": "Ganglion Excision",
+        "price": 55000
+      },
+      {
+        "serviceName": "Exchange Blood Transfusion (Rh negative Blood With Set)",
+        "price": 50000
+      },
+      {
+        "serviceName": "Normal Delivery {EXCLUDING ACCOMODATION}",
+        "price": 50000
+      },
+      {
+        "serviceName": "Ante natal care (ANC)",
+        "price": 47500
+      },
+      {
+        "serviceName": "Ambulance service Intra- state",
+        "price": 45000
+      },
+      {
+        "serviceName": "Exchange Blood Transfusion (Rh positive Blood With Set)",
+        "price": 45000
+      },
+      {
+        "serviceName": "Epidural/spinal",
+        "price": 45000
+      },
+      {
+        "serviceName": "Major (Ectopic, C/S Etc.)",
+        "price": 45000
+      },
+      {
+        "serviceName": "Examination Under Anaesthesia (EUA)",
+        "price": 40000
+      },
+      {
+        "serviceName": "Medium (Hernia, Appendix, Etc.)",
+        "price": 40000
+      },
+      {
+        "serviceName": "Neurosurgeon Initial",
+        "price": 35000
+      },
+      {
+        "serviceName": "In growing Nail (Excision)",
+        "price": 35000
+      },
+      {
+        "serviceName": "Major Major",
+        "price": 35000
+      },
+      {
+        "serviceName": "Major (Ectopic, C/S Etc.)",
+        "price": 35000
+      },
+      {
+        "serviceName": "Echocardiogarm",
+        "price": 30000
+      },
+      {
+        "serviceName": "Major Debridement Of Burns/Wound",
+        "price": 30000
+      },
+      {
+        "serviceName": "Close Reduction Of Fracture And Application Cast",
+        "price": 30000
+      },
+      {
+        "serviceName": "MVA/ERCP/Evacuation",
+        "price": 30000
+      },
+      {
+        "serviceName": "Cervical Laceration Repair",
+        "price": 30000
+      },
+      {
+        "serviceName": "Pelvic/abdominal abscess drainage",
+        "price": 30000
+      },
+      {
+        "serviceName": "Medium (Hernia, Appendix, Etc.)",
+        "price": 30000
+      },
+      {
+        "serviceName": "Skin Traction(ProcedureplusMaterial)",
+        "price": 28000
+      },
+      {
+        "serviceName": "Barium Enema",
+        "price": 28000
+      },
+      {
+        "serviceName": "Barium Meal Follow_Through",
+        "price": 28000
+      },
+      {
+        "serviceName": "Hematologist, Oncologist Initial",
+        "price": 25000
+      },
+      {
+        "serviceName": "Neurosurgeon Review",
+        "price": 25000
+      },
+      {
+        "serviceName": "Pint Of Screened Blood (Rh negative)",
+        "price": 25000
+      },
+      {
+        "serviceName": "Incision and Drainage (I and D) Major(Procedure Only)",
+        "price": 25000
+      },
+      {
+        "serviceName": "Removal Of IUCD Under General Anaesthesia",
+        "price": 25000
+      },
+      {
+        "serviceName": "Repair Of Third Degree Tear",
+        "price": 25000
+      },
+      {
+        "serviceName": "Excision Of Vaginal Septum",
+        "price": 25000
+      },
+      {
+        "serviceName": "Major",
+        "price": 25000
+      },
+      {
+        "serviceName": "Close Reduction Of Fracture And Application Cast",
+        "price": 25000
+      },
+      {
+        "serviceName": "Barium Meal",
+        "price": 25000
+      },
+      {
+        "serviceName": "Barium Swallow",
+        "price": 25000
+      },
+      {
+        "serviceName": "Cyst_Urethrogram",
+        "price": 25000
+      },
+      {
+        "serviceName": "IVU",
+        "price": 25000
+      },
+      {
+        "serviceName": "Oral Cholecystogram",
+        "price": 25000
+      },
+      {
+        "serviceName": "Pint Of Screened Blood (Rh positive)",
+        "price": 23000
+      },
+      {
+        "serviceName": "Birth before arrival care",
+        "price": 22000
+      },
+      {
+        "serviceName": "RARE SPECIALIST{ Plastic surgeon, ENT, Paediatric Surgeon, Urologist, Neurologist",
+        "price": 20000
+      },
+      {
+        "serviceName": "Hematologist, Oncologist Review",
+        "price": 20000
+      },
+      {
+        "serviceName": "Oxygen Therapy continuous per day",
+        "price": 20000
+      },
+      {
+        "serviceName": "Suturing of Major Laceration",
+        "price": 20000
+      },
+      {
+        "serviceName": "Minor",
+        "price": 20000
+      },
+      {
+        "serviceName": "Minor",
+        "price": 20000
+      },
+      {
+        "serviceName": "Drainage Of Septic Arthritis",
+        "price": 20000
+      },
+      {
+        "serviceName": "Simple Congenital Talipes Repair",
+        "price": 20000
+      },
+      {
+        "serviceName": "Hsg",
+        "price": 20000
+      },
+      {
+        "serviceName": "Perineal Warts (Podophyllin Painting X 3 Courses)",
+        "price": 18000
+      },
+      {
+        "serviceName": "Incision and Drainage (I and D) Intermediate",
+        "price": 18000
+      },
+      {
+        "serviceName": "Implanon ",
+        "price": 18000
+      },
+      {
+        "serviceName": "Suture Of Major Wounds (Surgical Fees Only)",
+        "price": 18000
+      },
+      {
+        "serviceName": " Cardiologist, Orthopaedic,  Nephrologist,  Endocrinologist, Psychiatrist Initial",
+        "price": 15000
+      },
+      {
+        "serviceName": "RARE SPECIALIST{ Plastic surgeon, ENT, Paediatric Surgeon, Urologist, Nerologist} Review ",
+        "price": 15000
+      },
+      {
+        "serviceName": "Aspirations/Paracentesis",
+        "price": 15000
+      },
+      {
+        "serviceName": "Pap Smear with cytology",
+        "price": 15000
+      },
+      {
+        "serviceName": "Injection Sclerotherapy Of Varicose Veins",
+        "price": 15000
+      },
+      {
+        "serviceName": "Medium/Intermediate",
+        "price": 15000
+      },
+      {
+        "serviceName": "removal of foreign body nose bilateral",
+        "price": 15000
+      },
+      {
+        "serviceName": "Tissue Histology",
+        "price": 15000
+      },
+      {
+        "serviceName": "Mammogram",
+        "price": 15000
+      },
+      {
+        "serviceName": "Repair of vagina laceration(Second degree)",
+        "price": 13000
+      },
+      {
+        "serviceName": "Thyroid function test",
+        "price": 13000
+      },
+      {
+        "serviceName": "Paediatrician,Ophthalmologist Initial",
+        "price": 12000
+      },
+      {
+        "serviceName": "Minor Debridement Of Burns/Wound",
+        "price": 12000
+      },
+      {
+        "serviceName": "Manual removal of placenta",
+        "price": 12000
+      },
+      {
+        "serviceName": "Foreign Body Removal From The Ear-Bilateral",
+        "price": 11000
+      },
+      {
+        "serviceName": "Gynaecologist  Consultation Initial (IN-HOUSE)",
+        "price": 10000
+      },
+      {
+        "serviceName": " Family physician Initial (IN-HOUSE)",
+        "price": 10000
+      },
+      {
+        "serviceName": " Cardiologist, Orthopaedic,  Nephrologist, Endocrinologist, Psychiatrist Review",
+        "price": 10000
+      },
+      {
+        "serviceName": "Oxygen therapy intermittent",
+        "price": 10000
+      },
+      {
+        "serviceName": "Circumcision babies only",
+        "price": 10000
+      },
+      {
+        "serviceName": "Crutches",
+        "price": 10000
+      },
+      {
+        "serviceName": "Incision and Drainage (I and D) Minor",
+        "price": 10000
+      },
+      {
+        "serviceName": "IUCD Insertion",
+        "price": 10000
+      },
+      {
+        "serviceName": "Colposcopy",
+        "price": 10000
+      },
+      {
+        "serviceName": "CTG",
+        "price": 10000
+      },
+      {
+        "serviceName": "Incision And Drainage Of Abscess",
+        "price": 10000
+      },
+      {
+        "serviceName": "Debridement And Toilet Of Minor Wounds",
+        "price": 10000
+      },
+      {
+        "serviceName": "Rheumatoid Factor",
+        "price": 10000
+      },
+      {
+        "serviceName": "(PRIVATE)",
+        "price": 9000
+      },
+      {
+        "serviceName": "Blood Culture",
+        "price": 9000
+      },
+      {
+        "serviceName": "AP Lateral",
+        "price": 8100
+      },
+      {
+        "serviceName": "Paediatrician,Ophthalmologist Review",
+        "price": 8000
+      },
+      {
+        "serviceName": "Burn Major Dressing",
+        "price": 8000
+      },
+      {
+        "serviceName": "Suturing Of Minor Laceration/1 SITE",
+        "price": 8000
+      },
+      {
+        "serviceName": "removal of foreign body nose unilateral",
+        "price": 8000
+      },
+      {
+        "serviceName": "Pro Calcitonin",
+        "price": 8000
+      },
+      {
+        "serviceName": "Prostate Specific antigen",
+        "price": 8000
+      },
+      {
+        "serviceName": "Gynaecologist  Consultation Review",
+        "price": 7500
+      },
+      {
+        "serviceName": "Family physician Review",
+        "price": 7500
+      },
+      {
+        "serviceName": "Electrocardiography (ECG)",
+        "price": 7500
+      },
+      {
+        "serviceName": "Minor",
+        "price": 7500
+      },
+      {
+        "serviceName": "TLP",
+        "price": 7200
+      },
+      {
+        "serviceName": "Abdominal",
+        "price": 7200
+      },
+      {
+        "serviceName": "Abdomino-pelvic scan",
+        "price": 7200
+      },
+      {
+        "serviceName": "Incubator Care",
+        "price": 7000
+      },
+      {
+        "serviceName": "Syringing for both ear",
+        "price": 7000
+      },
+      {
+        "serviceName": "Nasal Packing",
+        "price": 7000
+      },
+      {
+        "serviceName": "fasting lipid profile",
+        "price": 7000
+      },
+      {
+        "serviceName": "HBA1C",
+        "price": 7000
+      },
+      {
+        "serviceName": "Endocervical M C S",
+        "price": 7000
+      },
+      {
+        "serviceName": "EXTREMITIES",
+        "price": 7000
+      },
+      {
+        "serviceName": "Breast Scan",
+        "price": 6750
+      },
+      {
+        "serviceName": "Aural And Nasal Suction/Clearance",
+        "price": 6500
+      },
+      {
+        "serviceName": "Liver Function Test LFT",
+        "price": 6500
+      },
+      {
+        "serviceName": "Helicobacter pylori",
+        "price": 6300
+      },
+      {
+        "serviceName": "Lumbar Spine",
+        "price": 6300
+      },
+      {
+        "serviceName": "Lumbo_ Sacral Spine",
+        "price": 6300
+      },
+      {
+        "serviceName": "Pelvis Hip",
+        "price": 6300
+      },
+      {
+        "serviceName": "Thoracic Inlet",
+        "price": 6300
+      },
+      {
+        "serviceName": "Thoracic Spine",
+        "price": 6300
+      },
+      {
+        "serviceName": "Thoraco_ Lumbar Spine",
+        "price": 6300
+      },
+      {
+        "serviceName": "Plain",
+        "price": 6300
+      },
+      {
+        "serviceName": "Pelvimetry",
+        "price": 6300
+      },
+      {
+        "serviceName": "Mastoids",
+        "price": 6300
+      },
+      {
+        "serviceName": "Pelvis AP",
+        "price": 6300
+      },
+      {
+        "serviceName": "Sinuses",
+        "price": 6300
+      },
+      {
+        "serviceName": "Temperomandibular Joint TMJ",
+        "price": 6300
+      },
+      {
+        "serviceName": "Gastric Lavage",
+        "price": 6000
+      },
+      {
+        "serviceName": "Lumbar Puncture {Procedure Only}",
+        "price": 6000
+      },
+      {
+        "serviceName": "Implanon removal",
+        "price": 6000
+      },
+      {
+        "serviceName": "Foreign Body Removal From The Ear-Unilateral",
+        "price": 6000
+      },
+      {
+        "serviceName": "Electrolyte Urea and creatinine",
+        "price": 6000
+      },
+      {
+        "serviceName": "Mandibles Jaw",
+        "price": 6000
+      },
+      {
+        "serviceName": "Obstetric Scan",
+        "price": 6000
+      },
+      {
+        "serviceName": "Pelvic scan",
+        "price": 6000
+      },
+      {
+        "serviceName": "Post nasal space",
+        "price": 6000
+      },
+      {
+        "serviceName": "Ultrasound Scan (Obstetric)",
+        "price": 5500
+      },
+      {
+        "serviceName": "Cervical Spine",
+        "price": 5400
+      },
+      {
+        "serviceName": "Cervical Spine Oblique",
+        "price": 5400
+      },
+      {
+        "serviceName": "Chest PA AP",
+        "price": 5400
+      },
+      {
+        "serviceName": "Chest PA Lateral",
+        "price": 5400
+      },
+      {
+        "serviceName": "Sacrum",
+        "price": 5400
+      },
+      {
+        "serviceName": "Erect Supine",
+        "price": 5400
+      },
+      {
+        "serviceName": "(SEMI PRIVATE)",
+        "price": 5000
+      },
+      {
+        "serviceName": "Catheterization Male",
+        "price": 5000
+      },
+      {
+        "serviceName": "Catheterization Female",
+        "price": 5000
+      },
+      {
+        "serviceName": "Knee Effusion Taps",
+        "price": 5000
+      },
+      {
+        "serviceName": "Burn Moderate Dressing",
+        "price": 5000
+      },
+      {
+        "serviceName": "Excision/Diathermy Of Warts",
+        "price": 5000
+      },
+      {
+        "serviceName": "Confirmatory Test For HIV 1 2",
+        "price": 5000
+      },
+      {
+        "serviceName": "Oral Glucose Tolerance Test OGTT",
+        "price": 5000
+      },
+      {
+        "serviceName": "XRAY OF THE RL THIGH AP AND LAT",
+        "price": 5000
+      },
+      {
+        "serviceName": "Prostate Scan",
+        "price": 5000
+      },
+      {
+        "serviceName": "Testes Scan",
+        "price": 5000
+      },
+      {
+        "serviceName": "Thyroid Scan",
+        "price": 5000
+      },
+      {
+        "serviceName": "C Reactive Protein {CRP}",
+        "price": 4800
+      },
+      {
+        "serviceName": "Nebulisation per session",
+        "price": 4500
+      },
+      {
+        "serviceName": "Phototherapy",
+        "price": 4500
+      },
+      {
+        "serviceName": "Subdural Tap",
+        "price": 4500
+      },
+      {
+        "serviceName": "Prothrombin Time PT",
+        "price": 4500
+      },
+      {
+        "serviceName": "Bladder Scan",
+        "price": 4500
+      },
+      {
+        "serviceName": "Leg Tibia Fibula",
+        "price": 4500
+      },
+      {
+        "serviceName": "Thigh Femur",
+        "price": 4500
+      },
+      {
+        "serviceName": "Physiotherapy/Session",
+        "price": 4000
+      },
+      {
+        "serviceName": "Evacuation Of Impacted Faeces",
+        "price": 4000
+      },
+      {
+        "serviceName": "Tongue Tie Release",
+        "price": 4000
+      },
+      {
+        "serviceName": "Syringing for one ear",
+        "price": 4000
+      },
+      {
+        "serviceName": "Electrocautery Of Nose",
+        "price": 4000
+      },
+      {
+        "serviceName": "Seminal Fluid Analysis {SFA}",
+        "price": 4000
+      },
+      {
+        "serviceName": "Chest For Ribs Oblique",
+        "price": 4000
+      },
+      {
+        "serviceName": "Forearm Radius And Ulna",
+        "price": 4000
+      },
+      {
+        "serviceName": "Hip",
+        "price": 4000
+      },
+      {
+        "serviceName": "Lateral Neck Soft Tissue",
+        "price": 4000
+      },
+      {
+        "serviceName": "Ankle",
+        "price": 4000
+      },
+      {
+        "serviceName": "Clavicle",
+        "price": 4000
+      },
+      {
+        "serviceName": "Dental_Intra_Oral Periapical",
+        "price": 4000
+      },
+      {
+        "serviceName": "Elbow",
+        "price": 4000
+      },
+      {
+        "serviceName": "Foot Toe",
+        "price": 4000
+      },
+      {
+        "serviceName": "Hand Finger",
+        "price": 4000
+      },
+      {
+        "serviceName": "Humerus",
+        "price": 4000
+      },
+      {
+        "serviceName": "Knee",
+        "price": 4000
+      },
+      {
+        "serviceName": "Shoulder",
+        "price": 4000
+      },
+      {
+        "serviceName": "CSF M C S",
+        "price": 3500
+      },
+      {
+        "serviceName": "HVS M C S",
+        "price": 3500
+      },
+      {
+        "serviceName": "Protein Electrophoresis + Report",
+        "price": 3500
+      },
+      {
+        "serviceName": "Serum TB",
+        "price": 3500
+      },
+      {
+        "serviceName": "Semen Culture And Sensitivity",
+        "price": 3500
+      },
+      {
+        "serviceName": "Coccyx",
+        "price": 3500
+      },
+      {
+        "serviceName": "Sacro_ Iliac Joint SIJ",
+        "price": 3500
+      },
+      {
+        "serviceName": "Wrist",
+        "price": 3500
+      },
+      {
+        "serviceName": "Sputum AFB For Tuberculosis X3",
+        "price": 3300
+      },
+      {
+        "serviceName": "Glucose Tolerance Test",
+        "price": 3200
+      },
+      {
+        "serviceName": "Feeding per diem",
+        "price": 3000
+      },
+      {
+        "serviceName": "Ear Piercing",
+        "price": 3000
+      },
+      {
+        "serviceName": "ASO Titre",
+        "price": 3000
+      },
+      {
+        "serviceName": "Aspirate Pus M C S",
+        "price": 3000
+      },
+      {
+        "serviceName": "Serum Bilirubin Total and direct",
+        "price": 3000
+      },
+      {
+        "serviceName": "Sputum M C S",
+        "price": 3000
+      },
+      {
+        "serviceName": "Stool M C S",
+        "price": 3000
+      },
+      {
+        "serviceName": "SWAB M/C/S",
+        "price": 3000
+      },
+      {
+        "serviceName": "Total Acid Phosphates",
+        "price": 3000
+      },
+      {
+        "serviceName": "Urethral And Wound M C S",
+        "price": 3000
+      },
+      {
+        "serviceName": "URINE M/C/S",
+        "price": 3000
+      },
+      {
+        "serviceName": "CSF Protein",
+        "price": 2800
+      },
+      {
+        "serviceName": "Screening For HIV 1 2",
+        "price": 2700
+      },
+      {
+        "serviceName": "Registration/General Consultation",
+        "price": 2500
+      },
+      {
+        "serviceName": "Major Wound Dressing",
+        "price": 2500
+      },
+      {
+        "serviceName": "Cholesterol",
+        "price": 2500
+      },
+      {
+        "serviceName": "HDL",
+        "price": 2500
+      },
+      {
+        "serviceName": "LDL",
+        "price": 2500
+      },
+      {
+        "serviceName": "Creatinine Clearance",
+        "price": 2500
+      },
+      {
+        "serviceName": "CROSS MATCHING AND GROUPING",
+        "price": 2500
+      },
+      {
+        "serviceName": "CSF ALBUMIN",
+        "price": 2500
+      },
+      {
+        "serviceName": "Direct Coombs Test",
+        "price": 2500
+      },
+      {
+        "serviceName": "Full Blood Count",
+        "price": 2500
+      },
+      {
+        "serviceName": "Direct Coombs Test",
+        "price": 2500
+      },
+      {
+        "serviceName": "Indirect Coombs Test",
+        "price": 2500
+      },
+      {
+        "serviceName": "Partial Thromboplastin Time PTT",
+        "price": 2500
+      },
+      {
+        "serviceName": "Uric Acid",
+        "price": 2500
+      },
+      {
+        "serviceName": "Apical Lordotic",
+        "price": 2500
+      },
+      {
+        "serviceName": "Sternum",
+        "price": 2500
+      },
+      {
+        "serviceName": "GP Consult Initial",
+        "price": 2000
+      },
+      {
+        "serviceName": "Amylase",
+        "price": 2000
+      },
+      {
+        "serviceName": "Australian Antigen",
+        "price": 2000
+      },
+      {
+        "serviceName": "Bleeding Time",
+        "price": 2000
+      },
+      {
+        "serviceName": "Calcium",
+        "price": 2000
+      },
+      {
+        "serviceName": "Clotting Time",
+        "price": 2000
+      },
+      {
+        "serviceName": "Creatinine",
+        "price": 2000
+      },
+      {
+        "serviceName": "Gamma Glutaryl Transferase",
+        "price": 2000
+      },
+      {
+        "serviceName": "HbsAg {Hepatitis B}",
+        "price": 2000
+      },
+      {
+        "serviceName": "HCV {Hepatitis C}",
+        "price": 2000
+      },
+      {
+        "serviceName": "Microfilaria",
+        "price": 2000
+      },
+      {
+        "serviceName": "Occult Blood {STOOL}",
+        "price": 2000
+      },
+      {
+        "serviceName": "Platelets",
+        "price": 2000
+      },
+      {
+        "serviceName": "Acid Phosphatase",
+        "price": 2000
+      },
+      {
+        "serviceName": "Skin Scraping For Fungal Elements",
+        "price": 2000
+      },
+      {
+        "serviceName": "Skin Snip",
+        "price": 2000
+      },
+      {
+        "serviceName": "Total Protein",
+        "price": 2000
+      },
+      {
+        "serviceName": "Urea",
+        "price": 2000
+      },
+      {
+        "serviceName": "VDRL",
+        "price": 2000
+      },
+      {
+        "serviceName": "GP Consult Review",
+        "price": 1500
+      },
+      {
+        "serviceName": "Followup Consultation",
+        "price": 1500
+      },
+      {
+        "serviceName": "Albumin",
+        "price": 1500
+      },
+      {
+        "serviceName": "Alkaline Phosphatase",
+        "price": 1500
+      },
+      {
+        "serviceName": "ASO Heaf Test",
+        "price": 1500
+      },
+      {
+        "serviceName": "Chloride",
+        "price": 1500
+      },
+      {
+        "serviceName": " Bicarbonate",
+        "price": 1500
+      },
+      {
+        "serviceName": "CSF Chloride",
+        "price": 1500
+      },
+      {
+        "serviceName": "Direct Bilirubin",
+        "price": 1500
+      },
+      {
+        "serviceName": "Total Bilrubin",
+        "price": 1500
+      },
+      {
+        "serviceName": "ESR ",
+        "price": 1500
+      },
+      {
+        "serviceName": "Genotype",
+        "price": 1500
+      },
+      {
+        "serviceName": "Mantoux Heaf Test",
+        "price": 1500
+      },
+      {
+        "serviceName": "Phosphorus",
+        "price": 1500
+      },
+      {
+        "serviceName": "Potassium",
+        "price": 1500
+      },
+      {
+        "serviceName": "Pregnancy Test HCG Blood",
+        "price": 1500
+      },
+      {
+        "serviceName": "SGOT",
+        "price": 1500
+      },
+      {
+        "serviceName": "SGPT",
+        "price": 1500
+      },
+      {
+        "serviceName": "Total Bilirubin",
+        "price": 1500
+      },
+      {
+        "serviceName": "Triglyceride",
+        "price": 1500
+      },
+      {
+        "serviceName": "White Cell Count+ Differential",
+        "price": 1500
+      },
+      {
+        "serviceName": "Random Blood Sugar",
+        "price": 1400
+      },
+      {
+        "serviceName": "Oxygen per hour",
+        "price": 1200
+      },
+      {
+        "serviceName": "Minor Wound Dressing",
+        "price": 1200
+      },
+      {
+        "serviceName": "Widal",
+        "price": 1100
+      },
+      {
+        "serviceName": "Blood Group",
+        "price": 1000
+      },
+      {
+        "serviceName": "CSF Glucose",
+        "price": 1000
+      },
+      {
+        "serviceName": "Differential Count only",
+        "price": 1000
+      },
+      {
+        "serviceName": "Fasting Blood Sugar",
+        "price": 1000
+      },
+      {
+        "serviceName": "Malaria Parasite",
+        "price": 1000
+      },
+      {
+        "serviceName": "Mch",
+        "price": 1000
+      },
+      {
+        "serviceName": "Mchc",
+        "price": 1000
+      },
+      {
+        "serviceName": "Mcv",
+        "price": 1000
+      },
+      {
+        "serviceName": "Red Cell Count",
+        "price": 1000
+      },
+      {
+        "serviceName": "Stool Analysis",
+        "price": 1000
+      },
+      {
+        "serviceName": "Urine Microscopy",
+        "price": 1000
+      },
+      {
+        "serviceName": "24hr Post Prandial",
+        "price": 800
+      },
+      {
+        "serviceName": "Haemoglobin",
+        "price": 800
+      },
+      {
+        "serviceName": "Packed Cell Volume",
+        "price": 800
+      },
+      {
+        "serviceName": "Urinalysis",
+        "price": 750
+      },
+      {
+        "serviceName": "Sodium",
+        "price": 700
+      },
+      {
+        "serviceName": "Urine Pregnancy Test",
+        "price": 700
+      }
+    ]
+  }

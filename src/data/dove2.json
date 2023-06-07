@@ -1,0 +1,4976 @@
+{
+    "Dove": [
+      {
+        "PRESCRIPTION NAME": "ABAKTAL 400MG (per amp)",
+        "DOVE": 287.5
+      },
+      {
+        "PRESCRIPTION NAME": "ABIDEC DROP",
+        "DOVE": 1543.75
+      },
+      {
+        "PRESCRIPTION NAME": "ABITREN 100MG (per tab)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "ACARBOSE 50MG (PER TAB)",
+        "DOVE": 100
+      },
+      {
+        "PRESCRIPTION NAME": "ACCOLATE 20MG (per tab)",
+        "DOVE": 487.5
+      },
+      {
+        "PRESCRIPTION NAME": "ACETAZOLAMIDE 250MG (per tab)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "ACICLOVIR 200MG (per tab)",
+        "DOVE": 75
+      },
+      {
+        "PRESCRIPTION NAME": "ACICLOVIR CREAM 10MG (per tube)",
+        "DOVE": 1625
+      },
+      {
+        "PRESCRIPTION NAME": "ACTIFED (per tab)",
+        "DOVE": 31.25
+      },
+      {
+        "PRESCRIPTION NAME": "ACTIFIED SYRUP",
+        "DOVE": 1250
+      },
+      {
+        "PRESCRIPTION NAME": "ACTIVATED CHARCOAL (per cap)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "ACTRAPID INSULIN 10MLS (per vial)",
+        "DOVE": 5625
+      },
+      {
+        "PRESCRIPTION NAME": "ADALAT RETARD 20MG (per tab)",
+        "DOVE": 100
+      },
+      {
+        "PRESCRIPTION NAME": "ADRENALIN INJ 1MG (per amp)",
+        "DOVE": 625
+      },
+      {
+        "PRESCRIPTION NAME": "ADVANTAN OINTMENT (per tube)",
+        "DOVE": 1950
+      },
+      {
+        "PRESCRIPTION NAME": "AFRABVITE DROPS (PER BOT)",
+        "DOVE": 292.5
+      },
+      {
+        "PRESCRIPTION NAME": "ALAXIN- P (PER TAB)",
+        "DOVE": 65
+      },
+      {
+        "PRESCRIPTION NAME": "ALAXIN SUSP 10MG/5ML-80ML (per bot)",
+        "DOVE": 812.5
+      },
+      {
+        "PRESCRIPTION NAME": "Aldactone",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "ALFA D O.5CG (per tab)",
+        "DOVE": 162.5
+      },
+      {
+        "PRESCRIPTION NAME": "ALLOPURINOL 100MG TAB",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "ALLOPURINOL 200MG TAB",
+        "DOVE": 43.75
+      },
+      {
+        "PRESCRIPTION NAME": "ALOMIDE EYEDROP 10MLS (per bot)",
+        "DOVE": 1787.5
+      },
+      {
+        "PRESCRIPTION NAME": "ALPHABETHIC CAPLET (per tab)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "AMIAS 16MG (per tab)",
+        "DOVE": 1062.5
+      },
+      {
+        "PRESCRIPTION NAME": "AMIAS 4MG (per tab)",
+        "DOVE": 337.5
+      },
+      {
+        "PRESCRIPTION NAME": "AMIAS 8MG (per tab)",
+        "DOVE": 375
+      },
+      {
+        "PRESCRIPTION NAME": "AMIKACIN INJ",
+        "DOVE": 780
+      },
+      {
+        "PRESCRIPTION NAME": "Aminophylline Inj 25mg/ml (per amp",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "AMINOPHYLLINE INJ 25MG/ML (PER AMP)",
+        "DOVE": 300
+      },
+      {
+        "PRESCRIPTION NAME": "AMINOPHYLLINE TABS (per tab)",
+        "DOVE": 8.75
+      },
+      {
+        "PRESCRIPTION NAME": "AMITRIPTYLINE 25MG (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "AMLODIPINE 10MG (per tab)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "AMLODIPINE 5MG (PER TAB)",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "AMLOVA 10MG (PER TAB)",
+        "DOVE": 23.75
+      },
+      {
+        "PRESCRIPTION NAME": "AMOKSICLAV 625MG (PER TAB)",
+        "DOVE": 146.25
+      },
+      {
+        "PRESCRIPTION NAME": "AMOKSICLAV TAB 625MG",
+        "DOVE": 146.25
+      },
+      {
+        "PRESCRIPTION NAME": "AMOKSIKLAV 156.25MG/5MLS-100MLS (per bot)",
+        "DOVE": 1300
+      },
+      {
+        "PRESCRIPTION NAME": "AMOVIN 500MG INJ (PER AMP)",
+        "DOVE": 195
+      },
+      {
+        "PRESCRIPTION NAME": "AMOVIN SUSPENSION",
+        "DOVE": 1300
+      },
+      {
+        "PRESCRIPTION NAME": "AMOVIN TAB",
+        "DOVE": 137.5
+      },
+      {
+        "PRESCRIPTION NAME": "AMOXYCILLIN 125MG/5ML-100MLS (per bot)",
+        "DOVE": 293.75
+      },
+      {
+        "PRESCRIPTION NAME": "AMOXYCILLIN 250MG (per cap)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "AMOXYCILLIN 500MG (per cap)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "AMOXYL 500MG INJ/AMP",
+        "DOVE": 357.5
+      },
+      {
+        "PRESCRIPTION NAME": "AMPICILLIN 250MG (PER TAB)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "AMPICLOX 250MG/5ML-100ML (per bot)",
+        "DOVE": 293.75
+      },
+      {
+        "PRESCRIPTION NAME": "AMPICLOX 500MG CAP (per cap)",
+        "DOVE": 20
+      },
+      {
+        "PRESCRIPTION NAME": "AMPICLOX DROPS",
+        "DOVE": 1462.5
+      },
+      {
+        "PRESCRIPTION NAME": "AMPICLOX I 500MG INJ (per vial)",
+        "DOVE": 500
+      },
+      {
+        "PRESCRIPTION NAME": "ANNUSOL SUPPOSITORIES (per supp)",
+        "DOVE": 320
+      },
+      {
+        "PRESCRIPTION NAME": "ANOROL (per tab)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "ANTASIL (per tab)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "ANTHISAN CREAM 25MG (per tube)",
+        "DOVE": 1462.5
+      },
+      {
+        "PRESCRIPTION NAME": "ANTI RABIES VACCINE (per vial)",
+        "DOVE": 5500
+      },
+      {
+        "PRESCRIPTION NAME": "ANTI-D INJ (per amp)",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "ANTISIN-PRIVIN EYE DROP-10ML (per bot)",
+        "DOVE": 1056.25
+      },
+      {
+        "PRESCRIPTION NAME": "APPATIM EYE DROP",
+        "DOVE": 893.75
+      },
+      {
+        "PRESCRIPTION NAME": "APRESOLINE 20MG INJ (per amp)",
+        "DOVE": 375
+      },
+      {
+        "PRESCRIPTION NAME": "APRESOLINE 25MG (per tab)",
+        "DOVE": 31.25
+      },
+      {
+        "PRESCRIPTION NAME": "ARSUMAX 50MG (per tab)",
+        "DOVE": 112.5
+      },
+      {
+        "PRESCRIPTION NAME": "ARTANE 5MG (per tab)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "ARTEMEF (PER TABLET)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "ARTEMEF TAB (PER PACK)",
+        "DOVE": 910
+      },
+      {
+        "PRESCRIPTION NAME": "ARTEMETER 100MG TAB",
+        "DOVE": 152.5
+      },
+      {
+        "PRESCRIPTION NAME": "ARTEMETER 100MG TAB (per pack)",
+        "DOVE": 912.5
+      },
+      {
+        "PRESCRIPTION NAME": "ARTEMETER 80MG INJ (PER AMP)",
+        "DOVE": 300
+      },
+      {
+        "PRESCRIPTION NAME": "ARTEMETHER SUSUPENSION (PER BOT)",
+        "DOVE": 625
+      },
+      {
+        "PRESCRIPTION NAME": "ARTEQUINE 600MG/700MG (per pack)",
+        "DOVE": 1625
+      },
+      {
+        "PRESCRIPTION NAME": "ARTESUNATE 60MG Per Vial",
+        "DOVE": 3500
+      },
+      {
+        "PRESCRIPTION NAME": "ARTESUNATE (per pack)",
+        "DOVE": 487.5
+      },
+      {
+        "PRESCRIPTION NAME": "ARTESUNATE (PER TAB)",
+        "DOVE": 81.25
+      },
+      {
+        "PRESCRIPTION NAME": "ARTESUNATE SYR (PER BOT)",
+        "DOVE": 662.5
+      },
+      {
+        "PRESCRIPTION NAME": "ARTHOCARE CAP (per tab)",
+        "DOVE": 100
+      },
+      {
+        "PRESCRIPTION NAME": "ARTHROTEC (PER TAB)",
+        "DOVE": 77.5
+      },
+      {
+        "PRESCRIPTION NAME": "ARVED 450MG (per tab)",
+        "DOVE": 150
+      },
+      {
+        "PRESCRIPTION NAME": "Ascorbic Acid (Vit C) Syrup (per bot.)",
+        "DOVE": 300
+      },
+      {
+        "PRESCRIPTION NAME": "ASPIRIN 300MG (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "ASPIRIN 75MG (per tab)",
+        "DOVE": 6.25
+      },
+      {
+        "PRESCRIPTION NAME": "ASTYMIN (PER TAB).",
+        "DOVE": 57.5
+      },
+      {
+        "PRESCRIPTION NAME": "ASTYMINE (per bot)",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "ATENOLOL 100MG (per tab)",
+        "DOVE": 40
+      },
+      {
+        "PRESCRIPTION NAME": "ATENOLOL 50MG (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "ATIVAN 2MG (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "ATOVASTATIN 10MG (PER TAB)",
+        "DOVE": 52.5
+      },
+      {
+        "PRESCRIPTION NAME": "ATROPINE 6OOMG INJ (per amp)",
+        "DOVE": 237.5
+      },
+      {
+        "PRESCRIPTION NAME": "AUGNENTINE 457MG/5ML (Per Bott)",
+        "DOVE": 3500
+      },
+      {
+        "PRESCRIPTION NAME": "AUGMENTINE 1.2G (per vial)",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "AUGMENTINE 1G (per tab)",
+        "DOVE": 312.5
+      },
+      {
+        "PRESCRIPTION NAME": "AUGMENTINE 228MG/5ML (per bot)",
+        "DOVE": 2437.5
+      },
+      {
+        "PRESCRIPTION NAME": "AUGMENTINE 625MG (per tab)",
+        "DOVE": 287.5
+      },
+      {
+        "PRESCRIPTION NAME": "AVANDA 4MG (per tab)",
+        "DOVE": 300
+      },
+      {
+        "PRESCRIPTION NAME": "AVOCOMB 450MG (per tab)",
+        "DOVE": 187.5
+      },
+      {
+        "PRESCRIPTION NAME": "AVOLAM 150MG (per tab)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "AVOMINE 25MG (per tab)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "AZITHROMYCIN 500mg (per cap)",
+        "DOVE": 887.5
+      },
+      {
+        "PRESCRIPTION NAME": "AZOPT EYE DROP (per bot)",
+        "DOVE": 4875
+      },
+      {
+        "PRESCRIPTION NAME": "BACTROBAM CREAM 15G (per tube)",
+        "DOVE": 2600
+      },
+      {
+        "PRESCRIPTION NAME": "BANOCIDE 50MG (per tab)",
+        "DOVE": 10
+      },
+      {
+        "PRESCRIPTION NAME": "Beclomethasone Aerosol Inhalation (per can)",
+        "DOVE": 1875
+      },
+      {
+        "PRESCRIPTION NAME": "BECLOX 500MG (per cap)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "BECONASENASAL DROP (per pack)",
+        "DOVE": 2375
+      },
+      {
+        "PRESCRIPTION NAME": "BENDROFLUAZIDE (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "BENYLIN EXPECTORANT 100MLS (per bot)",
+        "DOVE": 500
+      },
+      {
+        "PRESCRIPTION NAME": "BENYLIN WITH CODEINE (per bot)",
+        "DOVE": 650
+      },
+      {
+        "PRESCRIPTION NAME": "BENZHEXOL 5MG (per tab)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "BENZYL BENZOATE OINTMENT (per bot)",
+        "DOVE": 500
+      },
+      {
+        "PRESCRIPTION NAME": "BENZYL PEROXIDE 5 LOTION (per tube)",
+        "DOVE": 1062.5
+      },
+      {
+        "PRESCRIPTION NAME": "BENZYL PEROXIDE 10 LOTION (per tube)",
+        "DOVE": 462.5
+      },
+      {
+        "PRESCRIPTION NAME": "BEOPTIC EAR DROP (per bot)",
+        "DOVE": 500
+      },
+      {
+        "PRESCRIPTION NAME": "BEOPTIC EYE (per bot)",
+        "DOVE": 1125
+      },
+      {
+        "PRESCRIPTION NAME": "BETALOC (PER TAB)",
+        "DOVE": 78.75
+      },
+      {
+        "PRESCRIPTION NAME": "BETAMETHASONE SODIUM EYE DROP",
+        "DOVE": 1381.25
+      },
+      {
+        "PRESCRIPTION NAME": "BETNESOL EYE OINTMENT",
+        "DOVE": 487.5
+      },
+      {
+        "PRESCRIPTION NAME": "BETNESOL EYE/EAR/NOSE DROP (per bot)",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "BETROSIL CREAM (per tube)",
+        "DOVE": 487.5
+      },
+      {
+        "PRESCRIPTION NAME": "BIOCOTEN CREAM 20G (per tube)",
+        "DOVE": 462.5
+      },
+      {
+        "PRESCRIPTION NAME": "BISACODYL 5MG (per tab)",
+        "DOVE": 6.25
+      },
+      {
+        "PRESCRIPTION NAME": "Bisoprolol 10mg",
+        "DOVE": 93.75
+      },
+      {
+        "PRESCRIPTION NAME": "Bisoprolol 2.5mg",
+        "DOVE": 43.75
+      },
+      {
+        "PRESCRIPTION NAME": "Bisoprolol 5mg",
+        "DOVE": 75
+      },
+      {
+        "PRESCRIPTION NAME": "BIVACYN SPRAY (per pack)",
+        "DOVE": 1250
+      },
+      {
+        "PRESCRIPTION NAME": "Blood Giving Set (per unit)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "BONJELA GEL 10G (per tube)",
+        "DOVE": 1000
+      },
+      {
+        "PRESCRIPTION NAME": "BRINERDINE (per tab)",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "BROMHEXINE",
+        "DOVE": 325
+      },
+      {
+        "PRESCRIPTION NAME": "BROMHEXINE 8MG (per tab)",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "BROMHEXINE SYRUP",
+        "DOVE": 325
+      },
+      {
+        "PRESCRIPTION NAME": "BROMOCRIPTINE 2.5MG (per tab)",
+        "DOVE": 170
+      },
+      {
+        "PRESCRIPTION NAME": "BRONCHICUM (per bot)",
+        "DOVE": 975
+      },
+      {
+        "PRESCRIPTION NAME": "BRONCHOLYTE 4MG/5ML ELIXIR (per bot)",
+        "DOVE": 375
+      },
+      {
+        "PRESCRIPTION NAME": "BUNETROL (PER INF)",
+        "DOVE": 1300
+      },
+      {
+        "PRESCRIPTION NAME": "CAC 1000 (per tab)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "CADIOACE (per cap)",
+        "DOVE": 100
+      },
+      {
+        "PRESCRIPTION NAME": "CADURA 4MG PER TAB",
+        "DOVE": 200
+      },
+      {
+        "PRESCRIPTION NAME": "CALAMINE LOTION 100MLS (per bot)",
+        "DOVE": 200
+      },
+      {
+        "PRESCRIPTION NAME": "CALCIUM GLUCONATE INJ (per amp)",
+        "DOVE": 112.5
+      },
+      {
+        "PRESCRIPTION NAME": "Calcium Gluconate Tabs 600mg (per tab)",
+        "DOVE": 3.75
+      },
+      {
+        "PRESCRIPTION NAME": "CALCIUM LACTATE 300MG (per tab)",
+        "DOVE": 6.25
+      },
+      {
+        "PRESCRIPTION NAME": "CALPOL (per bot)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "CAMOQUINE 200MG (per tab)",
+        "DOVE": 81.25
+      },
+      {
+        "PRESCRIPTION NAME": "CAMOQUINE 50MG/5ML-60ML (per bot)",
+        "DOVE": 975
+      },
+      {
+        "PRESCRIPTION NAME": "CAMOSUNATE 600/200 (PER TAB)",
+        "DOVE": 120
+      },
+      {
+        "PRESCRIPTION NAME": "CAMOSUNATE SUSP",
+        "DOVE": 650
+      },
+      {
+        "PRESCRIPTION NAME": "CAMOSUNATE TAB (PER PACK)",
+        "DOVE": 747.5
+      },
+      {
+        "PRESCRIPTION NAME": "CANDERIL SWEETNER (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "CANDERIL SWEETNER POWDER (per tab)",
+        "DOVE": 937.5
+      },
+      {
+        "PRESCRIPTION NAME": "CANDESARTAN 160MG PER TAB",
+        "DOVE": 375
+      },
+      {
+        "PRESCRIPTION NAME": "CANDESARTAN 80MG PER TAB",
+        "DOVE": 287.5
+      },
+      {
+        "PRESCRIPTION NAME": "CANDIBIOTIC EAR DROPS",
+        "DOVE": 487.5
+      },
+      {
+        "PRESCRIPTION NAME": "CANESTEN PESSARIES X 6",
+        "DOVE": 2437.5
+      },
+      {
+        "PRESCRIPTION NAME": "CAPTOPRIL 12.5MG (per tab)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "CAPTOPRIL 25MG (per tab)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "CAPTOPRIL 50MG (per tab)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "CARBAMAZEPINE 200MG (per tab)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "CARFERGOT 50MG (per tab)",
+        "DOVE": 187.5
+      },
+      {
+        "PRESCRIPTION NAME": "CARVEDILOL 25mg(PER TAB)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "CARVEDILOL 6.25mg (PER TAB)",
+        "DOVE": 31.25
+      },
+      {
+        "PRESCRIPTION NAME": "CASTOR OIL (PER BOT)",
+        "DOVE": 731.25
+      },
+      {
+        "PRESCRIPTION NAME": "CATAFLAM 50MG (per tab)",
+        "DOVE": 75
+      },
+      {
+        "PRESCRIPTION NAME": "CECLOR (per bot)",
+        "DOVE": 2625
+      },
+      {
+        "PRESCRIPTION NAME": "CEECAL (per tab)",
+        "DOVE": 87.5
+      },
+      {
+        "PRESCRIPTION NAME": "CEFIXIME SYR (PER BOT)",
+        "DOVE": 1187.5
+      },
+      {
+        "PRESCRIPTION NAME": "CEFPODOXIME(ORELOX) Susp.",
+        "DOVE": 5700
+      },
+      {
+        "PRESCRIPTION NAME": "CEFTAZIDINE 1G ING",
+        "DOVE": 1462.5
+      },
+      {
+        "PRESCRIPTION NAME": "CEFTRIAXONE 1G INJ /AMP",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "CEFTRIAZONE INJ 1G(ROCEPHIN)",
+        "DOVE": 6875
+      },
+      {
+        "PRESCRIPTION NAME": "CEFUROXIME 250MG TAB",
+        "DOVE": 155
+      },
+      {
+        "PRESCRIPTION NAME": "CEFUROXIME 500MG TAB",
+        "DOVE": 227.5
+      },
+      {
+        "PRESCRIPTION NAME": "CEFUROXIME 750MG INJ",
+        "DOVE": 1056.25
+      },
+      {
+        "PRESCRIPTION NAME": "CEFUROXIME SYR",
+        "DOVE": 1787.5
+      },
+      {
+        "PRESCRIPTION NAME": "CELEBREX 200MG (per cap)",
+        "DOVE": 300
+      },
+      {
+        "PRESCRIPTION NAME": "CENTRUM M/VIT (per tab)",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "CENTRUM SILVER (per tab)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "CEPHALEXIN ( PER CAP)",
+        "DOVE": 48.75
+      },
+      {
+        "PRESCRIPTION NAME": "CEPHALEXIN 125MG SYR",
+        "DOVE": 1800
+      },
+      {
+        "PRESCRIPTION NAME": "CEPHALEXIN 250MG SYR",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "CERUMOL EAR DROP (per bot)",
+        "DOVE": 812.5
+      },
+      {
+        "PRESCRIPTION NAME": "CETRIXINE",
+        "DOVE": 1300
+      },
+      {
+        "PRESCRIPTION NAME": "CETRIZINE SYRUP",
+        "DOVE": 1300
+      },
+      {
+        "PRESCRIPTION NAME": "CHEMIRON (PER CAP)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "Chicken Pox Vaccine",
+        "DOVE": 8593.75
+      },
+      {
+        "PRESCRIPTION NAME": "CHLORAMPHENICOL 250MG (PER TAB)",
+        "DOVE": 7.5
+      },
+      {
+        "PRESCRIPTION NAME": "CHLORAMPHENICOL 500MG INJ/AMP",
+        "DOVE": 97.5
+      },
+      {
+        "PRESCRIPTION NAME": "CHLORAMPHENICOL EAR DROP (per bot)",
+        "DOVE": 212.5
+      },
+      {
+        "PRESCRIPTION NAME": "CHLORAMPHENICOL EYE DROP (per bot)",
+        "DOVE": 243.75
+      },
+      {
+        "PRESCRIPTION NAME": "CHLORAMPHENICOL EYE OINT. (per tube)",
+        "DOVE": 162.5
+      },
+      {
+        "PRESCRIPTION NAME": "CHLORAMPHENICOL SYRUP",
+        "DOVE": 242.5
+      },
+      {
+        "PRESCRIPTION NAME": "CHLOROQUINE 150MG (per tab)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "CHLOROQUINE 200MG (per amp)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "CHLOROQUINE 50MG/5ML (per bot)",
+        "DOVE": 137.5
+      },
+      {
+        "PRESCRIPTION NAME": "CHLORPHENIRAMINE 2MG/5ML (per bot)",
+        "DOVE": 300
+      },
+      {
+        "PRESCRIPTION NAME": "CHLORPHENIRAMINE 4MG (per tab)",
+        "DOVE": 6.25
+      },
+      {
+        "PRESCRIPTION NAME": "CHLORPHENIRAMINE INJ (PER AMP)",
+        "DOVE": 100
+      },
+      {
+        "PRESCRIPTION NAME": "CHLORPROMAZINE 100MG (per tab)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "CHLORPROMAZINE 50MG INJ (per amp)",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "CHLORPROPAMIDE 250MG (per tab)",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "Chorionic Gonadotrophin Inj (per amp)",
+        "DOVE": 1875
+      },
+      {
+        "PRESCRIPTION NAME": "CHOTIGON 5000IU (per amp)",
+        "DOVE": 3575
+      },
+      {
+        "PRESCRIPTION NAME": "Chymoral",
+        "DOVE": 43.75
+      },
+      {
+        "PRESCRIPTION NAME": "CHYMORAL (per tab)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "CIALIS 20MG (per tab)",
+        "DOVE": 4312.5
+      },
+      {
+        "PRESCRIPTION NAME": "CICATRIN POWDER (per bot)",
+        "DOVE": 325
+      },
+      {
+        "PRESCRIPTION NAME": "CIKLAVIT 200MLS (per bot)",
+        "DOVE": 1300
+      },
+      {
+        "PRESCRIPTION NAME": "CILOXAN EYE DROP (per bot)",
+        "DOVE": 1787.5
+      },
+      {
+        "PRESCRIPTION NAME": "CIMETIDINE 200MG (per tab)",
+        "DOVE": 20
+      },
+      {
+        "PRESCRIPTION NAME": "CIMETIDINE 400MG (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "CIMETIDINE INJ PER AMP",
+        "DOVE": 300
+      },
+      {
+        "PRESCRIPTION NAME": "CIPROFLOXACIN 200MG INFUSION (per bot)",
+        "DOVE": 937.5
+      },
+      {
+        "PRESCRIPTION NAME": "CIPROFLOXACIN 500MG (PER TAB)",
+        "DOVE": 100
+      },
+      {
+        "PRESCRIPTION NAME": "CIPROFLOXACIN EYE DROP",
+        "DOVE": 975
+      },
+      {
+        "PRESCRIPTION NAME": "CIPROTAB 500MG (per tab)",
+        "DOVE": 100
+      },
+      {
+        "PRESCRIPTION NAME": "CIPROTAB inj (Per Vial)",
+        "DOVE": 1000
+      },
+      {
+        "PRESCRIPTION NAME": "CLARITHROMYCIN 500MG (per cap)",
+        "DOVE": 275
+      },
+      {
+        "PRESCRIPTION NAME": "CLAVAM 228MG/5ML-100MLS (per bot)",
+        "DOVE": 1375
+      },
+      {
+        "PRESCRIPTION NAME": "CLEXANE INJ",
+        "DOVE": 3125
+      },
+      {
+        "PRESCRIPTION NAME": "CLINDAMYCIN HCL 300MG CAP (per cap)",
+        "DOVE": 192.5
+      },
+      {
+        "PRESCRIPTION NAME": "CLINITEST TAB (per tab)",
+        "DOVE": 150
+      },
+      {
+        "PRESCRIPTION NAME": "CLOBETASOL 45G CREAM (per tube)",
+        "DOVE": 1375
+      },
+      {
+        "PRESCRIPTION NAME": "CLOMID 50MG (per tab)",
+        "DOVE": 700
+      },
+      {
+        "PRESCRIPTION NAME": "CLONIDINE 100MCG (per tab)",
+        "DOVE": 100
+      },
+      {
+        "PRESCRIPTION NAME": "CLOPIDOGREL(PER TAB)",
+        "DOVE": 112.5
+      },
+      {
+        "PRESCRIPTION NAME": "CLOXACILLIN 250MG (per cap)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "CO AMOXICLAV 312.5MG SUSP (PER BOT).",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "CO-AMOXICLAV 1.2G (PER AMP)",
+        "DOVE": 1200
+      },
+      {
+        "PRESCRIPTION NAME": "CO-AMOXICLAV 625MG TAB (PER TAB)",
+        "DOVE": 187.5
+      },
+      {
+        "PRESCRIPTION NAME": "Co-Aprovel 150mg (1Tab)",
+        "DOVE": 212.5
+      },
+      {
+        "PRESCRIPTION NAME": "Co-Aprovel 300mg (1Tab)",
+        "DOVE": 250
+      },
+      {
+        "PRESCRIPTION NAME": "COARTEM (per pack)",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "COARTEM (PER TAB)",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "COARTEM DISPERSIBLE (PER TAB)",
+        "DOVE": 81.25
+      },
+      {
+        "PRESCRIPTION NAME": "CO-CODAMOL 500MG",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "CO-DIOVAN (per tab)",
+        "DOVE": 250
+      },
+      {
+        "PRESCRIPTION NAME": "COFEX SYRUP (PER BOT)",
+        "DOVE": 276.25
+      },
+      {
+        "PRESCRIPTION NAME": "COLIPAN 10MG (per tab)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "COLIPAN ALIXIR 5MG/5ML-100ML (per bot)",
+        "DOVE": 237.5
+      },
+      {
+        "PRESCRIPTION NAME": "COMBANTRIN 125MG (per tab)",
+        "DOVE": 75
+      },
+      {
+        "PRESCRIPTION NAME": "COMBANTRIN 250MG/5ML (per bot)",
+        "DOVE": 487.5
+      },
+      {
+        "PRESCRIPTION NAME": "CO-MICARDIL (PER TAB)",
+        "DOVE": 218.75
+      },
+      {
+        "PRESCRIPTION NAME": "CO-PROXAMOL (per tab)",
+        "DOVE": 43.75
+      },
+      {
+        "PRESCRIPTION NAME": "CORDARONE 200MG (per tab)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "COSOPT EYE DROP",
+        "DOVE": 6250
+      },
+      {
+        "PRESCRIPTION NAME": "COTENIDONE TABS (per tab)",
+        "DOVE": 42.5
+      },
+      {
+        "PRESCRIPTION NAME": "CO-TRIMAZOLE 240MG/5ML (per bot)",
+        "DOVE": 400
+      },
+      {
+        "PRESCRIPTION NAME": "CO-TRIMAZOLE 480MG (per tab)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "CROMAX 4 EYE DROP",
+        "DOVE": 1137.5
+      },
+      {
+        "PRESCRIPTION NAME": "CRYSTALLINE PENICILLIN (PER AMPOULE)",
+        "DOVE": 400
+      },
+      {
+        "PRESCRIPTION NAME": "Cyanocobalamin (B12) Inj (per amp)",
+        "DOVE": 87.5
+      },
+      {
+        "PRESCRIPTION NAME": "Cyanocobalamin (B12) Tabs (per tab)",
+        "DOVE": 3.75
+      },
+      {
+        "PRESCRIPTION NAME": "CYCLOGEST 400MG PESSARY (per pess)",
+        "DOVE": 487.5
+      },
+      {
+        "PRESCRIPTION NAME": "CYTOTEC (MISOPROSTOL) 200MCG (PER TAB)",
+        "DOVE": 200
+      },
+      {
+        "PRESCRIPTION NAME": "DAFLON (per tab)",
+        "DOVE": 150
+      },
+      {
+        "PRESCRIPTION NAME": "DAKTACORT CREAM (PER TUBE)",
+        "DOVE": 1800
+      },
+      {
+        "PRESCRIPTION NAME": "DAKTACORT PESSARIES PER PACK",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "Danazole Caps 200mg (per cap)",
+        "DOVE": 312.5
+      },
+      {
+        "PRESCRIPTION NAME": "DEDEON HB 280ML (per bot)",
+        "DOVE": 1250
+      },
+      {
+        "PRESCRIPTION NAME": "DEPIXOL 20MG (per amp)",
+        "DOVE": 1543.75
+      },
+      {
+        "PRESCRIPTION NAME": "DEPO PROVERA INJ (per vial)",
+        "DOVE": 875
+      },
+      {
+        "PRESCRIPTION NAME": "DEPOMEDROL 40MG (per vial)",
+        "DOVE": 1218.75
+      },
+      {
+        "PRESCRIPTION NAME": "DEPOMEDROL 80MG (per vial)",
+        "DOVE": 3412.5
+      },
+      {
+        "PRESCRIPTION NAME": "DEPROSALIC ACID OINTMENT (PER TUBE)",
+        "DOVE": 2275
+      },
+      {
+        "PRESCRIPTION NAME": "DEQUADIN LOZENGES (per tab)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "DERMAZINE CREAM 50MG (per tube)",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "DERMOVATE CREAM 25G (per tube)",
+        "DOVE": 1381.25
+      },
+      {
+        "PRESCRIPTION NAME": "DETRUSITOL 2MG (per tab)",
+        "DOVE": 250
+      },
+      {
+        "PRESCRIPTION NAME": "DETRUSITOL XL 4MG (per cap)",
+        "DOVE": 1250
+      },
+      {
+        "PRESCRIPTION NAME": "DEXAMETHASONE 8MG (per vial)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "Dextromethorphan Hydrobromide Syrup (per bot.",
+        "DOVE": 150
+      },
+      {
+        "PRESCRIPTION NAME": "DEXTROSE 10% INFUSION",
+        "DOVE": 850
+      },
+      {
+        "PRESCRIPTION NAME": "DEXTROSE 4.3%/NORMAL SALINE (per inf)",
+        "DOVE": 850
+      },
+      {
+        "PRESCRIPTION NAME": "DEXTROSE 5% (per inf)",
+        "DOVE": 850
+      },
+      {
+        "PRESCRIPTION NAME": "DEXTROSE 50% (per inf)",
+        "DOVE": 850
+      },
+      {
+        "PRESCRIPTION NAME": "DEXTROSE SALINE 5%",
+        "DOVE": 850
+      },
+      {
+        "PRESCRIPTION NAME": "DIABETIN 450MG (per tab)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "DIAMICRON 60mg (per tab)",
+        "DOVE": 250
+      },
+      {
+        "PRESCRIPTION NAME": "DIAMOX 250MG (per tab)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "DIAVISTA (per pack)",
+        "DOVE": 9375
+      },
+      {
+        "PRESCRIPTION NAME": "DIAZEPAM 10MG (per amp)",
+        "DOVE": 200
+      },
+      {
+        "PRESCRIPTION NAME": "DIAZEPAM 5MG (per tab)",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "DICLOFENAC 50MG (per tab)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "DICLOFENAC INJ 75MG (per amp)",
+        "DOVE": 200
+      },
+      {
+        "PRESCRIPTION NAME": "DICLOFENAC R 75MG TAB",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "DICLOFENAC SUPP 100MG (PER SUPP)",
+        "DOVE": 90
+      },
+      {
+        "PRESCRIPTION NAME": "DICLOFENAC SUPP 12.5MG (PER SUPP)",
+        "DOVE": 147.5
+      },
+      {
+        "PRESCRIPTION NAME": "DICYNONE 250MG (per amp)",
+        "DOVE": 687.5
+      },
+      {
+        "PRESCRIPTION NAME": "DICYNONE 250MG (per tab)",
+        "DOVE": 81.25
+      },
+      {
+        "PRESCRIPTION NAME": "DIFLUCAN PER TAB",
+        "DOVE": 1056.25
+      },
+      {
+        "PRESCRIPTION NAME": "DIGOXIN 0.025MG INL (PER AMP)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "DIGOXIN 0.25MG (per tab)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "DIHYDROCODEINE 30MG (per tab)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "DILOXANIDE FUROATE 500MG (per tab)",
+        "DOVE": 475
+      },
+      {
+        "PRESCRIPTION NAME": "DIOVAN 80MG (per cap)",
+        "DOVE": 237.5
+      },
+      {
+        "PRESCRIPTION NAME": "DIPYRIDAMOLE (PER TAB)",
+        "DOVE": 75
+      },
+      {
+        "PRESCRIPTION NAME": "DITROPAN 5MG (per tab)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "DOLONUEROBION (per tab)",
+        "DOVE": 93.75
+      },
+      {
+        "PRESCRIPTION NAME": "DOXYCYCLINE (per cap)",
+        "DOVE": 200
+      },
+      {
+        "PRESCRIPTION NAME": "DULCOLAX SUPP (PER SUPP)",
+        "DOVE": 250
+      },
+      {
+        "PRESCRIPTION NAME": "DUPHASON 10MG (per tab)",
+        "DOVE": 187.5
+      },
+      {
+        "PRESCRIPTION NAME": "DUVADILAN",
+        "DOVE": 2250
+      },
+      {
+        "PRESCRIPTION NAME": "DYNAMOGEN LIQUID 10MLS (per bot)",
+        "DOVE": 150
+      },
+      {
+        "PRESCRIPTION NAME": "DYRIDAMOLE 100MG TAB",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "E-45 CREAM (per tube)",
+        "DOVE": 1218.75
+      },
+      {
+        "PRESCRIPTION NAME": "EHANCIN 312MG/5ML SUSP (per bot)",
+        "DOVE": 1375
+      },
+      {
+        "PRESCRIPTION NAME": "E-MAL INJ (PER AMP)",
+        "DOVE": 975
+      },
+      {
+        "PRESCRIPTION NAME": "ENALAPRIL 5MG TAB",
+        "DOVE": 26.25
+      },
+      {
+        "PRESCRIPTION NAME": "ENCEPHABOL SYR 120MLS (per bot)",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "ENCEPHABOL (per tab)",
+        "DOVE": 43.75
+      },
+      {
+        "PRESCRIPTION NAME": "ENCEPHABOL SYR 200MLS (per bot)",
+        "DOVE": 3000
+      },
+      {
+        "PRESCRIPTION NAME": "ENCEPHABOL SYR 100MLS (per bot)",
+        "DOVE": 1250
+      },
+      {
+        "PRESCRIPTION NAME": "ENHANCIN 375MG (per tab)",
+        "DOVE": 137.5
+      },
+      {
+        "PRESCRIPTION NAME": "ENHANCIN 625MG (per tab)",
+        "DOVE": 162.5
+      },
+      {
+        "PRESCRIPTION NAME": "Ergocalciferol (Vit D) Solution (per amp)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "Ergocalciferol (Vit D) Tabs (per tab)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "ERGOMETRINE 0.5MG (PER TAB)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "ERGOMETRINE INJ 1.5MG",
+        "DOVE": 162.5
+      },
+      {
+        "PRESCRIPTION NAME": "ERYTHROMYCIN 125MG/5ML (per bot)",
+        "DOVE": 875
+      },
+      {
+        "PRESCRIPTION NAME": "ERYTHROMYCIN 250MG (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "ERYTHROMYCIN CREAM 4% 30MG (per tube)",
+        "DOVE": 2875
+      },
+      {
+        "PRESCRIPTION NAME": "ERYTHRPOETIN 2000IU (per amp)",
+        "DOVE": 10562.5
+      },
+      {
+        "PRESCRIPTION NAME": "ESIDREX 25MG (per tab)",
+        "DOVE": 31.25
+      },
+      {
+        "PRESCRIPTION NAME": "ESSENTIAL FORTE CAP (per cap)",
+        "DOVE": 175
+      },
+      {
+        "PRESCRIPTION NAME": "ETHAMBUTOL 400MG (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "ETOVIT CAPGEL 200MG (per cap)",
+        "DOVE": 31.25
+      },
+      {
+        "PRESCRIPTION NAME": "EUCADIC 12.5MG (per tab)",
+        "DOVE": 375
+      },
+      {
+        "PRESCRIPTION NAME": "EUCADIC 3.125MG (per tab)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "EUCALYPTUS OIL (per bot)",
+        "DOVE": 812.5
+      },
+      {
+        "PRESCRIPTION NAME": "EUCARDIC 25MG (per tab)",
+        "DOVE": 187.5
+      },
+      {
+        "PRESCRIPTION NAME": "EURAX CREAM (per tube)",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "EVADINE 200MG (per tab)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "EVENNG PRIME ROSE (per cap)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "EVITOL 100MG (per tab)",
+        "DOVE": 31.25
+      },
+      {
+        "PRESCRIPTION NAME": "EVITOL100MG CAPGEL (per cap)",
+        "DOVE": 75
+      },
+      {
+        "PRESCRIPTION NAME": "EYE ANTIOXIDANT (per tab)",
+        "DOVE": 58.75
+      },
+      {
+        "PRESCRIPTION NAME": "FALVITONE (PER CAP)",
+        "DOVE": 11.25
+      },
+      {
+        "PRESCRIPTION NAME": "FANSIDAR 525MG (per tab)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "FANSIDAR INJ 525MG (per amp)",
+        "DOVE": 881.25
+      },
+      {
+        "PRESCRIPTION NAME": "FANSIDAR SUSP 525MG/5ML (per bot)",
+        "DOVE": 487.5
+      },
+      {
+        "PRESCRIPTION NAME": "FASIGYN 500MG (per tab)",
+        "DOVE": 81.25
+      },
+      {
+        "PRESCRIPTION NAME": "FEFOL (per cap)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "FELDENE 20MG (per cap)",
+        "DOVE": 181.25
+      },
+      {
+        "PRESCRIPTION NAME": "FELDENE GEL (per tube)",
+        "DOVE": 1125
+      },
+      {
+        "PRESCRIPTION NAME": "FELDENE INJ 20MG (per amp)",
+        "DOVE": 568.75
+      },
+      {
+        "PRESCRIPTION NAME": "FEROGLOBIN 200ML (per bot)",
+        "DOVE": 1300
+      },
+      {
+        "PRESCRIPTION NAME": "FERROBIN",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "FERROUS SULHATE 20MG (per tab)",
+        "DOVE": 6.25
+      },
+      {
+        "PRESCRIPTION NAME": "FLAGYL 400MG (per tab)",
+        "DOVE": 20
+      },
+      {
+        "PRESCRIPTION NAME": "FLIXONASE NASAL SPRAY",
+        "DOVE": 2193.75
+      },
+      {
+        "PRESCRIPTION NAME": "FLIXOTIDE ACCUHALER (per accu)",
+        "DOVE": 4375
+      },
+      {
+        "PRESCRIPTION NAME": "FLOXAPEN 125MG/5ML (per bot)",
+        "DOVE": 1062.5
+      },
+      {
+        "PRESCRIPTION NAME": "FLOXAPEN 125MG/5ML (per cap)",
+        "DOVE": 87.5
+      },
+      {
+        "PRESCRIPTION NAME": "FLUCAMED 50MG (per cap)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "FLUCONAZOLE 50MG (PER TAB)",
+        "DOVE": 122.5
+      },
+      {
+        "PRESCRIPTION NAME": "Fluocinolone",
+        "DOVE": 1250
+      },
+      {
+        "PRESCRIPTION NAME": "FOLEY'S CATHETER (per piece)",
+        "DOVE": 200
+      },
+      {
+        "PRESCRIPTION NAME": "FOLIC ACID 5MG (per tab)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "FOLIC ACID SYRUP",
+        "DOVE": 250
+      },
+      {
+        "PRESCRIPTION NAME": "FORTUM IG INJ (per amp)",
+        "DOVE": 3250
+      },
+      {
+        "PRESCRIPTION NAME": "FORTWIN 30MG (per amp)",
+        "DOVE": 300
+      },
+      {
+        "PRESCRIPTION NAME": "FRANOL (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "FRUSEMIDE 40MG (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "FRUSEMIDE INJ 20MG (per amp)",
+        "DOVE": 200
+      },
+      {
+        "PRESCRIPTION NAME": "FUNBACT CREAM",
+        "DOVE": 406.25
+      },
+      {
+        "PRESCRIPTION NAME": "FUNGISOL POWDER 20MG (per bot)",
+        "DOVE": 487.5
+      },
+      {
+        "PRESCRIPTION NAME": "GABAPENTRIN(PER TAB)",
+        "DOVE": 113.75
+      },
+      {
+        "PRESCRIPTION NAME": "Galvus 50MG",
+        "DOVE": 312.5
+      },
+      {
+        "PRESCRIPTION NAME": "GATE DPX EYE DROP",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "GENTAMYCIN 80MG (per amp)",
+        "DOVE": 150
+      },
+      {
+        "PRESCRIPTION NAME": "GENTAMYCIN CREAM 15G (per tube)",
+        "DOVE": 500
+      },
+      {
+        "PRESCRIPTION NAME": "GENTAMYCIN EYE/EAR DROP (per bot)",
+        "DOVE": 500
+      },
+      {
+        "PRESCRIPTION NAME": "GERIATIC PHARMATON (per cap)",
+        "DOVE": 100
+      },
+      {
+        "PRESCRIPTION NAME": "GESTID (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "GESTID 100ML (per bot)",
+        "DOVE": 487.5
+      },
+      {
+        "PRESCRIPTION NAME": "GESTID 200ML (per bot)",
+        "DOVE": 650
+      },
+      {
+        "PRESCRIPTION NAME": "GESTONE 100MG (per amp)",
+        "DOVE": 1375
+      },
+      {
+        "PRESCRIPTION NAME": "GESTONE 50MG (per amp)",
+        "DOVE": 1125
+      },
+      {
+        "PRESCRIPTION NAME": "GLIBENCLAMIDE 5MG (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "GLICAZIDE 80MG (PER TAB)",
+        "DOVE": 90
+      },
+      {
+        "PRESCRIPTION NAME": "GLIPIZIDE 5MG (PER TAB)",
+        "DOVE": 105
+      },
+      {
+        "PRESCRIPTION NAME": "GLUCOSE (PER SACHET)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "GLYCERYLTRINITRATE (PER TAB)",
+        "DOVE": 300
+      },
+      {
+        "PRESCRIPTION NAME": "GRISEOFULVIN 125MG (per tab)",
+        "DOVE": 20
+      },
+      {
+        "PRESCRIPTION NAME": "GRISEOFULVIN 500MG (per tab)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "GSUNATE 100MG (per tab)",
+        "DOVE": 87.5
+      },
+      {
+        "PRESCRIPTION NAME": "GYNODAKTARIN 200MG (per ovule)",
+        "DOVE": 250
+      },
+      {
+        "PRESCRIPTION NAME": "GYNODAKTARIN 400MG (per ovule)",
+        "DOVE": 500
+      },
+      {
+        "PRESCRIPTION NAME": "GYNOTROSID 100MG (per ovule)",
+        "DOVE": 1056.25
+      },
+      {
+        "PRESCRIPTION NAME": "GYNOTROSID 300MG (per ovule)",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "HAEMACCEL INFUSION. (per pint)",
+        "DOVE": 3750
+      },
+      {
+        "PRESCRIPTION NAME": "Haemophilus Influenzae Type B (HiB) Vaccine",
+        "DOVE": 4687.5
+      },
+      {
+        "PRESCRIPTION NAME": "HAEMORON (PER TAB)",
+        "DOVE": 30
+      },
+      {
+        "PRESCRIPTION NAME": "HALFAN 100MG/5ML (per bot)",
+        "DOVE": 1543.75
+      },
+      {
+        "PRESCRIPTION NAME": "HALFAN 250MG (per tab)",
+        "DOVE": 356.25
+      },
+      {
+        "PRESCRIPTION NAME": "HALOPERIDOL 5MG (per tab)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "Halothane injection",
+        "DOVE": 337.5
+      },
+      {
+        "PRESCRIPTION NAME": "HISTAC 150MG (per tab)",
+        "DOVE": 75
+      },
+      {
+        "PRESCRIPTION NAME": "HISTAC 300MG (per tab)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "HOMTAMIN GINSENG (per tab)",
+        "DOVE": 75
+      },
+      {
+        "PRESCRIPTION NAME": "HYCOMYCIN EYEDROP (per bot)",
+        "DOVE": 975
+      },
+      {
+        "PRESCRIPTION NAME": "HYDROCHLORTIAZIDE 50MG/AMILORIDE 5MG(per tab",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "HYDROCORTISONE 100MG INJ (per amp)",
+        "DOVE": 250
+      },
+      {
+        "PRESCRIPTION NAME": "HYDROCORTISONE 15MG (per tube)",
+        "DOVE": 500
+      },
+      {
+        "PRESCRIPTION NAME": "HYDROCORTISONE TABS 10MG",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "HYDROXYPREGESTERONE (PER TAB)",
+        "DOVE": 243.75
+      },
+      {
+        "PRESCRIPTION NAME": "HYOSCINE N BUTYL BROMIDE (per tab)",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "HYOSCINE N BUTYL BROMIDE 20MG (per amp)",
+        "DOVE": 300
+      },
+      {
+        "PRESCRIPTION NAME": "HYPOMELLOSE EYE DROP (per bot)",
+        "DOVE": 650
+      },
+      {
+        "PRESCRIPTION NAME": "HYPOTEARS GEL",
+        "DOVE": 1787.5
+      },
+      {
+        "PRESCRIPTION NAME": "HYPOVASE 1MG (per tab)",
+        "DOVE": 75
+      },
+      {
+        "PRESCRIPTION NAME": "IBUFROPEN 400MG (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "IBUPROFEN 100MG/5ML (per bot)",
+        "DOVE": 500
+      },
+      {
+        "PRESCRIPTION NAME": "IBUPROFEN 200MG (per tab)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "IKACLOMIN 50MG (per tab)",
+        "DOVE": 1787.5
+      },
+      {
+        "PRESCRIPTION NAME": "IMMUNACE (per tab)",
+        "DOVE": 81.25
+      },
+      {
+        "PRESCRIPTION NAME": "IMODIUM 4MG (per tab)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "INDERAL 40MG (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "INDOMEHACINE (per tab)",
+        "DOVE": 6.25
+      },
+      {
+        "PRESCRIPTION NAME": "INFERON (PER AMP)",
+        "DOVE": 162.5
+      },
+      {
+        "PRESCRIPTION NAME": "Infusion Set (per unit)",
+        "DOVE": 200
+      },
+      {
+        "PRESCRIPTION NAME": "Inj Piroxicam",
+        "DOVE": 100
+      },
+      {
+        "PRESCRIPTION NAME": "INSULIN LENTEL 40 IU (per vial)",
+        "DOVE": 2018.75
+      },
+      {
+        "PRESCRIPTION NAME": "INSULIN SYRINGE 100 IU (per piece)",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "INSULIN SYRINGE 40 IU (per piece)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "INTERFLOX 500MG (per cap)",
+        "DOVE": 893.75
+      },
+      {
+        "PRESCRIPTION NAME": "Iron Dextran Inj 50mg/2ml (per amp)",
+        "DOVE": 100
+      },
+      {
+        "PRESCRIPTION NAME": "ISOPLASMA",
+        "DOVE": 2875
+      },
+      {
+        "PRESCRIPTION NAME": "ISORDIL 10MG (per tab)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "ISORDIL 5MG (per tab)",
+        "DOVE": 31.25
+      },
+      {
+        "PRESCRIPTION NAME": "ISOSORBIDE 10MG (PER TAB)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "ISOSORBIDE 5MG (PER TAB)",
+        "DOVE": 16.25
+      },
+      {
+        "PRESCRIPTION NAME": "ITRANOX 100MG (per tab)",
+        "DOVE": 237.5
+      },
+      {
+        "PRESCRIPTION NAME": "IV Cannula (per unit)",
+        "DOVE": 150
+      },
+      {
+        "PRESCRIPTION NAME": "IVYCROM EYE DROP",
+        "DOVE": 1250
+      },
+      {
+        "PRESCRIPTION NAME": "IVYDEXGENT (PER BOT)",
+        "DOVE": 975
+      },
+      {
+        "PRESCRIPTION NAME": "IVYFLUR",
+        "DOVE": 1250
+      },
+      {
+        "PRESCRIPTION NAME": "IVYMORCELL EYE DROP",
+        "DOVE": 975
+      },
+      {
+        "PRESCRIPTION NAME": "IVYZINC",
+        "DOVE": 750
+      },
+      {
+        "PRESCRIPTION NAME": "KENACOMB CREAM (per tube)",
+        "DOVE": 780
+      },
+      {
+        "PRESCRIPTION NAME": "KENALOG 40MG (per amp)",
+        "DOVE": 1787.5
+      },
+      {
+        "PRESCRIPTION NAME": "Ketamin Inj (per vial)",
+        "DOVE": 337.5
+      },
+      {
+        "PRESCRIPTION NAME": "KETOCONAZOLE 200MG (per tab)",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "KETOLAC INJ",
+        "DOVE": 1250
+      },
+      {
+        "PRESCRIPTION NAME": "KETRAX (PER TAB).",
+        "DOVE": 53.75
+      },
+      {
+        "PRESCRIPTION NAME": "KOTASE (per tab)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "Labetalol 100mg",
+        "DOVE": 187.5
+      },
+      {
+        "PRESCRIPTION NAME": "Labetalol 400mg",
+        "DOVE": 250
+      },
+      {
+        "PRESCRIPTION NAME": "LAMISIL 250MG (per tab)",
+        "DOVE": 650
+      },
+      {
+        "PRESCRIPTION NAME": "LAMISIL CREAM 15G (per tube)",
+        "DOVE": 2193.75
+      },
+      {
+        "PRESCRIPTION NAME": "Lantanoprost",
+        "DOVE": 562.5
+      },
+      {
+        "PRESCRIPTION NAME": "LARITHER 80MG INJ (per amp)",
+        "DOVE": 375
+      },
+      {
+        "PRESCRIPTION NAME": "LESCOL 20MG (per cap)",
+        "DOVE": 243.75
+      },
+      {
+        "PRESCRIPTION NAME": "Levetiractam 250mg(Keppra)",
+        "DOVE": 150
+      },
+      {
+        "PRESCRIPTION NAME": "LEVOFLOXACIN INF 100ML",
+        "DOVE": 1056.25
+      },
+      {
+        "PRESCRIPTION NAME": "LEVOFLOXACIN TAB 500MG",
+        "DOVE": 113.75
+      },
+      {
+        "PRESCRIPTION NAME": "Lexotab tabs",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "Lexotan Inj",
+        "DOVE": 75
+      },
+      {
+        "PRESCRIPTION NAME": "LEXOTHAN 1.5MG (per tab)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "LEXOTHAN 3MG (per tab)",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "LINCOMYCIN 500MG (per cap)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "LINCOMYCIN INJ 300MG (PER AMP)",
+        "DOVE": 325
+      },
+      {
+        "PRESCRIPTION NAME": "LIPITOR 10MG (per tab)",
+        "DOVE": 293.75
+      },
+      {
+        "PRESCRIPTION NAME": "LIPITOR 20MG (per tab)",
+        "DOVE": 487.5
+      },
+      {
+        "PRESCRIPTION NAME": "LISINOPRIL 10MG (per tab)",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "LISINOPRIL 5MG (per tab)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "LIV 52 (PER TAB)",
+        "DOVE": 21.25
+      },
+      {
+        "PRESCRIPTION NAME": "LIVOLIN FORTE TABS (per tab)",
+        "DOVE": 67.5
+      },
+      {
+        "PRESCRIPTION NAME": "LOCASALENE CREAM 30MG (per tube)",
+        "DOVE": 1543.75
+      },
+      {
+        "PRESCRIPTION NAME": "LO-FEMINAL (per sach)",
+        "DOVE": 81.25
+      },
+      {
+        "PRESCRIPTION NAME": "LOKMAL (per pack",
+        "DOVE": 975
+      },
+      {
+        "PRESCRIPTION NAME": "LOMOTIL (per tab)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "LONART (per pack)",
+        "DOVE": 1125
+      },
+      {
+        "PRESCRIPTION NAME": "LONART SUSPENSION",
+        "DOVE": 1056.25
+      },
+      {
+        "PRESCRIPTION NAME": "LONART TAB (PER TAB)",
+        "DOVE": 47.5
+      },
+      {
+        "PRESCRIPTION NAME": "LORATIDE SYRUP",
+        "DOVE": 975
+      },
+      {
+        "PRESCRIPTION NAME": "LORATYN 10MG (per tab)",
+        "DOVE": 30
+      },
+      {
+        "PRESCRIPTION NAME": "LOSARTAN 60MG PER TAB",
+        "DOVE": 112.5
+      },
+      {
+        "PRESCRIPTION NAME": "MANIX (per tab)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "MAXIDEX EYE DROP (per bot)",
+        "DOVE": 1300
+      },
+      {
+        "PRESCRIPTION NAME": "MAXITROL EYE DROP (per bot)",
+        "DOVE": 1543.75
+      },
+      {
+        "PRESCRIPTION NAME": "MAXIVISION (per cap)",
+        "DOVE": 106.25
+      },
+      {
+        "PRESCRIPTION NAME": "MAXOLON (PER TAB)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "Measles, Mumps & Rubella (MMR) Vaccine",
+        "DOVE": 5468.75
+      },
+      {
+        "PRESCRIPTION NAME": "MECTIZAN (IVERMECTIN) 3MG (per tab)",
+        "DOVE": 262.5
+      },
+      {
+        "PRESCRIPTION NAME": "MEFENAMIC ACID 250MG (per tab)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "MELOXICAM (per tab)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "MELROSUM WITH CODEIN 100ML (per bot)",
+        "DOVE": 975
+      },
+      {
+        "PRESCRIPTION NAME": "Meningitis Vaccine",
+        "DOVE": 13125
+      },
+      {
+        "PRESCRIPTION NAME": "MENOGON 75 IU (per pack)",
+        "DOVE": 6175
+      },
+      {
+        "PRESCRIPTION NAME": "MENTHODEX (per bot)",
+        "DOVE": 731.25
+      },
+      {
+        "PRESCRIPTION NAME": "MEPRASIL 20MG (per cap)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "MEROPENEM 1G INJ (PER AMP)",
+        "DOVE": 16250
+      },
+      {
+        "PRESCRIPTION NAME": "MEROPENEM 500MG INJ (PER AMP)",
+        "DOVE": 10725
+      },
+      {
+        "PRESCRIPTION NAME": "Mesterolone Tabs 25mg (per tab)",
+        "DOVE": 56.25
+      },
+      {
+        "PRESCRIPTION NAME": "METAKELFIN (per tab)",
+        "DOVE": 162.5
+      },
+      {
+        "PRESCRIPTION NAME": "METAPRIM 25MG (per tab)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "METFORMIN 1G (per tab)",
+        "DOVE": 112.5
+      },
+      {
+        "PRESCRIPTION NAME": "METFORMIN 500MG (per tab)",
+        "DOVE": 93.75
+      },
+      {
+        "PRESCRIPTION NAME": "METHYL DOPA 250MG(ALDOMET) (per tab)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "METHYL DOPA 500MG(ALDOMET) (per tab)",
+        "DOVE": 75
+      },
+      {
+        "PRESCRIPTION NAME": "METOCLOPRAMIDE 10MG (per tab)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "METOCLOPRAMIDE 5MG INJ (per amp)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "METRONIDAZOLE 200MG (per tab)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "METRONIDAZOLE 200MG/5ML (per bot)",
+        "DOVE": 362.5
+      },
+      {
+        "PRESCRIPTION NAME": "METRONIDAZOLE 400MG (per tab)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "METRONIDAZOLE INFUSION (per inf)",
+        "DOVE": 250
+      },
+      {
+        "PRESCRIPTION NAME": "METRONIDAZOLE INJ (PER AMP)",
+        "DOVE": 562.5
+      },
+      {
+        "PRESCRIPTION NAME": "MILK OF MAGNESIA PHILIP 200MLS (per bot)",
+        "DOVE": 1950
+      },
+      {
+        "PRESCRIPTION NAME": "MILK OF MAGNESIA(100MLS)",
+        "DOVE": 975
+      },
+      {
+        "PRESCRIPTION NAME": "MINIPRESS 1MG (per tab)",
+        "DOVE": 150
+      },
+      {
+        "PRESCRIPTION NAME": "MINIZIDE (per tab)",
+        "DOVE": 112.5
+      },
+      {
+        "PRESCRIPTION NAME": "MIST KAOLIN (per bot)",
+        "DOVE": 225
+      },
+      {
+        "PRESCRIPTION NAME": "MIST MAG. (PER BOT).",
+        "DOVE": 750
+      },
+      {
+        "PRESCRIPTION NAME": "MIST POTASSIUM CITRATE (per bot)",
+        "DOVE": 406.25
+      },
+      {
+        "PRESCRIPTION NAME": "MIXTARD INSULIN 3ML (per catridge)",
+        "DOVE": 5625
+      },
+      {
+        "PRESCRIPTION NAME": "MIXTARD INSULIN PER 40 I.U/ML",
+        "DOVE": 845
+      },
+      {
+        "PRESCRIPTION NAME": "MODECATE 25MG INJ (per amp)",
+        "DOVE": 406.25
+      },
+      {
+        "PRESCRIPTION NAME": "MODURETIC (per tab)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "MONOTARD INSULIN HM 100 IU/ML (per vial)",
+        "DOVE": 4550
+      },
+      {
+        "PRESCRIPTION NAME": "MOSEGOR 0.5MG (per tab)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "MOSEGOR 100MLS (per bot)",
+        "DOVE": 2550
+      },
+      {
+        "PRESCRIPTION NAME": "MOTILIUM 10MG (per tab)",
+        "DOVE": 43.75
+      },
+      {
+        "PRESCRIPTION NAME": "Multiple Delivery",
+        "DOVE": 31250
+      },
+      {
+        "PRESCRIPTION NAME": "MYCOTEN CREAM 20G (per tube)",
+        "DOVE": 293.75
+      },
+      {
+        "PRESCRIPTION NAME": "MYCOTEN OVULE 100MG (per ovule)",
+        "DOVE": 650
+      },
+      {
+        "PRESCRIPTION NAME": "MYDRIACYL EYE DROP (per bot)",
+        "DOVE": 1300
+      },
+      {
+        "PRESCRIPTION NAME": "NAPROXEN 500MG (PER TAB)",
+        "DOVE": 70
+      },
+      {
+        "PRESCRIPTION NAME": "Nasogastric (NG) TUbe",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "NATRILIX (PER TAB)",
+        "DOVE": 100
+      },
+      {
+        "PRESCRIPTION NAME": "Needle (per unit)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "NEOMERCAZOLE 5MG (per tab)",
+        "DOVE": 43.75
+      },
+      {
+        "PRESCRIPTION NAME": "NEPAFLAM EYE DROP",
+        "DOVE": 1375
+      },
+      {
+        "PRESCRIPTION NAME": "Neuracalm",
+        "DOVE": 150
+      },
+      {
+        "PRESCRIPTION NAME": "NEUROBION (per tab)",
+        "DOVE": 93.75
+      },
+      {
+        "PRESCRIPTION NAME": "NEUROGESIC GEL (per tube)",
+        "DOVE": 462.5
+      },
+      {
+        "PRESCRIPTION NAME": "NEXIUM TABS (per tab)",
+        "DOVE": 550
+      },
+      {
+        "PRESCRIPTION NAME": "NICOTINIC ACID (per tab)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "NIFEDIPINE 20MG (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "NIFEGEM RETARD 20MG (per tab)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "NITRAZEPAM 5MG (per tab)",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "NITROFURANTOIN 100MG (per tab)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "NIVAQUINE FORTE CAP (per cap)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "NIZORAL 200MG (per tab)",
+        "DOVE": 131.25
+      },
+      {
+        "PRESCRIPTION NAME": "NIZORAL CREAM 15MG (per tube)",
+        "DOVE": 1056.25
+      },
+      {
+        "PRESCRIPTION NAME": "NIZORAL SHAMPOO (per bot)",
+        "DOVE": 1950
+      },
+      {
+        "PRESCRIPTION NAME": "NORFLEX TABS (per tab)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "NORGESIC TAB",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "NORMORETIC (per tab)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "NORVASC 10MG (per tab)",
+        "DOVE": 287.5
+      },
+      {
+        "PRESCRIPTION NAME": "NORVASC 5MG (per tab)",
+        "DOVE": 156.25
+      },
+      {
+        "PRESCRIPTION NAME": "NOSPA INJ (PER AMP)",
+        "DOVE": 357.5
+      },
+      {
+        "PRESCRIPTION NAME": "NOSPA TABS 40MG (per tab)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "NOSPAMIN DROPS",
+        "DOVE": 292.5
+      },
+      {
+        "PRESCRIPTION NAME": "NOVALGIN 500MG (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "NPI Immunisation-Each (Unregistered Enrollees)",
+        "DOVE": 781.25
+      },
+      {
+        "PRESCRIPTION NAME": "NYOLOL 0.5 EYE DROP (per bot)",
+        "DOVE": 1462.5
+      },
+      {
+        "PRESCRIPTION NAME": "NYOLOL OPTHALMIC GEL 0.1% 5G (per bot)",
+        "DOVE": 1543.75
+      },
+      {
+        "PRESCRIPTION NAME": "NYSTATIN (PER TAB)",
+        "DOVE": 406.25
+      },
+      {
+        "PRESCRIPTION NAME": "NYSTATIN CREAM (PER TUBE)",
+        "DOVE": 731.25
+      },
+      {
+        "PRESCRIPTION NAME": "NYSTATIN ORAL DROPS 30MLS (per bot)",
+        "DOVE": 975
+      },
+      {
+        "PRESCRIPTION NAME": "NYSTATIN PESSARIES (PER TAB)",
+        "DOVE": 43.75
+      },
+      {
+        "PRESCRIPTION NAME": "OBRON 6 CAP (per cap)",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "OCUVITE (per tab)",
+        "DOVE": 75
+      },
+      {
+        "PRESCRIPTION NAME": "Ofloxacin Caps 200mg (per cap)",
+        "DOVE": 100
+      },
+      {
+        "PRESCRIPTION NAME": "OKACIN EYE DROP (per bot)",
+        "DOVE": 1625
+      },
+      {
+        "PRESCRIPTION NAME": "OLANZAPINE 5MG (per tab)",
+        "DOVE": 425
+      },
+      {
+        "PRESCRIPTION NAME": "OLFEN GEL (per tube)",
+        "DOVE": 975
+      },
+      {
+        "PRESCRIPTION NAME": "OMEGA H3 (per cap)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "OMEPRAZOLE 40MG INJ (PER AMP)",
+        "DOVE": 893.75
+      },
+      {
+        "PRESCRIPTION NAME": "OMEPRAZOLE 20MG (PER TAB).",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "ONDANSETRONE INJ (PER AMP)",
+        "DOVE": 812.5
+      },
+      {
+        "PRESCRIPTION NAME": "Optodexin",
+        "DOVE": 875
+      },
+      {
+        "PRESCRIPTION NAME": "ORAL REHYDRATION SALT",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "OROFER SYRUP",
+        "DOVE": 625
+      },
+      {
+        "PRESCRIPTION NAME": "ORUVAIL 200MG (per cap)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "OSTEOCARE (per tab)",
+        "DOVE": 87.5
+      },
+      {
+        "PRESCRIPTION NAME": "OTOMED EAR DROP (per bot)",
+        "DOVE": 487.5
+      },
+      {
+        "PRESCRIPTION NAME": "OTRIVIN NASAL DROP 0.1% 10MLS (per bot)",
+        "DOVE": 1062.5
+      },
+      {
+        "PRESCRIPTION NAME": "OTRIVIN NASAL DROPS 0.05% 10MLS (per bot)",
+        "DOVE": 1000
+      },
+      {
+        "PRESCRIPTION NAME": "OXYTOCIN 10MG INJ PER AMP",
+        "DOVE": 162.5
+      },
+      {
+        "PRESCRIPTION NAME": "PALUDRINE 100MG TAB (per tab)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "PALUTHER 80MG INJ (per amp)",
+        "DOVE": 487.5
+      },
+      {
+        "PRESCRIPTION NAME": "PARACETAMOL (per tab)",
+        "DOVE": 6.25
+      },
+      {
+        "PRESCRIPTION NAME": "PARACETAMOL 125MG SUPPOSITORY",
+        "DOVE": 65
+      },
+      {
+        "PRESCRIPTION NAME": "Paracetamol infusion",
+        "DOVE": 1000
+      },
+      {
+        "PRESCRIPTION NAME": "Paracetamol Inj (per amp)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "PARACETAMOL SYRUP 125MG/5MLS (per bot)",
+        "DOVE": 312.5
+      },
+      {
+        "PRESCRIPTION NAME": "PARAFIN LIQUID (per bot)",
+        "DOVE": 568.75
+      },
+      {
+        "PRESCRIPTION NAME": "PARALDEHYDE INJ",
+        "DOVE": 406.25
+      },
+      {
+        "PRESCRIPTION NAME": "PARIET 20MG (per tab)",
+        "DOVE": 162.5
+      },
+      {
+        "PRESCRIPTION NAME": "PAROXETIN 100MG(PER TAB)",
+        "DOVE": 225
+      },
+      {
+        "PRESCRIPTION NAME": "PATANOL (OLOPATADINE) EYE DROP",
+        "DOVE": 3087.5
+      },
+      {
+        "PRESCRIPTION NAME": "PEFLACINE 400MG (per tab)",
+        "DOVE": 237.5
+      },
+      {
+        "PRESCRIPTION NAME": "PEFLOXACIN 400MG (per tab)",
+        "DOVE": 75
+      },
+      {
+        "PRESCRIPTION NAME": "PENICILLIN OINTMENT (PER TUBE)",
+        "DOVE": 250
+      },
+      {
+        "PRESCRIPTION NAME": "PENTAZOCINE 30MG INJ (per amp)",
+        "DOVE": 200
+      },
+      {
+        "PRESCRIPTION NAME": "PERSANTIN (PER TAB)",
+        "DOVE": 67.5
+      },
+      {
+        "PRESCRIPTION NAME": "PHENEGAN CREAM 2% 30G (per tube)",
+        "DOVE": 975
+      },
+      {
+        "PRESCRIPTION NAME": "PHENOBARBITONE 30MG (per tab)",
+        "DOVE": 6.25
+      },
+      {
+        "PRESCRIPTION NAME": "PHENOBARBITONE SYRUP (PER BOT)",
+        "DOVE": 625
+      },
+      {
+        "PRESCRIPTION NAME": "PHENYTOIN 100MG (per cap)",
+        "DOVE": 31.25
+      },
+      {
+        "PRESCRIPTION NAME": "PILOCARPINE EYE DROP 2% (per bot)",
+        "DOVE": 975
+      },
+      {
+        "PRESCRIPTION NAME": "PILOCARPINE EYE DROP 4% (per bot)",
+        "DOVE": 1056.25
+      },
+      {
+        "PRESCRIPTION NAME": "PIOGLITAZONE HCL 30MG (PER TAB).",
+        "DOVE": 975
+      },
+      {
+        "PRESCRIPTION NAME": "PIRITON (per tab)",
+        "DOVE": 6.25
+      },
+      {
+        "PRESCRIPTION NAME": "PIRITON EXPECTORANT 100MLS (per bot)",
+        "DOVE": 325
+      },
+      {
+        "PRESCRIPTION NAME": "PIRITON INJECTION 10MG/ML",
+        "DOVE": 48.75
+      },
+      {
+        "PRESCRIPTION NAME": "PIROXICAM 20MG (per cap)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "POLYCROL FORTE GEL 100MLS (per bot)",
+        "DOVE": 625
+      },
+      {
+        "PRESCRIPTION NAME": "POTASSIUM CHLORIDE 3MG INJ (AMP)",
+        "DOVE": 373.75
+      },
+      {
+        "PRESCRIPTION NAME": "POTASSIUM PERMANGANATE",
+        "DOVE": 625
+      },
+      {
+        "PRESCRIPTION NAME": "PRAZIQUANTEL 600MG (per tab)",
+        "DOVE": 100
+      },
+      {
+        "PRESCRIPTION NAME": "PREDNISOLONE 5MG (per tab)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "PREDNISOLONE EYE DROP (PER BOT).",
+        "DOVE": 500
+      },
+      {
+        "PRESCRIPTION NAME": "Pregabalim 75mg",
+        "DOVE": 300
+      },
+      {
+        "PRESCRIPTION NAME": "PREGNACARE (per cap)",
+        "DOVE": 75
+      },
+      {
+        "PRESCRIPTION NAME": "PREGYNL 5000 IU (per pack)",
+        "DOVE": 3575
+      },
+      {
+        "PRESCRIPTION NAME": "PRIMOLUT DEPOT 250MG (per vial)",
+        "DOVE": 1462.5
+      },
+      {
+        "PRESCRIPTION NAME": "PRIMOLUT N 5MG (per tab)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "PROGUANIL 100MG (per tab)",
+        "DOVE": 156.25
+      },
+      {
+        "PRESCRIPTION NAME": "PROMETHAZINE 25MG (per tab)",
+        "DOVE": 6.25
+      },
+      {
+        "PRESCRIPTION NAME": "PROMETHAZINE 50MG INJ (per amp)",
+        "DOVE": 200
+      },
+      {
+        "PRESCRIPTION NAME": "PROMETHAZINE 5MG/5MG ELIXIR (per bot)",
+        "DOVE": 312.5
+      },
+      {
+        "PRESCRIPTION NAME": "PROMETHAZINE INJ 25MG/AMP",
+        "DOVE": 150
+      },
+      {
+        "PRESCRIPTION NAME": "PROPANOLOL 40MG (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "PROSCAR 5MG (per tab)",
+        "DOVE": 387.5
+      },
+      {
+        "PRESCRIPTION NAME": "PROSPENEM(PER VIAL)",
+        "DOVE": 4000
+      },
+      {
+        "PRESCRIPTION NAME": "PROVIRON 25 MG (per tab)",
+        "DOVE": 75
+      },
+      {
+        "PRESCRIPTION NAME": "PYRAZINAMIDE 500MG (per tab)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "PYRAZINAMIDE SYRUP (per bot)",
+        "DOVE": 650
+      },
+      {
+        "PRESCRIPTION NAME": "PYRIDOXINE 50MG (per tab)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "QUININE 300MG (per tab)",
+        "DOVE": 31.25
+      },
+      {
+        "PRESCRIPTION NAME": "QUININE INJ 300MG",
+        "DOVE": 81.25
+      },
+      {
+        "PRESCRIPTION NAME": "QUININE SYRUP 200MLS (per bot)",
+        "DOVE": 487.5
+      },
+      {
+        "PRESCRIPTION NAME": "RANFERON BLOOD TONIC 200MLS (per bot)",
+        "DOVE": 406.25
+      },
+      {
+        "PRESCRIPTION NAME": "RANFERON-12 (per tab)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "RANITHIDINE INJ 50MG (PER AMP)",
+        "DOVE": 837.5
+      },
+      {
+        "PRESCRIPTION NAME": "REGROTON (per tab)",
+        "DOVE": 75
+      },
+      {
+        "PRESCRIPTION NAME": "RETIN A CREAM (per tube)",
+        "DOVE": 2437.5
+      },
+      {
+        "PRESCRIPTION NAME": "Retinol (Vit A) Caps (per cap)",
+        "DOVE": 18.75
+      },
+      {
+        "PRESCRIPTION NAME": "Retinol (Vit A) Syrup (per 200mls bot)",
+        "DOVE": 562.5
+      },
+      {
+        "PRESCRIPTION NAME": "RHINATHIOL SYRUP (per 100ml bot)",
+        "DOVE": 1381.25
+      },
+      {
+        "PRESCRIPTION NAME": "Rhogam Injection",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Riboflavine (Vit B2) Tabs 5mg (per tab)",
+        "DOVE": 6.25
+      },
+      {
+        "PRESCRIPTION NAME": "RINGERS LACTATE INJ",
+        "DOVE": 850
+      },
+      {
+        "PRESCRIPTION NAME": "ROHYPNOL 1MG (per tab)",
+        "DOVE": 150
+      },
+      {
+        "PRESCRIPTION NAME": "Rosuvastatin 10MG",
+        "DOVE": 200
+      },
+      {
+        "PRESCRIPTION NAME": "Rosuvastatin 20MG",
+        "DOVE": 312.5
+      },
+      {
+        "PRESCRIPTION NAME": "Rosuvastatin 5MG",
+        "DOVE": 150
+      },
+      {
+        "PRESCRIPTION NAME": "ROVIGON (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "ROXID TABS (per tab)",
+        "DOVE": 81.25
+      },
+      {
+        "PRESCRIPTION NAME": "ROXITHROMYCIN TABS (per tab)",
+        "DOVE": 81.25
+      },
+      {
+        "PRESCRIPTION NAME": "SABRESTEN CREAM DERMAL (per tube)",
+        "DOVE": 406.25
+      },
+      {
+        "PRESCRIPTION NAME": "SABRESTEN VAG CREAM (per tube)",
+        "DOVE": 650
+      },
+      {
+        "PRESCRIPTION NAME": "SALBUTAMOL 100MCG INHALER (per piece)",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "SALBUTAMOL 4MG (per tab)",
+        "DOVE": 6.25
+      },
+      {
+        "PRESCRIPTION NAME": "Salbutamol Aerosol (per spray can)",
+        "DOVE": 1125
+      },
+      {
+        "PRESCRIPTION NAME": "SALBUTAMOL SYRUP (PER BOT)",
+        "DOVE": 731.25
+      },
+      {
+        "PRESCRIPTION NAME": "SALICYLIC ACID OINT 20% (per bot)",
+        "DOVE": 781.25
+      },
+      {
+        "PRESCRIPTION NAME": "SALINE NASAL DROP (per tab)",
+        "DOVE": 1137.5
+      },
+      {
+        "PRESCRIPTION NAME": "SANATOGEN M/VIT GOLD (per tab)",
+        "DOVE": 75
+      },
+      {
+        "PRESCRIPTION NAME": "Scalp Vein Needle (per unit)",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "SECNIDAZOLE 500MG(PER TAB)",
+        "DOVE": 122.5
+      },
+      {
+        "PRESCRIPTION NAME": "SECWID 400MG (PER TAB)",
+        "DOVE": 101.25
+      },
+      {
+        "PRESCRIPTION NAME": "SERETIDE DISKUS-CHILDREN (per pack)",
+        "DOVE": 8125
+      },
+      {
+        "PRESCRIPTION NAME": "SERETIDE DISKUS- ADULT (per pack)",
+        "DOVE": 10400
+      },
+      {
+        "PRESCRIPTION NAME": "SIMVASTATIN 20MG TAB",
+        "DOVE": 41.25
+      },
+      {
+        "PRESCRIPTION NAME": "SIMVOR 20MG (per tab)",
+        "DOVE": 287.5
+      },
+      {
+        "PRESCRIPTION NAME": "SINUFED SYRUP (per bot)",
+        "DOVE": 406.25
+      },
+      {
+        "PRESCRIPTION NAME": "SKINHEAL CREAM (PER TUBE)",
+        "DOVE": 812.5
+      },
+      {
+        "PRESCRIPTION NAME": "SLOW-K 600MG (per tab)",
+        "DOVE": 250
+      },
+      {
+        "PRESCRIPTION NAME": "SODIUM BICARBONATE 8.4% INJ (per amp)",
+        "DOVE": 406.25
+      },
+      {
+        "PRESCRIPTION NAME": "SODIUM CHROMOGLYCATE EYE DROP (per bot)",
+        "DOVE": 975
+      },
+      {
+        "PRESCRIPTION NAME": "Sodium vaporate (epilium 200mg)",
+        "DOVE": 162.5
+      },
+      {
+        "PRESCRIPTION NAME": "SOLUSET (per piece)",
+        "DOVE": 1300
+      },
+      {
+        "PRESCRIPTION NAME": "SPARFLOXACIN 200MG (per tab)",
+        "DOVE": 131.25
+      },
+      {
+        "PRESCRIPTION NAME": "SPERSALLERGE EYE DROP (per bot)",
+        "DOVE": 893.75
+      },
+      {
+        "PRESCRIPTION NAME": "SPIRONOLACTONE 25MG (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "STARXON (per vial)",
+        "DOVE": 1137.5
+      },
+      {
+        "PRESCRIPTION NAME": "STEMETIL 5MG (per tab)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "Stilboesterol Tabs (per tab)",
+        "DOVE": 7.5
+      },
+      {
+        "PRESCRIPTION NAME": "STREPSIL LOZENGES (per tab)",
+        "DOVE": 43.75
+      },
+      {
+        "PRESCRIPTION NAME": "STREPTOMYCIN 5MG INJ (per vial)",
+        "DOVE": 162.5
+      },
+      {
+        "PRESCRIPTION NAME": "STUGERON 25MG (per tab)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "SUFFRATULE(PER PACK)",
+        "DOVE": 1137.5
+      },
+      {
+        "PRESCRIPTION NAME": "SUFFRATULE(PER PIECE)",
+        "DOVE": 113.75
+      },
+      {
+        "PRESCRIPTION NAME": "SULPHADEINE PLUS SOLUBLE (per tab)",
+        "DOVE": 81.25
+      },
+      {
+        "PRESCRIPTION NAME": "SUPREFACT INJ (per vial)",
+        "DOVE": 12187.5
+      },
+      {
+        "PRESCRIPTION NAME": "SUSTANON 250MG (per amp)",
+        "DOVE": 3250
+      },
+      {
+        "PRESCRIPTION NAME": "SYNTOCINON INJ (per amp)",
+        "DOVE": 650
+      },
+      {
+        "PRESCRIPTION NAME": "Syringe & Needle 10ml (per unit)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "Syringe & Needle 20ml (per unit)",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "Syringe & Needle 2ml (per unit)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "Syringe & Needle 5ml (per unit)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "SYRUP FLUCAMED",
+        "DOVE": 1397.5
+      },
+      {
+        "PRESCRIPTION NAME": "Tab Gentamycin",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "TABALON 400MG (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "TAMSULOSIN(PER TAB)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "TARIVID 200MG (per tab)",
+        "DOVE": 225
+      },
+      {
+        "PRESCRIPTION NAME": "TAVEGYL 1MG (per tab)",
+        "DOVE": 75
+      },
+      {
+        "PRESCRIPTION NAME": "TEAR NATURALE EYE DROP (per bot)",
+        "DOVE": 1462.5
+      },
+      {
+        "PRESCRIPTION NAME": "TEGRETOL 200MG (per tab)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "TEGRETOL CR 400MG (per tab)",
+        "DOVE": 250
+      },
+      {
+        "PRESCRIPTION NAME": "TENORETIC (per tab)",
+        "DOVE": 243.75
+      },
+      {
+        "PRESCRIPTION NAME": "Terbinafine Tabs 250mg (per tab)",
+        "DOVE": 362.5
+      },
+      {
+        "PRESCRIPTION NAME": "Testosterone Inj 200mg/ml (per amp)",
+        "DOVE": 62.5
+      },
+      {
+        "PRESCRIPTION NAME": "TETANUS TOXOID (per dose)",
+        "DOVE": 312.5
+      },
+      {
+        "PRESCRIPTION NAME": "Tetanus Toxoid/ATS Each",
+        "DOVE": 312.5
+      },
+      {
+        "PRESCRIPTION NAME": "TETRACYCLINE 250MG (per cap)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "THALAZOLE 500MG (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "Thiamine (Vit B1)",
+        "DOVE": 2.5
+      },
+      {
+        "PRESCRIPTION NAME": "Thiopentone Sodium",
+        "DOVE": 337.5
+      },
+      {
+        "PRESCRIPTION NAME": "THROXINE 100MCG (per tab)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "THYROXINE 0.5MG (per tab)",
+        "DOVE": 100
+      },
+      {
+        "PRESCRIPTION NAME": "TIMOLOL EYE DROP 0.5% (per bot)",
+        "DOVE": 893.75
+      },
+      {
+        "PRESCRIPTION NAME": "TOBRAMYCIN OINTMENT",
+        "DOVE": 1543.75
+      },
+      {
+        "PRESCRIPTION NAME": "TOBREX EYE DROP",
+        "DOVE": 1543.75
+      },
+      {
+        "PRESCRIPTION NAME": "TRAMADOL 50MG (per cap)",
+        "DOVE": 187.5
+      },
+      {
+        "PRESCRIPTION NAME": "TRAMADOL 50MG INJ. (per vial)",
+        "DOVE": 211.25
+      },
+      {
+        "PRESCRIPTION NAME": "TRANEXAMIC ACID 500mg (PER TAB)",
+        "DOVE": 250
+      },
+      {
+        "PRESCRIPTION NAME": "TRANXEMIC ACID 100MG INJ (PER AMP)",
+        "DOVE": 650
+      },
+      {
+        "PRESCRIPTION NAME": "TRAVANTAN EYE DROP (per bot)",
+        "DOVE": 8612.5
+      },
+      {
+        "PRESCRIPTION NAME": "TRAVOCORT CREAM (per tab)",
+        "DOVE": 1543.75
+      },
+      {
+        "PRESCRIPTION NAME": "Triamcinolone Inj (per amp)",
+        "DOVE": 1062.5
+      },
+      {
+        "PRESCRIPTION NAME": "TRIFLUOPERAZINE 5MG (per tab)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "TROSYD CREAM (per tube)",
+        "DOVE": 1787.5
+      },
+      {
+        "PRESCRIPTION NAME": "Typhoid Vaccine",
+        "DOVE": 5468.75
+      },
+      {
+        "PRESCRIPTION NAME": "UNASYN (PER TAB)",
+        "DOVE": 200
+      },
+      {
+        "PRESCRIPTION NAME": "UNASYN INJECTION (PER AMP)",
+        "DOVE": 812.5
+      },
+      {
+        "PRESCRIPTION NAME": "URINE BAG",
+        "DOVE": 87.5
+      },
+      {
+        "PRESCRIPTION NAME": "VALIUM 10MG (per amp)",
+        "DOVE": 243.75
+      },
+      {
+        "PRESCRIPTION NAME": "VANCOMYCIN 1G INJ (PER AMP)",
+        "DOVE": 3412.5
+      },
+      {
+        "PRESCRIPTION NAME": "VASOPRIN 75MG TAB",
+        "DOVE": 6.25
+      },
+      {
+        "PRESCRIPTION NAME": "VENTOLIN 2MG (per tab)",
+        "DOVE": 25
+      },
+      {
+        "PRESCRIPTION NAME": "VENTOLIN INHALER (per pack)",
+        "DOVE": 1300
+      },
+      {
+        "PRESCRIPTION NAME": "VENTOLIN NEBULES 2.5MG (per neb)",
+        "DOVE": 137.5
+      },
+      {
+        "PRESCRIPTION NAME": "VENTOLIN NEBULES 5MG (per neb)",
+        "DOVE": 243.75
+      },
+      {
+        "PRESCRIPTION NAME": "VENTOLIN SYRUP 5MG/VIAL (per bot)",
+        "DOVE": 812.5
+      },
+      {
+        "PRESCRIPTION NAME": "VICRYL(PER STOOL)",
+        "DOVE": 625
+      },
+      {
+        "PRESCRIPTION NAME": "VISINE EYE DROP (per bot)",
+        "DOVE": 1056.25
+      },
+      {
+        "PRESCRIPTION NAME": "VIT A TAB",
+        "DOVE": 13.75
+      },
+      {
+        "PRESCRIPTION NAME": "VIT B COMPLEX (per tab)",
+        "DOVE": 12.5
+      },
+      {
+        "PRESCRIPTION NAME": "VIT B COMPLEX SYRUP (per bot)",
+        "DOVE": 312.5
+      },
+      {
+        "PRESCRIPTION NAME": "VIT C 100MG (per tab)",
+        "DOVE": 6.25
+      },
+      {
+        "PRESCRIPTION NAME": "VIT C INJ (per amp)",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "VIT C SYRUP (per bot)",
+        "DOVE": 200
+      },
+      {
+        "PRESCRIPTION NAME": "VIT E 1000 IU NATURE MADE (per tab)",
+        "DOVE": 75
+      },
+      {
+        "PRESCRIPTION NAME": "VIT K INJ (PER AMP)",
+        "DOVE": 162.5
+      },
+      {
+        "PRESCRIPTION NAME": "VITAMIN A DROPS",
+        "DOVE": 150
+      },
+      {
+        "PRESCRIPTION NAME": "Vitamin B Complex Inj (per vial)",
+        "DOVE": 87.5
+      },
+      {
+        "PRESCRIPTION NAME": "VOLTAREN EYE DROP",
+        "DOVE": 2193.75
+      },
+      {
+        "PRESCRIPTION NAME": "VOLTAREN RETARD 100MG (per tab)",
+        "DOVE": 131.25
+      },
+      {
+        "PRESCRIPTION NAME": "WARFRIN SODIUM 5MG (per tab)",
+        "DOVE": 37.5
+      },
+      {
+        "PRESCRIPTION NAME": "WELLMAN M/VIT (per cap)",
+        "DOVE": 81.25
+      },
+      {
+        "PRESCRIPTION NAME": "WHITFIELD OINTMENT 20G (per tube)",
+        "DOVE": 243.75
+      },
+      {
+        "PRESCRIPTION NAME": "XALATAN EYE DROP (per bot)",
+        "DOVE": 7475
+      },
+      {
+        "PRESCRIPTION NAME": "XTAPEN (PER AMP)",
+        "DOVE": 48.75
+      },
+      {
+        "PRESCRIPTION NAME": "XYLOCAINE INJ",
+        "DOVE": 481.25
+      },
+      {
+        "PRESCRIPTION NAME": "Yeast BPC Tabs 300mg (per tab)",
+        "DOVE": 3.75
+      },
+      {
+        "PRESCRIPTION NAME": "ZADITEN 1MG (per tab)",
+        "DOVE": 106.25
+      },
+      {
+        "PRESCRIPTION NAME": "ZADITEN 2MG (per tab)",
+        "DOVE": 162.5
+      },
+      {
+        "PRESCRIPTION NAME": "ZADITEN EYE DROPS (per bot)",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "ZANTAC 150MG (per tab)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "ZANTAC 300MG (per tab)",
+        "DOVE": 100
+      },
+      {
+        "PRESCRIPTION NAME": "ZEFFIX 100MG (per tab)",
+        "DOVE": 700
+      },
+      {
+        "PRESCRIPTION NAME": "ZENTEL (PER TAB)",
+        "DOVE": 162.5
+      },
+      {
+        "PRESCRIPTION NAME": "ZENTEL SUSP 400MG/20ML (per bot)",
+        "DOVE": 325
+      },
+      {
+        "PRESCRIPTION NAME": "ZESTORETIC (per tab)",
+        "DOVE": 293.75
+      },
+      {
+        "PRESCRIPTION NAME": "ZESTRIL 10MG (per tab)",
+        "DOVE": 237.5
+      },
+      {
+        "PRESCRIPTION NAME": "ZESTRIL 20MG (per tab)",
+        "DOVE": 293.75
+      },
+      {
+        "PRESCRIPTION NAME": "ZESTRIL 5MG (per tab)",
+        "DOVE": 125
+      },
+      {
+        "PRESCRIPTION NAME": "ZINACEF 750MG INJ (per vial)",
+        "DOVE": 1056.25
+      },
+      {
+        "PRESCRIPTION NAME": "ZINC 30MG TAB",
+        "DOVE": 22.5
+      },
+      {
+        "PRESCRIPTION NAME": "ZINNAT 125MG/5ML- 200MLS (per bot)",
+        "DOVE": 2600
+      },
+      {
+        "PRESCRIPTION NAME": "ZINNAT 250MG (per tab)",
+        "DOVE": 306.25
+      },
+      {
+        "PRESCRIPTION NAME": "ZITHROMAX 200MG/5ML (per bot)",
+        "DOVE": 2925
+      },
+      {
+        "PRESCRIPTION NAME": "ZITHROMAX 500MG (per cap)",
+        "DOVE": 893.75
+      },
+      {
+        "PRESCRIPTION NAME": "ZOLAT SYRUP",
+        "DOVE": 243.75
+      },
+      {
+        "PRESCRIPTION NAME": "ZOLOFT 50MG (per cap)",
+        "DOVE": 312.5
+      },
+      {
+        "PRESCRIPTION NAME": "ZYLORIC 100MG (per tab)",
+        "DOVE": 50
+      },
+      {
+        "PRESCRIPTION NAME": "Registration (Out Of Station Emergencies)",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "General Consultation (Out Of Station Emergencies)",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "Specialist Consultation-1st Visit",
+        "DOVE": 20000
+      },
+      {
+        "PRESCRIPTION NAME": "Specialist Consultation-Follow Up (Out patient)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Specialist Review (Inpatient)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Annual Physical Examination With Report (No Lab Tests)",
+        "DOVE": 4000
+      },
+      {
+        "PRESCRIPTION NAME": "Private Ward Per Diem",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Feeding Per Diem (Private Ward)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Semi-Private Ward Per Diem",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Feeding Per Diem (Semi-Private Ward)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "General Ward Per Diem",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Feeding Per Diem (General Ward)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Nursing Care Per Diem",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "IMMUNISATION",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Anti Rabies Vaccine",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Non-NPI Immunisation for < 5yrs",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Rotavirus Vaccine",
+        "DOVE": 10500
+      },
+      {
+        "PRESCRIPTION NAME": "Hepatitis B Vaccine/Dose",
+        "DOVE": 10500
+      },
+      {
+        "PRESCRIPTION NAME": "GENERAL PROCEDURES",
+        "DOVE": 10500
+      },
+      {
+        "PRESCRIPTION NAME": "Suturing Of Simple Laceration (Out Of Station Emergencies)",
+        "DOVE": 5000
+      },
+      {
+        "PRESCRIPTION NAME": "Incision & Drainage (Out Of Station Emergencies)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Minor Wound Dressing/Day (Out Of Station Emergencies)",
+        "DOVE": 800
+      },
+      {
+        "PRESCRIPTION NAME": "Major Wound Dressing/Day",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "Transfussion Of Screened Blood (Rh +Ve)",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "Transfussion Of Screened Blood (Rh -Ve)",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "Exchange Blood Transfussion (Rh +Ve, Inclusive Of Materials)",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "Exchange Blood Transfussion (Rh -Ve, Inclusive Of Materials)",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "Routine Intravenous Infusion/500 mls + Materials",
+        "DOVE": 1200
+      },
+      {
+        "PRESCRIPTION NAME": "Catheterisation Of Urinary Bladder + Urine Bag",
+        "DOVE": 1200
+      },
+      {
+        "PRESCRIPTION NAME": "Gastric Lavage",
+        "DOVE": 1200
+      },
+      {
+        "PRESCRIPTION NAME": "Nebulisation (Initial)",
+        "DOVE": 1200
+      },
+      {
+        "PRESCRIPTION NAME": "Nebulisation (Subsequent)",
+        "DOVE": 5000
+      },
+      {
+        "PRESCRIPTION NAME": "Incubator Care Per Diem",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Phototherapy Per Diem",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Oxygen Therapy Per Diem",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Circumcision Of Male Baby",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Ear Piercing For Female Baby",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Tongue Tie Release",
+        "DOVE": 4000
+      },
+      {
+        "PRESCRIPTION NAME": "Aspirations & Paracentesis",
+        "DOVE": 4000
+      },
+      {
+        "PRESCRIPTION NAME": "MUA & POP APPLICATION",
+        "DOVE": 4000
+      },
+      {
+        "PRESCRIPTION NAME": "Hand Cast",
+        "DOVE": 25000
+      },
+      {
+        "PRESCRIPTION NAME": "Fore Arm Cast",
+        "DOVE": 25000
+      },
+      {
+        "PRESCRIPTION NAME": "Upper Arm Cast",
+        "DOVE": 25000
+      },
+      {
+        "PRESCRIPTION NAME": "Full Arm Cast",
+        "DOVE": 25000
+      },
+      {
+        "PRESCRIPTION NAME": "Foot/Ankle Cast",
+        "DOVE": 25000
+      },
+      {
+        "PRESCRIPTION NAME": "Leg Cast",
+        "DOVE": 25000
+      },
+      {
+        "PRESCRIPTION NAME": "Knee Cast",
+        "DOVE": 37000
+      },
+      {
+        "PRESCRIPTION NAME": "Full Leg Cast",
+        "DOVE": 37000
+      },
+      {
+        "PRESCRIPTION NAME": "Hip Spica",
+        "DOVE": 60000
+      },
+      {
+        "PRESCRIPTION NAME": "PHYSIOTHERAPY",
+        "DOVE": 60000
+      },
+      {
+        "PRESCRIPTION NAME": "Physiotherapy Service/Session (Maximum X6 Sessions)",
+        "DOVE": 60000
+      },
+      {
+        "PRESCRIPTION NAME": "Neck Collar (Hard)",
+        "DOVE": 60000
+      },
+      {
+        "PRESCRIPTION NAME": "Neck Collar (Soft)",
+        "DOVE": 60000
+      },
+      {
+        "PRESCRIPTION NAME": "MATERNITY (EXCLUDING HOSPITALISATION)",
+        "DOVE": 60000
+      },
+      {
+        "PRESCRIPTION NAME": "Antenatal Care (Including Tests And Scan X2)",
+        "DOVE": 60000
+      },
+      {
+        "PRESCRIPTION NAME": "Antenatal Care With Gen. Practitioner",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Antenatal Care With Obstetrician (Subject To Pre-Authorisation)",
+        "DOVE": 50000
+      },
+      {
+        "PRESCRIPTION NAME": "Normal Delivery (With Or Without Episiotomy)",
+        "DOVE": 45000
+      },
+      {
+        "PRESCRIPTION NAME": "Assisted Delivery ( Vacuum, Instrumental)",
+        "DOVE": 55000
+      },
+      {
+        "PRESCRIPTION NAME": "Birth Before Arrival (Bba) Care",
+        "DOVE": 13000
+      },
+      {
+        "PRESCRIPTION NAME": "Serum Electrolytes/Urea/Creatinine",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Sodium/Chloride/Potassium/Bicarbonate Each",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "Urea/Creatinine Each",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "Calcium/Uric Acid/Phosphorus Each",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "Fasting Blood Sugar/Random Blood Sugar Each",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "Urinalysis",
+        "DOVE": 1200
+      },
+      {
+        "PRESCRIPTION NAME": "Urine Pregnancy Test",
+        "DOVE": 1200
+      },
+      {
+        "PRESCRIPTION NAME": "Glucose Tolerance Test",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "Total /Direct Bilirubin Each",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "SGOT/SGPT Each",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "Alkaline Prosphatase",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "Total Acid Phosphatase/Prostatic Each",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "Gamma Glutamyl Transferace",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "CPK",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "LDH",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "Amylase",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "Liver Function Test",
+        "DOVE": 15000
+      },
+      {
+        "PRESCRIPTION NAME": "Total Protein/Albumin Each",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "G-6 Phosphate Dehydrogenase",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "Creatine Kinase",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "Creatine Clearance",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "Urea Clearance",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "Cholesterol",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "Tryglyceride",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "LDL",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "HDL",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "Lipid Profile",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Bence Jones Protein",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Protein Electrophoresis",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "C- Reactive Protein",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Glycosylated Haemoglobin",
+        "DOVE": 8000
+      },
+      {
+        "PRESCRIPTION NAME": "CSF Protein",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "CSF Glucose",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "CSF Chloride",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "PSA (Quantitative)",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "PSA (Qualitative)",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "TSH/T3/T4 Each",
+        "DOVE": 8000
+      },
+      {
+        "PRESCRIPTION NAME": "Prolactin/Testoterone/FSH/LH (Each)",
+        "DOVE": 8000
+      },
+      {
+        "PRESCRIPTION NAME": "MICROBIOLOGY/PARASITOLOGY",
+        "DOVE": 8000
+      },
+      {
+        "PRESCRIPTION NAME": "Urine M/C/S",
+        "DOVE": 2500
+      },
+      {
+        "PRESCRIPTION NAME": "Microscopy Stool/Urine Each",
+        "DOVE": 1200
+      },
+      {
+        "PRESCRIPTION NAME": "Stool Ocult Blood",
+        "DOVE": 3000
+      },
+      {
+        "PRESCRIPTION NAME": "Stool M/C/S",
+        "DOVE": 3000
+      },
+      {
+        "PRESCRIPTION NAME": "HVS/Urethral Swab M/C/S Each",
+        "DOVE": 3000
+      },
+      {
+        "PRESCRIPTION NAME": "Ear/Nose/Throat Swab M/C/S Each",
+        "DOVE": 3000
+      },
+      {
+        "PRESCRIPTION NAME": "Sputum M/C/S",
+        "DOVE": 3500
+      },
+      {
+        "PRESCRIPTION NAME": "CSF M/C/S",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "Wound/Pus/Aspirate M/C/S Each",
+        "DOVE": 3000
+      },
+      {
+        "PRESCRIPTION NAME": "Blood Culture & Sensitivity",
+        "DOVE": 7000
+      },
+      {
+        "PRESCRIPTION NAME": "Malaria Parasite",
+        "DOVE": 1300
+      },
+      {
+        "PRESCRIPTION NAME": "Skin Snip For Microfilaria",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "AFB For TB (ZN Staining) Each",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "Skin Scraping For Fungal Studies",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "Gram Staining",
+        "DOVE": 1200
+      },
+      {
+        "PRESCRIPTION NAME": "Culture (Fungal)",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "Mantoux Test",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "Semen M/C/S",
+        "DOVE": 3000
+      },
+      {
+        "PRESCRIPTION NAME": "Semen Analysis",
+        "DOVE": 4000
+      },
+      {
+        "PRESCRIPTION NAME": "H.pylori blood",
+        "DOVE": 4000
+      },
+      {
+        "PRESCRIPTION NAME": "H.pylori stool",
+        "DOVE": 4000
+      },
+      {
+        "PRESCRIPTION NAME": "SEROLOGY",
+        "DOVE": 4000
+      },
+      {
+        "PRESCRIPTION NAME": "Widal",
+        "DOVE": 1300
+      },
+      {
+        "PRESCRIPTION NAME": "VDRL",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "ASO Titre",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "Rheumatoid Factor",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "Pregnancy Test-HCG (Blood)",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "Blood Grouping",
+        "DOVE": 1000
+      },
+      {
+        "PRESCRIPTION NAME": "Direct/Indirect Coombs Test Each",
+        "DOVE": 1000
+      },
+      {
+        "PRESCRIPTION NAME": "Hepatitis B Surface Antigen Screening (HbsAg)",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "Screening For HIV 1 & 2",
+        "DOVE": 3500
+      },
+      {
+        "PRESCRIPTION NAME": "TB Serology",
+        "DOVE": 3500
+      },
+      {
+        "PRESCRIPTION NAME": "HAEMATOLOGY",
+        "DOVE": 3500
+      },
+      {
+        "PRESCRIPTION NAME": "PCV/Haemoglobin",
+        "DOVE": 1000
+      },
+      {
+        "PRESCRIPTION NAME": "WBC (Total)",
+        "DOVE": 1000
+      },
+      {
+        "PRESCRIPTION NAME": "WBC ( Differential)",
+        "DOVE": 1000
+      },
+      {
+        "PRESCRIPTION NAME": "Red Cell Count",
+        "DOVE": 1000
+      },
+      {
+        "PRESCRIPTION NAME": "Full Blood Count",
+        "DOVE": 3000
+      },
+      {
+        "PRESCRIPTION NAME": "ESR Westergren",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "Platelet Count",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "Reticulocyte Count",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "Peripheral Blood Film",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "MCV/MCH/MCHC Each",
+        "DOVE": 1500
+      },
+      {
+        "PRESCRIPTION NAME": "Hb Genotype",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "Bleeding/Clotting Time Each",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "Prothrombin/Thromboplastin Time Each",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "Cross Matching",
+        "DOVE": 2000
+      },
+      {
+        "PRESCRIPTION NAME": "HIV Confirmatory",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Viral Load",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "CD4 Count",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "HISTOPATHOLOGY",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Cytology (Pap Smear, FNAC)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Tissue Histopathology (Breast, Nodes, Etc)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "RADIOLOGICAL INVESTIGATIONS",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "UPPER LIMB",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Hand",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Wrist",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Forearm",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Elbow",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Humerus",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Shoulder",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Clavicle",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "LOWER LIMB",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Foot/Toe",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Ankle",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Leg (Tibia/Fibula)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Knee",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Thigh (Femur)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Hip Joint",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Pelvic (AP)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Pelvic & Hip",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Pelvimetry",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "THORAX",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Chest (PA/AP)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Chest (PA & Lateral)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Chest For Ribs (Obliques)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Apical/Lordotic",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Sternum",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Thoracic Inlet",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "VETEBRAE",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Cervical Spine",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Cervical Spine (Obliques)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Lateral Neck (Soft Tissue)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Thoracic Spine",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Thoraco Lumbar Spine",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Lumbar Spine",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Lumbo Sacral Spine",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Sacrum",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Sacro Iliac Joint (S.I.J.)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Sacro-Coccxy",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "ABDOMEN",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Abdomen (Plain)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Abdomen (Erect/Supine)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Abdomen (Erect & Supine)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "SKULL SERIES",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Skull (AP & Lat)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Skull (PA/Lat/Townes)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Mastoids",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Paranasal Sinuses",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Mandibles (Jaws)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Temporo-Mandibular Joints (TMJ)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Sella Turcica",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Tagential",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Occipito-Mental (Om)",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Post Nasal Space",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Internal Auditory Meatus",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "ULTRA SONOGRAPHIC INVESTIGATIONS",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Pelvic",
+        "DOVE": 8000
+      },
+      {
+        "PRESCRIPTION NAME": "Obstetric",
+        "DOVE": 8000
+      },
+      {
+        "PRESCRIPTION NAME": "Abdominopelvic",
+        "DOVE": 8000
+      },
+      {
+        "PRESCRIPTION NAME": "Thyroid",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Scrotal",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Breast",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Prostate",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Bladder",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Transfontanellar",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Ovulometry/TV Scan",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "SPECIAL INVESTIGATIONS",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Barium Swallow",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Barium Meal",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Barium Meal & Follow Through",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Barium Enema",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Intravenous Urography (IVU)",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Cysto-Urethrogram (Micturating/Retrograde)",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Fistulogram/Sinogram Each",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Hysterosalphingogram (HSG)",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Mammogram",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Myelogram",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Electrocardiogram (E C G)",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "CT-Scan-Brain, Sinuses, Orbits, Neck",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "CT Scan-Chest, Abdomen, Pelvis",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "CT Myelogram",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "CT Pelvimetry",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Electroencephalogram (E E G)",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Echocardiogram",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Endoscopy",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Magnetic Resonance Imaging (MRI)",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "SURGERIES",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "ANAESTHETIC AGENT & FEE",
+        "DOVE": 9000
+      },
+      {
+        "PRESCRIPTION NAME": "Local",
+        "DOVE": 10000
+      },
+      {
+        "PRESCRIPTION NAME": "Major",
+        "DOVE": 60000
+      },
+      {
+        "PRESCRIPTION NAME": "THEATRE USE",
+        "DOVE": 60000
+      },
+      {
+        "PRESCRIPTION NAME": "Minor",
+        "DOVE": 60000
+      },
+      {
+        "PRESCRIPTION NAME": "Intermediate",
+        "DOVE": 25000
+      },
+      {
+        "PRESCRIPTION NAME": "GENERAL SURGERY",
+        "DOVE": 50000
+      },
+      {
+        "PRESCRIPTION NAME": "Ganglion Excision",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Small Cyst Excision",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Biopsy Of Tumour Of Abdominal Wall",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Lumps Excision",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Minor Debridement Of Burns",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Electrofulguration Of Condylomata Acuminata",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Injection Sclerotherapy Of Varicose Veins",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Excision Of Tophi",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Pollicisation Of The Index Finger",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Release Of Chordae",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Repair Of Minor Laceration",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Surgical Drainage In Haematoma Of Rectus Abdominis",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Polypectomy",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Intercostal Drainage Insertion",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Suprapubic Cystostomy",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Tracheostomy",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Surgical Release In Stenosing Tenosynovitis",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Syndactlysis",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Liver/Kidney/Bone Marrow Biopsy",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Ingrowing Toe Nail (Excision)",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Keloid Excision",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Biopsy Of Oesophageal Mass",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Dissection Of Inguinal Nodes",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Surgical Drainage Of Galactocoele",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Breast Lump Excision",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Synovectomy",
+        "DOVE": 40000
+      },
+      {
+        "PRESCRIPTION NAME": "Cystic Hygroma Excision",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Skin Grafting",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Orchidectomy/Orchidopexy",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Abdominal Rectopexy",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Anal Spincteroplasty",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Surgical Drainage Of Anal Abscess",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Anal Fistulectomy Repair",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Cystourethroscopy",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Pericardiocentesis",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Hydrocoelectomy (All Inclusive)",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Uncomplicated Appendicectomy (All inclussive)",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Epigastric Herniorrhaphy9All inclussive)",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Excision Of Intrascrotal Mass",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Surgery Of Torsion Of Spermatic Cord",
+        "DOVE": 130000
+      },
+      {
+        "PRESCRIPTION NAME": "Varicocoelectomy",
+        "DOVE": 130000
+      },
+      {
+        "PRESCRIPTION NAME": "Dissection Of Femoral Triangle",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Multiple Ligation Of Veins",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Surgical Correction Of Dupuytren’s Contracture",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Herniorraphy-Inguinal/Others",
+        "DOVE": 130000
+      },
+      {
+        "PRESCRIPTION NAME": "Thoracotomy",
+        "DOVE": 130000
+      },
+      {
+        "PRESCRIPTION NAME": "Vasectomy",
+        "DOVE": 130000
+      },
+      {
+        "PRESCRIPTION NAME": "Haemorrhoidectomy",
+        "DOVE": 130000
+      },
+      {
+        "PRESCRIPTION NAME": "Fistula In-Ano Repair",
+        "DOVE": 130000
+      },
+      {
+        "PRESCRIPTION NAME": "Tendon Grafting",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Oesophagostomy",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Anal Pull Through",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Oophorectomy",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Diverticulectomy",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Drainage Of Hepatic Abscess",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Repair Of Splenic Laceration",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Retroperitoneal Drainage Of Perinephric Abscess",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Trans-Perineal/Transrectal Biopsy Of Prostate",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Resection Of Median Bar Obstruction",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Corporosavenous Shunt",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Cavernospongiosum Shunt",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Transurethral Dessication Of Congenital Meatal Stenosis",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Uretherectomy",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Surgical Exploration For Anorchism",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Stripping And Ligation Of Veins",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Thrombectomy By Forarty’s Catheterisation",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Colostomy Construction/Closure",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Enterostomy",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Surgery Of Uncomplicated Intestinal Obstruction Without Resection",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Hiatus Herniorrphaphy",
+        "DOVE": 110000
+      },
+      {
+        "PRESCRIPTION NAME": "Oesophageal Atresia And Tracheo-Oesophageal Fistula Repair",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Hypospadia Repair",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Pyelotomy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Craniotomy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Pyeloroplasty",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Repair Of Oesophageal Lacerations",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Choledochostomy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Repair Of Bochidalek Diaphragmatic Congenital Defect",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Meckel’s Diverticulectomy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Renal Cystectomy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Vesical Diverticulectomy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Penoplasty",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Penectomy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Mastectomy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Diaphragmatic Hernia Repair",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Exploratory Laparotomy/Lysis Of Adhensions",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Gastroenterostomy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Intussusception Operation",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Pyloromyotomy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Resection And Anstomoses (Small/Large Intestines)",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Splenectomy/Splenorrhaphy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Cystectomy Partial/Total",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Axillary Dissection Of Breast",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Extensive (Small And Large) Bowel Resection And Anastomoses",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Surgery Of Acute Intra Abdominal Vascular Disease",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Repair Of Gastric Lacerations",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Repair Of Small Bowel Perforations",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Surgery Of Large Bowel Perforations",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Surgery Of Hepatic Trauma",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Hepatic Segmentectomy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Oddis Sphincteroplasty",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Choledochojejunostomy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Transduodenal Choledochal Cystectomy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Choledochal Cystojejunostomy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Excision Of Lymphoedematous Lymph Tissues",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Roux-En-Y Pancreaticojejunostomy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "ORTHOPAEDIC SURGERIES",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Drainage Of Septic Arthritis",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Exostectomy",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Excisional Biopsy",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Skin Traction",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Simple Congenital Talipes Repair",
+        "DOVE": 100000
+      },
+      {
+        "PRESCRIPTION NAME": "Subperiosteal Drainage Of Acute Osteomyelitis",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Chondromectomy",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Sequestrectomy",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Saucerisation Of Chronically Infected Bone",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Amputation And Disarticulation Of Joints.",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Surgical Repair Of Congenital Talipes",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Equanovarus/Valgus",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Tendon Transplant",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Tenoplasty",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Arthroplasty",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Arthrodesis",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Open Reduction And Internal Fixation Of Fractures",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Osteoclasis, Internal Fixation Of Malunion",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Bone Grafting",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "MAXILLO-FACIAL SURGERIES",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Cystic/Fibrous Dysplasia/Cancer Surgery",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Odontogenic Tumours.",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Cleft Lip And Palate Repairs.",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Submandibular Gland Excision",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "OTORHINOLARYNGOLOGY",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Foreign Body Removal From The Ear, Nose And Throat",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Electrocautery Of Nose",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Nasal Packing",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Aural And Nasal Suction/Clearance",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Incision And Drainage Of Abscess",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Debridement And Toilet Of Wounds",
+        "DOVE": 30000
+      },
+      {
+        "PRESCRIPTION NAME": "Suturing Of Lacerrations",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Manipulation Of Nose",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Indirect Laryngoscopy",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Antral Lavage",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Tonsilectomy & Adenoidectomy (inclussive)",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Adenoidectomy &Tonsilectomy (All inclussive)",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Multiple Nasal Polypectomy",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Nasal Sinus Surgery E.G Caldwell Luc",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Tympanoplasty",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Mastoid Surgery",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Parotidectomy",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Submandibular Glad Excision",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Laryngeal Surgery",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "OPHTHALMOLOGY (GLOBAL FEE)",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Cyclocryoablation",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Traumatic Lid Laceration Repair",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Removal Of Foreign Bodies From Conjunctiva And Cornea",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Chalazion Excision",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Granuloma Excision",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Lacrimal Syringing",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Tumour Excision From Lid",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Entropion And Ectropion Repairs",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Pterygium Excision.",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Traumatic Cannalicular Repair",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Paracentesis (A/C Washout)",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Squint Surgery",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Ptosis Repair",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Extracapsular Cataract Extraction With Intraocular Lens Implantation",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Intracapsular Cataract Extraction With Intraocular Lens Implantation",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Combined Cataract Extraction With Trabeculectomy",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Trabeculectomy With Antimet Abolites",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Scleral Buckling Procedures",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Evisceration/Enucleation/Extenteration",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "OBSTETRICS AND GYNAECOLOGY",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "IUCD Insertion/Removal",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Cervical Cautery",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Cervical Cone/Punch Biopsy",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Cervical Laceration Repair",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Colposcopy",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Hysteroscopy",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Dye Test",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Examination Under Anaesthesia (EUA)",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Removal Of IUCD Under General Anaesthesia",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Dilatation And Curetage",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Evacuation Of Retained Products Of Conception",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Excision/Diathermy Of Warts",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Excision Of Vaginal Septum",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Repair Of Third Degree Tear",
+        "DOVE": 300000
+      },
+      {
+        "PRESCRIPTION NAME": "Marsupialisation",
+        "DOVE": 80000
+      },
+      {
+        "PRESCRIPTION NAME": "Cervical Circlage/Shirodkar Suture",
+        "DOVE": 80000
+      },
+      {
+        "PRESCRIPTION NAME": "Bilateral Tubal Ligation",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Mini Laparotomy",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Diagnostic Laparoscopy",
+        "DOVE": 80000
+      },
+      {
+        "PRESCRIPTION NAME": "Laparoscopy & Dye Test",
+        "DOVE": 80000
+      },
+      {
+        "PRESCRIPTION NAME": "Destructive Delivery (Craniotomy-Embryotomy)",
+        "DOVE": 80000
+      },
+      {
+        "PRESCRIPTION NAME": "Ceasarean Section (All inclussive)",
+        "DOVE": 240000
+      },
+      {
+        "PRESCRIPTION NAME": "Vulvectomy",
+        "DOVE": 140000
+      },
+      {
+        "PRESCRIPTION NAME": "Wedge Resection Of The Ovary",
+        "DOVE": 140000
+      },
+      {
+        "PRESCRIPTION NAME": "Amputation Of Cervix",
+        "DOVE": 140000
+      },
+      {
+        "PRESCRIPTION NAME": "Reconstruction Of Vagina",
+        "DOVE": 150000
+      },
+      {
+        "PRESCRIPTION NAME": "Ectopic Pregnancy",
+        "DOVE": 250000
+      },
+      {
+        "PRESCRIPTION NAME": "Ovariectomy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Vaginoclesis",
+        "DOVE": 140000
+      },
+      {
+        "PRESCRIPTION NAME": "Salpingo-Oophoreictomy",
+        "DOVE": 140000
+      },
+      {
+        "PRESCRIPTION NAME": "Ovarian Biopsy",
+        "DOVE": 140000
+      },
+      {
+        "PRESCRIPTION NAME": "Laparotomy Diagnostic/Therapeutic, Inter-Sex",
+        "DOVE": 140000
+      },
+      {
+        "PRESCRIPTION NAME": "Ovarian Cysts",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Broad Ligament Haematoma",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Colporrhaphy/Colpoperineorrhaphy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Vaginal Hysterectomy/Manchester Repair",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Ventrosuspension Of The Bladder",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Hysterectomy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Hysterectomy And Bilateral Salpingo-Oophorectomy",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Reconstruction Surgery E.g Straussman Operation",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Ventrosuspension Procedures Of Correction Of Uterine",
+        "DOVE": 200000
+      },
+      {
+        "PRESCRIPTION NAME": "Myomectomy (All inclussive)",
+        "DOVE": 350000
+      },
+      {
+        "PRESCRIPTION NAME": "Repair Of Inverted Uterus",
+        "DOVE": 350000
+      },
+      {
+        "PRESCRIPTION NAME": "Repair Of Perforated/Ruptured Uterus",
+        "DOVE": 350000
+      },
+      {
+        "PRESCRIPTION NAME": "Tubal Reconstruction",
+        "DOVE": 350000
+      },
+      {
+        "PRESCRIPTION NAME": "Pelvic/Abdominal Abscess Drainage",
+        "DOVE": 350000
+      },
+      {
+        "PRESCRIPTION NAME": "Pelvic Haematocoele",
+        "DOVE": 350000
+      },
+      {
+        "PRESCRIPTION NAME": "Rectovaginal Fistula Repair",
+        "DOVE": 350000
+      },
+      {
+        "PRESCRIPTION NAME": "Vesicovaginal Fistula Repair",
+        "DOVE": 350000
+      }
+    ]
+  }

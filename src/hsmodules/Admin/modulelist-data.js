@@ -62,7 +62,7 @@ export const modulesList = [
       },
     ],
   },
-
+ 
   {
     value: "Clinic",
     label: "Clinic",
@@ -213,6 +213,25 @@ export const modulesList = [
         label: "Location",
       },
     ],
+  },
+
+  {
+    value: "Communication",
+    label: "Communication",
+    // children: [
+    //   {
+    //     value: "Communication Chat",
+    //     label: "Bands",
+    //   },
+    //   {
+    //     value: "Communication SMS",
+    //     label: "SMS",
+    //   },
+    //   {
+    //     value: "Communication Location",
+    //     label: "Location",
+    //   },
+    // ],
   },
 
   {

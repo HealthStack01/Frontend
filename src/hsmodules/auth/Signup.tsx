@@ -112,6 +112,7 @@ function Signup() {
           .then(res => {
             setCreatedFacility(res);
             hideActionLoader();
+            toast.success("Organization created successfully, kindly move on to next step")
             return true;
           })
           .catch(error => {
@@ -133,6 +134,7 @@ function Signup() {
       })
         .then(async res => {
           setCreatedAdminEmployee(res);
+          toast.success("You successfully created your Admin account");
           //console.log(data);
           await client
             .authenticate({
@@ -221,7 +223,7 @@ function Signup() {
           </Step>
         ))}
       </Stepper>
-
+      <Box sx={{ p:1, flexWrap:"wrap" , flexDirection:"row", overflow:"auto"}}>
       <form onSubmit={handleSubmit(handleNext)}>
         {activeStep === STEP_ORGANISATION && (
           <CreateOrganization
@@ -278,6 +280,7 @@ function Signup() {
           )}
         </Box>
       </form>
+      </Box>
 
       <Box
         sx={{

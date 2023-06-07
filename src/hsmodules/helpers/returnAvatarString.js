@@ -18,11 +18,14 @@ function stringToColor(string) {
   return color;
 }
 
-export const returnAvatarString = name => {
+export const returnAvatarString = (name, size, font) => {
   const newName = name.toUpperCase();
   return {
     sx: {
       bgcolor: stringToColor(name),
+      width: size || 40,
+      height: size || 40,
+      fontSize: font || "1.3rem",
     },
     children: `${newName.split(" ")[0][0]}${newName.split(" ")[1][0]}`,
   };

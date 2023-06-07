@@ -1,0 +1,1493 @@
+{
+    "LABORATORY SERVICES": [
+      {
+        "LABORATORY SERVICES": "BLOOD GROUPING",
+        "Amount": 1350
+      },
+      {
+        "LABORATORY SERVICES": "FASTING BLOOD SUGAR",
+        "Amount": 1350
+      },
+      {
+        "LABORATORY SERVICES": "MALARIA PARASITE",
+        "Amount": 1350
+      },
+      {
+        "LABORATORY SERVICES": "PCV",
+        "Amount": 1350
+      },
+      {
+        "LABORATORY SERVICES": "RANDOM BLOOD SUGAR",
+        "Amount": 1350
+      },
+      {
+        "LABORATORY SERVICES": "URINALYSIS",
+        "Amount": 1350
+      },
+      {
+        "LABORATORY SERVICES": "ALT",
+        "Amount": 1800
+      },
+      {
+        "LABORATORY SERVICES": "AST",
+        "Amount": 1800
+      },
+      {
+        "LABORATORY SERVICES": "ERYTHROCYTE SEDIMENTATION RATE",
+        "Amount": 1800
+      },
+      {
+        "LABORATORY SERVICES": "IDC0114 HB GENOTYPING",
+        "Amount": 1800
+      },
+      {
+        "LABORATORY SERVICES": "HBsAg",
+        "Amount": 1800
+      },
+      {
+        "LABORATORY SERVICES": "HCV",
+        "Amount": 1800
+      },
+      {
+        "LABORATORY SERVICES": "HELICOBACTER PYLORI (BLOOD)",
+        "Amount": 1800
+      },
+      {
+        "LABORATORY SERVICES": "HIV",
+        "Amount": 1800
+      },
+      {
+        "LABORATORY SERVICES": "PREGNANCT TEST PT( BLOOD)",
+        "Amount": 1800
+      },
+      {
+        "LABORATORY SERVICES": "PT[URINE]",
+        "Amount": 1800
+      },
+      {
+        "LABORATORY SERVICES": "SERUM TB",
+        "Amount": 1800
+      },
+      {
+        "LABORATORY SERVICES": "VDRL",
+        "Amount": 1800
+      },
+      {
+        "LABORATORY SERVICES": "WIDAL",
+        "Amount": 1800
+      },
+      {
+        "LABORATORY SERVICES": "ALP",
+        "Amount": 2250
+      },
+      {
+        "LABORATORY SERVICES": "BLEEDING TIME",
+        "Amount": 2250
+      },
+      {
+        "LABORATORY SERVICES": "DIRECT BILIRUBIN ONLY",
+        "Amount": 2250
+      },
+      {
+        "LABORATORY SERVICES": "FOB",
+        "Amount": 2250
+      },
+      {
+        "LABORATORY SERVICES": "TOTAL BILIRUBIN ONLY",
+        "Amount": 2250
+      },
+      {
+        "LABORATORY SERVICES": "ALBUMIN",
+        "Amount": 2700
+      },
+      {
+        "LABORATORY SERVICES": "BILIRUBIN",
+        "Amount": 2700
+      },
+      {
+        "LABORATORY SERVICES": "TOTAL PROTEIN",
+        "Amount": 2700
+      },
+      {
+        "LABORATORY SERVICES": "UREA",
+        "Amount": 2700
+      },
+      {
+        "LABORATORY SERVICES": "ANTI-STREPTOLYSIN-O (ASO TITRE)",
+        "Amount": 3150
+      },
+      {
+        "LABORATORY SERVICES": "COMPLETE /FULL BLOOD COUNT",
+        "Amount": 3150
+      },
+      {
+        "LABORATORY SERVICES": "CHOLESTEROL",
+        "Amount": 3600
+      },
+      {
+        "LABORATORY SERVICES": "CREATININE",
+        "Amount": 3600
+      },
+      {
+        "LABORATORY SERVICES": "CSF CHROLIDE",
+        "Amount": 3600
+      },
+      {
+        "LABORATORY SERVICES": "ELECTROLYTES(Na+, K+, Cl-)",
+        "Amount": 3600
+      },
+      {
+        "LABORATORY SERVICES": "MAGNESIUM",
+        "Amount": 3600
+      },
+      {
+        "LABORATORY SERVICES": "PHOSPHATE / PHOSPHORUS (INORGANIC PHOSPHATE)",
+        "Amount": 3600
+      },
+      {
+        "LABORATORY SERVICES": "RETICULOCYTE COUNT",
+        "Amount": 3600
+      },
+      {
+        "LABORATORY SERVICES": "URIC ACID",
+        "Amount": 3600
+      },
+      {
+        "LABORATORY SERVICES": "PELVIC SCAN",
+        "Amount": 3600
+      },
+      {
+        "LABORATORY SERVICES": "OBSTERTRCS SCAN",
+        "Amount": 3600
+      },
+      {
+        "LABORATORY SERVICES": "ASCITIC FLUID M/C/S",
+        "Amount": 4050
+      },
+      {
+        "LABORATORY SERVICES": "ASPIRATES M/C/S",
+        "Amount": 4050
+      },
+      {
+        "LABORATORY SERVICES": "PUS M/C/S",
+        "Amount": 4050
+      },
+      {
+        "LABORATORY SERVICES": "SEMEN M/C/S(CULTURE) (ONLY)",
+        "Amount": 4050
+      },
+      {
+        "LABORATORY SERVICES": "URINE M/C/S",
+        "Amount": 4050
+      },
+      {
+        "LABORATORY SERVICES": "ACID PHOSPHATASE TOTAL AND PROSTATIC IN SERUM",
+        "Amount": 4500
+      },
+      {
+        "LABORATORY SERVICES": "ACTIVATED PARTIAL PROTHROMBIN TIME(APTT)",
+        "Amount": 4500
+      },
+      {
+        "LABORATORY SERVICES": "CALCIUM",
+        "Amount": 4500
+      },
+      {
+        "LABORATORY SERVICES": "CHLAMYDIA SCREENING",
+        "Amount": 4500
+      },
+      {
+        "LABORATORY SERVICES": "CLOTTING TIME",
+        "Amount": 4500
+      },
+      {
+        "LABORATORY SERVICES": "CSF PROTEIN",
+        "Amount": 4500
+      },
+      {
+        "LABORATORY SERVICES": "CSF SUGAR",
+        "Amount": 4500
+      },
+      {
+        "LABORATORY SERVICES": "ESTRADIOL",
+        "Amount": 4500
+      },
+      {
+        "LABORATORY SERVICES": "GGT",
+        "Amount": 4500
+      },
+      {
+        "LABORATORY SERVICES": "HAV",
+        "Amount": 4500
+      },
+      {
+        "LABORATORY SERVICES": "MANTOUX(HEAF) TEST",
+        "Amount": 4500
+      },
+      {
+        "LABORATORY SERVICES": "MICROALBUMIN",
+        "Amount": 4500
+      },
+      {
+        "LABORATORY SERVICES": "MICROFILARIA DETECTION",
+        "Amount": 4500
+      },
+      {
+        "LABORATORY SERVICES": "I.V. CONTRAST  50ML",
+        "Amount": 4500
+      },
+      {
+        "LABORATORY SERVICES": "ABDOMINAL SCAN",
+        "Amount": 4500
+      },
+      {
+        "LABORATORY SERVICES": "SOFT TISSUE NECK (LAT)",
+        "Amount": 4500
+      },
+      {
+        "LABORATORY SERVICES": "I.V. CONTRAST 10ML",
+        "Amount": 4500
+      },
+      {
+        "LABORATORY SERVICES": "ABDOMINO-PELVIC SCAN",
+        "Amount": 4500
+      },
+      {
+        "LABORATORY SERVICES": "CALCANUM",
+        "Amount": 4950
+      },
+      {
+        "LABORATORY SERVICES": "ASPIRATE AFB",
+        "Amount": 5400
+      },
+      {
+        "LABORATORY SERVICES": "DIRECT COOMBS TEST",
+        "Amount": 5400
+      },
+      {
+        "LABORATORY SERVICES": "FSH",
+        "Amount": 5400
+      },
+      {
+        "LABORATORY SERVICES": "INR (ONLY)",
+        "Amount": 5400
+      },
+      {
+        "LABORATORY SERVICES": "LH",
+        "Amount": 5400
+      },
+      {
+        "LABORATORY SERVICES": "PROGESTERONE",
+        "Amount": 5400
+      },
+      {
+        "LABORATORY SERVICES": "PROLACTIN",
+        "Amount": 5400
+      },
+      {
+        "LABORATORY SERVICES": "RHEUMATOID FACTOR",
+        "Amount": 5400
+      },
+      {
+        "LABORATORY SERVICES": "SEMINAL FLUID ANALYSIS (ONLY)",
+        "Amount": 5400
+      },
+      {
+        "LABORATORY SERVICES": "TSH",
+        "Amount": 5400
+      },
+      {
+        "LABORATORY SERVICES": "4D ABDOMINAL SCAN",
+        "Amount": 5400
+      },
+      {
+        "LABORATORY SERVICES": "CHEST – AP ONLY",
+        "Amount": 5400
+      },
+      {
+        "LABORATORY SERVICES": "CHEST – LATERAL ONLY",
+        "Amount": 5400
+      },
+      {
+        "LABORATORY SERVICES": "CHEST – PA ONLY",
+        "Amount": 5400
+      },
+      {
+        "LABORATORY SERVICES": "LACTATE DEHYDROGENASE(LDH)",
+        "Amount": 6300
+      },
+      {
+        "LABORATORY SERVICES": "SKIN SCRAPPING (FUNGAL STUDIES)",
+        "Amount": 6300
+      },
+      {
+        "LABORATORY SERVICES": "EYE SCAN",
+        "Amount": 6300
+      },
+      {
+        "LABORATORY SERVICES": "BREAST SCAN",
+        "Amount": 6300
+      },
+      {
+        "LABORATORY SERVICES": "TRANSVAGINAL SCAN",
+        "Amount": 6750
+      },
+      {
+        "LABORATORY SERVICES": "FIBRINOGEN",
+        "Amount": 7200
+      },
+      {
+        "LABORATORY SERVICES": "INDIRECT COOMBS TEST",
+        "Amount": 7200
+      },
+      {
+        "LABORATORY SERVICES": "IRON LEVEL",
+        "Amount": 7200
+      },
+      {
+        "LABORATORY SERVICES": "PROTHROMBIN TIME(PT) + INR",
+        "Amount": 7200
+      },
+      {
+        "LABORATORY SERVICES": "SICKLING TEST",
+        "Amount": 7200
+      },
+      {
+        "LABORATORY SERVICES": "DIGITAL X-RAY (ALL AP/LAT)",
+        "Amount": 7200
+      },
+      {
+        "LABORATORY SERVICES": "SCROTAL SCAN",
+        "Amount": 7200
+      },
+      {
+        "LABORATORY SERVICES": "4D OBSTERTRIC SCAN",
+        "Amount": 7200
+      },
+      {
+        "LABORATORY SERVICES": "REST ECG",
+        "Amount": 7200
+      },
+      {
+        "LABORATORY SERVICES": "SPIROMETRY",
+        "Amount": 7200
+      },
+      {
+        "LABORATORY SERVICES": "LIPID PROFILE (LIPOGRAM)",
+        "Amount": 8100
+      },
+      {
+        "LABORATORY SERVICES": "LIVER FUNCTION TEST",
+        "Amount": 8100
+      },
+      {
+        "LABORATORY SERVICES": "S/E/U/Cr",
+        "Amount": 8100
+      },
+      {
+        "LABORATORY SERVICES": "PROSTATE SCAN",
+        "Amount": 8100
+      },
+      {
+        "LABORATORY SERVICES": "TESTICULAR SCAN",
+        "Amount": 8100
+      },
+      {
+        "LABORATORY SERVICES": "AEROBIC BLOOD CULTURE",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "AMYLASE",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "CD4 COUNT",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "FREE ESTRADIOL",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "FREE T3",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "FREE T4",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "G6PD",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "GLYCATED HAEMOGLOBIN (HBA1c)",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "GROUP/CROSSMATCHING(DONOR PROVIDE)",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "(QUANTITATIVE)",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "LIPASE",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "MYOGLOBIN",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "OGTT",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "OGTT[PREGNANCY]",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "PSA(TOTAL)",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "SEMINAL FLUID ANALYSIS + M/C/S",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "TOTAL HUMAN IgA",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "TOTAL HUMAN IgG",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "TOTAL HUMAN IgM",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "TOTAL IRON BINDING CAPACITY",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "TRANSFERRIN SATURATION (TF %)",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "FETAL FRONTANNELLE SCAN",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "ABDOMEN",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "ANKLE",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "HIP",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "ELBOW",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "FEMUR",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "CLAVICLE",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "FOOT",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "FOREARM",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "HAND",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "HUMERUS",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "KNEE",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "MASTOIDS",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "NASOPHARYNX",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "NECK",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "PELVIS",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "SCAPULAR",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "SHOULDER",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "THORACIC INLET",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "WRIST",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "FINGER",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "JAW",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "I.V. CONTRAST – 20ML",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "I.V. CONTRAST – 100ML",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "THYROID SCAN",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "AUDIOLOGY",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "ABDOMEN – ERECT & SUPINE",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "CERVICAL SPINE",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "CHEST – AP & LATERAL",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH ELBOWS",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH FEMURS",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "COCCYX SPINE",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "MANDIBLE",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "LUMBOSACRAL SPINE",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "POST NASAL SPACE",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "PARANASAL SINUSES",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH SHOULDERS",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "STERNUM",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "TMJ",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "ORBITS",
+        "Amount": 9000
+      },
+      {
+        "LABORATORY SERVICES": "OSMOTIC FRAGILITY TEST",
+        "Amount": 9900
+      },
+      {
+        "LABORATORY SERVICES": "SKULL",
+        "Amount": 9900
+      },
+      {
+        "LABORATORY SERVICES": "17-OH PROGESTERONE",
+        "Amount": 10800
+      },
+      {
+        "LABORATORY SERVICES": "HERPES SIMPLEX VIRUS (HSV) -2 IgM",
+        "Amount": 10800
+      },
+      {
+        "LABORATORY SERVICES": "IMMUNOGLOBULINS (IgG)",
+        "Amount": 10800
+      },
+      {
+        "LABORATORY SERVICES": "IMMUNOGLOBULINS (IgA)",
+        "Amount": 10800
+      },
+      {
+        "LABORATORY SERVICES": "IMMUNOGLOBULINS (IgM)",
+        "Amount": 10800
+      },
+      {
+        "LABORATORY SERVICES": "TOTAL HUMAN IgE",
+        "Amount": 10800
+      },
+      {
+        "LABORATORY SERVICES": "ANAEROBIC BLOOD CULTURE",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "ANGIOTENSIN 1",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "ANGIOTENSIN 2",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "ANTIBODY",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "BETA-ISLETS ANTIBODIES",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "BLOOD CULTURE",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "IDC0215 SKIN SNIP (MICROFILARIA)",
+        "Amount": 6300,
+        "__EMPTY": 2000
+      },
+      {
+        "LABORATORY SERVICES": "IDC0197 SPUTUM AFBX3",
+        "Amount": 5400,
+        "__EMPTY": 2800
+      },
+      {
+        "LABORATORY SERVICES": "IDC0196 SPUTUM M/C/S",
+        "Amount": 4050,
+        "__EMPTY": 800
+      },
+      {
+        "LABORATORY SERVICES": "IDC0243 SQUAMOUS CELL CARCINOMA ANTIGEN(SCCA)",
+        "__EMPTY": 12000
+      },
+      {
+        "LABORATORY SERVICES": "IDC0205 STOOL ANALYSIS",
+        "Amount": 1800,
+        "__EMPTY": 3200
+      },
+      {
+        "LABORATORY SERVICES": "IDC0206 STOOL M/C/S",
+        "Amount": 4050,
+        "__EMPTY": 8000
+      },
+      {
+        "LABORATORY SERVICES": "IDC0198 SWABS[HVS,URETHRAL,ECS,WOUND, EYE, EAR)",
+        "Amount": 4050,
+        "__EMPTY": 1200
+      },
+      {
+        "LABORATORY SERVICES": "IDC0225 T3",
+        "Amount": 5400,
+        "__EMPTY": 12000
+      },
+      {
+        "LABORATORY SERVICES": "IDC0223 T4",
+        "Amount": 5400,
+        "__EMPTY": 32000
+      },
+      {
+        "LABORATORY SERVICES": "IDC0247 TESTICULAR CANCER(AFP,LDH,B-HCG)",
+        "Amount": 31500,
+        "__EMPTY": 16000
+      },
+      {
+        "LABORATORY SERVICES": "IDC0261 TESTOSTERONE",
+        "Amount": 5400,
+        "__EMPTY": 1200
+      },
+     
+    
+      {
+        "LABORATORY SERVICES": "HORMONE BINDING GLOBULIN (SHBG)+FREE TEST INDEX)",
+        "Amount": 27000
+      },
+     
+      {
+        "LABORATORY SERVICES": "IDC0227 THYROGLOBIN[TG]",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "IDC0228 THYROGLOBIN AUTOANTIBODY[TGA]",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "THYROID ANTIBODIES(COMPLETE)",
+        "Amount": 40500
+      },
+      {
+        "LABORATORY SERVICES": "B-MICROGLOBULIN",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "CREATINE KINASE -MB",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "CSF ANALYSIS",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "CYTOMEGALO VIRUS (CMV) IgG",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "CYTOMEGALO VIRUS (CMV) IgM",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "DHEA [DEHYDROEPIANDROSTERONE SULFATE",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "Ds DNA (anti-dsDNA)",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "FERRITIN",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "FREE B-HCG",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "FREE TESTOSTERONE",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "GLOBULIN",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "GROWTH HORMONE[GH]",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "HBA1c",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "HBcAb IgG (ELISA)",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "HBeAb IgG (ELISA)",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "HBeAg (ELISA)",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "HBsAb IgG (ELISA)",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "HBsAg (ELISA)",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "HCG/B-HCG(TOTAL)",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "HCV IgG (ELISA)",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "H. PYLORI STOOL ANTIGEN TEST",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "HEPATITIS B PANEL (HBsAg,HBsAb,HBeAb,HBcAg,HBcAb)",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "IMMUNOGLOBULINS (IgE)",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "INSULIN",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "PERIPHERAL BLOOD FILM+FBC",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "PRO-INSULIN",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "RUBELLA IgG",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "RUBELLA IgM",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "THYROID FUNCTION TEST (TFT)",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "THYROID MICROSOMAL AUTOANTIBODY[TMA]",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "URINE ALBUMIN/CREATININE RATIO",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "URINE PROTEIN AND CREATININE [24HRS]",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "MAMMOGRAPHY",
+        "Amount": 13500
+      },
+      {
+        "LABORATORY SERVICES": "TOXOPLASMA IgG",
+        "Amount": 15300
+      },
+      {
+        "LABORATORY SERVICES": "TOXOPLASMA IgM",
+        "Amount": 15300
+      },
+      {
+        "LABORATORY SERVICES": "ALPHA FETO PROTEIN (AFP)",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "ANTI LA (SSB)",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "ANTI RO(SSA)",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "ANTIBODY IDENTIFICATION(10 PANELS CELLS)",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "CHLAMYDIA ANTIBODIES",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "COAGULATION/CLOTTING PROFILE",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "CORTISOL ( 8am or 4pm)",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "C-PEPTIDE",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "C-REACTIVE PROTEIN",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "D-DIMER",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "FEMALE HORMONE PROFILE",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "FREE PSA",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "MALE HORMONE PROFILE",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "OSTEOCALCIN",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "PAP SMEAR (Liquid Based Cytology - LBC)",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "RED CELL FOLATE",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "SEMINAL FRUCTOSE",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "SERUM FOLATE",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "TPHA[IgG &amp; IgM]",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "TROPONIN I",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "TROPONIN T",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "VITAMIN B12",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "HSG",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "DIGITAL HSG",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "BARIUM SWALLOW",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH ANKLES",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH HIPS",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH FEET",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH FOREARMS",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH HANDS",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH KNEES",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "THORACIC SPINE",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "THORACO-LUMBAR SPINE",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH WRISTS",
+        "Amount": 18000
+      },
+      {
+        "LABORATORY SERVICES": "ALDOSTERONE",
+        "Amount": 22500
+      },
+      {
+        "LABORATORY SERVICES": "CEA (Carcino embryonic Antigen)",
+        "Amount": 22500
+      },
+      {
+        "LABORATORY SERVICES": "EBESTEIN BARR VIRUS - IgA",
+        "Amount": 22500
+      },
+      {
+        "LABORATORY SERVICES": "EBESTEIN BARR VIRUS - IgG",
+        "Amount": 22500
+      },
+      {
+        "LABORATORY SERVICES": "IRON PROFILE/ STUDIES (IRON, FER, TF %)",
+        "Amount": 22500
+      },
+      {
+        "LABORATORY SERVICES": "PROCALCITONIN",
+        "Amount": 22500
+      },
+      {
+        "LABORATORY SERVICES": "PROTEIN ELECTROPHORESIS ( SERUM OR URINE)",
+        "Amount": 22500
+      },
+      {
+        "LABORATORY SERVICES": "TSH RECEPTOR ANTIBODIES",
+        "Amount": 22500
+      },
+      {
+        "LABORATORY SERVICES": "VON WILLEBRANDS FACTOR[VWF]",
+        "Amount": 22500
+      },
+      {
+        "LABORATORY SERVICES": "BARIUM MEAL",
+        "Amount": 22500
+      },
+      {
+        "LABORATORY SERVICES": "BARIUM Meal-Follow Through",
+        "Amount": 22500
+      },
+      {
+        "LABORATORY SERVICES": "IVU",
+        "Amount": 22500
+      },
+      {
+        "LABORATORY SERVICES": "MUCG/ RUCG",
+        "Amount": 22500
+      },
+      {
+        "LABORATORY SERVICES": "CYSTO-UTHEROGRAM",
+        "Amount": 22500
+      },
+      {
+        "LABORATORY SERVICES": "FISTOLOGRAPHY",
+        "Amount": 22500
+      },
+      {
+        "LABORATORY SERVICES": "RENIN",
+        "Amount": 24300
+      },
+      {
+        "LABORATORY SERVICES": "BARIUM ENEMA",
+        "Amount": 24300
+      },
+      {
+        "LABORATORY SERVICES": "ALLERGEN SCREENINGS (IgG ,IgM ,IgA ,IgE)",
+        "Amount": 27000
+      },
+      {
+        "LABORATORY SERVICES": "ANTI NUCLEAR ANTIBODIES (ANA)/ANF",
+        "Amount": 27000
+      },
+      {
+        "LABORATORY SERVICES": "ANTI-THYROID PEROXIDASE[TPO]",
+        "Amount": 27000
+      },
+      {
+        "LABORATORY SERVICES": "CA 199",
+        "Amount": 27000
+      },
+      {
+        "LABORATORY SERVICES": "CALCITONIN",
+        "Amount": 27000
+      },
+      {
+        "LABORATORY SERVICES": "HERPES SIMPLEX VIRUS (HSV) -1/2 IgG",
+        "Amount": 27000
+      },
+      {
+        "LABORATORY SERVICES": "HERPES SIMPLEX VIRUS (HSV) -1/2 IgM",
+        "Amount": 27000
+      },
+      {
+        "LABORATORY SERVICES": "IMMUNOGLOBULINS (IgG, IgM, IgA)",
+        "Amount": 27000
+      },
+      {
+        "LABORATORY SERVICES": "PARATHYROID HORMONE[PTH]",
+        "Amount": 27000
+      },
+      {
+        "LABORATORY SERVICES": "ELECTROENCEPHALOGRAPHY (EEG)",
+        "Amount": 27000
+      },
+      {
+        "LABORATORY SERVICES": "STRESS ECG",
+        "Amount": 27000
+      },
+      {
+        "LABORATORY SERVICES": "ACTH [ADRENOCORTICOTROPIC HORMONE]",
+        "Amount": 31500
+      },
+      {
+        "LABORATORY SERVICES": "ANTI MULLERIAN HORMONE(AMH)",
+        "Amount": 31500
+      },
+      {
+        "LABORATORY SERVICES": "CA 125",
+        "Amount": 31500
+      },
+      {
+        "LABORATORY SERVICES": "CA 153",
+        "Amount": 31500
+      },
+      {
+        "LABORATORY SERVICES": "HB VIRAL LOAD",
+        "Amount": 31500
+      },
+      {
+        "LABORATORY SERVICES": "HVC VIRAL LOAD",
+        "Amount": 31500
+      },
+      {
+        "LABORATORY SERVICES": "HIV VIRAL LOAD",
+        "Amount": 31500
+      },
+      {
+        "LABORATORY SERVICES": "VASCULAR DOPPLER SCAN",
+        "Amount": 31500
+      },
+      {
+        "LABORATORY SERVICES": "3D ECHOCARDIOGRAPHY (ECHO)",
+        "Amount": 31500
+      },
+      {
+        "LABORATORY SERVICES": "BENCE -JONES PROTEIN",
+        "Amount": 34200
+      },
+      {
+        "LABORATORY SERVICES": "BNP(B-type natriuretic peptite)",
+        "Amount": 36000
+      },
+      {
+        "LABORATORY SERVICES": "PANEL(LFT,EUC,LP,FBC,RBS,LDH,CALCIUM)",
+        "Amount": 36000
+      },
+      {
+        "LABORATORY SERVICES": "VITAMIN D (25-OH VITAMIN D)",
+        "Amount": 40500
+      },
+      {
+        "LABORATORY SERVICES": "ORBITS",
+        "Amount": 40500
+      },
+      {
+        "LABORATORY SERVICES": "ANKLE",
+        "Amount": 45000
+      },
+      {
+        "LABORATORY SERVICES": "ELBOW",
+        "Amount": 45000
+      },
+      {
+        "LABORATORY SERVICES": "HIP",
+        "Amount": 45000
+      },
+      {
+        "LABORATORY SERVICES": "KNEE",
+        "Amount": 45000
+      },
+      {
+        "LABORATORY SERVICES": "SHOULDER",
+        "Amount": 45000
+      },
+      {
+        "LABORATORY SERVICES": "WRIST",
+        "Amount": 45000
+      },
+      {
+        "LABORATORY SERVICES": "BRAIN",
+        "Amount": 45000
+      },
+      {
+        "LABORATORY SERVICES": "MASTOIDS",
+        "Amount": 45000
+      },
+      {
+        "LABORATORY SERVICES": "STRESS ECHO",
+        "Amount": 45000
+      },
+      {
+        "LABORATORY SERVICES": "CARDIAC MARKERS / PROFILE (TEST)",
+        "Amount": 49500
+      },
+      {
+        "LABORATORY SERVICES": "PROTEIN C",
+        "Amount": 49500
+      },
+      {
+        "LABORATORY SERVICES": "PROTEIN S",
+        "Amount": 49500
+      },
+      {
+        "LABORATORY SERVICES": "ABDOMEN",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "PELVIC",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "ANKLE",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "ELBOW",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "HIP",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "KNEE",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "SHOULDER",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "WRIST",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "CERVICAL SPINE",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "LUMBOSACRAL SPINE",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "BRAIN",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "UTERUS",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "MASTOIDS",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "NECK",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "ORBITS",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "PELVIC",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "CERVICAL SPINE",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "LUMBOSACRAL SPINE",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "UTERUS",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "NECK",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "PAEDIAITRIC ECHO",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "UPPER G.I ENDOSCOPY",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "CHEST",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "THORACIC SPINE",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "PROSTATE",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "CHEST",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "PROSTATE",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "FUNDOSCOPY",
+        "Amount": 54000
+      },
+      {
+        "LABORATORY SERVICES": "ANTI PHOSPHOLIPID ANTIBODIES",
+        "Amount": 58500
+      },
+      {
+        "LABORATORY SERVICES": "ABDOMEN",
+        "Amount": 58500
+      },
+      {
+        "LABORATORY SERVICES": "ABDOMINOPELVIC",
+        "Amount": 58500
+      },
+      {
+        "LABORATORY SERVICES": "TRIPHASIC CT",
+        "Amount": 63000
+      },
+      {
+        "LABORATORY SERVICES": "HCV VIRAL LOAD &amp; GENOTYPING",
+        "Amount": 70200
+      },
+      {
+        "LABORATORY SERVICES": "LOWER G.I ENDOSCOPY",
+        "Amount": 72000
+      },
+      {
+        "LABORATORY SERVICES": "COLONOSCOPY",
+        "Amount": 72000
+      },
+      {
+        "LABORATORY SERVICES": "SIGMOIDOSCOPY",
+        "Amount": 72000
+      },
+      {
+        "LABORATORY SERVICES": "RECTO-SIGMOIDOSCOPY",
+        "Amount": 90000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH ANKLES",
+        "Amount": 90000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH ELBOWS",
+        "Amount": 90000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH HIPS",
+        "Amount": 90000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH KNEES",
+        "Amount": 90000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH SHOULDERS",
+        "Amount": 90000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH WRISTS",
+        "Amount": 90000
+      },
+      {
+        "LABORATORY SERVICES": "THORACIC SPINE",
+        "Amount": 90000
+      },
+      {
+        "LABORATORY SERVICES": "CERVICO-THORACIC",
+        "Amount": 90000
+      },
+      {
+        "LABORATORY SERVICES": "THORACO-LUMBAR",
+        "Amount": 90000
+      },
+      {
+        "LABORATORY SERVICES": "INTERVENTIONAL CT PROCEDURES",
+        "Amount": 90000
+      },
+      {
+        "LABORATORY SERVICES": "CERVICO-THORACIC",
+        "Amount": 99000
+      },
+      {
+        "LABORATORY SERVICES": "CT ANGIOGRAPHY",
+        "Amount": 99000
+      },
+      {
+        "LABORATORY SERVICES": "ABDOMINOPELVIC",
+        "Amount": 108000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH ANKLES",
+        "Amount": 108000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH ELBOWS",
+        "Amount": 108000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH HIPS",
+        "Amount": 108000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH KNEES",
+        "Amount": 108000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH SHOULDERS",
+        "Amount": 108000
+      },
+      {
+        "LABORATORY SERVICES": "BOTH WRISTS",
+        "Amount": 108000
+      },
+      {
+        "LABORATORY SERVICES": "THORACO-LUMBAR",
+        "Amount": 108000
+      },
+      {
+        "LABORATORY SERVICES": "INTERVENTIONAL MRI PROCEDURES",
+        "Amount": 108000
+      }
+    ]
+  }

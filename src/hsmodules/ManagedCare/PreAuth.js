@@ -56,6 +56,7 @@ export default function Preauthorization({standAlone}) {
             handleGoBack={handleGoBack}
             showCreate={() => setView("create")}
             showDetail={() => setView("detail")}
+            client_id={client_id}
           />
         </Box>
       )}

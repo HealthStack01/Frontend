@@ -194,7 +194,9 @@ export function TheatreOrderList() {
         "orderInfo.orderObj.order_category": "Theatre Order",
         "participantInfo.billingFacility":
           user.currentEmployee.facilityDetail._id,
-        billing_status: "Unpaid", // need to set this finally
+        billing_status: {
+          $ne: "Fully Paid",
+        }, //b4: "Unpaid"  need to set this finally 
         // storeId:state.StoreModule.selectedStore._id,
         //facility:user.currentEmployee.facilityDetail._id || "",
         $limit: 20,

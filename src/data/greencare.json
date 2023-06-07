@@ -1,0 +1,3798 @@
+{
+    "PROCEDURE": [
+      {
+        "FFg": "B Complex Tablet/1000",
+        "GG": 5,
+        "__EMPTY": 5
+      },
+      {
+        "FFg": "Multivite Tablet 1000",
+        "GG": 5,
+        "__EMPTY": 5
+      },
+      {
+        "FFg": "Fesolate Tab",
+        "GG": 10,
+        "__EMPTY": 10
+      },
+      {
+        "FFg": "Folic Acid",
+        "GG": 10,
+        "__EMPTY": 10
+      },
+      {
+        "FFg": "Paracetamol Tab",
+        "GG": 10,
+        "__EMPTY": 10
+      },
+      {
+        "FFg": "Vitamin Bco Tab",
+        "GG": 10,
+        "__EMPTY": 10
+      },
+      {
+        "FFg": "Vitamin C Tab",
+        "GG": 10,
+        "__EMPTY": 10
+      },
+      {
+        "FFg": "Ginsomin Cap",
+        "GG": 12,
+        "__EMPTY": 12
+      },
+      {
+        "FFg": "Tramadol 50Mg",
+        "GG": 15,
+        "__EMPTY": 15
+      },
+      {
+        "FFg": "Flagyl Tab 200Mg",
+        "GG": 20,
+        "__EMPTY": 20,
+        "__EMPTY_1": 459
+      },
+      {
+        "FFg": "Metronidazole Tab",
+        "GG": 20,
+        "__EMPTY": 20
+      },
+      {
+        "FFg": "Tramadol 100Mg",
+        "GG": 20,
+        "__EMPTY": 20
+      },
+      {
+        "FFg": "Thalazone Tab 500Mg",
+        "GG": 25,
+        "__EMPTY": 25
+      },
+      {
+        "FFg": "Danacid",
+        "GG": 30,
+        "__EMPTY": 30
+      },
+      {
+        "FFg": "Flagyl Tab 400Mg",
+        "GG": 30,
+        "__EMPTY": 30
+      },
+      {
+        "FFg": "Tetracycline Cap",
+        "GG": 30,
+        "__EMPTY": 30
+      },
+      {
+        "FFg": "Zinc Tablet",
+        "GG": 30,
+        "__EMPTY": 30
+      },
+      {
+        "FFg": "Renix",
+        "GG": 40,
+        "__EMPTY": 40
+      },
+      {
+        "FFg": "Centrum Cap",
+        "GG": 50,
+        "__EMPTY": 50
+      },
+      {
+        "FFg": "Cimetidine 200Mg",
+        "GG": 50,
+        "__EMPTY": 50
+      },
+      {
+        "FFg": "Co Tramazole 480Mg (Emtrim)",
+        "GG": 50,
+        "__EMPTY": 50
+      },
+      {
+        "FFg": "Diazepam 5Mg",
+        "GG": 50,
+        "__EMPTY": 50
+      },
+      {
+        "FFg": "Giloba",
+        "GG": 50,
+        "__EMPTY": 50
+      },
+      {
+        "FFg": "Glibenclamide 5Mg (Daonil)",
+        "GG": 50,
+        "__EMPTY": 50
+      },
+      {
+        "FFg": "Ibuproten Tab/Tablet",
+        "GG": 50,
+        "__EMPTY": 50
+      },
+      {
+        "FFg": "Lasix Tab (Furusemide)",
+        "GG": 50,
+        "__EMPTY": 50
+      },
+      {
+        "FFg": "Neomycin Tab",
+        "GG": 50,
+        "__EMPTY": 50
+      },
+      {
+        "FFg": "Salbotamol",
+        "GG": 50,
+        "__EMPTY": 50
+      },
+      {
+        "FFg": "Septrin Tab 480Mg",
+        "GG": 50,
+        "__EMPTY": 50
+      },
+      {
+        "FFg": "Suprafit Cap",
+        "GG": 50,
+        "__EMPTY": 50
+      },
+      {
+        "FFg": "Ventolin Tab",
+        "GG": 50,
+        "__EMPTY": 50
+      },
+      {
+        "FFg": "Vitamin B6",
+        "GG": 50,
+        "__EMPTY": 50
+      },
+      {
+        "FFg": "Chymoral",
+        "GG": 60,
+        "__EMPTY": 60
+      },
+      {
+        "FFg": "Plasil Tab",
+        "GG": 70,
+        "__EMPTY": 70
+      },
+      {
+        "FFg": "Vasoprin 75Mg",
+        "GG": 75,
+        "__EMPTY": 75
+      },
+      {
+        "FFg": "Amlodipine 5Mg",
+        "GG": 80,
+        "__EMPTY": 80
+      },
+      {
+        "FFg": "Diazepam Tab",
+        "GG": 80,
+        "__EMPTY": 80
+      },
+      {
+        "FFg": "Lomotil Tab",
+        "GG": 80,
+        "__EMPTY": 80
+      },
+      {
+        "FFg": "Prednisole 5Mg",
+        "GG": 80,
+        "__EMPTY": 80
+      },
+      {
+        "FFg": "Amitryphlhn",
+        "GG": 100,
+        "__EMPTY": 100
+      },
+      {
+        "FFg": "Amlodipine 10Mg",
+        "GG": 100,
+        "__EMPTY": 100
+      },
+      {
+        "FFg": "Bromazepam 1.5Mg (Lexotan)",
+        "GG": 100,
+        "__EMPTY": 100
+      },
+      {
+        "FFg": "Bromelain + Trypsin Tablet (Chymoral)",
+        "GG": 100,
+        "__EMPTY": 100
+      },
+      {
+        "FFg": "Cloroquine Tab",
+        "GG": 100,
+        "__EMPTY": 100
+      },
+      {
+        "FFg": "Combatrin Tab 125Mg",
+        "GG": 100,
+        "__EMPTY": 100
+      },
+      {
+        "FFg": "Ergometrin Tab",
+        "GG": 100,
+        "__EMPTY": 100
+      },
+      {
+        "FFg": "Gelusil",
+        "GG": 100,
+        "__EMPTY": 100
+      },
+      {
+        "FFg": "Hydralazin Tab",
+        "GG": 100,
+        "__EMPTY": 100
+      },
+      {
+        "FFg": "Lisinopril 10Mg",
+        "GG": 100,
+        "__EMPTY": 100
+      },
+      {
+        "FFg": "Loratidine",
+        "GG": 100,
+        "__EMPTY": 100
+      },
+      {
+        "FFg": "Nospa Tab/Bottle",
+        "GG": 100,
+        "__EMPTY": 100
+      },
+      {
+        "FFg": "Nos-Pan",
+        "GG": 100,
+        "__EMPTY": 100
+      },
+      {
+        "FFg": "Phatonic Tablet",
+        "GG": 100,
+        "__EMPTY": 100
+      },
+      {
+        "FFg": "Piriton Tab",
+        "GG": 100,
+        "__EMPTY": 100
+      },
+      {
+        "FFg": "Sustanon",
+        "GG": 100,
+        "__EMPTY": 100
+      },
+      {
+        "FFg": "Tagamet",
+        "GG": 100,
+        "__EMPTY": 100
+      },
+      {
+        "FFg": "Virest Tab",
+        "GG": 100,
+        "__EMPTY": 100
+      },
+      {
+        "FFg": "Zantac Tab",
+        "GG": 100,
+        "__EMPTY": 100
+      },
+      {
+        "FFg": "Doxycycline 100Mg Cap",
+        "GG": 115,
+        "__EMPTY": 115
+      },
+      {
+        "FFg": "Crystalline Penicillin",
+        "GG": 120,
+        "__EMPTY": 120
+      },
+      {
+        "FFg": "Bromazepam 3Mg (Lexotan)",
+        "GG": 150,
+        "__EMPTY": 150
+      },
+      {
+        "FFg": "Clopidogrel",
+        "GG": 150,
+        "__EMPTY": 150
+      },
+      {
+        "FFg": "Cytotec Tab 200Iu",
+        "GG": 150,
+        "__EMPTY": 150
+      },
+      {
+        "FFg": "Diclofenac (Cataflam) 50Mg",
+        "GG": 150,
+        "__EMPTY": 150
+      },
+      {
+        "FFg": "Digoxin Tab",
+        "GG": 150,
+        "__EMPTY": 150
+      },
+      {
+        "FFg": "Erythromycin 500Mg",
+        "GG": 150,
+        "__EMPTY": 150
+      },
+      {
+        "FFg": "Losartal 50Mg",
+        "GG": 150,
+        "__EMPTY": 150
+      },
+      {
+        "FFg": "Metakelfin Tab",
+        "GG": 150,
+        "__EMPTY": 150
+      },
+      {
+        "FFg": "Phernegan Tab",
+        "GG": 150,
+        "__EMPTY": 150
+      },
+      {
+        "FFg": "Ranitidine Tab",
+        "GG": 150,
+        "__EMPTY": 150
+      },
+      {
+        "FFg": "Supradyn Cap",
+        "GG": 150,
+        "__EMPTY": 150
+      },
+      {
+        "FFg": "Trosyd Ovule 300Mg",
+        "GG": 150,
+        "__EMPTY": 150
+      },
+      {
+        "FFg": "Vitamin A 10,000 Iu",
+        "GG": 150,
+        "__EMPTY": 150
+      },
+      {
+        "FFg": "Vitamin E 10,000",
+        "GG": 150,
+        "__EMPTY": 150
+      },
+      {
+        "FFg": "Amaryl 2Mg",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Amiloride/Hydrochlorothiazide (Modnretic)",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Azithromacycin (250Mg)",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Biopebtin",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Bisoprolol 5Mg",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Cac-1000",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Cataflam Tab 50Mg",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Cavedilol 12.5Mg",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Ciprofloxacin Tab 500Mg",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Esidrex",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Fedene Cap",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Flucamed Cap 500Mg",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Nifedipine 30Mg Xl",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Omeprazole 20Mg/Cap",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Progynova Tab",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Provera Tab",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Proviron Tab",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Quinine Tab",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Stugeron Tab",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Zestril 10Mg",
+        "GG": 200,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Zestril 20Mg",
+        "GG": 220,
+        "__EMPTY": 200
+      },
+      {
+        "FFg": "Amaryl 4Mg",
+        "GG": 250,
+        "__EMPTY": 250
+      },
+      {
+        "FFg": "Cefuroxime 250Mg (Spizef)",
+        "GG": 250,
+        "__EMPTY": 250
+      },
+      {
+        "FFg": "Co Amoxiclav 625",
+        "GG": 250,
+        "__EMPTY": 250
+      },
+      {
+        "FFg": "Contiflo Xl 400Mg",
+        "GG": 250,
+        "__EMPTY": 250
+      },
+      {
+        "FFg": "Daonil Tap",
+        "GG": 250,
+        "__EMPTY": 250
+      },
+      {
+        "FFg": "Diclofena Supposory",
+        "GG": 250,
+        "__EMPTY": 250
+      },
+      {
+        "FFg": "Femal 50Mg",
+        "GG": 250,
+        "__EMPTY": 250
+      },
+      {
+        "FFg": "Livolin Forte",
+        "GG": 250,
+        "__EMPTY": 250
+      },
+      {
+        "FFg": "Misoprostol",
+        "GG": 250,
+        "__EMPTY": 250
+      },
+      {
+        "FFg": "Paludrine Tab (Tin)",
+        "GG": 250,
+        "__EMPTY": 250
+      },
+      {
+        "FFg": "Parlodel 2.5Mg",
+        "GG": 250,
+        "__EMPTY": 250
+      },
+      {
+        "FFg": "Primolut. N Tab",
+        "GG": 250,
+        "__EMPTY": 250
+      },
+      {
+        "FFg": "Rosuvastatin 10Mg",
+        "GG": 250,
+        "__EMPTY": 250
+      },
+      {
+        "FFg": "Sparfloxacin 200Mg",
+        "GG": 250,
+        "__EMPTY": 250
+      },
+      {
+        "FFg": "Zinnat Tab 250Mg",
+        "GG": 250,
+        "__EMPTY": 250
+      },
+      {
+        "FFg": "Df118 30Mg",
+        "GG": 280,
+        "__EMPTY": 280
+      },
+      {
+        "FFg": "Albendazole 200Mg Tablet",
+        "GG": 300,
+        "__EMPTY": 300
+      },
+      {
+        "FFg": "Augumentin 1G",
+        "GG": 300,
+        "__EMPTY": 300
+      },
+      {
+        "FFg": "Bromocriptine 2.5Mg",
+        "GG": 300,
+        "__EMPTY": 300
+      },
+      {
+        "FFg": "Cefuroxime Axetil",
+        "GG": 300,
+        "__EMPTY": 300
+      },
+      {
+        "FFg": "Clotrimazole Vag. Tablet",
+        "GG": 300,
+        "__EMPTY": 300
+      },
+      {
+        "FFg": "Danazol Tab",
+        "GG": 300,
+        "__EMPTY": 300
+      },
+      {
+        "FFg": "Flotac 75Mg",
+        "GG": 300,
+        "__EMPTY": 300
+      },
+      {
+        "FFg": "Glucophage 1G",
+        "GG": 300,
+        "__EMPTY": 300
+      },
+      {
+        "FFg": "Levofloxacin 500Mg",
+        "GG": 300,
+        "__EMPTY": 300
+      },
+      {
+        "FFg": "Levofloxacin 750Mg",
+        "GG": 300,
+        "__EMPTY": 300
+      },
+      {
+        "FFg": "Lipitor 20Mg",
+        "GG": 300,
+        "__EMPTY": 300
+      },
+      {
+        "FFg": "Mefanemic Acid",
+        "GG": 300,
+        "__EMPTY": 300
+      },
+      {
+        "FFg": "Nalidixic Acid",
+        "GG": 300,
+        "__EMPTY": 300
+      },
+      {
+        "FFg": "Sirdalud 4Mg",
+        "GG": 300,
+        "__EMPTY": 300
+      },
+      {
+        "FFg": "Tab Aciclovir 400Mg",
+        "GG": 300,
+        "__EMPTY": 300
+      },
+      {
+        "FFg": "Tarivid Tab",
+        "GG": 300,
+        "__EMPTY": 300
+      },
+      {
+        "FFg": "Clarithro Mycin Tab",
+        "GG": 350,
+        "__EMPTY": 350
+      },
+      {
+        "FFg": "Neurovite Fort",
+        "GG": 350,
+        "__EMPTY": 350
+      },
+      {
+        "FFg": "Ors /Sachet",
+        "GG": 350,
+        "__EMPTY": 350
+      },
+      {
+        "FFg": "Parlodel",
+        "GG": 350,
+        "__EMPTY": 350
+      },
+      {
+        "FFg": "Postinor Tab",
+        "GG": 350,
+        "__EMPTY": 350
+      },
+      {
+        "FFg": "Pregasafe 75Mg",
+        "GG": 350,
+        "__EMPTY": 350
+      },
+      {
+        "FFg": "Syrup Paracetamol",
+        "GG": 400,
+        "__EMPTY": 400
+      },
+      {
+        "FFg": "Cefuroxime 500Mg (Spizef)",
+        "GG": 400,
+        "__EMPTY": 400
+      },
+      {
+        "FFg": "Comicadis 80/1.25Mg",
+        "GG": 400,
+        "__EMPTY": 400
+      },
+      {
+        "FFg": "Vitamin Bco Injection",
+        "GG": 450,
+        "__EMPTY": 450
+      },
+      {
+        "FFg": "Zinnat Tab 500Mg",
+        "GG": 450,
+        "__EMPTY": 450
+      },
+      {
+        "FFg": "Buscopan Injection",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Chloroquine Injection",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Chropeniramine Syrup",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Clomid",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Diclofenac Injection 75Mg",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Fansidar Syrup /Bottle",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Feldene Injection",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Finsidar /Card",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Genticin Injection",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Hemoglobin",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Mchc",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Mcv",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Nospa Injection",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Occult Blood, Stool/Urine",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Oxytoxin Injection",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Paracetamol Injection",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Plasil Injection",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Sabutamol Injection",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Septrin Syrup",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Sustanon Injection",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Syntocinon Injection",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Tagament Injection",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Testosyron Injection",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Tetanus Toxoid",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Tramadol Injection",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Vitamin C Syrup",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Vitamin K Injection",
+        "GG": 500,
+        "__EMPTY": 500
+      },
+      {
+        "FFg": "Co Diovan 80/12.5Mg",
+        "GG": 600,
+        "__EMPTY": 600
+      },
+      {
+        "FFg": "Co-Trmazole Syrup",
+        "GG": 700,
+        "__EMPTY": 700
+      },
+      {
+        "FFg": "Multivitamin Syrup",
+        "GG": 700,
+        "__EMPTY": 700
+      },
+      {
+        "FFg": "Pcv",
+        "GG": 700,
+        "__EMPTY": 700
+      },
+      {
+        "FFg": "Total Acid Phosphatase",
+        "GG": 700,
+        "__EMPTY": 700
+      },
+      {
+        "FFg": "Urinalysis",
+        "GG": 700,
+        "__EMPTY": 700
+      },
+      {
+        "FFg": "Vitamin B Syrup",
+        "GG": 700,
+        "__EMPTY": 700
+      },
+      {
+        "FFg": "Pentazocine Injection",
+        "GG": 800,
+        "__EMPTY": 800
+      },
+      {
+        "FFg": "Albendazole Syrup Bottle",
+        "GG": 800,
+        "__EMPTY": 800
+      },
+      {
+        "FFg": "Arthemter 80Mg",
+        "GG": 800,
+        "__EMPTY": 800
+      },
+      {
+        "FFg": "Chloroquine Syrup",
+        "GG": 800,
+        "__EMPTY": 800
+      },
+      {
+        "FFg": "Clotrimazole Cream",
+        "GG": 800,
+        "__EMPTY": 800
+      },
+      {
+        "FFg": "Combantrin Syrup",
+        "GG": 800,
+        "__EMPTY": 800
+      },
+      {
+        "FFg": "Cough Syrup",
+        "GG": 800,
+        "__EMPTY": 800
+      },
+      {
+        "FFg": "Flagyl Infusion /Bottle",
+        "GG": 800,
+        "__EMPTY": 800
+      },
+      {
+        "FFg": "Folic Acid Syrup",
+        "GG": 800,
+        "__EMPTY": 800
+      },
+      {
+        "FFg": "Genticin Eye/Ear Drop",
+        "GG": 800,
+        "__EMPTY": 800
+      },
+      {
+        "FFg": "Gestid Suspension Small /Bottle",
+        "GG": 800,
+        "__EMPTY": 800
+      },
+      {
+        "FFg": "Platelets",
+        "GG": 800,
+        "__EMPTY": 800
+      },
+      {
+        "FFg": "Reticulocyte",
+        "GG": 800,
+        "__EMPTY": 800
+      },
+      {
+        "FFg": "Trosyd Ovule",
+        "GG": 800,
+        "__EMPTY": 800
+      },
+      {
+        "FFg": "Piriton Syrup",
+        "GG": 900,
+        "__EMPTY": 900
+      },
+      {
+        "FFg": "Alkaline Phosphatase",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Arthemetere/Lumefantrine 20/120Mg Card",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Aspirate Pus Mcs",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Blood Preg. Test",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Calcium",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Calcium Gluconate Injection",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Camoquine Syrup",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Chloride Or Bicarbonate",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Chymoral Injection",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Dexamethasone Injection",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Diazepam Injection",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Digoxin Injection",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Direct Coomb'S Test",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Ergometrin Injection",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Erythromycin Suspension /Bottle",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Fasting Blood Sugar",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Genticin Ointment",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Hydralazin Injection",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Hydrocortisone Injection",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Indirect Coomb'S Test",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Labetalo I Injection",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Lasix Injection (Furusemide)",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Mantoux Test/ Heaf",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Metronidazole Infusion/Bottle",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Metronidazole Suspension /Bottle",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Mist Magnesium Trisilicate/Bottle",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Pethidine Injection",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Phernegan Injection",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Phosphorus",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Potassium",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Prostatic Acid Phospatase",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Quinine Injection",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Random Blood Sugar",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Red Cell Count",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Sgot & Sgpt",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Skin Scraping For Fungus",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Sodium",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Urine Preg. Test",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Ventolin Injection",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Wound Dressing",
+        "GG": 1000,
+        "__EMPTY": 1000
+      },
+      {
+        "FFg": "Broncholyte Syrup",
+        "GG": 1200,
+        "__EMPTY": 1200
+      },
+      {
+        "FFg": "Camosunate",
+        "GG": 1200,
+        "__EMPTY": 1200
+      },
+      {
+        "FFg": "Cipro Infusion Bottle",
+        "GG": 1200,
+        "__EMPTY": 1200
+      },
+      {
+        "FFg": "Hife (Blood Tonic)",
+        "GG": 1200,
+        "__EMPTY": 1200
+      },
+      {
+        "FFg": "Hydrocortisone Ointment",
+        "GG": 1200,
+        "__EMPTY": 1200
+      },
+      {
+        "FFg": "Streptomycin 1G",
+        "GG": 1200,
+        "__EMPTY": 1200
+      },
+      {
+        "FFg": "Blood Group",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Amodiquine Syrup Bottle",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Artesunate Tab Card",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Artesunate/Amodiaguine Syrup Bottle",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Arthemetere/Lumefantrine 80/480Mg Card",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Beta T Injection",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Biocten Bottle",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Canestene Vaginal Tab",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Clotting Time",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Coartem Pack",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Csf Analysis",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Csf Comprehensive (Chemistry+Cyto+Microb.",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Csf(Routine Chemistry)",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Destrose 10% Infusion/Bottle",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Destrose 5% Infusion /Bottle",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Destrose Saline Infusion 500Ml/Bottle",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Gestid Suspension Big /Bottle",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Glucose Tolerance Test",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Grouping &Cross Matching",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Hbsg/Hepatitis C(Screening)",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Hiv Screening",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Iop",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Lokmal (Suspension)",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Lonart D/S/Card",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Microfilaria",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Minor Wound Dressing/Day",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Normal Saline /Bottle",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Opv,Bcg,Dpt,Measles Each",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Paludrine Syrup",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Partial Thromplastin Time",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Polycrol Suspension",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Prothrombim Time",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Quinine Syrup",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Ranferon",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Refraction",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Total Protein",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Trosyd Cream",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Trosyd Power",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Vdrl, Serum/Csf",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Ventolin Nebulizer",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Ventolin Syrup",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Wbc-Total &Diff",
+        "GG": 1500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Cetrixine Syrup",
+        "GG": 1550,
+        "__EMPTY": 1550
+      },
+      {
+        "FFg": "Albumin",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Ankle",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Cholesterol",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Clavicle",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Darrows Infusion Bottle",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Elbow",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Electrolytes",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Emal Injection 150Mg",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Foot/Toe",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Gavisocon Syrup",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "General Practitioner (Gp) Initial Consultation Fee",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Hdl/Ldl Cholesterol",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Humerus",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Inj Artesunate 60Mg",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Knee",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Mannitol Infusion /Bottle",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Normal Consumeables",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Plain Abdominal",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Post Nasal Space",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Premolut Depot Injection",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Ringer Lactate",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Shoulder",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Skull A.P/Lat.",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Thigh/Femur",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Tibia/Fibula",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Triglycerides",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "X-Ray",
+        "GG": 2000,
+        "__EMPTY": 2000
+      },
+      {
+        "FFg": "Ear Piercing",
+        "GG": 2250,
+        "__EMPTY": 2250
+      },
+      {
+        "FFg": "Tongue Tie Release",
+        "GG": 2475,
+        "__EMPTY": 2475
+      },
+      {
+        "FFg": "Amylase",
+        "GG": 2500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Aso Titre",
+        "GG": 2500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Ceftriaxone Ig",
+        "GG": 2500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Creatinine",
+        "GG": 2500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Creatinine Clearance",
+        "GG": 2500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Fbc",
+        "GG": 2500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Genotype",
+        "GG": 2500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Inj Ceftriaxone 1G",
+        "GG": 2500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Ketoprofen 2.5% Cream",
+        "GG": 2500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Mupirocin Cream",
+        "GG": 2500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Omeprazole Injection",
+        "GG": 2500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Pefloxacin Injection /Bottle",
+        "GG": 2500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Semen Analysis",
+        "GG": 2500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Serum Protein Electrophoresis",
+        "GG": 2500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Sputum Mcs",
+        "GG": 2500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Stool Analysis- Routine",
+        "GG": 2500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Urea",
+        "GG": 2500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "Widal Test",
+        "GG": 2500,
+        "__EMPTY": 1500
+      },
+      {
+        "FFg": "2Hr Post Prandial",
+        "GG": 2660,
+        "__EMPTY": 2660
+      },
+      {
+        "FFg": "Direct Bilirubin",
+        "GG": 2700,
+        "__EMPTY": 2700
+      },
+      {
+        "FFg": "Total Bilirubin",
+        "GG": 2700,
+        "__EMPTY": 2700
+      },
+      {
+        "FFg": "Cefurozime Syrup",
+        "GG": 3000,
+        "__EMPTY": 3000
+      },
+      {
+        "FFg": "Cervical Spine(All Views)",
+        "GG": 3000,
+        "__EMPTY": 3000
+      },
+      {
+        "FFg": "Feeding General Ward",
+        "GG": 3000,
+        "__EMPTY": 3000
+      },
+      {
+        "FFg": "Feeding Semi- Private",
+        "GG": 3000,
+        "__EMPTY": 3000
+      },
+      {
+        "FFg": "General Ward Accomodation Per Day",
+        "GG": 3000,
+        "__EMPTY": 3000
+      },
+      {
+        "FFg": "Hip",
+        "GG": 3000,
+        "__EMPTY": 3000
+      },
+      {
+        "FFg": "Nizoral Cream",
+        "GG": 3000,
+        "__EMPTY": 3000
+      },
+      {
+        "FFg": "Obstetric Scan",
+        "GG": 3000,
+        "__EMPTY": 3000
+      },
+      {
+        "FFg": "Pelvic",
+        "GG": 3000,
+        "__EMPTY": 3000
+      },
+      {
+        "FFg": "Sacrum Pa & Lat",
+        "GG": 3000,
+        "__EMPTY": 3000
+      },
+      {
+        "FFg": "Scaling & Polishing",
+        "GG": 3000,
+        "__EMPTY": 3000
+      },
+      {
+        "FFg": "Skin Snip",
+        "GG": 3000,
+        "__EMPTY": 3000
+      },
+      {
+        "FFg": "Stool Mcs",
+        "GG": 3000,
+        "__EMPTY": 3000
+      },
+      {
+        "FFg": "Thoracic Inlet",
+        "GG": 3000,
+        "__EMPTY": 3000
+      },
+      {
+        "FFg": "Urethral & Wound Mcs",
+        "GG": 3000,
+        "__EMPTY": 3000
+      },
+      {
+        "FFg": "Uric Acid",
+        "GG": 3000,
+        "__EMPTY": 3000
+      },
+      {
+        "FFg": "Urine Mcs",
+        "GG": 3000,
+        "__EMPTY": 3000
+      },
+      {
+        "FFg": "Wound Dressing Major",
+        "GG": 3000,
+        "__EMPTY": 3000
+      },
+      {
+        "FFg": "Augumentin Injection 1.5G",
+        "GG": 3500,
+        "__EMPTY": 3500
+      },
+      {
+        "FFg": "Esr+Fbc",
+        "GG": 3500,
+        "__EMPTY": 3500
+      },
+      {
+        "FFg": "Mandibles",
+        "GG": 3500,
+        "__EMPTY": 3500
+      },
+      {
+        "FFg": "Mastoids",
+        "GG": 3500,
+        "__EMPTY": 3500
+      },
+      {
+        "FFg": "Ogtt",
+        "GG": 3500,
+        "__EMPTY": 3500
+      },
+      {
+        "FFg": "Polygynax Apsseives /Pack",
+        "GG": 3500,
+        "__EMPTY": 3500
+      },
+      {
+        "FFg": "Semen Mcs",
+        "GG": 3500,
+        "__EMPTY": 3500
+      },
+      {
+        "FFg": "Swab Mcs",
+        "GG": 3500,
+        "__EMPTY": 3500
+      },
+      {
+        "FFg": "Tmj",
+        "GG": 3500,
+        "__EMPTY": 3500
+      },
+      {
+        "FFg": "Urine Culture +Analysis",
+        "GG": 3500,
+        "__EMPTY": 3500
+      },
+      {
+        "FFg": "Chest Pa & Lateral",
+        "GG": 4000,
+        "__EMPTY": 4000
+      },
+      {
+        "FFg": "Feeding: Private Ward",
+        "GG": 4000,
+        "__EMPTY": 4000
+      },
+      {
+        "FFg": "Hand/ Finger",
+        "GG": 4000,
+        "__EMPTY": 4000
+      },
+      {
+        "FFg": "Hvs Mcs",
+        "GG": 4000,
+        "__EMPTY": 4000
+      },
+      {
+        "FFg": "Pelvimetry",
+        "GG": 4000,
+        "__EMPTY": 4000
+      },
+      {
+        "FFg": "Sputum Culture+ Afb",
+        "GG": 4000,
+        "__EMPTY": 4000
+      },
+      {
+        "FFg": "Thoracic Spine",
+        "GG": 4000,
+        "__EMPTY": 4000
+      },
+      {
+        "FFg": "Wrist",
+        "GG": 4000,
+        "__EMPTY": 4000
+      },
+      {
+        "FFg": "Zinnat Syrup",
+        "GG": 4000,
+        "__EMPTY": 4000
+      },
+      {
+        "FFg": "Erect + Supine",
+        "GG": 4500,
+        "__EMPTY": 4500
+      },
+      {
+        "FFg": "Rheumatoid Factor",
+        "GG": 4500,
+        "__EMPTY": 4500
+      },
+      {
+        "FFg": "Abdominal",
+        "GG": 5000,
+        "__EMPTY": 5000
+      },
+      {
+        "FFg": "Birth Before Arrival Care",
+        "GG": 5000,
+        "__EMPTY": 5000
+      },
+      {
+        "FFg": "Bladder Scan",
+        "GG": 5000,
+        "__EMPTY": 5000
+      },
+      {
+        "FFg": "Confirmatory Hiv",
+        "GG": 5000,
+        "__EMPTY": 5000
+      },
+      {
+        "FFg": "Ctg",
+        "GG": 5000,
+        "__EMPTY": 5000
+      },
+      {
+        "FFg": "Lumbar Spine",
+        "GG": 5000,
+        "__EMPTY": 5000
+      },
+      {
+        "FFg": "Lumbo- Sacral",
+        "GG": 5000,
+        "__EMPTY": 5000
+      },
+      {
+        "FFg": "Major Wound Dressing Per Dressing",
+        "GG": 5000,
+        "__EMPTY": 5000
+      },
+      {
+        "FFg": "Minor Procedure Anesthetist/Anesthesia Fee",
+        "GG": 5000,
+        "__EMPTY": 5000
+      },
+      {
+        "FFg": "Nebulization",
+        "GG": 5000,
+        "__EMPTY": 5000
+      },
+      {
+        "FFg": "Primary Suturing",
+        "GG": 5000,
+        "__EMPTY": 5000
+      },
+      {
+        "FFg": "Semi Private Accomodation Per Day",
+        "GG": 5000,
+        "__EMPTY": 5000
+      },
+      {
+        "FFg": "G-6-Pd Deficiency",
+        "GG": 5100,
+        "__EMPTY": 5100
+      },
+      {
+        "FFg": "Lumber Puncture",
+        "GG": 5500,
+        "__EMPTY": 5500
+      },
+      {
+        "FFg": "Pelvis (A.P)",
+        "GG": 5500,
+        "__EMPTY": 5500
+      },
+      {
+        "FFg": "Simple Extraction",
+        "GG": 5500,
+        "__EMPTY": 5500
+      },
+      {
+        "FFg": "Thoracic - Lumbar Spine",
+        "GG": 5500,
+        "__EMPTY": 5500
+      },
+      {
+        "FFg": "Breast Scan",
+        "GG": 6000,
+        "__EMPTY": 6000
+      },
+      {
+        "FFg": "Cervical Spine",
+        "GG": 6000,
+        "__EMPTY": 6000
+      },
+      {
+        "FFg": "Chest(Pa)",
+        "GG": 6000,
+        "__EMPTY": 6000
+      },
+      {
+        "FFg": "Liver Function Test",
+        "GG": 6000,
+        "__EMPTY": 6000
+      },
+      {
+        "FFg": "Pelvis & Hip",
+        "GG": 6000,
+        "__EMPTY": 6000
+      },
+      {
+        "FFg": "Prostate Scan",
+        "GG": 6000,
+        "__EMPTY": 6000
+      },
+      {
+        "FFg": "Simple Amalgam Filling",
+        "GG": 6000,
+        "__EMPTY": 6000
+      },
+      {
+        "FFg": "Testes Scan",
+        "GG": 6000,
+        "__EMPTY": 6000
+      },
+      {
+        "FFg": "Thyroid Scan",
+        "GG": 6000,
+        "__EMPTY": 6000
+      },
+      {
+        "FFg": "Dental",
+        "GG": 6500,
+        "__EMPTY": 6500
+      },
+      {
+        "FFg": "Lipid Profile",
+        "GG": 6500,
+        "__EMPTY": 6500
+      },
+      {
+        "FFg": "Single Vision Lenses",
+        "GG": 7000,
+        "__EMPTY": 7000
+      },
+      {
+        "FFg": "Cvf/Glaucoma Screening",
+        "GG": 7000,
+        "__EMPTY": 7000
+      },
+      {
+        "FFg": "Nebulization- Drug",
+        "GG": 7000,
+        "__EMPTY": 7000
+      },
+      {
+        "FFg": "Oxygen Therapy/Day",
+        "GG": 7000,
+        "__EMPTY": 7000
+      },
+      {
+        "FFg": "Rocephin Inj",
+        "GG": 7000,
+        "__EMPTY": 7000
+      },
+      {
+        "FFg": "Rocephine Injection",
+        "GG": 7000,
+        "__EMPTY": 7000
+      },
+      {
+        "FFg": "Barium Swallow",
+        "GG": 7500,
+        "__EMPTY": 7500
+      },
+      {
+        "FFg": "Icu Care/Day",
+        "GG": 7500,
+        "__EMPTY": 7500
+      },
+      {
+        "FFg": "Phototherapy/Day",
+        "GG": 7500,
+        "__EMPTY": 7500
+      },
+      {
+        "FFg": "Physiotherapy Consultation",
+        "GG": 7500,
+        "__EMPTY": 7500
+      },
+      {
+        "FFg": "Physiotherapy/Session",
+        "GG": 7500,
+        "__EMPTY": 7500
+      },
+      {
+        "FFg": "Private Ward Accomodation Per Day",
+        "GG": 7500,
+        "__EMPTY": 7500
+      },
+      {
+        "FFg": "Sinuses",
+        "GG": 7500,
+        "__EMPTY": 7500
+      },
+      {
+        "FFg": "Subsequent Reviews",
+        "GG": 7500,
+        "__EMPTY": 7500
+      },
+      {
+        "FFg": "Ecg ( Post Exercise)",
+        "GG": 8000,
+        "__EMPTY": 8000
+      },
+      {
+        "FFg": "Ecg(Pre-Exercise/Resting)",
+        "GG": 8000,
+        "__EMPTY": 8000
+      },
+      {
+        "FFg": "Physiotherapist(Per Session)",
+        "GG": 8000,
+        "__EMPTY": 8000
+      },
+      {
+        "FFg": "Tympanometry",
+        "GG": 8250,
+        "__EMPTY": 8250
+      },
+      {
+        "FFg": "Consultation",
+        "GG": 10000,
+        "__EMPTY": 10000
+      },
+      {
+        "FFg": "Bifocal Lenses",
+        "GG": 10000,
+        "__EMPTY": 10000
+      },
+      {
+        "FFg": "Circumcision Platerbel",
+        "GG": 10000,
+        "__EMPTY": 10000
+      },
+      {
+        "FFg": "Ear Syringing/Ear",
+        "GG": 10000,
+        "__EMPTY": 10000
+      },
+      {
+        "FFg": "Foreign Body Removal",
+        "GG": 10000,
+        "__EMPTY": 10000
+      },
+      {
+        "FFg": "Incubator Care/Day",
+        "GG": 10000,
+        "__EMPTY": 10000
+      },
+      {
+        "FFg": "Orthopaedics Consultation",
+        "GG": 10000,
+        "__EMPTY": 10000
+      },
+      {
+        "FFg": "Oxygen Therapy(Per Day)",
+        "GG": 10000,
+        "__EMPTY": 10000
+      },
+      {
+        "FFg": "Sialogram",
+        "GG": 10000,
+        "__EMPTY": 10000
+      },
+      {
+        "FFg": "Specialist Con(1St) In House( O And G)",
+        "GG": 10000,
+        "__EMPTY": 10000
+      },
+      {
+        "FFg": "Hepatitis & Yellow Fever Each",
+        "GG": 10250,
+        "__EMPTY": 10250
+      },
+      {
+        "FFg": "Vaccine (Mmr))",
+        "GG": 10500,
+        "__EMPTY": 10500
+      },
+      {
+        "FFg": "Myelogram",
+        "GG": 11000,
+        "__EMPTY": 11000
+      },
+      {
+        "FFg": "Cytology",
+        "GG": 12000,
+        "__EMPTY": 12000
+      },
+      {
+        "FFg": "Fistulogram / Sinogram",
+        "GG": 12000,
+        "__EMPTY": 12000
+      },
+      {
+        "FFg": "Hsg",
+        "GG": 12000,
+        "__EMPTY": 12000
+      },
+      {
+        "FFg": "Iv Cholangiogram",
+        "GG": 12000,
+        "__EMPTY": 12000
+      },
+      {
+        "FFg": "Ivu",
+        "GG": 12000,
+        "__EMPTY": 12000
+      },
+      {
+        "FFg": "Mc-Urethrogram",
+        "GG": 12000,
+        "__EMPTY": 12000
+      },
+      {
+        "FFg": "Oral Cholecystogram",
+        "GG": 12000,
+        "__EMPTY": 12000
+      },
+      {
+        "FFg": "Rvs Drug",
+        "GG": 12000,
+        "__EMPTY": 12000
+      },
+      {
+        "FFg": "Blood Culture",
+        "GG": 12500,
+        "__EMPTY": 12500
+      },
+      {
+        "FFg": "Barium Enema",
+        "GG": 12750,
+        "__EMPTY": 12750
+      },
+      {
+        "FFg": "Tissue",
+        "GG": 13500,
+        "__EMPTY": 13500
+      },
+      {
+        "FFg": "Cauterization",
+        "GG": 15000,
+        "__EMPTY": 15000
+      },
+      {
+        "FFg": "Mammogram",
+        "GG": 15000,
+        "__EMPTY": 15000
+      },
+      {
+        "FFg": "Merselene Tape",
+        "GG": 15000,
+        "__EMPTY": 15000
+      },
+      {
+        "FFg": "Minor Suturing, Anaesthesia And Theatre",
+        "GG": 15000,
+        "__EMPTY": 15000
+      },
+      {
+        "FFg": "Oncology Consultation Fee",
+        "GG": 15000,
+        "__EMPTY": 15000
+      },
+      {
+        "FFg": "Prostate Specific Antigen",
+        "GG": 15000,
+        "__EMPTY": 15000
+      },
+      {
+        "FFg": "Rare Specialists (Ear, Nose And Throat (Ent) Surgeon, Orthopaedic Surgeon And Ophthalmologist)",
+        "GG": 15000,
+        "__EMPTY": 15000
+      },
+      {
+        "FFg": "Venogram",
+        "GG": 15000,
+        "__EMPTY": 15000
+      },
+      {
+        "FFg": "Fore Arm Cast",
+        "GG": 16500,
+        "__EMPTY": 16500
+      },
+      {
+        "FFg": "Hand Cast",
+        "GG": 16500,
+        "__EMPTY": 16500
+      },
+      {
+        "FFg": "Pure Tone Audiometry(Pta)",
+        "GG": 16500,
+        "__EMPTY": 16500
+      },
+      {
+        "FFg": "Upper Arm Cast",
+        "GG": 16500,
+        "__EMPTY": 16500
+      },
+      {
+        "FFg": "Blood Rh +Ve",
+        "GG": 17000,
+        "__EMPTY": 17000
+      },
+      {
+        "FFg": "Mcug+Rcug",
+        "GG": 17000,
+        "__EMPTY": 17000
+      },
+      {
+        "FFg": "Eeg",
+        "GG": 18000,
+        "__EMPTY": 18000
+      },
+      {
+        "FFg": "Meronem",
+        "GG": 18000,
+        "__EMPTY": 18000
+      },
+      {
+        "FFg": "Barium Meal",
+        "GG": 20000,
+        "__EMPTY": 20000
+      },
+      {
+        "FFg": "Barium Meal & Follow Through",
+        "GG": 20000,
+        "__EMPTY": 20000
+      },
+      {
+        "FFg": "Blood Rh –Ve",
+        "GG": 20000,
+        "__EMPTY": 20000
+      },
+      {
+        "FFg": "Chalazion Incision/Drainage",
+        "GG": 20000,
+        "__EMPTY": 20000
+      },
+      {
+        "FFg": "Closed Reduction & Cast Application",
+        "GG": 20000,
+        "__EMPTY": 20000
+      },
+      {
+        "FFg": "Manual Removal Of Placenta",
+        "GG": 20000,
+        "__EMPTY": 20000
+      },
+      {
+        "FFg": "Neonatal Specialist Consultation And Resuscitation(Premature)",
+        "GG": 20000,
+        "__EMPTY": 20000
+      },
+      {
+        "FFg": "Pap Smear + Histology",
+        "GG": 20000,
+        "__EMPTY": 20000
+      },
+      {
+        "FFg": "Release Of Chordate",
+        "GG": 20000,
+        "__EMPTY": 20000
+      },
+      {
+        "FFg": "Skin Traction",
+        "GG": 20000,
+        "__EMPTY": 20000
+      },
+      {
+        "FFg": "Stye Incision/Drainage",
+        "GG": 20000,
+        "__EMPTY": 20000
+      },
+      {
+        "FFg": "Perineal Warts Podophyllin Rx X 6Co",
+        "GG": 20500,
+        "__EMPTY": 20500
+      },
+      {
+        "FFg": "Hormonal Assays, Profile",
+        "GG": 22000,
+        "__EMPTY": 22000
+      },
+      {
+        "FFg": "Varilux Lenses",
+        "GG": 23000,
+        "__EMPTY": 23000
+      },
+      {
+        "FFg": "Pta + Tympanometry",
+        "GG": 24750,
+        "__EMPTY": 24750
+      },
+      {
+        "FFg": "Aural & Nasal Washout",
+        "GG": 27500,
+        "__EMPTY": 247500
+      },
+      {
+        "FFg": "Ear",
+        "GG": 27500,
+        "__EMPTY": 247500
+      },
+      {
+        "FFg": "Hip Spica",
+        "GG": 27500,
+        "__EMPTY": 247500
+      },
+      {
+        "FFg": "Nose",
+        "GG": 27500,
+        "__EMPTY": 247500
+      },
+      {
+        "FFg": "Throat",
+        "GG": 27500,
+        "__EMPTY": 247500
+      },
+      {
+        "FFg": "Invisible Lenses",
+        "GG": 28000,
+        "__EMPTY": 28000
+      },
+      {
+        "FFg": "Exchange Blood Transfusion (Ebt) Rh+Ve (With Set)",
+        "GG": 30000,
+        "__EMPTY": 30000
+      },
+      {
+        "FFg": "Intermediate Procedure Anesthetist/Anesthesia Fee",
+        "GG": 30000,
+        "__EMPTY": 30000
+      },
+      {
+        "FFg": "Pterygium Excision/Eye",
+        "GG": 30000,
+        "__EMPTY": 30000
+      },
+      {
+        "FFg": "Plaster Of Paris (Pop) Application",
+        "GG": 30500,
+        "__EMPTY": 30500
+      },
+      {
+        "FFg": "Antral Washout",
+        "GG": 33000,
+        "__EMPTY": 33000
+      },
+      {
+        "FFg": "Exchange Blood Transfusion (Ebt) Rh-Ve (With Set)",
+        "GG": 35000,
+        "__EMPTY": 35000
+      },
+      {
+        "FFg": "Oncology Consultation Fee (Call Out)",
+        "GG": 35000,
+        "__EMPTY": 35000
+      },
+      {
+        "FFg": "Cervical Polypectomy",
+        "GG": 40000,
+        "__EMPTY": 40000
+      },
+      {
+        "FFg": "Echocardiogram",
+        "GG": 40000,
+        "__EMPTY": 40000
+      },
+      {
+        "FFg": "Major I&D",
+        "GG": 40000,
+        "__EMPTY": 40000
+      },
+      {
+        "FFg": "Major Procedure Anesthetist/Anesthesia Fee",
+        "GG": 40000,
+        "__EMPTY": 40000
+      },
+      {
+        "FFg": "Major Suturing, Anaesthesia And Theatre",
+        "GG": 40000,
+        "__EMPTY": 40000
+      },
+      {
+        "FFg": "Repair Of Cervical Laceration",
+        "GG": 40000,
+        "__EMPTY": 40000
+      },
+      {
+        "FFg": "Therapeutic D&C/Uterine Evacuation",
+        "GG": 40000,
+        "__EMPTY": 40000
+      },
+      {
+        "FFg": "Repair Of 3Rd Deg Tear",
+        "GG": 45500,
+        "__EMPTY": 45500
+      },
+      {
+        "FFg": "Stenosing Tenosynovitis Release",
+        "GG": 46750,
+        "__EMPTY": 46750
+      },
+      {
+        "FFg": "Eua Without Histology And Biopsy",
+        "GG": 48000,
+        "__EMPTY": 48000
+      },
+      {
+        "FFg": "Anc",
+        "GG": 50000,
+        "__EMPTY": 50000
+      },
+      {
+        "FFg": "Incision And Drainage (I & D)",
+        "GG": 50000,
+        "__EMPTY": 50000
+      },
+      {
+        "FFg": "Surgical Extraction",
+        "GG": 50000,
+        "__EMPTY": 50000
+      },
+      {
+        "FFg": "Minor Burns/Wound Debridement",
+        "GG": 50500,
+        "__EMPTY": 50500
+      },
+      {
+        "FFg": "Gastroduodenoscopy",
+        "GG": 55000,
+        "__EMPTY": 55000
+      },
+      {
+        "FFg": "Proctoscopy",
+        "GG": 55000,
+        "__EMPTY": 55000
+      },
+      {
+        "FFg": "Bilateral Tubal Ligation",
+        "GG": 60000,
+        "__EMPTY": 60000
+      },
+      {
+        "FFg": "Laparoscopy & Dye Test",
+        "GG": 60000,
+        "__EMPTY": 60000
+      },
+      {
+        "FFg": "Sigmoidoscopy",
+        "GG": 60000,
+        "__EMPTY": 60000
+      },
+      {
+        "FFg": "Ct Scan",
+        "GG": 70000,
+        "__EMPTY": 70000
+      },
+      {
+        "FFg": "Mri",
+        "GG": 70000,
+        "__EMPTY": 70000
+      },
+      {
+        "FFg": "Normal Delivery +/-Epi+/-Induction",
+        "GG": 70000,
+        "__EMPTY": 70000
+      },
+      {
+        "FFg": "Ingrown Toe Nail",
+        "GG": 70250,
+        "__EMPTY": 70250
+      },
+      {
+        "FFg": "Injection Sclerotherapy",
+        "GG": 70500,
+        "__EMPTY": 70500
+      },
+      {
+        "FFg": "Drainage Of Anal Abscess",
+        "GG": 75000,
+        "__EMPTY": 75000
+      },
+      {
+        "FFg": "Assisted Breech Delivery (Extra)",
+        "GG": 80000,
+        "__EMPTY": 80000
+      },
+      {
+        "FFg": "Multiple Delivery",
+        "GG": 80000,
+        "__EMPTY": 80000
+      },
+      {
+        "FFg": "Oesophagoscopy",
+        "GG": 90000,
+        "__EMPTY": 90000
+      },
+      {
+        "FFg": "Small Cyst Excision",
+        "GG": 90500,
+        "__EMPTY": 90500
+      },
+      {
+        "FFg": "Bronchoscopy",
+        "GG": 97500,
+        "__EMPTY": 97500
+      },
+      {
+        "FFg": "Cervical Cerclage",
+        "GG": 100000,
+        "__EMPTY": 100000
+      },
+      {
+        "FFg": "Intercostal Drainage Insertion (General Surgeon)",
+        "GG": 100000,
+        "__EMPTY": 100000
+      },
+      {
+        "FFg": "Keloid Excision",
+        "GG": 100000,
+        "__EMPTY": 100000
+      },
+      {
+        "FFg": "Major Wound Debridement",
+        "GG": 100000,
+        "__EMPTY": 100000
+      },
+      {
+        "FFg": "Marsupialization",
+        "GG": 100000,
+        "__EMPTY": 100000
+      },
+      {
+        "FFg": "Supra Pubic Cystostomy",
+        "GG": 100000,
+        "__EMPTY": 100000
+      },
+      {
+        "FFg": "Correction Of Duputyren Contracture",
+        "GG": 110000,
+        "__EMPTY": 110000
+      },
+      {
+        "FFg": "Torsion Spermatic Cord",
+        "GG": 110000,
+        "__EMPTY": 110000
+      },
+      {
+        "FFg": "Trabeculectomy",
+        "GG": 120000,
+        "__EMPTY": 120000
+      },
+      {
+        "FFg": "Amputation & Joint Dislocation",
+        "GG": 130000,
+        "__EMPTY": 130000
+      },
+      {
+        "FFg": "Cataract Surgery",
+        "GG": 150000,
+        "__EMPTY": 150000
+      },
+      {
+        "FFg": "Hysteroscopy",
+        "GG": 150000,
+        "__EMPTY": 150000
+      },
+      {
+        "FFg": "Fistula – In- Ano",
+        "GG": 157500,
+        "__EMPTY": 157500
+      },
+      {
+        "FFg": "Multiple Nasal Polypectomy",
+        "GG": 180000,
+        "__EMPTY": 180000
+      },
+      {
+        "FFg": "Ganglion Excision",
+        "GG": 180500,
+        "__EMPTY": 180500
+      },
+      {
+        "FFg": "Bone Grafting",
+        "GG": 190000,
+        "__EMPTY": 190000
+      },
+      {
+        "FFg": "Excision Biopsy",
+        "GG": 197500,
+        "__EMPTY": 197500
+      },
+      {
+        "FFg": "Appendecectomy ,Uncomplicated All Inclusive",
+        "GG": 200000,
+        "__EMPTY": 200000
+      },
+      {
+        "FFg": "Breast Lump Excision",
+        "GG": 200000,
+        "__EMPTY": 200000
+      },
+      {
+        "FFg": "Haemorrhoidectomy",
+        "GG": 200000,
+        "__EMPTY": 200000
+      },
+      {
+        "FFg": "Herniorraphy -Inguinal/Others",
+        "GG": 200000,
+        "__EMPTY": 200000
+      },
+      {
+        "FFg": "Hydrocelectomy",
+        "GG": 200000,
+        "__EMPTY": 200000
+      },
+      {
+        "FFg": "Intercostal Drainage Insertion (Cardiothorax Surgeon)",
+        "GG": 200000,
+        "__EMPTY": 200000
+      },
+      {
+        "FFg": "Orchidectomy/Orchidopexy",
+        "GG": 200000,
+        "__EMPTY": 200000
+      },
+      {
+        "FFg": "Strangulated Hernia",
+        "GG": 200000,
+        "__EMPTY": 200000
+      },
+      {
+        "FFg": "Adenoidectomy All Inclusive",
+        "GG": 250000,
+        "__EMPTY": 250000
+      },
+      {
+        "FFg": "Appendectomy ( Ruptured)",
+        "GG": 250000,
+        "__EMPTY": 250000
+      },
+      {
+        "FFg": "Cholecystectomy",
+        "GG": 250000,
+        "__EMPTY": 250000
+      },
+      {
+        "FFg": "Thyroidectomy",
+        "GG": 250000,
+        "__EMPTY": 250000
+      },
+      {
+        "FFg": "Tonsillectomy",
+        "GG": 250000,
+        "__EMPTY": 250000
+      },
+      {
+        "FFg": "Lipoma Excision",
+        "GG": 250500,
+        "__EMPTY": 250500
+      },
+      {
+        "FFg": "Skin Grafting",
+        "GG": 260000,
+        "__EMPTY": 260000
+      },
+      {
+        "FFg": "Ectopic Pregnancy",
+        "GG": 280000,
+        "__EMPTY": 280000
+      },
+      {
+        "FFg": "C/S+Btl (All Inclusive",
+        "GG": 300000,
+        "__EMPTY": 300000
+      },
+      {
+        "FFg": "Caesarian Section(Total Package)",
+        "GG": 300000,
+        "__EMPTY": 300000
+      },
+      {
+        "FFg": "Intestinal Obstruction Without Resection",
+        "GG": 300000,
+        "__EMPTY": 300000
+      },
+      {
+        "FFg": "Hysterectomy (Elect Vaginal, Elect Abdominal)",
+        "GG": 350000,
+        "__EMPTY": 350000
+      },
+      {
+        "FFg": "Intestinal Obstruction With Resection",
+        "GG": 350000,
+        "__EMPTY": 350000
+      },
+      {
+        "FFg": "Laparatomy",
+        "GG": 350000,
+        "__EMPTY": 350000
+      },
+      {
+        "FFg": "2 Previous Cs + Cs After A Myomectomy",
+        "GG": 400000,
+        "__EMPTY": 400000
+      },
+      {
+        "FFg": "Cs + Hysterectomy (All Inclusive",
+        "GG": 400000,
+        "__EMPTY": 400000
+      },
+      {
+        "FFg": "Myomectomy (For Uterus < 20Weeks) (Theater Fee And Consumables)",
+        "GG": 450000,
+        "__EMPTY": 450000
+      },
+      {
+        "FFg": "Repeat Myomectomy",
+        "GG": 480000,
+        "__EMPTY": 480000
+      },
+      {
+        "FFg": "Specialist Consultation(External)",
+        "GG": "10000 ",
+        "__EMPTY": 10000
+      },
+      {
+        "DRUGS": "ALBENDAZOLE 200MG TABLET",
+        "COST": 300
+      },
+      {
+        "DRUGS": "ALBENDAZOLE SYRUP BOTTLE",
+        "COST": 800
+      },
+      {
+        "DRUGS": "AMILORIDE/HYDROCHLOROTHIAZIDE (MODNRETIC)",
+        "COST": 200
+      },
+      {
+        "DRUGS": "AMLODIPINE 5MG",
+        "COST": 80
+      },
+      {
+        "DRUGS": "AMLODIPINE 10MG",
+        "COST": 100
+      },
+      {
+        "DRUGS": "ARTHEMETERE/LUMEFANTRINE 20/120MG CARD",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "ARTHEMTER 80MG",
+        "COST": 800
+      },
+      {
+        "DRUGS": "ARTHEMETERE/LUMEFANTRINE 80/480MG CARD",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "ARTESUNATE/AMODIAGUINE SYRUP BOTTLE",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "ARTESUNATE TAB CARD",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "AMARYL 2MG",
+        "COST": 200
+      },
+      {
+        "DRUGS": "AMARYL 4MG",
+        "COST": 250
+      },
+      {
+        "DRUGS": "AMITRYPHLHN",
+        "COST": 100
+      },
+      {
+        "DRUGS": "AZITHROMACYCIN (250MG)",
+        "COST": 200
+      },
+      {
+        "DRUGS": "AUGUMENTIN 1G",
+        "COST": 300
+      },
+      {
+        "DRUGS": "AUGUMENTIN INJECTION 1.5g",
+        "COST": 3500
+      },
+      {
+        "DRUGS": "AMODIQUINE SYRUP BOTTLE",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "BROMELAIN + TRYPSIN TABLET (CHYMORAL)",
+        "COST": 100
+      },
+      {
+        "DRUGS": "BROMAZEPAM 1.5MG (LEXOTAN)",
+        "COST": 100
+      },
+      {
+        "DRUGS": "BROMAZEPAM 3MG (LEXOTAN)",
+        "COST": 150
+      },
+      {
+        "DRUGS": "BROMOCRIPTINE 2.5MG",
+        "COST": 300
+      },
+      {
+        "DRUGS": "BIOPEBTIN",
+        "COST": 200
+      },
+      {
+        "DRUGS": "B COMPLEX TABLET/1000",
+        "COST": 5
+      },
+      {
+        "DRUGS": "BUSCOPAN INJECTION",
+        "COST": 500
+      },
+      {
+        "DRUGS": "BRONCHOLYTE SYRUP",
+        "COST": 1200
+      },
+      {
+        "DRUGS": "BIOCTEN BOTTLE",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "BETA T INJECTION",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "CAC-1000",
+        "COST": 200
+      },
+      {
+        "DRUGS": "CANESTENE VAGINAL TAB",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "CATAFLAM TAB 50MG",
+        "COST": 200
+      },
+      {
+        "DRUGS": "CHLOROQUINE SYRUP",
+        "COST": 800
+      },
+      {
+        "DRUGS": "CAMOQUINE SYRUP",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "CLOROQUINE TAB",
+        "COST": 100
+      },
+      {
+        "DRUGS": "CHLOROQUINE INJECTION",
+        "COST": 500
+      },
+      {
+        "DRUGS": "CHYMORAL",
+        "COST": 60
+      },
+      {
+        "DRUGS": "CHYMORAL INJECTION",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "CALCIUM GLUCONATE INJECTION",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "CIPROFLOXACIN TAB 500MG",
+        "COST": 200
+      },
+      {
+        "DRUGS": "CIPRO INFUSION BOTTLE",
+        "COST": 1200
+      },
+      {
+        "DRUGS": "CLOMID",
+        "COST": 500
+      },
+      {
+        "DRUGS": "COARTEM PACK",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "CAMOSUNATE",
+        "COST": 1200
+      },
+      {
+        "DRUGS": "COMBANTRIN SYRUP",
+        "COST": 800
+      },
+      {
+        "DRUGS": "COMBATRIN TAB 125MG",
+        "COST": 100
+      },
+      {
+        "DRUGS": "CRYSTALLINE PENICILLIN",
+        "COST": 120
+      },
+      {
+        "DRUGS": "CYTOTEC TAB 200IU",
+        "COST": 150
+      },
+      {
+        "DRUGS": "CLOPIDOGREL",
+        "COST": 150
+      },
+      {
+        "DRUGS": "CIMETIDINE 200MG",
+        "COST": 50
+      },
+      {
+        "DRUGS": "CO AMOXICLAV 625",
+        "COST": 250
+      },
+      {
+        "DRUGS": "CEFUROXIME AXETIL",
+        "COST": 300
+      },
+      {
+        "DRUGS": "CHROPENIRAMINE SYRUP",
+        "COST": 500
+      },
+      {
+        "DRUGS": "CLOTRIMAZOLE CREAM",
+        "COST": 800
+      },
+      {
+        "DRUGS": "CLOTRIMAZOLE VAG. TABLET",
+        "COST": 300
+      },
+      {
+        "DRUGS": "CENTRUM CAP",
+        "COST": 50
+      },
+      {
+        "DRUGS": "CEFUROXIME 250MG (SPIZEF)",
+        "COST": 250
+      },
+      {
+        "DRUGS": "CEFUROXIME 500MG (SPIZEF)",
+        "COST": 400
+      },
+      {
+        "DRUGS": "CO TRAMAZOLE 480MG (EMTRIM)",
+        "COST": 50
+      },
+      {
+        "DRUGS": "CONTIFLO XL 400MG",
+        "COST": 250
+      },
+      {
+        "DRUGS": "CLARITHRO MYCIN TAB",
+        "COST": 350
+      },
+      {
+        "DRUGS": "CO-TRMAZOLE SYRUP",
+        "COST": 700
+      },
+      {
+        "DRUGS": "CO DIOVAN 80/12.5MG",
+        "COST": 600
+      },
+      {
+        "DRUGS": "CEFUROZIME SYRUP",
+        "COST": 3000
+      },
+      {
+        "DRUGS": "COUGH SYRUP",
+        "COST": 800
+      },
+      {
+        "DRUGS": "COMICADIS 80/1.25MG",
+        "COST": 400
+      },
+      {
+        "DRUGS": "CAVEDILOL 12.5MG",
+        "COST": 200
+      },
+      {
+        "DRUGS": "DIAZEPAM 5MG",
+        "COST": 50
+      },
+      {
+        "DRUGS": "DICLOFENAC (CATAFLAM) 50MG",
+        "COST": 150
+      },
+      {
+        "DRUGS": "DANAZOL TAB",
+        "COST": 300
+      },
+      {
+        "DRUGS": "DANACID",
+        "COST": 30
+      },
+      {
+        "DRUGS": "DAONIL TAP",
+        "COST": 250
+      },
+      {
+        "DRUGS": "DEXAMETHASONE INJECTION",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "DARROWS INFUSION BOTTLE",
+        "COST": 2000
+      },
+      {
+        "DRUGS": "DESTROSE 5% INFUSION /BOTTLE",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "DESTROSE 10% INFUSION/BOTTLE",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "DESTROSE SALINE INFUSION 500ML/BOTTLE",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "DIAZEPAM INJECTION",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "DIAZEPAM TAB",
+        "COST": 80
+      },
+      {
+        "DRUGS": "DICLOFENAC INJECTION 75MG",
+        "COST": 500
+      },
+      {
+        "DRUGS": "DICLOFENA SUPPOSORY",
+        "COST": 250
+      },
+      {
+        "DRUGS": "DIGOXIN TAB",
+        "COST": 150
+      },
+      {
+        "DRUGS": "DIGOXIN INJECTION",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "DOXYCYCLINE 100MG CAP",
+        "COST": 115
+      },
+      {
+        "DRUGS": "ERYTHROMYCIN 500MG",
+        "COST": 150
+      },
+      {
+        "DRUGS": "ERYTHROMYCIN SUSPENSION /BOTTLE",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "ERGOMETRIN INJECTION",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "ESIDREX",
+        "COST": 200
+      },
+      {
+        "DRUGS": "ERGOMETRIN TAB",
+        "COST": 100
+      },
+      {
+        "DRUGS": "EMAL INJECTION 150mg",
+        "COST": 2000
+      },
+      {
+        "DRUGS": "FINSIDAR /CARD",
+        "COST": 500
+      },
+      {
+        "DRUGS": "FANSIDAR SYRUP /BOTTLE",
+        "COST": 500
+      },
+      {
+        "DRUGS": "FELDENE INJECTION",
+        "COST": 500
+      },
+      {
+        "DRUGS": "FEDENE CAP",
+        "COST": 200
+      },
+      {
+        "DRUGS": "FESOLATE TAB",
+        "COST": 10
+      },
+      {
+        "DRUGS": "FLAGYL TAB 200MG",
+        "COST": 20
+      },
+      {
+        "DRUGS": "FLAGYL TAB 400MG",
+        "COST": 30
+      },
+      {
+        "DRUGS": "FLAGYL INFUSION /BOTTLE",
+        "COST": 800
+      },
+      {
+        "DRUGS": "FOLIC ACID",
+        "COST": 10
+      },
+      {
+        "DRUGS": "FLUCAMED CAP 500MG",
+        "COST": 200
+      },
+      {
+        "DRUGS": "FOLIC ACID SYRUP",
+        "COST": 800
+      },
+      {
+        "DRUGS": "FLOTAC 75MG",
+        "COST": 300
+      },
+      {
+        "DRUGS": "FEMAL 50MG",
+        "COST": 250
+      },
+      {
+        "DRUGS": "GENTICIN INJECTION",
+        "COST": 500
+      },
+      {
+        "DRUGS": "GENTICIN EYE/EAR DROP",
+        "COST": 800
+      },
+      {
+        "DRUGS": "GENTICIN OINTMENT",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "GESTID SUSPENSION BIG /BOTTLE",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "GESTID SUSPENSION SMALL /BOTTLE",
+        "COST": 800
+      },
+      {
+        "DRUGS": "GELUSIL",
+        "COST": 100
+      },
+      {
+        "DRUGS": "GLUCOPHAGE 1g",
+        "COST": 300
+      },
+      {
+        "DRUGS": "GLIBENCLAMIDE 5MG (DAONIL)",
+        "COST": 50
+      },
+      {
+        "DRUGS": "GINSOMIN CAP",
+        "COST": 12
+      },
+      {
+        "DRUGS": "GILOBA",
+        "COST": 50
+      },
+      {
+        "DRUGS": "GAVISOCON SYRUP",
+        "COST": 2000
+      },
+      {
+        "DRUGS": "HYDRALAZIN INJECTION",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "HYDRALAZIN TAB",
+        "COST": 100
+      },
+      {
+        "DRUGS": "HYDROCORTISONE INJECTION",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "HYDROCORTISONE OINTMENT",
+        "COST": 1200
+      },
+      {
+        "DRUGS": "HIFE (BLOOD TONIC)",
+        "COST": 1200
+      },
+      {
+        "DRUGS": "IBUPROTEN TAB/TABLET",
+        "COST": 50
+      },
+      {
+        "DRUGS": "KETOPROFEN 2.5% CREAM",
+        "COST": 2500
+      },
+      {
+        "DRUGS": "LABETALO I INJECTION",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "LASIX INJECTION (FURUSEMIDE)",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "LASIX TAB (FURUSEMIDE)",
+        "COST": 50
+      },
+      {
+        "DRUGS": "LIVOLIN FORTE",
+        "COST": 250
+      },
+      {
+        "DRUGS": "LISINOPRIL 10MG",
+        "COST": 100
+      },
+      {
+        "DRUGS": "LOSARTAL 50MG",
+        "COST": 150
+      },
+      {
+        "DRUGS": "LOMOTIL TAB",
+        "COST": 80
+      },
+      {
+        "DRUGS": "LEVOFLOXACIN 500MG",
+        "COST": 300
+      },
+      {
+        "DRUGS": "LONART D/S/CARD",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "LORATIDINE",
+        "COST": 100
+      },
+      {
+        "DRUGS": "LOKMAL (SUSPENSION)",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "LEVOFLOXACIN 750MG",
+        "COST": 300
+      },
+      {
+        "DRUGS": "MANNITOL INFUSION /BOTTLE",
+        "COST": 2000
+      },
+      {
+        "DRUGS": "MEFANEMIC ACID",
+        "COST": 300
+      },
+      {
+        "DRUGS": "METAKELFIN TAB",
+        "COST": 150
+      },
+      {
+        "DRUGS": "MIST MAGNESIUM TRISILICATE/BOTTLE",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "MULTIVITAMIN SYRUP",
+        "COST": 700
+      },
+      {
+        "DRUGS": "MULTIVITE TABLET 1000",
+        "COST": 5
+      },
+      {
+        "DRUGS": "METRONIDAZOLE SUSPENSION /BOTTLE",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "METRONIDAZOLE TAB",
+        "COST": 20
+      },
+      {
+        "DRUGS": "MISOPROSTOL",
+        "COST": 250
+      },
+      {
+        "DRUGS": "MERONEM",
+        "COST": 18000
+      },
+      {
+        "DRUGS": "METRONIDAZOLE INFUSION/BOTTLE",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "NALIDIXIC ACID",
+        "COST": 300
+      },
+      {
+        "DRUGS": "NEOMYCIN TAB",
+        "COST": 50
+      },
+      {
+        "DRUGS": "NOS-PAN",
+        "COST": 100
+      },
+      {
+        "DRUGS": "NIZORAL CREAM",
+        "COST": 3000
+      },
+      {
+        "DRUGS": "NORMAL SALINE /BOTTLE",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "NOSPA TAB/BOTTLE",
+        "COST": 100
+      },
+      {
+        "DRUGS": "NEBULIZATION",
+        "COST": 5000
+      },
+      {
+        "DRUGS": "NORMAL CONSUMEABLES",
+        "COST": 2000
+      },
+      {
+        "DRUGS": "NOSPA INJECTION",
+        "COST": 500
+      },
+      {
+        "DRUGS": "NEUROVITE FORT",
+        "COST": 350
+      },
+      {
+        "DRUGS": "NIFEDIPINE 30MG xl",
+        "COST": 200
+      },
+      {
+        "DRUGS": "OMEPRAZOLE 20MG/CAP",
+        "COST": 200
+      },
+      {
+        "DRUGS": "ORS /SACHET",
+        "COST": 350
+      },
+      {
+        "DRUGS": "OMEPRAZOLE INJECTION",
+        "COST": 2500
+      },
+      {
+        "DRUGS": "OXYTOXIN INJECTION",
+        "COST": 500
+      },
+      {
+        "DRUGS": "PALUDRINE TAB (TIN)",
+        "COST": 250
+      },
+      {
+        "DRUGS": "PARACETAMOL TAB",
+        "COST": 10
+      },
+      {
+        "DRUGS": "PALUDRINE SYRUP",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "PARLODEL",
+        "COST": 350
+      },
+      {
+        "DRUGS": "PENTAZOCINE INJECTION",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "PEFLOXACIN INJECTION /BOTTLE",
+        "COST": 2500
+      },
+      {
+        "DRUGS": "PETHIDINE INJECTION",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "PHERNEGAN TAB",
+        "COST": 150
+      },
+      {
+        "DRUGS": "PHERNEGAN INJECTION",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "PIRITON TAB",
+        "COST": 100
+      },
+      {
+        "DRUGS": "PIRITON SYRUP",
+        "COST": 900
+      },
+      {
+        "DRUGS": "PLASIL TAB",
+        "COST": 70
+      },
+      {
+        "DRUGS": "POLYGYNAX APSSEIVES /PACK",
+        "COST": 3500
+      },
+      {
+        "DRUGS": "PLASIL INJECTION",
+        "COST": 500
+      },
+      {
+        "DRUGS": "POLYCROL SUSPENSION",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "POSTINOR TAB",
+        "COST": 350
+      },
+      {
+        "DRUGS": "PREDNISOLE 5MG",
+        "COST": 80
+      },
+      {
+        "DRUGS": "PRIMOLUT. N TAB",
+        "COST": 250
+      },
+      {
+        "DRUGS": "PREMOLUT DEPOT INJECTION",
+        "COST": 2000
+      },
+      {
+        "DRUGS": "PROGYNOVA TAB",
+        "COST": 200
+      },
+      {
+        "DRUGS": "PROVERA TAB",
+        "COST": 200
+      },
+      {
+        "DRUGS": "PROVIRON TAB",
+        "COST": 200
+      },
+      {
+        "DRUGS": "PENTAZOCINE INJECTION",
+        "COST": 800
+      },
+      {
+        "DRUGS": "PARACETAMOL INJECTION",
+        "COST": 500
+      },
+      {
+        "DRUGS": "PHATONIC TABLET",
+        "COST": 100
+      },
+      {
+        "DRUGS": "PREGASAFE 75MG",
+        "COST": 350
+      },
+      {
+        "DRUGS": "PARLODEL 2.5MG",
+        "COST": 250
+      },
+      {
+        "DRUGS": "QUININE TAB",
+        "COST": 200
+      },
+      {
+        "DRUGS": "QUININE INJECTION",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "QUININE SYRUP",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "RANFERON",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "RANITIDINE TAB",
+        "COST": 150
+      },
+      {
+        "DRUGS": "ROCEPHINE INJECTION",
+        "COST": 7000
+      },
+      {
+        "DRUGS": "RENIX",
+        "COST": 40
+      },
+      {
+        "DRUGS": "ROSUVASTATIN 10MG",
+        "COST": 250
+      },
+      {
+        "DRUGS": "RINGER LACTATE",
+        "COST": 2000
+      },
+      {
+        "DRUGS": "RVS DRUG",
+        "COST": 12000
+      },
+      {
+        "DRUGS": "SEPTRIN TAB 480MG",
+        "COST": 50
+      },
+      {
+        "DRUGS": "SEPTRIN SYRUP",
+        "COST": 500
+      },
+      {
+        "DRUGS": "STUGERON TAB",
+        "COST": 200
+      },
+      {
+        "DRUGS": "SUPRADYN CAP",
+        "COST": 150
+      },
+      {
+        "DRUGS": "SUSTANON",
+        "COST": 100
+      },
+      {
+        "DRUGS": "SUSTANON INJECTION",
+        "COST": 500
+      },
+      {
+        "DRUGS": "SYNTOCINON INJECTION",
+        "COST": 500
+      },
+      {
+        "DRUGS": "SALBOTAMOL",
+        "COST": 50
+      },
+      {
+        "DRUGS": "SUPRAFIT CAP",
+        "COST": 50
+      },
+      {
+        "DRUGS": "SIRDALUD 4MG",
+        "COST": 300
+      },
+      {
+        "DRUGS": "SABUTAMOL INJECTION",
+        "COST": 500
+      },
+      {
+        "DRUGS": "SPARFLOXACIN 200MG",
+        "COST": 250
+      },
+      {
+        "DRUGS": "TAGAMET",
+        "COST": 100
+      },
+      {
+        "DRUGS": "TAGAMENT INJECTION",
+        "COST": 500
+      },
+      {
+        "DRUGS": "TRAMADOL 50MG",
+        "COST": 15
+      },
+      {
+        "DRUGS": "TRAMADOL 100MG",
+        "COST": 20
+      },
+      {
+        "DRUGS": "TRAMADOL INJECTION",
+        "COST": 500
+      },
+      {
+        "DRUGS": "TROSYD CREAM",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "TROSYD POWER",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "TROSYD OVULE",
+        "COST": 800
+      },
+      {
+        "DRUGS": "TROSYD OVULE 300MG",
+        "COST": 150
+      },
+      {
+        "DRUGS": "THALAZONE TAB 500MG",
+        "COST": 25
+      },
+      {
+        "DRUGS": "TESTOSYRON INJECTION",
+        "COST": 500
+      },
+      {
+        "DRUGS": "TETANUS TOXOID",
+        "COST": 500
+      },
+      {
+        "DRUGS": "TARIVID TAB",
+        "COST": 300
+      },
+      {
+        "DRUGS": "TETRACYCLINE CAP",
+        "COST": 30
+      },
+      {
+        "DRUGS": "VITAMIN A 10,000 IU",
+        "COST": 150
+      },
+      {
+        "DRUGS": "VITAMIN E 10,000",
+        "COST": 150
+      },
+      {
+        "DRUGS": "VASOPRIN 75MG",
+        "COST": 75
+      },
+      {
+        "DRUGS": "VENTOLIN TAB",
+        "COST": 50
+      },
+      {
+        "DRUGS": "VENTOLIN INJECTION",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "VENTOLIN SYRUP",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "VENTOLIN NEBULIZER",
+        "COST": 1500
+      },
+      {
+        "DRUGS": "VIREST TAB",
+        "COST": 100
+      },
+      {
+        "DRUGS": "VITAMIN BCO INJECTION",
+        "COST": 450
+      },
+      {
+        "DRUGS": "VITAMIN BCO TAB",
+        "COST": 10
+      },
+      {
+        "DRUGS": "VITAMIN B6",
+        "COST": 50
+      },
+      {
+        "DRUGS": "VITAMIN B SYRUP",
+        "COST": 700
+      },
+      {
+        "DRUGS": "VITAMIN C TAB",
+        "COST": 10
+      },
+      {
+        "DRUGS": "VITAMIN C SYRUP",
+        "COST": 500
+      },
+      {
+        "DRUGS": "VITAMIN K INJECTION",
+        "COST": 500
+      },
+      {
+        "DRUGS": "WOUND DRESSING",
+        "COST": 1000
+      },
+      {
+        "DRUGS": "WOUND DRESSING MAJOR",
+        "COST": 3000
+      },
+      {
+        "DRUGS": "ZANTAC TAB",
+        "COST": 100
+      },
+      {
+        "DRUGS": "ZINNAT TAB 250MG",
+        "COST": 250
+      },
+      {
+        "DRUGS": "ZINNAT SYRUP",
+        "COST": 4000
+      },
+      {
+        "DRUGS": "ZINNAT TAB 500MG",
+        "COST": 450
+      },
+      {
+        "DRUGS": "ZESTRIL 10MG",
+        "COST": 200
+      },
+      {
+        "DRUGS": "ZESTRIL 20MG",
+        "COST": 220
+      },
+      {
+        "DRUGS": "ZINC TABLET",
+        "COST": 30
+      },
+      {
+        "DRUGS": "STREPTOMYCIN 1G",
+        "COST": 1200
+      },
+      {
+        "DRUGS": "BISOPROLOL 5MG",
+        "COST": 200
+      },
+      {
+        "DRUGS": "LIPITOR 20MG",
+        "COST": 300
+      },
+      {
+        "DRUGS": "CETRIXINE Syrup",
+        "COST": 1550
+      },
+      {
+        "DRUGS": "df118 30mg",
+        "COST": 280
+      },
+      {
+        "DRUGS": "Syrup Paracetamol",
+        "COST": 450
+      },
+      {
+        "DRUGS": "tab Aciclovir 400mg",
+        "COST": 300
+      },
+      {
+        "DRUGS": "Inj Artesunate 60mg",
+        "COST": 2000
+      },
+      {
+        "DRUGS": "syrup paracetamol",
+        "COST": 400
+      },
+      {
+        "DRUGS": "inj ceftriaxone 1g",
+        "COST": 2500
+      },
+      {
+        "DRUGS": "ceftriaxone ig",
+        "COST": 2500
+      },
+      {
+        "DRUGS": "Mupirocin Cream",
+        "COST": 2500
+      },
+      {
+        "DRUGS": "Rocephin INJ",
+        "COST": 7000
+      }]
+  
+  }

@@ -29,9 +29,14 @@ const SendLinkViaEmail = ({
   defaultToEmail,
   disableToEmailChange,
   orgType,
+  id
 }) => {
   const emailServer = client.service("email");
   const {user} = useContext(UserContext);
+  const [files, setFiles] = useState([]);
+  const facilityServ = client.service("facility");
+  const orgServ = client.service("organizationclient");
+  const InvoiceServ = client.service('corpinvoices');
   const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
   const [emailsModal, setEmailModals] = useState(true);
   const [toEmailModal, setToEmailModal] = useState(false);
@@ -40,7 +45,12 @@ const SendLinkViaEmail = ({
   const [emailBody, setEmailBody] = useState(
     `<p>Please follow this <a style="color:red;" href=${`https://healthstack-test.netlify.app/signup/${
       orgType ? orgType : "corporate"
-    }`}>LINK</a> to create an Organization </p>`
+    }/${id}`}>LINK</a> to create an Organization </p>`
+  );
+  const [indvemailBody, setIndvEmailBody] = useState(
+    `<p>Please follow this <a style="color:red;" href=${`https://citizen-healthstack.netlify.app/signup/${
+      orgType ? orgType : "individual"
+    }/${id}`}>LINK</a> to create an Organization </p>`
   );
   const {
     register,
@@ -52,6 +62,7 @@ const SendLinkViaEmail = ({
 
   useEffect(() => {
     //const deal = state.DealModule.selectedDeal;
+
     reset({
       to: destinationEmail,
       name: user.currentEmployee.facilityDetail.facilityName,
@@ -71,12 +82,13 @@ const SendLinkViaEmail = ({
   };
 
   const handleSendEmail = async data => {
+    
     if (emailBody === "")
       return toast.error("Please, You cannot send an empty Email");
     const facility = user.currentEmployee.facilityDetail;
     showActionLoader();
-
-    const document = {
+if (orgType!=="individual"){
+   const document = {
       organizationId: facility._id,
       organizationName: facility.facilityName,
       html: emailBody,
@@ -84,6 +96,17 @@ const SendLinkViaEmail = ({
       status: "pending",
       ...data,
     };
+  }else{
+    const document = {
+      organizationId: facility._id,
+      organizationName: facility.facilityName,
+      html: indvemailBody,
+      text: "",
+      status: "pending",
+      ...data,
+    };
+
+  }
 
     await emailServer
       .create(document)
@@ -103,6 +126,192 @@ const SendLinkViaEmail = ({
         toast.error(`Sorry, Failed to send Email ${err}`);
       });
   };
+
+  const readFileContent = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result);
+      reader.onerror = (e) => reject(e);
+      reader.readAsText(file);
+    });
+  };
+
+  const handleFileUpload =  async(event) => {
+    const fileList = event.target.files;
+
+    const fileArray = Array.from(fileList).map(async(file) => {
+      const fileNameWithoutExtension = file.name.replace(/\.[^/.]+$/, ''); // Remove file extension
+      let filename=  fileNameWithoutExtension.toUpperCase();
+     let parsedData =""
+
+      const content = await readFileContent(file);
+      console.log("filename:",filename)
+      try {
+        parsedData = JSON.parse(content);
+       // parsedDataArray.push(parsedData);
+      } catch (error) {
+        console.error('Error parsing JSON file:'+ file.name, error);
+      }
+    //read file
+    //create facility (admin) + fail gracefully
+    //add facility to organization client
+    //email login details 
+      let n=0
+    parsedData.map(async(faci,i)=>{
+      n=n+1
+      let facilitydata={
+        facilityCAC:"",
+    facilityName:faci.Name,
+    facilityOwner:faci.ceo,
+    facilityType: "Corporate",
+    facilityCategory:"National",
+    facilityCountry: "Nigeria",
+    facilityState: "",
+    facilityLGA:"",
+    facilityCity:"", 
+    facilityAddress: faci.Address,
+    facilityContactPhone:faci.Adminphone,
+    facilityEmail:faci.Adminemail,
+    facilityModules: ['Admin', 'Complaint', 'Corporate', 'Communication']
+
+      }
+      let admindata={
+        firstname:faci.Admin,
+      
+        lastname: "Admin",
+        profession: "Admin",
+        position: "Admin",
+        phone: faci.Adminphone,
+        email: faci.Adminemail,
+        department: "Admin",
+        deptunit: "Admin",
+        password: "Administrator",
+       roles:['Admin', 'Complaint', 'Corporate', 'Communication']
+
+      }
+   /*   let  facilityModules= ['Admin',
+      'Client',
+      'Clinic',
+      'Appointment',
+      'Check-In',
+      'Ward',
+      'Laboratory',
+      'Radiology',
+      'Pharmacy',
+      'Theatre',
+      'Blood Bank',
+      'Inventory',
+      'Communication',
+      'Immunization',
+      'Finance',
+      'Accounting',
+      'Complaints',
+      'Referral',
+      'Epidemiology',
+      'Engagement',] */
+
+
+      const facilityDocument = {
+        ...facilitydata,
+        hasEmployee: true,
+        employeeData:admindata
+      }
+
+     await  facilityServ.create(facilityDocument)
+      .then(async(resp)=>{
+        //create relationship
+        console.log("facility created #"+n ,resp)
+        let obj = {
+          facility: user.currentEmployee.facilityDetail._id,
+          organization: resp._id,
+          relationshiptype: "sponsor",
+          status: "Pending",
+          
+        };
+    
+       // console.log("query", query);
+    //create organizatuonal relationship
+        await orgServ
+          .create(obj)
+          .then((res) => {
+            console.log("res", res);
+          
+           console.log("Organization added succesfully");
+            
+            
+          })
+          .catch((err) => {
+            console.log("Error adding organization " + err);
+          });
+
+          //create invoice
+          let invoice={
+            customerId:resp._id,//sending money
+    customer:resp,
+    customerName:faci.Name,
+    customerAddress:faci.Address,
+    customerCity:"",
+    customerCountry:"Nigeria",
+    customerLGA:"",
+    customerState:"",
+    customerPhone:faci.Adminphone,
+    customerEmail:faci.Email,
+    customerType:"Corporate",
+    date:new Date(),
+    facilityId:user.currentEmployee.facilityDetail._id, //hmo insuing invoice
+    facility:user.currentEmployee.facilityDetail,
+    invoice_number:"",
+    total_amount:faci.amount,
+  
+    payment_option:{ type: String, },
+    subscription_category:"Annual",
+   
+    status:"Unpaid", //unpaid, fullypaid
+  
+    balance:faci.amount,
+    duedate:faci.renewValue,
+    startdate:faci.start,
+    enddate:faci.end
+
+          }
+
+
+          await InvoiceServ
+          .create(invoice)
+          .then((res) => {
+            console.log("res", res);
+          
+           console.log("Invoice created succesfully #"+n);
+            
+            
+          })
+          .catch((err) => {
+            console.log("Error cereating invoice " + err);
+          });
+
+      })
+      .catch((err)=>{
+        console.log("facility not created :" + err)
+      })
+
+    })
+
+     return fileNameWithoutExtension
+    });
+    setFiles(fileArray);
+
+//1. create bands from list of files
+// model:facility: { type: Schema.Types.ObjectId,  },
+ //   name: { type: String, required: true },
+   // description: { type: String},
+    // bandType: { type: String}
+//2. create tariff from files 
+
+  };
+
+
+
+
 
   return (
     <Box
@@ -191,6 +400,7 @@ const SendLinkViaEmail = ({
         </Grid>
 
         <Grid item xs={12}>
+          {orgType!=="individual"?
           <Box
             sx={{
               ".ck-editor__editable_inline": {
@@ -208,7 +418,26 @@ const SendLinkViaEmail = ({
                 setEmailBody(data);
               }}
             />
+          </Box>:
+            <Box
+            sx={{
+              ".ck-editor__editable_inline": {
+                minHeight: "15vh",
+                maxHeight: "30vh",
+              },
+            }}
+          >
+            {inputGlobalStyles}
+            <CKEditor
+              editor={ClassicEditor}
+              data={indvemailBody}
+              onChange={(event, editor) => {
+                const data = editor.getData();
+                setEmailBody(data);
+              }}
+            />
           </Box>
+          }
         </Grid>
       </Grid>
 
@@ -218,6 +447,14 @@ const SendLinkViaEmail = ({
           <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
         </GlobalCustomButton>
       </Box>
+     {/*    <Box>
+      <input type="file" multiple onChange={handleFileUpload} />
+        <ul>
+        {files.map((file, index) => (
+          <li key={index}>{file}</li>
+        ))}
+      </ul> 
+      </Box>  */}
     </Box>
   );
 };

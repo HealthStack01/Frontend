@@ -1,0 +1,4471 @@
+{
+    "PROCEDURE": [
+      {
+        "SERVICES": "General consultation",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "Specialist consultation(General Surgery, Pediatrics, O&G, Medicine)",
+        "UNIT PRICE": 7000
+      },
+      {
+        "SERVICES": "Specialist follow-up",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "Dermatology",
+        "UNIT PRICE": 8000
+      },
+      {
+        "SERVICES": "ENT",
+        "UNIT PRICE": 8000
+      },
+      {
+        "SERVICES": "Ophthalmology (refraction inclusive)",
+        "UNIT PRICE": 8000
+      },
+      {
+        "SERVICES": "Orthopedic surgery",
+        "UNIT PRICE": 10000
+      },
+      {
+        "SERVICES": "Maxillofacial surgery",
+        "UNIT PRICE": 15000
+      },
+      {
+        "SERVICES": "Oncology",
+        "UNIT PRICE": 15000
+      },
+      {
+        "SERVICES": "Neurosurgery",
+        "UNIT PRICE": 15000
+      },
+      {
+        "SERVICES": "Accommodation \r\nGeneral",
+        "UNIT PRICE": 2000
+      },
+      {
+        "SERVICES": "Semi-private",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "Private",
+        "UNIT PRICE": 5000
+      },
+      {
+        "SERVICES": "Feeding\r\nGeneral",
+        "UNIT PRICE": 2000
+      },
+      {
+        "SERVICES": "Semi-private",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "Private",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "Incubator",
+        "UNIT PRICE": 3500
+      },
+      {
+        "SERVICES": "Phototherapy",
+        "UNIT PRICE": 4500
+      },
+      {
+        "SERVICES": "Oxygen therapy",
+        "UNIT PRICE": 4000
+      },
+      {
+        "SERVICES": "Critical care (ICU)",
+        "UNIT PRICE": 5000
+      },
+      {
+        "SERVICES": "Nebulisation",
+        "UNIT PRICE": 3500
+      },
+      {
+        "SERVICES": "Gastric lavage",
+        "UNIT PRICE": 3500
+      },
+      {
+        "SERVICES": "Aspirations/paracetensis",
+        "UNIT PRICE": 3500
+      },
+      {
+        "SERVICES": "Lumbar puncture",
+        "UNIT PRICE": 7000
+      },
+      {
+        "SERVICES": "Sub-Dural tap",
+        "UNIT PRICE": 10000
+      },
+      {
+        "SERVICES": "Physiotherapy",
+        "UNIT PRICE": 5000
+      },
+      {
+        "SERVICES": "Minor wound dressing/day",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "Major wound dressing/day",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "Ear piercing",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "Circumcision",
+        "UNIT PRICE": 8000
+      },
+      {
+        "SERVICES": "Tongue tie release",
+        "UNIT PRICE": 5500
+      },
+      {
+        "SERVICES": "POP application",
+        "UNIT PRICE": 7500
+      },
+      {
+        "SERVICES": "Blood transfusion RH+ve",
+        "UNIT PRICE": 20000
+      },
+      {
+        "SERVICES": "Blood transfusion RH-ve",
+        "UNIT PRICE": 25000
+      },
+      {
+        "SERVICES": "Excision biopsy",
+        "UNIT PRICE": 5000
+      },
+      {
+        "SERVICES": "EBT RH+ve with set",
+        "UNIT PRICE": 25000
+      },
+      {
+        "SERVICES": "EBT RH-ve with set",
+        "UNIT PRICE": 30000
+      },
+      {
+        "SERVICES": "Primary suturing",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "Rhogam injection",
+        "UNIT PRICE": 25000
+      },
+      {
+        "SERVICES": "IUCD insertion",
+        "UNIT PRICE": 5000
+      },
+      {
+        "SERVICES": "IUCD removal",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "Retrieval of lost IUCD",
+        "UNIT PRICE": 15000
+      },
+      {
+        "SERVICES": "In growing toe nail (excision)",
+        "UNIT PRICE": 30000
+      },
+      {
+        "SERVICES": "Ganglionectomy",
+        "UNIT PRICE": 30000
+      },
+      {
+        "SERVICES": "Breast lump excision",
+        "UNIT PRICE": 30000
+      },
+      {
+        "SERVICES": "Excision of cyst & lumps",
+        "UNIT PRICE": 30000
+      },
+      {
+        "SERVICES": "Injection sclerotherapy of varicose veins",
+        "UNIT PRICE": 30000
+      },
+      {
+        "SERVICES": "Release of chordate",
+        "UNIT PRICE": 10000
+      },
+      {
+        "SERVICES": "Biopsy of tumor of abdominal wall",
+        "UNIT PRICE": 40000
+      },
+      {
+        "SERVICES": "Urethral bouginage",
+        "UNIT PRICE": 40000
+      },
+      {
+        "SERVICES": "Keloid excision (major)",
+        "UNIT PRICE": 40000
+      },
+      {
+        "SERVICES": "Major (Deep) surgical incision and drainage/Surgical drainage of anal abscess",
+        "UNIT PRICE": 50000
+      },
+      {
+        "SERVICES": "Surgical release of stenosing tenosynovitis",
+        "UNIT PRICE": 45000
+      },
+      {
+        "SERVICES": "Intercostals drainage insertion",
+        "UNIT PRICE": 50000
+      },
+      {
+        "SERVICES": "Suture of major wounds",
+        "UNIT PRICE": 20000
+      },
+      {
+        "SERVICES": "Testicular biopsy",
+        "UNIT PRICE": 40000
+      },
+      {
+        "SERVICES": "Synovectomy",
+        "UNIT PRICE": 100000
+      },
+      {
+        "SERVICES": "Appendectomy",
+        "UNIT PRICE": 100000
+      },
+      {
+        "SERVICES": "Herniorhaphy/Herniotomy",
+        "UNIT PRICE": 100000
+      },
+      {
+        "SERVICES": "Fistulectomy",
+        "UNIT PRICE": 120000
+      },
+      {
+        "SERVICES": "Haemorrhoidectomy",
+        "UNIT PRICE": 120000
+      },
+      {
+        "SERVICES": "Abdominal rectoplexy",
+        "UNIT PRICE": 120000
+      },
+      {
+        "SERVICES": "Anal sphincteroplasty",
+        "UNIT PRICE": 120000
+      },
+      {
+        "SERVICES": "Excision of intrascrotal mass",
+        "UNIT PRICE": 120000
+      },
+      {
+        "SERVICES": "Hydrocoelectomy",
+        "UNIT PRICE": 120000
+      },
+      {
+        "SERVICES": "Multiple venous ligation",
+        "UNIT PRICE": 120000
+      },
+      {
+        "SERVICES": "Vasectomy",
+        "UNIT PRICE": 100000
+      },
+      {
+        "SERVICES": "Thoracotomy",
+        "UNIT PRICE": 100000
+      },
+      {
+        "SERVICES": "Pericariocentesis",
+        "UNIT PRICE": 120000
+      },
+      {
+        "SERVICES": "Skin grafting",
+        "UNIT PRICE": 140000
+      },
+      {
+        "SERVICES": "Orchidopexy/orchidectomy (torsion of testis)",
+        "UNIT PRICE": 120000
+      },
+      {
+        "SERVICES": "Cystic hygroma excision",
+        "UNIT PRICE": 100000
+      },
+      {
+        "SERVICES": "Surgery of torsion of spermatic cord",
+        "UNIT PRICE": 100000
+      },
+      {
+        "SERVICES": "Surgical correction of dupuytrens contracture",
+        "UNIT PRICE": 100000
+      },
+      {
+        "SERVICES": "Tonsillectomy/adenoidectomy",
+        "UNIT PRICE": 100000
+      },
+      {
+        "SERVICES": "Colostomy construction",
+        "UNIT PRICE": 140000
+      },
+      {
+        "SERVICES": "Diverticulectomy",
+        "UNIT PRICE": 140000
+      },
+      {
+        "SERVICES": "Oophorectomy",
+        "UNIT PRICE": 150000
+      },
+      {
+        "SERVICES": "Oesophagostomy",
+        "UNIT PRICE": 150000
+      },
+      {
+        "SERVICES": "Prostrate biopsy-transrectal",
+        "UNIT PRICE": 150000
+      },
+      {
+        "SERVICES": "Uretherectomy",
+        "UNIT PRICE": 150000
+      },
+      {
+        "SERVICES": "Hiatus herniorraphy",
+        "UNIT PRICE": 150000
+      },
+      {
+        "SERVICES": "Intestinal Resection & Anastomosis",
+        "UNIT PRICE": 200000
+      },
+      {
+        "SERVICES": "Exploratory laparatomy/Intussusceptions",
+        "UNIT PRICE": 140000
+      },
+      {
+        "SERVICES": "Cholecystectomy",
+        "UNIT PRICE": 180000
+      },
+      {
+        "SERVICES": "Mastectomy(simple)",
+        "UNIT PRICE": 100000
+      },
+      {
+        "SERVICES": "Splenectomy/Splenorraphy",
+        "UNIT PRICE": 140000
+      },
+      {
+        "SERVICES": "Meckel’s Diverticulectomy",
+        "UNIT PRICE": 140000
+      },
+      {
+        "SERVICES": "Pyeloroplasty",
+        "UNIT PRICE": 140000
+      },
+      {
+        "SERVICES": "Pyelotomy",
+        "UNIT PRICE": 140000
+      },
+      {
+        "SERVICES": "Choledochojejunostomy",
+        "UNIT PRICE": 180000
+      },
+      {
+        "SERVICES": "Pancreaticojejunostomy",
+        "UNIT PRICE": 180000
+      },
+      {
+        "SERVICES": "Partial/Total Cystectomy",
+        "UNIT PRICE": 120000
+      },
+      {
+        "SERVICES": "Diaphragmatic Hernia Repair",
+        "UNIT PRICE": 120000
+      },
+      {
+        "SERVICES": "Gastroenterotomy",
+        "UNIT PRICE": 150000
+      },
+      {
+        "SERVICES": "Repair of Esophageal/Gastric laceration",
+        "UNIT PRICE": 150000
+      },
+      {
+        "SERVICES": "Hepatic trauma surgery",
+        "UNIT PRICE": 150000
+      },
+      {
+        "SERVICES": "Thyroidectomy",
+        "UNIT PRICE": 150000
+      },
+      {
+        "SERVICES": "Prostatectomy",
+        "UNIT PRICE": 250000
+      },
+      {
+        "SERVICES": "Adrenalectomy",
+        "UNIT PRICE": 250000
+      },
+      {
+        "SERVICES": "Decortication",
+        "UNIT PRICE": 250000
+      },
+      {
+        "SERVICES": "Gastrectomy",
+        "UNIT PRICE": 200000
+      },
+      {
+        "SERVICES": "Nephrectomy",
+        "UNIT PRICE": 250000
+      },
+      {
+        "SERVICES": "Partial/Total Colectomy",
+        "UNIT PRICE": 250000
+      },
+      {
+        "SERVICES": "Mammoplasty",
+        "UNIT PRICE": 200000
+      },
+      {
+        "SERVICES": "Nephrolithotomy/Urethotomy/Urethroplasty",
+        "UNIT PRICE": 200000
+      },
+      {
+        "SERVICES": "Extended/Radical Mastectomy",
+        "UNIT PRICE": 200000
+      },
+      {
+        "SERVICES": "Pancreatectomy",
+        "UNIT PRICE": 200000
+      },
+      {
+        "SERVICES": "Pneumonectomy",
+        "UNIT PRICE": 250000
+      },
+      {
+        "SERVICES": "Splenectomy",
+        "UNIT PRICE": 200000
+      },
+      {
+        "SERVICES": "Vagotomy/Pylorotomy",
+        "UNIT PRICE": 200000
+      },
+      {
+        "SERVICES": "Pleurectomy",
+        "UNIT PRICE": 250000
+      },
+      {
+        "SERVICES": "Pericardiectomy",
+        "UNIT PRICE": 300000
+      },
+      {
+        "SERVICES": "Total Lobectomy",
+        "UNIT PRICE": 300000
+      },
+      {
+        "SERVICES": "ANC(including ANC investigations, scan x2 and routine drugs)",
+        "UNIT PRICE": 30000
+      },
+      {
+        "SERVICES": "Normal Delivery",
+        "UNIT PRICE": 40000
+      },
+      {
+        "SERVICES": "Multiple Delivery/Assisted Delivery",
+        "UNIT PRICE": 50000
+      },
+      {
+        "SERVICES": "Caesarean Section",
+        "UNIT PRICE": 170000
+      },
+      {
+        "SERVICES": "D & C",
+        "UNIT PRICE": 25000
+      },
+      {
+        "SERVICES": "Cervical Cerclage (Shirodkar)",
+        "UNIT PRICE": 50000
+      },
+      {
+        "SERVICES": "Marsupialization",
+        "UNIT PRICE": 40000
+      },
+      {
+        "SERVICES": "Cauterization",
+        "UNIT PRICE": 20000
+      },
+      {
+        "SERVICES": "Laparoscopy & Dye",
+        "UNIT PRICE": 40000
+      },
+      {
+        "SERVICES": "Colposcopy",
+        "UNIT PRICE": 25000
+      },
+      {
+        "SERVICES": "Cervical laceration repair",
+        "UNIT PRICE": 15000
+      },
+      {
+        "SERVICES": "BTL",
+        "UNIT PRICE": 50000
+      },
+      {
+        "SERVICES": "Hysteroscopy",
+        "UNIT PRICE": 20000
+      },
+      {
+        "SERVICES": "Repair of third degree tear",
+        "UNIT PRICE": 30000
+      },
+      {
+        "SERVICES": "Ectopic Pregnancy",
+        "UNIT PRICE": 150000
+      },
+      {
+        "SERVICES": "Myomectomy",
+        "UNIT PRICE": 200000
+      },
+      {
+        "SERVICES": "Hysterectomy",
+        "UNIT PRICE": 200000
+      },
+      {
+        "SERVICES": "Diagnostic Laparatomy",
+        "UNIT PRICE": 35000
+      },
+      {
+        "SERVICES": "Ovarian cyst/biopsy",
+        "UNIT PRICE": 100000
+      },
+      {
+        "SERVICES": "Repair of ruptured/inverted Uterus",
+        "UNIT PRICE": 150000
+      },
+      {
+        "SERVICES": "Tuboplasty",
+        "UNIT PRICE": 100000
+      },
+      {
+        "SERVICES": "VVF",
+        "UNIT PRICE": 120000
+      },
+      {
+        "SERVICES": "Salpingo-oophorectomy",
+        "UNIT PRICE": 100000
+      },
+      {
+        "SERVICES": "Colporrhaphy",
+        "UNIT PRICE": 100000
+      },
+      {
+        "SERVICES": "Drainage septic arthritis",
+        "UNIT PRICE": 25000
+      },
+      {
+        "SERVICES": "Close reduction of fracture and application of cast",
+        "UNIT PRICE": 25000
+      },
+      {
+        "SERVICES": "Exostectomy",
+        "UNIT PRICE": 25000
+      },
+      {
+        "SERVICES": "Skin traction",
+        "UNIT PRICE": 20000
+      },
+      {
+        "SERVICES": "Amputation and disarticulation of joints",
+        "UNIT PRICE": 150000
+      },
+      {
+        "SERVICES": "Arthroplasty",
+        "UNIT PRICE": 150000
+      },
+      {
+        "SERVICES": "Bone grafting",
+        "UNIT PRICE": 200000
+      },
+      {
+        "SERVICES": "Chondromectomy",
+        "UNIT PRICE": 150000
+      },
+      {
+        "SERVICES": "Open reduction and internal fixation of fracture",
+        "UNIT PRICE": 200000
+      },
+      {
+        "SERVICES": "Sequestrectomy",
+        "UNIT PRICE": 150000
+      },
+      {
+        "SERVICES": "Congenital talipes equanovarus/valgus repair",
+        "UNIT PRICE": 170000
+      },
+      {
+        "SERVICES": "Subperiosteal drainage of acute osteomyelitis",
+        "UNIT PRICE": 100000
+      },
+      {
+        "SERVICES": "Tenoplasty/tendon transplant",
+        "UNIT PRICE": 150000
+      },
+      {
+        "SERVICES": "Nasal packing",
+        "UNIT PRICE": 30000
+      },
+      {
+        "SERVICES": "Aural and Nasal suction",
+        "UNIT PRICE": 22000
+      },
+      {
+        "SERVICES": "I & D",
+        "UNIT PRICE": 22000
+      },
+      {
+        "SERVICES": "Electrocautery of the nose",
+        "UNIT PRICE": 22000
+      },
+      {
+        "SERVICES": "Removal of foreign body",
+        "UNIT PRICE": 22000
+      },
+      {
+        "SERVICES": "Pure tone audiometry",
+        "UNIT PRICE": 22000
+      },
+      {
+        "SERVICES": "Antral lavage",
+        "UNIT PRICE": 45000
+      },
+      {
+        "SERVICES": "Mastoid surgery",
+        "UNIT PRICE": 100000
+      },
+      {
+        "SERVICES": "Laryngeal surgery",
+        "UNIT PRICE": 100000
+      },
+      {
+        "SERVICES": "Nasal polyp removal",
+        "UNIT PRICE": 60000
+      },
+      {
+        "SERVICES": "Paroidectomy",
+        "UNIT PRICE": 150000
+      },
+      {
+        "SERVICES": "Tracheostomy",
+        "UNIT PRICE": 60000
+      },
+      {
+        "SERVICES": "Tympanoplasty",
+        "UNIT PRICE": 100000
+      },
+      {
+        "SERVICES": "Indirect laryngoscopy",
+        "UNIT PRICE": 45000
+      },
+      {
+        "SERVICES": "PAEDIATRIC\r\nOXYGEN THERAPY/DAY\r\nCHILDREN",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "NEBULIZATION\r\nCHILDREN",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "ASPIRATION/PARACENTESIS",
+        "UNIT PRICE": 7000
+      },
+      {
+        "SERVICES": "PHOTOTHERAPY",
+        "UNIT PRICE": 4500
+      },
+      {
+        "SERVICES": "INCUBATOR CARE",
+        "UNIT PRICE": 5500
+      },
+      {
+        "SERVICES": "2 HRS. POST PRANDIAL",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "G.T.T.",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "BILIRUBIN (TOTAL AND CONJUGATED)",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "SGOT/SGPT/EACH",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "ALKALINE PROSPHATASE",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "LFT",
+        "UNIT PRICE": 2000
+      },
+      {
+        "SERVICES": "TOTAL PROTEIN/ALBUMIN/EACH",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "G-6 PHOSPHATE DEHYDROGENASE",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "CREATINE CLEARANCE",
+        "UNIT PRICE": 2000
+      },
+      {
+        "SERVICES": "TOTAL ACID PHOSPHASE/INORGANIC PHOSPHATES",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "CHOLOSTEROL/AMYLASE/EACH",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "TRYGLYCERIDE",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "CSF (GLUCOSE/CHLORIDE/PROTEIN/CHEMISTRY",
+        "UNIT PRICE": 1600
+      },
+      {
+        "SERVICES": "HDL-CHOLESTEROL",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "LDL-CHOLESTEROL",
+        "UNIT PRICE": 1400
+      },
+      {
+        "SERVICES": "PSA",
+        "UNIT PRICE": 5000
+      },
+      {
+        "SERVICES": "URIC ACID",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "LIPID PROFILE",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "HR URINARY PROTEIN/CALCIUM/EACH",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "BENCE JONES PROTEIN",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "CROSS REACTIVE PROTEIN",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "BUN",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "ALPHA FETO PROTEIN",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "ALBUMIN",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "SERUM PROTEIN ELECTROPHORESIS",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "URINE M/C/S",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "URINE ANALYSIS",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "URINE PREGNANCY TEST",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "STOOL ANALYSIS",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "OCCULT BLOOD/FOB",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "HVS WITH SPECULIUM",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "ENDO CERVICAL SWABS/MCS",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "SPUTUM/M/C/S",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "URETHRAL/WOUND/MCS",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "BLOOD M/C/S",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "SEMEN M/C/S",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "STOOL M/C/S",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "SEMEN ANALYSIS",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "EAR/EYE/THROAT SWAB/M/C/S/EACH",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "ASPIRATE PUS M/C/S",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "MP",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "SKIN SNIP FOR MF",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "TRYPANOSOMES/LEISHMANIA/EACH",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "AFB FOR TB",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "SKIN SCRAPING FOR FUNGAL ELEMENTS",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "GRAM STAIN",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "CHLAMYDIA",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "SCHICK/DICK SCARLET TEST/EACH",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "CULTURE (FUNGAL)",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "MANTOUX TEST",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "WIDAL",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "VDRL",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "ASO TITRE",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "RHEUMATOID FACTOR",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "PREGNANCY TEST HCG (BLOOD)",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "BLOOD GROUPING",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "DIRECT/INDIRECT COOMBS TEST/EACH",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "TPHA",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "HEPATITIS B SURFACE ANTIGEN SCREENING",
+        "UNIT PRICE": 2000
+      },
+      {
+        "SERVICES": "SCREENING FOR HIV 1 & 2",
+        "UNIT PRICE": 2000
+      },
+      {
+        "SERVICES": "HIV CONFIRMATORY",
+        "UNIT PRICE": 4000
+      },
+      {
+        "SERVICES": "VIRAL LOAD",
+        "UNIT PRICE": 7000
+      },
+      {
+        "SERVICES": "HAEMOGLOBIN",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "PCV",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "WBC (DIFF.)",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "FBC",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "RBC/WBC/EACH",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "ESR WESTERGREEN",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "PLATELETES/RETICULYTE COUNT",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "BLOOD FILM",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "PLATELETES CONCENTRATION",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "CRYOPRECIPITATE FACTOR",
+        "UNIT PRICE": 4000
+      },
+      {
+        "SERVICES": "MCV/MCH/MCHC/EACH",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "HB GENOTYPE",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "FIBRINOGEN ESTIMATION",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "BLEEDING/CLOTTING TIME/EACH",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "PROTHROMBIN/THROMBOPLASTIN TIME/EACH",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "BLOOD BAG",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "CD4 COUNT",
+        "UNIT PRICE": 5000
+      },
+      {
+        "SERVICES": "X-MATCHING",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "SCREEN BLOOD",
+        "UNIT PRICE": 5000
+      },
+      {
+        "SERVICES": "LE CELLS",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "HCV",
+        "UNIT PRICE": 1400
+      },
+      {
+        "SERVICES": "DONOR SCREENING",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "FSH/TSH/LH/PROG/T3/T4/EACH",
+        "UNIT PRICE": 5000
+      },
+      {
+        "SERVICES": "PROG/E2 TEST",
+        "UNIT PRICE": 2000
+      },
+      {
+        "SERVICES": "MINOR HISTOPATHOLOGICAL SERVICES E.G PAP SMEAR,",
+        "UNIT PRICE": 5000
+      },
+      {
+        "SERVICES": "FINE NEEDLE ASPIRATION ETC",
+        "UNIT PRICE": 5000
+      },
+      {
+        "SERVICES": "MAJOR HISTOPATHOLOGICAL SERVICES E.G BREAST TISSUE,",
+        "UNIT PRICE": 5000
+      },
+      {
+        "SERVICES": "LYMPH NODE BIOPSY ETC.",
+        "UNIT PRICE": 7000
+      },
+      {
+        "SERVICES": "ABIDEC DROP",
+        "UNIT PRICE": 1900
+      },
+      {
+        "SERVICES": "ABIDEC DROP (UNB)",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "ACTIFED SYR",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "ACTIFED TAB",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "ADRENALIN INJ",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "ARTHOCARE",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "ALDOMET",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "ALBENDAZOLE TAB",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "ALBENDAZOLE TAB (UNB)",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "ALBENDAZOLE SYR",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "ALBENDAZOLE SYR(UNB)",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "ALAXIN TAB",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "ALAXIN SYR",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "ALAXIN P",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "AMITRYPTIN TAB (25mg)",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "AMINOPHYLIN INJ",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "AMINOPHYLIN TAB",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "AMOXIL CAPS (250mg BEECHAM)",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "AMOXIL CAPS (500mg BEECHAM)",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "AMOXIL CAPS (UNB) 500mg",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "AMOXIL SYR (BEECHAM)",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "AMOXIL SYR (UNB)",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "AMPICLOX SYR (UNB)",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "AMINO ACID",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "AMODIAQUINE",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "ARTESUN 60mg",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "ARTESUN 120mg",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "ALLENEX EYE DROP",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "ACTRAPID",
+        "UNIT PRICE": 6000
+      },
+      {
+        "SERVICES": "AMPICLOX SYR (BEECHAM)",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "AMPICLOX DROP",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "AMPICLOX CAPS 500mg (BEECHAM)",
+        "UNIT PRICE": 120
+      },
+      {
+        "SERVICES": "AMPICLOX CAPS 500mg (UNB)",
+        "UNIT PRICE": 54
+      },
+      {
+        "SERVICES": "AMPICLOX INJ",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "ANTI- SNAKE VENOM",
+        "UNIT PRICE": 6500
+      },
+      {
+        "SERVICES": "ATHISAN CREAM",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "ANUSOL SUSP",
+        "UNIT PRICE": 350
+      },
+      {
+        "SERVICES": "APRESOLIN INJ",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "AMPICILLINE SYRUP",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "ASPIRIN TAB",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "ASPIRIN (low dose)",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "ATENALOL TAB (50mg)",
+        "UNIT PRICE": 84
+      },
+      {
+        "SERVICES": "ATROPINE INJ",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "ATROPINE EYE DROP",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "ARTERQUINE",
+        "UNIT PRICE": 1600
+      },
+      {
+        "SERVICES": "ARTERQUICK",
+        "UNIT PRICE": 1800
+      },
+      {
+        "SERVICES": "AUGMENTIN 375 TAB",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "AUGMENTIN 625 (BEECHAM) TAB",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "AUGMENTIN 625 (UNB) TAB",
+        "UNIT PRICE": 220
+      },
+      {
+        "SERVICES": "AUGMENTIN 1g (BEECHAM) TAB",
+        "UNIT PRICE": 310
+      },
+      {
+        "SERVICES": "AUGMENTIN 312mg SYR",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "AUGMENTIN 228mg SYR (BEECHAM)",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "ATOVASTATIN",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "ATELUM",
+        "UNIT PRICE": 1300
+      },
+      {
+        "SERVICES": "AUGUMENTIN 457 (unbranded)",
+        "UNIT PRICE": 1800
+      },
+      {
+        "SERVICES": "AUGMENTIN 228 (unbranded)",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "AUGMENTIN 1.2g INJ",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "AUGMENTIN 156mg",
+        "UNIT PRICE": 1600
+      },
+      {
+        "SERVICES": "ARTESUNATE TAB",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "ARTESUNATE SYR",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "ANTI D-IMMUNOGLOBULIN",
+        "UNIT PRICE": 35000
+      },
+      {
+        "SERVICES": "ARTANE TAB",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "ARTHEMETER INJ 40mg",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "ARTHEMETER INJ 80mg",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "ASTYMIN SYR",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "ASTYFER SYR",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "ABONIKI BALM",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "ACYCLOVIR CREAM",
+        "UNIT PRICE": 1600
+      },
+      {
+        "SERVICES": "ACYCLOVIR TAB 200mg",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "ACYCLOVIR TAB 400mg",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "ASPENGIC INJ",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "ALLEREX EYEDROP",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "ACCOLATE",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "ADALAT (UNB)",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "ADALAT R.",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "ATS",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "AVODANT",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "AVOMINE TAB",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "AVANDIA TAB",
+        "UNIT PRICE": 320
+      },
+      {
+        "SERVICES": "AZITHROMAX 500MG",
+        "UNIT PRICE": 330
+      },
+      {
+        "SERVICES": "ATENOLOL TAB 100MG",
+        "UNIT PRICE": 168
+      },
+      {
+        "SERVICES": "ATENOLOL TAB 50MG",
+        "UNIT PRICE": 84
+      },
+      {
+        "SERVICES": "ALPHABETIC",
+        "UNIT PRICE": 90
+      },
+      {
+        "SERVICES": "AMLODIPINE 10MG",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "ALLOPURINOL",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "ANDREW LIVER SALT",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "ALDACTONE",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "AMINO AC",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "ALEVE",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "ARTEMETER PLUS",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "AMARYL 2MG",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "AMARYL 4MG",
+        "UNIT PRICE": 200
+      },
+      {
+        "SERVICES": "BCG",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "BACTROBAM CREAM",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "BACTROBAM CREAM UMBR.",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "BANDAGE CRAPE 4”",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "BANDAGE GAUZE",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "BANOCIDE TAB",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "BENYLIN COUGH SYR (PAED)",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "BENYLIN WITH COEDINE",
+        "UNIT PRICE": 1800
+      },
+      {
+        "SERVICES": "B COMPLEX INJ (1 DOSE)",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "BENYLIN (ADULT)",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "B COMPLEX TAB",
+        "UNIT PRICE": 15
+      },
+      {
+        "SERVICES": "BENGAY CREAM",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "BENZYL BENZOATE",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "BARALGIN",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "BENZATHINE BENZYPENICILLIN\r\n(PENICILLIN G)",
+        "UNIT PRICE": 2000
+      },
+      {
+        "SERVICES": "BENZYL PENICILLIN INJ\r\n(XTAPEN)1mega",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "BENTADINE CREAM",
+        "UNIT PRICE": 1400
+      },
+      {
+        "SERVICES": "BETNOSOL EYE/EAR DROP",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "BETNOVATE C CREAM",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "BETNOVATE “N”",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "BETNOSOL EYE/EAR DROP (UNBR)",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "BAYCUTEN CREAM",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "BIOSTRATH",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "BISOLVON SYR",
+        "UNIT PRICE": 2800
+      },
+      {
+        "SERVICES": "BISOLVON TAB",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "BONJELA CREAM",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "BRONCHOLYTE SYR",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "BUSCOPAN TAB",
+        "UNIT PRICE": 48
+      },
+      {
+        "SERVICES": "BUSCOPAN INJ",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "BUSCOPAN SYR",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "BETOPTIC EYE DROP",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "BACQURE INJ",
+        "UNIT PRICE": 5000
+      },
+      {
+        "SERVICES": "BRUSTAN N",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "BENZYL PEROXIDE LOTION 10%",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "CAMOQUINE SYR",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "CO-CODAMOLCAMOSUNATE 1–6 YRS\r\n(NEW BORN )",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "CO-CODAMOLCAMOSUNATE Adult",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "CAMOQUINE TAB",
+        "UNIT PRICE": 180
+      },
+      {
+        "SERVICES": "CAMOQUINE PLUS SYR",
+        "UNIT PRICE": 1400
+      },
+      {
+        "SERVICES": "CARBIMAZOL",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "CANESTEN VAG TAB",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "CANESTEN VAG CREAM",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "CANESTEN CREAM",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "CANESTEN CREAM (UNBR)",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "CANESTEN VAG CREAM (UNBR)",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "CANESTEN VAG TAB (UNBR)",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "CAFEGOT",
+        "UNIT PRICE": 90
+      },
+      {
+        "SERVICES": "CALAMINE LOTION",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "CALCIUM SANDOZ (CAC 1000)",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "CALCIUM LACTATE TAB",
+        "UNIT PRICE": 18
+      },
+      {
+        "SERVICES": "CAPTROPIL 25mg",
+        "UNIT PRICE": 90
+      },
+      {
+        "SERVICES": "CATAFLAM 50mg Brand",
+        "UNIT PRICE": 90
+      },
+      {
+        "SERVICES": "CATAFLAM 50mg Umbr.",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "CEFUROXIN (ZINNAT) SYR GSK",
+        "UNIT PRICE": 3500
+      },
+      {
+        "SERVICES": "CEFUROXIN (ZINNAT) 250mg TAB GSK",
+        "UNIT PRICE": 350
+      },
+      {
+        "SERVICES": "CEFUROXIN (ZINNAT) 500mg TAB\r\nUNBR",
+        "UNIT PRICE": 450
+      },
+      {
+        "SERVICES": "CEFIXIN TAB 200mg (IXIME)",
+        "UNIT PRICE": 216
+      },
+      {
+        "SERVICES": "CEFIXIN SYR (BIOXIME)",
+        "UNIT PRICE": 1800
+      },
+      {
+        "SERVICES": "CADURA 2MG",
+        "UNIT PRICE": 250
+      },
+      {
+        "SERVICES": "CADURA 4MG",
+        "UNIT PRICE": 350
+      },
+      {
+        "SERVICES": "CAMOSUNATE",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "CEFTRIZONE",
+        "UNIT PRICE": 2000
+      },
+      {
+        "SERVICES": "CATAREST EYE DROP",
+        "UNIT PRICE": 1800
+      },
+      {
+        "SERVICES": "NECK COLLAR",
+        "UNIT PRICE": 2000
+      },
+      {
+        "SERVICES": "CIALIS (BRANDED)",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "CIALIS (UNBRANDED)",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "CEFIXIN TAB 400mg (IXIME or\r\nOCEFIX)",
+        "UNIT PRICE": 350
+      },
+      {
+        "SERVICES": "CEPOREX 125mg SYR (CEPHALEXIN)",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "CEPOREX 500mg TAB",
+        "UNIT PRICE": 200
+      },
+      {
+        "SERVICES": "CERUMOL EAR DROP",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "CHLORAMPHENICAL EYE DROP",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "CHLORAMPHENICAL EAR DROP",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "CHLORAMPHENICAL OINTMENT",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "CHLORAMPHENICAL CAP",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "CHLORAMPHENICAL SYR",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "CELEBREX",
+        "UNIT PRICE": 290
+      },
+      {
+        "SERVICES": "CADUET 10mg",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "CADUET 5mg",
+        "UNIT PRICE": 260
+      },
+      {
+        "SERVICES": "CHLOROQUINE TAB",
+        "UNIT PRICE": 10
+      },
+      {
+        "SERVICES": "CHLOROQUINE SYR",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "CHLOROQUINE INJ (per dose)",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "CHEMIRON SYR(small)",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "CHEMIRON CAPS",
+        "UNIT PRICE": 24
+      },
+      {
+        "SERVICES": "CRYSTALLIN PENICILLIN INJ",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "CATAREX EYE DROP",
+        "UNIT PRICE": 1800
+      },
+      {
+        "SERVICES": "CHYMORAL TAB",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "COMPLAMIN",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "CIMETIDINE 400mg",
+        "UNIT PRICE": 72
+      },
+      {
+        "SERVICES": "CIMETIDINE 200mg",
+        "UNIT PRICE": 36
+      },
+      {
+        "SERVICES": "CIMETIDINE INJ",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "CIKLAVIT SYR",
+        "UNIT PRICE": 1400
+      },
+      {
+        "SERVICES": "CADURA",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "CIPROXIN (BAYER)",
+        "UNIT PRICE": 280
+      },
+      {
+        "SERVICES": "CIPROXIN INFUSION",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "CIPROXIN (UNBR)",
+        "UNIT PRICE": 120
+      },
+      {
+        "SERVICES": "COARTEM UMBR.",
+        "UNIT PRICE": 66
+      },
+      {
+        "SERVICES": "CHRIZIME",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "CLOMID TAB",
+        "UNIT PRICE": 180
+      },
+      {
+        "SERVICES": "COFLIN",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "COMBANTRIN TAB",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "COMBANTRIN SYR",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "CO-DIOVAN 80mg/12.5mg",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "CO-DIOVAN 160mg/25mg",
+        "UNIT PRICE": 320
+      },
+      {
+        "SERVICES": "COD LIVER OIL SYR",
+        "UNIT PRICE": 1800
+      },
+      {
+        "SERVICES": "COD LIVER OIL CAPS",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "COARTEM TAB 120MG",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "COARTEM TAB 480MG",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "COARTEM SYR",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "COTECXIN SYR",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "COTECXIN TAB",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "COTECXIN SUSP",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "CEFTRIAZONE INJ (ROCHE)",
+        "UNIT PRICE": 5500
+      },
+      {
+        "SERVICES": "COXAL EYE DROP",
+        "UNIT PRICE": 5500
+      },
+      {
+        "SERVICES": "CLOPIDOGREL",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "CLEXAN INJ 40mg",
+        "UNIT PRICE": 4500
+      },
+      {
+        "SERVICES": "CLIMDAMYCIN (DALACIN C) 150mg",
+        "UNIT PRICE": 160
+      },
+      {
+        "SERVICES": "CLIMDAMYCIN (DALACIN C) 300MG",
+        "UNIT PRICE": 200
+      },
+      {
+        "SERVICES": "CO-MICARDIS 80/12.5MG",
+        "UNIT PRICE": 450
+      },
+      {
+        "SERVICES": "CLARITHROMYCIN",
+        "UNIT PRICE": 200
+      },
+      {
+        "SERVICES": "CYTOTEC 200mg",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "CO-TRIMOXOLE TAB",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "CO-TRIMOXOLE SYR",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "CALCIUM GLUCONATE INJ",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "CALCIUM LACTATE INJ",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "CIPROXIN INFUSION",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "CALCIUM CHLORIDE INJ",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "CICATRIN POWDER",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "CYPRON CAPS",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "CEPOREX 250mg SYR",
+        "UNIT PRICE": 950
+      },
+      {
+        "SERVICES": "CARVITAL",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "COMPLAMIN",
+        "UNIT PRICE": 90
+      },
+      {
+        "SERVICES": "DALACIN EMULSOIN",
+        "UNIT PRICE": 5000
+      },
+      {
+        "SERVICES": "CENTRIUM",
+        "UNIT PRICE": 5000
+      },
+      {
+        "SERVICES": "CEPOREX 250MG SYR",
+        "UNIT PRICE": 950
+      },
+      {
+        "SERVICES": "D/W 5% 1L",
+        "UNIT PRICE": 2000
+      },
+      {
+        "SERVICES": "DICLOFENAC SUP/VOLTARIN SUP\r\n50MG",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "DEXTROS/W 5%",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "D/S 5% 1L",
+        "UNIT PRICE": 2000
+      },
+      {
+        "SERVICES": "D/S ½ 5%",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "DARROWS ½ strength",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "DARROWS full strength",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "4.3 D/S 1/2 L",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "DEXTROS 50%",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "DPT INJ",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "DAKTARIN CREAM",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "DAKTARIN POWDER",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "DAKTACORT",
+        "UNIT PRICE": 2200
+      },
+      {
+        "SERVICES": "DAONIL (ORIG)",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "DAONIL (UNBR)",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "DARAPRIN TAB",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "DEPO PROVERA INJ",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "DEQUADIN LOZENGES",
+        "UNIT PRICE": 48
+      },
+      {
+        "SERVICES": "DAFLON (PER TAB)",
+        "UNIT PRICE": 120
+      },
+      {
+        "SERVICES": "DEMAZIN CREAM 30mg",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "DEXAMETHAZONE INJ 2mg",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "DEXAMETHAZONE TAB 4mg",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "DIASTOP",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "DIAZEPAM INJ (ROCHE)",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "DIAZEPAM INJ (UNBR)",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "DIAZEPAM TAB",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "DALACIN EMULSION",
+        "UNIT PRICE": 5000
+      },
+      {
+        "SERVICES": "DICLOFENAC GEL",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "DICLOFENAC TAB 50mg",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "DICLOFENAC 50mg (UNBR)",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "DICLOFENAC SUPP.",
+        "UNIT PRICE": 200
+      },
+      {
+        "SERVICES": "DARAPRIM",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "DICLOFENAC INJ (VOLTAREN)-\r\nNORVATIS",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "DICLOFENAC INJ (UNBR)",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "DIFLUCAN (PFIZER)",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "DIFLUCAN (UNBR)",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "DIGOXIN",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "DOLO-NEUROBION",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "DOXYCYCLINE",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "DULCOLAX (BISACODYL)",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "DEEP HEAT CREAM (small)",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "DEEP HEAT CREAM (big)",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "DEXTRACIN EYE DROP",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "DALACIN C",
+        "UNIT PRICE": 130
+      },
+      {
+        "SERVICES": "DOLVIRAN",
+        "UNIT PRICE": 120
+      },
+      {
+        "SERVICES": "DYNAMOGEN",
+        "UNIT PRICE": 90
+      },
+      {
+        "SERVICES": "DIPROSALIC CREAM",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "DEPIXOL INJ 40MG",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "DULCOLAX SUPP",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "E-MAL 150mg",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "ENCEPHABOL TAB",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "ENCEPHABOL SYR",
+        "UNIT PRICE": 2200
+      },
+      {
+        "SERVICES": "ERGOT INJ",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "ERGOT TAB",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "EMZOLIN WITH CODINE",
+        "UNIT PRICE": 1600
+      },
+      {
+        "SERVICES": "ELERON SYR",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "ELERON CAP",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "ERYTHRO SYR 125mg",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "EAR WAX REMOVAL",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "EPANUTIA",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "ERYTHRO SYR 200mg",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "ERYTHRO SYR 250mg",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "ERYTHRO TAB 250mg",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "ERYTHRO TAB 500mg",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "ESSENTIAL FORT",
+        "UNIT PRICE": 70
+      },
+      {
+        "SERVICES": "ESIDREX",
+        "UNIT PRICE": 90
+      },
+      {
+        "SERVICES": "ENERATIC",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "FANSIDAR SYR (ROCHE)",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "FANSIDAR TAB (ROCHE)",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "FANSIDAR SYR (UNBR)",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "FANSIDAR TAB (UNBR)",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "FASIGYN",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "FLAGENTYL/TAB",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "FLAGYL TAB 200mg",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "FLAGYL SYR",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "FLAGYL TAB 400mg",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "FLAGYL IV",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "FLUCOMAZOL (PFIZER)",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "FLUCOMAZOL (UNBR)",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "FLUTAC",
+        "UNIT PRICE": 230
+      },
+      {
+        "SERVICES": "FOLIC ACID",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "FESOLATE",
+        "UNIT PRICE": 15
+      },
+      {
+        "SERVICES": "FRANOL",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "FORTWIN INJ (PENTA)",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "EMZORON CAP (PER CAP)",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "FORTUM INJ",
+        "UNIT PRICE": 5000
+      },
+      {
+        "SERVICES": "FRUSEMIDE INJ",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "FULCIN 500mg",
+        "UNIT PRICE": 45
+      },
+      {
+        "SERVICES": "FELDENE CAP (PFIZER)",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "FELDENE GEL (PFIZER)",
+        "UNIT PRICE": 1400
+      },
+      {
+        "SERVICES": "FELDENE CAP (UNBR)",
+        "UNIT PRICE": 54
+      },
+      {
+        "SERVICES": "FISH OIL",
+        "UNIT PRICE": 140
+      },
+      {
+        "SERVICES": "FELDENE INJ (UNBR)",
+        "UNIT PRICE": 342
+      },
+      {
+        "SERVICES": "FULCIN SYR",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "FOLIC ACID SYR",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "FUNGBACT A",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "FLAGYL SUSP",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "FLUTAMIDE",
+        "UNIT PRICE": 350
+      },
+      {
+        "SERVICES": "FELDENE INJ (PFIZER)",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "FUNGUSOL POWDER",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "FUNGUSOL LOTION",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "FEROMIN CAP",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "FLOXAPEN",
+        "UNIT PRICE": 160
+      },
+      {
+        "SERVICES": "FEROMIN SYR",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "FLUCOMED SUP",
+        "UNIT PRICE": 1400
+      },
+      {
+        "SERVICES": "GABAPENTIN 300MG",
+        "UNIT PRICE": 160
+      },
+      {
+        "SERVICES": "GALVUS-MET 50/1000",
+        "UNIT PRICE": 320
+      },
+      {
+        "SERVICES": "GALVUS-MET 50/500",
+        "UNIT PRICE": 320
+      },
+      {
+        "SERVICES": "GALVUS PLAN",
+        "UNIT PRICE": 320
+      },
+      {
+        "SERVICES": "G V PAINT (50mls)",
+        "UNIT PRICE": 200
+      },
+      {
+        "SERVICES": "GASCOL",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "GELUSIL",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "GENTICIN INJ 80mg",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "GENTICIN SKIN OINTMENT",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "GENTICIN EAR/EYE DROP",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "GENTICIN INJ 40mg",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "GESTID SUSP",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "GESTID TAB",
+        "UNIT PRICE": 24
+      },
+      {
+        "SERVICES": "GESTID SUSP (UNBR)",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "GLUCOPHAGE",
+        "UNIT PRICE": 42
+      },
+      {
+        "SERVICES": "GRIPE WATER",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "GYNO-DAKTRIN CREAM",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "GYNO-DAKTRIN OVULE 3’s",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "GYNO-DAKTRIN OVULE 7’s",
+        "UNIT PRICE": 1800
+      },
+      {
+        "SERVICES": "GYNO-TIOCOSYD OVULE 3’s",
+        "UNIT PRICE": 350
+      },
+      {
+        "SERVICES": "GYNO-TIOCOSYD OVULE 6’s EACH",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "GENTALEK EYE DROP",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "GRISOFULVIN SYR (FULCIN)",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "GINSENG CAP",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "GLANIL",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "GLUCOVANCE 2.5mg",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "GLUCOVANCE 5mg",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "GLYCERYL TRINITRITE",
+        "UNIT PRICE": 200
+      },
+      {
+        "SERVICES": "GLYCERYL TRINITE SPRAY",
+        "UNIT PRICE": 2200
+      },
+      {
+        "SERVICES": "GLUCOPHAGE 1G",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "HALOPERIDOL",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "GLICLAZ –M",
+        "UNIT PRICE": 70
+      },
+      {
+        "SERVICES": "GLUCOPHAGE 500MG",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "GINKO-BILOBA",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "HALOPERDOL",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "HALFAN TAB",
+        "UNIT PRICE": 1400
+      },
+      {
+        "SERVICES": "HALFAN SYR",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "HEPARIN INJ",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "HEXEDENE MOUTH WASH",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "HISMANAL TAB",
+        "UNIT PRICE": 280
+      },
+      {
+        "SERVICES": "HYDRALLAZINE INJ",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "HYDRALLAZINE 25MG TAB",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "HYDROCORTISONE INJ",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "HYDROCORTISONE CREAM",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "HYDROGEN PEROXIDE",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "HYDROCORTISONE TAB",
+        "UNIT PRICE": 180
+      },
+      {
+        "SERVICES": "HYOCINE BROMIDE (BUSCOPAN)",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "HYOCINE INJ 10MG",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "HYDERGINE 1.5",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "HOMTAMIN CAPS",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "HEMASIL INJ",
+        "UNIT PRICE": 8000
+      },
+      {
+        "SERVICES": "HEP B VAC (SINGLE DOSE)",
+        "UNIT PRICE": 3500
+      },
+      {
+        "SERVICES": "HB12 SYR",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "HEP A, C",
+        "UNIT PRICE": 15000
+      },
+      {
+        "SERVICES": "HUMULIN R 401U",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "HUMULIN R 1001U",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "HUMULIN N 401U",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "HUMULIN N 1001U",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "HUMULIN L 401U",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "HUMULIN L 1001U",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "HUMULIN 70/30",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "HEALERS SUSP",
+        "UNIT PRICE": 220
+      },
+      {
+        "SERVICES": "HAEM-F",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "HEMAFOLIN CAP",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "HEAD–ON",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "HEPABIONTA INJ",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "IBUPROFEN SYR LOCAL",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "IBUPROFEN SYR FOREIGN",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "IBUPROFEN TAB",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "INDERAL",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "INDOCID",
+        "UNIT PRICE": 10
+      },
+      {
+        "SERVICES": "INSULIN (HUMAN) R 401U",
+        "UNIT PRICE": 3600
+      },
+      {
+        "SERVICES": "INSULIN (HUMAN) R 1001U",
+        "UNIT PRICE": 4000
+      },
+      {
+        "SERVICES": "INSULIN (HUMAN) L 401U",
+        "UNIT PRICE": 3600
+      },
+      {
+        "SERVICES": "INSULIN (HUMAN) L 1001U",
+        "UNIT PRICE": 4000
+      },
+      {
+        "SERVICES": "INSULIN (HUMAN) N 401U",
+        "UNIT PRICE": 3500
+      },
+      {
+        "SERVICES": "INSULIN (HUMAN) N 1001U",
+        "UNIT PRICE": 4000
+      },
+      {
+        "SERVICES": "INSULIN 70/30 401U",
+        "UNIT PRICE": 3500
+      },
+      {
+        "SERVICES": "INSULIN 70/30 1001U",
+        "UNIT PRICE": 4000
+      },
+      {
+        "SERVICES": "INSULIN PENFIL",
+        "UNIT PRICE": 6000
+      },
+      {
+        "SERVICES": "IMPLANT",
+        "UNIT PRICE": 30000
+      },
+      {
+        "SERVICES": "IMODIUM CAP",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "IODINE",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "IRON DEXTRAN INJ",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "ITRANOX",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "INVERMECTIN",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "IXIME 400mg",
+        "UNIT PRICE": 250
+      },
+      {
+        "SERVICES": "IXIME (CEFIXINE) 200mg",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "IRON CAPS (others)",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "IRON SYR (others)",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "INDAPAMIDE 1.5MG",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "INFRA RED",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "IMMIPRAMIN",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "JANUVIA 100MG",
+        "UNIT PRICE": 450
+      },
+      {
+        "SERVICES": "KENALOG (in syringe)",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "KENALOG VIAL",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "KETAMIN 1-2mls",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "KETANOF",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "KETRAX TAB",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "KETRAX SYR",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "K-Y JELLY",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "KETOCONAZOLE (NIZONAL) TAB\r\n200mg",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "KETOCONAZOLE CREAM",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "KETOCONAZOLE SHAMPOO",
+        "UNIT PRICE": 2000
+      },
+      {
+        "SERVICES": "KETOCONAZOLE TAB (UNBR) 200MG",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "KOTASE",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "KLOVINAL",
+        "UNIT PRICE": 1600
+      },
+      {
+        "SERVICES": "LASIX TAB",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "LASIX INJ",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "LARIMAL",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "LEXOTAN 3mg",
+        "UNIT PRICE": 72
+      },
+      {
+        "SERVICES": "LEXOTAN 1.5mg",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "LIGNOCAIN 2mls",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "LINCOCIN CAP (PFIZER)",
+        "UNIT PRICE": 200
+      },
+      {
+        "SERVICES": "LINCOCIN CAP (UNBR)",
+        "UNIT PRICE": 120
+      },
+      {
+        "SERVICES": "LISINOPRIL 10mg",
+        "UNIT PRICE": 90
+      },
+      {
+        "SERVICES": "LISINOPRIL 5mg",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "LISINOPRIL 20MG",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "LINCTIFED F SYR",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "LINCTIFED P SYR",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "LIQUID PARAFIN",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "LITRISON TAB",
+        "UNIT PRICE": 70
+      },
+      {
+        "SERVICES": "LORATYN",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "LOMOTIL TAB",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "LAMESIL TAB (NOVARTIS)",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "LAMESIL CREAM (NOVARTIS)",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "LAMISIL TAB (UNBR)",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "LAMISIL CREAM (UNBR)",
+        "UNIT PRICE": 1400
+      },
+      {
+        "SERVICES": "LONART TAB (by 12)",
+        "UNIT PRICE": 120
+      },
+      {
+        "SERVICES": "LONART DS",
+        "UNIT PRICE": 250
+      },
+      {
+        "SERVICES": "LONART SYR",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "LOPERAX",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "LOPERAX (UNB)",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "LIVOLYN FORTE",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "LORAZEPAM 1MG",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "LAGACTIL TAB",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "LYRICA 75MG",
+        "UNIT PRICE": 380
+      },
+      {
+        "SERVICES": "LYRICA 150MG",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "LORATINE SYR.",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "LIPITOR 20mg",
+        "UNIT PRICE": 450
+      },
+      {
+        "SERVICES": "LIPITOR 10MG",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "INJ. LANTUS INSULIN",
+        "UNIT PRICE": 6000
+      },
+      {
+        "SERVICES": "INJ. LAGACTIL",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "LIV 52",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "LIBRUM",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "LYRICA 150",
+        "UNIT PRICE": 550
+      },
+      {
+        "SERVICES": "MANITOL 10%",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "MANITOL 20%",
+        "UNIT PRICE": 2000
+      },
+      {
+        "SERVICES": "MAXI VISION",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "MIST MAG",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "MEASLE VAC",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "MEPRAMINE (ARTHISAN) CREAM",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "METHYLDOPA 250mg",
+        "UNIT PRICE": 35
+      },
+      {
+        "SERVICES": "METHYLATED SPIRIT 100",
+        "UNIT PRICE": 250
+      },
+      {
+        "SERVICES": "MINIPLUS",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "MIST POT CITRATE",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "MODURETIC TAB",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "MOGADON",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "MULTIVITE TAB",
+        "UNIT PRICE": 15
+      },
+      {
+        "SERVICES": "MULTIVITE SYRUP",
+        "UNIT PRICE": 350
+      },
+      {
+        "SERVICES": "MULTIVITAMIN CAP",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "MYCOTEN CREAM",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "MYOCOTEN VAG TAB",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "MYOCOTEN VAG CREAM",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "MYCOTA CREAM",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "MYCOTA POWDER",
+        "UNIT PRICE": 2100
+      },
+      {
+        "SERVICES": "METAKELFIN TAB",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "MEFENAMIC ACID",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "MERONEM INJECTION",
+        "UNIT PRICE": 7000
+      },
+      {
+        "SERVICES": "METHYL SALICYLATE CREAM",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "METHODEX",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "MEBENDAZOLE SYR",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "MEBENDAZOLE TAB",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "MELOXICAN",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "MANIX",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "MOVICOL",
+        "UNIT PRICE": 200
+      },
+      {
+        "SERVICES": "MOSEGOR TAB",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "MOSEGOR SYR",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "MISOPRISOL",
+        "UNIT PRICE": 250
+      },
+      {
+        "SERVICES": "MYBACIN",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "MITIGAL",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "METRONIDAZOLE TAB 200G",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "METRONIDAZOLE 400MG",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "METRONIDAZOL DRIP",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "METRONIDAZOL SYR",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "MYCOSTATIN SYR",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "MELADININE TAB",
+        "UNIT PRICE": 120
+      },
+      {
+        "SERVICES": "MYCOPIROX VAGINAL CREAM",
+        "UNIT PRICE": 2200
+      },
+      {
+        "SERVICES": "MAPOSAN SATCHET",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "MAGNESIUM SULPHATE INJECTION",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "NALIDIXIC ACID",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "MAXITOL EYE DROP",
+        "UNIT PRICE": 1600
+      },
+      {
+        "SERVICES": "MYCOPIROX BODY CREAM",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "NEO–PENOTRA FORTE",
+        "UNIT PRICE": 4000
+      },
+      {
+        "SERVICES": "NEOMYCIN TAB",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "NEO MEDROL LOTION",
+        "UNIT PRICE": 1800
+      },
+      {
+        "SERVICES": "TAB NEUROVITE FORTE",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "NEUROGETIC CREAM",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "NERVON",
+        "UNIT PRICE": 120
+      },
+      {
+        "SERVICES": "NIFEDIPINE 20mg",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "NIFEDIPINE 20mg(UNBR)",
+        "UNIT PRICE": 42
+      },
+      {
+        "SERVICES": "NIFECARD XL 30mg",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "NITROFUNADANTOIN",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "NUROBION TAB",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "SALINE NASAL SPRAY",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "NIZONAL CREAM",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "NIZONAL TAB",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "NIZONAL SHAMPOO",
+        "UNIT PRICE": 3200
+      },
+      {
+        "SERVICES": "NORFLEX",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "NORGESIC",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "NORISTARAT INJ",
+        "UNIT PRICE": 2000
+      },
+      {
+        "SERVICES": "NOVASC 10mg",
+        "UNIT PRICE": 250
+      },
+      {
+        "SERVICES": "NOVASC 5mg",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "NOVASC 10mg (UNBRANDED)",
+        "UNIT PRICE": 170
+      },
+      {
+        "SERVICES": "NOVASC 5mg (UNBRANDED)",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "NYSTATIN TAB 100,000IU",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "NYSTATIN TAB 500,000IU",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "NYSTATIN VAG TAB 100,000IU",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "NYSTATIN SUSP",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "NORMORETIC",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "NOSPA INJ",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "NOSPA TAB",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "NOSPAMIN SYR",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "NAPROXEN",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "NERVON",
+        "UNIT PRICE": 120
+      },
+      {
+        "SERVICES": "AVAMYS NASAL DROP",
+        "UNIT PRICE": 2800
+      },
+      {
+        "SERVICES": "ORS SATCHET",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "OBRON-6 CAP",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "OPTALIDON TAB",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "OMEGA H3 CAP",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "ORALDEN MOUTH WASH",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "OTRIVINE NASAL DROP (adult)",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "OTRIVINE NASAL DROP (paed)",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "OXALIPATIN 100MG",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "OXYTOCIN INJ (NOVATIS)",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "OXYTOCIN INJ",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "02 THERAPY 1HR",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "OMEPRAZOLE TAB 20mg",
+        "UNIT PRICE": 90
+      },
+      {
+        "SERVICES": "OMEPRAZOLE INJ",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "OLFEN GEL",
+        "UNIT PRICE": 1800
+      },
+      {
+        "SERVICES": "OLFEN INJ",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "OLFEN CAPS 50mg",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "OLFEN CAPS 100mg",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "ORUVAIL",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "OFLOXACINE (UNB)",
+        "UNIT PRICE": 180
+      },
+      {
+        "SERVICES": "OFLOXACINE (TARIVID)",
+        "UNIT PRICE": 350
+      },
+      {
+        "SERVICES": "OFLOXACINE EYE",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "OFLOXACINE EAR",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "ORELOX SYR 100 doses (SANOFI-\r\nAVENTIS)",
+        "UNIT PRICE": 3500
+      },
+      {
+        "SERVICES": "ORELOX SYR 100 doses (UNBR)",
+        "UNIT PRICE": 4000
+      },
+      {
+        "SERVICES": "ORELOX SYR 200 doses (SANOFI-",
+        "UNIT PRICE": 5000
+      },
+      {
+        "SERVICES": "AVENTIS)"
+      },
+      {
+        "SERVICES": "ORELOX TAB 100mg (SANOFI-\r\nAVENTIS)",
+        "UNIT PRICE": 550
+      },
+      {
+        "SERVICES": "OCEFIX (IXIME) 200mg",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "OKACIN EYE DROP",
+        "UNIT PRICE": 2000
+      },
+      {
+        "SERVICES": "OPTREX EYE WASH",
+        "UNIT PRICE": 2200
+      },
+      {
+        "SERVICES": "OCP (28TABS)",
+        "UNIT PRICE": 250
+      },
+      {
+        "SERVICES": "OXYUREA 500MG",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "OXYUREA 250MG",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "OVULATION KIT",
+        "UNIT PRICE": 4000
+      },
+      {
+        "SERVICES": "PIRITON TAB 4mg",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "PIRITON INJ (CHLORPHENIRAMINE)",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "PIRITON SYRUP",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "PARACETAMOL TABLET",
+        "UNIT PRICE": 15
+      },
+      {
+        "SERVICES": "PARACETAMOL SYRUP",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "PARA INJ 2mls",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "PERIACTIN TAB",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "PHENEGAN (PROMETHAZINE) INJ",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "PHENEGAN TAB",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "PHENEGAN SYR",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "PHENOBARBITON TAB",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "PHENOBARBITON INJ",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "PHENOBARBITON SYR",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "PHENSYDYL SYR",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "PICCAN",
+        "UNIT PRICE": 1300
+      },
+      {
+        "SERVICES": "PLASIL INJ",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "PLASIL TAB",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "PLAGERINE(CLOPIDOGREL)",
+        "UNIT PRICE": 90
+      },
+      {
+        "SERVICES": "POLYCROL FORT",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "POLYCROL",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "PODOPHYLIN PAINT",
+        "UNIT PRICE": 3500
+      },
+      {
+        "SERVICES": "POTASSIUM PERMANGANATE",
+        "UNIT PRICE": 200
+      },
+      {
+        "SERVICES": "PRAZIQUANTEL 600MG",
+        "UNIT PRICE": 160
+      },
+      {
+        "SERVICES": "PREDNISOLONE 5mg",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "PREMOLUT DEPO INJ",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "PREMOLUT N",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "PREGNACARE",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "PREGNACARE PLUS",
+        "UNIT PRICE": 250
+      },
+      {
+        "SERVICES": "PROCAINE PENICILLIN INJ",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "PROPRANOLOL (INDERAL)",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "PROVIRON TAB",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "PARIET",
+        "UNIT PRICE": 350
+      },
+      {
+        "SERVICES": "PALUDRIN",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "PALLUTHER INJ 80mg",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "PALLUTHER INJ 40mg",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "PARALDEHYDE INJ",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "PARLODEL TAB (BROMOCHRIPTON)",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "P ALAXIN SYRUP",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "PEFLACIN INJ",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "PEFLACIN TAB",
+        "UNIT PRICE": 220
+      },
+      {
+        "SERVICES": "PENICILLIN EYE OINTMENT",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "PENICILLIN SKIN OINTMENT",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "PENTAZOCINE INJ",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "PROCOLD",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "PROGESTERONE INJ",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "PYRIDOXINE(B6)",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "PROCONIL SPRAY",
+        "UNIT PRICE": 1800
+      },
+      {
+        "SERVICES": "PIOGLITAZONE",
+        "UNIT PRICE": 160
+      },
+      {
+        "SERVICES": "PLENDIL 5mg",
+        "UNIT PRICE": 120
+      },
+      {
+        "SERVICES": "PLENDIL 10mg",
+        "UNIT PRICE": 200
+      },
+      {
+        "SERVICES": "POTASIUM CHLORIDE (PER AMPLE)",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "POTASSIUM CITRATE (PER BOTTLE)",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "PROSTIGMIN",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "PIRITON SYR",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "PHYSIO",
+        "UNIT PRICE": 5000
+      },
+      {
+        "SERVICES": "PIROXICAN INJ",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "PIROXICAN CAP (PFIZER)",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "PIROXICAN (UNB))",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "PIROXICAN INJ (PFIZER)",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "PHYSIOGEL CREAM",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "QUININ TAB",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "QUININ INJ",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "QUININ SYR",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "QUINIMAX INJ",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "QUINIMAX TAB",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "QUADRIDERM",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "RAMIPRIL",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "RANITIDINE 150mg (ZANTAC)",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "RANITIDINE 300mg",
+        "UNIT PRICE": 250
+      },
+      {
+        "SERVICES": "RISPERDAL 1MG",
+        "UNIT PRICE": 250
+      },
+      {
+        "SERVICES": "RISPERDAL 2MG",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "ROCEPHINE INJ",
+        "UNIT PRICE": 4000
+      },
+      {
+        "SERVICES": "RANFERON",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "RHINATHIOL 2%",
+        "UNIT PRICE": 1300
+      },
+      {
+        "SERVICES": "RHINATHIOL 5%",
+        "UNIT PRICE": 1300
+      },
+      {
+        "SERVICES": "RIFAMPICIN",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "RINGER LACTATE SOLUTION",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "ROGAM",
+        "UNIT PRICE": 35000
+      },
+      {
+        "SERVICES": "ROHYPNOL 1MG",
+        "UNIT PRICE": 200
+      },
+      {
+        "SERVICES": "ROHYPNOL 2MG",
+        "UNIT PRICE": 250
+      },
+      {
+        "SERVICES": "ROBAXIN",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "ROSART",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "ROYAL JELLY",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "RULOX",
+        "UNIT PRICE": 90
+      },
+      {
+        "SERVICES": "RETIN–A GEL",
+        "UNIT PRICE": 2800
+      },
+      {
+        "SERVICES": "ROVIGON",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "SALBUTAMOL INJ",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "SERETIDE INHALER 250MG",
+        "UNIT PRICE": 6500
+      },
+      {
+        "SERVICES": "SERETIDE INHALER 100MG",
+        "UNIT PRICE": 5500
+      },
+      {
+        "SERVICES": "SALBUTAMOL TAB",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "SALBUTAMOL SYR",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "SALBUTAMOL INHALER",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "SAVLON (PURIT) 100mls",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "SEPTRIN SYR",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "SEPTRIN TAB 480MG",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "SEPTRIN TAB 960MG",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "SERC 8",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "SEROXAT(HYDROCHLORIDE\r\nPAROXETINE)",
+        "UNIT PRICE": 270
+      },
+      {
+        "SERVICES": "SEVEN SEAS",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "SILIBON 70MG",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "SILIBON 140MG",
+        "UNIT PRICE": 70
+      },
+      {
+        "SERVICES": "SIRDALUD 2MG",
+        "UNIT PRICE": 90
+      },
+      {
+        "SERVICES": "SIRDALUD 4MG",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "SILVASTATIN",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "SMARTHRO",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "STREPSIL LOZENGES",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "SLOW-K",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "SOFRATULE 10cm",
+        "UNIT PRICE": 200
+      },
+      {
+        "SERVICES": "SPARFLOXACIN",
+        "UNIT PRICE": 180
+      },
+      {
+        "SERVICES": "SPERSADEXOLINE",
+        "UNIT PRICE": 1800
+      },
+      {
+        "SERVICES": "SPERSALLERG EYE DROP",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "SPORIDEX SYR 125mg",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "SPORIDEX SYR 250mg",
+        "UNIT PRICE": 1600
+      },
+      {
+        "SERVICES": "SPORIDEX TAB",
+        "UNIT PRICE": 200
+      },
+      {
+        "SERVICES": "SPORANOX CAPS",
+        "UNIT PRICE": 700
+      },
+      {
+        "SERVICES": "STEMETIL",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "STUGERON TAB",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "STUGERON FORTH",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "SUPRADYN CAP",
+        "UNIT PRICE": 130
+      },
+      {
+        "SERVICES": "SUPRAVITE CAPS",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "SULPHUR OINTMENT",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "SURGICAL GLOVES (1 PAIR)",
+        "UNIT PRICE": 200
+      },
+      {
+        "SERVICES": "STREPTOMYCIN",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "SYLIBON 140",
+        "UNIT PRICE": 70
+      },
+      {
+        "SERVICES": "SALINE NASAL DROP",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "SABRESTEN CREAM",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "SABRESTEN VAG CREAM",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "SODIUM BICARBONATE INJ",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "SODIUM CHLORIDE INJ",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "SODIUM NITRITE",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "SOLUSET",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "SULPHATRIAD",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "SYNTOSINON UNBR",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "NORVATIS (PITOCIN)",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "SUFRA TULE",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "STAY–OFF",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "TCP CREAM",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "TCP OINTMENT",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "TCP LOTION 120mls",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "TEGRETOL 200mg",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "TEGRETOL 400mg CR",
+        "UNIT PRICE": 140
+      },
+      {
+        "SERVICES": "TEGRETOL 200mg CR",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "TETRA-CONTIL EYE/EAR DROP",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "TETANUS TOXOID",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "TETRACYCLINE CAP 250mg",
+        "UNIT PRICE": 20
+      },
+      {
+        "SERVICES": "TETRACYCLINE EYE OINTMENT",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "THALAZOL TAB",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "TIMOPTOL EYE DROP",
+        "UNIT PRICE": 2200
+      },
+      {
+        "SERVICES": "TRAMADOL CAP",
+        "UNIT PRICE": 90
+      },
+      {
+        "SERVICES": "TRAMADOL INJ",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "TRANSVERSIN CREAM",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "TRAVOGEN CREAM",
+        "UNIT PRICE": 1400
+      },
+      {
+        "SERVICES": "TIOCOSID CREAM",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "TEVERGIL TAB",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "TABENAFIN",
+        "UNIT PRICE": 280
+      },
+      {
+        "SERVICES": "TADALAFIL",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "TARIVID (OFLAXACIN) 200mg",
+        "UNIT PRICE": 280
+      },
+      {
+        "SERVICES": "TARIVID (UNBR)",
+        "UNIT PRICE": 220
+      },
+      {
+        "SERVICES": "THIAPIL",
+        "UNIT PRICE": 250
+      },
+      {
+        "SERVICES": "TRITACE 2.5mg",
+        "UNIT PRICE": 250
+      },
+      {
+        "SERVICES": "TRITACE 5mg",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "TOGAMYCIN INJ",
+        "UNIT PRICE": 2000
+      },
+      {
+        "SERVICES": "TORSIN 20MG TORSINEX",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "TAMSULOSIN",
+        "UNIT PRICE": 350
+      },
+      {
+        "SERVICES": "TAGAMENT - CIMETIDINE",
+        "UNIT PRICE": 70
+      },
+      {
+        "SERVICES": "TENORIC",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "TENALOLE",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "URINE BAG",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "ULCER KIT",
+        "UNIT PRICE": 3800
+      },
+      {
+        "SERVICES": "VALIUM (ROCHE) INJ",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "VALIUM (UNBR) INJ",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "VALIUM 10mg TAB",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "VENTOLIN INHALER",
+        "UNIT PRICE": 1300
+      },
+      {
+        "SERVICES": "VENTOLIN SYR",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "VENTOLIN TAB 2MG",
+        "UNIT PRICE": 40
+      },
+      {
+        "SERVICES": "VISINE EYE DROP (small)",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "VISINE EYE DROP (big)",
+        "UNIT PRICE": 1800
+      },
+      {
+        "SERVICES": "VECUTEN CREEM",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "VASOPRIN 75mg",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "VISION PLUS",
+        "UNIT PRICE": 4200
+      },
+      {
+        "SERVICES": "VIT B CO INJ",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "VIT B CO TAB",
+        "UNIT PRICE": 15
+      },
+      {
+        "SERVICES": "VIT B CO SYR",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "VIT B6 TAB",
+        "UNIT PRICE": 30
+      },
+      {
+        "SERVICES": "VIT C SYR",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "VIT C INJ",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "VIT C CAPS",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "VIT C TAB",
+        "UNIT PRICE": 10
+      },
+      {
+        "SERVICES": "VIT E CAPS 400MG",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "VIT E 1000MG",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "VIT K INJ",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "VIT A CAPS",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "VIT A SYR",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "VERMOX MEBENDAZOL",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "VOLTFAST",
+        "UNIT PRICE": 180
+      },
+      {
+        "SERVICES": "VOLTEREN INJ",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "VOLTEREN CAP",
+        "UNIT PRICE": 120
+      },
+      {
+        "SERVICES": "VOLTEREN EYE DROP",
+        "UNIT PRICE": 1800
+      },
+      {
+        "SERVICES": "VIREST TAB (ACICLOVIR) 200mg",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "VIREST TAB (ACICLOVIR) 400mg",
+        "UNIT PRICE": 120
+      },
+      {
+        "SERVICES": "VIREST CREAM",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "VIAGRA",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "VIBRAMYCIN",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "VITREOLENT EYE DROP",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "VOLTAREN SUP",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "WATER FOR INJ",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "WHITEFIELD OINTMENT",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "WELLWOMAN (less than 50 yrs)",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "WELLWOMAN(50 yrs and above)",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "WELLMAN",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "WELLKID SYRUP",
+        "UNIT PRICE": 3500
+      },
+      {
+        "SERVICES": "WOSAN",
+        "UNIT PRICE": 600
+      },
+      {
+        "SERVICES": "WATE-ON",
+        "UNIT PRICE": 2800
+      },
+      {
+        "SERVICES": "WARFARIN TAB",
+        "UNIT PRICE": 50
+      },
+      {
+        "SERVICES": "WINTHROP ADULT",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "WINTHROP P",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "XTAPEN INJ",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "XYLOCAINE JELLY",
+        "UNIT PRICE": 1000
+      },
+      {
+        "SERVICES": "XYLOCAINE SPRAY",
+        "UNIT PRICE": 1500
+      },
+      {
+        "SERVICES": "XALATAN EYE DROP",
+        "UNIT PRICE": 7000
+      },
+      {
+        "SERVICES": "ZENTEL TAB",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "ZENTEL TAB (UNBR)",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "ZENTEL SYR",
+        "UNIT PRICE": 500
+      },
+      {
+        "SERVICES": "ZENTEL SYR (UNBR)",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "ZINNAT 250MGTAB (GSK) 300/TAB",
+        "UNIT PRICE": 3000
+      },
+      {
+        "SERVICES": "ZINNAT 500MG TAB (GSK) 500/TAB",
+        "UNIT PRICE": 350
+      },
+      {
+        "SERVICES": "ZINNAT SYR (GSK) 125MG",
+        "UNIT PRICE": 3500
+      },
+      {
+        "SERVICES": "ZINNAT SYR (GSK) 250MG",
+        "UNIT PRICE": 4000
+      },
+      {
+        "SERVICES": "ZINNAT INJ 750MG (GSK)",
+        "UNIT PRICE": 1800
+      },
+      {
+        "SERVICES": "ZITHROMAX SYR",
+        "UNIT PRICE": 4500
+      },
+      {
+        "SERVICES": "ZITHROMAX CAP",
+        "UNIT PRICE": 800
+      },
+      {
+        "SERVICES": "ZYLORIC TAB 100MG",
+        "UNIT PRICE": 60
+      },
+      {
+        "SERVICES": "ZYLORIC TAB 300MG",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "ZADITAN TAB 1MG",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "ZADITAN TAB 2MG",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "ZANTAC 150mg TAB",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "ZANTAC 300mg TAB",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "ZOVIRAX TAB",
+        "UNIT PRICE": 180
+      },
+      {
+        "SERVICES": "ZESTRIL 5MG BR",
+        "UNIT PRICE": 130
+      },
+      {
+        "SERVICES": "ZESTRIL TAB 10MG",
+        "UNIT PRICE": 180
+      },
+      {
+        "SERVICES": "ZESTRIL TAB 20MG BR",
+        "UNIT PRICE": 200
+      },
+      {
+        "SERVICES": "ZESTORETIC",
+        "UNIT PRICE": 180
+      },
+      {
+        "SERVICES": "ZINC TAB",
+        "UNIT PRICE": 80
+      },
+      {
+        "SERVICES": "ZINC OXIDE POWDER",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "ZINNAT TAB 250MG (UMBR.)",
+        "UNIT PRICE": 180
+      },
+      {
+        "SERVICES": "ZINNAT TAB 500MG (UMBR.) \r\nADDITIONAL ITEMS",
+        "UNIT PRICE": 360
+      },
+      {
+        "SERVICES": "AUGUMENTIN SYR 457",
+        "UNIT PRICE": 1800
+      },
+      {
+        "SERVICES": "BELLS BABY COUGH SYR",
+        "UNIT PRICE": 1200
+      },
+      {
+        "SERVICES": "BETALOC 25MG",
+        "UNIT PRICE": 125
+      },
+      {
+        "SERVICES": "CANULAR",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "DIAMECRON 60MG",
+        "UNIT PRICE": 150
+      },
+      {
+        "SERVICES": "DRIPSET",
+        "UNIT PRICE": 250
+      },
+      {
+        "SERVICES": "BLOOD SET",
+        "UNIT PRICE": 400
+      },
+      {
+        "SERVICES": "DUPHASTIN 10MG",
+        "UNIT PRICE": 200
+      },
+      {
+        "SERVICES": "EFEMOLIN EYE DROP",
+        "UNIT PRICE": 2500
+      },
+      {
+        "SERVICES": "ERYTHROMYCIN SYR. 125MG",
+        "UNIT PRICE": 820
+      },
+      {
+        "SERVICES": "GLOVES PACK",
+        "UNIT PRICE": 900
+      },
+      {
+        "SERVICES": "LOSARTAN 50MG",
+        "UNIT PRICE": 120
+      },
+      {
+        "SERVICES": "MATRIXAM 5MG",
+        "UNIT PRICE": 110
+      },
+      {
+        "SERVICES": "MATRIXAM",
+        "UNIT PRICE": 200
+      },
+      {
+        "SERVICES": "NATRALIX 1.5MG",
+        "UNIT PRICE": 90
+      },
+      {
+        "SERVICES": "PROGYNOVA 2MG",
+        "UNIT PRICE": 350
+      },
+      {
+        "SERVICES": "SYRINGE",
+        "UNIT PRICE": 100
+      },
+      {
+        "SERVICES": "TOSINEX 10MG",
+        "UNIT PRICE": 90
+      },
+      {
+        "SERVICES": "TRANEXAMIC ACID",
+        "UNIT PRICE": 300
+      },
+      {
+        "SERVICES": "ZINNAT SYR",
+        "UNIT PRICE": 2200
+      }
+    ]
+  }

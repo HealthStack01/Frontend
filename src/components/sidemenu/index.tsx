@@ -98,7 +98,7 @@ export const menuItems = [
       {name: "Product Entry", to: "/app/pharmacy/productentry"},
       {name: "Issue Out", to: "/app/pharmacy/issueout"},
       {name: "Requisiition", to: "/app/pharmacy/requisition"},
-      {name: "Transfer", to: "/app/pharmacy/transfer"},
+      {name: "Transfer", to: "/app/pharmacy/transfer/inward-transfer"},
       {name: "Dashboard", to: "/app/pharmacy/dashboard"},
     ],
   },
@@ -129,7 +129,7 @@ export const menuItems = [
       {name: "Bill Client", to: "/app/radiology/billservice"},
       {name: "Checked-In", to: "/app/radiology/checkedin"},
       {name: "Appointment", to: "/app/radiology/appointments"},
-      {name: "Bill Lab Orders", to: "/app/radiology/radiology-bill"},
+      {name: "Bill Radiology Orders", to: "/app/radiology/radiology-bill"},
       // {name: "Payment", to: "/app/radiology/payment"},
       {name: "Radiology Result", to: "/app/radiology/radiology-result"},
     ],
@@ -165,7 +165,7 @@ export const menuItems = [
     iconClassName: "bi bi-file-medical",
     subMenus: [
       {name: "Bill Client", to: "/app/inventory/billservice"},
-      {name: "Bill Prescription Sent", to: "/app/inventory/billprescription"},
+      {name: "Bill Requisition Sent", to: "/app/inventory/billprescription"},
       // { name: 'Payment', to: '/app/inventory/payment' },
       {name: "Dispensary", to: "/app/inventory/dispensary"},
       {name: "Store Inventory", to: "/app/inventory/storeinventory"},
@@ -239,6 +239,7 @@ export const menuItems = [
       {name: "Complaints", to: "/app/managed-care/complaints"},
       {name: "HIA", to: "/app/managed-care/HIA"},
       {name: "Premiums", to: "/app/managed-care/premiums"},
+      {name: "Invoice", to: "/app/managed-care/invoice"},
       // {
       //   name: "Organisation",
       //   to: "/app/managed-care/organisation",
@@ -291,9 +292,10 @@ export const menuItems = [
       {name: "Beneficiary", to: "/app/corporate/beneficiary"},
       {name: "Claims", to: "/app/corporate/claims"},
       {name: "Policy", to: "/app/corporate/policy"},
-      {name: "Health Plan", to: "/app/corporate/healthplan"},
+      // {name: "Health Plan", to: "/app/corporate/healthplan"},
       {name: "Check In", to: "/app/corporate/Checkin"},
       {name: "Dashboard", to: "/app/corporate/dashboard"},
+      {name: "Invoice", to: "/app/corporate/invoice"},
     ],
   },
 
@@ -352,7 +354,10 @@ export const menuItems = [
     exact: true,
     to: "/app/global-admin",
     iconClassName: "bi bi-speedometer",
-    subMenus: [{name: "Organizations", to: "/app/organizations"}],
+    subMenus: [
+      {name: "Organizations", to: "/app/global-admin/organizations"},
+      {name: "Facility Transactions", to: "/app/global-admin/transactions"},
+    ],
   },
   {
     name: "Market Place",

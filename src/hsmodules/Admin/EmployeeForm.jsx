@@ -56,6 +56,8 @@ export const EmployeeForm = ({open, setOpen}) => {
     setSuccess(false);
     data.createdby = user._id;
     data.facility = user.currentEmployee.facility;
+    data.imageurl = "";
+    data.roles = ["Communication"];
 
     // facility search search should be implemented,
 

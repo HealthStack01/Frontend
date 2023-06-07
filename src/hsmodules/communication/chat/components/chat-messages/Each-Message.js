@@ -1,11 +1,25 @@
+import {useContext, useState, useEffect} from "react";
 import {Box, Typography} from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
+import dayjs from "dayjs";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 
 import "./styles.scss";
+import {UserContext} from "../../../../../context";
+import moment from "moment";
 
 const EachChatMessage = ({message}) => {
-  const isSent = true;
+  const {user} = useContext(UserContext);
+  const [time, setTime] = useState(Date.now());
+
+  useEffect(() => {
+    const interval = setInterval(() => setTime(Date.now()), 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [time]);
+
+  const isSent = message.createdbyId === user.currentEmployee._id;
 
   return (
     <Box
@@ -15,13 +29,13 @@ const EachChatMessage = ({message}) => {
         display: "flex",
         alignItems: "center",
         marginBottom: "12px",
-        justifyContent: message.isSent ? "flex-end" : "flex-start",
+        justifyContent: isSent ? "flex-end" : "flex-start",
         padding: "15px 6%",
       }}
     >
       <Box
         className={`each-message-container ${
-          message.isSent ? "sent-message" : "received-message"
+          isSent ? "sent-message" : "received-message"
         }`}
       >
         <div className="message">
@@ -38,8 +52,8 @@ const EachChatMessage = ({message}) => {
               gap: 0.5,
             }}
           >
-            <span>1min</span>
-            {message.isSent && <DoneAllIcon sx={{color: "#f6fff8"}} />}
+            <span>{moment(message.createdAt).format("LT")}</span>
+            {isSent && <DoneAllIcon sx={{color: "#f6fff8"}} />}
           </Box>
         </div>
       </Box>
