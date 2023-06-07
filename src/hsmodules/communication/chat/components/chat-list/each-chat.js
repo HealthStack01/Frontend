@@ -110,7 +110,9 @@ const EachChat = ({chat}) => {
     >
       <Box mr={0.6}>
         <Avatar
-          {...returnAvatarString(`${chatPartner.name}`)}
+          {...returnAvatarString(
+            `${chat.chatType === "personal" ? chatPartner?.name : chat.name}`
+          )}
           src={chatPartner?.imageurl}
         />
       </Box>
@@ -131,7 +133,7 @@ const EachChat = ({chat}) => {
           <Typography
             sx={{fontSize: "0.8rem", fontWeight: "bold", color: "#1976d2"}}
           >
-            {chatPartner?.name}
+            {chat.chatType === "personal" ? chatPartner?.name : chat.name}
           </Typography>
 
           <Typography
