@@ -11,18 +11,32 @@ import CustomSelect from "../../../../../components/inputs/basic/Select";
 import GlobalCustomButton from "../../../../../components/buttons/CustomButton";
 import {ObjectContext, UserContext} from "../../../../../context";
 import ReactCustomSelectComponent from "../../../../../components/react-custom-select";
+import ReactCustomSearchSelectComponent from "../../../../../components/react-custom-select/ReactSearchSelect";
 
 const CreateNewChannel = () => {
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const EmployeeServ = client.service("employee");
+  const locationServer = client.service("location");
+  const facilityServ = client.service("facility");
+  const ClientServ = client.service("client");
   const chatroomServer = client.service("chatroom");
   const ChatServer = client.service("chat");
   const {user} = useContext(UserContext);
   const [staffs, setStaffs] = useState([]);
   const [members, setMemebers] = useState([]);
   const [val, setVal] = useState("");
-  const {register, reset, control, handleSubmit} = useForm();
+  const [facilities, setFacilities] = useState([]);
+  const [fetchingFacilities, setFetchingFacilities] = useState(false);
+  const [clients, setClients] = useState([]);
+  const [fetchingClients, setFetchingClients] = useState(false);
+  const {register, reset, control, handleSubmit, watch} = useForm();
+  const [outerStaffs, setOuterStaffs] = useState([]);
+  const [locations, setLocations] = useState([]);
+
+  const selectedOrg = watch("organization");
+  const channelType = watch("channel_type");
+  const location = watch("location");
 
   const handleCreateChannel = async data => {
     const employee = user.currentEmployee;
@@ -31,7 +45,31 @@ const CreateNewChannel = () => {
 
     //return console.log(data);
 
-    const staffs = data.staffs.map(staff => {
+    const allStaffs =
+      data.outer_staffs === ""
+        ? data.staffs
+        : [...data.staffs, ...data.outer_staffs];
+
+    const clients =
+      data.clients === ""
+        ? []
+        : data.clients.map(client => {
+            return {
+              name: `${capitalize(
+                client.firstname.replace(/\s/g, "")
+              )} ${capitalize(client.lastname.replace(/\s/g, ""))}`,
+              phone: client.phone,
+              email: client.email,
+              imageurl: client.imageurl || "",
+              profession: capitalize(client.profession),
+              _id: client._id,
+              type: "client",
+              model: "client",
+              organization: employee.facilityDetail,
+            };
+          });
+
+    const staffs = allStaffs.map(staff => {
       return {
         name: `${capitalize(staff.firstname.replace(/\s/g, ""))} ${capitalize(
           staff.lastname.replace(/\s/g, "")
@@ -43,7 +81,7 @@ const CreateNewChannel = () => {
         _id: staff._id,
         type: "staff",
         model: "employee",
-        organization: employee.facilityDetail,
+        organization: staff.facilityDetail,
       };
     });
 
@@ -66,6 +104,7 @@ const CreateNewChannel = () => {
           organization: employee.facilityDetail,
         },
         ...staffs,
+        ...clients,
       ],
     };
 
@@ -92,15 +131,19 @@ const CreateNewChannel = () => {
 
   const handleGetStaffs = useCallback(async () => {
     //setFetchingStaffs(true);
+    let query = {
+      facility: user.currentEmployee.facilityDetail._id,
+      $limit: 200,
+      $sort: {
+        createdAt: -1,
+      },
+    };
+    if (location !== "") {
+      query["locations._id"] = location.value;
+    }
     if (user.currentEmployee) {
       const resp = await EmployeeServ.find({
-        query: {
-          facility: user.currentEmployee.facilityDetail._id,
-          $limit: 200,
-          $sort: {
-            createdAt: -1,
-          },
-        },
+        query: query,
       });
 
       await setStaffs(resp.data);
@@ -121,33 +164,208 @@ const CreateNewChannel = () => {
         //setFetchingStaffs(false);
       }
     }
-  }, []);
+  }, [location]);
 
   useEffect(() => {
-    if (user) {
-      handleGetStaffs();
+    handleGetStaffs();
+  }, [handleGetStaffs]);
+
+  const handleClientSearch = val => {
+    if (val.length <= 3 && val.trim() !== "") return;
+    setFetchingClients(true);
+
+    ClientServ.find({
+      query: {
+        $or: [
+          {
+            firstname: {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {
+            lastname: {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {
+            middlename: {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {
+            phone: {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {
+            clientTags: {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {
+            mrn: {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {
+            email: {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {
+            specificDetails: {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {gender: val},
+        ],
+
+        "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    })
+      .then(res => {
+        setFetchingClients(false);
+        setClients(res.data);
+      })
+      .catch(err => {
+        setFetchingClients(false);
+        toast.error("An error occured, check your network");
+      });
+  };
+
+  const handleFacilitySearch = val => {
+    if (val.length <= 3 && val.trim() !== "") return;
+    setFetchingFacilities(true);
+
+    facilityServ
+      .find({
+        query: {
+          $or: [
+            {
+              facilityName: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityOwner: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityType: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityCategory: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityContactPhone: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityEmail: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+          ],
+
+          $limit: 100,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      })
+      .then(res => {
+        //console.log(res);
+        setFacilities(res.data);
+        setFetchingFacilities(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setFetchingFacilities(false);
+        toast.error("An error occured, check your network");
+      });
+  };
+
+  const getOuterStaffs = useCallback(async () => {
+    if (!selectedOrg) return;
+
+    // setFetchingStaffs(true);
+    if (user.currentEmployee) {
+      const findEmployee = await EmployeeServ.find({
+        query: {
+          facility: selectedOrg.value,
+          _id: {$ne: user.currentEmployee._id},
+          $limit: 200,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      });
+
+      await setOuterStaffs(findEmployee.data);
+      //setFetchingStaffs(false);
     } else {
-      return;
+      if (user.stacker) {
+        const findEmployee = await EmployeeServ.find({
+          query: {
+            $limit: 200,
+            $sort: {
+              facility: -1,
+            },
+          },
+        });
+
+        await setOuterStaffs(findEmployee.data);
+        //setFetchingStaffs(false);
+      }
     }
-    EmployeeServ.on("created", obj => handleGetStaffs());
-    EmployeeServ.on("updated", obj => handleGetStaffs());
-    EmployeeServ.on("patched", obj => {
-      handleGetStaffs();
+  }, [selectedOrg]);
+
+  useEffect(() => {
+    getOuterStaffs();
+  }, [getOuterStaffs]);
+
+  const getLocations = useCallback(async () => {
+    if (channelType !== "Location") return;
+    const resp = await locationServer.find({
+      query: {
+        facility: user.currentEmployee.facilityDetail._id,
+        $limit: 200,
+        $sort: {
+          createdAt: -1,
+        },
+      },
     });
-    EmployeeServ.on("removed", obj => handleGetStaffs());
-    return () => {};
-  }, []);
+    //console.log(resp.data);
+    setLocations(resp.data);
+  }, [user.currentEmployee, channelType]);
 
-  // const handleCreateChannel = data => {
-  //   if (members.length === 0)
-  //     return toast.warning("Select at least one Channel member");
-  //   const document = {
-  //     ...data,
-  //     members: members.map(item => item._id),
-  //   };
-
-  //   console.log(document);
-  // };
+  useEffect(() => {
+    getLocations();
+  }, [getLocations]);
 
   return (
     <Box
@@ -168,7 +386,7 @@ const CreateNewChannel = () => {
                 "Global",
                 "Department",
                 "Organization",
-                "Network",
+                //"Network",
               ]}
               required="Select Channel Type"
               control={control}
@@ -193,10 +411,27 @@ const CreateNewChannel = () => {
             />
           </Grid>
 
+          {channelType === "Location" && (
+            <Grid item xs={12}>
+              <ReactCustomSelectComponent
+                control={control}
+                name="location"
+                placeholder="Select Location"
+                options={locations.map(item => {
+                  return {
+                    label: `${item.name} - ${item.locationType}`,
+                    value: item._id,
+                  };
+                })}
+              />
+            </Grid>
+          )}
+
           <Grid item xs={12}>
             <ReactCustomSelectComponent
               multiple
               control={control}
+              disabled={channelType === "Location" && location === ""}
               name="staffs"
               placeholder="Select staffs"
               options={staffs.map(item => {
@@ -208,6 +443,65 @@ const CreateNewChannel = () => {
               })}
             />
           </Grid>
+
+          {channelType === "Client" && (
+            <Grid item xs={12}>
+              <ReactCustomSearchSelectComponent
+                control={control}
+                onInputChange={handleClientSearch}
+                isLoading={fetchingClients}
+                name="clients"
+                disabled={channelType !== "Client"}
+                multiple
+                placeholder="Select Client"
+                options={clients.map(item => {
+                  return {
+                    label: `${item.firstname} ${item.lastname}`,
+                    value: item._id,
+                    ...item,
+                  };
+                })}
+              />
+            </Grid>
+          )}
+
+          {channelType === "Organization" && (
+            <>
+              <Grid item xs={12}>
+                <ReactCustomSearchSelectComponent
+                  disabled={channelType !== "Organization"}
+                  control={control}
+                  onInputChange={handleFacilitySearch}
+                  isLoading={fetchingFacilities}
+                  name="organization"
+                  placeholder="Select organization"
+                  options={facilities.map(item => {
+                    return {
+                      label: item.facilityName,
+                      value: item._id,
+                    };
+                  })}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <ReactCustomSelectComponent
+                  multiple
+                  control={control}
+                  disabled={!selectedOrg}
+                  name="outer_staffs"
+                  placeholder="Choose staffs from Organization"
+                  options={outerStaffs.map(item => {
+                    return {
+                      label: `${item.firstname} ${item.lastname}`,
+                      value: item._id,
+                      ...item,
+                    };
+                  })}
+                />
+              </Grid>
+            </>
+          )}
         </Grid>
 
         <Box

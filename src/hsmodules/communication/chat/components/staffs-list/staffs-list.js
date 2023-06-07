@@ -10,6 +10,7 @@ import ChatEachStaff from "./each-staff";
 import {useForm} from "react-hook-form";
 import ReactCustomSelectComponent from "../../../../../components/react-custom-select";
 import ReactCustomSearchSelectComponent from "../../../../../components/react-custom-select/ReactSearchSelect";
+import {toast} from "react-toastify";
 
 const CustomLoader = () => (
   <div
@@ -201,6 +202,7 @@ const CommunicationChatStaffsList = ({closeStaffsList}) => {
       .catch(err => {
         console.log(err);
         setFetchingFacilities(false);
+        toast.error("An error occured, check your network");
       });
   };
 

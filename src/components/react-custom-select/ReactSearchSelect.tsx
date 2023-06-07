@@ -13,6 +13,7 @@ interface componentProps {
   multiple?: boolean;
   onInputChange: any;
   isLoading?: boolean;
+  disabled?: boolean;
 }
 
 const ReactCustomSearchSelectComponent = ({
@@ -25,6 +26,7 @@ const ReactCustomSearchSelectComponent = ({
   multiple,
   onInputChange,
   isLoading,
+  disabled,
 }: componentProps) => {
   return (
     <Controller
@@ -35,6 +37,7 @@ const ReactCustomSearchSelectComponent = ({
         <div className="react-custom-select-container">
           <Select
             isMulti={multiple}
+            isDisabled={disabled}
             options={options}
             defaultInputValue={defaultValue}
             placeholder={placeholder}
@@ -49,7 +52,7 @@ const ReactCustomSearchSelectComponent = ({
                 ...baseStyles,
                 width: "100%",
                 minHeight: "34px",
-                borderRadius: "10px",
+                borderRadius: "3px",
                 borderColor: error
                   ? "#f03030"
                   : state.isFocused

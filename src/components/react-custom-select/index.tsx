@@ -11,6 +11,7 @@ interface componentProps {
   name: string;
   error?: string;
   multiple?: boolean;
+  disabled?: boolean;
 }
 
 const ReactCustomSelectComponent = ({
@@ -21,6 +22,7 @@ const ReactCustomSelectComponent = ({
   control,
   error,
   multiple,
+  disabled,
 }: componentProps) => {
   return (
     <Controller
@@ -31,6 +33,7 @@ const ReactCustomSelectComponent = ({
         <div className="react-custom-select-container">
           <Select
             isMulti={multiple}
+            isDisabled={disabled}
             options={options}
             defaultInputValue={defaultValue}
             placeholder={placeholder}
@@ -43,7 +46,7 @@ const ReactCustomSelectComponent = ({
                 ...baseStyles,
                 width: "100%",
                 minHeight: "34px",
-                borderRadius: "10px",
+                borderRadius: "3px",
                 borderColor: error
                   ? "#f03030"
                   : state.isFocused
