@@ -210,6 +210,8 @@ export default function EncounterRight() {
         "Eye examination" && <EyeExamination onSubmit={submitDocument} />}
          {state.DocumentClassModule.selectedDocumentClass.name ===
         "Dental Clinic" && <DentalClinic onSubmit={submitDocument} />}
+         {state.DocumentClassModule.selectedDocumentClass.name ===
+        "Orthodontic Analysis" && <OrthodonticAnalysis onSubmit={submitDocument} />}
     </div>
   );
 }
@@ -2004,37 +2006,846 @@ export function DentalClinic() {
     </RadioGroup>
   </Box>
 </Box>
+  <Box  sx={{
+  gap: "1rem",
+  }}> 
+  <RadioButton
+     onChange={handleChangeStatus}
+     name="status"
+     options={["Draft", "Final"]}
+     value={docStatus}
+  />
+  </Box>
+  <Box
+  spacing={3}
+  sx={{
+  display: "flex",
+  gap: "3rem",
+  }}
+  >
+  <GlobalCustomButton
+  color="secondary"
+  type="submit"
+  onClick={() => setConfirmationDialog(true)}
+  >
+  Submit Dental Clinic
+  </GlobalCustomButton>
+  </Box>
+  </form>
+  </div>
+  </div>
+  </>
+  );
+}
 
+// Orthodontic Analysis
+export function OrthodonticAnalysis() {
+  const {register, handleSubmit, setValue, reset, getValues} = useForm(); //, watch, errors, reset
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState("");
+  // eslint-disable-next-line
+  const ClientServ = client.service("clinicaldocument");
+  const {user} = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [currentUser, setCurrentUser] = useState();
+  const {state, setState} = useContext(ObjectContext);
+
+  const [docStatus, setDocStatus] = useState("Draft");
+  const [confirmationDiaglog, setConfirmationDialog] = useState(false);  
     
-             <Box  sx={{
-                gap: "1rem",
-              }}> 
-              <RadioButton
-                onChange={handleChangeStatus}
-                name="status"
-                options={["Draft", "Final"]}
-                value={docStatus}
-              />
-            </Box>
-            <Box
-              spacing={3}
-              sx={{
-                display: "flex",
-                gap: "3rem",
-              }}
-            >
-              <GlobalCustomButton
-                color="secondary"
-                type="submit"
-                onClick={() => setConfirmationDialog(true)}
-              >
-                Submit Dental Clinic
-              </GlobalCustomButton>
-            </Box>
-          </form>
-        </div>
-      </div>
-    </>
+  let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
+
+  useEffect(() => {
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+        setValue(keys, value, {
+          shouldValidate: true,
+          shouldDirty: true,
+        })
+      );
+  
+    }
+    return () => {
+      draftDoc = {};
+    };
+  }, [draftDoc]);
+
+
+  useEffect(() => {
+    setCurrentUser(user);
+    return () => {};
+  }, [user]);
+
+  useEffect(() => {
+    if (!user.stacker) {
+   
+    }
+  });
+
+  
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+  
+    let document = {};
+  
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+    }
+   
+    document.documentdetail = {
+      Name: data.name,
+      Hospital: data.hospital,
+      DateOfBirth: data.dob,
+      DentalPractional: data.dentalpractional,
+      Consultant: data.consultant,
+      Refferedby: data.refferedby,
+      TeethErupt: data.teetherupt,
+      Prognosis: data.prognosis,
+      Radars: data.radars,
+      D: data.d,
+      M: data.m,
+      F: data.f,
+      AntpostRelationship: data.antpost,
+      Overbite: data.overbite,
+      Oreject: data.oreject,
+      ToothBoneRatio: data.toothbone,
+      Upper: data.upper,
+      Lower: data.lower,
+      DentalCaries: data.dentalcaries,
+      OralHygenic: data.oralhygenic,
+      Lips: data.lips,
+      Habits: data.habits,
+      Tongue: data.tongue,
+      RentalOrtho: data.rentalortho,
+      UIncisorAngle: data.uincisor,
+      LIncisorAngle: data.lincisor,
+      FMangle: data.fmangle,
+      UIncisorAngle2: data.uincisor2,
+      LIncisorAngle2: data.lincisor2,
+      SNA: data.sna,
+      SNB: data.snb,
+      ANB: data.anb,
+      SKpattern: data.skpattern,
+      MMangle: data.mmangle,
+      Unreptedteeth: data.unreptedteeth,
+      Absentteeth: data.absentteeth,
+      DentalCare: data.dentalcare,
+      SummaryOfAnalysis: data.summary,
+      PlanOfTreatment: data.plantreatment,
+      OtherRemarks: data.otherremarks,
+
+    };      
+    document.documentname = "Orthodontic Analysis";
+    document.documentType = "Orthodontic Analysis";
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = docStatus === "Draft" ? "Draft" : "completed";
+  
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+ 
+  
+    if (
+      document.location === undefined ||
+      !document.createdByname ||
+      !document.facilityname
+    ) {
+      toast.error("Documentation data missing, requires location and facility details");
+      return;
+    }
+  
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then(res => {
+          Object.keys(data).forEach(key => {
+            data[key] = "";
+          });
+  
+          setDocStatus("Draft");
+          setSuccess(true);
+          toast.success("Documentation updated successfully");
+          setSuccess(false);
+          setConfirmationDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error updating Documentation: " + err);
+          reset(data);
+          setConfirmationDialog(false);
+        });
+    } else {
+      ClientServ.create(document)
+        .then(res => {
+          // console.log("Data", res)
+          Object.keys(data).forEach(key => {
+            data[key] = "";
+          });
+  
+          setSuccess(true);
+          toast.success("Orthodontic Analysis created successfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error creating Orthodontic Analysis: " + err);
+          setConfirmationDialog(false);
+        });
+    }
+  };
+  const closeEncounterRight = async () => {
+    setState(prevstate => ({
+      ...prevstate,
+      DocumentClassModule: {
+        ...prevstate.DocumentClassModule,
+        encounter_right: false,
+      },
+    }));
+  };
+
+
+  const handleChangeStatus = async e => {
+    setDocStatus(e.target.value);
+  };
+
+  return (
+    <>
+      <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmationDiaglog}
+          cancelAction={() => setConfirmationDialog(false)}
+          confirmationAction={handleSubmit(onSubmit)}
+          type="create"
+          message={`You are about to save this document ${getValues("eye" )} Orthodontic Analysis?`}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText text={"ORTHODONTIC ANALYSIS"} />
+
+          <IconButton onClick={closeEncounterRight}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Box>
+        <div className="card-content vscrollable remPad1">
+          <form>
+          <Typography style={{ marginTop: '20px', marginBottom: '20px' }} fontWeight="bold"  color="primary" variant="body1">
+          Personal Information
+            </Typography>
+
+  <Grid container spacing={2}>
+  <Grid item xs={3}>
+    <Typography color="primary" variant="body2">
+      Name:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("name")}
+        name="text"
+        type="text"
+        placeholder="Enter name..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={3}>
+    <Typography color="primary" variant="body2">
+      Hosp No:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("hospital")}
+        name="text"
+        type="text"
+        placeholder="Enter hospital"
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={3}>
+    <Typography color="primary" variant="body2">
+      D.O.B
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("dob")}
+        name="text"
+        type="text"
+        placeholder="Enter date of birth"
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={3}>
+    <Typography color="primary" variant="body2">
+      Dental Practitional: 
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("dentalpractional")}
+        name="text"
+        type="text"
+        placeholder="Enter dental practional"
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={3}>
+    <Typography color="primary" variant="body2">
+      Consultant: 
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("consultant")}
+        name="text"
+        type="text"
+        placeholder="Enter consultant"
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={3}>
+    <Typography color="primary" variant="body2">
+      Reffered By:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("refferedby")}
+        name="text"
+        type="text"
+        placeholder="Enter refferal"
+      />
+    </Box>
+  </Grid>
+</Grid>
+
+<Typography style={{ marginTop: '20px', marginBottom: '20px' }} fontWeight="bold"  color="primary" variant="body1">
+  General Dental Analysis
+</Typography>
+
+<Grid container spacing={2}>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      Teeth Erupted
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("teetherupt")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      Teeth of Poor Prognosis
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("prognosis")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      First Permanent Radars
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("radars")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+</Grid>
+
+<Typography style={{ marginTop: '20px', marginBottom: '20px' }} fontWeight="bold"  color="primary" variant="body1">
+  D. M .F
+</Typography>
+<Grid container spacing={2}>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      D:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("d")}
+        name="text"
+        type="text"
+        placeholder="type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      M:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("m")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      F:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("f")}
+        name="text"
+        type="text"
+        placeholder="Type here"
+      />
+    </Box>
+  </Grid>
+</Grid>
+
+<Grid container spacing={2}>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      Ant-post Relationship:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("antpost")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      Overbite:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("overbite")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      Oreject:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("oreject")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+</Grid>
+
+<Grid container spacing={2}>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      Tooth Bone Ratio:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("toothbone")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      Upper:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("upper")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      Lower:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("lower")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+</Grid>
+
+<Grid container spacing={2}>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      Dental Caries
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("dentalcaries")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      Oral Hygenic/ Euginis
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("oralhygenic")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+</Grid>
+
+<Grid container spacing={2}>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      Lips
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("lips")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      Habits
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("habits")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+</Grid>
+
+<Grid container spacing={2}>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      Tongue:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("tongue")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      Speech:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("speech")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      Rental Ortho anomalis:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("rentalortho")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+</Grid>
+
+
+<Typography fontWeight="bold" color="primary" variant="body1">Clinial Skeptical Analysis</Typography>
+<Grid container spacing={2}>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      U.Incisor Angle
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("uincisor")}
+        name="text"
+        type="text"
+        placeholder="Enter rfa"
+      />
+    </Box>
+    <Typography color="primary" variant="body2">
+    L.Incisor Angle
+    SK Pattern
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("lincisor")}
+        name="text"
+        type="text"
+        placeholder="TYpe here"
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      FM Angle
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("fmangle")}
+        name="text"
+        type="text"
+        placeholder="Type here"
+      />
+    </Box>
+  </Grid>
+</Grid>
+
+<Typography fontWeight="bold" color="primary" variant="body1">Ephalometric Analysis</Typography>
+<Grid container spacing={2}>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      U.Incisor Angle
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("uincisor2")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+    <Typography color="primary" variant="body2">
+    L.Incisor Angle
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("lincisor2")}
+        name="text"
+        type="text"
+        placeholder="Type here"
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      S.N.A
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("sna")}
+        name="text"
+        type="text"
+        placeholder="Type here"
+      />
+    </Box>
+    <Typography color="primary" variant="body2">
+      S.N.B
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("snb")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+</Grid>
+<Grid container spacing={2}>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      A.N.B
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("anb")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+    <Typography color="primary" variant="body2">
+    S.K Pattern
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("skpattern")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      MM Angle
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("mmangle")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+</Grid>
+<Typography fontWeight="bold" color="primary" variant="body1">X-Ray Report</Typography>
+<Grid container spacing={2}>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      Unerupted Teeth
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("unreptedteeth")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+    <Typography color="primary" variant="body2">
+    Absent Teeth
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("absentteeth")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      Dental Care
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("dentalcare")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+</Grid>
+    <Typography fontWeight="bold" color="primary" variant="body1">
+      Summary of Orthodontic Analysis
+    </Typography>
+    <Box style={{ marginTop: '10px', marginBottom: '30px' }}>
+      <Textarea
+      color="primary"
+        register={register("summary")}
+        name="findings"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+
+    <Typography fontWeight="bold" color="primary" variant="body1">
+      Plan of Treatment
+    </Typography>
+    <Box style={{ marginTop: '10px', marginBottom: '30px' }}>
+      <Textarea
+      color="primary"
+        register={register("plantreatment")}
+        name="findings"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+    <Typography fontWeight="bold" color="primary" variant="body1">
+      Other Remarks
+    </Typography>
+    <Box style={{ marginTop: '10px', marginBottom: '30px' }}>
+      <Textarea
+      color="primary"
+        register={register("otherremarks")}
+        name="findings"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+
+  <Box  sx={{
+  gap: "1rem",
+  }}> 
+  <RadioButton
+     onChange={handleChangeStatus}
+     name="status"
+     options={["Draft", "Final"]}
+     value={docStatus}
+  />
+  </Box>
+  <Box
+  spacing={3}
+  sx={{
+  display: "flex",
+  gap: "3rem",
+  }}
+  >
+  <GlobalCustomButton
+  color="secondary"
+  type="submit"
+  onClick={() => setConfirmationDialog(true)}
+  >
+  Submit Form
+  </GlobalCustomButton>
+  </Box>
+  </form>
+  </div>
+  </div>
+  </>
   );
 }
 
