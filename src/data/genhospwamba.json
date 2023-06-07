@@ -2266,11 +2266,11 @@
         "TARIFF": 77.5
       },
       {
-        "ITEM": "ASPIRIN               300MG (per tab) ",
+        "ITEM": "ASPIRIN 300MG (per tab) ",
         "TARIFF": 25
       },
       {
-        "ITEM": "ASPIRIN               75MG  (per tab) ",
+        "ITEM": "ASPIRIN 75MG  (per tab) ",
         "TARIFF": 6.25
       },
       {
@@ -2278,11 +2278,11 @@
         "TARIFF": 57.5
       },
       {
-        "ITEM": "ATENOLOL         100MG (per tab) ",
+        "ITEM": "ATENOLOL 100MG (per tab) ",
         "TARIFF": 38.75
       },
       {
-        "ITEM": "ATENOLOL         50MG (per tab) ",
+        "ITEM": "ATENOLOL  50MG (per tab) ",
         "TARIFF": 25
       },
       {
@@ -2290,11 +2290,11 @@
         "TARIFF": 52.5
       },
       {
-        "ITEM": "ATROPINE          6OOMG INJ (per amp) ",
+        "ITEM": "ATROPINE  6OOMG INJ (per amp) ",
         "TARIFF": 237.5
       },
       {
-        "ITEM": "AVOMINE             25MG (per tab) ",
+        "ITEM": "AVOMINE 25MG (per tab) ",
         "TARIFF": 12.5
       },
       {
@@ -7041,7 +7041,7 @@
         "TARIFF": 2850
       },
       {
-        "ITEM": "Mason natural Mega Biotin 10,000mcg x50gels",
+        "ITEM": "Mason natural Mega Biotin 10000mcg x50gels",
         "TARIFF": 3900
       },
       {
@@ -7057,7 +7057,7 @@
         "TARIFF": 1800
       },
       {
-        "ITEM": "Mason vitamin A 10,000IU",
+        "ITEM": "Mason vitamin A 10000IU",
         "TARIFF": 1150
       },
       {
@@ -7485,7 +7485,7 @@
         "TARIFF": 1250
       },
       {
-        "ITEM": "Mycostatine 100,000ui/ml suspension",
+        "ITEM": "Mycostatine 100000ui/ml suspension",
         "TARIFF": 1350
       },
       {
@@ -7773,7 +7773,7 @@
         "TARIFF": 2100
       },
       {
-        "ITEM": "Nilstat oral Drop 100,000 units/ml 30ml",
+        "ITEM": "Nilstat oral Drop 100000 units/ml 30ml",
         "TARIFF": 300
       },
       {
@@ -7933,7 +7933,7 @@
         "TARIFF": 450
       },
       {
-        "ITEM": "Nystatin 500,000iu x16 tablets",
+        "ITEM": "Nystatin 500000iu x16 tablets",
         "TARIFF": 350
       },
       {
@@ -8585,7 +8585,7 @@
         "TARIFF": 180
       },
       {
-        "ITEM": "Penicillin Skin Ointment 10,000iu x20g",
+        "ITEM": "Penicillin Skin Ointment 10000iu x20g",
         "TARIFF": 150
       },
       {
@@ -11917,11 +11917,11 @@
         "TARIFF": 3750
       },
       {
-        "ITEM": "Creon  25,000 Caps 300mg (5E)",
+        "ITEM": "Creon  25000 Caps 300mg (5E)",
         "TARIFF": 19900
       },
       {
-        "ITEM": "Creon capsules 10,000 (150mg) (5E)",
+        "ITEM": "Creon capsules 10000 (150mg) (5E)",
         "TARIFF": 9100
       },
       {
@@ -12697,11 +12697,11 @@
         "TARIFF": 11750
       },
       {
-        "ITEM": "Health Aid Vit D3 50,000IU",
+        "ITEM": "Health Aid Vit D3 50000IU",
         "TARIFF": 12600
       },
       {
-        "ITEM": "Health Aid Vit D3 20,000  iu",
+        "ITEM": "Health Aid Vit D3 20000  iu",
         "TARIFF": 6300
       },
       {
@@ -13113,7 +13113,7 @@
         "TARIFF": 1500
       },
       {
-        "ITEM": "Vistamina 25,000 I.U",
+        "ITEM": "Vistamina 25000 I.U",
         "TARIFF": 190
       },
       {
@@ -13689,7 +13689,7 @@
       },
       {
         "ITEM": "Osteo B1-Flex Joint Health With Vit D x80Cap",
-        "TARIFF": "80 per cap"
+        "TARIFF": 80
       },
       {
         "ITEM": "Antacid Regular Strength GoodSense  355ml",
@@ -14379,13 +14379,7 @@
         "ITEM": "Water for injection 10ml,per amp/vial",
         "TARIFF": 50
       },
-      {
-        "ITEM": "INTRAVENOUS DRUGS",
-        "TARIFF": "UNIT PRICE/VIAL/ AMPOULE/BAG"
-      },
-      {
-        "ITEM": "ANALGESICS/ANTI INFLAMMATORY/ STEROIDS"
-      },
+    
       {
         "ITEM": "IM Paracetamol 300mg",
         "TARIFF": 200
@@ -14762,11 +14756,11 @@
       },
       {
         "ITEM": "Ventolin nebules 2.5mg",
-        "TARIFF": "400/ 1"
+        "TARIFF": 400
       },
       {
         "ITEM": "Ventolin nebules 5mg",
-        "TARIFF": "500/1"
+        "TARIFF": 500
       },
       {
         "ITEM": "Flemming 1.2g (Amoxil+Clavulanic Acid)",
@@ -14838,11 +14832,9 @@
       },
       {
         "ITEM": "Ipratropium Bromide Nebules ",
-        "TARIFF": "500/"
+        "TARIFF":500
       },
-      {
-        "ITEM": "INFUSIONS "
-      },
+    
       {
         "ITEM": "DRUGS"
       },

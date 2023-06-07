@@ -1,1228 +1,1228 @@
 {
     "SERVICES": [
       {
-        "Name": "Multiple Caesarean section+Hysterectomy",
-        "MEDICARE": 440000
+        "serviceName": "Multiple Caesarean section+Hysterectomy",
+        "price": 440000
       },
       {
-        "Name": "Caesarean section/Hysterectomy",
-        "MEDICARE": 400000
+        "serviceName": "Caesarean section/Hysterectomy",
+        "price": 400000
       },
       {
-        "Name": "Hysterectomy",
-        "MEDICARE": 400000
+        "serviceName": "Hysterectomy",
+        "price": 400000
       },
       {
-        "Name": "Hysterectomy and bilateral salpingooophorectomy",
-        "MEDICARE": 400000
+        "serviceName": "Hysterectomy and bilateral salpingooophorectomy",
+        "price": 400000
       },
       {
-        "Name": "Myomectomy depending on size >12weeks",
-        "MEDICARE": 400000
+        "serviceName": "Myomectomy depending on size >12weeks",
+        "price": 400000
       },
       {
-        "Name": "Myomectomy depending on size <12 wks and less ",
-        "MEDICARE": 380000
+        "serviceName": "Myomectomy depending on size <12 wks and less ",
+        "price": 380000
       },
       {
-        "Name": "Multiple Caesarean section",
-        "MEDICARE": 350000
+        "serviceName": "Multiple Caesarean section",
+        "price": 350000
       },
       {
-        "Name": "Caesarean Section with BTL",
-        "MEDICARE": 340000
+        "serviceName": "Caesarean Section with BTL",
+        "price": 340000
       },
       {
-        "Name": "Repair of ruptured uterus",
-        "MEDICARE": 300000
+        "serviceName": "Repair of ruptured uterus",
+        "price": 300000
       },
       {
-        "Name": "SALPINGECTOMY (UNRUPTURED ECTOPIC)",
-        "MEDICARE": 300000
+        "serviceName": "SALPINGECTOMY (UNRUPTURED ECTOPIC)",
+        "price": 300000
       },
       {
-        "Name": "Caesarean section",
-        "MEDICARE": 290000
+        "serviceName": "Caesarean section",
+        "price": 290000
       },
       {
-        "Name": "Salpingo oophorectomy",
-        "MEDICARE": 280000
+        "serviceName": "Salpingo oophorectomy",
+        "price": 280000
       },
       {
-        "Name": "Ovarectomy/ovarian cysts",
-        "MEDICARE": 280000
+        "serviceName": "Ovarectomy/ovarian cysts",
+        "price": 280000
       },
       {
-        "Name": "Herniorraphy Umbilical",
-        "MEDICARE": 260000
+        "serviceName": "Herniorraphy Umbilical",
+        "price": 260000
       },
       {
-        "Name": "Appendectomy (Uncomplicated)",
-        "MEDICARE": 210000
+        "serviceName": "Appendectomy (Uncomplicated)",
+        "price": 210000
       },
       {
-        "Name": "Herniorraphy Inguinal/Others",
-        "MEDICARE": 185000
+        "serviceName": "Herniorraphy Inguinal/Others",
+        "price": 185000
       },
       {
-        "Name": "Cervical Cerclage/Shirodkar Suture",
-        "MEDICARE": 150000
+        "serviceName": "Cervical Cerclage/Shirodkar Suture",
+        "price": 150000
       },
       {
-        "Name": "Breast Lump Excision bilateral (Excluding Histology)",
-        "MEDICARE": 120000
+        "serviceName": "Breast Lump Excision bilateral (Excluding Histology)",
+        "price": 120000
       },
       {
-        "Name": "Breast Lump Excision Unilateral (Excluding Histology)",
-        "MEDICARE": 90000
+        "serviceName": "Breast Lump Excision Unilateral (Excluding Histology)",
+        "price": 90000
       },
       {
-        "Name": "Bilateral Tubal Ligation",
-        "MEDICARE": 90000
+        "serviceName": "Bilateral Tubal Ligation",
+        "price": 90000
       },
       {
-        "Name": "Destructive Delivery (Craniotomy Embryotomy)",
-        "MEDICARE": 90000
+        "serviceName": "Destructive Delivery (Craniotomy Embryotomy)",
+        "price": 90000
       },
       {
-        "Name": "Hydrotubation",
-        "MEDICARE": 75000
+        "serviceName": "Hydrotubation",
+        "price": 75000
       },
       {
-        "Name": "Assisted Breech Delivery{EXCLUDING ACCOMODATION}",
-        "MEDICARE": 75000
+        "serviceName": "Assisted Breech Delivery{EXCLUDING ACCOMODATION}",
+        "price": 75000
       },
       {
-        "Name": "Suprapubic Cystostomy",
-        "MEDICARE": 70000
+        "serviceName": "Suprapubic Cystostomy",
+        "price": 70000
       },
       {
-        "Name": "Adhesiolysis with insertion of foley catheter/IUCD",
-        "MEDICARE": 70000
+        "serviceName": "Adhesiolysis with insertion of foley catheter/IUCD",
+        "price": 70000
       },
       {
-        "Name": "Assisted Delivery(Forceps Vacuum Etc.) {EXCLUDING ACCOMODATION}",
-        "MEDICARE": 70000
+        "serviceName": "Assisted Delivery(Forceps Vacuum Etc.) {EXCLUDING ACCOMODATION}",
+        "price": 70000
       },
       {
-        "Name": "Marsupialisation",
-        "MEDICARE": 65000
+        "serviceName": "Marsupialisation",
+        "price": 65000
       },
       {
-        "Name": "Multiple Delivery{EXCLUDING ACCOMODATION}",
-        "MEDICARE": 65000
+        "serviceName": "Multiple Delivery{EXCLUDING ACCOMODATION}",
+        "price": 65000
       },
       {
-        "Name": "Excisional Biopsy(Excluding Histology)",
-        "MEDICARE": 60000
+        "serviceName": "Excisional Biopsy(Excluding Histology)",
+        "price": 60000
       },
       {
-        "Name": "Keloid Excision (Major)",
-        "MEDICARE": 60000
+        "serviceName": "Keloid Excision (Major)",
+        "price": 60000
       },
       {
-        "Name": "Ambulance service inter-state",
-        "MEDICARE": 55000
+        "serviceName": "Ambulance service inter-state",
+        "price": 55000
       },
       {
-        "Name": "Ganglion Excision",
-        "MEDICARE": 55000
+        "serviceName": "Ganglion Excision",
+        "price": 55000
       },
       {
-        "Name": "Exchange Blood Transfusion (Rh negative Blood With Set)",
-        "MEDICARE": 50000
+        "serviceName": "Exchange Blood Transfusion (Rh negative Blood With Set)",
+        "price": 50000
       },
       {
-        "Name": "Normal Delivery {EXCLUDING ACCOMODATION}",
-        "MEDICARE": 50000
+        "serviceName": "Normal Delivery {EXCLUDING ACCOMODATION}",
+        "price": 50000
       },
       {
-        "Name": "Ante natal care (ANC)",
-        "MEDICARE": 47500
+        "serviceName": "Ante natal care (ANC)",
+        "price": 47500
       },
       {
-        "Name": "Ambulance service Intra- state",
-        "MEDICARE": 45000
+        "serviceName": "Ambulance service Intra- state",
+        "price": 45000
       },
       {
-        "Name": "Exchange Blood Transfusion (Rh positive Blood With Set)",
-        "MEDICARE": 45000
+        "serviceName": "Exchange Blood Transfusion (Rh positive Blood With Set)",
+        "price": 45000
       },
       {
-        "Name": "Epidural/spinal",
-        "MEDICARE": 45000
+        "serviceName": "Epidural/spinal",
+        "price": 45000
       },
       {
-        "Name": "Major (Ectopic, C/S Etc.)",
-        "MEDICARE": 45000
+        "serviceName": "Major (Ectopic, C/S Etc.)",
+        "price": 45000
       },
       {
-        "Name": "Examination Under Anaesthesia (EUA)",
-        "MEDICARE": 40000
+        "serviceName": "Examination Under Anaesthesia (EUA)",
+        "price": 40000
       },
       {
-        "Name": "Medium (Hernia, Appendix, Etc.)",
-        "MEDICARE": 40000
+        "serviceName": "Medium (Hernia, Appendix, Etc.)",
+        "price": 40000
       },
       {
-        "Name": "Neurosurgeon Initial",
-        "MEDICARE": 35000
+        "serviceName": "Neurosurgeon Initial",
+        "price": 35000
       },
       {
-        "Name": "In growing Nail (Excision)",
-        "MEDICARE": 35000
+        "serviceName": "In growing Nail (Excision)",
+        "price": 35000
       },
       {
-        "Name": "Major Major",
-        "MEDICARE": 35000
+        "serviceName": "Major Major",
+        "price": 35000
       },
       {
-        "Name": "Major (Ectopic, C/S Etc.)",
-        "MEDICARE": 35000
+        "serviceName": "Major (Ectopic, C/S Etc.)",
+        "price": 35000
       },
       {
-        "Name": "Echocardiogarm",
-        "MEDICARE": 30000
+        "serviceName": "Echocardiogarm",
+        "price": 30000
       },
       {
-        "Name": "Major Debridement Of Burns/Wound",
-        "MEDICARE": 30000
+        "serviceName": "Major Debridement Of Burns/Wound",
+        "price": 30000
       },
       {
-        "Name": "Close Reduction Of Fracture And Application Cast",
-        "MEDICARE": 30000
+        "serviceName": "Close Reduction Of Fracture And Application Cast",
+        "price": 30000
       },
       {
-        "Name": "MVA/ERCP/Evacuation",
-        "MEDICARE": 30000
+        "serviceName": "MVA/ERCP/Evacuation",
+        "price": 30000
       },
       {
-        "Name": "Cervical Laceration Repair",
-        "MEDICARE": 30000
+        "serviceName": "Cervical Laceration Repair",
+        "price": 30000
       },
       {
-        "Name": "Pelvic/abdominal abscess drainage",
-        "MEDICARE": 30000
+        "serviceName": "Pelvic/abdominal abscess drainage",
+        "price": 30000
       },
       {
-        "Name": "Medium (Hernia, Appendix, Etc.)",
-        "MEDICARE": 30000
+        "serviceName": "Medium (Hernia, Appendix, Etc.)",
+        "price": 30000
       },
       {
-        "Name": "Skin Traction(ProcedureplusMaterial)",
-        "MEDICARE": 28000
+        "serviceName": "Skin Traction(ProcedureplusMaterial)",
+        "price": 28000
       },
       {
-        "Name": "Barium Enema",
-        "MEDICARE": 28000
+        "serviceName": "Barium Enema",
+        "price": 28000
       },
       {
-        "Name": "Barium Meal Follow_Through",
-        "MEDICARE": 28000
+        "serviceName": "Barium Meal Follow_Through",
+        "price": 28000
       },
       {
-        "Name": "Hematologist, Oncologist Initial",
-        "MEDICARE": 25000
+        "serviceName": "Hematologist, Oncologist Initial",
+        "price": 25000
       },
       {
-        "Name": "Neurosurgeon Review",
-        "MEDICARE": 25000
+        "serviceName": "Neurosurgeon Review",
+        "price": 25000
       },
       {
-        "Name": "Pint Of Screened Blood (Rh negative)",
-        "MEDICARE": 25000
+        "serviceName": "Pint Of Screened Blood (Rh negative)",
+        "price": 25000
       },
       {
-        "Name": "Incision and Drainage (I and D) Major(Procedure Only)",
-        "MEDICARE": 25000
+        "serviceName": "Incision and Drainage (I and D) Major(Procedure Only)",
+        "price": 25000
       },
       {
-        "Name": "Removal Of IUCD Under General Anaesthesia",
-        "MEDICARE": 25000
+        "serviceName": "Removal Of IUCD Under General Anaesthesia",
+        "price": 25000
       },
       {
-        "Name": "Repair Of Third Degree Tear",
-        "MEDICARE": 25000
+        "serviceName": "Repair Of Third Degree Tear",
+        "price": 25000
       },
       {
-        "Name": "Excision Of Vaginal Septum",
-        "MEDICARE": 25000
+        "serviceName": "Excision Of Vaginal Septum",
+        "price": 25000
       },
       {
-        "Name": "Major",
-        "MEDICARE": 25000
+        "serviceName": "Major",
+        "price": 25000
       },
       {
-        "Name": "Close Reduction Of Fracture And Application Cast",
-        "MEDICARE": 25000
+        "serviceName": "Close Reduction Of Fracture And Application Cast",
+        "price": 25000
       },
       {
-        "Name": "Barium Meal",
-        "MEDICARE": 25000
+        "serviceName": "Barium Meal",
+        "price": 25000
       },
       {
-        "Name": "Barium Swallow",
-        "MEDICARE": 25000
+        "serviceName": "Barium Swallow",
+        "price": 25000
       },
       {
-        "Name": "Cyst_Urethrogram",
-        "MEDICARE": 25000
+        "serviceName": "Cyst_Urethrogram",
+        "price": 25000
       },
       {
-        "Name": "IVU",
-        "MEDICARE": 25000
+        "serviceName": "IVU",
+        "price": 25000
       },
       {
-        "Name": "Oral Cholecystogram",
-        "MEDICARE": 25000
+        "serviceName": "Oral Cholecystogram",
+        "price": 25000
       },
       {
-        "Name": "Pint Of Screened Blood (Rh positive)",
-        "MEDICARE": 23000
+        "serviceName": "Pint Of Screened Blood (Rh positive)",
+        "price": 23000
       },
       {
-        "Name": "Birth before arrival care",
-        "MEDICARE": 22000
+        "serviceName": "Birth before arrival care",
+        "price": 22000
       },
       {
-        "Name": "RARE SPECIALIST{ Plastic surgeon, ENT, Paediatric Surgeon, Urologist, Neurologist",
-        "MEDICARE": 20000
+        "serviceName": "RARE SPECIALIST{ Plastic surgeon, ENT, Paediatric Surgeon, Urologist, Neurologist",
+        "price": 20000
       },
       {
-        "Name": "Hematologist, Oncologist Review",
-        "MEDICARE": 20000
+        "serviceName": "Hematologist, Oncologist Review",
+        "price": 20000
       },
       {
-        "Name": "Oxygen Therapy continuous per day",
-        "MEDICARE": 20000
+        "serviceName": "Oxygen Therapy continuous per day",
+        "price": 20000
       },
       {
-        "Name": "Suturing of Major Laceration",
-        "MEDICARE": 20000
+        "serviceName": "Suturing of Major Laceration",
+        "price": 20000
       },
       {
-        "Name": "Minor",
-        "MEDICARE": 20000
+        "serviceName": "Minor",
+        "price": 20000
       },
       {
-        "Name": "Minor",
-        "MEDICARE": 20000
+        "serviceName": "Minor",
+        "price": 20000
       },
       {
-        "Name": "Drainage Of Septic Arthritis",
-        "MEDICARE": 20000
+        "serviceName": "Drainage Of Septic Arthritis",
+        "price": 20000
       },
       {
-        "Name": "Simple Congenital Talipes Repair",
-        "MEDICARE": 20000
+        "serviceName": "Simple Congenital Talipes Repair",
+        "price": 20000
       },
       {
-        "Name": "Hsg",
-        "MEDICARE": 20000
+        "serviceName": "Hsg",
+        "price": 20000
       },
       {
-        "Name": "Perineal Warts (Podophyllin Painting X 3 Courses)",
-        "MEDICARE": 18000
+        "serviceName": "Perineal Warts (Podophyllin Painting X 3 Courses)",
+        "price": 18000
       },
       {
-        "Name": "Incision and Drainage (I and D) Intermediate",
-        "MEDICARE": 18000
+        "serviceName": "Incision and Drainage (I and D) Intermediate",
+        "price": 18000
       },
       {
-        "Name": "Implanon ",
-        "MEDICARE": 18000
+        "serviceName": "Implanon ",
+        "price": 18000
       },
       {
-        "Name": "Suture Of Major Wounds (Surgical Fees Only)",
-        "MEDICARE": 18000
+        "serviceName": "Suture Of Major Wounds (Surgical Fees Only)",
+        "price": 18000
       },
       {
-        "Name": " Cardiologist, Orthopaedic,  Nephrologist,  Endocrinologist, Psychiatrist Initial",
-        "MEDICARE": 15000
+        "serviceName": " Cardiologist, Orthopaedic,  Nephrologist,  Endocrinologist, Psychiatrist Initial",
+        "price": 15000
       },
       {
-        "Name": "RARE SPECIALIST{ Plastic surgeon, ENT, Paediatric Surgeon, Urologist, Nerologist} Review ",
-        "MEDICARE": 15000
+        "serviceName": "RARE SPECIALIST{ Plastic surgeon, ENT, Paediatric Surgeon, Urologist, Nerologist} Review ",
+        "price": 15000
       },
       {
-        "Name": "Aspirations/Paracentesis",
-        "MEDICARE": 15000
+        "serviceName": "Aspirations/Paracentesis",
+        "price": 15000
       },
       {
-        "Name": "Pap Smear with cytology",
-        "MEDICARE": 15000
+        "serviceName": "Pap Smear with cytology",
+        "price": 15000
       },
       {
-        "Name": "Injection Sclerotherapy Of Varicose Veins",
-        "MEDICARE": 15000
+        "serviceName": "Injection Sclerotherapy Of Varicose Veins",
+        "price": 15000
       },
       {
-        "Name": "Medium/Intermediate",
-        "MEDICARE": 15000
+        "serviceName": "Medium/Intermediate",
+        "price": 15000
       },
       {
-        "Name": "removal of foreign body nose bilateral",
-        "MEDICARE": 15000
+        "serviceName": "removal of foreign body nose bilateral",
+        "price": 15000
       },
       {
-        "Name": "Tissue Histology",
-        "MEDICARE": 15000
+        "serviceName": "Tissue Histology",
+        "price": 15000
       },
       {
-        "Name": "Mammogram",
-        "MEDICARE": 15000
+        "serviceName": "Mammogram",
+        "price": 15000
       },
       {
-        "Name": "Repair of vagina laceration(Second degree)",
-        "MEDICARE": 13000
+        "serviceName": "Repair of vagina laceration(Second degree)",
+        "price": 13000
       },
       {
-        "Name": "Thyroid function test",
-        "MEDICARE": 13000
+        "serviceName": "Thyroid function test",
+        "price": 13000
       },
       {
-        "Name": "Paediatrician,Ophthalmologist Initial",
-        "MEDICARE": 12000
+        "serviceName": "Paediatrician,Ophthalmologist Initial",
+        "price": 12000
       },
       {
-        "Name": "Minor Debridement Of Burns/Wound",
-        "MEDICARE": 12000
+        "serviceName": "Minor Debridement Of Burns/Wound",
+        "price": 12000
       },
       {
-        "Name": "Manual removal of placenta",
-        "MEDICARE": 12000
+        "serviceName": "Manual removal of placenta",
+        "price": 12000
       },
       {
-        "Name": "Foreign Body Removal From The Ear-Bilateral",
-        "MEDICARE": 11000
+        "serviceName": "Foreign Body Removal From The Ear-Bilateral",
+        "price": 11000
       },
       {
-        "Name": "Gynaecologist  Consultation Initial (IN-HOUSE)",
-        "MEDICARE": 10000
+        "serviceName": "Gynaecologist  Consultation Initial (IN-HOUSE)",
+        "price": 10000
       },
       {
-        "Name": " Family physician Initial (IN-HOUSE)",
-        "MEDICARE": 10000
+        "serviceName": " Family physician Initial (IN-HOUSE)",
+        "price": 10000
       },
       {
-        "Name": " Cardiologist, Orthopaedic,  Nephrologist, Endocrinologist, Psychiatrist Review",
-        "MEDICARE": 10000
+        "serviceName": " Cardiologist, Orthopaedic,  Nephrologist, Endocrinologist, Psychiatrist Review",
+        "price": 10000
       },
       {
-        "Name": "Oxygen therapy intermittent",
-        "MEDICARE": 10000
+        "serviceName": "Oxygen therapy intermittent",
+        "price": 10000
       },
       {
-        "Name": "Circumcision babies only",
-        "MEDICARE": 10000
+        "serviceName": "Circumcision babies only",
+        "price": 10000
       },
       {
-        "Name": "Crutches",
-        "MEDICARE": 10000
+        "serviceName": "Crutches",
+        "price": 10000
       },
       {
-        "Name": "Incision and Drainage (I and D) Minor",
-        "MEDICARE": 10000
+        "serviceName": "Incision and Drainage (I and D) Minor",
+        "price": 10000
       },
       {
-        "Name": "IUCD Insertion",
-        "MEDICARE": 10000
+        "serviceName": "IUCD Insertion",
+        "price": 10000
       },
       {
-        "Name": "Colposcopy",
-        "MEDICARE": 10000
+        "serviceName": "Colposcopy",
+        "price": 10000
       },
       {
-        "Name": "CTG",
-        "MEDICARE": 10000
+        "serviceName": "CTG",
+        "price": 10000
       },
       {
-        "Name": "Incision And Drainage Of Abscess",
-        "MEDICARE": 10000
+        "serviceName": "Incision And Drainage Of Abscess",
+        "price": 10000
       },
       {
-        "Name": "Debridement And Toilet Of Minor Wounds",
-        "MEDICARE": 10000
+        "serviceName": "Debridement And Toilet Of Minor Wounds",
+        "price": 10000
       },
       {
-        "Name": "Rheumatoid Factor",
-        "MEDICARE": 10000
+        "serviceName": "Rheumatoid Factor",
+        "price": 10000
       },
       {
-        "Name": "(PRIVATE)",
-        "MEDICARE": 9000
+        "serviceName": "(PRIVATE)",
+        "price": 9000
       },
       {
-        "Name": "Blood Culture",
-        "MEDICARE": 9000
+        "serviceName": "Blood Culture",
+        "price": 9000
       },
       {
-        "Name": "AP Lateral",
-        "MEDICARE": 8100
+        "serviceName": "AP Lateral",
+        "price": 8100
       },
       {
-        "Name": "Paediatrician,Ophthalmologist Review",
-        "MEDICARE": 8000
+        "serviceName": "Paediatrician,Ophthalmologist Review",
+        "price": 8000
       },
       {
-        "Name": "Burn Major Dressing",
-        "MEDICARE": 8000
+        "serviceName": "Burn Major Dressing",
+        "price": 8000
       },
       {
-        "Name": "Suturing Of Minor Laceration/1 SITE",
-        "MEDICARE": 8000
+        "serviceName": "Suturing Of Minor Laceration/1 SITE",
+        "price": 8000
       },
       {
-        "Name": "removal of foreign body nose unilateral",
-        "MEDICARE": 8000
+        "serviceName": "removal of foreign body nose unilateral",
+        "price": 8000
       },
       {
-        "Name": "Pro Calcitonin",
-        "MEDICARE": 8000
+        "serviceName": "Pro Calcitonin",
+        "price": 8000
       },
       {
-        "Name": "Prostate Specific antigen",
-        "MEDICARE": 8000
+        "serviceName": "Prostate Specific antigen",
+        "price": 8000
       },
       {
-        "Name": "Gynaecologist  Consultation Review",
-        "MEDICARE": 7500
+        "serviceName": "Gynaecologist  Consultation Review",
+        "price": 7500
       },
       {
-        "Name": "Family physician Review",
-        "MEDICARE": 7500
+        "serviceName": "Family physician Review",
+        "price": 7500
       },
       {
-        "Name": "Electrocardiography (ECG)",
-        "MEDICARE": 7500
+        "serviceName": "Electrocardiography (ECG)",
+        "price": 7500
       },
       {
-        "Name": "Minor",
-        "MEDICARE": 7500
+        "serviceName": "Minor",
+        "price": 7500
       },
       {
-        "Name": "TLP",
-        "MEDICARE": 7200
+        "serviceName": "TLP",
+        "price": 7200
       },
       {
-        "Name": "Abdominal",
-        "MEDICARE": 7200
+        "serviceName": "Abdominal",
+        "price": 7200
       },
       {
-        "Name": "Abdomino-pelvic scan",
-        "MEDICARE": 7200
+        "serviceName": "Abdomino-pelvic scan",
+        "price": 7200
       },
       {
-        "Name": "Incubator Care",
-        "MEDICARE": 7000
+        "serviceName": "Incubator Care",
+        "price": 7000
       },
       {
-        "Name": "Syringing for both ear",
-        "MEDICARE": 7000
+        "serviceName": "Syringing for both ear",
+        "price": 7000
       },
       {
-        "Name": "Nasal Packing",
-        "MEDICARE": 7000
+        "serviceName": "Nasal Packing",
+        "price": 7000
       },
       {
-        "Name": "fasting lipid profile",
-        "MEDICARE": 7000
+        "serviceName": "fasting lipid profile",
+        "price": 7000
       },
       {
-        "Name": "HBA1C",
-        "MEDICARE": 7000
+        "serviceName": "HBA1C",
+        "price": 7000
       },
       {
-        "Name": "Endocervical M C S",
-        "MEDICARE": 7000
+        "serviceName": "Endocervical M C S",
+        "price": 7000
       },
       {
-        "Name": "EXTREMITIES",
-        "MEDICARE": 7000
+        "serviceName": "EXTREMITIES",
+        "price": 7000
       },
       {
-        "Name": "Breast Scan",
-        "MEDICARE": 6750
+        "serviceName": "Breast Scan",
+        "price": 6750
       },
       {
-        "Name": "Aural And Nasal Suction/Clearance",
-        "MEDICARE": 6500
+        "serviceName": "Aural And Nasal Suction/Clearance",
+        "price": 6500
       },
       {
-        "Name": "Liver Function Test LFT",
-        "MEDICARE": 6500
+        "serviceName": "Liver Function Test LFT",
+        "price": 6500
       },
       {
-        "Name": "Helicobacter pylori",
-        "MEDICARE": 6300
+        "serviceName": "Helicobacter pylori",
+        "price": 6300
       },
       {
-        "Name": "Lumbar Spine",
-        "MEDICARE": 6300
+        "serviceName": "Lumbar Spine",
+        "price": 6300
       },
       {
-        "Name": "Lumbo_ Sacral Spine",
-        "MEDICARE": 6300
+        "serviceName": "Lumbo_ Sacral Spine",
+        "price": 6300
       },
       {
-        "Name": "Pelvis Hip",
-        "MEDICARE": 6300
+        "serviceName": "Pelvis Hip",
+        "price": 6300
       },
       {
-        "Name": "Thoracic Inlet",
-        "MEDICARE": 6300
+        "serviceName": "Thoracic Inlet",
+        "price": 6300
       },
       {
-        "Name": "Thoracic Spine",
-        "MEDICARE": 6300
+        "serviceName": "Thoracic Spine",
+        "price": 6300
       },
       {
-        "Name": "Thoraco_ Lumbar Spine",
-        "MEDICARE": 6300
+        "serviceName": "Thoraco_ Lumbar Spine",
+        "price": 6300
       },
       {
-        "Name": "Plain",
-        "MEDICARE": 6300
+        "serviceName": "Plain",
+        "price": 6300
       },
       {
-        "Name": "Pelvimetry",
-        "MEDICARE": 6300
+        "serviceName": "Pelvimetry",
+        "price": 6300
       },
       {
-        "Name": "Mastoids",
-        "MEDICARE": 6300
+        "serviceName": "Mastoids",
+        "price": 6300
       },
       {
-        "Name": "Pelvis AP",
-        "MEDICARE": 6300
+        "serviceName": "Pelvis AP",
+        "price": 6300
       },
       {
-        "Name": "Sinuses",
-        "MEDICARE": 6300
+        "serviceName": "Sinuses",
+        "price": 6300
       },
       {
-        "Name": "Temperomandibular Joint TMJ",
-        "MEDICARE": 6300
+        "serviceName": "Temperomandibular Joint TMJ",
+        "price": 6300
       },
       {
-        "Name": "Gastric Lavage",
-        "MEDICARE": 6000
+        "serviceName": "Gastric Lavage",
+        "price": 6000
       },
       {
-        "Name": "Lumbar Puncture {Procedure Only}",
-        "MEDICARE": 6000
+        "serviceName": "Lumbar Puncture {Procedure Only}",
+        "price": 6000
       },
       {
-        "Name": "Implanon removal",
-        "MEDICARE": 6000
+        "serviceName": "Implanon removal",
+        "price": 6000
       },
       {
-        "Name": "Foreign Body Removal From The Ear-Unilateral",
-        "MEDICARE": 6000
+        "serviceName": "Foreign Body Removal From The Ear-Unilateral",
+        "price": 6000
       },
       {
-        "Name": "Electrolyte Urea and creatinine",
-        "MEDICARE": 6000
+        "serviceName": "Electrolyte Urea and creatinine",
+        "price": 6000
       },
       {
-        "Name": "Mandibles Jaw",
-        "MEDICARE": 6000
+        "serviceName": "Mandibles Jaw",
+        "price": 6000
       },
       {
-        "Name": "Obstetric Scan",
-        "MEDICARE": 6000
+        "serviceName": "Obstetric Scan",
+        "price": 6000
       },
       {
-        "Name": "Pelvic scan",
-        "MEDICARE": 6000
+        "serviceName": "Pelvic scan",
+        "price": 6000
       },
       {
-        "Name": "Post nasal space",
-        "MEDICARE": 6000
+        "serviceName": "Post nasal space",
+        "price": 6000
       },
       {
-        "Name": "Ultrasound Scan (Obstetric)",
-        "MEDICARE": 5500
+        "serviceName": "Ultrasound Scan (Obstetric)",
+        "price": 5500
       },
       {
-        "Name": "Cervical Spine",
-        "MEDICARE": 5400
+        "serviceName": "Cervical Spine",
+        "price": 5400
       },
       {
-        "Name": "Cervical Spine Oblique",
-        "MEDICARE": 5400
+        "serviceName": "Cervical Spine Oblique",
+        "price": 5400
       },
       {
-        "Name": "Chest PA AP",
-        "MEDICARE": 5400
+        "serviceName": "Chest PA AP",
+        "price": 5400
       },
       {
-        "Name": "Chest PA Lateral",
-        "MEDICARE": 5400
+        "serviceName": "Chest PA Lateral",
+        "price": 5400
       },
       {
-        "Name": "Sacrum",
-        "MEDICARE": 5400
+        "serviceName": "Sacrum",
+        "price": 5400
       },
       {
-        "Name": "Erect Supine",
-        "MEDICARE": 5400
+        "serviceName": "Erect Supine",
+        "price": 5400
       },
       {
-        "Name": "(SEMI PRIVATE)",
-        "MEDICARE": 5000
+        "serviceName": "(SEMI PRIVATE)",
+        "price": 5000
       },
       {
-        "Name": "Catheterization Male",
-        "MEDICARE": 5000
+        "serviceName": "Catheterization Male",
+        "price": 5000
       },
       {
-        "Name": "Catheterization Female",
-        "MEDICARE": 5000
+        "serviceName": "Catheterization Female",
+        "price": 5000
       },
       {
-        "Name": "Knee Effusion Taps",
-        "MEDICARE": 5000
+        "serviceName": "Knee Effusion Taps",
+        "price": 5000
       },
       {
-        "Name": "Burn Moderate Dressing",
-        "MEDICARE": 5000
+        "serviceName": "Burn Moderate Dressing",
+        "price": 5000
       },
       {
-        "Name": "Excision/Diathermy Of Warts",
-        "MEDICARE": 5000
+        "serviceName": "Excision/Diathermy Of Warts",
+        "price": 5000
       },
       {
-        "Name": "Confirmatory Test For HIV 1 2",
-        "MEDICARE": 5000
+        "serviceName": "Confirmatory Test For HIV 1 2",
+        "price": 5000
       },
       {
-        "Name": "Oral Glucose Tolerance Test OGTT",
-        "MEDICARE": 5000
+        "serviceName": "Oral Glucose Tolerance Test OGTT",
+        "price": 5000
       },
       {
-        "Name": "XRAY OF THE RL THIGH AP AND LAT",
-        "MEDICARE": 5000
+        "serviceName": "XRAY OF THE RL THIGH AP AND LAT",
+        "price": 5000
       },
       {
-        "Name": "Prostate Scan",
-        "MEDICARE": 5000
+        "serviceName": "Prostate Scan",
+        "price": 5000
       },
       {
-        "Name": "Testes Scan",
-        "MEDICARE": 5000
+        "serviceName": "Testes Scan",
+        "price": 5000
       },
       {
-        "Name": "Thyroid Scan",
-        "MEDICARE": 5000
+        "serviceName": "Thyroid Scan",
+        "price": 5000
       },
       {
-        "Name": "C Reactive Protein {CRP}",
-        "MEDICARE": 4800
+        "serviceName": "C Reactive Protein {CRP}",
+        "price": 4800
       },
       {
-        "Name": "Nebulisation per session",
-        "MEDICARE": 4500
+        "serviceName": "Nebulisation per session",
+        "price": 4500
       },
       {
-        "Name": "Phototherapy",
-        "MEDICARE": 4500
+        "serviceName": "Phototherapy",
+        "price": 4500
       },
       {
-        "Name": "Subdural Tap",
-        "MEDICARE": 4500
+        "serviceName": "Subdural Tap",
+        "price": 4500
       },
       {
-        "Name": "Prothrombin Time PT",
-        "MEDICARE": 4500
+        "serviceName": "Prothrombin Time PT",
+        "price": 4500
       },
       {
-        "Name": "Bladder Scan",
-        "MEDICARE": 4500
+        "serviceName": "Bladder Scan",
+        "price": 4500
       },
       {
-        "Name": "Leg Tibia Fibula",
-        "MEDICARE": 4500
+        "serviceName": "Leg Tibia Fibula",
+        "price": 4500
       },
       {
-        "Name": "Thigh Femur",
-        "MEDICARE": 4500
+        "serviceName": "Thigh Femur",
+        "price": 4500
       },
       {
-        "Name": "Physiotherapy/Session",
-        "MEDICARE": 4000
+        "serviceName": "Physiotherapy/Session",
+        "price": 4000
       },
       {
-        "Name": "Evacuation Of Impacted Faeces",
-        "MEDICARE": 4000
+        "serviceName": "Evacuation Of Impacted Faeces",
+        "price": 4000
       },
       {
-        "Name": "Tongue Tie Release",
-        "MEDICARE": 4000
+        "serviceName": "Tongue Tie Release",
+        "price": 4000
       },
       {
-        "Name": "Syringing for one ear",
-        "MEDICARE": 4000
+        "serviceName": "Syringing for one ear",
+        "price": 4000
       },
       {
-        "Name": "Electrocautery Of Nose",
-        "MEDICARE": 4000
+        "serviceName": "Electrocautery Of Nose",
+        "price": 4000
       },
       {
-        "Name": "Seminal Fluid Analysis {SFA}",
-        "MEDICARE": 4000
+        "serviceName": "Seminal Fluid Analysis {SFA}",
+        "price": 4000
       },
       {
-        "Name": "Chest For Ribs Oblique",
-        "MEDICARE": 4000
+        "serviceName": "Chest For Ribs Oblique",
+        "price": 4000
       },
       {
-        "Name": "Forearm Radius And Ulna",
-        "MEDICARE": 4000
+        "serviceName": "Forearm Radius And Ulna",
+        "price": 4000
       },
       {
-        "Name": "Hip",
-        "MEDICARE": 4000
+        "serviceName": "Hip",
+        "price": 4000
       },
       {
-        "Name": "Lateral Neck Soft Tissue",
-        "MEDICARE": 4000
+        "serviceName": "Lateral Neck Soft Tissue",
+        "price": 4000
       },
       {
-        "Name": "Ankle",
-        "MEDICARE": 4000
+        "serviceName": "Ankle",
+        "price": 4000
       },
       {
-        "Name": "Clavicle",
-        "MEDICARE": 4000
+        "serviceName": "Clavicle",
+        "price": 4000
       },
       {
-        "Name": "Dental_Intra_Oral Periapical",
-        "MEDICARE": 4000
+        "serviceName": "Dental_Intra_Oral Periapical",
+        "price": 4000
       },
       {
-        "Name": "Elbow",
-        "MEDICARE": 4000
+        "serviceName": "Elbow",
+        "price": 4000
       },
       {
-        "Name": "Foot Toe",
-        "MEDICARE": 4000
+        "serviceName": "Foot Toe",
+        "price": 4000
       },
       {
-        "Name": "Hand Finger",
-        "MEDICARE": 4000
+        "serviceName": "Hand Finger",
+        "price": 4000
       },
       {
-        "Name": "Humerus",
-        "MEDICARE": 4000
+        "serviceName": "Humerus",
+        "price": 4000
       },
       {
-        "Name": "Knee",
-        "MEDICARE": 4000
+        "serviceName": "Knee",
+        "price": 4000
       },
       {
-        "Name": "Shoulder",
-        "MEDICARE": 4000
+        "serviceName": "Shoulder",
+        "price": 4000
       },
       {
-        "Name": "CSF M C S",
-        "MEDICARE": 3500
+        "serviceName": "CSF M C S",
+        "price": 3500
       },
       {
-        "Name": "HVS M C S",
-        "MEDICARE": 3500
+        "serviceName": "HVS M C S",
+        "price": 3500
       },
       {
-        "Name": "Protein Electrophoresis + Report",
-        "MEDICARE": 3500
+        "serviceName": "Protein Electrophoresis + Report",
+        "price": 3500
       },
       {
-        "Name": "Serum TB",
-        "MEDICARE": 3500
+        "serviceName": "Serum TB",
+        "price": 3500
       },
       {
-        "Name": "Semen Culture And Sensitivity",
-        "MEDICARE": 3500
+        "serviceName": "Semen Culture And Sensitivity",
+        "price": 3500
       },
       {
-        "Name": "Coccyx",
-        "MEDICARE": 3500
+        "serviceName": "Coccyx",
+        "price": 3500
       },
       {
-        "Name": "Sacro_ Iliac Joint SIJ",
-        "MEDICARE": 3500
+        "serviceName": "Sacro_ Iliac Joint SIJ",
+        "price": 3500
       },
       {
-        "Name": "Wrist",
-        "MEDICARE": 3500
+        "serviceName": "Wrist",
+        "price": 3500
       },
       {
-        "Name": "Sputum AFB For Tuberculosis X3",
-        "MEDICARE": 3300
+        "serviceName": "Sputum AFB For Tuberculosis X3",
+        "price": 3300
       },
       {
-        "Name": "Glucose Tolerance Test",
-        "MEDICARE": 3200
+        "serviceName": "Glucose Tolerance Test",
+        "price": 3200
       },
       {
-        "Name": "Feeding per diem",
-        "MEDICARE": 3000
+        "serviceName": "Feeding per diem",
+        "price": 3000
       },
       {
-        "Name": "Ear Piercing",
-        "MEDICARE": 3000
+        "serviceName": "Ear Piercing",
+        "price": 3000
       },
       {
-        "Name": "ASO Titre",
-        "MEDICARE": 3000
+        "serviceName": "ASO Titre",
+        "price": 3000
       },
       {
-        "Name": "Aspirate Pus M C S",
-        "MEDICARE": 3000
+        "serviceName": "Aspirate Pus M C S",
+        "price": 3000
       },
       {
-        "Name": "Serum Bilirubin Total and direct",
-        "MEDICARE": 3000
+        "serviceName": "Serum Bilirubin Total and direct",
+        "price": 3000
       },
       {
-        "Name": "Sputum M C S",
-        "MEDICARE": 3000
+        "serviceName": "Sputum M C S",
+        "price": 3000
       },
       {
-        "Name": "Stool M C S",
-        "MEDICARE": 3000
+        "serviceName": "Stool M C S",
+        "price": 3000
       },
       {
-        "Name": "SWAB M/C/S",
-        "MEDICARE": 3000
+        "serviceName": "SWAB M/C/S",
+        "price": 3000
       },
       {
-        "Name": "Total Acid Phosphates",
-        "MEDICARE": 3000
+        "serviceName": "Total Acid Phosphates",
+        "price": 3000
       },
       {
-        "Name": "Urethral And Wound M C S",
-        "MEDICARE": 3000
+        "serviceName": "Urethral And Wound M C S",
+        "price": 3000
       },
       {
-        "Name": "URINE M/C/S",
-        "MEDICARE": 3000
+        "serviceName": "URINE M/C/S",
+        "price": 3000
       },
       {
-        "Name": "CSF Protein",
-        "MEDICARE": 2800
+        "serviceName": "CSF Protein",
+        "price": 2800
       },
       {
-        "Name": "Screening For HIV 1 2",
-        "MEDICARE": 2700
+        "serviceName": "Screening For HIV 1 2",
+        "price": 2700
       },
       {
-        "Name": "Registration/General Consultation",
-        "MEDICARE": 2500
+        "serviceName": "Registration/General Consultation",
+        "price": 2500
       },
       {
-        "Name": "Major Wound Dressing",
-        "MEDICARE": 2500
+        "serviceName": "Major Wound Dressing",
+        "price": 2500
       },
       {
-        "Name": "Cholesterol",
-        "MEDICARE": 2500
+        "serviceName": "Cholesterol",
+        "price": 2500
       },
       {
-        "Name": "HDL",
-        "MEDICARE": 2500
+        "serviceName": "HDL",
+        "price": 2500
       },
       {
-        "Name": "LDL",
-        "MEDICARE": 2500
+        "serviceName": "LDL",
+        "price": 2500
       },
       {
-        "Name": "Creatinine Clearance",
-        "MEDICARE": 2500
+        "serviceName": "Creatinine Clearance",
+        "price": 2500
       },
       {
-        "Name": "CROSS MATCHING AND GROUPING",
-        "MEDICARE": 2500
+        "serviceName": "CROSS MATCHING AND GROUPING",
+        "price": 2500
       },
       {
-        "Name": "CSF ALBUMIN",
-        "MEDICARE": 2500
+        "serviceName": "CSF ALBUMIN",
+        "price": 2500
       },
       {
-        "Name": "Direct Coombs Test",
-        "MEDICARE": 2500
+        "serviceName": "Direct Coombs Test",
+        "price": 2500
       },
       {
-        "Name": "Full Blood Count",
-        "MEDICARE": 2500
+        "serviceName": "Full Blood Count",
+        "price": 2500
       },
       {
-        "Name": "Direct Coombs Test",
-        "MEDICARE": 2500
+        "serviceName": "Direct Coombs Test",
+        "price": 2500
       },
       {
-        "Name": "Indirect Coombs Test",
-        "MEDICARE": 2500
+        "serviceName": "Indirect Coombs Test",
+        "price": 2500
       },
       {
-        "Name": "Partial Thromboplastin Time PTT",
-        "MEDICARE": 2500
+        "serviceName": "Partial Thromboplastin Time PTT",
+        "price": 2500
       },
       {
-        "Name": "Uric Acid",
-        "MEDICARE": 2500
+        "serviceName": "Uric Acid",
+        "price": 2500
       },
       {
-        "Name": "Apical Lordotic",
-        "MEDICARE": 2500
+        "serviceName": "Apical Lordotic",
+        "price": 2500
       },
       {
-        "Name": "Sternum",
-        "MEDICARE": 2500
+        "serviceName": "Sternum",
+        "price": 2500
       },
       {
-        "Name": "GP Consult Initial",
-        "MEDICARE": 2000
+        "serviceName": "GP Consult Initial",
+        "price": 2000
       },
       {
-        "Name": "Amylase",
-        "MEDICARE": 2000
+        "serviceName": "Amylase",
+        "price": 2000
       },
       {
-        "Name": "Australian Antigen",
-        "MEDICARE": 2000
+        "serviceName": "Australian Antigen",
+        "price": 2000
       },
       {
-        "Name": "Bleeding Time",
-        "MEDICARE": 2000
+        "serviceName": "Bleeding Time",
+        "price": 2000
       },
       {
-        "Name": "Calcium",
-        "MEDICARE": 2000
+        "serviceName": "Calcium",
+        "price": 2000
       },
       {
-        "Name": "Clotting Time",
-        "MEDICARE": 2000
+        "serviceName": "Clotting Time",
+        "price": 2000
       },
       {
-        "Name": "Creatinine",
-        "MEDICARE": 2000
+        "serviceName": "Creatinine",
+        "price": 2000
       },
       {
-        "Name": "Gamma Glutaryl Transferase",
-        "MEDICARE": 2000
+        "serviceName": "Gamma Glutaryl Transferase",
+        "price": 2000
       },
       {
-        "Name": "HbsAg {Hepatitis B}",
-        "MEDICARE": 2000
+        "serviceName": "HbsAg {Hepatitis B}",
+        "price": 2000
       },
       {
-        "Name": "HCV {Hepatitis C}",
-        "MEDICARE": 2000
+        "serviceName": "HCV {Hepatitis C}",
+        "price": 2000
       },
       {
-        "Name": "Microfilaria",
-        "MEDICARE": 2000
+        "serviceName": "Microfilaria",
+        "price": 2000
       },
       {
-        "Name": "Occult Blood {STOOL}",
-        "MEDICARE": 2000
+        "serviceName": "Occult Blood {STOOL}",
+        "price": 2000
       },
       {
-        "Name": "Platelets",
-        "MEDICARE": 2000
+        "serviceName": "Platelets",
+        "price": 2000
       },
       {
-        "Name": "Acid Phosphatase",
-        "MEDICARE": 2000
+        "serviceName": "Acid Phosphatase",
+        "price": 2000
       },
       {
-        "Name": "Skin Scraping For Fungal Elements",
-        "MEDICARE": 2000
+        "serviceName": "Skin Scraping For Fungal Elements",
+        "price": 2000
       },
       {
-        "Name": "Skin Snip",
-        "MEDICARE": 2000
+        "serviceName": "Skin Snip",
+        "price": 2000
       },
       {
-        "Name": "Total Protein",
-        "MEDICARE": 2000
+        "serviceName": "Total Protein",
+        "price": 2000
       },
       {
-        "Name": "Urea",
-        "MEDICARE": 2000
+        "serviceName": "Urea",
+        "price": 2000
       },
       {
-        "Name": "VDRL",
-        "MEDICARE": 2000
+        "serviceName": "VDRL",
+        "price": 2000
       },
       {
-        "Name": "GP Consult Review",
-        "MEDICARE": 1500
+        "serviceName": "GP Consult Review",
+        "price": 1500
       },
       {
-        "Name": "Followup Consultation",
-        "MEDICARE": 1500
+        "serviceName": "Followup Consultation",
+        "price": 1500
       },
       {
-        "Name": "Albumin",
-        "MEDICARE": 1500
+        "serviceName": "Albumin",
+        "price": 1500
       },
       {
-        "Name": "Alkaline Phosphatase",
-        "MEDICARE": 1500
+        "serviceName": "Alkaline Phosphatase",
+        "price": 1500
       },
       {
-        "Name": "ASO Heaf Test",
-        "MEDICARE": 1500
+        "serviceName": "ASO Heaf Test",
+        "price": 1500
       },
       {
-        "Name": "Chloride",
-        "MEDICARE": 1500
+        "serviceName": "Chloride",
+        "price": 1500
       },
       {
-        "Name": " Bicarbonate",
-        "MEDICARE": 1500
+        "serviceName": " Bicarbonate",
+        "price": 1500
       },
       {
-        "Name": "CSF Chloride",
-        "MEDICARE": 1500
+        "serviceName": "CSF Chloride",
+        "price": 1500
       },
       {
-        "Name": "Direct Bilirubin",
-        "MEDICARE": 1500
+        "serviceName": "Direct Bilirubin",
+        "price": 1500
       },
       {
-        "Name": "Total Bilrubin",
-        "MEDICARE": 1500
+        "serviceName": "Total Bilrubin",
+        "price": 1500
       },
       {
-        "Name": "ESR ",
-        "MEDICARE": 1500
+        "serviceName": "ESR ",
+        "price": 1500
       },
       {
-        "Name": "Genotype",
-        "MEDICARE": 1500
+        "serviceName": "Genotype",
+        "price": 1500
       },
       {
-        "Name": "Mantoux Heaf Test",
-        "MEDICARE": 1500
+        "serviceName": "Mantoux Heaf Test",
+        "price": 1500
       },
       {
-        "Name": "Phosphorus",
-        "MEDICARE": 1500
+        "serviceName": "Phosphorus",
+        "price": 1500
       },
       {
-        "Name": "Potassium",
-        "MEDICARE": 1500
+        "serviceName": "Potassium",
+        "price": 1500
       },
       {
-        "Name": "Pregnancy Test HCG Blood",
-        "MEDICARE": 1500
+        "serviceName": "Pregnancy Test HCG Blood",
+        "price": 1500
       },
       {
-        "Name": "SGOT",
-        "MEDICARE": 1500
+        "serviceName": "SGOT",
+        "price": 1500
       },
       {
-        "Name": "SGPT",
-        "MEDICARE": 1500
+        "serviceName": "SGPT",
+        "price": 1500
       },
       {
-        "Name": "Total Bilirubin",
-        "MEDICARE": 1500
+        "serviceName": "Total Bilirubin",
+        "price": 1500
       },
       {
-        "Name": "Triglyceride",
-        "MEDICARE": 1500
+        "serviceName": "Triglyceride",
+        "price": 1500
       },
       {
-        "Name": "White Cell Count+ Differential",
-        "MEDICARE": 1500
+        "serviceName": "White Cell Count+ Differential",
+        "price": 1500
       },
       {
-        "Name": "Random Blood Sugar",
-        "MEDICARE": 1400
+        "serviceName": "Random Blood Sugar",
+        "price": 1400
       },
       {
-        "Name": "Oxygen per hour",
-        "MEDICARE": 1200
+        "serviceName": "Oxygen per hour",
+        "price": 1200
       },
       {
-        "Name": "Minor Wound Dressing",
-        "MEDICARE": 1200
+        "serviceName": "Minor Wound Dressing",
+        "price": 1200
       },
       {
-        "Name": "Widal",
-        "MEDICARE": 1100
+        "serviceName": "Widal",
+        "price": 1100
       },
       {
-        "Name": "Blood Group",
-        "MEDICARE": 1000
+        "serviceName": "Blood Group",
+        "price": 1000
       },
       {
-        "Name": "CSF Glucose",
-        "MEDICARE": 1000
+        "serviceName": "CSF Glucose",
+        "price": 1000
       },
       {
-        "Name": "Differential Count only",
-        "MEDICARE": 1000
+        "serviceName": "Differential Count only",
+        "price": 1000
       },
       {
-        "Name": "Fasting Blood Sugar",
-        "MEDICARE": 1000
+        "serviceName": "Fasting Blood Sugar",
+        "price": 1000
       },
       {
-        "Name": "Malaria Parasite",
-        "MEDICARE": 1000
+        "serviceName": "Malaria Parasite",
+        "price": 1000
       },
       {
-        "Name": "Mch",
-        "MEDICARE": 1000
+        "serviceName": "Mch",
+        "price": 1000
       },
       {
-        "Name": "Mchc",
-        "MEDICARE": 1000
+        "serviceName": "Mchc",
+        "price": 1000
       },
       {
-        "Name": "Mcv",
-        "MEDICARE": 1000
+        "serviceName": "Mcv",
+        "price": 1000
       },
       {
-        "Name": "Red Cell Count",
-        "MEDICARE": 1000
+        "serviceName": "Red Cell Count",
+        "price": 1000
       },
       {
-        "Name": "Stool Analysis",
-        "MEDICARE": 1000
+        "serviceName": "Stool Analysis",
+        "price": 1000
       },
       {
-        "Name": "Urine Microscopy",
-        "MEDICARE": 1000
+        "serviceName": "Urine Microscopy",
+        "price": 1000
       },
       {
-        "Name": "24hr Post Prandial",
-        "MEDICARE": 800
+        "serviceName": "24hr Post Prandial",
+        "price": 800
       },
       {
-        "Name": "Haemoglobin",
-        "MEDICARE": 800
+        "serviceName": "Haemoglobin",
+        "price": 800
       },
       {
-        "Name": "Packed Cell Volume",
-        "MEDICARE": 800
+        "serviceName": "Packed Cell Volume",
+        "price": 800
       },
       {
-        "Name": "Urinalysis",
-        "MEDICARE": 750
+        "serviceName": "Urinalysis",
+        "price": 750
       },
       {
-        "Name": "Sodium",
-        "MEDICARE": 700
+        "serviceName": "Sodium",
+        "price": 700
       },
       {
-        "Name": "Urine Pregnancy Test",
-        "MEDICARE": 700
+        "serviceName": "Urine Pregnancy Test",
+        "price": 700
       }
     ]
   }

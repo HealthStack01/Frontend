@@ -1137,7 +1137,7 @@
         "Price": 150
       },
       {
-        "Name": "Penicillin Skin Ointment 10,000iu x20g",
+        "Name": "Penicillin Skin Ointment 10000iu x20g",
         "Price": 150
       },
       {
@@ -1413,7 +1413,7 @@
         "Price": 190
       },
       {
-        "Name": "Vistamina 25,000 I.U",
+        "Name": "Vistamina 25000 I.U",
         "Price": 190
       },
       {
@@ -2313,7 +2313,7 @@
         "Price": 300
       },
       {
-        "Name": "Nilstat oral Drop 100,000 units/ml 30ml",
+        "Name": "Nilstat oral Drop 100000 units/ml 30ml",
         "Price": 300
       },
       {
@@ -2625,7 +2625,7 @@
         "Price": 350
       },
       {
-        "Name": "Nystatin 500,000iu x16 tablets",
+        "Name": "Nystatin 500000iu x16 tablets",
         "Price": 350
       },
       {
@@ -6009,7 +6009,7 @@
         "Price": 1350
       },
       {
-        "Name": "Mycostatine 100,000ui/ml suspension",
+        "Name": "Mycostatine 100000ui/ml suspension",
         "Price": 1350
       },
       {
@@ -9538,519 +9538,519 @@
       },
       {
         "Name": "Surgical Drainage In Haematoma Of Rectus Abdominis",
-        "Price": "10,000"
+        "Price": "10000"
       },
       {
         "Name": "Polypectomy",
-        "Price": "10,000"
+        "Price": "10000"
       },
       {
         "Name": "Intercostal Drainage Insertion",
-        "Price": "10,000"
+        "Price": "10000"
       },
       {
         "Name": "Suprapubic Cystostomy",
-        "Price": "10,000"
+        "Price": "10000"
       },
       {
         "Name": "Tracheostomy",
-        "Price": "10,000"
+        "Price": "10000"
       },
       {
         "Name": "Surgical Release In Stenosing Tenosynovitis",
-        "Price": "10,000"
+        "Price": "10000"
       },
       {
         "Name": "Syndactlysis",
-        "Price": "10,000"
+        "Price": "10000"
       },
       {
         "Name": "Liver/Kidney/Bone Marrow Biopsy",
-        "Price": "10,000"
+        "Price": "10000"
       },
       {
         "Name": "Ingrowing Toe Nail (Excision)",
-        "Price": "10,000"
+        "Price": "10000"
       },
       {
         "Name": "Keloid Excision",
-        "Price": "10,000"
+        "Price": "10000"
       },
       {
         "Name": "Biopsy Of Oesophageal Mass",
-        "Price": "10,000"
+        "Price": "10000"
       },
       {
         "Name": "Dissection Of Inguinal Nodes",
-        "Price": "10,000"
+        "Price": "10000"
       },
       {
         "Name": "Surgical Drainage Of Galactocoele",
-        "Price": "10,000"
+        "Price": "10000"
       },
       {
         "Name": "Breast Lump Excision",
-        "Price": "10,000"
+        "Price": "10000"
       },
       {
         "Name": "Synovectomy",
-        "Price": "10,000"
+        "Price": "10000"
       },
       {
         "Name": "Drainage Of Septic Arthritis",
-        "Price": "15,000"
+        "Price": "15000"
       },
       {
         "Name": "Exostectomy",
-        "Price": "15,000"
+        "Price": "15000"
       },
       {
         "Name": "Excisional Biopsy",
-        "Price": "15,000"
+        "Price": "15000"
       },
       {
         "Name": "Skin Traction",
-        "Price": "15,000"
+        "Price": "15000"
       },
       {
         "Name": "Simple Congenital Talipes Repair",
-        "Price": "15,000"
+        "Price": "15000"
       },
       {
         "Name": "Cystic Hygroma Excision",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Skin Grafting",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Orchidectomy/Orchidopexy",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Abdominal Rectopexy",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Anal Spincteroplasty",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Surgical Drainage Of Anal Abscess",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Anal Fistulectomy Repair",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Cystourethroscopy",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Pericardiocentesis",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Hydrocoelectomy",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Appendicectomy",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Epigastric Herniorrhaphy",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Excision Of Intrascrotal Mass",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Surgery Of Torsion Of Spermatic Cord",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Varicocoelectomy",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Dissection Of Femoral Triangle",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Multiple Ligation Of Veins",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Surgical Correction Of Dupuytren’s Contracture",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Herniorraphy - Inguinal/Others",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Thoracotomy",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Vasectomy",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Haemorrhoidectomy",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Fistula In-Ano Repair",
-        "Price": "20,000"
+        "Price": "20000"
       },
       {
         "Name": "Tendon Grafting",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Oesophagostomy",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Anal Pull Through",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Oophorectomy",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Diverticulectomy",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Drainage Of Hepatic Abscess",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Repair Of Splenic Laceration",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Retroperitoneal Drainage Of Perinephric Abscess",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Trans-Perineal/Transrectal Biopsy Of Prostate",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Resection Of Median Bar Obstruction",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Corporosavenous Shunt",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Cavernospongiosum Shunt",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Transurethral Dessication Of Congenital Meatal Stenosis",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Uretherectomy",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Surgical Exploration For Anorchism",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Stripping And Ligation Of Veins",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Thrombectomy By Forarty’s Catheterisation",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Colostomy Construction/Closure",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Enterostomy",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Surgery Of Uncomplicated Intestinal Obstruction Without Resection",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Hiatus Herniorrphaphy",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Subperiosteal Drainage Of Acute Osteomyelitis",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Chondromectomy",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Sequestrectomy",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Saucerisation Of Chronically Infected Bone",
-        "Price": "30,000"
+        "Price": "30000"
       },
       {
         "Name": "Oesophageal Atresia And Tracheo-Oesophageal Fistula Repair",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Hypospadia Repair",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Pyelotomy",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Craniotomy",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Pyeloroplasty",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Repair Of Oesophageal Lacerations",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Choledochostomy",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Repair Of Bochidalek Diaphragmatic Congenital Defect",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Meckel’s Diverticulectomy",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Renal Cystectomy",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Vesical Diverticulectomy",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Penoplasty",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Penectomy",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Mastectomy",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Diaphragmatic Hernia Repair",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Exploratory Laparotomy/Lysis Of Adhensions",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Gastroenterostomy",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Intussusception Operation",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Pyloromyotomy",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Resection And Anstomoses (Small/Large Intestines)",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Splenectomy/Splenorrhaphy",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Cystectomy Partial/Total",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Axillary Dissection Of Breast",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Extensive (Small And Large) Bowel Resection And Anastomoses",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Surgery Of Acute Intra Abdominal Vascular Disease",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Repair Of Gastric Lacerations",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Repair Of Small Bowel Perforations",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Surgery Of Large Bowel Perforations",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Surgery Of Hepatic Trauma",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Hepatic Segmentectomy",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Oddis Sphincteroplasty",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Choledochojejunostomy",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Transduodenal Choledochal Cystectomy",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Choledochal Cystojejunostomy",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Excision Of Lymphoedematous Lymph Tissues",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Roux-En-Y Pancreaticojejunostomy",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Amputation And Disarticulation Of Joints.",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Surgical Repair Of Congenital Talipes",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Equanovarus/Valgus",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Tendon Transplant",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Tenoplasty",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Arthroplasty",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Arthrodesis",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Open Reduction And Internal Fixation Of Fractures",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Osteoclasis, Internal Fixation Of Malunion",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Bone Grafting",
-        "Price": "40,000"
+        "Price": "40000"
       },
       {
         "Name": "Cystic/Fibrous Dysplasia/Cancer Surgery",
-        "Price": "45,000"
+        "Price": "45000"
       },
       {
         "Name": "Odontogenic Tumours.",
-        "Price": "45,000"
+        "Price": "45000"
       },
       {
         "Name": "Cleft Lip And Palate Repairs.",
-        "Price": "45,000"
+        "Price": "45000"
       },
       {
         "Name": "Submandibular Gland Excision",
-        "Price": "45,000"
+        "Price": "45000"
       },
       {
         "Name": "Ganglion Excision",
-        "Price": "7,500"
+        "Price": "7500"
       },
       {
         "Name": "Small Cyst Excision",
-        "Price": "7,500"
+        "Price": "7500"
       },
       {
         "Name": "Biopsy Of Tumour Of Abdominal Wall",
-        "Price": "7,500"
+        "Price": "7500"
       },
       {
         "Name": "Lumps Excision",
-        "Price": "7,500"
+        "Price": "7500"
       },
       {
         "Name": "Minor Debridement Of Burns",
-        "Price": "7,500"
+        "Price": "7500"
       },
       {
         "Name": "Electrofulguration Of Condylomata Acuminata",
-        "Price": "7,500"
+        "Price": "7500"
       },
       {
         "Name": "Injection Sclerotherapy Of Varicose Veins",
-        "Price": "7,500"
+        "Price": "7500"
       },
       {
         "Name": "Excision Of Tophi",
-        "Price": "7,500"
+        "Price": "7500"
       },
       {
         "Name": "Pollicisation Of The Index Finger",
-        "Price": "7,500"
+        "Price": "7500"
       },
       {
         "Name": "Release Of Chordae",
-        "Price": "7,500"
+        "Price": "7500"
       },
       {
         "Name": "Repair Of Minor Laceration",
-        "Price": "7,500"
+        "Price": "7500"
       }
     ]
   }
