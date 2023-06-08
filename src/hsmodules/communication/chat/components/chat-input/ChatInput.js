@@ -57,8 +57,8 @@ const GeneralChatInputBox = () => {
   };
 
   const handleSendMessage = () => {
-    if (inputMessage === "")
-      return toast.warning("You can't send an empty message");
+    if (inputMessage.trim() === "")
+      return toast.warning("You can't send an invalid message");
     const employee = user.currentEmployee;
 
     //  chatroom:{ type: Schema.Types.Mixed,  },
@@ -79,7 +79,7 @@ const GeneralChatInputBox = () => {
         type: "Point",
         coordinates: [state.coordinates.latitude, state.coordinates.longitude],
       },
-      createdAt: dayjs(),
+      createdAt: dayjs(Date.now()).toISOString(),
     };
 
     // return console.log(message);

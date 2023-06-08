@@ -144,7 +144,7 @@ const CommunicationChatStaffsList = ({closeStaffsList}) => {
   }, [handleGetStaffs]);
 
   const handleSelectInputChange = val => {
-    if (val.length <= 3 && val.trim() !== "") return;
+    if (val.length <= 3 && val.trim() === "") return;
     setFetchingFacilities(true);
     facilityServ
       .find({
