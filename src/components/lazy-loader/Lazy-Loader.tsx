@@ -5,7 +5,7 @@ export interface LazyLoaderProps {
   delay?: number;
 }
 
-const LazyLoader: FC<LazyLoaderProps> = ({delay = 250, ...props}) => {
+const LazyLoader: FC<LazyLoaderProps> = ({delay = 50, ...props}) => { //250
   const [show, setShow] = useState(false);
 
   useEffect(() => {

@@ -1,0 +1,4476 @@
+{
+    "Lakelands": [
+      {
+        "Name": "ASPIRIN 75MG (per tab)",
+        "Amount": 5.75
+      },
+      {
+        "Name": "BANOCIDE 50MG (per tab)",
+        "Amount": 5.75
+      },
+      {
+        "Name": "BISACODYL 5MG (per tab)",
+        "Amount": 5.75
+      },
+      {
+        "Name": "CALCIUM LACTATE 300MG (per tab)",
+        "Amount": 5.75
+      },
+      {
+        "Name": "FERROUS SULHATE 20MG (per tab)",
+        "Amount": 5.75
+      },
+      {
+        "Name": "INDOMEHACINE (per tab)",
+        "Amount": 5.75
+      },
+      {
+        "Name": "MULTIVITE TABLET (per tab)",
+        "Amount": 5.75
+      },
+      {
+        "Name": "PHENOBARBITONE 30MG (per tab)",
+        "Amount": 5.75
+      },
+      {
+        "Name": "PIRITON (per tab)",
+        "Amount": 5.75
+      },
+      {
+        "Name": "PROMETHAZINE 25MG (per tab)",
+        "Amount": 5.75
+      },
+      {
+        "Name": "SALBUTAMOL 4MG (per tab)",
+        "Amount": 5.75
+      },
+      {
+        "Name": "VIT C 100MG (per tab)",
+        "Amount": 5.75
+      },
+      {
+        "Name": "CHLORAMPHENICOL 250MG (PER TAB)",
+        "Amount": 6.9
+      },
+      {
+        "Name": "AMINOPHYLLINE TABS (per tab)",
+        "Amount": 8.05
+      },
+      {
+        "Name": "FALVITONE (PER CAP)",
+        "Amount": 10.35
+      },
+      {
+        "Name": "AMOXYCILLIN 250MG (per cap)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "ANTASIL (per tab)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "ARTANE 5MG (per tab)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "AVOMINE 25MG (per tab)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "DEQUADIN LOZENGES (per tab)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "DIAZEPAM 5MG (per tab)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "DIGOXIN 0.25MG (per tab)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "FLAGYL 400MG (per tab)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "GRISEOFULVIN 125MG (per tab)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "HALOPERIDOL 5MG (per tab)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "INSULIN SYRINGE 40 IU (per piece)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "LOMOTIL (per tab)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "METAPRIM 25MG (per tab)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "METRONIDAZOLE 200MG (per tab)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "NITROFURANTOIN 100MG (per tab)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "PIROXICAM 20MG (per cap)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "PREDNISOLONE 5MG (per tab)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "PYRIDOXINE 50MG (per tab)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "STEMETIL 5MG (per tab)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "TETRACYCLINE 250MG (per cap)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "TRIFLUOPERAZINE 5MG (per tab)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "VIT B COMPLEX (per tab)",
+        "Amount": 11.5
+      },
+      {
+        "Name": "NORGESIC TAB",
+        "Amount": 12.65
+      },
+      {
+        "Name": "VIT A TAB",
+        "Amount": 12.65
+      },
+      {
+        "Name": "AMPICILLIN 250MG (PER TAB)",
+        "Amount": 13.8
+      },
+      {
+        "Name": "ISOSORBIDE 5MG (PER TAB)",
+        "Amount": 14.95
+      },
+      {
+        "Name": "ACETAZOLAMIDE 250MG (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "ALDOMET 250MG (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "ANOROL (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "ATENOLOL 50MG (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "CAPTOPRIL 12.5MG (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "CAPTOPRIL 25MG (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "CAPTOPRIL 50MG (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "CARBAMAZEPINE 200MG (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "CHLORPROMAZINE 100MG (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "COLIPAN 10MG (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "DIABETIN 450MG (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "DIAMOX 250MG (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "DICLOFENAC 50MG (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "DOXYCYCLINE (per cap)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "FOLIC ACID 5MG (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "HYDROCHLORTIAZIDE 50MG/ AMILORIDE 5MG(per tab",
+        "Amount": 17.25
+      },
+      {
+        "Name": "HYDROCORTISONE TABS 10MG",
+        "Amount": 17.25
+      },
+      {
+        "Name": "IBUPROFEN 200MG (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "MEFENAMIC ACID 250MG (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "METRONIDAZOLE 400MG (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "MODURETIC (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "NICOTINIC ACID (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "NORMORETIC (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "PYRAZINAMIDE 500MG (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "RANFERON-12 (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "SLOW-K 600MG (per tab)",
+        "Amount": 17.25
+      },
+      {
+        "Name": "AMPICLOX 500MG CAP (per cap)",
+        "Amount": 18.4
+      },
+      {
+        "Name": "ISOSORBIDE 10MG (PER TAB)",
+        "Amount": 18.4
+      },
+      {
+        "Name": "NORFLEX TABS (per tab)",
+        "Amount": 18.4
+      },
+      {
+        "Name": "LIV 52 (PER TAB)",
+        "Amount": 19.55
+      },
+      {
+        "Name": "ZINC 30MG TAB",
+        "Amount": 20.7
+      },
+      {
+        "Name": "AMLOVA 10MG (PER TAB)",
+        "Amount": 21.85
+      },
+      {
+        "Name": "ALLOPURINOL 100MG TAB",
+        "Amount": 23
+      },
+      {
+        "Name": "AMITRIPTYLINE 25MG (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "ATIVAN 2MG (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "BENDROFLUAZIDE (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "CANDERIL SWEETNER (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "CHEMIRON (PER CAP)",
+        "Amount": 23
+      },
+      {
+        "Name": "CIMETIDINE 400MG (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "CLOXACILLIN 250MG (per cap)",
+        "Amount": 23
+      },
+      {
+        "Name": "ERYTHROMYCIN 250MG (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "ETHAMBUTOL 400MG (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "FRANOL (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "FRUSEMIDE 40MG (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "GESTID (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "GLIBENCLAMIDE 5MG (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "GLUCOSE (PER SACHET)",
+        "Amount": 23
+      },
+      {
+        "Name": "GRISEOFULVIN 500MG (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "HYOSCINE N BUTYL BROMIDE (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "IBUFROPEN 400MG (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "INDERAL 40MG (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "LORATYN 10MG (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "NIFEDIPINE 20MG (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "NOVALGIN 500MG (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "PROPANOLOL 40MG (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "ROVIGON (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "SPIRONOLACTONE 25MG (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "SYRINGE AND NEEDLE (5ML)",
+        "Amount": 23
+      },
+      {
+        "Name": "TABALON 400MG (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "THALAZOLE 500MG (per tab)",
+        "Amount": 23
+      },
+      {
+        "Name": "ENALAPRIL 5MG TAB",
+        "Amount": 24.15
+      },
+      {
+        "Name": "HAEMORON (PER TAB)",
+        "Amount": 27.6
+      },
+      {
+        "Name": "ACTIFED (per tab)",
+        "Amount": 28.75
+      },
+      {
+        "Name": "APRESOLINE 25MG (per tab)",
+        "Amount": 28.75
+      },
+      {
+        "Name": "CARVEDILOL 6.25mg (PER TAB)",
+        "Amount": 28.75
+      },
+      {
+        "Name": "ESIDREX 25MG (per tab)",
+        "Amount": 28.75
+      },
+      {
+        "Name": "ETOVIT CAPGEL 200MG (per cap)",
+        "Amount": 28.75
+      },
+      {
+        "Name": "EVITOL 100MG (per tab)",
+        "Amount": 28.75
+      },
+      {
+        "Name": "GLUCOPHAGE 500MG (per tab)",
+        "Amount": 28.75
+      },
+      {
+        "Name": "ISORDIL 5MG (per tab)",
+        "Amount": 28.75
+      },
+      {
+        "Name": "PHENYTOIN 100MG (per cap)",
+        "Amount": 28.75
+      },
+      {
+        "Name": "QUININE 300MG (per tab)",
+        "Amount": 28.75
+      },
+      {
+        "Name": "ABITREN 100MG (per tab)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "ARTEMEF (PER TABLET)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "BECLOX 500MG (per cap)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "CHYMORAL (per tab)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "CO-CODAMOL(PER TAB)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "CO-TRIMAZOLE 480MG (per tab)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "DIHYDROCODEINE 30MG (per tab)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "EVENNG PRIME ROSE (per cap)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "FEFOL (per cap)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "GENTAMYCIN 80MG (per amp)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "INSULIN SYRINGE 100 IU (per piece)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "ISORDIL 10MG (per tab)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "KOTASE (per tab)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "LEXOTHAN 1.5MG (per tab)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "LINCOMYCIN 500MG (per cap)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "LISINOPRIL 5MG (per tab)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "MAXOLON (PER TAB)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "NIFEGEM RETARD 20MG (per tab)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "NIVAQUINE FORTE CAP (per cap)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "THROXINE 100MCG (per tab)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "THYROXINE 0.5MG (per tab)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "WARFRIN SODIUM 5MG (per tab)",
+        "Amount": 34.5
+      },
+      {
+        "Name": "DIPYRIDAMOLE (PER TAB)",
+        "Amount": 35.65
+      },
+      {
+        "Name": "DYRIDAMOLE 100MG TAB",
+        "Amount": 35.65
+      },
+      {
+        "Name": "SIMVASTATIN 20MG TAB",
+        "Amount": 37.95
+      },
+      {
+        "Name": "COTENIDONE TABS (per tab)",
+        "Amount": 39.1
+      },
+      {
+        "Name": "ALLOPURINOL 200MG TAB",
+        "Amount": 40.25
+      },
+      {
+        "Name": "CO-PROXAMOL (per tab)",
+        "Amount": 40.25
+      },
+      {
+        "Name": "ENCEPHABOL (per tab)",
+        "Amount": 40.25
+      },
+      {
+        "Name": "MOTILIUM 10MG (per tab)",
+        "Amount": 40.25
+      },
+      {
+        "Name": "NEOMERCAZOLE 5MG (per tab)",
+        "Amount": 40.25
+      },
+      {
+        "Name": "NYSTATIN PESSARIES (PER TAB)",
+        "Amount": 40.25
+      },
+      {
+        "Name": "CEPHALEXIN (PER CAP)",
+        "Amount": 44.85
+      },
+      {
+        "Name": "CRYSTALLINE PENICILLIN (PER AMPOULE)",
+        "Amount": 44.85
+      },
+      {
+        "Name": "PIRITON INJECTION 10MG/ML",
+        "Amount": 44.85
+      },
+      {
+        "Name": "XTAPEN (PER AMP)",
+        "Amount": 44.85
+      },
+      {
+        "Name": "AMLODIPINE 10MG (per tab)",
+        "Amount": 46
+      },
+      {
+        "Name": "AMLODIPINE 5MG (PER TAB)",
+        "Amount": 46
+      },
+      {
+        "Name": "BRINERDINE (per tab)",
+        "Amount": 46
+      },
+      {
+        "Name": "BROMHEXINE 8MG (per tab)",
+        "Amount": 46
+      },
+      {
+        "Name": "CENTRUM M/VIT (per tab)",
+        "Amount": 46
+      },
+      {
+        "Name": "CHLORPROMAZINE 50MG INJ (per amp)",
+        "Amount": 46
+      },
+      {
+        "Name": "CHLORPROPAMIDE 250MG (per tab)",
+        "Amount": 46
+      },
+      {
+        "Name": "KETOCONAZOLE 200MG (per tab)",
+        "Amount": 46
+      },
+      {
+        "Name": "LEXOTHAN 3MG (per tab)",
+        "Amount": 46
+      },
+      {
+        "Name": "LISINOPRIL 10MG (per tab)",
+        "Amount": 46
+      },
+      {
+        "Name": "NITRAZEPAM 5MG (per tab)",
+        "Amount": 46
+      },
+      {
+        "Name": "OBRON 6 CAP (per cap)",
+        "Amount": 46
+      },
+      {
+        "Name": "OMEPRAZOLE 20MG (PER TAB).",
+        "Amount": 46
+      },
+      {
+        "Name": "TEGRETOL 200MG (per tab)",
+        "Amount": 46
+      },
+      {
+        "Name": "VIT C INJ (per amp)",
+        "Amount": 46
+      },
+      {
+        "Name": "ZYLORIC 100MG (per tab)",
+        "Amount": 46
+      },
+      {
+        "Name": "ATOVASTATIN 10MG (PER TAB)",
+        "Amount": 48.3
+      },
+      {
+        "Name": "KETRAX (PER TAB).",
+        "Amount": 49.45
+      },
+      {
+        "Name": "Bisoprolol 5mg",
+        "Amount": 50
+      },
+      {
+        "Name": "ASTYMIN (PER TAB).",
+        "Amount": 52.9
+      },
+      {
+        "Name": "EYE ANTIOXIDANT (per tab)",
+        "Amount": 54.05
+      },
+      {
+        "Name": "ACTIVATED CHARCOAL (per cap)",
+        "Amount": 57.5
+      },
+      {
+        "Name": "BENZHEXOL 5MG (per tab)",
+        "Amount": 57.5
+      },
+      {
+        "Name": "CARVEDILOL 25mg(PER TAB)",
+        "Amount": 57.5
+      },
+      {
+        "Name": "CENTRUM SILVER (per tab)",
+        "Amount": 57.5
+      },
+      {
+        "Name": "COARTEM (PER TAB)",
+        "Amount": 57.5
+      },
+      {
+        "Name": "CORDARONE 200MG (per tab)",
+        "Amount": 57.5
+      },
+      {
+        "Name": "DITROPAN 5MG (per tab)",
+        "Amount": 57.5
+      },
+      {
+        "Name": "ERGOMETRINE 0.5MG (PER TAB)",
+        "Amount": 57.5
+      },
+      {
+        "Name": "FERROBIN",
+        "Amount": 57.5
+      },
+      {
+        "Name": "HYOSCINE N BUTYL BROMIDE 20MG (per amp)",
+        "Amount": 57.5
+      },
+      {
+        "Name": "MANIX (per tab)",
+        "Amount": 57.5
+      },
+      {
+        "Name": "MOSEGOR 0.5MG (per tab)",
+        "Amount": 57.5
+      },
+      {
+        "Name": "OMEGA H3 (per cap)",
+        "Amount": 57.5
+      },
+      {
+        "Name": "PRIMOLUT N 5MG (per tab)",
+        "Amount": 57.5
+      },
+      {
+        "Name": "STUGERON 25MG (per tab)",
+        "Amount": 57.5
+      },
+      {
+        "Name": "ALAXIN- P (PER TAB)",
+        "Amount": 59.8
+      },
+      {
+        "Name": "PARACETAMOL 125MG SUPPOSITORY",
+        "Amount": 59.8
+      },
+      {
+        "Name": "LIVOLIN FORTE TABS (per tab)",
+        "Amount": 62.1
+      },
+      {
+        "Name": "PERSANTIN (PER TAB)",
+        "Amount": 62.1
+      },
+      {
+        "Name": "NAPROXEN 500MG (PER TAB)",
+        "Amount": 64.4
+      },
+      {
+        "Name": "ACICLOVIR 200MG (per tab)",
+        "Amount": 69
+      },
+      {
+        "Name": "CALCIUM GLUCONATE INJ (per amp)",
+        "Amount": 69
+      },
+      {
+        "Name": "CARFERGOT 50MG (per tab)",
+        "Amount": 69
+      },
+      {
+        "Name": "CATAFLAM 50MG (per tab)",
+        "Amount": 69
+      },
+      {
+        "Name": "COMBANTRIN 125MG (per tab)",
+        "Amount": 69
+      },
+      {
+        "Name": "EVITOL100MG CAPGEL (per cap)",
+        "Amount": 69
+      },
+      {
+        "Name": "HISTAC 150MG (per tab)",
+        "Amount": 69
+      },
+      {
+        "Name": "HOMTAMIN GINSENG (per tab)",
+        "Amount": 69
+      },
+      {
+        "Name": "HYPOVASE 1MG (per tab)",
+        "Amount": 69
+      },
+      {
+        "Name": "OCUVITE (per tab)",
+        "Amount": 69
+      },
+      {
+        "Name": "OFLOXACIN 200MG (per tab)",
+        "Amount": 69
+      },
+      {
+        "Name": "PEFLOXACIN 400MG (per tab)",
+        "Amount": 69
+      },
+      {
+        "Name": "PREGNACARE (per cap)",
+        "Amount": 69
+      },
+      {
+        "Name": "PROMETHAZINE 50MG INJ (per amp)",
+        "Amount": 69
+      },
+      {
+        "Name": "PROVIRON 25 MG (per tab)",
+        "Amount": 69
+      },
+      {
+        "Name": "REGROTON (per tab)",
+        "Amount": 69
+      },
+      {
+        "Name": "SANATOGEN M/VIT GOLD (per tab)",
+        "Amount": 69
+      },
+      {
+        "Name": "TAVEGYL 1MG (per tab)",
+        "Amount": 69
+      },
+      {
+        "Name": "VIT B COMPLEX INJ (per vial)",
+        "Amount": 69
+      },
+      {
+        "Name": "VIT E 1000 IU NATURE MADE (per tab)",
+        "Amount": 69
+      },
+      {
+        "Name": "HYDRALAZIN 75mg",
+        "Amount": 70
+      },
+      {
+        "Name": "ARTHROTEC (PER TAB)",
+        "Amount": 71.3
+      },
+      {
+        "Name": "BETALOC (PER TAB)",
+        "Amount": 72.45
+      },
+      {
+        "Name": "ARTESUNATE (PER TAB)",
+        "Amount": 74.75
+      },
+      {
+        "Name": "CAMOQUINE 200MG (per tab)",
+        "Amount": 74.75
+      },
+      {
+        "Name": "COARTEM DISPERSIBLE (PER TAB)",
+        "Amount": 74.75
+      },
+      {
+        "Name": "DICYNONE 250MG (per tab)",
+        "Amount": 74.75
+      },
+      {
+        "Name": "FASIGYN 500MG (per tab)",
+        "Amount": 74.75
+      },
+      {
+        "Name": "IMMUNACE (per tab)",
+        "Amount": 74.75
+      },
+      {
+        "Name": "LO-FEMINAL (per sach)",
+        "Amount": 74.75
+      },
+      {
+        "Name": "QUININE INJ 300MG",
+        "Amount": 74.75
+      },
+      {
+        "Name": "ROXID TABS (per tab)",
+        "Amount": 74.75
+      },
+      {
+        "Name": "ROXITHROMYCIN TABS (per tab)",
+        "Amount": 74.75
+      },
+      {
+        "Name": "SUFRATULE (PER PIECE)",
+        "Amount": 74.75
+      },
+      {
+        "Name": "SULPHADEINE PLUS SOLUBLE (per tab)",
+        "Amount": 74.75
+      },
+      {
+        "Name": "CEECAL (per tab)",
+        "Amount": 80.5
+      },
+      {
+        "Name": "FLOXAPEN 125MG/5ML (per cap)",
+        "Amount": 80.5
+      },
+      {
+        "Name": "GSUNATE 100MG (per tab)",
+        "Amount": 80.5
+      },
+      {
+        "Name": "OSTEOCARE (per tab)",
+        "Amount": 80.5
+      },
+      {
+        "Name": "URINE BAG",
+        "Amount": 80.5
+      },
+      {
+        "Name": "DICLOFENAC SUPP 100MG (PER SUPP)",
+        "Amount": 82.8
+      },
+      {
+        "Name": "GLICAZIDE 80MG (PER TAB)",
+        "Amount": 82.8
+      },
+      {
+        "Name": "DOLONUEROBION (per tab)",
+        "Amount": 86.25
+      },
+      {
+        "Name": "METFORMIN 500MG (per tab)",
+        "Amount": 86.25
+      },
+      {
+        "Name": "NEUROBION (per tab)",
+        "Amount": 86.25
+      },
+      {
+        "Name": "TRAXENAMIC ACID TAB",
+        "Amount": 87.4
+      },
+      {
+        "Name": "CHLORAMPHENICOL 500MG INJ/ AMP",
+        "Amount": 89.7
+      },
+      {
+        "Name": "ACARBOSE 50MG (PER TAB)",
+        "Amount": 92
+      },
+      {
+        "Name": "ADALAT RETARD 20MG (per tab)",
+        "Amount": 92
+      },
+      {
+        "Name": "AMINOPHYLLINE INJ 25MG/ML (PER AMP)",
+        "Amount": 92
+      },
+      {
+        "Name": "ARTHOCARE CAP (per tab)",
+        "Amount": 92
+      },
+      {
+        "Name": "CAC 1000 (per tab)",
+        "Amount": 92
+      },
+      {
+        "Name": "CADIOACE (per cap)",
+        "Amount": 92
+      },
+      {
+        "Name": "CIPROTAB 500MG (per tab)",
+        "Amount": 92
+      },
+      {
+        "Name": "CLONIDINE 100MCG (per tab)",
+        "Amount": 92
+      },
+      {
+        "Name": "GERIATIC PHARMATON (per cap)",
+        "Amount": 92
+      },
+      {
+        "Name": "HYDROCORTISONE 100MG INJ (per amp)",
+        "Amount": 92
+      },
+      {
+        "Name": "NATRILIX (PER TAB)",
+        "Amount": 92
+      },
+      {
+        "Name": "PRAZIQUANTEL 600MG (per tab)",
+        "Amount": 92
+      },
+      {
+        "Name": "TEGRETOL CR 400MG (per tab)",
+        "Amount": 92
+      },
+      {
+        "Name": "TETANUS TOXOID (per dose)",
+        "Amount": 92
+      },
+      {
+        "Name": "ZANTAC 300MG (per tab)",
+        "Amount": 92
+      },
+      {
+        "Name": "SECWID 400MG (PER TAB)",
+        "Amount": 93.15
+      },
+      {
+        "Name": "GLIPIZIDE 5MG (PER TAB)",
+        "Amount": 96.6
+      },
+      {
+        "Name": "DIAMICRON (per tab)",
+        "Amount": 97.75
+      },
+      {
+        "Name": "MAXIVISION (per cap)",
+        "Amount": 97.75
+      },
+      {
+        "Name": "ZADITEN 1MG (per tab)",
+        "Amount": 97.75
+      },
+      {
+        "Name": "CO-AMOXICLAV 625MG TAB (PER TAB)",
+        "Amount": 101.2
+      },
+      {
+        "Name": "CLOPIDOGREL(PER TAB)",
+        "Amount": 103.5
+      },
+      {
+        "Name": "DIAZEPAM 10MG (per amp)",
+        "Amount": 103.5
+      },
+      {
+        "Name": "LOSARTAN 60MG PER TAB",
+        "Amount": 103.5
+      },
+      {
+        "Name": "MINIPRESS 1MG (per tab)",
+        "Amount": 103.5
+      },
+      {
+        "Name": "MINIZIDE (per tab)",
+        "Amount": 103.5
+      },
+      {
+        "Name": "CIMETIDINE INJ PER AMP",
+        "Amount": 104.65
+      },
+      {
+        "Name": "GABAPENTRIN(PER TAB)",
+        "Amount": 104.65
+      },
+      {
+        "Name": "LEVOFLOXACIN TAB 500MG",
+        "Amount": 104.65
+      },
+      {
+        "Name": "METHROCABANAMOL (ROBINAX) 500MG",
+        "Amount": 110
+      },
+      {
+        "Name": "CAMOSUNATE 600/200 (PER TAB)",
+        "Amount": 110.4
+      },
+      {
+        "Name": "FLUCONAZOLE 50MG (PER TAB)",
+        "Amount": 112.7
+      },
+      {
+        "Name": "SECNIDAZOLE 500MG(PER TAB)",
+        "Amount": 112.7
+      },
+      {
+        "Name": "ALPHABETHIC CAPLET (per tab)",
+        "Amount": 115
+      },
+      {
+        "Name": "ANNUSOL SUPPOSITORIES (per supp)",
+        "Amount": 115
+      },
+      {
+        "Name": "AVOLAM 150MG (per tab)",
+        "Amount": 115
+      },
+      {
+        "Name": "DAFLON (per tab)",
+        "Amount": 115
+      },
+      {
+        "Name": "DEXAMETHASONE 8MG (per vial)",
+        "Amount": 115
+      },
+      {
+        "Name": "DIGOXIN 0.025MG INL (PER AMP)",
+        "Amount": 115
+      },
+      {
+        "Name": "DUPHASON 10MG (per tab)",
+        "Amount": 115
+      },
+      {
+        "Name": "DYNAMOGEN LIQUID 10MLS (per bot)",
+        "Amount": 115
+      },
+      {
+        "Name": "EUCADIC 3.125MG (per tab)",
+        "Amount": 115
+      },
+      {
+        "Name": "EVADINE 200MG (per tab)",
+        "Amount": 115
+      },
+      {
+        "Name": "FANSIDAR 525MG (per tab)",
+        "Amount": 115
+      },
+      {
+        "Name": "FLUCAMED 50MG (per cap)",
+        "Amount": 115
+      },
+      {
+        "Name": "HISTAC 300MG (per tab)",
+        "Amount": 115
+      },
+      {
+        "Name": "MELOXICAM (per tab)",
+        "Amount": 115
+      },
+      {
+        "Name": "NOSPA TABS 40MG (per tab)",
+        "Amount": 115
+      },
+      {
+        "Name": "ORAL REHYDRATION SALT",
+        "Amount": 115
+      },
+      {
+        "Name": "ORUVAIL 200MG (per cap)",
+        "Amount": 115
+      },
+      {
+        "Name": "PARACETAMOL SYRUP 125MG/5MLS (per bot)",
+        "Amount": 115
+      },
+      {
+        "Name": "TAMSULOSIN(PER TAB)",
+        "Amount": 115
+      },
+      {
+        "Name": "ZANTAC 150MG (per tab)",
+        "Amount": 115
+      },
+      {
+        "Name": "Glimepiride 2mg tab (amaryl)",
+        "Amount": 120
+      },
+      {
+        "Name": "NIZORAL 200MG (per tab)",
+        "Amount": 120.75
+      },
+      {
+        "Name": "SPARFLOXACIN 200MG (per tab)",
+        "Amount": 120.75
+      },
+      {
+        "Name": "VOLTAREN RETARD 100MG (per tab)",
+        "Amount": 120.75
+      },
+      {
+        "Name": "VENTOLIN NEBULES 2.5MG (per neb)",
+        "Amount": 126.5
+      },
+      {
+        "Name": "ARVED 450MG (per tab)",
+        "Amount": 138
+      },
+      {
+        "Name": "CLINITEST TAB (per tab)",
+        "Amount": 138
+      },
+      {
+        "Name": "FRUSEMIDE INJ 20MG (per amp)",
+        "Amount": 138
+      },
+      {
+        "Name": "ROHYPNOL 1MG (per tab)",
+        "Amount": 138
+      },
+      {
+        "Name": "VITAMIN A DROPS",
+        "Amount": 138
+      },
+      {
+        "Name": "ARTEMETER 100MG TAB",
+        "Amount": 140.3
+      },
+      {
+        "Name": "CEFUROXIME 250MG TAB",
+        "Amount": 142.6
+      },
+      {
+        "Name": "NORVASC 5MG (per tab)",
+        "Amount": 143.75
+      },
+      {
+        "Name": "PROGUANIL 100MG (per tab)",
+        "Amount": 143.75
+      },
+      {
+        "Name": "ALFA D O.5CG (per tab)",
+        "Amount": 149.5
+      },
+      {
+        "Name": "AMPICLOX I 500MG INJ (per vial)",
+        "Amount": 149.5
+      },
+      {
+        "Name": "BROMOCRIPTINE 2.5MG (per tab)",
+        "Amount": 149.5
+      },
+      {
+        "Name": "CHLORAMPHENICOL EYE OINT. (per tube)",
+        "Amount": 149.5
+      },
+      {
+        "Name": "CYTOTEC (MISOPROSTOL) 200MCG (PER TAB)",
+        "Amount": 149.5
+      },
+      {
+        "Name": "ERGOMETRINE INJ 1.5MG",
+        "Amount": 149.5
+      },
+      {
+        "Name": "INFERON (PER AMP)",
+        "Amount": 149.5
+      },
+      {
+        "Name": "METAKELFIN (per tab)",
+        "Amount": 149.5
+      },
+      {
+        "Name": "OXYTOCIN 10MG INJ PER AMP",
+        "Amount": 149.5
+      },
+      {
+        "Name": "PARIET 20MG (per tab)",
+        "Amount": 149.5
+      },
+      {
+        "Name": "STREPTOMYCIN 5MG INJ (per vial)",
+        "Amount": 149.5
+      },
+      {
+        "Name": "VIT B COMPLEX SYRUP (per bot)",
+        "Amount": 149.5
+      },
+      {
+        "Name": "VIT K INJ (per amp)",
+        "Amount": 149.5
+      },
+      {
+        "Name": "ZADITEN 2MG (per tab)",
+        "Amount": 149.5
+      },
+      {
+        "Name": "ZENTEL (PER TAB)",
+        "Amount": 149.5
+      },
+      {
+        "Name": "ESSENTIAL FORTE CAP (per cap)",
+        "Amount": 161
+      },
+      {
+        "Name": "DULCOLAX SUPP (PER SUPP)",
+        "Amount": 164.45
+      },
+      {
+        "Name": "FELDENE 20MG (per cap)",
+        "Amount": 166.75
+      },
+      {
+        "Name": "AVOCOMB 450MG (per tab)",
+        "Amount": 172.5
+      },
+      {
+        "Name": "CLOMID 50MG (per tab)",
+        "Amount": 172.5
+      },
+      {
+        "Name": "EUCARDIC 25MG (per tab)",
+        "Amount": 172.5
+      },
+      {
+        "Name": "TRAMAL 50MG (per cap)",
+        "Amount": 172.5
+      },
+      {
+        "Name": "CLINDAMYCIN HCL 300MG CAP (per cap)",
+        "Amount": 177.1
+      },
+      {
+        "Name": "BENZYL BENZOATE OINTMENT (per bot)",
+        "Amount": 184
+      },
+      {
+        "Name": "CADURA 4MG PER TAB",
+        "Amount": 184
+      },
+      {
+        "Name": "CALAMINE LOTION 100MLS (per bot)",
+        "Amount": 184
+      },
+      {
+        "Name": "FOLEY'S CATHETER (per piece)",
+        "Amount": 184
+      },
+      {
+        "Name": "PENTAZOCINE 30MG INJ (per amp)",
+        "Amount": 184
+      },
+      {
+        "Name": "TRADYL 100MG INJ (per amp)",
+        "Amount": 184
+      },
+      {
+        "Name": "UNASYN (PER TAB)",
+        "Amount": 184
+      },
+      {
+        "Name": "VIT C SYRUP (per bot)",
+        "Amount": 184
+      },
+      {
+        "Name": "TRAMADOL 50MG INJ. (per vial)",
+        "Amount": 194.35
+      },
+      {
+        "Name": "CHLORAMPHENICOL EAR DROP (per bot)",
+        "Amount": 195.5
+      },
+      {
+        "Name": "ROSUVASTATIN",
+        "Amount": 200
+      },
+      {
+        "Name": "CO-MICARDIL (PER TAB)",
+        "Amount": 201.25
+      },
+      {
+        "Name": "ADRENALIN INJ 1MG (per amp)",
+        "Amount": 207
+      },
+      {
+        "Name": "MIST KAOLIN (per bot)",
+        "Amount": 207
+      },
+      {
+        "Name": "PAROXETIN 100MG(PER TAB)",
+        "Amount": 207
+      },
+      {
+        "Name": "TARIVID 200MG (per tab)",
+        "Amount": 207
+      },
+      {
+        "Name": "CEFUROXIME 500MG TAB",
+        "Amount": 209.3
+      },
+      {
+        "Name": "MIST MAG. (PER BOT).",
+        "Amount": 209.3
+      },
+      {
+        "Name": "CO-TRIMAZOLE 240MG/5ML (per bot)",
+        "Amount": 212.75
+      },
+      {
+        "Name": "ATROPINE 6OOMG INJ (per amp)",
+        "Amount": 218.5
+      },
+      {
+        "Name": "BRONCHOLYTE 4MG/5ML ELIXIR (per bot)",
+        "Amount": 218.5
+      },
+      {
+        "Name": "CO-DIOVAN (per tab)",
+        "Amount": 218.5
+      },
+      {
+        "Name": "COLIPAN ALIXIR 5MG/5ML-100ML (per bot)",
+        "Amount": 218.5
+      },
+      {
+        "Name": "DIOVAN 80MG (per cap)",
+        "Amount": 218.5
+      },
+      {
+        "Name": "ITRANOX (per cap)",
+        "Amount": 218.5
+      },
+      {
+        "Name": "ITRANOX 100MG (per tab)",
+        "Amount": 218.5
+      },
+      {
+        "Name": "PEFLACINE 400MG (per tab)",
+        "Amount": 218.5
+      },
+      {
+        "Name": "PROMETHAZINE 5MG/5MG ELIXIR (per bot)",
+        "Amount": 218.5
+      },
+      {
+        "Name": "CHLORAMPHENICOL SYRUP",
+        "Amount": 223.1
+      },
+      {
+        "Name": "ARTEMETER 80MG INJ (PER AMP)",
+        "Amount": 224.25
+      },
+      {
+        "Name": "GENTAMYCIN EYE/EAR DROP (per bot)",
+        "Amount": 224.25
+      },
+      {
+        "Name": "HYDROXYPREGESTERONE (PER TAB)",
+        "Amount": 224.25
+      },
+      {
+        "Name": "LESCOL 20MG (per cap)",
+        "Amount": 224.25
+      },
+      {
+        "Name": "TENORETIC (per tab)",
+        "Amount": 224.25
+      },
+      {
+        "Name": "VALIUM 10MG (per amp)",
+        "Amount": 224.25
+      },
+      {
+        "Name": "VENTOLIN NEBULES 5MG (per neb)",
+        "Amount": 224.25
+      },
+      {
+        "Name": "WHITFIELD OINTMENT 20G (per tube)",
+        "Amount": 224.25
+      },
+      {
+        "Name": "ZOLAT SYRUP",
+        "Amount": 224.25
+      },
+      {
+        "Name": "DETRUSITOL 2MG (per tab)",
+        "Amount": 230
+      },
+      {
+        "Name": "FOLIC ACID SYRUP",
+        "Amount": 230
+      },
+      {
+        "Name": "GLYCERYLTRINITRATE (PER TAB)",
+        "Amount": 230
+      },
+      {
+        "Name": "GYNODAKTARIN 200MG (per ovule)",
+        "Amount": 230
+      },
+      {
+        "Name": "METRONIDAZOLE INFUSION (per inf)",
+        "Amount": 230
+      },
+      {
+        "Name": "PENICILLIN OINTMENT (PER TUBE)",
+        "Amount": 230
+      },
+      {
+        "Name": "MECTIZAN (IVERMECTIN) 3MG (per tab)",
+        "Amount": 241.5
+      },
+      {
+        "Name": "CLARITHROMYCIN 500MG (per cap)",
+        "Amount": 253
+      },
+      {
+        "Name": "COFEX SYRUP (PER BOT)",
+        "Amount": 254.15
+      },
+      {
+        "Name": "ABAKTAL 400MG (per amp)",
+        "Amount": 264.5
+      },
+      {
+        "Name": "CANDESARTAN 80MG PER TAB",
+        "Amount": 264.5
+      },
+      {
+        "Name": "NORVASC 10MG (per tab)",
+        "Amount": 264.5
+      },
+      {
+        "Name": "SIMVOR 20MG (per tab)",
+        "Amount": 264.5
+      },
+      {
+        "Name": "AFRABVITE DROPS (PER BOT)",
+        "Amount": 269.1
+      },
+      {
+        "Name": "MULTIVITE SYRUP (per bot)",
+        "Amount": 269.1
+      },
+      {
+        "Name": "NOSPAMIN DROPS",
+        "Amount": 269.1
+      },
+      {
+        "Name": "AMPICLOX 250MG/5ML-100ML (per bot)",
+        "Amount": 270.25
+      },
+      {
+        "Name": "MYCOTEN CREAM 20G (per tube)",
+        "Amount": 270.25
+      },
+      {
+        "Name": "ZESTORETIC (per tab)",
+        "Amount": 270.25
+      },
+      {
+        "Name": "AVANDA 4MG (per tab)",
+        "Amount": 276
+      },
+      {
+        "Name": "BENYLIN EXPECTORANT 100MLS (per bot)",
+        "Amount": 276
+      },
+      {
+        "Name": "CELEBREX 200MG (per cap)",
+        "Amount": 276
+      },
+      {
+        "Name": "HYDROCORTISONE 15MG (per tube)",
+        "Amount": 276
+      },
+      {
+        "Name": "ZINNAT 250MG (per tab)",
+        "Amount": 281.75
+      },
+      {
+        "Name": "BONJELA GEL 10G (per tube)",
+        "Amount": 287.5
+      },
+      {
+        "Name": "GENTAMYCIN CREAM 15G (per tube)",
+        "Amount": 287.5
+      },
+      {
+        "Name": "ZOLOFT 50MG (per cap)",
+        "Amount": 287.5
+      },
+      {
+        "Name": "BROMHEXINE SYRUP",
+        "Amount": 299
+      },
+      {
+        "Name": "CICATRIN POWDER (per bot)",
+        "Amount": 299
+      },
+      {
+        "Name": "DARROWS SOLUTION 1/2 strength (per inf)",
+        "Amount": 299
+      },
+      {
+        "Name": "DARROWS SOLUTION FULL strength (per inf)",
+        "Amount": 299
+      },
+      {
+        "Name": "ERYTHROMYCIN 125MG/5ML (per bot)",
+        "Amount": 299
+      },
+      {
+        "Name": "IBUPROFEN 100MG/5ML (per bot)",
+        "Amount": 299
+      },
+      {
+        "Name": "LINCOMYCIN INJ 300MG (PER AMP)",
+        "Amount": 299
+      },
+      {
+        "Name": "PIRITON EXPECTORANT 100MLS (per bot)",
+        "Amount": 299
+      },
+      {
+        "Name": "ZENTEL SUSP 400MG/20ML (per bot)",
+        "Amount": 299
+      },
+      {
+        "Name": "Ex-forge tab 10mg/160mg",
+        "Amount": 300
+      },
+      {
+        "Name": "AMOXYL 500MG INJ/ AMP",
+        "Amount": 328.9
+      },
+      {
+        "Name": "NOSPA INJ (PER AMP)",
+        "Amount": 328.9
+      },
+      {
+        "Name": "METRONIDAZOLE 200MG/5ML (per bot)",
+        "Amount": 333.5
+      },
+      {
+        "Name": "POTASSIUM CHLORIDE 3MG INJ (AMP)",
+        "Amount": 343.85
+      },
+      {
+        "Name": "APRESOLINE 20MG INJ (per amp)",
+        "Amount": 345
+      },
+      {
+        "Name": "CANDESARTAN 160MG PER TAB",
+        "Amount": 345
+      },
+      {
+        "Name": "EUCADIC 12.5MG (per tab)",
+        "Amount": 345
+      },
+      {
+        "Name": "GALVUS-MET 50/100",
+        "Amount": 350
+      },
+      {
+        "Name": "PROSCAR 5MG (per tab)",
+        "Amount": 356.5
+      },
+      {
+        "Name": "FUNBACT CREAM",
+        "Amount": 373.75
+      },
+      {
+        "Name": "MIST POTASSIUM CITRATE (per bot)",
+        "Amount": 373.75
+      },
+      {
+        "Name": "MODECATE 25MG INJ (per amp)",
+        "Amount": 373.75
+      },
+      {
+        "Name": "NYSTATIN (PER TAB)",
+        "Amount": 373.75
+      },
+      {
+        "Name": "PARALDEHYDE INJ",
+        "Amount": 373.75
+      },
+      {
+        "Name": "PHENOBARBITONE SYRUP (PER BOT)",
+        "Amount": 373.75
+      },
+      {
+        "Name": "RANFERON BLOOD TONIC 200MLS (per bot)",
+        "Amount": 373.75
+      },
+      {
+        "Name": "SABRESTEN CREAM DERMAL (per tube)",
+        "Amount": 373.75
+      },
+      {
+        "Name": "SINUFED SYRUP (per bot)",
+        "Amount": 373.75
+      },
+      {
+        "Name": "SODIUM BICARBONATE 8.4% INJ (per amp)",
+        "Amount": 373.75
+      },
+      {
+        "Name": "OLANZAPINE 5MG (per tab)",
+        "Amount": 391
+      },
+      {
+        "Name": "BENZYL PEROXIDE 10 LOTION (per tube)",
+        "Amount": 425.5
+      },
+      {
+        "Name": "BIOCOTEN CREAM 20G (per tube)",
+        "Amount": 425.5
+      },
+      {
+        "Name": "DERMAZINE CREAM 25MG (per tube)",
+        "Amount": 425.5
+      },
+      {
+        "Name": "NEUROGESIC GEL (per tube)",
+        "Amount": 425.5
+      },
+      {
+        "Name": "DILOXANIDE FUROATE 500MG (per tab)",
+        "Amount": 437
+      },
+      {
+        "Name": "ACCOLATE 20MG (per tab)",
+        "Amount": 448.5
+      },
+      {
+        "Name": "BETNESOL EYE OINTMENT",
+        "Amount": 448.5
+      },
+      {
+        "Name": "BETROSIL CREAM (per tube)",
+        "Amount": 448.5
+      },
+      {
+        "Name": "CANDIBIOTIC EAR DROPS",
+        "Amount": 448.5
+      },
+      {
+        "Name": "COMBANTRIN 250MG/5ML (per bot)",
+        "Amount": 448.5
+      },
+      {
+        "Name": "CYCLOGEST 400MG PESSARY (per pess)",
+        "Amount": 448.5
+      },
+      {
+        "Name": "FUNGISOL POWDER 20MG (per bot)",
+        "Amount": 448.5
+      },
+      {
+        "Name": "OTOMED EAR DROP (per bot)",
+        "Amount": 448.5
+      },
+      {
+        "Name": "QUININE SYRUP 200MLS (per bot)",
+        "Amount": 448.5
+      },
+      {
+        "Name": "BEOPTIC EAR DROP (per bot)",
+        "Amount": 460
+      },
+      {
+        "Name": "GYNODAKTARIN 400MG (per ovule)",
+        "Amount": 460
+      },
+      {
+        "Name": "PREDNISOLONE EYE DROP (PER BOT).",
+        "Amount": 460
+      },
+      {
+        "Name": "Blood Grouping",
+        "Amount": 500
+      },
+      {
+        "Name": "PCV/Haemoglobin",
+        "Amount": 500
+      },
+      {
+        "Name": "NEXIUM TABS (per tab)",
+        "Amount": 506
+      },
+      {
+        "Name": "FELDENE INJ 20MG (per amp)",
+        "Amount": 523.25
+      },
+      {
+        "Name": "PARAFIN LIQUID (per bot)",
+        "Amount": 523.25
+      },
+      {
+        "Name": "MANNITOL INFUSION 10%",
+        "Amount": 568.1
+      },
+      {
+        "Name": "ARTEMETHER SUSUPENSION (PER BOT)",
+        "Amount": 575
+      },
+      {
+        "Name": "OROFER SYRUP",
+        "Amount": 575
+      },
+      {
+        "Name": "POLYCROL FORTE GEL 100MLS (per bot)",
+        "Amount": 575
+      },
+      {
+        "Name": "POTASSIUM PERMANGANATE",
+        "Amount": 575
+      },
+      {
+        "Name": "VICRYL(PER STOOL)",
+        "Amount": 575
+      },
+      {
+        "Name": "BENYLIN WITH CODEINE (per bot)",
+        "Amount": 598
+      },
+      {
+        "Name": "CAMOSUNATE SUSP",
+        "Amount": 598
+      },
+      {
+        "Name": "CEPHALEXIN 125MG SYR",
+        "Amount": 598
+      },
+      {
+        "Name": "DERMAZINE CREAM 50MG (per tube)",
+        "Amount": 598
+      },
+      {
+        "Name": "GESTID 200ML (per bot)",
+        "Amount": 598
+      },
+      {
+        "Name": "HYPOMELLOSE EYE DROP (per bot)",
+        "Amount": 598
+      },
+      {
+        "Name": "LAMISIL 250MG (per tab)",
+        "Amount": 598
+      },
+      {
+        "Name": "MYCOTEN OVULE 100MG (per ovule)",
+        "Amount": 598
+      },
+      {
+        "Name": "PYRAZINAMIDE SYRUP (per bot)",
+        "Amount": 598
+      },
+      {
+        "Name": "SABRESTEN VAG CREAM (per tube)",
+        "Amount": 598
+      },
+      {
+        "Name": "SYNTOCINON INJ (per amp)",
+        "Amount": 598
+      },
+      {
+        "Name": "TRANXEMIC ACID 5MG INJ (PER AMP)",
+        "Amount": 598
+      },
+      {
+        "Name": "ARTESUNATE SYR (PER BOT)",
+        "Amount": 609.5
+      },
+      {
+        "Name": "DICYNONE 250MG (per amp)",
+        "Amount": 632.5
+      },
+      {
+        "Name": "ZEFFIX 100MG (per tab)",
+        "Amount": 644
+      },
+      {
+        "Name": "CASTOR OIL (PER BOT)",
+        "Amount": 672.75
+      },
+      {
+        "Name": "MENTHODEX (per bot)",
+        "Amount": 672.75
+      },
+      {
+        "Name": "NYSTATIN CREAM (PER TUBE)",
+        "Amount": 672.75
+      },
+      {
+        "Name": "SALBUTAMOL SYRUP (PER BOT)",
+        "Amount": 672.75
+      },
+      {
+        "Name": "OTRIVIN NASAL DROPS 0.05% 10MLS (per bot)",
+        "Amount": 678.5
+      },
+      {
+        "Name": "CAMOSUNATE TAB (PER PACK)",
+        "Amount": 687.7
+      },
+      {
+        "Name": "IVYZINC",
+        "Amount": 690
+      },
+      {
+        "Name": "Tetanus Toxoid/ATS Each",
+        "Amount": 700
+      },
+      {
+        "Name": "Skin Snip For Microfilaria",
+        "Amount": 700
+      },
+      {
+        "Name": "Hb Genotype",
+        "Amount": 700
+      },
+      {
+        "Name": "Cross Matching",
+        "Amount": 700
+      },
+      {
+        "Name": "DEXTROSE 10% INFUSION",
+        "Amount": 700
+      },
+      {
+        "Name": "DEXTROSE 4.3% / NORMAL SALINE (per inf)",
+        "Amount": 700
+      },
+      {
+        "Name": "DEXTROSE 5% (per inf)",
+        "Amount": 700
+      },
+      {
+        "Name": "DEXTROSE 50% (per inf)",
+        "Amount": 700
+      },
+      {
+        "Name": "DEXTROSE SALINE 5%",
+        "Amount": 700
+      },
+      {
+        "Name": "NORMAL SALINE",
+        "Amount": 700
+      },
+      {
+        "Name": "RINGERS LACTATE INJ",
+        "Amount": 700
+      },
+      {
+        "Name": "AMIKACIN INJ",
+        "Amount": 717.6
+      },
+      {
+        "Name": "KENACOMB CREAM (per tube)",
+        "Amount": 717.6
+      },
+      {
+        "Name": "SALBUTAMOL 100MCG INHALER (per piece)",
+        "Amount": 718.75
+      },
+      {
+        "Name": "SALICYLIC ACID OINT 20% (per bot)",
+        "Amount": 718.75
+      },
+      {
+        "Name": "OTRIVIN NASAL DROP 0.1% 10MLS (per bot)",
+        "Amount": 724.5
+      },
+      {
+        "Name": "ALAXIN SUSP 10MG/5ML-80ML (per bot)",
+        "Amount": 747.5
+      },
+      {
+        "Name": "CERUMOL EAR DROP (per bot)",
+        "Amount": 747.5
+      },
+      {
+        "Name": "EUCALYPTUS OIL (per bot)",
+        "Amount": 747.5
+      },
+      {
+        "Name": "ONDANSETRONE INJ (PER AMP)",
+        "Amount": 747.5
+      },
+      {
+        "Name": "SKINHEAL CREAM (PER TUBE)",
+        "Amount": 747.5
+      },
+      {
+        "Name": "UNASYN INJECTION (PER AMP)",
+        "Amount": 747.5
+      },
+      {
+        "Name": "VENTOLIN SYRUP 5MG/VIAL (per bot)",
+        "Amount": 747.5
+      },
+      {
+        "Name": "RANITHIDINE INJ 50MG (PER AMP)",
+        "Amount": 770.5
+      },
+      {
+        "Name": "MIXTARD INSULIN PER 40 I.U/ ML",
+        "Amount": 777.4
+      },
+      {
+        "Name": "Nursing Care Per Diem",
+        "Amount": 800
+      },
+      {
+        "Name": "Sodium/Chloride/Potassium/Bicarbonate Each",
+        "Amount": 800
+      },
+      {
+        "Name": "Fasting Blood Sugar/Random Blood Sugar Each",
+        "Amount": 800
+      },
+      {
+        "Name": "Urinalysis",
+        "Amount": 800
+      },
+      {
+        "Name": "Urine Pregnancy Test",
+        "Amount": 800
+      },
+      {
+        "Name": "Microscopy Stool/Urine Each",
+        "Amount": 800
+      },
+      {
+        "Name": "Stool Ocult Blood",
+        "Amount": 800
+      },
+      {
+        "Name": "Malaria Parasite",
+        "Amount": 800
+      },
+      {
+        "Name": "ESR Westergren",
+        "Amount": 800
+      },
+      {
+        "Name": "BETROSIL CREAM",
+        "Amount": 800
+      },
+      {
+        "Name": "DEPO PROVERA INJ (per vial)",
+        "Amount": 805
+      },
+      {
+        "Name": "Optodexin",
+        "Amount": 805
+      },
+      {
+        "Name": "AZITHROMYCIN (per cap)",
+        "Amount": 816.5
+      },
+      {
+        "Name": "ACICLOVIR CREAM 10MG (per tube)",
+        "Amount": 822.25
+      },
+      {
+        "Name": "APPATIM EYE DROP",
+        "Amount": 822.25
+      },
+      {
+        "Name": "CEPHALEXIN 250MG SYR",
+        "Amount": 822.25
+      },
+      {
+        "Name": "INTERFLOX 500MG (per cap)",
+        "Amount": 822.25
+      },
+      {
+        "Name": "OMEPRAZOLE 40MG INJ (PER AMP)",
+        "Amount": 822.25
+      },
+      {
+        "Name": "SPERSALLERGE EYE DROP (per bot)",
+        "Amount": 822.25
+      },
+      {
+        "Name": "TIMOLOL EYE DROP 0.5% (per bot)",
+        "Amount": 822.25
+      },
+      {
+        "Name": "ARTEMEF TAB (PER PACK)",
+        "Amount": 837.2
+      },
+      {
+        "Name": "IVYCROM EYE DROP",
+        "Amount": 837.2
+      },
+      {
+        "Name": "CANDERIL SWEETNER POWDER (per tab)",
+        "Amount": 862.5
+      },
+      {
+        "Name": "CIPROFLOXACIN 200MG INFUSION (per bot)",
+        "Amount": 862.5
+      },
+      {
+        "Name": "ASTYMINE (per bot)",
+        "Amount": 897
+      },
+      {
+        "Name": "BRONCHICUM (per bot)",
+        "Amount": 897
+      },
+      {
+        "Name": "CAMOQUINE 50MG/5ML-60ML (per bot)",
+        "Amount": 897
+      },
+      {
+        "Name": "CIPROFLOXACIN EYE DROP",
+        "Amount": 897
+      },
+      {
+        "Name": "DAKTACORT PESSARIES",
+        "Amount": 897
+      },
+      {
+        "Name": "HYCOMYCIN EYEDROP (per bot)",
+        "Amount": 897
+      },
+      {
+        "Name": "IVYDEXGENT (PER BOT)",
+        "Amount": 897
+      },
+      {
+        "Name": "IVYMORCELL EYE DROP",
+        "Amount": 897
+      },
+      {
+        "Name": "LOKMAL (per pack",
+        "Amount": 897
+      },
+      {
+        "Name": "LORATIDE SYRUP",
+        "Amount": 897
+      },
+      {
+        "Name": "MELROSUM WITH CODEIN 100ML (per bot)",
+        "Amount": 897
+      },
+      {
+        "Name": "MILK OF MAGNESIA(100MLS)",
+        "Amount": 897
+      },
+      {
+        "Name": "NYSTATIN ORAL DROPS 30MLS (per bot)",
+        "Amount": 897
+      },
+      {
+        "Name": "PHENEGAN CREAM 2% 30G (per tube)",
+        "Amount": 897
+      },
+      {
+        "Name": "PILOCARPINE EYE DROP 2% (per bot)",
+        "Amount": 897
+      },
+      {
+        "Name": "PIOGLITAZONE HCL 30MG (PER TAB).",
+        "Amount": 897
+      },
+      {
+        "Name": "SODIUM CHROMOGLYCATE EYE DROP (per bot)",
+        "Amount": 897
+      },
+      {
+        "Name": "Alkaline Prosphatase",
+        "Amount": 900
+      },
+      {
+        "Name": "Bence Jones Protein",
+        "Amount": 900
+      },
+      {
+        "Name": "CEFTRIAZONE INJ 500MG",
+        "Amount": 900
+      },
+      {
+        "Name": "CO-AMOXICLAV 1.2G (PER AMP)",
+        "Amount": 956.8
+      },
+      {
+        "Name": "ANTISIN-PRIVIN EYE DROP-10ML (per bot)",
+        "Amount": 971.75
+      },
+      {
+        "Name": "CEFUROXIME 750MG INJ",
+        "Amount": 971.75
+      },
+      {
+        "Name": "DIFLUCAN PER TAB",
+        "Amount": 971.75
+      },
+      {
+        "Name": "GYNOTROSID 100MG (per ovule)",
+        "Amount": 971.75
+      },
+      {
+        "Name": "LEVOFLOXACIN INF 100ML",
+        "Amount": 971.75
+      },
+      {
+        "Name": "NIZORAL CREAM 15MG (per tube)",
+        "Amount": 971.75
+      },
+      {
+        "Name": "PILOCARPINE EYE DROP 4% (per bot)",
+        "Amount": 971.75
+      },
+      {
+        "Name": "VISINE EYE DROP (per bot)",
+        "Amount": 971.75
+      },
+      {
+        "Name": "ZINACEF 750MG INJ (per vial)",
+        "Amount": 971.75
+      },
+      {
+        "Name": "BENZYL PEROXIDE 5 LOTION (per tube)",
+        "Amount": 977.5
+      },
+      {
+        "Name": "FLOXAPEN 125MG/5ML (per bot)",
+        "Amount": 977.5
+      },
+      {
+        "Name": "Registration (Out Of Station Emergencies)",
+        "Amount": 1000
+      },
+      {
+        "Name": "General Consultation-Follow Up (Out patient)",
+        "Amount": 1000
+      },
+      {
+        "Name": "Intensive care-Adult",
+        "Amount": 1000
+      },
+      {
+        "Name": "Minor Wound Dressing/Day",
+        "Amount": 1000
+      },
+      {
+        "Name": "Urea/Creatinine Each",
+        "Amount": 1000
+      },
+      {
+        "Name": "Calcium/Uric Acid/Phosphorus Each",
+        "Amount": 1000
+      },
+      {
+        "Name": "SGOT/SGPT Each",
+        "Amount": 1000
+      },
+      {
+        "Name": "Total Acid Phosphatase/Prostatic Each",
+        "Amount": 1000
+      },
+      {
+        "Name": "Total Protein/Albumin Each",
+        "Amount": 1000
+      },
+      {
+        "Name": "Cholesterol",
+        "Amount": 1000
+      },
+      {
+        "Name": "CSF Glucose",
+        "Amount": 1000
+      },
+      {
+        "Name": "AFB For TB (ZN Staining) Each",
+        "Amount": 1000
+      },
+      {
+        "Name": "Skin Scraping For Fungal Studies",
+        "Amount": 1000
+      },
+      {
+        "Name": "Gram Staining",
+        "Amount": 1000
+      },
+      {
+        "Name": "Widal",
+        "Amount": 1000
+      },
+      {
+        "Name": "Pregnancy Test-HCG (Blood)",
+        "Amount": 1000
+      },
+      {
+        "Name": "Direct/Indirect Coombs Test Each",
+        "Amount": 1000
+      },
+      {
+        "Name": "WBC (Total)",
+        "Amount": 1000
+      },
+      {
+        "Name": "WBC (Differential)",
+        "Amount": 1000
+      },
+      {
+        "Name": "Red Cell Count",
+        "Amount": 1000
+      },
+      {
+        "Name": "Platelet Count",
+        "Amount": 1000
+      },
+      {
+        "Name": "Reticulocyte Count",
+        "Amount": 1000
+      },
+      {
+        "Name": "Peripheral Blood Film",
+        "Amount": 1000
+      },
+      {
+        "Name": "MCV/MCH/MCHC Each",
+        "Amount": 1000
+      },
+      {
+        "Name": "Bleeding/Clotting Time Each",
+        "Amount": 1000
+      },
+      {
+        "Name": "Prothrombin/Thromboplastin Time Each",
+        "Amount": 1000
+      },
+      {
+        "Name": "HCV",
+        "Amount": 1000
+      },
+      {
+        "Name": "BEOPTIC EYE (per bot)",
+        "Amount": 1035
+      },
+      {
+        "Name": "FELDENE GEL (per tube)",
+        "Amount": 1035
+      },
+      {
+        "Name": "GESTONE 50MG (per amp)",
+        "Amount": 1035
+      },
+      {
+        "Name": "CROMAX 4 EYE DROP",
+        "Amount": 1046.5
+      },
+      {
+        "Name": "SALINE NASAL DROP (per tab)",
+        "Amount": 1046.5
+      },
+      {
+        "Name": "STARXON (per vial)",
+        "Amount": 1046.5
+      },
+      {
+        "Name": "CEFIXIME SYR (PER BOT)",
+        "Amount": 1092.5
+      },
+      {
+        "Name": "CO AMOXICLAV 312.5MG SUSP (PER BOT).",
+        "Amount": 1121.25
+      },
+      {
+        "Name": "DEPOMEDROL 40MG (per vial)",
+        "Amount": 1121.25
+      },
+      {
+        "Name": "E-45 CREAM (per tube)",
+        "Amount": 1121.25
+      },
+      {
+        "Name": "ACTIFIED SYRUP",
+        "Amount": 1150
+      },
+      {
+        "Name": "BIVACYN SPRAY (per pack)",
+        "Amount": 1150
+      },
+      {
+        "Name": "DEDEON HB 280ML (per bot)",
+        "Amount": 1150
+      },
+      {
+        "Name": "DETRUSITOL XL 4MG (per cap)",
+        "Amount": 1150
+      },
+      {
+        "Name": "ENCEPHABOL SYR 100MLS (per bot)",
+        "Amount": 1150
+      },
+      {
+        "Name": "KETOLAC INJ",
+        "Amount": 1150
+      },
+      {
+        "Name": "AMOKSIKLAV 156.25MG/5MLS-100MLS (per bot)",
+        "Amount": 1196
+      },
+      {
+        "Name": "BUNETROL (PER INF)",
+        "Amount": 1196
+      },
+      {
+        "Name": "CETRIXINE",
+        "Amount": 1196
+      },
+      {
+        "Name": "CETRIZINE SYRUP",
+        "Amount": 1196
+      },
+      {
+        "Name": "CIKLAVIT 200MLS (per bot)",
+        "Amount": 1196
+      },
+      {
+        "Name": "FEROGLOBIN 200ML (per bot)",
+        "Amount": 1196
+      },
+      {
+        "Name": "MAXIDEX EYE DROP (per bot)",
+        "Amount": 1196
+      },
+      {
+        "Name": "MYDRIACYL EYE DROP (per bot)",
+        "Amount": 1196
+      },
+      {
+        "Name": "SOLUSET (per piece)",
+        "Amount": 1196
+      },
+      {
+        "Name": "VENTOLIN INHALER (per pack)",
+        "Amount": 1196
+      },
+      {
+        "Name": "Tryglyceride",
+        "Amount": 1200
+      },
+      {
+        "Name": "LDL",
+        "Amount": 1200
+      },
+      {
+        "Name": "HDL",
+        "Amount": 1200
+      },
+      {
+        "Name": "Urine M/C/S",
+        "Amount": 1200
+      },
+      {
+        "Name": "Stool M/C/S",
+        "Amount": 1200
+      },
+      {
+        "Name": "HVS/Urethral Swab M/C/S Each",
+        "Amount": 1200
+      },
+      {
+        "Name": "Ear/Nose/Throat Swab M/C/S Each",
+        "Amount": 1200
+      },
+      {
+        "Name": "Sputum M/C/S",
+        "Amount": 1200
+      },
+      {
+        "Name": "CSF M/C/S",
+        "Amount": 1200
+      },
+      {
+        "Name": "Wound/Pus/Aspirate M/C/S Each",
+        "Amount": 1200
+      },
+      {
+        "Name": "Culture (Fungal)",
+        "Amount": 1200
+      },
+      {
+        "Name": "Semen M/C/S",
+        "Amount": 1200
+      },
+      {
+        "Name": "Semen Analysis",
+        "Amount": 1200
+      },
+      {
+        "Name": "Rheumatoid Factor",
+        "Amount": 1200
+      },
+      {
+        "Name": "Hepatitis B Surface Antigen Screening (HbsAg)",
+        "Amount": 1200
+      },
+      {
+        "Name": "Hepatitis A",
+        "Amount": 1200
+      },
+      {
+        "Name": "Ear Swap M/C/S",
+        "Amount": 1200
+      },
+      {
+        "Name": "Hepatitis C screening",
+        "Amount": 1200
+      },
+      {
+        "Name": "CLAVAM 228MG/5ML-100MLS (per bot)",
+        "Amount": 1265
+      },
+      {
+        "Name": "CLOBETASOL 45G CREAM (per tube)",
+        "Amount": 1265
+      },
+      {
+        "Name": "GESTONE 100MG (per amp)",
+        "Amount": 1265
+      },
+      {
+        "Name": "NEPAFLAM EYE DROP",
+        "Amount": 1265
+      },
+      {
+        "Name": "BETAMETHASONE SODIUM EYE DROP",
+        "Amount": 1270.75
+      },
+      {
+        "Name": "DERMOVATE CREAM 25G (per tube)",
+        "Amount": 1270.75
+      },
+      {
+        "Name": "RHINATHIOL SYRUP (per 100ml bot)",
+        "Amount": 1270.75
+      },
+      {
+        "Name": "SYRUP FLUCAMED",
+        "Amount": 1285.7
+      },
+      {
+        "Name": "AMPICLOX DROPS",
+        "Amount": 1345.5
+      },
+      {
+        "Name": "ANTHISAN CREAM 25MG (per tube)",
+        "Amount": 1345.5
+      },
+      {
+        "Name": "CEFTAZIDINE 1G ING",
+        "Amount": 1345.5
+      },
+      {
+        "Name": "DAKTACORT CREAM (PER TUBE)",
+        "Amount": 1345.5
+      },
+      {
+        "Name": "NYOLOL 0.5 EYE DROP (per bot)",
+        "Amount": 1345.5
+      },
+      {
+        "Name": "TEAR NATURALE EYE DROP (per bot)",
+        "Amount": 1345.5
+      },
+      {
+        "Name": "BETNESOL EYE/ EAR/ NOSE DROP (per bot)",
+        "Amount": 1380
+      },
+      {
+        "Name": "COARTEM (per pack)",
+        "Amount": 1380
+      },
+      {
+        "Name": "EURAX CREAM (per tube)",
+        "Amount": 1380
+      },
+      {
+        "Name": "GATE DPX EYE DROP",
+        "Amount": 1380
+      },
+      {
+        "Name": "GYNOTROSID 300MG (per ovule)",
+        "Amount": 1380
+      },
+      {
+        "Name": "Total/Direct Bilirubin Each",
+        "Amount": 1400
+      },
+      {
+        "Name": "ABIDEC DROP",
+        "Amount": 1420.25
+      },
+      {
+        "Name": "DEPIXOL 20MG (per amp)",
+        "Amount": 1420.25
+      },
+      {
+        "Name": "LOCASALENE CREAM 30MG (per tube)",
+        "Amount": 1420.25
+      },
+      {
+        "Name": "MAXITROL EYE DROP (per bot)",
+        "Amount": 1420.25
+      },
+      {
+        "Name": "NYOLOL OPTHALMIC GEL 0.1% 5G (per bot)",
+        "Amount": 1420.25
+      },
+      {
+        "Name": "TOBRAMYCIN OINTMENT",
+        "Amount": 1420.25
+      },
+      {
+        "Name": "TOBREX EYE DROP",
+        "Amount": 1420.25
+      },
+      {
+        "Name": "TRAVOCORT CREAM (per tab)",
+        "Amount": 1420.25
+      },
+      {
+        "Name": "CALPOL (per bot)",
+        "Amount": 1472
+      },
+      {
+        "Name": "OKACIN EYE DROP (per bot)",
+        "Amount": 1495
+      },
+      {
+        "Name": "General Consultation (Out Of Station Emergencies)",
+        "Amount": 1500
+      },
+      {
+        "Name": "Gamma Glutamyl Transferace",
+        "Amount": 1500
+      },
+      {
+        "Name": "CPK",
+        "Amount": 1500
+      },
+      {
+        "Name": "LDH",
+        "Amount": 1500
+      },
+      {
+        "Name": "Amylase",
+        "Amount": 1500
+      },
+      {
+        "Name": "Creatine Kinase",
+        "Amount": 1500
+      },
+      {
+        "Name": "Creatine Clearance",
+        "Amount": 1500
+      },
+      {
+        "Name": "Urea Clearance",
+        "Amount": 1500
+      },
+      {
+        "Name": "C-Reactive Protein",
+        "Amount": 1500
+      },
+      {
+        "Name": "CSF Chloride",
+        "Amount": 1500
+      },
+      {
+        "Name": "Mantoux Test",
+        "Amount": 1500
+      },
+      {
+        "Name": "VDRL",
+        "Amount": 1500
+      },
+      {
+        "Name": "ASO Titre",
+        "Amount": 1500
+      },
+      {
+        "Name": "ALOMIDE EYEDROP 10MLS (per bot)",
+        "Amount": 1644.5
+      },
+      {
+        "Name": "CEFUROXIME SYR",
+        "Amount": 1644.5
+      },
+      {
+        "Name": "CILOXAN EYE DROP (per bot)",
+        "Amount": 1644.5
+      },
+      {
+        "Name": "HYPOTEARS GEL",
+        "Amount": 1644.5
+      },
+      {
+        "Name": "IKACLOMIN 50MG (per tab)",
+        "Amount": 1644.5
+      },
+      {
+        "Name": "KENALOG 40MG (per amp)",
+        "Amount": 1644.5
+      },
+      {
+        "Name": "TROSYD CREAM (per tube)",
+        "Amount": 1644.5
+      },
+      {
+        "Name": "Debridgement of wounds-Minor",
+        "Amount": 1700
+      },
+      {
+        "Name": "Full Blood Count",
+        "Amount": 1700
+      },
+      {
+        "Name": "ADVANTAN OINTMENT (per tube)",
+        "Amount": 1794
+      },
+      {
+        "Name": "MILK OF MAGNESIA PHILIP 200MLS (per bot)",
+        "Amount": 1794
+      },
+      {
+        "Name": "NIZORAL SHAMPOO (per bot)",
+        "Amount": 1794
+      },
+      {
+        "Name": "Protein Electrophoresis",
+        "Amount": 1800
+      },
+      {
+        "Name": "Azithromycin 200mg/5ml susp (unbranded)",
+        "Amount": 1800
+      },
+      {
+        "Name": "CEFTRIAXONE 1G INJ /AMP",
+        "Amount": 1800
+      },
+      {
+        "Name": "INSULIN LENTEL 40 IU (per vial)",
+        "Amount": 1857.25
+      },
+      {
+        "Name": "Hepatitis B Vaccine/ Dose",
+        "Amount": 1875
+      },
+      {
+        "Name": "MIXTARD INSULIN 3ML (per catridge)",
+        "Amount": 1943.5
+      },
+      {
+        "Name": "Annual Physical Examination With Report (No Lab Tests)",
+        "Amount": 2000
+      },
+      {
+        "Name": "Feeding Per Diem (Private Ward)",
+        "Amount": 2000
+      },
+      {
+        "Name": "Feeding Per Diem (Semi-Private Ward)",
+        "Amount": 2000
+      },
+      {
+        "Name": "Feeding Per Diem (General Ward)",
+        "Amount": 2000
+      },
+      {
+        "Name": "Suturing Of Simple Laceration <5cm (minor)",
+        "Amount": 2000
+      },
+      {
+        "Name": "Major Wound Dressing/Day",
+        "Amount": 2000
+      },
+      {
+        "Name": "Phototherapy Per Diem",
+        "Amount": 2000
+      },
+      {
+        "Name": "Ear Piercing For Female Baby",
+        "Amount": 2000
+      },
+      {
+        "Name": "G-6 Phosphate Dehydrogenase",
+        "Amount": 2000
+      },
+      {
+        "Name": "CSF Protein",
+        "Amount": 2000
+      },
+      {
+        "Name": "Hepatitis B DNA Viral load",
+        "Amount": 2000
+      },
+      {
+        "Name": "Screening For HIV 1 & 2",
+        "Amount": 2000
+      },
+      {
+        "Name": "TB Serology",
+        "Amount": 2000
+      },
+      {
+        "Name": "FLIXONASE NASAL SPRAY",
+        "Amount": 2018.25
+      },
+      {
+        "Name": "LAMISIL CREAM 15G (per tube)",
+        "Amount": 2018.25
+      },
+      {
+        "Name": "VOLTAREN EYE DROP",
+        "Amount": 2018.25
+      },
+      {
+        "Name": "DUVADILAN",
+        "Amount": 2070
+      },
+      {
+        "Name": "DEPROSALIC ACID OINTMENT (PER TUBE)",
+        "Amount": 2093
+      },
+      {
+        "Name": "BECONASENASAL DROP (per pack)",
+        "Amount": 2185
+      },
+      {
+        "Name": "Glycosylated Haemoglobin",
+        "Amount": 2200
+      },
+      {
+        "Name": "CANESTEN PESSARIES X 6",
+        "Amount": 2242.5
+      },
+      {
+        "Name": "PRIMOLUT DEPOT 250MG (per vial)",
+        "Amount": 2242.5
+      },
+      {
+        "Name": "RETIN A CREAM (per tube)",
+        "Amount": 2242.5
+      },
+      {
+        "Name": "ENCEPHABOL SYR 120MLS (per bot)",
+        "Amount": 2300
+      },
+      {
+        "Name": "ZADITEN EYE DROPS (per bot)",
+        "Amount": 2300
+      },
+      {
+        "Name": "MOSEGOR 100MLS (per bot)",
+        "Amount": 2346
+      },
+      {
+        "Name": "BACTROBAM CREAM 15G (per tube)",
+        "Amount": 2392
+      },
+      {
+        "Name": "CLEXANE INJ",
+        "Amount": 2392
+      },
+      {
+        "Name": "ZINNAT 125MG/5ML- 200MLS (per bot)",
+        "Amount": 2392
+      },
+      {
+        "Name": "CECLOR (per bot)",
+        "Amount": 2415
+      },
+      {
+        "Name": "General Ward Per Diem",
+        "Amount": 2500
+      },
+      {
+        "Name": "Abdomen",
+        "Amount": 2500
+      },
+      {
+        "Name": "Pelvic",
+        "Amount": 2500
+      },
+      {
+        "Name": "Obstetric",
+        "Amount": 2500
+      },
+      {
+        "Name": "ERYTHROMYCIN CREAM 4% 30MG (per tube)",
+        "Amount": 2645
+      },
+      {
+        "Name": "ISOPLASMA",
+        "Amount": 2645
+      },
+      {
+        "Name": "ZITHROMAX 200MG/5ML (per bot)",
+        "Amount": 2691
+      },
+      {
+        "Name": "PATANOL (OLOPATADINE) EYE DROP",
+        "Amount": 2840.5
+      },
+      {
+        "Name": "FORTUM IG INJ (per amp)",
+        "Amount": 2990
+      },
+      {
+        "Name": "SUSTANON 250MG (per amp)",
+        "Amount": 2990
+      },
+      {
+        "Name": "Suturing Of Simple Laceration> 5cm-10cm(intermediate)",
+        "Amount": 3000
+      },
+      {
+        "Name": "Nebulisation (Subsequent)",
+        "Amount": 3000
+      },
+      {
+        "Name": "Physiotherapy Service/Session (Maximum X6 Sessions)",
+        "Amount": 3000
+      },
+      {
+        "Name": "Blood Culture & Sensitivity",
+        "Amount": 3000
+      },
+      {
+        "Name": "H.PYLORY",
+        "Amount": 3000
+      },
+      {
+        "Name": "H-Pylori Rapid Test",
+        "Amount": 3000
+      },
+      {
+        "Name": "H-pylori Antigen In Stool",
+        "Amount": 3000
+      },
+      {
+        "Name": "Chest (PA/AP)",
+        "Amount": 3000
+      },
+      {
+        "Name": "Chest For Ribs (Obliques)",
+        "Amount": 3000
+      },
+      {
+        "Name": "Apical/Lordotic",
+        "Amount": 3000
+      },
+      {
+        "Name": "Sternum",
+        "Amount": 3000
+      },
+      {
+        "Name": "ANTI RABIES VACCINE (per vial)",
+        "Amount": 3139.5
+      },
+      {
+        "Name": "DEPOMEDROL 80MG (per vial)",
+        "Amount": 3139.5
+      },
+      {
+        "Name": "VANCOMYCIN 1G INJ (PER AMP)",
+        "Amount": 3139.5
+      },
+      {
+        "Name": "CHOTIGON 5000IU (per amp)",
+        "Amount": 3289
+      },
+      {
+        "Name": "PREGYNL 5000 IU (per pack)",
+        "Amount": 3289
+      },
+      {
+        "Name": "HAEMACCEL INFUSION. (per pint)",
+        "Amount": 3450
+      },
+      {
+        "Name": "Catheterisation Of Urinary Bladder + Urine Bag",
+        "Amount": 3500
+      },
+      {
+        "Name": "Nebulisation (Initial)",
+        "Amount": 3500
+      },
+      {
+        "Name": "Incubator Care Per Diem",
+        "Amount": 3500
+      },
+      {
+        "Name": "Tongue Tie Release",
+        "Amount": 3500
+      },
+      {
+        "Name": "Serum Electrolytes/Urea/Creatinine",
+        "Amount": 3500
+      },
+      {
+        "Name": "Hand",
+        "Amount": 3500
+      },
+      {
+        "Name": "Wrist",
+        "Amount": 3500
+      },
+      {
+        "Name": "Forearm",
+        "Amount": 3500
+      },
+      {
+        "Name": "Elbow",
+        "Amount": 3500
+      },
+      {
+        "Name": "Humerus",
+        "Amount": 3500
+      },
+      {
+        "Name": "Clavicle",
+        "Amount": 3500
+      },
+      {
+        "Name": "Finger AP/LAT",
+        "Amount": 3500
+      },
+      {
+        "Name": "Foot/Toe",
+        "Amount": 3500
+      },
+      {
+        "Name": "Ankle",
+        "Amount": 3500
+      },
+      {
+        "Name": "Leg (Tibia/Fibula)",
+        "Amount": 3500
+      },
+      {
+        "Name": "Knee",
+        "Amount": 3500
+      },
+      {
+        "Name": "Hip Joint",
+        "Amount": 3500
+      },
+      {
+        "Name": "Abdominopelvic",
+        "Amount": 3500
+      },
+      {
+        "Name": "Gastric Lavage",
+        "Amount": 3600
+      },
+      {
+        "Name": "PROSPENEM(PER VIAL)",
+        "Amount": 3680
+      },
+      {
+        "Name": "Haemophilus Influenzae Type B (HiB) Vaccine",
+        "Amount": 3750
+      },
+      {
+        "Name": "CIALIS 20MG (per tab)",
+        "Amount": 3967.5
+      },
+      {
+        "Name": "Semi-Private Ward Per Diem",
+        "Amount": 4000
+      },
+      {
+        "Name": "Suturing Of Simple Laceration> 10cm (major)",
+        "Amount": 4000
+      },
+      {
+        "Name": "Oxygen Therapy Per Diem",
+        "Amount": 4000
+      },
+      {
+        "Name": "Evacuation of Impacted Faeces",
+        "Amount": 4000
+      },
+      {
+        "Name": "Glucose Tolerance Test",
+        "Amount": 4000
+      },
+      {
+        "Name": "Liver Function Test",
+        "Amount": 4000
+      },
+      {
+        "Name": "Lipid Profile",
+        "Amount": 4000
+      },
+      {
+        "Name": "TSH/ T3/ T4 Each",
+        "Amount": 4000
+      },
+      {
+        "Name": "Prolactin/ Testoterone/ FSH/ LH (Each)",
+        "Amount": 4000
+      },
+      {
+        "Name": "HIV Confirmatory",
+        "Amount": 4000
+      },
+      {
+        "Name": "CD4 Count",
+        "Amount": 4000
+      },
+      {
+        "Name": "Cytology (Pap Smear, FNAC)",
+        "Amount": 4000
+      },
+      {
+        "Name": "Shoulder",
+        "Amount": 4000
+      },
+      {
+        "Name": "Thoracic Inlet",
+        "Amount": 4000
+      },
+      {
+        "Name": "Cervical Spine",
+        "Amount": 4000
+      },
+      {
+        "Name": "Cervical Spine (Obliques)",
+        "Amount": 4000
+      },
+      {
+        "Name": "Lateral Neck (Soft Tissue)",
+        "Amount": 4000
+      },
+      {
+        "Name": "Thoracic Spine",
+        "Amount": 4000
+      },
+      {
+        "Name": "Thoraco Lumbar Spine",
+        "Amount": 4000
+      },
+      {
+        "Name": "Lumbar Spine",
+        "Amount": 4000
+      },
+      {
+        "Name": "Lumbo Sacral Spine",
+        "Amount": 4000
+      },
+      {
+        "Name": "Sacrum",
+        "Amount": 4000
+      },
+      {
+        "Name": "Sacro Iliac Joint (S.I.J.)",
+        "Amount": 4000
+      },
+      {
+        "Name": "Sacro-Coccxy",
+        "Amount": 4000
+      },
+      {
+        "Name": "Abdomen (Plain)",
+        "Amount": 4000
+      },
+      {
+        "Name": "Abdomen (Erect/Supine)",
+        "Amount": 4000
+      },
+      {
+        "Name": "Abdomen (Erect & Supine)",
+        "Amount": 4000
+      },
+      {
+        "Name": "Skull (AP & Lat)",
+        "Amount": 4000
+      },
+      {
+        "Name": "Skull (PA/Lat/Townes)",
+        "Amount": 4000
+      },
+      {
+        "Name": "Mastoids",
+        "Amount": 4000
+      },
+      {
+        "Name": "Paranasal Sinuses",
+        "Amount": 4000
+      },
+      {
+        "Name": "Paranasal Sinuses waterview",
+        "Amount": 4000
+      },
+      {
+        "Name": "patella",
+        "Amount": 4000
+      },
+      {
+        "Name": "Mandibles (Jaws)",
+        "Amount": 4000
+      },
+      {
+        "Name": "Temporo-Mandibular Joints (TMJ)",
+        "Amount": 4000
+      },
+      {
+        "Name": "Sella Turcica",
+        "Amount": 4000
+      },
+      {
+        "Name": "Tagential",
+        "Amount": 4000
+      },
+      {
+        "Name": "Occipito-Mental (Om)",
+        "Amount": 4000
+      },
+      {
+        "Name": "Post Nasal Space",
+        "Amount": 4000
+      },
+      {
+        "Name": "Internal Auditory Meatus",
+        "Amount": 4000
+      },
+      {
+        "Name": "Local",
+        "Amount": 4000
+      },
+      {
+        "Name": "FLIXOTIDE ACCUHALER (per accu)",
+        "Amount": 4025
+      },
+      {
+        "Name": "ACTRAPID INSULIN 10MLS (per vial)",
+        "Amount": 4186
+      },
+      {
+        "Name": "MONOTARD INSULIN HM 100 IU/ML (per vial)",
+        "Amount": 4186
+      },
+      {
+        "Name": "Debridgement of wounds-Major",
+        "Amount": 4250
+      },
+      {
+        "Name": "Typhoid Vaccine",
+        "Amount": 4375
+      },
+      {
+        "Name": "AZOPT EYE DROP (per bot)",
+        "Amount": 4485
+      },
+      {
+        "Name": "ROCEPHIN IJ 1G (per vial)",
+        "Amount": 4485
+      },
+      {
+        "Name": "Pelvic (AP)",
+        "Amount": 4500
+      },
+      {
+        "Name": "Thyroid",
+        "Amount": 4500
+      },
+      {
+        "Name": "Scrotal",
+        "Amount": 4500
+      },
+      {
+        "Name": "Breast",
+        "Amount": 4500
+      },
+      {
+        "Name": "Prostate",
+        "Amount": 4500
+      },
+      {
+        "Name": "Bladder",
+        "Amount": 4500
+      },
+      {
+        "Name": "Transfontanellar",
+        "Amount": 4500
+      },
+      {
+        "Name": "Ovulometry/TV Scan",
+        "Amount": 4500
+      },
+      {
+        "Name": "Abdomen with Doppler Flow",
+        "Amount": 4500
+      },
+      {
+        "Name": "Adrenal scan",
+        "Amount": 4500
+      },
+      {
+        "Name": "Chest",
+        "Amount": 4500
+      },
+      {
+        "Name": "follicular abdomen",
+        "Amount": 4500
+      },
+      {
+        "Name": "gallbladder",
+        "Amount": 4500
+      },
+      {
+        "Name": "maxillary",
+        "Amount": 4500
+      },
+      {
+        "Name": "biophy profile",
+        "Amount": 4500
+      },
+      {
+        "Name": "Renal",
+        "Amount": 4500
+      },
+      {
+        "Name": "transvaginal",
+        "Amount": 4500
+      },
+      {
+        "Name": "Specialist Consultation-Follow Up (Out patient)",
+        "Amount": 5000
+      },
+      {
+        "Name": "Specialist Review (Inpatient)",
+        "Amount": 5000
+      },
+      {
+        "Name": "Neurologist, Rheumatologist, urologist-Follow Up",
+        "Amount": 5000
+      },
+      {
+        "Name": "ENT-Follow Up",
+        "Amount": 5000
+      },
+      {
+        "Name": "Private Ward Per Diem",
+        "Amount": 5000
+      },
+      {
+        "Name": "Anti Rabies Vaccine",
+        "Amount": 5000
+      },
+      {
+        "Name": "Meningitis Vaccine",
+        "Amount": 5000
+      },
+      {
+        "Name": "Measles, Mumps & Rubella (MMR) Vaccine",
+        "Amount": 5000
+      },
+      {
+        "Name": "Birth Before Arrival (Bba) Care",
+        "Amount": 5000
+      },
+      {
+        "Name": "Viral Load",
+        "Amount": 5000
+      },
+      {
+        "Name": "Pelvic & Hip",
+        "Amount": 5000
+      },
+      {
+        "Name": "Electrocardiogram (E C G) Stress Test",
+        "Amount": 5000
+      },
+      {
+        "Name": "Electrocardiogram (E C G)",
+        "Amount": 5000
+      },
+      {
+        "Name": "CEFPODOXIME(ORELOX) Susp.",
+        "Amount": 5175
+      },
+      {
+        "Name": "Circumcision Of Male Baby",
+        "Amount": 5500
+      },
+      {
+        "Name": "MENOGON 75 IU (per pack)",
+        "Amount": 5681
+      },
+      {
+        "Name": "COSOPT EYE DROP",
+        "Amount": 5750
+      },
+      {
+        "Name": "DIOSCOVITE",
+        "Amount": 5750
+      },
+      {
+        "Name": "PSA (Quantitative)",
+        "Amount": 6000
+      },
+      {
+        "Name": "PSA (Qualitative)",
+        "Amount": 6000
+      },
+      {
+        "Name": "Thigh (Femur)",
+        "Amount": 6000
+      },
+      {
+        "Name": "Rotavirus Vaccine",
+        "Amount": 6250
+      },
+      {
+        "Name": "Chest (PA & Lateral)",
+        "Amount": 6500
+      },
+      {
+        "Name": "Chicken Pox Vaccine",
+        "Amount": 6875
+      },
+      {
+        "Name": "XALATAN EYE DROP (per bot)",
+        "Amount": 6877
+      },
+      {
+        "Name": "Intensive care-Adult with ventllator(PER DAY,ALL INCLUSIVE)",
+        "Amount": 7000
+      },
+      {
+        "Name": "Pelvimetry",
+        "Amount": 7000
+      },
+      {
+        "Name": "SERETIDE DISKUS - CHILDREN (per pack)",
+        "Amount": 7475
+      },
+      {
+        "Name": "Specialist Consultation-1st Visit",
+        "Amount": 7500
+      },
+      {
+        "Name": "Sub specialty Consult-Cardiologist",
+        "Amount": 7500
+      },
+      {
+        "Name": "Sub specialty Consult-Surgeons",
+        "Amount": 7500
+      },
+      {
+        "Name": "Aspirations & Paracentesis",
+        "Amount": 7500
+      },
+      {
+        "Name": "Minor",
+        "Amount": 7500
+      },
+      {
+        "Name": "TRAVANTAN EYE DROP (per bot)",
+        "Amount": 7923.5
+      },
+      {
+        "Name": "Intensive care-Children(PER DAY,ALL INCLUSIVE)",
+        "Amount": 8000
+      },
+      {
+        "Name": "Sub specialty Consult-Neurologist, Rheumatologist, urologist",
+        "Amount": 8500
+      },
+      {
+        "Name": "Sub specialty Consult-ENT, haematologist",
+        "Amount": 8500
+      },
+      {
+        "Name": "DIAVISTA (per pack)",
+        "Amount": 8625
+      },
+      {
+        "Name": "Incision & Drainage <=5cm",
+        "Amount": 9000
+      },
+      {
+        "Name": "IUCD Insertion",
+        "Amount": 9000
+      },
+      {
+        "Name": "IUCD Removal",
+        "Amount": 9000
+      },
+      {
+        "Name": "jadelle-insertion",
+        "Amount": 9000
+      },
+      {
+        "Name": "jadelle-removal",
+        "Amount": 9000
+      },
+      {
+        "Name": "Depoprovera injection",
+        "Amount": 9000
+      },
+      {
+        "Name": "SERETIDE DISKUS- ADULT (per pack)",
+        "Amount": 9568
+      },
+      {
+        "Name": "ERYTHRPOETIN 2000IU (per amp)",
+        "Amount": 9717.5
+      },
+      {
+        "Name": "MEROPENEM 500MG INJ (PER AMP)",
+        "Amount": 9867
+      },
+      {
+        "Name": "Hand Cast",
+        "Amount": 10000
+      },
+      {
+        "Name": "Fistulogram",
+        "Amount": 10000
+      },
+      {
+        "Name": "Electrofulguration Of Condylomata Acuminata",
+        "Amount": 10000
+      },
+      {
+        "Name": "Foreign Body Removal From The Ear, Nose And Throat",
+        "Amount": 10000
+      },
+      {
+        "Name": "Foreign Body Removal From Throat",
+        "Amount": 10000
+      },
+      {
+        "Name": "Electrocautery Of Nose",
+        "Amount": 10000
+      },
+      {
+        "Name": "Nasal Packing",
+        "Amount": 10000
+      },
+      {
+        "Name": "Aural And Nasal Suction/Clearance",
+        "Amount": 10000
+      },
+      {
+        "Name": "Incision And Drainage Of Abscess",
+        "Amount": 10000
+      },
+      {
+        "Name": "Debridement And Toilet Of Wounds",
+        "Amount": 10000
+      },
+      {
+        "Name": "Suturing Of Lacerrations",
+        "Amount": 10000
+      },
+      {
+        "Name": "Manipulation Of Nose",
+        "Amount": 10000
+      },
+      {
+        "Name": "Indirect Laryngoscopy",
+        "Amount": 10000
+      },
+      {
+        "Name": "Direct Laryngoscopy & Biopsy",
+        "Amount": 10000
+      },
+      {
+        "Name": "Antral Lavage",
+        "Amount": 10000
+      },
+      {
+        "Name": "Ear Syringing",
+        "Amount": 10000
+      },
+      {
+        "Name": "Ear Dressing",
+        "Amount": 10000
+      },
+      {
+        "Name": "Diagnostic nasendoscopy",
+        "Amount": 10000
+      },
+      {
+        "Name": "Mastoidectomy",
+        "Amount": 10000
+      },
+      {
+        "Name": "Endoscopic Nasopharyngeal Surgery",
+        "Amount": 10000
+      },
+      {
+        "Name": "Suction toiletting/ear or nose",
+        "Amount": 10000
+      },
+      {
+        "Name": "Cervical Cautery",
+        "Amount": 10000
+      },
+      {
+        "Name": "Cervical Laceration Repair",
+        "Amount": 10000
+      },
+      {
+        "Name": "cryocautery, cauterization",
+        "Amount": 10000
+      },
+      {
+        "Name": "Electrocautery-warts",
+        "Amount": 10000
+      },
+      {
+        "Name": "SUPREFACT INJ (per vial)",
+        "Amount": 11212.5
+      },
+      {
+        "Name": "ANTI-D INJ (per amp)",
+        "Amount": 14375
+      },
+      {
+        "Name": "MEROPENEM 1G INJ (PER AMP)",
+        "Amount": 14950
+      },
+      {
+        "Name": "Incision & Drainage >=5cm",
+        "Amount": 15000
+      },
+      {
+        "Name": "Transfussion Of Screened Blood (Rh +Ve)",
+        "Amount": 15000
+      },
+      {
+        "Name": "Fore Arm Cast",
+        "Amount": 15000
+      },
+      {
+        "Name": "Upper Arm Cast",
+        "Amount": 15000
+      },
+      {
+        "Name": "Foot/Ankle Cast",
+        "Amount": 15000
+      },
+      {
+        "Name": "Barium Swallow",
+        "Amount": 15000
+      },
+      {
+        "Name": "Barium Meal",
+        "Amount": 15000
+      },
+      {
+        "Name": "Intermediate",
+        "Amount": 15000
+      },
+      {
+        "Name": "Minor Debridement Of Burns",
+        "Amount": 15000
+      },
+      {
+        "Name": "Release Of Chordae",
+        "Amount": 15000
+      },
+      {
+        "Name": "Repair Of Minor Laceration",
+        "Amount": 15000
+      },
+      {
+        "Name": "Cyclocryoablation",
+        "Amount": 15000
+      },
+      {
+        "Name": "Traumatic Lid Laceration Repair",
+        "Amount": 15000
+      },
+      {
+        "Name": "Removal Of Foreign Bodies From Conjunctiva And Cornea",
+        "Amount": 15000
+      },
+      {
+        "Name": "Chalazion Excision",
+        "Amount": 15000
+      },
+      {
+        "Name": "Granuloma Excision",
+        "Amount": 15000
+      },
+      {
+        "Name": "Lacrimal Syringing",
+        "Amount": 15000
+      },
+      {
+        "Name": "Tumour Excision From Lid",
+        "Amount": 15000
+      },
+      {
+        "Name": "Tumour Excision Parotid",
+        "Amount": 15000
+      },
+      {
+        "Name": "Entropion And Ectropion Repairs",
+        "Amount": 15000
+      },
+      {
+        "Name": "Cervical Cone/Punch Biopsy",
+        "Amount": 15000
+      },
+      {
+        "Name": "Audiometry",
+        "Amount": 15000
+      },
+      {
+        "Name": "Perineal Tear-1st Degree",
+        "Amount": 18000
+      },
+      {
+        "Name": "Perineal Tear-2nd Degree",
+        "Amount": 18000
+      },
+      {
+        "Name": "Colposcopy",
+        "Amount": 18000
+      },
+      {
+        "Name": "Drainage Of Septic Arthritis",
+        "Amount": 18750
+      },
+      {
+        "Name": "Exostectomy",
+        "Amount": 18750
+      },
+      {
+        "Name": "Skin Traction",
+        "Amount": 18750
+      },
+      {
+        "Name": "Simple Congenital Talipes Repair",
+        "Amount": 18750
+      },
+      {
+        "Name": "Transfussion Of Screened Blood (Rh-Ve)",
+        "Amount": 20000
+      },
+      {
+        "Name": "Antenatal Care With Gen. Practitioner",
+        "Amount": 20000
+      },
+      {
+        "Name": "Perineal Tear-3rd Degree",
+        "Amount": 20000
+      },
+      {
+        "Name": "Barium Meal & Follow Through",
+        "Amount": 20000
+      },
+      {
+        "Name": "Barium Enema",
+        "Amount": 20000
+      },
+      {
+        "Name": "Intravenous Urography (IVU)",
+        "Amount": 20000
+      },
+      {
+        "Name": "Cysto-Urethrogram (Micturating/Retrograde)",
+        "Amount": 20000
+      },
+      {
+        "Name": "Fistulogram/Sinogram Each",
+        "Amount": 20000
+      },
+      {
+        "Name": "Hysterosalphingogram (HSG)",
+        "Amount": 20000
+      },
+      {
+        "Name": "Mammogram",
+        "Amount": 20000
+      },
+      {
+        "Name": "Myelogram",
+        "Amount": 20000
+      },
+      {
+        "Name": "CT Pelvimetry",
+        "Amount": 20000
+      },
+      {
+        "Name": "Electroencephalogram (E E G)",
+        "Amount": 20000
+      },
+      {
+        "Name": "Pollicisation Of The Index Finger",
+        "Amount": 20000
+      },
+      {
+        "Name": "Surgical Drainage In Haematoma Of Rectus Abdominis",
+        "Amount": 20000
+      },
+      {
+        "Name": "Minor Vaginal Laceration",
+        "Amount": 20000
+      },
+      {
+        "Name": "Minor Vaginal Laceration-2nd degree",
+        "Amount": 20000
+      },
+      {
+        "Name": "Minor Vaginal Laceration-3rd degree",
+        "Amount": 20000
+      },
+      {
+        "Name": "Full Arm Cast",
+        "Amount": 25000
+      },
+      {
+        "Name": "Major",
+        "Amount": 25000
+      },
+      {
+        "Name": "Knee Cast",
+        "Amount": 27000
+      },
+      {
+        "Name": "Antenatal Care With Obstetrician (Subject To Pre-Authorisation)",
+        "Amount": 30000
+      },
+      {
+        "Name": "Rhogam Injection",
+        "Amount": 30000
+      },
+      {
+        "Name": "Manual Placenta Removal",
+        "Amount": 30000
+      },
+      {
+        "Name": "Injection Sclerotherapy Of Varicose Veins",
+        "Amount": 30000
+      },
+      {
+        "Name": "Excision Of Tophi",
+        "Amount": 30000
+      },
+      {
+        "Name": "Polypectomy",
+        "Amount": 30000
+      },
+      {
+        "Name": "Intercostal Drainage Insertion",
+        "Amount": 30000
+      },
+      {
+        "Name": "comdone excision",
+        "Amount": 30000
+      },
+      {
+        "Name": "Exchange Blood Transfussion (Rh +Ve, Inclusive Of Materials)",
+        "Amount": 35000
+      },
+      {
+        "Name": "Leg Cast",
+        "Amount": 35000
+      },
+      {
+        "Name": "Full Leg Cast",
+        "Amount": 35000
+      },
+      {
+        "Name": "Hysteroscopy",
+        "Amount": 35000
+      },
+      {
+        "Name": "Dye Test",
+        "Amount": 35000
+      },
+      {
+        "Name": "Examination Under Anaesthesia (EUA)",
+        "Amount": 35000
+      },
+      {
+        "Name": "Removal Of IUCD Under General Anaesthesia",
+        "Amount": 35000
+      },
+      {
+        "Name": "Dilatation And Curetage",
+        "Amount": 35000
+      },
+      {
+        "Name": "Evacuation Of Retained Products Of Conception",
+        "Amount": 35000
+      },
+      {
+        "Name": "Excision/Diathermy Of Warts",
+        "Amount": 35000
+      },
+      {
+        "Name": "Excision Of Vaginal Septum",
+        "Amount": 35000
+      },
+      {
+        "Name": "Repair Of Third Degree Tear",
+        "Amount": 35000
+      },
+      {
+        "Name": "Marsupialisation",
+        "Amount": 35000
+      },
+      {
+        "Name": "Cervical Circlage/Shirodkar removal",
+        "Amount": 35000
+      },
+      {
+        "Name": "Bilateral Tubal Ligation",
+        "Amount": 35000
+      },
+      {
+        "Name": "Diagnostic Laparoscopy",
+        "Amount": 35000
+      },
+      {
+        "Name": "Laparoscopy & Dye Test",
+        "Amount": 35000
+      },
+      {
+        "Name": "Destructive Delivery (Craniotomy-Embryotomy)",
+        "Amount": 35000
+      },
+      {
+        "Name": "Speculum Exam",
+        "Amount": 35000
+      },
+      {
+        "Name": "Echocardiogram",
+        "Amount": 38000
+      },
+      {
+        "Name": "Exchange Blood Transfussion (Rh-Ve, Inclusive Of Materials)",
+        "Amount": 40000
+      },
+      {
+        "Name": "Normal Delivery (With Or Without Episiotomy)",
+        "Amount": 40000
+      },
+      {
+        "Name": "Assisted Delivery (Vacuum, Instrumental)",
+        "Amount": 40000
+      },
+      {
+        "Name": "Multiple Delivery",
+        "Amount": 40000
+      },
+      {
+        "Name": "Ingrowing Toe Nail (Excision)",
+        "Amount": 40000
+      },
+      {
+        "Name": "Keloid Excision",
+        "Amount": 40000
+      },
+      {
+        "Name": "Biopsy Of Oesophageal Mass",
+        "Amount": 40000
+      },
+      {
+        "Name": "Dissection Of Inguinal Nodes",
+        "Amount": 40000
+      },
+      {
+        "Name": "Surgical Drainage Of Galactocoele",
+        "Amount": 40000
+      },
+      {
+        "Name": "Traumatic Cannalicular Repair",
+        "Amount": 40000
+      },
+      {
+        "Name": "Paracentesis (A/C Washout)",
+        "Amount": 40000
+      },
+      {
+        "Name": "Squint Surgery",
+        "Amount": 40000
+      },
+      {
+        "Name": "Ptosis Repair",
+        "Amount": 40000
+      },
+      {
+        "Name": "Hip Spica",
+        "Amount": 45000
+      },
+      {
+        "Name": "Cystic Hygroma Excision",
+        "Amount": 45000
+      },
+      {
+        "Name": "Skin Grafting >9% surgace area",
+        "Amount": 45000
+      },
+      {
+        "Name": "Skin Grafting <9% surgace area",
+        "Amount": 45000
+      },
+      {
+        "Name": "Surgical Drainage Of Anal Abscess",
+        "Amount": 45000
+      },
+      {
+        "Name": "Lipoma Excision(block fee)",
+        "Amount": 45000
+      },
+      {
+        "Name": "CT-Scan-Brain, Sinuses, Orbits, Neck",
+        "Amount": 50000
+      },
+      {
+        "Name": "CT Scan-Chest, Abdomen, Pelvis",
+        "Amount": 50000
+      },
+      {
+        "Name": "CT Myelogram",
+        "Amount": 50000
+      },
+      {
+        "Name": "Endoscopy",
+        "Amount": 50000
+      },
+      {
+        "Name": "Ganglion Excision",
+        "Amount": 50000
+      },
+      {
+        "Name": "Small Cyst Excision",
+        "Amount": 50000
+      },
+      {
+        "Name": "Biopsy Of Tumour Of Abdominal Wall",
+        "Amount": 50000
+      },
+      {
+        "Name": "Lumps Excision",
+        "Amount": 50000
+      },
+      {
+        "Name": "Breast Lump Excision",
+        "Amount": 50000
+      },
+      {
+        "Name": "Lumpectomy-Intermediate",
+        "Amount": 50000
+      },
+      {
+        "Name": "Lumpectomy-Major",
+        "Amount": 50000
+      },
+      {
+        "Name": "Lumpectomy-Minor",
+        "Amount": 50000
+      },
+      {
+        "Name": "Neurosurgical Operation",
+        "Amount": 50000
+      },
+      {
+        "Name": "Biopsy of bone tumor",
+        "Amount": 50000
+      },
+      {
+        "Name": "vasoplasty",
+        "Amount": 50000
+      },
+      {
+        "Name": "pyeloplasty",
+        "Amount": 50000
+      },
+      {
+        "Name": "shave biopsy",
+        "Amount": 50000
+      },
+      {
+        "Name": "skin biopsy",
+        "Amount": 50000
+      },
+      {
+        "Name": "Excisional Biopsy",
+        "Amount": 50000
+      },
+      {
+        "Name": "Biopsy of Thyroid Gland",
+        "Amount": 50000
+      },
+      {
+        "Name": "Pterygium Excision.",
+        "Amount": 50000
+      },
+      {
+        "Name": "Vulvectomy",
+        "Amount": 50000
+      },
+      {
+        "Name": "Wedge Resection Of The Ovary",
+        "Amount": 50000
+      },
+      {
+        "Name": "Amputation Of Cervix",
+        "Amount": 50000
+      },
+      {
+        "Name": "Reconstruction Of Vagina",
+        "Amount": 50000
+      },
+      {
+        "Name": "Ovarian Biopsy",
+        "Amount": 50000
+      },
+      {
+        "Name": "Broad Ligament Haematoma",
+        "Amount": 50000
+      },
+      {
+        "Name": "Anal haematoma-Evacuation",
+        "Amount": 50000
+      },
+      {
+        "Name": "Excision Biopsy(block fee)",
+        "Amount": 60000
+      },
+      {
+        "Name": "Pelvic/Abdominal Abscess Drainage",
+        "Amount": 65000
+      },
+      {
+        "Name": "Pelvic Haematocoele",
+        "Amount": 65000
+      },
+      {
+        "Name": "Enterocutaneous fistulectomy",
+        "Amount": 80000
+      },
+      {
+        "Name": "Tendon Grafting",
+        "Amount": 80000
+      },
+      {
+        "Name": "Tendon repair",
+        "Amount": 80000
+      },
+      {
+        "Name": "Oesophagostomy",
+        "Amount": 80000
+      },
+      {
+        "Name": "Anal Pull Through",
+        "Amount": 80000
+      },
+      {
+        "Name": "Oophorectomy",
+        "Amount": 80000
+      },
+      {
+        "Name": "Diverticulectomy",
+        "Amount": 80000
+      },
+      {
+        "Name": "Drainage Of Hepatic Abscess",
+        "Amount": 80000
+      },
+      {
+        "Name": "Repair Of Splenic Laceration",
+        "Amount": 80000
+      },
+      {
+        "Name": "Retroperitoneal Drainage Of Perinephric Abscess",
+        "Amount": 80000
+      },
+      {
+        "Name": "Trans-Perineal/Transrectal Biopsy Of Prostate",
+        "Amount": 80000
+      },
+      {
+        "Name": "Resection Of Median Bar Obstruction",
+        "Amount": 80000
+      },
+      {
+        "Name": "Corporosavenous Shunt",
+        "Amount": 80000
+      },
+      {
+        "Name": "Cavernospongiosum Shunt",
+        "Amount": 80000
+      },
+      {
+        "Name": "Transurethral Dessication Of Congenital Meatal Stenosis",
+        "Amount": 80000
+      },
+      {
+        "Name": "Uretherectomy",
+        "Amount": 80000
+      },
+      {
+        "Name": "Surgical Exploration For Anorchism",
+        "Amount": 80000
+      },
+      {
+        "Name": "Combined Cataract Extraction With Trabeculectomy",
+        "Amount": 80000
+      },
+      {
+        "Name": "Trabeculectomy With Antimet Abolites",
+        "Amount": 80000
+      },
+      {
+        "Name": "Scleral Buckling Procedures",
+        "Amount": 80000
+      },
+      {
+        "Name": "Evisceration/Enucleation/Extenteration",
+        "Amount": 80000
+      },
+      {
+        "Name": "Cervical cerclage",
+        "Amount": 80000
+      },
+      {
+        "Name": "Cervical Circlage/Shirodkar Suture",
+        "Amount": 80000
+      },
+      {
+        "Name": "Magnetic Resonance Imaging (MRI)",
+        "Amount": 90000
+      },
+      {
+        "Name": "Mini Laparotomy",
+        "Amount": 120000
+      },
+      {
+        "Name": "Appendicectomy",
+        "Amount": 150000
+      },
+      {
+        "Name": "Epigastric Herniorrhaphy",
+        "Amount": 150000
+      },
+      {
+        "Name": "Excision Of Intrascrotal Mass",
+        "Amount": 150000
+      },
+      {
+        "Name": "Surgery Of Torsion Of Spermatic Cord",
+        "Amount": 150000
+      },
+      {
+        "Name": "Varicocoelectomy",
+        "Amount": 150000
+      },
+      {
+        "Name": "Dissection Of Femoral Triangle",
+        "Amount": 150000
+      },
+      {
+        "Name": "Multiple Ligation Of Veins",
+        "Amount": 150000
+      },
+      {
+        "Name": "Surgical Correction Of Dupuytren’s Contracture",
+        "Amount": 150000
+      },
+      {
+        "Name": "Herniorraphy-Inguinal/Others",
+        "Amount": 150000
+      },
+      {
+        "Name": "Herniorraphy-femoral (block fee)",
+        "Amount": 150000
+      },
+      {
+        "Name": "Thoracotomy/thorasectomy",
+        "Amount": 150000
+      },
+      {
+        "Name": "Vasectomy",
+        "Amount": 150000
+      },
+      {
+        "Name": "Haemorrhoidectomy",
+        "Amount": 150000
+      },
+      {
+        "Name": "Fistula In-Ano Repair",
+        "Amount": 150000
+      },
+      {
+        "Name": "herniotomy (bloc fee)",
+        "Amount": 150000
+      },
+      {
+        "Name": "Surgery Of Uncomplicated Intestinal Obstruction Without Resection",
+        "Amount": 150000
+      },
+      {
+        "Name": "Hiatus Herniorrphaphy",
+        "Amount": 150000
+      },
+      {
+        "Name": "Diaphragmatic Hernia Repair",
+        "Amount": 150000
+      },
+      {
+        "Name": "Paraunmilical Hernia",
+        "Amount": 150000
+      },
+      {
+        "Name": "Umbilical hiernia without mesh",
+        "Amount": 150000
+      },
+      {
+        "Name": "Tonsilectomy",
+        "Amount": 150000
+      },
+      {
+        "Name": "Adenoidectomy",
+        "Amount": 150000
+      },
+      {
+        "Name": "Multiple Nasal Polypectomy",
+        "Amount": 150000
+      },
+      {
+        "Name": "parathyroidectomy",
+        "Amount": 150000
+      },
+      {
+        "Name": "Vagotomy",
+        "Amount": 150000
+      },
+      {
+        "Name": "Nasal Sinus Surgery E.G Caldwell Luc",
+        "Amount": 150000
+      },
+      {
+        "Name": "Tympanoplasty",
+        "Amount": 150000
+      },
+      {
+        "Name": "Mastoid Surgery",
+        "Amount": 150000
+      },
+      {
+        "Name": "Parotidectomy",
+        "Amount": 150000
+      },
+      {
+        "Name": "Submandibular Glad Excision",
+        "Amount": 150000
+      },
+      {
+        "Name": "Laryngeal Surgery",
+        "Amount": 150000
+      },
+      {
+        "Name": "Hydrocelectomy (block fee)",
+        "Amount": 150000
+      },
+      {
+        "Name": "Umbilical hiernia with mesh",
+        "Amount": 170000
+      },
+      {
+        "Name": "Orchidectomy/Orchidopexy",
+        "Amount": 180000
+      },
+      {
+        "Name": "Hydrocoelectomy",
+        "Amount": 180000
+      },
+      {
+        "Name": "Surgery Of Intestinal Obstruction With Resection",
+        "Amount": 180000
+      },
+      {
+        "Name": "Adenotonsilectomy",
+        "Amount": 180000
+      },
+      {
+        "Name": "Extracapsular Cataract Extraction With Intraocular Lens Implantation",
+        "Amount": 180000
+      },
+      {
+        "Name": "Intracapsular Cataract Extraction With Intraocular Lens Implantation",
+        "Amount": 180000
+      },
+      {
+        "Name": "Salpingo-Oophoreictomy",
+        "Amount": 180000
+      },
+      {
+        "Name": "Laparotomy Diagnostic/Therapeutic, Inter-Sex",
+        "Amount": 180000
+      },
+      {
+        "Name": "Ovarian Cysts",
+        "Amount": 180000
+      },
+      {
+        "Name": "Colporrhaphy/Colpoperineorrhaphy",
+        "Amount": 180000
+      },
+      {
+        "Name": "Exploratory Laparotomy/Lysis Of Adhensions",
+        "Amount": 200000
+      },
+      {
+        "Name": "Ceasarean Section",
+        "Amount": 200000
+      },
+      {
+        "Name": "Ceasarean Section-twins",
+        "Amount": 200000
+      },
+      {
+        "Name": "Ectopic Pregnancy",
+        "Amount": 230000
+      },
+      {
+        "Name": "Mastectomy",
+        "Amount": 280000
+      },
+      {
+        "Name": "Mastectomy extended",
+        "Amount": 280000
+      },
+      {
+        "Name": "Prostatectomy-simple",
+        "Amount": 300000
+      },
+      {
+        "Name": "Prostatectomy radical",
+        "Amount": 300000
+      },
+      {
+        "Name": "Intussusception Operation",
+        "Amount": 300000
+      },
+      {
+        "Name": "Hysterectomy",
+        "Amount": 300000
+      },
+      {
+        "Name": "Hysterectomy And Bilateral Salpingo-Oophorectomy",
+        "Amount": 300000
+      },
+      {
+        "Name": "Myomectomy >20wks",
+        "Amount": 300000
+      },
+      {
+        "Name": "Myomectomy <20wks",
+        "Amount": 300000
+      },
+      {
+        "Name": "Myomectomy repeat",
+        "Amount": 300000
+      },
+      {
+        "Name": "Myomectomy + salpingectomy",
+        "Amount": 300000
+      },
+      {
+        "Name": "Repair Of Inverted Uterus",
+        "Amount": 300000
+      },
+      {
+        "Name": "Repair Of Perforated/Ruptured Uterus",
+        "Amount": 300000
+      },
+      {
+        "Name": "Tubal Reconstruction",
+        "Amount": 300000
+      }
+    ]
+  }

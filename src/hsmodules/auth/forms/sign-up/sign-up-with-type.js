@@ -154,45 +154,41 @@ const OrganizationSignupWithType = () => {
     const facilityDocument = {
       ...facilityData,
       facilityModules: selectedType ? selectedType.modules : ["Admin"],
+      hasEmployee: true,
+      employeeData: {
+        ...data,
+        roles: selectedType ? selectedType.modules : ["Admin"],
+      },
     };
 
-    FacilityServ.create(facilityDocument)
-      .then(res => {
+    await FacilityServ.create(facilityDocument)
+      .then(async res => {
         toast.success("Organization Account successfully Created");
         setCreatingOrganization(false);
-        setcreatingAdmin(true);
-        const adminData = {
-          ...data,
-          roles: facilityDocument.facilityModules,
-          facility: res._id,
-        };
+        setSigningIn(true);
+        //console.log(res);
 
-        return EmployeeServ.create(adminData).then(res => {
-          toast.success("Admin Account successfully Created");
-          setcreatingAdmin(false);
-          setSigningIn(true);
-          return client
-            .authenticate({
-              strategy: "local",
-              email: data.email,
-              password: data.password,
-            })
-            .then(res => {
-              setSigningIn(false);
-              const user = {
-                ...res.user,
-                currentEmployee: {...res.user.employeeData[0]},
-              };
-              localStorage.setItem("user", JSON.stringify(user));
-              setUser(user);
-              toast.success("You have successfully been logged in");
-              navigate("/app");
-            });
-        });
+        await client
+          .authenticate({
+            strategy: "local",
+            email: data.email,
+            password: data.password,
+          })
+          .then(res => {
+            const user = {
+              ...res.user,
+              currentEmployee: {...res.user.employeeData[0]},
+            };
+            localStorage.setItem("user", JSON.stringify(user));
+            setUser(user);
+            toast.success("You have successfully been logged in");
+            setSigningIn(false);
+            navigate("/app");
+          });
       })
       .catch(err => {
         setCreatingOrganization(false);
-        setcreatingAdmin(false);
+        // setcreatingAdmin(false);
         setSigningIn(false);
         toast.error(`Sorry, There was an error creating your account; ${err}`);
         console.log(err);

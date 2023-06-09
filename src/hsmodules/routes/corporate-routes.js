@@ -11,6 +11,7 @@ const HiaOrganizationClient = lazy(() => import("../ManagedCare/HIA"));
 const CorporateClient = lazy(() => import("../ManagedCare/Corporate"));
 const Claims = lazy(() => import("../ManagedCare/Claims"));
 const FundsManagement = lazy(() => import("../ManagedCare/FundsManagement"));
+const Invoice = lazy(() => import("../Corporate/Invoice"));
 const ManagedCareFrontDashboard = lazy(() =>
   import("../dashBoardUiComponent/@modules/ManagedCareFrontDashboard")
 );
@@ -22,7 +23,8 @@ const ComplaintsInventoryReport = lazy(() =>
 );
 const Premium = lazy(() => import("../ManagedCare/Premium"));
 const ComplaintDetails = lazy(() => import("../ManagedCare/ComplaintDetails"));
-const CheckIn = lazy(() => import("../ManagedCare/Checkin"));
+// const CheckIn = lazy(() => import("../ManagedCare/Checkin"));
+const CorporateCheckin = lazy(() => import("../Corporate/Checkin"));
 
 const CorporateBeneficiary = () => <Beneficiary standalone={true} />;
 
@@ -67,7 +69,7 @@ export const corporateRoutes = [
   },
   {
     path: "/app/corporate/checkin",
-    Component: CheckIn,
+    Component: CorporateCheckin,
   },
   {
     path: "/app/corporate/beneficiary",
@@ -85,6 +87,10 @@ export const corporateRoutes = [
   {
     path: "/app/corporate/complaintDetails",
     Component: ComplaintDetails,
+  },
+  {
+    path: "/app/corporate/invoice",
+    Component: Invoice,
   },
   {
     path: "/app/corporate/tariff",

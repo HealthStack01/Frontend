@@ -36,6 +36,7 @@ export default function SearchSelect({
   clear,
   notfound,
   placeholder,
+  id,
 }) {
   const productServ = client.service("billing");
   const [facilities, setFacilities] = useState([]);
@@ -54,6 +55,24 @@ export default function SearchSelect({
   const inputEl = useRef(null);
   const [val, setVal] = useState("");
   const [productModal, setProductModal] = useState(false);
+
+  //Gets default service of with probs id
+  const getInitial = async id => {
+    if (!!id) {
+      await productServ
+        .get(id)
+        .then(resp => {
+          //console.log(resp);
+          handleRow(resp);
+        })
+        .catch(err => console.log(err));
+    }
+  };
+
+  useEffect(() => {
+    getInitial(id);
+    return () => {};
+  }, [id]);
 
   const handleRow = async obj => {
     await setChosen(true);

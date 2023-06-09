@@ -19,8 +19,6 @@ import WardHome from "./Ward/WardHome";
 import InventoryHome from "./inventory/InventoryHome";
 import LaboratoryHome from "./Laboratory/LaboratoryHome";
 
-import Payment from "./Finance/Payment";
-
 import PharmacyHome from "./Pharmacy/PharmacyHome";
 
 import RadiologyHome from "./Radiology/RadiologyHome";
@@ -37,10 +35,14 @@ import WardDashboard from "./dashBoardUiComponent/@modules/WardDashboard";
 import PharmacyDashboard from "./dashBoardUiComponent/@modules/PharmacyDashboard";
 import InventoryDashboard from "./dashBoardUiComponent/@modules/InventoryDashboard";
 import FinanceDashboard from "./dashBoardUiComponent/@modules/FinanceDashboard";
+import GlobalAdminDashboard from "./GlobalAdmin/GlobalAdminDashboard";
+import FacilityTransactions from "./GlobalAdmin/FacilityTransactions";
+
 import LaboratoryDashboard from "./dashBoardUiComponent/@modules/LaboratoryDashboard";
+import ManagedCareFrontDashboard from './dashBoardUiComponent/@modules/ManagedCareFrontDashboard';
 import ManagedCareHome from "./ManagedCare/ManagedCareHome";
 
-import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
+import GlobalDashboard from "./dashBoardUiComponent/@modules/GlobalDashboard";
 
 import ReferralHome from "./Referral/ReferralHome";
 
@@ -67,6 +69,7 @@ import {crmRoutes} from "./routes/crm-routes";
 import {epidRoutes} from "./routes/epid-routes";
 import {managedCareRoutes} from "./routes/managecare-routes";
 import {financeRoutes} from "./routes/finance-routes";
+import {globalAdminRoutes} from "./routes/global-admin-routes"
 import {inventoryRoutes} from "./routes/inventory-routes";
 import {laboratoryRoutes} from "./routes/lab-routes";
 import {pharmacyRoutes} from "./routes/pharmacy-routes";
@@ -100,8 +103,10 @@ import NotFound from "../notFound";
 import CorporateModule from "./Corporate/Corporate";
 import {PolicyCreateForExternalLink} from "./ManagedCare/CreatePolicyExternalLink";
 import CreateTest from "./ManagedCare/CreateTest";
+import GlobalAdminHome from "./GlobalAdmin/GlobalAdminHome";
+import ExternalPaymentPage from "./External/ExternalPayment";
 
-const AdminOrganization = lazy(() => import("./Admin/Organization"));
+//const AdminOrganization = lazy(() => import("./Admin/Organization"));
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -142,7 +147,7 @@ const AppRoutes = () => {
           <>
             {authRoutes.map(route => {
               const {path, Component} = route;
-              return <Route key={path} path={path} element={<Component />} />;
+              return <Route key={path} path={path} exact element={<Component />} />;
             })}
           </>
           {/************************** Page not found *************************************** */}
@@ -157,9 +162,9 @@ const AppRoutes = () => {
 
           {/************************** Payment Integration Routes *************************************** */}
           <Route path="/verify-otp" element={<WalletOTP />} />
-          <Route path="/payment" element={<Payment />} />
-
+          <Route path="/external-payment/:hospitalId/:patientId" element={<ExternalPaymentPage/>} />
           <Route path="/wallet-pin" element={<WalletPin />} />
+          {/* <Route path="/extpayment/:hospitalId/:patientId" element={<ExternalPayments/>} /> */}
 
           {/************************** App Dashboard Routes *************************************** */}
           <Route path="/app" element={<PrivateOutlet />}>
@@ -264,6 +269,16 @@ const AppRoutes = () => {
             <Route path="/app/finance" element={<FinanceHome />}>
               <Route index element={<FinanceDashboard />} />
               {financeRoutes.map(route => {
+                const {path, Component} = route;
+                return <Route key={path} path={path} element={<Component />} />;
+              })}
+            </Route>
+
+             {/**************************GLOBAL ADMIN *************************************** */}
+             <Route path="/app/global-admin" element={<GlobalAdminHome />}>
+               <Route index element={<GlobalAdminDashboard />} /> 
+            
+              {globalAdminRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}

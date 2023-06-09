@@ -18,6 +18,12 @@ To get an overview of the project, read the [README](README.md). Here are some r
 
 
 ## Getting started
+We communicate primarily on Element App,to join our communication channels:
+- [FrontEnd](https://app.element.io/?pk_vid=3f157f5446ab587516795593456a7507#/room/#HSA_Community:matrix.org)
+- [BackEnd](https://app.element.io/?pk_vid=3f157f5446ab587516795593456a7507#/room/#BackEnd:matrix.org)
+- [Testing](https://app.element.io/?pk_vid=3f157f5446ab587516795593456a7507#/room/#HSA_Testing:matrix.org)
+- [Documentation](https://app.element.io/?pk_vid=3f157f5446ab587516795593456a7507#/room/#Documentation:matrix.org)
+- [Community](https://app.element.io/?pk_vid=3f157f5446ab587516795593456a7507#/room/#HSA_Community:matrix.org)
 
 ### Issues
 
@@ -49,7 +55,7 @@ Commit the changes once you are happy with them.:zap:.
 
 ### Pull Request
 
-When you're finished with the changes, create a pull request, also known as a PR.
+When you're finished with the changes, create a pull request, also known as a PR. Send a Pull request to the `development` branch.
 
 ### Your PR is merged!
 

@@ -30,6 +30,7 @@ import ClientGroup from "./ClientGroup";
 import {ObjectContext, UserContext} from "../../context";
 import {Nigeria} from "../app/Nigeria";
 import dayjs from "dayjs";
+import GoogleAddressInput from "../../components/google-autocomplete";
 
 const UploadComponent = ({}) => {
   return (
@@ -78,7 +79,7 @@ const ClientForm = ({closeModal, setOpen}) => {
     watch,
   } = useForm({
     resolver: yupResolver(createClientSchema),
-
+    shouldUnregister: false,
     defaultValues: {
       firstname: "",
       lastname: "",
@@ -90,22 +91,8 @@ const ClientForm = ({closeModal, setOpen}) => {
     },
   });
 
-  const [selectedState, setSelectedState] = useState(null);
-
-  const states = Nigeria.map(obj => obj.state);
-
-  //alphabetically arrange state
-  const sortedStates = states.sort((a, b) => a.localeCompare(b));
-
-  const watchedState = watch("state");
-
-  useEffect(() => {
-    setSelectedState(Nigeria.find(item => item.state === watchedState));
-    setValue("facilityCity", "");
-    setValue("facilityLGA", "");
-  }, [watchedState]);
-
   const submit = async (data, e) => {
+    //return console.log(data);
     showActionLoader();
     setLoading(true);
     e.preventDefault();
@@ -161,45 +148,6 @@ const ClientForm = ({closeModal, setOpen}) => {
       query.email = data.email;
       checkQuery(query);
     }
-
-    // if (!!data.firstname && !!data.lastname && !!data.gender && !!data.dob) {
-    //   data.middlename = data.middlename || '';
-    //   (query.gender = data.gender),
-    //     (query.dob = data.dob),
-    //     (query.$or = [
-    //       {
-    //         firstname: data.firstname,
-    //         lastname: data.lastname,
-    //         middlename: data.middlename,
-    //       },
-    //       {
-    //         firstname: data.firstname,
-    //         lastname: data.middlename,
-    //         middlename: data.lastname,
-    //       },
-    //       {
-    //         firstname: data.middlename,
-    //         lastname: data.lastname,
-    //         middlename: data.firstname,
-    //       },
-    //       {
-    //         firstname: data.middlename,
-    //         lastname: data.firstname,
-    //         middlename: data.lastname,
-    //       },
-    //       {
-    //         firstname: data.lastname,
-    //         lastname: data.firstname,
-    //         middlename: data.middlename,
-    //       },
-    //       {
-    //         firstname: data.lastname,
-    //         lastname: data.middlename,
-    //         middlename: data.firstname,
-    //       },
-    //     ]);
-    //   checkQuery(query);
-    // }
   };
 
   const checkQuery = query => {
@@ -296,6 +244,14 @@ const ClientForm = ({closeModal, setOpen}) => {
     setDuplicateModal(false);
   };
 
+  const handleGoogleAddressSelect = obj => {
+    setValue("residentialaddress", obj.address);
+    setValue("state", obj.state);
+    setValue("town", obj.lga);
+    setValue("lga", obj.lga);
+    setValue("country", obj.country);
+  };
+
   return (
     <>
       <ModalBox
@@ -352,9 +308,9 @@ const ClientForm = ({closeModal, setOpen}) => {
 
             {!isFullRegistration ? (
               <>
-                <Box sx={{width: "85vw", maxHeight: "80vh"}}>
-                  <Grid container spacing={1}>
-                    <Grid item lg={3} md={4} sm={6}>
+                <Box sx={{/* width: "85vw", maxHeight: "80vh", */ display:"flex", flexWrap:"wrap" , flexDirection:"row", overflow:"auto"}}>
+                  <Grid container spacing={1}  sx={{display:"flex", flexWrap:"wrap" , flexDirection:"row", }}>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
                       <Input
                         label="First Name"
                         register={register("firstname")}
@@ -363,7 +319,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         important={true}
                       />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
                       <Input
                         label="Middle Name"
                         register={register("middlename")}
@@ -371,7 +327,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         onBlur={checkClient}
                       />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
                       <Input
                         label="Last Name"
                         register={register("lastname")}
@@ -380,7 +336,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         important={true}
                       />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
                       <Input
                         label="Phone"
                         register={register("phone")}
@@ -390,7 +346,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         important={true}
                       />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>  
                       <Input
                         label="Email"
                         register={register("email")}
@@ -400,7 +356,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         //important={true}
                       />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
                       <MuiCustomDatePicker
                         control={control}
                         label="DOB"
@@ -408,7 +364,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         important={true}
                       />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
                       <CustomSelect
                         label="Gender"
                         register={register("gender", {required: true})}
@@ -420,7 +376,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         errorText={errors?.gender?.message}
                       />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
                       <CustomSelect
                         label="Marital Status"
                         register={register("maritalstatus")}
@@ -436,72 +392,38 @@ const ClientForm = ({closeModal, setOpen}) => {
                       />
                     </Grid>
 
-                    <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="Country"
-                        control={control}
-                        name="country"
-                        //errorText={errors?.facilityCountry?.message}
-                        options={["Nigeria"]}
-                      />
-                    </Grid>
-
-                    <Grid item lg={6} md={6} sm={12}>
-                      <Input
+                    <Grid item lg={6} md={6} sm={12} xs={12}>
+                      <GoogleAddressInput
                         label="Residential Address"
                         register={register("residentialaddress")}
+                        getSelectedAddress={handleGoogleAddressSelect}
                       />
                     </Grid>
 
-                    <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="State"
-                        control={control}
-                        name="state"
-                        //errorText={errors?.facilityState?.message}
-                        options={sortedStates}
-                      />
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
+                      <Input label="Town/City" register={register("town")} />
                     </Grid>
 
-                    <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="Town/City"
-                        control={control}
-                        name="town"
-                        //errorText={errors?.facilityLGA?.message}
-                        options={
-                          selectedState
-                            ? selectedState.lgas.sort((a, b) =>
-                                a.localeCompare(b)
-                              )
-                            : []
-                        }
-                      />
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
+                      <Input label="LGA" register={register("lga")} />
                     </Grid>
 
-                    <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="LGA"
-                        control={control}
-                        name="lga"
-                        //errorText={errors?.facilityLGA?.message}
-                        options={
-                          selectedState
-                            ? selectedState.lgas.sort((a, b) =>
-                                a.localeCompare(b)
-                              )
-                            : []
-                        }
-                      />
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
+                      <Input label="State" register={register("state")} />
                     </Grid>
 
-                    <Grid item lg={3} md={4} sm={6}>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
+                      <Input label="Country" register={register("country")} />
+                    </Grid>
+
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
                       <Input
                         label="Next of Kin"
                         register={register("nextofkin")}
                       />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
+
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
                       <Input
                         label="Next of Kin Phone"
                         register={register("nextofkinphone")}
@@ -509,7 +431,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                       />
                     </Grid>
 
-                    <Grid item lg={3} md={4} sm={6}>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
                       <CustomSelect
                         label="Client Level"
                         important
@@ -553,12 +475,12 @@ const ClientForm = ({closeModal, setOpen}) => {
               </>
             ) : (
               <>
-                <Box sx={{width: "80vw", maxHeight: "80vh"}}>
-                  <Grid container spacing={1}>
+                <Box sx={{/* width: "80vw", maxHeight: "80vh", */ display:"flex", flexWrap:"wrap" , flexDirection:"row", overflow:"auto"}}>
+                  <Grid container spacing={1}  >
                     <Grid item xs={12}>
                       <FormsHeaderText text="Client Names" />
                     </Grid>
-                    <Grid item lg={4} md={4} sm={4}>
+                    <Grid item lg={4} md={4} sm={4} xs={12}>
                       <Input
                         label="First Name"
                         register={register("firstname")}
@@ -567,7 +489,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         important={true}
                       />
                     </Grid>
-                    <Grid item lg={4} md={4} sm={4}>
+                    <Grid item lg={4} md={4} sm={4} xs={12}>
                       <Input
                         label="Middle Name"
                         register={register("middlename")}
@@ -575,7 +497,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         onBlur={checkClient}
                       />
                     </Grid>
-                    <Grid item lg={4} md={4} sm={4}>
+                    <Grid item lg={4} md={4} sm={4} xs={12}>
                       <Input
                         label="Last Name"
                         register={register("lastname")}
@@ -590,7 +512,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                     <Grid item xs={12}>
                       <FormsHeaderText text="Client Biodata" />
                     </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={2} md={4} sm={6} xs={12}>
                       <MuiCustomDatePicker
                         control={control}
                         label="DOB"
@@ -599,7 +521,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                       />
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={2} md={4} sm={6} xs={12}>
                       <CustomSelect
                         label="Gender"
                         register={register("gender")}
@@ -611,7 +533,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                       />
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={2} md={4} sm={6} xs={12}>
                       <Input
                         label="Phone No"
                         register={register("phone")}
@@ -620,7 +542,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         important={true}
                       />
                     </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={2} md={4} sm={6} xs={12}>
                       <Input
                         label="Email"
                         register={register("email")}
@@ -630,7 +552,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                       />
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={2} md={4} sm={6} xs={12}>
                       <CustomSelect
                         label="Marital Status"
                         register={register("maritalstatus")}
@@ -646,14 +568,14 @@ const ClientForm = ({closeModal, setOpen}) => {
                       />
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={2} md={4} sm={6} xs={12}>
                       <Input
                         label="Medical record Number"
                         register={register("mrn")}
                       />
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={2} md={4} sm={6} xs={12}>
                       <CustomSelect
                         label="Religion"
                         register={register("religion")}
@@ -669,18 +591,18 @@ const ClientForm = ({closeModal, setOpen}) => {
                       {/* <Input label="Religion" register={register("religion")} /> */}
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={2} md={4} sm={6} xs={12}>
                       <Input
                         label="Profession"
                         register={register("profession")}
                       />
                     </Grid>
 
-                    <Grid item lg={6} md={6} sm={12}>
+                    <Grid item lg={6} md={6} sm={12} xs={12}>
                       <Input label="Tags" register={register("clientTags")} />
                     </Grid>
 
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={2} md={4} sm={6} xs={12}>
                       <CustomSelect
                         label="Client Level"
                         control={control}
@@ -700,63 +622,28 @@ const ClientForm = ({closeModal, setOpen}) => {
                       <FormsHeaderText text="Client Address" />
                     </Grid>
 
-                    <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="Country"
-                        control={control}
-                        name="country"
-                        //errorText={errors?.facilityCountry?.message}
-                        options={["Nigeria"]}
-                      />
-                    </Grid>
-
-                    <Grid item lg={6} md={6} sm={12}>
-                      <Input
+                    <Grid item lg={6} md={6} sm={12} xs={12}>
+                      <GoogleAddressInput
                         label="Residential Address"
                         register={register("residentialaddress")}
+                        getSelectedAddress={handleGoogleAddressSelect}
                       />
                     </Grid>
 
-                    <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="State"
-                        control={control}
-                        name="state"
-                        //errorText={errors?.facilityState?.message}
-                        options={sortedStates}
-                      />
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
+                      <Input label="Town/City" register={register("town")} />
                     </Grid>
 
-                    <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="Town/City"
-                        control={control}
-                        name="town"
-                        //errorText={errors?.facilityLGA?.message}
-                        options={
-                          selectedState
-                            ? selectedState.lgas.sort((a, b) =>
-                                a.localeCompare(b)
-                              )
-                            : []
-                        }
-                      />
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
+                      <Input label="LGA" register={register("lga")} />
                     </Grid>
 
-                    <Grid item lg={3} md={4} sm={6}>
-                      <CustomSelect
-                        label="LGA"
-                        control={control}
-                        name="lga"
-                        //errorText={errors?.facilityLGA?.message}
-                        options={
-                          selectedState
-                            ? selectedState.lgas.sort((a, b) =>
-                                a.localeCompare(b)
-                              )
-                            : []
-                        }
-                      />
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
+                      <Input label="State" register={register("state")} />
+                    </Grid>
+
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
+                      <Input label="Country" register={register("country")} />
                     </Grid>
                   </Grid>
 
@@ -764,38 +651,38 @@ const ClientForm = ({closeModal, setOpen}) => {
                     <Grid item xs={12}>
                       <FormsHeaderText text="Client Medical Data" />
                     </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={2} md={4} sm={6} xs={12}>
                       <Input
                         label="Blood Group"
                         register={register("bloodgroup")}
                       />
                     </Grid>
-                    <Grid item lg={2} md={4} sm={6}>
+                    <Grid item lg={2} md={4} sm={6} xs={12}>
                       <Input label="Genotype" register={register("genotype")} />
                     </Grid>
 
-                    <Grid item lg={8} md={6} sm={6}>
+                    <Grid item lg={8} md={6} sm={6} xs={12}>
                       <Input
                         label="Disabilities"
                         register={register("disabilities")}
                       />
                     </Grid>
 
-                    <Grid item lg={6} md={6} sm={6}>
+                    <Grid item lg={6} md={6} sm={6} xs={12}>
                       <Input
                         label="Allergies"
                         register={register("allergies")}
                       />
                     </Grid>
 
-                    <Grid item lg={6} md={4} sm={6}>
+                    <Grid item lg={6} md={4} sm={6} xs={12}>
                       <Input
                         label="Co-mobidities"
                         register={register("comorbidities")}
                       />
                     </Grid>
 
-                    <Grid item lg={12} md={4} sm={6}>
+                    <Grid item lg={12} md={4} sm={6}> xs={12}
                       <Input
                         label="Specific Details "
                         register={register("specificDetails")}
@@ -807,32 +694,32 @@ const ClientForm = ({closeModal, setOpen}) => {
                     <Grid item xs={12}>
                       <FormsHeaderText text="Client Next of Kin Information" />
                     </Grid>
-                    <Grid item lg={6} md={6} sm={12}>
+                    <Grid item lg={6} md={6} sm={12} xs={12}>
                       <Input
                         label="Full Name"
                         register={register("nok_name")}
                       />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
                       <Input
                         label="Phone Number"
                         register={register("nok_phoneno")}
                       />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={6}>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
                       <Input
                         label=" Email"
                         register={register("nok_email")}
                         type="email"
                       />
                     </Grid>
-                    <Grid item lg={4} md={4} sm={6}>
+                    <Grid item lg={4} md={4} sm={6} xs={12}>
                       <Input
                         label="Relationship"
                         register={register("nok_relationship")}
                       />
                     </Grid>
-                    <Grid item lg={8} md={6} sm={12}>
+                    <Grid item lg={8} md={6} sm={12} xs={12}>
                       <Input
                         label="Co-mobidities"
                         register={register("comorbidities")}

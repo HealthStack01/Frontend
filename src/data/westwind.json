@@ -1,0 +1,4460 @@
+{
+    "Sheet1": [
+      {
+        "GENERAL DESCRIPTION": "Thiamine (Vit B1)",
+        "AMOUNT": 2.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Calcium Gluconate Tabs 600mg (per tab)",
+        "AMOUNT": 3.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Cyanocobalamin (B12) Tabs (per tab)",
+        "AMOUNT": 3.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Yeast BPC Tabs 300mg (per tab)",
+        "AMOUNT": 3.75
+      },
+      {
+        "GENERAL DESCRIPTION": "ASPIRIN 75MG (per tab)",
+        "AMOUNT": 6.25
+      },
+      {
+        "GENERAL DESCRIPTION": "BANOCIDE 50MG (per tab)",
+        "AMOUNT": 6.25
+      },
+      {
+        "GENERAL DESCRIPTION": "BISACODYL 5MG (per tab)",
+        "AMOUNT": 6.25
+      },
+      {
+        "GENERAL DESCRIPTION": "CALCIUM LACTATE 300MG (per tab)",
+        "AMOUNT": 6.25
+      },
+      {
+        "GENERAL DESCRIPTION": "CHLORPHENIRAMINE 4MG (per tab)",
+        "AMOUNT": 6.25
+      },
+      {
+        "GENERAL DESCRIPTION": "FERROUS SULHATE 20MG (per tab)",
+        "AMOUNT": 6.25
+      },
+      {
+        "GENERAL DESCRIPTION": "INDOMEHACINE (per tab)",
+        "AMOUNT": 6.25
+      },
+      {
+        "GENERAL DESCRIPTION": "PARACETAMOL (per tab)",
+        "AMOUNT": 6.25
+      },
+      {
+        "GENERAL DESCRIPTION": "PHENOBARBITONE 30MG (per tab)",
+        "AMOUNT": 6.25
+      },
+      {
+        "GENERAL DESCRIPTION": "PROMETHAZINE 25MG (per tab)",
+        "AMOUNT": 6.25
+      },
+      {
+        "GENERAL DESCRIPTION": "Riboflavine (Vit B2) Tabs 5mg (per tab)",
+        "AMOUNT": 6.25
+      },
+      {
+        "GENERAL DESCRIPTION": "SALBUTAMOL 4MG (per tab)",
+        "AMOUNT": 6.25
+      },
+      {
+        "GENERAL DESCRIPTION": "VASOPRIN 75MG TAB",
+        "AMOUNT": 6.25
+      },
+      {
+        "GENERAL DESCRIPTION": "VIT C 100MG (per tab)",
+        "AMOUNT": 6.25
+      },
+      {
+        "GENERAL DESCRIPTION": "CHLORAMPHENICOL 250MG (PER TAB)",
+        "AMOUNT": 7.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Stilboesterol Tabs (per tab)",
+        "AMOUNT": 7.5
+      },
+      {
+        "GENERAL DESCRIPTION": "AMINOPHYLLINE TABS (per tab)",
+        "AMOUNT": 8.75
+      },
+      {
+        "GENERAL DESCRIPTION": "FALVITONE (PER CAP)",
+        "AMOUNT": 11.25
+      },
+      {
+        "GENERAL DESCRIPTION": "AMOXYCILLIN 250MG (per cap)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ARTANE 5MG (per tab)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "AVOMINE 25MG (per tab)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "DEQUADIN LOZENGES (per tab)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "DIAZEPAM 5MG (per tab)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "DIGOXIN 0.25MG (per tab)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "GRISEOFULVIN 125MG (per tab)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "HALOPERIDOL 5MG (per tab)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "INSULIN SYRINGE 40 IU (per piece)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "LOMOTIL (per tab)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "METAPRIM 25MG (per tab)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "METOCLOPRAMIDE 10MG (per tab)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "METRONIDAZOLE 200MG (per tab)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Needle (per unit)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "NITROFURANTOIN 100MG (per tab)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "PIROXICAM 20MG (per cap)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "PREDNISOLONE 5MG (per tab)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "PYRIDOXINE 50MG (per tab)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "STEMETIL 5MG (per tab)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "TETRACYCLINE 250MG (per cap)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "TRIFLUOPERAZINE 5MG (per tab)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "VIT B COMPLEX (per tab)",
+        "AMOUNT": 12.5
+      },
+      {
+        "GENERAL DESCRIPTION": "VIT A TAB",
+        "AMOUNT": 13.75
+      },
+      {
+        "GENERAL DESCRIPTION": "AMPICILLIN 250MG (PER TAB)",
+        "AMOUNT": 15
+      },
+      {
+        "GENERAL DESCRIPTION": "ACETAZOLAMIDE 250MG (per tab)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "AMOXYCILLIN 500MG (per cap)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "CAPTOPRIL 12.5MG (per tab)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "CAPTOPRIL 25MG (per tab)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "CAPTOPRIL 50MG (per tab)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "CHLOROQUINE 150MG (per tab)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "CHLORPROMAZINE 100MG (per tab)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "CIMETIDINE 200MG (per tab)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "DIABETIN 450MG (per tab)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "DIAMOX 250MG (per tab)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "DICLOFENAC 50MG (per tab)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "DOXYCYCLINE (per cap)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "FOLIC ACID 5MG (per tab)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "HYDROCHLORTIAZIDE 50MG/AMILORIDE 5MG(per tab",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "HYDROCORTISONE TABS 10MG",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "IBUPROFEN 200MG (per tab)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "MEFENAMIC ACID 250MG (per tab)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "METRONIDAZOLE 400MG (per tab)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "MODURETIC (per tab)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "NICOTINIC ACID (per tab)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "NORMORETIC (per tab)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "PYRAZINAMIDE 500MG (per tab)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "RANFERON-12 (per tab)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Retinol (Vit A) Caps (per cap)",
+        "AMOUNT": 18.75
+      },
+      {
+        "GENERAL DESCRIPTION": "AMPICLOX 500MG CAP (per cap)",
+        "AMOUNT": 20
+      },
+      {
+        "GENERAL DESCRIPTION": "LIV 52 (PER TAB)",
+        "AMOUNT": 21.25
+      },
+      {
+        "GENERAL DESCRIPTION": "AMLODIPINE 5MG (PER TAB)",
+        "AMOUNT": 22
+      },
+      {
+        "GENERAL DESCRIPTION": "ZINC 30MG TAB",
+        "AMOUNT": 22.5
+      },
+      {
+        "GENERAL DESCRIPTION": "AMITRIPTYLINE 25MG (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "ASPIRIN 300MG (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "ATENOLOL 50MG (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "BENDROFLUAZIDE (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "CANDERIL SWEETNER (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "CIMETIDINE 400MG (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "ERYTHROMYCIN 250MG (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "ETHAMBUTOL 400MG (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "FRANOL (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "FRUSEMIDE 40MG (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "GESTID (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "GLIBENCLAMIDE 5MG (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "HYOSCINE N BUTYL BROMIDE (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "IBUFROPEN 400MG (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "INDERAL 40MG (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "LORATIDINE 10MG (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "NIFEDIPINE 20MG (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "PROPANOLOL 40MG (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "ROVIGON (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "SPIRONOLACTONE 25MG (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Syringe & Needle 2ml (per unit)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "Syringe & Needle 5ml (per unit)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "TABALON 400MG (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "THALAZOLE 500MG (per tab)",
+        "AMOUNT": 25
+      },
+      {
+        "GENERAL DESCRIPTION": "ENALAPRIL 5MG TAB",
+        "AMOUNT": 26.25
+      },
+      {
+        "GENERAL DESCRIPTION": "DICLOFENAC 100MG (per tab)",
+        "AMOUNT": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "HAEMORON (PER TAB)",
+        "AMOUNT": 30
+      },
+      {
+        "GENERAL DESCRIPTION": "ACTIFED (per tab)",
+        "AMOUNT": 31.25
+      },
+      {
+        "GENERAL DESCRIPTION": "APRESOLINE 25MG (per tab)",
+        "AMOUNT": 31.25
+      },
+      {
+        "GENERAL DESCRIPTION": "CARVEDILOL 6.25mg (PER TAB)",
+        "AMOUNT": 31.25
+      },
+      {
+        "GENERAL DESCRIPTION": "ETOVIT CAPGEL 200MG (per cap)",
+        "AMOUNT": 31.25
+      },
+      {
+        "GENERAL DESCRIPTION": "EVITOL 100MG (per tab)",
+        "AMOUNT": 31.25
+      },
+      {
+        "GENERAL DESCRIPTION": "HYDROCHLOROTHIAZIDE 25MG",
+        "AMOUNT": 31.25
+      },
+      {
+        "GENERAL DESCRIPTION": "ISORDIL 5MG (per tab)",
+        "AMOUNT": 31.25
+      },
+      {
+        "GENERAL DESCRIPTION": "PHENYTOIN 100MG (per cap)",
+        "AMOUNT": 31.25
+      },
+      {
+        "GENERAL DESCRIPTION": "QUININE 300MG (per tab)",
+        "AMOUNT": 31.25
+      },
+      {
+        "GENERAL DESCRIPTION": "CHLORPHENIRAMINE INJ (PER AMP)",
+        "AMOUNT": 32.5
+      },
+      {
+        "GENERAL DESCRIPTION": "AMLODIPINE 10MG (per tab)",
+        "AMOUNT": 35
+      },
+      {
+        "GENERAL DESCRIPTION": "GLUCOPHAGE 500MG (per tab)",
+        "AMOUNT": 35
+      },
+      {
+        "GENERAL DESCRIPTION": "ABITREN 100MG (per tab)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Aldactone",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ANOROL (per tab)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ARTEMETHER/LUMEFANTRINE 20/120 (PER TABLET)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CARBAMAZEPINE 200MG (per tab)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CHYMORAL (per tab)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CO-TRIMAZOLE 480MG (per tab)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "DIHYDROCODEINE 30MG (per tab)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Ergocalciferol (Vit D) Tabs (per tab)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "EVENNG PRIME ROSE (per cap)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "INSULIN SYRINGE 100 IU (per piece)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ISORDIL 10MG (per tab)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "KOTASE (per tab)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "LEXOTHAN 1.5MG (per tab)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "LINCOMYCIN 500MG (per cap)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "LISINOPRIL 5MG (per tab)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "MAXOLON (PER TAB)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "METHYL DOPA 250MG(ALDOMET) (per tab)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "NIFEGEM RETARD 20MG (per tab)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "NIVAQUINE FORTE CAP (per cap)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Syringe & Needle 10ml (per unit)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "WARFRIN SODIUM 5MG (per tab)",
+        "AMOUNT": 37.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ATENOLOL 100MG (per tab)",
+        "AMOUNT": 38.75
+      },
+      {
+        "GENERAL DESCRIPTION": "SIMVASTATIN 20MG TAB",
+        "AMOUNT": 41.25
+      },
+      {
+        "GENERAL DESCRIPTION": "COTENIDONE TABS (per tab)",
+        "AMOUNT": 42.5
+      },
+      {
+        "GENERAL DESCRIPTION": "OLANZAPINE 5MG (per tab)",
+        "AMOUNT": 42.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Bisoprolol 2.5mg",
+        "AMOUNT": 43.75
+      },
+      {
+        "GENERAL DESCRIPTION": "CO-PROXAMOL (per tab)",
+        "AMOUNT": 43.75
+      },
+      {
+        "GENERAL DESCRIPTION": "ENCEPHABOL (per tab)",
+        "AMOUNT": 43.75
+      },
+      {
+        "GENERAL DESCRIPTION": "MOTILIUM 10MG (per tab)",
+        "AMOUNT": 43.75
+      },
+      {
+        "GENERAL DESCRIPTION": "NEOMERCAZOLE 5MG (per tab)",
+        "AMOUNT": 43.75
+      },
+      {
+        "GENERAL DESCRIPTION": "NYSTATIN PESSARIES (PER TAB)",
+        "AMOUNT": 43.75
+      },
+      {
+        "GENERAL DESCRIPTION": "STREPSIL LOZENGES (per tab)",
+        "AMOUNT": 43.75
+      },
+      {
+        "GENERAL DESCRIPTION": "GLUCOPHAGE 850MG (PER TAB)",
+        "AMOUNT": 45
+      },
+      {
+        "GENERAL DESCRIPTION": "CEPHALEXIN ( PER CAP)",
+        "AMOUNT": 48.75
+      },
+      {
+        "GENERAL DESCRIPTION": "CRYSTALLINE PENICILLIN (PER AMPOULE)",
+        "AMOUNT": 48.75
+      },
+      {
+        "GENERAL DESCRIPTION": "XTAPEN (PER AMP)",
+        "AMOUNT": 48.75
+      },
+      {
+        "GENERAL DESCRIPTION": "ALLOPURINOL 100MG TAB",
+        "AMOUNT": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "BRINERDINE (per tab)",
+        "AMOUNT": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "BROMHEXINE 8MG (per tab)",
+        "AMOUNT": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "CHLORPROMAZINE 50MG INJ (per amp)",
+        "AMOUNT": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "CHLORPROPAMIDE 250MG (per tab)",
+        "AMOUNT": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "GENTAMYCIN 80MG (per amp)",
+        "AMOUNT": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "KETOCONAZOLE 200MG (per tab)",
+        "AMOUNT": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "LEXOTHAN 3MG (per tab)",
+        "AMOUNT": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "LISINOPRIL 10MG (per tab)",
+        "AMOUNT": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "NITRAZEPAM 5MG (per tab)",
+        "AMOUNT": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "OBRON 6 CAP (per cap)",
+        "AMOUNT": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "OMEPRAZOLE 20MG (PER TAB).",
+        "AMOUNT": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "Scalp Vein Needle (per unit)",
+        "AMOUNT": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "Syringe & Needle 20ml (per unit)",
+        "AMOUNT": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "VIT C INJ (per amp)",
+        "AMOUNT": 50
+      },
+      {
+        "GENERAL DESCRIPTION": "ATOVASTATIN 10MG (PER TAB)",
+        "AMOUNT": 52.5
+      },
+      {
+        "GENERAL DESCRIPTION": "KETRAX (PER TAB).",
+        "AMOUNT": 53.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Amaryl 4mg",
+        "AMOUNT": 54
+      },
+      {
+        "GENERAL DESCRIPTION": "Mesterolone Tabs 25mg (per tab)",
+        "AMOUNT": 56.25
+      },
+      {
+        "GENERAL DESCRIPTION": "ASTYMIN (PER CAP).",
+        "AMOUNT": 57.5
+      },
+      {
+        "GENERAL DESCRIPTION": "GLUCOPHAGE 1G (per tab)",
+        "AMOUNT": 60
+      },
+      {
+        "GENERAL DESCRIPTION": "LOSARTAN 50MG PER TAB",
+        "AMOUNT": 60
+      },
+      {
+        "GENERAL DESCRIPTION": "RABEPRAZOLE 20MG (per tab)",
+        "AMOUNT": 60
+      },
+      {
+        "GENERAL DESCRIPTION": "RANITHIDINE 150MG (per tab)",
+        "AMOUNT": 60
+      },
+      {
+        "GENERAL DESCRIPTION": "ACTIVATED CHARCOAL (per cap)",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "BENZHEXOL 5MG (per tab)",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CARVEDILOL 25mg(PER TAB)",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CHLOROQUINE 200MG (per amp)",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CO-CODAMOL 500MG",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CORDARONE 200MG (per tab)",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "DITROPAN 5MG (per tab)",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "DYRIDAMOLE 100MG TAB",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "DYRIDAMOLE 100MG TAB",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Ergocalciferol (Vit D) Solution (per amp)",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ERGOMETRINE 0.5MG (PER TAB)",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "FERROBIN",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "GRISEOFULVIN 500MG (per tab)",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "HYOSCINE N BUTYL BROMIDE 20MG (per amp)",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "MANIX (per tab)",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "MOSEGOR 0.5MG (per tab)",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "NORFLEX TABS (per tab)",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "NORGESIC TAB",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "OMEGA H3 (per cap)",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "PALUDRINE 100MG TAB (per tab)",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Piroxicam inj.",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "PRIMOLUT N 5MG (per tab)",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "STUGERON 25MG (per tab)",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Testosterone Inj 200mg/ml (per amp)",
+        "AMOUNT": 62.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ALAXIN- P (PER TAB)",
+        "AMOUNT": 65
+      },
+      {
+        "GENERAL DESCRIPTION": "ALLOPURINOL 200MG TAB",
+        "AMOUNT": 65
+      },
+      {
+        "GENERAL DESCRIPTION": "PARACETAMOL 125MG SUPPOSITORY",
+        "AMOUNT": 65
+      },
+      {
+        "GENERAL DESCRIPTION": "LIVOLIN FORTE TABS (per tab)",
+        "AMOUNT": 67.5
+      },
+      {
+        "GENERAL DESCRIPTION": "PERSANTIN (PER TAB)",
+        "AMOUNT": 67.5
+      },
+      {
+        "GENERAL DESCRIPTION": "NAPROXEN 500MG (PER TAB)",
+        "AMOUNT": 70
+      },
+      {
+        "GENERAL DESCRIPTION": "Sirdalud 2mg",
+        "AMOUNT": 70
+      },
+      {
+        "GENERAL DESCRIPTION": "ACICLOVIR 200MG (per tab)",
+        "AMOUNT": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "Bisoprolol 5mg",
+        "AMOUNT": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "COMBANTRIN 125MG (per tab)",
+        "AMOUNT": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "DIPYRIDAMOLE (PER TAB)",
+        "AMOUNT": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "EVITOL100MG CAPGEL (per cap)",
+        "AMOUNT": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "HISTAC 150MG (per tab)",
+        "AMOUNT": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "HOMTAMIN GINSENG (per tab)",
+        "AMOUNT": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "HYPOVASE 1MG (per tab)",
+        "AMOUNT": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "Lexotan Inj",
+        "AMOUNT": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "METHYL DOPA 500MG(ALDOMET) (per tab)",
+        "AMOUNT": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "OCUVITE (per tab)",
+        "AMOUNT": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "PEFLOXACIN 400MG (per tab)",
+        "AMOUNT": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "PREGNACARE (per cap)",
+        "AMOUNT": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "PROMETHAZINE 50MG INJ (per amp)",
+        "AMOUNT": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "PROVIRON 25 MG (per tab)",
+        "AMOUNT": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "REGROTON (per tab)",
+        "AMOUNT": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "SANATOGEN M/VIT GOLD (per tab)",
+        "AMOUNT": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "TAVEGYL 1MG (per tab)",
+        "AMOUNT": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "VIT E 1000 IU NATURE MADE (per tab)",
+        "AMOUNT": 75
+      },
+      {
+        "GENERAL DESCRIPTION": "ARTHROTEC (PER TAB)",
+        "AMOUNT": 77.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Amaryl 2mg",
+        "AMOUNT": 80
+      },
+      {
+        "GENERAL DESCRIPTION": "ARTESUNATE 100MG (PER TAB)",
+        "AMOUNT": 81.25
+      },
+      {
+        "GENERAL DESCRIPTION": "CAMOQUINE 200MG (per tab)",
+        "AMOUNT": 81.25
+      },
+      {
+        "GENERAL DESCRIPTION": "DICYNONE 250MG (per tab)",
+        "AMOUNT": 81.25
+      },
+      {
+        "GENERAL DESCRIPTION": "FASIGYN 500MG (per tab)",
+        "AMOUNT": 81.25
+      },
+      {
+        "GENERAL DESCRIPTION": "IMMUNACE (per tab)",
+        "AMOUNT": 81.25
+      },
+      {
+        "GENERAL DESCRIPTION": "LO-FEMINAL (per sach)",
+        "AMOUNT": 81.25
+      },
+      {
+        "GENERAL DESCRIPTION": "QUININE INJ 300MG",
+        "AMOUNT": 81.25
+      },
+      {
+        "GENERAL DESCRIPTION": "ROXITHROMYCIN TABS (per tab)",
+        "AMOUNT": 81.25
+      },
+      {
+        "GENERAL DESCRIPTION": "SULPHADEINE PLUS SOLUBLE (per tab)",
+        "AMOUNT": 81.25
+      },
+      {
+        "GENERAL DESCRIPTION": "Cyanocobalamin (B12) Inj (per amp)",
+        "AMOUNT": 87.5
+      },
+      {
+        "GENERAL DESCRIPTION": "FLOXAPEN 125MG/5ML (per cap)",
+        "AMOUNT": 87.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Infusion Set (per unit)",
+        "AMOUNT": 87.5
+      },
+      {
+        "GENERAL DESCRIPTION": "OSTEOCARE (per tab)",
+        "AMOUNT": 87.5
+      },
+      {
+        "GENERAL DESCRIPTION": "URINE BAG",
+        "AMOUNT": 87.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Vit B Complex Inj (per vial)",
+        "AMOUNT": 87.5
+      },
+      {
+        "GENERAL DESCRIPTION": "DICLOFENAC SUPP 100MG (PER SUPP)",
+        "AMOUNT": 90
+      },
+      {
+        "GENERAL DESCRIPTION": "GLICAZIDE 80MG (PER TAB)",
+        "AMOUNT": 90
+      },
+      {
+        "GENERAL DESCRIPTION": "Rosuvastatin 5MG",
+        "AMOUNT": 90
+      },
+      {
+        "GENERAL DESCRIPTION": "Bisoprolol 10mg",
+        "AMOUNT": 93.75
+      },
+      {
+        "GENERAL DESCRIPTION": "DOLONUEROBION (per tab)",
+        "AMOUNT": 93.75
+      },
+      {
+        "GENERAL DESCRIPTION": "NEUROBION (per tab)",
+        "AMOUNT": 93.75
+      },
+      {
+        "GENERAL DESCRIPTION": "PIOGLITAZONE HCL 30MG (PER TAB).",
+        "AMOUNT": 97
+      },
+      {
+        "GENERAL DESCRIPTION": "CHLORAMPHENICOL 500MG INJ/AMP",
+        "AMOUNT": 97.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ACARBOSE 50MG (PER TAB)",
+        "AMOUNT": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "AMINOPHYLLINE INJ 25MG/ML (PER AMP)",
+        "AMOUNT": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "ARTHOCARE CAP (per tab)",
+        "AMOUNT": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "CAC 1000 (per tab)",
+        "AMOUNT": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "CIPROFLOXACIN 500MG (PER TAB)",
+        "AMOUNT": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "CIPROTAB 500MG (per tab)",
+        "AMOUNT": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "CLONIDINE 100MCG (per tab)",
+        "AMOUNT": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "GERIATIC PHARMATON (per cap)",
+        "AMOUNT": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "HYDROCORTISONE 100MG INJ (per amp)",
+        "AMOUNT": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Iron Dextran Inj 50mg/2ml (per amp)",
+        "AMOUNT": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "NATRILIX (PER TAB)",
+        "AMOUNT": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Ofloxacin Caps 200mg (per cap)",
+        "AMOUNT": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "PRAZIQUANTEL 600MG (per tab)",
+        "AMOUNT": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "RANITHIDINE 300MG (per tab)",
+        "AMOUNT": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "Sirdalud 4mg",
+        "AMOUNT": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "THYROXINE 0.5MG (per tab)",
+        "AMOUNT": 100
+      },
+      {
+        "GENERAL DESCRIPTION": "SECWID 400MG (PER TAB)",
+        "AMOUNT": 101.25
+      },
+      {
+        "GENERAL DESCRIPTION": "GLIPIZIDE 5MG (PER TAB)",
+        "AMOUNT": 105
+      },
+      {
+        "GENERAL DESCRIPTION": "MAXIVISION (per cap)",
+        "AMOUNT": 106.25
+      },
+      {
+        "GENERAL DESCRIPTION": "ZADITEN 1MG (per tab)",
+        "AMOUNT": 106.25
+      },
+      {
+        "GENERAL DESCRIPTION": "CALCIUM GLUCONATE INJ (per amp)",
+        "AMOUNT": 112.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CLOPIDOGREL(PER TAB)",
+        "AMOUNT": 112.5
+      },
+      {
+        "GENERAL DESCRIPTION": "DIAZEPAM 10MG (per amp)",
+        "AMOUNT": 112.5
+      },
+      {
+        "GENERAL DESCRIPTION": "MINIZIDE (per tab)",
+        "AMOUNT": 112.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CIMETIDINE INJ PER AMP",
+        "AMOUNT": 113.75
+      },
+      {
+        "GENERAL DESCRIPTION": "GABAPENTRIN(PER TAB)",
+        "AMOUNT": 113.75
+      },
+      {
+        "GENERAL DESCRIPTION": "LEVOFLOXACIN TAB 500MG",
+        "AMOUNT": 113.75
+      },
+      {
+        "GENERAL DESCRIPTION": "SUFFRATULE(PER PIECE)",
+        "AMOUNT": 113.75
+      },
+      {
+        "GENERAL DESCRIPTION": "CAMOSUNATE 600/200 (PER TAB)",
+        "AMOUNT": 120
+      },
+      {
+        "GENERAL DESCRIPTION": "Rosuvastatin 10MG",
+        "AMOUNT": 120
+      },
+      {
+        "GENERAL DESCRIPTION": "TELMISARTAN 80MG",
+        "AMOUNT": 120
+      },
+      {
+        "GENERAL DESCRIPTION": "FLUCONAZOLE 50MG (PER TAB)",
+        "AMOUNT": 122.5
+      },
+      {
+        "GENERAL DESCRIPTION": "SECNIDAZOLE 500MG(PER TAB)",
+        "AMOUNT": 122.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ALPHABETHIC CAPLET (per tab)",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "Blood Giving Set (per unit)",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "DAFLON (per tab)",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "DEXAMETHASONE 8MG (per vial)",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "DIGOXIN 0.025MG INL (PER AMP)",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "DYNAMOGEN LIQUID 10MLS (per bot)",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "EUCADIC 3.125MG (per tab)",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "FANSIDAR 525MG (per tab)",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "HISTAC 300MG (per tab)",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "IMODIUM 4MG (per tab)",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "IV Cannula (per unit)",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "MEPRASIL 20MG (per cap)",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "METOCLOPRAMIDE 5MG INJ (per amp)",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "Nasogastric (NG) TUbe",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "NOSPA TABS 40MG (per tab)",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "ORAL REHYDRATION SALT",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "ORUVAIL 200MG (per cap)",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "Paracetamol Inj (per amp)",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "TAMSULOSIN(PER TAB)",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "TEGRETOL 200MG (per tab)",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "THROXINE 100MCG (per tab)",
+        "AMOUNT": 125
+      },
+      {
+        "GENERAL DESCRIPTION": "NIZORAL 200MG (per tab)",
+        "AMOUNT": 131.25
+      },
+      {
+        "GENERAL DESCRIPTION": "SPARFLOXACIN 200MG (per tab)",
+        "AMOUNT": 131.25
+      },
+      {
+        "GENERAL DESCRIPTION": "VOLTAREN RETARD 100MG (per tab)",
+        "AMOUNT": 131.25
+      },
+      {
+        "GENERAL DESCRIPTION": "AMOXYL+CLAVULANIC ACID 375MG TAB (PER TAB)",
+        "AMOUNT": 137.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CHLOROQUINE 50MG/5ML (per bot)",
+        "AMOUNT": 137.5
+      },
+      {
+        "GENERAL DESCRIPTION": "SALBUTAMOL NEBULES 2.5MG (per neb)",
+        "AMOUNT": 137.5
+      },
+      {
+        "GENERAL DESCRIPTION": "DICLOFENAC SUPP 12.5MG (PER SUPP)",
+        "AMOUNT": 147.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CLARITHROMYCIN 500MG (per cap)",
+        "AMOUNT": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Dextromethorphan Hydrobromide Syrup (per bot.",
+        "AMOUNT": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "FRUSEMIDE INJ 20MG (per amp)",
+        "AMOUNT": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Levetiractam 250mg(Keppra)",
+        "AMOUNT": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "MINIPRESS 1MG (per tab)",
+        "AMOUNT": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Neuracalm",
+        "AMOUNT": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "ROHYPNOL 1MG (per tab)",
+        "AMOUNT": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "Sertraline 50MG (per cap)",
+        "AMOUNT": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "VITAMIN A DROPS",
+        "AMOUNT": 150
+      },
+      {
+        "GENERAL DESCRIPTION": "CEFUROXIME 250MG TAB",
+        "AMOUNT": 155
+      },
+      {
+        "GENERAL DESCRIPTION": "PROGUANIL 100MG (per tab)",
+        "AMOUNT": 156.25
+      },
+      {
+        "GENERAL DESCRIPTION": "ALBENDAZOLE (PER TAB)",
+        "AMOUNT": 162.5
+      },
+      {
+        "GENERAL DESCRIPTION": "AMPICLOX 500MG INJ (per vial)",
+        "AMOUNT": 162.5
+      },
+      {
+        "GENERAL DESCRIPTION": "BROMOCRIPTINE 2.5MG (per tab)",
+        "AMOUNT": 162.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CHLORAMPHENICOL EYE OINT. (per tube)",
+        "AMOUNT": 162.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CYTOTEC (MISOPROSTOL) 200MCG (PER TAB)",
+        "AMOUNT": 162.5
+      },
+      {
+        "GENERAL DESCRIPTION": "DICLOFENAC INJ 75MG (per amp)",
+        "AMOUNT": 162.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ERGOMETRINE INJ 1.5MG",
+        "AMOUNT": 162.5
+      },
+      {
+        "GENERAL DESCRIPTION": "INFERON (PER AMP)",
+        "AMOUNT": 162.5
+      },
+      {
+        "GENERAL DESCRIPTION": "METAKELFIN (per tab)",
+        "AMOUNT": 162.5
+      },
+      {
+        "GENERAL DESCRIPTION": "OXYTOCIN 10MG INJ PER AMP",
+        "AMOUNT": 162.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Sodium vaporate (epilium 200mg)",
+        "AMOUNT": 162.5
+      },
+      {
+        "GENERAL DESCRIPTION": "STREPTOMYCIN 5MG INJ (per vial)",
+        "AMOUNT": 162.5
+      },
+      {
+        "GENERAL DESCRIPTION": "VIT K INJ (PER AMP)",
+        "AMOUNT": 162.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ZADITEN 2MG (per tab)",
+        "AMOUNT": 162.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ESSENTIAL FORTE CAP (per cap)",
+        "AMOUNT": 175
+      },
+      {
+        "GENERAL DESCRIPTION": "Pregabalin 75mg",
+        "AMOUNT": 175
+      },
+      {
+        "GENERAL DESCRIPTION": "Rosuvastatin 20MG",
+        "AMOUNT": 180
+      },
+      {
+        "GENERAL DESCRIPTION": "AMOXYL+CLAVULANIC ACID 625MG TAB (PER TAB)",
+        "AMOUNT": 187.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CARFERGOT 50MG (per tab)",
+        "AMOUNT": 187.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CLOMID 50MG (per tab)",
+        "AMOUNT": 187.5
+      },
+      {
+        "GENERAL DESCRIPTION": "DUPHASON 10MG (per tab)",
+        "AMOUNT": 187.5
+      },
+      {
+        "GENERAL DESCRIPTION": "EUCARDIC 25MG (per tab)",
+        "AMOUNT": 187.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Labetalol 100mg",
+        "AMOUNT": 187.5
+      },
+      {
+        "GENERAL DESCRIPTION": "TRAMADOL 50MG (per cap)",
+        "AMOUNT": 187.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CLINDAMYCIN HCL 300MG CAP (per cap)",
+        "AMOUNT": 192.5
+      },
+      {
+        "GENERAL DESCRIPTION": "AMOXYL+CLAVULANIC ACID 1GM TAB (PER TAB)",
+        "AMOUNT": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "CALAMINE LOTION 100MLS (per bot)",
+        "AMOUNT": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "FOLEY'S CATHETER (per piece)",
+        "AMOUNT": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "PENTAZOCINE 30MG INJ (per amp)",
+        "AMOUNT": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "UNASYN (PER TAB)",
+        "AMOUNT": 200
+      },
+      {
+        "GENERAL DESCRIPTION": "TRAMADOL 50MG INJ. (per vial)",
+        "AMOUNT": 211.25
+      },
+      {
+        "GENERAL DESCRIPTION": "CHLORAMPHENICOL EAR DROP (per bot)",
+        "AMOUNT": 212.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Co-Aprovel 150mg (1Tab)",
+        "AMOUNT": 212.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CO-MICARDIL (PER TAB)",
+        "AMOUNT": 218.75
+      },
+      {
+        "GENERAL DESCRIPTION": "MIST KAOLIN (per bot)",
+        "AMOUNT": 225
+      },
+      {
+        "GENERAL DESCRIPTION": "PAROXETIN 100MG(PER TAB)",
+        "AMOUNT": 225
+      },
+      {
+        "GENERAL DESCRIPTION": "CEFUROXIME 500MG TAB",
+        "AMOUNT": 227.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CO-TRIMAZOLE 240MG/5ML (per bot)",
+        "AMOUNT": 231.25
+      },
+      {
+        "GENERAL DESCRIPTION": "ATROPINE 6OOMG INJ (per amp)",
+        "AMOUNT": 237.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CO-DIOVAN (per tab)",
+        "AMOUNT": 237.5
+      },
+      {
+        "GENERAL DESCRIPTION": "COLIPAN ALIXIR 5MG/5ML-100ML (per bot)",
+        "AMOUNT": 237.5
+      },
+      {
+        "GENERAL DESCRIPTION": "DIOVAN 80MG (per cap)",
+        "AMOUNT": 237.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ITRANOX 100MG (per tab)",
+        "AMOUNT": 237.5
+      },
+      {
+        "GENERAL DESCRIPTION": "PEFLACINE 400MG (per tab)",
+        "AMOUNT": 237.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CHLORAMPHENICOL SYRUP",
+        "AMOUNT": 242.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ARTEMETER 80MG INJ (PER AMP)",
+        "AMOUNT": 243.75
+      },
+      {
+        "GENERAL DESCRIPTION": "CHLORAMPHENICOL EYE DROP (per bot)",
+        "AMOUNT": 243.75
+      },
+      {
+        "GENERAL DESCRIPTION": "CHLORPHENIRAMINE 2MG/5ML (per bot)",
+        "AMOUNT": 243.75
+      },
+      {
+        "GENERAL DESCRIPTION": "GENTAMYCIN EYE/EAR DROP (per bot)",
+        "AMOUNT": 243.75
+      },
+      {
+        "GENERAL DESCRIPTION": "HYDROXYPREGESTERONE (PER TAB)",
+        "AMOUNT": 243.75
+      },
+      {
+        "GENERAL DESCRIPTION": "LESCOL 20MG (per cap)",
+        "AMOUNT": 243.75
+      },
+      {
+        "GENERAL DESCRIPTION": "SALBUTAMOL NEBULES 5MG (per neb)",
+        "AMOUNT": 243.75
+      },
+      {
+        "GENERAL DESCRIPTION": "TENORETIC (per tab)",
+        "AMOUNT": 243.75
+      },
+      {
+        "GENERAL DESCRIPTION": "WHITFIELD OINTMENT 20G (per tube)",
+        "AMOUNT": 243.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Co-Aprovel 300mg (1Tab)",
+        "AMOUNT": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "DETRUSITOL 2MG (per tab)",
+        "AMOUNT": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "DIAMICRON 60mg (per tab)",
+        "AMOUNT": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "DULCOLAX SUPP (PER SUPP)",
+        "AMOUNT": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "FOLIC ACID SYRUP",
+        "AMOUNT": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "GLYCERYLTRINITRATE (PER TAB)",
+        "AMOUNT": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "GYNODAKTARIN 200MG (per ovule)",
+        "AMOUNT": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "Labetalol 400mg",
+        "AMOUNT": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "METRONIDAZOLE INFUSION (per inf)",
+        "AMOUNT": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "PENICILLIN OINTMENT (PER TUBE)",
+        "AMOUNT": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "SLOW-K 600MG (per tab)",
+        "AMOUNT": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "TRANEXAMIC ACID 500mg (PER TAB)",
+        "AMOUNT": 250
+      },
+      {
+        "GENERAL DESCRIPTION": "MECTIZAN (IVERMECTIN) 3MG (per tab)",
+        "AMOUNT": 262.5
+      },
+      {
+        "GENERAL DESCRIPTION": "COFEX SYRUP (PER BOT)",
+        "AMOUNT": 276.25
+      },
+      {
+        "GENERAL DESCRIPTION": "ABAKTAL 400MG (per amp)",
+        "AMOUNT": 287.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CANDESARTAN 8MG PER TAB",
+        "AMOUNT": 287.5
+      },
+      {
+        "GENERAL DESCRIPTION": "AFRABVITE DROPS (PER BOT)",
+        "AMOUNT": 292.5
+      },
+      {
+        "GENERAL DESCRIPTION": "NOSPAMIN DROPS",
+        "AMOUNT": 292.5
+      },
+      {
+        "GENERAL DESCRIPTION": "AMOXYCILLIN 125MG/5ML-100MLS (per bot)",
+        "AMOUNT": 293.75
+      },
+      {
+        "GENERAL DESCRIPTION": "AMPICLOX 250MG/5ML-100ML (per bot)",
+        "AMOUNT": 293.75
+      },
+      {
+        "GENERAL DESCRIPTION": "CLOTRIMAZOLE CREAM 20G (per tube)",
+        "AMOUNT": 293.75
+      },
+      {
+        "GENERAL DESCRIPTION": "LIPITOR 10MG (per tab)",
+        "AMOUNT": 293.75
+      },
+      {
+        "GENERAL DESCRIPTION": "ZESTORETIC (per tab)",
+        "AMOUNT": 293.75
+      },
+      {
+        "GENERAL DESCRIPTION": "BENYLIN EXPECTORANT 100MLS (per bot)",
+        "AMOUNT": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "CELEBREX 200MG (per cap)",
+        "AMOUNT": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "HYDROCORTISONE 15MG (per tube)",
+        "AMOUNT": 300
+      },
+      {
+        "GENERAL DESCRIPTION": "Tetanus Toxoid/ATS Each",
+        "AMOUNT": 312.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Gram Staining",
+        "AMOUNT": 312.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ANNUSOL SUPPOSITORIES (per supp)",
+        "AMOUNT": 312.5
+      },
+      {
+        "GENERAL DESCRIPTION": "BONJELA GEL 10G (per tube)",
+        "AMOUNT": 312.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CLOTRIMAZOLE OVULE 100MG (per ovule)",
+        "AMOUNT": 312.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Danazole Caps 200mg (per cap)",
+        "AMOUNT": 312.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Galvus 50MG",
+        "AMOUNT": 312.5
+      },
+      {
+        "GENERAL DESCRIPTION": "GENTAMYCIN CREAM 15G (per tube)",
+        "AMOUNT": 312.5
+      },
+      {
+        "GENERAL DESCRIPTION": "PARACETAMOL SYRUP 125MG/5MLS (per bot)",
+        "AMOUNT": 312.5
+      },
+      {
+        "GENERAL DESCRIPTION": "PROMETHAZINE 5MG/5MG ELIXIR (per bot)",
+        "AMOUNT": 312.5
+      },
+      {
+        "GENERAL DESCRIPTION": "TETANUS TOXOID (per dose)",
+        "AMOUNT": 312.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Tetanus Toxoid/ATS Each",
+        "AMOUNT": 312.5
+      },
+      {
+        "GENERAL DESCRIPTION": "VIT B COMPLEX SYRUP (per bot)",
+        "AMOUNT": 312.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ALBENDAZOLE SUSP 400MG/20ML (per bot)",
+        "AMOUNT": 325
+      },
+      {
+        "GENERAL DESCRIPTION": "BROMHEXINE SYRUP",
+        "AMOUNT": 325
+      },
+      {
+        "GENERAL DESCRIPTION": "CICATRIN POWDER (per bot)",
+        "AMOUNT": 325
+      },
+      {
+        "GENERAL DESCRIPTION": "IBUPROFEN 100MG/5ML (per bot)",
+        "AMOUNT": 325
+      },
+      {
+        "GENERAL DESCRIPTION": "LINCOMYCIN INJ 300MG (PER AMP)",
+        "AMOUNT": 325
+      },
+      {
+        "GENERAL DESCRIPTION": "PIRITON EXPECTORANT 100MLS (per bot)",
+        "AMOUNT": 325
+      },
+      {
+        "GENERAL DESCRIPTION": "Halothane injection",
+        "AMOUNT": 337.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Ketamin Inj (per vial)",
+        "AMOUNT": 337.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Thiopentone Sodium",
+        "AMOUNT": 337.5
+      },
+      {
+        "GENERAL DESCRIPTION": "HALFAN 250MG (per tab)",
+        "AMOUNT": 356.25
+      },
+      {
+        "GENERAL DESCRIPTION": "AMOXYL 500MG INJ/AMP",
+        "AMOUNT": 357.5
+      },
+      {
+        "GENERAL DESCRIPTION": "NOSPA INJ (PER AMP)",
+        "AMOUNT": 357.5
+      },
+      {
+        "GENERAL DESCRIPTION": "METRONIDAZOLE 200MG/5ML (per bot)",
+        "AMOUNT": 362.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Terbinafine Tabs 250mg (per tab)",
+        "AMOUNT": 362.5
+      },
+      {
+        "GENERAL DESCRIPTION": "POTASSIUM CHLORIDE 3MG INJ (AMP)",
+        "AMOUNT": 373.75
+      },
+      {
+        "GENERAL DESCRIPTION": "APRESOLINE 20MG INJ (per amp)",
+        "AMOUNT": 375
+      },
+      {
+        "GENERAL DESCRIPTION": "BRONCHOLYTE 4MG/5ML ELIXIR (per bot)",
+        "AMOUNT": 375
+      },
+      {
+        "GENERAL DESCRIPTION": "CANDESARTAN 16MG PER TAB",
+        "AMOUNT": 375
+      },
+      {
+        "GENERAL DESCRIPTION": "EUCADIC 12.5MG (per tab)",
+        "AMOUNT": 375
+      },
+      {
+        "GENERAL DESCRIPTION": "PROSCAR 5MG (per tab)",
+        "AMOUNT": 387.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Minor Wound Dressing/Day",
+        "AMOUNT": 390.625
+      },
+      {
+        "GENERAL DESCRIPTION": "Urinalysis",
+        "AMOUNT": 390.625
+      },
+      {
+        "GENERAL DESCRIPTION": "AZITHROMYCIN 500mg (per cap)",
+        "AMOUNT": 400
+      },
+      {
+        "GENERAL DESCRIPTION": "VIT C SYRUP (per bot)",
+        "AMOUNT": 400
+      },
+      {
+        "GENERAL DESCRIPTION": "FUNBACT CREAM",
+        "AMOUNT": 406.25
+      },
+      {
+        "GENERAL DESCRIPTION": "MIST POTASSIUM CITRATE (per bot)",
+        "AMOUNT": 406.25
+      },
+      {
+        "GENERAL DESCRIPTION": "MODECATE 25MG INJ (per amp)",
+        "AMOUNT": 406.25
+      },
+      {
+        "GENERAL DESCRIPTION": "NYSTATIN (PER TAB)",
+        "AMOUNT": 406.25
+      },
+      {
+        "GENERAL DESCRIPTION": "PARALDEHYDE INJ",
+        "AMOUNT": 406.25
+      },
+      {
+        "GENERAL DESCRIPTION": "RANFERON BLOOD TONIC 200MLS (per bot)",
+        "AMOUNT": 406.25
+      },
+      {
+        "GENERAL DESCRIPTION": "SABRESTEN CREAM DERMAL (per tube)",
+        "AMOUNT": 406.25
+      },
+      {
+        "GENERAL DESCRIPTION": "SINUFED SYRUP (per bot)",
+        "AMOUNT": 406.25
+      },
+      {
+        "GENERAL DESCRIPTION": "SODIUM BICARBONATE 8.4% INJ (per amp)",
+        "AMOUNT": 406.25
+      },
+      {
+        "GENERAL DESCRIPTION": "PCV/Haemoglobin",
+        "AMOUNT": 437.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CIPROTAB inj (Per Vial)",
+        "AMOUNT": 437.5
+      },
+      {
+        "GENERAL DESCRIPTION": "BENZYL PEROXIDE 10 LOTION (per tube)",
+        "AMOUNT": 462.5
+      },
+      {
+        "GENERAL DESCRIPTION": "BIOCOTEN CREAM 20G (per tube)",
+        "AMOUNT": 462.5
+      },
+      {
+        "GENERAL DESCRIPTION": "NEUROGESIC GEL (per tube)",
+        "AMOUNT": 462.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Routine Intravenous Infusion/500 mls + Materials",
+        "AMOUNT": 468.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Blood Grouping",
+        "AMOUNT": 468.75
+      },
+      {
+        "GENERAL DESCRIPTION": "ESR Westergren",
+        "AMOUNT": 468.75
+      },
+      {
+        "GENERAL DESCRIPTION": "DILOXANIDE FUROATE 500MG (per tab)",
+        "AMOUNT": 475
+      },
+      {
+        "GENERAL DESCRIPTION": "XYLOCAINE INJ",
+        "AMOUNT": 481.25
+      },
+      {
+        "GENERAL DESCRIPTION": "ACCOLATE 20MG (per tab)",
+        "AMOUNT": 487.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ARTESUNATE (per pack)",
+        "AMOUNT": 487.5
+      },
+      {
+        "GENERAL DESCRIPTION": "BETNESOL EYE OINTMENT",
+        "AMOUNT": 487.5
+      },
+      {
+        "GENERAL DESCRIPTION": "BETROSIL CREAM (per tube)",
+        "AMOUNT": 487.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CANDIBIOTIC EAR DROPS",
+        "AMOUNT": 487.5
+      },
+      {
+        "GENERAL DESCRIPTION": "COMBANTRIN 250MG/5ML (per bot)",
+        "AMOUNT": 487.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CYCLOGEST 400MG PESSARY (per pess)",
+        "AMOUNT": 487.5
+      },
+      {
+        "GENERAL DESCRIPTION": "FANSIDAR SUSP 525MG/5ML (per bot)",
+        "AMOUNT": 487.5
+      },
+      {
+        "GENERAL DESCRIPTION": "FUNGISOL POWDER 20MG (per bot)",
+        "AMOUNT": 487.5
+      },
+      {
+        "GENERAL DESCRIPTION": "GESTID 100ML (per bot)",
+        "AMOUNT": 487.5
+      },
+      {
+        "GENERAL DESCRIPTION": "LIPITOR 20MG (per tab)",
+        "AMOUNT": 487.5
+      },
+      {
+        "GENERAL DESCRIPTION": "OTOMED EAR DROP (per bot)",
+        "AMOUNT": 487.5
+      },
+      {
+        "GENERAL DESCRIPTION": "QUININE SYRUP 200MLS (per bot)",
+        "AMOUNT": 487.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Malaria Parasite",
+        "AMOUNT": 500
+      },
+      {
+        "GENERAL DESCRIPTION": "Skin Snip For Microfilaria",
+        "AMOUNT": 500
+      },
+      {
+        "GENERAL DESCRIPTION": "Hb Genotype",
+        "AMOUNT": 500
+      },
+      {
+        "GENERAL DESCRIPTION": "BENZYL BENZOATE OINTMENT (per bot)",
+        "AMOUNT": 500
+      },
+      {
+        "GENERAL DESCRIPTION": "BEOPTIC EAR DROP (per bot)",
+        "AMOUNT": 500
+      },
+      {
+        "GENERAL DESCRIPTION": "GYNODAKTARIN 400MG (per ovule)",
+        "AMOUNT": 500
+      },
+      {
+        "GENERAL DESCRIPTION": "PREDNISOLONE EYE DROP (PER BOT).",
+        "AMOUNT": 500
+      },
+      {
+        "GENERAL DESCRIPTION": "MCV/MCH/MCHC Each",
+        "AMOUNT": 546.875
+      },
+      {
+        "GENERAL DESCRIPTION": "Bleeding/Clotting Time Each",
+        "AMOUNT": 546.875
+      },
+      {
+        "GENERAL DESCRIPTION": "NEXIUM TABS (per tab)",
+        "AMOUNT": 550
+      },
+      {
+        "GENERAL DESCRIPTION": "Urine Pregnancy Test",
+        "AMOUNT": 562.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Lantanoprost",
+        "AMOUNT": 562.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Retinol (Vit A) Syrup (per 200mls bot)",
+        "AMOUNT": 562.5
+      },
+      {
+        "GENERAL DESCRIPTION": "PARAFIN LIQUID (per bot)",
+        "AMOUNT": 568.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Sodium/Chloride/Potassium/Bicarbonate Each",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "Urea/Creatinine Each",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "Calcium/Uric Acid/Phosphorus Each",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "Fasting Blood Sugar/Random Blood Sugar Each",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "Total/Direct Bilirubin Each",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "Microscopy Stool/Urine Each",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "Stool Ocult Blood",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "Mantoux Test",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "Semen Analysis",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "Widal",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "VDRL",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "WBC (Total)",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "WBC ( Differential)",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "Red Cell Count",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "Platelet Count",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "Reticulocyte Count",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "Peripheral Blood Film",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "ADRENALIN INJ 1MG (per amp)",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "ARTEMETHER SUSUPENSION (PER BOT)",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "OROFER SYRUP",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "PHENOBARBITONE SYRUP (PER BOT)",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "POLYCROL FORTE GEL 100MLS (per bot)",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "POTASSIUM PERMANGANATE",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "VICRYL(PER STOOL)",
+        "AMOUNT": 625
+      },
+      {
+        "GENERAL DESCRIPTION": "BENYLIN WITH CODEINE (per bot)",
+        "AMOUNT": 650
+      },
+      {
+        "GENERAL DESCRIPTION": "CAMOSUNATE SUSP",
+        "AMOUNT": 650
+      },
+      {
+        "GENERAL DESCRIPTION": "CEPHALEXIN 125MG SYR",
+        "AMOUNT": 650
+      },
+      {
+        "GENERAL DESCRIPTION": "GESTID 200ML (per bot)",
+        "AMOUNT": 650
+      },
+      {
+        "GENERAL DESCRIPTION": "HYPOMELLOSE EYE DROP (per bot)",
+        "AMOUNT": 650
+      },
+      {
+        "GENERAL DESCRIPTION": "PYRAZINAMIDE SYRUP (per bot)",
+        "AMOUNT": 650
+      },
+      {
+        "GENERAL DESCRIPTION": "SABRESTEN VAG CREAM (per tube)",
+        "AMOUNT": 650
+      },
+      {
+        "GENERAL DESCRIPTION": "TRANXEMIC ACID 100MG INJ (PER AMP)",
+        "AMOUNT": 650
+      },
+      {
+        "GENERAL DESCRIPTION": "ARTESUNATE SYR (PER BOT)",
+        "AMOUNT": 662.5
+      },
+      {
+        "GENERAL DESCRIPTION": "DICYNONE 250MG (per amp)",
+        "AMOUNT": 687.5
+      },
+      {
+        "GENERAL DESCRIPTION": "LAMIVUDINE 100MG (per tab)",
+        "AMOUNT": 700
+      },
+      {
+        "GENERAL DESCRIPTION": "CASTOR OIL (PER BOT)",
+        "AMOUNT": 731.25
+      },
+      {
+        "GENERAL DESCRIPTION": "MENTHODEX (per bot)",
+        "AMOUNT": 731.25
+      },
+      {
+        "GENERAL DESCRIPTION": "NYSTATIN CREAM (PER TUBE)",
+        "AMOUNT": 731.25
+      },
+      {
+        "GENERAL DESCRIPTION": "SALBUTAMOL SYRUP (PER BOT)",
+        "AMOUNT": 731.25
+      },
+      {
+        "GENERAL DESCRIPTION": "CAMOSUNATE TAB (PER PACK)",
+        "AMOUNT": 747.5
+      },
+      {
+        "GENERAL DESCRIPTION": "IVYZINC",
+        "AMOUNT": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "MIST MAG. (PER BOT).",
+        "AMOUNT": 750
+      },
+      {
+        "GENERAL DESCRIPTION": "AMIKACIN INJ",
+        "AMOUNT": 780
+      },
+      {
+        "GENERAL DESCRIPTION": "KENACOMB CREAM (per tube)",
+        "AMOUNT": 780
+      },
+      {
+        "GENERAL DESCRIPTION": "Nursing Care Per Diem",
+        "AMOUNT": 781.25
+      },
+      {
+        "GENERAL DESCRIPTION": "NPI Immunisation-Each (Unregistered Enrollees)",
+        "AMOUNT": 781.25
+      },
+      {
+        "GENERAL DESCRIPTION": "Major Wound Dressing/Day",
+        "AMOUNT": 781.25
+      },
+      {
+        "GENERAL DESCRIPTION": "Bence Jones Protein",
+        "AMOUNT": 781.25
+      },
+      {
+        "GENERAL DESCRIPTION": "C- Reactive Protein",
+        "AMOUNT": 781.25
+      },
+      {
+        "GENERAL DESCRIPTION": "Skin Scraping For Fungal Studies",
+        "AMOUNT": 781.25
+      },
+      {
+        "GENERAL DESCRIPTION": "Cross Matching",
+        "AMOUNT": 781.25
+      },
+      {
+        "GENERAL DESCRIPTION": "NPI Immunisation-Each (Unregistered Enrollees)",
+        "AMOUNT": 781.25
+      },
+      {
+        "GENERAL DESCRIPTION": "SALICYLIC ACID OINT 20% (per bot)",
+        "AMOUNT": 781.25
+      },
+      {
+        "GENERAL DESCRIPTION": "ALAXIN SUSP 10MG/5ML-80ML (per bot)",
+        "AMOUNT": 812.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CERUMOL EAR DROP (per bot)",
+        "AMOUNT": 812.5
+      },
+      {
+        "GENERAL DESCRIPTION": "EUCALYPTUS OIL (per bot)",
+        "AMOUNT": 812.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ONDANSETRONE INJ (PER AMP)",
+        "AMOUNT": 812.5
+      },
+      {
+        "GENERAL DESCRIPTION": "SKINHEAL CREAM (PER TUBE)",
+        "AMOUNT": 812.5
+      },
+      {
+        "GENERAL DESCRIPTION": "UNASYN INJECTION (PER AMP)",
+        "AMOUNT": 812.5
+      },
+      {
+        "GENERAL DESCRIPTION": "RANITHIDINE INJ 50MG (PER AMP)",
+        "AMOUNT": 837.5
+      },
+      {
+        "GENERAL DESCRIPTION": "MIXTARD INSULIN PER 40 I.U/ML",
+        "AMOUNT": 845
+      },
+      {
+        "GENERAL DESCRIPTION": "DARROWS SOLUTION 1/2 strength (per inf)",
+        "AMOUNT": 850
+      },
+      {
+        "GENERAL DESCRIPTION": "DARROWS SOLUTION FULL strength (per inf)",
+        "AMOUNT": 850
+      },
+      {
+        "GENERAL DESCRIPTION": "DEXTROSE 10% INFUSION",
+        "AMOUNT": 850
+      },
+      {
+        "GENERAL DESCRIPTION": "DEXTROSE 4.3%/NORMAL SALINE (per inf)",
+        "AMOUNT": 850
+      },
+      {
+        "GENERAL DESCRIPTION": "DEXTROSE 5% (per inf)",
+        "AMOUNT": 850
+      },
+      {
+        "GENERAL DESCRIPTION": "DEXTROSE 50% (per inf)",
+        "AMOUNT": 850
+      },
+      {
+        "GENERAL DESCRIPTION": "DEXTROSE SALINE 5%",
+        "AMOUNT": 850
+      },
+      {
+        "GENERAL DESCRIPTION": "MANNITOL INFUSION 10%",
+        "AMOUNT": 850
+      },
+      {
+        "GENERAL DESCRIPTION": "NORMAL SALINE",
+        "AMOUNT": 850
+      },
+      {
+        "GENERAL DESCRIPTION": "RINGERS LACTATE INJ",
+        "AMOUNT": 850
+      },
+      {
+        "GENERAL DESCRIPTION": "DEPO PROVERA INJ (per vial)",
+        "AMOUNT": 875
+      },
+      {
+        "GENERAL DESCRIPTION": "ERYTHROMYCIN 125MG/5ML (per bot)",
+        "AMOUNT": 875
+      },
+      {
+        "GENERAL DESCRIPTION": "Optodexin",
+        "AMOUNT": 875
+      },
+      {
+        "GENERAL DESCRIPTION": "FANSIDAR INJ 525MG (per amp)",
+        "AMOUNT": 881.25
+      },
+      {
+        "GENERAL DESCRIPTION": "APPATIM EYE DROP",
+        "AMOUNT": 893.75
+      },
+      {
+        "GENERAL DESCRIPTION": "CEPHALEXIN 250MG SYR",
+        "AMOUNT": 893.75
+      },
+      {
+        "GENERAL DESCRIPTION": "INTERFLOX 500MG (per cap)",
+        "AMOUNT": 893.75
+      },
+      {
+        "GENERAL DESCRIPTION": "OMEPRAZOLE 40MG INJ (PER AMP)",
+        "AMOUNT": 893.75
+      },
+      {
+        "GENERAL DESCRIPTION": "SPERSALLERGE EYE DROP (per bot)",
+        "AMOUNT": 893.75
+      },
+      {
+        "GENERAL DESCRIPTION": "TIMOLOL EYE DROP 0.5% (per bot)",
+        "AMOUNT": 893.75
+      },
+      {
+        "GENERAL DESCRIPTION": "ARTEMETHER/LUMEFANTRINE 80/480 (PER PACK)",
+        "AMOUNT": 910
+      },
+      {
+        "GENERAL DESCRIPTION": "SGOT/SGPT Each",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Alkaline Prosphatase",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Total Acid Phosphatase/Prostatic Each",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Gamma Glutamyl Transferace",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CPK",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "LDH",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Amylase",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Total Protein/Albumin Each",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Creatine Kinase",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Cholesterol",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Tryglyceride",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CSF Protein",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CSF Glucose",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CSF Chloride",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Urine M/C/S",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Stool M/C/S",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "HVS/Urethral Swab M/C/S Each",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Ear/Nose/Throat Swab M/C/S Each",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Sputum M/C/S",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CSF M/C/S",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Wound/Pus/Aspirate M/C/S Each",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "AFB For TB (ZN Staining) Each",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Culture (Fungal)",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Semen M/C/S",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Pregnancy Test-HCG (Blood)",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CIPROFLOXACIN 200MG INFUSION (per bot)",
+        "AMOUNT": 937.5
+      },
+      {
+        "GENERAL DESCRIPTION": "BRONCHICUM (per bot)",
+        "AMOUNT": 975
+      },
+      {
+        "GENERAL DESCRIPTION": "CAMOQUINE 50MG/5ML-60ML (per bot)",
+        "AMOUNT": 975
+      },
+      {
+        "GENERAL DESCRIPTION": "CIPROFLOXACIN EYE DROP",
+        "AMOUNT": 975
+      },
+      {
+        "GENERAL DESCRIPTION": "DAKTACORT PESSARIES (PACK)",
+        "AMOUNT": 975
+      },
+      {
+        "GENERAL DESCRIPTION": "HYCOMYCIN EYEDROP (per bot)",
+        "AMOUNT": 975
+      },
+      {
+        "GENERAL DESCRIPTION": "IVYDEXGENT (PER BOT)",
+        "AMOUNT": 975
+      },
+      {
+        "GENERAL DESCRIPTION": "IVYMORCELL EYE DROP",
+        "AMOUNT": 975
+      },
+      {
+        "GENERAL DESCRIPTION": "LORATIDINE SYRUP",
+        "AMOUNT": 975
+      },
+      {
+        "GENERAL DESCRIPTION": "MELROSUM WITH CODEIN 100ML (per bot)",
+        "AMOUNT": 975
+      },
+      {
+        "GENERAL DESCRIPTION": "MILK OF MAGNESIA(100MLS)",
+        "AMOUNT": 975
+      },
+      {
+        "GENERAL DESCRIPTION": "NYSTATIN ORAL DROPS 30MLS (per bot)",
+        "AMOUNT": 975
+      },
+      {
+        "GENERAL DESCRIPTION": "OLFEN GEL (per tube)",
+        "AMOUNT": 975
+      },
+      {
+        "GENERAL DESCRIPTION": "PHENEGAN CREAM 2% 30G (per tube)",
+        "AMOUNT": 975
+      },
+      {
+        "GENERAL DESCRIPTION": "PILOCARPINE EYE DROP 2% (per bot)",
+        "AMOUNT": 975
+      },
+      {
+        "GENERAL DESCRIPTION": "SODIUM CHROMOGLYCATE EYE DROP (per bot)",
+        "AMOUNT": 975
+      },
+      {
+        "GENERAL DESCRIPTION": "OTRIVIN NASAL DROPS 0.05% 10MLS (per bot)",
+        "AMOUNT": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "Paracetamol infusion",
+        "AMOUNT": 1000
+      },
+      {
+        "GENERAL DESCRIPTION": "AMOXYL+CLAVULANIC ACID 1.2G (PER AMP)",
+        "AMOUNT": 1040
+      },
+      {
+        "GENERAL DESCRIPTION": "ANTISIN-PRIVIN EYE DROP-10ML (per bot)",
+        "AMOUNT": 1056.25
+      },
+      {
+        "GENERAL DESCRIPTION": "CEFUROXIME 750MG INJ",
+        "AMOUNT": 1056.25
+      },
+      {
+        "GENERAL DESCRIPTION": "GYNOTROSID 100MG (per ovule)",
+        "AMOUNT": 1056.25
+      },
+      {
+        "GENERAL DESCRIPTION": "LEVOFLOXACIN INF 100ML",
+        "AMOUNT": 1056.25
+      },
+      {
+        "GENERAL DESCRIPTION": "NIZORAL CREAM 15MG (per tube)",
+        "AMOUNT": 1056.25
+      },
+      {
+        "GENERAL DESCRIPTION": "PILOCARPINE EYE DROP 4% (per bot)",
+        "AMOUNT": 1056.25
+      },
+      {
+        "GENERAL DESCRIPTION": "VISINE EYE DROP (per bot)",
+        "AMOUNT": 1056.25
+      },
+      {
+        "GENERAL DESCRIPTION": "BENZYL PEROXIDE 5 LOTION (per tube)",
+        "AMOUNT": 1062.5
+      },
+      {
+        "GENERAL DESCRIPTION": "FLOXAPEN 125MG/5ML (per bot)",
+        "AMOUNT": 1062.5
+      },
+      {
+        "GENERAL DESCRIPTION": "OTRIVIN NASAL DROP 0.1% 10MLS (per bot)",
+        "AMOUNT": 1062.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Triamcinolone Inj (per amp)",
+        "AMOUNT": 1062.5
+      },
+      {
+        "GENERAL DESCRIPTION": "BEOPTIC EYE (per bot)",
+        "AMOUNT": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "GESTONE 50MG (per amp)",
+        "AMOUNT": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "Salbutamol Aerosol (per spray can)",
+        "AMOUNT": 1125
+      },
+      {
+        "GENERAL DESCRIPTION": "CROMAX 4 EYE DROP",
+        "AMOUNT": 1137.5
+      },
+      {
+        "GENERAL DESCRIPTION": "SALINE NASAL DROP (per tab)",
+        "AMOUNT": 1137.5
+      },
+      {
+        "GENERAL DESCRIPTION": "STARXON (per vial)",
+        "AMOUNT": 1137.5
+      },
+      {
+        "GENERAL DESCRIPTION": "SUFFRATULE(PER PACK)",
+        "AMOUNT": 1137.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CEFIXIME SYR (PER BOT)",
+        "AMOUNT": 1187.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Terbinafine CREAM 15G (per tube)",
+        "AMOUNT": 1193.75
+      },
+      {
+        "GENERAL DESCRIPTION": "ARTEMETHER/LUMEFANTRINE SUSPENSION PER BOTTLE",
+        "AMOUNT": 1200
+      },
+      {
+        "GENERAL DESCRIPTION": "CEFTRIAXONE 1G INJ/VIAL",
+        "AMOUNT": 1200
+      },
+      {
+        "GENERAL DESCRIPTION": "DEPOMEDROL 40MG (per vial)",
+        "AMOUNT": 1218.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Creatine Clearance",
+        "AMOUNT": 1250
+      },
+      {
+        "GENERAL DESCRIPTION": "Urea Clearance",
+        "AMOUNT": 1250
+      },
+      {
+        "GENERAL DESCRIPTION": "LDL",
+        "AMOUNT": 1250
+      },
+      {
+        "GENERAL DESCRIPTION": "HDL",
+        "AMOUNT": 1250
+      },
+      {
+        "GENERAL DESCRIPTION": "Direct/Indirect Coombs Test Each",
+        "AMOUNT": 1250
+      },
+      {
+        "GENERAL DESCRIPTION": "Hepatitis B Surface Antigen Screening (HbsAg)",
+        "AMOUNT": 1250
+      },
+      {
+        "GENERAL DESCRIPTION": "Full Blood Count",
+        "AMOUNT": 1250
+      },
+      {
+        "GENERAL DESCRIPTION": "ACTIFIED SYRUP",
+        "AMOUNT": 1250
+      },
+      {
+        "GENERAL DESCRIPTION": "BIVACYN SPRAY (per pack)",
+        "AMOUNT": 1250
+      },
+      {
+        "GENERAL DESCRIPTION": "DETRUSITOL XL 4MG (per cap)",
+        "AMOUNT": 1250
+      },
+      {
+        "GENERAL DESCRIPTION": "ENCEPHABOL SYR 100MLS (per bot)",
+        "AMOUNT": 1250
+      },
+      {
+        "GENERAL DESCRIPTION": "Fluocinolone cream",
+        "AMOUNT": 1250
+      },
+      {
+        "GENERAL DESCRIPTION": "IVYCROM EYE DROP",
+        "AMOUNT": 1250
+      },
+      {
+        "GENERAL DESCRIPTION": "IVYFLUR",
+        "AMOUNT": 1250
+      },
+      {
+        "GENERAL DESCRIPTION": "KETOLAC INJ",
+        "AMOUNT": 1250
+      },
+      {
+        "GENERAL DESCRIPTION": "CETRIZINE SYRUP",
+        "AMOUNT": 1300
+      },
+      {
+        "GENERAL DESCRIPTION": "FEROGLOBIN 200ML (per bot)",
+        "AMOUNT": 1300
+      },
+      {
+        "GENERAL DESCRIPTION": "MAXIDEX EYE DROP (per bot)",
+        "AMOUNT": 1300
+      },
+      {
+        "GENERAL DESCRIPTION": "MYDRIACYL EYE DROP (per bot)",
+        "AMOUNT": 1300
+      },
+      {
+        "GENERAL DESCRIPTION": "SOLUSET (per piece)",
+        "AMOUNT": 1300
+      },
+      {
+        "GENERAL DESCRIPTION": "CLOBETASOL 45G CREAM (per tube)",
+        "AMOUNT": 1375
+      },
+      {
+        "GENERAL DESCRIPTION": "GESTONE 100MG (per amp)",
+        "AMOUNT": 1375
+      },
+      {
+        "GENERAL DESCRIPTION": "NEPAFLAM EYE DROP",
+        "AMOUNT": 1375
+      },
+      {
+        "GENERAL DESCRIPTION": "BETAMETHASONE SODIUM EYE DROP",
+        "AMOUNT": 1381.25
+      },
+      {
+        "GENERAL DESCRIPTION": "DERMOVATE CREAM 25G (per tube)",
+        "AMOUNT": 1381.25
+      },
+      {
+        "GENERAL DESCRIPTION": "RHINATHIOL SYRUP (per 100ml bot)",
+        "AMOUNT": 1381.25
+      },
+      {
+        "GENERAL DESCRIPTION": "FLUCONAZOLE SYR",
+        "AMOUNT": 1397.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ANTHISAN CREAM 25MG (per tube)",
+        "AMOUNT": 1462.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CEFTAZIDINE 1G ING",
+        "AMOUNT": 1462.5
+      },
+      {
+        "GENERAL DESCRIPTION": "DAKTACORT CREAM (PER TUBE)",
+        "AMOUNT": 1462.5
+      },
+      {
+        "GENERAL DESCRIPTION": "NYOLOL 0.5 EYE DROP (per bot)",
+        "AMOUNT": 1462.5
+      },
+      {
+        "GENERAL DESCRIPTION": "PRIMOLUT DEPOT 250MG (per vial)",
+        "AMOUNT": 1462.5
+      },
+      {
+        "GENERAL DESCRIPTION": "TEAR NATURALE EYE DROP (per bot)",
+        "AMOUNT": 1462.5
+      },
+      {
+        "GENERAL DESCRIPTION": "AMOXYL+CLAVULANIC ACID 312.5MG SUSP (PER BOT).",
+        "AMOUNT": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "AMOXYL+CLAVULANIC ACID 228MG SUSP (PER BOT).",
+        "AMOUNT": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "BETNESOL EYE/EAR/NOSE DROP (per bot)",
+        "AMOUNT": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "DERMAZINE CREAM 50MG (per tube)",
+        "AMOUNT": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "EURAX CREAM (per tube)",
+        "AMOUNT": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "GATE DPX EYE DROP",
+        "AMOUNT": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "GYNOTROSID 300MG (per ovule)",
+        "AMOUNT": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "PENTAVALENT VACCINE",
+        "AMOUNT": 1500
+      },
+      {
+        "GENERAL DESCRIPTION": "DEPIXOL 20MG (per amp)",
+        "AMOUNT": 1543.75
+      },
+      {
+        "GENERAL DESCRIPTION": "HALFAN 100MG/5ML (per bot)",
+        "AMOUNT": 1543.75
+      },
+      {
+        "GENERAL DESCRIPTION": "LOCASALENE CREAM 30MG (per tube)",
+        "AMOUNT": 1543.75
+      },
+      {
+        "GENERAL DESCRIPTION": "MAXITROL EYE DROP (per bot)",
+        "AMOUNT": 1543.75
+      },
+      {
+        "GENERAL DESCRIPTION": "NYOLOL OPTHALMIC GEL 0.1% 5G (per bot)",
+        "AMOUNT": 1543.75
+      },
+      {
+        "GENERAL DESCRIPTION": "TOBRAMYCIN OINTMENT",
+        "AMOUNT": 1543.75
+      },
+      {
+        "GENERAL DESCRIPTION": "TOBREX EYE DROP",
+        "AMOUNT": 1543.75
+      },
+      {
+        "GENERAL DESCRIPTION": "TRAVOCORT CREAM (per tab)",
+        "AMOUNT": 1543.75
+      },
+      {
+        "GENERAL DESCRIPTION": "General Consultation",
+        "AMOUNT": 1562.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Annual Physical Examination With Report (No Lab Tests)",
+        "AMOUNT": 1562.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Suturing Of Simple Laceration",
+        "AMOUNT": 1562.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Prothrombin/Thromboplastin Time Each",
+        "AMOUNT": 1562.5
+      },
+      {
+        "GENERAL DESCRIPTION": "ACICLOVIR CREAM 10MG (per tube)",
+        "AMOUNT": 1625
+      },
+      {
+        "GENERAL DESCRIPTION": "OKACIN EYE DROP (per bot)",
+        "AMOUNT": 1625
+      },
+      {
+        "GENERAL DESCRIPTION": "ALOMIDE EYEDROP 10MLS (per bot)",
+        "AMOUNT": 1787.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CEFUROXIME SYR",
+        "AMOUNT": 1787.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CILOXAN EYE DROP (per bot)",
+        "AMOUNT": 1787.5
+      },
+      {
+        "GENERAL DESCRIPTION": "HYPOTEARS GEL",
+        "AMOUNT": 1787.5
+      },
+      {
+        "GENERAL DESCRIPTION": "IKACLOMIN 50MG (per tab)",
+        "AMOUNT": 1787.5
+      },
+      {
+        "GENERAL DESCRIPTION": "KENALOG 40MG (per amp)",
+        "AMOUNT": 1787.5
+      },
+      {
+        "GENERAL DESCRIPTION": "TROSYD CREAM (per tube)",
+        "AMOUNT": 1787.5
+      },
+      {
+        "GENERAL DESCRIPTION": "SALBUTAMOL 100MCG INHALER (per piece)",
+        "AMOUNT": 1800
+      },
+      {
+        "GENERAL DESCRIPTION": "Phototherapy Per Diem",
+        "AMOUNT": 1875
+      },
+      {
+        "GENERAL DESCRIPTION": "Protein Electrophoresis",
+        "AMOUNT": 1875
+      },
+      {
+        "GENERAL DESCRIPTION": "Beclomethasone Aerosol Inhalation (per can)",
+        "AMOUNT": 1875
+      },
+      {
+        "GENERAL DESCRIPTION": "Chorionic Gonadotrophin Inj (per amp)",
+        "AMOUNT": 1875
+      },
+      {
+        "GENERAL DESCRIPTION": "ADVANTAN OINTMENT (per tube)",
+        "AMOUNT": 1950
+      },
+      {
+        "GENERAL DESCRIPTION": "MILK OF MAGNESIA PHILIP 200MLS (per bot)",
+        "AMOUNT": 1950
+      },
+      {
+        "GENERAL DESCRIPTION": "NIZORAL SHAMPOO (per bot)",
+        "AMOUNT": 1950
+      },
+      {
+        "GENERAL DESCRIPTION": "Glucose Tolerance Test",
+        "AMOUNT": 1953.125
+      },
+      {
+        "GENERAL DESCRIPTION": "Glycosylated Haemoglobin",
+        "AMOUNT": 1953.125
+      },
+      {
+        "GENERAL DESCRIPTION": "INSULIN LENTEL 40 IU (per vial)",
+        "AMOUNT": 2018.75
+      },
+      {
+        "GENERAL DESCRIPTION": "FLIXONASE NASAL SPRAY",
+        "AMOUNT": 2193.75
+      },
+      {
+        "GENERAL DESCRIPTION": "VOLTAREN EYE DROP",
+        "AMOUNT": 2193.75
+      },
+      {
+        "GENERAL DESCRIPTION": "AZITHROMYCIN SUSPENSION PER BOTTLE",
+        "AMOUNT": 2200
+      },
+      {
+        "GENERAL DESCRIPTION": "DEPROSALIC ACID OINTMENT (PER TUBE)",
+        "AMOUNT": 2275
+      },
+      {
+        "GENERAL DESCRIPTION": "Feeding Per Diem (Private Ward)",
+        "AMOUNT": 2343.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Feeding Per Diem (Semi-Private Ward)",
+        "AMOUNT": 2343.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Feeding Per Diem (General Ward)",
+        "AMOUNT": 2343.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Hepatitis B Vaccine/Dose",
+        "AMOUNT": 2343.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Tongue Tie Release",
+        "AMOUNT": 2343.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Neck Collar (Soft)",
+        "AMOUNT": 2343.75
+      },
+      {
+        "GENERAL DESCRIPTION": "G-6 Phosphate Dehydrogenase",
+        "AMOUNT": 2343.75
+      },
+      {
+        "GENERAL DESCRIPTION": "ASO Titre",
+        "AMOUNT": 2343.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Rheumatoid Factor",
+        "AMOUNT": 2343.75
+      },
+      {
+        "GENERAL DESCRIPTION": "BECONASENASAL DROP (per pack)",
+        "AMOUNT": 2375
+      },
+      {
+        "GENERAL DESCRIPTION": "CLEXANE INJ",
+        "AMOUNT": 2400
+      },
+      {
+        "GENERAL DESCRIPTION": "RETIN A CREAM (per tube)",
+        "AMOUNT": 2437.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Specialist Review (Inpatient)",
+        "AMOUNT": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "General Ward Per Diem",
+        "AMOUNT": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "Nebulisation (Subsequent)",
+        "AMOUNT": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "Incubator Care Per Diem",
+        "AMOUNT": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "Ear Piercing For Female Baby",
+        "AMOUNT": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "Blood Culture & Sensitivity",
+        "AMOUNT": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "Screening For HIV 1 & 2",
+        "AMOUNT": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "ENCEPHABOL SYR 120MLS (per bot)",
+        "AMOUNT": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "ZADITEN EYE DROPS (per bot)",
+        "AMOUNT": 2500
+      },
+      {
+        "GENERAL DESCRIPTION": "MOSEGOR 100MLS (per bot)",
+        "AMOUNT": 2550
+      },
+      {
+        "GENERAL DESCRIPTION": "BACTROBAM CREAM 15G (per tube)",
+        "AMOUNT": 2600
+      },
+      {
+        "GENERAL DESCRIPTION": "ERYTHROMYCIN CREAM 4% 30MG (per tube)",
+        "AMOUNT": 2875
+      },
+      {
+        "GENERAL DESCRIPTION": "ISOPLASMA",
+        "AMOUNT": 2875
+      },
+      {
+        "GENERAL DESCRIPTION": "ENCEPHABOL SYR 200MLS (per bot)",
+        "AMOUNT": 3000
+      },
+      {
+        "GENERAL DESCRIPTION": "PATANOL (OLOPATADINE) EYE DROP",
+        "AMOUNT": 3087.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Physiotherapy Service/Session (Maximum X6 Sessions)",
+        "AMOUNT": 3125
+      },
+      {
+        "GENERAL DESCRIPTION": "Chest (PA/AP)",
+        "AMOUNT": 3125
+      },
+      {
+        "GENERAL DESCRIPTION": "Apical/Lordotic",
+        "AMOUNT": 3125
+      },
+      {
+        "GENERAL DESCRIPTION": "Sternum",
+        "AMOUNT": 3125
+      },
+      {
+        "GENERAL DESCRIPTION": "Abdomen",
+        "AMOUNT": 3125
+      },
+      {
+        "GENERAL DESCRIPTION": "Pelvic",
+        "AMOUNT": 3125
+      },
+      {
+        "GENERAL DESCRIPTION": "Obstetric",
+        "AMOUNT": 3125
+      },
+      {
+        "GENERAL DESCRIPTION": "Hepatitis B Vaccine/Dose",
+        "AMOUNT": 3125
+      },
+      {
+        "GENERAL DESCRIPTION": "DEPOMEDROL 80MG (per vial)",
+        "AMOUNT": 3412.5
+      },
+      {
+        "GENERAL DESCRIPTION": "VANCOMYCIN 1G INJ (PER AMP)",
+        "AMOUNT": 3412.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CHOTIGON 5000IU (per amp)",
+        "AMOUNT": 3575
+      },
+      {
+        "GENERAL DESCRIPTION": "PREGYNL 5000 IU (per pack)",
+        "AMOUNT": 3575
+      },
+      {
+        "GENERAL DESCRIPTION": "Specialist Consultation-Follow Up (Out patient)",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Semi-Private Ward Per Diem",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Incision & Drainage (Out Of Station Emergencies)",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Nebulisation (Initial)",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Serum Electrolytes/Urea/Creatinine",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Liver Function Test",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Lipid Profile",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Hand",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Wrist",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Forearm",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Elbow",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Humerus",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Shoulder",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Clavicle",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Foot/Toe",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Ankle",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Leg (Tibia/Fibula)",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Knee",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Thigh (Femur)",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Hip Joint",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Abdomen (Plain)",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Abdomen (Erect/Supine)",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "HAEMACCEL INFUSION. (per pint)",
+        "AMOUNT": 3750
+      },
+      {
+        "GENERAL DESCRIPTION": "Catheterisation Of Urinary Bladder + Urine Bag",
+        "AMOUNT": 3906.25
+      },
+      {
+        "GENERAL DESCRIPTION": "Oxygen Therapy Per Diem",
+        "AMOUNT": 3906.25
+      },
+      {
+        "GENERAL DESCRIPTION": "Aspirations & Paracentesis",
+        "AMOUNT": 3906.25
+      },
+      {
+        "GENERAL DESCRIPTION": "PROSPENEM(PER VIAL)",
+        "AMOUNT": 4000
+      },
+      {
+        "GENERAL DESCRIPTION": "Abdominopelvic",
+        "AMOUNT": 4375
+      },
+      {
+        "GENERAL DESCRIPTION": "FLIXOTIDE ACCUHALER (per accu)",
+        "AMOUNT": 4375
+      },
+      {
+        "GENERAL DESCRIPTION": "CEFPODOXIME(ORELOX) Susp.",
+        "AMOUNT": 4500
+      },
+      {
+        "GENERAL DESCRIPTION": "MONOTARD INSULIN HM 100 IU/ML (per vial)",
+        "AMOUNT": 4550
+      },
+      {
+        "GENERAL DESCRIPTION": "Haemophilus Influenzae Type B (HiB) Vaccine",
+        "AMOUNT": 4687.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Gastric Lavage",
+        "AMOUNT": 4687.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Neck Collar (Hard)",
+        "AMOUNT": 4687.5
+      },
+      {
+        "GENERAL DESCRIPTION": "TSH/T3/T4 Each",
+        "AMOUNT": 4687.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Prolactin/Testoterone/FSH/LH (Each)",
+        "AMOUNT": 4687.5
+      },
+      {
+        "GENERAL DESCRIPTION": "CD4 Count",
+        "AMOUNT": 4687.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Cytology (Pap Smear, FNAC)",
+        "AMOUNT": 4687.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Lacrimal Syringing",
+        "AMOUNT": 4687.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Haemophilus Influenzae Type B (HiB) Vaccine",
+        "AMOUNT": 4687.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Private Ward Per Diem",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "HIV Confirmatory",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pelvic (AP)",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Chest (PA & Lateral)",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Chest For Ribs (Obliques)",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Thoracic Inlet",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cervical Spine",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cervical Spine (Obliques)",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Lateral Neck (Soft Tissue)",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Thoracic Spine",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Thoraco Lumbar Spine",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Lumbar Spine",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Lumbo Sacral Spine",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sacrum",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sacro Iliac Joint (S.I.J.)",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sacro-Coccxy",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Skull (AP & Lat)",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Skull (PA/Lat/Townes)",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Mastoids",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Paranasal Sinuses",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Mandibles (Jaws)",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Temporo-Mandibular Joints (TMJ)",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sella Turcica",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tagential",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Occipito-Mental (Om)",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Post Nasal Space",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Internal Auditory Meatus",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Thyroid",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Scrotal",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Breast",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Prostate",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Bladder",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Transfontanellar",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ovulometry/TV Scan",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Electrocardiogram (E C G)",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Local",
+        "AMOUNT": 5000
+      },
+      {
+        "GENERAL DESCRIPTION": "Anti Rabies Vaccine",
+        "AMOUNT": 5468.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Typhoid Vaccine",
+        "AMOUNT": 5468.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Meningitis Vaccine",
+        "AMOUNT": 5468.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Measles, Mumps & Rubella (MMR) Vaccine",
+        "AMOUNT": 5468.75
+      },
+      {
+        "GENERAL DESCRIPTION": "ANTI RABIES VACCINE (per vial)",
+        "AMOUNT": 5468.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Measles, Mumps & Rubella (MMR) Vaccine",
+        "AMOUNT": 5468.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Typhoid Vaccine",
+        "AMOUNT": 5468.75
+      },
+      {
+        "GENERAL DESCRIPTION": "ACTRAPID INSULIN 10MLS (per vial)",
+        "AMOUNT": 5625
+      },
+      {
+        "GENERAL DESCRIPTION": "MIXTARD INSULIN 3ML (per catridge)",
+        "AMOUNT": 5625
+      },
+      {
+        "GENERAL DESCRIPTION": "SERETIDE DISKUS-CHILDREN (per pack)",
+        "AMOUNT": 6000
+      },
+      {
+        "GENERAL DESCRIPTION": "MENOGON 75 IU (per pack)",
+        "AMOUNT": 6175
+      },
+      {
+        "GENERAL DESCRIPTION": "Circumcision Of Male Baby",
+        "AMOUNT": 6250
+      },
+      {
+        "GENERAL DESCRIPTION": "Birth Before Arrival (Bba) Care",
+        "AMOUNT": 6250
+      },
+      {
+        "GENERAL DESCRIPTION": "Viral Load",
+        "AMOUNT": 6250
+      },
+      {
+        "GENERAL DESCRIPTION": "Pelvic & Hip",
+        "AMOUNT": 6250
+      },
+      {
+        "GENERAL DESCRIPTION": "Pelvimetry",
+        "AMOUNT": 6250
+      },
+      {
+        "GENERAL DESCRIPTION": "Abdomen (Erect & Supine)",
+        "AMOUNT": 6250
+      },
+      {
+        "GENERAL DESCRIPTION": "COSOPT EYE DROP",
+        "AMOUNT": 6250
+      },
+      {
+        "GENERAL DESCRIPTION": "MEROPENEM 1G INJ (PER AMP)",
+        "AMOUNT": 6500
+      },
+      {
+        "GENERAL DESCRIPTION": "SERETIDE DISKUS- ADULT (per pack)",
+        "AMOUNT": 7000
+      },
+      {
+        "GENERAL DESCRIPTION": "XALATAN EYE DROP (per bot)",
+        "AMOUNT": 7475
+      },
+      {
+        "GENERAL DESCRIPTION": "Rotavirus Vaccine",
+        "AMOUNT": 7812.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Tissue Histopathology (Breast, Nodes, Etc)",
+        "AMOUNT": 7812.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Rotavirus Vaccine",
+        "AMOUNT": 7812.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Specialist Consultation-1st Visit",
+        "AMOUNT": 8437.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Chicken Pox Vaccine",
+        "AMOUNT": 8593.75
+      },
+      {
+        "GENERAL DESCRIPTION": "Chicken Pox Vaccine",
+        "AMOUNT": 8593.75
+      },
+      {
+        "GENERAL DESCRIPTION": "TRAVANTAN EYE DROP (per bot)",
+        "AMOUNT": 8612.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Minor",
+        "AMOUNT": 9375
+      },
+      {
+        "GENERAL DESCRIPTION": "IUCD Insertion/Removal",
+        "AMOUNT": 9375
+      },
+      {
+        "GENERAL DESCRIPTION": "Cervical Cautery",
+        "AMOUNT": 9375
+      },
+      {
+        "GENERAL DESCRIPTION": "Colposcopy",
+        "AMOUNT": 9375
+      },
+      {
+        "GENERAL DESCRIPTION": "Hand Cast",
+        "AMOUNT": 10000
+      },
+      {
+        "GENERAL DESCRIPTION": "ERYTHRPOETIN 2000IU (per amp)",
+        "AMOUNT": 10562.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Removal Of Foreign Bodies From Conjunctiva And Cornea",
+        "AMOUNT": 11718.75
+      },
+      {
+        "GENERAL DESCRIPTION": "SUPREFACT INJ (per vial)",
+        "AMOUNT": 12187.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Foot/Ankle Cast",
+        "AMOUNT": 12500
+      },
+      {
+        "GENERAL DESCRIPTION": "Intermediate",
+        "AMOUNT": 12500
+      },
+      {
+        "GENERAL DESCRIPTION": "Foreign Body Removal From The Ear, Nose And Throat",
+        "AMOUNT": 12500
+      },
+      {
+        "GENERAL DESCRIPTION": "Electrocautery Of Nose",
+        "AMOUNT": 12500
+      },
+      {
+        "GENERAL DESCRIPTION": "Nasal Packing",
+        "AMOUNT": 12500
+      },
+      {
+        "GENERAL DESCRIPTION": "Aural And Nasal Suction/Clearance",
+        "AMOUNT": 12500
+      },
+      {
+        "GENERAL DESCRIPTION": "Incision And Drainage Of Abscess",
+        "AMOUNT": 12500
+      },
+      {
+        "GENERAL DESCRIPTION": "Debridement And Toilet Of Wounds",
+        "AMOUNT": 12500
+      },
+      {
+        "GENERAL DESCRIPTION": "Suturing Of Lacerrations",
+        "AMOUNT": 12500
+      },
+      {
+        "GENERAL DESCRIPTION": "Manipulation Of Nose",
+        "AMOUNT": 12500
+      },
+      {
+        "GENERAL DESCRIPTION": "Indirect Laryngoscopy",
+        "AMOUNT": 12500
+      },
+      {
+        "GENERAL DESCRIPTION": "Antral Lavage",
+        "AMOUNT": 12500
+      },
+      {
+        "GENERAL DESCRIPTION": "Cervical Cone/Punch Biopsy",
+        "AMOUNT": 12500
+      },
+      {
+        "GENERAL DESCRIPTION": "Cervical Laceration Repair",
+        "AMOUNT": 12500
+      },
+      {
+        "GENERAL DESCRIPTION": "Meningitis Vaccine",
+        "AMOUNT": 13125
+      },
+      {
+        "GENERAL DESCRIPTION": "Fore Arm Cast",
+        "AMOUNT": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Upper Arm Cast",
+        "AMOUNT": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Barium Swallow",
+        "AMOUNT": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Barium Meal",
+        "AMOUNT": 15000
+      },
+      {
+        "GENERAL DESCRIPTION": "Traumatic Lid Laceration Repair",
+        "AMOUNT": 15625
+      },
+      {
+        "GENERAL DESCRIPTION": "Chalazion Excision",
+        "AMOUNT": 15625
+      },
+      {
+        "GENERAL DESCRIPTION": "Granuloma Excision",
+        "AMOUNT": 15625
+      },
+      {
+        "GENERAL DESCRIPTION": "Tumour Excision From Lid",
+        "AMOUNT": 15625
+      },
+      {
+        "GENERAL DESCRIPTION": "Entropion And Ectropion Repairs",
+        "AMOUNT": 15625
+      },
+      {
+        "GENERAL DESCRIPTION": "Transfussion Of Screened Blood (Rh +Ve)",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Barium Meal & Follow Through",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Barium Enema",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Intravenous Urography (IVU)",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Cysto-Urethrogram (Micturating/Retrograde)",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Fistulogram/Sinogram Each",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Hysterosalphingogram (HSG)",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Mammogram",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Myelogram",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "CT Pelvimetry",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Electroencephalogram (E E G)",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Major",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Ganglion Excision",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Small Cyst Excision",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Biopsy Of Tumour Of Abdominal Wall",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Lumps Excision",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Minor Debridement Of Burns",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Electrofulguration Of Condylomata Acuminata",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Injection Sclerotherapy Of Varicose Veins",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision Of Tophi",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Pollicisation Of The Index Finger",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Release Of Chordae",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Minor Laceration",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Drainage In Haematoma Of Rectus Abdominis",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Polypectomy",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Intercostal Drainage Insertion",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Suprapubic Cystostomy",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Tracheostomy",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Release In Stenosing Tenosynovitis",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Syndactlysis",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Liver/Kidney/Bone Marrow Biopsy",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Ingrowing Toe Nail (Excision)",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Keloid Excision",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Biopsy Of Oesophageal Mass",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Dissection Of Inguinal Nodes",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Drainage Of Galactocoele",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Breast Lump Excision",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Synovectomy",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Cyclocryoablation",
+        "AMOUNT": 18750
+      },
+      {
+        "GENERAL DESCRIPTION": "Full Arm Cast",
+        "AMOUNT": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Leg Cast",
+        "AMOUNT": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Knee Cast",
+        "AMOUNT": 22500
+      },
+      {
+        "GENERAL DESCRIPTION": "Rhogam Injection",
+        "AMOUNT": 23437.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Pterygium Excision.",
+        "AMOUNT": 23437.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Transfussion Of Screened Blood (Rh -Ve)",
+        "AMOUNT": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "Antenatal Care With Gen. Practitioner",
+        "AMOUNT": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "Normal Delivery (With Or Without Episiotomy)",
+        "AMOUNT": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "Intermediate",
+        "AMOUNT": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hysteroscopy",
+        "AMOUNT": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "Dye Test",
+        "AMOUNT": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "Examination Under Anaesthesia (EUA)",
+        "AMOUNT": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "Removal Of IUCD Under General Anaesthesia",
+        "AMOUNT": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "Dilatation And Curetage",
+        "AMOUNT": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "Evacuation Of Retained Products Of Conception",
+        "AMOUNT": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision/Diathermy Of Warts",
+        "AMOUNT": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision Of Vaginal Septum",
+        "AMOUNT": 25000
+      },
+      {
+        "GENERAL DESCRIPTION": "Full Leg Cast",
+        "AMOUNT": 31250
+      },
+      {
+        "GENERAL DESCRIPTION": "Hip Spica",
+        "AMOUNT": 31250
+      },
+      {
+        "GENERAL DESCRIPTION": "Antenatal Care With Obstetrician (Subject To Pre-Authorisation)",
+        "AMOUNT": 31250
+      },
+      {
+        "GENERAL DESCRIPTION": "Assisted Delivery ( Vacuum, Instrumental)",
+        "AMOUNT": 31250
+      },
+      {
+        "GENERAL DESCRIPTION": "Major",
+        "AMOUNT": 31250
+      },
+      {
+        "GENERAL DESCRIPTION": "Drainage Of Septic Arthritis",
+        "AMOUNT": 31250
+      },
+      {
+        "GENERAL DESCRIPTION": "Exostectomy",
+        "AMOUNT": 31250
+      },
+      {
+        "GENERAL DESCRIPTION": "Excisional Biopsy",
+        "AMOUNT": 31250
+      },
+      {
+        "GENERAL DESCRIPTION": "Skin Traction",
+        "AMOUNT": 31250
+      },
+      {
+        "GENERAL DESCRIPTION": "Simple Congenital Talipes Repair",
+        "AMOUNT": 31250
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Third Degree Tear",
+        "AMOUNT": 31250
+      },
+      {
+        "GENERAL DESCRIPTION": "Marsupialisation",
+        "AMOUNT": 31250
+      },
+      {
+        "GENERAL DESCRIPTION": "Exchange Blood Transfussion (Rh +Ve, Inclusive Of Materials)",
+        "AMOUNT": 37500
+      },
+      {
+        "GENERAL DESCRIPTION": "Multiple Delivery",
+        "AMOUNT": 37500
+      },
+      {
+        "GENERAL DESCRIPTION": "Nasal Sinus Surgery E.G Caldwell Luc",
+        "AMOUNT": 39062.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Tympanoplasty",
+        "AMOUNT": 39062.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Mastoid Surgery",
+        "AMOUNT": 39062.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Parotidectomy",
+        "AMOUNT": 39062.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Submandibular Glad Excision",
+        "AMOUNT": 39062.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Laryngeal Surgery",
+        "AMOUNT": 39062.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Rhogam Injection",
+        "AMOUNT": 40000
+      },
+      {
+        "GENERAL DESCRIPTION": "Echocardiogram",
+        "AMOUNT": 43750
+      },
+      {
+        "GENERAL DESCRIPTION": "Bilateral Tubal Ligation",
+        "AMOUNT": 43750
+      },
+      {
+        "GENERAL DESCRIPTION": "Mini Laparotomy",
+        "AMOUNT": 43750
+      },
+      {
+        "GENERAL DESCRIPTION": "Diagnostic Laparoscopy",
+        "AMOUNT": 43750
+      },
+      {
+        "GENERAL DESCRIPTION": "Laparoscopy & Dye Test",
+        "AMOUNT": 43750
+      },
+      {
+        "GENERAL DESCRIPTION": "Destructive Delivery (Craniotomy-Embryotomy)",
+        "AMOUNT": 43750
+      },
+      {
+        "GENERAL DESCRIPTION": "Traumatic Cannalicular Repair",
+        "AMOUNT": 46875
+      },
+      {
+        "GENERAL DESCRIPTION": "Paracentesis (A/C Washout)",
+        "AMOUNT": 46875
+      },
+      {
+        "GENERAL DESCRIPTION": "Scleral Buckling Procedures",
+        "AMOUNT": 46875
+      },
+      {
+        "GENERAL DESCRIPTION": "Exchange Blood Transfussion (Rh -Ve, Inclusive Of Materials)",
+        "AMOUNT": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Endoscopy",
+        "AMOUNT": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Subperiosteal Drainage Of Acute Osteomyelitis",
+        "AMOUNT": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Chondromectomy",
+        "AMOUNT": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Sequestrectomy",
+        "AMOUNT": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "Saucerisation Of Chronically Infected Bone",
+        "AMOUNT": 50000
+      },
+      {
+        "GENERAL DESCRIPTION": "CT-Scan-Brain, Sinuses, Orbits, Neck",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Cystic Hygroma Excision",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Skin Grafting",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Orchidectomy/Orchidopexy",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Abdominal Rectopexy",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Anal Spincteroplasty",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Drainage Of Anal Abscess",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Anal Fistulectomy Repair",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Cystourethroscopy",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Pericardiocentesis",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision Of Intrascrotal Mass",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgery Of Torsion Of Spermatic Cord",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Varicocoelectomy",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Dissection Of Femoral Triangle",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Multiple Ligation Of Veins",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Correction Of Dupuytren’s Contracture",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Herniorraphy-Inguinal/Others",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Thoracotomy",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Vasectomy",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Haemorrhoidectomy",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "Fistula In-Ano Repair",
+        "AMOUNT": 56250
+      },
+      {
+        "GENERAL DESCRIPTION": "CT Scan-Chest, Abdomen, Pelvis",
+        "AMOUNT": 62500
+      },
+      {
+        "GENERAL DESCRIPTION": "CT Myelogram",
+        "AMOUNT": 62500
+      },
+      {
+        "GENERAL DESCRIPTION": "Amputation And Disarticulation Of Joints.",
+        "AMOUNT": 62500
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Repair Of Congenital Talipes",
+        "AMOUNT": 62500
+      },
+      {
+        "GENERAL DESCRIPTION": "Equanovarus/Valgus",
+        "AMOUNT": 62500
+      },
+      {
+        "GENERAL DESCRIPTION": "Tendon Transplant",
+        "AMOUNT": 62500
+      },
+      {
+        "GENERAL DESCRIPTION": "Tenoplasty",
+        "AMOUNT": 62500
+      },
+      {
+        "GENERAL DESCRIPTION": "Arthroplasty",
+        "AMOUNT": 62500
+      },
+      {
+        "GENERAL DESCRIPTION": "Arthrodesis",
+        "AMOUNT": 62500
+      },
+      {
+        "GENERAL DESCRIPTION": "Open Reduction And Internal Fixation Of Fractures",
+        "AMOUNT": 62500
+      },
+      {
+        "GENERAL DESCRIPTION": "Osteoclasis, Internal Fixation Of Malunion",
+        "AMOUNT": 62500
+      },
+      {
+        "GENERAL DESCRIPTION": "Bone Grafting",
+        "AMOUNT": 62500
+      },
+      {
+        "GENERAL DESCRIPTION": "Squint Surgery",
+        "AMOUNT": 62500
+      },
+      {
+        "GENERAL DESCRIPTION": "Ptosis Repair",
+        "AMOUNT": 62500
+      },
+      {
+        "GENERAL DESCRIPTION": "Evisceration/Enucleation/Extenteration",
+        "AMOUNT": 62500
+      },
+      {
+        "GENERAL DESCRIPTION": "Tendon Grafting",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Oesophagostomy",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Anal Pull Through",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Oophorectomy",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Diverticulectomy",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Drainage Of Hepatic Abscess",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Splenic Laceration",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Retroperitoneal Drainage Of Perinephric Abscess",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Trans-Perineal/Transrectal Biopsy Of Prostate",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Resection Of Median Bar Obstruction",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Corporosavenous Shunt",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Cavernospongiosum Shunt",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Transurethral Dessication Of Congenital Meatal Stenosis",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Uretherectomy",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgical Exploration For Anorchism",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Stripping And Ligation Of Veins",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Thrombectomy By Forarty’s Catheterisation",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Colostomy Construction/Closure",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Enterostomy",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgery Of Uncomplicated Intestinal Obstruction Without Resection",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Hiatus Herniorrphaphy",
+        "AMOUNT": 68750
+      },
+      {
+        "GENERAL DESCRIPTION": "Cystic/Fibrous Dysplasia/Cancer Surgery",
+        "AMOUNT": 70312.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Odontogenic Tumours.",
+        "AMOUNT": 70312.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Cleft Lip And Palate Repairs.",
+        "AMOUNT": 70312.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Parotidectomy",
+        "AMOUNT": 70312.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Submandibular Gland Excision",
+        "AMOUNT": 70312.5
+      },
+      {
+        "GENERAL DESCRIPTION": "Vulvectomy",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Wedge Resection Of The Ovary",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Amputation Of Cervix",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Reconstruction Of Vagina",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ectopic Pregnancy",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ovariectomy",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vaginoclesis",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Salpingo-Oophoreictomy",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ovarian Biopsy",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Laparotomy Diagnostic/Therapeutic, Inter-Sex",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ovarian Cysts",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Broad Ligament Haematoma",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Colporrhaphy/Colpoperineorrhaphy",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vaginal Hysterectomy/Manchester Repair",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ventrosuspension Of The Bladder",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hysterectomy",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hysterectomy And Bilateral Salpingo-Oophorectomy",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Reconstruction Surgery E.g Straussman Operation",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Ventrosuspension Procedures Of Correction Of Uterine",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Inverted Uterus",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Perforated/Ruptured Uterus",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tubal Reconstruction",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pelvic/Abdominal Abscess Drainage",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pelvic Haematocoele",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Rectovaginal Fistula Repair",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vesicovaginal Fistula Repair",
+        "AMOUNT": 75000
+      },
+      {
+        "GENERAL DESCRIPTION": "Trabeculectomy With Antimet Abolites",
+        "AMOUNT": 78125
+      },
+      {
+        "GENERAL DESCRIPTION": "Extracapsular Cataract Extraction With Intraocular Lens Implantation",
+        "AMOUNT": 93750
+      },
+      {
+        "GENERAL DESCRIPTION": "Intracapsular Cataract Extraction With Intraocular Lens Implantation",
+        "AMOUNT": 93750
+      },
+      {
+        "GENERAL DESCRIPTION": "Combined Cataract Extraction With Trabeculectomy",
+        "AMOUNT": 93750
+      },
+      {
+        "GENERAL DESCRIPTION": "Hydrocoelectomy (All Inclusive)",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Group 5 (D)",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Oesophageal Atresia And Tracheo-Oesophageal Fistula Repair",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hypospadia Repair",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pyelotomy",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Craniotomy",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pyeloroplasty",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Oesophageal Lacerations",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Choledochostomy",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Bochidalek Diaphragmatic Congenital Defect",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Meckel’s Diverticulectomy",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Renal Cystectomy",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Vesical Diverticulectomy",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Penoplasty",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Penectomy",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Mastectomy",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Diaphragmatic Hernia Repair",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Exploratory Laparotomy/Lysis Of Adhensions",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Gastroenterostomy",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Intussusception Operation",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Pyloromyotomy",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Resection And Anstomoses (Small/Large Intestines)",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Splenectomy/Splenorrhaphy",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Cystectomy Partial/Total",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Axillary Dissection Of Breast",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Extensive (Small And Large) Bowel Resection And Anastomoses",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgery Of Acute Intra Abdominal Vascular Disease",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Gastric Lacerations",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Repair Of Small Bowel Perforations",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgery Of Large Bowel Perforations",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Surgery Of Hepatic Trauma",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Hepatic Segmentectomy",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Oddis Sphincteroplasty",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Choledochojejunostomy",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Transduodenal Choledochal Cystectomy",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Choledochal Cystojejunostomy",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Excision Of Lymphoedematous Lymph Tissues",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Roux-En-Y Pancreaticojejunostomy",
+        "AMOUNT": 100000
+      },
+      {
+        "GENERAL DESCRIPTION": "Magnetic Resonance Imaging (MRI)",
+        "AMOUNT": 112500
+      },
+      {
+        "GENERAL DESCRIPTION": "Uncomplicated Appendicectomy (All Inclusive)",
+        "AMOUNT": 125000
+      },
+      {
+        "GENERAL DESCRIPTION": "Epigastric Herniorrhaphy (All Inclusive)",
+        "AMOUNT": 125000
+      },
+      {
+        "GENERAL DESCRIPTION": "Tonsilectomy & Adenoidectomy (All Inclusive)",
+        "AMOUNT": 187500
+      },
+      {
+        "GENERAL DESCRIPTION": "Adenoidectomy &Tonsilectomy (All Inclusive)",
+        "AMOUNT": 187500
+      },
+      {
+        "GENERAL DESCRIPTION": "Ceasarean Section (All Inclusive)",
+        "AMOUNT": 187500
+      },
+      {
+        "GENERAL DESCRIPTION": "Myomectomy (All Inclusive)",
+        "AMOUNT": 225000
+      }
+    ]
+  }

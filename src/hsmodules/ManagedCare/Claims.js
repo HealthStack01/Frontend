@@ -1,8 +1,9 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { Box, Grid, Button as MuiButton } from "@mui/material";
+import React, {useState, useContext, useEffect, useRef} from "react";
+import {Box, Grid, Button as MuiButton} from "@mui/material";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
-import { UserContext, ObjectContext } from "../../context";
+import {UserContext, ObjectContext} from "../../context";
+import {useParams} from "react-router-dom";
 
 import ClaimsListComponent from "./components/claims/ClaimsList";
 import ClaimCreateComponent from "./components/claims/ClaimsCreate";
@@ -11,13 +12,15 @@ import ClaimDetailComponent from "./components/claims/ClaimsDetail";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Claims({ standAlone }) {
-  const { state, setState } = useContext(ObjectContext);
+export default function Claims({standAlone}) {
+  const {state, setState} = useContext(ObjectContext);
   const [view, setView] = useState("list");
+
+  const {client_id} = useParams();
 
   const handleGoBack = () => {
     setView("list");
-    setState((prev) => ({
+    setState(prev => ({
       ...prev,
       ClientModule: {
         ...prev.ClientModule,
@@ -33,6 +36,7 @@ export default function Claims({ standAlone }) {
           <ClaimsListComponent
             showCreate={() => setView("create")}
             showDetail={() => setView("detail")}
+            client_id={client_id}
           />
         </Box>
       )}
@@ -43,6 +47,7 @@ export default function Claims({ standAlone }) {
             handleGoBack={handleGoBack}
             showCreate={() => setView("create")}
             showDetail={() => setView("detail")}
+            client_id={client_id}
           />
         </Box>
       )}
@@ -53,6 +58,7 @@ export default function Claims({ standAlone }) {
             handleGoBack={handleGoBack}
             showCreate={() => setView("create")}
             showDetail={() => setView("detail")}
+            client_id={client_id}
           />
         </Box>
       )}

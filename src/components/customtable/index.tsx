@@ -36,7 +36,7 @@ const CustomLoader = () => (
 			justifyContent: 'center',
 		}}>
 		<img
-			src='/loading.gif'
+			src='/loading.gif' alt="Loading"
 			style={{width: '200px', height: 'auto', display: 'block'}}
 		/>
 		<Typography sx={{marginTop: '-2rem', fontSize: '0.85rem'}}>
@@ -69,7 +69,7 @@ const CustomTable: React.FC<Props> = ({
 		<DataTable
 			title={title}
 			columns={columns.filter(obj => obj.selector && obj.inputType)}
-			data={data && data.map((obj, i) => ({...obj, sn: i + 1}))} //TODO: only add sn if it's in the schema, to improve performance here
+			data={data &&  data.map((obj, i) => ({...obj, sn: i + 1}))} //TODO: only add sn if it's in the schema, to improve performance here
 			pointerOnHover={pointerOnHover}
 			highlightOnHover={highlightOnHover}
 			striped={striped}

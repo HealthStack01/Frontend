@@ -29,6 +29,7 @@ const ForgotPassword = () => {
   });
 
   let navigate = useNavigate();
+
   const submit = async (data, event) => {
     event.preventDefault();
     setLoading(true);
@@ -40,9 +41,18 @@ const ForgotPassword = () => {
       },
     };
 
-    axios
-      .post(`${baseuRL}/authManagement`, body, {
+   /*  axios
+      .post(`${baseuRL}/auth-management`, body, {
         headers: {"Content-Type": "application/json"},
+      }) */
+
+      ClientServ.create({
+        action: 'sendResetPwd',
+        value: {
+          email: data.email,
+          notifierOptions: {}
+        },
+
       })
       .then(response => {
         toast.success(
@@ -54,6 +64,7 @@ const ForgotPassword = () => {
         toast.error(
           `Sorry, An error occured trying to reset your account password ${err}`
         );
+        console.log(err)
       });
 
     setLoading(false);

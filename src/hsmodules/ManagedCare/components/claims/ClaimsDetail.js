@@ -35,7 +35,7 @@ import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicke
 import UpadteService from "./UpdateService";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 
-const ClaimDetailComponent = ({handleGoBack}) => {
+const ClaimDetailComponent = ({handleGoBack, client_id}) => {
   const claimsServer = client.service("claims");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -84,6 +84,8 @@ const ClaimDetailComponent = ({handleGoBack}) => {
       discharged_date: clinical_details.discharged_date || null,
       status: selectedClaim.status,
       date: selectedClaim.createdAt,
+      provider_name: selectedClaim.provider.facilityName,
+      submitted_by: `${selectedClaim.submissionby?.firstname} ${selectedClaim.submissionby?.lastname}`,
     };
     reset(resetForm);
     setServices(selectedClaim.services || []);
@@ -562,10 +564,15 @@ const ClaimDetailComponent = ({handleGoBack}) => {
             Details
           </GlobalCustomButton>
 
-          <GlobalCustomButton color="warning" onClick={() => setView("tasks")}>
-            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-            Tasks
-          </GlobalCustomButton>
+          {!client_id && (
+            <GlobalCustomButton
+              color="warning"
+              onClick={() => setView("tasks")}
+            >
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Tasks
+            </GlobalCustomButton>
+          )}
 
           <GlobalCustomButton
             onClick={() => setChat(true)}
@@ -581,26 +588,29 @@ const ClaimDetailComponent = ({handleGoBack}) => {
             Chat
           </GlobalCustomButton>
 
-          <GlobalCustomButton
-            color="success"
-            onClick={() => setStatusModal(true)}
-          >
-            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-            Change Status
-          </GlobalCustomButton>
+          {!client_id && (
+            <GlobalCustomButton
+              color="success"
+              onClick={() => setStatusModal(true)}
+            >
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Change Status
+            </GlobalCustomButton>
+          )}
 
           {(user?.currentEmployee?.roles?.includes("Admin") ||
             user?.currentEmployee?.roles?.includes(
               "Managed Care Assign Claim"
-            )) && (
-            <GlobalCustomButton
-              color="info"
-              onClick={() => setAssignModal(true)}
-            >
-              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-              Assign Claim
-            </GlobalCustomButton>
-          )}
+            )) &&
+            !client_id && (
+              <GlobalCustomButton
+                color="info"
+                onClick={() => setAssignModal(true)}
+              >
+                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                Assign Claim
+              </GlobalCustomButton>
+            )}
         </Box>
       </Box>
       <Box
@@ -647,6 +657,22 @@ const ClaimDetailComponent = ({handleGoBack}) => {
                   <Input
                     label="Claim's Status"
                     register={register("status")}
+                    disabled
+                  />
+                </Grid>
+
+                <Grid item lg={6}>
+                  <Input
+                    label="Proivder's Name"
+                    register={register("provider_name")}
+                    disabled
+                  />
+                </Grid>
+
+                <Grid item lg={6}>
+                  <Input
+                    label="Submitted By"
+                    register={register("submitted_by")}
                     disabled
                   />
                 </Grid>

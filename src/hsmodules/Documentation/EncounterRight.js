@@ -46,7 +46,7 @@ import {usePosition} from "../../components/hooks/getUserLocation";
 import Textarea from "../../components/inputs/basic/Textarea";
 import {Box, getValue} from "@mui/system";
 import RadioButton from "../../components/inputs/basic/Radio";
-import {Button, Grid, IconButton} from "@mui/material";
+import {Button, Grid, IconButton, Typography, FormGroup, RadioGroup, Radio, FormControlLabel} from "@mui/material";
 import Input from "../../components/inputs/basic/Input";
 import {FormsHeaderText} from "../../components/texts";
 import CloseIcon from "@mui/icons-material/Close";
@@ -56,6 +56,8 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 import VoiceTextArea from "../../components/inputs/basic/Textarea/VoiceInput";
+import GlobalTable from "../../components/customtable/GlobalTable"
+import  GlobalCheckbox  from "../../components/global-checkbox/GlobalCheckbox";
 
 export default function EncounterRight() {
   const {state, setState} = useContext(ObjectContext);
@@ -204,6 +206,12 @@ export default function EncounterRight() {
         "Continuation Sheet" && <ContinuationSheet onSubmit={submitDocument} />}
       {state.DocumentClassModule.selectedDocumentClass.name ===
         "Vital Signs Chart" && <VitalSignsChart onSubmit={submitDocument} />}
+        {state.DocumentClassModule.selectedDocumentClass.name ===
+        "Eye examination" && <EyeExamination onSubmit={submitDocument} />}
+         {state.DocumentClassModule.selectedDocumentClass.name ===
+        "Dental Clinic" && <DentalClinic onSubmit={submitDocument} />}
+         {state.DocumentClassModule.selectedDocumentClass.name ===
+        "Orthodontic Analysis" && <OrthodonticAnalysis onSubmit={submitDocument} />}
     </div>
   );
 }
@@ -326,8 +334,6 @@ export function VitalSignCreate() {
       coordinates: [state.coordinates.latitude, state.coordinates.longitude],
     };
 
-    //const coordPass = checkGeolocation(document.geolocation.coordinates);
-
     if (
       document.location === undefined ||
       !document.createdByname ||
@@ -340,8 +346,6 @@ export function VitalSignCreate() {
     }
 
     if (!!draftDoc && draftDoc.status === "Draft") {
-      //console.log(document);
-
       ClientServ.patch(draftDoc._id, document)
         .then(res => {
           //Convert Hook forms data into empty string to reset form
@@ -403,7 +407,6 @@ export function VitalSignCreate() {
         encounter_right: false,
       },
     }));
-    toggleSideMenu();
   };
 
   return (
@@ -565,36 +568,19 @@ export function ClinicalNoteCreate() {
           shouldDirty: true,
         })
       );
-      // setSymptoms(draftDoc.documentdetail.Presenting_Complaints)
-      // setAllergies(draftDoc.documentdetail.Allergy_Skin_Test)
     }
     return () => {
       draftDoc = {};
     };
   }, [draftDoc]);
 
-  const getSearchfacility = obj => {
-    setValue("facility", obj._id, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  };
-
   useEffect(() => {
     setCurrentUser(user);
-    //console.log(currentUser)
+  
     return () => {};
   }, [user]);
-
-  //check user for facility or get list of facility
   useEffect(() => {
-    //setFacility(user.activeClient.FacilityId)//
     if (!user.stacker) {
-      /*    console.log(currentUser)
-        setValue("facility", user.currentEmployee.facilityDetail._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        })  */
     }
   });
 
@@ -606,8 +592,6 @@ export function ClinicalNoteCreate() {
     setError(false);
     setSuccess(false);
     let document = {};
-    // data.createdby=user._id
-    //console.log(data);
     if (user.currentEmployee) {
       document.facility = user.currentEmployee.facilityDetail._id;
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
@@ -643,31 +627,19 @@ export function ClinicalNoteCreate() {
       return;
     }
 
-    // return console.log(document);
-
     if (!!draftDoc && draftDoc.status === "Draft") {
       ClientServ.patch(draftDoc._id, document)
         .then(res => {
           Object.keys(data).forEach(key => {
             data[key] = "";
           });
-          //console.log(JSON.stringify(res))
 
           setDocStatus("Draft");
-          // setAllergies([])
-          /*  setMessage("Created Client successfully") */
           setSuccess(true);
           toast.success("Documentation updated succesfully");
           setSuccess(false);
           reset(data);
           setConfirmationDialog(false);
-
-          /*  toast({
-                        message:message ,
-                        type: 'is-success',
-                        dismissible: true,
-                        pauseOnHover: true,
-                      }) */
         })
         .catch(err => {
           toast.error("Error updating Documentation " + err);
@@ -675,12 +647,10 @@ export function ClinicalNoteCreate() {
     } else {
       ClientServ.create(document)
         .then(res => {
+          // console.log("Clinincal note data", res)
           Object.keys(data).forEach(key => {
             data[key] = "";
           });
-          //console.log(JSON.stringify(res))
-
-          /*  setMessage("Created Client successfully") */
           setSuccess(true);
           toast.success("Documentation created succesfully");
           setSuccess(false);
@@ -693,11 +663,7 @@ export function ClinicalNoteCreate() {
     }
   };
   const handleChangeStatus = async e => {
-    // await setAppointment_type(e.target.value)
-
     setDocStatus(e.target.value);
-
-    //console.log(e.target.value)
   };
 
   const closeEncounterRight = async () => {
@@ -830,8 +796,6 @@ export function LabNoteCreate() {
           shouldDirty: true,
         })
       );
-      // setSymptoms(draftDoc.documentdetail.Presenting_Complaints)
-      // setAllergies(draftDoc.documentdetail.Allergy_Skin_Test)
     }
     return () => {
       draftDoc = {};
@@ -1065,6 +1029,1748 @@ export function LabNoteCreate() {
   );
 }
 
+// Eye Examination
+export function EyeExamination() {
+  const {register, handleSubmit, setValue, reset, getValues} = useForm(); //, watch, errors, reset
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState("");
+  // eslint-disable-next-line
+  const ClientServ = client.service("clinicaldocument");
+  const {user} = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [currentUser, setCurrentUser] = useState();
+  const {state, setState} = useContext(ObjectContext);
+  // const [confirmDialog, setConfirmDialog] = useState(false);
+  const [docStatus, setDocStatus] = useState("Draft");
+  const [confirmationDiaglog, setConfirmationDialog] = useState(false);
+
+  const [formData, setFormData] = useState({
+    acuity: "",
+    muscles: "",
+    degree: "",
+    colorVision: "",
+    fieldRestriction: "",
+  });
+  
+  
+    
+  let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
+
+  useEffect(() => {
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+        setValue(keys, value, {
+          shouldValidate: true,
+          shouldDirty: true,
+        })
+      );
+  
+    }
+    return () => {
+      draftDoc = {};
+    };
+  }, [draftDoc]);
+
+
+  useEffect(() => {
+    setCurrentUser(user);
+    return () => {};
+  }, [user]);
+
+  useEffect(() => {
+    if (!user.stacker) {
+   
+    }
+  });
+
+  
+
+  const handleAcuityChange = (event) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      acuity: event.target.value,
+    }));
+  };
+  
+  const handleMuscleFunctionChange = (event) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      muscles: event.target.value,
+    }));
+  };
+  
+  const handleFieldChange = (event) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      degree: event.target.value,
+    }));
+  };
+  
+  const handleColorVisionChange = (event) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      colorVision: event.target.value,
+    }));
+  };
+  
+  const handleFieldRestrictionChange = (event) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      fieldRestriction: event.target.value,
+    }));
+  };
+  
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+  
+    let document = {};
+  
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+    }
+   
+    document.documentdetail = {
+      "Age Of Onset": data.ageOfOnset,
+      History: data.history,
+      "Unaided RVA":data.unaidedRVA,
+      "Unaided LVA":data.unaidedLVA,
+      "Unaided NV":data.unaidedNV,
+      "Aided RVA":data.aidedRVA,
+      "Aided LVA":data.aidedLVA,
+      "Aided NV":data.aidedNV,
+      Acuity: formData.acuity,   
+      "Muscle Function": formData.muscles,
+      "Visual Field Test": data.visualFieldTest,
+      Describe: data.describe,
+      Degree: formData.degree,
+      "Field Restriction": formData.fieldRestriction,
+      "Color Vision": formData.colorVision,
+    };
+    document.documentname = "Eye examination";
+    document.documentType = "Eye examination";
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = docStatus === "Draft" ? "Draft" : "completed";
+  
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+ 
+  
+    if (
+      document.location === undefined ||
+      !document.createdByname ||
+      !document.facilityname
+    ) {
+      toast.error("Documentation data missing, requires location and facility details");
+      return;
+    }
+  
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then(res => {
+          Object.keys(data).forEach(key => {
+            data[key] = "";
+          });
+  
+          setDocStatus("Draft");
+          setSuccess(true);
+          toast.success("Documentation updated successfully");
+          setSuccess(false);
+          setConfirmationDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error updating Documentation: " + err);
+          reset(data);
+          setConfirmationDialog(false);
+        });
+    } else {
+      ClientServ.create(document)
+        .then(res => {
+          // console.log("Data", res)
+          Object.keys(data).forEach(key => {
+            data[key] = "";
+          });
+  
+          setSuccess(true);
+          toast.success("Eye Examination created successfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error creating Eye examination: " + err);
+          setConfirmationDialog(false);
+        });
+    }
+  };
+  const closeEncounterRight = async () => {
+    setState(prevstate => ({
+      ...prevstate,
+      DocumentClassModule: {
+        ...prevstate.DocumentClassModule,
+        encounter_right: false,
+      },
+    }));
+  };
+
+  const handleChangeStatus = async e => {
+    setDocStatus(e.target.value);
+  };
+
+  return (
+    <>
+      <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmationDiaglog}
+          cancelAction={() => setConfirmationDialog(false)}
+          confirmationAction={handleSubmit(onSubmit)}
+          type="create"
+          message={`You are about to save this document ${getValues("eye" )} Examination?`}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText text={"EYE EXAMINATION REPORT"} />
+
+          <IconButton onClick={closeEncounterRight}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Box>
+        <div className="card-content vscrollable remPad1">
+          <form>
+          <Typography color="primary" fontWeight="bold" variant="body1">
+              Age of Onset
+            </Typography>
+            <Box mb={1}>
+              <Input
+                register={register("ageOfOnset")}
+                name="text"
+                type="text"
+                placeholder="Enter age of Onset"
+              />
+            </Box>
+            <Typography fontWeight="bold" color="primary" variant="body1">
+             History
+            </Typography>
+            <Box style={{ marginTop: '10px', marginBottom: '30px' }}>
+              <Textarea
+              color="primary"
+                register={register("history")}
+                name="findings"
+                type="text"
+                placeholder="Type here...."
+              />
+            </Box>
+           
+ <Typography color="primary" fontWeight="bold" variant="body1" sx={{ width: '30%', marginBottom: '30px' }}>
+      Unaided
+    </Typography>
+<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+  <Box sx={{ width: '30%', marginBottom: '30px' }}>
+    <Typography variant="body1">
+      RVA
+    </Typography>
+    <Box sx={{ marginTop: '10px' }}>
+      <Input
+        register={register("unaidedRVA")}
+        name="text"
+        type="text"
+        placeholder="Enter RVA..."
+        fullWidth
+      />
+    </Box>
+  </Box>
+  
+  <Box sx={{ width: '30%', marginBottom: '30px' }}>
+    <Typography variant="body1">
+      LVA
+    </Typography>
+    <Box sx={{ marginTop: '10px' }}>
+      <Input
+        register={register("unaidedLVA")}
+        name="text"
+        type="text"
+        placeholder="Enter LVA..."
+        fullWidth
+      />
+    </Box>
+  </Box>
+  <Box sx={{ width: '30%', marginBottom: '30px' }}>
+    <Typography variant="body1">
+      NV
+    </Typography>
+    <Box sx={{ marginTop: '10px' }}>
+      <Input
+        register={register("unaidedNV")}
+        name="text"
+        type="text"
+        placeholder="Enter NV..."
+        fullWidth
+      />
+    </Box>
+  </Box>
+</Box>
+
+<Typography color="primary" fontWeight="bold" variant="body1" sx={{ width: '30%', marginBottom: '30px' }}>
+    Aided
+    </Typography>
+<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+  <Box sx={{ width: '30%', marginBottom: '10px' }}>
+    <Typography variant="body1">
+      RVA
+    </Typography>
+    <Box sx={{ marginTop: '10px' }}>
+      <Input
+        register={register("aidedRVA")}
+        name="text"
+        type="text"
+        placeholder="Enter RVA..."
+        fullWidth
+      />
+    </Box>
+  </Box>
+  
+  <Box sx={{ width: '30%', marginBottom: '10px' }}>
+    <Typography variant="body1">
+      LVA
+    </Typography>
+    <Box sx={{ marginTop: '10px' }}>
+      <Input
+        register={register("aided1LVA")}
+        name="text"
+        type="text"
+        placeholder="Enter LVA..."
+        fullWidth
+      />
+    </Box>
+  </Box>
+  <Box sx={{ width: '30%', marginBottom: '10px' }}>
+    <Typography variant="body1">
+      NV
+    </Typography>
+    <Box sx={{ marginTop: '10px' }}>
+      <Input
+        register={register("aidedNV")}
+        name="text"
+        type="text"
+        placeholder="Enter NV..."
+        fullWidth
+      />
+    </Box>
+  </Box>
+</Box>
+
+
+<Box sx={{ marginBottom: '30px' }}>
+  <Typography variant="body1">
+    If acuity cannot be measured, enter check to select the most appropriate selection
+  </Typography>
+</Box>
+
+<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+  <Box sx={{ width: '25%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="acuity"
+      value={formData.acuity}
+      onChange={handleAcuityChange}
+    >
+      <FormControlLabel
+        value="Legally blind 20/200"
+        control={<Radio />}
+        label="Legally blind 20/200"
+      />
+    </RadioGroup>
+  </Box>
+  <Box sx={{ width: '25%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="acuity"
+      value={formData.acuity}
+      onChange={handleAcuityChange}
+    >
+      <FormControlLabel
+        value="Between 20/70 and 20/199"
+        control={<Radio />}
+        label="Between 20/70 and 20/199"
+      />
+    </RadioGroup>
+  </Box>
+  <Box sx={{ width: '25%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="acuity"
+      value={formData.acuity}
+      onChange={handleAcuityChange}
+    >
+      <FormControlLabel
+        value="Better than 20/70"
+        control={<Radio />}
+        label="Better than 20/70"
+      />
+    </RadioGroup>
+  </Box>
+  <Box sx={{ width: '25%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="acuity"
+      value={formData.acuity}
+      onChange={handleAcuityChange}
+    >
+      <FormControlLabel
+        value="Functions at the definition of blindness (E.g. CVI)"
+        control={<Radio />}
+        label="Blindness (E.g. CVI)"
+      />
+    </RadioGroup>
+  </Box>
+</Box>
+
+<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+  <Box sx={{ width: '50%', marginBottom: '20px' }}>
+  <Typography color="primary" variant="body1" fontWeight="bold" style={{ marginTop: '10px' }}>
+  Muscle function:
+</Typography>
+
+  </Box>
+  <Box sx={{ width: '45%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="muscles"
+      value={formData.muscles}
+      onChange={handleMuscleFunctionChange}
+    >
+      <FormControlLabel
+        value="Normal"
+        control={<Radio />}
+        label="Normal"
+      />
+    </RadioGroup>
+  </Box>
+  <Box sx={{ width: '45%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="muscles"
+      value={formData.muscles}
+      onChange={handleMuscleFunctionChange}
+    >
+      <FormControlLabel
+        value="Abnormal"
+        control={<Radio />}
+        label="Abnormal"
+      />
+    </RadioGroup>
+  </Box>
+</Box>
+    <Box>
+      <Textarea
+        register={register("describe")}
+        name="findings"
+        type="text"
+        label="Describe"
+        placeholder="Type here..."
+      />
+    </Box>
+            <Typography style={{ marginTop: '20px', marginBottom: '20px' }} fontWeight="bold"  color="primary" variant="body1">
+               Visual field test
+            </Typography>
+            <Typography color="primary" variant="body2">
+               Type of test (Confrontation not acceptable)
+            </Typography>
+            <Box mb={1}>
+              <Input
+                register={register("visualFieldTest")}
+                name="text"
+                type="text"
+                placeholder="Enter test type"
+              />
+            </Box>
+
+      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+      <Box sx={{ width: '40%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="fieldRestriction"
+      value={formData.fieldRestriction}
+      onChange={handleFieldRestrictionChange}
+    >
+      <FormControlLabel
+        value="Theres no apparent visual field restrictions"
+        control={<Radio />}
+        label="Theres no apparent visual field restrictions"
+      />
+    </RadioGroup>
+  </Box>
+  <Box sx={{ width: '40%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="fieldRestriction"
+      value={formData.fieldRestriction}
+      onChange={handleFieldRestrictionChange}
+    >
+      <FormControlLabel
+        value="There is a field restriction"
+        control={<Radio />}
+        label="There is a field restriction"
+      />
+    </RadioGroup>
+  </Box>
+            </Box>
+           <Box>
+              <Textarea
+                 color="primary"
+                register={register("describe")}
+                name="findings"
+                type="text"
+                label="Description"
+                placeholder="Type here..."
+              />
+            </Box>
+            <Typography color="primary" variant="body1" fontWeight="bold" style={{ marginTop: '20px' }}>
+               The field if restricted to:
+            </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+      <Box sx={{ width: '40%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="degree"
+      value={formData.degree}
+      onChange={handleFieldChange}
+    >
+      <FormControlLabel
+        value="21 to 30 (Degree)"
+        control={<Radio />}
+        label="21 to 30 (Degree)"
+      />
+    </RadioGroup>
+  </Box>
+  <Box sx={{ width: '40%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="degree"
+      value={formData.degree}
+      onChange={handleFieldChange}
+    >
+      <FormControlLabel
+        value="20 (Degrees) or less"
+        control={<Radio />}
+        label="20 (Degrees) or less"
+      />
+    </RadioGroup>
+  </Box>
+  </Box>
+
+      <Typography color="primary" variant="body1" fontWeight="bold" >
+         Color Vision
+      </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+    <Box sx={{ width: '40%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="colorVision"
+      value={formData.colorVision}
+      onChange={handleColorVisionChange}
+    >
+      <FormControlLabel
+        value="Normal"
+        control={<Radio />}
+        label="Normal"
+      />
+    </RadioGroup>
+  </Box>
+  <Box sx={{ width: '40%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="colorVision"
+      value={formData.colorVision}
+      onChange={handleColorVisionChange}
+    >
+      <FormControlLabel
+        value="Abnormal"
+        control={<Radio />}
+        label="Abnormal"
+      />
+    </RadioGroup>
+  </Box>
+  </Box>
+             <Box  sx={{
+                gap: "1rem",
+              }}> 
+              <RadioButton
+                onChange={handleChangeStatus}
+                name="status"
+                options={["Draft", "Final"]}
+                value={docStatus}
+              />
+            </Box>
+            <Box
+              spacing={3}
+              sx={{
+                display: "flex",
+                gap: "3rem",
+              }}
+            >
+              <GlobalCustomButton
+                color="secondary"
+                type="submit"
+                onClick={() => setConfirmationDialog(true)}
+              >
+                Submit Eye Examination
+              </GlobalCustomButton>
+            </Box>
+          </form>
+        </div>
+      </div>
+    </>
+  );
+}
+
+
+// Dental Clinic
+export function DentalClinic() {
+  const {register, handleSubmit, setValue, reset, getValues} = useForm(); //, watch, errors, reset
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState("");
+  // eslint-disable-next-line
+  const ClientServ = client.service("clinicaldocument");
+  const {user} = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [currentUser, setCurrentUser] = useState();
+  const {state, setState} = useContext(ObjectContext);
+
+  const [formData, setFormData] = useState({
+    dentalLaboratory: "",
+    dentalTherapist: "",
+    orthodontist: "",
+  });
+  const [docStatus, setDocStatus] = useState("Draft");
+  const [confirmationDiaglog, setConfirmationDialog] = useState(false);  
+    
+  let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
+
+  useEffect(() => {
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+        setValue(keys, value, {
+          shouldValidate: true,
+          shouldDirty: true,
+        })
+      );
+  
+    }
+    return () => {
+      draftDoc = {};
+    };
+  }, [draftDoc]);
+
+
+  useEffect(() => {
+    setCurrentUser(user);
+    return () => {};
+  }, [user]);
+
+  useEffect(() => {
+    if (!user.stacker) {
+   
+    }
+  });
+
+  
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+  
+    let document = {};
+  
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+    }
+   
+    document.documentdetail = {
+      RFA: data.rfa,
+      HPC: data.hpc,
+      PDH: data.pdh,
+      PHM: data.phm,
+      "Intra Oral": data.intraoral,
+      "Extra Oral": data.extraoral,
+      Investigation: data.investigation,
+      Diagnosis: data.diagnosis,
+      "Management Plan": data.managementPlan,
+      Treatment: data.treatment,
+      "Send To": formData.dentalLaboratory,
+      
+    };
+    document.documentname = "Dental Clinic";
+    document.documentType = "Dental Clinic";
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = docStatus === "Draft" ? "Draft" : "completed";
+  
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+ 
+  
+    if (
+      document.location === undefined ||
+      !document.createdByname ||
+      !document.facilityname
+    ) {
+      toast.error("Documentation data missing, requires location and facility details");
+      return;
+    }
+  
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then(res => {
+          Object.keys(data).forEach(key => {
+            data[key] = "";
+          });
+  
+          setDocStatus("Draft");
+          setSuccess(true);
+          toast.success("Documentation updated successfully");
+          setSuccess(false);
+          setConfirmationDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error updating Documentation: " + err);
+          reset(data);
+          setConfirmationDialog(false);
+        });
+    } else {
+      ClientServ.create(document)
+        .then(res => {
+          // console.log("Data", res)
+          Object.keys(data).forEach(key => {
+            data[key] = "";
+          });
+  
+          setSuccess(true);
+          toast.success("Eye Examination created successfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error creating Eye examination: " + err);
+          setConfirmationDialog(false);
+        });
+    }
+  };
+  const closeEncounterRight = async () => {
+    setState(prevstate => ({
+      ...prevstate,
+      DocumentClassModule: {
+        ...prevstate.DocumentClassModule,
+        encounter_right: false,
+      },
+    }));
+  };
+
+  const handleSendTo = (event) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      dentalLaboratory: event.target.value,
+    }));
+  };
+
+  const handleChangeStatus = async e => {
+    setDocStatus(e.target.value);
+  };
+
+  return (
+    <>
+      <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmationDiaglog}
+          cancelAction={() => setConfirmationDialog(false)}
+          confirmationAction={handleSubmit(onSubmit)}
+          type="create"
+          message={`You are about to save this document ${getValues("eye" )} Examination?`}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText text={"DENTAL CLINIC MAIN"} />
+
+          <IconButton onClick={closeEncounterRight}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Box>
+        <div className="card-content vscrollable remPad1">
+          <form>
+          <Typography style={{ marginTop: '20px', marginBottom: '20px' }} fontWeight="bold"  color="primary" variant="body1">
+               Presenting Complains
+            </Typography>
+
+<Grid container spacing={2}>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      RFA
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("rfa")}
+        name="text"
+        type="text"
+        placeholder="Enter rfa"
+      />
+    </Box>
+    <Typography color="primary" variant="body2">
+      HPC
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("hpc")}
+        name="text"
+        type="text"
+        placeholder="Enter hpc"
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      PDH
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("pdh")}
+        name="text"
+        type="text"
+        placeholder="Enter pdh"
+      />
+    </Box>
+    <Typography color="primary" variant="body2">
+      PMH
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("phm")}
+        name="text"
+        type="text"
+        placeholder="Enter pmh"
+      />
+    </Box>
+  </Grid>
+</Grid>
+<Typography style={{ marginTop: '20px', marginBottom: '20px' }} fontWeight="bold"  color="primary" variant="body1">
+  Examination :
+</Typography>
+
+<Grid container spacing={2}>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      Intra-Oral
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("intraoral")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      Extra-Oral
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("extraoral")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+</Grid>
+
+<Typography fontWeight="bold" color="primary" variant="body1">
+             Investigation
+            </Typography>
+            <Box style={{ marginTop: '10px', marginBottom: '30px' }}>
+              <Textarea
+              color="primary"
+                register={register("investigation")}
+                name="findings"
+                type="text"
+                placeholder="Type here...."
+              />
+            </Box>
+            <Typography fontWeight="bold" color="primary" variant="body1">
+             Diagnosis
+            </Typography>
+            <Box style={{ marginTop: '10px', marginBottom: '30px' }}>
+              <Textarea
+              color="primary"
+                register={register("diagnosis")}
+                name="findings"
+                type="text"
+                placeholder="Type here...."
+              />
+            </Box>
+
+            <Typography fontWeight="bold" color="primary" variant="body1">
+             Management Plan
+            </Typography>
+            <Box style={{ marginTop: '10px', marginBottom: '30px' }}>
+              <Textarea
+              color="primary"
+                register={register("managementPlan")}
+                name="findings"
+                type="text"
+                placeholder="Type here...."
+              />
+            </Box>
+            <Typography fontWeight="bold" color="primary" variant="body1">
+             Type of treatment done
+            </Typography>
+            <Box style={{ marginTop: '10px', marginBottom: '30px' }}>
+              <Textarea
+              color="primary"
+                register={register("treatment")}
+                name="findings"
+                type="text"
+                placeholder="Type here...."
+              />
+            </Box>
+
+            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+  <Box sx={{ width: '50%', marginBottom: '20px' }}>
+  <Typography color="primary" variant="body1" fontWeight="bold" style={{ marginTop: '10px' }}>
+  Send To:
+</Typography>
+
+  </Box>
+  <Box sx={{ width: '40%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="dentalLaboratory"
+      value={formData.dentalLaboratory}
+      onChange={handleSendTo}
+    >
+      <FormControlLabel
+        value="Dental Laboratory"
+        control={<Radio />}
+        label="Dental Laboratory"
+      />
+    </RadioGroup>
+  </Box>
+  <Box sx={{ width: '40%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="dentallaboratory"
+      value={formData.dentalLaboratory}
+      onChange={handleSendTo}
+    >
+      <FormControlLabel
+        value="Dental Therapist"
+        control={<Radio />}
+        label="Dental Therapist"
+      />
+    </RadioGroup>
+  </Box>
+  <Box sx={{ width: '40%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="dentallaboratory"
+      value={formData.dentalLaboratory}
+      onChange={handleSendTo}
+    >
+      <FormControlLabel
+        value="Orthodontist"
+        control={<Radio />}
+        label="Orthodontist"
+      />
+    </RadioGroup>
+  </Box>
+</Box>
+  <Box  sx={{
+  gap: "1rem",
+  }}> 
+  <RadioButton
+     onChange={handleChangeStatus}
+     name="status"
+     options={["Draft", "Final"]}
+     value={docStatus}
+  />
+  </Box>
+  <Box
+  spacing={3}
+  sx={{
+  display: "flex",
+  gap: "3rem",
+  }}
+  >
+  <GlobalCustomButton
+  color="secondary"
+  type="submit"
+  onClick={() => setConfirmationDialog(true)}
+  >
+  Submit Dental Clinic
+  </GlobalCustomButton>
+  </Box>
+  </form>
+  </div>
+  </div>
+  </>
+  );
+}
+
+// Orthodontic Analysis
+export function OrthodonticAnalysis() {
+  const {register, handleSubmit, setValue, reset, getValues} = useForm(); //, watch, errors, reset
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState("");
+  // eslint-disable-next-line
+  const ClientServ = client.service("clinicaldocument");
+  const {user} = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [currentUser, setCurrentUser] = useState();
+  const {state, setState} = useContext(ObjectContext);
+
+  const [docStatus, setDocStatus] = useState("Draft");
+  const [confirmationDiaglog, setConfirmationDialog] = useState(false);  
+    
+  let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
+
+  useEffect(() => {
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+        setValue(keys, value, {
+          shouldValidate: true,
+          shouldDirty: true,
+        })
+      );
+  
+    }
+    return () => {
+      draftDoc = {};
+    };
+  }, [draftDoc]);
+
+
+  useEffect(() => {
+    setCurrentUser(user);
+    return () => {};
+  }, [user]);
+
+  useEffect(() => {
+    if (!user.stacker) {
+   
+    }
+  });
+
+  
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+  
+    let document = {};
+  
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+    }
+   
+    document.documentdetail = {
+      "Teeth Erupted": data.teetherupt,
+      "Teeth of Poor Prognosis": data.prognosis,
+      "First Permanent Molars": data.molars,
+      D: data.d,
+      M: data.m,
+      F: data.f,
+      "AntPost Relationship": data.antpost,
+      Overbite: data.overbite,
+      Overjet: data.overjet,
+      "Tooth Bone Ratio": data.toothbone,
+      Upper: data.upper,
+      Lower: data.lower,
+      "Dental Caries": data.dentalcaries,
+      "Oral Hygiene Gingivities": data.oralhygiene,
+      Lips: data.lips,
+      Habits: data.habits,
+      Tongue: data.tongue,
+      "Dental Ortho": data.dentalortho,
+      "U Incisor Angle": data.uincisor,
+      "L Incisor Angle": data.lincisor,
+      "FM Angle": data.fmangle,
+      "UIncisor Angle2": data.uincisor2,
+      "LIncisor Angle2": data.lincisor2,
+      SNA: data.sna,
+      SNB: data.snb,
+      ANB: data.anb,
+      "Clinical SK Pattern": data.clinicalskpattern,
+      "Cephalometric SK pattern": data.cephalometricskpattern,
+      "MM Angle": data.mmangle,
+      "Unrepted Teeth": data.unreptedteeth,
+      "Absent Teeth": data.absentteeth,
+      "Dental Care": data.dentalcare,
+      "Summary Of Analysis": data.summary,
+      "Plan Of Treatment": data.plantreatment,
+      "Other Remarks": data.otherremarks,
+    };      
+    document.documentname = "Orthodontic Analysis";
+    document.documentType = "Orthodontic Analysis";
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = docStatus === "Draft" ? "Draft" : "completed";
+  
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+ 
+  
+    if (
+      document.location === undefined ||
+      !document.createdByname ||
+      !document.facilityname
+    ) {
+      toast.error("Documentation data missing, requires location and facility details");
+      return;
+    }
+  
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then(res => {
+          Object.keys(data).forEach(key => {
+            data[key] = "";
+          });
+  
+          setDocStatus("Draft");
+          setSuccess(true);
+          toast.success("Documentation updated successfully");
+          setSuccess(false);
+          setConfirmationDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error updating Documentation: " + err);
+          reset(data);
+          setConfirmationDialog(false);
+        });
+    } else {
+      ClientServ.create(document)
+        .then(res => {
+          // console.log("Data", res)
+          Object.keys(data).forEach(key => {
+            data[key] = "";
+          });
+  
+          setSuccess(true);
+          toast.success("Orthodontic Analysis created successfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch(err => {
+          toast.error("Error creating Orthodontic Analysis: " + err);
+          setConfirmationDialog(false);
+        });
+    }
+  };
+  const closeEncounterRight = async () => {
+    setState(prevstate => ({
+      ...prevstate,
+      DocumentClassModule: {
+        ...prevstate.DocumentClassModule,
+        encounter_right: false,
+      },
+    }));
+  };
+
+
+  const handleChangeStatus = async e => {
+    setDocStatus(e.target.value);
+  };
+
+  return (
+    <>
+      <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmationDiaglog}
+          cancelAction={() => setConfirmationDialog(false)}
+          confirmationAction={handleSubmit(onSubmit)}
+          type="create"
+          message={`You are about to save this document ${getValues("eye" )} Orthodontic Analysis?`}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText color="none" text={"ORTHODONTIC ANALYSIS FORM"} />
+
+          <IconButton onClick={closeEncounterRight}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Box>
+        <div className="card-content vscrollable remPad1">
+          <form>
+<Typography style={{ marginTop: '20px', marginBottom: '20px' }} fontWeight="bold"  color="primary" variant="body1">
+  General Dental Analysis
+</Typography>
+
+<Grid container spacing={2}>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      Teeth Erupted
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("teetherupt")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      Teeth of Poor Prognosis
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("prognosis")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      First Permanent Molars:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("molars")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+</Grid>
+
+<Typography style={{ marginTop: '20px', marginBottom: '20px' }} fontWeight="bold"  color="primary" variant="body1">
+  D. M .F
+</Typography>
+<Grid container spacing={2}>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      D:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("d")}
+        name="text"
+        type="text"
+        placeholder="type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      M:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("m")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      F:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("f")}
+        name="text"
+        type="text"
+        placeholder="Type here"
+      />
+    </Box>
+  </Grid>
+</Grid>
+
+<Grid container spacing={2}>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      Ant-post Relationship:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("antpost")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      Overbite:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("overbite")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      Overjet:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("overjet")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+</Grid>
+
+<Grid container spacing={2}>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      Tooth Bone Ratio:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("toothbone")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      Upper:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("upper")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      Lower:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("lower")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+</Grid>
+
+<Grid container spacing={2}>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      Dental Caries
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("dentalcaries")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      Oral Hygiene.Gingivities
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("oralhygiene")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+</Grid>
+
+<Grid container spacing={2}>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      Lips
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("lips")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      Habits
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("habits")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+</Grid>
+
+<Grid container spacing={2}>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      Tongue:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("tongue")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      Speech:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("speech")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={4}>
+    <Typography color="primary" variant="body2">
+      Dental Ortho Anomalies:
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("dentalortho")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+</Grid>
+
+
+<Typography fontWeight="bold" color="primary" variant="body1">Clinial Skeletal Analysis</Typography>
+<Grid container spacing={2}>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      U.Incisor Angle
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("uincisor")}
+        name="text"
+        type="text"
+        placeholder="Enter rfa"
+      />
+    </Box>
+    <Typography color="primary" variant="body2">
+    L.Incisor Angle
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("lincisor")}
+        name="text"
+        type="text"
+        placeholder="TYpe here"
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      FM Angle
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("fmangle")}
+        name="text"
+        type="text"
+        placeholder="Type here"
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+    SK Pattern
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("clinicalskpattern")}
+        name="text"
+        type="text"
+        placeholder="Type here"
+      />
+    </Box>
+  </Grid>
+</Grid>
+
+<Typography fontWeight="bold" color="primary" variant="body1">Ephalometric Analysis</Typography>
+<Grid container spacing={2}>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      U.Incisor Angle
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("uincisor2")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+    <Typography color="primary" variant="body2">
+    L.Incisor Angle
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("lincisor2")}
+        name="text"
+        type="text"
+        placeholder="Type here"
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      S.N.A
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("sna")}
+        name="text"
+        type="text"
+        placeholder="Type here"
+      />
+    </Box>
+    <Typography color="primary" variant="body2">
+      S.N.B
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("snb")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+</Grid>
+<Grid container spacing={2}>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      A.N.B
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("anb")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+    <Typography color="primary" variant="body2">
+    S.K Pattern
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("cephalometricskpattern")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      MM Angle
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("mmangle")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+</Grid>
+<Typography fontWeight="bold" color="primary" variant="body1">X-Ray Report</Typography>
+<Grid container spacing={2}>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      Unerupted Teeth
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("unreptedteeth")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+    <Typography color="primary" variant="body2">
+    Absent Teeth
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("absentteeth")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+      Dental Care
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("dentalcare")}
+        name="text"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+  </Grid>
+</Grid>
+    <Typography fontWeight="bold" color="primary" variant="body1">
+      Summary of Orthodontic Analysis
+    </Typography>
+    <Box style={{ marginTop: '10px', marginBottom: '30px' }}>
+      <Textarea
+      color="primary"
+        register={register("summary")}
+        name="findings"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+
+    <Typography fontWeight="bold" color="primary" variant="body1">
+      Plan of Treatment
+    </Typography>
+    <Box style={{ marginTop: '10px', marginBottom: '30px' }}>
+      <Textarea
+      color="primary"
+        register={register("plantreatment")}
+        name="findings"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+    <Typography fontWeight="bold" color="primary" variant="body1">
+      Other Remarks
+    </Typography>
+    <Box style={{ marginTop: '10px', marginBottom: '30px' }}>
+      <Textarea
+      color="primary"
+        register={register("otherremarks")}
+        name="findings"
+        type="text"
+        placeholder="Type here..."
+      />
+    </Box>
+
+  <Box  sx={{
+  gap: "1rem",
+  }}> 
+  <RadioButton
+     onChange={handleChangeStatus}
+     name="status"
+     options={["Draft", "Final"]}
+     value={docStatus}
+  />
+  </Box>
+  <Box
+  spacing={3}
+  sx={{
+  display: "flex",
+  gap: "3rem",
+  }}
+  >
+  <GlobalCustomButton
+  color="secondary"
+  type="submit"
+  onClick={() => setConfirmationDialog(true)}
+  >
+  Submit Othodontic Form
+  </GlobalCustomButton>
+  </Box>
+  </form>
+  </div>
+  </div>
+  </>
+  );
+}
+
+
 export function NursingNoteCreate() {
   const {register, handleSubmit, setValue, reset} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
@@ -1219,9 +2925,7 @@ export function NursingNoteCreate() {
 
     //console.log(e.target.value)
   };
-  const handleChangePart = e => {
-    console.log(e);
-  };
+
 
   const closeEncounterRight = async () => {
     setState(prevstate => ({

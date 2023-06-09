@@ -1,0 +1,125 @@
+.each-message-container {
+  max-width: 65%;
+
+  //position: relative;
+
+  .message {
+    border-radius: 20px;
+    padding: 8px 15px;
+    margin-top: 5px;
+    min-width: 10rem;
+    margin-bottom: 5px;
+    display: inline-block;
+    box-shadow: 0px 11px 8px -10px rgba(0, 0, 0, 0.35),
+      0px -11px 8px -10px rgba(0, 0, 0, 0.35);
+
+    p {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      text-align: justify;
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+.sent-message {
+  .message {
+    color: white;
+
+    background: linear-gradient(to bottom, #00d0ea 0%, #0085d1 100%);
+    background: #667db6; /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+      to right,
+      #667db6,
+      #0082c8,
+      #0082c8,
+      #667db6
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+      to right,
+      #667db6,
+      #0082c8,
+      #0082c8,
+      #667db6
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    background-attachment: fixed;
+    position: relative;
+  }
+
+  .message:before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    right: -8px;
+    height: 20px;
+    width: 20px;
+    background: linear-gradient(to bottom, #00d0ea 0%, #0085d1 100%);
+    background: #667db6; /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+      to right,
+      #667db6,
+      #0082c8,
+      #0082c8,
+      #667db6
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+      to right,
+      #667db6,
+      #0082c8,
+      #0082c8,
+      #667db6
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    background-attachment: fixed;
+    border-bottom-left-radius: 15px;
+  }
+
+  .message:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    right: -10px;
+    width: 10px;
+    height: 20px;
+    background: white;
+    border-bottom-left-radius: 10px;
+  }
+}
+
+.received-message {
+  .message {
+    background-color: #eee;
+    position: relative;
+  }
+
+  .message:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: -10px;
+    width: 10px;
+    height: 20px;
+    background: white;
+    border-bottom-right-radius: 10px;
+  }
+
+  .message:before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    left: -7px;
+    height: 20px;
+    width: 20px;
+    background: #eee;
+    border-bottom-right-radius: 15px;
+  }
+}

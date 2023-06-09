@@ -1,0 +1,4336 @@
+{
+    "Green_Life": [
+      {
+        "service": "Vitamin B Complex Inj (per vial)",
+        "amount": 0.35
+      },
+      {
+        "service": "Calcium Gluconate Tabs 600mg (per tab)",
+        "amount": 10
+      },
+      {
+        "service": "PROMETHAZINE 25MG (per tab)",
+        "amount": 10
+      },
+      {
+        "service": "SALBUTAMOL 4MG (per tab)",
+        "amount": 10
+      },
+      {
+        "service": "DERMAZINE CREAM 50MG (per tube)",
+        "amount": 12.5
+      },
+      {
+        "service": "Stilboesterol Tabs (per tab)",
+        "amount": 12.5
+      },
+      {
+        "service": "Testosterone Inj 200mg/ml (per amp)",
+        "amount": 12.5
+      },
+      {
+        "service": "BANOCIDE 50MG (per tab)",
+        "amount": 15
+      },
+      {
+        "service": "CALCIUM LACTATE 300MG (per tab)",
+        "amount": 15
+      },
+      {
+        "service": "PARACETAMOL (per tab)",
+        "amount": 15
+      },
+      {
+        "service": "PHENOBARBITONE 30MG (per tab)",
+        "amount": 15
+      },
+      {
+        "service": "PIRITON (per tab)",
+        "amount": 15
+      },
+      {
+        "service": "Riboflavine (Vit B2) Tabs 5mg (per tab)",
+        "amount": 15
+      },
+      {
+        "service": "Thiamine (Vit B1)",
+        "amount": 15
+      },
+      {
+        "service": "VASOPRIN 75MG TAB",
+        "amount": 15
+      },
+      {
+        "service": "VIT C 100MG (per tab)",
+        "amount": 15
+      },
+      {
+        "service": "BISACODYL 5MG (per tab)",
+        "amount": 20
+      },
+      {
+        "service": "CHLORAMPHENICOL 250MG (PER TAB)",
+        "amount": 20
+      },
+      {
+        "service": "CHLORPHENIRAMINE 4MG (per tab)",
+        "amount": 20
+      },
+      {
+        "service": "Disposable Latex Gloves",
+        "amount": 20
+      },
+      {
+        "service": "TETRACYCLINE 250MG (per cap)",
+        "amount": 20
+      },
+      {
+        "service": "VIT A TAB",
+        "amount": 20
+      },
+      {
+        "service": "VIT B COMPLEX (per tab)",
+        "amount": 20
+      },
+      {
+        "service": "Yeast BPC Tabs 300mg (per tab)",
+        "amount": 20
+      },
+      {
+        "service": "AMINOPHYLLINE TABS (per tab)",
+        "amount": 22.5
+      },
+      {
+        "service": "ASPIRIN 75MG (per tab)",
+        "amount": 22.5
+      },
+      {
+        "service": "PIROXICAM 20MG (per cap)",
+        "amount": 24
+      },
+      {
+        "service": "CAPTOPRIL 12.5MG (per tab)",
+        "amount": 25
+      },
+      {
+        "service": "CAPTOPRIL 25MG (per tab)",
+        "amount": 25
+      },
+      {
+        "service": "CHEMIRON (PER CAP)",
+        "amount": 25
+      },
+      {
+        "service": "GESTID (per tab)",
+        "amount": 25
+      },
+      {
+        "service": "Syringe & Needle 2ml (per unit)",
+        "amount": 25
+      },
+      {
+        "service": "Syringe & Needle 5ml (per unit)",
+        "amount": 25
+      },
+      {
+        "service": "TRIFLUOPERAZINE 5MG (per tab)",
+        "amount": 25
+      },
+      {
+        "service": "CANDERIL SWEETNER (per tab)",
+        "amount": 30
+      },
+      {
+        "service": "CAPTOPRIL 50MG (per tab)",
+        "amount": 30
+      },
+      {
+        "service": "CHLORPROMAZINE 100MG (per tab)",
+        "amount": 30
+      },
+      {
+        "service": "CIMETIDINE 200MG (per tab)",
+        "amount": 30
+      },
+      {
+        "service": "PREDNISOLONE 5MG (per tab)",
+        "amount": 30
+      },
+      {
+        "service": "Retinol (Vit A) Caps (per cap)",
+        "amount": 30
+      },
+      {
+        "service": "STEMETIL 5MG (per tab)",
+        "amount": 30
+      },
+      {
+        "service": "CHLOROQUINE 150MG (per tab)",
+        "amount": 35
+      },
+      {
+        "service": "ROVIGON (per tab)",
+        "amount": 35
+      },
+      {
+        "service": "ACTIFED (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "ARTANE 5MG (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "ASPIRIN 300MG (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "ATENOLOL 50MG (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "AVOMINE 25MG (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "BENDROFLUAZIDE (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "CLOXACILLIN 250MG (per cap)",
+        "amount": 37.5
+      },
+      {
+        "service": "COLIPAN 10MG (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "Cyanocobalamin (B12) Tabs (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "DEQUADIN LOZENGES (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "DIABETIN 450MG (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "DIAMOX 250MG (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "DICLOFENAC 50MG (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "FALVITONE (PER CAP)",
+        "amount": 37.5
+      },
+      {
+        "service": "FERROUS SULHATE 20MG (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "FLAGYL 400MG (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "FOLIC ACID 5MG (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "HAEMORON (PER TAB)",
+        "amount": 37.5
+      },
+      {
+        "service": "HYDROCORTISONE TABS 10MG",
+        "amount": 37.5
+      },
+      {
+        "service": "HYOSCINE N BUTYL BROMIDE (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "IBUPROFEN 200MG (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "INDOMEHACINE (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "LOMOTIL (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "METAPRIM 25MG (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "METOCLOPRAMIDE 10MG (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "METRONIDAZOLE 200MG (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "MODURETIC (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "Needle (per unit)",
+        "amount": 37.5
+      },
+      {
+        "service": "NICOTINIC ACID (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "NITROFURANTOIN 100MG (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "NORMORETIC (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "PYRIDOXINE 50MG (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "RANFERON-12 (per tab)",
+        "amount": 37.5
+      },
+      {
+        "service": "Syringe & Needle 10ml (per unit)",
+        "amount": 37.5
+      },
+      {
+        "service": "Tab Gentamycin",
+        "amount": 37.5
+      },
+      {
+        "service": "ZINC 30MG TAB",
+        "amount": 37.5
+      },
+      {
+        "service": "AMOXYCILLIN 250MG (per cap)",
+        "amount": 40
+      },
+      {
+        "service": "THALAZOLE 500MG (per tab)",
+        "amount": 40
+      },
+      {
+        "service": "AMLOVA 10MG (PER TAB)",
+        "amount": 41.25
+      },
+      {
+        "service": "CO-TRIMAZOLE 480MG (per tab)",
+        "amount": 41.25
+      },
+      {
+        "service": "ETHAMBUTOL 400MG (per tab)",
+        "amount": 41.25
+      },
+      {
+        "service": "Bisoprolol 2.5mg",
+        "amount": 43.75
+      },
+      {
+        "service": "ABITREN 100MG (per tab)",
+        "amount": 45
+      },
+      {
+        "service": "ACETAZOLAMIDE 250MG (per tab)",
+        "amount": 45
+      },
+      {
+        "service": "AMPICILLIN 250MG (PER TAB)",
+        "amount": 45
+      },
+      {
+        "service": "ANTASIL (per tab)",
+        "amount": 45
+      },
+      {
+        "service": "ATENOLOL 100MG (per tab)",
+        "amount": 45
+      },
+      {
+        "service": "BECLOX 500MG (per cap)",
+        "amount": 45
+      },
+      {
+        "service": "DIGOXIN 0.25MG (per tab)",
+        "amount": 45
+      },
+      {
+        "service": "ERYTHROMYCIN 250MG (per tab)",
+        "amount": 45
+      },
+      {
+        "service": "ISORDIL 5MG (per tab)",
+        "amount": 45
+      },
+      {
+        "service": "MAXOLON (PER TAB)",
+        "amount": 45
+      },
+      {
+        "service": "SPIRONOLACTONE 25MG (per tab)",
+        "amount": 45
+      },
+      {
+        "service": "TABALON 400MG (per tab)",
+        "amount": 45
+      },
+      {
+        "service": "CEPHALEXIN ( PER CAP)",
+        "amount": 48.75
+      },
+      {
+        "service": "AMLODIPINE 5MG (PER TAB)",
+        "amount": 50
+      },
+      {
+        "service": "CARBAMAZEPINE 200MG (per tab)",
+        "amount": 50
+      },
+      {
+        "service": "CARVEDILOL 6.25mg (PER TAB)",
+        "amount": 50
+      },
+      {
+        "service": "CENTRUM M/VIT (per tab)",
+        "amount": 50
+      },
+      {
+        "service": "Chymoral",
+        "amount": 50
+      },
+      {
+        "service": "CHYMORAL (per tab)",
+        "amount": 50
+      },
+      {
+        "service": "CIMETIDINE 400MG (per tab)",
+        "amount": 50
+      },
+      {
+        "service": "PHENYTOIN 100MG (per cap)",
+        "amount": 50
+      },
+      {
+        "service": "Syringe & Needle 20ml (per unit)",
+        "amount": 50
+      },
+      {
+        "service": "Aldactone",
+        "amount": 52.5
+      },
+      {
+        "service": "AMITRIPTYLINE 25MG (per tab)",
+        "amount": 52.5
+      },
+      {
+        "service": "ANOROL (per tab)",
+        "amount": 52.5
+      },
+      {
+        "service": "APRESOLINE 25MG (per tab)",
+        "amount": 52.5
+      },
+      {
+        "service": "ARTEMEF (PER TABLET)",
+        "amount": 52.5
+      },
+      {
+        "service": "ATIVAN 2MG (per tab)",
+        "amount": 52.5
+      },
+      {
+        "service": "CO-PROXAMOL (per tab)",
+        "amount": 52.5
+      },
+      {
+        "service": "DICLOFENAC R 75MG TAB",
+        "amount": 52.5
+      },
+      {
+        "service": "ENALAPRIL 5MG TAB",
+        "amount": 52.5
+      },
+      {
+        "service": "ENCEPHABOL (per tab)",
+        "amount": 52.5
+      },
+      {
+        "service": "FEFOL (per cap)",
+        "amount": 52.5
+      },
+      {
+        "service": "HYDROCHLORTIAZIDE 50MG/ AMILORIDE 5MG(per tab",
+        "amount": 52.5
+      },
+      {
+        "service": "ISOSORBIDE 5MG (PER TAB)",
+        "amount": 52.5
+      },
+      {
+        "service": "KOTASE (per tab)",
+        "amount": 52.5
+      },
+      {
+        "service": "LISINOPRIL 5MG (per tab)",
+        "amount": 52.5
+      },
+      {
+        "service": "MEFENAMIC ACID 250MG (per tab)",
+        "amount": 52.5
+      },
+      {
+        "service": "VENTOLIN 2MG (per tab)",
+        "amount": 52.5
+      },
+      {
+        "service": "WARFRIN SODIUM 5MG (per tab)",
+        "amount": 52.5
+      },
+      {
+        "service": "KETRAX (PER TAB).",
+        "amount": 53.75
+      },
+      {
+        "service": "DIAZEPAM 5MG (per tab)",
+        "amount": 60
+      },
+      {
+        "service": "DOXYCYCLINE (per cap)",
+        "amount": 60
+      },
+      {
+        "service": "Ergocalciferol (Vit D) Tabs (per tab)",
+        "amount": 60
+      },
+      {
+        "service": "ETOVIT CAPGEL 200MG (per cap)",
+        "amount": 60
+      },
+      {
+        "service": "EVENNG PRIME ROSE (per cap)",
+        "amount": 60
+      },
+      {
+        "service": "EVITOL 100MG (per tab)",
+        "amount": 60
+      },
+      {
+        "service": "FRUSEMIDE 40MG (per tab)",
+        "amount": 60
+      },
+      {
+        "service": "HYOSCINE N BUTYL BROMIDE 20MG (per amp)",
+        "amount": 60
+      },
+      {
+        "service": "ISORDIL 10MG (per tab)",
+        "amount": 60
+      },
+      {
+        "service": "LEXOTHAN 1.5MG (per tab)",
+        "amount": 60
+      },
+      {
+        "service": "LINCOMYCIN 500MG (per cap)",
+        "amount": 60
+      },
+      {
+        "service": "LORATYN 10MG (per tab)",
+        "amount": 60
+      },
+      {
+        "service": "METHYL DOPA 250MG(ALDOMET) (per tab)",
+        "amount": 60
+      },
+      {
+        "service": "METHYL DOPA 500MG(ALDOMET) (per tab)",
+        "amount": 60
+      },
+      {
+        "service": "NIFEDIPINE 20MG (per tab)",
+        "amount": 60
+      },
+      {
+        "service": "NIVAQUINE FORTE CAP (per cap)",
+        "amount": 60
+      },
+      {
+        "service": "NORFLEX TABS (per tab)",
+        "amount": 60
+      },
+      {
+        "service": "NORGESIC TAB",
+        "amount": 60
+      },
+      {
+        "service": "NOVALGIN 500MG (per tab)",
+        "amount": 60
+      },
+      {
+        "service": "PYRAZINAMIDE 500MG (per tab)",
+        "amount": 60
+      },
+      {
+        "service": "AMLODIPINE 10MG (per tab)",
+        "amount": 62.5
+      },
+      {
+        "service": "CENTRUM SILVER (per tab)",
+        "amount": 62.5
+      },
+      {
+        "service": "FERROBIN",
+        "amount": 62.5
+      },
+      {
+        "service": "OMEGA H3 (per cap)",
+        "amount": 62.5
+      },
+      {
+        "service": "FRANOL (per tab)",
+        "amount": 63.75
+      },
+      {
+        "service": "HALOPERIDOL 5MG (per tab)",
+        "amount": 67.5
+      },
+      {
+        "service": "AMOXYCILLIN 500MG (per cap)",
+        "amount": 68
+      },
+      {
+        "service": "ACTIVATED CHARCOAL (per cap)",
+        "amount": 70
+      },
+      {
+        "service": "CHLORPROPAMIDE 250MG (per tab)",
+        "amount": 70
+      },
+      {
+        "service": "PRIMOLUT N 5MG (per tab)",
+        "amount": 70
+      },
+      {
+        "service": "ALLOPURINOL 100MG TAB",
+        "amount": 75
+      },
+      {
+        "service": "AMPICLOX 500MG CAP (per cap)",
+        "amount": 75
+      },
+      {
+        "service": "ASTYMIN (PER TAB).",
+        "amount": 75
+      },
+      {
+        "service": "BENZHEXOL 5MG (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "Bisoprolol 5mg",
+        "amount": 75
+      },
+      {
+        "service": "BRINERDINE (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "BROMHEXINE 8MG (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "COMBANTRIN 125MG (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "CORDARONE 200MG (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "COTENIDONE TABS (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "DIHYDROCODEINE 30MG (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "FASIGYN 500MG (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "GLIBENCLAMIDE 5MG (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "GLUCOSE (PER SACHET)",
+        "amount": 75
+      },
+      {
+        "service": "GRISEOFULVIN 125MG (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "HISTAC 150MG (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "IBUFROPEN 400MG (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "ISOSORBIDE 10MG (PER TAB)",
+        "amount": 75
+      },
+      {
+        "service": "Lexotab tabs",
+        "amount": 75
+      },
+      {
+        "service": "LISINOPRIL 10MG (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "METRONIDAZOLE 400MG (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "MOTILIUM 10MG (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "NEOMERCAZOLE 5MG (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "NIFEGEM RETARD 20MG (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "NITRAZEPAM 5MG (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "PALUDRINE 100MG TAB (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "PROPANOLOL 40MG (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "Scalp Vein Needle (per unit)",
+        "amount": 75
+      },
+      {
+        "service": "SIMVASTATIN 20MG TAB",
+        "amount": 75
+      },
+      {
+        "service": "STREPSIL LOZENGES (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "ZYLORIC 100MG (per tab)",
+        "amount": 75
+      },
+      {
+        "service": "CARVEDILOL 25mg(PER TAB)",
+        "amount": 80
+      },
+      {
+        "service": "CATAFLAM 50MG (per tab)",
+        "amount": 85
+      },
+      {
+        "service": "CEECAL (per tab)",
+        "amount": 87.5
+      },
+      {
+        "service": "FLOXAPEN 125MG/5ML (per cap)",
+        "amount": 87.5
+      },
+      {
+        "service": "OSTEOCARE (per tab)",
+        "amount": 87.5
+      },
+      {
+        "service": "ACARBOSE 50MG (PER TAB)",
+        "amount": 90
+      },
+      {
+        "service": "ALLOPURINOL 200MG TAB",
+        "amount": 90
+      },
+      {
+        "service": "ARTHROTEC (PER TAB)",
+        "amount": 90
+      },
+      {
+        "service": "CAMOQUINE 200MG (per tab)",
+        "amount": 90
+      },
+      {
+        "service": "DICYNONE 250MG (per tab)",
+        "amount": 90
+      },
+      {
+        "service": "DIPYRIDAMOLE (PER TAB)",
+        "amount": 90
+      },
+      {
+        "service": "DITROPAN 5MG (per tab)",
+        "amount": 90
+      },
+      {
+        "service": "ERGOMETRINE 0.5MG (PER TAB)",
+        "amount": 90
+      },
+      {
+        "service": "ESIDREX 25MG (per tab)",
+        "amount": 90
+      },
+      {
+        "service": "EVITOL100MG CAPGEL (per cap)",
+        "amount": 90
+      },
+      {
+        "service": "HOMTAMIN GINSENG (per tab)",
+        "amount": 90
+      },
+      {
+        "service": "KETOCONAZOLE 200MG (per tab)",
+        "amount": 90
+      },
+      {
+        "service": "LO-FEMINAL (per sach)",
+        "amount": 90
+      },
+      {
+        "service": "Mesterolone Tabs 25mg (per tab)",
+        "amount": 90
+      },
+      {
+        "service": "OCUVITE (per tab)",
+        "amount": 90
+      },
+      {
+        "service": "PERSANTIN (PER TAB)",
+        "amount": 90
+      },
+      {
+        "service": "REGROTON (per tab)",
+        "amount": 90
+      },
+      {
+        "service": "SANATOGEN M/VIT GOLD (per tab)",
+        "amount": 90
+      },
+      {
+        "service": "WELLMAN M/VIT (per cap)",
+        "amount": 90
+      },
+      {
+        "service": "Bisoprolol 10mg",
+        "amount": 93.75
+      },
+      {
+        "service": "INDERAL 40MG (per tab)",
+        "amount": 93.75
+      },
+      {
+        "service": "NEUROBION (per tab)",
+        "amount": 93.75
+      },
+      {
+        "service": "GABAPENTRIN(PER TAB)",
+        "amount": 97.5
+      },
+      {
+        "service": "GRISEOFULVIN 500MG (per tab)",
+        "amount": 97.5
+      },
+      {
+        "service": "GSUNATE 100MG (per tab)",
+        "amount": 97.5
+      },
+      {
+        "service": "LEXOTHAN 3MG (per tab)",
+        "amount": 97.5
+      },
+      {
+        "service": "MOSEGOR 0.5MG (per tab)",
+        "amount": 97.5
+      },
+      {
+        "service": "PREGNACARE (per cap)",
+        "amount": 97.5
+      },
+      {
+        "service": "ARTESUNATE (PER TAB)",
+        "amount": 100
+      },
+      {
+        "service": "ATOVASTATIN 10MG (PER TAB)",
+        "amount": 100
+      },
+      {
+        "service": "BENYLIN EXPECTORANT 100MLS (per bot)",
+        "amount": 100
+      },
+      {
+        "service": "BETALOC (PER TAB)",
+        "amount": 100
+      },
+      {
+        "service": "CADIOACE (per cap)",
+        "amount": 100
+      },
+      {
+        "service": "CHLOROQUINE 200MG (per amp)",
+        "amount": 100
+      },
+      {
+        "service": "GERIATIC PHARMATON (per cap)",
+        "amount": 100
+      },
+      {
+        "service": "PEFLOXACIN 400MG (per tab)",
+        "amount": 100
+      },
+      {
+        "service": "ROXID TABS (per tab)",
+        "amount": 100
+      },
+      {
+        "service": "ROXITHROMYCIN TABS (per tab)",
+        "amount": 100
+      },
+      {
+        "service": "STUGERON 25MG (per tab)",
+        "amount": 100
+      },
+      {
+        "service": "TAVEGYL 1MG (per tab)",
+        "amount": 100
+      },
+      {
+        "service": "THYROXINE 0.5MG (per tab)",
+        "amount": 100
+      },
+      {
+        "service": "URINE BAG",
+        "amount": 100
+      },
+      {
+        "service": "VIT E 1000 IU NATURE MADE (per tab)",
+        "amount": 100
+      },
+      {
+        "service": "XTAPEN (PER AMP)",
+        "amount": 100
+      },
+      {
+        "service": "ZANTAC 300MG (per tab)",
+        "amount": 100
+      },
+      {
+        "service": "IMODIUM 4MG (per tab)",
+        "amount": 101.25
+      },
+      {
+        "service": "DOLONUEROBION (per tab)",
+        "amount": 105
+      },
+      {
+        "service": "GLIPIZIDE 5MG (PER TAB)",
+        "amount": 105
+      },
+      {
+        "service": "MAXIVISION (per cap)",
+        "amount": 106.25
+      },
+      {
+        "service": "ZADITEN 1MG (per tab)",
+        "amount": 106.25
+      },
+      {
+        "service": "OMEPRAZOLE 20MG (PER TAB).",
+        "amount": 110
+      },
+      {
+        "service": "ACICLOVIR 200MG (per tab)",
+        "amount": 112.5
+      },
+      {
+        "service": "ADALAT RETARD 20MG (per tab)",
+        "amount": 112.5
+      },
+      {
+        "service": "ARSUMAX 50MG (per tab)",
+        "amount": 112.5
+      },
+      {
+        "service": "CLONIDINE 100MCG (per tab)",
+        "amount": 112.5
+      },
+      {
+        "service": "CLOPIDOGREL(PER TAB)",
+        "amount": 112.5
+      },
+      {
+        "service": "DAFLON (per tab)",
+        "amount": 112.5
+      },
+      {
+        "service": "EYE ANTIOXIDANT (per tab)",
+        "amount": 112.5
+      },
+      {
+        "service": "IMMUNACE (per tab)",
+        "amount": 112.5
+      },
+      {
+        "service": "LINCOMYCIN INJ 300MG (PER AMP)",
+        "amount": 112.5
+      },
+      {
+        "service": "LIV 52 (PER TAB)",
+        "amount": 112.5
+      },
+      {
+        "service": "LIVOLIN FORTE TABS (per tab)",
+        "amount": 112.5
+      },
+      {
+        "service": "LOSARTAN 60MG PER TAB",
+        "amount": 112.5
+      },
+      {
+        "service": "METFORMIN 1G (per tab)",
+        "amount": 112.5
+      },
+      {
+        "service": "MINIZIDE (per tab)",
+        "amount": 112.5
+      },
+      {
+        "service": "NAPROXEN 500MG (PER TAB)",
+        "amount": 112.5
+      },
+      {
+        "service": "NATRILIX (PER TAB)",
+        "amount": 112.5
+      },
+      {
+        "service": "OBRON 6 CAP (per cap)",
+        "amount": 112.5
+      },
+      {
+        "service": "SULPHADEINE PLUS SOLUBLE (per tab)",
+        "amount": 112.5
+      },
+      {
+        "service": "CAC 1000 (per tab)",
+        "amount": 120
+      },
+      {
+        "service": "CHLORAMPHENICOL 500MG INJ/ AMP",
+        "amount": 120
+      },
+      {
+        "service": "CIPROFLOXACIN 500MG (PER TAB)",
+        "amount": 120
+      },
+      {
+        "service": "FLUCONAZOLE 50MG (PER TAB)",
+        "amount": 122.5
+      },
+      {
+        "service": "ALPHABETHIC CAPLET (per tab)",
+        "amount": 125
+      },
+      {
+        "service": "AVOLAM 150MG (per tab)",
+        "amount": 125
+      },
+      {
+        "service": "EUCADIC 3.125MG (per tab)",
+        "amount": 125
+      },
+      {
+        "service": "FLUCAMED 50MG (per cap)",
+        "amount": 125
+      },
+      {
+        "service": "HISTAC 300MG (per tab)",
+        "amount": 125
+      },
+      {
+        "service": "MELOXICAM (per tab)",
+        "amount": 125
+      },
+      {
+        "service": "METFORMIN 500MG (per tab)",
+        "amount": 125
+      },
+      {
+        "service": "ORUVAIL 200MG (per cap)",
+        "amount": 125
+      },
+      {
+        "service": "TEGRETOL 200MG (per tab)",
+        "amount": 125
+      },
+      {
+        "service": "THROXINE 100MCG (per tab)",
+        "amount": 125
+      },
+      {
+        "service": "ZANTAC 150MG (per tab)",
+        "amount": 125
+      },
+      {
+        "service": "ZESTRIL 5MG (per tab)",
+        "amount": 125
+      },
+      {
+        "service": "GLICAZIDE 80MG (PER TAB)",
+        "amount": 127.5
+      },
+      {
+        "service": "SECWID 400MG (PER TAB)",
+        "amount": 127.5
+      },
+      {
+        "service": "VOLTAREN RETARD 100MG (per tab)",
+        "amount": 131.25
+      },
+      {
+        "service": "MEPRASIL 20MG (per cap)",
+        "amount": 135
+      },
+      {
+        "service": "AMOVIN TAB",
+        "amount": 137.5
+      },
+      {
+        "service": "ALFA D O.5CG (per tab)",
+        "amount": 150
+      },
+      {
+        "service": "Aminophylline Inj 25mg/ml (per amp",
+        "amount": 150
+      },
+      {
+        "service": "ARTHOCARE CAP (per tab)",
+        "amount": 150
+      },
+      {
+        "service": "ARVED 450MG (per tab)",
+        "amount": 150
+      },
+      {
+        "service": "CAMOSUNATE 600/200 (PER TAB)",
+        "amount": 150
+      },
+      {
+        "service": "CLINITEST TAB (per tab)",
+        "amount": 150
+      },
+      {
+        "service": "COARTEM DISPERSIBLE (PER TAB)",
+        "amount": 150
+      },
+      {
+        "service": "ENHANCIN 375MG (per tab)",
+        "amount": 150
+      },
+      {
+        "service": "EVADINE 200MG (per tab)",
+        "amount": 150
+      },
+      {
+        "service": "FANSIDAR 525MG (per tab)",
+        "amount": 150
+      },
+      {
+        "service": "HYPOVASE 1MG (per tab)",
+        "amount": 150
+      },
+      {
+        "service": "Labetalol 100mg",
+        "amount": 150
+      },
+      {
+        "service": "Levetiractam 250mg(Keppra)",
+        "amount": 150
+      },
+      {
+        "service": "LEVOFLOXACIN TAB 500MG",
+        "amount": 150
+      },
+      {
+        "service": "MANIX (per tab)",
+        "amount": 150
+      },
+      {
+        "service": "MINIPRESS 1MG (per tab)",
+        "amount": 150
+      },
+      {
+        "service": "Neuracalm",
+        "amount": 150
+      },
+      {
+        "service": "NIZORAL 200MG (per tab)",
+        "amount": 150
+      },
+      {
+        "service": "NOSPA TABS 40MG (per tab)",
+        "amount": 150
+      },
+      {
+        "service": "Ofloxacin Caps 200mg (per cap)",
+        "amount": 150
+      },
+      {
+        "service": "PIRITON INJECTION 10MG/ML",
+        "amount": 150
+      },
+      {
+        "service": "PROMETHAZINE 50MG INJ (per amp)",
+        "amount": 150
+      },
+      {
+        "service": "PROVIRON 25 MG (per tab)",
+        "amount": 150
+      },
+      {
+        "service": "QUININE 300MG (per tab)",
+        "amount": 150
+      },
+      {
+        "service": "ROHYPNOL 1MG (per tab)",
+        "amount": 150
+      },
+      {
+        "service": "Rosuvastatin 5MG",
+        "amount": 150
+      },
+      {
+        "service": "SECNIDAZOLE 500MG(PER TAB)",
+        "amount": 150
+      },
+      {
+        "service": "SPARFLOXACIN 200MG (per tab)",
+        "amount": 150
+      },
+      {
+        "service": "SUFFRATULE(PER PIECE)",
+        "amount": 150
+      },
+      {
+        "service": "TAMSULOSIN(PER TAB)",
+        "amount": 150
+      },
+      {
+        "service": "NORVASC 5MG (per tab)",
+        "amount": 156.25
+      },
+      {
+        "service": "INFERON (PER AMP)",
+        "amount": 162.5
+      },
+      {
+        "service": "ZADITEN 2MG (per tab)",
+        "amount": 162.5
+      },
+      {
+        "service": "ZENTEL (PER TAB)",
+        "amount": 162.5
+      },
+      {
+        "service": "AVOCOMB 450MG (per tab)",
+        "amount": 165
+      },
+      {
+        "service": "CEFUROXIME 250MG TAB",
+        "amount": 165
+      },
+      {
+        "service": "METAKELFIN (per tab)",
+        "amount": 165
+      },
+      {
+        "service": "VENTOLIN NEBULES 2.5MG (per neb)",
+        "amount": 165
+      },
+      {
+        "service": "PROGUANIL 100MG (per tab)",
+        "amount": 172.5
+      },
+      {
+        "service": "ESSENTIAL FORTE CAP (per cap)",
+        "amount": 175
+      },
+      {
+        "service": "Pregabalim 75mg",
+        "amount": 180
+      },
+      {
+        "service": "Sodium vaporate (epilium 200mg)",
+        "amount": 180
+      },
+      {
+        "service": "FELDENE 20MG (per cap)",
+        "amount": 181.25
+      },
+      {
+        "service": "ARTEMETER 100MG TAB",
+        "amount": 187.5
+      },
+      {
+        "service": "CARFERGOT 50MG (per tab)",
+        "amount": 187.5
+      },
+      {
+        "service": "DICLOFENAC SUPP 12.5MG (PER SUPP)",
+        "amount": 187.5
+      },
+      {
+        "service": "DUPHASON 10MG (per tab)",
+        "amount": 187.5
+      },
+      {
+        "service": "ENHANCIN 625MG (per tab)",
+        "amount": 187.5
+      },
+      {
+        "service": "EUCARDIC 25MG (per tab)",
+        "amount": 187.5
+      },
+      {
+        "service": "PRAZIQUANTEL 600MG (per tab)",
+        "amount": 187.5
+      },
+      {
+        "service": "TRAMADOL 50MG (per cap)",
+        "amount": 187.5
+      },
+      {
+        "service": "AZITHROMYCIN 250mg (per cap)",
+        "amount": 200
+      },
+      {
+        "service": "BROMOCRIPTINE 2.5MG (per tab)",
+        "amount": 200
+      },
+      {
+        "service": "CADURA 4MG PER TAB",
+        "amount": 200
+      },
+      {
+        "service": "CHLORPHENIRAMINE INJ (PER AMP)",
+        "amount": 200
+      },
+      {
+        "service": "CHLORPROMAZINE 50MG INJ (per amp)",
+        "amount": 200
+      },
+      {
+        "service": "CIPROTAB 500MG (per tab)",
+        "amount": 200
+      },
+      {
+        "service": "CLINDAMYCIN HCL 300MG CAP (per cap)",
+        "amount": 200
+      },
+      {
+        "service": "CO-CODAMOL 500MG",
+        "amount": 200
+      },
+      {
+        "service": "FOLEY'S CATHETER (per piece)",
+        "amount": 200
+      },
+      {
+        "service": "PARIET 20MG (per tab)",
+        "amount": 200
+      },
+      {
+        "service": "Rosuvastatin 10MG",
+        "amount": 200
+      },
+      {
+        "service": "UNASYN (PER TAB)",
+        "amount": 200
+      },
+      {
+        "service": "VITAMIN A DROPS",
+        "amount": 200
+      },
+      {
+        "service": "Labetalol 400mg",
+        "amount": 210
+      },
+      {
+        "service": "CO-MICARDIL (PER TAB)",
+        "amount": 218.75
+      },
+      {
+        "service": "CLOMID 50MG (per tab)",
+        "amount": 225
+      },
+      {
+        "service": "CO-AMOXICLAV 625MG TAB (PER TAB)",
+        "amount": 225
+      },
+      {
+        "service": "Co-Aprovel 150mg (1Tab)",
+        "amount": 225
+      },
+      {
+        "service": "COARTEM (PER TAB)",
+        "amount": 225
+      },
+      {
+        "service": "CRYSTALLINE PENICILLIN (PER AMPOULE)",
+        "amount": 225
+      },
+      {
+        "service": "CYTOTEC (MISOPROSTOL) 200MCG (PER TAB)",
+        "amount": 225
+      },
+      {
+        "service": "DICLOFENAC SUPP 100MG (PER SUPP)",
+        "amount": 225
+      },
+      {
+        "service": "DULCOLAX SUPP (PER SUPP)",
+        "amount": 225
+      },
+      {
+        "service": "IV Cannula (per unit)",
+        "amount": 225
+      },
+      {
+        "service": "LONART TAB (PER TAB)",
+        "amount": 225
+      },
+      {
+        "service": "Nasogastric (NG) TUbe",
+        "amount": 225
+      },
+      {
+        "service": "PARACETAMOL 125MG SUPPOSITORY",
+        "amount": 225
+      },
+      {
+        "service": "TARIVID 200MG (per tab)",
+        "amount": 225
+      },
+      {
+        "service": "CO-DIOVAN (per tab)",
+        "amount": 237.5
+      },
+      {
+        "service": "DIOVAN 80MG (per cap)",
+        "amount": 237.5
+      },
+      {
+        "service": "ZESTRIL 10MG (per tab)",
+        "amount": 237.5
+      },
+      {
+        "service": "HYDROXYPREGESTERONE (PER TAB)",
+        "amount": 243.75
+      },
+      {
+        "service": "LESCOL 20MG (per cap)",
+        "amount": 243.75
+      },
+      {
+        "service": "TENORETIC (per tab)",
+        "amount": 243.75
+      },
+      {
+        "service": "VENTOLIN NEBULES 5MG (per neb)",
+        "amount": 243.75
+      },
+      {
+        "service": "CEFUROXIME 500MG TAB",
+        "amount": 250
+      },
+      {
+        "service": "CIMETIDINE INJ PER AMP",
+        "amount": 250
+      },
+      {
+        "service": "DETRUSITOL XL 4MG (per cap)",
+        "amount": 250
+      },
+      {
+        "service": "DIAMICRON 60mg (per tab)",
+        "amount": 250
+      },
+      {
+        "service": "GLYCERYLTRINITRATE (PER TAB)",
+        "amount": 250
+      },
+      {
+        "service": "TEGRETOL CR 400MG (per tab)",
+        "amount": 250
+      },
+      {
+        "service": "VIT K INJ (PER AMP)",
+        "amount": 250
+      },
+      {
+        "service": "AMOKSICLAV 625MG (PER TAB)",
+        "amount": 262.5
+      },
+      {
+        "service": "AMOKSICLAV TAB 625MG",
+        "amount": 262.5
+      },
+      {
+        "service": "AUGMENTINE 625MG (per tab)",
+        "amount": 262.5
+      },
+      {
+        "service": "Co-Aprovel 300mg (1Tab)",
+        "amount": 262.5
+      },
+      {
+        "service": "GYNODAKTARIN 200MG (per ovule)",
+        "amount": 262.5
+      },
+      {
+        "service": "ITRANOX 100MG (per tab)",
+        "amount": 262.5
+      },
+      {
+        "service": "MECTIZAN (IVERMECTIN) 3MG (per tab)",
+        "amount": 262.5
+      },
+      {
+        "service": "PROMETHAZINE INJ 25MG/AMP",
+        "amount": 262.5
+      },
+      {
+        "service": "TRANEXAMIC ACID 500mg (PER TAB)",
+        "amount": 262.5
+      },
+      {
+        "service": "PAROXETIN 100MG(PER TAB)",
+        "amount": 269
+      },
+      {
+        "service": "PEFLACINE 400MG (per tab)",
+        "amount": 275
+      },
+      {
+        "service": "CANDESARTAN 80MG PER TAB",
+        "amount": 287.5
+      },
+      {
+        "service": "NORVASC 10MG (per tab)",
+        "amount": 287.5
+      },
+      {
+        "service": "LIPITOR 10MG (per tab)",
+        "amount": 293.75
+      },
+      {
+        "service": "ZESTORETIC (per tab)",
+        "amount": 293.75
+      },
+      {
+        "service": "ZESTRIL 20MG (per tab)",
+        "amount": 293.75
+      },
+      {
+        "service": "ALAXIN- P (PER TAB)",
+        "amount": 300
+      },
+      {
+        "service": "ANNUSOL SUPPOSITORIES (per supp)",
+        "amount": 300
+      },
+      {
+        "service": "ARTEMETER 80MG INJ (PER AMP)",
+        "amount": 300
+      },
+      {
+        "service": "AUGMENTINE 1G (per tab)",
+        "amount": 300
+      },
+      {
+        "service": "AVANDA 4MG (per tab)",
+        "amount": 300
+      },
+      {
+        "service": "Blood Giving Set (per unit)",
+        "amount": 300
+      },
+      {
+        "service": "CELEBREX 200MG (per cap)",
+        "amount": 300
+      },
+      {
+        "service": "CHLORAMPHENICOL EAR DROP (per bot)",
+        "amount": 300
+      },
+      {
+        "service": "CHLORAMPHENICOL EYE OINT. (per tube)",
+        "amount": 300
+      },
+      {
+        "service": "CHLOROQUINE 50MG/5ML (per bot)",
+        "amount": 300
+      },
+      {
+        "service": "CLARITHROMYCIN 500MG (per cap)",
+        "amount": 300
+      },
+      {
+        "service": "Cyanocobalamin (B12) Inj (per amp)",
+        "amount": 300
+      },
+      {
+        "service": "GENTAMYCIN 80MG (per amp)",
+        "amount": 300
+      },
+      {
+        "service": "NYSTATIN PESSARIES (PER TAB)",
+        "amount": 300
+      },
+      {
+        "service": "PENTAZOCINE 30MG INJ (per amp)",
+        "amount": 300
+      },
+      {
+        "service": "SIMVOR 20MG (per tab)",
+        "amount": 300
+      },
+      {
+        "service": "SLOW-K 600MG (per tab)",
+        "amount": 300
+      },
+      {
+        "service": "STREPTOMYCIN 5MG INJ (per vial)",
+        "amount": 300
+      },
+      {
+        "service": "TRAMADOL 50MG INJ. (per vial)",
+        "amount": 300
+      },
+      {
+        "service": "ZINNAT 250MG (per tab)",
+        "amount": 306.25
+      },
+      {
+        "service": "Danazole Caps 200mg (per cap)",
+        "amount": 312.5
+      },
+      {
+        "service": "Galvus 50MG",
+        "amount": 312.5
+      },
+      {
+        "service": "Rosuvastatin 20MG",
+        "amount": 312.5
+      },
+      {
+        "service": "ZOLOFT 50MG (per cap)",
+        "amount": 312.5
+      },
+      {
+        "service": "AMIAS 4MG (per tab)",
+        "amount": 337.5
+      },
+      {
+        "service": "ORAL REHYDRATION SALT",
+        "amount": 350
+      },
+      {
+        "service": "Terbinafine Tabs 250mg (per tab)",
+        "amount": 362.5
+      },
+      {
+        "service": "AMIAS 8MG (per tab)",
+        "amount": 375
+      },
+      {
+        "service": "CANDESARTAN 160MG PER TAB",
+        "amount": 375
+      },
+      {
+        "service": "DIAZEPAM 10MG (per amp)",
+        "amount": 375
+      },
+      {
+        "service": "DICLOFENAC INJ 75MG (per amp)",
+        "amount": 375
+      },
+      {
+        "service": "DIGOXIN 0.025MG INL (PER AMP)",
+        "amount": 375
+      },
+      {
+        "service": "Ergocalciferol (Vit D) Solution (per amp)",
+        "amount": 375
+      },
+      {
+        "service": "EUCADIC 12.5MG (per tab)",
+        "amount": 375
+      },
+      {
+        "service": "FORTWIN 30MG (per amp)",
+        "amount": 375
+      },
+      {
+        "service": "Inj Piroxicam",
+        "amount": 375
+      },
+      {
+        "service": "METOCLOPRAMIDE 5MG INJ (per amp)",
+        "amount": 375
+      },
+      {
+        "service": "NOSPAMIN DROPS",
+        "amount": 375
+      },
+      {
+        "service": "OXYTOCIN 10MG INJ PER AMP",
+        "amount": 375
+      },
+      {
+        "service": "PROSCAR 5MG (per tab)",
+        "amount": 375
+      },
+      {
+        "service": "QUININE INJ 300MG",
+        "amount": 375
+      },
+      {
+        "service": "VALIUM 10MG (per amp)",
+        "amount": 375
+      },
+      {
+        "service": "AMINOPHYLLINE INJ 25MG/ML (PER AMP)",
+        "amount": 400
+      },
+      {
+        "service": "CALAMINE LOTION 100MLS (per bot)",
+        "amount": 400
+      },
+      {
+        "service": "CHLORAMPHENICOL SYRUP",
+        "amount": 400
+      },
+      {
+        "service": "CHLORPHENIRAMINE 2MG/5ML (per bot)",
+        "amount": 400
+      },
+      {
+        "service": "LARITHER 80MG INJ (per amp)",
+        "amount": 400
+      },
+      {
+        "service": "Lexotan Inj",
+        "amount": 400
+      },
+      {
+        "service": "Thiopentone Sodium",
+        "amount": 400
+      },
+      {
+        "service": "VIT C INJ (per amp)",
+        "amount": 400
+      },
+      {
+        "service": "NYSTATIN (PER TAB)",
+        "amount": 406.25
+      },
+      {
+        "service": "OLANZAPINE 5MG (per tab)",
+        "amount": 425
+      },
+      {
+        "service": "CALCIUM GLUCONATE INJ (per amp)",
+        "amount": 450
+      },
+      {
+        "service": "DILOXANIDE FUROATE 500MG (per tab)",
+        "amount": 450
+      },
+      {
+        "service": "Routine Intravenous Infusion/500 mls + Materials",
+        "amount": 468.75
+      },
+      {
+        "service": "CYCLOGEST 400MG PESSARY (per pess)",
+        "amount": 487.5
+      },
+      {
+        "service": "HALFAN 250MG (per tab)",
+        "amount": 487.5
+      },
+      {
+        "service": "LIPITOR 20MG (per tab)",
+        "amount": 487.5
+      },
+      {
+        "service": "ACCOLATE 20MG (per tab)",
+        "amount": 500
+      },
+      {
+        "service": "AMOVIN 500MG INJ (PER AMP)",
+        "amount": 500
+      },
+      {
+        "service": "AMOXYL 500MG INJ/ AMP",
+        "amount": 500
+      },
+      {
+        "service": "BONJELA GEL 10G (per tube)",
+        "amount": 500
+      },
+      {
+        "service": "CICATRIN POWDER (per bot)",
+        "amount": 500
+      },
+      {
+        "service": "Dextromethorphan Hydrobromide Syrup (per bot.",
+        "amount": 500
+      },
+      {
+        "service": "GYNODAKTARIN 400MG (per ovule)",
+        "amount": 500
+      },
+      {
+        "service": "Paracetamol Inj (per amp)",
+        "amount": 500
+      },
+      {
+        "service": "PARACETAMOL SYRUP 125MG/5MLS (per bot)",
+        "amount": 500
+      },
+      {
+        "service": "PENICILLIN OINTMENT (PER TUBE)",
+        "amount": 500
+      },
+      {
+        "service": "PIRITON EXPECTORANT 100MLS (per bot)",
+        "amount": 500
+      },
+      {
+        "service": "POTASSIUM CHLORIDE 3MG INJ (AMP)",
+        "amount": 500
+      },
+      {
+        "service": "TETANUS TOXOID (per dose)",
+        "amount": 500
+      },
+      {
+        "service": "Tetanus Toxoid/ATS Each",
+        "amount": 500
+      },
+      {
+        "service": "ATROPINE 6OOMG INJ (per amp)",
+        "amount": 525
+      },
+      {
+        "service": "CHLORAMPHENICOL EYE DROP (per bot)",
+        "amount": 525
+      },
+      {
+        "service": "DICYNONE 250MG (per amp)",
+        "amount": 525
+      },
+      {
+        "service": "DYNAMOGEN LIQUID 10MLS (per bot)",
+        "amount": 525
+      },
+      {
+        "service": "FANSIDAR SUSP 525MG/5ML (per bot)",
+        "amount": 525
+      },
+      {
+        "service": "FELDENE INJ 20MG (per amp)",
+        "amount": 525
+      },
+      {
+        "service": "FRUSEMIDE INJ 20MG (per amp)",
+        "amount": 525
+      },
+      {
+        "service": "FUNGISOL POWDER 20MG (per bot)",
+        "amount": 525
+      },
+      {
+        "service": "HYDROCORTISONE 100MG INJ (per amp)",
+        "amount": 525
+      },
+      {
+        "service": "MIST KAOLIN (per bot)",
+        "amount": 525
+      },
+      {
+        "service": "NOSPA INJ (PER AMP)",
+        "amount": 525
+      },
+      {
+        "service": "NEXIUM TABS (per tab)",
+        "amount": 550
+      },
+      {
+        "service": "Lantanoprost",
+        "amount": 562.5
+      },
+      {
+        "service": "AMPICLOX I 500MG INJ (per vial)",
+        "amount": 600
+      },
+      {
+        "service": "BENZYL BENZOATE OINTMENT (per bot)",
+        "amount": 600
+      },
+      {
+        "service": "BENZYL PEROXIDE 10 LOTION (per tube)",
+        "amount": 600
+      },
+      {
+        "service": "BROMHEXINE SYRUP",
+        "amount": 600
+      },
+      {
+        "service": "CANDIBIOTIC EAR DROPS",
+        "amount": 600
+      },
+      {
+        "service": "COFEX SYRUP (PER BOT)",
+        "amount": 600
+      },
+      {
+        "service": "COLIPAN ALIXIR 5MG/5ML-100ML (per bot)",
+        "amount": 600
+      },
+      {
+        "service": "FOLIC ACID SYRUP",
+        "amount": 600
+      },
+      {
+        "service": "Halothane injection",
+        "amount": 600
+      },
+      {
+        "service": "HYDROCORTISONE 15MG (per tube)",
+        "amount": 600
+      },
+      {
+        "service": "IBUPROFEN 100MG/5ML (per bot)",
+        "amount": 600
+      },
+      {
+        "service": "PREDNISOLONE EYE DROP (PER BOT).",
+        "amount": 600
+      },
+      {
+        "service": "SABRESTEN CREAM DERMAL (per tube)",
+        "amount": 600
+      },
+      {
+        "service": "VIT B COMPLEX SYRUP (per bot)",
+        "amount": 600
+      },
+      {
+        "service": "WHITFIELD OINTMENT 20G (per tube)",
+        "amount": 600
+      },
+      {
+        "service": "VICRYL(PER STOOL)",
+        "amount": 625
+      },
+      {
+        "service": "BRONCHOLYTE 4MG/5ML ELIXIR (per bot)",
+        "amount": 650
+      },
+      {
+        "service": "LAMISIL 250MG (per tab)",
+        "amount": 650
+      },
+      {
+        "service": "MYCOTEN OVULE 100MG (per ovule)",
+        "amount": 650
+      },
+      {
+        "service": "SINUFED SYRUP (per bot)",
+        "amount": 650
+      },
+      {
+        "service": "BETNESOL EYE OINTMENT",
+        "amount": 700
+      },
+      {
+        "service": "BETROSIL CREAM (per tube)",
+        "amount": 700
+      },
+      {
+        "service": "BIOCOTEN CREAM 20G (per tube)",
+        "amount": 700
+      },
+      {
+        "service": "RANFERON BLOOD TONIC 200MLS (per bot)",
+        "amount": 700
+      },
+      {
+        "service": "SABRESTEN VAG CREAM (per tube)",
+        "amount": 700
+      },
+      {
+        "service": "VIT C SYRUP (per bot)",
+        "amount": 700
+      },
+      {
+        "service": "ZEFFIX 100MG (per tab)",
+        "amount": 700
+      },
+      {
+        "service": "ZENTEL SUSP 400MG/20ML (per bot)",
+        "amount": 700
+      },
+      {
+        "service": "AMPICLOX 250MG/5ML-100ML (per bot)",
+        "amount": 750
+      },
+      {
+        "service": "APRESOLINE 20MG INJ (per amp)",
+        "amount": 750
+      },
+      {
+        "service": "Ascorbic Acid (Vit C) Syrup (per bot.)",
+        "amount": 750
+      },
+      {
+        "service": "CEPHALEXIN 125MG SYR",
+        "amount": 750
+      },
+      {
+        "service": "COMBANTRIN 250MG/5ML (per bot)",
+        "amount": 750
+      },
+      {
+        "service": "CO-TRIMAZOLE 240MG/5ML (per bot)",
+        "amount": 750
+      },
+      {
+        "service": "ERGOMETRINE INJ 1.5MG",
+        "amount": 750
+      },
+      {
+        "service": "ERYTHROMYCIN 125MG/5ML (per bot)",
+        "amount": 750
+      },
+      {
+        "service": "GENTAMYCIN CREAM 15G (per tube)",
+        "amount": 750
+      },
+      {
+        "service": "GENTAMYCIN EYE/EAR DROP (per bot)",
+        "amount": 750
+      },
+      {
+        "service": "GESTID 100ML (per bot)",
+        "amount": 750
+      },
+      {
+        "service": "HYPOMELLOSE EYE DROP (per bot)",
+        "amount": 750
+      },
+      {
+        "service": "Ketamin Inj (per vial)",
+        "amount": 750
+      },
+      {
+        "service": "MANNITOL INFUSION 10%",
+        "amount": 750
+      },
+      {
+        "service": "METRONIDAZOLE 200MG/5ML (per bot)",
+        "amount": 750
+      },
+      {
+        "service": "METRONIDAZOLE INFUSION (per inf)",
+        "amount": 750
+      },
+      {
+        "service": "METRONIDAZOLE INJ (PER AMP)",
+        "amount": 750
+      },
+      {
+        "service": "MIST POTASSIUM CITRATE (per bot)",
+        "amount": 750
+      },
+      {
+        "service": "MYCOTEN CREAM 20G (per tube)",
+        "amount": 750
+      },
+      {
+        "service": "NEUROGESIC GEL (per tube)",
+        "amount": 750
+      },
+      {
+        "service": "NYSTATIN CREAM (PER TUBE)",
+        "amount": 750
+      },
+      {
+        "service": "ONDANSETRONE INJ (PER AMP)",
+        "amount": 750
+      },
+      {
+        "service": "OROFER SYRUP",
+        "amount": 750
+      },
+      {
+        "service": "PALUTHER 80MG INJ (per amp)",
+        "amount": 750
+      },
+      {
+        "service": "PARAFIN LIQUID (per bot)",
+        "amount": 750
+      },
+      {
+        "service": "PARALDEHYDE INJ",
+        "amount": 750
+      },
+      {
+        "service": "PROMETHAZINE 5MG/5MG ELIXIR (per bot)",
+        "amount": 750
+      },
+      {
+        "service": "RINGERS LACTATE INJ",
+        "amount": 750
+      },
+      {
+        "service": "SODIUM BICARBONATE 8.4% INJ (per amp)",
+        "amount": 750
+      },
+      {
+        "service": "TRANXEMIC ACID 100MG INJ (PER AMP)",
+        "amount": 750
+      },
+      {
+        "service": "XYLOCAINE INJ",
+        "amount": 750
+      },
+      {
+        "service": "AFRABVITE DROPS (PER BOT)",
+        "amount": 800
+      },
+      {
+        "service": "CAMOSUNATE SUSP",
+        "amount": 800
+      },
+      {
+        "service": "CASTOR OIL (PER BOT)",
+        "amount": 800
+      },
+      {
+        "service": "CIPROTAB inj (Per Vial)",
+        "amount": 800
+      },
+      {
+        "service": "POTASSIUM PERMANGANATE",
+        "amount": 800
+      },
+      {
+        "service": "QUININE SYRUP 200MLS (per bot)",
+        "amount": 800
+      },
+      {
+        "service": "SYNTOCINON INJ (per amp)",
+        "amount": 800
+      },
+      {
+        "service": "ZOLAT SYRUP",
+        "amount": 800
+      },
+      {
+        "service": "UNASYN INJECTION (PER AMP)",
+        "amount": 812.5
+      },
+      {
+        "service": "EUCALYPTUS OIL (per bot)",
+        "amount": 825
+      },
+      {
+        "service": "AMIKACIN INJ",
+        "amount": 850
+      },
+      {
+        "service": "Urinalysis",
+        "amount": 850
+      },
+      {
+        "service": "Urine Pregnancy Test",
+        "amount": 850
+      },
+      {
+        "service": "Total /Direct Bilirubin Each",
+        "amount": 850
+      },
+      {
+        "service": "PCV/Haemoglobin",
+        "amount": 850
+      },
+      {
+        "service": "WBC (Total)",
+        "amount": 850
+      },
+      {
+        "service": "WBC ( Differential)",
+        "amount": 850
+      },
+      {
+        "service": "Red Cell Count",
+        "amount": 850
+      },
+      {
+        "service": "ESR Westergren",
+        "amount": 850
+      },
+      {
+        "service": "PHENOBARBITONE SYRUP (PER BOT)",
+        "amount": 850
+      },
+      {
+        "service": "DEPO PROVERA INJ (per vial)",
+        "amount": 875
+      },
+      {
+        "service": "FANSIDAR INJ 525MG (per amp)",
+        "amount": 881.25
+      },
+      {
+        "service": "ZITHROMAX 250MG (per cap)",
+        "amount": 893.75
+      },
+      {
+        "service": "ARTEMETHER SUSUPENSION (PER BOT)",
+        "amount": 900
+      },
+      {
+        "service": "BEOPTIC EAR DROP (per bot)",
+        "amount": 900
+      },
+      {
+        "service": "IVYDEXGENT (PER BOT)",
+        "amount": 900
+      },
+      {
+        "service": "KENACOMB CREAM (per tube)",
+        "amount": 900
+      },
+      {
+        "service": "MENTHODEX (per bot)",
+        "amount": 900
+      },
+      {
+        "service": "MILK OF MAGNESIA(100MLS)",
+        "amount": 900
+      },
+      {
+        "service": "MIST MAG. (PER BOT).",
+        "amount": 900
+      },
+      {
+        "service": "NYSTATIN ORAL DROPS 30MLS (per bot)",
+        "amount": 900
+      },
+      {
+        "service": "OTOMED EAR DROP (per bot)",
+        "amount": 900
+      },
+      {
+        "service": "POLYCROL FORTE GEL 100MLS (per bot)",
+        "amount": 900
+      },
+      {
+        "service": "PYRAZINAMIDE SYRUP (per bot)",
+        "amount": 900
+      },
+      {
+        "service": "Retinol (Vit A) Syrup (per 200mls bot)",
+        "amount": 900
+      },
+      {
+        "service": "SALBUTAMOL SYRUP (PER BOT)",
+        "amount": 900
+      },
+      {
+        "service": "SALICYLIC ACID OINT 20% (per bot)",
+        "amount": 900
+      },
+      {
+        "service": "SKINHEAL CREAM (PER TUBE)",
+        "amount": 900
+      },
+      {
+        "service": "BENYLIN WITH CODEINE (per bot)",
+        "amount": 975
+      },
+      {
+        "service": "DAKTACORT PESSARIES",
+        "amount": 975
+      },
+      {
+        "service": "HYCOMYCIN EYEDROP (per bot)",
+        "amount": 975
+      },
+      {
+        "service": "OLFEN GEL (per tube)",
+        "amount": 975
+      },
+      {
+        "service": "ADRENALIN INJ 1MG (per amp)",
+        "amount": 1000
+      },
+      {
+        "service": "AMOXYCILLIN 125MG/5ML-100MLS (per bot)",
+        "amount": 1000
+      },
+      {
+        "service": "ARTESUNATE SYR (PER BOT)",
+        "amount": 1000
+      },
+      {
+        "service": "CANDERIL SWEETNER POWDER (per tab)",
+        "amount": 1000
+      },
+      {
+        "service": "CEPHALEXIN 250MG SYR",
+        "amount": 1000
+      },
+      {
+        "service": "CIPROFLOXACIN 200MG INFUSION (per bot)",
+        "amount": 1000
+      },
+      {
+        "service": "CIPROFLOXACIN EYE DROP",
+        "amount": 1000
+      },
+      {
+        "service": "Nursing Care Per Diem",
+        "amount": 1000
+      },
+      {
+        "service": "Minor Wound Dressing/Day (Out Of Station Emergencies)",
+        "amount": 1000
+      },
+      {
+        "service": "CSF Protein",
+        "amount": 1000
+      },
+      {
+        "service": "CSF Glucose",
+        "amount": 1000
+      },
+      {
+        "service": "CSF Chloride",
+        "amount": 1000
+      },
+      {
+        "service": "Malaria Parasite",
+        "amount": 1000
+      },
+      {
+        "service": "Skin Snip For Microfilaria",
+        "amount": 1000
+      },
+      {
+        "service": "Gram Staining",
+        "amount": 1000
+      },
+      {
+        "service": "Mantoux Test",
+        "amount": 1000
+      },
+      {
+        "service": "Widal",
+        "amount": 1000
+      },
+      {
+        "service": "VDRL",
+        "amount": 1000
+      },
+      {
+        "service": "Pregnancy Test - HCG (Blood)",
+        "amount": 1000
+      },
+      {
+        "service": "Blood Grouping",
+        "amount": 1000
+      },
+      {
+        "service": "Platelet Count",
+        "amount": 1000
+      },
+      {
+        "service": "Reticulocyte Count",
+        "amount": 1000
+      },
+      {
+        "service": "Peripheral Blood Film",
+        "amount": 1000
+      },
+      {
+        "service": "MCV/MCH/MCHC Each",
+        "amount": 1000
+      },
+      {
+        "service": "Bleeding/Clotting Time Each",
+        "amount": 1000
+      },
+      {
+        "service": "Minor",
+        "amount": 1000
+      },
+      {
+        "service": "OMEPRAZOLE 40MG INJ (PER AMP)",
+        "amount": 1000
+      },
+      {
+        "service": "Paracetamol infusion",
+        "amount": 1000
+      },
+      {
+        "service": "PHENEGAN CREAM 2% 30G (per tube)",
+        "amount": 1000
+      },
+      {
+        "service": "PIOGLITAZONE HCL 30MG (PER TAB).",
+        "amount": 1000
+      },
+      {
+        "service": "RANITHIDINE INJ 50MG (PER AMP)",
+        "amount": 1000
+      },
+      {
+        "service": "Total Protein/Albumin Each",
+        "amount": 1020
+      },
+      {
+        "service": "LORATIDE SYRUP",
+        "amount": 1050
+      },
+      {
+        "service": "DIFLUCAN PER TAB",
+        "amount": 1056.25
+      },
+      {
+        "service": "GYNOTROSID 100MG (per ovule)",
+        "amount": 1056.25
+      },
+      {
+        "service": "LEVOFLOXACIN INF 100ML",
+        "amount": 1056.25
+      },
+      {
+        "service": "VISINE EYE DROP (per bot)",
+        "amount": 1056.25
+      },
+      {
+        "service": "ZINACEF 750MG INJ (per vial)",
+        "amount": 1056.25
+      },
+      {
+        "service": "AMIAS 16MG (per tab)",
+        "amount": 1062.5
+      },
+      {
+        "service": "FLOXAPEN 125MG/5ML (per bot)",
+        "amount": 1062.5
+      },
+      {
+        "service": "Triamcinolone Inj (per amp)",
+        "amount": 1062.5
+      },
+      {
+        "service": "BRONCHICUM (per bot)",
+        "amount": 1100
+      },
+      {
+        "service": "ANTISIN-PRIVIN EYE DROP-10ML (per bot)",
+        "amount": 1125
+      },
+      {
+        "service": "APPATIM EYE DROP",
+        "amount": 1125
+      },
+      {
+        "service": "CLOBETASOL 45G CREAM (per tube)",
+        "amount": 1125
+      },
+      {
+        "service": "DARROWS SOLUTION 1/2 strength (per inf)",
+        "amount": 1125
+      },
+      {
+        "service": "DARROWS SOLUTION FULL strength (per inf)",
+        "amount": 1125
+      },
+      {
+        "service": "E-MAL INJ (PER AMP)",
+        "amount": 1125
+      },
+      {
+        "service": "FELDENE GEL (per tube)",
+        "amount": 1125
+      },
+      {
+        "service": "FUNBACT CREAM",
+        "amount": 1125
+      },
+      {
+        "service": "GESTID 200ML (per bot)",
+        "amount": 1125
+      },
+      {
+        "service": "GESTONE 50MG (per amp)",
+        "amount": 1125
+      },
+      {
+        "service": "IVYCROM EYE DROP",
+        "amount": 1125
+      },
+      {
+        "service": "IVYFLUR",
+        "amount": 1125
+      },
+      {
+        "service": "IVYMORCELL EYE DROP",
+        "amount": 1125
+      },
+      {
+        "service": "IVYZINC",
+        "amount": 1125
+      },
+      {
+        "service": "MELROSUM WITH CODEIN 100ML (per bot)",
+        "amount": 1125
+      },
+      {
+        "service": "Optodexin",
+        "amount": 1125
+      },
+      {
+        "service": "OTRIVIN NASAL DROP 0.1% 10MLS (per bot)",
+        "amount": 1125
+      },
+      {
+        "service": "OTRIVIN NASAL DROPS 0.05% 10MLS (per bot)",
+        "amount": 1125
+      },
+      {
+        "service": "PILOCARPINE EYE DROP 2% (per bot)",
+        "amount": 1125
+      },
+      {
+        "service": "SODIUM CHROMOGLYCATE EYE DROP (per bot)",
+        "amount": 1125
+      },
+      {
+        "service": "SPERSALLERGE EYE DROP (per bot)",
+        "amount": 1125
+      },
+      {
+        "service": "BENZYL PEROXIDE 5 LOTION (per tube)",
+        "amount": 1200
+      },
+      {
+        "service": "CAMOQUINE 50MG/5ML-60ML (per bot)",
+        "amount": 1200
+      },
+      {
+        "service": "CAMOSUNATE TAB (PER PACK)",
+        "amount": 1200
+      },
+      {
+        "service": "TIMOLOL EYE DROP 0.5% (per bot)",
+        "amount": 1200
+      },
+      {
+        "service": "VENTOLIN SYRUP 5MG/VIAL (per bot)",
+        "amount": 1200
+      },
+      {
+        "service": "DEPOMEDROL 40MG (per vial)",
+        "amount": 1218.75
+      },
+      {
+        "service": "DEXAMETHASONE 8MG (per vial)",
+        "amount": 1250
+      },
+      {
+        "service": "ENCEPHABOL SYR 100MLS (per bot)",
+        "amount": 1250
+      },
+      {
+        "service": "KETOLAC INJ",
+        "amount": 1250
+      },
+      {
+        "service": "Registration (Out Of Station Emergencies)",
+        "amount": 1250
+      },
+      {
+        "service": "E-45 CREAM (per tube)",
+        "amount": 1275
+      },
+      {
+        "service": "EHANCIN 312MG/5ML SUSP (per bot)",
+        "amount": 1275
+      },
+      {
+        "service": "Sodium/Chloride/Potassium/Bicarbonate Each",
+        "amount": 1275
+      },
+      {
+        "service": "Urea/Creatinine Each",
+        "amount": 1275
+      },
+      {
+        "service": "Calcium/Uric Acid/Phosphorus Each",
+        "amount": 1275
+      },
+      {
+        "service": "Fasting Blood Sugar/Random Blood Sugar Each",
+        "amount": 1275
+      },
+      {
+        "service": "SGOT/SGPT Each",
+        "amount": 1275
+      },
+      {
+        "service": "Alkaline Prosphatase",
+        "amount": 1275
+      },
+      {
+        "service": "Total Acid Phosphatase/Prostatic Each",
+        "amount": 1275
+      },
+      {
+        "service": "Gamma Glutamyl Transferace",
+        "amount": 1275
+      },
+      {
+        "service": "CPK",
+        "amount": 1275
+      },
+      {
+        "service": "LDH",
+        "amount": 1275
+      },
+      {
+        "service": "Amylase",
+        "amount": 1275
+      },
+      {
+        "service": "Creatine Kinase",
+        "amount": 1275
+      },
+      {
+        "service": "Cholesterol",
+        "amount": 1275
+      },
+      {
+        "service": "Tryglyceride",
+        "amount": 1275
+      },
+      {
+        "service": "NEPAFLAM EYE DROP",
+        "amount": 1275
+      },
+      {
+        "service": "STARXON (per vial)",
+        "amount": 1275
+      },
+      {
+        "service": "AMOVIN SUSPENSION",
+        "amount": 1300
+      },
+      {
+        "service": "ARTEMETER 100MG TAB (per pack)",
+        "amount": 1300
+      },
+      {
+        "service": "BEOPTIC EYE (per bot)",
+        "amount": 1300
+      },
+      {
+        "service": "BUNETROL (PER INF)",
+        "amount": 1300
+      },
+      {
+        "service": "CEFIXIME SYR (PER BOT)",
+        "amount": 1300
+      },
+      {
+        "service": "CEFUROXIME 750MG INJ",
+        "amount": 1300
+      },
+      {
+        "service": "CERUMOL EAR DROP (per bot)",
+        "amount": 1300
+      },
+      {
+        "service": "CETRIXINE",
+        "amount": 1300
+      },
+      {
+        "service": "CETRIZINE SYRUP",
+        "amount": 1300
+      },
+      {
+        "service": "CIKLAVIT 200MLS (per bot)",
+        "amount": 1300
+      },
+      {
+        "service": "FEROGLOBIN 200ML (per bot)",
+        "amount": 1300
+      },
+      {
+        "service": "Microscopy Stool/Urine Each",
+        "amount": 1300
+      },
+      {
+        "service": "AFB For TB (ZN Staining) Each",
+        "amount": 1300
+      },
+      {
+        "service": "Skin Scraping For Fungal Studies",
+        "amount": 1300
+      },
+      {
+        "service": "Culture (Fungal)",
+        "amount": 1300
+      },
+      {
+        "service": "MYDRIACYL EYE DROP (per bot)",
+        "amount": 1300
+      },
+      {
+        "service": "PILOCARPINE EYE DROP 4% (per bot)",
+        "amount": 1300
+      },
+      {
+        "service": "Salbutamol Aerosol (per spray can)",
+        "amount": 1300
+      },
+      {
+        "service": "SALINE NASAL DROP (per tab)",
+        "amount": 1300
+      },
+      {
+        "service": "MAXIDEX EYE DROP (per bot)",
+        "amount": 1350
+      },
+      {
+        "service": "Hb Genotype",
+        "amount": 1350
+      },
+      {
+        "service": "GESTONE 100MG (per amp)",
+        "amount": 1375
+      },
+      {
+        "service": "DETRUSITOL 2MG (per tab)",
+        "amount": 1381.25
+      },
+      {
+        "service": "ACTIFIED SYRUP",
+        "amount": 1400
+      },
+      {
+        "service": "BETAMETHASONE SODIUM EYE DROP",
+        "amount": 1400
+      },
+      {
+        "service": "BIVACYN SPRAY (per pack)",
+        "amount": 1400
+      },
+      {
+        "service": "CLAVAM 228MG/5ML-100MLS (per bot)",
+        "amount": 1400
+      },
+      {
+        "service": "Urea Clearance",
+        "amount": 1445
+      },
+      {
+        "service": "ANTHISAN CREAM 25MG (per tube)",
+        "amount": 1462.5
+      },
+      {
+        "service": "DAKTACORT CREAM (PER TUBE)",
+        "amount": 1462.5
+      },
+      {
+        "service": "AMPICLOX DROPS",
+        "amount": 1500
+      },
+      {
+        "service": "CEFTAZIDINE 1G ING",
+        "amount": 1500
+      },
+      {
+        "service": "CEFTRIAXONE 1G INJ /AMP",
+        "amount": 1500
+      },
+      {
+        "service": "CO-AMOXICLAV 1.2G (PER AMP)",
+        "amount": 1500
+      },
+      {
+        "service": "CROMAX 4 EYE DROP",
+        "amount": 1500
+      },
+      {
+        "service": "Cross Matching",
+        "amount": 1500
+      },
+      {
+        "service": "DEDEON HB 280ML (per bot)",
+        "amount": 1500
+      },
+      {
+        "service": "DERMOVATE CREAM 25G (per tube)",
+        "amount": 1500
+      },
+      {
+        "service": "EURAX CREAM (per tube)",
+        "amount": 1500
+      },
+      {
+        "service": "GATE DPX EYE DROP",
+        "amount": 1500
+      },
+      {
+        "service": "GYNOTROSID 300MG (per ovule)",
+        "amount": 1500
+      },
+      {
+        "service": "HYPOTEARS GEL",
+        "amount": 1500
+      },
+      {
+        "service": "LOKMAL (per pack",
+        "amount": 1500
+      },
+      {
+        "service": "LONART (per pack)",
+        "amount": 1500
+      },
+      {
+        "service": "LONART SUSPENSION",
+        "amount": 1500
+      },
+      {
+        "service": "C- Reactive Protein",
+        "amount": 1500
+      },
+      {
+        "service": "Semen Analysis",
+        "amount": 1500
+      },
+      {
+        "service": "Direct/Indirect Coombs Test Each",
+        "amount": 1500
+      },
+      {
+        "service": "Hepatitis B Surface Antigen Screening (HbsAg)",
+        "amount": 1500
+      },
+      {
+        "service": "Prothrombin/Thromboplastin Time Each",
+        "amount": 1500
+      },
+      {
+        "service": "RHINATHIOL SYRUP (per 100ml bot)",
+        "amount": 1500
+      },
+      {
+        "service": "SOLUSET (per piece)",
+        "amount": 1500
+      },
+      {
+        "service": "SUFFRATULE(PER PACK)",
+        "amount": 1500
+      },
+      {
+        "service": "TEAR NATURALE EYE DROP (per bot)",
+        "amount": 1500
+      },
+      {
+        "service": "DEPIXOL 20MG (per amp)",
+        "amount": 1543.75
+      },
+      {
+        "service": "HALFAN 100MG/5ML (per bot)",
+        "amount": 1543.75
+      },
+      {
+        "service": "LOCASALENE CREAM 30MG (per tube)",
+        "amount": 1543.75
+      },
+      {
+        "service": "MAXITROL EYE DROP (per bot)",
+        "amount": 1543.75
+      },
+      {
+        "service": "TOBRAMYCIN OINTMENT",
+        "amount": 1543.75
+      },
+      {
+        "service": "TOBREX EYE DROP",
+        "amount": 1543.75
+      },
+      {
+        "service": "TRAVOCORT CREAM (per tab)",
+        "amount": 1543.75
+      },
+      {
+        "service": "ARTEMEF TAB (PER PACK)",
+        "amount": 1575
+      },
+      {
+        "service": "CALPOL (per bot)",
+        "amount": 1600
+      },
+      {
+        "service": "OKACIN EYE DROP (per bot)",
+        "amount": 1625
+      },
+      {
+        "service": "ABIDEC DROP",
+        "amount": 1650
+      },
+      {
+        "service": "CO AMOXICLAV 312.5MG SUSP (PER BOT).",
+        "amount": 1650
+      },
+      {
+        "service": "NYOLOL OPTHALMIC GEL 0.1% 5G (per bot)",
+        "amount": 1650
+      },
+      {
+        "service": "SALBUTAMOL 100MCG INHALER (per piece)",
+        "amount": 1650
+      },
+      {
+        "service": "VENTOLIN INHALER (per pack)",
+        "amount": 1650
+      },
+      {
+        "service": "LDL",
+        "amount": 1700
+      },
+      {
+        "service": "HDL",
+        "amount": 1700
+      },
+      {
+        "service": "NIZORAL CREAM 15MG (per tube)",
+        "amount": 1725
+      },
+      {
+        "service": "CILOXAN EYE DROP (per bot)",
+        "amount": 1787.5
+      },
+      {
+        "service": "IKACLOMIN 50MG (per tab)",
+        "amount": 1787.5
+      },
+      {
+        "service": "KENALOG 40MG (per amp)",
+        "amount": 1787.5
+      },
+      {
+        "service": "TROSYD CREAM (per tube)",
+        "amount": 1787.5
+      },
+      {
+        "service": "ARTEQUINE 600MG/700MG (per pack)",
+        "amount": 1800
+      },
+      {
+        "service": "BETNESOL EYE/ EAR/ NOSE DROP (per bot)",
+        "amount": 1800
+      },
+      {
+        "service": "DEXTROSE 10% INFUSION",
+        "amount": 1800
+      },
+      {
+        "service": "DEXTROSE 4.3%/NORMAL SALINE (per inf)",
+        "amount": 1800
+      },
+      {
+        "service": "DEXTROSE 5% (per inf)",
+        "amount": 1800
+      },
+      {
+        "service": "DEXTROSE 50% (per inf)",
+        "amount": 1800
+      },
+      {
+        "service": "DEXTROSE SALINE 5%",
+        "amount": 1800
+      },
+      {
+        "service": "NORMAL SALINE",
+        "amount": 1800
+      },
+      {
+        "service": "SYRUP FLUCAMED",
+        "amount": 1800
+      },
+      {
+        "service": "ASTYMINE(per bot)",
+        "amount": 1875
+      },
+      {
+        "service": "Beclomethasone Aerosol Inhalation (per can)",
+        "amount": 1875
+      },
+      {
+        "service": "Chorionic Gonadotrophin Inj (per amp)",
+        "amount": 1875
+      },
+      {
+        "service": "COARTEM (per pack)",
+        "amount": 1875
+      },
+      {
+        "service": "NYOLOL 0.5 EYE DROP (per bot)",
+        "amount": 1875
+      },
+      {
+        "service": "PRIMOLUT DEPOT 250MG (per vial)",
+        "amount": 1875
+      },
+      {
+        "service": "MILK OF MAGNESIA PHILIP 200MLS (per bot)",
+        "amount": 1950
+      },
+      {
+        "service": "ADVANTAN OINTMENT (per tube)",
+        "amount": 2000
+      },
+      {
+        "service": "ALAXIN SUSP 10MG/5ML-80ML (per bot)",
+        "amount": 2000
+      },
+      {
+        "service": "ALOMIDE EYEDROP 10MLS (per bot)",
+        "amount": 2000
+      },
+      {
+        "service": "AMOKSIKLAV 156.25MG/5MLS-100MLS (per bot)",
+        "amount": 2000
+      },
+      {
+        "service": "CEFUROXIME SYR",
+        "amount": 2000
+      },
+      {
+        "service": "General Consultation (Out Of Station Emergencies)",
+        "amount": 2000
+      },
+      {
+        "service": "Annual Physical Examination With Report (No Lab Tests)",
+        "amount": 2000
+      },
+      {
+        "service": "Stool Ocult Blood",
+        "amount": 2000
+      },
+      {
+        "service": "Full Blood Count",
+        "amount": 2000
+      },
+      {
+        "service": "Protein Electrophoresis",
+        "amount": 2040
+      },
+      {
+        "service": "Creatine Clearance",
+        "amount": 2125
+      },
+      {
+        "service": "Bence Jones Protein",
+        "amount": 2125
+      },
+      {
+        "service": "FLIXONASE NASAL SPRAY",
+        "amount": 2193.75
+      },
+      {
+        "service": "LAMISIL CREAM 15G (per tube)",
+        "amount": 2193.75
+      },
+      {
+        "service": "VOLTAREN EYE DROP",
+        "amount": 2193.75
+      },
+      {
+        "service": "ARTESUNATE (per pack)",
+        "amount": 2250
+      },
+      {
+        "service": "AUGMENTINE 1.2G (per vial)",
+        "amount": 2250
+      },
+      {
+        "service": "DUVADILAN",
+        "amount": 2250
+      },
+      {
+        "service": "NIZORAL SHAMPOO (per bot)",
+        "amount": 2250
+      },
+      {
+        "service": "DEPROSALIC ACID OINTMENT (PER TUBE)",
+        "amount": 2275
+      },
+      {
+        "service": "Neck Collar (Soft)",
+        "amount": 2343.75
+      },
+      {
+        "service": "G-6 Phosphate Dehydrogenase",
+        "amount": 2343.75
+      },
+      {
+        "service": "ASO Titre",
+        "amount": 2343.75
+      },
+      {
+        "service": "Rheumatoid Factor",
+        "amount": 2343.75
+      },
+      {
+        "service": "BECONASENASAL DROP (per pack)",
+        "amount": 2375
+      },
+      {
+        "service": "CANESTEN PESSARIES X 6",
+        "amount": 2437.5
+      },
+      {
+        "service": "ENCEPHABOL SYR 120MLS (per bot)",
+        "amount": 2500
+      },
+      {
+        "service": "Blood Culture & Sensitivity",
+        "amount": 2500
+      },
+      {
+        "service": "Screening For HIV 1 & 2",
+        "amount": 2500
+      },
+      {
+        "service": "ZADITEN EYE DROPS (per bot)",
+        "amount": 2500
+      },
+      {
+        "service": "MOSEGOR 100MLS (per bot)",
+        "amount": 2550
+      },
+      {
+        "service": "BACTROBAM CREAM 15G (per tube)",
+        "amount": 2600
+      },
+      {
+        "service": "ZINNAT 125MG/5ML- 200MLS (per bot)",
+        "amount": 2600
+      },
+      {
+        "service": "AUGMENTINE 228MG/5ML (per bot)",
+        "amount": 2625
+      },
+      {
+        "service": "CECLOR (per bot)",
+        "amount": 2625
+      },
+      {
+        "service": "ZITHROMAX 200MG/5ML (per bot)",
+        "amount": 2925
+      },
+      {
+        "service": "Major Wound Dressing/Day",
+        "amount": 2975
+      },
+      {
+        "service": "ENCEPHABOL SYR 200MLS (per bot)",
+        "amount": 3000
+      },
+      {
+        "service": "Feeding Per Diem (Private Ward)",
+        "amount": 3000
+      },
+      {
+        "service": "Feeding Per Diem (Semi-Private Ward)",
+        "amount": 3000
+      },
+      {
+        "service": "Feeding Per Diem (General Ward)",
+        "amount": 3000
+      },
+      {
+        "service": "Suturing Of Simple Laceration (Out Of Station Emergencies)",
+        "amount": 3000
+      },
+      {
+        "service": "Glycosylated Haemoglobin",
+        "amount": 3000
+      },
+      {
+        "service": "RETIN A CREAM (per tube)",
+        "amount": 3000
+      },
+      {
+        "service": "PATANOL (OLOPATADINE) EYE DROP",
+        "amount": 3087.5
+      },
+      {
+        "service": "DEPOMEDROL 80MG (per vial)",
+        "amount": 3412.5
+      },
+      {
+        "service": "CLEXANE INJ",
+        "amount": 3500
+      },
+      {
+        "service": "Urine M/C/S",
+        "amount": 3500
+      },
+      {
+        "service": "Stool M/C/S",
+        "amount": 3500
+      },
+      {
+        "service": "HVS/Urethral Swab M/C/S Each",
+        "amount": 3500
+      },
+      {
+        "service": "Ear/Nose/Throat Swab M/C/S Each",
+        "amount": 3500
+      },
+      {
+        "service": "Sputum M/C/S",
+        "amount": 3500
+      },
+      {
+        "service": "CSF M/C/S",
+        "amount": 3500
+      },
+      {
+        "service": "Wound/Pus/Aspirate M/C/S Each",
+        "amount": 3500
+      },
+      {
+        "service": "Semen M/C/S",
+        "amount": 3500
+      },
+      {
+        "service": "FORTUM IG INJ (per amp)",
+        "amount": 3750
+      },
+      {
+        "service": "HAEMACCEL INFUSION. (per pint)",
+        "amount": 3750
+      },
+      {
+        "service": "CHOTIGON 5000IU (per amp)",
+        "amount": 4000
+      },
+      {
+        "service": "Nebulisation (Subsequent)",
+        "amount": 4000
+      },
+      {
+        "service": "Phototherapy Per Diem",
+        "amount": 4000
+      },
+      {
+        "service": "Obstetric",
+        "amount": 4000
+      },
+      {
+        "service": "FLIXOTIDE ACCUHALER (per accu)",
+        "amount": 4375
+      },
+      {
+        "service": "TSH/ T3/T4 Each",
+        "amount": 4500
+      },
+      {
+        "service": "Neck Collar (Hard)",
+        "amount": 4687.5
+      },
+      {
+        "service": "CD4 Count",
+        "amount": 4687.5
+      },
+      {
+        "service": "CIALIS 20MG (per tab)",
+        "amount": 4800
+      },
+      {
+        "service": "AZOPT EYE DROP (per bot)",
+        "amount": 4875
+      },
+      {
+        "service": "General Ward Per Diem",
+        "amount": 5000
+      },
+      {
+        "service": "Catheterisation Of Urinary Bladder + Urine Bag",
+        "amount": 5000
+      },
+      {
+        "service": "Ear Piercing For Female Baby",
+        "amount": 5000
+      },
+      {
+        "service": "Physiotherapy Service/Session (Maximum X6 Sessions)",
+        "amount": 5000
+      },
+      {
+        "service": "Prolactin/Testoterone/FSH/LH (Each)",
+        "amount": 5000
+      },
+      {
+        "service": "HIV Confirmatory",
+        "amount": 5000
+      },
+      {
+        "service": "Abdomen",
+        "amount": 5000
+      },
+      {
+        "service": "Serum Electrolytes/Urea/Creatinine",
+        "amount": 5100
+      },
+      {
+        "service": "Glucose Tolerance Test",
+        "amount": 5100
+      },
+      {
+        "service": "ANTI RABIES VACCINE (per vial)",
+        "amount": 5468.75
+      },
+      {
+        "service": "Nebulisation (Initial)",
+        "amount": 5500
+      },
+      {
+        "service": "Lipid Profile",
+        "amount": 5500
+      },
+      {
+        "service": "CEFPODOXIME(ORELOX) Susp.",
+        "amount": 5625
+      },
+      {
+        "service": "Gastric Lavage",
+        "amount": 5950
+      },
+      {
+        "service": "Tongue Tie Release",
+        "amount": 5950
+      },
+      {
+        "service": "ACTRAPID INSULIN 10MLS (per vial)",
+        "amount": 6000
+      },
+      {
+        "service": "Local",
+        "amount": 6000
+      },
+      {
+        "service": "COSOPT EYE DROP",
+        "amount": 6250
+      },
+      {
+        "service": "Viral Load",
+        "amount": 6250
+      },
+      {
+        "service": "Liver Function Test",
+        "amount": 6375
+      },
+      {
+        "service": "Pelvic",
+        "amount": 6500
+      },
+      {
+        "service": "CEFTRIAZONE INJ 1G(ROCEPHIN)",
+        "amount": 6875
+      },
+      {
+        "service": "Semi-Private Ward Per Diem",
+        "amount": 7000
+      },
+      {
+        "service": "XALATAN EYE DROP (per bot)",
+        "amount": 7475
+      },
+      {
+        "service": "Incubator Care Per Diem",
+        "amount": 8000
+      },
+      {
+        "service": "Abdominopelvic",
+        "amount": 8000
+      },
+      {
+        "service": "Incision & Drainage (Out Of Station Emergencies)",
+        "amount": 8500
+      },
+      {
+        "service": "Circumcision Of Male Baby",
+        "amount": 8500
+      },
+      {
+        "service": "Chicken Pox Vaccine",
+        "amount": 8593.75
+      },
+      {
+        "service": "MEROPENEM 500MG INJ (PER AMP)",
+        "amount": 9000
+      },
+      {
+        "service": "Specialist Review (Inpatient)",
+        "amount": 10000
+      },
+      {
+        "service": "Private Ward Per Diem",
+        "amount": 10000
+      },
+      {
+        "service": "Oxygen Therapy Per Diem",
+        "amount": 10000
+      },
+      {
+        "service": "Thyroid",
+        "amount": 10000
+      },
+      {
+        "service": "Scrotal",
+        "amount": 10000
+      },
+      {
+        "service": "Breast",
+        "amount": 10000
+      },
+      {
+        "service": "Prostate",
+        "amount": 10000
+      },
+      {
+        "service": "Bladder",
+        "amount": 10000
+      },
+      {
+        "service": "Transfontanellar",
+        "amount": 10000
+      },
+      {
+        "service": "Ovulometry/TV Scan",
+        "amount": 10000
+      },
+      {
+        "service": "IUCD Insertion/Removal",
+        "amount": 10200
+      },
+      {
+        "service": "Cervical Cautery",
+        "amount": 10200
+      },
+      {
+        "service": "Specialist Consultation - Follow Up (Out patient)",
+        "amount": 12000
+      },
+      {
+        "service": "Aspirations & Paracentesis",
+        "amount": 12750
+      },
+      {
+        "service": "Foreign Body Removal From The Ear, Nose And Throat",
+        "amount": 15000
+      },
+      {
+        "service": "Electrocautery Of Nose",
+        "amount": 15000
+      },
+      {
+        "service": "Nasal Packing",
+        "amount": 15000
+      },
+      {
+        "service": "Incision And Drainage Of Abscess",
+        "amount": 15000
+      },
+      {
+        "service": "Debridement And Toilet Of Wounds",
+        "amount": 15000
+      },
+      {
+        "service": "Suturing Of Lacerrations",
+        "amount": 15000
+      },
+      {
+        "service": "Manipulation Of Nose",
+        "amount": 15000
+      },
+      {
+        "service": "Indirect Laryngoscopy",
+        "amount": 15000
+      },
+      {
+        "service": "Antral Lavage",
+        "amount": 15000
+      },
+      {
+        "service": "Colposcopy",
+        "amount": 15000
+      },
+      {
+        "service": "Birth Before Arrival (Bba) Care",
+        "amount": 15000
+      },
+      {
+        "service": "MEROPENEM 1G INJ (PER AMP)",
+        "amount": 18000
+      },
+      {
+        "service": "Small Cyst Excision",
+        "amount": 18750
+      },
+      {
+        "service": "Minor Debridement Of Burns",
+        "amount": 18750
+      },
+      {
+        "service": "Release Of Chordae",
+        "amount": 18750
+      },
+      {
+        "service": "Repair Of Minor Laceration",
+        "amount": 18750
+      },
+      {
+        "service": "Cervical Cone/Punch Biopsy",
+        "amount": 20000
+      },
+      {
+        "service": "Cervical Laceration Repair",
+        "amount": 20000
+      },
+      {
+        "service": "Specialist Consultation - 1st Visit",
+        "amount": 20000
+      },
+      {
+        "service": "Major",
+        "amount": 20000
+      },
+      {
+        "service": "Injection Sclerotherapy Of Varicose Veins",
+        "amount": 20000
+      },
+      {
+        "service": "Syndactlysis",
+        "amount": 20000
+      },
+      {
+        "service": "Hand Cast",
+        "amount": 23000
+      },
+      {
+        "service": "Dye Test",
+        "amount": 25000
+      },
+      {
+        "service": "Foot/Ankle Cast",
+        "amount": 25000
+      },
+      {
+        "service": "Intermediate",
+        "amount": 25000
+      },
+      {
+        "service": "Electrofulguration Of Condylomata Acuminata",
+        "amount": 25000
+      },
+      {
+        "service": "Biopsy Of Tumour Of Abdominal Wall",
+        "amount": 25500
+      },
+      {
+        "service": "Excision Of Tophi",
+        "amount": 25500
+      },
+      {
+        "service": "Pollicisation Of The Index Finger",
+        "amount": 25500
+      },
+      {
+        "service": "Surgical Drainage In Haematoma Of Rectus Abdominis",
+        "amount": 25500
+      },
+      {
+        "service": "Polypectomy",
+        "amount": 25500
+      },
+      {
+        "service": "Intercostal Drainage Insertion",
+        "amount": 25500
+      },
+      {
+        "service": "Suprapubic Cystostomy",
+        "amount": 25500
+      },
+      {
+        "service": "Tracheostomy",
+        "amount": 25500
+      },
+      {
+        "service": "Surgical Release In Stenosing Tenosynovitis",
+        "amount": 25500
+      },
+      {
+        "service": "Liver/Kidney/Bone Marrow Biopsy",
+        "amount": 25500
+      },
+      {
+        "service": "Ingrowing Toe Nail (Excision)",
+        "amount": 25500
+      },
+      {
+        "service": "Keloid Excision",
+        "amount": 25500
+      },
+      {
+        "service": "Biopsy Of Oesophageal Mass",
+        "amount": 25500
+      },
+      {
+        "service": "Dissection Of Inguinal Nodes",
+        "amount": 25500
+      },
+      {
+        "service": "Surgical Drainage Of Galactocoele",
+        "amount": 25500
+      },
+      {
+        "service": "Breast Lump Excision",
+        "amount": 25500
+      },
+      {
+        "service": "Synovectomy",
+        "amount": 25500
+      },
+      {
+        "service": "Ganglion Excision",
+        "amount": 25550
+      },
+      {
+        "service": "Lumps Excision",
+        "amount": 25550
+      },
+      {
+        "service": "Fore Arm Cast",
+        "amount": 28000
+      },
+      {
+        "service": "Upper Arm Cast",
+        "amount": 28000
+      },
+      {
+        "service": "Transfussion Of Screened Blood (Rh +Ve)",
+        "amount": 30000
+      },
+      {
+        "service": "Hysteroscopy",
+        "amount": 35000
+      },
+      {
+        "service": "Examination Under Anaesthesia (EUA)",
+        "amount": 35000
+      },
+      {
+        "service": "Removal Of IUCD Under General Anaesthesia",
+        "amount": 35000
+      },
+      {
+        "service": "Dilatation And Curetage",
+        "amount": 35000
+      },
+      {
+        "service": "Evacuation Of Retained Products Of Conception",
+        "amount": 35000
+      },
+      {
+        "service": "Excision/Diathermy Of Warts",
+        "amount": 35000
+      },
+      {
+        "service": "Excision Of Vaginal Septum",
+        "amount": 35000
+      },
+      {
+        "service": "Exchange Blood Transfussion (Rh +Ve, Inclusive Of Materials)",
+        "amount": 37500
+      },
+      {
+        "service": "ANTI-D INJ (per amp)",
+        "amount": 40000
+      },
+      {
+        "service": "Transfussion Of Screened Blood (Rh -Ve)",
+        "amount": 40000
+      },
+      {
+        "service": "Antenatal Care With Gen. Practitioner",
+        "amount": 40000
+      },
+      {
+        "service": "Antenatal Care With Obstetrician (Subject To Pre-Authorisation)",
+        "amount": 46000
+      },
+      {
+        "service": "Drainage Of Septic Arthritis",
+        "amount": 50000
+      },
+      {
+        "service": "Exostectomy",
+        "amount": 50000
+      },
+      {
+        "service": "Excisional Biopsy",
+        "amount": 50000
+      },
+      {
+        "service": "Skin Traction",
+        "amount": 50000
+      },
+      {
+        "service": "Simple Congenital Talipes Repair",
+        "amount": 50000
+      },
+      {
+        "service": "Repair Of Third Degree Tear",
+        "amount": 50000
+      },
+      {
+        "service": "Marsupialisation",
+        "amount": 50000
+      },
+      {
+        "service": "Cervical Circlage/Shirodkar Suture",
+        "amount": 50000
+      },
+      {
+        "service": "Bilateral Tubal Ligation",
+        "amount": 50000
+      },
+      {
+        "service": "Mini Laparotomy",
+        "amount": 50000
+      },
+      {
+        "service": "Exchange Blood Transfussion (Rh -Ve, Inclusive Of Materials)",
+        "amount": 50000
+      },
+      {
+        "service": "Full Arm Cast",
+        "amount": 50000
+      },
+      {
+        "service": "Leg Cast",
+        "amount": 50000
+      },
+      {
+        "service": "Knee Cast",
+        "amount": 50000
+      },
+      {
+        "service": "Diagnostic Laparoscopy",
+        "amount": 63000
+      },
+      {
+        "service": "Laparoscopy & Dye Test",
+        "amount": 63000
+      },
+      {
+        "service": "Destructive Delivery (Craniotomy-Embryotomy)",
+        "amount": 63000
+      },
+      {
+        "service": "Full Leg Cast",
+        "amount": 65000
+      },
+      {
+        "service": "Hip Spica",
+        "amount": 65000
+      },
+      {
+        "service": "Normal Delivery (With Or Without Episiotomy)",
+        "amount": 70000
+      },
+      {
+        "service": "Subperiosteal Drainage Of Acute Osteomyelitis",
+        "amount": 75000
+      },
+      {
+        "service": "Chondromectomy",
+        "amount": 75000
+      },
+      {
+        "service": "Sequestrectomy",
+        "amount": 75000
+      },
+      {
+        "service": "Saucerisation Of Chronically Infected Bone",
+        "amount": 75000
+      },
+      {
+        "service": "Assisted Delivery ( Vacuum, Instrumental)",
+        "amount": 80000
+      },
+      {
+        "service": "Cystic Hygroma Excision",
+        "amount": 85000
+      },
+      {
+        "service": "Skin Grafting",
+        "amount": 85000
+      },
+      {
+        "service": "Orchidectomy/Orchidopexy",
+        "amount": 85000
+      },
+      {
+        "service": "Abdominal Rectopexy",
+        "amount": 85000
+      },
+      {
+        "service": "Anal Spincteroplasty",
+        "amount": 85000
+      },
+      {
+        "service": "Surgical Drainage Of Anal Abscess",
+        "amount": 85000
+      },
+      {
+        "service": "Anal Fistulectomy Repair",
+        "amount": 85000
+      },
+      {
+        "service": "Cystourethroscopy",
+        "amount": 85000
+      },
+      {
+        "service": "Pericardiocentesis",
+        "amount": 85000
+      },
+      {
+        "service": "Multiple Delivery",
+        "amount": 90000
+      },
+      {
+        "service": "Amputation And Disarticulation Of Joints.",
+        "amount": 100000
+      },
+      {
+        "service": "Surgical Repair Of Congenital Talipes",
+        "amount": 100000
+      },
+      {
+        "service": "Equanovarus/Valgus",
+        "amount": 100000
+      },
+      {
+        "service": "Tendon Transplant",
+        "amount": 100000
+      },
+      {
+        "service": "Tenoplasty",
+        "amount": 100000
+      },
+      {
+        "service": "Arthroplasty",
+        "amount": 100000
+      },
+      {
+        "service": "Arthrodesis",
+        "amount": 100000
+      },
+      {
+        "service": "Open Reduction And Internal Fixation Of Fractures",
+        "amount": 100000
+      },
+      {
+        "service": "Osteoclasis, Internal Fixation Of Malunion",
+        "amount": 100000
+      },
+      {
+        "service": "Bone Grafting",
+        "amount": 100000
+      },
+      {
+        "service": "Cystic/Fibrous Dysplasia/Cancer Surgery",
+        "amount": 120000
+      },
+      {
+        "service": "Odontogenic Tumours.",
+        "amount": 120000
+      },
+      {
+        "service": "Cleft Lip And Palate Repairs.",
+        "amount": 120000
+      },
+      {
+        "service": "Parotidectomy",
+        "amount": 120000
+      },
+      {
+        "service": "Submandibular Gland Excision",
+        "amount": 120000
+      },
+      {
+        "service": "Vulvectomy",
+        "amount": 120000
+      },
+      {
+        "service": "Wedge Resection Of The Ovary",
+        "amount": 120000
+      },
+      {
+        "service": "Amputation Of Cervix",
+        "amount": 120000
+      },
+      {
+        "service": "Reconstruction Of Vagina",
+        "amount": 120000
+      },
+      {
+        "service": "Ectopic Pregnancy",
+        "amount": 120000
+      },
+      {
+        "service": "Ovariectomy",
+        "amount": 120000
+      },
+      {
+        "service": "Vaginoclesis",
+        "amount": 120000
+      },
+      {
+        "service": "Salpingo-Oophoreictomy",
+        "amount": 120000
+      },
+      {
+        "service": "Ovarian Biopsy",
+        "amount": 120000
+      },
+      {
+        "service": "Laparotomy Diagnostic/Therapeutic, Inter-Sex",
+        "amount": 120000
+      },
+      {
+        "service": "Ovarian Cysts",
+        "amount": 120000
+      },
+      {
+        "service": "Broad Ligament Haematoma",
+        "amount": 120000
+      },
+      {
+        "service": "Colporrhaphy/Colpoperineorrhaphy",
+        "amount": 120000
+      },
+      {
+        "service": "Vaginal Hysterectomy/Manchester Repair",
+        "amount": 120000
+      },
+      {
+        "service": "Ventrosuspension Of The Bladder",
+        "amount": 120000
+      },
+      {
+        "service": "Hysterectomy",
+        "amount": 120000
+      },
+      {
+        "service": "Hysterectomy And Bilateral Salpingo-Oophorectomy",
+        "amount": 120000
+      },
+      {
+        "service": "Reconstruction Surgery E.g Straussman Operation",
+        "amount": 120000
+      },
+      {
+        "service": "Ventrosuspension Procedures Of Correction Of Uterine",
+        "amount": 120000
+      },
+      {
+        "service": "Repair Of Inverted Uterus",
+        "amount": 120000
+      },
+      {
+        "service": "Repair Of Perforated/Ruptured Uterus",
+        "amount": 120000
+      },
+      {
+        "service": "Tubal Reconstruction",
+        "amount": 120000
+      },
+      {
+        "service": "Pelvic/Abdominal Abscess Drainage",
+        "amount": 120000
+      },
+      {
+        "service": "Pelvic Haematocoele",
+        "amount": 120000
+      },
+      {
+        "service": "Rectovaginal Fistula Repair",
+        "amount": 120000
+      },
+      {
+        "service": "Vesicovaginal Fistula Repair",
+        "amount": 120000
+      },
+      {
+        "service": "Uncomplicated Appendicectomy (All inclussive)",
+        "amount": 150000
+      },
+      {
+        "service": "Epigastric Herniorrhaphy9All inclussive)",
+        "amount": 150000
+      },
+      {
+        "service": "Excision Of Intrascrotal Mass",
+        "amount": 150000
+      },
+      {
+        "service": "Surgery Of Torsion Of Spermatic Cord",
+        "amount": 150000
+      },
+      {
+        "service": "Varicocoelectomy",
+        "amount": 150000
+      },
+      {
+        "service": "Dissection Of Femoral Triangle",
+        "amount": 150000
+      },
+      {
+        "service": "Multiple Ligation Of Veins",
+        "amount": 150000
+      },
+      {
+        "service": "Surgical Correction Of Dupuytren’s Contracture",
+        "amount": 150000
+      },
+      {
+        "service": "Herniorraphy - Inguinal/Others",
+        "amount": 150000
+      },
+      {
+        "service": "Thoracotomy",
+        "amount": 150000
+      },
+      {
+        "service": "Vasectomy",
+        "amount": 150000
+      },
+      {
+        "service": "Haemorrhoidectomy",
+        "amount": 150000
+      },
+      {
+        "service": "Fistula In-Ano Repair",
+        "amount": 150000
+      },
+      {
+        "service": "Hydrocoelectomy (All Inclusive)",
+        "amount": 150000
+      },
+      {
+        "service": "Tendon Grafting",
+        "amount": 170000
+      },
+      {
+        "service": "Oesophagostomy",
+        "amount": 170000
+      },
+      {
+        "service": "Anal Pull Through",
+        "amount": 170000
+      },
+      {
+        "service": "Oophorectomy",
+        "amount": 170000
+      },
+      {
+        "service": "Diverticulectomy",
+        "amount": 170000
+      },
+      {
+        "service": "Drainage Of Hepatic Abscess",
+        "amount": 170000
+      },
+      {
+        "service": "Repair Of Splenic Laceration",
+        "amount": 170000
+      },
+      {
+        "service": "Retroperitoneal Drainage Of Perinephric Abscess",
+        "amount": 170000
+      },
+      {
+        "service": "Trans-Perineal/Transrectal Biopsy Of Prostate",
+        "amount": 170000
+      },
+      {
+        "service": "Resection Of Median Bar Obstruction",
+        "amount": 170000
+      },
+      {
+        "service": "Corporosavenous Shunt",
+        "amount": 170000
+      },
+      {
+        "service": "Cavernospongiosum Shunt",
+        "amount": 170000
+      },
+      {
+        "service": "Transurethral Dessication Of Congenital Meatal Stenosis",
+        "amount": 170000
+      },
+      {
+        "service": "Uretherectomy",
+        "amount": 170000
+      },
+      {
+        "service": "Surgical Exploration For Anorchism",
+        "amount": 170000
+      },
+      {
+        "service": "Stripping And Ligation Of Veins",
+        "amount": 170000
+      },
+      {
+        "service": "Thrombectomy By Forarty’s Catheterisation",
+        "amount": 170000
+      },
+      {
+        "service": "Colostomy Construction/Closure",
+        "amount": 170000
+      },
+      {
+        "service": "Enterostomy",
+        "amount": 170000
+      },
+      {
+        "service": "Surgery Of Uncomplicated Intestinal Obstruction Without Resection",
+        "amount": 170000
+      },
+      {
+        "service": "Hiatus Herniorrphaphy",
+        "amount": 170000
+      },
+      {
+        "service": "Oesophageal Atresia And Tracheo-Oesophageal Fistula Repair",
+        "amount": 200000
+      },
+      {
+        "service": "Hypospadia Repair",
+        "amount": 200000
+      },
+      {
+        "service": "Pyelotomy",
+        "amount": 200000
+      },
+      {
+        "service": "Craniotomy",
+        "amount": 200000
+      },
+      {
+        "service": "Pyeloroplasty",
+        "amount": 200000
+      },
+      {
+        "service": "Repair Of Oesophageal Lacerations",
+        "amount": 200000
+      },
+      {
+        "service": "Choledochostomy",
+        "amount": 200000
+      },
+      {
+        "service": "Repair Of Bochidalek Diaphragmatic Congenital Defect",
+        "amount": 200000
+      },
+      {
+        "service": "Meckel’s Diverticulectomy",
+        "amount": 200000
+      },
+      {
+        "service": "Renal Cystectomy",
+        "amount": 200000
+      },
+      {
+        "service": "Vesical Diverticulectomy",
+        "amount": 200000
+      },
+      {
+        "service": "Penoplasty",
+        "amount": 200000
+      },
+      {
+        "service": "Penectomy",
+        "amount": 200000
+      },
+      {
+        "service": "Mastectomy",
+        "amount": 200000
+      },
+      {
+        "service": "Diaphragmatic Hernia Repair",
+        "amount": 200000
+      },
+      {
+        "service": "Exploratory Laparotomy/Lysis Of Adhensions",
+        "amount": 200000
+      },
+      {
+        "service": "Gastroenterostomy",
+        "amount": 200000
+      },
+      {
+        "service": "Intussusception Operation",
+        "amount": 200000
+      },
+      {
+        "service": "Pyloromyotomy",
+        "amount": 200000
+      },
+      {
+        "service": "Resection And Anstomoses (Small/Large Intestines)",
+        "amount": 200000
+      },
+      {
+        "service": "Splenectomy/Splenorrhaphy",
+        "amount": 200000
+      },
+      {
+        "service": "Cystectomy Partial/Total",
+        "amount": 200000
+      },
+      {
+        "service": "Axillary Dissection Of Breast",
+        "amount": 200000
+      },
+      {
+        "service": "Extensive (Small And Large) Bowel Resection And Anastomoses",
+        "amount": 200000
+      },
+      {
+        "service": "Surgery Of Acute Intra Abdominal Vascular Disease",
+        "amount": 200000
+      },
+      {
+        "service": "Repair Of Gastric Lacerations",
+        "amount": 200000
+      },
+      {
+        "service": "Repair Of Small Bowel Perforations",
+        "amount": 200000
+      },
+      {
+        "service": "Surgery Of Large Bowel Perforations",
+        "amount": 200000
+      },
+      {
+        "service": "Surgery Of Hepatic Trauma",
+        "amount": 200000
+      },
+      {
+        "service": "Hepatic Segmentectomy",
+        "amount": 200000
+      },
+      {
+        "service": "Oddis Sphincteroplasty",
+        "amount": 200000
+      },
+      {
+        "service": "Choledochojejunostomy",
+        "amount": 200000
+      },
+      {
+        "service": "Transduodenal Choledochal Cystectomy",
+        "amount": 200000
+      },
+      {
+        "service": "Choledochal Cystojejunostomy",
+        "amount": 200000
+      },
+      {
+        "service": "Excision Of Lymphoedematous Lymph Tissues",
+        "amount": 200000
+      },
+      {
+        "service": "Roux-En-Y Pancreaticojejunostomy",
+        "amount": 200000
+      },
+      {
+        "service": "Tonsilectomy & Adenoidectomy (inclussive)",
+        "amount": 200000
+      },
+      {
+        "service": "Adenoidectomy &Tonsilectomy (All inclussive)",
+        "amount": 200000
+      },
+      {
+        "service": "Ceasarean Section (All inclussive)",
+        "amount": 350000
+      },
+      {
+        "service": "Myomectomy (All inclussive)",
+        "amount": 350000
+      }
+    ]
+  }

@@ -1,12 +1,10 @@
-import {Box, Typography} from "@mui/material";
-import React, {useEffect, useState} from "react";
-
-import ViewCard from "./@sections/ViewCard";
+import {Box, Typography, Card, CardContent, Grid} from "@mui/material";
+import React, {useEffect, useState, useContext} from "react";
+import {ObjectContext} from '../../../context';
 import ViewCardWithFilter from "./@sections/ViewCardWithFilter";
-import AreaChart from "../charts/AreaChart";
-import BarChart from "../charts/BarChart";
-import BubbleChart from "../charts/BubbleChart";
-import CircleChart from "../charts/CircleChart";
+import TotalRevenueIcon from '@mui/icons-material/AttachMoney';
+import TotalMoneyCollectedIcon from '@mui/icons-material/MonetizationOn';
+import PendingBillsIcon from '@mui/icons-material/ReceiptLong';
 
 import client from "../../../feathers";
 
@@ -29,6 +27,7 @@ import {
 } from "../utils/chartData/chartDataHandler";
 
 const FinanceDashboard = () => {
+  const {showActionLoader, hideActionLoader} = useContext(ObjectContext);
   const [userName, setUserName] = useState("");
   const [facilityName, setFacilityName] = useState("");
   const billsService = client.service("/bills");
@@ -57,70 +56,88 @@ const FinanceDashboard = () => {
     setFacilityName(facilityFullName);
   }, []);
 
+
   return (
     <DashboardPageWrapper>
       <Box>
-        <Box>
-          <Typography variant="h2">
-            Hello <span>{userName}</span>👋
-          </Typography>
-          <Typography variant="body1">
-            Welcome to your Finance Module{" "}
-            <span>@Front Desk {facilityName}</span>
-          </Typography>
-        </Box>
-
-        <StartCardWapper>
-          <ViewCard count={`${fetchTotalRevenue}K`} title="Total Revenue" />
-          <ViewCard
-            count={`${fetchTotalPendingBills}K`}
-            title="Pending Bills"
-          />
-          <ViewCardWithFilter
+      <Typography variant="h5" style={{ textShadow: "1px 1px 2px rgb(0, 45, 92)" }}>Finance Dashboard</Typography>
+        <Grid container spacing={3} justifyContent="space-between" alignItems="center" style={{marginTop: '20px'}}>
+        <Grid item xs={12}  md={3}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+			Total Revenue
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center' }}>
+			  <Box sx={{ flexGrow: 1 }}>
+				<Typography variant="h5" fontWeight="bold" component="div">
+				{`₦${fetchTotalRevenue}`}
+				</Typography>
+			  </Box>
+			  <Box>
+				<TotalRevenueIcon  sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
+			  </Box>
+			</Box>
+		  </CardContent>
+		</Card>
+	  </Grid>
+   
+  
+	  {/* Money Collected Card */}
+	  <Grid item xs={12} sm={6} md={4}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+			  Total Money Collected
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center' }}>
+			  <Box sx={{ flexGrow: 1 }}>
+				<Typography variant="h5" fontWeight="bold" component="div">
+          {`₦${fetchTotalMoneyCollected}`}
+				</Typography>
+			  </Box>
+			  <Box>
+				<TotalMoneyCollectedIcon sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
+			  </Box>
+			</Box>
+		  </CardContent>
+		</Card>
+	  </Grid>
+  
+	  {/* Pending Bills Card */}
+	  <Grid item xs={12} sm={6} md={4}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+			Pending Bills
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center' }}>
+			  <Box sx={{ flexGrow: 1 }}>
+				<Typography variant="h5" component="div" fontWeight="bold">
+				{`₦${fetchTotalPendingBills}`}
+				</Typography>
+			  </Box>
+			  <Box>
+				<PendingBillsIcon sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
+			  </Box>
+			</Box>
+		  </CardContent>
+		</Card>
+	  </Grid>
+    <Grid item xs={12} sm={6} md={4}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+      <ViewCardWithFilter
             count={fetchTotalMoneyCollected}
-            title="Total Money collected"
+            title="Collection Breakdown"
             hasFilter={true}
             dataSource={fetchTotalMoneyCollectedPresentDataObject}
             isLoading={isLoading}
           />
-        </StartCardWapper>
-
-        <DashboardContainer>
-          <Box
-            sx={{
-              display: "grid",
-              width: "100%",
-              gridGap: "10px",
-              gridTemplateColumns: {lg: "repeat(3, 1fr)", xs: "1fr"},
-            }}
-          >
-            <Box sx={{width: "100%", p: 0, pt: 2, pb: 2}}>
-              <ViewCard
-                count={fetchTotalBalance}
-                title="Total Pending Balance"
-              />
-              {/* <AreaChart height={200} title="Trends" />
-              <AreaChart height={200} title="New Clients" /> */}
-            </Box>
-            <Box sx={{width: "100%", pt: 2, pb: 2}}>
-              {/* <BarChart title="Payment Mode" />
-              <BubbleChart /> */}
-            </Box>
-            <Box sx={{width: "100%", pt: 2, pb: 2}}>
-              {/* <Stack
-                direction='row'
-                spacing={0.4}
-                sx={{ mt: 4 }}
-                justifyContent='center'
-              >
-                <Button>Male</Button>
-                <Button>Female</Button>
-                <Button>Others</Button>
-              </Stack> */}
-              {/* <CircleChart /> */}
-            </Box>
-          </Box>
-        </DashboardContainer>
+		  </CardContent>
+		</Card>
+	  </Grid>
+    </Grid>
       </Box>
     </DashboardPageWrapper>
   );

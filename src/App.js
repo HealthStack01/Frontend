@@ -18,6 +18,20 @@ import ActionLoader from "./components/action-loader/Action-Loader";
 
 function App() {
   const [state, setState] = useState({
+    ChatModule: {
+      chatRoom: null,
+      showSearch: false,
+      rightSideBar: false,
+      searchValue: "",
+    },
+    TarrifModule: {
+      selectedTarrif: {},
+      selectedBand: {},
+      selectedService: {},
+      selectedProvider: {},
+      selectedServicePlan: {},
+    },
+
     CorporateModule: {
       selectedPolicy: {},
       selectedClaim: {},
@@ -26,10 +40,12 @@ function App() {
     ClaimsModule: {
       selectedClaim: {},
       selectedService: {},
+      selectedClient: {},
     },
     PreAuthModule: {
       selectedPreAuth: {},
       selectedService: {},
+      selectedClient: {},
     },
     CommunicationModule: {
       defaultEmail: {},
@@ -330,7 +346,6 @@ function App() {
             }}
           >
             <MyUserProvider>
-              <GlobalStyle />
               <ActionLoader />
               <AnimatePresence initial exitBeforeEnter>
                 <Router>

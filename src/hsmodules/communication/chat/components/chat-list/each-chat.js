@@ -1,36 +1,97 @@
+import {useState, useContext, useCallback, useEffect} from "react";
 import {Avatar, Box, Typography} from "@mui/material";
 import {returnAvatarString} from "../../../../helpers/returnAvatarString";
-
-// function stringToColor(string) {
-//   let hash = 0;
-//   let i;
-
-//   /* eslint-disable no-bitwise */
-//   for (i = 0; i < string.length; i += 1) {
-//     hash = string.charCodeAt(i) + ((hash << 5) - hash);
-//   }
-
-//   let color = "#";
-
-//   for (i = 0; i < 3; i += 1) {
-//     const value = (hash >> (i * 8)) & 0xff;
-//     color += `00${value.toString(16)}`.slice(-2);
-//   }
-//   /* eslint-enable no-bitwise */
-
-//   return color;
-// }
-
-// function stringAvatar(name) {
-//   return {
-//     sx: {
-//       bgcolor: stringToColor(name),
-//     },
-//     children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
-//   };
-// }
+import {ObjectContext, UserContext} from "../../../../../context";
+import client from "../../../../../feathers";
+import Skeleton from "@mui/material/Skeleton";
+import dayjs from "dayjs";
+import moment from "moment";
 
 const EachChat = ({chat}) => {
+  const chatMessagesServer = client.service("chat");
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
+  const [loading, setLoading] = useState(false);
+  const [chatInfo, setChatInfo] = useState(null);
+  const [unreadMsgs, setUnreadMsgs] = useState([]);
+
+  const getUnreadChatMessages = useCallback(() => {}, []);
+
+  const getRecentChatMessage = useCallback(() => {
+    setLoading(true);
+    chatMessagesServer
+      .find({
+        query: {
+          chatroomId: chat._id,
+
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      })
+      .then(res => {
+        const data = {
+          ...chat,
+          messages: res.data,
+        };
+
+        //console.log(data);
+        setChatInfo(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+        setLoading(false);
+      });
+  }, []);
+
+  // useEffect(() => {
+  //   getRecentChatMessage();
+
+  //   chatMessagesServer.on("created", obj => getRecentChatMessage());
+  //   chatMessagesServer.on("updated", obj => getRecentChatMessage());
+  //   chatMessagesServer.on("patched", obj => getRecentChatMessage());
+  //   chatMessagesServer.on("removed", obj => getRecentChatMessage());
+  // }, [getRecentChatMessage]);
+
+  const chatPartner = chat.members.find(
+    item => item._id !== user.currentEmployee._id
+  );
+
+  const handleSelectChatRoom = () => {
+    setState(prev => ({
+      ...prev,
+      ChatModule: {
+        ...prev.ChatModule,
+        chatRoom: chat,
+      },
+    }));
+  };
+
+  if (loading)
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          borderBottom: "1px solid #f0f0f0",
+        }}
+        gap={0.5}
+        p="10px"
+      >
+        <Skeleton animation="wave" variant="circular" width={30} height={30} />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 0.5,
+          }}
+        >
+          <Skeleton animation="wave" height={10} width="40%" />
+          <Skeleton animation="wave" height={10} width="80%" />
+        </Box>
+      </Box>
+    );
   return (
     <Box
       sx={{
@@ -45,9 +106,15 @@ const EachChat = ({chat}) => {
           backgroundColor: "#f0f0f0",
         },
       }}
+      onClick={handleSelectChatRoom}
     >
       <Box mr={0.6}>
-        <Avatar {...returnAvatarString(`John Doe`)} />
+        <Avatar
+          {...returnAvatarString(
+            `${chat.chatType === "personal" ? chatPartner?.name : chat.name}`
+          )}
+          src={chatPartner?.imageurl}
+        />
       </Box>
 
       <Box
@@ -66,7 +133,7 @@ const EachChat = ({chat}) => {
           <Typography
             sx={{fontSize: "0.8rem", fontWeight: "bold", color: "#1976d2"}}
           >
-            John Doe
+            {chat.chatType === "personal" ? chatPartner?.name : chat.name}
           </Typography>
 
           <Typography
@@ -75,7 +142,9 @@ const EachChat = ({chat}) => {
               color: "#006d77",
             }}
           >
-            5 seconds ago
+            {/* {chatInfo?.messages?.length > 0
+              ? moment(chatInfo?.messages[0]?.message?.createdAt).format("LT")
+              : moment(chatInfo.createdAt).format("LT")} */}
           </Typography>
         </Box>
 
@@ -99,26 +168,27 @@ const EachChat = ({chat}) => {
               sx={{fontSize: "0.75rem", color: "#736f72", width: "100%"}}
               noWrap
             >
-              Lorem ipsium lorem lafele ta pisiumu constafate ta be leh
-              aporocosom
+              {/* {chatInfo?.messages[0]?.message} */}
             </Typography>
           </Box>
 
-          <Box
-            sx={{
-              width: "18px",
-              height: "18px",
-              borderRadius: "50%",
-              backgroundColor: "#354f52",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Typography sx={{fontSize: "0.7rem", color: "#ffffff"}}>
-              5
-            </Typography>
-          </Box>
+          {/* {chatInfo?.messages?.length > 0 && (
+            <Box
+              sx={{
+                width: "18px",
+                height: "18px",
+                borderRadius: "50%",
+                backgroundColor: "#354f52",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography sx={{fontSize: "0.7rem", color: "#ffffff"}}>
+                5
+              </Typography>
+            </Box>
+          )} */}
         </Box>
       </Box>
     </Box>
@@ -126,3 +196,6 @@ const EachChat = ({chat}) => {
 };
 
 export default EachChat;
+
+//For Group Chat or Chat with more than 1 members
+const ChannelChat = () => {};

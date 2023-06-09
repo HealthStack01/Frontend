@@ -9,12 +9,13 @@ const ViewCard: React.FC<ViewCardProps> = ({ title, count = 0 }) => {
 		<Card
 			sx={{
 				p: 4,
-				background: '#f9f9f9',
-				boxShadow: '0',
-				borderRadius: 4,
+				backgroundColor: "#fff",
+				boxShadow: "1px 1px 2px 1px rgba(0, 0, 0, 0.3)",
+			    borderRadius: "8px",
 				width: { xs: '100%' },
 				textAlign: 'center',
 				mr: 1,
+				mt:3,
 				mb: { xs: 1 },
 				display: 'flex',
 				alignItems: 'center',
@@ -22,10 +23,10 @@ const ViewCard: React.FC<ViewCardProps> = ({ title, count = 0 }) => {
 			<Box sx={{ width: '75%' }}>
 				<Typography
 					variant='h1'
-					sx={{ fontWeight: 'bold', fontSize: '15px' }}>
+					sx={{ fontWeight: 'bold', fontSize: '19px' }}>
 					{count}
 				</Typography>
-				<Typography>{title}</Typography>
+				<Typography variant='h6' sx={{fontSize: '17px' }}>{title}</Typography>
 			</Box>
 		</Card>
 	);

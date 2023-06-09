@@ -35,7 +35,7 @@ import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 
-const PreAuthDetailComponent = ({handleGoBack}) => {
+const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
   const preAuthServer = client.service("preauth");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -83,6 +83,8 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
       discharged_date: clinical_details.discharged_date || null,
       status: selectedPreAuth.status,
       date: selectedPreAuth.createdAt,
+      provider_name: selectedPreAuth.provider.facilityName,
+      submitted_by: `${selectedPreAuth.submissionby?.firstname} ${selectedPreAuth.submissionby?.lastname}`,
     };
     reset(resetForm);
     setServices(selectedPreAuth.services || []);
@@ -543,10 +545,15 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
             Details
           </GlobalCustomButton>
 
-          <GlobalCustomButton color="warning" onClick={() => setView("tasks")}>
-            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-            Tasks
-          </GlobalCustomButton>
+          {!client_id && (
+            <GlobalCustomButton
+              color="warning"
+              onClick={() => setView("tasks")}
+            >
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Tasks
+            </GlobalCustomButton>
+          )}
 
           <GlobalCustomButton
             onClick={() => setChat(true)}
@@ -562,13 +569,15 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
             Chat
           </GlobalCustomButton>
 
-          <GlobalCustomButton
-            color="success"
-            onClick={() => setStatusModal(true)}
-          >
-            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-            Change Status
-          </GlobalCustomButton>
+          {!client_id && (
+            <GlobalCustomButton
+              color="success"
+              onClick={() => setStatusModal(true)}
+            >
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Change Status
+            </GlobalCustomButton>
+          )}
 
           {/* <GlobalCustomButton color="info" onClick={() => setAssignModal(true)}>
             <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
@@ -621,6 +630,22 @@ const PreAuthDetailComponent = ({handleGoBack}) => {
                   <Input
                     label="Preauthorization's Status"
                     register={register("status")}
+                    disabled
+                  />
+                </Grid>
+
+                <Grid item lg={6}>
+                  <Input
+                    label="Proivder's Name"
+                    register={register("provider_name")}
+                    disabled
+                  />
+                </Grid>
+
+                <Grid item lg={6}>
+                  <Input
+                    label="Submitted By"
+                    register={register("submitted_by")}
                     disabled
                   />
                 </Grid>

@@ -1,0 +1,2804 @@
+{
+    "Kings": [
+      {
+        "Name": "PROMETHAZINE 25mg TAB",
+        "Amount": 10
+      },
+      {
+        "Name": "LOMOTIL TAB",
+        "Amount": 18
+      },
+      {
+        "Name": "CO-TRIMOXAZOLE 480mg TAB",
+        "Amount": 20
+      },
+      {
+        "Name": "PIRITON TAB SACHET",
+        "Amount": 20
+      },
+      {
+        "Name": "CHLORPHENIRAMINE 4mg TAB",
+        "Amount": 25
+      },
+      {
+        "Name": "FOLIC ACID 5mg TAB",
+        "Amount": 25
+      },
+      {
+        "Name": "PARACETAMOL 500mg TAB",
+        "Amount": 25
+      },
+      {
+        "Name": "PREDNISOLONE 5mg TAB",
+        "Amount": 25
+      },
+      {
+        "Name": "PTHALYLSUPHATIAZOLE 500mg TAB",
+        "Amount": 25
+      },
+      {
+        "Name": "MULTIVITE TAB",
+        "Amount": 30
+      },
+      {
+        "Name": "PYRAZINAMIDE TAB 500mg",
+        "Amount": 30
+      },
+      {
+        "Name": "VIT-C 100mg TAB",
+        "Amount": 30
+      },
+      {
+        "Name": "AVOMINE 25mg TAB",
+        "Amount": 40
+      },
+      {
+        "Name": "BISACODYL 5mg TAB",
+        "Amount": 40
+      },
+      {
+        "Name": "FERROUS SULPHATE 200mg TAB",
+        "Amount": 40
+      },
+      {
+        "Name": "METOCLOPRAMIDE 10mg TAB",
+        "Amount": 40
+      },
+      {
+        "Name": "NEOMERCAZOLE 5mg TAB",
+        "Amount": 40
+      },
+      {
+        "Name": "TETRACYCINE 250mg CAP",
+        "Amount": 40
+      },
+      {
+        "Name": "APRESOLINE 25mg TAB",
+        "Amount": 45
+      },
+      {
+        "Name": "ASPIRIN 75mg  TAB (DISPERSABLE)",
+        "Amount": 45
+      },
+      {
+        "Name": "BANOCIDE 50mg TAB",
+        "Amount": 45
+      },
+      {
+        "Name": "CALCIUM LACTATE 300mg TAB",
+        "Amount": 45
+      },
+      {
+        "Name": "THALAZOLE TAB 500mg SACHET",
+        "Amount": 45
+      },
+      {
+        "Name": "ANTASIL TAB",
+        "Amount": 50
+      },
+      {
+        "Name": "GESTID TAB (SACHET)",
+        "Amount": 50
+      },
+      {
+        "Name": "METAPRIM 25mg TAB",
+        "Amount": 50
+      },
+      {
+        "Name": "METRONIDAZOLE 400mg TAB",
+        "Amount": 50
+      },
+      {
+        "Name": "NICOTINIC ACID TAB",
+        "Amount": 50
+      },
+      {
+        "Name": "NORMORETIC TAB",
+        "Amount": 50
+      },
+      {
+        "Name": "PHENYTOIN CAP 100mg",
+        "Amount": 50
+      },
+      {
+        "Name": "PIROXICAM 20mg CAP",
+        "Amount": 50
+      },
+      {
+        "Name": "PYRIDOXINE 50mg TAB",
+        "Amount": 50
+      },
+      {
+        "Name": "RIFAMPICIN 300mg CAP",
+        "Amount": 50
+      },
+      {
+        "Name": "SALBUTAMOL TAB 4mg",
+        "Amount": 50
+      },
+      {
+        "Name": "THYROXINE TAB 0.5mg",
+        "Amount": 50
+      },
+      {
+        "Name": "VIT-B COMPLEX TAB",
+        "Amount": 50
+      },
+      {
+        "Name": "YEAST TAB",
+        "Amount": 50
+      },
+      {
+        "Name": "ESIDREX 25mg TAB",
+        "Amount": 55
+      },
+      {
+        "Name": "CIMETIDINE 200mg TAB",
+        "Amount": 70
+      },
+      {
+        "Name": "COD LIVER OIL CAP 525mg-S/SEAS",
+        "Amount": 70
+      },
+      {
+        "Name": "LO-FEMINAL TAB",
+        "Amount": 70
+      },
+      {
+        "Name": "THYROXINE TAB 100mcg",
+        "Amount": 70
+      },
+      {
+        "Name": "VENTOLINE 2mg TAB",
+        "Amount": 75
+      },
+      {
+        "Name": "ACETAZOLAMIDE 250mg TAB",
+        "Amount": 80
+      },
+      {
+        "Name": "CARBAMAZEPINE 200mg TAB",
+        "Amount": 80
+      },
+      {
+        "Name": "DEQUADIN LOZENGES",
+        "Amount": 80
+      },
+      {
+        "Name": "DOXYCYCLINE 100mg CAP",
+        "Amount": 80
+      },
+      {
+        "Name": "IBUPROFEN 200mg TAB",
+        "Amount": 80
+      },
+      {
+        "Name": "ISORDIL 5mg TAB",
+        "Amount": 80
+      },
+      {
+        "Name": "LEXOTAN 1.5mg TAB",
+        "Amount": 80
+      },
+      {
+        "Name": "SYRINGE & NEEDLE 2ml",
+        "Amount": 80
+      },
+      {
+        "Name": "SYRINGE & NEEDLE 5ml",
+        "Amount": 80
+      },
+      {
+        "Name": "ALDOMET 250mg TAB",
+        "Amount": 90
+      },
+      {
+        "Name": "BROMHEXINE 8mg TAB",
+        "Amount": 90
+      },
+      {
+        "Name": "BUSCOPAN 10mg TAB",
+        "Amount": 90
+      },
+      {
+        "Name": "CIMETIDINE 400mg TAB",
+        "Amount": 90
+      },
+      {
+        "Name": "CLOXACILLIN 25Omg CAP",
+        "Amount": 90
+      },
+      {
+        "Name": "CHLORPROPAMIDE 250mg TAB",
+        "Amount": 90
+      },
+      {
+        "Name": "DOLONEUROBION TAB",
+        "Amount": 90
+      },
+      {
+        "Name": "ETOVIT CAPGEL 200mg",
+        "Amount": 90
+      },
+      {
+        "Name": "FRANOL TAB",
+        "Amount": 90
+      },
+      {
+        "Name": "FRUSEMIDE 40mg TAB",
+        "Amount": 90
+      },
+      {
+        "Name": "INSULIN SYRINGE 40IU",
+        "Amount": 90
+      },
+      {
+        "Name": "KOTASE TAB",
+        "Amount": 90
+      },
+      {
+        "Name": "MEFENAMIC ACID 250mg TAB",
+        "Amount": 90
+      },
+      {
+        "Name": "MOTILIUM 10mg TAB",
+        "Amount": 90
+      },
+      {
+        "Name": "NITROFURANTOIN 100mg TAB",
+        "Amount": 90
+      },
+      {
+        "Name": "PARACETAMOL INJ",
+        "Amount": 90
+      },
+      {
+        "Name": "ACTIFED TABLET",
+        "Amount": 100
+      },
+      {
+        "Name": "AMITRIPTYLINE 25mg TAB",
+        "Amount": 100
+      },
+      {
+        "Name": "ASPIRIN 300mg TAB",
+        "Amount": 100
+      },
+      {
+        "Name": "BCG SYRINGE & NIDDLE",
+        "Amount": 100
+      },
+      {
+        "Name": "CHYMORAL TAB",
+        "Amount": 100
+      },
+      {
+        "Name": "COD LIVER OIL CAP",
+        "Amount": 100
+      },
+      {
+        "Name": "COLIPAN 10mg TAB",
+        "Amount": 100
+      },
+      {
+        "Name": "CHLORPROMAZINE  100mg TAB",
+        "Amount": 100
+      },
+      {
+        "Name": "ERYTHROMYCIN 250mg TAB",
+        "Amount": 100
+      },
+      {
+        "Name": "FLOXAPEN 250mg CAP",
+        "Amount": 100
+      },
+      {
+        "Name": "GENTAMYCIN 80mg/AMP INJ",
+        "Amount": 100
+      },
+      {
+        "Name": "GLIBENCLAMIDE 5mg TAB DAONIL",
+        "Amount": 100
+      },
+      {
+        "Name": "LORATYN 10 TAB 10mg",
+        "Amount": 100
+      },
+      {
+        "Name": "METRONIDAZOLE 200mg TAB",
+        "Amount": 100
+      },
+      {
+        "Name": "MULTIVITE CAP",
+        "Amount": 100
+      },
+      {
+        "Name": "NIFEDIPINE 20mg TAB",
+        "Amount": 100
+      },
+      {
+        "Name": "PROMETHAZINE 50mg/AMP INJ",
+        "Amount": 100
+      },
+      {
+        "Name": "PROGUANIL 100mg TAB",
+        "Amount": 100
+      },
+      {
+        "Name": "QUININE TABLET",
+        "Amount": 100
+      },
+      {
+        "Name": "SINUFED TAB",
+        "Amount": 100
+      },
+      {
+        "Name": "WATER FOR INJ",
+        "Amount": 100
+      },
+      {
+        "Name": "Tab Omeprazole 20mg",
+        "Amount": 100
+      },
+      {
+        "Name": "Tab Zinc",
+        "Amount": 100
+      },
+      {
+        "Name": "IBRUPROFEN 400mg TAB (SACHET)",
+        "Amount": 105
+      },
+      {
+        "Name": "CAPTOPRIL 12.5mg",
+        "Amount": 120
+      },
+      {
+        "Name": "DIAZEPAM 5mg TAB (VACIUM TAB)",
+        "Amount": 120
+      },
+      {
+        "Name": "ISORDIL TAB 10mg",
+        "Amount": 120
+      },
+      {
+        "Name": "INSULIN SYRINGE 100IU",
+        "Amount": 120
+      },
+      {
+        "Name": "LEXOTAN 3mg TAB",
+        "Amount": 120
+      },
+      {
+        "Name": "METFORMIN 500mg TAB",
+        "Amount": 120
+      },
+      {
+        "Name": "SYRINGE & NEEDLE 10ml",
+        "Amount": 120
+      },
+      {
+        "Name": "VANISH POINT SYRINGE 3CC",
+        "Amount": 120
+      },
+      {
+        "Name": "VANISH POINT SYRINGE 5CC",
+        "Amount": 120
+      },
+      {
+        "Name": "ATENOLOL 50mg TAB",
+        "Amount": 130
+      },
+      {
+        "Name": "ACTIVATED VEGETABLE CHARCOAL",
+        "Amount": 130
+      },
+      {
+        "Name": "CAMOQUINE 200mg TAB",
+        "Amount": 130
+      },
+      {
+        "Name": "CATAFLAM 50mg TAB",
+        "Amount": 130
+      },
+      {
+        "Name": "CHLOROQUINE 150mg TAB",
+        "Amount": 130
+      },
+      {
+        "Name": "MEDICUT CANNULAR 18G-GREEN",
+        "Amount": 130
+      },
+      {
+        "Name": "MEDICUT CANNULAR 20G-PINK",
+        "Amount": 130
+      },
+      {
+        "Name": "MEDICUT CANNULAR 22G-BLUE",
+        "Amount": 130
+      },
+      {
+        "Name": "MEDICUT CANNULAR 23G-BLUE",
+        "Amount": 130
+      },
+      {
+        "Name": "MEDICUT CANNULAR 24G-YELLOW",
+        "Amount": 130
+      },
+      {
+        "Name": "METOCLOPRAMIDE 5mg/ml INJ",
+        "Amount": 130
+      },
+      {
+        "Name": "MYCOTEN OVULE 100mg",
+        "Amount": 130
+      },
+      {
+        "Name": "NITRAZEPAM 5mg TAB",
+        "Amount": 130
+      },
+      {
+        "Name": "PEFLOXACIN 400mg TAB",
+        "Amount": 130
+      },
+      {
+        "Name": "VIT-E 100IU-H/CRAFT",
+        "Amount": 130
+      },
+      {
+        "Name": "ARVED 450mg TAB",
+        "Amount": 135
+      },
+      {
+        "Name": "DIAMOX 250mg TAB",
+        "Amount": 138
+      },
+      {
+        "Name": "ACICLOVIR TAB 400mg",
+        "Amount": 140
+      },
+      {
+        "Name": "ADRENALIN INJ 1mg/Amp",
+        "Amount": 140
+      },
+      {
+        "Name": "CAPTOPRIL 25mg TAB",
+        "Amount": 140
+      },
+      {
+        "Name": "COMBANTRIN 125mg TAB",
+        "Amount": 140
+      },
+      {
+        "Name": "DEXAMETHASONE 8mg INJ",
+        "Amount": 140
+      },
+      {
+        "Name": "ERYTHROMYCIN 500mg TAB",
+        "Amount": 140
+      },
+      {
+        "Name": "PHENOBARBITONE 30mg TAB",
+        "Amount": 140
+      },
+      {
+        "Name": "REGROTON TAB",
+        "Amount": 140
+      },
+      {
+        "Name": "ZYLORIC TAB 100mg",
+        "Amount": 140
+      },
+      {
+        "Name": "MEBAAL 1500mg",
+        "Amount": 140
+      },
+      {
+        "Name": "HALOPERIDOL 5mg TAB",
+        "Amount": 145
+      },
+      {
+        "Name": "AMOXYCILLIN 250mg CAP",
+        "Amount": 150
+      },
+      {
+        "Name": "KETOCONAZOLE 200mg",
+        "Amount": 150
+      },
+      {
+        "Name": "NEUROBION TAB (NEOROVITE)",
+        "Amount": 150
+      },
+      {
+        "Name": "NORVASC 5mg TAB (AMLODIPINE 5mg)",
+        "Amount": 150
+      },
+      {
+        "Name": "PROPRANOLOL 40mg TAB",
+        "Amount": 150
+      },
+      {
+        "Name": "ROHYPNOL TAB 1mg",
+        "Amount": 150
+      },
+      {
+        "Name": "ROVAMYCIN 3mu TAB",
+        "Amount": 150
+      },
+      {
+        "Name": "SPIRONOLACTONE 25mg TAB",
+        "Amount": 150
+      },
+      {
+        "Name": "AMLOZAR 5/50MG.",
+        "Amount": 150
+      },
+      {
+        "Name": "TAB CLOPIDROGREL.",
+        "Amount": 150
+      },
+      {
+        "Name": "BRINERDIN TAB",
+        "Amount": 160
+      },
+      {
+        "Name": "CAPTOPRIL 50mg TAB",
+        "Amount": 160
+      },
+      {
+        "Name": "COARTEM 20/120mg TAB",
+        "Amount": 160
+      },
+      {
+        "Name": "ENCEPHABOL TAB",
+        "Amount": 160
+      },
+      {
+        "Name": "HYOSCINE N-BUTYL BROMIDE",
+        "Amount": 160
+      },
+      {
+        "Name": "MEPRASIL CAP 20mg",
+        "Amount": 160
+      },
+      {
+        "Name": "OFLOXACIN 200mg TAB",
+        "Amount": 160
+      },
+      {
+        "Name": "SYRINGE & NEEDLE 20ml",
+        "Amount": 160
+      },
+      {
+        "Name": "TEGRETOL CR 200mg TAB",
+        "Amount": 160
+      },
+      {
+        "Name": "ACICLOVIR TAB 200mg",
+        "Amount": 180
+      },
+      {
+        "Name": "ANOROL TAB",
+        "Amount": 180
+      },
+      {
+        "Name": "ANTELOL 100mg TAB",
+        "Amount": 180
+      },
+      {
+        "Name": "DICLOFENAC SODIUM 50MG",
+        "Amount": 180
+      },
+      {
+        "Name": "LISINOPRIL 5mg TAB",
+        "Amount": 180
+      },
+      {
+        "Name": "NIFEDIPINE RETARD TAB 30mg",
+        "Amount": 180
+      },
+      {
+        "Name": "PROVIRON 25mg TAB",
+        "Amount": 180
+      },
+      {
+        "Name": "SPARFLOXACIN 200mg TAB",
+        "Amount": 180
+      },
+      {
+        "Name": "Tab Omeprazole  40mg",
+        "Amount": 180
+      },
+      {
+        "Name": "AMP./CLOX. 500mg CAP",
+        "Amount": 200
+      },
+      {
+        "Name": "BROMOCRYPTINE 2.5mg TAB",
+        "Amount": 200
+      },
+      {
+        "Name": "BUSCOPAN INJ 10mg/ml",
+        "Amount": 200
+      },
+      {
+        "Name": "CIMETIDINE 200mg INJ",
+        "Amount": 200
+      },
+      {
+        "Name": "CLOMID 50mg TAB",
+        "Amount": 200
+      },
+      {
+        "Name": "CHLORPROMAZINE INJ 50mg",
+        "Amount": 200
+      },
+      {
+        "Name": "DYNAMOGEN LIQUID 10mls",
+        "Amount": 200
+      },
+      {
+        "Name": "FELDENE 20mg CAP",
+        "Amount": 200
+      },
+      {
+        "Name": "FLUCAMED CAP 50mg",
+        "Amount": 200
+      },
+      {
+        "Name": "LISINOPRIL 10mg TAB",
+        "Amount": 200
+      },
+      {
+        "Name": "NAXEN 500mg TAB",
+        "Amount": 200
+      },
+      {
+        "Name": "NORVASC 10mg TAB (AMLODIPINE 10mg)",
+        "Amount": 200
+      },
+      {
+        "Name": "PALUDRINE 100mg TAB",
+        "Amount": 200
+      },
+      {
+        "Name": "PEFLACINE 400mg TAB",
+        "Amount": 200
+      },
+      {
+        "Name": "SIRDALUD 2mg TAB",
+        "Amount": 200
+      },
+      {
+        "Name": "SLOW-K TAB 600mg",
+        "Amount": 200
+      },
+      {
+        "Name": "STREPSIL LOZENGES",
+        "Amount": 200
+      },
+      {
+        "Name": "TAMOXIFEN TAB 20mg",
+        "Amount": 200
+      },
+      {
+        "Name": "TEGRATOL 200mg TAB",
+        "Amount": 200
+      },
+      {
+        "Name": "TRITACE 5mg TAB",
+        "Amount": 200
+      },
+      {
+        "Name": "WARFARIN SODIUM 5mg TAB",
+        "Amount": 200
+      },
+      {
+        "Name": "ZANTAC 150mg TAB",
+        "Amount": 200
+      },
+      {
+        "Name": "MICARDIS 80mg",
+        "Amount": 200
+      },
+      {
+        "Name": "MEBAAL 500mg",
+        "Amount": 200
+      },
+      {
+        "Name": "ENARETIC TAB",
+        "Amount": 200
+      },
+      {
+        "Name": "TAB NEBILONG 5MG.",
+        "Amount": 200
+      },
+      {
+        "Name": "TAB ARBITEL 40MG.",
+        "Amount": 200
+      },
+      {
+        "Name": "TAB TORSINEX.",
+        "Amount": 200
+      },
+      {
+        "Name": "TAB DOXAZOCINE.",
+        "Amount": 200
+      },
+      {
+        "Name": "TAB LOSARTAN 50MG.",
+        "Amount": 200
+      },
+      {
+        "Name": "MANIX TAB",
+        "Amount": 230
+      },
+      {
+        "Name": "AMOXYCILLIN 500mg CAP",
+        "Amount": 250
+      },
+      {
+        "Name": "CARFEGOT TAB",
+        "Amount": 250
+      },
+      {
+        "Name": "CIPROTAB 500mg TAB",
+        "Amount": 250
+      },
+      {
+        "Name": "DIGOXIN 0.25mg TAB SACHET",
+        "Amount": 250
+      },
+      {
+        "Name": "ESSENTIAL FORTE CAP",
+        "Amount": 250
+      },
+      {
+        "Name": "FRUSEMIDE INJ 20mg",
+        "Amount": 250
+      },
+      {
+        "Name": "LESCOL 20mg CAP",
+        "Amount": 250
+      },
+      {
+        "Name": "LEVAX 40mg TAB",
+        "Amount": 250
+      },
+      {
+        "Name": "NIZORAL 200mg TAB",
+        "Amount": 250
+      },
+      {
+        "Name": "POTASIUM PERMANGANATE CRYSTAL",
+        "Amount": 250
+      },
+      {
+        "Name": "SIRDALUD 4mg TAB",
+        "Amount": 250
+      },
+      {
+        "Name": "TRADYL 100mg INJ",
+        "Amount": 250
+      },
+      {
+        "Name": "ROBINAX TAB",
+        "Amount": 250
+      },
+      {
+        "Name": "TAB NEBILONG 10MG.",
+        "Amount": 250
+      },
+      {
+        "Name": "TAB ARBITEL 80MG.",
+        "Amount": 250
+      },
+      {
+        "Name": "TAB DIOVAN 80MG.",
+        "Amount": 250
+      },
+      {
+        "Name": "TAB PIOGLITAZONE.",
+        "Amount": 250
+      },
+      {
+        "Name": "TAB COCODAMOL.",
+        "Amount": 250
+      },
+      {
+        "Name": "BENDROFLUAZIDE 5mg TAB",
+        "Amount": 260
+      },
+      {
+        "Name": "APRESOLINE 20mg/Amp INJ",
+        "Amount": 280
+      },
+      {
+        "Name": "ARTHOCARE CAP",
+        "Amount": 280
+      },
+      {
+        "Name": "CO-DIOVAN 80/125mg TAB",
+        "Amount": 280
+      },
+      {
+        "Name": "DAFLON TAB",
+        "Amount": 280
+      },
+      {
+        "Name": "DIOVAN 80mg CAP",
+        "Amount": 280
+      },
+      {
+        "Name": "PARIET TAB 20mg",
+        "Amount": 280
+      },
+      {
+        "Name": "CEPHALEXIN 500mg CAP",
+        "Amount": 280
+      },
+      {
+        "Name": "AMINOPHYLIN INJ 250mg/Amp",
+        "Amount": 300
+      },
+      {
+        "Name": "AUGMENTIN 375mb TAB",
+        "Amount": 300
+      },
+      {
+        "Name": "CHLOROQUINE INJ 200mg/5ml",
+        "Amount": 300
+      },
+      {
+        "Name": "DIHYDROCODEINE 30mg TAB/COCODAMAL",
+        "Amount": 300
+      },
+      {
+        "Name": "LEVOFLOXACIN 500mg TAB",
+        "Amount": 300
+      },
+      {
+        "Name": "STUGERON 25mg TAB",
+        "Amount": 300
+      },
+      {
+        "Name": "VOLTAREN RETARD 100mg TAB",
+        "Amount": 300
+      },
+      {
+        "Name": "ZESTRIL 5mg TAB",
+        "Amount": 300
+      },
+      {
+        "Name": "PRIMARIN (CONJUGATED ESTROGEN) 0.625mg",
+        "Amount": 300
+      },
+      {
+        "Name": "TURBOVAS 10.",
+        "Amount": 300
+      },
+      {
+        "Name": "TAB SILYBON.",
+        "Amount": 300
+      },
+      {
+        "Name": "GRISEOFULVIN 500mg TAB",
+        "Amount": 320
+      },
+      {
+        "Name": "ANNUSOL SUPPOSITORIES",
+        "Amount": 350
+      },
+      {
+        "Name": "BLOOD GIVING SET",
+        "Amount": 350
+      },
+      {
+        "Name": "FASIGYN 500mg TAB",
+        "Amount": 350
+      },
+      {
+        "Name": "LARITHER 40mg INJ (ARTHEMETER INJ",
+        "Amount": 350
+      },
+      {
+        "Name": "METHYLDOPA 250mg",
+        "Amount": 350
+      },
+      {
+        "Name": "ORASEL GRANNULES (ORS)",
+        "Amount": 350
+      },
+      {
+        "Name": "TEGRETOL CR 400mg",
+        "Amount": 350
+      },
+      {
+        "Name": "ZESTRIL 10mg TAB",
+        "Amount": 350
+      },
+      {
+        "Name": "CO-MICARDIS 40/12.5mg",
+        "Amount": 350
+      },
+      {
+        "Name": "FLOTAC 75mg CAP",
+        "Amount": 350
+      },
+      {
+        "Name": "TELMISARTAN 40MG.",
+        "Amount": 350
+      },
+      {
+        "Name": "TAB SITAGLIPTIN 100MG",
+        "Amount": 350
+      },
+      {
+        "Name": "TAB GALVUS 50MG.",
+        "Amount": 380
+      },
+      {
+        "Name": "TELMISARTAN 80MG",
+        "Amount": 380
+      },
+      {
+        "Name": "AMOXYCILLIN INJ",
+        "Amount": 400
+      },
+      {
+        "Name": "ARTANE 5mg TAB-COUNTING",
+        "Amount": 400
+      },
+      {
+        "Name": "AUGMENTIN 625mg TAB",
+        "Amount": 400
+      },
+      {
+        "Name": "AVANDIA TAB 4mg",
+        "Amount": 400
+      },
+      {
+        "Name": "CAC – 1000 TAB",
+        "Amount": 400
+      },
+      {
+        "Name": "CALAMINE LOTION 100mls",
+        "Amount": 400
+      },
+      {
+        "Name": "CHROMIC O CATGUT",
+        "Amount": 400
+      },
+      {
+        "Name": "CHROMIC 2/0 CATGUT",
+        "Amount": 400
+      },
+      {
+        "Name": "CLARITHROMYCIN 500mg TAB",
+        "Amount": 400
+      },
+      {
+        "Name": "CO-DIOVAN 160/12.5mg TAB",
+        "Amount": 400
+      },
+      {
+        "Name": "DIAZEPAM 10mg/AMP INJ",
+        "Amount": 400
+      },
+      {
+        "Name": "DIOVAN 160mg",
+        "Amount": 400
+      },
+      {
+        "Name": "FANSIDAR 525mg TAB",
+        "Amount": 400
+      },
+      {
+        "Name": "GENTAMYCIN CREAM 15g",
+        "Amount": 400
+      },
+      {
+        "Name": "GENTAMYCIN EAR/EYE DROP",
+        "Amount": 400
+      },
+      {
+        "Name": "GLUCOSAMINE SULPHATE CAP",
+        "Amount": 400
+      },
+      {
+        "Name": "GYNODAKTARIN 200mg",
+        "Amount": 400
+      },
+      {
+        "Name": "HYDROCORTISONE INJ 100mg/VIAL",
+        "Amount": 400
+      },
+      {
+        "Name": "MIST KAOLIN SUSP.",
+        "Amount": 400
+      },
+      {
+        "Name": "SOFTBAN",
+        "Amount": 400
+      },
+      {
+        "Name": "SOFTRATULLE",
+        "Amount": 400
+      },
+      {
+        "Name": "TENORETIC TAB",
+        "Amount": 400
+      },
+      {
+        "Name": "TRAMAL 50mg CAP",
+        "Amount": 400
+      },
+      {
+        "Name": "TYZINE NASAL DROP 0.1% - 15ml",
+        "Amount": 400
+      },
+      {
+        "Name": "VIT-B COMPLEX INJ",
+        "Amount": 400
+      },
+      {
+        "Name": "VIT-K INJ",
+        "Amount": 400
+      },
+      {
+        "Name": "ZANTAC 300mg TAB",
+        "Amount": 400
+      },
+      {
+        "Name": "ZESTRIL 20mg TAB",
+        "Amount": 400
+      },
+      {
+        "Name": "CO-MICARDIS 80/12.5mg",
+        "Amount": 400
+      },
+      {
+        "Name": "OXYTOCIN INJ",
+        "Amount": 400
+      },
+      {
+        "Name": "Fenofibrate",
+        "Amount": 400
+      },
+      {
+        "Name": "TAB DIOVAN 160MG.",
+        "Amount": 400
+      },
+      {
+        "Name": "DIOVAN 320MG.",
+        "Amount": 400
+      },
+      {
+        "Name": "TAB CO-DIOVAN 80/12.5.",
+        "Amount": 400
+      },
+      {
+        "Name": "TAB SITAGLIPTIN / MET.",
+        "Amount": 400
+      },
+      {
+        "Name": "TAB LABETALOL.",
+        "Amount": 400
+      },
+      {
+        "Name": "DICLOFENAC SUPP.",
+        "Amount": 400
+      },
+      {
+        "Name": "GLUCOPHAGE 500mg TAB",
+        "Amount": 430
+      },
+      {
+        "Name": "CAL GLUCONATE INJ",
+        "Amount": 450
+      },
+      {
+        "Name": "CO-DIOVAN 160/25mg TAB",
+        "Amount": 450
+      },
+      {
+        "Name": "LINCOMYCIN 500mg CAP",
+        "Amount": 450
+      },
+      {
+        "Name": "PRAZIQUANTEL 600mg TAB",
+        "Amount": 450
+      },
+      {
+        "Name": "TARIVID 200mg TAB",
+        "Amount": 450
+      },
+      {
+        "Name": "ZINNAT 250mg TAB",
+        "Amount": 450
+      },
+      {
+        "Name": "ZOLOFT 50mg CAP",
+        "Amount": 450
+      },
+      {
+        "Name": "TAB CO- DIOVAN 160/25.",
+        "Amount": 450
+      },
+      {
+        "Name": "TAB CO- DIOVAN 320/25.",
+        "Amount": 450
+      },
+      {
+        "Name": "AMPICLOX 500mg/VIAL INJ",
+        "Amount": 500
+      },
+      {
+        "Name": "CELEBREX CAP 200mg",
+        "Amount": 500
+      },
+      {
+        "Name": "CHLORAMPHENICOL EAR DROP",
+        "Amount": 500
+      },
+      {
+        "Name": "CHLORAMPHENICOL EYE DROP",
+        "Amount": 500
+      },
+      {
+        "Name": "CHLORAMPHENICOL EYE OINT",
+        "Amount": 500
+      },
+      {
+        "Name": "CHLORPHENIRAMINE 2mg/5ml SYRUP",
+        "Amount": 500
+      },
+      {
+        "Name": "COPPER T (IUCD)",
+        "Amount": 500
+      },
+      {
+        "Name": "MYCOTEN CREAM",
+        "Amount": 500
+      },
+      {
+        "Name": "SABRETEN CREAM (DERMAL)",
+        "Amount": 500
+      },
+      {
+        "Name": "SYNTOCINON INJ",
+        "Amount": 500
+      },
+      {
+        "Name": "VALIUM 10mg INJ",
+        "Amount": 500
+      },
+      {
+        "Name": "VIT-C 100mg/5ml SYRUP",
+        "Amount": 500
+      },
+      {
+        "Name": "ZESTORETIC TAB",
+        "Amount": 500
+      },
+      {
+        "Name": "EXFORGE 5/160",
+        "Amount": 500
+      },
+      {
+        "Name": "EXFORGE 10/160",
+        "Amount": 500
+      },
+      {
+        "Name": "TAB NEURACALM 75/750",
+        "Amount": 500
+      },
+      {
+        "Name": "CO-TRIMOXAZOLE 240mg/5ml SUSP.",
+        "Amount": 550
+      },
+      {
+        "Name": "FANSIDAR SUSP 525mg/5ml",
+        "Amount": 550
+      },
+      {
+        "Name": "NEUROGESIC GEL 35g",
+        "Amount": 550
+      },
+      {
+        "Name": "VIT-C INJECTION",
+        "Amount": 550
+      },
+      {
+        "Name": "WHITFIELD OINTMENT 20g",
+        "Amount": 550
+      },
+      {
+        "Name": "TAB GALVUSMET 50/1G.",
+        "Amount": 550
+      },
+      {
+        "Name": "HYDROCORTISONE CREAM 15g",
+        "Amount": 580
+      },
+      {
+        "Name": "CICATRIN POWDER",
+        "Amount": 600
+      },
+      {
+        "Name": "DICLOFENAC SODIUM 75mg INJ",
+        "Amount": 600
+      },
+      {
+        "Name": "FLAGENTYL 500mg TAB",
+        "Amount": 600
+      },
+      {
+        "Name": "FOLEY’S CATHETER FR 16, 14, 18 & 20",
+        "Amount": 600
+      },
+      {
+        "Name": "FORTWIN INJECTION 30mg/AMP",
+        "Amount": 600
+      },
+      {
+        "Name": "METRONIDAZOLE 200mg/5ml SUSP",
+        "Amount": 600
+      },
+      {
+        "Name": "MULTIVITE SYRUP",
+        "Amount": 600
+      },
+      {
+        "Name": "OYCORTRIL-B EYE/EAR SUSP 5ml",
+        "Amount": 600
+      },
+      {
+        "Name": "PARACETAMOL SYRUP 125mg/5ml",
+        "Amount": 600
+      },
+      {
+        "Name": "PRIMOLUT-N 5mg TAB",
+        "Amount": 600
+      },
+      {
+        "Name": "SINUFED SYRUP",
+        "Amount": 600
+      },
+      {
+        "Name": "SULPHUR OINTMENT 25g",
+        "Amount": 600
+      },
+      {
+        "Name": "VENTOLIN INJ",
+        "Amount": 600
+      },
+      {
+        "Name": "VIT-B COMPLEX SYRUP",
+        "Amount": 600
+      },
+      {
+        "Name": "ZENTEL TAB 200mg",
+        "Amount": 600
+      },
+      {
+        "Name": "EXFORGE HCT 5/160/25.",
+        "Amount": 600
+      },
+      {
+        "Name": "PRIMOLUT DEPOT 250mg INJ",
+        "Amount": 650
+      },
+      {
+        "Name": "STREPTOMYCIN INJ 5g",
+        "Amount": 650
+      },
+      {
+        "Name": "VIT-E TAB 1000IU- NATURE MADE",
+        "Amount": 650
+      },
+      {
+        "Name": "EXFORGE HCT 10/160/25",
+        "Amount": 650
+      },
+      {
+        "Name": "EXFORGE10/320.",
+        "Amount": 680
+      },
+      {
+        "Name": "RBC",
+        "Amount": 700
+      },
+      {
+        "Name": "BETROSIL CREAM 20g",
+        "Amount": 700
+      },
+      {
+        "Name": "BIOCOTEN CREAM 20g",
+        "Amount": 700
+      },
+      {
+        "Name": "BRONCHOLYTE 4mg/5ml ELIXIR",
+        "Amount": 700
+      },
+      {
+        "Name": "COMBANTRIN SUSP. 250mg/5ml",
+        "Amount": 700
+      },
+      {
+        "Name": "MIST POTASSIUM CITRATE",
+        "Amount": 700
+      },
+      {
+        "Name": "MAGNESIUM SULPHATE INJ 0.5g/ml",
+        "Amount": 700
+      },
+      {
+        "Name": "PROMETHAZINE 5mg/5ml ELIXIR",
+        "Amount": 700
+      },
+      {
+        "Name": "SABRESTEN VAG CREAM",
+        "Amount": 700
+      },
+      {
+        "Name": "ERGOT INJ",
+        "Amount": 700
+      },
+      {
+        "Name": "Pregnancy test urine",
+        "Amount": 750
+      },
+      {
+        "Name": "OTOMED EAR DROP 8mls",
+        "Amount": 750
+      },
+      {
+        "Name": "LIQUID QUININE 200mls",
+        "Amount": 750
+      },
+      {
+        "Name": "RANFERON BLOOD TONIC 200ml",
+        "Amount": 750
+      },
+      {
+        "Name": "VENTOLIN NEBULES 2.5mg",
+        "Amount": 750
+      },
+      {
+        "Name": "CHLOROQUINE SYRUP 50mg/5ml",
+        "Amount": 800
+      },
+      {
+        "Name": "ERYTHROMYCIN 200mg/5ml SUSP",
+        "Amount": 800
+      },
+      {
+        "Name": "METRONIDAZOLE 500mg/VIAL INF",
+        "Amount": 800
+      },
+      {
+        "Name": "PARAFIN LIQUID",
+        "Amount": 800
+      },
+      {
+        "Name": "RISPERDAL 3mg TAB",
+        "Amount": 800
+      },
+      {
+        "Name": "SALINE NASAL DROP",
+        "Amount": 800
+      },
+      {
+        "Name": "TETANUS TOXOID 0.5ml – SINGLE",
+        "Amount": 800
+      },
+      {
+        "Name": "XYLOCAINE & ADRENALIN INJ",
+        "Amount": 800
+      },
+      {
+        "Name": "XYLOCAINE 1% INJ",
+        "Amount": 800
+      },
+      {
+        "Name": "XYLOCAINE 2% INJ",
+        "Amount": 800
+      },
+      {
+        "Name": "AMOXYCILLIN 125mg/5ml SUSP. 100",
+        "Amount": 850
+      },
+      {
+        "Name": "BENZYL BENZOATE LINIMENT 100ml",
+        "Amount": 850
+      },
+      {
+        "Name": "CAMOQUIN SUSP 50mg/5ml – 60ml",
+        "Amount": 850
+      },
+      {
+        "Name": "LAMISIL 250mg TAB",
+        "Amount": 850
+      },
+      {
+        "Name": "LARITHER 80mg INJ (ARTHEMETHER INJ",
+        "Amount": 850
+      },
+      {
+        "Name": "POWERCEF INJ 250mg",
+        "Amount": 850
+      },
+      {
+        "Name": "SODIUM BICARBONATE INJ 8.4%W/V",
+        "Amount": 850
+      },
+      {
+        "Name": "ZITHROMAX 250mg CAP",
+        "Amount": 850
+      },
+      {
+        "Name": "CAMOSUNATE 1 – 6YRS",
+        "Amount": 900
+      },
+      {
+        "Name": "CAMOSUNATE BELOW 1YR",
+        "Amount": 900
+      },
+      {
+        "Name": "HEXEDINE MOUTHWASH",
+        "Amount": 900
+      },
+      {
+        "Name": "IBUPROFEN SYRUP 100mg/5ml",
+        "Amount": 900
+      },
+      {
+        "Name": "ITRANOX 100mg TAB",
+        "Amount": 900
+      },
+      {
+        "Name": "PALUTHER 80mg INJ",
+        "Amount": 900
+      },
+      {
+        "Name": "SPORANOX CAP",
+        "Amount": 900
+      },
+      {
+        "Name": "ZENTEL SUSP 400mg/20ml",
+        "Amount": 900
+      },
+      {
+        "Name": "PROGESTERONE 25mg INJ",
+        "Amount": 900
+      },
+      {
+        "Name": "RICONIA SYRUP",
+        "Amount": 950
+      },
+      {
+        "Name": "Nursing fee/day",
+        "Amount": 1000
+      },
+      {
+        "Name": "pcv",
+        "Amount": 1000
+      },
+      {
+        "Name": "hb",
+        "Amount": 1000
+      },
+      {
+        "Name": "platelet count",
+        "Amount": 1000
+      },
+      {
+        "Name": "wbc  only",
+        "Amount": 1000
+      },
+      {
+        "Name": "fasting/random blood sugar (Glucometer)",
+        "Amount": 1000
+      },
+      {
+        "Name": "Urea",
+        "Amount": 1000
+      },
+      {
+        "Name": "SGOT",
+        "Amount": 1000
+      },
+      {
+        "Name": "SPGT",
+        "Amount": 1000
+      },
+      {
+        "Name": "ALK",
+        "Amount": 1000
+      },
+      {
+        "Name": "Creatinine",
+        "Amount": 1000
+      },
+      {
+        "Name": "Uric acid",
+        "Amount": 1000
+      },
+      {
+        "Name": "Wound dressing Minor",
+        "Amount": 1000
+      },
+      {
+        "Name": "GASCOL SUSP",
+        "Amount": 1000
+      },
+      {
+        "Name": "GYNODAKTARIN 400mg",
+        "Amount": 1000
+      },
+      {
+        "Name": "GYNO-TROSYD OVULE 100mg",
+        "Amount": 1000
+      },
+      {
+        "Name": "MYCOTEN VAG CREAM",
+        "Amount": 1000
+      },
+      {
+        "Name": "VENTOLIN SYRUP 2mg/5ml",
+        "Amount": 1000
+      },
+      {
+        "Name": "Serum Pr & Aib",
+        "Amount": 1150
+      },
+      {
+        "Name": "malaria parasite",
+        "Amount": 1200
+      },
+      {
+        "Name": "Pregnancy test blood",
+        "Amount": 1200
+      },
+      {
+        "Name": "Tringlyceride & Amylase",
+        "Amount": 1200
+      },
+      {
+        "Name": "Urinalysis",
+        "Amount": 1200
+      },
+      {
+        "Name": "BONJELA GEL  10g",
+        "Amount": 1200
+      },
+      {
+        "Name": "GRISEOFULVIN 125mg SYR",
+        "Amount": 1200
+      },
+      {
+        "Name": "IV GIVING SET(Giving set&canula)",
+        "Amount": 1200
+      },
+      {
+        "Name": "VENTOLIN NEBULES 5mg",
+        "Amount": 1200
+      },
+      {
+        "Name": "ATROPINE 600mcg INJ",
+        "Amount": 1300
+      },
+      {
+        "Name": "BEOPTIC EYE/EAR DROP",
+        "Amount": 1300
+      },
+      {
+        "Name": "BENYLIN EXPECTORANT 100mls",
+        "Amount": 1300
+      },
+      {
+        "Name": "BENYLIN FOR CHILDREN 100mls",
+        "Amount": 1300
+      },
+      {
+        "Name": "CAMOSUNATE 7 – 13YRS",
+        "Amount": 1300
+      },
+      {
+        "Name": "CIPROFLOXACIN EYE DROP",
+        "Amount": 1300
+      },
+      {
+        "Name": "PILOCARPINE 2% EYE DROP",
+        "Amount": 1300
+      },
+      {
+        "Name": "TIMOLOL 0.5% EYE DROP",
+        "Amount": 1300
+      },
+      {
+        "Name": "TROSYD CREAM",
+        "Amount": 1300
+      },
+      {
+        "Name": "BEOPTIC EYE DROP",
+        "Amount": 1350
+      },
+      {
+        "Name": "NYSTATIN ORAL DROPS 30mls",
+        "Amount": 1350
+      },
+      {
+        "Name": "ALAXIN SUSP 10mg/5ml – 80ml/IODISON/ARTESUNATE",
+        "Amount": 1400
+      },
+      {
+        "Name": "AMP./CLOX. 250m/5ml. SUSP. 100ml",
+        "Amount": 1400
+      },
+      {
+        "Name": "ANTISTIN-PRIVIN EYE DROP 10ml",
+        "Amount": 1400
+      },
+      {
+        "Name": "DERMAZINE CREAM 25g",
+        "Amount": 1400
+      },
+      {
+        "Name": "Subsequent (GP follow up)",
+        "Amount": 1500
+      },
+      {
+        "Name": "wbc + diffentials",
+        "Amount": 1500
+      },
+      {
+        "Name": "BIVACYN SPRAY",
+        "Amount": 1500
+      },
+      {
+        "Name": "CAMOSUNATE ADULT",
+        "Amount": 1500
+      },
+      {
+        "Name": "CIPROTAB 200mg INFUSION",
+        "Amount": 1500
+      },
+      {
+        "Name": "DARROW’S SOLUTION HALF STRENGTH",
+        "Amount": 1500
+      },
+      {
+        "Name": "DARROW’S SOLUTION FULL STRENGTH",
+        "Amount": 1500
+      },
+      {
+        "Name": "DEXTROSE 5% INFUSION 0.5L",
+        "Amount": 1500
+      },
+      {
+        "Name": "DEXTROSE 4.3%/NORM SALINE 0.18",
+        "Amount": 1500
+      },
+      {
+        "Name": "DEXTROSE 50% INJ",
+        "Amount": 1500
+      },
+      {
+        "Name": "DEXTROSE/SALINE 0.5L",
+        "Amount": 1500
+      },
+      {
+        "Name": "NORMAL SALINE INFUSION 0.5L",
+        "Amount": 1500
+      },
+      {
+        "Name": "OTRIVIN NASAL DROP 0.1% 10mls",
+        "Amount": 1500
+      },
+      {
+        "Name": "OTRIVIN NASAL DROP 0.05% 10mls",
+        "Amount": 1500
+      },
+      {
+        "Name": "PODOPHYLLIN OINTMENT",
+        "Amount": 1500
+      },
+      {
+        "Name": "SPERSALLERGE EYE DROP",
+        "Amount": 1500
+      },
+      {
+        "Name": "EMAL INJ",
+        "Amount": 1500
+      },
+      {
+        "Name": "DERMOVATE CREAM 25g",
+        "Amount": 1600
+      },
+      {
+        "Name": "FEROGLOBIN BLOOD TONIC – 200ml",
+        "Amount": 1600
+      },
+      {
+        "Name": "VISINE EYE DROP",
+        "Amount": 1600
+      },
+      {
+        "Name": "ZEFFIX 100mg TAB",
+        "Amount": 1600
+      },
+      {
+        "Name": "Calcium",
+        "Amount": 1750
+      },
+      {
+        "Name": "Phosphorus",
+        "Amount": 1750
+      },
+      {
+        "Name": "AUGMENTIN 1.2g INJ",
+        "Amount": 1800
+      },
+      {
+        "Name": "Ceftriaxone 1G",
+        "Amount": 1800
+      },
+      {
+        "Name": "MAXITROL EYE DROP",
+        "Amount": 1800
+      },
+      {
+        "Name": "SALBUMOL 100mcg INHALER",
+        "Amount": 1800
+      },
+      {
+        "Name": "XYLOCAINE GEL",
+        "Amount": 1800
+      },
+      {
+        "Name": "INJ OMEPRAZOLE.",
+        "Amount": 1800
+      },
+      {
+        "Name": "INJ ARTESUNATE 60MG",
+        "Amount": 1800
+      },
+      {
+        "Name": "Total Protein",
+        "Amount": 2000
+      },
+      {
+        "Name": "Wound dressing major",
+        "Amount": 2000
+      },
+      {
+        "Name": "Syring & Probing",
+        "Amount": 2000
+      },
+      {
+        "Name": "Ear Piercing",
+        "Amount": 2000
+      },
+      {
+        "Name": "AMOKSIKLAV 156.25mg/5ml – 100mls",
+        "Amount": 2000
+      },
+      {
+        "Name": "BETNESOL-N EYE DROP",
+        "Amount": 2000
+      },
+      {
+        "Name": "BETNOVATE-N CREAM",
+        "Amount": 2000
+      },
+      {
+        "Name": "DEEP HEAT SPRAY",
+        "Amount": 2000
+      },
+      {
+        "Name": "DEPO PROVERA 150mg INJ",
+        "Amount": 2000
+      },
+      {
+        "Name": "STARXON 1g INJ",
+        "Amount": 2000
+      },
+      {
+        "Name": "ZITHROMAX 200mg/5ml SUSP",
+        "Amount": 2000
+      },
+      {
+        "Name": "DICLOFENAC SODIUM EYE DROP",
+        "Amount": 2000
+      },
+      {
+        "Name": "OFLOXACIN EYE DROP",
+        "Amount": 2000
+      },
+      {
+        "Name": "COD LIVER OIL SYRUP",
+        "Amount": 2200
+      },
+      {
+        "Name": "DEDEON HEMOGLOBIN SYR 280ml",
+        "Amount": 2200
+      },
+      {
+        "Name": "CPR",
+        "Amount": 2250
+      },
+      {
+        "Name": "LDH",
+        "Amount": 2250
+      },
+      {
+        "Name": "ASTYMINE SYRUP/ASTYFER SYRUP",
+        "Amount": 2300
+      },
+      {
+        "Name": "Oxygen/hour",
+        "Amount": 2500
+      },
+      {
+        "Name": "Blood group",
+        "Amount": 2500
+      },
+      {
+        "Name": "Genotype",
+        "Amount": 2500
+      },
+      {
+        "Name": "hepatitis B",
+        "Amount": 2500
+      },
+      {
+        "Name": "HIV screening",
+        "Amount": 2500
+      },
+      {
+        "Name": "Stool Oval Parasite",
+        "Amount": 2500
+      },
+      {
+        "Name": "Skin Snip for Microfiliaria",
+        "Amount": 2500
+      },
+      {
+        "Name": "Widal Reaction",
+        "Amount": 2500
+      },
+      {
+        "Name": "CXR AP",
+        "Amount": 2500
+      },
+      {
+        "Name": "COLIPAN ELIXIR 5mg/5ml – 100ml",
+        "Amount": 2500
+      },
+      {
+        "Name": "VENTOLIN INHALER",
+        "Amount": 2500
+      },
+      {
+        "Name": "INJ LABETALOL.",
+        "Amount": 2500
+      },
+      {
+        "Name": "ENCEPHABOL SYR 100mls",
+        "Amount": 2600
+      },
+      {
+        "Name": "Consultation GP,unregistered,out of station",
+        "Amount": 3000
+      },
+      {
+        "Name": "Nebuliser",
+        "Amount": 3000
+      },
+      {
+        "Name": "Phototherapy",
+        "Amount": 3000
+      },
+      {
+        "Name": "fbc hb,pcv, wbc diff",
+        "Amount": 3000
+      },
+      {
+        "Name": "Rheumatoid factor",
+        "Amount": 3000
+      },
+      {
+        "Name": "Abdomen (Plain)",
+        "Amount": 3000
+      },
+      {
+        "Name": "CXR Oblique",
+        "Amount": 3000
+      },
+      {
+        "Name": "Elbow joint (one)",
+        "Amount": 3000
+      },
+      {
+        "Name": "Hip joint",
+        "Amount": 3000
+      },
+      {
+        "Name": "BECONASE NASAL DROP",
+        "Amount": 3000
+      },
+      {
+        "Name": "CECLOR SUSP",
+        "Amount": 3000
+      },
+      {
+        "Name": "CERUMOL EAR DROP",
+        "Amount": 3000
+      },
+      {
+        "Name": "KENALOG INJ 40mg",
+        "Amount": 3000
+      },
+      {
+        "Name": "Blood film",
+        "Amount": 3500
+      },
+      {
+        "Name": "ESR",
+        "Amount": 3500
+      },
+      {
+        "Name": "fbc + mp",
+        "Amount": 3500
+      },
+      {
+        "Name": "Calcium & Phosphorus both",
+        "Amount": 3500
+      },
+      {
+        "Name": "Glucose tolerance test GTT",
+        "Amount": 3500
+      },
+      {
+        "Name": "Group & cross matching",
+        "Amount": 3500
+      },
+      {
+        "Name": "Blood VDRL",
+        "Amount": 3500
+      },
+      {
+        "Name": "HVS Microscopy",
+        "Amount": 3500
+      },
+      {
+        "Name": "Semen Analysis",
+        "Amount": 3500
+      },
+      {
+        "Name": "Ankle joint (one)",
+        "Amount": 3500
+      },
+      {
+        "Name": "CXR AP& LAT",
+        "Amount": 3500
+      },
+      {
+        "Name": "Shoulder joint + clavicle (one  side)",
+        "Amount": 3500
+      },
+      {
+        "Name": "AUGMENTIN 228mg/5ml SUSP",
+        "Amount": 3500
+      },
+      {
+        "Name": "FORTUM 1G/VIAL INJ",
+        "Amount": 3500
+      },
+      {
+        "Name": "NIZORAL CREAM 15g",
+        "Amount": 3500
+      },
+      {
+        "Name": "SUSANON 250 INJ",
+        "Amount": 3500
+      },
+      {
+        "Name": "ZINNAT 125mg/5ml SUSP",
+        "Amount": 3500
+      },
+      {
+        "Name": "ZOVIRAX",
+        "Amount": 3500
+      },
+      {
+        "Name": "GYNO-TROSYD 300mg OVULE",
+        "Amount": 3600
+      },
+      {
+        "Name": "Sputum for AFB",
+        "Amount": 3750
+      },
+      {
+        "Name": "General Ward",
+        "Amount": 4000
+      },
+      {
+        "Name": "Meals/day",
+        "Amount": 4000
+      },
+      {
+        "Name": "Abdomen (Erect & Supine)",
+        "Amount": 4000
+      },
+      {
+        "Name": "Abdominal Ultrasound scan",
+        "Amount": 4000
+      },
+      {
+        "Name": "Femur /thigh (one)",
+        "Amount": 4000
+      },
+      {
+        "Name": "Foot (one)",
+        "Amount": 4000
+      },
+      {
+        "Name": "Knee joint (one)",
+        "Amount": 4000
+      },
+      {
+        "Name": "Lateral Pelvimetry",
+        "Amount": 4000
+      },
+      {
+        "Name": "Mastoids",
+        "Amount": 4000
+      },
+      {
+        "Name": "Pelvic uss",
+        "Amount": 4000
+      },
+      {
+        "Name": "Pelvic only",
+        "Amount": 4000
+      },
+      {
+        "Name": "Tibia & Fibula (one)",
+        "Amount": 4000
+      },
+      {
+        "Name": "LAMISIL CREAM 15g",
+        "Amount": 4000
+      },
+      {
+        "Name": "ZINACEF 750mg/VIAL INJ",
+        "Amount": 4000
+      },
+      {
+        "Name": "OPV",
+        "Amount": 4000
+      },
+      {
+        "Name": "HEP “B” (ADULT DOSE)",
+        "Amount": 4000
+      },
+      {
+        "Name": "Hand (one)",
+        "Amount": 4200
+      },
+      {
+        "Name": "Electrolytes",
+        "Amount": 4500
+      },
+      {
+        "Name": "TSH only",
+        "Amount": 4500
+      },
+      {
+        "Name": "Stool Culture Sensitivity",
+        "Amount": 4500
+      },
+      {
+        "Name": "H-pylori test",
+        "Amount": 4500
+      },
+      {
+        "Name": "HVS M/C/S",
+        "Amount": 4500
+      },
+      {
+        "Name": "Occult Blood Cells",
+        "Amount": 4500
+      },
+      {
+        "Name": "Semen m/c/s",
+        "Amount": 4500
+      },
+      {
+        "Name": "Sputum M/C/S",
+        "Amount": 4500
+      },
+      {
+        "Name": "Swab m/c/s",
+        "Amount": 4500
+      },
+      {
+        "Name": "Urine m/c/s",
+        "Amount": 4500
+      },
+      {
+        "Name": "Forearm (radius, ulna)",
+        "Amount": 4500
+      },
+      {
+        "Name": "Patella",
+        "Amount": 4500
+      },
+      {
+        "Name": "Saro-illiac joint",
+        "Amount": 4500
+      },
+      {
+        "Name": "Wrist joint (one)",
+        "Amount": 4500
+      },
+      {
+        "Name": "ACTRAPID INSULIN 10mls",
+        "Amount": 4500
+      },
+      {
+        "Name": "COARTEM 80/480mg  PER PACK",
+        "Amount": 4500
+      },
+      {
+        "Name": "Thoraic inlet",
+        "Amount": 4700
+      },
+      {
+        "Name": "SOLUCET",
+        "Amount": 4700
+      },
+      {
+        "Name": "T3",
+        "Amount": 4750
+      },
+      {
+        "Name": "T4",
+        "Amount": 4750
+      },
+      {
+        "Name": "Cervical  spine (AP/LAT)",
+        "Amount": 5000
+      },
+      {
+        "Name": "Cervical  spine (All View)  /Cervicotheracic",
+        "Amount": 5000
+      },
+      {
+        "Name": "Elbow joint (both)",
+        "Amount": 5000
+      },
+      {
+        "Name": "Pelvic & hip joint",
+        "Amount": 5000
+      },
+      {
+        "Name": "Sinuses",
+        "Amount": 5000
+      },
+      {
+        "Name": "Humerus  AP&LAT",
+        "Amount": 5000
+      },
+      {
+        "Name": "Nasal parking",
+        "Amount": 5000
+      },
+      {
+        "Name": "Repair of Lacreation",
+        "Amount": 5000
+      },
+      {
+        "Name": "Circumcision",
+        "Amount": 5000
+      },
+      {
+        "Name": "PENTAVALENT",
+        "Amount": 5000
+      },
+      {
+        "Name": "MEASLES",
+        "Amount": 5000
+      },
+      {
+        "Name": "Cholesterol",
+        "Amount": 5500
+      },
+      {
+        "Name": "Abdominal pelvic uss",
+        "Amount": 5500
+      },
+      {
+        "Name": "LEVOFLOXACIN INJ.",
+        "Amount": 5500
+      },
+      {
+        "Name": "Specialist Consultation (follow up)",
+        "Amount": 6000
+      },
+      {
+        "Name": "HIV Comfirmation",
+        "Amount": 6000
+      },
+      {
+        "Name": "Ankle joint (both)",
+        "Amount": 6000
+      },
+      {
+        "Name": "Hand (both)",
+        "Amount": 6000
+      },
+      {
+        "Name": "Knee joint (both)",
+        "Amount": 6000
+      },
+      {
+        "Name": "skull (All views)",
+        "Amount": 6000
+      },
+      {
+        "Name": "Wrist joint (both)",
+        "Amount": 6000
+      },
+      {
+        "Name": "Suture (Major wound) Laceration Dressing",
+        "Amount": 6000
+      },
+      {
+        "Name": "ROCEPHINE INJ 1g",
+        "Amount": 6000
+      },
+      {
+        "Name": "HEP “(PEAD DOSE)",
+        "Amount": 6000
+      },
+      {
+        "Name": "Shoulder joint + clavicle (both sides)",
+        "Amount": 6150
+      },
+      {
+        "Name": "skull (AP&LAT)",
+        "Amount": 6150
+      },
+      {
+        "Name": "Tibia & Fibula (both)",
+        "Amount": 6150
+      },
+      {
+        "Name": "Bleeding time",
+        "Amount": 6500
+      },
+      {
+        "Name": "Clotting time",
+        "Amount": 6500
+      },
+      {
+        "Name": "Billrubin (Total, conjugated, unconjugated)",
+        "Amount": 6500
+      },
+      {
+        "Name": "Foot (both)",
+        "Amount": 6750
+      },
+      {
+        "Name": "Semi-Private Ward",
+        "Amount": 7000
+      },
+      {
+        "Name": "Post Nasal view",
+        "Amount": 7000
+      },
+      {
+        "Name": "Ear Syring (Per Ear)",
+        "Amount": 7000
+      },
+      {
+        "Name": "ANTI RABIES VACCINE",
+        "Amount": 7000
+      },
+      {
+        "Name": "ANTIRABIES VACCINE",
+        "Amount": 7000
+      },
+      {
+        "Name": "COXAL EYE DROP",
+        "Amount": 7200
+      },
+      {
+        "Name": "Rare specialist.ENT,Orthopaedic,Dematology (follow up)",
+        "Amount": 7500
+      },
+      {
+        "Name": "Blood group + cross matching",
+        "Amount": 7500
+      },
+      {
+        "Name": "FSH",
+        "Amount": 7500
+      },
+      {
+        "Name": "LH",
+        "Amount": 7500
+      },
+      {
+        "Name": "Progesterone",
+        "Amount": 7500
+      },
+      {
+        "Name": "Testosterone",
+        "Amount": 7500
+      },
+      {
+        "Name": "Oestrogen",
+        "Amount": 7500
+      },
+      {
+        "Name": "Liver function test LFT",
+        "Amount": 7500
+      },
+      {
+        "Name": "Prolactin only",
+        "Amount": 7500
+      },
+      {
+        "Name": "Total Lipid Profile",
+        "Amount": 7500
+      },
+      {
+        "Name": "ECG",
+        "Amount": 7500
+      },
+      {
+        "Name": "XALATAN EYE DROP 0.005% - 2.5m",
+        "Amount": 7500
+      },
+      {
+        "Name": "MIXTARD INSULIN HM 100I.U/ML",
+        "Amount": 8000
+      },
+      {
+        "Name": "Lumbo Sacral (all Views)",
+        "Amount": 8150
+      },
+      {
+        "Name": "Lumbo Sacral (AP/LAT)",
+        "Amount": 8150
+      },
+      {
+        "Name": "Mandible",
+        "Amount": 8150
+      },
+      {
+        "Name": "Testicular uss",
+        "Amount": 8150
+      },
+      {
+        "Name": "Thyroid USS",
+        "Amount": 8150
+      },
+      {
+        "Name": "Scotal uss",
+        "Amount": 8150
+      },
+      {
+        "Name": "Incubator",
+        "Amount": 8500
+      },
+      {
+        "Name": "Thoraco lumber",
+        "Amount": 8500
+      },
+      {
+        "Name": "Breast uss",
+        "Amount": 8500
+      },
+      {
+        "Name": "SERETIDE DISKUS – CHILDREN",
+        "Amount": 9000
+      },
+      {
+        "Name": "TRAVATAN EYE DROP",
+        "Amount": 9000
+      },
+      {
+        "Name": "INJ INSULIN.",
+        "Amount": 9000
+      },
+      {
+        "Name": "TYOHOID FEVER",
+        "Amount": 9000
+      },
+      {
+        "Name": "T3 & T4",
+        "Amount": 9500
+      },
+      {
+        "Name": "ACICLOVIR CREAM 10gramms",
+        "Amount": 9500
+      },
+      {
+        "Name": "Consultation (specialist) 1st visit",
+        "Amount": 10000
+      },
+      {
+        "Name": "Private Ward",
+        "Amount": 10000
+      },
+      {
+        "Name": "Foreign body removal ENT",
+        "Amount": 10000
+      },
+      {
+        "Name": "Suprapublic Cystostomy",
+        "Amount": 10000
+      },
+      {
+        "Name": "Debridement & Toileting",
+        "Amount": 10000
+      },
+      {
+        "Name": "YELLOW FEVER",
+        "Amount": 10000
+      },
+      {
+        "Name": "ROTARIX",
+        "Amount": 10000
+      },
+      {
+        "Name": "Barium Swallow",
+        "Amount": 12000
+      },
+      {
+        "Name": "CERVICAL COLLAR HARD LARGE",
+        "Amount": 12000
+      },
+      {
+        "Name": "CERVICAL COLLAR SOFT SMALL",
+        "Amount": 12000
+      },
+      {
+        "Name": "CERVICAL COLLAR SOFT MEDIUM",
+        "Amount": 12000
+      },
+      {
+        "Name": "CERVICAL COLLAR SOFT LARGE",
+        "Amount": 12000
+      },
+      {
+        "Name": "KNEE SUPPORT (LARGE)",
+        "Amount": 12000
+      },
+      {
+        "Name": "Bleeding and clothing time",
+        "Amount": 13000
+      },
+      {
+        "Name": "SERETIDE DISKUS – ADULT",
+        "Amount": 13000
+      },
+      {
+        "Name": "Dietitian",
+        "Amount": 15000
+      },
+      {
+        "Name": "Rare specialist.ENT,Orthopaedic,Dematology",
+        "Amount": 15000
+      },
+      {
+        "Name": "Blood (+ve) Pint",
+        "Amount": 15000
+      },
+      {
+        "Name": "Pure Tone audiometry",
+        "Amount": 15000
+      },
+      {
+        "Name": "I& D Abess",
+        "Amount": 15000
+      },
+      {
+        "Name": "Ingrowing Toe-Nail (Excision)",
+        "Amount": 15000
+      },
+      {
+        "Name": "Theatre use",
+        "Amount": 15000
+      },
+      {
+        "Name": "CSM  (SINGLE DOSE)",
+        "Amount": 15000
+      },
+      {
+        "Name": "MMR + CHICKENPOX",
+        "Amount": 16000
+      },
+      {
+        "Name": "IPV",
+        "Amount": 16000
+      },
+      {
+        "Name": "MCUG",
+        "Amount": 18000
+      },
+      {
+        "Name": "PSA",
+        "Amount": 20000
+      },
+      {
+        "Name": "Blood (-ve) pint",
+        "Amount": 20000
+      },
+      {
+        "Name": "Mammogram",
+        "Amount": 20000
+      },
+      {
+        "Name": "Excision Diatheermy of warts",
+        "Amount": 20000
+      },
+      {
+        "Name": "Ganglion sclerotherapy",
+        "Amount": 20000
+      },
+      {
+        "Name": "Granumal Excision",
+        "Amount": 20000
+      },
+      {
+        "Name": "Intercostals incision + Drainage",
+        "Amount": 20000
+      },
+      {
+        "Name": "Keloid (Excision)",
+        "Amount": 20000
+      },
+      {
+        "Name": "IUCD REMOVAL",
+        "Amount": 20000
+      },
+      {
+        "Name": "Cervical Repair",
+        "Amount": 20000
+      },
+      {
+        "Name": "K-Y GELLY 42g",
+        "Amount": 23000
+      },
+      {
+        "Name": "EEG",
+        "Amount": 25000
+      },
+      {
+        "Name": "Cysto-rethogram",
+        "Amount": 25000
+      },
+      {
+        "Name": "Antral washout",
+        "Amount": 25000
+      },
+      {
+        "Name": "Adhesiolysis + IUCD insertion",
+        "Amount": 25000
+      },
+      {
+        "Name": "Cervical Dilation +  Curretage",
+        "Amount": 25000
+      },
+      {
+        "Name": "IUCD INSERTION",
+        "Amount": 25000
+      },
+      {
+        "Name": "Barium Meal",
+        "Amount": 28000
+      },
+      {
+        "Name": "BM +  Fellow through",
+        "Amount": 30000
+      },
+      {
+        "Name": "Intravenous Urethrogram (IVU)",
+        "Amount": 30000
+      },
+      {
+        "Name": "Hysterroslapingography (HSG)",
+        "Amount": 30000
+      },
+      {
+        "Name": "Cervical Cone Biospy + histology",
+        "Amount": 30000
+      },
+      {
+        "Name": "Evacuation of retained product",
+        "Amount": 30000
+      },
+      {
+        "Name": "Excisional Biospy  + Histology",
+        "Amount": 30000
+      },
+      {
+        "Name": "Annual physical check,approval required",
+        "Amount": 32000
+      },
+      {
+        "Name": "Fistulogram",
+        "Amount": 32500
+      },
+      {
+        "Name": "Barium Enema",
+        "Amount": 35000
+      },
+      {
+        "Name": "Echo",
+        "Amount": 35000
+      },
+      {
+        "Name": "EUA",
+        "Amount": 35000
+      },
+      {
+        "Name": "EBT (all inclusive/session",
+        "Amount": 40000
+      },
+      {
+        "Name": "Bronchoscopy",
+        "Amount": 45000
+      },
+      {
+        "Name": "ANTI-D INJ",
+        "Amount": 48000
+      },
+      {
+        "Name": "Cervical cerclage",
+        "Amount": 50000
+      },
+      {
+        "Name": "ANC",
+        "Amount": 55000
+      },
+      {
+        "Name": "Anaesthesia",
+        "Amount": 55000
+      },
+      {
+        "Name": "Normal delivery",
+        "Amount": 60000
+      },
+      {
+        "Name": "CT SCAN [WITHOUT CONTRAST]",
+        "Amount": 65000
+      },
+      {
+        "Name": "CT SCAN WITH CONTRAST",
+        "Amount": 80000
+      },
+      {
+        "Name": "lumpectomy",
+        "Amount": 85000
+      },
+      {
+        "Name": "Assisted Delivery",
+        "Amount": 85000
+      },
+      {
+        "Name": "MRI",
+        "Amount": 100000
+      },
+      {
+        "Name": "Marsupialisation",
+        "Amount": 100000
+      },
+      {
+        "Name": "EUA & Hydrointubation",
+        "Amount": 110000
+      },
+      {
+        "Name": "Appendix",
+        "Amount": 120000
+      },
+      {
+        "Name": "Fissure in Ano",
+        "Amount": 120000
+      },
+      {
+        "Name": "Herniorraphy",
+        "Amount": 120000
+      },
+      {
+        "Name": "HEAMOGLOBULIN 200 IU",
+        "Amount": 120000
+      },
+      {
+        "Name": "Fistual in Ano repair",
+        "Amount": 145000
+      },
+      {
+        "Name": "Hydrocelectomy",
+        "Amount": 150000
+      },
+      {
+        "Name": "Haemorroiddectomy",
+        "Amount": 200000
+      },
+      {
+        "Name": "Laparscopy",
+        "Amount": 200000
+      },
+      {
+        "Name": "Orchidemtomy",
+        "Amount": 200000
+      },
+      {
+        "Name": "Cholycystectomy",
+        "Amount": 250000
+      },
+      {
+        "Name": "Laparatomy",
+        "Amount": 250000
+      },
+      {
+        "Name": "Ovarian cystectomy",
+        "Amount": 250000
+      },
+      {
+        "Name": "Thyroidectomy",
+        "Amount": 250000
+      },
+      {
+        "Name": "Ectopic (Post rupture evacuation",
+        "Amount": 300000
+      },
+      {
+        "Name": "Splenectomy",
+        "Amount": 300000
+      },
+      {
+        "Name": "Ectopic pregnancy ALL INCLUSIVE",
+        "Amount": 350000
+      },
+      {
+        "Name": "C/S ALL INLCUSIVE",
+        "Amount": 400000
+      },
+      {
+        "Name": "Myomectomy",
+        "Amount": 400000
+      },
+      {
+        "Name": "Myomectomy with 2 pints of blood",
+        "Amount": 450000
+      }
+    ]
+  }

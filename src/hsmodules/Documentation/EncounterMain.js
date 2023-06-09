@@ -7,6 +7,9 @@ import {DocumentClassList} from "./DocumentClass";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+import Drawer from "@mui/material/Drawer";
+
 //import {useReactToPrint} from "react-to-print";
 
 import Menu from "@mui/material/Menu";
@@ -339,7 +342,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
   };
 
   const handleConfirmDelete = doc => {
-    if (!user?.currentEmployee?.roles?.includes("Delete Document"))
+    if (!user?.currentEmployee?.roles?.includes("Delete Documents"))
       return toast.error("You don't have permission to delete Documents");
 
     setDocToDelete(doc);
@@ -772,15 +775,14 @@ export default function EncounterMain({nopresc, chosenClient}) {
                       />
                       {user?.currentEmployee?.roles?.includes(
                         "Delete Documents"
-                      ) ||
-                        (user?.stacker && (
-                          <IconButton
-                            color="error"
-                            onClick={() => handleConfirmDelete(Clinic)}
-                          >
-                            <DeleteOutlineIcon fontSize="small" />
-                          </IconButton>
-                        ))}
+                      ) && (
+                        <IconButton
+                          color="error"
+                          onClick={() => handleConfirmDelete(Clinic)}
+                        >
+                          <DeleteOutlineIcon fontSize="small" />
+                        </IconButton>
+                      )}
                     </Box>
                   </Box>
                 </Box>
@@ -846,68 +848,59 @@ export default function EncounterMain({nopresc, chosenClient}) {
                           )
                         ) : (
                           <div className="field">
-                            {Object.entries(Clinic.documentdetail).map(
-                              ([keys, value], i) => (
-                                <Box
-                                  sx={{height: "auto", width: "100%"}}
-                                  key={i}
-                                >
-                                  <Grid container spacing={2}>
-                                    <Grid item xs={12}>
-                                      <Box sx={{display: "flex"}}>
-                                        <Typography
-                                          sx={{
-                                            fontSize: "0.75rem",
-                                            fontWeight: "600",
-                                            color: "#03045e",
-                                            marginRight: "5px",
-                                          }}
-                                        >
-                                          {keys}:
-                                        </Typography>
+  <table style={{ width: "100%", borderCollapse: "collapse" }}>
+    <thead>
+      <tr>
+        <th style={{ backgroundColor: "#0E305D", color: "#ffffff", padding: "10px", textAlign: "left", fontSize: 14 }}>
+        Document Field
+        </th>
+        <th style={{ backgroundColor: " #0E305D", color: "#ffffff", padding: "10px", textAlign: "left", fontSize: 14 }}>
+        Field Values
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {Object.entries(Clinic.documentdetail).map(([keys, value], i) => (
+        <tr key={i}>
+          <td style={{ border: "1px solid #e0e0e0", padding: "10px", fontSize: 14 }}>
+            {keys}
+          </td>
+          <td style={{ border: "1px solid #e0e0e0", padding: "10px", fontSize: 13 }}>{value}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+    )}
+  </div>
+)}
 
-                                        <Typography
-                                          sx={{
-                                            fontSize: "0.75rem",
-                                            color: "#000000",
-                                          }}
-                                        >
-                                          {/* {dayjs(value).isValid()
-                                            ? dayjs(value).format("DD/MM/YYYY")
-                                            : value} */}
-                                          {value}
-                                        </Typography>
-                                      </Box>
-                                    </Grid>
-                                  </Grid>
-                                </Box>
-                              )
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                  <DocumentToRender Clinic={Clinic} index={i} />
-                </Collapse>
-              </>
-            ))}
-          </Box>
-        </Box>
-
-        <Slide
-          mountOnEnter
-          unmountOnExit
-          direction="left"
-          in={state.DocumentClassModule.encounter_right}
+<DocumentToRender Clinic={Clinic} index={i} />
+</Collapse>
+</>
+))}
+</Box>
+</Box>
+        <Drawer
+          anchor={"right"}
+          open={state.DocumentClassModule.encounter_right}
+          onClose={() => {
+            setState(prev => ({
+              ...prev,
+              DocumentClassModule: {
+                ...prev.DocumentClassModule,
+                encounter_right: false,
+              },
+            }));
+          }}
         >
-          <Box item sx={{width: "450px"}}>
+          <Box item sx={{width: "650px"}}>
             <Box
               sx={{
                 width: "100%",
-                minHeight: "200px",
-                border: "1px solid rgba(235, 235, 235, 1)",
-                maxHeight: "calc(100vh - 170px)",
+
+                //border: "1px solid rgba(235, 235, 235, 1)",
+                //maxHeight: "calc(100vh - 170px)",
                 overflowY: "scroll",
                 padding: "15px",
               }}
@@ -915,7 +908,8 @@ export default function EncounterMain({nopresc, chosenClient}) {
               <EncounterRight client={chosenClient} />
             </Box>
           </Box>
-        </Slide>
+        </Drawer>
+        {/* </Slide> */}
       </Box>
 
       <>

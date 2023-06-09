@@ -193,7 +193,10 @@ export function BillsList({openCreateModal}) {
 
         "participantInfo.billingFacility":
           user.currentEmployee.facilityDetail._id,
-        billing_status: "Unpaid", // need to set this finally
+          billing_status: {
+            $ne: "Fully Paid",
+          },
+        //billing_status: "Unpaid", // need to set this finally
         //order_category:"Prescription",
         // storeId:state.StoreModule.selectedStore._id,
         //facility:user.currentEmployee.facilityDetail._id || "",
@@ -233,7 +236,10 @@ export function BillsList({openCreateModal}) {
 
         "participantInfo.billingFacility":
           user.currentEmployee.facilityDetail._id,
-        billing_status: "Unpaid", // need to set this finally
+          billing_status: {
+            $ne: "Fully Paid",
+          },
+       // billing_status: "Unpaid", // need to set this finally
         //storeId:state.StoreModule.selectedStore._id,
         //clientId:state.ClientModule.selectedClient._id,
         $limit: 100,

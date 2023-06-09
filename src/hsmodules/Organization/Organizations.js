@@ -11,8 +11,8 @@ import FilterMenu from '../../components/utilities/FilterMenu';
 import {ObjectContext, UserContext} from '../../context';
 import client from '../../feathers';
 import {TableMenu} from '../../ui/styled/global';
-import AdminOrganization from '../Admin/Organization';
 import OrganizationBankAccount from './OrganizationBankAccount';
+import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 import EditIcon from '@mui/icons-material/Edit';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
@@ -22,6 +22,7 @@ import CheckboxGroup from '../../components/inputs/basic/Checkbox/CheckBoxGroup'
 import {facilityTypes} from '../app/facility-types';
 import {Nigeria} from '../app/Nigeria';
 //import {OrganizationList} from "../ManagedCare/HIA";
+import Statistics from './Statistics';
 
 const OrganizationsPage = () => {
 	const [tab, setTab] = useState('list');
@@ -54,6 +55,7 @@ export const OrganizationsList = ({selectOrganization}) => {
 	const facilityServ = client.service('facility');
 	const [facilities, setFacilities] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [total, setTotal] = useState(0);
 	const {state, setState} = useContext(ObjectContext);
 
 	const getFacilities = () => {
@@ -68,8 +70,9 @@ export const OrganizationsList = ({selectOrganization}) => {
 				},
 			})
 			.then(res => {
-				console.log(res);
+				// console.log(res);
 				setFacilities(res.data);
+				setTotal(res.total)
 				setLoading(false);
 			})
 			.catch(err => {
@@ -168,6 +171,25 @@ export const OrganizationsList = ({selectOrganization}) => {
 					sx={{fontSize: '0.8rem', whiteSpace: 'normal'}}
 					data-tag='allowRowEvents'>
 					{row?.facilityName}
+				</Typography>
+			),
+			sortable: true,
+			required: true,
+			inputType: 'HIDDEN',
+			style: {
+				color: '#1976d2',
+				textTransform: 'capitalize',
+			},
+		},
+		{
+			name: 'City',
+			key: 'sn',
+			description: 'City',
+			selector: row => (
+				<Typography
+					sx={{fontSize: '0.8rem', whiteSpace: 'normal'}}
+					data-tag='allowRowEvents'>
+					{row?.facilityCity}
 				</Typography>
 			),
 			sortable: true,
@@ -282,6 +304,30 @@ export const OrganizationsList = ({selectOrganization}) => {
 				textTransform: 'capitalize',
 			},
 		},
+		{
+			name: 'Access Modality',
+			key: 'phone',
+			description: 'Enter name of Company',
+			selector: row => row?.accessMode,
+			sortable: true,
+			required: true,
+			inputType: 'HIDDEN',
+			 style: {
+				textTransform: 'capitalize',
+			}, 
+		},
+		{
+			name: 'Balance',
+			key: 'phone',
+			description: 'Enter name of Company',
+			selector: row => row?.walletBalance,
+			sortable: true,
+			required: true,
+			inputType: 'HIDDEN',
+			/* style: {
+				textTransform: 'capitalize',
+			}, */
+		},
 	];
 
 	const handleRow = facility => {
@@ -320,7 +366,7 @@ export const OrganizationsList = ({selectOrganization}) => {
 						</div>
 					)}
 					<h2 style={{marginLeft: '10px', fontSize: '0.95rem'}}>
-						List of Organizations on Healthstack
+						List of Organizations on Healthstack ({total})
 					</h2>
 				</div>
 			</TableMenu>
@@ -355,13 +401,22 @@ export const OrganizationDetails = ({organization, goBack}) => {
 		useContext(ObjectContext);
 	const [facility, setFacility] = useState({});
 	const [edit, setEdit] = useState(false);
-	const [logoAnchorEl, setLogoAnchorEl] = useState(null);
+	// const [logoAnchorEl, setLogoAnchorEl] = useState(null);
+		// const [statsModal, setstatsModal] = useState(false);
+	// const [logoUploadModal, setLogoUploadModal] = useState(false);
 	const [modulesModal, setModulesModal] = useState(false);
-	const [logoUploadModal, setLogoUploadModal] = useState(false);
 	const [selectedType, setSelectedType] = useState(null);
 	const [selectedState, setSelectedState] = useState(null);
 
 	const currentOrganization = state.OrganizationModule.selectedOrganization;
+
+	const [tab, setTab] = useState('list');
+	const [selectedOrganization, setSelectedOrganization] = useState(null);
+
+	const handleShowStats = stat => {
+		setSelectedOrganization(stat);
+		setTab('detail');
+	};
 
 	const facTypes = facilityTypes
 		.map(item => item.type)
@@ -422,8 +477,6 @@ export const OrganizationDetails = ({organization, goBack}) => {
 		showActionLoader();
 		const employee = user.currentEmployee;
 		const prevOrgDetail = currentOrganization;
-		//console.log(prevOrgDetail);
-
 		const newOrgDetail = {
 			...prevOrgDetail,
 			...data,
@@ -432,14 +485,12 @@ export const OrganizationDetails = ({organization, goBack}) => {
 			updatedByName: `${employee.firstname} ${employee.lastname}`,
 		};
 
-		//return console.log(newOrgDetail);
 
 		const documentId = prevOrgDetail._id;
 
 		await facilityServer
 			.patch(documentId, {...newOrgDetail})
 			.then(resp => {
-				//console.log(resp);
 				reset(resp);
 				setFacility(resp);
 				hideActionLoader();
@@ -456,293 +507,380 @@ export const OrganizationDetails = ({organization, goBack}) => {
 
 	return (
 		<Box pt={2}>
+			{tab === 'list' && (
+				<>
+			<Box
+			sx={{
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: 'space-between',
+			}}
+			pl={2}
+			pr={2}>
+			<ModalBox
+				open={modulesModal}
+				onClose={() => setModulesModal(false)}
+				header={`Organization Modules for ${currentOrganization.facilityName}`}>
+				<OrganizationModules closeModal={() => setModulesModal(false)} />
+			</ModalBox>
+
 			<Box
 				sx={{
 					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'space-between',
-				}}
-				pl={2}
-				pr={2}>
-				<ModalBox
-					open={modulesModal}
-					onClose={() => setModulesModal(false)}
-					header={`Organization Modules for ${currentOrganization.facilityName}`}>
-					<OrganizationModules closeModal={() => setModulesModal(false)} />
-				</ModalBox>
+					gap: 2,
+				}}>
+				<FormsHeaderText text='Organization Detail' />
+				<GlobalCustomButton onClick={goBack}>Go Back</GlobalCustomButton>
+			</Box>
 
-				<Box
-					sx={{
-						display: 'flex',
-						gap: 2,
-					}}>
-					<FormsHeaderText text='Organization Detail' />
-					<GlobalCustomButton onClick={goBack}>Go Back</GlobalCustomButton>
-				</Box>
+			<Box
+				sx={{
+					display: 'flex',
+					gap: 2,
+				}}>
+				<GlobalCustomButton onClick={handleShowStats}>View Stats</GlobalCustomButton>
+				<GlobalCustomButton
+					color='secondary'
+					onClick={() => setModulesModal(true)}>
+					<AutoStoriesIcon
+						sx={{marginRight: '5px'}}
+						fontSize='small'
+					/>
+					Organization Modules
+				</GlobalCustomButton>
 
-				<Box
-					sx={{
-						display: 'flex',
-						gap: 2,
-					}}>
-					<GlobalCustomButton
-						color='secondary'
-						onClick={() => setModulesModal(true)}>
-						<AutoStoriesIcon
-							sx={{marginRight: '5px'}}
-							fontSize='small'
-						/>
-						Organization Modules
+				<GlobalCustomButton color='info'>
+					<PeopleAltIcon
+						sx={{marginRight: '5px'}}
+						fontSize='small'
+					/>{' '}
+					Organization Employees
+				</GlobalCustomButton>
+
+				{!edit ? (
+					<GlobalCustomButton onClick={() => setEdit(true)}>
+						<EditIcon fontSize='small' />
+						Edit Organization
 					</GlobalCustomButton>
-
-					<GlobalCustomButton color='info'>
-						<PeopleAltIcon
-							sx={{marginRight: '5px'}}
-							fontSize='small'
-						/>{' '}
-						Organization Employees
-					</GlobalCustomButton>
-
-					{!edit ? (
-						<GlobalCustomButton onClick={() => setEdit(true)}>
-							<EditIcon fontSize='small' />
-							Edit Organization
+				) : (
+					<>
+						<GlobalCustomButton
+							color='error'
+							onClick={() => setEdit(false)}>
+							{/* <EditIcon fontSize="small" /> */}
+							Cancel Edit
 						</GlobalCustomButton>
-					) : (
-						<>
-							<GlobalCustomButton
-								color='error'
-								onClick={() => setEdit(false)}>
-								{/* <EditIcon fontSize="small" /> */}
-								Cancel Edit
-							</GlobalCustomButton>
 
-							<GlobalCustomButton
-								color='success'
-								onClick={handleSubmit(updateOrganization)}>
-								{/* <EditIcon fontSize="small" /> */}
-								Update Organaization
-							</GlobalCustomButton>
-						</>
-					)}
-				</Box>
+						<GlobalCustomButton
+							color='success'
+							onClick={handleSubmit(updateOrganization)}>
+							{/* <EditIcon fontSize="small" /> */}
+							Update Organaization
+						</GlobalCustomButton>
+					</>
+				)}
 			</Box>
+		</Box>
 
-			<Box p={2}>
+		<Box p={2}>
+			<Grid
+				container
+				spacing={2}
+				mb={2}>
 				<Grid
-					container
-					spacing={2}
-					mb={2}>
-					<Grid
-						item
-						lg={4}
-						md={6}
-						sm={6}
-						xs={12}>
-						<Input
-							register={register('facilityOwner')}
-							label='Organization Owner'
-							disabled={!edit}
-						/>
-					</Grid>
-
-					<Grid
-						item
-						lg={4}
-						md={6}
-						sm={6}
-						xs={12}>
-						<Input
-							register={register('facilityName')}
-							label='Organization Name'
-							disabled={!edit}
-						/>
-					</Grid>
-
-					<Grid
-						item
-						lg={4}
-						md={6}
-						sm={6}
-						xs={12}>
-						<Input
-							register={register('facilityContactPhone')}
-							label='Phone Number'
-							disabled={!edit}
-						/>
-					</Grid>
-
-					<Grid
-						item
-						lg={4}
-						md={6}
-						sm={6}
-						xs={12}>
-						<Input
-							register={register('facilityEmail')}
-							label='Email Address'
-							disabled={!edit}
-						/>
-					</Grid>
-
-					<Grid
-						item
-						lg={4}
-						md={6}
-						sm={6}
-						xs={12}>
-						<CustomSelect
-							label='Organization Type'
-							control={control}
-							name='facilityType'
-							//errorText={errors?.facilityType?.message}
-							options={facTypes}
-							disabled={!edit}
-							important
-						/>
-					</Grid>
-
-					<Grid
-						item
-						lg={4}
-						md={6}
-						sm={6}
-						xs={12}>
-						<CustomSelect
-							label='Organization Category'
-							control={control}
-							name='facilityCategory'
-							//required={"Select Organization Category"}
-							// errorText={errors?.facilityCategory?.message}
-							options={
-								selectedType
-									? selectedType?.categories?.sort((a, b) => a.localeCompare(b))
-									: []
-							}
-							important
-							disabled={!edit}
-						/>
-					</Grid>
-
-					<Grid
-						item
-						lg={8}
-						md={8}
-						sm={12}
-						xs={12}>
-						<Input
-							register={register('facilityAddress')}
-							label='Organization Address'
-							disabled={!edit}
-						/>
-					</Grid>
-
-					<Grid
-						item
-						lg={4}
-						md={6}
-						sm={6}
-						xs={12}>
-						{/* <Input
-              register={register("facilityCountry")}
-              label="Country"
-              disabled={!edit}
-            /> */}
-						<CustomSelect
-							label='Country'
-							control={control}
-							name='facilityCountry'
-							//errorText={errors?.facilityCountry?.message}
-							options={['Nigeria']}
-							disabled={!edit}
-							important
-						/>
-					</Grid>
-
-					<Grid
-						item
-						lg={4}
-						md={6}
-						sm={6}
-						xs={12}>
-						{/* <Input
-              register={register("facilityState")}
-              label="State"
-              disabled={!edit}
-            /> */}
-						<CustomSelect
-							label='State'
-							control={control}
-							name='facilityState'
-							//errorText={errors?.facilityState?.message}
-							options={sortedStates}
-							disabled={!edit}
-							important
-						/>
-					</Grid>
-
-					<Grid
-						item
-						lg={4}
-						md={6}
-						sm={6}
-						xs={12}>
-						{/* <Input
-              register={register("facilityLGA")}
-              label="LGA"
-              disabled={!edit}
-            /> */}
-
-						<CustomSelect
-							label='LGA'
-							control={control}
-							name='facilityLGA'
-							disabled={!edit}
-							//errorText={errors?.facilityLGA?.message}
-							options={
-								selectedState
-									? selectedState.lgas.sort((a, b) => a.localeCompare(b))
-									: []
-							}
-							important
-						/>
-					</Grid>
-
-					<Grid
-						item
-						lg={4}
-						md={6}
-						sm={6}
-						xs={12}>
-						{/* <Input
-              register={register("facilityCity")}
-              label="City"
-              disabled={!edit}
-            /> */}
-
-						<CustomSelect
-							label='City'
-							control={control}
-							name='facilityCity'
-							//  errorText={errors?.facilityCity?.message}
-							options={
-								selectedState
-									? selectedState.lgas.sort((a, b) => a.localeCompare(b))
-									: []
-							}
-							important
-							disabled={!edit}
-						/>
-					</Grid>
+					item
+					lg={4}
+					md={6}
+					sm={6}
+					xs={12}>
+					<Input
+						register={register('facilityOwner')}
+						label='Organization Owner'
+						disabled={!edit}
+					/>
 				</Grid>
-			</Box>
 
-			<Box p={2}>
-				<OrganizationBankAccount />
+				<Grid
+					item
+					lg={4}
+					md={6}
+					sm={6}
+					xs={12}>
+					<Input
+						register={register('facilityName')}
+						label='Organization Name'
+						disabled={!edit}
+					/>
+				</Grid>
+
+				<Grid
+					item
+					lg={4}
+					md={6}
+					sm={6}
+					xs={12}>
+					<Input
+						register={register('facilityContactPhone')}
+						label='Phone Number'
+						disabled={!edit}
+					/>
+				</Grid>
+
+				<Grid
+					item
+					lg={4}
+					md={6}
+					sm={6}
+					xs={12}>
+					<Input
+						register={register('facilityEmail')}
+						label='Email Address'
+						disabled={!edit}
+					/>
+				</Grid>
+
+				<Grid
+					item
+					lg={4}
+					md={6}
+					sm={6}
+					xs={12}>
+					<CustomSelect
+						label='Organization Type'
+						control={control}
+						name='facilityType'
+						//errorText={errors?.facilityType?.message}
+						options={facTypes}
+						disabled={!edit}
+						important
+					/>
+				</Grid>
+
+				<Grid
+					item
+					lg={4}
+					md={6}
+					sm={6}
+					xs={12}>
+					<CustomSelect
+						label='Organization Category'
+						control={control}
+						name='facilityCategory'
+						//required={"Select Organization Category"}
+						// errorText={errors?.facilityCategory?.message}
+						options={
+							selectedType
+								? selectedType?.categories?.sort((a, b) => a.localeCompare(b))
+								: []
+						}
+						important
+						disabled={!edit}
+					/>
+				</Grid>
+
+				<Grid
+					item
+					lg={8}
+					md={8}
+					sm={12}
+					xs={12}>
+					<Input
+						register={register('facilityAddress')}
+						label='Organization Address'
+						disabled={!edit}
+					/>
+				</Grid>
+
+				<Grid
+					item
+					lg={4}
+					md={6}
+					sm={6}
+					xs={12}>
+					{/* <Input
+		  register={register("facilityCountry")}
+		  label="Country"
+		  disabled={!edit}
+		/> */}
+					<CustomSelect
+						label='Country'
+						control={control}
+						name='facilityCountry'
+						//errorText={errors?.facilityCountry?.message}
+						options={['Nigeria']}
+						disabled={!edit}
+						important
+					/>
+				</Grid>
+
+				<Grid
+					item
+					lg={4}
+					md={6}
+					sm={6}
+					xs={12}>
+					{/* <Input
+		  register={register("facilityState")}
+		  label="State"
+		  disabled={!edit}
+		/> */}
+					<CustomSelect
+						label='State'
+						control={control}
+						name='facilityState'
+						//errorText={errors?.facilityState?.message}
+						options={sortedStates}
+						disabled={!edit}
+						important
+					/>
+				</Grid>
+
+				<Grid
+					item
+					lg={4}
+					md={6}
+					sm={6}
+					xs={12}>
+					{/* <Input
+		  register={register("facilityLGA")}
+		  label="LGA"
+		  disabled={!edit}
+		/> */}
+
+					<CustomSelect
+						label='LGA'
+						control={control}
+						name='facilityLGA'
+						disabled={!edit}
+						//errorText={errors?.facilityLGA?.message}
+						options={
+							selectedState
+								? selectedState.lgas.sort((a, b) => a.localeCompare(b))
+								: []
+						}
+						important
+					/>
+				</Grid>
+
+				<Grid
+					item
+					lg={4}
+					md={6}
+					sm={6}
+					xs={12}>
+					<Input
+		  register={register("facilityCity")}
+		  label="City"
+		  disabled={!edit}
+		/>
+
+					{/* <CustomSelect
+						label='City'
+						control={control}
+						name='facilityCity'
+						//  errorText={errors?.facilityCity?.message}
+						options={
+							selectedState
+								? selectedState.lgas.sort((a, b) => a.localeCompare(b))
+								: []
+						}
+						important
+						disabled={!edit}
+					/> */}
+				</Grid>
+			</Grid>
+		</Box>
+		<Box p={2} > 
+    
+				<FormsHeaderText text="Access Modality" />
+				<div >
+				<Grid container spacing={2} mb={2} >
+				
+				<Grid item lg={4} md={6} sm={6} xs={12}>
+					
+					<CustomSelect
+						label='Payment Model'
+						control={control}
+						name='accessMode'
+						//errorText={errors?.facilityType?.message}
+						options={["Transaction-Percentage","Transaction-Amount","License","Subscription","Registered Patients","Free", "Per Employee", "Per Module"]}
+						disabled={!edit}
+						important
+					/>
+				</Grid>
+				
+				<Grid item lg={4} md={6} sm={6} xs={12}>
+					<Input
+					register={register("accessValue")}
+					label="Value"
+					disabled={!edit}
+					/>
+				</Grid>
+				<Grid item lg={4} md={6} sm={6} xs={12}>
+					
+					<CustomSelect
+						label='Duration'
+						control={control}
+						name='accessDuration'
+						//errorText={errors?.facilityType?.message}
+						options={["Annual","Quarterly","Monthly"]}
+						disabled={!edit}
+						/* important */
+					/>
+				</Grid>
+				<Grid item lg={3} md={4} sm={6}>
+                      <MuiCustomDatePicker
+                        control={control}
+                        label="Start Date"
+                        name="accessStartDate"
+                        important={true}
+                      />
+                    </Grid>
+
+					<Grid item lg={4} md={6} sm={6} xs={12}>
+					<Input
+					register={register("accessComments")}
+					label="Comments"
+					disabled={!edit}
+					/>
+				</Grid>
+				<Grid item lg={4} md={6} sm={6} xs={12}>
+					
+					<CustomSelect
+						label='Billing Mode'
+						control={control}
+						name='billingMode'
+						//errorText={errors?.facilityType?.message}
+						options={["Billing","Non-Billing"]}
+						disabled={!edit}
+						important
+					/>
+				</Grid>
+				</Grid>
+			</div>
 			</Box>
+		
+
+		<Box p={2}>
+			<OrganizationBankAccount />
+		</Box>
+		</>
+			)}
+
+				
+			{tab === 'detail' && (
+				// <OrganizationDetails
+				// 	organization={selectedOrganization}
+				// 	goBack={() => setTab('list')}
+				// />
+				<Statistics goBack={() => setTab('list')} />
+			)}
 		</Box>
 	);
 };
+
+
+
 
 export const OrganizationModules = ({closeModal}) => {
 	const facilityServer = client.service('facility');

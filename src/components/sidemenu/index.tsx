@@ -6,7 +6,7 @@ import {ObjectContext, UserContext} from "../../context";
 import MenuItem from "../menuitem";
 import {Lists} from "../menuitem/style";
 import {MainMenu, Sidemenu, TopSection} from "./styles";
-import {facilityTypes} from "../../hsmodules/app/facility-types";
+// import {facilityTypes} from "../../hsmodules/app/facility-types";
 
 export const menuItems = [
   {
@@ -98,7 +98,7 @@ export const menuItems = [
       {name: "Product Entry", to: "/app/pharmacy/productentry"},
       {name: "Issue Out", to: "/app/pharmacy/issueout"},
       {name: "Requisiition", to: "/app/pharmacy/requisition"},
-      {name: "Transfer", to: "/app/pharmacy/transfer"},
+      {name: "Transfer", to: "/app/pharmacy/transfer/inward-transfer"},
       {name: "Dashboard", to: "/app/pharmacy/dashboard"},
     ],
   },
@@ -129,7 +129,7 @@ export const menuItems = [
       {name: "Bill Client", to: "/app/radiology/billservice"},
       {name: "Checked-In", to: "/app/radiology/checkedin"},
       {name: "Appointment", to: "/app/radiology/appointments"},
-      {name: "Bill Lab Orders", to: "/app/radiology/radiology-bill"},
+      {name: "Bill Radiology Orders", to: "/app/radiology/radiology-bill"},
       // {name: "Payment", to: "/app/radiology/payment"},
       {name: "Radiology Result", to: "/app/radiology/radiology-result"},
     ],
@@ -165,7 +165,7 @@ export const menuItems = [
     iconClassName: "bi bi-file-medical",
     subMenus: [
       {name: "Bill Client", to: "/app/inventory/billservice"},
-      {name: "Bill Prescription Sent", to: "/app/inventory/billprescription"},
+      {name: "Bill Requisition Sent", to: "/app/inventory/billprescription"},
       // { name: 'Payment', to: '/app/inventory/payment' },
       {name: "Dispensary", to: "/app/inventory/dispensary"},
       {name: "Store Inventory", to: "/app/inventory/storeinventory"},
@@ -239,6 +239,7 @@ export const menuItems = [
       {name: "Complaints", to: "/app/managed-care/complaints"},
       {name: "HIA", to: "/app/managed-care/HIA"},
       {name: "Premiums", to: "/app/managed-care/premiums"},
+      {name: "Invoice", to: "/app/managed-care/invoice"},
       // {
       //   name: "Organisation",
       //   to: "/app/managed-care/organisation",
@@ -291,9 +292,10 @@ export const menuItems = [
       {name: "Beneficiary", to: "/app/corporate/beneficiary"},
       {name: "Claims", to: "/app/corporate/claims"},
       {name: "Policy", to: "/app/corporate/policy"},
-      {name: "Health Plan", to: "/app/corporate/healthplan"},
+      // {name: "Health Plan", to: "/app/corporate/healthplan"},
       {name: "Check In", to: "/app/corporate/Checkin"},
       {name: "Dashboard", to: "/app/corporate/dashboard"},
+      {name: "Invoice", to: "/app/corporate/invoice"},
     ],
   },
 
@@ -348,18 +350,14 @@ export const menuItems = [
     ],
   },
   {
-    name: "Organizations",
+    name: "Global Dashboard",
     exact: true,
-    to: "/app/organizations",
-    iconClassName: "bi bi-person",
-    // subMenus: [
-    //   {name: "Profile", to: "/app/patient-portal/profile"},
-    //   {name: "View", to: "/app/patient-portal/view"},
-    //   {name: "Buy", to: "/app/patient-portal/buy"},
-    //   {name: "Search", to: "/app/patient-portal/search"},
-    //   {name: "Read", to: "/app/patient-portal/read"},
-    //   {name: "Chat", to: "/app/patient-portal/chat"},
-    // ],
+    to: "/app/global-admin",
+    iconClassName: "bi bi-speedometer",
+    subMenus: [
+      {name: "Organizations", to: "/app/global-admin/organizations"},
+      {name: "Facility Transactions", to: "/app/global-admin/transactions"},
+    ],
   },
   {
     name: "Market Place",
@@ -414,11 +412,6 @@ function SideMenu({isOpen}) {
   const {user} = useContext(UserContext);
   const [currOption, setCurrOption] = useState("");
   const navigate = useNavigate();
-
-  // console.log(
-  //   "this is the user account ohhhhh",
-  //   user.currentEmployee.facilityDetail
-  // );
 
   useEffect(() => {
     if (inactive) {
@@ -482,16 +475,22 @@ function SideMenu({isOpen}) {
   const finalModules = user.stacker ? sortedMenuItems : rolesMenuList;
 
   return (
-    <Sidemenu className={`side-menu ${isOpen ? "" : "hide"}`}>
-      <TopSection>
-        <Avatar
-          src={user?.currentEmployee?.facilityDetail?.facilitylogo}
-          sx={{marginRight: "15px"}}
-        >
-          L
-        </Avatar>
-        <h4>{user?.currentEmployee?.facilityDetail?.facilityName}</h4>
-      </TopSection>
+    <Sidemenu
+      style={{paddingRight: "1px"}}
+      className={`side-menu ${isOpen ? "" : "hide"}`}
+    >
+      {isOpen && (
+        <TopSection>
+          <Avatar
+            src={user?.currentEmployee?.facilityDetail?.facilitylogo}
+            sx={{marginRight: "15px"}}
+          >
+            L
+          </Avatar>
+          <h4>{user?.currentEmployee?.facilityDetail?.facilityName}</h4>
+        </TopSection>
+      )}
+
       <MainMenu className="main-menu">
         <Lists>
           <MenuItem
@@ -501,27 +500,21 @@ function SideMenu({isOpen}) {
             iconClassName="bi bi-house-door"
           />
           {finalModules.map((menuItem, index) => (
-            <>
-              <MenuItem
-                key={menuItem.name}
-                name={menuItem.name}
-                to={menuItem.to}
-                subMenus={menuItem.subMenus || []}
-                iconClassName={menuItem.iconClassName}
-                onClick={() => {
-                  // if (menuItem.action) {
-                  //   menuItem.action();
-                  //   navigate(menuItem.to);
-                  // }
-                  if (menuItem.to && !menuItem.subMenus) {
-                    navigate(menuItem.to);
-                  }
-                  if (inactive) {
-                    setInactive(false);
-                  }
-                }}
-              />
-            </>
+            <MenuItem
+              key={menuItem.name + index}
+              name={menuItem.name}
+              to={menuItem.to}
+              subMenus={menuItem.subMenus || []}
+              iconClassName={menuItem.iconClassName}
+              onClick={() => {
+                if (menuItem.to && !menuItem.subMenus) {
+                  navigate(menuItem.to);
+                }
+                if (inactive) {
+                  setInactive(false);
+                }
+              }}
+            />
           ))}
           <MenuItem
             name="Logout"

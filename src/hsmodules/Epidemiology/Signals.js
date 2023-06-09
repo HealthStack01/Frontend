@@ -48,7 +48,7 @@ import dayjs from "dayjs";
 //     iconUrl: icon,
 //     shadowUrl: iconShadow
 // });
-const data = require("../../data/nigeriahealthfacilities.json");
+const data = require("../../data/hci/nigeriahealthfacilities.json");
 // L.Marker.prototype.options.icon =DefaultIcon;
 
 const searchfacility = {};
@@ -553,7 +553,7 @@ export function SignalsList({setSelectedSigal, showDetailModal}) {
       width: "120px",
       key: "notified_by",
       description: "Enter Notified by",
-      selector: row => row?.notified_by,
+      selector: row => row?.notified_by_name,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -991,7 +991,7 @@ export function SignalDetail({showModifyModal}) {
           <Grid item lg={6}>
             <Input
               label="Notified By"
-              register={register("notified_by")}
+              register={register("notified_by_name")}
               disabled
             />
           </Grid>

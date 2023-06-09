@@ -2,17 +2,18 @@
 import React, {useState, useContext, useEffect, useRef} from "react";
 // import {useFlutterwave, closePaymentModal} from "flutterwave-react-v3";
 // import {PaystackConsumer} from "react-paystack";
-import "./main.css";
-import RemitaPayment from "react-remita";
+import "./main.css";/* 
+import RemitaPayment from "react-remita"; */
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+/* import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form"; */
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "react-toastify";
-import {ProductCreate} from "./Products";
-import Encounter from "../Documentation/Documentation";
-var random = require("random-string-generator");
+/* import {ProductCreate} from "./Products";
+import Encounter from "../Documentation/Documentation"; */
+// var random = require("random-string-generator");
+import short from 'short-uuid'
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
@@ -351,15 +352,16 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     return () => {};
   }, [productItem]);
 
+
   //initialize page
+  
   useEffect(() => {
     // const medication =state.medicationModule.selectedMedication
     const today = new Date().toLocaleString();
     ////console.log(today)
     setDate(today);
-    const invoiceNo = random(6, "uppernumeric");
+    const invoiceNo = short.generate();
     setDocumentNo(invoiceNo);
-
     getFacilities();
     SubwalletServ.on("created", obj => getFacilities());
     SubwalletServ.on("updated", obj => getFacilities());

@@ -6,6 +6,8 @@ const Documentation = lazy(() => import("../Documentation/Documentation"));
 const FrontDesk = lazy(() => import("../Client/FrontDesk"));
 const Patients = lazy(() => import("../Client/Client"));
 const ClientPayment = lazy(() => import("../Client/Payment"));
+const Claims = lazy(() => import("../ManagedCare/Claims"));
+const Preauthorization = lazy(() => import("../ManagedCare/PreAuth"));
 const ClientDashboard = lazy(() =>
   import("../dashBoardUiComponent/@modules/ClientDashboard")
 );
@@ -17,6 +19,18 @@ const AppointmentComponent = lazy(() =>
 const ClientAppointments = () => <AppointmentComponent module="Client" />;
 
 export const clientRoutes = [
+  {
+    path: "/app/clients/claims/:client_id",
+    Component: Claims,
+  },
+  {
+    path: "/app/clients/pre-authorization/:client_id",
+    Component: Preauthorization,
+  },
+  {
+    path: "/app/clients/benefits/:id",
+    Component: Documentation,
+  },
   {
     path: "/app/clients/documentation",
     Component: Documentation,

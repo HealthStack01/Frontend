@@ -525,7 +525,7 @@ export const ChangeEmployeePassword = ({closeModal}) => {
 
     axios
       .post(
-        "https://healthstack-backend.herokuapp.com/authManagement",
+        "https://healthstack-backend.herokuapp.com/auth-management",
         {
           ...postObject,
         },

@@ -359,7 +359,7 @@ const VitalSignChart = () => {
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
-    toggleSideMenu();
+    //toggleSideMenu();
   };
 
   return (

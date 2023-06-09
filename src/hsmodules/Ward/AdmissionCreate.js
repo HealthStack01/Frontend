@@ -39,11 +39,11 @@ export default function AdmissionCreate() {
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState('');
   // eslint-disable-next-line
-  const [facility, setFacility] = useState();
-  const ProductEntryServ = client.service('productentry');
+  /* const [facility, setFacility] = useState();
+  const ProductEntryServ = client.service('productentry'); */
   const OrderServ = client.service('order');
-  const LocationServ = client.service('location');
-  const BillCreateServ = client.service('createbilldirect');
+ /*  const LocationServ = client.service('location');
+  const BillCreateServ = client.service('createbilldirect'); */
   const AdmissionServ = client.service('admission');
   //const navigate=useNavigate()
   const { user } = useContext(UserContext); //,setUser

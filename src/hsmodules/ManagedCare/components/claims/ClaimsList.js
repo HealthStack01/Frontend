@@ -22,7 +22,7 @@ import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import client from "../../../../feathers";
 import dayjs from "dayjs";
 
-const ClaimsListComponent = ({showCreate, showDetail}) => {
+const ClaimsListComponent = ({showCreate, showDetail, client_id}) => {
   const claimsServer = client.service("claims");
   const [claims, setClaims] = useState([]);
   const {state, setState} = useContext(ObjectContext);
@@ -34,7 +34,6 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
   };
 
   const handleRow = claim => {
-    console.log(claim);
     setState(prev => ({
       ...prev,
       ClaimsModule: {
@@ -54,27 +53,96 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
     //
   };
 
+  // const getClaims = useCallback(async () => {
+  //   setLoading(true);
+  //   if (user.currentEmployee) {
+  //     let query = {
+  //       "services._id": user.currentEmployee.facilityDetail._id,
+
+  //       $limit: 100,
+  //       $sort: {
+  //         createdAt: -1,
+  //       },
+  //     };
+
+  //     if (client_id) {
+  //       query = {
+  //         "beneficiary._id": client_id,
+  //         "provider._id": user.currentEmployee.facilityDetail._id,
+
+  //         $limit: 100,
+  //         $sort: {
+  //           createdAt: -1,
+  //         },
+  //       };
+  //     }
+
+  //     const response = await claimsServer.find({query: query});
+  //     setClaims(response.data);
+  //     setLoading(false);
+  //   } else {
+  //     if (user.stacker) {
+  //       const response = await claimsServer.find({
+  //         query: {
+  //           $limit: 100,
+  //           $sort: {
+  //             createdAt: -1,
+  //           },
+  //         },
+  //       });
+
+  //       setClaims(resp.data);
+  //       setLoading(false);
+  //     }
+  //   }
+  // }, []);
+
+  // const getClaims = useCallback(async () => {
+  //   setLoading(true);
+  
+  //   let query = {
+  //     "beneficiary._id": client_id,
+  //     $sort: {
+  //       createdAt: -1,
+  //     },
+  //     $limit: 100,
+  //   };
+  
+  //   if (user.currentEmployee) {
+  //     query["provider._id"] = user.currentEmployee.facilityDetail._id;
+  //   }
+  
+  //   try {
+  //     const response = await claimsServer.find({ query });
+  
+  //     if (response && response.data) {
+  //       setClaims(response.data);
+  //     }
+  
+  //     setLoading(false);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }, [client_id, user.currentEmployee]);
+  
   const getClaims = useCallback(async () => {
     setLoading(true);
     if (user.currentEmployee) {
       let query = {
-        "provider._id": user.currentEmployee.facilityDetail._id,
-
+        "hmopayer._id": user.currentEmployee.facilityDetail._id,
+        "beneficiary._id": client_id,
         $limit: 100,
         $sort: {
           createdAt: -1,
         },
       };
-
-      const resp = await claimsServer.find({query: query});
-
-      setClaims(resp.data);
+  
+      const response = await claimsServer.find({query: query});
+      setClaims(response.data);
       setLoading(false);
-      console.log(resp);
-      //console.log(resp.data);
     } else {
       if (user.stacker) {
-        const resp = await claimsServer.find({
+        const response = await claimsServer.find({
           query: {
             $limit: 100,
             $sort: {
@@ -82,12 +150,14 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
             },
           },
         });
-
+  
         setClaims(resp.data);
         setLoading(false);
       }
     }
-  }, []);
+  }, [user.currentEmployee, user.stacker, client_id]);
+  
+  
 
   useEffect(() => {
     getClaims();
@@ -166,15 +236,7 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
         textTransform: "capitalize",
       },
     },
-    // {
-    //   name: "Type",
-    //   key: "healthcare plan",
-    //   description: "Enter name of Healthcare Plan",
-    //   selector: row => row?.claimtype,
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "HIDDEN",
-    // },
+   
     {
       name: "Sponsor",
       key: "healthcare plan",
@@ -184,24 +246,16 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
       required: true,
       inputType: "HIDDEN",
     },
-    // {
-    //   name: "Plan",
-    //   key: "healthcare plan",
-    //   description: "Enter name of Healthcare Plan",
-    //   selector: row => row?.healthcare_Plan,
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "HIDDEN",
-    // },
-    // {
-    //   name: "Provider",
-    //   key: "hospital name",
-    //   description: "Enter Hospital Name",
-    //   selector: row => row?.provider?.facilityName,
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "TEXT",
-    // },
+    
+    {
+      name: "Provider",
+      key: "hospital name",
+      description: "Enter Hospital Name",
+      selector: row => row?.provider?.facilityName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
 
     {
       name: "Status",
@@ -322,7 +376,7 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
                 List of Claims
               </h2>
             </div>
-            <Box>
+            {/* <Box>
               {handleCreateNew && (
                 <GlobalCustomButton
                   onClick={handleCreateNew}
@@ -330,7 +384,7 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
                   text="Add Claims"
                 />
               )}
-            </Box>
+            </Box> */}
           </TableMenu>
 
           <Box
@@ -347,7 +401,7 @@ const ClaimsListComponent = ({showCreate, showDetail}) => {
               pointerOnHover
               highlightOnHover
               striped
-              onRowClicked={handleRow}
+              // onRowClicked={handleRow}
               progressPending={loading}
               //conditionalRowStyles={conditionalRowStyles}
             />

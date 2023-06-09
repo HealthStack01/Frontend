@@ -234,7 +234,7 @@ export function DocumentClassList({standalone, closeModal}) {
     await setState(prevstate => ({
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
-      sideMenu: {open: false},
+      //sideMenu: {open: false},
     }));
     //console.log(state)
     if (standalone) {
@@ -421,6 +421,7 @@ export function DocumentClassList({standalone, closeModal}) {
     </>
   );
 }
+console.log("ClassList", )
 
 export function ChartClassList({standalone, closeModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
