@@ -1135,21 +1135,21 @@ export function EyeExamination() {
     }
    
     document.documentdetail = {
-      AgeOfOnset: data.ageOfOnset,
+      "Age Of Onset": data.ageOfOnset,
       History: data.history,
-      UnaidedRVA:data.unaidedRVA,
-      UnaidedLVA:data.unaidedLVA,
-      UnaidedNV:data.unaidedNV,
-      AidedRVA:data.aidedRVA,
-      AidedLVA:data.aidedLVA,
-      AidedNV:data.aidedNV,
+      "Unaided RVA":data.unaidedRVA,
+      "Unaided LVA":data.unaidedLVA,
+      "Unaided NV":data.unaidedNV,
+      "Aided RVA":data.aidedRVA,
+      "Aided LVA":data.aidedLVA,
+      "Aided NV":data.aidedNV,
       Acuity: formData.acuity,   
-      MuscleFunction: formData.muscles,
-      VisualFieldTest: data.visualFieldTest,
+      "Muscle Function": formData.muscles,
+      "Visual Field Test": data.visualFieldTest,
       Describe: data.describe,
       Degree: formData.degree,
-      FieldRestriction: formData.fieldRestriction,
-      ColorVision: formData.colorVision,
+      "Field Restriction": formData.fieldRestriction,
+      "Color Vision": formData.colorVision,
     };
     document.documentname = "Eye examination";
     document.documentType = "Eye examination";
@@ -1701,13 +1701,13 @@ export function DentalClinic() {
       HPC: data.hpc,
       PDH: data.pdh,
       PHM: data.phm,
-      IntraOral: data.intraoral,
-      ExtraOral: data.extraoral,
+      "Intra Oral": data.intraoral,
+      "Extra Oral": data.extraoral,
       Investigation: data.investigation,
       Diagnosis: data.diagnosis,
-      ManagementPlan: data.managementPlan,
+      "Management Plan": data.managementPlan,
       Treatment: data.treatment,
-      SendTo: formData.dentalLaboratory,
+      "Send To": formData.dentalLaboratory,
       
     };
     document.documentname = "Dental Clinic";
@@ -2098,47 +2098,41 @@ export function OrthodonticAnalysis() {
     }
    
     document.documentdetail = {
-      Name: data.name,
-      Hospital: data.hospital,
-      DateOfBirth: data.dob,
-      DentalPractional: data.dentalpractional,
-      Consultant: data.consultant,
-      Refferedby: data.refferedby,
-      TeethErupt: data.teetherupt,
-      Prognosis: data.prognosis,
-      Radars: data.radars,
+      "Teeth Erupted": data.teetherupt,
+      "Teeth of Poor Prognosis": data.prognosis,
+      "First Permanent Molars": data.molars,
       D: data.d,
       M: data.m,
       F: data.f,
-      AntpostRelationship: data.antpost,
+      "AntPost Relationship": data.antpost,
       Overbite: data.overbite,
-      Oreject: data.oreject,
-      ToothBoneRatio: data.toothbone,
+      Overjet: data.overjet,
+      "Tooth Bone Ratio": data.toothbone,
       Upper: data.upper,
       Lower: data.lower,
-      DentalCaries: data.dentalcaries,
-      OralHygenic: data.oralhygenic,
+      "Dental Caries": data.dentalcaries,
+      "Oral Hygiene Gingivities": data.oralhygiene,
       Lips: data.lips,
       Habits: data.habits,
       Tongue: data.tongue,
-      RentalOrtho: data.rentalortho,
-      UIncisorAngle: data.uincisor,
-      LIncisorAngle: data.lincisor,
-      FMangle: data.fmangle,
-      UIncisorAngle2: data.uincisor2,
-      LIncisorAngle2: data.lincisor2,
+      "Dental Ortho": data.dentalortho,
+      "U Incisor Angle": data.uincisor,
+      "L Incisor Angle": data.lincisor,
+      "FM Angle": data.fmangle,
+      "UIncisor Angle2": data.uincisor2,
+      "LIncisor Angle2": data.lincisor2,
       SNA: data.sna,
       SNB: data.snb,
       ANB: data.anb,
-      SKpattern: data.skpattern,
-      MMangle: data.mmangle,
-      Unreptedteeth: data.unreptedteeth,
-      Absentteeth: data.absentteeth,
-      DentalCare: data.dentalcare,
-      SummaryOfAnalysis: data.summary,
-      PlanOfTreatment: data.plantreatment,
-      OtherRemarks: data.otherremarks,
-
+      "Clinical SK Pattern": data.clinicalskpattern,
+      "Cephalometric SK pattern": data.cephalometricskpattern,
+      "MM Angle": data.mmangle,
+      "Unrepted Teeth": data.unreptedteeth,
+      "Absent Teeth": data.absentteeth,
+      "Dental Care": data.dentalcare,
+      "Summary Of Analysis": data.summary,
+      "Plan Of Treatment": data.plantreatment,
+      "Other Remarks": data.otherremarks,
     };      
     document.documentname = "Orthodontic Analysis";
     document.documentType = "Orthodontic Analysis";
@@ -2238,7 +2232,7 @@ export function OrthodonticAnalysis() {
           }}
           mb={1}
         >
-          <FormsHeaderText text={"ORTHODONTIC ANALYSIS"} />
+          <FormsHeaderText color="none" text={"ORTHODONTIC ANALYSIS FORM"} />
 
           <IconButton onClick={closeEncounterRight}>
             <CloseIcon fontSize="small" />
@@ -2246,91 +2240,6 @@ export function OrthodonticAnalysis() {
         </Box>
         <div className="card-content vscrollable remPad1">
           <form>
-          <Typography style={{ marginTop: '20px', marginBottom: '20px' }} fontWeight="bold"  color="primary" variant="body1">
-          Personal Information
-            </Typography>
-
-  <Grid container spacing={2}>
-  <Grid item xs={3}>
-    <Typography color="primary" variant="body2">
-      Name:
-    </Typography>
-    <Box mb={1}>
-      <Input
-        register={register("name")}
-        name="text"
-        type="text"
-        placeholder="Enter name..."
-      />
-    </Box>
-  </Grid>
-  <Grid item xs={3}>
-    <Typography color="primary" variant="body2">
-      Hosp No:
-    </Typography>
-    <Box mb={1}>
-      <Input
-        register={register("hospital")}
-        name="text"
-        type="text"
-        placeholder="Enter hospital"
-      />
-    </Box>
-  </Grid>
-  <Grid item xs={3}>
-    <Typography color="primary" variant="body2">
-      D.O.B
-    </Typography>
-    <Box mb={1}>
-      <Input
-        register={register("dob")}
-        name="text"
-        type="text"
-        placeholder="Enter date of birth"
-      />
-    </Box>
-  </Grid>
-  <Grid item xs={3}>
-    <Typography color="primary" variant="body2">
-      Dental Practitional: 
-    </Typography>
-    <Box mb={1}>
-      <Input
-        register={register("dentalpractional")}
-        name="text"
-        type="text"
-        placeholder="Enter dental practional"
-      />
-    </Box>
-  </Grid>
-  <Grid item xs={3}>
-    <Typography color="primary" variant="body2">
-      Consultant: 
-    </Typography>
-    <Box mb={1}>
-      <Input
-        register={register("consultant")}
-        name="text"
-        type="text"
-        placeholder="Enter consultant"
-      />
-    </Box>
-  </Grid>
-  <Grid item xs={3}>
-    <Typography color="primary" variant="body2">
-      Reffered By:
-    </Typography>
-    <Box mb={1}>
-      <Input
-        register={register("refferedby")}
-        name="text"
-        type="text"
-        placeholder="Enter refferal"
-      />
-    </Box>
-  </Grid>
-</Grid>
-
 <Typography style={{ marginTop: '20px', marginBottom: '20px' }} fontWeight="bold"  color="primary" variant="body1">
   General Dental Analysis
 </Typography>
@@ -2364,11 +2273,11 @@ export function OrthodonticAnalysis() {
   </Grid>
   <Grid item xs={6}>
     <Typography color="primary" variant="body2">
-      First Permanent Radars
+      First Permanent Molars:
     </Typography>
     <Box mb={1}>
       <Input
-        register={register("radars")}
+        register={register("molars")}
         name="text"
         type="text"
         placeholder="Type here..."
@@ -2451,11 +2360,11 @@ export function OrthodonticAnalysis() {
   </Grid>
   <Grid item xs={4}>
     <Typography color="primary" variant="body2">
-      Oreject:
+      Overjet:
     </Typography>
     <Box mb={1}>
       <Input
-        register={register("oreject")}
+        register={register("overjet")}
         name="text"
         type="text"
         placeholder="Type here..."
@@ -2522,11 +2431,11 @@ export function OrthodonticAnalysis() {
   </Grid>
   <Grid item xs={6}>
     <Typography color="primary" variant="body2">
-      Oral Hygenic/ Euginis
+      Oral Hygiene.Gingivities
     </Typography>
     <Box mb={1}>
       <Input
-        register={register("oralhygenic")}
+        register={register("oralhygiene")}
         name="text"
         type="text"
         placeholder="Type here..."
@@ -2593,11 +2502,11 @@ export function OrthodonticAnalysis() {
   </Grid>
   <Grid item xs={4}>
     <Typography color="primary" variant="body2">
-      Rental Ortho anomalis:
+      Dental Ortho Anomalies:
     </Typography>
     <Box mb={1}>
       <Input
-        register={register("rentalortho")}
+        register={register("dentalortho")}
         name="text"
         type="text"
         placeholder="Type here..."
@@ -2607,7 +2516,7 @@ export function OrthodonticAnalysis() {
 </Grid>
 
 
-<Typography fontWeight="bold" color="primary" variant="body1">Clinial Skeptical Analysis</Typography>
+<Typography fontWeight="bold" color="primary" variant="body1">Clinial Skeletal Analysis</Typography>
 <Grid container spacing={2}>
   <Grid item xs={6}>
     <Typography color="primary" variant="body2">
@@ -2623,7 +2532,6 @@ export function OrthodonticAnalysis() {
     </Box>
     <Typography color="primary" variant="body2">
     L.Incisor Angle
-    SK Pattern
     </Typography>
     <Box mb={1}>
       <Input
@@ -2641,6 +2549,19 @@ export function OrthodonticAnalysis() {
     <Box mb={1}>
       <Input
         register={register("fmangle")}
+        name="text"
+        type="text"
+        placeholder="Type here"
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={6}>
+    <Typography color="primary" variant="body2">
+    SK Pattern
+    </Typography>
+    <Box mb={1}>
+      <Input
+        register={register("clinicalskpattern")}
         name="text"
         type="text"
         placeholder="Type here"
@@ -2718,7 +2639,7 @@ export function OrthodonticAnalysis() {
     </Typography>
     <Box mb={1}>
       <Input
-        register={register("skpattern")}
+        register={register("cephalometricskpattern")}
         name="text"
         type="text"
         placeholder="Type here..."
@@ -2839,7 +2760,7 @@ export function OrthodonticAnalysis() {
   type="submit"
   onClick={() => setConfirmationDialog(true)}
   >
-  Submit Form
+  Submit Othodontic Form
   </GlobalCustomButton>
   </Box>
   </form>
