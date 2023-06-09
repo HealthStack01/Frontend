@@ -105,7 +105,13 @@ const ChatConversationHeader = () => {
         }}
       >
         <Avatar
-          {...returnAvatarString(`${chatPartner.name}`)}
+          {...returnAvatarString(
+            `${
+              chatRoom.chatType === "personal"
+                ? chatPartner?.name
+                : chatRoom.name
+            }`
+          )}
           src={chatPartner?.imageurl}
         />
         <Box
@@ -118,10 +124,14 @@ const ChatConversationHeader = () => {
           <Typography
             sx={{fontSize: "0.8rem", fontWeight: "600", color: "#2d2d2d"}}
           >
-            {chatPartner.name}
+            {chatRoom.chatType === "personal"
+              ? chatPartner?.name
+              : chatRoom.name}
           </Typography>
           <Typography sx={{fontSize: "0.7rem", color: "#6c757d"}}>
-            {chatPartner.profession}
+            {chatRoom.chatType === "personal"
+              ? chatPartner.profession
+              : chatRoom.description}
           </Typography>
         </Box>
       </Box>
@@ -150,13 +160,29 @@ const ChatConversationHeader = () => {
           // sx={{padding: 0}}
         >
           <MenuItem
-            sx={{fontSize: "0.8rem"}}
+            sx={{
+              fontSize: "0.8rem",
+              display: chatRoom.chatType === "personal" ? "flex" : "none",
+            }}
             onClick={() => {
               showRightSideBar();
               handleCloseOptions();
             }}
           >
             User Profile
+          </MenuItem>
+
+          <MenuItem
+            sx={{
+              fontSize: "0.8rem",
+              display: chatRoom.chatType !== "personal" ? "flex" : "none",
+            }}
+            onClick={() => {
+              showRightSideBar();
+              handleCloseOptions();
+            }}
+          >
+            View Members
           </MenuItem>
 
           <MenuItem

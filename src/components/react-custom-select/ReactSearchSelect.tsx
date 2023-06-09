@@ -11,10 +11,12 @@ interface componentProps {
   name: string;
   error?: string;
   multiple?: boolean;
+  onInputChange: any;
+  isLoading?: boolean;
   disabled?: boolean;
 }
 
-const ReactCustomSelectComponent = ({
+const ReactCustomSearchSelectComponent = ({
   options,
   placeholder,
   defaultValue = "",
@@ -22,6 +24,8 @@ const ReactCustomSelectComponent = ({
   control,
   error,
   multiple,
+  onInputChange,
+  isLoading,
   disabled,
 }: componentProps) => {
   return (
@@ -38,8 +42,10 @@ const ReactCustomSelectComponent = ({
             defaultInputValue={defaultValue}
             placeholder={placeholder}
             value={value}
+            onInputChange={onInputChange}
             onChange={onChange}
             isClearable
+            isLoading={isLoading}
             styles={{
               menuPortal: base => ({...base, zIndex: 9999, color: "#2d2d2d"}),
               control: (baseStyles, state) => ({
@@ -66,4 +72,4 @@ const ReactCustomSelectComponent = ({
   );
 };
 
-export default ReactCustomSelectComponent;
+export default ReactCustomSearchSelectComponent;

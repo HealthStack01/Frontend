@@ -9,6 +9,8 @@ import {UserContext} from "../../../../../context";
 import ChatEachStaff from "./each-staff";
 import {useForm} from "react-hook-form";
 import ReactCustomSelectComponent from "../../../../../components/react-custom-select";
+import ReactCustomSearchSelectComponent from "../../../../../components/react-custom-select/ReactSearchSelect";
+import {toast} from "react-toastify";
 
 const CustomLoader = () => (
   <div
@@ -40,6 +42,7 @@ const CommunicationChatStaffsList = ({closeStaffsList}) => {
   const [fetchingFacilities, setFetchingFacilities] = useState(false);
   const [facilities, setFacilities] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  const [orgSearchVal, setOrgSearchVal] = useState("");
   const {control, watch} = useForm();
 
   const handleSearchChange = e => {
@@ -68,7 +71,7 @@ const CommunicationChatStaffsList = ({closeStaffsList}) => {
     facilityServ
       .find({
         query: {
-          $limit: 200,
+          //$limit: 200,
           $sort: {
             createdAt: -1,
           },
@@ -121,9 +124,9 @@ const CommunicationChatStaffsList = ({closeStaffsList}) => {
     }
   }, [selectedOrg]);
 
-  useEffect(() => {
-    getFacilities();
-  }, []);
+  // useEffect(() => {
+  //   getFacilities();
+  // }, []);
 
   useEffect(() => {
     if (user) {
@@ -139,6 +142,71 @@ const CommunicationChatStaffsList = ({closeStaffsList}) => {
     EmployeeServ.on("removed", obj => handleGetStaffs());
     return () => {};
   }, [handleGetStaffs]);
+
+  const handleSelectInputChange = val => {
+    if (val.length <= 3 && val.trim() !== "") return;
+    setFetchingFacilities(true);
+    facilityServ
+      .find({
+        query: {
+          $or: [
+            {
+              facilityName: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityOwner: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityType: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityCategory: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityContactPhone: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityEmail: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+          ],
+
+          $limit: 100,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      })
+      .then(res => {
+        //console.log(res);
+        setFacilities(res.data);
+        setFetchingFacilities(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setFetchingFacilities(false);
+        toast.error("An error occured, check your network");
+      });
+  };
+
+  const finalStaffs = searchValue !== "" ? filteredStaffs : staffs;
 
   return (
     <Box sx={{width: "100%", height: "100%"}}>
@@ -175,8 +243,10 @@ const CommunicationChatStaffsList = ({closeStaffsList}) => {
           padding: "0 15px",
         }}
       >
-        <ReactCustomSelectComponent
+        <ReactCustomSearchSelectComponent
           control={control}
+          onInputChange={handleSelectInputChange}
+          isLoading={fetchingFacilities}
           name="organization"
           placeholder="Select organization"
           options={facilities.map(item => {
@@ -201,9 +271,9 @@ const CommunicationChatStaffsList = ({closeStaffsList}) => {
         </Box>
       ) : staffs.length > 0 ? (
         <Box
-          sx={{width: "100%", height: "calc(100% - 50px)", overflowY: "auto"}}
+          sx={{width: "100%", height: "calc(100% - 110px)", overflowY: "auto"}}
         >
-          {staffs.map(staff => {
+          {finalStaffs.map(staff => {
             return <ChatEachStaff key={staff._id} staff={staff} />;
           })}
         </Box>

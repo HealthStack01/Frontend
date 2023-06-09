@@ -11,6 +11,7 @@ import ChatMessages from "../chat-messages/Chat-Messages";
 import MessagesSearchInput from "../search-input/Search-Input";
 import {ObjectContext} from "../../../../../context";
 import UserProfile from "../user-profile/User-Profile";
+import ChatChannelDetails from "../channel-details/ChannelDetails";
 import client from "../../../../../feathers";
 import {toast} from "react-toastify";
 
@@ -273,14 +274,15 @@ const ChatBoardConversation = () => {
             backgroundColor: "#f0f0f0",
           }}
         >
-          <Box></Box>
-
           <IconButton onClick={hideRightSideBar}>
             <CloseIcon />
           </IconButton>
         </Box>
-
-        <UserProfile />
+        {chatRoom.chatType === "personal" ? (
+          <UserProfile />
+        ) : (
+          <ChatChannelDetails />
+        )}
       </Box>
     </Box>
   );
