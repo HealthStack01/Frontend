@@ -51,9 +51,7 @@ const SendLinkViaEmail = ({
     }/${id}`}>LINK</a> to create an Organization </p>`
   );
   const [indvemailBody, setIndvEmailBody] = useState(
-    `<p>Please follow this <a style="color:red;" href=${`https://citizen-healthstack.netlify.app/signup/${
-      orgType ? orgType : "individual"
-    }/${id}`}>LINK</a> to create an Organization </p>`
+    `<p>Please follow this <a style="color:red;" href=${`https://citizen-healthstack.netlify.app/beneficiary-signup/${id}`}>LINK</a> to register as a beneficiary </p>`
   );
   const {
     register,
@@ -69,7 +67,7 @@ const SendLinkViaEmail = ({
     reset({
       to: destinationEmail,
       name: user.currentEmployee.facilityDetail.facilityName,
-      subject: "Create Your Organization",
+      subject: "Sign up For your health Insurance",
       from: selectedEmail,
     });
   }, [selectedEmail, destinationEmail]);
@@ -346,7 +344,7 @@ if (orgType!=="individual"){
     
 
       <Grid container spacing={1} mb={2}>
-        <Grid item lg={6} md={6} sm={6}>
+        <Grid item lg={6} md={6} sm={6} xs={12}>
           <Input
             important
             label="Name"
@@ -355,7 +353,7 @@ if (orgType!=="individual"){
           />
         </Grid>
 
-        <Grid item lg={6} md={6} sm={6}>
+        <Grid item lg={6} md={6} sm={6} xs={12}>
           <Input
             important
             label="Subject"
@@ -364,7 +362,7 @@ if (orgType!=="individual"){
           />
         </Grid>
 
-        <Grid item lg={6} md={6} sm={6} gap={1}>
+        <Grid item lg={6} md={6} sm={6}  xs={12} gap={1}>
           <Input
             important
             label="From"
@@ -381,7 +379,7 @@ if (orgType!=="individual"){
           </GlobalCustomButton>
         </Grid>
 
-        <Grid item lg={6} md={6} sm={6}>
+        <Grid item lg={6} md={6} sm={6} xs={12}>
           <Input
             important
             label="To"
@@ -450,7 +448,12 @@ if (orgType!=="individual"){
         </GlobalCustomButton>
       </Box>
         <Box>
-
+     {/*  <input type="file" multiple onChange={handleFileUpload} />
+        <ul>
+        {files.map((file, index) => (
+          <li key={index}>{file}</li>
+        ))}
+      </ul>  */}
       
       </Box>   
      

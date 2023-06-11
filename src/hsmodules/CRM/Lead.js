@@ -412,7 +412,13 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
             </GlobalCustomButton>
           </TableMenu>
 
-          <div style={{width: "100%", overflow: "auto"}}>
+          <div
+          className="level"
+          style={{
+            height: "80vh",
+            overflowY: "scroll",
+          }}
+        >
             <CustomTable
               title={""}
               columns={LeadSchema}

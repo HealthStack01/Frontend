@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { formatDistanceToNowStrict } from "date-fns";
 import ClientFinInfo from "./ClientFinInfo";
 import BillServiceCreate from "../Finance/BillServiceCreate";
+import Invoice from "./Invoice"
 import { AppointmentCreate } from "../Appointment/generalAppointment";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ClientBilledPrescription from "../Finance/ClientBill";
@@ -72,6 +73,7 @@ import axios from "axios";
 import { FileUploader } from "react-drag-drop-files";
 import MuiDateTimePicker from "../../components/inputs/DateTime/MuiDateTimePicker";
 import { ProviderPrintId } from "./components/PrintId";
+import InvoicePlanList from "./components/invoice/InvoicePlanList"
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -1271,6 +1273,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [showInvoice, setShowInvoice]=useState(false);
 
   const handleCreateNew = async () => {
     const newClientModule = {
@@ -1420,7 +1423,8 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       // const findClient= await ClientServ.find()
       const findClient = await ClientServ.find({
         query: {
-          organizationId: user.currentEmployee.facilityDetail._id,
+         /*  organizationId: , */
+          spondor:user.currentEmployee.facilityDetail._id,
           $sort: {
             createdAt: -1,
           },
@@ -1644,6 +1648,16 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 
   return (
     <>
+     <ModalBox
+        open={showInvoice}
+        onClose={() => {
+          setShowInvoice(false);
+       
+        }}
+        header="Available Plans"
+      >
+        <InvoicePlanList />
+      </ModalBox>
       <div
         className="level"
         style={{
@@ -1651,6 +1665,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
           margin: "0 1rem",
         }}
       >
+        <TableMenu>
         <div style={{ display: "flex", alignItems: "center" }}>
           {handleSearch && (
             <div className="inner-table">
@@ -1658,18 +1673,23 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
             </div>
           )}
           <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
-            List of Beneficiary
+            List of Beneficiaries
           </h2>
         </div>
-        {handleCreateNew && (
-          <Button
-            style={{ fontSize: "14px", fontWeight: "600px" }}
-            label="Add New"
-            onClick={handleCreateNew}
-            showicon={true}
-          />
-        )}
-        <div
+        <div style={{ display: "flex", alignItems: "center" , flexDirection:"row"}}>
+       
+           <GlobalCustomButton
+                color="info"
+                onClick={() => setShowInvoice(true)}
+                sx={{ marginRight: "15px" }}
+              >
+                Send Link
+              </GlobalCustomButton>
+        
+        
+        </div>
+       </TableMenu>
+         <div
           className="level"
           style={{
             height: "80vh",
@@ -1686,7 +1706,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
             onRowClicked={handleRow}
             progressPending={loading}
           />
-        </div>
+        </div> 
       </div>
     </>
   );
