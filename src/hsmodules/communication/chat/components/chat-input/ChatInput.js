@@ -16,6 +16,7 @@ import {toast} from "react-toastify";
 
 const GeneralChatInputBox = () => {
   const [selectedChat, setSelectedChat] = useState(null);
+  const chatroomServer = client.service("chatroom");
   const chatMessagesServer = client.service("chat");
   const {state} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
@@ -86,13 +87,23 @@ const GeneralChatInputBox = () => {
       //createdAt: dayjs(Date.now()).toISOString(),
     };
 
-    // return console.log(message);
+    const lastmessage = {
+      messageType: "text",
+      message: inputMessage,
+      status: "sent",
+      createdby: employee,
+      createdbyId: employee._id,
+      time: Date.now(),
+    };
 
     chatMessagesServer
       .create(message)
       .then(res => {
         toast.success("Message sent");
         setInputMessage("");
+        return chatroomServer.patch(selectedChat._id, {
+          lastmessage: lastmessage,
+        });
       })
       .catch(error => {
         toast.error(`Message failed ${error}`);

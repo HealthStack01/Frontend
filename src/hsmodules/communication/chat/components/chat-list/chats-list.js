@@ -73,12 +73,26 @@ const CommunicationChatsList = ({showStaffsList}) => {
 
   useEffect(() => {
     handleGetChatRooms();
-    chatroomServer.on("created", obj => handleGetChatRooms());
-    chatroomServer.on("updated", obj => handleGetChatRooms());
-    chatroomServer.on("patched", obj => handleGetChatRooms());
-    chatroomServer.on("removed", obj => handleGetChatRooms());
+
+    chatroomServer.on("created", obj => setChats(prev => [obj, ...prev]));
+    chatroomServer.on("patched", obj =>
+      setChats(prev =>
+        prev.map(item => {
+          if (item._id === obj._id) {
+            return obj;
+          } else {
+            return item;
+          }
+        })
+      )
+    );
+    chatroomServer.on("removed", obj => {
+      setChats(prev => prev.filter(item => item._id !== obj._id));
+    });
     return () => {};
   }, [handleGetChatRooms]);
+
+  console.log(chats[0]);
 
   return (
     <Box sx={{width: "100%", height: "100%"}}>
