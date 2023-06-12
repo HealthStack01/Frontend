@@ -28,7 +28,7 @@ const EachChat = ({chat}) => {
     }));
   };
 
-  const timestamp = chat.lastmessage ? chat.lastmessage : chat.createdAt;
+  const timestamp = chat.lastmessage ? chat.lastmessage.time : chat.createdAt;
 
   const messagesDay = moment(timestamp);
   const currentDay = moment(new Date());

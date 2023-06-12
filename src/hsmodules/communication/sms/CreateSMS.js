@@ -29,6 +29,7 @@ import axios from "axios";
 
 const CommunicationSMSCreate = ({closeModal}) => {
   const smsServer = client.service("sms");
+  const sendSmsServer = client.service("sendsms");
   const emailServer = client.service("email");
   const {user} = useContext(UserContext);
   const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
@@ -49,28 +50,25 @@ const CommunicationSMSCreate = ({closeModal}) => {
 
     const document = {
       message: data.message,
-      recipients: [data.phone_number],
+      receiver: data.phone_number,
+      subject: data.subject,
+      facilityName: facility.facilityName,
+      facilityId: facility._id,
     };
 
-    const token = localStorage.getItem("feathers-jwt");
+    // return console.log(document);
 
-    return axios
-      .post(
-        `https://portal.nigeriabulksms.com/api/?username=apmis&apmis=pass&message=${data.message}&sender=${user.currentEmployee.facilityDetail.facilityName}&mobiles=${data.phone_number}`
-      )
+    return sendSmsServer
+      .create(document)
       .then(res => {
-        console.log(res);
         hideActionLoader();
         closeModal();
-        toast.success(`SMS was sent successfully`);
+        toast.success("You've successfully sent SMS");
       })
-      .catch(err => {
+      .catch(error => {
         hideActionLoader();
-        console.log(err);
-        toast.error(`Sorry, Failed to send SMS ${err}`);
+        toast.error(`Failed to send SMS ${error}`);
       });
-
-    //axios.get("https://healthstack-backend.herokuapp.com/sms");
   };
 
   return (
@@ -80,6 +78,14 @@ const CommunicationSMSCreate = ({closeModal}) => {
       }}
     >
       <Grid container spacing={1} mb={2}>
+        <Grid item lg={12} md={12} sm={12} xs={12}>
+          <Input
+            label="Subject"
+            register={register("subject")}
+            errorText={errors?.name?.number}
+          />
+        </Grid>
+
         <Grid item lg={12} md={12} sm={12} xs={12}>
           <Input
             important

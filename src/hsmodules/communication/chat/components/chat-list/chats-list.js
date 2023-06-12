@@ -13,6 +13,7 @@ import CreateNewChannel from "./create-channel";
 import client from "../../../../../feathers";
 import {UserContext} from "../../../../../context";
 import {toast} from "react-toastify";
+import moment from "moment";
 
 const CustomLoader = () => (
   <div
@@ -70,6 +71,12 @@ const CommunicationChatsList = ({showStaffsList}) => {
         );
       });
   }, []);
+
+  const sortedChats = chats.sort((a, b) => {
+    const compA = moment(a.lastmessage ? a.lastmessage.time : a.createdAt);
+    const compB = moment(b.lastmessage ? b.lastmessage.time : b.createdAt);
+    return compB - compA;
+  });
 
   useEffect(() => {
     handleGetChatRooms();
@@ -176,7 +183,7 @@ const CommunicationChatsList = ({showStaffsList}) => {
               overflowY: "auto",
             }}
           >
-            {chats.length > 0 ? (
+            {sortedChats.length > 0 ? (
               <Box
                 sx={{
                   width: "100%",
@@ -184,7 +191,7 @@ const CommunicationChatsList = ({showStaffsList}) => {
                   overflowY: "auto",
                 }}
               >
-                {chats.map(chat => {
+                {sortedChats.map(chat => {
                   return <EachChat key={chat._id} chat={chat} />;
                 })}
               </Box>

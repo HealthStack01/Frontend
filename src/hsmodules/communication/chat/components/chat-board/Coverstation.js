@@ -281,11 +281,11 @@ const ChatBoardConversation = () => {
             <CloseIcon />
           </IconButton>
         </Box>
-        {/* {room?.chatType === "personal" ? (
+        {state?.ChatRoom?.chatType === "personal" ? (
           <UserProfile />
         ) : (
           <ChatChannelDetails />
-        )} */}
+        )}
       </Box>
     </Box>
   );

@@ -25,6 +25,7 @@ import GlobalCustomButton from "../../buttons/CustomButton";
 
 const AppointmentCreate = ({closeModal, showBillModal}) => {
   const appointmentsServer = client.service("appointments");
+  const sendSmsServer = client.service("sendsms");
   const smsServer = client.service("sms");
   const emailServer = client.service("email");
   const notificationsServer = client.service("notification");
@@ -96,6 +97,7 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
 
   const handleCreateAppointment = async data => {
     const employee = user.currentEmployee;
+    const facility = employee.facilityDetail;
     const generatedOTP = generateOTP();
     const isHMO = patient.paymentinfo.some(checkHMO);
 
@@ -146,7 +148,7 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
     data.location_name = location.name;
     data.location_type = location.locationType;
     data.otp = generatedOTP;
-    data.organization_type = employee.facilityDetail.facilityType;
+    data.organization_type = facility.facilityType;
     data.actions = [
       {
         status: data.appointment_status,
@@ -171,8 +173,8 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
     };
 
     const emailObj = {
-      organizationId: employee.facilityDetail._id,
-      organizationName: employee.facilityDetail.facilityName,
+      organizationId: facility._id,
+      organizationName: facility.facilityName,
       html: `<p>You have been scheduled for an appointment with ${
         practioner.profession
       } ${practioner.firstname} ${practioner.lastname} at ${dayjs(
@@ -183,11 +185,11 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
 
       text: ``,
       status: "pending",
-      subject: `SCHEDULED APPOINTMENT WITH ${
-        employee.facilityDetail.facilityName
-      } AT ${dayjs(data.date).format("DD/MM/YYYY hh:mm")}`,
+      subject: `SCHEDULED APPOINTMENT WITH ${facility.facilityName} AT ${dayjs(
+        data.date
+      ).format("DD/MM/YYYY hh:mm")}`,
       to: patient.email,
-      name: employee.facilityDetail.facilityName,
+      name: facility.facilityName,
       from: state?.CommunicationModule?.defaultEmail?.emailConfig?.username,
     };
 
@@ -199,7 +201,9 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
       ).format("DD/MM/YYYY hh:mm")} ${
         isHMO ? `and your OTP code is ${generatedOTP}` : ""
       } `,
-      recipients: [patient.phone],
+      recipients: patient.phone,
+      facilityName: facility.facilityName,
+      facilityId: facility._id,
     };
 
     //console.log(data);
@@ -214,7 +218,7 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
         );
 
         await notificationsServer.create(notificationObj);
-        //await smsServer.create(smsObj);
+        await sendSmsServer.create(smsObj);
         if (sendMail) {
           await emailServer.create(emailObj);
         }
@@ -224,10 +228,6 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
         if (showBillModal) {
           showBillModal(true);
         }
-
-        // await axios.post(
-        //   `https://portal.nigeriabulksms.com/api/?username=apmis&apmis=pass&message=${smsObj.message}&sender=${user.currentEmployee.facilityDetail.facilityName}&mobiles=${chosen.phone}`
-        // );
       })
       .catch(err => {
         hideActionLoader();
