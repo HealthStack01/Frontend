@@ -1,5 +1,5 @@
 import {Box, IconButton, Menu, MenuItem} from "@mui/material";
-import {useContext, useState, useRef} from "react";
+import {useContext, useState, useRef, useEffect} from "react";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import AddIcon from "@mui/icons-material/Add";
 import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
@@ -15,6 +15,7 @@ import client from "../../../../../feathers";
 import {toast} from "react-toastify";
 
 const GeneralChatInputBox = () => {
+  const [selectedChat, setSelectedChat] = useState(null);
   const chatMessagesServer = client.service("chat");
   const {state} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
@@ -22,7 +23,10 @@ const GeneralChatInputBox = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [fileAnchorEl, setFileAnchorEl] = useState(null);
 
-  const selectedChat = state.ChatModule.chatRoom;
+  useEffect(() => {
+    const chat = state.ChatRoom;
+    setSelectedChat(chat);
+  }, [state.ChatRoom]);
 
   const inputRef = useRef(null);
 
@@ -79,7 +83,7 @@ const GeneralChatInputBox = () => {
         type: "Point",
         coordinates: [state.coordinates.latitude, state.coordinates.longitude],
       },
-      createdAt: dayjs(Date.now()).toISOString(),
+      //createdAt: dayjs(Date.now()).toISOString(),
     };
 
     // return console.log(message);
@@ -87,7 +91,7 @@ const GeneralChatInputBox = () => {
     chatMessagesServer
       .create(message)
       .then(res => {
-        toast.success("Message sent.");
+        toast.success("Message sent");
         setInputMessage("");
       })
       .catch(error => {
@@ -198,7 +202,7 @@ const GeneralChatInputBox = () => {
         </form>
       </Box>
 
-      <IconButton>
+      <IconButton onClick={() => console.log(state.ChatRoom)}>
         <KeyboardVoiceIcon />
       </IconButton>
     </Box>

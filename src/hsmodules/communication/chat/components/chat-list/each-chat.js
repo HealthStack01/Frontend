@@ -61,10 +61,7 @@ const EachChat = ({chat}) => {
   const handleSelectChatRoom = () => {
     setState(prev => ({
       ...prev,
-      ChatModule: {
-        ...prev.ChatModule,
-        chatRoom: chat,
-      },
+      ChatRoom: chat,
     }));
   };
 
