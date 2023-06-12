@@ -310,10 +310,10 @@ if (orgType!=="individual"){
 
   return (
     <>
-      <GlobalCustomButton onClick={handleFileUpload}>
+      {/* <GlobalCustomButton onClick={handleFileUpload}>
           test
           <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
-        </GlobalCustomButton>
+        </GlobalCustomButton> */}
     
     <Box
       sx={{
