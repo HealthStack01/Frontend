@@ -2853,6 +2853,12 @@ export const AdditionalInformationView = () => {
     const updatedDealInfo = oldDealInfo.filter((item) => item._id !== info._id);
 
     const documentId = facility?._id;
+    // console.log("==>>>from provider ", {
+    //   info: info,
+    //   oldDealInfo: oldDealInfo,
+    //   updatedDealInfo: updatedDealInfo,
+    //   documentId: documentId,
+    // });
 
     await dealServer
       .patch(documentId, { info: updatedDealInfo })
@@ -3331,6 +3337,7 @@ export const CreateAddInfo = ({ addInfo, closeModal }) => {
     const employee = user.currentEmployee;
 
     const newInfo = {
+      _id: `${Math.random()}`,
       info: data.info,
       date: new Date(),
       employeename: `${employee.firstname} ${employee.lastname}`,

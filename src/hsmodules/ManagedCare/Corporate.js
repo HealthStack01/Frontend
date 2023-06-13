@@ -2527,6 +2527,7 @@ export const CreateAddInfo = ({ addInfo, closeModal }) => {
     const employee = user.currentEmployee;
 
     const newInfo = {
+      _id: `${Math.random()}`,
       info: data.info,
       date: new Date(),
       employeename: `${employee.firstname} ${employee.lastname}`,
