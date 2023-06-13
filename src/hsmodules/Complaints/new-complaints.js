@@ -2,6 +2,8 @@ import {useState, useCallback, useContext, useEffect} from "react";
 import {Avatar, Box, Button, Grid, Typography, capitalize} from "@mui/material";
 import {useForm} from "react-hook-form";
 import Drawer from "@mui/material/Drawer";
+import PendingIcon from "@mui/icons-material/Pending";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import {FormsHeaderText} from "../../components/texts";
 import Input from "../../components/inputs/basic/Input";
@@ -102,7 +104,17 @@ const NewComplaints = () => {
   useEffect(() => {
     complaintServer.on("created", obj => updateComplaints());
     complaintServer.on("updated", obj => updateComplaints());
-    complaintServer.on("patched", obj => updateComplaints());
+    complaintServer.on("patched", obj => {
+      setComplaints(prev =>
+        prev.map(item => {
+          if (item._id === obj._id) {
+            return obj;
+          } else {
+            return item;
+          }
+        })
+      );
+    });
     complaintServer.on("removed", obj => updateComplaints());
   }, []);
 
@@ -179,10 +191,14 @@ const NewComplaints = () => {
                       sx={{
                         width: "90%",
                       }}
-                      onClick={() => console.log(complaint)}
                       key={complaint._id}
                     >
-                      <EachComplaint complaint={complaint} />
+                      <EachComplaint
+                        complaint={complaint}
+                        showConversation={() =>
+                          showComplaintConversation(complaint)
+                        }
+                      />
                     </Box>
                   );
                 })}
@@ -231,8 +247,53 @@ const NewComplaints = () => {
 
 export default NewComplaints;
 
-const EachComplaint = ({complaint}) => {
+const EachComplaint = ({complaint, showConversation}) => {
+  const complaintServer = client.service("complaints");
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
   const [user, setUser] = useState(null);
+
+  const resolveComplaint = () => {
+    showActionLoader();
+    complaintServer
+      .patch(complaint._id, {resolution: true})
+      .then(res => {
+        setState(prev => ({
+          ...prev,
+          ComplaintModule: {
+            ...prev.ComplaintModule,
+            selectedComplaint: res,
+          },
+        }));
+        hideActionLoader();
+        toast.success("Complaint Marked as Resolved");
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error("Failed to mark Complaint as Resolved");
+      });
+  };
+
+  const unResolveComplaint = () => {
+    showActionLoader();
+    complaintServer
+      .patch(complaint._id, {resolution: false})
+      .then(res => {
+        hideActionLoader();
+        setState(prev => ({
+          ...prev,
+          ComplaintModule: {
+            ...prev.ComplaintModule,
+            selectedComplaint: res,
+          },
+        }));
+        toast.success("Complaint Marked as Unresolved");
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error("Failed to mark Complaint as Unresolved");
+      });
+  };
 
   const getUser = useCallback(() => {
     //
@@ -245,10 +306,12 @@ const EachComplaint = ({complaint}) => {
         padding: "15px",
         width: "100%",
         cursor: "pointer",
-        ":hover": {
-          //backgroundColor: "#fbfefb",
-          boxShadow: 3,
-        },
+        boxShadow: 3,
+        borderRadius: "15px",
+        // ":hover": {
+        //   //backgroundColor: "#fbfefb",
+        //   boxShadow: 3,
+        // },
       }}
     >
       <Box
@@ -280,18 +343,40 @@ const EachComplaint = ({complaint}) => {
           <Typography
             sx={{
               fontSize: "0.75rem",
-              color: "#ee6c4d",
+              color: "#ce4257",
             }}
           >
             {dayjs(complaint.submissiondate).format("DD/MM/YYYY")}
           </Typography>
-          <Typography
-            sx={{
-              fontSize: "0.85rem",
-            }}
-          >
-            Pending
-          </Typography>
+          {complaint.resolution ? (
+            <Typography
+              sx={{
+                fontSize: "0.85rem",
+                color: "#57cc99",
+                display: "flex",
+                gap: "5px",
+                alignItems: "center",
+                fontWeight: "700",
+              }}
+            >
+              Resolved
+              <CheckCircleIcon color="#57cc99" />
+            </Typography>
+          ) : (
+            <Typography
+              sx={{
+                fontSize: "0.85rem",
+                color: "orange",
+                display: "flex",
+                gap: "5px",
+                alignItems: "center",
+                fontWeight: "700",
+              }}
+            >
+              Unresolved
+              <PendingIcon color="orange" />
+            </Typography>
+          )}
         </Box>
       </Box>
 
@@ -313,6 +398,28 @@ const EachComplaint = ({complaint}) => {
         >
           {complaint.complaint}
         </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          mt: 1,
+        }}
+      >
+        <GlobalCustomButton onClick={showConversation}>
+          Conversations
+        </GlobalCustomButton>
+
+        {complaint.resolution ? (
+          <GlobalCustomButton color="warning" onClick={unResolveComplaint}>
+            Reopen Complaint
+          </GlobalCustomButton>
+        ) : (
+          <GlobalCustomButton color="success" onClick={resolveComplaint}>
+            Resolve Complaint
+          </GlobalCustomButton>
+        )}
       </Box>
     </Box>
   );

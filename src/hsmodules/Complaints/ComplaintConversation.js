@@ -324,44 +324,68 @@ const ComplaintConversation = ({closeConvo}) => {
               alignItems: "center",
               justifyContent: "space-between",
               height: "60px",
-              padding: "0 15px",
+              padding: complaint?.resolution ? "0" : "0 15px",
             }}
           >
-            <Box
-              sx={{
-                width: "calc(100% - 50px)",
-              }}
-            >
-              <form
-                onSubmit={e => {
-                  e.preventDefault();
-                  sendMessage();
+            {complaint?.resolution ? (
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: "#d3d3d3",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                <input
-                  type="text"
-                  className="chat-input-box"
-                  placeholder="Enter your message..."
-                  tabIndex="0"
-                  value={message}
-                  onChange={handleChange}
-                />
-              </form>
-            </Box>
+                <Typography
+                  sx={{
+                    fontSize: "0.9rem",
+                    color: "#036666",
+                  }}
+                >
+                  Complaint Resolved
+                </Typography>
+              </Box>
+            ) : (
+              <>
+                <Box
+                  sx={{
+                    width: "calc(100% - 50px)",
+                  }}
+                >
+                  <form
+                    onSubmit={e => {
+                      e.preventDefault();
+                      sendMessage();
+                    }}
+                  >
+                    <input
+                      type="text"
+                      className="chat-input-box"
+                      placeholder="Enter your message..."
+                      tabIndex="0"
+                      value={message}
+                      onChange={handleChange}
+                    />
+                  </form>
+                </Box>
 
-            <Button
-              onClick={sendMessage}
-              variant="contained"
-              sx={{
-                padding: 0,
-                minWidth: 0,
-                width: "40px",
-                height: "40px",
-                borderRadius: "50%",
-              }}
-            >
-              {sendingMsg ? <ThreeCirclesSpinner /> : <SendIcon />}
-            </Button>
+                <Button
+                  onClick={sendMessage}
+                  variant="contained"
+                  sx={{
+                    padding: 0,
+                    minWidth: 0,
+                    width: "40px",
+                    height: "40px",
+                    borderRadius: "50%",
+                  }}
+                >
+                  {sendingMsg ? <ThreeCirclesSpinner /> : <SendIcon />}
+                </Button>
+              </>
+            )}
           </Box>
 
           <Zoom in={goDownIcon}>
