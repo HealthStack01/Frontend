@@ -87,7 +87,7 @@ const ComplaintConversation = ({closeConvo}) => {
     setMessage(e.target.value);
   };
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = e => {
     const value = e.target.value;
     setSearchValue(value);
   };
@@ -239,7 +239,7 @@ const ComplaintConversation = ({closeConvo}) => {
                 fontWeight: "600",
               }}
             >
-              {complaint?.submissionby}
+              {`${complaint?.submissionby?.firstname} ${complaint?.submissionby?.lastname}`}
             </Typography>
 
             {complaint?.complaint?.length > 200 && (
