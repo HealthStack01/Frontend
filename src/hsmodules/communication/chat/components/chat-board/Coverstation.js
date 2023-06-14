@@ -16,6 +16,7 @@ import client from "../../../../../feathers";
 import {toast} from "react-toastify";
 
 const ChatBoardConversation = () => {
+  //const [chatRoom, setChatRoom] = useState(null);
   const [fetchingMsgs, setFetchingMsgs] = useState(false);
   const [goDownIcon, setGoDownIcon] = useState(false);
   const chatMessagesServer = client.service("chat");
@@ -24,7 +25,10 @@ const ChatBoardConversation = () => {
 
   const {showSearch, rightSideBar} = state.ChatModule;
 
-  const chatRoom = state.ChatModule.chatRoom;
+  // useEffect(() => {
+  //   const room = state.ChatModule.chatRoom;
+  //   setChatRoom(room);
+  // }, [state.ChatModule.chatRoom]);
 
   const msgsContainerRef = useRef();
 
@@ -56,7 +60,7 @@ const ChatBoardConversation = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [fetchingMsgs]);
+  }, [state.ChatModule]);
 
   const hideSearchInput = () => {
     setState(prev => ({
@@ -79,6 +83,9 @@ const ChatBoardConversation = () => {
   };
 
   const getChatMessages = useCallback(() => {
+    const chatRoom = state.ChatRoom;
+    setFetchingMsgs(true);
+
     setFetchingMsgs(true);
     chatMessagesServer
       .find({
@@ -97,40 +104,36 @@ const ChatBoardConversation = () => {
       })
       .catch(error => {
         setFetchingMsgs(false);
-        toast.error(`An error occured updating your Chat-Rooms ${error}`);
+        toast.error(`An error occured ${error}`);
       });
-  }, [chatRoom]);
+  }, [state.ChatRoom]);
 
-  const updateChatMessages = useCallback(() => {
-    chatMessagesServer
-      .find({
-        query: {
-          chatroomId: chatRoom._id,
+  // const updateChatMessages = useCallback(() => {
 
-          $sort: {
-            createdAt: 1,
-          },
-        },
-      })
-      .then(res => {
-        setMessages(res.data);
-      })
-      .catch(error => {
-        toast.error(`An error occured updating your Chat-Rooms ${error}`);
-      });
-  }, [chatRoom]);
+  //   chatMessagesServer
+  //     .find({
+  //       query: {
+  //         chatroomId: state.ChatModule.chatRoom._id,
+  //         $sort: {
+  //           createdAt: 1,
+  //         },
+  //       },
+  //     })
+  //     .then(res => {
+  //       setMessages(res.data);
+  //     })
+  //     .catch(error => {
+  //       toast.error(`An error occured updating your Chat-Rooms ${error}`);
+  //     });
+  // }, [chatRoom]);
+
+  // useEffect(() => {
+  //   getChatMessages();
+  // }, [getChatMessages]);
 
   useEffect(() => {
     getChatMessages();
   }, [getChatMessages]);
-
-  useEffect(() => {
-    chatMessagesServer.on("created", obj => updateChatMessages());
-    chatMessagesServer.on("updated", obj => updateChatMessages());
-    chatMessagesServer.on("patched", obj => updateChatMessages());
-    chatMessagesServer.on("removed", obj => updateChatMessages());
-    return () => {};
-  }, [updateChatMessages]);
 
   if (fetchingMsgs)
     return (
@@ -226,14 +229,14 @@ const ChatBoardConversation = () => {
         <Box
           sx={{
             width: "100%",
-            height: "calc(100% - 120px)",
+            height: "calc(100vh - 120px)",
             position: "relative",
             overflowY: "scroll",
           }}
           ref={msgsContainerRef}
           onScroll={handleOnScroll}
         >
-          <ChatMessages messages={messages} />
+          <ChatMessages msgs={messages} />
         </Box>
 
         <Box
@@ -278,7 +281,7 @@ const ChatBoardConversation = () => {
             <CloseIcon />
           </IconButton>
         </Box>
-        {chatRoom.chatType === "personal" ? (
+        {state?.ChatRoom?.chatType === "personal" ? (
           <UserProfile />
         ) : (
           <ChatChannelDetails />

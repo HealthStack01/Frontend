@@ -9,7 +9,7 @@ const ChatUserProfile = () => {
   const {state, setState} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
 
-  const chatRoom = state.ChatModule.chatRoom;
+  const chatRoom = state.ChatRoom;
 
   const chatPartner = chatRoom.members.find(
     item => item._id !== user.currentEmployee._id

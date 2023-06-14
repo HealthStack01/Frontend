@@ -171,7 +171,7 @@ const CreateNewChannel = () => {
   }, [handleGetStaffs]);
 
   const handleClientSearch = val => {
-    if (val.length <= 3 && val.trim() !== "") return;
+    if (val.length <= 3 && val.trim() === "") return;
     setFetchingClients(true);
 
     ClientServ.find({
@@ -246,7 +246,7 @@ const CreateNewChannel = () => {
   };
 
   const handleFacilitySearch = val => {
-    if (val.length <= 3 && val.trim() !== "") return;
+    if (val.length <= 3 && val.trim() === "") return;
     setFetchingFacilities(true);
 
     facilityServ
