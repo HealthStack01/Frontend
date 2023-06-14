@@ -359,6 +359,8 @@ const ClaimsListComponent = ({showCreate, showDetail, client_id}) => {
     },
   ];
 
+  const facilityType = user?.currentEmployee?.facilityDetail?.facilityType;
+
   return (
     <>
       <div className="level">
@@ -375,8 +377,7 @@ const ClaimsListComponent = ({showCreate, showDetail, client_id}) => {
               </h2>
             </div>
             <Box>
-              {!user?.currentEmployee?.facilityDetail?.facilityType ===
-                "Corporate" && (
+              {facilityType !== "Corporate" && (
                 <GlobalCustomButton
                   onClick={handleCreateNew}
                   color="primary"
