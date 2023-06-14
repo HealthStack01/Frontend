@@ -13,7 +13,7 @@ import SendIcon from "@mui/icons-material/Send";
 import {toast} from "react-toastify";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import {getContactColumns} from "../colums/columns";
-const data = require("../../../../data/hci/Enrollee22.json");
+const data = require("../../../../data/hci/enrolleehci.json");
 
 const inputGlobalStyles = (
   <GlobalStyles
@@ -44,6 +44,8 @@ const SendLinkViaEmail = ({
   const [emailsModal, setEmailModals] = useState(true);
   const [toEmailModal, setToEmailModal] = useState(false);
   const [selectedEmail, setSelectedEmail] = useState("");
+  const [start, setStart] = useState('');
+  const [end, setEnd] = useState('');
   const [destinationEmail, setDestinationEmail] = useState(defaultToEmail);
   const [emailBody, setEmailBody] = useState(
     `<p>Please follow this <a style="color:red;" href=${`https://healthstack-test.netlify.app/signup/${
@@ -139,92 +141,80 @@ if (orgType!=="individual"){
     });
   };
 
+/*   const handleoutput= ()=>{
+    console.log(start,end)
+  } */
+
   const handleFileUpload =  async(event) => {
-   // const fileList = event.target.files;
    
-    const hosp=data.slice(60,1000)
-
-   /*  const fileArray = Array.from(fileList).map(async(file) => {
-
-      const fileNameWithoutExtension = file.name.replace(/\.[^/.]+$/, ''); // Remove file extension
-      let filename=  fileNameWithoutExtension.toUpperCase();
-     let parsedData =""
-
-      const content = await readFileContent(file);
-      console.log("filename:",filename)
-      try {
-        parsedData = JSON.parse(content);
-       // parsedDataArray.push(parsedData);
-      } catch (error) {
-        console.error('Error parsing JSON file:'+ file.name, error);
-      } */
-    //read file
-    //create facility (admin) + fail gracefully
-    //add facility to organization client
-    //email login details 
-      let n=0
-   // hosp.map(async(faci,i)=>{
-    for (const faci of hosp){
-    n=n+1
-    console.log(n)
-      //1.create client
-      let client={
-        firstname: faci.EmployeeOthername,
-        middlename:"",
-        lastname:faci.EmployeeSurname,
-        dob:faci.Date_Birth ,
-        gender:faci.Sex,
-        maritalstatus: "",
-        religion: "",
-        phone:faci.Phone,
-        email: `${n}${faci.EmployeeSurname}${faci.EmployeeOthername}@healthstack.africa`, //unique: true
-        bloodgroup: faci.BloodTypeID,
-        genotype:faci.Genotype,
-        clientTags:"hci beneficiary",
-        facility:user.currentEmployee.facilityDetail._id ,
-      }
-
-       await  ClientServ.create(client)
-                  .then(async(resp)=>{
-                    //create relationship
-                    //let provider=""
-                  /* let provid= await facilityServ.find({
-                      query:{
-                        facilityName:faci.HospitalName
-                      }
-                    })
-                    if (provid.data.length>0){
-                      provider=provid.data[0]
-                    }else{ } */
-                  let    provider={
-                        facilityName:faci.HospitalName
-                      }
-                    
-       
 
 
+    const hosp=data.slice(start,end)
 
-                  let  beneficiary=[]
-                 
-                  let provi=[]
-                  provi.push(provider)
-                    console.log("Client created #"+n ,resp)
+    const uniquePolicy = [...new Set(hosp.map(obj => obj.Beneficiaries))];
+let n=0
 
-                  let planItem={}
-                  planItem.name=faci.PlanDescription
-                  planItem.id=faci.PlanID
-                  if (faci.BeneficiaryTypeID==="Principal"){
-                    resp.type="principal"
-                  }else{
-                    resp.type="dependent"
-                  }
-                  resp.policyId=faci.MemberShipFullID
-                  resp.name= resp.lastname
+    for (const unique of uniquePolicy){
+        //find the beneficiaries
+      let benefits=  hosp.filter(el=>el.Beneficiaries===unique)
+      let dependents=[]
+      let principal={}
+      let genNo=""
+      let faci={}
+      n=n+1 
+        for (const benfi of benefits){
 
-                  beneficiary.push(resp)
-                  // create policy 
+          faci=benfi
+         
+            let client={
+              firstname: faci.EmployeeOthername, 
+              middlename:"",
+              lastname:faci.EmployeeSurname,
+              dob:faci.Date_Birth ,
+              gender:faci.Sex,
+              maritalstatus: faci.MaritalStatusID,
+              religion: "",
+              phone:faci.Phone,
+              email: `${n}${faci.EmployeeOthername}@healthstack.africa`, //unique: true
+              bloodgroup: faci.BloodTypeID,
+              genotype:faci.Genotype,
+              clientTags:"hci beneficiary",
+              facility:user.currentEmployee.facilityDetail._id ,
+              address:faci.Address1,
+            }
+      
+             await  ClientServ.create(client)
+             .then(async(resp)=>{
+              if (benfi.FamilyCode== "0"){
+                resp.type="Principal"
+                principal=resp
+                genNo=benfi["Policy No"]
+              }else{
+                resp.type="Dependent"
+                dependents.push(resp)
+              }
+             
+             // create policy 
+             
+               console.log("end of story")
+
+             })
+             .catch((err) => {
+               console.log("Error creating client " + err);
+             });
+
+        
+          }
+          let provi=[]
+          let provider={
+            facilityName:faci.HospitalName,
+              code:faci["Hospital ID"] 
+          }
+          
+              provi.push(provider)
+ //create policy
                   let policy = {
-                    policyNo: faci.MemberShipFullID,
+                    policyNo: genNo,
                     organizationType:user.currentEmployee.facilityDetail.facilityType,
                       
                     organizationId:user.currentEmployee.facilityDetail._id,
@@ -233,17 +223,22 @@ if (orgType!=="individual"){
                     
                     organization:user.currentEmployee.facilityDetail,
                     
-                    principal: resp,
-                    dependantBeneficiaries: faci.BeneficiaryTypeID==="Principal"? []:beneficiary,
+                    principal: principal,
+                    dependantBeneficiaries: dependents,
                     providers:provi , //
-                    sponsorshipType:faci.CustomerName==="Individual"?"Indvidual":"Company",
-                    sponsor: faci.CustomerName,
-                    plan: planItem,
-                    planType: faci.Familycode>0?"Family":"Single",
-                  
+                    sponsorshipType:faci.CustomerName==="Individual"?"Self":"Company",
+                    sponsor: {facilityName:faci.CustomerName,
+                               code:faci.CustomerID   },
+                    plan:{
+                      planName: faci.PlanDescription,
+                      planId:faci.PlanID
+                    },
+                    planType: faci.Familycode>0?"Family":"Individual",
+
                   //  validityPeriods:[ { type: String,  }],
                   validitystarts:faci.PaymentStartDate,
                   validityEnds:faci.PaymentEndDate,
+                  Date_JoinScheme:faci.Date_JoinScheme,
                     active: true,
                     isPaid: true,
                     approved:true,
@@ -256,53 +251,31 @@ if (orgType!=="individual"){
                       }
                   ]
                   }
-                  console.log("policy #"+n,policy)
+                 
                   await policyServ
                     .create(policy)
                     .then((res) => {
-                    
                     console.log("policy created succesfully",res);
-                      
-                      
+                    console.log("policy #"+n,policy)
                     })
                     .catch((err) => {
                       console.log("Error creating policy " + err);
                     });
-                    console.log("end of story")
 
-                  })
-                  .catch((err) => {
-                    console.log("Error creating client " + err);
-                  });
-       // console.log("query", query);
-    //create organizatuonal relationship
+        }
+
        
-         
 
 
 
-      //2 create policy
-    
-  
-      
-
-      //try and do dependent+
-     
 
     }
 
-    /*  return fileNameWithoutExtension
-    });
-    setFiles(fileArray); */
+     
 
-//1. create bands from list of files
-// model:facility: { type: Schema.Types.ObjectId,  },
- //   name: { type: String, required: true },
-   // description: { type: String},
-    // bandType: { type: String}
-//2. create tariff from files 
-
-  };
+     
+   
+  
 
 
 
@@ -310,12 +283,15 @@ if (orgType!=="individual"){
 
   return (
     <>
-      {/* <GlobalCustomButton onClick={handleFileUpload}>
+    {/* <Box sx={{ gap:2}}>
+      <input type="number"  value={start} name="begin" onChange={(e)=> setStart(e.target.value) } />
+      <input type="number" value={end} name="end" onChange={(e)=> setEnd(e.target.value) } />
+     <GlobalCustomButton onClick={handleFileUpload}>
           test
           <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
-        </GlobalCustomButton> */}
-    
-    <Box
+        </GlobalCustomButton> 
+      </Box>*/}
+    <Box 
       sx={{
         width: "60vw",
       }}
