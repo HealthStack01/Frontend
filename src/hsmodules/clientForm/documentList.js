@@ -111,6 +111,14 @@ const documentList = [
     updatedAt: "2021-06-06T10:09:59.847Z",
     __v: 0,
   },
+  {
+    _id: "60643cafd2292800150b5a42",
+    name: "Preventive Care",
+    facility: "60203e1c1ec8a00015baa357",
+    createdAt: "2021-03-31T09:11:11.469Z",
+    updatedAt: "2021-06-06T10:09:59.847Z",
+    __v: 0,
+  },
 ];
 
 export default documentList;
