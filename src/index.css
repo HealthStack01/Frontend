@@ -31,7 +31,7 @@ html {
   overflow-y: hidden !important;
   text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
-  padding-bottom: 2rem;
+  /* padding-bottom: 2rem; */
 }
 @media only screen and (max-width: 1024px) {
   html {

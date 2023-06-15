@@ -51,6 +51,7 @@ import {
   EnrolleSchema2,
   EnrolleSchema3,
   EnrolleSchema4,
+  EnrolleSchemaProvider,
   EnrolleSchema5,
   principalData,
 } from "./schema";
@@ -165,65 +166,77 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
 
   const handleSearch = val => {
     // eslint-disable-next-line
-    const field = "firstname";
-    //console.log(val);
-    ClientServ.find({
+    const findClient= ClientServ.find({
       query: {
         $or: [
-          {
-            firstname: {
+          {policyNo:{
+            $regex: val,
+            $options: "i",
+          }},
+          {'principal.lastname':{
+            $regex: val,
+            $options: "i",
+          }},
+          {status:{
+            $regex: val,
+            $options: "i",
+          }},
+    
+            {'principal.firstname':{
               $regex: val,
               $options: "i",
-            },
-          },
-          {
-            lastname: {
+            }},
+          {           
+            'dependantBeneficiaries.type': {
               $regex: val,
               $options: "i",
-            },
-          },
-          {
-            middlename: {
+            }},
+            {           
+              'principal.type': {
+                $regex: val,
+                $options: "i",
+              }},
+            {           
+              'dependantBeneficiaries.firstname': {
+                  $regex: val,
+                  $options: "i",
+                }},
+            {           
+              'dependantBeneficiaries.lastname': {
+                  $regex: val,
+                  $options: "i",
+                  }},
+
+            {        
+            'sponsor.facilityName': {
               $regex: val,
               $options: "i",
-            },
-          },
-          {
-            phone: {
+            }}, 
+            {       
+            sponsorshipType: {
               $regex: val,
               $options: "i",
-            },
-          },
-          {
-            clientTags: {
+            }},
+            {        
+            planType: {
               $regex: val,
               $options: "i",
-            },
-          },
-          {
-            mrn: {
+            }},        
+            { 'plan.planName':{
               $regex: val,
               $options: "i",
-            },
-          },
-          {
-            email: {
-              $regex: val,
-              $options: "i",
-            },
-          },
-          {
-            specificDetails: {
-              $regex: val,
-              $options: "i",
-            },
-          },
-          {gender: val},
+            }},
+            {
+              'providers.facilityName':{
+                  $regex: val,
+                  $options: "i",
+                }},
+          { 'principal.gender': val },
+          { 'dependantBeneficiaries.gender': val }, 
         ],
 
         organizationId: user.currentEmployee.facilityDetail._id, // || "",
-        organization: user.currentEmployee.facilityDetail,
-        $limit: limit,
+      
         $sort: {
           createdAt: -1,
         },
@@ -285,18 +298,9 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
   };
 
   useEffect(() => {
-    if (user) {
-      //getFacilities()
+    
       rest();
-    } else {
-      /* const localUser= localStorage.getItem("user")
-                     const user1=JSON.parse(localUser)
-                     //console.log(localUser)
-                     //console.log(user1)
-                     fetchUser(user1)
-                     //console.log(user)
-                     getFacilities(user) */
-    }
+   
     ClientServ.on("created", obj => rest());
     ClientServ.on("updated", obj => rest());
     ClientServ.on("patched", obj => rest());
@@ -332,16 +336,17 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       width: "60px",
     },
     {
-      name: "Date Created",
+      name: "Date Joined",
       key: "createdAt",
       description: "Date Created",
-      selector: row => dayjs(row.createdAt).format("DD-MM-YYYY"),
+      /* selector: row => dayjs(row.createdAt).format("DD-MM-YYYY"), */
+      selector: row => dayjs(row.Date_JoinScheme).format("DD-MM-YYYY"), 
       sortable: true,
       required: true,
       inputType: "DATE",
     },
     {
-      name: "First Name",
+      name: "Principal's (First) Name",
       key: "firstname",
       description: "First Name",
       selector: row => row.principal.firstname,
@@ -352,7 +357,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
         textTransform: "capitalize",
       },
     },
-    {
+   /*  {
       name: "Middle Name",
       key: "middlename",
       description: "Middle Name",
@@ -364,13 +369,25 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       style: {
         textTransform: "capitalize",
       },
-    },
+    }, */
 
     {
-      name: "Last Name",
+      name: "Principal's Last Name",
       key: "principal",
       description: "Principal Last Name",
       selector: row => row.principal.lastname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+    {
+      name: "No of Dependents",
+      key: "principal",
+      description: "No of dependents",
+      selector: row => row?.dependantBeneficiaries.length      ,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -417,11 +434,19 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       required: true,
       inputType: "TEXT",
     },
-
+    {
+      name: "Sponsor Name",
+      key: "sponsor",
+      description: "Sponsor name",
+      selector: row => row?.sponsor?.facilityName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
     {
       name: "Plan",
-      key: "plan",
-      description: "Plan",
+      key: "sponsorshipType",
+      description: "Sponsorship Type",
       selector: row => row?.plan?.planName,
       sortable: true,
       required: true,
@@ -429,6 +454,34 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
     },
 
     {
+      name: "Plan Type",
+      key: "plan",
+      description: "Plan",
+      selector: row => row?.planType,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Provider",
+      key: "provider",
+      description: "Provider",
+      selector: row => row?.providers[0].facilityName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Provider",
+      key: "provider",
+      description: "Provider",
+      selector: row => row?.providers.length,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+   /*  {
       name: "Premium",
       key: "premium",
       description: "Premium",
@@ -443,7 +496,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
-    },
+    }, */
 
     {
       name: "Paid",
@@ -567,7 +620,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
             className="level"
             style={{
               height: "80vh",
-              overflowY: "scroll",
+              overflow: "scroll",
             }}
           >
             <CustomTable
@@ -2979,9 +3032,12 @@ export function PolicyDetail({showModal, setShowModal}) {
   const [familyPrice, setFamilyPrice] = useState("");
   const [individualPrice, setIndividualPrice] = useState("");
   const [healthplan, setHealthplan] = useState([]);
+
   let Client = state.ManagedCareModule.selectedClient;
+
   useEffect(() => {
     let Client = state.ManagedCareModule.selectedClient;
+    console.log(Client)
     setFacility(Client);
 
     const initFormValue = {
@@ -2997,10 +3053,10 @@ export function PolicyDetail({showModal, setShowModal}) {
       policy_tag: Client?.principal?.clientTags,
       familyPremium: Client?.plan?.premiums?.[0]?.familyPremium,
       individualPremium: Client?.plan?.premiums?.[0]?.individualPremium,
-      sponsor_name: Client.sponsor?.organizationDetail?.facilityName,
-      sponsor_phone: Client.sponsor?.organizationDetail?.facilityContactPhone,
-      sponsor_email: Client.sponsor?.organizationDetail?.facilityEmail,
-      sponsor_address: Client.sponsor?.organizationDetail?.facilityAddress,
+      sponsor_name: Client.sponsor?.facilityName,
+      sponsor_phone: Client.sponsor?.facilityContactPhone,
+      sponsor_email: Client.sponsor?.facilityEmail,
+      sponsor_address: Client.sponsor?.facilityAddress,
     };
     reset(initFormValue);
   }, [state.ManagedCareModule.selectedClient]);
@@ -3168,7 +3224,7 @@ export function PolicyDetail({showModal, setShowModal}) {
         className="card "
         style={{
           height: "auto",
-          overflowY: "scroll",
+          overflow: "scroll",
           margin: "0 1rem",
           width: "98%",
         }}
@@ -3508,7 +3564,7 @@ export function PolicyDetail({showModal, setShowModal}) {
                 <FormsHeaderText text="Provider List" />
                 <CustomTable
                   title={""}
-                  columns={EnrolleSchema4}
+                  columns={EnrolleSchemaProvider}
                   data={facility?.providers}
                   pointerOnHover
                   highlightOnHover
