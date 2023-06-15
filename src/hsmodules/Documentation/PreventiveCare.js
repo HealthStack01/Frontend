@@ -6,7 +6,7 @@ import {UserContext, ObjectContext} from "../../context";
 import {toast} from "react-toastify";
 import {Box} from "@mui/system";
 import RadioButton from "../../components/inputs/basic/Radio";
-import { IconButton, Typography} from "@mui/material";
+import { IconButton, Typography, Radio,RadioGroup, FormControlLabel} from "@mui/material";
 import Textarea from "../../components/inputs/basic/Textarea";
 import CloseIcon from "@mui/icons-material/Close";
 import {FormsHeaderText} from "../../components/texts";
@@ -28,6 +28,8 @@ export default function PreventiveCare() {
   const [currentUser, setCurrentUser] = useState();
   const [docStatus, setDocStatus] = useState("Draft");
   const [confirmDialog, setconfirmDialog] = useState(false);
+
+  const [scalling, setScalling] = useState("");
 
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -89,10 +91,13 @@ export default function PreventiveCare() {
 
   ];
  
+  const handleScalling = (event) => {
+    setScalling(event.target.value);
+  };
+  
 
   const onSubmit = (data, e) => {
     showActionLoader();
-    //e.preventDefault();
     setMessage("");
     setError(false);
     setSuccess(false);
@@ -102,7 +107,10 @@ export default function PreventiveCare() {
       document.facility = user.currentEmployee.facilityDetail._id;
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
-    document.documentdetail = data;
+    document.documentdetail = {
+      ...data,
+      scalling: scalling 
+    };
     document.documentname = "Preventive Care";
     document.location =
       state.employeeLocation.locationName +
@@ -164,14 +172,14 @@ export default function PreventiveCare() {
           setSuccess(true);
           reset(data);
           setconfirmDialog(false);
-          toast.success("Pediatric Pulmonology Form created succesfully");
+          toast.success("Preventive Care created succesfully");
           setSuccess(false);
           closeForm();
         })
         .catch(err => {
           setconfirmDialog(false);
           hideActionLoader();
-          toast.error("Error creating Pediatric Pulmonology Form " + err);
+          toast.error("Error creating Preventive Care Form " + err);
         });
     }
   };
@@ -192,7 +200,6 @@ export default function PreventiveCare() {
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
-    //toggleSideMenu();
   };
 
   return (
@@ -203,7 +210,7 @@ export default function PreventiveCare() {
           type="create"
           cancelAction={() => setconfirmDialog(false)}
           confirmationAction={handleSubmit(onSubmit)}
-          message="You are about to save this document; New Patient Consultation Form"
+          message="You are about to save this document; Preventive Care"
         />
         <Box
           sx={{
@@ -214,14 +221,45 @@ export default function PreventiveCare() {
           mb={1}
         >
           <FormsHeaderText color="none" text={"Preventive Care Report"} />
-
           <IconButton onClick={closeForm}>
             <CloseIcon fontSize="small" />
           </IconButton>
         </Box>
         <div className="card-content vscrollable remPad1">
           <form>
-            <Box sx={{display: "flex", flexDirection: "column"}} gap={1.5}>
+          <Box sx={{ width: '70%', marginBottom: '20px', display: 'flex', alignItems: 'center' }}>
+  <Typography color="primary" variant="body1" fontWeight="bold" style={{ marginTop: '10px' }}>
+    Scaling & Polishing:
+  </Typography> 
+  <Box sx={{ width: '40%', marginBottom: '20px', marginLeft: '10px' }}>
+    <RadioGroup
+    name="scalling"
+      value={scalling}
+      onChange={handleScalling}
+    >
+      <FormControlLabel
+        value="Gross Scaling"
+        control={<Radio />}
+        label="Gross Scaling"
+      />
+    </RadioGroup>
+  </Box>
+  <Box sx={{ width: '40%', marginBottom: '20px' }}>
+    <RadioGroup
+      name="scalling"
+      value={scalling}
+      onChange={handleScalling}
+    >
+      <FormControlLabel
+        value="Fine Scaling"
+        control={<Radio />}
+        label="Fine Scaling"
+      />
+    </RadioGroup>
+  </Box>
+</Box>
+
+         <Box sx={{display: "flex", flexDirection: "column"}} gap={1.5}>
               <Box>
               <Typography color="primary" >
               Summary of Dentist Encounter
