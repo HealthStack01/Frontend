@@ -15,6 +15,7 @@ import ModalBox from "../../../../components/modal";
 import ClaimCreateComplaint from "./Complaints";
 import ClaimCreateDiagnosis from "./Diagnosis";
 import ClaimCreateService from "./Services";
+import {generateRandomString} from "../../../helpers/generateString";
 
 import {
   getComplaintColumns,
@@ -152,7 +153,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
       submissiondate: dayjs(),
       submissionby: employee,
       status: "Submitted",
-      claimid: random(12, "uppernumeric"),
+      claimid: generateRandomString(12),
       appointmentid: selectedAppointment,
       admissionid: selectedAdmission,
       geolocation: {
@@ -168,7 +169,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
 
     // console.log(document);
 
-    await claimsServer
+    return claimsServer
       .create(document)
       .then(res => {
         hideActionLoader();
@@ -350,7 +351,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
       >
         <Box
           sx={{
-            width: "25rem",
+            width: "16rem",
           }}
         >
           <PatientProfile />
@@ -358,7 +359,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
 
         <Box
           sx={{
-            width: "calc(100% - 26rem)",
+            width: "calc(100% - 17rem)",
           }}
         >
           <Grid container spacing={2} mb={2}>

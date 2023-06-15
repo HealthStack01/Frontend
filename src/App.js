@@ -18,6 +18,7 @@ import ActionLoader from "./components/action-loader/Action-Loader";
 
 function App() {
   const [state, setState] = useState({
+    ChatRoom: null,
     ChatModule: {
       chatRoom: null,
       showSearch: false,

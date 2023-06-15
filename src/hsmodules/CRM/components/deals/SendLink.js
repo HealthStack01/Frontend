@@ -13,6 +13,7 @@ import SendIcon from "@mui/icons-material/Send";
 import {toast} from "react-toastify";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import {getContactColumns} from "../colums/columns";
+const data = require("../../../../data/hci/enrolleehci.json");
 
 const inputGlobalStyles = (
   <GlobalStyles
@@ -36,11 +37,15 @@ const SendLinkViaEmail = ({
   const [files, setFiles] = useState([]);
   const facilityServ = client.service("facility");
   const orgServ = client.service("organizationclient");
+  const ClientServ = client.service("client");
+  const policyServ = client.service("policy");
   const InvoiceServ = client.service('corpinvoices');
   const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
   const [emailsModal, setEmailModals] = useState(true);
   const [toEmailModal, setToEmailModal] = useState(false);
   const [selectedEmail, setSelectedEmail] = useState("");
+  const [start, setStart] = useState('');
+  const [end, setEnd] = useState('');
   const [destinationEmail, setDestinationEmail] = useState(defaultToEmail);
   const [emailBody, setEmailBody] = useState(
     `<p>Please follow this <a style="color:red;" href=${`https://healthstack-test.netlify.app/signup/${
@@ -136,185 +141,157 @@ if (orgType!=="individual"){
     });
   };
 
+/*   const handleoutput= ()=>{
+    console.log(start,end)
+  } */
+
   const handleFileUpload =  async(event) => {
-    const fileList = event.target.files;
-
-    const fileArray = Array.from(fileList).map(async(file) => {
-      const fileNameWithoutExtension = file.name.replace(/\.[^/.]+$/, ''); // Remove file extension
-      let filename=  fileNameWithoutExtension.toUpperCase();
-     let parsedData =""
-
-      const content = await readFileContent(file);
-      console.log("filename:",filename)
-      try {
-        parsedData = JSON.parse(content);
-       // parsedDataArray.push(parsedData);
-      } catch (error) {
-        console.error('Error parsing JSON file:'+ file.name, error);
-      }
-    //read file
-    //create facility (admin) + fail gracefully
-    //add facility to organization client
-    //email login details 
-      let n=0
-    parsedData.map(async(faci,i)=>{
-      n=n+1
-      let facilitydata={
-        facilityCAC:"",
-    facilityName:faci.Name,
-    facilityOwner:faci.ceo,
-    facilityType: "Corporate",
-    facilityCategory:"National",
-    facilityCountry: "Nigeria",
-    facilityState: "",
-    facilityLGA:"",
-    facilityCity:"", 
-    facilityAddress: faci.Address,
-    facilityContactPhone:faci.Adminphone,
-    facilityEmail:faci.Adminemail,
-    facilityModules: ['Admin', 'Complaint', 'Corporate', 'Communication']
-
-      }
-      let admindata={
-        firstname:faci.Admin,
-      
-        lastname: "Admin",
-        profession: "Admin",
-        position: "Admin",
-        phone: faci.Adminphone,
-        email: faci.Adminemail,
-        department: "Admin",
-        deptunit: "Admin",
-        password: "Administrator",
-       roles:['Admin', 'Complaint', 'Corporate', 'Communication']
-
-      }
-   /*   let  facilityModules= ['Admin',
-      'Client',
-      'Clinic',
-      'Appointment',
-      'Check-In',
-      'Ward',
-      'Laboratory',
-      'Radiology',
-      'Pharmacy',
-      'Theatre',
-      'Blood Bank',
-      'Inventory',
-      'Communication',
-      'Immunization',
-      'Finance',
-      'Accounting',
-      'Complaints',
-      'Referral',
-      'Epidemiology',
-      'Engagement',] */
-
-
-      const facilityDocument = {
-        ...facilitydata,
-        hasEmployee: true,
-        employeeData:admindata
-      }
-
-     await  facilityServ.create(facilityDocument)
-      .then(async(resp)=>{
-        //create relationship
-        console.log("facility created #"+n ,resp)
-        let obj = {
-          facility: user.currentEmployee.facilityDetail._id,
-          organization: resp._id,
-          relationshiptype: "sponsor",
-          status: "Pending",
-          
-        };
-    
-       // console.log("query", query);
-    //create organizatuonal relationship
-        await orgServ
-          .create(obj)
-          .then((res) => {
-            console.log("res", res);
-          
-           console.log("Organization added succesfully");
-            
-            
-          })
-          .catch((err) => {
-            console.log("Error adding organization " + err);
-          });
-
-          //create invoice
-          let invoice={
-            customerId:resp._id,//sending money
-    customer:resp,
-    customerName:faci.Name,
-    customerAddress:faci.Address,
-    customerCity:"",
-    customerCountry:"Nigeria",
-    customerLGA:"",
-    customerState:"",
-    customerPhone:faci.Adminphone,
-    customerEmail:faci.Email,
-    customerType:"Corporate",
-    date:new Date(),
-    facilityId:user.currentEmployee.facilityDetail._id, //hmo insuing invoice
-    facility:user.currentEmployee.facilityDetail,
-    invoice_number:"",
-    total_amount:faci.amount,
-  
-    payment_option:{ type: String, },
-    subscription_category:"Annual",
    
-    status:"Unpaid", //unpaid, fullypaid
-  
-    balance:faci.amount,
-    duedate:faci.renewValue,
-    startdate:faci.start,
-    enddate:faci.end
 
+
+    const hosp=data.slice(start,end)
+
+    const uniquePolicy = [...new Set(hosp.map(obj => obj.Beneficiaries))];
+let n=0
+
+    for (const unique of uniquePolicy){
+        //find the beneficiaries
+      let benefits=  hosp.filter(el=>el.Beneficiaries===unique)
+      let dependents=[]
+      let principal={}
+      let genNo=""
+      let faci={}
+      n=n+1 
+        for (const benfi of benefits){
+
+          faci=benfi
+         
+            let client={
+              firstname: faci.EmployeeOthername, 
+              middlename:"",
+              lastname:faci.EmployeeSurname,
+              dob:faci.Date_Birth ,
+              gender:faci.Sex,
+              maritalstatus: faci.MaritalStatusID,
+              religion: "",
+              phone:faci.Phone,
+              email: `${n}${faci.EmployeeOthername}@healthstack.africa`, //unique: true
+              bloodgroup: faci.BloodTypeID,
+              genotype:faci.Genotype,
+              clientTags:"hci beneficiary",
+              facility:user.currentEmployee.facilityDetail._id ,
+              address:faci.Address1,
+            }
+      
+             await  ClientServ.create(client)
+             .then(async(resp)=>{
+              if (benfi.FamilyCode== "0"){
+                resp.type="Principal"
+                principal=resp
+                genNo=benfi["Policy No"]
+              }else{
+                resp.type="Dependent"
+                dependents.push(resp)
+              }
+             
+             // create policy 
+             
+               console.log("end of story")
+
+             })
+             .catch((err) => {
+               console.log("Error creating client " + err);
+             });
+
+        
           }
-
-
-          await InvoiceServ
-          .create(invoice)
-          .then((res) => {
-            console.log("res", res);
+          let provi=[]
+          let provider={
+            facilityName:faci.HospitalName,
+              code:faci["Hospital ID"] 
+          }
           
-           console.log("Invoice created succesfully #"+n);
-            
-            
-          })
-          .catch((err) => {
-            console.log("Error cereating invoice " + err);
-          });
+              provi.push(provider)
+ //create policy
+                  let policy = {
+                    policyNo: genNo,
+                    organizationType:user.currentEmployee.facilityDetail.facilityType,
+                      
+                    organizationId:user.currentEmployee.facilityDetail._id,
+                    
+                    organizationName:user.currentEmployee.facilityDetail.facilityName,
+                    
+                    organization:user.currentEmployee.facilityDetail,
+                    
+                    principal: principal,
+                    dependantBeneficiaries: dependents,
+                    providers:provi , //
+                    sponsorshipType:faci.CustomerName==="Individual"?"Self":"Company",
+                    sponsor: {facilityName:faci.CustomerName,
+                               code:faci.CustomerID   },
+                    plan:{
+                      planName: faci.PlanDescription,
+                      planId:faci.PlanID
+                    },
+                    planType: faci.FamilyCode>0?"Family":"Individual",
 
-      })
-      .catch((err)=>{
-        console.log("facility not created :" + err)
-      })
+                  //  validityPeriods:[ { type: String,  }],
+                  validitystarts:faci.PaymentStartDate,
+                  validityEnds:faci.PaymentEndDate,
+                  Date_JoinScheme:faci.Date_JoinScheme,
+                    active: true,
+                    isPaid: true,
+                    approved:true,
+                    statushx: [
+                      {
+                        date: new Date(),
+                        employeename: `${user.currentEmployee.firstname} ${user.currentEmployee.lastname}`,
+                        employeeId: user.currentEmployee._id,
+                        status: "Policy Created",
+                      }
+                  ]
+                  }
+                 
+                  await policyServ
+                    .create(policy)
+                    .then((res) => {
+                    console.log("policy created succesfully",res);
+                    console.log("policy #"+n,policy)
+                    })
+                    .catch((err) => {
+                      console.log("Error creating policy " + err);
+                    });
 
-    })
+        }
 
-     return fileNameWithoutExtension
-    });
-    setFiles(fileArray);
+       
 
-//1. create bands from list of files
-// model:facility: { type: Schema.Types.ObjectId,  },
- //   name: { type: String, required: true },
-   // description: { type: String},
-    // bandType: { type: String}
-//2. create tariff from files 
 
-  };
+
+
+    }
+
+     
+
+     
+   
+  
 
 
 
 
 
   return (
-    <Box
+    <>
+    {/* <Box sx={{ gap:2}}>
+      <input type="number"  value={start} name="begin" onChange={(e)=> setStart(e.target.value) } />
+      <input type="number" value={end} name="end" onChange={(e)=> setEnd(e.target.value) } />
+     <GlobalCustomButton onClick={handleFileUpload}>
+          test
+          <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
+        </GlobalCustomButton> 
+      </Box>*/}
+    <Box 
       sx={{
         width: "60vw",
       }}
@@ -342,6 +319,7 @@ if (orgType!=="individual"){
       >
         <EmailsSourceList selectEmail={handleSelectEmail} />
       </ModalBox>
+    
 
       <Grid container spacing={1} mb={2}>
         <Grid item lg={6} md={6} sm={6}>
@@ -447,15 +425,13 @@ if (orgType!=="individual"){
           <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
         </GlobalCustomButton>
       </Box>
-     {/*    <Box>
-      <input type="file" multiple onChange={handleFileUpload} />
-        <ul>
-        {files.map((file, index) => (
-          <li key={index}>{file}</li>
-        ))}
-      </ul> 
-      </Box>  */}
+        <Box>
+
+      
+      </Box>   
+     
     </Box>
+    </>
   );
 };
 

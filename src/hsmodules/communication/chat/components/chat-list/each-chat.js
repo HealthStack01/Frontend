@@ -17,43 +17,6 @@ const EachChat = ({chat}) => {
 
   const getUnreadChatMessages = useCallback(() => {}, []);
 
-  const getRecentChatMessage = useCallback(() => {
-    setLoading(true);
-    chatMessagesServer
-      .find({
-        query: {
-          chatroomId: chat._id,
-
-          $sort: {
-            createdAt: -1,
-          },
-        },
-      })
-      .then(res => {
-        const data = {
-          ...chat,
-          messages: res.data,
-        };
-
-        //console.log(data);
-        setChatInfo(data);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.log(error);
-        setLoading(false);
-      });
-  }, []);
-
-  // useEffect(() => {
-  //   getRecentChatMessage();
-
-  //   chatMessagesServer.on("created", obj => getRecentChatMessage());
-  //   chatMessagesServer.on("updated", obj => getRecentChatMessage());
-  //   chatMessagesServer.on("patched", obj => getRecentChatMessage());
-  //   chatMessagesServer.on("removed", obj => getRecentChatMessage());
-  // }, [getRecentChatMessage]);
-
   const chatPartner = chat.members.find(
     item => item._id !== user.currentEmployee._id
   );
@@ -61,12 +24,20 @@ const EachChat = ({chat}) => {
   const handleSelectChatRoom = () => {
     setState(prev => ({
       ...prev,
-      ChatModule: {
-        ...prev.ChatModule,
-        chatRoom: chat,
-      },
+      ChatRoom: chat,
     }));
   };
+
+  const timestamp = chat.lastmessage ? chat.lastmessage.time : chat.createdAt;
+
+  const messagesDay = moment(timestamp);
+  const currentDay = moment(new Date());
+  const prevDay = moment().subtract(1, "day");
+  const weekDifference = currentDay
+    .startOf("day")
+    .diff(messagesDay.startOf("day"), "weeks");
+  const isCurrentDay = messagesDay.isSame(currentDay, "day");
+  const isPrevDay = messagesDay.isSame(prevDay, "day");
 
   if (loading)
     return (
@@ -142,9 +113,17 @@ const EachChat = ({chat}) => {
               color: "#006d77",
             }}
           >
-            {/* {chatInfo?.messages?.length > 0
-              ? moment(chatInfo?.messages[0]?.message?.createdAt).format("LT")
-              : moment(chatInfo.createdAt).format("LT")} */}
+            {weekDifference > 0 ? (
+              <>{moment(timestamp).format("L")}</>
+            ) : (
+              <>
+                {isCurrentDay
+                  ? moment(timestamp).format("LT")
+                  : isPrevDay
+                  ? "Yesterday"
+                  : moment(timestamp).format("dddd")}
+              </>
+            )}
           </Typography>
         </Box>
 
@@ -164,12 +143,27 @@ const EachChat = ({chat}) => {
               justifyContent: "space-between",
             }}
           >
-            <Typography
-              sx={{fontSize: "0.75rem", color: "#736f72", width: "100%"}}
-              noWrap
-            >
-              {/* {chatInfo?.messages[0]?.message} */}
-            </Typography>
+            {chat.lastmessage && (
+              <Typography
+                sx={{fontSize: "0.75rem", color: "#736f72", width: "100%"}}
+                noWrap
+              >
+                <span
+                  style={{
+                    color: "green",
+                    fontWeight: "600",
+                    marginRight: "5px",
+                  }}
+                >
+                  {chat?.lastmessage?.createdby?._id ===
+                  user?.currentEmployee?._id
+                    ? "You"
+                    : chat?.lastmessage?.createdby?.firstname}
+                  :
+                </span>
+                {chat?.lastmessage?.message}
+              </Typography>
+            )}
           </Box>
 
           {/* {chatInfo?.messages?.length > 0 && (

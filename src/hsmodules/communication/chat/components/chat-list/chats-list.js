@@ -13,6 +13,7 @@ import CreateNewChannel from "./create-channel";
 import client from "../../../../../feathers";
 import {UserContext} from "../../../../../context";
 import {toast} from "react-toastify";
+import moment from "moment";
 
 const CustomLoader = () => (
   <div
@@ -71,14 +72,34 @@ const CommunicationChatsList = ({showStaffsList}) => {
       });
   }, []);
 
+  const sortedChats = chats.sort((a, b) => {
+    const compA = moment(a.lastmessage ? a.lastmessage.time : a.createdAt);
+    const compB = moment(b.lastmessage ? b.lastmessage.time : b.createdAt);
+    return compB - compA;
+  });
+
   useEffect(() => {
     handleGetChatRooms();
-    chatroomServer.on("created", obj => handleGetChatRooms());
-    chatroomServer.on("updated", obj => handleGetChatRooms());
-    chatroomServer.on("patched", obj => handleGetChatRooms());
-    chatroomServer.on("removed", obj => handleGetChatRooms());
+
+    chatroomServer.on("created", obj => setChats(prev => [obj, ...prev]));
+    chatroomServer.on("patched", obj =>
+      setChats(prev =>
+        prev.map(item => {
+          if (item._id === obj._id) {
+            return obj;
+          } else {
+            return item;
+          }
+        })
+      )
+    );
+    chatroomServer.on("removed", obj => {
+      setChats(prev => prev.filter(item => item._id !== obj._id));
+    });
     return () => {};
   }, [handleGetChatRooms]);
+
+  console.log(chats[0]);
 
   return (
     <Box sx={{width: "100%", height: "100%"}}>
@@ -162,7 +183,7 @@ const CommunicationChatsList = ({showStaffsList}) => {
               overflowY: "auto",
             }}
           >
-            {chats.length > 0 ? (
+            {sortedChats.length > 0 ? (
               <Box
                 sx={{
                   width: "100%",
@@ -170,7 +191,7 @@ const CommunicationChatsList = ({showStaffsList}) => {
                   overflowY: "auto",
                 }}
               >
-                {chats.map(chat => {
+                {sortedChats.map(chat => {
                   return <EachChat key={chat._id} chat={chat} />;
                 })}
               </Box>

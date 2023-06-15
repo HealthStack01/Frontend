@@ -331,11 +331,11 @@ export function OrganizationList({ showModal, setShowModal }) {
       orgServ
         .find({
           query: {
-            /* [field]: {
+             [field]: {
                     $regex:val,
                     $options:'i'
                    
-                }, */
+                }, 
             facility: user.currentEmployee.facilityDetail._id,
             relationshiptype: "sponsor",
             $search: val,
@@ -1096,7 +1096,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
             showDetail={() => setCurrentPage(7)}
           />
         )}
-        {currentPage === 3 && <BeneList standAlone={facility?._id} />}
+        {currentPage === 3 && <BeneList standAlone={facility} />}
         {currentPage === 4 && <Claims standAlone />}
         {currentPage === 5 && <PremiumPayment />}
         {currentPage === 6 && <CRMTasks />}
@@ -2288,6 +2288,11 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
       const findClient = await ClientServ.find({
         query: {
           organizationId: user.currentEmployee.facilityDetail._id,
+          $or:[
+            {'sponsor.facilityName':standAlone.facilityName,},
+            {'sponsor._id':standAlone._id,}
+
+          ],
           $sort: {
             createdAt: -1,
           },
@@ -2295,32 +2300,52 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
       });
 
       let data = findClient.data;
-      console.log(data);
-      let filteredArray = data.filter(
-        (item) =>
-          (item.sponsor !== "" &&
-            item.sponsor?.organizationDetail?._id === standAlone) ||
-          item.providers?.some(
-            (item) => item?.organizationDetail?._id === standAlone
-          )
-      );
-      let principal = filteredArray.map((item) => item.principal);
-      let dependantBeneficiaries = filteredArray.map(
-        (item) => item.dependantBeneficiaries
-      );
-      let joined = principal.concat(...dependantBeneficiaries);
-      setFacilities(joined);
-      // await console.log(
-      //   "data",
-      //   data,
-      //   "filter",
-      //   filteredArray,
-      //   "standAlone",
-      //   standAlone
-      // );
-      await setTotal(findClient.total);
-      //console.log(user.currentEmployee.facilityDetail._id, state)
-      //console.log(facilities)
+      console.log("policies",data)
+
+      let list = [];
+      data.map((item) => {
+        item.principal.principal = item.principal;
+        item.principal.organizationName = item.organizationName;
+        // item.principal.dependantBeneficiaries = item.dependantBeneficiaries;
+        item.principal.plan = item.plan;
+        item.principal.detail = {
+          policyNo: item?.policyNo,
+          sponsor: item?.sponsor,
+          plan: item?.plan,
+          clientType: "Principal",
+          sponsortype: item?.sponsorshipType,
+          approved: item?.approved,
+        };
+
+        item.principal.organization = {
+          ...item?.sponsor?.facilityDetail,
+        };
+
+        list.push(item.principal);
+
+        item.dependantBeneficiaries.map((benf) => {
+          benf.detail = {
+            policyNo: item.policyNo,
+            sponsor: item.sponsor,
+            plan: item.plan,
+            clientType: "Dependent",
+            sponsortype: item?.sponsorshipType,
+            approved: item?.approved,
+          };
+          benf.organizationName = item.organizationName;
+
+          benf.plan = item.plan;
+          benf.facilityDetail = {
+            ...item?.sponsor?.facilityDetail,
+          };
+          benf.principal = benf;
+          list.push(benf);
+        });
+      });
+
+      setFacilities(list);
+
+     setTotal(findClient.total);
       setPage((page) => page + 1);
     } else {
       if (user.stacker) {
@@ -2375,7 +2400,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
     return () => {};
   }, [facilities, standAlone]);
   //todo: pagination and vertical scroll bar
-
+/* 
   const BeneficiarySchema = [
     {
       name: "S/N",
@@ -2460,6 +2485,122 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
       key: "clientTags",
       description: "Tags",
       selector: (row) => row.clientTags,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ]; */
+  const BeneficiarySchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "50px",
+    },
+    {
+      name: "Image",
+      key: "sn",
+      description: "Enter name of employee",
+      selector: (row) => <Avatar src={row?.imageurl} />,
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "80px",
+    },
+    {
+      name: "First Name",
+      key: "firstname",
+      description: "First Name",
+      selector: (row) => row.firstname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Last Name",
+      key: "lastname",
+      description: "Last Name",
+      selector: (row) => row.lastname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    // {
+    // 	name: 'Midlle Name',
+    // 	key: 'middlename',
+    // 	description: 'Midlle Name',
+    // 	selector: (row) => row.middlename,
+    // 	sortable: true,
+    // 	required: true,
+    // 	inputType: 'TEXT',
+    // },
+    {
+      name: "Age",
+      key: "dob",
+      description: "Age",
+      selector: (row) =>
+        row.dob ? formatDistanceToNowStrict(new Date(row?.dob)) : "",
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Gender",
+      key: "gender",
+      description: "Male",
+      selector: (row) => row.gender,
+      sortable: true,
+      required: true,
+      inputType: "SELECT_LIST",
+      options: ["Male", "Female"],
+    },
+
+    {
+      name: "Email",
+      key: "email",
+      description: "johndoe@mail.com",
+      selector: (row) => row.email,
+      sortable: true,
+      required: true,
+      inputType: "EMAIL",
+    },
+    {
+      name: "Policy No",
+      key: "policyNo",
+      description: "Policy No",
+      selector: (row) => row.detail?.policyNo,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Client Type",
+      key: "clientType",
+      description: "Client Type",
+      selector: (row) => row.detail?.clientType,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Sponsor Type",
+      key: "sponsorType",
+      description: "Sponsor Type",
+      selector: (row) => row.detail?.sponsortype,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Policy Status",
+      key: "policyStatus",
+      description: "Policy Status",
+      selector: (row) => (row.detail?.approved ? "Approved" : "Pending"),
       sortable: true,
       required: true,
       inputType: "TEXT",
