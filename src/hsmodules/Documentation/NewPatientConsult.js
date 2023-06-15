@@ -523,7 +523,6 @@ export default function NewPatientConsult() {
     //toggleSideMenu();
   };
 
-  //console.log("Get Values", getValues("Medication_list_filled"));
   return (
     <>
       <div className="card ">
