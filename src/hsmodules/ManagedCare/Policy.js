@@ -51,6 +51,7 @@ import {
   EnrolleSchema2,
   EnrolleSchema3,
   EnrolleSchema4,
+  EnrolleSchemaProvider,
   EnrolleSchema5,
   principalData,
 } from "./schema";
@@ -335,10 +336,11 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       width: "60px",
     },
     {
-      name: "Date Created",
+      name: "Date Joined",
       key: "createdAt",
       description: "Date Created",
-      selector: row => dayjs(row.createdAt).format("DD-MM-YYYY"),
+      /* selector: row => dayjs(row.createdAt).format("DD-MM-YYYY"), */
+      selector: row => dayjs(row.Date_JoinScheme).format("DD-MM-YYYY"), 
       sortable: true,
       required: true,
       inputType: "DATE",
@@ -3030,9 +3032,12 @@ export function PolicyDetail({showModal, setShowModal}) {
   const [familyPrice, setFamilyPrice] = useState("");
   const [individualPrice, setIndividualPrice] = useState("");
   const [healthplan, setHealthplan] = useState([]);
+
   let Client = state.ManagedCareModule.selectedClient;
+
   useEffect(() => {
     let Client = state.ManagedCareModule.selectedClient;
+    console.log(Client)
     setFacility(Client);
 
     const initFormValue = {
@@ -3048,10 +3053,10 @@ export function PolicyDetail({showModal, setShowModal}) {
       policy_tag: Client?.principal?.clientTags,
       familyPremium: Client?.plan?.premiums?.[0]?.familyPremium,
       individualPremium: Client?.plan?.premiums?.[0]?.individualPremium,
-      sponsor_name: Client.sponsor?.organizationDetail?.facilityName,
-      sponsor_phone: Client.sponsor?.organizationDetail?.facilityContactPhone,
-      sponsor_email: Client.sponsor?.organizationDetail?.facilityEmail,
-      sponsor_address: Client.sponsor?.organizationDetail?.facilityAddress,
+      sponsor_name: Client.sponsor?.facilityName,
+      sponsor_phone: Client.sponsor?.facilityContactPhone,
+      sponsor_email: Client.sponsor?.facilityEmail,
+      sponsor_address: Client.sponsor?.facilityAddress,
     };
     reset(initFormValue);
   }, [state.ManagedCareModule.selectedClient]);
@@ -3219,7 +3224,7 @@ export function PolicyDetail({showModal, setShowModal}) {
         className="card "
         style={{
           height: "auto",
-          overflowY: "scroll",
+          overflow: "scroll",
           margin: "0 1rem",
           width: "98%",
         }}
@@ -3559,7 +3564,7 @@ export function PolicyDetail({showModal, setShowModal}) {
                 <FormsHeaderText text="Provider List" />
                 <CustomTable
                   title={""}
-                  columns={EnrolleSchema4}
+                  columns={EnrolleSchemaProvider}
                   data={facility?.providers}
                   pointerOnHover
                   highlightOnHover
