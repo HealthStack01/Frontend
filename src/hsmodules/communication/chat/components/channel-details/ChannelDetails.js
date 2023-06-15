@@ -25,7 +25,7 @@ const ChatChannelDetails = () => {
   //console.log(user);
 
   useEffect(() => {
-    const chatRoom = state.ChatModule.chatRoom;
+    const chatRoom = state.ChatRoom;
     setChatRoom(chatRoom);
   }, [state.ChatModule]);
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { renderToStaticMarkup } from "react-dom/server";
 import QRCode from "qrcode";
 

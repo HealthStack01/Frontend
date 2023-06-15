@@ -596,7 +596,7 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
       >
         <Box
           sx={{
-            width: "25rem",
+            width: "16rem",
           }}
         >
           <PatientProfile />
@@ -604,7 +604,7 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
 
         <Box
           sx={{
-            width: "calc(100% - 26rem)",
+            width: "calc(100% - 17rem)",
           }}
         >
           {view === "tasks" && (

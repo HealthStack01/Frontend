@@ -9,7 +9,7 @@ import GoogleAutoComplete from "../../../../../components/google-autocomplete";
 
 const ChatBoard = () => {
   const {state} = useContext(ObjectContext);
-  const activeChat = state.ChatModule.chatRoom !== null;
+  const activeChat = state.ChatRoom !== null;
   return (
     <Box sx={{width: "100%", height: "100%"}}>
       {activeChat ? <ChatBoardConversation /> : <NoChatConversationSelected />}

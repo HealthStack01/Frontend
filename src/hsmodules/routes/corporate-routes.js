@@ -2,7 +2,7 @@ import {lazy} from "react";
 
 const Policy = lazy(() => import("../_Corporate/Policy"));
 const ExternalPolicy = lazy(() => import("../ManagedCare/externalPolicy"));
-const Beneficiary = lazy(() => import("../ManagedCare/Beneficiary"));
+const Beneficiary = lazy(() => import("../Corporate/Beneficiary"));
 const TarrifList = lazy(() => import("../ManagedCare/Tarrifs"));
 const HealthPlan = lazy(() => import("../ManagedCare/HealthPlan"));
 const Referral = lazy(() => import("../ManagedCare/Referral"));

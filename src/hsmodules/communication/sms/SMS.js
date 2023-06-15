@@ -35,67 +35,42 @@ const CommunicationSMS = () => {
 export default CommunicationSMS;
 
 export const CommunicationSMSList = ({showCreate}) => {
-  const smsServer = client.service("sms");
+  const sendSmsServer = client.service("sendsms");
   const {state, setState} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const getSMS = useCallback(async () => {
-    // axios.get("https://healthstack-backend.herokuapp.com/sms").then(res => {
-    //   console.log(res);
-    // });
     setLoading(true);
     const facId = user.currentEmployee.facilityDetail._id;
-    const resp = await smsServer.find({
+    const resp = await sendSmsServer.find({
       query: {
-        //organizationId: facId,
+        facilityId: facId,
         $sort: {
           createdAt: -1,
         },
       },
     });
-    console.log(resp.data);
+    //console.log(resp.data);
+    setMessages(resp.data);
     //setEmails(resp.data);
     setLoading(false);
   }, []);
 
   useEffect(() => {
     getSMS();
+
+    sendSmsServer.on("created", obj => getSMS());
+    sendSmsServer.on("updated", obj => getSMS());
+    sendSmsServer.on("patched", obj => getSMS());
+    sendSmsServer.on("removed", obj => getSMS());
   }, [getSMS]);
 
   const handleSearch = val => {};
 
   const handleCreateNew = () => {
     showCreate();
-  };
-
-  const returnStatus = status => {
-    switch (status?.toLowerCase()) {
-      case "sent":
-        return (
-          <span style={{color: "#17935C", textTransform: "capitalize"}}>
-            {status}
-          </span>
-        );
-
-      case "pending":
-        return (
-          <span style={{color: "orange", textTransform: "capitalize"}}>
-            {status}
-          </span>
-        );
-
-      case "failed":
-        return (
-          <span style={{color: "red", textTransform: "capitalize"}}>
-            {status}
-          </span>
-        );
-
-      default:
-        break;
-    }
   };
 
   const messagesColumn = [
@@ -110,7 +85,7 @@ export const CommunicationSMSList = ({showCreate}) => {
     },
 
     {
-      name: "Sent By",
+      name: "Receiver",
       key: "sn",
       description: "Enter name of Company",
       selector: row => (
@@ -118,9 +93,10 @@ export const CommunicationSMSList = ({showCreate}) => {
           sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
           data-tag="allowRowEvents"
         >
-          John Doe
+          {row.receiver}
         </Typography>
       ),
+      width: "120px",
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -129,51 +105,12 @@ export const CommunicationSMSList = ({showCreate}) => {
         textTransform: "capitalize",
       },
     },
-    {
-      name: "Sent From",
-      key: "sn",
-      description: "Enter name of Company",
-      selector: row => (
-        <Typography
-          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
-          data-tag="allowRowEvents"
-        >
-          {row.from}
-        </Typography>
-      ),
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-      style: {
-        color: "#000000",
-        textTransform: "capitalize",
-      },
-    },
-    {
-      name: "Sent To",
-      key: "sn",
-      description: "Enter name of Company",
-      selector: row => (
-        <Typography
-          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
-          data-tag="allowRowEvents"
-        >
-          {row.to}
-        </Typography>
-      ),
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-      style: {
-        color: "#000000",
-        textTransform: "capitalize",
-      },
-    },
 
     {
-      name: "Sent At",
+      name: "Time",
       key: "sn",
       description: "Enter name of Company",
+      width: "120px",
       selector: row => (
         <Typography
           sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
@@ -190,8 +127,19 @@ export const CommunicationSMSList = ({showCreate}) => {
         textTransform: "capitalize",
       },
     },
+
     {
-      name: "Subject",
+      name: "Delivered",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => (row.delivered ? "Yes" : "No"),
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "120px",
+    },
+
+    {
+      name: "Message",
       key: "sn",
       description: "Enter name of Company",
       selector: row => (
@@ -199,26 +147,16 @@ export const CommunicationSMSList = ({showCreate}) => {
           sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
           data-tag="allowRowEvents"
         >
-          {row.subject}
+          {row.message}
         </Typography>
       ),
       sortable: true,
       required: true,
       inputType: "HIDDEN",
       style: {
-        color: "#1976d2",
+        color: "#000000",
         textTransform: "capitalize",
       },
-    },
-
-    {
-      name: "Status",
-      key: "sn",
-      description: "SN",
-      selector: (row, i) => returnStatus(row.status),
-      sortable: true,
-      inputType: "HIDDEN",
-      width: "80px",
     },
   ];
 
@@ -239,7 +177,14 @@ export const CommunicationSMSList = ({showCreate}) => {
           Send New SMS
         </GlobalCustomButton>
       </TableMenu>
-      <Box>
+
+      <Box
+        sx={{
+          width: "100%",
+          height: "calc(100vh - 170px)",
+          overflowY: "scroll",
+        }}
+      >
         <CustomTable
           title={""}
           columns={messagesColumn}
