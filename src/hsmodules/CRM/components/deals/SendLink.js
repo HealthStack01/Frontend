@@ -233,7 +233,7 @@ let n=0
                       planName: faci.PlanDescription,
                       planId:faci.PlanID
                     },
-                    planType: faci.Familycode>0?"Family":"Individual",
+                    planType: faci.FamilyCode>0?"Family":"Individual",
 
                   //  validityPeriods:[ { type: String,  }],
                   validitystarts:faci.PaymentStartDate,
