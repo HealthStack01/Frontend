@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { renderToStaticMarkup } from "react-dom/server";
 import QRCode from "qrcode";
 
@@ -28,7 +27,7 @@ import moment from "moment";
 import { styled } from "@mui/material/styles";
 import Textarea from "../../components/inputs/basic/Textarea";
 
-export const ClientIdCard = ({ data, action }) => {
+export const EmployeeIdCard = ({ data, action }) => {
   const EmployeeServ = client.service("employee");
   const [emailModal, setEmailModal] = useState(false);
   const [screenshot, setScreenshot] = useState("");
@@ -49,8 +48,7 @@ export const ClientIdCard = ({ data, action }) => {
   // With promises
   const getBarCodeUrl = async (data) => {
     QRCode.toDataURL(
-      `https://healthstack-test.netlify.app/client/${data?._id}`
-      /* `*** FullName : ${data?.firstname} ${data?.lastname} *** PolicyID: ${data?.policyNo} ***` */
+      `*** FullName : ${data?.firstname} ${data?.lastname} *** PolicyID: ${data?.policyNo} ***`
     )
       .then((url) => {
         console.log("barcode", url);
@@ -257,24 +255,21 @@ export const ClientIdCard = ({ data, action }) => {
               </Typography>
               <Divider />
               <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                POLICY NO: <b>{data?.policyNo}</b>
+                PHONE: <b>{data?.phone}</b>
               </Typography>
               <Divider />
               <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                SEX: <b>{data?.gender}</b>
-              </Typography>
-              <Divider />
-              <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                DATE OF BIRTH: <b>{moment(data?.dob).format("DD/MM/YYYY")}</b>
-              </Typography>
-              <Divider />
-              <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                GENOTYPE: <b>{data?.genotype}</b>
+                Email: <b>{data?.email}</b>
                 <Divider orientation="vertical" flexItem />
               </Typography>
               <Divider />
               <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                BLOOD GROUP: <b>{data?.bloodgroup}</b>
+                DEPARTMENT: <b>{data?.department}</b>
+                <Divider orientation="vertical" flexItem />
+              </Typography>
+              <Divider />
+              <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
+                DESIGNATION: <b>{data?.position}</b>
               </Typography>
             </Grid>
             <Grid item xs={12} md={4} pr={2}>
@@ -310,10 +305,11 @@ export const ClientIdCard = ({ data, action }) => {
                 }}
                 mt={1}
               >
-                The bearer of this card is a subscriber to
-                {data?.organizationName} and entitled to receive appropriate
+                The bearer of this card is an employee of{" "}
+                {data?.organizationName}.
+                {/* and entitled to receive appropriate
                 medical care from his primary care provider and other referral
-                centres as may be necessary.
+                centres as may be necessary. */}
               </Typography>
               <Typography
                 sx={{
@@ -327,7 +323,7 @@ export const ClientIdCard = ({ data, action }) => {
                 the property of {data?.organizationName}.
               </Typography>
               <Typography sx={{ fontSize: "0.7rem", color: "#000000" }} mt={1}>
-                In the event of an emergency, kindly contact
+                In the event of an emergency, kindly contact{" "}
                 {data?.organizationName}
               </Typography>
               <Typography sx={{ fontSize: "0.7rem", color: "#000000" }} mt={1}>
@@ -555,24 +551,21 @@ const ComponentToPrint = forwardRef(({ action }, ref) => {
               </Typography>
               <Divider />
               <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                POLICY NO: <b>{data?.policyNo}</b>
+                PHONE: <b>{data?.phone}</b>
               </Typography>
               <Divider />
               <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                SEX: <b>{data?.gender}</b>
-              </Typography>
-              <Divider />
-              <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                DATE OF BIRTH: <b>{moment(data?.dob).format("DD/MM/YYYY")}</b>
-              </Typography>
-              <Divider />
-              <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                GENOTYPE: <b>{data?.genotype}</b>
+                Email: <b>{data?.email}</b>
                 <Divider orientation="vertical" flexItem />
               </Typography>
               <Divider />
               <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                BLOOD GROUP: <b>{data?.bloodgroup}</b>
+                DEPARTMENT: <b>{data?.department}</b>
+                <Divider orientation="vertical" flexItem />
+              </Typography>
+              <Divider />
+              <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
+                DESIGNATION: <b>{data?.position}</b>
               </Typography>
             </Grid>
             <Grid item xs={12} md={4} pr={2}>
@@ -609,10 +602,11 @@ const ComponentToPrint = forwardRef(({ action }, ref) => {
                 }}
                 mt={1}
               >
-                The bearer of this card is a subscriber to
-                {data?.organizationName} and entitled to receive appropriate
+                The bearer of this card is a employee of{" "}
+                {data?.organizationName}.
+                {/* and entitled to receive appropriate
                 medical care from his primary care provider and other referral
-                centres as may be necessary.
+                centres as may be necessary. */}
               </Typography>
               <Typography
                 sx={{
@@ -626,7 +620,7 @@ const ComponentToPrint = forwardRef(({ action }, ref) => {
                 the property of {data?.organizationName}.
               </Typography>
               <Typography sx={{ fontSize: "0.7rem", color: "#000000" }} mt={1}>
-                In the event of an emergency, kindly contact
+                In the event of an emergency, kindly contact{" "}
                 {data?.organizationName}
               </Typography>
               <Typography sx={{ fontSize: "0.7rem", color: "#000000" }} mt={1}>

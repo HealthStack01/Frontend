@@ -704,7 +704,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
   const [sendLinkModal, setSendLinkModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  console.log("this place")
+  console.log("this place");
 
   const handleCreateNew = async () => {
     const newfacilityModule = {
@@ -730,22 +730,23 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
     setShowModal(2);
   };
 
-  const handleBatchdel = (row,i)=>{
-    let confirm = window.confirm("Are you sure you want to remove this facility from the band ?");
+  const handleBatchdel = (row, i) => {
+    let confirm = window.confirm(
+      "Are you sure you want to remove this facility from the band ?"
+    );
     if (confirm) {
       // setProductItem(prev=>prev.filter((obj,index)=>index!==i ))
-     // setProductItem(obj => obj.filter((el, index) => index !== i));
-      orgServ.remove(row._id)
-      .then(()=>{
-        toast.success("organization succesfully removed");
-      })
-      .catch((err)=>{
-        toast.error("Error deleting organization" + err);
-
-      })
+      // setProductItem(obj => obj.filter((el, index) => index !== i));
+      orgServ
+        .remove(row._id)
+        .then(() => {
+          toast.success("organization succesfully removed");
+        })
+        .catch((err) => {
+          toast.error("Error deleting organization" + err);
+        });
     }
-
-  }
+  };
 
   const handleSearch = (val) => {
     const field = "facilityName";
@@ -793,13 +794,13 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
      */
   const getFacilities = () => {
     setLoading(true);
-    console.log("starting issues")
+    console.log("starting issues");
     orgServ
       .find({
         query: {
           facility: user.currentEmployee.facilityDetail._id,
-          
-          relationshiptype:"managedcare",
+
+          relationshiptype: "managedcare",
           //$limit: 100,
           $sort: {
             createdAt: -1,
@@ -807,10 +808,10 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
         },
       })
       .then((res) => {
-      //  console.log(res);
+        //  console.log(res);
         setFacilities(res.data);
-        setTotal(res.total)
-       console.log(" Organization  fetched successfully");
+        setTotal(res.total);
+        console.log(" Organization  fetched successfully");
         setSuccess(true);
         setLoading(false);
       })
@@ -822,7 +823,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
   };
 
   useEffect(() => {
-    console.log("at the beginning")
+    console.log("at the beginning");
     getFacilities();
 
     orgServ.on("created", (obj) => getFacilities());
@@ -945,7 +946,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
       description: "Enter Category",
       selector: (row, i) => (
         <span
-          style={{color: "red", fontSize: "inherit"}}
+          style={{ color: "red", fontSize: "inherit" }}
           onClick={() => handleBatchdel(row, i)}
         >
           DELETE
@@ -990,12 +991,10 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <div>
-                    Total Number of Facilities ({total})
-                  </div>
+                  <div>Total Number of Facilities ({total})</div>
                 </div>
 
-                <Box sx={{ display: "flex", overflow:"auto" }} gap={2}>
+                <Box sx={{ display: "flex", overflow: "auto" }} gap={2}>
                   <GlobalCustomButton onClick={() => setSendLinkModal(true)}>
                     <EmailIcon sx={{ marginRight: "5px" }} fontSize="small" />
                     Invite Provider Via Email
@@ -1134,27 +1133,26 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   };
 
   const getFacilities = () => {
-   setLoading(true);
-   ServicesServ
-      .find({
-        query: {
-          facility: user.currentEmployee.facilityDetail._id,
-          organization:facility.organization,
-          relationshiptype:"managedcare",
-          //$limit: 100,
-          $sort: {
-            createdAt: -1,
-          },
+    setLoading(true);
+    ServicesServ.find({
+      query: {
+        facility: user.currentEmployee.facilityDetail._id,
+        organization: facility.organization,
+        relationshiptype: "managedcare",
+        //$limit: 100,
+        $sort: {
+          createdAt: -1,
         },
-      })
+      },
+    })
       .then((res) => {
         console.log(res);
-        res.data.forEach((el=>{
-          setFacilityBand(prev=>[...prev, el.band])
-        }))
+        res.data.forEach((el) => {
+          setFacilityBand((prev) => [...prev, el.band]);
+        });
 
         setBand(res.data);
-        setTotal(res.total)
+        setTotal(res.total);
         setMessage(" Organization  fetched successfully");
         setSuccess(true);
         setLoading(false);
@@ -1173,7 +1171,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
     // var result =
 
     getTariffServices(facility);
-    getFacilities()
+    getFacilities();
 
     // console.log("selected facility", result);
 
@@ -1877,19 +1875,23 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                       />
                     </Grid>
                     <Grid item xs={6}>
-                     {(facilityband.length>0)? facilityband.map((el,i) => {                    
-                      <Input
-                        //register={register("bandName")}
-                        label="Band"
-                        disabled
-                        value={el}
-                      />
-                    }): <Input
-                    //register={register("bandName")}
-                    label="Band"
-                    disabled
-                    value="Not Yet Set"
-                  />}
+                      {facilityband.length > 0 ? (
+                        facilityband.map((el, i) => {
+                          <Input
+                            //register={register("bandName")}
+                            label="Band"
+                            disabled
+                            value={el}
+                          />;
+                        })
+                      ) : (
+                        <Input
+                          //register={register("bandName")}
+                          label="Band"
+                          disabled
+                          value="Not Yet Set"
+                        />
+                      )}
                     </Grid>
                   </Grid>
                   <Grid item xs={12}>
@@ -2851,6 +2853,12 @@ export const AdditionalInformationView = () => {
     const updatedDealInfo = oldDealInfo.filter((item) => item._id !== info._id);
 
     const documentId = facility?._id;
+    // console.log("==>>>from provider ", {
+    //   info: info,
+    //   oldDealInfo: oldDealInfo,
+    //   updatedDealInfo: updatedDealInfo,
+    //   documentId: documentId,
+    // });
 
     await dealServer
       .patch(documentId, { info: updatedDealInfo })
@@ -3318,6 +3326,10 @@ export const CreateAddInfo = ({ addInfo, closeModal }) => {
   const { register, handleSubmit, control, reset } = useForm();
   const facility = state.facilityModule.selectedFacility;
 
+  // console.log("===>>>> facilit underprovider", {
+  //   facility: facility,
+  // });
+
   const updateAdditionalInfo = async (data) => {
     if (data.info === "") return toast.error("Please provide your information");
     showActionLoader();
@@ -3325,6 +3337,7 @@ export const CreateAddInfo = ({ addInfo, closeModal }) => {
     const employee = user.currentEmployee;
 
     const newInfo = {
+      _id: `${Math.random()}`,
       info: data.info,
       date: new Date(),
       employeename: `${employee.firstname} ${employee.lastname}`,
@@ -3340,6 +3353,11 @@ export const CreateAddInfo = ({ addInfo, closeModal }) => {
       .patch(documentId, { info: updatedDealInfo })
       .then((res) => {
         hideActionLoader();
+        console.log("===>>>> facilit underprovider", {
+          facility: facility,
+          state: state,
+          selectedFacility: res,
+        });
         setState((prev) => ({
           ...prev,
           facilityModule: { ...prev.facilityModule, selectedFacility: res },

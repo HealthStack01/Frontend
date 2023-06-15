@@ -15,6 +15,7 @@ import ModalBox from "../../../../components/modal";
 import PreauthorizationCreateComplaint from "./Complaints";
 import PreauthorizationCreateDiagnosis from "./Diagnosis";
 import PreauthorizationCreateService from "./Services";
+import {generateRandomString} from "../../../helpers/generateString";
 
 const random = require("random-string-generator");
 
@@ -151,7 +152,7 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
       submissiondate: dayjs(),
       submissionby: employee,
       status: "Submitted",
-      preauthid: random(12, "uppernumeric"),
+      preauthid: generateRandomString(12),
       appointment: selectedAppointment,
       admission: selectedAdmission,
       geolocation: {
@@ -165,9 +166,9 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
       },
     };
 
-    // console.log(document);
+    console.log(document);
 
-    await preAuthServer
+    return preAuthServer
       .create(document)
       .then(res => {
         hideActionLoader();
