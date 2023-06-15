@@ -22,9 +22,8 @@ import TextAreaVoiceAndText from "../../../../components/inputs/basic/Textarea/V
 import CreateComplaint from "./Complaints";
 import CreateDiagnosis from "./Diagnosis";
 import { SelectAdmission, SelectAppointment } from "../claims/ClaimsCreate";
-import Referral from "../../Referral";
 
-export function ReferralCreate({ handleGoBack, client_id }) {
+export function NewReferralDetails({ handleGoBack, selectedReferral }) {
   const { state, setState } = useContext(ObjectContext);
   const { register, handleSubmit, setValue, control, watch } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
@@ -40,7 +39,7 @@ export function ReferralCreate({ handleGoBack, client_id }) {
   const [complaintModal, setComplaintModal] = useState(false);
   const [diagnosis, setDiagnosis] = useState([]);
   const [diagnosisModal, setDiagnosisModal] = useState(false);
-  const ClientServ = client.service("referral");
+  const ClientServ = client.service("appointments");
   const [drugsInputType, setDrugsInputType] = useState("type");
   const [clinicFindInputType, setClinicFindInputType] = useState("type");
   const { user } = useContext(UserContext); //,setUser
@@ -58,9 +57,6 @@ export function ReferralCreate({ handleGoBack, client_id }) {
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
 
-  const employee = user.currentEmployee;
-  const facility = employee.facilityDetail;
-
   const handleChangeType = async (e) => {
     await setAppointment_type(e.target.value);
   };
@@ -69,11 +65,11 @@ export function ReferralCreate({ handleGoBack, client_id }) {
     await setAppointment_status(e.target.value);
   };
 
+  console.log("===>>>> SELECTE REFERRAL FROM REFERRAL DETAILS", {
+    referral: selectedReferral,
+  });
+
   const getSearchfacility = (obj) => {
-    console.log("from chossen ", {
-      chosen: obj,
-      selected: state.ClientModule.selectedClient,
-    });
     setClientId(obj._id);
     setChosen(obj);
     //handleRow(obj)
@@ -128,7 +124,7 @@ export function ReferralCreate({ handleGoBack, client_id }) {
   });
 
   const onSubmit = (data, e) => {
-    // e.preventDefault();
+    e.preventDefault();
     setMessage("");
     setError(false);
     setSuccess(false);
@@ -142,70 +138,39 @@ export function ReferralCreate({ handleGoBack, client_id }) {
     }));
 
     // data.createdby=user._id
-    // console.log(" ====>>> data from referral submit", {
-    //   data,
-    //   chosen: chosen,
-    // });
+    console.log(data);
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
-    if (selectedAdmission !== null) {
-      data.source_admissionId = selectedAdmission._id;
-      data.source_admission = selectedAdmission;
-    }
-
-    if (selectedAppointment !== null) {
-      data.source_appointmentId = selectedAppointment._id;
-      data.source_appointment = selectedAppointment;
-    }
-    const actionHx = {
-      action: "",
-      actor: "",
-      action_time: new Date(),
-    };
-
+    data.locationId = locationId; //state.ClinicModule.selectedClinic._id
+    data.practitionerId = practionerId;
+    data.appointment_type = appointment_type;
+    // data.appointment_reason=appointment_reason
+    data.appointment_status = appointment_status;
     data.clientId = clientId;
-    data.client = state.ClientModule.selectedClient;
-    data.referralnote = "";
-    data.actionHx = actionHx;
-    data.source_orgId = facility._id;
-    data.dest_orgId = chosen._id;
-    data.dest_org = chosen;
-    // employee_referred_to;
-
-    // console.log(" ====>>> data from referral submit two", {
-    //   data,
-    //   facility,
-    //   chosen,
-    // });
-
-    // data.locationId = locationId; //state.ClinicModule.selectedClinic._id
-    // data.practitionerId = practionerId;
-    // data.appointment_type = appointment_type;
-    // // data.appointment_reason=appointment_reason
-    // data.appointment_status = appointment_status;
-    // data.firstname = chosen.firstname;
-    // data.middlename = chosen.middlename;
-    // data.lastname = chosen.lastname;
-    // data.dob = chosen.dob;
-    // data.gender = chosen.gender;
-    // data.phone = chosen.phone;
-    // data.email = chosen.email;
-    // data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
-    // data.practitioner_profession = chosen2.profession;
-    // data.practitioner_department = chosen2.department;
-    // data.location_name = chosen1.name;
-    // data.location_type = chosen1.locationType;
-    // data.actions = [
-    //   {
-    //     action: appointment_status,
-    //     actor: user.currentEmployee._id,
-    //   },
-    // ];
+    data.firstname = chosen.firstname;
+    data.middlename = chosen.middlename;
+    data.lastname = chosen.lastname;
+    data.dob = chosen.dob;
+    data.gender = chosen.gender;
+    data.phone = chosen.phone;
+    data.email = chosen.email;
+    data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
+    data.practitioner_profession = chosen2.profession;
+    data.practitioner_department = chosen2.department;
+    data.location_name = chosen1.name;
+    data.location_type = chosen1.locationType;
+    data.actions = [
+      {
+        action: appointment_status,
+        actor: user.currentEmployee._id,
+      },
+    ];
+    console.log(data);
 
     ClientServ.create(data)
       .then((res) => {
-        console.log("===>>>response", { res: res });
+        //console.log(JSON.stringify(res))
         e.target.reset();
         setAppointment_type("");
         setAppointment_status("");
@@ -238,10 +203,6 @@ export function ReferralCreate({ handleGoBack, client_id }) {
   };
 
   useEffect(() => {
-    console.log("from chossen useEffect ", {
-      chosen: state.ClientModule,
-      selectedClient: state.ClientModule.selectedClient,
-    });
     getSearchfacility(state.ClientModule.selectedClient);
 
     /* appointee=state.ClientModule.selectedClient 
@@ -429,7 +390,9 @@ export function ReferralCreate({ handleGoBack, client_id }) {
           }}
           gap={1}
         >
-          <GlobalCustomButton onClick={handleSubmit(onSubmit)}>
+          <GlobalCustomButton
+          // onClick={handleSubmit(handleCreatePreAuthorization)}
+          >
             <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
             Create Referral
           </GlobalCustomButton>
@@ -469,7 +432,7 @@ export function ReferralCreate({ handleGoBack, client_id }) {
               <Input
                 name="patientName"
                 label="Referring Facility"
-                value={facility.facilityName}
+                value={"Test Organization"}
               />
             </Grid>
             <Grid item lg={6} md={5}>
