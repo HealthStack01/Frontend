@@ -10,6 +10,7 @@ import {toast} from "react-toastify";
 import AsthmaIntake from "./AsthmaIntake";
 import PulmonologyIntake from "./Pulmonology";
 import NewPatientConsult from "./NewPatientConsult";
+import PreventiveCare from "./PreventiveCare";
 import ProgressNote from "./ProgressNote";
 import MedicationList from "./MedicationList";
 import Clerking from "./Clerking";
@@ -212,6 +213,8 @@ export default function EncounterRight() {
         "Dental Clinic" && <DentalClinic onSubmit={submitDocument} />}
          {state.DocumentClassModule.selectedDocumentClass.name ===
         "Orthodontic Analysis" && <OrthodonticAnalysis onSubmit={submitDocument} />}
+        {state.DocumentClassModule.selectedDocumentClass.name ===
+        "Preventive Care" && <PreventiveCare />}
     </div>
   );
 }
