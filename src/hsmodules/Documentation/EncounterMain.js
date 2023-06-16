@@ -865,7 +865,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
           <td style={{ border: "1px solid #e0e0e0", padding: "10px", fontSize: 14 }}>
             {keys}
           </td>
-          <td style={{ border: "1px solid #e0e0e0", padding: "10px", fontSize: 13 }}>{value}</td>
+          <td style={{ border: "1px solid #e0e0e0", padding: "10px", fontSize: 13 }}>{value} {" "}</td>
         </tr>
       ))}
     </tbody>
