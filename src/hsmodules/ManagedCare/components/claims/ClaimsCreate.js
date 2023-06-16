@@ -351,7 +351,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
       >
         <Box
           sx={{
-            width: "25rem",
+            width: "16rem",
           }}
         >
           <PatientProfile />
@@ -359,7 +359,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
 
         <Box
           sx={{
-            width: "calc(100% - 26rem)",
+            width: "calc(100% - 17rem)",
           }}
         >
           <Grid container spacing={2} mb={2}>
