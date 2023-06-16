@@ -86,6 +86,7 @@ export default function Referral() {
           showCreate={() => setView("create")}
           showDetail={() => setView("detail")}
           setSelectedReferral={setSelectedReferral}
+          client_id={client_id}
         />
       )}
 

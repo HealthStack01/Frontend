@@ -88,6 +88,7 @@ export function ReferralCreate({ handleGoBack, client_id }) {
               shouldDirty: true
           }) */
   };
+
   const getSearchfacility1 = (obj) => {
     setLocationId(obj._id);
     setChosen1(obj);
@@ -98,6 +99,7 @@ export function ReferralCreate({ handleGoBack, client_id }) {
       setChosen1();
     }
   };
+
   const getSearchfacility2 = (obj) => {
     setPractionerId(obj._id);
     setChosen2(obj);
@@ -166,42 +168,19 @@ export function ReferralCreate({ handleGoBack, client_id }) {
 
     data.clientId = clientId;
     data.client = state.ClientModule.selectedClient;
-    data.referralnote = "";
+    data.referralnote = data;
     data.actionHx = actionHx;
     data.source_orgId = facility._id;
     data.dest_orgId = chosen._id;
     data.dest_org = chosen;
+
     // employee_referred_to;
 
-    // console.log(" ====>>> data from referral submit two", {
-    //   data,
-    //   facility,
-    //   chosen,
-    // });
-
-    // data.locationId = locationId; //state.ClinicModule.selectedClinic._id
-    // data.practitionerId = practionerId;
-    // data.appointment_type = appointment_type;
-    // // data.appointment_reason=appointment_reason
-    // data.appointment_status = appointment_status;
-    // data.firstname = chosen.firstname;
-    // data.middlename = chosen.middlename;
-    // data.lastname = chosen.lastname;
-    // data.dob = chosen.dob;
-    // data.gender = chosen.gender;
-    // data.phone = chosen.phone;
-    // data.email = chosen.email;
-    // data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
-    // data.practitioner_profession = chosen2.profession;
-    // data.practitioner_department = chosen2.department;
-    // data.location_name = chosen1.name;
-    // data.location_type = chosen1.locationType;
-    // data.actions = [
-    //   {
-    //     action: appointment_status,
-    //     actor: user.currentEmployee._id,
-    //   },
-    // ];
+    console.log(" ====>>> data from referral submit two", {
+      data,
+      facility,
+      chosen,
+    });
 
     ClientServ.create(data)
       .then((res) => {
@@ -624,11 +603,17 @@ export function ReferralCreate({ handleGoBack, client_id }) {
               placeholder="Type your message here"
               name="reason"
               type="text"
+              register={register("reason_for_request")}
               label="Reason for Request"
             />
           </Grid>
           <Grid item xs={6} mt={2}>
-            <Input name="physicianName" label="Physician's Name" type="text" />
+            <Input
+              name="physicianName"
+              label="Physician's Name"
+              type="text"
+              register={register("physician_Name")}
+            />
           </Grid>
         </Box>
       </Box>

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import client from "../../../../feathers";
 import { UserContext, ObjectContext } from "../../../../context";
 import { format, subDays, addDays } from "date-fns";
@@ -22,10 +22,13 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState("list");
+  const [referralListData, setReferralListData] = useState([]);
 
   const handleCreateNew = async () => {
     showCreate();
   };
+
+  console.log("===>>>> start one ", {});
 
   const handleRow = async (referral) => {
     console.log("===>>>> HANDLE ROW from referral list", { referral });
@@ -124,7 +127,7 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
 
     ReferralServ.find({ query: query })
       .then((res) => {
-        console.log(res);
+        console.log("===>>search referral data", { res });
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
@@ -135,6 +138,46 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
         setError(true);
       });
   };
+
+  const getReferralList = useCallback(async () => {
+    console.log("===>>>> getlist ", {});
+    setLoading(true);
+    if (user.currentEmployee) {
+      let query = {
+        source_orgId: user.currentEmployee.facilityDetail._id,
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      };
+      console.log("===>>>> starat one ", { query });
+      const resp = await ReferralServ.find({ query: query });
+
+      setReferralListData(resp.data);
+      setLoading(false);
+      console.log("===>>>> response ", { resp });
+      //console.log(resp.data);
+    } else {
+      console.log("===>>>> user stacker one ", {});
+      if (user.stacker) {
+        const resp = await ReferralServ.find({
+          query: {
+            $limit: 100,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        });
+
+        setReferralListData(resp.data);
+        setLoading(false);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    getReferralList();
+  }, []);
 
   // const getFacilities = async () => {
   //   console.log(user);
