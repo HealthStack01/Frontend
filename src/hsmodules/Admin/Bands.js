@@ -3,6 +3,7 @@ import client from "../../feathers";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
+import SendIcon from "@mui/icons-material/Send";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import {PageWrapper} from "../../ui/styled/styles";
@@ -30,6 +31,8 @@ import {BandSchema} from "./ui-components/schema";
 import CloseIcon from "@mui/icons-material/Close";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+import {Box, Button, Typography} from "@mui/material";
+const data = require("../../data/hci/enrolleehci.json");
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -189,12 +192,22 @@ export function BandList({showCreateModal}) {
   const [selectedBand, setSelectedBand] = useState(); //
   // eslint-disable-next-line
   const {state, setState} = useContext(ObjectContext);
+  const facilityServ = client.service("facility");
+  const orgServ = client.service("organizationclient");
+  const ClientServ = client.service("client");
+  const policyServ = client.service("policy");
+  const InvoiceServ = client.service('corpinvoices');
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
   const [open, setOpen] = useState(false);
+  const [start, setStart] = useState('');
+  const [end, setEnd] = useState('');
+
+
+
   const handleCreateNew = async () => {
     const newBandModule = {
       selectedBand: {},
@@ -304,8 +317,137 @@ export function BandList({showCreateModal}) {
 
   //todo: pagination and vertical scroll bar
 
+  const handleFileUpload =  async(event) => {
+   
+
+
+    const hosp=data.slice(start,end)
+
+    const uniquePolicy = [...new Set(hosp.map(obj => obj.Beneficiaries))];
+let n=0
+
+    for (const unique of uniquePolicy){
+        //find the beneficiaries
+      let benefits=  hosp.filter(el=>el.Beneficiaries===unique)
+      let dependents=[]
+      let principal={}
+      let genNo=""
+      let faci={}
+      n=n+1 
+        for (const benfi of benefits){
+
+          faci=benfi
+         
+            let client={
+              firstname: faci.EmployeeOthername, 
+              middlename:"",
+              lastname:faci.EmployeeSurname,
+              dob:faci.Date_Birth ,
+              gender:faci.Sex,
+              maritalstatus: faci.MaritalStatusID,
+              religion: "",
+              phone:faci.Phone,
+              email: `${n}${faci.EmployeeOthername}@healthstack.africa`, //unique: true
+              bloodgroup: faci.BloodTypeID,
+              genotype:faci.Genotype,
+              clientTags:"hci beneficiary",
+              facility:user.currentEmployee.facilityDetail._id ,
+              address:faci.Address1,
+            }
+      
+             await  ClientServ.create(client)
+             .then(async(resp)=>{
+              if (benfi.FamilyCode== "0"){
+                resp.type="Principal"
+                principal=resp
+                genNo=benfi["Policy No"]
+              }else{
+                resp.type="Dependent"
+                dependents.push(resp)
+              }
+             
+             // create policy 
+             
+               console.log("end of story")
+
+             })
+             .catch((err) => {
+               console.log("Error creating client " + err);
+             });
+
+        
+          }
+          let provi=[]
+          let provider={
+            facilityName:faci.HospitalName,
+              code:faci["Hospital ID"] 
+          }
+          
+              provi.push(provider)
+ //create policy
+                  let policy = {
+                    policyNo: genNo,
+                    organizationType:user.currentEmployee.facilityDetail.facilityType,
+                      
+                    organizationId:user.currentEmployee.facilityDetail._id,
+                    
+                    organizationName:user.currentEmployee.facilityDetail.facilityName,
+                    
+                    organization:user.currentEmployee.facilityDetail,
+                    
+                    principal: principal,
+                    dependantBeneficiaries: dependents,
+                    providers:provi , //
+                    sponsorshipType:faci.CustomerName==="Individual"?"Self":"Company",
+                    sponsor: {facilityName:faci.CustomerName,
+                               code:faci.CustomerID   },
+                    plan:{
+                      planName: faci.PlanDescription,
+                      planId:faci.PlanID
+                    },
+                    planType: faci.FamilyCode>0?"Family":"Individual",
+
+                  //  validityPeriods:[ { type: String,  }],
+                  validitystarts:faci.PaymentStartDate,
+                  validityEnds:faci.PaymentEndDate,
+                  Date_JoinScheme:faci.Date_JoinScheme,
+                    active: true,
+                    isPaid: true,
+                    approved:true,
+                    statushx: [
+                      {
+                        date: new Date(),
+                        employeename: `${user.currentEmployee.firstname} ${user.currentEmployee.lastname}`,
+                        employeeId: user.currentEmployee._id,
+                        status: "Policy Created",
+                      }
+                  ]
+                  }
+                 
+                  await policyServ
+                    .create(policy)
+                    .then((res) => {
+                    console.log("policy created succesfully",res);
+                    console.log("policy #"+n,policy)
+                    })
+                    .catch((err) => {
+                      console.log("Error creating policy " + err);
+                    });
+
+        }
+    }
+
+
   return (
     <>
+    <Box sx={{ gap:2}}>
+      <input type="number"  value={start} name="begin" onChange={(e)=> setStart(e.target.value) } />
+      <input type="number" value={end} name="end" onChange={(e)=> setEnd(e.target.value) } />
+     <GlobalCustomButton onClick={handleFileUpload}>
+          test
+          <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
+        </GlobalCustomButton> 
+      </Box>
       {facilities ? (
         <>
           <ModalBox open={open} onClose={handleCloseModal}>
