@@ -31,7 +31,7 @@ import { BandSchema } from "./ui-components/schema";
 import CloseIcon from "@mui/icons-material/Close";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
-import {Box, Button, Typography} from "@mui/material";
+
 const data = require("../../data/hci/enrolleehci.json");
 
 // eslint-disable-next-line
