@@ -1,33 +1,33 @@
-import React, {useState, useContext, useEffect, useRef} from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import client from "../../feathers";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
 import SendIcon from "@mui/icons-material/Send";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
-import {toast} from "react-toastify";
+import { UserContext, ObjectContext } from "../../context";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import { toast } from "react-toastify";
 import FilterMenu from "../../components/utilities/FilterMenu";
 // import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import {fontSize} from "@mui/system";
+import { fontSize } from "@mui/system";
 import ModalBox from "../../components/modal";
 import Input from "../../components/inputs/basic/Input";
 import CustomSelect from "../../components/inputs/basic/Select";
-import {Grid} from "@mui/material";
-import {width} from "@mui/system";
+import { Grid, Box } from "@mui/material";
+import { width } from "@mui/system";
 import BadgeIcon from "@mui/icons-material/Badge";
 import FormatStrikethroughIcon from "@mui/icons-material/FormatStrikethrough";
-import {fontWeight} from "@mui/system";
-import {Portal} from "@mui/material";
-import {BottomWrapper, GridWrapper, HeadWrapper} from "../app/styles";
-import {GrayWrapper} from "../app/styles";
+import { fontWeight } from "@mui/system";
+import { Portal } from "@mui/material";
+import { BottomWrapper, GridWrapper, HeadWrapper } from "../app/styles";
+import { GrayWrapper } from "../app/styles";
 import ViewText from "../../components/viewtext";
 import BandView from "../Admin/BandView";
-import {BandForm} from "./BandForm";
-import {BandSchema} from "./ui-components/schema";
+import { BandForm } from "./BandForm";
+import { BandSchema } from "./ui-components/schema";
 import CloseIcon from "@mui/icons-material/Close";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
@@ -39,7 +39,7 @@ const searchfacility = {};
 
 export default function Bands() {
   // console.log("bands bands bands");
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   const [createModal, setCreateModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
   const [modifyModal, setModifyModal] = useState(false);
@@ -75,9 +75,9 @@ export default function Bands() {
   );
 }
 
-export function BandCreate({open, setOpen}) {
+export function BandCreate({ open, setOpen }) {
   const [showRegisteredModal, setShowRegisteredModal] = useState(false);
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -85,7 +85,7 @@ export function BandCreate({open, setOpen}) {
   const [facility, setFacility] = useState();
   const BandServ = client.service("bands");
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const bandTypeOptions = [
@@ -99,7 +99,7 @@ export function BandCreate({open, setOpen}) {
   //corporate sponsors pay premium and not claims
   //company pays claims and not premium
 
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
@@ -139,7 +139,7 @@ export function BandCreate({open, setOpen}) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
     BandServ.create(data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         e.target.reset();
         /*  setMessage("Created Band successfully") */
@@ -152,7 +152,7 @@ export function BandCreate({open, setOpen}) {
         });
         setSuccess(false);
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
           message: "Error creating Band " + err,
           type: "is-danger",
@@ -174,7 +174,7 @@ export function BandCreate({open, setOpen}) {
   );
 }
 
-export function BandList({showCreateModal}) {
+export function BandList({ showCreateModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -192,13 +192,8 @@ export function BandList({showCreateModal}) {
   const [selectedBand, setSelectedBand] = useState(); //
   // eslint-disable-next-line
   const {state, setState} = useContext(ObjectContext);
-  const facilityServ = client.service("facility");
-  const orgServ = client.service("organizationclient");
-  const ClientServ = client.service("client");
-  const policyServ = client.service("policy");
-  const InvoiceServ = client.service('corpinvoices');
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
@@ -213,14 +208,14 @@ export function BandList({showCreateModal}) {
       selectedBand: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       BandModule: newBandModule,
     }));
     //console.log(state)
   };
 
-  const handleRowClicked = row => {
+  const handleRowClicked = (row) => {
     setSelectedBand(row);
     setOpen(true);
   };
@@ -228,20 +223,20 @@ export function BandList({showCreateModal}) {
   const handleCloseModal = () => {
     setOpen(false);
   };
-  const handleRow = async Band => {
+  const handleRow = async (Band) => {
     await setSelectedBand(Band);
     const newBandModule = {
       selectedBand: Band,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       BandModule: newBandModule,
     }));
     //console.log(state)
   };
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     const field = "name";
     BandServ.find({
       query: {
@@ -256,13 +251,13 @@ export function BandList({showCreateModal}) {
         },
       },
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Band  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setMessage("Error fetching Band, probable network issues " + err);
         setError(true);
@@ -308,10 +303,10 @@ export function BandList({showCreateModal}) {
       getFacilities();
     } else {
     }
-    BandServ.on("created", obj => getFacilities());
-    BandServ.on("updated", obj => getFacilities());
-    BandServ.on("patched", obj => getFacilities());
-    BandServ.on("removed", obj => getFacilities());
+    BandServ.on("created", (obj) => getFacilities());
+    BandServ.on("updated", (obj) => getFacilities());
+    BandServ.on("patched", (obj) => getFacilities());
+    BandServ.on("removed", (obj) => getFacilities());
     return () => {};
   }, []);
 
@@ -458,16 +453,16 @@ let n=0
             />
           </ModalBox>
           <PageWrapper
-            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
           >
             <TableMenu>
-              <div style={{display: "flex", alignItems: "center"}}>
+              <div style={{ display: "flex", alignItems: "center" }}>
                 {handleSearch && (
                   <div className="inner-table">
                     <FilterMenu onSearch={handleSearch} />
                   </div>
                 )}
-                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+                <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
                   List of Bands
                 </h2>
               </div>
@@ -476,7 +471,7 @@ let n=0
                 <GlobalCustomButton onClick={showCreateModal}>
                   <ControlPointIcon
                     fontSize="small"
-                    sx={{marginRight: "5px"}}
+                    sx={{ marginRight: "5px" }}
                   />
                   Add New
                 </GlobalCustomButton>
@@ -491,16 +486,24 @@ let n=0
               }}
             >
               <div></div>
-              <CustomTable
-                title={""}
-                columns={BandSchema}
-                data={facilities}
-                pointerOnHover
-                highlightOnHover
-                striped
-                onRowClicked={handleRowClicked}
-                progressPending={loading}
-              />
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "calc(100vh - 180px)",
+                  overflowY: "auto",
+                }}
+              >
+                <CustomTable
+                  title={""}
+                  columns={BandSchema}
+                  data={facilities}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={handleRowClicked}
+                  progressPending={loading}
+                />
+              </Box>
             </div>
           </PageWrapper>
         </>
@@ -511,7 +514,7 @@ let n=0
   );
 }
 
-export function BandDetail({showModifyModal}) {
+export function BandDetail({ showModifyModal }) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
@@ -521,7 +524,7 @@ export function BandDetail({showModifyModal}) {
   //const BandServ=client.service('/Band')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const Band = state.BandModule.selectedBand;
 
@@ -530,7 +533,7 @@ export function BandDetail({showModifyModal}) {
       selectedBand: Band,
       show: "modify",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       BandModule: newBandModule,
     }));
@@ -572,7 +575,7 @@ export function BandDetail({showModifyModal}) {
 }
 
 export function BandModify() {
-  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
+  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -583,8 +586,8 @@ export function BandModify() {
   const BandServ = client.service("bands");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
   const [confirmDialog, setConfirmDialog] = useState(false);
 
   const Band = state.BandModule.selectedBand;
@@ -631,7 +634,7 @@ export function BandModify() {
       selectedBand: {},
       show: "list",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       BandModule: newBandModule,
     }));
@@ -643,7 +646,7 @@ export function BandModify() {
       selectedBand: {},
       show: "create",
     };
-    setState(prevstate => ({...prevstate, BandModule: newBandModule}));
+    setState((prevstate) => ({ ...prevstate, BandModule: newBandModule }));
   };
   const handleDelete = async () => {
     //let conf = window.confirm("Are you sure you want to delete this data?");
@@ -651,7 +654,7 @@ export function BandModify() {
     const dleteId = Band._id;
     //if (conf) {
     BandServ.remove(dleteId)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         reset();
         /*  setMessage("Deleted Band successfully")
@@ -663,7 +666,7 @@ export function BandModify() {
         toast.success("Band deleted succesfully");
         changeState();
       })
-      .catch(err => {
+      .catch((err) => {
         // setMessage("Error deleting Band, probable network issues "+ err )
         // setError(true)
         toast.error("Error deleting Band, probable network issues or " + err);
@@ -684,7 +687,7 @@ export function BandModify() {
     //console.log(data);
 
     BandServ.patch(Band._id, data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Band successfully")
@@ -692,7 +695,7 @@ export function BandModify() {
 
         changeState();
       })
-      .catch(err => {
+      .catch((err) => {
         //setMessage("Error creating Band, probable network issues "+ err )
         // setError(true)
         toast("Error updating Band, probable network issues or " + err);
@@ -708,18 +711,18 @@ export function BandModify() {
         <div className="card-content vscrollable">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Input
-              {...register("name", {required: true})}
+              {...register("name", { required: true })}
               name="name"
               type="text"
               placeholder="Name"
             />
             <Input
-              {...register("bandtype", {required: true})}
+              {...register("bandtype", { required: true })}
               name="bandtype"
               type="text"
               placeholder="Band Type"
             />
-            <div style={{display: "flex"}}>
+            <div style={{ display: "flex" }}>
               <GlobalCustomButton
                 type="submit"
                 onClick={handleSubmit(onSubmit)}
@@ -776,7 +779,7 @@ export function BandModify() {
   );
 }
 
-export function InputSearch({getSearchfacility, clear}) {
+export function InputSearch({ getSearchfacility, clear }) {
   const facilityServ = client.service("facility");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -793,7 +796,7 @@ export function InputSearch({getSearchfacility, clear}) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
 
-  const handleRow = async obj => {
+  const handleRow = async (obj) => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -810,7 +813,7 @@ export function InputSearch({getSearchfacility, clear}) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async e => {
+  const handleBlur = async (e) => {
     if (count === 2) {
       console.log("stuff was chosen");
     }
@@ -828,7 +831,7 @@ export function InputSearch({getSearchfacility, clear}) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async val => {
+  const handleSearch = async (val) => {
     const field = "facilityName"; //field variable
 
     if (val.length >= 3) {
@@ -846,13 +849,13 @@ export function InputSearch({getSearchfacility, clear}) {
             },
           },
         })
-        .then(res => {
+        .then((res) => {
           console.log("facility  fetched successfully");
           setFacilities(res.data);
           setSearchMessage(" facility  fetched successfully");
           setShowPanel(true);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           setSearchMessage(
             "Error searching facility, probable network issues " + err
@@ -886,8 +889,8 @@ export function InputSearch({getSearchfacility, clear}) {
                 value={simpa}
                 minLength={1}
                 debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
+                onBlur={(e) => handleBlur(e)}
+                onChange={(e) => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
