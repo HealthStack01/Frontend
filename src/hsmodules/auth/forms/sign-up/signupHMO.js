@@ -153,7 +153,9 @@ console.log(res,deal)
     deal.invoices.map(async(inv,i) => {
       inv.customerId=res._id
       inv.customer=res
-      inv.facility=user.currentEmployee.facilityDetail
+      inv.facility=deal.facility
+      inv.facilityId=deal.facilityId
+      inv.facilityName=deal.facilityName
       delete inv._id
        let abj=  await InvServ.create(inv)
     //  console.log('abj',abj)
