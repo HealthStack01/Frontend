@@ -48,10 +48,9 @@ const SimpleRadioInput = ({
         {options.map(item => {
           return (
             <FormControlLabel
+              disabled={disabled}
               key={item.value}
-              defaultChecked={
-                defaultValue === item.value || value === item.value
-              }
+              defaultChecked={defaultValue === item.value}
               sx={{
                 width: "50%",
                 margin: 0,
@@ -59,21 +58,16 @@ const SimpleRadioInput = ({
                 color: "#2d2d2d",
                 height: "2.05rem",
                 backgroundColor:
-                  value === item.value || item.value === defaultValue
-                    ? "#b5e2fa"
-                    : "none",
+                  item.value === defaultValue ? "#b5e2fa" : "none",
+                "&.Mui-disabled": {
+                  backgroundColor:
+                    value === item.value || item.value === defaultValue
+                      ? "#b5e2fa"
+                      : "none",
+                },
               }}
               value={item.value}
-              control={
-                <Radio
-                  disabled={disabled}
-                  {...register}
-                  defaultChecked={
-                    defaultValue === item.value || value === item.value
-                  }
-                  size="small"
-                />
-              }
+              control={<Radio {...register} size="small" />}
               label={
                 <Typography sx={{fontSize: "0.75rem"}}>{item.label}</Typography>
               }
