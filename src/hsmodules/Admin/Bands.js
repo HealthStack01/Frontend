@@ -344,7 +344,7 @@ let n=0
               firstname: faci.EmployeeOthername, 
               middlename:"",
               lastname:faci.EmployeeSurname,
-              dob:faci.Date_Birth ,
+              dob:faci.Date_Birth?faci.Date_Birth:"1/01/1960" ,
               gender:faci.Sex,
               maritalstatus: faci.MaritalStatusID,
               religion: "",
