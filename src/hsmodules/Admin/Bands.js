@@ -32,7 +32,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 
-const data = require("../../data/hci/enrolleehci.json");
+const data = require("../../data/hci/enrolleehci.json"); 
+
+//const data = require("../../data/hci/updatedproviders2.json"); 
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -183,6 +185,11 @@ export function BandList({ showCreateModal }) {
   // eslint-disable-next-line
   const [message, setMessage] = useState("");
   const BandServ = client.service("bands");
+  const facilityServ = client.service("facility");
+  const orgServ = client.service("organizationclient");
+  const ClientServ = client.service("client");
+  const policyServ = client.service("policy");
+  const InvoiceServ = client.service('corpinvoices');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -431,6 +438,44 @@ let n=0
 
         }
     }
+
+
+    const handleFileUpload2 =  async(event) => {
+         const hosp=data.slice(start,end)
+
+      //read the json file
+      for (const provider of hosp){
+       let org= await orgServ.find({
+        query:{
+          'organization.facilityName': provider.provider
+        }
+       })
+      let policies = await orgServ.find({
+      query:{  'providers.facilityName':provider.policy
+
+      }})
+
+  /*   for (const provider of policies){
+
+      
+    } */
+    const params = {
+      query: { 'providers.facilityName':provider.policy }
+    };
+     let repo=[]
+    repo.push(org)
+
+    policyServ.patch(null,{providers:repo }, params )
+      }
+      // search policy for name of provider
+      //update name in policy
+      //update id in policy
+
+  
+    //  const uniquePolicy = [...new Set(hosp.map(obj => obj.Beneficiaries))];
+ 
+              
+      }
 
 
   return (
