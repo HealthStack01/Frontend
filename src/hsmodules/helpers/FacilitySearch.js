@@ -52,7 +52,7 @@ export function FacilitySearch({getSearchfacility, clear, label, closeModal}) {
 
     // setSelectedFacility(obj)
     setShowPanel(false);
-     setCount(2);
+    setCount(2);
   };
 
   const handleSearch = async value => {
@@ -60,7 +60,7 @@ export function FacilitySearch({getSearchfacility, clear, label, closeModal}) {
     if (value === "") {
       setShowPanel(false);
       getSearchfacility(false);
-    //  setFacilities([]);
+      //  setFacilities([]);
       return;
     }
     const field = "facilityName"; //field variable
@@ -296,7 +296,7 @@ export function OrgFacilitySearch({getSearchfacility, clear}) {
       // console.log("less than 3 ")
       //console.log(val)
       setShowPanel(false);
-     setFacilities([]);
+      setFacilities([]);
       //console.log(facilities)
     }
   };
@@ -328,7 +328,6 @@ export function OrgFacilitySearch({getSearchfacility, clear}) {
         getOptionLabel={option =>
           `${option?.organizationDetail?.facilityName} , ${option?.organizationDetail?.facilityCity}`
         }
-    
         onChange={(event, newValue, reason) => {
           if (reason === "clear") {
             setSimpa("");
@@ -405,15 +404,15 @@ export function OrgFacilityProviderSearch({
   const [productModal, setProductModal] = useState(false);
 
   const handleRow = async obj => {
-     setChosen(true);
+    setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
 
-     setSimpa(obj.organizationDetail.facilityName);
+    setSimpa(obj.organizationDetail.facilityName);
 
     // setSelectedFacility(obj)
     setShowPanel(false);
-     setCount(2);
+    setCount(2);
   };
 
   const handleSearch = async value => {
@@ -597,9 +596,9 @@ export function BandSearch({getBandfacility, clear, newValue}) {
     setChosen(true);
     // getSearchfacility(obj);
     getBandfacility(obj);
-     setSimpa(obj?.facilityName + "," + obj?.facilityCity);
+    setSimpa(obj?.facilityName + "," + obj?.facilityCity);
     setShowPanel(false);
-     setCount(2);
+    setCount(2);
     // check if the facility is already selected, if not add it to the list
     const found = selectedFacility.some(el => el?._id === obj?._id);
     if (!found) {
@@ -1058,10 +1057,10 @@ export function HmoFacilitySearchExternal({getSearchfacility, clear}) {
   const [selectedFacility, setSelectedFacility] = useState([]);
 
   const handleRow = async obj => {
-     setChosen(true);
-     setSimpa(obj?.facilityName + "," + obj?.facilityCity);
+    setChosen(true);
+    setSimpa(obj?.facilityName + "," + obj?.facilityCity);
     setShowPanel(false);
-     setCount(2);
+    setCount(2);
     // check if the facility is already selected, if not add it to the list
     const found = selectedFacility.some(el => el?._id === obj?._id);
     if (!found) {
@@ -1093,7 +1092,7 @@ export function HmoFacilitySearchExternal({getSearchfacility, clear}) {
     if (value === "") {
       setShowPanel(false);
       getSearchfacility([]);
-       setFacilities([]);
+      setFacilities([]);
       return;
     }
     const field = "facilityName"; //field variable
@@ -1195,7 +1194,7 @@ export function HmoFacilitySearchExternal({getSearchfacility, clear}) {
   );
 }
 
-export function SponsorSearch({getSearchfacility, clear}) {
+export function SponsorSearch({getSearchfacility, clear, id}) {
   const productServ = client.service("facility");
   const orgServ = client.service("organizationclient");
   const [facilities, setFacilities] = useState([]);
@@ -1216,12 +1215,32 @@ export function SponsorSearch({getSearchfacility, clear}) {
   const [val, setVal] = useState("");
   const [productModal, setProductModal] = useState(false);
 
+  const getInitial = async id => {
+    //console.log("ID from client search", id);
+    if (!!id) {
+      await orgServ
+        .get(id)
+        .then(resp => {
+          // console.log(resp);
+          handleRow(resp);
+        })
+        .catch(err => console.log(err));
+    }
+  };
+
+  useEffect(() => {
+    getInitial(id);
+    return () => {};
+  }, [id]);
+
   const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
 
-    await setSimpa(obj.facilityName + "," + obj.facilityCity);
+    await setSimpa(
+      `${obj.organizationDetail.facilityName}-${obj.organizationDetail.facilityCity}`
+    );
 
     // setSelectedFacility(obj)
     setShowPanel(false);
@@ -1260,7 +1279,7 @@ export function SponsorSearch({getSearchfacility, clear}) {
         })
         .then(res => {
           console.log("product  fetched successfully");
-          console.log(res.data);
+
           setFacilities(res.data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
@@ -1295,11 +1314,12 @@ export function SponsorSearch({getSearchfacility, clear}) {
   return (
     <Stack spacing={3} sx={{width: "100%"}}>
       <Autocomplete
+        //value={simpa}
         id="tags-standard"
         options={facilities}
         onBlur={e => handleBlur(e)}
         getOptionLabel={option =>
-          `${option?.organizationDetail?.facilityName} , ${option?.organizationDetail?.facilityCity}`
+          `${option?.organizationDetail?.facilityName}-${option?.organizationDetail?.facilityCity}`
         }
         onChange={(event, newValue) => {
           handleRow(newValue);

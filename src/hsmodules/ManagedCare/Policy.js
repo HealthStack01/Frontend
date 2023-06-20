@@ -166,77 +166,95 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
 
   const handleSearch = val => {
     // eslint-disable-next-line
-    const findClient= ClientServ.find({
+    const findClient = ClientServ.find({
       query: {
         $or: [
-          {policyNo:{
-            $regex: val,
-            $options: "i",
-          }},
-          {'principal.lastname':{
-            $regex: val,
-            $options: "i",
-          }},
-          {status:{
-            $regex: val,
-            $options: "i",
-          }},
-    
-            {'principal.firstname':{
+          {
+            policyNo: {
               $regex: val,
               $options: "i",
-            }},
-          {           
-            'dependantBeneficiaries.type': {
+            },
+          },
+          {
+            "principal.lastname": {
               $regex: val,
               $options: "i",
-            }},
-            {           
-              'principal.type': {
-                $regex: val,
-                $options: "i",
-              }},
-            {           
-              'dependantBeneficiaries.firstname': {
-                  $regex: val,
-                  $options: "i",
-                }},
-            {           
-              'dependantBeneficiaries.lastname': {
-                  $regex: val,
-                  $options: "i",
-                  }},
+            },
+          },
+          {
+            status: {
+              $regex: val,
+              $options: "i",
+            },
+          },
 
-            {        
-            'sponsor.facilityName': {
+          {
+            "principal.firstname": {
               $regex: val,
               $options: "i",
-            }}, 
-            {       
+            },
+          },
+          {
+            "dependantBeneficiaries.type": {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {
+            "principal.type": {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {
+            "dependantBeneficiaries.firstname": {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {
+            "dependantBeneficiaries.lastname": {
+              $regex: val,
+              $options: "i",
+            },
+          },
+
+          {
+            "sponsor.facilityName": {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {
             sponsorshipType: {
               $regex: val,
               $options: "i",
-            }},
-            {        
+            },
+          },
+          {
             planType: {
               $regex: val,
               $options: "i",
-            }},        
-            { 'plan.planName':{
+            },
+          },
+          {
+            "plan.planName": {
               $regex: val,
               $options: "i",
-            }},
-            {
-              'providers.facilityName':{
-                  $regex: val,
-                  $options: "i",
-                }},
-          { 'principal.gender': val },
-          { 'dependantBeneficiaries.gender': val }, 
+            },
+          },
+          {
+            "providers.facilityName": {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {"principal.gender": val},
+          {"dependantBeneficiaries.gender": val},
         ],
 
         organizationId: user.currentEmployee.facilityDetail._id, // || "",
-      
+
         $sort: {
           createdAt: -1,
         },
@@ -298,9 +316,8 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
   };
 
   useEffect(() => {
-    
-      rest();
-   
+    rest();
+
     ClientServ.on("created", obj => rest());
     ClientServ.on("updated", obj => rest());
     ClientServ.on("patched", obj => rest());
@@ -340,7 +357,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       key: "createdAt",
       description: "Date Created",
       /* selector: row => dayjs(row.createdAt).format("DD-MM-YYYY"), */
-      selector: row => dayjs(row.Date_JoinScheme).format("DD-MM-YYYY"), 
+      selector: row => dayjs(row?.Date_JoinScheme).format("DD-MM-YYYY"),
       sortable: true,
       required: true,
       inputType: "DATE",
@@ -349,7 +366,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       name: "Principal's (First) Name",
       key: "firstname",
       description: "First Name",
-      selector: row => row.principal.firstname,
+      selector: row => row?.principal?.firstname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -357,7 +374,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
         textTransform: "capitalize",
       },
     },
-   /*  {
+    /*  {
       name: "Middle Name",
       key: "middlename",
       description: "Middle Name",
@@ -375,7 +392,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       name: "Principal's Last Name",
       key: "principal",
       description: "Principal Last Name",
-      selector: row => row.principal.lastname,
+      selector: row => row?.principal?.lastname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -387,7 +404,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       name: "No of Dependents",
       key: "principal",
       description: "No of dependents",
-      selector: row => row?.dependantBeneficiaries.length      ,
+      selector: row => row?.dependantBeneficiaries?.length,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -400,7 +417,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       name: "Phone",
       key: "phone",
       description: "Phone Number",
-      selector: row => row.principal.phone,
+      selector: row => row?.principal?.phone,
       sortable: true,
       required: true,
       inputType: "NUMBER",
@@ -410,7 +427,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       name: "Email",
       key: "email",
       description: "simpa@email.com",
-      selector: row => row.principal.email,
+      selector: row => row?.principal?.email,
       sortable: true,
       required: true,
       inputType: "EMAIL",
@@ -420,7 +437,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       name: "Policy Number",
       key: "policyNo",
       description: "Phone Number",
-      selector: row => row.policyNo,
+      selector: row => row?.policyNo,
       sortable: true,
       required: true,
       inputType: "NUMBER",
@@ -429,7 +446,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       name: "Sponsor Type",
       key: "sponsorshipType",
       description: "Sponsorship Type",
-      selector: row => row.sponsorshipType,
+      selector: row => row?.sponsorshipType,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -466,7 +483,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       name: "Provider",
       key: "provider",
       description: "Provider",
-      selector: row => row?.providers[0].facilityName,
+      selector: row => row?.providers[0]?.facilityName,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -475,13 +492,13 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       name: "Provider",
       key: "provider",
       description: "Provider",
-      selector: row => row?.providers.length,
+      selector: row => row?.providers?.length,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
 
-   /*  {
+    /*  {
       name: "Premium",
       key: "premium",
       description: "Premium",
@@ -681,10 +698,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
   const policyServ = client.service("policy");
   const BillCreateServ = client.service("createbilldirect");
   const orgServ = client.service("organizationclient");
-  const [facilities, setFacilities] = useState([]);
-  const [paymentOptions, setPaymentOptions] = useState([]);
-  const [billMode, setBillMode] = useState("");
-  const [obj, setObj] = useState("");
+
   const [paymentmode, setPaymentMode] = useState("");
   const [loading, setLoading] = useState(false);
   const [createOrg, setCreateOrg] = useState(false);
@@ -715,7 +729,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
       !chosen.some(el => el._id === obj._id)
     ) {
       await setChosen([...chosen, obj]);
-     // await //console.log("OBJ", chosen);
+      // await //console.log("OBJ", chosen);
     }
   };
 
@@ -731,15 +745,11 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
   };
 
   const handleChangeMode = async mode => {
-    setMessage(mode);
     if (mode === "Company") {
       setShowCorp(true);
     } else {
       setShowCorp(false);
     }
-    let billm = paymentOptions.filter(el => el.name === mode);
-    await setBillMode(billm[0]);
-    //console.log(billm);
   };
 
   const handleChangePlan = async value => {
@@ -875,7 +885,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
         .then(res => {
           hideActionLoader();
           //console.log(
-           /*  "facilityId",
+          /*  "facilityId",
             user.currentEmployee.facilityDetail._id,
             "response",
             res
@@ -901,6 +911,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
         });
     }
   };
+
   const getBenfittingPlans = async () => {
     setBenefittingPlans1([]);
     if (user.currentEmployee?.facilityDetail.facilityType === "HMO") {
@@ -943,75 +954,6 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
     }
   };
 
-  const createPaymentOption = () => {
-    const paymentoptions = [];
-    // const info = client.paymentinfo
-    let billme;
-    let obj;
-    //ideally this should be based on whether self or corporate
-    let patient = state.Beneficiary.principal;
-    if (!!patient.paymentinfo) {
-      patient.paymentinfo.forEach((pay, i) => {
-        if (pay.active) {
-          switch (pay.paymentmode) {
-            case "Cash":
-              // code block
-              obj = createObj(pay, "Cash", "Cash", "Cash");
-
-              paymentoptions.push(obj);
-              setPaymentMode("Cash");
-              billme = obj;
-              //console.log("billme", billme);
-              break;
-            case "Family":
-              // code block
-              obj = createObj(
-                pay,
-                "Family Cover",
-                "familyCover",
-                "Family Cover"
-              );
-              paymentoptions.push(obj);
-              setPaymentMode("Family Cover");
-              billme = obj;
-              // //console.log("billme",billme)
-              break;
-            case "Company":
-              // code block
-              let name =
-                "Company: " + pay.organizationName + "(" + pay.plan + ")";
-
-              obj = createObj(pay, name, "CompanyCover", "Company Cover");
-              paymentoptions.push(obj);
-              setPaymentMode(
-                "Company: " + pay.organizationName + "(" + pay.plan + ")"
-              );
-              billme = obj;
-              // //console.log("billme",billme)
-              break;
-            case "HMO":
-              // code block
-              //console.log(pay);
-              let sname = "HMO: " + pay.organizationName + "(" + pay.plan + ")";
-
-              obj = createObj(pay, sname, "HMOCover", "HMO Cover");
-              paymentoptions.push(obj);
-              setPaymentMode(
-                "HMO: " + pay.organizationName + "(" + pay.plan + ")"
-              );
-              billme = obj;
-              //  //console.log("billme",billme)
-
-              break;
-            default:
-            // code block
-          }
-        }
-      });
-    }
-    setPaymentOptions(paymentoptions);
-    setBillMode(billme);
-  };
   const createObj = (pay, name, cover, type) => {
     let details = {};
     details = {...pay};
@@ -1024,71 +966,9 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
       type,
     };
   };
-  //create productitem
-  const createProductItem = async () => {
-    productItem.current = [
-      {
-        //productId:,
-        name: chosenPlan.name,
-        quantity: "1",
-        sellingprice: price.price,
-        amount: price.price, //||qamount
-        baseunit: "",
-        costprice: "",
-        category: chosenPlan.category,
-        billingId: chosenPlan._id,
-        billingContract: price,
-        billMode: billMode, // state.Beneficiary.principal.paymentinfo[0]
-      },
-    ];
-    //console.log(chosenPlan.name);
-  };
-
-  const createProductEntry = () => {
-    productEntry.current = {
-      productitems: productItem.current,
-      date: date.current,
-      documentNo: documentNo.current,
-      type: type.current,
-      totalamount: price.price,
-      createdby: user._id,
-      transactioncategory: "debit",
-      source: patient.current.firstname + " " + patient.current.lastname,
-      facility: user.currentEmployee.facilityDetail._id,
-    };
-  };
-  const handleSearch = async value => {
-    if (value === "") {
-      await setFacilities([]);
-      return;
-    }
-    if (value.length >= 3) {
-      orgServ
-        .find({
-          query: {
-            $search: value,
-            relationshiptype: "managedcare",
-            facility: user.currentEmployee.facilityDetail._id,
-            $limit: 100,
-            $sort: {
-              createdAt: -1,
-            },
-          },
-        })
-        .then(res => {
-          setFacilities(res.data);
-        })
-        .catch(err => {
-          toast.error(`Error creating Service due to ${err}`);
-        });
-    } else {
-      await setFacilities([]);
-    }
-  };
 
   useEffect(() => {
     getBenfittingPlans();
-    createPaymentOption();
 
     // getFacility();
 
@@ -1176,10 +1056,6 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
   ];
 
   //console.log("==================", benefittingPlans1);
-
-  useEffect(() => {
-    hideActionLoader();
-  }, []);
 
   const handleFamilyCreate = async data => {
     //return //console.log(providers);
@@ -1960,6 +1836,7 @@ export function PolicyCreate({showModal, setShowModal, setOpenCreate}) {
     </>
   );
 }
+
 const UploadComponent = ({}) => {
   return (
     <Box
@@ -3037,7 +2914,7 @@ export function PolicyDetail({showModal, setShowModal}) {
 
   useEffect(() => {
     let Client = state.ManagedCareModule.selectedClient;
-    console.log(Client)
+    console.log(Client);
     setFacility(Client);
 
     const initFormValue = {
@@ -3175,6 +3052,7 @@ export function PolicyDetail({showModal, setShowModal}) {
         setEditPolicy(false);
       });
   };
+
   const getBenfittingPlans = async () => {
     setBenefittingPlans1([]);
     if (user.currentEmployee?.facilityDetail.facilityType === "HMO") {

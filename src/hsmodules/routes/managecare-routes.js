@@ -2,6 +2,7 @@ import {lazy} from "react";
 //import {PreAuth} from "../ManagedCare/NewPreAuth";
 
 const Policy = lazy(() => import("../ManagedCare/Policy"));
+const NewPolicy = lazy(() => import("../ManagedCare/NewPolicy"));
 const ExternalPolicy = lazy(() => import("../ManagedCare/externalPolicy"));
 const Beneficiary = lazy(() => import("../ManagedCare/Beneficiary"));
 const Tariff = lazy(() => import("../ManagedCare/New-Tarrif"));
@@ -54,7 +55,7 @@ export const managedCareRoutes = [
   },
   {
     path: "/app/managed-care/policy",
-    Component: Policy,
+    Component: NewPolicy,
   },
   {
     path: "/app/managed-care/external-policy",
