@@ -32,7 +32,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 
-const data = require("../../data/hci/enrolleehci.json"); 
+//const data = require("../../data/hci/enrolleehci.json"); 
 
 //const data = require("../../data/hci/updatedproviders2.json"); 
 
@@ -323,7 +323,7 @@ export function BandList({ showCreateModal }) {
    
 
 
-    const hosp=data.slice(start,end)
+    const hosp=[] //data.slice(start,end)
 
     const uniquePolicy = [...new Set(hosp.map(obj => obj.Beneficiaries))];
 let n=0
