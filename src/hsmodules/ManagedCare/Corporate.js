@@ -331,11 +331,11 @@ export function OrganizationList({ showModal, setShowModal }) {
       orgServ
         .find({
           query: {
-             [field]: {
+            /*  [field]: {
                     $regex:val,
                     $options:'i'
                    
-                }, 
+                },  */
             facility: user.currentEmployee.facilityDetail._id,
             relationshiptype: "sponsor",
             $search: val,
