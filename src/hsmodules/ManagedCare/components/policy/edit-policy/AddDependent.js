@@ -328,22 +328,23 @@ const AddDependentToPolicy = ({closeModal}) => {
           email: data.email || defaultEmail,
         };
 
+        const dependents =
+          state.PolicyModule.selectedPolicy.dependantBeneficiaries;
+
         await ClientServ.create(clientData)
           .then(res => {
             hideActionLoader();
             setSuccess(true);
             toast.success("Client created succesfully");
             closeModal();
+
             setState(prev => ({
               ...prev,
               PolicyModule: {
                 ...prev.PolicyModule,
                 selectedPolicy: {
                   ...prev.PolicyModule.selectedPolicy,
-                  dependantBeneficiaries: [
-                    res,
-                    ...prev.PolicyModule.selectedPolicy.dependantBeneficiaries,
-                  ],
+                  dependantBeneficiaries: [res, ...dependents],
                 },
               },
             }));
@@ -358,22 +359,24 @@ const AddDependentToPolicy = ({closeModal}) => {
   };
 
   const handleSelectClient = client => {
+    const dependents = state.PolicyModule.selectedPolicy.dependantBeneficiaries;
     setClearClientSearch(true);
     setClearClientSearch(false);
-    setState(prev => ({
-      ...prev,
-      PolicyModule: {
-        ...prev.PolicyModule,
-        selectedPolicy: {
-          ...prev.PolicyModule.selectedPolicy,
-          dependantBeneficiaries: [
-            client,
-            ...prev.PolicyModule.selectedPolicy.dependantBeneficiaries,
-          ],
+    if (dependents.some(el => el._id === client._id)) {
+      return toast.error("Client already a dependent in this policy");
+    } else {
+      setState(prev => ({
+        ...prev,
+        PolicyModule: {
+          ...prev.PolicyModule,
+          selectedPolicy: {
+            ...prev.PolicyModule.selectedPolicy,
+            dependantBeneficiaries: [client, ...dependents],
+          },
         },
-      },
-    }));
-    closeModal();
+      }));
+      closeModal();
+    }
   };
 
   return (
@@ -633,7 +636,7 @@ const AddDependentToPolicy = ({closeModal}) => {
                       onClick={handleSubmit(onSubmit)}
                     >
                       <SaveIcon fontSize="small" sx={{marginRight: "5px"}} />
-                      Change Principal
+                      Add Dependant
                     </GlobalCustomButton>
                   </Box>
                 </Box>
@@ -949,7 +952,7 @@ const AddDependentToPolicy = ({closeModal}) => {
                       onClick={handleSubmit(onSubmit)}
                     >
                       <SaveIcon fontSize="small" sx={{marginRight: "5px"}} />
-                      Change Principal
+                      Add Dependant
                     </GlobalCustomButton>
                   </Box>
                 </Box>

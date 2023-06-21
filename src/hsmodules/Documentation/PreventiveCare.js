@@ -1,86 +1,62 @@
-import React, {useState, useContext, useEffect} from "react";
+import React, { useState, useContext, useEffect } from "react";
 import client from "../../feathers";
-import {useForm} from "react-hook-form";
-//import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "react-toastify";
-import {Box} from "@mui/system";
+import { useForm } from "react-hook-form";
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "react-toastify";
+import { Box } from "@mui/system";
 import RadioButton from "../../components/inputs/basic/Radio";
-import { IconButton, Typography, Radio,RadioGroup, FormControlLabel} from "@mui/material";
+import { IconButton, Typography, Radio, RadioGroup, FormControlLabel } from "@mui/material";
 import Textarea from "../../components/inputs/basic/Textarea";
 import CloseIcon from "@mui/icons-material/Close";
-import {FormsHeaderText} from "../../components/texts";
+import { FormsHeaderText } from "../../components/texts";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import CheckboxGroup from "../../components/inputs/basic/Checkbox/CheckBoxGroup";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 
 export default function PreventiveCare() {
-  const {register, handleSubmit, setValue, control, reset} =
-    useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue, control, reset } = useForm();
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
-  // eslint-disable-next-line
   const ClientServ = client.service("clinicaldocument");
-  //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
-  // eslint-disable-next-line
-  const [currentUser, setCurrentUser] = useState();
-  const [docStatus, setDocStatus] = useState("Draft");
-  const [confirmDialog, setconfirmDialog] = useState(false);
-
-  const [scalling, setScalling] = useState("");
-
-  const {state, setState, showActionLoader, hideActionLoader} =
-    useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState, showActionLoader, hideActionLoader } = useContext(ObjectContext);
 
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
 
-
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
-      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
-        setValue(keys, value, {
-          shouldValidate: true,
-          shouldDirty: true,
-        })
-      );
+      Object.entries(draftDoc.documentdetail).forEach(([key, value]) => {
+        if (key === "Reschedule Visit") {
+          setReschedule(value);
+        } else if (key === "Scaling & Polishing") {
+          setScaling(value);
+        } else {
+          setValue(key, value, {
+            shouldValidate: true,
+            shouldDirty: true,
+          });
+        }
+      });
     }
     return () => {
       draftDoc = {};
     };
   }, [draftDoc]);
+  
 
- 
-
-  useEffect(() => {
-    setCurrentUser(user);
-    //console.log(currentUser)
-    return () => {};
-  }, [user]);
-
-  //check user for facility or get list of facility
-  useEffect(() => {
-    //setFacility(user.activeClient.FacilityId)//
-    if (!user.stacker) {
-    }
-  });
-
-  const handleChangeStatus = async e => {
-    setDocStatus(e.target.value);
-
-  };
+  const [docStatus, setDocStatus] = useState("Draft");
+  const [confirmDialog, setConfirmDialog] = useState(false);
+  const [reschedule, setReschedule] = useState("");
+  const [scaling, setScaling] = useState("");
 
   const actions = [
-    "Scaling & Polishing",
-    "Gross Scaling",
-    "Fine Scaling",
-    "Administration of Local Anastesia",
-    "Densitization",
-    "Deep Curretage/ Roof Planning",
+    "Administration of Local Anesthesia",
+    "Desensitization",
+    "Deep Curettage/ Root Planing",
     "Management of Dental Disease",
     "Management of Dry Socket",
-    "Flouride Application",
+    "Fluoride Application",
     "Dental X-Ray",
     "Application of Tissue Sediment",
     "Post Operation Instruction",
@@ -88,13 +64,19 @@ export default function PreventiveCare() {
     "Children Dentistry/ Oral Care",
     "Dental Oral Education",
     "Others"
-
   ];
- 
-  const handleScalling = (event) => {
-    setScalling(event.target.value);
+
+  const handleScaling = (event) => {
+    setScaling(event.target.value);
   };
-  
+
+  const handleReschedule = (event) => {
+    setReschedule(event.target.value);
+  };
+
+  const handleChangeStatus = (e) => {
+    setDocStatus(e.target.value);
+  };
 
   const onSubmit = (data, e) => {
     showActionLoader();
@@ -105,12 +87,15 @@ export default function PreventiveCare() {
 
     if (user.currentEmployee) {
       document.facility = user.currentEmployee.facilityDetail._id;
-      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName;
     }
+
     document.documentdetail = {
       ...data,
-      scalling: scalling 
+      "Scaling & Polishing": scaling,
+      "Reschedule Visit": reschedule
     };
+
     document.documentname = "Preventive Care";
     document.location =
       state.employeeLocation.locationName +
@@ -127,8 +112,6 @@ export default function PreventiveCare() {
       coordinates: [state.coordinates.latitude, state.coordinates.longitude],
     };
 
-    console.log(document);
-
     if (
       document.location === undefined ||
       !document.createdByname ||
@@ -140,51 +123,46 @@ export default function PreventiveCare() {
       return;
     }
 
-
     if (!!draftDoc && draftDoc.status === "Draft") {
       ClientServ.patch(draftDoc._id, document)
-        .then(res => {
-          // e.target.reset();
-          Object.keys(data).forEach(key => {
+        .then((res) => {
+          Object.keys(data).forEach((key) => {
             data[key] = null;
           });
-          setconfirmDialog(false);
+          setConfirmDialog(false);
           hideActionLoader();
           setSuccess(true);
           reset(data);
-          toast.success("Preventive Care Form updated succesfully");
+          toast.success("Preventive Care Form updated successfully");
           setSuccess(false);
           closeForm();
         })
-        .catch(err => {
+        .catch((err) => {
           hideActionLoader();
-          setconfirmDialog(false);
-          toast.error("Error updating Preventive Care Form " + err);
+          setConfirmDialog(false);
+          toast.error("Error updating Preventive Care Form: " + err);
         });
     } else {
       ClientServ.create(document)
-        .then(res => {
-          Object.keys(data).forEach(key => {
+        .then((res) => {
+          Object.keys(data).forEach((key) => {
             data[key] = null;
           });
           hideActionLoader();
-          //e.target.reset();
           setSuccess(true);
           reset(data);
-          setconfirmDialog(false);
-          toast.success("Preventive Care created succesfully");
+          setConfirmDialog(false);
+          toast.success("Preventive Care created successfully");
           setSuccess(false);
           closeForm();
         })
-        .catch(err => {
-          setconfirmDialog(false);
+        .catch((err) => {
+          setConfirmDialog(false);
           hideActionLoader();
-          toast.error("Error creating Preventive Care Form " + err);
+          toast.error("Error creating Preventive Care Form: " + err);
         });
     }
   };
-
-
 
   const closeForm = async () => {
     let documentobj = {};
@@ -196,7 +174,7 @@ export default function PreventiveCare() {
       encounter_right: false,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
@@ -204,11 +182,11 @@ export default function PreventiveCare() {
 
   return (
     <>
-      <div className="card ">
+      <div className="card">
         <CustomConfirmationDialog
           open={confirmDialog}
           type="create"
-          cancelAction={() => setconfirmDialog(false)}
+          cancelAction={() => setConfirmDialog(false)}
           confirmationAction={handleSubmit(onSubmit)}
           message="You are about to save this document; Preventive Care"
         />
@@ -227,105 +205,84 @@ export default function PreventiveCare() {
         </Box>
         <div className="card-content vscrollable remPad1">
           <form>
-          <Box sx={{ width: '70%', marginBottom: '20px', display: 'flex', alignItems: 'center' }}>
-  <Typography color="primary" variant="body1" fontWeight="bold" style={{ marginTop: '10px' }}>
-    Scaling & Polishing:
-  </Typography> 
-  <Box sx={{ width: '40%', marginBottom: '20px', marginLeft: '10px' }}>
-    <RadioGroup
-    name="scalling"
-      value={scalling}
-      onChange={handleScalling}
-    >
-      <FormControlLabel
-        value="Gross Scaling"
-        control={<Radio />}
-        label="Gross Scaling"
-      />
-    </RadioGroup>
-  </Box>
-  <Box sx={{ width: '40%', marginBottom: '20px' }}>
-    <RadioGroup
-      name="scalling"
-      value={scalling}
-      onChange={handleScalling}
-    >
-      <FormControlLabel
-        value="Fine Scaling"
-        control={<Radio />}
-        label="Fine Scaling"
-      />
-    </RadioGroup>
-  </Box>
-</Box>
-
-         <Box sx={{display: "flex", flexDirection: "column"}} gap={1.5}>
+            <Box sx={{ display: "flex", flexDirection: "column" }} gap={1.5}>
               <Box>
-              <Typography color="primary" >
-              Summary of Dentist Encounter
-              </Typography>
+                <Typography color="primary">Summary of Dentist Encounter</Typography>
                 <Textarea
                   color="primary"
-                  register={register("summary")}
+                  register={register("Summary")}
                   type="text"
                   placeholder="Write here..."
                 />
               </Box>
             </Box>
-            <FormsHeaderText text="Actions " />
+
+            <FormsHeaderText text="Actions" />
             <Box>
-              <CheckboxGroup
-                name="actions"
-                control={control}
-                options={actions}
-              />
+              <Typography color="primary" variant="body1" fontWeight="bold">
+                Scaling & Polishing:
+              </Typography>
+              <Box sx={{ width: "70%", display: "flex", alignItems: "center" }}>
+                <Box sx={{ width: "40%" }}>
+                <RadioGroup name="Scaling & Polishing" value={scaling} onChange={handleScaling}>
+
+                    <FormControlLabel value="Gross Scaling" control={<Radio />} label="Gross Scaling" />
+                  </RadioGroup>
+                </Box>
+                <Box sx={{ width: "40%" }}>
+                <RadioGroup name="Scaling & Polishing" value={scaling} onChange={handleScaling}>
+
+                    <FormControlLabel value="Fine Scaling" control={<Radio />} label="Fine Scaling" />
+                  </RadioGroup>
+                </Box>
+              </Box>
+              <CheckboxGroup name="Actions" control={control} options={actions} />
             </Box>
 
             <Box>
-            <Typography color="primary" >
-              Comment
-              </Typography>
+              <Typography color="primary">Comment</Typography>
               <Textarea
-                register={register("comment")}
-                name="comment"
+                register={register("Comment")}
+                name="Comment"
                 type="text"
                 placeholder="Type in comment..."
               />
             </Box>
+
             <Box>
-            <Typography color="primary" >
-            Feedback/Reason for Rescheduling Patient
-              </Typography>
+              <Typography color="primary">Feedback/Reason for Rescheduling Patient</Typography>
               <Textarea
-                register={register("feedback")}
-                name="feedback"
+                register={register("Feedback")}
+                name="Feedback"
                 type="text"
                 placeholder="Type in reason for rescheduling patient..."
               />
             </Box>
 
-            <Box
-              sx={{display: "flex", flexDirection: "column"}}
-              gap={1.5}
-              mb={1.5}
-            >
-            </Box>
+            <Box sx={{ display: "flex", flexDirection: "column" }} gap={1.5} mb={1.5}></Box>
 
             <Box>
               <FormsHeaderText text="Reschedule Visit" />
             </Box>
 
-            <Box>
-              <CheckboxGroup
-                name="reschedule"
-                control={control}
-                options={[
-                  "2 Weeks",
-                  "2 Months",
-                  "3 Months",
-                ]}
-              />
+            <Box sx={{ width: "70%", marginBottom: "20px", display: "flex", alignItems: "center" }}>
+              <Box sx={{ width: "40%" }}>
+                <RadioGroup name="Reschedule Visit" value={reschedule} onChange={handleReschedule}>
+                  <FormControlLabel value="2 Weeks" control={<Radio />} label="2 Weeks" />
+                </RadioGroup>
+              </Box>
+              <Box sx={{ width: "40%" }}>
+                <RadioGroup name="Reschedule Visit" value={reschedule} onChange={handleReschedule}>
+                  <FormControlLabel value="2 Months" control={<Radio />} label="2 Months" />
+                </RadioGroup>
+              </Box>
+              <Box sx={{ width: "40%" }}>
+                <RadioGroup name="Reschedule Visit" value={reschedule} onChange={handleReschedule}>
+                  <FormControlLabel value="3 Months" control={<Radio />} label="3 Months" />
+                </RadioGroup>
+              </Box>
             </Box>
+
             <Box mb={1.5}>
               <RadioButton
                 onChange={handleChangeStatus}
@@ -345,7 +302,7 @@ export default function PreventiveCare() {
               <GlobalCustomButton
                 color="secondary"
                 type="submit"
-                onClick={() => setconfirmDialog(true)}
+                onClick={() => setConfirmDialog(true)}
               >
                 Submit Preventive Care Form
               </GlobalCustomButton>
