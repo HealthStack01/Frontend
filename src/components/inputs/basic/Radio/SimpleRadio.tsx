@@ -58,7 +58,9 @@ const SimpleRadioInput = ({
                 color: "#2d2d2d",
                 height: "2.05rem",
                 backgroundColor:
-                  item.value === defaultValue ? "#b5e2fa" : "none",
+                  value === item.value || item.value === defaultValue
+                    ? "#b5e2fa"
+                    : "none",
                 "&.Mui-disabled": {
                   backgroundColor:
                     value === item.value || item.value === defaultValue
@@ -67,7 +69,7 @@ const SimpleRadioInput = ({
                 },
               }}
               value={item.value}
-              control={<Radio {...register} size="small" />}
+              control={<Radio {...register} size="small" disabled={disabled} />}
               label={
                 <Typography sx={{fontSize: "0.75rem"}}>{item.label}</Typography>
               }

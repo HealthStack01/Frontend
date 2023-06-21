@@ -57,7 +57,11 @@ const PolicyDetail = ({goBack}) => {
     useContext(ObjectContext);
   const [policy, setPolicy] = useState({});
   const [modal, setModal] = useState(null);
-  const {register, reset, control, handleSubmit, watch} = useForm({});
+  const {register, reset, control, handleSubmit, watch} = useForm({
+    defaultValues: {
+      sponsor_type: state.PolicyModule.selectedPolicy.sponsorshipType,
+    },
+  });
 
   const sponsor_type = watch("sponsor_type");
   const planName = watch("plan_name");
@@ -88,34 +92,20 @@ const PolicyDetail = ({goBack}) => {
   }, [getHealthPlans]);
 
   useEffect(() => {
-    const policy = state.PolicyModule.selectedPolicy;
-
-    //console.log(policy);
+    const prevPolicy = state.PolicyModule.selectedPolicy;
 
     setSubSponsor(policy.sponsor);
 
     const initFormValue = {
-      policyNo: policy?.policyNo,
-      phone: policy?.principal?.phone,
-      start_date: policy?.validitystarts,
-      end_date: policy?.validityEnds,
-      approval_date: policy?.approvalDate,
-      approved_by: policy?.approvedby?.employeename,
-      status: policy?.approved ? "Approved" : "Pending",
-      plan_type: policy?.planType,
-      plan_name: policy?.plan?.planName,
-      policy_tag: policy?.principal?.policyTags,
-      familyPremium: policy?.plan?.premiums?.[0]?.familyPremium,
-      individualPremium: policy?.plan?.premiums?.[0]?.individualPremium,
-      sponsor_name: policy.sponsor?.facilityName,
-      sponsor_phone: policy.sponsor?.facilityContactPhone,
-      sponsor_email: policy.sponsor?.facilityEmail,
-      sponsor_address: policy.sponsor?.facilityAddress,
+      status: prevPolicy?.approved ? "Approved" : "Pending",
+      plan_type: prevPolicy?.planType,
+      plan_name: prevPolicy?.plan?.planName,
+      sponsor_type: prevPolicy.sponsorshipType,
     };
     reset(initFormValue);
 
-    setPolicy(policy);
-  }, [state.PolicyModule.selectedPolicy]);
+    setPolicy(prevPolicy);
+  }, [state.PolicyModule]);
 
   const getPremiumPrice = useCallback(() => {
     if (!planName) return;
@@ -521,10 +511,8 @@ const PolicyDetail = ({goBack}) => {
                 <SimpleRadioInput
                   //value={"Self"}
                   value={sponsor_type}
-                  defaultValue={
-                    state.PolicyModule.selectedPolicy.sponsorshipType
-                  }
-                  disabled={!edit}
+                  defaultValue={sponsor_type}
+                  //disabled={!edit}
                   register={register("sponsor_type")}
                   options={[
                     {
@@ -587,8 +575,7 @@ const PolicyDetail = ({goBack}) => {
           </Grid>
         </Box>
 
-        {(policy.sponsorshipType === "Company" ||
-          sponsor_type === "Company") && (
+        {sponsor_type === "Company" && (
           <Box p={2}>
             <Box
               sx={{
@@ -654,37 +641,39 @@ const PolicyDetail = ({goBack}) => {
           />
         </Box>
 
-        <Box p={2}>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-            mb={1.5}
-          >
-            <FormsHeaderText text="Dependants List" />
-
-            <GlobalCustomButton
-              onClick={() => setModal("dependent")}
-              disabled={!edit}
+        {planType === "Family" && (
+          <Box p={2}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+              mb={1.5}
             >
-              Add Dependant
-            </GlobalCustomButton>
-          </Box>
+              <FormsHeaderText text="Dependants List" />
 
-          <CustomTable
-            title={""}
-            columns={dependentModel}
-            data={policy?.dependantBeneficiaries}
-            pointerOnHover
-            highlightOnHover
-            striped
-            onRowClicked={() => {}}
-            progressPending={false}
-            CustomEmptyData="You have no Dependants yet."
-          />
-        </Box>
+              <GlobalCustomButton
+                onClick={() => setModal("dependent")}
+                disabled={!edit}
+              >
+                Add Dependant
+              </GlobalCustomButton>
+            </Box>
+
+            <CustomTable
+              title={""}
+              columns={dependentModel}
+              data={policy?.dependantBeneficiaries}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={() => {}}
+              progressPending={false}
+              CustomEmptyData="You have no Dependants yet."
+            />
+          </Box>
+        )}
 
         <Box p={2}>
           <Box

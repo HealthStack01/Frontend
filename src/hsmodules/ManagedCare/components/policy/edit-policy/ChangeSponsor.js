@@ -19,20 +19,26 @@ const ChangePolicySponsor = ({closeModal}) => {
   const [success, setSuccess] = useState(false);
 
   const onSubSponsorSelect = item => {
-    //setSubSponsor(item);
-    setState(prev => ({
-      ...prev,
-      PolicyModule: {
-        ...prev.PolicyModule,
-        selectedPolicy: {
-          ...prev.PolicyModule.selectedPolicy,
-          sponsor: item,
-          sponsorshipType: "Company",
+    if (
+      item && // check if obj is not null
+      Object.keys(item).length > 0 && // check if obj is not empty
+      item.constructor === Object
+    ) {
+      setState(prev => ({
+        ...prev,
+        PolicyModule: {
+          ...prev.PolicyModule,
+          selectedPolicy: {
+            ...prev.PolicyModule.selectedPolicy,
+            sponsor: item,
+            sponsorshipType: "Company",
+          },
         },
-      },
-    }));
-    closeModal();
-    toast.success("Sponsor changed");
+      }));
+      closeModal();
+    }
+
+    //toast.success("Sponsor changed");
   };
 
   return (
