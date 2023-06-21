@@ -134,7 +134,6 @@ export function ReferralCreate({ handleGoBack, client_id }) {
     setMessage("");
     setError(false);
     setSuccess(false);
-    //   setShowModal(false),
     setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: {
@@ -143,13 +142,16 @@ export function ReferralCreate({ handleGoBack, client_id }) {
       },
     }));
 
-    // data.createdby=user._id
     // console.log(" ====>>> data from referral submit", {
     //   data,
     //   chosen: chosen,
     // });
     if (user.currentEmployee) {
-      data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
+      console.log(" ====>>> data from referral submit", {
+        data,
+        chosen: chosen,
+      });
+      data.facility = user.currentEmployee.facilityDetail; // or from facility dropdown
     }
     if (selectedAdmission !== null) {
       data.source_admissionId = selectedAdmission._id;
@@ -166,16 +168,24 @@ export function ReferralCreate({ handleGoBack, client_id }) {
       action_time: new Date(),
     };
 
+    data.createdby = user._id;
     data.clientId = clientId;
     data.client = state.ClientModule.selectedClient;
-    data.referralnote = data;
+    // data.referralnote = da;
     data.actionHx = actionHx;
     data.source_orgId = facility._id;
     data.dest_orgId = chosen._id;
     data.dest_org = chosen;
+    data.referralReason = data.reason_for_request;
+    data.createdById = employee._id;
+    data.createdBy = employee;
+    data.status = "Submitted";
+    const referralCode = Math.floor(
+      Math.random() * (999999 - 100000 + 1) + 100000
+    );
 
+    data.referralNo = `${referralCode}`;
     // employee_referred_to;
-
     console.log(" ====>>> data from referral submit two", {
       data,
       facility,
@@ -185,7 +195,7 @@ export function ReferralCreate({ handleGoBack, client_id }) {
     ClientServ.create(data)
       .then((res) => {
         console.log("===>>>response", { res: res });
-        e.target.reset();
+        // e.target.reset();
         setAppointment_type("");
         setAppointment_status("");
         setClientId("");
@@ -195,8 +205,7 @@ export function ReferralCreate({ handleGoBack, client_id }) {
         setSuccess1(true);
         setSuccess2(true);
         toast({
-          message:
-            "Appointment created succesfully, Kindly bill patient if required",
+          message: "Referral  created succesfully",
           type: "is-success",
           dismissible: true,
           pauseOnHover: true,
@@ -207,8 +216,9 @@ export function ReferralCreate({ handleGoBack, client_id }) {
         // showBilling()
       })
       .catch((err) => {
+        console.log("===>>> Error response ", { err: err });
         toast({
-          message: "Error creating Appointment " + err,
+          message: "Error creating Referral " + err,
           type: "is-danger",
           dismissible: true,
           pauseOnHover: true,
@@ -446,9 +456,10 @@ export function ReferralCreate({ handleGoBack, client_id }) {
             </Grid>
             <Grid item xs={12} sm={4}>
               <Input
-                name="patientName"
+                name="ReferringFacility"
                 label="Referring Facility"
-                value={facility.facilityName}
+                register={register("ReferringFacility")}
+                defaultValue={facility.facilityName}
               />
             </Grid>
             <Grid item lg={6} md={5}>
@@ -510,7 +521,7 @@ export function ReferralCreate({ handleGoBack, client_id }) {
             </Grid>
           )}
 
-          <Box mb={2}>
+          {/* <Box mb={2}>
             <Box
               sx={{
                 display: "flex",
@@ -543,7 +554,7 @@ export function ReferralCreate({ handleGoBack, client_id }) {
                 }
               />
             </Box>
-          </Box>
+          </Box> */}
 
           <Box mb={2}>
             <TextAreaVoiceAndText
@@ -556,7 +567,7 @@ export function ReferralCreate({ handleGoBack, client_id }) {
           </Box>
 
           <Box mb={2}>
-            <Box
+            {/* <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -570,9 +581,9 @@ export function ReferralCreate({ handleGoBack, client_id }) {
                 <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
                 New Diagnosis
               </GlobalCustomButton>
-            </Box>
+            </Box> */}
 
-            <Box>
+            {/* <Box>
               <CustomTable
                 title={""}
                 columns={diagnosisSchema}
@@ -587,9 +598,9 @@ export function ReferralCreate({ handleGoBack, client_id }) {
                   </Typography>
                 }
               />
-            </Box>
+            </Box> */}
           </Box>
-          <Box mb={2}>
+          {/* <Box mb={2}>
             <TextAreaVoiceAndText
               label="Drugs/Treatments"
               type={drugsInputType}
@@ -597,7 +608,7 @@ export function ReferralCreate({ handleGoBack, client_id }) {
               register={register("drugs")}
               voiceOnChange={(value) => setValue("drugs", value)}
             />
-          </Box>
+          </Box> */}
           <Grid item xs={6}>
             <Textarea
               placeholder="Type your message here"
@@ -607,14 +618,41 @@ export function ReferralCreate({ handleGoBack, client_id }) {
               label="Reason for Request"
             />
           </Grid>
-          <Grid item xs={6} mt={2}>
-            <Input
-              name="physicianName"
-              label="Physician's Name"
-              type="text"
-              register={register("physician_Name")}
-            />
-          </Grid>
+          <Box mb={2}>
+            <Grid container spacing={2} mb={2}>
+              <Grid item xs={6} mt={2}>
+                <Input
+                  name="physicianName"
+                  label="Physician's Name"
+                  type="text"
+                  register={register("physician_Name")}
+                />
+              </Grid>
+              <Grid item xs={6} mt={2}>
+                <CustomSelect
+                  label="Referral Type"
+                  required
+                  control={control} //clinical, diagnostic,business
+                  name="referral_type"
+                  options={[
+                    {
+                      label: "Clinical",
+                      value: "clinical",
+                    },
+
+                    {
+                      label: "Diagnostic",
+                      value: "diagnostic",
+                    },
+                    {
+                      label: "Business",
+                      value: "business",
+                    },
+                  ]}
+                />
+              </Grid>
+            </Grid>
+          </Box>
         </Box>
       </Box>
     </Box>

@@ -229,13 +229,30 @@ export function BandList({ showCreateModal }) {
   };
 
   const handleSearch = (val) => {
-    const field = "name";
+    // const field = "name";
+
+    console.log("====>>>  handleSearch");
     BandServ.find({
       query: {
-        [field]: {
-          $regex: val,
-          $options: "i",
-        },
+        // [field]: {
+        //   $regex: val,
+        //   $options: "i",
+        // },
+        $or: [
+          // {
+          //   policyNo: {
+          //     $regex: val,
+          //     $options: "i",
+          //   },
+          // },
+          {
+            bandType: {
+              $regex: val,
+              $options: "i",
+            },
+          },
+        ],
+
         facility: user.currentEmployee.facilityDetail._id || "",
         $limit: 100,
         $sort: {
@@ -291,10 +308,8 @@ export function BandList({ showCreateModal }) {
   };
 
   useEffect(() => {
-    if (user) {
-      getFacilities();
-    } else {
-    }
+    getFacilities();
+
     BandServ.on("created", (obj) => getFacilities());
     BandServ.on("updated", (obj) => getFacilities());
     BandServ.on("patched", (obj) => getFacilities());

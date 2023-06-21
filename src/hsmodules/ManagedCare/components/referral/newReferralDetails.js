@@ -1,6 +1,8 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import Drawer from "@mui/material/Drawer";
 import React, { useState, useContext, useEffect } from "react";
+
 import client from "../../../../feathers";
 import { useForm } from "react-hook-form";
 import { UserContext, ObjectContext } from "../../../../context";
@@ -22,10 +24,12 @@ import TextAreaVoiceAndText from "../../../../components/inputs/basic/Textarea/V
 import CreateComplaint from "./Complaints";
 import CreateDiagnosis from "./Diagnosis";
 import { SelectAdmission, SelectAppointment } from "../claims/ClaimsCreate";
+import ReferralChat from "./ReferralChat";
+import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
+import ReferralStatus from "./referralStatus";
 
 export function NewReferralDetails({ handleGoBack, selectedReferral }) {
   const { state, setState } = useContext(ObjectContext);
-  const { register, handleSubmit, setValue, control, watch } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
@@ -47,8 +51,22 @@ export function NewReferralDetails({ handleGoBack, selectedReferral }) {
   const [appointmentModal, setAppointmentModal] = useState(false);
   const [admissonModal, setAdmissionModal] = useState(false);
   const [selectedAdmission, setSelectedAdmission] = useState(null);
-
+  const [confirmationDiaglog, setConfirmationDialog] = useState({
+    open: false,
+    message: "",
+    type: "",
+    action: null,
+  });
+  const [chat, setChat] = useState(false);
   const [currentUser, setCurrentUser] = useState();
+  const [statusModal, setStatusModal] = useState(false);
+
+  const employee = user.currentEmployee;
+  const facility = employee.facilityDetail;
+
+  const { control, handleSubmit, register, reset, watch, setValue } = useForm(
+    {}
+  );
 
   const [appointment_status, setAppointment_status] = useState("");
   const [appointment_type, setAppointment_type] = useState("");
@@ -67,6 +85,9 @@ export function NewReferralDetails({ handleGoBack, selectedReferral }) {
 
   console.log("===>>>> SELECTE REFERRAL FROM REFERRAL DETAILS", {
     referral: selectedReferral,
+    employee,
+    facility,
+    state,
   });
 
   const getSearchfacility = (obj) => {
@@ -203,6 +224,34 @@ export function NewReferralDetails({ handleGoBack, selectedReferral }) {
   };
 
   useEffect(() => {
+    const resetForm = {
+      status: selectedReferral.status,
+      reason_for_request: selectedReferral.referralReason,
+      referral_type: selectedReferral.referral_type,
+      referralNo: selectedReferral.referralNo,
+
+      // patientstate: selectedReferral.patientstate,
+      // preauthtype: selectedPreAuth.preauthtype,
+      // comments: selectedPreAuth.comments,
+      // totalamount: selectedPreAuth.totalamount,
+      // investigation: clinical_details.investigation || "",
+      // drugs: clinical_details.drugs || "",
+      // treatment: clinical_details.treatment || "",
+      // clinical_findings: clinical_details.clinical_findings || "",
+      // admission_date: clinical_details.admission_date || null,
+      // discharged_date: clinical_details.discharged_date || null,
+
+      // date: selectedPreAuth.createdAt,
+      // provider_name: selectedPreAuth.provider.facilityName,
+      // submitted_by: `${selectedPreAuth.submissionby?.firstname} ${selectedPreAuth.submissionby?.lastname}`,
+    };
+    reset(resetForm);
+    // setServices(selectedPreAuth.services || []);
+    // setDiagnosis(clinical_details.diagnosis || []);
+    // setComplaints(clinical_details.complaints || []);
+  }, [selectedReferral]);
+
+  useEffect(() => {
     getSearchfacility(state.ClientModule.selectedClient);
 
     /* appointee=state.ClientModule.selectedClient 
@@ -299,6 +348,15 @@ export function NewReferralDetails({ handleGoBack, selectedReferral }) {
     setAdmissionModal(false);
   };
 
+  const cancelConfirmDialog = () => {
+    setConfirmationDialog({
+      open: false,
+      message: "",
+      type: "",
+      action: null,
+    });
+  };
+
   return (
     <Box
       style={{
@@ -308,6 +366,13 @@ export function NewReferralDetails({ handleGoBack, selectedReferral }) {
         overflow: "scroll",
       }}
     >
+      <CustomConfirmationDialog
+        open={confirmationDiaglog.open}
+        message={confirmationDiaglog.message}
+        confirmationAction={confirmationDiaglog.action}
+        type={confirmationDiaglog.type}
+        cancelAction={cancelConfirmDialog}
+      />
       <ModalBox
         open={complaintModal}
         onClose={() => setComplaintModal(false)}
@@ -336,6 +401,17 @@ export function NewReferralDetails({ handleGoBack, selectedReferral }) {
         header={`Appointments for ${state.ClientModule.selectedClient.firstname} ${state.ClientModule.selectedClient.lastname}`}
       >
         <SelectAppointment selectAppointment={handleSelectAppointment} />
+      </ModalBox>
+
+      <ModalBox
+        open={statusModal}
+        onClose={() => setStatusModal(false)}
+        header="Update referral Status"
+      >
+        <ReferralStatus
+          closeModal={() => setStatusModal(false)}
+          selectedReferral={selectedReferral}
+        />
       </ModalBox>
 
       <ModalBox
@@ -379,7 +455,7 @@ export function NewReferralDetails({ handleGoBack, selectedReferral }) {
               fontWeight: "600",
             }}
           >
-            Create a New Referral
+            Referral Details
           </Typography>
         </Box>
 
@@ -390,12 +466,48 @@ export function NewReferralDetails({ handleGoBack, selectedReferral }) {
           }}
           gap={1}
         >
+          {/* <GlobalCustomButton color="info" onClick={() => setView("details")}>
+              <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
+              Details
+            </GlobalCustomButton> */}
+
+          {/* {!client_id && ( */}
+          <GlobalCustomButton color="warning" onClick={() => setView("tasks")}>
+            <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
+            Tasks
+          </GlobalCustomButton>
+          {/* // )
+            } */}
+
           <GlobalCustomButton
-          // onClick={handleSubmit(handleCreatePreAuthorization)}
+            onClick={() => setChat(true)}
+            sx={{
+              backgroundColor: "#606c38",
+              color: "#ffffff",
+              "&:hover": {
+                backgroundColor: "#606c38",
+              },
+            }}
           >
             <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
-            Create Referral
+            Chat
           </GlobalCustomButton>
+
+          {/* {!client_id && ( */}
+          <GlobalCustomButton
+            color="success"
+            onClick={() => setStatusModal(true)}
+          >
+            <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
+            Change Status
+          </GlobalCustomButton>
+          {/* )
+            } */}
+
+          {/* <GlobalCustomButton color="info" onClick={() => setAssignModal(true)}>
+            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+            Assign Preauthorization
+          </GlobalCustomButton> */}
         </Box>
       </Box>
 
@@ -423,16 +535,23 @@ export function NewReferralDetails({ handleGoBack, selectedReferral }) {
           <Grid container spacing={2} mb={2}>
             <Grid item lg={6} md={5}>
               <ClientSearch
+                // clear={clearClientSearch}
+                // getSearchfacility={handleSelectClient}
+                // label="Search Beneficiary"
+
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
-                label="Search Beneficiary"
+                id={selectedReferral.clientId}
+                disabled={true}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
               <Input
-                name="patientName"
+                name="ReferringFacility"
                 label="Referring Facility"
-                value={"Test Organization"}
+                register={register("ReferringFacility")}
+                defaultValue={facility.facilityName}
+                disabled
               />
             </Grid>
             <Grid item lg={6} md={5}>
@@ -440,6 +559,7 @@ export function NewReferralDetails({ handleGoBack, selectedReferral }) {
                 getSearchfacility={getSearchfacility}
                 clear={success}
                 label="Destination Facility"
+                id={selectedReferral.dest_orgId}
               />
             </Grid>
 
@@ -450,6 +570,7 @@ export function NewReferralDetails({ handleGoBack, selectedReferral }) {
                 control={control}
                 name="priority"
                 options={["Low", "Medium", "High", "Emergency"]}
+                defaultValue={selectedReferral.priority}
               />
             </Grid>
 
@@ -495,6 +616,29 @@ export function NewReferralDetails({ handleGoBack, selectedReferral }) {
           )}
 
           <Box mb={2}>
+            <Grid container spacing={2} mb={2}>
+              <Grid item xs={6} mt={2}>
+                <Input
+                  name="status"
+                  label="Referral Status"
+                  type="text"
+                  register={register("status")}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={6} mt={2}>
+                <Input
+                  label="Referral NO"
+                  name="referralNo"
+                  type="text"
+                  register={register("referralNo")}
+                  disabled
+                />
+              </Grid>
+            </Grid>
+          </Box>
+
+          {/* <Box mb={2}>
             <Box
               sx={{
                 display: "flex",
@@ -527,7 +671,7 @@ export function NewReferralDetails({ handleGoBack, selectedReferral }) {
                 }
               />
             </Box>
-          </Box>
+          </Box> */}
 
           <Box mb={2}>
             <TextAreaVoiceAndText
@@ -540,7 +684,7 @@ export function NewReferralDetails({ handleGoBack, selectedReferral }) {
           </Box>
 
           <Box mb={2}>
-            <Box
+            {/* <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -554,9 +698,9 @@ export function NewReferralDetails({ handleGoBack, selectedReferral }) {
                 <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
                 New Diagnosis
               </GlobalCustomButton>
-            </Box>
+            </Box> */}
 
-            <Box>
+            {/* <Box>
               <CustomTable
                 title={""}
                 columns={diagnosisSchema}
@@ -571,9 +715,9 @@ export function NewReferralDetails({ handleGoBack, selectedReferral }) {
                   </Typography>
                 }
               />
-            </Box>
+            </Box> */}
           </Box>
-          <Box mb={2}>
+          {/* <Box mb={2}>
             <TextAreaVoiceAndText
               label="Drugs/Treatments"
               type={drugsInputType}
@@ -581,20 +725,403 @@ export function NewReferralDetails({ handleGoBack, selectedReferral }) {
               register={register("drugs")}
               voiceOnChange={(value) => setValue("drugs", value)}
             />
-          </Box>
+          </Box> */}
           <Grid item xs={6}>
             <Textarea
               placeholder="Type your message here"
               name="reason"
               type="text"
+              register={register("reason_for_request")}
               label="Reason for Request"
             />
           </Grid>
-          <Grid item xs={6} mt={2}>
-            <Input name="physicianName" label="Physician's Name" type="text" />
-          </Grid>
+          <Box mb={2}>
+            <Grid container spacing={2} mb={2}>
+              <Grid item xs={6} mt={2}>
+                <Input
+                  name="physicianName"
+                  label="Physician's Name"
+                  type="text"
+                  register={register("physician_Name")}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={6} mt={2}>
+                <CustomSelect
+                  label="Referral Type"
+                  required
+                  control={control} //clinical, diagnostic,business
+                  name="referral_type"
+                  options={[
+                    {
+                      label: "Clinical",
+                      value: "clinical",
+                    },
+
+                    {
+                      label: "Diagnostic",
+                      value: "diagnostic",
+                    },
+                    {
+                      label: "Business",
+                      value: "business",
+                    },
+                  ]}
+                  disabled
+                />
+              </Grid>
+            </Grid>
+
+            <Drawer
+              anchor="right"
+              open={chat}
+              onClose={() => setChat(false)}
+              onOpen={() => setChat(true)}
+            >
+              <Box
+                sx={{
+                  width: "500px",
+                  height: "100vh",
+                  overflowY: "hidden",
+                }}
+              >
+                {chat && <ReferralChat closeChat={() => setChat(false)} />}
+              </Box>
+            </Drawer>
+          </Box>
         </Box>
       </Box>
     </Box>
   );
+
+  // return (
+  //   <Box
+  //     style={{
+  //       margin: "0 auto",
+  //       width: "98%",
+  //       height: "calc(100vh - 90px)",
+  //       overflow: "scroll",
+  //     }}
+  //   >
+  //     <ModalBox
+  //       open={complaintModal}
+  //       onClose={() => setComplaintModal(false)}
+  //       header="Add Complaints"
+  //     >
+  //       <CreateComplaint
+  //         closeModal={() => setComplaintModal(false)}
+  //         setComplaints={setComplaints}
+  //       />
+  //     </ModalBox>
+
+  //     <ModalBox
+  //       open={diagnosisModal}
+  //       onClose={() => setDiagnosisModal(false)}
+  //       header="Add Diagnosis"
+  //     >
+  //       <CreateDiagnosis
+  //         closeModal={() => setDiagnosisModal(false)}
+  //         setDiagnosis={setDiagnosis}
+  //       />
+  //     </ModalBox>
+
+  //     <ModalBox
+  //       open={appointmentModal}
+  //       onClose={() => setAppointmentModal(false)}
+  //       header={`Appointments for ${state.ClientModule.selectedClient.firstname} ${state.ClientModule.selectedClient.lastname}`}
+  //     >
+  //       <SelectAppointment selectAppointment={handleSelectAppointment} />
+  //     </ModalBox>
+
+  //     <ModalBox
+  //       open={admissonModal}
+  //       onClose={() => setAdmissionModal(false)}
+  //       header={`Admission Orders for ${state.ClientModule.selectedClient.firstname} ${state.ClientModule.selectedClient.lastname}`}
+  //     >
+  //       <SelectAdmission selectAdmission={handleSelectAdmission} />
+  //     </ModalBox>
+
+  //     <Box
+  //       sx={{
+  //         display: "flex",
+  //         alignItems: "flex-start",
+  //         justifyContent: "space-between",
+  //         borderBottom: "1px solid #f8f8f8",
+  //         backgroundColor: "#f8f8f8",
+  //         position: "sticky",
+  //         zIndex: 99,
+  //         top: 0,
+  //         left: 0,
+  //       }}
+  //       mb={2}
+  //       p={2}
+  //     >
+  //       <Box
+  //         sx={{
+  //           display: "flex",
+  //           alignItems: "center",
+  //         }}
+  //         gap={1}
+  //       >
+  //         <GlobalCustomButton onClick={handleGoBack}>
+  //           <ArrowBackIcon sx={{ marginRight: "3px" }} fontSize="small" />
+  //           Back
+  //         </GlobalCustomButton>
+
+  //         <Typography
+  //           sx={{
+  //             fontSize: "0.95rem",
+  //             fontWeight: "600",
+  //           }}
+  //         >
+  //           Create a New Referral
+  //         </Typography>
+  //       </Box>
+
+  //       <Box
+  //         sx={{
+  //           display: "flex",
+  //           alignItems: "center",
+  //         }}
+  //         gap={1}
+  //       >
+  //         <GlobalCustomButton onClick={handleSubmit(onSubmit)}>
+  //           <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
+  //           Create Referral
+  //         </GlobalCustomButton>
+  //       </Box>
+  //     </Box>
+
+  //     <Box
+  //       sx={{
+  //         display: "flex",
+  //         justifyContent: "space-between",
+  //       }}
+  //       pr={2}
+  //       pl={2}
+  //     >
+  //       <Box
+  //         sx={{
+  //           width: "25rem",
+  //         }}
+  //       >
+  //         <PatientProfile />
+  //       </Box>
+
+  //       <Box
+  //         sx={{
+  //           width: "calc(100% - 26rem)",
+  //         }}
+  //       >
+  //         <Grid container spacing={2} mb={2}>
+  //           <Grid item lg={6} md={5}>
+  //             <ClientSearch
+  //               clear={clearClientSearch}
+  //               getSearchfacility={handleSelectClient}
+  //               label="Search Beneficiary"
+  //             />
+  //           </Grid>
+  //           <Grid item xs={12} sm={4}>
+  //             <Input
+  //               name="ReferringFacility"
+  //               label="Referring Facility"
+  //               register={register("ReferringFacility")}
+  //               defaultValue={facility.facilityName}
+  //             />
+  //           </Grid>
+  //           <Grid item lg={6} md={5}>
+  //             <FacilitySearch
+  //               getSearchfacility={getSearchfacility}
+  //               clear={success}
+  //               label="Destination Facility"
+  //             />
+  //           </Grid>
+
+  //           <Grid item lg={3} md={3.5}>
+  //             <CustomSelect
+  //               label="Priority"
+  //               required
+  //               control={control}
+  //               name="priority"
+  //               options={["Low", "Medium", "High", "Emergency"]}
+  //             />
+  //           </Grid>
+
+  //           <Grid item lg={3} md={3.5}>
+  //             <CustomSelect
+  //               label="Patient Type"
+  //               required
+  //               control={control}
+  //               name="patientstate"
+  //               options={[
+  //                 {
+  //                   label: "In Patient",
+  //                   value: "inpatient",
+  //                 },
+
+  //                 {
+  //                   label: "Out Patient",
+  //                   value: "outpatient",
+  //                 },
+  //               ]}
+  //             />
+  //           </Grid>
+  //         </Grid>
+
+  //         {patientState === "inpatient" && (
+  //           <Grid container spacing={2} mb={2}>
+  //             <Grid item sm={6} xs={12}>
+  //               <MuiCustomDatePicker
+  //                 control={control}
+  //                 name="admission_date"
+  //                 label="Admission Date"
+  //               />
+  //             </Grid>
+
+  //             <Grid item sm={6} xs={12}>
+  //               <MuiCustomDatePicker
+  //                 control={control}
+  //                 name="discharged_date"
+  //                 label="Discharged Date"
+  //               />
+  //             </Grid>
+  //           </Grid>
+  //         )}
+
+  //         {/* <Box mb={2}>
+  //           <Box
+  //             sx={{
+  //               display: "flex",
+  //               alignItems: "center",
+  //               justifyContent: "space-between",
+  //             }}
+  //             mb={1.5}
+  //           >
+  //             <FormsHeaderText text="Complaints Data" />
+
+  //             <GlobalCustomButton onClick={() => setComplaintModal(true)}>
+  //               <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
+  //               New Complaint
+  //             </GlobalCustomButton>
+  //           </Box>
+
+  //           <Box>
+  //             <CustomTable
+  //               title={""}
+  //               columns={complaintSchema}
+  //               data={complaints}
+  //               pointerOnHover
+  //               highlightOnHover
+  //               striped
+  //               progressPending={false}
+  //               CustomEmptyData={
+  //                 <Typography sx={{ fontSize: "0.8rem" }}>
+  //                   You've not added a Complaint yet...
+  //                 </Typography>
+  //               }
+  //             />
+  //           </Box>
+  //         </Box> */}
+
+  //         <Box mb={2}>
+  //           <TextAreaVoiceAndText
+  //             label="Clinical Findings"
+  //             type={clinicFindInputType}
+  //             changeType={setClinicFindInputType}
+  //             register={register("clinical_findings")}
+  //             voiceOnChange={(value) => setValue("clinical_findings", value)}
+  //           />
+  //         </Box>
+
+  //         <Box mb={2}>
+  //           {/* <Box
+  //             sx={{
+  //               display: "flex",
+  //               alignItems: "center",
+  //               justifyContent: "space-between",
+  //             }}
+  //             mb={1.5}
+  //           >
+  //             <FormsHeaderText text="Diagnosis Data" />
+
+  //             <GlobalCustomButton onClick={() => setDiagnosisModal(true)}>
+  //               <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
+  //               New Diagnosis
+  //             </GlobalCustomButton>
+  //           </Box> */}
+
+  //           {/* <Box>
+  //             <CustomTable
+  //               title={""}
+  //               columns={diagnosisSchema}
+  //               data={diagnosis}
+  //               pointerOnHover
+  //               highlightOnHover
+  //               striped
+  //               progressPending={false}
+  //               CustomEmptyData={
+  //                 <Typography sx={{ fontSize: "0.8rem" }}>
+  //                   You've not added Diagnosis yet...
+  //                 </Typography>
+  //               }
+  //             />
+  //           </Box> */}
+  //         </Box>
+  //         {/* <Box mb={2}>
+  //           <TextAreaVoiceAndText
+  //             label="Drugs/Treatments"
+  //             type={drugsInputType}
+  //             changeType={setDrugsInputType}
+  //             register={register("drugs")}
+  //             voiceOnChange={(value) => setValue("drugs", value)}
+  //           />
+  //         </Box> */}
+  //         <Grid item xs={6}>
+  //           <Textarea
+  //             placeholder="Type your message here"
+  //             name="reason"
+  //             type="text"
+  //             register={register("reason_for_request")}
+  //             label="Reason for Request"
+  //           />
+  //         </Grid>
+  //         <Box mb={2}>
+  //           <Grid container spacing={2} mb={2}>
+  //             <Grid item xs={6} mt={2}>
+  //               <Input
+  //                 name="physicianName"
+  //                 label="Physician's Name"
+  //                 type="text"
+  //                 register={register("physician_Name")}
+  //               />
+  //             </Grid>
+  //             <Grid item xs={6} mt={2}>
+  //               <CustomSelect
+  //                 label="Referral Type"
+  //                 required
+  //                 control={control} //clinical, diagnostic,business
+  //                 name="referral_type"
+  //                 options={[
+  //                   {
+  //                     label: "Clinical",
+  //                     value: "clinical",
+  //                   },
+
+  //                   {
+  //                     label: "Diagnostic",
+  //                     value: "diagnostic",
+  //                   },
+  //                   {
+  //                     label: "Business",
+  //                     value: "business",
+  //                   },
+  //                 ]}
+  //               />
+  //             </Grid>
+  //           </Grid>
+  //         </Box>
+  //       </Box>
+  //     </Box>
+  //   </Box>
+  // );
 }

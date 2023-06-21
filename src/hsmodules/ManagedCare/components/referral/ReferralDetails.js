@@ -13,7 +13,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import PatientProfile from "../../../Client/PatientProfile";
 import ReferralTask from "../../Tasks";
-import ReferralStatus from "./ReferralStatus";
+import ReferralStatus from "./ReferralStatusold";
 import client from "../../../../feathers";
 import { ObjectContext, UserContext } from "../../../../context";
 
@@ -141,25 +141,21 @@ export function ReferralDetails({ handleGoBack }) {
           pr={2}
           pl={2}
         >
-           <Box
-              sx={{
-                width: "25rem",
-              }}
-            >
-              <PatientProfile />
-            </Box>
+          <Box
+            sx={{
+              width: "25rem",
+            }}
+          >
+            <PatientProfile />
+          </Box>
           <Box
             sx={{
               width: "calc(70% - 26rem)",
             }}
           >
-          
-              {view === "tasks" && (
-                <ReferralTask
-                  taskServer={ReferralServer}
-                  taskState={taskState}
-                />
-              )}
+            {view === "tasks" && (
+              <ReferralTask taskServer={ReferralServer} taskState={taskState} />
+            )}
           </Box>
 
           {view === "detail" && (

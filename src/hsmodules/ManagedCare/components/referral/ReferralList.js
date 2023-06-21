@@ -177,7 +177,7 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
 
   useEffect(() => {
     getReferralList();
-  }, []);
+  }, [getReferralList]);
 
   // const getFacilities = async () => {
   //   console.log(user);
@@ -378,7 +378,7 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
     },
   ];
 
-  const ReferralSchema = [
+  const ReferralSchemaold = [
     {
       name: "Date",
       key: "date",
@@ -447,6 +447,81 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
       key: "reason_for_request",
       description: "Enter the reason for the request",
       selector: (row, i) => row.reason_for_request,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  const ReferralSchema = [
+    {
+      name: "Date",
+      key: "date",
+      description: "Enter date",
+      selector: (row) => row.createdAt,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Patients Name",
+      key: "patients_name",
+      description: "Enter patients name",
+      selector: (row) => `${row.client?.lastname} ${row.client?.firstname}`,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Policy ID",
+      key: "policy_id",
+      description: "Enter policy ID",
+      selector: (row) => row.policy?._id,
+      sortable: true,
+      required: false,
+      inputType: "TEXT",
+    },
+    {
+      name: "Referral Code",
+      key: "referralNo",
+      description: "Enter referral code",
+      selector: (row) => row.referralNo,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    // {
+    //   name: "Referral Provider",
+    //   key: "referral_provider",
+    //   description: "Enter referral provider",
+    //   selector: (row, i) => row.referral_provider,
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "TEXT",
+    // },
+    // {
+    //   name: "Destination Provider",
+    //   key: "destination_provider",
+    //   description: "Enter destination provider",
+    //   selector: (row, i) => row.destination_provider,
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "TEXT",
+    // },
+    {
+      name: "Status",
+      key: "status",
+      description: "Enter your status",
+      selector: (row, i) => row.status,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Reason for Request",
+      key: "referralReason",
+      description: "Enter the reason for the request",
+      selector: (row, i) => row.referralReason,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -554,7 +629,7 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
                 <CustomTable
                   title={""}
                   columns={ReferralSchema}
-                  data={dummyData}
+                  data={referralListData}
                   pointerOnHover
                   highlightOnHover
                   striped
