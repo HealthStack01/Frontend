@@ -3372,13 +3372,14 @@ export function DentalLab() {
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
-      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
-        setValue(keys, value, {
-          shouldValidate: true,
-          shouldDirty: true,
-        })
-      );
-  
+      Object.entries(draftDoc.documentdetail).forEach(([key, value]) => {
+      {
+          setValue(key, value, {
+            shouldValidate: true,
+            shouldDirty: true,
+          });
+        }
+      });
     }
     return () => {
       draftDoc = {};
@@ -3455,18 +3456,19 @@ export function DentalLab() {
       return;
     }
   
-    if (!!draftDoc && draftDoc.status === "Draft") {
+     if (!!draftDoc && draftDoc.documentdetail.status === "Draft") {
       ClientServ.patch(draftDoc._id, document)
         .then(res => {
-          Object.keys(data).forEach(key => {
-            data[key] = "";
+          Object.keys(data).forEach((key) => {
+            data[key] = null;
           });
-  
-          setDocStatus("Draft");
-          setSuccess(true);
-          toast.success("Dental Lab updated successfully");
-          setSuccess(false);
           setConfirmationDialog(false);
+          hideActionLoader();
+          setSuccess(true);
+          reset(data);
+          toast.success("Dental Lab Form updated successfully");
+          setSuccess(false);
+          closeForm();
         })
         .catch(err => {
           toast.error("Error updating Dental Lab: " + err);
