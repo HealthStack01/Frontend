@@ -178,7 +178,7 @@ const AppRoutes = () => {
 
             {/* <Route path="/app/corporate" element={<AdminOrganization />} /> */}
 
-            {/* ***************************** ACCOUNTS ROUTES ************************************* */}
+            {/* ***************************** ORGANIZATION ROUTES ************************************* */}
 
             <Route path="/app/Organizations" element={<OrganizationsPage />} />
             <Route
@@ -194,7 +194,7 @@ const AppRoutes = () => {
               })}
             </Route>
 
-            {/**************************MANAGED CARE *************************************** */}
+            {/**************************CORPORATE *************************************** */}
             <Route path="/app/corporate" element={<ManagedCareHome />}>
               <Route index element={<ManagedCareFrontDashboard />} />
               {corporateRoutes.map(route => {

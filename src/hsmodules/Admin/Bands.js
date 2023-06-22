@@ -32,7 +32,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 
-//const data = require("../../data/hci/enrolleehci.json"); 
+//const data = require("../../data/hci/activeClients.json"); 
 
 //const data = require("../../data/hci/updatedproviders2.json"); 
 
@@ -439,6 +439,209 @@ let n=0
         }
     }
 
+    const handleupdateOrg =async ()=>{
+
+      const hosp=[] //data
+    //  const uniquePolicy = [...new Set(data.map(obj => obj.facilityname))];
+      let n=0
+      let m=0
+      let one=[]
+      let two=[]
+      let zero=[]
+      let others=[]
+      for (const benfi of hosp){
+        m=m+1
+        console.log(m)
+       let avail= await facilityServ.find({
+        query:{
+          facilityName:benfi.Facilityname
+        }
+       })
+       //console.log(benfi.Facilityname +":",avail.total)
+       switch(avail.total){
+        case 0:
+          console.log(benfi)
+          let holder={}
+        
+          let facilitydata={
+         
+            facilityCAC:"",
+            
+          
+            facilityName:benfi.Facilityname,
+          
+            facilityOwner: "",
+          
+            facilityType: "Corporate",
+          
+            facilityCategory:"SME",
+          
+            facilityCountry: "Nigeria",
+          
+            facilityState: benfi.FacilityState,
+          
+            facilityLGA: "",
+          
+            facilityCity:benfi.Facilitycity, 
+          
+            facilityAddress:benfi.FacilityAddress,
+          
+            facilityContactPhone:"0801111111",
+          
+            facilityEmail:`${n}@hci-corp.com`,
+            facilityModules: ['Admin', 'Complaint', 'Corporate', 'Communication']
+              }
+          let admindata ={
+            firstname:benfi.adminfirstname,
+            lastname:"Admin",
+            phone: "08011111111",
+            email: `${n}@hci-corp.com`,
+    
+            profession: "Admin",
+            position: "Admin",
+           
+            department: "Admin",
+            deptunit: "Admin",
+            password: "Administrator",
+           roles:['Admin', 'Complaint', 'Corporate', 'Communication']
+    
+    
+          }
+    
+            const facilityDocument = {
+              ...facilitydata,
+              hasEmployee: true,
+              employeeData:admindata
+            }
+      
+           await  facilityServ.create(facilityDocument)
+            .then(async(resp)=>{
+              //create relationship
+              holder=resp
+              console.log("facility created #"+n ,resp)
+              let obj = {
+                facility: user.currentEmployee.facilityDetail._id,
+                organization: resp._id,
+                relationshiptype: "sponsor",
+                status: "Pending",
+                code:benfi.customerId
+                
+              };
+          
+             // console.log("query", query);
+          //create organizatuonal relationship
+              await orgServ
+                .create(obj)
+                .then((res) => {
+                  console.log("res", res);
+                 console.log("Organization added succesfully"); 
+                })
+                .catch((err) => {
+                  console.log("Error adding organization " + err);
+                });
+      
+                //create invoice
+                let invoice={
+                  customerId:holder._id,//sending money
+                    customer:holder,
+                    customerName:benfi.Facilityname,
+                    customerAddress:benfi.FacilityAddress,
+                    customerCity:"",
+                    customerCountry:"Nigeria",
+                    customerLGA:"",
+                    customerState:"",
+                    customerPhone:benfi.AdminPhone,
+                    customerEmail: `${n}@hci-corp.com`,
+                    customerType:"Corporate",
+                    date:new Date(),
+                    facilityId:user.currentEmployee.facilityDetail._id, //hmo insuing invoice
+                    facility:user.currentEmployee.facilityDetail,
+                    invoice_number:"",
+                    total_amount:0,
+                  
+                    payment_option:"Cash",
+                    subscription_category:"Annual",
+                  
+                    status:"Unpaid", //unpaid, fullypaid
+                }
+                await InvoiceServ
+                .create(invoice)
+                .then((res) => {
+                  console.log("res", res);
+                
+                 console.log("Invoice created succesfully #"+n);
+                  
+                  
+                })
+                .catch((err) => {
+                  console.log("Error cereating invoice " + err);
+                });
+      
+            })
+            .catch((err)=>{
+              console.log("facility not created :" + err)
+            })
+        
+          console.log (`0:${zero.length},1:${one.length}, 2:${two.length}, 3:${others.length}`)
+        
+          zero.push(avail)
+          console.log(avail)
+          return
+        break;
+        case 1:
+          one.push(avail)
+        break;
+        case 2:
+          two.push(avail)
+          avail.data.forEach( async el=>{
+            if (el.facilityEmail===""){
+              await  facilityServ.remove(el._id)
+              .then(async(resp)=>{
+                //create relationship
+               
+                console.log("facility deleted #"+m,el)
+               
+            
+              })
+              .catch((err)=>{
+                console.log("facility could not be deleted :" + err)
+              })
+
+            }
+
+          })
+        break
+       default:
+          others.push(avail)
+        break;
+       }
+
+     /*   if (avail.total>1){
+        n=n+1
+        let holder={}
+
+     
+  
+       await  facilityServ.remove(facilityDocument)
+        .then(async(resp)=>{
+          //create relationship
+          holder=resp
+          console.log("facility created #"+n ,resp)
+         
+      
+        })
+        .catch((err)=>{
+          console.log("facility not created :" + err)
+        })
+      } */
+      }
+      let everyone=[]
+      everyone.push(two)
+      everyone.push(others)
+      console.log (`0:${zero.length},1:${one.length}, 2:${two.length}, 3:${others.length}`)
+      console.log("multiples:",everyone)
+
+    }
 
     const handleFileUpload2 =  async(event) => {
          const hosp=data.slice(start,end)
@@ -480,14 +683,14 @@ let n=0
 
   return (
     <>
-    <Box sx={{ gap:2}}>
+    {/* <Box sx={{ gap:2}}>
       <input type="number"  value={start} name="begin" onChange={(e)=> setStart(e.target.value) } />
       <input type="number" value={end} name="end" onChange={(e)=> setEnd(e.target.value) } />
-     <GlobalCustomButton onClick={handleFileUpload}>
+     <GlobalCustomButton onClick={handleupdateOrg}>
           test
           <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
         </GlobalCustomButton> 
-      </Box>
+      </Box> */}
       {facilities ? (
         <>
           <ModalBox open={open} onClose={handleCloseModal}>

@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { formatDistanceToNowStrict } from "date-fns";
 import ClientFinInfo from "./ClientFinInfo";
 import BillServiceCreate from "../Finance/BillServiceCreate";
+import Invoice from "./Invoice"
 import { AppointmentCreate } from "../Appointment/generalAppointment";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ClientBilledPrescription from "../Finance/ClientBill";
@@ -23,7 +24,6 @@ import {
   EnrolleSchema3,
   EnrolleSchema4,
   EnrolleSchema5,
-  EnrolleSchemaProvider,
   principalData,
 } from "./schema";
 import "react-datepicker/dist/react-datepicker.css";
@@ -73,7 +73,7 @@ import axios from "axios";
 import { FileUploader } from "react-drag-drop-files";
 import MuiDateTimePicker from "../../components/inputs/DateTime/MuiDateTimePicker";
 import { ProviderPrintId } from "./components/PrintId";
-//import {PolicyDetail} from "./Policy";
+import InvoicePlanList from "./components/invoice/InvoicePlanList"
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -1273,6 +1273,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [showInvoice, setShowInvoice]=useState(false);
 
   const handleCreateNew = async () => {
     const newClientModule = {
@@ -1302,91 +1303,64 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 
   const handleSearch = (val) => {
     // eslint-disable-next-line
-            if (val.length<3){
-              return
-            }
     const field = "firstname";
     console.log(val);
-    const findClient= ClientServ.find(
-      {
+    ClientServ.find({
       query: {
-         $or: [
-          {policyNo:{
-            $regex: val,
-            $options: "i",
-          }},
-          {'principal.lastname':{
-            $regex: val,
-            $options: "i",
-          }},
-          {status:{
-            $regex: val,
-            $options: "i",
-          }},
-    
-            {'principal.firstname':{
-              $regex: val,
-              $options: "i",
-            }},
-          {           
-            'dependantBeneficiaries.type': {
-              $regex: val,
-              $options: "i",
-            }},
-            {           
-              'principal.type': {
-                $regex: val,
-                $options: "i",
-              }},
-            {           
-              'dependantBeneficiaries.firstname': {
-                  $regex: val,
-                  $options: "i",
-                }},
-            {           
-              'dependantBeneficiaries.lastname': {
-                  $regex: val,
-                  $options: "i",
-                  }},
-
-            {        
-            'sponsor.facilityName': {
-              $regex: val,
-              $options: "i",
-            }}, 
-            {       
-            sponsorshipType: {
-              $regex: val,
-              $options: "i",
-            }},
-            {        
-            planType: {
-              $regex: val,
-              $options: "i",
-            }},        
-            { 'plan.planName':{
-              $regex: val,
-              $options: "i",
-            }},
-            {
-              'providers.facilityName':{
-                  $regex: val,
-                  $options: "i",
-                }},
-          { 'principal.gender': val },
-          { 'dependantBeneficiaries.gender': val }, 
-        ],
-
         $or: [
           {
-            'sponsor._id': user.currentEmployee.facilityDetail._id,
+            firstname: {
+              $regex: val,
+              $options: "i",
+            },
           },
           {
-            'sponsor.facilityName': user.currentEmployee.facilityDetail.facilityName,
+            lastname: {
+              $regex: val,
+              $options: "i",
+            },
           },
-
+          {
+            middlename: {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {
+            phone: {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {
+            clientTags: {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {
+            mrn: {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {
+            email: {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {
+            specificDetails: {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          { gender: val },
         ],
-      
+
+        "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
+        $limit: limit,
         $sort: {
           createdAt: -1,
         },
@@ -1394,57 +1368,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
     })
       .then((res) => {
         console.log(res);
-        let data = res.data;
-        console.log("policies",data)
-       
-
-    
-  
-        let list = [];
-        if (data.length>0){
-        data.map((item) => {
-          item.principal.principal = item.principal;
-          item.principal.organizationName = item.organizationName;
-          // item.principal.dependantBeneficiaries = item.dependantBeneficiaries;
-          item.principal.plan = item.plan;
-          item.principal.detail = {
-            policyNo: item?.policyNo,
-            sponsor: item?.sponsor,
-            plan: item?.plan,
-            clientType: "Principal",
-            sponsortype: item?.sponsorshipType,
-            approved: item?.approved,
-          };
-  
-          item.principal.organization = {
-            ...item?.sponsor?.facilityDetail,
-          };
-  
-          list.push(item.principal);
-  
-          item.dependantBeneficiaries.map((benf) => {
-            benf.detail = {
-              policyNo: item.policyNo,
-              sponsor: item.sponsor,
-              plan: item.plan,
-              clientType: "Dependant",
-              sponsortype: item?.sponsorshipType,
-              approved: item?.approved,
-            };
-            benf.organizationName = item.organizationName;
-  
-            benf.plan = item.plan;
-            benf.facilityDetail = {
-              ...item?.sponsor?.facilityDetail,
-            };
-            benf.principal = benf;
-            list.push(benf);
-          });
-        });
-      }
-        setFacilities(list);
-  
-       setTotal(findClient.total);
+        setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
@@ -1499,16 +1423,8 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       // const findClient= await ClientServ.find()
       const findClient = await ClientServ.find({
         query: {
-         /*  organizationId: user.currentEmployee.facilityDetail._id, */
-         $or: [
-          {
-            'sponsor._id': user.currentEmployee.facilityDetail._id,
-          },
-          {
-            'sponsor.facilityName': user.currentEmployee.facilityDetail.facilityName,
-          },
-
-        ],
+         /*  organizationId: , */
+          spondor:user.currentEmployee.facilityDetail._id,
           $sort: {
             createdAt: -1,
           },
@@ -1516,11 +1432,9 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       });
 
       let data = findClient.data;
-      console.log("policies",data)
 
       let list = [];
       data.map((item) => {
-        console.log(item)
         item.principal.principal = item.principal;
         item.principal.organizationName = item.organizationName;
         // item.principal.dependantBeneficiaries = item.dependantBeneficiaries;
@@ -1545,7 +1459,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
             policyNo: item.policyNo,
             sponsor: item.sponsor,
             plan: item.plan,
-            clientType: "Dependent",
+            clientType: "Dependant",
             sponsortype: item?.sponsorshipType,
             approved: item?.approved,
           };
@@ -1582,11 +1496,15 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
   };
 
   useEffect(() => {
-    getFacilities()
-    ClientServ.on("created", (obj) => getFacilities());
-    ClientServ.on("updated", (obj) => getFacilities());
-    ClientServ.on("patched", (obj) =>getFacilities());
-    ClientServ.on("removed", (obj) =>getFacilities());
+    if (user) {
+      //getFacilities()
+      rest();
+    } else {
+    }
+    ClientServ.on("created", (obj) => rest());
+    ClientServ.on("updated", (obj) => rest());
+    ClientServ.on("patched", (obj) => rest());
+    ClientServ.on("removed", (obj) => rest());
     return () => {};
     // eslint-disable-next-line
   }, []);
@@ -1604,9 +1522,9 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
     //  await setRestful(false)
   };
 
-  /* useEffect(() => {
+  useEffect(() => {
     return () => {};
-  }, [facilities]); */
+  }, [facilities]);
   //todo: pagination and vertical scroll bar
 
   const BeneficiarySchema = [
@@ -1726,10 +1644,20 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
     },
   ];
 
-  
+  console.log("Facilities", facilities)
 
   return (
     <>
+     <ModalBox
+        open={showInvoice}
+        onClose={() => {
+          setShowInvoice(false);
+       
+        }}
+        header="Available Plans"
+      >
+        <InvoicePlanList />
+      </ModalBox>
       <div
         className="level"
         style={{
@@ -1737,6 +1665,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
           margin: "0 1rem",
         }}
       >
+        <TableMenu>
         <div style={{ display: "flex", alignItems: "center" }}>
           {handleSearch && (
             <div className="inner-table">
@@ -1744,22 +1673,27 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
             </div>
           )}
           <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
-            List of Beneficiary
+            List of Beneficiaries
           </h2>
         </div>
-        {handleCreateNew && (
-          <Button
-            style={{ fontSize: "14px", fontWeight: "600px" }}
-            label="Add New"
-            onClick={handleCreateNew}
-            showicon={true}
-          />
-        )}
-        <div
+        <div style={{ display: "flex", alignItems: "center" , flexDirection:"row"}}>
+       
+           <GlobalCustomButton
+                color="info"
+                onClick={() => setShowInvoice(true)}
+                sx={{ marginRight: "15px" }}
+              >
+                Send Link
+              </GlobalCustomButton>
+        
+        
+        </div>
+       </TableMenu>
+         <div
           className="level"
           style={{
             height: "80vh",
-            overflow: "scroll",
+            overflowY: "scroll",
           }}
         >
           <CustomTable
@@ -1772,7 +1706,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
             onRowClicked={handleRow}
             progressPending={loading}
           />
-        </div>
+        </div> 
       </div>
     </>
   );
@@ -3308,10 +3242,10 @@ export function PolicyDetail({ showModal, setShowModal }) {
       policy_tag: Client?.principal?.clientTags,
       familyPremium: Client.plan?.premiums?.[0]?.familyPremium,
       individualPremium: Client.plan?.premiums?.[0]?.individualPremium,
-      sponsor_name: Client.sponsor?.facilityName,
-      sponsor_phone: Client.sponsor?.facilityContactPhone,
-      sponsor_email: Client.sponsor?.facilityEmail,
-      sponsor_address: Client.sponsor?.facilityAddress,
+      sponsor_name: Client.sponsor?.organizationDetail?.facilityName,
+      sponsor_phone: Client.sponsor?.organizationDetail?.facilityContactPhone,
+      sponsor_email: Client.sponsor?.organizationDetail?.facilityEmail,
+      sponsor_address: Client.sponsor?.organizationDetail?.facilityAddress,
     };
     reset(initFormValue);
   }, [state.ManagedCareModule.selectedClient]);
@@ -3601,7 +3535,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                 <FormsHeaderText text="Provider List" />
                 <CustomTable
                   title={""}
-                  columns={EnrolleSchemaProvider}
+                  columns={EnrolleSchema4}
                   data={facility?.providers}
                   pointerOnHover
                   highlightOnHover
