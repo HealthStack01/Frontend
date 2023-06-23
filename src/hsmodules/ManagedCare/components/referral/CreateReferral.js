@@ -4,7 +4,8 @@ import React, { useState, useContext, useEffect } from "react";
 import client from "../../../../feathers";
 import { useForm } from "react-hook-form";
 import { UserContext, ObjectContext } from "../../../../context";
-import { toast } from "bulma-toast";
+// import { toast } from "bulma-toast";
+import { toast } from "react-toastify";
 import "react-datepicker/dist/react-datepicker.css";
 import CustomTable from "../../../../components/customtable";
 import ModalBox from "../../../../components/modal";
@@ -24,9 +25,9 @@ import CreateDiagnosis from "./Diagnosis";
 import { SelectAdmission, SelectAppointment } from "../claims/ClaimsCreate";
 import Referral from "../../Referral";
 
-export function ReferralCreate({ handleGoBack, client_id }) {
+export function ReferralCreate({ handleGoBack, client_id, showList }) {
   const { state, setState } = useContext(ObjectContext);
-  const { register, handleSubmit, setValue, control, watch } = useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue, control, watch, reset } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
@@ -70,10 +71,10 @@ export function ReferralCreate({ handleGoBack, client_id }) {
   };
 
   const getSearchfacility = (obj) => {
-    console.log("from chossen ", {
-      chosen: obj,
-      selected: state.ClientModule.selectedClient,
-    });
+    // console.log("from chossen ", {
+    //   chosen: obj,
+    //   selected: state.ClientModule.selectedClient,
+    // });
     setClientId(obj._id);
     setChosen(obj);
     //handleRow(obj)
@@ -136,8 +137,8 @@ export function ReferralCreate({ handleGoBack, client_id }) {
     setSuccess(false);
     setState((prevstate) => ({
       ...prevstate,
-      AppointmentModule: {
-        selectedAppointment: {},
+      ReferralModule: {
+        selectedReferral: {},
         show: "list",
       },
     }));
@@ -147,10 +148,6 @@ export function ReferralCreate({ handleGoBack, client_id }) {
     //   chosen: chosen,
     // });
     if (user.currentEmployee) {
-      console.log(" ====>>> data from referral submit", {
-        data,
-        chosen: chosen,
-      });
       data.facility = user.currentEmployee.facilityDetail; // or from facility dropdown
     }
     if (selectedAdmission !== null) {
@@ -169,11 +166,12 @@ export function ReferralCreate({ handleGoBack, client_id }) {
     };
 
     data.createdby = user._id;
-    data.clientId = clientId;
+    data.clientId = state.ClientModule.selectedClient._id;
     data.client = state.ClientModule.selectedClient;
     // data.referralnote = da;
     data.actionHx = actionHx;
     data.source_orgId = facility._id;
+    data.source_org = facility;
     data.dest_orgId = chosen._id;
     data.dest_org = chosen;
     data.referralReason = data.reason_for_request;
@@ -181,10 +179,11 @@ export function ReferralCreate({ handleGoBack, client_id }) {
     data.createdBy = employee;
     data.status = "Submitted";
     const referralCode = Math.floor(
-      Math.random() * (999999 - 100000 + 1) + 100000
+      Math.random() * (99999 - 10000 + 1) + 10000
     );
+    data.referralNo = `${referralCode}BA`;
+    data.patient_type = data.patientstate;
 
-    data.referralNo = `${referralCode}`;
     // employee_referred_to;
     console.log(" ====>>> data from referral submit two", {
       data,
@@ -195,7 +194,7 @@ export function ReferralCreate({ handleGoBack, client_id }) {
     ClientServ.create(data)
       .then((res) => {
         console.log("===>>>response", { res: res });
-        // e.target.reset();
+        reset({});
         setAppointment_type("");
         setAppointment_status("");
         setClientId("");
@@ -204,25 +203,16 @@ export function ReferralCreate({ handleGoBack, client_id }) {
         setSuccess(true);
         setSuccess1(true);
         setSuccess2(true);
-        toast({
-          message: "Referral  created succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success("Referral  created succesfully");
         setSuccess(false);
         setSuccess1(false);
         setSuccess2(false);
+        showList();
         // showBilling()
       })
       .catch((err) => {
         console.log("===>>> Error response ", { err: err });
-        toast({
-          message: "Error creating Referral " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error(`Error creating Referral   ${err}`);
       });
   };
 
@@ -620,14 +610,14 @@ export function ReferralCreate({ handleGoBack, client_id }) {
           </Grid>
           <Box mb={2}>
             <Grid container spacing={2} mb={2}>
-              <Grid item xs={6} mt={2}>
+              {/* <Grid item xs={6} mt={2}>
                 <Input
                   name="physicianName"
                   label="Physician's Name"
                   type="text"
                   register={register("physician_Name")}
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={6} mt={2}>
                 <CustomSelect
                   label="Referral Type"

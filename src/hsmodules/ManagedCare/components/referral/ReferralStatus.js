@@ -10,13 +10,13 @@ import client from "../../../../feathers";
 import { ObjectContext, UserContext } from "../../../../context";
 import { toast } from "react-toastify";
 
-const ReferralStatus = ({ closeModal, selectedReferral }) => {
-  const preAuthServer = client.service("preauth");
+const ReferralStatus = ({ closeModal }) => {
+  const referralServer = client.service("referral");
   const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
   const { user } = useContext(UserContext);
 
-  const selectedPreAuth = state.PreAuthModule.selectedPreAuth;
+  const selectedReferral = state.ReferralModule.selectedReferral;
 
   const { control, register, handleSubmit } = useForm({
     defaultValues: {
@@ -30,28 +30,28 @@ const ReferralStatus = ({ closeModal, selectedReferral }) => {
 
     const statushx = {
       status: data.status,
-      date: new Date(),
-      employeename: `${employee.firstname} ${employee.lastname}`,
-      employeeId: employee.userId,
-      comment: data.comment,
+      actor: `${employee.firstname} ${employee.lastname}`,
+      Comments: data.comment,
+      action_time: new Date(),
     };
 
-    const prevHistory = selectedPreAuth.statushx || [];
+    const prevHistory = state.ReferralModule.selectedReferral.statusHx || [];
     const newStatushx = [statushx, ...prevHistory];
 
-    await preAuthServer
-      .patch(selectedPreAuth._id, {
+    await referralServer
+      .patch(selectedReferral._id, {
         status: data.status,
-        statushx: newStatushx,
+        statusHx: newStatushx,
       })
       .then((res) => {
         hideActionLoader();
-        toast.success("You've successfully updated Preauthorization's status");
+        toast.success("You've successfully updated Referral's status");
+        console.log("===>>>> response ", { res });
         setState((prev) => ({
           ...prev,
-          PreAuthModule: {
-            ...prev.PreAuthModule,
-            selectedPreAuth: res,
+          ReferralModule: {
+            ...prev.ReferralModule,
+            selectedReferral: res,
           },
         }));
         closeModal();
@@ -59,7 +59,7 @@ const ReferralStatus = ({ closeModal, selectedReferral }) => {
       .catch((err) => {
         hideActionLoader();
         console.log(err);
-        toast.error(`Failed to updated Preauthorization's Status ${err}`);
+        toast.error(`Failed to updated Referral's  Status ${err}`);
       });
   };
 
@@ -83,6 +83,7 @@ const ReferralStatus = ({ closeModal, selectedReferral }) => {
           <Textarea
             label="Comment"
             placeholder="Write here..."
+            name="comment"
             register={register("comment")}
           />
         </Grid>

@@ -19,7 +19,7 @@ const ReferralChat = ({ closeChat }) => {
   //const [prevM]
 
   const getChatMessages = useCallback(async () => {
-    const id = state.PreAuthModule.selectedPreAuth._id;
+    const id = state.ReferralModule.selectedReferral._id;
     await preAuthServer
       .get(id)
       .then((resp) => {
@@ -44,7 +44,7 @@ const ReferralChat = ({ closeChat }) => {
   const sendNewChatMessage = async () => {
     setSendingMsg(true);
     const employee = user.currentEmployee;
-    const currentPreAuth = state.PreAuthModule.selectedPreAuth;
+    const currentReferral = state.ReferralModule.selectedReferral;
 
     const messageDoc = {
       message: message,
@@ -57,12 +57,12 @@ const ReferralChat = ({ closeChat }) => {
       dp: employee.imageurl,
       sender: `${employee.firstname} ${employee.lastname}`,
       type: "text",
-      preAuthId: currentPreAuth._id,
+      preAuthId: currentReferral._id,
     };
 
     const newChat = [...messages, messageDoc];
 
-    const documentId = currentPreAuth._id;
+    const documentId = currentReferral._id;
 
     await preAuthServer
       .patch(documentId, { convo: newChat })
@@ -80,8 +80,8 @@ const ReferralChat = ({ closeChat }) => {
   const updateMessageAsSeen = async (message) => {
     // console.log(message);
     const userId = user.currentEmployee.userId;
-    const currentPreAuth = state.PreAuthModule.selectedPreAuth;
-    const documentId = currentPreAuth._id;
+    const currentReferral = state.ReferralModule.selectedReferral;
+    const documentId = currentReferral._id;
 
     const updatedMsg = { ...message, seen: [userId, ...message.seen] };
 
