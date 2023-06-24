@@ -183,8 +183,7 @@ export function ReferralCreate({ handleGoBack, client_id, showList }) {
     );
     data.referralNo = `${referralCode}BA`;
     data.patient_type = data.patientstate;
-
-    // employee_referred_to;
+    data.referralnote = data.clinical_findings;
     console.log(" ====>>> data from referral submit two", {
       data,
       facility,

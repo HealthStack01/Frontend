@@ -149,7 +149,7 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
   };
 
   const getReferralList = useCallback(async () => {
-    console.log("===>>>> getlist ", {});
+    // console.log("===>>>> getlist ", {});
     setLoading(true);
     if (user.currentEmployee) {
       let query = {
@@ -160,9 +160,10 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
         },
       };
       const resp = await ReferralServ.find({ query: query });
+
       setReferralListData(resp.data);
       setLoading(false);
-      // console.log("===>>>> response ", { resp });
+      // console.log("===>>>> response  list", { resp });
     } else {
       if (user.stacker) {
         const resp = await ReferralServ.find({
@@ -189,165 +190,6 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
     border: "none",
     padding: "0 .8rem",
   };
-
-  const dummyData = [
-    {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
-    },
-    {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
-    },
-    {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
-    },
-
-    {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
-    },
-    {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
-    },
-    {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
-    },
-    {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
-    },
-    {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
-    },
-  ];
-
-  const ReferralSchemaold = [
-    {
-      name: "Date",
-      key: "date",
-      description: "Enter date",
-      selector: (row) => row.date,
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-    {
-      name: "Patients Name",
-      key: "patients_name",
-      description: "Enter patients name",
-      selector: (row) => row.patients_name,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Policy ID",
-      key: "policy_id",
-      description: "Enter policy ID",
-      selector: (row) => row.policy_id,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Referral Code",
-      key: "referral_code",
-      description: "Enter referral code",
-      selector: (row) => row.referral_code,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Referral Provider",
-      key: "referral_provider",
-      description: "Enter referral provider",
-      selector: (row, i) => row.referral_provider,
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-    {
-      name: "Destination Provider",
-      key: "destination_provider",
-      description: "Enter destination provider",
-      selector: (row, i) => row.destination_provider,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Status",
-      key: "status",
-      description: "Enter your status",
-      selector: (row, i) => row.status,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Reason for Request",
-      key: "reason_for_request",
-      description: "Enter the reason for the request",
-      selector: (row, i) => row.reason_for_request,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-  ];
 
   const ReferralSchema = [
     {
@@ -382,7 +224,15 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
       name: "Policy ID",
       key: "policy_id",
       description: "Enter policy ID",
-      selector: (row) => row.policy?._id,
+      selector: (row) => {
+        const ObejectWithPolicy = row.client?.paymentinfo?.find((obj) =>
+          obj.hasOwnProperty("policy")
+        );
+        const policy = ObejectWithPolicy
+          ? ObejectWithPolicy.policy?.policyNo
+          : "";
+        return policy;
+      },
       sortable: true,
       required: false,
       inputType: "TEXT",

@@ -28,7 +28,7 @@ import { SelectAdmission, SelectAppointment } from "../claims/ClaimsCreate";
 import ReferralChat from "./ReferralChat";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 import ReferralStatus from "./ReferralStatus";
-import ReferralTask from "../../Tasks";
+import ReferralTask from "./ReferralTasks";
 
 export function NewReferralDetails({ handleGoBack, setSelectedReferral }) {
   const { state, setState, showActionLoader, hideActionLoader } =
@@ -64,7 +64,7 @@ export function NewReferralDetails({ handleGoBack, setSelectedReferral }) {
   const [currentUser, setCurrentUser] = useState();
   const [statusModal, setStatusModal] = useState(false);
   const [view, setView] = useState("details");
-  const preAuthServer = client.service("preauth");
+  const referralServer = client.service("referral");
 
   const [appointment_status, setAppointment_status] = useState("");
   const [appointment_type, setAppointment_type] = useState("");
@@ -89,9 +89,9 @@ export function NewReferralDetails({ handleGoBack, setSelectedReferral }) {
     await setAppointment_status(e.target.value);
   };
 
-  console.log("===>>>> SELECTE REFERRAL FROM REFERRAL DETAILS", {
-    referral: selectedReferral,
-  });
+  // console.log("===>>>> SELECTE REFERRAL FROM REFERRAL DETAILS", {
+  //   referral: selectedReferral,
+  // });
 
   const getSearchfacility = (obj) => {
     setClientId(obj._id);
@@ -161,8 +161,6 @@ export function NewReferralDetails({ handleGoBack, setSelectedReferral }) {
       },
     }));
 
-    // data.createdby=user._id
-    console.log(data);
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
@@ -190,7 +188,7 @@ export function NewReferralDetails({ handleGoBack, setSelectedReferral }) {
         actor: user.currentEmployee._id,
       },
     ];
-    console.log(data);
+    // console.log(data);
 
     ClientServ.create(data)
       .then((res) => {
@@ -234,6 +232,7 @@ export function NewReferralDetails({ handleGoBack, setSelectedReferral }) {
       referralNo: selectedReferral.referralNo,
       priority: selectedReferral.priority,
       patientstate: selectedReferral.patient_type,
+      clinical_findings: selectedReferral.referralnote,
 
       // patientstate: selectedReferral.patientstate,
       // preauthtype: selectedPreAuth.preauthtype,
@@ -601,7 +600,7 @@ export function NewReferralDetails({ handleGoBack, setSelectedReferral }) {
         >
           {view === "tasks" && (
             <ReferralTask
-              taskServer={preAuthServer}
+              taskServer={referralServer}
               taskState={selectedReferral}
             />
           )}
@@ -630,11 +629,19 @@ export function NewReferralDetails({ handleGoBack, setSelectedReferral }) {
                   />
                 </Grid>
                 <Grid item lg={6} md={5}>
-                  <FacilitySearch
+                  {/* <FacilitySearch
                     getSearchfacility={getSearchfacility}
                     clear={success}
                     label="Destination Facility"
                     id={selectedReferral.dest_orgId}
+                    disabled={true}
+                  /> */}
+                  <Input
+                    name="dest_org_Name"
+                    label="Destination Facility"
+                    type="text"
+                    register={register("dest_org")}
+                    defaultValue={selectedReferral.dest_org?.facilityName}
                     disabled={true}
                   />
                 </Grid>
@@ -647,6 +654,7 @@ export function NewReferralDetails({ handleGoBack, setSelectedReferral }) {
                     name="priority"
                     options={["Low", "Medium", "High", "Emergency"]}
                     defaultValue={selectedReferral.priority}
+                    disabled={true}
                   />
                 </Grid>
 
@@ -668,27 +676,10 @@ export function NewReferralDetails({ handleGoBack, setSelectedReferral }) {
                       },
                     ]}
                     defaultValue={selectedReferral.patient_type}
+                    disabled={true}
                   />
                 </Grid>
               </Grid>
-
-              <Box>
-                <FormsHeaderText text="Referral's Status History" />
-                <Box mt={1} mb={1}>
-                  <CustomTable
-                    title={""}
-                    columns={statushxColumns}
-                    data={selectedReferral.statusHx || []}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    //onRowClicked={handleRow}
-                    CustomEmptyData="No Status History for this Preauthorization yet..."
-                    progressPending={false}
-                    //conditionalRowStyles={conditionalRowStyles}
-                  />
-                </Box>
-              </Box>
 
               {patientState === "inpatient" && (
                 <Grid container spacing={2} mb={2}>
@@ -716,7 +707,7 @@ export function NewReferralDetails({ handleGoBack, setSelectedReferral }) {
 
               <Box mb={2}>
                 <Grid container spacing={2} mb={2}>
-                  <Grid item xs={6} mt={2}>
+                  <Grid item sm={4} xs={6} mt={2}>
                     <Input
                       name="status"
                       label="Referral Status"
@@ -725,12 +716,36 @@ export function NewReferralDetails({ handleGoBack, setSelectedReferral }) {
                       disabled
                     />
                   </Grid>
-                  <Grid item xs={6} mt={2}>
+                  <Grid item sm={4} xs={6} mt={2}>
                     <Input
                       label="Referral NO"
                       name="referralNo"
                       type="text"
                       register={register("referralNo")}
+                      disabled
+                    />
+                  </Grid>
+                  <Grid item sm={4} xs={6} mt={2}>
+                    <CustomSelect
+                      label="Referral Type"
+                      required
+                      control={control} //clinical, diagnostic,business
+                      name="referral_type"
+                      options={[
+                        {
+                          label: "Clinical",
+                          value: "clinical",
+                        },
+
+                        {
+                          label: "Diagnostic",
+                          value: "diagnostic",
+                        },
+                        {
+                          label: "Business",
+                          value: "business",
+                        },
+                      ]}
                       disabled
                     />
                   </Grid>
@@ -781,7 +796,7 @@ export function NewReferralDetails({ handleGoBack, setSelectedReferral }) {
                   voiceOnChange={(value) =>
                     setValue("clinical_findings", value)
                   }
-                  disabled
+                  disabled={true}
                 />
               </Box>
 
@@ -837,47 +852,28 @@ export function NewReferralDetails({ handleGoBack, setSelectedReferral }) {
                   label="Reason for Request"
                 />
               </Grid>
-              <Box mb={2}>
-                <Grid container spacing={2} mb={2}>
-                  {/* <Grid item xs={6} mt={2}>
-                    <Input
-                      name="physicianName"
-                      label="Physician's Name"
-                      type="text"
-                      register={register("physician_Name")}
-                      disabled
-                    />
-                  </Grid> */}
-                  <Grid item xs={6} mt={2}>
-                    <CustomSelect
-                      label="Referral Type"
-                      required
-                      control={control} //clinical, diagnostic,business
-                      name="referral_type"
-                      options={[
-                        {
-                          label: "Clinical",
-                          value: "clinical",
-                        },
-
-                        {
-                          label: "Diagnostic",
-                          value: "diagnostic",
-                        },
-                        {
-                          label: "Business",
-                          value: "business",
-                        },
-                      ]}
-                      disabled
-                    />
-                  </Grid>
-                </Grid>
+              <Box>
+                <FormsHeaderText text="Referral's Status History" />
+                <Box mt={1} mb={1}>
+                  <CustomTable
+                    title={""}
+                    columns={statushxColumns}
+                    data={selectedReferral.statusHx || []}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    //onRowClicked={handleRow}
+                    CustomEmptyData="No Status History for this Preauthorization yet..."
+                    progressPending={false}
+                    //conditionalRowStyles={conditionalRowStyles}
+                  />
+                </Box>
               </Box>
             </>
           )}
         </Box>
       </Box>
+
       <Drawer
         anchor="right"
         open={chat}

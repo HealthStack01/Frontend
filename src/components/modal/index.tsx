@@ -1,4 +1,4 @@
-import {Box, IconButton} from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import Fade from "@mui/material/Fade";
 import Modal from "@mui/material/Modal";
 import React from "react";

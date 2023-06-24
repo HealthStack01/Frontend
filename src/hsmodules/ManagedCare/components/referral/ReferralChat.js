@@ -10,7 +10,7 @@ import moment from "moment";
 import { toast } from "react-toastify";
 
 const ReferralChat = ({ closeChat }) => {
-  const preAuthServer = client.service("preauth");
+  const referralServer = client.service("referral");
   const { state, setState } = useContext(ObjectContext);
   const { user } = useContext(UserContext);
   const [sendingMsg, setSendingMsg] = useState(false);
@@ -20,7 +20,7 @@ const ReferralChat = ({ closeChat }) => {
 
   const getChatMessages = useCallback(async () => {
     const id = state.ReferralModule.selectedReferral._id;
-    await preAuthServer
+    await referralServer
       .get(id)
       .then((resp) => {
         //console.log(resp);
@@ -30,15 +30,15 @@ const ReferralChat = ({ closeChat }) => {
         //toast.error("There was an error getting messages for this chat");
         console.log(err);
       });
-  }, [state.PreAuthModule]);
+  }, [state.ReferralModule]);
 
   useEffect(() => {
     getChatMessages();
 
-    preAuthServer.on("created", (obj) => getChatMessages());
-    preAuthServer.on("updated", (obj) => getChatMessages());
-    preAuthServer.on("patched", (obj) => getChatMessages());
-    preAuthServer.on("removed", (obj) => getChatMessages());
+    referralServer.on("created", (obj) => getChatMessages());
+    referralServer.on("updated", (obj) => getChatMessages());
+    referralServer.on("patched", (obj) => getChatMessages());
+    referralServer.on("removed", (obj) => getChatMessages());
   }, [getChatMessages]);
 
   const sendNewChatMessage = async () => {
@@ -64,7 +64,7 @@ const ReferralChat = ({ closeChat }) => {
 
     const documentId = currentReferral._id;
 
-    await preAuthServer
+    await referralServer
       .patch(documentId, { convo: newChat })
       .then((res) => {
         setMessage("");
@@ -93,7 +93,7 @@ const ReferralChat = ({ closeChat }) => {
       }
     });
 
-    await preAuthServer
+    await referralServer
       .patch(documentId, { convo: updatedChat })
       .then((res) => {
         console.log(res);
