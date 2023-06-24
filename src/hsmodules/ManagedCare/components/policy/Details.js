@@ -11,6 +11,7 @@ import AddDependentToPolicy from "./edit-policy/AddDependent";
 import PolicyAddProvider from "./edit-policy/AddProvider";
 import ChangePolicySponsor from "./edit-policy/ChangeSponsor";
 import DefaultClientDetail from "../../../../components/client-detail/Client-Detail";
+import DefaultFacilityDetail from "../../../../components/facility-detail/Facility-Detail";
 //import ModalHeader from "../Appointment/ui-components/Heading/modalHeader";
 //import Claims from "./Claims";
 import {
@@ -41,6 +42,7 @@ import dayjs from "dayjs";
 
 const PolicyDetail = ({goBack}) => {
   const [clientDetail, setClientDetail] = useState(null);
+  const [facilityDetail, setFacilityDetail] = useState(null);
   const [view, setView] = useState("details");
   const [fetchingPlans, setFetchingPlans] = useState(false);
   const [healthPlans, setHealthPlans] = useState([]);
@@ -96,7 +98,9 @@ const PolicyDetail = ({goBack}) => {
   useEffect(() => {
     const prevPolicy = state.PolicyModule.selectedPolicy;
 
-    setSubSponsor(policy.sponsor);
+    console.log(prevPolicy);
+
+    setSubSponsor(prevPolicy.sponsor);
 
     const initFormValue = {
       status: prevPolicy?.approved ? "Approved" : "Pending",
@@ -202,7 +206,7 @@ const PolicyDetail = ({goBack}) => {
       ...policy,
       plan: selectedPlan,
       planType: planType,
-      sponsor: subSponsor,
+      sponsor: data.sponsor_type === "Self" ? "" : subSponsor,
       sponsorshipType: data.sponsor_type,
     };
 
@@ -313,6 +317,11 @@ const PolicyDetail = ({goBack}) => {
     setView("client");
   };
 
+  const onFacilityRowClicked = row => {
+    setFacilityDetail(row);
+    setView("facility");
+  };
+
   const handleReturn = () => {
     setClientDetail(null);
   };
@@ -404,13 +413,13 @@ const PolicyDetail = ({goBack}) => {
 
           <Typography
             sx={{
-              fontSize: "0.95rem",
+              fontSize: "0.85rem",
               fontWeight: "600",
             }}
           >
-            {policy?.principal?.firstname} {policy?.principal?.lastname}'s
-            Policy Details
+            Policy Details For -
           </Typography>
+          <FormsHeaderText text={`${policy.policyNo}`} />
         </Box>
 
         {edit && (
@@ -514,6 +523,9 @@ const PolicyDetail = ({goBack}) => {
         }}
       >
         {view === "client" && <DefaultClientDetail detail={clientDetail} />}
+        {view === "facility" && (
+          <DefaultFacilityDetail detail={facilityDetail} />
+        )}
 
         {view === "details" && (
           <>
@@ -623,7 +635,7 @@ const PolicyDetail = ({goBack}) => {
                   pointerOnHover
                   highlightOnHover
                   striped
-                  onRowClicked={() => {}}
+                  onRowClicked={onFacilityRowClicked}
                   progressPending={false}
                   CustomEmptyData="You have no Sponsor yet."
                 />
@@ -722,7 +734,9 @@ const PolicyDetail = ({goBack}) => {
                 pointerOnHover
                 highlightOnHover
                 striped
-                onRowClicked={() => {}}
+                onRowClicked={row =>
+                  onFacilityRowClicked(row.organizationDetail)
+                }
                 progressPending={false}
                 CustomEmptyData="You have no Providers yet."
               />
