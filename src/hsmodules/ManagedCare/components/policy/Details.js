@@ -40,7 +40,7 @@ import {SponsorSearch} from "../../../helpers/FacilitySearch";
 import {ProviderPrintout} from "../Printout";
 import dayjs from "dayjs";
 
-const PolicyDetail = ({goBack}) => {
+const PolicyDetail = ({goBack, beneficiary}) => {
   const [clientDetail, setClientDetail] = useState(null);
   const [facilityDetail, setFacilityDetail] = useState(null);
   const [view, setView] = useState("details");
@@ -97,8 +97,6 @@ const PolicyDetail = ({goBack}) => {
 
   useEffect(() => {
     const prevPolicy = state.PolicyModule.selectedPolicy;
-
-    console.log(prevPolicy);
 
     setSubSponsor(prevPolicy.sponsor);
 
@@ -523,6 +521,7 @@ const PolicyDetail = ({goBack}) => {
         }}
       >
         {view === "client" && <DefaultClientDetail detail={clientDetail} />}
+
         {view === "facility" && (
           <DefaultFacilityDetail detail={facilityDetail} />
         )}
