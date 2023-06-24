@@ -18,6 +18,8 @@ import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import ReactCustomSearchSelectComponent from "../../components/react-custom-select/ReactSearchSelect";
 import ReactCustomSelectComponent from "../../components/react-custom-select";
+import {TableMenu} from "../dashBoardUiComponent/core-ui/styles";
+import FilterMenu from "../../components/utilities/FilterMenu";
 
 const CustomLoader = () => (
   <div
@@ -47,7 +49,18 @@ const NewComplaints = () => {
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showDrawer, setShowDrawer] = useState(false);
-  //const complaints = [1, 2, 3, 4, 5, 6];
+  const {control, watch} = useForm({
+    defaultValues: {
+      complaint_type: {label: "All", value: "all"},
+      category: {
+        label: "All Categories",
+        value: "All Cetegories",
+      },
+    },
+  });
+
+  const complaint_type = watch("complaint_type");
+  const category = watch("category");
 
   const showComplaintConversation = complaint => {
     setShowDrawer(true);
@@ -60,9 +73,27 @@ const NewComplaints = () => {
   const getComplaints = useCallback(async () => {
     const facId = user.currentEmployee.facilityDetail._id;
     setLoading(true);
-    const res = await complaintServer.find({
-      query: {
-        // "from.entity.entityId": facId,
+    let query = {
+      $or: [
+        {
+          "from.entity.entityId": facId,
+        },
+        {
+          "to.entity.entityId": facId,
+        },
+        {
+          "copied.entity.entityId": facId,
+        },
+      ],
+      $sort: {
+        submissiondate: -1,
+      },
+      // facilityId: facId,
+    };
+
+    if (complaint_type && complaint_type.value !== "all") {
+      query = {
+        resolution: complaint_type.value === "resolved" ? true : false,
         $or: [
           {
             "from.entity.entityId": facId,
@@ -77,13 +108,25 @@ const NewComplaints = () => {
         $sort: {
           submissiondate: -1,
         },
-        // facilityId: facId,
-      },
-    });
-    console.log(res.data);
-    setComplaints(res.data);
-    setLoading(false);
-  }, []);
+      };
+    }
+
+    if (category && category.value !== "All Cetegories") {
+      query.category = category.value;
+    }
+    complaintServer
+      .find({
+        query: query,
+      })
+      .then(res => {
+        setComplaints(res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        setLoading(false);
+        toast.error(`somehting went wrong ${err}`);
+      });
+  }, [complaint_type, category]);
 
   const updateComplaints = useCallback(async () => {
     const facId = user.currentEmployee.facilityDetail._id;
@@ -97,12 +140,12 @@ const NewComplaints = () => {
       },
     });
 
-    await setComplaints(res.data);
+    setComplaints(res.data);
     hideActionLoader();
   }, []);
 
   useEffect(() => {
-    complaintServer.on("created", obj => updateComplaints());
+    complaintServer.on("created", obj => setComplaints(prev => [obj, ...prev]));
     complaintServer.on("updated", obj => updateComplaints());
     complaintServer.on("patched", obj => {
       setComplaints(prev =>
@@ -121,6 +164,62 @@ const NewComplaints = () => {
   useEffect(() => {
     getComplaints();
   }, [getComplaints]);
+
+  const handleSearch = val => {
+    const facId = user.currentEmployee.facilityDetail._id;
+    if (val.length < 3 || val.trim() === "") return;
+    complaintServer
+      .find({
+        query: {
+          $or: [
+            {
+              "from.entity.entityId": facId,
+            },
+            {
+              "to.entity.entityId": facId,
+            },
+            {
+              "copied.entity.entityId": facId,
+            },
+            {
+              complaint: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              "from.entity.name": {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              "to.entity.name": {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              "copied.entity.name": {
+                $regex: val,
+                $options: "i",
+              },
+            },
+          ],
+
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      })
+      .then(res => {
+        setComplaints(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+        toast.error("Something went wrong!");
+      });
+  };
 
   return (
     <Box p={2}>
@@ -150,7 +249,7 @@ const NewComplaints = () => {
         {loading ? (
           <Box
             sx={{
-              width: "100%",
+              width: "calc(100% - 31rem)",
               height: "100%",
               alignItems: "center",
               justifyContent: "center",
@@ -171,65 +270,158 @@ const NewComplaints = () => {
               height: "calc(100vh - 100px)",
             }}
           >
-            {complaints.length > 0 ? (
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "10px",
+              }}
+            >
+              <div style={{display: "flex", alignItems: "center"}}>
+                {handleSearch && (
+                  <div className="inner-table">
+                    <FilterMenu onSearch={handleSearch} />
+                  </div>
+                )}
+
+                <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
+                  Complaints
+                </h2>
+              </div>
+
               <Box
                 sx={{
-                  width: "100%",
-                  backgroundColor: "#f8f8f8",
                   display: "flex",
-                  flexDirection: "column",
+                  gap: "20px",
                   alignItems: "center",
-                  gap: 2,
-                  padding: "15px 0",
-                  height: "100%",
-                  overflowY: "auto",
+                  justifyContent: "flex-end",
                 }}
               >
-                {complaints.map(complaint => {
-                  return (
-                    <Box
-                      sx={{
-                        width: "90%",
-                      }}
-                      key={complaint._id}
-                    >
-                      <EachComplaint
-                        complaint={complaint}
-                        showConversation={() =>
-                          showComplaintConversation(complaint)
-                        }
-                      />
-                    </Box>
-                  );
-                })}
-              </Box>
-            ) : (
-              <Box
-                sx={{
-                  width: "100%",
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  //justifyContent: "center",
-                  backgroundColor: "#ffffff",
-                }}
-              >
-                <img
-                  src="https://cdn.dribbble.com/users/530580/screenshots/5922621/paper.gif"
-                  alt=""
-                  style={{
-                    width: "400px",
-                    height: "auto",
-                    display: "block",
-                    marginTop: "10vh",
+                <Box
+                  sx={{
+                    width: "180px",
                   }}
-                />
-                <Typography sx={{fontSize: "0.85rem"}}>
-                  There are no complaints available yet...
-                </Typography>
+                >
+                  <ReactCustomSelectComponent
+                    control={control}
+                    name="category"
+                    placeholder="Select Category"
+                    options={[
+                      {
+                        label: "All Categories",
+                        value: "All Cetegories",
+                      },
+                      {
+                        label: "Basic Complaint",
+                        value: "Basic Complaint",
+                      },
+                      {
+                        label: "Subordinate",
+                        value: "Subordinate Complaint",
+                      },
+                      {
+                        label: "Superordinate",
+                        value: "Superordinate Complaint",
+                      },
+                    ]}
+                  />
+                </Box>
+
+                <Box
+                  sx={{
+                    width: "150px",
+                  }}
+                >
+                  <ReactCustomSelectComponent
+                    control={control}
+                    //defaultValue="all"
+                    name="complaint_type"
+                    placeholder="Complaint Type"
+                    options={[
+                      {
+                        label: "All",
+                        value: "all",
+                      },
+                      {
+                        label: "Resolved",
+                        value: "resolved",
+                      },
+                      {
+                        label: "Unresolved",
+                        value: "unresolved",
+                      },
+                    ]}
+                  />
+                </Box>
               </Box>
-            )}
+            </Box>
+            <Box
+              sx={{
+                width: "100%",
+              }}
+            >
+              {complaints.length > 0 ? (
+                <Box
+                  sx={{
+                    width: "100%",
+                    backgroundColor: "#f8f8f8",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 2,
+                    padding: "15px 0",
+                    height: "100%",
+                    overflowY: "auto",
+                  }}
+                >
+                  {complaints.map(complaint => {
+                    return (
+                      <Box
+                        sx={{
+                          width: "97%",
+                        }}
+                        key={complaint._id}
+                      >
+                        <EachComplaint
+                          complaint={complaint}
+                          showConversation={() =>
+                            showComplaintConversation(complaint)
+                          }
+                        />
+                      </Box>
+                    );
+                  })}
+                </Box>
+              ) : (
+                <Box
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    //justifyContent: "center",
+                    backgroundColor: "#ffffff",
+                  }}
+                >
+                  <img
+                    src="https://cdn.dribbble.com/users/530580/screenshots/5922621/paper.gif"
+                    alt=""
+                    style={{
+                      width: "400px",
+                      height: "auto",
+                      display: "block",
+                      marginTop: "10vh",
+                    }}
+                  />
+                  <Typography sx={{fontSize: "0.85rem"}}>
+                    There are no complaints available yet...
+                  </Typography>
+                </Box>
+              )}
+            </Box>
           </Box>
         )}
 
@@ -704,7 +896,7 @@ const CreateNewComplaint = () => {
         <Grid item xs={12}>
           <ReactCustomSelectComponent
             control={control}
-            defaultValue="Organization"
+            //defaultValue="Organization"
             name="target_type"
             placeholder="Complaint Type"
             options={[
@@ -715,32 +907,6 @@ const CreateNewComplaint = () => {
               {
                 label: "Person",
                 value: "Person",
-              },
-            ]}
-          />
-        </Grid>
-
-        <Grid item xs={12}>
-          <Input label="Subject" register={register("subject")} />
-        </Grid>
-
-        <Grid item xs={12}>
-          <ReactCustomSelectComponent
-            control={control}
-            name="category"
-            placeholder="Select Category"
-            options={[
-              {
-                label: "Basic Complaint",
-                value: "Basic Complaint",
-              },
-              {
-                label: "Subordinate Complaint",
-                value: "Subordinate Complaint",
-              },
-              {
-                label: "Superordinate Complaint",
-                value: "Superordinate Complaint",
               },
             ]}
           />
@@ -791,7 +957,7 @@ const CreateNewComplaint = () => {
             onInputChange={handleFacilitySearch}
             isLoading={fetchingFacilities}
             name="copied_organizations"
-            placeholder="Copied Organizations"
+            placeholder="Copy Involved Organizations"
             options={facilities.map(item => {
               return {
                 label: item.facilityName,
@@ -809,7 +975,7 @@ const CreateNewComplaint = () => {
             isLoading={fetchingClients}
             name="copied_clients"
             multiple
-            placeholder="Copied Clients"
+            placeholder="Copy Involved Clients"
             options={clients.map(item => {
               return {
                 label: `${item.firstname} ${item.lastname}`,
@@ -817,6 +983,32 @@ const CreateNewComplaint = () => {
                 ...item,
               };
             })}
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <Input label="Subject" register={register("subject")} />
+        </Grid>
+
+        <Grid item xs={12}>
+          <ReactCustomSelectComponent
+            control={control}
+            name="category"
+            placeholder="Select Category"
+            options={[
+              {
+                label: "Basic Complaint",
+                value: "Basic Complaint",
+              },
+              {
+                label: "Subordinate Complaint",
+                value: "Subordinate Complaint",
+              },
+              {
+                label: "Superordinate Complaint",
+                value: "Superordinate Complaint",
+              },
+            ]}
           />
         </Grid>
 
