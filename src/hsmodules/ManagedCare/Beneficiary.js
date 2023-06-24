@@ -23,6 +23,7 @@ import {
   EnrolleSchema3,
   EnrolleSchema4,
   EnrolleSchema5,
+  EnrolleSchemaProvider,
   principalData,
 } from "./schema";
 import "react-datepicker/dist/react-datepicker.css";
@@ -72,6 +73,7 @@ import axios from "axios";
 import { FileUploader } from "react-drag-drop-files";
 import MuiDateTimePicker from "../../components/inputs/DateTime/MuiDateTimePicker";
 import { ProviderPrintId } from "./components/PrintId";
+//import {PolicyDetail} from "./Policy";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -1500,6 +1502,7 @@ if (val.length<3){
 
       let list = [];
       data.map((item) => {
+        console.log(item)
         item.principal.principal = item.principal;
         item.principal.organizationName = item.organizationName;
         // item.principal.dependantBeneficiaries = item.dependantBeneficiaries;
@@ -3287,10 +3290,10 @@ export function PolicyDetail({ showModal, setShowModal }) {
       policy_tag: Client?.principal?.clientTags,
       familyPremium: Client.plan?.premiums?.[0]?.familyPremium,
       individualPremium: Client.plan?.premiums?.[0]?.individualPremium,
-      sponsor_name: Client.sponsor?.organizationDetail?.facilityName,
-      sponsor_phone: Client.sponsor?.organizationDetail?.facilityContactPhone,
-      sponsor_email: Client.sponsor?.organizationDetail?.facilityEmail,
-      sponsor_address: Client.sponsor?.organizationDetail?.facilityAddress,
+      sponsor_name: Client.sponsor?.facilityName,
+      sponsor_phone: Client.sponsor?.facilityContactPhone,
+      sponsor_email: Client.sponsor?.facilityEmail,
+      sponsor_address: Client.sponsor?.facilityAddress,
     };
     reset(initFormValue);
   }, [state.ManagedCareModule.selectedClient]);
@@ -3580,7 +3583,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                 <FormsHeaderText text="Provider List" />
                 <CustomTable
                   title={""}
-                  columns={EnrolleSchema4}
+                  columns={EnrolleSchemaProvider}
                   data={facility?.providers}
                   pointerOnHover
                   highlightOnHover

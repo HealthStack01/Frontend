@@ -3,6 +3,7 @@ import client from "../../feathers";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import { DebounceInput } from "react-debounce-input";
 import { useForm } from "react-hook-form";
+import SendIcon from "@mui/icons-material/Send";
 //import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from "../../context";
 import { PageWrapper } from "../../ui/styled/styles";
@@ -30,6 +31,10 @@ import { BandSchema } from "./ui-components/schema";
 import CloseIcon from "@mui/icons-material/Close";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+
+//const data = require("../../data/hci/activeClients.json"); 
+
+//const data = require("../../data/hci/updatedproviders2.json"); 
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -180,6 +185,11 @@ export function BandList({ showCreateModal }) {
   // eslint-disable-next-line
   const [message, setMessage] = useState("");
   const BandServ = client.service("bands");
+  const facilityServ = client.service("facility");
+  const orgServ = client.service("organizationclient");
+  const ClientServ = client.service("client");
+  const policyServ = client.service("policy");
+  const InvoiceServ = client.service('corpinvoices');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -188,13 +198,18 @@ export function BandList({ showCreateModal }) {
   // eslint-disable-next-line
   const [selectedBand, setSelectedBand] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
   const { user, setUser } = useContext(UserContext);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
   const [open, setOpen] = useState(false);
+  const [start, setStart] = useState('');
+  const [end, setEnd] = useState('');
+
+
+
   const handleCreateNew = async () => {
     const newBandModule = {
       selectedBand: {},
@@ -319,8 +334,378 @@ export function BandList({ showCreateModal }) {
 
   //todo: pagination and vertical scroll bar
 
+  const handleFileUpload =  async(event) => {
+   
+
+
+    const hosp=[] //data.slice(start,end)
+
+    const uniquePolicy = [...new Set(hosp.map(obj => obj.Beneficiaries))];
+let n=0
+
+    for (const unique of uniquePolicy){
+        //find the beneficiaries
+      let benefits=  hosp.filter(el=>el.Beneficiaries===unique)
+      let dependents=[]
+      let principal={}
+      let genNo=""
+      let faci={}
+      n=n+1 
+        for (const benfi of benefits){
+
+          faci=benfi
+         
+            let client={
+              firstname: faci.EmployeeOthername, 
+              middlename:"",
+              lastname:faci.EmployeeSurname,
+              dob:faci.Date_Birth?faci.Date_Birth:"1/01/1960" ,
+              gender:faci.Sex,
+              maritalstatus: faci.MaritalStatusID,
+              religion: "",
+              phone:faci.Phone,
+              email: `${n}${faci.EmployeeOthername}@healthstack.africa`, //unique: true
+              bloodgroup: faci.BloodTypeID,
+              genotype:faci.Genotype,
+              clientTags:"hci beneficiary",
+              facility:user.currentEmployee.facilityDetail._id ,
+              address:faci.Address1,
+            }
+      
+             await  ClientServ.create(client)
+             .then(async(resp)=>{
+              if (benfi.FamilyCode== "0"){
+                resp.type="Principal"
+                principal=resp
+                genNo=benfi["Policy No"]
+              }else{
+                resp.type="Dependent"
+                dependents.push(resp)
+              }
+             
+             // create policy 
+             
+               console.log("end of story")
+
+             })
+             .catch((err) => {
+               console.log("Error creating client " + err);
+             });
+
+        
+          }
+          let provi=[]
+          let provider={
+            facilityName:faci.HospitalName,
+              code:faci["Hospital ID"] 
+          }
+          
+              provi.push(provider)
+ //create policy
+                  let policy = {
+                    policyNo: genNo,
+                    organizationType:user.currentEmployee.facilityDetail.facilityType,
+                      
+                    organizationId:user.currentEmployee.facilityDetail._id,
+                    
+                    organizationName:user.currentEmployee.facilityDetail.facilityName,
+                    
+                    organization:user.currentEmployee.facilityDetail,
+                    
+                    principal: principal,
+                    dependantBeneficiaries: dependents,
+                    providers:provi , //
+                    sponsorshipType:faci.CustomerName==="Individual"?"Self":"Company",
+                    sponsor: {facilityName:faci.CustomerName,
+                               code:faci.CustomerID   },
+                    plan:{
+                      planName: faci.PlanDescription,
+                      planId:faci.PlanID
+                    },
+                    planType: faci.FamilyCode>0?"Family":"Individual",
+
+                  //  validityPeriods:[ { type: String,  }],
+                  validitystarts:faci.PaymentStartDate,
+                  validityEnds:faci.PaymentEndDate,
+                  Date_JoinScheme:faci.Date_JoinScheme,
+                    active: true,
+                    isPaid: true,
+                    approved:true,
+                    statushx: [
+                      {
+                        date: new Date(),
+                        employeename: `${user.currentEmployee.firstname} ${user.currentEmployee.lastname}`,
+                        employeeId: user.currentEmployee._id,
+                        status: "Policy Created",
+                      }
+                  ]
+                  }
+                 
+                  await policyServ
+                    .create(policy)
+                    .then((res) => {
+                    console.log("policy created succesfully",res);
+                    console.log("policy #"+n,policy)
+                    })
+                    .catch((err) => {
+                      console.log("Error creating policy " + err);
+                    });
+
+        }
+    }
+
+    const handleupdateOrg =async ()=>{
+
+      const hosp=[] //data
+    //  const uniquePolicy = [...new Set(data.map(obj => obj.facilityname))];
+      let n=0
+      let m=0
+      let one=[]
+      let two=[]
+      let zero=[]
+      let others=[]
+      for (const benfi of hosp){
+        m=m+1
+        console.log(m)
+       let avail= await facilityServ.find({
+        query:{
+          facilityName:benfi.Facilityname
+        }
+       })
+       //console.log(benfi.Facilityname +":",avail.total)
+       switch(avail.total){
+        case 0:
+          console.log(benfi)
+          let holder={}
+        
+          let facilitydata={
+         
+            facilityCAC:"",
+            
+          
+            facilityName:benfi.Facilityname,
+          
+            facilityOwner: "",
+          
+            facilityType: "Corporate",
+          
+            facilityCategory:"SME",
+          
+            facilityCountry: "Nigeria",
+          
+            facilityState: benfi.FacilityState,
+          
+            facilityLGA: "",
+          
+            facilityCity:benfi.Facilitycity, 
+          
+            facilityAddress:benfi.FacilityAddress,
+          
+            facilityContactPhone:"0801111111",
+          
+            facilityEmail:`${n}@hci-corp.com`,
+            facilityModules: ['Admin', 'Complaint', 'Corporate', 'Communication']
+              }
+          let admindata ={
+            firstname:benfi.adminfirstname,
+            lastname:"Admin",
+            phone: "08011111111",
+            email: `${n}@hci-corp.com`,
+    
+            profession: "Admin",
+            position: "Admin",
+           
+            department: "Admin",
+            deptunit: "Admin",
+            password: "Administrator",
+           roles:['Admin', 'Complaint', 'Corporate', 'Communication']
+    
+    
+          }
+    
+            const facilityDocument = {
+              ...facilitydata,
+              hasEmployee: true,
+              employeeData:admindata
+            }
+      
+           await  facilityServ.create(facilityDocument)
+            .then(async(resp)=>{
+              //create relationship
+              holder=resp
+              console.log("facility created #"+n ,resp)
+              let obj = {
+                facility: user.currentEmployee.facilityDetail._id,
+                organization: resp._id,
+                relationshiptype: "sponsor",
+                status: "Pending",
+                code:benfi.customerId
+                
+              };
+          
+             // console.log("query", query);
+          //create organizatuonal relationship
+              await orgServ
+                .create(obj)
+                .then((res) => {
+                  console.log("res", res);
+                 console.log("Organization added succesfully"); 
+                })
+                .catch((err) => {
+                  console.log("Error adding organization " + err);
+                });
+      
+                //create invoice
+                let invoice={
+                  customerId:holder._id,//sending money
+                    customer:holder,
+                    customerName:benfi.Facilityname,
+                    customerAddress:benfi.FacilityAddress,
+                    customerCity:"",
+                    customerCountry:"Nigeria",
+                    customerLGA:"",
+                    customerState:"",
+                    customerPhone:benfi.AdminPhone,
+                    customerEmail: `${n}@hci-corp.com`,
+                    customerType:"Corporate",
+                    date:new Date(),
+                    facilityId:user.currentEmployee.facilityDetail._id, //hmo insuing invoice
+                    facility:user.currentEmployee.facilityDetail,
+                    invoice_number:"",
+                    total_amount:0,
+                  
+                    payment_option:"Cash",
+                    subscription_category:"Annual",
+                  
+                    status:"Unpaid", //unpaid, fullypaid
+                }
+                await InvoiceServ
+                .create(invoice)
+                .then((res) => {
+                  console.log("res", res);
+                
+                 console.log("Invoice created succesfully #"+n);
+                  
+                  
+                })
+                .catch((err) => {
+                  console.log("Error cereating invoice " + err);
+                });
+      
+            })
+            .catch((err)=>{
+              console.log("facility not created :" + err)
+            })
+        
+          console.log (`0:${zero.length},1:${one.length}, 2:${two.length}, 3:${others.length}`)
+        
+          zero.push(avail)
+          console.log(avail)
+          return
+        break;
+        case 1:
+          one.push(avail)
+        break;
+        case 2:
+          two.push(avail)
+          avail.data.forEach( async el=>{
+            if (el.facilityEmail===""){
+              await  facilityServ.remove(el._id)
+              .then(async(resp)=>{
+                //create relationship
+               
+                console.log("facility deleted #"+m,el)
+               
+            
+              })
+              .catch((err)=>{
+                console.log("facility could not be deleted :" + err)
+              })
+
+            }
+
+          })
+        break
+       default:
+          others.push(avail)
+        break;
+       }
+
+     /*   if (avail.total>1){
+        n=n+1
+        let holder={}
+
+     
+  
+       await  facilityServ.remove(facilityDocument)
+        .then(async(resp)=>{
+          //create relationship
+          holder=resp
+          console.log("facility created #"+n ,resp)
+         
+      
+        })
+        .catch((err)=>{
+          console.log("facility not created :" + err)
+        })
+      } */
+      }
+      let everyone=[]
+      everyone.push(two)
+      everyone.push(others)
+      console.log (`0:${zero.length},1:${one.length}, 2:${two.length}, 3:${others.length}`)
+      console.log("multiples:",everyone)
+
+    }
+
+    const handleFileUpload2 =  async(event) => {
+         const hosp=data.slice(start,end)
+
+      //read the json file
+      for (const provider of hosp){
+       let org= await orgServ.find({
+        query:{
+          'organization.facilityName': provider.provider
+        }
+       })
+      let policies = await orgServ.find({
+      query:{  'providers.facilityName':provider.policy
+
+      }})
+
+  /*   for (const provider of policies){
+
+      
+    } */
+    const params = {
+      query: { 'providers.facilityName':provider.policy }
+    };
+     let repo=[]
+    repo.push(org)
+
+    policyServ.patch(null,{providers:repo }, params )
+      }
+      // search policy for name of provider
+      //update name in policy
+      //update id in policy
+
+  
+    //  const uniquePolicy = [...new Set(hosp.map(obj => obj.Beneficiaries))];
+ 
+              
+      }
+
+
   return (
     <>
+    {/* <Box sx={{ gap:2}}>
+      <input type="number"  value={start} name="begin" onChange={(e)=> setStart(e.target.value) } />
+      <input type="number" value={end} name="end" onChange={(e)=> setEnd(e.target.value) } />
+     <GlobalCustomButton onClick={handleupdateOrg}>
+          test
+          <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
+        </GlobalCustomButton> 
+      </Box> */}
       {facilities ? (
         <>
           <ModalBox open={open} onClose={handleCloseModal}>

@@ -1,4 +1,4 @@
-import {useContext, useEffect, useReducer, useState} from "react";
+import {useContext, useEffect, useReducer, useState,useRef} from "react";
 import {Box, Typography} from "@mui/material";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -66,6 +66,8 @@ const OrganizationSignupHMO = () => {
   const [signingIn, setSigningIn] = useState(false);
   const {user, setUser} = useContext(UserContext);
   const [dealinvoice, setDealInvoice]=useState()
+  const [org, setOrg]=useState({})
+  const fac=useRef()
 
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
@@ -148,17 +150,32 @@ const OrganizationSignupHMO = () => {
 
   const createinvoice=async(res,deal) => {
     //find the invoice from deal
-console.log(res,deal)
+    console.log("starting to create invoices")
+     console.log(res,deal)
     //create it in corpinvoice
     deal.invoices.map(async(inv,i) => {
+      console.log("starting 2")
       inv.customerId=res._id
       inv.customer=res
-      inv.facility=user.currentEmployee.facilityDetail
+      inv.facility=deal.facility
+      inv.facilityId=deal.facilityId
+
+      inv.facilityName=deal.facilityName
+      
       delete inv._id
-       let abj=  await InvServ.create(inv)
-    //  console.log('abj',abj)
+      inv.plans.map((plan,i)=>{
+        delete plan._id
+
+      })
+      console.log("invoices",inv)
+        await InvServ.create(inv)
+       .then(res=>console.log(res))
+       .catch(error=>console.log(error))
+
+    
     })
   }
+
   const handleCompleteRegistration = async data => {
     if (!agreedToTerms)
       return toast.error("Please agree to our Terms and Conditions");
@@ -167,9 +184,10 @@ console.log(res,deal)
     const selectedType = orgTypeModules.find(
       item => item.name === facilityData.facilityType
     );
+    
       const deal = await DealServ.get(id)
       setDealInvoice(deal)
-     // console.log("deal",deal)
+     console.log("deal",deal)
       let dealdata=[]
       let dealobj={
         deal:deal,
@@ -188,13 +206,14 @@ console.log(res,deal)
       },
     };
 
-    await FacilityServ.create(facilityDocument)
-      .then(async pres => {
+   const pres=    await FacilityServ.create(facilityDocument)
+      .then(async res => {
         toast.success("Organization Account successfully Created");
         setCreatingOrganization(false);
         setSigningIn(true);
-        //console.log(res);
-       
+        console.log(res);
+        fac.current=res
+       setOrg(res)
         await client
           .authenticate({
             strategy: "local",
@@ -211,10 +230,11 @@ console.log(res,deal)
             toast.success("You have successfully been logged in");
             setSigningIn(false);
             //create invoice
-            await createinvoice(pres,deal) 
-            navigate("/app");
+           
             //
           });
+
+          
       })
       .catch(err => {
         setCreatingOrganization(false);
@@ -223,6 +243,8 @@ console.log(res,deal)
         toast.error(`Sorry, There was an error creating your account; ${err}`);
         console.log(err);
       });
+      await createinvoice(fac.current,deal) 
+          navigate("/app");
   };
 
   function ActiveFormStep(step) {

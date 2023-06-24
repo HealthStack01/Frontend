@@ -194,6 +194,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
     const res = await dealServer.find({
       query: {
         facilityId: facId,
+       
         $sort: {
           createdAt: -1,
         },
