@@ -32,7 +32,7 @@ import TextAreaVoiceAndText from "../../../../components/inputs/basic/Textarea/V
 
 const random = require("random-string-generator");
 
-const ClaimCreateComponent = ({handleGoBack, client_id}) => {
+const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
   const claimsServer = client.service("claims");
   const preAuthServer = client.service("preauth");
   const {state, setState, showActionLoader, hideActionLoader} =
@@ -91,6 +91,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
   }, [getTotalClaimsAmount]);
 
   const handleSelectClient = client => {
+    console.log(client);
     const hmos = client.paymentinfo.filter(
       item => item.paymentmode.toLowerCase() === "hmo"
     );
@@ -237,7 +238,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
     <Box
       sx={{
         width: "100%",
-        height: "calc(100vh - 80px)",
+        height: beneficiary ? "calc(100vh - 160px)" : "calc(100vh - 80px)",
         overflowY: "auto",
         position: "relative",
       }}
