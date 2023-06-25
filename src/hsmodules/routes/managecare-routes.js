@@ -5,6 +5,7 @@ const Policy = lazy(() => import("../ManagedCare/Policy"));
 const NewPolicy = lazy(() => import("../ManagedCare/NewPolicy"));
 const ExternalPolicy = lazy(() => import("../ManagedCare/externalPolicy"));
 const Beneficiary = lazy(() => import("../ManagedCare/Beneficiary"));
+const NewBeneficiary = lazy(() => import("../ManagedCare/New-Beneficiary"));
 const Tariff = lazy(() => import("../ManagedCare/New-Tarrif"));
 const HealthPlan = lazy(() => import("../ManagedCare/HealthPlan"));
 const Referral = lazy(() => import("../ManagedCare/Referral"));
@@ -107,7 +108,7 @@ export const managedCareRoutes = [
   },
   {
     path: "/app/managed-care/beneficiary",
-    Component: Beneficiary,
+    Component: NewBeneficiary,
   },
 
   {

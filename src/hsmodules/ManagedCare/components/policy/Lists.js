@@ -14,7 +14,7 @@ import {PageWrapper} from "../../../../ui/styled/styles";
 
 import dayjs from "dayjs";
 
-const PoliciesList = ({createNewPolicy, showDetails}) => {
+const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
   const policyServer = client.service("policy");
   const [policies, setPolicies] = useState([]);
   const {state, setState} = useContext(ObjectContext);
@@ -322,86 +322,90 @@ const PoliciesList = ({createNewPolicy, showDetails}) => {
   ];
 
   return (
-    <>
-      <div className="level">
-        <PageWrapper style={{flexDirection: "column", padding: "0.6rem 1rem"}}>
-          <TableMenu>
-            <div style={{display: "flex", alignItems: "center"}}>
-              {handleSearch && (
-                <div className="inner-table">
-                  <FilterMenu onSearch={handleSearch} />
-                </div>
-              )}
-              <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-                List of {status === "approved" ? "Approved" : "Pending"}{" "}
-                Policies
-              </h2>
-
-              {status === "approved" && (
-                <GlobalCustomButton
-                  onClick={() => setStatus("pending")}
-                  color="warning"
-                >
-                  <PendingIcon fontSize="small" sx={{marginRight: "5px"}} />
-                  Show Pending
-                </GlobalCustomButton>
-              )}
-
-              {status === "pending" && (
-                <GlobalCustomButton
-                  onClick={() => setStatus("approved")}
-                  color="secondary"
-                >
-                  <ApprovalIcon fontSize="small" sx={{marginRight: "5px"}} />
-                  Show Approved
-                </GlobalCustomButton>
-              )}
+    <Box p={2}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+        mb={2}
+      >
+        <div style={{display: "flex", alignItems: "center"}}>
+          {handleSearch && (
+            <div className="inner-table">
+              <FilterMenu onSearch={handleSearch} />
             </div>
+          )}
+          <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
+            {status === "approved" ? "Approved" : "Pending"} Policies
+          </h2>
 
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-              }}
+          {status === "approved" && (
+            <GlobalCustomButton
+              onClick={() => setStatus("pending")}
+              color="warning"
             >
-              {createNewPolicy && (
-                <GlobalCustomButton onClick={handleCreateNew} color="success">
-                  <AddCircleOutlineIcon
-                    fontSize="small"
-                    sx={{marginRight: "5px"}}
-                  />
-                  Create New Policy
-                </GlobalCustomButton>
-              )}
-            </Box>
-          </TableMenu>
-          <div
-            className="level"
-            style={{
-              height: "calc(100vh - 150px)",
-              overflow: "scroll",
+              <PendingIcon fontSize="small" sx={{marginRight: "5px"}} />
+              Show Pending
+            </GlobalCustomButton>
+          )}
+
+          {status === "pending" && (
+            <GlobalCustomButton
+              onClick={() => setStatus("approved")}
+              color="secondary"
+            >
+              <ApprovalIcon fontSize="small" sx={{marginRight: "5px"}} />
+              Show Approved
+            </GlobalCustomButton>
+          )}
+        </div>
+
+        {!beneficiary && (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
             }}
           >
-            <CustomTable
-              title={""}
-              columns={PolicySchema}
-              data={policies}
-              pointerOnHover
-              highlightOnHover
-              striped
-              onRowClicked={handleRow}
-              progressPending={loading}
-              CustomEmptyData={
-                status === "approved"
-                  ? "No Approved Policies"
-                  : "No Pending Policies"
-              }
-            />
-          </div>
-        </PageWrapper>
-      </div>
-    </>
+            {createNewPolicy && (
+              <GlobalCustomButton onClick={handleCreateNew} color="success">
+                <AddCircleOutlineIcon
+                  fontSize="small"
+                  sx={{marginRight: "5px"}}
+                />
+                Create New Policy
+              </GlobalCustomButton>
+            )}
+          </Box>
+        )}
+      </Box>
+
+      <Box
+        style={{
+          height: beneficiary ? "calc(100vh - 240px)" : "calc(100vh - 140px)",
+          overflowY: "scroll",
+        }}
+      >
+        <CustomTable
+          title={""}
+          columns={PolicySchema}
+          data={policies}
+          pointerOnHover
+          highlightOnHover
+          striped
+          onRowClicked={handleRow}
+          progressPending={loading}
+          CustomEmptyData={
+            status === "approved"
+              ? "No Approved Policies"
+              : "No Pending Policies"
+          }
+        />
+      </Box>
+    </Box>
   );
 };
 

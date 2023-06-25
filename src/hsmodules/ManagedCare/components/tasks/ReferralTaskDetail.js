@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 import client from "../../../../feathers";
 
 const CRMTaskDetail = ({ closeModal, taskServer }) => {
-  const claimsServer = client.service("claims");
+  const referralServer = client.service("referral");
   const dealServer = client.service("deal");
   const { register, handleSubmit, reset, control } = useForm();
   const { state, setState, hideActionLoader, showActionLoader } =
@@ -44,7 +44,7 @@ const CRMTaskDetail = ({ closeModal, taskServer }) => {
     showActionLoader();
     const employee = user.currentEmployee;
 
-    const prevTasks = state.ClaimsModule.selectedClaim.task || [];
+    const prevTasks = state.ReferralModule.selectedReferral.task || [];
     const currentTask = state.TaskModule.selectedTask;
 
     const udpateInfo = {
@@ -55,6 +55,9 @@ const CRMTaskDetail = ({ closeModal, taskServer }) => {
 
     const newTasks = prevTasks.map((item) => {
       if (item.taskId === currentTask.taskId) {
+        // console.log("===>>> data", {
+        //   data,
+        // });
         return {
           ...item,
           ...data,
@@ -66,15 +69,21 @@ const CRMTaskDetail = ({ closeModal, taskServer }) => {
       }
     });
 
-    const documentId = state.ClaimsModule.selectedClaim._id;
-    await claimsServer
+    const documentId = state.ReferralModule.selectedReferral._id;
+    await referralServer
       .patch(documentId, { task: newTasks })
       .then((res) => {
         hideActionLoader();
+        // console.log("===>>> server response", { res });
         setState((prev) => ({
           ...prev,
-          ClaimsModule: { ...prev.ClaimsModule, selectedClaim: res },
+          ReferralModule: {
+            ...prev.ReferralModule,
+            selectedReferral: res,
+          },
+          // TaskModule: { ...prev.TaskModule, selectedTask: }
         }));
+
         closeModal();
         toast.success(`You have successfully Updated Task`);
       })
