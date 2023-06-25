@@ -516,7 +516,7 @@ const PolicyDetail = ({goBack, beneficiary}) => {
       <Box
         sx={{
           width: "100%",
-          height: "calc(100vh - 150px)",
+          height: beneficiary ? "calc(100vh - 220px)" : "calc(100vh - 150px)",
           overflowY: "scroll",
         }}
       >

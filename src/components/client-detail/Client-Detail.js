@@ -104,6 +104,11 @@ const DefaultClientDetail = ({detail, goBack, showHeader}) => {
                 Edit Client
               </GlobalCustomButton>
 
+              <GlobalCustomButton onClick={() => setView("details")}>
+                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                Client Details
+              </GlobalCustomButton>
+
               <GlobalCustomButton onClick={() => setView("policies")}>
                 <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                 Policies
@@ -113,8 +118,9 @@ const DefaultClientDetail = ({detail, goBack, showHeader}) => {
         </Box>
       )}
 
+      {view === "policies" && <NewPolicyModule beneficiary={detail} />}
+
       <Box p={2}>
-        {view === "policies" && <NewPolicyModule beneficiary={detail} />}
         {view === "details" && (
           <>
             <Box

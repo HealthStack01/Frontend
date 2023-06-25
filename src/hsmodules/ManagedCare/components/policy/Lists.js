@@ -327,7 +327,7 @@ const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
   ];
 
   return (
-    <Box p={beneficiary ? 0 : 2}>
+    <Box p={2}>
       <Box
         sx={{
           display: "flex",
@@ -390,7 +390,7 @@ const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
 
       <Box
         style={{
-          height: "calc(100vh - 140px)",
+          height: beneficiary ? "calc(100vh - 240px)" : "calc(100vh - 140px)",
           overflowY: "scroll",
         }}
       >
