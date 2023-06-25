@@ -56,7 +56,7 @@ import { FacilitySearch } from "../helpers/FacilitySearch";
 import { ReferralList } from "./components/referral/ReferralList";
 import { ReferralCreate } from "./components/referral/CreateReferral";
 import { ReferralDetails } from "./components/referral/ReferralDetails";
-import { NewReferralDetails } from "./components/referral/newReferralDetails";
+import { NewReferralDetails } from "./components/referral/ReferralDetails";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -91,13 +91,18 @@ export default function Referral() {
       )}
 
       {view === "create" && (
-        <ReferralCreate handleGoBack={handleGoBack} client_id={client_id} />
+        <ReferralCreate
+          handleGoBack={handleGoBack}
+          client_id={client_id}
+          showList={() => setView("list")}
+        />
       )}
 
       {view === "detail" && (
         <NewReferralDetails
           handleGoBack={handleGoBack}
-          selectedReferral={selectedReferral}
+          selectedReferralProp={selectedReferral}
+          setSelectedReferral={setSelectedReferral}
         />
       )}
 

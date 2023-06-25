@@ -44,8 +44,8 @@ const LocationView = ({ open, setOpen, location }) => {
   const [confirmDialog, setConfirmDialog] = useState(false);
   const [confirmDialog2, setConfirmDialog2] = useState(false);
   const [sublocationData, setSubLocationData] = useState([]);
-  const [defaultLocationType, setDefaultLocationType] = useState();
-  const [isDefaultLocationType, setIsDefaultLocationType] = useState(true);
+  const [locationType, setLocationType] = useState(location.locationType);
+  const [locationName, setLocationName] = useState(location.name);
 
   // const { state, setState } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
@@ -147,6 +147,7 @@ const LocationView = ({ open, setOpen, location }) => {
 
   const onSubmit = (e) => {
     // e.preventDefault();
+
     if (typeLocation === "" && typeName === "") {
       alert("Kindly enter missing data ");
     }
@@ -176,14 +177,19 @@ const LocationView = ({ open, setOpen, location }) => {
     setOpenSubLoc(true);
   };
 
-  const submit = async (data) => {
+  const submit = async () => {
+    console.log("===>>>> form", {
+      name: locationName,
+      type: locationType,
+    });
     setLoading(true);
+    const data = {};
     // e.preventDefault();
-    data.name = data.name;
-    data.locationType = data.locationType;
+    data.name = locationName;
+    data.locationType = locationType;
     data.sublocations = locationDetails.sublocations;
     setSuccess(false);
-    console.log(data);
+    console.log("data", data);
     await LocationServ.patch(locationDetails._id, data)
       .then((res) => {
         console.log(res);
@@ -345,7 +351,7 @@ const LocationView = ({ open, setOpen, location }) => {
           </GlobalCustomButton>
         ) : (
           <GlobalCustomButton
-            onClick={handleSubmit(submit)}
+            onClick={submit}
             color="success"
             text="Update"
             type="submit"
@@ -367,10 +373,17 @@ const LocationView = ({ open, setOpen, location }) => {
           </Grid>
         ) : (
           <Grid item xs={6}>
-            <Input
+            {/* <Input
               label="Name"
               register={register("name")}
               // errorText={errors?.name?.message}
+            /> */}
+            <Input
+              name="name"
+              label="Name"
+              type="text"
+              onChange={(e) => setLocationName(e.target.value)}
+              defaultValue={`${locationName}`}
             />
           </Grid>
         )}
@@ -398,17 +411,16 @@ const LocationView = ({ open, setOpen, location }) => {
                   label="Choose Location Type "
                   name="type"
                   options={locationTypeOptions}
-                  register={register("locationType")}
-                  // defaultValue={
-                  //   isDefaultLocationType
-                  //     ? location?.locationType
-                  //     : defaultLocationType
-                  // }
-                  // onChange={(e) => {
-                  //   setDefaultLocationType(e.target.value);
-                  //   setIsDefaultLocationType(false);
-                  // }}
+                  onChange={(e) => setLocationType(e.target.value)}
+                  defaultValue={`${locationType}`}
                 />
+
+                {/* <CustomSelect
+                  label="Choose Location Type "
+                  name="type"
+                  options={locationTypeOptions}
+                  register={register("locationType")}
+                /> */}
                 {/* </div> */}
               </div>
             </div>

@@ -1,44 +1,43 @@
-import {useEffect, useState, useContext} from "react";
-import {Button, Grid} from "@mui/material";
-import {Box} from "@mui/system";
+import { useEffect, useState, useContext } from "react";
+import { Button, Grid } from "@mui/material";
+import { Box } from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import DatePicker from "react-datepicker";
 
-import {FormsHeaderText} from "../../../../components/texts";
+import { FormsHeaderText } from "../../../../components/texts";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import BasicDatePicker from "../../../../components/inputs/Date";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 import Textarea from "../../../../components/inputs/basic/Textarea";
 import EmployeeSearch from "../../../helpers/EmployeeSearch";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
-import {ObjectContext, UserContext} from "../../../../context";
-import {toast} from "react-toastify";
+import { ObjectContext, UserContext } from "../../../../context";
+import { toast } from "react-toastify";
 import client from "../../../../feathers";
 
-const CRMTaskDetail = ({closeModal, updateTask}) => {
+const CRMTaskDetail = ({ closeModal, taskServer }) => {
   const claimsServer = client.service("claims");
   const dealServer = client.service("deal");
-  const {register, handleSubmit, reset, control} = useForm();
-  const {state, setState, hideActionLoader, showActionLoader} =
+  const { register, handleSubmit, reset, control } = useForm();
+  const { state, setState, hideActionLoader, showActionLoader } =
     useContext(ObjectContext);
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     const task = state.TaskModule.selectedTask;
-    //console.log(task);
 
     reset(task);
     setSelectedEmployee(task.employee);
   }, []);
 
-  const handeGetSearchFacility = data => {
+  const handeGetSearchFacility = (data) => {
     setSelectedEmployee(data);
   };
 
-  const handleUpdateTask = async data => {
+  const handleUpdateTask = async (data) => {
     if (selectedEmployee === null)
       return toast.warning("Please search and add an Employee");
 
@@ -54,12 +53,12 @@ const CRMTaskDetail = ({closeModal, updateTask}) => {
       updatedByName: `${employee.firstname} ${employee.lastname}`,
     };
 
-    const newTasks = prevTasks.map(item => {
+    const newTasks = prevTasks.map((item) => {
       if (item.taskId === currentTask.taskId) {
         return {
           ...item,
           ...data,
-          employee: {...selectedEmployee},
+          employee: { ...selectedEmployee },
           ...udpateInfo,
         };
       } else {
@@ -69,17 +68,17 @@ const CRMTaskDetail = ({closeModal, updateTask}) => {
 
     const documentId = state.ClaimsModule.selectedClaim._id;
     await claimsServer
-      .patch(documentId, {task: newTasks})
-      .then(res => {
+      .patch(documentId, { task: newTasks })
+      .then((res) => {
         hideActionLoader();
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          ClaimsModule: {...prev.ClaimsModule, selectedClaim: res},
+          ClaimsModule: { ...prev.ClaimsModule, selectedClaim: res },
         }));
         closeModal();
         toast.success(`You have successfully Updated Task`);
       })
-      .catch(err => {
+      .catch((err) => {
         hideActionLoader();
         toast.error(`Sorry, You weren't able to Update Task!. ${err}`);
       });
@@ -140,7 +139,7 @@ const CRMTaskDetail = ({closeModal, updateTask}) => {
 
         <Grid item xs={12}>
           <Input
-            register={register("title", {required: true})}
+            register={register("title", { required: true })}
             label="Title"
             disabled={!edit}
           />
@@ -175,7 +174,7 @@ const CRMTaskDetail = ({closeModal, updateTask}) => {
           <Textarea
             label="Additional Information"
             placeholder="Write here..."
-            register={register("information", {required: true})}
+            register={register("information", { required: true })}
             disabled={!edit}
           />
         </Grid>
