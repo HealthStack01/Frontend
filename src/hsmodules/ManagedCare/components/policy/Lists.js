@@ -148,13 +148,13 @@ const PoliciesList = ({createNewPolicy, showDetails}) => {
     const resp = await policyServer.find({
       query: {
         organizationId: user.currentEmployee.facilityDetail._id,
-        approved: status === "approved",
+        approved: true,
         $sort: {
           createdAt: -1,
         },
       },
     });
-
+   // console.log(resp.data)
     setPolicies(resp.data);
     setLoading(false);
   }, [status]);
@@ -257,7 +257,7 @@ const PoliciesList = ({createNewPolicy, showDetails}) => {
       key: "sponsor",
       description: "Sponsor name",
       selector: row =>
-        row.sponsor ? row?.sponsor?.facilityDetail?.facilityName : "",
+      row?.sponsor?.facilityDetail?.facilityName ? row?.sponsor?.facilityDetail?.facilityName : row?.sponsor?.facilityName,
       sortable: true,
       required: true,
       inputType: "TEXT",

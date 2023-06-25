@@ -68,6 +68,8 @@ const PolicyDetail = ({goBack}) => {
   const planType = watch("plan_type");
   const isHMO = user.currentEmployee.facilityDetail.facilityType === "HMO";
 
+  console.log(state.PolicyModule.selectedPolicy)
+
   const getHealthPlans = useCallback(async () => {
     setFetchingPlans(true);
     const facility = user.currentEmployee.facilityDetail;
@@ -502,7 +504,7 @@ const PolicyDetail = ({goBack}) => {
       >
         <Box p={2}>
           <Grid container spacing={2}>
-            <Grid item md={4}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <Box
                 sx={{
                   width: "100%",
@@ -512,6 +514,7 @@ const PolicyDetail = ({goBack}) => {
                   //value={"Self"}
                   value={sponsor_type}
                   defaultValue={sponsor_type}
+                  
                   //disabled={!edit}
                   register={register("sponsor_type")}
                   options={[
@@ -527,8 +530,15 @@ const PolicyDetail = ({goBack}) => {
                 />
               </Box>
             </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Input
+                value={policy?.policyNo}
+                disabled
+                label={`Policy No`}
+              />
+            </Grid>
 
-            <Grid item md={4}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <CustomSelect
                 disabled={!edit}
                 control={control}
@@ -542,8 +552,8 @@ const PolicyDetail = ({goBack}) => {
                 important
               />
             </Grid>
-
-            <Grid item md={4}>
+            {edit?
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <CustomSelect
                 name="plan_name"
                 label="Choose Plan"
@@ -556,22 +566,117 @@ const PolicyDetail = ({goBack}) => {
                 control={control}
                 //register={register("plan_name")}
               />
-            </Grid>
-
-            <Grid item md={isHMO ? 6 : 4}>
+            </Grid>:
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Input
+                value={policy?.plan?.planName}
+                disabled
+                label={`Plan`}
+              />
+            </Grid>}
+{/* 
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <Input
                 value={premium?.amount}
                 disabled
                 label={`${policy?.planType} Price`}
               />
-            </Grid>
-            <Grid item md={isHMO ? 6 : 4}>
+            </Grid> */}
+           {/*  <Grid item xs={12} sm={6} md={4} lg={3}>
               <Input
                 value={premium?.duration}
                 disabled
                 label={`${policy?.planType} Premium Duration`}
               />
+            </Grid> */}
+            {edit?
+             <Grid item xs={12} sm={6} md={4} lg={3}>
+              <CustomSelect
+                disabled={!edit}
+                control={control}
+                name="approved"
+                label="Approved"
+                options={[
+                  {value: false, label: "Pending"},
+                  {value: true, label: "Approve"},
+                ]}
+                required
+                important
+              />
+            </Grid>:
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Input
+                value={policy?.approved?"Approved":"Pending"}
+                disabled
+                label={`Approved`}
+              />
+            </Grid>}
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Input
+                value={policy?.approvalDate}
+                disabled
+                label={`Approval Date`}
+              />
             </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Input
+                value={policy?.approvedby?.employeename}
+                disabled
+                label={`Approved by`}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Input
+                value={policy?.isPaid?"Yes":"No"}
+                disabled
+                label={`Paid`}
+              />
+            </Grid> 
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Input
+                value={dayjs(policy?.validitystarts).format("DD-MM-YYYY")}
+                disabled
+                label={`Validity Start`}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Input
+                value={dayjs(policy?.validityEnds).format("DD-MM-YYYY")}
+                disabled
+                label={`Validity End`}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Input
+                value={dayjs(policy?.Date_JoinScheme).format("DD-MM-YYYY")}
+                disabled
+                label={`Date Joined`}
+              />
+            </Grid>
+          
+            {edit?
+             <Grid item xs={12} sm={6} md={4} lg={3}>
+              <CustomSelect
+                disabled={!edit}
+                control={control}
+                name="active"
+                label="Active"
+                options={[
+                  {value: false, label: "Inactive"},
+                  {value: true, label: "Active"},
+                ]}
+                required
+                important
+              />
+            </Grid>:
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Input
+                value={policy?.active?"Active":"Inactive"}
+                disabled
+                label={`Active`}
+              />
+            </Grid> }
+
           </Grid>
         </Box>
 
@@ -598,7 +703,7 @@ const PolicyDetail = ({goBack}) => {
             <CustomTable
               title={""}
               columns={EnrolleSchema5}
-              data={policy.sponsor ? [policy?.sponsor?.organizationDetail] : []}
+              data={policy?.sponsor?.organizationDetail ? [policy?.sponsor?.organizationDetail] : [policy?.sponsor]}
               pointerOnHover
               highlightOnHover
               striped
