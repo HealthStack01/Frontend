@@ -100,12 +100,12 @@ const DefaultClientDetail = ({detail, goBack, showHeader}) => {
               }}
               gap={1}
             >
-              {view === "details" && (
+              {/* {view === "details" && (
                 <GlobalCustomButton onClick={() => setEdit(true)}>
                   <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                   Edit Client
                 </GlobalCustomButton>
-              )}
+              )} */}
 
               <GlobalCustomButton
                 onClick={() => setView("details")}

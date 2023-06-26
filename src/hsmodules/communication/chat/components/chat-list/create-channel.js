@@ -13,7 +13,7 @@ import {ObjectContext, UserContext} from "../../../../../context";
 import ReactCustomSelectComponent from "../../../../../components/react-custom-select";
 import ReactCustomSearchSelectComponent from "../../../../../components/react-custom-select/ReactSearchSelect";
 
-const CreateNewChannel = () => {
+const CreateNewChannel = ({closeModal}) => {
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const EmployeeServ = client.service("employee");
@@ -41,17 +41,17 @@ const CreateNewChannel = () => {
   const handleCreateChannel = async data => {
     const employee = user.currentEmployee;
 
-    //showActionLoader();
+    showActionLoader();
 
     //return console.log(data);
 
     const allStaffs =
-      data.outer_staffs === ""
+      data.outer_staffs === undefined
         ? data.staffs
         : [...data.staffs, ...data.outer_staffs];
 
     const clients =
-      data.clients === ""
+      data.clients === undefined
         ? []
         : data.clients.map(client => {
             return {
@@ -121,6 +121,7 @@ const CreateNewChannel = () => {
           },
         }));
         hideActionLoader();
+        closeModal();
       })
       .catch(error => {
         hideActionLoader();
@@ -130,40 +131,27 @@ const CreateNewChannel = () => {
   };
 
   const handleGetStaffs = useCallback(async () => {
-    //setFetchingStaffs(true);
     let query = {
       facility: user.currentEmployee.facilityDetail._id,
+      _id: {$ne: user.currentEmployee._id},
       $limit: 200,
       $sort: {
         createdAt: -1,
       },
     };
-    if (location !== "") {
+    if (location !== undefined && location !== "") {
       query["locations._id"] = location.value;
     }
-    if (user.currentEmployee) {
-      const resp = await EmployeeServ.find({
-        query: query,
+
+    EmployeeServ.find({
+      query: query,
+    })
+      .then(res => {
+        setStaffs(res.data);
+      })
+      .catch(error => {
+        console.log(error);
       });
-
-      await setStaffs(resp.data);
-      console.log(resp.data);
-      //setFetchingStaffs(false);
-    } else {
-      if (user.stacker) {
-        const resp = await EmployeeServ.find({
-          query: {
-            $limit: 100,
-            $sort: {
-              facility: -1,
-            },
-          },
-        });
-
-        await setStaffs(resp.data);
-        //setFetchingStaffs(false);
-      }
-    }
   }, [location]);
 
   useEffect(() => {
@@ -251,6 +239,7 @@ const CreateNewChannel = () => {
 
     facilityServ
       .find({
+        _id: {$ne: user.currentEmployee.facilityDetail._id},
         query: {
           $or: [
             {
@@ -312,36 +301,22 @@ const CreateNewChannel = () => {
   const getOuterStaffs = useCallback(async () => {
     if (!selectedOrg) return;
 
-    // setFetchingStaffs(true);
-    if (user.currentEmployee) {
-      const findEmployee = await EmployeeServ.find({
-        query: {
-          facility: selectedOrg.value,
-          _id: {$ne: user.currentEmployee._id},
-          $limit: 200,
-          $sort: {
-            createdAt: -1,
-          },
+    EmployeeServ.find({
+      query: {
+        facility: selectedOrg.value,
+        _id: {$ne: user.currentEmployee._id},
+        $limit: 200,
+        $sort: {
+          createdAt: -1,
         },
+      },
+    })
+      .then(res => {
+        setOuterStaffs(res.data);
+      })
+      .catch(error => {
+        console.log(error);
       });
-
-      await setOuterStaffs(findEmployee.data);
-      //setFetchingStaffs(false);
-    } else {
-      if (user.stacker) {
-        const findEmployee = await EmployeeServ.find({
-          query: {
-            $limit: 200,
-            $sort: {
-              facility: -1,
-            },
-          },
-        });
-
-        await setOuterStaffs(findEmployee.data);
-        //setFetchingStaffs(false);
-      }
-    }
   }, [selectedOrg]);
 
   useEffect(() => {
