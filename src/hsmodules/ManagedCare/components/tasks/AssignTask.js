@@ -1,38 +1,40 @@
-import {useState, useContext} from "react";
-import {Button, Grid} from "@mui/material";
-import {Box} from "@mui/system";
+import { useState, useContext } from "react";
+import { Button, Grid } from "@mui/material";
+import { Box } from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 
-import {FormsHeaderText} from "../../../../components/texts";
+import { FormsHeaderText } from "../../../../components/texts";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import BasicDatePicker from "../../../../components/inputs/Date";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 import Textarea from "../../../../components/inputs/basic/Textarea";
 import EmployeeSearch from "../../../helpers/EmployeeSearch";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
-import {ObjectContext, UserContext} from "../../../../context";
+import { ObjectContext, UserContext } from "../../../../context";
 import client from "../../../../feathers";
-import {toast} from "react-toastify";
-import {v4 as uuidv4} from "uuid";
+import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
 //import uuid from "uuid"
 
-const CRMAssignTask = ({closeModal, taskServer, taskState, type}) => {
+const CRMAssignTask = ({ closeModal, taskServer, taskState }) => {
   const claimsServer = client.service("claims");
   const dealServer = client.service("deal");
-  const {register, handleSubmit, reset, control} = useForm();
-  const {state, setState, showActionLoader, hideActionLoader} =
+  const { register, handleSubmit, reset, control } = useForm();
+  const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
-  const handleGetSearchFacility = employee => {
+  const type = taskServer.path;
+
+  const handleGetSearchFacility = (employee) => {
     setSelectedEmployee(employee);
   };
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     if (selectedEmployee === null)
       return toast.warning("Please search and add an Employee");
 
@@ -54,19 +56,26 @@ const CRMAssignTask = ({closeModal, taskServer, taskState, type}) => {
 
     const documentId = taskState._id;
     await taskServer
-      .patch(documentId, {task: newTasks})
-      .then(res => {
+      .patch(documentId, { task: newTasks })
+      .then((res) => {
         hideActionLoader();
         //setContacts(res.contacts);
-        if (type === claims) {
-          setState(prev => ({
+
+        // console.log("===>>> response task", { type, res });
+        if (type === "claims") {
+          setState((prev) => ({
             ...prev,
-            ClaimsModule: {...prev.ClaimsModule, selectedClaim: res},
+            ClaimsModule: { ...prev.ClaimsModule, selectedClaim: res },
+          }));
+        } else if (type === "referral") {
+          setState((prev) => ({
+            ...prev,
+            ReferralModule: { ...prev.ReferralModule, selectedReferral: res },
           }));
         } else {
-          setState(prev => ({
+          setState((prev) => ({
             ...prev,
-            PreAuthModule: {...prev.PreAuthModule, selectedPreAuth: res},
+            PreAuthModule: { ...prev.PreAuthModule, selectedPreAuth: res },
           }));
         }
         closeModal();
@@ -76,7 +85,7 @@ const CRMAssignTask = ({closeModal, taskServer, taskState, type}) => {
         //setSuccess(true);
         //setReset(true);
       })
-      .catch(err => {
+      .catch((err) => {
         //setReset(false);
         hideActionLoader();
         toast.error(`Sorry, You weren't able to Assign a new Task!. ${err}`);
@@ -98,7 +107,7 @@ const CRMAssignTask = ({closeModal, taskServer, taskState, type}) => {
         <Grid item xs={12}>
           <Input
             important
-            register={register("title", {required: true})}
+            register={register("title", { required: true })}
             label="Title"
           />
         </Grid>
@@ -133,7 +142,7 @@ const CRMAssignTask = ({closeModal, taskServer, taskState, type}) => {
           <Textarea
             label="Additional Information"
             placeholder="Write here..."
-            register={register("information", {required: true})}
+            register={register("information", { required: true })}
             important
           />
         </Grid>
@@ -147,7 +156,7 @@ const CRMAssignTask = ({closeModal, taskServer, taskState, type}) => {
           color="success"
           onClick={handleSubmit(onSubmit)}
         >
-          <AssignmentIcon fontSize="small" sx={{marginRight: "5px"}} />
+          <AssignmentIcon fontSize="small" sx={{ marginRight: "5px" }} />
           Complete Assignment
         </GlobalCustomButton>
 

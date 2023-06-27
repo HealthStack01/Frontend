@@ -3,6 +3,7 @@ import client from "../../../../feathers";
 import { UserContext, ObjectContext } from "../../../../context";
 import { format, subDays, addDays } from "date-fns";
 import DatePicker from "react-datepicker";
+import dayjs from "dayjs";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import { PageWrapper } from "../../../../ui/styled/styles";
 import { TableMenu } from "../../../../ui/styled/global";
@@ -28,10 +29,18 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
     showCreate();
   };
 
-  console.log("===>>>> start one ", {});
-
   const handleRow = async (referral) => {
-    console.log("===>>>> HANDLE ROW from referral list", { referral });
+    setState((prev) => ({
+      ...prev,
+      ReferralModule: {
+        ...prev.ReferralModule,
+        selectedReferral: referral,
+      },
+      ClientModule: {
+        ...prev.ClientModule,
+        selectedClient: referral.client,
+      },
+    }));
     showDetail();
     setSelectedReferral(referral);
   };
@@ -140,7 +149,7 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
   };
 
   const getReferralList = useCallback(async () => {
-    console.log("===>>>> getlist ", {});
+    // console.log("===>>>> getlist ", {});
     setLoading(true);
     if (user.currentEmployee) {
       let query = {
@@ -150,15 +159,12 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
           createdAt: -1,
         },
       };
-      console.log("===>>>> starat one ", { query });
       const resp = await ReferralServ.find({ query: query });
 
       setReferralListData(resp.data);
       setLoading(false);
-      console.log("===>>>> response ", { resp });
-      //console.log(resp.data);
+      // console.log("===>>>> response  list", { resp });
     } else {
-      console.log("===>>>> user stacker one ", {});
       if (user.stacker) {
         const resp = await ReferralServ.find({
           query: {
@@ -177,213 +183,30 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
 
   useEffect(() => {
     getReferralList();
-  }, []);
+  }, [getReferralList]);
 
-  // const getFacilities = async () => {
-  //   console.log(user);
-  //   if (user.currentEmployee) {
-  //     let stuff = {
-  //       facility: user.currentEmployee.facilityDetail._id,
-  //       // locationId:state.employeeLocation.locationId,
-  //       $limit: 100,
-  //       $sort: {
-  //         createdAt: -1,
-  //       },
-  //     };
-  //     // if (state.employeeLocation.locationType !== "Front Desk") {
-  //     //   stuff.locationId = state.employeeLocation.locationId;
-  //     // }
-
-  //     const findClient = await ClientServ.find({ query: stuff });
-
-  //     await setFacilities(findClient.data);
-  //     console.log(findClient.data);
-  //   } else {
-  //     if (user.stacker) {
-  //       const findClient = await ClientServ.find({
-  //         query: {
-  //           $limit: 100,
-  //           $sort: {
-  //             createdAt: -1,
-  //           },
-  //         },
-  //       });
-
-  //       await setFacilities(findClient.data);
-  //     }
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (user) {
-  //     handleCalendarClose();
-  //   } else {
-  //     /* const localUser= localStorage.getItem("user")
-  //                   const user1=JSON.parse(localUser)
-  //                   console.log(localUser)
-  //                   console.log(user1)
-  //                   fetchUser(user1)
-  //                   console.log(user)
-  //                   getFacilities(user) */
-  //   }
-  //   ClientServ.on('created', (obj) => handleCalendarClose());
-  //   ClientServ.on('updated', (obj) => handleCalendarClose());
-  //   ClientServ.on('patched', (obj) => handleCalendarClose());
-  //   ClientServ.on('removed', (obj) => handleCalendarClose());
-  //   const newClient = {
-  //     selectedClient: {},
-  //     show: 'create',
-  //   };
-  //   setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
-  //   return () => {};
-  // }, []);
-  // const handleCalendarClose = async () => {
-  //   let query = {
-  //     start_time: {
-  //       $gt: subDays(startDate, 1),
-  //       $lt: addDays(startDate, 1),
-  //     },
-  //     facility: user.currentEmployee.facilityDetail._id,
-
-  //     $limit: 100,
-  //     $sort: {
-  //       createdAt: -1,
-  //     },
-  //   };
-  //   // if (state.employeeLocation.locationType !== "Front Desk") {
-  //   //   query.locationId = state.employeeLocation.locationId;
-  //   // }
-
-  //   const findClient = await ReferralServ.find({ query: query });
-
-  //   await setFacilities(findClient.data);
-  // };
-
-  // const handleDate = async (date) => {
-  //   setStartDate(date);
-  // };
-
-  // useEffect(() => {
-  //   if (!!startDate) {
-  //     handleCalendarClose();
-  //   } else {
-  //     getFacilities();
-  //   }
-
-  //   return () => {};
-  // }, [startDate]);
-  // //todo: pagination and vertical scroll bar
-
-  // const onRowClicked = () => {};
-
-  // const mapFacilities = () => {
-  //   let mapped = [];
-  //   facilities.map((facility, i) => {
-  //     mapped.push({
-  //       title: facility?.firstname + ' ' + facility?.lastname,
-  //       start: format(new Date(facility?.start_time), 'yyyy-MM-ddTHH:mm'),
-  //       end: facility?.end_time,
-  //       id: i,
-  //     });
-  //   });
-  //   return mapped;
-  // };
   const activeStyle = {
     backgroundColor: "#0064CC29",
     border: "none",
     padding: "0 .8rem",
   };
 
-  const dummyData = [
-    {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
-    },
-    {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
-    },
-    {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
-    },
-
-    {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
-    },
-    {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
-    },
-    {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
-    },
-    {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
-    },
-    {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
-    },
-  ];
-
   const ReferralSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "sn",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+      width: "60px",
+    },
     {
       name: "Date",
       key: "date",
       description: "Enter date",
-      selector: (row) => row.date,
+      selector: (row, i) => dayjs(row.createdAt).format("DD/MM/YYYY"),
       sortable: true,
       required: true,
       inputType: "DATE",
@@ -392,7 +215,7 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
       name: "Patients Name",
       key: "patients_name",
       description: "Enter patients name",
-      selector: (row) => row.patients_name,
+      selector: (row) => `${row.client?.lastname} ${row.client?.firstname}`,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -401,16 +224,24 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
       name: "Policy ID",
       key: "policy_id",
       description: "Enter policy ID",
-      selector: (row) => row.policy_id,
+      selector: (row) => {
+        const ObejectWithPolicy = row.client?.paymentinfo?.find((obj) =>
+          obj.hasOwnProperty("policy")
+        );
+        const policy = ObejectWithPolicy
+          ? ObejectWithPolicy.policy?.policyNo
+          : "";
+        return policy;
+      },
       sortable: true,
-      required: true,
+      required: false,
       inputType: "TEXT",
     },
     {
       name: "Referral Code",
-      key: "referral_code",
+      key: "referralNo",
       description: "Enter referral code",
-      selector: (row) => row.referral_code,
+      selector: (row) => row.referralNo,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -419,16 +250,16 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
       name: "Referral Provider",
       key: "referral_provider",
       description: "Enter referral provider",
-      selector: (row, i) => row.referral_provider,
+      selector: (row, i) => row.source_org?.facilityName,
       sortable: true,
       required: true,
-      inputType: "DATE",
+      inputType: "TEXT",
     },
     {
       name: "Destination Provider",
       key: "destination_provider",
       description: "Enter destination provider",
-      selector: (row, i) => row.destination_provider,
+      selector: (row, i) => row.dest_org?.facilityName,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -444,9 +275,9 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
     },
     {
       name: "Reason for Request",
-      key: "reason_for_request",
+      key: "referralReason",
       description: "Enter the reason for the request",
-      selector: (row, i) => row.reason_for_request,
+      selector: (row, i) => row.referralReason,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -554,7 +385,7 @@ export function ReferralList({ showDetail, showCreate, setSelectedReferral }) {
                 <CustomTable
                   title={""}
                   columns={ReferralSchema}
-                  data={dummyData}
+                  data={referralListData}
                   pointerOnHover
                   highlightOnHover
                   striped

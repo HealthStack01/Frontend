@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 
-import {LocalizationProvider} from "@mui/x-date-pickers";
-import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
-import {AnimatePresence} from "framer-motion";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { AnimatePresence } from "framer-motion";
 import gsap from "gsap";
-import {BrowserRouter as Router} from "react-router-dom";
-import {ToastContainer} from "react-toastify";
-import {ThemeProvider} from "styled-components";
+import { BrowserRouter as Router } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import { ThemeProvider } from "styled-components";
 import MyUserProvider from "./context";
-import {UserContext, ObjectContext} from "./context";
+import { UserContext, ObjectContext } from "./context";
 /* import { ObjectProvider, UserProvider } from './context/context'; */
 import AppRoutes from "./hsmodules/routes";
-import {GlobalStyle} from "./ui/styled/global";
-import {darkTheme, lightTheme} from "./ui/styled/theme";
+import { GlobalStyle } from "./ui/styled/global";
+import { darkTheme, lightTheme } from "./ui/styled/theme";
 import ActionLoader from "./components/action-loader/Action-Loader";
 
 function App() {
@@ -49,6 +49,12 @@ function App() {
     },
     PreAuthModule: {
       selectedPreAuth: {},
+      selectedService: {},
+      selectedClient: {},
+    },
+    ReferralModule: {
+      selectedReferral: {},
+      show: "list",
       selectedService: {},
       selectedClient: {},
     },
@@ -306,7 +312,7 @@ function App() {
   });
 
   useEffect(() => {
-    gsap.to("body", 0, {css: {visibility: "visible"}});
+    gsap.to("body", 0, { css: { visibility: "visible" } });
   }, []);
 
   const [theme] = useState("light");
@@ -316,22 +322,22 @@ function App() {
   // };
 
   const showActionLoader = (message = "") => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
-      actionLoader: {open: true, message: message},
+      actionLoader: { open: true, message: message },
     }));
   };
   const hideActionLoader = () => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
-      actionLoader: {open: false, message: ""},
+      actionLoader: { open: false, message: "" },
     }));
   };
 
   const toggleSideMenu = () => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
-      sideMenu: {open: !prev.sideMenu.open},
+      sideMenu: { open: !prev.sideMenu.open },
     }));
   };
 

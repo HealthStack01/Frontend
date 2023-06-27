@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 import { formatDistanceToNowStrict } from "date-fns";
 import ClientFinInfo from "./ClientFinInfo";
 import BillServiceCreate from "../Finance/BillServiceCreate";
-import Invoice from "./Invoice"
 import { AppointmentCreate } from "../Appointment/generalAppointment";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ClientBilledPrescription from "../Finance/ClientBill";
@@ -24,6 +23,7 @@ import {
   EnrolleSchema3,
   EnrolleSchema4,
   EnrolleSchema5,
+  EnrolleSchemaProvider,
   principalData,
 } from "./schema";
 import "react-datepicker/dist/react-datepicker.css";
@@ -73,7 +73,7 @@ import axios from "axios";
 import { FileUploader } from "react-drag-drop-files";
 import MuiDateTimePicker from "../../components/inputs/DateTime/MuiDateTimePicker";
 import { ProviderPrintId } from "./components/PrintId";
-import InvoicePlanList from "./components/invoice/InvoicePlanList"
+//import {PolicyDetail} from "./Policy";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -1273,7 +1273,6 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [showInvoice, setShowInvoice]=useState(false);
 
   const handleCreateNew = async () => {
     const newClientModule = {
@@ -1303,64 +1302,91 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
 
   const handleSearch = (val) => {
     // eslint-disable-next-line
+            if (val.length<3){
+              return
+            }
     const field = "firstname";
     console.log(val);
-    ClientServ.find({
+    const findClient= ClientServ.find(
+      {
       query: {
-        $or: [
-          {
-            firstname: {
+         $or: [
+          {policyNo:{
+            $regex: val,
+            $options: "i",
+          }},
+          {'principal.lastname':{
+            $regex: val,
+            $options: "i",
+          }},
+          {status:{
+            $regex: val,
+            $options: "i",
+          }},
+    
+            {'principal.firstname':{
               $regex: val,
               $options: "i",
-            },
-          },
-          {
-            lastname: {
+            }},
+         /*  {           
+            'dependantBeneficiaries.type': {
               $regex: val,
               $options: "i",
-            },
-          },
-          {
-            middlename: {
+            }},
+            {           
+              'principal.type': {
+                $regex: val,
+                $options: "i",
+              }}, */
+            {           
+              'dependantBeneficiaries.firstname': {
+                  $regex: val,
+                  $options: "i",
+                }},
+            {           
+              'dependantBeneficiaries.lastname': {
+                  $regex: val,
+                  $options: "i",
+                  }},
+
+           /* {        
+             'sponsor.facilityName': {
               $regex: val,
               $options: "i",
-            },
-          },
-          {
-            phone: {
+            }}, 
+            {       
+            sponsorshipType: {
               $regex: val,
               $options: "i",
-            },
-          },
-          {
-            clientTags: {
+            }},
+            {        
+            planType: {
               $regex: val,
               $options: "i",
-            },
-          },
-          {
-            mrn: {
+            }},  */       
+            { 'plan.planName':{
               $regex: val,
               $options: "i",
-            },
-          },
-          {
-            email: {
-              $regex: val,
-              $options: "i",
-            },
-          },
-          {
-            specificDetails: {
-              $regex: val,
-              $options: "i",
-            },
-          },
-          { gender: val },
+            }},
+           /*  {
+              'providers.facilityName':{
+                  $regex: val,
+                  $options: "i",
+                }}, */
+        /*   { 'principal.gender': val },
+          { 'dependantBeneficiaries.gender': val },  */
         ],
 
-        "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
-        $limit: limit,
+        $or: [
+          {
+            'sponsor._id': user.currentEmployee.facilityDetail._id,
+          },
+          {
+            'sponsor.facilityName': user.currentEmployee.facilityDetail.facilityName,
+          },
+
+        ],
+      
         $sort: {
           createdAt: -1,
         },
@@ -1368,7 +1394,57 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
     })
       .then((res) => {
         console.log(res);
-        setFacilities(res.data);
+        let data = res.data;
+        console.log("policies",data)
+       
+
+    
+  
+        let list = [];
+        if (data.length>0){
+        data.map((item) => {
+          item.principal.principal = item.principal;
+          item.principal.organizationName = item.organizationName;
+          // item.principal.dependantBeneficiaries = item.dependantBeneficiaries;
+          item.principal.plan = item.plan;
+          item.principal.detail = {
+            policyNo: item?.policyNo,
+            sponsor: item?.sponsor,
+            plan: item?.plan,
+            clientType: "Principal",
+            sponsortype: item?.sponsorshipType,
+            approved: item?.approved,
+          };
+  
+          item.principal.organization = {
+            ...item?.sponsor?.facilityDetail,
+          };
+  
+          list.push(item.principal);
+  
+          item.dependantBeneficiaries.map((benf) => {
+            benf.detail = {
+              policyNo: item.policyNo,
+              sponsor: item.sponsor,
+              plan: item.plan,
+              clientType: "Dependant",
+              sponsortype: item?.sponsorshipType,
+              approved: item?.approved,
+            };
+            benf.organizationName = item.organizationName;
+  
+            benf.plan = item.plan;
+            benf.facilityDetail = {
+              ...item?.sponsor?.facilityDetail,
+            };
+            benf.principal = benf;
+            list.push(benf);
+          });
+        });
+      }
+        setFacilities(list);
+  
+       setTotal(findClient.total);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
@@ -1423,8 +1499,16 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       // const findClient= await ClientServ.find()
       const findClient = await ClientServ.find({
         query: {
-         /*  organizationId: , */
-          spondor:user.currentEmployee.facilityDetail._id,
+         /*  organizationId: user.currentEmployee.facilityDetail._id, */
+         $or: [
+          {
+            'sponsor._id': user.currentEmployee.facilityDetail._id,
+          },
+          {
+            'sponsor.facilityName': user.currentEmployee.facilityDetail.facilityName,
+          },
+
+        ],
           $sort: {
             createdAt: -1,
           },
@@ -1432,9 +1516,11 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       });
 
       let data = findClient.data;
+     // console.log("policies",data)
 
       let list = [];
       data.map((item) => {
+        console.log(item)
         item.principal.principal = item.principal;
         item.principal.organizationName = item.organizationName;
         // item.principal.dependantBeneficiaries = item.dependantBeneficiaries;
@@ -1459,7 +1545,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
             policyNo: item.policyNo,
             sponsor: item.sponsor,
             plan: item.plan,
-            clientType: "Dependant",
+            clientType: "Dependent",
             sponsortype: item?.sponsorshipType,
             approved: item?.approved,
           };
@@ -1496,15 +1582,11 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
   };
 
   useEffect(() => {
-    if (user) {
-      //getFacilities()
-      rest();
-    } else {
-    }
-    ClientServ.on("created", (obj) => rest());
-    ClientServ.on("updated", (obj) => rest());
-    ClientServ.on("patched", (obj) => rest());
-    ClientServ.on("removed", (obj) => rest());
+    getFacilities()
+    ClientServ.on("created", (obj) => getFacilities());
+    ClientServ.on("updated", (obj) => getFacilities());
+    ClientServ.on("patched", (obj) =>getFacilities());
+    ClientServ.on("removed", (obj) =>getFacilities());
     return () => {};
     // eslint-disable-next-line
   }, []);
@@ -1522,9 +1604,9 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
     //  await setRestful(false)
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     return () => {};
-  }, [facilities]);
+  }, [facilities]); */
   //todo: pagination and vertical scroll bar
 
   const BeneficiarySchema = [
@@ -1644,20 +1726,10 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
     },
   ];
 
-  console.log("Facilities", facilities)
+  
 
   return (
     <>
-     <ModalBox
-        open={showInvoice}
-        onClose={() => {
-          setShowInvoice(false);
-       
-        }}
-        header="Available Plans"
-      >
-        <InvoicePlanList />
-      </ModalBox>
       <div
         className="level"
         style={{
@@ -1665,7 +1737,6 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
           margin: "0 1rem",
         }}
       >
-        <TableMenu>
         <div style={{ display: "flex", alignItems: "center" }}>
           {handleSearch && (
             <div className="inner-table">
@@ -1673,27 +1744,22 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
             </div>
           )}
           <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
-            List of Beneficiaries
+            List of Beneficiary
           </h2>
         </div>
-        <div style={{ display: "flex", alignItems: "center" , flexDirection:"row"}}>
-       
-           <GlobalCustomButton
-                color="info"
-                onClick={() => setShowInvoice(true)}
-                sx={{ marginRight: "15px" }}
-              >
-                Send Link
-              </GlobalCustomButton>
-        
-        
-        </div>
-       </TableMenu>
-         <div
+        {handleCreateNew && (
+          <Button
+            style={{ fontSize: "14px", fontWeight: "600px" }}
+            label="Add New"
+            onClick={handleCreateNew}
+            showicon={true}
+          />
+        )}
+        <div
           className="level"
           style={{
             height: "80vh",
-            overflowY: "scroll",
+            overflow: "scroll",
           }}
         >
           <CustomTable
@@ -1706,7 +1772,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
             onRowClicked={handleRow}
             progressPending={loading}
           />
-        </div> 
+        </div>
       </div>
     </>
   );
@@ -2542,28 +2608,28 @@ export function ClientModify({ showModal, setShowModal }) {
               />
             </Box>
             <Grid container spacing={1}>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <Input
                   label="First Name"
                   register={register("firstname")}
                   // errorText={errors?.firstname?.message}
                 />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <Input
                   label="Middle Name"
                   register={register("middlename")}
                   // errorText={errors?.middlename?.message}
                 />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <Input
                   label="Last Name"
                   register={register("lastname")}
                   // errorText={errors?.lastname?.message}
                 />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <Input
                   label="Phone"
                   register={register("phone")}
@@ -2571,7 +2637,7 @@ export function ClientModify({ showModal, setShowModal }) {
                   // errorText={errors?.phone?.message}
                 />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <Input
                   label="Email"
                   register={register("email")}
@@ -2579,7 +2645,7 @@ export function ClientModify({ showModal, setShowModal }) {
                   // errorText={errors?.email?.message}
                 />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <MuiDateTimePicker
                   label="Dob"
                   name="dob"
@@ -2587,7 +2653,7 @@ export function ClientModify({ showModal, setShowModal }) {
                   // errorText={errors?.dob?.message}
                 />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <CustomSelect
                   label="Gender"
                   register={register("gender", { required: true })}
@@ -2598,7 +2664,7 @@ export function ClientModify({ showModal, setShowModal }) {
                   // errorText={errors?.gender?.message}
                 />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <CustomSelect
                   label="Marital Status"
                   register={register("maritalstatus")}
@@ -2610,16 +2676,16 @@ export function ClientModify({ showModal, setShowModal }) {
                   ]}
                 />
               </Grid>
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input
                   label="Medical record Number"
                   register={register("mrn")}
                 />
               </Grid>
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input label="Religion" register={register("religion")} />
               </Grid>
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input label="Profession" register={register("profession")} />
               </Grid>
               <Grid item lg={6} md={6} sm={12}>
@@ -2632,33 +2698,33 @@ export function ClientModify({ showModal, setShowModal }) {
                   register={register("address")}
                 />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <Input label="Town" register={register("city")} />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <Input label="State" register={register("state")} />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <Input label="Country" register={register("country")} />
               </Grid>
               <Grid item xs={12}>
                 <FormsHeaderText text="Client Medical Data" />
               </Grid>
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input label="Blood Group" register={register("bloodgroup")} />
               </Grid>
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input label="Genotype" register={register("genotype")} />
               </Grid>
 
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input
                   label="Disabilities"
                   register={register("disabilities")}
                 />
               </Grid>
 
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input label="Allergies" register={register("allergies")} />
               </Grid>
               <Grid item xs={12}>
@@ -2667,20 +2733,20 @@ export function ClientModify({ showModal, setShowModal }) {
               <Grid item lg={6} md={6} sm={12}>
                 <Input label="Full Name" register={register("nok_name")} />
               </Grid>
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input
                   label="Phone Number"
                   register={register("nok_phoneno")}
                 />
               </Grid>
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input
                   label=" Email"
                   register={register("nok_email")}
                   type="email"
                 />
               </Grid>
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input
                   label="Relationship"
                   register={register("nok_relationship")}
@@ -2972,7 +3038,26 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       // const findClient= await ClientServ.find()
       const findClient = await ClientServ.find({
         query: {
-          organization: user.currentEmployee.facilityDetail,
+          
+          $or: [
+            {
+              'principal._id': standAlone,
+            },
+            {
+              'dependantBeneficiaries._id': standAlone,
+            },
+  
+          ],
+         //limit by sponsorid
+         $or: [
+          {
+            'sponsor._id': user.currentEmployee.facilityDetail._id,
+          },
+          {
+            'sponsor.facilityName': user.currentEmployee.facilityDetail.facilityName,
+          },
+
+        ],
           $sort: {
             createdAt: -1,
           },
@@ -2988,7 +3073,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       await setTotal(findClient.total);
       //console.log(user.currentEmployee.facilityDetail._id, state)
       //console.log(facilities)
-      setPage((page) => page + 1);
+    
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
@@ -3006,41 +3091,16 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
   };
 
   useEffect(() => {
-    if (user) {
-      //getFacilities()
-      rest();
-    } else {
-      /* const localUser= localStorage.getItem("user")
-                     const user1=JSON.parse(localUser)
-                     console.log(localUser)
-                     console.log(user1)
-                     fetchUser(user1)
-                     console.log(user)
-                     getFacilities(user) */
-    }
-    ClientServ.on("created", (obj) => rest());
-    ClientServ.on("updated", (obj) => rest());
-    ClientServ.on("patched", (obj) => rest());
-    ClientServ.on("removed", (obj) => rest());
+    getFacilities ()
+    ClientServ.on("created", (obj) => getFacilities ());
+    ClientServ.on("updated", (obj) => getFacilities ());
+    ClientServ.on("patched", (obj) =>getFacilities ());
+    ClientServ.on("removed", (obj) => getFacilities ());
     return () => {};
     // eslint-disable-next-line
   }, []);
-  const rest = async () => {
-    // console.log("starting rest")
-    // await setRestful(true)
-    await setPage(0);
-    //await  setLimit(2)
-    await setTotal(0);
-    await setFacilities([]);
-    await getFacilities();
-    //await  setPage(0)
-    //  await setRestful(false)
-  };
-
-  useEffect(() => {
-    //console.log(facilities)
-    return () => {};
-  }, [facilities]);
+ 
+ 
   //todo: pagination and vertical scroll bar
   const PolicySchema = [
     {
@@ -3242,10 +3302,10 @@ export function PolicyDetail({ showModal, setShowModal }) {
       policy_tag: Client?.principal?.clientTags,
       familyPremium: Client.plan?.premiums?.[0]?.familyPremium,
       individualPremium: Client.plan?.premiums?.[0]?.individualPremium,
-      sponsor_name: Client.sponsor?.organizationDetail?.facilityName,
-      sponsor_phone: Client.sponsor?.organizationDetail?.facilityContactPhone,
-      sponsor_email: Client.sponsor?.organizationDetail?.facilityEmail,
-      sponsor_address: Client.sponsor?.organizationDetail?.facilityAddress,
+      sponsor_name: Client.sponsor?.facilityName,
+      sponsor_phone: Client.sponsor?.facilityContactPhone,
+      sponsor_email: Client.sponsor?.facilityEmail,
+      sponsor_address: Client.sponsor?.facilityAddress,
     };
     reset(initFormValue);
   }, [state.ManagedCareModule.selectedClient]);
@@ -3361,7 +3421,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
               }}
             >
               <Grid container spacing={1} mt={1}>
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <Input
                     register={register("policyNo", { required: true })}
                     label="Policy No."
@@ -3369,14 +3429,14 @@ export function PolicyDetail({ showModal, setShowModal }) {
                   />
                 </Grid>
 
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <Input
                     register={register("phone", { required: true })}
                     label="Phone"
                     disabled
                   />
                 </Grid>
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <Input
                     register={register("sponsorship_type", { required: true })}
                     label="Sponsorship Type"
@@ -3384,7 +3444,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                     //placeholder="Enter customer number"
                   />
                 </Grid>
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <Input
                     register={register("plan_type", { required: true })}
                     label="Plan Type"
@@ -3392,7 +3452,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                     //placeholder="Enter customer number"
                   />
                 </Grid>
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <Input
                     register={register("status", { required: true })}
                     label="Status"
@@ -3402,7 +3462,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                   />
                 </Grid>
 
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <Input
                     register={register("policy_tag")}
                     label="Policy Tag"
@@ -3411,7 +3471,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                   />
                 </Grid>
 
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <Input
                     register={register("familyPremium", { required: true })}
                     label="Family Premium"
@@ -3419,7 +3479,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                     //placeholder="Enter customer number"
                   />
                 </Grid>
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <Input
                     register={register("individualPremium", { required: true })}
                     label="Individual Premium"
@@ -3427,7 +3487,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                     //placeholder="Enter customer number"
                   />
                 </Grid>
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <MuiCustomDatePicker
                     label="Start Date"
                     name="start_date"
@@ -3435,7 +3495,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                     disabled={!editPolicy}
                   />
                 </Grid>
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <MuiCustomDatePicker
                     label="End Date"
                     name="end_date"
@@ -3456,7 +3516,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                 <>
                   <FormsHeaderText text="Sponsor Details" />
                   <Grid container spacing={1}>
-                    <Grid item lg={6} md={6} sm={6}>
+                    <Grid item lg={6} md={6} sm={6}  xs={12}>
                       <Input
                         register={register("sponsor_name")}
                         label="Sponsor Name"
@@ -3465,7 +3525,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                         //placeholder="Enter customer number"
                       />
                     </Grid>
-                    <Grid item lg={6} md={6} sm={6}>
+                    <Grid item lg={6} md={6} sm={6}  xs={12}>
                       <Input
                         register={register("sponsor_phone")}
                         label="Sponsor Phone"
@@ -3474,7 +3534,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                         //placeholder="Enter customer number"
                       />
                     </Grid>
-                    <Grid item lg={6} md={6} sm={6}>
+                    <Grid item lg={6} md={6} sm={6}  xs={12}>
                       <Input
                         register={register("sponsor_email")}
                         label="Sponsor Email"
@@ -3483,7 +3543,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                         //placeholder="Enter customer numbe"
                       />
                     </Grid>
-                    <Grid item lg={6} md={6} sm={6}>
+                    <Grid item lg={6} md={6} sm={6} >
                       <Input
                         register={register("sponsor_address")}
                         label="Sponsor Address"
@@ -3535,7 +3595,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                 <FormsHeaderText text="Provider List" />
                 <CustomTable
                   title={""}
-                  columns={EnrolleSchema4}
+                  columns={EnrolleSchemaProvider}
                   data={facility?.providers}
                   pointerOnHover
                   highlightOnHover
