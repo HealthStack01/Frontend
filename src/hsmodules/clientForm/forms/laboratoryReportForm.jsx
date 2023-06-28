@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 import client from "../../../feathers";
 import Encounter from "../../Documentation/Documentation";
 import { UserContext, ObjectContext } from "../../../context";
@@ -9,6 +11,8 @@ import Textarea from "../../../components/inputs/basic/Textarea/index";
 import RadioButton from "../../../components/inputs/basic/Radio/index";
 import MuiCustomDatePicker from "../../../components/inputs/Date/MuiDatePicker";
 import ModalHeader from "../../Appointment/ui-components/Heading/modalHeader/index";
+import { FormsHeaderText } from "../../../components/texts";
+import CustomTable from "../../../components/customtable";
 import {
   Box,
   Grid,
@@ -1225,7 +1229,14 @@ export function Serology() {
 }
 
 export function Biochemistry() {
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    control,
+    formState: { errors },
+  } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -1243,32 +1254,6 @@ export function Biochemistry() {
   const ClientServ = client.service("labresults");
   const order = state.financeModule.selectedFinance;
   const bill_report_status = state.financeModule.report_status;
-  const [glucoseFasting, setGlucoseFasting] = useState("");
-  const [glucoseRandom, setGlucoseRandom] = useState("");
-  const [urea, setUrea] = useState("");
-  const [creatinine, setCreatinine] = useState("");
-  const [uricAcid, setUricAcid] = useState("");
-  const [sodium, setSodium] = useState("");
-  const [potassium, setPotassium] = useState("");
-  const [bicarbonate, setBicarbonate] = useState("");
-  const [chloride, setChloride] = useState("");
-  const [totalProtein, setTotalProtein] = useState("");
-  const [albumin, setAlbumin] = useState("");
-  const [tBilirubin, setTBilirubin] = useState("");
-  const [dBillirubin, setDBillirubin] = useState("");
-  const [cholesterol, setCholesterol] = useState("");
-  const [triglycerides, setTriglycerides] = useState("");
-  const [phos, setPhos] = useState("");
-  const [calcium, setCalcium] = useState("");
-  const [sgot, setSgot] = useState("");
-  const [sgpt, setSgpt] = useState("");
-  const [ogtt, setOgtt] = useState("");
-  const [alkPhos, setAlkPhos] = useState("");
-  const [acidPhos, setAcidPhos] = useState("");
-  const [adh, setAdh] = useState("");
-  const [apk, setApk] = useState("");
-  const [amylase, setAmylase] = useState("");
-
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
 
   useEffect(() => {
@@ -1331,7 +1316,7 @@ export function Biochemistry() {
     setSuccess(false);
     let document = {};
     // data.createdby=user._id
-    //  console.log(data);
+    console.log("===>> form data", { data });
     if (user.currentEmployee) {
       document.facility = user.currentEmployee.facilityDetail._id;
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
@@ -1462,609 +1447,160 @@ export function Biochemistry() {
   };
   return (
     <>
-      <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <p style={{ fontWeight: "700" }} className="label is-small">
-            BIOCHEMISTRY
-          </p>
-          <Grid container spacing={1} mt={1}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <p
+          style={{ fontWeight: "700", marginBottom: "2px" }}
+          className="label is-small"
+        >
+          BIOCHEMISTRY
+        </p>
+
+        {/* specimen details field */}
+        <Grid container spacing={0.1} mt={1}>
+          <Typography
+            variant="p"
+            sx={{
+              color: "blue",
+              fontSize: "14px",
+              fontWeight: "bold",
+              marginBottom: "4px",
+            }}
+          >
+            SPECIMEN Details
+          </Typography>
+          <Grid container spacing={2} alignItems="center">
             <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="glucoseFasting"
-                  type="text"
-                  {...register("glucoseFasting")}
-                  onChange={(e) => setGlucoseFasting(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="glucoseFasting" style={labelStyle}>
-                  GLUCOSE (FASTING) (MG/DL), Range: 60-120
-                </label>
-              </InputBox>
-              {glucoseFasting < 60 || glucoseFasting > 120 ? (
-                <p style={{ color: "red" }}>
-                  {glucoseFasting < 60 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="glucoseRandom"
-                  type="text"
-                  {...register("glucoseRandom")}
-                  onChange={(e) => setGlucoseRandom(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="glucoseRandom" style={labelStyle}>
-                  GLUCOSE (RANDOM) (MG/DL), Range: 60-180
-                </label>
-              </InputBox>
-              {glucoseRandom < 60 || glucoseRandom > 180 ? (
-                <p style={{ color: "red" }}>
-                  {glucoseRandom < 60 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="urea"
-                  type="text"
-                  {...register("urea")}
-                  onChange={(e) => setUrea(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="urea" style={labelStyle}>
-                  UREA (MG/DL), Range: 10-55
-                </label>
-              </InputBox>
-              {urea < 10 || urea > 55 ? (
-                <p style={{ color: "red" }}>
-                  {urea < 10 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="creatinine"
-                  type="text"
-                  {...register("creatinine")}
-                  onChange={(e) => setCreatinine(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="creatinine" style={labelStyle}>
-                  CREATININE (MG/DL), Range: 0.6-1.2
-                </label>
-              </InputBox>
-              {creatinine < 0.6 || creatinine > 1.2 ? (
-                <p style={{ color: "red" }}>
-                  {creatinine < 0.6 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="uricAcid"
-                  type="text"
-                  {...register("uricAcid")}
-                  onChange={(e) => setUricAcid(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="uricAcid" style={labelStyle}>
-                  URIC ACID (MG/DL), Range: 2.5-7.7
-                </label>
-              </InputBox>
-              {uricAcid < 2.5 || uricAcid > 7.7 ? (
-                <p style={{ color: "red" }}>
-                  {uricAcid < 2.5 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="sodium"
-                  type="text"
-                  {...register("sodium")}
-                  onChange={(e) => setSodium(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="sodium" style={labelStyle}>
-                  SODIUM (MMOL/L), Range: 135-150
-                </label>
-              </InputBox>
-              {sodium < 135 || sodium > 150 ? (
-                <p style={{ color: "red" }}>
-                  {sodium < 135 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="potassium"
-                  type="text"
-                  {...register("potassium")}
-                  onChange={(e) => setPotassium(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="potassium" style={labelStyle}>
-                  POTASSIUM (MMOL/L), Range: 3.5-5.1
-                </label>
-              </InputBox>
-              {potassium < 3.5 || potassium > 5.1 ? (
-                <p style={{ color: "red" }}>
-                  {potassium < 3.5 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="bicarbonate"
-                  type="text"
-                  {...register("bicarbonate")}
-                  onChange={(e) => setBicarbonate(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="bicarbonate" style={labelStyle}>
-                  BICARBONATE (MMOL/L), Range: 21-29
-                </label>
-              </InputBox>
-              {bicarbonate < 21 || bicarbonate > 29 ? (
-                <p style={{ color: "red" }}>
-                  {bicarbonate < 21 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="chloride"
-                  type="text"
-                  {...register("chloride")}
-                  onChange={(e) => setChloride(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="chloride" style={labelStyle}>
-                  CHLORIDE (MMOL/L), Range: 98-107
-                </label>
-              </InputBox>
-              {chloride < 98 || chloride > 107 ? (
-                <p style={{ color: "red" }}>
-                  {chloride < 98 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="totalProtein"
-                  type="text"
-                  {...register("totalProtein")}
-                  onChange={(e) => setTotalProtein(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="totalProtein" style={labelStyle}>
-                  TOTAL PROTEIN (G/DL), Range: 6.2-8.0
-                </label>
-              </InputBox>
-              {totalProtein < 6.2 || totalProtein > 8.0 ? (
-                <p style={{ color: "red" }}>
-                  {totalProtein < 6.2 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="albumin"
-                  type="text"
-                  {...register("albumin")}
-                  onChange={(e) => setAlbumin(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="albumin" style={labelStyle}>
-                  ALBUMIN (G/DL), Range: 3.5-5.5
-                </label>
-              </InputBox>
-              {albumin < 3.5 || albumin > 5.5 ? (
-                <p style={{ color: "red" }}>
-                  {albumin < 3.5 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="tbilirubin"
-                  type="text"
-                  {...register("tbilirubin")}
-                  onChange={(e) => setTBilirubin(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="tbilirubin" style={labelStyle}>
-                  TOTAL BILIRUBIN (Mg/DL), Range: 0.12
-                </label>
-              </InputBox>
-              {tBilirubin < 0.12 ? (
-                <p style={{ color: "red" }}>
-                  <span>Low</span>
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="dbilirubin"
-                  type="text"
-                  {...register("dbilirubin")}
-                  onChange={(e) => setDBillirubin(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="dbilirubin" style={labelStyle}>
-                  DIRECT BILIRUBIN (Mg/100ML), Range: 0-0.4
-                </label>
-              </InputBox>
-              {dBillirubin < 0 || dBillirubin > 0.4 ? (
-                <p style={{ color: "red" }}>
-                  {dBillirubin < 0 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="cholesterol"
-                  type="text"
-                  {...register("cholesterol")}
-                  onChange={(e) => setCholesterol(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="cholesterol" style={labelStyle}>
-                  CHOLESTEROL (MG/100ML), Range: 150-200
-                </label>
-              </InputBox>
-              {cholesterol < 150 || cholesterol > 200 ? (
-                <p style={{ color: "red" }}>
-                  {cholesterol < 150 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="triglyceride"
-                  type="text"
-                  {...register("triglyceride")}
-                  onChange={(e) => setTriglycerides(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="triglyceride" style={labelStyle}>
-                  TRIGLYCERIDE (MG/100ML), Range: 100-150
-                </label>
-              </InputBox>
-              {triglycerides < 100 || triglycerides > 150 ? (
-                <p style={{ color: "red" }}>
-                  {triglycerides < 100 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="phos"
-                  type="text"
-                  {...register("phos")}
-                  onChange={(e) => setPhos(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="phos" style={labelStyle}>
-                  PHOSPHORUS (MG/DL), Range: 2.5-4.5
-                </label>
-              </InputBox>
-              {phos < 2.5 || phos > 4.5 ? (
-                <p style={{ color: "red" }}>
-                  {phos < 2.5 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="calcium"
-                  type="text"
-                  {...register("calcium")}
-                  onChange={(e) => setCalcium(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="calcium" style={labelStyle}>
-                  CALCIUM (MG/DL), Range: 8.8-10.2
-                </label>
-              </InputBox>
-              {calcium < 8.8 || calcium > 10.2 ? (
-                <p style={{ color: "red" }}>
-                  {calcium < 8.8 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="sgot"
-                  type="text"
-                  {...register("sgot")}
-                  onChange={(e) => setSgot(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="sgot" style={labelStyle}>
-                  SGOT (U/L), Range: 0-46
-                </label>
-              </InputBox>
-              {sgot < 0 || sgot > 46 ? (
-                <p style={{ color: "red" }}>
-                  {sgot < 0 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="sgpt"
-                  type="text"
-                  {...register("sgpt")}
-                  onChange={(e) => setSgpt(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="sgpt" style={labelStyle}>
-                  SGPT (U/L), Range: 0-49
-                </label>
-              </InputBox>
-              {sgpt < 0 || sgpt > 49 ? (
-                <p style={{ color: "red" }}>
-                  {sgpt < 0 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="ogtt"
-                  type="text"
-                  {...register("ogtt")}
-                  onChange={(e) => setOgtt(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="ogtt" style={labelStyle}>
-                  OGTT (MG/DL), Range: 6-30
-                </label>
-              </InputBox>
-              {ogtt < 6 || ogtt > 30 ? (
-                <p style={{ color: "red" }}>
-                  {ogtt < 6 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="alkphos"
-                  type="text"
-                  {...register("alkphos")}
-                  onChange={(e) => setAlkPhos(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="alkphos" style={labelStyle}>
-                  ALKALINE PHOSPHATASE (U/L), Range: 64-306
-                </label>
-              </InputBox>
-              {alkPhos < 64 || alkPhos > 306 ? (
-                <p style={{ color: "red" }}>
-                  {alkPhos < 64 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="acidphos"
-                  type="text"
-                  {...register("acidphos")}
-                  onChange={(e) => setAcidPhos(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="acidphos" style={labelStyle}>
-                  ACID PHOSPHATASE (U/L), Range: 0-0.81
-                </label>
-              </InputBox>
-              {acidPhos < 0 || acidPhos > 0.81 ? (
-                <p style={{ color: "red" }}>
-                  {acidPhos < 0 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="adh"
-                  type="text"
-                  {...register("adh")}
-                  onChange={(e) => setAdh(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="adh" style={labelStyle}>
-                  ADH (U/L), Range: 160-320
-                </label>
-              </InputBox>
-              {adh < 160 || adh > 320 ? (
-                <p style={{ color: "red" }}>
-                  {adh < 160 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="apk"
-                  type="text"
-                  {...register("apk")}
-                  onChange={(e) => setApk(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="apk" style={labelStyle}>
-                  APK (U/L), Range: 15-130
-                </label>
-              </InputBox>
-              {apk < 15 || apk > 130 ? (
-                <p style={{ color: "red" }}>
-                  {apk < 15 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <InputBox>
-                <input
-                  name="amylase"
-                  type="text"
-                  {...register("amylase")}
-                  onChange={(e) => setAmylase(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="amylase" style={labelStyle}>
-                  AMYLASE (U/L), Range: 30-125
-                </label>
-              </InputBox>
-              {amylase < 30 || amylase > 125 ? (
-                <p style={{ color: "red" }}>
-                  {amylase < 30 ? <span>Low</span> : <span>High</span>}
-                </p>
-              ) : (
-                <p style={{ color: "green" }}>Normal</p>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <InputBox>
-                <input
-                  name="Recommendation"
-                  type="text"
-                  {...register("Recommendation")}
-                  onChange={(e) => setAmylase(e.target.value)}
-                  style={inputStyle}
-                />
-                <label htmlFor="amylase" style={labelStyle}>
-                  Recommendation
-                </label>
-              </InputBox>
-            </Grid>
-            <Grid item xs={12} sm={1}>
-              <input
-                type="radio"
-                name="status"
-                value="Draft"
-                checked={reportStatus === "Draft" || reportStatus === "Pending"}
-                onChange={(e) => {
-                  handleChangePart(e);
-                }}
-                disabled={bill_report_status === "Final"}
-                style={{
-                  margin: "0 1rem",
-                }}
+              <Input
+                label="Specimen"
+                name="specimen"
+                type="text"
+                register={register("specimen", { required: false })}
               />
-              <span
-                style={{
-                  fontSize: "1rem",
-                }}
-              >
-                {" "}
-                Draft
-              </span>
-            </Grid>{" "}
-            <Grid item xs={12} sm={1}>
-              <input
-                type="radio"
-                name="status"
-                value="Final"
-                checked={reportStatus === "Final"}
-                onChange={(e) => handleChangePart(e)}
-                disabled={bill_report_status === "Final"}
-                style={{
-                  margin: "0 1rem",
-                }}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                label="Date Of Request"
+                name="request_date"
+                type="text"
+                register={register("request_date", { required: true })}
+                defaultValue={order.createdAt}
               />
-              <span
-                style={{
-                  fontSize: "1rem",
-                }}
-              >
-                {" "}
-                Final{" "}
-              </span>
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <MuiCustomDatePicker
+                control={control}
+                label="Date Of Collection"
+                name="collection_date"
+                required={true}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                label="Time Of Collection"
+                name="collection_time"
+                type="time"
+                register={register("collection_time", { required: false })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                label="Volume"
+                name="volume"
+                type="text"
+                register={register("volume", { required: false })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                label="LMP"
+                name="lmp"
+                type="text"
+                register={register("lmp", { required: false })}
+              />
             </Grid>
           </Grid>
-          <Grid container spacing={2} mt={1}>
-            <Grid item xs={12} sm={12}>
-              {bill_report_status !== "Final" && (
-                <GlobalCustomButton
-                  text={bill_report_status === "Pending" ? "Save" : "Update"}
-                  onClick={handleSubmit(onSubmit)}
-                  color="success"
-                />
-              )}
-            </Grid>
+        </Grid>
+
+        {/* Culture & Sensitivity Result field */}
+        <Grid container spacing={1} mt={2}>
+          <Typography
+            variant="p"
+            sx={{
+              color: "blue",
+              fontSize: "14px",
+              fontWeight: "bold",
+              marginBottom: "4px",
+            }}
+          >
+            Pathologist Report/Comment
+          </Typography>
+          <Grid item xs={12} sm={12}>
+            <Textarea
+              placeholder="Pathologist Report/Comment"
+              name="pathologist_Report_Comment"
+              type="text"
+              register={register("pathologist_Report_Comment")}
+            />
           </Grid>
-        </form>
-      </div>
+        </Grid>
+        <Grid container spacing={2} mt={1}>
+          <Grid item xs={12} sm={2}>
+            <input
+              type="radio"
+              name="status"
+              value="Draft"
+              checked={reportStatus === "Draft" || reportStatus === "Pending"}
+              onChange={(e) => {
+                handleChangePart(e);
+              }}
+              disabled={bill_report_status === "Final"}
+              style={{
+                margin: "1rem",
+              }}
+            />
+            <span
+              style={{
+                fontSize: "1rem",
+              }}
+            >
+              {" "}
+              Draft
+            </span>
+          </Grid>{" "}
+          <Grid item xs={12} sm={2}>
+            <input
+              type="radio"
+              name="status"
+              value="Final"
+              checked={reportStatus === "Final"}
+              onChange={(e) => handleChangePart(e)}
+              disabled={bill_report_status === "Final"}
+              style={{
+                margin: "1rem",
+              }}
+            />
+            <span
+              style={{
+                fontSize: "1rem",
+              }}
+            >
+              {" "}
+              Final{" "}
+            </span>
+          </Grid>
+        </Grid>
+        <Grid container spacing={2} mt={1}>
+          <Grid item xs={12} sm={12}>
+            {bill_report_status !== "Final" && (
+              <GlobalCustomButton
+                text={bill_report_status === "Pending" ? "Save" : "Update"}
+                onClick={handleSubmit(onSubmit)}
+                color="success"
+              />
+            )}
+          </Grid>
+        </Grid>
+      </form>
     </>
   );
 }
@@ -2092,6 +1628,9 @@ export function Microbiology() {
 
   const [docStatus, setDocStatus] = useState("Draft");
   const [reportStatus, setReportStatus] = useState("Draft");
+  const [antibioticsListData, setAntibioticsListData] = useState([]);
+  const [isolatedDrug, setIsolatedDrug] = useState("");
+
   const ClientServ = client.service("labresults");
   const order = state.financeModule.selectedFinance;
   const bill_report_status = state.financeModule.report_status;
@@ -2101,6 +1640,7 @@ export function Microbiology() {
   const checkboxChecked = watch("swap");
   const checkboxCheckedOther = watch("others");
   const checkboxCheckedOthersInvestigation = watch("others_investigation");
+  const watchantibiotic = watch("antibiotics_susceptibility_drug");
 
   console.log("===>>>> order details", {
     order: order,
@@ -2172,6 +1712,8 @@ export function Microbiology() {
       document.facility = user.currentEmployee.facilityDetail._id;
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
+
+    data.antibiotics_susceptibility_drug = antibioticsListData;
     document.documentdetail = data;
     document.documentType = "Diagnostic Result";
     document.documentname = `${order.serviceInfo.name} Result`;
@@ -2200,16 +1742,35 @@ export function Microbiology() {
       );
       return;
     }
+    document.clientobj = user;
+    document.documentClassId = user._id;
+    document.episodeofcare_id = user._id;
+
+    console.log("====>>>> document", {
+      document,
+    });
 
     if (bill_report_status === "Pending") {
-      document.labFormType = state.labFormType;
+      console.log("====>>>> document before", {
+        document,
+      });
+
+      console.log("====>>>> document after", {
+        document,
+      });
       ClientServ.create(document)
         .then((res) => {
+          console.log("====>>>> client respone", {
+            res,
+          });
           setSuccess(true);
           toast.success("Lab Result created succesfully");
           setSuccess(false);
         })
         .catch((err) => {
+          console.log("====>>>> client erro", {
+            err,
+          });
           toast.error("Error creating Lab Result " + err);
         });
     }
@@ -2217,6 +1778,9 @@ export function Microbiology() {
     if (bill_report_status === "Draft") {
       ClientServ.patch(order.resultDetail._id, document)
         .then((res) => {
+          console.log("====>>>> client respone", {
+            res,
+          });
           setSuccess(true);
           toast.success("Lab Result updated succesfully");
           setSuccess(false);
@@ -2247,6 +1811,89 @@ export function Microbiology() {
     console.log(e.target.value);
     await setReportStatus(e.target.value);
   };
+
+  const addAntibioticsSusceptibilityDrugAndIsolates = (data, e) => {
+    e.preventDefault();
+    console.log("====>>>> start");
+
+    const newItem = {
+      antibiotics_susceptibility_drug: isolatedDrug,
+      isolate_one: data.isolateOne,
+      isolate_two: data.isolateTwo,
+      isolate_three: data.isolateThree,
+    };
+
+    setAntibioticsListData((prev) => [...prev, newItem]);
+
+    console.log("====>>>> new array", { newItem });
+
+    // Reset form values
+    setIsolatedDrug("");
+    setValue("isolateOne", "");
+    setValue("isolateTwo", "");
+    setValue("isolateThree", "");
+  };
+
+  const AntibioticsSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "sn",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+      width: "50px",
+    },
+    {
+      name: "Drugs",
+      key: "drugs",
+      description: "Drugs",
+      selector: (row, i) => row?.antibiotics_susceptibility_drug,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+    {
+      name: "Isolate One",
+      key: "isolate_one",
+      description: "Isolate One",
+      selector: (row) => row?.isolate_one,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+    {
+      name: "Isolate Two",
+      key: "isolate_two",
+      description: "Isolate Two",
+      selector: (row) => row?.isolate_two,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+    {
+      name: "Isolate One",
+      key: "isolate_three",
+      description: "Isolate One",
+      selector: (row) => row?.isolate_three,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+  ];
 
   const specimenCheckBoxArray = [
     {
@@ -2329,6 +1976,106 @@ export function Microbiology() {
       label: "Salmonella/Shigella",
     },
   ];
+
+  const microscopyArray = [
+    {
+      name: "consistency ",
+      label: "Consistency",
+    },
+    {
+      name: "blood_mcs",
+      label: "Blood",
+    },
+    {
+      name: "rbc",
+      label: "RBC",
+    },
+    {
+      name: "mucus",
+      label: "Mucus",
+    },
+    {
+      name: "occult ",
+      label: "Occult ",
+    },
+    {
+      name: "cus_cells_hpfne",
+      label: "Pus Cells/Hpf",
+    },
+    {
+      name: "rbc_hpf",
+      label: "RBC/Hpf",
+    },
+    {
+      name: "wbc_hpf",
+      label: "WBC/Hpf",
+    },
+    {
+      name: "bacterial_cells",
+      label: "Bacterial Cells",
+    },
+    {
+      name: "yeast_cells",
+      label: "Yeast Cells",
+    },
+    {
+      name: "ova",
+      label: "Ova",
+    },
+    {
+      name: "epith_cells",
+      label: "Epith Cells",
+    },
+    {
+      name: "crystals_casts ",
+      label: "Crystals/casts ",
+    },
+    {
+      name: "rbRespiratory_bacterial_Panel",
+      label: "Respiratory Bacterial Panel",
+    },
+    {
+      name: "respiratory_pcr_screen",
+      label: "Respiratory PCR Screen",
+    },
+    {
+      name: "respiratory_viral_panel",
+      label: "Respiratory Viral Panel",
+    },
+    {
+      name: "others_mcs",
+      label: "Others",
+    },
+  ];
+
+  const antibioticsSusceptibilityCheckBoxArray = [
+    {
+      name: "isolateTwo",
+      label: "Isolate Two",
+    },
+    {
+      name: "isolateThree",
+      label: "Isolate Three",
+    },
+  ];
+
+  const selectedDrugOptions = [
+    "Penicillin",
+    "Streptomycin",
+    "Tetracycline",
+    "Chloramphenicol",
+    "Erythromycin",
+    "Ampicillin",
+    "Nalidixic Acid",
+    "Gentamycin",
+    "Nitrofurantoin",
+    "Ciproflaxin",
+    "Ceftriazone",
+    "Ceftazidime",
+    "Co-trimazole",
+    "Meropenem",
+  ];
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -2414,7 +2161,7 @@ export function Microbiology() {
         </Grid>
 
         {/* specimen details field */}
-        <Grid container spacing={0.1} mt={2}>
+        <Grid container spacing={0.1} mt={1}>
           <Typography
             variant="p"
             sx={{
@@ -2426,7 +2173,7 @@ export function Microbiology() {
           >
             SPECIMEN Details
           </Typography>
-          <Grid container spacing={0.4} alignItems="center">
+          <Grid container spacing={2} alignItems="center">
             <Grid item xs={12} sm={3}>
               <Input
                 label="Date Of Request"
@@ -2464,14 +2211,19 @@ export function Microbiology() {
         </Grid>
 
         {/* INVESTIGATION REPORTED field */}
-        <Grid container spacing={0.1} mt={2}>
+        <Grid container spacing={0.1} mt={1}>
           <Typography
             variant="p"
-            sx={{ color: "blue", fontSize: "14px", fontWeight: "bold" }}
+            sx={{
+              color: "blue",
+              fontSize: "14px",
+              fontWeight: "bold",
+              marginBottom: "4px",
+            }}
           >
             INVESTIGATION REPORTED
           </Typography>
-          <Grid container spacing={0.1} alignItems="center">
+          <Grid container spacing={2} alignItems="center">
             {/* justifyContent={"center"} */}
             {investigationReportedCheckBoxArray.map((data, index) => (
               <Grid item key={index} xs={12} sm={3}>
@@ -2514,7 +2266,158 @@ export function Microbiology() {
           </Grid>
         </Grid>
 
+        {/* Microscopy Details field */}
+        <Grid container spacing={0.1} mt={1}>
+          <Typography
+            variant="p"
+            sx={{
+              color: "blue",
+              fontSize: "14px",
+              fontWeight: "bold",
+              marginBottom: "8px",
+            }}
+          >
+            Microscopy
+          </Typography>
+          <Grid container spacing={2} alignItems="center" mt={0.5}>
+            {microscopyArray.map((data, index) => (
+              <Grid key={index} item xs={12} sm={3}>
+                <Input
+                  label={data.label}
+                  name={data.name}
+                  type="text"
+                  register={register(`${data.name}`, { required: false })}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+
+        {/* Culture & Sensitivity Result field */}
         <Grid container spacing={1} mt={2}>
+          <Typography
+            variant="p"
+            sx={{
+              color: "blue",
+              fontSize: "14px",
+              fontWeight: "bold",
+              marginBottom: "4px",
+            }}
+          >
+            Culture & Sensitivity Result
+          </Typography>
+          <Grid item xs={12} sm={12}>
+            <Textarea
+              placeholder="Culture & Sensitivity Result"
+              name="culture_sensitivity_result"
+              type="text"
+              register={register("culture_sensitivity_result")}
+            />
+          </Grid>
+        </Grid>
+
+        {/* Antibiotics Susceptibility field */}
+        <Grid container spacing={0.1} mt={1}>
+          <Typography
+            variant="p"
+            sx={{
+              color: "blue",
+              fontSize: "14px",
+              fontWeight: "bold",
+              marginBottom: "4px",
+            }}
+          >
+            Antibiotics Susceptibility
+          </Typography>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={12} sm={2.5}>
+              <CustomSelect
+                label="Select Drug"
+                name="antibiotics_susceptibility_drug"
+                options={selectedDrugOptions}
+                onChange={(e) => setIsolatedDrug(e.target.value)}
+                defaultValue={isolatedDrug}
+              />
+            </Grid>
+            <Grid item xs={12} sm={2.5}>
+              <Input
+                label="Isolate One"
+                name="isolateOne"
+                type="text"
+                register={register("isolateOne", {
+                  required: isolatedDrug === "" ? false : true,
+                })}
+              />
+            </Grid>
+            {antibioticsSusceptibilityCheckBoxArray.map((data, index) => (
+              <Grid key={index} item xs={12} sm={2.5}>
+                <Input
+                  label={data.label}
+                  name={data.name}
+                  type="text"
+                  register={register(`${data.name}`, {
+                    required: false,
+                  })}
+                />
+              </Grid>
+            ))}
+
+            <Grid item xs={12} sm={2}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+                gap={1}
+              >
+                <GlobalCustomButton
+                  onClick={handleSubmit(
+                    addAntibioticsSusceptibilityDrugAndIsolates
+                  )} //{}
+                  disabled={isolatedDrug == "" ? true : false}
+                >
+                  <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
+                  Add Drug
+                </GlobalCustomButton>
+              </Box>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        {/* Antibiotics Susceptibility  table field */}
+        <Grid container spacing={0.1} mt={1}>
+          <Box>
+            <FormsHeaderText text="Drugs Added list" />
+            <Box mt={1} mb={1}>
+              <CustomTable
+                title={""}
+                columns={AntibioticsSchema}
+                data={antibioticsListData || []}
+                pointerOnHover
+                highlightOnHover
+                striped
+                //onRowClicked={handleRow}
+                CustomEmptyData="No Drug added yet..."
+                progressPending={false}
+                //conditionalRowStyles={conditionalRowStyles}
+              />
+            </Box>
+          </Box>
+        </Grid>
+
+        {/* Recommendation field */}
+        <Grid container spacing={1} mt={2}>
+          <Typography
+            variant="p"
+            sx={{
+              color: "blue",
+              fontSize: "14px",
+              fontWeight: "bold",
+              marginBottom: "4px",
+            }}
+          >
+            Recommendation
+          </Typography>
           <Grid item xs={12} sm={12}>
             <Textarea
               placeholder="Recommendation"
@@ -2704,7 +2607,8 @@ export function Urine() {
 
     if (bill_report_status === "Pending") {
       document.labFormType = state.labFormType;
-      ClientServ.create(document)
+      dClientServ
+        .create(document)
         .then((res) => {
           setSuccess(true);
           toast.success("Lab Result created succesfully");
@@ -2716,7 +2620,8 @@ export function Urine() {
     }
 
     if (bill_report_status === "Draft") {
-      ClientServ.patch(order.resultDetail._id, document)
+      dClientServ
+        .patch(order.resultDetail._id, document)
         .then((res) => {
           setSuccess(true);
           toast({
