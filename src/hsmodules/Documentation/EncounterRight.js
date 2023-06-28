@@ -11,6 +11,7 @@ import AsthmaIntake from "./AsthmaIntake";
 import PulmonologyIntake from "./Pulmonology";
 import NewPatientConsult from "./NewPatientConsult";
 import PreventiveCare from "./PreventiveCare";
+import MedicalScreeningForm from "./PhysiotherapyScreening";
 import ProgressNote from "./ProgressNote";
 import MedicationList from "./MedicationList";
 import Clerking from "./Clerking";
@@ -218,6 +219,8 @@ export default function EncounterRight() {
         "Preventive Care" && <PreventiveCare />}
          {state.DocumentClassModule.selectedDocumentClass.name ===
         "Dental Lab" && <DentalLab />}
+        {state.DocumentClassModule.selectedDocumentClass.name ===
+        "Physiotherapy Medical Screening" && <MedicalScreeningForm />}
     </div>
   );
 }
