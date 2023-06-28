@@ -40,13 +40,13 @@ import {SponsorSearch} from "../../../helpers/FacilitySearch";
 import {ProviderPrintout} from "../Printout";
 import dayjs from "dayjs";
 
-const PolicyDetail = ({goBack}) => {
+const PolicyDetail = ({setShowModal}) => {
   const [view, setView] = useState("details");
   const [fetchingPlans, setFetchingPlans] = useState(false);
   const [healthPlans, setHealthPlans] = useState([]);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [edit, setEdit] = useState(false);
-  const [hmo, setHmo] = useState(null);
+  //const [hmo, setHmo] = useState(null);
   const [subSponsor, setSubSponsor] = useState(null);
   const [premium, setPremium] = useState({
     amount: "",
@@ -69,10 +69,13 @@ const PolicyDetail = ({goBack}) => {
   const planName = watch("plan_name");
   const planType = watch("plan_type");
   const isHMO = user.currentEmployee.facilityDetail.facilityType === "HMO";
+  const hmo=state.PolicyModule.selectedPolicy.organization
+  
 
   console.log(state.PolicyModule.selectedPolicy)
+  //state.ManagedCareModule.selectedClient
 
-  const getHealthPlans = useCallback(async () => {
+  const getHealthPlans = async () => {
     setFetchingPlans(true);
     const facility = user.currentEmployee.facilityDetail;
     const orgId = isHMO ? facility._id : hmo._id;
@@ -89,16 +92,17 @@ const PolicyDetail = ({goBack}) => {
     const data = resp.data;
     setHealthPlans(data);
     setFetchingPlans(false);
-  }, [hmo]);
+  };
 
-  useEffect(() => {
+ /*  useEffect(() => {
     getHealthPlans();
-  }, [getHealthPlans]);
+  }, [getHealthPlans]); */
 
   useEffect(() => {
     const prevPolicy = state.PolicyModule.selectedPolicy;
 
     setSubSponsor(policy.sponsor);
+    getHealthPlans()
 
     const initFormValue = {
       status: prevPolicy?.approved ? "Approved" : "Pending",
@@ -109,7 +113,7 @@ const PolicyDetail = ({goBack}) => {
     reset(initFormValue);
 
     setPolicy(prevPolicy);
-  }, [state.PolicyModule]);
+  }, []);
 
   const getPremiumPrice = useCallback(() => {
     if (!planName) return;
@@ -390,7 +394,7 @@ const PolicyDetail = ({goBack}) => {
           }}
           gap={1}
         >
-          <GlobalCustomButton onClick={goBack}>
+          <GlobalCustomButton onClick={setShowModal(0)}>
             <ArrowBackIcon sx={{marginRight: "3px"}} fontSize="small" />
             Back
           </GlobalCustomButton>
@@ -422,7 +426,10 @@ const PolicyDetail = ({goBack}) => {
               Update Policy
             </GlobalCustomButton>
 
-           
+            <GlobalCustomButton onClick={cancelEditPolicy} color="warning">
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Cancel Update
+            </GlobalCustomButton>
           </Box>
         )}
 
@@ -497,8 +504,8 @@ const PolicyDetail = ({goBack}) => {
       <Box
         sx={{
           width: "100%",
-          height: "calc(100vh - 150px)",
-          overflowY: "scroll",
+          height: "calc(100vh - 10px)",
+          overflow: "scroll",
         }}
       >
         <Box p={2}>
