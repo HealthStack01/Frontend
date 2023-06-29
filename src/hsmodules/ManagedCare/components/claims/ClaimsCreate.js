@@ -29,11 +29,13 @@ import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 import TextAreaVoiceAndText from "../../../../components/inputs/basic/Textarea/VoiceAndText";
+import ReactCustomSearchSelectComponent from "../../../../components/react-custom-select/ReactSearchSelect";
 
 const random = require("random-string-generator");
 
-const ClaimCreateComponent = ({handleGoBack, client_id}) => {
+const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
   const claimsServer = client.service("claims");
+  const clientServer = client.service("client");
   const preAuthServer = client.service("preauth");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -57,21 +59,42 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
   const [drugsInputType, setDrugsInputType] = useState("type");
   const [treatmentInputType, setTreatmentInputType] = useState("type");
   const [commentsInputType, setCommentsInputType] = useState("type");
+  const [fetchingClients, setFetchingClients] = useState(false);
+  const [clients, setClients] = useState([]);
 
   const {control, handleSubmit, register, reset, watch, setValue} = useForm({
     defaultValues: {
       claimtype: "Fee for Service",
+      selected_client: beneficiary
+        ? {
+            label: `${beneficiary.firstname} ${beneficiary.lastname}`,
+            value: beneficiary._id,
+            ...beneficiary,
+          }
+        : null,
     },
   });
 
+  const clientSelected = watch("selected_client");
+
   useEffect(() => {
-    setState(prev => ({
-      ...prev,
-      ClientModule: {
-        ...prev.ClientModule,
-        selectedClient: {},
-      },
-    }));
+    if (beneficiary) {
+      setState(prev => ({
+        ...prev,
+        ClientModule: {
+          ...prev.ClientModule,
+          selectedClient: beneficiary,
+        },
+      }));
+    } else {
+      setState(prev => ({
+        ...prev,
+        ClientModule: {
+          ...prev.ClientModule,
+          selectedClient: {},
+        },
+      }));
+    }
   }, []);
 
   const getTotalClaimsAmount = useCallback(() => {
@@ -91,13 +114,22 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
   }, [getTotalClaimsAmount]);
 
   const handleSelectClient = client => {
+    if (client === undefined || client === null)
+      return setState(prev => ({
+        ...prev,
+        ClientModule: {
+          ...prev.ClientModule,
+          selectedClient: {},
+        },
+      }));
+    //console.log(client);
     const hmos = client.paymentinfo.filter(
       item => item.paymentmode.toLowerCase() === "hmo"
     );
 
     const firstHMO = hmos[0];
 
-    setPolicy(firstHMO.policy);
+    setPolicy(firstHMO?.policy);
 
     setState(prev => ({
       ...prev,
@@ -109,6 +141,10 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
 
     //
   };
+
+  useEffect(() => {
+    handleSelectClient(clientSelected);
+  }, [clientSelected]);
 
   const complaintColumns = getComplaintColumns();
   const diagnosisColumns = getDiagnosisColumns();
@@ -233,11 +269,87 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
     checkForPreauthorization();
   }, [checkForPreauthorization]);
 
+  const handleClientSearch = val => {
+    if (val.length <= 3 && val.trim() === "") return;
+    setFetchingClients(true);
+
+    clientServer
+      .find({
+        query: {
+          $or: [
+            {
+              firstname: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              lastname: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              middlename: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              phone: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              clientTags: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              mrn: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              email: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              specificDetails: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {gender: val},
+          ],
+
+          "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
+          $limit: 100,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      })
+      .then(res => {
+        setFetchingClients(false);
+        setClients(res.data);
+      })
+      .catch(err => {
+        setFetchingClients(false);
+        toast.error("An error occured, check your network");
+      });
+  };
+
   return (
     <Box
       sx={{
         width: "100%",
-        height: "calc(100vh - 80px)",
+        height: beneficiary ? "calc(100vh - 160px)" : "calc(100vh - 80px)",
         overflowY: "auto",
         position: "relative",
       }}
@@ -364,10 +476,26 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
         >
           <Grid container spacing={2} mb={2}>
             <Grid item lg={8} md={7}>
-              <ClientSearch
+              {/* <ClientSearch
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
                 id={client_id}
+                patient={beneficiary}
+              /> */}
+
+              <ReactCustomSearchSelectComponent
+                control={control}
+                onInputChange={handleClientSearch}
+                isLoading={fetchingClients}
+                name="selected_client"
+                placeholder="Select Client"
+                options={clients.map(item => {
+                  return {
+                    label: `${item.firstname} ${item.lastname}`,
+                    value: item._id,
+                    ...item,
+                  };
+                })}
               />
             </Grid>
 

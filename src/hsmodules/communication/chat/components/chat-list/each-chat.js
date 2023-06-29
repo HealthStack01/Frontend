@@ -80,12 +80,14 @@ const EachChat = ({chat}) => {
       onClick={handleSelectChatRoom}
     >
       <Box mr={0.6}>
-        <Avatar
-          {...returnAvatarString(
-            `${chat.chatType === "personal" ? chatPartner?.name : chat.name}`
-          )}
-          src={chatPartner?.imageurl}
-        />
+        {chat.chatType === "personal" ? (
+          <Avatar
+            {...returnAvatarString(`${chatPartner?.name}`)}
+            src={chatPartner?.imageurl}
+          />
+        ) : (
+          <Avatar src="https://www.pngkit.com/png/detail/128-1284523_group-chat-icon-google-group-chat-icon.png" />
+        )}
       </Box>
 
       <Box

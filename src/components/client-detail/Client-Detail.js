@@ -8,6 +8,7 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import GlobalCustomButton from "../buttons/CustomButton";
 import PoliciesList from "../../hsmodules/ManagedCare/components/policy/Lists";
 import NewPolicyModule from "../../hsmodules/ManagedCare/NewPolicy";
+import Claims from "../../hsmodules/ManagedCare/Claims";
 
 const malePlaceholder =
   "https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg";
@@ -99,19 +100,65 @@ const DefaultClientDetail = ({detail, goBack, showHeader}) => {
               }}
               gap={1}
             >
-              <GlobalCustomButton onClick={() => setEdit(true)}>
-                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-                Edit Client
-              </GlobalCustomButton>
+              {/* {view === "details" && (
+                <GlobalCustomButton onClick={() => setEdit(true)}>
+                  <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                  Edit Client
+                </GlobalCustomButton>
+              )} */}
 
-              <GlobalCustomButton onClick={() => setView("details")}>
+              <GlobalCustomButton
+                onClick={() => setView("details")}
+                sx={
+                  view === "details"
+                    ? {
+                        backgroundColor: "#ffffff",
+                        color: "#000000",
+                        "&:hover": {
+                          backgroundColor: "#ffffff",
+                        },
+                      }
+                    : {}
+                }
+              >
                 <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                 Client Details
               </GlobalCustomButton>
 
-              <GlobalCustomButton onClick={() => setView("policies")}>
+              <GlobalCustomButton
+                onClick={() => setView("policies")}
+                sx={
+                  view === "policies"
+                    ? {
+                        backgroundColor: "#ffffff",
+                        color: "#000000",
+                        "&:hover": {
+                          backgroundColor: "#ffffff",
+                        },
+                      }
+                    : {}
+                }
+              >
                 <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                 Policies
+              </GlobalCustomButton>
+
+              <GlobalCustomButton
+                onClick={() => setView("claims")}
+                sx={
+                  view === "claims"
+                    ? {
+                        backgroundColor: "#ffffff",
+                        color: "#000000",
+                        "&:hover": {
+                          backgroundColor: "#ffffff",
+                        },
+                      }
+                    : {}
+                }
+              >
+                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                Claims
               </GlobalCustomButton>
             </Box>
           )}
@@ -119,6 +166,8 @@ const DefaultClientDetail = ({detail, goBack, showHeader}) => {
       )}
 
       {view === "policies" && <NewPolicyModule beneficiary={detail} />}
+
+      {view === "claims" && <Claims beneficiary={detail} />}
 
       <Box p={2}>
         {view === "details" && (

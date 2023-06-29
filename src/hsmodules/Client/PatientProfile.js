@@ -55,7 +55,8 @@ export default function PatientProfile() {
   const [diagnoisHistoryModal, setDiagnoisHistory] = useState(false);
   const [medicalProfile, setMedicalProfileModel] = useState(false);
   const [accountModal, setAccountModal] = useState(false);
-  const client = state.ClientModule.selectedClient;
+  const [client, setClient] = useState({});
+
   const {
     firstname,
     middlename,
@@ -64,30 +65,22 @@ export default function PatientProfile() {
     gender,
     maritalstatus,
     religion,
-    phone,
-    email,
     profession,
-
-    nok_name,
-    nok_phoneno,
-    nok_email,
-    nok_relationship,
     bloodgroup,
     genotype,
     disabilities,
     specificDetails,
     clientTags,
-    mrn,
-    address,
-    city,
-    lga,
-    //state,
-    country,
     allergies,
     comorbidities,
     paymentinfo,
     imageurl,
-  } = state.ClientModule.selectedClient;
+  } = client;
+
+  useEffect(() => {
+    const client = state.ClientModule.selectedClient;
+    setClient(client);
+  }, [state.ClientModule]);
 
   /*   const {
         cash,

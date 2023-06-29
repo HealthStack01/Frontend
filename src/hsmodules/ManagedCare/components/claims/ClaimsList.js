@@ -22,7 +22,12 @@ import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import client from "../../../../feathers";
 import dayjs from "dayjs";
 
-const ClaimsListComponent = ({showCreate, showDetail, client_id}) => {
+const ClaimsListComponent = ({
+  showCreate,
+  showDetail,
+  client_id,
+  beneficiary,
+}) => {
   const claimsServer = client.service("claims");
   const [claims, setClaims] = useState([]);
   const {state, setState} = useContext(ObjectContext);
@@ -347,7 +352,9 @@ const ClaimsListComponent = ({showCreate, showDetail, client_id}) => {
           <Box
             sx={{
               width: "100%",
-              height: "calc(100vh - 180px)",
+              height: beneficiary
+                ? "calc(100vh - 220px)"
+                : "calc(100vh - 140px)",
               overflowY: "auto",
             }}
           >
