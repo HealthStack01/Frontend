@@ -1,6 +1,9 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { makeStyles } from "@material-ui/core/styles";
+import dayjs from "dayjs";
+
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import client from "../../../feathers";
 import Encounter from "../../Documentation/Documentation";
@@ -35,7 +38,21 @@ import {
   InputBox,
   InputLabel,
 } from "../../../components/inputs/basic/Input/styles";
+import AcUnitIcon from "@mui/icons-material/AcUnit";
 import { GridBox } from "../../app/styles";
+
+const useStyles = makeStyles({
+  boldLabel: {
+    fontWeight: "bold",
+  },
+  inputField: {
+    marginTop: "8px",
+  },
+  subscript: {
+    fontSize: "0.8rem",
+    verticalAlign: "sub",
+  },
+});
 
 export default function LaboratoryReportForm() {
   const { register, handleSubmit } = useForm();
@@ -1344,13 +1361,9 @@ export function Biochemistry() {
       !document.createdByname ||
       !document.facilityname
     ) {
-      toast({
-        message:
-          " Documentation data missing, requires location and facility details",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
       return;
     }
 
@@ -1359,21 +1372,17 @@ export function Biochemistry() {
       ClientServ.create(document)
         .then((res) => {
           setSuccess(true);
-          toast({
-            message: "Lab Result created succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.success("Lab Result created succesfully");
+          // toast({
+          //   message: "Lab Result created succesfully",
+          //   type: "is-success",
+          //   dismissible: true,
+          //   pauseOnHover: true,
+          // });
           setSuccess(false);
         })
         .catch((err) => {
-          toast({
-            message: "Error creating Lab Result " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error("Error creating Lab Result " + err);
         });
     }
 
@@ -1381,21 +1390,11 @@ export function Biochemistry() {
       ClientServ.patch(order.resultDetail._id, document)
         .then((res) => {
           setSuccess(true);
-          toast({
-            message: "Lab Result updated succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.success("Lab Result updated succesfully");
           setSuccess(false);
         })
         .catch((err) => {
-          toast({
-            message: "Error updating Lab Result " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error("Error updating Lab Result " + err);
         });
     }
     const newProductEntryModule = {
@@ -1421,6 +1420,158 @@ export function Biochemistry() {
     await setReportStatus(e.target.value);
   };
 
+  const thyriodHormoneSchema = [
+    {
+      label: "TSH",
+      name: "thyriod_hormone_tsh",
+      des: "mIU/L (0.4 - 5.2)",
+    },
+    {
+      label: " Free T3",
+      name: "thyriod_hormone_Free_T3",
+      des: "ug/dL (60.0 – 1800.0)",
+    },
+    {
+      label: " Free T4 ",
+      name: "thyriod_hormone_Free_T4",
+      des: "ug/dL (0.8 – 2.8)",
+    },
+    {
+      label: "Total T3",
+      name: "thyriod_hormone_Total_T3",
+      des: "ug/dL (130.0 – 450.0)",
+    },
+    {
+      label: "Total T4",
+      name: "thyriod_hormone_Total_T4",
+      des: "ng/dL (5.0 – 12.0)",
+    },
+    {
+      label: "TPO Ab ",
+      name: "thyriod_hormone_Total_T4",
+      des: "Iu/mL (0 - 34)",
+    },
+  ];
+
+  const femaleHormoneProfileSchema = [
+    {
+      label: "Estrogen",
+      name: "female_hormone_profile_Estrogen",
+      des: "pg/mL (10 - 350)",
+    },
+    {
+      label: "Progesterone",
+      name: "female_hormone_profile_Progesterone",
+      des: "ng/mL (0 - 300)",
+    },
+    {
+      label: "FSH",
+      name: "female_hormone_profile_FSH",
+      des: "mIU/L (0 – 135)",
+    },
+    {
+      label: "CH",
+      name: "female_hormone_profile_CH",
+      des: "",
+    },
+    {
+      label: "Prolactin",
+      name: "female_hormone_profile_Prolactin",
+      des: "ng/mL (20 - 400 )",
+    },
+    {
+      label: "Estradiol",
+      name: "female_hormone_profile_Estradiol",
+      des: "pg/mL (0 – 400)",
+    },
+  ];
+
+  const tumorMakerHormoneSchema = [
+    {
+      label: "PSA",
+      name: "tumor_maker_hormone_PSA",
+      des: "ng/mL ( )",
+    },
+    {
+      label: "AFP",
+      name: "tumor_maker_hormone_AFP",
+      des: "ng/mL ( )",
+    },
+    {
+      label: "CFA",
+      name: "tumor_maker_hormone_CFA",
+      des: "ug/L (0.7 – 1.9)",
+    },
+    {
+      label: "CA-125",
+      name: "tumor_maker_hormone_CA-125",
+      des: "",
+    },
+    {
+      label: "B-HCG",
+      name: "tumor_maker_hormone_B-HCG",
+      des: "mIU/L (6.3 - )",
+    },
+    {
+      label: "CA-15-3",
+      name: "tumor_maker_hormone_CA-15-3",
+      des: "U/mL (0 - 37)",
+    },
+    {
+      label: "CA-19-9",
+      name: "tumor_maker_hormone_CA-19-9",
+      des: "U/mL (0 - 37)",
+    },
+  ];
+
+  const otherTumorMakerHormoneSchema = [
+    {
+      label: "Cortisol",
+      name: "other_tumor_maker_hormone_Cortisol",
+      des: "ug/dL (0 - 20)",
+    },
+    {
+      label: "ACTH",
+      name: "other_tumor_maker_hormone_ACTH",
+      des: "pg/mL (0 - 60)",
+    },
+    {
+      label: "Ferritin",
+      name: "other_tumor_maker_hormone_Ferritin",
+      des: "ng/mL (20 – > 300)",
+    },
+    {
+      label: "Folate",
+      name: "other_tumor_maker_hormone_Folate",
+      des: "ng/mL (2 - > 20)",
+    },
+    {
+      label: "Vit. B12",
+      name: "other_tumor_maker_hormone_Vitamin_B12",
+      des: "pg/mL ( )",
+    },
+    {
+      label: "Vit. D2",
+      name: "other_tumor_maker_hormone_Vitamin_D2",
+      des: "ng/mL (10 - > 100)",
+    },
+    {
+      label: "Vitamin D3 ",
+      name: "other_tumor_maker_hormone_Vitamin_D3 ",
+      des: "mIU/mL (0 - > 20 )",
+    },
+    {
+      label: "Insulin",
+      name: "other_tumor_maker_hormone_Insulin",
+      des: "",
+    },
+    {
+      label: "C-Peptide",
+      name: "other_tumor_maker_hormone_-Peptide",
+      des: "ng/mL (0 - > 5)",
+    },
+  ];
+
   const inputStyle = {
     position: "absolute",
     top: "0",
@@ -1445,6 +1596,9 @@ export function Biochemistry() {
     transition: "0.4s",
     wordBreak: "break-word",
   };
+
+  const classes = useStyles();
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -1483,7 +1637,9 @@ export function Biochemistry() {
                 name="request_date"
                 type="text"
                 register={register("request_date", { required: true })}
-                defaultValue={order.createdAt}
+                defaultValue={dayjs(order.createdAt).format(
+                  "DD/MM/YYYY hh:mm A"
+                )}
               />
             </Grid>
             <Grid item xs={12} sm={3}>
@@ -1521,7 +1677,180 @@ export function Biochemistry() {
           </Grid>
         </Grid>
 
-        {/* Culture & Sensitivity Result field */}
+        <Grid container spacing={1} mt={2}>
+          {/* THYROID HORMONE */}
+          <Grid item xs={12} sm={4}>
+            <Grid container>
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                THYROID HORMONE
+              </Typography>
+              <Grid container alignItems="center">
+                {thyriodHormoneSchema.map((data, index) => (
+                  <Grid key={index} spacing={2} item xs={12} sm={12} mb={2}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={7}>
+                        <Input
+                          label={data.label}
+                          name={data.name}
+                          type="text"
+                          register={register(`${data.name}`, {
+                            required: false,
+                          })}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={5}>
+                        <Typography>
+                          {" "}
+                          <label className={classes.boldLabel}>
+                            {data.des}
+                          </label>{" "}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+          {/**  FEMALE HORMONE PROFILE */}
+          <Grid item xs={12} sm={4}>
+            <Grid container>
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                FEMALE HORMONE PROFILE
+              </Typography>
+              <Grid container alignItems="center">
+                {femaleHormoneProfileSchema.map((data, index) => (
+                  <Grid key={index} spacing={2} item xs={12} sm={12} mb={2}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={7}>
+                        <Input
+                          label={data.label}
+                          name={data.name}
+                          type="text"
+                          register={register(`${data.name}`, {
+                            required: false,
+                          })}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={5}>
+                        <Typography>
+                          {" "}
+                          <label className={classes.boldLabel}>
+                            {data.des}
+                          </label>{" "}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+          {/**   TUMOR MARKERS */}
+          <Grid item xs={12} sm={4}>
+            <Grid container>
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                TUMOR MARKERS
+              </Typography>
+              <Grid container alignItems="center">
+                {tumorMakerHormoneSchema.map((data, index) => (
+                  <Grid key={index} spacing={2} item xs={12} sm={12} mb={2}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={7}>
+                        <Input
+                          label={data.label}
+                          name={data.name}
+                          type="text"
+                          register={register(`${data.name}`, {
+                            required: false,
+                          })}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={5}>
+                        <Typography>
+                          {" "}
+                          <label className={classes.boldLabel}>
+                            {data.des}
+                          </label>{" "}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={1} mt={3}>
+          {/**   OTHER HORMONES MARKERS */}
+          <Grid item xs={12} sm={12}>
+            <Grid container>
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                OTHER HORMONES MARKERS
+              </Typography>
+              <Grid container alignItems="center">
+                {otherTumorMakerHormoneSchema.map((data, index) => (
+                  <Grid key={index} spacing={2} item xs={12} sm={4} mb={2}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={7}>
+                        <Input
+                          label={data.label}
+                          name={data.name}
+                          type="text"
+                          register={register(`${data.name}`, {
+                            required: false,
+                          })}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={5}>
+                        <Typography>
+                          {" "}
+                          <label className={classes.boldLabel}>
+                            {data.des}
+                          </label>{" "}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        {/* Pathologist Report/Comment*/}
         <Grid container spacing={1} mt={2}>
           <Typography
             variant="p"
@@ -1543,6 +1872,8 @@ export function Biochemistry() {
             />
           </Grid>
         </Grid>
+
+        {/* draft and final radio  field*/}
         <Grid container spacing={2} mt={1}>
           <Grid item xs={12} sm={2}>
             <input
@@ -2180,7 +2511,9 @@ export function Microbiology() {
                 name="request_date"
                 type="text"
                 register={register("request_date", { required: true })}
-                defaultValue={order.createdAt}
+                defaultValue={dayjs(order.createdAt).format(
+                  "DD/MM/YYYY hh:mm A"
+                )}
               />
             </Grid>
             <Grid item xs={12} sm={3}>

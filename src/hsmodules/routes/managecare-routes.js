@@ -1,4 +1,4 @@
-import {lazy} from "react";
+import { lazy } from "react";
 //import {PreAuth} from "../ManagedCare/NewPreAuth";
 
 const Policy = lazy(() => import("../ManagedCare/Policy"));
