@@ -40,7 +40,7 @@ import {SponsorSearch} from "../../../helpers/FacilitySearch";
 import {ProviderPrintout} from "../Printout";
 import dayjs from "dayjs";
 
-const PolicyDetail = ({goBack}) => {
+const PolicyDetail = ({goBack, beneficiary}) => {
   const [view, setView] = useState("details");
   const [fetchingPlans, setFetchingPlans] = useState(false);
   const [healthPlans, setHealthPlans] = useState([]);
@@ -70,7 +70,7 @@ const PolicyDetail = ({goBack}) => {
   const planType = watch("plan_type");
   const isHMO = user.currentEmployee.facilityDetail.facilityType === "HMO";
 
-  console.log(state.PolicyModule.selectedPolicy)
+  console.log(state.PolicyModule.selectedPolicy);
 
   const getHealthPlans = useCallback(async () => {
     setFetchingPlans(true);
@@ -421,8 +421,6 @@ const PolicyDetail = ({goBack}) => {
               <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
               Update Policy
             </GlobalCustomButton>
-
-           
           </Box>
         )}
 
@@ -497,7 +495,7 @@ const PolicyDetail = ({goBack}) => {
       <Box
         sx={{
           width: "100%",
-          height: "calc(100vh - 150px)",
+          height: beneficiary ? "calc(100vh - 220px)" : "calc(100vh - 150px)",
           overflowY: "scroll",
         }}
       >
@@ -513,7 +511,6 @@ const PolicyDetail = ({goBack}) => {
                   //value={"Self"}
                   value={sponsor_type}
                   defaultValue={sponsor_type}
-                  
                   //disabled={!edit}
                   register={register("sponsor_type")}
                   options={[
@@ -530,11 +527,7 @@ const PolicyDetail = ({goBack}) => {
               </Box>
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Input
-                value={policy?.policyNo}
-                disabled
-                label={`Policy No`}
-              />
+              <Input value={policy?.policyNo} disabled label={`Policy No`} />
             </Grid>
 
             <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -551,29 +544,27 @@ const PolicyDetail = ({goBack}) => {
                 important
               />
             </Grid>
-            {edit?
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <CustomSelect
-                name="plan_name"
-                label="Choose Plan"
-                disabled={!edit}
-                options={
-                  fetchingPlans ? [] : healthPlans.map(item => item.planName)
-                }
-                required
-                important
-                control={control}
-                //register={register("plan_name")}
-              />
-            </Grid>:
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Input
-                value={policy?.plan?.planName}
-                disabled
-                label={`Plan`}
-              />
-            </Grid>}
-{/* 
+            {edit ? (
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <CustomSelect
+                  name="plan_name"
+                  label="Choose Plan"
+                  disabled={!edit}
+                  options={
+                    fetchingPlans ? [] : healthPlans.map(item => item.planName)
+                  }
+                  required
+                  important
+                  control={control}
+                  //register={register("plan_name")}
+                />
+              </Grid>
+            ) : (
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <Input value={policy?.plan?.planName} disabled label={`Plan`} />
+              </Grid>
+            )}
+            {/* 
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <Input
                 value={premium?.amount}
@@ -581,35 +572,37 @@ const PolicyDetail = ({goBack}) => {
                 label={`${policy?.planType} Price`}
               />
             </Grid> */}
-           {/*  <Grid item xs={12} sm={6} md={4} lg={3}>
+            {/*  <Grid item xs={12} sm={6} md={4} lg={3}>
               <Input
                 value={premium?.duration}
                 disabled
                 label={`${policy?.planType} Premium Duration`}
               />
             </Grid> */}
-            {edit?
-             <Grid item xs={12} sm={6} md={4} lg={3}>
-              <CustomSelect
-                disabled={!edit}
-                control={control}
-                name="approved"
-                label="Approved"
-                options={[
-                  {value: false, label: "Pending"},
-                  {value: true, label: "Approve"},
-                ]}
-                required
-                important
-              />
-            </Grid>:
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Input
-                value={policy?.approved?"Approved":"Pending"}
-                disabled
-                label={`Approved`}
-              />
-            </Grid>}
+            {edit ? (
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <CustomSelect
+                  disabled={!edit}
+                  control={control}
+                  name="approved"
+                  label="Approved"
+                  options={[
+                    {value: false, label: "Pending"},
+                    {value: true, label: "Approve"},
+                  ]}
+                  required
+                  important
+                />
+              </Grid>
+            ) : (
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <Input
+                  value={policy?.approved ? "Approved" : "Pending"}
+                  disabled
+                  label={`Approved`}
+                />
+              </Grid>
+            )}
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <Input
                 value={policy?.approvalDate}
@@ -626,11 +619,11 @@ const PolicyDetail = ({goBack}) => {
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <Input
-                value={policy?.isPaid?"Yes":"No"}
+                value={policy?.isPaid ? "Yes" : "No"}
                 disabled
                 label={`Paid`}
               />
-            </Grid> 
+            </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <Input
                 value={dayjs(policy?.validitystarts).format("DD-MM-YYYY")}
@@ -652,30 +645,31 @@ const PolicyDetail = ({goBack}) => {
                 label={`Date Joined`}
               />
             </Grid>
-          
-            {edit?
-             <Grid item xs={12} sm={6} md={4} lg={3}>
-              <CustomSelect
-                disabled={!edit}
-                control={control}
-                name="active"
-                label="Active"
-                options={[
-                  {value: false, label: "Inactive"},
-                  {value: true, label: "Active"},
-                ]}
-                required
-                important
-              />
-            </Grid>:
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Input
-                value={policy?.active?"Active":"Inactive"}
-                disabled
-                label={`Active`}
-              />
-            </Grid> }
 
+            {edit ? (
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <CustomSelect
+                  disabled={!edit}
+                  control={control}
+                  name="active"
+                  label="Active"
+                  options={[
+                    {value: false, label: "Inactive"},
+                    {value: true, label: "Active"},
+                  ]}
+                  required
+                  important
+                />
+              </Grid>
+            ) : (
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <Input
+                  value={policy?.active ? "Active" : "Inactive"}
+                  disabled
+                  label={`Active`}
+                />
+              </Grid>
+            )}
           </Grid>
         </Box>
 
@@ -702,7 +696,11 @@ const PolicyDetail = ({goBack}) => {
             <CustomTable
               title={""}
               columns={sponsorColumns}
-              data={policy?.sponsor?.organizationDetail ? [policy?.sponsor?.organizationDetail] : [policy?.sponsor]}
+              data={
+                policy?.sponsor?.organizationDetail
+                  ? [policy?.sponsor?.organizationDetail]
+                  : [policy?.sponsor]
+              }
               pointerOnHover
               highlightOnHover
               striped

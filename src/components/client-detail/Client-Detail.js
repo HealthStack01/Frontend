@@ -181,7 +181,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader}) => {
             >
               <Box
                 sx={{
-                  width: "150px",
+                  width: "8rem",
                   height: "calc(2.55rem * 3)",
                   border: "1px solid #bbbbbb",
                   p: 0.5,
