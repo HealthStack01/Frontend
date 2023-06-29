@@ -4,13 +4,13 @@ import {useContext, useState} from "react";
 import GlobalCustomButton from "../../../../../components/buttons/CustomButton";
 import CustomTable from "../../../../../components/customtable";
 import {FormsHeaderText} from "../../../../../components/texts";
-import {OrgFacilitySearch} from "../../../../helpers/FacilitySearch";
+import {OrgHMOFacilitySearch} from "../../../../helpers/FacilitySearch";
 import {EnrolleSchema2, EnrolleSchema} from "../models";
 import {ObjectContext} from "../../../../../context";
 import PeopleIcon from "@mui/icons-material/People";
 import {toast} from "react-toastify";
 
-const PolicyAddProvider = ({closeModal}) => {
+const PolicyAddProvider = ({closeModal,hmoid}) => {
   const {state, setState} = useContext(ObjectContext);
   //const [providers, setProviders] = useState([]);
   const [success, setSuccess] = useState(false);
@@ -62,9 +62,10 @@ const PolicyAddProvider = ({closeModal}) => {
       >
         <FormsHeaderText text={"Search and Select Provider"} />
         <Box>
-          <OrgFacilitySearch
+          <OrgHMOFacilitySearch 
             getSearchfacility={handleAddProvider}
             clear={success}
+            hmoid={hmoid}
           />
         </Box>
         {/* 
