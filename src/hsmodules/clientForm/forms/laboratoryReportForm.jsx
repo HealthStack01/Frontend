@@ -10,6 +10,7 @@ import Encounter from "../../Documentation/Documentation";
 import { UserContext, ObjectContext } from "../../../context";
 import { toast } from "react-toastify";
 import Input from "../../../components/inputs/basic/Input/index";
+import { InputForm } from "../../../components/inputs/basic/Input/index";
 import Textarea from "../../../components/inputs/basic/Textarea/index";
 import RadioButton from "../../../components/inputs/basic/Radio/index";
 import MuiCustomDatePicker from "../../../components/inputs/Date/MuiDatePicker";
@@ -51,6 +52,10 @@ const useStyles = makeStyles({
   subscript: {
     fontSize: "0.8rem",
     verticalAlign: "sub",
+  },
+  supscript: {
+    fontSize: "0.8rem",
+    verticalAlign: "super",
   },
 });
 
@@ -135,7 +140,7 @@ export default function LaboratoryReportForm() {
           }}
         >
           <Grid item xs={12} md={6}>
-            <p style={{ maxWidth: "200px", fontWeight: "700" }}>
+            <p style={{ maxWidth: "400px", fontWeight: "700" }}>
               {ProperCase(
                 ` ${order.serviceInfo.name} for ${order.orderInfo.orderObj.clientname}`
               )}
@@ -1245,7 +1250,7 @@ export function Serology() {
   );
 }
 
-export function Biochemistry() {
+export function ChemistryPathology() {
   const {
     register,
     handleSubmit,
@@ -1453,7 +1458,7 @@ export function Biochemistry() {
     },
   ];
 
-  const femaleHormoneProfileSchema = [
+  const boneChemistrySchema = [
     {
       label: "Estrogen",
       name: "female_hormone_profile_Estrogen",
@@ -1936,7 +1941,7 @@ export function Biochemistry() {
   );
 }
 
-export function Microbiology() {
+export function Biochemistry() {
   const {
     register,
     handleSubmit,
@@ -1959,23 +1964,10 @@ export function Microbiology() {
 
   const [docStatus, setDocStatus] = useState("Draft");
   const [reportStatus, setReportStatus] = useState("Draft");
-  const [antibioticsListData, setAntibioticsListData] = useState([]);
-  const [isolatedDrug, setIsolatedDrug] = useState("");
-
   const ClientServ = client.service("labresults");
   const order = state.financeModule.selectedFinance;
   const bill_report_status = state.financeModule.report_status;
-
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
-
-  const checkboxChecked = watch("swap");
-  const checkboxCheckedOther = watch("others");
-  const checkboxCheckedOthersInvestigation = watch("others_investigation");
-  const watchantibiotic = watch("antibiotics_susceptibility_drug");
-
-  console.log("===>>>> order details", {
-    order: order,
-  });
 
   useEffect(() => {
     if (!order.resultDetail?.documentdetail) {
@@ -2038,7 +2030,991 @@ export function Microbiology() {
     setSuccess(false);
     let document = {};
     // data.createdby=user._id
-    console.log("======>>>> forn data ", { data });
+    console.log("===>> form data", { data });
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+    }
+    document.documentdetail = data;
+    document.documentType = "Diagnostic Result";
+    document.documentname = `${order.serviceInfo.name} Result`;
+    // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = order.orderInfo.orderObj.clientId;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = reportStatus;
+    document.billId = order._id;
+    // document.formType=choosenForm
+    //  console.log(document)
+    //  console.log(order)
+
+    if (
+      document.location === undefined ||
+      !document.createdByname ||
+      !document.facilityname
+    ) {
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
+      return;
+    }
+
+    if (bill_report_status === "Pending") {
+      document.labFormType = state.labFormType;
+      ClientServ.create(document)
+        .then((res) => {
+          setSuccess(true);
+          toast.success("Lab Result created succesfully");
+          // toast({
+          //   message: "Lab Result created succesfully",
+          //   type: "is-success",
+          //   dismissible: true,
+          //   pauseOnHover: true,
+          // });
+          setSuccess(false);
+        })
+        .catch((err) => {
+          toast.error("Error creating Lab Result " + err);
+        });
+    }
+
+    if (bill_report_status === "Draft") {
+      ClientServ.patch(order.resultDetail._id, document)
+        .then((res) => {
+          setSuccess(true);
+          toast.success("Lab Result updated succesfully");
+          setSuccess(false);
+        })
+        .catch((err) => {
+          toast.error("Error updating Lab Result " + err);
+        });
+    }
+    const newProductEntryModule = {
+      selectedFinance: order,
+      show: "show",
+      // report_status:order.report_status
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      financeModule: newProductEntryModule,
+    }));
+  };
+
+  const handleChangeStatus = async (e) => {
+    // await setAppointment_type(e.target.value)
+
+    setDocStatus(e.target.value);
+
+    //console.log(e.target.value)
+  };
+  const handleChangePart = async (e) => {
+    console.log(e.target.value);
+    await setReportStatus(e.target.value);
+  };
+
+  const thyriodHormoneSchema = [
+    {
+      label: "TSH",
+      name: "thyriod_hormone_tsh",
+      des: "mIU/L (0.4 - 5.2)",
+    },
+    {
+      label: " Free T3",
+      name: "thyriod_hormone_Free_T3",
+      des: "ug/dL (60.0 – 1800.0)",
+    },
+    {
+      label: " Free T4 ",
+      name: "thyriod_hormone_Free_T4",
+      des: "ug/dL (0.8 – 2.8)",
+    },
+    {
+      label: "Total T3",
+      name: "thyriod_hormone_Total_T3",
+      des: "ug/dL (130.0 – 450.0)",
+    },
+    {
+      label: "Total T4",
+      name: "thyriod_hormone_Total_T4",
+      des: "ng/dL (5.0 – 12.0)",
+    },
+    {
+      label: "TPO Ab ",
+      name: "thyriod_hormone_Total_T4",
+      des: "Iu/mL (0 - 34)",
+    },
+  ];
+
+  const ureaElectolyteCreatinineSchema = [
+    {
+      label: "Urea",
+      name: "urea_electolyte_reatinine_Urea",
+      des: "mmol/L ( )",
+      sup: false,
+      supValue: "",
+      sub: false,
+      subValue: "",
+    },
+    {
+      label: "Na",
+      name: "urea_electolyte_reatinine_Na+",
+      des: "mmol/L ( )",
+      sup: true,
+      supValue: "+",
+      sub: false,
+      subValue: "",
+    },
+    {
+      label: "K",
+      name: "urea_electolyte_reatinine_K+",
+      des: " mmol/L ( )",
+      sup: true,
+      supValue: "+",
+      sub: false,
+      subValue: "",
+    },
+    {
+      label: "HCO",
+      name: "urea_electolyte_reatinine_HCO3",
+      des: "mmol/L ( )",
+      sup: false,
+      supValue: "",
+      sub: true,
+      subValue: "3",
+    },
+    {
+      label: "Cl",
+      name: "urea_electolyte_reatinine_cl",
+      des: " mmol/L ( )",
+      sup: true,
+      supValue: "-",
+      sub: false,
+      subValue: "",
+    },
+    {
+      label: "Creatinine",
+      name: "urea_electolyte_reatinine_Creatinine",
+      des: "mmol/L ( )",
+      sup: false,
+      supValue: "",
+      sub: false,
+      subValue: "",
+    },
+  ];
+
+  const lipidProfileSchema = [
+    {
+      label: "Total Cholesterol",
+      name: "lipid_profile_Total_Cholesterol",
+      des: "mmol/L ( )",
+    },
+    {
+      label: "LDL-Cholesterol",
+      name: "lipid_profile_LDL_Cholesterol",
+      des: "mmol/L ( )",
+    },
+    {
+      label: "Triglyceride",
+      name: "lipid_profile_Triglyceride",
+      des: "mmol/L ( )",
+    },
+  ];
+
+  const liverFunctionSchema = [
+    {
+      label: "ALP",
+      name: "liver_function_ALP",
+      des: "U/L ( )",
+    },
+    {
+      label: "ALT (SGPT)",
+      name: "liver_function_ALT",
+      des: "U/L ( )",
+    },
+    {
+      label: "AST (SGPT)",
+      name: "liver_function_AST",
+      des: "U/L ( )",
+    },
+    {
+      label: "Gamma GT ",
+      name: "liver_function_Gamma_GT ",
+      des: "U/L ( )",
+    },
+    {
+      label: "Total Bilirubin",
+      name: "liver_function_Total_Bilirubin",
+      des: "umol/L ( )",
+    },
+    {
+      label: "Direct Billirubin",
+      name: "liver_function_Direct_Billirubin",
+      des: "umol/L ( )",
+    },
+  ];
+
+  const boneChemistrySchema = [
+    {
+      label: "Calcium",
+      name: "bone_chemistry_Calcium",
+      des: "mmol/L ( )",
+      sup: false,
+      supValue: "",
+      sub: false,
+      subValue: "",
+    },
+    {
+      label: "Phosphate",
+      name: "bone_chemistry_Phosphate",
+      des: "mmol/L ( )",
+      sup: false,
+      supValue: "",
+      sub: false,
+      subValue: "",
+    },
+    {
+      label: "Mg",
+      name: "bone_hemistry_Mg+",
+      des: "mmol/L ( )",
+      sup: true,
+      supValue: "+",
+      sub: false,
+      subValue: "",
+    },
+    {
+      label: "Uric Acide",
+      name: "bone_chemistry_Uric_Acide",
+      des: "mmol/L ( )",
+      sup: false,
+      supValue: "",
+      sub: false,
+      subValue: "",
+    },
+  ];
+
+  const cerebroSpinalFluidSchema = [
+    {
+      label: "Glucose",
+      name: "cerebro_Spinal_Fluid_Glucose",
+      des: "mmol/L ( )",
+      sup: false,
+      supValue: "",
+      sub: false,
+      subValue: "",
+    },
+    {
+      label: "Protein",
+      name: "bone_chemistry_Protein",
+      des: "g/L ( )",
+      sup: false,
+      supValue: "",
+      sub: false,
+      subValue: "",
+    },
+    {
+      label: "Cl",
+      name: "bone_hemistry_CL-",
+      des: "mmol/L ( )",
+      sup: true,
+      supValue: "-",
+      sub: false,
+      subValue: "",
+    },
+  ];
+
+  const serumProteinsSchema = [
+    {
+      label: "Total Protein",
+      name: "serum_proteins_Total_Protein",
+      des: "g/L ( )",
+    },
+    {
+      label: "Albumin",
+      name: "serum_proteins_Albumin",
+      des: "g/L ( )",
+    },
+    {
+      label: "Globulin",
+      name: "serum_proteins_Globulin",
+      des: "g/L ( )",
+    },
+  ];
+
+  const cardiacEnzymeSchema = [
+    {
+      label: "Troponin",
+      name: "cardiac_enzyme_Troponin",
+      des: "ng/ml ( )",
+    },
+    {
+      label: "CK-MB ",
+      name: "cardiac_enzyme_CK-MB ",
+      des: "IU/L ( )",
+    },
+    {
+      label: "Myoglobin",
+      name: "cardiac_enzyme_Myoglobin",
+      des: "ng/ml ( )",
+    },
+  ];
+
+  const glucoseSchema = [
+    {
+      label: "RBG",
+      name: "glucose_RBG",
+      des: "mmol/L ( )",
+    },
+    {
+      label: "2HPP",
+      name: "glucose_2HPP",
+      des: "mmol/L ( )",
+    },
+    {
+      label: "OGTT",
+      name: "glucose_OGTT",
+      des: "mmol/L ( )",
+    },
+    {
+      label: "HbAlc",
+      name: "glucose_HbAlc",
+      des: "% ( )",
+    },
+  ];
+
+  const classes = useStyles();
+
+  return (
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <p
+          style={{ fontWeight: "700", marginBottom: "2px" }}
+          className="label is-small"
+        >
+          CHEMICAL PATHPLOGY
+        </p>
+
+        {/* specimen details field */}
+        <Grid container spacing={0.1} mt={1}>
+          <Typography
+            variant="p"
+            sx={{
+              color: "blue",
+              fontSize: "14px",
+              fontWeight: "bold",
+              marginBottom: "4px",
+            }}
+          >
+            SPECIMEN Details
+          </Typography>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={12} sm={3}>
+              <Input
+                label="Specimen"
+                name="specimen"
+                type="text"
+                register={register("specimen", { required: false })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                label="Date Of Request"
+                name="request_date"
+                type="text"
+                register={register("request_date", { required: true })}
+                defaultValue={dayjs(order.createdAt).format(
+                  "DD/MM/YYYY hh:mm A"
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <MuiCustomDatePicker
+                control={control}
+                label="Date Of Collection"
+                name="collection_date"
+                required={true}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                label="Time Of Collection"
+                name="collection_time"
+                type="time"
+                register={register("collection_time", { required: false })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                label="Volume"
+                name="volume"
+                type="text"
+                register={register("volume", { required: false })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                label="LMP"
+                name="lmp"
+                type="text"
+                register={register("lmp", { required: false })}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={1} mt={2}>
+          {/* UREA/ELECTOLYTE/ CREATININE */}
+          <Grid item xs={12} sm={8}>
+            <Grid container>
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                UREA/ELECTOLYTE/ CREATININE
+              </Typography>
+              <Grid container alignItems="center">
+                {ureaElectolyteCreatinineSchema.map((data, index) => (
+                  <Grid key={index} spacing={2} item xs={12} sm={6} mb={2}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={7}>
+                        <InputForm
+                          label={data.label}
+                          name={data.name}
+                          type="text"
+                          register={register(`${data.name}`, {
+                            required: false,
+                          })}
+                          labelObj={data}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={5}>
+                        <Typography>
+                          {" "}
+                          <label className={classes.boldLabel}>
+                            {data.des}
+                          </label>{" "}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+
+          {/**  LIPID PROFILE */}
+          <Grid item xs={12} sm={4}>
+            <Grid container>
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                LIPID PROFILE
+              </Typography>
+              <Grid container alignItems="center">
+                {lipidProfileSchema.map((data, index) => (
+                  <Grid key={index} spacing={2} item xs={12} sm={12} mb={2}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={7}>
+                        <Input
+                          label={data.label}
+                          name={data.name}
+                          type="text"
+                          register={register(`${data.name}`, {
+                            required: false,
+                          })}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={5}>
+                        <Typography>
+                          {" "}
+                          <label className={classes.boldLabel}>
+                            {data.des}
+                          </label>{" "}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={1} mt={2}>
+          {/* LIVER FUNCTION */}
+          <Grid item xs={12} sm={8}>
+            <Grid container>
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                LIVER FUNCTION
+              </Typography>
+              <Grid container alignItems="center">
+                {liverFunctionSchema.map((data, index) => (
+                  <Grid key={index} spacing={2} item xs={12} sm={6} mb={2}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={7}>
+                        <Input
+                          label={data.label}
+                          name={data.name}
+                          type="text"
+                          register={register(`${data.name}`, {
+                            required: false,
+                          })}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={5}>
+                        <Typography>
+                          {" "}
+                          <label className={classes.boldLabel}>
+                            {data.des}
+                          </label>{" "}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+          {/**   BONE CHEMISTRY */}
+          <Grid item xs={12} sm={4}>
+            <Grid container>
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                BONE CHEMISTRY
+              </Typography>
+              <Grid container alignItems="center">
+                {boneChemistrySchema.map((data, index) => (
+                  <Grid key={index} spacing={2} item xs={12} sm={12} mb={2}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={7}>
+                        <InputForm
+                          label={data.label}
+                          name={data.name}
+                          type="text"
+                          register={register(`${data.name}`, {
+                            required: false,
+                          })}
+                          labelObj={data}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={5}>
+                        <Typography>
+                          {" "}
+                          <label className={classes.boldLabel}>
+                            {data.des}
+                          </label>{" "}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={1} mt={2}>
+          {/*  CEREBRO-SPINAL FLUID*/}
+          <Grid item xs={12} sm={4}>
+            <Grid container>
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                CEREBRO-SPINAL FLUID
+              </Typography>
+              <Grid container alignItems="center">
+                {cerebroSpinalFluidSchema.map((data, index) => (
+                  <Grid key={index} spacing={2} item xs={12} sm={12} mb={2}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={7}>
+                        <InputForm
+                          label={data.label}
+                          name={data.name}
+                          type="text"
+                          register={register(`${data.name}`, {
+                            required: false,
+                          })}
+                          labelObj={data}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={5}>
+                        <Typography>
+                          {" "}
+                          <label className={classes.boldLabel}>
+                            {data.des}
+                          </label>{" "}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+          {/**   SERUM PROTEINS */}
+          <Grid item xs={12} sm={4}>
+            <Grid container>
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                SERUM PROTEINS
+              </Typography>
+              <Grid container alignItems="center">
+                {serumProteinsSchema.map((data, index) => (
+                  <Grid key={index} spacing={2} item xs={12} sm={12} mb={2}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={7}>
+                        <Input
+                          label={data.label}
+                          name={data.name}
+                          type="text"
+                          register={register(`${data.name}`, {
+                            required: false,
+                          })}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={5}>
+                        <Typography>
+                          {" "}
+                          <label className={classes.boldLabel}>
+                            {data.des}
+                          </label>{" "}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+
+          {/**   CARDIAC ENZYME */}
+          <Grid item xs={12} sm={4}>
+            <Grid container>
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                CARDIAC ENZYME
+              </Typography>
+              <Grid container alignItems="center">
+                {cardiacEnzymeSchema.map((data, index) => (
+                  <Grid key={index} spacing={2} item xs={12} sm={12} mb={2}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={7}>
+                        <InputForm
+                          label={data.label}
+                          name={data.name}
+                          type="text"
+                          register={register(`${data.name}`, {
+                            required: false,
+                          })}
+                          labelObj={data}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={5}>
+                        <Typography>
+                          {" "}
+                          <label className={classes.boldLabel}>
+                            {data.des}
+                          </label>{" "}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={1} mt={2}>
+          {/**  GLUCOSE */}
+          <Grid item xs={12} sm={4}>
+            <Grid container>
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                GLUCOSE
+              </Typography>
+              <Grid container alignItems="center">
+                {glucoseSchema.map((data, index) => (
+                  <Grid key={index} spacing={2} item xs={12} sm={12} mb={2}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={7}>
+                        <Input
+                          label={data.label}
+                          name={data.name}
+                          type="text"
+                          register={register(`${data.name}`, {
+                            required: false,
+                          })}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={5}>
+                        <Typography>
+                          {" "}
+                          <label className={classes.boldLabel}>
+                            {data.des}
+                          </label>{" "}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} sm={8}>
+            {/* Comment/Recommendation */}
+            <Grid container spacing={1} mt={2}>
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                Comment/Recommendation
+              </Typography>
+              <Grid item xs={12} sm={12}>
+                <Textarea
+                  placeholder="Comment/Recommendation"
+                  name="comment_recommendation"
+                  type="text"
+                  register={register("comment_recommendation")}
+                  sx={{ height: "100%" }}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        {/* draft and final radio  field*/}
+        <Grid container spacing={2} mt={1}>
+          <Grid item xs={12} sm={2}>
+            <input
+              type="radio"
+              name="status"
+              value="Draft"
+              checked={reportStatus === "Draft" || reportStatus === "Pending"}
+              onChange={(e) => {
+                handleChangePart(e);
+              }}
+              disabled={bill_report_status === "Final"}
+              style={{
+                margin: "1rem",
+              }}
+            />
+            <span
+              style={{
+                fontSize: "1rem",
+              }}
+            >
+              {" "}
+              Draft
+            </span>
+          </Grid>{" "}
+          <Grid item xs={12} sm={2}>
+            <input
+              type="radio"
+              name="status"
+              value="Final"
+              checked={reportStatus === "Final"}
+              onChange={(e) => handleChangePart(e)}
+              disabled={bill_report_status === "Final"}
+              style={{
+                margin: "1rem",
+              }}
+            />
+            <span
+              style={{
+                fontSize: "1rem",
+              }}
+            >
+              {" "}
+              Final{" "}
+            </span>
+          </Grid>
+        </Grid>
+        <Grid container spacing={2} mt={1}>
+          <Grid item xs={12} sm={12}>
+            {bill_report_status !== "Final" && (
+              <GlobalCustomButton
+                text={bill_report_status === "Pending" ? "Save" : "Update"}
+                onClick={handleSubmit(onSubmit)}
+                color="success"
+              />
+            )}
+          </Grid>
+        </Grid>
+      </form>
+    </>
+  );
+}
+
+export function Microbiology() {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    control,
+    formState: { errors },
+  } = useForm(); //, watch, errors, reset
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState("");
+  // eslint-disable-next-line
+  const [facility, setFacility] = useState();
+  const dClientServ = client.service("clinicaldocument");
+  //const navigate=useNavigate()
+  const { user } = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [currentUser, setCurrentUser] = useState();
+  const { state, setState } = useContext(ObjectContext);
+
+  const [docStatus, setDocStatus] = useState("Draft");
+  const [reportStatus, setReportStatus] = useState("Draft");
+  const [antibioticsListData, setAntibioticsListData] = useState([]);
+  const [isolatedDrug, setIsolatedDrug] = useState("");
+
+  const ClientServ = client.service("labresults");
+  const order = state.financeModule.selectedFinance;
+  const bill_report_status = state.financeModule.report_status;
+
+  let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
+
+  const checkboxChecked = watch("swab");
+  const checkboxCheckedOther = watch("others");
+  const checkboxCheckedOthersInvestigation = watch("others_investigation");
+  const watchantibiotic = watch("antibiotics_susceptibility_drug");
+
+  console.log("===>>>> order details is called", {
+    order: order,
+    draftDoc,
+  });
+
+  useEffect(() => {
+    if (!order.resultDetail?.documentdetail) {
+      setValue("Finding", "", {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("Recommendation", "", {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      // setReportStatus(order.report_status)
+
+      return;
+    }
+    if (order.report_status !== "Pending") {
+      console.log("===>>>> order details", {
+        orderDOC: order.resultDetail.documentdetail,
+      });
+
+      setAntibioticsListData(
+        order.resultDetail.documentdetail.antibiotics_susceptibility_drug
+      );
+      Object.entries(order.resultDetail.documentdetail).map(
+        ([keys, value], i) =>
+          setValue(keys, value, {
+            shouldValidate: true,
+            shouldDirty: true,
+          })
+      );
+    }
+
+    return () => {};
+  }, [order]);
+
+  const getSearchfacility = (obj) => {
+    setValue("facility", obj._id, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
+  useEffect(() => {
+    setCurrentUser(user);
+    //console.log(currentUser)
+    return () => {};
+  }, [user]);
+
+  //check user for facility or get list of facility
+  useEffect(() => {
+    //setFacility(user.activeClient.FacilityId)//
+    if (!user.stacker) {
+      /*    console.log(currentUser)
+      setValue("facility", user.currentEmployee.facilityDetail._id,  {
+          shouldValidate: true,
+          shouldDirty: true
+      })  */
+    }
+  });
+
+  const onSubmit = async (data, e) => {
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+    let document = {};
     if (user.currentEmployee) {
       document.facility = user.currentEmployee.facilityDetail._id;
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
@@ -2077,16 +3053,9 @@ export function Microbiology() {
     document.documentClassId = user._id;
     document.episodeofcare_id = user._id;
 
-    console.log("====>>>> document", {
-      document,
-    });
-
     if (bill_report_status === "Pending") {
-      console.log("====>>>> document before", {
-        document,
-      });
-
-      console.log("====>>>> document after", {
+      document.labFormType = state.labFormType;
+      console.log("====>>>> document after subimmted", {
         document,
       });
       ClientServ.create(document)
@@ -2236,7 +3205,7 @@ export function Microbiology() {
       label: "Serum",
     },
     {
-      name: "sputum ",
+      name: "sputum",
       label: "Sputum",
     },
     {
@@ -2291,7 +3260,7 @@ export function Microbiology() {
       label: "Microfilaria-skin snip",
     },
     {
-      name: "mycology ",
+      name: "mycology",
       label: "Mycology ",
     },
     {
@@ -2310,7 +3279,7 @@ export function Microbiology() {
 
   const microscopyArray = [
     {
-      name: "consistency ",
+      name: "consistency",
       label: "Consistency",
     },
     {
@@ -2326,7 +3295,7 @@ export function Microbiology() {
       label: "Mucus",
     },
     {
-      name: "occult ",
+      name: "occult",
       label: "Occult ",
     },
     {
@@ -2358,8 +3327,8 @@ export function Microbiology() {
       label: "Epith Cells",
     },
     {
-      name: "crystals_casts ",
-      label: "Crystals/casts ",
+      name: "crystals_casts",
+      label: "Crystals/casts",
     },
     {
       name: "rbRespiratory_bacterial_Panel",
@@ -2414,7 +3383,7 @@ export function Microbiology() {
           style={{ fontWeight: "700", marginBottom: "2px" }}
           className="label is-small"
         >
-          MiCROBIOLOGY
+          MICROBIOLOGY
         </p>
 
         {/* specimen field */}
@@ -2431,7 +3400,15 @@ export function Microbiology() {
               <Grid item key={index} xs={12} sm={3}>
                 <FormControlLabel
                   control={
-                    <Checkbox {...register(`${data.name}`)} color="primary" />
+                    <Checkbox
+                      {...register(data.name)}
+                      color="primary"
+                      defaultChecked={
+                        order?.resultDetail?.documentdetail
+                          ? order.resultDetail.documentdetail[data.name]
+                          : false
+                      }
+                    />
                   }
                   label={data.label}
                 />
@@ -2441,29 +3418,26 @@ export function Microbiology() {
               <Grid container spacing={0.1} alignItems="center">
                 <Grid item xs={12} sm={6}>
                   <FormControlLabel
-                    control={<Checkbox {...register("swap")} color="primary" />}
-                    label="Swap"
+                    control={<Checkbox {...register("swab")} color="primary" />}
+                    label="Swab"
+                    defaultChecked={
+                      order?.resultDetail?.documentdetail
+                        ? order.resultDetail.documentdetail["swap"]
+                        : false
+                    }
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  {checkboxChecked && ( // Render the input field only when the checkbox is checked
-                    // <TextField
-                    //   {...register("swap_website", { required: true })}
-                    //   label="swap website"
-                    //   error={!!errors.textField}
-                    //   helperText={
-                    //     errors.textField ? "This field is required" : ""
-                    //   }
-                    //   sx={{ height: "6px" }}
-                    // />
+
+                {checkboxChecked && (
+                  <Grid item xs={12} sm={6}>
                     <Input
-                      label="swap website"
-                      name="swap_website"
+                      label="swab site"
+                      name="swab_site"
                       type="text"
-                      register={register("swap_website", { required: true })}
-                    />
-                  )}
-                </Grid>
+                      register={register("swab_site", { required: true })}
+                    />{" "}
+                  </Grid>
+                )}
               </Grid>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -2471,21 +3445,30 @@ export function Microbiology() {
                 <Grid item xs={12} sm={6}>
                   <FormControlLabel
                     control={
-                      <Checkbox {...register("others")} color="primary" />
+                      <Checkbox
+                        {...register("others")}
+                        color="primary"
+                        defaultChecked={
+                          order?.resultDetail?.documentdetail
+                            ? order.resultDetail.documentdetail["swap"]
+                            : false
+                        }
+                      />
                     }
                     label="Others"
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  {checkboxCheckedOther && (
+
+                {checkboxCheckedOther && (
+                  <Grid item xs={12} sm={6}>
                     <Input
                       label="Others"
                       name="others"
                       type="text"
                       register={register("others_text", { required: true })}
                     />
-                  )}
-                </Grid>
+                  </Grid>
+                )}
               </Grid>
             </Grid>
           </Grid>
@@ -2562,7 +3545,15 @@ export function Microbiology() {
               <Grid item key={index} xs={12} sm={3}>
                 <FormControlLabel
                   control={
-                    <Checkbox {...register(`${data.name}`)} color="primary" />
+                    <Checkbox
+                      {...register(`${data.name}`)}
+                      color="primary"
+                      defaultChecked={
+                        order?.resultDetail?.documentdetail
+                          ? order.resultDetail.documentdetail[data.name]
+                          : false
+                      }
+                    />
                   }
                   label={data.label}
                 />
@@ -2619,7 +3610,7 @@ export function Microbiology() {
                   label={data.label}
                   name={data.name}
                   type="text"
-                  register={register(`${data.name}`, { required: false })}
+                  register={register(data.name, { required: false })}
                 />
               </Grid>
             ))}
@@ -2688,7 +3679,7 @@ export function Microbiology() {
                   label={data.label}
                   name={data.name}
                   type="text"
-                  register={register(`${data.name}`, {
+                  register={register(data.name, {
                     required: false,
                   })}
                 />
