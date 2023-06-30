@@ -1,22 +1,22 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
+import React, { useState, useContext, useEffect, useRef } from "react";
+import client from "../../feathers";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
-import { format, formatDistanceToNowStrict } from 'date-fns';
-import ReportCreate from './ReportCreate';
-import PatientProfile from '../Client/PatientProfile';
-import LaboratoryReportForm from '../clientForm/forms/laboratoryReportForm';
-import { PageWrapper } from '../../ui/styled/styles';
-import { TableMenu } from '../../ui/styled/global';
-import FilterMenu from '../../components/utilities/FilterMenu';
-import Button from '../../components/buttons/Button';
-import CustomTable from '../../components/customtable';
-import ModalBox from '../../components/modal';
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "bulma-toast";
+import { format, formatDistanceToNowStrict } from "date-fns";
+import ReportCreate from "./ReportCreate";
+import PatientProfile from "../Client/PatientProfile";
+import LaboratoryReportForm from "../clientForm/forms/laboratoryReportForm";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import ModalBox from "../../components/modal";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -34,8 +34,8 @@ export default function LabReport() {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState('');
-  const BillServ = client.service('bills');
+  const [message, setMessage] = useState("");
+  const BillServ = client.service("bills");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -58,10 +58,10 @@ export default function LabReport() {
 
       {reportFormModal && (
         <ModalBox
-          open={state.financeModule.show === 'detail'}
+          open={state.financeModule.show === "detail"}
           header
           onClose={() => setReportFormModal(false)}
-          width={'100%'}
+          width={"100%"}
         >
           <LaboratoryReportForm />
         </ModalBox>
@@ -85,8 +85,8 @@ export function LabOrderList({ openReportFormModal }) {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState('');
-  const BillServ = client.service('bills');
+  const [message, setMessage] = useState("");
+  const BillServ = client.service("bills");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -98,15 +98,15 @@ export function LabOrderList({ openReportFormModal }) {
   const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
   const { user, setUser } = useContext(UserContext);
-  const [selectedFinance, setSelectedFinance] = useState('');
-  const [expanded, setExpanded] = useState('');
-  const [oldClient, setOldClient] = useState('');
+  const [selectedFinance, setSelectedFinance] = useState("");
+  const [expanded, setExpanded] = useState("");
+  const [oldClient, setOldClient] = useState("");
 
   const handleSelectedClient = async (Client) => {
     // await setSelectedClient(Client)
     const newClientModule = {
       selectedClient: Client,
-      show: 'detail',
+      show: "detail",
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -120,7 +120,7 @@ export function LabOrderList({ openReportFormModal }) {
     if (oldClient !== newClient) {
       //alert("New Client Onboard")
       //remove all checked clientsly
-      selectedOrders.forEach((el) => (el.checked = ''));
+      selectedOrders.forEach((el) => (el.checked = ""));
       setSelectedOrders([]);
     }
 
@@ -131,7 +131,7 @@ export function LabOrderList({ openReportFormModal }) {
     await setSelectedFinance(order);
     const newProductEntryModule = {
       selectedFinance: order,
-      show: 'detail',
+      show: "detail",
       state: e.target.checked,
     };
     await setState((prevstate) => ({
@@ -162,7 +162,7 @@ export function LabOrderList({ openReportFormModal }) {
     console.log(order);
     const newProductEntryModule = {
       selectedFinance: order,
-      show: 'detail',
+      show: "detail",
       report_status: order.report_status,
     };
     await setState((prevstate) => ({
@@ -172,13 +172,13 @@ export function LabOrderList({ openReportFormModal }) {
   };
 
   const handleSearch = (val) => {
-    const field = 'name';
+    const field = "name";
     //console.log(val)
     BillServ.find({
       query: {
-        'participantInfo.paymentmode.detail.principalName': {
+        "participantInfo.paymentmode.detail.principalName": {
           $regex: val,
-          $options: 'i',
+          $options: "i",
         },
         /*  $or:[
                 {
@@ -196,24 +196,24 @@ export function LabOrderList({ openReportFormModal }) {
         //order_category:"Prescription",
         $or: [
           {
-            'participantInfo.paymentmode.type': 'Cash',
+            "participantInfo.paymentmode.type": "Cash",
           },
           {
-            'participantInfo.paymentmode.type': 'Family Cover',
+            "participantInfo.paymentmode.type": "Family Cover",
           },
         ],
         // 'orderInfo.orderObj.order_category':"Lab Order",
         $or: [
           {
-            'orderInfo.orderObj.order_category': 'Lab Order',
+            "orderInfo.orderObj.order_category": "Lab Order",
           },
           {
-            'orderInfo.orderObj.order_category': 'Laboratory',
+            "orderInfo.orderObj.order_category": "Laboratory",
           },
         ],
-        'participantInfo.billingFacility':
+        "participantInfo.billingFacility":
           user.currentEmployee.facilityDetail._id,
-        billing_status: 'Unpaid', // need to set this finally
+        billing_status: "Unpaid", // need to set this finally
         // storeId:state.StoreModule.selectedStore._id,
         //facility:user.currentEmployee.facilityDetail._id || "",
         $limit: 20,
@@ -225,13 +225,13 @@ export function LabOrderList({ openReportFormModal }) {
       .then((res) => {
         console.log(res);
         setFacilities(res.groupedOrder);
-        setMessage(' ProductEntry  fetched successfully');
+        setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
       })
       .catch((err) => {
         // console.log(err)
         setMessage(
-          'Error fetching ProductEntry, probable network issues ' + err
+          "Error fetching ProductEntry, probable network issues " + err
         );
         setError(true);
       });
@@ -242,13 +242,13 @@ export function LabOrderList({ openReportFormModal }) {
       query: {
         $or: [
           {
-            'orderInfo.orderObj.order_category': 'Lab Order',
+            "orderInfo.orderObj.order_category": "Lab Order",
           },
           {
-            'orderInfo.orderObj.order_category': 'Laboratory',
+            "orderInfo.orderObj.order_category": "Laboratory",
           },
         ],
-        'participantInfo.billingFacility':
+        "participantInfo.billingFacility":
           user?.currentEmployee?.facilityDetail?._id,
         //'orderInfo.orderObj.order_category':"Lab Order",
         // billing_status:"Unpaid",  //need to set this finally
@@ -261,7 +261,7 @@ export function LabOrderList({ openReportFormModal }) {
       },
     });
 
-    console.log('lab bills', findProductEntry.data);
+    console.log("lab bills", findProductEntry.data);
     await setFacilities(findProductEntry.data);
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
@@ -272,10 +272,10 @@ export function LabOrderList({ openReportFormModal }) {
   useEffect(() => {
     // console.log("started")
     getFacilities();
-    BillServ.on('created', (obj) => getFacilities());
-    BillServ.on('updated', (obj) => getFacilities());
-    BillServ.on('patched', (obj) => getFacilities());
-    BillServ.on('removed', (obj) => getFacilities());
+    BillServ.on("created", (obj) => getFacilities());
+    BillServ.on("updated", (obj) => getFacilities());
+    BillServ.on("patched", (obj) => getFacilities());
+    BillServ.on("removed", (obj) => getFacilities());
     return () => {};
   }, []);
 
@@ -284,8 +284,8 @@ export function LabOrderList({ openReportFormModal }) {
   }, [selectedOrders]);
 
   useEffect(() => {
-    if (state.financeModule.show === 'create') {
-      selectedOrders.forEach((el) => (el.checked = ''));
+    if (state.financeModule.show === "create") {
+      selectedOrders.forEach((el) => (el.checked = ""));
       setSelectedOrders([]);
     }
     return () => {};
@@ -295,7 +295,7 @@ export function LabOrderList({ openReportFormModal }) {
   const handleCreate = async () => {
     const newProductEntryModule = {
       selectedDispense: {},
-      show: 'create',
+      show: "create",
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -307,91 +307,91 @@ export function LabOrderList({ openReportFormModal }) {
 
   const labReportSchema = [
     {
-      name: 'S/No',
-      key: 'sn',
-      description: 'Enter serial number',
+      name: "S/No",
+      key: "sn",
+      description: "Enter serial number",
       selector: (row) => row?.sn,
       sortable: true,
-      inputType: 'HIDDEN',
+      inputType: "HIDDEN",
     },
     {
-      name: 'Date',
-      key: 'createdAt',
-      description: 'Enter date',
+      name: "Date",
+      key: "createdAt",
+      description: "Enter date",
       selector: (row) =>
         row?.createdAt
-          ? format(new Date(row?.createdAt), 'dd/MM/yyyy HH:mm')
-          : '',
+          ? format(new Date(row?.createdAt), "dd/MM/yyyy HH:mm")
+          : "",
       sortable: true,
       required: true,
-      inputType: 'TEXT',
+      inputType: "TEXT",
       validator: yup.string().required("Enter today's date"),
     },
     {
-      name: 'Client',
-      key: 'client',
-      description: 'Enter client name',
+      name: "Client",
+      key: "client",
+      description: "Enter client name",
       selector: (row) => {
         return row?.orderInfo?.orderObj.clientname;
       },
       sortable: true,
       required: true,
-      inputType: 'TEXT',
+      inputType: "TEXT",
       validator: yup.string().required("Enter client's name"),
     },
     {
-      name: 'Test',
-      key: 'description',
-      description: 'Enter test result details',
+      name: "Test",
+      key: "description",
+      description: "Enter test result details",
       selector: (row) => row?.orderInfo?.orderObj.order,
       sortable: true,
       required: true,
-      inputType: 'TEXT',
-      validator: yup.string().required('Enter details of lab results'),
+      inputType: "TEXT",
+      validator: yup.string().required("Enter details of lab results"),
     },
     {
-      name: 'Amount',
-      key: 'amount',
-      description: 'Enter amount',
+      name: "Amount",
+      key: "amount",
+      description: "Enter amount",
       selector: (row) => row?.serviceInfo?.price,
       sortable: true,
       required: true,
-      inputType: 'TEXT',
-      validator: yup.string().required('Enter amount'),
+      inputType: "TEXT",
+      validator: yup.string().required("Enter amount"),
     },
     {
-      name: 'Billing Status',
-      key: 'billing_status',
-      description: 'Enter Payment Status',
+      name: "Billing Status",
+      key: "billing_status",
+      description: "Enter Payment Status",
       selector: (row) => row?.billing_status,
       sortable: true,
       required: true,
-      inputType: 'TEXT',
-      validator: yup.string().required('Enter client payment status'),
+      inputType: "TEXT",
+      validator: yup.string().required("Enter client payment status"),
     },
     {
-      name: 'Report Status',
-      key: 'report_status',
-      description: 'Select facility',
+      name: "Report Status",
+      key: "report_status",
+      description: "Select facility",
       selector: (row) => row?.report_status,
       sortable: true,
       required: true,
-      inputType: 'TEXT',
-      validator: yup.string().required('Enter Client Result Status'),
+      inputType: "TEXT",
+      validator: yup.string().required("Enter Client Result Status"),
     },
   ];
 
   return (
     <>
-      <PageWrapper style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}>
+      <PageWrapper style={{ flexDirection: "column", padding: "0.6rem 1rem" }}>
         <TableMenu>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             {handleSearch && (
               <div className="inner-table">
                 <FilterMenu onSearch={handleSearch} />
               </div>
             )}
-            <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
+            <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
               Lab Result
             </h2>
           </div>
@@ -405,9 +405,9 @@ export function LabOrderList({ openReportFormModal }) {
           )} */}
         </TableMenu>
 
-        <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+        <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
           <CustomTable
-            title={''}
+            title={""}
             columns={labReportSchema}
             data={facilities}
             pointerOnHover
@@ -426,7 +426,7 @@ export function LabNoteCreate() {
   const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
   //const ClientServ=client.service('labresults')
@@ -435,13 +435,13 @@ export function LabNoteCreate() {
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const { state, setState } = useContext(ObjectContext);
-  const [reportStatus, setReportStatus] = useState('Draft');
-  const ClientServ = client.service('labresults');
+  const [reportStatus, setReportStatus] = useState("Draft");
+  const ClientServ = client.service("labresults");
   const order = state.financeModule.selectedFinance;
   const bill_report_status = state.financeModule.report_status;
 
   const getSearchfacility = (obj) => {
-    setValue('facility', obj._id, {
+    setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -455,7 +455,7 @@ export function LabNoteCreate() {
 
   const onSubmit = async (data, e) => {
     e.preventDefault();
-    setMessage('');
+    setMessage("");
     setError(false);
     setSuccess(false);
     let document = {};
@@ -470,12 +470,12 @@ export function LabNoteCreate() {
     // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
     document.location =
       state.employeeLocation.locationName +
-      ' ' +
+      " " +
       state.employeeLocation.locationType;
     document.locationId = state.employeeLocation.locationId;
     document.client = order.orderInfo.orderObj.clientId;
     document.createdBy = user._id;
-    document.createdByname = user.firstname + ' ' + user.lastname;
+    document.createdByname = user.firstname + " " + user.lastname;
     document.status = reportStatus;
     document.billId = order._id;
     //  console.log(document)
@@ -488,23 +488,23 @@ export function LabNoteCreate() {
     ) {
       toast({
         message:
-          ' Documentation data missing, requires location and facility details',
-        type: 'is-danger',
+          " Documentation data missing, requires location and facility details",
+        type: "is-danger",
         dismissible: true,
         pauseOnHover: true,
       });
       return;
     }
 
-    if (bill_report_status === 'Pending') {
+    if (bill_report_status === "Pending") {
       ClientServ.create(document)
         .then((res) => {
           e.target.reset();
 
           setSuccess(true);
           toast({
-            message: 'Lab Result created succesfully',
-            type: 'is-success',
+            message: "Lab Result created succesfully",
+            type: "is-success",
             dismissible: true,
             pauseOnHover: true,
           });
@@ -512,23 +512,23 @@ export function LabNoteCreate() {
         })
         .catch((err) => {
           toast({
-            message: 'Error creating Lab Result ' + err,
-            type: 'is-danger',
+            message: "Error creating Lab Result " + err,
+            type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
           });
         });
     }
 
-    if (bill_report_status === 'Draft') {
+    if (bill_report_status === "Draft") {
       ClientServ.patch(order.resultDetail._id, document)
         .then((res) => {
           e.target.reset();
 
           setSuccess(true);
           toast({
-            message: 'Lab Result updated succesfully',
-            type: 'is-success',
+            message: "Lab Result updated succesfully",
+            type: "is-success",
             dismissible: true,
             pauseOnHover: true,
           });
@@ -536,8 +536,8 @@ export function LabNoteCreate() {
         })
         .catch((err) => {
           toast({
-            message: 'Error updating Lab Result ' + err,
-            type: 'is-danger',
+            message: "Error updating Lab Result " + err,
+            type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
           });
@@ -545,7 +545,7 @@ export function LabNoteCreate() {
     }
     const newProductEntryModule = {
       selectedFinance: order,
-      show: 'show',
+      show: "show",
       // report_status:order.report_status
     };
     await setState((prevstate) => ({
@@ -561,11 +561,11 @@ export function LabNoteCreate() {
 
   useEffect(() => {
     if (!order.resultDetail?.documentdetail) {
-      setValue('Finding', '', {
+      setValue("Finding", "", {
         shouldValidate: true,
         shouldDirty: true,
       });
-      setValue('Recommendation', '', {
+      setValue("Recommendation", "", {
         shouldValidate: true,
         shouldDirty: true,
       });
@@ -573,15 +573,15 @@ export function LabNoteCreate() {
 
       return;
     }
-    if (order.report_status !== 'Pending') {
+    if (order.report_status !== "Pending") {
       console.log(order.resultDetail.documentdetail);
 
-      setValue('Finding', order.resultDetail.documentdetail.Finding, {
+      setValue("Finding", order.resultDetail.documentdetail.Finding, {
         shouldValidate: true,
         shouldDirty: true,
       });
       setValue(
-        'Recommendation',
+        "Recommendation",
         order.resultDetail.documentdetail.Recommendation,
         {
           shouldValidate: true,
@@ -614,11 +614,11 @@ export function LabNoteCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <textarea
                       className="textarea is-small"
-                      {...register('x')}
+                      {...register("x")}
                       name="Finding"
                       type="text"
                       placeholder="Findings"
-                      disabled={bill_report_status === 'Final'}
+                      disabled={bill_report_status === "Final"}
                     />
                   </p>
                 </div>
@@ -630,11 +630,11 @@ export function LabNoteCreate() {
                   <div className="control has-icons-left has-icons-right">
                     <textarea
                       className="textarea is-small"
-                      {...register('x')}
+                      {...register("x")}
                       name="Recommendation"
                       type="text"
                       placeholder="Recommendation"
-                      disabled={bill_report_status === 'Final'}
+                      disabled={bill_report_status === "Final"}
                     />
                   </div>
                 </div>
@@ -647,24 +647,24 @@ export function LabNoteCreate() {
                   name="status"
                   value="Draft"
                   checked={
-                    reportStatus === 'Draft' || reportStatus === 'Pending'
+                    reportStatus === "Draft" || reportStatus === "Pending"
                   }
                   onChange={(e) => {
                     handleChangePart(e);
                   }}
-                  disabled={bill_report_status === 'Final'}
+                  disabled={bill_report_status === "Final"}
                 />
                 <span> Draft</span>
-              </label>{' '}
+              </label>{" "}
               <br />
               <label className=" is-small">
                 <input
                   type="radio"
                   name="status"
                   value="Final"
-                  checked={reportStatus === 'Final'}
+                  checked={reportStatus === "Final"}
                   onChange={(e) => handleChangePart(e)}
-                  disabled={bill_report_status === 'Final'}
+                  disabled={bill_report_status === "Final"}
                 />
                 <span> Final </span>
               </label>
@@ -674,9 +674,9 @@ export function LabNoteCreate() {
                 <button
                   type="submit"
                   className="button is-success is-small"
-                  disabled={bill_report_status === 'Final'}
+                  disabled={bill_report_status === "Final"}
                 >
-                  {bill_report_status === 'Pending' ? 'Save' : 'Update'}
+                  {bill_report_status === "Pending" ? "Save" : "Update"}
                 </button>
               </p>
               {/*  <p className="control">

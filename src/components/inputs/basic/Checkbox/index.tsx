@@ -6,8 +6,8 @@ import {
   FormLabel,
   Typography,
 } from "@mui/material";
-import React, {useState} from "react";
-import {Controller} from "react-hook-form";
+import React, { useState } from "react";
+import { Controller } from "react-hook-form";
 
 interface CheckboxProps {
   label: string;
@@ -34,13 +34,13 @@ const CheckboxInput: React.FC<CheckboxProps> = ({
 }) => {
   const [values, setValues] = useState({});
 
-  const handleChange = e => {
-    const newValues = {...values, [e.target.value]: !values[e.target.value]};
+  const handleChange = (e) => {
+    const newValues = { ...values, [e.target.value]: !values[e.target.value] };
     setValues(newValues);
     const selected = Object.entries(newValues)
       .filter(([, value]) => value)
       .map(([key]) => key);
-    onChange({target: {value: selected}});
+    onChange({ target: { value: selected } });
   };
 
   if (control)
@@ -48,11 +48,11 @@ const CheckboxInput: React.FC<CheckboxProps> = ({
       <FormControl
         disabled={disabled}
         component="fieldset"
-        sx={{width: "100%", mt: 1, mb: 1}}
+        sx={{ width: "100%", mt: 1, mb: 1 }}
       >
         {label && (
           <FormLabel
-            sx={{color: "#000000", fontSize: "0.85rem"}}
+            sx={{ color: "#000000", fontSize: "0.85rem" }}
             component="legend"
           >
             {label}
@@ -75,13 +75,13 @@ const CheckboxInput: React.FC<CheckboxProps> = ({
               control={control}
               defaultValue={false}
               render={({
-                field: {onChange, onBlur, value, name, ref},
-                fieldState: {isTouched, isDirty, error},
+                field: { onChange, onBlur, value, name, ref },
+                fieldState: { isTouched, isDirty, error },
                 formState,
               }) => (
                 <FormControlLabel
                   label={
-                    <Typography sx={{fontSize: "0.8rem", marginLeft: "-5px"}}>
+                    <Typography sx={{ fontSize: "0.8rem", marginLeft: "-5px" }}>
                       {option.label || option}
                     </Typography>
                   }
@@ -106,11 +106,11 @@ const CheckboxInput: React.FC<CheckboxProps> = ({
     <FormControl
       disabled={disabled}
       component="fieldset"
-      sx={{width: "100%", mt: 1, mb: 1}}
+      sx={{ width: "100%", mt: 1, mb: 1 }}
     >
       {label && (
         <FormLabel
-          sx={{color: "#000000", fontSize: "0.85rem"}}
+          sx={{ color: "#000000", fontSize: "0.85rem" }}
           component="legend"
         >
           {label}
@@ -131,7 +131,7 @@ const CheckboxInput: React.FC<CheckboxProps> = ({
             key={i}
             defaultValue={defaultValue}
             label={
-              <Typography sx={{fontSize: "0.8rem", marginLeft: "-5px"}}>
+              <Typography sx={{ fontSize: "0.8rem", marginLeft: "-5px" }}>
                 {option.label || option}
               </Typography>
             }
