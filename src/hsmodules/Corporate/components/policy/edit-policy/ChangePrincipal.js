@@ -22,7 +22,7 @@ import {createClientSchema2} from "../../../../Client/schema";
 
 import {getBase64} from "../../../../helpers/getBase64";
 import dayjs from "dayjs";
-import {ClientSearch} from "../../../../helpers/ClientSearch";
+import {ClientSearch} from "../../../../helpers/ClientSearchNofacility";
 import {Nigeria} from "../../../../app/Nigeria";
 
 const ChangePolicyPrincipal = ({closeModal}) => {
@@ -317,7 +317,7 @@ const ChangePolicyPrincipal = ({closeModal}) => {
       } else {
         const defaultEmail = `${data.firstname}-${data.lastname}-${dayjs(
           data.dob
-        ).format("DD/MM/YYY")}@healthstack.africa`;
+        ).format("DD-MM-YYY")}@healthstack.africa`;
 
         const clientData = {
           ...data,

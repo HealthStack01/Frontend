@@ -140,6 +140,7 @@ const BeneficiariesList = ({showDetail}) => {
           clientType: "Dependent",
           sponsortype: policy?.sponsorshipType,
           approved: policy?.approved,
+          policy: policy,
         };
       });
       return [
@@ -151,6 +152,7 @@ const BeneficiariesList = ({showDetail}) => {
           clientType: "Principal",
           sponsortype: policy?.sponsorshipType,
           approved: policy?.approved,
+          policy: policy,
         },
         ...dependents,
       ];

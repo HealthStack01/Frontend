@@ -36,6 +36,10 @@ import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import AddIcon from "@mui/icons-material/Add";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import PeopleIcon from "@mui/icons-material/People";
+import ChangePolicyPrincipal from "./components/policy/edit-policy/ChangePrincipal";
+import AddDependentToPolicy from "./components/policy/edit-policy/AddDependent";
+import PolicyAddProvider from "./components/policy/edit-policy/AddProvider";
+import ChangePolicySponsor from "./components/policy/edit-policy/ChangeSponsor";
 //import PolicyDetail from "./components/policy/Details";
 
 import {
@@ -2939,7 +2943,7 @@ export function PolicyDetail({showModal, setShowModal}) {
   const [modal, setModal] = useState("");
 
   let Client = state.ManagedCareModule.selectedClient;
-  
+  //console.log(Client)
 
   useEffect(() => {
     let Client = state.ManagedCareModule.selectedClient;
@@ -3002,6 +3006,7 @@ export function PolicyDetail({showModal, setShowModal}) {
     setBillModal(false);
   };
   const updateDetail = async data => {
+    alert("about to update")
     const docId = state.ManagedCareModule.selectedClient._id;
     let Client = state.ManagedCareModule.selectedClient;
     const employee = user.currentEmployee;
@@ -3047,9 +3052,11 @@ export function PolicyDetail({showModal, setShowModal}) {
       });
   };
 
-  const approvePolicy = async () => {
+  const dectivatePolicy = async () => {
     const docId = state.ManagedCareModule.selectedClient._id;
     const employee = user.currentEmployee;
+    alert("deactivating Policy")
+    console.log("deactivating")
     const policyDetails = {
       approved: true,
       active: true,
@@ -3065,7 +3072,7 @@ export function PolicyDetail({showModal, setShowModal}) {
           date: new Date(),
           employeename: `${employee?.firstname} ${employee?.lastname}`,
           employeeId: employee?._id,
-          status: "Policy Approved",
+          status: "Policy Deactivated",
         },
       ],
     };
@@ -3077,12 +3084,12 @@ export function PolicyDetail({showModal, setShowModal}) {
           ...prev,
           ManagedCareModule: {...prev.ManagedCareModule, selectedClient: res},
         }));
-        toast.success("Policy Approved");
+        toast.success("Policy Deactivated");
         setEditPolicy(false);
       })
       .catch(err => {
         //console.log(err);
-        toast.error("Error Approving Policy" + err);
+        toast.error("Error Deactivating Policy" + err);
         setEditPolicy(false);
       });
   };
@@ -3140,6 +3147,7 @@ export function PolicyDetail({showModal, setShowModal}) {
     .map(plan => plan.planName);
 
   return (
+    <form onSubmit={handleSubmit()}>
     <>
       <div
         className="card "
@@ -3226,11 +3234,11 @@ export function PolicyDetail({showModal, setShowModal}) {
                   text={`${Client?.principal?.firstname} ${Client?.principal?.lastname}'s Details`}
                 />
                 <Box>
-                  {!facility.approved && (
+                  {facility.approved && (
                     <GlobalCustomButton
                       color="success"
-                      onClick={handleSubmit(approvePolicy)}
-                      text="Approve"
+                      onClick={handleSubmit(dectivatePolicy)}
+                      text="Deactivate Policy"
                       sx={{marginRight: "5px"}}
                     />
                   )}
@@ -3457,7 +3465,7 @@ export function PolicyDetail({showModal, setShowModal}) {
                   <FormsHeaderText text="Sponsor Details" />
                   <GlobalCustomButton
                 onClick={() => setModal("sponsor")}
-                disabled={!editPolicy}
+                disabled={user.currentEmployee.facilityDetail.facilityType==="Corporate"||!editPolicy }
               >
                 {Client?.sponsor ? "Edit Sponsor" : "Add Sponsor"}
               </GlobalCustomButton>
@@ -3515,7 +3523,7 @@ export function PolicyDetail({showModal, setShowModal}) {
                >
                 <FormsHeaderText text="Principal Details" />
                 <GlobalCustomButton
-              onClick={() => setModal("provider")}
+              onClick={() => setModal("principal")}
               disabled={!editPolicy}
             >
               Edit Principal
@@ -3536,6 +3544,8 @@ export function PolicyDetail({showModal, setShowModal}) {
                  <Grid item md={12}>
 
              {/*    //// Dependent */}
+             {Client.planType === "Family" && (
+              <>
               <Box
                 sx={{
                   display: "flex",
@@ -3546,7 +3556,7 @@ export function PolicyDetail({showModal, setShowModal}) {
                >
                 <FormsHeaderText text="Dependent Details" />
                 <GlobalCustomButton
-              onClick={() => setModal("provider")}
+              onClick={() => setModal("dependent")}
               disabled={!editPolicy}
             >
               Add Dependents
@@ -3563,6 +3573,8 @@ export function PolicyDetail({showModal, setShowModal}) {
                   progressPending={loading}
                   CustomEmptyData="You have no Dependant yet"
                 />
+                </>
+             )}
 
 
                    {/*    //// HMO  */}
@@ -3628,7 +3640,61 @@ export function PolicyDetail({showModal, setShowModal}) {
           )}
         </Box>
       </div>
+      <ModalBox
+        open={modal === "principal"}
+        onClose={() => {
+          setModal(null);
+        }}
+      >
+        <ChangePolicyPrincipal
+          closeModal={() => {
+            setModal(null);
+          }}
+        />
+      </ModalBox>
+
+      <ModalBox
+        open={modal === "sponsor"}
+        onClose={() => {
+          setModal(null);
+        }}
+      >
+        <ChangePolicySponsor
+          closeModal={() => {
+            setModal(null);
+          }}
+        />
+      </ModalBox>
+
+      <ModalBox
+        open={modal === "dependent"}
+        onClose={() => {
+          setModal(null);
+        }}
+      >
+        <AddDependentToPolicy
+          closeModal={() => {
+            setModal(null);
+          }}
+        />
+      </ModalBox>
+
+      <ModalBox
+        open={modal === "provider"}
+        onClose={() => {
+          setModal(null);
+        }}
+      >
+        <PolicyAddProvider
+          closeModal={() => {
+            setModal(null);
+          }}
+        hmoid={Client?.organizationId}
+        
+        />
+      </ModalBox>
     </>
+    </form>
   );
 }
 

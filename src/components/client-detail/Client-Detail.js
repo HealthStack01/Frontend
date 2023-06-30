@@ -16,13 +16,13 @@ const malePlaceholder =
 const placeholder =
   "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png";
 
-const DefaultClientDetail = ({detail, goBack, showHeader}) => {
-  const {register, reset} = useForm();
+const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
+  const {register, reset, handleSubmit} = useForm();
   const [view, setView] = useState("details");
   const [edit, setEdit] = useState(false);
 
   useEffect(() => {
-    console.log(detail);
+    //console.log(detail);
     const defaultValues = {
       ...detail,
       dob: dayjs(detail?.dob).format("MMM DD, YYYY"),
@@ -31,6 +31,21 @@ const DefaultClientDetail = ({detail, goBack, showHeader}) => {
 
     reset(defaultValues);
   }, []);
+
+  const handleUpdateClient = data => {
+    updateClient(data);
+  };
+
+  const handleCancelUpdate = () => {
+    const defaultValues = {
+      ...detail,
+      dob: dayjs(detail?.dob).format("MMM DD, YYYY"),
+      createdAt: dayjs(detail?.createdAt).format("MMM DD, YYYY"),
+    };
+
+    reset(defaultValues);
+    setEdit(false);
+  };
 
   return (
     <Box>
@@ -80,12 +95,15 @@ const DefaultClientDetail = ({detail, goBack, showHeader}) => {
               }}
               gap={1}
             >
-              <GlobalCustomButton color="success">
+              <GlobalCustomButton
+                color="success"
+                onClick={handleSubmit(handleUpdateClient)}
+              >
                 <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                 Update Client
               </GlobalCustomButton>
 
-              <GlobalCustomButton color="warning">
+              <GlobalCustomButton color="warning" onClick={handleCancelUpdate}>
                 <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                 Cancel Update
               </GlobalCustomButton>
@@ -100,12 +118,12 @@ const DefaultClientDetail = ({detail, goBack, showHeader}) => {
               }}
               gap={1}
             >
-              {/* {view === "details" && (
+              {view === "details" && (
                 <GlobalCustomButton onClick={() => setEdit(true)}>
                   <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                   Edit Client
                 </GlobalCustomButton>
-              )} */}
+              )}
 
               <GlobalCustomButton
                 onClick={() => setView("details")}
