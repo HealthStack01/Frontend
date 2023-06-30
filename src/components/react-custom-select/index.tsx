@@ -48,17 +48,20 @@ const ReactCustomSelectComponent = ({
             isLoading={isLoading}
             styles={{
               menuPortal: base => ({...base, zIndex: 9999, color: "#2d2d2d"}),
+
               control: (baseStyles, state) => ({
                 ...baseStyles,
                 width: "100%",
+                height: "2.2rem",
                 minHeight: "2.2rem",
                 borderRadius: "3px",
+                background: state.isDisabled ? "#f8f8f8" : "#ffffff",
+                color: state.isDisabled ? "#2d2d2d !important" : "red",
                 borderColor: error
                   ? "#f03030"
                   : state.isFocused
                   ? "#E2E8F0"
                   : "#E2E8F0",
-                // zIndex: 9999,
               }),
             }}
             menuPortalTarget={document.body}

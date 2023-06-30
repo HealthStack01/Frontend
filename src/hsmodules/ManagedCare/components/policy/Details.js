@@ -399,8 +399,8 @@ const PolicyDetail = ({goBack, beneficiary}) => {
     },
   ];
 
-  const onBeneficiaryRowClick = row => {
-    setClientDetail(row);
+  const onBeneficiaryRowClick = (row, type) => {
+    setClientDetail({...row, clientType: type});
     setView("client");
   };
 
@@ -409,8 +409,44 @@ const PolicyDetail = ({goBack, beneficiary}) => {
     setView("facility");
   };
 
-  const handleReturn = () => {
-    setClientDetail(null);
+  const handleUpdateClient = update => {
+    showActionLoader();
+
+    const prevPolicy = policy;
+
+    const isPrincipal = clientDetail.clientType.toLowerCase() === "principal";
+    const dependents = prevPolicy.dependantBeneficiaries;
+
+    const updatedPolicy = isPrincipal
+      ? {...prevPolicy, principal: update}
+      : {
+          ...prevPolicy,
+          dependantBeneficiaries: dependents.map(item => {
+            if (item._id === update._id) {
+              return update;
+            } else {
+              return item;
+            }
+          }),
+        };
+
+    // return console.log(updatedPolicy);
+
+    policyServer
+      .patch(prevPolicy._id, updatedPolicy)
+      .then(res => {
+        //console.log(res);
+        setState(prev => ({
+          ...prev,
+          PolicyModule: {...prev.PolicyModule, selectedPolicy: res},
+        }));
+        hideActionLoader();
+        toast.success("Beneficiary Updated Successfully.");
+      })
+      .catch(error => {
+        hideActionLoader();
+        toast.error(`Failed to update Beneficiary ${err}`);
+      });
   };
 
   return (
@@ -614,7 +650,13 @@ const PolicyDetail = ({goBack, beneficiary}) => {
           overflowY: "scroll",
         }}
       >
-        {view === "client" && <DefaultClientDetail detail={clientDetail} />}
+        {view === "client" && (
+          <DefaultClientDetail
+            detail={clientDetail}
+            updateClient={handleUpdateClient}
+            goBack={() => setView("details")}
+          />
+        )}
 
         {view === "facility" && (
           <DefaultFacilityDetail detail={facilityDetail} />
@@ -667,12 +709,10 @@ const PolicyDetail = ({goBack, beneficiary}) => {
 
                 <Grid item md={4}>
                   <ReactCustomSelectComponent
-                    //multiple
-                    //defaultValue={}
+                    disabled={!edit}
                     control={control}
                     isLoading={fetchingPlans}
                     label="Plan Type"
-                    //disabled={channelType === "Location" && location === ""}
                     name="plan"
                     placeholder="Select healthplan..."
                     options={healthPlans.map(item => {
@@ -702,8 +742,7 @@ const PolicyDetail = ({goBack, beneficiary}) => {
 
                 <Grid item md={4}>
                   <ReactCustomSelectComponent
-                    //multiple
-                    //defaultValue={isActive.value}
+                    disabled={!edit}
                     control={control}
                     isLoading={fetchingPlans}
                     name="active"
@@ -724,8 +763,7 @@ const PolicyDetail = ({goBack, beneficiary}) => {
 
                 <Grid item md={4}>
                   <ReactCustomSelectComponent
-                    //multiple
-                    //defaultValue={isPaid.value}
+                    disabled={!edit}
                     label="Payment Status"
                     control={control}
                     isLoading={fetchingPlans}
@@ -860,7 +898,7 @@ const PolicyDetail = ({goBack, beneficiary}) => {
                 pointerOnHover
                 highlightOnHover
                 striped
-                onRowClicked={onBeneficiaryRowClick}
+                onRowClicked={data => onBeneficiaryRowClick(data, "principal")}
                 progressPending={false}
                 CustomEmptyData="You have no Principal yet."
               />
@@ -893,7 +931,9 @@ const PolicyDetail = ({goBack, beneficiary}) => {
                   pointerOnHover
                   highlightOnHover
                   striped
-                  onRowClicked={onBeneficiaryRowClick}
+                  onRowClicked={data =>
+                    onBeneficiaryRowClick(data, "dependent")
+                  }
                   progressPending={false}
                   CustomEmptyData="You have no Dependants yet."
                 />
