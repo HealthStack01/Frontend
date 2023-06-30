@@ -22,7 +22,7 @@ const ChatConversationHeader = () => {
   const chatroomServer = client.service("chatroom");
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const chatRoom = state.ChatModule.chatRoom;
+  const chatRoom = state.ChatRoom;
 
   const chatPartner = chatRoom.members.find(
     item => item._id !== user.currentEmployee._id
@@ -57,17 +57,15 @@ const ChatConversationHeader = () => {
   };
 
   const handleDeleteChat = () => {
-    const chat_id = state.ChatModule.chatRoom._id;
+    const chat_id = state.ChatRoom._id;
 
     chatroomServer
       .remove(chat_id)
       .then(res => {
         setState(prev => ({
           ...prev,
-          ChatModule: {
-            ...prev.ChatModule,
-            chatRoom: null,
-          },
+
+          ChatRoom: null,
         }));
         toast.success("You have successfully deleted a chat");
       })
@@ -79,10 +77,7 @@ const ChatConversationHeader = () => {
   const handleCloseChat = () => {
     setState(prev => ({
       ...prev,
-      ChatModule: {
-        ...prev.ChatModule,
-        chatRoom: null,
-      },
+      ChatRoom: null,
     }));
   };
 
@@ -104,16 +99,15 @@ const ChatConversationHeader = () => {
           gap: 1.5,
         }}
       >
-        <Avatar
-          {...returnAvatarString(
-            `${
-              chatRoom.chatType === "personal"
-                ? chatPartner?.name
-                : chatRoom.name
-            }`
-          )}
-          src={chatPartner?.imageurl}
-        />
+        {chatRoom.chatType === "personal" ? (
+          <Avatar
+            {...returnAvatarString(`${chatPartner?.name}`)}
+            src={chatPartner?.imageurl}
+          />
+        ) : (
+          <Avatar src="https://www.pngkit.com/png/detail/128-1284523_group-chat-icon-google-group-chat-icon.png" />
+        )}
+
         <Box
           sx={{
             display: "flex",

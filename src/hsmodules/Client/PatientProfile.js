@@ -31,9 +31,9 @@ import {Card, Button as MuiButton, Typography, Avatar} from "@mui/material";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {TransactionClientAccount} from "../Finance/ClientTransactions";
 import {returnAvatarString} from "../helpers/returnAvatarString";
-import ClientPolicy from "../ManagedCare/ClientPolicy"
-import ClientPreauthorization from "../ManagedCare/ClientPreAuth"
-import ClientClaims from "../ManagedCare/ClientClaims"
+import ClientPolicy from "../ManagedCare/ClientPolicy";
+import ClientPreauthorization from "../ManagedCare/ClientPreAuth";
+import ClientClaims from "../ManagedCare/ClientClaims";
 import ClientHealthPlan from "../ManagedCare/ClientHealthPlan";
 
 export default function PatientProfile() {
@@ -55,7 +55,8 @@ export default function PatientProfile() {
   const [diagnoisHistoryModal, setDiagnoisHistory] = useState(false);
   const [medicalProfile, setMedicalProfileModel] = useState(false);
   const [accountModal, setAccountModal] = useState(false);
-  const client = state.ClientModule.selectedClient;
+  const [client, setClient] = useState({});
+
   const {
     firstname,
     middlename,
@@ -64,31 +65,22 @@ export default function PatientProfile() {
     gender,
     maritalstatus,
     religion,
-    phone,
-    email,
     profession,
-
-    nok_name,
-    nok_phoneno,
-    nok_email,
-    nok_relationship,
     bloodgroup,
     genotype,
     disabilities,
     specificDetails,
     clientTags,
-    mrn,
-    address,
-    city,
-    lga,
-    //state,
-    country,
     allergies,
     comorbidities,
     paymentinfo,
     imageurl,
-  } = state.ClientModule.selectedClient;
- 
+  } = client;
+
+  useEffect(() => {
+    const client = state.ClientModule.selectedClient;
+    setClient(client);
+  }, [state.ClientModule]);
 
   /*   const {
         cash,
@@ -143,51 +135,48 @@ export default function PatientProfile() {
 
   const isHMO = client._id && client.paymentinfo.some(checkHMO);
 
-  const openPolicy = async()=>{
-    console.log("starting plicy modal")
-    let paymentInfo = state.ClientModule.selectedClient.paymentinfo
-    let hmoinfo=paymentInfo.filter(el=>el.paymentmode==="HMO" )
-    console.log(hmoinfo)
-    if (hmoinfo.length>0){
-     let chosenPolicy= hmoinfo[0].policy
-     //await setSelectedClient(Client);
-     const newClientModule = {
-       selectedClient: chosenPolicy,
-       show: "detail",
-     };
-     await setState(prevstate => ({
-       ...prevstate,
-       ManagedCareModule: newClientModule,
-     }));
- 
-     setPolicyModal(true)
-    }else{
-   return  toast.error("policy does not exist")
- 
-    }
-    
+  const openPolicy = async () => {
+    console.log("starting plicy modal");
+    let paymentInfo = state.ClientModule.selectedClient.paymentinfo;
+    let hmoinfo = paymentInfo.filter(el => el.paymentmode === "HMO");
+    console.log(hmoinfo);
+    if (hmoinfo.length > 0) {
+      let chosenPolicy = hmoinfo[0].policy;
+      //await setSelectedClient(Client);
+      const newClientModule = {
+        selectedClient: chosenPolicy,
+        show: "detail",
+      };
+      await setState(prevstate => ({
+        ...prevstate,
+        ManagedCareModule: newClientModule,
+      }));
 
-  }
+      setPolicyModal(true);
+    } else {
+      return toast.error("policy does not exist");
+    }
+  };
 
   const profileButtons = [
     {
       title: "Policy",
-      action: ()=> openPolicy(), //navigate(`/app/clients/benefits/${client._id}`),
+      action: () => navigate(`/app/clients/benefits/${client._id}`),
       hide: !isHMO,
     },
     {
       title: "Benefits",
-      action: () =>setBenefitsModal(true), //navigate(`/app/clients/benefits/${client._id}`),
+      action: () => navigate(`/app/clients/benefits/${client._id}`),
       hide: !isHMO,
     },
     {
       title: "Preauthorization",
-      action: () => setPreauthModal(true),// navigate(`/app/clients/pre-authorization/${client._id}`),
+      action: () => navigate(`/app/clients/pre-authorization/${client._id}`),
       hide: !isHMO,
     },
     {
       title: "Claims",
-      action: () => setClaimsModal(true), //navigate(`/app/clients/claims/${client._id}`),
+      action: () => navigate(`/app/clients/claims/${client._id}`),
       hide: !isHMO,
     },
     {
@@ -300,42 +289,81 @@ export default function PatientProfile() {
                 mb={1}
               >
                 <Box>
-                <Typography sx={{fontSize: "0.75rem", fontWeight: "600"}}>
-                  Payment Info:
-                </Typography>
-              
-                {paymentinfo &&
-                  paymentinfo.map((pay, i) => (
-                    <>
-                    <Typography
-                      sx={{fontSize: "0.75rem",  fontWeight: "600"}}
-                      /* data-tag="allowRowEvents" */
-                    >
-                      {pay?.paymentmode}
-                      {pay?.paymentmode === "Cash" ? "" : ":"}
-                      {pay?.organizationName}
-                      {","}&nbsp;
-                    </Typography>
-                 
-                    <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
-                    {pay?.paymentmode === "HMO" && <>Plan: {pay?.plan?pay?.plan:pay?.policy?.plan?.planName} </>}
-                    </Typography>
-                    <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
-                    {pay?.paymentmode === "HMO" && <>Client ID: {pay?.clientId?pay?.clientId:pay?.policy?.policyNo} </>}
-                    </Typography>
-                    <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
-                    {pay?.paymentmode === "HMO" && <>Principal: {pay?.PrincipalName? pay?.PrincipalName:`${pay.policy?.principal?.firstname}  ${pay?.policy?.principal?.lastname}`}</>}
-                    </Typography>
-                   <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
-                    {pay?.paymentmode === "HMO" && <>Principal ID: {pay?.PrincipalId?pay?.PrincipalId:pay?.policy?.policyNo} </>}
-                    </Typography> 
-                    <Typography  sx={{fontSize: "0.75rem", fontWeight: "600"}}>
-                    {pay?.paymentmode === "HMO" && <>Active: {pay?.active.toString()} </>}
-                    </Typography>
-                    </>
-                  ))}
-                  
-              </Box>
+                  <Typography sx={{fontSize: "0.75rem", fontWeight: "600"}}>
+                    Payment Info:
+                  </Typography>
+
+                  {paymentinfo &&
+                    paymentinfo.map((pay, i) => (
+                      <>
+                        <Typography
+                          sx={{fontSize: "0.75rem", fontWeight: "600"}}
+                          /* data-tag="allowRowEvents" */
+                        >
+                          {pay?.paymentmode}
+                          {pay?.paymentmode === "Cash" ? "" : ":"}
+                          {pay?.organizationName}
+                          {","}&nbsp;
+                        </Typography>
+
+                        <Typography
+                          sx={{fontSize: "0.75rem", fontWeight: "600"}}
+                        >
+                          {pay?.paymentmode === "HMO" && (
+                            <>
+                              Plan:{" "}
+                              {pay?.plan
+                                ? pay?.plan
+                                : pay?.policy?.plan?.planName}{" "}
+                            </>
+                          )}
+                        </Typography>
+                        <Typography
+                          sx={{fontSize: "0.75rem", fontWeight: "600"}}
+                        >
+                          {pay?.paymentmode === "HMO" && (
+                            <>
+                              Client ID:{" "}
+                              {pay?.clientId
+                                ? pay?.clientId
+                                : pay?.policy?.policyNo}{" "}
+                            </>
+                          )}
+                        </Typography>
+                        <Typography
+                          sx={{fontSize: "0.75rem", fontWeight: "600"}}
+                        >
+                          {pay?.paymentmode === "HMO" && (
+                            <>
+                              Principal:{" "}
+                              {pay?.PrincipalName
+                                ? pay?.PrincipalName
+                                : `${pay.policy?.principal?.firstname}  ${pay?.policy?.principal?.lastname}`}
+                            </>
+                          )}
+                        </Typography>
+                        <Typography
+                          sx={{fontSize: "0.75rem", fontWeight: "600"}}
+                        >
+                          {pay?.paymentmode === "HMO" && (
+                            <>
+                              Principal ID:{" "}
+                              {pay?.PrincipalId
+                                ? pay?.PrincipalId
+                                : pay?.policy?.policyNo}{" "}
+                            </>
+                          )}
+                        </Typography>
+                        <Typography
+                          sx={{fontSize: "0.75rem", fontWeight: "600"}}
+                        >
+                          {pay?.paymentmode === "HMO" && (
+                            <>Active: {pay?.active.toString()} </>
+                          )}
+                        </Typography>
+                      </>
+                    ))}
+                </Box>
               </Box>
 
               {!isHMO && (
@@ -410,18 +438,18 @@ export default function PatientProfile() {
           </Card>
         </div>
       )}
-        {/* ******************************************* Policy ********************************************** */}
+      {/* ******************************************* Policy ********************************************** */}
 
-  <ModalBox
+      <ModalBox
         open={policyModal}
         onClose={() => setPolicyModal(false)}
         header="Policy"
       >
         <ClientPolicy closeModal={() => setPolicyModal(false)} />
       </ModalBox>
-  {/* ******************************************* Benefits ********************************************** */}
+      {/* ******************************************* Benefits ********************************************** */}
 
-  <ModalBox
+      <ModalBox
         open={benefitsModal}
         onClose={() => setBenefitsModal(false)}
         header="Benefits"
@@ -429,9 +457,9 @@ export default function PatientProfile() {
         <ClientHealthPlan closeModal={() => setBenefitsModal(false)} />
       </ModalBox>
 
-        {/* ******************************************* Preauth ********************************************** */}
+      {/* ******************************************* Preauth ********************************************** */}
 
-        <ModalBox
+      <ModalBox
         open={preauthModal}
         onClose={() => setPreauthModal(false)}
         header="Preauthorization"
@@ -439,9 +467,9 @@ export default function PatientProfile() {
         <ClientPreauthorization closeModal={() => setPreauthModal(false)} />
       </ModalBox>
 
-        {/* ******************************************* Claims ********************************************** */}
+      {/* ******************************************* Claims ********************************************** */}
 
-        <ModalBox
+      <ModalBox
         open={claimsModal}
         onClose={() => setClaimsModal(false)}
         header="Claims"

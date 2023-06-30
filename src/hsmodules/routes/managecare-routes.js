@@ -1,15 +1,18 @@
-import {lazy} from "react";
+import { lazy } from "react";
 //import {PreAuth} from "../ManagedCare/NewPreAuth";
 
 const Policy = lazy(() => import("../ManagedCare/Policy"));
+const NewPolicy = lazy(() => import("../ManagedCare/NewPolicy"));
 const ExternalPolicy = lazy(() => import("../ManagedCare/externalPolicy"));
 const Beneficiary = lazy(() => import("../ManagedCare/Beneficiary"));
+const NewBeneficiary = lazy(() => import("../ManagedCare/New-Beneficiary"));
 const Tariff = lazy(() => import("../ManagedCare/New-Tarrif"));
 const HealthPlan = lazy(() => import("../ManagedCare/HealthPlan"));
 const Referral = lazy(() => import("../ManagedCare/Referral"));
 
 const HiaOrganizationClient = lazy(() => import("../ManagedCare/HIA"));
 const CorporateClient = lazy(() => import("../ManagedCare/Corporate"));
+const NewCorporateClient = lazy(() => import("../ManagedCare/New-Corporate"));
 const Claims = lazy(() => import("../ManagedCare/Claims"));
 //const ClaimsDetails = lazy(() => import('../ManagedCare/ClaimsDetails'));
 const FundsManagement = lazy(() => import("../ManagedCare/FundsManagement"));
@@ -54,7 +57,7 @@ export const managedCareRoutes = [
   },
   {
     path: "/app/managed-care/policy",
-    Component: Policy,
+    Component: NewPolicy,
   },
   {
     path: "/app/managed-care/external-policy",
@@ -90,7 +93,7 @@ export const managedCareRoutes = [
   },
   {
     path: "/app/managed-care/corporate",
-    Component: CorporateClient,
+    Component: NewCorporateClient,
   },
   {
     path: "/app/managed-care/invoice",
@@ -106,7 +109,7 @@ export const managedCareRoutes = [
   },
   {
     path: "/app/managed-care/beneficiary",
-    Component: Beneficiary,
+    Component: NewBeneficiary,
   },
 
   {

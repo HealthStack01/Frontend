@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import Input from "../../components/inputs/basic/Input";
 import ViewText from "../../components/viewtext";
-import { UserContext,ObjectContext } from "../../context";
+import { UserContext, ObjectContext } from "../../context";
 import { Box, IconButton, Grid, Typography } from "@mui/material";
 import client from "../../feathers";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -39,21 +39,36 @@ const LocationView = ({ open, setOpen, location }) => {
   const [openLoc, setOpenLoc] = useState(false);
   const [openSubLoc, setOpenSubLoc] = useState(false);
   const sublocationTypeOptions = ["Bed", "Unit"];
-  const [typeLocation,setTypeLocation] = useState('')
-  const [typeName, setTypeName] = useState('')
+  const [typeLocation, setTypeLocation] = useState("");
+  const [typeName, setTypeName] = useState("");
   const [confirmDialog, setConfirmDialog] = useState(false);
   const [confirmDialog2, setConfirmDialog2] = useState(false);
-  const [sublocationData,setSubLocationData] = useState([])
+  const [sublocationData, setSubLocationData] = useState([]);
+  const [locationType, setLocationType] = useState(location.locationType);
+  const [locationName, setLocationName] = useState(location.name);
+
   // const { state, setState } = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   const data = JSON.parse(result);
   const locationDetails = state.LocationModule.selectedLocation;
+
+  const locationTypeOptions = [
+    "Front Desk",
+    "Clinic",
+    "Ward",
+    "Store",
+    "Laboratory",
+    "Finance",
+    "Theatre",
+    "Pharmacy",
+    "Radiology",
+    "Managed Care",
+  ];
 
   // console.log("locationDetails", locationDetails);
   const handleCloseModal = () => {
     setOpenLoc(false);
   };
-
 
   const handleClose = () => {
     setOpenSubLoc(false);
@@ -63,7 +78,7 @@ const LocationView = ({ open, setOpen, location }) => {
     handleSubmit,
     formState: { errors },
     reset,
-    control
+    control,
   } = useForm({
     resolver: yupResolver(createLocationSchema),
 
@@ -126,49 +141,55 @@ const LocationView = ({ open, setOpen, location }) => {
     });
   }, []);
 
-  const existingSublocation = location.sublocations.filter(items => items.typeName === typeName)
+  const existingSublocation = location.sublocations.filter(
+    (items) => items.typeName === typeName
+  );
 
   const onSubmit = (e) => {
     // e.preventDefault();
+
     if (typeLocation === "" && typeName === "") {
       alert("Kindly enter missing data ");
     }
-   
+
     if (!location.sublocations) {
       location.sublocations = [];
     }
 
-    if(existingSublocation.length > 0){
-      toast.warning('Name already choosen')
+    if (existingSublocation.length > 0) {
+      toast.warning("Name already choosen");
       return;
     }
 
     let data = {
       type: typeLocation,
-      typeName : typeName
-    }
+      typeName: typeName,
+    };
 
     //  console.log(data);
-  
 
     location.sublocations.push(data);
     reset();
-  
   };
 
   const handleRowClick = (sublocation) => {
-    setSubLocationData(sublocation)
-    setOpenSubLoc(true)
-  }
+    setSubLocationData(sublocation);
+    setOpenSubLoc(true);
+  };
 
-  const submit = async (data) => {
+  const submit = async () => {
+    console.log("===>>>> form", {
+      name: locationName,
+      type: locationType,
+    });
     setLoading(true);
+    const data = {};
     // e.preventDefault();
-    data.name = data.name;
-    data.locationType = data.locationType;
+    data.name = locationName;
+    data.locationType = locationType;
     data.sublocations = locationDetails.sublocations;
     setSuccess(false);
-    console.log(data);
+    console.log("data", data);
     await LocationServ.patch(locationDetails._id, data)
       .then((res) => {
         console.log(res);
@@ -186,48 +207,49 @@ const LocationView = ({ open, setOpen, location }) => {
 
   const deleteLocation = async () => {
     const dleteId = locationDetails._id;
-      LocationServ.remove(dleteId)
-        .then((res) => {
-          toast.success(`Location successfully deleted!`);
-          setOpen(false);
-          setConfirmDialog(false)
-        })
-        .catch((err) => {
-          toast.error(`Sorry, Unable to delete location. ${err}`);
-        });
+    LocationServ.remove(dleteId)
+      .then((res) => {
+        toast.success(`Location successfully deleted!`);
+        setOpen(false);
+        setConfirmDialog(false);
+      })
+      .catch((err) => {
+        toast.error(`Sorry, Unable to delete location. ${err}`);
+      });
   };
 
-
   const deleteSublocation = () => {
-    setOpenSubLoc(true)
-      const prevSublocation = locationDetails.sublocations || [];
-       
-    const newSublocation = prevSublocation.filter(data => data?._id !== sublocationData._id)
-          
+    setOpenSubLoc(true);
+    const prevSublocation = locationDetails.sublocations || [];
+
+    const newSublocation = prevSublocation.filter(
+      (data) => data?._id !== sublocationData._id
+    );
+
     const newLocation = {
       ...locationDetails,
-      sublocations:newSublocation
-    }
+      sublocations: newSublocation,
+    };
 
-    LocationServ.patch(locationDetails._id,  newLocation)
-    .then((res) => {
-      setState((prev) => ({
-        ...prev,
-        LocationModule: { ...prev.ServicesModule, selectedLocation: res },
-      }));
-      toast.success(`Sublocation successfully deleted!`)
-      setOpenSubLoc(false);
-      setConfirmDialog2(false)
-  }).catch((err) => {
-     setOpenSubLoc(false);
-      toast.error(`Sorry, Unable to delete sublocation. ${err}`)
-  })
-  }
-
+    LocationServ.patch(locationDetails._id, newLocation)
+      .then((res) => {
+        setState((prev) => ({
+          ...prev,
+          LocationModule: { ...prev.ServicesModule, selectedLocation: res },
+        }));
+        toast.success(`Sublocation successfully deleted!`);
+        setOpenSubLoc(false);
+        setConfirmDialog2(false);
+      })
+      .catch((err) => {
+        setOpenSubLoc(false);
+        toast.error(`Sorry, Unable to delete sublocation. ${err}`);
+      });
+  };
 
   return (
     <Box>
-       <CustomConfirmationDialog
+      <CustomConfirmationDialog
         open={confirmDialog}
         cancelAction={() => setConfirmDialog(false)}
         confirmationAction={deleteLocation}
@@ -248,12 +270,13 @@ const LocationView = ({ open, setOpen, location }) => {
         width="60%"
       >
         <Box display="flex" justifyContent="flex-end" py="1rem">
-        <GlobalCustomButton 
-        onClick={() => setConfirmDialog2(true)} 
-        color="error">
-          <DeleteIcon fontSize="small" />
-          Delete
-        </GlobalCustomButton>
+          <GlobalCustomButton
+            onClick={() => setConfirmDialog2(true)}
+            color="error"
+          >
+            <DeleteIcon fontSize="small" />
+            Delete
+          </GlobalCustomButton>
         </Box>
         <Grid container spacing={2}>
           <Grid item xs={6}>
@@ -267,7 +290,7 @@ const LocationView = ({ open, setOpen, location }) => {
           </Grid>
           <Grid item xs={6}>
             <Input
-             name='typeName'
+              name="typeName"
               label="Name of sub location"
               // onChange={(e) => setTypeName(e.target.value)}
               defaultValue={sublocationData?.typeName}
@@ -282,7 +305,7 @@ const LocationView = ({ open, setOpen, location }) => {
         width="60%"
       >
         <Box display="flex" justifyContent="flex-end" py="1rem">
-          <GlobalCustomButton onClick={() => (onSubmit())}>
+          <GlobalCustomButton onClick={() => onSubmit()}>
             Add
           </GlobalCustomButton>
         </Box>
@@ -299,7 +322,7 @@ const LocationView = ({ open, setOpen, location }) => {
           </Grid>
           <Grid item xs={6}>
             <Input
-             name='typeName'
+              name="typeName"
               label="Name of sub location"
               onChange={(e) => setTypeName(e.target.value)}
               value={typeName}
@@ -309,7 +332,10 @@ const LocationView = ({ open, setOpen, location }) => {
         </Grid>
       </ModalBox>
       <Box display="flex" justifyContent="flex-end" gap="1rem" my="2rem">
-        <GlobalCustomButton onClick={() =>  setConfirmDialog(true)} color="error">
+        <GlobalCustomButton
+          onClick={() => setConfirmDialog(true)}
+          color="error"
+        >
           <DeleteIcon fontSize="small" sx={{ marginRight: "5px" }} />
           Delete
         </GlobalCustomButton>
@@ -325,7 +351,7 @@ const LocationView = ({ open, setOpen, location }) => {
           </GlobalCustomButton>
         ) : (
           <GlobalCustomButton
-            onClick={handleSubmit(submit)}
+            onClick={submit}
             color="success"
             text="Update"
             type="submit"
@@ -347,10 +373,17 @@ const LocationView = ({ open, setOpen, location }) => {
           </Grid>
         ) : (
           <Grid item xs={6}>
-            <Input
+            {/* <Input
               label="Name"
               register={register("name")}
               // errorText={errors?.name?.message}
+            /> */}
+            <Input
+              name="name"
+              label="Name"
+              type="text"
+              onChange={(e) => setLocationName(e.target.value)}
+              defaultValue={`${locationName}`}
             />
           </Grid>
         )}
@@ -365,40 +398,59 @@ const LocationView = ({ open, setOpen, location }) => {
           </Grid>
         ) : (
           <Grid item xs={6}>
-            <Input
+            {/* <Input
               label="Location Type"
               register={register("locationType")}
               // options={Location.sublocations}
               // errorText={errors?.locationType?.message}
-            />
+            /> */}
+            <div className="field">
+              <div className="control">
+                {/* <div className="select"> */}
+                <CustomSelect
+                  label="Choose Location Type "
+                  name="type"
+                  options={locationTypeOptions}
+                  onChange={(e) => setLocationType(e.target.value)}
+                  defaultValue={`${locationType}`}
+                />
+
+                {/* <CustomSelect
+                  label="Choose Location Type "
+                  name="type"
+                  options={locationTypeOptions}
+                  register={register("locationType")}
+                /> */}
+                {/* </div> */}
+              </div>
+            </div>
           </Grid>
         )}
       </Grid>
       {!editing ? null : (
-       
         <Box pt="1.4rem">
-           {location?.locationType === 'Ward' &&
-          <Box>
-          <Box display="flex" justifyContent="flex-end" py="1rem">
-            <GlobalCustomButton
-              color="warning"
-              onClick={() => setOpenLoc(true)}
-            >
-              Add SubLocation
-            </GlobalCustomButton>
-          </Box>
-          <CustomTable
-            title={""}
-            columns={LocationDetailSchema}
-            data={location.sublocations}
-            pointerOnHover
-            highlightOnHover
-            onRowClicked={(row) => handleRowClick(row)}
-            striped
-            progressPending={loading}
-          />
-        </Box> 
-}
+          {location?.locationType === "Ward" && (
+            <Box>
+              <Box display="flex" justifyContent="flex-end" py="1rem">
+                <GlobalCustomButton
+                  color="warning"
+                  onClick={() => setOpenLoc(true)}
+                >
+                  Add SubLocation
+                </GlobalCustomButton>
+              </Box>
+              <CustomTable
+                title={""}
+                columns={LocationDetailSchema}
+                data={location.sublocations}
+                pointerOnHover
+                highlightOnHover
+                onRowClicked={(row) => handleRowClick(row)}
+                striped
+                progressPending={loading}
+              />
+            </Box>
+          )}
         </Box>
       )}
     </Box>

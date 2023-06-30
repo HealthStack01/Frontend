@@ -22,6 +22,7 @@ import ModalBox from "../../modal";
 const EditAppointment = ({closeModal}) => {
   const appointmentsServer = client.service("appointments");
   const clientServer = client.service("client");
+  const sendSmsServer = client.service("sendsms");
   const smsServer = client.service("sms");
   const emailServer = client.service("email");
   const notificationsServer = client.service("notification");
@@ -89,6 +90,7 @@ const EditAppointment = ({closeModal}) => {
 
   const handleUpdateAppointment = async data => {
     const employee = user.currentEmployee;
+    const facility = employee.facilityDetail;
     const generatedOTP = generateOTP();
     const isHMO = patient.paymentinfo.some(checkHMO);
 
@@ -151,6 +153,56 @@ const EditAppointment = ({closeModal}) => {
       },
       ...appointment.actions,
     ];
+
+    const notificationObj = {
+      type: "Clinic",
+      title: `Scheduled ${data.appointmentClass} ${data.appointment_type} Appointment`,
+      description: `You have a schedule appointment with ${patient.firstname} ${
+        patient.lastname
+      } set to take place exactly at ${dayjs(data.start_time).format(
+        "DD/MM/YYYY hh:mm"
+      )} in ${location.name} Clinic for ${data.appointment_reason}`,
+      facilityId: employee.facilityDetail._id,
+      sender: `${employee.firstname} ${employee.lastname}`,
+      senderId: employee._id,
+      pageUrl: "/app/clinic/appointments",
+      priority: "normal",
+      dest_userId: [practioner._id],
+    };
+
+    const emailObj = {
+      organizationId: facility._id,
+      organizationName: facility.facilityName,
+      html: `<p>You have been scheduled for an appointment with ${
+        practioner.profession
+      } ${practioner.firstname} ${practioner.lastname} at ${dayjs(
+        data.start_time
+      ).format("DD/MM/YYYY hh:mm")} ${
+        isHMO ? `and your OTP code is ${generatedOTP}` : ""
+      } </p>`,
+
+      text: ``,
+      status: "pending",
+      subject: `SCHEDULED APPOINTMENT WITH ${facility.facilityName} AT ${dayjs(
+        data.date
+      ).format("DD/MM/YYYY hh:mm")}`,
+      to: patient.email,
+      name: facility.facilityName,
+      from: state?.CommunicationModule?.defaultEmail?.emailConfig?.username,
+    };
+
+    const smsObj = {
+      message: `You have been scheduled for an appointment with ${
+        practioner.profession
+      } ${practioner.firstname} ${practioner.lastname} at ${dayjs(
+        data.start_time
+      ).format("DD/MM/YYYY hh:mm")} ${
+        isHMO ? `and your OTP code is ${generatedOTP}` : ""
+      } `,
+      recipients: patient.phone,
+      facilityName: facility.facilityName,
+      facilityId: facility._id,
+    };
 
     //return console.log(data);
     appointmentsServer

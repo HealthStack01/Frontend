@@ -41,6 +41,7 @@ export function ClientSearch({
   label,
   id,
   disabled = false,
+  patient,
 }) {
   const ClientServ = client.service("client");
   const [facilities, setFacilities] = useState([]);
@@ -109,6 +110,12 @@ export function ClientSearch({
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
+
+  useEffect(() => {
+    if (!patient) return;
+
+    handleRow(patient);
+  }, [patient]);
 
   const handleBlur = async e => {
     /*   if (count===2){

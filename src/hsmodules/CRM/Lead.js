@@ -194,6 +194,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
     const res = await dealServer.find({
       query: {
         facilityId: facId,
+       
         $sort: {
           createdAt: -1,
         },
@@ -412,7 +413,13 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
             </GlobalCustomButton>
           </TableMenu>
 
-          <div style={{width: "100%", overflow: "auto"}}>
+          <div
+          className="level"
+          style={{
+            height: "80vh",
+            overflowY: "scroll",
+          }}
+        >
             <CustomTable
               title={""}
               columns={LeadSchema}

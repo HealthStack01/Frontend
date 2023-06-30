@@ -14,13 +14,16 @@ import GlobalCustomButton from "../../../components/buttons/CustomButton";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 import CustomSelect from "../../../components/inputs/basic/Select";
+import NotificationsListComponent from "./Lists";
 
 const Notifications = () => {
   const [detailModal, setDetailModal] = useState(false);
 
   return (
-    <Box>
-      <NotificationsList showDetail={() => setDetailModal(true)} />
+    <Box p={2}>
+      <Box>
+        <NotificationsListComponent showDetail={() => setDetailModal(true)} />
+      </Box>
 
       <ModalBox
         open={detailModal}
@@ -114,7 +117,7 @@ const NotificationsList = ({showDetail}) => {
       sortable: true,
       selector: (row, i) => i + 1,
       inputType: "HIDDEN",
-      width: "70px",
+      width: "60px",
     },
 
     {
@@ -157,7 +160,6 @@ const NotificationsList = ({showDetail}) => {
         textTransform: "capitalize",
       },
     },
-
     {
       name: "Seen",
       key: "sn",
@@ -178,12 +180,7 @@ const NotificationsList = ({showDetail}) => {
   ];
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-      }}
-      p={2}
-    >
+    <Box>
       <Box
         mb={2}
         sx={{

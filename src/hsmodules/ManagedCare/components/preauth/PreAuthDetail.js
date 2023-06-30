@@ -1,17 +1,17 @@
-import {useState, useEffect, useCallback, useContext} from "react";
-import {Box, Grid, Typography} from "@mui/material";
+import { useState, useEffect, useCallback, useContext } from "react";
+import { Box, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Drawer from "@mui/material/Drawer";
 
 import client from "../../../../feathers";
-import {ObjectContext, UserContext} from "../../../../context";
+import { ObjectContext, UserContext } from "../../../../context";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import PatientProfile from "../../../Client/PatientProfile";
-import {ClientSearch} from "../../../helpers/ClientSearch";
+import { ClientSearch } from "../../../helpers/ClientSearch";
 import CustomSelect from "../../../../components/inputs/basic/Select";
-import {useForm} from "react-hook-form";
-import {FormsHeaderText} from "../../../../components/texts";
+import { useForm } from "react-hook-form";
+import { FormsHeaderText } from "../../../../components/texts";
 import ModalBox from "../../../../components/modal";
 import PreauthorizationCreateComplaint from "./Complaints";
 import PreauthorizationCreateDiagnosis from "./Diagnosis";
@@ -31,15 +31,15 @@ import CustomTable from "../../../../components/customtable";
 import Textarea from "../../../../components/inputs/basic/Textarea";
 import Input from "../../../../components/inputs/basic/Input";
 import dayjs from "dayjs";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 
-const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
+const PreAuthDetailComponent = ({ handleGoBack, client_id }) => {
   const preAuthServer = client.service("preauth");
-  const {state, setState, showActionLoader, hideActionLoader} =
+  const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [clearClientSearch, setClearClientSearch] = useState(false);
   const [complaints, setComplaints] = useState([]);
   const [complaintModal, setComplaintModal] = useState(false);
@@ -67,7 +67,9 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
   const selectedPreAuth = state.PreAuthModule.selectedPreAuth;
   const clinical_details = selectedPreAuth?.clinical_details || {};
 
-  const {control, handleSubmit, register, reset, watch, setValue} = useForm({});
+  const { control, handleSubmit, register, reset, watch, setValue } = useForm(
+    {}
+  );
 
   useEffect(() => {
     const resetForm = {
@@ -108,8 +110,8 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
     getTotalPreAuthAmount();
   }, [getTotalPreAuthAmount]);
 
-  const handleSelectClient = client => {
-    setState(prev => ({
+  const handleSelectClient = (client) => {
+    setState((prev) => ({
       ...prev,
       ClientModule: {
         ...prev.ClientModule,
@@ -139,11 +141,11 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
           },
         },
       })
-      .then(res => {
+      .then((res) => {
         console.log("Policy", res);
         setPolicy(res.data[0]);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   }, [state.ClientModule]);
@@ -152,7 +154,7 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
     getPolicy();
   }, [getPolicy]);
 
-  const handleCreateClaim = async data => {
+  const handleCreateClaim = async (data) => {
     if (!state.ClientModule.selectedClient._id)
       return toast.warning("Please add Client..");
 
@@ -199,11 +201,11 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
 
     await preAuthServer
       .create(document)
-      .then(res => {
+      .then((res) => {
         hideActionLoader();
         toast.success("You have succesfully created a Preauthorization");
       })
-      .catch(err => {
+      .catch((err) => {
         hideActionLoader();
         toast.error(`Failed to create Preauthorization ${err}`);
       });
@@ -272,8 +274,8 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
     },
   ];
 
-  const onServiceRowClick = item => {
-    setState(prev => ({
+  const onServiceRowClick = (item) => {
+    setState((prev) => ({
       ...prev,
       PreAuthModule: {
         ...prev.PreAuthModule,
@@ -285,7 +287,7 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
 
   const servicesConditionalRowStyles = [
     {
-      when: row => row.status.toLowerCase() === "rejected",
+      when: (row) => row.status.toLowerCase() === "rejected",
       style: {
         backgroundColor: "pink",
         color: "white",
@@ -296,20 +298,20 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
     },
   ];
 
-  const deleteDiagnosis = async diagnosis => {
+  const deleteDiagnosis = async (diagnosis) => {
     showActionLoader();
     const prevDiagnosis = selectedPreAuth.diagnosis || [];
 
     const newDiagnosis = prevDiagnosis.filter(
-      item => item._id !== diagnosis._id
+      (item) => item._id !== diagnosis._id
     );
 
     await preAuthServer
-      .patch(selectedPreAuth._id, {diagnosis: newDiagnosis})
-      .then(res => {
+      .patch(selectedPreAuth._id, { diagnosis: newDiagnosis })
+      .then((res) => {
         hideActionLoader();
         toast.success("You've successfully removed a Diagnosis");
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
           PreAuthModule: {
             ...prev.PreAuthModule,
@@ -317,26 +319,26 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
           },
         }));
       })
-      .catch(err => {
+      .catch((err) => {
         hideActionLoader();
         toast.error(`Deleting Diagnosis failed due to ${err}`);
       });
   };
 
-  const deleteComplaint = async complaint => {
+  const deleteComplaint = async (complaint) => {
     showActionLoader();
     const prevComplaints = selectedPreAuth.complaints || [];
 
     const newComplaints = prevComplaints.filter(
-      item => item._id !== complaint._id
+      (item) => item._id !== complaint._id
     );
 
     await preAuthServer
-      .patch(selectedPreAuth._id, {complaints: newComplaints})
-      .then(res => {
+      .patch(selectedPreAuth._id, { complaints: newComplaints })
+      .then((res) => {
         hideActionLoader();
         toast.success("You've successfully removed a Complaint");
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
           PreAuthModule: {
             ...prev.PreAuthModule,
@@ -344,24 +346,24 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
           },
         }));
       })
-      .catch(err => {
+      .catch((err) => {
         hideActionLoader();
         toast.error(`Deleting Complaint failed due to ${err}`);
       });
   };
 
-  const deleteService = async service => {
+  const deleteService = async (service) => {
     showActionLoader();
     const prevServices = selectedPreAuth.services || [];
 
-    const newServices = prevServices.filter(item => item._id !== service._id);
+    const newServices = prevServices.filter((item) => item._id !== service._id);
 
     await preAuthServer
-      .patch(selectedPreAuth._id, {services: newServices})
-      .then(res => {
+      .patch(selectedPreAuth._id, { services: newServices })
+      .then((res) => {
         hideActionLoader();
         toast.success("You've successfully removed a Service");
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
           PreAuthModule: {
             ...prev.PreAuthModule,
@@ -369,13 +371,13 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
           },
         }));
       })
-      .catch(err => {
+      .catch((err) => {
         hideActionLoader();
         toast.error(`Deleting Service failed due to ${err}`);
       });
   };
 
-  const confirmDeleteDiagnosis = diagnosis => {
+  const confirmDeleteDiagnosis = (diagnosis) => {
     setConfirmationDialog({
       open: true,
       message: `You're about to delete a Diagnosis ${diagnosis.diagnosis}`,
@@ -384,7 +386,7 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
     });
   };
 
-  const confirmDeleteComplaint = complaint => {
+  const confirmDeleteComplaint = (complaint) => {
     setConfirmationDialog({
       open: true,
       message: `You're about to delete a Complaint ${complaint.complaint}`,
@@ -393,7 +395,7 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
     });
   };
 
-  const confirmDeleteService = service => {
+  const confirmDeleteService = (service) => {
     setConfirmationDialog({
       open: true,
       message: `You're about to delete a Service ${service.service.serviceName}`,
@@ -510,7 +512,7 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
           gap={1}
         >
           <GlobalCustomButton onClick={handleGoBack}>
-            <ArrowBackIcon sx={{marginRight: "3px"}} fontSize="small" />
+            <ArrowBackIcon sx={{ marginRight: "3px" }} fontSize="small" />
             Back
           </GlobalCustomButton>
 
@@ -541,7 +543,7 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
           gap={1}
         >
           <GlobalCustomButton color="info" onClick={() => setView("details")}>
-            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+            <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
             Details
           </GlobalCustomButton>
 
@@ -550,7 +552,7 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
               color="warning"
               onClick={() => setView("tasks")}
             >
-              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
               Tasks
             </GlobalCustomButton>
           )}
@@ -565,7 +567,7 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
               },
             }}
           >
-            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+            <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
             Chat
           </GlobalCustomButton>
 
@@ -574,7 +576,7 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
               color="success"
               onClick={() => setStatusModal(true)}
             >
-              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
               Change Status
             </GlobalCustomButton>
           )}
@@ -596,7 +598,7 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
       >
         <Box
           sx={{
-            width: "25rem",
+            width: "16rem",
           }}
         >
           <PatientProfile />
@@ -604,7 +606,7 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
 
         <Box
           sx={{
-            width: "calc(100% - 26rem)",
+            width: "calc(100% - 17rem)",
           }}
         >
           {view === "tasks" && (
@@ -740,7 +742,7 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
                   <FormsHeaderText text="Complaints Data" />
 
                   <GlobalCustomButton onClick={() => setComplaintModal(true)}>
-                    <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                    <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
                     New Complaint
                   </GlobalCustomButton>
                 </Box>
@@ -757,7 +759,7 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
                     //conditionalRowStyles={conditionalRowStyles}
                     progressPending={false}
                     CustomEmptyData={
-                      <Typography sx={{fontSize: "0.8rem"}}>
+                      <Typography sx={{ fontSize: "0.8rem" }}>
                         You've not added a Complaint yet...
                       </Typography>
                     }
@@ -788,7 +790,7 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
                   <FormsHeaderText text="Diagnosis Data" />
 
                   <GlobalCustomButton onClick={() => setDiagnosisModal(true)}>
-                    <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                    <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
                     New Diagnosis
                   </GlobalCustomButton>
                 </Box>
@@ -805,7 +807,7 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
                     //conditionalRowStyles={conditionalRowStyles}
                     progressPending={false}
                     CustomEmptyData={
-                      <Typography sx={{fontSize: "0.8rem"}}>
+                      <Typography sx={{ fontSize: "0.8rem" }}>
                         You've not added a Diagnosis yet...
                       </Typography>
                     }
@@ -895,7 +897,7 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
                       setServiceModal(true);
                     }}
                   >
-                    <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                    <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
                     New Service
                   </GlobalCustomButton>
                 </Box>
@@ -912,7 +914,7 @@ const PreAuthDetailComponent = ({handleGoBack, client_id}) => {
                     conditionalRowStyles={servicesConditionalRowStyles}
                     progressPending={false}
                     CustomEmptyData={
-                      <Typography sx={{fontSize: "0.8rem"}}>
+                      <Typography sx={{ fontSize: "0.8rem" }}>
                         You've not added a Service yet...
                       </Typography>
                     }

@@ -704,7 +704,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
   const [sendLinkModal, setSendLinkModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  console.log("this place")
+  console.log("this place");
 
   const handleCreateNew = async () => {
     const newfacilityModule = {
@@ -730,22 +730,23 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
     setShowModal(2);
   };
 
-  const handleBatchdel = (row,i)=>{
-    let confirm = window.confirm("Are you sure you want to remove this facility from the band ?");
+  const handleBatchdel = (row, i) => {
+    let confirm = window.confirm(
+      "Are you sure you want to remove this facility from the band ?"
+    );
     if (confirm) {
       // setProductItem(prev=>prev.filter((obj,index)=>index!==i ))
-     // setProductItem(obj => obj.filter((el, index) => index !== i));
-      orgServ.remove(row._id)
-      .then(()=>{
-        toast.success("organization succesfully removed");
-      })
-      .catch((err)=>{
-        toast.error("Error deleting organization" + err);
-
-      })
+      // setProductItem(obj => obj.filter((el, index) => index !== i));
+      orgServ
+        .remove(row._id)
+        .then(() => {
+          toast.success("organization succesfully removed");
+        })
+        .catch((err) => {
+          toast.error("Error deleting organization" + err);
+        });
     }
-
-  }
+  };
 
   const handleSearch = (val) => {
     const field = "facilityName";
@@ -793,13 +794,13 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
      */
   const getFacilities = () => {
     setLoading(true);
-    console.log("starting issues")
+    console.log("starting issues");
     orgServ
       .find({
         query: {
           facility: user.currentEmployee.facilityDetail._id,
-          
-          relationshiptype:"managedcare",
+
+          relationshiptype: "managedcare",
           //$limit: 100,
           $sort: {
             createdAt: -1,
@@ -807,10 +808,10 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
         },
       })
       .then((res) => {
-      //  console.log(res);
+        //  console.log(res);
         setFacilities(res.data);
-        setTotal(res.total)
-       console.log(" Organization  fetched successfully");
+        setTotal(res.total);
+        console.log(" Organization  fetched successfully");
         setSuccess(true);
         setLoading(false);
       })
@@ -822,7 +823,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
   };
 
   useEffect(() => {
-    console.log("at the beginning")
+    console.log("at the beginning");
     getFacilities();
 
     orgServ.on("created", (obj) => getFacilities());
@@ -945,7 +946,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
       description: "Enter Category",
       selector: (row, i) => (
         <span
-          style={{color: "red", fontSize: "inherit"}}
+          style={{ color: "red", fontSize: "inherit" }}
           onClick={() => handleBatchdel(row, i)}
         >
           DELETE
@@ -990,12 +991,10 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <div>
-                    Total Number of Facilities ({total})
-                  </div>
+                  <div>Total Number of Facilities ({total})</div>
                 </div>
 
-                <Box sx={{ display: "flex", overflow:"auto" }} gap={2}>
+                <Box sx={{ display: "flex", overflow: "auto" }} gap={2}>
                   <GlobalCustomButton onClick={() => setSendLinkModal(true)}>
                     <EmailIcon sx={{ marginRight: "5px" }} fontSize="small" />
                     Invite Provider Via Email
@@ -1134,27 +1133,26 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   };
 
   const getFacilities = () => {
-   setLoading(true);
-   ServicesServ
-      .find({
-        query: {
-          facility: user.currentEmployee.facilityDetail._id,
-          organization:facility.organization,
-          relationshiptype:"managedcare",
-          //$limit: 100,
-          $sort: {
-            createdAt: -1,
-          },
+    setLoading(true);
+    ServicesServ.find({
+      query: {
+        facility: user.currentEmployee.facilityDetail._id,
+        organization: facility.organization,
+        relationshiptype: "managedcare",
+        //$limit: 100,
+        $sort: {
+          createdAt: -1,
         },
-      })
+      },
+    })
       .then((res) => {
         console.log(res);
-        res.data.forEach((el=>{
-          setFacilityBand(prev=>[...prev, el.band])
-        }))
+        res.data.forEach((el) => {
+          setFacilityBand((prev) => [...prev, el.band]);
+        });
 
         setBand(res.data);
-        setTotal(res.total)
+        setTotal(res.total);
         setMessage(" Organization  fetched successfully");
         setSuccess(true);
         setLoading(false);
@@ -1173,7 +1171,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
     // var result =
 
     getTariffServices(facility);
-    getFacilities()
+    getFacilities();
 
     // console.log("selected facility", result);
 
@@ -1877,19 +1875,23 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                       />
                     </Grid>
                     <Grid item xs={6}>
-                     {(facilityband.length>0)? facilityband.map((el,i) => {                    
-                      <Input
-                        //register={register("bandName")}
-                        label="Band"
-                        disabled
-                        value={el}
-                      />
-                    }): <Input
-                    //register={register("bandName")}
-                    label="Band"
-                    disabled
-                    value="Not Yet Set"
-                  />}
+                      {facilityband.length > 0 ? (
+                        facilityband.map((el, i) => {
+                          <Input
+                            //register={register("bandName")}
+                            label="Band"
+                            disabled
+                            value={el}
+                          />;
+                        })
+                      ) : (
+                        <Input
+                          //register={register("bandName")}
+                          label="Band"
+                          disabled
+                          value="Not Yet Set"
+                        />
+                      )}
                     </Grid>
                   </Grid>
                   <Grid item xs={12}>
@@ -2138,7 +2140,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
         {display === 3 && <CRMTasks />}
         {display === 4 && <UploadView />}
         {display === 5 && (
-          <BeneList standAlone={facility?.organizationDetail?._id} />
+          <BeneList standAlone={facility.organizationDetail} />
         )}
         {display === 6 && <Claims />}
         {display === 7 && <PreAuthorizationList />}
@@ -2851,6 +2853,12 @@ export const AdditionalInformationView = () => {
     const updatedDealInfo = oldDealInfo.filter((item) => item._id !== info._id);
 
     const documentId = facility?._id;
+    // console.log("==>>>from provider ", {
+    //   info: info,
+    //   oldDealInfo: oldDealInfo,
+    //   updatedDealInfo: updatedDealInfo,
+    //   documentId: documentId,
+    // });
 
     await dealServer
       .patch(documentId, { info: updatedDealInfo })
@@ -3006,67 +3014,89 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
     }));
     setShowModal(1);
   };
-
-  const handleSearch = (val) => {
+const handleSearch = (val) => {
     // eslint-disable-next-line
+if (val.length<3){
+  return
+}
     const field = "firstname";
     console.log(val);
-    ClientServ.find({
+    const findClient= ClientServ.find({
       query: {
         $or: [
-          {
-            firstname: {
+          {policyNo:{
+            $regex: val,
+            $options: "i",
+          }},
+          {'principal.lastname':{
+            $regex: val,
+            $options: "i",
+          }},
+          {status:{
+            $regex: val,
+            $options: "i",
+          }},
+    
+            {'principal.firstname':{
               $regex: val,
               $options: "i",
-            },
-          },
-          {
-            lastname: {
+            }},
+          {           
+            'dependantBeneficiaries.type': {
               $regex: val,
               $options: "i",
-            },
-          },
-          {
-            middlename: {
+            }},
+            {           
+              'principal.type': {
+                $regex: val,
+                $options: "i",
+              }},
+            {           
+              'dependantBeneficiaries.firstname': {
+                  $regex: val,
+                  $options: "i",
+                }},
+            {           
+              'dependantBeneficiaries.lastname': {
+                  $regex: val,
+                  $options: "i",
+                  }},
+
+            {        
+            'sponsor.facilityName': {
               $regex: val,
               $options: "i",
-            },
-          },
-          {
-            phone: {
+            }}, 
+            {       
+            sponsorshipType: {
               $regex: val,
               $options: "i",
-            },
-          },
-          {
-            clientTags: {
+            }},
+            {        
+            planType: {
               $regex: val,
               $options: "i",
-            },
-          },
-          {
-            mrn: {
+            }},        
+            { 'plan.planName':{
               $regex: val,
               $options: "i",
-            },
-          },
-          {
-            email: {
-              $regex: val,
-              $options: "i",
-            },
-          },
-          {
-            specificDetails: {
-              $regex: val,
-              $options: "i",
-            },
-          },
-          { gender: val },
+            }},
+            {
+              'providers.facilityName':{
+                  $regex: val,
+                  $options: "i",
+                }},
+          { 'principal.gender': val },
+          { 'dependantBeneficiaries.gender': val }, 
+        ],
+        $or:[
+          {'providers.facilityName':standAlone.facilityName},
+          {'providers._id':standAlone._id},
+
         ],
 
-        "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
-        $limit: limit,
+        organizationId: user.currentEmployee.facilityDetail._id, // || "",
+      
         $sort: {
           createdAt: -1,
         },
@@ -3074,7 +3104,57 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
     })
       .then((res) => {
         console.log(res);
-        setFacilities(res.data);
+        let data = res.data;
+        console.log("policies",data)
+       
+
+    
+  
+        let list = [];
+        if (data.length>0){
+        data.map((item) => {
+          item.principal.principal = item.principal;
+          item.principal.organizationName = item.organizationName;
+          // item.principal.dependantBeneficiaries = item.dependantBeneficiaries;
+          item.principal.plan = item.plan;
+          item.principal.detail = {
+            policyNo: item?.policyNo,
+            sponsor: item?.sponsor,
+            plan: item?.plan,
+            clientType: "Principal",
+            sponsortype: item?.sponsorshipType,
+            approved: item?.approved,
+          };
+  
+          item.principal.organization = {
+            ...item?.sponsor?.facilityDetail,
+          };
+  
+          list.push(item.principal);
+  
+          item.dependantBeneficiaries.map((benf) => {
+            benf.detail = {
+              policyNo: item.policyNo,
+              sponsor: item.sponsor,
+              plan: item.plan,
+              clientType: "Dependant",
+              sponsortype: item?.sponsorshipType,
+              approved: item?.approved,
+            };
+            benf.organizationName = item.organizationName;
+  
+            benf.plan = item.plan;
+            benf.facilityDetail = {
+              ...item?.sponsor?.facilityDetail,
+            };
+            benf.principal = benf;
+            list.push(benf);
+          });
+        });
+      }
+        setFacilities(list);
+  
+       setTotal(findClient.total);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
@@ -3085,12 +3165,23 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
       });
   };
 
+ 
+
   const getFacilities = async () => {
     if (user.currentEmployee) {
       // const findClient= await ClientServ.find()
+      console.log("standalone",standAlone)
+     
       const findClient = await ClientServ.find({
         query: {
-          organization: user.currentEmployee.facilityDetail,
+            $or:[
+             { 'providers.facilityName':standAlone.facilityName},
+             { 'providers._id':standAlone._id},
+
+            ],
+            
+
+          organizationId: user.currentEmployee.facilityDetail._id,
           $sort: {
             createdAt: -1,
           },
@@ -3098,31 +3189,53 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
       });
 
       let data = findClient.data;
-      let filteredArray = data.filter(
-        (item) =>
-          (item.sponsor !== "" &&
-            item.sponsor?.organizationDetail?._id === standAlone) ||
-          item.providers?.some(
-            (item) => item?.organizationDetail?._id === standAlone
-          )
-      );
-      let principal = filteredArray.map((item) => item.principal);
-      let dependantBeneficiaries = filteredArray.map(
-        (item) => item.dependantBeneficiaries
-      );
-      let joined = principal.concat(...dependantBeneficiaries);
-      setFacilities(joined);
-      await console.log(
-        "data",
-        data,
-        "filter",
-        filteredArray,
-        "standAlone",
-        standAlone
-      );
-      await setTotal(findClient.total);
-      //console.log(user.currentEmployee.facilityDetail._id, state)
-      //console.log(facilities)
+      console.log("policies",data)
+
+      let list = [];
+      data.map((item) => {
+        item.principal.principal = item.principal;
+        item.principal.organizationName = item.organizationName;
+        // item.principal.dependantBeneficiaries = item.dependantBeneficiaries;
+        item.principal.plan = item.plan;
+        item.principal.detail = {
+          policyNo: item?.policyNo,
+          sponsor: item?.sponsor,
+          plan: item?.plan,
+          clientType: "Principal",
+          sponsortype: item?.sponsorshipType,
+          approved: item?.approved,
+        };
+
+        item.principal.organization = {
+          ...item?.sponsor?.facilityDetail,
+        };
+
+        list.push(item.principal);
+
+        item.dependantBeneficiaries.map((benf) => {
+          benf.detail = {
+            policyNo: item.policyNo,
+            sponsor: item.sponsor,
+            plan: item.plan,
+            clientType: "Dependent",
+            sponsortype: item?.sponsorshipType,
+            approved: item?.approved,
+          };
+          benf.organizationName = item.organizationName;
+
+          benf.plan = item.plan;
+          benf.facilityDetail = {
+            ...item?.sponsor?.facilityDetail,
+          };
+          benf.principal = benf;
+          list.push(benf);
+        });
+      });
+
+      setFacilities(list);
+
+     setTotal(findClient.total);
+
       setPage((page) => page + 1);
     } else {
       if (user.stacker) {
@@ -3135,48 +3248,22 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
           },
         });
 
-        await setFacilities(findClient.data);
+       setFacilities(findClient.data);
       }
     }
   };
-
   useEffect(() => {
-    if (user) {
-      //getFacilities()
-      rest();
-    } else {
-      /* const localUser= localStorage.getItem("user")
-                    const user1=JSON.parse(localUser)
-                    console.log(localUser)
-                    console.log(user1)
-                    fetchUser(user1)
-                    console.log(user)
-                    getFacilities(user) */
-    }
-    ClientServ.on("created", (obj) => rest());
-    ClientServ.on("updated", (obj) => rest());
-    ClientServ.on("patched", (obj) => rest());
-    ClientServ.on("removed", (obj) => rest());
+    getFacilities()
+    ClientServ.on("created", (obj) => getFacilities());
+    ClientServ.on("updated", (obj) => getFacilities());
+    ClientServ.on("patched", (obj) => getFacilities());
+    ClientServ.on("removed", (obj) => getFacilities());
     return () => {};
     // eslint-disable-next-line
   }, []);
-  const rest = async () => {
-    // console.log("starting rest")
-    // await setRestful(true)
-    await setPage(0);
-    //await  setLimit(2)
-    await setTotal(0);
-    await setFacilities([]);
-    await getFacilities();
-    //await  setPage(0)
-    //  await setRestful(false)
-  };
+  
 
-  useEffect(() => {
-    //console.log(facilities)
-    return () => {};
-  }, [facilities, standAlone]);
-  //todo: pagination and vertical scroll bar
+ 
 
   const BeneficiarySchema = [
     {
@@ -3216,15 +3303,15 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
       inputType: "TEXT",
     },
 
-    {
-      name: "Midlle Name",
-      key: "middlename",
-      description: "Midlle Name",
-      selector: (row) => row.middlename,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
+    // {
+    // 	name: 'Midlle Name',
+    // 	key: 'middlename',
+    // 	description: 'Midlle Name',
+    // 	selector: (row) => row.middlename,
+    // 	sortable: true,
+    // 	required: true,
+    // 	inputType: 'TEXT',
+    // },
     {
       name: "Age",
       key: "dob",
@@ -3256,12 +3343,39 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
       required: true,
       inputType: "EMAIL",
     },
+    {
+      name: "Policy No",
+      key: "policyNo",
+      description: "Policy No",
+      selector: (row) => row.detail?.policyNo,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Client Type",
+      key: "clientType",
+      description: "Client Type",
+      selector: (row) => row.detail?.clientType,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
 
     {
-      name: "Tags",
-      key: "clientTags",
-      description: "Tags",
-      selector: (row) => row.clientTags,
+      name: "Sponsor Type",
+      key: "sponsorType",
+      description: "Sponsor Type",
+      selector: (row) => row.detail?.sponsortype,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Policy Status",
+      key: "policyStatus",
+      description: "Policy Status",
+      selector: (row) => (row.detail?.approved ? "Approved" : "Pending"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -3318,6 +3432,10 @@ export const CreateAddInfo = ({ addInfo, closeModal }) => {
   const { register, handleSubmit, control, reset } = useForm();
   const facility = state.facilityModule.selectedFacility;
 
+  // console.log("===>>>> facilit underprovider", {
+  //   facility: facility,
+  // });
+
   const updateAdditionalInfo = async (data) => {
     if (data.info === "") return toast.error("Please provide your information");
     showActionLoader();
@@ -3325,6 +3443,7 @@ export const CreateAddInfo = ({ addInfo, closeModal }) => {
     const employee = user.currentEmployee;
 
     const newInfo = {
+      _id: `${Math.random()}`,
       info: data.info,
       date: new Date(),
       employeename: `${employee.firstname} ${employee.lastname}`,
@@ -3340,6 +3459,11 @@ export const CreateAddInfo = ({ addInfo, closeModal }) => {
       .patch(documentId, { info: updatedDealInfo })
       .then((res) => {
         hideActionLoader();
+        console.log("===>>>> facilit underprovider", {
+          facility: facility,
+          state: state,
+          selectedFacility: res,
+        });
         setState((prev) => ({
           ...prev,
           facilityModule: { ...prev.facilityModule, selectedFacility: res },

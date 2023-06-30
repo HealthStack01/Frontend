@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useState, useContext, useEffect, useRef } from "react";
-import { Route, useNavigate, Link, NavLink } from "react-router-dom";
+import { Route, useNavigate, Link, NavLink, useParams } from "react-router-dom";
 import client from "../../feathers";
 import { DebounceInput } from "react-debounce-input";
 import { useForm } from "react-hook-form";
@@ -54,9 +54,9 @@ import CRMTasks from "../CRM/Tasks";
 import AutoCompleteBox from "../../components/inputs/AutoComplete";
 import { FacilitySearch } from "../helpers/FacilitySearch";
 import { ReferralList } from "./components/referral/ReferralList";
-import {ReferralCreate} from './components/referral/CreateReferral'
+import { ReferralCreate } from "./components/referral/CreateReferral";
 import { ReferralDetails } from "./components/referral/ReferralDetails";
-
+import { NewReferralDetails } from "./components/referral/ReferralDetails";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -64,6 +64,9 @@ export default function Referral() {
   const { state, setState } = useContext(ObjectContext);
   const [view, setView] = useState("list");
   const [showModal, setShowModal] = useState(0);
+  const [selectedReferral, setSelectedReferral] = useState();
+
+  const { client_id } = useParams();
 
   const handleGoBack = () => {
     setView("list");
@@ -82,12 +85,26 @@ export default function Referral() {
         <ReferralList
           showCreate={() => setView("create")}
           showDetail={() => setView("detail")}
+          setSelectedReferral={setSelectedReferral}
+          client_id={client_id}
         />
       )}
 
-      {view === "create" && <ReferralCreate  handleGoBack={handleGoBack}/>}
+      {view === "create" && (
+        <ReferralCreate
+          handleGoBack={handleGoBack}
+          client_id={client_id}
+          showList={() => setView("list")}
+        />
+      )}
 
-      {view === "detail" && <ReferralDetails  handleGoBack={handleGoBack}/>}
+      {view === "detail" && (
+        <NewReferralDetails
+          handleGoBack={handleGoBack}
+          selectedReferralProp={selectedReferral}
+          setSelectedReferral={setSelectedReferral}
+        />
+      )}
 
       {/* {showModal === 1 && (
         <Grid container spacing={2}>
@@ -299,7 +316,7 @@ export default function Referral() {
 //   useEffect(() => {
 //     getSearchfacility(state.ClientModule.selectedClient);
 
-//     /* appointee=state.ClientModule.selectedClient 
+//     /* appointee=state.ClientModule.selectedClient
 //         console.log(appointee.firstname) */
 //     return () => {};
 //   }, [state.ClientModule.selectedClient]);
@@ -311,7 +328,6 @@ export default function Referral() {
 //         const  handlecloseModal1 = () =>{
 //             setBillingModal(false)
 //             }
-
 
 //             const handleRow= async(Client)=>{
 //               //  await setSelectedClient(Client)

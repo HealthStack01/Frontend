@@ -4,7 +4,8 @@ import React, { useState, useContext, useEffect } from "react";
 import client from "../../../../feathers";
 import { useForm } from "react-hook-form";
 import { UserContext, ObjectContext } from "../../../../context";
-import { toast } from "bulma-toast";
+// import { toast } from "bulma-toast";
+import { toast } from "react-toastify";
 import "react-datepicker/dist/react-datepicker.css";
 import CustomTable from "../../../../components/customtable";
 import ModalBox from "../../../../components/modal";
@@ -22,10 +23,11 @@ import TextAreaVoiceAndText from "../../../../components/inputs/basic/Textarea/V
 import CreateComplaint from "./Complaints";
 import CreateDiagnosis from "./Diagnosis";
 import { SelectAdmission, SelectAppointment } from "../claims/ClaimsCreate";
+import Referral from "../../Referral";
 
-export function ReferralCreate({ handleGoBack }) {
+export function ReferralCreate({ handleGoBack, client_id, showList }) {
   const { state, setState } = useContext(ObjectContext);
-  const { register, handleSubmit, setValue, control, watch } = useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue, control, watch, reset } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
@@ -39,7 +41,7 @@ export function ReferralCreate({ handleGoBack }) {
   const [complaintModal, setComplaintModal] = useState(false);
   const [diagnosis, setDiagnosis] = useState([]);
   const [diagnosisModal, setDiagnosisModal] = useState(false);
-  const ClientServ = client.service("appointments");
+  const ClientServ = client.service("referral");
   const [drugsInputType, setDrugsInputType] = useState("type");
   const [clinicFindInputType, setClinicFindInputType] = useState("type");
   const { user } = useContext(UserContext); //,setUser
@@ -57,6 +59,9 @@ export function ReferralCreate({ handleGoBack }) {
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
 
+  const employee = user.currentEmployee;
+  const facility = employee.facilityDetail;
+
   const handleChangeType = async (e) => {
     await setAppointment_type(e.target.value);
   };
@@ -66,6 +71,10 @@ export function ReferralCreate({ handleGoBack }) {
   };
 
   const getSearchfacility = (obj) => {
+    // console.log("from chossen ", {
+    //   chosen: obj,
+    //   selected: state.ClientModule.selectedClient,
+    // });
     setClientId(obj._id);
     setChosen(obj);
     //handleRow(obj)
@@ -80,6 +89,7 @@ export function ReferralCreate({ handleGoBack }) {
               shouldDirty: true
           }) */
   };
+
   const getSearchfacility1 = (obj) => {
     setLocationId(obj._id);
     setChosen1(obj);
@@ -90,6 +100,7 @@ export function ReferralCreate({ handleGoBack }) {
       setChosen1();
     }
   };
+
   const getSearchfacility2 = (obj) => {
     setPractionerId(obj._id);
     setChosen2(obj);
@@ -120,54 +131,69 @@ export function ReferralCreate({ handleGoBack }) {
   });
 
   const onSubmit = (data, e) => {
-    e.preventDefault();
+    // e.preventDefault();
     setMessage("");
     setError(false);
     setSuccess(false);
-    //   setShowModal(false),
     setState((prevstate) => ({
       ...prevstate,
-      AppointmentModule: {
-        selectedAppointment: {},
+      ReferralModule: {
+        selectedReferral: {},
         show: "list",
       },
     }));
 
-    // data.createdby=user._id
-    console.log(data);
+    // console.log(" ====>>> data from referral submit", {
+    //   data,
+    //   chosen: chosen,
+    // });
     if (user.currentEmployee) {
-      data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
+      data.facility = user.currentEmployee.facilityDetail; // or from facility dropdown
     }
-    data.locationId = locationId; //state.ClinicModule.selectedClinic._id
-    data.practitionerId = practionerId;
-    data.appointment_type = appointment_type;
-    // data.appointment_reason=appointment_reason
-    data.appointment_status = appointment_status;
-    data.clientId = clientId;
-    data.firstname = chosen.firstname;
-    data.middlename = chosen.middlename;
-    data.lastname = chosen.lastname;
-    data.dob = chosen.dob;
-    data.gender = chosen.gender;
-    data.phone = chosen.phone;
-    data.email = chosen.email;
-    data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
-    data.practitioner_profession = chosen2.profession;
-    data.practitioner_department = chosen2.department;
-    data.location_name = chosen1.name;
-    data.location_type = chosen1.locationType;
-    data.actions = [
-      {
-        action: appointment_status,
-        actor: user.currentEmployee._id,
-      },
-    ];
-    console.log(data);
+    if (selectedAdmission !== null) {
+      data.source_admissionId = selectedAdmission._id;
+      data.source_admission = selectedAdmission;
+    }
+
+    if (selectedAppointment !== null) {
+      data.source_appointmentId = selectedAppointment._id;
+      data.source_appointment = selectedAppointment;
+    }
+    const actionHx = {
+      action: "",
+      actor: "",
+      action_time: new Date(),
+    };
+
+    data.createdby = user._id;
+    data.clientId = state.ClientModule.selectedClient._id;
+    data.client = state.ClientModule.selectedClient;
+    // data.referralnote = da;
+    data.actionHx = actionHx;
+    data.source_orgId = facility._id;
+    data.source_org = facility;
+    data.dest_orgId = chosen._id;
+    data.dest_org = chosen;
+    data.referralReason = data.reason_for_request;
+    data.createdById = employee._id;
+    data.createdBy = employee;
+    data.status = "Submitted";
+    const referralCode = Math.floor(
+      Math.random() * (99999 - 10000 + 1) + 10000
+    );
+    data.referralNo = `${referralCode}BA`;
+    data.patient_type = data.patientstate;
+    data.referralnote = data.clinical_findings;
+    console.log(" ====>>> data from referral submit two", {
+      data,
+      facility,
+      chosen,
+    });
 
     ClientServ.create(data)
       .then((res) => {
-        //console.log(JSON.stringify(res))
-        e.target.reset();
+        console.log("===>>>response", { res: res });
+        reset({});
         setAppointment_type("");
         setAppointment_status("");
         setClientId("");
@@ -176,32 +202,24 @@ export function ReferralCreate({ handleGoBack }) {
         setSuccess(true);
         setSuccess1(true);
         setSuccess2(true);
-        toast({
-          message:
-            "Appointment created succesfully, Kindly bill patient if required",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success("Referral  created succesfully");
         setSuccess(false);
         setSuccess1(false);
         setSuccess2(false);
+        showList();
         // showBilling()
       })
       .catch((err) => {
-        toast({
-          message: "Error creating Appointment " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        console.log("===>>> Error response ", { err: err });
+        toast.error(`Error creating Referral   ${err}`);
       });
   };
 
-
-  
-
   useEffect(() => {
+    console.log("from chossen useEffect ", {
+      chosen: state.ClientModule,
+      selectedClient: state.ClientModule.selectedClient,
+    });
     getSearchfacility(state.ClientModule.selectedClient);
 
     /* appointee=state.ClientModule.selectedClient 
@@ -219,7 +237,6 @@ export function ReferralCreate({ handleGoBack }) {
     }
   }, [patientState]);
 
-  
   const complaintSchema = [
     {
       name: "S/N",
@@ -275,8 +292,8 @@ export function ReferralCreate({ handleGoBack }) {
     },
   ];
 
-  const handleSelectClient = client => {
-    setState(prev => ({
+  const handleSelectClient = (client) => {
+    setState((prev) => ({
       ...prev,
       ClientModule: {
         ...prev.ClientModule,
@@ -287,13 +304,13 @@ export function ReferralCreate({ handleGoBack }) {
     //
   };
 
-  const handleSelectAppointment = appointment => {
+  const handleSelectAppointment = (appointment) => {
     setSelectedAppointment(appointment);
     setSelectedAdmission(null);
     setAppointmentModal(false);
   };
 
- const handleSelectAdmission = admission => {
+  const handleSelectAdmission = (admission) => {
     setSelectedAdmission(admission);
     setSelectedAppointment(null);
     setAdmissionModal(false);
@@ -390,9 +407,7 @@ export function ReferralCreate({ handleGoBack }) {
           }}
           gap={1}
         >
-          <GlobalCustomButton
-          // onClick={handleSubmit(handleCreatePreAuthorization)}
-          >
+          <GlobalCustomButton onClick={handleSubmit(onSubmit)}>
             <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
             Create Referral
           </GlobalCustomButton>
@@ -420,7 +435,6 @@ export function ReferralCreate({ handleGoBack }) {
             width: "calc(100% - 26rem)",
           }}
         >
-
           <Grid container spacing={2} mb={2}>
             <Grid item lg={6} md={5}>
               <ClientSearch
@@ -431,9 +445,10 @@ export function ReferralCreate({ handleGoBack }) {
             </Grid>
             <Grid item xs={12} sm={4}>
               <Input
-                name="patientName"
+                name="ReferringFacility"
                 label="Referring Facility"
-                value={"Test Organization"}
+                register={register("ReferringFacility")}
+                defaultValue={facility.facilityName}
               />
             </Grid>
             <Grid item lg={6} md={5}>
@@ -495,7 +510,7 @@ export function ReferralCreate({ handleGoBack }) {
             </Grid>
           )}
 
-          <Box mb={2}>
+          {/* <Box mb={2}>
             <Box
               sx={{
                 display: "flex",
@@ -528,7 +543,7 @@ export function ReferralCreate({ handleGoBack }) {
                 }
               />
             </Box>
-          </Box>
+          </Box> */}
 
           <Box mb={2}>
             <TextAreaVoiceAndText
@@ -541,7 +556,7 @@ export function ReferralCreate({ handleGoBack }) {
           </Box>
 
           <Box mb={2}>
-            <Box
+            {/* <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -555,9 +570,9 @@ export function ReferralCreate({ handleGoBack }) {
                 <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
                 New Diagnosis
               </GlobalCustomButton>
-            </Box>
+            </Box> */}
 
-            <Box>
+            {/* <Box>
               <CustomTable
                 title={""}
                 columns={diagnosisSchema}
@@ -572,9 +587,9 @@ export function ReferralCreate({ handleGoBack }) {
                   </Typography>
                 }
               />
-            </Box>
+            </Box> */}
           </Box>
-          <Box mb={2}>
+          {/* <Box mb={2}>
             <TextAreaVoiceAndText
               label="Drugs/Treatments"
               type={drugsInputType}
@@ -582,18 +597,51 @@ export function ReferralCreate({ handleGoBack }) {
               register={register("drugs")}
               voiceOnChange={(value) => setValue("drugs", value)}
             />
-          </Box>
+          </Box> */}
           <Grid item xs={6}>
             <Textarea
               placeholder="Type your message here"
               name="reason"
               type="text"
+              register={register("reason_for_request")}
               label="Reason for Request"
             />
           </Grid>
-          <Grid item xs={6} mt={2}>
-            <Input name="physicianName" label="Physician's Name" type="text" />
-          </Grid>
+          <Box mb={2}>
+            <Grid container spacing={2} mb={2}>
+              {/* <Grid item xs={6} mt={2}>
+                <Input
+                  name="physicianName"
+                  label="Physician's Name"
+                  type="text"
+                  register={register("physician_Name")}
+                />
+              </Grid> */}
+              <Grid item xs={6} mt={2}>
+                <CustomSelect
+                  label="Referral Type"
+                  required
+                  control={control} //clinical, diagnostic,business
+                  name="referral_type"
+                  options={[
+                    {
+                      label: "Clinical",
+                      value: "clinical",
+                    },
+
+                    {
+                      label: "Diagnostic",
+                      value: "diagnostic",
+                    },
+                    {
+                      label: "Business",
+                      value: "business",
+                    },
+                  ]}
+                />
+              </Grid>
+            </Grid>
+          </Box>
         </Box>
       </Box>
     </Box>

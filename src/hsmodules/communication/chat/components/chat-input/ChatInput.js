@@ -1,5 +1,5 @@
 import {Box, IconButton, Menu, MenuItem} from "@mui/material";
-import {useContext, useState, useRef} from "react";
+import {useContext, useState, useRef, useEffect} from "react";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import AddIcon from "@mui/icons-material/Add";
 import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
@@ -15,6 +15,8 @@ import client from "../../../../../feathers";
 import {toast} from "react-toastify";
 
 const GeneralChatInputBox = () => {
+  const [selectedChat, setSelectedChat] = useState(null);
+  const chatroomServer = client.service("chatroom");
   const chatMessagesServer = client.service("chat");
   const {state} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
@@ -22,7 +24,10 @@ const GeneralChatInputBox = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [fileAnchorEl, setFileAnchorEl] = useState(null);
 
-  const selectedChat = state.ChatModule.chatRoom;
+  useEffect(() => {
+    const chat = state.ChatRoom;
+    setSelectedChat(chat);
+  }, [state.ChatRoom]);
 
   const inputRef = useRef(null);
 
@@ -57,8 +62,8 @@ const GeneralChatInputBox = () => {
   };
 
   const handleSendMessage = () => {
-    if (inputMessage === "")
-      return toast.warning("You can't send an empty message");
+    if (inputMessage.trim() === "")
+      return toast.warning("You can't send an invalid message");
     const employee = user.currentEmployee;
 
     //  chatroom:{ type: Schema.Types.Mixed,  },
@@ -79,16 +84,26 @@ const GeneralChatInputBox = () => {
         type: "Point",
         coordinates: [state.coordinates.latitude, state.coordinates.longitude],
       },
-      createdAt: dayjs(),
+      //createdAt: dayjs(Date.now()).toISOString(),
     };
 
-    // return console.log(message);
+    const lastmessage = {
+      messageType: "text",
+      message: inputMessage,
+      status: "sent",
+      createdby: employee,
+      createdbyId: employee._id,
+      time: Date.now(),
+    };
 
     chatMessagesServer
       .create(message)
       .then(res => {
-        toast.success("Message sent.");
+        toast.success("Message sent");
         setInputMessage("");
+        return chatroomServer.patch(selectedChat._id, {
+          lastmessage: lastmessage,
+        });
       })
       .catch(error => {
         toast.error(`Message failed ${error}`);
@@ -198,7 +213,7 @@ const GeneralChatInputBox = () => {
         </form>
       </Box>
 
-      <IconButton>
+      <IconButton onClick={() => console.log(state.ChatRoom)}>
         <KeyboardVoiceIcon />
       </IconButton>
     </Box>

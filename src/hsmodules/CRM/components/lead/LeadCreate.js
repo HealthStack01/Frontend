@@ -142,6 +142,7 @@ const LeadsCreate = ({closeModal, handleGoBack}) => {
     document.clientclass = data.clientclass;
     document.facilityId = employee.facilityDetail._id;
     document.facilityName = employee.facilityDetail.facilityName;
+    document.facility = employee.facilityDetail;
 
     const notificationObj = {
       type: "CRM",
