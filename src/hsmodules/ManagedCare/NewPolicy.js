@@ -5,7 +5,7 @@ import PoliciesList from "./components/policy/Lists";
 import CreateNewPolicy from "./components/policy/create-policy/CreatePolicy";
 import PolicyDetail from "./components/policy/Details";
 
-const NewPolicyModule = () => {
+const NewPolicyModule = ({beneficiary}) => {
   const [view, setView] = useState("lists");
 
   const createNewPolicy = () => {
@@ -25,12 +25,15 @@ const NewPolicyModule = () => {
         <PoliciesList
           createNewPolicy={createNewPolicy}
           showDetails={showDetails}
+          beneficiary={beneficiary}
         />
       )}
 
       {view === "create" && <CreateNewPolicy goBack={handleReturn} />}
 
-      {view === "details" && <PolicyDetail goBack={handleReturn} />}
+      {view === "details" && (
+        <PolicyDetail goBack={handleReturn} beneficiary={beneficiary} />
+      )}
     </Box>
   );
 };

@@ -570,6 +570,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 
   const facility = state.facilityModule.selectedFacility?.organizationDetail;
   const facilityForAdditionalInfo = state.facilityModule.selectedFacility;
+  console.log(facility)
 
   const handleEdit = async () => {
     const newfacilityModule = {
@@ -1092,7 +1093,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
         )}
         {currentPage === 2 && (
           <PolicyList
-            standAlone={facility?._id}
+            standAlone={facility}
             showDetail={() => setCurrentPage(7)}
           />
         )}
@@ -1469,11 +1470,16 @@ export function PolicyList({ showModal, showDetail, standAlone }) {
 
   const getFacilities = async () => {
     setLoading(true);
-    if (user.currentEmployee) {
-      // const findClient= await ClientServ.find()
+   
+    
       const findClient = await ClientServ.find({
         query: {
           organizationId: user.currentEmployee.facilityDetail._id,
+          $or:[
+            {'sponsor.facilityName':standAlone.facilityName,},
+            {'sponsor._id':standAlone._id,}
+
+          ],
           $sort: {
             createdAt: -1,
           },
@@ -1481,69 +1487,29 @@ export function PolicyList({ showModal, showDetail, standAlone }) {
       });
       /*  if (page===0){ */
       await setFacilities(findClient.data);
-      // console.log(findClient.data);
-      setLoading(false);
-      /* }else{
-             await setFacilities(prevstate=>prevstate.concat(findClient.data))
-         } */
+      console.log(findClient.data)
+      
 
       await setTotal(findClient.total);
-      //console.log(user.currentEmployee.facilityDetail._id, state)
-      //console.log(facilities)
-      setPage((page) => page + 1);
-    } else {
-      if (user.stacker) {
-        const findClient = await ClientServ.find({
-          query: {
-            $limit: 20,
-            $sort: {
-              createdAt: -1,
-            },
-          },
-        });
-
+    
         await setFacilities(findClient.data);
         setLoading(false);
       }
-    }
-  };
-
+  
   useEffect(() => {
-    if (user) {
-      //getFacilities()
-      rest();
-    } else {
-      /* const localUser= localStorage.getItem("user")
-                     const user1=JSON.parse(localUser)
-                     console.log(localUser)
-                     console.log(user1)
-                     fetchUser(user1)
-                     console.log(user)
-                     getFacilities(user) */
-    }
-    ClientServ.on("created", (obj) => rest());
-    ClientServ.on("updated", (obj) => rest());
-    ClientServ.on("patched", (obj) => rest());
-    ClientServ.on("removed", (obj) => rest());
+    
+     getFacilities();
+    ClientServ.on("created", (obj) =>  getFacilities());
+    ClientServ.on("updated", (obj) =>  getFacilities())
+    ClientServ.on("patched", (obj) =>  getFacilities());
+    ClientServ.on("removed", (obj) =>  getFacilities());
     return () => {};
     // eslint-disable-next-line
   }, []);
-  const rest = async () => {
-    // console.log("starting rest")
-    // await setRestful(true)
-    await setPage(0);
-    //await  setLimit(2)
-    await setTotal(0);
-    await setFacilities([]);
-    await getFacilities();
-    //await  setPage(0)
-    //  await setRestful(false)
-  };
+ 
 
-  useEffect(() => {
-    //console.log(facilities)
-    return () => {};
-  }, [facilities]);
+
+
   //todo: pagination and vertical scroll bar
   const PolicySchema = [
     {
@@ -1565,55 +1531,14 @@ export function PolicyList({ showModal, showDetail, standAlone }) {
       inputType: "DATE",
     },
     {
-      name: "Sponsorship Type",
+      name: "Policy Number",
       key: "sponsorshipType",
       description: "Sponsorship Type",
-      selector: (row) => row.sponsorshipType,
+      selector: (row) => row.policyNo,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
-
-    {
-      name: "Plan",
-      key: "plan",
-      description: "Plan",
-      selector: (row) => row.plan.name,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-
-    {
-      name: "Premium",
-      key: "premium",
-      description: "Premium",
-      selector: (row) => row.premium,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-
-    {
-      name: "Paid",
-      key: "isPaid",
-      description: "Paid",
-      selector: (row) => (row.isPaid ? "Yes" : "No"),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-
-    {
-      name: "Active",
-      key: "active",
-      description: "Active",
-      selector: (row) => (row.active ? "Yes" : "No"),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-
     {
       name: "Pricipal Last Name",
       key: "principal",
@@ -1663,7 +1588,62 @@ export function PolicyList({ showModal, showDetail, standAlone }) {
       required: true,
       inputType: "EMAIL",
     },
+    {
+      name: "Plan",
+      key: "plan",
+      description: "Plan",
+      selector: (row) => row.plan.name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Plan Type",
+      key: "sponsorshipType",
+      description: "Sponsorship Type",
+      selector: (row) => row.planType,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
 
+    {
+      name: "Premium",
+      key: "premium",
+      description: "Premium",
+      selector: (row) => row.premium,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Paid",
+      key: "isPaid",
+      description: "Paid",
+      selector: (row) => (row.isPaid ? "Yes" : "No"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Active",
+      key: "active",
+      description: "Active",
+      selector: (row) => (row.active ? "Yes" : "No"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Approved",
+      key: "approved",
+      description: "Active",
+      selector: (row) => (row.approved ? "Yes" : "No"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
     {
       name: "Tags",
       key: "tags",
@@ -1684,8 +1664,7 @@ export function PolicyList({ showModal, showDetail, standAlone }) {
 
   const Selectedpol = facilities.filter(
     (facility) =>
-      facility?.sponsor?.organization === standAlone ||
-      facility?.providers?.some((item) => item.organization === standAlone)
+      facility?.sponsor?.organizationId === standAlone._id   //||       facility?.providers?.some((item) => item.organization === standAlone)
   );
   // const pendingSelectedpol = pendingFacilities.filter(
   //   (item) =>
@@ -1748,8 +1727,8 @@ export function PolicyList({ showModal, showDetail, standAlone }) {
                 </div>
               )}
               <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
-                List of {display === "approve" ? "Approved" : "Pending"}{" "}
-                Policies
+                List of Policies ({total})
+              {/*   {display === "approve" ? "Approved" : "Pending"}{" "} */}
               </h2>
             </div>
             <Box
@@ -1797,13 +1776,13 @@ export function PolicyList({ showModal, showDetail, standAlone }) {
             className="level"
             style={{
               height: "80vh",
-              overflowY: "scroll",
+              overflow: "scroll",
             }}
           >
             <CustomTable
               title={""}
               columns={PolicySchema}
-              data={Selectedpol}
+              data={facilities}
               pointerOnHover
               highlightOnHover
               onRowClicked={handleRow}
@@ -2345,7 +2324,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
 
       setFacilities(list);
 
-     setTotal(findClient.total);
+     setTotal(list.total);
       setPage((page) => page + 1);
     } else {
       if (user.stacker) {
@@ -2623,7 +2602,7 @@ export function BeneList({ showModal, setShowModal, standAlone }) {
 						</div>
 					)} */}
           <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
-            List of Beneficiary
+            List of Beneficiary ({total})
           </h2>
         </div>
         <div

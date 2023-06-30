@@ -4,6 +4,19 @@
   flex-direction: column;
   gap: 5px;
   height: fit-content;
+  position: relative;
+
+  .label {
+    position: absolute;
+    top: -1.25rem;
+    left: 0.8rem;
+    padding: 0px 0.25rem;
+    background-color: rgb(255, 255, 255);
+    transition: all 0.4s ease 0s;
+    font-size: 0.75rem;
+    color: #2d2d2d;
+    z-index: 9;
+  }
 
   .custom-select-error-text {
     height: 15px;

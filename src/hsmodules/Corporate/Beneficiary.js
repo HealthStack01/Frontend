@@ -1328,7 +1328,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
               $regex: val,
               $options: "i",
             }},
-          {           
+         /*  {           
             'dependantBeneficiaries.type': {
               $regex: val,
               $options: "i",
@@ -1337,7 +1337,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
               'principal.type': {
                 $regex: val,
                 $options: "i",
-              }},
+              }}, */
             {           
               'dependantBeneficiaries.firstname': {
                   $regex: val,
@@ -1349,8 +1349,8 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
                   $options: "i",
                   }},
 
-            {        
-            'sponsor.facilityName': {
+           /* {        
+             'sponsor.facilityName': {
               $regex: val,
               $options: "i",
             }}, 
@@ -1363,18 +1363,18 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
             planType: {
               $regex: val,
               $options: "i",
-            }},        
+            }},  */       
             { 'plan.planName':{
               $regex: val,
               $options: "i",
             }},
-            {
+           /*  {
               'providers.facilityName':{
                   $regex: val,
                   $options: "i",
-                }},
-          { 'principal.gender': val },
-          { 'dependantBeneficiaries.gender': val }, 
+                }}, */
+        /*   { 'principal.gender': val },
+          { 'dependantBeneficiaries.gender': val },  */
         ],
 
         $or: [
@@ -1516,7 +1516,7 @@ export function ClientList({ showModal, setShowModal, standAlone }) {
       });
 
       let data = findClient.data;
-      console.log("policies",data)
+     // console.log("policies",data)
 
       let list = [];
       data.map((item) => {
@@ -2608,28 +2608,28 @@ export function ClientModify({ showModal, setShowModal }) {
               />
             </Box>
             <Grid container spacing={1}>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <Input
                   label="First Name"
                   register={register("firstname")}
                   // errorText={errors?.firstname?.message}
                 />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <Input
                   label="Middle Name"
                   register={register("middlename")}
                   // errorText={errors?.middlename?.message}
                 />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <Input
                   label="Last Name"
                   register={register("lastname")}
                   // errorText={errors?.lastname?.message}
                 />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <Input
                   label="Phone"
                   register={register("phone")}
@@ -2637,7 +2637,7 @@ export function ClientModify({ showModal, setShowModal }) {
                   // errorText={errors?.phone?.message}
                 />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <Input
                   label="Email"
                   register={register("email")}
@@ -2645,7 +2645,7 @@ export function ClientModify({ showModal, setShowModal }) {
                   // errorText={errors?.email?.message}
                 />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <MuiDateTimePicker
                   label="Dob"
                   name="dob"
@@ -2653,7 +2653,7 @@ export function ClientModify({ showModal, setShowModal }) {
                   // errorText={errors?.dob?.message}
                 />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <CustomSelect
                   label="Gender"
                   register={register("gender", { required: true })}
@@ -2664,7 +2664,7 @@ export function ClientModify({ showModal, setShowModal }) {
                   // errorText={errors?.gender?.message}
                 />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <CustomSelect
                   label="Marital Status"
                   register={register("maritalstatus")}
@@ -2676,16 +2676,16 @@ export function ClientModify({ showModal, setShowModal }) {
                   ]}
                 />
               </Grid>
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input
                   label="Medical record Number"
                   register={register("mrn")}
                 />
               </Grid>
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input label="Religion" register={register("religion")} />
               </Grid>
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input label="Profession" register={register("profession")} />
               </Grid>
               <Grid item lg={6} md={6} sm={12}>
@@ -2698,33 +2698,33 @@ export function ClientModify({ showModal, setShowModal }) {
                   register={register("address")}
                 />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <Input label="Town" register={register("city")} />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <Input label="State" register={register("state")} />
               </Grid>
-              <Grid item lg={3} md={4} sm={6}>
+              <Grid item lg={3} md={4} sm={6}  xs={12}>
                 <Input label="Country" register={register("country")} />
               </Grid>
               <Grid item xs={12}>
                 <FormsHeaderText text="Client Medical Data" />
               </Grid>
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input label="Blood Group" register={register("bloodgroup")} />
               </Grid>
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input label="Genotype" register={register("genotype")} />
               </Grid>
 
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input
                   label="Disabilities"
                   register={register("disabilities")}
                 />
               </Grid>
 
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input label="Allergies" register={register("allergies")} />
               </Grid>
               <Grid item xs={12}>
@@ -2733,20 +2733,20 @@ export function ClientModify({ showModal, setShowModal }) {
               <Grid item lg={6} md={6} sm={12}>
                 <Input label="Full Name" register={register("nok_name")} />
               </Grid>
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input
                   label="Phone Number"
                   register={register("nok_phoneno")}
                 />
               </Grid>
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input
                   label=" Email"
                   register={register("nok_email")}
                   type="email"
                 />
               </Grid>
-              <Grid item lg={2} md={4} sm={6}>
+              <Grid item lg={2} md={4} sm={6}  xs={12}>
                 <Input
                   label="Relationship"
                   register={register("nok_relationship")}
@@ -3038,7 +3038,26 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       // const findClient= await ClientServ.find()
       const findClient = await ClientServ.find({
         query: {
-          organization: user.currentEmployee.facilityDetail,
+          
+          $or: [
+            {
+              'principal._id': standAlone,
+            },
+            {
+              'dependantBeneficiaries._id': standAlone,
+            },
+  
+          ],
+         //limit by sponsorid
+         $or: [
+          {
+            'sponsor._id': user.currentEmployee.facilityDetail._id,
+          },
+          {
+            'sponsor.facilityName': user.currentEmployee.facilityDetail.facilityName,
+          },
+
+        ],
           $sort: {
             createdAt: -1,
           },
@@ -3054,7 +3073,7 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
       await setTotal(findClient.total);
       //console.log(user.currentEmployee.facilityDetail._id, state)
       //console.log(facilities)
-      setPage((page) => page + 1);
+    
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
@@ -3072,41 +3091,16 @@ export function PolicyList({ showModal, setShowModal, standAlone }) {
   };
 
   useEffect(() => {
-    if (user) {
-      //getFacilities()
-      rest();
-    } else {
-      /* const localUser= localStorage.getItem("user")
-                     const user1=JSON.parse(localUser)
-                     console.log(localUser)
-                     console.log(user1)
-                     fetchUser(user1)
-                     console.log(user)
-                     getFacilities(user) */
-    }
-    ClientServ.on("created", (obj) => rest());
-    ClientServ.on("updated", (obj) => rest());
-    ClientServ.on("patched", (obj) => rest());
-    ClientServ.on("removed", (obj) => rest());
+    getFacilities ()
+    ClientServ.on("created", (obj) => getFacilities ());
+    ClientServ.on("updated", (obj) => getFacilities ());
+    ClientServ.on("patched", (obj) =>getFacilities ());
+    ClientServ.on("removed", (obj) => getFacilities ());
     return () => {};
     // eslint-disable-next-line
   }, []);
-  const rest = async () => {
-    // console.log("starting rest")
-    // await setRestful(true)
-    await setPage(0);
-    //await  setLimit(2)
-    await setTotal(0);
-    await setFacilities([]);
-    await getFacilities();
-    //await  setPage(0)
-    //  await setRestful(false)
-  };
-
-  useEffect(() => {
-    //console.log(facilities)
-    return () => {};
-  }, [facilities]);
+ 
+ 
   //todo: pagination and vertical scroll bar
   const PolicySchema = [
     {
@@ -3427,7 +3421,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
               }}
             >
               <Grid container spacing={1} mt={1}>
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <Input
                     register={register("policyNo", { required: true })}
                     label="Policy No."
@@ -3435,14 +3429,14 @@ export function PolicyDetail({ showModal, setShowModal }) {
                   />
                 </Grid>
 
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <Input
                     register={register("phone", { required: true })}
                     label="Phone"
                     disabled
                   />
                 </Grid>
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <Input
                     register={register("sponsorship_type", { required: true })}
                     label="Sponsorship Type"
@@ -3450,7 +3444,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                     //placeholder="Enter customer number"
                   />
                 </Grid>
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <Input
                     register={register("plan_type", { required: true })}
                     label="Plan Type"
@@ -3458,7 +3452,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                     //placeholder="Enter customer number"
                   />
                 </Grid>
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <Input
                     register={register("status", { required: true })}
                     label="Status"
@@ -3468,7 +3462,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                   />
                 </Grid>
 
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <Input
                     register={register("policy_tag")}
                     label="Policy Tag"
@@ -3477,7 +3471,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                   />
                 </Grid>
 
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <Input
                     register={register("familyPremium", { required: true })}
                     label="Family Premium"
@@ -3485,7 +3479,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                     //placeholder="Enter customer number"
                   />
                 </Grid>
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <Input
                     register={register("individualPremium", { required: true })}
                     label="Individual Premium"
@@ -3493,7 +3487,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                     //placeholder="Enter customer number"
                   />
                 </Grid>
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <MuiCustomDatePicker
                     label="Start Date"
                     name="start_date"
@@ -3501,7 +3495,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                     disabled={!editPolicy}
                   />
                 </Grid>
-                <Grid item md={3}>
+                <Grid item lg={6} md={6} sm={6}  xs={12}>
                   <MuiCustomDatePicker
                     label="End Date"
                     name="end_date"
@@ -3522,7 +3516,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                 <>
                   <FormsHeaderText text="Sponsor Details" />
                   <Grid container spacing={1}>
-                    <Grid item lg={6} md={6} sm={6}>
+                    <Grid item lg={6} md={6} sm={6}  xs={12}>
                       <Input
                         register={register("sponsor_name")}
                         label="Sponsor Name"
@@ -3531,7 +3525,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                         //placeholder="Enter customer number"
                       />
                     </Grid>
-                    <Grid item lg={6} md={6} sm={6}>
+                    <Grid item lg={6} md={6} sm={6}  xs={12}>
                       <Input
                         register={register("sponsor_phone")}
                         label="Sponsor Phone"
@@ -3540,7 +3534,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                         //placeholder="Enter customer number"
                       />
                     </Grid>
-                    <Grid item lg={6} md={6} sm={6}>
+                    <Grid item lg={6} md={6} sm={6}  xs={12}>
                       <Input
                         register={register("sponsor_email")}
                         label="Sponsor Email"
@@ -3549,7 +3543,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                         //placeholder="Enter customer numbe"
                       />
                     </Grid>
-                    <Grid item lg={6} md={6} sm={6}>
+                    <Grid item lg={6} md={6} sm={6} >
                       <Input
                         register={register("sponsor_address")}
                         label="Sponsor Address"

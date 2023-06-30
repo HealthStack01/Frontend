@@ -41,6 +41,7 @@ import FacilityTransactions from "./GlobalAdmin/FacilityTransactions";
 import LaboratoryDashboard from "./dashBoardUiComponent/@modules/LaboratoryDashboard";
 import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
 import ManagedCareHome from "./ManagedCare/ManagedCareHome";
+import CorporateHome from "./Corporate/CorporateHome";
 
 import GlobalDashboard from "./dashBoardUiComponent/@modules/GlobalDashboard";
 
@@ -200,7 +201,7 @@ const AppRoutes = () => {
             </Route>
 
             {/**************************CORPORATE *************************************** */}
-            <Route path="/app/corporate" element={<ManagedCareHome />}>
+            <Route path="/app/corporate" element={<CorporateHome />}>
               <Route index element={<ManagedCareFrontDashboard />} />
               {corporateRoutes.map((route) => {
                 const { path, Component } = route;

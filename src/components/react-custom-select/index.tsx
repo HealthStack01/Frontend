@@ -12,6 +12,8 @@ interface componentProps {
   error?: string;
   multiple?: boolean;
   disabled?: boolean;
+  isLoading: boolean;
+  label?: string;
 }
 
 const ReactCustomSelectComponent = ({
@@ -23,6 +25,8 @@ const ReactCustomSelectComponent = ({
   error,
   multiple,
   disabled,
+  isLoading,
+  label,
 }: componentProps) => {
   return (
     <Controller
@@ -31,6 +35,7 @@ const ReactCustomSelectComponent = ({
       defaultValue=""
       render={({field: {onChange, value}}) => (
         <div className="react-custom-select-container">
+          {label && <p className="label">{label}</p>}
           <Select
             isMulti={multiple}
             isDisabled={disabled}
@@ -40,12 +45,13 @@ const ReactCustomSelectComponent = ({
             value={value}
             onChange={onChange}
             isClearable
+            isLoading={isLoading}
             styles={{
               menuPortal: base => ({...base, zIndex: 9999, color: "#2d2d2d"}),
               control: (baseStyles, state) => ({
                 ...baseStyles,
                 width: "100%",
-                minHeight: "34px",
+                minHeight: "2.2rem",
                 borderRadius: "3px",
                 borderColor: error
                   ? "#f03030"

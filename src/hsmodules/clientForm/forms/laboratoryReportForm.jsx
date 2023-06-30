@@ -2395,7 +2395,7 @@ export function Biochemistry() {
           style={{ fontWeight: "700", marginBottom: "2px" }}
           className="label is-small"
         >
-          CHEMICAL PATHPLOGY
+          CHEMICAL PATHOLOGY
         </p>
 
         {/* specimen details field */}

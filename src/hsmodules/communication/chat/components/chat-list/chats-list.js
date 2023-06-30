@@ -108,7 +108,7 @@ const CommunicationChatsList = ({showStaffsList}) => {
         onClose={() => setCreateChannel(false)}
         header="Create a new Channel and add members"
       >
-        <CreateNewChannel />
+        <CreateNewChannel closeModal={() => setCreateChannel(false)} />
       </ModalBox>
       <Box
         sx={{

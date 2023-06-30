@@ -145,20 +145,16 @@ const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
 
   const getPolicies = useCallback(async () => {
     setLoading(true);
-    let query = {
-      organizationId: user.currentEmployee.facilityDetail._id,
-      approved: status === "approved",
-      $sort: {
-        createdAt: -1,
-      },
-    };
-
-    if (beneficiary) {
-      query["principal._id"] = beneficiary._id;
-    }
     const resp = await policyServer.find({
-      query: query,
+      query: {
+        organizationId: user.currentEmployee.facilityDetail._id,
+        approved: true,
+        $sort: {
+          createdAt: -1,
+        },
+      },
     });
+   // console.log(resp.data)
     setPolicies(resp.data);
     setLoading(false);
   }, [status]);
@@ -261,9 +257,7 @@ const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
       key: "sponsor",
       description: "Sponsor name",
       selector: row =>
-        row?.sponsor?.facilityDetail?.facilityName
-          ? row?.sponsor?.facilityDetail?.facilityName
-          : row?.sponsor?.facilityName,
+      row?.sponsor?.facilityDetail?.facilityName ? row?.sponsor?.facilityDetail?.facilityName : row?.sponsor?.facilityName,
       sortable: true,
       required: true,
       inputType: "TEXT",
