@@ -8,6 +8,7 @@ import CreateTariff from "./components/tarrif/CreateTarrif";
 import ModalBox from "../../components/modal";
 import CorporateListComponent from "./components/Corporate/CorporateList";
 import CreateCorporateComponent from "./components/Corporate/CorporateCreate";
+import CorporateDetailsComponent from "./components/Corporate/CorporateDetail";
 
 const NewCoporateModule = () => {
   const [addModal, setAddModal] = useState(false);
@@ -25,14 +26,14 @@ const NewCoporateModule = () => {
 
       {view === "lists" && (
         <CorporateListComponent
-          showDetail={() => setView("details")}
+          showDetails={() => setView("details")}
           showCreate={() => setAddModal(true)}
         />
       )}
 
       {view === "details" && (
         <Box>
-          <TarrifDetails goBack={() => setView("lists")} />
+          <CorporateDetailsComponent goBack={() => setView("lists")} />
         </Box>
       )}
     </Box>

@@ -14,7 +14,12 @@ import {PageWrapper} from "../../../../ui/styled/styles";
 
 import dayjs from "dayjs";
 
-const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
+const PoliciesList = ({
+  createNewPolicy,
+  showDetails,
+  beneficiary,
+  corporate,
+}) => {
   const policyServer = client.service("policy");
   const [policies, setPolicies] = useState([]);
   const {state, setState} = useContext(ObjectContext);
@@ -155,6 +160,19 @@ const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
 
     if (beneficiary) {
       query["principal._id"] = beneficiary._id;
+    }
+
+    if (corporate) {
+      query = {
+        organizationId: user.currentEmployee.facilityDetail._id,
+        $or: [
+          {"sponsor.facilityName": corporate.facilityName},
+          {"sponsor._id": corporate._id},
+        ],
+        $sort: {
+          createdAt: -1,
+        },
+      };
     }
     const resp = await policyServer.find({
       query: query,
@@ -368,7 +386,7 @@ const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
           )}
         </div>
 
-        {!beneficiary && (
+        {!beneficiary && !corporate && (
           <Box
             sx={{
               display: "flex",
@@ -391,7 +409,10 @@ const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
 
       <Box
         style={{
-          height: beneficiary ? "calc(100vh - 240px)" : "calc(100vh - 140px)",
+          height:
+            beneficiary || corporate
+              ? "calc(100vh - 240px)"
+              : "calc(100vh - 140px)",
           overflowY: "scroll",
         }}
       >

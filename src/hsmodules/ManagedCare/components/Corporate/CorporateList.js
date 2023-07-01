@@ -21,7 +21,15 @@ const CorporateListComponent = ({showCreate, showDetails}) => {
     showCreate();
   };
 
-  const handleRow = async facility => {
+  const handleRow = data => {
+    //console.log(data);
+    setState(prev => ({
+      ...prev,
+      ManagedCareCorporate: {
+        ...prev.ManagedCareCorporate,
+        selectedCorporate: data,
+      },
+    }));
     showDetails();
   };
 
@@ -50,6 +58,9 @@ const CorporateListComponent = ({showCreate, showDetails}) => {
   };
 
   const getOrganizationClients = useCallback(() => {
+    const preservedList = state.ManagedCareCorporate.preservedList;
+    if (preservedList.length > 0) return setOrganizationClients(preservedList);
+
     setLoading(true);
     orgClientServer
       .find({
@@ -65,6 +76,13 @@ const CorporateListComponent = ({showCreate, showDetails}) => {
         console.log(res.data);
         setOrganizationClients(res.data);
         setLoading(false);
+        setState(prev => ({
+          ...prev,
+          ManagedCareCorporate: {
+            ...prev.ManagedCareCorporate,
+            preservedList: res.data,
+          },
+        }));
       })
       .catch(err => {
         setLoading(false);
