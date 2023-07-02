@@ -674,7 +674,9 @@ const ChangeCorporateOrganization = ({closeModal}) => {
       return toast.error("Please complete all form fields");
 
     const isPresent = organizationClients.find(
-      item => item?.organizationDetail?._id === facility._id
+      item =>
+        item?.organizationDetail?.id !== oldCorporate.organizationDetail._id &&
+        item?.organizationDetail?._id === facility._id
     );
 
     if (isPresent)
@@ -694,6 +696,10 @@ const ChangeCorporateOrganization = ({closeModal}) => {
       .then(res => {
         hideActionLoader();
         closeModal();
+        setState(prev => ({
+          ...prev,
+          ManagedCareCorporate: {...prev.DealModule, selectedCorporate: res},
+        }));
         toast.success("Organization added succesfully");
       })
       .catch(err => {
