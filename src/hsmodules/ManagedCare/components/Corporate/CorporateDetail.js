@@ -1,4 +1,4 @@
-import {Avatar, Box, Button, Grid, Typography} from "@mui/material";
+import {Avatar, Box, Button, Drawer, Grid, Typography} from "@mui/material";
 import {useCallback, useContext, useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
@@ -18,6 +18,12 @@ import {FormsHeaderText} from "../../../../components/texts";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 import NewPolicyModule from "../../NewPolicy";
 import NewBeneficiaryModule from "../../New-Beneficiary";
+import ClaimsModule from "../../Claims";
+import PremiumModule from "../../Premium";
+import CorporateChatComponent from "./CorporateChat";
+import ReactCustomSearchSelectComponent from "../../../../components/react-custom-select/ReactSearchSelect";
+import ReactCustomSelectComponent from "../../../../components/react-custom-select";
+import VideoConference from "../../../utils/VideoConference";
 
 const CorporateDetailsComponent = ({goBack, beneficiary}) => {
   const orgClientServer = client.service("organizationclient");
@@ -27,6 +33,9 @@ const CorporateDetailsComponent = ({goBack, beneficiary}) => {
   const [edit, setEdit] = useState(false);
   const [corporate, setCorporate] = useState(null);
   const [infoModal, setInfoModal] = useState(false);
+  const [chat, setChat] = useState(false);
+  const [updateModal, setUpdateModal] = useState(false);
+  const [activateCall, setActivateCall] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState({
     open: false,
     action: null,
@@ -92,6 +101,23 @@ const CorporateDetailsComponent = ({goBack, beneficiary}) => {
 
   return (
     <Box>
+      <Drawer
+        anchor="right"
+        open={chat}
+        onClose={() => setChat(false)}
+        onOpen={() => setChat(true)}
+      >
+        <Box
+          sx={{
+            width: "500px",
+            height: "100vh",
+            overflowY: "hidden",
+          }}
+        >
+          {chat && <CorporateChatComponent closeChat={() => setChat(false)} />}
+        </Box>
+      </Drawer>
+
       <CustomConfirmationDialog
         open={confirmDialog.open}
         type={confirmDialog.type}
@@ -107,6 +133,15 @@ const CorporateDetailsComponent = ({goBack, beneficiary}) => {
       >
         <CreateAdditionalInformation closeModal={() => setInfoModal(false)} />
       </ModalBox>
+
+      <ModalBox
+        open={updateModal}
+        onClose={() => setUpdateModal(false)}
+        header="Update Corporate Organization"
+      >
+        <ChangeCorporateOrganization closeModal={() => setUpdateModal(false)} />
+      </ModalBox>
+
       <Box
         sx={{
           display: "flex",
@@ -140,7 +175,7 @@ const CorporateDetailsComponent = ({goBack, beneficiary}) => {
               fontWeight: "600",
             }}
           >
-            Corporate Details For -
+            Details For -
           </Typography>
           <FormsHeaderText
             text={`${corporate?.organizationDetail?.facilityName}`}
@@ -192,9 +227,29 @@ const CorporateDetailsComponent = ({goBack, beneficiary}) => {
                   : {}
               }
             >
-              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
               Details
             </GlobalCustomButton>
+
+            <GlobalCustomButton onClick={() => setUpdateModal(true)}>
+              Update
+            </GlobalCustomButton>
+
+            <Box>
+              <VideoConference
+                activateCall={activateCall}
+                setActivateCall={setActivateCall}
+                label="Video conference"
+              />
+            </Box>
+
+            {activateCall && (
+              <GlobalCustomButton
+                onClick={() => setActivateCall(false)}
+                color="error"
+              >
+                End conference
+              </GlobalCustomButton>
+            )}
 
             <GlobalCustomButton
               onClick={() => setView("policies")}
@@ -210,7 +265,6 @@ const CorporateDetailsComponent = ({goBack, beneficiary}) => {
                   : {}
               }
             >
-              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
               Policies
             </GlobalCustomButton>
 
@@ -228,16 +282,53 @@ const CorporateDetailsComponent = ({goBack, beneficiary}) => {
                   : {}
               }
             >
-              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
               Beneficiaries
             </GlobalCustomButton>
 
-            {view === "details" && (
+            <GlobalCustomButton
+              onClick={() => setView("claims")}
+              sx={
+                view === "claims"
+                  ? {
+                      backgroundColor: "#ffffff",
+                      color: "#000000",
+                      "&:hover": {
+                        backgroundColor: "#ffffff",
+                      },
+                    }
+                  : {}
+              }
+            >
+              Claims
+            </GlobalCustomButton>
+
+            <GlobalCustomButton
+              onClick={() => setView("premiums")}
+              sx={
+                view === "premiums"
+                  ? {
+                      backgroundColor: "#ffffff",
+                      color: "#000000",
+                      "&:hover": {
+                        backgroundColor: "#ffffff",
+                      },
+                    }
+                  : {}
+              }
+            >
+              Premiums
+            </GlobalCustomButton>
+
+            <GlobalCustomButton onClick={() => setChat(true)}>
+              Chat
+            </GlobalCustomButton>
+
+            {/* {view === "details" && (
               <GlobalCustomButton>
                 <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                 Edit Details
               </GlobalCustomButton>
-            )}
+            )} */}
 
             {/* {!corporate.approved ? (
               <GlobalCustomButton onClick={approvePolicy} color="success">
@@ -272,6 +363,12 @@ const CorporateDetailsComponent = ({goBack, beneficiary}) => {
         {view === "policies" && (
           <NewPolicyModule corporate={corporate?.organizationDetail} />
         )}
+
+        {view === "claims" && (
+          <ClaimsModule corporate={corporate?.organizationDetail} />
+        )}
+
+        {view === "premiums" && <PremiumModule />}
 
         {view === "beneficiaries" && (
           <NewBeneficiaryModule corporate={corporate?.organizationDetail} />
@@ -422,6 +519,256 @@ const CreateAdditionalInformation = ({closeModal}) => {
 
         <GlobalCustomButton onClick={closeModal} color="error">
           Cancel
+        </GlobalCustomButton>
+      </Box>
+    </Box>
+  );
+};
+
+const ChangeCorporateOrganization = ({closeModal}) => {
+  const facilityServ = client.service("facility");
+  const orgClientServer = client.service("organizationclient");
+  const bandsServer = client.service("bands");
+  const [fetchingFacilities, setFetchingFacilities] = useState(false);
+  const [facilities, setFacilities] = useState([]);
+  const [organizationClients, setOrganizationClients] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [bands, setBands] = useState([]);
+  const [fetchingBands, setFetchingBands] = useState(false);
+  const {user} = useContext(UserContext);
+  const {showActionLoader, hideActionLoader, state, setState} =
+    useContext(ObjectContext);
+  const {control, handleSubmit} = useForm({
+    defaultValues: {
+      facility: {
+        label:
+          state.ManagedCareCorporate.selectedCorporate.organizationDetail
+            .facilityName,
+        value:
+          state.ManagedCareCorporate.selectedCorporate.organizationDetail._id,
+        ...state.ManagedCareCorporate.selectedCorporate.organizationDetail,
+      },
+    },
+  });
+
+  const getOrganizationClients = useCallback(() => {
+    setLoading(true);
+    orgClientServer
+      .find({
+        query: {
+          facility: user.currentEmployee.facilityDetail._id,
+          relationshiptype: "sponsor",
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      })
+      .then(res => {
+        setOrganizationClients(res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        setLoading(false);
+        console.log(err);
+        toast.error(`Something went wrong! ${err}`);
+      });
+  }, [user]);
+
+  const getFacilityBands = useCallback(() => {
+    setFetchingBands(true);
+    bandsServer
+      .find({
+        query: {
+          facility: user.currentEmployee.facilityDetail._id,
+          bandType: "Corporate Sponsor",
+          $sort: {
+            category: 1,
+          },
+        },
+      })
+      .then(res => {
+        setFetchingBands(false);
+        setBands(res.data);
+        // console.log(res.data);
+      })
+      .catch(err => {
+        setFetchingBands(false);
+        toast.error(`Something went wrong! ${err}`);
+      });
+  }, [user]);
+
+  useEffect(() => {
+    getFacilityBands();
+    getOrganizationClients();
+  }, []);
+
+  const handleFacilitySearch = val => {
+    if (val.length <= 3 && val.trim() === "") return;
+    setFetchingFacilities(true);
+
+    facilityServ
+      .find({
+        _id: {$ne: user.currentEmployee.facilityDetail._id},
+        query: {
+          $or: [
+            {
+              facilityName: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityOwner: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityType: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityCategory: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityContactPhone: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              facilityEmail: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+          ],
+
+          $limit: 100,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      })
+      .then(res => {
+        //console.log(res);
+        setFacilities(res.data);
+        setFetchingFacilities(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setFetchingFacilities(false);
+        toast.error("An error occured, check your network");
+      });
+  };
+
+  const handleUpdateCorporate = data => {
+    const oldCorporate = state.ManagedCareCorporate.selectedCorporate;
+    const {facility, band} = data;
+    if (!facility || !band)
+      return toast.error("Please complete all form fields");
+
+    const isPresent = organizationClients.find(
+      item => item?.organizationDetail?._id === facility._id
+    );
+
+    if (isPresent)
+      return toast.warning("Facility Already a Corporate Organization");
+
+    showActionLoader();
+
+    const corporateData = {
+      facility: user.currentEmployee.facilityDetail._id,
+      organization: facility._id,
+      relationshiptype: "sponsor",
+      band: band.name,
+    };
+
+    orgClientServer
+      .patch(oldCorporate._id, corporateData)
+      .then(res => {
+        hideActionLoader();
+        closeModal();
+        toast.success("Organization added succesfully");
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error("Error adding organization " + err);
+      });
+  };
+
+  return (
+    <Box
+      sx={{
+        width: "500px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "20px",
+      }}
+    >
+      <Box>
+        <ReactCustomSearchSelectComponent
+          label="Select Organization"
+          control={control}
+          onInputChange={handleFacilitySearch}
+          isLoading={fetchingFacilities}
+          name="facility"
+          placeholder="Search here..."
+          options={facilities.map(item => {
+            return {
+              label: item.facilityName,
+              value: item._id,
+              ...item,
+            };
+          })}
+        />
+      </Box>
+
+      <Box>
+        <ReactCustomSelectComponent
+          label="Select Band"
+          isLoading={fetchingBands}
+          control={control}
+          name="band"
+          placeholder="Search here..."
+          options={bands.map(item => {
+            return {
+              label: item.name,
+              value: item.name,
+              ...item,
+            };
+          })}
+        />
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          gap: "20px",
+        }}
+      >
+        <GlobalCustomButton
+          onClick={closeModal}
+          sx={{
+            width: "50%",
+          }}
+          color="warning"
+        >
+          Cancel
+        </GlobalCustomButton>
+
+        <GlobalCustomButton
+          sx={{
+            width: "50%",
+          }}
+          onClick={handleSubmit(handleUpdateCorporate)}
+        >
+          Update Corporate
         </GlobalCustomButton>
       </Box>
     </Box>

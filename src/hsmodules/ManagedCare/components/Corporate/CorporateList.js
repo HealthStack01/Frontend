@@ -58,8 +58,8 @@ const CorporateListComponent = ({showCreate, showDetails}) => {
   };
 
   const getOrganizationClients = useCallback(() => {
-    const preservedList = state.ManagedCareCorporate.preservedList;
-    if (preservedList.length > 0) return setOrganizationClients(preservedList);
+    // const preservedList = state.ManagedCareCorporate.preservedList;
+    // if (preservedList.length > 0) return setOrganizationClients(preservedList);
 
     setLoading(true);
     orgClientServer
@@ -90,6 +90,10 @@ const CorporateListComponent = ({showCreate, showDetails}) => {
         toast.error(`Something went wrong! ${err}`);
       });
   }, [user]);
+
+  // const updateLists = useCallback(() => {
+  //       const preservedList = state.ManagedCareCorporate.preservedList;
+  // }, [])
 
   useEffect(() => {
     getOrganizationClients();
