@@ -30,11 +30,84 @@ export default function PhysiotherapyScreening() {
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
       Object.entries(draftDoc.documentdetail).forEach(([key, value]) => {
-        if (key === "Reschedule Visit") {
-          // setReschedule(value);
-        } else if (key === "Scaling & Polishing") {
-          setCancer(value);
-        } else {
+        if (key === "Cancer") {
+          setCancer();
+        } else if (key === "Self") {
+          setSelf(value);
+        } 
+        else if (key === "Nausea/Vomiting?") {
+          setNausea(value);
+        } 
+        else if (key === "Fever/chill/sweats?") {
+          setFever(value);
+        } 
+        else if (key === "A change in your health?") {
+          setHealthchange(value);
+        } 
+        else if (key === "Unexplained weight change?") {
+          setWeightchange(value);
+        }
+        else if (key === "Does your stool look like (black or bloody)?") {
+          setStool(value);
+        }
+        else if (key === "Numbness or tingling?") {
+          setNumbness(value);
+        }
+        else if (key === "Changes in appetite?") {
+          setAppetitiechange(value);
+        }
+        else if (key === "Difficulty swallowing?") {
+          setSwallowing(value);
+        }
+        else if (key === "Changes in bowel or bladder function?") {
+          setChangesinbowel(value);
+        }
+        else if (key === "Changes in bowel or bladder function?") {
+          setChangesinbowel(value);
+        }
+        else if (key === "Shortness of breath?") {
+          setShortness(value);
+        }
+        else if (key === "Dizziness?") {
+          setDizziness(value);
+        }
+        else if (key === "Upper respiratory infection?") {
+          setInfection(value);
+        }
+        else if (key === "Urinary tract infection?") {
+          setUrinary(value);
+        }
+        else if (key === "Are you having difficulty with voluntary urine retention?") {
+          setRetention(value);
+        }
+        else if (key === "Have you had constipation or diarrhea that has lasted for than a few days?") {
+          setConstipation(value);
+        }
+        else if (key === "Have you had any trauma (blunt trauma, fall, ejection from automobile etc) that involved your head, neck, arm, hand, thigh, leg, back and waist?") {
+          setTrauma(value);
+        }
+        else if (key === "Depressed?") {
+          setDepressed(value);
+        }
+        else if (key === "Under Stress?") {
+          setUnderstress(value);
+        }
+        else if (key === "Are your symptoms?") {
+          setSymptoms(value);
+        }
+        else if (key === "How are you able to sleep at night?") {
+          setSleep(value);
+        }
+        else if (key === "Do you or have you in the past smoked tobacco?") {
+          setTobacco(value);
+        }
+        else if (key === "Do you drink alcoholic beverages?") {
+          setAlcoholic(value);
+        }
+        else if (key === "In the past years or recently, have you had 2 weeks or more during which you felt sad, worthless, depressed, loss concentration, thought of death or suicide or when you lost interest in things that you usually cared about or enjoyed?") {
+          setLossconcentration(value);
+        }
+        else {
           setValue(key, value, {
             shouldValidate: true,
             shouldDirty: true,
@@ -269,12 +342,12 @@ export default function PhysiotherapyScreening() {
       "Depressed?": depressed,
       "Under Stress?": understress,
       "Are your symptoms?": symptoms,
-      "How are you able to sleep at night?": symptoms,
+      "How are you able to sleep at night?": sleep,
       "Do you or have you in the past smoked tobacco?": tobacco,
       "Do you drink alcoholic beverages?": alcoholic,      
     };
 
-    document.documentname = "Physiotherapy Screening Form";
+    document.documentname = "Physiotherapy Medical Screening";
     document.location =
       state.employeeLocation.locationName +
       " " +

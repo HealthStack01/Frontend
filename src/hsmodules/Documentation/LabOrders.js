@@ -346,7 +346,7 @@ export function LabOrdersCreate() {
                   disabled={true}
                   type="text"
                   onChange={e => setDestination(e.target.value)}
-                  label="Destination Pharmacy"
+                  label="Destination Laboratory"
                   name="destination"
                 />
               </Box>
@@ -631,7 +631,7 @@ export function LabOrdersList({standalone}) {
               </div>
             )}
             <h2 style={{marginLeft: "10px", fontSize: "0.8rem"}}>
-              List of Radiology Orders
+            List of Laboratory Orders
             </h2>
           </div>
 
@@ -1409,7 +1409,7 @@ export function TestHelperSearch({
         renderInput={params => (
           <TextField
             {...params}
-            label={label || "Search for Test Product"}
+            label={label || "Search for Test Services"}
             ref={inputEl}
             sx={{
               fontSize: "0.75rem",

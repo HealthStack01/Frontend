@@ -43,7 +43,8 @@ import ReferralFormForConsultation from "../clientForm/forms/referralFormForCons
 import VitalSignsFlowSheet from "../clientForm/forms/vitalSignsFlowSheet";
 import VitalSignsRecord from "../clientForm/forms/vitalSignsRecord";
 import VitalSignsChart from "../clientForm/forms/vitalSignChart";
-import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
+import DentalLab from "./DentalLab";
+import PhysiotherapyHistory from "./PhysiotherapyHistory";
 import SurgicalBookletConsentForm from "../clientForm/forms/surgicalBookletConsentForm";
 import { usePosition } from "../../components/hooks/getUserLocation";
 import Textarea from "../../components/inputs/basic/Textarea";
@@ -54,7 +55,7 @@ import {
   Grid,
   IconButton,
   Typography,
-  FormGroup,
+ 
   RadioGroup,
   Radio,
   FormControlLabel,
@@ -232,6 +233,8 @@ export default function EncounterRight() {
         "Dental Lab" && <DentalLab />}
         {state.DocumentClassModule.selectedDocumentClass.name ===
         "Physiotherapy Medical Screening" && <MedicalScreeningForm />}
+            {state.DocumentClassModule.selectedDocumentClass.name ===
+        "Physiotherapy History & Interview Form" && <PhysiotherapyHistory />}
     </div>
   );
 }
@@ -1756,6 +1759,7 @@ export function DentalClinic() {
     }
   });
 
+
   const onSubmit = (data, e) => {
     e.preventDefault();
     setMessage("");
@@ -2146,7 +2150,7 @@ export function OrthodonticAnalysis() {
   const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState, hideActionLoader} = useContext(ObjectContext);
 
   const [docStatus, setDocStatus] = useState("Draft");
   const [confirmationDiaglog, setConfirmationDialog] = useState(false);
@@ -2177,6 +2181,7 @@ export function OrthodonticAnalysis() {
     }
   });
 
+
   const onSubmit = (data, e) => {
     e.preventDefault();
     setMessage("");
@@ -2191,42 +2196,9 @@ export function OrthodonticAnalysis() {
     }
 
     document.documentdetail = {
-      "Teeth Erupted": data.teetherupt,
-      "Teeth of Poor Prognosis": data.prognosis,
-      "First Permanent Molars": data.molars,
-      D: data.d,
-      M: data.m,
-      F: data.f,
-      "AntPost Relationship": data.antpost,
-      Overbite: data.overbite,
-      Overjet: data.overjet,
-      "Tooth Bone Ratio": data.toothbone,
-      Upper: data.upper,
-      Lower: data.lower,
-      "Dental Caries": data.dentalcaries,
-      "Oral Hygiene Gingivities": data.oralhygiene,
-      Lips: data.lips,
-      Habits: data.habits,
-      Tongue: data.tongue,
-      "Dental Ortho": data.dentalortho,
-      "U Incisor Angle": data.uincisor,
-      "L Incisor Angle": data.lincisor,
-      "FM Angle": data.fmangle,
-      "UIncisor Angle2": data.uincisor2,
-      "LIncisor Angle2": data.lincisor2,
-      SNA: data.sna,
-      SNB: data.snb,
-      ANB: data.anb,
-      "Clinical SK Pattern": data.clinicalskpattern,
-      "Cephalometric SK pattern": data.cephalometricskpattern,
-      "MM Angle": data.mmangle,
-      "Unrepted Teeth": data.unreptedteeth,
-      "Absent Teeth": data.absentteeth,
-      "Dental Care": data.dentalcare,
-      "Summary Of Analysis": data.summary,
-      "Plan Of Treatment": data.plantreatment,
-      "Other Remarks": data.otherremarks,
-    };
+      ...data,
+     
+    };      
     document.documentname = "Orthodontic Analysis";
     document.documentType = "Orthodontic Analysis";
     document.location =
@@ -2261,12 +2233,14 @@ export function OrthodonticAnalysis() {
           Object.keys(data).forEach((key) => {
             data[key] = "";
           });
-
-          setDocStatus("Draft");
+          setConfirmationDialog(false);
+          hideActionLoader(true)
+          // setDocStatus("Draft");
           setSuccess(true);
+          reset(data)
           toast.success("Documentation updated successfully");
           setSuccess(false);
-          setConfirmationDialog(false);
+          closeForm();
         })
         .catch((err) => {
           toast.error("Error updating Documentation: " + err);
@@ -2280,12 +2254,13 @@ export function OrthodonticAnalysis() {
           Object.keys(data).forEach((key) => {
             data[key] = "";
           });
-
+          hideActionLoader();
           setSuccess(true);
-          toast.success("Orthodontic Analysis created successfully");
-          setSuccess(false);
           reset(data);
           setConfirmationDialog(false);
+          toast.success("Orthodontic Analysis created successfully");
+          setSuccess(false);
+          closeForm()
         })
         .catch((err) => {
           toast.error("Error creating Orthodontic Analysis: " + err);
