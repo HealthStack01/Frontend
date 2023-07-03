@@ -15,6 +15,7 @@ const BeneficiariesList = ({showDetail, corporate}) => {
   const {state, setState} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
+  const [total, setTotal] = useState();
 
   const handleCreateNew = () => {};
 
@@ -192,6 +193,7 @@ const BeneficiariesList = ({showDetail, corporate}) => {
         const policies = res.data;
         const data = returnBeneficiaries(policies);
         setBeneficiaries(data);
+       setTotal(data.length)
         setLoading(false);
       })
       .catch(err => {
@@ -342,7 +344,7 @@ const BeneficiariesList = ({showDetail, corporate}) => {
         </div>
 
         <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-          List of Beneficiaries
+          List of Beneficiaries ({total})
         </h2>
       </div>
       {handleCreateNew && (
