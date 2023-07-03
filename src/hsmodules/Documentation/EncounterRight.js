@@ -43,13 +43,14 @@ import ReferralFormForConsultation from "../clientForm/forms/referralFormForCons
 import VitalSignsFlowSheet from "../clientForm/forms/vitalSignsFlowSheet";
 import VitalSignsRecord from "../clientForm/forms/vitalSignsRecord";
 import VitalSignsChart from "../clientForm/forms/vitalSignChart";
-import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
+import DentalLab from "./DentalLab";
+import PhysiotherapyHistory from "./PhysiotherapyHistory";
 import SurgicalBookletConsentForm from "../clientForm/forms/surgicalBookletConsentForm";
 import {usePosition} from "../../components/hooks/getUserLocation";
 import Textarea from "../../components/inputs/basic/Textarea";
 import {Box, getValue} from "@mui/system";
 import RadioButton from "../../components/inputs/basic/Radio";
-import {Button, Grid, IconButton, Typography, FormGroup, RadioGroup, Radio, FormControlLabel} from "@mui/material";
+import {Button, Grid, IconButton, Typography, RadioGroup, Radio, FormControlLabel} from "@mui/material";
 import Input from "../../components/inputs/basic/Input";
 import {FormsHeaderText} from "../../components/texts";
 import CloseIcon from "@mui/icons-material/Close";
@@ -221,6 +222,8 @@ export default function EncounterRight() {
         "Dental Lab" && <DentalLab />}
         {state.DocumentClassModule.selectedDocumentClass.name ===
         "Physiotherapy Medical Screening" && <MedicalScreeningForm />}
+            {state.DocumentClassModule.selectedDocumentClass.name ===
+        "Physiotherapy History & Interview Form" && <PhysiotherapyHistory />}
     </div>
   );
 }
@@ -2058,7 +2061,7 @@ export function OrthodonticAnalysis() {
   const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const {state, setState} = useContext(ObjectContext);
+  const {state, setState, hideActionLoader} = useContext(ObjectContext);
 
   const [docStatus, setDocStatus] = useState("Draft");
   const [confirmationDiaglog, setConfirmationDialog] = useState(false);  
@@ -2107,41 +2110,8 @@ export function OrthodonticAnalysis() {
     }
    
     document.documentdetail = {
-      "Teeth Erupted": data.teetherupt,
-      "Teeth of Poor Prognosis": data.prognosis,
-      "First Permanent Molars": data.molars,
-      D: data.d,
-      M: data.m,
-      F: data.f,
-      "AntPost Relationship": data.antpost,
-      Overbite: data.overbite,
-      Overjet: data.overjet,
-      "Tooth Bone Ratio": data.toothbone,
-      Upper: data.upper,
-      Lower: data.lower,
-      "Dental Caries": data.dentalcaries,
-      "Oral Hygiene Gingivities": data.oralhygiene,
-      Lips: data.lips,
-      Habits: data.habits,
-      Tongue: data.tongue,
-      "Dental Ortho": data.dentalortho,
-      "U Incisor Angle": data.uincisor,
-      "L Incisor Angle": data.lincisor,
-      "FM Angle": data.fmangle,
-      "UIncisor Angle2": data.uincisor2,
-      "LIncisor Angle2": data.lincisor2,
-      SNA: data.sna,
-      SNB: data.snb,
-      ANB: data.anb,
-      "Clinical SK Pattern": data.clinicalskpattern,
-      "Cephalometric SK pattern": data.cephalometricskpattern,
-      "MM Angle": data.mmangle,
-      "Unrepted Teeth": data.unreptedteeth,
-      "Absent Teeth": data.absentteeth,
-      "Dental Care": data.dentalcare,
-      "Summary Of Analysis": data.summary,
-      "Plan Of Treatment": data.plantreatment,
-      "Other Remarks": data.otherremarks,
+      ...data,
+     
     };      
     document.documentname = "Orthodontic Analysis";
     document.documentType = "Orthodontic Analysis";
@@ -2176,12 +2146,14 @@ export function OrthodonticAnalysis() {
           Object.keys(data).forEach(key => {
             data[key] = "";
           });
-  
-          setDocStatus("Draft");
+          setConfirmationDialog(false);
+          hideActionLoader(true)
+          // setDocStatus("Draft");
           setSuccess(true);
+          reset(data)
           toast.success("Documentation updated successfully");
           setSuccess(false);
-          setConfirmationDialog(false);
+          closeForm();
         })
         .catch(err => {
           toast.error("Error updating Documentation: " + err);
@@ -2195,12 +2167,13 @@ export function OrthodonticAnalysis() {
           Object.keys(data).forEach(key => {
             data[key] = "";
           });
-  
+          hideActionLoader();
           setSuccess(true);
-          toast.success("Orthodontic Analysis created successfully");
-          setSuccess(false);
           reset(data);
           setConfirmationDialog(false);
+          toast.success("Orthodontic Analysis created successfully");
+          setSuccess(false);
+          closeForm()
         })
         .catch(err => {
           toast.error("Error creating Orthodontic Analysis: " + err);
@@ -2215,6 +2188,22 @@ export function OrthodonticAnalysis() {
         ...prevstate.DocumentClassModule,
         encounter_right: false,
       },
+    }));
+  };
+
+  const closeForm = async () => {
+    let documentobj = {};
+    documentobj.name = "";
+    documentobj.facility = "";
+    documentobj.document = "";
+    const newDocumentClassModule = {
+      selectedDocumentClass: documentobj,
+      encounter_right: false,
+      show: "detail",
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      DocumentClassModule: newDocumentClassModule,
     }));
   };
 
@@ -3355,348 +3344,6 @@ export function DoctorsNoteCreate() {
 }
 
 
-// Dental Lab
-export function DentalLab() {
-  const {register, handleSubmit, setValue, reset, control, getValues} = useForm(); //, watch, errors, reset
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState("");
-  // eslint-disable-next-line
-  const ClientServ = client.service("clinicaldocument");
-  const {user} = useContext(UserContext); //,setUser
-  // eslint-disable-next-line
-  const [currentUser, setCurrentUser] = useState();
-  const {state, setState} = useContext(ObjectContext);
-
-  const [docStatus, setDocStatus] = useState("Draft");
-  const [confirmationDiaglog, setConfirmationDialog] = useState(false);  
-    
-  let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
-
-  useEffect(() => {
-    if (!!draftDoc && draftDoc.status === "Draft") {
-      Object.entries(draftDoc.documentdetail).forEach(([key, value]) => {
-      {
-          setValue(key, value, {
-            shouldValidate: true,
-            shouldDirty: true,
-          });
-        }
-      });
-    }
-    return () => {
-      draftDoc = {};
-    };
-  }, [draftDoc]);
-
-
-  useEffect(() => {
-    setCurrentUser(user);
-    return () => {};
-  }, [user]);
-
-  useEffect(() => {
-    if (!user.stacker) {
-   
-    }
-  });
-
-  
-  const onSubmit = (data, e) => {
-    e.preventDefault();
-    setMessage("");
-    setError(false);
-    setSuccess(false);
-  
-    let document = {};
-    if (user.currentEmployee) {
-      document.facility = user.currentEmployee.facilityDetail._id;
-      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
-    }
-    document.documentdetail = {
-      "Summary of findings ": data.summary,
-      "No of P T": data.nofpt,
-      "D O T Impression": data.dotimpression,
-      "Sex": data.sex,
-      "Prothesis": data.prothesis,
-      "No of Units": data.noofunits,
-      "OR I/C": data.oric,
-      "Dental Tech": data.dentaltech,
-      "Remarks": data.remarks,
-    };  
-    
-    const dateOfDelivery = new Date(data.dateOfdelivery).toLocaleDateString(undefined, {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-    document.documentdetail["Date of Delivery"] = dateOfDelivery;
-
-    document.documentname = "Dental Lab";
-    document.documentType = "Dental Lab";
-    document.location =
-      state.employeeLocation.locationName +
-      " " +
-      state.employeeLocation.locationType;
-    document.locationId = state.employeeLocation.locationId;
-    document.client = state.ClientModule.selectedClient._id;
-    document.createdBy = user._id;
-    document.createdByname = user.firstname + " " + user.lastname;
-    document.status = docStatus === "Draft" ? "Draft" : "completed";
-  
-    document.geolocation = {
-      type: "Point",
-      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
-    };
- 
-  
-    if (
-      document.location === undefined ||
-      !document.createdByname ||
-      !document.facilityname
-    ) {
-      toast.error("Documentation data missing, requires location and facility details");
-      return;
-    }
-  
-     if (!!draftDoc && draftDoc.documentdetail.status === "Draft") {
-      ClientServ.patch(draftDoc._id, document)
-        .then(res => {
-          Object.keys(data).forEach((key) => {
-            data[key] = null;
-          });
-          setConfirmationDialog(false);
-          hideActionLoader();
-          setSuccess(true);
-          reset(data);
-          toast.success("Dental Lab Form updated successfully");
-          setSuccess(false);
-          closeForm();
-        })
-        .catch(err => {
-          toast.error("Error updating Dental Lab: " + err);
-          reset(data);
-          setConfirmationDialog(false);
-        });
-    } else {
-      ClientServ.create(document)
-        .then(res => {
-          // console.log("Data", res)
-          Object.keys(data).forEach(key => {
-            data[key] = "";
-          });
-  
-          setSuccess(true);
-          toast.success("Dental Lab created successfully");
-          setSuccess(false);
-          reset(data);
-          setConfirmationDialog(false);
-        })
-        .catch(err => {
-          toast.error("Error creating Dental Lab: " + err);
-          setConfirmationDialog(false);
-        });
-    }
-  };
-
-
-  const closeEncounterRight = async () => {
-    setState(prevstate => ({
-      ...prevstate,
-      DocumentClassModule: {
-        ...prevstate.DocumentClassModule,
-        encounter_right: false,
-      },
-    }));
-  };
-
-
-  const handleChangeStatus = async e => {
-    setDocStatus(e.target.value);
-  };
-
-  return (
-    <>
-      <div className="card ">
-        <CustomConfirmationDialog
-          open={confirmationDiaglog}
-          cancelAction={() => setConfirmationDialog(false)}
-          confirmationAction={handleSubmit(onSubmit)}
-          type="create"
-          message={`You are about to save this document ${getValues("eye" )} Dental Lab?`}
-        />
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-          mb={1}
-        >
-          <FormsHeaderText color="none" text={"DENTAL LAB FORM"} />
-
-          <IconButton onClick={closeEncounterRight}>
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        </Box>
-        <div className="card-content vscrollable remPad1">
-          <form>
-
-<Typography fontWeight="bold" color="primary" variant="body1">
-      Summary of findings/Doctor prescription to lab
-    </Typography>
-    <Box style={{ marginTop: '10px', marginBottom: '30px' }}>
-      <Textarea
-      color="primary"
-        register={register("summary")}
-        name="summary"
-        type="text"
-        placeholder="Type here..."
-      />
-    </Box>
-
-<Grid container spacing={2}>
-  <Grid item xs={6}>
-    <Typography color="primary" variant="body2">
-      No of P.T
-    </Typography>
-    <Box mb={1}>
-      <Input
-        register={register("nofpt")}
-        name="nofpt"
-        type="text"
-        placeholder="Type here..."
-      />
-    </Box>
-    <Typography color="primary" variant="body2">
-    D.O.T Impression
-    </Typography>
-    <Box mb={1}>
-      <Input
-        register={register("dotimpression")}
-        name="dotimpression"
-        type="text"
-        placeholder="Type here..."
-      />
-    </Box>
-  </Grid>
-  <Grid item xs={6}>
-    <Typography color="primary" variant="body2">
-      Sex M/F:
-    </Typography>
-    <Box mb={1}>
-      <Input
-        register={register("sex")}
-        name="sex"
-        type="text"
-        placeholder="Type here..."
-      />
-    </Box>
-    <Typography color="primary" variant="body2">
-      Type of Prothesis:
-    </Typography>
-    <Box mb={1}>
-      <Input
-        register={register("prothesis")}
-        name="prothesis"
-        type="text"
-        placeholder="Type here..."
-      />
-    </Box>
-  </Grid>
-</Grid>
-<Grid container spacing={2}>
-  <Grid item xs={6}>
-    <Typography color="primary" variant="body2">
-      No of Units
-    </Typography>
-    <Box mb={1}>
-      <Input
-        register={register("noofunits")}
-        name="noofunits"
-        type="text"
-        placeholder="Type here..."
-      />
-    </Box>
-    <Typography color="primary" variant="body2">
-    Dental Tech:
-    </Typography>
-    <Box mb={1}>
-      <Input
-        register={register("dentaltech")}
-        name="oric"
-        type="text"
-        placeholder="Type here..."
-      />
-    </Box>
-  </Grid>
-  <Grid item xs={6}>
-    <Typography color="primary" variant="body2">
-    OR I/C
-    </Typography>
-    <Box mb={1}>
-      <Input
-        register={register("oric")}
-        name="dentaltech"
-        type="text"
-        placeholder="Type here..."
-      />
-    </Box>
-    <Box>
-      <Typography sx={{fontSize: "0.85rem"}}>
-        Date of Delivery
-      </Typography>
-      <MuiCustomDatePicker
-       name="dateOfdelivery"
-      control={control} />
-    </Box>
-  </Grid>
-</Grid>
-
-<Typography fontWeight="bold" color="primary" variant="body1">
-    Remarks
-    </Typography>
-    <Box style={{ marginTop: '10px', marginBottom: '30px' }}>
-      <Textarea
-      color="primary"
-        register={register("remarks")}
-        name="remarks"
-        type="text"
-        placeholder="Type in remarks..."
-      />
-    </Box>
-   
-  <Box  sx={{
-  gap: "1rem",
-  }}> 
-  <RadioButton
-     onChange={handleChangeStatus}
-     name="status"
-     options={["Draft", "Final"]}
-     value={docStatus}
-  />
-  </Box>
-  <Box
-  spacing={3}
-  sx={{
-  display: "flex",
-  gap: "3rem",
-  }}
-  >
-  <GlobalCustomButton
-  color="secondary"
-  type="submit"
-  onClick={() => setConfirmationDialog(true)}
-  >
-  Submit Dental Lab Form
-  </GlobalCustomButton>
-  </Box>
-  </form>
-  </div>
-  </div>
-  </>
-  );
-}
 
 
 export function PrescriptionCreate() {

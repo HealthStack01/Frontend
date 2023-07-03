@@ -361,7 +361,7 @@ export function RadiologyOrdersCreate() {
                 disabled={true}
                 type="text"
                 onChange={e => setDestination(e.target.value)}
-                label="Destination Pharmacy"
+                label="Destination Radiology"
                 name="destination"
               />
             </Box>
