@@ -35,7 +35,7 @@ import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicke
 import UpadteService from "./UpdateService";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 
-const ClaimDetailComponent = ({handleGoBack, client_id}) => {
+const ClaimDetailComponent = ({handleGoBack, client_id, beneficiary}) => {
   const claimsServer = client.service("claims");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -420,7 +420,7 @@ const ClaimDetailComponent = ({handleGoBack, client_id}) => {
     <Box
       sx={{
         width: "100%",
-        height: "calc(100vh - 80px)",
+        height: beneficiary ? "calc(100vh - 160px)" : "calc(100vh - 80px)",
         overflowY: "auto",
         position: "relative",
       }}

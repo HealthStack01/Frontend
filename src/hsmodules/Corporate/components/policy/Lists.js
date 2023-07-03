@@ -14,12 +14,7 @@ import {PageWrapper} from "../../../../ui/styled/styles";
 
 import dayjs from "dayjs";
 
-const PoliciesList = ({
-  createNewPolicy,
-  showDetails,
-  beneficiary,
-  corporate,
-}) => {
+const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
   const policyServer = client.service("policy");
   const [policies, setPolicies] = useState([]);
   const {state, setState} = useContext(ObjectContext);
@@ -150,33 +145,16 @@ const PoliciesList = ({
 
   const getPolicies = useCallback(async () => {
     setLoading(true);
-    let query = {
-      organizationId: user.currentEmployee.facilityDetail._id,
-      approved: status === "approved",
-      $sort: {
-        createdAt: -1,
-      },
-    };
-
-    if (beneficiary) {
-      query["principal._id"] = beneficiary._id;
-    }
-
-    if (corporate) {
-      query = {
+    const resp = await policyServer.find({
+      query: {
         organizationId: user.currentEmployee.facilityDetail._id,
-        $or: [
-          {"sponsor.facilityName": corporate.facilityName},
-          {"sponsor._id": corporate._id},
-        ],
+        approved: true,
         $sort: {
           createdAt: -1,
         },
-      };
-    }
-    const resp = await policyServer.find({
-      query: query,
+      },
     });
+   // console.log(resp.data)
     setPolicies(resp.data);
     setLoading(false);
   }, [status]);
@@ -279,9 +257,7 @@ const PoliciesList = ({
       key: "sponsor",
       description: "Sponsor name",
       selector: row =>
-        row?.sponsor?.facilityDetail?.facilityName
-          ? row?.sponsor?.facilityDetail?.facilityName
-          : row?.sponsor?.facilityName,
+      row?.sponsor?.facilityDetail?.facilityName ? row?.sponsor?.facilityDetail?.facilityName : row?.sponsor?.facilityName,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -386,7 +362,7 @@ const PoliciesList = ({
           )}
         </div>
 
-        {!beneficiary && !corporate && (
+        {!beneficiary && (
           <Box
             sx={{
               display: "flex",
@@ -409,10 +385,7 @@ const PoliciesList = ({
 
       <Box
         style={{
-          height:
-            beneficiary || corporate
-              ? "calc(100vh - 240px)"
-              : "calc(100vh - 140px)",
+          height: beneficiary ? "calc(100vh - 240px)" : "calc(100vh - 140px)",
           overflowY: "scroll",
         }}
       >

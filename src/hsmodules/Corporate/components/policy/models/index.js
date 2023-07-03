@@ -367,7 +367,7 @@ export const ProviderSchema = [
     required: true,
     inputType: "TEXT",
   },
-  /*  {
+ /*  {
     name: "Contact Person",
     key: "contactPerson",
     description: "Contact Person",
@@ -395,7 +395,7 @@ export const ProviderSchema = [
     required: true,
     inputType: "TEXT",
   },
-  /*  {
+ /*  {
     name: "Status",
     key: "status",
     description: "Status",
@@ -598,7 +598,7 @@ export const sponsorColumns = [
     inputType: "TEXT",
   },
 
-  /*  {
+ /*  {
     name: "Category",
     key: "category",
     description: "Category",
@@ -790,8 +790,7 @@ export const returnProviderModel = (delAction, disabled, omit) => {
       name: "Provider Name",
       key: "providerName",
       description: "Provider Name",
-      selector: row =>
-        row.facilityName || row?.organizationDetail?.facilityName,
+      selector: row => row?.organizationDetail?.facilityName,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -801,29 +800,25 @@ export const returnProviderModel = (delAction, disabled, omit) => {
       name: "City",
       key: "city",
       description: "City",
-      selector: row =>
-        row.facilityCity || row?.organizationDetail?.facilityCity,
+      selector: row => row?.organizationDetail?.facilityCity,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
-    // {
-    //   name: "Contact Person",
-    //   key: "contactPerson",
-    //   description: "Contact Person",
-    //   selector: row =>
-    //     row.facilityOwner || row?.organizationDetail?.facilityOwner,
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "TEXT",
-    // },
+    {
+      name: "Contact Person",
+      key: "contactPerson",
+      description: "Contact Person",
+      selector: row => row?.organizationDetail?.facilityOwner,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
     {
       name: "Phone",
       key: "phone",
       description: "Phone",
-      selector: row =>
-        row.facilityContactPhone ||
-        row?.organizationDetail?.facilityContactPhone,
+      selector: row => row?.organizationDetail?.facilityContactPhone,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -833,21 +828,20 @@ export const returnProviderModel = (delAction, disabled, omit) => {
       name: "Category",
       key: "category",
       description: "Category",
-      selector: row =>
-        row.facilityCategory || row?.organizationDetail?.facilityCategory,
+      selector: row => row?.organizationDetail?.facilityCategory,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
-    // {
-    //   name: "Status",
-    //   key: "status",
-    //   description: "Status",
-    //   selector: row => (row?.active ? "Active" : "Inactive"),
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "TEXT",
-    // },
+    {
+      name: "Status",
+      key: "status",
+      description: "Status",
+      selector: row => (row?.active ? "Active" : "Inactive"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
 
     {
       name: "Delete",

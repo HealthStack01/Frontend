@@ -8,6 +8,7 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import GlobalCustomButton from "../buttons/CustomButton";
 import PoliciesList from "../../hsmodules/ManagedCare/components/policy/Lists";
 import NewPolicyModule from "../../hsmodules/ManagedCare/NewPolicy";
+import Claims from "../../hsmodules/ManagedCare/Claims";
 
 const malePlaceholder =
   "https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg";
@@ -15,13 +16,13 @@ const malePlaceholder =
 const placeholder =
   "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png";
 
-const DefaultClientDetail = ({detail, goBack, showHeader}) => {
-  const {register, reset} = useForm();
+const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
+  const {register, reset, handleSubmit} = useForm();
   const [view, setView] = useState("details");
   const [edit, setEdit] = useState(false);
 
   useEffect(() => {
-    console.log(detail);
+    //console.log(detail);
     const defaultValues = {
       ...detail,
       dob: dayjs(detail?.dob).format("MMM DD, YYYY"),
@@ -31,24 +32,61 @@ const DefaultClientDetail = ({detail, goBack, showHeader}) => {
     reset(defaultValues);
   }, []);
 
+  const handleUpdateClient = data => {
+    updateClient(data);
+  };
+
+  const handleCancelUpdate = () => {
+    const defaultValues = {
+      ...detail,
+      dob: dayjs(detail?.dob).format("MMM DD, YYYY"),
+      createdAt: dayjs(detail?.createdAt).format("MMM DD, YYYY"),
+    };
+
+    reset(defaultValues);
+    setEdit(false);
+  };
+
   return (
     <Box>
-      {showHeader && (
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+          borderBottom: "1px solid #f8f8f8",
+          backgroundColor: "#f8f8f8",
+          position: "sticky",
+          zIndex: 99,
+          top: 0,
+          left: 0,
+        }}
+        mb={2}
+        p={2}
+      >
         <Box
           sx={{
             display: "flex",
-            alignItems: "flex-start",
-            justifyContent: "space-between",
-            borderBottom: "1px solid #f8f8f8",
-            backgroundColor: "#f8f8f8",
-            position: "sticky",
-            zIndex: 99,
-            top: 0,
-            left: 0,
+            alignItems: "center",
           }}
-          mb={2}
-          p={2}
+          gap={1}
         >
+          <GlobalCustomButton onClick={goBack}>
+            <ArrowBackIcon sx={{marginRight: "3px"}} fontSize="small" />
+            Back
+          </GlobalCustomButton>
+
+          <Typography
+            sx={{
+              fontSize: "0.95rem",
+              fontWeight: "600",
+            }}
+          >
+            Details for Client - {detail?.firstname} {detail?.lastname}'s
+          </Typography>
+        </Box>
+
+        {edit && (
           <Box
             sx={{
               display: "flex",
@@ -56,69 +94,100 @@ const DefaultClientDetail = ({detail, goBack, showHeader}) => {
             }}
             gap={1}
           >
-            <GlobalCustomButton onClick={goBack}>
-              <ArrowBackIcon sx={{marginRight: "3px"}} fontSize="small" />
-              Back
+            <GlobalCustomButton
+              color="success"
+              onClick={handleSubmit(handleUpdateClient)}
+            >
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Update Client
             </GlobalCustomButton>
 
-            <Typography
-              sx={{
-                fontSize: "0.95rem",
-                fontWeight: "600",
-              }}
-            >
-              Details for Client - {detail?.firstname} {detail?.lastname}'s
-            </Typography>
+            <GlobalCustomButton color="warning" onClick={handleCancelUpdate}>
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Cancel Update
+            </GlobalCustomButton>
           </Box>
+        )}
 
-          {edit && (
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-              }}
-              gap={1}
-            >
-              <GlobalCustomButton color="success">
-                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-                Update Client
-              </GlobalCustomButton>
-
-              <GlobalCustomButton color="warning">
-                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-                Cancel Update
-              </GlobalCustomButton>
-            </Box>
-          )}
-
-          {!edit && (
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-              }}
-              gap={1}
-            >
+        {!edit && (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+            gap={1}
+          >
+            {view === "details" && (
               <GlobalCustomButton onClick={() => setEdit(true)}>
                 <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                 Edit Client
               </GlobalCustomButton>
+            )}
 
-              <GlobalCustomButton onClick={() => setView("details")}>
-                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-                Client Details
-              </GlobalCustomButton>
+            <GlobalCustomButton
+              onClick={() => setView("details")}
+              sx={
+                view === "details"
+                  ? {
+                      backgroundColor: "#ffffff",
+                      color: "#000000",
+                      "&:hover": {
+                        backgroundColor: "#ffffff",
+                      },
+                    }
+                  : {}
+              }
+            >
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Client Details
+            </GlobalCustomButton>
 
-              <GlobalCustomButton onClick={() => setView("policies")}>
-                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-                Policies
-              </GlobalCustomButton>
-            </Box>
-          )}
-        </Box>
-      )}
+            {showHeader && (
+              <>
+                <GlobalCustomButton
+                  onClick={() => setView("policies")}
+                  sx={
+                    view === "policies"
+                      ? {
+                          backgroundColor: "#ffffff",
+                          color: "#000000",
+                          "&:hover": {
+                            backgroundColor: "#ffffff",
+                          },
+                        }
+                      : {}
+                  }
+                >
+                  <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                  Policies
+                </GlobalCustomButton>
+
+                <GlobalCustomButton
+                  onClick={() => setView("claims")}
+                  sx={
+                    view === "claims"
+                      ? {
+                          backgroundColor: "#ffffff",
+                          color: "#000000",
+                          "&:hover": {
+                            backgroundColor: "#ffffff",
+                          },
+                        }
+                      : {}
+                  }
+                >
+                  <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                  Claims
+                </GlobalCustomButton>
+              </>
+            )}
+          </Box>
+        )}
+      </Box>
 
       {view === "policies" && <NewPolicyModule beneficiary={detail} />}
+
+      {view === "claims" && <Claims beneficiary={detail} />}
 
       <Box p={2}>
         {view === "details" && (
@@ -132,7 +201,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader}) => {
             >
               <Box
                 sx={{
-                  width: "150px",
+                  width: "8rem",
                   height: "calc(2.55rem * 3)",
                   border: "1px solid #bbbbbb",
                   p: 0.5,

@@ -12,7 +12,7 @@ import ClaimDetailComponent from "./components/claims/ClaimsDetail";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Claims({standAlone}) {
+const ClaimsModule = ({beneficiary, corporate}) => {
   const {state, setState} = useContext(ObjectContext);
   const [view, setView] = useState("list");
 
@@ -29,6 +29,8 @@ export default function Claims({standAlone}) {
     }));
   };
 
+  const id = beneficiary ? beneficiary._id : client_id;
+
   return (
     <Box>
       {view === "list" && (
@@ -36,7 +38,9 @@ export default function Claims({standAlone}) {
           <ClaimsListComponent
             showCreate={() => setView("create")}
             showDetail={() => setView("detail")}
-            client_id={client_id}
+            corporate={corporate}
+            beneficiary={beneficiary}
+            client_id={id}
           />
         </Box>
       )}
@@ -47,7 +51,8 @@ export default function Claims({standAlone}) {
             handleGoBack={handleGoBack}
             showCreate={() => setView("create")}
             showDetail={() => setView("detail")}
-            client_id={client_id}
+            beneficiary={beneficiary}
+            client_id={id}
           />
         </Box>
       )}
@@ -58,10 +63,13 @@ export default function Claims({standAlone}) {
             handleGoBack={handleGoBack}
             showCreate={() => setView("create")}
             showDetail={() => setView("detail")}
-            client_id={client_id}
+            beneficiary={beneficiary}
+            client_id={id}
           />
         </Box>
       )}
     </Box>
   );
-}
+};
+
+export default ClaimsModule;

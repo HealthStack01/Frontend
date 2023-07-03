@@ -1,7 +1,7 @@
 import React from "react";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 
-import {InputBox, InputField, InputLabel} from "./styles";
+import { InputBox, InputField, InputLabel } from "./styles";
 
 interface InputProps {
   label?: string;
@@ -24,6 +24,7 @@ interface InputProps {
   autoComplete?: boolean;
   sx?: {};
   important?: boolean;
+  labelObj?: any;
 }
 
 // Reset Input MUI
@@ -62,7 +63,7 @@ const Input: React.FC<InputProps> = ({
         {...register}
         onBlur={onBlur}
         autoComplete={autoComplete}
-        sx={{width: "16px", ...sx}}
+        sx={{ width: "16px", ...sx }}
         //className={errorText ? "has-errors" : ""}
         error={errorText ? true : false}
         //error={true}
@@ -74,12 +75,12 @@ const Input: React.FC<InputProps> = ({
       >
         {label}
         {important && (
-          <AcUnitIcon sx={{color: "red", width: "12px", height: "12px"}} />
+          <AcUnitIcon sx={{ color: "red", width: "12px", height: "12px" }} />
         )}
       </InputLabel>
     </InputBox>
     {errorText && (
-      <label style={{color: "red", fontSize: "0.7rem", textAlign: "left"}}>
+      <label style={{ color: "red", fontSize: "0.7rem", textAlign: "left" }}>
         {errorText}
       </label>
     )}
@@ -122,13 +123,13 @@ export const GoogleInput: React.FC<InputProps> = ({
         disabled={disabled}
         value={value}
         {...register}
-        ref={e => {
+        ref={(e) => {
           register.ref(e);
           inputRef.current = e;
         }}
         onBlur={onBlur}
         autoComplete={autoComplete}
-        sx={{width: "16px", ...sx}}
+        sx={{ width: "16px", ...sx }}
         //className={errorText ? "has-errors" : ""}
         error={errorText ? true : false}
         //error={true}
@@ -142,12 +143,86 @@ export const GoogleInput: React.FC<InputProps> = ({
       >
         {label}
         {important && (
-          <AcUnitIcon sx={{color: "red", width: "12px", height: "12px"}} />
+          <AcUnitIcon sx={{ color: "red", width: "12px", height: "12px" }} />
         )}
       </InputLabel>
     </InputBox>
     {errorText && (
-      <label style={{color: "red", fontSize: "0.7rem", textAlign: "left"}}>
+      <label style={{ color: "red", fontSize: "0.7rem", textAlign: "left" }}>
+        {errorText}
+      </label>
+    )}
+  </div>
+);
+
+export const InputForm: React.FC<InputProps> = ({
+  label,
+  errorText,
+  type,
+  name,
+  defaultValue = "",
+  onChange,
+  onKeyDown,
+  placeholder,
+  // size = 'medium',
+  disabled = false,
+  register,
+  value,
+  autoComplete = true,
+  onBlur,
+  sx,
+  inputRef,
+  important,
+  labelObj = { sup: false, supValue: "", sub: false, subValue: "" },
+}) => (
+  <div>
+    <InputBox>
+      <InputField
+        onChange={onChange}
+        type={type ? type : "text"}
+        defaultValue={defaultValue}
+        onKeyDown={onKeyDown}
+        placeholder={placeholder}
+        disabled={disabled}
+        value={value}
+        {...register}
+        onBlur={onBlur}
+        autoComplete={autoComplete}
+        sx={{ width: "16px", ...sx }}
+        //className={errorText ? "has-errors" : ""}
+        error={errorText ? true : false}
+        //error={true}
+      />
+      <InputLabel
+        error={errorText ? true : false}
+        className="form__label"
+        htmlFor={name}
+      >
+        {label}
+        {labelObj.sub ? (
+          <span style={{ fontSize: "0.8rem", verticalAlign: "sub" }}>
+            {labelObj.subValue}
+          </span>
+        ) : labelObj.sup ? (
+          <span
+            style={{
+              fontSize: "0.8rem",
+              verticalAlign: "super",
+              lineHeight: "1",
+            }}
+          >
+            {labelObj.supValue}
+          </span>
+        ) : (
+          ""
+        )}
+        {important && (
+          <AcUnitIcon sx={{ color: "red", width: "12px", height: "12px" }} />
+        )}
+      </InputLabel>
+    </InputBox>
+    {errorText && (
+      <label style={{ color: "red", fontSize: "0.7rem", textAlign: "left" }}>
         {errorText}
       </label>
     )}

@@ -99,16 +99,15 @@ const ChatConversationHeader = () => {
           gap: 1.5,
         }}
       >
-        <Avatar
-          {...returnAvatarString(
-            `${
-              chatRoom.chatType === "personal"
-                ? chatPartner?.name
-                : chatRoom.name
-            }`
-          )}
-          src={chatPartner?.imageurl}
-        />
+        {chatRoom.chatType === "personal" ? (
+          <Avatar
+            {...returnAvatarString(`${chatPartner?.name}`)}
+            src={chatPartner?.imageurl}
+          />
+        ) : (
+          <Avatar src="https://www.pngkit.com/png/detail/128-1284523_group-chat-icon-google-group-chat-icon.png" />
+        )}
+
         <Box
           sx={{
             display: "flex",

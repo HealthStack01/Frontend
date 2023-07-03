@@ -22,7 +22,13 @@ import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import client from "../../../../feathers";
 import dayjs from "dayjs";
 
-const ClaimsListComponent = ({showCreate, showDetail, client_id}) => {
+const ClaimsListComponent = ({
+  showCreate,
+  showDetail,
+  client_id,
+  beneficiary,
+  corporate,
+}) => {
   const claimsServer = client.service("claims");
   const [claims, setClaims] = useState([]);
   const {state, setState} = useContext(ObjectContext);
@@ -57,8 +63,10 @@ const ClaimsListComponent = ({showCreate, showDetail, client_id}) => {
     setLoading(true);
     if (user.currentEmployee) {
       let query = {
-        "hmopayer._id": user.currentEmployee.facilityDetail._id,
-
+        $or: [
+          {"provider._id": user.currentEmployee.facilityDetail._id},
+          {"hmopayer._id": user.currentEmployee.facilityDetail._id},
+        ],
         $limit: 100,
         $sort: {
           createdAt: -1,
@@ -68,8 +76,25 @@ const ClaimsListComponent = ({showCreate, showDetail, client_id}) => {
       if (client_id) {
         query = {
           "beneficiary._id": client_id,
-          "provider._id": user.currentEmployee.facilityDetail._id,
+          $or: [
+            {"provider._id": user.currentEmployee.facilityDetail._id},
+            {"hmopayer._id": user.currentEmployee.facilityDetail._id},
+          ],
+          $limit: 100,
+          $sort: {
+            createdAt: -1,
+          },
+        };
+      }
 
+      if (corporate) {
+        query = {
+          "provider._id": user.currentEmployee.facilityDetail._id,
+          $or: [
+            {"sponsor.facilityName": corporate.facilityName},
+            {"sponsor._id": corporate._id},
+            {"hmopayer._id": corporate._id},
+          ],
           $limit: 100,
           $sort: {
             createdAt: -1,
@@ -333,21 +358,22 @@ const ClaimsListComponent = ({showCreate, showDetail, client_id}) => {
                 List of Claims
               </h2>
             </div>
-            <Box>
-              {handleCreateNew && (
-                <GlobalCustomButton
-                  onClick={handleCreateNew}
-                  color="primary"
-                  text="Add Claims"
-                />
-              )}
-            </Box>
+
+            {!corporate && (
+              <Box>
+                <GlobalCustomButton onClick={handleCreateNew}>
+                  Add New Claim
+                </GlobalCustomButton>
+              </Box>
+            )}
           </TableMenu>
 
           <Box
             sx={{
               width: "100%",
-              height: "calc(100vh - 180px)",
+              height: beneficiary
+                ? "calc(100vh - 220px)"
+                : "calc(100vh - 140px)",
               overflowY: "auto",
             }}
           >
