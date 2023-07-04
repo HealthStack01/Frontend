@@ -32,7 +32,7 @@ const PoliciesList = ({
   };
 
   const handleRow = policy => {
-    // return console.log(policy);
+    //return console.log(policy);
     setState(prev => ({
       ...prev,
       PolicyModule: {
