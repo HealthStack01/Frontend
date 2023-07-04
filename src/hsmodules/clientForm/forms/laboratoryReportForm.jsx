@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { makeStyles } from "@material-ui/core/styles";
 import dayjs from "dayjs";
+import Divider from "@mui/material/Divider";
 
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import client from "../../../feathers";
@@ -78,6 +79,7 @@ export default function LaboratoryReportForm() {
     "Stool",
     "HVS Culture",
     "Generic",
+    "Chemical Pathology and Tumor Markers",
   ];
   const order = state.financeModule.selectedFinance;
   const bill_report_status = state.financeModule.report_status;
@@ -206,9 +208,12 @@ export default function LaboratoryReportForm() {
             {state.labFormType === "Urinalysis" && <Urinalysis />}
             {state.labFormType === "Stool" && <Stool />}
             {state.labFormType === "HVS Culture" && <HVS />}
+            {state.labFormType === "Chemical Pathology and Tumor Markers" && (
+              <ChemicalPathologyAndTumorMarkers />
+            )}
             {state.labFormType === "Generic" && <LabNoteGeneric />}
             {state.labFormType === "unknown" && <LabNoteCreate />}
-            {/* {state.labFormType === '' && <LabNoteCreate />} */}
+            {/* {state.labFormType === '' && <LabNoteCreate  Chemical Pathology and Tumor Markers/>} */}
           </div>
         </div>
       </div>
@@ -1250,7 +1255,7 @@ export function Serology() {
   );
 }
 
-export function ChemistryPathology() {
+export function ChemicalPathologyAndTumorMarkers() {
   const {
     register,
     handleSubmit,
@@ -1458,7 +1463,7 @@ export function ChemistryPathology() {
     },
   ];
 
-  const boneChemistrySchema = [
+  const femaleHormoneProfileSchema = [
     {
       label: "Estrogen",
       name: "female_hormone_profile_Estrogen",
@@ -1611,7 +1616,7 @@ export function ChemistryPathology() {
           style={{ fontWeight: "700", marginBottom: "2px" }}
           className="label is-small"
         >
-          BIOCHEMISTRY
+          Chemical Pathology and Tumor Markers
         </p>
 
         {/* specimen details field */}
@@ -1810,6 +1815,13 @@ export function ChemistryPathology() {
             </Grid>
           </Grid>
         </Grid>
+
+        <Divider
+          sx={{
+            margin: "20px 0",
+            background: "#2d2d2d",
+          }}
+        />
 
         <Grid container spacing={1} mt={3}>
           {/**   OTHER HORMONES MARKERS */}
@@ -2116,39 +2128,6 @@ export function Biochemistry() {
     console.log(e.target.value);
     await setReportStatus(e.target.value);
   };
-
-  const thyriodHormoneSchema = [
-    {
-      label: "TSH",
-      name: "thyriod_hormone_tsh",
-      des: "mIU/L (0.4 - 5.2)",
-    },
-    {
-      label: " Free T3",
-      name: "thyriod_hormone_Free_T3",
-      des: "ug/dL (60.0 – 1800.0)",
-    },
-    {
-      label: " Free T4 ",
-      name: "thyriod_hormone_Free_T4",
-      des: "ug/dL (0.8 – 2.8)",
-    },
-    {
-      label: "Total T3",
-      name: "thyriod_hormone_Total_T3",
-      des: "ug/dL (130.0 – 450.0)",
-    },
-    {
-      label: "Total T4",
-      name: "thyriod_hormone_Total_T4",
-      des: "ng/dL (5.0 – 12.0)",
-    },
-    {
-      label: "TPO Ab ",
-      name: "thyriod_hormone_Total_T4",
-      des: "Iu/mL (0 - 34)",
-    },
-  ];
 
   const ureaElectolyteCreatinineSchema = [
     {
@@ -3030,15 +3009,15 @@ export function Microbiology() {
       " " +
       state.employeeLocation.locationType;
     document.locationId = state.employeeLocation.locationId;
-    document.client = order.orderInfo.orderObj.clientId;
+    document.client = user; //order.orderInfo.orderObj.clientId;
     document.createdBy = user._id;
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = reportStatus;
     document.billId = order._id;
-    // document.formType=choosenForm
-    //  console.log(document)
-    //  console.log(order)
-
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
     if (
       document.location === undefined ||
       !document.createdByname ||
@@ -3049,13 +3028,12 @@ export function Microbiology() {
       );
       return;
     }
-    document.clientobj = user;
+    // document.clientobj = user;
     document.documentClassId = user._id;
-    document.episodeofcare_id = user._id;
 
     if (bill_report_status === "Pending") {
       document.labFormType = state.labFormType;
-      console.log("====>>>> document after subimmted", {
+      console.log("====>>>> create  document after subimmted", {
         document,
       });
       ClientServ.create(document)
@@ -3076,6 +3054,9 @@ export function Microbiology() {
     }
 
     if (bill_report_status === "Draft") {
+      console.log("====>>>> draft document after subimmted", {
+        document,
+      });
       ClientServ.patch(order.resultDetail._id, document)
         .then((res) => {
           console.log("====>>>> client respone", {
@@ -3182,7 +3163,7 @@ export function Microbiology() {
       },
     },
     {
-      name: "Isolate One",
+      name: "Isolate Three",
       key: "isolate_three",
       description: "Isolate One",
       selector: (row) => row?.isolate_three,
