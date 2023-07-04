@@ -31,7 +31,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
 import ServiceSearch from "../helpers/ServiceSearch";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
-var random = require("random-string-generator");
+import {generateRandomString} from "../helpers/generateString";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -532,7 +532,7 @@ export default function BillPrescriptionCreate({closeModal}) {
     const today = new Date().toLocaleString();
     //console.log(today)
     setDate(today);
-    const invoiceNo = random(6, "uppernumeric");
+    const invoiceNo = generateRandomString(6); //random(6, "uppernumeric");
     setDocumentNo(invoiceNo);
     return () => {};
   }, []);
@@ -542,7 +542,7 @@ export default function BillPrescriptionCreate({closeModal}) {
     const today = new Date().toLocaleString();
     //console.log(today)
     setDate(today);
-    const invoiceNo = random(6, "uppernumeric");
+    const invoiceNo = generateRandomString(6); // random(6, "uppernumeric");
     setDocumentNo(invoiceNo);
     return () => {};
   }, []);

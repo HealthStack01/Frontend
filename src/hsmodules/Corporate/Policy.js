@@ -66,7 +66,6 @@ import {ClientSearch} from "../helpers/ClientSearch";
 import {Nigeria} from "../app/Nigeria";
 import NewPolicyModule from "../ManagedCare/NewPolicy";
 
-var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
 

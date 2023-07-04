@@ -15,7 +15,8 @@ import {Box, Card, Collapse, Divider, Grid, Typography} from "@mui/material";
 import BasicDatePicker from "../../components/inputs/Date";
 import CustomSelect from "../../components/inputs/basic/Select";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-var random = require("random-string-generator");
+import {generateRandomString} from "../helpers/generateString";
+const random = generateRandomString;
 // eslint-disable-next-line
 const searchfacility = {};
 

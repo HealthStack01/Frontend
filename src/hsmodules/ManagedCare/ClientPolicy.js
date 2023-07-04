@@ -58,8 +58,8 @@ import {ProviderPrintout} from "./components/Printout";
 import dayjs from "dayjs";
 import {ClientSearch} from "../helpers/ClientSearch";
 import {Nigeria} from "../app/Nigeria";
-
-var random = require("random-string-generator");
+import {generateRandomString} from "../helpers/generateString";
+const random = generateRandomString;
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -72,7 +72,7 @@ export default function ClientPolicy({standAlone}) {
   const [loading, setLoading] = useState(false);
   return (
     <section className="section remPadTop">
-     {/*  {standAlone
+      {/*  {standAlone
         ? showModal === 0 && (
             <PolicyList
               showModal={showModal}
@@ -152,7 +152,7 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
   };
 
   const handleRow = async Client => {
-    console.log(Client)
+    console.log(Client);
     await setSelectedClient(Client);
     const newClientModule = {
       selectedClient: Client,
@@ -2983,7 +2983,7 @@ export function PolicyDetail({showModal, setShowModal}) {
   const [individualPrice, setIndividualPrice] = useState("");
   const [healthplan, setHealthplan] = useState([]);
   let Client = state.ManagedCareModule.selectedClient;
-  console.log(Client)
+  console.log(Client);
 
   useEffect(() => {
     let Client = state.ManagedCareModule.selectedClient;
@@ -3165,8 +3165,7 @@ export function PolicyDetail({showModal, setShowModal}) {
       // const findClient= await ClientServ.find()
       const findClient = await ClientServ.find({
         query: {
-        
-          active:true,
+          active: true,
           // organization: user.currentEmployee.facilityDetail,
           $sort: {
             createdAt: -1,
@@ -3202,9 +3201,7 @@ export function PolicyDetail({showModal, setShowModal}) {
     }
   };
   useEffect(async () => {
-   // getFacilities()
-  
-
+    // getFacilities()
 
     getBenfittingPlans();
   }, []);

@@ -8,7 +8,7 @@ import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation";
-var random = require("random-string-generator");
+import {generateRandomString} from "../helpers/generateString";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -356,7 +356,7 @@ export default function PaymentCreate() {
     const today = new Date().toLocaleString();
     //console.log(today)
     setDate(today);
-    const invoiceNo = random(6, "uppernumeric");
+    const invoiceNo = generateRandomString(6); // random(6, "uppernumeric");
     setDocumentNo(invoiceNo);
 
     getFacilities();

@@ -11,7 +11,7 @@ import {UserContext, ObjectContext} from "../../context";
 // import {toast} from "bulma-toast";
 /* import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation"; */
-var random = require("random-string-generator");
+
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
@@ -27,6 +27,7 @@ import Input from "../../components/inputs/basic/Input";
 import MakeDeposit from "./Deposit";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {toast} from "react-toastify";
+import {generateRandomString} from "../helpers/generateString";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -160,7 +161,7 @@ export default function PaymentCreate({closeModal}) {
   let hidestatus;
 
   let medication = state.financeModule.selectedFinance;
-console.log(state.financeModule.state)
+  console.log(state.financeModule.state);
 
   const handlecloseModal = () => {
     setProductModal(false);
@@ -460,7 +461,7 @@ console.log(state.financeModule.state)
     const today = new Date().toLocaleString();
     ////console.log(today)
     setDate(today);
-    const invoiceNo = random(6, "uppernumeric");
+    const invoiceNo = generateRandomString(6);
     setDocumentNo(invoiceNo);
 
     getFacilities();

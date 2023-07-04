@@ -42,7 +42,7 @@ import InvoiceApproveReason from "./InvoiceApprove";
 import InvoiceReopenReason from "./invoiceReopen";
 import dayjs from "dayjs";
 import InvoiceChat from "./InvoiceChat";
-
+import {generateRandomString} from "../helpers/generateString";
 const random = require("random-string-generator");
 
 const InvoiceDetail = ({handleGoBack}) => {

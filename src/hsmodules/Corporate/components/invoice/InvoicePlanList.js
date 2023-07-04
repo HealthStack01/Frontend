@@ -45,8 +45,6 @@ import dayjs from "dayjs";
 import InvoiceChat from "./InvoiceChat";
 import SendLinkViaEmail from "./SendLink";
 
-const random = require("random-string-generator");
-
 const InvoicePlanList = ({handleGoBack}) => {
   const InvoiceServ = client.service("corpinvoices");
   const {state, setState, showActionLoader, hideActionLoader} =
@@ -70,7 +68,7 @@ const InvoicePlanList = ({handleGoBack}) => {
 
   const invoiceRef = useRef(null);
 
- /*  const handleAddNewPlan = async plan => {
+  /*  const handleAddNewPlan = async plan => {
     showActionLoader();
     //return toast.error("Unable to add new plan, not operational yet");
 
@@ -191,115 +189,116 @@ const InvoicePlanList = ({handleGoBack}) => {
   }, [state.InvoiceModule]); */
 
   const plansColumns = [
-		{
-		   name: "S/N",
-		   width: "50px",
-		   style: {color: "#0364FF"},
-		   key: "sn",
-		   description: "Enter Date",
-		   selector: (row, i) => i + 1,
-		   sortable: true,
-		   required: true,
-		    inputType: "TEXT",
-	    },
-
-		{
-			name: 'Plan Type',
-			key: 'file_name',
-			description: 'Enter Date',
-			selector: row => row.type,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-			style: {
-				textTransform: 'capitalize',
-			},
-		},
-
-		{
-			name: 'Date',
-			style: {color: '#0364FF'},
-			key: 'created_at',
-			description: 'Enter Date',
-			selector: row => moment(row.created_at).format('L'),
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-
-		{
-			name: 'Duration',
-			style: {color: '#0364FF'},
-			key: 'no_of_months',
-			description: 'Enter Date',
-			selector: row => `${row.length} ${row.calendrical}`,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-
-		{
-			name: 'Premium',
-			style: {color: '#0364FF'},
-			key: 'premium',
-			description: 'Enter Date',
-			selector: row => `${row.premium}`,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-
-		{
-			name: 'Number of Heads',
-			style: {color: '#0364FF'},
-			key: 'no_of_heads',
-			description: 'Enter Date',
-			selector: row => `${row.heads}`,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
     {
-			name: 'Utilized',
-			style: {color: '#0364FF'},
-			key: 'no_of_heads',
-			description: 'Enter Date',
-			selector: row => `${row.heads}`,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
-		{
-			name: 'Amount(₦)',
-			style: {color: '#0364FF'},
-			key: 'amount',
-			description: 'Enter Date',
-			selector: row => row.amount,
-			sortable: true,
-			required: true,
-			inputType: 'TEXT',
-		},
+      name: "S/N",
+      width: "50px",
+      style: {color: "#0364FF"},
+      key: "sn",
+      description: "Enter Date",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
 
-	{
-			name: 'Email Link',
-			width: '80px',
-			center: true,
-			key: 'action',
-			description: 'Enter Date',
-			selector: row => (
-				<IconButton
-					onClick={() => sendLink(row)} 
-				 	disabled={row.utilizationStatus==="Complete"}
-					color='error'>
-					<SendIcon fontSize='small' />
-				</IconButton>
-			),
-			sortable: true,
-			required: true,
-			inputType: 'NUMBER',
-			/* omit: omitDelete, */
-		},
-	];
+    {
+      name: "Plan Type",
+      key: "file_name",
+      description: "Enter Date",
+      selector: row => row.type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+
+    {
+      name: "Date",
+      style: {color: "#0364FF"},
+      key: "created_at",
+      description: "Enter Date",
+      selector: row => moment(row.created_at).format("L"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Duration",
+      style: {color: "#0364FF"},
+      key: "no_of_months",
+      description: "Enter Date",
+      selector: row => `${row.length} ${row.calendrical}`,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Premium",
+      style: {color: "#0364FF"},
+      key: "premium",
+      description: "Enter Date",
+      selector: row => `${row.premium}`,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Number of Heads",
+      style: {color: "#0364FF"},
+      key: "no_of_heads",
+      description: "Enter Date",
+      selector: row => `${row.heads}`,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Utilized",
+      style: {color: "#0364FF"},
+      key: "no_of_heads",
+      description: "Enter Date",
+      selector: row => `${row.heads}`,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Amount(₦)",
+      style: {color: "#0364FF"},
+      key: "amount",
+      description: "Enter Date",
+      selector: row => row.amount,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Email Link",
+      width: "80px",
+      center: true,
+      key: "action",
+      description: "Enter Date",
+      selector: row => (
+        <IconButton
+          onClick={() => sendLink(row)}
+          disabled={row.utilizationStatus === "Complete"}
+          color="error"
+        >
+          <SendIcon fontSize="small" />
+        </IconButton>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+      /* omit: omitDelete, */
+    },
+  ];
 
   const handleRow = plan => {
     //setSelectedPlan(plan);
@@ -310,35 +309,33 @@ const InvoicePlanList = ({handleGoBack}) => {
     setDetailModal(true);
   };
 
-  const sendLink = row=>{
-    setSendLinkModal(true)
-    setPlanId(row._id)
+  const sendLink = row => {
+    setSendLinkModal(true);
+    setPlanId(row._id);
     //open modal for sendin link
     //configure modal
     //
-
-  }
-
+  };
 
   useEffect(() => {
-   setPlans([])
+    setPlans([]);
     InvoiceServ.find({
-      query:{
+      query: {
         customerId: user.currentEmployee.facilityDetail._id,
         //approved:true,
-        utilization:{
-          $ne:"complete"
-        }
-      }
+        utilization: {
+          $ne: "complete",
+        },
+      },
     })
-    .then((res)=>{
-      res.data.forEach((el)=>{
-          setPlans(prev=>[...prev,...el.plans]) //need tocheck consumption for each plan
+      .then(res => {
+        res.data.forEach(el => {
+          setPlans(prev => [...prev, ...el.plans]); //need tocheck consumption for each plan
+        });
       })
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
+      .catch(err => {
+        console.log(err);
+      });
     //console.log(totalPlansSum);
   }, []);
 
@@ -443,83 +440,70 @@ const InvoicePlanList = ({handleGoBack}) => {
   }, [getUnreadMessagesCount]);
  */
   return (
- 
-      <Box
-        sx={{
-          width: "100%",
-        }}
+    <Box
+      sx={{
+        width: "100%",
+      }}
+    >
+      <ModalBox
+        open={sendLinkModal}
+        onClose={() => setSendLinkModal(false)}
+        header="Send Onboarding Link to Benficiaries"
       >
-       <ModalBox
-            open={sendLinkModal}
-            onClose={() => setSendLinkModal(false)}
-            header="Send Onboarding Link to Benficiaries"
-          >
-            <SendLinkViaEmail
-              closeModal={() => setSendLinkModal(false)}
-              defaultToEmail={""}
-              disableToEmailChange={true}
-              orgType="individual"
-              id={planId}
-            />
-          </ModalBox>
+        <SendLinkViaEmail
+          closeModal={() => setSendLinkModal(false)}
+          defaultToEmail={""}
+          disableToEmailChange={true}
+          orgType="individual"
+          id={planId}
+        />
+      </ModalBox>
 
-        <Grid container spacing={2} p={2}>
-          <Grid item xs={12}>
-            <Box sx={{display: "flex", justifyContent: "space-between"}}>
-              <FormsHeaderText text="Invoice Plans List" />
+      <Grid container spacing={2} p={2}>
+        <Grid item xs={12}>
+          <Box sx={{display: "flex", justifyContent: "space-between"}}>
+            <FormsHeaderText text="Invoice Plans List" />
 
-             {/*  <GlobalCustomButton onClick={() => setPlanCreateModal(true)}>
+            {/*  <GlobalCustomButton onClick={() => setPlanCreateModal(true)}>
                 <AddCircleOutline fontSize="small" sx={{marginRight: "3px"}} />
                 Add New Plan
               </GlobalCustomButton> */}
-            </Box>
-           
+          </Box>
+
           <div
-          className="level"
-          style={{
-            height: "80vh",
-            overflowY: "scroll",
-          }}
-        >
-           
-              <CustomTable
-                title={"Plans List"}
-                columns={plansColumns}
-                data={plans}
-                pointerOnHover
-                highlightOnHover
-                striped
-                onRowClicked={handleRow}
-                CustomEmptyData={
-                  <Typography sx={{fontSize: "0.8rem"}}>
-                    You do not have any unused plan yet!
-                  </Typography>
-                }
-                progressPending={false}
-              />
-            
-           
-            </div>
-          </Grid>
-
-          
+            className="level"
+            style={{
+              height: "80vh",
+              overflowY: "scroll",
+            }}
+          >
+            <CustomTable
+              title={"Plans List"}
+              columns={plansColumns}
+              data={plans}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={handleRow}
+              CustomEmptyData={
+                <Typography sx={{fontSize: "0.8rem"}}>
+                  You do not have any unused plan yet!
+                </Typography>
+              }
+              progressPending={false}
+            />
+          </div>
         </Grid>
+      </Grid>
 
-       
-
-       {/*  <ModalBox
+      {/*  <ModalBox
           open={planCreateModal}
           onClose={() => setPlanCreateModal(false)}
           header="Add New Plan"
         >
           <ModalCreatePlan addNewPlan={handleAddNewPlan} />
         </ModalBox> */}
-
-        
-
-       
-      </Box>
-   
+    </Box>
   );
 };
 

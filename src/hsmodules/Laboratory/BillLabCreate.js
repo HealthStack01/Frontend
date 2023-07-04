@@ -9,7 +9,7 @@ import {toast} from "bulma-toast";
 import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation";
 import ServiceSearch from "../helpers/ServiceSearch";
-var random = require("random-string-generator");
+import {generateRandomString} from "../helpers/generateString";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -698,7 +698,7 @@ export default function BillLabCreate() {
     const today = new Date().toLocaleString();
     //console.log(today)
     setDate(today);
-    const invoiceNo = random(6, "uppernumeric");
+    const invoiceNo = generateRandomString(6); // random(6, "uppernumeric");
     setDocumentNo(invoiceNo);
     return () => {};
   }, []);

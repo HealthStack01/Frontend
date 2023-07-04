@@ -23,7 +23,7 @@ import {toast} from "react-toastify";
 import {v4 as uuidv4} from "uuid";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-
+import {generateRandomString} from "../helpers/generateString";
 const random = require("random-string-generator");
 
 const InvoiceCreate = ({closeModal, handleGoBack}) => {
