@@ -67,7 +67,7 @@ const ClaimsListComponent = ({
           {"provider._id": user.currentEmployee.facilityDetail._id},
           {"hmopayer._id": user.currentEmployee.facilityDetail._id},
         ],
-        $limit: 100,
+        // $limit: 100,
         $sort: {
           createdAt: -1,
         },
@@ -80,7 +80,7 @@ const ClaimsListComponent = ({
             {"provider._id": user.currentEmployee.facilityDetail._id},
             {"hmopayer._id": user.currentEmployee.facilityDetail._id},
           ],
-          $limit: 100,
+          //$limit: 100,
           $sort: {
             createdAt: -1,
           },
@@ -95,7 +95,7 @@ const ClaimsListComponent = ({
             {"sponsor._id": corporate._id},
             {"hmopayer._id": corporate._id},
           ],
-          $limit: 100,
+          //$limit: 100,
           $sort: {
             createdAt: -1,
           },

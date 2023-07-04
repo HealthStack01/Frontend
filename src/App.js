@@ -26,6 +26,9 @@ function App() {
     PolicyModule: {
       selectedPolicy: null,
       preservedPolicy: null,
+      preservedList: [],
+      approvedList: [],
+      pendingList: [],
     },
     ChatModule: {
       chatRoom: null,

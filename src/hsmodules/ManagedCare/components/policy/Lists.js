@@ -11,6 +11,7 @@ import {ObjectContext, UserContext} from "../../../../context";
 import client from "../../../../feathers";
 import {TableMenu} from "../../../../ui/styled/global";
 import {PageWrapper} from "../../../../ui/styled/styles";
+import {updateOnCreated} from "../../../../functions/Updates";
 
 import dayjs from "dayjs";
 
@@ -184,7 +185,10 @@ const PoliciesList = ({
   useEffect(() => {
     getPolicies();
 
-    policyServer.on("created", obj => getPolicies());
+    policyServer.on("created", obj => {
+      const newPolicies = updateOnCreated();
+      setPolicies(newPolicies);
+    });
     policyServer.on("updated", obj => getPolicies());
     policyServer.on("patched", obj => getPolicies());
     policyServer.on("removed", obj => getPolicies());
