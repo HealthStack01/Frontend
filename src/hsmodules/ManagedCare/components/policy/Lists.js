@@ -20,6 +20,7 @@ const PoliciesList = ({
   showDetails,
   beneficiary,
   corporate,
+  corporateOrg,
 }) => {
   const policyServer = client.service("policy");
   const [policies, setPolicies] = useState([]);
@@ -175,10 +176,28 @@ const PoliciesList = ({
         },
       };
     }
-    const resp = await policyServer.find({
-      query: query,
-    });
-    setPolicies(resp.data);
+    if (corporateOrg) {
+      query = {
+        $or: [
+          {"sponsor.facilityName": corporateOrg.facilityName},
+          {"sponsor._id": corporateOrg._id},
+        ],
+        $sort: {
+          createdAt: -1,
+        },
+      };
+    }
+    policyServer
+      .find({
+        query: query,
+      })
+      .then(resp => {
+        setPolicies(resp.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        toast.error(`Something went wrong! ${err}`);
+      });
     setLoading(false);
   }, [status]);
 

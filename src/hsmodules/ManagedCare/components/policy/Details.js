@@ -18,6 +18,7 @@ import Watermark from "@uiw/react-watermark";
 import {
   EnrolleSchema,
   sponsorColumns,
+  hmoColumns,
   EnrolleSchema3,
   returnDependentModel,
   returnProviderModel,
@@ -42,7 +43,7 @@ import {ProviderPrintout} from "../Printout";
 import dayjs from "dayjs";
 import ReactCustomSelectComponent from "../../../../components/react-custom-select";
 
-const PolicyDetail = ({goBack, beneficiary}) => {
+const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
   const [clientDetail, setClientDetail] = useState(null);
   const [facilityDetail, setFacilityDetail] = useState(null);
   const [view, setView] = useState("details");
@@ -843,6 +844,40 @@ const PolicyDetail = ({goBack, beneficiary}) => {
                   </Grid>
                 </Grid>
               </Box>
+
+              {corporateOrg && (
+                <Box p={2}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                    mb={1.5}
+                  >
+                    <FormsHeaderText text="HMO Details" />
+
+                    <GlobalCustomButton
+                      onClick={() => setModal("hmo")}
+                      disabled={!edit}
+                    >
+                      Change HMO
+                    </GlobalCustomButton>
+                  </Box>
+
+                  <CustomTable
+                    title={""}
+                    columns={hmoColumns}
+                    data={[policy?.organization]}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    onRowClicked={onFacilityRowClicked}
+                    progressPending={false}
+                    CustomEmptyData="You have no Sponsor yet."
+                  />
+                </Box>
+              )}
 
               {sponsor_type === "Company" && (
                 <Box p={2}>

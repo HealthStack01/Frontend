@@ -5,8 +5,10 @@ import PoliciesList from "./components/policy/Lists";
 import CreateNewPolicy from "./components/policy/create-policy/CreatePolicy";
 import PolicyDetail from "./components/policy/Details";
 
-const NewPolicyModule = ({beneficiary, corporate}) => {
+const NewPolicyModule = ({beneficiary, corporate, corporateOrg}) => {
   const [view, setView] = useState("lists");
+
+  console.log(corporate);
 
   const createNewPolicy = () => {
     setView("create");
@@ -27,16 +29,20 @@ const NewPolicyModule = ({beneficiary, corporate}) => {
           showDetails={showDetails}
           beneficiary={beneficiary}
           corporate={corporate}
+          corporateOrg={corporateOrg}
         />
       )}
 
-      {view === "create" && <CreateNewPolicy goBack={handleReturn} />}
+      {view === "create" && (
+        <CreateNewPolicy goBack={handleReturn} corporateOrg={corporateOrg} />
+      )}
 
       {view === "details" && (
         <PolicyDetail
           goBack={handleReturn}
           beneficiary={beneficiary}
           corporate={corporate}
+          corporateOrg={corporateOrg}
         />
       )}
     </Box>
