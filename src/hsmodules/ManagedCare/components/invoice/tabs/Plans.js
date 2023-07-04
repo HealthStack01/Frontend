@@ -12,7 +12,7 @@ import CustomTable from "../../../../../components/customtable";
 import {getPlansColumns} from "../../colums/columns";
 import ModalBox from "../../../../../components/modal";
 import {toast} from "react-toastify";
-import {generateRandomString} from "../helpers/generateString";
+import {generateRandomString} from "../../../../helpers/generateString";
 const random = generateRandomString;
 
 const InvoicePlansTab = () => {
