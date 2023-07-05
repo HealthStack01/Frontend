@@ -1,10 +1,10 @@
 import {Box} from "@mui/material";
-import {useState} from "react";
+import {useState, useContext} from "react";
 
 import PoliciesList from "./components/policy/Lists";
 import CreateNewPolicy from "./components/policy/create-policy/CreatePolicy";
 import PolicyDetail from "./components/policy/Details";
-import {ObjectContext, UserContext} from "../../../../context";
+import {ObjectContext, UserContext} from "../../context";
 
 const NewPolicyModule = () => {
   const [view, setView] = useState("lists");

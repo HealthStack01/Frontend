@@ -44,8 +44,9 @@ const PoliciesList = ({
     showDetails();
   };
 
-  const handleSearch = val => {
+   const handleSearch = val => {
     if (val.length < 3 || val.trim() === "") return;
+   
     policyServer
       .find({
         query: {
@@ -134,17 +135,18 @@ const PoliciesList = ({
             {"dependantBeneficiaries.gender": val},
           ],
 
-          $or: [
-            {"sponsor.facilityName": user.currentEmployee.facilityDetail.facilityName},
-            {"sponsor._id": user.currentEmployee.facilityDetail._id},
-          ],
+      
+            "sponsor.facilityName": user.currentEmployee.facilityDetail.facilityName,
+            //"sponsor._id": user.currentEmployee.facilityDetail._id,
+        
 
           $sort: {
             createdAt: -1,
           },
-        },
+        }
       })
       .then(res => {
+   
         setPolicies(res.data);
       })
       .catch(err => {

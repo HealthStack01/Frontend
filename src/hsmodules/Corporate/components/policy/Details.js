@@ -49,7 +49,7 @@ const PolicyDetail = ({goBack, beneficiary}) => {
   const [healthPlans, setHealthPlans] = useState([]);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [edit, setEdit] = useState(false);
-  const [hmo, setHmo] = useState(null);
+  const [hmo, setHmo] = useState();
   const [subSponsor, setSubSponsor] = useState(null);
   const [premium, setPremium] = useState({
     amount: "",
@@ -92,10 +92,20 @@ const PolicyDetail = ({goBack, beneficiary}) => {
   //const isApproved = watch("approved");
   const isHMO = user.currentEmployee.facilityDetail.facilityType === "HMO";
 
+
+
+
+
+  useEffect(()=>{
+    setHmo(state.PolicyModule.selectedPolicy.organization)
+
+  },[])
+
   const getHealthPlans = useCallback(async () => {
     setFetchingPlans(true);
     const facility = user.currentEmployee.facilityDetail;
-    const orgId = isHMO ? facility._id : hmo._id;
+    const orgId = isHMO ? facility._id : state.PolicyModule.selectedPolicy.organization._id;
+
 
     const resp = await healthPlanServer.find({
       query: {
@@ -110,7 +120,7 @@ const PolicyDetail = ({goBack, beneficiary}) => {
     console.log(data);
     setHealthPlans(data);
     setFetchingPlans(false);
-  }, [hmo]);
+  }, [ hmo]);
 
   useEffect(() => {
     getHealthPlans();
@@ -506,7 +516,6 @@ const PolicyDetail = ({goBack, beneficiary}) => {
           }}
         />
       </ModalBox>
-
       <Box
         sx={{
           display: "flex",
@@ -522,7 +531,8 @@ const PolicyDetail = ({goBack, beneficiary}) => {
         mb={2}
         p={2}
       >
-        <Box
+       
+       <Box
           sx={{
             display: "flex",
             alignItems: "center",
@@ -544,7 +554,6 @@ const PolicyDetail = ({goBack, beneficiary}) => {
           </Typography>
           <FormsHeaderText text={`${policy.policyNo}`} />
         </Box>
-
         {edit && (
           <Box
             sx={{
@@ -568,7 +577,7 @@ const PolicyDetail = ({goBack, beneficiary}) => {
           </Box>
         )}
 
-        {!edit && (
+{!edit && (
           <Box
             sx={{
               display: "flex",
@@ -587,31 +596,32 @@ const PolicyDetail = ({goBack, beneficiary}) => {
                         backgroundColor: "#ffffff",
                       },
                     }
-                  : {}
+                  : { backgroundColor: "#ffffff"}
               }
             >
               <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
               Policy Details
             </GlobalCustomButton>
 
-            {view === "details" && (
+             {view === "details" && (
               <GlobalCustomButton onClick={handleEditPolicy}>
                 <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                 Edit Details
               </GlobalCustomButton>
-            )}
+            )} 
 
-            {!policy.approved ? (
-              {/* <GlobalCustomButton onClick={approvePolicy} color="success">
+             {!policy.approved ? (
+              /*  <GlobalCustomButton onClick={approvePolicy} color="success">
                 <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                 Approve Policy
-              </GlobalCustomButton> */}
+              </GlobalCustomButton>  */
+              <></>
             ) : (
               <GlobalCustomButton onClick={disapprovePolicy} color="warning">
                 <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                 Disapprove Policy
               </GlobalCustomButton>
-            )}
+            )} 
 
             {/* <GlobalCustomButton
               onClick={() => setView("claims")}
@@ -641,13 +651,14 @@ const PolicyDetail = ({goBack, beneficiary}) => {
             </GlobalCustomButton>
           </Box>
         )}
+      
       </Box>
 
       <Box
         sx={{
           width: "100%",
           height: beneficiary ? "calc(100vh - 220px)" : "calc(100vh - 150px)",
-          overflowY: "scroll",
+          overflow: "scroll",
         }}
       >
         {view === "client" && (
@@ -664,7 +675,7 @@ const PolicyDetail = ({goBack, beneficiary}) => {
 
         {view === "details" && (
           <>
-            <Box p={2}>
+             <Box p={2}>
               <Grid container spacing={2}>
                 <Grid item md={4}>
                   <Box
@@ -707,8 +718,7 @@ const PolicyDetail = ({goBack, beneficiary}) => {
                   />
                 </Grid>
 
-                <Grid item md={4}>
-                  <ReactCustomSelectComponent
+                <Grid item md={4}>                  <ReactCustomSelectComponent
                     disabled={!edit}
                     control={control}
                     isLoading={fetchingPlans}
@@ -716,11 +726,11 @@ const PolicyDetail = ({goBack, beneficiary}) => {
                     name="plan"
                     placeholder="Select healthplan..."
                     options={healthPlans.map(item => {
-                      return {
-                        label: `${item.planName}`,
-                        value: item.planName,
-                        ...item,
-                      };
+                      return (
+                       { label: `${item.planName}`,
+                        value: item.planName,}
+                        //...item
+                     );
                     })}
                   />
                 </Grid>
@@ -829,7 +839,7 @@ const PolicyDetail = ({goBack, beneficiary}) => {
                   />
                 </Grid>
               </Grid>
-            </Box>
+            </Box> 
 
             {sponsor_type === "Company" && (
               <Box p={2}>
@@ -959,19 +969,19 @@ const PolicyDetail = ({goBack, beneficiary}) => {
                 </GlobalCustomButton>
               </Box>
 
-              <CustomTable
+               <CustomTable
                 title={""}
                 columns={providerModel}
-                data={policy?.providers}
+                data={policy?.providers||[]}
                 pointerOnHover
                 highlightOnHover
                 striped
                 onRowClicked={row =>
-                  onFacilityRowClicked(row.organizationDetail)
+                  onFacilityRowClicked(row)
                 }
                 progressPending={false}
                 CustomEmptyData="You have no Providers yet."
-              />
+              /> 
             </Box>
 
             <Box p={2}>
@@ -1008,6 +1018,7 @@ const PolicyDetail = ({goBack, beneficiary}) => {
           </>
         )}
       </Box>
+     
     </Box>
   );
 };
