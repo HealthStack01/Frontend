@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 import { formatDistanceToNowStrict } from "date-fns";
 import ClientFinInfo from "./ClientFinInfo";
 import BillServiceCreate from "../Finance/BillServiceCreate";
-var random = require("random-string-generator");
 // import { AppointmentCreate } from "../Clinic/Appointments";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ClientBilledPrescription from "../Finance/ClientBill";

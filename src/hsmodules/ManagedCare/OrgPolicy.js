@@ -58,8 +58,8 @@ import {ProviderPrintout} from "./components/Printout";
 import dayjs from "dayjs";
 import {ClientSearch} from "../helpers/ClientSearch";
 import {Nigeria} from "../app/Nigeria";
-
-var random = require("random-string-generator");
+import {generateRandomString} from "../helpers/generateString";
+const random = generateRandomString;
 // eslint-disable-next-line
 const searchfacility = {};
 

@@ -8,13 +8,13 @@ import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation";
-var random = require("random-string-generator");
 
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
+import {generateRandomString} from "../helpers/generateString";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -374,7 +374,7 @@ export default function PaymentCreate({closeModal}) {
     const today = new Date().toLocaleString();
     //console.log(today)
     setDate(today);
-    const invoiceNo = random(6, "uppernumeric");
+    const invoiceNo = generateRandomString(6);
     setDocumentNo(invoiceNo);
 
     getFacilities();

@@ -16,7 +16,6 @@ import PreauthorizationCreateComplaint from "./Complaints";
 import PreauthorizationCreateDiagnosis from "./Diagnosis";
 import PreauthorizationCreateService from "./Services";
 import {generateRandomString} from "../../../helpers/generateString";
-
 const random = require("random-string-generator");
 
 import {

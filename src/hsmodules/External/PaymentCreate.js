@@ -6,12 +6,12 @@ import RemitaPayment from "react-remita";
 import client from "../../feathers";
 /* import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form"; */
-import {useNavigate, useParams} from 'react-router-dom'
+import {useNavigate, useParams} from "react-router-dom";
 import {UserContext, ObjectContext} from "../../context";
 // import {toast} from "bulma-toast";
 /* import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation"; */
-var random = require("random-string-generator");
+
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
@@ -27,6 +27,7 @@ import Input from "../../components/inputs/basic/Input";
 import MakeDeposit from "./Deposit";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {toast} from "react-toastify";
+import {generateRandomString} from "../helpers/generateString";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -161,8 +162,7 @@ export default function PaymentCreate({closeModal}) {
   let hidestatus;
 
   let medication = state.financeModule.selectedFinance;
-  console.log(state.financeModule.state)
-
+  console.log(state.financeModule.state);
 
   const handlePay = async (client, i) => {
     setOldClient(client.clientname);
@@ -177,7 +177,7 @@ export default function PaymentCreate({closeModal}) {
           selectedBills: [],
         },
       }));
-      console.log("Paynow",client)
+      console.log("Paynow", client);
     }
 
     // //console.log(e.target.checked)
@@ -219,7 +219,7 @@ export default function PaymentCreate({closeModal}) {
       });
     });
 
-   // showCreateScreen();
+    // showCreateScreen();
 
     //openModal();
   };
@@ -405,13 +405,12 @@ export default function PaymentCreate({closeModal}) {
   };
 
   const getFacilities = async () => {
-
-    const {hospId, patId}=useParam()
+    const {hospId, patId} = useParam();
     // find wallet balance
     const findWalletBalance = await SubwalletServ.find({
       query: {
-        client:patId, //medication.participantInfo.client._id,
-        organization:hospId, //user.employeeData[0].facilityDetail._id,
+        client: patId, //medication.participantInfo.client._id,
+        organization: hospId, //user.employeeData[0].facilityDetail._id,
         //storeId:state.StoreModule.selectedStore._id,
         //clientId:state.ClientModule.selectedClient._id,
         //$limit:100,
@@ -420,7 +419,7 @@ export default function PaymentCreate({closeModal}) {
         },
       },
     });
-    console.log(findWalletBalance)
+    console.log(findWalletBalance);
 
     // //console.log("balance", findProductEntry.data[0].amount)
     if (findWalletBalance.data.length > 0) {
@@ -432,7 +431,7 @@ export default function PaymentCreate({closeModal}) {
 
     //find unpaid bills
 
- setLoading(true);
+    setLoading(true);
     const findProductEntry = await BillServ.find({
       query: {
         $or: [
@@ -443,11 +442,9 @@ export default function PaymentCreate({closeModal}) {
             "participantInfo.paymentmode.type": "Family Cover",
           },
         ],
-        "participantInfo.billingFacility":
-          hospId,
-          "participantInfo.clientId":
-          patId,
-        
+        "participantInfo.billingFacility": hospId,
+        "participantInfo.clientId": patId,
+
         billing_status: {
           $ne: "Fully Paid",
         }, // need to set this finally
@@ -466,8 +463,8 @@ export default function PaymentCreate({closeModal}) {
     await setFacilities(findProductEntry.groupedOrder);
     setLoading(false);
     setProductItem(state.financeModule.selectedBills);
-    handlePay(findProductEntry.groupedOrder[0])
-    console.log("groupedorders", findProductEntry.groupedOrder)
+    handlePay(findProductEntry.groupedOrder[0]);
+    console.log("groupedorders", findProductEntry.groupedOrder);
 
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
@@ -475,7 +472,6 @@ export default function PaymentCreate({closeModal}) {
   ////console.log(state.financeModule);
 
   useEffect(() => {
-   
     setSource(
       medication?.participantInfo?.client?.firstname +
         " " +
@@ -525,7 +521,7 @@ export default function PaymentCreate({closeModal}) {
     const today = new Date().toLocaleString();
     ////console.log(today)
     setDate(today);
-    const invoiceNo = random(6, "uppernumeric");
+    const invoiceNo = generateRandomString(6);
     setDocumentNo(invoiceNo);
 
     getFacilities();
@@ -1329,7 +1325,7 @@ export default function PaymentCreate({closeModal}) {
                   <GlobalCustomButton
                     color="error"
                     variant="outlined"
-                  /*   disabled={!productItem.length > 0} */
+                    /*   disabled={!productItem.length > 0} */
                     onClick={closeModal}
                   >
                     Cancel

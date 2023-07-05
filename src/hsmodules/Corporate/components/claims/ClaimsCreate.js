@@ -28,8 +28,7 @@ import dayjs from "dayjs";
 import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 import TextAreaVoiceAndText from "../../../../components/inputs/basic/Textarea/VoiceAndText";
-
-const random = require("random-string-generator");
+import {generateRandomString} from "../../../helpers/generateString";
 
 const ClaimCreateComponent = ({handleGoBack, client_id}) => {
   const claimsServer = client.service("claims");
@@ -152,7 +151,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
       submissiondate: dayjs(),
       submissionby: employee,
       status: "Submitted",
-      claimid: random(12, "uppernumeric"),
+      claimid: generateRandomString(14),
       appointmentid: selectedAppointment,
       admissionid: selectedAdmission,
       geolocation: {

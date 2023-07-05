@@ -233,7 +233,7 @@ export function BillPrescriptionList({showCreateModal}) {
   };
 
   const getFacilities = async () => {
-    console.log("here b4 server");
+    setLoading(true);
     const findProductEntry = await OrderServ.find({
       query: {
         order_category: "Lab Order",
@@ -250,6 +250,7 @@ export function BillPrescriptionList({showCreateModal}) {
     });
 
     // console.log("updatedorder", findProductEntry.groupedOrder)
+    setLoading(false);
     await setFacilities(findProductEntry.groupedOrder);
     await setState(prevstate => ({
       ...prevstate,
@@ -456,7 +457,7 @@ export function BillPrescriptionList({showCreateModal}) {
               highlightOnHover
               striped
               onRowClicked={row => handleRow(row)}
-              progressPending={false}
+              progressPending={loading}
               conditionalRowStyles={conditionalRowStyles}
             />
           </div>

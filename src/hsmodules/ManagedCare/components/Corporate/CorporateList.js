@@ -42,7 +42,7 @@ const CorporateListComponent = ({showCreate, showDetails}) => {
           facility: user.currentEmployee.facilityDetail._id,
           relationshiptype: "sponsor",
           $search: val,
-          $limit: 10,
+          //$limit: 10,
           $sort: {
             createdAt: -1,
           },

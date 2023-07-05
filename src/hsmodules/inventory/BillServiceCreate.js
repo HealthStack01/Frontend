@@ -15,7 +15,7 @@ import {Box, Card, Collapse, Divider, Grid, Typography} from "@mui/material";
 import BasicDatePicker from "../../components/inputs/Date";
 import CustomSelect from "../../components/inputs/basic/Select";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-var random = require("random-string-generator");
+
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -24,6 +24,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CustomTable from "../../components/customtable";
 import {FormsHeaderText} from "../../components/texts";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import {generateRandomString} from "../helpers/generateString";
 
 export default function BillServiceCreate() {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
@@ -500,7 +501,7 @@ export default function BillServiceCreate() {
           const today = new Date().toLocaleString();
           //console.log(today)
           setDate(today);
-          const invoiceNo = random(6, "uppernumeric");
+          const invoiceNo = generateRandomString(6);
           setDocumentNo(invoiceNo);
         })
         .catch(err => {
@@ -653,14 +654,14 @@ export default function BillServiceCreate() {
     const today = new Date().toLocaleString();
     //console.log(today)
     setDate(today);
-    const invoiceNo = random(6, "uppernumeric");
+    const invoiceNo = generateRandomString(6);
     setDocumentNo(invoiceNo);
     return () => {
       console.log("closeup");
       const today = new Date().toLocaleString();
       //console.log(today)
       setDate(today);
-      const invoiceNo = random(6, "uppernumeric");
+      const invoiceNo = generateRandomString(6);
       setDocumentNo(invoiceNo);
       setCalcAmount(0);
     };

@@ -8,7 +8,8 @@ import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation";
-var random = require("random-string-generator");
+import {generateRandomString} from "../helpers/generateString";
+const random = generateRandomString;
 
 import {DateTimePicker} from "@mui/x-date-pickers/DateTimePicker";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
@@ -22,7 +23,8 @@ import CustomTable from "../../components/customtable";
 const searchfacility = {};
 
 export default function ReportCreate() {
-  const { register, handleSubmit,setValue} = useForm(); /* watch, errors, reset */
+  const {register, handleSubmit, setValue} =
+    useForm(); /* watch, errors, reset */
   //const [error, setError] =useState(false)
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");

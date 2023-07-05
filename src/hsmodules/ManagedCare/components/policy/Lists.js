@@ -11,6 +11,7 @@ import {ObjectContext, UserContext} from "../../../../context";
 import client from "../../../../feathers";
 import {TableMenu} from "../../../../ui/styled/global";
 import {PageWrapper} from "../../../../ui/styled/styles";
+import {updateOnCreated} from "../../../../functions/Updates";
 
 import dayjs from "dayjs";
 
@@ -19,6 +20,7 @@ const PoliciesList = ({
   showDetails,
   beneficiary,
   corporate,
+  corporateOrg,
 }) => {
   const policyServer = client.service("policy");
   const [policies, setPolicies] = useState([]);
@@ -33,7 +35,7 @@ const PoliciesList = ({
   };
 
   const handleRow = policy => {
-    // return console.log(policy);
+    //return console.log(policy);
     setState(prev => ({
       ...prev,
       PolicyModule: {
@@ -175,10 +177,28 @@ const PoliciesList = ({
         },
       };
     }
-    const resp = await policyServer.find({
-      query: query,
-    });
-    setPolicies(resp.data);
+    if (corporateOrg) {
+      query = {
+        $or: [
+          {"sponsor.facilityName": corporateOrg.facilityName},
+          {"sponsor._id": corporateOrg._id},
+        ],
+        $sort: {
+          createdAt: -1,
+        },
+      };
+    }
+    policyServer
+      .find({
+        query: query,
+      })
+      .then(resp => {
+        setPolicies(resp.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        toast.error(`Something went wrong! ${err}`);
+      });
     setLoading(false);
     setTotal(resp.total)
   }, [status]);
@@ -186,7 +206,10 @@ const PoliciesList = ({
   useEffect(() => {
     getPolicies();
 
-    policyServer.on("created", obj => getPolicies());
+    policyServer.on("created", obj => {
+      const newPolicies = updateOnCreated();
+      setPolicies(newPolicies);
+    });
     policyServer.on("updated", obj => getPolicies());
     policyServer.on("patched", obj => getPolicies());
     policyServer.on("removed", obj => getPolicies());
